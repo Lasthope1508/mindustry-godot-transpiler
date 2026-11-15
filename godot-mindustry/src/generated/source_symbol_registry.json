@@ -174408,6 +174408,598 @@
         "test_reference_graph_and_actual_c07_wall_crafter_update_tile"
       ],
       "runtime_proof": "/root/C07WallCrafterUpdateTileProof"
+    },
+    "source_fracker_update_tile_advance_state_result.accumulator": {
+      "status": "source-backed",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_update_tile_advance_state",
+      "godot_symbol": "source_fracker_update_tile_advance_state_result.accumulator",
+      "java_source": "core/src/mindustry/world/blocks/production/Fracker.java",
+      "java_method": "FrackerBuild.updateTile()",
+      "java_expr": "accumulator += delta() * efficiency;",
+      "rule": "The advanced accumulator (Fracker.java:32-38): one itemUseTime subtracted when the threshold is reached (after consume()), then delta() * efficiency added; frozen when efficiency is 0 (the else branch never touches it).",
+      "tests": [
+        "test_c07_fracker_update_tile_registration",
+        "test_all_c07_fracker_update_tile_input_evidence_is_exact",
+        "test_fracker_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_fracker_update_tile"
+      ],
+      "runtime_proof": "/root/C07FrackerUpdateTileProof"
+    },
+    "source_fracker_update_tile_advance_state_result.warmup": {
+      "status": "source-backed",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_update_tile_advance_state",
+      "godot_symbol": "source_fracker_update_tile_advance_state_result.warmup",
+      "java_source": "core/src/mindustry/world/blocks/production/Fracker.java",
+      "java_method": "FrackerBuild.updateTile()",
+      "java_expr": "warmup = Mathf.lerpDelta(warmup, 0f, 0.02f);",
+      "rule": "The advanced warmup: the reused super advance lerps it toward 1f while pumping (SolidPump.java:130) and toward 0f while idle (SolidPump.java:134); the Fracker else branch decays it itself at the same 0.02f rate (Fracker.java:41) without calling super.updateTile(). Scales by raw Time.delta, never by timeScale.",
+      "tests": [
+        "test_c07_fracker_update_tile_registration",
+        "test_all_c07_fracker_update_tile_input_evidence_is_exact",
+        "test_fracker_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_fracker_update_tile"
+      ],
+      "runtime_proof": "/root/C07FrackerUpdateTileProof"
+    },
+    "source_fracker_update_tile_advance_state_result.pump_time": {
+      "status": "source-backed",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_update_tile_advance_state",
+      "godot_symbol": "source_fracker_update_tile_advance_state_result.pump_time",
+      "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+      "java_method": "FrackerBuild.updateTile()",
+      "java_expr": "pumpTime += warmup * edelta();",
+      "rule": "The advanced pump time (SolidPump.java:138, via super.updateTile()): pumpTime += the NEW warmup * efficiency * Time.delta * timeScale; FROZEN when efficiency is 0, because the Fracker else branch never calls super.updateTile() (Fracker.java:40-43).",
+      "tests": [
+        "test_c07_fracker_update_tile_registration",
+        "test_all_c07_fracker_update_tile_input_evidence_is_exact",
+        "test_fracker_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_fracker_update_tile"
+      ],
+      "runtime_proof": "/root/C07FrackerUpdateTileProof"
+    },
+    "source_fracker_update_tile_advance_state_result.last_pump": {
+      "status": "source-backed",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_update_tile_advance_state",
+      "godot_symbol": "source_fracker_update_tile_advance_state_result.last_pump",
+      "java_source": "core/src/mindustry/world/blocks/production/Fracker.java",
+      "java_method": "FrackerBuild.updateTile()",
+      "java_expr": "lastPump = 0f;",
+      "rule": "The last pump rate: maxPump over raw Time.delta while pumping (SolidPump.java:129, via super.updateTile()), 0f while idle (SolidPump.java:135) and 0f in the Fracker else branch (Fracker.java:42).",
+      "tests": [
+        "test_c07_fracker_update_tile_registration",
+        "test_all_c07_fracker_update_tile_input_evidence_is_exact",
+        "test_fracker_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_fracker_update_tile"
+      ],
+      "runtime_proof": "/root/C07FrackerUpdateTileProof"
+    },
+    "source_fracker_update_tile_advance_state_result.max_pump": {
+      "status": "source-backed",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_update_tile_advance_state",
+      "godot_symbol": "source_fracker_update_tile_advance_state_result.max_pump",
+      "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+      "java_method": "FrackerBuild.updateTile()",
+      "java_expr": "float maxPump = Math.min(liquidCapacity - typeLiquid(), pumpAmount * delta() * fraction * efficiency);",
+      "rule": "The amount pumped this tick (SolidPump.java:127, via super.updateTile()): min(capacity headroom, pumpAmount * delta() * fraction * efficiency), added to the store by the reused N2220 function (SolidPump.java:128); 0.0 when efficiency is 0 (super never runs).",
+      "tests": [
+        "test_c07_fracker_update_tile_registration",
+        "test_all_c07_fracker_update_tile_input_evidence_is_exact",
+        "test_fracker_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_fracker_update_tile"
+      ],
+      "runtime_proof": "/root/C07FrackerUpdateTileProof"
+    },
+    "source_fracker_update_tile_advance_state_result.fraction": {
+      "status": "source-backed",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_update_tile_advance_state",
+      "godot_symbol": "source_fracker_update_tile_advance_state_result.fraction",
+      "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+      "java_method": "FrackerBuild.updateTile()",
+      "java_expr": "float fraction = Math.max(validTiles + boost + (attribute == null ? 0 : attribute.env()), 0);",
+      "rule": "The pump fraction (SolidPump.java:124, via super.updateTile()): max(validTiles + boost + attribute.env(), 0) from the explicit frame inputs; the live onProximityUpdate fill (SolidPump.java:150-159) waits for its own slice (covered by the existing Fracker fraction entry); 0.0 when efficiency is 0 (super never runs).",
+      "tests": [
+        "test_c07_fracker_update_tile_registration",
+        "test_all_c07_fracker_update_tile_input_evidence_is_exact",
+        "test_fracker_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_fracker_update_tile"
+      ],
+      "runtime_proof": "/root/C07FrackerUpdateTileProof"
+    },
+    "source_fracker_update_tile_advance_state_result.items": {
+      "status": "source-backed",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_update_tile_advance_state",
+      "godot_symbol": "source_fracker_update_tile_advance_state_result.items",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "FrackerBuild.updateTile()",
+      "java_expr": "build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));",
+      "rule": "The items dict after consume() (ConsumeItems.java:44-48): one sand removed when the accumulator reaches itemUseTime, clamped to the held count like ItemModule.remove (ItemModule.java:258-263); unchanged when the threshold is not reached or efficiency is 0. No live intake fills the dict yet (new deferral).",
+      "tests": [
+        "test_c07_fracker_update_tile_registration",
+        "test_all_c07_fracker_update_tile_input_evidence_is_exact",
+        "test_fracker_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_fracker_update_tile"
+      ],
+      "runtime_proof": "/root/C07FrackerUpdateTileProof"
+    },
+    "source_item_bridge_update_transport_state_result.transport_counter": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemBridgeBuildState.source_item_bridge_update_transport_state",
+      "godot_symbol": "source_item_bridge_update_transport_state_result.transport_counter",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "java_method": "ItemBridgeBuild.updateTile()",
+      "java_expr": "transportCounter += edelta();",
+      "rule": "The advanced transport counter (ItemBridge.java:356/366): charged by edelta() = efficiency * Time.delta * timeScale, spent by transportTime per handoff attempt (even when the take is null or the partner rejects -- the decrement is unconditional inside the while loop).",
+      "tests": [
+        "test_c07_item_bridge_transport_registration",
+        "test_all_c07_item_bridge_transport_input_evidence_is_exact",
+        "test_item_bridge_transport_advance_state",
+        "test_reference_graph_and_actual_c07_item_bridge_transport"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeTransportProof"
+    },
+    "source_item_bridge_update_transport_state_result.warmup": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemBridgeBuildState.source_item_bridge_update_transport_state",
+      "godot_symbol": "source_item_bridge_update_transport_state_result.warmup",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "java_method": "ItemBridgeBuild.updateTile()",
+      "java_expr": "warmup = Mathf.approachDelta(warmup, efficiency, 1f / 30f);",
+      "rule": "The advanced warmup (ItemBridge.java:345/337): approachDelta toward the folded efficiency at 1/30f when linked, 0f when unlinked; approachDelta scales by raw Time.delta.",
+      "tests": [
+        "test_c07_item_bridge_transport_registration",
+        "test_all_c07_item_bridge_transport_input_evidence_is_exact",
+        "test_item_bridge_transport_advance_state",
+        "test_reference_graph_and_actual_c07_item_bridge_transport"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeTransportProof"
+    },
+    "source_item_bridge_update_transport_state_result.time": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemBridgeBuildState.source_item_bridge_update_transport_state",
+      "godot_symbol": "source_item_bridge_update_transport_state_result.time",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "java_method": "ItemBridgeBuild.updateTile()",
+      "java_expr": "time += timeSpeed * delta();",
+      "rule": "The advanced animation time (ItemBridge.java:328): time += the NEW timeSpeed * delta(), starting from -8f (ItemBridge.java:201).",
+      "tests": [
+        "test_c07_item_bridge_transport_registration",
+        "test_all_c07_item_bridge_transport_input_evidence_is_exact",
+        "test_item_bridge_transport_advance_state",
+        "test_reference_graph_and_actual_c07_item_bridge_transport"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeTransportProof"
+    },
+    "source_item_bridge_update_transport_state_result.time_speed": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemBridgeBuildState.source_item_bridge_update_transport_state",
+      "godot_symbol": "source_item_bridge_update_transport_state_result.time_speed",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "java_method": "ItemBridgeBuild.updateTile()",
+      "java_expr": "timeSpeed = Mathf.approachDelta(timeSpeed, wasMoved ? 1f : 0f, 1f / 60f);",
+      "rule": "The advanced time speed (ItemBridge.java:326): approachDelta toward (wasMoved ? 1 : 0) at 1/60f, scaling by raw Time.delta; wasMoved is the frame input (the timer snapshot defers).",
+      "tests": [
+        "test_c07_item_bridge_transport_registration",
+        "test_all_c07_item_bridge_transport_input_evidence_is_exact",
+        "test_item_bridge_transport_advance_state",
+        "test_reference_graph_and_actual_c07_item_bridge_transport"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeTransportProof"
+    },
+    "source_item_bridge_update_transport_state_result.moved": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemBridgeBuildState.source_item_bridge_update_transport_state",
+      "godot_symbol": "source_item_bridge_update_transport_state_result.moved",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "java_method": "ItemBridgeBuild.updateTile()",
+      "java_expr": "moved = true;",
+      "rule": "Whether an item moved this tick (ItemBridge.java:361): set on a successful handoff, never cleared here (the timer reset defers).",
+      "tests": [
+        "test_c07_item_bridge_transport_registration",
+        "test_all_c07_item_bridge_transport_input_evidence_is_exact",
+        "test_item_bridge_transport_advance_state",
+        "test_reference_graph_and_actual_c07_item_bridge_transport"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeTransportProof"
+    },
+    "source_item_bridge_update_transport_state_result.incoming": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemBridgeBuildState.source_item_bridge_update_transport_state",
+      "godot_symbol": "source_item_bridge_update_transport_state_result.incoming",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "java_method": "ItemBridgeBuild.updateTile()",
+      "java_expr": "incoming.removeIndex(idx);",
+      "rule": "The pruned incoming list (ItemBridge.java:305-317): entries whose partner no longer links back at this tile are removed, in order.",
+      "tests": [
+        "test_c07_item_bridge_transport_registration",
+        "test_all_c07_item_bridge_transport_input_evidence_is_exact",
+        "test_item_bridge_transport_advance_state",
+        "test_reference_graph_and_actual_c07_item_bridge_transport"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeTransportProof"
+    },
+    "source_item_bridge_update_transport_state_result.items": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemBridgeBuildState.source_item_bridge_update_transport_state",
+      "godot_symbol": "source_item_bridge_update_transport_state_result.items",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "java_method": "ItemBridgeBuild.updateTile()",
+      "java_expr": "Item item = items.take();",
+      "rule": "The self items after the transport loop (ItemBridge.java:358-364): taken items leave, rejected items come back via items.add(item, 1) (undoFlow is a port no-op -- flow cacheSums only, ItemModule.java:252-256).",
+      "tests": [
+        "test_c07_item_bridge_transport_registration",
+        "test_all_c07_item_bridge_transport_input_evidence_is_exact",
+        "test_item_bridge_transport_advance_state",
+        "test_reference_graph_and_actual_c07_item_bridge_transport"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeTransportProof"
+    },
+    "source_item_bridge_update_transport_state_result.take_rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemBridgeBuildState.source_item_bridge_update_transport_state",
+      "godot_symbol": "source_item_bridge_update_transport_state_result.take_rotation",
+      "java_source": "core/src/mindustry/world/modules/ItemModule.java",
+      "java_method": "ItemBridgeBuild.updateTile()",
+      "java_expr": "takeRotation = index + 1;",
+      "rule": "The advanced take rotation (ItemModule.java:198): the index after the last taken item in content-id order, so successive takes round-robin over present item types.",
+      "tests": [
+        "test_c07_item_bridge_transport_registration",
+        "test_all_c07_item_bridge_transport_input_evidence_is_exact",
+        "test_item_bridge_transport_advance_state",
+        "test_reference_graph_and_actual_c07_item_bridge_transport"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeTransportProof"
+    },
+    "source_item_bridge_update_transport_state_result.partner_items": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemBridgeBuildState.source_item_bridge_update_transport_state",
+      "godot_symbol": "source_item_bridge_update_transport_state_result.partner_items",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "java_method": "ItemBridgeBuild.updateTile()",
+      "java_expr": "other.handleItem(this, item);",
+      "rule": "The partner items after the handoff (ItemBridge.java:360; handleItem adds 1, BuildingComp.java:860-862): one entry per accepted item, capped by the capacity gate.",
+      "tests": [
+        "test_c07_item_bridge_transport_registration",
+        "test_all_c07_item_bridge_transport_input_evidence_is_exact",
+        "test_item_bridge_transport_advance_state",
+        "test_reference_graph_and_actual_c07_item_bridge_transport"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeTransportProof"
+    },
+    "source_item_bridge_update_transport_state_result.partner_incoming": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemBridgeBuildState.source_item_bridge_update_transport_state",
+      "godot_symbol": "source_item_bridge_update_transport_state_result.partner_incoming",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "java_method": "ItemBridgeBuild.updateTile()",
+      "java_expr": "inc.add(pos);",
+      "rule": "The partner incoming after registration (ItemBridge.java:339-344): this tile position added when linked and not already present.",
+      "tests": [
+        "test_c07_item_bridge_transport_registration",
+        "test_all_c07_item_bridge_transport_input_evidence_is_exact",
+        "test_item_bridge_transport_advance_state",
+        "test_reference_graph_and_actual_c07_item_bridge_transport"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeTransportProof"
+    },
+    "source_repair_turret_update_tile_advance_state_result.target": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_update_tile_advance_state",
+      "godot_symbol": "source_repair_turret_update_tile_advance_state_result.target",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairPointBuild.updateTile()",
+      "java_expr": "if(target != null && (target.dead() || target.dst(this) - target.hitSize/2f > repairRadius || target.health() >= target.maxHealth())){",
+      "rule": "The target after one tick (RepairTurret.java:193-195 + 214-217): null when cleared (dead / edge distance beyond repairRadius / full health) or when a re-acquire tick found no qualifying candidate; otherwise the kept target or the re-acquired closest damaged valid in-range candidate.",
+      "tests": [
+        "test_c07_repair_turret_update_tile_registration",
+        "test_all_c07_repair_turret_update_tile_input_evidence_is_exact",
+        "test_repair_turret_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_repair_turret_update_tile"
+      ],
+      "runtime_proof": "/root/C07RepairTurretUpdateTileProof"
+    },
+    "source_repair_turret_update_tile_advance_state_result.offset": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_update_tile_advance_state",
+      "godot_symbol": "source_repair_turret_update_tile_advance_state_result.offset",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairPointBuild.updateTile()",
+      "java_expr": "offset.setZero();",
+      "rule": "The offset after one tick (RepairTurret.java:197-199): zeroed when the target is null, unchanged otherwise (its non-zero values come from drawBeam, RepairTurret.java:106-150, not from updateTile). Stored as {\"x\", \"y\"}.",
+      "tests": [
+        "test_c07_repair_turret_update_tile_registration",
+        "test_all_c07_repair_turret_update_tile_input_evidence_is_exact",
+        "test_repair_turret_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_repair_turret_update_tile"
+      ],
+      "runtime_proof": "/root/C07RepairTurretUpdateTileProof"
+    },
+    "source_repair_turret_update_tile_advance_state_result.strength": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_update_tile_advance_state",
+      "godot_symbol": "source_repair_turret_update_tile_advance_state_result.strength",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairPointBuild.updateTile()",
+      "java_expr": "strength = Mathf.lerpDelta(strength, healed ? 1f : 0f, 0.08f * Time.delta);",
+      "rule": "The strength after one tick (RepairTurret.java:212): lerpDelta toward 1f when healing, toward 0f otherwise, at 0.08f * Time.delta -- and lerpDelta multiplies by Time.delta again (Mathf.java:430-432), so the effective progress is 0.08 * Time.delta^2.",
+      "tests": [
+        "test_c07_repair_turret_update_tile_registration",
+        "test_all_c07_repair_turret_update_tile_input_evidence_is_exact",
+        "test_repair_turret_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_repair_turret_update_tile"
+      ],
+      "runtime_proof": "/root/C07RepairTurretUpdateTileProof"
+    },
+    "source_repair_turret_update_tile_advance_state_result.rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_update_tile_advance_state",
+      "godot_symbol": "source_repair_turret_update_tile_advance_state_result.rotation",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairPointBuild.updateTile()",
+      "java_expr": "rotation = Mathf.slerpDelta(rotation, angle, 0.5f * efficiency * timeScale);",
+      "rule": "The rotation after one tick (RepairTurret.java:209): slerpDelta toward the target angle at 0.5f * efficiency * timeScale -- the wrapped angle lerp (Mathf.java:455-462); unchanged when the target is null or efficiency is 0 (the branch gate, RepairTurret.java:203).",
+      "tests": [
+        "test_c07_repair_turret_update_tile_registration",
+        "test_all_c07_repair_turret_update_tile_input_evidence_is_exact",
+        "test_repair_turret_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_repair_turret_update_tile"
+      ],
+      "runtime_proof": "/root/C07RepairTurretUpdateTileProof"
+    },
+    "source_repair_turret_update_tile_advance_state_result.heal_amount": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_update_tile_advance_state",
+      "godot_symbol": "source_repair_turret_update_tile_advance_state_result.heal_amount",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairPointBuild.updateTile()",
+      "java_expr": "target.heal(repairSpeed * strength * edelta() * multiplier);",
+      "rule": "The heal amount for this tick as a pure result (RepairTurret.java:207): repairSpeed * strength * edelta() * multiplier with multiplier 1.0 (the coolant branch, RepairTurret.java:189-191, waits for the coolant row) and edelta() = efficiency * Time.delta * timeScale (BuildingComp.java:1922-1929); 0.0 when not healing. The APPLICATION (target.heal writing into another unit frame) defers.",
+      "tests": [
+        "test_c07_repair_turret_update_tile_registration",
+        "test_all_c07_repair_turret_update_tile_input_evidence_is_exact",
+        "test_repair_turret_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_repair_turret_update_tile"
+      ],
+      "runtime_proof": "/root/C07RepairTurretUpdateTileProof"
+    },
+    "source_repair_turret_update_tile_advance_state_result.healed": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_update_tile_advance_state",
+      "godot_symbol": "source_repair_turret_update_tile_advance_state_result.healed",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairPointBuild.updateTile()",
+      "java_expr": "if(Angles.angleDist(angle, rotation) < 30f){",
+      "rule": "Whether this tick healed (RepairTurret.java:205-207): true exactly when the target is non-null, efficiency > 0, and the angleDist between the target angle and the rotation is under 30 degrees; drives the strength lerp target (RepairTurret.java:212).",
+      "tests": [
+        "test_c07_repair_turret_update_tile_registration",
+        "test_all_c07_repair_turret_update_tile_input_evidence_is_exact",
+        "test_repair_turret_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_repair_turret_update_tile"
+      ],
+      "runtime_proof": "/root/C07RepairTurretUpdateTileProof"
+    },
+    "source_repair_tower_update_tile_advance_result.refresh": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_update_tile_advance_state",
+      "godot_symbol": "source_repair_tower_update_tile_advance_result.refresh",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.updateTile()",
+      "java_expr": "if(potentialEfficiency > 0 && (refresh += Time.delta) >= refreshInterval){",
+      "rule": "The refresh timer after one tick (RepairTower.java:59-61): advances by the unscaled Time.delta only while potentialEfficiency > 0 (the && short-circuits), and resets to 0f when it reaches refreshInterval 6f.",
+      "tests": [
+        "test_c07_repair_tower_update_tile_registration",
+        "test_all_c07_repair_tower_update_tile_input_evidence_is_exact",
+        "test_repair_tower_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_repair_tower_update_tile"
+      ],
+      "runtime_proof": "/root/C07RepairTowerUpdateTileProof"
+    },
+    "source_repair_tower_update_tile_advance_result.warmup": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_update_tile_advance_state",
+      "godot_symbol": "source_repair_tower_update_tile_advance_result.warmup",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.updateTile()",
+      "java_expr": "warmup = Mathf.lerpDelta(warmup, any ? efficiency : 0f, 0.08f);",
+      "rule": "The warmup after one tick (RepairTower.java:69-72, 84): 0f when suppressed (the early return), else lerped toward the folded efficiency when any target healed, else toward 0f, at 0.08f by the unscaled Time.delta.",
+      "tests": [
+        "test_c07_repair_tower_update_tile_registration",
+        "test_all_c07_repair_tower_update_tile_input_evidence_is_exact",
+        "test_repair_tower_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_repair_tower_update_tile"
+      ],
+      "runtime_proof": "/root/C07RepairTowerUpdateTileProof"
+    },
+    "source_repair_tower_update_tile_advance_result.total_progress": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_update_tile_advance_state",
+      "godot_symbol": "source_repair_tower_update_tile_advance_result.total_progress",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.updateTile()",
+      "java_expr": "totalProgress += Time.delta / circleSpeed;",
+      "rule": "The total progress after one tick (RepairTower.java:85): advances by the unscaled Time.delta / circleSpeed 120f; does not advance on the suppressed early return.",
+      "tests": [
+        "test_c07_repair_tower_update_tile_registration",
+        "test_all_c07_repair_tower_update_tile_input_evidence_is_exact",
+        "test_repair_tower_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_repair_tower_update_tile"
+      ],
+      "runtime_proof": "/root/C07RepairTowerUpdateTileProof"
+    },
+    "source_repair_tower_update_tile_advance_result.targets": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_update_tile_advance_state",
+      "godot_symbol": "source_repair_tower_update_tile_advance_result.targets",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.updateTile()",
+      "java_expr": "targets.clear();",
+      "rule": "The targets after one tick (RepairTower.java:60-66): cleared and refilled from the supplied damaged list when the refresh interval is reached, otherwise unchanged; the live scan that would fill the list is deferred.",
+      "tests": [
+        "test_c07_repair_tower_update_tile_registration",
+        "test_all_c07_repair_tower_update_tile_input_evidence_is_exact",
+        "test_repair_tower_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_repair_tower_update_tile"
+      ],
+      "runtime_proof": "/root/C07RepairTowerUpdateTileProof"
+    },
+    "source_repair_tower_update_tile_advance_result.heal_amounts": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_update_tile_advance_state",
+      "godot_symbol": "source_repair_tower_update_tile_advance_result.heal_amounts",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.updateTile()",
+      "java_expr": "target.heal(healAmount * edelta());",
+      "rule": "The per-target heal amounts for this tick (RepairTower.java:75-81): healAmount * efficiency * Time.delta * timeScale per damaged target, in target order; a pure result -- applying the heal to live units is deferred.",
+      "tests": [
+        "test_c07_repair_tower_update_tile_registration",
+        "test_all_c07_repair_tower_update_tile_input_evidence_is_exact",
+        "test_repair_tower_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_repair_tower_update_tile"
+      ],
+      "runtime_proof": "/root/C07RepairTowerUpdateTileProof"
+    },
+    "source_regen_projector_update_tile_advance_state_result.last_change": {
+      "status": "source-backed",
+      "godot_owner": "SourceRegenProjectorBuildState.source_regen_projector_update_tile_advance_state",
+      "godot_symbol": "source_regen_projector_update_tile_advance_state_result.last_change",
+      "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+      "java_method": "RegenProjectorBuild.updateTile()",
+      "java_expr": "lastChange = world.tileChanges;",
+      "rule": "The refreshed lastChange (RegenProjector.java:123-125): tile_changes when it differed, unchanged otherwise; the updateTargets() call itself defers (no live building query in the port), so targets stay the frame input.",
+      "tests": [
+        "test_c07_regen_projector_update_tile_registration",
+        "test_all_c07_regen_projector_update_tile_input_evidence_is_exact",
+        "test_regen_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_regen_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07RegenProjectorUpdateTileProof"
+    },
+    "source_regen_projector_update_tile_advance_state_result.warmup": {
+      "status": "source-backed",
+      "godot_owner": "SourceRegenProjectorBuildState.source_regen_projector_update_tile_advance_state",
+      "godot_symbol": "source_regen_projector_update_tile_advance_state_result.warmup",
+      "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+      "java_method": "RegenProjectorBuild.updateTile()",
+      "java_expr": "warmup = Mathf.approachDelta(warmup, didRegen ? 1f : 0f, 1f / 70f);",
+      "rule": "The advanced warmup (RegenProjector.java:129): approachDelta toward (didRegen ? 1 : 0) at 1f/70f, using the PREVIOUS tick didRegen (Java line order: warmup advances before the didRegen reset).",
+      "tests": [
+        "test_c07_regen_projector_update_tile_registration",
+        "test_all_c07_regen_projector_update_tile_input_evidence_is_exact",
+        "test_regen_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_regen_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07RegenProjectorUpdateTileProof"
+    },
+    "source_regen_projector_update_tile_advance_state_result.total_time": {
+      "status": "source-backed",
+      "godot_owner": "SourceRegenProjectorBuildState.source_regen_projector_update_tile_advance_state",
+      "godot_symbol": "source_regen_projector_update_tile_advance_state_result.total_time",
+      "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+      "java_method": "RegenProjectorBuild.updateTile()",
+      "java_expr": "totalTime += warmup * Time.delta;",
+      "rule": "The advanced total time (RegenProjector.java:130): totalTime += NEW warmup * UNSCALED Time.delta (Java line order: warmup is assigned before the totalTime line).",
+      "tests": [
+        "test_c07_regen_projector_update_tile_registration",
+        "test_all_c07_regen_projector_update_tile_input_evidence_is_exact",
+        "test_regen_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_regen_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07RegenProjectorUpdateTileProof"
+    },
+    "source_regen_projector_update_tile_advance_state_result.optional_timer": {
+      "status": "source-backed",
+      "godot_owner": "SourceRegenProjectorBuildState.source_regen_projector_update_tile_advance_state",
+      "godot_symbol": "source_regen_projector_update_tile_advance_state_result.optional_timer",
+      "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+      "java_method": "RegenProjectorBuild.updateTile()",
+      "java_expr": "if((optionalTimer += edelta() * optionalEfficiency) >= optionalUseTime){",
+      "rule": "The advanced optional timer (RegenProjector.java:142-144): optionalTimer += edelta() * optionalEfficiency, reset to 0f at the 480f threshold; the consume() call at the threshold defers (no items on the frame), the reset models the cadence.",
+      "tests": [
+        "test_c07_regen_projector_update_tile_registration",
+        "test_all_c07_regen_projector_update_tile_input_evidence_is_exact",
+        "test_regen_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_regen_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07RegenProjectorUpdateTileProof"
+    },
+    "source_regen_projector_update_tile_advance_state_result.did_regen": {
+      "status": "source-backed",
+      "godot_owner": "SourceRegenProjectorBuildState.source_regen_projector_update_tile_advance_state",
+      "godot_symbol": "source_regen_projector_update_tile_advance_state_result.did_regen",
+      "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+      "java_method": "RegenProjectorBuild.updateTile()",
+      "java_expr": "didRegen = true;",
+      "rule": "Whether this tick regenerated (RegenProjector.java:131/153): reset false, then true when any damaged, non-heal-suppressed target accumulated a mend amount.",
+      "tests": [
+        "test_c07_regen_projector_update_tile_registration",
+        "test_all_c07_regen_projector_update_tile_input_evidence_is_exact",
+        "test_regen_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_regen_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07RegenProjectorUpdateTileProof"
+    },
+    "source_regen_projector_update_tile_advance_state_result.any_targets": {
+      "status": "source-backed",
+      "godot_owner": "SourceRegenProjectorBuildState.source_regen_projector_update_tile_advance_state",
+      "godot_symbol": "source_regen_projector_update_tile_advance_state_result.any_targets",
+      "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+      "java_method": "RegenProjectorBuild.updateTile()",
+      "java_expr": "anyTargets = targets.contains(b -> b.damaged());",
+      "rule": "Whether any supplied target is damaged (RegenProjector.java:132/139): reset false, then the contains-damaged fold over the frame targets list; false on suppressed ticks (the early return precedes the fold).",
+      "tests": [
+        "test_c07_regen_projector_update_tile_registration",
+        "test_all_c07_regen_projector_update_tile_input_evidence_is_exact",
+        "test_regen_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_regen_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07RegenProjectorUpdateTileProof"
+    },
+    "source_regen_projector_update_tile_advance_state_result.mend_map": {
+      "status": "source-backed",
+      "godot_owner": "SourceRegenProjectorBuildState.source_regen_projector_update_tile_advance_state",
+      "godot_symbol": "source_regen_projector_update_tile_advance_state_result.mend_map",
+      "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+      "java_method": "RegenProjectorBuild.updateTile()",
+      "java_expr": "mendMap.put(pos, Math.min(Math.max(value, healAmount * edelta() * build.block.health / 100f), build.block.health - build.health));",
+      "rule": "The accumulated mend map (RegenProjector.java:157-158): per-target-pos mend amount, Math.max (no stacking) capped by the missing health; the flush (RegenProjector.java:168-177) defers, so the map is per-building, not the Java static shared map.",
+      "tests": [
+        "test_c07_regen_projector_update_tile_registration",
+        "test_all_c07_regen_projector_update_tile_input_evidence_is_exact",
+        "test_regen_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_regen_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07RegenProjectorUpdateTileProof"
+    },
+    "source_regen_projector_update_tile_advance_state_result.heal_amount": {
+      "status": "source-backed",
+      "godot_owner": "SourceRegenProjectorBuildState.source_regen_projector_update_tile_advance_state",
+      "godot_symbol": "source_regen_projector_update_tile_advance_state_result.heal_amount",
+      "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+      "java_method": "RegenProjectorBuild.updateTile()",
+      "java_expr": "float healAmount = Mathf.lerp(1f, optionalMultiplier, optionalEfficiency) * healPercent;",
+      "rule": "The heal amount for this tick (RegenProjector.java:147): lerp(1, optionalMultiplier 2f, optionalEfficiency) * healPercent (4f/60f, the regen-projector def, Blocks.java:2019); 0.0 when the heal branch does not run (suppressed or efficiency <= 0).",
+      "tests": [
+        "test_c07_regen_projector_update_tile_registration",
+        "test_all_c07_regen_projector_update_tile_input_evidence_is_exact",
+        "test_regen_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_regen_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07RegenProjectorUpdateTileProof"
+    },
+    "source_regen_projector_update_tile_advance_state_result.consumed": {
+      "status": "source-backed",
+      "godot_owner": "SourceRegenProjectorBuildState.source_regen_projector_update_tile_advance_state",
+      "godot_symbol": "source_regen_projector_update_tile_advance_state_result.consumed",
+      "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+      "java_method": "RegenProjectorBuild.updateTile()",
+      "java_expr": "consume();",
+      "rule": "Whether this tick crossed the optionalUseTime threshold (RegenProjector.java:142-144): true exactly when consume() would fire and optionalTimer resets; the item removal itself defers.",
+      "tests": [
+        "test_c07_regen_projector_update_tile_registration",
+        "test_all_c07_regen_projector_update_tile_input_evidence_is_exact",
+        "test_regen_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_regen_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07RegenProjectorUpdateTileProof"
     }
   },
   "version": 1

@@ -67123,6 +67123,308 @@
       ],
       "runtime_proof": "/root/C07WallCrafterUpdateTileProof",
       "rule": "Source-backed WallCrafter updateTile advance from WallCrafter.java / BuildingComp.java / Blocks.java / Block.java."
+    },
+    "SourceFrackerBuildState.source_fracker_update_tile_advance_state": {
+      "status": "active",
+      "source_slice": "N2224",
+      "java_source": "core/src/mindustry/world/blocks/production/Fracker.java",
+      "source_method": "FrackerBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_fracker_update_tile_advance_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_fracker_update_tile_advance_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_fracker_update_tile_advance_state_input.time_scale"
+        },
+        {
+          "name": "result_liquid_id",
+          "type": "int",
+          "schema": "source_fracker_update_tile_advance_state_input.result_liquid_id"
+        },
+        {
+          "name": "liquid_capacity",
+          "type": "float",
+          "schema": "source_fracker_update_tile_advance_state_input.liquid_capacity"
+        },
+        {
+          "name": "pump_amount",
+          "type": "float",
+          "schema": "source_fracker_update_tile_advance_state_input.pump_amount"
+        },
+        {
+          "name": "item_use_time",
+          "type": "float",
+          "schema": "source_fracker_update_tile_advance_state_input.item_use_time"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "accumulator",
+        "warmup",
+        "pump_time",
+        "last_pump",
+        "max_pump",
+        "fraction",
+        "items"
+      ],
+      "tests": [
+        "test_c07_fracker_update_tile_registration",
+        "test_all_c07_fracker_update_tile_input_evidence_is_exact",
+        "test_fracker_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_fracker_update_tile"
+      ],
+      "runtime_proof": "/root/C07FrackerUpdateTileProof",
+      "rule": "Source-backed Fracker updateTile advance from Fracker.java / SolidPump.java / Pump.java / BuildingComp.java / Blocks.java / Block.java / ConsumeItems.java / Consume.java / ItemModule.java."
+    },
+    "SourceItemBridgeBuildState.source_item_bridge_update_transport_state": {
+      "status": "active",
+      "source_slice": "N2225",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "source_method": "ItemBridgeBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_item_bridge_update_transport_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_item_bridge_update_transport_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_item_bridge_update_transport_state_input.time_scale"
+        },
+        {
+          "name": "transport_time",
+          "type": "float",
+          "schema": "source_item_bridge_update_transport_state_input.transport_time"
+        },
+        {
+          "name": "item_capacity",
+          "type": "int",
+          "schema": "source_item_bridge_update_transport_state_input.item_capacity"
+        },
+        {
+          "name": "had_valid_link",
+          "type": "bool",
+          "schema": "source_item_bridge_update_transport_state_input.had_valid_link"
+        },
+        {
+          "name": "tile_pos",
+          "type": "int",
+          "schema": "source_item_bridge_update_transport_state_input.tile_pos"
+        },
+        {
+          "name": "partner",
+          "type": "Dictionary",
+          "schema": "source_item_bridge_update_transport_state_input.partner"
+        },
+        {
+          "name": "incoming_valid",
+          "type": "Dictionary",
+          "schema": "source_item_bridge_update_transport_state_input.incoming_valid"
+        },
+        {
+          "name": "item_order",
+          "type": "Array",
+          "schema": "source_item_bridge_update_transport_state_input.item_order"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "transport_counter",
+        "warmup",
+        "time",
+        "time_speed",
+        "moved",
+        "incoming",
+        "items",
+        "take_rotation",
+        "partner_items",
+        "partner_incoming"
+      ],
+      "tests": [
+        "test_c07_item_bridge_transport_registration",
+        "test_all_c07_item_bridge_transport_input_evidence_is_exact",
+        "test_item_bridge_transport_advance_state",
+        "test_reference_graph_and_actual_c07_item_bridge_transport"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeTransportProof",
+      "rule": "Source-backed ItemBridge updateTile transport advance from ItemBridge.java / BuildingComp.java / Blocks.java / ItemModule.java / Block.java."
+    },
+    "SourceRepairTurretBuildState.source_repair_turret_update_tile_advance_state": {
+      "status": "active",
+      "source_slice": "N2226",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "source_method": "RepairPointBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_repair_turret_update_tile_advance_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_repair_turret_update_tile_advance_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_repair_turret_update_tile_advance_state_input.time_scale"
+        },
+        {
+          "name": "repair_speed",
+          "type": "float",
+          "schema": "source_repair_turret_update_tile_advance_state_input.repair_speed"
+        },
+        {
+          "name": "repair_radius",
+          "type": "float",
+          "schema": "source_repair_turret_update_tile_advance_state_input.repair_radius"
+        },
+        {
+          "name": "building_x",
+          "type": "float",
+          "schema": "source_repair_turret_update_tile_advance_state_input.building_x"
+        },
+        {
+          "name": "building_y",
+          "type": "float",
+          "schema": "source_repair_turret_update_tile_advance_state_input.building_y"
+        },
+        {
+          "name": "candidates",
+          "type": "Array",
+          "schema": "source_repair_turret_update_tile_advance_state_input.candidates"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "target",
+        "offset",
+        "strength",
+        "rotation",
+        "heal_amount",
+        "healed"
+      ],
+      "tests": [
+        "test_c07_repair_turret_update_tile_registration",
+        "test_all_c07_repair_turret_update_tile_input_evidence_is_exact",
+        "test_repair_turret_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_repair_turret_update_tile"
+      ],
+      "runtime_proof": "/root/C07RepairTurretUpdateTileProof",
+      "rule": "Source-backed RepairTurret updateTile advance from RepairTurret.java / BuildingComp.java / Units.java / HealthComp.java / Block.java / Tile.java / Blocks.java / Mathf.java / Angles.java / Position.java."
+    },
+    "SourceRepairTowerBuildState.source_repair_tower_update_tile_advance_state": {
+      "status": "active",
+      "source_slice": "N2227",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "source_method": "RepairTowerBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_repair_tower_update_tile_advance_input.frame"
+        },
+        {
+          "name": "heal_amount",
+          "type": "float",
+          "schema": "source_repair_tower_update_tile_advance_input.heal_amount"
+        },
+        {
+          "name": "circle_speed",
+          "type": "float",
+          "schema": "source_repair_tower_update_tile_advance_input.circle_speed"
+        },
+        {
+          "name": "time_delta",
+          "type": "float",
+          "schema": "source_repair_tower_update_tile_advance_input.time_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_repair_tower_update_tile_advance_input.time_scale"
+        },
+        {
+          "name": "supplied_damaged",
+          "type": "Array",
+          "schema": "source_repair_tower_update_tile_advance_input.supplied_damaged"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "refresh",
+        "warmup",
+        "total_progress",
+        "targets",
+        "heal_amounts"
+      ],
+      "tests": [
+        "test_c07_repair_tower_update_tile_registration",
+        "test_all_c07_repair_tower_update_tile_input_evidence_is_exact",
+        "test_repair_tower_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_repair_tower_update_tile"
+      ],
+      "runtime_proof": "/root/C07RepairTowerUpdateTileProof",
+      "rule": "Source-backed RepairTower updateTile advance from RepairTower.java / BuildingComp.java / Blocks.java / Arc Mathf.java."
+    },
+    "SourceRegenProjectorBuildState.source_regen_projector_update_tile_advance_state": {
+      "status": "active",
+      "source_slice": "N2228",
+      "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+      "source_method": "RegenProjectorBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_regen_projector_update_tile_advance_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_regen_projector_update_tile_advance_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_regen_projector_update_tile_advance_state_input.time_scale"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "last_change",
+        "warmup",
+        "total_time",
+        "optional_timer",
+        "did_regen",
+        "any_targets",
+        "mend_map",
+        "heal_amount",
+        "consumed"
+      ],
+      "tests": [
+        "test_c07_regen_projector_update_tile_registration",
+        "test_all_c07_regen_projector_update_tile_input_evidence_is_exact",
+        "test_regen_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_regen_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07RegenProjectorUpdateTileProof",
+      "rule": "Source-backed RegenProjector updateTile advance from RegenProjector.java / BuildingComp.java / Blocks.java / Block.java / World.java."
     }
   },
   "policy": {

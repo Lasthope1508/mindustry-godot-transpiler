@@ -2981,6 +2981,31 @@
       ],
       "runtime_proof": "/root/C07TractorBeamTurretShouldConsumeProof"
     },
+    "N2228": {
+      "canonical_ledger": "source_slice_ledger.N2228",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+      "java_method": "RegenProjectorBuild.updateTile()",
+      "godot_owner": "SourceRegenProjectorBuildState.source_regen_projector_update_tile_advance_state",
+      "source_symbols": [
+        "source_regen_projector_update_tile_advance_state_result.last_change",
+        "source_regen_projector_update_tile_advance_state_result.warmup",
+        "source_regen_projector_update_tile_advance_state_result.total_time",
+        "source_regen_projector_update_tile_advance_state_result.optional_timer",
+        "source_regen_projector_update_tile_advance_state_result.did_regen",
+        "source_regen_projector_update_tile_advance_state_result.any_targets",
+        "source_regen_projector_update_tile_advance_state_result.mend_map",
+        "source_regen_projector_update_tile_advance_state_result.heal_amount",
+        "source_regen_projector_update_tile_advance_state_result.consumed"
+      ],
+      "tests": [
+        "test_c07_regen_projector_update_tile_registration",
+        "test_all_c07_regen_projector_update_tile_input_evidence_is_exact",
+        "test_regen_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_regen_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07RegenProjectorUpdateTileProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

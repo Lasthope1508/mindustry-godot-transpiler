@@ -1476,6 +1476,81 @@
         }
       }
     },
+    "source_fracker_update_tile_advance_state_input": {
+      "canonical_schema": "source_state_schema.source_fracker_update_tile_advance_state_input",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Fracker.java",
+          "java_expr": "public void updateTile(){",
+          "rule": "The building frame carrying the folded efficiency (stamped by apply_update_consumption_state), the current accumulator / warmup / pump_time / valid_tiles / boost / attribute_env, the live liquids module and the items dict; missing keys default to 0 / {}.",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_update_tile_advance_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26): the delta the Arc lerpDelta formula scales by (Mathf.java:430-432) and the base of delta() = Time.delta * timeScale (BuildingComp.java:1922-1924).",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_update_tile_advance_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live timeScale read from the sprite meta (SourcePlacedBlockState.time_scale), default 1.0 (BuildingComp.java:98): delta() = Time.delta * timeScale (BuildingComp.java:1922-1924).",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_update_tile_advance_state"
+          ]
+        },
+        "result_liquid_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "result = Liquids.oil;",
+          "rule": "The result liquid's catalog id, resolved by the driver from liquid_id_by_name[\"oil\"] (the def constant oil, Blocks.java:2966 -- the class default is water, SolidPump.java:22); -1 when the catalog has no such liquid, in which case the reused super advance reads typeLiquid as 0.0 and adds nothing.",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_update_tile_advance_state"
+          ]
+        },
+        "liquid_capacity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "liquidCapacity = 40f;",
+          "rule": "The liquid capacity def constant 40f (Blocks.java:2971) -- the catalog carries no liquidCapacity property for pump defs (the N2190 fogRadius / N2199 transportTime def-constant precedent); the class default is -1f (Block.java:77) but every pump def sets it explicitly.",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_update_tile_advance_state"
+          ]
+        },
+        "pump_amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "pumpAmount = 0.25f;",
+          "rule": "The pump amount def constant 0.25f (Blocks.java:2969), overriding the Pump class default 0.2f (Pump.java:20); passed through to the reused N2220 SolidPump pure function for super.updateTile() (Fracker.java:37).",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_update_tile_advance_state"
+          ]
+        },
+        "item_use_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "itemUseTime = 60f;",
+          "rule": "The item use time def constant 60f (Blocks.java:2974), overriding the Fracker class default 100f (Fracker.java:8): the accumulator threshold at which updateTile consumes one sand (Fracker.java:32-35).",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_update_tile_advance_state"
+          ]
+        }
+      }
+    },
     "source_mechanical_pump_power_status_row_state_input": {
       "canonical_schema": "source_state_schema.source_mechanical_pump_power_status_row_state_input",
       "keys": {

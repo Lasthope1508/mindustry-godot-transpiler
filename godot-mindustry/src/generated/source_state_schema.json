@@ -232446,6 +232446,806 @@
       },
       "runtime_proof": "/root/C07WallCrafterUpdateTileProof",
       "rule": "Source-backed WallCrafter updateTile advance from WallCrafter.java / BuildingComp.java / Blocks.java / Block.java."
+    },
+    "source_fracker_update_tile_advance_state_input": {
+      "status": "active",
+      "owner": "SourceFrackerBuildState.source_fracker_update_tile_advance_state",
+      "source_slice": "N2224",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Fracker.java",
+          "java_expr": "public void updateTile(){",
+          "rule": "The building frame carrying the folded efficiency (stamped by apply_update_consumption_state), the current accumulator / warmup / pump_time / valid_tiles / boost / attribute_env, the live liquids module and the items dict; missing keys default to 0 / {}.",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_update_tile_advance_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26): the delta the Arc lerpDelta formula scales by (Mathf.java:430-432) and the base of delta() = Time.delta * timeScale (BuildingComp.java:1922-1924).",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_update_tile_advance_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live timeScale read from the sprite meta (SourcePlacedBlockState.time_scale), default 1.0 (BuildingComp.java:98): delta() = Time.delta * timeScale (BuildingComp.java:1922-1924).",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_update_tile_advance_state"
+          ]
+        },
+        "result_liquid_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "result = Liquids.oil;",
+          "rule": "The result liquid's catalog id, resolved by the driver from liquid_id_by_name[\"oil\"] (the def constant oil, Blocks.java:2966 -- the class default is water, SolidPump.java:22); -1 when the catalog has no such liquid, in which case the reused super advance reads typeLiquid as 0.0 and adds nothing.",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_update_tile_advance_state"
+          ]
+        },
+        "liquid_capacity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "liquidCapacity = 40f;",
+          "rule": "The liquid capacity def constant 40f (Blocks.java:2971) -- the catalog carries no liquidCapacity property for pump defs (the N2190 fogRadius / N2199 transportTime def-constant precedent); the class default is -1f (Block.java:77) but every pump def sets it explicitly.",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_update_tile_advance_state"
+          ]
+        },
+        "pump_amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "pumpAmount = 0.25f;",
+          "rule": "The pump amount def constant 0.25f (Blocks.java:2969), overriding the Pump class default 0.2f (Pump.java:20); passed through to the reused N2220 SolidPump pure function for super.updateTile() (Fracker.java:37).",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_update_tile_advance_state"
+          ]
+        },
+        "item_use_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "itemUseTime = 60f;",
+          "rule": "The item use time def constant 60f (Blocks.java:2974), overriding the Fracker class default 100f (Fracker.java:8): the accumulator threshold at which updateTile consumes one sand (Fracker.java:32-35).",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07FrackerUpdateTileProof",
+      "rule": "Source-backed Fracker updateTile advance from Fracker.java / SolidPump.java / Pump.java / BuildingComp.java / Blocks.java / Block.java / ConsumeItems.java / Consume.java / ItemModule.java."
+    },
+    "source_fracker_update_tile_advance_state_result": {
+      "status": "active",
+      "owner": "SourceFrackerBuildState.source_fracker_update_tile_advance_state",
+      "source_slice": "N2224",
+      "keys": {
+        "accumulator": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Fracker.java",
+          "java_expr": "accumulator += delta() * efficiency;",
+          "rule": "The advanced accumulator (Fracker.java:32-38): one itemUseTime subtracted when the threshold is reached (after consume()), then delta() * efficiency added; frozen when efficiency is 0 (the else branch never touches it).",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_update_tile_advance_state"
+          ]
+        },
+        "warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Fracker.java",
+          "java_expr": "warmup = Mathf.lerpDelta(warmup, 0f, 0.02f);",
+          "rule": "The advanced warmup: the reused super advance lerps it toward 1f while pumping (SolidPump.java:130) and toward 0f while idle (SolidPump.java:134); the Fracker else branch decays it itself at the same 0.02f rate (Fracker.java:41) without calling super.updateTile(). Scales by raw Time.delta, never by timeScale.",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_update_tile_advance_state"
+          ]
+        },
+        "pump_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "pumpTime += warmup * edelta();",
+          "rule": "The advanced pump time (SolidPump.java:138, via super.updateTile()): pumpTime += the NEW warmup * efficiency * Time.delta * timeScale; FROZEN when efficiency is 0, because the Fracker else branch never calls super.updateTile() (Fracker.java:40-43).",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_update_tile_advance_state"
+          ]
+        },
+        "last_pump": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Fracker.java",
+          "java_expr": "lastPump = 0f;",
+          "rule": "The last pump rate: maxPump over raw Time.delta while pumping (SolidPump.java:129, via super.updateTile()), 0f while idle (SolidPump.java:135) and 0f in the Fracker else branch (Fracker.java:42).",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_update_tile_advance_state"
+          ]
+        },
+        "max_pump": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "float maxPump = Math.min(liquidCapacity - typeLiquid(), pumpAmount * delta() * fraction * efficiency);",
+          "rule": "The amount pumped this tick (SolidPump.java:127, via super.updateTile()): min(capacity headroom, pumpAmount * delta() * fraction * efficiency), added to the store by the reused N2220 function (SolidPump.java:128); 0.0 when efficiency is 0 (super never runs).",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_update_tile_advance_state"
+          ]
+        },
+        "fraction": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "float fraction = Math.max(validTiles + boost + (attribute == null ? 0 : attribute.env()), 0);",
+          "rule": "The pump fraction (SolidPump.java:124, via super.updateTile()): max(validTiles + boost + attribute.env(), 0) from the explicit frame inputs; the live onProximityUpdate fill (SolidPump.java:150-159) waits for its own slice (covered by the existing Fracker fraction entry); 0.0 when efficiency is 0 (super never runs).",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_update_tile_advance_state"
+          ]
+        },
+        "items": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_expr": "build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));",
+          "rule": "The items dict after consume() (ConsumeItems.java:44-48): one sand removed when the accumulator reaches itemUseTime, clamped to the held count like ItemModule.remove (ItemModule.java:258-263); unchanged when the threshold is not reached or efficiency is 0. No live intake fills the dict yet (new deferral).",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07FrackerUpdateTileProof",
+      "rule": "Source-backed Fracker updateTile advance from Fracker.java / SolidPump.java / Pump.java / BuildingComp.java / Blocks.java / Block.java / ConsumeItems.java / Consume.java / ItemModule.java."
+    },
+    "source_item_bridge_update_transport_state_input": {
+      "status": "active",
+      "owner": "SourceItemBridgeBuildState.source_item_bridge_update_transport_state",
+      "source_slice": "N2225",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "public void updateTile(){",
+          "rule": "The building frame carrying the folded efficiency (stamped by apply_update_consumption_state) and the current transport_counter / warmup / time / time_speed / moved / was_moved / incoming / items / take_rotation; missing keys default to the Java field defaults (time -8f, the rest 0 / false / {} / []).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_update_transport_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26): the delta the Arc approachDelta formula scales by (Mathf.java:420-422) and the base of delta() = Time.delta * timeScale (BuildingComp.java:1922-1924).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_update_transport_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live timeScale read from the sprite meta (SourcePlacedBlockState.time_scale), default 1.0 (BuildingComp.java:98): delta() = Time.delta * timeScale (BuildingComp.java:1922-1924); approachDelta does NOT scale by it.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_update_transport_state"
+          ]
+        },
+        "transport_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "transportTime = 2f;",
+          "rule": "The transport time def constant 2f (Blocks.java:2119) -- the catalog carries no transportTime property for the phase-conveyor (the N2190 fogRadius / N2199 def-constant precedent); the class field is unset (ItemBridge.java:28).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_update_transport_state"
+          ]
+        },
+        "item_capacity": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "itemCapacity = 10;",
+          "rule": "The item capacity def constant 10 (ItemBridge.java:49, also the Block class default, Block.java:75) -- the acceptItem gate on the partner (ItemBridge.java:425).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_update_transport_state"
+          ]
+        },
+        "had_valid_link": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "hadValidLink = linkValid(tile, other);",
+          "rule": "The freshly recomputed link validity from the N2197 driver (ItemBridge.java:332-333): the advance branches on it (doDump + warmup = 0f when false, registration + warmup + updateTransport when true) but does NOT recompute it.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_update_transport_state"
+          ]
+        },
+        "tile_pos": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "int pos = tile.pos();",
+          "rule": "This tile packed position (ItemBridge.java:340): the value registered on the partner incoming list (ItemBridge.java:341-343).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_update_transport_state"
+          ]
+        },
+        "partner": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "Tile other = world.tile(link);",
+          "rule": "The partner snapshot gathered by the driver (exists / pos / items / incoming): the other ItemBridgeBuild whose frame receives the incoming registration (ItemBridge.java:339-344) and the handleItem handoff (ItemBridge.java:359-360).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_update_transport_state"
+          ]
+        },
+        "incoming_valid": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "if(!linkValid(tile, other, false) || ((ItemBridgeBuild)other.build).link != tile.pos()){",
+          "rule": "The per-incoming-entry validity gathered by the driver (pos -> bool): linkValid(tile, other, false) AND the other build links back at this tile (ItemBridge.java:310); a missing entry reads false, so an entry whose tile is gone prunes.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_update_transport_state"
+          ]
+        },
+        "item_order": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/modules/ItemModule.java",
+          "java_expr": "for(int i = 0; i < items.length; i++){",
+          "rule": "The item names in content-id order (the catalog item_names_by_id): the order ItemModule.take() rotates over (ItemModule.java:191-204), starting at the frame take_rotation.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_update_transport_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ItemBridgeTransportProof",
+      "rule": "Source-backed ItemBridge updateTile transport advance from ItemBridge.java / BuildingComp.java / Blocks.java / ItemModule.java / Block.java."
+    },
+    "source_item_bridge_update_transport_state_result": {
+      "status": "active",
+      "owner": "SourceItemBridgeBuildState.source_item_bridge_update_transport_state",
+      "source_slice": "N2225",
+      "keys": {
+        "transport_counter": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "transportCounter += edelta();",
+          "rule": "The advanced transport counter (ItemBridge.java:356/366): charged by edelta() = efficiency * Time.delta * timeScale, spent by transportTime per handoff attempt (even when the take is null or the partner rejects -- the decrement is unconditional inside the while loop).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_update_transport_state"
+          ]
+        },
+        "warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "warmup = Mathf.approachDelta(warmup, efficiency, 1f / 30f);",
+          "rule": "The advanced warmup (ItemBridge.java:345/337): approachDelta toward the folded efficiency at 1/30f when linked, 0f when unlinked; approachDelta scales by raw Time.delta.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_update_transport_state"
+          ]
+        },
+        "time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "time += timeSpeed * delta();",
+          "rule": "The advanced animation time (ItemBridge.java:328): time += the NEW timeSpeed * delta(), starting from -8f (ItemBridge.java:201).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_update_transport_state"
+          ]
+        },
+        "time_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "timeSpeed = Mathf.approachDelta(timeSpeed, wasMoved ? 1f : 0f, 1f / 60f);",
+          "rule": "The advanced time speed (ItemBridge.java:326): approachDelta toward (wasMoved ? 1 : 0) at 1/60f, scaling by raw Time.delta; wasMoved is the frame input (the timer snapshot defers).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_update_transport_state"
+          ]
+        },
+        "moved": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "moved = true;",
+          "rule": "Whether an item moved this tick (ItemBridge.java:361): set on a successful handoff, never cleared here (the timer reset defers).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_update_transport_state"
+          ]
+        },
+        "incoming": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "incoming.removeIndex(idx);",
+          "rule": "The pruned incoming list (ItemBridge.java:305-317): entries whose partner no longer links back at this tile are removed, in order.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_update_transport_state"
+          ]
+        },
+        "items": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "Item item = items.take();",
+          "rule": "The self items after the transport loop (ItemBridge.java:358-364): taken items leave, rejected items come back via items.add(item, 1) (undoFlow is a port no-op -- flow cacheSums only, ItemModule.java:252-256).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_update_transport_state"
+          ]
+        },
+        "take_rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/modules/ItemModule.java",
+          "java_expr": "takeRotation = index + 1;",
+          "rule": "The advanced take rotation (ItemModule.java:198): the index after the last taken item in content-id order, so successive takes round-robin over present item types.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_update_transport_state"
+          ]
+        },
+        "partner_items": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "other.handleItem(this, item);",
+          "rule": "The partner items after the handoff (ItemBridge.java:360; handleItem adds 1, BuildingComp.java:860-862): one entry per accepted item, capped by the capacity gate.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_update_transport_state"
+          ]
+        },
+        "partner_incoming": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "inc.add(pos);",
+          "rule": "The partner incoming after registration (ItemBridge.java:339-344): this tile position added when linked and not already present.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_update_transport_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ItemBridgeTransportProof",
+      "rule": "Source-backed ItemBridge updateTile transport advance from ItemBridge.java / BuildingComp.java / Blocks.java / ItemModule.java / Block.java."
+    },
+    "source_repair_turret_update_tile_advance_state_input": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_update_tile_advance_state",
+      "source_slice": "N2226",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "public float strength, rotation = 90;",
+          "rule": "The building frame carrying the folded efficiency (stamped by apply_update_consumption_state), the current target / offset / strength / rotation, and the deferred-fill target inputs; Java field defaults target null (RepairTurret.java:154), strength 0.0, rotation 90 (RepairTurret.java:156), efficiency 0.0 (BuildingComp.java:85).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_update_tile_advance_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26): the delta the Arc lerpDelta/slerpDelta formulas scale by (Mathf.java:430-432/:460-462) and edelta() multiplies (BuildingComp.java:1927-1929).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_update_tile_advance_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live timeScale read from the sprite meta (SourcePlacedBlockState.time_scale), default 1.0 (BuildingComp.java:98): delta() = Time.delta * timeScale (BuildingComp.java:1922-1924) and the rotation slerp progress is 0.5f * efficiency * timeScale (RepairTurret.java:209).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_update_tile_advance_state"
+          ]
+        },
+        "repair_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "repairSpeed = 0.45f;",
+          "rule": "The def repairSpeed from the driver constants (0.45f for the repair-point, 3f for the repair-turret, Blocks.java:6388/:6400; class default 0.3f, RepairTurret.java:33): the heal amount factor (RepairTurret.java:207).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_update_tile_advance_state"
+          ]
+        },
+        "repair_radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "repairRadius = 60f;",
+          "rule": "The def repairRadius from the driver constants (60f for the repair-point, 145f for the repair-turret, Blocks.java:6389/:6401; class default 50f, RepairTurret.java:32): the clear range (RepairTurret.java:193) and the re-acquire range (RepairTurret.java:216).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_update_tile_advance_state"
+          ]
+        },
+        "building_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "return block().offset + worldx();",
+          "rule": "The building world x: Building x is tile.drawx() (BuildingComp.java:124), drawx is block.offset + tile.worldx() (Tile.java:175-176) with offset ((size + 1) % 2) * tilesize / 2f (Block.java:761); the angle origin (RepairTurret.java:204) and the re-acquire center (RepairTurret.java:216).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_update_tile_advance_state"
+          ]
+        },
+        "building_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "return block().offset + worldy();",
+          "rule": "The building world y: Building y is tile.drawy() (BuildingComp.java:124), drawy is block.offset + tile.worldy() (Tile.java:179-180); the angle origin (RepairTurret.java:204) and the re-acquire center (RepairTurret.java:216).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_update_tile_advance_state"
+          ]
+        },
+        "candidates": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "target = Units.closest(team, x, y, repairRadius, Unit::damaged);",
+          "rule": "The explicit re-acquire candidate list (each a target dict with x / y / hit_size / damaged / valid): the stand-in for the Units.closest query (Units.java:358-372). Empty means the timer did not fire (the driver always passes an empty list -- no live unit query); non-empty models a timer tick and overwrites the frame target exactly like Java's unconditional assignment (RepairTurret.java:216).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretUpdateTileProof",
+      "rule": "Source-backed RepairTurret updateTile advance from RepairTurret.java / BuildingComp.java / Units.java / HealthComp.java / Block.java / Tile.java / Blocks.java / Mathf.java / Angles.java / Position.java."
+    },
+    "source_repair_turret_update_tile_advance_state_result": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_update_tile_advance_state",
+      "source_slice": "N2226",
+      "keys": {
+        "target": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "if(target != null && (target.dead() || target.dst(this) - target.hitSize/2f > repairRadius || target.health() >= target.maxHealth())){",
+          "rule": "The target after one tick (RepairTurret.java:193-195 + 214-217): null when cleared (dead / edge distance beyond repairRadius / full health) or when a re-acquire tick found no qualifying candidate; otherwise the kept target or the re-acquired closest damaged valid in-range candidate.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_update_tile_advance_state"
+          ]
+        },
+        "offset": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "offset.setZero();",
+          "rule": "The offset after one tick (RepairTurret.java:197-199): zeroed when the target is null, unchanged otherwise (its non-zero values come from drawBeam, RepairTurret.java:106-150, not from updateTile). Stored as {\"x\", \"y\"}.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_update_tile_advance_state"
+          ]
+        },
+        "strength": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "strength = Mathf.lerpDelta(strength, healed ? 1f : 0f, 0.08f * Time.delta);",
+          "rule": "The strength after one tick (RepairTurret.java:212): lerpDelta toward 1f when healing, toward 0f otherwise, at 0.08f * Time.delta -- and lerpDelta multiplies by Time.delta again (Mathf.java:430-432), so the effective progress is 0.08 * Time.delta^2.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_update_tile_advance_state"
+          ]
+        },
+        "rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "rotation = Mathf.slerpDelta(rotation, angle, 0.5f * efficiency * timeScale);",
+          "rule": "The rotation after one tick (RepairTurret.java:209): slerpDelta toward the target angle at 0.5f * efficiency * timeScale -- the wrapped angle lerp (Mathf.java:455-462); unchanged when the target is null or efficiency is 0 (the branch gate, RepairTurret.java:203).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_update_tile_advance_state"
+          ]
+        },
+        "heal_amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "target.heal(repairSpeed * strength * edelta() * multiplier);",
+          "rule": "The heal amount for this tick as a pure result (RepairTurret.java:207): repairSpeed * strength * edelta() * multiplier with multiplier 1.0 (the coolant branch, RepairTurret.java:189-191, waits for the coolant row) and edelta() = efficiency * Time.delta * timeScale (BuildingComp.java:1922-1929); 0.0 when not healing. The APPLICATION (target.heal writing into another unit frame) defers.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_update_tile_advance_state"
+          ]
+        },
+        "healed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "if(Angles.angleDist(angle, rotation) < 30f){",
+          "rule": "Whether this tick healed (RepairTurret.java:205-207): true exactly when the target is non-null, efficiency > 0, and the angleDist between the target angle and the rotation is under 30 degrees; drives the strength lerp target (RepairTurret.java:212).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretUpdateTileProof",
+      "rule": "Source-backed RepairTurret updateTile advance from RepairTurret.java / BuildingComp.java / Units.java / HealthComp.java / Block.java / Tile.java / Blocks.java / Mathf.java / Angles.java / Position.java."
+    },
+    "source_repair_tower_update_tile_advance_input": {
+      "status": "active",
+      "owner": "SourceRepairTowerBuildState.source_repair_tower_update_tile_advance_state",
+      "source_slice": "N2227",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "public float refresh = Mathf.random(refreshInterval);",
+          "rule": "The placed-building frame (RepairTower.java:51-54, the build fields): carries refresh / warmup / total_progress / targets plus the folded efficiency / potential_efficiency the advance reads and the heal_suppressed input; missing keys fold to the Java field defaults (0.0 / [] / false), with refresh bound deterministically to 0.0 instead of the Java random init.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_update_tile_advance_state"
+          ]
+        },
+        "heal_amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "healAmount = 1.5f;",
+          "rule": "The per-def heal amount (unit-repair-tower 1.5f, Blocks.java:6580; class default 1f, RepairTower.java:24): each damaged target heals by healAmount * edelta() per tick.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_update_tile_advance_state"
+          ]
+        },
+        "circle_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "public float circleSpeed = 120f, circleStroke = 3f, squareRad = 3f, squareSpinScl = 0.8f, glowMag = 0.5f, glowScl = 8f;",
+          "rule": "The class circle speed (120f, RepairTower.java:23, not overridden by the def): totalProgress advances by Time.delta / circleSpeed per tick.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_update_tile_advance_state"
+          ]
+        },
+        "time_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "Time.delta in ticks (BuildingComp.java:1922-1924, the delta() the heal amount scales by timeScale through edelta(); the refresh / totalProgress advances and the warmup lerp use this value unscaled, Arc Mathf.java:430-432): seconds * TICK_RATE 60 from the placed-block helper.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_update_tile_advance_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live building timeScale (BuildingComp.java:98, default 1f): read from the sprite meta; scales the heal amount only, never the refresh / lerp / totalProgress.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_update_tile_advance_state"
+          ]
+        },
+        "supplied_damaged": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "Units.nearby(team, x, y, range, u -> {",
+          "rule": "The damaged list the deferred live scan would return (RepairTower.java:62-66, Units.nearby admitting only damaged units): at refresh the targets clear and refill from this list; the tick supplies the frame targets, since no live scan fills them yet.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTowerUpdateTileProof",
+      "rule": "Source-backed RepairTower updateTile advance from RepairTower.java / BuildingComp.java / Blocks.java / Arc Mathf.java."
+    },
+    "source_repair_tower_update_tile_advance_result": {
+      "status": "active",
+      "owner": "SourceRepairTowerBuildState.source_repair_tower_update_tile_advance_state",
+      "source_slice": "N2227",
+      "keys": {
+        "refresh": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "if(potentialEfficiency > 0 && (refresh += Time.delta) >= refreshInterval){",
+          "rule": "The refresh timer after one tick (RepairTower.java:59-61): advances by the unscaled Time.delta only while potentialEfficiency > 0 (the && short-circuits), and resets to 0f when it reaches refreshInterval 6f.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_update_tile_advance_state"
+          ]
+        },
+        "warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "warmup = Mathf.lerpDelta(warmup, any ? efficiency : 0f, 0.08f);",
+          "rule": "The warmup after one tick (RepairTower.java:69-72, 84): 0f when suppressed (the early return), else lerped toward the folded efficiency when any target healed, else toward 0f, at 0.08f by the unscaled Time.delta.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_update_tile_advance_state"
+          ]
+        },
+        "total_progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "totalProgress += Time.delta / circleSpeed;",
+          "rule": "The total progress after one tick (RepairTower.java:85): advances by the unscaled Time.delta / circleSpeed 120f; does not advance on the suppressed early return.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_update_tile_advance_state"
+          ]
+        },
+        "targets": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "targets.clear();",
+          "rule": "The targets after one tick (RepairTower.java:60-66): cleared and refilled from the supplied damaged list when the refresh interval is reached, otherwise unchanged; the live scan that would fill the list is deferred.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_update_tile_advance_state"
+          ]
+        },
+        "heal_amounts": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "target.heal(healAmount * edelta());",
+          "rule": "The per-target heal amounts for this tick (RepairTower.java:75-81): healAmount * efficiency * Time.delta * timeScale per damaged target, in target order; a pure result -- applying the heal to live units is deferred.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTowerUpdateTileProof",
+      "rule": "Source-backed RepairTower updateTile advance from RepairTower.java / BuildingComp.java / Blocks.java / Arc Mathf.java."
+    },
+    "source_regen_projector_update_tile_advance_state_input": {
+      "status": "active",
+      "owner": "SourceRegenProjectorBuildState.source_regen_projector_update_tile_advance_state",
+      "source_slice": "N2228",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+          "java_expr": "public float warmup, totalTime, optionalTimer;",
+          "rule": "The building frame carrying the folded efficiency / optional_efficiency (stamped by apply_update_consumption_state), the build fields (warmup / total_time / optional_timer / did_regen / any_targets / last_change / targets / mend_map) and the frame inputs (heal_suppressed, tile_changes).",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_update_tile_advance_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+          "java_expr": "totalTime += warmup * Time.delta;",
+          "rule": "Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26): the UNSCALED delta the warmup approachDelta and the totalTime advance scale by (RegenProjector.java:129-130 use Time.delta, not delta()).",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_update_tile_advance_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live timeScale read from the sprite meta (SourcePlacedBlockState.time_scale), default 1.0 (BuildingComp.java:98); scales delta() and therefore edelta() (BuildingComp.java:1922-1929).",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RegenProjectorUpdateTileProof",
+      "rule": "Source-backed RegenProjector updateTile advance from RegenProjector.java / BuildingComp.java / Blocks.java / Block.java / World.java."
+    },
+    "source_regen_projector_update_tile_advance_state_result": {
+      "status": "active",
+      "owner": "SourceRegenProjectorBuildState.source_regen_projector_update_tile_advance_state",
+      "source_slice": "N2228",
+      "keys": {
+        "last_change": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+          "java_expr": "lastChange = world.tileChanges;",
+          "rule": "The refreshed lastChange (RegenProjector.java:123-125): tile_changes when it differed, unchanged otherwise; the updateTargets() call itself defers (no live building query in the port), so targets stay the frame input.",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_update_tile_advance_state"
+          ]
+        },
+        "warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+          "java_expr": "warmup = Mathf.approachDelta(warmup, didRegen ? 1f : 0f, 1f / 70f);",
+          "rule": "The advanced warmup (RegenProjector.java:129): approachDelta toward (didRegen ? 1 : 0) at 1f/70f, using the PREVIOUS tick didRegen (Java line order: warmup advances before the didRegen reset).",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_update_tile_advance_state"
+          ]
+        },
+        "total_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+          "java_expr": "totalTime += warmup * Time.delta;",
+          "rule": "The advanced total time (RegenProjector.java:130): totalTime += NEW warmup * UNSCALED Time.delta (Java line order: warmup is assigned before the totalTime line).",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_update_tile_advance_state"
+          ]
+        },
+        "optional_timer": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+          "java_expr": "if((optionalTimer += edelta() * optionalEfficiency) >= optionalUseTime){",
+          "rule": "The advanced optional timer (RegenProjector.java:142-144): optionalTimer += edelta() * optionalEfficiency, reset to 0f at the 480f threshold; the consume() call at the threshold defers (no items on the frame), the reset models the cadence.",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_update_tile_advance_state"
+          ]
+        },
+        "did_regen": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+          "java_expr": "didRegen = true;",
+          "rule": "Whether this tick regenerated (RegenProjector.java:131/153): reset false, then true when any damaged, non-heal-suppressed target accumulated a mend amount.",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_update_tile_advance_state"
+          ]
+        },
+        "any_targets": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+          "java_expr": "anyTargets = targets.contains(b -> b.damaged());",
+          "rule": "Whether any supplied target is damaged (RegenProjector.java:132/139): reset false, then the contains-damaged fold over the frame targets list; false on suppressed ticks (the early return precedes the fold).",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_update_tile_advance_state"
+          ]
+        },
+        "mend_map": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+          "java_expr": "mendMap.put(pos, Math.min(Math.max(value, healAmount * edelta() * build.block.health / 100f), build.block.health - build.health));",
+          "rule": "The accumulated mend map (RegenProjector.java:157-158): per-target-pos mend amount, Math.max (no stacking) capped by the missing health; the flush (RegenProjector.java:168-177) defers, so the map is per-building, not the Java static shared map.",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_update_tile_advance_state"
+          ]
+        },
+        "heal_amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+          "java_expr": "float healAmount = Mathf.lerp(1f, optionalMultiplier, optionalEfficiency) * healPercent;",
+          "rule": "The heal amount for this tick (RegenProjector.java:147): lerp(1, optionalMultiplier 2f, optionalEfficiency) * healPercent (4f/60f, the regen-projector def, Blocks.java:2019); 0.0 when the heal branch does not run (suppressed or efficiency <= 0).",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_update_tile_advance_state"
+          ]
+        },
+        "consumed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+          "java_expr": "consume();",
+          "rule": "Whether this tick crossed the optionalUseTime threshold (RegenProjector.java:142-144): true exactly when consume() would fire and optionalTimer resets; the item removal itself defers.",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RegenProjectorUpdateTileProof",
+      "rule": "Source-backed RegenProjector updateTile advance from RegenProjector.java / BuildingComp.java / Blocks.java / Block.java / World.java."
     }
   },
   "version": 1

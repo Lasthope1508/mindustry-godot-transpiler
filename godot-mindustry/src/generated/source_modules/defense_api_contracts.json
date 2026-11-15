@@ -6937,6 +6937,50 @@
       "rule": "Source-backed RegenProjector shouldConsume gate from RegenProjector.java / BuildingComp.java / Blocks.java.",
       "return_type": "Dictionary"
     },
+    "SourceRegenProjectorBuildState.source_regen_projector_update_tile_advance_state": {
+      "canonical_contract": "source_api_contracts.SourceRegenProjectorBuildState.source_regen_projector_update_tile_advance_state",
+      "status": "active",
+      "source_slice": "N2228",
+      "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+      "source_method": "RegenProjectorBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_regen_projector_update_tile_advance_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_regen_projector_update_tile_advance_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_regen_projector_update_tile_advance_state_input.time_scale"
+        }
+      ],
+      "return_keys": [
+        "last_change",
+        "warmup",
+        "total_time",
+        "optional_timer",
+        "did_regen",
+        "any_targets",
+        "mend_map",
+        "heal_amount",
+        "consumed"
+      ],
+      "tests": [
+        "test_c07_regen_projector_update_tile_registration",
+        "test_all_c07_regen_projector_update_tile_input_evidence_is_exact",
+        "test_regen_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_regen_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07RegenProjectorUpdateTileProof",
+      "rule": "Source-backed RegenProjector updateTile advance from RegenProjector.java / BuildingComp.java / Blocks.java / Block.java / World.java.",
+      "return_type": "Dictionary"
+    },
     "SourceShieldWallBuildState.source_shield_wall_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourceShieldWallBuildState.source_shield_wall_power_status_row_state",
       "status": "active",

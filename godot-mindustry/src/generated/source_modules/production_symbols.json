@@ -6003,6 +6003,111 @@
       ],
       "runtime_proof": "/root/C07FrackerShouldConsumeProof"
     },
+    "source_fracker_update_tile_advance_state_result.accumulator": {
+      "canonical_symbol": "source_symbol_registry.source_fracker_update_tile_advance_state_result.accumulator",
+      "status": "source-backed",
+      "java_expr": "accumulator += delta() * efficiency;",
+      "godot_symbol": "source_fracker_update_tile_advance_state_result.accumulator",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_update_tile_advance_state",
+      "rule": "The advanced accumulator (Fracker.java:32-38): one itemUseTime subtracted when the threshold is reached (after consume()), then delta() * efficiency added; frozen when efficiency is 0 (the else branch never touches it).",
+      "tests": [
+        "test_c07_fracker_update_tile_registration",
+        "test_all_c07_fracker_update_tile_input_evidence_is_exact",
+        "test_fracker_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_fracker_update_tile"
+      ],
+      "runtime_proof": "/root/C07FrackerUpdateTileProof"
+    },
+    "source_fracker_update_tile_advance_state_result.fraction": {
+      "canonical_symbol": "source_symbol_registry.source_fracker_update_tile_advance_state_result.fraction",
+      "status": "source-backed",
+      "java_expr": "float fraction = Math.max(validTiles + boost + (attribute == null ? 0 : attribute.env()), 0);",
+      "godot_symbol": "source_fracker_update_tile_advance_state_result.fraction",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_update_tile_advance_state",
+      "rule": "The pump fraction (SolidPump.java:124, via super.updateTile()): max(validTiles + boost + attribute.env(), 0) from the explicit frame inputs; the live onProximityUpdate fill (SolidPump.java:150-159) waits for its own slice (covered by the existing Fracker fraction entry); 0.0 when efficiency is 0 (super never runs).",
+      "tests": [
+        "test_c07_fracker_update_tile_registration",
+        "test_all_c07_fracker_update_tile_input_evidence_is_exact",
+        "test_fracker_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_fracker_update_tile"
+      ],
+      "runtime_proof": "/root/C07FrackerUpdateTileProof"
+    },
+    "source_fracker_update_tile_advance_state_result.items": {
+      "canonical_symbol": "source_symbol_registry.source_fracker_update_tile_advance_state_result.items",
+      "status": "source-backed",
+      "java_expr": "build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));",
+      "godot_symbol": "source_fracker_update_tile_advance_state_result.items",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_update_tile_advance_state",
+      "rule": "The items dict after consume() (ConsumeItems.java:44-48): one sand removed when the accumulator reaches itemUseTime, clamped to the held count like ItemModule.remove (ItemModule.java:258-263); unchanged when the threshold is not reached or efficiency is 0. No live intake fills the dict yet (new deferral).",
+      "tests": [
+        "test_c07_fracker_update_tile_registration",
+        "test_all_c07_fracker_update_tile_input_evidence_is_exact",
+        "test_fracker_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_fracker_update_tile"
+      ],
+      "runtime_proof": "/root/C07FrackerUpdateTileProof"
+    },
+    "source_fracker_update_tile_advance_state_result.last_pump": {
+      "canonical_symbol": "source_symbol_registry.source_fracker_update_tile_advance_state_result.last_pump",
+      "status": "source-backed",
+      "java_expr": "lastPump = 0f;",
+      "godot_symbol": "source_fracker_update_tile_advance_state_result.last_pump",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_update_tile_advance_state",
+      "rule": "The last pump rate: maxPump over raw Time.delta while pumping (SolidPump.java:129, via super.updateTile()), 0f while idle (SolidPump.java:135) and 0f in the Fracker else branch (Fracker.java:42).",
+      "tests": [
+        "test_c07_fracker_update_tile_registration",
+        "test_all_c07_fracker_update_tile_input_evidence_is_exact",
+        "test_fracker_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_fracker_update_tile"
+      ],
+      "runtime_proof": "/root/C07FrackerUpdateTileProof"
+    },
+    "source_fracker_update_tile_advance_state_result.max_pump": {
+      "canonical_symbol": "source_symbol_registry.source_fracker_update_tile_advance_state_result.max_pump",
+      "status": "source-backed",
+      "java_expr": "float maxPump = Math.min(liquidCapacity - typeLiquid(), pumpAmount * delta() * fraction * efficiency);",
+      "godot_symbol": "source_fracker_update_tile_advance_state_result.max_pump",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_update_tile_advance_state",
+      "rule": "The amount pumped this tick (SolidPump.java:127, via super.updateTile()): min(capacity headroom, pumpAmount * delta() * fraction * efficiency), added to the store by the reused N2220 function (SolidPump.java:128); 0.0 when efficiency is 0 (super never runs).",
+      "tests": [
+        "test_c07_fracker_update_tile_registration",
+        "test_all_c07_fracker_update_tile_input_evidence_is_exact",
+        "test_fracker_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_fracker_update_tile"
+      ],
+      "runtime_proof": "/root/C07FrackerUpdateTileProof"
+    },
+    "source_fracker_update_tile_advance_state_result.pump_time": {
+      "canonical_symbol": "source_symbol_registry.source_fracker_update_tile_advance_state_result.pump_time",
+      "status": "source-backed",
+      "java_expr": "pumpTime += warmup * edelta();",
+      "godot_symbol": "source_fracker_update_tile_advance_state_result.pump_time",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_update_tile_advance_state",
+      "rule": "The advanced pump time (SolidPump.java:138, via super.updateTile()): pumpTime += the NEW warmup * efficiency * Time.delta * timeScale; FROZEN when efficiency is 0, because the Fracker else branch never calls super.updateTile() (Fracker.java:40-43).",
+      "tests": [
+        "test_c07_fracker_update_tile_registration",
+        "test_all_c07_fracker_update_tile_input_evidence_is_exact",
+        "test_fracker_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_fracker_update_tile"
+      ],
+      "runtime_proof": "/root/C07FrackerUpdateTileProof"
+    },
+    "source_fracker_update_tile_advance_state_result.warmup": {
+      "canonical_symbol": "source_symbol_registry.source_fracker_update_tile_advance_state_result.warmup",
+      "status": "source-backed",
+      "java_expr": "warmup = Mathf.lerpDelta(warmup, 0f, 0.02f);",
+      "godot_symbol": "source_fracker_update_tile_advance_state_result.warmup",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_update_tile_advance_state",
+      "rule": "The advanced warmup: the reused super advance lerps it toward 1f while pumping (SolidPump.java:130) and toward 0f while idle (SolidPump.java:134); the Fracker else branch decays it itself at the same 0.02f rate (Fracker.java:41) without calling super.updateTile(). Scales by raw Time.delta, never by timeScale.",
+      "tests": [
+        "test_c07_fracker_update_tile_registration",
+        "test_all_c07_fracker_update_tile_input_evidence_is_exact",
+        "test_fracker_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_fracker_update_tile"
+      ],
+      "runtime_proof": "/root/C07FrackerUpdateTileProof"
+    },
     "source_item_runtime_consumer_input.cost_multiplier": {
       "canonical_symbol": "source_symbol_registry.source_item_runtime_consumer_input.cost_multiplier",
       "status": "source-backed",

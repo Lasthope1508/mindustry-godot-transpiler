@@ -1186,6 +1186,29 @@
       ],
       "runtime_proof": "/root/C07WallCrafterUpdateTileProof"
     },
+    "N2224": {
+      "canonical_ledger": "source_slice_ledger.N2224",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Fracker.java",
+      "java_method": "FrackerBuild.updateTile()",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_update_tile_advance_state",
+      "source_symbols": [
+        "source_fracker_update_tile_advance_state_result.accumulator",
+        "source_fracker_update_tile_advance_state_result.warmup",
+        "source_fracker_update_tile_advance_state_result.pump_time",
+        "source_fracker_update_tile_advance_state_result.last_pump",
+        "source_fracker_update_tile_advance_state_result.max_pump",
+        "source_fracker_update_tile_advance_state_result.fraction",
+        "source_fracker_update_tile_advance_state_result.items"
+      ],
+      "tests": [
+        "test_c07_fracker_update_tile_registration",
+        "test_all_c07_fracker_update_tile_input_evidence_is_exact",
+        "test_fracker_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_fracker_update_tile"
+      ],
+      "runtime_proof": "/root/C07FrackerUpdateTileProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",
