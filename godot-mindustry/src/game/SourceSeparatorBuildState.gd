@@ -10,6 +10,7 @@ const inventory := preload("res://src/game/SourceDrillInventoryRuntimeState.gd")
 const source_math_defaults := preload("res://src/game/SourceMathDefaults.gd")
 const source_liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
 const source_content_registry_runtime_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
+const source_building_item_dump_state := preload("res://src/game/SourceBuildingItemDumpState.gd")
 
 # The Separator implementation (Separator.java:19, `public class Separator extends Block{`): separator (consumePower 1.1f, Blocks.java:1243, `consumePower(1.1f);`; size 2, craftTime 35f, Blocks.java:1231-1246) and disassembler (consumePower 4f, Blocks.java:1262, `consumePower(4f);`; size 3, craftTime 15f, itemCapacity 20, Blocks.java:1248-1266). Separator extends Block, NOT a factory or crafter, so no existing driver matches it and no frame key exists for it; this driver uses its own family frame key ("source_separator_building", the payload-deconstructor / unit-assembler-module precedent), and this slice adds the separator key to N2142's SOURCE_CONSUMER_FRAME_META_KEYS so the graph stamp/write-back finds it. The port has NO SourceSeparator* files at all yet -- no display/runtime state to lean on -- so the missing piece is the live power.status -> efficiency driver, which is exactly this slice: the updateTile progress advance (Separator.java:133, `if(efficiency > 0){` with `progress += getProgressIncrease(craftTime);`) gates on efficiency > 0, so a separator with no power would advance progress as if power.status were 1.0.
 const SOURCE_SEPARATOR_BUILD_IMPLEMENTATIONS := ["Separator"]
@@ -34,6 +35,14 @@ const SOURCE_SEPARATOR_CREATED_SEED_MAX := 2147483646
 # through the catalog liquid_id_by_name (the Fracker oil
 # precedent, SourceFrackerBuildState.gd:42).
 const SOURCE_SEPARATOR_LIQUID := "slag"
+# Block.java:438 `public int dumpTime = 5;` -- how often to try
+# dumping items, in ticks (5 = 12 times/sec, Block.java:437);
+# NO def overrides it anywhere in upstream (grep-verified: the
+# only dumpTime hits are the Block.java:438 definition and the
+# timer call sites), so the driver reads one constant. The
+# timer id is `protected final int timerDump = timers++;`
+# (Block.java:436).
+const SOURCE_SEPARATOR_DUMP_TIME := 5.0
 
 static func _is_separator_build_implementation(implementation: String) -> bool:
 	return SOURCE_SEPARATOR_BUILD_IMPLEMENTATIONS.has(implementation)
@@ -105,7 +114,7 @@ static func source_separator_bind_frame_state(sprite: Sprite2D, block: Object) -
 
 static func source_separator_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a separator does not take the early return. The progress advance follows the folded efficiency (Separator.java:133, `if(efficiency > 0){` with `progress += getProgressIncrease(craftTime);`) and the shouldConsume override (Separator.java:92, `public boolean shouldConsume(){` with `return total < itemCapacity && enabled;`, Separator.java:100; default BuildingComp.java:755, `public boolean shouldConsume(){`) -- SeparatorBuild (Separator.java:75, `public class SeparatorBuild extends Building{`) overrides shouldConsume() to return total < itemCapacity && enabled, so the default does not apply here; the gate is live since N2200 (the pure gate source_separator_should_consume_state feeds total-minus-consItems-buffer < itemCapacity && enabled to the machinery; when the gate is false updateConsumption forces efficiency to 0, BuildingComp.java:1960 + 1992). The separator (consumePower 1.1f, Blocks.java:1243, `consumePower(1.1f);`; disassembler consumePower 4f, Blocks.java:1262, `consumePower(4f);`) also consumes liquid slag (separator `consumeLiquid(Liquids.slag, 4f / 60f);`, Blocks.java:1244; disassembler `consumeLiquid(Liquids.slag, 0.12f);`, Blocks.java:1264) -- the liquid row is live since N2252 (source_separator_liquid_consumer_row_state), so the folded efficiency is the min over the *modeled* consumers (power + liquid).
-	# Documented limits: (1) liquid row live (N2252) -- the separator consumes liquid slag (separator 4f/60f, Blocks.java:1244; disassembler 0.12f per frame, Blocks.java:1264), folded by the pure liquid row (source_separator_liquid_consumer_row_state, ConsumeLiquid.efficiency, ConsumeLiquid.java:42-47) with the second-pass removal (ConsumeLiquid.update, ConsumeLiquid.java:37-39); the folded efficiency is the min over the *modeled* consumers (power + liquid). Still deferred: the disassembler scrap ConsumeItems efficiency row (ConsumeItems.java:51-53, `return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;`) -- the scrap is only removed by consume() in the updateTile advance (N2222), so a disassembler with no scrap still folds as if the item row were 1.0. (2) shouldConsume gate live (N2200) -- SeparatorBuild overrides shouldConsume() to return total < itemCapacity && enabled (Separator.java:92-100, `return total < itemCapacity && enabled;`); the pure gate reads the frame items Dictionary (minus the consItems buffer from the catalog consumeItem rows) and feeds should_consume to the machinery; when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994). No live intake fills frame["items"] yet -- the gate reads the frame as-is, and intake waits for its own slice. (3) Partial updateTile advance (N2222) -- progress / warmup / totalProgress / seed / consume() / the offload random result pick (Separator.java:130-167) advance each tick, and a fresh frame is seeded from its tile position like created() (Separator.java:82-84); still deferred: the timerDump dump (Separator.java:165-167, no timer helper in the port) and the offload neighbor routing (no proximity acceptItem query, so the picked result falls back to the separator's own items). (4) No sense / canDump / draw / drawLight / icons / drawPlanRegion / read-write / shouldAmbientSound rows -- sense (Separator.java:169-172), canDump (Separator.java:175-177), draw (Separator.java:109-111), drawLight (Separator.java:114-117), icons (Separator.java:71-73), drawPlanRegion (Separator.java:66-69), read/write (Separator.java:180-194), shouldAmbientSound (Separator.java:87-89) are logic / presentation / serialization / lifecycle, not tick state; created() (Separator.java:82-84) is live since N2222 (the driver seeds a fresh frame from its tile position). (5) Disassembler variant verification pending -- the same driver covers both defs via the catalog consumePower.
+	# Documented limits: (1) liquid row live (N2252) -- the separator consumes liquid slag (separator 4f/60f, Blocks.java:1244; disassembler 0.12f per frame, Blocks.java:1264), folded by the pure liquid row (source_separator_liquid_consumer_row_state, ConsumeLiquid.efficiency, ConsumeLiquid.java:42-47) with the second-pass removal (ConsumeLiquid.update, ConsumeLiquid.java:37-39); the folded efficiency is the min over the *modeled* consumers (power + liquid). Still deferred: the disassembler scrap ConsumeItems efficiency row (ConsumeItems.java:51-53, `return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;`) -- the scrap is only removed by consume() in the updateTile advance (N2222), so a disassembler with no scrap still folds as if the item row were 1.0. (2) shouldConsume gate live (N2200) -- SeparatorBuild overrides shouldConsume() to return total < itemCapacity && enabled (Separator.java:92-100, `return total < itemCapacity && enabled;`); the pure gate reads the frame items Dictionary (minus the consItems buffer from the catalog consumeItem rows) and feeds should_consume to the machinery; when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994). No live intake fills frame["items"] yet -- the gate reads the frame as-is, and intake waits for its own slice. (3) Partial updateTile advance (N2222) -- progress / warmup / totalProgress / seed / consume() / the offload random result pick (Separator.java:130-167) advance each tick, and a fresh frame is seeded from its tile position like created() (Separator.java:82-84); the timerDump dump is live since N2281 (source_separator_timer_dump_state, the frame-local Interval-equivalent, dumpTime 5f / timeScale, Separator.java:165-166, dump(null) through the shared dump_item_state routing; first-fire deviation: Java fires nearly at once after placement, the frame clock delays the first fire by one interval, 5 ticks); still deferred: the offload neighbor routing (no proximity acceptItem query, so the picked result falls back to the separator's own items) and the dump neighbour live fill + write-back (the neighbour acceptItem / canDump arrays are frame inputs, default [], and the dumped item is not written into the neighbour frame yet). (4) No sense / canDump / draw / drawLight / icons / drawPlanRegion / read-write / shouldAmbientSound rows -- sense (Separator.java:169-172), canDump (Separator.java:175-177), draw (Separator.java:109-111), drawLight (Separator.java:114-117), icons (Separator.java:71-73), drawPlanRegion (Separator.java:66-69), read/write (Separator.java:180-194), shouldAmbientSound (Separator.java:87-89) are logic / presentation / serialization / lifecycle, not tick state; created() (Separator.java:82-84) is live since N2222 (the driver seeds a fresh frame from its tile position). (5) Disassembler variant verification pending -- the same driver covers both defs via the catalog consumePower.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -309,11 +318,13 @@ static func source_separator_update_tile_advance_state(frame: Dictionary, source
 	# runs through inventory.offload_item_state with the
 	# routing context; with no neighbors yet it falls back to
 	# the building's own items, the Java no-neighbor-accepts
-	# outcome. Deferred, not done here: the timerDump dump
-	# (`if(timer(timerDump, dumpTime / timeScale)){`,
-	# Separator.java:165-167, no timer helper in the port) and
-	# the offload neighbor routing (no proximity acceptItem
-	# query for separators). With empty results there is no
+	# outcome. The timerDump dump is live since N2281
+	# (source_separator_timer_dump_state, wired after this
+	# advance in the tick:
+	# `if(timer(timerDump, dumpTime / timeScale)){ dump(); }`,
+	# Separator.java:165-166). Deferred, not done here: the
+	# offload neighbor routing (no proximity acceptItem query
+	# for separators). With empty results there is no
 	# pick (sum <= 0): Java would throw in randomSeed, so the
 	# branch skips pick/consume/offload -- unreachable for
 	# both defs, which always carry results.
@@ -361,6 +372,124 @@ static func source_separator_update_tile_advance_state(frame: Dictionary, source
 				items = offloaded.get(inventory.SOURCE_DRILL_INVENTORY_DRILL_ITEMS_KEY, items)
 				cdump = int(offloaded.get(inventory.SOURCE_DRILL_INVENTORY_C_DUMP_KEY, cdump))
 	return {"progress": progress, "warmup": warmup, "total_progress": total_progress, "seed": seed, "items": items, "cdump": cdump, "picked_item": picked_item, "crafted": crafted}
+
+static func source_separator_timer_dump_state(frame: Dictionary, source_delta: float, time_scale: float, content_item_ids: Array, neighbour_accepts_item: Array, neighbour_can_dump: Array) -> Dictionary:
+	# The timerDump dump at the END of updateTile
+	# (SeparatorBuild.updateTile(), Separator.java:130-167),
+	# after the progress/offload block (:140-163):
+	# `if(timer(timerDump, dumpTime / timeScale)){`
+	# `dump();`
+	# -- the dump runs AFTER the advance in the same tick, so
+	# it sees the store the advance just offloaded into, and
+	# it shares the frame cdump with the offload (Java uses
+	# the same `this.cdump` for both). The timer id is
+	# `protected final int timerDump = timers++;`
+	# (Block.java:436) and the interval is
+	# `public int dumpTime = 5;`
+	# (Block.java:438, 5 ticks = 12 times/sec; NO def
+	# overrides it anywhere in upstream, grep-verified). The
+	# timer is TimerComp.timer (TimerComp.java:10-13):
+	# `public boolean timer(int index, float time){`
+	# `if(Float.isInfinite(time)) return false;`
+	# `return timer.get(index, time);`
+	# Interval.get resets times[id] = Time.time on fire (arc
+	# Interval.java:20-26):
+	# `boolean got = check(id, time);`
+	# `if(got) times[id] = Time.time;`
+	# and check compares Time.time - times[id] >= time (arc
+	# Interval.java:28-30):
+	# `return Time.time - times[id] >= time || Time.time < times[id];`
+	# Time.time counts TICKS (arc Time.java:69-80):
+	# `timeRaw += delta;`
+	# The port has no global tick clock at the driver layer, so
+	# the elapsed clock is frame-local (frame["timer_dump_
+	# elapsed"], the N2266/N2269/N2273/N2280 precedent):
+	# elapsed += source_delta unconditionally every tick the
+	# advance runs -- mirroring Time.time, which grows even
+	# while the gate is closed; fired = elapsed >= dumpTime /
+	# time_scale; elapsed_after RESETS to 0.0 on fire (a reset,
+	# not a subtraction like the Fracker accumulator); a
+	# non-positive time_scale is the infinite-time branch
+	# (fired false). Unlike the N2280 RepairTurret literal-20
+	# timer, this Java call DOES divide by timeScale
+	# (`dumpTime / timeScale`, Separator.java:165), so the
+	# port threshold is Java-exact at every time_scale, not
+	# just 1f. The live timeScale reads from the sprite meta,
+	# default 1.0:
+	# `private transient float timeScale = 1f, timeScaleDuration;`
+	# (BuildingComp.java:98). First-fire deviation
+	# (documented): Java fires (nearly) immediately after
+	# placement (the global Time.time is already large vs a
+	# fresh Interval times[id] = 0); the frame-local clock
+	# delays the first fire by a full interval (5 ticks). It
+	# cannot be fixed without a global clock -- it waits for
+	# a timer-infra slice if exact first-fire timing is ever
+	# needed. dump() (BuildingComp.java:1064-1066):
+	# `public boolean dump(){`
+	# `return dump(null);`
+	# delegates to dump(null) (BuildingComp.java:1072-1113):
+	# `public boolean dump(Item todump){`
+	# `if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;`
+	# `int dump = this.cdump;`
+	# `var allItems = content.items();`
+	# `int itemSize = allItems.size;`
+	# `if(todump == null){`
+	# `Building other = proximity.get((i + dump) % proximity.size);`
+	# `if(!items.has(ii)) continue;`
+	# `Item item = (Item)itemArray[ii];`
+	# `if(other.acceptItem(self(), item) && canDump(other, item)){`
+	# `other.handleItem(self(), item);`
+	# `items.remove(item, 1);`
+	# `incrementDump(proximity.size);`
+	# -- neighbours outer, content items inner: for each
+	# neighbour from the cdump cursor, the first held item in
+	# content order an accepting neighbour takes is handed
+	# over, 1 leaves the store, and the cursor advances once
+	# per neighbour checked (incrementDump,
+	# BuildingComp.java:1116-1120):
+	# `public void incrementDump(int prox){`
+	# `if(prox != 0){`
+	# `cdump = ((cdump + 1) % prox);`
+	# The cursor is a Building field at its Java default:
+	# `transient int cdump;`
+	# (BuildingComp.java:68, 0). The separator has items
+	# (`hasItems = true;`, Separator.java:31), so the hasItems
+	# guard always passes. canDump defaults to true
+	# (`public boolean canDump(Building to, Item item){`,
+	# BuildingComp.java:1124-1126); the neighbour arrays carry
+	# the live per-neighbour answers as frame inputs. The dump
+	# itself runs through the shared dump(null) port
+	# (SourceBuildingItemDumpState.dump_item_state) -- NOT the
+	# putItem gate game_put_item_state, which dumps one
+	# SPECIFIC item and needs a game object for its increment
+	# callbacks, while the timer block calls dump(). The
+	# shared port reports the handled neighbour but does not
+	# write the item into the neighbour frame -- the
+	# write-back waits for its own slice. The timer is called
+	# unconditionally in Java and dump() guards internally,
+	# so a fired timer with an empty store still resets the
+	# clock and dumps nothing.
+	var items: Dictionary = (frame.get("items", {}) as Dictionary).duplicate(true)
+	var elapsed: float = float(frame.get("timer_dump_elapsed", 0.0))
+	var cursor: int = int(frame.get("cdump", 0))
+	var threshold: float = INF if time_scale <= 0.0 else SOURCE_SEPARATOR_DUMP_TIME / time_scale
+	var accumulated: float = elapsed + source_delta
+	var fired: bool = accumulated >= threshold
+	var elapsed_after: float = 0.0 if fired else accumulated
+	var dumped := false
+	if fired:
+		var amounts: Array = []
+		for item_id in content_item_ids:
+			amounts.append(int(items.get(str(item_id), 0)))
+		var result: Dictionary = source_building_item_dump_state.dump_item_state(true, inventory.items_total(items), neighbour_accepts_item.size(), null, false, content_item_ids, amounts, neighbour_accepts_item, neighbour_can_dump, cursor)
+		cursor = int(result.get("cdump", cursor))
+		if bool(result.get("dumped", false)):
+			dumped = true
+			var amounts_after: Array = result.get("item_amounts_by_index", amounts)
+			for j in range(content_item_ids.size()):
+				if j < amounts_after.size():
+					items[str(content_item_ids[j])] = int(amounts_after[j])
+	return {"fired": fired, "elapsed_after": elapsed_after, "dumped": dumped, "items_after": items, "cursor_after": cursor}
 
 static func source_separator_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the separator tick wiring every
@@ -522,6 +651,37 @@ static func source_separator_tick_buildings_state(game: Object, seconds: float) 
 			frame["seed"] = advanced["seed"]
 			frame["items"] = advanced["items"]
 			frame["cdump"] = advanced["cdump"]
+			# N2281: the timerDump dump (Separator.java:165-166,
+			# `if(timer(timerDump, dumpTime / timeScale)){ dump(); }`)
+			# runs AFTER the advance in the same tick (Java order:
+			# the timer check sits after the progress/offload block,
+			# Separator.java:140-163), so the dump sees the store the
+			# advance just offloaded into -- the pure function reads
+			# the frame AFTER the write-back above, and persists its
+			# items/cdump back the same way. The frame-local clock
+			# (frame["timer_dump_elapsed"]) accumulates the tick
+			# delta every tick the advance runs, and when it fires
+			# the dump hands one held item to an accepting neighbour
+			# through the shared dump_item_state routing; the
+			# neighbour acceptItem / canDump arrays are frame inputs
+			# (default [] -- no neighbours, the Java
+			# proximity.size == 0 outcome) until a live proximity
+			# fill lands, and the dumped item is not written into
+			# the neighbour frame yet (no neighbour write-back).
+			# The clock runs only while enabled (the same pragmatic
+			# gate as the advance itself -- Java runs updateTile
+			# even when disabled, BuildingComp.java:2276-2277); the
+			# driver-wide disabled-early-return slice removes this
+			# gate for all families. First-fire deviation: Java
+			# fires nearly at once after placement; the frame clock
+			# delays the first fire by a full interval (5 ticks).
+			var content_item_ids: Array = source_content_registry_runtime_state.source_item_catalog_state(catalog).get("item_names_by_id", [])
+			var neighbour_accepts: Array = frame.get("dump_neighbour_accepts", [])
+			var neighbour_can_dump: Array = frame.get("dump_neighbour_can_dump", [])
+			var timer_dump: Dictionary = source_separator_timer_dump_state(frame, source_delta, time_scale, content_item_ids, neighbour_accepts, neighbour_can_dump)
+			frame["timer_dump_elapsed"] = timer_dump.get("elapsed_after", 0.0)
+			frame["items"] = timer_dump.get("items_after", frame.get("items", {}))
+			frame["cdump"] = timer_dump.get("cursor_after", frame.get("cdump", 0))
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
 	return {"ticked_count": ticked_count, "results_by_cell": results_by_cell}
