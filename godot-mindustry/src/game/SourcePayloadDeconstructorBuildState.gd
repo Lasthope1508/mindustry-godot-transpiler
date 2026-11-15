@@ -10,6 +10,7 @@ const source_math_state := preload("res://src/game/SourceMathState.gd")
 const inventory := preload("res://src/game/SourceDrillInventoryRuntimeState.gd")
 const source_building_item_dump_state := preload("res://src/game/SourceBuildingItemDumpState.gd")
 const source_content_registry_runtime_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
+const source_world_defaults := preload("res://src/game/SourceWorldDefaults.gd")
 
 # The PayloadDeconstructor implementation (PayloadDeconstructor.java:17, `public class PayloadDeconstructor extends PayloadBlock{`): deconstructor (consumePower 3f, Blocks.java:6653; size 5, deconstructSpeed 6f, itemCapacity 250, Blocks.java:6649-6656) and small-deconstructor (consumePower 1f, Blocks.java:6644; size 3, deconstructSpeed 3f, itemCapacity 100, Blocks.java:6640-6647). PayloadDeconstructor sets outputsPayload=false, acceptsPayload=true, update=true, solid=true, size=5, hasItems=true, hasPower=true, itemCapacity=100 (PayloadDeconstructor.java:22-38), deconstructSpeed 2.5f class default (PayloadDeconstructor.java:19, `public float deconstructSpeed = 2.5f;`), maxPayloadSize 4 (PayloadDeconstructor.java:18, `public float maxPayloadSize = 4;`), dumpRate 4 (PayloadDeconstructor.java:20). PayloadDeconstructor extends PayloadBlock, NOT a drill or factory, so it cannot reuse an existing frame key; this driver uses its own family frame key ("source_payload_deconstructor_building", the mechanical-pump / beam-drill / mend-projector / overdrive-projector / force-projector / base-shield / regen-projector / constructor / payload-loader / payload-unloader / payload-mass-driver / unit-cargo-loader precedent), and this slice adds the payload-deconstructor key to N2142's SOURCE_CONSUMER_FRAME_META_KEYS so the graph stamp/write-back finds it. The port has NO SourcePayloadDeconstructor* files at all yet -- no display/runtime state to lean on -- so the missing piece is the live power.status -> efficiency driver, which is exactly this slice: the progress advance (PayloadDeconstructor.java:142, `float shift = edelta() * deconstructSpeed / deconstructing.buildTime();`) with `progress += shift;` follows the folded efficiency.
 const SOURCE_PAYLOAD_DECONSTRUCTOR_BUILD_IMPLEMENTATIONS := ["PayloadDeconstructor"]
@@ -30,6 +31,16 @@ const SOURCE_PAYLOAD_DECONSTRUCTOR_CLASS_DECONSTRUCT_SPEED := 2.5
 # payloadRotateSpeed stays the class default 5f.
 const SOURCE_PAYLOAD_DECONSTRUCTOR_PAYLOAD_SPEED := 1.0
 const SOURCE_PAYLOAD_DECONSTRUCTOR_PAYLOAD_ROTATE_SPEED := 5.0
+# The block size (PayloadDeconstructor.java:30,
+# `size = 5;`): deconstructor 5 (Blocks.java:6654,
+# `size = 5;`), small-deconstructor 3 (Blocks.java:6645,
+# `size = 3;`). The handlePayload payVector clamp is
+# +/-size*tilesize/2 (PayloadBlock.java:123), so the
+# deconstructor clamps to +/-20.0 and the
+# small-deconstructor to +/-12.0 (tilesize 8,
+# Vars.java:135).
+const SOURCE_DECONSTRUCTOR_SIZE := 5
+const SOURCE_SMALL_DECONSTRUCTOR_SIZE := 3
 # The payRotation target (PayloadDeconstructor.java:121,
 # `payRotation = Angles.moveToward(payRotation, 90f,
 # payloadRotateSpeed * edelta());`), the speedScl lerpDelta rate
@@ -81,9 +92,11 @@ static func source_payload_deconstructor_tick_frame_state(frame: Dictionary, blo
 	# PayloadDeconstructor.java:52); the tick preserves the
 	# deconstructing payload instead of resetting it -- the
 	# updateTile advance (N2233) fills it from the frame
-	# payload via the moveInPayload intake, while the
-	# handlePayload live fill still waits for its own slice,
-	# so the shouldConsume gate reads the frame as-is.
+	# payload via the moveInPayload intake, and the
+	# handlePayload live fill is live since N2291
+	# (source_payload_deconstructor_handle_payload_state,
+	# through the frame incoming_payload push), so the
+	# shouldConsume gate reads a live deconstructing.
 	if not frame.has("deconstructing"):
 		frame["deconstructing"] = null
 	return frame
@@ -111,7 +124,12 @@ static func _initial_frame() -> Dictionary:
 	# accumulator (`private transient float dumpAccum;`,
 	# BuildingComp.java:99, 0f) and the dump cursor
 	# (`transient int cdump;`, BuildingComp.java:68, 0).
-	return {"deconstructing": null, "payload": null, "accum": null, "progress": 0.0, "time": 0.0, "speed_scl": 0.0, "items": {}, "pay_vector": Vector2.ZERO, "pay_rotation": 0.0, "dump_accum": 0.0, "cdump": 0}
+	# N2291 extends the frame with the one-tick incoming
+	# payload push (frame["incoming_payload"], default null):
+	# the handlePayload intake reads it before the
+	# consumption fold and consumes it either way (the N2278
+	# Loader precedent); no live source pushes it yet.
+	return {"deconstructing": null, "payload": null, "accum": null, "progress": 0.0, "time": 0.0, "speed_scl": 0.0, "items": {}, "pay_vector": Vector2.ZERO, "pay_rotation": 0.0, "dump_accum": 0.0, "cdump": 0, "incoming_payload": null}
 
 static func source_payload_deconstructor_bind_frame_state(sprite: Sprite2D, block: Object) -> Dictionary:
 	# Placement creates the Building (Block.java:1002 newBuilding);
@@ -132,7 +150,7 @@ static func source_payload_deconstructor_bind_frame_state(sprite: Sprite2D, bloc
 
 static func source_payload_deconstructor_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a payload-deconstructor does not take the early return. The progress advance follows the folded efficiency (PayloadDeconstructor.java:142, `float shift = edelta() * deconstructSpeed / deconstructing.buildTime();`) with `progress += shift;` and the shouldConsume override (PayloadDeconstructor.java:219-221, `return deconstructing != null && enabled;`, default BuildingComp.java:755, `public boolean shouldConsume(){`) -- PayloadDeconstructorBuild overrides shouldConsume() to return deconstructing != null && enabled, so the default does not apply here; the gate is live since N2210 (the pure gate source_payload_deconstructor_should_consume_state feeds deconstructing != null && enabled to the machinery; when the gate is false updateConsumption forces efficiency to 0, BuildingComp.java:1960 + 1992). The deconstructor (consumePower 3f, Blocks.java:6653, `consumePower(3f);`; small-deconstructor consumePower 1f, Blocks.java:6644, `consumePower(1f);`) has no liquid consumer, so the folded efficiency is the min over the *modeled* consumers (power only).
-	# Documented limits: (1) power-only first pass -- the deconstructor has no liquid consumer, so the folded efficiency is the min over the *modeled* consumers (power only). (2) shouldConsume gate live (N2210) -- PayloadDeconstructorBuild overrides shouldConsume() to return deconstructing != null && enabled (PayloadDeconstructor.java:219-221, `return deconstructing != null && enabled;`); the pure gate reads the null-ness of the frame deconstructing payload plus the frame enabled flag and feeds should_consume to the machinery; when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994). The updateTile advance (N2233) fills frame["deconstructing"] from the frame payload via the moveInPayload intake; the handlePayload live fill still waits for its own slice. (3) Partial updateTile advance (N2233) -- progress / payRotation / canProgress / accum / speedScl / item transfer / finish deconstruction / moveInPayload intake (PayloadDeconstructor.java:109-204) are live; the dumpAccumulate dump is live since N2276 (see (5)); the puddles liquid dump, the Fx.breakBlock finish effect, and the live payload positioning wait for their own slices. (4) No acceptPayload / handlePayload / acceptUnitPayload / sense / draw / icons / setBars / read-write rows -- acceptPayload (PayloadDeconstructor.java:104-106), handlePayload (PayloadDeconstructor.java:98-101), acceptUnitPayload (PayloadDeconstructor.java:92-95), sense (PayloadDeconstructor.java:206-216), draw (PayloadDeconstructor.java:58-89), icons (PayloadDeconstructor.java:40-42), setBars (PayloadDeconstructor.java:45-49), read/write (PayloadDeconstructor.java:224-252) are acceptance / logic / presentation / serialization, not tick state. (5) Dump rows live (N2276) -- dumpRate 4 (PayloadDeconstructor.java:20) and dumpAccumulate (PayloadDeconstructor.java:111-115) dump through the shared dump_item_state routing; the neighbour acceptItem / canDump arrays are frame inputs (default [] -- no live proximity fill yet) and the dumped item is not written into the neighbour frame yet (no neighbour write-back).
+	# Documented limits: (1) power-only first pass -- the deconstructor has no liquid consumer, so the folded efficiency is the min over the *modeled* consumers (power only). (2) shouldConsume gate live (N2210) -- PayloadDeconstructorBuild overrides shouldConsume() to return deconstructing != null && enabled (PayloadDeconstructor.java:219-221, `return deconstructing != null && enabled;`); the pure gate reads the null-ness of the frame deconstructing payload plus the frame enabled flag and feeds should_consume to the machinery; when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994). The updateTile advance (N2233) fills frame["deconstructing"] from the frame payload via the moveInPayload intake; the handlePayload live fill is live since N2291 (source_payload_deconstructor_handle_payload_state, through the frame incoming_payload push). (3) Partial updateTile advance (N2233) -- progress / payRotation / canProgress / accum / speedScl / item transfer / finish deconstruction / moveInPayload intake (PayloadDeconstructor.java:109-204) are live; the dumpAccumulate dump is live since N2276 (see (5)); the puddles liquid dump, the Fx.breakBlock finish effect, and the live payload positioning wait for their own slices. (4) No acceptPayload / acceptUnitPayload / sense / draw / icons / setBars / read-write rows -- acceptPayload (PayloadDeconstructor.java:104-106), acceptUnitPayload (PayloadDeconstructor.java:92-95), sense (PayloadDeconstructor.java:206-216), draw (PayloadDeconstructor.java:58-89), icons (PayloadDeconstructor.java:40-42), setBars (PayloadDeconstructor.java:45-49), read/write (PayloadDeconstructor.java:224-252) are acceptance / logic / presentation / serialization, not tick state; handlePayload (PayloadDeconstructor.java:98-101) is live since N2291 (see (6)). (5) Dump rows live (N2276) -- dumpRate 4 (PayloadDeconstructor.java:20) and dumpAccumulate (PayloadDeconstructor.java:111-115) dump through the shared dump_item_state routing; the neighbour acceptItem / canDump arrays are frame inputs (default [] -- no live proximity fill yet) and the dumped item is not written into the neighbour frame yet (no neighbour write-back). (6) Live deconstructing fill live (N2291) -- the handlePayload intake (PayloadBlock.java:121-127 + the Deconstructor override PayloadDeconstructor.java:98-101, clearing accum) applies the frame incoming_payload push before the fold when the frame payload is null, and the moveInPayload handoff (PayloadDeconstructor.java:197-202, moveInPayload(false), no rotate) is a registered pure (source_payload_deconstructor_move_in_payload_state) called from the N2233 advance's else-if branch; updatePayload() live positioning defers (no live payload entity) and the incoming push has no live source yet (the front moveOutPayload handoff and the unit drop wait for their own slices).
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -144,6 +162,34 @@ static func source_payload_deconstructor_should_consume_state(frame: Dictionary)
 	var deconstructing_present: bool = frame.get("deconstructing", null) != null
 	var enabled: bool = bool(frame.get("enabled", true))
 	return {"should_consume": deconstructing_present and enabled, "deconstructing_present": deconstructing_present}
+
+static func source_payload_deconstructor_handle_payload_state(incoming_payload: Variant, source_x: float, source_y: float, self_x: float, self_y: float, payload_rotation: float, block_size: int, tilesize: float) -> Dictionary:
+	# The handlePayload intake (N2291): handlePayload(Building source, Payload payload)
+	# (PayloadBlock.java:121-127) on `public class PayloadBlockBuild<T extends Payload> extends Building{` (PayloadBlock.java:91) /
+	# `public class PayloadDeconstructorBuild extends PayloadBlockBuild<Payload>{` (PayloadDeconstructor.java:51):
+	# `this.payload = (T)payload;` (PayloadBlock.java:122) sets the held payload (the field `public @Nullable T payload;`,
+	# PayloadBlock.java:92, default null; the frame key frame["payload"]);
+	# this.payVector.set(source).sub(this).clamp(-size * tilesize / 2f, -size * tilesize / 2f, size * tilesize / 2f, size * tilesize / 2f); (PayloadBlock.java:123)
+	# sets payVector (the field `public Vec2 payVector = new Vec2();`, PayloadBlock.java:94) to the source offset, clamped per axis
+	# to +/-size*tilesize/2 -- Vec2.clamp(minx, miny, maxx, maxy) is `x = Mathf.clamp(x, minx, maxx);` / `y = Mathf.clamp(y, miny, maxy);`
+	# (arc Vec2.java:318-322), so each axis clamps independently; `public static final int tilesize = 8;` (Vars.java:135), so size 5
+	# (deconstructor, `size = 5;`, Blocks.java:6654) clamps to +/-20.0 and size 3 (small-deconstructor, `size = 3;`, Blocks.java:6645)
+	# clamps to +/-12.0; `this.payRotation = payload.rotation();` (PayloadBlock.java:124) records the payload rotation (the field
+	# `public float payRotation;`, PayloadBlock.java:95, default 0f; `default float rotation(){` with `return 0f;`, Payload.java:55-57,
+	# is the BuildPayload default, so a payload dict without a rotation key reads 0.0); `updatePayload();` (PayloadBlock.java:126) is
+	# NOT ported: it only positions the live payload entity (`payload.set(x + payVector.x, y + payVector.y, payRotation);`, PayloadBlock.java:176)
+	# and the port has no live payload entity -- payVector/payRotation ARE the record (the N2233 moveIn precedent). The Deconstructor override
+	# (PayloadDeconstructor.java:98-101): `super.handlePayload(source, payload);` (PayloadDeconstructor.java:99) then `accum = null;`
+	# (PayloadDeconstructor.java:100) -- a fresh intake clears the accumulation buffer (the field `public @Nullable float[] accum;`,
+	# PayloadDeconstructor.java:53); the N2233 advance rebuilds it from the requirements when the handoff lands. The pure function sets
+	# unconditionally, like Java: the null guard lives in the driver (acceptPayload returns `this.payload == null`, PayloadBlock.java:117)
+	# and in acceptPayload itself (PayloadDeconstructor.java:104-106, which defers -- payload acceptance is not tick state). The pay_vector
+	# is a {x, y} dict (the canonical frame, the N2278/N2279 Loader/Unloader precedent); the deconstructor frame keeps Vector2 (the N2233
+	# advance + proof pin Vector2), so the tick converts at the boundary.
+	var half_size: float = float(block_size) * tilesize / 2.0
+	var pay_x: float = clampf(source_x - self_x, -half_size, half_size)
+	var pay_y: float = clampf(source_y - self_y, -half_size, half_size)
+	return {"payload": incoming_payload, "pay_vector": {"x": pay_x, "y": pay_y}, "pay_rotation": payload_rotation, "accum": null}
 
 static func _deconstructor_vec2_approach(pay_vector: Vector2, alpha: float) -> Vector2:
 	# Vec2.approach(Vec2 target, float alpha) (Vec2.java:525-537),
@@ -164,7 +210,7 @@ static func _deconstructor_vec2_approach(pay_vector: Vector2, alpha: float) -> V
 		return Vector2(pay_vector.x - dx * scl, pay_vector.y - dy * scl)
 	return Vector2.ZERO
 
-static func _deconstructor_move_in_payload(pay_vector: Vector2, delta: float) -> Dictionary:
+static func _deconstructor_move_in_payload(pay_vector: Vector2, delta: float, payload_speed: float) -> Dictionary:
 	# PayloadBlockBuild.moveInPayload(false)
 	# (PayloadBlock.java:186-197).
 	# `public boolean moveInPayload(boolean rotate){`
@@ -186,9 +232,86 @@ static func _deconstructor_move_in_payload(pay_vector: Vector2, delta: float) ->
 	# `payloadSpeed = 1f;`, overriding the PayloadBlock class
 	# default)
 	# `public float payloadSpeed = 0.7f, payloadRotateSpeed = 5f;`
-	# (PayloadBlock.java:18).
-	var moved: Vector2 = _deconstructor_vec2_approach(pay_vector, SOURCE_PAYLOAD_DECONSTRUCTOR_PAYLOAD_SPEED * delta)
+	# (PayloadBlock.java:18); the speed arrives as a parameter so
+	# the N2291 registered pure can pin the class default too.
+	# N2291: the registered pure
+	# source_payload_deconstructor_move_in_payload_state calls
+	# this helper for the approach + arrival core, then applies
+	# the handoff; the N2233 advance calls the pure, not this
+	# helper directly.
+	var moved: Vector2 = _deconstructor_vec2_approach(pay_vector, payload_speed * delta)
 	return {"pay_vector": moved, "arrived": moved.length_squared() < 0.01}
+
+static func source_payload_deconstructor_move_in_payload_state(payload: Variant, pay_vector: Dictionary, accum: Variant, progress: float, delta: float, payload_speed: float) -> Dictionary:
+	# The moveInPayload handoff (N2291): the updateTile else-if
+	# branch (PayloadDeconstructor.java:197-202),
+	# `}else if(moveInPayload(false) && payload != null){`
+	# `accum = new float[payload.requirements().length];`
+	# `deconstructing = payload;`
+	# `payload = null;`
+	# `progress = 0f;`
+	# -- the handoff runs only when the payload has arrived AND
+	# a payload is held (the && short-circuits: moveInPayload
+	# itself returns false on a null payload,
+	# PayloadBlock.java:186-197). moveInPayload(false)
+	# (PayloadBlock.java:186-197): `if(payload == null) return
+	# false;` (:187) BEFORE any movement, so a null payload
+	# leaves payVector untouched; `updatePayload();` (:189) is
+	# NOT ported (it only positions the live payload entity,
+	# `payload.set(x + payVector.x, y + payVector.y,
+	# payRotation);`, PayloadBlock.java:176, and the port has no
+	# live payload entity); rotate is FALSE, so the rotation
+	# branch (:191-193) NEVER runs -- the deconstructor
+	# never rotates the payload in (unlike the Loader /
+	# Unloader moveInPayload(true) default,
+	# PayloadBlock.java:181-183); the skipped line is
+	# `payRotation = Angles.moveToward(payRotation, block.rotate ? rotdeg() : 90f, payloadRotateSpeed * delta());`
+	# `payVector.approach(Vec2.ZERO, payloadSpeed * delta());` (:194) moves the offset toward
+	# zero at payloadSpeed * delta() -- delta() is `return
+	# Time.delta * timeScale;` (BuildingComp.java:1922-1924),
+	# the SCALED delta, NOT edelta() (the N2233 payRotation
+	# moveToward uses edelta(); the move-in uses delta()); the
+	# deconstructor payloadSpeed is 1f
+	# (PayloadDeconstructor.java:31, `payloadSpeed = 1f;`,
+	# overriding the PayloadBlock class default `public float
+	# payloadSpeed = 0.7f, payloadRotateSpeed = 5f;`,
+	# PayloadBlock.java:18), passed as a parameter so the proof
+	# can pin both; `return hasArrived();` (:196) with
+	# `return payVector.isZero(0.01f);`
+	# (PayloadBlock.java:242-244, Vec2.java:679-681, `return
+	# len2() < margin;`) -- the SQUARED length against 0.01,
+	# so a vector of length 0.09 has already arrived. On
+	# arrival the handoff sets deconstructing to the payload
+	# (the field `public @Nullable Payload deconstructing;`,
+	# PayloadDeconstructor.java:52), clears the held payload
+	# (the field `public @Nullable T payload;`,
+	# PayloadBlock.java:92), resets progress to 0f (the field
+	# `public float progress;`,
+	# PayloadDeconstructor.java:54), and rebuilds accum as a
+	# zero array the length of the payload requirements (the
+	# field `public @Nullable float[] accum;`,
+	# PayloadDeconstructor.java:53; the N2233 Array precedent).
+	# Before arrival the payload, progress and accum pass
+	# through unchanged -- only pay_vector moves. The
+	# pay_vector is a {x, y} dict (the canonical frame, the
+	# N2278/N2279 precedent); the approach + arrival core runs
+	# through _deconstructor_move_in_payload (the N2233
+	# Vector2 helper), so this pure converts at the boundary
+	# and the advance converts back (the frame keeps Vector2,
+	# the N2233 proof pins it).
+	if payload == null:
+		return {"arrived": false, "pay_vector_after": pay_vector, "deconstructing": null, "payload_after": null, "progress_after": progress, "accum_after": accum}
+	var moved: Dictionary = _deconstructor_move_in_payload(Vector2(float(pay_vector.get("x", 0.0)), float(pay_vector.get("y", 0.0))), delta, payload_speed)
+	var moved_vector: Vector2 = moved["pay_vector"]
+	var pay_vector_after: Dictionary = {"x": moved_vector.x, "y": moved_vector.y}
+	if not bool(moved["arrived"]):
+		return {"arrived": false, "pay_vector_after": pay_vector_after, "deconstructing": null, "payload_after": payload, "progress_after": progress, "accum_after": accum}
+	var payload_dict: Dictionary = payload
+	var payload_reqs: Array = payload_dict.get("requirements", [])
+	var fresh_accum: Array = []
+	for i in range(payload_reqs.size()):
+		fresh_accum.append(0.0)
+	return {"arrived": true, "pay_vector_after": pay_vector_after, "deconstructing": payload, "payload_after": null, "progress_after": 0.0, "accum_after": fresh_accum}
 
 static func _deconstructor_deconstruct_speed_for_block(block_id: String) -> float:
 	# deconstructSpeed is a per-def field
@@ -205,6 +328,21 @@ static func _deconstructor_deconstruct_speed_for_block(block_id: String) -> floa
 	if block_id == "small-deconstructor":
 		return SOURCE_SMALL_DECONSTRUCTOR_DECONSTRUCT_SPEED
 	return SOURCE_PAYLOAD_DECONSTRUCTOR_CLASS_DECONSTRUCT_SPEED
+
+static func _deconstructor_size_for_block(block_id: String) -> int:
+	# The block size (PayloadDeconstructor.java:30,
+	# `size = 5;`): deconstructor 5 (Blocks.java:6654,
+	# `size = 5;`), small-deconstructor 3 (Blocks.java:6645,
+	# `size = 3;`). The catalog parses no size property for
+	# the handlePayload clamp, so the driver reads these
+	# constants (the deconstructSpeed precedent above); an
+	# unknown PayloadDeconstructor id falls back to the
+	# class default 5.
+	if block_id == "deconstructor":
+		return SOURCE_DECONSTRUCTOR_SIZE
+	if block_id == "small-deconstructor":
+		return SOURCE_SMALL_DECONSTRUCTOR_SIZE
+	return SOURCE_DECONSTRUCTOR_SIZE
 
 static func source_payload_deconstructor_update_tile_advance_state(frame: Dictionary, source_delta: float, time_scale: float, deconstruct_speed: float, item_capacity: int, build_cost_multiplier: float = 1.0, unit_cost_multiplier: float = 1.0) -> Dictionary:
 	# The updateTile advance (PayloadDeconstructorBuild.updateTile(),
@@ -262,7 +400,16 @@ static func source_payload_deconstructor_update_tile_advance_state(frame: Dictio
 	# `payload = null;`
 	# `progress = 0f;`
 	# (PayloadDeconstructor.java:197-201) -- moveInPayload with
-	# rotate = FALSE, unlike the Loader / Unloader.
+	# rotate = FALSE, unlike the Loader / Unloader. N2291
+	# registers the move-in + handoff as its own pure
+	# (source_payload_deconstructor_move_in_payload_state,
+	# approach at payloadSpeed * delta() + the handoff) and
+	# this branch calls it, converting the frame Vector2
+	# pay_vector to the pure's {x, y} dict at the boundary
+	# and back (the frame keeps Vector2, the N2233 proof
+	# pins it); the pure delegates the approach + arrival
+	# core to _deconstructor_move_in_payload, so the math is
+	# unchanged from N2233.
 	# delta() is `return Time.delta * timeScale;`
 	# (BuildingComp.java:1922-1924), edelta() is
 	# `return efficiency * delta();`
@@ -382,18 +529,19 @@ static func source_payload_deconstructor_update_tile_advance_state(frame: Dictio
 				finished = true
 		accum = null if finished else accum_array
 	elif payload != null:
-		var move_in: Dictionary = _deconstructor_move_in_payload(pay_vector, delta)
-		pay_vector = move_in["pay_vector"]
-		if bool(move_in["arrived"]):
-			var payload_dict: Dictionary = payload
-			var payload_reqs: Array = payload_dict.get("requirements", [])
-			var fresh_accum: Array = []
-			for i in range(payload_reqs.size()):
-				fresh_accum.append(0.0)
-			accum = fresh_accum
-			deconstructing = payload
-			payload = null
-			progress = 0.0
+		# N2291: the move-in + handoff runs through the
+		# registered pure (PayloadDeconstructor.java:197-202);
+		# the frame pay_vector is a Vector2, the pure takes a
+		# {x, y} dict, so this branch converts at the
+		# boundary in both directions.
+		var pay_dict: Dictionary = {"x": pay_vector.x, "y": pay_vector.y}
+		var move_in: Dictionary = source_payload_deconstructor_move_in_payload_state(payload, pay_dict, accum, progress, delta, SOURCE_PAYLOAD_DECONSTRUCTOR_PAYLOAD_SPEED)
+		var moved_vector: Dictionary = move_in["pay_vector_after"]
+		pay_vector = Vector2(float(moved_vector.get("x", 0.0)), float(moved_vector.get("y", 0.0)))
+		deconstructing = move_in["deconstructing"]
+		payload = move_in["payload_after"]
+		progress = move_in["progress_after"]
+		accum = move_in["accum_after"]
 	return {"progress": progress, "time": time, "speed_scl": speed_scl, "accum": accum, "items": items, "deconstructing": deconstructing, "payload": payload, "pay_vector": pay_vector, "pay_rotation": pay_rotation, "finished": finished}
 
 static func source_payload_deconstructor_dump_state(frame: Dictionary, source_delta: float, time_scale: float, content_item_ids: Array, neighbour_accepts_item: Array, neighbour_can_dump: Array) -> Dictionary:
@@ -522,6 +670,47 @@ static func source_payload_deconstructor_tick_buildings_state(game: Object, seco
 		var team_id: int = int(sprite.get_meta(source_block_geometry.SOURCE_BUILD_TEAM_META_KEY, source_block_geometry.SOURCE_TEAM_DERELICT_ID))
 		var rules_state: Variant = source_rules_state.source_game_rules_state(game.get("rules_state")).get("rules", {})
 		var wired: Dictionary = source_payload_deconstructor_tick_frame_state(frame, str(block.implementation), team_id, rules_state)
+		# The live deconstructing fill (N2291, handlePayload, PayloadBlock.java:121-127 + the Deconstructor override
+		# PayloadDeconstructor.java:98-101): runs BEFORE the consumption fold and the advance call -- Java
+		# handlePayload is an external call (the source's moveOutPayload or a unit drop), so it lands
+		# before the next tick starts, and the fresh payload moves in on this same tick (the N2233 advance
+		# hands it to deconstructing when it arrives). The intake reads the frame inputs incoming_payload
+		# (the pushed payload dict, or null) / incoming_source_pos ({x, y} world position of the source
+		# building) / world_pos ({x, y} world position of this deconstructor): no live source pushes them
+		# yet (the front moveOutPayload handoff and the unit drop wait for their own slices), and the port
+		# has no live world-position model for placed buildings, so both positions arrive as frame inputs
+		# (origin_cell is a cell, sprite.position is unset by placement). The intake applies only when the
+		# frame payload is null (acceptPayload returns `this.payload == null`, PayloadBlock.java:117) and
+		# consumes the one-tick push either way (the N2278 Loader precedent; the N2279 Unloader keeps it
+		# for a retry -- the divergence is documented, and the full Deconstructor acceptPayload gate
+		# -- deconstructing == null && requirements.length > 0 && fits(maxPayloadSize),
+		# PayloadDeconstructor.java:104-106 -- waits for its own slice). The rotation reads the incoming
+		# dict's rotation key (default 0.0, the Payload.java:55-57 default); the size is the per-def
+		# constant (5 deconstructor / 3 small-deconstructor) and tilesize is SourceWorldDefaults. The
+		# handle pure returns the pay_vector as a {x, y} dict (the canonical frame, the N2278/N2279
+		# precedent); the frame keeps Vector2 (the N2233 advance + proof pin Vector2), so the tick
+		# converts at this boundary.
+		var incoming_payload: Variant = frame.get("incoming_payload", null)
+		if incoming_payload != null:
+			if frame.get("payload", null) == null:
+				var incoming_source_value: Variant = frame.get("incoming_source_pos", {})
+				var incoming_source: Dictionary = {"x": 0.0, "y": 0.0}
+				if incoming_source_value is Dictionary:
+					incoming_source = {"x": float(incoming_source_value.get("x", 0.0)), "y": float(incoming_source_value.get("y", 0.0))}
+				var world_pos_value: Variant = frame.get("world_pos", {})
+				var world_pos: Dictionary = {"x": 0.0, "y": 0.0}
+				if world_pos_value is Dictionary:
+					world_pos = {"x": float(world_pos_value.get("x", 0.0)), "y": float(world_pos_value.get("y", 0.0))}
+				var incoming_rotation: float = 0.0
+				if incoming_payload is Dictionary:
+					incoming_rotation = float(incoming_payload.get("rotation", 0.0))
+				var handled: Dictionary = source_payload_deconstructor_handle_payload_state(incoming_payload, float(incoming_source.get("x", 0.0)), float(incoming_source.get("y", 0.0)), float(world_pos.get("x", 0.0)), float(world_pos.get("y", 0.0)), incoming_rotation, _deconstructor_size_for_block(block_id), source_world_defaults.TILESIZE)
+				frame["payload"] = handled["payload"]
+				var handled_vector: Dictionary = handled["pay_vector"]
+				frame["pay_vector"] = Vector2(float(handled_vector.get("x", 0.0)), float(handled_vector.get("y", 0.0)))
+				frame["pay_rotation"] = handled["pay_rotation"]
+				frame["accum"] = handled["accum"]
+			frame["incoming_payload"] = null
 		# The power consumer reads live since N2153 (the graph
 		# update stamps frame["power_status"] each tick, N2142):
 		# a payload-deconstructor with a power consumer folds the pure power
