@@ -229936,6 +229936,154 @@
       },
       "runtime_proof": "/root/C07LightBlockPowerStatusProof",
       "rule": "Source-backed LightBlock power.status row from ConsumePower.java / BuildingComp.java."
+    },
+    "source_item_bridge_link_input": {
+      "status": "active",
+      "owner": "SourceItemBridgeBuildState.source_item_bridge_link_valid_state",
+      "source_slice": "N2197",
+      "keys": {
+        "tile_x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "positionsValid(tile.x, tile.y, other.x, other.y)",
+          "rule": "The x of the bridge being ticked (ItemBridge.java:150, the positionsValid call in linkValid): one end of the row/column check.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_link_valid_state"
+          ]
+        },
+        "tile_y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "positionsValid(tile.x, tile.y, other.x, other.y)",
+          "rule": "The y of the bridge being ticked (ItemBridge.java:150, the positionsValid call in linkValid): one end of the row/column check.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_link_valid_state"
+          ]
+        },
+        "other_x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "positionsValid(tile.x, tile.y, other.x, other.y)",
+          "rule": "The x of the partner tile (ItemBridge.java:150, the positionsValid call in linkValid): the other end of the row/column check, unpacked from the frame link.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_link_valid_state"
+          ]
+        },
+        "other_y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "positionsValid(tile.x, tile.y, other.x, other.y)",
+          "rule": "The y of the partner tile (ItemBridge.java:150, the positionsValid call in linkValid): the other end of the row/column check, unpacked from the frame link.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_link_valid_state"
+          ]
+        },
+        "range": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "return Math.abs(y1 - y2) <= range;",
+          "rule": "The bridge range (ItemBridge.java:159/161): the positionsValid bound. The driver reads the catalog block.properties[\"range\"] (12 for phase-conveyor, Blocks.java:2118); the Java field default is 0 when the def does not set it (`public int range;`, ItemBridge.java:27).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_link_valid_state"
+          ]
+        },
+        "blocks_match": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "return ((other.block() == tile.block() && tile.block() == this) || (!(tile.block() instanceof ItemBridge) && other.block() == this))",
+          "rule": "Whether the other tile block matches (ItemBridge.java:152): the driver ticks ItemBridge builds only, so tile.block() is always this and the clause reduces to the other block being an ItemBridge, gathered by the driver from the partner sprite.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_link_valid_state"
+          ]
+        },
+        "teams_match": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "&& (other.team() == tile.team() || tile.block() != this)",
+          "rule": "Whether the teams match (ItemBridge.java:153): with tile.block() always this, the clause reduces to other.team() == tile.team(); the driver reads the partner team the same way as this sprite team (SOURCE_BUILD_TEAM_META_KEY, default derelict).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_link_valid_state"
+          ]
+        },
+        "other_link": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "&& (!checkDouble || ((ItemBridgeBuild)other.build).link != tile.pos());",
+          "rule": "The partner build link (ItemBridge.java:154): the checkDouble comparison value, read from the partner frame; -1 when the partner frame is not bound yet.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_link_valid_state"
+          ]
+        },
+        "this_pos": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "&& (!checkDouble || ((ItemBridgeBuild)other.build).link != tile.pos());",
+          "rule": "This tile packed position (ItemBridge.java:154, tile.pos()): the checkDouble comparison target, packed with arc Point2.pack.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_link_valid_state"
+          ]
+        },
+        "other_exists": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "if(other == null || tile == null || !positionsValid(tile.x, tile.y, other.x, other.y)) return false;",
+          "rule": "Whether the other tile exists (ItemBridge.java:150): a null other tile is never valid; the driver sets this false when no sprite sits at the unpacked link cell.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_link_valid_state"
+          ]
+        },
+        "check_double": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "&& (!checkDouble || ((ItemBridgeBuild)other.build).link != tile.pos());",
+          "rule": "Whether to run the double-link check (ItemBridge.java:154): updateTile calls the two-arg linkValid, which passes true (ItemBridge.java:145-146, `return linkValid(tile, other, true);`); checkIncoming passes false (ItemBridge.java:310), which waits for its own slice.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_link_valid_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ItemBridgeLinkFrameStateProof",
+      "rule": "Source-backed ItemBridge link frame state from ItemBridge.java / BuildingComp.java / arc Point2.java."
+    },
+    "source_item_bridge_link_result": {
+      "status": "active",
+      "owner": "SourceItemBridgeBuildState.source_item_bridge_link_valid_state",
+      "source_slice": "N2197",
+      "keys": {
+        "link": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "config(Point2.class, (ItemBridgeBuild tile, Point2 i) -> tile.link = Point2.pack(i.x + tile.tileX(), i.y + tile.tileY()));",
+          "rule": "The packed link position on the frame (ItemBridge.java:64, the Point2 config handler; :66, the Integer handler; default -1, :198). Produced by the pure configure function (source_item_bridge_configure_state): a Point2 dict {x, y} is relative and packs with the tile position, an int is the packed absolute position; any other config type matches no handler and leaves the link unchanged. Grouped under this slice link result schema with had_valid_link: both keys are the one link frame state.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_link_valid_state"
+          ]
+        },
+        "had_valid_link": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "hadValidLink = linkValid(tile, other);",
+          "rule": "Whether the link is valid this tick (ItemBridge.java:333): recomputed by the driver every tick after the consumption fold, only when enabled (ItemBridge.java:54, noUpdateDisabled); the N2188 gate reads this key.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_link_valid_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ItemBridgeLinkFrameStateProof",
+      "rule": "Source-backed ItemBridge link frame state from ItemBridge.java / BuildingComp.java / arc Point2.java."
     }
   },
   "version": 1

@@ -65928,6 +65928,82 @@
       ],
       "runtime_proof": "/root/C07LightBlockPowerStatusProof",
       "rule": "Source-backed LightBlock power.status row from ConsumePower.java / BuildingComp.java."
+    },
+    "SourceItemBridgeBuildState.source_item_bridge_link_valid_state": {
+      "status": "active",
+      "source_slice": "N2197",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "source_method": "ItemBridgeBuild.updateTile()",
+      "params": [
+        {
+          "name": "tile_x",
+          "type": "int",
+          "schema": "source_item_bridge_link_input.tile_x"
+        },
+        {
+          "name": "tile_y",
+          "type": "int",
+          "schema": "source_item_bridge_link_input.tile_y"
+        },
+        {
+          "name": "other_x",
+          "type": "int",
+          "schema": "source_item_bridge_link_input.other_x"
+        },
+        {
+          "name": "other_y",
+          "type": "int",
+          "schema": "source_item_bridge_link_input.other_y"
+        },
+        {
+          "name": "range",
+          "type": "int",
+          "schema": "source_item_bridge_link_input.range"
+        },
+        {
+          "name": "blocks_match",
+          "type": "bool",
+          "schema": "source_item_bridge_link_input.blocks_match"
+        },
+        {
+          "name": "teams_match",
+          "type": "bool",
+          "schema": "source_item_bridge_link_input.teams_match"
+        },
+        {
+          "name": "other_link",
+          "type": "int",
+          "schema": "source_item_bridge_link_input.other_link"
+        },
+        {
+          "name": "this_pos",
+          "type": "int",
+          "schema": "source_item_bridge_link_input.this_pos"
+        },
+        {
+          "name": "other_exists",
+          "type": "bool",
+          "schema": "source_item_bridge_link_input.other_exists"
+        },
+        {
+          "name": "check_double",
+          "type": "bool",
+          "schema": "source_item_bridge_link_input.check_double"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "link",
+        "had_valid_link"
+      ],
+      "tests": [
+        "test_c07_item_bridge_link_frame_state_registration",
+        "test_all_c07_item_bridge_link_frame_state_input_evidence_is_exact",
+        "test_item_bridge_link_frame_state",
+        "test_reference_graph_and_actual_c07_item_bridge_link_frame_state"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeLinkFrameStateProof",
+      "rule": "Source-backed ItemBridge link frame state from ItemBridge.java / BuildingComp.java / arc Point2.java."
     }
   },
   "policy": {

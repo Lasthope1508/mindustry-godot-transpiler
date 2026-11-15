@@ -172968,6 +172968,38 @@
         "test_reference_graph_and_actual_c07_light_block_power_status"
       ],
       "runtime_proof": "/root/C07LightBlockPowerStatusProof"
+    },
+    "source_item_bridge_link_result.link": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemBridgeBuildState.source_item_bridge_link_valid_state",
+      "godot_symbol": "source_item_bridge_link_result.link",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "java_method": "ItemBridgeBuild.updateTile()",
+      "java_expr": "config(Point2.class, (ItemBridgeBuild tile, Point2 i) -> tile.link = Point2.pack(i.x + tile.tileX(), i.y + tile.tileY()));",
+      "rule": "The packed link position on the frame (ItemBridge.java:64, the Point2 config handler; :66, the Integer handler; default -1, :198). Produced by the pure configure function (source_item_bridge_configure_state): a Point2 dict {x, y} is relative and packs with the tile position, an int is the packed absolute position; any other config type matches no handler and leaves the link unchanged. Grouped under this slice link result schema with had_valid_link: both keys are the one link frame state.",
+      "tests": [
+        "test_c07_item_bridge_link_frame_state_registration",
+        "test_all_c07_item_bridge_link_frame_state_input_evidence_is_exact",
+        "test_item_bridge_link_frame_state",
+        "test_reference_graph_and_actual_c07_item_bridge_link_frame_state"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeLinkFrameStateProof"
+    },
+    "source_item_bridge_link_result.had_valid_link": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemBridgeBuildState.source_item_bridge_link_valid_state",
+      "godot_symbol": "source_item_bridge_link_result.had_valid_link",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "java_method": "ItemBridgeBuild.updateTile()",
+      "java_expr": "hadValidLink = linkValid(tile, other);",
+      "rule": "Whether the link is valid this tick (ItemBridge.java:333): recomputed by the driver every tick after the consumption fold, only when enabled (ItemBridge.java:54, noUpdateDisabled); the N2188 gate reads this key.",
+      "tests": [
+        "test_c07_item_bridge_link_frame_state_registration",
+        "test_all_c07_item_bridge_link_frame_state_input_evidence_is_exact",
+        "test_item_bridge_link_frame_state",
+        "test_reference_graph_and_actual_c07_item_bridge_link_frame_state"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeLinkFrameStateProof"
     }
   },
   "version": 1
