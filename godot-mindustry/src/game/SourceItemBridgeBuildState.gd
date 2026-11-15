@@ -24,6 +24,8 @@ const SOURCE_ITEM_BRIDGE_TRANSPORT_TIME := 2.0
 const SOURCE_ITEM_BRIDGE_ITEM_CAPACITY := 10
 const SOURCE_ITEM_BRIDGE_TIME_SPEED_RATE := 1.0 / 60.0
 const SOURCE_ITEM_BRIDGE_WARMUP_RATE := 1.0 / 30.0
+# The timerCheckMoved snapshot interval: the literal 30f in `if(timer(timerCheckMoved, 30f)){` (ItemBridge.java:320), NOT divided by timeScale (the N2290 literal-20 precedent -- Java passes a literal, unlike the dump timers).
+const SOURCE_ITEM_BRIDGE_TIMER_CHECK_MOVED_DURATION := 30.0
 
 static func _is_item_bridge_build_implementation(implementation: String) -> bool:
 	return SOURCE_ITEM_BRIDGE_BUILD_IMPLEMENTATIONS.has(implementation)
@@ -97,7 +99,7 @@ static func source_item_bridge_bind_frame_state(sprite: Sprite2D, block: Object)
 
 static func source_item_bridge_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a phase-conveyor does not take the early return. The item bridge's power draw is STATIC, not conditional: `consumePower(0.30f);` (Blocks.java:2125) registers a plain ConsumePower, so the catalog consumePower 0.3 is present and the plain radar gate (block.properties.has("consumePower")) works -- no RepairTurret-style `or consumesPower` adaptation is needed. The pure row is still the same ConsumePower read (`return build.power.status;`, ConsumePower.java:39). The updateTransport charge follows the folded efficiency: the transport charge (ItemBridge.java:356, `transportCounter += edelta();`) charges by edelta() (BuildingComp.java:1927-1929, `return efficiency * delta();`), so a phase-conveyor with no power would never advance its transport counter and never move items across the bridge. ItemBridgeBuild overrides shouldConsume (ItemBridge.java:495, `public boolean shouldConsume(){` with `return hadValidLink && enabled;`, ItemBridge.java:496); updateConsumption forces efficiency to zero when the gate is false (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). N2188 wires the gate (N2197 supplied the link frame state first: frame link/had_valid_link + pure configure + pure linkValid + the driver recompute every tick after the consumption fold): the pure source_item_bridge_should_consume_state gate is the override exactly (`return hadValidLink && enabled;`), the driver reads should_consume through it, and the machinery folds efficiency to 0 when the gate is false (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();`, with BuildingComp.java:1992-1994, `if(!update){` / `efficiency = optionalEfficiency = 0f;`). The gate reads the previous tick's had_valid_link -- the recompute runs after the fold, the Java order (BuildingComp.java:2274-2277) -- so a freshly linked bridge consumes from the next tick. The link gate itself is `hadValidLink = linkValid(tile, other);` (ItemBridge.java:333). The item bridge is its own family (ItemBridge.java:24, `public class ItemBridge extends Block{`; ItemBridgeBuild, ItemBridge.java:197, `public class ItemBridgeBuild extends Building{`), a distribution block, NOT related to any factory / turret / defense family. Class fields: `public final int timerCheckMoved = timers ++;` (ItemBridge.java:25), `public int range;` (ItemBridge.java:27), `public float transportTime;` (ItemBridge.java:28), `public boolean fadeIn = true;` (ItemBridge.java:34), `public boolean moveArrows = true;` (ItemBridge.java:35), `public boolean pulse = false;` (ItemBridge.java:36), `public float arrowSpacing = 4f, arrowOffset = 2f, arrowPeriod = 0.4f;` (ItemBridge.java:37), `public float arrowTimeScl = 6.2f;` (ItemBridge.java:38), `public float bridgeWidth = 6.5f;` (ItemBridge.java:39); constructor `update = true;` (ItemBridge.java:45), `solid = true;` (ItemBridge.java:46), `underBullets = true;` (ItemBridge.java:47), `hasPower = true;` (ItemBridge.java:48), `itemCapacity = 10;` (ItemBridge.java:49), `configurable = true;` (ItemBridge.java:50), `hasItems = true;` (ItemBridge.java:51). Build fields: `public int link = -1;` (ItemBridge.java:198), `public IntSeq incoming = new IntSeq(false, 4);` (ItemBridge.java:199), `public float warmup;` (ItemBridge.java:200), `public float time = -8f, timeSpeed;` (ItemBridge.java:201), `public boolean wasMoved, moved, hadValidLink;` (ItemBridge.java:202), `public float transportCounter;` (ItemBridge.java:203). The warmup approach (ItemBridge.java:345, `warmup = Mathf.approachDelta(warmup, efficiency, 1f / 30f);`) also follows the folded efficiency when a valid link exists; without a link `warmup = 0f` (ItemBridge.java:337). draw() uses `float warmup = hasPower ? this.warmup : 1f;` (ItemBridge.java:387) -- the bridge-conveyor (hasPower false) always draws warmup 1f, another reason the two defs must not share one driver row. BufferedItemBridge extends ItemBridge (BufferedItemBridge.java:9, `public class BufferedItemBridge extends ItemBridge{`) with `hasPower = false;` (BufferedItemBridge.java:18) and `bufferCapacity = 50` class default (def overrides to 14, Blocks.java:2113) and `speed = 74f` (def, Blocks.java:2112). canConsume (BuildingComp.java:1917, `public boolean canConsume(){` with `return potentialEfficiency > 0;`, BuildingComp.java:1918) and the shouldConsume default (BuildingComp.java:755, `public boolean shouldConsume(){` with `return enabled;`, BuildingComp.java:756) are the surrounding gates. The single def carries `consumePower(0.30f);` (Blocks.java:2125) with `range = 12;` (Blocks.java:2118) and `transportTime = 2f;` (Blocks.java:2119). Single def -- phase-conveyor only (size 1, range 12, transportTime 2f, phase-fabric 5 / silicon 7 / lead 10 / graphite 10, Blocks.java:2116-2125). bridge-conveyor (BufferedItemBridge, no power def) is explicitly OUT of scope.
-	# Documented limits: (1) power-only first pass -- the phase-conveyor's static power consumer (consumePower 0.30f, Blocks.java:2125) is the only modeled consumer, so the folded efficiency is the min over the *modeled* consumers (power only); phase-conveyor has no second consumer. (2) shouldConsume gate LIVE (N2188) -- ItemBridgeBuild.shouldConsume() (`return hadValidLink && enabled;`, ItemBridge.java:495-496) is the pure source_item_bridge_should_consume_state gate over the N2197 link frame state (frame link/had_valid_link + pure configure + pure linkValid + the driver recompute every tick after the consumption fold); the driver reads should_consume through it and the machinery folds efficiency to 0 when the gate is false (BuildingComp.java:1960/:1992-1994). The gate reads the previous tick's had_valid_link -- the Java order, updateConsumption before updateTile (BuildingComp.java:2274-2277) -- so a freshly linked bridge consumes from the next tick. (3) updateTile transport advance live (N2225) -- checkIncoming prune / incoming registration / transportCounter charge / item handoff / warmup approach / time + timeSpeed advance (ItemBridge.java:319-368) run every enabled tick after the consumption fold through the pure source_item_bridge_update_transport_state function; doDump live (N2288) -- dumpAccumulate (ItemBridge.java:350-353, BuildingComp.java:1048-1061) through the pure source_item_bridge_do_dump_state function, wired in the unlinked branch only after the transport advance, with the neighbour acceptItem/canDump arrays as frame inputs (default [] -- no live proximity fill yet) and no neighbour write-back yet; the timerCheckMoved snapshot (ItemBridge.java:320-323) still defers (no timer infra), and checkAccept facing (ItemBridge.java:441-463) defers for non-linked sources -- the transport path takes the linked() shortcut (ItemBridge.java:464-466), so acceptItem there is the capacity gate only. The power proof carries no transport/warmup keys; the transport charge (ItemBridge.java:356) is what the efficiency keys prove, and the N2225 proof carries the transport keys. (4) No sense/warmup modeling -- `warmup()` has no override here (draw-only warmup, :387) and sense waits for its own slice. (5) Single def -- phase-conveyor only (size 1, range 12, transportTime 2f, phase-fabric 5 / silicon 7 / lead 10 / graphite 10); bridge-conveyor (BufferedItemBridge, no power def) is explicitly OUT of scope; per-def stat values wait for their own verification slice. (6) No draw/config-UI modeling -- the pure configure covers the config handlers (ItemBridge.java:64/66); placement auto-link is LIVE (N2199: pure findLink + playerPlaced + game lastBuild store + player-path driver, ItemBridge.java:41, 167-173, 211-220); bridge draw / drawSelect / drawConfigure / drawInput (ItemBridge.java:216-296, 375-394) and handlePlacementLine / pickedUp wait for their own slices.
+	# Documented limits: (1) power-only first pass -- the phase-conveyor's static power consumer (consumePower 0.30f, Blocks.java:2125) is the only modeled consumer, so the folded efficiency is the min over the *modeled* consumers (power only); phase-conveyor has no second consumer. (2) shouldConsume gate LIVE (N2188) -- ItemBridgeBuild.shouldConsume() (`return hadValidLink && enabled;`, ItemBridge.java:495-496) is the pure source_item_bridge_should_consume_state gate over the N2197 link frame state (frame link/had_valid_link + pure configure + pure linkValid + the driver recompute every tick after the consumption fold); the driver reads should_consume through it and the machinery folds efficiency to 0 when the gate is false (BuildingComp.java:1960/:1992-1994). The gate reads the previous tick's had_valid_link -- the Java order, updateConsumption before updateTile (BuildingComp.java:2274-2277) -- so a freshly linked bridge consumes from the next tick. (3) updateTile transport advance live (N2225) -- checkIncoming prune / incoming registration / transportCounter charge / item handoff / warmup approach / time + timeSpeed advance (ItemBridge.java:319-368) run every enabled tick after the consumption fold through the pure source_item_bridge_update_transport_state function; doDump live (N2288) -- dumpAccumulate (ItemBridge.java:350-353, BuildingComp.java:1048-1061) through the pure source_item_bridge_do_dump_state function, wired in the unlinked branch only after the transport advance, with the neighbour acceptItem/canDump arrays as frame inputs (default [] -- no live proximity fill yet) and no neighbour write-back yet; the timerCheckMoved snapshot live (N2321) -- the frame-local Interval-equivalent pure source_item_bridge_timer_check_moved_state (ItemBridge.java:320-323, 30f, no timeScale division) runs in the driver before the advance call and stamps frame was_moved/moved/timer_check_moved_elapsed, so the advance reads the snapshot values (first-fire deviation: Java fires nearly immediately after placement, the frame clock delays the first fire by a full 30-tick interval), and checkAccept facing (ItemBridge.java:441-463) defers for non-linked sources -- the transport path takes the linked() shortcut (ItemBridge.java:464-466), so acceptItem there is the capacity gate only. The power proof carries no transport/warmup keys; the transport charge (ItemBridge.java:356) is what the efficiency keys prove, and the N2225 proof carries the transport keys. (4) No sense/warmup modeling -- `warmup()` has no override here (draw-only warmup, :387) and sense waits for its own slice. (5) Single def -- phase-conveyor only (size 1, range 12, transportTime 2f, phase-fabric 5 / silicon 7 / lead 10 / graphite 10); bridge-conveyor (BufferedItemBridge, no power def) is explicitly OUT of scope; per-def stat values wait for their own verification slice. (6) No draw/config-UI modeling -- the pure configure covers the config handlers (ItemBridge.java:64/66); placement auto-link is LIVE (N2199: pure findLink + playerPlaced + game lastBuild store + player-path driver, ItemBridge.java:41, 167-173, 211-220); bridge draw / drawSelect / drawConfigure / drawInput (ItemBridge.java:216-296, 375-394) and handlePlacementLine / pickedUp wait for their own slices.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -178,6 +180,83 @@ static func _item_bridge_take_item(items: Dictionary, take_rotation: int, item_o
 				break
 	return {"item": taken_item, "items": next_items, "take_rotation": next_rotation}
 
+static func source_item_bridge_timer_check_moved_state(elapsed: float, was_moved: bool, moved: bool, source_delta: float, time_scale: float, duration: float) -> Dictionary:
+	# The frame-local Interval-equivalent for the timerCheckMoved
+	# snapshot (TimerComp.timer, TimerComp.java:10-13, each
+	# exact expr on ONE comment line, the N2148 lesson):
+	# `if(Float.isInfinite(time)) return false;`
+	# `return timer.get(index, time);`
+	# Interval.get resets times[id] = Time.time on fire
+	# (arc Interval.java:20-26):
+	# `boolean got = check(id, time);`
+	# `if(got) times[id] = Time.time;`
+	# and check compares Time.time - times[id] >= time (arc
+	# Interval.java:28-30):
+	# `return Time.time - times[id] >= time || Time.time < times[id];`
+	# Time.time counts TICKS (arc Time.java:69-80):
+	# `timeRaw += delta;`
+	# The port has no global tick clock at the driver layer, so
+	# the elapsed clock is frame-local (frame["timer_check_moved_
+	# elapsed"], accumulated by the tick delta every enabled tick,
+	# unconditionally -- mirroring Time.time, which grows even
+	# while the gate is closed): elapsed += source_delta
+	# unconditionally (source_delta is the UNSCALED Time.delta in
+	# ticks -- game_source_delta is seconds * 60, never scaled by
+	# timeScale -- so the frame clock mirrors the global Time.time
+	# exactly); fired = elapsed >= duration (the LITERAL duration,
+	# no timeScale division -- Java passes a literal 30f, unlike
+	# the dump timers that divide by timeScale, the N2290
+	# literal-20 lesson); timer_elapsed_after RESETS to 0.0 on
+	# fire (a reset, not a subtraction like the Fracker
+	# accumulator); a non-positive time_scale is a defensive guard
+	# (fired false -- see below). The Java call is
+	# (ItemBridge.java:320-323):
+	# `if(timer(timerCheckMoved, 30f)){`
+	# `wasMoved = moved;`
+	# `moved = false;`
+	# with `public final int timerCheckMoved = timers ++;`
+	# (ItemBridge.java:25) and `public boolean wasMoved, moved, hadValidLink;`
+	# (ItemBridge.java:202). When the timer fires the snapshot
+	# runs: was_moved takes the OLD moved and moved resets to
+	# false; when it does not fire both keep their values. The
+	# snapshot runs BEFORE the timeSpeed advance
+	# (`timeSpeed = Mathf.approachDelta(timeSpeed, wasMoved ? 1f : 0f, 1f / 60f);`,
+	# ItemBridge.java:326) and transport (`transportCounter += edelta();`,
+	# ItemBridge.java:356, with `moved = true;` on handoff,
+	# ItemBridge.java:361), so the driver runs this pure BEFORE
+	# the N2225 advance call and stamps the frame from its
+	# result -- the advance reads the already-snapshotted
+	# was_moved/moved, and a moved=true the advance sets this
+	# tick survives until the next snapshot fire. time_scale
+	# stays a parameter (signature stability -- the contract,
+	# call sites, and tests keep it) and is still read: a
+	# non-positive time_scale never fires, a defensive port
+	# guard for a corrupt frame input -- Java timeScale is
+	# always positive in practice (the default,
+	# BuildingComp.java:98, is
+	# `private transient float timeScale = 1f, timeScaleDuration;`;
+	# applyBoost / applySlowdown take positive intensities,
+	# BuildingComp.java:461-478; decay resets it to 1f,
+	# BuildingComp.java:2265-2266), so the guard is
+	# unreachable in Java-exact play and the threshold is
+	# Java-exact at every reachable time_scale. Note the
+	# clock still ACCUMULATES at time_scale 0 (source_delta
+	# is unscaled) -- only the fire is guarded. Documented
+	# deviation (first fire): Java fires (nearly) immediately
+	# after placement (the global Time.time is already large
+	# vs a fresh Interval times[id] = 0); the frame-local
+	# clock delays the first fire by a full interval (30
+	# ticks). It cannot be fixed without a global clock --
+	# it waits for a timer-infra slice if exact first-fire
+	# timing is ever needed.
+	var threshold: float = INF if time_scale <= 0.0 else duration
+	var accumulated: float = elapsed + source_delta
+	var fired: bool = accumulated >= threshold
+	var elapsed_after: float = 0.0 if fired else accumulated
+	var next_was_moved: bool = moved if fired else was_moved
+	var next_moved: bool = false if fired else moved
+	return {"fired": fired, "timer_elapsed_after": elapsed_after, "was_moved": next_was_moved, "moved": next_moved}
+
 static func source_item_bridge_update_transport_state(frame: Dictionary, source_delta: float, time_scale: float, transport_time: float, item_capacity: int, had_valid_link: bool, tile_pos: int, partner: Dictionary, incoming_valid: Dictionary, item_order: Array) -> Dictionary:
 	# The updateTile transport advance (ItemBridgeBuild.updateTile(), ItemBridge.java:319-348,
 	# `public void updateTile(){`, + updateTransport(), ItemBridge.java:355-368), on
@@ -194,7 +273,10 @@ static func source_item_bridge_update_transport_state(frame: Dictionary, source_
 	# `itemCapacity = 10;` (ItemBridge.java:49, also the Block default `public int itemCapacity = 10;`, Block.java:75),
 	# `hasItems = true;` (ItemBridge.java:51), `noUpdateDisabled = true;` (ItemBridge.java:54,
 	# against the Block default `public boolean noUpdateDisabled = false;`, Block.java:170).
-	# Java order, step by step. The timer snapshot defers (no timer helper in the port):
+	# Java order, step by step. The timer snapshot is live since N2321 -- the driver
+	# runs source_item_bridge_timer_check_moved_state before this advance and stamps
+	# the snapshot onto the frame, so this pure reads the already-snapshotted
+	# was_moved/moved (the first-fire deviation is documented on the timer pure):
 	# `if(timer(timerCheckMoved, 30f)){` / `wasMoved = moved;` / `moved = false;` (ItemBridge.java:320-323).
 	# `timeSpeed = Mathf.approachDelta(timeSpeed, wasMoved ? 1f : 0f, 1f / 60f);` (ItemBridge.java:326).
 	# `time += timeSpeed * delta();` (ItemBridge.java:328, with the NEW timeSpeed).
@@ -248,8 +330,9 @@ static func source_item_bridge_update_transport_state(frame: Dictionary, source_
 	# `transient float efficiency;` (BuildingComp.java:85), default 0.0. The transport loop
 	# guards transport_time > 0 (Java would spin on a 0 transportTime; the def const is 2f).
 	# Returns the advanced self values plus the partner updates (partner_items /
-	# partner_incoming); the driver writes both back. was_moved is NOT returned -- only the
-	# deferred timer branch changes it, so it stays the frame input.
+	# partner_incoming); the driver writes both back. was_moved is NOT returned --
+	# only the timer snapshot changes it, and the driver stamps it from the timer
+	# pure before this advance, so it stays the (already snapshotted) frame input.
 	var efficiency: float = float(frame.get("efficiency", 0.0))
 	var warmup: float = float(frame.get("warmup", 0.0))
 	var time_value: float = float(frame.get("time", -8.0))
@@ -612,6 +695,11 @@ static func source_item_bridge_tick_buildings_state(game: Object, seconds: float
 			var item_order: Array = source_content_registry_runtime_state.source_item_catalog_state(catalog).get("item_names_by_id", [])
 			var source_delta: float = source_placed_block_state.game_source_delta(game, seconds)
 			var time_scale: float = source_placed_block_state.time_scale(sprite, source_placed_block_state.game_default_time_scale(game))
+			# The timerCheckMoved snapshot (N2321, ItemBridge.java:320-323, `if(timer(timerCheckMoved, 30f)){` / `wasMoved = moved;` / `moved = false; }`): runs BEFORE the advance call below -- Java snapshots before the timeSpeed advance (:326) and transport (:356) -- so the advance reads the snapshotted was_moved/moved. The frame-local Interval-equivalent pure accumulates the UNSCALED source delta every enabled tick, fires at 30f (no timeScale division, the N2290 literal-20 precedent), and resets the clock to 0 on fire; a moved=true the advance sets this tick (handoff, :361) survives until the next snapshot fire. First-fire deviation: Java fires nearly immediately after placement; the frame clock delays the first fire by a full 30-tick interval.
+			var timer_snapshot: Dictionary = source_item_bridge_timer_check_moved_state(float(frame.get("timer_check_moved_elapsed", 0.0)), bool(frame.get("was_moved", false)), bool(frame.get("moved", false)), source_delta, time_scale, SOURCE_ITEM_BRIDGE_TIMER_CHECK_MOVED_DURATION)
+			frame["timer_check_moved_elapsed"] = timer_snapshot["timer_elapsed_after"]
+			frame["was_moved"] = timer_snapshot["was_moved"]
+			frame["moved"] = timer_snapshot["moved"]
 			var advanced: Dictionary = source_item_bridge_update_transport_state(frame, source_delta, time_scale, SOURCE_ITEM_BRIDGE_TRANSPORT_TIME, SOURCE_ITEM_BRIDGE_ITEM_CAPACITY, bool(frame.get("had_valid_link", false)), this_pos, partner, incoming_valid, item_order)
 			frame["transport_counter"] = advanced["transport_counter"]
 			frame["warmup"] = advanced["warmup"]
