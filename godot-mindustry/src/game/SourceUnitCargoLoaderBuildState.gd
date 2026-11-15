@@ -9,6 +9,8 @@ const source_building_access_state := preload("res://src/game/SourceBuildingAcce
 const source_math_state := preload("res://src/game/SourceMathState.gd")
 const source_liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
 const source_content_registry_runtime_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
+const source_unit_runtime_state := preload("res://src/game/SourceUnitRuntimeState.gd")
+const source_unit_update_state := preload("res://src/game/SourceUnitUpdateState.gd")
 
 # The UnitCargoLoader implementation (UnitCargoLoader.java:23, `public class UnitCargoLoader extends Block{`): unit-cargo-loader (consumePower 8f/60f, Blocks.java:2276; size 3, itemCapacity 200, Blocks.java:2270-2281). UnitCargoLoader sets solid=true, update=true, hasItems=true, itemCapacity=200 (UnitCargoLoader.java:30-37), unitType manifold / unitBuildTime 60f * 8f (UnitCargoLoader.java:24-25, `public float unitBuildTime = 60f * 8f;`). UnitCargoLoader extends Block, NOT a drill or factory, so it cannot reuse an existing frame key; this driver uses its own family frame key ("source_unit_cargo_loader_building", the mechanical-pump / beam-drill / mend-projector / overdrive-projector / force-projector / base-shield / regen-projector / constructor / payload-loader / payload-unloader / payload-mass-driver precedent), and this slice adds the unit-cargo-loader key to N2142's SOURCE_CONSUMER_FRAME_META_KEYS so the graph stamp/write-back finds it. The port has NO SourceUnitCargoLoader* files at all yet -- no display/runtime state to lean on -- so the missing piece is the live power.status -> efficiency driver, which is exactly this slice: the warmup fold (UnitCargoLoader.java:105, `warmup = Mathf.approachDelta(warmup, efficiency, 1f / 60f);`) follows the folded efficiency, with the build advance (UnitCargoLoader.java:109, `buildProgress += edelta() / unitBuildTime;`).
 const SOURCE_UNIT_CARGO_LOADER_BUILD_IMPLEMENTATIONS := ["UnitCargoLoader"]
@@ -34,6 +36,12 @@ const SOURCE_UNIT_CARGO_LOADER_SPAWN_ROTATION := 90.0
 # (Blocks.java:2270-2283 has no multiplier call).
 const SOURCE_UNIT_CARGO_LOADER_CONSUMED_LIQUID := "nitrogen"
 const SOURCE_UNIT_CARGO_LOADER_LIQUID_AMOUNT := 10.0 / 60.0
+# N2322: the uncapped cap is Integer.MAX_VALUE
+# (`return Integer.MAX_VALUE;`, Units.java:123), 2147483647 --
+# it fits a GDScript 64-bit int, and it is also the cap the
+# canCreate pure reports when no frame input is stamped (the
+# permissive default: no cap information, do not block).
+const SOURCE_UNIT_CARGO_LOADER_UNIT_CAP_MAX := 2147483647
 
 static func _is_unit_cargo_loader_build_implementation(implementation: String) -> bool:
 	return SOURCE_UNIT_CARGO_LOADER_BUILD_IMPLEMENTATIONS.has(implementation)
@@ -107,7 +115,7 @@ static func source_unit_cargo_loader_should_consume_state(frame: Dictionary) -> 
 
 static func source_unit_cargo_loader_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a unit-cargo-loader does not take the early return. The warmup fold follows the folded efficiency (UnitCargoLoader.java:105, `warmup = Mathf.approachDelta(warmup, efficiency, 1f / 60f);`), with the build advance (UnitCargoLoader.java:109, `buildProgress += edelta() / unitBuildTime;`) and the shouldConsume override (UnitCargoLoader.java:141-143, `return unit == null;`, default BuildingComp.java:755, `public boolean shouldConsume(){`) -- UnitTransportSourceBuild overrides shouldConsume() to return unit == null, so the default does not apply here; the shouldConsume gate is live (N2211) -- the pure gate (source_unit_cargo_loader_should_consume_state) feeds should_consume to the machinery from the frame unit key (null while building, non-null once a unit waits to be loaded); the updateTile advance is live (N2234) -- the pure advance fills frame["unit"] from the found_unit param and from the spawn, while the live Groups.unit.getByID fill still waits for its own slice. The unit-cargo-loader also consumes liquid nitrogen 10f/60f (Blocks.java:2279, `consumeLiquid(Liquids.nitrogen, 10f / 60f);`), so the folded efficiency is the min over power + liquid -- the liquid row is live (N2249).
-	# Documented limits: (1) liquid row live (N2249) -- the unit-cargo-loader also consumes liquid nitrogen 10f/60f (Blocks.java:2279, `consumeLiquid(Liquids.nitrogen, 10f / 60f);`), so the folded efficiency is the min over power + liquid (source_unit_cargo_loader_liquid_consumer_row_state, ConsumeLiquid.efficiency ConsumeLiquid.java:42-47, with the second-pass removal ConsumeLiquid.java:37-39); the consumer's build/display rows (ConsumeLiquid.build ReqImage, ConsumeLiquid.java:31-34; display Stat.input, ConsumeLiquid.java:49-52) still defer. (2) shouldConsume gate live (N2211) -- UnitTransportSourceBuild overrides shouldConsume() to return unit == null (UnitCargoLoader.java:141-143, `return unit == null;`); the pure gate reads the frame unit key (default null) and feeds should_consume to the machinery; the updateTile advance is live (N2234) -- the pure advance fills frame["unit"] from the found_unit param and from the spawn, so the gate closes the tick after a unit spawns. (3) updateTile advance live (N2234) -- unit lost/destroyed / readUnitId / warmup / readyness / buildProgress / totalProgress / unit spawn (UnitCargoLoader.java:92-125) advance in the pure function (source_unit_cargo_loader_update_tile_advance_state), the warmup fold (UnitCargoLoader.java:105, `warmup = Mathf.approachDelta(warmup, efficiency, 1f / 60f);`) and the build advance (UnitCargoLoader.java:109, `buildProgress += edelta() / unitBuildTime;`) following the folded efficiency; the live fill (Groups.unit.getByID query + Units.canCreate live cap check + live spawn application) still defers. (4) No canPlaceOn / bar / draw / read-write rows -- canPlaceOn (UnitCargoLoader.java:65-68), setBars (UnitCargoLoader.java:48-63), draw (UnitCargoLoader.java:146-162), read/write (UnitCargoLoader.java:174-188) are placement/presentation/serialization, not tick state. (5) Unit spawn pure result live (N2234) -- unitType manifold / unitBuildTime 60f * 8f (UnitCargoLoader.java:24-25, `public float unitBuildTime = 60f * 8f;`) and the spawn report (spawned_unit + buildProgress 0f, UnitCargoLoader.java:114-122/127-133) are modeled; the live application (unitType.create + unit.add + Call.unitTetherBlockSpawned + Fx.spawn) waits for its own slice.
+	# Documented limits: (1) liquid row live (N2249) -- the unit-cargo-loader also consumes liquid nitrogen 10f/60f (Blocks.java:2279, `consumeLiquid(Liquids.nitrogen, 10f / 60f);`), so the folded efficiency is the min over power + liquid (source_unit_cargo_loader_liquid_consumer_row_state, ConsumeLiquid.efficiency ConsumeLiquid.java:42-47, with the second-pass removal ConsumeLiquid.java:37-39); the consumer's build/display rows (ConsumeLiquid.build ReqImage, ConsumeLiquid.java:31-34; display Stat.input, ConsumeLiquid.java:49-52) still defer. (2) shouldConsume gate live (N2211) -- UnitTransportSourceBuild overrides shouldConsume() to return unit == null (UnitCargoLoader.java:141-143, `return unit == null;`); the pure gate reads the frame unit key (default null) and feeds should_consume to the machinery; the updateTile advance is live (N2234) -- the pure advance fills frame["unit"] from the found_unit param and from the spawn, so the gate closes the tick after a unit spawns. (3) updateTile advance live (N2234) -- unit lost/destroyed / readUnitId / warmup / readyness / buildProgress / totalProgress / unit spawn (UnitCargoLoader.java:92-125) advance in the pure function (source_unit_cargo_loader_update_tile_advance_state), the warmup fold (UnitCargoLoader.java:105, `warmup = Mathf.approachDelta(warmup, efficiency, 1f / 60f);`) and the build advance (UnitCargoLoader.java:109, `buildProgress += edelta() / unitBuildTime;`) following the folded efficiency; the canCreate live evaluation (N2322) feeds the spawn gate from the frame can_create_inputs dict (Units.canCreate, Units.java:115-117, over getCap, Units.java:119-126, via the shared N2140 bridge); the live fill (Groups.unit.getByID query + live spawn application + live unit-count source for count_type) still defers. (4) No canPlaceOn / bar / draw / read-write rows -- canPlaceOn (UnitCargoLoader.java:65-68), setBars (UnitCargoLoader.java:48-63), draw (UnitCargoLoader.java:146-162), read/write (UnitCargoLoader.java:174-188) are placement/presentation/serialization, not tick state. (5) Unit spawn pure result live (N2234) -- unitType manifold / unitBuildTime 60f * 8f (UnitCargoLoader.java:24-25, `public float unitBuildTime = 60f * 8f;`) and the spawn report (spawned_unit + buildProgress 0f, UnitCargoLoader.java:114-122/127-133) are modeled; the live application (unitType.create + unit.add + Call.unitTetherBlockSpawned + Fx.spawn) waits for its own slice. (6) canCreate live evaluation (N2322) -- Units.canCreate(team, unitType) (Units.java:115-117) is evaluated by the pure source_unit_cargo_loader_can_create_state from the frame can_create_inputs dict (count_type / use_unit_cap / is_banned / is_wave_team / is_campaign / is_pvp / disable_unit_cap / ignore_unit_cap / unit_cap / unit_cap_variable / team_unit_cap), default permissive (can_create true, cap Integer.MAX_VALUE) when no input is stamped; the cap comes from the shared N2140 bridge (SourceUnitUpdateState.cap_state + SourceUnitRuntimeState.source_units_can_create_state), and the live unit-count source (team.data().countType live query) still defers -- nothing stamps count_type live yet. canPlaceOn (UnitCargoLoader.java:65-68) stays out of scope.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -273,8 +281,9 @@ static func source_unit_cargo_loader_update_tile_advance_state(frame: Dictionary
 	# useUnitCap = false at UnitTypes.java:4612 belongs to
 	# assemblyDrone, NOT manifold), so the check is live, not
 	# vacuous; it arrives as the explicit can_create param
-	# (default true) and the driver passes true until the N2140
-	# live helper is wired for this family. (3) the spawn is a
+	# (default true) and the driver evaluates it live since N2322
+	# (source_unit_cargo_loader_can_create_state, from the frame
+	# can_create_inputs dict, permissive true when unstamped). (3) the spawn is a
 	# pure result (the N2228 `consumed` precedent): spawned_unit
 	# is {type: manifold, x, y, rotation: 90} plus the unit-dict
 	# contract flags (dead false, added true) when buildProgress
@@ -322,6 +331,76 @@ static func source_unit_cargo_loader_update_tile_advance_state(frame: Dictionary
 			unit = spawned_unit
 			build_progress = 0.0
 	return {"unit": unit, "read_unit_id": read_unit_id, "warmup": warmup, "readyness": readyness, "build_progress": build_progress, "total_progress": total_progress, "spawned_unit": spawned_unit}
+
+static func source_unit_cargo_loader_can_create_state(frame: Dictionary) -> Dictionary:
+	# Units.canCreate(team, unitType) (Units.java:115-117), the
+	# live cap check gating the spawn (UnitCargoLoader.java:108,
+	# `if(unit == null && Units.canCreate(team, unitType)){`),
+	# evaluated from the frame can_create_inputs dict and
+	# returning {can_create, cap}. The Java lines, each on ONE
+	# comment line (the N2148 lesson):
+	# `public static boolean canCreate(Team team, UnitType type){`
+	# `return !type.useUnitCap || (team.data().countType(type) < getCap(team) && !type.isBanned());`
+	# `public static int getCap(Team team){`
+	# `if((team == state.rules.waveTeam && !state.rules.pvp) || (state.isCampaign() && team == state.rules.waveTeam) || state.rules.disableUnitCap || team.ignoreUnitCap){`
+	# `return Integer.MAX_VALUE;`
+	# `return Math.max(0, state.rules.unitCapVariable ? state.rules.unitCap + team.data().unitCap : state.rules.unitCap);`
+	# getCap is Units.java:119-126 (signature :119, the uncapped
+	# branch :122-124, the clamped return :125). The cap math
+	# (the four uncapped branches + the max(0, ...) clamp + the
+	# unitCapVariable branch) lives in the shared N2140 bridge
+	# (SourceUnitUpdateState.cap_state, delegating to
+	# SourceUnitLifecycleState.cap_state) and the predicate in
+	# SourceUnitRuntimeState.source_units_can_create_state --
+	# this pure composes them, it does not duplicate them (the
+	# N2140 UnitFactory precedent). The frame-input contract
+	# (the N2226 candidates precedent): rules_state carries
+	# only unitCostMul (DEFERRED #35), so the inputs arrive as
+	# the frame can_create_inputs dict with the keys count_type
+	# / use_unit_cap / is_banned / is_wave_team / is_campaign /
+	# is_pvp / disable_unit_cap / ignore_unit_cap / unit_cap /
+	# unit_cap_variable / team_unit_cap, each defaulting to its
+	# Java default when the dict is present but the key is
+	# missing (use_unit_cap true, UnitType.java:205
+	# `useUnitCap = true,`; count_type 0, Teams.java:442-444
+	# `return typeCounts == null || typeCounts.length <= type.id ? 0 : typeCounts[type.id];`
+	# is_banned false, UnitType.java:759-760
+	# `return state.rules.isBanned(this);` over Rules.java:311-312
+	# `return unitWhitelist != bannedUnits.contains(unit);`
+	# unit_cap 0, Rules.java:157 `public int unitCap = 0;`
+	# unit_cap_variable true, Rules.java:75
+	# `public boolean unitCapVariable = true;` team_unit_cap 0,
+	# Teams.java:298 `public int unitCap;` disable_unit_cap
+	# false, Rules.java:159 `public boolean disableUnitCap;`
+	# ignore_unit_cap false, Team.java:22
+	# `public boolean ignoreUnitCap = false;`). The UCL unitType
+	# is manifold (`public UnitType unitType = UnitTypes.manifold;`,
+	# UnitCargoLoader.java:24); the manifold def
+	# (UnitTypes.java:4568-4593) sets NO useUnitCap override, so
+	# manifold keeps the UnitType default true (the
+	# useUnitCap = false at UnitTypes.java:4612 belongs to
+	# assemblyDrone, NOT manifold) and the check is live, not
+	# vacuous. Default permissive: no input stamped (absent,
+	# non-dict, or empty) returns can_create true with cap
+	# Integer.MAX_VALUE -- the pre-N2322 behavior (the driver
+	# passed the default true) is preserved, and the live
+	# unit-count source (team.data().countType live query)
+	# still defers: no live unit-group count exists in the
+	# port yet, so nothing stamps count_type live. canPlaceOn
+	# (UnitCargoLoader.java:65-68) and drawPlace (:70-75) are
+	# OUT OF SCOPE -- this pure wires only the updateTile
+	# spawn gate. The function does NOT mutate its input frame.
+	var raw_inputs: Variant = frame.get("can_create_inputs", null)
+	if raw_inputs == null or not (raw_inputs is Dictionary) or (raw_inputs as Dictionary).is_empty():
+		return {"can_create": true, "cap": SOURCE_UNIT_CARGO_LOADER_UNIT_CAP_MAX}
+	var inputs: Dictionary = raw_inputs
+	var use_unit_cap: bool = bool(inputs.get("use_unit_cap", true))
+	var count_type: int = int(inputs.get("count_type", 0))
+	var is_banned: bool = bool(inputs.get("is_banned", false))
+	var cap: Dictionary = source_unit_update_state.cap_state(bool(inputs.get("is_wave_team", false)), bool(inputs.get("is_pvp", false)), bool(inputs.get("is_campaign", false)), bool(inputs.get("disable_unit_cap", false)), bool(inputs.get("ignore_unit_cap", false)), bool(inputs.get("unit_cap_variable", true)), int(inputs.get("unit_cap", 0)), int(inputs.get("team_unit_cap", 0)))
+	var unit_cap: int = int(cap.get("cap", 0))
+	var verdict: Dictionary = source_unit_runtime_state.source_units_can_create_state(use_unit_cap, count_type, unit_cap, is_banned)
+	return {"can_create": bool(verdict.get("can_create", true)), "cap": unit_cap}
 
 @warning_ignore("unused_parameter")
 static func source_unit_cargo_loader_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
@@ -463,15 +542,19 @@ static func source_unit_cargo_loader_tick_buildings_state(game: Object, seconds:
 		# reads live from the sprite meta, default 1.0
 		# (BuildingComp.java:98 `private transient float
 		# timeScale = 1f, timeScaleDuration;`). The driver passes
-		# the found_unit / can_create defaults (null / true): no
-		# live Groups.unit fill and no live cap check yet (the
-		# N2234 live-fill deferrals). The gate reads the
+		# found_unit null (no live Groups.unit fill yet) and
+		# evaluates can_create live since N2322
+		# (source_unit_cargo_loader_can_create_state, from the
+		# frame can_create_inputs dict, permissive true when
+		# unstamped -- the live unit-count source still
+		# defers). The gate reads the
 		# pre-advance unit (consumption runs first), so a spawn
 		# closes the INVERTED shouldConsume gate the NEXT tick --
 		# and a spawn needs buildProgress >= 1f, i.e. 480 ticks
 		# at full efficiency, so a single tick never spawns.
 		if bool(frame.get("enabled", true)):
-			var advanced: Dictionary = source_unit_cargo_loader_update_tile_advance_state(frame, source_delta, time_scale)
+			var can_create_state: Dictionary = source_unit_cargo_loader_can_create_state(frame)
+			var advanced: Dictionary = source_unit_cargo_loader_update_tile_advance_state(frame, source_delta, time_scale, null, bool(can_create_state.get("can_create", true)))
 			frame["unit"] = advanced["unit"]
 			frame["read_unit_id"] = advanced["read_unit_id"]
 			frame["warmup"] = advanced["warmup"]
