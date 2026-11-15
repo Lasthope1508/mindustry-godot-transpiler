@@ -8,6 +8,8 @@ const source_building_efficiency_state := preload("res://src/game/SourceBuilding
 const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
 const source_math_state := preload("res://src/game/SourceMathState.gd")
 const source_world_defaults := preload("res://src/game/SourceWorldDefaults.gd")
+const source_liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
+const source_content_registry_runtime_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
 
 # The ForceProjector implementation (ForceProjector.java:30, `public class
 # ForceProjector extends Block{`): force-projector (consumePower 4f,
@@ -51,8 +53,8 @@ const SOURCE_FORCE_PROJECTOR_BUILDING_META_KEY := "source_force_projector_buildi
 # `public float phaseShieldBoost = 400f;` (:37),
 # `public int sides = 6;` (:39),
 # `public float shieldRotation = 0f;` (:40),
-# `public float coolantConsumption = 0.1f;` (:44),
-# `public boolean consumeCoolant = true;` (:45). The catalog
+# `public float coolantConsumption = 0.1f;` (:43),
+# `public boolean consumeCoolant = true;` (:44). The catalog
 # carries neither shieldHealth nor the cooldowns nor the
 # radius for this family, so the driver reads these constants
 # (the Separator craftTime precedent). The lerp progresses are
@@ -75,6 +77,20 @@ const SOURCE_FORCE_PROJECTOR_PHASE_HEAT_LERP_PROGRESS := 0.1
 const SOURCE_FORCE_PROJECTOR_RADSCL_LERP_PROGRESS := 0.05
 const SOURCE_FORCE_PROJECTOR_WARMUP_LERP_PROGRESS := 0.1
 const SOURCE_FORCE_PROJECTOR_COOLANT_HEAT_CAPACITY_FALLBACK := 0.4
+# The ConsumeCoolant amount (ForceProjector.java:43,
+# `public float coolantConsumption = 0.1f;`, PER FRAME = 6/s;
+# the def does not override it) and the filter bounds
+# (ConsumeCoolant.java:5, `public float maxTemp = 0.5f,
+# maxFlammability = 0.1f;`). The Liquid class default
+# heatCapacity (Liquid.java:42, `public float heatCapacity =
+# 0.5f;`) fills the catalog prop when the catalog does not
+# carry it (the catalog records overrides only -- water
+# carries heatCapacity 0.4f, cryofluid 0.9f / temperature
+# 0.25f, and nothing else a coolant needs).
+const SOURCE_FORCE_PROJECTOR_COOLANT_CONSUMPTION := 0.1
+const SOURCE_FORCE_PROJECTOR_COOLANT_MAX_TEMPERATURE := 0.5
+const SOURCE_FORCE_PROJECTOR_COOLANT_MAX_FLAMMABILITY := 0.1
+const SOURCE_LIQUID_HEAT_CAPACITY_DEFAULT := 0.5
 
 static func _is_force_projector_build_implementation(implementation: String) -> bool:
 	return SOURCE_FORCE_PROJECTOR_BUILD_IMPLEMENTATIONS.has(implementation)
@@ -121,6 +137,57 @@ static func source_force_projector_is_in_regular_polygon(sides: int, center_x: f
 		i += 2
 	return odd_nodes
 
+static func source_force_projector_coolant_filter_state(liquid_props: Dictionary) -> bool:
+	# ConsumeCoolant's filter (ConsumeCoolant.java:12, `this.filter = liquid -> liquid.coolant && (this.allowLiquid && !liquid.gas || this.allowGas && liquid.gas) && liquid.temperature <= maxTemp && liquid.flammability < maxFlammability;`, with `public float maxTemp = 0.5f, maxFlammability = 0.1f;` (:5) and `public boolean allowLiquid = true, allowGas = false;` (:6)): a liquid passes when it is a coolant, not a gas, at most room temperature and barely flammable. The catalog carries overrides only, so a missing prop reads the Liquid class default (Liquid.java: `public boolean coolant = true;` :50, `public boolean gas = false;` :28, `public float temperature = 0.5f;` :40, `public float flammability;` :38, 0f when uninitialized). With those defaults + the catalog overrides only water (temp 0.5, flam 0, heatCapacity 0.4f, Liquids.java:13-14) and cryofluid (temp 0.25f, flam 0, heatCapacity 0.9f, Liquids.java:40-42) pass: slag temp 1.0, oil flam 1.2, neoplasm temp 0.54, arkycite flam 0.4, gallium coolant=false, and the four gases are all excluded.
+	var coolant: bool = bool(liquid_props.get("coolant", true))
+	var gas: bool = bool(liquid_props.get("gas", false))
+	var temperature: float = float(liquid_props.get("temperature", 0.5))
+	var flammability: float = float(liquid_props.get("flammability", 0.0))
+	return coolant and not gas and temperature <= SOURCE_FORCE_PROJECTOR_COOLANT_MAX_TEMPERATURE and flammability < SOURCE_FORCE_PROJECTOR_COOLANT_MAX_FLAMMABILITY
+
+static func source_force_projector_coolant_heat_capacity_state(liquid_props: Dictionary) -> float:
+	# The CURRENT liquid's heatCapacity (ForceProjector.java:230, `liquids.current().heatCapacity`): the catalog carries the override (water 0.4f, cryofluid 0.9f, Liquids.java:14/41) and a missing prop reads the Liquid class default (Liquid.java:42, `public float heatCapacity = 0.5f;`). This is NOT the 0.4f no-op fallback: the scale formula subtracts 0.4f, so 0.4f is the no-op value the driver passes only when there is no coolant at all (and the coolant branch cannot run then anyway).
+	return float(liquid_props.get("heatCapacity", SOURCE_LIQUID_HEAT_CAPACITY_DEFAULT))
+
+static func source_force_projector_liquid_catalog_props_state(catalog: Object) -> Dictionary:
+	# The catalog liquids in content order (the ConsumeLiquidFilter.getConsumed scan order, ConsumeLiquidFilter.java:68-74, `var liqs = content.liquids();` / `for(int i = 0; i < liqs.size; i++){`), with the filter + heatCapacity props per liquid id: the catalog Liquid objects already apply the Java defaults to their typed fields (MindustryLiquid: gas false, temperature 0.5, flammability 0.0, heat_capacity 0.5), and coolant reads the properties override (gallium false, Liquids.java:72) with the Liquid default true (Liquid.java:50).
+	var props_by_id := {}
+	var liquid_order: Array = []
+	var liquid_index := 0
+	for liquid in catalog.call("get_many", "liquid"):
+		props_by_id[liquid_index] = {"coolant": bool(liquid.properties.get("coolant", true)), "gas": bool(liquid.gas), "temperature": float(liquid.temperature), "flammability": float(liquid.flammability), "heatCapacity": float(liquid.heat_capacity)}
+		liquid_order.append(liquid_index)
+		liquid_index += 1
+	return {"liquid_props_by_id": props_by_id, "liquid_order": liquid_order}
+
+static func source_force_projector_coolant_consumer_row_state(frame: Dictionary, has_coolant_consumer: bool, liquid_props_by_id: Dictionary, liquid_order: Array, amount: float, source_delta: float, time_scale: float, efficiency: float, multiplier: float = 1.0) -> Dictionary:
+	# ConsumeLiquidFilter.efficiency (ConsumeLiquidFilter.java:50-55, `float ed = build.edelta();` / `if(ed <= 0.00000001f) return 0f;` / `return liq != null ? Math.min(build.liquids.get(liq) / (amount * ed * multiplier.get(build)), 1f) : 0f;`): NOTE ed is build.edelta() with NO efficiencyScale factor -- unlike ConsumeLiquid.efficiency (ConsumeLiquid.java:42-47, `float ed = build.edelta() * build.efficiencyScale();`). edelta() is `return efficiency * delta();` (BuildingComp.java:1927-1929) and delta() is `return Time.delta * timeScale;` (BuildingComp.java:1922-1924), so ed = efficiency * source_delta * time_scale; in the first pass efficiency is assumed 1f (BuildingComp.java:1965, `efficiency = optionalEfficiency = 1f;`), and the driver re-evaluates with the folded efficiency for the updateTile check (ForceProjector.java:228). getConsumed (ConsumeLiquidFilter.java:63-76) prefers the CURRENT liquid (`if(filter.get(build.liquids.current()) && build.liquids.currentAmount() > 0){`), else the first liquid in content order that passes the filter and has amount > 0 (`if(filter.get(liq) && build.liquids.get(liq) > 0){`), else null -- and efficiency is 0 when getConsumed is null. The filter is ConsumeCoolant's (ConsumeCoolant.java:12), via source_force_projector_coolant_filter_state. The multiplier defaults to 1f (Consume.java:18, `public Floatf<Building> multiplier = b -> 1f;`); the constructor call sets none (ForceProjector.java:85). The row is OPTIONAL (`.boost().update(false);`, ForceProjector.java:85, boost is `return optional(true, true);`, Consume.java:33-35), so the driver folds it into the optional pass (`for(var cons : block.optionalConsumers){`, BuildingComp.java:1979-1981, `optionalEfficiency = Math.min(optionalEfficiency, cons.efficiency(self()));`), NOT the min efficiency -- and update(false) means the second pass never consumes it (BuildingComp.java:1999-2000 runs updateConsumers only); Java consumes by hand in updateTile (ForceProjector.java:227-231). The held amount reads through the shared liquid module helper (SourceLiquidModuleState.source_get_state) over the frame liquids key (the Building.liquids LiquidModule dict, default {} for a frame bound before this slice, amount 0.0 when the store has no entry for the liquid -- Java's liquids.get returns 0.0 for a liquid never added), with the Fracker guard (SourceFrackerBuildState.gd:141, `liquids.has("liquids")` + bounds check). A block with no coolant consumer contributes no row.
+	if not has_coolant_consumer:
+		return {"has_coolant_row": false, "row": {}, "consumed_liquid": null}
+	var liquids: Dictionary = frame.get("liquids", {})
+	var consumed_liquid: Variant = null
+	if liquids.has("liquids"):
+		var current_id: int = int(liquids.get("current", -1))
+		if current_id >= 0 and current_id < int(liquids["liquids"].size()) and liquid_props_by_id.has(current_id):
+			if source_force_projector_coolant_filter_state(liquid_props_by_id[current_id]) and float(source_liquid_module_state.source_get_state(liquids, current_id).get("amount", 0.0)) > 0.0:
+				consumed_liquid = current_id
+		if consumed_liquid == null:
+			for liquid_id in liquid_order:
+				var ordered_id: int = int(liquid_id)
+				if ordered_id < 0 or ordered_id >= int(liquids["liquids"].size()) or not liquid_props_by_id.has(ordered_id):
+					continue
+				if source_force_projector_coolant_filter_state(liquid_props_by_id[ordered_id]) and float(source_liquid_module_state.source_get_state(liquids, ordered_id).get("amount", 0.0)) > 0.0:
+					consumed_liquid = ordered_id
+					break
+	if consumed_liquid == null:
+		return {"has_coolant_row": true, "row": {"result": 0.0, "is_power": false}, "consumed_liquid": null}
+	var held: float = float(source_liquid_module_state.source_get_state(liquids, int(consumed_liquid)).get("amount", 0.0))
+	var ed: float = efficiency * source_delta * time_scale
+	if ed <= 0.00000001:
+		return {"has_coolant_row": true, "row": {"result": 0.0, "is_power": false}, "consumed_liquid": consumed_liquid}
+	var result: float = min(held / (amount * ed * multiplier), 1.0)
+	return {"has_coolant_row": true, "row": {"result": result, "is_power": false}, "consumed_liquid": consumed_liquid}
+
 static func source_force_projector_update_tile_advance_state(frame: Dictionary, source_delta: float, time_scale: float, building_x: float, building_y: float, bullets: Array, consume_tick: bool, item_consumer_present: bool = false, item_consumer_efficiency: float = 0.0, coolant_present: bool = false, coolant_efficiency: float = 0.0, coolant_heat_capacity: float = SOURCE_FORCE_PROJECTOR_COOLANT_HEAT_CAPACITY_FALLBACK) -> Dictionary:
 	# The updateTile advance (ForceBuild.updateTile(), ForceProjector.java:207-268), the pure frame advance -- the build fields are `public boolean broken = true;` (ForceProjector.java:167 -- broken defaults TRUE, a fresh shield starts broken and clears on the first tick once buildup <= 0) and `public float buildup, radscl, hit, warmup, phaseHeat;` (ForceProjector.java:168), and the advance follows the Java lines in order (each exact expr on ONE comment line, the N2148 lesson):
 	# `boolean phaseValid = itemConsumer != null && itemConsumer.efficiency(this) > 0;`
@@ -130,6 +197,7 @@ static func source_force_projector_update_tile_advance_state(frame: Dictionary, 
 	# `radscl = Mathf.lerpDelta(radscl, broken ? 0f : warmup, 0.05f);`
 	# `if(Mathf.chanceDelta(buildup / shieldHealth * 0.1f)){`
 	# `warmup = Mathf.lerpDelta(warmup, efficiency, 0.1f);`
+	# `if(buildup > 0){`
 	# `float scale = !broken ? cooldownNormal : cooldownBrokenBase;`
 	# `if(coolantConsumer != null){`
 	# `if(coolantConsumer.efficiency(this) > 0){`
@@ -153,7 +221,7 @@ static func source_force_projector_update_tile_advance_state(frame: Dictionary, 
 	# `paramEntity.hit = 1f;`
 	# `paramEntity.buildup += bullet.type.shieldDamage(bullet);`
 	# `return (radius + phaseHeat * phaseRadiusBoost) * radscl;`
-	# The ORDERING traps: radscl lerps toward the OLD warmup (:216 runs before the warmup update at :222); the broken-set threshold folds the NEW phaseHeat (:210 runs before :243); deflectBullets runs LAST, so absorbed buildup cannot break the shield until the next tick; hit decays (:253-255) BEFORE deflect sets it to 1f. The Arc formulas, not guesses: lerpDelta is `return lerp(fromValue, toValue, clamp(progress * Time.delta));` (Mathf.java:430-432), num is 1 / 0 (Mathf.java:208-210), chanceDelta is rand < d * Time.delta (Mathf.java:236-238, the Fx.reactorsmoke chance defers -- no RNG in the pure advance). delta() is `return Time.delta * timeScale;` (BuildingComp.java:1922-1924) and scales the buildup decay, but the hit decay uses Time.delta DIRECTLY (ForceProjector.java:254), not delta(). source_delta is Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26), never raw seconds. buildup has NO clamp: the decay can take it negative, and a negative buildup clears broken (:239-241). The TIMER CADENCE defers (no timer helper in the port, the N2193 precedent; `public float phaseUseTime = 350f;`, ForceProjector.java:33), so the pure advance takes an explicit consume_tick bool and the driver passes false; the consume() APPLICATION also defers (the frame has no items, the N2193 precedent), so the advance reports it through the pure `consumed` result. The coolant branch is LIVE-CAPABLE, not dead: the constructor adds ConsumeCoolant when consumeCoolant is true -- `consume(coolantConsumer = new ConsumeCoolant(coolantConsumption)).boost().update(false);` (ForceProjector.java:85, class default `public boolean consumeCoolant = true;`, and the def does not override it) -- so coolantConsumer is non-null, unlike N2230's parallax; the driver just cannot supply live coolant state (no liquids store on the frame), so it passes the no-op defaults and the coolant live fill defers. coolantConsumer.update(this) (:232, the actual coolant consumption) defers with the live fill. The explicit `bullets` list IS the Groups.bullet.intersect rect result (the N2229 precedent): the caller supplies the bullets in the 2x realRadius rect (EntityGroup.java:207, `public Seq<T> intersect(float x, float y, float width, float height){`, over the spatial bullet group, GroupDefs.java:9, `@GroupDef(value = Bulletc.class, spatial = true, collide = true) G bullet;`), and the pure advance applies the shieldConsumer filter (enemy team + absorbable + !absorbed + in the regular polygon). The bullet dict contract: x / y, team (int; missing = own team, never an enemy), absorbable (default true, BulletType.java:147, `public boolean absorbable = true;`), absorbed (default false, BulletComp.java:53, `transient boolean absorbed, hit;`), shield_damage (default 0.0 -- shieldDamage(bullet) is `return b.damage() * shieldDamageMultiplier;`, BulletType.java:665-666, multiplier default 1f; the port folds no live bullet damage, so the caller supplies it), id (default: the bullet's index in the list). bullet.absorb() (BulletComp.java:100-101, `absorbed = true;`) is NOT applied to a live bullet: the absorbed list + buildup delta are pure results. Effects / sound / events (Fx.reactorsmoke, shieldBreakEffect, breakSound, Trigger.forceProjectorBreak, absorbEffect, hitSound) defer. absorbExplosion (ForceProjector.java:271-281) is NOT updateTile and is not ported here. The building position comes from the origin cell: Building x/y are tile.drawx()/drawy() (BuildingComp.java:124, `set(tile.drawx(), tile.drawy());`), drawx is `return block().offset + worldx();` (Tile.java:175-176) and drawy is `return block().offset + worldy();` (Tile.java:179-180) with the block offset `offset = ((size + 1) % 2) * tilesize / 2f;` (Block.java:761) -- 0 for the size-3 force-projector. A team with no frame team id defaults to derelict (`derelict = new Team(0, "derelict", Color.valueOf("4d4e58")),`, Team.java:33). The updateTile gate is `if(enabled || !block.noUpdateDisabled){` (BuildingComp.java:2276-2277) with `public boolean noUpdateDisabled = false;` (Block.java:170).
+	# The ORDERING traps: radscl lerps toward the OLD warmup (:216 runs before the warmup update at :222); the broken-set threshold folds the NEW phaseHeat (:210 runs before :243); deflectBullets runs LAST, so absorbed buildup cannot break the shield until the next tick; hit decays (:253-255) BEFORE deflect sets it to 1f. The Arc formulas, not guesses: lerpDelta is `return lerp(fromValue, toValue, clamp(progress * Time.delta));` (Mathf.java:430-432), num is 1 / 0 (Mathf.java:208-210), chanceDelta is rand < d * Time.delta (Mathf.java:236-238, the Fx.reactorsmoke chance defers -- no RNG in the pure advance). delta() is `return Time.delta * timeScale;` (BuildingComp.java:1922-1924) and scales the buildup decay, but the hit decay uses Time.delta DIRECTLY (ForceProjector.java:254), not delta(). source_delta is Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26), never raw seconds. buildup has NO clamp: the decay can take it negative, and a negative buildup clears broken (:239-241). The TIMER CADENCE defers (no timer helper in the port, the N2193 precedent; `public float phaseUseTime = 350f;`, ForceProjector.java:33), so the pure advance takes an explicit consume_tick bool and the driver passes false; the consume() APPLICATION also defers (the frame has no items, the N2193 precedent), so the advance reports it through the pure `consumed` result. The coolant branch is LIVE-CAPABLE, not dead: the constructor adds ConsumeCoolant when consumeCoolant is true -- `consume(coolantConsumer = new ConsumeCoolant(coolantConsumption)).boost().update(false);` (ForceProjector.java:85, class default `public boolean consumeCoolant = true;`, and the def does not override it) -- so coolantConsumer is non-null, unlike N2230's parallax; the coolant live fill is LIVE since N2258: the driver syncs the liquids store, recomputes the coolant row with the FOLDED efficiency and stamps the coolant inputs onto the frame (coolant_present / coolant_efficiency / coolant_heat_capacity / coolant_liquid_id / coolant_amount), and the advance prefers frame values when present, falling back to the explicit params (the N2235 pure interface, unchanged so the N2235 call keeps its shape). coolantConsumer.update(this) (:229, the actual coolant consumption) is reported through the pure `coolant_consumed_liquid` / `coolant_consumed_amount` results (the N2226 heal_amount pattern) and the driver applies the removal to the live liquids store (ConsumeLiquidFilter.update, ConsumeLiquidFilter.java:42-47, `build.liquids.remove(liq, amount * build.edelta() * multiplier.get(build));`, amount = 0.1f * edelta from the folded efficiency * the 1f multiplier). The explicit `bullets` list IS the Groups.bullet.intersect rect result (the N2229 precedent): the caller supplies the bullets in the 2x realRadius rect (EntityGroup.java:207, `public Seq<T> intersect(float x, float y, float width, float height){`, over the spatial bullet group, GroupDefs.java:9, `@GroupDef(value = Bulletc.class, spatial = true, collide = true) G bullet;`), and the pure advance applies the shieldConsumer filter (enemy team + absorbable + !absorbed + in the regular polygon). The bullet dict contract: x / y, team (int; missing = own team, never an enemy), absorbable (default true, BulletType.java:147, `public boolean absorbable = true;`), absorbed (default false, BulletComp.java:53, `transient boolean absorbed, hit;`), shield_damage (default 0.0 -- shieldDamage(bullet) is `return b.damage() * shieldDamageMultiplier;`, BulletType.java:665-666, multiplier default 1f; the port folds no live bullet damage, so the caller supplies it), id (default: the bullet's index in the list). bullet.absorb() (BulletComp.java:100-101, `absorbed = true;`) is NOT applied to a live bullet: the absorbed list + buildup delta are pure results. Effects / sound / events (Fx.reactorsmoke, shieldBreakEffect, breakSound, Trigger.forceProjectorBreak, absorbEffect, hitSound) defer. absorbExplosion (ForceProjector.java:271-281) is NOT updateTile and is not ported here. The building position comes from the origin cell: Building x/y are tile.drawx()/drawy() (BuildingComp.java:124, `set(tile.drawx(), tile.drawy());`), drawx is `return block().offset + worldx();` (Tile.java:175-176) and drawy is `return block().offset + worldy();` (Tile.java:179-180) with the block offset `offset = ((size + 1) % 2) * tilesize / 2f;` (Block.java:761) -- 0 for the size-3 force-projector. A team with no frame team id defaults to derelict (`derelict = new Team(0, "derelict", Color.valueOf("4d4e58")),`, Team.java:33). The updateTile gate is `if(enabled || !block.noUpdateDisabled){` (BuildingComp.java:2276-2277) with `public boolean noUpdateDisabled = false;` (Block.java:170).
 	var team_id: int = int(frame.get("team_id", source_block_geometry.SOURCE_TEAM_DERELICT_ID))
 	var efficiency: float = float(frame.get("efficiency", 0.0))
 	var phase_heat: float = float(frame.get("phase_heat", 0.0))
@@ -162,6 +230,18 @@ static func source_force_projector_update_tile_advance_state(frame: Dictionary, 
 	var buildup: float = float(frame.get("buildup", 0.0))
 	var broken: bool = bool(frame.get("broken", true))
 	var hit: float = float(frame.get("hit", 0.0))
+	# N2258: the coolant inputs resolve from the frame when the
+	# driver stamped them (the live fill), else from the
+	# explicit params (the N2235 pure interface -- a proof
+	# frame carries no coolant keys, so explicit params still
+	# drive the branch exactly as before).
+	var coolant_present_value: bool = bool(frame.get("coolant_present", coolant_present))
+	var coolant_efficiency_value: float = float(frame.get("coolant_efficiency", coolant_efficiency))
+	var coolant_heat_capacity_value: float = float(frame.get("coolant_heat_capacity", coolant_heat_capacity))
+	var coolant_liquid_id_value: int = int(frame.get("coolant_liquid_id", -1))
+	var coolant_amount_value: float = float(frame.get("coolant_amount", 0.0))
+	var coolant_consumed_liquid: int = -1
+	var coolant_consumed_amount: float = 0.0
 	var phase_valid: bool = item_consumer_present and item_consumer_efficiency > 0.0
 	phase_heat = source_math_state.source_lerp_delta(phase_heat, 1.0 if phase_valid else 0.0, SOURCE_FORCE_PROJECTOR_PHASE_HEAT_LERP_PROGRESS, source_delta)
 	var consumed: bool = false
@@ -171,8 +251,10 @@ static func source_force_projector_update_tile_advance_state(frame: Dictionary, 
 	warmup = source_math_state.source_lerp_delta(warmup, efficiency, SOURCE_FORCE_PROJECTOR_WARMUP_LERP_PROGRESS, source_delta)
 	if buildup > 0.0:
 		var scale: float = SOURCE_FORCE_PROJECTOR_COOLDOWN_BROKEN_BASE if broken else SOURCE_FORCE_PROJECTOR_COOLDOWN_NORMAL
-		if coolant_present and coolant_efficiency > 0.0:
-			scale *= SOURCE_FORCE_PROJECTOR_COOLDOWN_LIQUID * (1.0 + (coolant_heat_capacity - 0.4) * 0.9)
+		if coolant_present_value and coolant_efficiency_value > 0.0:
+			scale *= SOURCE_FORCE_PROJECTOR_COOLDOWN_LIQUID * (1.0 + (coolant_heat_capacity_value - 0.4) * 0.9)
+			coolant_consumed_liquid = coolant_liquid_id_value
+			coolant_consumed_amount = coolant_amount_value * efficiency * source_delta * time_scale
 		buildup -= source_delta * time_scale * scale
 	if broken and buildup <= 0.0:
 		broken = false
@@ -207,7 +289,7 @@ static func source_force_projector_update_tile_advance_state(frame: Dictionary, 
 			hit = 1.0
 			bullet_index += 1
 	buildup += buildup_delta
-	return {"phase_heat": phase_heat, "radscl": radscl, "warmup": warmup, "buildup": buildup, "broken": broken, "hit": hit, "consumed": consumed, "absorbed_bullets": absorbed_bullets, "buildup_delta": buildup_delta, "real_radius": real_radius}
+	return {"phase_heat": phase_heat, "radscl": radscl, "warmup": warmup, "buildup": buildup, "broken": broken, "hit": hit, "consumed": consumed, "absorbed_bullets": absorbed_bullets, "buildup_delta": buildup_delta, "real_radius": real_radius, "coolant_consumed_liquid": coolant_consumed_liquid, "coolant_consumed_amount": coolant_consumed_amount}
 
 static func source_force_projector_tick_frame_state(frame: Dictionary, block_implementation: String, team_id: int, rules_state: Variant) -> Dictionary:
 	# The force-projector tick wires the frame keys the
@@ -237,7 +319,12 @@ static func source_force_projector_tick_frame_state(frame: Dictionary, block_imp
 	return frame
 
 static func _initial_frame() -> Dictionary:
-	return {"phase_heat": 0.0, "radscl": 0.0, "warmup": 0.0, "buildup": 0.0, "broken": true, "hit": 0.0}
+	# A new ForceBuild starts with an empty liquids module
+	# (the Building.liquids LiquidModule, frame["liquids"],
+	# the Fracker precedent): the coolant row (N2258) reads
+	# the held coolant from it, and the tick syncs the live
+	# sprite store into it each tick.
+	return {"phase_heat": 0.0, "radscl": 0.0, "warmup": 0.0, "buildup": 0.0, "broken": true, "hit": 0.0, "liquids": {}}
 
 static func source_force_projector_bind_frame_state(sprite: Sprite2D, block: Object) -> Dictionary:
 	# Placement creates the Building (Block.java:1002 newBuilding);
@@ -277,11 +364,21 @@ static func source_force_projector_power_status_row_state(frame: Dictionary, has
 	# (ForceProjector.java:280, `return (radius + phaseHeat * phaseRadiusBoost) * radscl;`) and the phase-heat gate
 	# (ForceProjector.java:209, `phaseHeat = Mathf.lerpDelta(phaseHeat, Mathf.num(phaseValid), 0.1f);`) and the consume gate
 	# (ForceProjector.java:211, `if(phaseValid && !broken && timer(timerUse, phaseUseTime / timeScale) && efficiency > 0){`).
-	# Documented limits: (1) power-only first pass -- the
-	# phaseFabric booster item row (Blocks.java:1974) and the
-	# ConsumeCoolant 0.1f coolant rows (ForceProjector.java:69-71)
-	# wait for their own slices, so the folded efficiency is
-	# the min over the *modeled* consumers (power only).
+	# Documented limits: (1) coolant row live (N2258) -- the
+	# ConsumeCoolant 0.1f row (ForceProjector.java:43-44, :85;
+	# cooldownLiquid 1.2f, Blocks.java:1971) folds into the
+	# optional pass (source_force_projector_coolant_consumer_row_state,
+	# ConsumeLiquidFilter.efficiency, ConsumeLiquidFilter.java:50-55)
+	# with the manual updateTile consume
+	# (ForceProjector.java:227-231) reported through the
+	# advance's pure coolant_consumed results and applied by
+	# the driver; the folded efficiency is the min over the
+	# *modeled* non-optional consumers (power only) and the
+	# optionalEfficiency folds the coolant row. Still
+	# deferred: the phaseFabric booster item row
+	# (Blocks.java:1974) -- optionalEfficiency is NOT
+	# complete until it lands, since Java mins over BOTH
+	# optional rows (BuildingComp.java:1979-1981).
 	# (2) No shouldConsume gate -- ForceBuild has no
 	# shouldConsume override, so the default
 	# (BuildingComp.java:755-757, `return enabled;`) applies;
@@ -289,10 +386,11 @@ static func source_force_projector_power_status_row_state(frame: Dictionary, has
 	# enabled. (3) updateTile advance live (N2235) -- phaseValid /
 	# phaseHeat / consume() gate / radscl / warmup / buildup /
 	# broken / deflectBullets (ForceProjector.java:207-268) now
-	# advance in source_force_projector_update_tile_advance_state;
+	# advance in source_force_projector_update_tile_advance_state,
+	# with the coolant live fill live since N2258 (the driver
+	# stamps the re-evaluated coolant inputs onto the frame);
 	# the timer cadence + consume() application + live bullet
-	# scan + coolant live fill stay deferred (the live-fill
-	# entry). (4) Phase-radius / phase-shield folds live (N2235)
+	# scan stay deferred (the live-fill entry). (4) Phase-radius / phase-shield folds live (N2235)
 	# -- realRadius (ForceProjector.java:280,
 	# `return (radius + phaseHeat * phaseRadiusBoost) * radscl;`)
 	# is the advance's real_radius result and the broken
@@ -332,6 +430,9 @@ static func source_force_projector_tick_buildings_state(game: Object, seconds: f
 	var blocks_by_id: Dictionary = {}
 	for registered_block in catalog.get_many("block"):
 		blocks_by_id[registered_block.id] = registered_block
+	var liquid_catalog_props: Dictionary = source_force_projector_liquid_catalog_props_state(catalog)
+	var liquid_props_by_id: Dictionary = liquid_catalog_props.get("liquid_props_by_id", {})
+	var liquid_order: Array = liquid_catalog_props.get("liquid_order", [])
 	for sprite in source_placed_block_state.source_unique_buildings_state(game).get("buildings", []):
 		if not is_instance_valid(sprite) or not sprite is Sprite2D:
 			continue
@@ -346,6 +447,14 @@ static func source_force_projector_tick_buildings_state(game: Object, seconds: f
 		var team_id: int = int(sprite.get_meta(source_block_geometry.SOURCE_BUILD_TEAM_META_KEY, source_block_geometry.SOURCE_TEAM_DERELICT_ID))
 		var rules_state: Variant = source_rules_state.source_game_rules_state(game.get("rules_state")).get("rules", {})
 		var wired: Dictionary = source_force_projector_tick_frame_state(frame, str(block.implementation), team_id, rules_state)
+		# The frame carries the Building.liquids LiquidModule
+		# (frame["liquids"]): the live store lives on the
+		# sprite meta (source_building_liquids, initialized
+		# at placement), so the driver syncs the reference
+		# into the frame each tick BEFORE the fold, and the
+		# pure coolant row reads the held coolant from it (the
+		# Fracker:361 precedent).
+		frame["liquids"] = sprite.get_meta(source_placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, {})
 		# The power consumer reads live since N2153 (the graph
 		# update stamps frame["power_status"] each tick, N2142):
 		# a force projector with a power consumer folds the pure power
@@ -356,10 +465,10 @@ static func source_force_projector_tick_buildings_state(game: Object, seconds: f
 		# hasConsumers (Block.java:1449,
 		# `hasConsumers = consumers.length > 0;`), so a force
 		# projector does not take the early return. A force projector with
-		# no power consumer is untouched: the tick models no other
-		# consumers yet (the phaseFabric booster item row and the
-		# ConsumeCoolant 0.1f coolant rows wait for their
-		# own slices), and there is no shouldConsume gate yet
+		# no power consumer is untouched: the ConsumeCoolant
+		# 0.1f row (N2258) folds in the same block, and the
+		# phaseFabric booster item row still waits for its own
+		# slice; there is no shouldConsume gate yet
 		# (ForceBuild has no shouldConsume override; the default
 		# BuildingComp.java:755-757 `return enabled;` applies),
 		# so the machinery runs with should_consume=true when enabled.
@@ -376,7 +485,32 @@ static func source_force_projector_tick_buildings_state(game: Object, seconds: f
 			var required_results: Array = []
 			if bool(power_row.get("has_power_row", false)):
 				required_results.append(power_row.get("row", {}))
-			var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(true, bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, [], [], frame)
+			# N2258: the ConsumeCoolant row folds into the
+			# OPTIONAL pass (ConsumeCoolant.java:12 filter,
+			# ConsumeLiquidFilter.efficiency,
+			# ConsumeLiquidFilter.java:50-55). The consumer
+			# exists because consumeCoolant is true
+			# (ForceProjector.java:44 class default, the def
+			# does not override it) and the constructor adds
+			# it (ForceProjector.java:84-85); the amount is
+			# the 0.1f class default (ForceProjector.java:43),
+			# PER FRAME. In the first pass efficiency is
+			# assumed 1f (BuildingComp.java:1965), so the
+			# row's edelta is source_delta * time_scale.
+			# update(false) means the second pass never
+			# consumes this row -- the manual updateTile
+			# consume below does. The optionalEfficiency is
+			# NOT complete yet: the phaseFabric booster item
+			# row (Blocks.java:1974) still waits for its own
+			# slice, and Java mins over BOTH optional rows
+			# (BuildingComp.java:1979-1981).
+			var tick_source_delta: float = source_placed_block_state.game_source_delta(game, seconds)
+			var tick_time_scale: float = source_placed_block_state.time_scale(sprite, source_placed_block_state.game_default_time_scale(game))
+			var coolant_row: Dictionary = source_force_projector_coolant_consumer_row_state(frame, true, liquid_props_by_id, liquid_order, SOURCE_FORCE_PROJECTOR_COOLANT_CONSUMPTION, tick_source_delta, tick_time_scale, 1.0)
+			var optional_results: Array = []
+			if bool(coolant_row.get("has_coolant_row", false)):
+				optional_results.append(coolant_row.get("row", {}))
+			var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(true, bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, optional_results, [], frame)
 			source_building_efficiency_state.apply_update_consumption_state(consumption, frame)
 		# N2235: the updateTile advance runs after consumption,
 		# like Java's Building.update() (BuildingComp.java:2274
@@ -413,10 +547,11 @@ static func source_force_projector_tick_buildings_state(game: Object, seconds: f
 		# The driver passes consume_tick false and an EMPTY
 		# bullet list: no timer helper and no live bullet query
 		# exist in the port, so no live consume or deflect
-		# happens (the live fill stays deferred); the item /
-		# coolant inputs are all default no-op (no items /
-		# liquids store on the frame), so phaseHeat decays
-		# toward 0 live and the coolant branch never runs.
+		# happens (the live fill stays deferred); the item
+		# inputs are all default no-op (no items store on the
+		# frame), so phaseHeat decays toward 0 live. The
+		# coolant inputs are LIVE since N2258 (the recompute
+		# below stamps them onto the frame before the call).
 		if bool(frame.get("enabled", true)):
 			var source_delta: float = source_placed_block_state.game_source_delta(game, seconds)
 			var time_scale: float = source_placed_block_state.time_scale(sprite, source_placed_block_state.game_default_time_scale(game))
@@ -425,6 +560,33 @@ static func source_force_projector_tick_buildings_state(game: Object, seconds: f
 			var advance_block_offset: float = float((advance_block_size + 1) % 2) * source_world_defaults.TILESIZE / 2.0
 			var advance_building_x: float = source_block_geometry.tile_drawx_state(advance_cell.x, source_world_defaults.TILESIZE, advance_block_offset)
 			var advance_building_y: float = source_block_geometry.tile_drawy_state(advance_cell.y, source_world_defaults.TILESIZE, advance_block_offset)
+			# N2258: the coolant live fill -- Java re-evaluates
+			# coolantConsumer.efficiency(this) in updateTile
+			# (ForceProjector.java:228) with the FOLDED
+			# efficiency (not the 1f the fold assumed), and
+			# scales with the CURRENT liquid's heatCapacity
+			# (ForceProjector.java:230, `liquids.current().heatCapacity`),
+			# not the consumed liquid's. The driver recomputes
+			# the pure row with the folded frame efficiency
+			# and stamps the coolant inputs onto the frame;
+			# the advance prefers frame values when present
+			# and falls back to its explicit params (the
+			# N2235 pure interface, unchanged so the N2235
+			# call keeps its shape). When there is no coolant
+			# the heatCapacity stays the 0.4f no-op fallback
+			# (the scale factor is 1 then, and the branch
+			# cannot run with efficiency 0 anyway).
+			var folded_coolant_row: Dictionary = source_force_projector_coolant_consumer_row_state(frame, true, liquid_props_by_id, liquid_order, SOURCE_FORCE_PROJECTOR_COOLANT_CONSUMPTION, source_delta, time_scale, float(frame.get("efficiency", 0.0)))
+			var folded_coolant_consumed: Variant = folded_coolant_row.get("consumed_liquid", null)
+			frame["coolant_present"] = true
+			frame["coolant_efficiency"] = float(folded_coolant_row.get("row", {}).get("result", 0.0))
+			var current_liquid_id: int = int(frame.get("liquids", {}).get("current", -1))
+			if folded_coolant_consumed == null or not liquid_props_by_id.has(current_liquid_id):
+				frame["coolant_heat_capacity"] = SOURCE_FORCE_PROJECTOR_COOLANT_HEAT_CAPACITY_FALLBACK
+			else:
+				frame["coolant_heat_capacity"] = source_force_projector_coolant_heat_capacity_state(liquid_props_by_id[current_liquid_id])
+			frame["coolant_liquid_id"] = -1 if folded_coolant_consumed == null else int(folded_coolant_consumed)
+			frame["coolant_amount"] = SOURCE_FORCE_PROJECTOR_COOLANT_CONSUMPTION
 			var advanced: Dictionary = source_force_projector_update_tile_advance_state(frame, source_delta, time_scale, advance_building_x, advance_building_y, [], false)
 			frame["phase_heat"] = advanced["phase_heat"]
 			frame["radscl"] = advanced["radscl"]
@@ -436,6 +598,33 @@ static func source_force_projector_tick_buildings_state(game: Object, seconds: f
 			frame["absorbed_bullets"] = advanced["absorbed_bullets"]
 			frame["buildup_delta"] = advanced["buildup_delta"]
 			frame["real_radius"] = advanced["real_radius"]
+			frame["coolant_consumed_liquid"] = advanced["coolant_consumed_liquid"]
+			frame["coolant_consumed_amount"] = advanced["coolant_consumed_amount"]
+			# N2258: the manual updateTile consume
+			# (ForceProjector.java:229, `coolantConsumer.update(this);`
+			# -- ConsumeLiquidFilter.update, ConsumeLiquidFilter.java:42-47,
+			# `build.liquids.remove(liq, amount * build.edelta() * multiplier.get(build));`).
+			# update(false) (ForceProjector.java:85) keeps this row
+			# out of the second pass, so the removal happens here,
+			# only when the advance reports it consumed (buildup > 0
+			# on entry + the re-evaluated coolant efficiency > 0,
+			# ForceProjector.java:223/228) -- the heal_amount
+			# pattern (N2226): the advance reports the pure
+			# consumption, the driver applies it to the live
+			# store through the shared liquid module helper
+			# (SourceLiquidModuleState.source_remove_state,
+			# clamped at the held amount like Java's
+			# LiquidModule.remove, with a fresh cache_sums
+			# sized to the store, the PayloadLoader precedent).
+			# frame["liquids"] is the live sprite store by
+			# reference, so the removal lands on it.
+			if int(advanced.get("coolant_consumed_liquid", -1)) >= 0 and float(advanced.get("coolant_consumed_amount", 0.0)) > 0.0:
+				var coolant_store: Dictionary = frame.get("liquids", {})
+				if coolant_store.has("liquids") and int(advanced["coolant_consumed_liquid"]) < int(coolant_store["liquids"].size()):
+					var coolant_cache_sums: Array = []
+					coolant_cache_sums.resize(int(coolant_store["liquids"].size()))
+					coolant_cache_sums.fill(0.0)
+					source_liquid_module_state.source_remove_state(coolant_store, int(advanced["coolant_consumed_liquid"]), float(advanced["coolant_consumed_amount"]), coolant_cache_sums)
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
