@@ -39,19 +39,36 @@ static func source_payload_unloader_tick_frame_state(frame: Dictionary, block_im
 	# payload-unloader instead of resetting it, the factory pattern
 	# (SourceFactoryBuildState.gd:927).
 	frame["enabled"] = bool(frame.get("enabled", true))
+	# The frame carries the held payload (the
+	# PayloadBlockBuild.payload field, PayloadBlock.java:92,
+	# `public @Nullable T payload;`, default null); the tick
+	# preserves a payload already on the frame instead of
+	# resetting it -- no live fill sets it yet (the
+	# moveInPayload / handlePayload advance waits for its own
+	# slice), so the shouldConsume gate reads the frame as-is.
+	if not frame.has("payload"):
+		frame["payload"] = null
 	return frame
 
 static func _initial_frame() -> Dictionary:
-	return {}
+	# A new PayloadUnloaderBuild starts with no payload (the
+	# PayloadBlockBuild.payload field, PayloadBlock.java:92,
+	# `public @Nullable T payload;`, default null): the
+	# shouldConsume gate (PayloadLoader.java:240-242) reads
+	# payload != null, so the frame carries the payload key
+	# at its null default.
+	return {"payload": null}
 
 static func source_payload_unloader_bind_frame_state(sprite: Sprite2D, block: Object) -> Dictionary:
 	# Placement creates the Building (Block.java:1002 newBuilding);
 	# the port's frame is that Building state, bound on the sprite
 	# at placement under the payload-unloader frame meta key
-	# ("source_payload_unloader_building"). A PayloadUnloader sprite gets an
-	# empty frame bound; the live-loop tick fills its keys every
-	# tick. Any other block, or an already-bound sprite, binds
-	# nothing.
+	# ("source_payload_unloader_building"). A PayloadUnloader sprite gets a
+	# frame bound with the payload key at its null default
+	# (frame["payload"] = null, the PayloadBlockBuild.payload
+	# field, PayloadBlock.java:92); the live-loop tick fills its
+	# other keys every tick. Any other block, or an
+	# already-bound sprite, binds nothing.
 	if block == null or not _is_payload_unloader_build_implementation(str(block.implementation)):
 		return {"applied": false, "frame": {}}
 	if sprite.has_meta(SOURCE_PAYLOAD_UNLOADER_BUILDING_META_KEY):
@@ -60,9 +77,15 @@ static func source_payload_unloader_bind_frame_state(sprite: Sprite2D, block: Ob
 	sprite.set_meta(SOURCE_PAYLOAD_UNLOADER_BUILDING_META_KEY, frame)
 	return {"applied": true, "frame": frame}
 
+static func source_payload_unloader_should_consume_state(frame: Dictionary) -> Dictionary:
+	# PayloadUnloaderBuild does NOT override shouldConsume (PayloadUnloader.java has no shouldConsume at all; PayloadUnloader extends PayloadLoader, PayloadUnloader.java:8, `public class PayloadUnloader extends PayloadLoader{`, and PayloadUnloaderBuild extends PayloadLoaderBuild, PayloadUnloader.java:32, `public class PayloadUnloaderBuild extends PayloadLoaderBuild{`), so it inherits PayloadLoaderBuild.shouldConsume verbatim (PayloadLoader.java:240, `public boolean shouldConsume(){` with `return payload != null;`, PayloadLoader.java:241): the payload-unloader consumes only while it holds a payload. The default (BuildingComp.java:755, `public boolean shouldConsume(){` with `return enabled;`) does NOT apply here. Unlike the Separator/Drill gates this one has NO `&& enabled` -- Java returns the bare payload null check, so the pure gate does NOT read frame["enabled"] at all (the driver already runs the machinery only when enabled). The payload is the PayloadBlockBuild field (`public @Nullable T payload;`, PayloadBlock.java:92), default null, set by handlePayload (`this.payload = (T)payload;`, PayloadBlock.java:122) and cleared by takePayload (PayloadBlock.java:145-149); the frame carries it under the `payload` key (default null for a frame bound before this slice), and the gate reads only its null-ness -- a minimal Dictionary fixture suffices in the proof. The def is payload-unloader (`consumePower(2f);`, Blocks.java:6695; `size = 3;`, Blocks.java:6696); there is no large-payload-unloader. When the gate is false updateConsumption forces efficiency to zero (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). No live fill sets the frame payload yet -- the moveInPayload / handlePayload / takePayload advance is the updateTile advance (PayloadUnloader.java:50-110), which waits for its own slice; the gate reads the frame as-is.
+	var payload: Variant = frame.get("payload", null)
+	var has_payload: bool = payload != null
+	return {"should_consume": has_payload, "has_payload": has_payload}
+
 static func source_payload_unloader_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
-	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a payload-unloader does not take the early return. The unload gate follows the folded efficiency (PayloadUnloader.java:69, `if(efficiency > 0.01f && timer(timerLoad, loadTime / efficiency)){`), with the battery unload (PayloadUnloader.java:98, `float total = payload.build.power.status * cap;`) and the shouldConsume default (BuildingComp.java:755, `public boolean shouldConsume(){`) and the shouldConsume override inherited from PayloadLoaderBuild (PayloadLoader.java:241, `return payload != null;`).
-	# Documented limits: (1) power-only first pass -- PayloadUnloader has a dynamic power consumer (consumePowerDynamic, PayloadLoader.java:80, inherited; `public float maxPowerConsumption = 40f;` (PayloadLoader.java:26) + basePowerUse when hasBattery() && !exporting, else basePowerUse) besides the static consumePower(2f) def (Blocks.java:6695), so the folded efficiency is the min over the *modeled* consumers (power only) with the dynamic usage value deferred. (2) shouldConsume gate deferred -- PayloadUnloaderBuild inherits shouldConsume() to return payload != null (PayloadLoader.java:240-242); payload state is not tracked yet, so the machinery runs with should_consume=true when enabled (the MendProjector suppression precedent). (3) shouldExport gate deferred -- shouldExport() (PayloadUnloader.java:116-122) needs payload items/liquids/battery state. (4) No updateTile advance -- moveInPayload / moveOutPayload / unload items+liquids / battery unload / lastOutputPower / dumpAccumulate (PayloadUnloader.java:50-110) wait for their own slices; the proof carries no unload/export/battery/power-output keys, the unload gate (PayloadUnloader.java:69) is what the efficiency keys prove. (5) No accept/handle payload rows -- acceptPayload fits maxBlockSize (PayloadLoader.java:102-115, inherited) is payload acceptance, not tick state; PayloadUnloaderBuild overrides acceptItem/acceptLiquid to return false (PayloadUnloader.java:35-44).
+	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a payload-unloader does not take the early return. The unload gate follows the folded efficiency (PayloadUnloader.java:69, `if(efficiency > 0.01f && timer(timerLoad, loadTime / efficiency)){`), with the battery unload (PayloadUnloader.java:98, `float total = payload.build.power.status * cap;`) and the shouldConsume default (BuildingComp.java:755, `public boolean shouldConsume(){`) and the shouldConsume override inherited from PayloadLoaderBuild (PayloadLoader.java:241, `return payload != null;`); the gate is live since N2209 (the pure gate source_payload_unloader_should_consume_state feeds payload != null to the machinery; when the gate is false updateConsumption forces efficiency to 0, BuildingComp.java:1960 + 1992).
+	# Documented limits: (1) power-only first pass -- PayloadUnloader has a dynamic power consumer (consumePowerDynamic, PayloadLoader.java:80, inherited; `public float maxPowerConsumption = 40f;` (PayloadLoader.java:26) + basePowerUse when hasBattery() && !exporting, else basePowerUse) besides the static consumePower(2f) def (Blocks.java:6695), so the folded efficiency is the min over the *modeled* consumers (power only) with the dynamic usage value deferred. (2) shouldConsume gate live (N2209) -- PayloadUnloaderBuild inherits shouldConsume() to return payload != null (PayloadLoader.java:240-242); the pure gate (source_payload_unloader_should_consume_state) feeds should_consume to the machinery from the frame payload key (default null). No live payload fill yet -- moveInPayload / handlePayload / takePayload is the updateTile advance (PayloadUnloader.java:50-110), which waits for its own slice; the gate reads the frame as-is, so a live payload-unloader with no fill reads payload null and does not consume. (3) shouldExport gate deferred -- shouldExport() (PayloadUnloader.java:116-122) needs payload items/liquids/battery state. (4) No updateTile advance -- moveInPayload / moveOutPayload / unload items+liquids / battery unload / lastOutputPower / dumpAccumulate (PayloadUnloader.java:50-110) wait for their own slices; the proof carries no unload/export/battery/power-output keys, the unload gate (PayloadUnloader.java:69) is what the efficiency keys prove. (5) No accept/handle payload rows -- acceptPayload fits maxBlockSize (PayloadLoader.java:102-115, inherited) is payload acceptance, not tick state; PayloadUnloaderBuild overrides acceptItem/acceptLiquid to return false (PayloadUnloader.java:35-44). (6) No power-production / battery-unload rows -- getPowerProduction returns lastOutputPower (PayloadUnloader.java:46-48; lastOutputPower 0f, PayloadUnloader.java:33) and the battery unload (PayloadUnloader.java:96-101) needs payload battery state the tick does not track yet; power output + dump cadence wait for their own slice.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -105,10 +128,11 @@ static func source_payload_unloader_tick_buildings_state(game: Object, seconds: 
 		# into the min efficiency like every other non-optional
 		# consumer, and the unload gate (PayloadUnloader.java:69)
 		# follows it. The power consumer counts toward
-		# hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a payload-unloader does not take the early return. A payload-unloader with no power consumer is untouched: the tick models no other consumers yet (the dynamic power consumer row waits for its own slice), and there is no shouldConsume gate yet (PayloadUnloaderBuild inherits shouldConsume() to return payload != null, PayloadLoader.java:240-242, but payload state is not tracked yet), so the machinery runs with should_consume=true when enabled. productionValid is the canonical true default (SourceBuildingAccessState.production_valid_state()).
+		# hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a payload-unloader does not take the early return. A payload-unloader with no power consumer is untouched: the tick models no other consumers yet (the dynamic power consumer row waits for its own slice), and PayloadUnloaderBuild inherits shouldConsume() to return payload != null (PayloadLoader.java:240-242) -- N2209 feeds the live gate to the machinery (the pure gate is source_payload_unloader_should_consume_state, fed the frame payload key); the N2163 RED decision is resolved. The gate has no enabled term (Java returns the bare payload null check); the outer guard below already runs the machinery only when enabled. productionValid is the canonical true default (SourceBuildingAccessState.production_valid_state()).
 		var has_power_consumer: bool = bool(block.properties.has("consumePower"))
 		if has_power_consumer and bool(frame.get("enabled", true)) and not bool(frame.get("cheating", false)):
-			var should_consume: bool = bool(frame.get("enabled", true))
+			var gate: Dictionary = source_payload_unloader_should_consume_state(frame)
+			var should_consume: bool = bool(gate.get("should_consume", true))
 			var valid: bool = source_building_access_state.production_valid_state()
 			var setup: Dictionary = source_building_efficiency_state.update_consumption_setup_state(should_consume, valid)
 			frame["efficiency"] = setup.get("efficiency", 1.0)
