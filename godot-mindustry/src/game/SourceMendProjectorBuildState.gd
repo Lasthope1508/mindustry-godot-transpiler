@@ -120,13 +120,24 @@ static func source_mend_projector_power_status_row_state(frame: Dictionary, has_
 	# booster item rows are live since N2263 (ConsumeItems.
 	# efficiency, ConsumeItems.java:51-53, binary 1/0), folded
 	# into the optional pass (BuildingComp.java:1980-1981) and
-	# capped by minEfficiency (BuildingComp.java:1986). No live
-	# intake fills frame["items"] yet (the Separator precedent),
-	# so the row reads the frame as-is; the timer-gated
-	# consume() (MendProjector.java:102-104, useTime 400f)
-	# stays deferred -- no removal in this slice. Other
-	# unmodeled rows still defer (suppression, draw / drawLight
-	# / sense, the live indexer range query). (2) No shouldConsume gate --
+	# capped by minEfficiency (BuildingComp.java:1986). The
+	# timer-gated consume() (MendProjector.java:102-104,
+	# `public float useTime = 400f;`, MendProjector.java:31)
+	# is live since N2269: the tick accumulates
+	# frame["timer_use_elapsed"] every tick and, between the
+	# advance and the heal scan, removes 1 booster item per
+	# def when the folded optionalEfficiency is positive and
+	# the timer fires and canHeal holds. Documented deviation:
+	# the frame-local clock delays the first fire by a full
+	# interval after placement (Java fires nearly at once --
+	# the global Time.time is already large vs a fresh
+	# Interval times[id] = 0, arc Interval.java:20-26); no
+	# live intake fills frame["items"] yet (the Separator
+	# precedent), so the row and the removal read the frame
+	# as-is; canHeal is the documented default true
+	# (suppression untracked). Other unmodeled rows still
+	# defer (suppression, draw / drawLight / sense, the live
+	# indexer range query). (2) No shouldConsume gate --
 	# MendBuild has no shouldConsume override, so the default
 	# (BuildingComp.java:755-757, `return enabled;`) applies;
 	# the machinery runs with should_consume=true when
@@ -136,11 +147,8 @@ static func source_mend_projector_power_status_row_state(frame: Dictionary, has_
 	# updateTile advance -- N2193 advances smoothEfficiency /
 	# heat / charge / phaseHeat (MendProjector.java:94-100,
 	# 103-105) on the frame, including the charge reset; the
-	# timer/consume line (MendProjector.java:101-103) and the
-	# heal scan + sound (MendProjector.java:106-118) wait for
-	# their own slices, so the proof carries no timer/heal
-	# keys -- the reset, not a heal, is what the reset key
-	# proves. N2242 adds the pure heal scan (explicit
+	# timer/consume line (MendProjector.java:102-104) is live
+	# since N2269 and the heal scan since N2242 (explicit
 	# candidates, MendProjector.java:106-122); Fx / sound /
 	# recentlyHealed and the live indexer query still wait.
 	if not has_power_consumer:
@@ -201,13 +209,14 @@ static func source_mend_projector_item_consumer_row_state(frame: Dictionary, sta
 	# MendProjector.java:100); this slice only supplies the real
 	# optionalEfficiency, and the heal follows it
 	# (`other.heal(other.maxHealth() * (healPercent + phaseHeat * phaseBoost) / 100f * efficiency);`,
-	# MendProjector.java:113). NO removal in this slice: the
-	# timer-gated consume()
+	# MendProjector.java:113). The removal side is live since
+	# N2269 (the timer-gated consume()
 	# `if(optionalEfficiency > 0 && timer(timerUse, useTime / timeScale) && canHeal){`
 	# (MendProjector.java:102-104, `public float useTime = 400f;`,
-	# MendProjector.java:31) stays deferred -- ConsumeItems has
-	# no update() to run in the second pass, so consumption
-	# only ever happens through that timer-gated consume() call
+	# MendProjector.java:31) runs in the tick between the
+	# advance and the heal scan): ConsumeItems has no update()
+	# to run in the second pass, so consumption only ever
+	# happens through that timer-gated consume() call
 	# (`build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));`,
 	# ConsumeItems.java:44-48). A block with no item consumer
 	# (empty stacks) contributes no row.
@@ -224,6 +233,65 @@ static func source_mend_projector_item_consumer_row_state(frame: Dictionary, sta
 			break
 	var result: float = 1.0 if has_all else 0.0
 	return {"has_item_row": true, "row": {"result": result, "is_power": false}}
+
+static func source_mend_projector_timer_use_state(elapsed: float, duration: float, time_scale: float) -> Dictionary:
+	# The frame-local Interval-equivalent for the booster
+	# timer (TimerComp.timer, TimerComp.java:10-13, each
+	# exact expr on ONE comment line, the N2148 lesson):
+	# `if(Float.isInfinite(time)) return false;`
+	# `return timer.get(index, time);`
+	# Interval.get resets times[id] = Time.time on fire
+	# (arc Interval.java:20-26, `boolean got = check(id,
+	# time);` / `if(got) times[id] = Time.time;`) and
+	# check compares Time.time - times[id] >= time (arc
+	# Interval.java:28-30); Time.time counts TICKS (arc
+	# Time.java:69-80, `timeRaw += delta;`). The port has
+	# no global tick clock at the driver layer, so the
+	# elapsed clock is frame-local (frame["timer_use_
+	# elapsed"], accumulated by the tick delta every tick,
+	# unconditionally -- mirroring Time.time, which grows
+	# even while the gate is closed): threshold = duration
+	# / time_scale, the Java threshold in
+	# `if(optionalEfficiency > 0 && timer(timerUse, useTime / timeScale) && canHeal){`
+	# (MendProjector.java:102, `public float useTime =
+	# 400f;`, MendProjector.java:31, no def overrides it);
+	# a non-positive
+	# time_scale is the infinite-time branch (fired
+	# false); fired = elapsed >= threshold; elapsed_after
+	# RESETS to 0.0 on fire (a reset, not a subtraction
+	# like the Fracker accumulator). Documented deviation:
+	# Java fires (nearly) immediately after placement
+	# when the gate first opens (the global Time.time is
+	# already large vs a fresh Interval times[id] = 0);
+	# the frame-local clock delays the first fire by a
+	# full interval. It cannot be fixed without a global
+	# clock -- it waits for a timer-infra slice if exact
+	# first-fire timing is ever needed. consume() itself
+	# (`for(Consume cons : block.consumers){` /
+	# `cons.trigger(self());`, BuildingComp.java:1911-1915)
+	# removes 1 booster item per def (mender silicon,
+	# mend-projector phaseFabric, Blocks.java:1929/1941):
+	# `consumeItem(Items.silicon).boost();`
+	# `consumeItem(Items.phaseFabric).boost();`
+	# consumeItem(item) is a stack of 1 (Block.java:
+	# 1167-1168):
+	# `public ConsumeItems consumeItem(Item item){`
+	# `return consumeItem(item, 1);`
+	# Block.java:1167-1168) via ConsumeItems.trigger
+	# (ConsumeItems.java:44-48):
+	# `build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));`
+	# clamped by ItemModule.remove (ItemModule.java:258-263):
+	# `amount = Math.min(amount, items[item.id]);`
+	# canHeal is (MendProjector.java:94):
+	# `boolean canHeal = !checkSuppression();`
+	# and the tick keeps the documented default true
+	# (suppression untracked, the N2184 precedent).
+	# timeScale defaults 1f (BuildingComp.java:98):
+	# `private transient float timeScale = 1f, timeScaleDuration;`
+	var threshold: float = INF if time_scale <= 0.0 else duration / time_scale
+	var fired: bool = elapsed >= threshold
+	var elapsed_after: float = 0.0 if fired else elapsed
+	return {"fired": fired, "elapsed_after": elapsed_after, "threshold": threshold}
 
 static func source_mend_projector_update_tile_advance_state(frame: Dictionary, reload_value: float, time_delta: float, time_scale := 1.0, can_heal := true) -> Dictionary:
 	# MendBuild.updateTile() (MendProjector.java:94-120), the
@@ -265,10 +333,12 @@ static func source_mend_projector_update_tile_advance_state(frame: Dictionary, r
 	# desynchronizes first-heal timing across projectors).
 	# (4) reload_value is per-def (mender 200f,
 	# mend-projector 250f, Blocks.java:1923/1936), read by
-	# the tick through the family helper. DEFERRED, not
-	# done and not guessed: the booster timer/consume line
-	# `if(optionalEfficiency > 0 && timer(timerUse, useTime / timeScale) && canHeal){` (MendProjector.java:101-103,
-	# needs timer + items infrastructure), and the heal scan
+	# the tick through the family helper. The booster
+	# timer/consume line
+	# `if(optionalEfficiency > 0 && timer(timerUse, useTime / timeScale) && canHeal){` (MendProjector.java:102-104)
+	# is live since N2269 -- the tick runs it between this
+	# advance and the heal scan, not inside the advance.
+	# DEFERRED, not done and not guessed: the heal scan
 	# + sound -- `other.heal(other.maxHealth() * (healPercent + phaseHeat * phaseBoost) / 100f * efficiency);`
 	# (MendProjector.java:113, needs targets/indexer
 	# infrastructure) -- plus draw / drawLight / sense
@@ -448,6 +518,13 @@ static func source_mend_projector_tick_buildings_state(game: Object, seconds: fl
 		# canHeal is the documented default true
 		# (suppression untracked, the N2184 precedent).
 		var time_delta: float = source_placed_block_state.game_source_delta(game, seconds)
+		# The frame-local timer clock (N2269) accumulates
+		# the tick delta EVERY tick, unconditionally --
+		# mirroring Time.time, which grows even while the
+		# gate is closed (arc Time.java:69-80, `timeRaw +=
+		# delta;`), so the timer fires at once when the
+		# gate reopens.
+		frame["timer_use_elapsed"] = float(frame.get("timer_use_elapsed", 0.0)) + time_delta
 		var time_scale: float = source_placed_block_state.time_scale(sprite, source_placed_block_state.game_default_time_scale(game))
 		var reload_value: float = source_mend_projector_state.projector_reload(block)
 		# The heal scan (N2242) runs right after the advance,
@@ -466,6 +543,33 @@ static func source_mend_projector_tick_buildings_state(game: Object, seconds: fl
 		# mirrors the Java `any` field, MendProjector.java:35).
 		var charge_before: float = float(frame.get("charge", 0.0))
 		source_mend_projector_update_tile_advance_state(frame, reload_value, time_delta, time_scale)
+		# The booster timer consume (N2269) runs between the
+		# advance and the heal scan, in Java order
+		# (MendProjector.java:102-104 before :106+):
+		# `if(optionalEfficiency > 0 && timer(timerUse, useTime / timeScale) && canHeal){`
+		# -- the folded optionalEfficiency is positive and
+		# the frame-local timer fires at useTime 400f over
+		# the live timeScale and canHeal holds (the
+		# documented default true, suppression untracked,
+		# the N2184 precedent). consume() removes 1 booster
+		# item per def DIRECTLY through the shared inventory
+		# helper (clamped to the held count, ItemModule.
+		# java:258-263) and the elapsed clock resets to 0.0
+		# (Interval.get resets times[id] = Time.time on
+		# fire, arc Interval.java:20-26). The elapsed clock
+		# is NOT reset when the gate is closed -- Java
+		# short-circuits before calling timer(), so the
+		# Interval keeps its old stamp and fires at once
+		# when the gate reopens.
+		var timer_use: Dictionary = source_mend_projector_timer_use_state(float(frame.get("timer_use_elapsed", 0.0)), 400.0, time_scale)
+		if float(frame.get("optional_efficiency", 0.0)) > 0.0 and bool(timer_use.get("fired", false)):
+			var timer_items: Dictionary = (frame.get("items", {}) as Dictionary).duplicate(true)
+			for booster_stack in _mend_projector_booster_stacks_for_block(block_id):
+				var booster_entry: Dictionary = booster_stack if booster_stack is Dictionary else {}
+				var booster_removed: Dictionary = source_drill_inventory_state.remove_item_state(timer_items, str(booster_entry.get("item", "")), int(booster_entry.get("amount", 0)))
+				timer_items = booster_removed.get(source_drill_inventory_state.SOURCE_DRILL_INVENTORY_DRILL_ITEMS_KEY, timer_items)
+			frame["items"] = timer_items
+			frame["timer_use_elapsed"] = 0.0
 		var heal_scan: Dictionary = source_mend_projector_heal_scan_state(frame, [], charge_before, reload_value, float(block.properties.get("range", 60.0)), float(block.properties.get("healPercent", 12.0)), float(block.properties.get("phaseBoost", 12.0)), float(block.properties.get("phaseRangeBoost", 50.0)), time_delta, time_scale)
 		frame["last_heal_scan"] = heal_scan
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
