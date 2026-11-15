@@ -173464,6 +173464,38 @@
         "test_reference_graph_and_actual_c07_shockwave_tower_hit_effect"
       ],
       "runtime_proof": "/root/C07ShockwaveTowerHitEffectProof"
+    },
+    "source_shockwave_tower_use_event_state_result.event": {
+      "status": "source-backed",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_use_event_state",
+      "godot_symbol": "source_shockwave_tower_use_event_state_result.event",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.updateTile()",
+      "java_expr": "Events.fire(Trigger.shockwaveTowerUse);",
+      "rule": "The fired trigger name (ShockwaveTower.java:99): \"shockwaveTowerUse\" (`shockwaveTowerUse,` in the Trigger enum, EventType.java:28) when the tower fired on a default-team frame, null otherwise. The port fires no real event (no Events / Trigger bus is wired), so the pure function stamps the trigger name instead of firing it -- the same descriptor pattern as the N2197 Fx / sound / shake. The achievement hook (GameService.java:397 `trigger(Trigger.shockwaveTowerUse, shockwaveTowerUse);` over Achievement.java:110) is downstream of the event bus and is not modeled.",
+      "tests": [
+        "test_c07_shockwave_tower_use_event_registration",
+        "test_all_c07_shockwave_tower_use_event_input_evidence_is_exact",
+        "test_shockwave_tower_use_event_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_use_event"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerUseEventProof"
+    },
+    "source_shockwave_tower_use_event_state_result.event_fired": {
+      "status": "source-backed",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_use_event_state",
+      "godot_symbol": "source_shockwave_tower_use_event_state_result.event_fired",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.updateTile()",
+      "java_expr": "if(team == state.rules.defaultTeam){",
+      "rule": "Whether the event fired (ShockwaveTower.java:98): true only when the frame records a fire (`fired` true, the N2194 result) AND the tower team is the default team (`team_id` == SOURCE_TEAM_SHARDED_ID, 1 -- Rules.java:205 `public Team defaultTeam = Team.sharded;`, Team.java:34; the frame `rules_state` carries no defaultTeam key, so the comparison uses the Java Rules default, a documented limit) -- the driver stamps frame[\"shockwave_tower_use_event\"] only when this is true, and only on a tick where the N2194 fire fired, after the N2198 hit effect.",
+      "tests": [
+        "test_c07_shockwave_tower_use_event_registration",
+        "test_all_c07_shockwave_tower_use_event_input_evidence_is_exact",
+        "test_shockwave_tower_use_event_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_use_event"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerUseEventProof"
     }
   },
   "version": 1

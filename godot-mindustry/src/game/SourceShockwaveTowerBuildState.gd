@@ -254,8 +254,9 @@ static func source_shockwave_tower_fire_state(frame: Dictionary, delta: float) -
 	# `public Effect hitEffect = Fx.hitSquaresColor;`) and the
 	# shockwaveTowerUse event (:97-99,
 	# `if(team == state.rules.defaultTeam){` /
-	# `Events.fire(Trigger.shockwaveTowerUse);`) wait for their own
-	# slices -- the fire function returns only the flag, the reset
+	# `Events.fire(Trigger.shockwaveTowerUse);`) land in their own
+	# slices (N2197 fire effects, N2198 hit effect, N2199 use
+	# event) -- the fire function returns only the flag, the reset
 	# counter, and the heat. Every tick, heat decays
 	# (ShockwaveTower.java:104, `heat = Mathf.clamp(heat - Time.delta / reload * cooldownMultiplier);`)
 	# against the per-def reload 80f (Blocks.java:2044,
@@ -483,6 +484,45 @@ static func source_shockwave_tower_hit_effect_state(frame: Dictionary) -> Dictio
 		hit_effects.append({"effect": "hitSquaresColor", "x": float(outcome.get("hit_x", 0.0)), "y": float(outcome.get("hit_y", 0.0)), "color": "Pal.accent"})
 	return {"hit_effects": hit_effects, "has_hit_effects": true}
 
+static func source_shockwave_tower_use_event_state(frame: Dictionary) -> Dictionary:
+	# ShockwaveTowerBuild.updateTile fires the shockwaveTowerUse
+	# event inside the fire gate, after the per-target hit
+	# effect (ShockwaveTower.java:97-99, `if(team ==
+	# state.rules.defaultTeam){` /
+	# `Events.fire(Trigger.shockwaveTowerUse);`, over
+	# `shockwaveTowerUse,` in the Trigger enum, EventType.java:28,
+	# and `public Team defaultTeam = Team.sharded;`,
+	# Rules.java:205 -- sharded is id 1, Team.java:34,
+	# `sharded = new Team(1, "sharded", Pal.accent.cpy(), Color.valueOf("ffd37f"), Color.valueOf("eab678"), Color.valueOf("d4816b")),`,
+	# read through the port's existing
+	# source_block_geometry.SOURCE_TEAM_SHARDED_ID constant). The port fires no real event (no Events /
+	# Trigger bus is wired), so the pure function stamps the
+	# trigger name instead of firing it -- the same descriptor
+	# pattern as the N2197 Fx / sound / shake. The function
+	# reads the frame's `fired` key (the N2194 fire result,
+	# stamped on the frame by the driver alongside
+	# `reload_counter` / `heat`) and its `team_id` key (already
+	# stamped by the tick wiring from the sprite team meta).
+	# The event fires only when the tower fired AND its team is
+	# the default team. Any other combination -- not fired,
+	# another team, absent `fired` or absent `team_id` -- means
+	# "no event": `{"event": null, "event_fired": false}` and
+	# the driver stamps nothing (the N2190 / N2195 / N2196
+	# precedent) -- never a fabricated event. The frame's
+	# `rules_state` carries no defaultTeam key, so the
+	# comparison uses the Java Rules default, a documented
+	# limit: a custom rules defaultTeam override is not modeled.
+	# The driver calls the event AFTER the N2198 hit effect and
+	# ONLY when the fire fired (the Java order :89-95 before
+	# :98-99). No RNG.
+	var fired: Variant = frame.get("fired", null)
+	var team_id: Variant = frame.get("team_id", null)
+	if fired == null or team_id == null:
+		return {"event": null, "event_fired": false}
+	if bool(fired) and int(team_id) == source_block_geometry.SOURCE_TEAM_SHARDED_ID:
+		return {"event": "shockwaveTowerUse", "event_fired": true}
+	return {"event": null, "event_fired": false}
+
 @warning_ignore("unused_parameter")
 static func source_shockwave_tower_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the shockwave-tower tick wiring every
@@ -572,12 +612,15 @@ static func source_shockwave_tower_tick_buildings_state(game: Object, seconds: f
 			# the charge just advanced (ShockwaveTower.java:73,
 			# `if(potentialEfficiency > 0 && (reloadCounter += edelta()) >= reload && timer(timerCheck, checkInterval)){`).
 			# The tick's `seconds` is the delta (the N2190 driver
-			# convention); the fire stamps `reload_counter` (reset
-			# to 0.0 on fire) and `heat` from the result. The live
+			# convention); the fire stamps `fired` (whether this
+			# tick fired) plus `reload_counter` (reset to 0.0 on
+			# fire) and `heat` from the result -- the N2199 use
+			# event reads the stamped `fired` flag. The live
 			# bullet scan (Groups.bullet.intersect,
 			# ShockwaveTower.java:75-79) has no frame input yet, so
 			# the fire reads the observed `targets_count` key only.
 			var fired: Dictionary = source_shockwave_tower_fire_state(frame, seconds)
+			frame["fired"] = fired.get("fired", false)
 			frame["reload_counter"] = fired.get("reload_counter", 0.0)
 			frame["heat"] = fired.get("heat", 0.0)
 			# The wave damage (N2196): the wave runs inside the
@@ -596,10 +639,11 @@ static func source_shockwave_tower_tick_buildings_state(game: Object, seconds: f
 			# `bullet_outcomes`, and only when the wave reports
 			# one (has_wave_damage true). The stamped outcomes
 			# persist on the frame until the next fire (like
-			# heat). The shockwaveTowerUse event (:97-99) waits
-			# for its own slice; the fire effects (:84-86) land
-			# in N2197 just above the wave damage call, and the
-			# hit effect (:95) lands in N2198 just below it.
+			# heat). The fire effects (:84-86) land in N2197 just
+			# above the wave damage call, the hit effect (:95)
+			# lands in N2198 just below it, and the
+			# shockwaveTowerUse event (:97-99) lands in N2199 just
+			# below the hit effect.
 			if bool(fired.get("fired", false)):
 				# The fire effects (N2197): the effects run
 				# inside the fire gate in Java
@@ -615,8 +659,8 @@ static func source_shockwave_tower_tick_buildings_state(game: Object, seconds: f
 				# damage. The effects stamp `wave_effect` /
 				# `shoot_sound` / `shake` only when the effects
 				# report one (has_fire_effects true). The
-				# shockwaveTowerUse event (:97-99) waits for its
-				# own slice.
+				# shockwaveTowerUse event (:97-99) lands in N2199
+				# just below the hit effect.
 				var effects: Dictionary = source_shockwave_tower_fire_effects_state(frame)
 				if bool(effects.get("has_fire_effects", false)):
 					frame["wave_effect"] = effects.get("wave_effect", null)
@@ -640,6 +684,20 @@ static func source_shockwave_tower_tick_buildings_state(game: Object, seconds: f
 				var hit: Dictionary = source_shockwave_tower_hit_effect_state(frame)
 				if bool(hit.get("has_hit_effects", false)):
 					frame["hit_effects"] = hit.get("hit_effects", [])
+				# The use event (N2199): the event runs inside
+				# the fire gate in Java (ShockwaveTower.java:97-99,
+				# `if(team == state.rules.defaultTeam){` /
+				# `Events.fire(Trigger.shockwaveTowerUse);`),
+				# after the per-target hit effect (:89-95), so the
+				# driver calls it after the N2198 hit effect and
+				# ONLY when the fire fired, stamping
+				# `frame["shockwave_tower_use_event"]` only when
+				# the event reports one (event_fired true). The
+				# stamped event persists on the frame until the
+				# next fire (like heat / the N2196 outcomes).
+				var use_event: Dictionary = source_shockwave_tower_use_event_state(frame)
+				if bool(use_event.get("event_fired", false)):
+					frame["shockwave_tower_use_event"] = use_event.get("event", null)
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1

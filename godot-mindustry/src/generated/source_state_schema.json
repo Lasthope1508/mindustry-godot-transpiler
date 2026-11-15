@@ -230612,6 +230612,54 @@
       },
       "runtime_proof": "/root/C07ShockwaveTowerHitEffectProof",
       "rule": "Source-backed ShockwaveTower hit effect from ShockwaveTower.java / BuildingComp.java."
+    },
+    "source_shockwave_tower_use_event_state_input": {
+      "status": "active",
+      "owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_use_event_state",
+      "source_slice": "N2199",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(team == state.rules.defaultTeam){",
+          "rule": "The building frame carrying the N2194 `fired` flag (the fire result, stamped on the frame by the GREEN driver alongside `reload_counter` / `heat`) and the `team_id` key (already stamped by the tick wiring from the sprite team meta, SOURCE_TEAM_SHARDED_ID 1 for a placed default-team tower) -- the event fires only when the tower fired AND its team is the default team. Absent `fired` or absent `team_id` means \"no event\" and the driver stamps nothing (the N2190 / N2195 / N2196 precedent).",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_use_event_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShockwaveTowerUseEventProof",
+      "rule": "Source-backed ShockwaveTower use event from ShockwaveTower.java / BuildingComp.java."
+    },
+    "source_shockwave_tower_use_event_state_result": {
+      "status": "active",
+      "owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_use_event_state",
+      "source_slice": "N2199",
+      "keys": {
+        "event": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "Events.fire(Trigger.shockwaveTowerUse);",
+          "rule": "The fired trigger name (ShockwaveTower.java:99): \"shockwaveTowerUse\" (`shockwaveTowerUse,` in the Trigger enum, EventType.java:28) when the tower fired on a default-team frame, null otherwise. The port fires no real event (no Events / Trigger bus is wired), so the pure function stamps the trigger name instead of firing it -- the same descriptor pattern as the N2197 Fx / sound / shake. The achievement hook (GameService.java:397 `trigger(Trigger.shockwaveTowerUse, shockwaveTowerUse);` over Achievement.java:110) is downstream of the event bus and is not modeled.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_use_event_state"
+          ]
+        },
+        "event_fired": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "if(team == state.rules.defaultTeam){",
+          "rule": "Whether the event fired (ShockwaveTower.java:98): true only when the frame records a fire (`fired` true, the N2194 result) AND the tower team is the default team (`team_id` == SOURCE_TEAM_SHARDED_ID, 1 -- Rules.java:205 `public Team defaultTeam = Team.sharded;`, Team.java:34; the frame `rules_state` carries no defaultTeam key, so the comparison uses the Java Rules default, a documented limit) -- the driver stamps frame[\"shockwave_tower_use_event\"] only when this is true, and only on a tick where the N2194 fire fired, after the N2198 hit effect.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_use_event_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShockwaveTowerUseEventProof",
+      "rule": "Source-backed ShockwaveTower use event from ShockwaveTower.java / BuildingComp.java."
     }
   },
   "version": 1
