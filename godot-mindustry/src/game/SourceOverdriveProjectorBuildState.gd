@@ -288,9 +288,19 @@ static func source_overdrive_projector_tick_buildings_state(game: Object, second
 			source_building_efficiency_state.apply_update_consumption_state(consumption, frame)
 		# N2194: the updateTile advance runs every tick for every
 		# placed OverdriveProjector build (Java updateTile runs
-		# every tick for update=true blocks), AFTER the
-		# consumption fold, so it reads the freshly folded
-		# efficiency and optionalEfficiency. source_delta is
+		# every tick for update=true blocks -- the gate
+		# `if(enabled || !block.noUpdateDisabled){`
+		# (BuildingComp.java:2277-2279) always passes because
+		# noUpdateDisabled defaults false, Block.java:170), AFTER
+		# the consumption fold, so it reads the freshly folded
+		# efficiency and optionalEfficiency. Known deviation
+		# (the driver-wide disabled gap, deferred in the N2194
+		# register): when disabled, the driver skips the
+		# consumption fold, so the frame efficiency goes stale
+		# and this advance keeps charging from it -- in Java a
+		# disabled projector's efficiency is zeroed
+		# (BuildingComp.java:1954-1957), so heat decays toward
+		# 0 and useProgress stops. source_delta is
 		# Time.delta in ticks (seconds * 60 via game_source_delta,
 		# never raw seconds); the timeScale for delta() is read
 		# live from the sprite meta (the N2189 precedent), and
