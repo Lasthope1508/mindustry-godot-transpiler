@@ -1,6 +1,6 @@
 """Register the pump dumpLiquid step (N2090).
 
-N2090 is the pump's updateTile dump step (Pump.java:180-182): if
+N2090 is the pump's updateTile dump step (Pump.java:178-180): if
 liquidDrop != null, dumpLiquid(liquidDrop). BuildingComp.dumpLiquid
 (liquid) calls dumpLiquid(liquid, 2f) — scaling 2, any output
 direction — which routes the pump's water to its liquid neighbors
