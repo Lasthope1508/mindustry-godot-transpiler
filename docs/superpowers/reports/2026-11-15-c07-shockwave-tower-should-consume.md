@@ -1,0 +1,41 @@
+# Report — N2193: ShockwaveTower shouldConsume gate (C07)
+
+Date: 2026-11-15. Batch: N2193 (single slice). Status: **DONE (2026-11-15 ~18:45 +07 — Godot proof GREEN 6 keys matches:true, targeted 4/4 OK, neighbours 44/44 OK, full gate Ran 5865, failures=143, skipped=5, 0 errors — all 143 verified Godot-absent asserts, baseline +1 failure from the new proof test). Slice commit `2e75942`.**
+
+## What changed
+
+The first remaining C07 deferred item in the N2192 handoff "Next" order whose prerequisite just landed: N2192 stamps `reload_counter` on the frame each tick (the charge advance is the ONLY writer), so the gate slice can now read a live counter. One family (ShockwaveTower: shockwave-tower only), one pure function, one driver line, one proof scene — no gameplay change. It closes the exact observable gap N2177 left open with a documented limit: with a fully charged tower power.status reads 1.0 while Java efficiency is 0.
+
+What N2193 adds (11 files):
+
+- **Pure function** `source_shockwave_tower_should_consume_state(frame)` in the EXISTING `godot-mindustry/src/game/SourceShockwaveTowerBuildState.gd` (dict-return style), returning `{"should_consume": bool}`: `frame.get("reload_counter", null)` / absent → `{"should_consume": enabled}` (null means "no observation yet", not "fully charged" — the N2191 `targets_count` / N2188 `has_target` precedent; defaulting absent to false would zero efficiency for every live shockwave tower before its first charge tick, a live regression against N2177 GREEN) / present → `float(observed) < 80.0 and enabled`. The 80.0 threshold is the per-def reload (Blocks.java:2044), NOT the class default 90.0 (`60f * 1.5f`, ShockwaveTower.java:26) — the per-def value overrides it, and the N2192 charge already runs against 80f.
+- **Driver line** — one call + comment in `source_shockwave_tower_tick_buildings_state`, BEFORE the consumption setup: `var should_consume: bool = bool(source_shockwave_tower_should_consume_state(frame).get("should_consume", true))` replacing `bool(frame.get("enabled", true))` (the N2191 pattern), reading the `reload_counter` the PREVIOUS tick's charge stamped (the Java order: updateConsumption :2274 reads shouldConsume() at :1960 BEFORE updateTile :2277 charges the counter). The setup / power row / `update_consumption_state` / `apply_update_consumption_state` / charge calls are unchanged. `git diff --check` clean.
+- **Register script:** `register_c07_shockwave_tower_should_consume.py` carries DEFERRED by import from `register_c07_shockwave_tower_charge` (runtime value verbatim, never retyped — the N2191/N2192 lesson, with the same NOTE left for the next slice). The inherited 160-entry list contains NO ShockwaveTower entries (the N2192 RED note, still true). The N2193 script adds 2 new entries (Windows Godot proof debt + a re-pin of the still-deferred fire gate / heat / sense / warmup / liquid / draw from N2193's own standpoint). The shouldConsume gate itself is NOT carried as deferred: it is THIS slice.
+- **Proof scene** `C07ShockwaveTowerShouldConsumeProof.gd` (+ `.tscn`, `.json` untracked per .gitignore:6), N2191 proof shape with the N2192 placement (shockwave-tower, cell (28, 21), driver called directly). 6 keys: gate passes below reload (pure), gate blocks at reload (pure), gate blocks when disabled (pure + machinery), gate absent preserves power fold (live tick), gate blocks when fully charged (live tick), gate passes below reload live (live tick).
+- **Test module + register script** `test_c07_shockwave_tower_should_consume.py` + `register_c07_shockwave_tower_should_consume.py` (N2191 pattern). SSOT 11396/1642/1563/2917 → **11397/1643/1564/2919**, audit `totalSourceFunctions` 1335 — exactly the RED estimate (one symbol per result-dict key, 1-key dict). Defense shards mirrored as expected (defense_slices 155 → 156, defense_api_contracts 154 → 155, N2193 in both — the N2177/N2192 precedent).
+
+## RED
+
+Tests written first per the slice process; the handoff's RED decisions section records the frame keys (`reload_counter`), proof keys, and exact-vs-deferred calls confirmed at RED in the 18:00 tick. Targeted RED run: `python3 -m unittest tests.test_c07_shockwave_tower_should_consume` (Godot 4.6.2 on PATH, port 7777 FREE): **Ran 4 in 9.969s, FAILED (failures=2, errors=2)** — registration `KeyError: 'N2193'` (no ledger entry yet), input-evidence error (same cause), state test FAIL (pure function not found), proof test FAIL (Godot parse error: static function not found, proof `.tscn` fails to load). All four failures are the missing implementation, exactly the RED expectation. No proof `.json` written (scene never parsed). Log `tools/mindustry_godot_transpiler/n2193-red.log`.
+
+## GREEN
+
+- **Register run clean:** SSOT **11397/1643/1564/2919**, audit 1335 — exactly the RED estimate. Defense shards mirrored as expected (156/155).
+- **Targeted: Ran 4 in 15.047s, OK** (Godot 4.6.2 on PATH, port 7777 FREE at start; proof 6 keys `matches: true`, 0 ERROR, returncode 0). Re-verified by the main thread at the 18:15 tick (no `n2193-green.log` left by the worker): targeted re-run Ran 4 OK in 13.818s.
+- **Godot proof (headless, Linux, Godot 4.6.2):** `C07ShockwaveTowerShouldConsumeProof.json` — 9 keys total (6 semantic + registry_valid + one_headquarter_per_ssot + matches), `matches: true`, 0 false keys, 0 ERROR. Verified from the JSON on disk by the 18:15 tick.
+- **Neighbours:** family N2177 module **Ran 4, OK** (13.389s, main-thread re-run) + N2192 module **Ran 4, OK** (12.990s, main-thread re-run) + **wiring 9 modules / 32 tests: 32/32 OK** in 119.091s (log `tools/mindustry_godot_transpiler/n2193-wiring.log`). GREEN total: targeted 4 + family 8 + wiring 32 = **44/44 OK**.
+- **Full gate attempt 1 (PID 10614, worker-launched, ~18:2x) DIED** — verified by the main thread: no python/unittest process, log `tools/mindustry_godot_transpiler/full-suite-n2193-gate.log` stopped at 3651 bytes (3527 dots + 119 F + 0 E + 5 s, no footer) at ~3651/5865 tests. NO VM restart (uptime ~1:30 at the check). The gate died when the tick's worker session ended — the same worker-session death pattern as N2191 attempt 1. The worker's "gate running" status was stale.
+- **Full gate attempt 2 (PID 10841, SID 10841, main thread, ~18:21): FINISHED ~18:37** (log `tools/mindustry_godot_transpiler/full-suite-n2193-gate.log`, 97,656 bytes, footer present): **Ran 5865 tests in 977.751s, FAILED (failures=143, skipped=5)** — no errors field, 0 `ERROR:` lines. All 143 verified Godot-absent (grep on the log): **143 × `AssertionError: unexpectedly None`**, 0 other AssertionError types, 143 `FAIL:` lines. The N2193 proof test is failure #143 (the expected +1: it needs Godot on PATH, and it passed 4/4 in the targeted run where Godot was on PATH). No VM restart during the gate (uptime 1:33 at the 18:45 check; restart #13 ~17:13 happened BEFORE the gate launched). javalang 0.13.0 still importable, port 7777 FREE, godot NOT on PATH (correct baseline). The gate is clean except Godot — exactly the N2192 baseline (Ran 5861, failures 142, skipped 5) + 4 new tests / +1 failure from the new proof test.
+
+## Commits
+
+- Slice: `2e75942` — C07: N2193 ShockwaveTower shouldConsume gate (pure function + driver line; proof 6 keys), 11 files, +958.
+- Docs: `DOCS_HASH` — Docs: N2193 report + handoff + design spec (gate clean except Godot).
+- GOAL: `GOAL_HASH` — Docs: GOAL.md names the N2193 slice commit that carries its proof to Windows.
+- Pushed 2026-11-15 ~18:5x +07 to the fork (Lasthope1508). See the handoff Commits section for the hashes.
+
+## Deferred (NOT this slice)
+
+- The fire gate — bullet scan, wave damage, heat=1, reloadCounter=0 reset (ShockwaveTower.java:74-103); heat decay (:104 `heat = Mathf.clamp(heat - Time.delta / reload * cooldownMultiplier);`); sense(LAccess.progress) = reloadCounter/reload (:110); warmup() returns heat (:117); cyanogen liquid consumer; draw modeling (:126-139).
+- The remaining C07 deferred items per the N2192 handoff table — BuildTurret shouldConsume (plans count + suppression state), ShieldWall broken()/damage coupling, MassDriver / LaunchPad rows, RepairTurret coolant, the Units.nearby live query — each its own slice; or C08 inventory (classify the 5,390 null-body functions) when asked.
+- Windows Godot proof — debt in GOAL.md §5, same as N2182–N2192.
