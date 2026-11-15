@@ -117,9 +117,7 @@ DEFERRED = ['MendProjector draw / drawLight / sense (MendProjector.java:122-170)
  'PayloadMassDriver large variant (large-payload-mass-driver, consumePower 3f, Blocks.java:6637; size 5, '
  'Blocks.java:6632) -- the same driver covers both defs via the catalog consumePower; the large def waits for its own '
  'verification slice.',
- 'PayloadUnloader accept/handle payload rows (acceptPayload fits maxBlockSize, PayloadLoader.java:102-115, inherited; '
- 'handlePayload, PayloadLoader.java:118-121, inherited; PayloadUnloaderBuild overrides acceptItem/acceptLiquid to '
- 'return false, PayloadUnloader.java:35-44) -- payload acceptance waits for its own slice.',
+ 'PayloadUnloader acceptPayload rows (acceptPayload fits maxBlockSize, PayloadLoader.java:90-101, inherited; PayloadUnloaderBuild overrides acceptItem/acceptLiquid to return false, PayloadUnloader.java:35-44) -- payload acceptance waits for its own slice (handlePayload is live since N2279; the old entry cited acceptPayload :102-115 and handlePayload :118-121, both wrong).',
  'PayloadDeconstructor acceptPayload / handlePayload / acceptUnitPayload rows (acceptPayload fits maxPayloadSize + '
  'requirements, PayloadDeconstructor.java:104-106; handlePayload clears accum, PayloadDeconstructor.java:98-101; '
  'acceptUnitPayload unit type / hitSize / requirements, PayloadDeconstructor.java:92-95) -- payload acceptance waits '
@@ -518,8 +516,7 @@ DEFERRED = ['MendProjector draw / drawLight / sense (MendProjector.java:122-170)
  'Pump shouldConsume gate on the scenario pump path (SourcePumpRuntimeState.source_pump_update_state pumps whenever '
  'liquidDrop != null with efficiency hardcoded 1.0 and never evaluates shouldConsume(); N2205 wires the gate only into '
  'the placed-pump driver, SourceMechanicalPumpBuildState; the scenario path waits for its own slice).',
- 'PayloadLoader accept/handle payload rows (acceptPayload fits maxBlockSize, PayloadLoader.java:102-115; '
- 'handlePayload, PayloadLoader.java:118-121) -- payload acceptance waits for its own slice.',
+ 'PayloadLoader acceptPayload rows (acceptPayload fits maxBlockSize + item/liquid-container + battery, PayloadLoader.java:90-101; super.acceptPayload returns this.payload == null, PayloadBlock.java:116-118) -- payload acceptance waits for its own slice (handlePayload is live since N2278; the old entry cited acceptPayload :102-115 and handlePayload :118-121, both wrong).',
  'PayloadLoader live payload fill (moveInPayload / handlePayload set the payload, takePayload clears it, '
  'PayloadBlock.java:121-122, 145-147, 181-199; PayloadLoader.java:104-107) -- no live fill yet; the gate reads '
  'frame["payload"] as-is, and fill waits for its own slice (new deferral, N2208).',
