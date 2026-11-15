@@ -62,6 +62,11 @@ func _ready() -> void:
 
 	# Half power: efficiency folds the power min 0.5.
 	drill_frame["power_status"] = 0.5
+	# N2202: the shouldConsume gate reads facing_amount from the frame
+	# (BeamDrill.java:270-272, `facingAmount > 0`); the freshly bound frame
+	# defaults it to 0, so seed one facing wall or the gate closes and the
+	# efficiency fold reads 0 instead of the power min.
+	drill_frame["facing_amount"] = 1
 	beam_drill_build_state.source_beam_drill_tick_buildings_state(game, 1.0 / 60.0)
 	drill_frame = drill.get_meta(beam_drill_build_state.SOURCE_BEAM_DRILL_BUILDING_META_KEY, {})
 	proof["efficiency_folds_power_min"] = is_equal_approx(float(drill_frame.get("efficiency", -1.0)), 0.5)
