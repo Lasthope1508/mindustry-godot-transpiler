@@ -38,6 +38,51 @@ static func _stack_router_first_item(items: Dictionary, item_order: Array) -> Va
 			return str(candidate)
 	return null
 
+static func source_stack_router_target_list_state(neighbours: Array, current: Variant, sort_item: Variant, rotation: int, team: int, cdump: int, handoff_count: int) -> Dictionary:
+	# The target() live proximity selection (DuctRouter.target(), DuctRouter.java:139-157), the pure simulation of consecutive target() calls -- the StackRouter while loop (`var target = target();` / `while(target != null && items.get(current) > 0){` / `target = target();`, StackRouter.java:47-52) calls target() once per handoff, so this function simulates up to handoff_count calls (items.get(current) at tick start, `public int get(Item item){` / `return items[item.id];`, ItemModule.java:209-211) and returns the ordered targets plus the cdump value after the simulated calls. Each Java expr on ONE comment line (the N2148 lesson):
+	# `public Building target(){`
+	# `if(current == null) return null;`
+	# `int dump = cdump;`
+	# `for(int i = 0; i < proximity.size; i++){`
+	# `Building other = proximity.get((i + dump) % proximity.size);`
+	# `int rel = relativeTo(other);`
+	# `if(!(sortItem != null && (current == sortItem) != (rel == rotation)) && !(rel == (rotation + 2) % 4) && other.team == team && other.acceptItem(this, current)){`
+	# `incrementDump(proximity.size);`
+	# `public void incrementDump(int prox){`
+	# `if(prox != 0){`
+	# `cdump = ((cdump + 1) % prox);`
+	# `public byte relativeTo(Building build){`
+	# `public @Nullable Item sortItem;`
+	# `config(Item.class, (DuctRouterBuild tile, Item item) -> tile.sortItem = item);`
+	# `transient int cdump;`
+	# `transient int rotation;`
+	# Each call snapshots `int dump = cdump;` and scans from there; the first match wins. incrementDump runs on EVERY scanned iteration -- before the return on a match (DuctRouter.java:149-150) and at the end of the loop otherwise (DuctRouter.java:153) -- so each call advances cdump by exactly the number of neighbours scanned (1..size), including the match; a call that scans the whole list without a match returns null and stops the sequence (its advance is a full size, i.e. a no-op modulo size). The scan index uses the snapshot dump, NOT the advancing cdump. The neighbour frame contract: each entry is a Dict {id, rel, team, accepts_item} in proximity order -- rel is relativeTo(other) (BuildingComp.java:530) precomputed per neighbour (the port has no live tile geometry to compute it), team is the neighbour team for the `other.team == team` gate, accepts_item is the neighbour acceptItem(this, current) answer. The router team is an explicit parameter: the Java match compares other.team == team, so the pure function needs it as an input. The sort gate compares item names as strings (the N2225 precedent -- Java compares Item references). current == null returns an empty list at once; an empty neighbour list runs no iteration, so cdump is unchanged; handoff_count <= 0 means no call happens. Documented deviation: Java calls target() once more after the last handoff (StackRouter.java:51, `target = target();` before the while condition re-checks items), so cdump advances one extra scan the port does not simulate -- the port stops at handoff_count targets and the trailing result is discarded by Java too, only its cdump side effect is lost.
+	var targets: Array = []
+	var dump_after: int = cdump
+	if current == null or neighbours.is_empty() or handoff_count <= 0:
+		return {"targets": targets, "cdump_after": dump_after}
+	var size: int = neighbours.size()
+	var current_name: String = str(current)
+	var sort_name: String = "" if sort_item == null else str(sort_item)
+	while targets.size() < handoff_count:
+		var dump: int = dump_after
+		var matched := false
+		for i in range(size):
+			var entry: Dictionary = neighbours[(i + dump) % size] as Dictionary
+			var rel: int = int(entry.get("rel", -1))
+			var sort_gate: bool = sort_item != null and (current_name == sort_name) != (rel == rotation)
+			var backwards: bool = rel == (rotation + 2) % 4
+			var same_team: bool = int(entry.get("team", -1)) == team
+			var accepts: bool = bool(entry.get("accepts_item", false))
+			dump_after = (dump_after + 1) % size
+			if not sort_gate and not backwards and same_team and accepts:
+				targets.append(entry)
+				matched = true
+				break
+		if not matched:
+			break
+	return {"targets": targets, "cdump_after": dump_after}
+
 static func source_stack_router_update_tile_advance_state(frame: Dictionary, speed: float, base_efficiency: float, item_capacity: int, targets: Array, item_order: Array) -> Dictionary:
 	# The updateTile advance (StackRouterBuild.updateTile(), StackRouter.java:28-70), the pure frame advance -- the build fields are `public boolean unloading = false;` (StackRouter.java:25), `public float progress;` (DuctRouter.java:79) and `public @Nullable Item current;` (DuctRouter.java:80), and the advance follows the Java lines in order (each exact expr on ONE comment line, the N2148 lesson):
 	# `public class StackRouter extends DuctRouter{`
@@ -138,8 +183,8 @@ static func source_stack_router_tick_frame_state(frame: Dictionary, block_implem
 	return frame
 
 static func _initial_frame() -> Dictionary:
-	# A new StackRouterBuild starts idle: `public boolean unloading = false;` (StackRouter.java:25), `public float progress;` (DuctRouter.java:79, default 0f) and `public @Nullable Item current;` (DuctRouter.java:80, default null); the Building.items ItemModule starts empty (frame["items"], Dictionary keyed by item name, the factory precedent -- the N2225 ItemBridge advance carries the same key).
-	return {"unloading": false, "current": null, "progress": 0.0, "items": {}}
+	# A new StackRouterBuild starts idle: `public boolean unloading = false;` (StackRouter.java:25), `public float progress;` (DuctRouter.java:79, default 0f) and `public @Nullable Item current;` (DuctRouter.java:80, default null); the Building.items ItemModule starts empty (frame["items"], Dictionary keyed by item name, the factory precedent -- the N2225 ItemBridge advance carries the same key). The target() selection (N2324) adds the dump cursor `transient int cdump;` (BuildingComp.java:68, default 0) and the sort item `public @Nullable Item sortItem;` (DuctRouter.java:77, default null).
+	return {"unloading": false, "current": null, "progress": 0.0, "items": {}, "cdump": 0, "sort_item": null}
 
 static func source_stack_router_bind_frame_state(sprite: Sprite2D, block: Object) -> Dictionary:
 	# Placement creates the Building (Block.java:1002 newBuilding);
@@ -164,7 +209,7 @@ static func source_stack_router_power_status_row_state(frame: Dictionary, has_po
 	# The stack router is its own family (StackRouter.java:11, `public class StackRouter extends DuctRouter{`; StackRouterBuild, StackRouter.java:24, `public class StackRouterBuild extends DuctRouterBuild{`), a distribution block, NOT related to any factory / turret / defense / bridge / conveyor family. Class fields: `public float baseEfficiency = 0f;` (StackRouter.java:12), `public @Load(value = "@-glow", fallback = "arrow-glow") TextureRegion glowRegion;` (StackRouter.java:14), `public float glowAlpha = 1f;` (StackRouter.java:15), `public Color glowColor = Pal.redLight;` (StackRouter.java:16); constructor `public StackRouter(String name){` (StackRouter.java:18), `itemCapacity = 10;` (StackRouter.java:20), `drawDynamic = true;` (StackRouter.java:21). Build fields: `public boolean unloading = false;` (StackRouter.java:25). The updateTile advance (StackRouter.java:29, `float eff = enabled ? (efficiency + baseEfficiency) : 0f;` with StackRouter.java:30, `float cap = speed;` and StackRouter.java:35, `progress += eff;`, keep on ONE comment line, the N2148 shootWarmup lesson: a split line fails this test) fills toward the cap: `if(!unloading && current != null && items.total() >= itemCapacity){` (StackRouter.java:32) with `if(progress < cap){` (StackRouter.java:33), then `if(progress >= cap){` (StackRouter.java:37) sets `unloading = true;` (StackRouter.java:38) and `progress %= cap;` (StackRouter.java:39). The unload branch `if(unloading && current != null){` (StackRouter.java:46) hands items to the target: `var target = target();` (StackRouter.java:47), `while(target != null && items.get(current) > 0){` (StackRouter.java:48), `target.handleItem(this, current);` (StackRouter.java:49), `items.remove(current, 1);` (StackRouter.java:50), `if(items.get(current) == 0){` (StackRouter.java:52) sets `current = null;` (StackRouter.java:53) and `unloading = false;` (StackRouter.java:54). The current-pick branch `if((current == null || items.get(current) == 0) && items.total() > 0){` (StackRouter.java:62) with `current = items.first();` (StackRouter.java:63) picks the next item, and `if(items.empty()){` (StackRouter.java:68) clears it. The draw branch `public void drawCached(){` (StackRouter.java:75) calls `super.draw();` (StackRouter.java:76), then `if(glowRegion.found() && power != null && power.status > 0){` (StackRouter.java:79) with `Draw.z(Layer.blockAdditive);` (StackRouter.java:80), `Draw.color(glowColor, glowAlpha * power.status);` (StackRouter.java:81), `Draw.blend(Blending.additive);` (StackRouter.java:82), `Draw.rect(glowRegion, x, y, rotation * 90);` (StackRouter.java:83), `Draw.blend();` (StackRouter.java:84) and `Draw.color();` (StackRouter.java:85). The accept branch `public boolean acceptItem(Building source, Item item){` (StackRouter.java:89) checks `(Edges.getFacingEdge(source.tile, tile).relativeTo(tile) == rotation);` (StackRouter.java:90).
 	# The parent DuctRouter (DuctRouter.java:18, `public class DuctRouter extends Block{`; DuctRouterBuild, DuctRouter.java:76, `public class DuctRouterBuild extends Building{`) supplies the sortItem / progress / current build fields and the base updateTile (`progress += edelta() / speed * 2f;`, DuctRouter.java:102, with `if(progress >= (1f - 1f/speed)){`, DuctRouter.java:103, and `progress %= (1f - 1f/speed);`, DuctRouter.java:104) -- but StackRouterBuild OVERRIDES updateTile (StackRouter.java:28), so the parent's edelta-based advance never runs for a surge-router. Parent class fields: `public float speed = 5f;` (DuctRouter.java:19), `public @Load(value = "@-top") TextureRegion topRegion;` (DuctRouter.java:21); constructor `public DuctRouter(String name){` (DuctRouter.java:25), `group = BlockGroup.transportation;` (DuctRouter.java:26), `update = true;` (DuctRouter.java:27), `solid = false;` (DuctRouter.java:28), `hasItems = true;` (DuctRouter.java:29), `unloadable = false;` (DuctRouter.java:30), `itemCapacity = 1;` (DuctRouter.java:31), `noUpdateDisabled = true;` (DuctRouter.java:32), `configurable = true;` (DuctRouter.java:33), `saveConfig = true;` (DuctRouter.java:34), `rotate = true;` (DuctRouter.java:35), `clearOnDoubleTap = true;` (DuctRouter.java:36), `underBullets = true;` (DuctRouter.java:37), `priority = TargetPriority.transport;` (DuctRouter.java:38), `envEnabled = Env.space | Env.terrestrial | Env.underwater;` (DuctRouter.java:39), `drawCached = true;` (DuctRouter.java:40), `drawDynamic = false;` (DuctRouter.java:41). Parent build fields: `public @Nullable Item sortItem;` (DuctRouter.java:77), `public float progress;` (DuctRouter.java:79), `public @Nullable Item current;` (DuctRouter.java:80).
 	# Single def -- surge-router only (size 1, speed 6f, itemCapacity 10, health 130, surge-alloy 5 / tungsten 1, Blocks.java:2255-2268). duct-router (DuctRouter, no power def, NO hasPower line, Blocks.java:2193) and router (Router, no power def, NO hasPower line, Blocks.java:2139) are explicitly OUT of scope. No sense / read / write overrides exist on StackRouterBuild -- those wait for their own slices only if a later Java line needs them.
-	# Documented limits: (1) power-only first pass -- the surge-router's static power consumer (consumePower 3f/60f, Blocks.java:2266) is the only modeled consumer, so the folded efficiency is the min over the *modeled* consumers (power only); surge-router has no second consumer. (2) NO shouldConsume gate to defer -- StackRouterBuild has no shouldConsume override, so the BuildingComp default (`return enabled;`, BuildingComp.java:755-756) applies; the power-only fold is EXACT for this family. (3) updateTile advance live (N2240) -- eff fold / progress advance / unload branch / target handoff / current-pick branch (StackRouter.java:28-70) run every enabled tick after the consumption fold through the pure source_stack_router_update_tile_advance_state function; the target() live proximity selection (DuctRouter.java:139-156) and handleItem application defer (the driver passes an empty targets list, so no live handoff happens; the pure advance pops the explicit list in order, cdump rotation simulated by list order). The power proof carries no progress / unloading / target / acceptItem keys; the eff fold (StackRouter.java:29) is what the efficiency keys prove, and the N2240 proof carries the advance keys. (4) No sense modeling -- sense waits for its own slice. (5) Single def -- surge-router only (size 1, speed 6f, itemCapacity 10, health 130, surge-alloy 5 / tungsten 1); duct-router (DuctRouter, no power def) and router (Router, no power def) are explicitly OUT of scope; per-def stat values wait for their own verification slice. (6) No draw/config modeling -- draw / drawSelect / config wait for their own slices.
+	# Documented limits: (1) power-only first pass -- the surge-router's static power consumer (consumePower 3f/60f, Blocks.java:2266) is the only modeled consumer, so the folded efficiency is the min over the *modeled* consumers (power only); surge-router has no second consumer. (2) NO shouldConsume gate to defer -- StackRouterBuild has no shouldConsume override, so the BuildingComp default (`return enabled;`, BuildingComp.java:755-756) applies; the power-only fold is EXACT for this family. (3) updateTile advance live (N2240) -- eff fold / progress advance / unload branch / target handoff / current-pick branch (StackRouter.java:28-70) run every enabled tick after the consumption fold through the pure source_stack_router_update_tile_advance_state function; target() selection live (N2324) -- the tick simulates consecutive DuctRouter.target() calls (DuctRouter.java:139-157) over the frame proximity_neighbours input and passes the ordered list into the advance, stamping cdump only when a handoff happened; handleItem application still defers (the advance returns handed_off / handed_to as pure results) and the live proximity query still defers (the neighbour list is a frame input -- no live query fills it yet, so a router with no stamped neighbours still passes an empty list). The power proof carries no progress / unloading / target / acceptItem keys; the eff fold (StackRouter.java:29) is what the efficiency keys prove, and the N2240 proof carries the advance keys. (4) No sense modeling -- sense waits for its own slice. (5) Single def -- surge-router only (size 1, speed 6f, itemCapacity 10, health 130, surge-alloy 5 / tungsten 1); duct-router (DuctRouter, no power def) and router (Router, no power def) are explicitly OUT of scope; per-def stat values wait for their own verification slice. (6) No draw/config modeling -- draw / drawSelect / config wait for their own slices.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -199,6 +244,9 @@ static func source_stack_router_tick_buildings_state(game: Object, seconds: floa
 		var bound: Dictionary = source_stack_router_bind_frame_state(sprite, block)
 		var frame: Dictionary = bound.get("frame", {})
 		var team_id: int = int(sprite.get_meta(source_block_geometry.SOURCE_BUILD_TEAM_META_KEY, source_block_geometry.SOURCE_TEAM_DERELICT_ID))
+		# Building.rotation (`transient int rotation;`, BuildingComp.java:69) is set from the placement rotation at creation and stored on the sprite meta (SourceBlockGeometry.gd:162-167, the UnitAssemblerModule precedent): the target() selection (N2324) reads it live for the sort gate and the backwards exclusion.
+		var rotation: int = int(sprite.get_meta(source_block_geometry.SOURCE_BUILD_ROTATION_META_KEY, 0))
+		frame["rotation"] = rotation
 		var rules_state: Variant = source_rules_state.source_game_rules_state(game.get("rules_state")).get("rules", {})
 		var wired: Dictionary = source_stack_router_tick_frame_state(frame, str(block.implementation), team_id, rules_state)
 		# The power consumer reads live since N2153 (the graph
@@ -222,16 +270,24 @@ static func source_stack_router_tick_buildings_state(game: Object, seconds: floa
 				required_results.append(power_row.get("row", {}))
 			var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(true, bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, [], [], frame)
 			source_building_efficiency_state.apply_update_consumption_state(consumption, frame)
-		# The updateTile advance (N2240, StackRouter.java:28-70): runs after the consumption fold -- updateConsumption runs before updateTile (BuildingComp.java:2274-2277, `updateConsumption();` then `if(enabled || !block.noUpdateDisabled){` / `updateTile();`) -- and only when enabled. For this family the enabled gate is EXACT, not the N2195 pragmatic choice: DuctRouter sets `noUpdateDisabled = true;` (DuctRouter.java:32) against the Block default `public boolean noUpdateDisabled = false;` (Block.java:170), so Java never runs updateTile for a disabled stack router. The driver passes an EMPTY targets list: no live proximity query exists in the port, so no live handoff happens (the StackRouter updateTile live fill entry stays deferred); only the charge / current-pick / empty-reset lines run live. The item order is the catalog item_names_by_id, the content-id order ItemModule.first() scans (ItemModule.java:182-189). The pure advance returns the advanced values, which the driver writes back onto the frame.
+		# The updateTile advance (N2240, StackRouter.java:28-70): runs after the consumption fold -- updateConsumption runs before updateTile (BuildingComp.java:2274-2277, `updateConsumption();` then `if(enabled || !block.noUpdateDisabled){` / `updateTile();`) -- and only when enabled. For this family the enabled gate is EXACT, not the N2195 pragmatic choice: DuctRouter sets `noUpdateDisabled = true;` (DuctRouter.java:32) against the Block default `public boolean noUpdateDisabled = false;` (Block.java:170), so Java never runs updateTile for a disabled stack router. The target list (N2324) is computed BEFORE the advance call: the pure source_stack_router_target_list_state simulates consecutive DuctRouter.target() calls (DuctRouter.java:139-157) over the frame proximity_neighbours input (default [] -- no live proximity query fills it yet, so a router with no stamped neighbours still passes an empty list and no live handoff happens), with handoff_count = items.get(current) at tick start through the shared drill inventory helper, and the ordered list goes into the advance instead of []. The item order is the catalog item_names_by_id, the content-id order ItemModule.first() scans (ItemModule.java:182-189). The pure advance returns the advanced values, which the driver writes back onto the frame -- and frame["cdump"] is stamped with cdump_after ONLY when a handoff actually happened: Java calls target() only inside the unload branch, so a charging tick must not rotate cdump (a full-scan null call advances cdump by the whole size, a no-op modulo size, so skipping the stamp when nothing matched changes nothing).
 		if bool(frame.get("enabled", true)):
 			var item_order: Array = source_content_registry_runtime_state.source_item_catalog_state(catalog).get("item_names_by_id", [])
-			var advanced: Dictionary = source_stack_router_update_tile_advance_state(frame, SOURCE_STACK_ROUTER_SPEED, SOURCE_STACK_ROUTER_BASE_EFFICIENCY, SOURCE_STACK_ROUTER_ITEM_CAPACITY, [], item_order)
+			var target_current: Variant = frame.get("current", null)
+			var tick_items: Dictionary = frame.get("items", {}) as Dictionary
+			var handoff_count: int = 0 if target_current == null else inventory.item_count(tick_items, str(target_current))
+			var neighbours: Array = frame.get("proximity_neighbours", []) as Array
+			var target_list: Dictionary = source_stack_router_target_list_state(neighbours, target_current, frame.get("sort_item", null), rotation, team_id, int(frame.get("cdump", 0)), handoff_count)
+			var targets: Array = target_list.get("targets", [])
+			var advanced: Dictionary = source_stack_router_update_tile_advance_state(frame, SOURCE_STACK_ROUTER_SPEED, SOURCE_STACK_ROUTER_BASE_EFFICIENCY, SOURCE_STACK_ROUTER_ITEM_CAPACITY, targets, item_order)
 			frame["unloading"] = advanced["unloading"]
 			frame["current"] = advanced["current"]
 			frame["progress"] = advanced["progress"]
 			frame["items"] = advanced["items"]
 			frame["handed_off"] = advanced["handed_off"]
 			frame["handed_to"] = advanced["handed_to"]
+			if int(advanced.get("handed_off", 0)) > 0:
+				frame["cdump"] = int(target_list.get("cdump_after", int(frame.get("cdump", 0))))
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1

@@ -235,13 +235,15 @@ class C07StackRouterUpdateTileTests(unittest.TestCase):
         # the consumption fold (updateConsumption before
         # updateTile, BuildingComp.java:2274-2277) and only
         # when enabled (the EXACT noUpdateDisabled gate for
-        # this family, DuctRouter.java:32). The driver passes
-        # an EMPTY targets list: no live proximity query exists
-        # in the port, so no live handoff happens; only the
-        # charge / current-pick / empty-reset lines run live.
+        # this family, DuctRouter.java:32). Since N2324 the
+        # driver passes the live-computed targets list (the
+        # target() simulation over the frame proximity_
+        # neighbours input) instead of [] -- a router with no
+        # stamped neighbours still passes an empty list, so
+        # the N2240 proof's no-handoff live tick still holds.
         # The item order is the catalog item_names_by_id, the
         # content-id order ItemModule.first() scans.
-        self.assertIn('source_stack_router_update_tile_advance_state(frame, SOURCE_STACK_ROUTER_SPEED, SOURCE_STACK_ROUTER_BASE_EFFICIENCY, SOURCE_STACK_ROUTER_ITEM_CAPACITY, [], item_order)', stack_router)
+        self.assertIn('source_stack_router_update_tile_advance_state(frame, SOURCE_STACK_ROUTER_SPEED, SOURCE_STACK_ROUTER_BASE_EFFICIENCY, SOURCE_STACK_ROUTER_ITEM_CAPACITY, targets, item_order)', stack_router)
         self.assertIn('item_names_by_id', stack_router)
         self.assertIn('frame["unloading"]', stack_router)
         self.assertIn('frame["current"]', stack_router)
