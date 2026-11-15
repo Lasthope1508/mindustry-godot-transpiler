@@ -139,8 +139,9 @@ class C07ShockwaveTowerTimerCheckTests(unittest.TestCase):
         # fire alone never fires the wave. The tick wiring
         # accumulates frame["timer_check_elapsed"] every tick
         # the advance runs and passes the computed check_ready
-        # into the advance (candidates stay [] -- the live
-        # bullet scan still defers). The reload charge (N2187)
+        # into the advance (the live bullet scan is live since
+        # N2327 -- the advance call passes the scanned list,
+        # not the empty literal). The reload charge (N2187)
         # is untouched.
         self.assertIn('static func source_shockwave_tower_timer_check_state', shockwave_tower)
         self.assertIn('if(potentialEfficiency > 0 && (reloadCounter += edelta()) >= reload && timer(timerCheck, checkInterval)){', shockwave_tower)
@@ -166,11 +167,14 @@ class C07ShockwaveTowerTimerCheckTests(unittest.TestCase):
         # The tick wiring: the timer call with the frame clock
         # + tick delta + live time scale + 8f duration; the
         # elapsed write-back; check_ready passed into the
-        # advance (candidates stay [] -- the live bullet scan
-        # still defers).
+        # advance with the scanned bullet list (the live
+        # bullet scan is live since N2327 -- the N2318 pin
+        # on the empty candidate list was updated by the
+        # N2327 follow-through, the N2316 / d4c14912
+        # precedent).
         self.assertIn('source_shockwave_tower_timer_check_state(float(frame.get("timer_check_elapsed", 0.0)), source_placed_block_state.game_source_delta(game, seconds), source_placed_block_state.time_scale(sprite, source_placed_block_state.game_default_time_scale(game)), SOURCE_SHOCKWAVE_TOWER_CHECK_INTERVAL)', shockwave_tower)
         self.assertIn('frame["timer_check_elapsed"]', shockwave_tower)
-        self.assertIn('SOURCE_SHOCKWAVE_TOWER_COOLDOWN_MULTIPLIER, [], check_ready)', shockwave_tower)
+        self.assertIn('SOURCE_SHOCKWAVE_TOWER_COOLDOWN_MULTIPLIER, scanned_bullets, check_ready)', shockwave_tower)
         # The N2247-pinned advance call prefix is UNCHANGED --
         # only the trailing check_ready argument changed from
         # the false literal.
