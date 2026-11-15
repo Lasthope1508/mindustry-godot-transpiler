@@ -23,6 +23,12 @@ const SOURCE_BUILD_TURRET_WARMUP_LERP_PROGRESS := 0.1
 const SOURCE_BUILD_TURRET_INITIAL_ROTATION := 90.0
 # Single def -- build-tower only: range 200f (Blocks.java:2001, `range = 200f;`).
 const SOURCE_BUILD_TURRET_RANGE := 200.0
+# Single def -- build-tower only: buildSpeed 1.5f (Blocks.java:2003,
+# `buildSpeed = 1.5f;`) -- the UnitType buildSpeed the builder unit
+# reads (`if(type.buildSpeed <= 0f) return;`,
+# BuilderComp.java:77; `unitType.buildSpeed = buildSpeed;`,
+# BuildTurret.java:77).
+const SOURCE_BUILD_TURRET_BUILD_SPEED := 1.5
 # Single def -- build-tower only: the required liquid consumer
 # is nitrogen 3f/60f per frame (Blocks.java:2006,
 # `consumeLiquid(Liquids.nitrogen, 3f / 60f);`).
@@ -63,7 +69,7 @@ static func source_build_turret_tick_frame_state(frame: Dictionary, block_implem
 	return frame
 
 static func _initial_frame() -> Dictionary:
-	return {"plans": [], "heal_suppressed": false, "liquids": {}, "rotation": SOURCE_BUILD_TURRET_INITIAL_ROTATION, "warmup": 0.0, "unit_look_angle": SOURCE_BUILD_TURRET_INITIAL_ROTATION, "build_speed_multiplier": 0.0, "speed_multiplier": 0.0, "following": null, "last_plan": null}
+	return {"plans": [], "heal_suppressed": false, "liquids": {}, "rotation": SOURCE_BUILD_TURRET_INITIAL_ROTATION, "warmup": 0.0, "unit_look_angle": SOURCE_BUILD_TURRET_INITIAL_ROTATION, "build_speed_multiplier": 0.0, "speed_multiplier": 0.0, "following": null, "last_plan": null, "build_counter": 0.0}
 
 static func source_build_turret_bind_frame_state(sprite: Sprite2D, block: Object) -> Dictionary:
 	# Placement creates the Building (Block.java:1002 newBuilding);
@@ -78,7 +84,10 @@ static func source_build_turret_bind_frame_state(sprite: Sprite2D, block: Object
 	# BaseTurret.java:114), warmup 0.0, unit_look_angle 90.0 (the
 	# unit's initial facing, before any lookAt), and both
 	# multipliers 0.0, plus the following key defaulting to
-	# null and the last_plan key defaulting to null (N2244); the
+	# null and the last_plan key defaulting to null (N2244)
+	# and the build_counter key defaulting to 0.0 (N2272, the
+	# `private transient float buildCounter;` mirror,
+	# BuilderComp.java:35); the
 	# live-loop tick fills its other keys every tick. Any other
 	# block, or an already-bound sprite, binds nothing.
 	if block == null or not _is_build_turret_build_implementation(str(block.implementation)):
@@ -101,8 +110,8 @@ static func source_build_turret_power_status_row_state(frame: Dictionary, has_po
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a build tower does not take the early return. The tower's power draw is STATIC, not conditional: `consumePower(3f);` (Blocks.java:2005) registers a plain ConsumePower, so the catalog consumePower 3.0 is present and the plain radar gate (block.properties.has("consumePower")) works -- no RepairTurret-style `or consumesPower` adaptation is needed. The pure row is still the same ConsumePower read (`return build.power.status;`, ConsumePower.java:39). The tower's updateTile (BuildTurret.java:121-139, `rotation = unit.rotation();` / `if(unit.activelyBuilding()){` / `unit.lookAt(angleTo(unit.buildPlan()));` / `if(checkSuppression()){` / `efficiency = potentialEfficiency = 0f;` / `unit.buildSpeedMultiplier(potentialEfficiency * timeScale);` / `unit.speedMultiplier(potentialEfficiency * timeScale);` / `warmup = Mathf.lerpDelta(warmup, unit.activelyBuilding() ? efficiency : 0f, 0.1f);`) scales the builder unit by potentialEfficiency -- and because there is no baseEfficiency-style floor, the tower never builds when the gate fails; the folded efficiency is what the efficiency keys prove, and the plan search / follow / mimic / validate advance is live (N2244).
 	# BuildTurretBuild DOES override shouldConsume (BuildTurret.java:229-230, `public boolean shouldConsume(){` / `return unit.plans().size > 0 && !isHealSuppressed();`), and updateConsumption forces efficiency to zero when the gate is false (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). The shouldConsume gate is live (N2215) -- the pure gate (source_build_turret_should_consume_state) feeds should_consume to the machinery from the frame plans key (empty before any plan is queued, non-empty once the builder unit has plans) and the heal_suppressed key (the isHealSuppressed() mirror, BuildingComp.java:487-489); the plan logic is live (N2244, source_build_turret_plan_logic_state fills frame["plans"] from the pure advance, though the driver passes no live team plans / builders / players yet) and the suppression application is BuildingComp.java:482-485. canConsume (BuildingComp.java:1917, `public boolean canConsume(){` with `return potentialEfficiency > 0;`, BuildingComp.java:1918) and edelta (BuildingComp.java:1927-1929, `return efficiency * delta();`) are the surrounding gates.
 	# The build tower is its own family (BuildTurret.java:27, `public class BuildTurret extends BaseTurret{`; BuildTurretBuild, BuildTurret.java:92, `public class BuildTurretBuild extends BaseTurretBuild implements ControlBlock, RotBlock{`), a defense / effect block, NOT a TurretBuild: SourceTurretBuildState.gd excludes it explicitly, and BaseTurretBuild (BaseTurret.java:113, `public class BaseTurretBuild extends Building implements Ranged, RotBlock{`) overrides neither shouldConsume nor updateTile -- the gate and the tick both come from BuildTurretBuild itself. Class fields: `public final int timerTarget = timers++, timerTarget2 = timers++;` (BuildTurret.java:28), `public int targetInterval = 15;` (BuildTurret.java:29), `public float buildSpeed = 1f;` (BuildTurret.java:33), `public float buildBeamOffset = 5f;` (BuildTurret.java:34), `public float elevation = -1f;` (BuildTurret.java:38), `public Color heatColor = Pal.accent.cpy().a(0.9f);` (BuildTurret.java:39); constructor `public BuildTurret(String name){` (BuildTurret.java:41), `group = BlockGroup.turrets;` (BuildTurret.java:43), `sync = false;` (BuildTurret.java:44), `rotateSpeed = 10f;` (BuildTurret.java:45), `suppressable = true;` (BuildTurret.java:46). init lifts the elevation and builds the hidden builder unit type (BuildTurret.java:53, `if(elevation < 0) elevation = size / 2f;` with BuildTurret.java:56, `unitType = new UnitType("turret-unit-" + name){{`). Build fields: `public BlockUnitc unit = (BlockUnitc)unitType.create(team);` (BuildTurret.java:93), `public @Nullable Unit following;` (BuildTurret.java:94), `public @Nullable BlockPlan lastPlan;` (BuildTurret.java:95), `public float warmup;` (BuildTurret.java:96).
-	# Single def -- build-tower only (size 3, range 200f, buildSpeed 1.5f, silicon 150 / oxide 40 / thorium 60, Blocks.java:1997-2006): `buildTower = new BuildTurret("build-tower"){{` (Blocks.java:1997) with `requirements(Category.effect, with(Items.silicon, 150, Items.oxide, 40, Items.thorium, 60));` (Blocks.java:1998), `outlineColor = Pal.darkOutline;` (Blocks.java:1999), `range = 200f;` (Blocks.java:2001), `size = 3;` (Blocks.java:2002), `buildSpeed = 1.5f;` (Blocks.java:2003), `consumePower(3f);` (Blocks.java:2005) and `consumeLiquid(Liquids.nitrogen, 3f / 60f);` (Blocks.java:2006). No second BuildTurret def exists; there is no family split to manage. The plan search (`}else if(unit.buildPlan() == null && timer(timerTarget, targetInterval)){`, :156; `Queue<BlockPlan> blocks = team.data().plans;`, :157), mimic (`Units.nearby(team, x, y, range, u -> {`, :176), validation (`boolean valid =`, :204) advance is live (N2244); `unit.updateBuildLogic();` (:225) waits for its own slice. The draw / write / read / sense rows (BuildTurret.java:232-319) wait for their own slices.
-	# Documented limits: (1) power + liquid first pass -- the tower's static power consumer (consumePower 3f, Blocks.java:2005) and its required liquid consumer (consumeLiquid nitrogen 3f/60f, Blocks.java:2006 -- liquid row live (N2251)) are the modeled consumers, so the folded efficiency is the min over the *modeled* consumers (power + nitrogen); the single build-tower def has no other consumers. (2) shouldConsume gate live (N2215) -- BuildTurretBuild overrides shouldConsume (`return unit.plans().size > 0 && !isHealSuppressed();`, BuildTurret.java:229-230); when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994); the pure gate reads the frame plans key (default []) and the heal_suppressed key (default false) and feeds should_consume to the machinery; the plan logic is live (N2244) -- the pure advance fills frame["plans"] (the driver passes no live team plans / builders / players yet), while the heal suppression application (BuildingComp.java:482-485) still waits for its own slice. (3) updateTile sync/warmup advance live (N2243) -- rotation follow / lookAt / suppression zeroing / multipliers / warmup lerp (BuildTurret.java:121-140); plan logic live (N2244) -- plan search / follow / mimic / validate / suicide-plan removal (BuildTurret.java:141-225) run through the pure advance; updateBuildLogic (BuilderComp.java:76+) waits for its own slice; the eff fold (BuildTurret.java:136-137) is what the efficiency keys prove. (4) Liquid row live (N2251) -- consumeLiquid nitrogen 3f/60f (Blocks.java:2006) folds through source_build_turret_liquid_consumer_row_state and removes amount * edelta * multiplier on the second pass (ConsumeLiquid.java:37-39); the multiplier is the 1f default (Consume.java:18), the def sets none; the live nitrogen intake (conduit/bridge delivery into the tower) waits for its own slice, so a live tower with no intake reads 0 nitrogen and folds efficiency 0. (5) Suppression zeroing live (N2243) -- checkSuppression() (BuildTurret.java:132-133) zeroes efficiency + potentialEfficiency through the frame heal_suppressed mirror (checkSuppression returns true iff isHealSuppressed, BuildingComp.java:1336-1337; the Fx particle defers); no live fill applies suppression yet (applyHealSuppression, BuildingComp.java:482-485, needs game time + suppression application). (6) Single def -- build-tower only (size 3, range 200f, buildSpeed 1.5f, silicon 150 / oxide 40 / thorium 60); per-def stat values wait for their own verification slice. (7) No draw / read / write / sense modeling -- draw / write / read / sense (BuildTurret.java:232-319) wait for their own slices.
+	# Single def -- build-tower only (size 3, range 200f, buildSpeed 1.5f, silicon 150 / oxide 40 / thorium 60, Blocks.java:1997-2006): `buildTower = new BuildTurret("build-tower"){{` (Blocks.java:1997) with `requirements(Category.effect, with(Items.silicon, 150, Items.oxide, 40, Items.thorium, 60));` (Blocks.java:1998), `outlineColor = Pal.darkOutline;` (Blocks.java:1999), `range = 200f;` (Blocks.java:2001), `size = 3;` (Blocks.java:2002), `buildSpeed = 1.5f;` (Blocks.java:2003), `consumePower(3f);` (Blocks.java:2005) and `consumeLiquid(Liquids.nitrogen, 3f / 60f);` (Blocks.java:2006). No second BuildTurret def exists; there is no family split to manage. The plan search (`}else if(unit.buildPlan() == null && timer(timerTarget, targetInterval)){`, :156; `Queue<BlockPlan> blocks = team.data().plans;`, :157), mimic (`Units.nearby(team, x, y, range, u -> {`, :176), validation (`boolean valid =`, :204) advance is live (N2244); `unit.updateBuildLogic();` (:225) is live since N2272. The draw / write / read / sense rows (BuildTurret.java:232-319) wait for their own slices.
+	# Documented limits: (1) power + liquid first pass -- the tower's static power consumer (consumePower 3f, Blocks.java:2005) and its required liquid consumer (consumeLiquid nitrogen 3f/60f, Blocks.java:2006 -- liquid row live (N2251)) are the modeled consumers, so the folded efficiency is the min over the *modeled* consumers (power + nitrogen); the single build-tower def has no other consumers. (2) shouldConsume gate live (N2215) -- BuildTurretBuild overrides shouldConsume (`return unit.plans().size > 0 && !isHealSuppressed();`, BuildTurret.java:229-230); when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994); the pure gate reads the frame plans key (default []) and the heal_suppressed key (default false) and feeds should_consume to the machinery; the plan logic is live (N2244) -- the pure advance fills frame["plans"] (the driver passes no live team plans / builders / players yet), while the heal suppression application (BuildingComp.java:482-485) still waits for its own slice. (3) updateTile sync/warmup advance live (N2243) -- rotation follow / lookAt / suppression zeroing / multipliers / warmup lerp (BuildTurret.java:121-140); plan logic live (N2244) -- plan search / follow / mimic / validate / suicide-plan removal (BuildTurret.java:141-225) run through the pure advance; updateBuildLogic live (N2272) -- build counter + validatePlans + plan selection (BuilderComp.java:76+; placement Call.beginPlace / Call.beginBreak / ConstructBuild :148-222 defers, so the driver runs one plan per tick and consumes the counter only when a plan is selected; the frame inputs core_items / plan_tile_states / update_building / can_build have no live fill yet); the eff fold (BuildTurret.java:136-137) is what the efficiency keys prove. (4) Liquid row live (N2251) -- consumeLiquid nitrogen 3f/60f (Blocks.java:2006) folds through source_build_turret_liquid_consumer_row_state and removes amount * edelta * multiplier on the second pass (ConsumeLiquid.java:37-39); the multiplier is the 1f default (Consume.java:18), the def sets none; the live nitrogen intake (conduit/bridge delivery into the tower) waits for its own slice, so a live tower with no intake reads 0 nitrogen and folds efficiency 0. (5) Suppression zeroing live (N2243) -- checkSuppression() (BuildTurret.java:132-133) zeroes efficiency + potentialEfficiency through the frame heal_suppressed mirror (checkSuppression returns true iff isHealSuppressed, BuildingComp.java:1336-1337; the Fx particle defers); no live fill applies suppression yet (applyHealSuppression, BuildingComp.java:482-485, needs game time + suppression application). (6) Single def -- build-tower only (size 3, range 200f, buildSpeed 1.5f, silicon 150 / oxide 40 / thorium 60); per-def stat values wait for their own verification slice. (7) No draw / read / write / sense modeling -- draw / write / read / sense (BuildTurret.java:232-319) wait for their own slices.
 	# Source lines (all 136 exact exprs, verified verbatim in upstream at RED):
 	# - `return build.power.status;`
 	# - `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`
@@ -373,8 +382,7 @@ static func source_build_turret_update_tile_advance_state(frame: Dictionary, sou
 	# (:141/:223-225) and the whole plan logic (:141-231:
 	# follower validation, plan search, mimic, plan validation,
 	# break-plan discard, suicide-plan removal) belong to N2244,
-	# and `unit.updateBuildLogic();` (:231) defers to its own
-	# slice.
+	# and `unit.updateBuildLogic();` (:225) is live since N2272.
 	var unit_rotation: float = float(frame.get("unit_rotation", SOURCE_BUILD_TURRET_INITIAL_ROTATION))
 	var actively_building: bool = bool(frame.get("actively_building", false))
 	var build_plan_angle: float = float(frame.get("build_plan_angle", 0.0))
@@ -451,8 +459,8 @@ static func source_build_turret_plan_logic_state(frame: Dictionary, controlled: 
 	# BuildPlan.build() is `return world.build(x, y);`,
 	# BuildPlan.java:165-167, `public @Nullable Building build(){`).
 	# `unit.updateBuildLogic();` (:225, BuilderComp.java:76+,
-	# `public void updateBuildLogic(){`) is NOT called -- the build
-	# simulation defers to its own slice. buildPlan() is the queue
+	# `public void updateBuildLogic(){`) is live since N2272 --
+	# the driver calls it after this function, in Java order. buildPlan() is the queue
 	# head (`return plans.size == 0 ? null : plans.first();`,
 	# BuilderComp.java:313-315). within is the STRICT
 	# squared-distance check (`Mathf.dst2(getX(), getY(), x, y) <
@@ -580,6 +588,294 @@ static func source_build_turret_plan_logic_state(frame: Dictionary, controlled: 
 	plans = kept_plans
 	return {"plans": plans, "following": following, "last_plan": last_plan, "team_plans": team_plans, "branch": branch, "plan_discarded": plan_discarded}
 
+static func source_build_turret_build_counter_state(build_counter: float, source_delta: float, instant: bool, plan_count: int, update_building: bool, can_build: bool, build_speed: float, core_present: bool, infinite: bool) -> Dictionary:
+	# The build-counter half of updateBuildLogic -- counter live
+	# (N2272): BuilderComp.updateBuildLogic()
+	# (BuilderComp.java:76+, `public void updateBuildLogic(){`),
+	# called from BuildTurret.java:225
+	# (`unit.updateBuildLogic();`). `if(type.buildSpeed <= 0f)
+	# return;` (:77) returns before anything accumulates, so the
+	# counter is returned unchanged with no loop and no
+	# maxPerFrame; `validatePlans();` (:89) runs before the
+	# `if(!updateBuilding || !canBuild()){` guard (:90), which
+	# also returns before the counter moves (canBuild() is
+	# `return type.buildSpeed > 0 && buildSpeedMultiplier > 0;`,
+	# BuilderComp.java:40-41, passed in as can_build -- the port
+	# has no live Unit behind the frame). Then
+	# `buildCounter += Time.delta;` (:97) -- Time.delta is TICKS
+	# (source_delta, seconds * 60 through game_source_delta, arc
+	# Time.java:26, never raw seconds); the NaN/Inf guard is
+	# `if(Float.isNaN(buildCounter) || Float.isInfinite(buildCounter)) buildCounter = 0f;` (:98);
+	# `buildCounter = Math.min(buildCounter, 10f);` (:99) clamps
+	# the top only (Java never clamps the bottom). The instant
+	# flag is `boolean instant = state.rules.instantBuild && state.rules.infiniteResources;` (:101)
+	# and the cap is `int maxPerFrame = instant ? plans.size : 10, count = 0;` (:104),
+	# both computed BEFORE the core check, so a core-less tower
+	# still reports max_per_frame; `var core = core();` (:106)
+	# with `if((core == null && !infinite)) return;` (:108)
+	# stops the loop but keeps the accumulated counter (the
+	# accumulation precedes the check). run_build_loop is the
+	# `while((buildCounter >= 1 || instant) && count++ < maxPerFrame && plans.size > 0){` gate (:110):
+	# (counter >= 1.0 || instant) && plan_count > 0 &&
+	# iterations_available > 0. iterations_available is the
+	# counter / maxPerFrame budget -- instant ? plan_count :
+	# int(min(floor(counter), max_per_frame)) -- clamped at 0
+	# (a negative counter never runs an iteration); it is NOT
+	# gated on plan_count, so with an empty queue and a charged
+	# counter it still reports the budget while run_build_loop
+	# stays false (the plan_count gate lives on run_build_loop,
+	# mirroring the `plans.size > 0` term of the while). The
+	# counter is NOT decremented here -- Java subtracts
+	# `buildCounter -= 1f;` (:111) per loop iteration, and the
+	# driver subtracts 1.0 once when it actually runs one
+	# iteration (one plan per tick; the multi-iteration loop
+	# waits for the placement slice).
+	if build_speed <= 0.0:
+		return {"build_counter": build_counter, "run_build_loop": false, "iterations_available": 0, "max_per_frame": 0}
+	if not update_building or not can_build:
+		return {"build_counter": build_counter, "run_build_loop": false, "iterations_available": 0, "max_per_frame": 0}
+	var counter: float = build_counter + source_delta
+	if is_nan(counter) or is_inf(counter):
+		counter = 0.0
+	counter = minf(counter, 10.0)
+	var max_per_frame: int = plan_count if instant else 10
+	if not core_present and not infinite:
+		return {"build_counter": counter, "run_build_loop": false, "iterations_available": 0, "max_per_frame": max_per_frame}
+	var iterations_available: int = plan_count if instant else maxi(0, int(minf(floorf(counter), float(max_per_frame))))
+	var run_build_loop: bool = (counter >= 1.0 or instant) and plan_count > 0 and iterations_available > 0
+	return {"build_counter": counter, "run_build_loop": run_build_loop, "iterations_available": iterations_available, "max_per_frame": max_per_frame}
+
+static func _build_turret_plan_draw_dst2(plan: Variant, tower_x: float, tower_y: float) -> float:
+	# plan.dst2(this) (BuilderComp.java:123, `float dst =
+	# plan.dst2(this);`): the squared world distance from the
+	# tower to the plan's DRAW position -- BuildPlan.getX() /
+	# getY() return drawx() / drawy() (BuildPlan.java:179-186),
+	# and `return x*tilesize + (block == null ? 0 : block.offset);`
+	# (BuildPlan.java:143; drawy :147) puts the plan at the tile
+	# origin plus the block offset (0 for odd-size blocks, 4 for
+	# even-size ones, `offset = ((size + 1) % 2) * tilesize / 2f;`,
+	# Block.java:761) -- NOT the tile center (x*8+4), which is
+	# the Tile worldx used by the :155 tile-within check, a
+	# placement-step check that defers with placement. The port
+	# reads the per-plan block_offset (default 0.0, the odd-size
+	# / null-block value) because the plan dicts carry no block
+	# size. A malformed (non-dict) plan reads INF -- never
+	# within, never selected.
+	if not (plan is Dictionary):
+		return INF
+	var plan_dict: Dictionary = plan
+	var block_offset: float = float(plan_dict.get("block_offset", 0.0))
+	var draw_x: float = float(plan_dict.get("x", 0)) * 8.0 + block_offset
+	var draw_y: float = float(plan_dict.get("y", 0)) * 8.0 + block_offset
+	var dx: float = draw_x - tower_x
+	var dy: float = draw_y - tower_y
+	return dx * dx + dy * dy
+
+static func _build_turret_plan_invalid(plan: Dictionary, tile_state: Dictionary) -> bool:
+	# One validatePlans removal check (BuilderComp.java:57-74,
+	# `public void validatePlans(){`): the tile lookup is
+	# `Tile tile = world.tile(plan.x, plan.y);` (:62) -- tile_exists false is
+	# tile == null, remove; `boolean isSameDerelict = (tile !=
+	# null && tile.build != null && tile.block() == plan.block &&
+	# tile.build.tileX() == plan.x && tile.build.tileY() ==
+	# plan.y && tile.team() == Team.derelict);` (:63); remove if
+	# `tile == null || (plan.breaking && tile.block() ==
+	# Blocks.air) || (!plan.breaking && ((tile.build != null &&
+	# tile.build.rotation == plan.rotation && !isSameDerelict) ||
+	# !plan.block.rotate) && ((tile.block() == plan.block &&
+	# !isSameDerelict) || (plan.block != null &&
+	# (plan.block.isOverlay() && plan.block == tile.overlay() ||
+	# (plan.block.isFloor() && plan.block == tile.floor())))))`
+	# (:64-68). tile_block is the block id string; "air" is
+	# Blocks.air. block_rotate defaults false (the Block.rotate
+	# field default, Block.java -- most blocks do not rotate);
+	# block_is_overlay / block_is_floor default false.
+	if not bool(tile_state.get("tile_exists", false)):
+		return true
+	var breaking: bool = bool(plan.get("breaking", false))
+	var tile_block: String = str(tile_state.get("tile_block", ""))
+	var plan_block: String = str(plan.get("block", ""))
+	if breaking:
+		return tile_block == "air"
+	var tile_build_exists: bool = bool(tile_state.get("tile_build_exists", false))
+	var is_same_derelict: bool = tile_build_exists and tile_block == plan_block and int(tile_state.get("tile_build_x", -1)) == int(plan.get("x", -2)) and int(tile_state.get("tile_build_y", -1)) == int(plan.get("y", -2)) and bool(tile_state.get("tile_team_derelict", false))
+	var rotation_match: bool = tile_build_exists and int(tile_state.get("tile_build_rotation", 0)) == int(plan.get("rotation", 0)) and not is_same_derelict
+	var block_rotate: bool = bool(tile_state.get("block_rotate", false))
+	var first: bool = rotation_match or not block_rotate
+	var same_block: bool = tile_block == plan_block and not is_same_derelict
+	var overlay_match: bool = plan_block != "" and bool(tile_state.get("block_is_overlay", false)) and plan_block == str(tile_state.get("tile_overlay", ""))
+	var floor_match: bool = plan_block != "" and bool(tile_state.get("block_is_floor", false)) and plan_block == str(tile_state.get("tile_floor", ""))
+	return first and (same_block or overlay_match or floor_match)
+
+static func _build_turret_plan_should_skip(plan: Variant, core_items: Variant, infinite: bool, build_cost_multiplier: float) -> bool:
+	# shouldSkip (BuilderComp.java:246-251, `boolean shouldSkip(
+	# BuildPlan plan, @Nullable Building core){`): the guard is
+	# `if(state.rules.infiniteResources || team.rules().infiniteResources || plan.breaking || core == null || plan.isRotation(team) || plan.isDerelictRepair()) return false;` (:247)
+	# -- infinite is already the OR of
+	# the state and team rules (the driver passes the state half;
+	# the team half is unmodeled, the port's team rules carry
+	# only cheat); core_items null is core == null; is_rotation
+	# / is_derelict_repair are explicit per-plan bools (the port
+	# cannot evaluate `public boolean isRotation(Team team){`,
+	# BuildPlan.java:71-75, or `public boolean isDerelictRepair(){`,
+	# BuildPlan.java:77-81, live -- both read the tile). Otherwise
+	# `return (plan.stuck && !core.items.has(
+	# plan.block.requirements)) || (Structs.contains(
+	# plan.block.requirements, i -> !core.items.has(i.item,
+	# Math.min(i.amount, 15)) && Mathf.round(i.amount *
+	# state.rules.buildCostMultiplier) > 0));` (:249-250): the
+	# stuck branch needs EVERY requirement stack held at its full
+	# amount (ItemModule.has(ItemStack[]) is the all-stacks
+	# check); the missing-stack branch fires when ANY stack is
+	# short of min(amount, 15) AND rounds to a positive cost at
+	# the build cost multiplier. requirements is the per-plan
+	# Array of {item, amount} stacks (default [], the N2244 plans
+	# carry none -- read through .get so they stay compatible).
+	# core_items is the core inventory dict {item: amount} (a
+	# malformed non-dict core reads as empty). A malformed
+	# (non-dict) plan is never skipped -- it is never within
+	# either, so it never gets selected.
+	if not (plan is Dictionary):
+		return false
+	var plan_dict: Dictionary = plan
+	if infinite or bool(plan_dict.get("breaking", false)) or core_items == null or bool(plan_dict.get("is_rotation", false)) or bool(plan_dict.get("is_derelict_repair", false)):
+		return false
+	var core: Dictionary = core_items if core_items is Dictionary else {}
+	var requirements: Array = plan_dict.get("requirements", [])
+	if not (requirements is Array):
+		requirements = []
+	if bool(plan_dict.get("stuck", false)):
+		var has_all := true
+		for stack in requirements:
+			if not (stack is Dictionary):
+				continue
+			if int(core.get(str(stack.get("item", "")), 0)) < int(stack.get("amount", 0)):
+				has_all = false
+				break
+		if not has_all:
+			return true
+	for stack in requirements:
+		if not (stack is Dictionary):
+			continue
+		var item: String = str(stack.get("item", ""))
+		var amount: float = float(stack.get("amount", 0))
+		var needed: int = int(minf(amount, 15.0))
+		if int(core.get(item, 0)) < needed and roundi(amount * build_cost_multiplier) > 0:
+			return true
+	return false
+
+static func source_build_turret_build_plan_selection_state(plans: Array, tile_states: Array, core_items: Variant, tower_x: float, tower_y: float, build_range: float, infinite: bool, build_cost_multiplier: float) -> Dictionary:
+	# The validate + plan-selection half of updateBuildLogic --
+	# selection live (N2272): BuilderComp.updateBuildLogic()
+	# (BuilderComp.java:76+), called from BuildTurret.java:225
+	# (`unit.updateBuildLogic();`). Step 1, validatePlans
+	# (:57-74): each plan is checked against its parallel
+	# tile_state entry ({tile_exists, tile_block,
+	# tile_build_exists, tile_build_rotation, tile_build_x,
+	# tile_build_y, tile_team_derelict, tile_overlay, tile_floor,
+	# block_rotate, block_is_overlay, block_is_floor} -- a plan
+	# with NO tile_state entry is KEPT (not enough information
+	# to remove it; the driver passes an empty list until the
+	# live tile-state fill lands, so a live tower never
+	# validates a plan away). Step 2, selection (:114-146):
+	# `float finalPlaceDst = state.rules.infiniteResources ?
+	# Float.MAX_VALUE : type.buildRange;` (:94) -- infinite
+	# reads INF here, build_range is the 200f tower range
+	# (`unitType.buildRange = range;`, BuildTurret.java:76;
+	# `range = 200f;`, Blocks.java:2001). With more than one
+	# plan, `if(plans.size > 1){` (:114) rotates through every
+	# plan: `float dst = plan.dst2(this);` (:123) in world units
+	# from the plan draw position (x*8 + block_offset, NOT the
+	# tile center x*8+4 -- BuildPlan.java:143, see
+	# _build_turret_plan_draw_dst2); the within check is
+	# `boolean within = dst <= finalPlaceDst*finalPlaceDst;` (:124, NON-strict); the
+	# first within plan that is not skipped
+	# (`if(within && !shouldSkip(plan, core)){`, :126) is found
+	# and the loop breaks with it at the head; otherwise the
+	# closest within plan is tracked as bestIndex (`}else
+	# if(within && dst < bestDst){`, :129 -- strict, so the
+	# first plan wins a distance tie); each examined plan
+	# rotates (`plans.removeFirst();` / `plans.addLast(plan);`,
+	# :134-135). After the loop, the fallback is
+	# `if(!foundAny && bestIndex > 0 && !within(buildPlan(), finalPlaceDst)){` (:140) -- it rotates
+	# bestIndex times toward the closest within plan -- but
+	# ONLY when the head plan is NOT within, and within() here
+	# is the STRICT squared-distance check (Arc
+	# Position.java:44-46, `Mathf.dst2(getX(), getY(), x, y) <
+	# dst*dst`), unlike the NON-strict :124 loop check. With
+	# exactly one plan Java skips the loop entirely (:114) and
+	# still builds the head plan when it is within (:148-155),
+	# so the port evaluates the single plan with the same
+	# within / shouldSkip predicates (found_any when it passes,
+	# best_index 0 when it is within but skipped). selected is
+	# plans[0] after rotation when found_any or best_index >= 0
+	# (Java proceeds with buildPlan() after selection, :148 --
+	# `BuildPlan current = buildPlan();` -- and
+	# `lastActive = current;` (:151) is what the driver stamps as last_plan),
+	# else null (no plan within range -- the driver then does
+	# not consume the counter). The input arrays are NOT
+	# mutated (the validated queue is a fresh Array; plan dicts
+	# are shared but never written). Placement (:148-222:
+	# Build.validPlaceIgnoreUnits / Call.beginPlace /
+	# Call.beginBreak / ConstructBuild construct/deconstruct /
+	# sound / events) defers -- including the :155 tile-within
+	# check (`if(!within(tile, finalPlaceDst)) continue;`,
+	# measured from the TILE center, not the plan draw
+	# position), so a selected plan is the plan Java WOULD
+	# build this tick, not a placed block.
+	var validated: Array = []
+	for i in plans.size():
+		var plan: Variant = plans[i]
+		if not (plan is Dictionary):
+			validated.append(plan)
+			continue
+		if i >= tile_states.size() or not (tile_states[i] is Dictionary):
+			validated.append(plan)
+			continue
+		if _build_turret_plan_invalid(plan, tile_states[i]):
+			continue
+		validated.append(plan)
+	plans = validated
+	var final_place_dst: float = INF if infinite else build_range
+	var final_dst_sq: float = final_place_dst * final_place_dst
+	var found_any := false
+	var best_index := -1
+	var selected: Variant = null
+	if plans.size() > 1:
+		var total := 0
+		var size: int = plans.size()
+		var best_dst: float = INF
+		while total < size:
+			var head: Variant = plans[0]
+			var dst: float = _build_turret_plan_draw_dst2(head, tower_x, tower_y)
+			var within: bool = dst <= final_dst_sq
+			if within and not _build_turret_plan_should_skip(head, core_items, infinite, build_cost_multiplier):
+				found_any = true
+				break
+			elif within and dst < best_dst:
+				best_index = total
+				best_dst = dst
+			plans.remove_at(0)
+			plans.append(head)
+			total += 1
+		if not found_any and best_index > 0:
+			var head_dst: float = _build_turret_plan_draw_dst2(plans[0], tower_x, tower_y)
+			if not (head_dst < final_dst_sq):
+				for _i in best_index:
+					plans.append(plans[0])
+					plans.remove_at(0)
+	elif plans.size() == 1:
+		var only: Variant = plans[0]
+		var only_dst: float = _build_turret_plan_draw_dst2(only, tower_x, tower_y)
+		var only_within: bool = only_dst <= final_dst_sq
+		if only_within and not _build_turret_plan_should_skip(only, core_items, infinite, build_cost_multiplier):
+			found_any = true
+		elif only_within:
+			best_index = 0
+	if found_any or best_index >= 0:
+		selected = plans[0]
+	return {"plans": plans, "selected": selected, "found_any": found_any, "best_index": best_index}
+
 @warning_ignore("unused_parameter")
 static func source_build_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the build-turret tick wiring every
@@ -635,7 +931,7 @@ static func source_build_turret_tick_buildings_state(game: Object, seconds: floa
 		# into the min efficiency like every other non-optional
 		# consumer, and the build-speed advance (BuildTurret.java:136)
 		# follows it. The power consumer counts toward
-		# hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a build tower does not take the early return. The tower's power draw is STATIC: `consumePower(3f);` (Blocks.java:2005) registers a plain ConsumePower, so the catalog consumePower 3.0 is present and the plain radar gate (block.properties.has("consumePower")) works -- no RepairTurret-style `or consumesPower` adaptation is needed. A build tower with no power consumer is untouched: the tick folds the liquid row too (N2251, the nitrogen row next to the power row; the updateTile sync/warmup advance, N2243, and plan logic, N2244, are live, wired below; updateBuildLogic waits for its own slice), and BuildTurretBuild DOES override shouldConsume (BuildTurret.java:229-230, `return unit.plans().size > 0 && !isHealSuppressed();`) -- N2215 feeds the live gate to the machinery (the pure gate is source_build_turret_should_consume_state, fed the frame); the N2184 RED decision is resolved. The gate has NO enabled term (Java returns the bare plans + suppression check), so the pure gate does not read frame["enabled"] at all; the outer guard below already runs the machinery only when enabled. productionValid is the canonical true default (SourceBuildingAccessState.production_valid_state()).
+		# hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a build tower does not take the early return. The tower's power draw is STATIC: `consumePower(3f);` (Blocks.java:2005) registers a plain ConsumePower, so the catalog consumePower 3.0 is present and the plain radar gate (block.properties.has("consumePower")) works -- no RepairTurret-style `or consumesPower` adaptation is needed. A build tower with no power consumer is untouched: the tick folds the liquid row too (N2251, the nitrogen row next to the power row; the updateTile sync/warmup advance, N2243, and plan logic, N2244, are live, wired below; updateBuildLogic live (N2272), wired below), and BuildTurretBuild DOES override shouldConsume (BuildTurret.java:229-230, `return unit.plans().size > 0 && !isHealSuppressed();`) -- N2215 feeds the live gate to the machinery (the pure gate is source_build_turret_should_consume_state, fed the frame); the N2184 RED decision is resolved. The gate has NO enabled term (Java returns the bare plans + suppression check), so the pure gate does not read frame["enabled"] at all; the outer guard below already runs the machinery only when enabled. productionValid is the canonical true default (SourceBuildingAccessState.production_valid_state()).
 		var has_power_consumer: bool = bool(block.properties.has("consumePower"))
 		if has_power_consumer and bool(frame.get("enabled", true)) and not bool(frame.get("cheating", false)):
 			var gate: Dictionary = source_build_turret_should_consume_state(frame)
@@ -756,8 +1052,9 @@ static func source_build_turret_tick_buildings_state(game: Object, seconds: floa
 		# paths with explicit inputs. The tower world position is the
 		# origin cell times tilesize 8 (Vars.java:135; size-3 offset
 		# 0, Block.java:217); the pure function is exact given the
-		# position. updateBuildLogic (BuilderComp.java:76+) is NOT
-		# called -- the build simulation defers to its own slice.
+		# position. updateBuildLogic (BuilderComp.java:76+) is live
+		# since N2272, wired below in Java order (:225 after
+		# :141-225).
 		var plan_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		var plan_tower_x := float(plan_cell.x) * 8.0
 		var plan_tower_y := float(plan_cell.y) * 8.0
@@ -765,6 +1062,66 @@ static func source_build_turret_tick_buildings_state(game: Object, seconds: floa
 		frame["plans"] = advanced_plan["plans"]
 		frame["following"] = advanced_plan["following"]
 		frame["last_plan"] = advanced_plan["last_plan"]
+		# The build simulation (N2272, BuilderComp.updateBuildLogic(),
+		# BuilderComp.java:76+, called from BuildTurret.java:225,
+		# `unit.updateBuildLogic();`): runs after the plan logic in
+		# Java order (:225 after :141-225) and UNGATED on enabled,
+		# like the plan logic (BuildTurret sets no noUpdateDisabled,
+		# so Java runs updateTile for a disabled tower too,
+		# BuildingComp.java:2274-2277). The counter pure runs every
+		# tick and its result persists on the frame (Java
+		# accumulates the counter past the guards even with an empty
+		# queue, :97-99 before the :110 loop gate); the selection
+		# pure runs only when the loop gate opens, and its
+		# validated + rotated plans persist even when no plan is
+		# selected (Java's validatePlans removes invalid plans from
+		# the queue permanently, :57-74). The counter is consumed
+		# (minus 1.0) and last_plan is set only when a plan is
+		# selected -- one plan per tick: Java subtracts the counter
+		# BEFORE selection (:111) and loops up to maxPerFrame times,
+		# but without placement no plan ever leaves the queue, so a
+		# multi-iteration loop would re-select the same plan; the
+		# loop waits for the placement slice. build_speed is the
+		# single-def 1.5f (Blocks.java:2003); infinite / instant /
+		# buildCostMultiplier read the rules state with the Java
+		# defaults (false / false / 1.0 -- the port's rules state
+		# carries no live infiniteResources / instantBuild /
+		# buildCostMultiplier yet, and the team.rules().
+		# infiniteResources half of `boolean infinite =
+		# state.rules.infiniteResources ||
+		# team().rules().infiniteResources;` (:95) is unmodeled --
+		# the port's team rules carry only cheat); core_items /
+		# plan_tile_states / update_building / can_build are frame
+		# inputs with Java-faithful defaults (null / [] / true /
+		# true) and no live fill yet -- a live tower with no fill
+		# keeps its plans unvalidated (no tile states) and never
+		# runs the build loop (no core), and a disabled tower may
+		# select plans until the live can_build fill lands (Java
+		# stops the loop at canBuild() via buildSpeedMultiplier 0,
+		# BuilderComp.java:40-41). The tower world position is the
+		# same origin-cell position the plan logic uses.
+		var build_delta: float = source_placed_block_state.game_source_delta(game, seconds)
+		var build_rules: Variant = rules_state
+		if not (build_rules is Dictionary):
+			build_rules = {}
+		var build_infinite: bool = bool(build_rules.get("infiniteResources", false))
+		var build_instant: bool = bool(build_rules.get("instantBuild", false)) and build_infinite
+		var build_core_items: Variant = frame.get("core_items", null)
+		var build_plans: Variant = frame.get("plans", [])
+		if not (build_plans is Array):
+			build_plans = []
+		var build_tile_states: Variant = frame.get("plan_tile_states", [])
+		if not (build_tile_states is Array):
+			build_tile_states = []
+		var counter_state: Dictionary = source_build_turret_build_counter_state(float(frame.get("build_counter", 0.0)), build_delta, build_instant, (build_plans as Array).size(), bool(frame.get("update_building", true)), bool(frame.get("can_build", true)), SOURCE_BUILD_TURRET_BUILD_SPEED, build_core_items != null, build_infinite)
+		frame["build_counter"] = counter_state["build_counter"]
+		if bool(counter_state.get("run_build_loop", false)):
+			var selection: Dictionary = source_build_turret_build_plan_selection_state(build_plans, build_tile_states, build_core_items, plan_tower_x, plan_tower_y, SOURCE_BUILD_TURRET_RANGE, build_infinite, float(build_rules.get("buildCostMultiplier", 1.0)))
+			frame["plans"] = selection["plans"]
+			var selected: Variant = selection.get("selected", null)
+			if selected != null:
+				frame["build_counter"] = float(counter_state["build_counter"]) - 1.0
+				frame["last_plan"] = selected
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
