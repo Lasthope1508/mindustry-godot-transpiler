@@ -1,6 +1,6 @@
 # Handoff — N2195 ShockwaveTower live bullet scan
 
-Date: 2026-11-15. Batch: N2195 (single slice). Status: **DONE — targeted 4/4 OK, proof 9 keys matches:true, GREEN total 52/52 OK; gate attempt 2 FINISHED (Ran 5873, failures=145, skipped=5, 0 errors — all Godot-absent); slice commit `5a59201`, docs `24b6602`, GOAL `916baaf`. Push follows in this tick.**
+Date: 2026-11-15. Batch: N2195 (single slice). Status: **DONE + PUSHED (slice `5a59201`, main `eb7fcb4`). Targeted 4/4 OK, proof 9 keys matches:true, GREEN total 52/52 OK; gate attempt 2 FINISHED (Ran 5873, failures=145, skipped=5, 0 errors — all Godot-absent).**
 
 ## RED (this run, 20:0x +07 tick)
 
