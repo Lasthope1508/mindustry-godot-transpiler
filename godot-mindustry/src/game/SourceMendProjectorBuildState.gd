@@ -120,7 +120,9 @@ static func source_mend_projector_power_status_row_state(frame: Dictionary, has_
 	# heal scan + sound (MendProjector.java:106-118) wait for
 	# their own slices, so the proof carries no timer/heal
 	# keys -- the reset, not a heal, is what the reset key
-	# proves.
+	# proves. N2242 adds the pure heal scan (explicit
+	# candidates, MendProjector.java:106-122); Fx / sound /
+	# recentlyHealed and the live indexer query still wait.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -193,6 +195,64 @@ static func source_mend_projector_update_tile_advance_state(frame: Dictionary, r
 	frame["charge"] = charge
 	frame["phase_heat"] = phase_heat
 	return frame
+
+static func source_mend_projector_heal_scan_state(frame: Dictionary, candidates: Array, charge_before: float, reload_value: float, range_value: float, heal_percent: float, phase_boost: float, phase_range_boost: float, time_delta: float, time_scale := 1.0, can_heal := true) -> Dictionary:
+	# MendBuild.updateTile() heal branch (MendProjector.java:106-122),
+	# the pure scan -- the N2193 advance already ran on this frame
+	# (smoothEfficiency / heat / charge / phaseHeat, including the
+	# charge reset), so the scan reads the POST-advance phase_heat /
+	# heat / efficiency and recomputes the branch crossing from the
+	# charge captured BEFORE the advance (each exact expr on ONE
+	# comment line, the N2148 lesson):
+	# `if(charge >= reload && canHeal){`
+	# `float realRange = range + phaseHeat * phaseRangeBoost;`
+	# `indexer.eachBlock(this, realRange, b -> b.damaged() && !b.isHealSuppressed(), other -> {`
+	# `other.heal(other.maxHealth() * (healPercent + phaseHeat * phaseBoost) / 100f * efficiency);`
+	# `private boolean any = false;`
+	# The crossing recompute follows the charge advance line
+	# `charge += heat * delta();` (MendProjector.java:98): the
+	# advance added heat_after * time_delta * time_scale to
+	# charge_before and reset to 0f on crossing, so the scan
+	# replays charge_before + heat_after * time_delta *
+	# time_scale >= reload_value against the per-def reload --
+	# reading the frame charge here would always see the reset
+	# 0f. The predicate halves are explicit per-candidate
+	# booleans: damaged() is `return health < maxHealth - 0.001f;`
+	# (HealthComp.java:47-49) and isHealSuppressed() is
+	# `return block.suppressable && Time.time <= healSuppressionTime;`
+	# (BuildingComp.java:487-489); the port tracks neither
+	# health nor suppression time on candidate buildings, so
+	# the caller supplies both. Per-def params are explicit:
+	# the defs override the class defaults (mender range 40f /
+	# healPercent 4f / phaseBoost 4f / phaseRangeBoost 20f,
+	# Blocks.java:1924-1927; mend-projector range 85f /
+	# healPercent 11f / phaseBoost 15f, Blocks.java:1937-1939,
+	# phaseRangeBoost NOT overridden so the class 50f,
+	# MendProjector.java:30, applies). DEFERRED, not done and
+	# not guessed: `other.recentlyHealed();` (MendProjector.java:114,
+	# a timestamp write on the healed building object),
+	# `Fx.healBlockFull.at(other.x, other.y, other.block.size, baseColor, other.block);` (MendProjector.java:115,
+	# presentation), and `mendSound.at(this, 1f + Mathf.range(0.1f), mendSoundVolume);` (MendProjector.java:120,
+	# sound, gated on `any`) -- the pure scan returns the
+	# amounts and the flag and lets the caller apply them.
+	# The live indexer range query is deferred too: the port
+	# has no live building index, so the caller passes the
+	# candidate list explicit and the live tick passes none.
+	var phase_heat: float = float(frame.get("phase_heat", 0.0))
+	var efficiency: float = float(frame.get("efficiency", 0.0))
+	var heat_after: float = float(frame.get("heat", 0.0))
+	var real_range: float = range_value + phase_heat * phase_range_boost
+	var crossed: bool = charge_before + heat_after * time_delta * time_scale >= reload_value and can_heal
+	var heal_amounts: Array = []
+	var any_healed: bool = false
+	if crossed:
+		for candidate in candidates:
+			var entry: Dictionary = candidate if candidate is Dictionary else {}
+			if bool(entry.get("damaged", false)) and not bool(entry.get("heal_suppressed", false)):
+				var max_health: float = float(entry.get("max_health", 0.0))
+				heal_amounts.append(max_health * (heal_percent + phase_heat * phase_boost) / 100.0 * efficiency)
+				any_healed = true
+	return {"real_range": real_range, "heal_amounts": heal_amounts, "any": any_healed, "scanned": crossed}
 
 @warning_ignore("unused_parameter")
 static func source_mend_projector_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
@@ -284,7 +344,24 @@ static func source_mend_projector_tick_buildings_state(game: Object, seconds: fl
 		var time_delta: float = source_placed_block_state.game_source_delta(game, seconds)
 		var time_scale: float = source_placed_block_state.time_scale(sprite, source_placed_block_state.game_default_time_scale(game))
 		var reload_value: float = source_mend_projector_state.projector_reload(block)
+		# The heal scan (N2242) runs right after the advance,
+		# in Java order (MendProjector.java:106-122 follows the
+		# advance lines :94-100): capture charge_before BEFORE
+		# the advance, because the advance resets the frame
+		# charge to 0f on crossing and the scan recomputes the
+		# crossing from it. The per-def scan params come from
+		# the block properties with the class defaults where a
+		# def does not override (range 60f, healPercent 12f,
+		# phaseBoost 12f, phaseRangeBoost 50f,
+		# MendProjector.java:27-30); the live tick passes no
+		# candidates -- the port has no indexer, so the range
+		# query stays deferred -- and records the scan result
+		# on the frame as last_heal_scan (its `any` entry
+		# mirrors the Java `any` field, MendProjector.java:35).
+		var charge_before: float = float(frame.get("charge", 0.0))
 		source_mend_projector_update_tile_advance_state(frame, reload_value, time_delta, time_scale)
+		var heal_scan: Dictionary = source_mend_projector_heal_scan_state(frame, [], charge_before, reload_value, float(block.properties.get("range", 60.0)), float(block.properties.get("healPercent", 12.0)), float(block.properties.get("phaseBoost", 12.0)), float(block.properties.get("phaseRangeBoost", 50.0)), time_delta, time_scale)
+		frame["last_heal_scan"] = heal_scan
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
