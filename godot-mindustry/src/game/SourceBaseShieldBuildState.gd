@@ -6,6 +6,8 @@ const source_placed_block_state := preload("res://src/game/SourcePlacedBlockStat
 const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
 const source_building_efficiency_state := preload("res://src/game/SourceBuildingEfficiencyState.gd")
 const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
+const source_math_state := preload("res://src/game/SourceMathState.gd")
+const source_world_defaults := preload("res://src/game/SourceWorldDefaults.gd")
 
 # The BaseShield implementation (BaseShield.java:18, `public class
 # BaseShield extends Block{`): shield-projector (consumePower 5f,
@@ -29,9 +31,104 @@ const source_building_access_state := preload("res://src/game/SourceBuildingAcce
 # past radius 1 (BaseShield.java:91, `float rad = radius();`).
 const SOURCE_BASE_SHIELD_BUILD_IMPLEMENTATIONS := ["BaseShield"]
 const SOURCE_BASE_SHIELD_BUILDING_META_KEY := "source_base_shield_building"
+# The def radii (the catalog carries no radius for this family --
+# the Separator craftTime precedent): the shield-projector keeps
+# the class default `public float radius = 200f;`
+# (BaseShield.java:20), the large-shield-projector sets
+# `radius = 400f;` (Blocks.java:2060). The smooth-radius lerp
+# progress is 0.05f (BaseShield.java:89), the shield engages past
+# radius 1 (BaseShield.java:93), the enemy scan reaches rad + 10f
+# (BaseShield.java:97), a unit is instakilled past hitSize * 1.5f
+# (BaseShield.java:43), and the repel overshoots by 0.01f
+# (BaseShield.java:50). smoothRadius has no initializer
+# (BaseShield.java:85), so its Java default is 0f.
+const SOURCE_BASE_SHIELD_RADIUS := 200.0
+const SOURCE_BASE_SHIELD_LARGE_RADIUS := 400.0
+const SOURCE_BASE_SHIELD_SMOOTH_RADIUS_DEFAULT := 0.0
+const SOURCE_BASE_SHIELD_SMOOTH_RADIUS_LERP := 0.05
+const SOURCE_BASE_SHIELD_ENGAGE_RADIUS := 1.0
+const SOURCE_BASE_SHIELD_NEARBY_MARGIN := 10.0
+const SOURCE_BASE_SHIELD_KILL_MULTIPLIER := 1.5
+const SOURCE_BASE_SHIELD_REPEL_EPSILON := 0.01
 
 static func _is_base_shield_build_implementation(implementation: String) -> bool:
 	return SOURCE_BASE_SHIELD_BUILD_IMPLEMENTATIONS.has(implementation)
+
+static func _base_shield_radius_for_block(block_id: String) -> float:
+	# The block radius is a DEF value (the Separator craftTime
+	# precedent -- the catalog carries no radius for this
+	# family): the shield-projector keeps the class default
+	# `public float radius = 200f;` (BaseShield.java:20), the
+	# large-shield-projector sets `radius = 400f;`
+	# (Blocks.java:2060). Both defs are editorOnly
+	# (`requirements(Category.effect, BuildVisibility.editorOnly, with());`,
+	# Blocks.java:2049/2057) with `consumePower(5f);`
+	# (Blocks.java:2053/2062), size 3 / 4.
+	if block_id == "large-shield-projector":
+		return SOURCE_BASE_SHIELD_LARGE_RADIUS
+	return SOURCE_BASE_SHIELD_RADIUS
+
+static func source_base_shield_update_tile_advance_state(frame: Dictionary, source_delta: float, shield_radius: float, building_x: float, building_y: float, bullets: Array, enemy_units: Array) -> Dictionary:
+	# The updateTile advance (BaseShieldBuild.updateTile(), BaseShield.java:88-99), the pure frame advance -- the build fields are `public boolean broken = false;` (BaseShield.java:83), `public float hit = 0f;` (BaseShield.java:84) and `public float smoothRadius;` (BaseShield.java:85, no initializer, so the Java default is 0f), the block fields are `public float radius = 200f;` (BaseShield.java:20) and `public int sides = 24;` (BaseShield.java:21), and the advance follows the Java lines in order (each exact expr on ONE comment line, the N2148 lesson):
+	# `smoothRadius = Mathf.lerpDelta(smoothRadius, radius * efficiency, 0.05f);`
+	# `float rad = radius();`
+	# `if(rad > 1){`
+	# `paramBuild = this;`
+	# `Groups.bullet.intersect(x - rad, y - rad, rad * 2f, rad * 2f, bulletConsumer);`
+	# `Units.nearbyEnemies(team, x, y, rad + 10f, unitConsumer);`
+	# `public float radius(){`
+	# `return smoothRadius;`
+	# `if(bullet.team != paramBuild.team && bullet.type.absorbable && bullet.within(paramBuild, paramBuild.radius())){`
+	# `bullet.absorb();`
+	# `//paramBuild.hit = 1f;`
+	# `//paramBuild.buildup += bullet.damage;`
+	# `float overlapDst = (unit.hitSize/2f + paramBuild.radius()) - unit.dst(paramBuild);`
+	# `if(overlapDst > 0){`
+	# `if(overlapDst > unit.hitSize * 1.5f){`
+	# `unit.kill();`
+	# `unit.vel.setZero();`
+	# `unit.move(Tmp.v1.set(unit).sub(paramBuild).setLength(overlapDst + 0.01f));`
+	# `if(Mathf.chanceDelta(0.12f * Time.delta)){`
+	# `broken = read.bool();`
+	# The smoothRadius fold is lerpDelta (`return lerp(fromValue, toValue, clamp(progress * Time.delta));`, Mathf.java:430-432, with `return fromValue + (toValue - fromValue) * progress;`, Mathf.java:425-427 -- progress * delta CLAMPED, not the pow form) toward radius * efficiency with the BLOCK radius (the def value, 200f / 400f). rad is radius() = smoothRadius AFTER the fold (BaseShield.java:91/:101-103) -- the SCAN and the absorb / repel checks use the SMOOTH radius, not the block radius field (the scope-correction grep: the bulletConsumer within and the unitConsumer overlapDst both read paramBuild.radius()). The bullet within is STRICT (`return Mathf.dst2(getX(), getY(), x, y) < dst*dst;`, Position.java:44-46): exactly at the radius is OUT. The unit overlap uses the REAL dst (`return Mathf.sqrt(xd * xd + yd * yd);`, Position.java:28-32), not dst2. The repel vector is (unit - build) setLength(overlapDst + 0.01f), and setLength on a ZERO vector stays zero (`return (oldLen2 == 0 || oldLen2 == len2) ? this : scl((float)Math.sqrt(len2 / oldLen2));`, Vec2.java:304-308 -- Vector2.ZERO.normalized() is zero in Godot too), so a unit exactly on the building gets a (0, 0) repel. The instakill boundary is STRICT (overlapDst > hitSize * 1.5f): exactly 1.5x repels. absorb() is `absorbed = true;` + remove() (`public void absorb(){`, BulletComp.java:100-103) and kill() is guarded (`public void kill(){` / `if(dead || net.client() || !killable()) return;`, UnitComp.java:974-978) -- both as PURE RESULTS, never applied to a live bullet or unit. The bullet list IS the Groups.bullet.intersect rect result (`public void intersect(float x, float y, float width, float height, Cons<? super T> out){`, EntityGroup.java:195, over the spatial bullet group, `@GroupDef(value = Bulletc.class, spatial = true, collide = true) G bullet;`, GroupDefs.java:9, QuadTree hitbox overlap); the enemy-unit list IS the Units.nearbyEnemies result (`public static void nearbyEnemies(Team team, float x, float y, float radius, Cons<Unit> cons){`, Units.java:482-487, which filters `if(u.within(x, y, radius + u.hitSize/2f)){`) -- enemy-only by construction, so there is no team check in the advance (the N2230 closestEnemy precedent). The bullet dict contract (the N2212 / N2229 fixture precedent): x / y, team (int; missing = own team, never an enemy), absorbable (default true, `public boolean absorbable = true;`, BulletType.java:147). The unit dict contract: x / y, hit_size (default 0.0, the N2226 repair-turret precedent). The spark chance (`if(Mathf.chanceDelta(0.12f * Time.delta)){`, BaseShield.java:52-53) defers (presentation, no RNG in the pure advance). broken/hit are NEVER set live (grep: broken only at the :83 false init and the :167 save read, `broken = read.bool();`; hit only in the commented-out :33 line) -- so there are no broken/hit frame keys and no buildup anywhere in BaseShield. The defs are `shieldProjector = new BaseShield("shield-projector"){{` (Blocks.java:2048-2054, size 3) and `largeShieldProjector = new BaseShield("large-shield-projector"){{` (Blocks.java:2056-2063, size 4, `radius = 400f;`), both editorOnly with `consumePower(5f);`. source_delta is Time.delta in ticks (`private static Floatp deltaimpl = () -> Math.min(Core.graphics.getDeltaTime() * 60f, 3f);`, arc Time.java:26) through game_source_delta, never raw seconds.
+	var team_id: int = int(frame.get("team_id", source_block_geometry.SOURCE_TEAM_DERELICT_ID))
+	var efficiency: float = float(frame.get("efficiency", 0.0))
+	var smooth_radius: float = float(frame.get("smooth_radius", SOURCE_BASE_SHIELD_SMOOTH_RADIUS_DEFAULT))
+	smooth_radius = source_math_state.source_lerp_delta(smooth_radius, shield_radius * efficiency, SOURCE_BASE_SHIELD_SMOOTH_RADIUS_LERP, source_delta)
+	var rad: float = smooth_radius
+	var absorbed_bullets: Array = []
+	var repelled_units: Array = []
+	var killed_units: Array = []
+	if rad > SOURCE_BASE_SHIELD_ENGAGE_RADIUS:
+		for bullet in bullets:
+			if not (bullet is Dictionary):
+				continue
+			if int(bullet.get("team", team_id)) == team_id:
+				continue
+			if not bool(bullet.get("absorbable", true)):
+				continue
+			var bullet_dx: float = float(bullet.get("x", 0.0)) - building_x
+			var bullet_dy: float = float(bullet.get("y", 0.0)) - building_y
+			var bullet_dst2: float = bullet_dx * bullet_dx + bullet_dy * bullet_dy
+			if bullet_dst2 < rad * rad:
+				absorbed_bullets.append(bullet)
+		for unit in enemy_units:
+			if not (unit is Dictionary):
+				continue
+			var hit_size: float = float(unit.get("hit_size", 0.0))
+			var unit_dx: float = float(unit.get("x", 0.0)) - building_x
+			var unit_dy: float = float(unit.get("y", 0.0)) - building_y
+			var unit_dst: float = sqrtf(unit_dx * unit_dx + unit_dy * unit_dy)
+			var overlap_dst: float = (hit_size / 2.0 + rad) - unit_dst
+			if overlap_dst > 0.0:
+				if overlap_dst > hit_size * SOURCE_BASE_SHIELD_KILL_MULTIPLIER:
+					killed_units.append(unit)
+				else:
+					var repel_direction: Vector2 = Vector2(unit_dx, unit_dy).normalized()
+					var repel_length: float = overlap_dst + SOURCE_BASE_SHIELD_REPEL_EPSILON
+					var repel: Vector2 = repel_direction * repel_length
+					repelled_units.append({"unit": unit, "repel_x": repel.x, "repel_y": repel.y, "overlap_dst": overlap_dst, "stopped": true})
+	return {"smooth_radius": smooth_radius, "absorbed_bullets": absorbed_bullets, "repelled_units": repelled_units, "killed_units": killed_units}
 
 static func source_base_shield_tick_frame_state(frame: Dictionary, block_implementation: String, team_id: int, rules_state: Variant) -> Dictionary:
 	# The base-shield tick wires the frame keys the
@@ -61,16 +158,18 @@ static func source_base_shield_tick_frame_state(frame: Dictionary, block_impleme
 	return frame
 
 static func _initial_frame() -> Dictionary:
-	return {}
+	return {"smooth_radius": 0.0}
 
 static func source_base_shield_bind_frame_state(sprite: Sprite2D, block: Object) -> Dictionary:
 	# Placement creates the Building (Block.java:1002 newBuilding);
 	# the port's frame is that Building state, bound on the sprite
 	# at placement under the base-shield frame meta key
-	# ("source_base_shield_building"). A BaseShield sprite gets an
-	# empty frame bound; the live-loop tick fills its keys every
-	# tick. Any other block, or an already-bound sprite, binds
-	# nothing.
+	# ("source_base_shield_building"). A BaseShield sprite gets a
+	# frame bound with the smooth radius defaulting to 0.0 (the
+	# Java field `public float smoothRadius;`,
+	# BaseShield.java:85, has no initializer); the live-loop tick
+	# fills its other keys every tick. Any other block, or an
+	# already-bound sprite, binds nothing.
 	if block == null or not _is_base_shield_build_implementation(str(block.implementation)):
 		return {"applied": false, "frame": {}}
 	if sprite.has_meta(SOURCE_BASE_SHIELD_BUILDING_META_KEY):
@@ -106,11 +205,14 @@ static func source_base_shield_power_status_row_state(frame: Dictionary, has_pow
 	# shouldConsume override, so the default
 	# (BuildingComp.java:755-757, `return enabled;`) applies;
 	# the machinery runs with should_consume=true when
-	# enabled. (3) No updateTile advance -- smoothRadius / bullet absorb /
-	# unit repel / broken / hit (BaseShield.java:88-99) wait for their own
-	# slices; the proof carries no shield/radius/broken keys, the
-	# smooth-radius fold (BaseShield.java:89) is what the efficiency keys
-	# prove. (4) No drawShield rows -- shieldColor / animateShields / sides 24 /
+	# enabled. (3) updateTile advance live (N2236) --
+	# smoothRadius / bullet absorb / unit repel
+	# (BaseShield.java:88-99) advance each tick as pure results;
+	# broken/hit are never set live (broken only from the save
+	# read, BaseShield.java:167; hit only in the commented-out
+	# line :33), so there are no broken/hit keys; the live
+	# bullet/unit scan fill + absorb/repel/kill application wait
+	# for their own slice. (4) No drawShield rows -- shieldColor / animateShields / sides 24 /
 	# hit alpha (BaseShield.java:125-147) are presentation, not state.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
@@ -189,6 +291,57 @@ static func source_base_shield_tick_buildings_state(game: Object, seconds: float
 				required_results.append(power_row.get("row", {}))
 			var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(true, bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, [], [], frame)
 			source_building_efficiency_state.apply_update_consumption_state(consumption, frame)
+		# N2236: the updateTile advance runs after consumption,
+		# like Java's Building.update() (BuildingComp.java:2274
+		# `updateConsumption();`, then the updateTile gate
+		# `if(enabled || !block.noUpdateDisabled){` at
+		# BuildingComp.java:2276-2277; noUpdateDisabled defaults
+		# false, `public boolean noUpdateDisabled = false;`
+		# (Block.java:170), so Java runs updateTile even when
+		# disabled -- in Java a disabled shield's smoothRadius
+		# decays toward 0 (efficiency is zeroed by the disabled
+		# early return, BuildingComp.java:1954-1957). The port
+		# keeps the enabled gate below as a pragmatic choice
+		# (the N2195 coordinator-fix precedent): the driver
+		# skips the consumption fold when disabled, so the frame
+		# efficiency goes stale and running the advance on it
+		# would fold the smooth radius from a stale efficiency.
+		# The driver-wide disabled-early-return slice (deferred
+		# in the N2236 register) removes this gate for all
+		# families. super.updateTile() is an empty no-op
+		# (BuildingComp.java:2010-2012), so the driver owes it
+		# nothing. The source delta is Time.delta in ticks:
+		# game_source_delta(game, seconds) is seconds * 60 (arc
+		# Time.java:26), never raw seconds. The block radius
+		# comes from the def (200f / 400f -- the catalog carries
+		# no radius). The building position comes from the
+		# origin cell: Building x/y are tile.drawx()/drawy()
+		# (BuildingComp.java:124, `set(tile.drawx(), tile.drawy());`),
+		# drawx is block.offset + tile.worldx() (Tile.java:175-176,
+		# `return block().offset + worldx();` /
+		# `return block().offset + worldy();`) with the block
+		# offset `offset = ((size + 1) % 2) * tilesize / 2f;`
+		# (Block.java:761) -- 0 for the size-3 shield-projector,
+		# 4 for the size-4 large-shield-projector. The driver
+		# passes EMPTY bullet and enemy-unit lists: no live
+		# bullet query and no live unit query exist in the port,
+		# so no live absorb/repel happens (the live fill stays
+		# deferred); only the smoothRadius fold runs live.
+		# Building.enabled is `transient boolean enabled = true;`
+		# (BuildingComp.java:77) and the folded efficiency reads
+		# `transient float efficiency;` (BuildingComp.java:85).
+		if bool(frame.get("enabled", true)):
+			var source_delta: float = source_placed_block_state.game_source_delta(game, seconds)
+			var advance_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
+			var advance_block_size: int = int(block.properties.get("size", 1))
+			var advance_block_offset: float = float((advance_block_size + 1) % 2) * source_world_defaults.TILESIZE / 2.0
+			var advance_building_x: float = source_block_geometry.tile_drawx_state(advance_cell.x, source_world_defaults.TILESIZE, advance_block_offset)
+			var advance_building_y: float = source_block_geometry.tile_drawy_state(advance_cell.y, source_world_defaults.TILESIZE, advance_block_offset)
+			var advanced: Dictionary = source_base_shield_update_tile_advance_state(frame, source_delta, _base_shield_radius_for_block(block_id), advance_building_x, advance_building_y, [], [])
+			frame["smooth_radius"] = advanced["smooth_radius"]
+			frame["absorbed_bullets"] = advanced["absorbed_bullets"]
+			frame["repelled_units"] = advanced["repelled_units"]
+			frame["killed_units"] = advanced["killed_units"]
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
