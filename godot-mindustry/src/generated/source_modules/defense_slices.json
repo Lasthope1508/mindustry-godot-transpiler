@@ -3415,6 +3415,61 @@
       ],
       "runtime_proof": "/root/C07RegenProjectorTargetsFillProof"
     },
+    "N2316": {
+      "canonical_ledger": "source_slice_ledger.N2316",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "java_method": "PointDefenseBuild.updateTile()",
+      "godot_owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_retarget_timer_state",
+      "source_symbols": [
+        "source_point_defense_turret_retarget_timer_state_result.retarget_tick",
+        "source_point_defense_turret_retarget_timer_state_result.timer_elapsed_after"
+      ],
+      "tests": [
+        "test_c07_point_defense_turret_retarget_cadence_registration",
+        "test_all_c07_point_defense_turret_retarget_cadence_input_evidence_is_exact",
+        "test_point_defense_turret_retarget_cadence_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_retarget_cadence"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretRetargetCadenceProof"
+    },
+    "N2317": {
+      "canonical_ledger": "source_slice_ledger.N2317",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile()",
+      "godot_owner": "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_retarget_timer_state",
+      "source_symbols": [
+        "source_tractor_beam_turret_retarget_timer_state_result.retarget_tick",
+        "source_tractor_beam_turret_retarget_timer_state_result.timer_elapsed_after"
+      ],
+      "tests": [
+        "test_c07_tractor_beam_turret_retarget_cadence_registration",
+        "test_all_c07_tractor_beam_turret_retarget_cadence_input_evidence_is_exact",
+        "test_tractor_beam_turret_retarget_cadence_state",
+        "test_reference_graph_and_actual_c07_tractor_beam_turret_retarget_cadence"
+      ],
+      "runtime_proof": "/root/C07TractorBeamTurretRetargetCadenceProof"
+    },
+    "N2318": {
+      "canonical_ledger": "source_slice_ledger.N2318",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.updateTile()",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_timer_check_state",
+      "source_symbols": [
+        "source_shockwave_tower_timer_check_state_result.check_ready",
+        "source_shockwave_tower_timer_check_state_result.timer_elapsed_after",
+        "source_shockwave_tower_timer_check_state_result.threshold"
+      ],
+      "tests": [
+        "test_c07_shockwave_tower_timer_check_registration",
+        "test_all_c07_shockwave_tower_timer_check_input_evidence_is_exact",
+        "test_shockwave_tower_timer_check_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_timer_check"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerTimerCheckProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

@@ -2268,6 +2268,42 @@
         "test_reference_graph_and_actual_c07_payload_loader_intake_gate"
       ],
       "runtime_proof": "/root/C07PayloadLoaderIntakeGateProof"
+    },
+    "N2319": {
+      "canonical_ledger": "source_slice_ledger.N2319",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+      "java_method": "PayloadLoaderBuild.updateTile()",
+      "godot_owner": "SourcePayloadLoaderBuildState.source_payload_loader_load_timer_state",
+      "source_symbols": [
+        "source_payload_loader_load_timer_state_result.load_tick",
+        "source_payload_loader_load_timer_state_result.timer_elapsed_after"
+      ],
+      "tests": [
+        "test_c07_payload_loader_load_timer_registration",
+        "test_all_c07_payload_loader_load_timer_input_evidence_is_exact",
+        "test_payload_loader_load_timer_state",
+        "test_reference_graph_and_actual_c07_payload_loader_load_timer"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderLoadTimerProof"
+    },
+    "N2320": {
+      "canonical_ledger": "source_slice_ledger.N2320",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+      "java_method": "PayloadUnloaderBuild.updateTile()",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_load_timer_state",
+      "source_symbols": [
+        "source_payload_unloader_load_timer_state_result.load_tick",
+        "source_payload_unloader_load_timer_state_result.timer_elapsed_after"
+      ],
+      "tests": [
+        "test_c07_payload_unloader_load_timer_registration",
+        "test_all_c07_payload_unloader_load_timer_input_evidence_is_exact",
+        "test_payload_unloader_load_timer_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_load_timer"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderLoadTimerProof"
     }
   }
 }

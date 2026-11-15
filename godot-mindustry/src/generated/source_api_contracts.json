@@ -72481,6 +72481,301 @@
       ],
       "runtime_proof": "/root/C07RepairTowerLiveScanProof",
       "rule": "Source-backed RepairTower live Units.nearby scan from RepairTower.java / HealthComp.java / Units.java / Blocks.java / Arc Position.java."
+    },
+    "SourcePointDefenseTurretBuildState.source_point_defense_turret_retarget_timer_state": {
+      "status": "active",
+      "source_slice": "N2316",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "source_method": "PointDefenseBuild.updateTile()",
+      "params": [
+        {
+          "name": "elapsed",
+          "type": "float",
+          "schema": "source_point_defense_turret_retarget_timer_state_input.elapsed"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_point_defense_turret_retarget_timer_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_point_defense_turret_retarget_timer_state_input.time_scale"
+        },
+        {
+          "name": "duration",
+          "type": "float",
+          "schema": "source_point_defense_turret_retarget_timer_state_input.duration"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "retarget_tick",
+        "timer_elapsed_after"
+      ],
+      "tests": [
+        "test_c07_point_defense_turret_retarget_cadence_registration",
+        "test_all_c07_point_defense_turret_retarget_cadence_input_evidence_is_exact",
+        "test_point_defense_turret_retarget_cadence_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_retarget_cadence"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretRetargetCadenceProof",
+      "rule": "Source-backed PointDefenseTurret retarget cadence from PointDefenseTurret.java / TimerComp.java / BuildingComp.java / arc Interval.java / arc Time.java."
+    },
+    "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_retarget_timer_state": {
+      "status": "active",
+      "source_slice": "N2317",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "source_method": "TractorBeamBuild.updateTile()",
+      "params": [
+        {
+          "name": "elapsed",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_retarget_timer_state_input.elapsed"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_retarget_timer_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_retarget_timer_state_input.time_scale"
+        },
+        {
+          "name": "duration",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_retarget_timer_state_input.duration"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "retarget_tick",
+        "timer_elapsed_after"
+      ],
+      "tests": [
+        "test_c07_tractor_beam_turret_retarget_cadence_registration",
+        "test_all_c07_tractor_beam_turret_retarget_cadence_input_evidence_is_exact",
+        "test_tractor_beam_turret_retarget_cadence_state",
+        "test_reference_graph_and_actual_c07_tractor_beam_turret_retarget_cadence"
+      ],
+      "runtime_proof": "/root/C07TractorBeamTurretRetargetCadenceProof",
+      "rule": "Source-backed TractorBeamTurret retarget cadence from TractorBeamTurret.java / TimerComp.java / BuildingComp.java / arc Interval.java / arc Time.java."
+    },
+    "SourceShockwaveTowerBuildState.source_shockwave_tower_timer_check_state": {
+      "status": "active",
+      "source_slice": "N2318",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "source_method": "ShockwaveTowerBuild.updateTile()",
+      "params": [
+        {
+          "name": "elapsed",
+          "type": "float",
+          "schema": "source_shockwave_tower_timer_check_state_input.elapsed"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_shockwave_tower_timer_check_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_shockwave_tower_timer_check_state_input.time_scale"
+        },
+        {
+          "name": "duration",
+          "type": "float",
+          "schema": "source_shockwave_tower_timer_check_state_input.duration"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "check_ready",
+        "timer_elapsed_after",
+        "threshold"
+      ],
+      "tests": [
+        "test_c07_shockwave_tower_timer_check_registration",
+        "test_all_c07_shockwave_tower_timer_check_input_evidence_is_exact",
+        "test_shockwave_tower_timer_check_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_timer_check"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerTimerCheckProof",
+      "rule": "Source-backed ShockwaveTower timerCheck cadence from ShockwaveTower.java / TimerComp.java / BuildingComp.java / arc Interval.java / arc Time.java."
+    },
+    "SourcePayloadLoaderBuildState.source_payload_loader_load_timer_state": {
+      "status": "active",
+      "source_slice": "N2319",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+      "source_method": "PayloadLoaderBuild.updateTile()",
+      "params": [
+        {
+          "name": "elapsed",
+          "type": "float",
+          "schema": "source_payload_loader_load_timer_state_input.elapsed"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_payload_loader_load_timer_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_payload_loader_load_timer_state_input.time_scale"
+        },
+        {
+          "name": "efficiency",
+          "type": "float",
+          "schema": "source_payload_loader_load_timer_state_input.efficiency"
+        },
+        {
+          "name": "load_time",
+          "type": "float",
+          "schema": "source_payload_loader_load_timer_state_input.load_time"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "load_tick",
+        "timer_elapsed_after"
+      ],
+      "tests": [
+        "test_c07_payload_loader_load_timer_registration",
+        "test_all_c07_payload_loader_load_timer_input_evidence_is_exact",
+        "test_payload_loader_load_timer_state",
+        "test_reference_graph_and_actual_c07_payload_loader_load_timer"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderLoadTimerProof",
+      "rule": "Source-backed PayloadLoader load timer cadence from PayloadLoader.java / TimerComp.java / BuildingComp.java / Blocks.java / arc Interval.java / arc Time.java."
+    },
+    "SourcePayloadUnloaderBuildState.source_payload_unloader_load_timer_state": {
+      "status": "active",
+      "source_slice": "N2320",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+      "source_method": "PayloadUnloaderBuild.updateTile()",
+      "params": [
+        {
+          "name": "elapsed",
+          "type": "float",
+          "schema": "source_payload_unloader_load_timer_state_input.elapsed"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_payload_unloader_load_timer_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_payload_unloader_load_timer_state_input.time_scale"
+        },
+        {
+          "name": "efficiency",
+          "type": "float",
+          "schema": "source_payload_unloader_load_timer_state_input.efficiency"
+        },
+        {
+          "name": "load_time",
+          "type": "float",
+          "schema": "source_payload_unloader_load_timer_state_input.load_time"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "load_tick",
+        "timer_elapsed_after"
+      ],
+      "tests": [
+        "test_c07_payload_unloader_load_timer_registration",
+        "test_all_c07_payload_unloader_load_timer_input_evidence_is_exact",
+        "test_payload_unloader_load_timer_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_load_timer"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderLoadTimerProof",
+      "rule": "Source-backed PayloadUnloader load timer cadence from PayloadUnloader.java / PayloadLoader.java / TimerComp.java / BuildingComp.java / arc Interval.java / arc Time.java."
+    },
+    "SourceItemBridgeBuildState.source_item_bridge_timer_check_moved_state": {
+      "status": "active",
+      "source_slice": "N2321",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "source_method": "ItemBridgeBuild.updateTile()",
+      "params": [
+        {
+          "name": "elapsed",
+          "type": "float",
+          "schema": "source_item_bridge_timer_check_moved_state_input.elapsed"
+        },
+        {
+          "name": "was_moved",
+          "type": "bool",
+          "schema": "source_item_bridge_timer_check_moved_state_input.was_moved"
+        },
+        {
+          "name": "moved",
+          "type": "bool",
+          "schema": "source_item_bridge_timer_check_moved_state_input.moved"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_item_bridge_timer_check_moved_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_item_bridge_timer_check_moved_state_input.time_scale"
+        },
+        {
+          "name": "duration",
+          "type": "float",
+          "schema": "source_item_bridge_timer_check_moved_state_input.duration"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "fired",
+        "timer_elapsed_after",
+        "was_moved",
+        "moved"
+      ],
+      "tests": [
+        "test_c07_item_bridge_timer_check_moved_registration",
+        "test_all_c07_item_bridge_timer_check_moved_input_evidence_is_exact",
+        "test_item_bridge_timer_check_moved_state",
+        "test_reference_graph_and_actual_c07_item_bridge_timer_check_moved"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeTimerCheckMovedProof",
+      "rule": "Source-backed ItemBridge timerCheckMoved snapshot from ItemBridge.java / TimerComp.java / BuildingComp.java / arc Interval.java / arc Time.java."
+    },
+    "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_can_create_state": {
+      "status": "active",
+      "source_slice": "N2322",
+      "java_source": "core/src/mindustry/entities/Units.java",
+      "source_method": "Units.canCreate()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_unit_cargo_loader_can_create_state_input.frame"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "can_create",
+        "cap"
+      ],
+      "tests": [
+        "test_c07_unit_cargo_loader_can_create_registration",
+        "test_all_c07_unit_cargo_loader_can_create_input_evidence_is_exact",
+        "test_unit_cargo_loader_can_create_state",
+        "test_reference_graph_and_actual_c07_unit_cargo_loader_can_create"
+      ],
+      "runtime_proof": "/root/C07UnitCargoLoaderCanCreateProof",
+      "rule": "Source-backed UnitCargoLoader canCreate evaluation from Units.java / UnitCargoLoader.java / UnitType.java / Rules.java / Teams.java / Team.java."
     }
   },
   "policy": {

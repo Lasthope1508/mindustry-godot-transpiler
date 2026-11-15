@@ -181816,6 +181816,262 @@
         "test_reference_graph_and_actual_c07_repair_tower_live_scan"
       ],
       "runtime_proof": "/root/C07RepairTowerLiveScanProof"
+    },
+    "source_point_defense_turret_retarget_timer_state_result.retarget_tick": {
+      "status": "source-backed",
+      "godot_owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_retarget_timer_state",
+      "godot_symbol": "source_point_defense_turret_retarget_timer_state_result.retarget_tick",
+      "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+      "java_method": "PointDefenseBuild.updateTile()",
+      "java_expr": "if(Float.isInfinite(time)) return false;",
+      "rule": "Whether the timer fires this tick (TimerComp.java:10-13): false when the threshold is infinite (time_scale <= 0, the defensive guard), else elapsed >= duration (the literal duration -- the Interval.check comparison, arc Interval.java:28-30, against the frame-local clock; no timeScale division, the N2290 lesson). The tick passes this flag into the N2229 advance as its retarget_tick parameter.",
+      "tests": [
+        "test_c07_point_defense_turret_retarget_cadence_registration",
+        "test_all_c07_point_defense_turret_retarget_cadence_input_evidence_is_exact",
+        "test_point_defense_turret_retarget_cadence_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_retarget_cadence"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretRetargetCadenceProof"
+    },
+    "source_point_defense_turret_retarget_timer_state_result.timer_elapsed_after": {
+      "status": "source-backed",
+      "godot_owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_retarget_timer_state",
+      "godot_symbol": "source_point_defense_turret_retarget_timer_state_result.timer_elapsed_after",
+      "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+      "java_method": "PointDefenseBuild.updateTile()",
+      "java_expr": "return timer.get(index, time);",
+      "rule": "The elapsed clock after this tick: 0.0 when fired (Interval.get RESETS times[id] = Time.time on fire, arc Interval.java:23-25 -- a reset, not a subtraction like the Fracker accumulator), otherwise the accumulated elapsed.",
+      "tests": [
+        "test_c07_point_defense_turret_retarget_cadence_registration",
+        "test_all_c07_point_defense_turret_retarget_cadence_input_evidence_is_exact",
+        "test_point_defense_turret_retarget_cadence_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_retarget_cadence"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretRetargetCadenceProof"
+    },
+    "source_tractor_beam_turret_retarget_timer_state_result.retarget_tick": {
+      "status": "source-backed",
+      "godot_owner": "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_retarget_timer_state",
+      "godot_symbol": "source_tractor_beam_turret_retarget_timer_state_result.retarget_tick",
+      "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+      "java_method": "TractorBeamBuild.updateTile()",
+      "java_expr": "if(Float.isInfinite(time)) return false;",
+      "rule": "Whether the timer fires this tick (TimerComp.java:10-13): false when the threshold is infinite (time_scale <= 0, the defensive guard), else elapsed >= duration (the literal duration -- the Interval.check comparison, arc Interval.java:28-30, against the frame-local clock).",
+      "tests": [
+        "test_c07_tractor_beam_turret_retarget_cadence_registration",
+        "test_all_c07_tractor_beam_turret_retarget_cadence_input_evidence_is_exact",
+        "test_tractor_beam_turret_retarget_cadence_state",
+        "test_reference_graph_and_actual_c07_tractor_beam_turret_retarget_cadence"
+      ],
+      "runtime_proof": "/root/C07TractorBeamTurretRetargetCadenceProof"
+    },
+    "source_tractor_beam_turret_retarget_timer_state_result.timer_elapsed_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_retarget_timer_state",
+      "godot_symbol": "source_tractor_beam_turret_retarget_timer_state_result.timer_elapsed_after",
+      "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+      "java_method": "TractorBeamBuild.updateTile()",
+      "java_expr": "return timer.get(index, time);",
+      "rule": "The elapsed clock after this tick: 0.0 when fired (Interval.get RESETS times[id] = Time.time on fire, arc Interval.java:23-25 -- a reset, not a subtraction like the Fracker accumulator), otherwise the accumulated elapsed.",
+      "tests": [
+        "test_c07_tractor_beam_turret_retarget_cadence_registration",
+        "test_all_c07_tractor_beam_turret_retarget_cadence_input_evidence_is_exact",
+        "test_tractor_beam_turret_retarget_cadence_state",
+        "test_reference_graph_and_actual_c07_tractor_beam_turret_retarget_cadence"
+      ],
+      "runtime_proof": "/root/C07TractorBeamTurretRetargetCadenceProof"
+    },
+    "source_shockwave_tower_timer_check_state_result.check_ready": {
+      "status": "source-backed",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_timer_check_state",
+      "godot_symbol": "source_shockwave_tower_timer_check_state_result.check_ready",
+      "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+      "java_method": "ShockwaveTowerBuild.updateTile()",
+      "java_expr": "if(Float.isInfinite(time)) return false;",
+      "rule": "Whether the timer fires this tick (TimerComp.java:10-13): false when the threshold is infinite (time_scale <= 0, the defensive guard), else elapsed >= threshold (the literal duration -- the Interval.check comparison, arc Interval.java:28-30, against the frame-local clock). The timer ONLY supplies check_ready -- the fire gate still needs potentialEfficiency > 0 and counter >= reload (the N2247 advance gates on all three).",
+      "tests": [
+        "test_c07_shockwave_tower_timer_check_registration",
+        "test_all_c07_shockwave_tower_timer_check_input_evidence_is_exact",
+        "test_shockwave_tower_timer_check_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_timer_check"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerTimerCheckProof"
+    },
+    "source_shockwave_tower_timer_check_state_result.timer_elapsed_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_timer_check_state",
+      "godot_symbol": "source_shockwave_tower_timer_check_state_result.timer_elapsed_after",
+      "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+      "java_method": "ShockwaveTowerBuild.updateTile()",
+      "java_expr": "return timer.get(index, time);",
+      "rule": "The elapsed clock after this tick: 0.0 when check_ready (Interval.get RESETS times[id] = Time.time on fire, arc Interval.java:23-25 -- a reset, not a subtraction like the Fracker accumulator), otherwise the accumulated elapsed (the clock still accumulates at time_scale <= 0 -- only the fire is guarded).",
+      "tests": [
+        "test_c07_shockwave_tower_timer_check_registration",
+        "test_all_c07_shockwave_tower_timer_check_input_evidence_is_exact",
+        "test_shockwave_tower_timer_check_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_timer_check"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerTimerCheckProof"
+    },
+    "source_shockwave_tower_timer_check_state_result.threshold": {
+      "status": "source-backed",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_timer_check_state",
+      "godot_symbol": "source_shockwave_tower_timer_check_state_result.threshold",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.updateTile()",
+      "java_expr": "public float checkInterval = 8f;",
+      "rule": "The fire threshold in ticks: the literal duration (checkInterval 8f, ShockwaveTower.java:31 -- Java passes it with no timeScale division, the N2290 lesson); infinite when time_scale <= 0, so the timer never fires on that branch.",
+      "tests": [
+        "test_c07_shockwave_tower_timer_check_registration",
+        "test_all_c07_shockwave_tower_timer_check_input_evidence_is_exact",
+        "test_shockwave_tower_timer_check_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_timer_check"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerTimerCheckProof"
+    },
+    "source_payload_loader_load_timer_state_result.load_tick": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadLoaderBuildState.source_payload_loader_load_timer_state",
+      "godot_symbol": "source_payload_loader_load_timer_state_result.load_tick",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+      "java_method": "PayloadLoaderBuild.updateTile()",
+      "java_expr": "if(efficiency > 0.01f && timer(timerLoad, loadTime / efficiency)){",
+      "rule": "Whether the load timer fires this tick (PayloadLoader.java:157): (eff > 0.01) and (elapsed >= loadTime / eff) -- the Interval.check comparison (arc Interval.java:28-30) against the frame-local clock, with the Java short-circuit order (eff <= 0.01 never fires, no reset) and the infinite-time branch for a non-positive time_scale (TimerComp.java:10-13). The driver passes it into the N2231 advance, whose own gate (`efficiency > 0.01 and load_tick`, :446) is unchanged.",
+      "tests": [
+        "test_c07_payload_loader_load_timer_registration",
+        "test_all_c07_payload_loader_load_timer_input_evidence_is_exact",
+        "test_payload_loader_load_timer_state",
+        "test_reference_graph_and_actual_c07_payload_loader_load_timer"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderLoadTimerProof"
+    },
+    "source_payload_loader_load_timer_state_result.timer_elapsed_after": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadLoaderBuildState.source_payload_loader_load_timer_state",
+      "godot_symbol": "source_payload_loader_load_timer_state_result.timer_elapsed_after",
+      "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+      "java_method": "PayloadLoaderBuild.updateTile()",
+      "java_expr": "return timer.get(index, time);",
+      "rule": "The elapsed clock after this tick: 0.0 when load_tick fires (Interval.get RESETS times[id] = Time.time on fire, arc Interval.java:23-25 -- a reset, not a subtraction like the Fracker accumulator), otherwise the accumulated elapsed.",
+      "tests": [
+        "test_c07_payload_loader_load_timer_registration",
+        "test_all_c07_payload_loader_load_timer_input_evidence_is_exact",
+        "test_payload_loader_load_timer_state",
+        "test_reference_graph_and_actual_c07_payload_loader_load_timer"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderLoadTimerProof"
+    },
+    "source_payload_unloader_load_timer_state_result.load_tick": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_load_timer_state",
+      "godot_symbol": "source_payload_unloader_load_timer_state_result.load_tick",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+      "java_method": "PayloadUnloaderBuild.updateTile()",
+      "java_expr": "if(efficiency > 0.01f && timer(timerLoad, loadTime / efficiency)){",
+      "rule": "Whether the load timer fires this tick (PayloadUnloader.java:69): (efficiency > 0.01) and (elapsed >= loadTime / efficiency) -- the Java short-circuit gate plus the Interval.check comparison (arc Interval.java:28-30) against the frame-local clock; false when the threshold is infinite (time_scale <= 0 or efficiency <= 0, the TimerComp infinite rule, TimerComp.java:11). The N2232 advance already gates on efficiency > 0.01 and load_tick, so the timer pure only computes the tick.",
+      "tests": [
+        "test_c07_payload_unloader_load_timer_registration",
+        "test_all_c07_payload_unloader_load_timer_input_evidence_is_exact",
+        "test_payload_unloader_load_timer_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_load_timer"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderLoadTimerProof"
+    },
+    "source_payload_unloader_load_timer_state_result.timer_elapsed_after": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_load_timer_state",
+      "godot_symbol": "source_payload_unloader_load_timer_state_result.timer_elapsed_after",
+      "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+      "java_method": "PayloadUnloaderBuild.updateTile()",
+      "java_expr": "return timer.get(index, time);",
+      "rule": "The elapsed clock after this tick: 0.0 when load_tick is true (Interval.get RESETS times[id] = Time.time on fire, arc Interval.java:23-24 -- a reset, not a subtraction like the Fracker accumulator), otherwise the accumulated elapsed (the clock keeps growing while the efficiency gate is closed, so a recovered efficiency fires at once).",
+      "tests": [
+        "test_c07_payload_unloader_load_timer_registration",
+        "test_all_c07_payload_unloader_load_timer_input_evidence_is_exact",
+        "test_payload_unloader_load_timer_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_load_timer"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderLoadTimerProof"
+    },
+    "source_item_bridge_timer_check_moved_state_result.fired": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemBridgeBuildState.source_item_bridge_timer_check_moved_state",
+      "godot_symbol": "source_item_bridge_timer_check_moved_state_result.fired",
+      "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+      "java_method": "ItemBridgeBuild.updateTile()",
+      "java_expr": "if(Float.isInfinite(time)) return false;",
+      "rule": "Whether the timer fires this tick (TimerComp.java:10-13): false when the threshold is infinite (time_scale <= 0, the defensive guard), else elapsed >= duration (the literal duration -- the Interval.check comparison, arc Interval.java:28-30, against the frame-local clock).",
+      "tests": [
+        "test_c07_item_bridge_timer_check_moved_registration",
+        "test_all_c07_item_bridge_timer_check_moved_input_evidence_is_exact",
+        "test_item_bridge_timer_check_moved_state",
+        "test_reference_graph_and_actual_c07_item_bridge_timer_check_moved"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeTimerCheckMovedProof"
+    },
+    "source_item_bridge_timer_check_moved_state_result.timer_elapsed_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemBridgeBuildState.source_item_bridge_timer_check_moved_state",
+      "godot_symbol": "source_item_bridge_timer_check_moved_state_result.timer_elapsed_after",
+      "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+      "java_method": "ItemBridgeBuild.updateTile()",
+      "java_expr": "return timer.get(index, time);",
+      "rule": "The elapsed clock after this tick: 0.0 when fired (Interval.get RESETS times[id] = Time.time on fire, arc Interval.java:23-25 -- a reset, not a subtraction like the Fracker accumulator), otherwise the accumulated elapsed.",
+      "tests": [
+        "test_c07_item_bridge_timer_check_moved_registration",
+        "test_all_c07_item_bridge_timer_check_moved_input_evidence_is_exact",
+        "test_item_bridge_timer_check_moved_state",
+        "test_reference_graph_and_actual_c07_item_bridge_timer_check_moved"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeTimerCheckMovedProof"
+    },
+    "source_item_bridge_timer_check_moved_state_result.was_moved": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemBridgeBuildState.source_item_bridge_timer_check_moved_state",
+      "godot_symbol": "source_item_bridge_timer_check_moved_state_result.was_moved",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "java_method": "ItemBridgeBuild.updateTile()",
+      "java_expr": "wasMoved = moved;",
+      "rule": "The wasMoved flag after this tick: the OLD moved when the timer fires (the snapshot, ItemBridge.java:321), the input was_moved unchanged otherwise.",
+      "tests": [
+        "test_c07_item_bridge_timer_check_moved_registration",
+        "test_all_c07_item_bridge_timer_check_moved_input_evidence_is_exact",
+        "test_item_bridge_timer_check_moved_state",
+        "test_reference_graph_and_actual_c07_item_bridge_timer_check_moved"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeTimerCheckMovedProof"
+    },
+    "source_unit_cargo_loader_can_create_state_result.can_create": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_can_create_state",
+      "godot_symbol": "source_unit_cargo_loader_can_create_state_result.can_create",
+      "java_source": "core/src/mindustry/entities/Units.java",
+      "java_method": "Units.canCreate()",
+      "java_expr": "return !type.useUnitCap || (team.data().countType(type) < getCap(team) && !type.isBanned());",
+      "rule": "Whether Units.canCreate(team, unitType) passes (Units.java:115-117): true when the type ignores the unit cap, else countType < getCap and the type is not banned; manifold keeps the UnitType default useUnitCap = true (UnitType.java:205), so the check is live, not vacuous. True when no frame input is stamped (the permissive default, preserving the pre-N2322 behavior).",
+      "tests": [
+        "test_c07_unit_cargo_loader_can_create_registration",
+        "test_all_c07_unit_cargo_loader_can_create_input_evidence_is_exact",
+        "test_unit_cargo_loader_can_create_state",
+        "test_reference_graph_and_actual_c07_unit_cargo_loader_can_create"
+      ],
+      "runtime_proof": "/root/C07UnitCargoLoaderCanCreateProof"
+    },
+    "source_unit_cargo_loader_can_create_state_result.cap": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_can_create_state",
+      "godot_symbol": "source_unit_cargo_loader_can_create_state_result.cap",
+      "java_source": "core/src/mindustry/entities/Units.java",
+      "java_method": "Units.canCreate()",
+      "java_expr": "return Math.max(0, state.rules.unitCapVariable ? state.rules.unitCap + team.data().unitCap : state.rules.unitCap);",
+      "rule": "The unit cap from Units.getCap(team) (Units.java:119-126): Integer.MAX_VALUE (2147483647) on any uncapped branch (wave team non-pvp / wave team campaign / disableUnitCap / ignoreUnitCap), else Math.max(0, unitCapVariable ? unitCap + teamUnitCap : unitCap). Integer.MAX_VALUE when no frame input is stamped (the permissive default).",
+      "tests": [
+        "test_c07_unit_cargo_loader_can_create_registration",
+        "test_all_c07_unit_cargo_loader_can_create_input_evidence_is_exact",
+        "test_unit_cargo_loader_can_create_state",
+        "test_reference_graph_and_actual_c07_unit_cargo_loader_can_create"
+      ],
+      "runtime_proof": "/root/C07UnitCargoLoaderCanCreateProof"
     }
   },
   "version": 1

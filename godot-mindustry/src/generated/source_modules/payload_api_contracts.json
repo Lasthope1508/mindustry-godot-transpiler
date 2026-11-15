@@ -4016,6 +4016,53 @@
       "rule": "Source-backed PayloadLoader live payload fill from PayloadBlock.java / PayloadLoader.java / Payload.java / Blocks.java / Vars.java.",
       "return_type": "Dictionary"
     },
+    "SourcePayloadLoaderBuildState.source_payload_loader_load_timer_state": {
+      "canonical_contract": "source_api_contracts.SourcePayloadLoaderBuildState.source_payload_loader_load_timer_state",
+      "status": "active",
+      "source_slice": "N2319",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+      "source_method": "PayloadLoaderBuild.updateTile()",
+      "params": [
+        {
+          "name": "elapsed",
+          "type": "float",
+          "schema": "source_payload_loader_load_timer_state_input.elapsed"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_payload_loader_load_timer_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_payload_loader_load_timer_state_input.time_scale"
+        },
+        {
+          "name": "efficiency",
+          "type": "float",
+          "schema": "source_payload_loader_load_timer_state_input.efficiency"
+        },
+        {
+          "name": "load_time",
+          "type": "float",
+          "schema": "source_payload_loader_load_timer_state_input.load_time"
+        }
+      ],
+      "return_keys": [
+        "load_tick",
+        "timer_elapsed_after"
+      ],
+      "tests": [
+        "test_c07_payload_loader_load_timer_registration",
+        "test_all_c07_payload_loader_load_timer_input_evidence_is_exact",
+        "test_payload_loader_load_timer_state",
+        "test_reference_graph_and_actual_c07_payload_loader_load_timer"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderLoadTimerProof",
+      "rule": "Source-backed PayloadLoader load timer cadence from PayloadLoader.java / TimerComp.java / BuildingComp.java / Blocks.java / arc Interval.java / arc Time.java.",
+      "return_type": "Dictionary"
+    },
     "SourcePayloadLoaderBuildState.source_payload_loader_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourcePayloadLoaderBuildState.source_payload_loader_power_status_row_state",
       "status": "active",
@@ -4621,6 +4668,53 @@
       ],
       "runtime_proof": "/root/C07PayloadUnloaderLiveFillProof",
       "rule": "Source-backed PayloadUnloader live payload fill from PayloadBlock.java / PayloadUnloader.java / PayloadLoader.java / Payload.java / UnitPayload.java / Blocks.java / Vars.java / Vec2.java.",
+      "return_type": "Dictionary"
+    },
+    "SourcePayloadUnloaderBuildState.source_payload_unloader_load_timer_state": {
+      "canonical_contract": "source_api_contracts.SourcePayloadUnloaderBuildState.source_payload_unloader_load_timer_state",
+      "status": "active",
+      "source_slice": "N2320",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+      "source_method": "PayloadUnloaderBuild.updateTile()",
+      "params": [
+        {
+          "name": "elapsed",
+          "type": "float",
+          "schema": "source_payload_unloader_load_timer_state_input.elapsed"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_payload_unloader_load_timer_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_payload_unloader_load_timer_state_input.time_scale"
+        },
+        {
+          "name": "efficiency",
+          "type": "float",
+          "schema": "source_payload_unloader_load_timer_state_input.efficiency"
+        },
+        {
+          "name": "load_time",
+          "type": "float",
+          "schema": "source_payload_unloader_load_timer_state_input.load_time"
+        }
+      ],
+      "return_keys": [
+        "load_tick",
+        "timer_elapsed_after"
+      ],
+      "tests": [
+        "test_c07_payload_unloader_load_timer_registration",
+        "test_all_c07_payload_unloader_load_timer_input_evidence_is_exact",
+        "test_payload_unloader_load_timer_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_load_timer"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderLoadTimerProof",
+      "rule": "Source-backed PayloadUnloader load timer cadence from PayloadUnloader.java / PayloadLoader.java / TimerComp.java / BuildingComp.java / arc Interval.java / arc Time.java.",
       "return_type": "Dictionary"
     },
     "SourcePayloadUnloaderBuildState.source_payload_unloader_power_status_row_state": {

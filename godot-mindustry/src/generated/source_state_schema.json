@@ -244863,6 +244863,592 @@
       },
       "runtime_proof": "/root/C07RepairTowerLiveScanProof",
       "rule": "Source-backed RepairTower live Units.nearby scan from RepairTower.java / HealthComp.java / Units.java / Blocks.java / Arc Position.java."
+    },
+    "source_point_defense_turret_retarget_timer_state_input": {
+      "status": "active",
+      "owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_retarget_timer_state",
+      "source_slice": "N2316",
+      "keys": {
+        "elapsed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+          "java_expr": "return timer.get(index, time);",
+          "rule": "The frame-local elapsed clock in ticks (frame[\"timer_retarget_elapsed\"], accumulated by the tick delta every tick the advance runs, unconditionally -- the port mirror of the global Time.time arc Interval.get compares against, Interval.java:20-26; Time.time counts TICKS, arc Time.java:69-80).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_retarget_timer_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/util/Time.java",
+          "java_expr": "timeRaw += delta;",
+          "rule": "The tick delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26) -- the per-tick growth of the frame-local clock, mirroring the per-update growth of the global Time.time (arc Time.java:69-80).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_retarget_timer_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live building timeScale (BuildingComp.java:98, default 1f), read from the sprite meta by the tick; the threshold is the literal duration (Java passes retargetTime 5f straight to timer() with no timeScale division, PointDefenseTurret.java:65 -- the N2290 lesson), and a non-positive time_scale is a defensive guard (retarget_tick false; Java timeScale is always positive in practice, BuildingComp.java:461-478/2265-2266, so the guard is unreachable in Java-exact play).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_retarget_timer_state"
+          ]
+        },
+        "duration": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "if(timer(timerTarget, retargetTime)){",
+          "rule": "The timer duration in ticks: retargetTime 5f in the Java timer call (PointDefenseTurret.java:21/65); the only def (segment) shares it (no per-def override).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_retarget_timer_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PointDefenseTurretRetargetCadenceProof",
+      "rule": "Source-backed PointDefenseTurret retarget cadence from PointDefenseTurret.java / TimerComp.java / BuildingComp.java / arc Interval.java / arc Time.java."
+    },
+    "source_point_defense_turret_retarget_timer_state_result": {
+      "status": "active",
+      "owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_retarget_timer_state",
+      "source_slice": "N2316",
+      "keys": {
+        "retarget_tick": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+          "java_expr": "if(Float.isInfinite(time)) return false;",
+          "rule": "Whether the timer fires this tick (TimerComp.java:10-13): false when the threshold is infinite (time_scale <= 0, the defensive guard), else elapsed >= duration (the literal duration -- the Interval.check comparison, arc Interval.java:28-30, against the frame-local clock; no timeScale division, the N2290 lesson). The tick passes this flag into the N2229 advance as its retarget_tick parameter.",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_retarget_timer_state"
+          ]
+        },
+        "timer_elapsed_after": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+          "java_expr": "return timer.get(index, time);",
+          "rule": "The elapsed clock after this tick: 0.0 when fired (Interval.get RESETS times[id] = Time.time on fire, arc Interval.java:23-25 -- a reset, not a subtraction like the Fracker accumulator), otherwise the accumulated elapsed.",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_retarget_timer_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PointDefenseTurretRetargetCadenceProof",
+      "rule": "Source-backed PointDefenseTurret retarget cadence from PointDefenseTurret.java / TimerComp.java / BuildingComp.java / arc Interval.java / arc Time.java."
+    },
+    "source_tractor_beam_turret_retarget_timer_state_input": {
+      "status": "active",
+      "owner": "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_retarget_timer_state",
+      "source_slice": "N2317",
+      "keys": {
+        "elapsed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+          "java_expr": "return timer.get(index, time);",
+          "rule": "The frame-local elapsed clock in ticks (frame[\"timer_retarget_elapsed\"], accumulated by the tick delta every tick the advance runs, unconditionally -- the port mirror of the global Time.time arc Interval.get compares against, Interval.java:20-26; Time.time counts TICKS, arc Time.java:69-80).",
+          "used_by": [
+            "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_retarget_timer_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/util/Time.java",
+          "java_expr": "timeRaw += delta;",
+          "rule": "The tick delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26) -- the per-tick growth of the frame-local clock, mirroring the per-update growth of the global Time.time (arc Time.java:69-80).",
+          "used_by": [
+            "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_retarget_timer_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live building timeScale (BuildingComp.java:98, default 1f), read from the sprite meta by the tick; the threshold is the literal duration (Java passes retargetTime 5f straight to timer(), TractorBeamTurret.java:87, with no timeScale division -- the N2290 lesson), and a non-positive time_scale is a defensive guard (retarget_tick false; Java timeScale is always positive in practice, BuildingComp.java:461-478/2265-2266, so the guard is unreachable in Java-exact play).",
+          "used_by": [
+            "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_retarget_timer_state"
+          ]
+        },
+        "duration": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_expr": "if(timer(timerTarget, retargetTime)){",
+          "rule": "The timer duration in ticks: retargetTime 5f in the Java timer call (TractorBeamTurret.java:87, `public float retargetTime = 5f;`, :21); parallax does not override it (Blocks.java:3640-3653), so the class value is the only one.",
+          "used_by": [
+            "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_retarget_timer_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TractorBeamTurretRetargetCadenceProof",
+      "rule": "Source-backed TractorBeamTurret retarget cadence from TractorBeamTurret.java / TimerComp.java / BuildingComp.java / arc Interval.java / arc Time.java."
+    },
+    "source_tractor_beam_turret_retarget_timer_state_result": {
+      "status": "active",
+      "owner": "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_retarget_timer_state",
+      "source_slice": "N2317",
+      "keys": {
+        "retarget_tick": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+          "java_expr": "if(Float.isInfinite(time)) return false;",
+          "rule": "Whether the timer fires this tick (TimerComp.java:10-13): false when the threshold is infinite (time_scale <= 0, the defensive guard), else elapsed >= duration (the literal duration -- the Interval.check comparison, arc Interval.java:28-30, against the frame-local clock).",
+          "used_by": [
+            "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_retarget_timer_state"
+          ]
+        },
+        "timer_elapsed_after": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+          "java_expr": "return timer.get(index, time);",
+          "rule": "The elapsed clock after this tick: 0.0 when fired (Interval.get RESETS times[id] = Time.time on fire, arc Interval.java:23-25 -- a reset, not a subtraction like the Fracker accumulator), otherwise the accumulated elapsed.",
+          "used_by": [
+            "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_retarget_timer_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TractorBeamTurretRetargetCadenceProof",
+      "rule": "Source-backed TractorBeamTurret retarget cadence from TractorBeamTurret.java / TimerComp.java / BuildingComp.java / arc Interval.java / arc Time.java."
+    },
+    "source_shockwave_tower_timer_check_state_input": {
+      "status": "active",
+      "owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_timer_check_state",
+      "source_slice": "N2318",
+      "keys": {
+        "elapsed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+          "java_expr": "return timer.get(index, time);",
+          "rule": "The frame-local elapsed clock in ticks (frame[\"timer_check_elapsed\"], accumulated by the tick delta every tick the advance runs, unconditionally -- the port mirror of the global Time.time arc Interval.get compares against, Interval.java:20-26; Time.time counts TICKS, arc Time.java:69-80).",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_timer_check_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/util/Time.java",
+          "java_expr": "timeRaw += delta;",
+          "rule": "The tick delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26) -- the per-tick growth of the frame-local clock, mirroring the per-update growth of the global Time.time (arc Time.java:69-80).",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_timer_check_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live building timeScale (BuildingComp.java:98, default 1f), read from the sprite meta by the tick; the threshold is the literal duration (Java passes checkInterval with no timeScale division, ShockwaveTower.java:73 -- the N2290 lesson), and a non-positive time_scale is a defensive guard (check_ready false, threshold INF; Java timeScale is always positive in practice, BuildingComp.java:461-478/2265-2266, so the guard is unreachable in Java-exact play).",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_timer_check_state"
+          ]
+        },
+        "duration": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "if(potentialEfficiency > 0 && (reloadCounter += edelta()) >= reload && timer(timerCheck, checkInterval)){",
+          "rule": "The timer duration in ticks: checkInterval 8f (ShockwaveTower.java:31), the single shockwave-tower def shares it (no per-def override).",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_timer_check_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShockwaveTowerTimerCheckProof",
+      "rule": "Source-backed ShockwaveTower timerCheck cadence from ShockwaveTower.java / TimerComp.java / BuildingComp.java / arc Interval.java / arc Time.java."
+    },
+    "source_shockwave_tower_timer_check_state_result": {
+      "status": "active",
+      "owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_timer_check_state",
+      "source_slice": "N2318",
+      "keys": {
+        "check_ready": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+          "java_expr": "if(Float.isInfinite(time)) return false;",
+          "rule": "Whether the timer fires this tick (TimerComp.java:10-13): false when the threshold is infinite (time_scale <= 0, the defensive guard), else elapsed >= threshold (the literal duration -- the Interval.check comparison, arc Interval.java:28-30, against the frame-local clock). The timer ONLY supplies check_ready -- the fire gate still needs potentialEfficiency > 0 and counter >= reload (the N2247 advance gates on all three).",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_timer_check_state"
+          ]
+        },
+        "timer_elapsed_after": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+          "java_expr": "return timer.get(index, time);",
+          "rule": "The elapsed clock after this tick: 0.0 when check_ready (Interval.get RESETS times[id] = Time.time on fire, arc Interval.java:23-25 -- a reset, not a subtraction like the Fracker accumulator), otherwise the accumulated elapsed (the clock still accumulates at time_scale <= 0 -- only the fire is guarded).",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_timer_check_state"
+          ]
+        },
+        "threshold": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "public float checkInterval = 8f;",
+          "rule": "The fire threshold in ticks: the literal duration (checkInterval 8f, ShockwaveTower.java:31 -- Java passes it with no timeScale division, the N2290 lesson); infinite when time_scale <= 0, so the timer never fires on that branch.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_timer_check_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShockwaveTowerTimerCheckProof",
+      "rule": "Source-backed ShockwaveTower timerCheck cadence from ShockwaveTower.java / TimerComp.java / BuildingComp.java / arc Interval.java / arc Time.java."
+    },
+    "source_payload_loader_load_timer_state_input": {
+      "status": "active",
+      "owner": "SourcePayloadLoaderBuildState.source_payload_loader_load_timer_state",
+      "source_slice": "N2319",
+      "keys": {
+        "elapsed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+          "java_expr": "return timer.get(index, time);",
+          "rule": "The frame-local elapsed clock in ticks (frame[\"timer_load_elapsed\"], accumulated by the tick delta every tick, unconditionally -- the port mirror of the global Time.time arc Interval.get compares against, Interval.java:20-26; Time.time counts TICKS, arc Time.java:69-80).",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_load_timer_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/util/Time.java",
+          "java_expr": "timeRaw += delta;",
+          "rule": "The tick delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26) -- the per-tick growth of the frame-local clock, mirroring the per-update growth of the global Time.time (arc Time.java:69-80); accumulated unconditionally, like Time.time.",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_load_timer_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live building timeScale (BuildingComp.java:98, default 1f), read from the sprite meta by the tick; the threshold divides by EFFICIENCY, not timeScale (PayloadLoader.java:157 -- the N2290 lesson), and a non-positive time_scale is a defensive guard (never fires; Java timeScale is always positive in practice, BuildingComp.java:461-478/2265-2266, so the guard is unreachable in Java-exact play).",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_load_timer_state"
+          ]
+        },
+        "efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+          "java_expr": "if(efficiency > 0.01f && timer(timerLoad, loadTime / efficiency)){",
+          "rule": "The folded frame efficiency (frame[\"efficiency\"] after the consumption fold, the same value the N2231 advance reads): the Java short-circuit gate (eff > 0.01f, PayloadLoader.java:157) and the threshold divisor -- eff <= 0.01 never fires (the timer is never called, so no reset, but the clock still accumulates and a recovered efficiency fires at once); eff <= 0 is the infinite-time branch (TimerComp.java:11).",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_load_timer_state"
+          ]
+        },
+        "load_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+          "java_expr": "public float loadTime = 2f;",
+          "rule": "The load interval in ticks: loadTime 2f (PayloadLoader.java:22); the only def (payload-loader, Blocks.java:6682-6689) keeps the class default.",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_load_timer_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadLoaderLoadTimerProof",
+      "rule": "Source-backed PayloadLoader load timer cadence from PayloadLoader.java / TimerComp.java / BuildingComp.java / Blocks.java / arc Interval.java / arc Time.java."
+    },
+    "source_payload_loader_load_timer_state_result": {
+      "status": "active",
+      "owner": "SourcePayloadLoaderBuildState.source_payload_loader_load_timer_state",
+      "source_slice": "N2319",
+      "keys": {
+        "load_tick": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+          "java_expr": "if(efficiency > 0.01f && timer(timerLoad, loadTime / efficiency)){",
+          "rule": "Whether the load timer fires this tick (PayloadLoader.java:157): (eff > 0.01) and (elapsed >= loadTime / eff) -- the Interval.check comparison (arc Interval.java:28-30) against the frame-local clock, with the Java short-circuit order (eff <= 0.01 never fires, no reset) and the infinite-time branch for a non-positive time_scale (TimerComp.java:10-13). The driver passes it into the N2231 advance, whose own gate (`efficiency > 0.01 and load_tick`, :446) is unchanged.",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_load_timer_state"
+          ]
+        },
+        "timer_elapsed_after": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+          "java_expr": "return timer.get(index, time);",
+          "rule": "The elapsed clock after this tick: 0.0 when load_tick fires (Interval.get RESETS times[id] = Time.time on fire, arc Interval.java:23-25 -- a reset, not a subtraction like the Fracker accumulator), otherwise the accumulated elapsed.",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_load_timer_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadLoaderLoadTimerProof",
+      "rule": "Source-backed PayloadLoader load timer cadence from PayloadLoader.java / TimerComp.java / BuildingComp.java / Blocks.java / arc Interval.java / arc Time.java."
+    },
+    "source_payload_unloader_load_timer_state_input": {
+      "status": "active",
+      "owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_load_timer_state",
+      "source_slice": "N2320",
+      "keys": {
+        "elapsed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+          "java_expr": "return timer.get(index, time);",
+          "rule": "The frame-local elapsed clock in ticks (frame[\"timer_load_elapsed\"], accumulated by the tick delta every tick the advance runs, unconditionally -- the port mirror of the global Time.time arc Interval.get compares against, Interval.java:20-26; Time.time counts TICKS, arc Time.java:69-80).",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_load_timer_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/util/Time.java",
+          "java_expr": "timeRaw += delta;",
+          "rule": "The tick delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26) -- the per-tick growth of the frame-local clock, mirroring the per-update growth of the global Time.time (arc Time.java:69-80). The delta is UNSCALED: the Java timer reads the global clock, never delta() (BuildingComp.java:1922-1924).",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_load_timer_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live building timeScale (BuildingComp.java:98, default 1f), read from the sprite meta by the tick; the threshold divides by EFFICIENCY, never by timeScale (Java passes loadTime / efficiency, PayloadUnloader.java:69 -- the N2290 lesson), and a non-positive time_scale is a defensive guard (threshold INF, never fires; Java timeScale is always positive in practice, BuildingComp.java:461-478/2265-2266, so the guard is unreachable in Java-exact play).",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_load_timer_state"
+          ]
+        },
+        "efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+          "java_expr": "if(efficiency > 0.01f && timer(timerLoad, loadTime / efficiency)){",
+          "rule": "The folded frame efficiency (the power-only fold -- the Unloader has NO dynamic power consumer, loadPowerDynamic = false, PayloadUnloader.java:18, so the fold is exact): the threshold divisor (loadTime / efficiency, PayloadUnloader.java:69) AND the short-circuit gate (efficiency <= 0.01 means Java never calls timer(), so the clock keeps accumulating and a recovered efficiency fires at once); efficiency <= 0 is the TimerComp infinite rule (no fire, the divide-by-zero guard).",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_load_timer_state"
+          ]
+        },
+        "load_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+          "java_expr": "public float loadTime = 2f;",
+          "rule": "The load interval in ticks: 2f, inherited from PayloadLoader (PayloadLoader.java:22); the single payload-unloader def carries no override.",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_load_timer_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadUnloaderLoadTimerProof",
+      "rule": "Source-backed PayloadUnloader load timer cadence from PayloadUnloader.java / PayloadLoader.java / TimerComp.java / BuildingComp.java / arc Interval.java / arc Time.java."
+    },
+    "source_payload_unloader_load_timer_state_result": {
+      "status": "active",
+      "owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_load_timer_state",
+      "source_slice": "N2320",
+      "keys": {
+        "load_tick": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+          "java_expr": "if(efficiency > 0.01f && timer(timerLoad, loadTime / efficiency)){",
+          "rule": "Whether the load timer fires this tick (PayloadUnloader.java:69): (efficiency > 0.01) and (elapsed >= loadTime / efficiency) -- the Java short-circuit gate plus the Interval.check comparison (arc Interval.java:28-30) against the frame-local clock; false when the threshold is infinite (time_scale <= 0 or efficiency <= 0, the TimerComp infinite rule, TimerComp.java:11). The N2232 advance already gates on efficiency > 0.01 and load_tick, so the timer pure only computes the tick.",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_load_timer_state"
+          ]
+        },
+        "timer_elapsed_after": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+          "java_expr": "return timer.get(index, time);",
+          "rule": "The elapsed clock after this tick: 0.0 when load_tick is true (Interval.get RESETS times[id] = Time.time on fire, arc Interval.java:23-24 -- a reset, not a subtraction like the Fracker accumulator), otherwise the accumulated elapsed (the clock keeps growing while the efficiency gate is closed, so a recovered efficiency fires at once).",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_load_timer_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadUnloaderLoadTimerProof",
+      "rule": "Source-backed PayloadUnloader load timer cadence from PayloadUnloader.java / PayloadLoader.java / TimerComp.java / BuildingComp.java / arc Interval.java / arc Time.java."
+    },
+    "source_item_bridge_timer_check_moved_state_input": {
+      "status": "active",
+      "owner": "SourceItemBridgeBuildState.source_item_bridge_timer_check_moved_state",
+      "source_slice": "N2321",
+      "keys": {
+        "elapsed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+          "java_expr": "return timer.get(index, time);",
+          "rule": "The frame-local elapsed clock in ticks (frame[\"timer_check_moved_elapsed\"], accumulated by the tick delta every enabled tick, unconditionally -- the port mirror of the global Time.time arc Interval.get compares against, Interval.java:20-26; Time.time counts TICKS, arc Time.java:69-80).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_timer_check_moved_state"
+          ]
+        },
+        "was_moved": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "public boolean wasMoved, moved, hadValidLink;",
+          "rule": "The pre-snapshot wasMoved flag (ItemBridge.java:202) -- returned unchanged when the timer does not fire, overwritten by the old moved when it fires (ItemBridge.java:321).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_timer_check_moved_state"
+          ]
+        },
+        "moved": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "moved = true;",
+          "rule": "The pre-snapshot moved flag (ItemBridge.java:202) -- set by the advance handoff (ItemBridge.java:361), copied into was_moved and reset to false when the timer fires (ItemBridge.java:321-322).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_timer_check_moved_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/util/Time.java",
+          "java_expr": "timeRaw += delta;",
+          "rule": "The tick delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26) -- the per-tick growth of the frame-local clock, mirroring the per-update growth of the global Time.time (arc Time.java:69-80).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_timer_check_moved_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live building timeScale (BuildingComp.java:98, default 1f), read from the sprite meta by the tick; the threshold is the literal duration (Java passes a literal 30f with no timeScale division, ItemBridge.java:320 -- the N2290 literal-20 lesson), and a non-positive time_scale is a defensive guard (fired false; Java timeScale is always positive in practice, BuildingComp.java:461-478/2265-2266, so the guard is unreachable in Java-exact play).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_timer_check_moved_state"
+          ]
+        },
+        "duration": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "if(timer(timerCheckMoved, 30f)){",
+          "rule": "The timer duration in ticks: the literal 30f in the Java timer call (ItemBridge.java:320); the single def shares it (no per-def override).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_timer_check_moved_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ItemBridgeTimerCheckMovedProof",
+      "rule": "Source-backed ItemBridge timerCheckMoved snapshot from ItemBridge.java / TimerComp.java / BuildingComp.java / arc Interval.java / arc Time.java."
+    },
+    "source_item_bridge_timer_check_moved_state_result": {
+      "status": "active",
+      "owner": "SourceItemBridgeBuildState.source_item_bridge_timer_check_moved_state",
+      "source_slice": "N2321",
+      "keys": {
+        "fired": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+          "java_expr": "if(Float.isInfinite(time)) return false;",
+          "rule": "Whether the timer fires this tick (TimerComp.java:10-13): false when the threshold is infinite (time_scale <= 0, the defensive guard), else elapsed >= duration (the literal duration -- the Interval.check comparison, arc Interval.java:28-30, against the frame-local clock).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_timer_check_moved_state"
+          ]
+        },
+        "timer_elapsed_after": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+          "java_expr": "return timer.get(index, time);",
+          "rule": "The elapsed clock after this tick: 0.0 when fired (Interval.get RESETS times[id] = Time.time on fire, arc Interval.java:23-25 -- a reset, not a subtraction like the Fracker accumulator), otherwise the accumulated elapsed.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_timer_check_moved_state"
+          ]
+        },
+        "was_moved": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "wasMoved = moved;",
+          "rule": "The wasMoved flag after this tick: the OLD moved when the timer fires (the snapshot, ItemBridge.java:321), the input was_moved unchanged otherwise.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_timer_check_moved_state"
+          ]
+        },
+        "moved": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "moved = false;",
+          "rule": "The moved flag after this tick: false when the timer fires (the reset, ItemBridge.java:322), the input moved unchanged otherwise.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_timer_check_moved_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ItemBridgeTimerCheckMovedProof",
+      "rule": "Source-backed ItemBridge timerCheckMoved snapshot from ItemBridge.java / TimerComp.java / BuildingComp.java / arc Interval.java / arc Time.java."
+    },
+    "source_unit_cargo_loader_can_create_state_input": {
+      "status": "active",
+      "owner": "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_can_create_state",
+      "source_slice": "N2322",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+          "java_expr": "if(unit == null && Units.canCreate(team, unitType)){",
+          "rule": "The building frame carrying the can_create_inputs dict (count_type / use_unit_cap / is_banned / is_wave_team / is_campaign / is_pvp / disable_unit_cap / ignore_unit_cap / unit_cap / unit_cap_variable / team_unit_cap) -- the frame-input pattern (N2226 candidates precedent), because rules_state carries only unitCostMul (DEFERRED #35). No input stamped (absent, non-dict, or empty) means permissive: can_create true, cap Integer.MAX_VALUE.",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_can_create_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07UnitCargoLoaderCanCreateProof",
+      "rule": "Source-backed UnitCargoLoader canCreate evaluation from Units.java / UnitCargoLoader.java / UnitType.java / Rules.java / Teams.java / Team.java."
+    },
+    "source_unit_cargo_loader_can_create_state_result": {
+      "status": "active",
+      "owner": "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_can_create_state",
+      "source_slice": "N2322",
+      "keys": {
+        "can_create": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Units.java",
+          "java_expr": "return !type.useUnitCap || (team.data().countType(type) < getCap(team) && !type.isBanned());",
+          "rule": "Whether Units.canCreate(team, unitType) passes (Units.java:115-117): true when the type ignores the unit cap, else countType < getCap and the type is not banned; manifold keeps the UnitType default useUnitCap = true (UnitType.java:205), so the check is live, not vacuous. True when no frame input is stamped (the permissive default, preserving the pre-N2322 behavior).",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_can_create_state"
+          ]
+        },
+        "cap": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Units.java",
+          "java_expr": "return Math.max(0, state.rules.unitCapVariable ? state.rules.unitCap + team.data().unitCap : state.rules.unitCap);",
+          "rule": "The unit cap from Units.getCap(team) (Units.java:119-126): Integer.MAX_VALUE (2147483647) on any uncapped branch (wave team non-pvp / wave team campaign / disableUnitCap / ignoreUnitCap), else Math.max(0, unitCapVariable ? unitCap + teamUnitCap : unitCap). Integer.MAX_VALUE when no frame input is stamped (the permissive default).",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_can_create_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07UnitCargoLoaderCanCreateProof",
+      "rule": "Source-backed UnitCargoLoader canCreate evaluation from Units.java / UnitCargoLoader.java / UnitType.java / Rules.java / Teams.java / Team.java."
     }
   },
   "version": 1
