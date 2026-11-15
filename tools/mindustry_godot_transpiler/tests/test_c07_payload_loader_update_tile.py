@@ -341,15 +341,16 @@ class C07PayloadLoaderUpdateTileTests(unittest.TestCase):
         # updateTile() even when disabled (efficiency folds to 0
         # through updateConsumption, so the edelta loads stall
         # while moveIn/moveOut still run on delta). The driver
-        # passes load_tick false (no timer infra), the live
-        # rotdeg from the rotation meta, block_rotate true (the
-        # ctor value), the catalog item order, and no-front
-        # defaults (no live front query yet). The liquids store
-        # syncs from the sprite meta each tick (the Fracker
-        # pattern).
+        # passes the live load_tick (N2319 -- the load timer
+        # cadence is live; the N2319 pin update, the N2290/N2304
+        # precedent), the live rotdeg from the rotation meta,
+        # block_rotate true (the ctor value), the catalog item
+        # order, and no-front defaults (no live front query
+        # yet). The liquids store syncs from the sprite meta
+        # each tick (the Fracker pattern).
         self.assertIn('game_source_delta(game, seconds)', payload_loader)
         self.assertIn('time_scale(sprite', payload_loader)
-        self.assertIn('source_payload_loader_update_tile_advance_state(frame, source_delta, time_scale, false, rotdeg_value, true, item_order, liquid_names_by_id, front, false, SOURCE_PAYLOAD_LOADER_BASE_POWER_USE)', payload_loader)
+        self.assertIn('source_payload_loader_update_tile_advance_state(frame, source_delta, time_scale, load_tick, rotdeg_value, true, item_order, liquid_names_by_id, front, false, SOURCE_PAYLOAD_LOADER_BASE_POWER_USE)', payload_loader)
         self.assertIn('SOURCE_BUILD_ROTATION_META_KEY', payload_loader)
         self.assertIn('item_names_by_id', payload_loader)
         self.assertIn('SOURCE_BUILDING_LIQUIDS_META_KEY', payload_loader)
