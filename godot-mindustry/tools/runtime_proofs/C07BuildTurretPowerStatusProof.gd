@@ -70,6 +70,13 @@ func _ready() -> void:
 	build_turret_build_state.source_build_turret_bind_frame_state(build_turret, blocks_by_id["build-tower"])
 	var build_turret_frame: Dictionary = build_turret.get_meta(build_turret_build_state.SOURCE_BUILD_TURRET_BUILDING_META_KEY, {})
 
+	# N2215: the shouldConsume gate (BuildTurret.java:230,
+	# `return unit.plans().size > 0 && !isHealSuppressed();`) closes
+	# with no plans, so the power proof holds a plans fixture (only
+	# its size is read) — otherwise efficiency_folds_power_min
+	# would read 0.
+	build_turret_frame["plans"] = [{"block": "conveyor", "x": 0, "y": 0}]
+
 	# Half power: efficiency folds the power min 0.5.
 	build_turret_frame["power_status"] = 0.5
 	build_turret_build_state.source_build_turret_tick_buildings_state(game, 1.0 / 60.0)

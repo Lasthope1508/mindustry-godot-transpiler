@@ -61,6 +61,13 @@ func _ready() -> void:
 	constructor_build_state.source_constructor_bind_frame_state(constructor, blocks_by_id["constructor"])
 	var constructor_frame: Dictionary = constructor.get_meta(constructor_build_state.SOURCE_CONSTRUCTOR_BUILDING_META_KEY, {})
 
+	# N2216: the shouldConsume gate (BlockProducer.java:103,
+	# `return super.shouldConsume() && recipe() != null;`) closes
+	# with no recipe, so the power proof holds a recipe fixture
+	# (only its null-ness is read) — otherwise
+	# efficiency_folds_power_min would read 0.
+	constructor_frame["recipe"] = {"block": "conveyor"}
+
 	# Half power: efficiency folds the power min 0.5.
 	constructor_frame["power_status"] = 0.5
 	constructor_build_state.source_constructor_tick_buildings_state(game, 1.0 / 60.0)
