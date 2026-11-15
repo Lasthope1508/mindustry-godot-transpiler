@@ -1,6 +1,6 @@
 # Report — N2186: ImpactReactor powerProduction live read (producer side) (C07)
 
-Date: 2026-11-15. Batch: N2186 (single slice). Status: **DONE — push next (gate clean except Godot; slice ec17915 committed, docs in progress).**
+Date: 2026-11-15. Batch: N2186 (single slice). Status: **DONE + PUSHED (2026-11-15 ~10:2x +07 — targeted 4/4 OK, neighbours 204/204 OK, Godot proof GREEN 9 keys matches:true, full gate attempt 1 Ran 5841 in 976.583s, failures=137, skipped=5, 0 errors — all 137 verified Godot-absent asserts). Slice commit `ec17915`.**
 
 ## What changed
 
@@ -51,8 +51,8 @@ Finished ~10:04 +07 (log mtime 03:04:53 UTC): **Ran 5841 tests in 976.583s, FAIL
 ## Commits
 
 - Slice: `ec17915` — C07: N2186 ImpactReactor powerProduction live read (impact-reactor producer side; pure function + driver stamping; proof 6 keys), 11 files.
-- Docs: (this commit) — Docs: N2186 report + design spec + handoff (gate clean except Godot).
-- GOAL: (next commit) — Docs: GOAL.md names the N2186 slice commit that carries its proof to Windows.
+- Docs: `931c49b` — Docs: N2186 report + design spec + handoff (gate clean except Godot).
+- GOAL: `8a126c1` — Docs: GOAL.md names the N2186 slice commit that carries its proof to Windows.
 - Pushed 2026-11-15 ~10:2x +07 to the fork (Lasthope1508). See the handoff Commits section for the hashes.
 
 ## Deferred (NOT this slice)
