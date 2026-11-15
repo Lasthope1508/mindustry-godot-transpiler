@@ -9,6 +9,7 @@ const source_building_access_state := preload("res://src/game/SourceBuildingAcce
 const source_math_state := preload("res://src/game/SourceMathState.gd")
 const source_projector_boost_state := preload("res://src/game/SourceProjectorBoostState.gd")
 const source_overdrive_projector_state := preload("res://src/game/SourceOverdriveProjectorState.gd")
+const source_drill_inventory := preload("res://src/game/SourceDrillInventoryRuntimeState.gd")
 
 # The OverdriveProjector implementation (OverdriveProjector.java:21, `public class
 # OverdriveProjector extends Block{`): overdrive-projector (consumePower 3.50f,
@@ -36,9 +37,11 @@ const source_overdrive_projector_state := preload("res://src/game/SourceOverdriv
 # smoothEfficiency / heat / charge / phaseHeat / useProgress,
 # advanced every tick from the folded efficiency, with the
 # charge reset at reload; the boost application
-# (OverdriveProjector.java:113) and consume()
-# (OverdriveProjector.java:119) are deferred to their own
-# slices.
+# (OverdriveProjector.java:113) is deferred to its own
+# slice, and consume() (OverdriveProjector.java:118) is
+# wired by N2262: when the advance reports use_ready, the
+# tick removes the per-def item stacks (projector 1
+# phaseFabric; dome 1 phaseFabric + 1 silicon).
 const SOURCE_OVERDRIVE_PROJECTOR_BUILD_IMPLEMENTATIONS := ["OverdriveProjector"]
 const SOURCE_OVERDRIVE_PROJECTOR_BUILDING_META_KEY := "source_overdrive_projector_building"
 
@@ -82,7 +85,11 @@ static func _initial_frame() -> Dictionary:
 	# capture_state / runtime_step_state default charge 0.0,
 	# same for MendProjector) -- so proofs start from a known
 	# state and the first charge cycle runs the full reload.
-	return {"smooth_efficiency": 0.0, "heat": 0.0, "charge": 0.0, "phase_heat": 0.0, "use_progress": 0.0}
+	# The frame also carries the held items (N2262): the
+	# item rows read frame["items"] (Dictionary keyed by
+	# item name, the factory precedent), starting empty --
+	# no live intake fills it yet (the Separator precedent).
+	return {"smooth_efficiency": 0.0, "heat": 0.0, "charge": 0.0, "phase_heat": 0.0, "use_progress": 0.0, "items": {}}
 
 static func source_overdrive_projector_update_tile_advance_state(frame: Dictionary, source_delta: float, time_scale: float, has_boost: bool, reload_value: float, use_time_value: float) -> Dictionary:
 	# OverdriveBuild.updateTile() (OverdriveProjector.java:97-120), the internal advance,
@@ -95,8 +102,9 @@ static func source_overdrive_projector_update_tile_advance_state(frame: Dictiona
 	# (the N2157 power row) and optionalEfficiency, already folded by the shared
 	# machinery (BuildingComp.java:1965 `efficiency = optionalEfficiency = 1f;`, then
 	# the optional pass BuildingComp.java:1981 and the min fold BuildingComp.java:1986
-	# `optionalEfficiency = Math.min(optionalEfficiency, minEfficiency);`); with no
-	# optional consumers modeled yet, optionalEfficiency equals the min efficiency,
+	# `optionalEfficiency = Math.min(optionalEfficiency, minEfficiency);`); the
+	# projector's optional phaseFabric row is modeled since N2262 (the dome has
+	# no optional consumer, so its optionalEfficiency equals the min efficiency),
 	# so a missing optional_efficiency stamp defaults to the frame efficiency, and
 	# a missing efficiency stamp folds to 1.0 before the first consumption pass,
 	# the assembler fold (UnitAssembler.java:469).
@@ -123,8 +131,10 @@ static func source_overdrive_projector_update_tile_advance_state(frame: Dictiona
 	# branch: consume() returns void, so nothing gates the wrap on consume's outcome --
 	# the wrap fires whenever the timer crosses useTime, and the runtime-step
 	# precedent wraps too (SourceOverdriveProjectorRuntimeState.runtime_step_state
-	# fmods use_progress at use_time); only the consume() item side effect
-	# (OverdriveProjector.java:119) is deferred, waiting for item infrastructure.
+	# fmods use_progress at use_time); the consume() item side effect
+	# (OverdriveProjector.java:118) is wired by the tick since N2262: when this
+	# advance reports use_ready, the tick removes the per-def stacks through
+	# the shared inventory helper, clamped to the held count.
 	# realBoost() is NOT computed here: it is a pure computation over phaseHeat and
 	# efficiency already covered by SourceOverdriveProjectorRuntimeState.real_boost
 	# and the N2157 real-boost fold, and its only updateTile consumer is the
@@ -187,11 +197,17 @@ static func source_overdrive_projector_power_status_row_state(frame: Dictionary,
 	# (OverdriveProjector.java:98, `smoothEfficiency = Mathf.lerpDelta(smoothEfficiency, efficiency, 0.08f);`) and the heat gate
 	# (OverdriveProjector.java:99, `heat = Mathf.lerpDelta(heat, efficiency > 0 ? 1f : 0f, 0.08f);`) and the charge advance
 	# (OverdriveProjector.java:100, `charge += heat * Time.delta;`).
-	# Documented limits: (1) power-only first pass -- the
-	# phaseFabric (overdrive-projector) and phaseFabric+silicon
-	# (overdrive-dome) booster item rows wait for their own slices, so the
-	# folded efficiency is the min over the *modeled*
-	# consumers (power only). (2) No shouldConsume gate --
+	# Documented limits: (1) power + item rows -- item rows live (N2262):
+	# the overdrive-projector phaseFabric booster row
+	# (consumeItem(Items.phaseFabric).boost(), Blocks.java:1948) folds
+	# the optional pass and the overdrive-dome phaseFabric+silicon row
+	# (consumeItems(with(Items.phaseFabric, 1, Items.silicon, 1)),
+	# Blocks.java:1961, REQUIRED) folds the first pass, so the folded
+	# efficiency is the min over the *modeled* consumers (power + items). No live intake fills
+	# frame["items"] yet (the Separator precedent) -- a live
+	# projector with no intake folds the booster row 0 and a
+	# live dome folds efficiency 0 until an intake slice
+	# lands; the other unmodeled rows still defer. (2) No shouldConsume gate --
 	# OverdriveBuild has no shouldConsume override, so the default
 	# (BuildingComp.java:755-757, `return enabled;`) applies;
 	# the machinery runs with should_consume=true when
@@ -202,18 +218,80 @@ static func source_overdrive_projector_power_status_row_state(frame: Dictionary,
 	# OverdriveProjector.java:113) and the realRange fold
 	# (OverdriveProjector.java:110) wait for their own slices --
 	# the proof asserts only the charge reset, never a boosted
-	# target. (4) No useProgress consume() rows -- useTime 400f /
+	# target. (4) useProgress consume() rows -- useTime 400f /
 	# dome 300f (OverdriveProjector.java:117-120): useProgress
-	# advances and wraps at useTime since N2194, but consume()
-	# (OverdriveProjector.java:119) needs item infrastructure and
-	# waits for its own slice; the dome's hasBoost=false
-	# (Blocks.java:1960) means its phaseHeat stays 0, which the
-	# advance models.
+	# advances and wraps at useTime since N2194, and the
+	# consume() removal wired (N2262): when the advance
+	# reports use_ready the tick removes the per-def stacks
+	# (projector 1 phaseFabric; dome 1 phaseFabric + 1
+	# silicon), clamped to the held count; the dome's
+	# hasBoost=false (Blocks.java:1960) means its phaseHeat
+	# stays 0, which the advance models.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
 	var live: float = 1.0 if stamped == null else float(stamped)
 	return {"has_power_row": true, "row": {"result": live, "is_power": true}}
+
+static func source_overdrive_projector_item_consumer_row_state(frame: Dictionary, stacks: Array) -> Dictionary:
+	# ConsumeItems.efficiency (ConsumeItems.java:51-53,
+	# `return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;`):
+	# BINARY 1/0 -- NOT a ratio like ConsumeLiquid. consumeTriggerValid()
+	# base returns false (BuildingComp.java:764-766,
+	# `public boolean consumeTriggerValid(){` / `return false;` / `}`),
+	# and no OverdriveProjector build overrides it, so the row is 1
+	# exactly when the held items satisfy EVERY stack: has(stacks,
+	# multiplier) (ItemModule.java:153-156) requires
+	# `has(stack.item, Math.round(stack.amount * multiplier))` per stack,
+	# with has(item, amount) = get(item) >= amount
+	# (ItemModule.java:126-128, `return get(item) >= amount;`). The
+	# multiplier is the 1f default (Consume.java:18,
+	# `public Floatf<Building> multiplier = b -> 1f;`) -- neither def sets
+	# one (Blocks.java:1948/1961) -- so the demand is the stack amount
+	# itself. The counts read through the shared inventory helper
+	# (SourceDrillInventoryRuntimeState.item_count) over frame["items"]
+	# (Dictionary keyed by item name, the factory precedent
+	# SourceFactoryBuildState.gd:89-101); a frame without the key reads
+	# 0, like Java items.get on an item never added.
+	# Per-def stacks come from the catalog consumeItem property:
+	# overdrive-projector `[{"item": "phase-fabric", "amount": 1,
+	# "optional": true, "booster": true}]` (Blocks.java:1948,
+	# `consumeItem(Items.phaseFabric).boost();`, `consumeItem(item)` =
+	# ItemStack(item, 1) via `return consumeItem(item, 1);`,
+	# Block.java:1167-1168) -- booster = optional(true, true)
+	# (Consume.java:33-35, `return optional(true, true);`) so the row
+	# folds the optional pass
+	# (BuildingComp.java:1980-1981, `for(var cons : block.optionalConsumers){` /
+	# `optionalEfficiency = Math.min(optionalEfficiency, cons.efficiency(self()));`),
+	# capped by the min efficiency (BuildingComp.java:1986,
+	# `optionalEfficiency = Math.min(optionalEfficiency, minEfficiency);`);
+	# overdrive-dome `[{"item": "phase-fabric", "amount": 1},
+	# {"item": "silicon", "amount": 1}]` (Blocks.java:1961,
+	# `consumeItems(with(Items.phaseFabric, 1, Items.silicon, 1));`, NO
+	# .boost()) -- REQUIRED, so the row folds the first pass
+	# (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` /
+	# `minEfficiency = Math.min(minEfficiency, result);`), result 0 stops
+	# power (BuildingComp.java:1972-1973, `shouldConsumePower = false;`),
+	# and the dome needs BOTH stacks (1 only when phaseFabric AND silicon
+	# are held). A def with no item consumer contributes no row.
+	# Documented limits: no live intake fills frame["items"] yet (the
+	# Separator precedent) -- acceptItem / conveyor delivery / dump into
+	# the building waits for its own slice; the row reads the frame
+	# as-is, so a live projector with no intake folds the booster row 0
+	# and a live dome folds efficiency 0.
+	if stacks.is_empty():
+		return {"has_item_row": false, "row": {}, "is_optional": false}
+	var items: Dictionary = frame.get("items", {})
+	var is_optional: bool = bool(stacks[0].get("optional", false)) if stacks[0] is Dictionary else false
+	var result: float = 1.0
+	for stack in stacks:
+		if not (stack is Dictionary):
+			continue
+		var amount: int = int(stack.get("amount", 0))
+		if source_drill_inventory.item_count(items, str(stack.get("item", ""))) < amount:
+			result = 0.0
+			break
+	return {"has_item_row": true, "row": {"result": result, "is_power": false}, "is_optional": is_optional}
 
 static func source_overdrive_projector_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the overdrive-projector tick wiring every
@@ -265,15 +343,24 @@ static func source_overdrive_projector_tick_buildings_state(game: Object, second
 		# hasConsumers (Block.java:1449,
 		# `hasConsumers = consumers.length > 0;`), so an overdrive
 		# projector does not take the early return. An overdrive projector with
-		# no power consumer is untouched: the tick models no other
-		# consumers yet (the phaseFabric / phaseFabric+silicon booster item rows wait for their
-		# own slices), and there is no shouldConsume gate yet
+		# no power consumer is untouched: the tick folds the power row and,
+		# since N2262, the per-def item rows (the projector's phaseFabric
+		# booster row into the optional pass, the dome's
+		# phaseFabric+silicon required row into the first pass), and there
+		# is no shouldConsume gate yet
 		# (OverdriveBuild has no shouldConsume override; the default
 		# BuildingComp.java:755-757 `return enabled;` applies),
 		# so the machinery runs with should_consume=true when enabled.
 		# productionValid is the canonical true default
 		# (SourceBuildingAccessState.production_valid_state()).
 		var has_power_consumer: bool = bool(block.properties.has("consumePower"))
+		# N2262: the per-def item stacks come from the catalog
+		# consumeItem property (overdrive-projector: 1
+		# phaseFabric, optional booster; overdrive-dome: 1
+		# phaseFabric + 1 silicon, required) -- read once here
+		# so the fold below and the consume() removal after the
+		# advance share the same stacks.
+		var item_stacks: Array = block.properties.get("consumeItem", [])
 		if has_power_consumer and bool(frame.get("enabled", true)) and not bool(frame.get("cheating", false)):
 			var should_consume: bool = bool(frame.get("enabled", true))
 			var valid: bool = source_building_access_state.production_valid_state()
@@ -284,7 +371,18 @@ static func source_overdrive_projector_tick_buildings_state(game: Object, second
 			var required_results: Array = []
 			if bool(power_row.get("has_power_row", false)):
 				required_results.append(power_row.get("row", {}))
-			var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(true, bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, [], [], frame)
+			# N2262: the item row folds per def -- the
+			# projector's booster row joins the optional pass,
+			# the dome's required row joins the first pass (the
+			# fold handles the min + shouldConsumePower).
+			var optional_results: Array = []
+			var item_row: Dictionary = source_overdrive_projector_item_consumer_row_state(frame, item_stacks)
+			if bool(item_row.get("has_item_row", false)):
+				if bool(item_row.get("is_optional", false)):
+					optional_results.append(item_row.get("row", {}))
+				else:
+					required_results.append(item_row.get("row", {}))
+			var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(true, bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, optional_results, [], frame)
 			source_building_efficiency_state.apply_update_consumption_state(consumption, frame)
 		# N2194: the updateTile advance runs every tick for every
 		# placed OverdriveProjector build (Java updateTile runs
@@ -309,12 +407,44 @@ static func source_overdrive_projector_tick_buildings_state(game: Object, second
 		# accessors (overdrive-projector: hasBoost true, reload
 		# 60f, useTime 400f; overdrive-dome: hasBoost false,
 		# reload 60f, useTime 300f). The advanced frame merges
-		# back into the bound frame; charge_ready / use_ready
-		# are the boost-fire / consume-fire signals for the
-		# slices that model them (boost application and
-		# consume() are deferred).
+		# back into the bound frame; charge_ready is the
+		# boost-fire signal for the slice that models the boost
+		# application (still deferred), and use_ready is the
+		# consume-fire signal the tick below consumes (N2262).
 		var advance: Dictionary = source_overdrive_projector_update_tile_advance_state(frame, source_placed_block_state.game_source_delta(game, seconds), source_placed_block_state.time_scale(sprite, source_placed_block_state.game_default_time_scale(game)), source_overdrive_projector_state.has_boost(block), source_overdrive_projector_state.projector_reload(block), source_overdrive_projector_state.use_time(block))
 		frame.merge(advance.get("advanced", {}), true)
+		# N2262: consume() (OverdriveProjector.java:117-120,
+		# `if(useProgress >= useTime){` / `consume();` /
+		# `useProgress %= useTime;`) -- the advance reports
+		# use_ready when the timer crosses useTime (the wrap is
+		# unconditional arithmetic, consume() returns void), and
+		# the tick applies the item side effect here: consume()
+		# triggers every consumer (BuildingComp.java:1911-1915,
+		# `for(Consume cons : block.consumers){` /
+		# `cons.trigger(self());`), but only ConsumeItems
+		# overrides trigger (ConsumeItems.java:44-48,
+		# `build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));`;
+		# ConsumePower and ConsumeLiquid keep the base no-op
+		# `public void trigger(Building build){}`,
+		# Consume.java:50), so consume() removes the per-def
+		# stacks -- projector 1 phaseFabric, dome 1 phaseFabric
+		# + 1 silicon -- clamped to the held count
+		# (ItemModule.remove, ItemModule.java:258-263,
+		# `amount = Math.min(amount, items[item.id]);`)
+		# through the shared inventory helper (the Fracker
+		# precedent). No removal when use_ready is false: the
+		# timer has not crossed useTime yet. The advance only
+		# grows useProgress when efficiency > 0, so a starved
+		# dome (required row 0 -> efficiency 0) never reaches
+		# use_ready and never consumes.
+		if bool(advance.get("use_ready", false)):
+			var items: Dictionary = (frame.get("items", {}) as Dictionary).duplicate(true)
+			for stack in item_stacks:
+				if not (stack is Dictionary):
+					continue
+				var removed: Dictionary = source_drill_inventory.remove_item_state(items, str(stack.get("item", "")), int(stack.get("amount", 0)))
+				items = removed.get(source_drill_inventory.SOURCE_DRILL_INVENTORY_DRILL_ITEMS_KEY, items)
+			frame["items"] = items
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
