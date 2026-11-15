@@ -6,6 +6,9 @@ const source_placed_block_state := preload("res://src/game/SourcePlacedBlockStat
 const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
 const source_building_efficiency_state := preload("res://src/game/SourceBuildingEfficiencyState.gd")
 const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
+const source_math_state := preload("res://src/game/SourceMathState.gd")
+const source_projector_boost_state := preload("res://src/game/SourceProjectorBoostState.gd")
+const source_mend_projector_state := preload("res://src/game/SourceMendProjectorState.gd")
 
 # The MendProjector implementation (MendProjector.java:21, `public class
 # MendProjector extends Block{`): mender (consumePower 0.3f,
@@ -109,17 +112,87 @@ static func source_mend_projector_power_status_row_state(frame: Dictionary, has_
 	# the machinery runs with should_consume=true when
 	# enabled. (3) No suppression gate -- `canHeal =
 	# !checkSuppression();` (MendProjector.java:94) needs
-	# suppression state the tick does not track yet. (4) No
-	# updateTile advance -- smoothEfficiency / heat / charge /
-	# phaseHeat / heal (MendProjector.java:94-120) wait for
-	# their own slices; the proof carries no progress/heal
-	# keys, the heal fold (MendProjector.java:113) is what the
-	# efficiency keys prove.
+	# suppression state the tick does not track yet. (4)
+	# updateTile advance -- N2193 advances smoothEfficiency /
+	# heat / charge / phaseHeat (MendProjector.java:94-100,
+	# 103-105) on the frame, including the charge reset; the
+	# timer/consume line (MendProjector.java:101-103) and the
+	# heal scan + sound (MendProjector.java:106-118) wait for
+	# their own slices, so the proof carries no timer/heal
+	# keys -- the reset, not a heal, is what the reset key
+	# proves.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
 	var live: float = 1.0 if stamped == null else float(stamped)
 	return {"has_power_row": true, "row": {"result": live, "is_power": true}}
+
+static func source_mend_projector_update_tile_advance_state(frame: Dictionary, reload_value: float, time_delta: float, time_scale := 1.0, can_heal := true) -> Dictionary:
+	# MendBuild.updateTile() (MendProjector.java:94-120), the
+	# pure frame advance -- the build fields are
+	# `public float heat, charge = Mathf.random(reload), phaseHeat, smoothEfficiency;` (MendProjector.java:85),
+	# and the advance follows the Java lines in order (each
+	# exact expr on ONE comment line, the N2148 lesson):
+	# `boolean canHeal = !checkSuppression();`
+	# `smoothEfficiency = Mathf.lerpDelta(smoothEfficiency, efficiency, 0.08f);`
+	# `heat = Mathf.lerpDelta(heat, efficiency > 0 && canHeal ? 1f : 0f, 0.08f);`
+	# `charge += heat * delta();`
+	# `phaseHeat = Mathf.lerpDelta(phaseHeat, optionalEfficiency, 0.1f);`
+	# `if(charge >= reload && canHeal){` then `charge = 0f;`
+	# The lerp formula comes from Arc, not from a guess:
+	# lerpDelta is `return lerp(fromValue, toValue, clamp(progress * Time.delta));` (Mathf.java:430-432),
+	# so the lerps use the UNSCALED Time.delta
+	# (source_math_state.source_lerp_delta), while the charge
+	# advance uses the SCALED delta():
+	# `return Time.delta * timeScale;` (BuildingComp.java:1922-1924).
+	# The charge advance uses the NEW heat (Java line order:
+	# heat is assigned before the charge line). The reset sits
+	# in the `charge >= reload` branch BEFORE the indexer
+	# scan, so it does not depend on finding a target --
+	# this slice implements the reset and defers the scan.
+	# Scoping decisions, all source-backed: (1) can_heal
+	# defaults true -- the tick tracks no suppression state
+	# (the N2184 BuildTurret suppression precedent); the
+	# parameter keeps the suppressed branch (heat lerps
+	# toward 0, no reset) provable. (2) efficiency /
+	# optional_efficiency read from the frame with the Java
+	# field default 0.0 (BuildingComp.java:87, `transient
+	# float optionalEfficiency;`); the shared machinery folds
+	# both onto the frame (apply_update_consumption_state),
+	# and with no optional consumers modeled the optional
+	# value equals the folded efficiency. (3) charge binds
+	# 0.0 deterministically instead of the Java random init
+	# (documented deviation: the random stagger only
+	# desynchronizes first-heal timing across projectors).
+	# (4) reload_value is per-def (mender 200f,
+	# mend-projector 250f, Blocks.java:1923/1936), read by
+	# the tick through the family helper. DEFERRED, not
+	# done and not guessed: the booster timer/consume line
+	# `if(optionalEfficiency > 0 && timer(timerUse, useTime / timeScale) && canHeal){` (MendProjector.java:101-103,
+	# needs timer + items infrastructure), and the heal scan
+	# + sound -- `other.heal(other.maxHealth() * (healPercent + phaseHeat * phaseBoost) / 100f * efficiency);`
+	# (MendProjector.java:113, needs targets/indexer
+	# infrastructure) -- plus draw / drawLight / sense
+	# (MendProjector.java:122-170). The older runtime
+	# simulation (SourceMendProjectorRuntimeState.
+	# runtime_step_state) is a separate state store that
+	# lerps toward 1.0 unconditionally with no charge reset;
+	# this driver frame advance follows Java exactly and
+	# does not touch it.
+	var efficiency: float = float(frame.get("efficiency", 0.0))
+	var optional_efficiency: float = float(frame.get("optional_efficiency", 0.0))
+	var smooth_efficiency: float = source_math_state.source_lerp_delta(float(frame.get("smooth_efficiency", 0.0)), efficiency, source_projector_boost_state.SOURCE_PROJECTOR_HEAT_LERP_PROGRESS, time_delta)
+	var heat_target: float = 1.0 if efficiency > 0.0 and can_heal else 0.0
+	var heat: float = source_math_state.source_lerp_delta(float(frame.get("heat", 0.0)), heat_target, source_projector_boost_state.SOURCE_PROJECTOR_HEAT_LERP_PROGRESS, time_delta)
+	var charge: float = float(frame.get("charge", 0.0)) + heat * time_delta * time_scale
+	var phase_heat: float = source_math_state.source_lerp_delta(float(frame.get("phase_heat", 0.0)), optional_efficiency, source_projector_boost_state.SOURCE_PROJECTOR_PHASE_HEAT_LERP_PROGRESS, time_delta)
+	if charge >= reload_value and can_heal:
+		charge = 0.0
+	frame["smooth_efficiency"] = smooth_efficiency
+	frame["heat"] = heat
+	frame["charge"] = charge
+	frame["phase_heat"] = phase_heat
+	return frame
 
 @warning_ignore("unused_parameter")
 static func source_mend_projector_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
@@ -193,6 +266,25 @@ static func source_mend_projector_tick_buildings_state(game: Object, seconds: fl
 				required_results.append(power_row.get("row", {}))
 			var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(true, bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, [], [], frame)
 			source_building_efficiency_state.apply_update_consumption_state(consumption, frame)
+		# The updateTile advance runs for every ticked mend
+		# projector, inside or outside the consumption gate:
+		# updateTile runs even when disabled
+		# (BuildingComp.java:2276, `if(enabled ||
+		# !block.noUpdateDisabled){` with noUpdateDisabled
+		# false, Block.java:170), and updateConsumption runs
+		# first (BuildingComp.java:2274), so the advance
+		# follows the frame efficiency the machinery last
+		# folded. The per-def reload comes from the family
+		# helper (mender 200f, mend-projector 250f,
+		# Blocks.java:1923/1936); Time.delta in ticks from
+		# the placed-block helper; timeScale live from the
+		# sprite meta (default 1f, BuildingComp.java:98);
+		# canHeal is the documented default true
+		# (suppression untracked, the N2184 precedent).
+		var time_delta: float = source_placed_block_state.game_source_delta(game, seconds)
+		var time_scale: float = source_placed_block_state.time_scale(sprite, source_placed_block_state.game_default_time_scale(game))
+		var reload_value: float = source_mend_projector_state.projector_reload(block)
+		source_mend_projector_update_tile_advance_state(frame, reload_value, time_delta, time_scale)
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
