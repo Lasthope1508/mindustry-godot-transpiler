@@ -74,7 +74,7 @@ Date: 2026-11-15. Batch: N2198 (single slice). Status: **DONE + GATE VERIFIED (2
 ## GREEN (DONE this run, 23:15 +07 tick — see top of file)
 
 - **Gate: launch from the MAIN thread only** (worker-launched gates die with the worker session — 5 deaths so far), `python3 -m unittest discover -s tests`, no Godot on PATH, log `full-suite-n2198-gate.log`. Expected ~23:3x +07: Ran ~5885, failures ~148, skipped 5, 0 errors. **Do NOT start another gate while it is running; verify its result in the next tick before commit/push.** No proof scene runs while the gate runs.
-- Push only after gate verified: report → spec (Done/ledger 1647 → 1648 + N2198 row) → GOAL.md §5 (Windows proof stays debt) → slice commit + docs + GOAL + hash-naming commits → push to origin main (re-check origin/main before push).
+- Push only after gate verified: report → spec (Done/ledger 1647 → 1648 + N2198 row) → GOAL.md §5 (Windows proof stays debt) → slice commit `e9a93fc` + docs `e337f79` + GOAL `0acdf2e` + hash-naming commits → push to origin main (re-check origin/main before push).
 
 ## NOT done
 
