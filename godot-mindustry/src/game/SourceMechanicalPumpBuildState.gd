@@ -30,6 +30,13 @@ const source_content_registry_runtime_state := preload("res://src/game/SourceCon
 # finds it.
 const SOURCE_MECHANICAL_PUMP_BUILD_IMPLEMENTATIONS := ["Pump"]
 const SOURCE_MECHANICAL_PUMP_BUILDING_META_KEY := "source_mechanical_pump_building"
+# Pump.java:23, `public float warmupSpeed = 0.019f;` -- the
+# approachDelta rate for warmup (Pump.java:171/173).
+const SOURCE_MECHANICAL_PUMP_WARMUP_SPEED := 0.019
+# Pump.java:22, `public float consumeTime = 60f * 5f;` -- the
+# interval in-between item consumptions, 300 ticks
+# (Pump.java:166-169).
+const SOURCE_MECHANICAL_PUMP_CONSUME_TIME := 300.0
 
 static func _is_mechanical_pump_build_implementation(implementation: String) -> bool:
 	return SOURCE_MECHANICAL_PUMP_BUILD_IMPLEMENTATIONS.has(implementation)
@@ -98,25 +105,26 @@ static func source_mechanical_pump_power_status_row_state(frame: Dictionary, has
 	# accumulator follows the folded efficiency
 	# (Pump.java:161, `if(efficiency > 0 && liquidDrop != null){` and Pump.java:162, `float maxPump = Math.min(liquidCapacity - liquids.get(liquidDrop), amount * pumpAmount * edelta());`).
 	# Documented limits: (1) power-only first pass -- the
-	# liquidDrop / amount proximity (Pump.java:141-152),
-	# warmup / totalProgress (Pump.java:171-176),
-	# consTimer/consumeTime item consume (Pump.java:166-169,
-	# no-op for these pumps -- neither consumes items) and
-	# dumpLiquid (Pump.java:180-182) wait for their own
-	# slices, so the folded efficiency is the min over the
-	# *modeled* consumers (power only). (2) shouldConsume
-	# gate live (N2205) -- PumpBuild.shouldConsume()
+	# liquidDrop / amount proximity (Pump.java:141-152) is a
+	# per-tick re-scan (Java computes it only in
+	# onProximityUpdate) and dumpLiquid (Pump.java:178-180)
+	# waits for its own slice, so the folded efficiency is
+	# the min over the *modeled* consumers (power only). (2)
+	# shouldConsume gate live (N2205) -- PumpBuild.shouldConsume()
 	# (Pump.java:155-157, `return liquidDrop != null && liquids.get(liquidDrop) < liquidCapacity - 0.01f && enabled;`) feeds the pure gate
 	# source_mechanical_pump_should_consume_state
 	# (liquidDrop from the per-tick proximity scan, liquids
 	# from the sprite liquids meta, def-constant
 	# liquidCapacity); when the gate is false
 	# updateConsumption forces efficiency to 0
-	# (BuildingComp.java:1960 + 1992-1994). (3) No
-	# updateTile advance -- maxPump / liquids.add / warmup /
-	# totalProgress (Pump.java:161-176) wait for their own
-	# slices; the proof carries no progress keys, the maxPump
-	# fold (Pump.java:162) is what the efficiency keys prove.
+	# (BuildingComp.java:1960 + 1992-1994). (3) Partial
+	# updateTile advance (N2221) -- maxPump / liquids.add /
+	# warmup / totalProgress / consTimer advance each tick
+	# (Pump.java:161-176); still deferred: dumpLiquid
+	# (Pump.java:178-180) -- dumpLiquid waits for its own
+	# slice (the scenario-path dump helper is bound to the
+	# scenario frame, so the placed-pump dump needs its own
+	# wiring).
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -142,6 +150,22 @@ static func _liquid_capacity_for_block_id(block_id: String) -> float:
 		"impulse-pump":
 			return 200.0
 	return -1.0
+
+static func _pump_amount_for_block_id(block_id: String) -> float:
+	# The catalog carries no pumpAmount for pump defs, so the
+	# driver resolves it from the block id (the same def
+	# constant precedent as liquidCapacity): rotary-pump
+	# `pumpAmount = 0.2f;` (Blocks.java:2306, the class
+	# default `public float pumpAmount = 0.2f;`, Pump.java:20)
+	# / impulse-pump `pumpAmount = 0.22f;`
+	# (Blocks.java:2315). Unknown Pump defs fall back to the
+	# class default 0.2f (the mechanical-pump, 7f/60f,
+	# Blocks.java:2300, never reaches this helper -- it has no
+	# consumePower, so the driver gate excludes it).
+	match block_id:
+		"impulse-pump":
+			return 0.22
+	return 0.2
 
 static func source_mechanical_pump_should_consume_state(frame: Dictionary, liquid_drop: Variant, liquids: Dictionary, liquid_capacity: float, liquid_id_by_name: Dictionary) -> Dictionary:
 	# PumpBuild.shouldConsume() exactly (Pump.java:155,
@@ -182,7 +206,84 @@ static func source_mechanical_pump_should_consume_state(frame: Dictionary, liqui
 		current = float(source_liquid_module_state.source_get_state(liquids, liquid_id).get("amount", 0.0))
 	return {"should_consume": current < liquid_capacity - 0.01 and enabled, "liquid_drop": liquid_drop}
 
-@warning_ignore("unused_parameter")
+static func source_mechanical_pump_update_tile_advance_state(frame: Dictionary, liquid_drop: Variant, amount: float, liquids: Dictionary, liquid_capacity: float, pump_amount: float, source_delta: float, time_scale: float, liquid_id_by_name: Dictionary) -> Dictionary:
+	# The updateTile advance (PumpBuild.updateTile(),
+	# Pump.java:160-182): `if(efficiency > 0 && liquidDrop != null){`
+	# (Pump.java:161), `float maxPump = Math.min(liquidCapacity - liquids.get(liquidDrop), amount * pumpAmount * edelta());`
+	# (Pump.java:162), `liquids.add(liquidDrop, maxPump);`
+	# (Pump.java:163), `if((consTimer += delta()) >= consumeTime){`
+	# (Pump.java:166) with `consTimer %= 1f;`
+	# (Pump.java:168), `warmup = Mathf.approachDelta(warmup, maxPump > 0.001f ? 1f : 0f, warmupSpeed);`
+	# (Pump.java:171) in the pumping branch and `warmup = Mathf.approachDelta(warmup, 0f, warmupSpeed);`
+	# (Pump.java:173) otherwise, `totalProgress += warmup * Time.delta;`
+	# (Pump.java:176) on the NEW warmup. consume() is a no-op
+	# for these pumps -- `//does nothing for most pumps, as those do not require items.`
+	# (Pump.java:165): neither rotary-pump nor impulse-pump
+	# consumes items (Blocks.java:2304-2320), so the timer
+	# advances and wraps and nothing else happens at the wrap.
+	# `dumpLiquid(liquidDrop);` (Pump.java:179) is deferred:
+	# dumpLiquid waits for its own slice (the scenario-path
+	# dump helper is bound to the scenario frame, so the
+	# placed-pump dump needs its own wiring). The Arc formula
+	# is approachDelta(from, to, speed) = approach(from, to,
+	# Time.delta * speed) with approach = from + clamp(to -
+	# from, -speed, speed) (Mathf.java:415-422), so the warmup
+	# step uses the RAW source delta (Time.delta), never
+	# edelta; move_toward is the same clamp-step (the
+	# scenario pump precedent,
+	# SourcePumpRuntimeState.source_pump_update_state).
+	# delta() = Time.delta * timeScale and edelta() =
+	# efficiency * delta(): `return Time.delta * timeScale;`
+	# (BuildingComp.java:1923) and `return efficiency * delta();`
+	# (BuildingComp.java:1928), so maxPump and consTimer scale
+	# with timeScale while totalProgress uses raw Time.delta.
+	# source_delta is Time.delta in ticks (seconds * 60
+	# through game_source_delta, arc Time.java:26), never raw
+	# seconds. efficiency / warmup / totalProgress / consTimer
+	# default 0.0, the Java field defaults
+	# (BuildingComp.java:85 `transient float efficiency;`,
+	# `public float warmup, totalProgress;` Pump.java:111,
+	# `public float consTimer;` Pump.java:112). The class
+	# defaults are `public float pumpAmount = 0.2f;`
+	# (Pump.java:20), `public float consumeTime = 60f * 5f;`
+	# (Pump.java:22), `public float warmupSpeed = 0.019f;`
+	# (Pump.java:23); the driver passes the per-def pumpAmount
+	# (impulse-pump `pumpAmount = 0.22f;`, Blocks.java:2315).
+	# The pure function does NOT mutate the liquids store: it
+	# returns max_pump and the post-add liquid_amount, and the
+	# driver performs liquids.add through the shared liquid
+	# module source_add_state (LiquidModule.java:84-91,
+	# `liquids[liquid.id] += amount; current = liquid;`).
+	# When the store is already over capacity the min is
+	# negative, exactly as Java computes it -- live, the N2205
+	# gate closes before that (efficiency folds to 0), so the
+	# pumping branch never runs overfull.
+	var efficiency: float = float(frame.get("efficiency", 0.0))
+	var warmup: float = float(frame.get("warmup", 0.0))
+	var total_progress: float = float(frame.get("total_progress", 0.0))
+	var cons_timer: float = float(frame.get("cons_timer", 0.0))
+	var liquid_id: int = -1
+	if liquid_drop != null:
+		liquid_id = int(liquid_id_by_name.get(str(liquid_drop), -1))
+	var current: float = 0.0
+	var stored: Array = liquids.get("liquids", [])
+	if liquid_id >= 0 and liquid_id < stored.size():
+		current = float(source_liquid_module_state.source_get_state(liquids, liquid_id).get("amount", 0.0))
+	var max_pump: float = 0.0
+	var next_cons_timer: float = cons_timer
+	var target: float = 0.0
+	if efficiency > 0.0 and liquid_drop != null:
+		var edelta: float = efficiency * source_delta * time_scale
+		max_pump = minf(liquid_capacity - current, amount * pump_amount * edelta)
+		next_cons_timer = cons_timer + source_delta * time_scale
+		if next_cons_timer >= SOURCE_MECHANICAL_PUMP_CONSUME_TIME:
+			# consume() is a no-op for these pumps (Pump.java:165).
+			next_cons_timer = fmod(next_cons_timer, 1.0)
+		target = 1.0 if max_pump > 0.001 else 0.0
+	var next_warmup: float = move_toward(warmup, target, SOURCE_MECHANICAL_PUMP_WARMUP_SPEED * source_delta)
+	var next_total_progress: float = total_progress + next_warmup * source_delta
+	return {"max_pump": max_pump, "liquid_amount": current + max_pump, "cons_timer": next_cons_timer, "warmup": next_warmup, "total_progress": next_total_progress}
+
 static func source_mechanical_pump_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the mechanical-pump tick wiring every
 	# tick (PumpBuild.updateTile(), Pump.java:159, gates on
@@ -232,9 +333,8 @@ static func source_mechanical_pump_tick_buildings_state(game: Object, seconds: f
 		# `hasConsumers = consumers.length > 0;`), so a pump
 		# does not take the early return. A pump with no power
 		# consumer is untouched: the tick models no other
-		# consumers yet (the proximity amount, warmup /
-		# totalProgress and dumpLiquid rows wait for their own
-		# slices). The shouldConsume gate is live since N2205:
+		# consumers yet (dumpLiquid waits for its own slice).
+		# The shouldConsume gate is live since N2205:
 		# the driver gathers liquidDrop per tick from the
 		# existing N2087 proximity helper
 		# (source_pump_proximity_state, the onProximityUpdate
@@ -257,7 +357,8 @@ static func source_mechanical_pump_tick_buildings_state(game: Object, seconds: f
 		if has_power_consumer and bool(frame.get("enabled", true)) and not bool(frame.get("cheating", false)):
 			var proximity: Dictionary = source_pump_runtime_state.source_pump_proximity_state(game, cell)
 			var liquids: Dictionary = sprite.get_meta(source_placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, {})
-			var liquid_id_by_name: Dictionary = source_content_registry_runtime_state.source_liquid_catalog_state(catalog).get("liquid_id_by_name", {})
+			var liquid_catalog: Dictionary = source_content_registry_runtime_state.source_liquid_catalog_state(catalog)
+			var liquid_id_by_name: Dictionary = liquid_catalog.get("liquid_id_by_name", {})
 			var gate: Dictionary = source_mechanical_pump_should_consume_state(frame, proximity.get("liquid_drop", null), liquids, _liquid_capacity_for_block_id(block_id), liquid_id_by_name)
 			var should_consume: bool = bool(gate.get("should_consume", false))
 			var valid: bool = source_building_access_state.production_valid_state()
@@ -270,6 +371,52 @@ static func source_mechanical_pump_tick_buildings_state(game: Object, seconds: f
 				required_results.append(power_row.get("row", {}))
 			var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(true, bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, [], [], frame)
 			source_building_efficiency_state.apply_update_consumption_state(consumption, frame)
+			# N2221: the updateTile advance runs after consumption,
+			# like Java's Building.update() (BuildingComp.java:2274
+			# updateConsumption(), then the updateTile gate
+			# `if(enabled || !block.noUpdateDisabled){` at
+			# BuildingComp.java:2276-2278; noUpdateDisabled defaults
+			# false, Block.java:170, so Java runs updateTile even
+			# when disabled -- in Java a disabled pump's warmup
+			# DECAYS toward 0 (efficiency is zeroed by the
+			# disabled early return, BuildingComp.java:1954-1957)
+			# and maxPump is 0 (edelta() is 0). The port keeps the
+			# enabled gate below as a pragmatic choice (the N2195
+			# precedent): the driver skips the consumption fold
+			# when disabled, so the frame efficiency goes stale
+			# and running the advance on it would pump from a
+			# stale efficiency. The driver-wide disabled-early-
+			# return slice (deferred in the N2195 register)
+			# removes this gate for all families. The source delta
+			# is Time.delta in ticks: game_source_delta(game,
+			# seconds) is seconds * 60 (arc Time.java:26), never
+			# raw seconds. timeScale reads live from the sprite
+			# meta, default 1.0 (BuildingComp.java:98 `private
+			# transient float timeScale = 1f, timeScaleDuration;`).
+			# The proximity liquid_drop / amount are the N2087
+			# helper values already gathered for the N2205 gate;
+			# the driver writes the advanced warmup /
+			# total_progress / cons_timer back to the frame and
+			# performs liquids.add(liquidDrop, maxPump)
+			# (Pump.java:163) through the shared liquid module
+			# source_add_state, with a cache_sums array sized to
+			# the catalog (the scenario pump precedent,
+			# SourcePumpRuntimeState.source_pump_update_state).
+			# dumpLiquid (Pump.java:178-180) is not wired here --
+			# dumpLiquid waits for its own slice.
+			if bool(frame.get("enabled", true)):
+				var source_delta: float = source_placed_block_state.game_source_delta(game, seconds)
+				var time_scale: float = source_placed_block_state.time_scale(sprite, source_placed_block_state.game_default_time_scale(game))
+				var advanced: Dictionary = source_mechanical_pump_update_tile_advance_state(frame, proximity.get("liquid_drop", null), float(proximity.get("amount", 0.0)), liquids, _liquid_capacity_for_block_id(block_id), _pump_amount_for_block_id(block_id), source_delta, time_scale, liquid_id_by_name)
+				frame["warmup"] = advanced["warmup"]
+				frame["total_progress"] = advanced["total_progress"]
+				frame["cons_timer"] = advanced["cons_timer"]
+				var liquid_id: int = int(liquid_id_by_name.get(str(proximity.get("liquid_drop", "")), -1))
+				if liquid_id >= 0 and float(frame.get("efficiency", 0.0)) > 0.0:
+					var cache_sums: Array = []
+					cache_sums.resize(liquid_catalog.get("content_liquid_ids", []).size())
+					cache_sums.fill(0.0)
+					source_liquid_module_state.source_add_state(liquids, liquid_id, float(advanced.get("max_pump", 0.0)), cache_sums)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
 	return {"ticked_count": ticked_count, "results_by_cell": results_by_cell}
