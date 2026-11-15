@@ -1,6 +1,6 @@
 # N2186 handoff: C07 ImpactReactor powerProduction live read (producer side)
 
-Date: 2026-11-15. Batch: N2186 (single slice). Status: **DONE — push next (gate clean except Godot; slice ec17915 committed, docs in progress).**
+Date: 2026-11-15. Batch: N2186 (single slice). Status: **DONE + PUSHED (gate clean except Godot; slice ec17915, docs 931c49b, GOAL 8a126c1).**
 
 ## Status
 
@@ -84,9 +84,9 @@ See `register_c07_impact_reactor_power_production.py` EXACT_EXPRS (60 entries). 
 ## Commits
 
 - Slice: `ec17915` — C07: N2186 ImpactReactor powerProduction live read (impact-reactor producer side; pure function + driver stamping; proof 6 keys), 11 files.
-- Docs: (this commit) — Docs: N2186 report + design spec + handoff (gate clean except Godot).
-- GOAL: (next commit) — Docs: GOAL.md names the N2186 slice commit that carries its proof to Windows.
-- Status: (final commit) — Docs: N2186 handoff Commits records DONE + PUSHED (slice <hash>, docs <hash>, GOAL <hash>).
+- Docs: `931c49b` — Docs: N2186 report + design spec + handoff (gate clean except Godot).
+- GOAL: `8a126c1` — Docs: GOAL.md names the N2186 slice commit that carries its proof to Windows.
+- Status: (this commit) — Docs: N2186 handoff Commits records DONE + PUSHED (slice ec17915, docs 931c49b, GOAL 8a126c1).
 
 ## Neighbours (DONE 2026-11-15 ~09:4x +07, log `n2186-neighbours.log`)
 
