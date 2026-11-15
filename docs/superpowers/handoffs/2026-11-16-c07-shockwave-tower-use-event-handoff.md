@@ -15,7 +15,7 @@ Date: 2026-11-16. Batch: N2199 (single slice). Status: **DONE + GATE VERIFIED (0
 ## Gate (VERIFIED — launched from the MAIN thread)
 
 - Full gate `python3 -m unittest discover -s tests`, launched from the MAIN thread (PID 3005, SID 3005, ~00:31, `nohup setsid`, no Godot on PATH, log `full-suite-n2199-gate.log`) FINISHED ~00:47 +07: **Ran 5889 in 989.296s, FAILED (failures=149, skipped=5), 0 errors** — all 149 `AssertionError: unexpectedly None` (Godot-absent), 0 lines starting with `ERROR:`. +1 failure vs N2198 (148 → 149) is the new N2199 proof test, also Godot-absent in the gate. VM restart #16 (~00:17) wiped javalang before the gate — reinstalled 0.13.0 by the main thread before launch.
-- Push only after gate verified: report → spec (Done/ledger 1648 → 1649 + N2199 row) → GOAL.md §5 (Windows proof stays debt) → slice commit + docs + GOAL + hash-naming commits → push to origin main (re-check origin/main before push).
+- Push only after gate verified: report → spec (Done/ledger 1648 → 1649 + N2199 row) → GOAL.md §5 (Windows proof stays debt) → slice commit `b358550` + docs `2ab4ec0` + GOAL `2d909f0` + hash-naming commits → push to origin main (re-check origin/main before push).
 
 ## NOT done
 
