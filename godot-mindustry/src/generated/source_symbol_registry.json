@@ -173544,6 +173544,22 @@
         "test_reference_graph_and_actual_c07_build_turret_should_consume"
       ],
       "runtime_proof": "/root/C07BuildTurretShouldConsumeProof"
+    },
+    "source_shield_wall_broken_state_result.broken": {
+      "status": "source-backed",
+      "godot_owner": "SourceShieldWallBuildState.source_shield_wall_broken_state",
+      "godot_symbol": "source_shield_wall_broken_state_result.broken",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShieldWall.java",
+      "java_method": "ShieldWallBuild.broken()",
+      "java_expr": "return breakTimer > 0 || !canConsume();",
+      "rule": "The broken() coupling (ShieldWall.java:91-93): break_timer > 0 || !canConsume(), where canConsume() is potentialEfficiency > 0 (BuildingComp.java:1917-1919); true means the shield absorbs nothing (ShieldWall.java:102) and the shield radius lerps to 0 (ShieldWall.java:88).",
+      "tests": [
+        "test_c07_shield_wall_broken_registration",
+        "test_all_c07_shield_wall_broken_input_evidence_is_exact",
+        "test_shield_wall_broken_state",
+        "test_reference_graph_and_actual_c07_shield_wall_broken"
+      ],
+      "runtime_proof": "/root/C07ShieldWallBrokenProof"
     }
   },
   "version": 1

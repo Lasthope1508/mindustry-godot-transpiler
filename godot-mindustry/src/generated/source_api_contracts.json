@@ -66344,6 +66344,31 @@
       ],
       "runtime_proof": "/root/C07BuildTurretShouldConsumeProof",
       "rule": "Source-backed BuildTurret shouldConsume gate from BuildTurret.java / BuildingComp.java."
+    },
+    "SourceShieldWallBuildState.source_shield_wall_broken_state": {
+      "status": "active",
+      "source_slice": "N2202",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShieldWall.java",
+      "source_method": "ShieldWallBuild.broken()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_shield_wall_broken_state_input.frame"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "broken"
+      ],
+      "tests": [
+        "test_c07_shield_wall_broken_registration",
+        "test_all_c07_shield_wall_broken_input_evidence_is_exact",
+        "test_shield_wall_broken_state",
+        "test_reference_graph_and_actual_c07_shield_wall_broken"
+      ],
+      "runtime_proof": "/root/C07ShieldWallBrokenProof",
+      "rule": "Source-backed ShieldWall broken() coupling from ShieldWall.java / BuildingComp.java."
     }
   },
   "policy": {

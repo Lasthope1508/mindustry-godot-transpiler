@@ -3090,6 +3090,23 @@
       ],
       "runtime_proof": "/root/C07BuildTurretShouldConsumeProof"
     },
+    "N2202": {
+      "canonical_ledger": "source_slice_ledger.N2202",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShieldWall.java",
+      "java_method": "ShieldWallBuild.broken()",
+      "godot_owner": "SourceShieldWallBuildState.source_shield_wall_broken_state",
+      "source_symbols": [
+        "source_shield_wall_broken_state_result.broken"
+      ],
+      "tests": [
+        "test_c07_shield_wall_broken_registration",
+        "test_all_c07_shield_wall_broken_input_evidence_is_exact",
+        "test_shield_wall_broken_state",
+        "test_reference_graph_and_actual_c07_shield_wall_broken"
+      ],
+      "runtime_proof": "/root/C07ShieldWallBrokenProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

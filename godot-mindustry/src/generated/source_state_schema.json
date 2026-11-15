@@ -230756,6 +230756,44 @@
       },
       "runtime_proof": "/root/C07BuildTurretShouldConsumeProof",
       "rule": "Source-backed BuildTurret shouldConsume gate from BuildTurret.java / BuildingComp.java."
+    },
+    "source_shield_wall_broken_state_input": {
+      "status": "active",
+      "owner": "SourceShieldWallBuildState.source_shield_wall_broken_state",
+      "source_slice": "N2202",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShieldWall.java",
+          "java_expr": "return breakTimer > 0 || !canConsume();",
+          "rule": "The building frame carrying the break_timer observation (ShieldWall.java:45, `public float breakTimer;`, decayed ShieldWall.java:75-76 and set ShieldWall.java:110) and the potential_efficiency observation stamped by the N2175 machinery via apply_update_consumption_state (BuildingComp.java:1989, `potentialEfficiency = efficiency;`); a missing break_timer key means no break in progress (0.0), a missing potential_efficiency key means no machinery run yet (1.0, not \"no power\").",
+          "used_by": [
+            "SourceShieldWallBuildState.source_shield_wall_broken_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShieldWallBrokenProof",
+      "rule": "Source-backed ShieldWall broken() coupling from ShieldWall.java / BuildingComp.java."
+    },
+    "source_shield_wall_broken_state_result": {
+      "status": "active",
+      "owner": "SourceShieldWallBuildState.source_shield_wall_broken_state",
+      "source_slice": "N2202",
+      "keys": {
+        "broken": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShieldWall.java",
+          "java_expr": "return breakTimer > 0 || !canConsume();",
+          "rule": "The broken() coupling (ShieldWall.java:91-93): break_timer > 0 || !canConsume(), where canConsume() is potentialEfficiency > 0 (BuildingComp.java:1917-1919); true means the shield absorbs nothing (ShieldWall.java:102) and the shield radius lerps to 0 (ShieldWall.java:88).",
+          "used_by": [
+            "SourceShieldWallBuildState.source_shield_wall_broken_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShieldWallBrokenProof",
+      "rule": "Source-backed ShieldWall broken() coupling from ShieldWall.java / BuildingComp.java."
     }
   },
   "version": 1
