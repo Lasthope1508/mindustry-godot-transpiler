@@ -10,6 +10,7 @@ const source_math_state := preload("res://src/game/SourceMathState.gd")
 const source_projector_boost_state := preload("res://src/game/SourceProjectorBoostState.gd")
 const source_mend_projector_state := preload("res://src/game/SourceMendProjectorState.gd")
 const source_drill_inventory_state := preload("res://src/game/SourceDrillInventoryRuntimeState.gd")
+const source_world_defaults := preload("res://src/game/SourceWorldDefaults.gd")
 
 # The MendProjector implementation (MendProjector.java:21, `public class
 # MendProjector extends Block{`): mender (consumePower 0.3f,
@@ -137,7 +138,7 @@ static func source_mend_projector_power_status_row_state(frame: Dictionary, has_
 	# as-is; canHeal is the documented default true
 	# (suppression untracked). Other unmodeled rows still
 	# defer (suppression, draw / drawLight / sense, the live
-	# indexer range query). (2) No shouldConsume gate --
+	# building index). (2) No shouldConsume gate --
 	# MendBuild has no shouldConsume override, so the default
 	# (BuildingComp.java:755-757, `return enabled;`) applies;
 	# the machinery runs with should_consume=true when
@@ -149,8 +150,11 @@ static func source_mend_projector_power_status_row_state(frame: Dictionary, has_
 	# 103-105) on the frame, including the charge reset; the
 	# timer/consume line (MendProjector.java:102-104) is live
 	# since N2269 and the heal scan since N2242 (explicit
-	# candidates, MendProjector.java:106-122); Fx / sound /
-	# recentlyHealed and the live indexer query still wait.
+	# candidates, MendProjector.java:106-122);
+	# the range query is live since N2329 (the rect filter
+	# over frame["heal_candidates"], MendProjector.java:112).
+	# Fx / sound / recentlyHealed and the live building index
+	# still wait.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -402,9 +406,14 @@ static func source_mend_projector_heal_scan_state(frame: Dictionary, candidates:
 	# presentation), and `mendSound.at(this, 1f + Mathf.range(0.1f), mendSoundVolume);` (MendProjector.java:120,
 	# sound, gated on `any`) -- the pure scan returns the
 	# amounts and the flag and lets the caller apply them.
-	# The live indexer range query is deferred too: the port
-	# has no live building index, so the caller passes the
-	# candidate list explicit and the live tick passes none.
+	# The range filter over the candidate list is live
+	# since N2329 (source_mend_projector_supplied_heal_
+	# candidates_state, the eachBlock rect): the live tick
+	# filters frame["heal_candidates"] and passes the
+	# ranged list here. The live building index that would
+	# fill frame["heal_candidates"] is deferred still: the
+	# port has no live building query, so the caller
+	# passes the candidate list explicit.
 	var phase_heat: float = float(frame.get("phase_heat", 0.0))
 	var efficiency: float = float(frame.get("efficiency", 0.0))
 	var heat_after: float = float(frame.get("heat", 0.0))
@@ -420,6 +429,83 @@ static func source_mend_projector_heal_scan_state(frame: Dictionary, candidates:
 				heal_amounts.append(max_health * (heal_percent + phase_heat * phase_boost) / 100.0 * efficiency)
 				any_healed = true
 	return {"real_range": real_range, "heal_amounts": heal_amounts, "any": any_healed, "scanned": crossed}
+
+static func source_mend_projector_supplied_heal_candidates_state(candidates: Array, real_range: float, building_x: float, building_y: float) -> Dictionary:
+	# The heal scan range query (MendProjector.java:106-122),
+	# the pure eachBlock rect filter -- the N2242 heal scan
+	# already filters damaged + not heal-suppressed and folds
+	# the heal, but takes its candidate list explicit with NO
+	# range filter; this pure adds the range half of the Java
+	# scan (each exact expr on ONE comment line, the N2148
+	# lesson):
+	# `float realRange = range + phaseHeat * phaseRangeBoost;`
+	# `indexer.eachBlock(this, realRange, b -> b.damaged() && !b.isHealSuppressed(), other -> {`
+	# `public boolean eachBlock(Teamc team, float range, Boolf<Building> pred, Cons<Building> cons){`
+	# `return eachBlock(team.team(), team.getX(), team.getY(), range, pred, cons);`
+	# `public boolean eachBlock(@Nullable Team team, float wx, float wy, float range, Boolf<Building> pred, Cons<Building> cons){`
+	# `buildings.intersect(wx - range, wy - range, range*2f, range*2f, b -> {`
+	# `if(b.within(wx, wy, range + b.hitSize() / 2f) && pred.get(b) && !b.block.privileged){`
+	# `return Mathf.dst2(getX(), getY(), x, y) < dst*dst;`
+	# `public float range = 60f;`
+	# `public float phaseRangeBoost = 50f;`
+	# `range = 40f;`
+	# `phaseRangeBoost = 20f;`
+	# `range = 85f;`
+	# The rect is in WORLD units directly -- the quadtree
+	# intersect takes (wx - range, wy - range, range*2f,
+	# range*2f), no tilesize factor (BlockIndexer.java:345;
+	# contrast the RegenProjector rect, which multiplies by
+	# tilesize, N2277) -- so the half-side is realRange
+	# itself and the test is |dx| <= realRange and |dy| <=
+	# realRange, INCLUSIVE on the edge (the N2277
+	# center-in-rect precedent: a corner candidate at
+	# (realRange, realRange) is IN the rect and out of any
+	# circle). The per-def range / phaseRangeBoost ride the
+	# caller's real_range (mender 40f / 20f, Blocks.java:
+	# 1924/1927; mend-projector 85f / class 50f, Blocks.java:
+	# 1937 / MendProjector.java:30); the class defaults are
+	# range 60f / phaseRangeBoost 50f (MendProjector.java:
+	# 27/30). Documented deviation, source-backed: the rect
+	# is only Java's BROAD phase -- the float-range overload
+	# then admits only `b.within(wx, wy, range + b.hitSize()
+	# / 2f)` (a STRICT dst2 < (range + hitSize/2)^2 circle,
+	# Position.java:44-46) with the predicate and
+	# `!b.block.privileged` (BlockIndexer.java:346) -- so the
+	# port admits rect corners Java rejects (for a small
+	# hitSize) and misses large-hitbox buildings whose center
+	# sits outside the rect but within range + hitSize/2;
+	# the narrow-check refinement waits for its own slice
+	# (DEFERRED). Scoping decisions, all source-backed: (1)
+	# the pure filters RANGE ONLY -- it does NOT filter
+	# damaged / heal_suppressed (the N2242 heal scan already
+	# does, MendProjector.java:112 predicate halves), so a
+	# healthy or suppressed in-range candidate is admitted
+	# here and dropped downstream. (2) A candidate dict
+	# carries x / y (world position, the building center)
+	# plus its other keys untouched (damaged /
+	# heal_suppressed / max_health -- the pure only filters,
+	# it never rewrites an entry); a missing x or y key
+	# EXCLUDES the candidate, and a non-Dictionary entry is
+	# excluded the same way. (3) The admitted entries are
+	# the candidate dicts themselves, in candidate order,
+	# like Java's Seq<Building>. (4) The team filter is the
+	# caller's: Java visits the projector team's buildingTree
+	# only (BlockIndexer.java:343), so the caller supplies
+	# same-team candidates. The live building index that
+	# would supply frame["heal_candidates"] still waits
+	# (DEFERRED).
+	var in_range: Array = []
+	for candidate in candidates:
+		if not (candidate is Dictionary):
+			continue
+		if not candidate.has("x") or not candidate.has("y"):
+			continue
+		var dx: float = absf(float(candidate.get("x", 0.0)) - building_x)
+		var dy: float = absf(float(candidate.get("y", 0.0)) - building_y)
+		if dx > real_range or dy > real_range:
+			continue
+		in_range.append(candidate)
+	return {"candidates": in_range}
 
 @warning_ignore("unused_parameter")
 static func source_mend_projector_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
@@ -536,11 +622,21 @@ static func source_mend_projector_tick_buildings_state(game: Object, seconds: fl
 		# the block properties with the class defaults where a
 		# def does not override (range 60f, healPercent 12f,
 		# phaseBoost 12f, phaseRangeBoost 50f,
-		# MendProjector.java:27-30); the live tick passes no
-		# candidates -- the port has no indexer, so the range
-		# query stays deferred -- and records the scan result
-		# on the frame as last_heal_scan (its `any` entry
-		# mirrors the Java `any` field, MendProjector.java:35).
+		# MendProjector.java:27-30).
+		# The range query is live since N2329: after the
+		# advance (realRange needs the post-advance
+		# phase_heat), the tick filters the frame heal
+		# candidates (frame["heal_candidates"], default
+		# [] -- no candidates, the Java no-buildings-in-range
+		# outcome) through the scan pure at the live realRange
+		# from the live building position (origin cell + block
+		# offset, the N2306 RepairTower precedent: Building
+		# x/y are tile.drawx()/drawy(), BuildingComp.java:124)
+		# and passes the ranged list into the heal scan; the
+		# live building index that would fill the frame list
+		# still waits. The tick records the scan result on the
+		# frame as last_heal_scan (its `any` entry mirrors the
+		# Java `any` field, MendProjector.java:35).
 		var charge_before: float = float(frame.get("charge", 0.0))
 		source_mend_projector_update_tile_advance_state(frame, reload_value, time_delta, time_scale)
 		# The booster timer consume (N2269) runs between the
@@ -570,7 +666,20 @@ static func source_mend_projector_tick_buildings_state(game: Object, seconds: fl
 				timer_items = booster_removed.get(source_drill_inventory_state.SOURCE_DRILL_INVENTORY_DRILL_ITEMS_KEY, timer_items)
 			frame["items"] = timer_items
 			frame["timer_use_elapsed"] = 0.0
-		var heal_scan: Dictionary = source_mend_projector_heal_scan_state(frame, [], charge_before, reload_value, float(block.properties.get("range", 60.0)), float(block.properties.get("healPercent", 12.0)), float(block.properties.get("phaseBoost", 12.0)), float(block.properties.get("phaseRangeBoost", 50.0)), time_delta, time_scale)
+		var scan_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
+		var scan_block_size: int = int(block.properties.get("size", 1))
+		var scan_block_offset: float = float((scan_block_size + 1) % 2) * source_world_defaults.TILESIZE / 2.0
+		var scan_building_x: float = source_block_geometry.tile_drawx_state(scan_cell.x, source_world_defaults.TILESIZE, scan_block_offset)
+		var scan_building_y: float = source_block_geometry.tile_drawy_state(scan_cell.y, source_world_defaults.TILESIZE, scan_block_offset)
+		var scan_range: float = float(block.properties.get("range", 60.0))
+		var scan_phase_range_boost: float = float(block.properties.get("phaseRangeBoost", 50.0))
+		var scan_real_range: float = scan_range + float(frame.get("phase_heat", 0.0)) * scan_phase_range_boost
+		var scan_candidates: Array = []
+		var frame_heal_candidates: Variant = frame.get("heal_candidates", [])
+		if frame_heal_candidates is Array:
+			scan_candidates = frame_heal_candidates
+		var ranged_candidates: Dictionary = source_mend_projector_supplied_heal_candidates_state(scan_candidates, scan_real_range, scan_building_x, scan_building_y)
+		var heal_scan: Dictionary = source_mend_projector_heal_scan_state(frame, ranged_candidates.get("candidates", []), charge_before, reload_value, scan_range, float(block.properties.get("healPercent", 12.0)), float(block.properties.get("phaseBoost", 12.0)), scan_phase_range_boost, time_delta, time_scale)
 		frame["last_heal_scan"] = heal_scan
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
