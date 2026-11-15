@@ -14,6 +14,8 @@ const SOURCE_ACCELERATOR_BUILD_IMPLEMENTATIONS := ["Accelerator"]
 const SOURCE_ACCELERATOR_BUILDING_META_KEY := "source_accelerator_building"
 # buildDuration is the class field (Accelerator.java:52, `public float buildDuration = 120f;`), not overridden by the interplanetary-accelerator def (Blocks.java:6823-6832).
 const SOURCE_ACCELERATOR_BUILD_DURATION := 120.0
+# powerBufferRequirement is the class field (Accelerator.java:41, `public float powerBufferRequirement;`), set by the single def to 1,000,000f (Blocks.java:6826, `powerBufferRequirement = 1_000_000f;`); the canLaunch gate (Accelerator.java:239-240) and the launch drain (Accelerator.java:270) both read it.
+const SOURCE_ACCELERATOR_POWER_BUFFER_REQUIREMENT := 1000000.0
 # lerpDelta/slerpDelta progress values from AcceleratorBuild.updateTile (Accelerator.java:131-140).
 const SOURCE_ACCELERATOR_HEAT_LERP_PROGRESS := 0.05
 const SOURCE_ACCELERATOR_STATUS_LERP_PROGRESS := 0.05
@@ -73,9 +75,9 @@ static func source_accelerator_power_status_row_state(frame: Dictionary, has_pow
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so an accelerator does not take the early return. The accelerator's power draw is STATIC, not conditional: `consumePower(10f);` (Blocks.java:6829) registers a plain ConsumePower, so the catalog consumePower 10.0 is present and the plain radar gate (block.properties.has("consumePower")) works -- no RepairTurret-style `or consumesPower` adaptation is needed. The pure row is still the same ConsumePower read (`return build.power.status;`, ConsumePower.java:39). The accelerator's updateTile (Accelerator.java:131-144, `heat = Mathf.lerpDelta(heat, launching ? 1f : efficiency, 0.05f);` / `statusLerp = Mathf.lerpDelta(statusLerp, power.status, 0.05f);` / `time += Time.delta * efficiency;` / `time = Mathf.slerpDelta(time, 0f, 0.4f);` / `launchHeat = Mathf.lerpDelta(launchHeat, launching ? 1f : 0f, 0.1f);` / `if(efficiency >= 0f){` / `progress += Time.delta * efficiency / buildDuration;` / `progress = Math.min(progress, 1f);`) advances progress only by efficiency -- and because there is no baseEfficiency-style floor, the progress never reaches 1f when the gate fails; the folded efficiency is what the efficiency keys prove, and the progress advance is the updateTile slice (N2191) while the launch / battery advance waits for its own slice.
 	# AcceleratorBuild has NO shouldConsume override, so the BuildingComp default applies (BuildingComp.java:755, `public boolean shouldConsume(){` with `return enabled;`, BuildingComp.java:756); updateConsumption forces efficiency to zero when the gate is false (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). There is NO gate to defer here (unlike the ItemBridge / LiquidBridge link gates): the power-only fold is EXACT, because the only gate is `enabled`, which the driver already checks. canConsume (BuildingComp.java:1917, `public boolean canConsume(){` with `return potentialEfficiency > 0;`, BuildingComp.java:1918) and edelta (BuildingComp.java:1927-1929, `return efficiency * delta();`) are the surrounding gates.
 	# The accelerator is its own family (Accelerator.java:35, `public class Accelerator extends Block{`; AcceleratorBuild, Accelerator.java:119, `public class AcceleratorBuild extends Building implements LaunchAnimator{`), a campaign / effect block, NOT related to any factory / turret / defense / bridge / conveyor / router / power-generator family. Class fields: `public Block launchBlock = Blocks.coreNucleus;` (Accelerator.java:40), `public float powerBufferRequirement;` (Accelerator.java:41), `public float launchDuration = 120f;` (Accelerator.java:50), `public float chargeDuration = 220f;` (Accelerator.java:51), `public float buildDuration = 120f;` (Accelerator.java:52); constructor `public Accelerator(String name){` (Accelerator.java:70), `update = true;` (Accelerator.java:72), `solid = true;` (Accelerator.java:73), `hasItems = true;` (Accelerator.java:74), `hasPower = true;` (Accelerator.java:75), `itemCapacity = 8000;` (Accelerator.java:76), `configurable = true;` (Accelerator.java:77), `emitLight = true;` (Accelerator.java:78), `lightRadius = 70f;` (Accelerator.java:79), `lightColor = Pal.accent;` (Accelerator.java:80). init fills the item capacity from the launch block's requirements (Accelerator.java:85, `itemCapacity = 0;` with Accelerator.java:86, `capacities = new int[content.items().size];` and Accelerator.java:91, `consumeItems(launchBlock.requirements);`). The powerBufferRequirement bar (Accelerator.java:105, `if(powerBufferRequirement > 0f){` with Accelerator.java:106, `addBar("powerBufferRequirement", b -> new Bar(`) shows the stored battery over the requirement (Accelerator.java:109, `() -> b.power.graph.getBatteryStored() / powerBufferRequirement`).
-	# Build fields: `public float heat, statusLerp;` (Accelerator.java:120), `public float progress;` (Accelerator.java:121), `public float time, launchHeat;` (Accelerator.java:122), `public boolean launching;` (Accelerator.java:123), `public float launchTime;` (Accelerator.java:124). The accessors `public float progress(){` (Accelerator.java:149) with `return progress;` (Accelerator.java:150) expose the progress, `public boolean isCoreBuilt(){` (Accelerator.java:153) with `return progress >= 1f;` (Accelerator.java:154) gates the launch, and `public boolean canLaunch(){` (Accelerator.java:239) with `return isValid() && !net.client() && state.isCampaign() && efficiency > 0f && power.graph.getBatteryStored() >= powerBufferRequirement-0.00001f && progress >= 1f && !launching;` (Accelerator.java:240, keep on ONE comment line, the N2148 shootWarmup lesson) needs efficiency AND a full battery AND progress 1f; the battery half waits for its own slice. The launch itself consumes the stored items and the battery (Accelerator.java:267, `if(power.graph.getBatteryStored() < powerBufferRequirement && !launching){` with Accelerator.java:270, `power.graph.useBatteries(powerBufferRequirement);`, Accelerator.java:271, `progress = 0f;`, and Accelerator.java:289, `Events.fire(Trigger.acceleratorUse);`) -- the launch waits for its own slice. The item gate `public int getMaximumAccepted(Item item){` (Accelerator.java:293) with `return capacities[item.id] + (isCoreBuilt() ? launchBlock.itemCapacity : 0);` (Accelerator.java:294) and `return items.get(item) < getMaximumAccepted(item);` (Accelerator.java:299) rides on the launch, not the tick. The progress persists across saves: `write.f(progress);` (Accelerator.java:305) with `progress = read.f();` (Accelerator.java:311). The launch duration `public float launchDuration(){` (Accelerator.java:317) with `return launchDuration + chargeDuration;` (Accelerator.java:318) is the full launch time.
+	# Build fields: `public float heat, statusLerp;` (Accelerator.java:120), `public float progress;` (Accelerator.java:121), `public float time, launchHeat;` (Accelerator.java:122), `public boolean launching;` (Accelerator.java:123), `public float launchTime;` (Accelerator.java:124). The accessors `public float progress(){` (Accelerator.java:149) with `return progress;` (Accelerator.java:150) expose the progress, `public boolean isCoreBuilt(){` (Accelerator.java:153) with `return progress >= 1f;` (Accelerator.java:154) gates the launch, and `public boolean canLaunch(){` (Accelerator.java:239) with `return isValid() && !net.client() && state.isCampaign() && efficiency > 0f && power.graph.getBatteryStored() >= powerBufferRequirement-0.00001f && progress >= 1f && !launching;` (Accelerator.java:240, keep on ONE comment line, the N2148 shootWarmup lesson) needs efficiency AND a full battery AND progress 1f; the battery half waits for its own slice. The launch itself consumes the stored items and the battery (Accelerator.java:252, `if(power.graph.getBatteryStored() < powerBufferRequirement && !launching){` is the drawSelect battery warning, not the launch; the launch is Accelerator.java:270, `power.graph.useBatteries(powerBufferRequirement);`, Accelerator.java:271, `progress = 0f;`, and Accelerator.java:289, `Events.fire(Trigger.acceleratorUse);`) -- the canLaunch gate and the launch transition are live since N2271; the renderer / Time.runTask / event half still waits for its own slice. The item gate `public int getMaximumAccepted(Item item){` (Accelerator.java:293) with `return capacities[item.id] + (isCoreBuilt() ? launchBlock.itemCapacity : 0);` (Accelerator.java:294) and `return items.get(item) < getMaximumAccepted(item);` (Accelerator.java:299) rides on the launch, not the tick. The progress persists across saves: `write.f(progress);` (Accelerator.java:305) with `progress = read.f();` (Accelerator.java:311). The launch duration `public float launchDuration(){` (Accelerator.java:317) with `return launchDuration + chargeDuration;` (Accelerator.java:318) is the full launch time.
 	# Single def -- interplanetary-accelerator only (size 7, scaledHealth 80, powerBufferRequirement 1,000,000f, copper 16000 / silicon 11000 / thorium 13000 / titanium 12000 / surge-alloy 6000 / phase-fabric 5000, Blocks.java:6823-6832): `interplanetaryAccelerator = new Accelerator("interplanetary-accelerator"){{` (Blocks.java:6823) with `requirements(Category.effect, BuildVisibility.campaignOnly, with(Items.copper, 16000, Items.silicon, 11000, Items.thorium, 13000, Items.titanium, 12000, Items.surgeAlloy, 6000, Items.phaseFabric, 5000));` (Blocks.java:6824), `researchCostMultiplier = 0.1f;` (Blocks.java:6825), `powerBufferRequirement = 1_000_000f;` (Blocks.java:6826), `size = 7;` (Blocks.java:6827), `consumePower(10f);` (Blocks.java:6829), `buildCostMultiplier = 0.5f;` (Blocks.java:6830) and `scaledHealth = 80;` (Blocks.java:6831). No second Accelerator def exists; there is no family split to manage. No sense / read / write overrides exist on AcceleratorBuild beyond the progress save -- those wait for their own slices only if a later Java line needs them.
-	# Documented limits: (1) power + item first pass -- the accelerator's static power consumer (consumePower 10f, Blocks.java:6829) and the launch-block item consumer rows (core-nucleus requirements copper 8000 / lead 8000 / silicon 5000 / thorium 4000, Blocks.java:3154, registered by `consumeItems(launchBlock.requirements);`, Accelerator.java:91) are live since N2267, with the init() capacities (copper 8000 / lead 8000 / silicon 5000 / thorium 4000, itemCapacity 25000, Accelerator.java:85-90) and the getMaximumAccepted / acceptItem accessors (Accelerator.java:293-299, core bonus 13000 from the core-nucleus itemCapacity, Blocks.java:3158); the folded efficiency is the min over the *modeled* consumers (power + items). No live intake fills frame["items"] yet (the Separator precedent) -- the row reads the frame as-is, so a live accelerator with no intake folds efficiency 0; the launch consume() (Accelerator.java:258-291) and the battery gate (Accelerator.java:239-240, 270) still wait for their own slices. (2) NO shouldConsume gate to defer -- AcceleratorBuild has no shouldConsume override, so the BuildingComp default (`return enabled;`, BuildingComp.java:755-756) applies; the power + item fold is EXACT for this family. (3) updateTile advance is DONE (N2191: heat/statusLerp/time/launchHeat/progress, Accelerator.java:127-146) -- the launch / battery advance still waits: canLaunch battery gate / useBatteries / acceleratorUse event (Accelerator.java:239-240, 267-289), the launching flag transitions (beginLaunch / endLaunch, Accelerator.java:334-337, 392-394) and the launchTime / cloudSeed state (Accelerator.java:124, 126) wait for their own slices; the proof carries no launch / battery keys, and the launching branch of the advance is proven pure only, because nothing in the port sets the flag yet. (4) No battery-side modeling -- getBatteryStored / useBatteries / powerBufferRequirement bar (Accelerator.java:105-109, 240, 270) wait for their own slice. (5) Single def -- interplanetary-accelerator only (size 7, scaledHealth 80, powerBufferRequirement 1,000,000f, copper 16000 / silicon 11000 / thorium 13000 / titanium 12000 / surge-alloy 6000 / phase-fabric 5000); per-def stat values wait for their own verification slice. (6) No draw/config modeling -- draw / drawSelect / config wait for their own slices. (7) Disabled-efficiency staleness -- updateConsumption forces efficiency to 0 when !shouldConsume (BuildingComp.java:1992), but the driver skips the consumption fold when disabled, so frame["efficiency"] keeps its last folded value and the updateTile advance reads it stale; the driver zeroing waits for its own slice.
+	# Documented limits: (1) power + item first pass -- the accelerator's static power consumer (consumePower 10f, Blocks.java:6829) and the launch-block item consumer rows (core-nucleus requirements copper 8000 / lead 8000 / silicon 5000 / thorium 4000, Blocks.java:3154, registered by `consumeItems(launchBlock.requirements);`, Accelerator.java:91) are live since N2267, with the init() capacities (copper 8000 / lead 8000 / silicon 5000 / thorium 4000, itemCapacity 25000, Accelerator.java:85-90) and the getMaximumAccepted / acceptItem accessors (Accelerator.java:293-299, core bonus 13000 from the core-nucleus itemCapacity, Blocks.java:3158); the folded efficiency is the min over the *modeled* consumers (power + items). No live intake fills frame["items"] yet (the Separator precedent) -- the row reads the frame as-is, so a live accelerator with no intake folds efficiency 0; the launch consume() (Accelerator.java:258-290) and the battery gate (Accelerator.java:239-240, 270) are live since N2271 (canLaunch gate + launch transition, driven by the one-shot frame key launch_requested; battery_stored is a frame input with no live fill yet -- see (4)). (2) NO shouldConsume gate to defer -- AcceleratorBuild has no shouldConsume override, so the BuildingComp default (`return enabled;`, BuildingComp.java:755-756) applies; the power + item fold is EXACT for this family. (3) updateTile advance is DONE (N2191: heat/statusLerp/time/launchHeat/progress, Accelerator.java:127-146) -- the launch / battery advance is PARTLY DONE (N2271: canLaunch battery gate + useBatteries total drain + consume() item removal + progress reset, Accelerator.java:239-240, 261-271); still waiting: the acceleratorUse event (Accelerator.java:289), the renderer.showLaunch / Time.runTask launch (Accelerator.java:273-286), the launching flag transitions (beginLaunch / endLaunch, Accelerator.java:334-337, 392-394) and the launchTime / cloudSeed state (Accelerator.java:124, 126); the proof carries launch / battery keys since N2271, and the launching branch of the advance is proven pure only, because nothing in the port sets the flag yet. (4) Battery-side modeling is PARTLY live (N2271): the canLaunch gate reads frame["battery_stored"] (getBatteryStored, PowerGraph.java:118-127, the enabled-battery total) and the launch drains the total by the requirement (useBatteries, PowerGraph.java:154-167); the graph summary computes battery_stored (SourcePlacedPowerGraphState.gd:303) but does NOT stamp it on the building frame, so a live accelerator reads the frame input as-is (default 0.0) until the graph-stamp slice wires it; the per-battery proportional status scaling (PowerGraph.java:160-165) waits for a battery-list graph slice; the powerBufferRequirement bar (Accelerator.java:105-109) still waits for its own slice. (5) Single def -- interplanetary-accelerator only (size 7, scaledHealth 80, powerBufferRequirement 1,000,000f, copper 16000 / silicon 11000 / thorium 13000 / titanium 12000 / surge-alloy 6000 / phase-fabric 5000); per-def stat values wait for their own verification slice. (6) No draw/config modeling -- draw / drawSelect / config wait for their own slices. (7) Disabled-efficiency staleness -- updateConsumption forces efficiency to 0 when !shouldConsume (BuildingComp.java:1992), but the driver skips the consumption fold when disabled, so frame["efficiency"] keeps its last folded value and the updateTile advance reads it stale; the driver zeroing waits for its own slice.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -221,6 +223,154 @@ static func source_accelerator_accept_item_state(item: String, held: int, is_cor
 	var maximum_accepted: int = int(source_accelerator_get_maximum_accepted_state(item, is_core_built).get("maximum_accepted", 0))
 	return {"accept": held < maximum_accepted, "held": held, "maximum_accepted": maximum_accepted}
 
+static func source_accelerator_can_launch_state(efficiency: float, battery_stored: float, progress: float, launching: bool, power_buffer_requirement: float) -> Dictionary:
+	# canLaunch (Accelerator.java:239-240, each exact expr
+	# on ONE comment line, the N2148 lesson):
+	# `public boolean canLaunch(){`
+	# `return isValid() && !net.client() && state.isCampaign() && efficiency > 0f && power.graph.getBatteryStored() >= powerBufferRequirement-0.00001f && progress >= 1f && !launching;`
+	# The gate is a conjunction of an environment half and a
+	# tick-state half. The environment half (isValid() /
+	# !net.client() / state.isCampaign()) is NOT modeled:
+	# the port has no net / campaign state, so this pure
+	# function evaluates the four tick-state conditions only
+	# and the docstring says so -- a caller that needs the
+	# environment half must check it itself. The tick-state
+	# conditions: efficiency > 0f (the folded efficiency,
+	# BuildingComp.java:1985); battery_stored >= requirement
+	# - 0.00001f, where battery_stored is getBatteryStored()
+	# (PowerGraph.java:118-127):
+	# `public float getBatteryStored(){`
+	# `totalAccumulator += battery.power.status * battery.block.consPower.capacity;`
+	# the enabled-battery total of power.status *
+	# consPower.capacity, and the requirement is the
+	# single-def 1,000,000f:
+	# `public float powerBufferRequirement;`
+	# `powerBufferRequirement = 1_000_000f;`
+	# (Accelerator.java:41, Blocks.java:6826); progress >= 1f
+	# is isCoreBuilt():
+	# `public boolean isCoreBuilt(){`
+	# `return progress >= 1f;`
+	# (Accelerator.java:153-154); and !launching, where
+	# `public boolean launching;` (Accelerator.java:123) is
+	# set true only by beginLaunch (Accelerator.java:334-337)
+	# and false only by endLaunch (Accelerator.java:392-394)
+	# and the launch Time.runTask (Accelerator.java:277).
+	# Precision note: Java evaluates the battery comparison
+	# in float32, where 1_000_000f - 0.00001f rounds to
+	# 1_000_000f (the float32 ulp at 1e6 is 0.0625); the port
+	# evaluates it in GDScript float64, so the written
+	# 0.00001 epsilon is exact here -- stored =
+	# requirement - 0.00001 passes, requirement - 0.00002
+	# fails. The difference is 1e-5 on a 1e6 scale and the
+	# port keeps the written epsilon. The battery_stored
+	# argument is a frame INPUT: the graph summary computes
+	# it (SourcePlacedPowerGraphState.gd:303) but does NOT
+	# stamp it on the building frame, so a live accelerator
+	# reads the input as-is (default 0.0) until the
+	# graph-stamp slice wires it.
+	var efficiency_ok: bool = efficiency > 0.0
+	var battery_ok: bool = battery_stored >= power_buffer_requirement - 0.00001
+	var progress_ok: bool = progress >= 1.0
+	var not_launching: bool = not launching
+	var can_launch: bool = efficiency_ok and battery_ok and progress_ok and not_launching
+	return {"can_launch": can_launch, "efficiency_ok": efficiency_ok, "battery_ok": battery_ok, "progress_ok": progress_ok, "not_launching": not_launching}
+
+static func source_accelerator_launch_state(items: Dictionary, battery_stored: float, power_buffer_requirement: float, requirement_stacks: Array) -> Dictionary:
+	# The launch transition (N2271): buildConfiguration
+	# (Accelerator.java:258-290) opens the planet-launch
+	# dialog only `if(!canLaunch()) return;`
+	# (Accelerator.java:261), and on sector select it
+	# re-checks the gate (each exact expr on ONE comment
+	# line, the N2148 lesson):
+	# `public void buildConfiguration(Table table){`
+	# `if(canLaunch()){`
+	# `consume();`
+	# `ItemSeq resources = new ItemSeq();`
+	# `resources.add(items);`
+	# `items.clear();`
+	# `power.graph.useBatteries(powerBufferRequirement);`
+	# `progress = 0f;`
+	# (Accelerator.java:258, 264-271). consume() triggers
+	# every consumer (BuildingComp.java:1911-1915):
+	# `public void consume(){`
+	# `for(Consume cons : block.consumers){`
+	# `cons.trigger(self());`
+	# and the ConsumeItems trigger removes each requirement
+	# stack (ConsumeItems.java:44-48):
+	# `build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));`
+	# with the multiplier the Consume default 1f, so the
+	# removed count is the stack amount, clamped by
+	# ItemModule.remove (ItemModule.java:258-263):
+	# `amount = Math.min(amount, items[item.id]);`
+	# `items[item.id] -= amount;`
+	# The requirements are the core-nucleus stacks
+	# (copper 8000 / lead 8000 / silicon 5000 / thorium 4000):
+	# `requirements(Category.effect, with(Items.copper, 8000, Items.lead, 8000, Items.silicon, 5000, Items.thorium, 4000));`
+	# (Blocks.java:3154), registered by
+	# `consumeItems(launchBlock.requirements);`
+	# (Accelerator.java:91) -- the caller passes them in as
+	# requirement_stacks (the N2267 helper
+	# _accelerator_item_stacks_for_block). resources is the
+	# remainder AFTER the removal: every held item minus its
+	# requirement amount, clamped at 0 per stack -- and it
+	# carries only NONZERO remainders, because
+	# `resources.add(items);` iterates via ItemModule.each,
+	# which visits only nonzero counts (ItemModule.java:
+	# 100-106):
+	# `if(items[i] != 0){`
+	# `itemModule.each(this::add);`
+	# (ItemSeq.java:104-106), so a fully-consumed stack
+	# leaves no entry at all; an item with no requirement
+	# keeps its full count. items is then emptied
+	# (`items.clear();`). The battery drain is
+	# useBatteries (PowerGraph.java:154-167):
+	# `public float useBatteries(float needed){`
+	# `float stored = getBatteryStored();`
+	# `if(Mathf.equal(stored, 0f)) return 0f;`
+	# `float used = Math.min(stored, needed);`
+	# `float consumedPowerPercentage = Math.min(1.0f, needed / stored);`
+	# `battery.power.status *= (1f-consumedPowerPercentage);`
+	# `return used;`
+	# The port drains the TOTAL only: new stored = stored -
+	# min(stored, requirement), clamped at 0 (the clamp
+	# guards the epsilon residue when the gate passed at
+	# stored = requirement - 0.00001). The per-battery
+	# proportional status scaling waits for a battery-list
+	# graph slice -- the port graph summary carries only the
+	# total, no battery list. The remainder of
+	# buildConfiguration is DEFERRED, not modeled here:
+	# `renderer.showLaunch(this);` (Accelerator.java:273)
+	# and the Time.runTask launch
+	# `Time.runTask(launchDuration() - 6f, () -> {`
+	# (Accelerator.java:275-286, which sets
+	# `launching = false;` at :277 and hands the resources to
+	# `universe.updateLaunchResources(resources);` at :281)
+	# and `Events.fire(Trigger.acceleratorUse);`
+	# (Accelerator.java:289). The caller DISCARDS the
+	# resources: universe.updateLaunchResources has no port
+	# equivalent. The launching flag is NOT touched here:
+	# beginLaunch sets it true
+	# `public void beginLaunch(boolean launching){`
+	# `this.launching = true;`
+	# (Accelerator.java:334-337), called by the LaunchAnimator
+	# via renderer.showLaunch -- NOT by buildConfiguration --
+	# so the flag transitions wait for the launch-sequence
+	# slice. The input items dict is NOT mutated: the
+	# resources are built on a duplicate.
+	var resources: Dictionary = items.duplicate()
+	for stack in requirement_stacks:
+		var entry: Dictionary = stack if stack is Dictionary else {}
+		var item_id: String = str(entry.get("item", ""))
+		var amount: int = int(entry.get("amount", 0))
+		var held: int = int(resources.get(item_id, 0))
+		var remainder: int = maxi(0, held - amount)
+		if remainder > 0:
+			resources[item_id] = remainder
+		else:
+			resources.erase(item_id)
+	var battery_after: float = maxf(0.0, battery_stored - minf(battery_stored, power_buffer_requirement))
+	return {"items": {}, "resources": resources, "battery_stored": battery_after, "progress": 0.0}
+
 static func source_mathf_slerp_delta(from_degrees: float, to_degrees: float, progress: float, source_delta: float) -> float:
 	# Mathf.slerpDelta (Mathf.java:460-462, `public static float slerpDelta(float fromDegrees, float toDegrees, float progress){` with `return slerp(fromDegrees, toDegrees, clamp(progress * Time.delta));`): slerp is the angle lerp in degrees (Mathf.java:455-458, `public static float slerp(float fromDegrees, float toDegrees, float progress){` with `float delta = ((toDegrees - fromDegrees + 360 + 180) % 360) - 180;` and `return (fromDegrees + delta * progress + 360) % 360;`), so the wrapped delta picks the shortest way round the circle; clamp is [0, 1] (Mathf.java:402-404, `public static float clamp(float value){` with `return Math.max(Math.min(value, 1f), 0f);`). The port has no slerp helper, so the advance carries this local transliteration; GDScript fmod matches Java % (sign of the dividend), so the wrap is exact. Time.delta in the port is seconds * 60 via game_source_delta (arc Time.java:26, the N2093/N2189 precedent); the driver converts before calling this helper.
 	var clamped: float = clampf(progress * source_delta, 0.0, 1.0)
@@ -349,6 +499,15 @@ static func source_accelerator_tick_buildings_state(game: Object, seconds: float
 		frame["time"] = advanced.get("time", 0.0)
 		frame["launch_heat"] = advanced.get("launch_heat", 0.0)
 		frame["progress"] = advanced.get("progress", 0.0)
+		# The launch transition (N2271): buildConfiguration (Accelerator.java:258-290) is a UI action, not a tick -- the port drives it from the frame key `launch_requested` (default false), a one-shot trigger set by the config path (no config UI exists yet, so the key is a frame input like battery_stored). When true, the driver re-checks canLaunch (Accelerator.java:264, `if(canLaunch()){`) on the folded efficiency, the frame battery_stored input, the advanced progress and the launching flag -- and applies the launch transition (Accelerator.java:265-271: `consume();` / `ItemSeq resources = new ItemSeq();` / `resources.add(items);` / `items.clear();` / `power.graph.useBatteries(powerBufferRequirement);` / `progress = 0f;`) only when the gate passes. The resources are DISCARDED: Java hands them to universe.updateLaunchResources(resources) (Accelerator.java:281, inside the deferred Time.runTask), which has no port equivalent. The request is CLEARED in both cases (Java: the dialog closes, there is no queue -- the user clicks again). The launching flag is NOT touched here: beginLaunch (Accelerator.java:334-337) sets it true via renderer.showLaunch, which is deferred. The battery_stored frame input has no live fill yet (the graph summary computes it, SourcePlacedPowerGraphState.gd:303, but does not stamp it on the building frame) -- a live accelerator reads the input as-is (default 0.0), so the gate stays closed until the graph-stamp slice wires it.
+		if bool(frame.get("launch_requested", false)):
+			var gate: Dictionary = source_accelerator_can_launch_state(float(frame.get("efficiency", 0.0)), float(frame.get("battery_stored", 0.0)), float(frame.get("progress", 0.0)), bool(frame.get("launching", false)), SOURCE_ACCELERATOR_POWER_BUFFER_REQUIREMENT)
+			if bool(gate.get("can_launch", false)):
+				var launched: Dictionary = source_accelerator_launch_state(frame.get("items", {}), float(frame.get("battery_stored", 0.0)), SOURCE_ACCELERATOR_POWER_BUFFER_REQUIREMENT, _accelerator_item_stacks_for_block(block_id))
+				frame["items"] = launched.get("items", {})
+				frame["battery_stored"] = launched.get("battery_stored", 0.0)
+				frame["progress"] = launched.get("progress", 0.0)
+			frame["launch_requested"] = false
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
