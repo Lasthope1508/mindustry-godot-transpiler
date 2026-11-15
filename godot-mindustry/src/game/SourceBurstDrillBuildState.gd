@@ -6,6 +6,7 @@ const source_placed_block_state := preload("res://src/game/SourcePlacedBlockStat
 const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
 const source_building_efficiency_state := preload("res://src/game/SourceBuildingEfficiencyState.gd")
 const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
+const source_drill_inventory_runtime_state := preload("res://src/game/SourceDrillInventoryRuntimeState.gd")
 
 # The BurstDrill implementation (BurstDrill.java:17, `public class
 # BurstDrill extends Drill{`): eruption-drill (consumePower 6f,
@@ -72,6 +73,34 @@ static func source_burst_drill_bind_frame_state(sprite: Sprite2D, block: Object)
 	sprite.set_meta(SOURCE_BURST_DRILL_BUILDING_META_KEY, frame)
 	return {"applied": true, "frame": frame}
 
+static func source_burst_drill_should_consume_state(frame: Dictionary, item_capacity: int) -> Dictionary:
+	# BurstDrillBuild.shouldConsume() (BurstDrill.java:128, `public boolean shouldConsume(){` with
+	# `return items.total() <= itemCapacity - dominantItems && enabled;`, BurstDrill.java:129): the burst
+	# drill consumes only while its items total fits the remaining capacity AFTER reserving the
+	# dominant-items burst AND it is enabled. The `<=` (not `<`) and the `- dominantItems` are the
+	# override's whole point -- the base-Drill gate (Drill.java:247-249,
+	# `return items.total() < itemCapacity && enabled && dominantItem != null;`) does NOT apply to
+	# BurstDrill: `public class BurstDrill extends Drill{` (BurstDrill.java:17) and
+	# `public class BurstDrillBuild extends DrillBuild{` (BurstDrill.java:70), so the override wins.
+	# The gate reads the SHARED drill frame ("source_drill_building"): the drill proximity path binds
+	# it at placement (SourceWorldTerrainRuntimeState calls SourceDrillConsumptionRuntimeState.
+	# source_on_proximity_update_state, which binds the full _initial_frame with items/dominant_item/
+	# dominant_items/enabled) and sets dominant_items from the ore count (`public int dominantItems;`,
+	# Drill.java:243, set at :277, `dominantItems = returnCount;`, via onProximityUpdate -> countOre),
+	# so the burst-drill bind in the tick returns applied=false and the gate reads the shared keys.
+	# itemCapacity is the block property (eruption `itemCapacity = 60;`, impact `itemCapacity = 40;`,
+	# Blocks.java; Block.java:75 default `public int itemCapacity = 10;`), passed in by the driver.
+	# The items total reuses the shared inventory helper (SourceDrillInventoryRuntimeState.items_total),
+	# not a second summation. A missing items map reads empty, a missing dominant_items reads 0, a
+	# missing enabled reads true (the Java field defaults). When the gate is false, updateConsumption
+	# folds efficiency to 0 (BuildingComp.java:1960,
+	# `boolean update = shouldConsume() && productionValid();`, with BuildingComp.java:1992-1994,
+	# `if(!update){` / `efficiency = optionalEfficiency = 0f;`).
+	var items_total: int = source_drill_inventory_runtime_state.items_total(frame.get("items", {}))
+	var dominant_items: int = int(frame.get("dominant_items", 0))
+	var enabled: bool = bool(frame.get("enabled", true))
+	return {"should_consume": items_total <= item_capacity - dominant_items and enabled, "items_total": items_total}
+
 static func source_burst_drill_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40,
 	# `return build.power.status;`): the power consumer's
@@ -92,12 +121,16 @@ static func source_burst_drill_power_status_row_state(frame: Dictionary, has_pow
 	# Documented limits: (1) power-only first pass -- eruption's
 	# hydrogen/cyanogen and impact's water/ozone liquid rows wait
 	# for their own slices, so the folded efficiency is the min
-	# over the *modeled* consumers (power only). (2) No
-	# shouldConsume gate -- BurstDrillBuild.shouldConsume()
-	# (BurstDrill.java:129, `return items.total() <= itemCapacity
-	# - dominantItems && enabled;`) needs items/dominant state the
-	# tick does not track yet; the machinery runs with
-	# should_consume=true when enabled. (3) No updateTile advance
+	# over the *modeled* consumers (power only). (2) shouldConsume
+	# gate LIVE (N2203) -- BurstDrillBuild.shouldConsume()
+	# (BurstDrill.java:129) is the pure
+	# source_burst_drill_should_consume_state gate over the shared
+	# drill frame (items/dominant_items/enabled, bound by the
+	# drill proximity path) and the block itemCapacity; the driver
+	# reads should_consume through it and the machinery folds
+	# efficiency to 0 when the gate is false (BuildingComp.java:
+	# 1960/:1992-1994). The live items fill waits for the
+	# updateTile advance slice. (3) No updateTile advance
 	# -- progress/timeDrilled/offload/invertTime/speedCurve
 	# (BurstDrill.java:70-125) waits for its own slice; the proof
 	# carries no progress keys, the speed fold (BurstDrill.java:94)
@@ -157,15 +190,17 @@ static func source_burst_drill_tick_buildings_state(game: Object, seconds: float
 		# drill with no power consumer is untouched: the tick
 		# models no other consumers yet (eruption's hydrogen/
 		# cyanogen and impact's water/ozone liquid rows wait for
-		# their own slices), and there is no shouldConsume gate
-		# yet (BurstDrill.java:129 needs items/dominant state the
-		# tick does not track), so the machinery runs with
-		# should_consume=true when enabled. productionValid is the
-		# canonical true default (SourceBuildingAccessState.
+		# their own slices). The shouldConsume gate is LIVE
+		# (N2203): the pure source_burst_drill_should_consume_state
+		# gate (BurstDrill.java:129) reads the shared drill frame
+		# and the block itemCapacity, and the machinery folds
+		# efficiency to 0 when the gate is false. productionValid
+		# is the canonical true default (SourceBuildingAccessState.
 		# production_valid_state()).
 		var has_power_consumer: bool = bool(block.properties.has("consumePower"))
 		if has_power_consumer and bool(frame.get("enabled", true)) and not bool(frame.get("cheating", false)):
-			var should_consume: bool = bool(frame.get("enabled", true))
+			var gate: Dictionary = source_burst_drill_should_consume_state(frame, int(block.properties.get("itemCapacity", 10)))
+			var should_consume: bool = bool(gate.get("should_consume", false))
 			var valid: bool = source_building_access_state.production_valid_state()
 			var setup: Dictionary = source_building_efficiency_state.update_consumption_setup_state(should_consume, valid)
 			frame["efficiency"] = setup.get("efficiency", 1.0)
