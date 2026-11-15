@@ -45,7 +45,7 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
 (`docs/superpowers/handoffs/`). Khi trống task, tự làm slice tiếp theo, không
 đợi user giao.
 
-## 4. Tiến độ hiện tại (2026-11-15 19:29 +07)
+## 4. Tiến độ hiện tại (2026-11-15 20:19 +07)
 
 - Main trên fork ở `de9ab89c` (N2185 LightBlock power.status DONE + PUSHED).
 - **Batch 1 {N2186, N2187, N2189} DONE** trên branch tích hợp
@@ -288,6 +288,27 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
   chiều AST với base `de9ab89c`). Nợ Godot: 58 → 66 proofs + 1 re-run
   (N2196); N2189 gộp vào proof N2241 đã đếm (nay 8 key). 9 report +
   9 handoff batch mang nguyên văn vào branch này.
+- **Wave advances-5 {N2242 MendProjector heal scan, N2243 BuildTurret
+  sync/warmup, N2244 BuildTurret plan logic, N2245 PayloadMassDriver
+  frame/state, N2246 PMD branches, N2247 ShockwaveTower fire, N2248
+  UnitAssemblerModule link/handoff} updateTile advances DONE** trên branch
+  tích hợp `integration/wave-advances-5-n2242-n2248` (không merge vào
+  main; branch push ngay sau docs commit theo push-as-you-go): 7/7 slice
+  xong + đã push (N2242 b0bc1971, N2243 aaaf97ff, N2244 f0077463, N2245
+  d995b023, N2246 107c2ad6, N2247 a46b276b, N2248 0ecf1534), mỗi slice
+  targeted 3/4 PASS + proof Godot-absent; tích hợp cherry-pick 7 slice
+  (N2242 ac09e99f, N2243 f1ed1729, N2244 340cec5d merge tay driver
+  BuildTurret 6 hunk, N2245 5573dcd3, N2246 39b16e35 merge tay driver PMD
+  13 hunk, N2247 66626216, N2248 2c3ded1b). Merge PMD: pay_vector N2245
+  dict vs N2246 Vector2 → frame chuẩn dict, convert ở boundary wiring
+  (2 helper mới); dedupe _to_short/_point2_*; sửa cite N2246 :342 →
+  :332 (updateTile kết thúc :332, verify Java). Targeted 7 module Ran
+  28 (21 PASS + 7 proof Godot-absent, 0 lỗi khác) + neighbours 8 module
+  Ran 32 (24 PASS + 8 proof Godot-absent, 0 lỗi khác); full gate (PID 29915, launch 20:00, done 20:19 +07) Ran 6082 in 1118.145s, failures=197, skipped=5, 0 errors — 197/197 Godot-absent (190 inherited + 7 new proof tests N2242–N2248).
+  SSOT gộp 11706/1698/1620/3031 (+64/+7/+7/+14 vs unification 00f5feb3),
+  audit 1336, legacy 0. DEFERRED gộp sau wave: 294 entries (283 − 11
+  resolved + 22 new, diff 3 chiều với base unification). Nợ Godot: 66 →
+  73 proofs + 1 re-run (N2196).
 - **Tiếp theo:** units → updateTile advances → second consumers (xem
   `DESIGN-frame-state-infra.md` trong `~/workspace/mindustry-parallel/`).
 - **KHÔNG chạy Godot ở VM này** (chỉ đạo user 2026-11-15, ưu tiên cao): mọi
@@ -983,6 +1004,78 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
     `integration/unification-batch-1-3` (batch slice `c42968e1`).
     Trạng thái "chờ agent Godot test". Chạy: targeted test
     `tests.test_c07_beam_drill_update_tile` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2242 `C07MendProjectorHealScanProof` — CHƯA CHẠY ở đâu (6 key:
+    `real_range_folds_phase_heat`, `heal_amount_formula`,
+    `damaged_only_predicate`, `heal_suppressed_excluded`,
+    `no_scan_below_reload`, `live_tick_scans_when_charged`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `b0bc1971` trên
+    `slice/N2242-mend-projector-heal-scan` (integration cherry-pick `ac09e99f`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_mend_projector_heal_scan` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2243 `C07BuildTurretUpdateTileProof` — CHƯA CHẠY ở đâu (6 key:
+    `rotation_follows_unit`, `look_at_when_building`,
+    `suppression_zeroes_efficiency`, `multipliers_scale_with_potential`,
+    `warmup_lerps_when_building`, `warmup_decays_when_idle`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `aaaf97ff` trên
+    `slice/N2243-build-turret-update-tile` (integration cherry-pick `f1ed1729`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_build_turret_update_tile` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2244 `C07BuildTurretPlanLogicProof` — CHƯA CHẠY ở đâu (6 key:
+    `follower_validation_clears_invalid`, `plan_search_picks_in_range`,
+    `plan_search_rotates_queue`, `mimic_follows_nearby_builder`,
+    `invalid_plan_discarded`, `suicide_plan_removed`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `f0077463` trên
+    `slice/N2244-build-turret-plan-logic` (integration cherry-pick `340cec5d`,
+    merge tay driver BuildTurret).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_build_turret_plan_logic` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2245 `C07PayloadMassDriverUpdateTileProof` — CHƯA CHẠY ở đâu (6 key:
+    `charge_discharges_when_idle`, `reload_counter_decays`,
+    `state_switches_to_accepting`, `state_switches_to_shooting`,
+    `dump_unloads_when_idle`, `no_power_skips_branches`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `d995b023` trên
+    `slice/N2245-payload-mass-driver-update-tile` (integration cherry-pick `5573dcd3`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_payload_mass_driver_update_tile` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2246 `C07PayloadMassDriverBranchesProof` — CHƯA CHẠY ở đâu (6 key:
+    `accepting_bails_without_shooter`, `accepting_aligns_to_shooter`,
+    `shooting_bails_without_link`, `load_advances_to_length`,
+    `fire_gate_requires_queue_and_angles`, `transfer_resets_both_sides`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `107c2ad6` trên
+    `slice/N2246-payload-mass-driver-branches` (integration cherry-pick `39b16e35`,
+    merge tay driver PMD).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_payload_mass_driver_branches` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2247 `C07ShockwaveTowerUpdateTileProof` — CHƯA CHẠY ở đâu (6 key:
+    `fire_gate_needs_charge_and_timer`, `scan_filters_enemy_hittable`,
+    `wave_damage_falloff_formula`, `target_removed_below_wave_damage`,
+    `heat_set_on_fire`, `heat_decays_every_tick`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `a46b276b` trên
+    `slice/N2247-shockwave-tower-update-tile` (integration cherry-pick `66626216`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_shockwave_tower_update_tile` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2248 `C07UnitAssemblerModuleUpdateTileProof` — CHƯA CHẠY ở đâu (6 key:
+    `link_refreshes_on_tile_change`, `no_refresh_without_change`,
+    `handoff_needs_link_and_fit`, `handoff_clears_payload`,
+    `handoff_blocked_when_occupied`, `handoff_blocked_without_power`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `0ecf1534` trên
+    `slice/N2248-unit-assembler-module-update-tile` (integration cherry-pick `2c3ded1b`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_unit_assembler_module_update_tile` với Godot 4.6.2 trên PATH,
     port 7777 trống.
   - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
     trên (ghi rõ commit đưa scene tới Windows).
