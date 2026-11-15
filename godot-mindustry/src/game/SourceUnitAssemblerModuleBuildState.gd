@@ -84,12 +84,108 @@ static func source_unit_assembler_module_bind_frame_state(sprite: Sprite2D, bloc
 
 static func source_unit_assembler_module_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a unit-assembler-module does not take the early return. The forward gate follows the folded efficiency (UnitAssemblerModule.java:138, `if(moveInPayload() && link != null && link.moduleFits(block, x, y, rotation) && !link.wasOccupied && link.acceptPayload(this, payload) && efficiency > 0){`) and the module has no shouldConsume override, so the default (BuildingComp.java:755, `public boolean shouldConsume(){`) applies -- the row folds under the live default, not the MendProjector-suppression precedent. The basic-assembler-module (consumePower 3.5f, Blocks.java:6568, `consumePower(3.5f);`) has no liquid consumer, so the folded efficiency is the min over the *modeled* consumers (power only).
-	# Documented limits: (1) power-only first pass -- the module has no liquid/item consumer, so the folded efficiency is the min over the *modeled* consumers (power only). (2) shouldConsume default applies -- the module has no override; the machinery runs with should_consume=true when enabled. (3) updateTile advance live (N2248) -- the lastChange refresh + findLink re-discovery + moveInPayload + the handoff gate (UnitAssemblerModule.java:132-141) run in source_unit_assembler_module_update_tile_advance_state; the N2168 proof still carries no link/payload/tier keys (the efficiency > 0 gate (UnitAssemblerModule.java:138) is what the efficiency keys prove) while the N2248 proof carries the link/payload keys. The getLink discovery, the removeModule / updateModules side effects, the live predicate evaluation, the handoff-to-intake wiring, and the live payload fill wait for their own slices -- see DEFERRED. (4) No link/tier/canPlaceOn/draw/acceptPayload/onRemoved rows -- see DEFERRED. (5) No variant verification -- there is only one module def (basic-assembler-module).
+	# Documented limits: (1) power-only first pass -- the module has no liquid/item consumer, so the folded efficiency is the min over the *modeled* consumers (power only). (2) shouldConsume default applies -- the module has no override; the machinery runs with should_consume=true when enabled. (3) updateTile advance live (N2248) -- the lastChange refresh + findLink re-discovery + moveInPayload + the handoff gate (UnitAssemblerModule.java:132-141) run in source_unit_assembler_module_update_tile_advance_state; the N2168 proof still carries no link/payload/tier keys (the efficiency > 0 gate (UnitAssemblerModule.java:138) is what the efficiency keys prove) while the N2248 proof carries the link/payload keys. The getLink discovery, the removeModule / updateModules side effects, the live moduleFits / wasOccupied predicate evaluation (acceptPayload evaluation is live since N2299), the handoff-to-intake wiring, and the live payload fill wait for their own slices -- see DEFERRED. (4) No link/tier/canPlaceOn/draw/onRemoved rows -- see DEFERRED. acceptPayload rows live (N2299) -- the module gate (UnitAssemblerModule.java:110-111) and the link assembler gate (UnitAssembler.java:722-727) run in source_unit_assembler_module_accept_payload_state / source_unit_assembler_accept_payload_state, and the tick exposes both verdicts on the frame (accepts_payload / link_accepts_payload); the N2248 handoff gate still reads the frame-input accept_payload predicate. (5) No variant verification -- there is only one module def (basic-assembler-module).
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
 	var live: float = 1.0 if stamped == null else float(stamped)
 	return {"has_power_row": true, "row": {"result": live, "is_power": true}}
+
+static func source_unit_assembler_module_accept_payload_state(has_link: bool, has_payload: bool, link_accepts: bool) -> Dictionary:
+	# The module acceptPayload gate (UnitAssemblerModuleBuild.
+	# acceptPayload(), UnitAssemblerModule.java:110-111 -- the
+	# file is in world/blocks/units/, NOT payloads/, and
+	# :110-111 is the gate: the DEFERRED entry's :125-127 cite
+	# is inside onRemoved):
+	# `public boolean acceptPayload(Building source, Payload payload){`
+	# `return link != null && this.payload == null && link.acceptPayload(this, payload);`
+	# -- link present (`public UnitAssemblerBuild link;`,
+	# UnitAssemblerModule.java:72) && own payload empty (the
+	# held payload, `public @Nullable T payload;`,
+	# PayloadBlock.java:92) && the link assembler accepts the
+	# offered payload. The link verdict comes from Pure 2
+	# (source_unit_assembler_accept_payload_state, the slice
+	# owns both) -- it is a parameter here, not a frame input.
+	# The result echoes the three gate terms with the verdict
+	# so the proof pins each term.
+	var accepts: bool = has_link and not has_payload and link_accepts
+	return {"accepts": accepts, "has_link": has_link, "has_payload": has_payload, "link_accepts": link_accepts}
+
+static func source_unit_assembler_accept_payload_state(payload: Dictionary, assembler: Dictionary, plan_requirements: Array, unit_cost: float, source_is_module: bool) -> Dictionary:
+	# The link assembler acceptPayload gate (UnitAssemblerBuild.
+	# acceptPayload(), UnitAssembler.java:722-727), the gate the
+	# module gate delegates to:
+	# `public boolean acceptPayload(Building source, Payload payload){`
+	# `var plan = plan();`
+	# `return (this.payload == null || (source instanceof UnitAssemblerModuleBuild)) &&`
+	# `plan.requirements.contains(b -> b.item == payload.content() &&`
+	# `blocks.get(payload.content()) < Mathf.round(b.amount * state.rules.unitCost(team)) -`
+	# `(source instanceof UnitAssemblerModuleBuild && (this.payload != null && this.payload.contentEquals(payload)) ? 1 : 0));`
+	# plan() is the current unit plan (UnitAssembler.java:
+	# 383-386, `return plans.get(Math.min(currentTier, plans.size - 1));`)
+	# with its requirements Seq<PayloadStack>; the caller
+	# supplies the plan requirements as an Array of Dicts
+	# {item, amount} (PayloadStack.amount is an int,
+	# PayloadStack.java:9, `public int amount = 1;`). blocks
+	# is the assembler's stored-blocks map
+	# `public PayloadSeq blocks = new PayloadSeq();`
+	# (UnitAssembler.java:323), supplied as a Dictionary item
+	# -> count; the stored count is blocks.get(content)
+	# `public int get(UnlockableContent block){`
+	# (PayloadSeq.java:66-68, delegating to ObjectIntMap.get,
+	# which returns 0 for a missing key,
+	# ObjectIntMap.java:285-286, `return get(key, 0);`) -- an
+	# unknown count is 0, which ACCEPTS when a requirement
+	# exists (an empty blocks map means nothing stored yet, so
+	# the count check passes). unit_cost is the rules
+	# unit-cost multiplier (Rules.java:275-277)
+	# `return unitCostMultiplier * teams.get(team).unitCostMultiplier;`
+	# (both factors default 1f, so the frame input defaults
+	# 1.0). Mathf.round is arc's BIG_ENOUGH trick
+	# (Mathf.java:500-501)
+	# `return (int)(value + BIG_ENOUGH_ROUND) - BIG_ENOUGH_INT;`
+	# with BIG_ENOUGH_ROUND = 16*1024 + 0.5f, i.e. floor(x +
+	# 0.5) -- NOT Java Math.round, though the two agree on
+	# non-negative values; the port uses roundi, which matches
+	# on this non-negative domain (amount >= 0, unit_cost >=
+	# 0): roundi(2.5) == 3. The -1 adjustment applies when the
+	# source is a module AND the assembler already holds an
+	# equal payload -- contentEquals is the Payload interface
+	# method (`boolean contentEquals(Payload other);`,
+	# Payload.java:39), the build comparison for BuildPayload
+	# `return other instanceof BuildPayload bp && bp.block() == build.block;`
+	# (BuildPayload.java:43) -- and accounts for the in-flight
+	# payload. The verdict is Java-exact
+	# any-match: plan.requirements.contains accepts when ANY
+	# matching requirement's count check passes; the reported
+	# quota is the FIRST matching requirement's quota (plans
+	# carry one stack per content in every def, so the two
+	# agree in practice). No requirement for the item means no
+	# quota (0) and a reject; no payload offered (empty
+	# content_item) matches no requirement and rejects. The
+	# function does NOT mutate its inputs.
+	var content_item: String = str(payload.get("content_item", ""))
+	var assembler_has_payload: bool = bool(assembler.get("has_payload", false))
+	var payload_content_equals: bool = bool(assembler.get("payload_content_equals", false))
+	var blocks: Dictionary = assembler.get("blocks", {})
+	var stored_count: int = int(blocks.get(content_item, 0))
+	var module_adjustment: int = 1 if (source_is_module and assembler_has_payload and payload_content_equals) else 0
+	var requirement_found := false
+	var quota := 0
+	var any_requirement_passes := false
+	for requirement in plan_requirements:
+		if not (requirement is Dictionary):
+			continue
+		if content_item == "" or str(requirement.get("item", "")) != content_item:
+			continue
+		var requirement_quota: int = roundi(float(int(requirement.get("amount", 0))) * unit_cost) - module_adjustment
+		if not requirement_found:
+			requirement_found = true
+			quota = requirement_quota
+		if stored_count < requirement_quota:
+			any_requirement_passes = true
+	var accepts: bool = (not assembler_has_payload or source_is_module) and any_requirement_passes
+	return {"accepts": accepts, "requirement_found": requirement_found, "quota": quota, "stored_count": stored_count, "module_adjustment": module_adjustment}
 
 static func _unit_assembler_module_vec2_approach(pay_vector: Vector2, alpha: float) -> Vector2:
 	# Vec2.approach(Vec2 target, float alpha) (Vec2.java:525-537),
@@ -326,6 +422,34 @@ static func source_unit_assembler_module_tick_buildings_state(game: Object, seco
 			frame["moved_in"] = advanced["moved_in"]
 			frame["payload"] = advanced["payload"]
 			frame["handed_off"] = advanced["handed_off"]
+		# N2299: the acceptPayload verdicts evaluate every tick
+		# from frame-supplied plan/blocks/payload inputs (the
+		# live fill waits for its own slice -- see DEFERRED):
+		# the offered payload descriptor (default {} -- no
+		# payload offered, so the link verdict is false), the
+		# assembler dict (default {} -- no link assembler
+		# state), the plan requirements (default [] -- no
+		# plan), and the unit-cost multiplier (default 1.0,
+		# Rules.java:275-277, both factors default 1f). The
+		# source IS the module itself (the module gate calls
+		# link.acceptPayload(this, payload),
+		# UnitAssemblerModule.java:111), so source_is_module
+		# is true; no link means the module verdict is false.
+		# The verdicts run AFTER the advance so they read the
+		# post-advance link / payload, and they run whether or
+		# not the module is enabled (acceptPayload has no
+		# enabled check in Java). The verdicts are EXPOSED on
+		# the frame only -- the N2248 handoff gate still reads
+		# the frame-input accept_payload predicate; wiring the
+		# live verdict into the gate waits for its own slice.
+		var offered_payload: Dictionary = frame.get("offered_payload", {})
+		var assembler_state: Dictionary = frame.get("assembler", {})
+		var plan_requirements: Array = frame.get("plan_requirements", [])
+		var unit_cost: float = float(frame.get("unit_cost", 1.0))
+		var link_verdict: Dictionary = source_unit_assembler_accept_payload_state(offered_payload, assembler_state, plan_requirements, unit_cost, true)
+		var module_verdict: Dictionary = source_unit_assembler_module_accept_payload_state(frame.get("link", null) != null, frame.get("payload", null) != null, bool(link_verdict.get("accepts", false)))
+		frame["accepts_payload"] = module_verdict["accepts"]
+		frame["link_accepts_payload"] = link_verdict["accepts"]
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
