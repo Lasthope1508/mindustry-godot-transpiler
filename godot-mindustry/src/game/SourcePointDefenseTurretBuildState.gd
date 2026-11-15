@@ -55,16 +55,18 @@ static func source_point_defense_turret_tick_frame_state(frame: Dictionary, bloc
 	return frame
 
 static func _initial_frame() -> Dictionary:
-	return {}
+	return {"target": null}
 
 static func source_point_defense_turret_bind_frame_state(sprite: Sprite2D, block: Object) -> Dictionary:
 	# Placement creates the Building (Block.java:1002 newBuilding);
 	# the port's frame is that Building state, bound on the sprite
 	# at placement under the point-defense frame meta key
 	# ("source_point_defense_turret_building"). A PointDefenseTurret
-	# sprite gets an empty frame bound; the live-loop tick fills its
-	# keys every tick. Any other block, or an already-bound sprite,
-	# binds nothing.
+	# sprite gets a frame bound with the target key defaulting to
+	# null (the Java field `public @Nullable Bullet target;`,
+	# PointDefenseTurret.java:59, defaults to null); the live-loop
+	# tick fills its other keys every tick. Any other block, or an
+	# already-bound sprite, binds nothing.
 	if block == null or not _is_point_defense_turret_build_implementation(str(block.implementation)):
 		return {"applied": false, "frame": {}}
 	if sprite.has_meta(SOURCE_POINT_DEFENSE_TURRET_BUILDING_META_KEY):
@@ -72,6 +74,12 @@ static func source_point_defense_turret_bind_frame_state(sprite: Sprite2D, block
 	var frame: Dictionary = _initial_frame()
 	sprite.set_meta(SOURCE_POINT_DEFENSE_TURRET_BUILDING_META_KEY, frame)
 	return {"applied": true, "frame": frame}
+
+static func source_point_defense_turret_should_consume_state(frame: Dictionary) -> Dictionary:
+	# PointDefenseBuild overrides shouldConsume (PointDefenseTurret.java:105, `public boolean shouldConsume(){` with `return super.shouldConsume() && target != null;`, PointDefenseTurret.java:106): the gate reads the enabled flag through super AND the live bullet target. The field is `public @Nullable Bullet target;` (PointDefenseTurret.java:59) -- the target is a BULLET, not a Unit -- on PointDefenseBuild (`public class PointDefenseBuild extends ReloadTurretBuild{`, PointDefenseTurret.java:58); `super` is the BuildingComp default (`return enabled;`, BuildingComp.java:755-756) -- the chain runs PointDefenseBuild -> ReloadTurretBuild (ReloadTurret.java:25) -> BaseTurretBuild (BaseTurret.java:113) -> Building, and neither ReloadTurret.java nor BaseTurret.java overrides shouldConsume, so the default applies. Turret.TurretBuild.shouldConsume() (Turret.java:364-366, `return isShooting || reloadCounter < reload;`) is NOT in this chain -- PointDefenseTurret extends ReloadTurret (PointDefenseTurret.java:19, `public class PointDefenseTurret extends ReloadTurret{`), not Turret. The gate is `enabled && target != null`, so the pure gate reads both frame keys (the RepairTurret N2212 precedent: the super default is read as an internal frame key): target (frame["target"], default null for a frame bound before this slice -- the Java field default) and enabled (frame["enabled"], default true -- BuildingComp.java:77, `transient boolean enabled = true;`); no live fill sets frame["target"] yet -- the live bullet-target retarget (Groups.bullet scan, PointDefenseTurret.java:66, `target = Groups.bullet.intersect(x - range, y - range, range*2, range*2).min(b -> b.team != team && b.type().hittable, b -> b.dst2(this));`, plus the clear when the bullet is pooled, PointDefenseTurret.java:70, `if(target != null && !target.isAdded()){`) is the updateTile advance (PointDefenseTurret.java:62-103) and waits for its own slice. When the gate is false updateConsumption forces efficiency to zero (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). The rotation advance (PointDefenseTurret.java:81, `rotation = Angles.moveToward(rotation, dest, rotateSpeed * edelta());`) follows the folded efficiency. The only def is segment (Blocks.java:3835-3847): `consumePower(8f);`, `range = 180f;`, `reload = 8f;`, size 2.
+	var target: Variant = frame.get("target", null)
+	var enabled: bool = bool(frame.get("enabled", true))
+	return {"should_consume": enabled and target != null, "has_target": target != null}
 
 static func source_point_defense_turret_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40,
@@ -93,11 +101,16 @@ static func source_point_defense_turret_power_status_row_state(frame: Dictionary
 	# PointDefenseTurret.java:81, `rotation = Angles.moveToward(rotation, dest, rotateSpeed * edelta());`).
 	# Documented limits: (1) power-only first pass -- segment
 	# has no other consumers; the folded efficiency is the min
-	# over the *modeled* consumers (power only). (2) No
-	# shouldConsume gate -- PointDefenseBuild.shouldConsume()
-	# (PointDefenseTurret.java:105-107, `return super.shouldConsume() && target != null;`)
-	# needs live bullet-target state the tick does not track yet;
-	# the machinery runs with should_consume=true when enabled.
+	# over the *modeled* consumers (power only). (2)
+	# shouldConsume gate live (N2217) -- PointDefenseBuild.
+	# shouldConsume() (PointDefenseTurret.java:105-107, `return
+	# super.shouldConsume() && target != null;`); when the gate
+	# is false Java forces efficiency to 0 (BuildingComp.java:
+	# 1960 + 1992-1994); the pure gate reads the frame target
+	# key (default null) plus enabled and feeds should_consume
+	# to the machinery; no live fill sets frame["target"] yet
+	# (the live bullet-target retarget is the updateTile
+	# advance, PointDefenseTurret.java:62-103).
 	# (3) No updateTile advance -- retarget / rotation /
 	# reloadCounter / beam effects (PointDefenseTurret.java:62-103)
 	# waits for its own slice; the proof carries no progress keys,
@@ -156,15 +169,26 @@ static func source_point_defense_turret_tick_buildings_state(game: Object, secon
 		# (Block.java:1449, `hasConsumers = consumers.length > 0;`),
 		# so a segment does not take the early return. A segment
 		# with no power consumer is untouched: the tick models no
-		# other consumers yet, and there is no shouldConsume gate
-		# yet (PointDefenseTurret.java:105-107 needs live
-		# bullet-target state the tick does not track), so the
-		# machinery runs with should_consume=true when enabled.
-		# productionValid is the canonical true default
-		# (SourceBuildingAccessState.production_valid_state()).
+		# other consumers yet (the updateTile advance waits for
+		# its own slice), and PointDefenseBuild overrides
+		# shouldConsume (PointDefenseTurret.java:105, `public
+		# boolean shouldConsume(){` with `return super.
+		# shouldConsume() && target != null;`,
+		# PointDefenseTurret.java:106) -- N2217 feeds the live
+		# gate to the machinery (the pure gate is source_point_
+		# defense_turret_should_consume_state, fed the frame);
+		# the N2151 RED decision is resolved. The gate reads the
+		# enabled flag through super (the BuildingComp default,
+		# `return enabled;`, BuildingComp.java:755-756), so the
+		# pure gate reads frame["enabled"] too (the RepairTurret
+		# N2212 precedent); the outer guard below already runs
+		# the machinery only when enabled. productionValid is
+		# the canonical true default (SourceBuildingAccessState.
+		# production_valid_state()).
 		var has_power_consumer: bool = bool(block.properties.has("consumePower"))
 		if has_power_consumer and bool(frame.get("enabled", true)) and not bool(frame.get("cheating", false)):
-			var should_consume: bool = bool(frame.get("enabled", true))
+			var gate: Dictionary = source_point_defense_turret_should_consume_state(frame)
+			var should_consume: bool = bool(gate.get("should_consume", true))
 			var valid: bool = source_building_access_state.production_valid_state()
 			var setup: Dictionary = source_building_efficiency_state.update_consumption_setup_state(should_consume, valid)
 			frame["efficiency"] = setup.get("efficiency", 1.0)
