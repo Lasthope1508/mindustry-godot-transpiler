@@ -63,6 +63,13 @@ func _ready() -> void:
 	repair_turret_build_state.source_repair_turret_bind_frame_state(repair_turret, blocks_by_id["repair-point"])
 	var repair_turret_frame: Dictionary = repair_turret.get_meta(repair_turret_build_state.SOURCE_REPAIR_TURRET_BUILDING_META_KEY, {})
 
+	# N2212: the shouldConsume gate (RepairTurret.java:222,
+	# `return target != null && enabled;`) closes with no target,
+	# so the power proof holds a target fixture (only its
+	# null-ness is read) — otherwise efficiency_folds_power_min
+	# would read 0.
+	repair_turret_frame["target"] = {"type": "dart"}
+
 	# Half power: efficiency folds the power min 0.5.
 	repair_turret_frame["power_status"] = 0.5
 	repair_turret_build_state.source_repair_turret_tick_buildings_state(game, 1.0 / 60.0)

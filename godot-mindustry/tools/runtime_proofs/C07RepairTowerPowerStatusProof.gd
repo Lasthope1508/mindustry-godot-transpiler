@@ -64,6 +64,12 @@ func _ready() -> void:
 	repair_tower_build_state.source_repair_tower_bind_frame_state(repair_tower, blocks_by_id["unit-repair-tower"])
 	var repair_tower_frame: Dictionary = repair_tower.get_meta(repair_tower_build_state.SOURCE_REPAIR_TOWER_BUILDING_META_KEY, {})
 
+	# N2213: the shouldConsume gate (RepairTower.java:90,
+	# `return targets.size > 0;`) closes with no targets, so the
+	# power proof holds a targets fixture (only its size is
+	# read) — otherwise efficiency_folds_power_min would read 0.
+	repair_tower_frame["targets"] = [{"type": "dart"}]
+
 	# Half power: efficiency folds the power min 0.5.
 	repair_tower_frame["power_status"] = 0.5
 	repair_tower_build_state.source_repair_tower_tick_buildings_state(game, 1.0 / 60.0)

@@ -60,6 +60,12 @@ func _ready() -> void:
 	regen_projector_build_state.source_regen_projector_bind_frame_state(regen, blocks_by_id["regen-projector"])
 	var regen_frame: Dictionary = regen.get_meta(regen_projector_build_state.SOURCE_REGEN_PROJECTOR_BUILDING_META_KEY, {})
 
+	# N2214: the shouldConsume gate (RegenProjector.java:182,
+	# `return anyTargets;`) closes with no targets, so the power
+	# proof holds any_targets true — otherwise
+	# efficiency_folds_power_min would read 0.
+	regen_frame["any_targets"] = true
+
 	# Half power: efficiency folds the power min 0.5.
 	regen_frame["power_status"] = 0.5
 	regen_projector_build_state.source_regen_projector_tick_buildings_state(game, 1.0 / 60.0)
