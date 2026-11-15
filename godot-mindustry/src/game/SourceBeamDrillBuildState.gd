@@ -6,6 +6,7 @@ const source_placed_block_state := preload("res://src/game/SourcePlacedBlockStat
 const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
 const source_building_efficiency_state := preload("res://src/game/SourceBuildingEfficiencyState.gd")
 const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
+const source_drill_inventory_runtime_state := preload("res://src/game/SourceDrillInventoryRuntimeState.gd")
 
 # The BeamDrill implementation (BeamDrill.java:25, `public class
 # BeamDrill extends Block{`): plasma-bore (consumePower 0.15f,
@@ -51,19 +52,33 @@ static func source_beam_drill_tick_frame_state(frame: Dictionary, block_implemen
 	# beam drill instead of resetting it, the factory pattern
 	# (SourceFactoryBuildState.gd:927).
 	frame["enabled"] = bool(frame.get("enabled", true))
+	# The shouldConsume gate inputs (N2202): the item store
+	# (frame["items"], the Building.items ItemModule, a
+	# Dictionary keyed by item name, the factory precedent
+	# SourceFactoryBuildState.gd:89-101) and the facing wall-ore
+	# count (frame["facing_amount"], BeamDrill.java:228,
+	# `public int facingAmount;`, Java default 0). The tick
+	# preserves both instead of resetting them: the production
+	# advance fills items and the facing scan fills
+	# facing_amount, and both wait for their own slices -- the
+	# gate reads the current frame.
+	var stored_items: Variant = frame.get("items", {})
+	frame["items"] = stored_items if stored_items is Dictionary else {}
+	frame["facing_amount"] = int(frame.get("facing_amount", 0))
 	return frame
 
 static func _initial_frame() -> Dictionary:
-	return {}
+	return {"items": {}, "facing_amount": 0}
 
 static func source_beam_drill_bind_frame_state(sprite: Sprite2D, block: Object) -> Dictionary:
 	# Placement creates the Building (Block.java:1002 newBuilding);
 	# the port's frame is that Building state, bound on the sprite
 	# at placement under the beam-drill frame meta key
-	# ("source_beam_drill_building"). A BeamDrill sprite gets an
-	# empty frame bound; the live-loop tick fills its keys every
-	# tick. Any other block, or an already-bound sprite, binds
-	# nothing.
+	# ("source_beam_drill_building"). A BeamDrill sprite gets a
+	# frame bound with the Java field defaults (items {},
+	# facing_amount 0); the live-loop tick fills its other keys
+	# every tick. Any other block, or an already-bound sprite,
+	# binds nothing.
 	if block == null or not _is_beam_drill_build_implementation(str(block.implementation)):
 		return {"applied": false, "frame": {}}
 	if sprite.has_meta(SOURCE_BEAM_DRILL_BUILDING_META_KEY):
@@ -71,6 +86,15 @@ static func source_beam_drill_bind_frame_state(sprite: Sprite2D, block: Object) 
 	var frame: Dictionary = _initial_frame()
 	sprite.set_meta(SOURCE_BEAM_DRILL_BUILDING_META_KEY, frame)
 	return {"applied": true, "frame": frame}
+
+static func source_beam_drill_should_consume_state(frame: Dictionary, item_capacity: int) -> Dictionary:
+	# BeamDrillBuild.shouldConsume (BeamDrill.java:270, `public boolean shouldConsume(){` with `return items.total() < itemCapacity && facingAmount > 0 && enabled;`, BeamDrill.java:271): the beam drill consumes only while its item store is under capacity AND at least one facing tile holds mineable wall ore AND it is enabled. BeamDrill extends Block (BeamDrill.java:25, `public class BeamDrill extends Block{`), NOT Drill, and BeamDrillBuild extends Building (BeamDrill.java:220, `public class BeamDrillBuild extends Building{`), so the gate lives on this family driver, not the drill frame. facingAmount is a plain int field (BeamDrill.java:228, `public int facingAmount;`, Java default 0), recomputed by `updateFacing();` (BeamDrill.java:375-410, called from updateTile :244 and onProximityUpdate :365): `facingAmount = 0;` then `facingAmount ++;` per mineable facing tile, where mineable is `if(drop != null && drop.hardness <= tier && (blockedItems == null || !blockedItems.contains(drop))){` (BeamDrill.java:391) -- for each of the size facing lasers it walks range tiles along the rotation, takes the first solid tile, and counts it when its wallDrop passes that check. The live facing scan waits for its own slice (the facing/laser binding deferral stays); this gate reads frame["facing_amount"], which the tick preserves at the Java default 0 until the scan lands. The items total reuses the drill inventory helper (SourceDrillInventoryRuntimeState.items_total over frame["items"], the Building.items ItemModule); the production advance that fills the store (BeamDrill.java:253-261) waits for its own slice, so the gate reads the current frame. item_capacity comes from the catalog (block.properties["itemCapacity"]): 10 for plasma-bore (the Block.java:75 field default, `public int itemCapacity = 10;`) and 20 for large-plasma-bore (Blocks.java:3062, `itemCapacity = 20;`). When the gate is false updateConsumption forces efficiency to zero (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). The gate reads the previous tick's facingAmount -- updateConsumption runs before updateTile (BuildingComp.java:2274-2277, `updateConsumption();` then `if(enabled || !block.noUpdateDisabled){` / `updateTile();`), so the updateFacing recompute lands after the fold; correct per Java, not a bug.
+	var stored_items: Variant = frame.get("items", {})
+	var items: Dictionary = stored_items if stored_items is Dictionary else {}
+	var items_total: int = source_drill_inventory_runtime_state.items_total(items)
+	var facing_amount: int = int(frame.get("facing_amount", 0))
+	var enabled: bool = bool(frame.get("enabled", true))
+	return {"should_consume": items_total < item_capacity and facing_amount > 0 and enabled, "items_total": items_total, "facing_amount": facing_amount}
 
 static func source_beam_drill_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40,
@@ -93,11 +117,14 @@ static func source_beam_drill_power_status_row_state(frame: Dictionary, has_powe
 	# plasma hydrogen booster and large hydrogen + nitrogen
 	# booster liquid rows wait for their own slices, so the
 	# folded efficiency is the min over the *modeled*
-	# consumers (power only). (2) No shouldConsume gate --
-	# BeamDrillBuild.shouldConsume() (BeamDrill.java:270-271,
-	# `return items.total() < itemCapacity && facingAmount > 0 && enabled;`) needs items/facing state the tick
-	# does not track yet; the machinery runs with
-	# should_consume=true when enabled. (3) No updateTile
+	# consumers (power only). (2) shouldConsume gate live (N2202)
+	# -- BeamDrillBuild.shouldConsume() (BeamDrill.java:270-271,
+	# `return items.total() < itemCapacity && facingAmount > 0 && enabled;`) feeds the pure gate to the machinery, so a
+	# full store, no facing ore, or a disabled drill folds
+	# efficiency to 0; the live facing scan that fills
+	# facing_amount and the production advance that fills items
+	# wait for their own slices, so the gate reads the current
+	# frame. (3) No updateTile
 	# advance -- warmup / multiplier / lastDrillSpeed / time
 	# / dump (BeamDrill.java:237-263) wait for their own
 	# slices; the proof carries no progress keys, the
@@ -163,15 +190,19 @@ static func source_beam_drill_tick_buildings_state(game: Object, seconds: float)
 		# no power consumer is untouched: the tick models no other
 		# consumers yet (the plasma hydrogen booster and large
 		# hydrogen + nitrogen booster liquid rows wait for their
-		# own slices), and there is no shouldConsume gate yet
-		# (BeamDrill.java:270-271 needs items/facing state the
-		# tick does not track), so the machinery runs with
-		# should_consume=true when enabled.
+		# own slices). BeamDrillBuild.shouldConsume
+		# (BeamDrill.java:270-271) is live since N2202: the pure
+		# gate (source_beam_drill_should_consume_state, fed the
+		# frame's items/facing_amount/enabled and the catalog
+		# itemCapacity) feeds should_consume to the machinery, so
+		# a full store, no facing ore, or a disabled drill folds
+		# efficiency to 0 like Java.
 		# productionValid is the canonical true default
 		# (SourceBuildingAccessState.production_valid_state()).
 		var has_power_consumer: bool = bool(block.properties.has("consumePower"))
 		if has_power_consumer and bool(frame.get("enabled", true)) and not bool(frame.get("cheating", false)):
-			var should_consume: bool = bool(frame.get("enabled", true))
+			var gate: Dictionary = source_beam_drill_should_consume_state(frame, int(block.properties.get("itemCapacity", 10)))
+			var should_consume: bool = bool(frame.get("enabled", true)) and bool(gate.get("should_consume", true))
 			var valid: bool = source_building_access_state.production_valid_state()
 			var setup: Dictionary = source_building_efficiency_state.update_consumption_setup_state(should_consume, valid)
 			frame["efficiency"] = setup.get("efficiency", 1.0)
