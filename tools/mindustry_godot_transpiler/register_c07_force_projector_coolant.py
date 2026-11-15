@@ -439,7 +439,7 @@ def main():
     }
     n2258_outputs = {
         'row': f('Dictionary', 'return liq != null ? Math.min(build.liquids.get(liq) / (amount * ed * multiplier.get(build)), 1f) : 0f;', 'The coolant row for the optional pass (ConsumeLiquidFilter.java:54, the canonical filter efficiency): {"result": held / (amount * ed * multiplier) capped at 1, 0 when ed <= 1e-8 or getConsumed is null, "is_power": false}, folded by the optional pass into the optional efficiency.', source=CONSUME_LIQUID_FILTER),
-        'has_coolant_row': f('bool', 'for(var cons : block.optionalConsumers){', 'Whether the row joins the optional pass (BuildingComp.java:1979): true when the block has a coolant consumer; the row is the coolant consumer\'s entry in the optional pass.', source=BUILDING_COMP),
+        'has_coolant_row': f('bool', 'for(var cons : block.optionalConsumers){', 'Whether the row joins the optional pass (BuildingComp.java:1980): true when the block has a coolant consumer; the row is the coolant consumer\'s entry in the optional pass.', source=BUILDING_COMP),
         'consumed_liquid': f('Variant', 'if(filter.get(build.liquids.current()) && build.liquids.currentAmount() > 0){', 'The liquid getConsumed returns (ConsumeLiquidFilter.java:63-76): the current liquid id when it passes the filter and has amount > 0, else the first liquid in content order that does, else null -- the liquid the manual updateTile consume removes.', source=CONSUME_LIQUID_FILTER),
     }
 

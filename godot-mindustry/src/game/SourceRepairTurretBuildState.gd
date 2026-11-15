@@ -251,7 +251,7 @@ static func source_repair_turret_coolant_consumed_state(liquids: Dictionary, liq
 	# matches, null -- returned here as -1 (the
 	# liquid_id_by_name -1 precedent). The amounts read
 	# through the shared liquid module helper with the
-	# Fracker guard (SourceFrackerBuildState.gd:141-142,
+	# Fracker guard (SourceFrackerBuildState.gd:221,
 	# `liquids.has("liquids")` + bounds check): a store
 	# without a liquids array, or a liquid never added,
 	# reads 0.0, like Java's liquids.get. The helper is a

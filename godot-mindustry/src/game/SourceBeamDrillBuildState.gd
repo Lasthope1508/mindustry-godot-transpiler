@@ -205,8 +205,8 @@ static func source_beam_drill_update_tile_advance_state(frame: Dictionary, sourc
 	# defaults (BeamDrill.java:225-226). optionalEfficiency
 	# is folded by the shared machinery before this runs
 	# (apply_update_consumption_state stamps
-	# frame["optional_efficiency"]; with no optional rows
-	# modeled yet it is min(1.0, minEfficiency),
+	# frame["optional_efficiency"]; with the N2256 booster rows
+	# modeled it is min(booster row, minEfficiency),
 	# BuildingComp.java:1965/1986). Deferred, not done here:
 	# updateLasers / updateFacing (BeamDrill.java:240, 244),
 	# the drop loop + `time %= drillTime;` reset +
