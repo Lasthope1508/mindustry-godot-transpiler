@@ -177,6 +177,25 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
   parallax 3.3f). N2218 sửa wording "bullet-target" cẩu thả của driver
   N2152. DEFERRED gộp sau wave: 258 entries (257 − 1 entry gộp turret
   + 2 entry live-fill rộng).
+- **Wave advances-1 {N2219 BurstDrill, N2220 SolidPump, N2221 Pump, N2222
+  Separator, N2223 WallCrafter} updateTile advances DONE**
+  trên branch tích hợp `integration/wave-advances-1-n2219-n2223` (không
+  merge vào main; 5 slice branch push 16:17–16:22 + integration branch
+  push ngay sau docs commit theo push-as-you-go): neighbours 5 families
+  power+gate 40 tests (30 PASS + 10 proof Godot-absent, 0 lỗi khác) +
+  targeted 5 module 20 tests (15 PASS + 5 proof Godot-absent), full gate
+  Ran 5949 in 1023.981s, failures=164, skipped=5, 0 errors — 164/164
+  Godot-absent (159 inherited + 5 new proof tests N2219–N2223).
+  SSOT gộp 11470/1664/1587/2965, audit 1336, legacy 0. KHÔNG cần
+  coordinator fix — advance không vỡ proof cũ (khác các wave gate: không
+  có gate mới đóng trên frame trống). N2222 port Arc Rand faithfully
+  (xorshift128+, khớp 1030/1030 case) + phát hiện
+  `SourceMathState.random_seed_int` KHÔNG faithful với Arc; N2223 phát
+  hiện hasLiquidBooster = false cho cả 2 def (hydrogen không có
+  `.boost()`), mâu thuẫn comment N2170/N2201. DEFERRED gộp sau wave:
+  258 entries (258 − 1 stale "Pump warmup/totalProgress" + 1 net N2222;
+  N2220 remove thêm entry "frame liquids intake" vì advance CHÍNH LÀ
+  intake).
 - **Tiếp theo:** units → updateTile advances → second consumers (xem
   `DESIGN-frame-state-infra.md` trong `~/workspace/mindustry-parallel/`).
 - **KHÔNG chạy Godot ở VM này** (chỉ đạo user 2026-11-15, ưu tiên cao): mọi
@@ -540,6 +559,56 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
     `slice/N2218-tractor-beam-turret-should-consume` (integration cherry-pick `929e276e`).
     Trạng thái "chờ agent Godot test". Chạy: targeted test
     `tests.test_c07_tractor_beam_turret_should_consume` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2219 `C07BurstDrillUpdateTileProof` — CHƯA CHẠY ở đâu (6 key:
+    `progress_advances_when_efficient`, `warmup_approaches_progress_ratio`,
+    `offload_at_drill_time`, `invert_time_set_on_offload`,
+    `last_drill_speed_zero_when_blocked`, `live_tick_advances_progress`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `c48e365b` trên
+    `slice/N2219-burst-drill-update-tile` (integration cherry-pick `97a5be46`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_burst_drill_update_tile` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2220 `C07SolidPumpUpdateTileProof` — CHƯA CHẠY ở đâu (6 key:
+    `max_pump_folds_fraction_efficiency`, `last_pump_rate_from_max_pump`,
+    `warmup_approaches_one_when_pumping`, `pump_time_advances_with_warmup`,
+    `no_pump_when_full`, `frame_defaults_zero`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `bd8b7dc0` trên
+    `slice/N2220-solid-pump-update-tile` (integration cherry-pick `5c84850b`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_solid_pump_update_tile` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2221 `C07MechanicalPumpUpdateTileProof` — CHƯA CHẠY ở đâu (6 key:
+    `max_pump_capped_by_remaining_capacity`, `warmup_approaches_one_when_pumping`,
+    `total_progress_advances_with_warmup`, `cons_timer_advances_and_wraps`,
+    `no_pump_without_liquid_drop`, `live_tick_pumps_and_advances_warmup`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `439604f7` trên
+    `slice/N2221-pump-update-tile` (integration cherry-pick `e94b044a`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_mechanical_pump_update_tile` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2222 `C07SeparatorUpdateTileProof` — CHƯA CHẠY ở đâu (6 key:
+    `progress_advances_when_efficient`, `warmup_approaches_one_when_efficient`,
+    `total_progress_advances_with_warmup`, `craft_completes_at_progress_one`,
+    `offload_picks_weighted_result`, `live_tick_advances_progress_and_warmup`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `34861097` trên
+    `slice/N2222-separator-update-tile` (integration cherry-pick `f26f7498`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_separator_update_tile` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2223 `C07WallCrafterUpdateTileProof` — CHƯA CHẠY ở đâu (6 key:
+    `warmup_approaches_one_when_efficient`, `time_advances_with_eff_and_edelta`,
+    `offload_at_drill_time`, `last_efficiency_folds_eff_timescale`,
+    `total_time_advances_with_warmup`, `live_tick_advances_warmup_and_time`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `1827aaf6` trên
+    `slice/N2223-wall-crafter-update-tile` (integration cherry-pick `c1ed1449`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_wall_crafter_update_tile` với Godot 4.6.2 trên PATH,
     port 7777 trống.
   - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
     trên (ghi rõ commit đưa scene tới Windows).
