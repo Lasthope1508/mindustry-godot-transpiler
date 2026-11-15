@@ -19,6 +19,8 @@ const SOURCE_BUILD_TURRET_WARMUP_LERP_PROGRESS := 0.1
 # unit init block (`unit.rotation(90f);`, BuildTurret.java:99-101) -- so
 # a fresh frame and a fresh unit agree on the facing.
 const SOURCE_BUILD_TURRET_INITIAL_ROTATION := 90.0
+# Single def -- build-tower only: range 200f (Blocks.java:2001, `range = 200f;`).
+const SOURCE_BUILD_TURRET_RANGE := 200.0
 
 static func _is_build_turret_build_implementation(implementation: String) -> bool:
 	return SOURCE_BUILD_TURRET_BUILD_IMPLEMENTATIONS.has(implementation)
@@ -54,7 +56,7 @@ static func source_build_turret_tick_frame_state(frame: Dictionary, block_implem
 	return frame
 
 static func _initial_frame() -> Dictionary:
-	return {"plans": [], "heal_suppressed": false, "rotation": SOURCE_BUILD_TURRET_INITIAL_ROTATION, "warmup": 0.0, "unit_look_angle": SOURCE_BUILD_TURRET_INITIAL_ROTATION, "build_speed_multiplier": 0.0, "speed_multiplier": 0.0}
+	return {"plans": [], "heal_suppressed": false, "rotation": SOURCE_BUILD_TURRET_INITIAL_ROTATION, "warmup": 0.0, "unit_look_angle": SOURCE_BUILD_TURRET_INITIAL_ROTATION, "build_speed_multiplier": 0.0, "speed_multiplier": 0.0, "following": null, "last_plan": null}
 
 static func source_build_turret_bind_frame_state(sprite: Sprite2D, block: Object) -> Dictionary:
 	# Placement creates the Building (Block.java:1002 newBuilding);
@@ -68,9 +70,10 @@ static func source_build_turret_bind_frame_state(sprite: Sprite2D, block: Object
 	# rotation 90.0 (the BaseTurretBuild field default,
 	# BaseTurret.java:114), warmup 0.0, unit_look_angle 90.0 (the
 	# unit's initial facing, before any lookAt), and both
-	# multipliers 0.0; the live-loop tick fills its other
-	# keys every tick. Any other block, or an already-bound sprite,
-	# binds nothing.
+	# multipliers 0.0, plus the following key defaulting to
+	# null and the last_plan key defaulting to null (N2244); the
+	# live-loop tick fills its other keys every tick. Any other
+	# block, or an already-bound sprite, binds nothing.
 	if block == null or not _is_build_turret_build_implementation(str(block.implementation)):
 		return {"applied": false, "frame": {}}
 	if sprite.has_meta(SOURCE_BUILD_TURRET_BUILDING_META_KEY):
@@ -80,7 +83,7 @@ static func source_build_turret_bind_frame_state(sprite: Sprite2D, block: Object
 	return {"applied": true, "frame": frame}
 
 static func source_build_turret_should_consume_state(frame: Dictionary) -> Dictionary:
-	# BuildTurretBuild overrides shouldConsume (BuildTurret.java:229, `public boolean shouldConsume(){` with `return unit.plans().size > 0 && !isHealSuppressed();`, BuildTurret.java:230): TWO conditions -- the builder unit's plan queue must be non-empty AND the building must not be heal-suppressed. The unit is `public BlockUnitc unit = (BlockUnitc)unitType.create(team);` (BuildTurret.java:93) on BuildTurretBuild (`public class BuildTurretBuild extends BaseTurretBuild implements ControlBlock, RotBlock{`, BuildTurret.java:92); BuildTurret extends BaseTurret (BuildTurret.java:27, `public class BuildTurret extends BaseTurret{`), so the default (`return enabled;`, BuildingComp.java:755-756) does NOT apply here -- and unlike the RepairTurret gate (N2212) this one has NO `&& enabled` term, so the pure gate does NOT read frame["enabled"] at all (the driver already runs the machinery only when enabled). isHealSuppressed() (BuildingComp.java:487, `public boolean isHealSuppressed(){` with `return block.suppressable && Time.time <= healSuppressionTime;`, BuildingComp.java:488) is set through applyHealSuppression (BuildingComp.java:482, `public void applyHealSuppression(float amount, Color suppressColor){` with `healSuppressionTime = Math.max(healSuppressionTime, Time.time + amount);`, BuildingComp.java:483); BuildTurret has `suppressable = true;` (BuildTurret.java:46), so the second term is live. NOTE: checkSuppression() in updateTile (BuildTurret.java:132, `if(checkSuppression()){` with `efficiency = potentialEfficiency = 0f;`, BuildTurret.java:133) is a DIFFERENT gate -- it zeroes efficiency directly and is NOT part of this slice. The frame carries the plans (frame["plans"], default [] for a frame bound before this slice -- the unit's plan queue starts empty) and the suppression mirror (frame["heal_suppressed"], default false); no live fill sets either yet -- the plan search / mimic / validate (BuildTurret.java:156-225) and the heal suppression application (BuildingComp.java:482-485) are the updateTile advance and wait for their own slice. When the gate is false updateConsumption forces efficiency to zero (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). The build-speed advance (BuildTurret.java:136, `unit.buildSpeedMultiplier(potentialEfficiency * timeScale);`) follows the folded efficiency. The single def is build-tower (size 3, range 200f, buildSpeed 1.5f, consumePower 3f, consumeLiquid nitrogen 3f/60f, Blocks.java:1997-2006) -- nitrogen is a second consumer and NOT part of this slice.
+	# BuildTurretBuild overrides shouldConsume (BuildTurret.java:229, `public boolean shouldConsume(){` with `return unit.plans().size > 0 && !isHealSuppressed();`, BuildTurret.java:230): TWO conditions -- the builder unit's plan queue must be non-empty AND the building must not be heal-suppressed. The unit is `public BlockUnitc unit = (BlockUnitc)unitType.create(team);` (BuildTurret.java:93) on BuildTurretBuild (`public class BuildTurretBuild extends BaseTurretBuild implements ControlBlock, RotBlock{`, BuildTurret.java:92); BuildTurret extends BaseTurret (BuildTurret.java:27, `public class BuildTurret extends BaseTurret{`), so the default (`return enabled;`, BuildingComp.java:755-756) does NOT apply here -- and unlike the RepairTurret gate (N2212) this one has NO `&& enabled` term, so the pure gate does NOT read frame["enabled"] at all (the driver already runs the machinery only when enabled). isHealSuppressed() (BuildingComp.java:487, `public boolean isHealSuppressed(){` with `return block.suppressable && Time.time <= healSuppressionTime;`, BuildingComp.java:488) is set through applyHealSuppression (BuildingComp.java:482, `public void applyHealSuppression(float amount, Color suppressColor){` with `healSuppressionTime = Math.max(healSuppressionTime, Time.time + amount);`, BuildingComp.java:483); BuildTurret has `suppressable = true;` (BuildTurret.java:46), so the second term is live. NOTE: checkSuppression() in updateTile (BuildTurret.java:132, `if(checkSuppression()){` with `efficiency = potentialEfficiency = 0f;`, BuildTurret.java:133) is a DIFFERENT gate -- it zeroes efficiency directly and is NOT part of this slice. The frame carries the plans (frame["plans"], default [] for a frame bound before this slice -- the unit's plan queue starts empty) and the suppression mirror (frame["heal_suppressed"], default false); the plan logic is live (N2244, source_build_turret_plan_logic_state fills frame["plans"] from the pure advance, though the driver passes no live team plans / builders / players yet) and the heal suppression application (BuildingComp.java:482-485) waits for its own slice. When the gate is false updateConsumption forces efficiency to zero (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). The build-speed advance (BuildTurret.java:136, `unit.buildSpeedMultiplier(potentialEfficiency * timeScale);`) follows the folded efficiency. The single def is build-tower (size 3, range 200f, buildSpeed 1.5f, consumePower 3f, consumeLiquid nitrogen 3f/60f, Blocks.java:1997-2006) -- nitrogen is a second consumer and NOT part of this slice.
 	var plans: Variant = frame.get("plans", [])
 	if not (plans is Array):
 		plans = []
@@ -88,11 +91,11 @@ static func source_build_turret_should_consume_state(frame: Dictionary) -> Dicti
 	return {"should_consume": plans.size() > 0 and not heal_suppressed, "plan_count": plans.size()}
 
 static func source_build_turret_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
-	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a build tower does not take the early return. The tower's power draw is STATIC, not conditional: `consumePower(3f);` (Blocks.java:2005) registers a plain ConsumePower, so the catalog consumePower 3.0 is present and the plain radar gate (block.properties.has("consumePower")) works -- no RepairTurret-style `or consumesPower` adaptation is needed. The pure row is still the same ConsumePower read (`return build.power.status;`, ConsumePower.java:39). The tower's updateTile (BuildTurret.java:121-139, `rotation = unit.rotation();` / `if(unit.activelyBuilding()){` / `unit.lookAt(angleTo(unit.buildPlan()));` / `if(checkSuppression()){` / `efficiency = potentialEfficiency = 0f;` / `unit.buildSpeedMultiplier(potentialEfficiency * timeScale);` / `unit.speedMultiplier(potentialEfficiency * timeScale);` / `warmup = Mathf.lerpDelta(warmup, unit.activelyBuilding() ? efficiency : 0f, 0.1f);`) scales the builder unit by potentialEfficiency -- and because there is no baseEfficiency-style floor, the tower never builds when the gate fails; the folded efficiency is what the efficiency keys prove, and the plan search / follow / mimic / validate advance waits for its own slice.
-	# BuildTurretBuild DOES override shouldConsume (BuildTurret.java:229-230, `public boolean shouldConsume(){` / `return unit.plans().size > 0 && !isHealSuppressed();`), and updateConsumption forces efficiency to zero when the gate is false (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). The shouldConsume gate is live (N2215) -- the pure gate (source_build_turret_should_consume_state) feeds should_consume to the machinery from the frame plans key (empty before any plan is queued, non-empty once the builder unit has plans) and the heal_suppressed key (the isHealSuppressed() mirror, BuildingComp.java:487-489); no live fill sets frame["plans"] or frame["heal_suppressed"] yet (the plan search / mimic / validate is the updateTile advance, BuildTurret.java:156-225, and the suppression application is BuildingComp.java:482-485). canConsume (BuildingComp.java:1917, `public boolean canConsume(){` with `return potentialEfficiency > 0;`, BuildingComp.java:1918) and edelta (BuildingComp.java:1927-1929, `return efficiency * delta();`) are the surrounding gates.
+	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a build tower does not take the early return. The tower's power draw is STATIC, not conditional: `consumePower(3f);` (Blocks.java:2005) registers a plain ConsumePower, so the catalog consumePower 3.0 is present and the plain radar gate (block.properties.has("consumePower")) works -- no RepairTurret-style `or consumesPower` adaptation is needed. The pure row is still the same ConsumePower read (`return build.power.status;`, ConsumePower.java:39). The tower's updateTile (BuildTurret.java:121-139, `rotation = unit.rotation();` / `if(unit.activelyBuilding()){` / `unit.lookAt(angleTo(unit.buildPlan()));` / `if(checkSuppression()){` / `efficiency = potentialEfficiency = 0f;` / `unit.buildSpeedMultiplier(potentialEfficiency * timeScale);` / `unit.speedMultiplier(potentialEfficiency * timeScale);` / `warmup = Mathf.lerpDelta(warmup, unit.activelyBuilding() ? efficiency : 0f, 0.1f);`) scales the builder unit by potentialEfficiency -- and because there is no baseEfficiency-style floor, the tower never builds when the gate fails; the folded efficiency is what the efficiency keys prove, and the plan search / follow / mimic / validate advance is live (N2244).
+	# BuildTurretBuild DOES override shouldConsume (BuildTurret.java:229-230, `public boolean shouldConsume(){` / `return unit.plans().size > 0 && !isHealSuppressed();`), and updateConsumption forces efficiency to zero when the gate is false (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). The shouldConsume gate is live (N2215) -- the pure gate (source_build_turret_should_consume_state) feeds should_consume to the machinery from the frame plans key (empty before any plan is queued, non-empty once the builder unit has plans) and the heal_suppressed key (the isHealSuppressed() mirror, BuildingComp.java:487-489); the plan logic is live (N2244, source_build_turret_plan_logic_state fills frame["plans"] from the pure advance, though the driver passes no live team plans / builders / players yet) and the suppression application is BuildingComp.java:482-485. canConsume (BuildingComp.java:1917, `public boolean canConsume(){` with `return potentialEfficiency > 0;`, BuildingComp.java:1918) and edelta (BuildingComp.java:1927-1929, `return efficiency * delta();`) are the surrounding gates.
 	# The build tower is its own family (BuildTurret.java:27, `public class BuildTurret extends BaseTurret{`; BuildTurretBuild, BuildTurret.java:92, `public class BuildTurretBuild extends BaseTurretBuild implements ControlBlock, RotBlock{`), a defense / effect block, NOT a TurretBuild: SourceTurretBuildState.gd excludes it explicitly, and BaseTurretBuild (BaseTurret.java:113, `public class BaseTurretBuild extends Building implements Ranged, RotBlock{`) overrides neither shouldConsume nor updateTile -- the gate and the tick both come from BuildTurretBuild itself. Class fields: `public final int timerTarget = timers++, timerTarget2 = timers++;` (BuildTurret.java:28), `public int targetInterval = 15;` (BuildTurret.java:29), `public float buildSpeed = 1f;` (BuildTurret.java:33), `public float buildBeamOffset = 5f;` (BuildTurret.java:34), `public float elevation = -1f;` (BuildTurret.java:38), `public Color heatColor = Pal.accent.cpy().a(0.9f);` (BuildTurret.java:39); constructor `public BuildTurret(String name){` (BuildTurret.java:41), `group = BlockGroup.turrets;` (BuildTurret.java:43), `sync = false;` (BuildTurret.java:44), `rotateSpeed = 10f;` (BuildTurret.java:45), `suppressable = true;` (BuildTurret.java:46). init lifts the elevation and builds the hidden builder unit type (BuildTurret.java:53, `if(elevation < 0) elevation = size / 2f;` with BuildTurret.java:56, `unitType = new UnitType("turret-unit-" + name){{`). Build fields: `public BlockUnitc unit = (BlockUnitc)unitType.create(team);` (BuildTurret.java:93), `public @Nullable Unit following;` (BuildTurret.java:94), `public @Nullable BlockPlan lastPlan;` (BuildTurret.java:95), `public float warmup;` (BuildTurret.java:96).
-	# Single def -- build-tower only (size 3, range 200f, buildSpeed 1.5f, silicon 150 / oxide 40 / thorium 60, Blocks.java:1997-2006): `buildTower = new BuildTurret("build-tower"){{` (Blocks.java:1997) with `requirements(Category.effect, with(Items.silicon, 150, Items.oxide, 40, Items.thorium, 60));` (Blocks.java:1998), `outlineColor = Pal.darkOutline;` (Blocks.java:1999), `range = 200f;` (Blocks.java:2001), `size = 3;` (Blocks.java:2002), `buildSpeed = 1.5f;` (Blocks.java:2003), `consumePower(3f);` (Blocks.java:2005) and `consumeLiquid(Liquids.nitrogen, 3f / 60f);` (Blocks.java:2006). No second BuildTurret def exists; there is no family split to manage. The plan search (`}else if(unit.buildPlan() == null && timer(timerTarget, targetInterval)){`, :156; `Queue<BlockPlan> blocks = team.data().plans;`, :157), mimic (`Units.nearby(team, x, y, range, u -> {`, :176), validation (`boolean valid =`, :204) and `unit.updateBuildLogic();` (:225) advance waits for their own slices. The draw / write / read / sense rows (BuildTurret.java:232-319) wait for their own slices.
-	# Documented limits: (1) power-only first pass -- the tower's static power consumer (consumePower 3f, Blocks.java:2005) is the only modeled consumer, so the folded efficiency is the min over the *modeled* consumers (power only); the tower also consumes nitrogen (Blocks.java:2006), which waits for its own slice. (2) shouldConsume gate live (N2215) -- BuildTurretBuild overrides shouldConsume (`return unit.plans().size > 0 && !isHealSuppressed();`, BuildTurret.java:229-230); when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994); the pure gate reads the frame plans key (default []) and the heal_suppressed key (default false) and feeds should_consume to the machinery; no live fill sets either key yet (the plan search / mimic / validate is the updateTile advance, BuildTurret.java:156-225, and the suppression application is BuildingComp.java:482-485). (3) updateTile sync/warmup advance live (N2243) -- rotation follow / lookAt / suppression zeroing / multipliers / warmup lerp (BuildTurret.java:121-140); the plan search / follow / mimic / validate / updateBuildLogic (BuildTurret.java:141-231) waits for its own slice (N2244). (4) No liquid-side modeling -- consumeLiquid nitrogen 3f/60f (Blocks.java:2006) waits for its own slice. (5) Suppression zeroing live (N2243) -- checkSuppression() (BuildTurret.java:132-133) zeroes efficiency + potentialEfficiency through the frame heal_suppressed mirror (checkSuppression returns true iff isHealSuppressed, BuildingComp.java:1336-1337; the Fx particle defers); no live fill applies suppression yet (applyHealSuppression, BuildingComp.java:482-485, needs game time + suppression application). (6) Single def -- build-tower only (size 3, range 200f, buildSpeed 1.5f, silicon 150 / oxide 40 / thorium 60); per-def stat values wait for their own verification slice. (7) No draw / read / write / sense modeling -- draw / write / read / sense (BuildTurret.java:232-319) wait for their own slices.
+	# Single def -- build-tower only (size 3, range 200f, buildSpeed 1.5f, silicon 150 / oxide 40 / thorium 60, Blocks.java:1997-2006): `buildTower = new BuildTurret("build-tower"){{` (Blocks.java:1997) with `requirements(Category.effect, with(Items.silicon, 150, Items.oxide, 40, Items.thorium, 60));` (Blocks.java:1998), `outlineColor = Pal.darkOutline;` (Blocks.java:1999), `range = 200f;` (Blocks.java:2001), `size = 3;` (Blocks.java:2002), `buildSpeed = 1.5f;` (Blocks.java:2003), `consumePower(3f);` (Blocks.java:2005) and `consumeLiquid(Liquids.nitrogen, 3f / 60f);` (Blocks.java:2006). No second BuildTurret def exists; there is no family split to manage. The plan search (`}else if(unit.buildPlan() == null && timer(timerTarget, targetInterval)){`, :156; `Queue<BlockPlan> blocks = team.data().plans;`, :157), mimic (`Units.nearby(team, x, y, range, u -> {`, :176), validation (`boolean valid =`, :204) advance is live (N2244); `unit.updateBuildLogic();` (:225) waits for its own slice. The draw / write / read / sense rows (BuildTurret.java:232-319) wait for their own slices.
+	# Documented limits: (1) power-only first pass -- the tower's static power consumer (consumePower 3f, Blocks.java:2005) is the only modeled consumer, so the folded efficiency is the min over the *modeled* consumers (power only); the tower also consumes nitrogen (Blocks.java:2006), which waits for its own slice. (2) shouldConsume gate live (N2215) -- BuildTurretBuild overrides shouldConsume (`return unit.plans().size > 0 && !isHealSuppressed();`, BuildTurret.java:229-230); when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994); the pure gate reads the frame plans key (default []) and the heal_suppressed key (default false) and feeds should_consume to the machinery; the plan logic is live (N2244) -- the pure advance fills frame["plans"] (the driver passes no live team plans / builders / players yet), while the heal suppression application (BuildingComp.java:482-485) still waits for its own slice. (3) updateTile sync/warmup advance live (N2243) -- rotation follow / lookAt / suppression zeroing / multipliers / warmup lerp (BuildTurret.java:121-140); plan logic live (N2244) -- plan search / follow / mimic / validate / suicide-plan removal (BuildTurret.java:141-225) run through the pure advance; updateBuildLogic (BuilderComp.java:76+) waits for its own slice; the eff fold (BuildTurret.java:136-137) is what the efficiency keys prove. (4) No liquid-side modeling -- consumeLiquid nitrogen 3f/60f (Blocks.java:2006) waits for its own slice. (5) Suppression zeroing live (N2243) -- checkSuppression() (BuildTurret.java:132-133) zeroes efficiency + potentialEfficiency through the frame heal_suppressed mirror (checkSuppression returns true iff isHealSuppressed, BuildingComp.java:1336-1337; the Fx particle defers); no live fill applies suppression yet (applyHealSuppression, BuildingComp.java:482-485, needs game time + suppression application). (6) Single def -- build-tower only (size 3, range 200f, buildSpeed 1.5f, silicon 150 / oxide 40 / thorium 60); per-def stat values wait for their own verification slice. (7) No draw / read / write / sense modeling -- draw / write / read / sense (BuildTurret.java:232-319) wait for their own slices.
 	# Source lines (all 136 exact exprs, verified verbatim in upstream at RED):
 	# - `return build.power.status;`
 	# - `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`
@@ -320,6 +323,194 @@ static func source_build_turret_update_tile_advance_state(frame: Dictionary, sou
 	var warmup_after: float = source_math_state.source_lerp_delta(warmup, warmup_target, SOURCE_BUILD_TURRET_WARMUP_LERP_PROGRESS, source_delta)
 	return {"rotation": rotation, "unit_look_angle": unit_look_angle, "efficiency": efficiency_after, "potential_efficiency": potential_after, "build_speed_multiplier": build_speed_multiplier, "speed_multiplier": speed_multiplier, "warmup": warmup_after}
 
+static func source_build_turret_plan_logic_state(frame: Dictionary, controlled: bool, search_ready: bool, break_check_ready: bool, tower_x: float, tower_y: float, range_value: float, team_plans: Array, nearby_builders: Array, players: Array, req_construct_match: bool, req_valid_place_or_break: bool) -> Dictionary:
+	# The BuildTurret plan logic -- plan logic live (N2244): the
+	# plan-logic half of BuildTurretBuild.updateTile()
+	# (BuildTurret.java:141-225). The sync/warmup half
+	# (BuildTurret.java:121-140, rotation follow / lookAt /
+	# suppression zeroing / multipliers / warmup lerp) is N2243
+	# -- this function sits AFTER the N2243 pure function in
+	# Java order (merged at integration; the N2243 function
+	# precedes it). Autonomous
+	# (`if(!isControlled()){`, :141; `unit.updateBuilding(true);`,
+	# :142, a flag, no logic): follower validation (:144-155,
+	# `if(following != null){` with
+	# `if(!following.isValid() || !following.activelyBuilding()){`
+	# clearing following + plans, else plans =
+	# `unit.plans().addFirst(following.buildPlan());` and
+	# `lastPlan = null;`); plan search (:156-173,
+	# `}else if(unit.buildPlan() == null && timer(timerTarget,
+	# targetInterval)){` with `public int targetInterval = 15;`
+	# (:29) as the explicit search_ready input,
+	# `Queue<BlockPlan> blocks = team.data().plans;`,
+	# `if(within(block.x * tilesize, block.y * tilesize, range)){`
+	# with `public static final int tilesize = 8;` (Vars.java:135)
+	# and range 200f (Blocks.java:2001, `range = 200f;`),
+	# `unit.addBuild(new BuildPlan(block.x, block.y, block.rotation,
+	# block.block, block.config));`,
+	# `blocks.addLast(blocks.removeIndex(i));` rotating the picked
+	# plan to the tail, `lastPlan = block;`); mimic (:174-188,
+	# `Units.nearby(team, x, y, range, u -> {`,
+	# `if(u.canBuild() && u.activelyBuilding()){`,
+	# `BuildPlan plan = u.buildPlan();`,
+	# `Building build = world.build(plan.x, plan.y);`,
+	# `if(build instanceof ConstructBuild && within(build, range)){`,
+	# `following = u;`); validation (:189-216,
+	# `}else if(unit.buildPlan() != null){`,
+	# `BuildPlan req = unit.buildPlan();`,
+	# `if(!req.breaking && timer.get(timerTarget2, 30f)){` as the
+	# explicit break_check_ready input,
+	# `for(Player player : team.data().players){` with
+	# `if(player.isBuilder() && player.unit().activelyBuilding() &&
+	# player.unit().buildPlan().samePos(req) &&
+	# player.unit().buildPlan().breaking){` discarding the first
+	# plan AND the matching team plan
+	# (`team.data().plans.remove(p -> p.x == req.x && p.y == req.y);`)
+	# with an early `return;` that skips the suicide removal that
+	# tick, `boolean valid =` with
+	# `!(lastPlan != null && lastPlan.removed) &&` and the
+	# ConstructBuild / validBreak / validPlace disjunction
+	# (`((req.tile() != null && req.tile().build instanceof
+	# ConstructBuild cons && cons.current == req.block) ||`,
+	# `Build.validBreak(unit.team(), req.x, req.y) :`,
+	# `Build.validPlace(req.block, unit.team(), req.x, req.y,
+	# req.rotation)));`), `if(!valid){` discarding the first plan
+	# (`unit.plans().removeFirst();`, `lastPlan = null;`));
+	# controlled (`}else{ //is being controlled, forget everything`,
+	# :217-220, following = lastPlan = null); suicide-plan removal
+	# (:223, `unit.plans().remove(b -> b.build() == this);`,
+	# BuildPlan.build() is `return world.build(x, y);`,
+	# BuildPlan.java:165-167, `public @Nullable Building build(){`).
+	# `unit.updateBuildLogic();` (:225, BuilderComp.java:76+,
+	# `public void updateBuildLogic(){`) is NOT called -- the build
+	# simulation defers to its own slice. buildPlan() is the queue
+	# head (`return plans.size == 0 ? null : plans.first();`,
+	# BuilderComp.java:313-315). within is the STRICT
+	# squared-distance check (`Mathf.dst2(getX(), getY(), x, y) <
+	# dst*dst`, Arc Position.java:44-46). BlockPlan.removed is
+	# `public boolean removed;` (Teams.java:497) on
+	# `public static class BlockPlan{` (Teams.java:492); samePos is
+	# x/y equality (`return x == other.x && y == other.y;`,
+	# BuildPlan.java:83-85). Explicit inputs: the port has no Unit
+	# object (following is a frame dict with id / valid /
+	# actively_building / first_plan, or null), no timer infra
+	# (search_ready / break_check_ready), no team-plan list /
+	# nearby-unit query / player list (team_plans /
+	# nearby_builders / players), no Build API (valid_place per
+	# team plan, req_valid_place_or_break for the current
+	# request), no tile lookup (req_construct_match), and no
+	# world.build lookup (build_is_self per plan). The frame
+	# carries plans (default []), following (default null, the
+	# `public @Nullable Unit following;` mirror, BuildTurret.java:94)
+	# and last_plan (default null, the `public @Nullable BlockPlan
+	# lastPlan;` mirror, BuildTurret.java:95). addBuild dedupes by
+	# position (BuilderComp.java:277-295, `void addBuild(BuildPlan
+	# place){`) but the search branch only runs with an empty queue,
+	# so no dedupe can trigger there.
+	team_plans = team_plans.duplicate()
+	var plans: Array = []
+	var frame_plans: Variant = frame.get("plans", [])
+	if frame_plans is Array:
+		plans = (frame_plans as Array).duplicate()
+	var following: Variant = frame.get("following", null)
+	var last_plan: Variant = frame.get("last_plan", null)
+	var branch := "idle"
+	var plan_discarded := false
+	if not controlled:
+		if following != null:
+			var follower: Dictionary = following if following is Dictionary else {}
+			if not bool(follower.get("valid", false)) or not bool(follower.get("actively_building", false)):
+				following = null
+				plans = []
+				branch = "follower_invalid"
+			else:
+				plans = []
+				var first_plan: Variant = follower.get("first_plan", null)
+				if first_plan != null:
+					plans.append(first_plan)
+				last_plan = null
+				branch = "follower_valid"
+		elif plans.is_empty() and search_ready:
+			var range_sq: float = range_value * range_value
+			var picked_index := -1
+			for i in team_plans.size():
+				var candidate: Variant = team_plans[i]
+				if not (candidate is Dictionary):
+					continue
+				var plan_x: float = float(candidate.get("x", 0)) * 8.0
+				var plan_y: float = float(candidate.get("y", 0)) * 8.0
+				var dx: float = plan_x - tower_x
+				var dy: float = plan_y - tower_y
+				if dx * dx + dy * dy < range_sq and bool(candidate.get("valid_place", false)):
+					picked_index = i
+					break
+			if picked_index >= 0:
+				var picked: Dictionary = team_plans[picked_index]
+				plans.append({"x": picked.get("x", 0), "y": picked.get("y", 0), "rotation": picked.get("rotation", 0), "block": picked.get("block", ""), "config": picked.get("config", null), "breaking": false, "build_is_self": false})
+				team_plans.remove_at(picked_index)
+				team_plans.append(picked)
+				last_plan = picked
+				branch = "search_found"
+			if plans.is_empty():
+				following = null
+				for builder in nearby_builders:
+					if following != null:
+						break
+					if not (builder is Dictionary):
+						continue
+					if bool(builder.get("can_build", false)) and bool(builder.get("actively_building", false)) and bool(builder.get("build_is_construct", false)):
+						var build_dx: float = float(builder.get("build_x", 0.0)) - tower_x
+						var build_dy: float = float(builder.get("build_y", 0.0)) - tower_y
+						if build_dx * build_dx + build_dy * build_dy < range_sq:
+							following = builder
+							branch = "search_mimic"
+				if branch != "search_mimic":
+					branch = "search_none"
+		elif not plans.is_empty():
+			var req: Variant = plans[0]
+			var req_dict: Dictionary = req if req is Dictionary else {}
+			if not bool(req_dict.get("breaking", false)) and break_check_ready:
+				for player in players:
+					if not (player is Dictionary):
+						continue
+					if bool(player.get("is_builder", false)) and bool(player.get("actively_building", false)):
+						var player_plan: Variant = player.get("plan", null)
+						if player_plan is Dictionary and int(player_plan.get("x", -1)) == int(req_dict.get("x", -2)) and int(player_plan.get("y", -1)) == int(req_dict.get("y", -2)) and bool(player_plan.get("breaking", false)):
+							plans.remove_at(0)
+							plan_discarded = true
+							var kept_team: Array = []
+							for team_plan in team_plans:
+								if team_plan is Dictionary and int(team_plan.get("x", -1)) == int(req_dict.get("x", -2)) and int(team_plan.get("y", -1)) == int(req_dict.get("y", -2)):
+									continue
+								kept_team.append(team_plan)
+							team_plans = kept_team
+							# Java returns here (BuildTurret.java:201): the
+							# suicide removal below (and updateBuildLogic)
+							# is skipped this tick.
+							return {"plans": plans, "following": following, "last_plan": last_plan, "team_plans": team_plans, "branch": "validate_break_discard", "plan_discarded": plan_discarded}
+			var last_removed := false
+			if last_plan is Dictionary:
+				last_removed = bool((last_plan as Dictionary).get("removed", false))
+			var valid: bool = not (last_plan != null and last_removed) and (req_construct_match or req_valid_place_or_break)
+			if not valid:
+				plans.remove_at(0)
+				last_plan = null
+				plan_discarded = true
+				branch = "validate_invalid"
+			else:
+				branch = "validate_ok"
+	else:
+		following = null
+		last_plan = null
+		branch = "controlled"
+	var kept_plans: Array = []
+	for plan in plans:
+		if plan is Dictionary and bool(plan.get("build_is_self", false)):
+			continue
+		kept_plans.append(plan)
+	plans = kept_plans
+	return {"plans": plans, "following": following, "last_plan": last_plan, "team_plans": team_plans, "branch": branch, "plan_discarded": plan_discarded}
+
 @warning_ignore("unused_parameter")
 static func source_build_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the build-turret tick wiring every
@@ -366,7 +557,7 @@ static func source_build_turret_tick_buildings_state(game: Object, seconds: floa
 		# into the min efficiency like every other non-optional
 		# consumer, and the build-speed advance (BuildTurret.java:136)
 		# follows it. The power consumer counts toward
-		# hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a build tower does not take the early return. The tower's power draw is STATIC: `consumePower(3f);` (Blocks.java:2005) registers a plain ConsumePower, so the catalog consumePower 3.0 is present and the plain radar gate (block.properties.has("consumePower")) works -- no RepairTurret-style `or consumesPower` adaptation is needed. A build tower with no power consumer is untouched: the tick models no other consumers yet (the updateTile plan / mimic / validate advance waits for its own slice), and BuildTurretBuild DOES override shouldConsume (BuildTurret.java:229-230, `return unit.plans().size > 0 && !isHealSuppressed();`) -- N2215 feeds the live gate to the machinery (the pure gate is source_build_turret_should_consume_state, fed the frame); the N2184 RED decision is resolved. The gate has NO enabled term (Java returns the bare plans + suppression check), so the pure gate does not read frame["enabled"] at all; the outer guard below already runs the machinery only when enabled. productionValid is the canonical true default (SourceBuildingAccessState.production_valid_state()).
+		# hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a build tower does not take the early return. The tower's power draw is STATIC: `consumePower(3f);` (Blocks.java:2005) registers a plain ConsumePower, so the catalog consumePower 3.0 is present and the plain radar gate (block.properties.has("consumePower")) works -- no RepairTurret-style `or consumesPower` adaptation is needed. A build tower with no power consumer is untouched: the tick models no other consumers yet (the updateTile sync/warmup advance, N2243, and plan logic, N2244, are live, wired below; updateBuildLogic waits for its own slice), and BuildTurretBuild DOES override shouldConsume (BuildTurret.java:229-230, `return unit.plans().size > 0 && !isHealSuppressed();`) -- N2215 feeds the live gate to the machinery (the pure gate is source_build_turret_should_consume_state, fed the frame); the N2184 RED decision is resolved. The gate has NO enabled term (Java returns the bare plans + suppression check), so the pure gate does not read frame["enabled"] at all; the outer guard below already runs the machinery only when enabled. productionValid is the canonical true default (SourceBuildingAccessState.production_valid_state()).
 		var has_power_consumer: bool = bool(block.properties.has("consumePower"))
 		if has_power_consumer and bool(frame.get("enabled", true)) and not bool(frame.get("cheating", false)):
 			var gate: Dictionary = source_build_turret_should_consume_state(frame)
@@ -424,6 +615,34 @@ static func source_build_turret_tick_buildings_state(game: Object, seconds: floa
 			frame["build_speed_multiplier"] = advanced["build_speed_multiplier"]
 			frame["speed_multiplier"] = advanced["speed_multiplier"]
 			frame["warmup"] = advanced["warmup"]
+		# The updateTile plan logic (N2244, BuildTurret.java:141-225):
+		# runs after the consumption fold -- updateConsumption runs
+		# before updateTile (BuildingComp.java:2274-2277,
+		# `updateConsumption();` then `if(enabled ||
+		# !block.noUpdateDisabled){` / `updateTile();`) -- and
+		# UNGATED on enabled: BuildTurret sets no noUpdateDisabled,
+		# so Java runs updateTile for a disabled tower too. In Java
+		# order this wiring sits AFTER the N2243 sync/warmup wiring
+		# (BuildTurret.java:121-140 before :141-225); the N2243
+		# wiring runs above (merged at integration). The driver passes no live team plans /
+		# nearby builders / players yet (empty lists, both timers
+		# false, controlled false) and assumes the current request
+		# stays valid (req_valid_place_or_break true -- the port
+		# cannot evaluate Build.validPlace / validBreak live), so a
+		# live tower keeps its plans and the N2215 gate keeps reading
+		# them; the pure function proves the search / mimic / discard
+		# paths with explicit inputs. The tower world position is the
+		# origin cell times tilesize 8 (Vars.java:135; size-3 offset
+		# 0, Block.java:217); the pure function is exact given the
+		# position. updateBuildLogic (BuilderComp.java:76+) is NOT
+		# called -- the build simulation defers to its own slice.
+		var plan_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
+		var plan_tower_x := float(plan_cell.x) * 8.0
+		var plan_tower_y := float(plan_cell.y) * 8.0
+		var advanced_plan: Dictionary = source_build_turret_plan_logic_state(frame, false, false, false, plan_tower_x, plan_tower_y, SOURCE_BUILD_TURRET_RANGE, [], [], [], false, true)
+		frame["plans"] = advanced_plan["plans"]
+		frame["following"] = advanced_plan["following"]
+		frame["last_plan"] = advanced_plan["last_plan"]
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
