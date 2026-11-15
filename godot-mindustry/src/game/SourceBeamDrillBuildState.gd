@@ -23,6 +23,15 @@ const source_drill_inventory_runtime_state := preload("res://src/game/SourceDril
 # finds it.
 const SOURCE_BEAM_DRILL_BUILD_IMPLEMENTATIONS := ["BeamDrill"]
 const SOURCE_BEAM_DRILL_BUILDING_META_KEY := "source_beam_drill_building"
+# BeamDrill.java:44, `public float optionalBoostIntensity = 2.5f;`
+# -- the class boost intensity; neither def overrides it
+# (Blocks.java:3038-3061 only override drillTime, 160f /
+# 100f), so both plasma-bore and large-plasma-bore share 2.5.
+const SOURCE_BEAM_DRILL_OPTIONAL_BOOST_INTENSITY := 2.5
+# BeamDrill.java:242 warmup speed `1f / 60f` and BeamDrill.java:248
+# boost-warmup rate `0.1f`, the approachDelta / lerpDelta rates.
+const SOURCE_BEAM_DRILL_WARMUP_SPEED := 1.0 / 60.0
+const SOURCE_BEAM_DRILL_BOOST_WARMUP_RATE := 0.1
 
 static func _is_beam_drill_build_implementation(implementation: String) -> bool:
 	return SOURCE_BEAM_DRILL_BUILD_IMPLEMENTATIONS.has(implementation)
@@ -124,19 +133,69 @@ static func source_beam_drill_power_status_row_state(frame: Dictionary, has_powe
 	# efficiency to 0; the live facing scan that fills
 	# facing_amount and the production advance that fills items
 	# wait for their own slices, so the gate reads the current
-	# frame. (3) No updateTile
-	# advance -- warmup / multiplier / lastDrillSpeed / time
-	# / dump (BeamDrill.java:237-263) wait for their own
-	# slices; the proof carries no progress keys, the
-	# lastDrillSpeed fold (BeamDrill.java:249) is what the
-	# efficiency keys prove.
+	# frame. (3) Partial updateTile
+	# advance (N2195) -- warmup / boostWarmup / multiplier /
+	# time advance each tick (BeamDrill.java:242-251); still
+	# deferred: updateLasers / updateFacing / facingAmount,
+	# the drop loop + `time %= drillTime;` reset +
+	# lastDrillSpeed (BeamDrill.java:249, 253-262, needs
+	# lastItem / facing / items state the tick does not
+	# track), and the dump timer (BeamDrill.java:264-266).
+	# Until the reset slice lands, time grows unbounded.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
 	var live: float = 1.0 if stamped == null else float(stamped)
 	return {"has_power_row": true, "row": {"result": live, "is_power": true}}
 
-@warning_ignore("unused_parameter")
+static func source_beam_drill_update_tile_advance_state(frame: Dictionary, source_delta: float, time_scale: float) -> Dictionary:
+	# The updateTile advance, internal part
+	# (BeamDrillBuild.updateTile(), BeamDrill.java:237-263):
+	# `warmup = Mathf.approachDelta(warmup, Mathf.num(efficiency > 0), 1f / 60f);`
+	# (BeamDrill.java:242), `float multiplier = Mathf.lerp(1f, optionalBoostIntensity, optionalEfficiency);`
+	# (BeamDrill.java:246), `boostWarmup = Mathf.lerpDelta(boostWarmup, optionalEfficiency, 0.1f);`
+	# (BeamDrill.java:248), `time += edelta() * multiplier;`
+	# (BeamDrill.java:251). The Arc formulas, not guesses:
+	# approachDelta(from, to, speed) = approach(from, to,
+	# Time.delta * speed) with approach = from + clamp(to -
+	# from, -speed, speed), lerpDelta(from, to, progress) =
+	# lerp(from, to, clamp(progress * Time.delta)) with lerp
+	# = from + (to - from) * progress and clamp(value) =
+	# clamp(value, 0, 1), num(b) = b ? 1 : 0
+	# (Mathf.java:208-210, 402-404, 415-432). source_delta is
+	# Time.delta in ticks (seconds * 60 through
+	# game_source_delta, arc Time.java:26); edelta() =
+	# efficiency * delta() with delta() = Time.delta *
+	# timeScale (BuildingComp.java:1922-1929). efficiency and
+	# optionalEfficiency default 0.0, the Java field defaults
+	# (BuildingComp.java:85 `transient float efficiency;` /
+	# :87 `transient float optionalEfficiency;`); warmup /
+	# boostWarmup / time default 0.0, the Java build-field
+	# defaults (BeamDrill.java:225-226). optionalEfficiency
+	# is folded by the shared machinery before this runs
+	# (apply_update_consumption_state stamps
+	# frame["optional_efficiency"]; with no optional rows
+	# modeled yet it is min(1.0, minEfficiency),
+	# BuildingComp.java:1965/1986). Deferred, not done here:
+	# updateLasers / updateFacing (BeamDrill.java:240, 244),
+	# the drop loop + `time %= drillTime;` reset +
+	# lastDrillSpeed (BeamDrill.java:249, 253-262, needs
+	# lastItem, which updateFacing sets), and the dump timer
+	# (BeamDrill.java:264-266); until the reset slice lands,
+	# time grows unbounded.
+	var efficiency: float = float(frame.get("efficiency", 0.0))
+	var optional_efficiency: float = float(frame.get("optional_efficiency", 0.0))
+	var warmup: float = float(frame.get("warmup", 0.0))
+	var boost_warmup: float = float(frame.get("boost_warmup", 0.0))
+	var time: float = float(frame.get("time", 0.0))
+	var target: float = 1.0 if efficiency > 0.0 else 0.0
+	var step: float = source_delta * SOURCE_BEAM_DRILL_WARMUP_SPEED
+	var next_warmup: float = warmup + clampf(target - warmup, -step, step)
+	var multiplier: float = lerpf(1.0, SOURCE_BEAM_DRILL_OPTIONAL_BOOST_INTENSITY, optional_efficiency)
+	var next_boost_warmup: float = lerpf(boost_warmup, optional_efficiency, clampf(SOURCE_BEAM_DRILL_BOOST_WARMUP_RATE * source_delta, 0.0, 1.0))
+	var next_time: float = time + efficiency * source_delta * time_scale * multiplier
+	return {"warmup": next_warmup, "boost_warmup": next_boost_warmup, "multiplier": multiplier, "time": next_time}
+
 static func source_beam_drill_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the beam-drill tick wiring every
 	# tick (BeamDrillBuild.updateTile(), BeamDrill.java:237,
@@ -213,6 +272,28 @@ static func source_beam_drill_tick_buildings_state(game: Object, seconds: float)
 				required_results.append(power_row.get("row", {}))
 			var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(true, bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, [], [], frame)
 			source_building_efficiency_state.apply_update_consumption_state(consumption, frame)
+		# N2195: the updateTile advance runs after consumption,
+		# like Java's Building.update() (BuildingComp.java:2275
+		# updateConsumption(), then the updateTile gate
+		# `if(enabled || !block.noUpdateDisabled){` at
+		# BuildingComp.java:2277-2279; noUpdateDisabled defaults
+		# false, Block.java:170), so a disabled beam drill
+		# freezes its warmup / time. super.updateTile() is an
+		# empty no-op (BuildingComp.java:2010-2012), so the
+		# driver owes it nothing. The source delta is
+		# Time.delta in ticks: game_source_delta(game, seconds)
+		# is seconds * 60 (arc Time.java:26), never raw seconds.
+		# timeScale reads live from the sprite meta, default 1.0
+		# (BuildingComp.java:98 `private transient float
+		# timeScale = 1f, timeScaleDuration;`).
+		if bool(frame.get("enabled", true)):
+			var source_delta: float = source_placed_block_state.game_source_delta(game, seconds)
+			var time_scale: float = source_placed_block_state.time_scale(sprite, source_placed_block_state.game_default_time_scale(game))
+			var advanced: Dictionary = source_beam_drill_update_tile_advance_state(frame, source_delta, time_scale)
+			frame["warmup"] = advanced["warmup"]
+			frame["boost_warmup"] = advanced["boost_warmup"]
+			frame["multiplier"] = advanced["multiplier"]
+			frame["time"] = advanced["time"]
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
