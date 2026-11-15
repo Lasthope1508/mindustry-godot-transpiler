@@ -24,6 +24,10 @@ const CONDUIT_NO_UPDATE_DISABLED := true
 # mechanical drill consumes water 0.05f, so its liquidCapacity is 30.
 const CONDUIT_LIQUID_CAPACITY := 20.0
 const CONDUIT_LIQUID_PRESSURE := 1.0
+# Conduit.java:252 timer(timerFlow, 1): the interval is 1 TICK, not 1
+# second — arc Interval.get/check (Interval.java:19-28) compares
+# against Time.time, which advances by Time.delta (ticks, Time.java:26,
+# 72-75), so the conduit flows every tick.
 const CONDUIT_FLOW_INTERVAL := 1.0
 const DRILL_LIQUID_CAPACITY := 30.0
 
@@ -57,7 +61,7 @@ static func source_conduit_update_state(game: Object, cell: Vector2i, delta: flo
 	# Conduit.java:249-255 ConduitBuild.updateTile: smoothLiquid lerps
 	# toward liquids.currentAmount() / liquidCapacity (0.05), and when
 	# the conduit holds more than 0.0001 liquid and its flow timer
-	# (timerFlow, 1s) fires, it calls moveLiquidForward(leaks,
+	# (timerFlow, 1 tick) fires, it calls moveLiquidForward(leaks,
 	# liquids.current()). moveLiquidForward (BuildingComp.java:923-937)
 	# moves the liquid to tile.nearby(rotation) via the bound
 	# moveLiquid (pressure fractions), or leaks a puddle
@@ -94,9 +98,14 @@ static func source_conduit_update_state(game: Object, cell: Vector2i, delta: flo
 	if not bool(update_tile_gate.get("update_tile_called", true)):
 		sprite.set_meta(SOURCE_CONDUIT_BUILDING_META_KEY, frame)
 		return {"liquid": current_liquid, "flowed": 0.0, "smooth_liquid": smooth_liquid, "flow_timer": flow_timer, "update_tile_called": false, "enabled": enabled}
-	smooth_liquid = source_math_state.source_lerp_delta(smooth_liquid, current_amount / CONDUIT_LIQUID_CAPACITY, 0.05, delta)
+	# Java Time.delta is ticks (arc Time.java:26, getDeltaTime() * 60f)
+	# but the live loop passes raw seconds here, so convert inside
+	# this function (N2093/N2189 precedent): the lerpDelta and the
+	# 1-tick flow timer both advance in ticks.
+	var source_delta := source_placed_block_state.game_source_delta(game, delta)
+	smooth_liquid = source_math_state.source_lerp_delta(smooth_liquid, current_amount / CONDUIT_LIQUID_CAPACITY, 0.05, source_delta)
 	var flowed := 0.0
-	flow_timer += delta
+	flow_timer += source_delta
 	if current_amount > 0.0001 and flow_timer >= CONDUIT_FLOW_INTERVAL:
 		flow_timer -= CONDUIT_FLOW_INTERVAL
 		var rotation: int = int(sprite.get_meta("rotation", 0))
