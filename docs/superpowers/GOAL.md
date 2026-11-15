@@ -215,6 +215,28 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
   N2228 phát hiện mendMap là static-shared nên flush defer cả application
   + cadence, port track per-building mend_map. DEFERRED gộp sau wave:
   260 entries (258 − 8 resolved + 10 new).
+- **Wave advances-3 {N2229 PointDefenseTurret, N2230 TractorBeamTurret,
+  N2231 PayloadLoader, N2232 PayloadUnloader, N2233 PayloadDeconstructor,
+  N2234 UnitCargoLoader} updateTile advances DONE**
+  trên branch tích hợp `integration/wave-advances-3-n2229-n2234` (không
+  merge vào main; 6 slice branch push 17:40–17:43 + integration branch
+  push ngay sau docs commit theo push-as-you-go): neighbours 12 module
+  power+gate 48 tests (36 PASS + 12 proof Godot-absent, 0 lỗi khác) +
+  targeted 6 module 24 tests (18 PASS + 6 proof Godot-absent),
+  full gate Ran 5993 in 1036.683s, failures=175, skipped=5, 0 errors —
+  175/175 Godot-absent (169 inherited + 6 new proof tests N2229–N2234).
+  SSOT gộp 11568/1675/1598/2987, audit 1336, legacy 0. KHÔNG cần
+  coordinator fix — advance không vỡ proof cũ (như advances-1/2);
+  N2231 + N2232 REUSE thành công helper moveOut của BlockProducer;
+  N2231 hiệu chỉnh scope: PayloadLoader CÓ rotate (PayloadLoader.java:45)
+  + default acceptItem là consumesItem-based (BuildingComp.java:864-866);
+  N2230 phát hiện eff ordering trap (eff tính TRƯỚC coolant branch) +
+  coolantMultiplier không có reset riêng + 17 file
+  `SourceTractorBeamTurretBuildUpdateTile*State.gd` là DEAD với live
+  gameplay (không sửa, không xóa khi chưa có ý user); N2233 phát hiện
+  UnitPayload buildTime = `unit.type.getBuildTime()`; N2234 phát hiện
+  manifold KHÔNG set useUnitCap = false. DEFERRED gộp sau wave:
+  265 entries (260 − 14 resolved + 19 new).
 - **Tiếp theo:** units → updateTile advances → second consumers (xem
   `DESIGN-frame-state-infra.md` trong `~/workspace/mindustry-parallel/`).
 - **KHÔNG chạy Godot ở VM này** (chỉ đạo user 2026-11-15, ưu tiên cao): mọi
@@ -684,6 +706,70 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
     `heal_suppressed`).
     Trạng thái "chờ agent Godot test". Chạy: targeted test
     `tests.test_c07_regen_projector_update_tile` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2229 `C07PointDefenseUpdateTileProof` — CHƯA CHẠY ở đâu (7 key:
+    `retarget_picks_closest_hittable_bullet`, `pooled_target_clears`,
+    `rotation_moves_toward_target`, `reload_counter_charges_and_fires`,
+    `shot_reduces_bullet_damage`, `shot_removes_weak_bullet`,
+    `live_tick_writes_advance_frame_keys`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `bee50025` trên
+    `slice/N2229-point-defense-update-tile` (integration cherry-pick `c024a31e`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_point_defense_turret_update_tile` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2230 `C07TractorBeamUpdateTileProof` — CHƯA CHẠY ở đâu (8 key:
+    `retarget_picks_closest_flying_enemy`, `priority_beats_distance`,
+    `rotation_moves_and_strength_rises`, `impulse_folds_force_and_range`,
+    `coolant_consume_folds_heat_capacity`, `strength_decays_without_target`,
+    `activation_timer_blocks_update`, `live_tick_writes_advance_frame_keys`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `57ec6873` trên
+    `slice/N2230-tractor-beam-update-tile` (integration cherry-pick `1b785fdb`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_tractor_beam_update_tile` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2231 `C07PayloadLoaderUpdateTileProof` — CHƯA CHẠY ở đâu (6 key:
+    `move_in_arrives_at_center`, `load_items_on_timer_tick`,
+    `load_liquids_folds_edelta`, `battery_charges_and_exports_when_full`,
+    `should_export_folds_flags`, `move_out_pushes_payload`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `d8f2a916` trên
+    `slice/N2231-payload-loader-update-tile` (integration cherry-pick `39b24a9d`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_payload_loader_update_tile` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2232 `C07PayloadUnloaderUpdateTileProof` — CHƯA CHẠY ở đâu (7 key:
+    `move_in_arrives_at_center`, `unload_items_on_timer_tick`,
+    `unload_liquids_folds_edelta`, `battery_unloads_to_last_output_power`,
+    `instant_deconstruct_clears_payload`, `move_out_pushes_payload`,
+    `live_tick_advances_unloader_frame`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `76ecc3b5` trên
+    `slice/N2232-payload-unloader-update-tile` (integration cherry-pick `195077bd`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_payload_unloader_update_tile` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2233 `C07PayloadDeconstructorUpdateTileProof` — CHƯA CHẠY ở đâu (7 key:
+    `progress_advances_with_edelta`, `accum_folds_requirements`,
+    `transfer_moves_whole_items`, `finish_clears_deconstructing`,
+    `intake_moves_payload_to_deconstructing`, `progress_zero_without_deconstructing`,
+    `live_tick_advances_progress`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `1b5264f8` trên
+    `slice/N2233-payload-deconstructor-update-tile` (integration cherry-pick `8040e691`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_payload_deconstructor_update_tile` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2234 `C07UnitCargoLoaderUpdateTileProof` — CHƯA CHẠY ở đâu (6 key:
+    `lost_unit_clears`, `readyness_folds_unit_presence`,
+    `warmup_approaches_efficiency`, `build_progress_advances_when_empty`,
+    `spawn_at_build_complete`, `live_tick_advances_cargo_frame`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `a0b5eac9` trên
+    `slice/N2234-unit-cargo-loader-update-tile` (integration cherry-pick `e246e650`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_unit_cargo_loader_update_tile` với Godot 4.6.2 trên PATH,
     port 7777 trống.
   - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
     trên (ghi rõ commit đưa scene tới Windows).
