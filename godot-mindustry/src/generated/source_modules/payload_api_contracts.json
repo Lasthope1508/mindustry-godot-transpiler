@@ -3528,6 +3528,70 @@
       "runtime_proof": "/root/C07PayloadDeconstructorShouldConsumeProof",
       "rule": "Source-backed PayloadDeconstructor shouldConsume gate from PayloadDeconstructor.java / BuildingComp.java / Blocks.java."
     },
+    "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_update_tile_advance_state": {
+      "canonical_contract": "source_api_contracts.SourcePayloadDeconstructorBuildState.source_payload_deconstructor_update_tile_advance_state",
+      "status": "active",
+      "source_slice": "N2233",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "source_method": "PayloadDeconstructorBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_payload_deconstructor_update_tile_advance_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_payload_deconstructor_update_tile_advance_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_payload_deconstructor_update_tile_advance_state_input.time_scale"
+        },
+        {
+          "name": "deconstruct_speed",
+          "type": "float",
+          "schema": "source_payload_deconstructor_update_tile_advance_state_input.deconstruct_speed"
+        },
+        {
+          "name": "item_capacity",
+          "type": "int",
+          "schema": "source_payload_deconstructor_update_tile_advance_state_input.item_capacity"
+        },
+        {
+          "name": "build_cost_multiplier",
+          "type": "float",
+          "schema": "source_payload_deconstructor_update_tile_advance_state_input.build_cost_multiplier"
+        },
+        {
+          "name": "unit_cost_multiplier",
+          "type": "float",
+          "schema": "source_payload_deconstructor_update_tile_advance_state_input.unit_cost_multiplier"
+        }
+      ],
+      "return_keys": [
+        "progress",
+        "time",
+        "speed_scl",
+        "accum",
+        "items",
+        "deconstructing",
+        "payload",
+        "pay_vector",
+        "pay_rotation",
+        "finished"
+      ],
+      "tests": [
+        "test_c07_payload_deconstructor_update_tile_registration",
+        "test_all_c07_payload_deconstructor_update_tile_input_evidence_is_exact",
+        "test_payload_deconstructor_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorUpdateTileProof",
+      "rule": "Source-backed PayloadDeconstructor updateTile advance from PayloadDeconstructor.java / PayloadBlock.java / BuildPayload.java / UnitPayload.java / Rules.java / BuildingComp.java / Block.java / Blocks.java / arc Mathf.java / Angles.java / Vec2.java."
+    },
     "SourcePayloadLoaderBuildState.source_payload_loader_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourcePayloadLoaderBuildState.source_payload_loader_power_status_row_state",
       "status": "active",
@@ -3584,6 +3648,94 @@
       ],
       "runtime_proof": "/root/C07PayloadLoaderShouldConsumeProof",
       "rule": "Source-backed PayloadLoader shouldConsume gate from PayloadLoader.java / PayloadBlock.java / BuildingComp.java / Blocks.java."
+    },
+    "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state": {
+      "canonical_contract": "source_api_contracts.SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state",
+      "status": "active",
+      "source_slice": "N2231",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+      "source_method": "PayloadLoaderBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_payload_loader_update_tile_advance_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_payload_loader_update_tile_advance_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_payload_loader_update_tile_advance_state_input.time_scale"
+        },
+        {
+          "name": "load_tick",
+          "type": "bool",
+          "schema": "source_payload_loader_update_tile_advance_state_input.load_tick"
+        },
+        {
+          "name": "rotdeg_value",
+          "type": "float",
+          "schema": "source_payload_loader_update_tile_advance_state_input.rotdeg_value"
+        },
+        {
+          "name": "block_rotate",
+          "type": "bool",
+          "schema": "source_payload_loader_update_tile_advance_state_input.block_rotate"
+        },
+        {
+          "name": "item_order",
+          "type": "Array",
+          "schema": "source_payload_loader_update_tile_advance_state_input.item_order"
+        },
+        {
+          "name": "liquid_names_by_id",
+          "type": "Array",
+          "schema": "source_payload_loader_update_tile_advance_state_input.liquid_names_by_id"
+        },
+        {
+          "name": "front",
+          "type": "Dictionary",
+          "schema": "source_payload_loader_update_tile_advance_state_input.front"
+        },
+        {
+          "name": "move_payload_result",
+          "type": "bool",
+          "schema": "source_payload_loader_update_tile_advance_state_input.move_payload_result"
+        },
+        {
+          "name": "base_power_use",
+          "type": "float",
+          "schema": "source_payload_loader_update_tile_advance_state_input.base_power_use"
+        }
+      ],
+      "return_keys": [
+        "should_export",
+        "has_arrived",
+        "exporting",
+        "pay_vector",
+        "pay_rotation",
+        "items",
+        "liquids",
+        "payload",
+        "payload_moved",
+        "payload_dumped",
+        "liquid_flow",
+        "power_charged",
+        "items_loaded",
+        "pushed_output_fraction"
+      ],
+      "tests": [
+        "test_c07_payload_loader_update_tile_registration",
+        "test_all_c07_payload_loader_update_tile_input_evidence_is_exact",
+        "test_payload_loader_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_loader_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderUpdateTileProof",
+      "rule": "Source-backed PayloadLoader updateTile advance from PayloadLoader.java / PayloadBlock.java / BuildingComp.java / Blocks.java / Block.java / ItemModule.java / LiquidModule.java / StorageBlock.java / LiquidRouter.java / LiquidVoid.java / Vars.java."
     },
     "SourcePayloadMassDriverBuildState.source_payload_mass_driver_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourcePayloadMassDriverBuildState.source_payload_mass_driver_power_status_row_state",
@@ -3672,6 +3824,68 @@
       ],
       "runtime_proof": "/root/C07PayloadUnloaderShouldConsumeProof",
       "rule": "Source-backed PayloadUnloader shouldConsume gate (inherited from PayloadLoader) from PayloadLoader.java / PayloadUnloader.java / PayloadBlock.java / BuildingComp.java / Blocks.java."
+    },
+    "SourcePayloadUnloaderBuildState.source_payload_unloader_update_tile_advance_state": {
+      "canonical_contract": "source_api_contracts.SourcePayloadUnloaderBuildState.source_payload_unloader_update_tile_advance_state",
+      "status": "active",
+      "source_slice": "N2232",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+      "source_method": "PayloadUnloaderBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_payload_unloader_update_tile_advance_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_payload_unloader_update_tile_advance_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_payload_unloader_update_tile_advance_state_input.time_scale"
+        },
+        {
+          "name": "load_tick",
+          "type": "bool",
+          "schema": "source_payload_unloader_update_tile_advance_state_input.load_tick"
+        },
+        {
+          "name": "item_order",
+          "type": "Array",
+          "schema": "source_payload_unloader_update_tile_advance_state_input.item_order"
+        },
+        {
+          "name": "front",
+          "type": "Dictionary",
+          "schema": "source_payload_unloader_update_tile_advance_state_input.front"
+        }
+      ],
+      "return_keys": [
+        "payload",
+        "pay_vector",
+        "pay_rotation",
+        "items",
+        "liquids",
+        "last_output_power",
+        "should_export",
+        "moved_in",
+        "payload_moved",
+        "payload_dumped",
+        "deconstructed",
+        "items_unloaded",
+        "liquids_unloaded"
+      ],
+      "tests": [
+        "test_c07_payload_unloader_update_tile_registration",
+        "test_all_c07_payload_unloader_update_tile_input_evidence_is_exact",
+        "test_payload_unloader_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderUpdateTileProof",
+      "rule": "Source-backed PayloadUnloader updateTile advance from PayloadUnloader.java / PayloadLoader.java / PayloadBlock.java / BuildingComp.java / Blocks.java / LiquidModule.java / ItemModule.java / Vars.java / Vec2.java."
     }
   }
 }

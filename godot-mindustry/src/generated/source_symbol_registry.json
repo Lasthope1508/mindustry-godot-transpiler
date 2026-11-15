@@ -175000,6 +175000,982 @@
         "test_reference_graph_and_actual_c07_regen_projector_update_tile"
       ],
       "runtime_proof": "/root/C07RegenProjectorUpdateTileProof"
+    },
+    "source_point_defense_turret_update_tile_advance_state_result.target": {
+      "status": "source-backed",
+      "godot_owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_update_tile_advance_state",
+      "godot_symbol": "source_point_defense_turret_update_tile_advance_state_result.target",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "java_method": "PointDefenseBuild.updateTile()",
+      "java_expr": "target = Groups.bullet.intersect(x - range, y - range, range*2, range*2).min(b -> b.team != team && b.type().hittable, b -> b.dst2(this));",
+      "rule": "The target after one tick (PointDefenseTurret.java:65-72): the retargeted closest hittable enemy bullet when the timer fired (null when no candidate qualifies -- Java assigns unconditionally), the kept target otherwise, null when the bullet is pooled (added false). The shot does NOT clear it (Java keeps the field set after target.remove(); the pooled clear nulls it next tick).",
+      "tests": [
+        "test_c07_point_defense_turret_update_tile_registration",
+        "test_all_c07_point_defense_turret_update_tile_input_evidence_is_exact",
+        "test_point_defense_turret_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_update_tile"
+      ],
+      "runtime_proof": "/root/C07PointDefenseUpdateTileProof"
+    },
+    "source_point_defense_turret_update_tile_advance_state_result.rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_update_tile_advance_state",
+      "godot_symbol": "source_point_defense_turret_update_tile_advance_state_result.rotation",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "java_method": "PointDefenseBuild.updateTile()",
+      "java_expr": "rotation = Angles.moveToward(rotation, dest, rotateSpeed * edelta());",
+      "rule": "The rotation after one tick (PointDefenseTurret.java:81): moveToward the target angle at rotateSpeed 20f * edelta() (Angles.java:38-39, snap when the angleDist is under the speed); unchanged when the look-at guard fails (no target / out of the strict within range / same team / null type / unhittable) or efficiency is 0.",
+      "tests": [
+        "test_c07_point_defense_turret_update_tile_registration",
+        "test_all_c07_point_defense_turret_update_tile_input_evidence_is_exact",
+        "test_point_defense_turret_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_update_tile"
+      ],
+      "runtime_proof": "/root/C07PointDefenseUpdateTileProof"
+    },
+    "source_point_defense_turret_update_tile_advance_state_result.reload_counter": {
+      "status": "source-backed",
+      "godot_owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_update_tile_advance_state",
+      "godot_symbol": "source_point_defense_turret_update_tile_advance_state_result.reload_counter",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "java_method": "PointDefenseBuild.updateTile()",
+      "java_expr": "reloadCounter += edelta();",
+      "rule": "The reloadCounter after one tick (PointDefenseTurret.java:74-82 + 101): the cooling charge first (updateCooling, ReloadTurret.java:28-41, when coolant is present and canReload and efficiency > 0), then += edelta() while looking at a target, reset to 0 when the shot fires.",
+      "tests": [
+        "test_c07_point_defense_turret_update_tile_registration",
+        "test_all_c07_point_defense_turret_update_tile_input_evidence_is_exact",
+        "test_point_defense_turret_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_update_tile"
+      ],
+      "runtime_proof": "/root/C07PointDefenseUpdateTileProof"
+    },
+    "source_point_defense_turret_update_tile_advance_state_result.target_damage_remaining": {
+      "status": "source-backed",
+      "godot_owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_update_tile_advance_state",
+      "godot_symbol": "source_point_defense_turret_update_tile_advance_state_result.target_damage_remaining",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "java_method": "PointDefenseBuild.updateTile()",
+      "java_expr": "target.damage(target.damage() - realDamage);",
+      "rule": "The bullet damage remaining after this tick's shot as a pure result (PointDefenseTurret.java:88-89): damage - realDamage when the bullet damage exceeds realDamage (bulletDamage * blockDamageMultiplier); null when no shot fired or the bullet was removed. The APPLICATION (target.damage writing into a live bullet frame) defers.",
+      "tests": [
+        "test_c07_point_defense_turret_update_tile_registration",
+        "test_all_c07_point_defense_turret_update_tile_input_evidence_is_exact",
+        "test_point_defense_turret_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_update_tile"
+      ],
+      "runtime_proof": "/root/C07PointDefenseUpdateTileProof"
+    },
+    "source_point_defense_turret_update_tile_advance_state_result.target_removed": {
+      "status": "source-backed",
+      "godot_owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_update_tile_advance_state",
+      "godot_symbol": "source_point_defense_turret_update_tile_advance_state_result.target_removed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "java_method": "PointDefenseBuild.updateTile()",
+      "java_expr": "target.remove();",
+      "rule": "Whether this tick's shot removed the bullet as a pure result (PointDefenseTurret.java:88-91): true exactly when the shot fired and the bullet damage did not exceed realDamage (the boundary is strict: damage == realDamage removes). The APPLICATION (target.remove() on the live bullet) defers.",
+      "tests": [
+        "test_c07_point_defense_turret_update_tile_registration",
+        "test_all_c07_point_defense_turret_update_tile_input_evidence_is_exact",
+        "test_point_defense_turret_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_update_tile"
+      ],
+      "runtime_proof": "/root/C07PointDefenseUpdateTileProof"
+    },
+    "source_point_defense_turret_update_tile_advance_state_result.fired": {
+      "status": "source-backed",
+      "godot_owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_update_tile_advance_state",
+      "godot_symbol": "source_point_defense_turret_update_tile_advance_state_result.fired",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "java_method": "PointDefenseBuild.updateTile()",
+      "java_expr": "if(Angles.within(rotation, dest, shootCone) && reloadCounter >= reload){",
+      "rule": "Whether this tick fired (PointDefenseTurret.java:85-86): true exactly when the look-at guard passed, the rotation is within the 5-degree shootCone of the target angle after the moveToward, and the reloadCounter reached the 8f reload; drives the reloadCounter reset (PointDefenseTurret.java:101).",
+      "tests": [
+        "test_c07_point_defense_turret_update_tile_registration",
+        "test_all_c07_point_defense_turret_update_tile_input_evidence_is_exact",
+        "test_point_defense_turret_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_update_tile"
+      ],
+      "runtime_proof": "/root/C07PointDefenseUpdateTileProof"
+    },
+    "source_tractor_beam_turret_update_tile_advance_state_result.target": {
+      "status": "source-backed",
+      "godot_owner": "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_update_tile_advance_state",
+      "godot_symbol": "source_tractor_beam_turret_update_tile_advance_state_result.target",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile()",
+      "java_expr": "target = Units.closestEnemy(team, x, y, range, u -> u.checkTarget(targetAir, targetGround));",
+      "rule": "The target after one tick (TractorBeamTurret.java:87-90): the closestEnemy selection when retarget_tick is true (null when no candidate qualifies, derelict team, or an empty list), otherwise the kept frame target; unchanged on the activation early return (TractorBeamTurret.java:79-82).",
+      "tests": [
+        "test_c07_tractor_beam_update_tile_registration",
+        "test_all_c07_tractor_beam_update_tile_input_evidence_is_exact",
+        "test_tractor_beam_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_tractor_beam_update_tile"
+      ],
+      "runtime_proof": "/root/C07TractorBeamUpdateTileProof"
+    },
+    "source_tractor_beam_turret_update_tile_advance_state_result.activation_timer": {
+      "status": "source-backed",
+      "godot_owner": "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_update_tile_advance_state",
+      "godot_symbol": "source_tractor_beam_turret_update_tile_advance_state_result.activation_timer",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile()",
+      "java_expr": "activationTimer -= Time.delta;",
+      "rule": "The activation timer after one tick (TractorBeamTurret.java:79-82): decremented by Time.delta when above 0 (no clamp -- it can go negative, and the next tick proceeds), unchanged otherwise. activationTime is 0f (BaseTurret.java:27), so it never fires for parallax, but the branch is modeled.",
+      "tests": [
+        "test_c07_tractor_beam_update_tile_registration",
+        "test_all_c07_tractor_beam_update_tile_input_evidence_is_exact",
+        "test_tractor_beam_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_tractor_beam_update_tile"
+      ],
+      "runtime_proof": "/root/C07TractorBeamUpdateTileProof"
+    },
+    "source_tractor_beam_turret_update_tile_advance_state_result.coolant_multiplier": {
+      "status": "source-backed",
+      "godot_owner": "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_update_tile_advance_state",
+      "godot_symbol": "source_tractor_beam_turret_update_tile_advance_state_result.coolant_multiplier",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile()",
+      "java_expr": "coolantMultiplier = 1f + (used * liquid.heatCapacity * coolantMultiplier);",
+      "rule": "The build coolant multiplier after one tick (TractorBeamTurret.java:105): 1f + used * heatCapacity * multiplier when the coolant branch runs (target non-null and coolant present); unchanged otherwise. The formula itself yields 1f when used is 0 -- there is no separate reset anywhere in core/src (grep).",
+      "tests": [
+        "test_c07_tractor_beam_update_tile_registration",
+        "test_all_c07_tractor_beam_update_tile_input_evidence_is_exact",
+        "test_tractor_beam_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_tractor_beam_update_tile"
+      ],
+      "runtime_proof": "/root/C07TractorBeamUpdateTileProof"
+    },
+    "source_tractor_beam_turret_update_tile_advance_state_result.coolant_used": {
+      "status": "source-backed",
+      "godot_owner": "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_update_tile_advance_state",
+      "godot_symbol": "source_tractor_beam_turret_update_tile_advance_state_result.coolant_used",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile()",
+      "java_expr": "liquids.remove(liquid, used);",
+      "rule": "The coolant amount removed this tick as a pure result (TractorBeamTurret.java:99): min(min(held, maxUsed * Time.delta), max(0, (1f / coolantMultiplier) / heatCapacity)); 0.0 when the coolant branch does not run. The frame carries no liquids store, so nothing is written back live.",
+      "tests": [
+        "test_c07_tractor_beam_update_tile_registration",
+        "test_all_c07_tractor_beam_update_tile_input_evidence_is_exact",
+        "test_tractor_beam_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_tractor_beam_update_tile"
+      ],
+      "runtime_proof": "/root/C07TractorBeamUpdateTileProof"
+    },
+    "source_tractor_beam_turret_update_tile_advance_state_result.rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_update_tile_advance_state",
+      "godot_symbol": "source_tractor_beam_turret_update_tile_advance_state_result.rotation",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile()",
+      "java_expr": "rotation = Angles.moveToward(rotation, dest, rotateSpeed * edelta);",
+      "rule": "The rotation after one tick (TractorBeamTurret.java:117): moveToward toward the target angle at rotateSpeed * edelta (rotateSpeed 12 for parallax, Blocks.java:3651; edelta = efficiency * coolantMultiplier * Time.delta * timeScale, TractorBeamTurret.java:84); unchanged when the look-at guard fails or on the activation early return.",
+      "tests": [
+        "test_c07_tractor_beam_update_tile_registration",
+        "test_all_c07_tractor_beam_update_tile_input_evidence_is_exact",
+        "test_tractor_beam_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_tractor_beam_update_tile"
+      ],
+      "runtime_proof": "/root/C07TractorBeamUpdateTileProof"
+    },
+    "source_tractor_beam_turret_update_tile_advance_state_result.strength": {
+      "status": "source-backed",
+      "godot_owner": "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_update_tile_advance_state",
+      "godot_symbol": "source_tractor_beam_turret_update_tile_advance_state_result.strength",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile()",
+      "java_expr": "strength = Mathf.lerpDelta(strength, 1f, 0.1f);",
+      "rule": "The strength after one tick: lerpDelta toward 1f at 0.1f when the look-at guard holds (TractorBeamTurret.java:120), toward 0f at 0.1f otherwise (TractorBeamTurret.java:135); unchanged on the activation early return. lerpDelta multiplies the progress by Time.delta once more (Mathf.java:430-432).",
+      "tests": [
+        "test_c07_tractor_beam_update_tile_registration",
+        "test_all_c07_tractor_beam_update_tile_input_evidence_is_exact",
+        "test_tractor_beam_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_tractor_beam_update_tile"
+      ],
+      "runtime_proof": "/root/C07TractorBeamUpdateTileProof"
+    },
+    "source_tractor_beam_turret_update_tile_advance_state_result.last_target_position": {
+      "status": "source-backed",
+      "godot_owner": "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_update_tile_advance_state",
+      "godot_symbol": "source_tractor_beam_turret_update_tile_advance_state_result.last_target_position",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile()",
+      "java_expr": "lastX = target.x;",
+      "rule": "The last target position after one tick (TractorBeamTurret.java:118-119, lastX = target.x; lastY = target.y;): the target position when the look-at guard holds, unchanged otherwise. Stored as {\"x\", \"y\"}.",
+      "tests": [
+        "test_c07_tractor_beam_update_tile_registration",
+        "test_all_c07_tractor_beam_update_tile_input_evidence_is_exact",
+        "test_tractor_beam_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_tractor_beam_update_tile"
+      ],
+      "runtime_proof": "/root/C07TractorBeamUpdateTileProof"
+    },
+    "source_tractor_beam_turret_update_tile_advance_state_result.damage_dealt": {
+      "status": "source-backed",
+      "godot_owner": "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_update_tile_advance_state",
+      "godot_symbol": "source_tractor_beam_turret_update_tile_advance_state_result.damage_dealt",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile()",
+      "java_expr": "target.damageContinuousPierce(damage * eff * timeScale * state.rules.blockDamage(team));",
+      "rule": "The damage dealt this tick as a pure result (TractorBeamTurret.java:125): damage * eff * timeScale * blockDamage(team) with damage 0.5f for parallax (Blocks.java:3649) and eff = efficiency * coolantMultiplier (the INCOMING multiplier, computed at :84 before the coolant branch); 0.0 when not shooting. The APPLICATION (damageContinuousPierce writing into another unit) defers.",
+      "tests": [
+        "test_c07_tractor_beam_update_tile_registration",
+        "test_all_c07_tractor_beam_update_tile_input_evidence_is_exact",
+        "test_tractor_beam_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_tractor_beam_update_tile"
+      ],
+      "runtime_proof": "/root/C07TractorBeamUpdateTileProof"
+    },
+    "source_tractor_beam_turret_update_tile_advance_state_result.status_applied": {
+      "status": "source-backed",
+      "godot_owner": "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_update_tile_advance_state",
+      "godot_symbol": "source_tractor_beam_turret_update_tile_advance_state_result.status_applied",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile()",
+      "java_expr": "target.apply(status, statusDuration);",
+      "rule": "Whether the status was applied this tick as a pure result (TractorBeamTurret.java:128-130): true exactly when shooting and status_present is true; always false for parallax (status is none). The APPLICATION (target.apply writing into another unit) defers.",
+      "tests": [
+        "test_c07_tractor_beam_update_tile_registration",
+        "test_all_c07_tractor_beam_update_tile_input_evidence_is_exact",
+        "test_tractor_beam_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_tractor_beam_update_tile"
+      ],
+      "runtime_proof": "/root/C07TractorBeamUpdateTileProof"
+    },
+    "source_tractor_beam_turret_update_tile_advance_state_result.impulse": {
+      "status": "source-backed",
+      "godot_owner": "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_update_tile_advance_state",
+      "godot_symbol": "source_tractor_beam_turret_update_tile_advance_state_result.impulse",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile()",
+      "java_expr": "target.impulseNet(Tmp.v1.set(this).sub(target).limit((force + (1f - target.dst(this) / range) * scaledForce) * edelta));",
+      "rule": "The impulse vector this tick as a pure result (TractorBeamTurret.java:132): (building - target), i.e. FROM the target TOWARD the building, limited to (force + (1f - dst / range) * scaledForce) * edelta with force 16f / scaledForce 9f / range 300f for parallax; Vec2.limit clamps the length to AT MOST the limit (Vec2.java:274-285), it does not set it. Stored as {\"x\", \"y\"}; (0, 0) when not shooting. The APPLICATION (impulseNet writing into another unit) defers.",
+      "tests": [
+        "test_c07_tractor_beam_update_tile_registration",
+        "test_all_c07_tractor_beam_update_tile_input_evidence_is_exact",
+        "test_tractor_beam_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_tractor_beam_update_tile"
+      ],
+      "runtime_proof": "/root/C07TractorBeamUpdateTileProof"
+    },
+    "source_tractor_beam_turret_update_tile_advance_state_result.any": {
+      "status": "source-backed",
+      "godot_owner": "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_update_tile_advance_state",
+      "godot_symbol": "source_tractor_beam_turret_update_tile_advance_state_result.any",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile()",
+      "java_expr": "any = true;",
+      "rule": "Whether the beam shot this tick (TractorBeamTurret.java:108/:131): false at the any reset, true exactly when the look-at guard holds and the rotation is within the shoot cone; unchanged (the previous frame value) on the activation early return, which returns before the reset.",
+      "tests": [
+        "test_c07_tractor_beam_update_tile_registration",
+        "test_all_c07_tractor_beam_update_tile_input_evidence_is_exact",
+        "test_tractor_beam_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_tractor_beam_update_tile"
+      ],
+      "runtime_proof": "/root/C07TractorBeamUpdateTileProof"
+    },
+    "source_payload_loader_update_tile_advance_state_result.should_export": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state",
+      "godot_symbol": "source_payload_loader_update_tile_advance_state_result.should_export",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+      "java_method": "PayloadLoaderBuild.updateTile()",
+      "java_expr": "public boolean shouldExport(){",
+      "rule": "Whether the payload should export this tick (PayloadLoader.java:227-233): payload != null && (exporting || liquids-full || separate-items-full || battery-full), evaluated on the tick-start state before moveIn/moveOut.",
+      "tests": [
+        "test_c07_payload_loader_update_tile_registration",
+        "test_all_c07_payload_loader_update_tile_input_evidence_is_exact",
+        "test_payload_loader_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_loader_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderUpdateTileProof"
+    },
+    "source_payload_loader_update_tile_advance_state_result.has_arrived": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state",
+      "godot_symbol": "source_payload_loader_update_tile_advance_state_result.has_arrived",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_method": "PayloadLoaderBuild.updateTile()",
+      "java_expr": "return hasArrived();",
+      "rule": "Whether moveInPayload returned true (PayloadBlock.java:196): payVector.isZero(0.01f), i.e. len2 < 0.01 (arc Vec2.java:679-681); false when there is no payload or shouldExport took the moveOut branch.",
+      "tests": [
+        "test_c07_payload_loader_update_tile_registration",
+        "test_all_c07_payload_loader_update_tile_input_evidence_is_exact",
+        "test_payload_loader_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_loader_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderUpdateTileProof"
+    },
+    "source_payload_loader_update_tile_advance_state_result.exporting": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state",
+      "godot_symbol": "source_payload_loader_update_tile_advance_state_result.exporting",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+      "java_method": "PayloadLoaderBuild.updateTile()",
+      "java_expr": "exporting = true;",
+      "rule": "The advanced exporting flag (PayloadLoader.java:87): set when an item load is rejected with separateItemCapacity / consumesItem, when no item was accepted on a load tick, when a liquid load is rejected, or when the battery fills.",
+      "tests": [
+        "test_c07_payload_loader_update_tile_registration",
+        "test_all_c07_payload_loader_update_tile_input_evidence_is_exact",
+        "test_payload_loader_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_loader_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderUpdateTileProof"
+    },
+    "source_payload_loader_update_tile_advance_state_result.pay_vector": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state",
+      "godot_symbol": "source_payload_loader_update_tile_advance_state_result.pay_vector",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_method": "PayloadLoaderBuild.updateTile()",
+      "java_expr": "payVector.approach(Vec2.ZERO, payloadSpeed * delta());",
+      "rule": "The advanced payVector {x, y} (PayloadBlock.java:194/207): approached toward Vec2.ZERO by payloadSpeed * delta() on moveIn, toward the front dest on moveOut (via the reused helper).",
+      "tests": [
+        "test_c07_payload_loader_update_tile_registration",
+        "test_all_c07_payload_loader_update_tile_input_evidence_is_exact",
+        "test_payload_loader_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_loader_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderUpdateTileProof"
+    },
+    "source_payload_loader_update_tile_advance_state_result.pay_rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state",
+      "godot_symbol": "source_payload_loader_update_tile_advance_state_result.pay_rotation",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_method": "PayloadLoaderBuild.updateTile()",
+      "java_expr": "payRotation = Angles.moveToward(payRotation, block.rotate ? rotdeg() : 90f, payloadRotateSpeed * delta());",
+      "rule": "The advanced payRotation (PayloadBlock.java:192/206): moved toward rotdeg() (PayloadLoader rotates) by payloadRotateSpeed * delta() on both branches.",
+      "tests": [
+        "test_c07_payload_loader_update_tile_registration",
+        "test_all_c07_payload_loader_update_tile_input_evidence_is_exact",
+        "test_payload_loader_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_loader_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderUpdateTileProof"
+    },
+    "source_payload_loader_update_tile_advance_state_result.items": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state",
+      "godot_symbol": "source_payload_loader_update_tile_advance_state_result.items",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+      "java_method": "PayloadLoaderBuild.updateTile()",
+      "java_expr": "items.remove(item, 1);",
+      "rule": "The loader items after the load loop (PayloadLoader.java:166): one unit removed per accepted item, up to itemsLoaded (8) per load tick, scanned in content-id order.",
+      "tests": [
+        "test_c07_payload_loader_update_tile_registration",
+        "test_all_c07_payload_loader_update_tile_input_evidence_is_exact",
+        "test_payload_loader_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_loader_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderUpdateTileProof"
+    },
+    "source_payload_loader_update_tile_advance_state_result.liquids": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state",
+      "godot_symbol": "source_payload_loader_update_tile_advance_state_result.liquids",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+      "java_method": "PayloadLoaderBuild.updateTile()",
+      "java_expr": "liquids.remove(liq, flow);",
+      "rule": "The loader LiquidModule dict after the liquid load (PayloadLoader.java:192): the flow removed through the shared module helper (which caps the removal at the held amount, LiquidModule.java:126-128), mutated in place like the Fracker advance.",
+      "tests": [
+        "test_c07_payload_loader_update_tile_registration",
+        "test_all_c07_payload_loader_update_tile_input_evidence_is_exact",
+        "test_payload_loader_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_loader_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderUpdateTileProof"
+    },
+    "source_payload_loader_update_tile_advance_state_result.payload": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state",
+      "godot_symbol": "source_payload_loader_update_tile_advance_state_result.payload",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_method": "PayloadLoaderBuild.updateTile()",
+      "java_expr": "payload = null;",
+      "rule": "The payload dict after the tick (PayloadBlock.java:147/221): the updated build items/liquids/power_status, or null when moveOut handed it to the front build (movePayload success at arrival).",
+      "tests": [
+        "test_c07_payload_loader_update_tile_registration",
+        "test_all_c07_payload_loader_update_tile_input_evidence_is_exact",
+        "test_payload_loader_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_loader_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderUpdateTileProof"
+    },
+    "source_payload_loader_update_tile_advance_state_result.payload_moved": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state",
+      "godot_symbol": "source_payload_loader_update_tile_advance_state_result.payload_moved",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_method": "PayloadLoaderBuild.updateTile()",
+      "java_expr": "if(movePayload(payload)){",
+      "rule": "Whether moveOut handed the payload to the front build this tick (PayloadBlock.java:220-222): arrived && canMove && movePayload succeeded; the payload clears.",
+      "tests": [
+        "test_c07_payload_loader_update_tile_registration",
+        "test_all_c07_payload_loader_update_tile_input_evidence_is_exact",
+        "test_payload_loader_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_loader_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderUpdateTileProof"
+    },
+    "source_payload_loader_update_tile_advance_state_result.payload_dumped": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state",
+      "godot_symbol": "source_payload_loader_update_tile_advance_state_result.payload_dumped",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_method": "PayloadLoaderBuild.updateTile()",
+      "java_expr": "dumpPayload();",
+      "rule": "Whether moveOut dumped the payload this tick (PayloadBlock.java:223): arrived && !canMove && canDump; the payload stays present (dumpPayload clears only when payload.dump() succeeds, PayloadBlock.java:230-241, and the port has no live dump).",
+      "tests": [
+        "test_c07_payload_loader_update_tile_registration",
+        "test_all_c07_payload_loader_update_tile_input_evidence_is_exact",
+        "test_payload_loader_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_loader_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderUpdateTileProof"
+    },
+    "source_payload_loader_update_tile_advance_state_result.liquid_flow": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state",
+      "godot_symbol": "source_payload_loader_update_tile_advance_state_result.liquid_flow",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+      "java_method": "PayloadLoaderBuild.updateTile()",
+      "java_expr": "float flow = Math.min(Math.min(liquidsLoaded * edelta(), payload.block().liquidCapacity - payload.build.liquids.get(liq)), total);",
+      "rule": "The liquid flow this tick (PayloadLoader.java:187): min(min(liquidsLoaded * edelta(), payload liquidCapacity - payload held), loader total); 0 when the liquid branch did not run or the payload rejected.",
+      "tests": [
+        "test_c07_payload_loader_update_tile_registration",
+        "test_all_c07_payload_loader_update_tile_input_evidence_is_exact",
+        "test_payload_loader_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_loader_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderUpdateTileProof"
+    },
+    "source_payload_loader_update_tile_advance_state_result.power_charged": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state",
+      "godot_symbol": "source_payload_loader_update_tile_advance_state_result.power_charged",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+      "java_method": "PayloadLoaderBuild.updateTile()",
+      "java_expr": "payload.build.power.status += availableInput / cap * edelta();",
+      "rule": "The battery status gained this tick (PayloadLoader.java:208): availableInput / cap * edelta(), where availableInput = max(power.status * (basePowerUse + maxPowerConsumption) - basePowerUse, 0); 0 when there is no battery.",
+      "tests": [
+        "test_c07_payload_loader_update_tile_registration",
+        "test_all_c07_payload_loader_update_tile_input_evidence_is_exact",
+        "test_payload_loader_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_loader_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderUpdateTileProof"
+    },
+    "source_payload_loader_update_tile_advance_state_result.items_loaded": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state",
+      "godot_symbol": "source_payload_loader_update_tile_advance_state_result.items_loaded",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+      "java_method": "PayloadLoaderBuild.updateTile()",
+      "java_expr": "payload.build.handleItem(payload.build, item);",
+      "rule": "How many items moved into the payload this tick (PayloadLoader.java:165, handleItem adds 1, BuildingComp.java:860-862): 0 when the load tick did not fire or nothing was accepted.",
+      "tests": [
+        "test_c07_payload_loader_update_tile_registration",
+        "test_all_c07_payload_loader_update_tile_input_evidence_is_exact",
+        "test_payload_loader_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_loader_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderUpdateTileProof"
+    },
+    "source_payload_loader_update_tile_advance_state_result.pushed_output_fraction": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state",
+      "godot_symbol": "source_payload_loader_update_tile_advance_state_result.pushed_output_fraction",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_method": "PayloadLoaderBuild.updateTile()",
+      "java_expr": "pushOutput(payload, 1f - (payVector.dst(dest) / (size * tilesize / 2f)));",
+      "rule": "The pushOutput progress fraction this tick (PayloadBlock.java:214): 1 - (payVector.dst(dest) / (size * tilesize / 2f)) when canDump && !canMove, null otherwise (the unit push itself defers -- no live units).",
+      "tests": [
+        "test_c07_payload_loader_update_tile_registration",
+        "test_all_c07_payload_loader_update_tile_input_evidence_is_exact",
+        "test_payload_loader_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_loader_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderUpdateTileProof"
+    },
+    "source_payload_unloader_update_tile_advance_state_result.payload": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_update_tile_advance_state",
+      "godot_symbol": "source_payload_unloader_update_tile_advance_state_result.payload",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+      "java_method": "PayloadUnloaderBuild.updateTile()",
+      "java_expr": "payload = null;",
+      "rule": "The held payload after the tick (PayloadUnloader.java:59/61): null when the instant-deconstruct clear fired or moveOutPayload moved it into the front building; otherwise the (possibly unloaded) payload dict. The payload dict contract is defined in the driver: block flags + build items / liquids module state / power_status.",
+      "tests": [
+        "test_c07_payload_unloader_update_tile_registration",
+        "test_all_c07_payload_unloader_update_tile_input_evidence_is_exact",
+        "test_payload_unloader_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderUpdateTileProof"
+    },
+    "source_payload_unloader_update_tile_advance_state_result.pay_vector": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_update_tile_advance_state",
+      "godot_symbol": "source_payload_unloader_update_tile_advance_state_result.pay_vector",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_method": "PayloadUnloaderBuild.updateTile()",
+      "java_expr": "payVector.approach(Vec2.ZERO, payloadSpeed * delta());",
+      "rule": "The payload offset after the tick (PayloadBlock.java:194/207): approached toward the center by moveInPayload or toward the front dest by moveOutPayload, at payloadSpeed * delta() per tick (PayloadBlock.java:18, 0.7f). Stored as {x, y}.",
+      "tests": [
+        "test_c07_payload_unloader_update_tile_registration",
+        "test_all_c07_payload_unloader_update_tile_input_evidence_is_exact",
+        "test_payload_unloader_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderUpdateTileProof"
+    },
+    "source_payload_unloader_update_tile_advance_state_result.pay_rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_update_tile_advance_state",
+      "godot_symbol": "source_payload_unloader_update_tile_advance_state_result.pay_rotation",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_method": "PayloadUnloaderBuild.updateTile()",
+      "java_expr": "payRotation = Angles.moveToward(payRotation, block.rotate ? rotdeg() : 90f, payloadRotateSpeed * delta());",
+      "rule": "The payload rotation after the tick (PayloadBlock.java:192/206): moved toward rotdeg() (block.rotate is true for PayloadLoader, PayloadLoader.java:45) at payloadRotateSpeed * delta() per tick (PayloadBlock.java:18, 5f).",
+      "tests": [
+        "test_c07_payload_unloader_update_tile_registration",
+        "test_all_c07_payload_unloader_update_tile_input_evidence_is_exact",
+        "test_payload_unloader_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderUpdateTileProof"
+    },
+    "source_payload_unloader_update_tile_advance_state_result.items": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_update_tile_advance_state",
+      "godot_symbol": "source_payload_unloader_update_tile_advance_state_result.items",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+      "java_method": "PayloadUnloaderBuild.updateTile()",
+      "java_expr": "items.add(item, 1);",
+      "rule": "The own items after the unload (PayloadUnloader.java:76): up to itemsLoaded (8) items per timer tick, taken from the payload build in content-id order while !full() (PayloadUnloader.java:112-114, items.total() >= itemCapacity 100). Keyed by item name (the factory precedent).",
+      "tests": [
+        "test_c07_payload_unloader_update_tile_registration",
+        "test_all_c07_payload_unloader_update_tile_input_evidence_is_exact",
+        "test_payload_unloader_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderUpdateTileProof"
+    },
+    "source_payload_unloader_update_tile_advance_state_result.liquids": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_update_tile_advance_state",
+      "godot_symbol": "source_payload_unloader_update_tile_advance_state_result.liquids",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+      "java_method": "PayloadUnloaderBuild.updateTile()",
+      "java_expr": "liquids.add(liq, flow);",
+      "rule": "The own liquids module state after the unload (PayloadUnloader.java:89): the payload current liquid added by flow = min(min(liquidsLoaded * edelta(), remaining), payload amount) (PayloadUnloader.java:87), in the SourceLiquidModuleState shape (amounts array by liquid id + current id).",
+      "tests": [
+        "test_c07_payload_unloader_update_tile_registration",
+        "test_all_c07_payload_unloader_update_tile_input_evidence_is_exact",
+        "test_payload_unloader_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderUpdateTileProof"
+    },
+    "source_payload_unloader_update_tile_advance_state_result.last_output_power": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_update_tile_advance_state",
+      "godot_symbol": "source_payload_unloader_update_tile_advance_state_result.last_output_power",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+      "java_method": "PayloadUnloaderBuild.updateTile()",
+      "java_expr": "lastOutputPower = unloaded;",
+      "rule": "The battery power unloaded this tick (PayloadUnloader.java:98): min(maxPowerUnload * edelta(), payload power status * cap), 0f when the tick unloads no battery (reset at PayloadUnloader.java:54). This IS the power production (getPowerProduction returns it, PayloadUnloader.java:44-47); the graph wiring waits for its own slice.",
+      "tests": [
+        "test_c07_payload_unloader_update_tile_registration",
+        "test_all_c07_payload_unloader_update_tile_input_evidence_is_exact",
+        "test_payload_unloader_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderUpdateTileProof"
+    },
+    "source_payload_unloader_update_tile_advance_state_result.should_export": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_update_tile_advance_state",
+      "godot_symbol": "source_payload_unloader_update_tile_advance_state_result.should_export",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+      "java_method": "PayloadUnloaderBuild.updateTile()",
+      "java_expr": "return payload != null && (",
+      "rule": "The shouldExport gate (PayloadUnloader.java:116-122): payload != null and the payload items empty (or no items) and the payload liquids <= 0.011f (or no liquids) and the payload battery status <= 0.0000001f (or no battery). True means the tick exports instead of unloading.",
+      "tests": [
+        "test_c07_payload_unloader_update_tile_registration",
+        "test_all_c07_payload_unloader_update_tile_input_evidence_is_exact",
+        "test_payload_unloader_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderUpdateTileProof"
+    },
+    "source_payload_unloader_update_tile_advance_state_result.moved_in": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_update_tile_advance_state",
+      "godot_symbol": "source_payload_unloader_update_tile_advance_state_result.moved_in",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_method": "PayloadUnloaderBuild.updateTile()",
+      "java_expr": "return payVector.isZero(0.01f);",
+      "rule": "Whether moveInPayload arrived this tick (PayloadBlock.java:240-243): payVector.isZero(0.01f), i.e. len2() < 0.01 (the Arc quirk, Vec2.java:679-681, NOT margin squared). Only an arrived payload unloads.",
+      "tests": [
+        "test_c07_payload_unloader_update_tile_registration",
+        "test_all_c07_payload_unloader_update_tile_input_evidence_is_exact",
+        "test_payload_unloader_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderUpdateTileProof"
+    },
+    "source_payload_unloader_update_tile_advance_state_result.payload_moved": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_update_tile_advance_state",
+      "godot_symbol": "source_payload_unloader_update_tile_advance_state_result.payload_moved",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_method": "PayloadUnloaderBuild.updateTile()",
+      "java_expr": "if(movePayload(payload)){",
+      "rule": "Whether moveOutPayload moved the payload into the front building this tick (PayloadBlock.java:220-222): arrived at the dest with canMove and the movePayload result true, so the payload cleared. The movePayload application itself defers; the helper reports the outcome.",
+      "tests": [
+        "test_c07_payload_unloader_update_tile_registration",
+        "test_all_c07_payload_unloader_update_tile_input_evidence_is_exact",
+        "test_payload_unloader_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderUpdateTileProof"
+    },
+    "source_payload_unloader_update_tile_advance_state_result.payload_dumped": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_update_tile_advance_state",
+      "godot_symbol": "source_payload_unloader_update_tile_advance_state_result.payload_dumped",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_method": "PayloadUnloaderBuild.updateTile()",
+      "java_expr": "dumpPayload();",
+      "rule": "Whether moveOutPayload called dumpPayload this tick (PayloadBlock.java:223-225): arrived at the dest with canDump and no canMove. The dump application defers (payload.dump() needs a live payload), so the payload stays on the frame.",
+      "tests": [
+        "test_c07_payload_unloader_update_tile_registration",
+        "test_all_c07_payload_unloader_update_tile_input_evidence_is_exact",
+        "test_payload_unloader_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderUpdateTileProof"
+    },
+    "source_payload_unloader_update_tile_advance_state_result.deconstructed": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_update_tile_advance_state",
+      "godot_symbol": "source_payload_unloader_update_tile_advance_state_result.deconstructed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+      "java_method": "PayloadUnloaderBuild.updateTile()",
+      "java_expr": "payload.block().breakEffect.at(this, payload.block().size);",
+      "rule": "Whether the instant-deconstruct branch fired this tick (PayloadUnloader.java:57-59): shouldExport with a payload block whose instantDeconstruct flag is set. The breakEffect presentation defers; the payload = null clear IS modeled.",
+      "tests": [
+        "test_c07_payload_unloader_update_tile_registration",
+        "test_all_c07_payload_unloader_update_tile_input_evidence_is_exact",
+        "test_payload_unloader_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderUpdateTileProof"
+    },
+    "source_payload_unloader_update_tile_advance_state_result.items_unloaded": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_update_tile_advance_state",
+      "godot_symbol": "source_payload_unloader_update_tile_advance_state_result.items_unloaded",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+      "java_method": "PayloadUnloaderBuild.updateTile()",
+      "java_expr": "payload.build.items.remove(item, 1);",
+      "rule": "How many items left the payload build this tick (PayloadUnloader.java:75): 0 when the timer did not fire, efficiency <= 0.01f, the payload holds no listed item, or the own items are full.",
+      "tests": [
+        "test_c07_payload_unloader_update_tile_registration",
+        "test_all_c07_payload_unloader_update_tile_input_evidence_is_exact",
+        "test_payload_unloader_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderUpdateTileProof"
+    },
+    "source_payload_unloader_update_tile_advance_state_result.liquids_unloaded": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_update_tile_advance_state",
+      "godot_symbol": "source_payload_unloader_update_tile_advance_state_result.liquids_unloaded",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+      "java_method": "PayloadUnloaderBuild.updateTile()",
+      "java_expr": "float flow = Math.min(Math.min(liquidsLoaded * edelta(), remaining), payload.build.liquids.currentAmount());",
+      "rule": "How much liquid left the payload build this tick (PayloadUnloader.java:87-90): the flow folded from liquidsLoaded * edelta(), the remaining own capacity, and the payload current amount; 0.0 when the guard fails (payload amount < 0.01f, or a mismatched current with own amount > 0.2f).",
+      "tests": [
+        "test_c07_payload_unloader_update_tile_registration",
+        "test_all_c07_payload_unloader_update_tile_input_evidence_is_exact",
+        "test_payload_unloader_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderUpdateTileProof"
+    },
+    "source_payload_deconstructor_update_tile_advance_state_result.progress": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_update_tile_advance_state",
+      "godot_symbol": "source_payload_deconstructor_update_tile_advance_state_result.progress",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "java_method": "PayloadDeconstructorBuild.updateTile()",
+      "java_expr": "progress += shift;",
+      "rule": "The advanced progress (PayloadDeconstructor.java:117-119, 159, 201): 0f with no deconstructing payload, + shift (NOT realShift, so it can pass 1f) while deconstructing, 0f again when the intake starts a new payload.",
+      "tests": [
+        "test_c07_payload_deconstructor_update_tile_registration",
+        "test_all_c07_payload_deconstructor_update_tile_input_evidence_is_exact",
+        "test_payload_deconstructor_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorUpdateTileProof"
+    },
+    "source_payload_deconstructor_update_tile_advance_state_result.time": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_update_tile_advance_state",
+      "godot_symbol": "source_payload_deconstructor_update_tile_advance_state_result.time",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "java_method": "PayloadDeconstructorBuild.updateTile()",
+      "java_expr": "time += edelta();",
+      "rule": "The advanced deconstruction time (PayloadDeconstructor.java:160): + edelta() on every tick the deconstruct branch can progress.",
+      "tests": [
+        "test_c07_payload_deconstructor_update_tile_registration",
+        "test_all_c07_payload_deconstructor_update_tile_input_evidence_is_exact",
+        "test_payload_deconstructor_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorUpdateTileProof"
+    },
+    "source_payload_deconstructor_update_tile_advance_state_result.speed_scl": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_update_tile_advance_state",
+      "godot_symbol": "source_payload_deconstructor_update_tile_advance_state_result.speed_scl",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "java_method": "PayloadDeconstructorBuild.updateTile()",
+      "java_expr": "speedScl = Mathf.lerpDelta(speedScl, canProgress ? 1f : 0f, 0.1f);",
+      "rule": "The advanced speed scale (PayloadDeconstructor.java:167): lerpDelta toward 1f while canProgress, toward 0f otherwise, at 0.1f scaled by Time.delta.",
+      "tests": [
+        "test_c07_payload_deconstructor_update_tile_registration",
+        "test_all_c07_payload_deconstructor_update_tile_input_evidence_is_exact",
+        "test_payload_deconstructor_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorUpdateTileProof"
+    },
+    "source_payload_deconstructor_update_tile_advance_state_result.accum": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_update_tile_advance_state",
+      "godot_symbol": "source_payload_deconstructor_update_tile_advance_state_result.accum",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "java_method": "PayloadDeconstructorBuild.updateTile()",
+      "java_expr": "accum[i] += reqs[i].amount * (deconstructing instanceof BuildPayload ? state.rules.buildCostMultiplier : state.rules.unitCost(team)) * realShift;",
+      "rule": "The accumulation buffer after the tick (PayloadDeconstructor.java:126-128, 163-165, 170-176, 182-189, 194, 198): resized to the requirements length, folded by amount * cost multiplier * realShift, drained by whole-item transfers and the rounding check, null on finish or fresh zeros on intake.",
+      "tests": [
+        "test_c07_payload_deconstructor_update_tile_registration",
+        "test_all_c07_payload_deconstructor_update_tile_input_evidence_is_exact",
+        "test_payload_deconstructor_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorUpdateTileProof"
+    },
+    "source_payload_deconstructor_update_tile_advance_state_result.items": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_update_tile_advance_state",
+      "godot_symbol": "source_payload_deconstructor_update_tile_advance_state_result.items",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "java_method": "PayloadDeconstructorBuild.updateTile()",
+      "java_expr": "items.add(reqs[i].item, taken);",
+      "rule": "The items after the tick (PayloadDeconstructor.java:170-176, 184-187): whole taken amounts transferred from accum, plus 1 per requirement that hits the rounding check at finish.",
+      "tests": [
+        "test_c07_payload_deconstructor_update_tile_registration",
+        "test_all_c07_payload_deconstructor_update_tile_input_evidence_is_exact",
+        "test_payload_deconstructor_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorUpdateTileProof"
+    },
+    "source_payload_deconstructor_update_tile_advance_state_result.deconstructing": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_update_tile_advance_state",
+      "godot_symbol": "source_payload_deconstructor_update_tile_advance_state_result.deconstructing",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "java_method": "PayloadDeconstructorBuild.updateTile()",
+      "java_expr": "deconstructing = null;",
+      "rule": "The payload being deconstructed after the tick (PayloadDeconstructor.java:193, 199): null when the finish branch clears it, the intake payload when moveInPayload succeeds, unchanged otherwise.",
+      "tests": [
+        "test_c07_payload_deconstructor_update_tile_registration",
+        "test_all_c07_payload_deconstructor_update_tile_input_evidence_is_exact",
+        "test_payload_deconstructor_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorUpdateTileProof"
+    },
+    "source_payload_deconstructor_update_tile_advance_state_result.payload": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_update_tile_advance_state",
+      "godot_symbol": "source_payload_deconstructor_update_tile_advance_state_result.payload",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "java_method": "PayloadDeconstructorBuild.updateTile()",
+      "java_expr": "payload = null;",
+      "rule": "The held payload after the tick (PayloadDeconstructor.java:200): null once the intake moves it into deconstructing, unchanged otherwise (no live fill sets it yet).",
+      "tests": [
+        "test_c07_payload_deconstructor_update_tile_registration",
+        "test_all_c07_payload_deconstructor_update_tile_input_evidence_is_exact",
+        "test_payload_deconstructor_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorUpdateTileProof"
+    },
+    "source_payload_deconstructor_update_tile_advance_state_result.pay_vector": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_update_tile_advance_state",
+      "godot_symbol": "source_payload_deconstructor_update_tile_advance_state_result.pay_vector",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_method": "PayloadDeconstructorBuild.updateTile()",
+      "java_expr": "payVector.approach(Vec2.ZERO, payloadSpeed * delta());",
+      "rule": "The payload offset after the tick (PayloadBlock.java:194): approached toward zero at payloadSpeed * delta() by the moveInPayload intake (deconstructor payloadSpeed 1f, PayloadDeconstructor.java:31); unchanged while deconstructing.",
+      "tests": [
+        "test_c07_payload_deconstructor_update_tile_registration",
+        "test_all_c07_payload_deconstructor_update_tile_input_evidence_is_exact",
+        "test_payload_deconstructor_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorUpdateTileProof"
+    },
+    "source_payload_deconstructor_update_tile_advance_state_result.pay_rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_update_tile_advance_state",
+      "godot_symbol": "source_payload_deconstructor_update_tile_advance_state_result.pay_rotation",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "java_method": "PayloadDeconstructorBuild.updateTile()",
+      "java_expr": "payRotation = Angles.moveToward(payRotation, 90f, payloadRotateSpeed * edelta());",
+      "rule": "The payload rotation after the tick (PayloadDeconstructor.java:121): moved toward 90f at payloadRotateSpeed (5f, PayloadBlock.java:18) * edelta() -- NOTE edelta(), not delta() as in moveInPayload.",
+      "tests": [
+        "test_c07_payload_deconstructor_update_tile_registration",
+        "test_all_c07_payload_deconstructor_update_tile_input_evidence_is_exact",
+        "test_payload_deconstructor_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorUpdateTileProof"
+    },
+    "source_payload_deconstructor_update_tile_advance_state_result.finished": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_update_tile_advance_state",
+      "godot_symbol": "source_payload_deconstructor_update_tile_advance_state_result.finished",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "java_method": "PayloadDeconstructorBuild.updateTile()",
+      "java_expr": "if(progress >= 1f){",
+      "rule": "Whether a deconstruction finished this tick (PayloadDeconstructor.java:179-195): progress reached 1f and the rounding check passed, so deconstructing / accum were cleared.",
+      "tests": [
+        "test_c07_payload_deconstructor_update_tile_registration",
+        "test_all_c07_payload_deconstructor_update_tile_input_evidence_is_exact",
+        "test_payload_deconstructor_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorUpdateTileProof"
+    },
+    "source_unit_cargo_loader_update_tile_advance_state_result.unit": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_update_tile_advance_state",
+      "godot_symbol": "source_unit_cargo_loader_update_tile_advance_state_result.unit",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+      "java_method": "UnitTransportSourceBuild.updateTile()",
+      "java_expr": "unit = unitType.create(team);",
+      "rule": "The unit held after this tick (UnitCargoLoader.java:94-103/114): null when the held unit was lost (dead or not added) or never found, the found_unit when the readUnitId unbox filled it, the spawned unit when the build completed; the unit dict contract is {type, x, y, rotation, dead (default false), added (default true)}.",
+      "tests": [
+        "test_c07_unit_cargo_loader_update_tile_registration",
+        "test_all_c07_unit_cargo_loader_update_tile_input_evidence_is_exact",
+        "test_unit_cargo_loader_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_unit_cargo_loader_update_tile"
+      ],
+      "runtime_proof": "/root/C07UnitCargoLoaderUpdateTileProof"
+    },
+    "source_unit_cargo_loader_update_tile_advance_state_result.read_unit_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_update_tile_advance_state",
+      "godot_symbol": "source_unit_cargo_loader_update_tile_advance_state_result.read_unit_id",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+      "java_method": "UnitTransportSourceBuild.updateTile()",
+      "java_expr": "readUnitId = -1;",
+      "rule": "The readUnitId after this tick (UnitCargoLoader.java:98-103): -1 whenever it was not -1 coming in (the single-player port always takes the !net.client() branch, so the id clears even when found_unit is null), unchanged (-1) otherwise.",
+      "tests": [
+        "test_c07_unit_cargo_loader_update_tile_registration",
+        "test_all_c07_unit_cargo_loader_update_tile_input_evidence_is_exact",
+        "test_unit_cargo_loader_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_unit_cargo_loader_update_tile"
+      ],
+      "runtime_proof": "/root/C07UnitCargoLoaderUpdateTileProof"
+    },
+    "source_unit_cargo_loader_update_tile_advance_state_result.warmup": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_update_tile_advance_state",
+      "godot_symbol": "source_unit_cargo_loader_update_tile_advance_state_result.warmup",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+      "java_method": "UnitTransportSourceBuild.updateTile()",
+      "java_expr": "warmup = Mathf.approachDelta(warmup, efficiency, 1f / 60f);",
+      "rule": "The advanced warmup (UnitCargoLoader.java:105): approachDelta toward the folded efficiency at 1f/60f, using the UNSCALED source_delta.",
+      "tests": [
+        "test_c07_unit_cargo_loader_update_tile_registration",
+        "test_all_c07_unit_cargo_loader_update_tile_input_evidence_is_exact",
+        "test_unit_cargo_loader_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_unit_cargo_loader_update_tile"
+      ],
+      "runtime_proof": "/root/C07UnitCargoLoaderUpdateTileProof"
+    },
+    "source_unit_cargo_loader_update_tile_advance_state_result.readyness": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_update_tile_advance_state",
+      "godot_symbol": "source_unit_cargo_loader_update_tile_advance_state_result.readyness",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+      "java_method": "UnitTransportSourceBuild.updateTile()",
+      "java_expr": "readyness = Mathf.approachDelta(readyness, unit != null ? 1f : 0f, 1f / 60f);",
+      "rule": "The advanced readyness (UnitCargoLoader.java:106): approachDelta toward (unit != null ? 1 : 0) at 1f/60f, using the POST-clear / POST-unbox unit (Java line order: the lost check and the unbox precede the fold).",
+      "tests": [
+        "test_c07_unit_cargo_loader_update_tile_registration",
+        "test_all_c07_unit_cargo_loader_update_tile_input_evidence_is_exact",
+        "test_unit_cargo_loader_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_unit_cargo_loader_update_tile"
+      ],
+      "runtime_proof": "/root/C07UnitCargoLoaderUpdateTileProof"
+    },
+    "source_unit_cargo_loader_update_tile_advance_state_result.build_progress": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_update_tile_advance_state",
+      "godot_symbol": "source_unit_cargo_loader_update_tile_advance_state_result.build_progress",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+      "java_method": "UnitTransportSourceBuild.updateTile()",
+      "java_expr": "buildProgress += edelta() / unitBuildTime;",
+      "rule": "The advanced build progress (UnitCargoLoader.java:109/129): buildProgress += edelta() / unitBuildTime (480f) while no unit is held and canCreate passes, reset to 0f on spawn via spawned() (UnitCargoLoader.java:127-133, server branch); frozen otherwise.",
+      "tests": [
+        "test_c07_unit_cargo_loader_update_tile_registration",
+        "test_all_c07_unit_cargo_loader_update_tile_input_evidence_is_exact",
+        "test_unit_cargo_loader_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_unit_cargo_loader_update_tile"
+      ],
+      "runtime_proof": "/root/C07UnitCargoLoaderUpdateTileProof"
+    },
+    "source_unit_cargo_loader_update_tile_advance_state_result.total_progress": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_update_tile_advance_state",
+      "godot_symbol": "source_unit_cargo_loader_update_tile_advance_state_result.total_progress",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+      "java_method": "UnitTransportSourceBuild.updateTile()",
+      "java_expr": "totalProgress += edelta();",
+      "rule": "The advanced total progress (UnitCargoLoader.java:110): totalProgress += edelta() while no unit is held and canCreate passes; frozen otherwise (it never resets -- only buildProgress resets on spawn).",
+      "tests": [
+        "test_c07_unit_cargo_loader_update_tile_registration",
+        "test_all_c07_unit_cargo_loader_update_tile_input_evidence_is_exact",
+        "test_unit_cargo_loader_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_unit_cargo_loader_update_tile"
+      ],
+      "runtime_proof": "/root/C07UnitCargoLoaderUpdateTileProof"
+    },
+    "source_unit_cargo_loader_update_tile_advance_state_result.spawned_unit": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_update_tile_advance_state",
+      "godot_symbol": "source_unit_cargo_loader_update_tile_advance_state_result.spawned_unit",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+      "java_method": "UnitTransportSourceBuild.updateTile()",
+      "java_expr": "Call.unitTetherBlockSpawned(tile, unit.id);",
+      "rule": "The unit spawned this tick (UnitCargoLoader.java:112-122, the pure result, the N2228 consumed precedent): {type: manifold, x, y, rotation: 90, dead: false, added: true} when buildProgress reached 1f, else null; the live creation/application (unitType.create + BuildingTetherc building(this) + unit.set/add + the remote call + Fx.spawn) defers.",
+      "tests": [
+        "test_c07_unit_cargo_loader_update_tile_registration",
+        "test_all_c07_unit_cargo_loader_update_tile_input_evidence_is_exact",
+        "test_unit_cargo_loader_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_unit_cargo_loader_update_tile"
+      ],
+      "runtime_proof": "/root/C07UnitCargoLoaderUpdateTileProof"
     }
   },
   "version": 1

@@ -233246,6 +233246,1304 @@
       },
       "runtime_proof": "/root/C07RegenProjectorUpdateTileProof",
       "rule": "Source-backed RegenProjector updateTile advance from RegenProjector.java / BuildingComp.java / Blocks.java / Block.java / World.java."
+    },
+    "source_point_defense_turret_update_tile_advance_state_input": {
+      "status": "active",
+      "owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_update_tile_advance_state",
+      "source_slice": "N2229",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "public @Nullable Bullet target;",
+          "rule": "The building frame carrying the folded efficiency (stamped by apply_update_consumption_state), the current target / rotation / reloadCounter / team_id; Java field defaults target null (PointDefenseTurret.java:59), rotation 90 (BaseTurret.java:114), reloadCounter 0.0 (ReloadTurret.java:26), efficiency 0.0 (BuildingComp.java:85).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_update_tile_advance_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26): the delta edelta() multiplies (BuildingComp.java:1927-1929) for the rotation moveToward speed, the reloadCounter charge, and the cooling charge.",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_update_tile_advance_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live timeScale read from the sprite meta (SourcePlacedBlockState.time_scale), default 1.0 (BuildingComp.java:98): delta() = Time.delta * timeScale (BuildingComp.java:1922-1924).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_update_tile_advance_state"
+          ]
+        },
+        "turret_range": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "range = 180f;",
+          "rule": "The def range from the driver constant (180f for the segment, Blocks.java:3838): the retarget rect half-size (PointDefenseTurret.java:66) and the look-at within range (PointDefenseTurret.java:78).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_update_tile_advance_state"
+          ]
+        },
+        "bullet_damage": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "bulletDamage = 30f;",
+          "rule": "The def bulletDamage from the driver constant (30f for the segment, Blocks.java:3843; class default 10f, PointDefenseTurret.java:33): the realDamage factor (PointDefenseTurret.java:87).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_update_tile_advance_state"
+          ]
+        },
+        "reload": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "reload = 8f;",
+          "rule": "The def reload from the driver constant (8f for the segment, Blocks.java:3844; PointDefenseTurret ctor 30f, PointDefenseTurret.java:40; ReloadTurret class default 10f, ReloadTurret.java:9): the fire threshold (PointDefenseTurret.java:85) and the canReload bound (ReloadTurret.java:51).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_update_tile_advance_state"
+          ]
+        },
+        "building_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "return block().offset + worldx();",
+          "rule": "The building world x: Building x is tile.drawx() (BuildingComp.java:124), drawx is block.offset + tile.worldx() (Tile.java:175-176) with offset ((size + 1) % 2) * tilesize / 2f (Block.java:761) -- 4 for the size-2 segment; the retarget rect center and the angle origin (PointDefenseTurret.java:66/:79).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_update_tile_advance_state"
+          ]
+        },
+        "building_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "return block().offset + worldy();",
+          "rule": "The building world y: Building y is tile.drawy() (BuildingComp.java:124), drawy is block.offset + tile.worldy() (Tile.java:179-180); the retarget rect center and the angle origin (PointDefenseTurret.java:66/:79).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_update_tile_advance_state"
+          ]
+        },
+        "bullets": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "target = Groups.bullet.intersect(x - range, y - range, range*2, range*2).min(b -> b.team != team && b.type().hittable, b -> b.dst2(this));",
+          "rule": "The explicit retarget candidate list -- the stand-in for the Groups.bullet.intersect rect result (EntityGroup.java:207, QuadTree hitbox overlap): each a target dict with x / y / team / hittable. The pure selection applies the min filter (enemy team + hittable) and the raw-dst2 min with Seq.min last-wins ties (Seq.java:329). The driver always passes an empty list -- no live bullet query.",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_update_tile_advance_state"
+          ]
+        },
+        "retarget_tick": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "if(timer(timerTarget, retargetTime)){",
+          "rule": "Whether the retarget timer fired this tick (retargetTime 5f, PointDefenseTurret.java:21): true models a timer tick and overwrites the frame target exactly like Java's unconditional assignment (PointDefenseTurret.java:66), even to null when no candidate qualifies; false means the timer did not fire and the target is untouched. The TIMER CADENCE itself defers (no timer helper in the port, the N2193 precedent), so the driver always passes false.",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_update_tile_advance_state"
+          ]
+        },
+        "block_damage_multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_expr": "return blockDamageMultiplier * teams.get(team).blockDamageMultiplier;",
+          "rule": "The blockDamage(team) multiplier (Rules.java:299-301): state.rules.blockDamageMultiplier * the team rule, both default 1f (Rules.java:113/:367), so the default is 1.0; the realDamage factor (PointDefenseTurret.java:87).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_update_tile_advance_state"
+          ]
+        },
+        "coolant_present": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "if(coolant != null){",
+          "rule": "Whether the block has a coolant consumer (BaseTurret.init :50-51 findConsumer): false for the segment (the def has no ConsumeCoolant consumer), so the updateCooling branch never runs live; true models a def that has one.",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_update_tile_advance_state"
+          ]
+        },
+        "coolant_amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "java_expr": "float amount = coolant.amount * coolant.efficiency(this);",
+          "rule": "The coolant.amount of the ConsumeCoolant consumer: the cooling charge factor (ReloadTurret.java:32-34). 0.0 when no coolant is present.",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_update_tile_advance_state"
+          ]
+        },
+        "coolant_efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "java_expr": "if(canReload() && coolant != null && coolant.efficiency(this) > 0 && efficiency > 0){",
+          "rule": "The coolant.efficiency(this) of the ConsumeCoolant consumer: the updateCooling gate requires it > 0 (ReloadTurret.java:29) and it factors the charge amount (ReloadTurret.java:32). 0.0 when no coolant is present.",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_update_tile_advance_state"
+          ]
+        },
+        "heat_capacity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "java_expr": "float capacity = coolant instanceof ConsumeLiquidFilter filter ? filter.getConsumed(this).heatCapacity : (coolant.consumes(liquids.current()) ? liquids.current().heatCapacity : 0.4f);",
+          "rule": "The resolved heat capacity for the cooling charge (ReloadTurret.java:31): the filter consumed liquid heatCapacity, the current liquid heatCapacity when the coolant consumes it, else the 0.4f fallback (the default).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PointDefenseUpdateTileProof",
+      "rule": "Source-backed PointDefenseTurret updateTile advance from PointDefenseTurret.java / ReloadTurret.java / BaseTurret.java / Blocks.java / BuildingComp.java / EntityComp.java / EntityGroup.java / GroupDefs.java / BulletType.java / BulletComp.java / Rules.java / Team.java / Block.java / Tile.java / Position.java / Angles.java / Seq.java / QuadTree.java."
+    },
+    "source_point_defense_turret_update_tile_advance_state_result": {
+      "status": "active",
+      "owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_update_tile_advance_state",
+      "source_slice": "N2229",
+      "keys": {
+        "target": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "target = Groups.bullet.intersect(x - range, y - range, range*2, range*2).min(b -> b.team != team && b.type().hittable, b -> b.dst2(this));",
+          "rule": "The target after one tick (PointDefenseTurret.java:65-72): the retargeted closest hittable enemy bullet when the timer fired (null when no candidate qualifies -- Java assigns unconditionally), the kept target otherwise, null when the bullet is pooled (added false). The shot does NOT clear it (Java keeps the field set after target.remove(); the pooled clear nulls it next tick).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_update_tile_advance_state"
+          ]
+        },
+        "rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "rotation = Angles.moveToward(rotation, dest, rotateSpeed * edelta());",
+          "rule": "The rotation after one tick (PointDefenseTurret.java:81): moveToward the target angle at rotateSpeed 20f * edelta() (Angles.java:38-39, snap when the angleDist is under the speed); unchanged when the look-at guard fails (no target / out of the strict within range / same team / null type / unhittable) or efficiency is 0.",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_update_tile_advance_state"
+          ]
+        },
+        "reload_counter": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "reloadCounter += edelta();",
+          "rule": "The reloadCounter after one tick (PointDefenseTurret.java:74-82 + 101): the cooling charge first (updateCooling, ReloadTurret.java:28-41, when coolant is present and canReload and efficiency > 0), then += edelta() while looking at a target, reset to 0 when the shot fires.",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_update_tile_advance_state"
+          ]
+        },
+        "target_damage_remaining": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "target.damage(target.damage() - realDamage);",
+          "rule": "The bullet damage remaining after this tick's shot as a pure result (PointDefenseTurret.java:88-89): damage - realDamage when the bullet damage exceeds realDamage (bulletDamage * blockDamageMultiplier); null when no shot fired or the bullet was removed. The APPLICATION (target.damage writing into a live bullet frame) defers.",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_update_tile_advance_state"
+          ]
+        },
+        "target_removed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "target.remove();",
+          "rule": "Whether this tick's shot removed the bullet as a pure result (PointDefenseTurret.java:88-91): true exactly when the shot fired and the bullet damage did not exceed realDamage (the boundary is strict: damage == realDamage removes). The APPLICATION (target.remove() on the live bullet) defers.",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_update_tile_advance_state"
+          ]
+        },
+        "fired": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "if(Angles.within(rotation, dest, shootCone) && reloadCounter >= reload){",
+          "rule": "Whether this tick fired (PointDefenseTurret.java:85-86): true exactly when the look-at guard passed, the rotation is within the 5-degree shootCone of the target angle after the moveToward, and the reloadCounter reached the 8f reload; drives the reloadCounter reset (PointDefenseTurret.java:101).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PointDefenseUpdateTileProof",
+      "rule": "Source-backed PointDefenseTurret updateTile advance from PointDefenseTurret.java / ReloadTurret.java / BaseTurret.java / Blocks.java / BuildingComp.java / EntityComp.java / EntityGroup.java / GroupDefs.java / BulletType.java / BulletComp.java / Rules.java / Team.java / Block.java / Tile.java / Position.java / Angles.java / Seq.java / QuadTree.java."
+    },
+    "source_tractor_beam_turret_update_tile_advance_state_input": {
+      "status": "active",
+      "owner": "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_update_tile_advance_state",
+      "source_slice": "N2230",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_expr": "public float lastX, lastY, strength;",
+          "rule": "The building frame carrying the folded efficiency (stamped by apply_update_consumption_state), the current target / activation_timer / coolant_multiplier / rotation / strength / last_x / last_y / any; Java field defaults target null (TractorBeamTurret.java:72), activationTimer 0 (BaseTurret.java:115), coolantMultiplier 1f (TractorBeamTurret.java:75), rotation 90 (BaseTurret.java:114), strength / lastX / lastY 0.0 (TractorBeamTurret.java:73), any false (TractorBeamTurret.java:74), efficiency 0.0 (BuildingComp.java:85).",
+          "used_by": [
+            "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_update_tile_advance_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26): the delta the Arc lerpDelta formula scales by (Mathf.java:430-432), the activation decrement (TractorBeamTurret.java:80), the coolant maxUsed * Time.delta cap (TractorBeamTurret.java:97), and edelta() multiplies (BuildingComp.java:1927-1929).",
+          "used_by": [
+            "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_update_tile_advance_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live timeScale read from the sprite meta (SourcePlacedBlockState.time_scale), default 1.0 (BuildingComp.java:98): delta() = Time.delta * timeScale (BuildingComp.java:1922-1924) and the damage amount is damage * eff * timeScale * blockDamage (TractorBeamTurret.java:125).",
+          "used_by": [
+            "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_update_tile_advance_state"
+          ]
+        },
+        "building_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "return block().offset + worldx();",
+          "rule": "The building world x: Building x is tile.drawx() (BuildingComp.java:124), drawx is block.offset + tile.worldx() (Tile.java:175-176) with offset ((size + 1) % 2) * tilesize / 2f (Block.java:761) -- 4 for the size-2 parallax; the angle origin (TractorBeamTurret.java:116), the retarget center (TractorBeamTurret.java:88) and the impulse origin (TractorBeamTurret.java:132).",
+          "used_by": [
+            "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_update_tile_advance_state"
+          ]
+        },
+        "building_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "return block().offset + worldy();",
+          "rule": "The building world y: Building y is tile.drawy() (BuildingComp.java:124), drawy is block.offset + tile.worldy() (Tile.java:179-180); the angle origin (TractorBeamTurret.java:116), the retarget center (TractorBeamTurret.java:88) and the impulse origin (TractorBeamTurret.java:132).",
+          "used_by": [
+            "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_update_tile_advance_state"
+          ]
+        },
+        "team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Units.java",
+          "java_expr": "if(team == Team.derelict) return null;",
+          "rule": "The building team id: derelict (0, Team.java:33) retargets to null (Units.java:297), and the look-at guard requires target.team() != team (TractorBeamTurret.java:111).",
+          "used_by": [
+            "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_update_tile_advance_state"
+          ]
+        },
+        "candidates": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_expr": "target = Units.closestEnemy(team, x, y, range, u -> u.checkTarget(targetAir, targetGround));",
+          "rule": "The explicit retarget candidate list (each a target dict with team / dead / targetable / in_fog / x / y / hit_size / target_priority / flying / grounded): the stand-in for the Units.closestEnemy rect scan (Units.java:296-313). The list IS the nearbyEnemies result by contract (enemy-only, so there is no same-team check in closestEnemy). The driver always passes an empty list -- no live unit query.",
+          "used_by": [
+            "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_update_tile_advance_state"
+          ]
+        },
+        "retarget_tick": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_expr": "if(timer(timerTarget, retargetTime)){",
+          "rule": "Whether the retarget timer fired this tick (timer(timerTarget, retargetTime), TractorBeamTurret.java:87, retargetTime 5f, TractorBeamTurret.java:21). False leaves the target untouched even with candidates; true overwrites it with the closestEnemy selection exactly like Java's unconditional assignment (TractorBeamTurret.java:88) -- to null when no candidate qualifies. The TIMER CADENCE itself defers (no timer helper in the port, the N2193 precedent), so the driver passes false.",
+          "used_by": [
+            "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_update_tile_advance_state"
+          ]
+        },
+        "coolant_present": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_expr": "if(target != null && coolant != null){",
+          "rule": "Whether the coolant consumer exists (coolant != null, TractorBeamTurret.java:92). False for parallax (the def, Blocks.java:3640-3653, has no ConsumeCoolant consumer, so BaseTurret.init :50-51 finds none); the driver passes false.",
+          "used_by": [
+            "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_update_tile_advance_state"
+          ]
+        },
+        "coolant_amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_expr": "float maxUsed = coolant.amount;",
+          "rule": "The coolant consumer amount (maxUsed, TractorBeamTurret.java:93): the per-tick use cap maxUsed * Time.delta (TractorBeamTurret.java:97). The driver passes 0.0 (no coolant).",
+          "used_by": [
+            "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_update_tile_advance_state"
+          ]
+        },
+        "liquid_amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_expr": "float used = Math.min(Math.min(liquids.get(liquid), maxUsed * Time.delta), Math.max(0, (1f / coolantMultiplier) / liquid.heatCapacity));",
+          "rule": "The held amount of the current liquid (liquids.get(liquid), TractorBeamTurret.java:97): the first cap on used. The driver passes 0.0 (no coolant, no liquids store on the frame).",
+          "used_by": [
+            "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_update_tile_advance_state"
+          ]
+        },
+        "liquid_heat_capacity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_expr": "coolantMultiplier = 1f + (used * liquid.heatCapacity * coolantMultiplier);",
+          "rule": "The current liquid heatCapacity (TractorBeamTurret.java:97/:105): the second cap on used ((1f / coolantMultiplier) / heatCapacity) and the multiplier gain. The driver passes 0.0 (no coolant).",
+          "used_by": [
+            "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_update_tile_advance_state"
+          ]
+        },
+        "block_damage_multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_expr": "target.damageContinuousPierce(damage * eff * timeScale * state.rules.blockDamage(team));",
+          "rule": "The rules block-damage multiplier (state.rules.blockDamage(team) = blockDamageMultiplier * teams.get(team).blockDamageMultiplier, Rules.java:299-301; both default 1f, Rules.java:113/:367). The driver passes 1.0 (no rules helper reads it in the port).",
+          "used_by": [
+            "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_update_tile_advance_state"
+          ]
+        },
+        "status_present": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_expr": "if(status != StatusEffects.none){",
+          "rule": "Whether the block status differs from none (TractorBeamTurret.java:128). False for parallax (status is none, TractorBeamTurret.java:31; statusDuration 300, TractorBeamTurret.java:32); the driver passes false.",
+          "used_by": [
+            "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TractorBeamUpdateTileProof",
+      "rule": "Source-backed TractorBeamTurret updateTile advance from TractorBeamTurret.java / BaseTurret.java / Units.java / UnitComp.java / UnitType.java / BuildingComp.java / TimerComp.java / Block.java / Tile.java / Blocks.java / Rules.java / Team.java / Mathf.java / Angles.java / Position.java / Vec2.java / Time.java."
+    },
+    "source_tractor_beam_turret_update_tile_advance_state_result": {
+      "status": "active",
+      "owner": "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_update_tile_advance_state",
+      "source_slice": "N2230",
+      "keys": {
+        "target": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_expr": "target = Units.closestEnemy(team, x, y, range, u -> u.checkTarget(targetAir, targetGround));",
+          "rule": "The target after one tick (TractorBeamTurret.java:87-90): the closestEnemy selection when retarget_tick is true (null when no candidate qualifies, derelict team, or an empty list), otherwise the kept frame target; unchanged on the activation early return (TractorBeamTurret.java:79-82).",
+          "used_by": [
+            "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_update_tile_advance_state"
+          ]
+        },
+        "activation_timer": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_expr": "activationTimer -= Time.delta;",
+          "rule": "The activation timer after one tick (TractorBeamTurret.java:79-82): decremented by Time.delta when above 0 (no clamp -- it can go negative, and the next tick proceeds), unchanged otherwise. activationTime is 0f (BaseTurret.java:27), so it never fires for parallax, but the branch is modeled.",
+          "used_by": [
+            "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_update_tile_advance_state"
+          ]
+        },
+        "coolant_multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_expr": "coolantMultiplier = 1f + (used * liquid.heatCapacity * coolantMultiplier);",
+          "rule": "The build coolant multiplier after one tick (TractorBeamTurret.java:105): 1f + used * heatCapacity * multiplier when the coolant branch runs (target non-null and coolant present); unchanged otherwise. The formula itself yields 1f when used is 0 -- there is no separate reset anywhere in core/src (grep).",
+          "used_by": [
+            "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_update_tile_advance_state"
+          ]
+        },
+        "coolant_used": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_expr": "liquids.remove(liquid, used);",
+          "rule": "The coolant amount removed this tick as a pure result (TractorBeamTurret.java:99): min(min(held, maxUsed * Time.delta), max(0, (1f / coolantMultiplier) / heatCapacity)); 0.0 when the coolant branch does not run. The frame carries no liquids store, so nothing is written back live.",
+          "used_by": [
+            "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_update_tile_advance_state"
+          ]
+        },
+        "rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_expr": "rotation = Angles.moveToward(rotation, dest, rotateSpeed * edelta);",
+          "rule": "The rotation after one tick (TractorBeamTurret.java:117): moveToward toward the target angle at rotateSpeed * edelta (rotateSpeed 12 for parallax, Blocks.java:3651; edelta = efficiency * coolantMultiplier * Time.delta * timeScale, TractorBeamTurret.java:84); unchanged when the look-at guard fails or on the activation early return.",
+          "used_by": [
+            "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_update_tile_advance_state"
+          ]
+        },
+        "strength": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_expr": "strength = Mathf.lerpDelta(strength, 1f, 0.1f);",
+          "rule": "The strength after one tick: lerpDelta toward 1f at 0.1f when the look-at guard holds (TractorBeamTurret.java:120), toward 0f at 0.1f otherwise (TractorBeamTurret.java:135); unchanged on the activation early return. lerpDelta multiplies the progress by Time.delta once more (Mathf.java:430-432).",
+          "used_by": [
+            "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_update_tile_advance_state"
+          ]
+        },
+        "last_target_position": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_expr": "lastX = target.x;",
+          "rule": "The last target position after one tick (TractorBeamTurret.java:118-119, lastX = target.x; lastY = target.y;): the target position when the look-at guard holds, unchanged otherwise. Stored as {\"x\", \"y\"}.",
+          "used_by": [
+            "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_update_tile_advance_state"
+          ]
+        },
+        "damage_dealt": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_expr": "target.damageContinuousPierce(damage * eff * timeScale * state.rules.blockDamage(team));",
+          "rule": "The damage dealt this tick as a pure result (TractorBeamTurret.java:125): damage * eff * timeScale * blockDamage(team) with damage 0.5f for parallax (Blocks.java:3649) and eff = efficiency * coolantMultiplier (the INCOMING multiplier, computed at :84 before the coolant branch); 0.0 when not shooting. The APPLICATION (damageContinuousPierce writing into another unit) defers.",
+          "used_by": [
+            "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_update_tile_advance_state"
+          ]
+        },
+        "status_applied": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_expr": "target.apply(status, statusDuration);",
+          "rule": "Whether the status was applied this tick as a pure result (TractorBeamTurret.java:128-130): true exactly when shooting and status_present is true; always false for parallax (status is none). The APPLICATION (target.apply writing into another unit) defers.",
+          "used_by": [
+            "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_update_tile_advance_state"
+          ]
+        },
+        "impulse": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_expr": "target.impulseNet(Tmp.v1.set(this).sub(target).limit((force + (1f - target.dst(this) / range) * scaledForce) * edelta));",
+          "rule": "The impulse vector this tick as a pure result (TractorBeamTurret.java:132): (building - target), i.e. FROM the target TOWARD the building, limited to (force + (1f - dst / range) * scaledForce) * edelta with force 16f / scaledForce 9f / range 300f for parallax; Vec2.limit clamps the length to AT MOST the limit (Vec2.java:274-285), it does not set it. Stored as {\"x\", \"y\"}; (0, 0) when not shooting. The APPLICATION (impulseNet writing into another unit) defers.",
+          "used_by": [
+            "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_update_tile_advance_state"
+          ]
+        },
+        "any": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_expr": "any = true;",
+          "rule": "Whether the beam shot this tick (TractorBeamTurret.java:108/:131): false at the any reset, true exactly when the look-at guard holds and the rotation is within the shoot cone; unchanged (the previous frame value) on the activation early return, which returns before the reset.",
+          "used_by": [
+            "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TractorBeamUpdateTileProof",
+      "rule": "Source-backed TractorBeamTurret updateTile advance from TractorBeamTurret.java / BaseTurret.java / Units.java / UnitComp.java / UnitType.java / BuildingComp.java / TimerComp.java / Block.java / Tile.java / Blocks.java / Rules.java / Team.java / Mathf.java / Angles.java / Position.java / Vec2.java / Time.java."
+    },
+    "source_payload_loader_update_tile_advance_state_input": {
+      "status": "active",
+      "owner": "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state",
+      "source_slice": "N2231",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+          "java_expr": "public void updateTile(){",
+          "rule": "The building frame carrying the folded efficiency (stamped by apply_update_consumption_state), the stamped power_status (N2162, default 1.0 when unstamped), and the current exporting / pay_vector / pay_rotation / items / liquids / payload; missing keys default to the Java field defaults (exporting false, payVector (0, 0), payRotation 0f, items / liquids empty, payload null).",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26): the base of delta() = Time.delta * timeScale (BuildingComp.java:1922-1924) and therefore of edelta() = efficiency * delta() (BuildingComp.java:1927-1929).",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live timeScale read from the sprite meta (SourcePlacedBlockState.time_scale), default 1.0 (BuildingComp.java:98): delta() = Time.delta * timeScale (BuildingComp.java:1922-1924).",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state"
+          ]
+        },
+        "load_tick": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+          "java_expr": "if(efficiency > 0.01f && timer(timerLoad, loadTime / efficiency)){",
+          "rule": "Whether the load timer fired this tick (PayloadLoader.java:157): the timer cadence defers (no timer helper in the port), so the pure advance takes it as an explicit bool and the driver passes false.",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state"
+          ]
+        },
+        "rotdeg_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return rotation * 90;",
+          "rule": "The building rotation in degrees (BuildingComp.java:582-584, rotdeg() = rotation * 90): the moveIn rotation target (PayloadLoader rotates, PayloadLoader.java:45) and the moveOut dest angle (PayloadBlock.java:203).",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state"
+          ]
+        },
+        "block_rotate": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+          "java_expr": "rotate = true;",
+          "rule": "Whether the block rotates (PayloadLoader.java:45, rotate = true): the moveIn target is rotdeg() when true, 90f otherwise (PayloadBlock.java:192).",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state"
+          ]
+        },
+        "item_order": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+          "java_expr": "for(int i = 0; i < items.length(); i++){",
+          "rule": "The item names in content-id order (the catalog item_names_by_id): the order the load loop scans (PayloadLoader.java:161-162, content.item(i)), the N2225 precedent.",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state"
+          ]
+        },
+        "liquid_names_by_id": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+          "java_expr": "Liquid liq = liquids.current();",
+          "rule": "The liquid names in content-id order: resolves the loader LiquidModule current id to the name the payload build-liquids dict is keyed by (PayloadLoader.java:182-183).",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state"
+          ]
+        },
+        "front": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "Building front = front();",
+          "rule": "The front-building snapshot gathered by the driver (present / solid / outputs_payload / accepts_payload): canDump = front == null || !front.tile.solid() and canMove = front != null && (front.block.outputsPayload || front.block.acceptsPayload) (PayloadBlock.java:210-211); the driver passes no-front defaults (no live front query yet).",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state"
+          ]
+        },
+        "move_payload_result": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "if(movePayload(payload)){",
+          "rule": "Whether movePayload succeeded (BuildingComp.java:819-829, needs the live front build): the driver passes false (no live move); the reused helper clears the payload only when this is true at arrival.",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state"
+          ]
+        },
+        "base_power_use": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+          "java_expr": "basePowerUse = consPower != null ? consPower.usage : 0f;",
+          "rule": "The base power use 2f (PayloadLoader.java:79, consPower.usage from the def consumePower(2f), Blocks.java:6686): powerInput = power.status * (basePowerUse + maxPowerConsumption), availableInput = max(powerInput - basePowerUse, 0) (PayloadLoader.java:202-204).",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadLoaderUpdateTileProof",
+      "rule": "Source-backed PayloadLoader updateTile advance from PayloadLoader.java / PayloadBlock.java / BuildingComp.java / Blocks.java / Block.java / ItemModule.java / LiquidModule.java / StorageBlock.java / LiquidRouter.java / LiquidVoid.java / Vars.java."
+    },
+    "source_payload_loader_update_tile_advance_state_result": {
+      "status": "active",
+      "owner": "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state",
+      "source_slice": "N2231",
+      "keys": {
+        "should_export": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+          "java_expr": "public boolean shouldExport(){",
+          "rule": "Whether the payload should export this tick (PayloadLoader.java:227-233): payload != null && (exporting || liquids-full || separate-items-full || battery-full), evaluated on the tick-start state before moveIn/moveOut.",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state"
+          ]
+        },
+        "has_arrived": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "return hasArrived();",
+          "rule": "Whether moveInPayload returned true (PayloadBlock.java:196): payVector.isZero(0.01f), i.e. len2 < 0.01 (arc Vec2.java:679-681); false when there is no payload or shouldExport took the moveOut branch.",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state"
+          ]
+        },
+        "exporting": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+          "java_expr": "exporting = true;",
+          "rule": "The advanced exporting flag (PayloadLoader.java:87): set when an item load is rejected with separateItemCapacity / consumesItem, when no item was accepted on a load tick, when a liquid load is rejected, or when the battery fills.",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state"
+          ]
+        },
+        "pay_vector": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "payVector.approach(Vec2.ZERO, payloadSpeed * delta());",
+          "rule": "The advanced payVector {x, y} (PayloadBlock.java:194/207): approached toward Vec2.ZERO by payloadSpeed * delta() on moveIn, toward the front dest on moveOut (via the reused helper).",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state"
+          ]
+        },
+        "pay_rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "payRotation = Angles.moveToward(payRotation, block.rotate ? rotdeg() : 90f, payloadRotateSpeed * delta());",
+          "rule": "The advanced payRotation (PayloadBlock.java:192/206): moved toward rotdeg() (PayloadLoader rotates) by payloadRotateSpeed * delta() on both branches.",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state"
+          ]
+        },
+        "items": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+          "java_expr": "items.remove(item, 1);",
+          "rule": "The loader items after the load loop (PayloadLoader.java:166): one unit removed per accepted item, up to itemsLoaded (8) per load tick, scanned in content-id order.",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state"
+          ]
+        },
+        "liquids": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+          "java_expr": "liquids.remove(liq, flow);",
+          "rule": "The loader LiquidModule dict after the liquid load (PayloadLoader.java:192): the flow removed through the shared module helper (which caps the removal at the held amount, LiquidModule.java:126-128), mutated in place like the Fracker advance.",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state"
+          ]
+        },
+        "payload": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "payload = null;",
+          "rule": "The payload dict after the tick (PayloadBlock.java:147/221): the updated build items/liquids/power_status, or null when moveOut handed it to the front build (movePayload success at arrival).",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state"
+          ]
+        },
+        "payload_moved": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "if(movePayload(payload)){",
+          "rule": "Whether moveOut handed the payload to the front build this tick (PayloadBlock.java:220-222): arrived && canMove && movePayload succeeded; the payload clears.",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state"
+          ]
+        },
+        "payload_dumped": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "dumpPayload();",
+          "rule": "Whether moveOut dumped the payload this tick (PayloadBlock.java:223): arrived && !canMove && canDump; the payload stays present (dumpPayload clears only when payload.dump() succeeds, PayloadBlock.java:230-241, and the port has no live dump).",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state"
+          ]
+        },
+        "liquid_flow": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+          "java_expr": "float flow = Math.min(Math.min(liquidsLoaded * edelta(), payload.block().liquidCapacity - payload.build.liquids.get(liq)), total);",
+          "rule": "The liquid flow this tick (PayloadLoader.java:187): min(min(liquidsLoaded * edelta(), payload liquidCapacity - payload held), loader total); 0 when the liquid branch did not run or the payload rejected.",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state"
+          ]
+        },
+        "power_charged": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+          "java_expr": "payload.build.power.status += availableInput / cap * edelta();",
+          "rule": "The battery status gained this tick (PayloadLoader.java:208): availableInput / cap * edelta(), where availableInput = max(power.status * (basePowerUse + maxPowerConsumption) - basePowerUse, 0); 0 when there is no battery.",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state"
+          ]
+        },
+        "items_loaded": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+          "java_expr": "payload.build.handleItem(payload.build, item);",
+          "rule": "How many items moved into the payload this tick (PayloadLoader.java:165, handleItem adds 1, BuildingComp.java:860-862): 0 when the load tick did not fire or nothing was accepted.",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state"
+          ]
+        },
+        "pushed_output_fraction": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "pushOutput(payload, 1f - (payVector.dst(dest) / (size * tilesize / 2f)));",
+          "rule": "The pushOutput progress fraction this tick (PayloadBlock.java:214): 1 - (payVector.dst(dest) / (size * tilesize / 2f)) when canDump && !canMove, null otherwise (the unit push itself defers -- no live units).",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadLoaderUpdateTileProof",
+      "rule": "Source-backed PayloadLoader updateTile advance from PayloadLoader.java / PayloadBlock.java / BuildingComp.java / Blocks.java / Block.java / ItemModule.java / LiquidModule.java / StorageBlock.java / LiquidRouter.java / LiquidVoid.java / Vars.java."
+    },
+    "source_payload_unloader_update_tile_advance_state_input": {
+      "status": "active",
+      "owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_update_tile_advance_state",
+      "source_slice": "N2232",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+          "java_expr": "payload != null",
+          "rule": "The building frame carrying the live payload key (PayloadBlock.java:92, `public @Nullable T payload;`, default null) plus pay_vector / pay_rotation / rotation / items / liquids / efficiency / last_output_power. No live fill sets the payload yet; the advance reads the frame as-is.",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_update_tile_advance_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26); delta() = Time.delta * timeScale (BuildingComp.java:1922-1924) drives moveIn/moveOut, edelta() = efficiency * delta() (BuildingComp.java:1927-1929) drives the liquid flow and the battery unload.",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_update_tile_advance_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "The building timeScale (BuildingComp.java:98, `private transient float timeScale = 1f, timeScaleDuration;`), read live from the sprite meta; scales delta() and edelta().",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_update_tile_advance_state"
+          ]
+        },
+        "load_tick": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+          "java_expr": "if(efficiency > 0.01f && timer(timerLoad, loadTime / efficiency)){",
+          "rule": "Whether the load timer fired this tick (PayloadUnloader.java:69). The timer cadence defers (no timer helper in the port), so the driver passes false; the pure advance still ports the full tick logic and the efficiency > 0.01f guard.",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_update_tile_advance_state"
+          ]
+        },
+        "item_order": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+          "java_expr": "Item item = content.item(i);",
+          "rule": "The content-id item order (the catalog item_names_by_id, the N2225 precedent): Java scans items.length() by content id (PayloadUnloader.java:72-74), so the port scans this order and unloads the first item the payload holds.",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_update_tile_advance_state"
+          ]
+        },
+        "front": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+          "java_expr": "boolean canMove = front != null && (front.block.outputsPayload || front.block.acceptsPayload);",
+          "rule": "The explicit front-building flags for moveOutPayload (PayloadBlock.java:209-211): present / solid / outputs_payload / accepts_payload / move_payload_result. No live neighbor query exists, so the driver passes front-absent.",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadUnloaderUpdateTileProof",
+      "rule": "Source-backed PayloadUnloader updateTile advance from PayloadUnloader.java / PayloadLoader.java / PayloadBlock.java / BuildingComp.java / Blocks.java / LiquidModule.java / ItemModule.java / Vars.java / Vec2.java."
+    },
+    "source_payload_unloader_update_tile_advance_state_result": {
+      "status": "active",
+      "owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_update_tile_advance_state",
+      "source_slice": "N2232",
+      "keys": {
+        "payload": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+          "java_expr": "payload = null;",
+          "rule": "The held payload after the tick (PayloadUnloader.java:59/61): null when the instant-deconstruct clear fired or moveOutPayload moved it into the front building; otherwise the (possibly unloaded) payload dict. The payload dict contract is defined in the driver: block flags + build items / liquids module state / power_status.",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_update_tile_advance_state"
+          ]
+        },
+        "pay_vector": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "payVector.approach(Vec2.ZERO, payloadSpeed * delta());",
+          "rule": "The payload offset after the tick (PayloadBlock.java:194/207): approached toward the center by moveInPayload or toward the front dest by moveOutPayload, at payloadSpeed * delta() per tick (PayloadBlock.java:18, 0.7f). Stored as {x, y}.",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_update_tile_advance_state"
+          ]
+        },
+        "pay_rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "payRotation = Angles.moveToward(payRotation, block.rotate ? rotdeg() : 90f, payloadRotateSpeed * delta());",
+          "rule": "The payload rotation after the tick (PayloadBlock.java:192/206): moved toward rotdeg() (block.rotate is true for PayloadLoader, PayloadLoader.java:45) at payloadRotateSpeed * delta() per tick (PayloadBlock.java:18, 5f).",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_update_tile_advance_state"
+          ]
+        },
+        "items": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+          "java_expr": "items.add(item, 1);",
+          "rule": "The own items after the unload (PayloadUnloader.java:76): up to itemsLoaded (8) items per timer tick, taken from the payload build in content-id order while !full() (PayloadUnloader.java:112-114, items.total() >= itemCapacity 100). Keyed by item name (the factory precedent).",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_update_tile_advance_state"
+          ]
+        },
+        "liquids": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+          "java_expr": "liquids.add(liq, flow);",
+          "rule": "The own liquids module state after the unload (PayloadUnloader.java:89): the payload current liquid added by flow = min(min(liquidsLoaded * edelta(), remaining), payload amount) (PayloadUnloader.java:87), in the SourceLiquidModuleState shape (amounts array by liquid id + current id).",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_update_tile_advance_state"
+          ]
+        },
+        "last_output_power": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+          "java_expr": "lastOutputPower = unloaded;",
+          "rule": "The battery power unloaded this tick (PayloadUnloader.java:98): min(maxPowerUnload * edelta(), payload power status * cap), 0f when the tick unloads no battery (reset at PayloadUnloader.java:54). This IS the power production (getPowerProduction returns it, PayloadUnloader.java:44-47); the graph wiring waits for its own slice.",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_update_tile_advance_state"
+          ]
+        },
+        "should_export": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+          "java_expr": "return payload != null && (",
+          "rule": "The shouldExport gate (PayloadUnloader.java:116-122): payload != null and the payload items empty (or no items) and the payload liquids <= 0.011f (or no liquids) and the payload battery status <= 0.0000001f (or no battery). True means the tick exports instead of unloading.",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_update_tile_advance_state"
+          ]
+        },
+        "moved_in": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "return payVector.isZero(0.01f);",
+          "rule": "Whether moveInPayload arrived this tick (PayloadBlock.java:240-243): payVector.isZero(0.01f), i.e. len2() < 0.01 (the Arc quirk, Vec2.java:679-681, NOT margin squared). Only an arrived payload unloads.",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_update_tile_advance_state"
+          ]
+        },
+        "payload_moved": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "if(movePayload(payload)){",
+          "rule": "Whether moveOutPayload moved the payload into the front building this tick (PayloadBlock.java:220-222): arrived at the dest with canMove and the movePayload result true, so the payload cleared. The movePayload application itself defers; the helper reports the outcome.",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_update_tile_advance_state"
+          ]
+        },
+        "payload_dumped": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "dumpPayload();",
+          "rule": "Whether moveOutPayload called dumpPayload this tick (PayloadBlock.java:223-225): arrived at the dest with canDump and no canMove. The dump application defers (payload.dump() needs a live payload), so the payload stays on the frame.",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_update_tile_advance_state"
+          ]
+        },
+        "deconstructed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+          "java_expr": "payload.block().breakEffect.at(this, payload.block().size);",
+          "rule": "Whether the instant-deconstruct branch fired this tick (PayloadUnloader.java:57-59): shouldExport with a payload block whose instantDeconstruct flag is set. The breakEffect presentation defers; the payload = null clear IS modeled.",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_update_tile_advance_state"
+          ]
+        },
+        "items_unloaded": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+          "java_expr": "payload.build.items.remove(item, 1);",
+          "rule": "How many items left the payload build this tick (PayloadUnloader.java:75): 0 when the timer did not fire, efficiency <= 0.01f, the payload holds no listed item, or the own items are full.",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_update_tile_advance_state"
+          ]
+        },
+        "liquids_unloaded": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+          "java_expr": "float flow = Math.min(Math.min(liquidsLoaded * edelta(), remaining), payload.build.liquids.currentAmount());",
+          "rule": "How much liquid left the payload build this tick (PayloadUnloader.java:87-90): the flow folded from liquidsLoaded * edelta(), the remaining own capacity, and the payload current amount; 0.0 when the guard fails (payload amount < 0.01f, or a mismatched current with own amount > 0.2f).",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadUnloaderUpdateTileProof",
+      "rule": "Source-backed PayloadUnloader updateTile advance from PayloadUnloader.java / PayloadLoader.java / PayloadBlock.java / BuildingComp.java / Blocks.java / LiquidModule.java / ItemModule.java / Vars.java / Vec2.java."
+    },
+    "source_payload_deconstructor_update_tile_advance_state_input": {
+      "status": "active",
+      "owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_update_tile_advance_state",
+      "source_slice": "N2233",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "if(deconstructing == null){",
+          "rule": "The building frame carrying the folded efficiency (stamped by apply_update_consumption_state) and the current deconstructing / payload / accum / progress / time / speed_scl / items / pay_vector / pay_rotation; missing keys default to the Java field defaults (PayloadDeconstructor.java:52-55, PayloadBlock.java:94-96).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_update_tile_advance_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26): the delta the edelta() / lerpDelta formulas scale by; lerpDelta uses Time.delta unscaled (Mathf.java:430-432).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_update_tile_advance_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live timeScale read from the sprite meta (SourcePlacedBlockState.time_scale), default 1.0 (BuildingComp.java:98): delta() = Time.delta * timeScale (BuildingComp.java:1922-1924).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_update_tile_advance_state"
+          ]
+        },
+        "deconstruct_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "deconstructSpeed = 6f;",
+          "rule": "The def deconstructSpeed (PayloadDeconstructor.java:19): 6f for the deconstructor (Blocks.java:6655), 3f for the small-deconstructor (Blocks.java:6646), 2.5f class default; the shift numerator. The catalog parses no deconstructSpeed property, so the driver reads per-def constants.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_update_tile_advance_state"
+          ]
+        },
+        "item_capacity": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "itemCapacity = 250;",
+          "rule": "The capacity the canProgress gate and the transfer / rounding checks compare against (PayloadDeconstructor.java:132, 172, 184): the catalog itemCapacity -- 250 for the deconstructor (Blocks.java:6652), 100 for the small-deconstructor (Blocks.java:6643) and the ctor default (PayloadDeconstructor.java:37).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_update_tile_advance_state"
+          ]
+        },
+        "build_cost_multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_expr": "public float buildCostMultiplier = 1f;",
+          "rule": "state.rules.buildCostMultiplier (Rules.java:115, default 1f): the accum multiplier for a BuildPayload deconstructing (PayloadDeconstructor.java:164). The driver reads it from the rules dict with the Java default when the port rules shape does not carry it yet.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_update_tile_advance_state"
+          ]
+        },
+        "unit_cost_multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_expr": "return unitCostMultiplier * teams.get(team).unitCostMultiplier;",
+          "rule": "state.rules.unitCost(team) (Rules.java:275-276): the accum multiplier for a UnitPayload deconstructing (PayloadDeconstructor.java:164); the global and per-team multipliers both default to 1f (Rules.java:83/361). The driver reads it live through SourceRulesRuntimeState.source_unit_cost_state.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadDeconstructorUpdateTileProof",
+      "rule": "Source-backed PayloadDeconstructor updateTile advance from PayloadDeconstructor.java / PayloadBlock.java / BuildPayload.java / UnitPayload.java / Rules.java / BuildingComp.java / Block.java / Blocks.java / arc Mathf.java / Angles.java / Vec2.java."
+    },
+    "source_payload_deconstructor_update_tile_advance_state_result": {
+      "status": "active",
+      "owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_update_tile_advance_state",
+      "source_slice": "N2233",
+      "keys": {
+        "progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "progress += shift;",
+          "rule": "The advanced progress (PayloadDeconstructor.java:117-119, 159, 201): 0f with no deconstructing payload, + shift (NOT realShift, so it can pass 1f) while deconstructing, 0f again when the intake starts a new payload.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_update_tile_advance_state"
+          ]
+        },
+        "time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "time += edelta();",
+          "rule": "The advanced deconstruction time (PayloadDeconstructor.java:160): + edelta() on every tick the deconstruct branch can progress.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_update_tile_advance_state"
+          ]
+        },
+        "speed_scl": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "speedScl = Mathf.lerpDelta(speedScl, canProgress ? 1f : 0f, 0.1f);",
+          "rule": "The advanced speed scale (PayloadDeconstructor.java:167): lerpDelta toward 1f while canProgress, toward 0f otherwise, at 0.1f scaled by Time.delta.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_update_tile_advance_state"
+          ]
+        },
+        "accum": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "accum[i] += reqs[i].amount * (deconstructing instanceof BuildPayload ? state.rules.buildCostMultiplier : state.rules.unitCost(team)) * realShift;",
+          "rule": "The accumulation buffer after the tick (PayloadDeconstructor.java:126-128, 163-165, 170-176, 182-189, 194, 198): resized to the requirements length, folded by amount * cost multiplier * realShift, drained by whole-item transfers and the rounding check, null on finish or fresh zeros on intake.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_update_tile_advance_state"
+          ]
+        },
+        "items": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "items.add(reqs[i].item, taken);",
+          "rule": "The items after the tick (PayloadDeconstructor.java:170-176, 184-187): whole taken amounts transferred from accum, plus 1 per requirement that hits the rounding check at finish.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_update_tile_advance_state"
+          ]
+        },
+        "deconstructing": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "deconstructing = null;",
+          "rule": "The payload being deconstructed after the tick (PayloadDeconstructor.java:193, 199): null when the finish branch clears it, the intake payload when moveInPayload succeeds, unchanged otherwise.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_update_tile_advance_state"
+          ]
+        },
+        "payload": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "payload = null;",
+          "rule": "The held payload after the tick (PayloadDeconstructor.java:200): null once the intake moves it into deconstructing, unchanged otherwise (no live fill sets it yet).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_update_tile_advance_state"
+          ]
+        },
+        "pay_vector": {
+          "type": "Vector2",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "payVector.approach(Vec2.ZERO, payloadSpeed * delta());",
+          "rule": "The payload offset after the tick (PayloadBlock.java:194): approached toward zero at payloadSpeed * delta() by the moveInPayload intake (deconstructor payloadSpeed 1f, PayloadDeconstructor.java:31); unchanged while deconstructing.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_update_tile_advance_state"
+          ]
+        },
+        "pay_rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "payRotation = Angles.moveToward(payRotation, 90f, payloadRotateSpeed * edelta());",
+          "rule": "The payload rotation after the tick (PayloadDeconstructor.java:121): moved toward 90f at payloadRotateSpeed (5f, PayloadBlock.java:18) * edelta() -- NOTE edelta(), not delta() as in moveInPayload.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_update_tile_advance_state"
+          ]
+        },
+        "finished": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "if(progress >= 1f){",
+          "rule": "Whether a deconstruction finished this tick (PayloadDeconstructor.java:179-195): progress reached 1f and the rounding check passed, so deconstructing / accum were cleared.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadDeconstructorUpdateTileProof",
+      "rule": "Source-backed PayloadDeconstructor updateTile advance from PayloadDeconstructor.java / PayloadBlock.java / BuildPayload.java / UnitPayload.java / Rules.java / BuildingComp.java / Block.java / Blocks.java / arc Mathf.java / Angles.java / Vec2.java."
+    },
+    "source_unit_cargo_loader_update_tile_advance_state_input": {
+      "status": "active",
+      "owner": "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_update_tile_advance_state",
+      "source_slice": "N2234",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+          "java_expr": "public float warmup, readyness;",
+          "rule": "The building frame carrying the folded efficiency (stamped by apply_update_consumption_state), the build fields (unit / read_unit_id / build_progress / total_progress / warmup / readyness) and the frame inputs (x / y, the building world position Java reads in unit.set(x, y)).",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_update_tile_advance_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+          "java_expr": "warmup = Mathf.approachDelta(warmup, efficiency, 1f / 60f);",
+          "rule": "Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26): the UNSCALED delta the warmup/readyness approachDelta folds and edelta() scale by (UnitCargoLoader.java:105-106/109-110 use approachDelta and edelta(), not raw seconds).",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_update_tile_advance_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live timeScale read from the sprite meta (SourcePlacedBlockState.time_scale), default 1.0 (BuildingComp.java:98); scales delta() and therefore edelta() (BuildingComp.java:1922-1929).",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_update_tile_advance_state"
+          ]
+        },
+        "found_unit": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+          "java_expr": "unit = Groups.unit.getByID(readUnitId);",
+          "rule": "The unit the live Groups.unit.getByID(readUnitId) query found (dict or null, default null): the live query has no helper in the port, so the driver passes null until the live fill lands; a null found_unit still clears readUnitId because !net.client() is always true in the single-player port (UnitCargoLoader.java:100-101).",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_update_tile_advance_state"
+          ]
+        },
+        "can_create": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+          "java_expr": "if(unit == null && Units.canCreate(team, unitType)){",
+          "rule": "Whether Units.canCreate(team, unitType) passes (Units.java:115-117: !useUnitCap || countType < getCap && !isBanned; manifold keeps the UnitType default useUnitCap = true, UnitType.java:205, so the check is live, not vacuous), default true; the driver passes true until the N2140 live helper is wired for this family.",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07UnitCargoLoaderUpdateTileProof",
+      "rule": "Source-backed UnitCargoLoader updateTile advance from UnitCargoLoader.java / BuildingComp.java / Blocks.java / Units.java / UnitType.java / Block.java."
+    },
+    "source_unit_cargo_loader_update_tile_advance_state_result": {
+      "status": "active",
+      "owner": "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_update_tile_advance_state",
+      "source_slice": "N2234",
+      "keys": {
+        "unit": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+          "java_expr": "unit = unitType.create(team);",
+          "rule": "The unit held after this tick (UnitCargoLoader.java:94-103/114): null when the held unit was lost (dead or not added) or never found, the found_unit when the readUnitId unbox filled it, the spawned unit when the build completed; the unit dict contract is {type, x, y, rotation, dead (default false), added (default true)}.",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_update_tile_advance_state"
+          ]
+        },
+        "read_unit_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+          "java_expr": "readUnitId = -1;",
+          "rule": "The readUnitId after this tick (UnitCargoLoader.java:98-103): -1 whenever it was not -1 coming in (the single-player port always takes the !net.client() branch, so the id clears even when found_unit is null), unchanged (-1) otherwise.",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_update_tile_advance_state"
+          ]
+        },
+        "warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+          "java_expr": "warmup = Mathf.approachDelta(warmup, efficiency, 1f / 60f);",
+          "rule": "The advanced warmup (UnitCargoLoader.java:105): approachDelta toward the folded efficiency at 1f/60f, using the UNSCALED source_delta.",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_update_tile_advance_state"
+          ]
+        },
+        "readyness": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+          "java_expr": "readyness = Mathf.approachDelta(readyness, unit != null ? 1f : 0f, 1f / 60f);",
+          "rule": "The advanced readyness (UnitCargoLoader.java:106): approachDelta toward (unit != null ? 1 : 0) at 1f/60f, using the POST-clear / POST-unbox unit (Java line order: the lost check and the unbox precede the fold).",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_update_tile_advance_state"
+          ]
+        },
+        "build_progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+          "java_expr": "buildProgress += edelta() / unitBuildTime;",
+          "rule": "The advanced build progress (UnitCargoLoader.java:109/129): buildProgress += edelta() / unitBuildTime (480f) while no unit is held and canCreate passes, reset to 0f on spawn via spawned() (UnitCargoLoader.java:127-133, server branch); frozen otherwise.",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_update_tile_advance_state"
+          ]
+        },
+        "total_progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+          "java_expr": "totalProgress += edelta();",
+          "rule": "The advanced total progress (UnitCargoLoader.java:110): totalProgress += edelta() while no unit is held and canCreate passes; frozen otherwise (it never resets -- only buildProgress resets on spawn).",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_update_tile_advance_state"
+          ]
+        },
+        "spawned_unit": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+          "java_expr": "Call.unitTetherBlockSpawned(tile, unit.id);",
+          "rule": "The unit spawned this tick (UnitCargoLoader.java:112-122, the pure result, the N2228 consumed precedent): {type: manifold, x, y, rotation: 90, dead: false, added: true} when buildProgress reached 1f, else null; the live creation/application (unitType.create + BuildingTetherc building(this) + unit.set/add + the remote call + Fx.spawn) defers.",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07UnitCargoLoaderUpdateTileProof",
+      "rule": "Source-backed UnitCargoLoader updateTile advance from UnitCargoLoader.java / BuildingComp.java / Blocks.java / Units.java / UnitType.java / Block.java."
     }
   },
   "version": 1

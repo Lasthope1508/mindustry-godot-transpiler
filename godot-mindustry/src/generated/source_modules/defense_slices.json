@@ -3006,6 +3006,55 @@
       ],
       "runtime_proof": "/root/C07RegenProjectorUpdateTileProof"
     },
+    "N2229": {
+      "canonical_ledger": "source_slice_ledger.N2229",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "java_method": "PointDefenseBuild.updateTile()",
+      "godot_owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_update_tile_advance_state",
+      "source_symbols": [
+        "source_point_defense_turret_update_tile_advance_state_result.target",
+        "source_point_defense_turret_update_tile_advance_state_result.rotation",
+        "source_point_defense_turret_update_tile_advance_state_result.reload_counter",
+        "source_point_defense_turret_update_tile_advance_state_result.target_damage_remaining",
+        "source_point_defense_turret_update_tile_advance_state_result.target_removed",
+        "source_point_defense_turret_update_tile_advance_state_result.fired"
+      ],
+      "tests": [
+        "test_c07_point_defense_turret_update_tile_registration",
+        "test_all_c07_point_defense_turret_update_tile_input_evidence_is_exact",
+        "test_point_defense_turret_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_update_tile"
+      ],
+      "runtime_proof": "/root/C07PointDefenseUpdateTileProof"
+    },
+    "N2230": {
+      "canonical_ledger": "source_slice_ledger.N2230",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile()",
+      "godot_owner": "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_update_tile_advance_state",
+      "source_symbols": [
+        "source_tractor_beam_turret_update_tile_advance_state_result.target",
+        "source_tractor_beam_turret_update_tile_advance_state_result.activation_timer",
+        "source_tractor_beam_turret_update_tile_advance_state_result.coolant_multiplier",
+        "source_tractor_beam_turret_update_tile_advance_state_result.coolant_used",
+        "source_tractor_beam_turret_update_tile_advance_state_result.rotation",
+        "source_tractor_beam_turret_update_tile_advance_state_result.strength",
+        "source_tractor_beam_turret_update_tile_advance_state_result.last_target_position",
+        "source_tractor_beam_turret_update_tile_advance_state_result.damage_dealt",
+        "source_tractor_beam_turret_update_tile_advance_state_result.status_applied",
+        "source_tractor_beam_turret_update_tile_advance_state_result.impulse",
+        "source_tractor_beam_turret_update_tile_advance_state_result.any"
+      ],
+      "tests": [
+        "test_c07_tractor_beam_update_tile_registration",
+        "test_all_c07_tractor_beam_update_tile_input_evidence_is_exact",
+        "test_tractor_beam_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_tractor_beam_update_tile"
+      ],
+      "runtime_proof": "/root/C07TractorBeamUpdateTileProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

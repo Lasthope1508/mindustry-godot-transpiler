@@ -6846,6 +6846,107 @@
       "rule": "Source-backed PointDefenseTurret shouldConsume gate from PointDefenseTurret.java / BuildingComp.java / Blocks.java.",
       "return_type": "Dictionary"
     },
+    "SourcePointDefenseTurretBuildState.source_point_defense_turret_update_tile_advance_state": {
+      "canonical_contract": "source_api_contracts.SourcePointDefenseTurretBuildState.source_point_defense_turret_update_tile_advance_state",
+      "status": "active",
+      "source_slice": "N2229",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "source_method": "PointDefenseBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_point_defense_turret_update_tile_advance_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_point_defense_turret_update_tile_advance_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_point_defense_turret_update_tile_advance_state_input.time_scale"
+        },
+        {
+          "name": "turret_range",
+          "type": "float",
+          "schema": "source_point_defense_turret_update_tile_advance_state_input.turret_range"
+        },
+        {
+          "name": "bullet_damage",
+          "type": "float",
+          "schema": "source_point_defense_turret_update_tile_advance_state_input.bullet_damage"
+        },
+        {
+          "name": "reload",
+          "type": "float",
+          "schema": "source_point_defense_turret_update_tile_advance_state_input.reload"
+        },
+        {
+          "name": "building_x",
+          "type": "float",
+          "schema": "source_point_defense_turret_update_tile_advance_state_input.building_x"
+        },
+        {
+          "name": "building_y",
+          "type": "float",
+          "schema": "source_point_defense_turret_update_tile_advance_state_input.building_y"
+        },
+        {
+          "name": "bullets",
+          "type": "Array",
+          "schema": "source_point_defense_turret_update_tile_advance_state_input.bullets"
+        },
+        {
+          "name": "retarget_tick",
+          "type": "bool",
+          "schema": "source_point_defense_turret_update_tile_advance_state_input.retarget_tick"
+        },
+        {
+          "name": "block_damage_multiplier",
+          "type": "float",
+          "schema": "source_point_defense_turret_update_tile_advance_state_input.block_damage_multiplier"
+        },
+        {
+          "name": "coolant_present",
+          "type": "bool",
+          "schema": "source_point_defense_turret_update_tile_advance_state_input.coolant_present"
+        },
+        {
+          "name": "coolant_amount",
+          "type": "float",
+          "schema": "source_point_defense_turret_update_tile_advance_state_input.coolant_amount"
+        },
+        {
+          "name": "coolant_efficiency",
+          "type": "float",
+          "schema": "source_point_defense_turret_update_tile_advance_state_input.coolant_efficiency"
+        },
+        {
+          "name": "heat_capacity",
+          "type": "float",
+          "schema": "source_point_defense_turret_update_tile_advance_state_input.heat_capacity"
+        }
+      ],
+      "return_keys": [
+        "target",
+        "rotation",
+        "reload_counter",
+        "target_damage_remaining",
+        "target_removed",
+        "fired"
+      ],
+      "tests": [
+        "test_c07_point_defense_turret_update_tile_registration",
+        "test_all_c07_point_defense_turret_update_tile_input_evidence_is_exact",
+        "test_point_defense_turret_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_update_tile"
+      ],
+      "runtime_proof": "/root/C07PointDefenseUpdateTileProof",
+      "rule": "Source-backed PointDefenseTurret updateTile advance from PointDefenseTurret.java / ReloadTurret.java / BaseTurret.java / Blocks.java / BuildingComp.java / EntityComp.java / EntityGroup.java / GroupDefs.java / BulletType.java / BulletComp.java / Rules.java / Team.java / Block.java / Tile.java / Position.java / Angles.java / Seq.java / QuadTree.java.",
+      "return_type": "Dictionary"
+    },
     "SourceRadarBuildState.source_radar_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourceRadarBuildState.source_radar_power_status_row_state",
       "status": "active",
@@ -7102,6 +7203,107 @@
       ],
       "runtime_proof": "/root/C07TractorBeamTurretShouldConsumeProof",
       "rule": "Source-backed TractorBeamTurret shouldConsume gate from TractorBeamTurret.java / BaseTurret.java / BuildingComp.java / Blocks.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_update_tile_advance_state": {
+      "canonical_contract": "source_api_contracts.SourceTractorBeamTurretBuildState.source_tractor_beam_turret_update_tile_advance_state",
+      "status": "active",
+      "source_slice": "N2230",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "source_method": "TractorBeamBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_tractor_beam_turret_update_tile_advance_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_update_tile_advance_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_update_tile_advance_state_input.time_scale"
+        },
+        {
+          "name": "building_x",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_update_tile_advance_state_input.building_x"
+        },
+        {
+          "name": "building_y",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_update_tile_advance_state_input.building_y"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_tractor_beam_turret_update_tile_advance_state_input.team_id"
+        },
+        {
+          "name": "candidates",
+          "type": "Array",
+          "schema": "source_tractor_beam_turret_update_tile_advance_state_input.candidates"
+        },
+        {
+          "name": "retarget_tick",
+          "type": "bool",
+          "schema": "source_tractor_beam_turret_update_tile_advance_state_input.retarget_tick"
+        },
+        {
+          "name": "coolant_present",
+          "type": "bool",
+          "schema": "source_tractor_beam_turret_update_tile_advance_state_input.coolant_present"
+        },
+        {
+          "name": "coolant_amount",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_update_tile_advance_state_input.coolant_amount"
+        },
+        {
+          "name": "liquid_amount",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_update_tile_advance_state_input.liquid_amount"
+        },
+        {
+          "name": "liquid_heat_capacity",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_update_tile_advance_state_input.liquid_heat_capacity"
+        },
+        {
+          "name": "block_damage_multiplier",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_update_tile_advance_state_input.block_damage_multiplier"
+        },
+        {
+          "name": "status_present",
+          "type": "bool",
+          "schema": "source_tractor_beam_turret_update_tile_advance_state_input.status_present"
+        }
+      ],
+      "return_keys": [
+        "target",
+        "activation_timer",
+        "coolant_multiplier",
+        "coolant_used",
+        "rotation",
+        "strength",
+        "last_target_position",
+        "damage_dealt",
+        "status_applied",
+        "impulse",
+        "any"
+      ],
+      "tests": [
+        "test_c07_tractor_beam_update_tile_registration",
+        "test_all_c07_tractor_beam_update_tile_input_evidence_is_exact",
+        "test_tractor_beam_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_tractor_beam_update_tile"
+      ],
+      "runtime_proof": "/root/C07TractorBeamUpdateTileProof",
+      "rule": "Source-backed TractorBeamTurret updateTile advance from TractorBeamTurret.java / BaseTurret.java / Units.java / UnitComp.java / UnitType.java / BuildingComp.java / TimerComp.java / Block.java / Tile.java / Blocks.java / Rules.java / Team.java / Mathf.java / Angles.java / Position.java / Vec2.java / Time.java.",
       "return_type": "Dictionary"
     },
     "SourceTurretBuildState.source_turret_power_status_row_state": {

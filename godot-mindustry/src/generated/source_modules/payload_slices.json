@@ -1780,6 +1780,91 @@
         "test_reference_graph_and_actual_c07_constructor_should_consume"
       ],
       "runtime_proof": "/root/C07ConstructorShouldConsumeProof"
+    },
+    "N2231": {
+      "canonical_ledger": "source_slice_ledger.N2231",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+      "java_method": "PayloadLoaderBuild.updateTile()",
+      "godot_owner": "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state",
+      "source_symbols": [
+        "source_payload_loader_update_tile_advance_state_result.should_export",
+        "source_payload_loader_update_tile_advance_state_result.has_arrived",
+        "source_payload_loader_update_tile_advance_state_result.exporting",
+        "source_payload_loader_update_tile_advance_state_result.pay_vector",
+        "source_payload_loader_update_tile_advance_state_result.pay_rotation",
+        "source_payload_loader_update_tile_advance_state_result.items",
+        "source_payload_loader_update_tile_advance_state_result.liquids",
+        "source_payload_loader_update_tile_advance_state_result.payload",
+        "source_payload_loader_update_tile_advance_state_result.payload_moved",
+        "source_payload_loader_update_tile_advance_state_result.payload_dumped",
+        "source_payload_loader_update_tile_advance_state_result.liquid_flow",
+        "source_payload_loader_update_tile_advance_state_result.power_charged",
+        "source_payload_loader_update_tile_advance_state_result.items_loaded",
+        "source_payload_loader_update_tile_advance_state_result.pushed_output_fraction"
+      ],
+      "tests": [
+        "test_c07_payload_loader_update_tile_registration",
+        "test_all_c07_payload_loader_update_tile_input_evidence_is_exact",
+        "test_payload_loader_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_loader_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderUpdateTileProof"
+    },
+    "N2232": {
+      "canonical_ledger": "source_slice_ledger.N2232",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+      "java_method": "PayloadUnloaderBuild.updateTile()",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_update_tile_advance_state",
+      "source_symbols": [
+        "source_payload_unloader_update_tile_advance_state_result.payload",
+        "source_payload_unloader_update_tile_advance_state_result.pay_vector",
+        "source_payload_unloader_update_tile_advance_state_result.pay_rotation",
+        "source_payload_unloader_update_tile_advance_state_result.items",
+        "source_payload_unloader_update_tile_advance_state_result.liquids",
+        "source_payload_unloader_update_tile_advance_state_result.last_output_power",
+        "source_payload_unloader_update_tile_advance_state_result.should_export",
+        "source_payload_unloader_update_tile_advance_state_result.moved_in",
+        "source_payload_unloader_update_tile_advance_state_result.payload_moved",
+        "source_payload_unloader_update_tile_advance_state_result.payload_dumped",
+        "source_payload_unloader_update_tile_advance_state_result.deconstructed",
+        "source_payload_unloader_update_tile_advance_state_result.items_unloaded",
+        "source_payload_unloader_update_tile_advance_state_result.liquids_unloaded"
+      ],
+      "tests": [
+        "test_c07_payload_unloader_update_tile_registration",
+        "test_all_c07_payload_unloader_update_tile_input_evidence_is_exact",
+        "test_payload_unloader_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderUpdateTileProof"
+    },
+    "N2233": {
+      "canonical_ledger": "source_slice_ledger.N2233",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "java_method": "PayloadDeconstructorBuild.updateTile()",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_update_tile_advance_state",
+      "source_symbols": [
+        "source_payload_deconstructor_update_tile_advance_state_result.progress",
+        "source_payload_deconstructor_update_tile_advance_state_result.time",
+        "source_payload_deconstructor_update_tile_advance_state_result.speed_scl",
+        "source_payload_deconstructor_update_tile_advance_state_result.accum",
+        "source_payload_deconstructor_update_tile_advance_state_result.items",
+        "source_payload_deconstructor_update_tile_advance_state_result.deconstructing",
+        "source_payload_deconstructor_update_tile_advance_state_result.payload",
+        "source_payload_deconstructor_update_tile_advance_state_result.pay_vector",
+        "source_payload_deconstructor_update_tile_advance_state_result.pay_rotation",
+        "source_payload_deconstructor_update_tile_advance_state_result.finished"
+      ],
+      "tests": [
+        "test_c07_payload_deconstructor_update_tile_registration",
+        "test_all_c07_payload_deconstructor_update_tile_input_evidence_is_exact",
+        "test_payload_deconstructor_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorUpdateTileProof"
     }
   }
 }

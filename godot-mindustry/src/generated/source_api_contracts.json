@@ -67425,6 +67425,471 @@
       ],
       "runtime_proof": "/root/C07RegenProjectorUpdateTileProof",
       "rule": "Source-backed RegenProjector updateTile advance from RegenProjector.java / BuildingComp.java / Blocks.java / Block.java / World.java."
+    },
+    "SourcePointDefenseTurretBuildState.source_point_defense_turret_update_tile_advance_state": {
+      "status": "active",
+      "source_slice": "N2229",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "source_method": "PointDefenseBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_point_defense_turret_update_tile_advance_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_point_defense_turret_update_tile_advance_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_point_defense_turret_update_tile_advance_state_input.time_scale"
+        },
+        {
+          "name": "turret_range",
+          "type": "float",
+          "schema": "source_point_defense_turret_update_tile_advance_state_input.turret_range"
+        },
+        {
+          "name": "bullet_damage",
+          "type": "float",
+          "schema": "source_point_defense_turret_update_tile_advance_state_input.bullet_damage"
+        },
+        {
+          "name": "reload",
+          "type": "float",
+          "schema": "source_point_defense_turret_update_tile_advance_state_input.reload"
+        },
+        {
+          "name": "building_x",
+          "type": "float",
+          "schema": "source_point_defense_turret_update_tile_advance_state_input.building_x"
+        },
+        {
+          "name": "building_y",
+          "type": "float",
+          "schema": "source_point_defense_turret_update_tile_advance_state_input.building_y"
+        },
+        {
+          "name": "bullets",
+          "type": "Array",
+          "schema": "source_point_defense_turret_update_tile_advance_state_input.bullets"
+        },
+        {
+          "name": "retarget_tick",
+          "type": "bool",
+          "schema": "source_point_defense_turret_update_tile_advance_state_input.retarget_tick"
+        },
+        {
+          "name": "block_damage_multiplier",
+          "type": "float",
+          "schema": "source_point_defense_turret_update_tile_advance_state_input.block_damage_multiplier"
+        },
+        {
+          "name": "coolant_present",
+          "type": "bool",
+          "schema": "source_point_defense_turret_update_tile_advance_state_input.coolant_present"
+        },
+        {
+          "name": "coolant_amount",
+          "type": "float",
+          "schema": "source_point_defense_turret_update_tile_advance_state_input.coolant_amount"
+        },
+        {
+          "name": "coolant_efficiency",
+          "type": "float",
+          "schema": "source_point_defense_turret_update_tile_advance_state_input.coolant_efficiency"
+        },
+        {
+          "name": "heat_capacity",
+          "type": "float",
+          "schema": "source_point_defense_turret_update_tile_advance_state_input.heat_capacity"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "target",
+        "rotation",
+        "reload_counter",
+        "target_damage_remaining",
+        "target_removed",
+        "fired"
+      ],
+      "tests": [
+        "test_c07_point_defense_turret_update_tile_registration",
+        "test_all_c07_point_defense_turret_update_tile_input_evidence_is_exact",
+        "test_point_defense_turret_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_update_tile"
+      ],
+      "runtime_proof": "/root/C07PointDefenseUpdateTileProof",
+      "rule": "Source-backed PointDefenseTurret updateTile advance from PointDefenseTurret.java / ReloadTurret.java / BaseTurret.java / Blocks.java / BuildingComp.java / EntityComp.java / EntityGroup.java / GroupDefs.java / BulletType.java / BulletComp.java / Rules.java / Team.java / Block.java / Tile.java / Position.java / Angles.java / Seq.java / QuadTree.java."
+    },
+    "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_update_tile_advance_state": {
+      "status": "active",
+      "source_slice": "N2230",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "source_method": "TractorBeamBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_tractor_beam_turret_update_tile_advance_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_update_tile_advance_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_update_tile_advance_state_input.time_scale"
+        },
+        {
+          "name": "building_x",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_update_tile_advance_state_input.building_x"
+        },
+        {
+          "name": "building_y",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_update_tile_advance_state_input.building_y"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_tractor_beam_turret_update_tile_advance_state_input.team_id"
+        },
+        {
+          "name": "candidates",
+          "type": "Array",
+          "schema": "source_tractor_beam_turret_update_tile_advance_state_input.candidates"
+        },
+        {
+          "name": "retarget_tick",
+          "type": "bool",
+          "schema": "source_tractor_beam_turret_update_tile_advance_state_input.retarget_tick"
+        },
+        {
+          "name": "coolant_present",
+          "type": "bool",
+          "schema": "source_tractor_beam_turret_update_tile_advance_state_input.coolant_present"
+        },
+        {
+          "name": "coolant_amount",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_update_tile_advance_state_input.coolant_amount"
+        },
+        {
+          "name": "liquid_amount",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_update_tile_advance_state_input.liquid_amount"
+        },
+        {
+          "name": "liquid_heat_capacity",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_update_tile_advance_state_input.liquid_heat_capacity"
+        },
+        {
+          "name": "block_damage_multiplier",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_update_tile_advance_state_input.block_damage_multiplier"
+        },
+        {
+          "name": "status_present",
+          "type": "bool",
+          "schema": "source_tractor_beam_turret_update_tile_advance_state_input.status_present"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "target",
+        "activation_timer",
+        "coolant_multiplier",
+        "coolant_used",
+        "rotation",
+        "strength",
+        "last_target_position",
+        "damage_dealt",
+        "status_applied",
+        "impulse",
+        "any"
+      ],
+      "tests": [
+        "test_c07_tractor_beam_update_tile_registration",
+        "test_all_c07_tractor_beam_update_tile_input_evidence_is_exact",
+        "test_tractor_beam_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_tractor_beam_update_tile"
+      ],
+      "runtime_proof": "/root/C07TractorBeamUpdateTileProof",
+      "rule": "Source-backed TractorBeamTurret updateTile advance from TractorBeamTurret.java / BaseTurret.java / Units.java / UnitComp.java / UnitType.java / BuildingComp.java / TimerComp.java / Block.java / Tile.java / Blocks.java / Rules.java / Team.java / Mathf.java / Angles.java / Position.java / Vec2.java / Time.java."
+    },
+    "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state": {
+      "status": "active",
+      "source_slice": "N2231",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+      "source_method": "PayloadLoaderBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_payload_loader_update_tile_advance_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_payload_loader_update_tile_advance_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_payload_loader_update_tile_advance_state_input.time_scale"
+        },
+        {
+          "name": "load_tick",
+          "type": "bool",
+          "schema": "source_payload_loader_update_tile_advance_state_input.load_tick"
+        },
+        {
+          "name": "rotdeg_value",
+          "type": "float",
+          "schema": "source_payload_loader_update_tile_advance_state_input.rotdeg_value"
+        },
+        {
+          "name": "block_rotate",
+          "type": "bool",
+          "schema": "source_payload_loader_update_tile_advance_state_input.block_rotate"
+        },
+        {
+          "name": "item_order",
+          "type": "Array",
+          "schema": "source_payload_loader_update_tile_advance_state_input.item_order"
+        },
+        {
+          "name": "liquid_names_by_id",
+          "type": "Array",
+          "schema": "source_payload_loader_update_tile_advance_state_input.liquid_names_by_id"
+        },
+        {
+          "name": "front",
+          "type": "Dictionary",
+          "schema": "source_payload_loader_update_tile_advance_state_input.front"
+        },
+        {
+          "name": "move_payload_result",
+          "type": "bool",
+          "schema": "source_payload_loader_update_tile_advance_state_input.move_payload_result"
+        },
+        {
+          "name": "base_power_use",
+          "type": "float",
+          "schema": "source_payload_loader_update_tile_advance_state_input.base_power_use"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "should_export",
+        "has_arrived",
+        "exporting",
+        "pay_vector",
+        "pay_rotation",
+        "items",
+        "liquids",
+        "payload",
+        "payload_moved",
+        "payload_dumped",
+        "liquid_flow",
+        "power_charged",
+        "items_loaded",
+        "pushed_output_fraction"
+      ],
+      "tests": [
+        "test_c07_payload_loader_update_tile_registration",
+        "test_all_c07_payload_loader_update_tile_input_evidence_is_exact",
+        "test_payload_loader_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_loader_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderUpdateTileProof",
+      "rule": "Source-backed PayloadLoader updateTile advance from PayloadLoader.java / PayloadBlock.java / BuildingComp.java / Blocks.java / Block.java / ItemModule.java / LiquidModule.java / StorageBlock.java / LiquidRouter.java / LiquidVoid.java / Vars.java."
+    },
+    "SourcePayloadUnloaderBuildState.source_payload_unloader_update_tile_advance_state": {
+      "status": "active",
+      "source_slice": "N2232",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+      "source_method": "PayloadUnloaderBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_payload_unloader_update_tile_advance_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_payload_unloader_update_tile_advance_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_payload_unloader_update_tile_advance_state_input.time_scale"
+        },
+        {
+          "name": "load_tick",
+          "type": "bool",
+          "schema": "source_payload_unloader_update_tile_advance_state_input.load_tick"
+        },
+        {
+          "name": "item_order",
+          "type": "Array",
+          "schema": "source_payload_unloader_update_tile_advance_state_input.item_order"
+        },
+        {
+          "name": "front",
+          "type": "Dictionary",
+          "schema": "source_payload_unloader_update_tile_advance_state_input.front"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "payload",
+        "pay_vector",
+        "pay_rotation",
+        "items",
+        "liquids",
+        "last_output_power",
+        "should_export",
+        "moved_in",
+        "payload_moved",
+        "payload_dumped",
+        "deconstructed",
+        "items_unloaded",
+        "liquids_unloaded"
+      ],
+      "tests": [
+        "test_c07_payload_unloader_update_tile_registration",
+        "test_all_c07_payload_unloader_update_tile_input_evidence_is_exact",
+        "test_payload_unloader_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderUpdateTileProof",
+      "rule": "Source-backed PayloadUnloader updateTile advance from PayloadUnloader.java / PayloadLoader.java / PayloadBlock.java / BuildingComp.java / Blocks.java / LiquidModule.java / ItemModule.java / Vars.java / Vec2.java."
+    },
+    "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_update_tile_advance_state": {
+      "status": "active",
+      "source_slice": "N2233",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "source_method": "PayloadDeconstructorBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_payload_deconstructor_update_tile_advance_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_payload_deconstructor_update_tile_advance_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_payload_deconstructor_update_tile_advance_state_input.time_scale"
+        },
+        {
+          "name": "deconstruct_speed",
+          "type": "float",
+          "schema": "source_payload_deconstructor_update_tile_advance_state_input.deconstruct_speed"
+        },
+        {
+          "name": "item_capacity",
+          "type": "int",
+          "schema": "source_payload_deconstructor_update_tile_advance_state_input.item_capacity"
+        },
+        {
+          "name": "build_cost_multiplier",
+          "type": "float",
+          "schema": "source_payload_deconstructor_update_tile_advance_state_input.build_cost_multiplier"
+        },
+        {
+          "name": "unit_cost_multiplier",
+          "type": "float",
+          "schema": "source_payload_deconstructor_update_tile_advance_state_input.unit_cost_multiplier"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "progress",
+        "time",
+        "speed_scl",
+        "accum",
+        "items",
+        "deconstructing",
+        "payload",
+        "pay_vector",
+        "pay_rotation",
+        "finished"
+      ],
+      "tests": [
+        "test_c07_payload_deconstructor_update_tile_registration",
+        "test_all_c07_payload_deconstructor_update_tile_input_evidence_is_exact",
+        "test_payload_deconstructor_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_update_tile"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorUpdateTileProof",
+      "rule": "Source-backed PayloadDeconstructor updateTile advance from PayloadDeconstructor.java / PayloadBlock.java / BuildPayload.java / UnitPayload.java / Rules.java / BuildingComp.java / Block.java / Blocks.java / arc Mathf.java / Angles.java / Vec2.java."
+    },
+    "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_update_tile_advance_state": {
+      "status": "active",
+      "source_slice": "N2234",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+      "source_method": "UnitTransportSourceBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_unit_cargo_loader_update_tile_advance_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_unit_cargo_loader_update_tile_advance_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_unit_cargo_loader_update_tile_advance_state_input.time_scale"
+        },
+        {
+          "name": "found_unit",
+          "type": "Variant",
+          "schema": "source_unit_cargo_loader_update_tile_advance_state_input.found_unit"
+        },
+        {
+          "name": "can_create",
+          "type": "bool",
+          "schema": "source_unit_cargo_loader_update_tile_advance_state_input.can_create"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "unit",
+        "read_unit_id",
+        "warmup",
+        "readyness",
+        "build_progress",
+        "total_progress",
+        "spawned_unit"
+      ],
+      "tests": [
+        "test_c07_unit_cargo_loader_update_tile_registration",
+        "test_all_c07_unit_cargo_loader_update_tile_input_evidence_is_exact",
+        "test_unit_cargo_loader_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_unit_cargo_loader_update_tile"
+      ],
+      "runtime_proof": "/root/C07UnitCargoLoaderUpdateTileProof",
+      "rule": "Source-backed UnitCargoLoader updateTile advance from UnitCargoLoader.java / BuildingComp.java / Blocks.java / Units.java / UnitType.java / Block.java."
     }
   },
   "policy": {
