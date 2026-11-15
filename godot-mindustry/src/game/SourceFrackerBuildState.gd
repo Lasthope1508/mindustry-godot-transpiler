@@ -171,17 +171,26 @@ static func source_fracker_power_status_row_state(frame: Dictionary, has_power_c
 	# (Fracker.java:38, `accumulator += delta() * efficiency;`),
 	# and its super.updateTile() runs the solid-pump speed fold
 	# (SolidPump.java:121, `float maxPump = Math.min(liquidCapacity - typeLiquid(), pumpAmount * delta() * fraction * efficiency);`).
-	# Documented limits: (1) power + liquid first pass -- the
-	# liquid row live (N2255): the water consumer (0.15f per
-	# frame, Blocks.java:2978) folds into the min efficiency
-	# with the power row, and the second pass removes amount
-	# * edelta * multiplier each tick (ConsumeLiquid.java:
-	# 37-39). The item (sand) consumer (Blocks.java:2976)
-	# and the water-attribute / validTiles / boost fraction
+	# Documented limits: (1) power + liquid + item first
+	# pass -- the liquid row live (N2255): the water
+	# consumer (0.15f per frame, Blocks.java:2978) folds
+	# into the min efficiency with the power row, and the
+	# second pass removes amount * edelta * multiplier each
+	# tick (ConsumeLiquid.java:37-39).
+	# The item row live (N2268): the sand consumer
+	# (consumeItem sand, Blocks.java:2976) folds its binary row
+	# (ConsumeItems.efficiency, ConsumeItems.java:51-53,
+	# 1 when >= 1 sand held, 0 otherwise) into the min
+	# efficiency with the power + water rows; no live
+	# intake fills frame["items"] yet (the "Fracker item
+	# intake" DEFERRED entry stays), and the advance
+	# removal is live since N2224 (one sand when the
+	# accumulator reaches itemUseTime, Fracker.java:32-35).
+	# The water-attribute / validTiles / boost fraction
 	# (SolidPump.java:118, 137-147, inherited via
-	# super.updateTile()) wait for their own slices, so the
+	# super.updateTile()) waits for its own slice, so the
 	# folded efficiency is the min over the *modeled*
-	# consumers (power + water). (2) shouldConsume gate live (N2207)
+	# consumers (power + water + sand). (2) shouldConsume gate live (N2207)
 	# -- FrackerBuild inherits
 	# SolidPumpBuild.shouldConsume() (SolidPump.java:117-119,
 	# `return liquids.get(result) < liquidCapacity - 0.01f;`);
@@ -226,6 +235,21 @@ static func source_fracker_liquid_consumer_row_state(frame: Dictionary, has_liqu
 	if ed > 0.00000001:
 		result = minf(liquid_amount / (amount * ed * multiplier), 1.0)
 	return {"has_liquid_row": true, "row": {"result": result, "is_power": false}}
+
+static func source_fracker_item_consumer_row_state(frame: Dictionary, has_item_consumer: bool, stacks: Array, multiplier: float = 1.0) -> Dictionary:
+	# ConsumeItems.efficiency (ConsumeItems.java:51-53, `return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;`): BINARY 1/0, not a ratio -- 1 when the building is burning a trigger consumer or its item module holds every stack, 0 otherwise. consumeTriggerValid() is false at the base (BuildingComp.java:764-766, `public boolean consumeTriggerValid(){` with `return false;`) and no Fracker build overrides it (Fracker.java has no consumeTriggerValid; only ConsumeGeneratorBuild overrides it, ConsumeGenerator.java:152), so the trigger term is always false here. items.has (ItemModule.java:153-156, `if(stack.item.id >= items.length || !has(stack.item, Math.round(stack.amount * multiplier))) return false;`) requires EVERY stack to hold round(amount * multiplier), with has(item, amount) = get(item) >= amount (ItemModule.java:126-128, `return get(item) >= amount;`); the port's item module is a Dictionary keyed by item name, so an unknown item reads 0 through the shared inventory helper (SourceDrillInventoryRuntimeState.item_count, reused through a preload, NOT re-implemented), the same outcome as the id-out-of-range branch. The multiplier defaults to 1f (Consume.java:18, `public Floatf<Building> multiplier = b -> 1f;`); the oil-extractor def sets none (`consumeItem(Items.sand);`, Blocks.java:2976, is one stack of 1: consumeItem(item) returns consumeItem(item, 1), Block.java:1167-1168). The row is REQUIRED (non-optional) -- the def never calls .boost() -- so it folds the FIRST pass (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`) and the shared fold sets shouldConsumePower=false when the row is <= 1e-7 (BuildingComp.java:1972-1973, `if(cons != block.consPower && result <= 0.0000001f){` / `shouldConsumePower = false;`). The stacks arrive explicit from the driver (the catalog consumeItem rows, [{"item": "sand", "amount": 1}] for the oil-extractor). No removal here: Consume.update is empty (Consume.java:52, `public void update(Building build){}`), so the second pass never removes items -- the sand is only removed by consume() in the updateTile advance (Fracker.java:32-35, live since N2224, `build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));`, ConsumeItems.java:44-48). No live intake fills frame["items"] yet (the "Fracker item intake" DEFERRED entry stays), so a live fracker reads the frame as-is.
+	if not has_item_consumer:
+		return {"has_item_row": false, "row": {}}
+	var items: Dictionary = frame.get("items", {})
+	var result := 1.0
+	for stack in stacks:
+		var item_name: String = str(stack.get("item", ""))
+		var needed: int = int(round(float(stack.get("amount", 0)) * multiplier))
+		if inventory.item_count(items, item_name) < needed:
+			result = 0.0
+	if result <= 0.0:
+		return {"has_item_row": true, "row": {"result": 0.0, "is_power": false}}
+	return {"has_item_row": true, "row": {"result": 1.0, "is_power": false}}
 
 static func source_fracker_update_tile_advance_state(frame: Dictionary, source_delta: float, time_scale: float, result_liquid_id: int, liquid_capacity: float, pump_amount: float, item_use_time: float) -> Dictionary:
 	# The updateTile advance (FrackerBuild.updateTile(),
@@ -371,10 +395,10 @@ static func source_fracker_tick_buildings_state(game: Object, seconds: float) ->
 		# `hasConsumers = consumers.length > 0;`), so a fracker
 		# does not take the early return. A fracker with no power
 		# consumer is untouched: the tick models the power +
-		# water consumers (N2255 folds the liquid row into the
-		# first pass); the item consumer and the
-		# water-attribute / validTiles / boost fraction wait for
-		# their own slices, and FrackerBuild inherits
+		# water + sand consumers (N2255 folds the liquid row
+		# into the first pass, N2268 folds the sand item row);
+		# the water-attribute / validTiles / boost fraction
+		# waits for its own slice, and FrackerBuild inherits
 		# SolidPumpBuild.shouldConsume() (`return
 		# liquids.get(result) < liquidCapacity - 0.01f;`,
 		# SolidPump.java:117-119) -- N2207 feeds the live gate
@@ -422,6 +446,28 @@ static func source_fracker_tick_buildings_state(game: Object, seconds: float) ->
 			var liquid_row: Dictionary = source_fracker_liquid_consumer_row_state(frame, has_liquid_consumer, water_liquid_id, SOURCE_FRACKER_CONSUME_LIQUID_AMOUNT, source_delta, time_scale, float(frame.get("efficiency_scale", 1.0)))
 			if bool(liquid_row.get("has_liquid_row", false)):
 				required_results.append(liquid_row.get("row", {}))
+			# The item consumer reads live since N2268: a
+			# fracker with an item consumer folds the pure
+			# item row into the first pass (ConsumeItems.
+			# efficiency, ConsumeItems.java:51-53, binary
+			# 1/0), so the folded efficiency is the min over
+			# power + water + sand and the shared fold stops
+			# power draw when the item row is <= 1e-7. The
+			# stacks come from the catalog consumeItem rows
+			# ([{"item": "sand", "amount": 1}] for the
+			# oil-extractor, `consumeItem(Items.sand);`,
+			# Blocks.java:2976 -- consumeItem(item) is one
+			# stack of 1, Block.java:1167-1168). No removal
+			# here: Consume.update is empty (Consume.java:52),
+			# so the second pass never removes items -- the
+			# sand is only removed by consume() in the
+			# updateTile advance (Fracker.java:32-35, live
+			# since N2224).
+			var has_item_consumer: bool = bool(block.properties.has("consumeItem"))
+			var item_stacks: Array = block.properties.get("consumeItem", [])
+			var item_row: Dictionary = source_fracker_item_consumer_row_state(frame, has_item_consumer, item_stacks)
+			if bool(item_row.get("has_item_row", false)):
+				required_results.append(item_row.get("row", {}))
 			var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(true, bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, [], [], frame)
 			source_building_efficiency_state.apply_update_consumption_state(consumption, frame)
 			# Second pass (N2255): ConsumeLiquid.update removes
