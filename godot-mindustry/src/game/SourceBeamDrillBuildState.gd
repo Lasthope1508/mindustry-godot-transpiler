@@ -277,8 +277,18 @@ static func source_beam_drill_tick_buildings_state(game: Object, seconds: float)
 		# updateConsumption(), then the updateTile gate
 		# `if(enabled || !block.noUpdateDisabled){` at
 		# BuildingComp.java:2277-2279; noUpdateDisabled defaults
-		# false, Block.java:170), so a disabled beam drill
-		# freezes its warmup / time. super.updateTile() is an
+		# false, Block.java:170, so Java runs updateTile even
+		# when disabled -- in Java a disabled beam drill's
+		# warmup DECAYS toward 0 (efficiency is zeroed by the
+		# disabled early return, BuildingComp.java:1954-1957)
+		# and time freezes (edelta() is 0). The port keeps the
+		# enabled gate below as a pragmatic choice: the driver
+		# skips the consumption fold when disabled, so the
+		# frame efficiency goes stale and running the advance
+		# on it would charge warmup/time from a stale
+		# efficiency. The driver-wide disabled-early-return
+		# slice (deferred in the N2195 register) removes this
+		# gate for all families. super.updateTile() is an
 		# empty no-op (BuildingComp.java:2010-2012), so the
 		# driver owes it nothing. The source delta is
 		# Time.delta in ticks: game_source_delta(game, seconds)
