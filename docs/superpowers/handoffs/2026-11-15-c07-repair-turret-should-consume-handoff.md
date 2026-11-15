@@ -1,6 +1,6 @@
 # Handoff — N2188 RepairTurret shouldConsume gate
 
-Date: 2026-11-15. Batch: N2188 (single slice). Status: **GREEN DONE (targeted 4/4 OK, proof 9 keys matches:true, SSOT 11390/1639/1560/2911). Neighbours PARTIAL: family 18/20 + wiring 31/32 (3 failures to re-run isolated). Gate relaunched CLEAN (main-thread PID 12219, no Godot on PATH).**
+Date: 2026-11-15. Batch: N2188 (single slice). Status: **DONE + PUSHED (gate clean except Godot; slice 5b716a5, docs 1db19d6, GOAL cd1e342, main 63e49ba).**
 
 ## Scope (verified against upstream Java + the port this run)
 
