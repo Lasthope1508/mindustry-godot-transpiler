@@ -80,15 +80,18 @@ class C07RepairTurretTimerTargetTests(unittest.TestCase):
         # (same prefixes, new text): the live-acquire entry
         # now waits only on the live Units scan, and the live-
         # fill entry records the cadence as live since N2280.
-        # Two new deferrals join: the first-fire deviation and
-        # the time-scale threshold deviation (Java passes a
-        # literal 20, RepairTurret.java:214, with no timeScale
-        # division -- unlike the N2269/N2273 precedents).
+        # Two new deferrals joined at N2280: the first-fire
+        # deviation (still open) and the time-scale threshold
+        # deviation (Java passes a literal 20,
+        # RepairTurret.java:214, with no timeScale division --
+        # unlike the N2269/N2273 precedents) -- the threshold
+        # deviation is RESOLVED by the N2290 fix (literal-20
+        # threshold), so its entry is gone from the ledger.
         self.assertTrue(any(entry.startswith('RepairTurret live target acquire (') and 'cadence is live since N2280' in entry for entry in ledger['N2280']['deferred_exprs']))
         self.assertTrue(any(entry.startswith('RepairTurret updateTile live fill (') and 'cadence is live since N2280' in entry for entry in ledger['N2280']['deferred_exprs']))
         self.assertFalse(any('there is no timer helper in the port and no live unit query, so the driver passes an empty candidate list and no live re-acquire happens' in entry for entry in ledger['N2280']['deferred_exprs']))
         self.assertTrue(any(entry.startswith('RepairTurret timer-target first-fire deviation (') for entry in ledger['N2280']['deferred_exprs']))
-        self.assertTrue(any(entry.startswith('RepairTurret timer-target time-scale threshold deviation (') for entry in ledger['N2280']['deferred_exprs']))
+        self.assertFalse(any(entry.startswith('RepairTurret timer-target time-scale threshold deviation (') for entry in ledger['N2280']['deferred_exprs']))
 
     def test_all_c07_repair_turret_timer_target_input_evidence_is_exact(self):
         generated = ROOT / 'godot-mindustry/src/generated'
@@ -127,21 +130,23 @@ class C07RepairTurretTimerTargetTests(unittest.TestCase):
         # java:20-26; check compares Time.time - times[id] >=
         # time, Interval.java:28-30; Time.time counts TICKS,
         # Time.java:69-80): elapsed += source_delta
-        # unconditionally; fired = elapsed >= duration /
-        # time_scale; a non-positive time_scale is the
-        # infinite-time branch (fired false); elapsed_after
-        # resets to 0.0 on fire (a RESET, not a subtraction
-        # like the Fracker accumulator). The Java call is
+        # unconditionally (source_delta is the UNSCALED
+        # Time.delta in ticks, so the frame clock mirrors the
+        # global Time.time); fired = elapsed >= duration (the
+        # LITERAL duration -- N2290 fix of the N2280
+        # 20/time_scale deviation); a non-positive time_scale
+        # is a defensive guard (fired false -- the clock still
+        # accumulates); elapsed_after resets to 0.0 on fire (a
+        # RESET, not a subtraction like the Fracker
+        # accumulator). The Java call is
         # `if(timer(timerTarget, 20)){` (RepairTurret.java:
         # 214-216) with `public int timerTarget = timers++;`
         # (:29) and `public float repairRadius = 50f;` (:32).
-        # NOTE the threshold deviation: Java passes a LITERAL
-        # 20 -- no timeScale division, unlike the MendProjector
-        # (`timer(timerUse, useTime / timeScale)`,
-        # MendProjector.java:102) / WallCrafter / ImpactReactor
-        # timers -- so the port's 20/time_scale threshold is
-        # Java-exact at time_scale 1f and diverges only under
-        # overdrive / slowdown. The tick wiring accumulates
+        # Java passes a LITERAL 20 -- no timeScale division,
+        # unlike the MendProjector (`timer(timerUse, useTime /
+        # timeScale)`, MendProjector.java:102) / WallCrafter /
+        # ImpactReactor timers -- so the timer fires every 20
+        # ticks at EVERY time_scale. The tick wiring accumulates
         # frame["timer_target_elapsed"] every tick the advance
         # runs and stamps frame["unit_candidates"] with the
         # frame-input candidates on a fire, [] otherwise; the
@@ -166,6 +171,11 @@ class C07RepairTurretTimerTargetTests(unittest.TestCase):
         self.assertIn('SOURCE_REPAIR_TURRET_TIMER_TARGET_DURATION := 20.0', repair_turret)
         self.assertIn('"fired"', repair_turret)
         self.assertIn('"elapsed_after"', repair_turret)
+        # N2290 fix pin: the threshold is the literal
+        # duration -- no timeScale division anywhere in the
+        # pure (the N2280 20/time_scale deviation is gone).
+        self.assertIn('INF if time_scale <= 0.0 else duration', repair_turret)
+        self.assertNotIn('duration / time_scale', repair_turret)
         # The tick wiring: the timer call with the frame clock
         # + tick delta + live time scale + 20f duration; the
         # elapsed write-back; the gated candidate stamp; the
@@ -202,6 +212,12 @@ class C07RepairTurretTimerTargetTests(unittest.TestCase):
         ]:
             with self.subTest(key=key):
                 self.assertIn(key, proof)
+        # N2290 fix pin: the proof pins the literal-20
+        # threshold at overdrive (19 + 1 fires at time_scale
+        # 2.0) and the no-early-fire case (9 + 1 does NOT fire
+        # at time_scale 2.0 -- the N2280 deviation fired there).
+        self.assertIn('timer.call(19.0, 1.0, 2.0, duration)', proof)
+        self.assertIn('timer.call(9.0, 1.0, 2.0, duration)', proof)
         # Static proof-file checks (the N2185 lesson: the scene is
         # written but never run on this VM, so the test pins its
         # preloads to files that exist).

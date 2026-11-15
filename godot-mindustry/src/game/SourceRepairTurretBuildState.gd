@@ -61,9 +61,9 @@ const SOURCE_REPAIR_TURRET_LIQUID_HEAT_CAPACITY_DEFAULT := 0.5
 # 69-80, `timeRaw += delta;`). The Java timer arg is a
 # LITERAL 20 -- unlike the MendProjector / WallCrafter /
 # ImpactReactor timers, it is NOT divided by timeScale --
-# so the port's 20/time_scale threshold (the N2269
-# frame-local precedent) is Java-exact at time_scale 1f
-# and diverges only under overdrive / slowdown; see
+# so the port threshold is the literal duration (N2290
+# fix; the N2280 20/time_scale deviation is resolved) and
+# Java-exact at every time_scale; see
 # source_repair_turret_timer_target_state.
 const SOURCE_REPAIR_TURRET_TIMER_TARGET_DURATION := 20.0
 
@@ -211,30 +211,46 @@ static func source_repair_turret_timer_target_state(elapsed: float, source_delta
 	# elapsed"], accumulated by the tick delta every tick the
 	# advance runs, unconditionally -- mirroring Time.time,
 	# which grows even while the gate is closed): elapsed +=
-	# source_delta unconditionally; fired = elapsed >=
-	# duration / time_scale; elapsed_after RESETS to 0.0 on
-	# fire (a reset, not a subtraction like the Fracker
-	# accumulator); a non-positive time_scale is the
-	# infinite-time branch (fired false). The Java call is
+	# source_delta unconditionally (source_delta is the
+	# UNSCALED Time.delta in ticks -- game_source_delta is
+	# seconds * 60, never scaled by timeScale -- so the
+	# frame clock mirrors the global Time.time exactly);
+	# fired = elapsed >= duration (the LITERAL duration,
+	# no timeScale division, N2290 fix of the N2280
+	# 20/time_scale deviation); elapsed_after RESETS to
+	# 0.0 on fire (a reset, not a subtraction like the
+	# Fracker accumulator); a non-positive time_scale is
+	# a defensive guard (fired false -- see below). The
+	# Java call is
 	# (RepairTurret.java:214-216):
 	# `if(timer(timerTarget, 20)){`
 	# `rect.setSize(repairRadius * 2).setCenter(x, y);`
 	# `target = Units.closest(team, x, y, repairRadius, Unit::damaged);`
 	# with `public int timerTarget = timers++;`
 	# (RepairTurret.java:29) and `public float repairRadius = 50f;`
-	# (RepairTurret.java:32). NOTE the threshold deviation
-	# (documented, N2280 scope correction): Java passes a
-	# LITERAL 20 to timer() -- no timeScale division, unlike
-	# the MendProjector (`timer(timerUse, useTime /
+	# (RepairTurret.java:32). Java passes a LITERAL 20 to
+	# timer() -- no timeScale division, unlike the
+	# MendProjector (`timer(timerUse, useTime /
 	# timeScale)`, MendProjector.java:102) / WallCrafter /
 	# ImpactReactor timers -- so Java re-acquires every 20
-	# global ticks whatever the building timeScale is. The
-	# port follows the N2269 frame-local precedent
-	# (threshold = duration / time_scale), which is
-	# Java-exact at time_scale 1f (the default,
-	# `private transient float timeScale = 1f, timeScaleDuration;`,
-	# BuildingComp.java:98) and diverges only under
-	# overdrive / slowdown. Documented deviation (first
+	# global ticks whatever the building timeScale is, and
+	# the port threshold is the literal duration (N2290
+	# fix; the N2280 20/time_scale deviation is resolved).
+	# time_scale stays a parameter (signature stability --
+	# the contract, call sites, and tests keep it) and is
+	# still read: a non-positive time_scale never fires, a
+	# defensive port guard for a corrupt frame input --
+	# Java timeScale is always positive in practice (the
+	# default, BuildingComp.java:98, is
+	# `private transient float timeScale = 1f, timeScaleDuration;`;
+	# applyBoost / applySlowdown take positive intensities,
+	# BuildingComp.java:461-478; decay resets it to 1f,
+	# BuildingComp.java:2265-2266), so the guard is
+	# unreachable in Java-exact play and the threshold is
+	# Java-exact at every reachable time_scale. Note the
+	# clock still ACCUMULATES at time_scale 0 (source_delta
+	# is unscaled) -- only the fire is guarded. Documented
+	# deviation (first
 	# fire): Java fires (nearly) immediately after placement
 	# (the global Time.time is already large vs a fresh
 	# Interval times[id] = 0); the frame-local clock delays
@@ -242,7 +258,7 @@ static func source_repair_turret_timer_target_state(elapsed: float, source_delta
 	# be fixed without a global clock -- it waits for a
 	# timer-infra slice if exact first-fire timing is ever
 	# needed.
-	var threshold: float = INF if time_scale <= 0.0 else duration / time_scale
+	var threshold: float = INF if time_scale <= 0.0 else duration
 	var accumulated: float = elapsed + source_delta
 	var fired: bool = accumulated >= threshold
 	var elapsed_after: float = 0.0 if fired else accumulated
@@ -303,7 +319,7 @@ static func source_repair_turret_should_consume_state(frame: Dictionary) -> Dict
 
 static func source_repair_turret_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a repair turret does not take the early return. The repair turret's power draw is CONDITIONAL, not static: `consumePowerCond(powerUse, (RepairPointBuild entity) -> entity.target != null);` (RepairTurret.java:89), and ConsumePowerCondition only draws when its condition holds (ConsumePowerCondition.java:17, `return consume.get(entity) ? usage : 0f;`) -- the catalog consumePower None is CORRECT for this family, it records no static consumePower def; the two defs carry powerUse 1f (repair-point, Blocks.java:6391, `powerUse = 1f;`) and 5f (repair-turret, Blocks.java:6402, `powerUse = 5f;`), and the block declares `public float powerUse;` (RepairTurret.java:34) with `hasPower = true;` (RepairTurret.java:60). The pure row is still the same ConsumePower read (`return build.power.status;`, ConsumePower.java:39) -- ConsumePowerCondition does not override efficiency(), so the row folds power.status exactly like the static case. The updateTile advance follows the folded efficiency: the heal advance (RepairTurret.java:207, `target.heal(repairSpeed * strength * edelta() * multiplier);`) heals by edelta() (BuildingComp.java:1927-1929, `return efficiency * delta();`), so a repair turret with no power would never heal. RepairPointBuild overrides shouldConsume (RepairTurret.java:221, `public boolean shouldConsume(){` with `return target != null && enabled;`, RepairTurret.java:222); updateConsumption forces efficiency to zero when the gate is false (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). The shouldConsume gate is live (N2212) -- the pure gate (source_repair_turret_should_consume_state) feeds should_consume to the machinery from the frame target key (null with no target, non-null once a damaged unit is locked) and the enabled flag; the timer cadence is live since N2280 (N2226: the clear + pure re-acquire selection are live; the live unit query still waits for the live-fill slice, so no live fill sets frame["target"] yet without supplied candidates). The repair turret is its own family (RepairTurret.java:25, `public class RepairTurret extends Block{`; RepairPointBuild, RepairTurret.java:153, `public class RepairPointBuild extends Building implements Ranged, RotBlock{`). Two defs (repair-point, `powerUse = 1f;`, Blocks.java:6391; repair-turret, `powerUse = 5f;`, Blocks.java:6402).
-	# Documented limits: (1) power + coolant optional pass -- the repair turret's power consumer is conditional (ConsumePowerCondition, target-gated), so the folded efficiency is the min over the *modeled* non-optional consumers (power only); the coolant optional consumer (repair-turret only: ConsumeCoolant 0.16f, acceptCoolant, coolantMultiplier 1.6f, Blocks.java:6405-6407; `consume(new ConsumeCoolant(coolantUse)).optional(true, true);`, RepairTurret.java:86) is LIVE since N2259 (source_repair_turret_coolant_row_state, ConsumeLiquidFilter.efficiency, ConsumeLiquidFilter.java:50-55; the second-pass removal is ConsumeLiquidFilter.update, ConsumeLiquidFilter.java:42-47), folding into the optional pass (BuildingComp.java:1979-1981); coolant is the ONLY optional consumer on this family, so optionalEfficiency is complete. The conditional power DRAW (ConsumePowerCondition usage gated on target != null, ConsumePowerCondition.java:17) is still not modeled -- the row still reads power.status (ConsumePowerCondition does not override efficiency()). (2) shouldConsume gate live (N2212) -- RepairPointBuild overrides shouldConsume (`target != null && enabled`, RepairTurret.java:221-223); when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994); the pure gate reads the frame target key (default null) plus enabled and feeds should_consume to the machinery; the timer cadence is live since N2280 (N2226: the clear + pure re-acquire selection are live; the live unit query still waits for the live-fill slice, so no live fill sets frame["target"] yet without supplied candidates). (3) updateTile advance live (N2226) -- the target clear / heal amount / rotation slerp / strength lerp / pure re-acquire selection (RepairTurret.java:187-218) run on the frame; the coolant multiplier is live since N2259 (frame["coolant_multiplier"] from the folded optionalEfficiency + current heatCapacity, RepairTurret.java:190); the timer cadence live (N2280) -- the frame-local Interval (20f) passes frame-input unit_candidates into the advance when it fires, [] otherwise; the heal application (target.heal writes into another unit frame) and the live Units scan (no live unit query exists in the port) wait for the live-fill slice. (4) Two defs -- repair-point (powerUse 1f) and repair-turret (powerUse 5f + coolant) share the one driver; repairSpeed / repairRadius are now read per def by the advance (N2226, driver constants -- the catalog carries neither); length / beamWidth / pulseRadius per-def values wait for their own verification slice. (5) RepairTower (unit-repair-tower) is a different class and NOT covered by this driver.
+	# Documented limits: (1) power + coolant optional pass -- the repair turret's power consumer is conditional (ConsumePowerCondition, target-gated), so the folded efficiency is the min over the *modeled* non-optional consumers (power only); the coolant optional consumer (repair-turret only: ConsumeCoolant 0.16f, acceptCoolant, coolantMultiplier 1.6f, Blocks.java:6405-6407; `consume(new ConsumeCoolant(coolantUse)).optional(true, true);`, RepairTurret.java:86) is LIVE since N2259 (source_repair_turret_coolant_row_state, ConsumeLiquidFilter.efficiency, ConsumeLiquidFilter.java:50-55; the second-pass removal is ConsumeLiquidFilter.update, ConsumeLiquidFilter.java:42-47), folding into the optional pass (BuildingComp.java:1979-1981); coolant is the ONLY optional consumer on this family, so optionalEfficiency is complete. The conditional power DRAW (ConsumePowerCondition usage gated on target != null, ConsumePowerCondition.java:17) is still not modeled -- the row still reads power.status (ConsumePowerCondition does not override efficiency()). (2) shouldConsume gate live (N2212) -- RepairPointBuild overrides shouldConsume (`target != null && enabled`, RepairTurret.java:221-223); when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994); the pure gate reads the frame target key (default null) plus enabled and feeds should_consume to the machinery; the timer cadence is live since N2280 (N2226: the clear + pure re-acquire selection are live; the live unit query still waits for the live-fill slice, so no live fill sets frame["target"] yet without supplied candidates). (3) updateTile advance live (N2226) -- the target clear / heal amount / rotation slerp / strength lerp / pure re-acquire selection (RepairTurret.java:187-218) run on the frame; the coolant multiplier is live since N2259 (frame["coolant_multiplier"] from the folded optionalEfficiency + current heatCapacity, RepairTurret.java:190); the timer cadence live (N2280) -- the frame-local Interval (20f, literal-20 threshold Java-exact since N2290) passes frame-input unit_candidates into the advance when it fires, [] otherwise; the heal application (target.heal writes into another unit frame) and the live Units scan (no live unit query exists in the port) wait for the live-fill slice. (4) Two defs -- repair-point (powerUse 1f) and repair-turret (powerUse 5f + coolant) share the one driver; repairSpeed / repairRadius are now read per def by the advance (N2226, driver constants -- the catalog carries neither); length / beamWidth / pulseRadius per-def values wait for their own verification slice. (5) RepairTower (unit-repair-tower) is a different class and NOT covered by this driver.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
