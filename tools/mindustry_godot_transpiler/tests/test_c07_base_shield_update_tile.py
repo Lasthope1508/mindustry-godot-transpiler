@@ -241,12 +241,16 @@ class C07BaseShieldUpdateTileTests(unittest.TestCase):
         # (BuildingComp.java:124) with the block offset
         # (Block.java:761) -- 0 for the size-3 shield-projector,
         # 4 for the size-4 large-shield-projector. The driver
-        # passes EMPTY bullet and enemy-unit lists: no live
-        # bullet query and no live unit query exist in the
-        # port, so no live absorb/repel happens (the live fill
-        # stays deferred); only the smoothRadius fold runs live.
+        # passes the N2328 SCANNED bullet and enemy-unit lists
+        # (the frame candidates filtered by the rect /
+        # nearbyEnemies scan pures, gated on scan_rad > 1 --
+        # the tick computes scan_rad with the same lerpDelta
+        # helper + const the advance uses); with no supplied
+        # candidates the lists are empty and only the
+        # smoothRadius fold runs live (the live Groups.bullet /
+        # Units queries still defer).
         self.assertIn('game_source_delta(game, seconds)', base_shield)
-        self.assertIn('source_base_shield_update_tile_advance_state(frame, source_delta, _base_shield_radius_for_block(block_id), advance_building_x, advance_building_y, [], [])', base_shield)
+        self.assertIn('source_base_shield_update_tile_advance_state(frame, source_delta, advance_shield_radius, advance_building_x, advance_building_y, scanned_bullets, scanned_enemy_units)', base_shield)
         self.assertIn('tile_drawx_state(', base_shield)
         self.assertIn('tile_drawy_state(', base_shield)
         self.assertIn('source_world_defaults.TILESIZE', base_shield)
