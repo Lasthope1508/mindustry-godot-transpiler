@@ -172968,6 +172968,38 @@
         "test_reference_graph_and_actual_c07_light_block_power_status"
       ],
       "runtime_proof": "/root/C07LightBlockPowerStatusProof"
+    },
+    "source_light_block_smooth_time_state_result.smooth_time": {
+      "status": "source-backed",
+      "godot_owner": "SourceLightBlockBuildState.source_light_block_smooth_time_state",
+      "godot_symbol": "source_light_block_smooth_time_state_result.smooth_time",
+      "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+      "java_method": "LightBuild.updateTile()",
+      "java_expr": "smoothTime = Mathf.lerpDelta(smoothTime, timeScale, 0.1f);",
+      "rule": "The advanced smoothTime after one updateTile lerpDelta step (LightBlock.java:105): lerp toward timeScale with progress 0.1f, delta-corrected by Time.delta.",
+      "tests": [
+        "test_c07_light_block_update_tile_registration",
+        "test_all_c07_light_block_update_tile_input_evidence_is_exact",
+        "test_light_block_update_tile_state",
+        "test_reference_graph_and_actual_c07_light_block_update_tile"
+      ],
+      "runtime_proof": "/root/C07LightBlockUpdateTileProof"
+    },
+    "source_light_block_smooth_time_state_result.light_radius_scale": {
+      "status": "source-backed",
+      "godot_owner": "SourceLightBlockBuildState.source_light_block_smooth_time_state",
+      "godot_symbol": "source_light_block_smooth_time_state_result.light_radius_scale",
+      "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+      "java_method": "LightBuild.updateTile()",
+      "java_expr": "Drawf.light(x, y, lightRadius * Math.min(smoothTime, 2f), Tmp.c1.set(color), brightness * efficiency);",
+      "rule": "The drawLight radius clamp min(smoothTime, 2f) (LightBlock.java:128): the factor scaling lightRadius; drawLight presentation itself waits for its own slice.",
+      "tests": [
+        "test_c07_light_block_update_tile_registration",
+        "test_all_c07_light_block_update_tile_input_evidence_is_exact",
+        "test_light_block_update_tile_state",
+        "test_reference_graph_and_actual_c07_light_block_update_tile"
+      ],
+      "runtime_proof": "/root/C07LightBlockUpdateTileProof"
     }
   },
   "version": 1

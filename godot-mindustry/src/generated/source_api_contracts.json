@@ -65928,6 +65928,42 @@
       ],
       "runtime_proof": "/root/C07LightBlockPowerStatusProof",
       "rule": "Source-backed LightBlock power.status row from ConsumePower.java / BuildingComp.java."
+    },
+    "SourceLightBlockBuildState.source_light_block_smooth_time_state": {
+      "status": "active",
+      "source_slice": "N2189",
+      "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+      "source_method": "LightBuild.updateTile()",
+      "params": [
+        {
+          "name": "smooth_time",
+          "type": "float",
+          "schema": "source_light_block_smooth_time_state_input.smooth_time"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_light_block_smooth_time_state_input.time_scale"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_light_block_smooth_time_state_input.source_delta"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "smooth_time",
+        "light_radius_scale"
+      ],
+      "tests": [
+        "test_c07_light_block_update_tile_registration",
+        "test_all_c07_light_block_update_tile_input_evidence_is_exact",
+        "test_light_block_update_tile_state",
+        "test_reference_graph_and_actual_c07_light_block_update_tile"
+      ],
+      "runtime_proof": "/root/C07LightBlockUpdateTileProof",
+      "rule": "Source-backed LightBlock smoothTime advance from LightBlock.java / BuildingComp.java / Arc Mathf.java."
     }
   },
   "policy": {
