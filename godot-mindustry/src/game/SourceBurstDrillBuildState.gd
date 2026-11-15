@@ -7,6 +7,7 @@ const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
 const source_building_efficiency_state := preload("res://src/game/SourceBuildingEfficiencyState.gd")
 const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
 const source_drill_inventory_runtime_state := preload("res://src/game/SourceDrillInventoryRuntimeState.gd")
+const source_building_item_dump_state := preload("res://src/game/SourceBuildingItemDumpState.gd")
 const source_liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
 const source_content_registry_runtime_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
 
@@ -49,6 +50,14 @@ const SOURCE_BURST_DRILL_SMOOTH_PROGRESS_OFFSET := 20.0
 # `public float liquidBoostIntensity = 1.6f;`, Drill.java:38).
 const SOURCE_BURST_DRILL_DRILL_TIME := {"eruption-drill": 281.25, "impact-drill": 720.0}
 const SOURCE_BURST_DRILL_LIQUID_BOOST_INTENSITY := {"eruption-drill": 2.0, "impact-drill": 1.75}
+# BurstDrill.java:83, `if(timer(timerDump, dumpTime / timeScale)){` -- the
+# dump interval is dumpTime / timeScale with `public int dumpTime = 5;`
+# (Block.java:438) and `protected final int timerDump = timers++;`
+# (Block.java:436). NO def overrides dumpTime anywhere in upstream
+# (grep: the only definition is Block.java:438), so the driver reads
+# one constant for both defs. The threshold DIVIDES by timeScale
+# (unlike the RepairTurret literal-20 timer, N2280).
+const SOURCE_BURST_DRILL_DUMP_TIME := 5.0
 # Both defs `drillMultipliers.put(Items.beryllium, 2f);`
 # (Blocks.java:3083/:3114): beryllium drills twice as fast,
 # every other item drills at 1f (ObjectFloatMap.get(item, 1f),
@@ -85,7 +94,7 @@ static func source_burst_drill_tick_frame_state(frame: Dictionary, block_impleme
 	return frame
 
 static func _initial_frame() -> Dictionary:
-	return {"liquids": {}}
+	return {"liquids": {}, "timer_dump_elapsed": 0.0, "cdump": 0}
 
 static func source_burst_drill_bind_frame_state(sprite: Sprite2D, block: Object) -> Dictionary:
 	# Placement creates the Building (Block.java:1002 newBuilding);
@@ -176,10 +185,16 @@ static func source_burst_drill_power_status_row_state(frame: Dictionary, has_pow
 	# smoothProgress / invertTime advance each tick and the
 	# offload branch fills the live items
 	# (BurstDrill.java:76-125, the pure
-	# source_burst_drill_update_tile_advance_state); still
-	# deferred: the timerDump dump (BurstDrill.java:83-85,
-	# `if(timer(timerDump, dumpTime / timeScale)){`, no timer
-	# helper in the port, the N2193 precedent), the offload
+	# source_burst_drill_update_tile_advance_state); the
+	# timerDump dump LIVE (N2282) -- the pure
+	# source_burst_drill_timer_dump_state (frame-local
+	# Interval-equivalent, 5f/time_scale,
+	# BurstDrill.java:83-84) runs before the advance each tick
+	# and dumps the dominant item (or dump(null) when the store
+	# lacks it) through the shared dump_item_state routing;
+	# first-fire deviation documented (Java fires nearly
+	# immediately after placement, the frame clock waits a full
+	# interval); still deferred: the offload
 	# shake/sound/drillEffect presentation
 	# (BurstDrill.java:114-118), and the offload neighbor
 	# routing -- offload takes the no-neighbor fallback branch
@@ -266,8 +281,9 @@ static func source_burst_drill_update_tile_advance_state(frame: Dictionary, sour
 	# before anything moves, so a drill with no dominant item
 	# freezes every key. `if(invertTime > 0f) invertTime -= delta() / invertedTime;` (BurstDrill.java:81)
 	# decays the invert time with NO clamp at 0, exactly like
-	# Java. `if(timer(timerDump, dumpTime / timeScale)){` (BurstDrill.java:83-85) DEFERS -- the port has
-	# no timer helper (the N2193 precedent). `float drillTime = getDrillTime(dominantItem);`
+	# Java. `if(timer(timerDump, dumpTime / timeScale)){` (BurstDrill.java:83-85) is LIVE since N2282 -- the pure
+	# source_burst_drill_timer_dump_state runs before this advance in the tick (Java order :83-84 before :87+),
+	# so the dump drains the store this advance filled LAST tick. `float drillTime = getDrillTime(dominantItem);`
 	# (BurstDrill.java:87) uses the BurstDrill getDrillTime OVERRIDE (BurstDrill.java:53-55,
 	# `return drillTime / drillMultipliers.get(item, 1f);`, NO hardness term), NOT the base-Drill formula
 	# (Drill.java:170-172, `return (drillTime + hardnessDrillMultiplier * item.hardness) / drillMultipliers.get(item, 1f);`).
@@ -352,6 +368,105 @@ static func source_burst_drill_update_tile_advance_state(frame: Dictionary, sour
 		invert_time = 1.0
 		progress = fmod(progress, effective_drill_time)
 	return {"progress": progress, "warmup": warmup, "time_drilled": time_drilled, "last_drill_speed": last_drill_speed, "smooth_progress": smooth_progress, "invert_time": invert_time, "items": next_items, "offloaded": offloaded, "drill_time": effective_drill_time, "speed": speed}
+
+static func source_burst_drill_timer_dump_state(frame: Dictionary, source_delta: float, time_scale: float, dominant_item_name: String, content_item_ids: Array, neighbour_accepts_item: Array, neighbour_can_dump: Array) -> Dictionary:
+	# The timerDump dump (BurstDrillBuild.updateTile(),
+	# BurstDrill.java:76-125), in Java order. `public class BurstDrill extends Drill{` (BurstDrill.java:17) and
+	# `public class BurstDrillBuild extends DrillBuild{` (BurstDrill.java:70), so the override wins over the
+	# base-Drill updateTile, which the BurstDrill override never calls. `if(dominantItem == null){`
+	# (BurstDrill.java:77-79) returns before anything moves -- so with NO dominant item the timer check never
+	# runs at all: no fire, no dump (NOT dump(null) -- dump(null) is only the branch when a dominant item
+	# EXISTS but the store lacks it). The check itself (BurstDrill.java:83-84):
+	# `if(timer(timerDump, dumpTime / timeScale)){`
+	# `dump(items.has(dominantItem) ? dominantItem : null);`
+	# -- it runs after the invertTime decay (:81) and BEFORE the drillTime / smoothProgress / gate / offload
+	# advance (:87+), so the dump drains the store the advance filled LAST tick. dumpTime is
+	# `public int dumpTime = 5;` (Block.java:438, NO override in upstream) and the timer id is
+	# `protected final int timerDump = timers++;` (Block.java:436). The timer is TimerComp.timer
+	# (TimerComp.java:10-13, each exact expr on ONE comment line, the N2148 lesson):
+	# `if(Float.isInfinite(time)) return false;`
+	# `return timer.get(index, time);`
+	# Interval.get resets times[id] = Time.time on fire (arc Interval.java:20-26):
+	# `boolean got = check(id, time);`
+	# `if(got) times[id] = Time.time;`
+	# and check compares Time.time - times[id] >= time (arc Interval.java:28-30):
+	# `return Time.time - times[id] >= time || Time.time < times[id];`
+	# Time.time counts TICKS (arc Time.java:69-80):
+	# `timeRaw += delta;`
+	# The port has no global tick clock at the driver layer, so the elapsed clock is frame-local
+	# (frame["timer_dump_elapsed"], the N2266/N2269/N2273/N2280 frame-local Interval-equivalent precedent):
+	# elapsed += source_delta unconditionally -- mirroring Time.time, which grows even while the
+	# dominant-item gate is closed, so a drill whose dominant item appears late fires immediately, like Java
+	# (the Interval times[id] stays 0 while updateTile returns early); fired = elapsed >= 5f / time_scale;
+	# elapsed_after RESETS to 0.0 on fire (a reset, not a subtraction); a non-positive time_scale is the
+	# infinite-time branch (never fires). The threshold DIVIDES by timeScale -- Java passes
+	# dumpTime / timeScale, unlike the RepairTurret literal-20 timer (N2280). source_delta is Time.delta in
+	# ticks (seconds * 60 through game_source_delta, arc Time.java:26), never raw seconds; delta() is
+	# `return Time.delta * timeScale;` (BuildingComp.java:1922-1924) and timeScale defaults to 1f
+	# (`private transient float timeScale = 1f, timeScaleDuration;`, BuildingComp.java:98). Documented
+	# deviation (first fire): Java fires (nearly) immediately after placement (the global Time.time is
+	# already large vs a fresh Interval times[id] = 0); the frame-local clock delays the first fire by a full
+	# interval (5 ticks / time_scale). It cannot be fixed without a global clock -- it waits for a
+	# timer-infra slice if exact first-fire timing is ever needed. `items.has(dominantItem)` means the store
+	# holds a POSITIVE amount (`return values[item.id] > 0;`, ItemSeq.java:79-81), not mere key presence, so
+	# a zero-count entry still takes the dump(null) branch. dump() (BuildingComp.java:1064-1066):
+	# `public boolean dump(){`
+	# `return dump(null);`
+	# delegates to dump(Item todump) (BuildingComp.java:1072-1113):
+	# `public boolean dump(Item todump){`
+	# `if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;`
+	# `int dump = this.cdump;`
+	# `var allItems = content.items();`
+	# `int itemSize = allItems.size;`
+	# `if(todump == null){`
+	# `Building other = proximity.get((i + dump) % proximity.size);`
+	# `if(!items.has(ii)) continue;`
+	# `Item item = (Item)itemArray[ii];`
+	# `if(other.acceptItem(self(), item) && canDump(other, item)){`
+	# `other.handleItem(self(), item);`
+	# `items.remove(item, 1);`
+	# `incrementDump(proximity.size);`
+	# -- neighbours outer, content items inner for the null branch; the specific branch scans the same way
+	# for the one item:
+	# `if(other.acceptItem(self(), todump) && canDump(other, todump)){`
+	# `other.handleItem(self(), todump);`
+	# `items.remove(todump, 1);`
+	# -- and the cursor advances once per neighbour checked (incrementDump, BuildingComp.java:1116-1120):
+	# `public void incrementDump(int prox){`
+	# `if(prox != 0){`
+	# `cdump = ((cdump + 1) % prox);`
+	# The dump fields are Building fields at their Java defaults: `transient int cdump;`
+	# (BuildingComp.java:68, 0). canDump defaults to true
+	# (`public boolean canDump(Building to, Item item){`, BuildingComp.java:1124-1126); the neighbour arrays
+	# carry the live per-neighbour answers as frame inputs. The drill has items (`hasItems = true;`,
+	# Drill.java:82, inherited by BurstDrill), so the hasItems guard always passes. The dominant item is
+	# `public Item dominantItem;` (Drill.java:244, `public int dominantItems;` :243, set by the drill
+	# proximity path); the driver resolves its catalog name (the N2219 advance precedent) and passes it in --
+	# "" when dominantItem is null, which takes the no-fire branch above. The dump itself runs through the
+	# shared dump(Item) port (SourceBuildingItemDumpState.dump_item_state), which covers BOTH branches -- NOT
+	# the putItem gate game_put_item_state / put_item_state, which dumps one SPECIFIC item through
+	# game-bound increment callbacks and cannot express dump(null) (the N2276 lesson). The shared port
+	# reports the handled neighbour but does not write the item into the neighbour frame -- the write-back
+	# waits for its own slice.
+	var items: Dictionary = (frame.get("items", {}) as Dictionary).duplicate(true)
+	var elapsed: float = float(frame.get("timer_dump_elapsed", 0.0))
+	var cursor: int = int(frame.get("cdump", 0))
+	var accumulated: float = elapsed + source_delta
+	var threshold: float = INF if time_scale <= 0.0 else SOURCE_BURST_DRILL_DUMP_TIME / time_scale
+	if dominant_item_name == "" or accumulated < threshold:
+		return {"fired": false, "elapsed_after": accumulated, "dumped": false, "items_after": items, "cursor_after": cursor}
+	var todump: Variant = dominant_item_name if int(items.get(dominant_item_name, 0)) > 0 else null
+	var amounts: Array = []
+	for item_id in content_item_ids:
+		amounts.append(int(items.get(str(item_id), 0)))
+	var result: Dictionary = source_building_item_dump_state.dump_item_state(true, source_drill_inventory_runtime_state.items_total(items), neighbour_accepts_item.size(), todump, todump != null, content_item_ids, amounts, neighbour_accepts_item, neighbour_can_dump, cursor)
+	var dumped := bool(result.get("dumped", false))
+	if dumped:
+		var amounts_after: Array = result.get("item_amounts_by_index", amounts)
+		for j in range(content_item_ids.size()):
+			if j < amounts_after.size():
+				items[str(content_item_ids[j])] = int(amounts_after[j])
+	return {"fired": true, "elapsed_after": 0.0, "dumped": dumped, "items_after": items, "cursor_after": int(result.get("cdump", cursor))}
 
 @warning_ignore("unused_parameter")
 static func source_burst_drill_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
@@ -547,6 +662,28 @@ static func source_burst_drill_tick_buildings_state(game: Object, seconds: float
 					var drill_consumption_state = load("res://src/game/SourceDrillConsumptionRuntimeState.gd")
 					dominant_item_name = str(drill_consumption_state.source_dominant_item_name_state(game, sprite).get("item_id", ""))
 				var drill_multiplier: float = SOURCE_BURST_DRILL_BERYLLIUM_MULTIPLIER if dominant_item_name == "beryllium" else 1.0
+				# N2282: the timerDump dump runs BEFORE the advance
+				# (Java order: the timerDump check,
+				# BurstDrill.java:83-84, runs before the drillTime /
+				# smoothProgress / gate / offload advance, :87+), so
+				# the dump drains the store the advance filled LAST
+				# tick. The content item ids are the catalog order
+				# Java iterates (content.items()), through the
+				# N2276 precedent (SourceContentRegistryRuntimeState.
+				# source_item_catalog_state); the neighbour
+				# acceptItem / canDump arrays are frame inputs
+				# (default [] -- no neighbours, the Java
+				# proximity.size == 0 outcome) until a live
+				# proximity fill lands. The dump is
+				# efficiency-independent (a timer, not edelta), so
+				# it runs even when the folded efficiency is 0.
+				var content_item_ids: Array = source_content_registry_runtime_state.source_item_catalog_state(catalog).get("item_names_by_id", [])
+				var neighbour_accepts: Array = frame.get("dump_neighbour_accepts", [])
+				var neighbour_can_dump: Array = frame.get("dump_neighbour_can_dump", [])
+				var dumped: Dictionary = source_burst_drill_timer_dump_state(frame, source_delta, time_scale, dominant_item_name, content_item_ids, neighbour_accepts, neighbour_can_dump)
+				frame["timer_dump_elapsed"] = dumped["elapsed_after"]
+				frame["items"] = dumped["items_after"]
+				frame["cdump"] = dumped["cursor_after"]
 				var advanced: Dictionary = source_burst_drill_update_tile_advance_state(frame, source_delta, time_scale, block_drill_time, block_boost, drill_multiplier, dominant_item_name, int(block.properties.get("itemCapacity", 10)))
 				frame["progress"] = advanced["progress"]
 				frame["warmup"] = advanced["warmup"]
