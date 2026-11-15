@@ -1196,6 +1196,43 @@
       ],
       "runtime_proof": "/root/C07LightBlockPowerStatusProof"
     },
+    "N2189": {
+      "canonical_ledger": "source_slice_ledger.N2189",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+      "java_method": "LightBuild.updateTile()",
+      "godot_owner": "SourceLightBlockBuildState.source_light_block_smooth_time_state",
+      "source_symbols": [
+        "source_light_block_smooth_time_state_result.smooth_time",
+        "source_light_block_smooth_time_state_result.light_radius_scale"
+      ],
+      "tests": [
+        "test_c07_light_block_update_tile_registration",
+        "test_all_c07_light_block_update_tile_input_evidence_is_exact",
+        "test_light_block_update_tile_state",
+        "test_reference_graph_and_actual_c07_light_block_update_tile"
+      ],
+      "runtime_proof": "/root/C07LightBlockUpdateTileProof"
+    },
+    "N2192": {
+      "canonical_ledger": "source_slice_ledger.N2192",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+      "java_method": "ImpactReactorBuild.updateTile()",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_update_tile_advance_state",
+      "source_symbols": [
+        "source_impact_reactor_update_tile_advance_state_result.warmup",
+        "source_impact_reactor_update_tile_advance_state_result.total_progress",
+        "source_impact_reactor_update_tile_advance_state_result.production_efficiency"
+      ],
+      "tests": [
+        "test_c07_impact_reactor_update_tile_registration",
+        "test_all_c07_impact_reactor_update_tile_input_evidence_is_exact",
+        "test_impact_reactor_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_update_tile"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorUpdateTileProof"
+    },
     "N2241": {
       "canonical_ledger": "source_slice_ledger.N2241",
       "status": "done",

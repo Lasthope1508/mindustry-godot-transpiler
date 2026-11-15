@@ -926,6 +926,26 @@
       ],
       "runtime_proof": "/root/C07WallCrafterPowerStatusProof"
     },
+    "N2195": {
+      "canonical_ledger": "source_slice_ledger.N2195",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.updateTile()",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_update_tile_advance_state",
+      "source_symbols": [
+        "source_beam_drill_update_tile_advance_state_result.warmup",
+        "source_beam_drill_update_tile_advance_state_result.boost_warmup",
+        "source_beam_drill_update_tile_advance_state_result.multiplier",
+        "source_beam_drill_update_tile_advance_state_result.time"
+      ],
+      "tests": [
+        "test_c07_beam_drill_update_tile_registration",
+        "test_all_c07_beam_drill_update_tile_input_evidence_is_exact",
+        "test_beam_drill_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_beam_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BeamDrillUpdateTileProof"
+    },
     "N2200": {
       "canonical_ledger": "source_slice_ledger.N2200",
       "status": "done",

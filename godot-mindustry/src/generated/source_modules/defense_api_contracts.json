@@ -6904,6 +6904,55 @@
       "rule": "Source-backed MendProjector power.status row from ConsumePower.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceMendProjectorBuildState.source_mend_projector_update_tile_advance_state": {
+      "canonical_contract": "source_api_contracts.SourceMendProjectorBuildState.source_mend_projector_update_tile_advance_state",
+      "status": "active",
+      "source_slice": "N2193",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "source_method": "MendBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_mend_projector_update_tile_advance_input.frame"
+        },
+        {
+          "name": "reload_value",
+          "type": "float",
+          "schema": "source_mend_projector_update_tile_advance_input.reload_value"
+        },
+        {
+          "name": "time_delta",
+          "type": "float",
+          "schema": "source_mend_projector_update_tile_advance_input.time_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_mend_projector_update_tile_advance_input.time_scale"
+        },
+        {
+          "name": "can_heal",
+          "type": "bool",
+          "schema": "source_mend_projector_update_tile_advance_input.can_heal"
+        }
+      ],
+      "return_keys": [
+        "smooth_efficiency",
+        "heat",
+        "charge",
+        "phase_heat"
+      ],
+      "tests": [
+        "test_c07_mend_projector_update_tile_registration",
+        "test_all_c07_mend_projector_update_tile_input_evidence_is_exact",
+        "test_mend_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_mend_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07MendProjectorUpdateTileProof",
+      "rule": "Source-backed MendProjector updateTile advance from MendProjector.java / BuildingComp.java / Arc Mathf.java.",
+      "return_type": "Dictionary"
+    },
     "SourceOverdriveProjectorBuildState.source_overdrive_projector_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourceOverdriveProjectorBuildState.source_overdrive_projector_power_status_row_state",
       "status": "active",
@@ -6934,6 +6983,59 @@
       ],
       "runtime_proof": "/root/C07OverdriveProjectorPowerStatusProof",
       "rule": "Source-backed OverdriveProjector power.status row from ConsumePower.java / BuildingComp.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceOverdriveProjectorBuildState.source_overdrive_projector_update_tile_advance_state": {
+      "canonical_contract": "source_api_contracts.SourceOverdriveProjectorBuildState.source_overdrive_projector_update_tile_advance_state",
+      "status": "active",
+      "source_slice": "N2194",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "source_method": "OverdriveBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_overdrive_projector_update_tile_advance_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_overdrive_projector_update_tile_advance_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_overdrive_projector_update_tile_advance_state_input.time_scale"
+        },
+        {
+          "name": "has_boost",
+          "type": "bool",
+          "schema": "source_overdrive_projector_update_tile_advance_state_input.has_boost"
+        },
+        {
+          "name": "reload_value",
+          "type": "float",
+          "schema": "source_overdrive_projector_update_tile_advance_state_input.reload_value"
+        },
+        {
+          "name": "use_time_value",
+          "type": "float",
+          "schema": "source_overdrive_projector_update_tile_advance_state_input.use_time_value"
+        }
+      ],
+      "return_keys": [
+        "advanced",
+        "charge_ready",
+        "use_ready"
+      ],
+      "tests": [
+        "test_c07_overdrive_projector_update_tile_registration",
+        "test_all_c07_overdrive_projector_update_tile_input_evidence_is_exact",
+        "test_overdrive_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_overdrive_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07OverdriveProjectorUpdateTileProof",
+      "rule": "Source-backed OverdriveProjector updateTile advance from OverdriveProjector.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
     "SourcePointDefenseTurretBuildState.source_point_defense_turret_power_status_row_state": {
@@ -7128,6 +7230,58 @@
       "rule": "Source-backed Radar power.status row from ConsumePower.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceRadarBuildState.source_radar_update_tile_state": {
+      "canonical_contract": "source_api_contracts.SourceRadarBuildState.source_radar_update_tile_state",
+      "status": "active",
+      "source_slice": "N2190",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "source_method": "RadarBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_radar_update_tile_input.frame"
+        },
+        {
+          "name": "efficiency",
+          "type": "float",
+          "schema": "source_radar_update_tile_input.efficiency"
+        },
+        {
+          "name": "edelta",
+          "type": "float",
+          "schema": "source_radar_update_tile_input.edelta"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_radar_update_tile_input.source_delta"
+        },
+        {
+          "name": "fog_radius",
+          "type": "float",
+          "schema": "source_radar_update_tile_input.fog_radius"
+        },
+        {
+          "name": "discovery_time",
+          "type": "float",
+          "schema": "source_radar_update_tile_input.discovery_time"
+        }
+      ],
+      "return_keys": [
+        "advance",
+        "force_update_needed"
+      ],
+      "tests": [
+        "test_c07_radar_update_tile_registration",
+        "test_all_c07_radar_update_tile_input_evidence_is_exact",
+        "test_radar_update_tile_state",
+        "test_reference_graph_and_actual_c07_radar_update_tile"
+      ],
+      "runtime_proof": "/root/C07RadarUpdateTileProof",
+      "rule": "Source-backed Radar updateTile advance from Radar.java / BuildingComp.java / arc Mathf.java.",
+      "return_type": "Dictionary"
+    },
     "SourceRegenProjectorBuildState.source_regen_projector_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourceRegenProjectorBuildState.source_regen_projector_power_status_row_state",
       "status": "active",
@@ -7293,6 +7447,38 @@
       ],
       "runtime_proof": "/root/C07ShockwaveTowerPowerStatusProof",
       "rule": "Source-backed ShockwaveTower power.status row from ConsumePower.java / BuildingComp.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceShockwaveTowerBuildState.source_shockwave_tower_should_consume_state": {
+      "canonical_contract": "source_api_contracts.SourceShockwaveTowerBuildState.source_shockwave_tower_should_consume_state",
+      "status": "active",
+      "source_slice": "N2187",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "source_method": "ShockwaveTowerBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_shockwave_tower_should_consume_state_input.frame"
+        },
+        {
+          "name": "block",
+          "type": "Object",
+          "schema": "source_shockwave_tower_should_consume_state_input.block"
+        }
+      ],
+      "return_keys": [
+        "should_consume",
+        "reload_counter"
+      ],
+      "tests": [
+        "test_c07_shockwave_tower_should_consume_registration",
+        "test_all_c07_shockwave_tower_should_consume_input_evidence_is_exact",
+        "test_shockwave_tower_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_should_consume"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerShouldConsumeProof",
+      "rule": "Source-backed ShockwaveTower shouldConsume gate from ShockwaveTower.java / BuildingComp.java / Blocks.java.",
       "return_type": "Dictionary"
     },
     "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_power_status_row_state": {

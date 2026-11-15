@@ -235696,7 +235696,7 @@
     "source_light_block_smooth_time_state_input": {
       "status": "active",
       "owner": "SourceLightBlockBuildState.source_light_block_smooth_time_state",
-      "source_slice": "N2241",
+      "source_slice": "N2189",
       "keys": {
         "smooth_time": {
           "type": "float",
@@ -235735,7 +235735,7 @@
     "source_light_block_smooth_time_state_result": {
       "status": "active",
       "owner": "SourceLightBlockBuildState.source_light_block_smooth_time_state",
-      "source_slice": "N2241",
+      "source_slice": "N2189",
       "keys": {
         "smooth_time": {
           "type": "float",
@@ -235746,10 +235746,694 @@
           "used_by": [
             "SourceLightBlockBuildState.source_light_block_smooth_time_state"
           ]
+        },
+        "light_radius_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+          "java_expr": "Drawf.light(x, y, lightRadius * Math.min(smoothTime, 2f), Tmp.c1.set(color), brightness * efficiency);",
+          "rule": "The drawLight radius clamp min(smoothTime, 2f) (LightBlock.java:128): the factor scaling lightRadius; drawLight presentation itself waits for its own slice.",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_smooth_time_state"
+          ]
         }
       },
       "runtime_proof": "/root/C07LightBlockUpdateTileProof",
       "rule": "Source-backed LightBlock smoothTime advance from LightBlock.java / BuildingComp.java / Arc Mathf.java."
+    },
+    "source_launch_pad_should_consume_state_input": {
+      "status": "active",
+      "owner": "SourceLaunchPadBuildState.source_launch_pad_should_consume_state",
+      "source_slice": "N2186",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "return launchCounter < launchTime;",
+          "rule": "The building frame carrying launch_counter (LaunchPadBuild.launchCounter, LaunchPad.java:84, default 0f), launch_time (the def threshold stamped by the driver: launch-pad 60f * 20, advanced-launch-pad 60f * 30, Blocks.java:6794/6804; class default 1f, LaunchPad.java:32) and enabled (BuildingComp.java:77): the gate reads the counter against the threshold; enabled is NOT read here -- updateConsumption handles it separately (BuildingComp.java:1954-1957), the WallCrafter precedent.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaunchPadShouldConsumeProof",
+      "rule": "Source-backed LaunchPad shouldConsume gate from LaunchPad.java / BuildingComp.java."
+    },
+    "source_launch_pad_should_consume_state_result": {
+      "status": "active",
+      "owner": "SourceLaunchPadBuildState.source_launch_pad_should_consume_state",
+      "source_slice": "N2186",
+      "keys": {
+        "should_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "return launchCounter < launchTime;",
+          "rule": "The LaunchPadBuild.shouldConsume() verdict (LaunchPad.java:92-95): true while launchCounter < launchTime; the driver ANDs enabled and the machinery folds efficiency to 0 when the gate is false (BuildingComp.java:1960, 1992-1994).",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_should_consume_state"
+          ]
+        },
+        "launch_counter": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "public float launchCounter;",
+          "rule": "The launchCounter value the gate read (LaunchPadBuild.launchCounter, LaunchPad.java:84): advanced by edelta each tick (the counter half of LaunchPad.java:146), frozen at launchTime while the gate is closed because edelta() is then 0.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaunchPadShouldConsumeProof",
+      "rule": "Source-backed LaunchPad shouldConsume gate from LaunchPad.java / BuildingComp.java."
+    },
+    "source_shockwave_tower_should_consume_state_input": {
+      "status": "active",
+      "owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_should_consume_state",
+      "source_slice": "N2187",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "return reloadCounter < reload;",
+          "rule": "The building frame carrying the live reload_counter (ShockwaveTower.java:67, `public float reloadCounter = Mathf.random(reload);`): the counter the gate reads; a fresh frame starts at 0.0, which preserves the gate outcome at spawn because Mathf.random(reload) is always < reload.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_should_consume_state"
+          ]
+        },
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "reload = 80f;",
+          "rule": "The catalog block (shockwave-tower def, reload 80f, Blocks.java:2043): the reload the gate compares against; the class default 60f * 1.5f (ShockwaveTower.java:26) is the fallback when the block carries no reload.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShockwaveTowerShouldConsumeProof",
+      "rule": "Source-backed ShockwaveTower shouldConsume gate from ShockwaveTower.java / BuildingComp.java / Blocks.java."
+    },
+    "source_shockwave_tower_should_consume_state_result": {
+      "status": "active",
+      "owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_should_consume_state",
+      "source_slice": "N2187",
+      "keys": {
+        "should_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "return reloadCounter < reload;",
+          "rule": "The shouldConsume gate (ShockwaveTower.java:121-122): true while the reload counter is below reload; when false, updateConsumption forces efficiency to zero (BuildingComp.java:1960 + 1992-1994).",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_should_consume_state"
+          ]
+        },
+        "reload_counter": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "public float reloadCounter = Mathf.random(reload);",
+          "rule": "The frame reload counter the gate read (ShockwaveTower.java:67): advanced each tick by the updateTile charge (ShockwaveTower.java:73, `(reloadCounter += edelta())`).",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShockwaveTowerShouldConsumeProof",
+      "rule": "Source-backed ShockwaveTower shouldConsume gate from ShockwaveTower.java / BuildingComp.java / Blocks.java."
+    },
+    "source_radar_update_tile_input": {
+      "status": "active",
+      "owner": "SourceRadarBuildState.source_radar_update_tile_state",
+      "source_slice": "N2190",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "public float progress;",
+          "rule": "The radar building frame carrying the updateTile state (Radar.java:49-52): smooth_efficiency (default 1f, `public float smoothEfficiency = 1f;`), progress (default 0f), total_progress (default 0f) and last_radius (default 0f, `public float lastRadius = 0f;`). The advance reads the pre-tick values and returns the post-tick ones.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_update_tile_state"
+          ]
+        },
+        "efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "smoothEfficiency = Mathf.lerpDelta(smoothEfficiency, efficiency, 0.05f);",
+          "rule": "The folded efficiency (Radar.java:61): the lerp target for smoothEfficiency and the multiplier of the total-progress advance (Radar.java:71). In the driver this is the frame efficiency folded by the N2173 consumption pass, 1.0 before the first fold (BuildingComp.java:1965, \"assume efficiency is 1\").",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_update_tile_state"
+          ]
+        },
+        "edelta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return efficiency * delta();",
+          "rule": "Efficiency * delta (BuildingComp.java:1927-1929): the progress advance numerator (Radar.java:68, `progress += edelta() / discoveryTime;`) and the total-progress factor (Radar.java:71). The driver passes efficiency * source_delta with timeScale 1f (BuildingComp.java:98, the default).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_update_tile_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_expr": "return lerp(fromValue, toValue, clamp(progress * Time.delta));",
+          "rule": "Time.delta in 60fps ticks (arc Time.java:26 scales the frame delta by 60f): the lerpDelta progress scale (arc Mathf.java:430-432). The driver passes seconds * TICK_RATE (the N2093 pump precedent).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_update_tile_state"
+          ]
+        },
+        "fog_radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "fogRadius = 34;",
+          "rule": "The block fogRadius (Blocks.java:1991): the fogRadius() base (Radar.java:56, `return fogRadius * progress * smoothEfficiency;`). The catalog carries no fogRadius property, so the driver passes the single-def constant 34.0.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_update_tile_state"
+          ]
+        },
+        "discovery_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "public float discoveryTime = 60f * 10f;",
+          "rule": "The discovery time (Radar.java:18, 60f * 10f = 600f): the progress advance divisor (Radar.java:68). A full-efficiency radar discovers in 600 ticks.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_update_tile_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RadarUpdateTileProof",
+      "rule": "Source-backed Radar updateTile advance from Radar.java / BuildingComp.java / arc Mathf.java."
+    },
+    "source_radar_update_tile_result": {
+      "status": "active",
+      "owner": "SourceRadarBuildState.source_radar_update_tile_state",
+      "source_slice": "N2190",
+      "keys": {
+        "advance": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "progress += edelta() / discoveryTime;",
+          "rule": "The post-tick frame state (Radar.java:60-72): {\"smooth_efficiency\": lerped toward efficiency, \"progress\": advanced by edelta() / discoveryTime and clamped to [0, 1], \"total_progress\": accumulated by efficiency * edelta(), \"last_radius\": fogRadius() when the radius changed by >= 0.5f, else unchanged}. The driver writes it back onto the frame.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_update_tile_state"
+          ]
+        },
+        "force_update_needed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "if(Math.abs(fogRadius() - lastRadius) >= 0.5f){",
+          "rule": "Whether the fog radius changed by >= 0.5f this tick (Radar.java:63): true exactly when Java calls Vars.fogControl.forceUpdate(team, this) (Radar.java:64). The port tracks the condition + the lastRadius write; the fog-system call itself waits for its own fog slice.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_update_tile_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RadarUpdateTileProof",
+      "rule": "Source-backed Radar updateTile advance from Radar.java / BuildingComp.java / arc Mathf.java."
+    },
+    "source_accelerator_update_tile_advance_state_input": {
+      "status": "active",
+      "owner": "SourceAcceleratorBuildState.source_accelerator_update_tile_advance_state",
+      "source_slice": "N2191",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "public float heat, statusLerp;",
+          "rule": "The building frame carrying the updateTile state (Accelerator.java:120-124, heat/statusLerp/progress/time/launchHeat/launching) plus the folded efficiency and the graph-stamped power_status; Java float defaults 0.0 and launching false before the first tick.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_update_tile_advance_state"
+          ]
+        },
+        "seconds": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "time += Time.delta * efficiency;",
+          "rule": "The driver tick length in seconds -- the port Time.delta (the conduit precedent): the lerpDelta/slerpDelta scale and the time/progress advance step.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07AcceleratorUpdateTileProof",
+      "rule": "Source-backed Accelerator updateTile advance from Accelerator.java / Mathf.java."
+    },
+    "source_accelerator_update_tile_advance_state_result": {
+      "status": "active",
+      "owner": "SourceAcceleratorBuildState.source_accelerator_update_tile_advance_state",
+      "source_slice": "N2191",
+      "keys": {
+        "heat": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "heat = Mathf.lerpDelta(heat, launching ? 1f : efficiency, 0.05f);",
+          "rule": "Heat after one tick (Accelerator.java:131): lerpDelta toward 1f when launching, toward the folded efficiency otherwise, at 0.05.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_update_tile_advance_state"
+          ]
+        },
+        "status_lerp": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "statusLerp = Mathf.lerpDelta(statusLerp, power.status, 0.05f);",
+          "rule": "Status lerp after one tick (Accelerator.java:132): lerpDelta toward the live power.status at 0.05.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_update_tile_advance_state"
+          ]
+        },
+        "time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "time += Time.delta * efficiency;",
+          "rule": "Time after one tick (Accelerator.java:134-138): advanced by Time.delta * efficiency when idle, slerped toward 0f at 0.4 when launching.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_update_tile_advance_state"
+          ]
+        },
+        "launch_heat": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "launchHeat = Mathf.lerpDelta(launchHeat, launching ? 1f : 0f, 0.1f);",
+          "rule": "Launch heat after one tick (Accelerator.java:140): lerpDelta toward 1f when launching, toward 0f otherwise, at 0.1.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_update_tile_advance_state"
+          ]
+        },
+        "progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "progress += Time.delta * efficiency / buildDuration;",
+          "rule": "Progress after one tick (Accelerator.java:142-145): advanced by Time.delta * efficiency / buildDuration (120f) when efficiency >= 0f, clamped at 1f.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07AcceleratorUpdateTileProof",
+      "rule": "Source-backed Accelerator updateTile advance from Accelerator.java / Mathf.java."
+    },
+    "source_impact_reactor_update_tile_advance_state_input": {
+      "status": "active",
+      "owner": "SourceImpactReactorBuildState.source_impact_reactor_update_tile_advance_state",
+      "source_slice": "N2192",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+          "java_expr": "public float warmup, totalProgress;",
+          "rule": "The building frame carrying the build fields (ImpactReactor.java:75, both 0f by default) plus the folded efficiency and the stamped power.status: the live values the advance reads; efficiency defaults to 1.0 before the first consumption fold (the cheating / no-consumer early return, BuildingComp.java:1945-1947) and power.status to 1.0 when missing (the assembler fold).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_update_tile_advance_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return timeScale;",
+          "rule": "The sprite-meta timeScale (BuildingComp.java:599-600, `return timeScale;`, default 1f, BuildingComp.java:98): scales the warmup lerp toward 1 (warmupSpeed * timeScale, ImpactReactor.java:82).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_update_tile_advance_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+          "java_expr": "totalProgress += warmup * Time.delta;",
+          "rule": "Time.delta in 60fps ticks (arc Time.java:26, `Math.min(Core.graphics.getDeltaTime() * 60f, 3f)`): the driver passes seconds * 60 (the N2093 pump precedent); scales the lerpDelta clamp and the totalProgress accumulation.",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ImpactReactorUpdateTileProof",
+      "rule": "Source-backed ImpactReactor updateTile advance from ImpactReactor.java / BuildingComp.java / Mathf.java."
+    },
+    "source_impact_reactor_update_tile_advance_state_result": {
+      "status": "active",
+      "owner": "SourceImpactReactorBuildState.source_impact_reactor_update_tile_advance_state",
+      "source_slice": "N2192",
+      "keys": {
+        "warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+          "java_expr": "warmup = Mathf.lerpDelta(warmup, 1f, warmupSpeed * timeScale);",
+          "rule": "The advanced warmup (ImpactReactor.java:82): lerpDelta toward 1f at warmupSpeed * timeScale while the gate holds, with the 1f snap (ImpactReactor.java:83-84), or lerpDelta toward 0f at 0.01f when the gate fails (ImpactReactor.java:95).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_update_tile_advance_state"
+          ]
+        },
+        "total_progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+          "java_expr": "totalProgress += warmup * Time.delta;",
+          "rule": "The advanced totalProgress (ImpactReactor.java:98): the previous total plus the new warmup times Time.delta.",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_update_tile_advance_state"
+          ]
+        },
+        "production_efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+          "java_expr": "productionEfficiency = Mathf.pow(warmup, 5f);",
+          "rule": "The production efficiency (ImpactReactor.java:100): pow(warmup, 5f) from the advanced warmup; tracked as a frame key here -- the producer fold (PowerGenerator.java:156-158) does not read it yet and waits for its own slice.",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ImpactReactorUpdateTileProof",
+      "rule": "Source-backed ImpactReactor updateTile advance from ImpactReactor.java / BuildingComp.java / Mathf.java."
+    },
+    "source_mend_projector_update_tile_advance_input": {
+      "status": "active",
+      "owner": "SourceMendProjectorBuildState.source_mend_projector_update_tile_advance_state",
+      "source_slice": "N2193",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "java_expr": "public float heat, charge = Mathf.random(reload), phaseHeat, smoothEfficiency;",
+          "rule": "The placed-building frame (MendProjector.java:85, the build fields): carries smooth_efficiency / heat / charge / phase_heat plus the folded efficiency / optional_efficiency the advance reads; missing keys fold to the Java field defaults (0.0, with charge bound deterministically to 0.0 instead of the Java random init).",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_update_tile_advance_state"
+          ]
+        },
+        "reload_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "reload = 200f;",
+          "rule": "The per-def reload (mender 200f, mend-projector 250f, Blocks.java:1923/1936): the charge threshold the reset branch compares against; read through the family helper (SourceMendProjectorState.projector_reload).",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_update_tile_advance_state"
+          ]
+        },
+        "time_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "Time.delta in ticks (BuildingComp.java:1922-1924, the delta() the charge advance scales by timeScale; the lerps use this value unscaled, Arc Mathf.java:430-432): seconds * TICK_RATE 60 from the placed-block helper.",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_update_tile_advance_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live building timeScale (BuildingComp.java:98, default 1f): read from the sprite meta; scales the charge advance only, never the lerps.",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_update_tile_advance_state"
+          ]
+        },
+        "can_heal": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "java_expr": "boolean canHeal = !checkSuppression();",
+          "rule": "Whether the projector may heal (MendProjector.java:94): the documented default true, since the tick tracks no suppression state (the N2184 BuildTurret suppression precedent); false drives the heat target to 0 and blocks the reset.",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07MendProjectorUpdateTileProof",
+      "rule": "Source-backed MendProjector updateTile advance from MendProjector.java / BuildingComp.java / Arc Mathf.java."
+    },
+    "source_mend_projector_update_tile_advance_result": {
+      "status": "active",
+      "owner": "SourceMendProjectorBuildState.source_mend_projector_update_tile_advance_state",
+      "source_slice": "N2193",
+      "keys": {
+        "smooth_efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "java_expr": "smoothEfficiency = Mathf.lerpDelta(smoothEfficiency, efficiency, 0.08f);",
+          "rule": "The smoothed efficiency after one tick (MendProjector.java:96): lerped toward the folded frame efficiency at 0.08f by the unscaled Time.delta.",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_update_tile_advance_state"
+          ]
+        },
+        "heat": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "java_expr": "heat = Mathf.lerpDelta(heat, efficiency > 0 && canHeal ? 1f : 0f, 0.08f);",
+          "rule": "The heat after one tick (MendProjector.java:97): lerped toward 1f when the folded efficiency is positive and canHeal holds, else toward 0f, at 0.08f by the unscaled Time.delta.",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_update_tile_advance_state"
+          ]
+        },
+        "charge": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "java_expr": "charge += heat * delta();",
+          "rule": "The charge after one tick (MendProjector.java:98, 103-105): advanced by the new heat times the scaled delta(), then reset to 0f when it reaches the per-def reload while canHeal holds -- the reset precedes the deferred heal scan.",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_update_tile_advance_state"
+          ]
+        },
+        "phase_heat": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "java_expr": "phaseHeat = Mathf.lerpDelta(phaseHeat, optionalEfficiency, 0.1f);",
+          "rule": "The phase heat after one tick (MendProjector.java:100): lerped toward the frame optionalEfficiency at 0.1f by the unscaled Time.delta.",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07MendProjectorUpdateTileProof",
+      "rule": "Source-backed MendProjector updateTile advance from MendProjector.java / BuildingComp.java / Arc Mathf.java."
+    },
+    "source_overdrive_projector_update_tile_advance_state_input": {
+      "status": "active",
+      "owner": "SourceOverdriveProjectorBuildState.source_overdrive_projector_update_tile_advance_state",
+      "source_slice": "N2194",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "java_expr": "smoothEfficiency = Mathf.lerpDelta(smoothEfficiency, efficiency, 0.08f);",
+          "rule": "The bound frame carrying the current smooth_efficiency / heat / charge / phase_heat / use_progress plus the folded efficiency and optionalEfficiency (OverdriveProjector.java:98, the first advance line; the frame is what the advance reads and writes back).",
+          "used_by": [
+            "SourceOverdriveProjectorBuildState.source_overdrive_projector_update_tile_advance_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "java_expr": "charge += heat * Time.delta;",
+          "rule": "Time.delta in ticks (seconds * 60, game_source_delta): the raw tick delta the charge advance and the lerpDelta calls use (OverdriveProjector.java:100) -- never raw seconds, and never scaled by timeScale, unlike delta().",
+          "used_by": [
+            "SourceOverdriveProjectorBuildState.source_overdrive_projector_update_tile_advance_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "The building timeScale, read live from the sprite meta: delta() = Time.delta * timeScale (BuildingComp.java:1922-1924) is what useProgress advances on (OverdriveProjector.java:117).",
+          "used_by": [
+            "SourceOverdriveProjectorBuildState.source_overdrive_projector_update_tile_advance_state"
+          ]
+        },
+        "has_boost": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "java_expr": "public boolean hasBoost = true;",
+          "rule": "Whether the def boosts phaseHeat (OverdriveProjector.java:29, default true): the overdrive-projector keeps it, the overdrive-dome sets hasBoost = false (Blocks.java:1960), so its phaseHeat stays 0; read per-def from the catalog.",
+          "used_by": [
+            "SourceOverdriveProjectorBuildState.source_overdrive_projector_update_tile_advance_state"
+          ]
+        },
+        "reload_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "java_expr": "public float reload = 60f;",
+          "rule": "The charge threshold (OverdriveProjector.java:23, 60f for both defs): charge resets to 0f when it reaches reload (OverdriveProjector.java:111-112).",
+          "used_by": [
+            "SourceOverdriveProjectorBuildState.source_overdrive_projector_update_tile_advance_state"
+          ]
+        },
+        "use_time_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "java_expr": "public float useTime = 400f;",
+          "rule": "The use timer period (OverdriveProjector.java:27, 400f; the overdrive-dome sets useTime = 300f, Blocks.java:1958): useProgress wraps at useTime (OverdriveProjector.java:118-120).",
+          "used_by": [
+            "SourceOverdriveProjectorBuildState.source_overdrive_projector_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07OverdriveProjectorUpdateTileProof",
+      "rule": "Source-backed OverdriveProjector updateTile advance from OverdriveProjector.java / BuildingComp.java."
+    },
+    "source_overdrive_projector_update_tile_advance_state_result": {
+      "status": "active",
+      "owner": "SourceOverdriveProjectorBuildState.source_overdrive_projector_update_tile_advance_state",
+      "source_slice": "N2194",
+      "keys": {
+        "advanced": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "java_expr": "smoothEfficiency = Mathf.lerpDelta(smoothEfficiency, efficiency, 0.08f);",
+          "rule": "The advanced frame fields (OverdriveProjector.java:97-120, in exact Java order): smooth_efficiency and heat lerped toward their targets, charge advanced on raw Time.delta and reset at reload, phase_heat lerped toward optionalEfficiency when hasBoost, use_progress advanced on delta() and wrapped at useTime.",
+          "used_by": [
+            "SourceOverdriveProjectorBuildState.source_overdrive_projector_update_tile_advance_state"
+          ]
+        },
+        "charge_ready": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "java_expr": "charge = 0f;",
+          "rule": "Whether the charge reached reload this tick (OverdriveProjector.java:111-112): the boost-fire signal -- the reset already happened, and the deferred boost application (OverdriveProjector.java:113) is what would fire on it.",
+          "used_by": [
+            "SourceOverdriveProjectorBuildState.source_overdrive_projector_update_tile_advance_state"
+          ]
+        },
+        "use_ready": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "java_expr": "useProgress %= useTime;",
+          "rule": "Whether useProgress reached useTime this tick (OverdriveProjector.java:118-120): the consume-fire signal -- the wrap already happened, and the deferred consume() (OverdriveProjector.java:119) is what would fire on it.",
+          "used_by": [
+            "SourceOverdriveProjectorBuildState.source_overdrive_projector_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07OverdriveProjectorUpdateTileProof",
+      "rule": "Source-backed OverdriveProjector updateTile advance from OverdriveProjector.java / BuildingComp.java."
+    },
+    "source_beam_drill_update_tile_advance_state_input": {
+      "status": "active",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_update_tile_advance_state",
+      "source_slice": "N2195",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "warmup = Mathf.approachDelta(warmup, Mathf.num(efficiency > 0), 1f / 60f);",
+          "rule": "The building frame carrying the folded efficiency / optional_efficiency (stamped by apply_update_consumption_state) and the current warmup / boost_warmup / time; missing keys default to 0.0, the Java field defaults (BuildingComp.java:85/87, BeamDrill.java:225-226).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_update_tile_advance_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26): the delta the Arc approachDelta / lerpDelta formulas scale by (Mathf.java:420-432).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_update_tile_advance_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live timeScale read from the sprite meta (SourcePlacedBlockState.time_scale), default 1.0 (BuildingComp.java:98): delta() = Time.delta * timeScale (BuildingComp.java:1922-1924).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BeamDrillUpdateTileProof",
+      "rule": "Source-backed BeamDrill updateTile advance from BeamDrill.java / BuildingComp.java."
+    },
+    "source_beam_drill_update_tile_advance_state_result": {
+      "status": "active",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_update_tile_advance_state",
+      "source_slice": "N2195",
+      "keys": {
+        "warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "warmup = Mathf.approachDelta(warmup, Mathf.num(efficiency > 0), 1f / 60f);",
+          "rule": "The advanced warmup (BeamDrill.java:242): approachDelta toward num(efficiency > 0) at 1f/60f per tick -- 1.0 when powered, 0.0 when not.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_update_tile_advance_state"
+          ]
+        },
+        "boost_warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "boostWarmup = Mathf.lerpDelta(boostWarmup, optionalEfficiency, 0.1f);",
+          "rule": "The advanced boost warmup (BeamDrill.java:248): lerpDelta toward optionalEfficiency at 0.1f -- tracks the boost level.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_update_tile_advance_state"
+          ]
+        },
+        "multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "float multiplier = Mathf.lerp(1f, optionalBoostIntensity, optionalEfficiency);",
+          "rule": "The boost multiplier (BeamDrill.java:246): lerp(1, 2.5, optionalEfficiency) with the class optionalBoostIntensity 2.5f (BeamDrill.java:44), shared by both defs.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_update_tile_advance_state"
+          ]
+        },
+        "time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "time += edelta() * multiplier;",
+          "rule": "The advanced drill time (BeamDrill.java:251): time += efficiency * Time.delta * timeScale * multiplier; grows unbounded until the reset slice lands (the drop loop + time %= drillTime reset need lastItem).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BeamDrillUpdateTileProof",
+      "rule": "Source-backed BeamDrill updateTile advance from BeamDrill.java / BuildingComp.java."
     }
   },
   "version": 1

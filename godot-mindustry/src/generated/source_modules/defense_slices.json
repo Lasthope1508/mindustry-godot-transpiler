@@ -2909,6 +2909,81 @@
       ],
       "runtime_proof": "/root/C07BuildTurretPowerStatusProof"
     },
+    "N2187": {
+      "canonical_ledger": "source_slice_ledger.N2187",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.shouldConsume()",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_should_consume_state",
+      "source_symbols": [
+        "source_shockwave_tower_should_consume_state_result.should_consume",
+        "source_shockwave_tower_should_consume_state_result.reload_counter"
+      ],
+      "tests": [
+        "test_c07_shockwave_tower_should_consume_registration",
+        "test_all_c07_shockwave_tower_should_consume_input_evidence_is_exact",
+        "test_shockwave_tower_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_should_consume"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerShouldConsumeProof"
+    },
+    "N2190": {
+      "canonical_ledger": "source_slice_ledger.N2190",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "RadarBuild.updateTile()",
+      "godot_owner": "SourceRadarBuildState.source_radar_update_tile_state",
+      "source_symbols": [
+        "source_radar_update_tile_result.advance",
+        "source_radar_update_tile_result.force_update_needed"
+      ],
+      "tests": [
+        "test_c07_radar_update_tile_registration",
+        "test_all_c07_radar_update_tile_input_evidence_is_exact",
+        "test_radar_update_tile_state",
+        "test_reference_graph_and_actual_c07_radar_update_tile"
+      ],
+      "runtime_proof": "/root/C07RadarUpdateTileProof"
+    },
+    "N2193": {
+      "canonical_ledger": "source_slice_ledger.N2193",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "java_method": "MendBuild.updateTile()",
+      "godot_owner": "SourceMendProjectorBuildState.source_mend_projector_update_tile_advance_state",
+      "source_symbols": [
+        "source_mend_projector_update_tile_advance_result.smooth_efficiency",
+        "source_mend_projector_update_tile_advance_result.heat",
+        "source_mend_projector_update_tile_advance_result.charge",
+        "source_mend_projector_update_tile_advance_result.phase_heat"
+      ],
+      "tests": [
+        "test_c07_mend_projector_update_tile_registration",
+        "test_all_c07_mend_projector_update_tile_input_evidence_is_exact",
+        "test_mend_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_mend_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07MendProjectorUpdateTileProof"
+    },
+    "N2194": {
+      "canonical_ledger": "source_slice_ledger.N2194",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "java_method": "OverdriveBuild.updateTile()",
+      "godot_owner": "SourceOverdriveProjectorBuildState.source_overdrive_projector_update_tile_advance_state",
+      "source_symbols": [
+        "source_overdrive_projector_update_tile_advance_state_result.advanced",
+        "source_overdrive_projector_update_tile_advance_state_result.charge_ready",
+        "source_overdrive_projector_update_tile_advance_state_result.use_ready"
+      ],
+      "tests": [
+        "test_c07_overdrive_projector_update_tile_registration",
+        "test_all_c07_overdrive_projector_update_tile_input_evidence_is_exact",
+        "test_overdrive_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_overdrive_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07OverdriveProjectorUpdateTileProof"
+    },
     "N2214": {
       "canonical_ledger": "source_slice_ledger.N2214",
       "status": "done",
