@@ -5823,6 +5823,36 @@
       ],
       "runtime_proof": "/root/C07FrackerPowerStatusProof"
     },
+    "source_fracker_should_consume_state_result.result_amount": {
+      "canonical_symbol": "source_symbol_registry.source_fracker_should_consume_state_result.result_amount",
+      "status": "source-backed",
+      "java_expr": "liquids.get(result)",
+      "godot_symbol": "source_fracker_should_consume_state_result.result_amount",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_should_consume_state",
+      "rule": "The held amount of the result liquid the gate reads (SolidPump.java:118): the frame liquids amount for the result id, 0.0 when the frame has no liquids store or no entry for it.",
+      "tests": [
+        "test_c07_fracker_should_consume_registration",
+        "test_all_c07_fracker_should_consume_input_evidence_is_exact",
+        "test_fracker_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_fracker_should_consume"
+      ],
+      "runtime_proof": "/root/C07FrackerShouldConsumeProof"
+    },
+    "source_fracker_should_consume_state_result.should_consume": {
+      "canonical_symbol": "source_symbol_registry.source_fracker_should_consume_state_result.should_consume",
+      "status": "source-backed",
+      "java_expr": "return liquids.get(result) < liquidCapacity - 0.01f;",
+      "godot_symbol": "source_fracker_should_consume_state_result.should_consume",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_should_consume_state",
+      "rule": "The shouldConsume gate (SolidPump.java:117-119, inherited verbatim by FrackerBuild, which has no override): true while the held result amount is below the capacity minus 0.01f; when false, updateConsumption forces efficiency to zero (BuildingComp.java:1960 + 1992). The gate has NO enabled term -- Java returns the bare capacity comparison, unlike the Separator/Drill gates.",
+      "tests": [
+        "test_c07_fracker_should_consume_registration",
+        "test_all_c07_fracker_should_consume_input_evidence_is_exact",
+        "test_fracker_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_fracker_should_consume"
+      ],
+      "runtime_proof": "/root/C07FrackerShouldConsumeProof"
+    },
     "source_item_runtime_consumer_input.cost_multiplier": {
       "canonical_symbol": "source_symbol_registry.source_item_runtime_consumer_input.cost_multiplier",
       "status": "source-backed",
@@ -5912,6 +5942,36 @@
         "test_reference_graph_and_actual_c07_mechanical_pump_power_status"
       ],
       "runtime_proof": "/root/C07MechanicalPumpPowerStatusProof"
+    },
+    "source_mechanical_pump_should_consume_state_result.liquid_drop": {
+      "canonical_symbol": "source_symbol_registry.source_mechanical_pump_should_consume_state_result.liquid_drop",
+      "status": "source-backed",
+      "java_expr": "liquidDrop = other.floor().liquidDrop;",
+      "godot_symbol": "source_mechanical_pump_should_consume_state_result.liquid_drop",
+      "godot_owner": "SourceMechanicalPumpBuildState.source_mechanical_pump_should_consume_state",
+      "rule": "The liquid drop the gate read (Pump.java:149, set by onProximityUpdate from the linked tiles, Pump.java:141-152): the liquid name, or null when no liquid floor sits under the footprint (canPump, Pump.java:106-108). A null drop closes the gate even with room in the store and the pump enabled.",
+      "tests": [
+        "test_c07_mechanical_pump_should_consume_registration",
+        "test_all_c07_mechanical_pump_should_consume_input_evidence_is_exact",
+        "test_mechanical_pump_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_mechanical_pump_should_consume"
+      ],
+      "runtime_proof": "/root/C07MechanicalPumpShouldConsumeProof"
+    },
+    "source_mechanical_pump_should_consume_state_result.should_consume": {
+      "canonical_symbol": "source_symbol_registry.source_mechanical_pump_should_consume_state_result.should_consume",
+      "status": "source-backed",
+      "java_expr": "return liquidDrop != null && liquids.get(liquidDrop) < liquidCapacity - 0.01f && enabled;",
+      "godot_symbol": "source_mechanical_pump_should_consume_state_result.should_consume",
+      "godot_owner": "SourceMechanicalPumpBuildState.source_mechanical_pump_should_consume_state",
+      "rule": "The shouldConsume gate (Pump.java:155-157): true while the pump has a liquid drop AND its stored amount of that liquid is below capacity minus 0.01f AND it is enabled; when false, updateConsumption forces efficiency to zero (BuildingComp.java:1960 + 1992-1994).",
+      "tests": [
+        "test_c07_mechanical_pump_should_consume_registration",
+        "test_all_c07_mechanical_pump_should_consume_input_evidence_is_exact",
+        "test_mechanical_pump_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_mechanical_pump_should_consume"
+      ],
+      "runtime_proof": "/root/C07MechanicalPumpShouldConsumeProof"
     },
     "source_pump_dump_liquid_state_input.cell": {
       "canonical_symbol": "source_symbol_registry.source_pump_dump_liquid_state_input.cell",
@@ -6268,6 +6328,36 @@
         "test_reference_graph_and_actual_c07_solid_pump_power_status"
       ],
       "runtime_proof": "/root/C07SolidPumpPowerStatusProof"
+    },
+    "source_solid_pump_should_consume_state_result.result_amount": {
+      "canonical_symbol": "source_symbol_registry.source_solid_pump_should_consume_state_result.result_amount",
+      "status": "source-backed",
+      "java_expr": "liquids.get(result)",
+      "godot_symbol": "source_solid_pump_should_consume_state_result.result_amount",
+      "godot_owner": "SourceSolidPumpBuildState.source_solid_pump_should_consume_state",
+      "rule": "The result liquid amount the gate reads (SolidPump.java:118): the frame liquids module amount for the result liquid id, 0.0 when the frame has no liquids state yet.",
+      "tests": [
+        "test_c07_solid_pump_should_consume_registration",
+        "test_all_c07_solid_pump_should_consume_input_evidence_is_exact",
+        "test_solid_pump_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_solid_pump_should_consume"
+      ],
+      "runtime_proof": "/root/C07SolidPumpShouldConsumeProof"
+    },
+    "source_solid_pump_should_consume_state_result.should_consume": {
+      "canonical_symbol": "source_symbol_registry.source_solid_pump_should_consume_state_result.should_consume",
+      "status": "source-backed",
+      "java_expr": "return liquids.get(result) < liquidCapacity - 0.01f;",
+      "godot_symbol": "source_solid_pump_should_consume_state_result.should_consume",
+      "godot_owner": "SourceSolidPumpBuildState.source_solid_pump_should_consume_state",
+      "rule": "The shouldConsume gate (SolidPump.java:117-119): true while the result amount is below the capacity minus 0.01f; when false, updateConsumption forces efficiency to zero (BuildingComp.java:1960 + 1992). The gate has NO enabled term -- Java returns the bare capacity comparison, unlike the Pump/Separator/Drill gates.",
+      "tests": [
+        "test_c07_solid_pump_should_consume_registration",
+        "test_all_c07_solid_pump_should_consume_input_evidence_is_exact",
+        "test_solid_pump_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_solid_pump_should_consume"
+      ],
+      "runtime_proof": "/root/C07SolidPumpShouldConsumeProof"
     },
     "source_wall_crafter_power_status_row_state_result.has_power_row": {
       "canonical_symbol": "source_symbol_registry.source_wall_crafter_power_status_row_state_result.has_power_row",

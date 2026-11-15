@@ -1356,6 +1356,41 @@
         }
       }
     },
+    "source_fracker_should_consume_state_input": {
+      "canonical_schema": "source_state_schema.source_fracker_should_consume_state_input",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "return liquids.get(result) < liquidCapacity - 0.01f;",
+          "rule": "The building frame carrying the live liquids key (SolidPump.java:118, the shouldConsume gate): the Building.liquids LiquidModule dict (the sprite meta store, synced into the frame each tick by the driver), default {} -- the gate reads the result amount from it through the shared liquid module helper.",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_should_consume_state"
+          ]
+        },
+        "result_liquid": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "result = Liquids.oil;",
+          "rule": "The result liquid's catalog id, resolved by the driver from liquid_id_by_name with the def constant \"oil\" (Blocks.java:2966, `result = Liquids.oil;` -- the class default is water, SolidPump.java:22; the catalog carries no result property for the oil-extractor).",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_should_consume_state"
+          ]
+        },
+        "liquid_capacity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "liquidCapacity = 40f;",
+          "rule": "The liquid capacity as a def constant, 40f (Blocks.java:2971; the class default is -1f, Block.java:77; the catalog carries no liquidCapacity for the oil-extractor).",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_should_consume_state"
+          ]
+        }
+      }
+    },
     "source_mechanical_pump_power_status_row_state_input": {
       "canonical_schema": "source_state_schema.source_mechanical_pump_power_status_row_state_input",
       "keys": {
@@ -1377,6 +1412,61 @@
           "rule": "Whether the block has a power consumer (Block.java:1449): the driver gate -- the row joins the first pass only when the block consumes power, and the power consumer counts toward hasConsumers.",
           "used_by": [
             "SourceMechanicalPumpBuildState.source_mechanical_pump_power_status_row_state"
+          ]
+        }
+      }
+    },
+    "source_mechanical_pump_should_consume_state_input": {
+      "canonical_schema": "source_state_schema.source_mechanical_pump_should_consume_state_input",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+          "java_expr": "return liquidDrop != null && liquids.get(liquidDrop) < liquidCapacity - 0.01f && enabled;",
+          "rule": "The building frame carrying enabled (BuildingComp.java:77, `transient boolean enabled = true;`, the Java field default; the tick preserves a disabled pump instead of resetting it, the factory pattern). The gate reads enabled from the frame because the PumpBuild override INCLUDES the enabled check, unlike the LaunchPad/ShockwaveTower overrides.",
+          "used_by": [
+            "SourceMechanicalPumpBuildState.source_mechanical_pump_should_consume_state"
+          ]
+        },
+        "liquid_drop": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+          "java_expr": "liquidDrop = other.floor().liquidDrop;",
+          "rule": "The liquid under the footprint (Pump.java:114, `public @Nullable Liquid liquidDrop = null;`, set by onProximityUpdate, Pump.java:141-152, from each linked tile passing canPump, Pump.java:106-108; null when no liquid floor sits under the footprint). The driver gathers it per tick from the N2087 proximity helper (source_pump_proximity_state) return value; the family frame carries no liquid_drop key.",
+          "used_by": [
+            "SourceMechanicalPumpBuildState.source_mechanical_pump_should_consume_state"
+          ]
+        },
+        "liquids": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+          "java_expr": "return liquidDrop != null && liquids.get(liquidDrop) < liquidCapacity - 0.01f && enabled;",
+          "rule": "The Building.liquids LiquidModule (the sprite liquids meta, initialized at placement via source_initialize_building_liquids_state), read through the shared liquid module source_get_state by liquid id. A missing liquids dict reads empty (amount 0.0); an unknown drop id reads 0.0 (all floor drops are catalog liquids, so the guard is defensive only).",
+          "used_by": [
+            "SourceMechanicalPumpBuildState.source_mechanical_pump_should_consume_state"
+          ]
+        },
+        "liquid_capacity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "liquidCapacity = 80f;",
+          "rule": "The block def capacity (rotary-pump 80f, Blocks.java:2308; impulse-pump 200f, Blocks.java:2317), passed by the driver -- the catalog carries no liquidCapacity for pump defs, so the driver resolves it from the block id (the N2190/N2199 def constant precedent); unknown Pump defs fall back to the Block.java:77 default (`liquidCapacity = -1f;`). The frame does not carry it.",
+          "used_by": [
+            "SourceMechanicalPumpBuildState.source_mechanical_pump_should_consume_state"
+          ]
+        },
+        "liquid_id_by_name": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+          "java_expr": "return liquidDrop != null && liquids.get(liquidDrop) < liquidCapacity - 0.01f && enabled;",
+          "rule": "The catalog liquid name -> id map (source_liquid_catalog_state), passed by the driver: the module store is id-indexed while liquidDrop is a name, so the pure gate resolves the drop name to the module index through this map (the factory precedent, source_factory_should_consume_state).",
+          "used_by": [
+            "SourceMechanicalPumpBuildState.source_mechanical_pump_should_consume_state"
           ]
         }
       }
@@ -1547,6 +1637,41 @@
           "rule": "Whether the block has a power consumer (Block.java:1449): the driver gate -- the row joins the first pass only when the block consumes power, and the power consumer counts toward hasConsumers.",
           "used_by": [
             "SourceSolidPumpBuildState.source_solid_pump_power_status_row_state"
+          ]
+        }
+      }
+    },
+    "source_solid_pump_should_consume_state_input": {
+      "canonical_schema": "source_state_schema.source_solid_pump_should_consume_state_input",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "return liquids.get(result) < liquidCapacity - 0.01f;",
+          "rule": "The building frame carrying the live liquids key (SolidPump.java:118, the shouldConsume gate): the Building.liquids LiquidModule state dict ({liquids/current/flow}), refreshed from the sprite meta by the driver each tick, default {} -- the gate reads the result amount from it through the shared liquid module helper.",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_should_consume_state"
+          ]
+        },
+        "result_liquid_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "public Liquid result = Liquids.water;",
+          "rule": "The result liquid's catalog id, resolved by the driver from liquid_id_by_name[\"water\"] (the def constant water, Blocks.java:2922 -- also the Java field default, SolidPump.java:22); -1 when the catalog has no such liquid, in which case the gate reads 0.0.",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_should_consume_state"
+          ]
+        },
+        "liquid_capacity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "liquidCapacity = 40f;",
+          "rule": "The liquid capacity def constant 40f (Blocks.java:2925) -- the catalog carries no liquidCapacity property for pump defs (the N2190 fogRadius / N2199 transportTime def-constant precedent); the class default is -1f (Block.java:77) but every pump def sets it explicitly.",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_should_consume_state"
           ]
         }
       }

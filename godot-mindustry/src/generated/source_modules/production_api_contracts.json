@@ -1344,6 +1344,43 @@
       "rule": "Source-backed Fracker power.status row from ConsumePower.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceFrackerBuildState.source_fracker_should_consume_state": {
+      "canonical_contract": "source_api_contracts.SourceFrackerBuildState.source_fracker_should_consume_state",
+      "status": "active",
+      "source_slice": "N2207",
+      "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+      "source_method": "SolidPumpBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_fracker_should_consume_state_input.frame"
+        },
+        {
+          "name": "result_liquid",
+          "type": "int",
+          "schema": "source_fracker_should_consume_state_input.result_liquid"
+        },
+        {
+          "name": "liquid_capacity",
+          "type": "float",
+          "schema": "source_fracker_should_consume_state_input.liquid_capacity"
+        }
+      ],
+      "return_keys": [
+        "should_consume",
+        "result_amount"
+      ],
+      "tests": [
+        "test_c07_fracker_should_consume_registration",
+        "test_all_c07_fracker_should_consume_input_evidence_is_exact",
+        "test_fracker_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_fracker_should_consume"
+      ],
+      "runtime_proof": "/root/C07FrackerShouldConsumeProof",
+      "rule": "Source-backed Fracker shouldConsume gate (inherited from SolidPump) from SolidPump.java / Fracker.java / BuildingComp.java / Blocks.java / Block.java.",
+      "return_type": "Dictionary"
+    },
     "SourceMechanicalPumpBuildState.source_mechanical_pump_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourceMechanicalPumpBuildState.source_mechanical_pump_power_status_row_state",
       "status": "active",
@@ -1374,6 +1411,53 @@
       ],
       "runtime_proof": "/root/C07MechanicalPumpPowerStatusProof",
       "rule": "Source-backed mechanical Pump power.status row from ConsumePower.java / BuildingComp.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceMechanicalPumpBuildState.source_mechanical_pump_should_consume_state": {
+      "canonical_contract": "source_api_contracts.SourceMechanicalPumpBuildState.source_mechanical_pump_should_consume_state",
+      "status": "active",
+      "source_slice": "N2205",
+      "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+      "source_method": "PumpBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_mechanical_pump_should_consume_state_input.frame"
+        },
+        {
+          "name": "liquid_drop",
+          "type": "Variant",
+          "schema": "source_mechanical_pump_should_consume_state_input.liquid_drop"
+        },
+        {
+          "name": "liquids",
+          "type": "Dictionary",
+          "schema": "source_mechanical_pump_should_consume_state_input.liquids"
+        },
+        {
+          "name": "liquid_capacity",
+          "type": "float",
+          "schema": "source_mechanical_pump_should_consume_state_input.liquid_capacity"
+        },
+        {
+          "name": "liquid_id_by_name",
+          "type": "Dictionary",
+          "schema": "source_mechanical_pump_should_consume_state_input.liquid_id_by_name"
+        }
+      ],
+      "return_keys": [
+        "should_consume",
+        "liquid_drop"
+      ],
+      "tests": [
+        "test_c07_mechanical_pump_should_consume_registration",
+        "test_all_c07_mechanical_pump_should_consume_input_evidence_is_exact",
+        "test_mechanical_pump_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_mechanical_pump_should_consume"
+      ],
+      "runtime_proof": "/root/C07MechanicalPumpShouldConsumeProof",
+      "rule": "Source-backed Pump shouldConsume gate from Pump.java / BuildingComp.java / Blocks.java / Block.java / ConsumePower.java.",
       "return_type": "Dictionary"
     },
     "SourcePlacedBlockState.source_block_has_liquids_state": {
@@ -1604,6 +1688,43 @@
       ],
       "runtime_proof": "/root/C07SolidPumpPowerStatusProof",
       "rule": "Source-backed SolidPump power.status row from ConsumePower.java / BuildingComp.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceSolidPumpBuildState.source_solid_pump_should_consume_state": {
+      "canonical_contract": "source_api_contracts.SourceSolidPumpBuildState.source_solid_pump_should_consume_state",
+      "status": "active",
+      "source_slice": "N2206",
+      "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+      "source_method": "SolidPumpBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_solid_pump_should_consume_state_input.frame"
+        },
+        {
+          "name": "result_liquid_id",
+          "type": "int",
+          "schema": "source_solid_pump_should_consume_state_input.result_liquid_id"
+        },
+        {
+          "name": "liquid_capacity",
+          "type": "float",
+          "schema": "source_solid_pump_should_consume_state_input.liquid_capacity"
+        }
+      ],
+      "return_keys": [
+        "should_consume",
+        "result_amount"
+      ],
+      "tests": [
+        "test_c07_solid_pump_should_consume_registration",
+        "test_all_c07_solid_pump_should_consume_input_evidence_is_exact",
+        "test_solid_pump_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_solid_pump_should_consume"
+      ],
+      "runtime_proof": "/root/C07SolidPumpShouldConsumeProof",
+      "rule": "Source-backed SolidPump shouldConsume gate from SolidPump.java / BuildingComp.java / Blocks.java / Block.java.",
       "return_type": "Dictionary"
     },
     "SourceWallCrafterBuildState.source_wall_crafter_power_status_row_state": {
