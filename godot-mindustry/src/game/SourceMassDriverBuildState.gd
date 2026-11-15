@@ -8,6 +8,7 @@ const source_building_efficiency_state := preload("res://src/game/SourceBuilding
 const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
 const source_math_state := preload("res://src/game/SourceMathState.gd")
 const inventory := preload("res://src/game/SourceDrillInventoryRuntimeState.gd")
+const source_building_item_dump_state := preload("res://src/game/SourceBuildingItemDumpState.gd")
 const source_content_registry_runtime_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
 
 # The MassDriver implementation (MassDriver.java:27, `public class MassDriver extends Block{`): mass-driver (consumePower 1.75f, Blocks.java:2173, `consumePower(1.75f);`; size 3, itemCapacity 120, reload 200f, range 440f, Blocks.java:2167-2174). MassDriver extends Block, NOT a factory or crafter, so no existing driver matches it and no frame key exists for it; this driver uses its own family frame key ("source_mass_driver_building", the wall-crafter precedent), and this slice adds the mass-driver key to N2142's SOURCE_CONSUMER_FRAME_META_KEYS so the graph stamp/write-back finds it. The port has NO SourceMassDriver* files at all yet -- no display/runtime state to lean on -- so the missing piece is the live power.status -> efficiency driver, which is exactly this slice: the updateTile no-power skip (MassDriver.java:169, `if(efficiency <= 0f){`) gates on efficiency, so a mass driver with no power would keep rotating and firing as if power.status were 1.0.
@@ -146,8 +147,16 @@ static func source_mass_driver_update_tile_advance_state(frame: Dictionary, sour
 	# State switch (MassDriver.java:154-161): `if(state == DriverState.idle){` /
 	# `if(!waitingShooters.isEmpty() && (itemCapacity - items.total() >= minDistribute)){` / `state = DriverState.accepting;`
 	# (MassDriver.java:156-157) else if hasLink `state = DriverState.shooting;` (MassDriver.java:159).
-	# `dumpAccumulate();` (MassDriver.java:164-166, idle or accepting) DEFERS -- dumpAccumulate needs proximity +
-	# neighbor acceptItem/canDump queries the mass-driver driver does not gather (the N2225 doDump precedent).
+	# `dumpAccumulate();` (MassDriver.java:164-166, idle or accepting) is live since N2294 through the
+	# pure source_mass_driver_dump_state function, driven from the tick AFTER the advance with the
+	# post-switch state (state_after_switch, returned here): Java dumps between the switch and the
+	# no-power skip, so the dump gate reads the state the switch just produced -- NOT the final state,
+	# which the accepting/shooting branches below may flip back to idle (a shooting driver that fires
+	# ends idle but must NOT dump). The dump runs even when efficiency is 0 (the gate sits before the
+	# no-power skip, MassDriver.java:168-171), and the only branch below that mutates items is fire(),
+	# which runs only while shooting -- so running the dump after the advance sees the same store Java
+	# dumps from in every dump-eligible state. The neighbour acceptItem / canDump arrays are frame
+	# inputs (default []), and the dumped item is not written into the neighbour frame yet.
 	# No-power skip (MassDriver.java:169-171): `if(efficiency <= 0f){` / `return;` -- the reload decay and the
 	# state switch above already ran; the rotation / fire below never run.
 	# Accepting (MassDriver.java:173-182): `if(currentShooter() == null || (itemCapacity - items.total() < minDistribute)){`
@@ -225,6 +234,10 @@ static func source_mass_driver_update_tile_advance_state(frame: Dictionary, sour
 			state = "accepting"
 		elif has_link:
 			state = "shooting"
+	# The post-switch state (N2294): the dump gate (MassDriver.java:164-166) reads the state the
+	# switch just produced, before the accepting/shooting branches below -- the advance returns it
+	# as state_after_switch so the tick can drive source_mass_driver_dump_state with it.
+	var state_after_switch: String = state
 	var fired: bool = false
 	var fired_items: Dictionary = {}
 	var fired_total: int = 0
@@ -269,11 +282,109 @@ static func source_mass_driver_update_tile_advance_state(frame: Dictionary, sour
 							fired_bullet_speed = bullet_speed * time_scale
 							fired_bullet_lifetime = bullet_lifetime / time_scale
 							state = "idle"
-	return {"link": link, "rotation": rotation, "reload_counter": reload_counter, "state": state, "waiting_shooters": waiting_shooters, "items": items, "partner_waiting_shooters": partner_waiting_shooters, "fired": fired, "fired_items": fired_items, "fired_total": fired_total, "bullet_damage": bullet_damage, "bullet_speed": fired_bullet_speed, "bullet_lifetime": fired_bullet_lifetime}
+	return {"link": link, "rotation": rotation, "reload_counter": reload_counter, "state": state, "state_after_switch": state_after_switch, "waiting_shooters": waiting_shooters, "items": items, "partner_waiting_shooters": partner_waiting_shooters, "fired": fired, "fired_items": fired_items, "fired_total": fired_total, "bullet_damage": bullet_damage, "bullet_speed": fired_bullet_speed, "bullet_lifetime": fired_bullet_lifetime}
+
+static func source_mass_driver_dump_state(frame: Dictionary, state_after_switch: String, source_delta: float, time_scale: float, content_item_ids: Array, neighbour_accepts_item: Array, neighbour_can_dump: Array) -> Dictionary:
+	# The dumpAccumulate dump (MassDriverBuild.updateTile(), MassDriver.java:163-166):
+	# `//dump when idle or accepting`
+	# `if(state == DriverState.idle || state == DriverState.accepting){`
+	# `dumpAccumulate();`
+	# -- between the state switch (MassDriver.java:154-161, `if(state == DriverState.idle){` /
+	# `state = DriverState.accepting;` / `state = DriverState.shooting;`) and the no-power skip
+	# (MassDriver.java:168-171):
+	# `if(efficiency <= 0f){`
+	# so the dump runs even when efficiency is 0 -- the pure takes no efficiency input at all, and
+	# the tick calls it unconditionally after the advance. And dumpAccumulate() is only CALLED while
+	# idle or accepting, so the accumulator does NOT grow while shooting: the pure gates the whole
+	# accumulation on the post-switch state (state_after_switch, returned by the N2237 advance --
+	# NOT the final state, which the accepting/shooting branches may flip back to idle: a shooting
+	# driver that fires ends idle but must NOT dump, and the accepting branch may flip accepting
+	# back to idle while the dump still fires). The accumulator is the Building field at its Java
+	# default (`private transient float dumpAccum;`, BuildingComp.java:99, 0.0), carried as the
+	# frame key dump_accum. dumpAccumulate() delegates to dumpAccumulate(null)
+	# (BuildingComp.java:1048-1050):
+	# `public boolean dumpAccumulate(){`
+	# `return dumpAccumulate(null);`
+	# and dumpAccumulate(Item) (BuildingComp.java:1053-1061) accumulates and dumps in a while loop
+	# -- possibly MULTIPLE times per tick:
+	# `public boolean dumpAccumulate(Item item){`
+	# `boolean res = false;`
+	# `dumpAccum += delta();`
+	# `while(dumpAccum >= 1f){`
+	# `res |= dump(item);`
+	# `dumpAccum -=1f;`
+	# The attempt count + remainder come from the shared helper (SourceBuildingItemDumpState.
+	# dump_accumulate_state, which the bridge source_dump_accumulate_attempt_state delegates to;
+	# the bridge method is an instance method, so the static pure calls the underlying static
+	# directly -- the same function, no duplication, no helper modified), then each attempt routes
+	# through the shared dump(null) port. delta() is `Time.delta * timeScale`
+	# (BuildingComp.java:1922-1924):
+	# `public float delta(){`
+	# `return Time.delta * timeScale;`
+	# so the accumulator grows by source_delta * time_scale (the N2237 advance precedent);
+	# source_delta is Time.delta in ticks (seconds * 60 through game_source_delta, arc
+	# Time.java:26), never raw seconds; timeScale reads `private transient float timeScale = 1f,
+	# timeScaleDuration;` (BuildingComp.java:98). dump() (BuildingComp.java:1064-1066):
+	# `public boolean dump(){`
+	# `return dump(null);`
+	# delegates to dump(null) (BuildingComp.java:1072-1114):
+	# `public boolean dump(Item todump){`
+	# `if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;`
+	# `int dump = this.cdump;`
+	# `var allItems = content.items();`
+	# `int itemSize = allItems.size;`
+	# `if(todump == null){`
+	# `Building other = proximity.get((i + dump) % proximity.size);`
+	# `if(!items.has(ii)) continue;`
+	# `Item item = (Item)itemArray[ii];`
+	# `if(other.acceptItem(self(), item) && canDump(other, item)){`
+	# `other.handleItem(self(), item);`
+	# `items.remove(item, 1);`
+	# `incrementDump(proximity.size);`
+	# -- neighbours outer, content items inner: for each neighbour from the cdump cursor, the first
+	# held item in content order an accepting neighbour takes is handed over, 1 leaves the store,
+	# and the cursor advances once per neighbour checked (incrementDump, BuildingComp.java:1116-1120):
+	# `public void incrementDump(int prox){`
+	# `if(prox != 0){`
+	# `cdump = ((cdump + 1) % prox);`
+	# The cursor is a Building field at its Java default: `transient int cdump;`
+	# (BuildingComp.java:68, 0). The mass driver has items (`hasItems = true;`, MassDriver.java:51),
+	# so the hasItems guard always passes. canDump defaults to true
+	# (`public boolean canDump(Building to, Item item){`, BuildingComp.java:1124-1126); the
+	# neighbour arrays carry the live per-neighbour answers as frame inputs. The dump itself runs
+	# through the shared dump(null) port (SourceBuildingItemDumpState.dump_item_state) -- NOT the
+	# putItem gate game_put_item_state, which dumps one SPECIFIC item and needs a game object for
+	# its increment callbacks, while dumpAccumulate calls dump(). The shared port reports the
+	# handled neighbour but does not write the item into the neighbour frame -- the write-back
+	# waits for its own slice. A failed attempt still consumes its 1f of accumulator (Java calls
+	# dump() inside the while loop whether or not it succeeds), and an attempt with an empty store
+	# or no neighbours guards inside dump_item_state and dumps nothing.
+	var items: Dictionary = (frame.get("items", {}) as Dictionary).duplicate(true)
+	var dump_accum: float = float(frame.get("dump_accum", 0.0))
+	var cursor: int = int(frame.get("cdump", 0))
+	var dumped := false
+	if state_after_switch == "idle" or state_after_switch == "accepting":
+		var delta: float = source_delta * time_scale
+		var attempt: Dictionary = source_building_item_dump_state.dump_accumulate_state(dump_accum, delta)
+		dump_accum = float(attempt.get("dump_accum", dump_accum))
+		var attempts: int = int(attempt.get("dump_attempts", 0))
+		for _attempt in range(attempts):
+			var amounts: Array = []
+			for item_id in content_item_ids:
+				amounts.append(int(items.get(str(item_id), 0)))
+			var result: Dictionary = source_building_item_dump_state.dump_item_state(true, inventory.items_total(items), neighbour_accepts_item.size(), null, false, content_item_ids, amounts, neighbour_accepts_item, neighbour_can_dump, cursor)
+			cursor = int(result.get("cdump", cursor))
+			if bool(result.get("dumped", false)):
+				dumped = true
+				var amounts_after: Array = result.get("item_amounts_by_index", amounts)
+				for j in range(content_item_ids.size()):
+					if j < amounts_after.size():
+						items[str(content_item_ids[j])] = int(amounts_after[j])
+	return {"dump_accum_after": dump_accum, "dumped": dumped, "items_after": items, "cursor_after": cursor}
 
 static func source_mass_driver_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a mass driver does not take the early return. The updateTile advance follows the folded efficiency: the no-power skip (MassDriver.java:169, `if(efficiency <= 0f){`), the rotation align (MassDriver.java:181, `rotation = Angles.moveToward(rotation, angleTo(currentShooter()), rotateSpeed * efficiency);`) and the reload drain (MassDriver.java:143, `reloadCounter = Mathf.clamp(reloadCounter - edelta() / reload);`). MassDriverBuild has no shouldConsume override, so the BuildingComp default applies (BuildingComp.java:755, `public boolean shouldConsume(){` with `return enabled;`, BuildingComp.java:756) -- the machinery runs with should_consume=true when enabled (the MendProjector suppression precedent). The mass driver (consumePower 1.75f, Blocks.java:2173, `consumePower(1.75f);`) is its own family (MassDriver.java:27, `public class MassDriver extends Block{`; MassDriverBuild, MassDriver.java:115, `public class MassDriverBuild extends Building implements RotBlock{`) -- power-only first pass, so the folded efficiency is the min over the *modeled* consumers (power only).
-	# Documented limits: (1) power-only first pass -- the mass driver's power consumer is static (consumePower 1.75f, Blocks.java:2173), so the folded efficiency is the min over the *modeled* consumers (power only). (2) shouldConsume default applies -- MassDriverBuild has no shouldConsume override, so the BuildingComp default (`return enabled;`, BuildingComp.java:755-757) applies; the machinery runs with should_consume=true when enabled (the MendProjector suppression precedent). (3) updateTile advance live (N2237) -- link refresh / reloadCounter decay / waitingShooters cleanup / idle-accepting-shooting switch / rotation align / register + fire (MassDriver.java:133-221 + fire() :290-317) run every tick after the consumption fold through the pure source_mass_driver_update_tile_advance_state function; dumpAccumulate (:164-166), the Time.run arrival cleanup (:209-214), the bullet entity creation and handlePayload (:319-340) defer -- see DEFERRED. The power proof carries no link/state/reload/fire keys; the N2237 proof carries them. (4) No link/config / handlePayload / sense / draw / read-write / acceptItem rows -- see DEFERRED. (5) Single def -- no large-mass-driver def in this upstream version, so the same driver covers the whole family.
+	# Documented limits: (1) power-only first pass -- the mass driver's power consumer is static (consumePower 1.75f, Blocks.java:2173), so the folded efficiency is the min over the *modeled* consumers (power only). (2) shouldConsume default applies -- MassDriverBuild has no shouldConsume override, so the BuildingComp default (`return enabled;`, BuildingComp.java:755-757) applies; the machinery runs with should_consume=true when enabled (the MendProjector suppression precedent). (3) updateTile advance live (N2237) -- link refresh / reloadCounter decay / waitingShooters cleanup / idle-accepting-shooting switch / rotation align / register + fire (MassDriver.java:133-221 + fire() :290-317) run every tick after the consumption fold through the pure source_mass_driver_update_tile_advance_state function; dumpAccumulate (:164-166) is live since N2294 (source_mass_driver_dump_state, the idle/accepting gate + the dumpAccum while loop through the shared dumpAccumulate + dump_item_state helpers, running even without power -- the gate sits before the no-power skip); the Time.run arrival cleanup (:209-214), the bullet entity creation and handlePayload (:319-340) defer -- see DEFERRED. The power proof carries no link/state/reload/fire/dump keys; the N2237 proof carries the link/state/reload/fire keys and the N2294 proof carries the dump keys. (4) No link/config / handlePayload / sense / draw / read-write / acceptItem rows -- see DEFERRED. (5) Single def -- no large-mass-driver def in this upstream version, so the same driver covers the whole family.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -424,6 +535,30 @@ static func source_mass_driver_tick_buildings_state(game: Object, seconds: float
 		frame["items"] = advanced["items"]
 		if not partner_frame.is_empty():
 			partner_frame["waiting_shooters"] = advanced["partner_waiting_shooters"]
+		# N2294: the dumpAccumulate dump (MassDriver.java:164-166, `//dump when idle or accepting` /
+		# `if(state == DriverState.idle || state == DriverState.accepting){ dumpAccumulate(); }`)
+		# runs AFTER the advance in the same tick -- the Java order is dump between the state switch
+		# (:154-161) and the no-power skip (:168-171), so the dump gate reads the post-switch state
+		# (advanced["state_after_switch"]), NOT the final state: a shooting driver that fires ends
+		# the tick idle but must NOT dump, and the accepting branch may flip accepting back to idle
+		# while the dump still fires. The dump runs even when efficiency is 0 -- the gate sits
+		# BEFORE the no-power skip, so an unpowered mass driver still dumps -- and the only advance
+		# branch that mutates items is fire(), which runs only while shooting, so the post-advance
+		# store is the store Java dumps from in every dump-eligible state. The neighbour acceptItem
+		# / canDump arrays are frame inputs (default [] -- no neighbours, the Java proximity.size
+		# == 0 outcome) until a live proximity fill lands, and the dumped item is not written into
+		# the neighbour frame yet (no neighbour write-back). The frame dumpAccum (frame["dump_accum"],
+		# default 0.0, `private transient float dumpAccum;`, BuildingComp.java:99) accumulates only
+		# while the gate is open -- dumpAccumulate() is never called while shooting, so the
+		# accumulator does not grow there -- and the shared cdump cursor (frame["cdump"], default 0,
+		# BuildingComp.java:68) persists back like the advance keys.
+		var post_switch_state: String = str(advanced.get("state_after_switch", advanced.get("state", "idle")))
+		var dump_neighbour_accepts: Array = frame.get("dump_neighbour_accepts", [])
+		var dump_neighbour_can_dump: Array = frame.get("dump_neighbour_can_dump", [])
+		var dumped: Dictionary = source_mass_driver_dump_state(frame, post_switch_state, source_delta, time_scale, item_order, dump_neighbour_accepts, dump_neighbour_can_dump)
+		frame["dump_accum"] = dumped.get("dump_accum_after", frame.get("dump_accum", 0.0))
+		frame["items"] = dumped.get("items_after", frame.get("items", {}))
+		frame["cdump"] = dumped.get("cursor_after", frame.get("cdump", 0))
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
 	return {"ticked_count": ticked_count, "results_by_cell": results_by_cell}
