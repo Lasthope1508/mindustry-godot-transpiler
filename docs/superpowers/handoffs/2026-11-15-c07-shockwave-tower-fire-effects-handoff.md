@@ -83,6 +83,16 @@ Date: 2026-11-15. Batch: N2197 (single slice). Status: **DONE + GATE VERIFIED (2
 
 - RED done: test module + register script + proof scene (5 keys: wave effect at tower / shoot sound pitch range / shake intensity+duration / absent position stamps nothing / live driver stamps effects on fire, reload_counter preset 80.0). Targeted RED: Ran 4, failures=2, errors=2 (classic: 2× KeyError 'N2197', state FAIL, proof FAIL parse error). EXACT_EXPRS 66/66 verbatim; all 66 already present in SourceShockwaveTowerBuildState.gd, so GREEN adds no new Java citations. SSOT baseline 11405/1646/1567/2925, audit 1335; expected after GREEN 11409/1647/1568/2927, defense shards 160/159.
 
+## DONE this run (22:4x +07 tick)
+
+- Gate attempt 2 FINISHED (Ran 5881 in 976.687s, failures=147, skipped=5, 0 errors — all 147 verified Godot-absent from `full-suite-n2197-gate.log`) → report
+  (`docs/superpowers/reports/2026-11-15-c07-shockwave-tower-fire-effects.md`)
+  → spec (Done/ledger 1646 → 1647 + N2197 row, in the docs commit — the
+  N2190 miss is NOT repeated) → GOAL.md §5 (Windows proof stays debt) →
+  slice commit `827214b` (11 files, +1155) → docs `ac73b00` + GOAL
+  `daaf8e0` commits → this hash-naming commit → push to origin main in
+  this tick (origin/main re-checked before push: still c8dde49).
+
 ## Gate attempt 2 (launched main thread ~22:27 +07)
 
 - Gate attempt 1 (PID 2215, worker-launched) is DEAD — verified by main thread: no python/unittest process, log `full-suite-n2197-gate.log` stopped at 3044 bytes (2899 dots + 129 F + 12 E + 4 s, no footer). **VM restart #15** (~22:17 +07, uptime was 8 min at the 22:25 check) wiped javalang again — reinstalled 0.13.0 by main thread before relaunch. The gate itself died when the tick's worker session ended (5th worker-session death). The 12 E's match N2195 attempt 1 exactly — both worker-launched dead runs; clean main-thread gates show 0 E's.
