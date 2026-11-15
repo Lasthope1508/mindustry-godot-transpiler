@@ -15,10 +15,12 @@ edelta() * multiplier.
 Scoping (from real Java, no guesses): (1) optionalEfficiency
 is already folded by the shared machinery --
 apply_update_consumption_state stamps
-frame["optional_efficiency"]; with no optional rows modeled
-yet it is min(1.0, minEfficiency), the Java default for zero
-optional consumers (BuildingComp.java:1965/1986) -- so no
-blocker. (2) lastItem is NOT tracked (set by updateFacing,
+frame["optional_efficiency"]; the hydrogen booster row is live
+since N2256, so with no hydrogen in the store optionalEfficiency
+folds to 0 (the zero-optional-consumers default min(1.0,
+minEfficiency) at BuildingComp.java:1965/1986 applied only before
+the row existed) -- the N2195 proof's live tick was fixed for this
+in N2300 (multiplier 1.0 / time 0.5 with no hydrogen). (2) lastItem is NOT tracked (set by updateFacing,
 BeamDrill.java:376-411, deferred), so the drop loop + time
 reset + lastDrillSpeed defer and time grows unbounded -- a
 documented consequence, the LaunchPad counter-freeze
