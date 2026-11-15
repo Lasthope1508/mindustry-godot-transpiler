@@ -7,6 +7,9 @@ const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
 const source_building_efficiency_state := preload("res://src/game/SourceBuildingEfficiencyState.gd")
 const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
 const inventory := preload("res://src/game/SourceDrillInventoryRuntimeState.gd")
+const source_liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
+const source_content_registry_runtime_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
+const source_block_metadata_state := preload("res://src/game/SourceBlockMetadataState.gd")
 
 # The WallCrafter implementation (WallCrafter.java:25, `public class WallCrafter extends Block{`): cliff-crusher (consumePower 11 / 60f, Blocks.java:3004, `consumePower(11 / 60f);`; size 2, drillTime 110f, Blocks.java:3006-3007) and large-cliff-crusher (consumePower 1f, Blocks.java:3018, `consumePower(1f);`; size 3, drillTime 48f, Blocks.java:3020-3021). WallCrafter extends Block, NOT a factory or crafter, so no existing driver matches it and no frame key exists for it; this driver uses its own family frame key ("source_wall_crafter_building", the separator precedent), and this slice adds the wall-crafter key to N2142's SOURCE_CONSUMER_FRAME_META_KEYS so the graph stamp/write-back finds it. The port has NO SourceWallCrafter* files at all yet -- no display/runtime state to lean on -- so the missing piece is the live power.status -> efficiency driver, which is exactly this slice: the updateTile warmup fold (WallCrafter.java:193, `warmup = Mathf.approachDelta(warmup, Mathf.num(efficiency > 0), 1f / 40f);`) gates on efficiency > 0, so a wall crafter with no power would warm up as if power.status were 1.0.
 const SOURCE_WALL_CRAFTER_BUILD_IMPLEMENTATIONS := ["WallCrafter"]
@@ -26,6 +29,12 @@ const SOURCE_WALL_CRAFTER_ITEM_BOOST_INTENSITY := 1.6
 # the catalog per def and uses this only when the catalog
 # carries no drillTime.
 const SOURCE_WALL_CRAFTER_DRILL_TIME_DEFAULT := 150.0
+# The large-cliff-crusher's required liquid is hydrogen
+# (`consumeLiquid(Liquids.hydrogen, 1f / 60f);`, Blocks.java:3028);
+# the cliff-crusher has no liquid row. The catalog consumeLiquid
+# rows carry the liquid name + per-frame amount, so the driver
+# matches the row by this name (the separator slag precedent).
+const SOURCE_WALL_CRAFTER_HYDROGEN_LIQUID := "hydrogen"
 
 static func _is_wall_crafter_build_implementation(implementation: String) -> bool:
 	return SOURCE_WALL_CRAFTER_BUILD_IMPLEMENTATIONS.has(implementation)
@@ -66,8 +75,14 @@ static func _initial_frame() -> Dictionary:
 	# (WallCrafter.java:227, `return items.get(output) < itemCapacity;`).
 	# The offload intake is live (N2223, the updateTile advance,
 	# WallCrafter.java:213-215); the timerDump dump intake
-	# (WallCrafter.java:220-222) waits for its own slice.
-	return {"items": {}}
+	# (WallCrafter.java:220-222) waits for its own slice. The
+	# frame also carries the Building.liquids LiquidModule
+	# (frame["liquids"], the live sprite store synced each tick
+	# before the fold, the Fracker:361 precedent): the
+	# large-cliff-crusher's required hydrogen row (N2264) reads
+	# the held hydrogen from it; the cliff-crusher has no liquid
+	# row and leaves it empty.
+	return {"items": {}, "liquids": {}}
 
 static func source_wall_crafter_bind_frame_state(sprite: Sprite2D, block: Object) -> Dictionary:
 	# Placement creates the Building (Block.java:1002 newBuilding);
@@ -92,13 +107,42 @@ static func source_wall_crafter_should_consume_state(frame: Dictionary, output_i
 	return {"should_consume": output_count < item_capacity, "output_count": output_count}
 
 static func source_wall_crafter_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
-	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a wall crafter does not take the early return. The updateTile advance follows the folded efficiency (WallCrafter.java:193, `warmup = Mathf.approachDelta(warmup, Mathf.num(efficiency > 0), 1f / 40f);` with `lastEfficiency = eff * timeScale * efficiency;`, WallCrafter.java:211) and the shouldConsume override (WallCrafter.java:226, `public boolean shouldConsume(){` with `return items.get(output) < itemCapacity;`, WallCrafter.java:227; default BuildingComp.java:755, `public boolean shouldConsume(){`) -- WallCrafterBuild (WallCrafter.java:183, `public class WallCrafterBuild extends Building{`) overrides shouldConsume() to return items.get(output) < itemCapacity, so the default does not apply here; the shouldConsume gate is live (N2201) -- the pure gate (source_wall_crafter_should_consume_state) feeds should_consume to the machinery from the frame items count and the catalog output/capacity. The cliff-crusher (consumePower 11 / 60f, Blocks.java:3004, `consumePower(11 / 60f);`; large-cliff-crusher consumePower 1f, Blocks.java:3018, `consumePower(1f);`) also consumes liquid hydrogen as a booster on the large def (`consumeLiquid(Liquids.hydrogen, 1f / 60f);`, Blocks.java:3028; liquidBoostIntensity 1.6f, WallCrafter.java:35) and a graphite item booster (Blocks.java:3030; itemBoostIntensity 1.6f, WallCrafter.java:47; boostItemUseTime 60f/0.75f, Blocks.java:3032) -- power-only first pass, so the folded efficiency is the min over the *modeled* consumers (power only).
-	# Documented limits: (1) power-only first pass -- the large-cliff-crusher also consumes liquid hydrogen as a booster (1f/60f, Blocks.java:3028) and a graphite item booster (Blocks.java:3030), so the folded efficiency is the min over the *modeled* consumers (power only). (2) shouldConsume gate live (N2201) -- WallCrafterBuild overrides shouldConsume() to return items.get(output) < itemCapacity (WallCrafter.java:226-228, `return items.get(output) < itemCapacity;`); the pure gate reads the frame items count via the shared inventory helper, with the output item and capacity from the catalog; the offload intake is live (N2223), the timerDump dump still waits. (3) updateTile advance live (N2223) -- warmup / eff / lastEfficiency / time / totalTime / offload advance each tick (WallCrafter.java:193-218); still deferred: the live getEfficiency fill (WallCrafter.java:141-180, the advance reads the frame input efficiency_factor, default 0.0), the timerUse booster consume (WallCrafter.java:207-209) and the timerDump dump (WallCrafter.java:220-222, no timer helper in the port), the offload neighbor routing (BuildingComp.java:1001-1013, the port offloads to own inventory only), the updateEffect chance (WallCrafter.java:196-205), and the disabled early return (BuildingComp.java:1954-1957, the advance runs only when enabled). Until the getEfficiency fill lands a live cliff-crusher never accumulates time. (4) No attribute-efficiency / setBars / draw / icons / drawPlanRegion / drawPlace rows -- see DEFERRED. (5) Large-cliff-crusher variant verification pending -- the same driver covers both defs via the catalog consumePower.
+	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a wall crafter does not take the early return. The updateTile advance follows the folded efficiency (WallCrafter.java:193, `warmup = Mathf.approachDelta(warmup, Mathf.num(efficiency > 0), 1f / 40f);` with `lastEfficiency = eff * timeScale * efficiency;`, WallCrafter.java:211) and the shouldConsume override (WallCrafter.java:226, `public boolean shouldConsume(){` with `return items.get(output) < itemCapacity;`, WallCrafter.java:227; default BuildingComp.java:755, `public boolean shouldConsume(){`) -- WallCrafterBuild (WallCrafter.java:183, `public class WallCrafterBuild extends Building{`) overrides shouldConsume() to return items.get(output) < itemCapacity, so the default does not apply here; the shouldConsume gate is live (N2201) -- the pure gate (source_wall_crafter_should_consume_state) feeds should_consume to the machinery from the frame items count and the catalog output/capacity. The cliff-crusher (consumePower 11 / 60f, Blocks.java:3004, `consumePower(11 / 60f);`; large-cliff-crusher consumePower 1f, Blocks.java:3018, `consumePower(1f);`) also consumes liquid hydrogen as a REQUIRED row on the large def (`consumeLiquid(Liquids.hydrogen, 1f / 60f);`, Blocks.java:3028 -- NOT .boost(), so hasLiquidBooster stays false, WallCrafter.java:106) and a graphite item booster (Blocks.java:3030; itemBoostIntensity 1.6f, WallCrafter.java:47; boostItemUseTime 60f/0.75f, Blocks.java:3032) -- both rows live since N2264 (source_wall_crafter_liquid_consumer_row_state + source_wall_crafter_item_consumer_row_state), so the folded efficiency is the min over the *modeled* consumers (power + hydrogen), with the graphite row folded into optionalEfficiency only.
+	# Documented limits: (1) hydrogen + graphite rows live (N2264) -- the large-cliff-crusher consumes liquid hydrogen as a REQUIRED row (1f/60f, Blocks.java:3028; NOT .boost(), so hasLiquidBooster stays false and the liquid multiplier term is 1.0) and a graphite item booster (Blocks.java:3030), folded by the pure rows (source_wall_crafter_liquid_consumer_row_state, ConsumeLiquid.efficiency, ConsumeLiquid.java:42-47; source_wall_crafter_item_consumer_row_state, ConsumeItems.efficiency, ConsumeItems.java:51-53) with the second-pass hydrogen removal (ConsumeLiquid.update, ConsumeLiquid.java:37-39); the folded efficiency is the min over the *modeled* consumers (power + hydrogen), with the graphite row in the optional pass only. Still deferred: the timer-gated consume() of the graphite booster (WallCrafter.java:207-209, no timer helper in the port) -- the row folds, but no graphite is ever removed. (2) shouldConsume gate live (N2201) -- WallCrafterBuild overrides shouldConsume() to return items.get(output) < itemCapacity (WallCrafter.java:226-228, `return items.get(output) < itemCapacity;`); the pure gate reads the frame items count via the shared inventory helper, with the output item and capacity from the catalog; the offload intake is live (N2223), the timerDump dump still waits. (3) updateTile advance live (N2223) -- warmup / eff / lastEfficiency / time / totalTime / offload advance each tick (WallCrafter.java:193-218); still deferred: the live getEfficiency fill (WallCrafter.java:141-180, the advance reads the frame input efficiency_factor, default 0.0), the timerUse booster consume (WallCrafter.java:207-209) and the timerDump dump (WallCrafter.java:220-222, no timer helper in the port), the offload neighbor routing (BuildingComp.java:1001-1013, the port offloads to own inventory only), the updateEffect chance (WallCrafter.java:196-205), and the disabled early return (BuildingComp.java:1954-1957, the advance runs only when enabled). Until the getEfficiency fill lands a live cliff-crusher never accumulates time. (4) No attribute-efficiency / setBars / draw / icons / drawPlanRegion / drawPlace rows -- see DEFERRED. (5) Large-cliff-crusher variant verification pending -- the same driver covers both defs via the catalog consumePower.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
 	var live: float = 1.0 if stamped == null else float(stamped)
 	return {"has_power_row": true, "row": {"result": live, "is_power": true}}
+
+static func source_wall_crafter_liquid_consumer_row_state(frame: Dictionary, has_liquid_consumer: bool, liquid_id: int, amount: float, source_delta: float, time_scale: float, efficiency_scale: float, multiplier: float = 1.0) -> Dictionary:
+	# ConsumeLiquid.efficiency (ConsumeLiquid.java:42-47, `float ed = build.edelta() * build.efficiencyScale();` / `if(ed <= 0.00000001f) return 0f;` / `return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);`): the liquid consumer's efficiency is the held liquid over the per-frame demand, capped at 1, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`); a starved non-power row also stops power draw (`if(cons != block.consPower && result <= 0.0000001f){`, BuildingComp.java:1972, folded by the shared machinery). In the first pass efficiency is assumed 1f (BuildingComp.java:1965, `efficiency = optionalEfficiency = 1f;`), so edelta() is delta() = source_delta * time_scale (BuildingComp.java:1922-1929, `return Time.delta * timeScale;` / `return efficiency * delta();`). The multiplier defaults to 1f (Consume.java:18, `public Floatf<Building> multiplier = b -> 1f;`); the large def sets none (Blocks.java:3028 is a bare consumeLiquid call -- NOT .boost(), so this is a REQUIRED row, and hasLiquidBooster stays false, WallCrafter.java:106). The amount is per def and arrives from the catalog consumeLiquid row (large-cliff-crusher `consumeLiquid(Liquids.hydrogen, 1f / 60f);`, Blocks.java:3028; the cliff-crusher has no consumeLiquid row, so its has_liquid_row is false). The held amount comes from the shared liquid module helper (SourceLiquidModuleState.source_get_state, reused through a preload, NOT re-implemented) over the frame liquids key (the Building.liquids LiquidModule dict, default {} for a frame bound before this slice, amount 0.0 when the store has no entry for the liquid -- Java's liquids.get returns 0.0 for a liquid never added), with the Fracker guard (SourceFrackerBuildState.gd:221, `liquids.has("liquids")` + bounds check). The second pass removes the consumed hydrogen (ConsumeLiquid.update, ConsumeLiquid.java:37-39, `build.liquids.remove(liquid, amount * build.edelta() * multiplier.get(build));`, only when `if(update && efficiency > 0){`, BuildingComp.java:1999) -- the tick does that after the fold, with edelta from the folded efficiency.
+	if not has_liquid_consumer:
+		return {"has_liquid_row": false, "row": {}}
+	var liquids: Dictionary = frame.get("liquids", {})
+	var liquid_amount := 0.0
+	if liquids.has("liquids") and liquid_id >= 0 and liquid_id < int(liquids["liquids"].size()):
+		liquid_amount = float(source_liquid_module_state.source_get_state(liquids, liquid_id).get("amount", 0.0))
+	var ed: float = source_delta * time_scale * efficiency_scale
+	if ed <= 0.00000001:
+		return {"has_liquid_row": true, "row": {"result": 0.0, "is_power": false}}
+	var result: float = min(liquid_amount / (amount * ed * multiplier), 1.0)
+	return {"has_liquid_row": true, "row": {"result": result, "is_power": false}}
+
+static func source_wall_crafter_item_consumer_row_state(frame: Dictionary, has_item_consumer: bool, stacks: Array, multiplier: float = 1.0) -> Dictionary:
+	# ConsumeItems.efficiency (ConsumeItems.java:51-53, `return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;`): BINARY 1/0, not a ratio -- 1 when the building is burning a trigger consumer or its item module holds every stack, 0 otherwise. consumeTriggerValid() is false at the base (BuildingComp.java:764-766, `public boolean consumeTriggerValid(){` with `return false;`) and no WallCrafter build overrides it, so the trigger term is always false here. items.has (ItemModule.java:153-156, `if(stack.item.id >= items.length || !has(stack.item, Math.round(stack.amount * multiplier))) return false;`) requires EVERY stack to hold round(amount * multiplier), with has(item, amount) = get(item) >= amount (ItemModule.java:126-128, `return get(item) >= amount;`); the port's item module is a Dictionary keyed by item name, so an unknown item reads 0 through the shared inventory helper (SourceDrillInventoryRuntimeState.item_count, reused through a preload, NOT re-implemented), the same outcome as the id-out-of-range branch. The multiplier defaults to 1f (Consume.java:18, `public Floatf<Building> multiplier = b -> 1f;`); the large def sets none. The booster is optional(true, true) (Consume.java:33-35, `public Consume boost(){` with `return optional(true, true);`), so the row folds the OPTIONAL pass only (BuildingComp.java:1980-1981, `for(var cons : block.optionalConsumers){` / `optionalEfficiency = Math.min(optionalEfficiency, cons.efficiency(self()));`), capped by the min efficiency (`optionalEfficiency = Math.min(optionalEfficiency, minEfficiency);`, BuildingComp.java:1986) -- it never lowers the folded efficiency itself. The stacks arrive explicit from the driver (the large def's assigned `itemConsumer = consumeItem(Items.graphite).boost();`, Blocks.java:3030, is one stack of 1: consumeItem(item) returns consumeItem(item, 1), Block.java:1167-1168; the catalog captures it as boosterItem, not a consumeItem row, the N2115 precedent); the cliff-crusher has no item consumer, so its has_item_row is false and item_valid is false. itemValid is the updateTile read (`boolean itemValid = itemConsumer != null && itemConsumer.efficiency(this) > 0;`, WallCrafter.java:191), so the row reports it alongside: item_valid is result > 0. No removal here: Consume.update is empty (Consume.java:52, `public void update(Building build){}`), so the second pass never removes items -- the graphite is only removed by consume() on the timer gate (WallCrafter.java:207-209), which waits for the timer-infra slice.
+	if not has_item_consumer:
+		return {"has_item_row": false, "row": {}, "item_valid": false}
+	var items: Dictionary = frame.get("items", {})
+	var result := 1.0
+	for stack in stacks:
+		var item_name: String = str(stack.get("item", ""))
+		var needed: int = int(round(float(stack.get("amount", 0)) * multiplier))
+		if inventory.item_count(items, item_name) < needed:
+			result = 0.0
+	if result <= 0.0:
+		return {"has_item_row": true, "row": {"result": 0.0, "is_power": false}, "item_valid": false}
+	return {"has_item_row": true, "row": {"result": 1.0, "is_power": false}, "item_valid": true}
 
 static func source_wall_crafter_update_tile_advance_state(frame: Dictionary, source_delta: float, time_scale: float, drill_time: float, output_item: String, item_capacity: int) -> Dictionary:
 	# The updateTile advance (WallCrafterBuild.updateTile(),
@@ -138,9 +182,11 @@ static func source_wall_crafter_update_tile_advance_state(frame: Dictionary, sou
 	# getEfficiency scan (WallCrafter.java:141-180) has no
 	# helper in the port, so the base efficiency arrives as
 	# the frame input efficiency_factor (default 0.0, the scan
-	# result with no adjacent solid tiles); item_valid
-	# (default false) and has_liquid_booster (default false)
-	# are frame inputs too. hasLiquidBooster is false for both
+	# result with no adjacent solid tiles); item_valid is
+	# stamped live by the tick since N2264 (from the graphite
+	# item row; false for the cliff-crusher, which has no item
+	# row) and has_liquid_booster (default false) is a frame
+	# input too. hasLiquidBooster is false for both
 	# defs: `hasLiquidBooster = findConsumer(f -> f instanceof ConsumeLiquidBase && f.booster) != null;`
 	# (WallCrafter.java:106) and the large def's hydrogen
 	# consumer is not .boost() (Blocks.java:3028), so the
@@ -208,6 +254,7 @@ static func source_wall_crafter_tick_buildings_state(game: Object, seconds: floa
 	var blocks_by_id: Dictionary = {}
 	for registered_block in catalog.get_many("block"):
 		blocks_by_id[registered_block.id] = registered_block
+	var liquid_id_by_name: Dictionary = source_content_registry_runtime_state.source_liquid_catalog_state(catalog).get("liquid_id_by_name", {})
 	for sprite in source_placed_block_state.source_unique_buildings_state(game).get("buildings", []):
 		if not is_instance_valid(sprite) or not sprite is Sprite2D:
 			continue
@@ -222,6 +269,36 @@ static func source_wall_crafter_tick_buildings_state(game: Object, seconds: floa
 		var team_id: int = int(sprite.get_meta(source_block_geometry.SOURCE_BUILD_TEAM_META_KEY, source_block_geometry.SOURCE_TEAM_DERELICT_ID))
 		var rules_state: Variant = source_rules_state.source_game_rules_state(game.get("rules_state")).get("rules", {})
 		var wired: Dictionary = source_wall_crafter_tick_frame_state(frame, str(block.implementation), team_id, rules_state)
+		# The frame carries the Building.liquids LiquidModule
+		# (frame["liquids"]): the live store lives on the
+		# sprite meta (source_building_liquids, initialized
+		# at placement), so the driver syncs the reference
+		# into the frame each tick BEFORE the fold, and the
+		# pure liquid row reads the held hydrogen from it (the
+		# Fracker:361 precedent).
+		frame["liquids"] = sprite.get_meta(source_placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, {})
+		# N2264: the graphite booster row is computed here --
+		# outside the consumption guard -- because itemValid
+		# (WallCrafter.java:191, `boolean itemValid =
+		# itemConsumer != null && itemConsumer.efficiency(this)
+		# > 0;`) is a live updateTile read, not a machinery
+		# input: the advance (N2223) reads frame["item_valid"]
+		# every enabled tick, so the stamp must be live even
+		# when the machinery skips (a cheating team). The
+		# assigned `itemConsumer = consumeItem(Items.graphite).
+		# boost();` (Blocks.java:3030) is captured by the
+		# catalog as boosterItem, not a consumeItem row (the
+		# N2115 precedent), so the driver reads it through the
+		# block-metadata helper; the cliff-crusher has no
+		# boosterItem and stamps false. consumeItem(item) is
+		# one stack of 1 (Block.java:1167-1168). The row
+		# itself folds into the optional pass inside the guard
+		# below.
+		var booster_item: String = source_block_metadata_state.block_booster_item(block)
+		var has_item_consumer: bool = booster_item != ""
+		var item_stacks: Array = [{"item": booster_item, "amount": 1}] if has_item_consumer else []
+		var item_row: Dictionary = source_wall_crafter_item_consumer_row_state(frame, has_item_consumer, item_stacks)
+		frame["item_valid"] = bool(item_row.get("item_valid", false))
 		# The power consumer reads live since N2153 (the graph
 		# update stamps frame["power_status"] each tick, N2142):
 		# a wall crafter with a power consumer folds the pure power
@@ -229,7 +306,7 @@ static func source_wall_crafter_tick_buildings_state(game: Object, seconds: floa
 		# into the min efficiency like every other non-optional
 		# consumer, and the warmup fold (WallCrafter.java:193)
 		# follows it. The power consumer counts toward
-		# hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a wall crafter does not take the early return. A wall crafter with no power consumer is untouched: the tick models no other consumers yet (the liquid hydrogen + graphite boosters wait for their own slices), and WallCrafterBuild overrides shouldConsume() to return items.get(output) < itemCapacity (WallCrafter.java:226-228) -- N2201 feeds the live gate to the machinery (the pure gate is source_wall_crafter_should_consume_state, fed the frame plus the catalog output item and itemCapacity); the N2170 RED decision is resolved. The gate has no enabled term (Java returns the bare capacity comparison); the outer guard below already runs the machinery only when enabled. productionValid is the canonical true default (SourceBuildingAccessState.production_valid_state()).
+		# hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a wall crafter does not take the early return. A wall crafter with no power consumer is untouched: the hydrogen row (N2264) folds in the same block, the graphite booster row folds the optional pass, and WallCrafterBuild overrides shouldConsume() to return items.get(output) < itemCapacity (WallCrafter.java:226-228) -- N2201 feeds the live gate to the machinery (the pure gate is source_wall_crafter_should_consume_state, fed the frame plus the catalog output item and itemCapacity); the N2170 RED decision is resolved. The gate has no enabled term (Java returns the bare capacity comparison); the outer guard below already runs the machinery only when enabled. productionValid is the canonical true default (SourceBuildingAccessState.production_valid_state()).
 		var has_power_consumer: bool = bool(block.properties.has("consumePower"))
 		if has_power_consumer and bool(frame.get("enabled", true)) and not bool(frame.get("cheating", false)):
 			var output_item: String = str(block.properties.get("output", "sand"))
@@ -244,8 +321,83 @@ static func source_wall_crafter_tick_buildings_state(game: Object, seconds: floa
 			var required_results: Array = []
 			if bool(power_row.get("has_power_row", false)):
 				required_results.append(power_row.get("row", {}))
-			var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(true, bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, [], [], frame)
+			# N2264: the hydrogen row folds in the same first
+			# pass (ConsumeLiquid.efficiency,
+			# ConsumeLiquid.java:42-47). The amount is per
+			# def, read from the catalog consumeLiquid row
+			# (large-cliff-crusher hydrogen 1f/60f,
+			# Blocks.java:3028; the cliff-crusher has no
+			# consumeLiquid row and contributes no row). The
+			# hydrogen id resolves through the catalog
+			# liquid_id_by_name (the Fracker precedent). In
+			# the first pass efficiency is assumed 1f
+			# (BuildingComp.java:1965), so the row's edelta
+			# is source_delta * time_scale. The hydrogen
+			# consumer is REQUIRED (not .boost()), so it
+			# folds the min -- and a starved row stops power
+			# draw (BuildingComp.java:1972).
+			var tick_source_delta: float = source_placed_block_state.game_source_delta(game, seconds)
+			var tick_time_scale: float = source_placed_block_state.time_scale(sprite, source_placed_block_state.game_default_time_scale(game))
+			var hydrogen_amount := 0.0
+			var has_liquid_consumer := false
+			for row in block.properties.get("consumeLiquid", []):
+				if str(row.get("liquid", "")) == SOURCE_WALL_CRAFTER_HYDROGEN_LIQUID:
+					hydrogen_amount = float(row.get("amount", 0.0))
+					has_liquid_consumer = true
+			var hydrogen_id: int = int(liquid_id_by_name.get(SOURCE_WALL_CRAFTER_HYDROGEN_LIQUID, -1))
+			var liquid_row: Dictionary = source_wall_crafter_liquid_consumer_row_state(frame, has_liquid_consumer, hydrogen_id, hydrogen_amount, tick_source_delta, tick_time_scale, float(frame.get("efficiency_scale", 1.0)))
+			if bool(liquid_row.get("has_liquid_row", false)):
+				required_results.append(liquid_row.get("row", {}))
+			# N2264: the graphite booster row folds into the
+			# OPTIONAL pass only (Consume.java:33-35, boost()
+			# is optional(true, true); BuildingComp.java:
+			# 1980-1981), capped by the min efficiency (:1986)
+			# by the shared machinery -- it never lowers the
+			# folded efficiency itself. The row was computed
+			# above the guard (for the item_valid stamp), so
+			# the fold reuses it.
+			var optional_consumer_results: Array = []
+			if bool(item_row.get("has_item_row", false)):
+				optional_consumer_results.append(item_row.get("row", {}))
+			var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(true, bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, optional_consumer_results, [], frame)
 			source_building_efficiency_state.apply_update_consumption_state(consumption, frame)
+			# N2264 second pass (ConsumeLiquid.update,
+			# ConsumeLiquid.java:37-39, `build.liquids.
+			# remove(liquid, amount * build.edelta() *
+			# multiplier.get(build));`): only when update &&
+			# efficiency > 0 (BuildingComp.java:1999,
+			# `if(update && efficiency > 0){`), with edelta
+			# from the FOLDED efficiency (frame["efficiency"]
+			# after the apply), not the assumed 1f. The
+			# multiplier is the 1f default (Consume.java:18),
+			# so it drops out of the removal amount. The
+			# AdjacentFactory updates-array precedent
+			# (SourceAdjacentFactoryBuildState.gd:382) needs
+			# consumer actor objects with an update(self_state)
+			# method built by reinitialize_consumers_state --
+			# the wall-crafter driver has no such actor
+			# infrastructure, so the removal is direct here,
+			# through the shared liquid module helper
+			# (SourceLiquidModuleState.source_remove_state,
+			# clamped at the held amount like Java's
+			# LiquidModule.remove, with a fresh cache_sums
+			# sized to the store, the PayloadLoader
+			# precedent). frame["liquids"] is the live sprite
+			# store by reference, so the removal lands on it.
+			# NO graphite removal here: Consume.update is empty
+			# (`public void update(Building build){}`, Consume.java:52), so the second pass
+			# never removes items -- the graphite is only
+			# removed by consume() on the timer gate
+			# (WallCrafter.java:207-209), which waits for the
+			# timer-infra slice (DEFERRED).
+			if has_liquid_consumer and bool(setup.get("update", false)) and float(frame.get("efficiency", 0.0)) > 0.0:
+				var folded_edelta: float = float(frame.get("efficiency", 0.0)) * tick_source_delta * tick_time_scale
+				var liquid_store: Dictionary = frame.get("liquids", {})
+				if liquid_store.has("liquids") and hydrogen_id >= 0 and hydrogen_id < int(liquid_store["liquids"].size()):
+					var cache_sums: Array = []
+					cache_sums.resize(int(liquid_store["liquids"].size()))
+					cache_sums.fill(0.0)
+					source_liquid_module_state.source_remove_state(liquid_store, hydrogen_id, hydrogen_amount * folded_edelta, cache_sums)
 		# N2223: the updateTile advance runs after consumption,
 		# like Java's Building.update() (BuildingComp.java:2274
 		# updateConsumption(), then the updateTile gate
