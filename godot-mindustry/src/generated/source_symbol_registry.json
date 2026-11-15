@@ -172968,6 +172968,38 @@
         "test_reference_graph_and_actual_c07_light_block_power_status"
       ],
       "runtime_proof": "/root/C07LightBlockPowerStatusProof"
+    },
+    "source_radar_update_tile_result.advance": {
+      "status": "source-backed",
+      "godot_owner": "SourceRadarBuildState.source_radar_update_tile_state",
+      "godot_symbol": "source_radar_update_tile_result.advance",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "RadarBuild.updateTile()",
+      "java_expr": "progress += edelta() / discoveryTime;",
+      "rule": "The post-tick frame state (Radar.java:60-72): {\"smooth_efficiency\": lerped toward efficiency, \"progress\": advanced by edelta() / discoveryTime and clamped to [0, 1], \"total_progress\": accumulated by efficiency * edelta(), \"last_radius\": fogRadius() when the radius changed by >= 0.5f, else unchanged}. The driver writes it back onto the frame.",
+      "tests": [
+        "test_c07_radar_update_tile_registration",
+        "test_all_c07_radar_update_tile_input_evidence_is_exact",
+        "test_radar_update_tile_state",
+        "test_reference_graph_and_actual_c07_radar_update_tile"
+      ],
+      "runtime_proof": "/root/C07RadarUpdateTileProof"
+    },
+    "source_radar_update_tile_result.force_update_needed": {
+      "status": "source-backed",
+      "godot_owner": "SourceRadarBuildState.source_radar_update_tile_state",
+      "godot_symbol": "source_radar_update_tile_result.force_update_needed",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "RadarBuild.updateTile()",
+      "java_expr": "if(Math.abs(fogRadius() - lastRadius) >= 0.5f){",
+      "rule": "Whether the fog radius changed by >= 0.5f this tick (Radar.java:63): true exactly when Java calls Vars.fogControl.forceUpdate(team, this) (Radar.java:64). The port tracks the condition + the lastRadius write; the fog-system call itself waits for its own fog slice.",
+      "tests": [
+        "test_c07_radar_update_tile_registration",
+        "test_all_c07_radar_update_tile_input_evidence_is_exact",
+        "test_radar_update_tile_state",
+        "test_reference_graph_and_actual_c07_radar_update_tile"
+      ],
+      "runtime_proof": "/root/C07RadarUpdateTileProof"
     }
   },
   "version": 1

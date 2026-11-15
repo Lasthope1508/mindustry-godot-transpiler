@@ -2909,6 +2909,24 @@
       ],
       "runtime_proof": "/root/C07BuildTurretPowerStatusProof"
     },
+    "N2190": {
+      "canonical_ledger": "source_slice_ledger.N2190",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "RadarBuild.updateTile()",
+      "godot_owner": "SourceRadarBuildState.source_radar_update_tile_state",
+      "source_symbols": [
+        "source_radar_update_tile_result.advance",
+        "source_radar_update_tile_result.force_update_needed"
+      ],
+      "tests": [
+        "test_c07_radar_update_tile_registration",
+        "test_all_c07_radar_update_tile_input_evidence_is_exact",
+        "test_radar_update_tile_state",
+        "test_reference_graph_and_actual_c07_radar_update_tile"
+      ],
+      "runtime_proof": "/root/C07RadarUpdateTileProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",
