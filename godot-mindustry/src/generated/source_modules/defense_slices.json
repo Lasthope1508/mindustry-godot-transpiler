@@ -3262,6 +3262,24 @@
       ],
       "runtime_proof": "/root/C07ShockwaveTowerUpdateTileProof"
     },
+    "N2251": {
+      "canonical_ledger": "source_slice_ledger.N2251",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.updateTile()",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_liquid_consumer_row_state",
+      "source_symbols": [
+        "source_build_turret_liquid_consumer_row_state_result.row",
+        "source_build_turret_liquid_consumer_row_state_result.has_liquid_row"
+      ],
+      "tests": [
+        "test_c07_build_turret_liquid_row_registration",
+        "test_all_c07_build_turret_liquid_row_input_evidence_is_exact",
+        "test_build_turret_liquid_consumer_row_state",
+        "test_reference_graph_and_actual_c07_build_turret_liquid_row"
+      ],
+      "runtime_proof": "/root/C07BuildTurretLiquidRowProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

@@ -2610,6 +2610,25 @@
         "test_real_process_drives_two_multicell_drills_and_concrete_adapter"
       ],
       "runtime_proof": "/root/Main.DrillLiveConsumptionProof"
+    },
+    "N2254": {
+      "canonical_ledger": "source_slice_ledger.N2254",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "ConsumeLiquid.efficiency(Building)",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_liquid_consumer_row_state",
+      "generated_owner": "",
+      "source_symbols": [
+        "source_impact_reactor_liquid_consumer_row_state_result.row",
+        "source_impact_reactor_liquid_consumer_row_state_result.has_liquid_row"
+      ],
+      "tests": [
+        "test_c07_impact_reactor_liquid_row_registration",
+        "test_all_c07_impact_reactor_liquid_row_input_evidence_is_exact",
+        "test_impact_reactor_liquid_consumer_row_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_liquid_row"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorLiquidRowProof"
     }
   }
 }

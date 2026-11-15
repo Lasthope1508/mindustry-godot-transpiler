@@ -237850,6 +237850,832 @@
       },
       "runtime_proof": "/root/C07UnitAssemblerModuleUpdateTileProof",
       "rule": "Source-backed UnitAssemblerModule updateTile advance from UnitAssemblerModule.java / PayloadBlock.java / UnitAssembler.java / BuildingComp.java / Block.java / Blocks.java / World.java / arc Angles.java / Vec2.java."
+    },
+    "source_unit_cargo_loader_liquid_consumer_row_state_input": {
+      "status": "active",
+      "owner": "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_liquid_consumer_row_state",
+      "source_slice": "N2249",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);",
+          "rule": "The building frame carrying the Building.liquids LiquidModule (frame[\"liquids\"], synced from the sprite meta before the fold, the Fracker:327 precedent) that the row reads the nitrogen amount from (ConsumeLiquid.java:46, build.liquids.get(liquid)); a frame bound before this slice has no liquids key and reads 0.0.",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_liquid_consumer_row_state"
+          ]
+        },
+        "has_liquid_consumer": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "hasConsumers = consumers.length > 0;",
+          "rule": "Whether the block has a liquid consumer (Block.java:1449): the driver gate -- the row joins the first pass only when the block consumes liquid, and the liquid consumer counts toward hasConsumers like every other consumer.",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_liquid_consumer_row_state"
+          ]
+        },
+        "liquid_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+          "java_expr": "return liquids[liquid.id];",
+          "rule": "The catalog id of the consumed liquid (nitrogen, resolved by the driver from liquid_id_by_name with the def constant, the Fracker precedent): the index into the LiquidModule array Java reads as liquids[liquid.id] (LiquidModule.java:102-104).",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_liquid_consumer_row_state"
+          ]
+        },
+        "amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "consumeLiquid(Liquids.nitrogen, 10f / 60f);",
+          "rule": "The per-frame consumption amount (10f/60f for unit-cargo-loader, Blocks.java:2279 -- the def writes Xf/60f = X per second, so the per-frame amount is the literal 10f/60f); the row divides the held amount by (amount * ed * multiplier).",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_liquid_consumer_row_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26): the UNSCALED delta; in the first pass efficiency is assumed 1f (BuildingComp.java:1964), so edelta() = delta() = source_delta * time_scale (BuildingComp.java:1922-1929).",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_liquid_consumer_row_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live timeScale read from the sprite meta (SourcePlacedBlockState.time_scale), default 1.0 (BuildingComp.java:98); scales delta() and therefore edelta() (BuildingComp.java:1922-1929).",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_liquid_consumer_row_state"
+          ]
+        },
+        "efficiency_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "float ed = build.edelta() * build.efficiencyScale();",
+          "rule": "The efficiency scale (Building.efficiencyScale(), BuildingComp.java:1939-1941, default 1f): ed = edelta * efficiency_scale (ConsumeLiquid.java:43); the driver passes the stamped frame value.",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_liquid_consumer_row_state"
+          ]
+        },
+        "multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+          "rule": "The consumer cost multiplier (Consume.java:18, default 1f): the def does NOT override it (Blocks.java:2270-2283 has no multiplier call), so the driver passes 1.0; the row divides by (amount * ed * multiplier) and the second-pass removal multiplies by it.",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_liquid_consumer_row_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07UnitCargoLoaderLiquidRowProof",
+      "rule": "Source-backed UnitCargoLoader liquid consumer row from ConsumeLiquid.java / Consume.java / BuildingComp.java / Block.java / LiquidModule.java / Blocks.java / UnitCargoLoader.java."
+    },
+    "source_unit_cargo_loader_liquid_consumer_row_state_result": {
+      "status": "active",
+      "owner": "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_liquid_consumer_row_state",
+      "source_slice": "N2249",
+      "keys": {
+        "row": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);",
+          "rule": "The liquid row for the first pass (ConsumeLiquid.java:46, the min-capped ratio): {\"result\": efficiency, \"is_power\": false}, folded by the non-optional pass into the min efficiency; is_power false so a starved row (result <= 1e-7) sets shouldConsumePower=false (BuildingComp.java:1972).",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_liquid_consumer_row_state"
+          ]
+        },
+        "has_liquid_row": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "for(var cons : block.nonOptionalConsumers){",
+          "rule": "Whether the row joins the first pass (BuildingComp.java:1969): true when the block has a liquid consumer; the row is the liquid consumer entry in the non-optional pass.",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_liquid_consumer_row_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07UnitCargoLoaderLiquidRowProof",
+      "rule": "Source-backed UnitCargoLoader liquid consumer row from ConsumeLiquid.java / Consume.java / BuildingComp.java / Block.java / LiquidModule.java / Blocks.java / UnitCargoLoader.java."
+    },
+    "source_repair_tower_liquid_consumer_row_state_input": {
+      "status": "active",
+      "owner": "SourceRepairTowerBuildState.source_repair_tower_liquid_consumer_row_state",
+      "source_slice": "N2250",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);",
+          "rule": "The building frame carrying the live liquids store (frame[\"liquids\"], the Building.liquids LiquidModule synced from the sprite meta each tick) and the folded efficiency_scale; a frame without a liquids store reads amount 0.0, like Java liquids.get for a liquid never added.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_liquid_consumer_row_state"
+          ]
+        },
+        "has_liquid_consumer": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "consumeLiquid(Liquids.ozone, 3f / 60f);",
+          "rule": "Whether the block has a liquid consumer (Blocks.java:6583): the driver gate -- the row joins the first pass only when the block consumes liquid; the single def always does.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_liquid_consumer_row_state"
+          ]
+        },
+        "liquid_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);",
+          "rule": "The catalog id of the consumed liquid (ozone, resolved by the driver from liquid_id_by_name with the def constant \"ozone\"); -1 when the catalog has no such liquid, reading amount 0.0.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_liquid_consumer_row_state"
+          ]
+        },
+        "amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "consumeLiquid(Liquids.ozone, 3f / 60f);",
+          "rule": "The per-frame consume amount (3f/60f = 0.05, Blocks.java:6583): the def amount, not a per-second rate.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_liquid_consumer_row_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26): the UNSCALED delta; in the first pass efficiency is assumed 1f (BuildingComp.java:1964-1966), so edelta is source_delta * time_scale.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_liquid_consumer_row_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "The live timeScale read from the sprite meta (SourcePlacedBlockState.time_scale), default 1.0 (BuildingComp.java:98); scales delta() (BuildingComp.java:1922-1924).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_liquid_consumer_row_state"
+          ]
+        },
+        "efficiency_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "float ed = build.edelta() * build.efficiencyScale();",
+          "rule": "The building efficiency scale (frame[\"efficiency_scale\"], stamped by the machinery): ed = edelta * efficiency_scale (ConsumeLiquid.java:43).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_liquid_consumer_row_state"
+          ]
+        },
+        "multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+          "rule": "The consumer cost multiplier (Consume.java:18): the Consume default 1f -- the def sets no multiplier, so the tick passes 1.0.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_liquid_consumer_row_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTowerLiquidRowProof",
+      "rule": "Source-backed RepairTower liquid consumer row from ConsumeLiquid.java / Consume.java / BuildingComp.java / Blocks.java / RepairTower.java."
+    },
+    "source_repair_tower_liquid_consumer_row_state_result": {
+      "status": "active",
+      "owner": "SourceRepairTowerBuildState.source_repair_tower_liquid_consumer_row_state",
+      "source_slice": "N2250",
+      "keys": {
+        "row": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);",
+          "rule": "The liquid row for the first pass (ConsumeLiquid.java:46): {\"result\": min(liquid / (amount * ed * multiplier), 1f), \"is_power\": false}, folded by the non-optional pass into the min efficiency; 0.0 when ed <= 0.00000001f (ConsumeLiquid.java:44).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_liquid_consumer_row_state"
+          ]
+        },
+        "has_liquid_row": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "for(var cons : block.nonOptionalConsumers){",
+          "rule": "Whether the row joins the first pass (BuildingComp.java:1969): true when the block has a liquid consumer; the row is the liquid consumer's entry in the non-optional pass.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_liquid_consumer_row_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTowerLiquidRowProof",
+      "rule": "Source-backed RepairTower liquid consumer row from ConsumeLiquid.java / Consume.java / BuildingComp.java / Blocks.java / RepairTower.java."
+    },
+    "source_build_turret_liquid_consumer_row_state_input": {
+      "status": "active",
+      "owner": "SourceBuildTurretBuildState.source_build_turret_liquid_consumer_row_state",
+      "source_slice": "N2251",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "build.liquids.get(liquid)",
+          "rule": "The building frame carrying the Building.liquids LiquidModule dict (frame[\"liquids\"], default {} -- the live sprite-meta store synced in each tick by the driver); the pure row reads the nitrogen amount from it through SourceLiquidModuleState.source_get_state, with the Fracker guard (the store has a \"liquids\" key and the id is in bounds), so a missing store reads 0.0 like Java's liquids.get (`return liquids[liquid.id];`, LiquidModule.java:103).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_liquid_consumer_row_state"
+          ]
+        },
+        "has_liquid_consumer": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "consumeLiquid(Liquids.nitrogen, 3f / 60f);",
+          "rule": "Whether the block has a liquid consumer: true for the single build-tower def (`consumeLiquid(Liquids.nitrogen, 3f / 60f);`, Blocks.java:2006), resolved by the driver from block.properties.has(\"consumeLiquid\") -- the catalog carries the consumeLiquid builder (nitrogen 0.05). False contributes no row, mirroring the power row's has_power_consumer.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_liquid_consumer_row_state"
+          ]
+        },
+        "liquid_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "public final Liquid liquid;",
+          "rule": "The consumed liquid's catalog id (nitrogen, resolved by the driver from liquid_id_by_name with the def constant \"nitrogen\", `consumeLiquid(Liquids.nitrogen, 3f / 60f);`, Blocks.java:2006): the `public final Liquid liquid;` field of the ConsumeLiquid (ConsumeLiquid.java:14). A -1 id reads 0.0 through the guard.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_liquid_consumer_row_state"
+          ]
+        },
+        "amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "consumeLiquid(Liquids.nitrogen, 3f / 60f);",
+          "rule": "The per-frame consume amount: 3f/60f = 0.05 for the single build-tower def (Blocks.java:2006). The amount is PER FRAME, not per second -- the def writes 3f/60f, i.e. 3 per second. The driver passes the SOURCE_BUILD_TURRET_LIQUID_AMOUNT constant (3.0 / 60.0).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_liquid_consumer_row_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26), never raw seconds. In the first pass efficiency is assumed 1f (`//assume efficiency is 1 for the calculations below`, BuildingComp.java:1964), so edelta is source_delta * time_scale (delta() is `return Time.delta * timeScale;`, BuildingComp.java:1923; edelta() is `return efficiency * delta();`, BuildingComp.java:1928).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_liquid_consumer_row_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The building timeScale (BuildingComp.java:98, default 1f), read live from the sprite meta by the driver. Scales the delta in the first-pass edelta (delta() is `return Time.delta * timeScale;`, BuildingComp.java:1923).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_liquid_consumer_row_state"
+          ]
+        },
+        "efficiency_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "float ed = build.edelta() * build.efficiencyScale();",
+          "rule": "The building efficiencyScale (frame[\"efficiency_scale\"], the canonical 1.0 from efficiency_scale_state()): ed is edelta * efficiencyScale (`float ed = build.edelta() * build.efficiencyScale();`, ConsumeLiquid.java:43).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_liquid_consumer_row_state"
+          ]
+        },
+        "multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+          "rule": "The consumer cost multiplier, default 1f (`public Floatf<Building> multiplier = b -> 1f;`, Consume.java:18). The build-tower def sets no multiplier -- `consumeLiquid(Liquids.nitrogen, 3f / 60f);` (Blocks.java:2006) is a plain call -- so the driver takes the default.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_liquid_consumer_row_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildTurretLiquidRowProof",
+      "rule": "Source-backed BuildTurret liquid consumer row from ConsumeLiquid.java / Consume.java / BuildingComp.java / Blocks.java / LiquidModule.java / BuildTurret.java."
+    },
+    "source_build_turret_liquid_consumer_row_state_result": {
+      "status": "active",
+      "owner": "SourceBuildTurretBuildState.source_build_turret_liquid_consumer_row_state",
+      "source_slice": "N2251",
+      "keys": {
+        "row": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);",
+          "rule": "The folded consumer row {\"result\": float, \"is_power\": false}: the ConsumeLiquid.efficiency value (ConsumeLiquid.java:42-47) -- 0f when ed <= 1e-8, else the held liquid over the required amount capped at 1f (`//there can be more liquid than necessary, so cap at 1`, ConsumeLiquid.java:45). is_power false marks it a non-power row, so the shared fold sets shouldConsumePower=false when the result reads <= 1e-7 (BuildingComp.java:1972). Empty ({}) when the block has no liquid consumer.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_liquid_consumer_row_state"
+          ]
+        },
+        "has_liquid_row": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "for(var cons : block.nonOptionalConsumers){",
+          "rule": "Whether the block contributes a liquid row to the first pass (`for(var cons : block.nonOptionalConsumers){`, BuildingComp.java:1969): true when has_liquid_consumer is true (the single build-tower def), false otherwise -- the row is absent, mirroring the power row's has_power_row.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_liquid_consumer_row_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildTurretLiquidRowProof",
+      "rule": "Source-backed BuildTurret liquid consumer row from ConsumeLiquid.java / Consume.java / BuildingComp.java / Blocks.java / LiquidModule.java / BuildTurret.java."
+    },
+    "source_separator_liquid_consumer_row_state_input": {
+      "status": "active",
+      "owner": "SourceSeparatorBuildState.source_separator_liquid_consumer_row_state",
+      "source_slice": "N2252",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);",
+          "rule": "The building frame carrying the Building.liquids LiquidModule (frame[\"liquids\"], synced from the live sprite store each tick before the fold): the held slag amount the row reads through SourceLiquidModuleState.source_get_state; a frame without the key reads 0.0, like Java liquids.get on a liquid never added.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_liquid_consumer_row_state"
+          ]
+        },
+        "has_liquid_consumer": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "for(var cons : block.nonOptionalConsumers){",
+          "rule": "Whether the block has a liquid consumer (BuildingComp.java:1969): the driver gate -- the row joins the first pass only when the catalog consumeLiquid rows carry the slag row, and a def with no slag row contributes no row (the LaunchPad precedent).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_liquid_consumer_row_state"
+          ]
+        },
+        "liquid_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "build.liquids.get(liquid)",
+          "rule": "The catalog id of the consumed liquid (slag, resolved through liquid_id_by_name with the def constant, the Fracker oil precedent): the LiquidModule index the held amount reads at; -1 when the catalog has no such liquid, which the Fracker guard treats as no held liquid.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_liquid_consumer_row_state"
+          ]
+        },
+        "amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "consumeLiquid(Liquids.slag, 4f / 60f);",
+          "rule": "The per-frame demand from the catalog consumeLiquid row, per def (separator 4f/60f, Blocks.java:1244; disassembler 0.12f per frame, Blocks.java:1264 -- 0.12f is 7.2/s, not /60f).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_liquid_consumer_row_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26): in the first pass efficiency is assumed 1f (BuildingComp.java:1965), so edelta() is delta() = source_delta * time_scale (BuildingComp.java:1922-1929).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_liquid_consumer_row_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live timeScale read from the sprite meta (SourcePlacedBlockState.time_scale), default 1.0 (BuildingComp.java:98); scales delta() and therefore the row edelta.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_liquid_consumer_row_state"
+          ]
+        },
+        "efficiency_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "float ed = build.edelta() * build.efficiencyScale();",
+          "rule": "The efficiency scale (ConsumeLiquid.java:46): ed is edelta times this scale; the canonical scale is 1.0 (SourceBuildingEfficiencyState.efficiency_scale_state).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_liquid_consumer_row_state"
+          ]
+        },
+        "multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+          "rule": "The consumer multiplier (Consume.java:18): the 1f default -- neither def sets one (Blocks.java:1244/1264 are bare consumeLiquid calls).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_liquid_consumer_row_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SeparatorLiquidRowProof",
+      "rule": "Source-backed Separator liquid consumer row from ConsumeLiquid.java / Consume.java / BuildingComp.java."
+    },
+    "source_separator_liquid_consumer_row_state_result": {
+      "status": "active",
+      "owner": "SourceSeparatorBuildState.source_separator_liquid_consumer_row_state",
+      "source_slice": "N2252",
+      "keys": {
+        "row": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);",
+          "rule": "The liquid row for the first pass (ConsumeLiquid.java:49, the canonical ConsumeLiquid.efficiency): {\"result\": held / (amount * ed * multiplier) capped at 1, 0 when ed <= 1e-8, \"is_power\": false}, folded by the non-optional pass into the min efficiency.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_liquid_consumer_row_state"
+          ]
+        },
+        "has_liquid_row": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "for(var cons : block.nonOptionalConsumers){",
+          "rule": "Whether the row joins the first pass (BuildingComp.java:1969): true when the block has a liquid consumer; the row is the liquid consumer's entry in the non-optional pass.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_liquid_consumer_row_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SeparatorLiquidRowProof",
+      "rule": "Source-backed Separator liquid consumer row from ConsumeLiquid.java / Consume.java / BuildingComp.java."
+    },
+    "source_launch_pad_liquid_consumer_row_state_input": {
+      "status": "active",
+      "owner": "SourceLaunchPadBuildState.source_launch_pad_liquid_consumer_row_state",
+      "source_slice": "N2253",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);",
+          "rule": "The building frame carrying the Building.liquids LiquidModule store (frame[\"liquids\"], synced from the sprite meta before the fold): the held oil amount the row folds; a frame with no store reads 0.0 (LiquidModule.java:102-104).",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_liquid_consumer_row_state"
+          ]
+        },
+        "has_liquid_consumer": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "consumeLiquid(Liquids.oil, 9f/60f);",
+          "rule": "Whether the block has a liquid consumer (Blocks.java:6808): true only for advanced-launch-pad -- the plain launch-pad has no consumeLiquid row, so its liquid row is absent (mirror the has_power_row pattern).",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_liquid_consumer_row_state"
+          ]
+        },
+        "liquid_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+          "java_expr": "public float get(Liquid liquid){",
+          "rule": "The catalog id of the consumed liquid (oil), resolved by the driver from liquid_id_by_name: the index source_get_state reads from the LiquidModule array (LiquidModule.java:102-104).",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_liquid_consumer_row_state"
+          ]
+        },
+        "amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "consumeLiquid(Liquids.oil, 9f/60f);",
+          "rule": "The per-frame consume amount (Blocks.java:6808): 9f/60f = 0.15 per frame for the advanced def, read from the catalog consumeLiquid row.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_liquid_consumer_row_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26): the UNSCALED delta; in the first pass efficiency is assumed 1f (BuildingComp.java:1964-1965), so edelta = source_delta * time_scale.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_liquid_consumer_row_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live timeScale read from the sprite meta (SourcePlacedBlockState.time_scale), default 1.0 (BuildingComp.java:98); scales delta() into edelta (BuildingComp.java:1922-1924).",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_liquid_consumer_row_state"
+          ]
+        },
+        "efficiency_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "float ed = build.edelta() * build.efficiencyScale();",
+          "rule": "The building efficiencyScale (ConsumeLiquid.java:46): ed = edelta * efficiency_scale; the driver passes the frame value stamped by the efficiency machinery.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_liquid_consumer_row_state"
+          ]
+        },
+        "multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+          "rule": "The consumer cost multiplier (Consume.java:18): default 1f; the advanced def sets none (Blocks.java:6800-6809), so the driver passes 1.0.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_liquid_consumer_row_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaunchPadLiquidRowProof",
+      "rule": "Source-backed LaunchPad liquid consumer row from ConsumeLiquid.java / Consume.java / BuildingComp.java / LaunchPad.java / Blocks.java / LiquidModule.java."
+    },
+    "source_launch_pad_liquid_consumer_row_state_result": {
+      "status": "active",
+      "owner": "SourceLaunchPadBuildState.source_launch_pad_liquid_consumer_row_state",
+      "source_slice": "N2253",
+      "keys": {
+        "row": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);",
+          "rule": "The liquid row for the first pass (ConsumeLiquid.java:50): {\"result\": min(held / (amount * ed * multiplier), 1f), \"is_power\": false} -- 0f when ed <= 1e-8 -- folded by the non-optional pass into the min efficiency, and starving the power draw when result <= 1e-7 (BuildingComp.java:1972-1973).",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_liquid_consumer_row_state"
+          ]
+        },
+        "has_liquid_row": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "for(var cons : block.nonOptionalConsumers){",
+          "rule": "Whether the row joins the first pass (BuildingComp.java:1969): true when the block has a liquid consumer; the row is the liquid consumer's entry in the non-optional pass.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_liquid_consumer_row_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaunchPadLiquidRowProof",
+      "rule": "Source-backed LaunchPad liquid consumer row from ConsumeLiquid.java / Consume.java / BuildingComp.java / LaunchPad.java / Blocks.java / LiquidModule.java."
+    },
+    "source_impact_reactor_liquid_consumer_row_state_input": {
+      "status": "active",
+      "owner": "SourceImpactReactorBuildState.source_impact_reactor_liquid_consumer_row_state",
+      "source_slice": "N2254",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "build.liquids.get(liquid)",
+          "rule": "The building frame carrying the Building.liquids LiquidModule (frame[\"liquids\"], synced from the sprite meta store each tick before the fold, the Fracker:327 precedent): the live store the row reads the cryofluid amount from; a frame bound before this slice has no liquids key and reads 0.0, Java liquids.get returning 0.0 for a liquid never added.",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_liquid_consumer_row_state"
+          ]
+        },
+        "has_liquid_consumer": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "consumeLiquid(Liquids.cryofluid, 0.25f);",
+          "rule": "Whether the def registers the required ConsumeLiquid row: the single impact-reactor def does (Blocks.java:2644); a def without one contributes no row, the has_power_row pattern.",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_liquid_consumer_row_state"
+          ]
+        },
+        "liquid_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "public final Liquid liquid;",
+          "rule": "The consumed liquid resolved to its catalog id by the driver (liquid_id_by_name with the def constant \"cryofluid\", Blocks.java:2644; the Fracker oil precedent); -1 when the catalog has no such liquid, which the guard reads as 0.0.",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_liquid_consumer_row_state"
+          ]
+        },
+        "amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "consumeLiquid(Liquids.cryofluid, 0.25f);",
+          "rule": "The per-frame amount from the def: 0.25f PER FRAME (= 15/s, display amount * 60f), not /60f; the divisor in the efficiency ratio and the factor in the second-pass removal.",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_liquid_consumer_row_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/util/Time.java",
+          "java_expr": "Math.min(Core.graphics.getDeltaTime() * 60f, 3f)",
+          "rule": "Time.delta in 60fps ticks (arc Time.java:26): the driver passes seconds * 60 (the N2093 pump precedent); in the first pass efficiency is assumed 1f (BuildingComp.java:1964-1965), so edelta = source_delta * time_scale.",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_liquid_consumer_row_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return timeScale;",
+          "rule": "The sprite-meta timeScale (BuildingComp.java:599-600, `return timeScale;`, default 1f, BuildingComp.java:98): delta() = Time.delta * timeScale (BuildingComp.java:1922-1924).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_liquid_consumer_row_state"
+          ]
+        },
+        "efficiency_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "float ed = build.edelta() * build.efficiencyScale();",
+          "rule": "The efficiency scale multiplying edelta into ed (ConsumeLiquid.java:43); the canonical default is 1f (BuildingComp.java:1939-1941, efficiencyScale() returns 1f; the driver reads efficiency_scale_state()).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_liquid_consumer_row_state"
+          ]
+        },
+        "multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+          "rule": "The consumer multiplier (Consume.java:18, default 1f): the single impact-reactor def sets no multiplier, so the row defaults to 1f; it scales both the efficiency divisor and the second-pass removal.",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_liquid_consumer_row_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ImpactReactorLiquidRowProof",
+      "rule": "Source-backed ImpactReactor liquid consumer row from ConsumeLiquid.java / Consume.java / BuildingComp.java / Blocks.java."
+    },
+    "source_impact_reactor_liquid_consumer_row_state_result": {
+      "status": "active",
+      "owner": "SourceImpactReactorBuildState.source_impact_reactor_liquid_consumer_row_state",
+      "source_slice": "N2254",
+      "keys": {
+        "row": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);",
+          "rule": "The folded row {\"result\": ..., \"is_power\": false}: min(liquid / (amount * ed * multiplier), 1f), 0f when ed <= 1e-8 (ConsumeLiquid.java:42-47); is_power false so the shared fold sets shouldConsumePower=false when the row is <= 1e-7 (BuildingComp.java:1972-1974).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_liquid_consumer_row_state"
+          ]
+        },
+        "has_liquid_row": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "consumeLiquid(Liquids.cryofluid, 0.25f);",
+          "rule": "Whether the row exists: true when the def registers the ConsumeLiquid row (the single impact-reactor def does, Blocks.java:2644), false otherwise -- the has_power_row pattern.",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_liquid_consumer_row_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ImpactReactorLiquidRowProof",
+      "rule": "Source-backed ImpactReactor liquid consumer row from ConsumeLiquid.java / Consume.java / BuildingComp.java / Blocks.java."
+    },
+    "source_fracker_liquid_consumer_row_state_input": {
+      "status": "active",
+      "owner": "SourceFrackerBuildState.source_fracker_liquid_consumer_row_state",
+      "source_slice": "N2255",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);",
+          "rule": "The building frame carrying the live liquids module (frame[\"liquids\"], synced from the sprite-meta store each tick before the fold) and the stamped efficiency_scale; the row reads the held liquid amount from it through the shared liquid module helper, with the N2207 gate guard (frame has \"liquids\", id in bounds; a liquid never added reads 0.0).",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_liquid_consumer_row_state"
+          ]
+        },
+        "has_liquid_consumer": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "hasConsumers = consumers.length > 0;",
+          "rule": "Whether the block has a liquid consumer (Block.java:1449): the driver gate -- the row joins the first pass only when the block consumes a liquid (the oil-extractor does, consumeLiquid water 0.15f, Blocks.java:2978); a def with no liquid consumer contributes no row (the N2253 launch-pad precedent).",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_liquid_consumer_row_state"
+          ]
+        },
+        "liquid_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "consumeLiquid(Liquids.water, 0.15f);",
+          "rule": "The consumed liquid's catalog id, resolved by the driver from liquid_id_by_name[\"water\"] (the def constant water, Blocks.java:2978); -1 when the catalog has no such liquid, in which case the guard reads the amount as 0.0 and the row folds 0.",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_liquid_consumer_row_state"
+          ]
+        },
+        "amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "consumeLiquid(Liquids.water, 0.15f);",
+          "rule": "The consume amount per frame (Blocks.java:2978): 0.15f per frame (= 9/s), NOT /60f -- the def writes the bare number. The driver passes the def constant SOURCE_FRACKER_CONSUME_LIQUID_AMOUNT.",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_liquid_consumer_row_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26): the base of delta() = Time.delta * timeScale (BuildingComp.java:1922-1924); the first pass assumes efficiency 1f (BuildingComp.java:1965), so edelta = delta().",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_liquid_consumer_row_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live timeScale read from the sprite meta (SourcePlacedBlockState.time_scale), default 1.0 (BuildingComp.java:98): delta() = Time.delta * timeScale (BuildingComp.java:1922-1924).",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_liquid_consumer_row_state"
+          ]
+        },
+        "efficiency_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "float ed = build.edelta() * build.efficiencyScale();",
+          "rule": "The efficiency scale (ConsumeLiquid.java:43, ed = edelta * efficiencyScale): 1.0 from the canonical efficiency_scale_state (BuildingComp.java:1939-1941, efficiencyScale() returns 1f).",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_liquid_consumer_row_state"
+          ]
+        },
+        "multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+          "rule": "The cost multiplier (ConsumeLiquid.java:46, amount * ed * multiplier.get(build)): the oil-extractor def sets none (Block.consumeLiquid builds a plain ConsumeLiquid, Block.java:1127-1129), so the default 1f (Consume.java:18) applies; explicit parameter, default 1.0.",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_liquid_consumer_row_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07FrackerLiquidRowProof",
+      "rule": "Source-backed Fracker liquid consumer row from ConsumeLiquid.java / Consume.java / BuildingComp.java / Block.java / Blocks.java / LiquidModule.java / Fracker.java."
+    },
+    "source_fracker_liquid_consumer_row_state_result": {
+      "status": "active",
+      "owner": "SourceFrackerBuildState.source_fracker_liquid_consumer_row_state",
+      "source_slice": "N2255",
+      "keys": {
+        "row": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);",
+          "rule": "The liquid row for the first pass (ConsumeLiquid.java:46): {\"result\": min(held / (amount * ed * multiplier), 1f), \"is_power\": false}, folded by the non-optional pass into the min efficiency; 0f when ed <= 1e-8 (ConsumeLiquid.java:44) or when the store holds none of the liquid. is_power false, so the shared fold sets shouldConsumePower=false when the row is <= 1e-7 (BuildingComp.java:1972-1973).",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_liquid_consumer_row_state"
+          ]
+        },
+        "has_liquid_row": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "for(var cons : block.nonOptionalConsumers){",
+          "rule": "Whether the row joins the first pass (BuildingComp.java:1969): true when the block has a liquid consumer; the row is the liquid consumer's entry in the non-optional pass.",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_liquid_consumer_row_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07FrackerLiquidRowProof",
+      "rule": "Source-backed Fracker liquid consumer row from ConsumeLiquid.java / Consume.java / BuildingComp.java / Block.java / Blocks.java / LiquidModule.java / Fracker.java."
     }
   },
   "version": 1

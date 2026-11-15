@@ -1229,6 +1229,42 @@
       ],
       "runtime_proof": "/root/C07FrackerUpdateTileProof"
     },
+    "N2252": {
+      "canonical_ledger": "source_slice_ledger.N2252",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "java_method": "SeparatorBuild.updateTile()",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_liquid_consumer_row_state",
+      "source_symbols": [
+        "source_separator_liquid_consumer_row_state_result.row",
+        "source_separator_liquid_consumer_row_state_result.has_liquid_row"
+      ],
+      "tests": [
+        "test_c07_separator_liquid_row_registration",
+        "test_all_c07_separator_liquid_row_input_evidence_is_exact",
+        "test_separator_liquid_consumer_row_state",
+        "test_reference_graph_and_actual_c07_separator_liquid_row"
+      ],
+      "runtime_proof": "/root/C07SeparatorLiquidRowProof"
+    },
+    "N2255": {
+      "canonical_ledger": "source_slice_ledger.N2255",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Fracker.java",
+      "java_method": "FrackerBuild.updateTile()",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_liquid_consumer_row_state",
+      "source_symbols": [
+        "source_fracker_liquid_consumer_row_state_result.row",
+        "source_fracker_liquid_consumer_row_state_result.has_liquid_row"
+      ],
+      "tests": [
+        "test_c07_fracker_liquid_row_registration",
+        "test_all_c07_fracker_liquid_row_input_evidence_is_exact",
+        "test_fracker_liquid_consumer_row_state",
+        "test_reference_graph_and_actual_c07_fracker_liquid_row"
+      ],
+      "runtime_proof": "/root/C07FrackerLiquidRowProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",

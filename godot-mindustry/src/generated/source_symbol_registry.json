@@ -178184,6 +178184,230 @@
         "test_reference_graph_and_actual_c07_unit_assembler_module_update_tile"
       ],
       "runtime_proof": "/root/C07UnitAssemblerModuleUpdateTileProof"
+    },
+    "source_unit_cargo_loader_liquid_consumer_row_state_result.row": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_liquid_consumer_row_state",
+      "godot_symbol": "source_unit_cargo_loader_liquid_consumer_row_state_result.row",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "UnitTransportSourceBuild.updateTile()",
+      "java_expr": "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);",
+      "rule": "The liquid row for the first pass (ConsumeLiquid.java:46, the min-capped ratio): {\"result\": efficiency, \"is_power\": false}, folded by the non-optional pass into the min efficiency; is_power false so a starved row (result <= 1e-7) sets shouldConsumePower=false (BuildingComp.java:1972).",
+      "tests": [
+        "test_c07_unit_cargo_loader_liquid_row_registration",
+        "test_all_c07_unit_cargo_loader_liquid_row_input_evidence_is_exact",
+        "test_unit_cargo_loader_liquid_row_state",
+        "test_reference_graph_and_actual_c07_unit_cargo_loader_liquid_row"
+      ],
+      "runtime_proof": "/root/C07UnitCargoLoaderLiquidRowProof"
+    },
+    "source_unit_cargo_loader_liquid_consumer_row_state_result.has_liquid_row": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_liquid_consumer_row_state",
+      "godot_symbol": "source_unit_cargo_loader_liquid_consumer_row_state_result.has_liquid_row",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "UnitTransportSourceBuild.updateTile()",
+      "java_expr": "for(var cons : block.nonOptionalConsumers){",
+      "rule": "Whether the row joins the first pass (BuildingComp.java:1969): true when the block has a liquid consumer; the row is the liquid consumer entry in the non-optional pass.",
+      "tests": [
+        "test_c07_unit_cargo_loader_liquid_row_registration",
+        "test_all_c07_unit_cargo_loader_liquid_row_input_evidence_is_exact",
+        "test_unit_cargo_loader_liquid_row_state",
+        "test_reference_graph_and_actual_c07_unit_cargo_loader_liquid_row"
+      ],
+      "runtime_proof": "/root/C07UnitCargoLoaderLiquidRowProof"
+    },
+    "source_repair_tower_liquid_consumer_row_state_result.row": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_liquid_consumer_row_state",
+      "godot_symbol": "source_repair_tower_liquid_consumer_row_state_result.row",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "RepairTowerBuild.updateTile()",
+      "java_expr": "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);",
+      "rule": "The liquid row for the first pass (ConsumeLiquid.java:46): {\"result\": min(liquid / (amount * ed * multiplier), 1f), \"is_power\": false}, folded by the non-optional pass into the min efficiency; 0.0 when ed <= 0.00000001f (ConsumeLiquid.java:44).",
+      "tests": [
+        "test_c07_repair_tower_liquid_row_registration",
+        "test_all_c07_repair_tower_liquid_row_input_evidence_is_exact",
+        "test_repair_tower_liquid_consumer_row_state",
+        "test_reference_graph_and_actual_c07_repair_tower_liquid_row"
+      ],
+      "runtime_proof": "/root/C07RepairTowerLiquidRowProof"
+    },
+    "source_repair_tower_liquid_consumer_row_state_result.has_liquid_row": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_liquid_consumer_row_state",
+      "godot_symbol": "source_repair_tower_liquid_consumer_row_state_result.has_liquid_row",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "RepairTowerBuild.updateTile()",
+      "java_expr": "for(var cons : block.nonOptionalConsumers){",
+      "rule": "Whether the row joins the first pass (BuildingComp.java:1969): true when the block has a liquid consumer; the row is the liquid consumer's entry in the non-optional pass.",
+      "tests": [
+        "test_c07_repair_tower_liquid_row_registration",
+        "test_all_c07_repair_tower_liquid_row_input_evidence_is_exact",
+        "test_repair_tower_liquid_consumer_row_state",
+        "test_reference_graph_and_actual_c07_repair_tower_liquid_row"
+      ],
+      "runtime_proof": "/root/C07RepairTowerLiquidRowProof"
+    },
+    "source_build_turret_liquid_consumer_row_state_result.row": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_liquid_consumer_row_state",
+      "godot_symbol": "source_build_turret_liquid_consumer_row_state_result.row",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "BuildTurretBuild.updateTile()",
+      "java_expr": "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);",
+      "rule": "The folded consumer row {\"result\": float, \"is_power\": false}: the ConsumeLiquid.efficiency value (ConsumeLiquid.java:42-47) -- 0f when ed <= 1e-8, else the held liquid over the required amount capped at 1f (`//there can be more liquid than necessary, so cap at 1`, ConsumeLiquid.java:45). is_power false marks it a non-power row, so the shared fold sets shouldConsumePower=false when the result reads <= 1e-7 (BuildingComp.java:1972). Empty ({}) when the block has no liquid consumer.",
+      "tests": [
+        "test_c07_build_turret_liquid_row_registration",
+        "test_all_c07_build_turret_liquid_row_input_evidence_is_exact",
+        "test_build_turret_liquid_consumer_row_state",
+        "test_reference_graph_and_actual_c07_build_turret_liquid_row"
+      ],
+      "runtime_proof": "/root/C07BuildTurretLiquidRowProof"
+    },
+    "source_build_turret_liquid_consumer_row_state_result.has_liquid_row": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_liquid_consumer_row_state",
+      "godot_symbol": "source_build_turret_liquid_consumer_row_state_result.has_liquid_row",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildTurretBuild.updateTile()",
+      "java_expr": "for(var cons : block.nonOptionalConsumers){",
+      "rule": "Whether the block contributes a liquid row to the first pass (`for(var cons : block.nonOptionalConsumers){`, BuildingComp.java:1969): true when has_liquid_consumer is true (the single build-tower def), false otherwise -- the row is absent, mirroring the power row's has_power_row.",
+      "tests": [
+        "test_c07_build_turret_liquid_row_registration",
+        "test_all_c07_build_turret_liquid_row_input_evidence_is_exact",
+        "test_build_turret_liquid_consumer_row_state",
+        "test_reference_graph_and_actual_c07_build_turret_liquid_row"
+      ],
+      "runtime_proof": "/root/C07BuildTurretLiquidRowProof"
+    },
+    "source_separator_liquid_consumer_row_state_result.row": {
+      "status": "source-backed",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_liquid_consumer_row_state",
+      "godot_symbol": "source_separator_liquid_consumer_row_state_result.row",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "SeparatorBuild.updateTile()",
+      "java_expr": "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);",
+      "rule": "The liquid row for the first pass (ConsumeLiquid.java:49, the canonical ConsumeLiquid.efficiency): {\"result\": held / (amount * ed * multiplier) capped at 1, 0 when ed <= 1e-8, \"is_power\": false}, folded by the non-optional pass into the min efficiency.",
+      "tests": [
+        "test_c07_separator_liquid_row_registration",
+        "test_all_c07_separator_liquid_row_input_evidence_is_exact",
+        "test_separator_liquid_consumer_row_state",
+        "test_reference_graph_and_actual_c07_separator_liquid_row"
+      ],
+      "runtime_proof": "/root/C07SeparatorLiquidRowProof"
+    },
+    "source_separator_liquid_consumer_row_state_result.has_liquid_row": {
+      "status": "source-backed",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_liquid_consumer_row_state",
+      "godot_symbol": "source_separator_liquid_consumer_row_state_result.has_liquid_row",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "SeparatorBuild.updateTile()",
+      "java_expr": "for(var cons : block.nonOptionalConsumers){",
+      "rule": "Whether the row joins the first pass (BuildingComp.java:1969): true when the block has a liquid consumer; the row is the liquid consumer's entry in the non-optional pass.",
+      "tests": [
+        "test_c07_separator_liquid_row_registration",
+        "test_all_c07_separator_liquid_row_input_evidence_is_exact",
+        "test_separator_liquid_consumer_row_state",
+        "test_reference_graph_and_actual_c07_separator_liquid_row"
+      ],
+      "runtime_proof": "/root/C07SeparatorLiquidRowProof"
+    },
+    "source_launch_pad_liquid_consumer_row_state_result.row": {
+      "status": "source-backed",
+      "godot_owner": "SourceLaunchPadBuildState.source_launch_pad_liquid_consumer_row_state",
+      "godot_symbol": "source_launch_pad_liquid_consumer_row_state_result.row",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "LaunchPadBuild.updateTile()",
+      "java_expr": "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);",
+      "rule": "The liquid row for the first pass (ConsumeLiquid.java:50): {\"result\": min(held / (amount * ed * multiplier), 1f), \"is_power\": false} -- 0f when ed <= 1e-8 -- folded by the non-optional pass into the min efficiency, and starving the power draw when result <= 1e-7 (BuildingComp.java:1972-1973).",
+      "tests": [
+        "test_c07_launch_pad_liquid_row_registration",
+        "test_all_c07_launch_pad_liquid_row_input_evidence_is_exact",
+        "test_launch_pad_liquid_row_state",
+        "test_reference_graph_and_actual_c07_launch_pad_liquid_row"
+      ],
+      "runtime_proof": "/root/C07LaunchPadLiquidRowProof"
+    },
+    "source_launch_pad_liquid_consumer_row_state_result.has_liquid_row": {
+      "status": "source-backed",
+      "godot_owner": "SourceLaunchPadBuildState.source_launch_pad_liquid_consumer_row_state",
+      "godot_symbol": "source_launch_pad_liquid_consumer_row_state_result.has_liquid_row",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "LaunchPadBuild.updateTile()",
+      "java_expr": "for(var cons : block.nonOptionalConsumers){",
+      "rule": "Whether the row joins the first pass (BuildingComp.java:1969): true when the block has a liquid consumer; the row is the liquid consumer's entry in the non-optional pass.",
+      "tests": [
+        "test_c07_launch_pad_liquid_row_registration",
+        "test_all_c07_launch_pad_liquid_row_input_evidence_is_exact",
+        "test_launch_pad_liquid_row_state",
+        "test_reference_graph_and_actual_c07_launch_pad_liquid_row"
+      ],
+      "runtime_proof": "/root/C07LaunchPadLiquidRowProof"
+    },
+    "source_impact_reactor_liquid_consumer_row_state_result.row": {
+      "status": "source-backed",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_liquid_consumer_row_state",
+      "godot_symbol": "source_impact_reactor_liquid_consumer_row_state_result.row",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "ConsumeLiquid.efficiency(Building)",
+      "java_expr": "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);",
+      "rule": "The folded row {\"result\": ..., \"is_power\": false}: min(liquid / (amount * ed * multiplier), 1f), 0f when ed <= 1e-8 (ConsumeLiquid.java:42-47); is_power false so the shared fold sets shouldConsumePower=false when the row is <= 1e-7 (BuildingComp.java:1972-1974).",
+      "tests": [
+        "test_c07_impact_reactor_liquid_row_registration",
+        "test_all_c07_impact_reactor_liquid_row_input_evidence_is_exact",
+        "test_impact_reactor_liquid_consumer_row_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_liquid_row"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorLiquidRowProof"
+    },
+    "source_impact_reactor_liquid_consumer_row_state_result.has_liquid_row": {
+      "status": "source-backed",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_liquid_consumer_row_state",
+      "godot_symbol": "source_impact_reactor_liquid_consumer_row_state_result.has_liquid_row",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "ConsumeLiquid.efficiency(Building)",
+      "java_expr": "consumeLiquid(Liquids.cryofluid, 0.25f);",
+      "rule": "Whether the row exists: true when the def registers the ConsumeLiquid row (the single impact-reactor def does, Blocks.java:2644), false otherwise -- the has_power_row pattern.",
+      "tests": [
+        "test_c07_impact_reactor_liquid_row_registration",
+        "test_all_c07_impact_reactor_liquid_row_input_evidence_is_exact",
+        "test_impact_reactor_liquid_consumer_row_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_liquid_row"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorLiquidRowProof"
+    },
+    "source_fracker_liquid_consumer_row_state_result.row": {
+      "status": "source-backed",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_liquid_consumer_row_state",
+      "godot_symbol": "source_fracker_liquid_consumer_row_state_result.row",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "FrackerBuild.updateTile()",
+      "java_expr": "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);",
+      "rule": "The liquid row for the first pass (ConsumeLiquid.java:46): {\"result\": min(held / (amount * ed * multiplier), 1f), \"is_power\": false}, folded by the non-optional pass into the min efficiency; 0f when ed <= 1e-8 (ConsumeLiquid.java:44) or when the store holds none of the liquid. is_power false, so the shared fold sets shouldConsumePower=false when the row is <= 1e-7 (BuildingComp.java:1972-1973).",
+      "tests": [
+        "test_c07_fracker_liquid_row_registration",
+        "test_all_c07_fracker_liquid_row_input_evidence_is_exact",
+        "test_fracker_liquid_consumer_row_state",
+        "test_reference_graph_and_actual_c07_fracker_liquid_row"
+      ],
+      "runtime_proof": "/root/C07FrackerLiquidRowProof"
+    },
+    "source_fracker_liquid_consumer_row_state_result.has_liquid_row": {
+      "status": "source-backed",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_liquid_consumer_row_state",
+      "godot_symbol": "source_fracker_liquid_consumer_row_state_result.has_liquid_row",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "FrackerBuild.updateTile()",
+      "java_expr": "for(var cons : block.nonOptionalConsumers){",
+      "rule": "Whether the row joins the first pass (BuildingComp.java:1969): true when the block has a liquid consumer; the row is the liquid consumer's entry in the non-optional pass.",
+      "tests": [
+        "test_c07_fracker_liquid_row_registration",
+        "test_all_c07_fracker_liquid_row_input_evidence_is_exact",
+        "test_fracker_liquid_consumer_row_state",
+        "test_reference_graph_and_actual_c07_fracker_liquid_row"
+      ],
+      "runtime_proof": "/root/C07FrackerLiquidRowProof"
     }
   },
   "version": 1

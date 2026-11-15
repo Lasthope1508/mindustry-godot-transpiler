@@ -1421,6 +1421,68 @@
       "rule": "Source-backed live-loop drill dump; the drill dumps through the dump composition over the stored conveyor queues, and simulate_factory calls this step instead of dumping straight to the core.",
       "return_type": "Dictionary"
     },
+    "SourceFrackerBuildState.source_fracker_liquid_consumer_row_state": {
+      "canonical_contract": "source_api_contracts.SourceFrackerBuildState.source_fracker_liquid_consumer_row_state",
+      "status": "active",
+      "source_slice": "N2255",
+      "java_source": "core/src/mindustry/world/blocks/production/Fracker.java",
+      "source_method": "FrackerBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_fracker_liquid_consumer_row_state_input.frame"
+        },
+        {
+          "name": "has_liquid_consumer",
+          "type": "bool",
+          "schema": "source_fracker_liquid_consumer_row_state_input.has_liquid_consumer"
+        },
+        {
+          "name": "liquid_id",
+          "type": "int",
+          "schema": "source_fracker_liquid_consumer_row_state_input.liquid_id"
+        },
+        {
+          "name": "amount",
+          "type": "float",
+          "schema": "source_fracker_liquid_consumer_row_state_input.amount"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_fracker_liquid_consumer_row_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_fracker_liquid_consumer_row_state_input.time_scale"
+        },
+        {
+          "name": "efficiency_scale",
+          "type": "float",
+          "schema": "source_fracker_liquid_consumer_row_state_input.efficiency_scale"
+        },
+        {
+          "name": "multiplier",
+          "type": "float",
+          "schema": "source_fracker_liquid_consumer_row_state_input.multiplier"
+        }
+      ],
+      "return_keys": [
+        "row",
+        "has_liquid_row"
+      ],
+      "tests": [
+        "test_c07_fracker_liquid_row_registration",
+        "test_all_c07_fracker_liquid_row_input_evidence_is_exact",
+        "test_fracker_liquid_consumer_row_state",
+        "test_reference_graph_and_actual_c07_fracker_liquid_row"
+      ],
+      "runtime_proof": "/root/C07FrackerLiquidRowProof",
+      "rule": "Source-backed Fracker liquid consumer row from ConsumeLiquid.java / Consume.java / BuildingComp.java / Block.java / Blocks.java / LiquidModule.java / Fracker.java.",
+      "return_type": "Dictionary"
+    },
     "SourceFrackerBuildState.source_fracker_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourceFrackerBuildState.source_fracker_power_status_row_state",
       "status": "active",
@@ -1828,6 +1890,68 @@
       ],
       "runtime_proof": "/root/PumpUpdateProof",
       "rule": "Source-backed pump update and conduit line; the pump fills its liquids and the conduits link it to the drill.",
+      "return_type": "Dictionary"
+    },
+    "SourceSeparatorBuildState.source_separator_liquid_consumer_row_state": {
+      "canonical_contract": "source_api_contracts.SourceSeparatorBuildState.source_separator_liquid_consumer_row_state",
+      "status": "active",
+      "source_slice": "N2252",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "source_method": "SeparatorBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_separator_liquid_consumer_row_state_input.frame"
+        },
+        {
+          "name": "has_liquid_consumer",
+          "type": "bool",
+          "schema": "source_separator_liquid_consumer_row_state_input.has_liquid_consumer"
+        },
+        {
+          "name": "liquid_id",
+          "type": "int",
+          "schema": "source_separator_liquid_consumer_row_state_input.liquid_id"
+        },
+        {
+          "name": "amount",
+          "type": "float",
+          "schema": "source_separator_liquid_consumer_row_state_input.amount"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_separator_liquid_consumer_row_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_separator_liquid_consumer_row_state_input.time_scale"
+        },
+        {
+          "name": "efficiency_scale",
+          "type": "float",
+          "schema": "source_separator_liquid_consumer_row_state_input.efficiency_scale"
+        },
+        {
+          "name": "multiplier",
+          "type": "float",
+          "schema": "source_separator_liquid_consumer_row_state_input.multiplier"
+        }
+      ],
+      "return_keys": [
+        "row",
+        "has_liquid_row"
+      ],
+      "tests": [
+        "test_c07_separator_liquid_row_registration",
+        "test_all_c07_separator_liquid_row_input_evidence_is_exact",
+        "test_separator_liquid_consumer_row_state",
+        "test_reference_graph_and_actual_c07_separator_liquid_row"
+      ],
+      "runtime_proof": "/root/C07SeparatorLiquidRowProof",
+      "rule": "Source-backed Separator liquid consumer row from ConsumeLiquid.java / Consume.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
     "SourceSeparatorBuildState.source_separator_power_status_row_state": {

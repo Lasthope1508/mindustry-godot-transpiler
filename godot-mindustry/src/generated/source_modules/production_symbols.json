@@ -6003,6 +6003,36 @@
       ],
       "runtime_proof": "/root/C06FactoryLiquidOutputProof"
     },
+    "source_fracker_liquid_consumer_row_state_result.has_liquid_row": {
+      "canonical_symbol": "source_symbol_registry.source_fracker_liquid_consumer_row_state_result.has_liquid_row",
+      "status": "source-backed",
+      "java_expr": "for(var cons : block.nonOptionalConsumers){",
+      "godot_symbol": "source_fracker_liquid_consumer_row_state_result.has_liquid_row",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_liquid_consumer_row_state",
+      "rule": "Whether the row joins the first pass (BuildingComp.java:1969): true when the block has a liquid consumer; the row is the liquid consumer's entry in the non-optional pass.",
+      "tests": [
+        "test_c07_fracker_liquid_row_registration",
+        "test_all_c07_fracker_liquid_row_input_evidence_is_exact",
+        "test_fracker_liquid_consumer_row_state",
+        "test_reference_graph_and_actual_c07_fracker_liquid_row"
+      ],
+      "runtime_proof": "/root/C07FrackerLiquidRowProof"
+    },
+    "source_fracker_liquid_consumer_row_state_result.row": {
+      "canonical_symbol": "source_symbol_registry.source_fracker_liquid_consumer_row_state_result.row",
+      "status": "source-backed",
+      "java_expr": "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);",
+      "godot_symbol": "source_fracker_liquid_consumer_row_state_result.row",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_liquid_consumer_row_state",
+      "rule": "The liquid row for the first pass (ConsumeLiquid.java:46): {\"result\": min(held / (amount * ed * multiplier), 1f), \"is_power\": false}, folded by the non-optional pass into the min efficiency; 0f when ed <= 1e-8 (ConsumeLiquid.java:44) or when the store holds none of the liquid. is_power false, so the shared fold sets shouldConsumePower=false when the row is <= 1e-7 (BuildingComp.java:1972-1973).",
+      "tests": [
+        "test_c07_fracker_liquid_row_registration",
+        "test_all_c07_fracker_liquid_row_input_evidence_is_exact",
+        "test_fracker_liquid_consumer_row_state",
+        "test_reference_graph_and_actual_c07_fracker_liquid_row"
+      ],
+      "runtime_proof": "/root/C07FrackerLiquidRowProof"
+    },
     "source_fracker_power_status_row_state_result.has_power_row": {
       "canonical_symbol": "source_symbol_registry.source_fracker_power_status_row_state_result.has_power_row",
       "status": "source-backed",
@@ -6628,6 +6658,36 @@
         "test_reference_graph_and_actual_pump_update"
       ],
       "runtime_proof": "/root/PumpUpdateProof"
+    },
+    "source_separator_liquid_consumer_row_state_result.has_liquid_row": {
+      "canonical_symbol": "source_symbol_registry.source_separator_liquid_consumer_row_state_result.has_liquid_row",
+      "status": "source-backed",
+      "java_expr": "for(var cons : block.nonOptionalConsumers){",
+      "godot_symbol": "source_separator_liquid_consumer_row_state_result.has_liquid_row",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_liquid_consumer_row_state",
+      "rule": "Whether the row joins the first pass (BuildingComp.java:1969): true when the block has a liquid consumer; the row is the liquid consumer's entry in the non-optional pass.",
+      "tests": [
+        "test_c07_separator_liquid_row_registration",
+        "test_all_c07_separator_liquid_row_input_evidence_is_exact",
+        "test_separator_liquid_consumer_row_state",
+        "test_reference_graph_and_actual_c07_separator_liquid_row"
+      ],
+      "runtime_proof": "/root/C07SeparatorLiquidRowProof"
+    },
+    "source_separator_liquid_consumer_row_state_result.row": {
+      "canonical_symbol": "source_symbol_registry.source_separator_liquid_consumer_row_state_result.row",
+      "status": "source-backed",
+      "java_expr": "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);",
+      "godot_symbol": "source_separator_liquid_consumer_row_state_result.row",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_liquid_consumer_row_state",
+      "rule": "The liquid row for the first pass (ConsumeLiquid.java:49, the canonical ConsumeLiquid.efficiency): {\"result\": held / (amount * ed * multiplier) capped at 1, 0 when ed <= 1e-8, \"is_power\": false}, folded by the non-optional pass into the min efficiency.",
+      "tests": [
+        "test_c07_separator_liquid_row_registration",
+        "test_all_c07_separator_liquid_row_input_evidence_is_exact",
+        "test_separator_liquid_consumer_row_state",
+        "test_reference_graph_and_actual_c07_separator_liquid_row"
+      ],
+      "runtime_proof": "/root/C07SeparatorLiquidRowProof"
     },
     "source_separator_power_status_row_state_result.has_power_row": {
       "canonical_symbol": "source_symbol_registry.source_separator_power_status_row_state_result.has_power_row",
