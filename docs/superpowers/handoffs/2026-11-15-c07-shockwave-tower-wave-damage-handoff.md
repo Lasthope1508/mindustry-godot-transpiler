@@ -1,6 +1,6 @@
 # Handoff — N2196 ShockwaveTower wave damage
 
-Date: 2026-11-15. Batch: N2196 (single slice). Status: **DONE + GATE VERIFIED (21:46 tick). Targeted 4/4 OK, family 20/20 OK, wiring 32/32 OK — GREEN total 56/56. Full gate Ran 5877 in 992.700s, failures=146, skipped=5, 0 errors — all 146 verified Godot-absent (log `full-suite-n2196-gate.log`). Ready to push (origin/main still b41ef1f).**
+Date: 2026-11-15. Batch: N2196 (single slice). Status: **DONE + PUSHED (slice 3d1d842, main 06e8d2d). Targeted 4/4 OK, family 20/20 OK, wiring 32/32 OK — GREEN total 56/56. Full gate Ran 5877 in 992.700s, failures=146, skipped=5, 0 errors — all 146 verified Godot-absent (log `full-suite-n2196-gate.log`).**
 
 ## RED (this run, 21:0x +07 tick)
 
