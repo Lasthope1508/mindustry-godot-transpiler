@@ -1,6 +1,6 @@
 # Handoff — N2190 RepairTower target refresh
 
-Date: 2026-11-15. Batch: N2190 (single slice). Status: **DONE — full gate attempt 2 finished 15:33 +07 (Ran 5853, failures=140, skipped=5, 0 errors, all 140 verified Godot-absent asserts), slice commit `f10c459` (9 files, +921). Report + GOAL.md §5 + push this run. GREEN evidence: pure function `source_repair_tower_refresh_targets_state` + driver call + proof scene `C07RepairTowerTargetRefreshProof.gd` (+ `.tscn`) written; register run clean, SSOT 11394/1640/1561/2913 (audit 1335) — exactly the RED estimate, no shard change; targeted Ran 4 OK in 16.3s (Godot proof 7/7 keys true, `matches: true`, 0 ERROR, returncode 0); neighbours N2176 4/4 OK; wiring 9 modules / 32 tests OK. Windows proof: debt in GOAL.md §5, not run on Windows Godot.**
+Date: 2026-11-15. Batch: N2190 (single slice). Status: **DONE + PUSHED (slice `f10c459`, main `1779511`) — full gate attempt 2 finished 15:33 +07 (Ran 5853, failures=140, skipped=5, 0 errors, all 140 verified Godot-absent asserts). GREEN evidence: pure function `source_repair_tower_refresh_targets_state` + driver call + proof scene `C07RepairTowerTargetRefreshProof.gd` (+ `.tscn`) written; register run clean, SSOT 11394/1640/1561/2913 (audit 1335) — exactly the RED estimate, no shard change; targeted Ran 4 OK in 16.3s (Godot proof 7/7 keys true, `matches: true`, 0 ERROR, returncode 0); neighbours N2176 4/4 OK; wiring 9 modules / 32 tests OK. Windows proof: debt in GOAL.md §5, not run on Windows Godot.**
 
 ## GREEN (this run, 14:45 +07 tick)
 
@@ -217,9 +217,11 @@ Date: 2026-11-15. Batch: N2190 (single slice). Status: **DONE — full gate atte
 - Full gate attempt 2 finished ~15:33 (see above) → report
   (`docs/superpowers/reports/2026-11-15-c07-repair-tower-target-refresh.md`)
   → GOAL.md §5 (Windows proof stays debt) → slice commit `f10c459` (9 files,
-  +921) → docs + GOAL commits → push to origin main (re-checked before push:
-  origin/main == HEAD == 4ada17c at slice-commit time, no new commits since
-  N2189). Final handoff Status records DONE + PUSHED with the main hash.
+  +921) → docs `377984d` + GOAL `d4bdfc8` + hash-naming `1779511` commits →
+  pushed to origin main ~15:5x (origin/main == HEAD == `1779511`, verified
+  after push; no new commits from anyone else — re-checked origin/main
+  before push: still 4ada17c). Final handoff Status commit records DONE +
+  PUSHED with the main hash.
 - **Next after N2190:** RepairTower shouldConsume gate (reads `targets_count`;
   needs the live-units query slice to stamp `nearby_damaged_units` first, or
   proceeds with the absent-key "no observation" default per the N2188
