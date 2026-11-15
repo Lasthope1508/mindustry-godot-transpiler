@@ -45,16 +45,40 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
 (`docs/superpowers/handoffs/`). Khi trống task, tự làm slice tiếp theo, không
 đợi user giao.
 
-## 4. Tiến độ hiện tại (2026-11-13 ~11:52 +07)
+## 4. Tiến độ hiện tại (2026-11-15 11:39 +07)
 
-- Main trên fork ở `a3c01eb` (N2149 BurstDrill power.status DONE + PUSHED).
-- **N2150 SolidPump power.status (water-extractor): GREEN xong** (targeted
-  4/4, Godot proof 9 key xanh, SSOT 11310/1601/1522/2835 trên disk) — đang
-  chờ neighbours xanh rồi launch gate, sau đó mới commit + push.
-- Sau N2150: PointDefenseTurret (segment) / TractorBeamTurret (parallax)
-  power.status, rồi các mục deferred (spawn_occupied, allow_update,
-  moveOutPayload, net drone sync, turret ammo/nitrogen rows, shouldConsume
-  gates, updateTile advances).
+- Main trên fork ở `de9ab89c` (N2185 LightBlock power.status DONE + PUSHED).
+- **Batch 1 {N2186, N2187, N2189} DONE** trên branch tích hợp
+  `integration/batch-n2186-n2187-n2189` (không push, không merge vào main):
+  N2186 LaunchPad shouldConsume gate + N2187 ShockwaveTower shouldConsume gate
+  + N2189 LightBlock updateTile advance; neighbours 155/208 (53 Godot-absent,
+  0 lỗi khác), full gate Ran 5849 in 1131.248s, failures=139, skipped=5,
+  0 errors — 139/139 Godot-absent. SSOT gộp 11386/1639/1560/2911.
+- **Batch 2 {N2190 Radar, N2191 Accelerator, N2192 ImpactReactor} updateTile
+  DONE** trên branch tích hợp `integration/batch-n2190-n2191-n2192` (không
+  push, không merge vào main): neighbours 155/208 (53 Godot-absent, 0 lỗi
+  khác), full gate Ran 5849 in 1041.246s, failures=139, skipped=5,
+  0 errors — 139/139 Godot-absent. SSOT gộp 11390/1639/1560/2911.
+- **Batch 3 {N2193 MendProjector, N2194 OverdriveProjector, N2195 BeamDrill}
+  updateTile + N2196 conduit Time.delta fix DONE** trên branch tích hợp
+  `integration/batch-n2193-n2194-n2195-n2196` (không push, không merge vào
+  main): neighbours 161/216 (55 Godot-absent, 0 lỗi khác), full gate
+  Ran 5850 in 1044.287s, failures=139, skipped=5, 0 errors — 139/139 Godot-absent (136 inherited + 3 new proof tests N2193/N2194/N2195; Ran 5850, not 5849, because N2196 added 1 passing test). SSOT gộp 11391/1639/1560/2911 (N2196 là fix, không SSOT).
+- **N2197 ItemBridge link frame state (infra) DONE** trên branch tích hợp
+  `integration/n2197-item-bridge-link` (không push, không merge vào main):
+  frame keys `link`/`had_valid_link` + pure configure + pure linkValid +
+  driver recompute sau consumption fold; neighbours 38/52 (14 Godot-absent,
+  0 lỗi khác), full gate Ran 5841 in 945.797s, failures=137, skipped=5,
+  0 errors — 137/137 Godot-absent (lần 1 PID 24699 chết do VM restart ~11:22,
+  lần 2 PID 1944 xong 11:39). SSOT 11382/1637/1558/2907. N2197 mở khóa N2188.
+- **Wave 2 {N2188, N2198} đang chạy:** N2188 ItemBridge shouldConsume gate
+  DONE (slice `c490f99e`, 11:21), chờ N2198 LiquidBridge shouldConsume gate
+  (worker đang làm) để gom chung 1 batch từ `fe328383`. Tiếp theo: N2199
+  auto-link → items → liquids → payload → targets → plans → units (xem
+  `DESIGN-frame-state-infra.md` trong `~/workspace/mindustry-parallel/`).
+- **KHÔNG chạy Godot ở VM này** (chỉ đạo user 2026-11-15, ưu tiên cao): mọi
+  proof scene từ N2186 trở đi chỉ viết, chưa từng chạy ở đâu — ghi nợ ở §5,
+  chờ agent Godot test.
 - Repo làm việc là fork `Lasthope1508/mindustry-godot-transpiler`
   (`origin` = fork, `upstream` = `duynguyen16689/mindustry-godot-transpiler`).
   Local worktree: `~/workspace/mindustry-godot-transpiler`.
@@ -66,6 +90,13 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
   hệt build Windows 4.6.2). Chạy proof trên **Windows Godot là một track
   kiểm chứng riêng**, do agent khác đảm nhiệm (máy Windows admin-pc) — không
   chặn push, nhưng phải được ghi nợ ở đây và báo hoàn công sau.
+  **Bổ sung 2026-11-15 (chỉ đạo user, ưu tiên cao, ghi đè nguyên tắc trên
+  cho mọi slice từ N2186 trở đi): KHÔNG chạy Godot ở VM này nữa (cả headless
+  lẫn MCP).** Proof scene chỉ viết, chưa từng chạy ở đâu; agent Godot do user
+  giao sẽ test sau (Linux hoặc Windows đều được) — ghi nợ ở đây với đủ thông
+  tin để agent đó làm tiếp mà không cần hỏi lại: tên scene, commit mang scene,
+  số key, trạng thái "chờ agent Godot test", và lệnh chạy (targeted test với
+  Godot 4.6.2 trên PATH, port 7777 trống).
 - **Nợ đang mở (2026-11-13 ~12:11 +07):**
   - [x] N2148 `C07TurretPowerStatusProof` — Linux GREEN 09:35 (10 key).
     Scene tới Windows theo commit `9917082`. Đã chạy trên Windows Godot 2026-11-13 (PR #2, commit `b0a989c`): 48/48 test đạt, 10/10 scene matches=true — xem `docs/superpowers/reports/2026-11-13-windows-godot-n2146-n2155.md`.
@@ -179,6 +210,17 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
   - [ ] N2185 `C07LightBlockPowerStatusProof` — Linux GREEN 08:1x (9 key).
     Scene tới Windows theo slice commit `ffe1153` (pushed ~08:5x, main
     `1c161f8`). Chưa chạy trên Windows Godot.
+  - [ ] N2197 `C07ItemBridgeLinkFrameStateProof` — CHƯA CHẠY ở đâu (6 key:
+    `link_defaults_to_minus_one`, `configure_point2_sets_relative_link`
+    (pack(31,21)=2031637), `configure_integer_sets_absolute_link`,
+    `link_valid_same_row_within_range`, `link_invalid_when_double_or_out_of_range`,
+    `live_tick_recomputes_had_valid_link`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `bd07c93d` trên
+    `slice/N2197-item-bridge-link-frame-state` (integration cherry-pick `6a094cda`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_item_bridge_link_frame_state` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
   - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
     trên (ghi rõ commit đưa scene tới Windows).
   - [ ] Agent khác đang test các lỗi fail trên Windows Godot (PR #1 đã merge
