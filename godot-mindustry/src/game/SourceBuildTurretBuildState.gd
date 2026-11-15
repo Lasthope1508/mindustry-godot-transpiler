@@ -7,8 +7,10 @@ const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
 const source_building_efficiency_state := preload("res://src/game/SourceBuildingEfficiencyState.gd")
 const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
 const source_math_state := preload("res://src/game/SourceMathState.gd")
+const source_liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
+const source_content_registry_runtime_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
 
-# The BuildTurret implementation (BuildTurret.java:27, `public class BuildTurret extends BaseTurret{`): build-tower (consumePower 3f, Blocks.java:2005, `consumePower(3f);`; size 3, range 200f, buildSpeed 1.5f, silicon 150 / oxide 40 / thorium 60, Category.effect, Blocks.java:1997-2006). BuildTurret extends BaseTurret, NOT a TurretBuild -- SourceTurretBuildState.gd says so explicitly ("RepairTurret extends Block and BuildTurret extends BaseTurret, so none of them is a TurretBuild"), so no existing driver matches it and no frame key exists for it; this driver uses its own family frame key ("source_build_turret_building", the radar precedent), and this slice adds the build-turret key to N2142's SOURCE_CONSUMER_FRAME_META_KEYS so the graph stamp/write-back finds it. The port has NO SourceBuildTurret* files at all yet -- no display/runtime state to lean on -- so the missing piece is the live power.status -> efficiency driver, which is exactly this slice: the BuildTurretBuild.updateTile only scales the builder unit by potentialEfficiency (BuildTurret.java:136-137, `unit.buildSpeedMultiplier(potentialEfficiency * timeScale);` / `unit.speedMultiplier(potentialEfficiency * timeScale);`) -- so a tower that cannot draw its 3f never builds, as if power.status were 1.0. Liquid care: the tower also consumes nitrogen (`consumeLiquid(Liquids.nitrogen, 3f / 60f);`, Blocks.java:2006) -- the row this slice folds is the CONSUMER-side read (`return build.power.status;`, ConsumePower.java:39), exactly like every pure-consumer slice; the LIQUID side waits for its own slice. Suppression rows: `suppressable = true;` (BuildTurret.java:46); `if(checkSuppression()){` (:132) zeroes `efficiency = potentialEfficiency = 0f;` (:133); suppression state waits for its own slice.
+# The BuildTurret implementation (BuildTurret.java:27, `public class BuildTurret extends BaseTurret{`): build-tower (consumePower 3f, Blocks.java:2005, `consumePower(3f);`; size 3, range 200f, buildSpeed 1.5f, silicon 150 / oxide 40 / thorium 60, Category.effect, Blocks.java:1997-2006). BuildTurret extends BaseTurret, NOT a TurretBuild -- SourceTurretBuildState.gd says so explicitly ("RepairTurret extends Block and BuildTurret extends BaseTurret, so none of them is a TurretBuild"), so no existing driver matches it and no frame key exists for it; this driver uses its own family frame key ("source_build_turret_building", the radar precedent), and this slice adds the build-turret key to N2142's SOURCE_CONSUMER_FRAME_META_KEYS so the graph stamp/write-back finds it. The port has NO SourceBuildTurret* files at all yet -- no display/runtime state to lean on -- so the missing piece is the live power.status -> efficiency driver, which is exactly this slice: the BuildTurretBuild.updateTile only scales the builder unit by potentialEfficiency (BuildTurret.java:136-137, `unit.buildSpeedMultiplier(potentialEfficiency * timeScale);` / `unit.speedMultiplier(potentialEfficiency * timeScale);`) -- so a tower that cannot draw its 3f never builds, as if power.status were 1.0. Liquid care: the tower also consumes nitrogen (`consumeLiquid(Liquids.nitrogen, 3f / 60f);`, Blocks.java:2006) -- the row this slice folds is the CONSUMER-side read (`return build.power.status;`, ConsumePower.java:39), exactly like every pure-consumer slice; the LIQUID side is live since N2251 (source_build_turret_liquid_consumer_row_state folds the nitrogen row and removes it on the second pass). Suppression rows: `suppressable = true;` (BuildTurret.java:46); `if(checkSuppression()){` (:132) zeroes `efficiency = potentialEfficiency = 0f;` (:133); suppression state waits for its own slice.
 const SOURCE_BUILD_TURRET_BUILD_IMPLEMENTATIONS := ["BuildTurret"]
 const SOURCE_BUILD_TURRET_BUILDING_META_KEY := "source_build_turret_building"
 # The warmup lerp progress is the Java 0.1f (BuildTurret.java:139,
@@ -21,6 +23,11 @@ const SOURCE_BUILD_TURRET_WARMUP_LERP_PROGRESS := 0.1
 const SOURCE_BUILD_TURRET_INITIAL_ROTATION := 90.0
 # Single def -- build-tower only: range 200f (Blocks.java:2001, `range = 200f;`).
 const SOURCE_BUILD_TURRET_RANGE := 200.0
+# Single def -- build-tower only: the required liquid consumer
+# is nitrogen 3f/60f per frame (Blocks.java:2006,
+# `consumeLiquid(Liquids.nitrogen, 3f / 60f);`).
+const SOURCE_BUILD_TURRET_LIQUID := "nitrogen"
+const SOURCE_BUILD_TURRET_LIQUID_AMOUNT := 3.0 / 60.0
 
 static func _is_build_turret_build_implementation(implementation: String) -> bool:
 	return SOURCE_BUILD_TURRET_BUILD_IMPLEMENTATIONS.has(implementation)
@@ -56,7 +63,7 @@ static func source_build_turret_tick_frame_state(frame: Dictionary, block_implem
 	return frame
 
 static func _initial_frame() -> Dictionary:
-	return {"plans": [], "heal_suppressed": false, "rotation": SOURCE_BUILD_TURRET_INITIAL_ROTATION, "warmup": 0.0, "unit_look_angle": SOURCE_BUILD_TURRET_INITIAL_ROTATION, "build_speed_multiplier": 0.0, "speed_multiplier": 0.0, "following": null, "last_plan": null}
+	return {"plans": [], "heal_suppressed": false, "liquids": {}, "rotation": SOURCE_BUILD_TURRET_INITIAL_ROTATION, "warmup": 0.0, "unit_look_angle": SOURCE_BUILD_TURRET_INITIAL_ROTATION, "build_speed_multiplier": 0.0, "speed_multiplier": 0.0, "following": null, "last_plan": null}
 
 static func source_build_turret_bind_frame_state(sprite: Sprite2D, block: Object) -> Dictionary:
 	# Placement creates the Building (Block.java:1002 newBuilding);
@@ -95,7 +102,7 @@ static func source_build_turret_power_status_row_state(frame: Dictionary, has_po
 	# BuildTurretBuild DOES override shouldConsume (BuildTurret.java:229-230, `public boolean shouldConsume(){` / `return unit.plans().size > 0 && !isHealSuppressed();`), and updateConsumption forces efficiency to zero when the gate is false (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). The shouldConsume gate is live (N2215) -- the pure gate (source_build_turret_should_consume_state) feeds should_consume to the machinery from the frame plans key (empty before any plan is queued, non-empty once the builder unit has plans) and the heal_suppressed key (the isHealSuppressed() mirror, BuildingComp.java:487-489); the plan logic is live (N2244, source_build_turret_plan_logic_state fills frame["plans"] from the pure advance, though the driver passes no live team plans / builders / players yet) and the suppression application is BuildingComp.java:482-485. canConsume (BuildingComp.java:1917, `public boolean canConsume(){` with `return potentialEfficiency > 0;`, BuildingComp.java:1918) and edelta (BuildingComp.java:1927-1929, `return efficiency * delta();`) are the surrounding gates.
 	# The build tower is its own family (BuildTurret.java:27, `public class BuildTurret extends BaseTurret{`; BuildTurretBuild, BuildTurret.java:92, `public class BuildTurretBuild extends BaseTurretBuild implements ControlBlock, RotBlock{`), a defense / effect block, NOT a TurretBuild: SourceTurretBuildState.gd excludes it explicitly, and BaseTurretBuild (BaseTurret.java:113, `public class BaseTurretBuild extends Building implements Ranged, RotBlock{`) overrides neither shouldConsume nor updateTile -- the gate and the tick both come from BuildTurretBuild itself. Class fields: `public final int timerTarget = timers++, timerTarget2 = timers++;` (BuildTurret.java:28), `public int targetInterval = 15;` (BuildTurret.java:29), `public float buildSpeed = 1f;` (BuildTurret.java:33), `public float buildBeamOffset = 5f;` (BuildTurret.java:34), `public float elevation = -1f;` (BuildTurret.java:38), `public Color heatColor = Pal.accent.cpy().a(0.9f);` (BuildTurret.java:39); constructor `public BuildTurret(String name){` (BuildTurret.java:41), `group = BlockGroup.turrets;` (BuildTurret.java:43), `sync = false;` (BuildTurret.java:44), `rotateSpeed = 10f;` (BuildTurret.java:45), `suppressable = true;` (BuildTurret.java:46). init lifts the elevation and builds the hidden builder unit type (BuildTurret.java:53, `if(elevation < 0) elevation = size / 2f;` with BuildTurret.java:56, `unitType = new UnitType("turret-unit-" + name){{`). Build fields: `public BlockUnitc unit = (BlockUnitc)unitType.create(team);` (BuildTurret.java:93), `public @Nullable Unit following;` (BuildTurret.java:94), `public @Nullable BlockPlan lastPlan;` (BuildTurret.java:95), `public float warmup;` (BuildTurret.java:96).
 	# Single def -- build-tower only (size 3, range 200f, buildSpeed 1.5f, silicon 150 / oxide 40 / thorium 60, Blocks.java:1997-2006): `buildTower = new BuildTurret("build-tower"){{` (Blocks.java:1997) with `requirements(Category.effect, with(Items.silicon, 150, Items.oxide, 40, Items.thorium, 60));` (Blocks.java:1998), `outlineColor = Pal.darkOutline;` (Blocks.java:1999), `range = 200f;` (Blocks.java:2001), `size = 3;` (Blocks.java:2002), `buildSpeed = 1.5f;` (Blocks.java:2003), `consumePower(3f);` (Blocks.java:2005) and `consumeLiquid(Liquids.nitrogen, 3f / 60f);` (Blocks.java:2006). No second BuildTurret def exists; there is no family split to manage. The plan search (`}else if(unit.buildPlan() == null && timer(timerTarget, targetInterval)){`, :156; `Queue<BlockPlan> blocks = team.data().plans;`, :157), mimic (`Units.nearby(team, x, y, range, u -> {`, :176), validation (`boolean valid =`, :204) advance is live (N2244); `unit.updateBuildLogic();` (:225) waits for its own slice. The draw / write / read / sense rows (BuildTurret.java:232-319) wait for their own slices.
-	# Documented limits: (1) power-only first pass -- the tower's static power consumer (consumePower 3f, Blocks.java:2005) is the only modeled consumer, so the folded efficiency is the min over the *modeled* consumers (power only); the tower also consumes nitrogen (Blocks.java:2006), which waits for its own slice. (2) shouldConsume gate live (N2215) -- BuildTurretBuild overrides shouldConsume (`return unit.plans().size > 0 && !isHealSuppressed();`, BuildTurret.java:229-230); when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994); the pure gate reads the frame plans key (default []) and the heal_suppressed key (default false) and feeds should_consume to the machinery; the plan logic is live (N2244) -- the pure advance fills frame["plans"] (the driver passes no live team plans / builders / players yet), while the heal suppression application (BuildingComp.java:482-485) still waits for its own slice. (3) updateTile sync/warmup advance live (N2243) -- rotation follow / lookAt / suppression zeroing / multipliers / warmup lerp (BuildTurret.java:121-140); plan logic live (N2244) -- plan search / follow / mimic / validate / suicide-plan removal (BuildTurret.java:141-225) run through the pure advance; updateBuildLogic (BuilderComp.java:76+) waits for its own slice; the eff fold (BuildTurret.java:136-137) is what the efficiency keys prove. (4) No liquid-side modeling -- consumeLiquid nitrogen 3f/60f (Blocks.java:2006) waits for its own slice. (5) Suppression zeroing live (N2243) -- checkSuppression() (BuildTurret.java:132-133) zeroes efficiency + potentialEfficiency through the frame heal_suppressed mirror (checkSuppression returns true iff isHealSuppressed, BuildingComp.java:1336-1337; the Fx particle defers); no live fill applies suppression yet (applyHealSuppression, BuildingComp.java:482-485, needs game time + suppression application). (6) Single def -- build-tower only (size 3, range 200f, buildSpeed 1.5f, silicon 150 / oxide 40 / thorium 60); per-def stat values wait for their own verification slice. (7) No draw / read / write / sense modeling -- draw / write / read / sense (BuildTurret.java:232-319) wait for their own slices.
+	# Documented limits: (1) power + liquid first pass -- the tower's static power consumer (consumePower 3f, Blocks.java:2005) and its required liquid consumer (consumeLiquid nitrogen 3f/60f, Blocks.java:2006 -- liquid row live (N2251)) are the modeled consumers, so the folded efficiency is the min over the *modeled* consumers (power + nitrogen); the single build-tower def has no other consumers. (2) shouldConsume gate live (N2215) -- BuildTurretBuild overrides shouldConsume (`return unit.plans().size > 0 && !isHealSuppressed();`, BuildTurret.java:229-230); when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994); the pure gate reads the frame plans key (default []) and the heal_suppressed key (default false) and feeds should_consume to the machinery; the plan logic is live (N2244) -- the pure advance fills frame["plans"] (the driver passes no live team plans / builders / players yet), while the heal suppression application (BuildingComp.java:482-485) still waits for its own slice. (3) updateTile sync/warmup advance live (N2243) -- rotation follow / lookAt / suppression zeroing / multipliers / warmup lerp (BuildTurret.java:121-140); plan logic live (N2244) -- plan search / follow / mimic / validate / suicide-plan removal (BuildTurret.java:141-225) run through the pure advance; updateBuildLogic (BuilderComp.java:76+) waits for its own slice; the eff fold (BuildTurret.java:136-137) is what the efficiency keys prove. (4) Liquid row live (N2251) -- consumeLiquid nitrogen 3f/60f (Blocks.java:2006) folds through source_build_turret_liquid_consumer_row_state and removes amount * edelta * multiplier on the second pass (ConsumeLiquid.java:37-39); the multiplier is the 1f default (Consume.java:18), the def sets none; the live nitrogen intake (conduit/bridge delivery into the tower) waits for its own slice, so a live tower with no intake reads 0 nitrogen and folds efficiency 0. (5) Suppression zeroing live (N2243) -- checkSuppression() (BuildTurret.java:132-133) zeroes efficiency + potentialEfficiency through the frame heal_suppressed mirror (checkSuppression returns true iff isHealSuppressed, BuildingComp.java:1336-1337; the Fx particle defers); no live fill applies suppression yet (applyHealSuppression, BuildingComp.java:482-485, needs game time + suppression application). (6) Single def -- build-tower only (size 3, range 200f, buildSpeed 1.5f, silicon 150 / oxide 40 / thorium 60); per-def stat values wait for their own verification slice. (7) No draw / read / write / sense modeling -- draw / write / read / sense (BuildTurret.java:232-319) wait for their own slices.
 	# Source lines (all 136 exact exprs, verified verbatim in upstream at RED):
 	# - `return build.power.status;`
 	# - `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`
@@ -238,6 +245,68 @@ static func source_build_turret_power_status_row_state(frame: Dictionary, has_po
 	var stamped: Variant = frame.get("power_status", null)
 	var live: float = 1.0 if stamped == null else float(stamped)
 	return {"has_power_row": true, "row": {"result": live, "is_power": true}}
+
+static func source_build_turret_liquid_consumer_row_state(frame: Dictionary, has_liquid_consumer: bool, liquid_id: int, amount: float, source_delta: float, time_scale: float, efficiency_scale: float, multiplier: float = 1.0) -> Dictionary:
+	# ConsumeLiquid.efficiency (ConsumeLiquid.java:42-47,
+	# `float ed = build.edelta() * build.efficiencyScale();` /
+	# `if(ed <= 0.00000001f) return 0f;` / `//there can be
+	# more liquid than necessary, so cap at 1` / `return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);`): the required liquid
+	# consumer's efficiency is the held liquid over the
+	# required amount, capped at 1f, and the first pass folds
+	# it into the min efficiency (BuildingComp.java:1969-1976,
+	# `for(var cons : block.nonOptionalConsumers){` /
+	# `minEfficiency = Math.min(minEfficiency, result);`).
+	# In the first pass efficiency is assumed 1f
+	# (`//assume efficiency is 1 for the calculations below`,
+	# BuildingComp.java:1964), so edelta is source_delta *
+	# time_scale (delta() is `return Time.delta * timeScale;`,
+	# BuildingComp.java:1923; edelta() is `return efficiency *
+	# delta();`, BuildingComp.java:1928). The liquid amount
+	# reads through the shared liquid module helper
+	# (SourceLiquidModuleState.source_get_state, reused
+	# through a preload, NOT re-implemented) over the frame
+	# liquids key (the Building.liquids LiquidModule dict,
+	# default {} for a frame bound before this slice), with
+	# the Fracker guard (the store has a "liquids" key and
+	# the id is in bounds) -- a missing store reads 0.0 like
+	# Java's liquids.get (`return liquids[liquid.id];`,
+	# LiquidModule.java:103). The multiplier defaults to 1f
+	# (`public Floatf<Building> multiplier = b -> 1f;`,
+	# Consume.java:18) and the build-tower def sets none
+	# (`consumeLiquid(Liquids.nitrogen, 3f / 60f);`,
+	# Blocks.java:2006 -- a plain call, no multiplier). A
+	# block with no liquid consumer contributes no row. The
+	# row shape mirrors the power row, with is_power false:
+	# the shared fold sets shouldConsumePower=false when a
+	# non-power row reads <= 1e-7 (BuildingComp.java:1972,
+	# `if(cons != block.consPower && result <= 0.0000001f){`
+	# / `shouldConsumePower = false;`), so a nitrogen-starved
+	# tower stops drawing power too. The amount is PER FRAME,
+	# not per second: the def writes 3f/60f, i.e. 3 nitrogen
+	# per second (the driver passes the
+	# SOURCE_BUILD_TURRET_LIQUID_AMOUNT constant, 3.0 /
+	# 60.0). Single def -- build-tower only (Blocks.java:
+	# 1997-2006): no per-def amount split (unlike the
+	# Separator, N2252) and no absent-row def (unlike the
+	# LaunchPad, N2253), though the pure function still takes
+	# has_liquid_consumer so the row shape mirrors the power
+	# row. The second-pass removal (ConsumeLiquid.update,
+	# ConsumeLiquid.java:37-39, `build.liquids.remove(liquid, amount * build.edelta() * multiplier.get(build));`,
+	# only when `if(update && efficiency > 0){`,
+	# BuildingComp.java:1999-2003) is the driver's job, with
+	# the edelta from the FOLDED efficiency.
+	if not has_liquid_consumer:
+		return {"has_liquid_row": false, "row": {}}
+	var liquids: Dictionary = frame.get("liquids", {})
+	var liquid_amount: float = 0.0
+	if liquids.has("liquids") and liquid_id >= 0 and liquid_id < int(liquids["liquids"].size()):
+		liquid_amount = float(source_liquid_module_state.source_get_state(liquids, liquid_id).get("amount", 0.0))
+	var edelta: float = source_delta * time_scale
+	var ed: float = edelta * efficiency_scale
+	if ed <= 0.00000001:
+		return {"has_liquid_row": true, "row": {"result": 0.0, "is_power": false}}
+	var result: float = minf(liquid_amount / (amount * ed * multiplier), 1.0)
+	return {"has_liquid_row": true, "row": {"result": result, "is_power": false}}
 
 static func source_build_turret_update_tile_advance_state(frame: Dictionary, source_delta: float, time_scale: float) -> Dictionary:
 	# The updateTile advance part 1, sync + warmup
@@ -536,6 +605,7 @@ static func source_build_turret_tick_buildings_state(game: Object, seconds: floa
 	var blocks_by_id: Dictionary = {}
 	for registered_block in catalog.get_many("block"):
 		blocks_by_id[registered_block.id] = registered_block
+	var liquid_id_by_name: Dictionary = source_content_registry_runtime_state.source_liquid_catalog_state(catalog).get("liquid_id_by_name", {})
 	for sprite in source_placed_block_state.source_unique_buildings_state(game).get("buildings", []):
 		if not is_instance_valid(sprite) or not sprite is Sprite2D:
 			continue
@@ -550,6 +620,14 @@ static func source_build_turret_tick_buildings_state(game: Object, seconds: floa
 		var team_id: int = int(sprite.get_meta(source_block_geometry.SOURCE_BUILD_TEAM_META_KEY, source_block_geometry.SOURCE_TEAM_DERELICT_ID))
 		var rules_state: Variant = source_rules_state.source_game_rules_state(game.get("rules_state")).get("rules", {})
 		var wired: Dictionary = source_build_turret_tick_frame_state(frame, str(block.implementation), team_id, rules_state)
+		# The frame carries the Building.liquids LiquidModule
+		# (frame["liquids"]): the live store lives on the
+		# sprite meta (source_building_liquids, initialized
+		# at placement), so the driver syncs the reference
+		# into the frame each tick BEFORE the fold and the
+		# pure liquid row reads the nitrogen amount from it
+		# (the Fracker:327 precedent).
+		frame["liquids"] = sprite.get_meta(source_placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, {})
 		# The power consumer reads live since N2153 (the graph
 		# update stamps frame["power_status"] each tick, N2142):
 		# a build tower with a power consumer folds the pure power
@@ -557,7 +635,7 @@ static func source_build_turret_tick_buildings_state(game: Object, seconds: floa
 		# into the min efficiency like every other non-optional
 		# consumer, and the build-speed advance (BuildTurret.java:136)
 		# follows it. The power consumer counts toward
-		# hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a build tower does not take the early return. The tower's power draw is STATIC: `consumePower(3f);` (Blocks.java:2005) registers a plain ConsumePower, so the catalog consumePower 3.0 is present and the plain radar gate (block.properties.has("consumePower")) works -- no RepairTurret-style `or consumesPower` adaptation is needed. A build tower with no power consumer is untouched: the tick models no other consumers yet (the updateTile sync/warmup advance, N2243, and plan logic, N2244, are live, wired below; updateBuildLogic waits for its own slice), and BuildTurretBuild DOES override shouldConsume (BuildTurret.java:229-230, `return unit.plans().size > 0 && !isHealSuppressed();`) -- N2215 feeds the live gate to the machinery (the pure gate is source_build_turret_should_consume_state, fed the frame); the N2184 RED decision is resolved. The gate has NO enabled term (Java returns the bare plans + suppression check), so the pure gate does not read frame["enabled"] at all; the outer guard below already runs the machinery only when enabled. productionValid is the canonical true default (SourceBuildingAccessState.production_valid_state()).
+		# hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a build tower does not take the early return. The tower's power draw is STATIC: `consumePower(3f);` (Blocks.java:2005) registers a plain ConsumePower, so the catalog consumePower 3.0 is present and the plain radar gate (block.properties.has("consumePower")) works -- no RepairTurret-style `or consumesPower` adaptation is needed. A build tower with no power consumer is untouched: the tick folds the liquid row too (N2251, the nitrogen row next to the power row; the updateTile sync/warmup advance, N2243, and plan logic, N2244, are live, wired below; updateBuildLogic waits for its own slice), and BuildTurretBuild DOES override shouldConsume (BuildTurret.java:229-230, `return unit.plans().size > 0 && !isHealSuppressed();`) -- N2215 feeds the live gate to the machinery (the pure gate is source_build_turret_should_consume_state, fed the frame); the N2184 RED decision is resolved. The gate has NO enabled term (Java returns the bare plans + suppression check), so the pure gate does not read frame["enabled"] at all; the outer guard below already runs the machinery only when enabled. productionValid is the canonical true default (SourceBuildingAccessState.production_valid_state()).
 		var has_power_consumer: bool = bool(block.properties.has("consumePower"))
 		if has_power_consumer and bool(frame.get("enabled", true)) and not bool(frame.get("cheating", false)):
 			var gate: Dictionary = source_build_turret_should_consume_state(frame)
@@ -570,8 +648,52 @@ static func source_build_turret_tick_buildings_state(game: Object, seconds: floa
 			var required_results: Array = []
 			if bool(power_row.get("has_power_row", false)):
 				required_results.append(power_row.get("row", {}))
+			# The required liquid consumer (N2251): the build
+			# tower consumes nitrogen 3f/60f (Blocks.java:2006),
+			# so its ConsumeLiquid.efficiency row folds next to
+			# the power row. source_delta is Time.delta in
+			# ticks (game_source_delta, seconds * 60, arc
+			# Time.java:26); timeScale reads live from the
+			# sprite meta, default 1.0 (BuildingComp.java:98).
+			# The nitrogen id resolves from the liquid catalog
+			# with the def constant "nitrogen" (the Fracker
+			# precedent); has_liquid_consumer reads the catalog
+			# consumeLiquid builder, like the power gate reads
+			# consumePower. The multiplier takes the 1f default
+			# (Consume.java:18) -- the def sets none.
+			var source_delta: float = source_placed_block_state.game_source_delta(game, seconds)
+			var time_scale: float = source_placed_block_state.time_scale(sprite, source_placed_block_state.game_default_time_scale(game))
+			var nitrogen_id: int = int(liquid_id_by_name.get(SOURCE_BUILD_TURRET_LIQUID, -1))
+			var has_liquid_consumer: bool = bool(block.properties.has("consumeLiquid"))
+			var liquid_row: Dictionary = source_build_turret_liquid_consumer_row_state(frame, has_liquid_consumer, nitrogen_id, SOURCE_BUILD_TURRET_LIQUID_AMOUNT, source_delta, time_scale, float(frame.get("efficiency_scale", 1.0)))
+			if bool(liquid_row.get("has_liquid_row", false)):
+				required_results.append(liquid_row.get("row", {}))
 			var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(true, bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, [], [], frame)
 			source_building_efficiency_state.apply_update_consumption_state(consumption, frame)
+			# Second pass (N2251): ConsumeLiquid.update
+			# removes amount * edelta * multiplier
+			# (ConsumeLiquid.java:37-39), only when `if(update && efficiency > 0){`
+			# (BuildingComp.java:1999-2003) -- and edelta here
+			# is the FOLDED efficiency times delta, not the
+			# first-pass assumed 1f. The AdjacentFactory
+			# updates-array precedent does not fit: it runs
+			# RuntimeConsumer actors with an update() method
+			# through apply_update_consumption_state, and this
+			# driver has no actors -- so the removal is direct,
+			# after the fold stamps the folded efficiency on
+			# the frame. source_remove_state caps at the held
+			# amount (LiquidModule.java:126-127, `//cap to
+			# prevent negative removal`), so a starved tower
+			# never goes negative.
+			if bool(liquid_row.get("has_liquid_row", false)) and should_consume and valid and float(frame.get("efficiency", 0.0)) > 0.0:
+				var folded_edelta: float = float(frame.get("efficiency", 0.0)) * source_delta * time_scale
+				var liquids_store: Dictionary = frame.get("liquids", {})
+				if nitrogen_id >= 0 and liquids_store.has("liquids") and nitrogen_id < int(liquids_store["liquids"].size()):
+					var cache_sums: Array = []
+					if liquids_store.get("flow") != null:
+						cache_sums.resize(int(liquids_store["liquids"].size()))
+						cache_sums.fill(0.0)
+					source_liquid_module_state.source_remove_state(liquids_store, nitrogen_id, SOURCE_BUILD_TURRET_LIQUID_AMOUNT * folded_edelta, cache_sums)
 		# N2243: the updateTile sync/warmup advance runs after
 		# consumption, like Java's Building.update()
 		# (BuildingComp.java:2274 updateConsumption(), then the
