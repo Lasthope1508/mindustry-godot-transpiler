@@ -1479,6 +1479,46 @@
       ],
       "runtime_proof": "/root/C07SolidPumpDumpLiquidProof"
     },
+    "N2289": {
+      "canonical_ledger": "source_slice_ledger.N2289",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.updateTile()",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_timer_dump_state",
+      "source_symbols": [
+        "source_beam_drill_timer_dump_state_result.fired",
+        "source_beam_drill_timer_dump_state_result.elapsed_after",
+        "source_beam_drill_timer_dump_state_result.dumped",
+        "source_beam_drill_timer_dump_state_result.items_after",
+        "source_beam_drill_timer_dump_state_result.cursor_after"
+      ],
+      "tests": [
+        "test_c07_beam_drill_timer_dump_registration",
+        "test_all_c07_beam_drill_timer_dump_input_evidence_is_exact",
+        "test_beam_drill_timer_dump_state",
+        "test_reference_graph_and_actual_c07_beam_drill_timer_dump"
+      ],
+      "runtime_proof": "/root/C07BeamDrillTimerDumpProof"
+    },
+    "N2292": {
+      "canonical_ledger": "source_slice_ledger.N2292",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+      "java_method": "SolidPumpBuild.onProximityUpdate()",
+      "godot_owner": "SourceSolidPumpBuildState.source_solid_pump_proximity_fraction_state",
+      "source_symbols": [
+        "source_solid_pump_proximity_fraction_state_result.valid_tiles",
+        "source_solid_pump_proximity_fraction_state_result.boost",
+        "source_solid_pump_proximity_fraction_state_result.fraction"
+      ],
+      "tests": [
+        "test_c07_solid_pump_fraction_fill_registration",
+        "test_all_c07_solid_pump_fraction_fill_input_evidence_is_exact",
+        "test_solid_pump_proximity_fraction_state",
+        "test_reference_graph_and_actual_c07_solid_pump_fraction_fill"
+      ],
+      "runtime_proof": "/root/C07SolidPumpFractionFillProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",

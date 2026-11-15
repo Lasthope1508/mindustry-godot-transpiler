@@ -186,6 +186,71 @@
         }
       }
     },
+    "source_beam_drill_timer_dump_state_input": {
+      "canonical_schema": "source_state_schema.source_beam_drill_timer_dump_state_input",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "if(timer(timerDump, dumpTime / timeScale)){",
+          "rule": "The building frame carrying the items store, the timer clock (timer_dump_elapsed, the frame-local Interval-equivalent of the global Time.time arc Interval.get compares against, Interval.java:20-26) and the dump cursor (cdump, BuildingComp.java:68, default 0); the timer check runs after the drop loop in the same tick (BeamDrill.java:264-266).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_timer_dump_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/util/Time.java",
+          "java_expr": "timeRaw += delta;",
+          "rule": "Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26) -- the per-tick growth of the frame-local clock, mirroring the per-update growth of the global Time.time (arc Time.java:69-80); accumulated unconditionally, like Time.time.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_timer_dump_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live timeScale read from the sprite meta (SourcePlacedBlockState.time_scale), default 1.0 (BuildingComp.java:98): the threshold is dumpTime / time_scale (BeamDrill.java:264) -- unlike the N2280 literal-20 timer, this Java call DOES divide by timeScale, so the port threshold is Java-exact at every time_scale; a non-positive time_scale is the infinite-time branch (TimerComp.java:11).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_timer_dump_state"
+          ]
+        },
+        "content_item_ids": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "var allItems = content.items();",
+          "rule": "The content items in catalog order (BuildingComp.java:1076): dump(null) scans them in order for each neighbour, handing over the first held item an accepting neighbour takes (BuildingComp.java:1084-1091). The tick reads them through SourceContentRegistryRuntimeState.source_item_catalog_state (the payload-loader / payload-unloader precedent).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_timer_dump_state"
+          ]
+        },
+        "neighbour_accepts_item": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(other.acceptItem(self(), item) && canDump(other, item)){",
+          "rule": "The per-neighbour acceptItem answers in proximity order (BuildingComp.java:1088), as frame inputs (default [] -- no neighbours, the Java proximity.size == 0 outcome); the live proximity scan waits for its own slice.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_timer_dump_state"
+          ]
+        },
+        "neighbour_can_dump": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public boolean canDump(Building to, Item item){",
+          "rule": "The per-neighbour canDump answers in proximity order (BuildingComp.java:1088, 1124-1126 -- the default returns true); as frame inputs alongside the acceptItem answers.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_timer_dump_state"
+          ]
+        }
+      }
+    },
     "source_beam_drill_update_tile_advance_state_input": {
       "canonical_schema": "source_state_schema.source_beam_drill_update_tile_advance_state_input",
       "keys": {
@@ -2752,6 +2817,81 @@
           "rule": "Whether the block has a power consumer (Block.java:1449): the driver gate -- the row joins the first pass only when the block consumes power, and the power consumer counts toward hasConsumers.",
           "used_by": [
             "SourceSolidPumpBuildState.source_solid_pump_power_status_row_state"
+          ]
+        }
+      }
+    },
+    "source_solid_pump_proximity_fraction_state_input": {
+      "canonical_schema": "source_state_schema.source_solid_pump_proximity_fraction_state_input",
+      "keys": {
+        "linked_tiles": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "for(Tile other : tile.getLinkedTiles(tempTiles)){",
+          "rule": "The linked tiles of the size x size footprint in tile order (SolidPump.java:155), as frame inputs (default [] -- no tiles, the Java empty-proximity outcome): each entry is a Dict {can_pump, attribute_value, is_deep} carrying the canPump answer (SolidPump.java:80-83), the floor attribute value for the block attribute (Block.java:575-582), and the deep-floor flag (other.floor().isDeep()); the live tile scan waits for its own slice.",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_proximity_fraction_state"
+          ]
+        },
+        "block_size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "size = 2;",
+          "rule": "The block size def constant 2 (Blocks.java:2924) -- both sums divide by size * size (SolidPump.java:153, 157); the catalog carries the size but the driver passes the def constant like the other pump def constants (the N2190 fogRadius / N2199 transportTime def-constant precedent).",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_proximity_fraction_state"
+          ]
+        },
+        "base_efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "public float baseEfficiency = 1f;",
+          "rule": "The base efficiency class constant 1f (SolidPump.java:26): each pumpable linked tile contributes baseEfficiency / (size * size) to validTiles (SolidPump.java:157).",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_proximity_fraction_state"
+          ]
+        },
+        "attribute_env": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "float fraction = Math.max(validTiles + boost + (attribute == null ? 0 : attribute.env()), 0);",
+          "rule": "The attribute env value (Attribute.java:31-34, Vars.state.envAttrs.get(this), 0 when Vars.state is null), as the N2220 frame input (default 0.0); the port does not model envAttrs yet, so the live env read waits for its own slice. The fraction adds it only when the attribute is present (SolidPump.java:124).",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_proximity_fraction_state"
+          ]
+        },
+        "floating": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public boolean floating = false;",
+          "rule": "The Block floating flag (Block.java:212, class default false; the water-extractor def does not override it): a floating block counts deep-floor attributes (Block.java:580).",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_proximity_fraction_state"
+          ]
+        },
+        "placeable_liquid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public boolean placeableLiquid = false;",
+          "rule": "The Block placeableLiquid flag (Block.java:152, class default false; the water-extractor def does not override it): a placeable-liquid block counts deep-floor attributes (Block.java:580).",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_proximity_fraction_state"
+          ]
+        },
+        "has_attribute": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "if(attr == null) return 0;",
+          "rule": "Whether the block has an attribute at all (SolidPump.java:28, public @Nullable Attribute attribute): when null, sumAttribute returns 0 (Block.java:576) so boost is 0, and the fraction adds no env (SolidPump.java:124). True for the water-extractor def (attribute = Attribute.water, Blocks.java:2927).",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_proximity_fraction_state"
           ]
         }
       }

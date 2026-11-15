@@ -242026,7 +242026,7 @@
           "status": "source-backed",
           "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
           "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
-          "rule": "The live building timeScale (BuildingComp.java:98, default 1f), read from the sprite meta by the tick; the port threshold is duration / time_scale (the N2269 frame-local precedent), and a non-positive time_scale is the infinite-time branch (TimerComp.java:11). NOTE: Java passes a literal 20 here with no timeScale division (RepairTurret.java:214), so the division is a documented port deviation, Java-exact at time_scale 1f.",
+          "rule": "The live building timeScale (BuildingComp.java:98, default 1f), read from the sprite meta by the tick; the threshold is the literal duration (Java passes a literal 20 with no timeScale division, RepairTurret.java:214 -- the N2290 fix of the N2280 20/time_scale deviation), and a non-positive time_scale is a defensive guard (fired false; Java timeScale is always positive in practice, BuildingComp.java:461-478/2265-2266, so the guard is unreachable in Java-exact play).",
           "used_by": [
             "SourceRepairTurretBuildState.source_repair_turret_timer_target_state"
           ]
@@ -242055,7 +242055,7 @@
           "status": "source-backed",
           "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
           "java_expr": "if(Float.isInfinite(time)) return false;",
-          "rule": "Whether the timer fires this tick (TimerComp.java:10-13): false when the threshold is infinite (time_scale <= 0), else elapsed >= duration / time_scale -- the Interval.check comparison (arc Interval.java:28-30) against the frame-local clock.",
+          "rule": "Whether the timer fires this tick (TimerComp.java:10-13): false when the threshold is infinite (time_scale <= 0, the defensive guard), else elapsed >= duration (the literal duration -- the Interval.check comparison, arc Interval.java:28-30, against the frame-local clock; N2290 fix of the N2280 20/time_scale deviation).",
           "used_by": [
             "SourceRepairTurretBuildState.source_repair_turret_timer_target_state"
           ]
@@ -242919,6 +242919,972 @@
       },
       "runtime_proof": "/root/C07LiquidBridgeDoDumpProof",
       "rule": "Source-backed LiquidBridge doDump advance from LiquidBridge.java / ItemBridge.java / BuildingComp.java / Blocks.java / LiquidModule.java."
+    },
+    "source_item_bridge_do_dump_state_input": {
+      "status": "active",
+      "owner": "SourceItemBridgeBuildState.source_item_bridge_do_dump_state",
+      "source_slice": "N2288",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "transient int cdump;",
+          "rule": "The building frame carrying the items store, the dump accumulator (dumpAccum, BuildingComp.java:99, default 0f) and the dump cursor (cdump, BuildingComp.java:68, default 0); doDump runs only in the unlinked branch (ItemBridge.java:335-337), so the pure reads the frame as-is and returns it untouched when linked.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_do_dump_state"
+          ]
+        },
+        "had_valid_link": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "hadValidLink = linkValid(tile, other);",
+          "rule": "The freshly recomputed link validity from the N2197 driver (ItemBridge.java:332-333): doDump runs ONLY when it is false (ItemBridge.java:335-337); the linked branch never dumps, so the pure returns the store untouched when it holds.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_do_dump_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26): delta() = Time.delta * timeScale (BuildingComp.java:1922-1924) is what dumpAccumulate adds to dumpAccum -- NOT edelta(), so the dump cadence ignores efficiency.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_do_dump_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live timeScale read from the sprite meta (SourcePlacedBlockState.time_scale), default 1.0 (BuildingComp.java:98): delta() = Time.delta * timeScale (BuildingComp.java:1922-1924).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_do_dump_state"
+          ]
+        },
+        "content_item_ids": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "var allItems = content.items();",
+          "rule": "The content items in catalog order (BuildingComp.java:1076): dump(null) scans them in order for each neighbour, handing over the first held item an accepting neighbour takes (BuildingComp.java:1084-1091). The tick reads them through SourceContentRegistryRuntimeState.source_item_catalog_state (the N2225 transport precedent).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_do_dump_state"
+          ]
+        },
+        "neighbour_accepts_item": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(other.acceptItem(self(), item) && canDump(other, item)){",
+          "rule": "The per-neighbour acceptItem answers in proximity order (BuildingComp.java:1088), as frame inputs (default [] -- no neighbours, the Java proximity.size == 0 outcome); the live proximity scan waits for its own slice.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_do_dump_state"
+          ]
+        },
+        "neighbour_can_dump": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public boolean canDump(Building to, Item item){",
+          "rule": "The per-neighbour canDump answers in proximity order (BuildingComp.java:1088, 1124-1126 -- the default returns true); as frame inputs alongside the acceptItem answers.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_do_dump_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ItemBridgeDoDumpProof",
+      "rule": "Source-backed ItemBridge doDump advance from ItemBridge.java / BuildingComp.java."
+    },
+    "source_item_bridge_do_dump_state_result": {
+      "status": "active",
+      "owner": "SourceItemBridgeBuildState.source_item_bridge_do_dump_state",
+      "source_slice": "N2288",
+      "keys": {
+        "dump_accum_after": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "dumpAccum += delta();",
+          "rule": "The dump accumulator after the tick (BuildingComp.java:1055-1058): + delta() once per doDump call, - 1f per while iteration -- unconditionally, even when the dump failed or the store is empty; untouched when linked (doDump never runs).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_do_dump_state"
+          ]
+        },
+        "dumped": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "res |= dump(item);",
+          "rule": "Whether any dump succeeded this tick (BuildingComp.java:1054, 1057): the OR of every dump() result across the while iterations.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_do_dump_state"
+          ]
+        },
+        "dump_attempts": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "while(dumpAccum >= 1f){",
+          "rule": "How many dump() calls fired this tick (BuildingComp.java:1056-1058): one per whole unit of (dumpAccum + delta), computed by the shared dump_accumulate_state step; 0 below the threshold, more than 1 when delta is large (\"allow dumping multiple times per frame\", ItemBridge.java:351).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_do_dump_state"
+          ]
+        },
+        "items_after": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "items.remove(item, 1);",
+          "rule": "The items after the tick (BuildingComp.java:1090): 1 removed per successful dump, in content order per neighbour; unchanged when nothing dumps, the store is empty, or the bridge is linked.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_do_dump_state"
+          ]
+        },
+        "cursor_after": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "cdump = ((cdump + 1) % prox);",
+          "rule": "The dump cursor after the tick (BuildingComp.java:1116-1120): advanced once per neighbour checked (incrementDump, guarded on prox != 0), wrapping modulo the proximity size; untouched when the dump guard fails or the bridge is linked.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_do_dump_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ItemBridgeDoDumpProof",
+      "rule": "Source-backed ItemBridge doDump advance from ItemBridge.java / BuildingComp.java."
+    },
+    "source_beam_drill_timer_dump_state_input": {
+      "status": "active",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_timer_dump_state",
+      "source_slice": "N2289",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "if(timer(timerDump, dumpTime / timeScale)){",
+          "rule": "The building frame carrying the items store, the timer clock (timer_dump_elapsed, the frame-local Interval-equivalent of the global Time.time arc Interval.get compares against, Interval.java:20-26) and the dump cursor (cdump, BuildingComp.java:68, default 0); the timer check runs after the drop loop in the same tick (BeamDrill.java:264-266).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_timer_dump_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/util/Time.java",
+          "java_expr": "timeRaw += delta;",
+          "rule": "Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26) -- the per-tick growth of the frame-local clock, mirroring the per-update growth of the global Time.time (arc Time.java:69-80); accumulated unconditionally, like Time.time.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_timer_dump_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live timeScale read from the sprite meta (SourcePlacedBlockState.time_scale), default 1.0 (BuildingComp.java:98): the threshold is dumpTime / time_scale (BeamDrill.java:264) -- unlike the N2280 literal-20 timer, this Java call DOES divide by timeScale, so the port threshold is Java-exact at every time_scale; a non-positive time_scale is the infinite-time branch (TimerComp.java:11).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_timer_dump_state"
+          ]
+        },
+        "content_item_ids": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "var allItems = content.items();",
+          "rule": "The content items in catalog order (BuildingComp.java:1076): dump(null) scans them in order for each neighbour, handing over the first held item an accepting neighbour takes (BuildingComp.java:1084-1091). The tick reads them through SourceContentRegistryRuntimeState.source_item_catalog_state (the payload-loader / payload-unloader precedent).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_timer_dump_state"
+          ]
+        },
+        "neighbour_accepts_item": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(other.acceptItem(self(), item) && canDump(other, item)){",
+          "rule": "The per-neighbour acceptItem answers in proximity order (BuildingComp.java:1088), as frame inputs (default [] -- no neighbours, the Java proximity.size == 0 outcome); the live proximity scan waits for its own slice.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_timer_dump_state"
+          ]
+        },
+        "neighbour_can_dump": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public boolean canDump(Building to, Item item){",
+          "rule": "The per-neighbour canDump answers in proximity order (BuildingComp.java:1088, 1124-1126 -- the default returns true); as frame inputs alongside the acceptItem answers.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_timer_dump_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BeamDrillTimerDumpProof",
+      "rule": "Source-backed BeamDrill timerDump dump rows from BeamDrill.java / Block.java / TimerComp.java / BuildingComp.java / arc Interval.java / arc Time.java."
+    },
+    "source_beam_drill_timer_dump_state_result": {
+      "status": "active",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_timer_dump_state",
+      "source_slice": "N2289",
+      "keys": {
+        "fired": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+          "java_expr": "if(Float.isInfinite(time)) return false;",
+          "rule": "Whether the timer fires this tick (TimerComp.java:10-13): false when the threshold is infinite (time_scale <= 0), else elapsed >= dumpTime / time_scale -- the Interval.check comparison (arc Interval.java:28-30) against the frame-local clock.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_timer_dump_state"
+          ]
+        },
+        "elapsed_after": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+          "java_expr": "return timer.get(index, time);",
+          "rule": "The elapsed clock after this tick: 0.0 when fired (Interval.get RESETS times[id] = Time.time on fire, arc Interval.java:23-25 -- a reset, not a subtraction like the Fracker accumulator), otherwise the accumulated elapsed.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_timer_dump_state"
+          ]
+        },
+        "dumped": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "other.handleItem(self(), item);",
+          "rule": "Whether the dump handed an item to a neighbour this tick (BuildingComp.java:1089): true only when the timer fired and a neighbour accepted an item (acceptItem && canDump); false when the timer did not fire, the store was empty, or no neighbour accepted.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_timer_dump_state"
+          ]
+        },
+        "items_after": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "items.remove(item, 1);",
+          "rule": "The items after the tick (BuildingComp.java:1090): 1 removed on a successful dump, in content order per neighbour; unchanged when nothing dumps, the timer did not fire, or the store is empty.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_timer_dump_state"
+          ]
+        },
+        "cursor_after": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "cdump = ((cdump + 1) % prox);",
+          "rule": "The dump cursor after the tick (BuildingComp.java:1116-1120): advanced once per neighbour checked (incrementDump, guarded on prox != 0), wrapping modulo the proximity size; the tick persists it back to the frame.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_timer_dump_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BeamDrillTimerDumpProof",
+      "rule": "Source-backed BeamDrill timerDump dump rows from BeamDrill.java / Block.java / TimerComp.java / BuildingComp.java / arc Interval.java / arc Time.java."
+    },
+    "source_payload_deconstructor_handle_payload_state_input": {
+      "status": "active",
+      "owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_handle_payload_state",
+      "source_slice": "N2291",
+      "keys": {
+        "incoming_payload": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "public void handlePayload(Building source, Payload payload){",
+          "rule": "The pushed payload (PayloadBlock.java:121, handlePayload(Building source, Payload payload)): the BuildPayload / UnitPayload dict in the N2233 contract; null means no push this tick and the driver applies nothing.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_handle_payload_state"
+          ]
+        },
+        "source_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "this.payVector.set(source).sub(this).clamp(-size * tilesize / 2f, -size * tilesize / 2f, size * tilesize / 2f, size * tilesize / 2f);",
+          "rule": "The source building world x (PayloadBlock.java:123): Vec2.set(source) reads the source position; the driver reads it from the frame incoming_source_pos input (no live source pushes it yet).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_handle_payload_state"
+          ]
+        },
+        "source_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "this.payVector.set(source).sub(this).clamp(-size * tilesize / 2f, -size * tilesize / 2f, size * tilesize / 2f, size * tilesize / 2f);",
+          "rule": "The source building world y (PayloadBlock.java:123): Vec2.set(source) reads the source position; the driver reads it from the frame incoming_source_pos input.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_handle_payload_state"
+          ]
+        },
+        "self_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "this.payVector.set(source).sub(this).clamp(-size * tilesize / 2f, -size * tilesize / 2f, size * tilesize / 2f, size * tilesize / 2f);",
+          "rule": "The deconstructor world x (PayloadBlock.java:123): .sub(this) subtracts the deconstructor position; the driver reads it from the frame world_pos input (the port has no live world-position model for placed buildings).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_handle_payload_state"
+          ]
+        },
+        "self_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "this.payVector.set(source).sub(this).clamp(-size * tilesize / 2f, -size * tilesize / 2f, size * tilesize / 2f, size * tilesize / 2f);",
+          "rule": "The deconstructor world y (PayloadBlock.java:123): .sub(this) subtracts the deconstructor position; the driver reads it from the frame world_pos input.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_handle_payload_state"
+          ]
+        },
+        "payload_rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "this.payRotation = payload.rotation();",
+          "rule": "The payload rotation (PayloadBlock.java:124): payload.rotation(), default 0f (Payload.java:55-57); the driver reads the incoming dict rotation key (default 0.0).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_handle_payload_state"
+          ]
+        },
+        "block_size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "size = 5;",
+          "rule": "The block size (deconstructor size 5, Blocks.java:6654; small-deconstructor size 3, Blocks.java:6645): the clamp half-extent is size*tilesize/2, so +/-20.0 for size 5 and +/-12.0 for size 3.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_handle_payload_state"
+          ]
+        },
+        "tilesize": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/Vars.java",
+          "java_expr": "public static final int tilesize = 8;",
+          "rule": "The tile size in pixels (Vars.java:135): the driver passes SourceWorldDefaults.TILESIZE.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_handle_payload_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadDeconstructorDeconstructingFillProof",
+      "rule": "Source-backed PayloadDeconstructor live deconstructing fill from PayloadDeconstructor.java / PayloadBlock.java / Payload.java / Blocks.java / Vars.java / BuildingComp.java."
+    },
+    "source_payload_deconstructor_handle_payload_state_result": {
+      "status": "active",
+      "owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_handle_payload_state",
+      "source_slice": "N2291",
+      "keys": {
+        "payload": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "this.payload = (T)payload;",
+          "rule": "The held payload after the handle (PayloadBlock.java:122): the incoming payload dict, set unconditionally by the pure function (the null guard lives in the driver, from acceptPayload returning this.payload == null, PayloadBlock.java:117).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_handle_payload_state"
+          ]
+        },
+        "pay_vector": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "this.payVector.set(source).sub(this).clamp(-size * tilesize / 2f, -size * tilesize / 2f, size * tilesize / 2f, size * tilesize / 2f);",
+          "rule": "The payVector {x, y} after the handle (PayloadBlock.java:123): the source offset clamped per axis to +/-size*tilesize/2 (Vec2.clamp(minx, miny, maxx, maxy), arc Vec2.java:318-322); +/-20.0 for size 5, +/-12.0 for size 3. The frame keeps Vector2 (the N2233 proof pins it), so the tick converts at the boundary.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_handle_payload_state"
+          ]
+        },
+        "pay_rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "this.payRotation = payload.rotation();",
+          "rule": "The payRotation after the handle (PayloadBlock.java:124): the payload rotation; the N2233 advance moves it toward 90f on later ticks.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_handle_payload_state"
+          ]
+        },
+        "accum": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "accum = null;",
+          "rule": "The accumulation buffer after the handle (PayloadDeconstructor.java:100, the Deconstructor override): always null -- a fresh intake clears the buffer; the N2233 advance rebuilds it from the requirements when the handoff lands.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_handle_payload_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadDeconstructorDeconstructingFillProof",
+      "rule": "Source-backed PayloadDeconstructor live deconstructing fill from PayloadDeconstructor.java / PayloadBlock.java / Payload.java / Blocks.java / Vars.java / BuildingComp.java."
+    },
+    "source_payload_deconstructor_move_in_payload_state_input": {
+      "status": "active",
+      "owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_move_in_payload_state",
+      "source_slice": "N2291",
+      "keys": {
+        "payload": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "if(payload == null) return false;",
+          "rule": "The held payload (PayloadBlock.java:187): the payload dict, or null when the deconstructor holds nothing (moveInPayload then returns false before any movement, so the payVector is untouched).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_move_in_payload_state"
+          ]
+        },
+        "pay_vector": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "payVector.approach(Vec2.ZERO, payloadSpeed * delta());",
+          "rule": "The payload offset {x, y} before the move-in (PayloadBlock.java:194): approached toward zero at payloadSpeed * delta(); the frame keeps Vector2, so the advance converts at the boundary.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_move_in_payload_state"
+          ]
+        },
+        "accum": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "public @Nullable float[] accum;",
+          "rule": "The accumulation buffer before the handoff (PayloadDeconstructor.java:53): passed through unchanged when the payload has not arrived; rebuilt as a zero array the length of the payload requirements on arrival.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_move_in_payload_state"
+          ]
+        },
+        "progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "public float progress;",
+          "rule": "The deconstruction progress before the handoff (PayloadDeconstructor.java:54): passed through unchanged when the payload has not arrived; reset to 0f on arrival (in the advance the reset branch already zeroed it, since deconstructing is null there).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_move_in_payload_state"
+          ]
+        },
+        "delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "The scaled delta (BuildingComp.java:1922-1924, delta() = Time.delta * timeScale): the move-in approaches at payloadSpeed * delta(), NOT edelta() (the N2233 payRotation moveToward uses edelta(); the move-in uses delta()).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_move_in_payload_state"
+          ]
+        },
+        "payload_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "payloadSpeed = 1f;",
+          "rule": "The payload speed (PayloadDeconstructor.java:31, the deconstructor override 1f; the PayloadBlock class default is 0.7f, PayloadBlock.java:18): a parameter so the proof can pin both.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_move_in_payload_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadDeconstructorDeconstructingFillProof",
+      "rule": "Source-backed PayloadDeconstructor live deconstructing fill from PayloadDeconstructor.java / PayloadBlock.java / Payload.java / Blocks.java / Vars.java / BuildingComp.java."
+    },
+    "source_payload_deconstructor_move_in_payload_state_result": {
+      "status": "active",
+      "owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_move_in_payload_state",
+      "source_slice": "N2291",
+      "keys": {
+        "arrived": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "return hasArrived();",
+          "rule": "Whether the payload has arrived (PayloadBlock.java:196, 242-244): payVector.isZero(0.01f), the SQUARED length against 0.01 (Vec2.java:679-681), so a vector of length 0.09 has already arrived.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_move_in_payload_state"
+          ]
+        },
+        "pay_vector_after": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "payVector.approach(Vec2.ZERO, payloadSpeed * delta());",
+          "rule": "The payload offset {x, y} after the move-in (PayloadBlock.java:194): approached toward zero at payloadSpeed * delta(); unchanged when the payload is null (the early return, PayloadBlock.java:187).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_move_in_payload_state"
+          ]
+        },
+        "deconstructing": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "deconstructing = payload;",
+          "rule": "The deconstructing payload after the handoff (PayloadDeconstructor.java:199): the held payload when it arrived, else null.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_move_in_payload_state"
+          ]
+        },
+        "payload_after": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "payload = null;",
+          "rule": "The held payload after the handoff (PayloadDeconstructor.java:200): null when the payload arrived and handed off, else the payload unchanged.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_move_in_payload_state"
+          ]
+        },
+        "progress_after": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "progress = 0f;",
+          "rule": "The deconstruction progress after the handoff (PayloadDeconstructor.java:201): 0f when the payload arrived, else the progress unchanged.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_move_in_payload_state"
+          ]
+        },
+        "accum_after": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "accum = new float[payload.requirements().length];",
+          "rule": "The accumulation buffer after the handoff (PayloadDeconstructor.java:198): a zero array the length of the payload requirements when the payload arrived, else the buffer unchanged.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_move_in_payload_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadDeconstructorDeconstructingFillProof",
+      "rule": "Source-backed PayloadDeconstructor live deconstructing fill from PayloadDeconstructor.java / PayloadBlock.java / Payload.java / Blocks.java / Vars.java / BuildingComp.java."
+    },
+    "source_solid_pump_proximity_fraction_state_input": {
+      "status": "active",
+      "owner": "SourceSolidPumpBuildState.source_solid_pump_proximity_fraction_state",
+      "source_slice": "N2292",
+      "keys": {
+        "linked_tiles": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "for(Tile other : tile.getLinkedTiles(tempTiles)){",
+          "rule": "The linked tiles of the size x size footprint in tile order (SolidPump.java:155), as frame inputs (default [] -- no tiles, the Java empty-proximity outcome): each entry is a Dict {can_pump, attribute_value, is_deep} carrying the canPump answer (SolidPump.java:80-83), the floor attribute value for the block attribute (Block.java:575-582), and the deep-floor flag (other.floor().isDeep()); the live tile scan waits for its own slice.",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_proximity_fraction_state"
+          ]
+        },
+        "block_size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "size = 2;",
+          "rule": "The block size def constant 2 (Blocks.java:2924) -- both sums divide by size * size (SolidPump.java:153, 157); the catalog carries the size but the driver passes the def constant like the other pump def constants (the N2190 fogRadius / N2199 transportTime def-constant precedent).",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_proximity_fraction_state"
+          ]
+        },
+        "base_efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "public float baseEfficiency = 1f;",
+          "rule": "The base efficiency class constant 1f (SolidPump.java:26): each pumpable linked tile contributes baseEfficiency / (size * size) to validTiles (SolidPump.java:157).",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_proximity_fraction_state"
+          ]
+        },
+        "attribute_env": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "float fraction = Math.max(validTiles + boost + (attribute == null ? 0 : attribute.env()), 0);",
+          "rule": "The attribute env value (Attribute.java:31-34, Vars.state.envAttrs.get(this), 0 when Vars.state is null), as the N2220 frame input (default 0.0); the port does not model envAttrs yet, so the live env read waits for its own slice. The fraction adds it only when the attribute is present (SolidPump.java:124).",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_proximity_fraction_state"
+          ]
+        },
+        "floating": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public boolean floating = false;",
+          "rule": "The Block floating flag (Block.java:212, class default false; the water-extractor def does not override it): a floating block counts deep-floor attributes (Block.java:580).",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_proximity_fraction_state"
+          ]
+        },
+        "placeable_liquid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public boolean placeableLiquid = false;",
+          "rule": "The Block placeableLiquid flag (Block.java:152, class default false; the water-extractor def does not override it): a placeable-liquid block counts deep-floor attributes (Block.java:580).",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_proximity_fraction_state"
+          ]
+        },
+        "has_attribute": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "if(attr == null) return 0;",
+          "rule": "Whether the block has an attribute at all (SolidPump.java:28, public @Nullable Attribute attribute): when null, sumAttribute returns 0 (Block.java:576) so boost is 0, and the fraction adds no env (SolidPump.java:124). True for the water-extractor def (attribute = Attribute.water, Blocks.java:2927).",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_proximity_fraction_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SolidPumpFractionFillProof",
+      "rule": "Source-backed SolidPump live fraction fill rows from SolidPump.java / Block.java / Attribute.java."
+    },
+    "source_solid_pump_proximity_fraction_state_result": {
+      "status": "active",
+      "owner": "SourceSolidPumpBuildState.source_solid_pump_proximity_fraction_state",
+      "source_slice": "N2292",
+      "keys": {
+        "valid_tiles": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "validTiles += baseEfficiency / (size * size);",
+          "rule": "The valid tiles after the fill (SolidPump.java:154-158): reset to 0f, then baseEfficiency / (size * size) per pumpable linked tile (canPump, SolidPump.java:80-83); 0 when no linked tile is pumpable.",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_proximity_fraction_state"
+          ]
+        },
+        "boost": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "boost = sumAttribute(attribute, tile.x, tile.y) / size / size;",
+          "rule": "The boost after the fill (SolidPump.java:153): the sum of the floor attribute values over the linked tiles (Block.java:575-582, 0 for deep floors when !floating && !placeableLiquid) divided by size * size; 0 when the attribute is null.",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_proximity_fraction_state"
+          ]
+        },
+        "fraction": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "float fraction = Math.max(validTiles + boost + (attribute == null ? 0 : attribute.env()), 0);",
+          "rule": "The fraction after the fill (SolidPump.java:124): max(validTiles + boost + env, 0), clamped at zero; the N2220 advance recomputes the same value from the stamped frame keys, so this key is a pure result only.",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_proximity_fraction_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SolidPumpFractionFillProof",
+      "rule": "Source-backed SolidPump live fraction fill rows from SolidPump.java / Block.java / Attribute.java."
+    },
+    "source_payload_unloader_dump_state_input": {
+      "status": "active",
+      "owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_state",
+      "source_slice": "N2293",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+          "java_expr": "dumpLiquid(liquids.current());",
+          "rule": "The building frame carrying the liquids module (the Building.liquids LiquidModule state dict), the items dict (the Building.items ItemModule, {name: int}), the dump cursor (cdump, BuildingComp.java:68, default 0) and the dump accumulator (dumpAccum, BuildingComp.java:99, default 0f). The dump runs unconditionally at the end of updateTile (PayloadUnloader.java:105-108), so it reads no efficiency and no payload gate.",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26), never raw seconds; multiplied by time_scale to form delta() (BuildingComp.java:1922-1924), which each dumpAccumulate() call adds to dumpAccum (BuildingComp.java:1055).",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The Building timeScale (BuildingComp.java:98, default 1f), read live from the sprite meta by the driver; delta() is Time.delta * timeScale (BuildingComp.java:1922-1924).",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_state"
+          ]
+        },
+        "item_order": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "var allItems = content.items();",
+          "rule": "The catalog item_names_by_id -- the content-id order Java iterates in dump(null) (BuildingComp.java:1076-1078, the N2225 precedent); an item name outside the order is never dumped.",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_state"
+          ]
+        },
+        "neighbour_liquid_amounts": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "float ofract = other.liquids.get(liquid) / other.block.liquidCapacity;",
+          "rule": "The per-neighbour current-liquid amounts in proximity order (BuildingComp.java:902), as frame inputs (default [] -- no neighbours, the Java proximity.size == 0 outcome); the live proximity scan waits for its own slice.",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_state"
+          ]
+        },
+        "neighbour_liquid_capacities": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "float ofract = other.liquids.get(liquid) / other.block.liquidCapacity;",
+          "rule": "The per-neighbour block liquid capacities in proximity order (BuildingComp.java:902), as frame inputs alongside the amounts; a zero capacity means the neighbour has no liquids (other.block.hasLiquids false).",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_state"
+          ]
+        },
+        "neighbour_accepts_liquid": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(next.acceptLiquid(self(), liquid)){",
+          "rule": "The per-neighbour acceptLiquid answers in proximity order (BuildingComp.java:917), as frame inputs; transferLiquid only hands liquid to an accepting neighbour.",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_state"
+          ]
+        },
+        "neighbour_can_dump_liquid": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public boolean canDumpLiquid(Building to, Liquid liquid){",
+          "rule": "The per-neighbour canDumpLiquid answers in proximity order (BuildingComp.java:901, 910-912 -- the default returns true); as frame inputs alongside the acceptLiquid answers.",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_state"
+          ]
+        },
+        "neighbour_accepts_item": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(other.acceptItem(self(), item) && canDump(other, item)){",
+          "rule": "The per-neighbour acceptItem answers in proximity order (BuildingComp.java:1088), as frame inputs; dump(null) only hands an item to an accepting neighbour.",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_state"
+          ]
+        },
+        "neighbour_can_dump_item": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public boolean canDump(Building to, Item item){",
+          "rule": "The per-neighbour canDump answers in proximity order (BuildingComp.java:1088, 1124-1126 -- the default returns true); as frame inputs alongside the acceptItem answers.",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadUnloaderDumpProof",
+      "rule": "Source-backed PayloadUnloader dump rows from PayloadUnloader.java / PayloadLoader.java / BuildingComp.java / LiquidModule.java."
+    },
+    "source_payload_unloader_dump_state_result": {
+      "status": "active",
+      "owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_state",
+      "source_slice": "N2293",
+      "keys": {
+        "liquids_after": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "liquids.remove(liquid, flow);",
+          "rule": "The liquids module after the tick (BuildingComp.java:919): the current amount reduced by the dumped flow, through the shared liquid module helper on a duplicate of the store (the pure never mutates its inputs); unchanged when nothing dumps or the store is at/below the 0.0001f threshold.",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_state"
+          ]
+        },
+        "dumped_liquid": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(ofract < fract) transferLiquid(other, (fract - ofract) * block.liquidCapacity / scaling, liquid);",
+          "rule": "The total liquid dumped this tick (BuildingComp.java:905): the sum over eligible neighbours of the fraction transfer (fract - ofract) * block.liquidCapacity / scaling with scaling 2f (BuildingComp.java:877-878), each flow capped by the neighbour free capacity (BuildingComp.java:915); 0 when no neighbour takes liquid.",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_state"
+          ]
+        },
+        "items_after": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "items.remove(item, 1);",
+          "rule": "The items dict after the tick (BuildingComp.java:1090): one entry removed per successful dump(null) call, through the shared dump_item_state routing; unchanged when no dump succeeds.",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_state"
+          ]
+        },
+        "dumped_items": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "res |= dump(item);",
+          "rule": "The number of items dumped this tick (BuildingComp.java:1057): one per successful dump(null) call across all dumpAccumulate() attempts (offloadSpeed calls per tick, each firing while dumpAccum >= 1f); 0 when no neighbour accepts.",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_state"
+          ]
+        },
+        "cursor_after": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "cdump = ((cdump + 1) % prox);",
+          "rule": "The dump cursor after the tick (BuildingComp.java:1116-1120): the liquid scan is a full cycle (N neighbours = N incrementDump calls, BuildingComp.java:894), so the cursor only moves in the item phase -- one increment per neighbour checked by dump(null) (BuildingComp.java:1091, 1096); unchanged when the proximity is empty.",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_state"
+          ]
+        },
+        "dump_accum_after": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "dumpAccum -=1f;",
+          "rule": "The dump accumulator after the tick (BuildingComp.java:1055-1058): each of the offloadSpeed dumpAccumulate() calls adds delta() and subtracts 1f per fired dump attempt, so the accumulator grows by 4*delta per tick minus the attempts fired.",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadUnloaderDumpProof",
+      "rule": "Source-backed PayloadUnloader dump rows from PayloadUnloader.java / PayloadLoader.java / BuildingComp.java / LiquidModule.java."
+    },
+    "source_mass_driver_dump_state_input": {
+      "status": "active",
+      "owner": "SourceMassDriverBuildState.source_mass_driver_dump_state",
+      "source_slice": "N2294",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "if(state == DriverState.idle || state == DriverState.accepting){",
+          "rule": "The building frame carrying the items store, the dump accumulator (dump_accum, `private transient float dumpAccum;`, BuildingComp.java:99, default 0.0) and the dump cursor (cdump, BuildingComp.java:68, default 0); the dump gate reads the post-switch state, and the dump runs between the state switch (MassDriver.java:154-161) and the no-power skip (:168-171).",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_dump_state"
+          ]
+        },
+        "state_after_switch": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "if(state == DriverState.idle){",
+          "rule": "The driver state AFTER the N2237 state switch (MassDriver.java:154-161: idle accepts a waiting shooter when there is space, else shoots when linked) and BEFORE the accepting/shooting branches -- the state the Java dump gate reads (MassDriver.java:164-166). The tick passes advanced[\"state_after_switch\"]: a shooting driver that fires ends the tick idle but must NOT dump, and the accepting branch may flip accepting back to idle while the dump still fires.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_dump_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "dumpAccum += delta();",
+          "rule": "Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26) -- the per-tick growth of the dump accumulator (BuildingComp.java:1055); delta() is `Time.delta * timeScale` (BuildingComp.java:1922-1924), so the pure multiplies by time_scale.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_dump_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "The live timeScale read from the sprite meta (SourcePlacedBlockState.time_scale), default 1.0 (BuildingComp.java:98): delta() = Time.delta * timeScale (BuildingComp.java:1922-1924), so the accumulator grows by source_delta * time_scale (the N2237 advance precedent).",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_dump_state"
+          ]
+        },
+        "content_item_ids": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "var allItems = content.items();",
+          "rule": "The content items in catalog order (BuildingComp.java:1076): dump(null) scans them in order for each neighbour, handing over the first held item an accepting neighbour takes (BuildingComp.java:1084-1091). The tick reads them through the item_order the N2237 advance already reads.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_dump_state"
+          ]
+        },
+        "neighbour_accepts_item": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(other.acceptItem(self(), item) && canDump(other, item)){",
+          "rule": "The per-neighbour acceptItem answers in proximity order (BuildingComp.java:1088), as frame inputs (default [] -- no neighbours, the Java proximity.size == 0 outcome); the live proximity scan waits for its own slice.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_dump_state"
+          ]
+        },
+        "neighbour_can_dump": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public boolean canDump(Building to, Item item){",
+          "rule": "The per-neighbour canDump answers in proximity order (BuildingComp.java:1088, 1124-1126 -- the default returns true); as frame inputs alongside the acceptItem answers.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_dump_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07MassDriverDumpProof",
+      "rule": "Source-backed MassDriver dumpAccumulate dump rows from MassDriver.java / BuildingComp.java."
+    },
+    "source_mass_driver_dump_state_result": {
+      "status": "active",
+      "owner": "SourceMassDriverBuildState.source_mass_driver_dump_state",
+      "source_slice": "N2294",
+      "keys": {
+        "dump_accum_after": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "dumpAccum -=1f;",
+          "rule": "The dump accumulator after this tick (BuildingComp.java:1055-1058): += delta() then -1f per dump attempt while >= 1f; unchanged while shooting, because dumpAccumulate() is never called there (MassDriver.java:164-166) -- the pure gates the whole accumulation on the post-switch state.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_dump_state"
+          ]
+        },
+        "dumped": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "res |= dump(item);",
+          "rule": "Whether any dump attempt handed an item to a neighbour this tick (BuildingComp.java:1057): true only when the gate is open (idle/accepting) and a neighbour accepted an item (acceptItem && canDump); false when the gate is closed, the store was empty, or no neighbour accepted.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_dump_state"
+          ]
+        },
+        "items_after": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "items.remove(item, 1);",
+          "rule": "The items after the tick (BuildingComp.java:1090): 1 removed per successful dump attempt, in content order per neighbour; unchanged when nothing dumps, the gate is closed, or the store is empty.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_dump_state"
+          ]
+        },
+        "cursor_after": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "cdump = ((cdump + 1) % prox);",
+          "rule": "The dump cursor after the tick (BuildingComp.java:1116-1120): advanced once per neighbour checked (incrementDump, guarded on prox != 0), wrapping modulo the proximity size; the tick persists it back to the frame.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_dump_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07MassDriverDumpProof",
+      "rule": "Source-backed MassDriver dumpAccumulate dump rows from MassDriver.java / BuildingComp.java."
     }
   },
   "version": 1

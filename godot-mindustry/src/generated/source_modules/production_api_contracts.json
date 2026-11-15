@@ -679,6 +679,61 @@
       "rule": "Source-backed BeamDrill shouldConsume gate from BeamDrill.java / BuildingComp.java / Blocks.java / Block.java / ItemModule.java.",
       "return_type": "Dictionary"
     },
+    "SourceBeamDrillBuildState.source_beam_drill_timer_dump_state": {
+      "canonical_contract": "source_api_contracts.SourceBeamDrillBuildState.source_beam_drill_timer_dump_state",
+      "status": "active",
+      "source_slice": "N2289",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrillBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_beam_drill_timer_dump_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_beam_drill_timer_dump_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_beam_drill_timer_dump_state_input.time_scale"
+        },
+        {
+          "name": "content_item_ids",
+          "type": "Array",
+          "schema": "source_beam_drill_timer_dump_state_input.content_item_ids"
+        },
+        {
+          "name": "neighbour_accepts_item",
+          "type": "Array",
+          "schema": "source_beam_drill_timer_dump_state_input.neighbour_accepts_item"
+        },
+        {
+          "name": "neighbour_can_dump",
+          "type": "Array",
+          "schema": "source_beam_drill_timer_dump_state_input.neighbour_can_dump"
+        }
+      ],
+      "return_keys": [
+        "fired",
+        "elapsed_after",
+        "dumped",
+        "items_after",
+        "cursor_after"
+      ],
+      "tests": [
+        "test_c07_beam_drill_timer_dump_registration",
+        "test_all_c07_beam_drill_timer_dump_input_evidence_is_exact",
+        "test_beam_drill_timer_dump_state",
+        "test_reference_graph_and_actual_c07_beam_drill_timer_dump"
+      ],
+      "runtime_proof": "/root/C07BeamDrillTimerDumpProof",
+      "rule": "Source-backed BeamDrill timerDump dump rows from BeamDrill.java / Block.java / TimerComp.java / BuildingComp.java / arc Interval.java / arc Time.java.",
+      "return_type": "Dictionary"
+    },
     "SourceBeamDrillBuildState.source_beam_drill_update_tile_advance_state": {
       "canonical_contract": "source_api_contracts.SourceBeamDrillBuildState.source_beam_drill_update_tile_advance_state",
       "status": "active",
@@ -2571,6 +2626,64 @@
       ],
       "runtime_proof": "/root/C07SolidPumpPowerStatusProof",
       "rule": "Source-backed SolidPump power.status row from ConsumePower.java / BuildingComp.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceSolidPumpBuildState.source_solid_pump_proximity_fraction_state": {
+      "canonical_contract": "source_api_contracts.SourceSolidPumpBuildState.source_solid_pump_proximity_fraction_state",
+      "status": "active",
+      "source_slice": "N2292",
+      "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+      "source_method": "SolidPumpBuild.onProximityUpdate()",
+      "params": [
+        {
+          "name": "linked_tiles",
+          "type": "Array",
+          "schema": "source_solid_pump_proximity_fraction_state_input.linked_tiles"
+        },
+        {
+          "name": "block_size",
+          "type": "int",
+          "schema": "source_solid_pump_proximity_fraction_state_input.block_size"
+        },
+        {
+          "name": "base_efficiency",
+          "type": "float",
+          "schema": "source_solid_pump_proximity_fraction_state_input.base_efficiency"
+        },
+        {
+          "name": "attribute_env",
+          "type": "float",
+          "schema": "source_solid_pump_proximity_fraction_state_input.attribute_env"
+        },
+        {
+          "name": "floating",
+          "type": "bool",
+          "schema": "source_solid_pump_proximity_fraction_state_input.floating"
+        },
+        {
+          "name": "placeable_liquid",
+          "type": "bool",
+          "schema": "source_solid_pump_proximity_fraction_state_input.placeable_liquid"
+        },
+        {
+          "name": "has_attribute",
+          "type": "bool",
+          "schema": "source_solid_pump_proximity_fraction_state_input.has_attribute"
+        }
+      ],
+      "return_keys": [
+        "valid_tiles",
+        "boost",
+        "fraction"
+      ],
+      "tests": [
+        "test_c07_solid_pump_fraction_fill_registration",
+        "test_all_c07_solid_pump_fraction_fill_input_evidence_is_exact",
+        "test_solid_pump_proximity_fraction_state",
+        "test_reference_graph_and_actual_c07_solid_pump_fraction_fill"
+      ],
+      "runtime_proof": "/root/C07SolidPumpFractionFillProof",
+      "rule": "Source-backed SolidPump live fraction fill rows from SolidPump.java / Block.java / Attribute.java.",
       "return_type": "Dictionary"
     },
     "SourceSolidPumpBuildState.source_solid_pump_should_consume_state": {

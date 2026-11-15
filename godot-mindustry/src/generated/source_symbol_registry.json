@@ -180112,7 +180112,7 @@
       "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
       "java_method": "RepairPointBuild.updateTile()",
       "java_expr": "if(Float.isInfinite(time)) return false;",
-      "rule": "Whether the timer fires this tick (TimerComp.java:10-13): false when the threshold is infinite (time_scale <= 0), else elapsed >= duration / time_scale -- the Interval.check comparison (arc Interval.java:28-30) against the frame-local clock.",
+      "rule": "Whether the timer fires this tick (TimerComp.java:10-13): false when the threshold is infinite (time_scale <= 0, the defensive guard), else elapsed >= duration (the literal duration -- the Interval.check comparison, arc Interval.java:28-30, against the frame-local clock; N2290 fix of the N2280 20/time_scale deviation).",
       "tests": [
         "test_c07_repair_turret_timer_target_registration",
         "test_all_c07_repair_turret_timer_target_input_evidence_is_exact",
@@ -180568,6 +180568,534 @@
         "test_reference_graph_and_actual_c07_liquid_bridge_do_dump"
       ],
       "runtime_proof": "/root/C07LiquidBridgeDoDumpProof"
+    },
+    "source_item_bridge_do_dump_state_result.dump_accum_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemBridgeBuildState.source_item_bridge_do_dump_state",
+      "godot_symbol": "source_item_bridge_do_dump_state_result.dump_accum_after",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "ItemBridgeBuild.doDump()",
+      "java_expr": "dumpAccum += delta();",
+      "rule": "The dump accumulator after the tick (BuildingComp.java:1055-1058): + delta() once per doDump call, - 1f per while iteration -- unconditionally, even when the dump failed or the store is empty; untouched when linked (doDump never runs).",
+      "tests": [
+        "test_c07_item_bridge_do_dump_registration",
+        "test_all_c07_item_bridge_do_dump_input_evidence_is_exact",
+        "test_item_bridge_do_dump_state",
+        "test_reference_graph_and_actual_c07_item_bridge_do_dump"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeDoDumpProof"
+    },
+    "source_item_bridge_do_dump_state_result.dumped": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemBridgeBuildState.source_item_bridge_do_dump_state",
+      "godot_symbol": "source_item_bridge_do_dump_state_result.dumped",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "ItemBridgeBuild.doDump()",
+      "java_expr": "res |= dump(item);",
+      "rule": "Whether any dump succeeded this tick (BuildingComp.java:1054, 1057): the OR of every dump() result across the while iterations.",
+      "tests": [
+        "test_c07_item_bridge_do_dump_registration",
+        "test_all_c07_item_bridge_do_dump_input_evidence_is_exact",
+        "test_item_bridge_do_dump_state",
+        "test_reference_graph_and_actual_c07_item_bridge_do_dump"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeDoDumpProof"
+    },
+    "source_item_bridge_do_dump_state_result.dump_attempts": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemBridgeBuildState.source_item_bridge_do_dump_state",
+      "godot_symbol": "source_item_bridge_do_dump_state_result.dump_attempts",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "ItemBridgeBuild.doDump()",
+      "java_expr": "while(dumpAccum >= 1f){",
+      "rule": "How many dump() calls fired this tick (BuildingComp.java:1056-1058): one per whole unit of (dumpAccum + delta), computed by the shared dump_accumulate_state step; 0 below the threshold, more than 1 when delta is large (\"allow dumping multiple times per frame\", ItemBridge.java:351).",
+      "tests": [
+        "test_c07_item_bridge_do_dump_registration",
+        "test_all_c07_item_bridge_do_dump_input_evidence_is_exact",
+        "test_item_bridge_do_dump_state",
+        "test_reference_graph_and_actual_c07_item_bridge_do_dump"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeDoDumpProof"
+    },
+    "source_item_bridge_do_dump_state_result.items_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemBridgeBuildState.source_item_bridge_do_dump_state",
+      "godot_symbol": "source_item_bridge_do_dump_state_result.items_after",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "ItemBridgeBuild.doDump()",
+      "java_expr": "items.remove(item, 1);",
+      "rule": "The items after the tick (BuildingComp.java:1090): 1 removed per successful dump, in content order per neighbour; unchanged when nothing dumps, the store is empty, or the bridge is linked.",
+      "tests": [
+        "test_c07_item_bridge_do_dump_registration",
+        "test_all_c07_item_bridge_do_dump_input_evidence_is_exact",
+        "test_item_bridge_do_dump_state",
+        "test_reference_graph_and_actual_c07_item_bridge_do_dump"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeDoDumpProof"
+    },
+    "source_item_bridge_do_dump_state_result.cursor_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemBridgeBuildState.source_item_bridge_do_dump_state",
+      "godot_symbol": "source_item_bridge_do_dump_state_result.cursor_after",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "ItemBridgeBuild.doDump()",
+      "java_expr": "cdump = ((cdump + 1) % prox);",
+      "rule": "The dump cursor after the tick (BuildingComp.java:1116-1120): advanced once per neighbour checked (incrementDump, guarded on prox != 0), wrapping modulo the proximity size; untouched when the dump guard fails or the bridge is linked.",
+      "tests": [
+        "test_c07_item_bridge_do_dump_registration",
+        "test_all_c07_item_bridge_do_dump_input_evidence_is_exact",
+        "test_item_bridge_do_dump_state",
+        "test_reference_graph_and_actual_c07_item_bridge_do_dump"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeDoDumpProof"
+    },
+    "source_beam_drill_timer_dump_state_result.fired": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_timer_dump_state",
+      "godot_symbol": "source_beam_drill_timer_dump_state_result.fired",
+      "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+      "java_method": "BeamDrillBuild.updateTile()",
+      "java_expr": "if(Float.isInfinite(time)) return false;",
+      "rule": "Whether the timer fires this tick (TimerComp.java:10-13): false when the threshold is infinite (time_scale <= 0), else elapsed >= dumpTime / time_scale -- the Interval.check comparison (arc Interval.java:28-30) against the frame-local clock.",
+      "tests": [
+        "test_c07_beam_drill_timer_dump_registration",
+        "test_all_c07_beam_drill_timer_dump_input_evidence_is_exact",
+        "test_beam_drill_timer_dump_state",
+        "test_reference_graph_and_actual_c07_beam_drill_timer_dump"
+      ],
+      "runtime_proof": "/root/C07BeamDrillTimerDumpProof"
+    },
+    "source_beam_drill_timer_dump_state_result.elapsed_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_timer_dump_state",
+      "godot_symbol": "source_beam_drill_timer_dump_state_result.elapsed_after",
+      "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+      "java_method": "BeamDrillBuild.updateTile()",
+      "java_expr": "return timer.get(index, time);",
+      "rule": "The elapsed clock after this tick: 0.0 when fired (Interval.get RESETS times[id] = Time.time on fire, arc Interval.java:23-25 -- a reset, not a subtraction like the Fracker accumulator), otherwise the accumulated elapsed.",
+      "tests": [
+        "test_c07_beam_drill_timer_dump_registration",
+        "test_all_c07_beam_drill_timer_dump_input_evidence_is_exact",
+        "test_beam_drill_timer_dump_state",
+        "test_reference_graph_and_actual_c07_beam_drill_timer_dump"
+      ],
+      "runtime_proof": "/root/C07BeamDrillTimerDumpProof"
+    },
+    "source_beam_drill_timer_dump_state_result.dumped": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_timer_dump_state",
+      "godot_symbol": "source_beam_drill_timer_dump_state_result.dumped",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BeamDrillBuild.updateTile()",
+      "java_expr": "other.handleItem(self(), item);",
+      "rule": "Whether the dump handed an item to a neighbour this tick (BuildingComp.java:1089): true only when the timer fired and a neighbour accepted an item (acceptItem && canDump); false when the timer did not fire, the store was empty, or no neighbour accepted.",
+      "tests": [
+        "test_c07_beam_drill_timer_dump_registration",
+        "test_all_c07_beam_drill_timer_dump_input_evidence_is_exact",
+        "test_beam_drill_timer_dump_state",
+        "test_reference_graph_and_actual_c07_beam_drill_timer_dump"
+      ],
+      "runtime_proof": "/root/C07BeamDrillTimerDumpProof"
+    },
+    "source_beam_drill_timer_dump_state_result.items_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_timer_dump_state",
+      "godot_symbol": "source_beam_drill_timer_dump_state_result.items_after",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BeamDrillBuild.updateTile()",
+      "java_expr": "items.remove(item, 1);",
+      "rule": "The items after the tick (BuildingComp.java:1090): 1 removed on a successful dump, in content order per neighbour; unchanged when nothing dumps, the timer did not fire, or the store is empty.",
+      "tests": [
+        "test_c07_beam_drill_timer_dump_registration",
+        "test_all_c07_beam_drill_timer_dump_input_evidence_is_exact",
+        "test_beam_drill_timer_dump_state",
+        "test_reference_graph_and_actual_c07_beam_drill_timer_dump"
+      ],
+      "runtime_proof": "/root/C07BeamDrillTimerDumpProof"
+    },
+    "source_beam_drill_timer_dump_state_result.cursor_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_timer_dump_state",
+      "godot_symbol": "source_beam_drill_timer_dump_state_result.cursor_after",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BeamDrillBuild.updateTile()",
+      "java_expr": "cdump = ((cdump + 1) % prox);",
+      "rule": "The dump cursor after the tick (BuildingComp.java:1116-1120): advanced once per neighbour checked (incrementDump, guarded on prox != 0), wrapping modulo the proximity size; the tick persists it back to the frame.",
+      "tests": [
+        "test_c07_beam_drill_timer_dump_registration",
+        "test_all_c07_beam_drill_timer_dump_input_evidence_is_exact",
+        "test_beam_drill_timer_dump_state",
+        "test_reference_graph_and_actual_c07_beam_drill_timer_dump"
+      ],
+      "runtime_proof": "/root/C07BeamDrillTimerDumpProof"
+    },
+    "source_payload_deconstructor_handle_payload_state_result.payload": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_handle_payload_state",
+      "godot_symbol": "source_payload_deconstructor_handle_payload_state_result.payload",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_method": "PayloadDeconstructorBuild.handlePayload()",
+      "java_expr": "this.payload = (T)payload;",
+      "rule": "The held payload after the handle (PayloadBlock.java:122): the incoming payload dict, set unconditionally by the pure function (the null guard lives in the driver, from acceptPayload returning this.payload == null, PayloadBlock.java:117).",
+      "tests": [
+        "test_c07_payload_deconstructor_deconstructing_fill_registration",
+        "test_all_c07_payload_deconstructor_deconstructing_fill_input_evidence_is_exact",
+        "test_payload_deconstructor_deconstructing_fill_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_deconstructing_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorDeconstructingFillProof"
+    },
+    "source_payload_deconstructor_handle_payload_state_result.pay_vector": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_handle_payload_state",
+      "godot_symbol": "source_payload_deconstructor_handle_payload_state_result.pay_vector",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_method": "PayloadDeconstructorBuild.handlePayload()",
+      "java_expr": "this.payVector.set(source).sub(this).clamp(-size * tilesize / 2f, -size * tilesize / 2f, size * tilesize / 2f, size * tilesize / 2f);",
+      "rule": "The payVector {x, y} after the handle (PayloadBlock.java:123): the source offset clamped per axis to +/-size*tilesize/2 (Vec2.clamp(minx, miny, maxx, maxy), arc Vec2.java:318-322); +/-20.0 for size 5, +/-12.0 for size 3. The frame keeps Vector2 (the N2233 proof pins it), so the tick converts at the boundary.",
+      "tests": [
+        "test_c07_payload_deconstructor_deconstructing_fill_registration",
+        "test_all_c07_payload_deconstructor_deconstructing_fill_input_evidence_is_exact",
+        "test_payload_deconstructor_deconstructing_fill_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_deconstructing_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorDeconstructingFillProof"
+    },
+    "source_payload_deconstructor_handle_payload_state_result.pay_rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_handle_payload_state",
+      "godot_symbol": "source_payload_deconstructor_handle_payload_state_result.pay_rotation",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_method": "PayloadDeconstructorBuild.handlePayload()",
+      "java_expr": "this.payRotation = payload.rotation();",
+      "rule": "The payRotation after the handle (PayloadBlock.java:124): the payload rotation; the N2233 advance moves it toward 90f on later ticks.",
+      "tests": [
+        "test_c07_payload_deconstructor_deconstructing_fill_registration",
+        "test_all_c07_payload_deconstructor_deconstructing_fill_input_evidence_is_exact",
+        "test_payload_deconstructor_deconstructing_fill_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_deconstructing_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorDeconstructingFillProof"
+    },
+    "source_payload_deconstructor_handle_payload_state_result.accum": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_handle_payload_state",
+      "godot_symbol": "source_payload_deconstructor_handle_payload_state_result.accum",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "java_method": "PayloadDeconstructorBuild.handlePayload()",
+      "java_expr": "accum = null;",
+      "rule": "The accumulation buffer after the handle (PayloadDeconstructor.java:100, the Deconstructor override): always null -- a fresh intake clears the buffer; the N2233 advance rebuilds it from the requirements when the handoff lands.",
+      "tests": [
+        "test_c07_payload_deconstructor_deconstructing_fill_registration",
+        "test_all_c07_payload_deconstructor_deconstructing_fill_input_evidence_is_exact",
+        "test_payload_deconstructor_deconstructing_fill_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_deconstructing_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorDeconstructingFillProof"
+    },
+    "source_payload_deconstructor_move_in_payload_state_result.arrived": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_move_in_payload_state",
+      "godot_symbol": "source_payload_deconstructor_move_in_payload_state_result.arrived",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_method": "PayloadDeconstructorBuild.updateTile()",
+      "java_expr": "return hasArrived();",
+      "rule": "Whether the payload has arrived (PayloadBlock.java:196, 242-244): payVector.isZero(0.01f), the SQUARED length against 0.01 (Vec2.java:679-681), so a vector of length 0.09 has already arrived.",
+      "tests": [
+        "test_c07_payload_deconstructor_deconstructing_fill_registration",
+        "test_all_c07_payload_deconstructor_deconstructing_fill_input_evidence_is_exact",
+        "test_payload_deconstructor_deconstructing_fill_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_deconstructing_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorDeconstructingFillProof"
+    },
+    "source_payload_deconstructor_move_in_payload_state_result.pay_vector_after": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_move_in_payload_state",
+      "godot_symbol": "source_payload_deconstructor_move_in_payload_state_result.pay_vector_after",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_method": "PayloadDeconstructorBuild.updateTile()",
+      "java_expr": "payVector.approach(Vec2.ZERO, payloadSpeed * delta());",
+      "rule": "The payload offset {x, y} after the move-in (PayloadBlock.java:194): approached toward zero at payloadSpeed * delta(); unchanged when the payload is null (the early return, PayloadBlock.java:187).",
+      "tests": [
+        "test_c07_payload_deconstructor_deconstructing_fill_registration",
+        "test_all_c07_payload_deconstructor_deconstructing_fill_input_evidence_is_exact",
+        "test_payload_deconstructor_deconstructing_fill_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_deconstructing_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorDeconstructingFillProof"
+    },
+    "source_payload_deconstructor_move_in_payload_state_result.deconstructing": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_move_in_payload_state",
+      "godot_symbol": "source_payload_deconstructor_move_in_payload_state_result.deconstructing",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "java_method": "PayloadDeconstructorBuild.updateTile()",
+      "java_expr": "deconstructing = payload;",
+      "rule": "The deconstructing payload after the handoff (PayloadDeconstructor.java:199): the held payload when it arrived, else null.",
+      "tests": [
+        "test_c07_payload_deconstructor_deconstructing_fill_registration",
+        "test_all_c07_payload_deconstructor_deconstructing_fill_input_evidence_is_exact",
+        "test_payload_deconstructor_deconstructing_fill_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_deconstructing_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorDeconstructingFillProof"
+    },
+    "source_payload_deconstructor_move_in_payload_state_result.payload_after": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_move_in_payload_state",
+      "godot_symbol": "source_payload_deconstructor_move_in_payload_state_result.payload_after",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "java_method": "PayloadDeconstructorBuild.updateTile()",
+      "java_expr": "payload = null;",
+      "rule": "The held payload after the handoff (PayloadDeconstructor.java:200): null when the payload arrived and handed off, else the payload unchanged.",
+      "tests": [
+        "test_c07_payload_deconstructor_deconstructing_fill_registration",
+        "test_all_c07_payload_deconstructor_deconstructing_fill_input_evidence_is_exact",
+        "test_payload_deconstructor_deconstructing_fill_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_deconstructing_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorDeconstructingFillProof"
+    },
+    "source_payload_deconstructor_move_in_payload_state_result.progress_after": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_move_in_payload_state",
+      "godot_symbol": "source_payload_deconstructor_move_in_payload_state_result.progress_after",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "java_method": "PayloadDeconstructorBuild.updateTile()",
+      "java_expr": "progress = 0f;",
+      "rule": "The deconstruction progress after the handoff (PayloadDeconstructor.java:201): 0f when the payload arrived, else the progress unchanged.",
+      "tests": [
+        "test_c07_payload_deconstructor_deconstructing_fill_registration",
+        "test_all_c07_payload_deconstructor_deconstructing_fill_input_evidence_is_exact",
+        "test_payload_deconstructor_deconstructing_fill_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_deconstructing_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorDeconstructingFillProof"
+    },
+    "source_payload_deconstructor_move_in_payload_state_result.accum_after": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_move_in_payload_state",
+      "godot_symbol": "source_payload_deconstructor_move_in_payload_state_result.accum_after",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "java_method": "PayloadDeconstructorBuild.updateTile()",
+      "java_expr": "accum = new float[payload.requirements().length];",
+      "rule": "The accumulation buffer after the handoff (PayloadDeconstructor.java:198): a zero array the length of the payload requirements when the payload arrived, else the buffer unchanged.",
+      "tests": [
+        "test_c07_payload_deconstructor_deconstructing_fill_registration",
+        "test_all_c07_payload_deconstructor_deconstructing_fill_input_evidence_is_exact",
+        "test_payload_deconstructor_deconstructing_fill_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_deconstructing_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorDeconstructingFillProof"
+    },
+    "source_solid_pump_proximity_fraction_state_result.valid_tiles": {
+      "status": "source-backed",
+      "godot_owner": "SourceSolidPumpBuildState.source_solid_pump_proximity_fraction_state",
+      "godot_symbol": "source_solid_pump_proximity_fraction_state_result.valid_tiles",
+      "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+      "java_method": "SolidPumpBuild.onProximityUpdate()",
+      "java_expr": "validTiles += baseEfficiency / (size * size);",
+      "rule": "The valid tiles after the fill (SolidPump.java:154-158): reset to 0f, then baseEfficiency / (size * size) per pumpable linked tile (canPump, SolidPump.java:80-83); 0 when no linked tile is pumpable.",
+      "tests": [
+        "test_c07_solid_pump_fraction_fill_registration",
+        "test_all_c07_solid_pump_fraction_fill_input_evidence_is_exact",
+        "test_solid_pump_proximity_fraction_state",
+        "test_reference_graph_and_actual_c07_solid_pump_fraction_fill"
+      ],
+      "runtime_proof": "/root/C07SolidPumpFractionFillProof"
+    },
+    "source_solid_pump_proximity_fraction_state_result.boost": {
+      "status": "source-backed",
+      "godot_owner": "SourceSolidPumpBuildState.source_solid_pump_proximity_fraction_state",
+      "godot_symbol": "source_solid_pump_proximity_fraction_state_result.boost",
+      "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+      "java_method": "SolidPumpBuild.onProximityUpdate()",
+      "java_expr": "boost = sumAttribute(attribute, tile.x, tile.y) / size / size;",
+      "rule": "The boost after the fill (SolidPump.java:153): the sum of the floor attribute values over the linked tiles (Block.java:575-582, 0 for deep floors when !floating && !placeableLiquid) divided by size * size; 0 when the attribute is null.",
+      "tests": [
+        "test_c07_solid_pump_fraction_fill_registration",
+        "test_all_c07_solid_pump_fraction_fill_input_evidence_is_exact",
+        "test_solid_pump_proximity_fraction_state",
+        "test_reference_graph_and_actual_c07_solid_pump_fraction_fill"
+      ],
+      "runtime_proof": "/root/C07SolidPumpFractionFillProof"
+    },
+    "source_solid_pump_proximity_fraction_state_result.fraction": {
+      "status": "source-backed",
+      "godot_owner": "SourceSolidPumpBuildState.source_solid_pump_proximity_fraction_state",
+      "godot_symbol": "source_solid_pump_proximity_fraction_state_result.fraction",
+      "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+      "java_method": "SolidPumpBuild.onProximityUpdate()",
+      "java_expr": "float fraction = Math.max(validTiles + boost + (attribute == null ? 0 : attribute.env()), 0);",
+      "rule": "The fraction after the fill (SolidPump.java:124): max(validTiles + boost + env, 0), clamped at zero; the N2220 advance recomputes the same value from the stamped frame keys, so this key is a pure result only.",
+      "tests": [
+        "test_c07_solid_pump_fraction_fill_registration",
+        "test_all_c07_solid_pump_fraction_fill_input_evidence_is_exact",
+        "test_solid_pump_proximity_fraction_state",
+        "test_reference_graph_and_actual_c07_solid_pump_fraction_fill"
+      ],
+      "runtime_proof": "/root/C07SolidPumpFractionFillProof"
+    },
+    "source_payload_unloader_dump_state_result.liquids_after": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_state",
+      "godot_symbol": "source_payload_unloader_dump_state_result.liquids_after",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "PayloadUnloaderBuild.updateTile()",
+      "java_expr": "liquids.remove(liquid, flow);",
+      "rule": "The liquids module after the tick (BuildingComp.java:919): the current amount reduced by the dumped flow, through the shared liquid module helper on a duplicate of the store (the pure never mutates its inputs); unchanged when nothing dumps or the store is at/below the 0.0001f threshold.",
+      "tests": [
+        "test_c07_payload_unloader_dump_registration",
+        "test_all_c07_payload_unloader_dump_input_evidence_is_exact",
+        "test_payload_unloader_dump_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_dump"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderDumpProof"
+    },
+    "source_payload_unloader_dump_state_result.dumped_liquid": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_state",
+      "godot_symbol": "source_payload_unloader_dump_state_result.dumped_liquid",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "PayloadUnloaderBuild.updateTile()",
+      "java_expr": "if(ofract < fract) transferLiquid(other, (fract - ofract) * block.liquidCapacity / scaling, liquid);",
+      "rule": "The total liquid dumped this tick (BuildingComp.java:905): the sum over eligible neighbours of the fraction transfer (fract - ofract) * block.liquidCapacity / scaling with scaling 2f (BuildingComp.java:877-878), each flow capped by the neighbour free capacity (BuildingComp.java:915); 0 when no neighbour takes liquid.",
+      "tests": [
+        "test_c07_payload_unloader_dump_registration",
+        "test_all_c07_payload_unloader_dump_input_evidence_is_exact",
+        "test_payload_unloader_dump_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_dump"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderDumpProof"
+    },
+    "source_payload_unloader_dump_state_result.items_after": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_state",
+      "godot_symbol": "source_payload_unloader_dump_state_result.items_after",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "PayloadUnloaderBuild.updateTile()",
+      "java_expr": "items.remove(item, 1);",
+      "rule": "The items dict after the tick (BuildingComp.java:1090): one entry removed per successful dump(null) call, through the shared dump_item_state routing; unchanged when no dump succeeds.",
+      "tests": [
+        "test_c07_payload_unloader_dump_registration",
+        "test_all_c07_payload_unloader_dump_input_evidence_is_exact",
+        "test_payload_unloader_dump_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_dump"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderDumpProof"
+    },
+    "source_payload_unloader_dump_state_result.dumped_items": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_state",
+      "godot_symbol": "source_payload_unloader_dump_state_result.dumped_items",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "PayloadUnloaderBuild.updateTile()",
+      "java_expr": "res |= dump(item);",
+      "rule": "The number of items dumped this tick (BuildingComp.java:1057): one per successful dump(null) call across all dumpAccumulate() attempts (offloadSpeed calls per tick, each firing while dumpAccum >= 1f); 0 when no neighbour accepts.",
+      "tests": [
+        "test_c07_payload_unloader_dump_registration",
+        "test_all_c07_payload_unloader_dump_input_evidence_is_exact",
+        "test_payload_unloader_dump_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_dump"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderDumpProof"
+    },
+    "source_payload_unloader_dump_state_result.cursor_after": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_state",
+      "godot_symbol": "source_payload_unloader_dump_state_result.cursor_after",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "PayloadUnloaderBuild.updateTile()",
+      "java_expr": "cdump = ((cdump + 1) % prox);",
+      "rule": "The dump cursor after the tick (BuildingComp.java:1116-1120): the liquid scan is a full cycle (N neighbours = N incrementDump calls, BuildingComp.java:894), so the cursor only moves in the item phase -- one increment per neighbour checked by dump(null) (BuildingComp.java:1091, 1096); unchanged when the proximity is empty.",
+      "tests": [
+        "test_c07_payload_unloader_dump_registration",
+        "test_all_c07_payload_unloader_dump_input_evidence_is_exact",
+        "test_payload_unloader_dump_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_dump"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderDumpProof"
+    },
+    "source_payload_unloader_dump_state_result.dump_accum_after": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_state",
+      "godot_symbol": "source_payload_unloader_dump_state_result.dump_accum_after",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "PayloadUnloaderBuild.updateTile()",
+      "java_expr": "dumpAccum -=1f;",
+      "rule": "The dump accumulator after the tick (BuildingComp.java:1055-1058): each of the offloadSpeed dumpAccumulate() calls adds delta() and subtracts 1f per fired dump attempt, so the accumulator grows by 4*delta per tick minus the attempts fired.",
+      "tests": [
+        "test_c07_payload_unloader_dump_registration",
+        "test_all_c07_payload_unloader_dump_input_evidence_is_exact",
+        "test_payload_unloader_dump_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_dump"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderDumpProof"
+    },
+    "source_mass_driver_dump_state_result.dump_accum_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceMassDriverBuildState.source_mass_driver_dump_state",
+      "godot_symbol": "source_mass_driver_dump_state_result.dump_accum_after",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "MassDriverBuild.updateTile()",
+      "java_expr": "dumpAccum -=1f;",
+      "rule": "The dump accumulator after this tick (BuildingComp.java:1055-1058): += delta() then -1f per dump attempt while >= 1f; unchanged while shooting, because dumpAccumulate() is never called there (MassDriver.java:164-166) -- the pure gates the whole accumulation on the post-switch state.",
+      "tests": [
+        "test_c07_mass_driver_dump_registration",
+        "test_all_c07_mass_driver_dump_input_evidence_is_exact",
+        "test_mass_driver_dump_state",
+        "test_reference_graph_and_actual_c07_mass_driver_dump"
+      ],
+      "runtime_proof": "/root/C07MassDriverDumpProof"
+    },
+    "source_mass_driver_dump_state_result.dumped": {
+      "status": "source-backed",
+      "godot_owner": "SourceMassDriverBuildState.source_mass_driver_dump_state",
+      "godot_symbol": "source_mass_driver_dump_state_result.dumped",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "MassDriverBuild.updateTile()",
+      "java_expr": "res |= dump(item);",
+      "rule": "Whether any dump attempt handed an item to a neighbour this tick (BuildingComp.java:1057): true only when the gate is open (idle/accepting) and a neighbour accepted an item (acceptItem && canDump); false when the gate is closed, the store was empty, or no neighbour accepted.",
+      "tests": [
+        "test_c07_mass_driver_dump_registration",
+        "test_all_c07_mass_driver_dump_input_evidence_is_exact",
+        "test_mass_driver_dump_state",
+        "test_reference_graph_and_actual_c07_mass_driver_dump"
+      ],
+      "runtime_proof": "/root/C07MassDriverDumpProof"
+    },
+    "source_mass_driver_dump_state_result.items_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceMassDriverBuildState.source_mass_driver_dump_state",
+      "godot_symbol": "source_mass_driver_dump_state_result.items_after",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "MassDriverBuild.updateTile()",
+      "java_expr": "items.remove(item, 1);",
+      "rule": "The items after the tick (BuildingComp.java:1090): 1 removed per successful dump attempt, in content order per neighbour; unchanged when nothing dumps, the gate is closed, or the store is empty.",
+      "tests": [
+        "test_c07_mass_driver_dump_registration",
+        "test_all_c07_mass_driver_dump_input_evidence_is_exact",
+        "test_mass_driver_dump_state",
+        "test_reference_graph_and_actual_c07_mass_driver_dump"
+      ],
+      "runtime_proof": "/root/C07MassDriverDumpProof"
+    },
+    "source_mass_driver_dump_state_result.cursor_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceMassDriverBuildState.source_mass_driver_dump_state",
+      "godot_symbol": "source_mass_driver_dump_state_result.cursor_after",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "MassDriverBuild.updateTile()",
+      "java_expr": "cdump = ((cdump + 1) % prox);",
+      "rule": "The dump cursor after the tick (BuildingComp.java:1116-1120): advanced once per neighbour checked (incrementDump, guarded on prox != 0), wrapping modulo the proximity size; the tick persists it back to the frame.",
+      "tests": [
+        "test_c07_mass_driver_dump_registration",
+        "test_all_c07_mass_driver_dump_input_evidence_is_exact",
+        "test_mass_driver_dump_state",
+        "test_reference_graph_and_actual_c07_mass_driver_dump"
+      ],
+      "runtime_proof": "/root/C07MassDriverDumpProof"
     }
   },
   "version": 1

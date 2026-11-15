@@ -3637,6 +3637,69 @@
       "runtime_proof": "/root/C07PayloadDeconstructorDumpProof",
       "rule": "Source-backed PayloadDeconstructor dump rows from PayloadDeconstructor.java / BuildingComp.java."
     },
+    "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_handle_payload_state": {
+      "canonical_contract": "source_api_contracts.SourcePayloadDeconstructorBuildState.source_payload_deconstructor_handle_payload_state",
+      "status": "active",
+      "source_slice": "N2291",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "source_method": "PayloadDeconstructorBuild.handlePayload()",
+      "params": [
+        {
+          "name": "incoming_payload",
+          "type": "Dictionary",
+          "schema": "source_payload_deconstructor_handle_payload_state_input.incoming_payload"
+        },
+        {
+          "name": "source_x",
+          "type": "float",
+          "schema": "source_payload_deconstructor_handle_payload_state_input.source_x"
+        },
+        {
+          "name": "source_y",
+          "type": "float",
+          "schema": "source_payload_deconstructor_handle_payload_state_input.source_y"
+        },
+        {
+          "name": "self_x",
+          "type": "float",
+          "schema": "source_payload_deconstructor_handle_payload_state_input.self_x"
+        },
+        {
+          "name": "self_y",
+          "type": "float",
+          "schema": "source_payload_deconstructor_handle_payload_state_input.self_y"
+        },
+        {
+          "name": "payload_rotation",
+          "type": "float",
+          "schema": "source_payload_deconstructor_handle_payload_state_input.payload_rotation"
+        },
+        {
+          "name": "block_size",
+          "type": "int",
+          "schema": "source_payload_deconstructor_handle_payload_state_input.block_size"
+        },
+        {
+          "name": "tilesize",
+          "type": "float",
+          "schema": "source_payload_deconstructor_handle_payload_state_input.tilesize"
+        }
+      ],
+      "return_keys": [
+        "payload",
+        "pay_vector",
+        "pay_rotation",
+        "accum"
+      ],
+      "tests": [
+        "test_c07_payload_deconstructor_deconstructing_fill_registration",
+        "test_all_c07_payload_deconstructor_deconstructing_fill_input_evidence_is_exact",
+        "test_payload_deconstructor_deconstructing_fill_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_deconstructing_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorDeconstructingFillProof",
+      "rule": "Source-backed PayloadDeconstructor live deconstructing fill from PayloadDeconstructor.java / PayloadBlock.java / Payload.java / Blocks.java / Vars.java / BuildingComp.java."
+    },
     "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourcePayloadDeconstructorBuildState.source_payload_deconstructor_power_status_row_state",
       "status": "active",
@@ -4254,6 +4317,81 @@
       ],
       "runtime_proof": "/root/C07PayloadMassDriverUpdateTileProof",
       "rule": "Source-backed PayloadMassDriver updateTile advance part 1 from PayloadMassDriver.java / PayloadBlock.java / BuildPayload.java / BuildingComp.java / Blocks.java / Block.java."
+    },
+    "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_state": {
+      "canonical_contract": "source_api_contracts.SourcePayloadUnloaderBuildState.source_payload_unloader_dump_state",
+      "status": "active",
+      "source_slice": "N2293",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+      "source_method": "PayloadUnloaderBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_payload_unloader_dump_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_payload_unloader_dump_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_payload_unloader_dump_state_input.time_scale"
+        },
+        {
+          "name": "item_order",
+          "type": "Array",
+          "schema": "source_payload_unloader_dump_state_input.item_order"
+        },
+        {
+          "name": "neighbour_liquid_amounts",
+          "type": "Array",
+          "schema": "source_payload_unloader_dump_state_input.neighbour_liquid_amounts"
+        },
+        {
+          "name": "neighbour_liquid_capacities",
+          "type": "Array",
+          "schema": "source_payload_unloader_dump_state_input.neighbour_liquid_capacities"
+        },
+        {
+          "name": "neighbour_accepts_liquid",
+          "type": "Array",
+          "schema": "source_payload_unloader_dump_state_input.neighbour_accepts_liquid"
+        },
+        {
+          "name": "neighbour_can_dump_liquid",
+          "type": "Array",
+          "schema": "source_payload_unloader_dump_state_input.neighbour_can_dump_liquid"
+        },
+        {
+          "name": "neighbour_accepts_item",
+          "type": "Array",
+          "schema": "source_payload_unloader_dump_state_input.neighbour_accepts_item"
+        },
+        {
+          "name": "neighbour_can_dump_item",
+          "type": "Array",
+          "schema": "source_payload_unloader_dump_state_input.neighbour_can_dump_item"
+        }
+      ],
+      "return_keys": [
+        "liquids_after",
+        "dumped_liquid",
+        "items_after",
+        "dumped_items",
+        "cursor_after",
+        "dump_accum_after"
+      ],
+      "tests": [
+        "test_c07_payload_unloader_dump_registration",
+        "test_all_c07_payload_unloader_dump_input_evidence_is_exact",
+        "test_payload_unloader_dump_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_dump"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderDumpProof",
+      "rule": "Source-backed PayloadUnloader dump rows from PayloadUnloader.java / PayloadLoader.java / BuildingComp.java / LiquidModule.java."
     },
     "SourcePayloadUnloaderBuildState.source_payload_unloader_handle_payload_state": {
       "canonical_contract": "source_api_contracts.SourcePayloadUnloaderBuildState.source_payload_unloader_handle_payload_state",

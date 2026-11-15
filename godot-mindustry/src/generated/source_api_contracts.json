@@ -71641,6 +71641,427 @@
       ],
       "runtime_proof": "/root/C07LiquidBridgeDoDumpProof",
       "rule": "Source-backed LiquidBridge doDump advance from LiquidBridge.java / ItemBridge.java / BuildingComp.java / Blocks.java / LiquidModule.java."
+    },
+    "SourceItemBridgeBuildState.source_item_bridge_do_dump_state": {
+      "status": "active",
+      "source_slice": "N2288",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "source_method": "ItemBridgeBuild.doDump()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_item_bridge_do_dump_state_input.frame"
+        },
+        {
+          "name": "had_valid_link",
+          "type": "bool",
+          "schema": "source_item_bridge_do_dump_state_input.had_valid_link"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_item_bridge_do_dump_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_item_bridge_do_dump_state_input.time_scale"
+        },
+        {
+          "name": "content_item_ids",
+          "type": "Array",
+          "schema": "source_item_bridge_do_dump_state_input.content_item_ids"
+        },
+        {
+          "name": "neighbour_accepts_item",
+          "type": "Array",
+          "schema": "source_item_bridge_do_dump_state_input.neighbour_accepts_item"
+        },
+        {
+          "name": "neighbour_can_dump",
+          "type": "Array",
+          "schema": "source_item_bridge_do_dump_state_input.neighbour_can_dump"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "dump_accum_after",
+        "dumped",
+        "dump_attempts",
+        "items_after",
+        "cursor_after"
+      ],
+      "tests": [
+        "test_c07_item_bridge_do_dump_registration",
+        "test_all_c07_item_bridge_do_dump_input_evidence_is_exact",
+        "test_item_bridge_do_dump_state",
+        "test_reference_graph_and_actual_c07_item_bridge_do_dump"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeDoDumpProof",
+      "rule": "Source-backed ItemBridge doDump advance from ItemBridge.java / BuildingComp.java."
+    },
+    "SourceBeamDrillBuildState.source_beam_drill_timer_dump_state": {
+      "status": "active",
+      "source_slice": "N2289",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrillBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_beam_drill_timer_dump_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_beam_drill_timer_dump_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_beam_drill_timer_dump_state_input.time_scale"
+        },
+        {
+          "name": "content_item_ids",
+          "type": "Array",
+          "schema": "source_beam_drill_timer_dump_state_input.content_item_ids"
+        },
+        {
+          "name": "neighbour_accepts_item",
+          "type": "Array",
+          "schema": "source_beam_drill_timer_dump_state_input.neighbour_accepts_item"
+        },
+        {
+          "name": "neighbour_can_dump",
+          "type": "Array",
+          "schema": "source_beam_drill_timer_dump_state_input.neighbour_can_dump"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "fired",
+        "elapsed_after",
+        "dumped",
+        "items_after",
+        "cursor_after"
+      ],
+      "tests": [
+        "test_c07_beam_drill_timer_dump_registration",
+        "test_all_c07_beam_drill_timer_dump_input_evidence_is_exact",
+        "test_beam_drill_timer_dump_state",
+        "test_reference_graph_and_actual_c07_beam_drill_timer_dump"
+      ],
+      "runtime_proof": "/root/C07BeamDrillTimerDumpProof",
+      "rule": "Source-backed BeamDrill timerDump dump rows from BeamDrill.java / Block.java / TimerComp.java / BuildingComp.java / arc Interval.java / arc Time.java."
+    },
+    "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_handle_payload_state": {
+      "status": "active",
+      "source_slice": "N2291",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "source_method": "PayloadDeconstructorBuild.handlePayload()",
+      "params": [
+        {
+          "name": "incoming_payload",
+          "type": "Dictionary",
+          "schema": "source_payload_deconstructor_handle_payload_state_input.incoming_payload"
+        },
+        {
+          "name": "source_x",
+          "type": "float",
+          "schema": "source_payload_deconstructor_handle_payload_state_input.source_x"
+        },
+        {
+          "name": "source_y",
+          "type": "float",
+          "schema": "source_payload_deconstructor_handle_payload_state_input.source_y"
+        },
+        {
+          "name": "self_x",
+          "type": "float",
+          "schema": "source_payload_deconstructor_handle_payload_state_input.self_x"
+        },
+        {
+          "name": "self_y",
+          "type": "float",
+          "schema": "source_payload_deconstructor_handle_payload_state_input.self_y"
+        },
+        {
+          "name": "payload_rotation",
+          "type": "float",
+          "schema": "source_payload_deconstructor_handle_payload_state_input.payload_rotation"
+        },
+        {
+          "name": "block_size",
+          "type": "int",
+          "schema": "source_payload_deconstructor_handle_payload_state_input.block_size"
+        },
+        {
+          "name": "tilesize",
+          "type": "float",
+          "schema": "source_payload_deconstructor_handle_payload_state_input.tilesize"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "payload",
+        "pay_vector",
+        "pay_rotation",
+        "accum"
+      ],
+      "tests": [
+        "test_c07_payload_deconstructor_deconstructing_fill_registration",
+        "test_all_c07_payload_deconstructor_deconstructing_fill_input_evidence_is_exact",
+        "test_payload_deconstructor_deconstructing_fill_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_deconstructing_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorDeconstructingFillProof",
+      "rule": "Source-backed PayloadDeconstructor live deconstructing fill from PayloadDeconstructor.java / PayloadBlock.java / Payload.java / Blocks.java / Vars.java / BuildingComp.java."
+    },
+    "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_move_in_payload_state": {
+      "status": "active",
+      "source_slice": "N2291",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "source_method": "PayloadDeconstructorBuild.updateTile()",
+      "params": [
+        {
+          "name": "payload",
+          "type": "Dictionary",
+          "schema": "source_payload_deconstructor_move_in_payload_state_input.payload"
+        },
+        {
+          "name": "pay_vector",
+          "type": "Dictionary",
+          "schema": "source_payload_deconstructor_move_in_payload_state_input.pay_vector"
+        },
+        {
+          "name": "accum",
+          "type": "Array",
+          "schema": "source_payload_deconstructor_move_in_payload_state_input.accum"
+        },
+        {
+          "name": "progress",
+          "type": "float",
+          "schema": "source_payload_deconstructor_move_in_payload_state_input.progress"
+        },
+        {
+          "name": "delta",
+          "type": "float",
+          "schema": "source_payload_deconstructor_move_in_payload_state_input.delta"
+        },
+        {
+          "name": "payload_speed",
+          "type": "float",
+          "schema": "source_payload_deconstructor_move_in_payload_state_input.payload_speed"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "arrived",
+        "pay_vector_after",
+        "deconstructing",
+        "payload_after",
+        "progress_after",
+        "accum_after"
+      ],
+      "tests": [
+        "test_c07_payload_deconstructor_deconstructing_fill_registration",
+        "test_all_c07_payload_deconstructor_deconstructing_fill_input_evidence_is_exact",
+        "test_payload_deconstructor_deconstructing_fill_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_deconstructing_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorDeconstructingFillProof",
+      "rule": "Source-backed PayloadDeconstructor live deconstructing fill from PayloadDeconstructor.java / PayloadBlock.java / Payload.java / Blocks.java / Vars.java / BuildingComp.java."
+    },
+    "SourceSolidPumpBuildState.source_solid_pump_proximity_fraction_state": {
+      "status": "active",
+      "source_slice": "N2292",
+      "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+      "source_method": "SolidPumpBuild.onProximityUpdate()",
+      "params": [
+        {
+          "name": "linked_tiles",
+          "type": "Array",
+          "schema": "source_solid_pump_proximity_fraction_state_input.linked_tiles"
+        },
+        {
+          "name": "block_size",
+          "type": "int",
+          "schema": "source_solid_pump_proximity_fraction_state_input.block_size"
+        },
+        {
+          "name": "base_efficiency",
+          "type": "float",
+          "schema": "source_solid_pump_proximity_fraction_state_input.base_efficiency"
+        },
+        {
+          "name": "attribute_env",
+          "type": "float",
+          "schema": "source_solid_pump_proximity_fraction_state_input.attribute_env"
+        },
+        {
+          "name": "floating",
+          "type": "bool",
+          "schema": "source_solid_pump_proximity_fraction_state_input.floating"
+        },
+        {
+          "name": "placeable_liquid",
+          "type": "bool",
+          "schema": "source_solid_pump_proximity_fraction_state_input.placeable_liquid"
+        },
+        {
+          "name": "has_attribute",
+          "type": "bool",
+          "schema": "source_solid_pump_proximity_fraction_state_input.has_attribute"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "valid_tiles",
+        "boost",
+        "fraction"
+      ],
+      "tests": [
+        "test_c07_solid_pump_fraction_fill_registration",
+        "test_all_c07_solid_pump_fraction_fill_input_evidence_is_exact",
+        "test_solid_pump_proximity_fraction_state",
+        "test_reference_graph_and_actual_c07_solid_pump_fraction_fill"
+      ],
+      "runtime_proof": "/root/C07SolidPumpFractionFillProof",
+      "rule": "Source-backed SolidPump live fraction fill rows from SolidPump.java / Block.java / Attribute.java."
+    },
+    "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_state": {
+      "status": "active",
+      "source_slice": "N2293",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+      "source_method": "PayloadUnloaderBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_payload_unloader_dump_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_payload_unloader_dump_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_payload_unloader_dump_state_input.time_scale"
+        },
+        {
+          "name": "item_order",
+          "type": "Array",
+          "schema": "source_payload_unloader_dump_state_input.item_order"
+        },
+        {
+          "name": "neighbour_liquid_amounts",
+          "type": "Array",
+          "schema": "source_payload_unloader_dump_state_input.neighbour_liquid_amounts"
+        },
+        {
+          "name": "neighbour_liquid_capacities",
+          "type": "Array",
+          "schema": "source_payload_unloader_dump_state_input.neighbour_liquid_capacities"
+        },
+        {
+          "name": "neighbour_accepts_liquid",
+          "type": "Array",
+          "schema": "source_payload_unloader_dump_state_input.neighbour_accepts_liquid"
+        },
+        {
+          "name": "neighbour_can_dump_liquid",
+          "type": "Array",
+          "schema": "source_payload_unloader_dump_state_input.neighbour_can_dump_liquid"
+        },
+        {
+          "name": "neighbour_accepts_item",
+          "type": "Array",
+          "schema": "source_payload_unloader_dump_state_input.neighbour_accepts_item"
+        },
+        {
+          "name": "neighbour_can_dump_item",
+          "type": "Array",
+          "schema": "source_payload_unloader_dump_state_input.neighbour_can_dump_item"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "liquids_after",
+        "dumped_liquid",
+        "items_after",
+        "dumped_items",
+        "cursor_after",
+        "dump_accum_after"
+      ],
+      "tests": [
+        "test_c07_payload_unloader_dump_registration",
+        "test_all_c07_payload_unloader_dump_input_evidence_is_exact",
+        "test_payload_unloader_dump_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_dump"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderDumpProof",
+      "rule": "Source-backed PayloadUnloader dump rows from PayloadUnloader.java / PayloadLoader.java / BuildingComp.java / LiquidModule.java."
+    },
+    "SourceMassDriverBuildState.source_mass_driver_dump_state": {
+      "status": "active",
+      "source_slice": "N2294",
+      "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+      "source_method": "MassDriverBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_mass_driver_dump_state_input.frame"
+        },
+        {
+          "name": "state_after_switch",
+          "type": "String",
+          "schema": "source_mass_driver_dump_state_input.state_after_switch"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_mass_driver_dump_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_mass_driver_dump_state_input.time_scale"
+        },
+        {
+          "name": "content_item_ids",
+          "type": "Array",
+          "schema": "source_mass_driver_dump_state_input.content_item_ids"
+        },
+        {
+          "name": "neighbour_accepts_item",
+          "type": "Array",
+          "schema": "source_mass_driver_dump_state_input.neighbour_accepts_item"
+        },
+        {
+          "name": "neighbour_can_dump",
+          "type": "Array",
+          "schema": "source_mass_driver_dump_state_input.neighbour_can_dump"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "dump_accum_after",
+        "dumped",
+        "items_after",
+        "cursor_after"
+      ],
+      "tests": [
+        "test_c07_mass_driver_dump_registration",
+        "test_all_c07_mass_driver_dump_input_evidence_is_exact",
+        "test_mass_driver_dump_state",
+        "test_reference_graph_and_actual_c07_mass_driver_dump"
+      ],
+      "runtime_proof": "/root/C07MassDriverDumpProof",
+      "rule": "Source-backed MassDriver dumpAccumulate dump rows from MassDriver.java / BuildingComp.java."
     }
   },
   "policy": {

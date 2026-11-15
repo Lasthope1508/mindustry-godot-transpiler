@@ -2056,6 +2056,54 @@
         "test_reference_graph_and_actual_c07_payload_unloader_live_fill"
       ],
       "runtime_proof": "/root/C07PayloadUnloaderLiveFillProof"
+    },
+    "N2291": {
+      "canonical_ledger": "source_slice_ledger.N2291",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "java_method": "PayloadDeconstructorBuild.handlePayload()",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_handle_payload_state",
+      "source_symbols": [
+        "source_payload_deconstructor_handle_payload_state_result.payload",
+        "source_payload_deconstructor_handle_payload_state_result.pay_vector",
+        "source_payload_deconstructor_handle_payload_state_result.pay_rotation",
+        "source_payload_deconstructor_handle_payload_state_result.accum",
+        "source_payload_deconstructor_move_in_payload_state_result.arrived",
+        "source_payload_deconstructor_move_in_payload_state_result.pay_vector_after",
+        "source_payload_deconstructor_move_in_payload_state_result.deconstructing",
+        "source_payload_deconstructor_move_in_payload_state_result.payload_after",
+        "source_payload_deconstructor_move_in_payload_state_result.progress_after",
+        "source_payload_deconstructor_move_in_payload_state_result.accum_after"
+      ],
+      "tests": [
+        "test_c07_payload_deconstructor_deconstructing_fill_registration",
+        "test_all_c07_payload_deconstructor_deconstructing_fill_input_evidence_is_exact",
+        "test_payload_deconstructor_deconstructing_fill_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_deconstructing_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorDeconstructingFillProof"
+    },
+    "N2293": {
+      "canonical_ledger": "source_slice_ledger.N2293",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+      "java_method": "PayloadUnloaderBuild.updateTile()",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_state",
+      "source_symbols": [
+        "source_payload_unloader_dump_state_result.liquids_after",
+        "source_payload_unloader_dump_state_result.dumped_liquid",
+        "source_payload_unloader_dump_state_result.items_after",
+        "source_payload_unloader_dump_state_result.dumped_items",
+        "source_payload_unloader_dump_state_result.cursor_after",
+        "source_payload_unloader_dump_state_result.dump_accum_after"
+      ],
+      "tests": [
+        "test_c07_payload_unloader_dump_registration",
+        "test_all_c07_payload_unloader_dump_input_evidence_is_exact",
+        "test_payload_unloader_dump_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_dump"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderDumpProof"
     }
   }
 }
