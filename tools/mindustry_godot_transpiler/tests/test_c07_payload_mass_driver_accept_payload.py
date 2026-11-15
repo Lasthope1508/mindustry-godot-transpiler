@@ -117,8 +117,9 @@ class C07PayloadMassDriverAcceptPayloadTests(unittest.TestCase):
         # per-def overrides (`maxPayloadSize = 2.5f;` /
         # `maxPayloadSize = 4f;`, Blocks.java:6624/6636) beat the
         # class default in Java; this pure uses the class
-        # default and the per-def thresholds wait for their own
-        # slice. Unlike the Loader/Deconstructor block-size fits
+        # default and the per-def thresholds live since N2304
+        # in the for_def pure (which the tick calls with the
+        # helper-resolved value). Unlike the Loader/Deconstructor block-size fits
         # checks, the PMD gate is size-based in world units.
         self.assertIn('static func source_payload_mass_driver_accept_payload_state', payload_mass_driver)
         self.assertIn('public class PayloadMassDriver extends PayloadBlock{', payload_mass_driver)
@@ -151,9 +152,12 @@ class C07PayloadMassDriverAcceptPayloadTests(unittest.TestCase):
         # (frame["offered_payload_size"], world units -- there
         # are no live Payload objects in the port); no payload
         # offered means nothing to accept, so the verdict
-        # defaults false.
+        # defaults false. Since N2304 the tick calls the per-def
+        # for_def pure (with the helper-resolved maxPayloadSize)
+        # instead of this class-default pure; this pure stays as
+        # the class-default gate.
         self.assertIn('frame.get("offered_payload_size", null)', payload_mass_driver)
-        self.assertIn('source_payload_mass_driver_accept_payload_state(float(offered_payload_size), frame.get("payload", null) != null)', payload_mass_driver)
+        self.assertIn('source_payload_mass_driver_accept_payload_state_for_def(float(offered_payload_size), frame.get("payload", null) != null, max_payload_size)', payload_mass_driver)
         self.assertIn('frame["accepts_payload"] = false', payload_mass_driver)
         self.assertIn('frame["accepts_payload"] = bool(accept_verdict.get("accepts", false))', payload_mass_driver)
         # The documented limits now record the gate as live with
