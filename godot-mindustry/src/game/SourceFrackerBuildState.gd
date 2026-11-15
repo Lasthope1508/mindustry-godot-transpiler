@@ -49,6 +49,19 @@ const SOURCE_FRACKER_LIQUID_CAPACITY := 40.0
 # the driver passes it to the reused N2220 SolidPump pure
 # function for super.updateTile() (Fracker.java:37).
 const SOURCE_FRACKER_PUMP_AMOUNT := 0.25
+# The oil-extractor def size (Blocks.java:2970, `size =
+# 3;`): both proximity sums divide by size * size
+# (SolidPump.java:153, 157), so the fracker divides by 9.
+const SOURCE_FRACKER_SIZE := 3
+# The oil-extractor def base efficiency
+# (Blocks.java:2973, `baseEfficiency = 0f;`, overriding the
+# SolidPump class default 1f, SolidPump.java:26, `public
+# float baseEfficiency = 1f;`): each pumpable linked tile
+# contributes baseEfficiency / (size * size) to validTiles
+# (SolidPump.java:157), so for the oil-extractor validTiles
+# is ALWAYS 0 -- the fraction comes from the oil-attribute
+# boost + env alone.
+const SOURCE_FRACKER_BASE_EFFICIENCY := 0.0
 # The oil-extractor def item use time (Blocks.java:2974,
 # `itemUseTime = 60f;`, overriding the Fracker class default
 # 100f, Fracker.java:8, `public float itemUseTime = 100f;`):
@@ -192,11 +205,10 @@ static func source_fracker_power_status_row_state(frame: Dictionary, has_power_c
 	# intake" DEFERRED entry stays), and the advance
 	# removal is live since N2224 (one sand when the
 	# accumulator reaches itemUseTime, Fracker.java:32-35).
-	# The water-attribute / validTiles / boost fraction
-	# (SolidPump.java:118, 137-147, inherited via
-	# super.updateTile()) waits for its own slice, so the
-	# folded efficiency is the min over the *modeled*
-	# consumers (power + water + sand). (2) shouldConsume gate live (N2207)
+	# The water-attribute / validTiles / boost fraction fill
+	# is live (N2305, item (5) below); the folded
+	# efficiency is the min over the *modeled* consumers
+	# (power + water + sand). (2) shouldConsume gate live (N2207)
 	# -- FrackerBuild inherits
 	# SolidPumpBuild.shouldConsume() (SolidPump.java:117-119,
 	# `return liquids.get(result) < liquidCapacity - 0.01f;`);
@@ -213,9 +225,9 @@ static func source_fracker_power_status_row_state(frame: Dictionary, has_power_c
 	# reused N2220 pure function) advance each tick from
 	# explicit fraction inputs (frame valid_tiles / boost /
 	# attribute_env, default 0f); still deferred: the
-	# sand intake (nothing fills frame["items"] live yet),
-	# and the live onProximityUpdate fill
-	# (SolidPump.java:150-159). (4) dumpLiquid live (N2284)
+	# sand intake (nothing fills frame["items"] live yet);
+	# the live onProximityUpdate fill is live since N2305
+	# (item (5) below). (4) dumpLiquid live (N2284)
 	# -- dumpLiquid(result) runs after the advance in BOTH
 	# updateTile branches: the if-branch dump (the
 	# super.updateTile() dump, SolidPump.java:140, after the
@@ -227,7 +239,27 @@ static func source_fracker_power_status_row_state(frame: Dictionary, has_power_c
 	# proximity fill yet), no neighbour write-back yet, and
 	# the campaign unlock waits for its own slice. The pure
 	# N2220 itself still does not dump -- the SolidPump-driver
-	# dump is N2286.
+	# dump is N2286. (5) Fraction fill live (N2305) --
+	# onProximityUpdate (SolidPump.java:150-159, inherited:
+	# Fracker does NOT override it) recomputed each enabled
+	# tick from frame proximity inputs
+	# (frame["proximity_linked_tiles"], default [] -- no
+	# tiles) and the N2224 attribute_env frame input
+	# (default 0.0): the oil-extractor def sets
+	# baseEfficiency 0f (Blocks.java:2973), so validTiles
+	# stays 0; boost = sumAttribute(oil) / 9 with 0 for deep
+	# floors (!floating && !placeableLiquid -- the def
+	# leaves both at the Block class defaults false);
+	# fraction = max(validTiles + boost + env, 0). The fill
+	# delegates to the N2292 SolidPump pure through the
+	# Fracker wrapper
+	# (source_fracker_proximity_fraction_state) and stamps
+	# valid_tiles / boost onto the frame BEFORE the advance
+	# (Java order); the advance recomputes the fraction
+	# from the stamped keys. Still deferred: the live
+	# linked-tile scan, the live envAttrs read, and a
+	# proximity-change trigger (Java runs onProximityUpdate
+	# only when placement/proximity changes).
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -325,7 +357,9 @@ static func source_fracker_update_tile_advance_state(frame: Dictionary, source_d
 	# inputs are explicit frame keys (valid_tiles / boost /
 	# attribute_env, default 0f), read by the reused super
 	# advance: the live onProximityUpdate fill
-	# (SolidPump.java:150-159) waits for its own slice.
+	# (SolidPump.java:150-159) is live since N2305 -- the
+	# driver stamps valid_tiles / boost each enabled tick
+	# before the advance.
 	var efficiency: float = float(frame.get("efficiency", 0.0))
 	var accumulator: float = float(frame.get("accumulator", 0.0))
 	var warmup: float = float(frame.get("warmup", 0.0))
@@ -353,6 +387,76 @@ static func source_fracker_update_tile_advance_state(frame: Dictionary, source_d
 		next_warmup = lerpf(warmup, 0.0, clampf(SOURCE_FRACKER_WARMUP_RATE * source_delta, 0.0, 1.0))
 		last_pump = 0.0
 	return {"accumulator": accumulator, "warmup": next_warmup, "pump_time": next_pump_time, "last_pump": last_pump, "max_pump": max_pump, "fraction": fraction, "items": items}
+
+static func source_fracker_proximity_fraction_state(linked_tiles: Array, attribute_env: float) -> Dictionary:
+	# The live fraction fill for Fracker (SolidPumpBuild.
+	# onProximityUpdate(), SolidPump.java:150-159, INHERITED:
+	# Fracker does NOT override onProximityUpdate --
+	# Fracker.java has no onProximityUpdate at all; Fracker
+	# extends SolidPump (Fracker.java:7, `public class
+	# Fracker extends SolidPump{`) and FrackerBuild extends
+	# SolidPumpBuild (Fracker.java:26, `public class
+	# FrackerBuild extends SolidPumpBuild{`), so the
+	# oil-extractor runs the SolidPump proximity fill
+	# verbatim. The pure DELEGATES to the N2292 SolidPump
+	# pure (the N2221 cross-driver preload precedent -- the
+	# N2224 advance already reuses the N2220 pure the same
+	# way) with the oil-extractor def constants bound here,
+	# so the driver calls the Fracker pure only and the
+	# per-family pure boundary stays clean: size 3
+	# (Blocks.java:2970, `size = 3;`), baseEfficiency 0f
+	# (Blocks.java:2973, `baseEfficiency = 0f;`,
+	# overriding the class default 1f, SolidPump.java:26,
+	# `public float baseEfficiency = 1f;`), attribute
+	# Attribute.oil (Blocks.java:2972, `attribute =
+	# Attribute.oil;` -- the Fracker CLASS sets no attribute,
+	# `public @Nullable Attribute attribute;`,
+	# SolidPump.java:28, but the oil-extractor DEF does, so
+	# has_attribute is true and the env adds), floating /
+	# placeableLiquid at the Block class defaults false
+	# (`public boolean floating = false;`, Block.java:212;
+	# `public boolean placeableLiquid = false;`,
+	# Block.java:152; the def overrides neither).
+	# Because baseEfficiency is 0f, validTiles is ALWAYS 0
+	# for the oil-extractor (`validTiles += baseEfficiency
+	# / (size * size);`, SolidPump.java:157, adds 0 per
+	# pumpable tile) -- the fraction is boost + env only.
+	# Java runs onProximityUpdate only when placement /
+	# proximity changes; the port recomputes the fill every
+	# enabled tick from the frame inputs (the N2205 pump
+	# re-scan precedent). Each Java expr below stays on ONE
+	# comment line (the N2148 lesson):
+	# `public void onProximityUpdate(){` (SolidPump.java:150).
+	# `super.onProximityAdded();` (SolidPump.java:151 -- the parent hook, not a second updateTile).
+	# `boost = sumAttribute(attribute, tile.x, tile.y) / size / size;` (SolidPump.java:153).
+	# `validTiles = 0f;` (SolidPump.java:154).
+	# `for(Tile other : tile.getLinkedTiles(tempTiles)){` (SolidPump.java:155).
+	# `if(canPump(other)){` (SolidPump.java:156).
+	# `validTiles += baseEfficiency / (size * size);` (SolidPump.java:157).
+	# `protected boolean canPump(Tile tile){` (SolidPump.java:80).
+	# `return tile != null && !tile.floor().isLiquid;` (SolidPump.java:81).
+	# `float fraction = Math.max(validTiles + boost + (attribute == null ? 0 : attribute.env()), 0);` (SolidPump.java:124).
+	# `public float sumAttribute(@Nullable Attribute attr, int x, int y){` (Block.java:575).
+	# `if(attr == null) return 0;` (Block.java:576).
+	# `if(tile == null) return 0;` (Block.java:578).
+	# `return tile.getLinkedTilesAs(this, tempTiles)` (Block.java:579).
+	# `.sumf(other -> !floating && !placeableLiquid && other.floor().isDeep() ? 0 : other.floor().attributes.get(attr));` (Block.java:580).
+	# `public float env(){` (Attribute.java:31).
+	# `if(Vars.state == null) return 0;` (Attribute.java:32).
+	# `return Vars.state.envAttrs.get(this);` (Attribute.java:33).
+	# `attribute = Attribute.oil;` (Blocks.java:2972).
+	# `size = 3;` (Blocks.java:2970).
+	# `baseEfficiency = 0f;` (Blocks.java:2973).
+	# The two linked-tile scans use the same tile set
+	# (Tile.java:474-525), so one linked_tiles input serves
+	# both sums exactly (the N2292 note). Each entry is a
+	# Dict {can_pump, attribute_value, is_deep}: the canPump
+	# answer, the floor OIL attribute value, and the
+	# deep-floor flag. The fill returns the fraction as a
+	# pure result, but the driver stamps only valid_tiles /
+	# boost onto the frame: the N2224 advance recomputes
+	# the fraction from the stamped keys (Java order).
+	return source_solid_pump_state.source_solid_pump_proximity_fraction_state(linked_tiles, SOURCE_FRACKER_SIZE, SOURCE_FRACKER_BASE_EFFICIENCY, attribute_env, false, false, true)
 
 static func source_fracker_dump_liquid_state(frame: Dictionary, result_liquid_id: int, liquid_capacity: float, dump_neighbours: Array) -> Dictionary:
 	# The dumpLiquid rows (FrackerBuild.updateTile(),
@@ -532,7 +636,9 @@ static func source_fracker_tick_buildings_state(game: Object, seconds: float) ->
 		# water + sand consumers (N2255 folds the liquid row
 		# into the first pass, N2268 folds the sand item row);
 		# the water-attribute / validTiles / boost fraction
-		# waits for its own slice, and FrackerBuild inherits
+		# fill is live since N2305 (the fill runs before the
+		# advance each enabled tick, item (5) in the
+		# power-row limits), and FrackerBuild inherits
 		# SolidPumpBuild.shouldConsume() (`return
 		# liquids.get(result) < liquidCapacity - 0.01f;`,
 		# SolidPump.java:117-119) -- N2207 feeds the live gate
@@ -644,6 +750,31 @@ static func source_fracker_tick_buildings_state(game: Object, seconds: float) ->
 		# advanced scalars + items, which the driver writes back
 		# to the frame.
 		if bool(frame.get("enabled", true)):
+			# N2305: the live fraction fill runs BEFORE the
+			# advance (Java order: onProximityUpdate stamps
+			# validTiles / boost, SolidPump.java:150-159, and
+			# updateTile reads them at :124 -- Fracker
+			# inherits onProximityUpdate from SolidPumpBuild,
+			# Fracker.java has no override). Java runs it only
+			# when placement/proximity changes; the port
+			# recomputes the fill every enabled tick from the
+			# frame inputs (the N2205 pump re-scan precedent).
+			# The linked tiles are frame inputs (default [] --
+			# no tiles, the Java empty-proximity outcome)
+			# until a live tile scan lands; the attribute env
+			# is the N2224 frame input (default 0.0). The fill
+			# delegates to the N2292 SolidPump pure through
+			# the Fracker wrapper, which binds the
+			# oil-extractor def constants (size 3,
+			# baseEfficiency 0f, attribute oil); the driver
+			# never calls the SolidPump pure directly. The
+			# fill stamps valid_tiles / boost onto the frame;
+			# the fraction is recomputed by the N2224 advance
+			# from the stamped keys.
+			var proximity_tiles: Array = frame.get("proximity_linked_tiles", [])
+			var filled: Dictionary = source_fracker_proximity_fraction_state(proximity_tiles, float(frame.get("attribute_env", 0.0)))
+			frame["valid_tiles"] = filled["valid_tiles"]
+			frame["boost"] = filled["boost"]
 			var advance_result_id: int = int(liquid_id_by_name.get(SOURCE_FRACKER_RESULT_LIQUID, -1))
 			var advanced: Dictionary = source_fracker_update_tile_advance_state(frame, source_delta, time_scale, advance_result_id, SOURCE_FRACKER_LIQUID_CAPACITY, SOURCE_FRACKER_PUMP_AMOUNT, SOURCE_FRACKER_ITEM_USE_TIME)
 			frame["accumulator"] = advanced["accumulator"]
