@@ -39,17 +39,34 @@ static func source_payload_deconstructor_tick_frame_state(frame: Dictionary, blo
 	# payload-deconstructor instead of resetting it, the factory pattern
 	# (SourceFactoryBuildState.gd:927).
 	frame["enabled"] = bool(frame.get("enabled", true))
+	# The frame carries the Payload being deconstructed
+	# (frame["deconstructing"], default null -- the Java field
+	# is nullable, `public @Nullable Payload deconstructing;`,
+	# PayloadDeconstructor.java:52); the tick preserves the
+	# deconstructing payload instead of resetting it -- no live
+	# fill sets it yet (the live-fill slice), so the
+	# shouldConsume gate reads the frame as-is.
+	if not frame.has("deconstructing"):
+		frame["deconstructing"] = null
 	return frame
 
 static func _initial_frame() -> Dictionary:
-	return {}
+	# A new PayloadDeconstructorBuild starts with no payload
+	# being deconstructed (the nullable field, `public
+	# @Nullable Payload deconstructing;`,
+	# PayloadDeconstructor.java:52, default null): the
+	# shouldConsume gate (PayloadDeconstructor.java:219-221)
+	# reads only its null-ness, so the frame carries the
+	# deconstructing key at null.
+	return {"deconstructing": null}
 
 static func source_payload_deconstructor_bind_frame_state(sprite: Sprite2D, block: Object) -> Dictionary:
 	# Placement creates the Building (Block.java:1002 newBuilding);
 	# the port's frame is that Building state, bound on the sprite
 	# at placement under the payload-deconstructor frame meta key
-	# ("source_payload_deconstructor_building"). A PayloadDeconstructor sprite gets an
-	# empty frame bound; the live-loop tick fills its keys every
+	# ("source_payload_deconstructor_building"). A PayloadDeconstructor sprite gets a
+	# frame bound with the deconstructing key at its Java default null;
+	# the live-loop tick fills its other keys every
 	# tick. Any other block, or an already-bound sprite, binds
 	# nothing.
 	if block == null or not _is_payload_deconstructor_build_implementation(str(block.implementation)):
@@ -61,13 +78,19 @@ static func source_payload_deconstructor_bind_frame_state(sprite: Sprite2D, bloc
 	return {"applied": true, "frame": frame}
 
 static func source_payload_deconstructor_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
-	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a payload-deconstructor does not take the early return. The progress advance follows the folded efficiency (PayloadDeconstructor.java:142, `float shift = edelta() * deconstructSpeed / deconstructing.buildTime();`) with `progress += shift;` and the shouldConsume override (PayloadDeconstructor.java:219-221, `return deconstructing != null && enabled;`, default BuildingComp.java:755, `public boolean shouldConsume(){`) -- PayloadDeconstructorBuild overrides shouldConsume() to return deconstructing != null && enabled, so the default does not apply here; the gate is deferred (deconstructing state is not tracked yet) and the machinery runs with should_consume=true when enabled (the MendProjector suppression precedent). The deconstructor (consumePower 3f, Blocks.java:6653, `consumePower(3f);`; small-deconstructor consumePower 1f, Blocks.java:6644, `consumePower(1f);`) has no liquid consumer, so the folded efficiency is the min over the *modeled* consumers (power only).
-	# Documented limits: (1) power-only first pass -- the deconstructor has no liquid consumer, so the folded efficiency is the min over the *modeled* consumers (power only). (2) shouldConsume gate deferred -- PayloadDeconstructorBuild overrides shouldConsume() to return deconstructing != null && enabled (PayloadDeconstructor.java:219-221, `return deconstructing != null && enabled;`); deconstructing state is not tracked yet, so the machinery runs with should_consume=true when enabled (the MendProjector suppression precedent). (3) No updateTile advance -- dumpAccumulate / progress / payRotation / canProgress / accum / speedScl / item transfer / finish deconstruction (PayloadDeconstructor.java:109-204) wait for their own slices; the proof carries no progress/accum/dump keys, the progress advance (PayloadDeconstructor.java:142, `float shift = edelta() * deconstructSpeed / deconstructing.buildTime();`) with `progress += shift;` is what the efficiency keys prove. (4) No acceptPayload / handlePayload / acceptUnitPayload / sense / draw / icons / setBars / read-write rows -- acceptPayload (PayloadDeconstructor.java:104-106), handlePayload (PayloadDeconstructor.java:98-101), acceptUnitPayload (PayloadDeconstructor.java:92-95), sense (PayloadDeconstructor.java:206-216), draw (PayloadDeconstructor.java:58-89), icons (PayloadDeconstructor.java:40-42), setBars (PayloadDeconstructor.java:45-49), read/write (PayloadDeconstructor.java:224-252) are acceptance / logic / presentation / serialization, not tick state. (5) No dump rows -- dumpRate 4 (PayloadDeconstructor.java:20) and dumpAccumulate (PayloadDeconstructor.java:111-115) wait for their own slice.
+	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a payload-deconstructor does not take the early return. The progress advance follows the folded efficiency (PayloadDeconstructor.java:142, `float shift = edelta() * deconstructSpeed / deconstructing.buildTime();`) with `progress += shift;` and the shouldConsume override (PayloadDeconstructor.java:219-221, `return deconstructing != null && enabled;`, default BuildingComp.java:755, `public boolean shouldConsume(){`) -- PayloadDeconstructorBuild overrides shouldConsume() to return deconstructing != null && enabled, so the default does not apply here; the gate is live since N2210 (the pure gate source_payload_deconstructor_should_consume_state feeds deconstructing != null && enabled to the machinery; when the gate is false updateConsumption forces efficiency to 0, BuildingComp.java:1960 + 1992). The deconstructor (consumePower 3f, Blocks.java:6653, `consumePower(3f);`; small-deconstructor consumePower 1f, Blocks.java:6644, `consumePower(1f);`) has no liquid consumer, so the folded efficiency is the min over the *modeled* consumers (power only).
+	# Documented limits: (1) power-only first pass -- the deconstructor has no liquid consumer, so the folded efficiency is the min over the *modeled* consumers (power only). (2) shouldConsume gate live (N2210) -- PayloadDeconstructorBuild overrides shouldConsume() to return deconstructing != null && enabled (PayloadDeconstructor.java:219-221, `return deconstructing != null && enabled;`); the pure gate reads the null-ness of the frame deconstructing payload plus the frame enabled flag and feeds should_consume to the machinery; when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994). No live fill sets frame["deconstructing"] yet -- the gate reads the frame as-is, and the live fill (handlePayload / moveInPayload / updateTile advance) waits for its own slice. (3) No updateTile advance -- dumpAccumulate / progress / payRotation / canProgress / accum / speedScl / item transfer / finish deconstruction (PayloadDeconstructor.java:109-204) wait for their own slices; the proof carries no progress/accum/dump keys, the progress advance (PayloadDeconstructor.java:142, `float shift = edelta() * deconstructSpeed / deconstructing.buildTime();`) with `progress += shift;` is what the efficiency keys prove. (4) No acceptPayload / handlePayload / acceptUnitPayload / sense / draw / icons / setBars / read-write rows -- acceptPayload (PayloadDeconstructor.java:104-106), handlePayload (PayloadDeconstructor.java:98-101), acceptUnitPayload (PayloadDeconstructor.java:92-95), sense (PayloadDeconstructor.java:206-216), draw (PayloadDeconstructor.java:58-89), icons (PayloadDeconstructor.java:40-42), setBars (PayloadDeconstructor.java:45-49), read/write (PayloadDeconstructor.java:224-252) are acceptance / logic / presentation / serialization, not tick state. (5) No dump rows -- dumpRate 4 (PayloadDeconstructor.java:20) and dumpAccumulate (PayloadDeconstructor.java:111-115) wait for their own slice.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
 	var live: float = 1.0 if stamped == null else float(stamped)
 	return {"has_power_row": true, "row": {"result": live, "is_power": true}}
+
+static func source_payload_deconstructor_should_consume_state(frame: Dictionary) -> Dictionary:
+	# PayloadDeconstructorBuild.shouldConsume() (PayloadDeconstructor.java:219-221, `public boolean shouldConsume(){` with `return deconstructing != null && enabled;`, PayloadDeconstructor.java:220): the gate reads the nullable field `public @Nullable Payload deconstructing;` (PayloadDeconstructor.java:52), set by the updateTile advance (`deconstructing = payload;`, PayloadDeconstructor.java:199, when moveInPayload succeeds, PayloadDeconstructor.java:197) and cleared on finish (PayloadDeconstructor.java:193). The gate has an `&& enabled` term -- unlike the PayloadLoader / PayloadUnloader gate (`return payload != null;`, PayloadLoader.java:240-242), so a disabled deconstructor with a payload in progress still does not consume. PayloadDeconstructorBuild overrides shouldConsume (PayloadDeconstructor.java:51, `public class PayloadDeconstructorBuild extends PayloadBlockBuild<Payload>{`; PayloadDeconstructor.java:17, `public class PayloadDeconstructor extends PayloadBlock{`), so the default (`return enabled;`, BuildingComp.java:755-756) does not apply here. When the gate is false updateConsumption forces efficiency to zero (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). The frame carries the deconstructing payload (frame["deconstructing"], default null, the Java field nullable); the gate reads only its null-ness, and enabled comes from the frame (tick-preserved, the factory pattern). The updateTile progress advance (PayloadDeconstructor.java:142, `float shift = edelta() * deconstructSpeed / deconstructing.buildTime();` with `progress += shift;`) follows the folded efficiency and waits for its own slice.
+	var deconstructing_present: bool = frame.get("deconstructing", null) != null
+	var enabled: bool = bool(frame.get("enabled", true))
+	return {"should_consume": deconstructing_present and enabled, "deconstructing_present": deconstructing_present}
 
 @warning_ignore("unused_parameter")
 static func source_payload_deconstructor_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
@@ -105,10 +128,11 @@ static func source_payload_deconstructor_tick_buildings_state(game: Object, seco
 		# into the min efficiency like every other non-optional
 		# consumer, and the progress advance (PayloadDeconstructor.java:142)
 		# follows it. The power consumer counts toward
-		# hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a payload-deconstructor does not take the early return. A payload-deconstructor with no power consumer is untouched: the tick models no other consumers yet (the deconstructor has no liquid consumer), and there is no shouldConsume gate yet (PayloadDeconstructorBuild overrides shouldConsume() to return deconstructing != null && enabled, PayloadDeconstructor.java:219-221, but deconstructing state is not tracked yet), so the machinery runs with should_consume=true when enabled. productionValid is the canonical true default (SourceBuildingAccessState.production_valid_state()).
+		# hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a payload-deconstructor does not take the early return. A payload-deconstructor with no power consumer is untouched: the tick models no other consumers yet (the deconstructor has no liquid consumer), and PayloadDeconstructorBuild overrides shouldConsume() to return deconstructing != null && enabled (PayloadDeconstructor.java:219-221) -- N2210 feeds the live gate to the machinery (the pure gate is source_payload_deconstructor_should_consume_state, fed the frame); the N2166 RED decision is resolved. productionValid is the canonical true default (SourceBuildingAccessState.production_valid_state()).
 		var has_power_consumer: bool = bool(block.properties.has("consumePower"))
 		if has_power_consumer and bool(frame.get("enabled", true)) and not bool(frame.get("cheating", false)):
-			var should_consume: bool = bool(frame.get("enabled", true))
+			var gate: Dictionary = source_payload_deconstructor_should_consume_state(frame)
+			var should_consume: bool = bool(frame.get("enabled", true)) and bool(gate.get("should_consume", true))
 			var valid: bool = source_building_access_state.production_valid_state()
 			var setup: Dictionary = source_building_efficiency_state.update_consumption_setup_state(should_consume, valid)
 			frame["efficiency"] = setup.get("efficiency", 1.0)
