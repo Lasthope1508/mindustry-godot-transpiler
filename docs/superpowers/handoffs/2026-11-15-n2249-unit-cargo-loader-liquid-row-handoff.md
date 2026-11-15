@@ -13,7 +13,7 @@
 - **Do NOT register a family row slice under ConsumeLiquid.java**: the consumer shards require a generated_owner on every mirrored slice and the shard build crashes with `KeyError: 'generated_owner'` (verified this slice). Family precedent stands: slice java_source is the block file; symbols still cite ConsumeLiquid.java.
 - Cite corrections: ConsumeLiquid.update :37-39 (not :40-43), efficiency :42-47 (not :45-51).
 - Register: 25 exact exprs, 0 missing. DEFERRED: 294 (294 − 1 + 1 new: liquid consumer build/display rows). **NO shard changes**.
-- Slice commit on branch `slice/N2249-unit-cargo-loader-liquid-row`, đã push (hash điền khi tích hợp); SSOT slice riêng +2/+1/+1/+2 → 11708/1699/1621/3033.
+- Slice commit on branch `slice/N2249-unit-cargo-loader-liquid-row`, đã push (`8d98e988`); SSOT slice riêng +2/+1/+1/+2 → 11708/1699/1621/3033.
 
 ## Godot debt (this slice)
 

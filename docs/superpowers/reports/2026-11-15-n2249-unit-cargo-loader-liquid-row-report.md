@@ -22,13 +22,14 @@
 
 ## Commits
 
-- Slice commit on branch `slice/N2249-unit-cargo-loader-liquid-row` (9 files: driver + proof .gd/.tscn + register + test + report + handoff + spec line + GOAL.md; đã push, remote tip verified by ls-remote — hash điền khi tích hợp, xem báo cáo worker gửi coordinator).
+- Slice commit on branch `slice/N2249-unit-cargo-loader-liquid-row` (9 files: driver + proof .gd/.tscn + register + test + report + handoff + spec line + GOAL.md; đã push, remote tip verified by ls-remote — `8d98e988`).
 - SSOT slice riêng +2/+1/+1/+2 → 11708/1699/1621/3033; audit 1336, legacy 0.
 
 ## Tests
 
 - Targeted post-register: 3/4 PASS (registration, exact-evidence 25/25, row-state) + proof test FAIL đúng `AssertionError: unexpectedly None` — Godot-absent.
 - Sibling N2165 power + N2211 gate + N2234 advance: 9/12 PASS, 3 fail đều là proof Godot-absent — không regression.
+- Full wave gate: Ran 6110 in 1143.879s, failures=204, skipped=5, 0 errors — 204/204 Godot-absent (197 inherited + 7 new proof tests N2249–N2255).
 
 ## SSOT / DEFERRED
 
