@@ -231300,6 +231300,150 @@
       },
       "runtime_proof": "/root/C07UnitCargoLoaderShouldConsumeProof",
       "rule": "Source-backed UnitCargoLoader shouldConsume gate from UnitCargoLoader.java / BuildingComp.java / Blocks.java."
+    },
+    "source_repair_turret_should_consume_state_input": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_should_consume_state",
+      "source_slice": "N2212",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "return target != null && enabled;",
+          "rule": "The building frame carrying the live target (frame[\"target\"], default null -- the Java field `public Unit target;`, RepairTurret.java:154, defaults to null) and the enabled flag (frame[\"enabled\"], default true -- BuildingComp.java:77, `transient boolean enabled = true;`): the gate reads only the null-ness of the target key plus enabled; no live fill sets frame[\"target\"] yet, so a live repair turret with no fill reads null and does not consume.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretShouldConsumeProof",
+      "rule": "Source-backed RepairTurret shouldConsume gate from RepairTurret.java / BuildingComp.java / Blocks.java."
+    },
+    "source_repair_turret_should_consume_state_result": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_should_consume_state",
+      "source_slice": "N2212",
+      "keys": {
+        "should_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "return target != null && enabled;",
+          "rule": "The shouldConsume gate (RepairTurret.java:221-223): true while a target is locked AND the building is enabled, false with no target or while disabled; when false, updateConsumption forces efficiency to zero (BuildingComp.java:1960 + 1992-1994).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_should_consume_state"
+          ]
+        },
+        "has_target": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "public Unit target;",
+          "rule": "Whether the frame holds a target (RepairTurret.java:154, the target field): the null-ness the gate reads -- true when a damaged unit is locked (gate true when enabled), false with no target (gate false).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretShouldConsumeProof",
+      "rule": "Source-backed RepairTurret shouldConsume gate from RepairTurret.java / BuildingComp.java / Blocks.java."
+    },
+    "source_repair_tower_should_consume_state_input": {
+      "status": "active",
+      "owner": "SourceRepairTowerBuildState.source_repair_tower_should_consume_state",
+      "source_slice": "N2213",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "return targets.size > 0;",
+          "rule": "The building frame carrying the live targets (frame[\"targets\"], default [] -- the Java field `public Seq<Unit> targets = new Seq<>();`, RepairTower.java:54, initializes to the empty list): the gate reads only the size of this key; no live refresh fills it yet, so a live tower with no refresh reads the empty list and does not consume.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTowerShouldConsumeProof",
+      "rule": "Source-backed RepairTower shouldConsume gate from RepairTower.java / BuildingComp.java / Blocks.java."
+    },
+    "source_repair_tower_should_consume_state_result": {
+      "status": "active",
+      "owner": "SourceRepairTowerBuildState.source_repair_tower_should_consume_state",
+      "source_slice": "N2213",
+      "keys": {
+        "should_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "return targets.size > 0;",
+          "rule": "The shouldConsume gate (RepairTower.java:89-91): true while at least one damaged unit is in range and false with no targets -- when false, updateConsumption forces efficiency to zero (BuildingComp.java:1960 + 1992-1994).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_should_consume_state"
+          ]
+        },
+        "target_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "public Seq<Unit> targets = new Seq<>();",
+          "rule": "The number of targets in the frame list (RepairTower.java:54, the targets Seq): the size the gate reads -- 0 with no targets (gate false), 1 or more with targets in range (gate true).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTowerShouldConsumeProof",
+      "rule": "Source-backed RepairTower shouldConsume gate from RepairTower.java / BuildingComp.java / Blocks.java."
+    },
+    "source_regen_projector_should_consume_state_input": {
+      "status": "active",
+      "owner": "SourceRegenProjectorBuildState.source_regen_projector_should_consume_state",
+      "source_slice": "N2214",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+          "java_expr": "return anyTargets;",
+          "rule": "The building frame carrying the live anyTargets flag (frame[\"any_targets\"], default false -- the Java field `public boolean anyTargets = false;`, RegenProjector.java:112): the gate reads only this flag, never the targets list itself; no live fill sets it yet, so a live regen-projector with no fill reads false and does not consume.",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RegenProjectorShouldConsumeProof",
+      "rule": "Source-backed RegenProjector shouldConsume gate from RegenProjector.java / BuildingComp.java / Blocks.java."
+    },
+    "source_regen_projector_should_consume_state_result": {
+      "status": "active",
+      "owner": "SourceRegenProjectorBuildState.source_regen_projector_should_consume_state",
+      "source_slice": "N2214",
+      "keys": {
+        "should_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+          "java_expr": "return anyTargets;",
+          "rule": "The shouldConsume gate (RegenProjector.java:181-183): true while a damaged building is in range (anyTargets) and false once nothing in range is damaged; when false, updateConsumption forces efficiency to zero (BuildingComp.java:1960 + 1992-1994).",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_should_consume_state"
+          ]
+        },
+        "any_targets": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+          "java_expr": "public boolean anyTargets = false;",
+          "rule": "Whether a damaged building is in range (RegenProjector.java:112, the anyTargets flag): the value the gate reads -- true when the targets list contains a damaged building (RegenProjector.java:139), false otherwise.",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RegenProjectorShouldConsumeProof",
+      "rule": "Source-backed RegenProjector shouldConsume gate from RegenProjector.java / BuildingComp.java / Blocks.java."
     }
   },
   "version": 1

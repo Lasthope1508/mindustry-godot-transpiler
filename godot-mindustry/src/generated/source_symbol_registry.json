@@ -173624,6 +173624,102 @@
         "test_reference_graph_and_actual_c07_unit_cargo_loader_should_consume"
       ],
       "runtime_proof": "/root/C07UnitCargoLoaderShouldConsumeProof"
+    },
+    "source_repair_turret_should_consume_state_result.should_consume": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_should_consume_state",
+      "godot_symbol": "source_repair_turret_should_consume_state_result.should_consume",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairPointBuild.shouldConsume()",
+      "java_expr": "return target != null && enabled;",
+      "rule": "The shouldConsume gate (RepairTurret.java:221-223): true while a target is locked AND the building is enabled, false with no target or while disabled; when false, updateConsumption forces efficiency to zero (BuildingComp.java:1960 + 1992-1994).",
+      "tests": [
+        "test_c07_repair_turret_should_consume_registration",
+        "test_all_c07_repair_turret_should_consume_input_evidence_is_exact",
+        "test_repair_turret_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_repair_turret_should_consume"
+      ],
+      "runtime_proof": "/root/C07RepairTurretShouldConsumeProof"
+    },
+    "source_repair_turret_should_consume_state_result.has_target": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_should_consume_state",
+      "godot_symbol": "source_repair_turret_should_consume_state_result.has_target",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairPointBuild.shouldConsume()",
+      "java_expr": "public Unit target;",
+      "rule": "Whether the frame holds a target (RepairTurret.java:154, the target field): the null-ness the gate reads -- true when a damaged unit is locked (gate true when enabled), false with no target (gate false).",
+      "tests": [
+        "test_c07_repair_turret_should_consume_registration",
+        "test_all_c07_repair_turret_should_consume_input_evidence_is_exact",
+        "test_repair_turret_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_repair_turret_should_consume"
+      ],
+      "runtime_proof": "/root/C07RepairTurretShouldConsumeProof"
+    },
+    "source_repair_tower_should_consume_state_result.should_consume": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_should_consume_state",
+      "godot_symbol": "source_repair_tower_should_consume_state_result.should_consume",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.shouldConsume()",
+      "java_expr": "return targets.size > 0;",
+      "rule": "The shouldConsume gate (RepairTower.java:89-91): true while at least one damaged unit is in range and false with no targets -- when false, updateConsumption forces efficiency to zero (BuildingComp.java:1960 + 1992-1994).",
+      "tests": [
+        "test_c07_repair_tower_should_consume_registration",
+        "test_all_c07_repair_tower_should_consume_input_evidence_is_exact",
+        "test_repair_tower_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_repair_tower_should_consume"
+      ],
+      "runtime_proof": "/root/C07RepairTowerShouldConsumeProof"
+    },
+    "source_repair_tower_should_consume_state_result.target_count": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_should_consume_state",
+      "godot_symbol": "source_repair_tower_should_consume_state_result.target_count",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.shouldConsume()",
+      "java_expr": "public Seq<Unit> targets = new Seq<>();",
+      "rule": "The number of targets in the frame list (RepairTower.java:54, the targets Seq): the size the gate reads -- 0 with no targets (gate false), 1 or more with targets in range (gate true).",
+      "tests": [
+        "test_c07_repair_tower_should_consume_registration",
+        "test_all_c07_repair_tower_should_consume_input_evidence_is_exact",
+        "test_repair_tower_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_repair_tower_should_consume"
+      ],
+      "runtime_proof": "/root/C07RepairTowerShouldConsumeProof"
+    },
+    "source_regen_projector_should_consume_state_result.should_consume": {
+      "status": "source-backed",
+      "godot_owner": "SourceRegenProjectorBuildState.source_regen_projector_should_consume_state",
+      "godot_symbol": "source_regen_projector_should_consume_state_result.should_consume",
+      "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+      "java_method": "RegenProjectorBuild.shouldConsume()",
+      "java_expr": "return anyTargets;",
+      "rule": "The shouldConsume gate (RegenProjector.java:181-183): true while a damaged building is in range (anyTargets) and false once nothing in range is damaged; when false, updateConsumption forces efficiency to zero (BuildingComp.java:1960 + 1992-1994).",
+      "tests": [
+        "test_c07_regen_projector_should_consume_registration",
+        "test_all_c07_regen_projector_should_consume_input_evidence_is_exact",
+        "test_regen_projector_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_regen_projector_should_consume"
+      ],
+      "runtime_proof": "/root/C07RegenProjectorShouldConsumeProof"
+    },
+    "source_regen_projector_should_consume_state_result.any_targets": {
+      "status": "source-backed",
+      "godot_owner": "SourceRegenProjectorBuildState.source_regen_projector_should_consume_state",
+      "godot_symbol": "source_regen_projector_should_consume_state_result.any_targets",
+      "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+      "java_method": "RegenProjectorBuild.shouldConsume()",
+      "java_expr": "public boolean anyTargets = false;",
+      "rule": "Whether a damaged building is in range (RegenProjector.java:112, the anyTargets flag): the value the gate reads -- true when the targets list contains a damaged building (RegenProjector.java:139), false otherwise.",
+      "tests": [
+        "test_c07_regen_projector_should_consume_registration",
+        "test_all_c07_regen_projector_should_consume_input_evidence_is_exact",
+        "test_regen_projector_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_regen_projector_should_consume"
+      ],
+      "runtime_proof": "/root/C07RegenProjectorShouldConsumeProof"
     }
   },
   "version": 1

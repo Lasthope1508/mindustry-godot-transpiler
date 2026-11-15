@@ -6856,6 +6856,33 @@
       "rule": "Source-backed RegenProjector power.status row from ConsumePower.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceRegenProjectorBuildState.source_regen_projector_should_consume_state": {
+      "canonical_contract": "source_api_contracts.SourceRegenProjectorBuildState.source_regen_projector_should_consume_state",
+      "status": "active",
+      "source_slice": "N2214",
+      "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+      "source_method": "RegenProjectorBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_regen_projector_should_consume_state_input.frame"
+        }
+      ],
+      "return_keys": [
+        "should_consume",
+        "any_targets"
+      ],
+      "tests": [
+        "test_c07_regen_projector_should_consume_registration",
+        "test_all_c07_regen_projector_should_consume_input_evidence_is_exact",
+        "test_regen_projector_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_regen_projector_should_consume"
+      ],
+      "runtime_proof": "/root/C07RegenProjectorShouldConsumeProof",
+      "rule": "Source-backed RegenProjector shouldConsume gate from RegenProjector.java / BuildingComp.java / Blocks.java.",
+      "return_type": "Dictionary"
+    },
     "SourceShieldWallBuildState.source_shield_wall_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourceShieldWallBuildState.source_shield_wall_power_status_row_state",
       "status": "active",

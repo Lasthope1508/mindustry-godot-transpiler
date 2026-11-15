@@ -66626,6 +66626,84 @@
       ],
       "runtime_proof": "/root/C07UnitCargoLoaderShouldConsumeProof",
       "rule": "Source-backed UnitCargoLoader shouldConsume gate from UnitCargoLoader.java / BuildingComp.java / Blocks.java."
+    },
+    "SourceRepairTurretBuildState.source_repair_turret_should_consume_state": {
+      "status": "active",
+      "source_slice": "N2212",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "source_method": "RepairPointBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_repair_turret_should_consume_state_input.frame"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "should_consume",
+        "has_target"
+      ],
+      "tests": [
+        "test_c07_repair_turret_should_consume_registration",
+        "test_all_c07_repair_turret_should_consume_input_evidence_is_exact",
+        "test_repair_turret_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_repair_turret_should_consume"
+      ],
+      "runtime_proof": "/root/C07RepairTurretShouldConsumeProof",
+      "rule": "Source-backed RepairTurret shouldConsume gate from RepairTurret.java / BuildingComp.java / Blocks.java."
+    },
+    "SourceRepairTowerBuildState.source_repair_tower_should_consume_state": {
+      "status": "active",
+      "source_slice": "N2213",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "source_method": "RepairTowerBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_repair_tower_should_consume_state_input.frame"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "should_consume",
+        "target_count"
+      ],
+      "tests": [
+        "test_c07_repair_tower_should_consume_registration",
+        "test_all_c07_repair_tower_should_consume_input_evidence_is_exact",
+        "test_repair_tower_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_repair_tower_should_consume"
+      ],
+      "runtime_proof": "/root/C07RepairTowerShouldConsumeProof",
+      "rule": "Source-backed RepairTower shouldConsume gate from RepairTower.java / BuildingComp.java / Blocks.java."
+    },
+    "SourceRegenProjectorBuildState.source_regen_projector_should_consume_state": {
+      "status": "active",
+      "source_slice": "N2214",
+      "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+      "source_method": "RegenProjectorBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_regen_projector_should_consume_state_input.frame"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "should_consume",
+        "any_targets"
+      ],
+      "tests": [
+        "test_c07_regen_projector_should_consume_registration",
+        "test_all_c07_regen_projector_should_consume_input_evidence_is_exact",
+        "test_regen_projector_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_regen_projector_should_consume"
+      ],
+      "runtime_proof": "/root/C07RegenProjectorShouldConsumeProof",
+      "rule": "Source-backed RegenProjector shouldConsume gate from RegenProjector.java / BuildingComp.java / Blocks.java."
     }
   },
   "policy": {
