@@ -300,8 +300,9 @@ class C07PayloadUnloaderUpdateTileTests(unittest.TestCase):
         # as a pragmatic choice, the N2195 coordinator-fix
         # precedent, because the driver skips the consumption
         # fold when disabled and the frame efficiency goes stale).
-        # The timer cadence defers (no timer helper in the
-        # port), so the driver passes load_tick false; the item
+        # The timer cadence is live (N2320): the driver computes
+        # load_tick from the frame-local load timer and passes it;
+        # the item
         # order is the catalog item_names_by_id (the N2225
         # content-id order); the front flags arrive as explicit
         # params (no live neighbor query), so the driver passes
@@ -312,7 +313,7 @@ class C07PayloadUnloaderUpdateTileTests(unittest.TestCase):
         # back to the meta.
         self.assertIn('game_source_delta(game, seconds)', payload_unloader)
         self.assertIn('time_scale(sprite', payload_unloader)
-        self.assertIn('source_payload_unloader_update_tile_advance_state(frame, source_delta, time_scale, false, item_order, front)', payload_unloader)
+        self.assertIn('source_payload_unloader_update_tile_advance_state(frame, source_delta, time_scale, load_tick, item_order, front)', payload_unloader)
         self.assertIn('item_names_by_id', payload_unloader)
         self.assertIn('SOURCE_BUILD_ROTATION_META_KEY', payload_unloader)
         self.assertIn('SOURCE_BUILDING_LIQUIDS_META_KEY', payload_unloader)
