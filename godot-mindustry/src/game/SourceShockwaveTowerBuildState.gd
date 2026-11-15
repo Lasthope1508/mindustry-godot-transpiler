@@ -304,6 +304,91 @@ static func source_shockwave_tower_fire_state(frame: Dictionary, delta: float) -
 	heat = clampf(heat - delta / 80.0, 0.0, 1.0)
 	return {"fired": fired, "reload_counter": reload_counter, "heat": heat}
 
+static func source_shockwave_tower_wave_damage_state(frame: Dictionary) -> Dictionary:
+	# ShockwaveTowerBuild.updateTile applies the wave damage
+	# inside the fire gate, after the targets.size check
+	# (ShockwaveTower.java:72, `public void updateTile(){` with
+	# :81, `if(targets.size > 0){` and :87, `float waveDamage =
+	# Math.min(bulletDamage, bulletDamage * falloffCount /
+	# targets.size);`, bulletDamage 160,
+	# ShockwaveTower.java:27, `public float bulletDamage = 160;`,
+	# falloffCount 20f, ShockwaveTower.java:28, `public float
+	# falloffCount = 20f;`) and loops the targets
+	# (ShockwaveTower.java:89, `for(var target : targets){`): a
+	# target whose damage exceeds the wave damage loses exactly
+	# waveDamage (`if(target.damage > waveDamage){` /
+	# `target.damage -= waveDamage;`, ShockwaveTower.java:90-91
+	# -- the STRICT comparison, so a target at exactly
+	# waveDamage is removed, not left at 0), any other target is
+	# removed (`target.remove();`, ShockwaveTower.java:93, over
+	# `@Import float x, y, damage, lastX, lastY, time, lifetime;`,
+	# BulletComp.java:31, `public void remove(){`,
+	# BulletComp.java:83), and every target gets its hit effect
+	# at its own position (`hitEffect.at(target.x, target.y,
+	# waveColor);`, ShockwaveTower.java:95, over `public Effect
+	# hitEffect = Fx.hitSquaresColor;`, ShockwaveTower.java:35).
+	# The port has no live bullets to mutate (no Groups.bullet
+	# equivalent), so the pure function consumes the same
+	# observed bullet list as the N2195 scan
+	# (`observed_bullets`, an array of dicts with
+	# team/hittable/x/y/damage, world coords) and returns one
+	# outcome per target bullet instead of mutating it:
+	# `{"damage": remaining or null, "removed": bool, "hit_x":
+	# x, "hit_y": y}`. The target filter is the N2195 scan
+	# filter verbatim (enemy, hittable, point inside the range
+	# box x +/- 170, y +/- 170, range 170f per-def,
+	# Blocks.java:2043, `range = 170f;`, overriding the class
+	# default 110f, ShockwaveTower.java:25, `public float range =
+	# 110f;`) -- the wave only ever touches the scanned targets.
+	# Absent `observed_bullets` (or absent `x`/`y`/`team_id`)
+	# or zero targets in range means "no wave":
+	# `{"wave_damage": null, "bullet_outcomes": [],
+	# "has_wave_damage": false}` and the driver stamps nothing
+	# (the N2190 / N2195 precedent) -- never a fabricated 0.
+	# The driver calls the wave damage AFTER the N2194 fire and
+	# ONLY when the fire fired (the local `fired` dict) -- the
+	# wave lives inside the fire gate in Java (:81-96), so a
+	# charged-but-unfired tick damages nothing, and the pure
+	# function stays fire-agnostic and testable on its own. A
+	# bullet without a `damage` key reads 0.0 and is removed
+	# (0.0 never exceeds the wave damage). The wave damage is
+	# min(160, 3200 / N) -- never more than bulletDamage, never
+	# divided by zero: N = 0 never reaches the division because
+	# the targets.size gate (:81) and the has_wave_damage false
+	# return guard it.
+	var observed_bullets: Variant = frame.get("observed_bullets", null)
+	var tower_x: Variant = frame.get("x", null)
+	var tower_y: Variant = frame.get("y", null)
+	var tower_team: Variant = frame.get("team_id", null)
+	if observed_bullets == null or tower_x == null or tower_y == null or tower_team == null:
+		return {"wave_damage": null, "bullet_outcomes": [], "has_wave_damage": false}
+	var targets: Array = []
+	for bullet in observed_bullets:
+		if bullet.get("team", null) == null:
+			continue
+		if int(bullet.get("team", null)) == int(tower_team):
+			continue
+		if not bool(bullet.get("hittable", false)):
+			continue
+		if absf(float(bullet.get("x", 0.0)) - float(tower_x)) > 170.0:
+			continue
+		if absf(float(bullet.get("y", 0.0)) - float(tower_y)) > 170.0:
+			continue
+		targets.append(bullet)
+	if targets.is_empty():
+		return {"wave_damage": null, "bullet_outcomes": [], "has_wave_damage": false}
+	var wave_damage: float = minf(160.0, 160.0 * 20.0 / float(targets.size()))
+	var bullet_outcomes: Array = []
+	for bullet in targets:
+		var damage: float = float(bullet.get("damage", 0.0))
+		var hit_x: float = float(bullet.get("x", 0.0))
+		var hit_y: float = float(bullet.get("y", 0.0))
+		if damage > wave_damage:
+			bullet_outcomes.append({"damage": damage - wave_damage, "removed": false, "hit_x": hit_x, "hit_y": hit_y})
+		else:
+			bullet_outcomes.append({"damage": null, "removed": true, "hit_x": hit_x, "hit_y": hit_y})
+	return {"wave_damage": wave_damage, "bullet_outcomes": bullet_outcomes, "has_wave_damage": true}
+
 @warning_ignore("unused_parameter")
 static func source_shockwave_tower_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the shockwave-tower tick wiring every
@@ -401,6 +486,30 @@ static func source_shockwave_tower_tick_buildings_state(game: Object, seconds: f
 			var fired: Dictionary = source_shockwave_tower_fire_state(frame, seconds)
 			frame["reload_counter"] = fired.get("reload_counter", 0.0)
 			frame["heat"] = fired.get("heat", 0.0)
+			# The wave damage (N2196): the wave runs inside the
+			# fire gate in Java (ShockwaveTower.java:81-96,
+			# `if(targets.size > 0){` / `float waveDamage =
+			# Math.min(bulletDamage, bulletDamage * falloffCount /
+			# targets.size);` / `for(var target : targets){` /
+			# `if(target.damage > waveDamage){` /
+			# `target.damage -= waveDamage;` / `target.remove();` /
+			# `hitEffect.at(target.x, target.y, waveColor);`),
+			# after the fire sets heat and resets the counter
+			# (:82-83, `heat = 1f;` / `reloadCounter = 0f;`), so
+			# the driver calls it after the N2194 fire and ONLY
+			# when the fire fired (the local `fired` dict). The
+			# wave / hitEffect Fx, sound and shake (:84-86, :95)
+			# and the shockwaveTowerUse event (:97-99) wait for
+			# their own slices -- the wave damage stamps only
+			# `wave_damage` and `bullet_outcomes`, and only when
+			# the wave reports one (has_wave_damage true). The
+			# stamped outcomes persist on the frame until the
+			# next fire (like heat).
+			if bool(fired.get("fired", false)):
+				var wave: Dictionary = source_shockwave_tower_wave_damage_state(frame)
+				if bool(wave.get("has_wave_damage", false)):
+					frame["wave_damage"] = wave.get("wave_damage", null)
+					frame["bullet_outcomes"] = wave.get("bullet_outcomes", [])
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1

@@ -230438,6 +230438,64 @@
       },
       "runtime_proof": "/root/C07ShockwaveTowerBulletScanProof",
       "rule": "Source-backed ShockwaveTower live bullet scan from ShockwaveTower.java / BuildingComp.java / Tile.java / Vars.java."
+    },
+    "source_shockwave_tower_wave_damage_state_input": {
+      "status": "active",
+      "owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_wave_damage_state",
+      "source_slice": "N2196",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "for(var target : targets){",
+          "rule": "The building frame carrying the observed_bullets list (an array of dicts with team/hittable/x/y/damage, world coords -- the port has no live bullet query, so the list is an explicit observed frame key, the N2190 precedent) plus the tower world position (x/y frame keys, derived by the driver from the placement cell: Tile.java `return x * tilesize;` / `return block().offset + worldx();`, tilesize 8, offset 0 for size 3) and the tower team (team_id, stamped by the tick wiring). The per-def range is 170f (Blocks.java:2043), overriding the class default `110f` (ShockwaveTower.java:25).",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_wave_damage_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShockwaveTowerWaveDamageProof",
+      "rule": "Source-backed ShockwaveTower wave damage from ShockwaveTower.java / BuildingComp.java / Tile.java / Vars.java."
+    },
+    "source_shockwave_tower_wave_damage_state_result": {
+      "status": "active",
+      "owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_wave_damage_state",
+      "source_slice": "N2196",
+      "keys": {
+        "wave_damage": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "float waveDamage = Math.min(bulletDamage, bulletDamage * falloffCount / targets.size);",
+          "rule": "The wave damage for this fire (ShockwaveTower.java:87): min(bulletDamage 160, bulletDamage * falloffCount 20 / targets.size) -- capped at 160 for few targets, falling off as 3200 / N for many; null when no wave ran (absent observation, or zero targets in range), so the driver stamps nothing.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_wave_damage_state"
+          ]
+        },
+        "bullet_outcomes": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "for(var target : targets){",
+          "rule": "One outcome per target bullet, in scan order (ShockwaveTower.java:89-95): {\"damage\": the remaining damage after subtracting waveDamage, or null when the bullet was removed, \"removed\": whether the bullet was removed (damage <= waveDamage -- the STRICT comparison, so a bullet at exactly waveDamage is removed, not left at 0), \"hit_x\": the bullet x (the hitEffect position, hitEffect.at(target.x, target.y, waveColor)), \"hit_y\": the bullet y}. Empty when no wave ran.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_wave_damage_state"
+          ]
+        },
+        "has_wave_damage": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "if(targets.size > 0){",
+          "rule": "Whether the wave ran (ShockwaveTower.java:81): true when the observation exists and at least one enemy hittable bullet lies inside the range box, false otherwise -- the driver stamps frame[\"wave_damage\"] / frame[\"bullet_outcomes\"] only when this is true, and only on a tick where the N2194 fire fired.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_wave_damage_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShockwaveTowerWaveDamageProof",
+      "rule": "Source-backed ShockwaveTower wave damage from ShockwaveTower.java / BuildingComp.java / Tile.java / Vars.java."
     }
   },
   "version": 1

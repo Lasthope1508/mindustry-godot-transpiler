@@ -7027,6 +7027,34 @@
       "rule": "Source-backed ShockwaveTower shouldConsume gate from ShockwaveTower.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceShockwaveTowerBuildState.source_shockwave_tower_wave_damage_state": {
+      "canonical_contract": "source_api_contracts.SourceShockwaveTowerBuildState.source_shockwave_tower_wave_damage_state",
+      "status": "active",
+      "source_slice": "N2196",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "source_method": "ShockwaveTowerBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_shockwave_tower_wave_damage_state_input.frame"
+        }
+      ],
+      "return_keys": [
+        "wave_damage",
+        "bullet_outcomes",
+        "has_wave_damage"
+      ],
+      "tests": [
+        "test_c07_shockwave_tower_wave_damage_registration",
+        "test_all_c07_shockwave_tower_wave_damage_input_evidence_is_exact",
+        "test_shockwave_tower_wave_damage_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_wave_damage"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerWaveDamageProof",
+      "rule": "Source-backed ShockwaveTower wave damage from ShockwaveTower.java / BuildingComp.java / Tile.java / Vars.java.",
+      "return_type": "Dictionary"
+    },
     "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourceTractorBeamTurretBuildState.source_tractor_beam_turret_power_status_row_state",
       "status": "active",
