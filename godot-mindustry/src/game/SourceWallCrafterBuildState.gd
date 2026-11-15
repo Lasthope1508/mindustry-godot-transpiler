@@ -50,6 +50,12 @@ const SOURCE_WALL_CRAFTER_DUMP_TIME := 5.0
 # rows carry the liquid name + per-frame amount, so the driver
 # matches the row by this name (the separator slag precedent).
 const SOURCE_WALL_CRAFTER_HYDROGEN_LIQUID := "hydrogen"
+# WallCrafter.java:41, `public Attribute attribute = Attribute.sand;` -- the
+# class attribute default, set explicitly by both defs
+# (`attribute = Attribute.sand;`, Blocks.java:3008/:3022); the
+# getEfficiency scan sums this BLOCK attribute over the facing
+# edge's solid tiles (WallCrafter.java:141-180).
+const SOURCE_WALL_CRAFTER_ATTRIBUTE := "sand"
 
 static func _is_wall_crafter_build_implementation(implementation: String) -> bool:
 	return SOURCE_WALL_CRAFTER_BUILD_IMPLEMENTATIONS.has(implementation)
@@ -141,7 +147,7 @@ static func source_wall_crafter_should_consume_state(frame: Dictionary, output_i
 
 static func source_wall_crafter_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a wall crafter does not take the early return. The updateTile advance follows the folded efficiency (WallCrafter.java:193, `warmup = Mathf.approachDelta(warmup, Mathf.num(efficiency > 0), 1f / 40f);` with `lastEfficiency = eff * timeScale * efficiency;`, WallCrafter.java:211) and the shouldConsume override (WallCrafter.java:226, `public boolean shouldConsume(){` with `return items.get(output) < itemCapacity;`, WallCrafter.java:227; default BuildingComp.java:755, `public boolean shouldConsume(){`) -- WallCrafterBuild (WallCrafter.java:183, `public class WallCrafterBuild extends Building{`) overrides shouldConsume() to return items.get(output) < itemCapacity, so the default does not apply here; the shouldConsume gate is live (N2201) -- the pure gate (source_wall_crafter_should_consume_state) feeds should_consume to the machinery from the frame items count and the catalog output/capacity. The cliff-crusher (consumePower 11 / 60f, Blocks.java:3004, `consumePower(11 / 60f);`; large-cliff-crusher consumePower 1f, Blocks.java:3018, `consumePower(1f);`) also consumes liquid hydrogen as a REQUIRED row on the large def (`consumeLiquid(Liquids.hydrogen, 1f / 60f);`, Blocks.java:3028 -- NOT .boost(), so hasLiquidBooster stays false, WallCrafter.java:106) and a graphite item booster (Blocks.java:3030; itemBoostIntensity 1.6f, WallCrafter.java:47; boostItemUseTime 60f/0.75f, Blocks.java:3032) -- both rows live since N2264 (source_wall_crafter_liquid_consumer_row_state + source_wall_crafter_item_consumer_row_state), so the folded efficiency is the min over the *modeled* consumers (power + hydrogen), with the graphite row folded into optionalEfficiency only.
-	# Documented limits: (1) hydrogen + graphite rows live (N2264) -- the large-cliff-crusher consumes liquid hydrogen as a REQUIRED row (1f/60f, Blocks.java:3028; NOT .boost(), so hasLiquidBooster stays false and the liquid multiplier term is 1.0) and a graphite item booster (Blocks.java:3030), folded by the pure rows (source_wall_crafter_liquid_consumer_row_state, ConsumeLiquid.efficiency, ConsumeLiquid.java:42-47; source_wall_crafter_item_consumer_row_state, ConsumeItems.efficiency, ConsumeItems.java:51-53) with the second-pass hydrogen removal (ConsumeLiquid.update, ConsumeLiquid.java:37-39); the folded efficiency is the min over the *modeled* consumers (power + hydrogen), with the graphite row in the optional pass only. The timer-gated consume() of the graphite booster is live since N2273 (WallCrafter.java:207-209): the tick accumulates frame["timer_use_elapsed"] every tick and, after the N2223 advance, removes 1 graphite when item_valid holds and eff * efficiency > 0 and the timer fires at the per-def boostItemUseTime (120f class default, WallCrafter.java:45; the large def overrides it to 60f/0.75f = 80f, Blocks.java:3032). Documented deviation: the frame-local clock delays the first fire by a full interval after placement (Java fires nearly at once -- the global Time.time is already large vs a fresh Interval times[id] = 0, arc Interval.java:20-26); the cliff-crusher has no booster item, so nothing is removed for it; no live intake fills frame["items"] yet, so the removal reads the frame as-is. (2) shouldConsume gate live (N2201) -- WallCrafterBuild overrides shouldConsume() to return items.get(output) < itemCapacity (WallCrafter.java:226-228, `return items.get(output) < itemCapacity;`); the pure gate reads the frame items count via the shared inventory helper, with the output item and capacity from the catalog; the offload intake is live (N2223) and the timerDump dump is live since N2283 (WallCrafter.java:220-221, frame-local Interval-equivalent at 5f/time_scale, dump(output) through the shared dump_item_state routing). (3) updateTile advance live (N2223) -- warmup / eff / lastEfficiency / time / totalTime / offload advance each tick (WallCrafter.java:193-218); the timerUse booster consume is live since N2273 (WallCrafter.java:207-209, checked after the advance -- order-equivalent for the tick, since consume only removes 1 graphite); the timerDump dump is live since N2283 (WallCrafter.java:220-221, checked after the timerUse consume -- the Java order, :207-209 then :220-221): when the timer fires at 5f/time_scale it dumps 1 sand (the output item, WallCrafter.java:43) through the shared dump_item_state routing, with the neighbour acceptItem/canDump arrays as frame inputs (default []); documented deviation: the frame-local clock delays the first fire by a full interval after placement (Java fires nearly at once -- the global Time.time is already large vs a fresh Interval times[id] = 0, arc Interval.java:20-26); still deferred: the live getEfficiency fill (WallCrafter.java:141-180, the advance reads the frame input efficiency_factor, default 0.0), the offload neighbor routing (BuildingComp.java:1001-1013, the port offloads to own inventory only), the updateEffect chance (WallCrafter.java:196-205), and the disabled early return (BuildingComp.java:1954-1957, the advance runs only when enabled). Until the getEfficiency fill lands a live cliff-crusher never accumulates time. (4) No attribute-efficiency / setBars / draw / icons / drawPlanRegion / drawPlace rows -- see DEFERRED. (5) Large-cliff-crusher variant verification pending -- the same driver covers both defs via the catalog consumePower.
+	# Documented limits: (1) hydrogen + graphite rows live (N2264) -- the large-cliff-crusher consumes liquid hydrogen as a REQUIRED row (1f/60f, Blocks.java:3028; NOT .boost(), so hasLiquidBooster stays false and the liquid multiplier term is 1.0) and a graphite item booster (Blocks.java:3030), folded by the pure rows (source_wall_crafter_liquid_consumer_row_state, ConsumeLiquid.efficiency, ConsumeLiquid.java:42-47; source_wall_crafter_item_consumer_row_state, ConsumeItems.efficiency, ConsumeItems.java:51-53) with the second-pass hydrogen removal (ConsumeLiquid.update, ConsumeLiquid.java:37-39); the folded efficiency is the min over the *modeled* consumers (power + hydrogen), with the graphite row in the optional pass only. The timer-gated consume() of the graphite booster is live since N2273 (WallCrafter.java:207-209): the tick accumulates frame["timer_use_elapsed"] every tick and, after the N2223 advance, removes 1 graphite when item_valid holds and eff * efficiency > 0 and the timer fires at the per-def boostItemUseTime (120f class default, WallCrafter.java:45; the large def overrides it to 60f/0.75f = 80f, Blocks.java:3032). Documented deviation: the frame-local clock delays the first fire by a full interval after placement (Java fires nearly at once -- the global Time.time is already large vs a fresh Interval times[id] = 0, arc Interval.java:20-26); the cliff-crusher has no booster item, so nothing is removed for it; no live intake fills frame["items"] yet, so the removal reads the frame as-is. (2) shouldConsume gate live (N2201) -- WallCrafterBuild overrides shouldConsume() to return items.get(output) < itemCapacity (WallCrafter.java:226-228, `return items.get(output) < itemCapacity;`); the pure gate reads the frame items count via the shared inventory helper, with the output item and capacity from the catalog; the offload intake is live (N2223) and the timerDump dump is live since N2283 (WallCrafter.java:220-221, frame-local Interval-equivalent at 5f/time_scale, dump(output) through the shared dump_item_state routing). (3) updateTile advance live (N2223) -- warmup / eff / lastEfficiency / time / totalTime / offload advance each tick (WallCrafter.java:193-218); the timerUse booster consume is live since N2273 (WallCrafter.java:207-209, checked after the advance -- order-equivalent for the tick, since consume only removes 1 graphite); the timerDump dump is live since N2283 (WallCrafter.java:220-221, checked after the timerUse consume -- the Java order, :207-209 then :220-221): when the timer fires at 5f/time_scale it dumps 1 sand (the output item, WallCrafter.java:43) through the shared dump_item_state routing, with the neighbour acceptItem/canDump arrays as frame inputs (default []); documented deviation: the frame-local clock delays the first fire by a full interval after placement (Java fires nearly at once -- the global Time.time is already large vs a fresh Interval times[id] = 0, arc Interval.java:20-26); getEfficiency fill live (N2301) -- the tick stamps efficiency_factor from frame["wall_edge_tiles"] each enabled tick before the advance (WallCrafter.java:141-180), so a live cliff-crusher accumulates time; still deferred: the live edge-tile scan (no live tile scan fills the frame input yet), the offload neighbor routing (BuildingComp.java:1001-1013, the port offloads to own inventory only), the updateEffect chance (WallCrafter.java:196-205), and the disabled early return (BuildingComp.java:1954-1957, the advance runs only when enabled). (4) No setBars / draw / icons / drawPlanRegion / drawPlace rows -- see DEFERRED. (5) Large-cliff-crusher variant verification pending -- the same driver covers both defs via the catalog consumePower.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -338,6 +344,92 @@ static func source_wall_crafter_timer_dump_state(elapsed: float, time_scale: flo
 					items[str(content_item_ids[j])] = int(amounts_after[j])
 	return {"fired": fired, "elapsed_after": elapsed_after, "dumped": dumped, "items_after": items, "cursor_after": cursor}
 
+@warning_ignore("unused_parameter")
+static func source_wall_crafter_get_efficiency_state(edge_tiles: Array, rotation: int, size: int, attribute: String) -> Dictionary:
+	# The live getEfficiency fill (WallCrafter.getEfficiency,
+	# WallCrafter.java:141-180):
+	# `float getEfficiency(int tx, int ty, int rotation, @Nullable Cons<Tile> ctile, @Nullable Intc2 cpos){`
+	# `float eff = 0f;`
+	# `int cornerX = tx - (size-1)/2, cornerY = ty - (size-1)/2, s = size;`
+	# `for(int i = 0; i < size; i++){`
+	# `switch(rotation){`
+	# `case 0 -> {`
+	# `rx = cornerX + s;`
+	# `ry = cornerY + i;`
+	# `case 1 -> {`
+	# `rx = cornerX + i;`
+	# `ry = cornerY + s;`
+	# `case 2 -> {`
+	# `rx = cornerX - 1;`
+	# `case 3 -> {`
+	# `ry = cornerY - 1;`
+	# `if(cpos != null){`
+	# `cpos.get(rx, ry);`
+	# `Tile other = world.tile(rx, ry);`
+	# `if(other != null && other.solid()){`
+	# `float at = other.block().attributes.get(attribute);`
+	# `eff += at;`
+	# `if(at > 0 && ctile != null){`
+	# `ctile.get(other);`
+	# `return eff;`
+	# Java iterates `size` tiles along the FACING edge (the
+	# rotation 0-3 switch picks the edge from cornerX /
+	# cornerY) and sums `other.block().attributes.get(
+	# attribute)` for SOLID tiles only -- BLOCK attributes,
+	# not floor attributes (different from the SolidPump
+	# floor-attribute scan, N2292, which this pure does NOT
+	# reuse). The attribute is sand for both defs (`public
+	# Attribute attribute = Attribute.sand;`,
+	# WallCrafter.java:41, set explicitly by both defs,
+	# `attribute = Attribute.sand;`, Blocks.java:3008/:3022)
+	# and the output is sand too (`public Item output =
+	# Items.sand;`, WallCrafter.java:43). The port has no
+	# live world, so the pure does NOT compute tile
+	# coordinates: the caller supplies the facing edge tiles
+	# in edge order (i = 0..size-1) as frame inputs, one Dict
+	# per tile {solid, attribute_value} carrying the `other
+	# != null && other.solid()` answer and the block
+	# attribute value for the block's attribute; rotation is
+	# carried through for the proof + future live-world
+	# wiring (the caller supplies the facing edge, so
+	# rotation selects nothing here yet). A missing or short
+	# edge array contributes 0 for the missing tiles (Java
+	# reads a null tile as non-solid: `other != null &&
+	# other.solid()`), and a null tile entry contributes 0
+	# the same way; tiles past `size` are ignored (Java reads
+	# exactly `size` tiles). canPlaceOn
+	# `public boolean canPlaceOn(Tile tile, Team team, int rotation){`
+	# with `return getEfficiency(tile.x, tile.y, rotation, null, null) > 0;`
+	# (WallCrafter.java:137-139) is the placement gate,
+	# efficiency > 0 -- a bonus key here, not a separate
+	# pure. The updateTile call (`float eff =
+	# getEfficiency(tile.x, tile.y, rotation, dest -> {`,
+	# WallCrafter.java:196) passes a ctile callback for the
+	# updateEffect chance (WallCrafter.java:196-205, still
+	# deferred); the pure reports the per-tile contributions
+	# (edge_efficiencies) so a later slice can drive the
+	# effect from them. The cpos callback (`if(cpos !=
+	# null){` / `cpos.get(rx, ry);`, :167-169) is a draw-plan
+	# hook (draw, :239) with no tick effect -- the pure
+	# carries no positions. The attribute parameter is the
+	# lookup key the caller used when filling
+	# attribute_value (sand for both defs); the pure reads
+	# the pre-selected values, so it takes the parameter for
+	# traceability without branching on it.
+	var efficiency := 0.0
+	var edge_efficiencies: Array = []
+	var solid_tile_count := 0
+	for i in range(size):
+		var contribution := 0.0
+		if i < edge_tiles.size():
+			var tile: Variant = edge_tiles[i]
+			if tile != null and tile is Dictionary and bool(tile.get("solid", false)):
+				contribution = float(tile.get("attribute_value", 0.0))
+				solid_tile_count += 1
+		edge_efficiencies.append(contribution)
+		efficiency += contribution
+	return {"efficiency": efficiency, "edge_efficiencies": edge_efficiencies, "can_place_on": efficiency > 0.0, "solid_tile_count": solid_tile_count, "rotation": rotation}
+
 static func source_wall_crafter_update_tile_advance_state(frame: Dictionary, source_delta: float, time_scale: float, drill_time: float, output_item: String, item_capacity: int) -> Dictionary:
 	# The updateTile advance (WallCrafterBuild.updateTile(),
 	# WallCrafter.java:187-223):
@@ -373,10 +465,12 @@ static func source_wall_crafter_update_tile_advance_state(frame: Dictionary, sou
 	# efficiency;` / :87 `transient float optionalEfficiency;`);
 	# warmup / time / totalTime default 0.0, the Java
 	# build-field defaults (WallCrafter.java:184). The live
-	# getEfficiency scan (WallCrafter.java:141-180) has no
-	# helper in the port, so the base efficiency arrives as
-	# the frame input efficiency_factor (default 0.0, the scan
-	# result with no adjacent solid tiles); item_valid is
+	# getEfficiency scan (WallCrafter.java:141-180) is live
+	# since N2301: the tick stamps the base efficiency onto
+	# the frame input efficiency_factor each enabled tick from
+	# frame["wall_edge_tiles"] (default 0.0 with no edge
+	# tiles, the scan result with no adjacent solid tiles)
+	# before the advance reads it; item_valid is
 	# stamped live by the tick since N2264 (from the graphite
 	# item row; false for the cliff-crusher, which has no item
 	# row) and has_liquid_booster (default false) is a frame
@@ -399,10 +493,10 @@ static func source_wall_crafter_update_tile_advance_state(frame: Dictionary, sou
 	# -- the shared inventory helper falls back to the own
 	# inventory, the handleItem path, BuildingComp.java:1014/
 	# :860-861), the updateEffect chance (WallCrafter.java:
-	# 196-205), and the disabled early return
-	# (BuildingComp.java:1954-1957, the driver gates the
-	# advance on enabled). Until the getEfficiency fill lands
-	# a live cliff-crusher never accumulates time.
+	# 196-205), the live edge-tile scan (frame["wall_edge_tiles"]
+	# is a frame input; no live tile scan fills it yet), and the
+	# disabled early return (BuildingComp.java:1954-1957, the
+	# driver gates the advance on enabled).
 	var efficiency: float = float(frame.get("efficiency", 0.0))
 	var optional_efficiency: float = float(frame.get("optional_efficiency", 0.0))
 	var efficiency_factor: float = float(frame.get("efficiency_factor", 0.0))
@@ -648,6 +742,31 @@ static func source_wall_crafter_tick_buildings_state(game: Object, seconds: floa
 			var drill_time: float = float(block.properties.get("drillTime", SOURCE_WALL_CRAFTER_DRILL_TIME_DEFAULT))
 			var advance_output_item: String = str(block.properties.get("output", "sand"))
 			var advance_item_capacity: int = int(block.properties.get("itemCapacity", 10))
+			# N2301: the live getEfficiency fill
+			# (WallCrafter.java:141-180) runs BEFORE the
+			# advance: Java computes the base efficiency
+			# inside updateTile (`float eff =
+			# getEfficiency(tile.x, tile.y, rotation, dest
+			# -> {`, WallCrafter.java:196) and the N2223
+			# advance reads it as the frame input
+			# efficiency_factor -- until this slice landed
+			# the frame input had no live fill (default
+			# 0.0), so a live cliff-crusher never
+			# accumulated time. The edge tiles are frame
+			# inputs (frame["wall_edge_tiles"], default []
+			# -- no tiles, the Java no-adjacent-solid-tiles
+			# outcome) until a live tile scan lands; the
+			# rotation reads live from the sprite meta (the
+			# Constructor / Factory precedent) and the size
+			# from the catalog per def (2 / 3,
+			# Blocks.java:3007/:3021; the Block class
+			# default is 1, Block.java:215). The attribute
+			# is sand for both defs (WallCrafter.java:41).
+			var wall_edge_tiles: Array = frame.get("wall_edge_tiles", [])
+			var wall_rotation: int = int(sprite.get_meta(source_block_geometry.SOURCE_BUILD_ROTATION_META_KEY, 0))
+			var wall_size: int = int(block.properties.get("size", 1))
+			var filled: Dictionary = source_wall_crafter_get_efficiency_state(wall_edge_tiles, wall_rotation, wall_size, SOURCE_WALL_CRAFTER_ATTRIBUTE)
+			frame["efficiency_factor"] = filled["efficiency"]
 			var advanced: Dictionary = source_wall_crafter_update_tile_advance_state(frame, source_delta, time_scale, drill_time, advance_output_item, advance_item_capacity)
 			frame["warmup"] = advanced["warmup"]
 			frame["eff"] = advanced["eff"]
