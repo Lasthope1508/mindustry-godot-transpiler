@@ -82,12 +82,12 @@ static func source_accelerator_power_status_row_state(frame: Dictionary, has_pow
 	return {"has_power_row": true, "row": {"result": live, "is_power": true}}
 
 static func source_mathf_slerp_delta(from_degrees: float, to_degrees: float, progress: float, source_delta: float) -> float:
-	# Mathf.slerpDelta (Mathf.java:460-462, `public static float slerpDelta(float fromDegrees, float toDegrees, float progress){` with `return slerp(fromDegrees, toDegrees, clamp(progress * Time.delta));`): slerp is the angle lerp in degrees (Mathf.java:455-458, `public static float slerp(float fromDegrees, float toDegrees, float progress){` with `float delta = ((toDegrees - fromDegrees + 360 + 180) % 360) - 180;` and `return (fromDegrees + delta * progress + 360) % 360;`), so the wrapped delta picks the shortest way round the circle; clamp is [0, 1] (Mathf.java:402-404, `public static float clamp(float value){` with `return Math.max(Math.min(value, 1f), 0f);`). The port has no slerp helper, so the advance carries this local transliteration; GDScript fmod matches Java % (sign of the dividend), so the wrap is exact. Time.delta in the port is the driver's seconds (the conduit precedent).
+	# Mathf.slerpDelta (Mathf.java:460-462, `public static float slerpDelta(float fromDegrees, float toDegrees, float progress){` with `return slerp(fromDegrees, toDegrees, clamp(progress * Time.delta));`): slerp is the angle lerp in degrees (Mathf.java:455-458, `public static float slerp(float fromDegrees, float toDegrees, float progress){` with `float delta = ((toDegrees - fromDegrees + 360 + 180) % 360) - 180;` and `return (fromDegrees + delta * progress + 360) % 360;`), so the wrapped delta picks the shortest way round the circle; clamp is [0, 1] (Mathf.java:402-404, `public static float clamp(float value){` with `return Math.max(Math.min(value, 1f), 0f);`). The port has no slerp helper, so the advance carries this local transliteration; GDScript fmod matches Java % (sign of the dividend), so the wrap is exact. Time.delta in the port is seconds * 60 via game_source_delta (arc Time.java:26, the N2093/N2189 precedent); the driver converts before calling this helper.
 	var clamped: float = clampf(progress * source_delta, 0.0, 1.0)
 	var delta: float = fmod(to_degrees - from_degrees + 360.0 + 180.0, 360.0) - 180.0
 	return fmod(from_degrees + delta * clamped + 360.0, 360.0)
 
-static func source_accelerator_update_tile_advance_state(frame: Dictionary, seconds: float) -> Dictionary:
+static func source_accelerator_update_tile_advance_state(frame: Dictionary, source_delta: float) -> Dictionary:
 	# The pure updateTile advance (N2191): AcceleratorBuild.updateTile() (Accelerator.java:127-146, `public void updateTile(){` with `super.updateTile();` -- super is the empty BuildingComp updateTile, BuildingComp.java:2010-2012, so the advance is the whole tick):
 	# `heat = Mathf.lerpDelta(heat, launching ? 1f : efficiency, 0.05f);`
 	# `statusLerp = Mathf.lerpDelta(statusLerp, power.status, 0.05f);`
@@ -113,7 +113,7 @@ static func source_accelerator_update_tile_advance_state(frame: Dictionary, seco
 	# `return slerp(fromDegrees, toDegrees, clamp(progress * Time.delta));`
 	# `public static float clamp(float value){`
 	# `return Math.max(Math.min(value, 1f), 0f);`
-	# lerpDelta reuses the shared SourceMathState.source_lerp_delta, which already implements lerp(from, to, clamp(progress * Time.delta)) exactly; slerpDelta uses the local source_mathf_slerp_delta above. Frame defaults are the Java field defaults: heat/statusLerp/time/launchHeat/progress 0.0, launching false, efficiency 0.0 (Java float/boolean defaults); a missing power_status stamp folds to 1.0, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). Time.delta in the port is the driver's seconds (the conduit precedent).
+	# lerpDelta reuses the shared SourceMathState.source_lerp_delta, which already implements lerp(from, to, clamp(progress * Time.delta)) exactly; slerpDelta uses the local source_mathf_slerp_delta above. Frame defaults are the Java field defaults: heat/statusLerp/time/launchHeat/progress 0.0, launching false, efficiency 0.0 (Java float/boolean defaults); a missing power_status stamp folds to 1.0, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). Time.delta in the port is seconds * 60 via game_source_delta (arc Time.java:26, the N2093/N2189 precedent); the driver converts before calling.
 	var launching: bool = bool(frame.get("launching", false))
 	var efficiency: float = float(frame.get("efficiency", 0.0))
 	var stamped_power: Variant = frame.get("power_status", null)
@@ -123,17 +123,17 @@ static func source_accelerator_update_tile_advance_state(frame: Dictionary, seco
 	var time: float = float(frame.get("time", 0.0))
 	var launch_heat: float = float(frame.get("launch_heat", 0.0))
 	var progress: float = float(frame.get("progress", 0.0))
-	var heat_after: float = source_math_state.source_lerp_delta(heat, 1.0 if launching else efficiency, SOURCE_ACCELERATOR_HEAT_LERP_PROGRESS, seconds)
-	var status_lerp_after: float = source_math_state.source_lerp_delta(status_lerp, power_status, SOURCE_ACCELERATOR_STATUS_LERP_PROGRESS, seconds)
+	var heat_after: float = source_math_state.source_lerp_delta(heat, 1.0 if launching else efficiency, SOURCE_ACCELERATOR_HEAT_LERP_PROGRESS, source_delta)
+	var status_lerp_after: float = source_math_state.source_lerp_delta(status_lerp, power_status, SOURCE_ACCELERATOR_STATUS_LERP_PROGRESS, source_delta)
 	var time_after: float
 	if not launching:
-		time_after = time + seconds * efficiency
+		time_after = time + source_delta * efficiency
 	else:
-		time_after = source_mathf_slerp_delta(time, 0.0, SOURCE_ACCELERATOR_TIME_SLERP_PROGRESS, seconds)
-	var launch_heat_after: float = source_math_state.source_lerp_delta(launch_heat, 1.0 if launching else 0.0, SOURCE_ACCELERATOR_LAUNCH_HEAT_LERP_PROGRESS, seconds)
+		time_after = source_mathf_slerp_delta(time, 0.0, SOURCE_ACCELERATOR_TIME_SLERP_PROGRESS, source_delta)
+	var launch_heat_after: float = source_math_state.source_lerp_delta(launch_heat, 1.0 if launching else 0.0, SOURCE_ACCELERATOR_LAUNCH_HEAT_LERP_PROGRESS, source_delta)
 	var progress_after: float = progress
 	if efficiency >= 0.0:
-		progress_after = minf(progress + seconds * efficiency / SOURCE_ACCELERATOR_BUILD_DURATION, 1.0)
+		progress_after = minf(progress + source_delta * efficiency / SOURCE_ACCELERATOR_BUILD_DURATION, 1.0)
 	return {"heat": heat_after, "status_lerp": status_lerp_after, "time": time_after, "launch_heat": launch_heat_after, "progress": progress_after}
 
 static func source_accelerator_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
@@ -186,8 +186,8 @@ static func source_accelerator_tick_buildings_state(game: Object, seconds: float
 				required_results.append(power_row.get("row", {}))
 			var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(true, bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, [], [], frame)
 			source_building_efficiency_state.apply_update_consumption_state(consumption, frame)
-		# The updateTile advance (Accelerator.java:127-146) runs every tick after the consumption fold (Building.update() calls updateConsumption() then updateTile(), BuildingComp.java:2274-2278; the gate `if(enabled || !block.noUpdateDisabled){` passes even when disabled because noUpdateDisabled defaults false, Block.java:170, and Accelerator never sets it) -- so heat/statusLerp/launchHeat lerp, time advances or slerps, and progress charges toward isCoreBuilt() (Accelerator.java:153-154, `return progress >= 1f;`) on the folded efficiency; super.updateTile() is empty (BuildingComp.java:2010-2012). The launching flag stays false until the launch-sequence slice drives beginLaunch (Accelerator.java:334-337).
-		var advanced: Dictionary = source_accelerator_update_tile_advance_state(frame, seconds)
+		# The updateTile advance (Accelerator.java:127-146) runs every tick after the consumption fold (Building.update() calls updateConsumption() then updateTile(), BuildingComp.java:2274-2278; the gate `if(enabled || !block.noUpdateDisabled){` passes even when disabled because noUpdateDisabled defaults false, Block.java:170, and Accelerator never sets it) -- so heat/statusLerp/launchHeat lerp, time advances or slerps, and progress charges toward isCoreBuilt() (Accelerator.java:153-154, `return progress >= 1f;`) on the folded efficiency; super.updateTile() is empty (BuildingComp.java:2010-2012). The launching flag stays false until the launch-sequence slice drives beginLaunch (Accelerator.java:334-337). The driver converts its seconds argument to Time.delta ticks via game_source_delta (seconds * 60, arc Time.java:26).
+		var advanced: Dictionary = source_accelerator_update_tile_advance_state(frame, source_placed_block_state.game_source_delta(game, seconds))
 		frame["heat"] = advanced.get("heat", 0.0)
 		frame["status_lerp"] = advanced.get("status_lerp", 0.0)
 		frame["time"] = advanced.get("time", 0.0)
