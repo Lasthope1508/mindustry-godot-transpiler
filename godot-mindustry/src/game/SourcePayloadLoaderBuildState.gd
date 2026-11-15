@@ -72,9 +72,9 @@ static func _initial_frame() -> Dictionary:
 	# PayloadBlock.java:92, default null): the shouldConsume
 	# gate (PayloadLoader.java:240-242) reads frame["payload"]
 	# null-ness, so the frame carries the payload key (null
-	# until a live fill sets it -- moveInPayload /
-	# handlePayload fill waits for its own slice; the gate
-	# reads the frame as-is). N2231 adds the updateTile
+	# until the N2278 live fill sets it from the frame
+	# incoming_payload push; moveInPayload positioning was
+	# already live since N2231). N2231 adds the updateTile
 	# advance keys with the Java field defaults:
 	# `public boolean exporting = false;`
 	# (PayloadLoader.java:87), `public Vec2 payVector = new Vec2();`
@@ -116,7 +116,7 @@ static func source_payload_loader_bind_frame_state(sprite: Sprite2D, block: Obje
 	return {"applied": true, "frame": frame}
 
 static func source_payload_loader_should_consume_state(frame: Dictionary) -> Dictionary:
-	# PayloadLoaderBuild overrides shouldConsume (PayloadLoader.java:240, `public boolean shouldConsume(){` with `return payload != null;`, PayloadLoader.java:241): the payload-loader consumes only while it holds a payload. PayloadLoader extends PayloadBlock (PayloadLoader.java:19, `public class PayloadLoader extends PayloadBlock{`) and PayloadLoaderBuild extends PayloadBlockBuild (PayloadLoader.java:86, `public class PayloadLoaderBuild extends PayloadBlockBuild<BuildPayload>{`; PayloadBlock.java:91, `public class PayloadBlockBuild<T extends Payload> extends Building{`), so the default (BuildingComp.java:755, `public boolean shouldConsume(){` with `return enabled;`) does NOT apply here. Unlike the Separator/Drill gates this one has NO `&& enabled` -- Java returns the bare null check, so the pure gate does NOT read frame["enabled"] at all (the driver already runs the machinery only when enabled). The payload is the PayloadBlock field (`public @Nullable T payload;`, PayloadBlock.java:92), set by handlePayload (`this.payload = (T)payload;`, PayloadBlock.java:122; PayloadLoader.java:105, `super.handlePayload(source, payload);`) and cleared by takePayload (`payload = null;`, PayloadBlock.java:147); the frame carries it as frame["payload"] (default null for a frame bound before this slice). The gate reads only null-ness, so the payload value itself is opaque -- a minimal Dictionary fixture stands in for a BuildPayload in the proof. The def is the only payload-loader (payload-loader, `consumePower(2f);`, `size = 3;`, Blocks.java:6682-6689); there is no large-payload-loader. When the gate is false updateConsumption forces efficiency to zero (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). No live fill sets frame["payload"] yet -- moveInPayload / handlePayload fill and takePayload clear wait for their own slice; the gate reads the frame as-is.
+	# PayloadLoaderBuild overrides shouldConsume (PayloadLoader.java:240, `public boolean shouldConsume(){` with `return payload != null;`, PayloadLoader.java:241): the payload-loader consumes only while it holds a payload. PayloadLoader extends PayloadBlock (PayloadLoader.java:19, `public class PayloadLoader extends PayloadBlock{`) and PayloadLoaderBuild extends PayloadBlockBuild (PayloadLoader.java:86, `public class PayloadLoaderBuild extends PayloadBlockBuild<BuildPayload>{`; PayloadBlock.java:91, `public class PayloadBlockBuild<T extends Payload> extends Building{`), so the default (BuildingComp.java:755, `public boolean shouldConsume(){` with `return enabled;`) does NOT apply here. Unlike the Separator/Drill gates this one has NO `&& enabled` -- Java returns the bare null check, so the pure gate does NOT read frame["enabled"] at all (the driver already runs the machinery only when enabled). The payload is the PayloadBlock field (`public @Nullable T payload;`, PayloadBlock.java:92), set by handlePayload (`this.payload = (T)payload;`, PayloadBlock.java:122; PayloadLoader.java:105, `super.handlePayload(source, payload);`) and cleared by takePayload (`payload = null;`, PayloadBlock.java:147); the frame carries it as frame["payload"] (default null for a frame bound before this slice). The gate reads only null-ness, so the payload value itself is opaque -- a minimal Dictionary fixture stands in for a BuildPayload in the proof. The def is the only payload-loader (payload-loader, `consumePower(2f);`, `size = 3;`, Blocks.java:6682-6689); there is no large-payload-loader. When the gate is false updateConsumption forces efficiency to zero (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). The live fill is live since N2278 (handlePayload intake through the frame incoming_payload push; takePayload is pure + tested, not wired live -- the unit-pickup path waits for live units).
 	var payload: Variant = frame.get("payload", null)
 	var has_payload: bool = payload != null
 	return {"should_consume": has_payload, "has_payload": has_payload}
@@ -134,6 +134,43 @@ static func source_payload_loader_dynamic_power_usage_state(should_consume: bool
 	else:
 		usage = base_power_use
 	return {"usage": usage, "charging": charging}
+
+static func source_payload_loader_handle_payload_state(incoming_payload: Variant, source_x: float, source_y: float, self_x: float, self_y: float, payload_rotation: float, block_size: int, tilesize: float) -> Dictionary:
+	# The handlePayload intake (N2278): handlePayload(Building source, Payload payload)
+	# (PayloadBlock.java:121-127) on `public class PayloadBlockBuild<T extends Payload> extends Building{` (PayloadBlock.java:91) /
+	# `public class PayloadLoaderBuild extends PayloadBlockBuild<BuildPayload>{` (PayloadLoader.java:86):
+	# `this.payload = (T)payload;` (PayloadBlock.java:122) sets the held payload (the field `public @Nullable T payload;`,
+	# PayloadBlock.java:92, default null; the frame key frame["payload"]);
+	# this.payVector.set(source).sub(this).clamp(-size * tilesize / 2f, -size * tilesize / 2f, size * tilesize / 2f, size * tilesize / 2f); (PayloadBlock.java:123)
+	# sets payVector (the field `public Vec2 payVector = new Vec2();`, PayloadBlock.java:94) to the source offset, clamped per axis
+	# to +/-size*tilesize/2 -- Vec2.clamp(minx, miny, maxx, maxy) is `x = Mathf.clamp(x, minx, maxx);` / `y = Mathf.clamp(y, miny, maxy);`
+	# (arc Vec2.java:318-322), so each axis clamps independently; `public static final int tilesize = 8;` (Vars.java:135), so size 3
+	# (the only def, payload-loader, `size = 3;`, Blocks.java:6687) clamps to +/-12.0 and size 4 would clamp to +/-16.0 (there is no
+	# large-payload-loader def -- the scope's size-4 note was wrong, caught by the RED grep -- so size 4 is a param case of this pure
+	# function, not a def); `this.payRotation = payload.rotation();` (PayloadBlock.java:124) records the payload rotation (the field
+	# `public float payRotation;`, PayloadBlock.java:95, default 0f; `default float rotation(){` with `return 0f;`, Payload.java:55-57,
+	# is the BuildPayload default, so a payload dict without a rotation key reads 0.0); `updatePayload();` (PayloadBlock.java:126) is
+	# NOT ported: it only positions the live payload entity (`payload.set(x + payVector.x, y + payVector.y, payRotation);`, PayloadBlock.java:176)
+	# and the port has no live payload entity -- payVector/payRotation ARE the record (the N2231 moveIn precedent). The Loader override
+	# (PayloadLoader.java:104-107): `super.handlePayload(source, payload);` (PayloadLoader.java:105) then `exporting = false;`
+	# (PayloadLoader.java:106) -- a fresh intake is never exporting (the field `public boolean exporting = false;`, PayloadLoader.java:87);
+	# the N2231 advance may set it true again on later ticks. The pure function sets unconditionally, like Java: the null guard lives in
+	# the driver (acceptPayload returns `this.payload == null`, PayloadBlock.java:117) and in acceptPayload itself (PayloadLoader.java:90-101,
+	# which defers -- payload acceptance is not tick state). moveInPayload approach was already ported in the N2231 advance and is not
+	# ported again here.
+	var half_size: float = float(block_size) * tilesize / 2.0
+	var pay_x: float = clampf(source_x - self_x, -half_size, half_size)
+	var pay_y: float = clampf(source_y - self_y, -half_size, half_size)
+	return {"payload": incoming_payload, "pay_vector": {"x": pay_x, "y": pay_y}, "pay_rotation": payload_rotation, "exporting": false}
+
+static func source_payload_loader_take_payload_state(payload: Variant) -> Dictionary:
+	# The takePayload clear (N2278): `public Payload takePayload(){` (PayloadBlock.java:145) with `T t = payload;`
+	# (PayloadBlock.java:146), `payload = null;` (PayloadBlock.java:147), `return t;` (PayloadBlock.java:148) -- the held payload
+	# is returned to the caller and the slot clears (taking from an empty loader returns null). Pure + tested only: the unit-pickup
+	# live path (canControlSelect / onControlSelect, PayloadBlock.java:103-113) waits for live units, and the move-out clear is
+	# already live through the N2231 advance (movePayload success clears frame["payload"]), so the driver does NOT call this function
+	# -- wiring it live would clear twice.
+	return {"payload_taken": payload, "payload_after": null}
 
 static func source_payload_loader_update_tile_advance_state(frame: Dictionary, source_delta: float, time_scale: float, load_tick: bool, rotdeg_value: float, block_rotate: bool, item_order: Array, liquid_names_by_id: Array, front: Dictionary, move_payload_result: bool, base_power_use: float) -> Dictionary:
 	# The updateTile advance (N2231): PayloadLoaderBuild.updateTile()
@@ -292,8 +329,9 @@ static func source_payload_loader_update_tile_advance_state(frame: Dictionary, s
 	# power_charged / items_loaded / pushed_output_fraction); the driver writes
 	# the frame keys back. The payload is set by handlePayload
 	# (`this.payload = (T)payload;`, PayloadBlock.java:122) and cleared by takePayload
-	# (`payload = null;`, PayloadBlock.java:147); no live fill sets frame["payload"]
-	# yet, so live the advance is a no-op until the fill slice lands.
+	# (`payload = null;`, PayloadBlock.java:147); the live fill is live since N2278
+	# (handlePayload intake through the frame incoming_payload push), so a live
+	# loader with a pushed payload runs the advance (payload null -> no moveIn, no loads).
 	var efficiency: float = float(frame.get("efficiency", 0.0))
 	var power_status: float = float(frame.get("power_status", 1.0))
 	var exporting: bool = bool(frame.get("exporting", false))
@@ -443,7 +481,7 @@ static func source_payload_loader_update_tile_advance_state(frame: Dictionary, s
 
 static func source_payload_loader_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a payload-loader does not take the early return. The load gate follows the folded efficiency (PayloadLoader.java:157, `if(efficiency > 0.01f && timer(timerLoad, loadTime / efficiency)){`), with the battery charge (PayloadLoader.java:202, `float powerInput = power.status * (basePowerUse + maxPowerConsumption);`) and the shouldConsume default (BuildingComp.java:755, `public boolean shouldConsume(){`) and the shouldConsume override (PayloadLoader.java:241, `return payload != null;`).
-	# Documented limits: (1) power-only first pass -- the dynamic power usage value is live (N2270): the pure source_payload_loader_dynamic_power_usage_state function prices the consumePowerDynamic lambda (PayloadLoader.java:80; `public float maxPowerConsumption = 40f;` (PayloadLoader.java:26) + basePowerUse when hasBattery() && !exporting, else basePowerUse, 0f with no payload) and the driver stamps frame power_usage every tick at fold time (before the advance call, so exporting is the previous tick's value), so the folded efficiency is the min over the *modeled* consumers (power only). Graph wiring defers: the port graph builds demand from the static catalog consPower, so the per-building dynamic value waits for a distribution-runtime slice that reads frame power_usage (the N2232 Unloader last_output_power precedent). (2) shouldConsume gate live (N2208) -- PayloadLoaderBuild overrides shouldConsume() to return payload != null (PayloadLoader.java:240-242, `return payload != null;`); the pure gate (source_payload_loader_should_consume_state) feeds should_consume to the machinery from the frame payload key (null by default); no live fill sets frame["payload"] yet (moveInPayload / handlePayload fill waits for its own slice). (3) updateTile advance live (N2231) -- shouldExport / moveInPayload / moveOutPayload (reused helper) / load items+liquids / battery charge (PayloadLoader.java:148-220) run every tick after the consumption fold through the pure source_payload_loader_update_tile_advance_state function; the load timer cadence (PayloadLoader.java:157, the driver passes load_tick false), the movePayload/dumpPayload application, the live front gather, and the live payload fill defer (no timer/front/fill infra yet); the N2231 proof carries the load/export/battery keys. (4) No accept/handle payload rows -- acceptPayload fits maxBlockSize (PayloadLoader.java:102-115) is payload acceptance, not tick state.
+	# Documented limits: (1) power-only first pass -- the dynamic power usage value is live (N2270): the pure source_payload_loader_dynamic_power_usage_state function prices the consumePowerDynamic lambda (PayloadLoader.java:80; `public float maxPowerConsumption = 40f;` (PayloadLoader.java:26) + basePowerUse when hasBattery() && !exporting, else basePowerUse, 0f with no payload) and the driver stamps frame power_usage every tick at fold time (before the advance call, so exporting is the previous tick's value), so the folded efficiency is the min over the *modeled* consumers (power only). Graph wiring defers: the port graph builds demand from the static catalog consPower, so the per-building dynamic value waits for a distribution-runtime slice that reads frame power_usage (the N2232 Unloader last_output_power precedent). (2) shouldConsume gate live (N2208) -- PayloadLoaderBuild overrides shouldConsume() to return payload != null (PayloadLoader.java:240-242, `return payload != null;`); the pure gate (source_payload_loader_should_consume_state) feeds should_consume to the machinery from the frame payload key (null by default); the live payload fill is live since N2278 (handlePayload intake through the frame incoming_payload push). (3) updateTile advance live (N2231) -- shouldExport / moveInPayload / moveOutPayload (reused helper) / load items+liquids / battery charge (PayloadLoader.java:148-220) run every tick after the consumption fold through the pure source_payload_loader_update_tile_advance_state function; the load timer cadence (PayloadLoader.java:157, the driver passes load_tick false), the movePayload/dumpPayload application, and the live front gather defer (no timer/front infra yet); the N2231 proof carries the load/export/battery keys. (4) No acceptPayload rows -- acceptPayload fits maxBlockSize (PayloadLoader.java:90-101) is payload acceptance, not tick state (the old :102-115 cite was wrong). (5) live payload fill live (N2278) -- handlePayload intake (PayloadBlock.java:121-127 + the Loader override PayloadLoader.java:104-107) applies the frame incoming_payload push before the fold when the frame payload is null; takePayload is pure + tested only (the unit-pickup path waits for live units); updatePayload() live positioning defers (no live payload entity); the incoming push has no live source yet (the front moveOutPayload handoff and the unit drop wait for their own slices).
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -488,6 +526,40 @@ static func source_payload_loader_tick_buildings_state(game: Object, seconds: fl
 		# pattern). frame["items"] is frame-owned (no sprite
 		# meta store); nothing fills it live yet.
 		frame["liquids"] = sprite.get_meta(source_placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, {})
+		# The live payload fill (N2278, handlePayload, PayloadBlock.java:121-127 + the Loader override
+		# PayloadLoader.java:104-107): runs BEFORE the consumption fold and the advance call -- Java
+		# handlePayload is an external call (the source's moveOutPayload or a unit drop), so it lands
+		# before the next tick starts, and the fresh payload consumes on this same tick. The intake reads
+		# the frame inputs incoming_payload (the pushed payload dict, or null) / incoming_source_pos
+		# ({x, y} world position of the source building) / world_pos ({x, y} world position of this
+		# loader): no live source pushes them yet (the front moveOutPayload handoff and the unit drop wait
+		# for their own slices), and the port has no live world-position model for placed buildings, so
+		# both positions arrive as frame inputs (origin_cell is a cell, sprite.position is unset by
+		# placement). The intake applies only when the frame payload is null (acceptPayload returns
+		# `this.payload == null`, PayloadBlock.java:117) and consumes the one-tick push either way (the
+		# source keeps its own payload in its own frame and re-pushes on its next moveOutPayload attempt).
+		# The rotation reads the incoming dict's rotation key (default 0.0, the Payload.java:55-57
+		# default); the size is the driver const (3, the only def) and tilesize is SourceWorldDefaults.
+		var incoming_payload: Variant = frame.get("incoming_payload", null)
+		if incoming_payload != null:
+			if frame.get("payload", null) == null:
+				var incoming_source_value: Variant = frame.get("incoming_source_pos", {})
+				var incoming_source: Dictionary = {"x": 0.0, "y": 0.0}
+				if incoming_source_value is Dictionary:
+					incoming_source = {"x": float(incoming_source_value.get("x", 0.0)), "y": float(incoming_source_value.get("y", 0.0))}
+				var world_pos_value: Variant = frame.get("world_pos", {})
+				var world_pos: Dictionary = {"x": 0.0, "y": 0.0}
+				if world_pos_value is Dictionary:
+					world_pos = {"x": float(world_pos_value.get("x", 0.0)), "y": float(world_pos_value.get("y", 0.0))}
+				var incoming_rotation: float = 0.0
+				if incoming_payload is Dictionary:
+					incoming_rotation = float(incoming_payload.get("rotation", 0.0))
+				var handled: Dictionary = source_payload_loader_handle_payload_state(incoming_payload, float(incoming_source.get("x", 0.0)), float(incoming_source.get("y", 0.0)), float(world_pos.get("x", 0.0)), float(world_pos.get("y", 0.0)), incoming_rotation, SOURCE_PAYLOAD_LOADER_SIZE, source_world_defaults.TILESIZE)
+				frame["payload"] = handled["payload"]
+				frame["pay_vector"] = handled["pay_vector"]
+				frame["pay_rotation"] = handled["pay_rotation"]
+				frame["exporting"] = handled["exporting"]
+			frame["incoming_payload"] = null
 		# The power consumer reads live since N2153 (the graph
 		# update stamps frame["power_status"] each tick, N2142):
 		# a payload-loader with a power consumer folds the pure power
@@ -536,8 +608,8 @@ static func source_payload_loader_tick_buildings_state(game: Object, seconds: fl
 		# ticks: game_source_delta(game, seconds) is seconds * 60 (arc Time.java:26),
 		# never raw seconds; timeScale reads live from the sprite meta, default 1.0
 		# (BuildingComp.java:98). The pure advance returns the advanced frame values,
-		# which the driver writes back; with no live payload fill yet the advance is
-		# a no-op live (payload null -> no moveIn, no loads).
+		# which the driver writes back; with the N2278 live fill the advance runs
+		# live once a payload is pushed in (payload null -> no moveIn, no loads).
 		var rotdeg_value: float = float(int(sprite.get_meta(source_block_geometry.SOURCE_BUILD_ROTATION_META_KEY, 0))) * 90.0
 		var item_order: Array = source_content_registry_runtime_state.source_item_catalog_state(catalog).get("item_names_by_id", [])
 		var liquid_names_by_id: Array = []
