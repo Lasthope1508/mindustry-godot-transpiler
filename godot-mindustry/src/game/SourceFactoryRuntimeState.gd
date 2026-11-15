@@ -43,6 +43,7 @@ const source_stack_conveyor_build_state := preload("res://src/game/SourceStackCo
 const source_stack_router_build_state := preload("res://src/game/SourceStackRouterBuildState.gd")
 const source_impact_reactor_build_state := preload("res://src/game/SourceImpactReactorBuildState.gd")
 const source_accelerator_build_state := preload("res://src/game/SourceAcceleratorBuildState.gd")
+const source_build_turret_build_state := preload("res://src/game/SourceBuildTurretBuildState.gd")
 const source_shield_wall_build_state := preload("res://src/game/SourceShieldWallBuildState.gd")
 const source_point_defense_turret_build_state := preload("res://src/game/SourcePointDefenseTurretBuildState.gd")
 const source_tractor_beam_turret_build_state := preload("res://src/game/SourceTractorBeamTurretBuildState.gd")
@@ -505,6 +506,17 @@ static func simulate_factory(game: Object, delta: float) -> void:
 	# placed-buildings driver ticks Accelerator blocks; an accelerator
 	# without a power consumer is excluded by the driver gate).
 	source_accelerator_build_state.source_accelerator_tick_buildings_state(game, delta)
+	# The build-turret tick runs every live-loop tick (N2184): each
+	# placed BuildTurret build (build-tower, whose build runs
+	# BuildTurretBuild.updateTile(), BuildTurret.java:121-139, and
+	# whose build speed (BuildTurret.java:136-137, `unit.
+	# buildSpeedMultiplier(potentialEfficiency * timeScale);`)
+	# follows the folded efficiency) gets its frame keys
+	# refreshed from the live rules and folds its live power.status
+	# into the min efficiency, so the build-speed advance follows power.status (no
+	# placed-buildings driver ticks BuildTurret blocks; a build tower
+	# without a power consumer is excluded by the driver gate).
+	source_build_turret_build_state.source_build_turret_tick_buildings_state(game, delta)
 	# The point-defense tick runs every live-loop tick (N2151): each
 	# placed PointDefenseTurret build (segment, whose build runs
 	# PointDefenseBuild.updateTile(), PointDefenseTurret.java:62)
