@@ -4,6 +4,9 @@ const main_scene := preload("res://scenes/Main.tscn")
 const repair_tower_build_state := preload("res://src/game/SourceRepairTowerBuildState.gd")
 const registry := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 const proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
+const liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
+const content_registry_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
+const placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
 
 
 func _ready() -> void:
@@ -56,11 +59,18 @@ func _ready() -> void:
 	# N2168/N2169 proofs do), not simulate_factory, so the
 	# graph update does not overwrite the stamped power_status
 	# -- the write-back itself is already proven by N2142. The
-	# repair-tower tick models no other consumers, so with
-	# a power consumer the first pass holds only the power row;
-	# when the gate is false updateConsumption forces
-	# efficiency to zero (BuildingComp.java:1960 + 1992).
+	# first pass holds the power row AND the N2250 ozone liquid
+	# row (consumeLiquid ozone 3f/60f, Blocks.java:6583) -- with
+	# an empty ozone store the machinery folds efficiency to 0,
+	# so the sprite liquids meta is seeded with ozone 0.1 before
+	# EACH live tick below (the N2250 Tower B fill, N2306
+	# pattern; ozone 0.1 at full power folds eff 1.0, so at half
+	# power eff = min(0.5, 1.0) = 0.5). When the gate is false
+	# updateConsumption forces efficiency to zero
+	# (BuildingComp.java:1960 + 1992).
 	var catalog = game.get("content_catalog")
+	var liquid_catalog: Dictionary = content_registry_state.source_liquid_catalog_state(catalog)
+	var ozone_id: int = int(liquid_catalog["liquid_id_by_name"].get("ozone", -1))
 	var blocks_by_id: Dictionary = {}
 	for registered_block in catalog.get_many("block"):
 		blocks_by_id[registered_block.id] = registered_block
@@ -75,6 +85,11 @@ func _ready() -> void:
 	# the targets on it).
 	repair_tower_build_state.source_repair_tower_bind_frame_state(repair_tower, blocks_by_id["unit-repair-tower"])
 	var repair_tower_frame: Dictionary = repair_tower.get_meta(repair_tower_build_state.SOURCE_REPAIR_TOWER_BUILDING_META_KEY, {})
+	# Seed ozone 0.1 on the sprite liquids meta (the N2250
+	# Tower B fill, N2306 pattern) before the first live tick
+	# -- without it the ozone liquid row folds efficiency to 0.
+	var repair_tower_liquids: Dictionary = repair_tower.get_meta(placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, {})
+	liquid_module_state.source_set_state(repair_tower_liquids, ozone_id, 0.1)
 
 	# A freshly bound frame carries the targets key defaulting
 	# to the empty list (the Java field initializer is `new
@@ -91,6 +106,10 @@ func _ready() -> void:
 
 	# One target in range: gate true -> efficiency folds
 	# the power min 0.5 (the N2176 power fold preserved).
+	# Re-seed ozone 0.1 before this second live tick -- do
+	# not rely on leftovers from the first tick.
+	repair_tower_liquids = repair_tower.get_meta(placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, {})
+	liquid_module_state.source_set_state(repair_tower_liquids, ozone_id, 0.1)
 	repair_tower_frame["targets"] = [{"type": "dart"}]
 	repair_tower_frame["power_status"] = 0.5
 	repair_tower_build_state.source_repair_tower_tick_buildings_state(game, 1.0 / 60.0)
