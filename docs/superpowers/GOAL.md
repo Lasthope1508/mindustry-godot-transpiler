@@ -45,7 +45,7 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
 (`docs/superpowers/handoffs/`). Khi trống task, tự làm slice tiếp theo, không
 đợi user giao.
 
-## 4. Tiến độ hiện tại (2026-11-15 15:05 +07)
+## 4. Tiến độ hiện tại (2026-11-15 15:38 +07)
 
 - Main trên fork ở `de9ab89c` (N2185 LightBlock power.status DONE + PUSHED).
 - **Batch 1 {N2186, N2187, N2189} DONE** trên branch tích hợp
@@ -142,9 +142,24 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
   trống). N2214 sửa cite gate sai của driver N2160 (206-208 → 181-183,
   đã verify bằng grep); driver N2160 còn nhiều cite pin-drift khác — cần
   cite-cleanup slice riêng.
-- **Tiếp theo:** plans — BuildTurret gate (cần plans + suppression infra;
-  xem `DESIGN-frame-state-infra.md` trong `~/workspace/mindustry-parallel/`)
-  → units → updateTile advances.
+- **Wave plans {N2215 BuildTurret, N2216 BlockProducer/Constructor}
+  shouldConsume gates DONE**
+  trên branch tích hợp `integration/wave-plans-n2215-n2216` (không merge
+  vào main; 2 slice branch push 15:11 + integration branch push ngay
+  sau docs commit theo push-as-you-go): neighbours họ build/constructor
+  8 tests (6 PASS + 2 proof Godot-absent, 0 lỗi khác) + targeted 2 module
+  8 tests (6 PASS + 2 proof Godot-absent), full gate run 2 Ran 5921 in
+  959.898s, failures=157, skipped=5, 0 errors — 157/157 Godot-absent
+  (155 inherited + 2 new proof tests N2215–N2216; run 1 PID 19171 bị
+  giết bởi VM restart lần 3 ~15:22, run 2 PID 1756 chạy lại từ đầu).
+  SSOT gộp 11431/1657/1580/2951, audit 1336, legacy 0. Coordinator fix
+  `c36f1cb7` ở tích hợp: seed plans / recipe fixture vào proof
+  N2184/N2161 (nếu không key efficiency_folds_power_min sẽ fail trên
+  Godot vì gate đóng khi frame trống). N2216 sửa cite scope sai (recipe
+  field :59 không phải :61, config :32–37, configClear :31/:38 — đã
+  verify bằng grep).
+- **Tiếp theo:** units → updateTile advances → second consumers (xem
+  `DESIGN-frame-state-infra.md` trong `~/workspace/mindustry-parallel/`).
 - **KHÔNG chạy Godot ở VM này** (chỉ đạo user 2026-11-15, ưu tiên cao): mọi
   proof scene từ N2186 trở đi chỉ viết, chưa từng chạy ở đâu — ghi nợ ở §5,
   chờ agent Godot test.
@@ -466,6 +481,26 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
     `slice/N2214-regen-projector-should-consume` (integration cherry-pick `49fbcec3`).
     Trạng thái "chờ agent Godot test". Chạy: targeted test
     `tests.test_c07_regen_projector_should_consume` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2215 `C07BuildTurretShouldConsumeProof` — CHƯA CHẠY ở đâu (6 key:
+    `gate_true_when_plans_nonempty`, `gate_false_when_plans_empty`,
+    `gate_false_when_heal_suppressed`, `efficiency_zero_when_gate_false`,
+    `efficiency_folds_power_when_gate_true`, `frame_plans_default_empty`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `4a873633` trên
+    `slice/N2215-build-turret-should-consume` (integration cherry-pick `ff6e85c9`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_build_turret_should_consume` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2216 `C07ConstructorShouldConsumeProof` — CHƯA CHẠY ở đâu (6 key:
+    `gate_true_when_recipe_present`, `gate_false_when_recipe_null`,
+    `gate_false_when_disabled`, `efficiency_zero_when_gate_false`,
+    `efficiency_folds_power_when_gate_true`, `frame_recipe_default_null`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `0cf6ed6c` trên
+    `slice/N2216-block-producer-should-consume` (integration cherry-pick `2f9641e6`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_constructor_should_consume` với Godot 4.6.2 trên PATH,
     port 7777 trống.
   - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
     trên (ghi rõ commit đưa scene tới Windows).
