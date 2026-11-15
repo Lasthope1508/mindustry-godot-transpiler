@@ -6,6 +6,9 @@ const source_placed_block_state := preload("res://src/game/SourcePlacedBlockStat
 const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
 const source_building_efficiency_state := preload("res://src/game/SourceBuildingEfficiencyState.gd")
 const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
+const source_pump_runtime_state := preload("res://src/game/SourcePumpRuntimeState.gd")
+const source_liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
+const source_content_registry_runtime_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
 
 # The Pump implementation (Pump.java:18, `public class Pump
 # extends LiquidBlock{`): rotary-pump (consumePower 0.3f,
@@ -101,11 +104,15 @@ static func source_mechanical_pump_power_status_row_state(frame: Dictionary, has
 	# no-op for these pumps -- neither consumes items) and
 	# dumpLiquid (Pump.java:180-182) wait for their own
 	# slices, so the folded efficiency is the min over the
-	# *modeled* consumers (power only). (2) No shouldConsume
-	# gate -- PumpBuild.shouldConsume() (Pump.java:155-156,
-	# `return liquidDrop != null && liquids.get(liquidDrop) < liquidCapacity - 0.01f && enabled;`) needs liquid
-	# state the tick does not track yet; the machinery runs
-	# with should_consume=true when enabled. (3) No
+	# *modeled* consumers (power only). (2) shouldConsume
+	# gate live (N2205) -- PumpBuild.shouldConsume()
+	# (Pump.java:155-157, `return liquidDrop != null && liquids.get(liquidDrop) < liquidCapacity - 0.01f && enabled;`) feeds the pure gate
+	# source_mechanical_pump_should_consume_state
+	# (liquidDrop from the per-tick proximity scan, liquids
+	# from the sprite liquids meta, def-constant
+	# liquidCapacity); when the gate is false
+	# updateConsumption forces efficiency to 0
+	# (BuildingComp.java:1960 + 1992-1994). (3) No
 	# updateTile advance -- maxPump / liquids.add / warmup /
 	# totalProgress (Pump.java:161-176) wait for their own
 	# slices; the proof carries no progress keys, the maxPump
@@ -115,6 +122,65 @@ static func source_mechanical_pump_power_status_row_state(frame: Dictionary, has
 	var stamped: Variant = frame.get("power_status", null)
 	var live: float = 1.0 if stamped == null else float(stamped)
 	return {"has_power_row": true, "row": {"result": live, "is_power": true}}
+
+static func _liquid_capacity_for_block_id(block_id: String) -> float:
+	# The catalog carries no liquidCapacity for pump defs, so
+	# the driver resolves it from the block id (the N2190
+	# fogRadius / N2199 transportTime def constant precedent):
+	# rotary-pump `liquidCapacity = 80f;` (Blocks.java:2308,
+	# `consumePower(0.3f);`, Blocks.java:2307) /
+	# impulse-pump `liquidCapacity = 200f;` (Blocks.java:2317,
+	# `consumePower(1.3f);`, Blocks.java:2316). Unknown Pump
+	# defs fall back to the Block.java:77 default
+	# `liquidCapacity = -1f;`, which closes the gate, exactly
+	# as Java would (the mechanical-pump, 20f,
+	# Blocks.java:2301, never reaches this helper -- it has no
+	# consumePower, so the driver gate excludes it).
+	match block_id:
+		"rotary-pump":
+			return 80.0
+		"impulse-pump":
+			return 200.0
+	return -1.0
+
+static func source_mechanical_pump_should_consume_state(frame: Dictionary, liquid_drop: Variant, liquids: Dictionary, liquid_capacity: float, liquid_id_by_name: Dictionary) -> Dictionary:
+	# PumpBuild.shouldConsume() exactly (Pump.java:155,
+	# `public boolean shouldConsume(){` with
+	# `return liquidDrop != null && liquids.get(liquidDrop) < liquidCapacity - 0.01f && enabled;`, Pump.java:156): the pump
+	# consumes only while it has a liquid drop AND its stored
+	# amount of that liquid is below capacity minus 0.01f AND
+	# it is enabled. The override INCLUDES the enabled check
+	# -- unlike the LaunchPad (N2186) and ShockwaveTower
+	# (N2187) overrides -- so the pure function reads enabled
+	# from the frame (BuildingComp.java:77, `transient
+	# boolean enabled = true;`; the BuildingComp default
+	# shouldConsume, BuildingComp.java:755-756, `return enabled;`, does not apply here because PumpBuild
+	# overrides it). liquidDrop is the onProximityUpdate
+	# field (Pump.java:114, `public @Nullable Liquid liquidDrop = null;`, set by onProximityUpdate,
+	# Pump.java:141-152: `liquidDrop = other.floor().liquidDrop;` / `amount += other.floor().liquidMultiplier;` for each linked tile
+	# passing canPump, Pump.java:106-108,
+	# `return tile != null && tile.floor().liquidDrop != null;`). The liquids amount is
+	# liquids.get(liquidDrop) over the sprite liquids meta
+	# (the LiquidModule dict, read through the shared liquid
+	# module source_get_state by liquid id, resolved from the
+	# drop name through the catalog liquid_id_by_name map --
+	# the factory precedent). A missing liquids dict reads
+	# empty (amount 0.0); an unknown drop id reads 0.0 (all
+	# floor drops are catalog liquids, so the guard is
+	# defensive only). When the gate is false,
+	# updateConsumption folds efficiency to 0
+	# (BuildingComp.java:1960,
+	# `boolean update = shouldConsume() && productionValid();`, with BuildingComp.java:1992-1994,
+	# `if(!update){` / `efficiency = optionalEfficiency = 0f;`).
+	var enabled: bool = bool(frame.get("enabled", true))
+	if liquid_drop == null:
+		return {"should_consume": false, "liquid_drop": null}
+	var liquid_id: int = int(liquid_id_by_name.get(str(liquid_drop), -1))
+	var current: float = 0.0
+	var stored: Array = liquids.get("liquids", [])
+	if liquid_id >= 0 and liquid_id < stored.size():
+		current = float(source_liquid_module_state.source_get_state(liquids, liquid_id).get("amount", 0.0))
+	return {"should_consume": current < liquid_capacity - 0.01 and enabled, "liquid_drop": liquid_drop}
 
 @warning_ignore("unused_parameter")
 static func source_mechanical_pump_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
@@ -166,17 +232,34 @@ static func source_mechanical_pump_tick_buildings_state(game: Object, seconds: f
 		# `hasConsumers = consumers.length > 0;`), so a pump
 		# does not take the early return. A pump with no power
 		# consumer is untouched: the tick models no other
-		# consumers yet (the proximity amount / liquidDrop,
-		# warmup / totalProgress and dumpLiquid rows wait for
-		# their own slices), and there is no shouldConsume gate
-		# yet (Pump.java:155-156 needs liquid state the tick
-		# does not track), so the machinery runs with
-		# should_consume=true when enabled.
+		# consumers yet (the proximity amount, warmup /
+		# totalProgress and dumpLiquid rows wait for their own
+		# slices). The shouldConsume gate is live since N2205:
+		# the driver gathers liquidDrop per tick from the
+		# existing N2087 proximity helper
+		# (source_pump_proximity_state, the onProximityUpdate
+		# scan, Pump.java:141-152 -- the helper also rewrites
+		# the sprite's source_pump_building meta, but that meta
+		# is per-sprite, so the scenario pump stays untouched),
+		# reads the liquids amount from the sprite liquids meta
+		# and the def-constant liquidCapacity from the block
+		# id, and feeds the pure gate
+		# source_mechanical_pump_should_consume_state to the
+		# machinery (the N2188/N2198 gate precedent); when the
+		# gate is false updateConsumption forces efficiency to
+		# 0 (BuildingComp.java:1960 + 1992-1994). Java computes
+		# liquidDrop only in onProximityUpdate, so the
+		# per-tick re-scan is a recorded deferral.
 		# productionValid is the canonical true default
 		# (SourceBuildingAccessState.production_valid_state()).
+		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		var has_power_consumer: bool = bool(block.properties.has("consumePower"))
 		if has_power_consumer and bool(frame.get("enabled", true)) and not bool(frame.get("cheating", false)):
-			var should_consume: bool = bool(frame.get("enabled", true))
+			var proximity: Dictionary = source_pump_runtime_state.source_pump_proximity_state(game, cell)
+			var liquids: Dictionary = sprite.get_meta(source_placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, {})
+			var liquid_id_by_name: Dictionary = source_content_registry_runtime_state.source_liquid_catalog_state(catalog).get("liquid_id_by_name", {})
+			var gate: Dictionary = source_mechanical_pump_should_consume_state(frame, proximity.get("liquid_drop", null), liquids, _liquid_capacity_for_block_id(block_id), liquid_id_by_name)
+			var should_consume: bool = bool(gate.get("should_consume", false))
 			var valid: bool = source_building_access_state.production_valid_state()
 			var setup: Dictionary = source_building_efficiency_state.update_consumption_setup_state(should_consume, valid)
 			frame["efficiency"] = setup.get("efficiency", 1.0)
@@ -187,7 +270,6 @@ static func source_mechanical_pump_tick_buildings_state(game: Object, seconds: f
 				required_results.append(power_row.get("row", {}))
 			var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(true, bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, [], [], frame)
 			source_building_efficiency_state.apply_update_consumption_state(consumption, frame)
-		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
 	return {"ticked_count": ticked_count, "results_by_cell": results_by_cell}
