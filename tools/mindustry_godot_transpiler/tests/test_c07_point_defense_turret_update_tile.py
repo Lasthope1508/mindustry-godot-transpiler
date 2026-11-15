@@ -236,14 +236,16 @@ class C07PointDefenseTurretUpdateTileTests(unittest.TestCase):
         # cell: Building x/y are tile.drawx()/drawy()
         # (BuildingComp.java:124) with the block offset
         # (Block.java:761) -- 4 for the size-2 segment. The
-        # driver passes retarget_tick false and an EMPTY bullet
-        # list: no timer helper and no live bullet query exist
-        # in the port, so no live retarget happens (the live
-        # fill stays deferred); only the pooled clear /
-        # rotation / reload / shot lines run live.
+        # driver passes the N2316 timer's retarget_tick and an
+        # EMPTY bullet list: no live bullet query exists in
+        # the port, so a fire with no bullets clears the
+        # target to null (Java's unconditional assignment,
+        # PointDefenseTurret.java:66); only the pooled clear /
+        # rotation / reload / shot lines ran live before N2316
+        # wired the cadence.
         self.assertIn('game_source_delta(game, seconds)', point_defense_turret)
         self.assertIn('time_scale(sprite', point_defense_turret)
-        self.assertIn('source_point_defense_turret_update_tile_advance_state(frame, source_delta, time_scale, SOURCE_POINT_DEFENSE_TURRET_RANGE, SOURCE_POINT_DEFENSE_TURRET_BULLET_DAMAGE, SOURCE_POINT_DEFENSE_TURRET_RELOAD, advance_building_x, advance_building_y, [], false)', point_defense_turret)
+        self.assertIn('source_point_defense_turret_update_tile_advance_state(frame, source_delta, time_scale, SOURCE_POINT_DEFENSE_TURRET_RANGE, SOURCE_POINT_DEFENSE_TURRET_BULLET_DAMAGE, SOURCE_POINT_DEFENSE_TURRET_RELOAD, advance_building_x, advance_building_y, [], retarget_tick)', point_defense_turret)
         self.assertIn('tile_drawx_state(', point_defense_turret)
         self.assertIn('tile_drawy_state(', point_defense_turret)
         self.assertIn('source_world_defaults.TILESIZE', point_defense_turret)
