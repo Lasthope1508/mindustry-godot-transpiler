@@ -230390,6 +230390,54 @@
       },
       "runtime_proof": "/root/C07ShockwaveTowerFireProof",
       "rule": "Source-backed ShockwaveTower fire gate from ShockwaveTower.java / BuildingComp.java / TimerComp.java."
+    },
+    "source_shockwave_tower_bullet_scan_state_input": {
+      "status": "active",
+      "owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_bullet_scan_state",
+      "source_slice": "N2195",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Groups.bullet.intersect(x - range, y - range, range * 2, range * 2, b -> {",
+          "rule": "The building frame carrying the observed_bullets list (an array of dicts with team/hittable/x/y, world coords -- the port has no live bullet query, so the list is an explicit observed frame key, the N2190 precedent) plus the tower world position (x/y frame keys, derived by the driver from the placement cell: Tile.java `return x * tilesize;` / `return block().offset + worldx();`, tilesize 8, offset 0 for size 3) and the tower team (team_id, stamped by the tick wiring). The per-def range is 170f (Blocks.java:2043), overriding the class default `110f` (ShockwaveTower.java:25).",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_bullet_scan_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShockwaveTowerBulletScanProof",
+      "rule": "Source-backed ShockwaveTower live bullet scan from ShockwaveTower.java / BuildingComp.java / Tile.java / Vars.java."
+    },
+    "source_shockwave_tower_bullet_scan_state_result": {
+      "status": "active",
+      "owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_bullet_scan_state",
+      "source_slice": "N2195",
+      "keys": {
+        "targets_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "if(b.team != team && b.type.hittable){",
+          "rule": "The count of enemy hittable bullets inside the range box (ShockwaveTower.java:76-77): a bullet counts when its team differs from the tower team AND its type is hittable AND its point lies inside x +/- range, y +/- range (range 170f per-def, Blocks.java:2043); null when no observation exists (absent observed_bullets, x, y, or team_id), so the driver stamps nothing and N2194 keeps reading absent as no fire.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_bullet_scan_state"
+          ]
+        },
+        "has_targets_count": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "Groups.bullet.intersect(x - range, y - range, range * 2, range * 2, b -> {",
+          "rule": "Whether the scan had an observation to run over (ShockwaveTower.java:75): true when observed_bullets, x, y, and team_id are all present on the frame (a present-but-empty list IS an observation and stamps 0), false otherwise -- the driver stamps frame[\"targets_count\"] only when this is true.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_bullet_scan_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShockwaveTowerBulletScanProof",
+      "rule": "Source-backed ShockwaveTower live bullet scan from ShockwaveTower.java / BuildingComp.java / Tile.java / Vars.java."
     }
   },
   "version": 1

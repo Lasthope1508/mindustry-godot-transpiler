@@ -173288,6 +173288,38 @@
         "test_reference_graph_and_actual_c07_shockwave_tower_fire"
       ],
       "runtime_proof": "/root/C07ShockwaveTowerFireProof"
+    },
+    "source_shockwave_tower_bullet_scan_state_result.targets_count": {
+      "status": "source-backed",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_bullet_scan_state",
+      "godot_symbol": "source_shockwave_tower_bullet_scan_state_result.targets_count",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.updateTile()",
+      "java_expr": "if(b.team != team && b.type.hittable){",
+      "rule": "The count of enemy hittable bullets inside the range box (ShockwaveTower.java:76-77): a bullet counts when its team differs from the tower team AND its type is hittable AND its point lies inside x +/- range, y +/- range (range 170f per-def, Blocks.java:2043); null when no observation exists (absent observed_bullets, x, y, or team_id), so the driver stamps nothing and N2194 keeps reading absent as no fire.",
+      "tests": [
+        "test_c07_shockwave_tower_bullet_scan_registration",
+        "test_all_c07_shockwave_tower_bullet_scan_input_evidence_is_exact",
+        "test_shockwave_tower_bullet_scan_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_bullet_scan"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerBulletScanProof"
+    },
+    "source_shockwave_tower_bullet_scan_state_result.has_targets_count": {
+      "status": "source-backed",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_bullet_scan_state",
+      "godot_symbol": "source_shockwave_tower_bullet_scan_state_result.has_targets_count",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.updateTile()",
+      "java_expr": "Groups.bullet.intersect(x - range, y - range, range * 2, range * 2, b -> {",
+      "rule": "Whether the scan had an observation to run over (ShockwaveTower.java:75): true when observed_bullets, x, y, and team_id are all present on the frame (a present-but-empty list IS an observation and stamps 0), false otherwise -- the driver stamps frame[\"targets_count\"] only when this is true.",
+      "tests": [
+        "test_c07_shockwave_tower_bullet_scan_registration",
+        "test_all_c07_shockwave_tower_bullet_scan_input_evidence_is_exact",
+        "test_shockwave_tower_bullet_scan_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_bullet_scan"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerBulletScanProof"
     }
   },
   "version": 1

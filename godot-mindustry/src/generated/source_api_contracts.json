@@ -66155,6 +66155,32 @@
       ],
       "runtime_proof": "/root/C07ShockwaveTowerFireProof",
       "rule": "Source-backed ShockwaveTower fire gate from ShockwaveTower.java / BuildingComp.java / TimerComp.java."
+    },
+    "SourceShockwaveTowerBuildState.source_shockwave_tower_bullet_scan_state": {
+      "status": "active",
+      "source_slice": "N2195",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "source_method": "ShockwaveTowerBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_shockwave_tower_bullet_scan_state_input.frame"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "targets_count",
+        "has_targets_count"
+      ],
+      "tests": [
+        "test_c07_shockwave_tower_bullet_scan_registration",
+        "test_all_c07_shockwave_tower_bullet_scan_input_evidence_is_exact",
+        "test_shockwave_tower_bullet_scan_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_bullet_scan"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerBulletScanProof",
+      "rule": "Source-backed ShockwaveTower live bullet scan from ShockwaveTower.java / BuildingComp.java / Tile.java / Vars.java."
     }
   },
   "policy": {

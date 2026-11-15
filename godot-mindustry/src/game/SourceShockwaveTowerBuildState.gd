@@ -139,6 +139,70 @@ static func source_shockwave_tower_should_consume_state(frame: Dictionary) -> Di
 		return {"should_consume": enabled}
 	return {"should_consume": float(observed) < 80.0 and enabled}
 
+static func source_shockwave_tower_bullet_scan_state(frame: Dictionary) -> Dictionary:
+	# ShockwaveTowerBuild.updateTile clears its targets and scans
+	# the bullet groups inside the range box
+	# (ShockwaveTower.java:72, `public void updateTile(){` with
+	# :74, `targets.clear();` and :75,
+	# `Groups.bullet.intersect(x - range, y - range, range * 2, range * 2, b -> {`
+	# with :76, `if(b.team != team && b.type.hittable){` and :77,
+	# `targets.add(b);`) over the target list
+	# (ShockwaveTower.java:68, `public Seq<Bullet> targets = new Seq<>();`).
+	# The scan is what N2194's fire gate reads as the observed
+	# `targets_count` (ShockwaveTower.java:81, `if(targets.size > 0){`)
+	# -- the fire fires only when the scan found targets. The port
+	# has no live bullet query (no Groups.bullet equivalent), so
+	# the pure function consumes an observed bullet list
+	# (`observed_bullets`, an array of dicts with team/hittable/x/y,
+	# world coords) and counts the enemy hittable bullets inside
+	# the range box (x +/- range, y +/- range, range 170f per-def,
+	# Blocks.java:2043, `range = 170f;`, overriding the class
+	# default 110f, ShockwaveTower.java:25, `public float range = 110f;`).
+	# The tower's world position comes from the frame's `x`/`y`
+	# keys, which the driver derives from the placement cell
+	# (Tile.java, `return x * tilesize;` / `return block().offset + worldx();`,
+	# tilesize 8, Vars.java:135, `public static final int tilesize = 8;`,
+	# offset 0 for size 3, Block.java:761,
+	# `offset = ((size + 1) % 2) * tilesize / 2f;`), and its team
+	# from the frame's `team_id` key (already stamped by the tick
+	# wiring). The range box is a point-in-box test against the
+	# Java intersect rect -- the port models no bullet hitSize, so
+	# the rect overlap is approximated by the bullet point, a
+	# documented limit owned by a later bullet-hitSize slice.
+	# The scan runs every tick in the driver (after the N2192
+	# charge, before the N2194 fire) -- Java scans only when the
+	# fire gate (:73) is true, but the port's timer cadence is
+	# already deferred (N2194: the port fires on the first tick at
+	# reload), so a fresh scan every tick is observably equivalent
+	# for the fire decision, and the timer-gated scan cadence waits
+	# for the per-building-timer slice with the timer itself.
+	# Absent `observed_bullets` (or absent `x`/`y`/`team_id`)
+	# means "no observation yet": the function returns
+	# targets_count null and has_targets_count false, and the
+	# driver stamps nothing (the N2190 precedent) -- never a
+	# fabricated 0, so N2194 keeps reading absent as no fire. A
+	# present-but-empty list IS an observation and stamps 0.
+	var observed_bullets: Variant = frame.get("observed_bullets", null)
+	var tower_x: Variant = frame.get("x", null)
+	var tower_y: Variant = frame.get("y", null)
+	var tower_team: Variant = frame.get("team_id", null)
+	if observed_bullets == null or tower_x == null or tower_y == null or tower_team == null:
+		return {"targets_count": null, "has_targets_count": false}
+	var targets_count: int = 0
+	for bullet in observed_bullets:
+		if bullet.get("team", null) == null:
+			continue
+		if int(bullet.get("team", null)) == int(tower_team):
+			continue
+		if not bool(bullet.get("hittable", false)):
+			continue
+		if absf(float(bullet.get("x", 0.0)) - float(tower_x)) > 170.0:
+			continue
+		if absf(float(bullet.get("y", 0.0)) - float(tower_y)) > 170.0:
+			continue
+		targets_count += 1
+	return {"targets_count": targets_count, "has_targets_count": true}
+
 static func source_shockwave_tower_fire_state(frame: Dictionary, delta: float) -> Dictionary:
 	# ShockwaveTowerBuild.updateTile fires its wave when the reload
 	# counter, charged by edelta(), reaches reload
@@ -300,6 +364,29 @@ static func source_shockwave_tower_tick_buildings_state(game: Object, seconds: f
 			# `reload_counter` key.
 			var charged: Dictionary = source_shockwave_tower_charge_state(frame, seconds)
 			frame["reload_counter"] = charged.get("reload_counter", 0.0)
+			# The live bullet scan (N2195): the scan runs inside
+			# the fire gate in Java (ShockwaveTower.java:74-79,
+			# `targets.clear();` / `Groups.bullet.intersect(x - range, y - range, range * 2, range * 2, b -> {` /
+			# `if(b.team != team && b.type.hittable){` / `targets.add(b);`),
+			# after the charge and before the targets.size check
+			# (ShockwaveTower.java:81, `if(targets.size > 0){`), so
+			# the driver calls it after the N2192 charge and
+			# before the N2194 fire. The tower world position comes
+			# from the placement cell (Tile.java, `return x * tilesize;`
+			# / `return block().offset + worldx();`, tilesize 8,
+			# Vars.java:135, `public static final int tilesize = 8;`,
+			# offset 0 for size 3, Block.java:761,
+			# `offset = ((size + 1) % 2) * tilesize / 2f;`), and
+			# the scan stamps `targets_count` only when it reports
+			# an observation (has_targets_count true) -- absent
+			# observation stamps nothing (the N2190 precedent), so
+			# N2194 keeps reading absent as no fire.
+			var origin_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
+			frame["x"] = float(origin_cell.x) * 8.0
+			frame["y"] = float(origin_cell.y) * 8.0
+			var scanned: Dictionary = source_shockwave_tower_bullet_scan_state(frame)
+			if bool(scanned.get("has_targets_count", false)):
+				frame["targets_count"] = scanned.get("targets_count", 0)
 			# The fire gate (N2194): updateConsumption runs BEFORE
 			# updateTile in Java, so the fire reads THIS tick's
 			# freshly stamped potential_efficiency and the counter
