@@ -1961,6 +1961,31 @@
         }
       }
     },
+    "source_fracker_proximity_fraction_state_input": {
+      "canonical_schema": "source_state_schema.source_fracker_proximity_fraction_state_input",
+      "keys": {
+        "linked_tiles": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "for(Tile other : tile.getLinkedTiles(tempTiles)){",
+          "rule": "The linked tiles of the size x size footprint in tile order (SolidPump.java:155, inherited by FrackerBuild), as frame inputs (default [] -- no tiles, the Java empty-proximity outcome): each entry is a Dict {can_pump, attribute_value, is_deep} carrying the canPump answer (SolidPump.java:80-83), the floor OIL attribute value for the block attribute (Block.java:575-582, attribute = Attribute.oil, Blocks.java:2972), and the deep-floor flag (other.floor().isDeep()); the live tile scan waits for its own slice.",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_proximity_fraction_state"
+          ]
+        },
+        "attribute_env": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "float fraction = Math.max(validTiles + boost + (attribute == null ? 0 : attribute.env()), 0);",
+          "rule": "The attribute env value (Attribute.java:31-34, Vars.state.envAttrs.get(this), 0 when Vars.state is null), as the N2224 frame input (default 0.0); the port does not model envAttrs yet, so the live env read waits for its own slice. The fraction adds it because the attribute is present for the oil-extractor def (attribute = Attribute.oil, Blocks.java:2972; SolidPump.java:124).",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_proximity_fraction_state"
+          ]
+        }
+      }
+    },
     "source_fracker_should_consume_state_input": {
       "canonical_schema": "source_state_schema.source_fracker_should_consume_state_input",
       "keys": {

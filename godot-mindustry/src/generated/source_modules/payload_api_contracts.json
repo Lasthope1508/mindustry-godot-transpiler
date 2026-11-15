@@ -3448,7 +3448,8 @@
         "test_reference_graph_and_actual_c07_constructor_dynamic_item_row"
       ],
       "runtime_proof": "/root/C07ConstructorDynamicItemRowProof",
-      "rule": "Source-backed BlockProducer dynamic item row from ConsumeItemDynamic.java / BlockProducer.java / ItemModule.java / BuildingComp.java."
+      "rule": "Source-backed BlockProducer dynamic item row from ConsumeItemDynamic.java / BlockProducer.java / ItemModule.java / BuildingComp.java.",
+      "return_type": "Dictionary"
     },
     "SourceConstructorBuildState.source_constructor_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourceConstructorBuildState.source_constructor_power_status_row_state",
@@ -3479,7 +3480,8 @@
         "test_reference_graph_and_actual_c07_constructor_power_status"
       ],
       "runtime_proof": "/root/C07ConstructorPowerStatusProof",
-      "rule": "Source-backed Constructor power.status row from ConsumePower.java / BuildingComp.java."
+      "rule": "Source-backed Constructor power.status row from ConsumePower.java / BuildingComp.java.",
+      "return_type": "Dictionary"
     },
     "SourceConstructorBuildState.source_constructor_should_consume_state": {
       "canonical_contract": "source_api_contracts.SourceConstructorBuildState.source_constructor_should_consume_state",
@@ -3505,7 +3507,8 @@
         "test_reference_graph_and_actual_c07_constructor_should_consume"
       ],
       "runtime_proof": "/root/C07ConstructorShouldConsumeProof",
-      "rule": "Source-backed BlockProducer (Constructor) shouldConsume gate from BlockProducer.java / Constructor.java / BuildingComp.java / Blocks.java."
+      "rule": "Source-backed BlockProducer (Constructor) shouldConsume gate from BlockProducer.java / Constructor.java / BuildingComp.java / Blocks.java.",
+      "return_type": "Dictionary"
     },
     "SourceConstructorBuildState.source_constructor_update_tile_advance_state": {
       "canonical_contract": "source_api_contracts.SourceConstructorBuildState.source_constructor_update_tile_advance_state",
@@ -3582,7 +3585,8 @@
         "test_reference_graph_and_actual_c07_block_producer_update_tile"
       ],
       "runtime_proof": "/root/C07BlockProducerUpdateTileProof",
-      "rule": "Source-backed BlockProducer updateTile advance from BlockProducer.java / PayloadBlock.java / BuildPayload.java / ConsumeItemDynamic.java / BuildingComp.java / Block.java / Blocks.java / Item.java / Vars.java."
+      "rule": "Source-backed BlockProducer updateTile advance from BlockProducer.java / PayloadBlock.java / BuildPayload.java / ConsumeItemDynamic.java / BuildingComp.java / Block.java / Blocks.java / Item.java / Vars.java.",
+      "return_type": "Dictionary"
     },
     "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_accept_payload_state": {
       "canonical_contract": "source_api_contracts.SourcePayloadDeconstructorBuildState.source_payload_deconstructor_accept_payload_state",
@@ -3621,7 +3625,8 @@
         "test_reference_graph_and_actual_c07_payload_deconstructor_accept_payload"
       ],
       "runtime_proof": "/root/C07PayloadDeconstructorAcceptPayloadProof",
-      "rule": "Source-backed PayloadDeconstructor acceptPayload / acceptUnitPayload gates from PayloadDeconstructor.java / PayloadBlock.java / Payload.java / BuildPayload.java / UnitPayload.java / UnitType.java / UnitComp.java / Vars.java."
+      "rule": "Source-backed PayloadDeconstructor acceptPayload / acceptUnitPayload gates from PayloadDeconstructor.java / PayloadBlock.java / Payload.java / BuildPayload.java / UnitPayload.java / UnitType.java / UnitComp.java / Vars.java.",
+      "return_type": "Dictionary"
     },
     "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_dump_state": {
       "canonical_contract": "source_api_contracts.SourcePayloadDeconstructorBuildState.source_payload_deconstructor_dump_state",
@@ -3674,7 +3679,8 @@
         "test_reference_graph_and_actual_c07_payload_deconstructor_dump"
       ],
       "runtime_proof": "/root/C07PayloadDeconstructorDumpProof",
-      "rule": "Source-backed PayloadDeconstructor dump rows from PayloadDeconstructor.java / BuildingComp.java."
+      "rule": "Source-backed PayloadDeconstructor dump rows from PayloadDeconstructor.java / BuildingComp.java.",
+      "return_type": "Dictionary"
     },
     "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_handle_payload_state": {
       "canonical_contract": "source_api_contracts.SourcePayloadDeconstructorBuildState.source_payload_deconstructor_handle_payload_state",
@@ -3737,7 +3743,8 @@
         "test_reference_graph_and_actual_c07_payload_deconstructor_deconstructing_fill"
       ],
       "runtime_proof": "/root/C07PayloadDeconstructorDeconstructingFillProof",
-      "rule": "Source-backed PayloadDeconstructor live deconstructing fill from PayloadDeconstructor.java / PayloadBlock.java / Payload.java / Blocks.java / Vars.java / BuildingComp.java."
+      "rule": "Source-backed PayloadDeconstructor live deconstructing fill from PayloadDeconstructor.java / PayloadBlock.java / Payload.java / Blocks.java / Vars.java / BuildingComp.java.",
+      "return_type": "Dictionary"
     },
     "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourcePayloadDeconstructorBuildState.source_payload_deconstructor_power_status_row_state",
@@ -3768,7 +3775,8 @@
         "test_reference_graph_and_actual_c07_payload_deconstructor_power_status"
       ],
       "runtime_proof": "/root/C07PayloadDeconstructorPowerStatusProof",
-      "rule": "Source-backed PayloadDeconstructor power.status row from ConsumePower.java / BuildingComp.java."
+      "rule": "Source-backed PayloadDeconstructor power.status row from ConsumePower.java / BuildingComp.java.",
+      "return_type": "Dictionary"
     },
     "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_should_consume_state": {
       "canonical_contract": "source_api_contracts.SourcePayloadDeconstructorBuildState.source_payload_deconstructor_should_consume_state",
@@ -3794,7 +3802,8 @@
         "test_reference_graph_and_actual_c07_payload_deconstructor_should_consume"
       ],
       "runtime_proof": "/root/C07PayloadDeconstructorShouldConsumeProof",
-      "rule": "Source-backed PayloadDeconstructor shouldConsume gate from PayloadDeconstructor.java / BuildingComp.java / Blocks.java."
+      "rule": "Source-backed PayloadDeconstructor shouldConsume gate from PayloadDeconstructor.java / BuildingComp.java / Blocks.java.",
+      "return_type": "Dictionary"
     },
     "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_update_tile_advance_state": {
       "canonical_contract": "source_api_contracts.SourcePayloadDeconstructorBuildState.source_payload_deconstructor_update_tile_advance_state",
@@ -3858,7 +3867,8 @@
         "test_reference_graph_and_actual_c07_payload_deconstructor_update_tile"
       ],
       "runtime_proof": "/root/C07PayloadDeconstructorUpdateTileProof",
-      "rule": "Source-backed PayloadDeconstructor updateTile advance from PayloadDeconstructor.java / PayloadBlock.java / BuildPayload.java / UnitPayload.java / Rules.java / BuildingComp.java / Block.java / Blocks.java / arc Mathf.java / Angles.java / Vec2.java."
+      "rule": "Source-backed PayloadDeconstructor updateTile advance from PayloadDeconstructor.java / PayloadBlock.java / BuildPayload.java / UnitPayload.java / Rules.java / BuildingComp.java / Block.java / Blocks.java / arc Mathf.java / Angles.java / Vec2.java.",
+      "return_type": "Dictionary"
     },
     "SourcePayloadLoaderBuildState.source_payload_loader_accept_payload_state": {
       "canonical_contract": "source_api_contracts.SourcePayloadLoaderBuildState.source_payload_loader_accept_payload_state",
@@ -3892,7 +3902,8 @@
         "test_reference_graph_and_actual_c07_payload_loader_accept_payload"
       ],
       "runtime_proof": "/root/C07PayloadLoaderAcceptPayloadProof",
-      "rule": "Source-backed PayloadLoader acceptPayload gate from PayloadLoader.java / PayloadBlock.java / Payload.java / BuildPayload.java / Block.java / ConsumePower.java / Blocks.java."
+      "rule": "Source-backed PayloadLoader acceptPayload gate from PayloadLoader.java / PayloadBlock.java / Payload.java / BuildPayload.java / Block.java / ConsumePower.java / Blocks.java.",
+      "return_type": "Dictionary"
     },
     "SourcePayloadLoaderBuildState.source_payload_loader_dynamic_power_usage_state": {
       "canonical_contract": "source_api_contracts.SourcePayloadLoaderBuildState.source_payload_loader_dynamic_power_usage_state",
@@ -3938,7 +3949,8 @@
         "test_reference_graph_and_actual_c07_payload_loader_dynamic_power"
       ],
       "runtime_proof": "/root/C07PayloadLoaderDynamicPowerProof",
-      "rule": "Source-backed PayloadLoader dynamic power usage from PayloadLoader.java / ConsumePowerDynamic.java / Blocks.java."
+      "rule": "Source-backed PayloadLoader dynamic power usage from PayloadLoader.java / ConsumePowerDynamic.java / Blocks.java.",
+      "return_type": "Dictionary"
     },
     "SourcePayloadLoaderBuildState.source_payload_loader_handle_payload_state": {
       "canonical_contract": "source_api_contracts.SourcePayloadLoaderBuildState.source_payload_loader_handle_payload_state",
@@ -4001,7 +4013,8 @@
         "test_reference_graph_and_actual_c07_payload_loader_live_fill"
       ],
       "runtime_proof": "/root/C07PayloadLoaderLiveFillProof",
-      "rule": "Source-backed PayloadLoader live payload fill from PayloadBlock.java / PayloadLoader.java / Payload.java / Blocks.java / Vars.java."
+      "rule": "Source-backed PayloadLoader live payload fill from PayloadBlock.java / PayloadLoader.java / Payload.java / Blocks.java / Vars.java.",
+      "return_type": "Dictionary"
     },
     "SourcePayloadLoaderBuildState.source_payload_loader_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourcePayloadLoaderBuildState.source_payload_loader_power_status_row_state",
@@ -4032,7 +4045,8 @@
         "test_reference_graph_and_actual_c07_payload_loader_power_status"
       ],
       "runtime_proof": "/root/C07PayloadLoaderPowerStatusProof",
-      "rule": "Source-backed PayloadLoader power.status row from ConsumePower.java / BuildingComp.java."
+      "rule": "Source-backed PayloadLoader power.status row from ConsumePower.java / BuildingComp.java.",
+      "return_type": "Dictionary"
     },
     "SourcePayloadLoaderBuildState.source_payload_loader_should_consume_state": {
       "canonical_contract": "source_api_contracts.SourcePayloadLoaderBuildState.source_payload_loader_should_consume_state",
@@ -4058,7 +4072,8 @@
         "test_reference_graph_and_actual_c07_payload_loader_should_consume"
       ],
       "runtime_proof": "/root/C07PayloadLoaderShouldConsumeProof",
-      "rule": "Source-backed PayloadLoader shouldConsume gate from PayloadLoader.java / PayloadBlock.java / BuildingComp.java / Blocks.java."
+      "rule": "Source-backed PayloadLoader shouldConsume gate from PayloadLoader.java / PayloadBlock.java / BuildingComp.java / Blocks.java.",
+      "return_type": "Dictionary"
     },
     "SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state": {
       "canonical_contract": "source_api_contracts.SourcePayloadLoaderBuildState.source_payload_loader_update_tile_advance_state",
@@ -4146,7 +4161,8 @@
         "test_reference_graph_and_actual_c07_payload_loader_update_tile"
       ],
       "runtime_proof": "/root/C07PayloadLoaderUpdateTileProof",
-      "rule": "Source-backed PayloadLoader updateTile advance from PayloadLoader.java / PayloadBlock.java / BuildingComp.java / Blocks.java / Block.java / ItemModule.java / LiquidModule.java / StorageBlock.java / LiquidRouter.java / LiquidVoid.java / Vars.java."
+      "rule": "Source-backed PayloadLoader updateTile advance from PayloadLoader.java / PayloadBlock.java / BuildingComp.java / Blocks.java / Block.java / ItemModule.java / LiquidModule.java / StorageBlock.java / LiquidRouter.java / LiquidVoid.java / Vars.java.",
+      "return_type": "Dictionary"
     },
     "SourcePayloadMassDriverBuildState.source_payload_mass_driver_accept_payload_state": {
       "canonical_contract": "source_api_contracts.SourcePayloadMassDriverBuildState.source_payload_mass_driver_accept_payload_state",
@@ -4178,7 +4194,46 @@
         "test_reference_graph_and_actual_c07_payload_mass_driver_accept_payload"
       ],
       "runtime_proof": "/root/C07PayloadMassDriverAcceptPayloadProof",
-      "rule": "Source-backed PayloadMassDriver acceptPayload gate from PayloadMassDriver.java / PayloadBlock.java / BuildPayload.java / Vars.java / Blocks.java."
+      "rule": "Source-backed PayloadMassDriver acceptPayload gate from PayloadMassDriver.java / PayloadBlock.java / BuildPayload.java / Vars.java / Blocks.java.",
+      "return_type": "Dictionary"
+    },
+    "SourcePayloadMassDriverBuildState.source_payload_mass_driver_accept_payload_state_for_def": {
+      "canonical_contract": "source_api_contracts.SourcePayloadMassDriverBuildState.source_payload_mass_driver_accept_payload_state_for_def",
+      "status": "active",
+      "source_slice": "N2304",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "source_method": "PayloadDriverBuild.acceptPayload()",
+      "params": [
+        {
+          "name": "payload_size",
+          "type": "float",
+          "schema": "source_payload_mass_driver_accept_payload_state_for_def_input.payload_size"
+        },
+        {
+          "name": "has_payload",
+          "type": "bool",
+          "schema": "source_payload_mass_driver_accept_payload_state_for_def_input.has_payload"
+        },
+        {
+          "name": "max_payload_size",
+          "type": "float",
+          "schema": "source_payload_mass_driver_accept_payload_state_for_def_input.max_payload_size"
+        }
+      ],
+      "return_keys": [
+        "accepts",
+        "size_fits",
+        "threshold"
+      ],
+      "tests": [
+        "test_c07_payload_mass_driver_per_def_threshold_registration",
+        "test_all_c07_payload_mass_driver_per_def_threshold_input_evidence_is_exact",
+        "test_payload_mass_driver_per_def_threshold_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_per_def_threshold"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverPerDefThresholdProof",
+      "rule": "Source-backed PayloadMassDriver acceptPayload gate from PayloadMassDriver.java / PayloadBlock.java / BuildPayload.java / Vars.java / Blocks.java.",
+      "return_type": "Dictionary"
     },
     "SourcePayloadMassDriverBuildState.source_payload_mass_driver_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourcePayloadMassDriverBuildState.source_payload_mass_driver_power_status_row_state",
@@ -4209,7 +4264,8 @@
         "test_reference_graph_and_actual_c07_payload_mass_driver_power_status"
       ],
       "runtime_proof": "/root/C07PayloadMassDriverPowerStatusProof",
-      "rule": "Source-backed PayloadMassDriver power.status row from ConsumePower.java / BuildingComp.java."
+      "rule": "Source-backed PayloadMassDriver power.status row from ConsumePower.java / BuildingComp.java.",
+      "return_type": "Dictionary"
     },
     "SourcePayloadMassDriverBuildState.source_payload_mass_driver_state_branches_state": {
       "canonical_contract": "source_api_contracts.SourcePayloadMassDriverBuildState.source_payload_mass_driver_state_branches_state",
@@ -4324,7 +4380,8 @@
         "test_reference_graph_and_actual_c07_payload_mass_driver_branches"
       ],
       "runtime_proof": "/root/C07PayloadMassDriverBranchesProof",
-      "rule": "Source-backed PayloadMassDriver state branches from PayloadMassDriver.java / PayloadBlock.java / BuildPayload.java / BuildingComp.java / Blocks.java / Block.java."
+      "rule": "Source-backed PayloadMassDriver state branches from PayloadMassDriver.java / PayloadBlock.java / BuildPayload.java / BuildingComp.java / Blocks.java / Block.java.",
+      "return_type": "Dictionary"
     },
     "SourcePayloadMassDriverBuildState.source_payload_mass_driver_update_tile_advance_state": {
       "canonical_contract": "source_api_contracts.SourcePayloadMassDriverBuildState.source_payload_mass_driver_update_tile_advance_state",
@@ -4421,7 +4478,8 @@
         "test_reference_graph_and_actual_c07_payload_mass_driver_update_tile"
       ],
       "runtime_proof": "/root/C07PayloadMassDriverUpdateTileProof",
-      "rule": "Source-backed PayloadMassDriver updateTile advance part 1 from PayloadMassDriver.java / PayloadBlock.java / BuildPayload.java / BuildingComp.java / Blocks.java / Block.java."
+      "rule": "Source-backed PayloadMassDriver updateTile advance part 1 from PayloadMassDriver.java / PayloadBlock.java / BuildPayload.java / BuildingComp.java / Blocks.java / Block.java.",
+      "return_type": "Dictionary"
     },
     "SourcePayloadUnloaderBuildState.source_payload_unloader_accept_payload_state": {
       "canonical_contract": "source_api_contracts.SourcePayloadUnloaderBuildState.source_payload_unloader_accept_payload_state",
@@ -4453,7 +4511,8 @@
         "test_reference_graph_and_actual_c07_payload_unloader_accept_payload"
       ],
       "runtime_proof": "/root/C07PayloadUnloaderAcceptPayloadProof",
-      "rule": "Source-backed PayloadUnloader acceptPayload rows from PayloadLoader.java / PayloadBlock.java / Payload.java / BuildPayload.java / PayloadUnloader.java / Block.java / Vars.java."
+      "rule": "Source-backed PayloadUnloader acceptPayload rows from PayloadLoader.java / PayloadBlock.java / Payload.java / BuildPayload.java / PayloadUnloader.java / Block.java / Vars.java.",
+      "return_type": "Dictionary"
     },
     "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_state": {
       "canonical_contract": "source_api_contracts.SourcePayloadUnloaderBuildState.source_payload_unloader_dump_state",
@@ -4528,7 +4587,8 @@
         "test_reference_graph_and_actual_c07_payload_unloader_dump"
       ],
       "runtime_proof": "/root/C07PayloadUnloaderDumpProof",
-      "rule": "Source-backed PayloadUnloader dump rows from PayloadUnloader.java / PayloadLoader.java / BuildingComp.java / LiquidModule.java."
+      "rule": "Source-backed PayloadUnloader dump rows from PayloadUnloader.java / PayloadLoader.java / BuildingComp.java / LiquidModule.java.",
+      "return_type": "Dictionary"
     },
     "SourcePayloadUnloaderBuildState.source_payload_unloader_handle_payload_state": {
       "canonical_contract": "source_api_contracts.SourcePayloadUnloaderBuildState.source_payload_unloader_handle_payload_state",
@@ -4560,7 +4620,8 @@
         "test_reference_graph_and_actual_c07_payload_unloader_live_fill"
       ],
       "runtime_proof": "/root/C07PayloadUnloaderLiveFillProof",
-      "rule": "Source-backed PayloadUnloader live payload fill from PayloadBlock.java / PayloadUnloader.java / PayloadLoader.java / Payload.java / UnitPayload.java / Blocks.java / Vars.java / Vec2.java."
+      "rule": "Source-backed PayloadUnloader live payload fill from PayloadBlock.java / PayloadUnloader.java / PayloadLoader.java / Payload.java / UnitPayload.java / Blocks.java / Vars.java / Vec2.java.",
+      "return_type": "Dictionary"
     },
     "SourcePayloadUnloaderBuildState.source_payload_unloader_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourcePayloadUnloaderBuildState.source_payload_unloader_power_status_row_state",
@@ -4591,7 +4652,8 @@
         "test_reference_graph_and_actual_c07_payload_unloader_power_status"
       ],
       "runtime_proof": "/root/C07PayloadUnloaderPowerStatusProof",
-      "rule": "Source-backed PayloadUnloader power.status row from ConsumePower.java / BuildingComp.java."
+      "rule": "Source-backed PayloadUnloader power.status row from ConsumePower.java / BuildingComp.java.",
+      "return_type": "Dictionary"
     },
     "SourcePayloadUnloaderBuildState.source_payload_unloader_should_consume_state": {
       "canonical_contract": "source_api_contracts.SourcePayloadUnloaderBuildState.source_payload_unloader_should_consume_state",
@@ -4617,7 +4679,8 @@
         "test_reference_graph_and_actual_c07_payload_unloader_should_consume"
       ],
       "runtime_proof": "/root/C07PayloadUnloaderShouldConsumeProof",
-      "rule": "Source-backed PayloadUnloader shouldConsume gate (inherited from PayloadLoader) from PayloadLoader.java / PayloadUnloader.java / PayloadBlock.java / BuildingComp.java / Blocks.java."
+      "rule": "Source-backed PayloadUnloader shouldConsume gate (inherited from PayloadLoader) from PayloadLoader.java / PayloadUnloader.java / PayloadBlock.java / BuildingComp.java / Blocks.java.",
+      "return_type": "Dictionary"
     },
     "SourcePayloadUnloaderBuildState.source_payload_unloader_update_tile_advance_state": {
       "canonical_contract": "source_api_contracts.SourcePayloadUnloaderBuildState.source_payload_unloader_update_tile_advance_state",
@@ -4679,7 +4742,8 @@
         "test_reference_graph_and_actual_c07_payload_unloader_update_tile"
       ],
       "runtime_proof": "/root/C07PayloadUnloaderUpdateTileProof",
-      "rule": "Source-backed PayloadUnloader updateTile advance from PayloadUnloader.java / PayloadLoader.java / PayloadBlock.java / BuildingComp.java / Blocks.java / LiquidModule.java / ItemModule.java / Vars.java / Vec2.java."
+      "rule": "Source-backed PayloadUnloader updateTile advance from PayloadUnloader.java / PayloadLoader.java / PayloadBlock.java / BuildingComp.java / Blocks.java / LiquidModule.java / ItemModule.java / Vars.java / Vec2.java.",
+      "return_type": "Dictionary"
     }
   }
 }

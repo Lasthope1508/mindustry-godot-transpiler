@@ -72368,6 +72368,119 @@
       ],
       "runtime_proof": "/root/C07WallCrafterGetEfficiencyProof",
       "rule": "Source-backed WallCrafter getEfficiency live fill rows from WallCrafter.java / Block.java / Blocks.java."
+    },
+    "SourcePayloadMassDriverBuildState.source_payload_mass_driver_accept_payload_state_for_def": {
+      "status": "active",
+      "source_slice": "N2304",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "source_method": "PayloadDriverBuild.acceptPayload()",
+      "params": [
+        {
+          "name": "payload_size",
+          "type": "float",
+          "schema": "source_payload_mass_driver_accept_payload_state_for_def_input.payload_size"
+        },
+        {
+          "name": "has_payload",
+          "type": "bool",
+          "schema": "source_payload_mass_driver_accept_payload_state_for_def_input.has_payload"
+        },
+        {
+          "name": "max_payload_size",
+          "type": "float",
+          "schema": "source_payload_mass_driver_accept_payload_state_for_def_input.max_payload_size"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "accepts",
+        "size_fits",
+        "threshold"
+      ],
+      "tests": [
+        "test_c07_payload_mass_driver_per_def_threshold_registration",
+        "test_all_c07_payload_mass_driver_per_def_threshold_input_evidence_is_exact",
+        "test_payload_mass_driver_per_def_threshold_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_per_def_threshold"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverPerDefThresholdProof",
+      "rule": "Source-backed PayloadMassDriver acceptPayload gate from PayloadMassDriver.java / PayloadBlock.java / BuildPayload.java / Vars.java / Blocks.java."
+    },
+    "SourceFrackerBuildState.source_fracker_proximity_fraction_state": {
+      "status": "active",
+      "source_slice": "N2305",
+      "java_source": "core/src/mindustry/world/blocks/production/Fracker.java",
+      "source_method": "SolidPumpBuild.onProximityUpdate() (inherited by FrackerBuild)",
+      "params": [
+        {
+          "name": "linked_tiles",
+          "type": "Array",
+          "schema": "source_fracker_proximity_fraction_state_input.linked_tiles"
+        },
+        {
+          "name": "attribute_env",
+          "type": "float",
+          "schema": "source_fracker_proximity_fraction_state_input.attribute_env"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "valid_tiles",
+        "boost",
+        "fraction"
+      ],
+      "tests": [
+        "test_c07_fracker_fraction_fill_registration",
+        "test_all_c07_fracker_fraction_fill_input_evidence_is_exact",
+        "test_fracker_proximity_fraction_state",
+        "test_reference_graph_and_actual_c07_fracker_fraction_fill"
+      ],
+      "runtime_proof": "/root/C07FrackerFractionFillProof",
+      "rule": "Source-backed Fracker live fraction fill rows from Fracker.java / SolidPump.java / Block.java / Attribute.java / Blocks.java."
+    },
+    "SourceRepairTowerBuildState.source_repair_tower_supplied_damaged_state": {
+      "status": "active",
+      "source_slice": "N2306",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "source_method": "RepairTowerBuild.updateTile()",
+      "params": [
+        {
+          "name": "candidates",
+          "type": "Array",
+          "schema": "source_repair_tower_supplied_damaged_state_input.candidates"
+        },
+        {
+          "name": "range",
+          "type": "float",
+          "schema": "source_repair_tower_supplied_damaged_state_input.range"
+        },
+        {
+          "name": "tower_x",
+          "type": "float",
+          "schema": "source_repair_tower_supplied_damaged_state_input.tower_x"
+        },
+        {
+          "name": "tower_y",
+          "type": "float",
+          "schema": "source_repair_tower_supplied_damaged_state_input.tower_y"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "supplied_damaged",
+        "damaged_count",
+        "candidate_count",
+        "healthy_excluded_count",
+        "out_of_range_count"
+      ],
+      "tests": [
+        "test_c07_repair_tower_live_scan_registration",
+        "test_all_c07_repair_tower_live_scan_input_evidence_is_exact",
+        "test_repair_tower_live_scan_state",
+        "test_reference_graph_and_actual_c07_repair_tower_live_scan"
+      ],
+      "runtime_proof": "/root/C07RepairTowerLiveScanProof",
+      "rule": "Source-backed RepairTower live Units.nearby scan from RepairTower.java / HealthComp.java / Units.java / Blocks.java / Arc Position.java."
     }
   },
   "policy": {

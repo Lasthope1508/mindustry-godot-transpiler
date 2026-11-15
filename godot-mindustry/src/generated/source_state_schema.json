@@ -234229,7 +234229,7 @@
           "status": "source-backed",
           "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
           "java_expr": "if(deconstructing == null){",
-          "rule": "The building frame carrying the folded efficiency (stamped by apply_update_consumption_state) and the current deconstructing / payload / accum / progress / time / speed_scl / items / pay_vector / pay_rotation; missing keys default to the Java field defaults (PayloadDeconstructor.java:52-55, PayloadBlock.java:94-96).",
+          "rule": "The building frame carrying the folded efficiency (stamped by apply_update_consumption_state) and the current deconstructing / payload / accum / progress / time / speed_scl / items / pay_vector / pay_rotation; missing keys default to the Java field defaults (PayloadDeconstructor.java:52-55, PayloadBlock.java:92-95).",
           "used_by": [
             "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_update_tile_advance_state"
           ]
@@ -244609,6 +244609,260 @@
       },
       "runtime_proof": "/root/C07WallCrafterGetEfficiencyProof",
       "rule": "Source-backed WallCrafter getEfficiency live fill rows from WallCrafter.java / Block.java / Blocks.java."
+    },
+    "source_payload_mass_driver_accept_payload_state_for_def_input": {
+      "status": "active",
+      "owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_accept_payload_state_for_def",
+      "source_slice": "N2304",
+      "keys": {
+        "payload_size": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "java_expr": "return build.block.size * tilesize;",
+          "rule": "The offered payload size in world units (BuildPayload.java:86-88, size() is build.block.size * tilesize): the frame-supplied offer (frame[\"offered_payload_size\"]) -- there are no live Payload objects in the port, so the driver reads the size from the frame.",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_accept_payload_state_for_def"
+          ]
+        },
+        "has_payload": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "return this.payload == null;",
+          "rule": "Whether the driver already holds a payload (PayloadBlock.java:92, `public @Nullable T payload;`): the base gate super.acceptPayload is this.payload == null (PayloadBlock.java:116-118), so a held payload refuses every offer.",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_accept_payload_state_for_def"
+          ]
+        },
+        "max_payload_size": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "public float maxPayloadSize = 3;",
+          "rule": "The resolved maxPayloadSize for this def (PayloadMassDriver.java:30, class default 3; the driver resolves it per def via _payload_mass_driver_max_payload_size_for_block: 2.5f payload-mass-driver / 4f large-payload-mass-driver, Blocks.java:6624/6636, because the catalog carries no maxPayloadSize property).",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_accept_payload_state_for_def"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadMassDriverPerDefThresholdProof",
+      "rule": "Source-backed PayloadMassDriver acceptPayload gate from PayloadMassDriver.java / PayloadBlock.java / BuildPayload.java / Vars.java / Blocks.java."
+    },
+    "source_payload_mass_driver_accept_payload_state_for_def_result": {
+      "status": "active",
+      "owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_accept_payload_state_for_def",
+      "source_slice": "N2304",
+      "keys": {
+        "accepts": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "return super.acceptPayload(source, payload) && payload.size() <= maxPayloadSize * tilesize;",
+          "rule": "The acceptPayload verdict (PayloadMassDriver.java:463): the base gate (no payload held) AND the size gate (payload.size() <= maxPayloadSize * tilesize) with the per-def maxPayloadSize.",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_accept_payload_state_for_def"
+          ]
+        },
+        "size_fits": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "payload.size() <= maxPayloadSize * tilesize",
+          "rule": "The size comparison alone (PayloadMassDriver.java:463): true when the offered size is at or under the per-def threshold (the comparison is <=, so each def boundary fits: 20 / 32 / 24).",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_accept_payload_state_for_def"
+          ]
+        },
+        "threshold": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "public float maxPayloadSize = 3;",
+          "rule": "The acceptance threshold in world units: the per-def maxPayloadSize (2.5f / 4f, Blocks.java:6624/6636; class default 3, PayloadMassDriver.java:30) times tilesize 8 (Vars.java:135): 20 / 32 / 24.",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_accept_payload_state_for_def"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadMassDriverPerDefThresholdProof",
+      "rule": "Source-backed PayloadMassDriver acceptPayload gate from PayloadMassDriver.java / PayloadBlock.java / BuildPayload.java / Vars.java / Blocks.java."
+    },
+    "source_fracker_proximity_fraction_state_input": {
+      "status": "active",
+      "owner": "SourceFrackerBuildState.source_fracker_proximity_fraction_state",
+      "source_slice": "N2305",
+      "keys": {
+        "linked_tiles": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "for(Tile other : tile.getLinkedTiles(tempTiles)){",
+          "rule": "The linked tiles of the size x size footprint in tile order (SolidPump.java:155, inherited by FrackerBuild), as frame inputs (default [] -- no tiles, the Java empty-proximity outcome): each entry is a Dict {can_pump, attribute_value, is_deep} carrying the canPump answer (SolidPump.java:80-83), the floor OIL attribute value for the block attribute (Block.java:575-582, attribute = Attribute.oil, Blocks.java:2972), and the deep-floor flag (other.floor().isDeep()); the live tile scan waits for its own slice.",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_proximity_fraction_state"
+          ]
+        },
+        "attribute_env": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "float fraction = Math.max(validTiles + boost + (attribute == null ? 0 : attribute.env()), 0);",
+          "rule": "The attribute env value (Attribute.java:31-34, Vars.state.envAttrs.get(this), 0 when Vars.state is null), as the N2224 frame input (default 0.0); the port does not model envAttrs yet, so the live env read waits for its own slice. The fraction adds it because the attribute is present for the oil-extractor def (attribute = Attribute.oil, Blocks.java:2972; SolidPump.java:124).",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_proximity_fraction_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07FrackerFractionFillProof",
+      "rule": "Source-backed Fracker live fraction fill rows from Fracker.java / SolidPump.java / Block.java / Attribute.java / Blocks.java."
+    },
+    "source_fracker_proximity_fraction_state_result": {
+      "status": "active",
+      "owner": "SourceFrackerBuildState.source_fracker_proximity_fraction_state",
+      "source_slice": "N2305",
+      "keys": {
+        "valid_tiles": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "validTiles += baseEfficiency / (size * size);",
+          "rule": "The valid tiles after the fill (SolidPump.java:154-158, inherited by FrackerBuild): reset to 0f, then baseEfficiency / (size * size) per pumpable linked tile (canPump, SolidPump.java:80-83); ALWAYS 0 for the oil-extractor because the def sets baseEfficiency = 0f (Blocks.java:2973, overriding the class default 1f, SolidPump.java:26).",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_proximity_fraction_state"
+          ]
+        },
+        "boost": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "boost = sumAttribute(attribute, tile.x, tile.y) / size / size;",
+          "rule": "The boost after the fill (SolidPump.java:153, inherited by FrackerBuild): the sum of the floor OIL attribute values over the linked tiles (Block.java:575-582, 0 for deep floors when !floating && !placeableLiquid) divided by size * size (9 for the oil-extractor, size = 3, Blocks.java:2970); the attribute is present (attribute = Attribute.oil, Blocks.java:2972), so the sum is live.",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_proximity_fraction_state"
+          ]
+        },
+        "fraction": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "float fraction = Math.max(validTiles + boost + (attribute == null ? 0 : attribute.env()), 0);",
+          "rule": "The fraction after the fill (SolidPump.java:124, inherited by FrackerBuild): max(validTiles + boost + env, 0), clamped at zero -- boost + env only for the oil-extractor, since validTiles is always 0; the N2224 advance recomputes the same value from the stamped frame keys, so this key is a pure result only.",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_proximity_fraction_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07FrackerFractionFillProof",
+      "rule": "Source-backed Fracker live fraction fill rows from Fracker.java / SolidPump.java / Block.java / Attribute.java / Blocks.java."
+    },
+    "source_repair_tower_supplied_damaged_state_input": {
+      "status": "active",
+      "owner": "SourceRepairTowerBuildState.source_repair_tower_supplied_damaged_state",
+      "source_slice": "N2306",
+      "keys": {
+        "candidates": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "Units.nearby(team, x, y, range, u -> {",
+          "rule": "The frame-supplied unit candidates (RepairTower.java:62, the Units.nearby visit -- the port has no live unit query, so the caller supplies same-team candidates on frame[\"unit_candidates\"], default []): each entry is a Dict {health, max_health, distance or x/y, hit_size?} carrying the damaged inputs and the center distance or world position; a missing health / max_health / distance-or-x/y key excludes the candidate, a missing hit_size reads as 0.0.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_supplied_damaged_state"
+          ]
+        },
+        "range": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "public float range = 80f;",
+          "rule": "The scan radius (RepairTower.java:21, the class default 80f; the def overrides it to 100f, Blocks.java:6579): the Units.nearby radius, extended per unit by half its hitSize (Units.java:447).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_supplied_damaged_state"
+          ]
+        },
+        "tower_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "Units.nearby(team, x, y, range, u -> {",
+          "rule": "The tower world x (RepairTower.java:62, the nearby center -- Building x/y are tile.drawx()/drawy(), BuildingComp.java:124): the origin for x/y candidates; unused when candidates carry a precomputed distance.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_supplied_damaged_state"
+          ]
+        },
+        "tower_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "Units.nearby(team, x, y, range, u -> {",
+          "rule": "The tower world y (RepairTower.java:62, the nearby center): the origin for x/y candidates; unused when candidates carry a precomputed distance.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_supplied_damaged_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTowerLiveScanProof",
+      "rule": "Source-backed RepairTower live Units.nearby scan from RepairTower.java / HealthComp.java / Units.java / Blocks.java / Arc Position.java."
+    },
+    "source_repair_tower_supplied_damaged_state_result": {
+      "status": "active",
+      "owner": "SourceRepairTowerBuildState.source_repair_tower_supplied_damaged_state",
+      "source_slice": "N2306",
+      "keys": {
+        "supplied_damaged": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "targets.add(u);",
+          "rule": "The refill list (RepairTower.java:63-64): the admitted candidate dicts themselves, in candidate order -- the damaged in-range units the refresh refills frame[\"targets\"] with. Stamped onto frame[\"supplied_damaged\"] each tick before the N2227 advance reads it.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_supplied_damaged_state"
+          ]
+        },
+        "damaged_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "if(u.damaged()){",
+          "rule": "The admitted count (RepairTower.java:63): the number of candidates passing both Java predicates (damaged + in range). Equals supplied_damaged.size().",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_supplied_damaged_state"
+          ]
+        },
+        "candidate_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "Units.nearby(team, x, y, range, u -> {",
+          "rule": "The examined count (RepairTower.java:62): the number of candidate entries supplied, including non-Dictionary and unscorable entries.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_supplied_damaged_state"
+          ]
+        },
+        "healthy_excluded_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+          "java_expr": "return health < maxHealth - 0.001f;",
+          "rule": "The healthy exclusion count (HealthComp.java:47-49): candidates in range whose health is NOT below maxHealth - 0.001f. Candidates without health data are excluded without this bucket.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_supplied_damaged_state"
+          ]
+        },
+        "out_of_range_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Units.java",
+          "java_expr": "if(unit.within(x, y, radius + unit.hitSize/2f)){",
+          "rule": "The out-of-range exclusion count (Units.java:447): candidates failing the STRICT within check (dst2 < (range + hitSize/2)^2, Position.java:44-46). Candidates without distance data are excluded without this bucket.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_supplied_damaged_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTowerLiveScanProof",
+      "rule": "Source-backed RepairTower live Units.nearby scan from RepairTower.java / HealthComp.java / Units.java / Blocks.java / Arc Position.java."
     }
   },
   "version": 1

@@ -2188,6 +2188,46 @@
         "test_reference_graph_and_actual_c07_payload_mass_driver_accept_payload"
       ],
       "runtime_proof": "/root/C07PayloadMassDriverAcceptPayloadProof"
+    },
+    "N2304": {
+      "canonical_ledger": "source_slice_ledger.N2304",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.acceptPayload()",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_accept_payload_state_for_def",
+      "source_symbols": [
+        "source_payload_mass_driver_accept_payload_state_for_def_result.accepts",
+        "source_payload_mass_driver_accept_payload_state_for_def_result.size_fits",
+        "source_payload_mass_driver_accept_payload_state_for_def_result.threshold"
+      ],
+      "tests": [
+        "test_c07_payload_mass_driver_per_def_threshold_registration",
+        "test_all_c07_payload_mass_driver_per_def_threshold_input_evidence_is_exact",
+        "test_payload_mass_driver_per_def_threshold_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_per_def_threshold"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverPerDefThresholdProof"
+    },
+    "N2308": {
+      "canonical_ledger": "source_slice_ledger.N2308",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "java_method": "PayloadDeconstructorBuild.acceptPayload()",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_accept_payload_state",
+      "source_symbols": [
+        "source_payload_deconstructor_accept_payload_state_result.accepts",
+        "source_payload_deconstructor_accept_payload_state_result.deconstructing_empty",
+        "source_payload_deconstructor_accept_payload_state_result.payload_empty",
+        "source_payload_deconstructor_accept_payload_state_result.has_requirements",
+        "source_payload_deconstructor_accept_payload_state_result.fits"
+      ],
+      "tests": [
+        "test_c07_payload_deconstructor_intake_gate_registration",
+        "test_all_c07_payload_deconstructor_intake_gate_input_evidence_is_exact",
+        "test_payload_deconstructor_intake_gate_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_intake_gate"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorIntakeGateProof"
     }
   }
 }

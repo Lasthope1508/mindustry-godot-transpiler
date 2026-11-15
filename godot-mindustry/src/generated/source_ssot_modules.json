@@ -1149,7 +1149,10 @@
         "module": "payload_slices",
         "collection_key": "slices",
         "field": "godot_owner"
-      }
+      },
+      "optional_mirror_fields": [
+        "return_type"
+      ]
     },
     "payload_slices": {
       "canonical_module": "slice_ledger",

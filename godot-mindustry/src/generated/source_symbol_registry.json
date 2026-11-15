@@ -181640,6 +181640,182 @@
         "test_reference_graph_and_actual_c07_wall_crafter_get_efficiency"
       ],
       "runtime_proof": "/root/C07WallCrafterGetEfficiencyProof"
+    },
+    "source_payload_mass_driver_accept_payload_state_for_def_result.accepts": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_accept_payload_state_for_def",
+      "godot_symbol": "source_payload_mass_driver_accept_payload_state_for_def_result.accepts",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.acceptPayload()",
+      "java_expr": "return super.acceptPayload(source, payload) && payload.size() <= maxPayloadSize * tilesize;",
+      "rule": "The acceptPayload verdict (PayloadMassDriver.java:463): the base gate (no payload held) AND the size gate (payload.size() <= maxPayloadSize * tilesize) with the per-def maxPayloadSize.",
+      "tests": [
+        "test_c07_payload_mass_driver_per_def_threshold_registration",
+        "test_all_c07_payload_mass_driver_per_def_threshold_input_evidence_is_exact",
+        "test_payload_mass_driver_per_def_threshold_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_per_def_threshold"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverPerDefThresholdProof"
+    },
+    "source_payload_mass_driver_accept_payload_state_for_def_result.size_fits": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_accept_payload_state_for_def",
+      "godot_symbol": "source_payload_mass_driver_accept_payload_state_for_def_result.size_fits",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.acceptPayload()",
+      "java_expr": "payload.size() <= maxPayloadSize * tilesize",
+      "rule": "The size comparison alone (PayloadMassDriver.java:463): true when the offered size is at or under the per-def threshold (the comparison is <=, so each def boundary fits: 20 / 32 / 24).",
+      "tests": [
+        "test_c07_payload_mass_driver_per_def_threshold_registration",
+        "test_all_c07_payload_mass_driver_per_def_threshold_input_evidence_is_exact",
+        "test_payload_mass_driver_per_def_threshold_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_per_def_threshold"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverPerDefThresholdProof"
+    },
+    "source_payload_mass_driver_accept_payload_state_for_def_result.threshold": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_accept_payload_state_for_def",
+      "godot_symbol": "source_payload_mass_driver_accept_payload_state_for_def_result.threshold",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.acceptPayload()",
+      "java_expr": "public float maxPayloadSize = 3;",
+      "rule": "The acceptance threshold in world units: the per-def maxPayloadSize (2.5f / 4f, Blocks.java:6624/6636; class default 3, PayloadMassDriver.java:30) times tilesize 8 (Vars.java:135): 20 / 32 / 24.",
+      "tests": [
+        "test_c07_payload_mass_driver_per_def_threshold_registration",
+        "test_all_c07_payload_mass_driver_per_def_threshold_input_evidence_is_exact",
+        "test_payload_mass_driver_per_def_threshold_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_per_def_threshold"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverPerDefThresholdProof"
+    },
+    "source_fracker_proximity_fraction_state_result.valid_tiles": {
+      "status": "source-backed",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_proximity_fraction_state",
+      "godot_symbol": "source_fracker_proximity_fraction_state_result.valid_tiles",
+      "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+      "java_method": "SolidPumpBuild.onProximityUpdate() (inherited by FrackerBuild)",
+      "java_expr": "validTiles += baseEfficiency / (size * size);",
+      "rule": "The valid tiles after the fill (SolidPump.java:154-158, inherited by FrackerBuild): reset to 0f, then baseEfficiency / (size * size) per pumpable linked tile (canPump, SolidPump.java:80-83); ALWAYS 0 for the oil-extractor because the def sets baseEfficiency = 0f (Blocks.java:2973, overriding the class default 1f, SolidPump.java:26).",
+      "tests": [
+        "test_c07_fracker_fraction_fill_registration",
+        "test_all_c07_fracker_fraction_fill_input_evidence_is_exact",
+        "test_fracker_proximity_fraction_state",
+        "test_reference_graph_and_actual_c07_fracker_fraction_fill"
+      ],
+      "runtime_proof": "/root/C07FrackerFractionFillProof"
+    },
+    "source_fracker_proximity_fraction_state_result.boost": {
+      "status": "source-backed",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_proximity_fraction_state",
+      "godot_symbol": "source_fracker_proximity_fraction_state_result.boost",
+      "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+      "java_method": "SolidPumpBuild.onProximityUpdate() (inherited by FrackerBuild)",
+      "java_expr": "boost = sumAttribute(attribute, tile.x, tile.y) / size / size;",
+      "rule": "The boost after the fill (SolidPump.java:153, inherited by FrackerBuild): the sum of the floor OIL attribute values over the linked tiles (Block.java:575-582, 0 for deep floors when !floating && !placeableLiquid) divided by size * size (9 for the oil-extractor, size = 3, Blocks.java:2970); the attribute is present (attribute = Attribute.oil, Blocks.java:2972), so the sum is live.",
+      "tests": [
+        "test_c07_fracker_fraction_fill_registration",
+        "test_all_c07_fracker_fraction_fill_input_evidence_is_exact",
+        "test_fracker_proximity_fraction_state",
+        "test_reference_graph_and_actual_c07_fracker_fraction_fill"
+      ],
+      "runtime_proof": "/root/C07FrackerFractionFillProof"
+    },
+    "source_fracker_proximity_fraction_state_result.fraction": {
+      "status": "source-backed",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_proximity_fraction_state",
+      "godot_symbol": "source_fracker_proximity_fraction_state_result.fraction",
+      "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+      "java_method": "SolidPumpBuild.onProximityUpdate() (inherited by FrackerBuild)",
+      "java_expr": "float fraction = Math.max(validTiles + boost + (attribute == null ? 0 : attribute.env()), 0);",
+      "rule": "The fraction after the fill (SolidPump.java:124, inherited by FrackerBuild): max(validTiles + boost + env, 0), clamped at zero -- boost + env only for the oil-extractor, since validTiles is always 0; the N2224 advance recomputes the same value from the stamped frame keys, so this key is a pure result only.",
+      "tests": [
+        "test_c07_fracker_fraction_fill_registration",
+        "test_all_c07_fracker_fraction_fill_input_evidence_is_exact",
+        "test_fracker_proximity_fraction_state",
+        "test_reference_graph_and_actual_c07_fracker_fraction_fill"
+      ],
+      "runtime_proof": "/root/C07FrackerFractionFillProof"
+    },
+    "source_repair_tower_supplied_damaged_state_result.supplied_damaged": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_supplied_damaged_state",
+      "godot_symbol": "source_repair_tower_supplied_damaged_state_result.supplied_damaged",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.updateTile()",
+      "java_expr": "targets.add(u);",
+      "rule": "The refill list (RepairTower.java:63-64): the admitted candidate dicts themselves, in candidate order -- the damaged in-range units the refresh refills frame[\"targets\"] with. Stamped onto frame[\"supplied_damaged\"] each tick before the N2227 advance reads it.",
+      "tests": [
+        "test_c07_repair_tower_live_scan_registration",
+        "test_all_c07_repair_tower_live_scan_input_evidence_is_exact",
+        "test_repair_tower_live_scan_state",
+        "test_reference_graph_and_actual_c07_repair_tower_live_scan"
+      ],
+      "runtime_proof": "/root/C07RepairTowerLiveScanProof"
+    },
+    "source_repair_tower_supplied_damaged_state_result.damaged_count": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_supplied_damaged_state",
+      "godot_symbol": "source_repair_tower_supplied_damaged_state_result.damaged_count",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.updateTile()",
+      "java_expr": "if(u.damaged()){",
+      "rule": "The admitted count (RepairTower.java:63): the number of candidates passing both Java predicates (damaged + in range). Equals supplied_damaged.size().",
+      "tests": [
+        "test_c07_repair_tower_live_scan_registration",
+        "test_all_c07_repair_tower_live_scan_input_evidence_is_exact",
+        "test_repair_tower_live_scan_state",
+        "test_reference_graph_and_actual_c07_repair_tower_live_scan"
+      ],
+      "runtime_proof": "/root/C07RepairTowerLiveScanProof"
+    },
+    "source_repair_tower_supplied_damaged_state_result.candidate_count": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_supplied_damaged_state",
+      "godot_symbol": "source_repair_tower_supplied_damaged_state_result.candidate_count",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.updateTile()",
+      "java_expr": "Units.nearby(team, x, y, range, u -> {",
+      "rule": "The examined count (RepairTower.java:62): the number of candidate entries supplied, including non-Dictionary and unscorable entries.",
+      "tests": [
+        "test_c07_repair_tower_live_scan_registration",
+        "test_all_c07_repair_tower_live_scan_input_evidence_is_exact",
+        "test_repair_tower_live_scan_state",
+        "test_reference_graph_and_actual_c07_repair_tower_live_scan"
+      ],
+      "runtime_proof": "/root/C07RepairTowerLiveScanProof"
+    },
+    "source_repair_tower_supplied_damaged_state_result.healthy_excluded_count": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_supplied_damaged_state",
+      "godot_symbol": "source_repair_tower_supplied_damaged_state_result.healthy_excluded_count",
+      "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+      "java_method": "RepairTowerBuild.updateTile()",
+      "java_expr": "return health < maxHealth - 0.001f;",
+      "rule": "The healthy exclusion count (HealthComp.java:47-49): candidates in range whose health is NOT below maxHealth - 0.001f. Candidates without health data are excluded without this bucket.",
+      "tests": [
+        "test_c07_repair_tower_live_scan_registration",
+        "test_all_c07_repair_tower_live_scan_input_evidence_is_exact",
+        "test_repair_tower_live_scan_state",
+        "test_reference_graph_and_actual_c07_repair_tower_live_scan"
+      ],
+      "runtime_proof": "/root/C07RepairTowerLiveScanProof"
+    },
+    "source_repair_tower_supplied_damaged_state_result.out_of_range_count": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_supplied_damaged_state",
+      "godot_symbol": "source_repair_tower_supplied_damaged_state_result.out_of_range_count",
+      "java_source": "core/src/mindustry/entities/Units.java",
+      "java_method": "RepairTowerBuild.updateTile()",
+      "java_expr": "if(unit.within(x, y, radius + unit.hitSize/2f)){",
+      "rule": "The out-of-range exclusion count (Units.java:447): candidates failing the STRICT within check (dst2 < (range + hitSize/2)^2, Position.java:44-46). Candidates without distance data are excluded without this bucket.",
+      "tests": [
+        "test_c07_repair_tower_live_scan_registration",
+        "test_all_c07_repair_tower_live_scan_input_evidence_is_exact",
+        "test_repair_tower_live_scan_state",
+        "test_reference_graph_and_actual_c07_repair_tower_live_scan"
+      ],
+      "runtime_proof": "/root/C07RepairTowerLiveScanProof"
     }
   },
   "version": 1

@@ -6348,6 +6348,51 @@
       ],
       "runtime_proof": "/root/C07FrackerPowerStatusProof"
     },
+    "source_fracker_proximity_fraction_state_result.boost": {
+      "canonical_symbol": "source_symbol_registry.source_fracker_proximity_fraction_state_result.boost",
+      "status": "source-backed",
+      "java_expr": "boost = sumAttribute(attribute, tile.x, tile.y) / size / size;",
+      "godot_symbol": "source_fracker_proximity_fraction_state_result.boost",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_proximity_fraction_state",
+      "rule": "The boost after the fill (SolidPump.java:153, inherited by FrackerBuild): the sum of the floor OIL attribute values over the linked tiles (Block.java:575-582, 0 for deep floors when !floating && !placeableLiquid) divided by size * size (9 for the oil-extractor, size = 3, Blocks.java:2970); the attribute is present (attribute = Attribute.oil, Blocks.java:2972), so the sum is live.",
+      "tests": [
+        "test_c07_fracker_fraction_fill_registration",
+        "test_all_c07_fracker_fraction_fill_input_evidence_is_exact",
+        "test_fracker_proximity_fraction_state",
+        "test_reference_graph_and_actual_c07_fracker_fraction_fill"
+      ],
+      "runtime_proof": "/root/C07FrackerFractionFillProof"
+    },
+    "source_fracker_proximity_fraction_state_result.fraction": {
+      "canonical_symbol": "source_symbol_registry.source_fracker_proximity_fraction_state_result.fraction",
+      "status": "source-backed",
+      "java_expr": "float fraction = Math.max(validTiles + boost + (attribute == null ? 0 : attribute.env()), 0);",
+      "godot_symbol": "source_fracker_proximity_fraction_state_result.fraction",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_proximity_fraction_state",
+      "rule": "The fraction after the fill (SolidPump.java:124, inherited by FrackerBuild): max(validTiles + boost + env, 0), clamped at zero -- boost + env only for the oil-extractor, since validTiles is always 0; the N2224 advance recomputes the same value from the stamped frame keys, so this key is a pure result only.",
+      "tests": [
+        "test_c07_fracker_fraction_fill_registration",
+        "test_all_c07_fracker_fraction_fill_input_evidence_is_exact",
+        "test_fracker_proximity_fraction_state",
+        "test_reference_graph_and_actual_c07_fracker_fraction_fill"
+      ],
+      "runtime_proof": "/root/C07FrackerFractionFillProof"
+    },
+    "source_fracker_proximity_fraction_state_result.valid_tiles": {
+      "canonical_symbol": "source_symbol_registry.source_fracker_proximity_fraction_state_result.valid_tiles",
+      "status": "source-backed",
+      "java_expr": "validTiles += baseEfficiency / (size * size);",
+      "godot_symbol": "source_fracker_proximity_fraction_state_result.valid_tiles",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_proximity_fraction_state",
+      "rule": "The valid tiles after the fill (SolidPump.java:154-158, inherited by FrackerBuild): reset to 0f, then baseEfficiency / (size * size) per pumpable linked tile (canPump, SolidPump.java:80-83); ALWAYS 0 for the oil-extractor because the def sets baseEfficiency = 0f (Blocks.java:2973, overriding the class default 1f, SolidPump.java:26).",
+      "tests": [
+        "test_c07_fracker_fraction_fill_registration",
+        "test_all_c07_fracker_fraction_fill_input_evidence_is_exact",
+        "test_fracker_proximity_fraction_state",
+        "test_reference_graph_and_actual_c07_fracker_fraction_fill"
+      ],
+      "runtime_proof": "/root/C07FrackerFractionFillProof"
+    },
     "source_fracker_should_consume_state_result.result_amount": {
       "canonical_symbol": "source_symbol_registry.source_fracker_should_consume_state_result.result_amount",
       "status": "source-backed",

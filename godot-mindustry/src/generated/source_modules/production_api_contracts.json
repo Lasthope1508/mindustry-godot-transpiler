@@ -1839,6 +1839,39 @@
       "rule": "Source-backed Fracker power.status row from ConsumePower.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceFrackerBuildState.source_fracker_proximity_fraction_state": {
+      "canonical_contract": "source_api_contracts.SourceFrackerBuildState.source_fracker_proximity_fraction_state",
+      "status": "active",
+      "source_slice": "N2305",
+      "java_source": "core/src/mindustry/world/blocks/production/Fracker.java",
+      "source_method": "SolidPumpBuild.onProximityUpdate() (inherited by FrackerBuild)",
+      "params": [
+        {
+          "name": "linked_tiles",
+          "type": "Array",
+          "schema": "source_fracker_proximity_fraction_state_input.linked_tiles"
+        },
+        {
+          "name": "attribute_env",
+          "type": "float",
+          "schema": "source_fracker_proximity_fraction_state_input.attribute_env"
+        }
+      ],
+      "return_keys": [
+        "valid_tiles",
+        "boost",
+        "fraction"
+      ],
+      "tests": [
+        "test_c07_fracker_fraction_fill_registration",
+        "test_all_c07_fracker_fraction_fill_input_evidence_is_exact",
+        "test_fracker_proximity_fraction_state",
+        "test_reference_graph_and_actual_c07_fracker_fraction_fill"
+      ],
+      "runtime_proof": "/root/C07FrackerFractionFillProof",
+      "rule": "Source-backed Fracker live fraction fill rows from Fracker.java / SolidPump.java / Block.java / Attribute.java / Blocks.java.",
+      "return_type": "Dictionary"
+    },
     "SourceFrackerBuildState.source_fracker_should_consume_state": {
       "canonical_contract": "source_api_contracts.SourceFrackerBuildState.source_fracker_should_consume_state",
       "status": "active",
