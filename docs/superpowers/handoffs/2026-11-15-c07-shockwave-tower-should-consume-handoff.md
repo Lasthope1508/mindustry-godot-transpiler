@@ -1,10 +1,6 @@
 # Handoff — N2193 ShockwaveTower shouldConsume gate
 
-Date: 2026-11-15. Batch: N2193 (single slice). Status: **DONE, gate
-finished 18:45 +07 tick** — targeted 4/4 OK, neighbours 44/44 OK,
-proof 9 keys matches:true, full gate Ran 5865, failures=143, skipped=5,
-0 errors (all Godot-absent). Slice commit `2e75942`, docs `927e6fd`,
-GOAL `2bd471f`. Push follows in this tick.
+Date: 2026-11-15. Batch: N2193 (single slice). Status: **DONE + PUSHED (slice `2e75942`, main `864c4e8`) — targeted 4/4 OK, neighbours 44/44 OK, proof 9 keys matches:true, full gate Ran 5865, failures=143, skipped=5, 0 errors (all Godot-absent).**
 
 ## RED (this run, 18:00 +07 tick)
 
