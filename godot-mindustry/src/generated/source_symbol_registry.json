@@ -172968,6 +172968,54 @@
         "test_reference_graph_and_actual_c07_light_block_power_status"
       ],
       "runtime_proof": "/root/C07LightBlockPowerStatusProof"
+    },
+    "source_impact_reactor_update_tile_advance_state_result.warmup": {
+      "status": "source-backed",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_update_tile_advance_state",
+      "godot_symbol": "source_impact_reactor_update_tile_advance_state_result.warmup",
+      "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+      "java_method": "ImpactReactorBuild.updateTile()",
+      "java_expr": "warmup = Mathf.lerpDelta(warmup, 1f, warmupSpeed * timeScale);",
+      "rule": "The advanced warmup (ImpactReactor.java:82): lerpDelta toward 1f at warmupSpeed * timeScale while the gate holds, with the 1f snap (ImpactReactor.java:83-84), or lerpDelta toward 0f at 0.01f when the gate fails (ImpactReactor.java:95).",
+      "tests": [
+        "test_c07_impact_reactor_update_tile_registration",
+        "test_all_c07_impact_reactor_update_tile_input_evidence_is_exact",
+        "test_impact_reactor_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_update_tile"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorUpdateTileProof"
+    },
+    "source_impact_reactor_update_tile_advance_state_result.total_progress": {
+      "status": "source-backed",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_update_tile_advance_state",
+      "godot_symbol": "source_impact_reactor_update_tile_advance_state_result.total_progress",
+      "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+      "java_method": "ImpactReactorBuild.updateTile()",
+      "java_expr": "totalProgress += warmup * Time.delta;",
+      "rule": "The advanced totalProgress (ImpactReactor.java:98): the previous total plus the new warmup times Time.delta.",
+      "tests": [
+        "test_c07_impact_reactor_update_tile_registration",
+        "test_all_c07_impact_reactor_update_tile_input_evidence_is_exact",
+        "test_impact_reactor_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_update_tile"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorUpdateTileProof"
+    },
+    "source_impact_reactor_update_tile_advance_state_result.production_efficiency": {
+      "status": "source-backed",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_update_tile_advance_state",
+      "godot_symbol": "source_impact_reactor_update_tile_advance_state_result.production_efficiency",
+      "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+      "java_method": "ImpactReactorBuild.updateTile()",
+      "java_expr": "productionEfficiency = Mathf.pow(warmup, 5f);",
+      "rule": "The production efficiency (ImpactReactor.java:100): pow(warmup, 5f) from the advanced warmup; tracked as a frame key here -- the producer fold (PowerGenerator.java:156-158) does not read it yet and waits for its own slice.",
+      "tests": [
+        "test_c07_impact_reactor_update_tile_registration",
+        "test_all_c07_impact_reactor_update_tile_input_evidence_is_exact",
+        "test_impact_reactor_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_update_tile"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorUpdateTileProof"
     }
   },
   "version": 1

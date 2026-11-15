@@ -65928,6 +65928,43 @@
       ],
       "runtime_proof": "/root/C07LightBlockPowerStatusProof",
       "rule": "Source-backed LightBlock power.status row from ConsumePower.java / BuildingComp.java."
+    },
+    "SourceImpactReactorBuildState.source_impact_reactor_update_tile_advance_state": {
+      "status": "active",
+      "source_slice": "N2192",
+      "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+      "source_method": "ImpactReactorBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_impact_reactor_update_tile_advance_state_input.frame"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_impact_reactor_update_tile_advance_state_input.time_scale"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_impact_reactor_update_tile_advance_state_input.source_delta"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "warmup",
+        "total_progress",
+        "production_efficiency"
+      ],
+      "tests": [
+        "test_c07_impact_reactor_update_tile_registration",
+        "test_all_c07_impact_reactor_update_tile_input_evidence_is_exact",
+        "test_impact_reactor_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_update_tile"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorUpdateTileProof",
+      "rule": "Source-backed ImpactReactor updateTile advance from ImpactReactor.java / BuildingComp.java / Mathf.java."
     }
   },
   "policy": {
