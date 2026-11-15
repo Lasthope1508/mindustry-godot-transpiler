@@ -66053,6 +66053,31 @@
       ],
       "runtime_proof": "/root/C07RepairTowerTargetRefreshProof",
       "rule": "Source-backed RepairTower target refresh from RepairTower.java / BuildingComp.java / Units.java."
+    },
+    "SourceRepairTowerBuildState.source_repair_tower_should_consume_state": {
+      "status": "active",
+      "source_slice": "N2191",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "source_method": "RepairTowerBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_repair_tower_should_consume_state_input.frame"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "should_consume"
+      ],
+      "tests": [
+        "test_c07_repair_tower_should_consume_registration",
+        "test_all_c07_repair_tower_should_consume_input_evidence_is_exact",
+        "test_repair_tower_should_consume_state",
+        "test_reference_graph_and_actual_c07_repair_tower_should_consume"
+      ],
+      "runtime_proof": "/root/C07RepairTowerShouldConsumeProof",
+      "rule": "Source-backed RepairTower shouldConsume gate from RepairTower.java / BuildingComp.java."
     }
   },
   "policy": {

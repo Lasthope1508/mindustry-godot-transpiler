@@ -85,6 +85,14 @@ static func source_repair_tower_refresh_targets_state(frame: Dictionary, delta: 
 		return {"refreshed": true, "refresh": 0.0, "targets_count": null, "has_targets_count": false}
 	return {"refreshed": true, "refresh": 0.0, "targets_count": int(observed), "has_targets_count": true}
 
+static func source_repair_tower_should_consume_state(frame: Dictionary) -> Dictionary:
+	# RepairTowerBuild overrides shouldConsume (RepairTower.java:89, `public boolean shouldConsume(){` with `return targets.size > 0;`, RepairTower.java:90) over the target list (RepairTower.java:49, `public Seq<Unit> targets = new Seq<>();`), and updateConsumption forces efficiency to zero when the gate is false (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){` + 1993, `efficiency = optionalEfficiency = 0f;`). The gate matters because with no targets requestedPower is 0 so power.status reads 1.0 (the row read, ConsumePower.java:39, `return build.power.status;`) while Java efficiency is 0 -- the N2176 gap this slice closes. A missing power stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`), and the power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`); edelta() is efficiency * delta (BuildingComp.java:1928, `return efficiency * delta();`). The frame carries the live target count as `targets_count` (int), stamped by the N2190 refresh on expiry when a `nearby_damaged_units` observation exists; the function reads it with a null default, so an absent key means "no observation yet", not "no targets": targets_count=0 blocks the gate, targets_count>0 with enabled passes it, targets_count>0 with enabled=false blocks it -- all three observed cases run through the one conjunction, `int(observed) > 0 and enabled`; NO targets_count key preserves the N2176 behavior, `should_consume = enabled`, because no placed-building frame carries a live targets count until the live-units query slice stamps `nearby_damaged_units` and a refresh expiry stamps `targets_count`, and defaulting absent to false would zero efficiency for every live repair tower. The gate activates when a refresh expiry stamps `targets_count` from the observed count (the refresh block is the ONLY writer of `targets`, RepairTower.java:59-66).
+	var enabled: bool = bool(frame.get("enabled", true))
+	var observed: Variant = frame.get("targets_count", null)
+	if observed == null:
+		return {"should_consume": enabled}
+	return {"should_consume": int(observed) > 0 and enabled}
+
 @warning_ignore("unused_parameter")
 static func source_repair_tower_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the repair-tower tick wiring every
@@ -124,7 +132,8 @@ static func source_repair_tower_tick_buildings_state(game: Object, seconds: floa
 		# hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a repair tower does not take the early return. The repair tower's power draw is STATIC: `consumePower(1f);` (Blocks.java:6582) registers a plain ConsumePower, so the catalog consumePower 1.0 is present and the plain radar gate (block.properties.has("consumePower")) works -- no RepairTurret-style `or consumesPower` adaptation is needed. A repair tower with no power consumer is untouched: the tick models no other consumers yet (the updateTile advance waits for its own slice), and RepairTowerBuild overrides shouldConsume (RepairTower.java:89, `public boolean shouldConsume(){` with `return targets.size > 0;`, RepairTower.java:90) -- RED decision (the PointDefenseTurret N2151 precedent and the RepairTurret N2174 precedent): the port tracks no live target on any placed-building frame, so the machinery runs with should_consume=true when enabled (the MendProjector suppression precedent). productionValid is the canonical true default (SourceBuildingAccessState.production_valid_state()).
 		var has_power_consumer: bool = bool(block.properties.has("consumePower"))
 		if has_power_consumer and bool(frame.get("enabled", true)) and not bool(frame.get("cheating", false)):
-			var should_consume: bool = bool(frame.get("enabled", true))
+			# N2191 wires the shouldConsume gate through source_repair_tower_should_consume_state(frame): targets_count > 0 and enabled when a count observation is present, enabled when the frame carries no targets_count key (the N2176 behavior preserved; no live targets count is stamped on any placed-building frame yet).
+			var should_consume: bool = bool(source_repair_tower_should_consume_state(frame).get("should_consume", true))
 			var valid: bool = source_building_access_state.production_valid_state()
 			var setup: Dictionary = source_building_efficiency_state.update_consumption_setup_state(should_consume, valid)
 			frame["efficiency"] = setup.get("efficiency", 1.0)

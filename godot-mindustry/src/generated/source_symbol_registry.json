@@ -173192,6 +173192,22 @@
         "test_reference_graph_and_actual_c07_repair_tower_target_refresh"
       ],
       "runtime_proof": "/root/C07RepairTowerTargetRefreshProof"
+    },
+    "source_repair_tower_should_consume_state_result.should_consume": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_should_consume_state",
+      "godot_symbol": "source_repair_tower_should_consume_state_result.should_consume",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.shouldConsume()",
+      "java_expr": "return targets.size > 0;",
+      "rule": "The shouldConsume gate (RepairTower.java:89-90): targets_count > 0 && enabled when a targets observation is present, enabled when the frame carries no targets_count key (the N2176 behavior); false gates efficiency to 0 via updateConsumption (BuildingComp.java:1960 + 1992-1993).",
+      "tests": [
+        "test_c07_repair_tower_should_consume_registration",
+        "test_all_c07_repair_tower_should_consume_input_evidence_is_exact",
+        "test_repair_tower_should_consume_state",
+        "test_reference_graph_and_actual_c07_repair_tower_should_consume"
+      ],
+      "runtime_proof": "/root/C07RepairTowerShouldConsumeProof"
     }
   },
   "version": 1
