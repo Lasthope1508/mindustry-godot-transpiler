@@ -48,3 +48,9 @@ Do not stage or revert known workspace noise unless the user explicitly asks:
 Agent use:
 - Spawn agents only for independent non-conflicting work.
 - Do not spawn agents for slices touching shared SSOT JSON, checklist totals, or `godot-mindustry/src/game/PortGame.gd`.
+
+Pushing to GitHub (this VM):
+- Full guide: `docs/superpowers/PUSH-GUIDE.md`. SSH over port 443 via the egress proxy; repo `core.sshCommand` already points at the right config.
+- Push each completed slice/integration branch as it finishes: `git push git@github.com:Lasthope1508/mindustry-godot-transpiler.git <branch>`.
+- Never push to `main` without explicit user approval. Remote `main` is ahead and shared with another agent.
+- No Godot runs on this VM: stop before the Godot proof step and record the proof as debt (report + handoff + `GOAL.md` §5).
