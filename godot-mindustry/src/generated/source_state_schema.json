@@ -230102,6 +230102,44 @@
       },
       "runtime_proof": "/root/C07ImpactReactorConsumeProof",
       "rule": "Source-backed ImpactReactor blast-compound timer burn + cryofluid continuous drain from ImpactReactor.java / ConsumeItems.java / ConsumeLiquid.java / Interval.java."
+    },
+    "source_repair_turret_should_consume_state_input": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_should_consume_state",
+      "source_slice": "N2188",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "return target != null && enabled;",
+          "rule": "The building frame carrying the has_target observation (RepairTurret.java:154, `public Unit target;`) and enabled; a missing has_target key means no observation yet (N2174 behavior preserved), not no target.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretShouldConsumeProof",
+      "rule": "Source-backed RepairTurret shouldConsume gate from RepairTurret.java / BuildingComp.java."
+    },
+    "source_repair_turret_should_consume_state_result": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_should_consume_state",
+      "source_slice": "N2188",
+      "keys": {
+        "should_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "return target != null && enabled;",
+          "rule": "The shouldConsume gate (RepairTurret.java:221-222): has_target && enabled when a target observation is present, enabled when the frame carries no has_target key (the N2174 behavior); false gates efficiency to 0 via updateConsumption (BuildingComp.java:1960 + 1992-1993).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretShouldConsumeProof",
+      "rule": "Source-backed RepairTurret shouldConsume gate from RepairTurret.java / BuildingComp.java."
     }
   },
   "version": 1

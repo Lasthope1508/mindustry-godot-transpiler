@@ -65995,6 +65995,31 @@
       ],
       "runtime_proof": "/root/C07ImpactReactorConsumeProof",
       "rule": "Source-backed ImpactReactor blast-compound timer burn + cryofluid continuous drain from ImpactReactor.java / ConsumeItems.java / ConsumeLiquid.java / Interval.java."
+    },
+    "SourceRepairTurretBuildState.source_repair_turret_should_consume_state": {
+      "status": "active",
+      "source_slice": "N2188",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "source_method": "RepairPointBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_repair_turret_should_consume_state_input.frame"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "should_consume"
+      ],
+      "tests": [
+        "test_c07_repair_turret_should_consume_registration",
+        "test_all_c07_repair_turret_should_consume_input_evidence_is_exact",
+        "test_repair_turret_should_consume_state",
+        "test_reference_graph_and_actual_c07_repair_turret_should_consume"
+      ],
+      "runtime_proof": "/root/C07RepairTurretShouldConsumeProof",
+      "rule": "Source-backed RepairTurret shouldConsume gate from RepairTurret.java / BuildingComp.java."
     }
   },
   "policy": {

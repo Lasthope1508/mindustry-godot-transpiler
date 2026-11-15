@@ -173112,6 +173112,22 @@
         "test_reference_graph_and_actual_c07_impact_reactor_consume"
       ],
       "runtime_proof": "/root/C07ImpactReactorConsumeProof"
+    },
+    "source_repair_turret_should_consume_state_result.should_consume": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_should_consume_state",
+      "godot_symbol": "source_repair_turret_should_consume_state_result.should_consume",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairPointBuild.shouldConsume()",
+      "java_expr": "return target != null && enabled;",
+      "rule": "The shouldConsume gate (RepairTurret.java:221-222): has_target && enabled when a target observation is present, enabled when the frame carries no has_target key (the N2174 behavior); false gates efficiency to 0 via updateConsumption (BuildingComp.java:1960 + 1992-1993).",
+      "tests": [
+        "test_c07_repair_turret_should_consume_registration",
+        "test_all_c07_repair_turret_should_consume_input_evidence_is_exact",
+        "test_repair_turret_should_consume_state",
+        "test_reference_graph_and_actual_c07_repair_turret_should_consume"
+      ],
+      "runtime_proof": "/root/C07RepairTurretShouldConsumeProof"
     }
   },
   "version": 1
