@@ -1196,6 +1196,23 @@
       ],
       "runtime_proof": "/root/C07LightBlockPowerStatusProof"
     },
+    "N2241": {
+      "canonical_ledger": "source_slice_ledger.N2241",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+      "java_method": "LightBuild.updateTile()",
+      "godot_owner": "SourceLightBlockBuildState.source_light_block_smooth_time_state",
+      "source_symbols": [
+        "source_light_block_smooth_time_state_result.smooth_time"
+      ],
+      "tests": [
+        "test_c07_light_block_update_tile_registration",
+        "test_all_c07_light_block_update_tile_input_evidence_is_exact",
+        "test_light_block_update_tile_state",
+        "test_reference_graph_and_actual_c07_light_block_update_tile"
+      ],
+      "runtime_proof": "/root/C07LightBlockUpdateTileProof"
+    },
     "N888": {
       "canonical_ledger": "source_slice_ledger.N888",
       "status": "done",

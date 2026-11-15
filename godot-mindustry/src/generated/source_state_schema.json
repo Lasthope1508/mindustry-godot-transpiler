@@ -234544,6 +234544,1212 @@
       },
       "runtime_proof": "/root/C07UnitCargoLoaderUpdateTileProof",
       "rule": "Source-backed UnitCargoLoader updateTile advance from UnitCargoLoader.java / BuildingComp.java / Blocks.java / Units.java / UnitType.java / Block.java."
+    },
+    "source_force_projector_update_tile_advance_state_input": {
+      "status": "active",
+      "owner": "SourceForceProjectorBuildState.source_force_projector_update_tile_advance_state",
+      "source_slice": "N2235",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "public float buildup, radscl, hit, warmup, phaseHeat;",
+          "rule": "The building frame carrying the folded efficiency (stamped by apply_update_consumption_state), the team id, and the current phase_heat / radscl / warmup / buildup / broken / hit; Java field defaults phaseHeat / radscl / warmup / buildup / hit 0.0 and broken TRUE (ForceProjector.java:167-168), efficiency 0.0 (BuildingComp.java:85).",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_update_tile_advance_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26): the delta the Arc lerpDelta formula scales by (Mathf.java:430-432), the buildup decay delta() = Time.delta * timeScale (BuildingComp.java:1922-1924, ForceProjector.java:236), and the hit decay 1f/5f * Time.delta (ForceProjector.java:254).",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_update_tile_advance_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live timeScale read from the sprite meta (SourcePlacedBlockState.time_scale), default 1.0 (BuildingComp.java:98): delta() = Time.delta * timeScale (BuildingComp.java:1922-1924) scales the buildup decay (ForceProjector.java:236); the hit decay uses Time.delta directly, not delta().",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_update_tile_advance_state"
+          ]
+        },
+        "building_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "return block().offset + worldx();",
+          "rule": "The building world x: Building x is tile.drawx() (BuildingComp.java:124), drawx is block.offset + tile.worldx() (Tile.java:175-176) with offset ((size + 1) % 2) * tilesize / 2f (Block.java:761) -- 0 for the size-3 force-projector; the deflect rect / polygon center (ForceProjector.java:261-262).",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_update_tile_advance_state"
+          ]
+        },
+        "building_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "return block().offset + worldy();",
+          "rule": "The building world y: Building y is tile.drawy() (BuildingComp.java:124), drawy is block.offset + tile.worldy() (Tile.java:179-180); the deflect rect / polygon center (ForceProjector.java:261-262).",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_update_tile_advance_state"
+          ]
+        },
+        "bullets": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "Groups.bullet.intersect(x - realRadius, y - realRadius, realRadius * 2f, realRadius * 2f, shieldConsumer);",
+          "rule": "The explicit bullet list (each a bullet dict with x / y / team / absorbable / absorbed / shield_damage / id): the stand-in for the Groups.bullet rect intersect (ForceProjector.java:262, EntityGroup.java:207, over the spatial bullet group, GroupDefs.java:9). The list IS the intersect result by contract (the N2229 precedent). The driver always passes an empty list -- no live bullet query.",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_update_tile_advance_state"
+          ]
+        },
+        "consume_tick": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "if(phaseValid && !broken && timer(timerUse, phaseUseTime / timeScale) && efficiency > 0){",
+          "rule": "Whether the consume timer fired this tick (timer(timerUse, phaseUseTime / timeScale), ForceProjector.java:212, phaseUseTime 350f, ForceProjector.java:33). The TIMER CADENCE itself defers (no timer helper in the port, the N2193 precedent), so the driver passes false; the consume() APPLICATION also defers (the frame has no items), so the advance reports it through the pure consumed result.",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_update_tile_advance_state"
+          ]
+        },
+        "item_consumer_present": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "boolean phaseValid = itemConsumer != null && itemConsumer.efficiency(this) > 0;",
+          "rule": "Whether the phaseFabric item consumer exists (itemConsumer != null, ForceProjector.java:208). True for force-projector (the def sets itemConsumer = consumeItem(Items.phaseFabric).boost(), Blocks.java:1974); the driver passes false (no items store on the frame, so phaseValid cannot be evaluated live).",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_update_tile_advance_state"
+          ]
+        },
+        "item_consumer_efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "boolean phaseValid = itemConsumer != null && itemConsumer.efficiency(this) > 0;",
+          "rule": "The item consumer efficiency (itemConsumer.efficiency(this), ForceProjector.java:208): phaseValid needs it above 0. The driver passes 0.0 (no items store on the frame).",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_update_tile_advance_state"
+          ]
+        },
+        "coolant_present": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "if(coolantConsumer != null){",
+          "rule": "Whether the coolant consumer exists (coolantConsumer != null, ForceProjector.java:229). True for force-projector: the constructor adds ConsumeCoolant when consumeCoolant is true (ForceProjector.java:84-86, class default true, and the def does not override it) -- unlike N2230's parallax. The driver passes false (no liquids store on the frame, so the coolant live fill defers).",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_update_tile_advance_state"
+          ]
+        },
+        "coolant_efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "if(coolantConsumer.efficiency(this) > 0){",
+          "rule": "The coolant consumer efficiency (coolantConsumer.efficiency(this), ForceProjector.java:230): the coolant branch needs it above 0. The driver passes 0.0 (no liquids store on the frame).",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_update_tile_advance_state"
+          ]
+        },
+        "coolant_heat_capacity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "scale *= (cooldownLiquid * (1f + (liquids.current().heatCapacity - 0.4f) * 0.9f));",
+          "rule": "The current liquid heatCapacity (liquids.current().heatCapacity, ForceProjector.java:233; Liquid default 0.5f, Liquid.java:42): the coolant regen factor. The driver passes 0.4 (the no-op default -- the factor (1 + (0.4 - 0.4) * 0.9) is 1).",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ForceProjectorUpdateTileProof",
+      "rule": "Source-backed ForceProjector updateTile advance from ForceProjector.java / Blocks.java / BuildingComp.java / TimerComp.java / Block.java / Tile.java / BulletType.java / BulletComp.java / EntityGroup.java / GroupDefs.java / Liquid.java / Team.java / Mathf.java / Intersector.java / Vec2.java / Time.java."
+    },
+    "source_force_projector_update_tile_advance_state_result": {
+      "status": "active",
+      "owner": "SourceForceProjectorBuildState.source_force_projector_update_tile_advance_state",
+      "source_slice": "N2235",
+      "keys": {
+        "phase_heat": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "phaseHeat = Mathf.lerpDelta(phaseHeat, Mathf.num(phaseValid), 0.1f);",
+          "rule": "The phase heat after one tick (ForceProjector.java:210): lerpDelta toward num(phaseValid) at 0.1f, where phaseValid is itemConsumer != null && itemConsumer.efficiency > 0 (ForceProjector.java:208) and num is 1 / 0 (Mathf.java:208-210). lerpDelta multiplies the progress by Time.delta once more (Mathf.java:430-432).",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_update_tile_advance_state"
+          ]
+        },
+        "radscl": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "radscl = Mathf.lerpDelta(radscl, broken ? 0f : warmup, 0.05f);",
+          "rule": "The radius scale after one tick (ForceProjector.java:216): lerpDelta toward 0 when broken, toward the OLD warmup otherwise, at 0.05f -- the radscl line runs BEFORE the warmup update (:222), so it folds the incoming warmup.",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_update_tile_advance_state"
+          ]
+        },
+        "warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "warmup = Mathf.lerpDelta(warmup, efficiency, 0.1f);",
+          "rule": "The warmup after one tick (ForceProjector.java:222): lerpDelta toward the folded efficiency at 0.1f.",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_update_tile_advance_state"
+          ]
+        },
+        "buildup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "buildup -= delta() * scale;",
+          "rule": "The buildup after one tick: the cooldown decay (ForceProjector.java:224-237, scale cooldownNormal 1.5f / cooldownBrokenBase 0.35f, def values, times the coolant factor when the coolant branch runs) minus delta() * scale with delta() = Time.delta * timeScale (BuildingComp.java:1922-1924) -- NO clamp, so buildup can go negative -- then the broken-set reset to shieldHealth (ForceProjector.java:245) when the threshold is crossed, then the deflect addition (ForceProjector.java:66).",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_update_tile_advance_state"
+          ]
+        },
+        "broken": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "broken = true;",
+          "rule": "Whether the shield is broken after one tick: cleared when broken && buildup <= 0 (ForceProjector.java:239-241), set when buildup >= shieldHealth + phaseShieldBoost * phaseHeat && !broken (ForceProjector.java:243-245, threshold folds the NEW phaseHeat, shieldHealth 750f def, phaseShieldBoost 400f). Java default true (ForceProjector.java:167).",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_update_tile_advance_state"
+          ]
+        },
+        "hit": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "hit -= 1f / 5f * Time.delta;",
+          "rule": "The hit flash after one tick: decayed by 1f/5f * Time.delta when above 0 (ForceProjector.java:253-255, Time.delta -- NOT delta()), then set to 1f when a bullet is deflected (ForceProjector.java:65).",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_update_tile_advance_state"
+          ]
+        },
+        "consumed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "consume();",
+          "rule": "Whether consume() fired this tick as a pure result (ForceProjector.java:212-214): phaseValid && !broken && consume_tick && efficiency > 0. The APPLICATION (consume() taking the phaseFabric item) defers -- the frame has no items.",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_update_tile_advance_state"
+          ]
+        },
+        "absorbed_bullets": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "bullet.absorb();",
+          "rule": "The bullets absorbed this tick as a pure result (ForceProjector.java:60-66): enemy team, absorbable (BulletType.java:147, default true), not absorbed (BulletComp.java:53, default false), inside the regular polygon (sides 6, shieldRotation 0f) at the real radius, and only when realRadius > 0 && !broken (ForceProjector.java:260). Each entry is the bullet dict id (default: its index in the list). bullet.absorb() (BulletComp.java:100-101) is NOT applied to a live bullet.",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_update_tile_advance_state"
+          ]
+        },
+        "buildup_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "paramEntity.buildup += bullet.type.shieldDamage(bullet);",
+          "rule": "The buildup added by deflectBullets this tick as a pure result (ForceProjector.java:66): the sum of shield_damage over the absorbed bullets, where shieldDamage(bullet) = b.damage() * shieldDamageMultiplier (BulletType.java:665-666, multiplier default 1f). 0.0 when nothing is absorbed.",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_update_tile_advance_state"
+          ]
+        },
+        "real_radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "return (radius + phaseHeat * phaseRadiusBoost) * radscl;",
+          "rule": "The real shield radius after one tick (ForceProjector.java:280): (radius + phaseHeat * phaseRadiusBoost) * radscl with radius 101.7f, phaseRadiusBoost 80f, the NEW phaseHeat and the NEW radscl. The deflect gate needs it above 0 (ForceProjector.java:260).",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ForceProjectorUpdateTileProof",
+      "rule": "Source-backed ForceProjector updateTile advance from ForceProjector.java / Blocks.java / BuildingComp.java / TimerComp.java / Block.java / Tile.java / BulletType.java / BulletComp.java / EntityGroup.java / GroupDefs.java / Liquid.java / Team.java / Mathf.java / Intersector.java / Vec2.java / Time.java."
+    },
+    "source_base_shield_update_tile_advance_state_input": {
+      "status": "active",
+      "owner": "SourceBaseShieldBuildState.source_base_shield_update_tile_advance_state",
+      "source_slice": "N2236",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BaseShield.java",
+          "java_expr": "public float smoothRadius;",
+          "rule": "The building frame carrying the folded efficiency (stamped by apply_update_consumption_state), the current smooth_radius / team_id; Java field defaults smoothRadius 0.0 (BaseShield.java:85, no initializer), efficiency 0.0 (BuildingComp.java:85).",
+          "used_by": [
+            "SourceBaseShieldBuildState.source_base_shield_update_tile_advance_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BaseShield.java",
+          "java_expr": "smoothRadius = Mathf.lerpDelta(smoothRadius, radius * efficiency, 0.05f);",
+          "rule": "Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26): lerpDelta multiplies the 0.05f progress by Time.delta and clamps it (Mathf.java:430-432), so a 1/60s tick moves the smooth radius 5% of the way to radius * efficiency.",
+          "used_by": [
+            "SourceBaseShieldBuildState.source_base_shield_update_tile_advance_state"
+          ]
+        },
+        "shield_radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BaseShield.java",
+          "java_expr": "public float radius = 200f;",
+          "rule": "The block radius from the driver constant: the class default 200f (BaseShield.java:20) for the shield-projector, 400f (Blocks.java:2060) for the large-shield-projector, selected by block id (the Separator craftTime precedent): the lerpDelta target is radius * efficiency (BaseShield.java:89).",
+          "used_by": [
+            "SourceBaseShieldBuildState.source_base_shield_update_tile_advance_state"
+          ]
+        },
+        "building_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "return block().offset + worldx();",
+          "rule": "The building world x: Building x is tile.drawx() (BuildingComp.java:124), drawx is block.offset + tile.worldx() (Tile.java:175-176) with offset ((size + 1) % 2) * tilesize / 2f (Block.java:761) -- 0 for the size-3 shield-projector, 4 for the size-4 large-shield-projector; the scan rect center and the within / dst origin (BaseShield.java:96-97).",
+          "used_by": [
+            "SourceBaseShieldBuildState.source_base_shield_update_tile_advance_state"
+          ]
+        },
+        "building_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "return block().offset + worldy();",
+          "rule": "The building world y: Building y is tile.drawy() (BuildingComp.java:124), drawy is block.offset + tile.worldy() (Tile.java:179-180); the scan rect center and the within / dst origin (BaseShield.java:96-97).",
+          "used_by": [
+            "SourceBaseShieldBuildState.source_base_shield_update_tile_advance_state"
+          ]
+        },
+        "bullets": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BaseShield.java",
+          "java_expr": "Groups.bullet.intersect(x - rad, y - rad, rad * 2f, rad * 2f, bulletConsumer);",
+          "rule": "The explicit bullet candidate list -- the stand-in for the Groups.bullet.intersect rect result (EntityGroup.java:195, the consumer overload, QuadTree hitbox overlap over the spatial bullet group, GroupDefs.java:9): each a bullet dict with x / y / team / absorbable. The pure advance applies the bulletConsumer filter (enemy team + absorbable + strict within radius()) and returns the absorbed bullets as a pure result. The driver always passes an empty list -- no live bullet query.",
+          "used_by": [
+            "SourceBaseShieldBuildState.source_base_shield_update_tile_advance_state"
+          ]
+        },
+        "enemy_units": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BaseShield.java",
+          "java_expr": "Units.nearbyEnemies(team, x, y, rad + 10f, unitConsumer);",
+          "rule": "The explicit enemy-unit candidate list -- the stand-in for the Units.nearbyEnemies result (Units.java:482-487: rect scan rad + 10f, then the within(radius + hitSize/2f) filter, enemy-only): each a unit dict with x / y / hit_size. The pure advance applies the unitConsumer (overlapDst kill/repel) and returns repelled_units / killed_units as pure results. The driver always passes an empty list -- no live unit query.",
+          "used_by": [
+            "SourceBaseShieldBuildState.source_base_shield_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BaseShieldUpdateTileProof",
+      "rule": "Source-backed BaseShield updateTile advance from BaseShield.java / Blocks.java / BuildingComp.java / Units.java / EntityGroup.java / GroupDefs.java / BulletComp.java / BulletType.java / UnitComp.java / Team.java / Block.java / Tile.java / Mathf.java / Position.java / Vec2.java / Time.java."
+    },
+    "source_base_shield_update_tile_advance_state_result": {
+      "status": "active",
+      "owner": "SourceBaseShieldBuildState.source_base_shield_update_tile_advance_state",
+      "source_slice": "N2236",
+      "keys": {
+        "smooth_radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BaseShield.java",
+          "java_expr": "smoothRadius = Mathf.lerpDelta(smoothRadius, radius * efficiency, 0.05f);",
+          "rule": "The smoothRadius after one tick (BaseShield.java:89): lerpDelta toward radius * efficiency at 0.05f progress (Mathf.java:430-432, progress * Time.delta clamped); radius() returns it (BaseShield.java:101-103) and the rad > 1 gate (BaseShield.java:93) reads the NEW value.",
+          "used_by": [
+            "SourceBaseShieldBuildState.source_base_shield_update_tile_advance_state"
+          ]
+        },
+        "absorbed_bullets": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BaseShield.java",
+          "java_expr": "bullet.absorb();",
+          "rule": "The bullets absorbed this tick as a pure result (BaseShield.java:28-29): enemy team + absorbable (BulletType.java:147, default true) + strict within radius() (Position.java:44-46, dst2 < rad^2); exactly at the radius is OUT. The APPLICATION (absorbed = true + remove(), BulletComp.java:100-103) defers -- the port never writes into a live bullet frame. The hit/buildup lines (:33-34) are COMMENTED OUT, so absorb changes no shield state.",
+          "used_by": [
+            "SourceBaseShieldBuildState.source_base_shield_update_tile_advance_state"
+          ]
+        },
+        "repelled_units": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BaseShield.java",
+          "java_expr": "unit.move(Tmp.v1.set(unit).sub(paramBuild).setLength(overlapDst + 0.01f));",
+          "rule": "The units repelled this tick as a pure result (BaseShield.java:42-51): each entry carries the unit dict, the repel vector (repel_x / repel_y, (unit - build) setLength(overlapDst + 0.01f), zero when the unit sits exactly on the building -- Vec2.java:304-308), the overlap_dst, and stopped true (unit.vel.setZero(), BaseShield.java:48). Only when 0 < overlapDst <= hitSize * 1.5f (the boundary repels, it does not kill). The APPLICATION (vel.setZero / move on the live unit) defers.",
+          "used_by": [
+            "SourceBaseShieldBuildState.source_base_shield_update_tile_advance_state"
+          ]
+        },
+        "killed_units": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BaseShield.java",
+          "java_expr": "unit.kill();",
+          "rule": "The units instakilled this tick as a pure result (BaseShield.java:43-45): overlapDst > hitSize * 1.5f, strictly -- a unit stuck deep inside the shield. The APPLICATION (unit.kill(), UnitComp.java:974-978, Call.unitDeath) defers -- the port never writes into a live unit frame.",
+          "used_by": [
+            "SourceBaseShieldBuildState.source_base_shield_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BaseShieldUpdateTileProof",
+      "rule": "Source-backed BaseShield updateTile advance from BaseShield.java / Blocks.java / BuildingComp.java / Units.java / EntityGroup.java / GroupDefs.java / BulletComp.java / BulletType.java / UnitComp.java / Team.java / Block.java / Tile.java / Mathf.java / Position.java / Vec2.java / Time.java."
+    },
+    "source_mass_driver_update_tile_advance_state_input": {
+      "status": "active",
+      "owner": "SourceMassDriverBuildState.source_mass_driver_update_tile_advance_state",
+      "source_slice": "N2237",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "public void updateTile(){",
+          "rule": "The building frame carrying the updateTile state (MassDriver.java:133, link / rotation / reloadCounter / state / waitingShooters / items / efficiency): the live values the advance reads; missing keys fold to the Java field defaults.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_update_tile_advance_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "Time.delta in ticks (BuildingComp.java:1922-1924, delta() is Time.delta * timeScale): seconds * 60 through game_source_delta, never raw seconds.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_update_tile_advance_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The building timeScale (BuildingComp.java:98, default 1f): scales delta() and the bullet speed / lifetime.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_update_tile_advance_state"
+          ]
+        },
+        "item_capacity": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "itemCapacity = 120;",
+          "rule": "The def itemCapacity (Blocks.java:2170): the space gate (itemCapacity - items.total() >= minDistribute) and the fire cap (tile.block().itemCapacity - totalUsed).",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_update_tile_advance_state"
+          ]
+        },
+        "reload": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "reload = 200f;",
+          "rule": "The DEF reload (Blocks.java:2171, 200f): beats the class `public float reload = 100f;` (MassDriver.java:33); the reload decay divides edelta() by it.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_update_tile_advance_state"
+          ]
+        },
+        "rotate_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "public float rotateSpeed = 5f;",
+          "rule": "The class rotateSpeed (MassDriver.java:29, 5f): the moveToward step is rotateSpeed * efficiency.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_update_tile_advance_state"
+          ]
+        },
+        "min_distribute": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "public int minDistribute = 10;",
+          "rule": "The class minDistribute (MassDriver.java:31, 10): the space / stock gate for accepting and shooting.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_update_tile_advance_state"
+          ]
+        },
+        "bullet_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "public float bulletSpeed = 5.5f;",
+          "rule": "The class bulletSpeed (MassDriver.java:35, 5.5f): the fired bullet speed is bulletSpeed * timeScale.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_update_tile_advance_state"
+          ]
+        },
+        "bullet_lifetime": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "public float bulletLifetime = 200f;",
+          "rule": "The class bulletLifetime (MassDriver.java:36, 200f): the fired bullet lifetime is bulletLifetime / timeScale.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_update_tile_advance_state"
+          ]
+        },
+        "tile_pos": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "entity.link == pos()",
+          "rule": "This building packed position (MassDriver.java:343, the shooterValid link == pos() check): the identity registered on the partner waitingShooters and compared against the partner currentShooter.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_update_tile_advance_state"
+          ]
+        },
+        "self_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "float targetRotation = angleTo(link);",
+          "rule": "This building world x (MassDriver.java:187, angleTo(link) reads the self position): the angleTo origin, cell * tilesize from the driver.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_update_tile_advance_state"
+          ]
+        },
+        "self_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "float targetRotation = angleTo(link);",
+          "rule": "This building world y (MassDriver.java:187, angleTo(link) reads the self position): the angleTo origin, cell * tilesize from the driver.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_update_tile_advance_state"
+          ]
+        },
+        "linked": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "Building link = world.build(this.link);",
+          "rule": "The linked building snapshot (MassDriver.java:134, world.build(this.link)): exists / pos / is_mass_driver / same_block / same_team / within_range / item_capacity / items_total / state / rotation / waiting_shooters / x / y -- the linkValid inputs plus the fire-gate reads.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_update_tile_advance_state"
+          ]
+        },
+        "shooters": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "var current = currentShooter();",
+          "rule": "The waiting-shooter records by packed position (MassDriver.java:146, currentShooter() is the first of waitingShooters): is_mass_driver / is_valid / efficiency / same_block / link_equals_self / within_range / x / y -- the shooterValid inputs plus the accepting angleTo target.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_update_tile_advance_state"
+          ]
+        },
+        "item_order": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "for(int i = 0; i < content.items().size; i++){",
+          "rule": "The content-id item order (MassDriver.java:298, fire() iterates content.items()): the catalog item_names_by_id; an item outside the order is never fired.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07MassDriverUpdateTileProof",
+      "rule": "Source-backed MassDriver updateTile advance from MassDriver.java / BuildingComp.java / Blocks.java / Block.java / ItemModule.java."
+    },
+    "source_mass_driver_update_tile_advance_state_result": {
+      "status": "active",
+      "owner": "SourceMassDriverBuildState.source_mass_driver_update_tile_advance_state",
+      "source_slice": "N2237",
+      "keys": {
+        "link": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "this.link = link.pos();",
+          "rule": "The refreshed link (MassDriver.java:138): the linked building pos when hasLink holds, unchanged otherwise.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_update_tile_advance_state"
+          ]
+        },
+        "rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "rotation = Angles.moveToward(rotation, targetRotation, rotateSpeed * efficiency);",
+          "rule": "The advanced rotation (MassDriver.java:181 / :201): moveToward the shooter angle when accepting, the target rotation when shooting and reloaded.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_update_tile_advance_state"
+          ]
+        },
+        "reload_counter": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "reloadCounter = Mathf.clamp(reloadCounter - edelta() / reload);",
+          "rule": "The advanced reload counter (MassDriver.java:143): decayed by edelta() / reload regardless of state, clamped to [0, 1]; reset to 1f by fire().",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_update_tile_advance_state"
+          ]
+        },
+        "state": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "state = DriverState.idle;",
+          "rule": "The advanced driver state (MassDriver.java:157 / :159 / :176 / :185 / :216): idle / accepting / shooting after the switch and the branch bails.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_update_tile_advance_state"
+          ]
+        },
+        "waiting_shooters": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "waitingShooters.remove(current);",
+          "rule": "The advanced waiting list (MassDriver.java:150): the first entry removed when its shooter is no longer valid; insertion order kept.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_update_tile_advance_state"
+          ]
+        },
+        "items": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "items.remove(content.item(i), maxTransfer);",
+          "rule": "The advanced items (MassDriver.java:302): the fired amounts removed the moment fire() runs; unchanged when nothing fires.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_update_tile_advance_state"
+          ]
+        },
+        "partner_waiting_shooters": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "other.waitingShooters.add(this);",
+          "rule": "The linked building waiting list after registration (MassDriver.java:196, the cross-building write-back, the N2225 precedent): this building appended once when shooting with stock and link space; the driver writes it back onto the partner frame.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_update_tile_advance_state"
+          ]
+        },
+        "fired": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "fire(other);",
+          "rule": "Whether fire() ran this tick (MassDriver.java:207): the fire gate (first in queue + partner accepting + both angles near) held.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_update_tile_advance_state"
+          ]
+        },
+        "fired_items": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "int maxTransfer = Math.min(items.get(content.item(i)), tile.block().itemCapacity - totalUsed);",
+          "rule": "The fired amounts by item (MassDriver.java:299): min(held, self itemCapacity - totalUsed) per item in content-id order.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_update_tile_advance_state"
+          ]
+        },
+        "fired_total": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "totalUsed += maxTransfer;",
+          "rule": "The total fired items (MassDriver.java:301): the sum of the fired amounts; the bullet damage base.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_update_tile_advance_state"
+          ]
+        },
+        "bullet_damage": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "totalUsed/2f, bulletSpeed * timeScale, bulletLifetime / timeScale",
+          "rule": "The fired bullet damage (MassDriver.java:309): totalUsed/2f, float division.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_update_tile_advance_state"
+          ]
+        },
+        "bullet_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "totalUsed/2f, bulletSpeed * timeScale, bulletLifetime / timeScale",
+          "rule": "The fired bullet speed (MassDriver.java:309): bulletSpeed * timeScale.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_update_tile_advance_state"
+          ]
+        },
+        "bullet_lifetime": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "totalUsed/2f, bulletSpeed * timeScale, bulletLifetime / timeScale",
+          "rule": "The fired bullet lifetime (MassDriver.java:309): bulletLifetime / timeScale.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07MassDriverUpdateTileProof",
+      "rule": "Source-backed MassDriver updateTile advance from MassDriver.java / BuildingComp.java / Blocks.java / Block.java / ItemModule.java."
+    },
+    "source_launch_pad_update_tile_advance_state_input": {
+      "status": "active",
+      "owner": "SourceLaunchPadBuildState.source_launch_pad_update_tile_advance_state",
+      "source_slice": "N2238",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "public float launchCounter;",
+          "rule": "The building frame carrying the folded efficiency (stamped by apply_update_consumption_state), the launch state (launch_counter / items / launch_time) and the frame inputs; the advance reads launch_counter (default 0.0, LaunchPad.java:84), items (default {}, the empty ItemModule of a fresh build), launch_time (default 1.0, the class default, LaunchPad.java:32) and efficiency (default 0.0, BuildingComp.java:85 `transient float efficiency;`).",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_update_tile_advance_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26): the UNSCALED delta edelta() scales by efficiency and timeScale (BuildingComp.java:1922-1929).",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_update_tile_advance_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live timeScale read from the sprite meta (SourcePlacedBlockState.time_scale), default the game default 1.0 (BuildingComp.java:98); scales delta() and therefore edelta() (BuildingComp.java:1922-1929).",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_update_tile_advance_state"
+          ]
+        },
+        "item_capacity": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public int itemCapacity = 10;",
+          "rule": "The block itemCapacity from the catalog (both defs carry itemCapacity 100, Blocks.java:6793/6803); the Block class default is 10 (Block.java:75) when the catalog is silent. The launch gate fires when items.total() >= itemCapacity (LaunchPad.java:146).",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaunchPadUpdateTileProof",
+      "rule": "Source-backed LaunchPad updateTile advance from LaunchPad.java / BuildingComp.java / Blocks.java / Block.java / Consume.java / ItemModule.java."
+    },
+    "source_launch_pad_update_tile_advance_state_result": {
+      "status": "active",
+      "owner": "SourceLaunchPadBuildState.source_launch_pad_update_tile_advance_state",
+      "source_slice": "N2238",
+      "keys": {
+        "launched": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "if((launchCounter += edelta()) >= launchTime && items.total() >= itemCapacity){",
+          "rule": "Whether a launch fired this tick (LaunchPad.java:146): the counter (advanced by edelta first) reached launchTime AND items.total() reached itemCapacity.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_update_tile_advance_state"
+          ]
+        },
+        "launched_stacks": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "items.each((item, amount) -> entity.stacks.add(new ItemStack(item, amount)));",
+          "rule": "The stacks the launch carried (LaunchPad.java:151, the pure result, the N2234 spawned_unit precedent): a copy of the items dict taken before the clear, zero amounts skipped like ItemModule.each (ItemModule.java:100-106); {} when no launch fired. The live LaunchPayload entity creation/application (LaunchPad.java:150-155) defers.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_update_tile_advance_state"
+          ]
+        },
+        "launch_counter": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "launchCounter = 0f;",
+          "rule": "The launchCounter after this tick (LaunchPad.java:146/159): advanced by edelta() (efficiency * Time.delta * timeScale) when no launch fired, reset to 0f on launch. The reset reopens the shouldConsume gate (`return launchCounter < launchTime;`, LaunchPad.java:94) the NEXT tick.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_update_tile_advance_state"
+          ]
+        },
+        "items": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "items.clear();",
+          "rule": "The items after this tick (LaunchPad.java:157): {} (cleared) on launch, unchanged otherwise.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaunchPadUpdateTileProof",
+      "rule": "Source-backed LaunchPad updateTile advance from LaunchPad.java / BuildingComp.java / Blocks.java / Block.java / Consume.java / ItemModule.java."
+    },
+    "source_stack_conveyor_update_tile_advance_state_input": {
+      "status": "active",
+      "owner": "SourceStackConveyorBuildState.source_stack_conveyor_update_tile_advance_state",
+      "source_slice": "N2239",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "public void updateTile(){",
+          "rule": "The building frame carrying the folded efficiency (stamped by apply_update_consumption_state for the surge def; the no-consumers default 1f when enabled for plastanium, BuildingComp.java:1944-1946) and the current state / link / cooldown / last_item / items; missing keys default to the Java field defaults (state 0 = stateMove, link -1, cooldown 0f, lastItem null, items {}).",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_update_tile_advance_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26): the base of delta() = Time.delta * timeScale (BuildingComp.java:1922-1924), which the cooldown reel scales by -- RAW delta, not edelta.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_update_tile_advance_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live timeScale read from the sprite meta (SourcePlacedBlockState.time_scale), default 1.0 (BuildingComp.java:98): delta() = Time.delta * timeScale (BuildingComp.java:1922-1924).",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_update_tile_advance_state"
+          ]
+        },
+        "speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "speed = 5f / 60f;",
+          "rule": "The per-def speed (Blocks.java:2241 surge 5f/60f, :2087 plastanium 4f/60f) -- the catalog carries no speed property for either def, so the driver reads the per-def table (the N2219 precedent), falling back to the class default 0f (StackConveyor.java:38).",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_update_tile_advance_state"
+          ]
+        },
+        "base_efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "baseEfficiency = 1f;",
+          "rule": "The per-def baseEfficiency (Blocks.java:2250 surge 1f; plastanium the class default 0f, StackConveyor.java:37) -- the catalog carries no baseEfficiency property, so the driver reads the per-def table.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_update_tile_advance_state"
+          ]
+        },
+        "output_router": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "outputRouter = false;",
+          "rule": "The per-def outputRouter flag (Blocks.java:2244 surge false; plastanium the class default true, StackConveyor.java:39) -- the catalog carries no outputRouter property, so the driver reads the per-def table; it selects the moveForward branch (false) or the dump branch (true) in the unload loop.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_update_tile_advance_state"
+          ]
+        },
+        "recharge": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "public float recharge = 2f;",
+          "rule": "The recharge class constant 2f (StackConveyor.java:41): the cooldown clamp ceiling and the cooldown set on transfer (StackConveyor.java:311).",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_update_tile_advance_state"
+          ]
+        },
+        "item_capacity": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "itemCapacity = 10;",
+          "rule": "The item capacity 10 (StackConveyor.java:52, both defs) -- getMaximumAccepted(lastItem) is block.itemCapacity (BuildingComp.java:781-783), the transfer gate when state == stateLoad.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_update_tile_advance_state"
+          ]
+        },
+        "tile_pos": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "e.link = tile.pos();",
+          "rule": "This tile packed position (StackConveyor.java:307): the value written to the front build link on transfer.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_update_tile_advance_state"
+          ]
+        },
+        "front": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "if(front() instanceof StackConveyorBuild e && e.team == team && e.link == -1){",
+          "rule": "The front snapshot gathered by the driver (is_stack_conveyor / same_team / link / items / last_item / cooldown): the front() query (BuildingComp.java:550-554) is live, so the driver passes the no-front default ({}) and the transfer never fires live until the front-building lookup lands.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_update_tile_advance_state"
+          ]
+        },
+        "move_forward_ok": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public boolean moveForward(Item item){",
+          "rule": "Whether moveForward(lastItem) succeeds this tick (BuildingComp.java:1129-1137: front() exists, same team, acceptItem) -- the live neighbour operation defers, so the driver passes false; the bool is the per-tick live answer, assumed stable within the tick.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_update_tile_advance_state"
+          ]
+        },
+        "dump_ok": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public boolean dump(Item todump){",
+          "rule": "Whether dump(lastItem) succeeds this tick (BuildingComp.java:1072-1113: a proximity neighbour accepts + canDump, cdump rotation) -- the live neighbour operation defers, so the driver passes false; the bool is the per-tick live answer, assumed stable within the tick.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_update_tile_advance_state"
+          ]
+        },
+        "item_order": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/modules/ItemModule.java",
+          "java_expr": "for(int i = 0; i < items.length; i++){",
+          "rule": "The item names in content-id order (the catalog item_names_by_id): the order ItemModule.first() iterates (ItemModule.java:182-188) for the lastItem pick; with no catalog order the pure falls back to dict order (documented deviation).",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07StackConveyorUpdateTileProof",
+      "rule": "Source-backed StackConveyor updateTile advance from StackConveyor.java / BuildingComp.java / Blocks.java / ItemModule.java / Block.java."
+    },
+    "source_stack_conveyor_update_tile_advance_state_result": {
+      "status": "active",
+      "owner": "SourceStackConveyorBuildState.source_stack_conveyor_update_tile_advance_state",
+      "source_slice": "N2239",
+      "keys": {
+        "cooldown": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "if(cooldown > 0f) cooldown = Mathf.clamp(cooldown - speed * eff * delta(), 0f, recharge);",
+          "rule": "The advanced cooldown (StackConveyor.java:273/311): reeled by speed * eff * delta() with RAW delta, clamped to [0, recharge]; set to recharge on transfer. The reel runs before the link gate, so it reels even with link == -1 or when disabled.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_update_tile_advance_state"
+          ]
+        },
+        "link": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "link = -1;",
+          "rule": "The advanced link (StackConveyor.java:309/342): -1 after a transfer (the stack moved to the front) or after poofOut drains the last item; unchanged otherwise.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_update_tile_advance_state"
+          ]
+        },
+        "last_item": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "lastItem = items.first();",
+          "rule": "The advanced last item (StackConveyor.java:282-284/297): picked as items.first() in content-id order when null or no longer held; null after the unload branch drains it (poofOut). The pick runs before the !enabled return, so a disabled conveyor still picks.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_update_tile_advance_state"
+          ]
+        },
+        "items": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "items.clear();",
+          "rule": "The self items after the advance (StackConveyor.java:291-293/310): drained one by one in the unload loop (items.remove(lastItem, 1) per iteration), cleared wholesale on transfer (items.clear()).",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_update_tile_advance_state"
+          ]
+        },
+        "unloaded": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "items.remove(lastItem, 1);",
+          "rule": "The count unloaded in the unload branch (StackConveyor.java:290-300): one per successful moveForward/dump iteration until lastItem runs out (poofOut) or the neighbour stops accepting.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_update_tile_advance_state"
+          ]
+        },
+        "transferred": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "cooldown = recharge;",
+          "rule": "Whether the transfer fired this tick (StackConveyor.java:301-314): state != stateLoad || total >= getMaximumAccepted, front is a same-team StackConveyorBuild with link == -1; cooldown = recharge marks the fired transfer.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_update_tile_advance_state"
+          ]
+        },
+        "front_items": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "e.items.add(items);",
+          "rule": "The front items after the transfer (StackConveyor.java:304; ItemModule.add(ItemModule), ItemModule.java:228-232): the whole self stack added with NO capacity cap in Java, so the pure caps nothing.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_update_tile_advance_state"
+          ]
+        },
+        "front_last_item": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "e.lastItem = lastItem;",
+          "rule": "The front last item after the transfer (StackConveyor.java:305): the transferred lastItem.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_update_tile_advance_state"
+          ]
+        },
+        "front_link": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "e.link = tile.pos();",
+          "rule": "The front link after the transfer (StackConveyor.java:306): this tile packed position.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_update_tile_advance_state"
+          ]
+        },
+        "front_cooldown": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "e.cooldown = 1;",
+          "rule": "The front cooldown after the transfer (StackConveyor.java:312): 1 (the front build starts reeling the received stack).",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07StackConveyorUpdateTileProof",
+      "rule": "Source-backed StackConveyor updateTile advance from StackConveyor.java / BuildingComp.java / Blocks.java / ItemModule.java / Block.java."
+    },
+    "source_stack_router_update_tile_advance_state_input": {
+      "status": "active",
+      "owner": "SourceStackRouterBuildState.source_stack_router_update_tile_advance_state",
+      "source_slice": "N2240",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackRouter.java",
+          "java_expr": "public boolean unloading = false;",
+          "rule": "The building frame carrying the folded efficiency (stamped by apply_update_consumption_state), enabled, and the advance state unloading / current / progress / items; Java field defaults unloading false (StackRouter.java:25), current null + progress 0.0 (DuctRouter.java:79-80), efficiency 0.0 (BuildingComp.java:85), enabled true (BuildingComp.java:77), items empty.",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_update_tile_advance_state"
+          ]
+        },
+        "speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "speed = 6f;",
+          "rule": "The def speed from the driver constant (6f for the surge-router, Blocks.java:2259; class default 5f, DuctRouter.java:19): the charge cap, `float cap = speed;` (StackRouter.java:30).",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_update_tile_advance_state"
+          ]
+        },
+        "base_efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "baseEfficiency = 1f;",
+          "rule": "The def baseEfficiency from the driver constant (1f for the surge-router, Blocks.java:2265; class default 0f, StackRouter.java:12): the eff floor, `float eff = enabled ? (efficiency + baseEfficiency) : 0f;` (StackRouter.java:29).",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_update_tile_advance_state"
+          ]
+        },
+        "item_capacity": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackRouter.java",
+          "java_expr": "itemCapacity = 10;",
+          "rule": "The def itemCapacity from the driver constant (10, StackRouter.java:20, also the Block default, Block.java:75): the charge gate, `items.total() >= itemCapacity` (StackRouter.java:32).",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_update_tile_advance_state"
+          ]
+        },
+        "targets": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackRouter.java",
+          "java_expr": "var target = target();",
+          "rule": "The explicit ordered handoff-target list (each entry a dict with an \"id\"): the stand-in for the DuctRouter.target() live proximity query (DuctRouter.java:139-156). Each entry models one target() call result, popped in order per handoff (cdump rotation simulated by list order); the driver always passes an empty list -- no live proximity query -- so no live handoff happens.",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_update_tile_advance_state"
+          ]
+        },
+        "item_order": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/modules/ItemModule.java",
+          "java_expr": "return content.item(i);",
+          "rule": "The catalog item order (item_names_by_id, the content-id order ItemModule.first() scans, ItemModule.java:182-189): the first() scan order for the current pick (StackRouter.java:62-63). Empty means no content order is known and nothing is picked.",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07StackRouterUpdateTileProof",
+      "rule": "Source-backed StackRouter updateTile advance from StackRouter.java / DuctRouter.java / ItemModule.java / BuildingComp.java / Block.java / Blocks.java."
+    },
+    "source_stack_router_update_tile_advance_state_result": {
+      "status": "active",
+      "owner": "SourceStackRouterBuildState.source_stack_router_update_tile_advance_state",
+      "source_slice": "N2240",
+      "keys": {
+        "unloading": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackRouter.java",
+          "java_expr": "unloading = true;",
+          "rule": "Whether the router is unloading after one tick (StackRouter.java:38-40 + 56-58 + 66-68): true when the charge reached the cap, false when the current item ran dry or the store emptied.",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_update_tile_advance_state"
+          ]
+        },
+        "current": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackRouter.java",
+          "java_expr": "current = items.first();",
+          "rule": "The current item after one tick (StackRouter.java:57 + 62-63 + 68): null when the current item ran dry or the store emptied, otherwise the kept item or the first held item in content-id order.",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_update_tile_advance_state"
+          ]
+        },
+        "progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackRouter.java",
+          "java_expr": "progress += eff;",
+          "rule": "The progress after one tick (StackRouter.java:33-40): charged by eff (no delta multiply) while full with a current item, wrapped by progress %= cap on reaching the cap, untouched otherwise.",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_update_tile_advance_state"
+          ]
+        },
+        "items": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackRouter.java",
+          "java_expr": "items.remove(current, 1);",
+          "rule": "The items after one tick (StackRouter.java:48-52): one unit of the current item removed per handoff (clamped like ItemModule.remove, ItemModule.java:258-262); zero-count keys stay in the dict, so callers read counts, never key presence.",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_update_tile_advance_state"
+          ]
+        },
+        "handed_off": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackRouter.java",
+          "java_expr": "target.handleItem(this, current);",
+          "rule": "How many items were handed off this tick as a pure result (StackRouter.java:48-52): one per targets entry consumed while the current count stayed above zero. The APPLICATION (target.handleItem writing into another building frame) defers.",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_update_tile_advance_state"
+          ]
+        },
+        "handed_to": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackRouter.java",
+          "java_expr": "target = target();",
+          "rule": "The handoff target ids in handoff order as a pure result (StackRouter.java:47 + 52): one id per handoff, following the explicit targets list order (the cdump-rotation stand-in).",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07StackRouterUpdateTileProof",
+      "rule": "Source-backed StackRouter updateTile advance from StackRouter.java / DuctRouter.java / ItemModule.java / BuildingComp.java / Block.java / Blocks.java."
+    },
+    "source_light_block_smooth_time_state_input": {
+      "status": "active",
+      "owner": "SourceLightBlockBuildState.source_light_block_smooth_time_state",
+      "source_slice": "N2241",
+      "keys": {
+        "smooth_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+          "java_expr": "public float smoothTime = 1f;",
+          "rule": "The frame smoothTime before this tick (LightBlock.java:69): starts at 1f, lerped toward timeScale by updateTile.",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_smooth_time_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The building live timeScale (BuildingComp.java:98), read through timeScale() (BuildingComp.java:599-601): the lerp target; the port reads it from the sprite time-scale meta, default 1.0.",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_smooth_time_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/util/Time.java",
+          "java_expr": "private static Floatp deltaimpl = () -> Math.min(Core.graphics.getDeltaTime() * 60f, 3f);",
+          "rule": "Time.delta in 60fps ticks (arc Time.java:26): the driver converts its seconds argument with seconds * 60 at the live-loop boundary (the N2093 pump precedent).",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_smooth_time_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LightBlockUpdateTileProof",
+      "rule": "Source-backed LightBlock smoothTime advance from LightBlock.java / BuildingComp.java / Arc Mathf.java."
+    },
+    "source_light_block_smooth_time_state_result": {
+      "status": "active",
+      "owner": "SourceLightBlockBuildState.source_light_block_smooth_time_state",
+      "source_slice": "N2241",
+      "keys": {
+        "smooth_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+          "java_expr": "smoothTime = Mathf.lerpDelta(smoothTime, timeScale, 0.1f);",
+          "rule": "The advanced smoothTime after one updateTile lerpDelta step (LightBlock.java:105): lerp toward timeScale with progress 0.1f, delta-corrected by Time.delta.",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_smooth_time_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LightBlockUpdateTileProof",
+      "rule": "Source-backed LightBlock smoothTime advance from LightBlock.java / BuildingComp.java / Arc Mathf.java."
     }
   },
   "version": 1

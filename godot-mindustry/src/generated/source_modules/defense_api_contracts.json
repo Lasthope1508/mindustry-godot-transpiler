@@ -6512,6 +6512,65 @@
       "rule": "Source-backed BaseShield power.status row from ConsumePower.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceBaseShieldBuildState.source_base_shield_update_tile_advance_state": {
+      "canonical_contract": "source_api_contracts.SourceBaseShieldBuildState.source_base_shield_update_tile_advance_state",
+      "status": "active",
+      "source_slice": "N2236",
+      "java_source": "core/src/mindustry/world/blocks/defense/BaseShield.java",
+      "source_method": "BaseShieldBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_base_shield_update_tile_advance_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_base_shield_update_tile_advance_state_input.source_delta"
+        },
+        {
+          "name": "shield_radius",
+          "type": "float",
+          "schema": "source_base_shield_update_tile_advance_state_input.shield_radius"
+        },
+        {
+          "name": "building_x",
+          "type": "float",
+          "schema": "source_base_shield_update_tile_advance_state_input.building_x"
+        },
+        {
+          "name": "building_y",
+          "type": "float",
+          "schema": "source_base_shield_update_tile_advance_state_input.building_y"
+        },
+        {
+          "name": "bullets",
+          "type": "Array",
+          "schema": "source_base_shield_update_tile_advance_state_input.bullets"
+        },
+        {
+          "name": "enemy_units",
+          "type": "Array",
+          "schema": "source_base_shield_update_tile_advance_state_input.enemy_units"
+        }
+      ],
+      "return_keys": [
+        "smooth_radius",
+        "absorbed_bullets",
+        "repelled_units",
+        "killed_units"
+      ],
+      "tests": [
+        "test_c07_base_shield_update_tile_registration",
+        "test_all_c07_base_shield_update_tile_input_evidence_is_exact",
+        "test_base_shield_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_base_shield_update_tile"
+      ],
+      "runtime_proof": "/root/C07BaseShieldUpdateTileProof",
+      "rule": "Source-backed BaseShield updateTile advance from BaseShield.java / Blocks.java / BuildingComp.java / Units.java / EntityGroup.java / GroupDefs.java / BulletComp.java / BulletType.java / UnitComp.java / Team.java / Block.java / Tile.java / Mathf.java / Position.java / Vec2.java / Time.java.",
+      "return_type": "Dictionary"
+    },
     "SourceBuildTurretBuildState.source_build_turret_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourceBuildTurretBuildState.source_build_turret_power_status_row_state",
       "status": "active",
@@ -6721,6 +6780,96 @@
       ],
       "runtime_proof": "/root/C07ForceProjectorPowerStatusProof",
       "rule": "Source-backed ForceProjector power.status row from ConsumePower.java / BuildingComp.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceForceProjectorBuildState.source_force_projector_update_tile_advance_state": {
+      "canonical_contract": "source_api_contracts.SourceForceProjectorBuildState.source_force_projector_update_tile_advance_state",
+      "status": "active",
+      "source_slice": "N2235",
+      "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+      "source_method": "ForceBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_force_projector_update_tile_advance_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_force_projector_update_tile_advance_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_force_projector_update_tile_advance_state_input.time_scale"
+        },
+        {
+          "name": "building_x",
+          "type": "float",
+          "schema": "source_force_projector_update_tile_advance_state_input.building_x"
+        },
+        {
+          "name": "building_y",
+          "type": "float",
+          "schema": "source_force_projector_update_tile_advance_state_input.building_y"
+        },
+        {
+          "name": "bullets",
+          "type": "Array",
+          "schema": "source_force_projector_update_tile_advance_state_input.bullets"
+        },
+        {
+          "name": "consume_tick",
+          "type": "bool",
+          "schema": "source_force_projector_update_tile_advance_state_input.consume_tick"
+        },
+        {
+          "name": "item_consumer_present",
+          "type": "bool",
+          "schema": "source_force_projector_update_tile_advance_state_input.item_consumer_present"
+        },
+        {
+          "name": "item_consumer_efficiency",
+          "type": "float",
+          "schema": "source_force_projector_update_tile_advance_state_input.item_consumer_efficiency"
+        },
+        {
+          "name": "coolant_present",
+          "type": "bool",
+          "schema": "source_force_projector_update_tile_advance_state_input.coolant_present"
+        },
+        {
+          "name": "coolant_efficiency",
+          "type": "float",
+          "schema": "source_force_projector_update_tile_advance_state_input.coolant_efficiency"
+        },
+        {
+          "name": "coolant_heat_capacity",
+          "type": "float",
+          "schema": "source_force_projector_update_tile_advance_state_input.coolant_heat_capacity"
+        }
+      ],
+      "return_keys": [
+        "phase_heat",
+        "radscl",
+        "warmup",
+        "buildup",
+        "broken",
+        "hit",
+        "consumed",
+        "absorbed_bullets",
+        "buildup_delta",
+        "real_radius"
+      ],
+      "tests": [
+        "test_c07_force_projector_update_tile_registration",
+        "test_all_c07_force_projector_update_tile_input_evidence_is_exact",
+        "test_force_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_force_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07ForceProjectorUpdateTileProof",
+      "rule": "Source-backed ForceProjector updateTile advance from ForceProjector.java / Blocks.java / BuildingComp.java / TimerComp.java / Block.java / Tile.java / BulletType.java / BulletComp.java / EntityGroup.java / GroupDefs.java / Liquid.java / Team.java / Mathf.java / Intersector.java / Vec2.java / Time.java.",
       "return_type": "Dictionary"
     },
     "SourceMendProjectorBuildState.source_mend_projector_power_status_row_state": {

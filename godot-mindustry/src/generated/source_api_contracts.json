@@ -67890,6 +67890,487 @@
       ],
       "runtime_proof": "/root/C07UnitCargoLoaderUpdateTileProof",
       "rule": "Source-backed UnitCargoLoader updateTile advance from UnitCargoLoader.java / BuildingComp.java / Blocks.java / Units.java / UnitType.java / Block.java."
+    },
+    "SourceForceProjectorBuildState.source_force_projector_update_tile_advance_state": {
+      "status": "active",
+      "source_slice": "N2235",
+      "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+      "source_method": "ForceBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_force_projector_update_tile_advance_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_force_projector_update_tile_advance_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_force_projector_update_tile_advance_state_input.time_scale"
+        },
+        {
+          "name": "building_x",
+          "type": "float",
+          "schema": "source_force_projector_update_tile_advance_state_input.building_x"
+        },
+        {
+          "name": "building_y",
+          "type": "float",
+          "schema": "source_force_projector_update_tile_advance_state_input.building_y"
+        },
+        {
+          "name": "bullets",
+          "type": "Array",
+          "schema": "source_force_projector_update_tile_advance_state_input.bullets"
+        },
+        {
+          "name": "consume_tick",
+          "type": "bool",
+          "schema": "source_force_projector_update_tile_advance_state_input.consume_tick"
+        },
+        {
+          "name": "item_consumer_present",
+          "type": "bool",
+          "schema": "source_force_projector_update_tile_advance_state_input.item_consumer_present"
+        },
+        {
+          "name": "item_consumer_efficiency",
+          "type": "float",
+          "schema": "source_force_projector_update_tile_advance_state_input.item_consumer_efficiency"
+        },
+        {
+          "name": "coolant_present",
+          "type": "bool",
+          "schema": "source_force_projector_update_tile_advance_state_input.coolant_present"
+        },
+        {
+          "name": "coolant_efficiency",
+          "type": "float",
+          "schema": "source_force_projector_update_tile_advance_state_input.coolant_efficiency"
+        },
+        {
+          "name": "coolant_heat_capacity",
+          "type": "float",
+          "schema": "source_force_projector_update_tile_advance_state_input.coolant_heat_capacity"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "phase_heat",
+        "radscl",
+        "warmup",
+        "buildup",
+        "broken",
+        "hit",
+        "consumed",
+        "absorbed_bullets",
+        "buildup_delta",
+        "real_radius"
+      ],
+      "tests": [
+        "test_c07_force_projector_update_tile_registration",
+        "test_all_c07_force_projector_update_tile_input_evidence_is_exact",
+        "test_force_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_force_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07ForceProjectorUpdateTileProof",
+      "rule": "Source-backed ForceProjector updateTile advance from ForceProjector.java / Blocks.java / BuildingComp.java / TimerComp.java / Block.java / Tile.java / BulletType.java / BulletComp.java / EntityGroup.java / GroupDefs.java / Liquid.java / Team.java / Mathf.java / Intersector.java / Vec2.java / Time.java."
+    },
+    "SourceBaseShieldBuildState.source_base_shield_update_tile_advance_state": {
+      "status": "active",
+      "source_slice": "N2236",
+      "java_source": "core/src/mindustry/world/blocks/defense/BaseShield.java",
+      "source_method": "BaseShieldBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_base_shield_update_tile_advance_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_base_shield_update_tile_advance_state_input.source_delta"
+        },
+        {
+          "name": "shield_radius",
+          "type": "float",
+          "schema": "source_base_shield_update_tile_advance_state_input.shield_radius"
+        },
+        {
+          "name": "building_x",
+          "type": "float",
+          "schema": "source_base_shield_update_tile_advance_state_input.building_x"
+        },
+        {
+          "name": "building_y",
+          "type": "float",
+          "schema": "source_base_shield_update_tile_advance_state_input.building_y"
+        },
+        {
+          "name": "bullets",
+          "type": "Array",
+          "schema": "source_base_shield_update_tile_advance_state_input.bullets"
+        },
+        {
+          "name": "enemy_units",
+          "type": "Array",
+          "schema": "source_base_shield_update_tile_advance_state_input.enemy_units"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "smooth_radius",
+        "absorbed_bullets",
+        "repelled_units",
+        "killed_units"
+      ],
+      "tests": [
+        "test_c07_base_shield_update_tile_registration",
+        "test_all_c07_base_shield_update_tile_input_evidence_is_exact",
+        "test_base_shield_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_base_shield_update_tile"
+      ],
+      "runtime_proof": "/root/C07BaseShieldUpdateTileProof",
+      "rule": "Source-backed BaseShield updateTile advance from BaseShield.java / Blocks.java / BuildingComp.java / Units.java / EntityGroup.java / GroupDefs.java / BulletComp.java / BulletType.java / UnitComp.java / Team.java / Block.java / Tile.java / Mathf.java / Position.java / Vec2.java / Time.java."
+    },
+    "SourceMassDriverBuildState.source_mass_driver_update_tile_advance_state": {
+      "status": "active",
+      "source_slice": "N2237",
+      "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+      "source_method": "MassDriverBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_mass_driver_update_tile_advance_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_mass_driver_update_tile_advance_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_mass_driver_update_tile_advance_state_input.time_scale"
+        },
+        {
+          "name": "item_capacity",
+          "type": "int",
+          "schema": "source_mass_driver_update_tile_advance_state_input.item_capacity"
+        },
+        {
+          "name": "reload",
+          "type": "float",
+          "schema": "source_mass_driver_update_tile_advance_state_input.reload"
+        },
+        {
+          "name": "rotate_speed",
+          "type": "float",
+          "schema": "source_mass_driver_update_tile_advance_state_input.rotate_speed"
+        },
+        {
+          "name": "min_distribute",
+          "type": "int",
+          "schema": "source_mass_driver_update_tile_advance_state_input.min_distribute"
+        },
+        {
+          "name": "bullet_speed",
+          "type": "float",
+          "schema": "source_mass_driver_update_tile_advance_state_input.bullet_speed"
+        },
+        {
+          "name": "bullet_lifetime",
+          "type": "float",
+          "schema": "source_mass_driver_update_tile_advance_state_input.bullet_lifetime"
+        },
+        {
+          "name": "tile_pos",
+          "type": "int",
+          "schema": "source_mass_driver_update_tile_advance_state_input.tile_pos"
+        },
+        {
+          "name": "self_x",
+          "type": "float",
+          "schema": "source_mass_driver_update_tile_advance_state_input.self_x"
+        },
+        {
+          "name": "self_y",
+          "type": "float",
+          "schema": "source_mass_driver_update_tile_advance_state_input.self_y"
+        },
+        {
+          "name": "linked",
+          "type": "Dictionary",
+          "schema": "source_mass_driver_update_tile_advance_state_input.linked"
+        },
+        {
+          "name": "shooters",
+          "type": "Dictionary",
+          "schema": "source_mass_driver_update_tile_advance_state_input.shooters"
+        },
+        {
+          "name": "item_order",
+          "type": "Array",
+          "schema": "source_mass_driver_update_tile_advance_state_input.item_order"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "link",
+        "rotation",
+        "reload_counter",
+        "state",
+        "waiting_shooters",
+        "items",
+        "partner_waiting_shooters",
+        "fired",
+        "fired_items",
+        "fired_total",
+        "bullet_damage",
+        "bullet_speed",
+        "bullet_lifetime"
+      ],
+      "tests": [
+        "test_c07_mass_driver_update_tile_registration",
+        "test_all_c07_mass_driver_update_tile_input_evidence_is_exact",
+        "test_mass_driver_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_mass_driver_update_tile"
+      ],
+      "runtime_proof": "/root/C07MassDriverUpdateTileProof",
+      "rule": "Source-backed MassDriver updateTile advance from MassDriver.java / BuildingComp.java / Blocks.java / Block.java / ItemModule.java."
+    },
+    "SourceLaunchPadBuildState.source_launch_pad_update_tile_advance_state": {
+      "status": "active",
+      "source_slice": "N2238",
+      "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+      "source_method": "LaunchPadBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_launch_pad_update_tile_advance_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_launch_pad_update_tile_advance_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_launch_pad_update_tile_advance_state_input.time_scale"
+        },
+        {
+          "name": "item_capacity",
+          "type": "int",
+          "schema": "source_launch_pad_update_tile_advance_state_input.item_capacity"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "launched",
+        "launched_stacks",
+        "launch_counter",
+        "items"
+      ],
+      "tests": [
+        "test_c07_launch_pad_update_tile_registration",
+        "test_all_c07_launch_pad_update_tile_input_evidence_is_exact",
+        "test_launch_pad_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_launch_pad_update_tile"
+      ],
+      "runtime_proof": "/root/C07LaunchPadUpdateTileProof",
+      "rule": "Source-backed LaunchPad updateTile advance from LaunchPad.java / BuildingComp.java / Blocks.java / Block.java / Consume.java / ItemModule.java."
+    },
+    "SourceStackConveyorBuildState.source_stack_conveyor_update_tile_advance_state": {
+      "status": "active",
+      "source_slice": "N2239",
+      "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+      "source_method": "StackConveyorBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_stack_conveyor_update_tile_advance_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_stack_conveyor_update_tile_advance_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_stack_conveyor_update_tile_advance_state_input.time_scale"
+        },
+        {
+          "name": "speed",
+          "type": "float",
+          "schema": "source_stack_conveyor_update_tile_advance_state_input.speed"
+        },
+        {
+          "name": "base_efficiency",
+          "type": "float",
+          "schema": "source_stack_conveyor_update_tile_advance_state_input.base_efficiency"
+        },
+        {
+          "name": "output_router",
+          "type": "bool",
+          "schema": "source_stack_conveyor_update_tile_advance_state_input.output_router"
+        },
+        {
+          "name": "recharge",
+          "type": "float",
+          "schema": "source_stack_conveyor_update_tile_advance_state_input.recharge"
+        },
+        {
+          "name": "item_capacity",
+          "type": "int",
+          "schema": "source_stack_conveyor_update_tile_advance_state_input.item_capacity"
+        },
+        {
+          "name": "tile_pos",
+          "type": "int",
+          "schema": "source_stack_conveyor_update_tile_advance_state_input.tile_pos"
+        },
+        {
+          "name": "front",
+          "type": "Dictionary",
+          "schema": "source_stack_conveyor_update_tile_advance_state_input.front"
+        },
+        {
+          "name": "move_forward_ok",
+          "type": "bool",
+          "schema": "source_stack_conveyor_update_tile_advance_state_input.move_forward_ok"
+        },
+        {
+          "name": "dump_ok",
+          "type": "bool",
+          "schema": "source_stack_conveyor_update_tile_advance_state_input.dump_ok"
+        },
+        {
+          "name": "item_order",
+          "type": "Array",
+          "schema": "source_stack_conveyor_update_tile_advance_state_input.item_order"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "cooldown",
+        "link",
+        "last_item",
+        "items",
+        "unloaded",
+        "transferred",
+        "front_items",
+        "front_last_item",
+        "front_link",
+        "front_cooldown"
+      ],
+      "tests": [
+        "test_c07_stack_conveyor_update_tile_registration",
+        "test_all_c07_stack_conveyor_update_tile_input_evidence_is_exact",
+        "test_stack_conveyor_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_stack_conveyor_update_tile"
+      ],
+      "runtime_proof": "/root/C07StackConveyorUpdateTileProof",
+      "rule": "Source-backed StackConveyor updateTile advance from StackConveyor.java / BuildingComp.java / Blocks.java / ItemModule.java / Block.java."
+    },
+    "SourceStackRouterBuildState.source_stack_router_update_tile_advance_state": {
+      "status": "active",
+      "source_slice": "N2240",
+      "java_source": "core/src/mindustry/world/blocks/distribution/StackRouter.java",
+      "source_method": "StackRouterBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_stack_router_update_tile_advance_state_input.frame"
+        },
+        {
+          "name": "speed",
+          "type": "float",
+          "schema": "source_stack_router_update_tile_advance_state_input.speed"
+        },
+        {
+          "name": "base_efficiency",
+          "type": "float",
+          "schema": "source_stack_router_update_tile_advance_state_input.base_efficiency"
+        },
+        {
+          "name": "item_capacity",
+          "type": "int",
+          "schema": "source_stack_router_update_tile_advance_state_input.item_capacity"
+        },
+        {
+          "name": "targets",
+          "type": "Array",
+          "schema": "source_stack_router_update_tile_advance_state_input.targets"
+        },
+        {
+          "name": "item_order",
+          "type": "Array",
+          "schema": "source_stack_router_update_tile_advance_state_input.item_order"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "unloading",
+        "current",
+        "progress",
+        "items",
+        "handed_off",
+        "handed_to"
+      ],
+      "tests": [
+        "test_c07_stack_router_update_tile_registration",
+        "test_all_c07_stack_router_update_tile_input_evidence_is_exact",
+        "test_stack_router_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_stack_router_update_tile"
+      ],
+      "runtime_proof": "/root/C07StackRouterUpdateTileProof",
+      "rule": "Source-backed StackRouter updateTile advance from StackRouter.java / DuctRouter.java / ItemModule.java / BuildingComp.java / Block.java / Blocks.java."
+    },
+    "SourceLightBlockBuildState.source_light_block_smooth_time_state": {
+      "status": "active",
+      "source_slice": "N2241",
+      "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+      "source_method": "LightBuild.updateTile()",
+      "params": [
+        {
+          "name": "smooth_time",
+          "type": "float",
+          "schema": "source_light_block_smooth_time_state_input.smooth_time"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_light_block_smooth_time_state_input.time_scale"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_light_block_smooth_time_state_input.source_delta"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "smooth_time"
+      ],
+      "tests": [
+        "test_c07_light_block_update_tile_registration",
+        "test_all_c07_light_block_update_tile_input_evidence_is_exact",
+        "test_light_block_update_tile_state",
+        "test_reference_graph_and_actual_c07_light_block_update_tile"
+      ],
+      "runtime_proof": "/root/C07LightBlockUpdateTileProof",
+      "rule": "Source-backed LightBlock smoothTime advance from LightBlock.java / BuildingComp.java / Arc Mathf.java."
     }
   },
   "policy": {

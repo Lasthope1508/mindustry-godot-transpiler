@@ -3055,6 +3055,52 @@
       ],
       "runtime_proof": "/root/C07TractorBeamUpdateTileProof"
     },
+    "N2235": {
+      "canonical_ledger": "source_slice_ledger.N2235",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+      "java_method": "ForceBuild.updateTile()",
+      "godot_owner": "SourceForceProjectorBuildState.source_force_projector_update_tile_advance_state",
+      "source_symbols": [
+        "source_force_projector_update_tile_advance_state_result.phase_heat",
+        "source_force_projector_update_tile_advance_state_result.radscl",
+        "source_force_projector_update_tile_advance_state_result.warmup",
+        "source_force_projector_update_tile_advance_state_result.buildup",
+        "source_force_projector_update_tile_advance_state_result.broken",
+        "source_force_projector_update_tile_advance_state_result.hit",
+        "source_force_projector_update_tile_advance_state_result.consumed",
+        "source_force_projector_update_tile_advance_state_result.absorbed_bullets",
+        "source_force_projector_update_tile_advance_state_result.buildup_delta",
+        "source_force_projector_update_tile_advance_state_result.real_radius"
+      ],
+      "tests": [
+        "test_c07_force_projector_update_tile_registration",
+        "test_all_c07_force_projector_update_tile_input_evidence_is_exact",
+        "test_force_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_force_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07ForceProjectorUpdateTileProof"
+    },
+    "N2236": {
+      "canonical_ledger": "source_slice_ledger.N2236",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/BaseShield.java",
+      "java_method": "BaseShieldBuild.updateTile()",
+      "godot_owner": "SourceBaseShieldBuildState.source_base_shield_update_tile_advance_state",
+      "source_symbols": [
+        "source_base_shield_update_tile_advance_state_result.smooth_radius",
+        "source_base_shield_update_tile_advance_state_result.absorbed_bullets",
+        "source_base_shield_update_tile_advance_state_result.repelled_units",
+        "source_base_shield_update_tile_advance_state_result.killed_units"
+      ],
+      "tests": [
+        "test_c07_base_shield_update_tile_registration",
+        "test_all_c07_base_shield_update_tile_input_evidence_is_exact",
+        "test_base_shield_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_base_shield_update_tile"
+      ],
+      "runtime_proof": "/root/C07BaseShieldUpdateTileProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

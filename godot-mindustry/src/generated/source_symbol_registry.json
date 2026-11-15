@@ -175976,6 +175976,774 @@
         "test_reference_graph_and_actual_c07_unit_cargo_loader_update_tile"
       ],
       "runtime_proof": "/root/C07UnitCargoLoaderUpdateTileProof"
+    },
+    "source_force_projector_update_tile_advance_state_result.phase_heat": {
+      "status": "source-backed",
+      "godot_owner": "SourceForceProjectorBuildState.source_force_projector_update_tile_advance_state",
+      "godot_symbol": "source_force_projector_update_tile_advance_state_result.phase_heat",
+      "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+      "java_method": "ForceBuild.updateTile()",
+      "java_expr": "phaseHeat = Mathf.lerpDelta(phaseHeat, Mathf.num(phaseValid), 0.1f);",
+      "rule": "The phase heat after one tick (ForceProjector.java:210): lerpDelta toward num(phaseValid) at 0.1f, where phaseValid is itemConsumer != null && itemConsumer.efficiency > 0 (ForceProjector.java:208) and num is 1 / 0 (Mathf.java:208-210). lerpDelta multiplies the progress by Time.delta once more (Mathf.java:430-432).",
+      "tests": [
+        "test_c07_force_projector_update_tile_registration",
+        "test_all_c07_force_projector_update_tile_input_evidence_is_exact",
+        "test_force_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_force_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07ForceProjectorUpdateTileProof"
+    },
+    "source_force_projector_update_tile_advance_state_result.radscl": {
+      "status": "source-backed",
+      "godot_owner": "SourceForceProjectorBuildState.source_force_projector_update_tile_advance_state",
+      "godot_symbol": "source_force_projector_update_tile_advance_state_result.radscl",
+      "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+      "java_method": "ForceBuild.updateTile()",
+      "java_expr": "radscl = Mathf.lerpDelta(radscl, broken ? 0f : warmup, 0.05f);",
+      "rule": "The radius scale after one tick (ForceProjector.java:216): lerpDelta toward 0 when broken, toward the OLD warmup otherwise, at 0.05f -- the radscl line runs BEFORE the warmup update (:222), so it folds the incoming warmup.",
+      "tests": [
+        "test_c07_force_projector_update_tile_registration",
+        "test_all_c07_force_projector_update_tile_input_evidence_is_exact",
+        "test_force_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_force_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07ForceProjectorUpdateTileProof"
+    },
+    "source_force_projector_update_tile_advance_state_result.warmup": {
+      "status": "source-backed",
+      "godot_owner": "SourceForceProjectorBuildState.source_force_projector_update_tile_advance_state",
+      "godot_symbol": "source_force_projector_update_tile_advance_state_result.warmup",
+      "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+      "java_method": "ForceBuild.updateTile()",
+      "java_expr": "warmup = Mathf.lerpDelta(warmup, efficiency, 0.1f);",
+      "rule": "The warmup after one tick (ForceProjector.java:222): lerpDelta toward the folded efficiency at 0.1f.",
+      "tests": [
+        "test_c07_force_projector_update_tile_registration",
+        "test_all_c07_force_projector_update_tile_input_evidence_is_exact",
+        "test_force_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_force_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07ForceProjectorUpdateTileProof"
+    },
+    "source_force_projector_update_tile_advance_state_result.buildup": {
+      "status": "source-backed",
+      "godot_owner": "SourceForceProjectorBuildState.source_force_projector_update_tile_advance_state",
+      "godot_symbol": "source_force_projector_update_tile_advance_state_result.buildup",
+      "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+      "java_method": "ForceBuild.updateTile()",
+      "java_expr": "buildup -= delta() * scale;",
+      "rule": "The buildup after one tick: the cooldown decay (ForceProjector.java:224-237, scale cooldownNormal 1.5f / cooldownBrokenBase 0.35f, def values, times the coolant factor when the coolant branch runs) minus delta() * scale with delta() = Time.delta * timeScale (BuildingComp.java:1922-1924) -- NO clamp, so buildup can go negative -- then the broken-set reset to shieldHealth (ForceProjector.java:245) when the threshold is crossed, then the deflect addition (ForceProjector.java:66).",
+      "tests": [
+        "test_c07_force_projector_update_tile_registration",
+        "test_all_c07_force_projector_update_tile_input_evidence_is_exact",
+        "test_force_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_force_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07ForceProjectorUpdateTileProof"
+    },
+    "source_force_projector_update_tile_advance_state_result.broken": {
+      "status": "source-backed",
+      "godot_owner": "SourceForceProjectorBuildState.source_force_projector_update_tile_advance_state",
+      "godot_symbol": "source_force_projector_update_tile_advance_state_result.broken",
+      "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+      "java_method": "ForceBuild.updateTile()",
+      "java_expr": "broken = true;",
+      "rule": "Whether the shield is broken after one tick: cleared when broken && buildup <= 0 (ForceProjector.java:239-241), set when buildup >= shieldHealth + phaseShieldBoost * phaseHeat && !broken (ForceProjector.java:243-245, threshold folds the NEW phaseHeat, shieldHealth 750f def, phaseShieldBoost 400f). Java default true (ForceProjector.java:167).",
+      "tests": [
+        "test_c07_force_projector_update_tile_registration",
+        "test_all_c07_force_projector_update_tile_input_evidence_is_exact",
+        "test_force_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_force_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07ForceProjectorUpdateTileProof"
+    },
+    "source_force_projector_update_tile_advance_state_result.hit": {
+      "status": "source-backed",
+      "godot_owner": "SourceForceProjectorBuildState.source_force_projector_update_tile_advance_state",
+      "godot_symbol": "source_force_projector_update_tile_advance_state_result.hit",
+      "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+      "java_method": "ForceBuild.updateTile()",
+      "java_expr": "hit -= 1f / 5f * Time.delta;",
+      "rule": "The hit flash after one tick: decayed by 1f/5f * Time.delta when above 0 (ForceProjector.java:253-255, Time.delta -- NOT delta()), then set to 1f when a bullet is deflected (ForceProjector.java:65).",
+      "tests": [
+        "test_c07_force_projector_update_tile_registration",
+        "test_all_c07_force_projector_update_tile_input_evidence_is_exact",
+        "test_force_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_force_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07ForceProjectorUpdateTileProof"
+    },
+    "source_force_projector_update_tile_advance_state_result.consumed": {
+      "status": "source-backed",
+      "godot_owner": "SourceForceProjectorBuildState.source_force_projector_update_tile_advance_state",
+      "godot_symbol": "source_force_projector_update_tile_advance_state_result.consumed",
+      "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+      "java_method": "ForceBuild.updateTile()",
+      "java_expr": "consume();",
+      "rule": "Whether consume() fired this tick as a pure result (ForceProjector.java:212-214): phaseValid && !broken && consume_tick && efficiency > 0. The APPLICATION (consume() taking the phaseFabric item) defers -- the frame has no items.",
+      "tests": [
+        "test_c07_force_projector_update_tile_registration",
+        "test_all_c07_force_projector_update_tile_input_evidence_is_exact",
+        "test_force_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_force_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07ForceProjectorUpdateTileProof"
+    },
+    "source_force_projector_update_tile_advance_state_result.absorbed_bullets": {
+      "status": "source-backed",
+      "godot_owner": "SourceForceProjectorBuildState.source_force_projector_update_tile_advance_state",
+      "godot_symbol": "source_force_projector_update_tile_advance_state_result.absorbed_bullets",
+      "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+      "java_method": "ForceBuild.updateTile()",
+      "java_expr": "bullet.absorb();",
+      "rule": "The bullets absorbed this tick as a pure result (ForceProjector.java:60-66): enemy team, absorbable (BulletType.java:147, default true), not absorbed (BulletComp.java:53, default false), inside the regular polygon (sides 6, shieldRotation 0f) at the real radius, and only when realRadius > 0 && !broken (ForceProjector.java:260). Each entry is the bullet dict id (default: its index in the list). bullet.absorb() (BulletComp.java:100-101) is NOT applied to a live bullet.",
+      "tests": [
+        "test_c07_force_projector_update_tile_registration",
+        "test_all_c07_force_projector_update_tile_input_evidence_is_exact",
+        "test_force_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_force_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07ForceProjectorUpdateTileProof"
+    },
+    "source_force_projector_update_tile_advance_state_result.buildup_delta": {
+      "status": "source-backed",
+      "godot_owner": "SourceForceProjectorBuildState.source_force_projector_update_tile_advance_state",
+      "godot_symbol": "source_force_projector_update_tile_advance_state_result.buildup_delta",
+      "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+      "java_method": "ForceBuild.updateTile()",
+      "java_expr": "paramEntity.buildup += bullet.type.shieldDamage(bullet);",
+      "rule": "The buildup added by deflectBullets this tick as a pure result (ForceProjector.java:66): the sum of shield_damage over the absorbed bullets, where shieldDamage(bullet) = b.damage() * shieldDamageMultiplier (BulletType.java:665-666, multiplier default 1f). 0.0 when nothing is absorbed.",
+      "tests": [
+        "test_c07_force_projector_update_tile_registration",
+        "test_all_c07_force_projector_update_tile_input_evidence_is_exact",
+        "test_force_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_force_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07ForceProjectorUpdateTileProof"
+    },
+    "source_force_projector_update_tile_advance_state_result.real_radius": {
+      "status": "source-backed",
+      "godot_owner": "SourceForceProjectorBuildState.source_force_projector_update_tile_advance_state",
+      "godot_symbol": "source_force_projector_update_tile_advance_state_result.real_radius",
+      "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+      "java_method": "ForceBuild.updateTile()",
+      "java_expr": "return (radius + phaseHeat * phaseRadiusBoost) * radscl;",
+      "rule": "The real shield radius after one tick (ForceProjector.java:280): (radius + phaseHeat * phaseRadiusBoost) * radscl with radius 101.7f, phaseRadiusBoost 80f, the NEW phaseHeat and the NEW radscl. The deflect gate needs it above 0 (ForceProjector.java:260).",
+      "tests": [
+        "test_c07_force_projector_update_tile_registration",
+        "test_all_c07_force_projector_update_tile_input_evidence_is_exact",
+        "test_force_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_force_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07ForceProjectorUpdateTileProof"
+    },
+    "source_base_shield_update_tile_advance_state_result.smooth_radius": {
+      "status": "source-backed",
+      "godot_owner": "SourceBaseShieldBuildState.source_base_shield_update_tile_advance_state",
+      "godot_symbol": "source_base_shield_update_tile_advance_state_result.smooth_radius",
+      "java_source": "core/src/mindustry/world/blocks/defense/BaseShield.java",
+      "java_method": "BaseShieldBuild.updateTile()",
+      "java_expr": "smoothRadius = Mathf.lerpDelta(smoothRadius, radius * efficiency, 0.05f);",
+      "rule": "The smoothRadius after one tick (BaseShield.java:89): lerpDelta toward radius * efficiency at 0.05f progress (Mathf.java:430-432, progress * Time.delta clamped); radius() returns it (BaseShield.java:101-103) and the rad > 1 gate (BaseShield.java:93) reads the NEW value.",
+      "tests": [
+        "test_c07_base_shield_update_tile_registration",
+        "test_all_c07_base_shield_update_tile_input_evidence_is_exact",
+        "test_base_shield_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_base_shield_update_tile"
+      ],
+      "runtime_proof": "/root/C07BaseShieldUpdateTileProof"
+    },
+    "source_base_shield_update_tile_advance_state_result.absorbed_bullets": {
+      "status": "source-backed",
+      "godot_owner": "SourceBaseShieldBuildState.source_base_shield_update_tile_advance_state",
+      "godot_symbol": "source_base_shield_update_tile_advance_state_result.absorbed_bullets",
+      "java_source": "core/src/mindustry/world/blocks/defense/BaseShield.java",
+      "java_method": "BaseShieldBuild.updateTile()",
+      "java_expr": "bullet.absorb();",
+      "rule": "The bullets absorbed this tick as a pure result (BaseShield.java:28-29): enemy team + absorbable (BulletType.java:147, default true) + strict within radius() (Position.java:44-46, dst2 < rad^2); exactly at the radius is OUT. The APPLICATION (absorbed = true + remove(), BulletComp.java:100-103) defers -- the port never writes into a live bullet frame. The hit/buildup lines (:33-34) are COMMENTED OUT, so absorb changes no shield state.",
+      "tests": [
+        "test_c07_base_shield_update_tile_registration",
+        "test_all_c07_base_shield_update_tile_input_evidence_is_exact",
+        "test_base_shield_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_base_shield_update_tile"
+      ],
+      "runtime_proof": "/root/C07BaseShieldUpdateTileProof"
+    },
+    "source_base_shield_update_tile_advance_state_result.repelled_units": {
+      "status": "source-backed",
+      "godot_owner": "SourceBaseShieldBuildState.source_base_shield_update_tile_advance_state",
+      "godot_symbol": "source_base_shield_update_tile_advance_state_result.repelled_units",
+      "java_source": "core/src/mindustry/world/blocks/defense/BaseShield.java",
+      "java_method": "BaseShieldBuild.updateTile()",
+      "java_expr": "unit.move(Tmp.v1.set(unit).sub(paramBuild).setLength(overlapDst + 0.01f));",
+      "rule": "The units repelled this tick as a pure result (BaseShield.java:42-51): each entry carries the unit dict, the repel vector (repel_x / repel_y, (unit - build) setLength(overlapDst + 0.01f), zero when the unit sits exactly on the building -- Vec2.java:304-308), the overlap_dst, and stopped true (unit.vel.setZero(), BaseShield.java:48). Only when 0 < overlapDst <= hitSize * 1.5f (the boundary repels, it does not kill). The APPLICATION (vel.setZero / move on the live unit) defers.",
+      "tests": [
+        "test_c07_base_shield_update_tile_registration",
+        "test_all_c07_base_shield_update_tile_input_evidence_is_exact",
+        "test_base_shield_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_base_shield_update_tile"
+      ],
+      "runtime_proof": "/root/C07BaseShieldUpdateTileProof"
+    },
+    "source_base_shield_update_tile_advance_state_result.killed_units": {
+      "status": "source-backed",
+      "godot_owner": "SourceBaseShieldBuildState.source_base_shield_update_tile_advance_state",
+      "godot_symbol": "source_base_shield_update_tile_advance_state_result.killed_units",
+      "java_source": "core/src/mindustry/world/blocks/defense/BaseShield.java",
+      "java_method": "BaseShieldBuild.updateTile()",
+      "java_expr": "unit.kill();",
+      "rule": "The units instakilled this tick as a pure result (BaseShield.java:43-45): overlapDst > hitSize * 1.5f, strictly -- a unit stuck deep inside the shield. The APPLICATION (unit.kill(), UnitComp.java:974-978, Call.unitDeath) defers -- the port never writes into a live unit frame.",
+      "tests": [
+        "test_c07_base_shield_update_tile_registration",
+        "test_all_c07_base_shield_update_tile_input_evidence_is_exact",
+        "test_base_shield_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_base_shield_update_tile"
+      ],
+      "runtime_proof": "/root/C07BaseShieldUpdateTileProof"
+    },
+    "source_mass_driver_update_tile_advance_state_result.link": {
+      "status": "source-backed",
+      "godot_owner": "SourceMassDriverBuildState.source_mass_driver_update_tile_advance_state",
+      "godot_symbol": "source_mass_driver_update_tile_advance_state_result.link",
+      "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+      "java_method": "MassDriverBuild.updateTile()",
+      "java_expr": "this.link = link.pos();",
+      "rule": "The refreshed link (MassDriver.java:138): the linked building pos when hasLink holds, unchanged otherwise.",
+      "tests": [
+        "test_c07_mass_driver_update_tile_registration",
+        "test_all_c07_mass_driver_update_tile_input_evidence_is_exact",
+        "test_mass_driver_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_mass_driver_update_tile"
+      ],
+      "runtime_proof": "/root/C07MassDriverUpdateTileProof"
+    },
+    "source_mass_driver_update_tile_advance_state_result.rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourceMassDriverBuildState.source_mass_driver_update_tile_advance_state",
+      "godot_symbol": "source_mass_driver_update_tile_advance_state_result.rotation",
+      "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+      "java_method": "MassDriverBuild.updateTile()",
+      "java_expr": "rotation = Angles.moveToward(rotation, targetRotation, rotateSpeed * efficiency);",
+      "rule": "The advanced rotation (MassDriver.java:181 / :201): moveToward the shooter angle when accepting, the target rotation when shooting and reloaded.",
+      "tests": [
+        "test_c07_mass_driver_update_tile_registration",
+        "test_all_c07_mass_driver_update_tile_input_evidence_is_exact",
+        "test_mass_driver_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_mass_driver_update_tile"
+      ],
+      "runtime_proof": "/root/C07MassDriverUpdateTileProof"
+    },
+    "source_mass_driver_update_tile_advance_state_result.reload_counter": {
+      "status": "source-backed",
+      "godot_owner": "SourceMassDriverBuildState.source_mass_driver_update_tile_advance_state",
+      "godot_symbol": "source_mass_driver_update_tile_advance_state_result.reload_counter",
+      "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+      "java_method": "MassDriverBuild.updateTile()",
+      "java_expr": "reloadCounter = Mathf.clamp(reloadCounter - edelta() / reload);",
+      "rule": "The advanced reload counter (MassDriver.java:143): decayed by edelta() / reload regardless of state, clamped to [0, 1]; reset to 1f by fire().",
+      "tests": [
+        "test_c07_mass_driver_update_tile_registration",
+        "test_all_c07_mass_driver_update_tile_input_evidence_is_exact",
+        "test_mass_driver_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_mass_driver_update_tile"
+      ],
+      "runtime_proof": "/root/C07MassDriverUpdateTileProof"
+    },
+    "source_mass_driver_update_tile_advance_state_result.state": {
+      "status": "source-backed",
+      "godot_owner": "SourceMassDriverBuildState.source_mass_driver_update_tile_advance_state",
+      "godot_symbol": "source_mass_driver_update_tile_advance_state_result.state",
+      "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+      "java_method": "MassDriverBuild.updateTile()",
+      "java_expr": "state = DriverState.idle;",
+      "rule": "The advanced driver state (MassDriver.java:157 / :159 / :176 / :185 / :216): idle / accepting / shooting after the switch and the branch bails.",
+      "tests": [
+        "test_c07_mass_driver_update_tile_registration",
+        "test_all_c07_mass_driver_update_tile_input_evidence_is_exact",
+        "test_mass_driver_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_mass_driver_update_tile"
+      ],
+      "runtime_proof": "/root/C07MassDriverUpdateTileProof"
+    },
+    "source_mass_driver_update_tile_advance_state_result.waiting_shooters": {
+      "status": "source-backed",
+      "godot_owner": "SourceMassDriverBuildState.source_mass_driver_update_tile_advance_state",
+      "godot_symbol": "source_mass_driver_update_tile_advance_state_result.waiting_shooters",
+      "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+      "java_method": "MassDriverBuild.updateTile()",
+      "java_expr": "waitingShooters.remove(current);",
+      "rule": "The advanced waiting list (MassDriver.java:150): the first entry removed when its shooter is no longer valid; insertion order kept.",
+      "tests": [
+        "test_c07_mass_driver_update_tile_registration",
+        "test_all_c07_mass_driver_update_tile_input_evidence_is_exact",
+        "test_mass_driver_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_mass_driver_update_tile"
+      ],
+      "runtime_proof": "/root/C07MassDriverUpdateTileProof"
+    },
+    "source_mass_driver_update_tile_advance_state_result.items": {
+      "status": "source-backed",
+      "godot_owner": "SourceMassDriverBuildState.source_mass_driver_update_tile_advance_state",
+      "godot_symbol": "source_mass_driver_update_tile_advance_state_result.items",
+      "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+      "java_method": "MassDriverBuild.updateTile()",
+      "java_expr": "items.remove(content.item(i), maxTransfer);",
+      "rule": "The advanced items (MassDriver.java:302): the fired amounts removed the moment fire() runs; unchanged when nothing fires.",
+      "tests": [
+        "test_c07_mass_driver_update_tile_registration",
+        "test_all_c07_mass_driver_update_tile_input_evidence_is_exact",
+        "test_mass_driver_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_mass_driver_update_tile"
+      ],
+      "runtime_proof": "/root/C07MassDriverUpdateTileProof"
+    },
+    "source_mass_driver_update_tile_advance_state_result.partner_waiting_shooters": {
+      "status": "source-backed",
+      "godot_owner": "SourceMassDriverBuildState.source_mass_driver_update_tile_advance_state",
+      "godot_symbol": "source_mass_driver_update_tile_advance_state_result.partner_waiting_shooters",
+      "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+      "java_method": "MassDriverBuild.updateTile()",
+      "java_expr": "other.waitingShooters.add(this);",
+      "rule": "The linked building waiting list after registration (MassDriver.java:196, the cross-building write-back, the N2225 precedent): this building appended once when shooting with stock and link space; the driver writes it back onto the partner frame.",
+      "tests": [
+        "test_c07_mass_driver_update_tile_registration",
+        "test_all_c07_mass_driver_update_tile_input_evidence_is_exact",
+        "test_mass_driver_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_mass_driver_update_tile"
+      ],
+      "runtime_proof": "/root/C07MassDriverUpdateTileProof"
+    },
+    "source_mass_driver_update_tile_advance_state_result.fired": {
+      "status": "source-backed",
+      "godot_owner": "SourceMassDriverBuildState.source_mass_driver_update_tile_advance_state",
+      "godot_symbol": "source_mass_driver_update_tile_advance_state_result.fired",
+      "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+      "java_method": "MassDriverBuild.updateTile()",
+      "java_expr": "fire(other);",
+      "rule": "Whether fire() ran this tick (MassDriver.java:207): the fire gate (first in queue + partner accepting + both angles near) held.",
+      "tests": [
+        "test_c07_mass_driver_update_tile_registration",
+        "test_all_c07_mass_driver_update_tile_input_evidence_is_exact",
+        "test_mass_driver_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_mass_driver_update_tile"
+      ],
+      "runtime_proof": "/root/C07MassDriverUpdateTileProof"
+    },
+    "source_mass_driver_update_tile_advance_state_result.fired_items": {
+      "status": "source-backed",
+      "godot_owner": "SourceMassDriverBuildState.source_mass_driver_update_tile_advance_state",
+      "godot_symbol": "source_mass_driver_update_tile_advance_state_result.fired_items",
+      "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+      "java_method": "MassDriverBuild.updateTile()",
+      "java_expr": "int maxTransfer = Math.min(items.get(content.item(i)), tile.block().itemCapacity - totalUsed);",
+      "rule": "The fired amounts by item (MassDriver.java:299): min(held, self itemCapacity - totalUsed) per item in content-id order.",
+      "tests": [
+        "test_c07_mass_driver_update_tile_registration",
+        "test_all_c07_mass_driver_update_tile_input_evidence_is_exact",
+        "test_mass_driver_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_mass_driver_update_tile"
+      ],
+      "runtime_proof": "/root/C07MassDriverUpdateTileProof"
+    },
+    "source_mass_driver_update_tile_advance_state_result.fired_total": {
+      "status": "source-backed",
+      "godot_owner": "SourceMassDriverBuildState.source_mass_driver_update_tile_advance_state",
+      "godot_symbol": "source_mass_driver_update_tile_advance_state_result.fired_total",
+      "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+      "java_method": "MassDriverBuild.updateTile()",
+      "java_expr": "totalUsed += maxTransfer;",
+      "rule": "The total fired items (MassDriver.java:301): the sum of the fired amounts; the bullet damage base.",
+      "tests": [
+        "test_c07_mass_driver_update_tile_registration",
+        "test_all_c07_mass_driver_update_tile_input_evidence_is_exact",
+        "test_mass_driver_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_mass_driver_update_tile"
+      ],
+      "runtime_proof": "/root/C07MassDriverUpdateTileProof"
+    },
+    "source_mass_driver_update_tile_advance_state_result.bullet_damage": {
+      "status": "source-backed",
+      "godot_owner": "SourceMassDriverBuildState.source_mass_driver_update_tile_advance_state",
+      "godot_symbol": "source_mass_driver_update_tile_advance_state_result.bullet_damage",
+      "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+      "java_method": "MassDriverBuild.updateTile()",
+      "java_expr": "totalUsed/2f, bulletSpeed * timeScale, bulletLifetime / timeScale",
+      "rule": "The fired bullet damage (MassDriver.java:309): totalUsed/2f, float division.",
+      "tests": [
+        "test_c07_mass_driver_update_tile_registration",
+        "test_all_c07_mass_driver_update_tile_input_evidence_is_exact",
+        "test_mass_driver_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_mass_driver_update_tile"
+      ],
+      "runtime_proof": "/root/C07MassDriverUpdateTileProof"
+    },
+    "source_mass_driver_update_tile_advance_state_result.bullet_speed": {
+      "status": "source-backed",
+      "godot_owner": "SourceMassDriverBuildState.source_mass_driver_update_tile_advance_state",
+      "godot_symbol": "source_mass_driver_update_tile_advance_state_result.bullet_speed",
+      "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+      "java_method": "MassDriverBuild.updateTile()",
+      "java_expr": "totalUsed/2f, bulletSpeed * timeScale, bulletLifetime / timeScale",
+      "rule": "The fired bullet speed (MassDriver.java:309): bulletSpeed * timeScale.",
+      "tests": [
+        "test_c07_mass_driver_update_tile_registration",
+        "test_all_c07_mass_driver_update_tile_input_evidence_is_exact",
+        "test_mass_driver_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_mass_driver_update_tile"
+      ],
+      "runtime_proof": "/root/C07MassDriverUpdateTileProof"
+    },
+    "source_mass_driver_update_tile_advance_state_result.bullet_lifetime": {
+      "status": "source-backed",
+      "godot_owner": "SourceMassDriverBuildState.source_mass_driver_update_tile_advance_state",
+      "godot_symbol": "source_mass_driver_update_tile_advance_state_result.bullet_lifetime",
+      "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+      "java_method": "MassDriverBuild.updateTile()",
+      "java_expr": "totalUsed/2f, bulletSpeed * timeScale, bulletLifetime / timeScale",
+      "rule": "The fired bullet lifetime (MassDriver.java:309): bulletLifetime / timeScale.",
+      "tests": [
+        "test_c07_mass_driver_update_tile_registration",
+        "test_all_c07_mass_driver_update_tile_input_evidence_is_exact",
+        "test_mass_driver_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_mass_driver_update_tile"
+      ],
+      "runtime_proof": "/root/C07MassDriverUpdateTileProof"
+    },
+    "source_launch_pad_update_tile_advance_state_result.launched": {
+      "status": "source-backed",
+      "godot_owner": "SourceLaunchPadBuildState.source_launch_pad_update_tile_advance_state",
+      "godot_symbol": "source_launch_pad_update_tile_advance_state_result.launched",
+      "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+      "java_method": "LaunchPadBuild.updateTile()",
+      "java_expr": "if((launchCounter += edelta()) >= launchTime && items.total() >= itemCapacity){",
+      "rule": "Whether a launch fired this tick (LaunchPad.java:146): the counter (advanced by edelta first) reached launchTime AND items.total() reached itemCapacity.",
+      "tests": [
+        "test_c07_launch_pad_update_tile_registration",
+        "test_all_c07_launch_pad_update_tile_input_evidence_is_exact",
+        "test_launch_pad_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_launch_pad_update_tile"
+      ],
+      "runtime_proof": "/root/C07LaunchPadUpdateTileProof"
+    },
+    "source_launch_pad_update_tile_advance_state_result.launched_stacks": {
+      "status": "source-backed",
+      "godot_owner": "SourceLaunchPadBuildState.source_launch_pad_update_tile_advance_state",
+      "godot_symbol": "source_launch_pad_update_tile_advance_state_result.launched_stacks",
+      "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+      "java_method": "LaunchPadBuild.updateTile()",
+      "java_expr": "items.each((item, amount) -> entity.stacks.add(new ItemStack(item, amount)));",
+      "rule": "The stacks the launch carried (LaunchPad.java:151, the pure result, the N2234 spawned_unit precedent): a copy of the items dict taken before the clear, zero amounts skipped like ItemModule.each (ItemModule.java:100-106); {} when no launch fired. The live LaunchPayload entity creation/application (LaunchPad.java:150-155) defers.",
+      "tests": [
+        "test_c07_launch_pad_update_tile_registration",
+        "test_all_c07_launch_pad_update_tile_input_evidence_is_exact",
+        "test_launch_pad_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_launch_pad_update_tile"
+      ],
+      "runtime_proof": "/root/C07LaunchPadUpdateTileProof"
+    },
+    "source_launch_pad_update_tile_advance_state_result.launch_counter": {
+      "status": "source-backed",
+      "godot_owner": "SourceLaunchPadBuildState.source_launch_pad_update_tile_advance_state",
+      "godot_symbol": "source_launch_pad_update_tile_advance_state_result.launch_counter",
+      "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+      "java_method": "LaunchPadBuild.updateTile()",
+      "java_expr": "launchCounter = 0f;",
+      "rule": "The launchCounter after this tick (LaunchPad.java:146/159): advanced by edelta() (efficiency * Time.delta * timeScale) when no launch fired, reset to 0f on launch. The reset reopens the shouldConsume gate (`return launchCounter < launchTime;`, LaunchPad.java:94) the NEXT tick.",
+      "tests": [
+        "test_c07_launch_pad_update_tile_registration",
+        "test_all_c07_launch_pad_update_tile_input_evidence_is_exact",
+        "test_launch_pad_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_launch_pad_update_tile"
+      ],
+      "runtime_proof": "/root/C07LaunchPadUpdateTileProof"
+    },
+    "source_launch_pad_update_tile_advance_state_result.items": {
+      "status": "source-backed",
+      "godot_owner": "SourceLaunchPadBuildState.source_launch_pad_update_tile_advance_state",
+      "godot_symbol": "source_launch_pad_update_tile_advance_state_result.items",
+      "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+      "java_method": "LaunchPadBuild.updateTile()",
+      "java_expr": "items.clear();",
+      "rule": "The items after this tick (LaunchPad.java:157): {} (cleared) on launch, unchanged otherwise.",
+      "tests": [
+        "test_c07_launch_pad_update_tile_registration",
+        "test_all_c07_launch_pad_update_tile_input_evidence_is_exact",
+        "test_launch_pad_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_launch_pad_update_tile"
+      ],
+      "runtime_proof": "/root/C07LaunchPadUpdateTileProof"
+    },
+    "source_stack_conveyor_update_tile_advance_state_result.cooldown": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackConveyorBuildState.source_stack_conveyor_update_tile_advance_state",
+      "godot_symbol": "source_stack_conveyor_update_tile_advance_state_result.cooldown",
+      "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+      "java_method": "StackConveyorBuild.updateTile()",
+      "java_expr": "if(cooldown > 0f) cooldown = Mathf.clamp(cooldown - speed * eff * delta(), 0f, recharge);",
+      "rule": "The advanced cooldown (StackConveyor.java:273/311): reeled by speed * eff * delta() with RAW delta, clamped to [0, recharge]; set to recharge on transfer. The reel runs before the link gate, so it reels even with link == -1 or when disabled.",
+      "tests": [
+        "test_c07_stack_conveyor_update_tile_registration",
+        "test_all_c07_stack_conveyor_update_tile_input_evidence_is_exact",
+        "test_stack_conveyor_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_stack_conveyor_update_tile"
+      ],
+      "runtime_proof": "/root/C07StackConveyorUpdateTileProof"
+    },
+    "source_stack_conveyor_update_tile_advance_state_result.link": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackConveyorBuildState.source_stack_conveyor_update_tile_advance_state",
+      "godot_symbol": "source_stack_conveyor_update_tile_advance_state_result.link",
+      "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+      "java_method": "StackConveyorBuild.updateTile()",
+      "java_expr": "link = -1;",
+      "rule": "The advanced link (StackConveyor.java:309/342): -1 after a transfer (the stack moved to the front) or after poofOut drains the last item; unchanged otherwise.",
+      "tests": [
+        "test_c07_stack_conveyor_update_tile_registration",
+        "test_all_c07_stack_conveyor_update_tile_input_evidence_is_exact",
+        "test_stack_conveyor_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_stack_conveyor_update_tile"
+      ],
+      "runtime_proof": "/root/C07StackConveyorUpdateTileProof"
+    },
+    "source_stack_conveyor_update_tile_advance_state_result.last_item": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackConveyorBuildState.source_stack_conveyor_update_tile_advance_state",
+      "godot_symbol": "source_stack_conveyor_update_tile_advance_state_result.last_item",
+      "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+      "java_method": "StackConveyorBuild.updateTile()",
+      "java_expr": "lastItem = items.first();",
+      "rule": "The advanced last item (StackConveyor.java:282-284/297): picked as items.first() in content-id order when null or no longer held; null after the unload branch drains it (poofOut). The pick runs before the !enabled return, so a disabled conveyor still picks.",
+      "tests": [
+        "test_c07_stack_conveyor_update_tile_registration",
+        "test_all_c07_stack_conveyor_update_tile_input_evidence_is_exact",
+        "test_stack_conveyor_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_stack_conveyor_update_tile"
+      ],
+      "runtime_proof": "/root/C07StackConveyorUpdateTileProof"
+    },
+    "source_stack_conveyor_update_tile_advance_state_result.items": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackConveyorBuildState.source_stack_conveyor_update_tile_advance_state",
+      "godot_symbol": "source_stack_conveyor_update_tile_advance_state_result.items",
+      "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+      "java_method": "StackConveyorBuild.updateTile()",
+      "java_expr": "items.clear();",
+      "rule": "The self items after the advance (StackConveyor.java:291-293/310): drained one by one in the unload loop (items.remove(lastItem, 1) per iteration), cleared wholesale on transfer (items.clear()).",
+      "tests": [
+        "test_c07_stack_conveyor_update_tile_registration",
+        "test_all_c07_stack_conveyor_update_tile_input_evidence_is_exact",
+        "test_stack_conveyor_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_stack_conveyor_update_tile"
+      ],
+      "runtime_proof": "/root/C07StackConveyorUpdateTileProof"
+    },
+    "source_stack_conveyor_update_tile_advance_state_result.unloaded": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackConveyorBuildState.source_stack_conveyor_update_tile_advance_state",
+      "godot_symbol": "source_stack_conveyor_update_tile_advance_state_result.unloaded",
+      "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+      "java_method": "StackConveyorBuild.updateTile()",
+      "java_expr": "items.remove(lastItem, 1);",
+      "rule": "The count unloaded in the unload branch (StackConveyor.java:290-300): one per successful moveForward/dump iteration until lastItem runs out (poofOut) or the neighbour stops accepting.",
+      "tests": [
+        "test_c07_stack_conveyor_update_tile_registration",
+        "test_all_c07_stack_conveyor_update_tile_input_evidence_is_exact",
+        "test_stack_conveyor_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_stack_conveyor_update_tile"
+      ],
+      "runtime_proof": "/root/C07StackConveyorUpdateTileProof"
+    },
+    "source_stack_conveyor_update_tile_advance_state_result.transferred": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackConveyorBuildState.source_stack_conveyor_update_tile_advance_state",
+      "godot_symbol": "source_stack_conveyor_update_tile_advance_state_result.transferred",
+      "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+      "java_method": "StackConveyorBuild.updateTile()",
+      "java_expr": "cooldown = recharge;",
+      "rule": "Whether the transfer fired this tick (StackConveyor.java:301-314): state != stateLoad || total >= getMaximumAccepted, front is a same-team StackConveyorBuild with link == -1; cooldown = recharge marks the fired transfer.",
+      "tests": [
+        "test_c07_stack_conveyor_update_tile_registration",
+        "test_all_c07_stack_conveyor_update_tile_input_evidence_is_exact",
+        "test_stack_conveyor_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_stack_conveyor_update_tile"
+      ],
+      "runtime_proof": "/root/C07StackConveyorUpdateTileProof"
+    },
+    "source_stack_conveyor_update_tile_advance_state_result.front_items": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackConveyorBuildState.source_stack_conveyor_update_tile_advance_state",
+      "godot_symbol": "source_stack_conveyor_update_tile_advance_state_result.front_items",
+      "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+      "java_method": "StackConveyorBuild.updateTile()",
+      "java_expr": "e.items.add(items);",
+      "rule": "The front items after the transfer (StackConveyor.java:304; ItemModule.add(ItemModule), ItemModule.java:228-232): the whole self stack added with NO capacity cap in Java, so the pure caps nothing.",
+      "tests": [
+        "test_c07_stack_conveyor_update_tile_registration",
+        "test_all_c07_stack_conveyor_update_tile_input_evidence_is_exact",
+        "test_stack_conveyor_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_stack_conveyor_update_tile"
+      ],
+      "runtime_proof": "/root/C07StackConveyorUpdateTileProof"
+    },
+    "source_stack_conveyor_update_tile_advance_state_result.front_last_item": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackConveyorBuildState.source_stack_conveyor_update_tile_advance_state",
+      "godot_symbol": "source_stack_conveyor_update_tile_advance_state_result.front_last_item",
+      "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+      "java_method": "StackConveyorBuild.updateTile()",
+      "java_expr": "e.lastItem = lastItem;",
+      "rule": "The front last item after the transfer (StackConveyor.java:305): the transferred lastItem.",
+      "tests": [
+        "test_c07_stack_conveyor_update_tile_registration",
+        "test_all_c07_stack_conveyor_update_tile_input_evidence_is_exact",
+        "test_stack_conveyor_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_stack_conveyor_update_tile"
+      ],
+      "runtime_proof": "/root/C07StackConveyorUpdateTileProof"
+    },
+    "source_stack_conveyor_update_tile_advance_state_result.front_link": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackConveyorBuildState.source_stack_conveyor_update_tile_advance_state",
+      "godot_symbol": "source_stack_conveyor_update_tile_advance_state_result.front_link",
+      "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+      "java_method": "StackConveyorBuild.updateTile()",
+      "java_expr": "e.link = tile.pos();",
+      "rule": "The front link after the transfer (StackConveyor.java:306): this tile packed position.",
+      "tests": [
+        "test_c07_stack_conveyor_update_tile_registration",
+        "test_all_c07_stack_conveyor_update_tile_input_evidence_is_exact",
+        "test_stack_conveyor_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_stack_conveyor_update_tile"
+      ],
+      "runtime_proof": "/root/C07StackConveyorUpdateTileProof"
+    },
+    "source_stack_conveyor_update_tile_advance_state_result.front_cooldown": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackConveyorBuildState.source_stack_conveyor_update_tile_advance_state",
+      "godot_symbol": "source_stack_conveyor_update_tile_advance_state_result.front_cooldown",
+      "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+      "java_method": "StackConveyorBuild.updateTile()",
+      "java_expr": "e.cooldown = 1;",
+      "rule": "The front cooldown after the transfer (StackConveyor.java:312): 1 (the front build starts reeling the received stack).",
+      "tests": [
+        "test_c07_stack_conveyor_update_tile_registration",
+        "test_all_c07_stack_conveyor_update_tile_input_evidence_is_exact",
+        "test_stack_conveyor_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_stack_conveyor_update_tile"
+      ],
+      "runtime_proof": "/root/C07StackConveyorUpdateTileProof"
+    },
+    "source_stack_router_update_tile_advance_state_result.unloading": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackRouterBuildState.source_stack_router_update_tile_advance_state",
+      "godot_symbol": "source_stack_router_update_tile_advance_state_result.unloading",
+      "java_source": "core/src/mindustry/world/blocks/distribution/StackRouter.java",
+      "java_method": "StackRouterBuild.updateTile()",
+      "java_expr": "unloading = true;",
+      "rule": "Whether the router is unloading after one tick (StackRouter.java:38-40 + 56-58 + 66-68): true when the charge reached the cap, false when the current item ran dry or the store emptied.",
+      "tests": [
+        "test_c07_stack_router_update_tile_registration",
+        "test_all_c07_stack_router_update_tile_input_evidence_is_exact",
+        "test_stack_router_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_stack_router_update_tile"
+      ],
+      "runtime_proof": "/root/C07StackRouterUpdateTileProof"
+    },
+    "source_stack_router_update_tile_advance_state_result.current": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackRouterBuildState.source_stack_router_update_tile_advance_state",
+      "godot_symbol": "source_stack_router_update_tile_advance_state_result.current",
+      "java_source": "core/src/mindustry/world/blocks/distribution/StackRouter.java",
+      "java_method": "StackRouterBuild.updateTile()",
+      "java_expr": "current = items.first();",
+      "rule": "The current item after one tick (StackRouter.java:57 + 62-63 + 68): null when the current item ran dry or the store emptied, otherwise the kept item or the first held item in content-id order.",
+      "tests": [
+        "test_c07_stack_router_update_tile_registration",
+        "test_all_c07_stack_router_update_tile_input_evidence_is_exact",
+        "test_stack_router_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_stack_router_update_tile"
+      ],
+      "runtime_proof": "/root/C07StackRouterUpdateTileProof"
+    },
+    "source_stack_router_update_tile_advance_state_result.progress": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackRouterBuildState.source_stack_router_update_tile_advance_state",
+      "godot_symbol": "source_stack_router_update_tile_advance_state_result.progress",
+      "java_source": "core/src/mindustry/world/blocks/distribution/StackRouter.java",
+      "java_method": "StackRouterBuild.updateTile()",
+      "java_expr": "progress += eff;",
+      "rule": "The progress after one tick (StackRouter.java:33-40): charged by eff (no delta multiply) while full with a current item, wrapped by progress %= cap on reaching the cap, untouched otherwise.",
+      "tests": [
+        "test_c07_stack_router_update_tile_registration",
+        "test_all_c07_stack_router_update_tile_input_evidence_is_exact",
+        "test_stack_router_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_stack_router_update_tile"
+      ],
+      "runtime_proof": "/root/C07StackRouterUpdateTileProof"
+    },
+    "source_stack_router_update_tile_advance_state_result.items": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackRouterBuildState.source_stack_router_update_tile_advance_state",
+      "godot_symbol": "source_stack_router_update_tile_advance_state_result.items",
+      "java_source": "core/src/mindustry/world/blocks/distribution/StackRouter.java",
+      "java_method": "StackRouterBuild.updateTile()",
+      "java_expr": "items.remove(current, 1);",
+      "rule": "The items after one tick (StackRouter.java:48-52): one unit of the current item removed per handoff (clamped like ItemModule.remove, ItemModule.java:258-262); zero-count keys stay in the dict, so callers read counts, never key presence.",
+      "tests": [
+        "test_c07_stack_router_update_tile_registration",
+        "test_all_c07_stack_router_update_tile_input_evidence_is_exact",
+        "test_stack_router_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_stack_router_update_tile"
+      ],
+      "runtime_proof": "/root/C07StackRouterUpdateTileProof"
+    },
+    "source_stack_router_update_tile_advance_state_result.handed_off": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackRouterBuildState.source_stack_router_update_tile_advance_state",
+      "godot_symbol": "source_stack_router_update_tile_advance_state_result.handed_off",
+      "java_source": "core/src/mindustry/world/blocks/distribution/StackRouter.java",
+      "java_method": "StackRouterBuild.updateTile()",
+      "java_expr": "target.handleItem(this, current);",
+      "rule": "How many items were handed off this tick as a pure result (StackRouter.java:48-52): one per targets entry consumed while the current count stayed above zero. The APPLICATION (target.handleItem writing into another building frame) defers.",
+      "tests": [
+        "test_c07_stack_router_update_tile_registration",
+        "test_all_c07_stack_router_update_tile_input_evidence_is_exact",
+        "test_stack_router_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_stack_router_update_tile"
+      ],
+      "runtime_proof": "/root/C07StackRouterUpdateTileProof"
+    },
+    "source_stack_router_update_tile_advance_state_result.handed_to": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackRouterBuildState.source_stack_router_update_tile_advance_state",
+      "godot_symbol": "source_stack_router_update_tile_advance_state_result.handed_to",
+      "java_source": "core/src/mindustry/world/blocks/distribution/StackRouter.java",
+      "java_method": "StackRouterBuild.updateTile()",
+      "java_expr": "target = target();",
+      "rule": "The handoff target ids in handoff order as a pure result (StackRouter.java:47 + 52): one id per handoff, following the explicit targets list order (the cdump-rotation stand-in).",
+      "tests": [
+        "test_c07_stack_router_update_tile_registration",
+        "test_all_c07_stack_router_update_tile_input_evidence_is_exact",
+        "test_stack_router_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_stack_router_update_tile"
+      ],
+      "runtime_proof": "/root/C07StackRouterUpdateTileProof"
+    },
+    "source_light_block_smooth_time_state_result.smooth_time": {
+      "status": "source-backed",
+      "godot_owner": "SourceLightBlockBuildState.source_light_block_smooth_time_state",
+      "godot_symbol": "source_light_block_smooth_time_state_result.smooth_time",
+      "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+      "java_method": "LightBuild.updateTile()",
+      "java_expr": "smoothTime = Mathf.lerpDelta(smoothTime, timeScale, 0.1f);",
+      "rule": "The advanced smoothTime after one updateTile lerpDelta step (LightBlock.java:105): lerp toward timeScale with progress 0.1f, delta-corrected by Time.delta.",
+      "tests": [
+        "test_c07_light_block_update_tile_registration",
+        "test_all_c07_light_block_update_tile_input_evidence_is_exact",
+        "test_light_block_update_tile_state",
+        "test_reference_graph_and_actual_c07_light_block_update_tile"
+      ],
+      "runtime_proof": "/root/C07LightBlockUpdateTileProof"
     }
   },
   "version": 1
