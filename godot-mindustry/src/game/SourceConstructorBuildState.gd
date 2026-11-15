@@ -6,6 +6,7 @@ const source_placed_block_state := preload("res://src/game/SourcePlacedBlockStat
 const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
 const source_building_efficiency_state := preload("res://src/game/SourceBuildingEfficiencyState.gd")
 const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
+const inventory := preload("res://src/game/SourceDrillInventoryRuntimeState.gd")
 
 # The Constructor implementation (Constructor.java:19, `public class Constructor extends BlockProducer{`): constructor (consumePower(2.5f);, size 3, buildSpeed 0.6f, Blocks.java:6658-6667) and large-constructor (consumePower(3f);, size 5, buildSpeed 0.75f, Blocks.java:6670-6680). BlockProducer has hasPower = true; (BlockProducer.java:32), hasItems=true, update=true, solid=true, outputsPayload=true (BlockProducer.java:28-35). Constructor extends BlockProducer, NOT a drill or factory, so it cannot reuse an existing frame key; this driver uses its own family frame key ("source_constructor_building", the mechanical-pump / beam-drill / mend-projector / overdrive-projector / force-projector / base-shield / regen-projector precedent), and this slice adds the constructor key to N2142's SOURCE_CONSUMER_FRAME_META_KEYS so the graph stamp/write-back finds it. The port has NO SourceConstructor* files at all yet -- no display/runtime state to lean on -- so the missing piece is the live power.status -> efficiency driver, which is exactly this slice: the produce gate (BlockProducer.java:110, `boolean produce = recipe != null && efficiency > 0 && payload == null;`) follows the folded efficiency, with the progress advance (BlockProducer.java:113, `progress += buildSpeed * edelta();`).
 const SOURCE_CONSTRUCTOR_BUILD_IMPLEMENTATIONS := ["Constructor"]
@@ -42,7 +43,7 @@ static func source_constructor_tick_frame_state(frame: Dictionary, block_impleme
 	return frame
 
 static func _initial_frame() -> Dictionary:
-	return {"recipe": null}
+	return {"recipe": null, "items": {}}
 
 static func source_constructor_bind_frame_state(sprite: Sprite2D, block: Object) -> Dictionary:
 	# Placement creates the Building (Block.java:1002 newBuilding);
@@ -50,7 +51,9 @@ static func source_constructor_bind_frame_state(sprite: Sprite2D, block: Object)
 	# at placement under the constructor frame meta key
 	# ("source_constructor_building"). A Constructor sprite gets a
 	# frame bound with the recipe key defaulting to null (the Java field
-	# `public @Nullable Block recipe;`, Constructor.java:59, defaults to null);
+	# `public @Nullable Block recipe;`, Constructor.java:59, defaults to null)
+	# and the items key defaulting to {} (the N2265 dynamic row reads it;
+	# no live intake fills it yet);
 	# the live-loop tick fills its other keys every tick. Any other
 	# block, or an already-bound sprite, binds nothing.
 	if block == null or not _is_constructor_build_implementation(str(block.implementation)):
@@ -69,12 +72,48 @@ static func source_constructor_should_consume_state(frame: Dictionary) -> Dictio
 
 static func source_constructor_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a constructor does not take the early return. The produce gate follows the folded efficiency (BlockProducer.java:110, `boolean produce = recipe != null && efficiency > 0 && payload == null;`), with the progress advance (BlockProducer.java:113, `progress += buildSpeed * edelta();`) and the shouldConsume default (BuildingComp.java:755, `public boolean shouldConsume(){`) and the shouldConsume override (BlockProducer.java:103, `return super.shouldConsume() && recipe() != null;`). The shouldConsume gate is live (N2216) -- the pure gate (source_constructor_should_consume_state) feeds should_consume to the machinery from the frame recipe key (null with no recipe, non-null once a block is configured as the recipe) and the enabled flag; no live fill sets frame["recipe"] yet (the config path is a config advance, Constructor.java:31-38).
-	# Documented limits: (1) power-only first pass -- Constructor has a dynamic item consumer (ConsumeItemDynamic over recipe requirements, BlockProducer.java:39-58) besides power, so the folded efficiency is the min over the *modeled* consumers (power only) with that row deferred. (2) shouldConsume gate live (N2216) -- BlockProducerBuild overrides shouldConsume() to return super.shouldConsume() && recipe() != null (BlockProducer.java:102-104); when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994); the pure gate reads the frame recipe key (default null) plus enabled and feeds should_consume to the machinery; no live fill sets frame["recipe"] yet (the config path, Constructor.java:31-38, waits for its own slice). (3) No updateTile advance -- progress / heat / time / moveOutPayload (BlockProducer.java:109-131) wait for their own slices; the proof carries no progress/heat/recipe keys, the produce gate (BlockProducer.java:110) is what the efficiency keys prove. (4) No config/filter rows -- filter, minBlockSize/maxBlockSize, canProduce (Constructor.java:21-22, 54-56) are config, not tick state.
+	# Documented limits: (1) dynamic item row live (N2265) -- the ConsumeItemDynamic over the recipe requirements (BlockProducer.java:39-55) folds beside power into the first pass: the stacks clone the recipe block's requirements with each amount ceiled against the build-cost multiplier (BlockProducer.java:49), the row is BINARY (ConsumeItemDynamic.efficiency, ConsumeItemDynamic.java:60-62), and a null recipe folds 1.0 (ItemStack.empty, BlockProducer.java:53). The build-cost multiplier reads rules_state.get("buildCostMultiplier", 1.0) -- the port rules_state carries no buildCostMultiplier key yet, so the 1.0 default (Rules.java:115) always applies for now. No live intake fills frame["items"] yet, so the row reads the frame as-is; the trigger is tested pure but NOT wired live (consume() waits for the progress advance, BlockProducer.java:115-116); the config path (recipe set, Constructor.java:31-38) still waits for its own slice. (2) shouldConsume gate live (N2216) -- BlockProducerBuild overrides shouldConsume() to return super.shouldConsume() && recipe() != null (BlockProducer.java:102-104); when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994); the pure gate reads the frame recipe key (default null) plus enabled and feeds should_consume to the machinery; no live fill sets frame["recipe"] yet (the config path, Constructor.java:31-38, waits for its own slice). (3) No updateTile advance -- progress / heat / time / moveOutPayload (BlockProducer.java:109-131) wait for their own slices; the proof carries no progress/heat/recipe keys, the produce gate (BlockProducer.java:110) is what the efficiency keys prove. (4) No config/filter rows -- filter, minBlockSize/maxBlockSize, canProduce (Constructor.java:21-22, 54-56) are config, not tick state.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
 	var live: float = 1.0 if stamped == null else float(stamped)
 	return {"has_power_row": true, "row": {"result": live, "is_power": true}}
+
+static func source_constructor_dynamic_item_stacks_state(recipe_requirements: Array, build_cost_multiplier: float) -> Array:
+	# The BlockProducer dynamic consumer (BlockProducer.java:39, `consume(new ConsumeItemDynamic((BlockProducerBuild e) -> {`): when recipe() != null the stacks clone the recipe block's requirements with each amount ceiled against the build-cost multiplier (`clone[i].amount = Mathf.ceil(block.requirements[i].amount * state.rules.buildCostMultiplier);`, BlockProducer.java:49); when recipe() == null the stacks are ItemStack.empty (`return ItemStack.empty;`, BlockProducer.java:53), so empty requirements yield an empty array. The multiplier default is 1f (`public float buildCostMultiplier = 1f;`, Rules.java:115). The pure function takes the requirements as a parameter and reads no catalog -- the driver resolves the recipe block id through the catalog and passes its requirements ([{amount, item}] kebab-case).
+	var stacks: Array = []
+	for requirement in recipe_requirements:
+		if not (requirement is Dictionary):
+			continue
+		var item_name: String = str(requirement.get("item", ""))
+		var amount: int = int(ceil(float(requirement.get("amount", 0)) * build_cost_multiplier))
+		stacks.append({"item": item_name, "amount": amount})
+	return stacks
+
+static func source_constructor_dynamic_item_consumer_row_state(frame: Dictionary, stacks: Array, multiplier: float) -> Dictionary:
+	# ConsumeItemDynamic.efficiency (ConsumeItemDynamic.java:60-62, `return build.consumeTriggerValid() || build.items.has(items.get(build), multiplier.get(build)) ? 1f : 0f;`): BINARY 1/0, not a ratio -- 1 when the building is burning a trigger consumer or its item module holds every stack, 0 otherwise. consumeTriggerValid() is false at the base (BuildingComp.java:764-766, `public boolean consumeTriggerValid(){` with `return false;`) and no Constructor/BlockProducer build overrides it, so the trigger term is always false here. items.has (ItemModule.java:153-156, `if(stack.item.id >= items.length || !has(stack.item, Math.round(stack.amount * multiplier))) return false;`) requires EVERY stack to hold round(amount * multiplier), with has(item, amount) = get(item) >= amount (ItemModule.java:126-128, `return get(item) >= amount;`); the port's item module is a Dictionary keyed by item name, so an unknown item reads 0 through the shared inventory helper (SourceDrillInventoryRuntimeState.item_count, reused through a preload, NOT re-implemented), the same outcome as the id-out-of-range branch. An empty stacks array holds trivially (the loop never runs), so a null recipe folds 1.0 -- the consumer is still in nonOptionalConsumers, so the row always joins the first pass (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The multiplier defaults to 1f (Consume.java:18, `public Floatf<Building> multiplier = b -> 1f;`); the BlockProducer dynamic consumer sets none.
+	var items: Dictionary = frame.get("items", {})
+	var result := 1.0
+	for stack in stacks:
+		if not (stack is Dictionary):
+			continue
+		var item_name: String = str(stack.get("item", ""))
+		var needed: int = int(round(float(stack.get("amount", 0)) * multiplier))
+		if inventory.item_count(items, item_name) < needed:
+			result = 0.0
+	return {"has_item_row": true, "row": {"result": result, "is_power": false}}
+
+static func source_constructor_dynamic_item_trigger_state(items: Dictionary, stacks: Array, multiplier: float) -> Dictionary:
+	# ConsumeItemDynamic.trigger (ConsumeItemDynamic.java:53-57, `build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));`): remove round(amount * multiplier) of each stack, clamped to the held count (`amount = Math.min(amount, items[item.id]);`, ItemModule.java:258-263) through the shared inventory helper (SourceDrillInventoryRuntimeState.remove_item_state, reused through a preload, NOT re-implemented). Tested pure, NOT wired live: consume() only fires when the progress advance completes (`if(progress >= recipe.buildTime){`, BlockProducer.java:115, with `consume();`, BlockProducer.java:116), and the advance waits for its own slice -- the tick folds the row only.
+	var next_items: Dictionary = items.duplicate(true)
+	for stack in stacks:
+		if not (stack is Dictionary):
+			continue
+		var item_name: String = str(stack.get("item", ""))
+		var amount: int = int(round(float(stack.get("amount", 0)) * multiplier))
+		var removed: Dictionary = inventory.remove_item_state(next_items, item_name, amount)
+		next_items = removed.get(inventory.SOURCE_DRILL_INVENTORY_DRILL_ITEMS_KEY, next_items)
+	return next_items
 
 @warning_ignore("unused_parameter")
 static func source_constructor_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
@@ -112,7 +151,7 @@ static func source_constructor_tick_buildings_state(game: Object, seconds: float
 		# into the min efficiency like every other non-optional
 		# consumer, and the produce gate (BlockProducer.java:110)
 		# follows it. The power consumer counts toward
-		# hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a constructor does not take the early return. A constructor with no power consumer is untouched: the tick models no other consumers yet (the dynamic item consumer row waits for its own slice), and BlockProducerBuild overrides shouldConsume() to return super.shouldConsume() && recipe() != null (BlockProducer.java:102-104) -- N2216 feeds the live gate to the machinery (the pure gate is source_constructor_should_consume_state, fed the frame); the N2161 RED decision is resolved. The gate HAS an enabled term via super (Java returns `super.shouldConsume() && recipe() != null;` with the default `return enabled;`), so the pure gate reads frame["enabled"] too (the ItemBridge N2188 / RepairTurret N2212 precedent); the outer guard below already runs the machinery only when enabled. productionValid is the canonical true default (SourceBuildingAccessState.production_valid_state()).
+		# hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a constructor does not take the early return. A constructor with no power consumer is untouched: the machinery runs only when the block has a power consumer, and both defs do. The dynamic item row (N2265) folds beside the power row inside the guard, and BlockProducerBuild overrides shouldConsume() to return super.shouldConsume() && recipe() != null (BlockProducer.java:102-104) -- N2216 feeds the live gate to the machinery (the pure gate is source_constructor_should_consume_state, fed the frame); the N2161 RED decision is resolved. The gate HAS an enabled term via super (Java returns `super.shouldConsume() && recipe() != null;` with the default `return enabled;`), so the pure gate reads frame["enabled"] too (the ItemBridge N2188 / RepairTurret N2212 precedent); the outer guard below already runs the machinery only when enabled. productionValid is the canonical true default (SourceBuildingAccessState.production_valid_state()).
 		var has_power_consumer: bool = bool(block.properties.has("consumePower"))
 		if has_power_consumer and bool(frame.get("enabled", true)) and not bool(frame.get("cheating", false)):
 			var gate: Dictionary = source_constructor_should_consume_state(frame)
@@ -125,6 +164,44 @@ static func source_constructor_tick_buildings_state(game: Object, seconds: float
 			var required_results: Array = []
 			if bool(power_row.get("has_power_row", false)):
 				required_results.append(power_row.get("row", {}))
+			# The dynamic item row folds beside the power row
+			# (N2265): the recipe block id resolves through
+			# the catalog, whose requirements arrive as
+			# [{amount, item}] kebab-case; a null recipe (or
+			# a recipe block the catalog does not know, or
+			# one with no requirements) yields empty stacks,
+			# so the row folds 1.0 -- the consumer is still
+			# in nonOptionalConsumers, so the row always
+			# appends. The frame recipe is the family dict
+			# fixture {"block": <id>} (the N2161/N2216 proof
+			# precedent); a bare string id is accepted too.
+			# The build-cost multiplier reads the live rules
+			# state with the 1.0 default -- the port
+			# rules_state carries no buildCostMultiplier key
+			# yet (Rules.java:115, `public float
+			# buildCostMultiplier = 1f;`). The multiplier
+			# defaults to 1f (Consume.java:18, `public
+			# Floatf<Building> multiplier = b -> 1f;`); the
+			# BlockProducer dynamic consumer sets none.
+			var recipe: Variant = frame.get("recipe", null)
+			var recipe_id: String = ""
+			if recipe is String:
+				recipe_id = str(recipe)
+			elif recipe is Dictionary:
+				recipe_id = str(recipe.get("block", ""))
+			var recipe_requirements: Array = []
+			if recipe_id != "" and blocks_by_id.has(recipe_id):
+				var recipe_block = blocks_by_id[recipe_id]
+				var catalog_requirements: Variant = recipe_block.properties.get("requirements", [])
+				if catalog_requirements is Array:
+					recipe_requirements = catalog_requirements
+			var build_cost_multiplier: float = 1.0
+			if rules_state is Dictionary:
+				build_cost_multiplier = float(rules_state.get("buildCostMultiplier", 1.0))
+			var dynamic_stacks: Array = source_constructor_dynamic_item_stacks_state(recipe_requirements, build_cost_multiplier)
+			var dynamic_row: Dictionary = source_constructor_dynamic_item_consumer_row_state(frame, dynamic_stacks, 1.0)
+			if bool(dynamic_row.get("has_item_row", false)):
+				required_results.append(dynamic_row.get("row", {}))
 			var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(true, bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, [], [], frame)
 			source_building_efficiency_state.apply_update_consumption_state(consumption, frame)
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
