@@ -36,10 +36,14 @@ class C07ImpactReactorUpdateTileTests(unittest.TestCase):
         # the stamped power.status, run by the driver AFTER the
         # consumption fold (BuildingComp.update(),
         # BuildingComp.java:2274 `updateConsumption();` then
-        # :2277 `updateTile();`) and only while enabled
-        # (BuildingComp.java:2276, `if(enabled ||
+        # :2277 `updateTile();`) -- in Java updateTile runs even
+        # when disabled (BuildingComp.java:2276, `if(enabled ||
         # !block.noUpdateDisabled){`, default false,
-        # Block.java:170 -- ImpactReactor sets no override).
+        # Block.java:170 -- ImpactReactor sets no override, so the
+        # OR holds via !noUpdateDisabled); the port driver gates
+        # the advance on enabled only because the driver does not
+        # model the disabled efficiency-zeroing yet (see the
+        # driver comment in SourceImpactReactorBuildState.gd).
         # The warmup lerps toward 1 at warmupSpeed * timeScale
         # (ImpactReactor.java:82, warmupSpeed 0.001f class
         # default, ImpactReactor.java:19, NOT overridden by the
@@ -137,10 +141,13 @@ class C07ImpactReactorUpdateTileTests(unittest.TestCase):
         # (ImpactReactor.java:98) and productionEfficiency is
         # pow(warmup, 5f) (ImpactReactor.java:100). The advance
         # runs AFTER the consumption fold (BuildingComp.update(),
-        # BuildingComp.java:2274/:2277) and only while enabled
-        # (BuildingComp.java:2276, `if(enabled ||
+        # BuildingComp.java:2274/:2277) -- in Java updateTile runs
+        # even when disabled (BuildingComp.java:2276, `if(enabled ||
         # !block.noUpdateDisabled){`, default false,
-        # Block.java:170). Mathf.lerpDelta is `return lerp(
+        # Block.java:170); the port driver gates the advance on
+        # enabled only because the driver does not model the
+        # disabled efficiency-zeroing yet (see the driver comment
+        # in SourceImpactReactorBuildState.gd). Mathf.lerpDelta is `return lerp(
         # fromValue, toValue, clamp(progress * Time.delta));`
         # (Mathf.java:430-431), ported as
         # SourceMathState.source_lerp_delta; Mathf.equal is
@@ -222,7 +229,9 @@ class C07ImpactReactorUpdateTileTests(unittest.TestCase):
         self.assertIn('pow(warmup, 5.0)', impact_reactor)
         self.assertIn('return {"warmup": warmup, "total_progress": total_progress, "production_efficiency": production_efficiency}', impact_reactor)
         # The driver runs the advance after the consumption fold,
-        # only while enabled, with the sprite-meta timeScale and
+        # gated on enabled (port-only gate -- in Java updateTile
+        # runs even when disabled; see the driver comment),
+        # with the sprite-meta timeScale and
         # seconds * 60 as Time.delta -- and writes all three
         # frame keys back.
         self.assertIn('source_impact_reactor_update_tile_advance_state(frame, source_placed_block_state.time_scale(sprite, source_placed_block_state.game_default_time_scale(game)), source_placed_block_state.game_source_delta(game, seconds))', impact_reactor)
