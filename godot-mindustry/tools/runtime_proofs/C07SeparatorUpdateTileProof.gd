@@ -2,6 +2,9 @@ extends Node
 
 const main_scene := preload("res://scenes/Main.tscn")
 const separator_build_state := preload("res://src/game/SourceSeparatorBuildState.gd")
+const liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
+const content_registry_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
+const placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
 const registry := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 const proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 
@@ -103,21 +106,31 @@ func _ready() -> void:
 	proof["offload_picks_weighted_result"] = str(picked.get("picked_item", "")) == "titanium" and int(picked_items.get("titanium", -1)) == 1 and int(picked.get("seed", -1)) == 2 and str(default_picked.get("picked_item", "")) == "copper" and int(default_items.get("copper", -1)) == 1 and int(default_picked.get("seed", -1)) == 1 and bool(full_picked.get("crafted", false)) and str(full_picked.get("picked_item", "")) == "titanium" and int(full_items.get("titanium", -1)) == 10 and int(full_picked.get("seed", -1)) == 2
 
 	# --- Live tick: the separator is a Separator build with a
-	# power consumer (consumePower 1.1f), placed live; the tick
-	# driver is called directly (as the N2147/N2148/N2149/N2150/
-	# N2153/N2154/N2155/N2156/N2157/N2158/N2159/N2160/N2161/
-	# N2162/N2163/N2164/N2165/N2166/N2167/N2168/N2169/N2200
-	# proofs do), not simulate_factory, so the graph update
-	# does not overwrite the stamped power_status -- the
-	# write-back itself is already proven by N2142. One 1/60s
-	# tick is one source tick: efficiency folds the power min
-	# 0.5, progress rises 0.5/35, warmup lerps to 0.02,
-	# totalProgress stays 0 (warmup was 0), and the fresh
-	# frame is seeded from its tile position like created():
-	# Point2.pack(28, 21) = 1835029, and
-	# Mathf.randomSeed(1835029, 0, Integer.MAX_VALUE - 1) =
-	# 1943898491 (the Arc Rand reference value).
+	# power consumer (consumePower 1.1f) and a slag consumer
+	# (consumeLiquid slag 4f/60f, the N2252 liquid row -- the
+	# row folds into the first pass beside the power row, so
+	# an empty slag store would fold efficiency to 0), placed
+	# live; the tick driver is called directly (as the N2147/
+	# N2148/N2149/N2150/N2153/N2154/N2155/N2156/N2157/N2158/
+	# N2159/N2160/N2161/N2162/N2163/N2164/N2165/N2166/N2167/
+	# N2168/N2169/N2200 proofs do), not simulate_factory, so
+	# the graph update does not overwrite the stamped
+	# power_status -- the write-back itself is already proven
+	# by N2142. One 1/60s tick is one source tick: efficiency
+	# folds the power min 0.5 (slag-full, so the liquid row
+	# folds 1.0 -- the slag is seeded 1.0 on the sprite
+	# liquids meta store, the N2281 pattern, and one tick
+	# consumes only ~(4/60) x edelta ~= 0.033), progress rises
+	# 0.5/35, warmup lerps to 0.02, totalProgress stays 0
+	# (warmup was 0), and the fresh frame is seeded from its
+	# tile position like created(): Point2.pack(28, 21) =
+	# 1835029, and Mathf.randomSeed(1835029, 0,
+	# Integer.MAX_VALUE - 1) = 1943898491 (the Arc Rand
+	# reference value).
 	var catalog = game.get("content_catalog")
+	var liquid_catalog: Dictionary = content_registry_state.source_liquid_catalog_state(catalog)
+	var liquid_id_by_name: Dictionary = liquid_catalog.get("liquid_id_by_name", {})
+	var slag_id: int = int(liquid_id_by_name.get("slag", -1))
 	var blocks_by_id: Dictionary = {}
 	for registered_block in catalog.get_many("block"):
 		blocks_by_id[registered_block.id] = registered_block
@@ -131,6 +144,12 @@ func _ready() -> void:
 	# frame dict before the tick to stamp power_status on it).
 	separator_build_state.source_separator_bind_frame_state(separator, blocks_by_id["separator"])
 	var separator_frame: Dictionary = separator.get_meta(separator_build_state.SOURCE_SEPARATOR_BUILDING_META_KEY, {})
+	# Slag-full (N2312 fix for the N2252 liquid row): the
+	# slag is set on the sprite liquids meta store (the live
+	# LiquidModule), which the driver syncs into the frame
+	# each tick before the fold (the N2281/N2252 precedent).
+	var separator_liquids: Dictionary = separator.get_meta(placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, {})
+	liquid_module_state.source_set_state(separator_liquids, slag_id, 1.0)
 
 	# Half power: efficiency folds the power min 0.5, and the
 	# advance moves progress / warmup with it.
