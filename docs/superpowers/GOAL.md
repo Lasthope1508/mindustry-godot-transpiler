@@ -209,6 +209,9 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
   - [ ] N2195 `C07ShockwaveTowerBulletScanProof` — Linux GREEN 20:1x (6 key).
     Scene tới Windows theo slice commit `5a59201` (pushed ~20:5x, main
     `24b6602`). Chưa chạy trên Windows Godot.
+  - [ ] N2196 `C07ShockwaveTowerWaveDamageProof` — Linux GREEN 21:15 (6 key).
+    Scene tới Windows theo slice commit `3d1d842` (pushed ~21:5x, main
+    `58b8b74`). Chưa chạy trên Windows Godot.
   - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
     trên (ghi rõ commit đưa scene tới Windows).
   - [ ] Agent khác đang test các lỗi fail trên Windows Godot (PR #1 đã merge
