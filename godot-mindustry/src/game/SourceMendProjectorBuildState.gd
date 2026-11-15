@@ -9,6 +9,7 @@ const source_building_access_state := preload("res://src/game/SourceBuildingAcce
 const source_math_state := preload("res://src/game/SourceMathState.gd")
 const source_projector_boost_state := preload("res://src/game/SourceProjectorBoostState.gd")
 const source_mend_projector_state := preload("res://src/game/SourceMendProjectorState.gd")
+const source_drill_inventory_state := preload("res://src/game/SourceDrillInventoryRuntimeState.gd")
 
 # The MendProjector implementation (MendProjector.java:21, `public class
 # MendProjector extends Block{`): mender (consumePower 0.3f,
@@ -64,7 +65,16 @@ static func source_mend_projector_tick_frame_state(frame: Dictionary, block_impl
 	return frame
 
 static func _initial_frame() -> Dictionary:
-	return {}
+	# A new MendBuild starts with an empty item module (the
+	# Building.items ItemModule, the factory precedent
+	# SourceFactoryBuildState.gd:89-101, `frame["items"] = {}`):
+	# the booster item row (N2263) reads the held stacks from
+	# frame["items"], so the frame carries the items Dictionary
+	# keyed by item name from placement. No live intake fills
+	# it yet (the Separator precedent) -- the row reads the
+	# frame as-is, so a live mend projector with no intake
+	# reads 0 items and folds optionalEfficiency 0.
+	return {"items": {}}
 
 static func source_mend_projector_bind_frame_state(sprite: Sprite2D, block: Object) -> Dictionary:
 	# Placement creates the Building (Block.java:1002 newBuilding);
@@ -102,11 +112,21 @@ static func source_mend_projector_power_status_row_state(frame: Dictionary, has_
 	# (MendProjector.java:96, `smoothEfficiency = Mathf.lerpDelta(smoothEfficiency, efficiency, 0.08f);`) and the heat gate
 	# (MendProjector.java:97, `heat = Mathf.lerpDelta(heat, efficiency > 0 && canHeal ? 1f : 0f, 0.08f);`) and the charge advance
 	# (MendProjector.java:98, `charge += heat * delta();`).
-	# Documented limits: (1) power-only first pass -- the
-	# silicon (mender) and phaseFabric (mend-projector)
-	# booster item rows wait for their own slices, so the
-	# folded efficiency is the min over the *modeled*
-	# consumers (power only). (2) No shouldConsume gate --
+	# Documented limits: (1) power first pass + booster item
+	# optional pass -- the silicon (mender, 1 stack,
+	# `consumeItem(Items.silicon).boost();`, Blocks.java:1929)
+	# and phaseFabric (mend-projector, 1 stack,
+	# `consumeItem(Items.phaseFabric).boost();`, Blocks.java:1941)
+	# booster item rows are live since N2263 (ConsumeItems.
+	# efficiency, ConsumeItems.java:51-53, binary 1/0), folded
+	# into the optional pass (BuildingComp.java:1980-1981) and
+	# capped by minEfficiency (BuildingComp.java:1986). No live
+	# intake fills frame["items"] yet (the Separator precedent),
+	# so the row reads the frame as-is; the timer-gated
+	# consume() (MendProjector.java:102-104, useTime 400f)
+	# stays deferred -- no removal in this slice. Other
+	# unmodeled rows still defer (suppression, draw / drawLight
+	# / sense, the live indexer range query). (2) No shouldConsume gate --
 	# MendBuild has no shouldConsume override, so the default
 	# (BuildingComp.java:755-757, `return enabled;`) applies;
 	# the machinery runs with should_consume=true when
@@ -128,6 +148,82 @@ static func source_mend_projector_power_status_row_state(frame: Dictionary, has_
 	var stamped: Variant = frame.get("power_status", null)
 	var live: float = 1.0 if stamped == null else float(stamped)
 	return {"has_power_row": true, "row": {"result": live, "is_power": true}}
+
+static func _mend_projector_booster_stacks_for_block(block_id: String) -> Array:
+	# The per-def booster item stacks (the Separator per-def
+	# helper precedent): mender consumes silicon, mend-projector
+	# consumes phaseFabric, each a single stack of 1
+	# (`consumeItem(Items.silicon).boost();`, Blocks.java:1929;
+	# `consumeItem(Items.phaseFabric).boost();`, Blocks.java:1941;
+	# consumeItem(item) is a stack of 1, `public ConsumeItems consumeItem(Item item){` / `return consumeItem(item, 1);`,
+	# Block.java:1167-1168). Item ids are kebab-case per the
+	# catalog ("silicon", "phase-fabric"). An unknown block id
+	# has no booster row.
+	if block_id == "mender":
+		return [{"item": "silicon", "amount": 1}]
+	if block_id == "mend-projector":
+		return [{"item": "phase-fabric", "amount": 1}]
+	return []
+
+static func source_mend_projector_item_consumer_row_state(frame: Dictionary, stacks: Array) -> Dictionary:
+	# ConsumeItems.efficiency (ConsumeItems.java:51-53, each
+	# exact expr on ONE comment line, the N2148 lesson):
+	# `return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;`
+	# The result is BINARY 1.0/0.0 -- not a ratio like
+	# ConsumeLiquid. The trigger-valid half is the base false
+	# (`public boolean consumeTriggerValid(){`, BuildingComp.java:764-766,
+	# `return false;`; no MendProjector family overrides it),
+	# so the row is 1.0 exactly when every stack is held:
+	# `if(stack.item.id >= items.length || !has(stack.item, Math.round(stack.amount * multiplier))) return false;`
+	# (ItemModule.java:153-156), with `return get(item) >= amount;`
+	# (ItemModule.java:126-128). The multiplier is the Consume
+	# default 1f (`public Floatf<Building> multiplier = b -> 1f;`,
+	# Consume.java:18) -- neither def sets one -- so the
+	# required count is round(amount * 1f) = amount. The counts
+	# read through the shared drill inventory helper
+	# (SourceDrillInventoryRuntimeState.item_count, the
+	# Separator precedent) over frame["items"], not a
+	# recomputation; a frame without an items store reads 0,
+	# like Java items.get for an item never added. Booster =
+	# `return optional(true, true);` (Consume.java:33-35), so
+	# the row folds into the OPTIONAL pass only:
+	# `for(var cons : block.optionalConsumers){`
+	# `optionalEfficiency = Math.min(optionalEfficiency, cons.efficiency(self()));`
+	# (BuildingComp.java:1980-1981), capped by the min:
+	# `efficiency = minEfficiency;`
+	# `optionalEfficiency = Math.min(optionalEfficiency, minEfficiency);`
+	# (BuildingComp.java:1985-1986), and zeroed when the gate
+	# is false (`efficiency = optionalEfficiency = 0f;`,
+	# BuildingComp.java:1992-1994) -- the row never touches the
+	# min efficiency or shouldConsumePower. phaseHeat already
+	# lerps toward the folded optionalEfficiency
+	# (`phaseHeat = Mathf.lerpDelta(phaseHeat, optionalEfficiency, 0.1f);`,
+	# MendProjector.java:100); this slice only supplies the real
+	# optionalEfficiency, and the heal follows it
+	# (`other.heal(other.maxHealth() * (healPercent + phaseHeat * phaseBoost) / 100f * efficiency);`,
+	# MendProjector.java:113). NO removal in this slice: the
+	# timer-gated consume()
+	# `if(optionalEfficiency > 0 && timer(timerUse, useTime / timeScale) && canHeal){`
+	# (MendProjector.java:102-104, `public float useTime = 400f;`,
+	# MendProjector.java:31) stays deferred -- ConsumeItems has
+	# no update() to run in the second pass, so consumption
+	# only ever happens through that timer-gated consume() call
+	# (`build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));`,
+	# ConsumeItems.java:44-48). A block with no item consumer
+	# (empty stacks) contributes no row.
+	if stacks.is_empty():
+		return {"has_item_row": false, "row": {}}
+	var items: Dictionary = frame.get("items", {})
+	var has_all := true
+	for stack in stacks:
+		var entry: Dictionary = stack if stack is Dictionary else {}
+		var item_id: String = str(entry.get("item", ""))
+		var amount: int = int(entry.get("amount", 0))
+		if source_drill_inventory_state.item_count(items, item_id) < amount:
+			has_all = false
+			break
+	var result: float = 1.0 if has_all else 0.0
+	return {"has_item_row": true, "row": {"result": result, "is_power": false}}
 
 static func source_mend_projector_update_tile_advance_state(frame: Dictionary, reload_value: float, time_delta: float, time_scale := 1.0, can_heal := true) -> Dictionary:
 	# MendBuild.updateTile() (MendProjector.java:94-120), the
@@ -161,8 +257,9 @@ static func source_mend_projector_update_tile_advance_state(frame: Dictionary, r
 	# field default 0.0 (BuildingComp.java:87, `transient
 	# float optionalEfficiency;`); the shared machinery folds
 	# both onto the frame (apply_update_consumption_state),
-	# and with no optional consumers modeled the optional
-	# value equals the folded efficiency. (3) charge binds
+	# and the optional value is the min over the modeled
+	# optional consumers (the N2263 booster item row), capped
+	# by the folded efficiency. (3) charge binds
 	# 0.0 deterministically instead of the Java random init
 	# (documented deviation: the random stagger only
 	# desynchronizes first-heal timing across projectors).
@@ -304,10 +401,15 @@ static func source_mend_projector_tick_buildings_state(game: Object, seconds: fl
 		# follows it. The power consumer counts toward
 		# hasConsumers (Block.java:1449,
 		# `hasConsumers = consumers.length > 0;`), so a mend
-		# projector does not take the early return. A mend projector with
-		# no power consumer is untouched: the tick models no other
-		# consumers yet (the silicon / phaseFabric booster item rows wait for their
-		# own slices), and there is no shouldConsume gate yet
+		# projector does not take the early return. The booster
+		# item row folds into the optional pass since N2263
+		# (mender silicon / mend-projector phaseFabric,
+		# Blocks.java:1929/1941; ConsumeItems.efficiency,
+		# ConsumeItems.java:51-53, binary 1/0), so a mend
+		# projector with no booster items folds
+		# optionalEfficiency 0 while the power min is
+		# untouched. A mend projector with no power consumer is
+		# untouched: there is no shouldConsume gate yet
 		# (MendBuild has no shouldConsume override; the default
 		# BuildingComp.java:755-757 `return enabled;` applies),
 		# so the machinery runs with should_consume=true when enabled.
@@ -324,7 +426,11 @@ static func source_mend_projector_tick_buildings_state(game: Object, seconds: fl
 			var required_results: Array = []
 			if bool(power_row.get("has_power_row", false)):
 				required_results.append(power_row.get("row", {}))
-			var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(true, bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, [], [], frame)
+			var optional_results: Array = []
+			var item_row: Dictionary = source_mend_projector_item_consumer_row_state(frame, _mend_projector_booster_stacks_for_block(block_id))
+			if bool(item_row.get("has_item_row", false)):
+				optional_results.append(item_row.get("row", {}))
+			var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(true, bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, optional_results, [], frame)
 			source_building_efficiency_state.apply_update_consumption_state(consumption, frame)
 		# The updateTile advance runs for every ticked mend
 		# projector, inside or outside the consumption gate:
