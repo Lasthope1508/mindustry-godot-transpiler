@@ -55,16 +55,18 @@ static func source_tractor_beam_turret_tick_frame_state(frame: Dictionary, block
 	return frame
 
 static func _initial_frame() -> Dictionary:
-	return {}
+	return {"target": null}
 
 static func source_tractor_beam_turret_bind_frame_state(sprite: Sprite2D, block: Object) -> Dictionary:
 	# Placement creates the Building (Block.java:1002 newBuilding);
 	# the port's frame is that Building state, bound on the sprite
 	# at placement under the tractor-beam frame meta key
 	# ("source_tractor_beam_turret_building"). A TractorBeamTurret
-	# sprite gets an empty frame bound; the live-loop tick fills its
-	# keys every tick. Any other block, or an already-bound sprite,
-	# binds nothing.
+	# sprite gets a frame bound with the target key defaulting to
+	# null (the Java field `public @Nullable Unit target;`,
+	# TractorBeamTurret.java:72, defaults to null); the live-loop
+	# tick fills its other keys every tick. Any other block, or an
+	# already-bound sprite, binds nothing.
 	if block == null or not _is_tractor_beam_turret_build_implementation(str(block.implementation)):
 		return {"applied": false, "frame": {}}
 	if sprite.has_meta(SOURCE_TRACTOR_BEAM_TURRET_BUILDING_META_KEY):
@@ -72,6 +74,12 @@ static func source_tractor_beam_turret_bind_frame_state(sprite: Sprite2D, block:
 	var frame: Dictionary = _initial_frame()
 	sprite.set_meta(SOURCE_TRACTOR_BEAM_TURRET_BUILDING_META_KEY, frame)
 	return {"applied": true, "frame": frame}
+
+static func source_tractor_beam_turret_should_consume_state(frame: Dictionary) -> Dictionary:
+	# TractorBeamBuild overrides shouldConsume (TractorBeamTurret.java:141, `public boolean shouldConsume(){` with `return super.shouldConsume() && target != null;`, TractorBeamTurret.java:142): the gate reads the live target AND the super default. The super is the BuildingComp default (`return enabled;`, BuildingComp.java:755-756): the chain is TractorBeamBuild (TractorBeamTurret.java:71, `public class TractorBeamBuild extends BaseTurretBuild{`) -> BaseTurretBuild (BaseTurret.java:113, `public class BaseTurretBuild extends Building implements Ranged, RotBlock{`) -> Building; BaseTurret.java does NOT override shouldConsume (grep 0 matches), so the default applies. Turret.TurretBuild.shouldConsume() (Turret.java:364, `return isShooting || reloadCounter < reload;`) is NOT in this chain -- the tractor beam extends BaseTurret (`public class TractorBeamTurret extends BaseTurret{`, TractorBeamTurret.java:19), NOT Turret. The field is `public @Nullable Unit target;` (TractorBeamTurret.java:72) -- the target is a UNIT. The gate reads frame["enabled"] internal (the super default, the N2212 RepairTurret precedent): target (frame["target"], default null for a frame bound before this slice -- the Java field default) and enabled (frame["enabled"], default true -- BuildingComp.java:77, `transient boolean enabled = true;`); no live fill sets frame["target"] yet -- the live retarget (Units.closestEnemy, TractorBeamTurret.java:88, `target = Units.closestEnemy(team, x, y, range, u -> u.checkTarget(targetAir, targetGround));`, every retargetTime 5f, TractorBeamTurret.java:21, 87) is the updateTile advance (TractorBeamTurret.java:78-139) and waits for its own slice. When the gate is false updateConsumption forces efficiency to zero (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). The rotation and pull follow the folded efficiency through eff/edelta (TractorBeamTurret.java:84, `float eff = efficiency * coolantMultiplier, edelta = eff * delta();`, TractorBeamTurret.java:117, `rotation = Angles.moveToward(rotation, dest, rotateSpeed * edelta);`). The only def is parallax (size 2, `range = 300f;`, `consumePower(3.3f);`, Blocks.java:3640-3653). The shouldConsume gate is live (N2218).
+	var target: Variant = frame.get("target", null)
+	var enabled: bool = bool(frame.get("enabled", true))
+	return {"should_consume": target != null and enabled, "has_target": target != null}
 
 static func source_tractor_beam_turret_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40,
@@ -94,13 +102,20 @@ static func source_tractor_beam_turret_power_status_row_state(frame: Dictionary,
 	# TractorBeamTurret.java:117, `rotation = Angles.moveToward(rotation, dest, rotateSpeed * edelta);`).
 	# Documented limits: (1) power-only first pass -- parallax
 	# has no other consumers; the folded efficiency is the min
-	# over the *modeled* consumers (power only). (2) No
-	# shouldConsume gate -- TractorBeamBuild.shouldConsume()
+	# over the *modeled* consumers (power only). (2)
+	# shouldConsume gate live (N2218) --
+	# TractorBeamBuild.shouldConsume()
 	# (TractorBeamTurret.java:141-143, `return super.shouldConsume() && target != null;`)
-	# needs live bullet-target state the tick does not track yet;
-	# the machinery runs with should_consume=true when enabled.
-	# (3) No updateTile advance -- retarget / coolant consumption / rotation / strength / laser /
-	# impulse (TractorBeamTurret.java:78-139)
+	# reads the live unit target (frame["target"], default null)
+	# plus enabled (the BuildingComp super default); when the
+	# gate is false Java forces efficiency to 0
+	# (BuildingComp.java:1960 + 1992-1994); the pure gate reads
+	# the frame target key plus enabled and feeds should_consume
+	# to the machinery; no live fill sets frame["target"] yet
+	# (the live retarget is the updateTile advance,
+	# TractorBeamTurret.java:78-139). (3) No updateTile advance
+	# -- retarget / coolant consumption / rotation / strength /
+	# laser / impulse (TractorBeamTurret.java:78-139)
 	# waits for its own slice; the proof carries no progress keys,
 	# the eff/edelta fold (TractorBeamTurret.java:84, 117) is what the
 	# efficiency keys prove.
@@ -157,15 +172,23 @@ static func source_tractor_beam_turret_tick_buildings_state(game: Object, second
 		# (Block.java:1449, `hasConsumers = consumers.length > 0;`),
 		# so a parallax does not take the early return. A parallax
 		# with no power consumer is untouched: the tick models no
-		# other consumers yet, and there is no shouldConsume gate
-		# yet (TractorBeamTurret.java:141-143 needs live
-		# bullet-target state the tick does not track), so the
-		# machinery runs with should_consume=true when enabled.
-		# productionValid is the canonical true default
+		# other consumers yet, and TractorBeamBuild overrides
+		# shouldConsume (TractorBeamTurret.java:141, `public boolean shouldConsume(){`
+		# with `return super.shouldConsume() && target != null;`, TractorBeamTurret.java:142)
+		# -- N2218 feeds the live gate to the machinery (the pure
+		# gate is source_tractor_beam_turret_should_consume_state,
+		# fed the frame); the N2152 RED decision is resolved. The
+		# gate's super term is the BuildingComp default (`return
+		# enabled;`, BuildingComp.java:755-756), so the pure gate
+		# reads frame["enabled"] too (the N2212 RepairTurret
+		# precedent); the outer guard below already runs the
+		# machinery only when enabled. productionValid is the
+		# canonical true default
 		# (SourceBuildingAccessState.production_valid_state()).
 		var has_power_consumer: bool = bool(block.properties.has("consumePower"))
 		if has_power_consumer and bool(frame.get("enabled", true)) and not bool(frame.get("cheating", false)):
-			var should_consume: bool = bool(frame.get("enabled", true))
+			var gate: Dictionary = source_tractor_beam_turret_should_consume_state(frame)
+			var should_consume: bool = bool(gate.get("should_consume", true))
 			var valid: bool = source_building_access_state.production_valid_state()
 			var setup: Dictionary = source_building_efficiency_state.update_consumption_setup_state(should_consume, valid)
 			frame["efficiency"] = setup.get("efficiency", 1.0)
