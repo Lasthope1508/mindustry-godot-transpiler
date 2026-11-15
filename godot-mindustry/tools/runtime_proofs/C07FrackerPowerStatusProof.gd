@@ -60,6 +60,10 @@ func _ready() -> void:
 	fracker_build_state.source_fracker_bind_frame_state(extractor, blocks_by_id["oil-extractor"])
 	var extractor_frame: Dictionary = extractor.get_meta(fracker_build_state.SOURCE_FRACKER_BUILDING_META_KEY, {})
 
+	# N2268: the required sand row folds 0.0 on an empty
+	# frame, so seed 1 sand before ticking.
+	extractor_frame["items"] = {"sand": 1}
+
 	# Half power: efficiency folds the power min 0.5.
 	extractor_frame["power_status"] = 0.5
 	fracker_build_state.source_fracker_tick_buildings_state(game, 1.0 / 60.0)

@@ -131,6 +131,11 @@ func _ready() -> void:
 	var extractor_b_liquids: Dictionary = extractor_b.get_meta(placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, {})
 	liquid_module_state.source_set_state(extractor_b_liquids, water_id, 0.3)
 
+	# N2268: the required sand row folds 0.0 on an empty
+	# frame, so seed 1 sand on both extractors before
+	# ticking -- otherwise both live efficiencies read 0.
+	extractor_a_frame["items"] = {"sand": 1}
+	extractor_b_frame["items"] = {"sand": 1}
 	extractor_a_frame["power_status"] = 1.0
 	extractor_b_frame["power_status"] = 0.5
 	fracker_build_state.source_fracker_tick_buildings_state(game, 1.0 / 60.0)

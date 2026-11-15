@@ -71,6 +71,10 @@ func _ready() -> void:
 	impact_reactor_build_state.source_impact_reactor_bind_frame_state(impact_reactor, blocks_by_id["impact-reactor"])
 	var impact_reactor_frame: Dictionary = impact_reactor.get_meta(impact_reactor_build_state.SOURCE_IMPACT_REACTOR_BUILDING_META_KEY, {})
 
+	# N2266: the required blast-compound row folds 0.0 on an
+	# empty frame, so seed 1 blast-compound before ticking.
+	impact_reactor_frame["items"] = {"blast-compound": 1}
+
 	# Half power: efficiency folds the power min 0.5.
 	impact_reactor_frame["power_status"] = 0.5
 	impact_reactor_build_state.source_impact_reactor_tick_buildings_state(game, 1.0 / 60.0)

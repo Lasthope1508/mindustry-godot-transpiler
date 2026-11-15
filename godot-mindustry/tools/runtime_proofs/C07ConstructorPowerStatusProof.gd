@@ -67,6 +67,10 @@ func _ready() -> void:
 	# (only its null-ness is read) — otherwise
 	# efficiency_folds_power_min would read 0.
 	constructor_frame["recipe"] = {"block": "conveyor"}
+	# N2265: the dynamic row folds 0.0 without the recipe
+	# requirements on hand, so seed the conveyor stack
+	# (catalog requirements: copper 1) before ticking.
+	constructor_frame["items"] = {"copper": 1}
 
 	# Half power: efficiency folds the power min 0.5.
 	constructor_frame["power_status"] = 0.5

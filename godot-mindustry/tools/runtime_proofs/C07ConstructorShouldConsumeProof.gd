@@ -94,6 +94,10 @@ func _ready() -> void:
 	# Recipe present: gate true -> efficiency folds the power
 	# min 0.5 (the N2161 power fold preserved).
 	constructor_frame["recipe"] = {"block": "conveyor"}
+	# N2265: the dynamic row folds 0.0 without the recipe
+	# requirements on hand, so seed the conveyor stack
+	# (catalog requirements: copper 1) before ticking.
+	constructor_frame["items"] = {"copper": 1}
 	constructor_frame["power_status"] = 0.5
 	constructor_build_state.source_constructor_tick_buildings_state(game, 1.0 / 60.0)
 	constructor_frame = constructor.get_meta(constructor_build_state.SOURCE_CONSTRUCTOR_BUILDING_META_KEY, {})

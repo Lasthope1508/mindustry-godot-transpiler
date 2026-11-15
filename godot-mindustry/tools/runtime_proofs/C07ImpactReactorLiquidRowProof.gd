@@ -100,6 +100,11 @@ func _ready() -> void:
 	# removes 0.25 * 0.4 = 0.1 through the second pass,
 	# draining the store to 0 -- so the store is refilled
 	# before the removal key below.
+	# N2266: the required blast-compound row folds 0.0 on an
+	# empty frame, so seed 1 blast-compound before ticking.
+	# The timer needs 140 ticks to fire, so the single seed
+	# survives both ticks below.
+	impact_reactor_frame["items"] = {"blast-compound": 1}
 	liquid_module_state.source_set_state(impact_reactor_liquids, cryofluid_id, 0.1)
 	impact_reactor_frame["power_status"] = 1.0
 	impact_reactor_build_state.source_impact_reactor_tick_buildings_state(game, 1.0 / 60.0)

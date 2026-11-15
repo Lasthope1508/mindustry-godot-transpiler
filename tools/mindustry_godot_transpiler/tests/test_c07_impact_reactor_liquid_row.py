@@ -121,7 +121,7 @@ class C07ImpactReactorLiquidRowTests(unittest.TestCase):
         # The amount comes from the shared liquid module
         # helper (SourceLiquidModuleState.source_get_state)
         # over the frame liquids key, with the Fracker guard
-        # (SourceFrackerBuildState.gd:141-142). The second
+        # (SourceFrackerBuildState.gd:221). The second
         # pass removes amount * edelta * multiplier
         # (ConsumeLiquid.java:38) only when `update &&
         # efficiency > 0` (BuildingComp.java:1999), with

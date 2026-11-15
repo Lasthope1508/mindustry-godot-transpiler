@@ -114,6 +114,12 @@ func _ready() -> void:
 	accelerator_build_state.source_accelerator_bind_frame_state(accelerator, blocks_by_id["interplanetary-accelerator"])
 	var accelerator_frame: Dictionary = accelerator.get_meta(accelerator_build_state.SOURCE_ACCELERATOR_BUILDING_META_KEY, {})
 
+	# N2267: the required item row folds 0.0 on an empty
+	# frame, so seed the full core-nucleus stacks before
+	# ticking -- otherwise the live efficiency reads 0 and
+	# the advance never runs.
+	accelerator_frame["items"] = {"copper": 8000, "lead": 8000, "silicon": 5000, "thorium": 4000}
+
 	# Half power: efficiency folds the power min 0.5, and the
 	# frame advances one tick (seconds = 1/60, Time.delta =
 	# 1.0): progress by 1.0 * 0.5 / 120, heat toward 0.5 by
