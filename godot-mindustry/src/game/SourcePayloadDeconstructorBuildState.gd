@@ -8,6 +8,8 @@ const source_building_efficiency_state := preload("res://src/game/SourceBuilding
 const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
 const source_math_state := preload("res://src/game/SourceMathState.gd")
 const inventory := preload("res://src/game/SourceDrillInventoryRuntimeState.gd")
+const source_building_item_dump_state := preload("res://src/game/SourceBuildingItemDumpState.gd")
+const source_content_registry_runtime_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
 
 # The PayloadDeconstructor implementation (PayloadDeconstructor.java:17, `public class PayloadDeconstructor extends PayloadBlock{`): deconstructor (consumePower 3f, Blocks.java:6653; size 5, deconstructSpeed 6f, itemCapacity 250, Blocks.java:6649-6656) and small-deconstructor (consumePower 1f, Blocks.java:6644; size 3, deconstructSpeed 3f, itemCapacity 100, Blocks.java:6640-6647). PayloadDeconstructor sets outputsPayload=false, acceptsPayload=true, update=true, solid=true, size=5, hasItems=true, hasPower=true, itemCapacity=100 (PayloadDeconstructor.java:22-38), deconstructSpeed 2.5f class default (PayloadDeconstructor.java:19, `public float deconstructSpeed = 2.5f;`), maxPayloadSize 4 (PayloadDeconstructor.java:18, `public float maxPayloadSize = 4;`), dumpRate 4 (PayloadDeconstructor.java:20). PayloadDeconstructor extends PayloadBlock, NOT a drill or factory, so it cannot reuse an existing frame key; this driver uses its own family frame key ("source_payload_deconstructor_building", the mechanical-pump / beam-drill / mend-projector / overdrive-projector / force-projector / base-shield / regen-projector / constructor / payload-loader / payload-unloader / payload-mass-driver / unit-cargo-loader precedent), and this slice adds the payload-deconstructor key to N2142's SOURCE_CONSUMER_FRAME_META_KEYS so the graph stamp/write-back finds it. The port has NO SourcePayloadDeconstructor* files at all yet -- no display/runtime state to lean on -- so the missing piece is the live power.status -> efficiency driver, which is exactly this slice: the progress advance (PayloadDeconstructor.java:142, `float shift = edelta() * deconstructSpeed / deconstructing.buildTime();`) with `progress += shift;` follows the folded efficiency.
 const SOURCE_PAYLOAD_DECONSTRUCTOR_BUILD_IMPLEMENTATIONS := ["PayloadDeconstructor"]
@@ -38,6 +40,12 @@ const SOURCE_PAYLOAD_DECONSTRUCTOR_PAYLOAD_ROTATE_SPEED := 5.0
 const SOURCE_PAYLOAD_DECONSTRUCTOR_PAY_ROTATION_TARGET := 90.0
 const SOURCE_PAYLOAD_DECONSTRUCTOR_SPEED_SCL_LERP_RATE := 0.1
 const SOURCE_PAYLOAD_DECONSTRUCTOR_ROUNDING_TOLERANCE := 0.0001
+# The dump rate (PayloadDeconstructor.java:20,
+# `public int dumpRate = 4;`): neither def overrides it
+# (no dumpRate in Blocks.java), so both the deconstructor
+# and the small-deconstructor run dumpAccumulate 4 times
+# per tick (PayloadDeconstructor.java:111-115).
+const SOURCE_PAYLOAD_DECONSTRUCTOR_DUMP_RATE := 4
 
 static func _is_payload_deconstructor_build_implementation(implementation: String) -> bool:
 	return SOURCE_PAYLOAD_DECONSTRUCTOR_BUILD_IMPLEMENTATIONS.has(implementation)
@@ -98,8 +106,12 @@ static func _initial_frame() -> Dictionary:
 	# 0f), the items ItemModule (empty), the payload offset
 	# (`public Vec2 payVector = new Vec2();`,
 	# PayloadBlock.java:95) and `public float payRotation;`
-	# (PayloadBlock.java:96, 0f).
-	return {"deconstructing": null, "payload": null, "accum": null, "progress": 0.0, "time": 0.0, "speed_scl": 0.0, "items": {}, "pay_vector": Vector2.ZERO, "pay_rotation": 0.0}
+	# (PayloadBlock.java:96, 0f). N2276 extends the frame with
+	# the dump state at its Java defaults: the dump
+	# accumulator (`private transient float dumpAccum;`,
+	# BuildingComp.java:99, 0f) and the dump cursor
+	# (`transient int cdump;`, BuildingComp.java:68, 0).
+	return {"deconstructing": null, "payload": null, "accum": null, "progress": 0.0, "time": 0.0, "speed_scl": 0.0, "items": {}, "pay_vector": Vector2.ZERO, "pay_rotation": 0.0, "dump_accum": 0.0, "cdump": 0}
 
 static func source_payload_deconstructor_bind_frame_state(sprite: Sprite2D, block: Object) -> Dictionary:
 	# Placement creates the Building (Block.java:1002 newBuilding);
@@ -120,7 +132,7 @@ static func source_payload_deconstructor_bind_frame_state(sprite: Sprite2D, bloc
 
 static func source_payload_deconstructor_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a payload-deconstructor does not take the early return. The progress advance follows the folded efficiency (PayloadDeconstructor.java:142, `float shift = edelta() * deconstructSpeed / deconstructing.buildTime();`) with `progress += shift;` and the shouldConsume override (PayloadDeconstructor.java:219-221, `return deconstructing != null && enabled;`, default BuildingComp.java:755, `public boolean shouldConsume(){`) -- PayloadDeconstructorBuild overrides shouldConsume() to return deconstructing != null && enabled, so the default does not apply here; the gate is live since N2210 (the pure gate source_payload_deconstructor_should_consume_state feeds deconstructing != null && enabled to the machinery; when the gate is false updateConsumption forces efficiency to 0, BuildingComp.java:1960 + 1992). The deconstructor (consumePower 3f, Blocks.java:6653, `consumePower(3f);`; small-deconstructor consumePower 1f, Blocks.java:6644, `consumePower(1f);`) has no liquid consumer, so the folded efficiency is the min over the *modeled* consumers (power only).
-	# Documented limits: (1) power-only first pass -- the deconstructor has no liquid consumer, so the folded efficiency is the min over the *modeled* consumers (power only). (2) shouldConsume gate live (N2210) -- PayloadDeconstructorBuild overrides shouldConsume() to return deconstructing != null && enabled (PayloadDeconstructor.java:219-221, `return deconstructing != null && enabled;`); the pure gate reads the null-ness of the frame deconstructing payload plus the frame enabled flag and feeds should_consume to the machinery; when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994). The updateTile advance (N2233) fills frame["deconstructing"] from the frame payload via the moveInPayload intake; the handlePayload live fill still waits for its own slice. (3) Partial updateTile advance (N2233) -- progress / payRotation / canProgress / accum / speedScl / item transfer / finish deconstruction / moveInPayload intake (PayloadDeconstructor.java:109-204) are live; the dumpAccumulate dump, the puddles liquid dump, the Fx.breakBlock finish effect, and the live payload positioning wait for their own slices. (4) No acceptPayload / handlePayload / acceptUnitPayload / sense / draw / icons / setBars / read-write rows -- acceptPayload (PayloadDeconstructor.java:104-106), handlePayload (PayloadDeconstructor.java:98-101), acceptUnitPayload (PayloadDeconstructor.java:92-95), sense (PayloadDeconstructor.java:206-216), draw (PayloadDeconstructor.java:58-89), icons (PayloadDeconstructor.java:40-42), setBars (PayloadDeconstructor.java:45-49), read/write (PayloadDeconstructor.java:224-252) are acceptance / logic / presentation / serialization, not tick state. (5) No dump rows -- dumpRate 4 (PayloadDeconstructor.java:20) and dumpAccumulate (PayloadDeconstructor.java:111-115) wait for their own slice.
+	# Documented limits: (1) power-only first pass -- the deconstructor has no liquid consumer, so the folded efficiency is the min over the *modeled* consumers (power only). (2) shouldConsume gate live (N2210) -- PayloadDeconstructorBuild overrides shouldConsume() to return deconstructing != null && enabled (PayloadDeconstructor.java:219-221, `return deconstructing != null && enabled;`); the pure gate reads the null-ness of the frame deconstructing payload plus the frame enabled flag and feeds should_consume to the machinery; when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994). The updateTile advance (N2233) fills frame["deconstructing"] from the frame payload via the moveInPayload intake; the handlePayload live fill still waits for its own slice. (3) Partial updateTile advance (N2233) -- progress / payRotation / canProgress / accum / speedScl / item transfer / finish deconstruction / moveInPayload intake (PayloadDeconstructor.java:109-204) are live; the dumpAccumulate dump is live since N2276 (see (5)); the puddles liquid dump, the Fx.breakBlock finish effect, and the live payload positioning wait for their own slices. (4) No acceptPayload / handlePayload / acceptUnitPayload / sense / draw / icons / setBars / read-write rows -- acceptPayload (PayloadDeconstructor.java:104-106), handlePayload (PayloadDeconstructor.java:98-101), acceptUnitPayload (PayloadDeconstructor.java:92-95), sense (PayloadDeconstructor.java:206-216), draw (PayloadDeconstructor.java:58-89), icons (PayloadDeconstructor.java:40-42), setBars (PayloadDeconstructor.java:45-49), read/write (PayloadDeconstructor.java:224-252) are acceptance / logic / presentation / serialization, not tick state. (5) Dump rows live (N2276) -- dumpRate 4 (PayloadDeconstructor.java:20) and dumpAccumulate (PayloadDeconstructor.java:111-115) dump through the shared dump_item_state routing; the neighbour acceptItem / canDump arrays are frame inputs (default [] -- no live proximity fill yet) and the dumped item is not written into the neighbour frame yet (no neighbour write-back).
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -199,8 +211,10 @@ static func source_payload_deconstructor_update_tile_advance_state(frame: Dictio
 	# PayloadDeconstructor.java:109-204). The dump
 	# (PayloadDeconstructor.java:111-115, dumpRate 4)
 	# `public int dumpRate = 4;`
-	# (PayloadDeconstructor.java:20) is DEFERRED -- the port has
-	# no dump infra on this path. The progress reset:
+	# (PayloadDeconstructor.java:20) is live since N2276
+	# (source_payload_deconstructor_dump_state, wired in the
+	# tick BEFORE this advance -- Java order) and runs on
+	# delta(), not edelta(). The progress reset:
 	# `if(deconstructing == null){`
 	# `progress = 0f;`
 	# (PayloadDeconstructor.java:117-119). The payRotation
@@ -294,7 +308,7 @@ static func source_payload_deconstructor_update_tile_advance_state(frame: Dictio
 	# the N2166/N2210 minimal {"block": "conveyor"} dicts --
 	# from poisoning the frame with an infinite shift (the
 	# N2222 empty-results precedent). Deferred, not done here:
-	# the dump (:111-115), the puddles liquid dump at
+	# the puddles liquid dump at
 	# deconstruction start (:147-156, no Puddles model in the
 	# port), the moveInPayload live payload positioning
 	# (updatePayload, PayloadBlock.java:174-177), and the
@@ -382,6 +396,103 @@ static func source_payload_deconstructor_update_tile_advance_state(frame: Dictio
 			progress = 0.0
 	return {"progress": progress, "time": time, "speed_scl": speed_scl, "accum": accum, "items": items, "deconstructing": deconstructing, "payload": payload, "pay_vector": pay_vector, "pay_rotation": pay_rotation, "finished": finished}
 
+static func source_payload_deconstructor_dump_state(frame: Dictionary, source_delta: float, time_scale: float, content_item_ids: Array, neighbour_accepts_item: Array, neighbour_can_dump: Array) -> Dictionary:
+	# The updateTile dump block (PayloadDeconstructorBuild.updateTile(),
+	# PayloadDeconstructor.java:109-204):
+	# `if(items.total() > 0){`
+	# `for(int i = 0; i < dumpRate; i++){`
+	# `dumpAccumulate();`
+	# -- dumpRate 4 (`public int dumpRate = 4;`,
+	# PayloadDeconstructor.java:20; neither def overrides it),
+	# and the block runs BEFORE the deconstructing progress
+	# block (:117+), so the dump drains the store the advance
+	# filled LAST tick, not the items the advance adds THIS
+	# tick. dumpAccumulate() (BuildingComp.java:1048-1050):
+	# `public boolean dumpAccumulate(){`
+	# `return dumpAccumulate(null);`
+	# delegates to dumpAccumulate(null)
+	# (BuildingComp.java:1053-1061):
+	# `public boolean dumpAccumulate(Item item){`
+	# `boolean res = false;`
+	# `dumpAccum += delta();`
+	# `while(dumpAccum >= 1f){`
+	# `res |= dump(item);`
+	# `dumpAccum -=1f;`
+	# -- the subtraction is UNCONDITIONAL: it runs every while
+	# iteration whether or not dump() succeeded, so a failed
+	# dump still spends the accum. dump()
+	# (BuildingComp.java:1064-1066):
+	# `public boolean dump(){`
+	# `return dump(null);`
+	# delegates to dump(null) (BuildingComp.java:1072-1113):
+	# `public boolean dump(Item todump){`
+	# `if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;`
+	# `int dump = this.cdump;`
+	# `var allItems = content.items();`
+	# `int itemSize = allItems.size;`
+	# `if(todump == null){`
+	# `Building other = proximity.get((i + dump) % proximity.size);`
+	# `if(!items.has(ii)) continue;`
+	# `Item item = (Item)itemArray[ii];`
+	# `if(other.acceptItem(self(), item) && canDump(other, item)){`
+	# `other.handleItem(self(), item);`
+	# `items.remove(item, 1);`
+	# `incrementDump(proximity.size);`
+	# -- neighbours outer, content items inner: for each
+	# neighbour from the cdump cursor, the first held item in
+	# content order an accepting neighbour takes is handed
+	# over, 1 leaves the store, and the cursor advances once
+	# per neighbour checked (incrementDump,
+	# BuildingComp.java:1116-1120):
+	# `public void incrementDump(int prox){`
+	# `if(prox != 0){`
+	# `cdump = ((cdump + 1) % prox);`
+	# The dump fields are Building fields at their Java
+	# defaults: `private transient float dumpAccum;`
+	# (BuildingComp.java:99, 0f) and `transient int cdump;`
+	# (BuildingComp.java:68, 0). delta() is
+	# `return Time.delta * timeScale;`
+	# (BuildingComp.java:1922-1924) -- NOT edelta(), so the
+	# dump cadence ignores efficiency; source_delta is
+	# Time.delta in ticks (seconds * 60 through
+	# game_source_delta, arc Time.java:26), never raw seconds.
+	# The deconstructor has items (`hasItems = true;`,
+	# PayloadDeconstructor.java:35), so the hasItems guard
+	# always passes. canDump defaults to true
+	# (`public boolean canDump(Building to, Item item){`,
+	# BuildingComp.java:1124-1126); the neighbour arrays carry
+	# the live per-neighbour answers as frame inputs. The dump
+	# itself runs through the shared dump(null) port
+	# (SourceBuildingItemDumpState.dump_item_state) -- NOT the
+	# putItem gate game_put_item_state, which dumps one
+	# SPECIFIC item and needs a game object for its increment
+	# callbacks, while dumpAccumulate calls dump(null). The
+	# shared port reports the handled neighbour but does not
+	# write the item into the neighbour frame -- the
+	# write-back waits for its own slice.
+	var items: Dictionary = (frame.get("items", {}) as Dictionary).duplicate(true)
+	var dump_accum: float = float(frame.get("dump_accum", 0.0))
+	var cursor: int = int(frame.get("cdump", 0))
+	var dumped := false
+	if inventory.items_total(items) > 0:
+		var delta: float = source_delta * time_scale
+		for _i in range(SOURCE_PAYLOAD_DECONSTRUCTOR_DUMP_RATE):
+			dump_accum += delta
+			while dump_accum >= 1.0:
+				var amounts: Array = []
+				for item_id in content_item_ids:
+					amounts.append(int(items.get(str(item_id), 0)))
+				var result: Dictionary = source_building_item_dump_state.dump_item_state(true, inventory.items_total(items), neighbour_accepts_item.size(), null, false, content_item_ids, amounts, neighbour_accepts_item, neighbour_can_dump, cursor)
+				cursor = int(result.get("cdump", cursor))
+				if bool(result.get("dumped", false)):
+					dumped = true
+					var amounts_after: Array = result.get("item_amounts_by_index", amounts)
+					for j in range(content_item_ids.size()):
+						if j < amounts_after.size():
+							items[str(content_item_ids[j])] = int(amounts_after[j])
+				dump_accum -= 1.0
+	return {"dump_accum_after": dump_accum, "dumped": dumped, "items_after": items, "cursor_after": cursor}
+
 @warning_ignore("unused_parameter")
 static func source_payload_deconstructor_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the payload-deconstructor tick wiring every
@@ -462,6 +573,27 @@ static func source_payload_deconstructor_tick_buildings_state(game: Object, seco
 		if bool(frame.get("enabled", true)):
 			var source_delta: float = source_placed_block_state.game_source_delta(game, seconds)
 			var time_scale: float = source_placed_block_state.time_scale(sprite, source_placed_block_state.game_default_time_scale(game))
+			# N2276: the dump runs BEFORE the progress advance
+			# (Java order: the updateTile dump block,
+			# PayloadDeconstructor.java:111-115, runs before
+			# the deconstructing progress block, :117+), so the
+			# dump drains the store the advance filled LAST
+			# tick. The content item ids are the catalog order
+			# Java iterates (content.items()), through the
+			# payload-loader / payload-unloader precedent
+			# (SourceContentRegistryRuntimeState.
+			# source_item_catalog_state); the neighbour
+			# acceptItem / canDump arrays are frame inputs
+			# (default [] -- no neighbours, the Java
+			# proximity.size == 0 outcome) until a live
+			# proximity fill lands.
+			var content_item_ids: Array = source_content_registry_runtime_state.source_item_catalog_state(catalog).get("item_names_by_id", [])
+			var neighbour_accepts: Array = frame.get("dump_neighbour_accepts", [])
+			var neighbour_can_dump: Array = frame.get("dump_neighbour_can_dump", [])
+			var dumped: Dictionary = source_payload_deconstructor_dump_state(frame, source_delta, time_scale, content_item_ids, neighbour_accepts, neighbour_can_dump)
+			frame["dump_accum"] = dumped["dump_accum_after"]
+			frame["items"] = dumped["items_after"]
+			frame["cdump"] = dumped["cursor_after"]
 			var deconstruct_speed: float = _deconstructor_deconstruct_speed_for_block(block_id)
 			var item_capacity: int = int(block.properties.get("itemCapacity", 100))
 			var rules_dict: Dictionary = rules_state if rules_state is Dictionary else {}
