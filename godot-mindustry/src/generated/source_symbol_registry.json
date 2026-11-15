@@ -172968,6 +172968,102 @@
         "test_reference_graph_and_actual_c07_light_block_power_status"
       ],
       "runtime_proof": "/root/C07LightBlockPowerStatusProof"
+    },
+    "source_launch_pad_should_consume_state_result.should_consume": {
+      "status": "source-backed",
+      "godot_owner": "SourceLaunchPadBuildState.source_launch_pad_should_consume_state",
+      "godot_symbol": "source_launch_pad_should_consume_state_result.should_consume",
+      "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+      "java_method": "LaunchPadBuild.shouldConsume()",
+      "java_expr": "return launchCounter < launchTime;",
+      "rule": "The LaunchPadBuild.shouldConsume() verdict (LaunchPad.java:92-95): true while launchCounter < launchTime; the driver ANDs enabled and the machinery folds efficiency to 0 when the gate is false (BuildingComp.java:1960, 1992-1994).",
+      "tests": [
+        "test_c07_launch_pad_should_consume_registration",
+        "test_all_c07_launch_pad_should_consume_input_evidence_is_exact",
+        "test_launch_pad_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_launch_pad_should_consume"
+      ],
+      "runtime_proof": "/root/C07LaunchPadShouldConsumeProof"
+    },
+    "source_launch_pad_should_consume_state_result.launch_counter": {
+      "status": "source-backed",
+      "godot_owner": "SourceLaunchPadBuildState.source_launch_pad_should_consume_state",
+      "godot_symbol": "source_launch_pad_should_consume_state_result.launch_counter",
+      "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+      "java_method": "LaunchPadBuild.shouldConsume()",
+      "java_expr": "public float launchCounter;",
+      "rule": "The launchCounter value the gate read (LaunchPadBuild.launchCounter, LaunchPad.java:84): advanced by edelta each tick (the counter half of LaunchPad.java:146), frozen at launchTime while the gate is closed because edelta() is then 0.",
+      "tests": [
+        "test_c07_launch_pad_should_consume_registration",
+        "test_all_c07_launch_pad_should_consume_input_evidence_is_exact",
+        "test_launch_pad_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_launch_pad_should_consume"
+      ],
+      "runtime_proof": "/root/C07LaunchPadShouldConsumeProof"
+    },
+    "source_shockwave_tower_should_consume_state_result.should_consume": {
+      "status": "source-backed",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_should_consume_state",
+      "godot_symbol": "source_shockwave_tower_should_consume_state_result.should_consume",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.shouldConsume()",
+      "java_expr": "return reloadCounter < reload;",
+      "rule": "The shouldConsume gate (ShockwaveTower.java:121-122): true while the reload counter is below reload; when false, updateConsumption forces efficiency to zero (BuildingComp.java:1960 + 1992-1994).",
+      "tests": [
+        "test_c07_shockwave_tower_should_consume_registration",
+        "test_all_c07_shockwave_tower_should_consume_input_evidence_is_exact",
+        "test_shockwave_tower_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_should_consume"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerShouldConsumeProof"
+    },
+    "source_shockwave_tower_should_consume_state_result.reload_counter": {
+      "status": "source-backed",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_should_consume_state",
+      "godot_symbol": "source_shockwave_tower_should_consume_state_result.reload_counter",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.shouldConsume()",
+      "java_expr": "public float reloadCounter = Mathf.random(reload);",
+      "rule": "The frame reload counter the gate read (ShockwaveTower.java:67): advanced each tick by the updateTile charge (ShockwaveTower.java:73, `(reloadCounter += edelta())`).",
+      "tests": [
+        "test_c07_shockwave_tower_should_consume_registration",
+        "test_all_c07_shockwave_tower_should_consume_input_evidence_is_exact",
+        "test_shockwave_tower_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_should_consume"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerShouldConsumeProof"
+    },
+    "source_light_block_smooth_time_state_result.smooth_time": {
+      "status": "source-backed",
+      "godot_owner": "SourceLightBlockBuildState.source_light_block_smooth_time_state",
+      "godot_symbol": "source_light_block_smooth_time_state_result.smooth_time",
+      "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+      "java_method": "LightBuild.updateTile()",
+      "java_expr": "smoothTime = Mathf.lerpDelta(smoothTime, timeScale, 0.1f);",
+      "rule": "The advanced smoothTime after one updateTile lerpDelta step (LightBlock.java:105): lerp toward timeScale with progress 0.1f, delta-corrected by Time.delta.",
+      "tests": [
+        "test_c07_light_block_update_tile_registration",
+        "test_all_c07_light_block_update_tile_input_evidence_is_exact",
+        "test_light_block_update_tile_state",
+        "test_reference_graph_and_actual_c07_light_block_update_tile"
+      ],
+      "runtime_proof": "/root/C07LightBlockUpdateTileProof"
+    },
+    "source_light_block_smooth_time_state_result.light_radius_scale": {
+      "status": "source-backed",
+      "godot_owner": "SourceLightBlockBuildState.source_light_block_smooth_time_state",
+      "godot_symbol": "source_light_block_smooth_time_state_result.light_radius_scale",
+      "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+      "java_method": "LightBuild.updateTile()",
+      "java_expr": "Drawf.light(x, y, lightRadius * Math.min(smoothTime, 2f), Tmp.c1.set(color), brightness * efficiency);",
+      "rule": "The drawLight radius clamp min(smoothTime, 2f) (LightBlock.java:128): the factor scaling lightRadius; drawLight presentation itself waits for its own slice.",
+      "tests": [
+        "test_c07_light_block_update_tile_registration",
+        "test_all_c07_light_block_update_tile_input_evidence_is_exact",
+        "test_light_block_update_tile_state",
+        "test_reference_graph_and_actual_c07_light_block_update_tile"
+      ],
+      "runtime_proof": "/root/C07LightBlockUpdateTileProof"
     }
   },
   "version": 1

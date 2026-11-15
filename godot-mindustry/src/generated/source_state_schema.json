@@ -229936,6 +229936,180 @@
       },
       "runtime_proof": "/root/C07LightBlockPowerStatusProof",
       "rule": "Source-backed LightBlock power.status row from ConsumePower.java / BuildingComp.java."
+    },
+    "source_launch_pad_should_consume_state_input": {
+      "status": "active",
+      "owner": "SourceLaunchPadBuildState.source_launch_pad_should_consume_state",
+      "source_slice": "N2186",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "return launchCounter < launchTime;",
+          "rule": "The building frame carrying launch_counter (LaunchPadBuild.launchCounter, LaunchPad.java:84, default 0f), launch_time (the def threshold stamped by the driver: launch-pad 60f * 20, advanced-launch-pad 60f * 30, Blocks.java:6794/6804; class default 1f, LaunchPad.java:32) and enabled (BuildingComp.java:77): the gate reads the counter against the threshold; enabled is NOT read here -- updateConsumption handles it separately (BuildingComp.java:1954-1957), the WallCrafter precedent.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaunchPadShouldConsumeProof",
+      "rule": "Source-backed LaunchPad shouldConsume gate from LaunchPad.java / BuildingComp.java."
+    },
+    "source_launch_pad_should_consume_state_result": {
+      "status": "active",
+      "owner": "SourceLaunchPadBuildState.source_launch_pad_should_consume_state",
+      "source_slice": "N2186",
+      "keys": {
+        "should_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "return launchCounter < launchTime;",
+          "rule": "The LaunchPadBuild.shouldConsume() verdict (LaunchPad.java:92-95): true while launchCounter < launchTime; the driver ANDs enabled and the machinery folds efficiency to 0 when the gate is false (BuildingComp.java:1960, 1992-1994).",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_should_consume_state"
+          ]
+        },
+        "launch_counter": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "public float launchCounter;",
+          "rule": "The launchCounter value the gate read (LaunchPadBuild.launchCounter, LaunchPad.java:84): advanced by edelta each tick (the counter half of LaunchPad.java:146), frozen at launchTime while the gate is closed because edelta() is then 0.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaunchPadShouldConsumeProof",
+      "rule": "Source-backed LaunchPad shouldConsume gate from LaunchPad.java / BuildingComp.java."
+    },
+    "source_shockwave_tower_should_consume_state_input": {
+      "status": "active",
+      "owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_should_consume_state",
+      "source_slice": "N2187",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "return reloadCounter < reload;",
+          "rule": "The building frame carrying the live reload_counter (ShockwaveTower.java:67, `public float reloadCounter = Mathf.random(reload);`): the counter the gate reads; a fresh frame starts at 0.0, which preserves the gate outcome at spawn because Mathf.random(reload) is always < reload.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_should_consume_state"
+          ]
+        },
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "reload = 80f;",
+          "rule": "The catalog block (shockwave-tower def, reload 80f, Blocks.java:2043): the reload the gate compares against; the class default 60f * 1.5f (ShockwaveTower.java:26) is the fallback when the block carries no reload.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShockwaveTowerShouldConsumeProof",
+      "rule": "Source-backed ShockwaveTower shouldConsume gate from ShockwaveTower.java / BuildingComp.java / Blocks.java."
+    },
+    "source_shockwave_tower_should_consume_state_result": {
+      "status": "active",
+      "owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_should_consume_state",
+      "source_slice": "N2187",
+      "keys": {
+        "should_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "return reloadCounter < reload;",
+          "rule": "The shouldConsume gate (ShockwaveTower.java:121-122): true while the reload counter is below reload; when false, updateConsumption forces efficiency to zero (BuildingComp.java:1960 + 1992-1994).",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_should_consume_state"
+          ]
+        },
+        "reload_counter": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "public float reloadCounter = Mathf.random(reload);",
+          "rule": "The frame reload counter the gate read (ShockwaveTower.java:67): advanced each tick by the updateTile charge (ShockwaveTower.java:73, `(reloadCounter += edelta())`).",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShockwaveTowerShouldConsumeProof",
+      "rule": "Source-backed ShockwaveTower shouldConsume gate from ShockwaveTower.java / BuildingComp.java / Blocks.java."
+    },
+    "source_light_block_smooth_time_state_input": {
+      "status": "active",
+      "owner": "SourceLightBlockBuildState.source_light_block_smooth_time_state",
+      "source_slice": "N2189",
+      "keys": {
+        "smooth_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+          "java_expr": "public float smoothTime = 1f;",
+          "rule": "The frame smoothTime before this tick (LightBlock.java:69): starts at 1f, lerped toward timeScale by updateTile.",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_smooth_time_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The building live timeScale (BuildingComp.java:98), read through timeScale() (BuildingComp.java:599-601): the lerp target; the port reads it from the sprite time-scale meta, default 1.0.",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_smooth_time_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/util/Time.java",
+          "java_expr": "private static Floatp deltaimpl = () -> Math.min(Core.graphics.getDeltaTime() * 60f, 3f);",
+          "rule": "Time.delta in 60fps ticks (arc Time.java:26): the driver converts its seconds argument with seconds * 60 at the live-loop boundary (the N2093 pump precedent).",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_smooth_time_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LightBlockUpdateTileProof",
+      "rule": "Source-backed LightBlock smoothTime advance from LightBlock.java / BuildingComp.java / Arc Mathf.java."
+    },
+    "source_light_block_smooth_time_state_result": {
+      "status": "active",
+      "owner": "SourceLightBlockBuildState.source_light_block_smooth_time_state",
+      "source_slice": "N2189",
+      "keys": {
+        "smooth_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+          "java_expr": "smoothTime = Mathf.lerpDelta(smoothTime, timeScale, 0.1f);",
+          "rule": "The advanced smoothTime after one updateTile lerpDelta step (LightBlock.java:105): lerp toward timeScale with progress 0.1f, delta-corrected by Time.delta.",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_smooth_time_state"
+          ]
+        },
+        "light_radius_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+          "java_expr": "Drawf.light(x, y, lightRadius * Math.min(smoothTime, 2f), Tmp.c1.set(color), brightness * efficiency);",
+          "rule": "The drawLight radius clamp min(smoothTime, 2f) (LightBlock.java:128): the factor scaling lightRadius; drawLight presentation itself waits for its own slice.",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_smooth_time_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LightBlockUpdateTileProof",
+      "rule": "Source-backed LightBlock smoothTime advance from LightBlock.java / BuildingComp.java / Arc Mathf.java."
     }
   },
   "version": 1
