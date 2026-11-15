@@ -57,6 +57,16 @@ const SOURCE_FRACKER_ITEM_USE_TIME := 60.0
 # Items.sand);`): consume() removes one sand via
 # ConsumeItems.trigger (ConsumeItems.java:44-48).
 const SOURCE_FRACKER_CONSUME_ITEM := "sand"
+# The water consume liquid (Blocks.java:2978,
+# `consumeLiquid(Liquids.water, 0.15f);`): 0.15f PER FRAME
+# (= 9/s), not /60f -- the def writes the bare number,
+# unlike the /60f defs (e.g. nitrogen 10f/60f). The def
+# sets no multiplier (Block.java:1127-1129, `return consume(
+# new ConsumeLiquid(liquid, amount));`), so the default
+# multiplier 1f (Consume.java:18, `public Floatf<Building>
+# multiplier = b -> 1f;`) applies.
+const SOURCE_FRACKER_CONSUME_LIQUID := "water"
+const SOURCE_FRACKER_CONSUME_LIQUID_AMOUNT := 0.15
 # Fracker.java:41, the warmup lerpDelta rate `0.02f` (the
 # same rate as SolidPump.java:130/134).
 const SOURCE_FRACKER_WARMUP_RATE := 0.02
@@ -161,13 +171,17 @@ static func source_fracker_power_status_row_state(frame: Dictionary, has_power_c
 	# (Fracker.java:38, `accumulator += delta() * efficiency;`),
 	# and its super.updateTile() runs the solid-pump speed fold
 	# (SolidPump.java:121, `float maxPump = Math.min(liquidCapacity - typeLiquid(), pumpAmount * delta() * fraction * efficiency);`).
-	# Documented limits: (1) power-only first pass -- the item
-	# (sand) / liquid (water 0.15f) consumers (Blocks.java:
-	# 2976-2978) and the water-attribute / validTiles / boost
-	# fraction (SolidPump.java:118, 137-147, inherited via
+	# Documented limits: (1) power + liquid first pass -- the
+	# liquid row live (N2255): the water consumer (0.15f per
+	# frame, Blocks.java:2978) folds into the min efficiency
+	# with the power row, and the second pass removes amount
+	# * edelta * multiplier each tick (ConsumeLiquid.java:
+	# 37-39). The item (sand) consumer (Blocks.java:2976)
+	# and the water-attribute / validTiles / boost fraction
+	# (SolidPump.java:118, 137-147, inherited via
 	# super.updateTile()) wait for their own slices, so the
 	# folded efficiency is the min over the *modeled*
-	# consumers (power only). (2) shouldConsume gate live (N2207)
+	# consumers (power + water). (2) shouldConsume gate live (N2207)
 	# -- FrackerBuild inherits
 	# SolidPumpBuild.shouldConsume() (SolidPump.java:117-119,
 	# `return liquids.get(result) < liquidCapacity - 0.01f;`);
@@ -193,6 +207,25 @@ static func source_fracker_power_status_row_state(frame: Dictionary, has_power_c
 	var stamped: Variant = frame.get("power_status", null)
 	var live: float = 1.0 if stamped == null else float(stamped)
 	return {"has_power_row": true, "row": {"result": live, "is_power": true}}
+
+static func source_fracker_liquid_consumer_row_state(frame: Dictionary, has_liquid_consumer: bool, liquid_id: int, amount: float, source_delta: float, time_scale: float, efficiency_scale: float, multiplier: float = 1.0) -> Dictionary:
+	# ConsumeLiquid.efficiency (ConsumeLiquid.java:42-47):
+	# `float ed = build.edelta() * build.efficiencyScale();`
+	# `if(ed <= 0.00000001f) return 0f;`
+	# `return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);`
+	# The first pass assumes efficiency 1f (BuildingComp.java:1965, `efficiency = optionalEfficiency = 1f;`), so edelta() = delta() = Time.delta * timeScale (`return Time.delta * timeScale;`, BuildingComp.java:1922-1924; `return efficiency * delta();`, BuildingComp.java:1927-1929 -- with efficiency 1f the two coincide). The def sets no multiplier (Block.java:1127-1129, `return consume(new ConsumeLiquid(liquid, amount));`), so the default multiplier 1f applies (`public Floatf<Building> multiplier = b -> 1f;`, Consume.java:18); the multiplier stays an explicit parameter (default 1.0) so the formula stays Java-exact. The liquid amount comes from the shared liquid module helper (SourceLiquidModuleState.source_get_state, reused through a preload, NOT re-implemented) over the frame liquids key, with the N2207 gate guard (frame has "liquids", id in bounds; amount 0.0 when the store has no entry for the liquid -- Java's liquids.get returns 0.0 for a liquid never added). The row shape mirrors the power row: {"has_liquid_row": bool, "row": {"result": float, "is_power": false}} -- is_power false, so the shared fold sets shouldConsumePower=false when the row is <= 1e-7 (BuildingComp.java:1972-1973, `if(cons != block.consPower && result <= 0.0000001f){` / `shouldConsumePower = false;`). A block with no liquid consumer contributes no row (the N2253 launch-pad precedent: launch-pad has no liquid consumer, advanced-launch-pad has oil).
+	if not has_liquid_consumer:
+		return {"has_liquid_row": false, "row": {}}
+	var liquids: Dictionary = frame.get("liquids", {})
+	var liquid_amount: float = 0.0
+	if liquids.has("liquids") and liquid_id >= 0 and liquid_id < int(liquids["liquids"].size()):
+		liquid_amount = float(source_liquid_module_state.source_get_state(liquids, liquid_id).get("amount", 0.0))
+	var edelta: float = source_delta * time_scale
+	var ed: float = edelta * efficiency_scale
+	var result: float = 0.0
+	if ed > 0.00000001:
+		result = minf(liquid_amount / (amount * ed * multiplier), 1.0)
+	return {"has_liquid_row": true, "row": {"result": result, "is_power": false}}
 
 static func source_fracker_update_tile_advance_state(frame: Dictionary, source_delta: float, time_scale: float, result_liquid_id: int, liquid_capacity: float, pump_amount: float, item_use_time: float) -> Dictionary:
 	# The updateTile advance (FrackerBuild.updateTile(),
@@ -322,8 +355,9 @@ static func source_fracker_tick_buildings_state(game: Object, seconds: float) ->
 		# (frame["liquids"]): the live store lives on the
 		# sprite meta (source_building_liquids, initialized
 		# at placement), so the driver syncs the reference
-		# into the frame each tick and the pure gate reads
-		# the result amount from it.
+		# into the frame each tick BEFORE the fold, and the
+		# pure gate reads the result amount from it while the
+		# pure liquid row (N2255) reads the water amount.
 		frame["liquids"] = sprite.get_meta(source_placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, {})
 		# The power consumer reads live since N2153 (the graph
 		# update stamps frame["power_status"] each tick, N2142):
@@ -336,10 +370,11 @@ static func source_fracker_tick_buildings_state(game: Object, seconds: float) ->
 		# counts toward hasConsumers (Block.java:1449,
 		# `hasConsumers = consumers.length > 0;`), so a fracker
 		# does not take the early return. A fracker with no power
-		# consumer is untouched: the tick models no other
-		# consumers yet (the item/liquid consumers and the
+		# consumer is untouched: the tick models the power +
+		# water consumers (N2255 folds the liquid row into the
+		# first pass); the item consumer and the
 		# water-attribute / validTiles / boost fraction wait for
-		# their own slices), and FrackerBuild inherits
+		# their own slices, and FrackerBuild inherits
 		# SolidPumpBuild.shouldConsume() (`return
 		# liquids.get(result) < liquidCapacity - 0.01f;`,
 		# SolidPump.java:117-119) -- N2207 feeds the live gate
@@ -352,6 +387,13 @@ static func source_fracker_tick_buildings_state(game: Object, seconds: float) ->
 		# machinery only when enabled.
 		# productionValid is the canonical true default
 		# (SourceBuildingAccessState.production_valid_state()).
+		# The source delta is Time.delta in ticks and timeScale
+		# reads live from the sprite meta (see the N2224 advance
+		# comment below); both are computed once here because
+		# the liquid row's first pass needs them too, and the
+		# advance below reuses them.
+		var source_delta: float = source_placed_block_state.game_source_delta(game, seconds)
+		var time_scale: float = source_placed_block_state.time_scale(sprite, source_placed_block_state.game_default_time_scale(game))
 		var has_power_consumer: bool = bool(block.properties.has("consumePower"))
 		if has_power_consumer and bool(frame.get("enabled", true)) and not bool(frame.get("cheating", false)):
 			var result_liquid_id: int = int(liquid_id_by_name.get(SOURCE_FRACKER_RESULT_LIQUID, -1))
@@ -365,8 +407,38 @@ static func source_fracker_tick_buildings_state(game: Object, seconds: float) ->
 			var required_results: Array = []
 			if bool(power_row.get("has_power_row", false)):
 				required_results.append(power_row.get("row", {}))
+			# The liquid consumer reads live since N2255: a
+			# fracker with a liquid consumer folds the pure
+			# liquid row into the first pass (ConsumeLiquid.
+			# efficiency, ConsumeLiquid.java:42-47), so the
+			# folded efficiency is the min over power + water
+			# and the shared fold stops power draw when the
+			# liquid row is <= 1e-7. The water id resolves
+			# from the catalog with the def constant "water"
+			# (`consumeLiquid(Liquids.water, 0.15f);`,
+			# Blocks.java:2978 -- 0.15f per frame, = 9/s).
+			var water_liquid_id: int = int(liquid_id_by_name.get(SOURCE_FRACKER_CONSUME_LIQUID, -1))
+			var has_liquid_consumer: bool = bool(block.properties.has("consumeLiquid"))
+			var liquid_row: Dictionary = source_fracker_liquid_consumer_row_state(frame, has_liquid_consumer, water_liquid_id, SOURCE_FRACKER_CONSUME_LIQUID_AMOUNT, source_delta, time_scale, float(frame.get("efficiency_scale", 1.0)))
+			if bool(liquid_row.get("has_liquid_row", false)):
+				required_results.append(liquid_row.get("row", {}))
 			var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(true, bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, [], [], frame)
 			source_building_efficiency_state.apply_update_consumption_state(consumption, frame)
+			# Second pass (N2255): ConsumeLiquid.update removes
+			# `build.liquids.remove(liquid, amount * build.edelta() * multiplier.get(build));`
+			# (ConsumeLiquid.java:37-39), only when update &&
+			# efficiency > 0 (`if(update && efficiency > 0){`,
+			# BuildingComp.java:1999, with `for(var cons : block.updateConsumers){` / `cons.update(self());` at :2000-2001), and edelta comes from the FOLDED efficiency (`return efficiency * delta();`, BuildingComp.java:1927-1929 -- NOT the first-pass 1f assumption). The AdjacentFactory updates-array precedent (SourceAdjacentFactoryBuildState.gd:382) does not fit: it passes bound RuntimeConsumer actors with update(self_state) methods (N2115/N2116), and this driver is pure-function based with no consumer actors -- so the removal is direct, through the shared liquid module helper (the PayloadLoader source_remove_state precedent), which clamps exactly like Java's LiquidModule.remove (`add(liquid, Math.max(-amount, -liquids[liquid.id]));`, LiquidModule.java:125-128). The multiplier is the default 1f (Consume.java:18), so the removal is amount * folded edelta.
+			if should_consume and valid and float(frame.get("efficiency", 0.0)) > 0.0 and has_liquid_consumer and water_liquid_id >= 0:
+				var liquids_store: Dictionary = frame.get("liquids", {})
+				if liquids_store.has("liquids") and water_liquid_id < int(liquids_store["liquids"].size()):
+					var folded_edelta: float = float(frame.get("efficiency", 0.0)) * source_delta * time_scale
+					var remove_amount: float = SOURCE_FRACKER_CONSUME_LIQUID_AMOUNT * folded_edelta
+					var cache_sums: Array = []
+					if liquids_store.get("flow") != null:
+						cache_sums.resize(int(liquids_store["liquids"].size()))
+						cache_sums.fill(0.0)
+					source_liquid_module_state.source_remove_state(liquids_store, water_liquid_id, remove_amount, cache_sums)
 		# N2224: the updateTile advance runs after consumption,
 		# like Java's Building.update() (BuildingComp.java:2274,
 		# `updateConsumption();`, then the updateTile gate
@@ -376,7 +448,9 @@ static func source_fracker_tick_buildings_state(game: Object, seconds: float) ->
 		# so a disabled fracker freezes its accumulator /
 		# warmup / pumpTime. The source delta is Time.delta in
 		# ticks: game_source_delta(game, seconds) is seconds * 60
-		# (arc Time.java:26), never raw seconds. timeScale reads
+		# (arc Time.java:26), never raw seconds -- computed once
+		# above the consumption block (the liquid row's first
+		# pass needs it too) and reused here. timeScale reads
 		# live from the sprite meta, default 1.0
 		# (BuildingComp.java:98 `private transient float timeScale = 1f, timeScaleDuration;`).
 		# The advance reuses the N2220 SolidPump pure function
@@ -391,8 +465,6 @@ static func source_fracker_tick_buildings_state(game: Object, seconds: float) ->
 		# to the frame.
 		if bool(frame.get("enabled", true)):
 			var advance_result_id: int = int(liquid_id_by_name.get(SOURCE_FRACKER_RESULT_LIQUID, -1))
-			var source_delta: float = source_placed_block_state.game_source_delta(game, seconds)
-			var time_scale: float = source_placed_block_state.time_scale(sprite, source_placed_block_state.game_default_time_scale(game))
 			var advanced: Dictionary = source_fracker_update_tile_advance_state(frame, source_delta, time_scale, advance_result_id, SOURCE_FRACKER_LIQUID_CAPACITY, SOURCE_FRACKER_PUMP_AMOUNT, SOURCE_FRACKER_ITEM_USE_TIME)
 			frame["accumulator"] = advanced["accumulator"]
 			frame["warmup"] = advanced["warmup"]
