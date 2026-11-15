@@ -6,6 +6,8 @@ const source_placed_block_state := preload("res://src/game/SourcePlacedBlockStat
 const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
 const source_building_efficiency_state := preload("res://src/game/SourceBuildingEfficiencyState.gd")
 const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
+const source_liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
+const source_content_registry_runtime_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
 
 # The Fracker implementation (Fracker.java:7, `public class
 # Fracker extends SolidPump{`): oil-extractor (consumePower 3f,
@@ -24,6 +26,19 @@ const source_building_access_state := preload("res://src/game/SourceBuildingAcce
 # finds it.
 const SOURCE_FRACKER_BUILD_IMPLEMENTATIONS := ["Fracker"]
 const SOURCE_FRACKER_BUILDING_META_KEY := "source_fracker_building"
+# Def constants for the only Fracker def (oil-extractor,
+# Blocks.java:2964-2978): the result liquid is oil
+# (`result = Liquids.oil;`, Blocks.java:2966 -- the class
+# default is water, `public Liquid result =
+# Liquids.water;`, SolidPump.java:22) and the liquid
+# capacity is 40f (`liquidCapacity = 40f;`,
+# Blocks.java:2971 -- the class default is -1f, `public
+# float liquidCapacity = -1f;`, Block.java:77). The catalog
+# carries neither property for the oil-extractor, so both
+# are def constants (the N2190 fogRadius / N2199
+# transportTime precedent).
+const SOURCE_FRACKER_RESULT_LIQUID := "oil"
+const SOURCE_FRACKER_LIQUID_CAPACITY := 40.0
 
 static func _is_fracker_build_implementation(implementation: String) -> bool:
 	return SOURCE_FRACKER_BUILD_IMPLEMENTATIONS.has(implementation)
@@ -55,16 +70,27 @@ static func source_fracker_tick_frame_state(frame: Dictionary, block_implementat
 	return frame
 
 static func _initial_frame() -> Dictionary:
-	return {}
+	# The frame carries the Building.liquids LiquidModule
+	# (frame["liquids"], a Dictionary in the
+	# SourceLiquidModuleState shape, default {}): the
+	# shouldConsume gate reads the result amount from it
+	# (SolidPump.java:118, `return liquids.get(result) <
+	# liquidCapacity - 0.01f;`). The driver syncs the live
+	# sprite-meta store into the frame each tick; no live
+	# intake fills the oil store yet -- the pump advance is
+	# the updateTile advance (Fracker.java:30-44 /
+	# SolidPump.java:121-141), which waits for its own
+	# slice; the gate reads the frame as-is.
+	return {"liquids": {}}
 
 static func source_fracker_bind_frame_state(sprite: Sprite2D, block: Object) -> Dictionary:
 	# Placement creates the Building (Block.java:1002 newBuilding);
 	# the port's frame is that Building state, bound on the sprite
 	# at placement under the fracker frame meta key
-	# ("source_fracker_building"). A Fracker sprite gets an
-	# empty frame bound; the live-loop tick fills its keys every
-	# tick. Any other block, or an already-bound sprite, binds
-	# nothing.
+	# ("source_fracker_building"). A Fracker sprite gets a
+	# frame bound with the liquids key ({} by default); the
+	# live-loop tick fills its other keys every tick. Any other
+	# block, or an already-bound sprite, binds nothing.
 	if block == null or not _is_fracker_build_implementation(str(block.implementation)):
 		return {"applied": false, "frame": {}}
 	if sprite.has_meta(SOURCE_FRACKER_BUILDING_META_KEY):
@@ -72,6 +98,14 @@ static func source_fracker_bind_frame_state(sprite: Sprite2D, block: Object) -> 
 	var frame: Dictionary = _initial_frame()
 	sprite.set_meta(SOURCE_FRACKER_BUILDING_META_KEY, frame)
 	return {"applied": true, "frame": frame}
+
+static func source_fracker_should_consume_state(frame: Dictionary, result_liquid: int, liquid_capacity: float) -> Dictionary:
+	# FrackerBuild does NOT override shouldConsume (Fracker.java has no shouldConsume at all; Fracker extends SolidPump, Fracker.java:7, `public class Fracker extends SolidPump{`, and FrackerBuild extends SolidPumpBuild, Fracker.java:26, `public class FrackerBuild extends SolidPumpBuild{`), so it inherits SolidPumpBuild.shouldConsume verbatim (SolidPump.java:117, `public boolean shouldConsume(){` with `return liquids.get(result) < liquidCapacity - 0.01f;`, SolidPump.java:118): the fracker consumes only while its held result amount is below the liquid capacity minus 0.01f. The default (BuildingComp.java:755, `public boolean shouldConsume(){` with `return enabled;`) does NOT apply here. Unlike the Separator/Drill gates this one has NO `&& enabled` -- Java returns the bare capacity comparison, so the pure gate does NOT read frame["enabled"] at all (the driver already runs the machinery only when enabled). The result liquid arrives as its catalog id (resolved by the driver from liquid_id_by_name with the def constant "oil", `result = Liquids.oil;`, Blocks.java:2966; the class default is water, `public Liquid result = Liquids.water;`, SolidPump.java:22) and the capacity as the def constant 40f (`liquidCapacity = 40f;`, Blocks.java:2971; the class default is -1f, `public float liquidCapacity = -1f;`, Block.java:77) -- the catalog carries neither property for the oil-extractor. The amount comes from the shared liquid module helper (SourceLiquidModuleState.source_get_state, reused through a preload, NOT re-implemented) over the frame liquids key (the Building.liquids LiquidModule dict, default {} for a frame bound before this slice, amount 0.0 when the store has no entry for the result -- Java's liquids.get returns 0.0 for a liquid never added). When the gate is false updateConsumption forces efficiency to zero (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`).
+	var liquids: Dictionary = frame.get("liquids", {})
+	var result_amount: float = 0.0
+	if liquids.has("liquids") and result_liquid >= 0 and result_liquid < int(liquids["liquids"].size()):
+		result_amount = float(source_liquid_module_state.source_get_state(liquids, result_liquid).get("amount", 0.0))
+	return {"should_consume": result_amount < liquid_capacity - 0.01, "result_amount": result_amount}
 
 static func source_fracker_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40,
@@ -98,12 +132,17 @@ static func source_fracker_power_status_row_state(frame: Dictionary, has_power_c
 	# fraction (SolidPump.java:118, 137-147, inherited via
 	# super.updateTile()) wait for their own slices, so the
 	# folded efficiency is the min over the *modeled*
-	# consumers (power only). (2) No shouldConsume gate --
-	# FrackerBuild inherits SolidPumpBuild.shouldConsume()
-	# (SolidPump.java:113-115, `return liquids.get(result) < liquidCapacity - 0.01f;`) which needs liquid state the
-	# tick does not track yet; the machinery runs with
-	# should_consume=true when enabled. (3) No updateTile
-	# advance -- accumulator / itemUseTime consume /
+	# consumers (power only). (2) shouldConsume gate live (N2207)
+	# -- FrackerBuild inherits
+	# SolidPumpBuild.shouldConsume() (SolidPump.java:117-119,
+	# `return liquids.get(result) < liquidCapacity - 0.01f;`);
+	# the pure gate (source_fracker_should_consume_state)
+	# feeds should_consume to the machinery from the frame
+	# liquids amount for the def result (oil) and the def
+	# capacity (40f). No live intake fills the oil store yet
+	# (the pump advance is the updateTile advance,
+	# Fracker.java:30-44 / SolidPump.java:121-141). (3) No
+	# updateTile advance -- accumulator / itemUseTime consume /
 	# super.updateTile() (Fracker.java:30-44) and warmup /
 	# pumpTime / lastPump / validTiles / boost
 	# (SolidPump.java:118-133) wait for their own slices; the
@@ -140,6 +179,7 @@ static func source_fracker_tick_buildings_state(game: Object, seconds: float) ->
 	var blocks_by_id: Dictionary = {}
 	for registered_block in catalog.get_many("block"):
 		blocks_by_id[registered_block.id] = registered_block
+	var liquid_id_by_name: Dictionary = source_content_registry_runtime_state.source_liquid_catalog_state(catalog).get("liquid_id_by_name", {})
 	for sprite in source_placed_block_state.source_unique_buildings_state(game).get("buildings", []):
 		if not is_instance_valid(sprite) or not sprite is Sprite2D:
 			continue
@@ -154,6 +194,13 @@ static func source_fracker_tick_buildings_state(game: Object, seconds: float) ->
 		var team_id: int = int(sprite.get_meta(source_block_geometry.SOURCE_BUILD_TEAM_META_KEY, source_block_geometry.SOURCE_TEAM_DERELICT_ID))
 		var rules_state: Variant = source_rules_state.source_game_rules_state(game.get("rules_state")).get("rules", {})
 		var wired: Dictionary = source_fracker_tick_frame_state(frame, str(block.implementation), team_id, rules_state)
+		# The frame carries the Building.liquids LiquidModule
+		# (frame["liquids"]): the live store lives on the
+		# sprite meta (source_building_liquids, initialized
+		# at placement), so the driver syncs the reference
+		# into the frame each tick and the pure gate reads
+		# the result amount from it.
+		frame["liquids"] = sprite.get_meta(source_placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, {})
 		# The power consumer reads live since N2153 (the graph
 		# update stamps frame["power_status"] each tick, N2142):
 		# a fracker with a power consumer folds the pure power
@@ -168,15 +215,24 @@ static func source_fracker_tick_buildings_state(game: Object, seconds: float) ->
 		# consumer is untouched: the tick models no other
 		# consumers yet (the item/liquid consumers and the
 		# water-attribute / validTiles / boost fraction wait for
-		# their own slices), and there is no shouldConsume gate
-		# yet (the inherited SolidPump.java:113-115 needs liquid
-		# state the tick does not track), so the machinery runs
-		# with should_consume=true when enabled.
+		# their own slices), and FrackerBuild inherits
+		# SolidPumpBuild.shouldConsume() (`return
+		# liquids.get(result) < liquidCapacity - 0.01f;`,
+		# SolidPump.java:117-119) -- N2207 feeds the live gate
+		# to the machinery (the pure gate is
+		# source_fracker_should_consume_state, fed the frame
+		# plus the resolved result id and the def capacity);
+		# the N2153 RED decision is resolved. The gate has no
+		# enabled term (Java returns the bare capacity
+		# comparison); the outer guard below already runs the
+		# machinery only when enabled.
 		# productionValid is the canonical true default
 		# (SourceBuildingAccessState.production_valid_state()).
 		var has_power_consumer: bool = bool(block.properties.has("consumePower"))
 		if has_power_consumer and bool(frame.get("enabled", true)) and not bool(frame.get("cheating", false)):
-			var should_consume: bool = bool(frame.get("enabled", true))
+			var result_liquid_id: int = int(liquid_id_by_name.get(SOURCE_FRACKER_RESULT_LIQUID, -1))
+			var gate: Dictionary = source_fracker_should_consume_state(frame, result_liquid_id, SOURCE_FRACKER_LIQUID_CAPACITY)
+			var should_consume: bool = bool(gate.get("should_consume", true))
 			var valid: bool = source_building_access_state.production_valid_state()
 			var setup: Dictionary = source_building_efficiency_state.update_consumption_setup_state(should_consume, valid)
 			frame["efficiency"] = setup.get("efficiency", 1.0)
