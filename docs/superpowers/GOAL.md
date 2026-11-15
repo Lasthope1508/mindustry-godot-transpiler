@@ -196,6 +196,25 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
   258 entries (258 − 1 stale "Pump warmup/totalProgress" + 1 net N2222;
   N2220 remove thêm entry "frame liquids intake" vì advance CHÍNH LÀ
   intake).
+- **Wave advances-2 {N2224 Fracker, N2225 ItemBridge transport, N2226
+  RepairTurret, N2227 RepairTower, N2228 RegenProjector} updateTile
+  advances DONE**
+  trên branch tích hợp `integration/wave-advances-2-n2224-n2228` (không
+  merge vào main; 5 slice branch push 16:56–17:00 + integration branch
+  push ngay sau docs commit theo push-as-you-go): neighbours 12 module
+  power+gate+link 48 tests (36 PASS + 12 proof Godot-absent, 0 lỗi
+  khác) + targeted 5 module 20 tests (15 PASS + 5 proof Godot-absent),
+  full gate Ran 5969 in 1029.991s, failures=169, skipped=5, 0 errors —
+  169/169 Godot-absent (164 inherited + 5 new proof tests N2224–N2228).
+  SSOT gộp 11507/1669/1592/2975, audit 1336, legacy 0. Coordinator fix
+  f240da22: đổi frame key N2228 `suppressed` → `heal_suppressed` (N2215
+  precedent + AGENTS.md normalize; N2227 dùng `heal_suppressed`).
+  KHÔNG cần fix proof cũ — advance không vỡ proof cũ (như advances-1).
+  N2225 chứng minh checkAccept rút gọn (linked luôn true khi hadValidLink
+  đúng); N2226 port Units.closest faithfully (chỉ timer cadence defer);
+  N2228 phát hiện mendMap là static-shared nên flush defer cả application
+  + cadence, port track per-building mend_map. DEFERRED gộp sau wave:
+  260 entries (258 − 8 resolved + 10 new).
 - **Tiếp theo:** units → updateTile advances → second consumers (xem
   `DESIGN-frame-state-infra.md` trong `~/workspace/mindustry-parallel/`).
 - **KHÔNG chạy Godot ở VM này** (chỉ đạo user 2026-11-15, ưu tiên cao): mọi
@@ -609,6 +628,62 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
     `slice/N2223-wall-crafter-update-tile` (integration cherry-pick `c1ed1449`).
     Trạng thái "chờ agent Godot test". Chạy: targeted test
     `tests.test_c07_wall_crafter_update_tile` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2224 `C07FrackerUpdateTileProof` — CHƯA CHẠY ở đâu (6 key:
+    `accumulator_advances_with_efficiency`, `consume_at_item_use_time`,
+    `super_advance_pumps_oil`, `warmup_decays_when_no_efficiency`,
+    `last_pump_zero_when_idle`, `frame_defaults_zero`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `46f65f31` trên
+    `slice/N2224-fracker-update-tile` (integration cherry-pick `94be3ec4`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_fracker_update_tile` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2225 `C07ItemBridgeTransportProof` — CHƯA CHẠY ở đâu (6 key:
+    `transport_counter_charges_with_edelta`,
+    `handoff_at_transport_time`, `item_returns_when_partner_rejects`,
+    `warmup_approaches_efficiency_when_linked`,
+    `warmup_zero_when_unlinked`, `incoming_prunes_dead_links`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `5396a786` trên
+    `slice/N2225-item-bridge-transport` (integration cherry-pick `7d2dfd87`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_item_bridge_transport` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2226 `C07RepairTurretUpdateTileProof` — CHƯA CHẠY ở đâu (6 key:
+    `target_clears_when_dead_or_out_of_range`,
+    `rotation_slerps_toward_target`, `strength_approaches_one_when_healing`,
+    `heal_amount_folds_repair_speed_strength`,
+    `reacquire_picks_closest_damaged_candidate`,
+    `live_tick_writes_advance_frame_keys`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `04494ee9` trên
+    `slice/N2226-repair-turret-update-tile` (integration cherry-pick `865eab15`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_repair_turret_update_tile` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2227 `C07RepairTowerUpdateTileProof` — CHƯA CHẠY ở đâu (6 key:
+    `refresh_clears_targets_at_interval`,
+    `warmup_approaches_efficiency_when_healing`,
+    `warmup_zero_when_suppressed`, `total_progress_advances`,
+    `heal_amounts_fold_heal_amount_edelta`, `frame_defaults_zero`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `0a768d68` trên
+    `slice/N2227-repair-tower-update-tile` (integration cherry-pick `b97dd2d5`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_repair_tower_update_tile` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2228 `C07RegenProjectorUpdateTileProof` — CHƯA CHẠY ở đâu (6 key:
+    `any_targets_folds_damaged_targets`, `mend_map_accumulates_heal_amount`,
+    `warmup_approaches_one_when_regen`, `optional_timer_advances_and_resets`,
+    `no_heal_when_suppressed`, `live_tick_advances_regen_frame`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `d84414e8` trên
+    `slice/N2228-regen-projector-update-tile` (integration cherry-pick `741652ea`
+    + coordinator fix `f240da22` đổi frame key `suppressed` →
+    `heal_suppressed`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_regen_projector_update_tile` với Godot 4.6.2 trên PATH,
     port 7777 trống.
   - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
     trên (ghi rõ commit đưa scene tới Windows).
