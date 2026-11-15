@@ -57,6 +57,22 @@ const SOURCE_PAYLOAD_DECONSTRUCTOR_ROUNDING_TOLERANCE := 0.0001
 # and the small-deconstructor run dumpAccumulate 4 times
 # per tick (PayloadDeconstructor.java:111-115).
 const SOURCE_PAYLOAD_DECONSTRUCTOR_DUMP_RATE := 4
+# The max payload size (PayloadDeconstructor.java:18,
+# `public float maxPayloadSize = 4;`): acceptPayload
+# (PayloadDeconstructor.java:104-106) fits a payload
+# whose size() / tilesize <= maxPayloadSize
+# (Payload.java:50-52, `return size() / tilesize <= s;`),
+# and acceptUnitPayload
+# (PayloadDeconstructor.java:92-95) fits a unit whose
+# hitSize / tilesize <= maxPayloadSize. A BuildPayload
+# is block.size tiles (BuildPayload.java:86-88,
+# `return build.block.size * tilesize;`), so a build
+# payload fits when block.size <= 4; a UnitPayload is
+# hitSize pixels (UnitPayload.java:99-101,
+# `return unit.hitSize;`), so a unit fits when
+# hitSize <= 32 (tilesize 8, Vars.java:135). Neither
+# def overrides maxPayloadSize.
+const SOURCE_PAYLOAD_DECONSTRUCTOR_MAX_PAYLOAD_SIZE := 4.0
 
 static func _is_payload_deconstructor_build_implementation(implementation: String) -> bool:
 	return SOURCE_PAYLOAD_DECONSTRUCTOR_BUILD_IMPLEMENTATIONS.has(implementation)
@@ -99,6 +115,35 @@ static func source_payload_deconstructor_tick_frame_state(frame: Dictionary, blo
 	# shouldConsume gate reads a live deconstructing.
 	if not frame.has("deconstructing"):
 		frame["deconstructing"] = null
+	# The acceptance verdicts (N2297): acceptPayload
+	# (PayloadDeconstructor.java:104-106) and
+	# acceptUnitPayload (PayloadDeconstructor.java:92-95)
+	# read the offered payload / unit descriptors from
+	# the frame (frame["offered_payload"] /
+	# frame["offered_unit"], default null -- no live
+	# source offers them yet, so a live deconstructor
+	# with no offer reads both verdicts false) plus the
+	# frame payload / deconstructing null-ness; the
+	# verdicts land on frame["accepts_payload"] /
+	# frame["accepts_unit_payload"] for the intake and
+	# the unit drop to consult. The N2291 intake guard
+	# stays the frame null check only -- it does not
+	# consult these verdicts yet (the incoming dict
+	# carries requirements but no block size, so the
+	# fits term has no live input; wiring the intake
+	# through the full gate waits for its own slice).
+	var has_payload: bool = frame.get("payload", null) != null
+	var has_deconstructing: bool = frame.get("deconstructing", null) != null
+	var offered_payload: Variant = frame.get("offered_payload", null)
+	if offered_payload is Dictionary:
+		frame["accepts_payload"] = bool(source_payload_deconstructor_accept_payload_state(offered_payload, has_payload, has_deconstructing).get("accepts", false))
+	else:
+		frame["accepts_payload"] = false
+	var offered_unit: Variant = frame.get("offered_unit", null)
+	if offered_unit is Dictionary:
+		frame["accepts_unit_payload"] = bool(source_payload_deconstructor_accept_unit_payload_state(offered_unit, has_payload, has_deconstructing).get("accepts", false))
+	else:
+		frame["accepts_unit_payload"] = false
 	return frame
 
 static func _initial_frame() -> Dictionary:
@@ -129,7 +174,13 @@ static func _initial_frame() -> Dictionary:
 	# the handlePayload intake reads it before the
 	# consumption fold and consumes it either way (the N2278
 	# Loader precedent); no live source pushes it yet.
-	return {"deconstructing": null, "payload": null, "accum": null, "progress": 0.0, "time": 0.0, "speed_scl": 0.0, "items": {}, "pay_vector": Vector2.ZERO, "pay_rotation": 0.0, "dump_accum": 0.0, "cdump": 0, "incoming_payload": null}
+	# N2297 extends the frame with the acceptance
+	# verdicts (frame["accepts_payload"] /
+	# frame["accepts_unit_payload"], default false) and
+	# the offered descriptors they read
+	# (frame["offered_payload"] / frame["offered_unit"],
+	# default null -- no live source offers them yet).
+	return {"deconstructing": null, "payload": null, "accum": null, "progress": 0.0, "time": 0.0, "speed_scl": 0.0, "items": {}, "pay_vector": Vector2.ZERO, "pay_rotation": 0.0, "dump_accum": 0.0, "cdump": 0, "incoming_payload": null, "offered_payload": null, "offered_unit": null, "accepts_payload": false, "accepts_unit_payload": false}
 
 static func source_payload_deconstructor_bind_frame_state(sprite: Sprite2D, block: Object) -> Dictionary:
 	# Placement creates the Building (Block.java:1002 newBuilding);
@@ -150,7 +201,7 @@ static func source_payload_deconstructor_bind_frame_state(sprite: Sprite2D, bloc
 
 static func source_payload_deconstructor_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a payload-deconstructor does not take the early return. The progress advance follows the folded efficiency (PayloadDeconstructor.java:142, `float shift = edelta() * deconstructSpeed / deconstructing.buildTime();`) with `progress += shift;` and the shouldConsume override (PayloadDeconstructor.java:219-221, `return deconstructing != null && enabled;`, default BuildingComp.java:755, `public boolean shouldConsume(){`) -- PayloadDeconstructorBuild overrides shouldConsume() to return deconstructing != null && enabled, so the default does not apply here; the gate is live since N2210 (the pure gate source_payload_deconstructor_should_consume_state feeds deconstructing != null && enabled to the machinery; when the gate is false updateConsumption forces efficiency to 0, BuildingComp.java:1960 + 1992). The deconstructor (consumePower 3f, Blocks.java:6653, `consumePower(3f);`; small-deconstructor consumePower 1f, Blocks.java:6644, `consumePower(1f);`) has no liquid consumer, so the folded efficiency is the min over the *modeled* consumers (power only).
-	# Documented limits: (1) power-only first pass -- the deconstructor has no liquid consumer, so the folded efficiency is the min over the *modeled* consumers (power only). (2) shouldConsume gate live (N2210) -- PayloadDeconstructorBuild overrides shouldConsume() to return deconstructing != null && enabled (PayloadDeconstructor.java:219-221, `return deconstructing != null && enabled;`); the pure gate reads the null-ness of the frame deconstructing payload plus the frame enabled flag and feeds should_consume to the machinery; when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994). The updateTile advance (N2233) fills frame["deconstructing"] from the frame payload via the moveInPayload intake; the handlePayload live fill is live since N2291 (source_payload_deconstructor_handle_payload_state, through the frame incoming_payload push). (3) Partial updateTile advance (N2233) -- progress / payRotation / canProgress / accum / speedScl / item transfer / finish deconstruction / moveInPayload intake (PayloadDeconstructor.java:109-204) are live; the dumpAccumulate dump is live since N2276 (see (5)); the puddles liquid dump, the Fx.breakBlock finish effect, and the live payload positioning wait for their own slices. (4) No acceptPayload / acceptUnitPayload / sense / draw / icons / setBars / read-write rows -- acceptPayload (PayloadDeconstructor.java:104-106), acceptUnitPayload (PayloadDeconstructor.java:92-95), sense (PayloadDeconstructor.java:206-216), draw (PayloadDeconstructor.java:58-89), icons (PayloadDeconstructor.java:40-42), setBars (PayloadDeconstructor.java:45-49), read/write (PayloadDeconstructor.java:224-252) are acceptance / logic / presentation / serialization, not tick state; handlePayload (PayloadDeconstructor.java:98-101) is live since N2291 (see (6)). (5) Dump rows live (N2276) -- dumpRate 4 (PayloadDeconstructor.java:20) and dumpAccumulate (PayloadDeconstructor.java:111-115) dump through the shared dump_item_state routing; the neighbour acceptItem / canDump arrays are frame inputs (default [] -- no live proximity fill yet) and the dumped item is not written into the neighbour frame yet (no neighbour write-back). (6) Live deconstructing fill live (N2291) -- the handlePayload intake (PayloadBlock.java:121-127 + the Deconstructor override PayloadDeconstructor.java:98-101, clearing accum) applies the frame incoming_payload push before the fold when the frame payload is null, and the moveInPayload handoff (PayloadDeconstructor.java:197-202, moveInPayload(false), no rotate) is a registered pure (source_payload_deconstructor_move_in_payload_state) called from the N2233 advance's else-if branch; updatePayload() live positioning defers (no live payload entity) and the incoming push has no live source yet (the front moveOutPayload handoff and the unit drop wait for their own slices).
+	# Documented limits: (1) power-only first pass -- the deconstructor has no liquid consumer, so the folded efficiency is the min over the *modeled* consumers (power only). (2) shouldConsume gate live (N2210) -- PayloadDeconstructorBuild overrides shouldConsume() to return deconstructing != null && enabled (PayloadDeconstructor.java:219-221, `return deconstructing != null && enabled;`); the pure gate reads the null-ness of the frame deconstructing payload plus the frame enabled flag and feeds should_consume to the machinery; when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994). The updateTile advance (N2233) fills frame["deconstructing"] from the frame payload via the moveInPayload intake; the handlePayload live fill is live since N2291 (source_payload_deconstructor_handle_payload_state, through the frame incoming_payload push). (3) Partial updateTile advance (N2233) -- progress / payRotation / canProgress / accum / speedScl / item transfer / finish deconstruction / moveInPayload intake (PayloadDeconstructor.java:109-204) are live; the dumpAccumulate dump is live since N2276 (see (5)); the puddles liquid dump, the Fx.breakBlock finish effect, and the live payload positioning wait for their own slices. (4) No sense / draw / icons / setBars / read-write rows -- sense (PayloadDeconstructor.java:206-216), draw (PayloadDeconstructor.java:58-89), icons (PayloadDeconstructor.java:40-42), setBars (PayloadDeconstructor.java:45-49), read/write (PayloadDeconstructor.java:224-252) are logic / presentation / serialization, not tick state; acceptPayload (PayloadDeconstructor.java:104-106) and acceptUnitPayload (PayloadDeconstructor.java:92-95) are live since N2297 (see (7)); handlePayload (PayloadDeconstructor.java:98-101) is live since N2291 (see (6)). (5) Dump rows live (N2276) -- dumpRate 4 (PayloadDeconstructor.java:20) and dumpAccumulate (PayloadDeconstructor.java:111-115) dump through the shared dump_item_state routing; the neighbour acceptItem / canDump arrays are frame inputs (default [] -- no live proximity fill yet) and the dumped item is not written into the neighbour frame yet (no neighbour write-back). (6) Live deconstructing fill live (N2291) -- the handlePayload intake (PayloadBlock.java:121-127 + the Deconstructor override PayloadDeconstructor.java:98-101, clearing accum) applies the frame incoming_payload push before the fold when the frame payload is null, and the moveInPayload handoff (PayloadDeconstructor.java:197-202, moveInPayload(false), no rotate) is a registered pure (source_payload_deconstructor_move_in_payload_state) called from the N2233 advance's else-if branch; updatePayload() live positioning defers (no live payload entity) and the incoming push has no live source yet (the front moveOutPayload handoff and the unit drop wait for their own slices). (7) Acceptance gates live (N2297) -- acceptPayload (PayloadDeconstructor.java:104-106) and acceptUnitPayload (PayloadDeconstructor.java:92-95) are registered pures (source_payload_deconstructor_accept_payload_state / source_payload_deconstructor_accept_unit_payload_state) wired to frame["accepts_payload"] / frame["accepts_unit_payload"] from the frame offered_payload / offered_unit descriptors (default null -- no live source offers them yet, so both verdicts read false live); the N2291 intake guard stays the frame null check only (wiring the intake through the full gate waits for its own slice).
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -162,6 +213,88 @@ static func source_payload_deconstructor_should_consume_state(frame: Dictionary)
 	var deconstructing_present: bool = frame.get("deconstructing", null) != null
 	var enabled: bool = bool(frame.get("enabled", true))
 	return {"should_consume": deconstructing_present and enabled, "deconstructing_present": deconstructing_present}
+
+static func source_payload_deconstructor_accept_payload_state(payload: Dictionary, has_payload: bool, has_deconstructing: bool) -> Dictionary:
+	# PayloadDeconstructorBuild.acceptPayload(Building source, Payload payload)
+	# (PayloadDeconstructor.java:104-106):
+	# `return deconstructing == null && this.payload == null && super.acceptPayload(source, payload) && payload.requirements().length > 0 && payload.fits(maxPayloadSize);`
+	# The gate ANDs five terms. `deconstructing == null` reads the nullable field
+	# `public @Nullable Payload deconstructing;` (PayloadDeconstructor.java:52):
+	# a deconstructor already deconstructing a payload takes no second one.
+	# `this.payload == null` reads the held payload (`public @Nullable T payload;`,
+	# PayloadBlock.java:92): a deconstructor already holding a payload takes no
+	# second one. `super.acceptPayload(source, payload)` is the PayloadBlock base
+	# gate (PayloadBlock.java:116-118, `return this.payload == null;`) -- the SAME
+	# term as the one before it, so it is REDUNDANT here; the pure ANDs it in
+	# again anyway to stay Java-exact (the redundancy is Java's, not ours).
+	# `payload.requirements().length > 0` requires deconstructable requirements:
+	# a BuildPayload's requirements are its block requirements
+	# (`return build.block.requirements;`, BuildPayload.java:66-68) and a
+	# UnitPayload's are its unit type total requirements
+	# (`return unit.type.getTotalRequirements();`, UnitPayload.java:61-63), so a
+	# payload with nothing to deconstruct is refused. `payload.fits(maxPayloadSize)`
+	# is the Payload default (`default boolean fits(float s){`, Payload.java:50,
+	# `return size() / tilesize <= s;`, Payload.java:51): a BuildPayload is
+	# block.size tiles (`return build.block.size * tilesize;`,
+	# BuildPayload.java:86-88), so it fits when block.size <= maxPayloadSize (4,
+	# PayloadDeconstructor.java:18, `public float maxPayloadSize = 4;`); a
+	# UnitPayload is hitSize pixels (`return unit.hitSize;`,
+	# UnitPayload.java:99-101), so it fits when hitSize / tilesize <= 4 -- a unit
+	# payload offered through this gate supplies ceil(hitSize / tilesize) as its
+	# block_size, which preserves the <= comparison exactly (ceil(x) <= 4 iff
+	# x <= 4 for integer 4). The payload descriptor carries requirements_length
+	# (int) and block_size (int, the payload size in tiles); missing keys default
+	# to the rejecting value (no requirements, block_size maxPayloadSize + 1).
+	# The source building is not read -- Java ignores it here.
+	var deconstructing_empty: bool = not has_deconstructing
+	var payload_empty: bool = not has_payload
+	var super_accepts: bool = payload_empty
+	var requirements_length: int = int(payload.get("requirements_length", 0))
+	var block_size: int = int(payload.get("block_size", SOURCE_PAYLOAD_DECONSTRUCTOR_MAX_PAYLOAD_SIZE + 1))
+	var has_requirements: bool = requirements_length > 0
+	var fits: bool = float(block_size) <= SOURCE_PAYLOAD_DECONSTRUCTOR_MAX_PAYLOAD_SIZE
+	return {"accepts": deconstructing_empty and payload_empty and super_accepts and has_requirements and fits, "deconstructing_empty": deconstructing_empty, "payload_empty": payload_empty, "has_requirements": has_requirements, "fits": fits}
+
+static func source_payload_deconstructor_accept_unit_payload_state(unit: Dictionary, has_payload: bool, has_deconstructing: bool) -> Dictionary:
+	# PayloadDeconstructorBuild.acceptUnitPayload(Unit unit)
+	# (PayloadDeconstructor.java:92-95):
+	# `return payload == null && deconstructing == null && unit.type.allowedInPayloads && !unit.spawnedByCore`
+	# `&& unit.type.getTotalRequirements().length > 0 && unit.hitSize / tilesize <= maxPayloadSize;`
+	# The gate ANDs six terms. `payload == null` reads the held payload
+	# (`public @Nullable T payload;`, PayloadBlock.java:92) and
+	# `deconstructing == null` the nullable field (`public @Nullable Payload
+	# deconstructing;`, PayloadDeconstructor.java:52): a busy deconstructor
+	# takes no unit. `unit.type.allowedInPayloads` is the unit-type flag
+	# (`allowedInPayloads = true,`, UnitType.java:189, "if false, this unit
+	# cannot be moved into payloads"): a type that forbids payloads is
+	# refused. `!unit.spawnedByCore` reads the unit flag
+	# (`boolean spawnedByCore;`, UnitComp.java:52): a core-spawned unit is refused.
+	# `unit.type.getTotalRequirements().length > 0` requires deconstructable
+	# requirements (`public ItemStack[] getTotalRequirements(){`,
+	# UnitType.java:1323, all items needed to build the unit including
+	# reconstructor steps): a unit with nothing to deconstruct is refused.
+	# `unit.hitSize / tilesize <= maxPayloadSize` is the UnitPayload fits
+	# check inlined: a UnitPayload is hitSize pixels (`return unit.hitSize;`,
+	# UnitPayload.java:99-101), so it fits when hitSize / 8 <= 4, i.e.
+	# hitSize <= 32 (`public static final int tilesize = 8;`, Vars.java:135).
+	# The unit descriptor carries allowed_in_payloads (bool), spawned_by_core
+	# (bool), total_requirements_length (int) and hit_size (float, pixels);
+	# missing keys default to the rejecting value (not allowed, core-spawned,
+	# no requirements, hit_size one tile over the max). The gate is what
+	# canControlSelect consults before a player drops a unit on the block
+	# (PayloadBlock.java:103-105, `return !unit.spawnedByCore &&
+	# unit.type.allowedInPayloads && this.payload == null &&
+	# acceptUnitPayload(unit) && unit.tileOn() != null && unit.tileOn().build == this;`).
+	var payload_empty: bool = not has_payload
+	var deconstructing_empty: bool = not has_deconstructing
+	var allowed_in_payloads: bool = bool(unit.get("allowed_in_payloads", false))
+	var spawned_by_core: bool = bool(unit.get("spawned_by_core", true))
+	var allowed: bool = allowed_in_payloads and not spawned_by_core
+	var total_requirements_length: int = int(unit.get("total_requirements_length", 0))
+	var hit_size: float = float(unit.get("hit_size", (SOURCE_PAYLOAD_DECONSTRUCTOR_MAX_PAYLOAD_SIZE + 1.0) * source_world_defaults.TILESIZE))
+	var has_requirements: bool = total_requirements_length > 0
+	var fits: bool = hit_size / source_world_defaults.TILESIZE <= SOURCE_PAYLOAD_DECONSTRUCTOR_MAX_PAYLOAD_SIZE
+	return {"accepts": payload_empty and deconstructing_empty and allowed and has_requirements and fits, "allowed": allowed, "has_requirements": has_requirements, "fits": fits}
 
 static func source_payload_deconstructor_handle_payload_state(incoming_payload: Variant, source_x: float, source_y: float, self_x: float, self_y: float, payload_rotation: float, block_size: int, tilesize: float) -> Dictionary:
 	# The handlePayload intake (N2291): handlePayload(Building source, Payload payload)
@@ -183,7 +316,7 @@ static func source_payload_deconstructor_handle_payload_state(incoming_payload: 
 	# (PayloadDeconstructor.java:100) -- a fresh intake clears the accumulation buffer (the field `public @Nullable float[] accum;`,
 	# PayloadDeconstructor.java:53); the N2233 advance rebuilds it from the requirements when the handoff lands. The pure function sets
 	# unconditionally, like Java: the null guard lives in the driver (acceptPayload returns `this.payload == null`, PayloadBlock.java:117)
-	# and in acceptPayload itself (PayloadDeconstructor.java:104-106, which defers -- payload acceptance is not tick state). The pay_vector
+	# and in acceptPayload itself (PayloadDeconstructor.java:104-106, live since N2297 as source_payload_deconstructor_accept_payload_state + the frame accepts_payload verdict -- the handle pure still sets unconditionally, like Java, and the driver intake guard stays the null check). The pay_vector
 	# is a {x, y} dict (the canonical frame, the N2278/N2279 Loader/Unloader precedent); the deconstructor frame keeps Vector2 (the N2233
 	# advance + proof pin Vector2), so the tick converts at the boundary.
 	var half_size: float = float(block_size) * tilesize / 2.0
@@ -684,7 +817,11 @@ static func source_payload_deconstructor_tick_buildings_state(game: Object, seco
 		# consumes the one-tick push either way (the N2278 Loader precedent; the N2279 Unloader keeps it
 		# for a retry -- the divergence is documented, and the full Deconstructor acceptPayload gate
 		# -- deconstructing == null && requirements.length > 0 && fits(maxPayloadSize),
-		# PayloadDeconstructor.java:104-106 -- waits for its own slice). The rotation reads the incoming
+		# PayloadDeconstructor.java:104-106 -- is live since N2297 as
+		# source_payload_deconstructor_accept_payload_state + the frame
+		# accepts_payload verdict, but the intake guard stays the null
+		# check (wiring the intake through the full gate waits for its
+		# own slice). The rotation reads the incoming
 		# dict's rotation key (default 0.0, the Payload.java:55-57 default); the size is the per-def
 		# constant (5 deconstructor / 3 small-deconstructor) and tilesize is SourceWorldDefaults. The
 		# handle pure returns the pay_vector as a {x, y} dict (the canonical frame, the N2278/N2279
