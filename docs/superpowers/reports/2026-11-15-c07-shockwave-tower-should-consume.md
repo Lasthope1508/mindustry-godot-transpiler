@@ -30,8 +30,8 @@ Tests written first per the slice process; the handoff's RED decisions section r
 ## Commits
 
 - Slice: `2e75942` — C07: N2193 ShockwaveTower shouldConsume gate (pure function + driver line; proof 6 keys), 11 files, +958.
-- Docs: `DOCS_HASH` — Docs: N2193 report + handoff + design spec (gate clean except Godot).
-- GOAL: `GOAL_HASH` — Docs: GOAL.md names the N2193 slice commit that carries its proof to Windows.
+- Docs: `927e6fd` — Docs: N2193 report + handoff + design spec (gate clean except Godot).
+- GOAL: `2bd471f` — Docs: GOAL.md names the N2193 slice commit that carries its proof to Windows.
 - Pushed 2026-11-15 ~18:5x +07 to the fork (Lasthope1508). See the handoff Commits section for the hashes.
 
 ## Deferred (NOT this slice)

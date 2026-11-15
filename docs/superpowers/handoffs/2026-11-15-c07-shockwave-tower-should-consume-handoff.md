@@ -3,8 +3,8 @@
 Date: 2026-11-15. Batch: N2193 (single slice). Status: **DONE, gate
 finished 18:45 +07 tick** — targeted 4/4 OK, neighbours 44/44 OK,
 proof 9 keys matches:true, full gate Ran 5865, failures=143, skipped=5,
-0 errors (all Godot-absent). Slice commit `2e75942`. Docs/GOAL/push
-follow in this tick.
+0 errors (all Godot-absent). Slice commit `2e75942`, docs `927e6fd`,
+GOAL `2bd471f`. Push follows in this tick.
 
 ## RED (this run, 18:00 +07 tick)
 
@@ -242,6 +242,22 @@ follow in this tick.
   then BuildTurret shouldConsume, ShieldWall broken(), MassDriver /
   LaunchPad rows, RepairTurret coolant, the Units.nearby live query —
   each its own slice; or C08 inventory when asked.
+
+## DONE this run (18:5x +07 tick)
+
+- Full gate attempt 2 finished ~18:37 (see "Gate FINISHED" above) →
+  report
+  (`docs/superpowers/reports/2026-11-15-c07-shockwave-tower-should-consume.md`)
+  → spec (Done/ledger 1642 → 1643 + N2193 row, in the docs commit — the
+  N2190 miss is NOT repeated) → GOAL.md §5 (Windows proof stays debt) →
+  slice commit `2e75942` (11 files, +958) → docs `927e6fd` + GOAL
+  `2bd471f` commits → this hash-naming commit → push to origin main in
+  this tick (origin/main re-checked before push: still 6b5f6f4).
+- **Next after N2193:** ShockwaveTower fire gate (now unblocked — the
+  shouldConsume gate is the prerequisite the fire branch reads), then
+  BuildTurret shouldConsume, ShieldWall broken(), MassDriver / LaunchPad
+  rows, RepairTurret coolant, the Units.nearby live query — each its own
+  slice; or C08 inventory when asked.
 
 ## Gate FINISHED (verified 18:45 +07 tick)
 
