@@ -8,6 +8,8 @@ const source_building_efficiency_state := preload("res://src/game/SourceBuilding
 const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
 const source_liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
 const source_content_registry_runtime_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
+const source_solid_pump_state := preload("res://src/game/SourceSolidPumpBuildState.gd")
+const inventory := preload("res://src/game/SourceDrillInventoryRuntimeState.gd")
 
 # The Fracker implementation (Fracker.java:7, `public class
 # Fracker extends SolidPump{`): oil-extractor (consumePower 3f,
@@ -39,6 +41,25 @@ const SOURCE_FRACKER_BUILDING_META_KEY := "source_fracker_building"
 # transportTime precedent).
 const SOURCE_FRACKER_RESULT_LIQUID := "oil"
 const SOURCE_FRACKER_LIQUID_CAPACITY := 40.0
+# The oil-extractor def pump amount (Blocks.java:2969,
+# `pumpAmount = 0.25f;`, overriding the Pump class default
+# 0.2f, Pump.java:20, `public float pumpAmount = 0.2f;`):
+# the driver passes it to the reused N2220 SolidPump pure
+# function for super.updateTile() (Fracker.java:37).
+const SOURCE_FRACKER_PUMP_AMOUNT := 0.25
+# The oil-extractor def item use time (Blocks.java:2974,
+# `itemUseTime = 60f;`, overriding the Fracker class default
+# 100f, Fracker.java:8, `public float itemUseTime = 100f;`):
+# the accumulator threshold at which updateTile consumes
+# one sand (Fracker.java:32-35).
+const SOURCE_FRACKER_ITEM_USE_TIME := 60.0
+# The sand consume item (Blocks.java:2976, `consumeItem(
+# Items.sand);`): consume() removes one sand via
+# ConsumeItems.trigger (ConsumeItems.java:44-48).
+const SOURCE_FRACKER_CONSUME_ITEM := "sand"
+# Fracker.java:41, the warmup lerpDelta rate `0.02f` (the
+# same rate as SolidPump.java:130/134).
+const SOURCE_FRACKER_WARMUP_RATE := 0.02
 
 static func _is_fracker_build_implementation(implementation: String) -> bool:
 	return SOURCE_FRACKER_BUILD_IMPLEMENTATIONS.has(implementation)
@@ -67,6 +88,15 @@ static func source_fracker_tick_frame_state(frame: Dictionary, block_implementat
 	# fracker instead of resetting it, the factory pattern
 	# (SourceFactoryBuildState.gd:927).
 	frame["enabled"] = bool(frame.get("enabled", true))
+	# The frame carries the Building.items ItemModule
+	# (frame["items"], Dictionary keyed by item name, the factory
+	# precedent SourceFactoryBuildState.gd:89-101, the Separator
+	# N2222 precedent); the tick preserves the held items instead
+	# of resetting them -- no live intake fills them yet, so the
+	# consume() in the updateTile advance (N2224) reads the frame
+	# as-is.
+	if not frame.has("items"):
+		frame["items"] = {}
 	return frame
 
 static func _initial_frame() -> Dictionary:
@@ -76,20 +106,25 @@ static func _initial_frame() -> Dictionary:
 	# shouldConsume gate reads the result amount from it
 	# (SolidPump.java:118, `return liquids.get(result) <
 	# liquidCapacity - 0.01f;`). The driver syncs the live
-	# sprite-meta store into the frame each tick; no live
-	# intake fills the oil store yet -- the pump advance is
-	# the updateTile advance (Fracker.java:30-44 /
-	# SolidPump.java:121-141), which waits for its own
-	# slice; the gate reads the frame as-is.
-	return {"liquids": {}}
+	# sprite-meta store into the frame each tick; the pump
+	# advance (N2224) fills it each tick from the updateTile
+	# advance (Fracker.java:30-44 / SolidPump.java:121-141);
+	# the gate reads the store as-is. The frame also carries
+	# the Building.items ItemModule (frame["items"], Dictionary
+	# keyed by item name, default {}): the fracker has items
+	# (`hasItems = true;`, Fracker.java:11) and consume()
+	# removes one sand from it (Fracker.java:33); no live
+	# intake fills the items yet, so the advance reads the
+	# frame as-is.
+	return {"liquids": {}, "items": {}}
 
 static func source_fracker_bind_frame_state(sprite: Sprite2D, block: Object) -> Dictionary:
 	# Placement creates the Building (Block.java:1002 newBuilding);
 	# the port's frame is that Building state, bound on the sprite
 	# at placement under the fracker frame meta key
 	# ("source_fracker_building"). A Fracker sprite gets a
-	# frame bound with the liquids key ({} by default); the
-	# live-loop tick fills its other keys every tick. Any other
+	# frame bound with the liquids + items keys ({} by default);
+	# the live-loop tick fills its other keys every tick. Any other
 	# block, or an already-bound sprite, binds nothing.
 	if block == null or not _is_fracker_build_implementation(str(block.implementation)):
 		return {"applied": false, "frame": {}}
@@ -139,23 +174,112 @@ static func source_fracker_power_status_row_state(frame: Dictionary, has_power_c
 	# the pure gate (source_fracker_should_consume_state)
 	# feeds should_consume to the machinery from the frame
 	# liquids amount for the def result (oil) and the def
-	# capacity (40f). No live intake fills the oil store yet
-	# (the pump advance is the updateTile advance,
-	# Fracker.java:30-44 / SolidPump.java:121-141). (3) No
-	# updateTile advance -- accumulator / itemUseTime consume /
-	# super.updateTile() (Fracker.java:30-44) and warmup /
-	# pumpTime / lastPump / validTiles / boost
-	# (SolidPump.java:118-133) wait for their own slices; the
-	# proof carries no progress keys, the accumulator/speed
-	# fold (Fracker.java:38, SolidPump.java:121) is what the
-	# efficiency keys prove.
+	# capacity (40f). The pump advance (N2224) fills the oil
+	# store each tick (the updateTile advance,
+	# Fracker.java:30-44 / SolidPump.java:121-141). (3)
+	# updateTile advance live (N2224) -- accumulator /
+	# itemUseTime consume / super.updateTile()
+	# (Fracker.java:30-44) and warmup / pumpTime / lastPump /
+	# maxPump / fraction (SolidPump.java:121-141, via the
+	# reused N2220 pure function) advance each tick from
+	# explicit fraction inputs (frame valid_tiles / boost /
+	# attribute_env, default 0f); still deferred: the
+	# else-branch dumpLiquid(result) (Fracker.java:43), the
+	# sand intake (nothing fills frame["items"] live yet),
+	# and the live onProximityUpdate fill
+	# (SolidPump.java:150-159).
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
 	var live: float = 1.0 if stamped == null else float(stamped)
 	return {"has_power_row": true, "row": {"result": live, "is_power": true}}
 
-@warning_ignore("unused_parameter")
+static func source_fracker_update_tile_advance_state(frame: Dictionary, source_delta: float, time_scale: float, result_liquid_id: int, liquid_capacity: float, pump_amount: float, item_use_time: float) -> Dictionary:
+	# The updateTile advance (FrackerBuild.updateTile(),
+	# Fracker.java:30-44). Fracker extends SolidPump
+	# (Fracker.java:7, `public class Fracker extends SolidPump{`)
+	# and FrackerBuild extends SolidPumpBuild (Fracker.java:26,
+	# `public class FrackerBuild extends SolidPumpBuild{`), so
+	# the frame shares the SolidPumpBuild keys (warmup /
+	# pumpTime / lastPump / validTiles / boost,
+	# SolidPump.java:90-94) plus the Fracker accumulator
+	# (`public float accumulator;`, Fracker.java:27). The
+	# fracker has items (`hasItems = true;`, Fracker.java:11).
+	# The item use time is the def constant 60f
+	# (`itemUseTime = 60f;`, Blocks.java:2974), overriding the
+	# class default 100f (`public float itemUseTime = 100f;`,
+	# Fracker.java:8). The result liquid is oil (`result =
+	# Liquids.oil;`, Blocks.java:2966) and the capacity the
+	# def constant 40f (`liquidCapacity = 40f;`,
+	# Blocks.java:2971; the class default is -1f, `public
+	# float liquidCapacity = -1f;`, Block.java:77).
+	# pumpAmount arrives as a parameter (the driver passes the
+	# def constant 0.25f, `pumpAmount = 0.25f;`,
+	# Blocks.java:2969, overriding the Pump class default,
+	# `public float pumpAmount = 0.2f;`, Pump.java:20)
+	# because the advance REUSES the N2220 SolidPump pure
+	# function for super.updateTile() (Fracker.java:37) -- it
+	# does NOT copy the SolidPump logic (the N2221
+	# cross-driver preload precedent). Each Java expr below
+	# stays on ONE comment line (the N2148 lesson):
+	# `if(efficiency > 0){` (Fracker.java:31).
+	# `if(accumulator >= itemUseTime){` (Fracker.java:32 -- an `if`, not a `while`: at most one consume per tick).
+	# `consume();` (Fracker.java:33 -- `public void consume(){` with `for(Consume cons : block.consumers){` / `cons.trigger(self());`, BuildingComp.java:1911-1915: only ConsumeItems overrides trigger, `build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));`, ConsumeItems.java:44-48; the oil-extractor consumes one sand, `consumeItem(Items.sand);`, Blocks.java:2976, via `consumeItem(item)` -> `return consumeItem(item, 1);`, Block.java:1167-1168, and `return consume(new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)}));`, Block.java:1171-1172, with the default multiplier `public Floatf<Building> multiplier = b -> 1f;`, Consume.java:18; ConsumePower and ConsumeLiquid keep the base no-op `public void trigger(Building build){}`, Consume.java:50. The removal clamps like Java, `amount = Math.min(amount, items[item.id]);`, ItemModule.java:258-263, through the shared inventory helper, the N2222 Separator precedent).
+	# `accumulator -= itemUseTime;` (Fracker.java:34).
+	# `super.updateTile();` (Fracker.java:37 -- the N2220 pure function: `float fraction = Math.max(validTiles + boost + (attribute == null ? 0 : attribute.env()), 0);` (SolidPump.java:124), `if(efficiency > 0 && typeLiquid() < liquidCapacity - 0.001f){` (SolidPump.java:126), `float maxPump = Math.min(liquidCapacity - typeLiquid(), pumpAmount * delta() * fraction * efficiency);` (SolidPump.java:127), `liquids.add(result, maxPump);` (SolidPump.java:128), `lastPump = maxPump / Time.delta;` (SolidPump.java:129), `warmup = Mathf.lerpDelta(warmup, 1f, 0.02f);` (SolidPump.java:130), `warmup = Mathf.lerpDelta(warmup, 0f, 0.02f);` (SolidPump.java:134), `lastPump = 0f;` (SolidPump.java:135), `pumpTime += warmup * edelta();` (SolidPump.java:138), `dumpLiquid(result);` (SolidPump.java:140 -- DEFERRED, covered by the N2220 entry)).
+	# `accumulator += delta() * efficiency;` (Fracker.java:38 -- AFTER super.updateTile(), so the consume check above reads last tick's accumulator).
+	# `warmup = Mathf.lerpDelta(warmup, 0f, 0.02f);` (Fracker.java:41 -- the else branch decays warmup ITSELF; it does NOT call super.updateTile(), so pumpTime also stands still).
+	# `lastPump = 0f;` (Fracker.java:42).
+	# `dumpLiquid(result);` (Fracker.java:43 -- DEFERRED, needs neighbor liquid transfer).
+	# The Arc formula, not a guess: lerpDelta(from, to,
+	# progress) = lerp(from, to, clamp(progress * Time.delta))
+	# with lerp = from + (to - from) * progress and clamp(value)
+	# = clamp(value, 0, 1) (Mathf.java:401-404, 425-432); it
+	# scales by RAW Time.delta, so timeScale touches neither
+	# the warmup lerp nor lastPump. delta() = Time.delta *
+	# timeScale (`return Time.delta * timeScale;`,
+	# BuildingComp.java:1922-1924) and edelta() = efficiency *
+	# delta() (`return efficiency * delta();`,
+	# BuildingComp.java:1927-1929). source_delta is Time.delta
+	# in ticks (seconds * 60 through game_source_delta, arc
+	# Time.java:26), never raw seconds (the N2186/N2187/N2191
+	# lesson: raw seconds run 60x slow). efficiency defaults
+	# 0.0, the Java field default (BuildingComp.java:85
+	# `transient float efficiency;`); accumulator / warmup /
+	# pumpTime default 0.0, the Java build-field defaults
+	# (Fracker.java:27, SolidPump.java:90-91). The fraction
+	# inputs are explicit frame keys (valid_tiles / boost /
+	# attribute_env, default 0f), read by the reused super
+	# advance: the live onProximityUpdate fill
+	# (SolidPump.java:150-159) waits for its own slice.
+	var efficiency: float = float(frame.get("efficiency", 0.0))
+	var accumulator: float = float(frame.get("accumulator", 0.0))
+	var warmup: float = float(frame.get("warmup", 0.0))
+	var pump_time: float = float(frame.get("pump_time", 0.0))
+	var items: Dictionary = (frame.get("items", {}) as Dictionary).duplicate(true)
+	var delta: float = source_delta * time_scale
+	var max_pump: float = 0.0
+	var last_pump: float = 0.0
+	var fraction: float = 0.0
+	var next_warmup: float = warmup
+	var next_pump_time: float = pump_time
+	if efficiency > 0.0:
+		if accumulator >= item_use_time:
+			var removed: Dictionary = inventory.remove_item_state(items, SOURCE_FRACKER_CONSUME_ITEM, 1)
+			items = removed.get(inventory.SOURCE_DRILL_INVENTORY_DRILL_ITEMS_KEY, items)
+			accumulator -= item_use_time
+		var advanced: Dictionary = source_solid_pump_state.source_solid_pump_update_tile_advance_state(frame, source_delta, time_scale, result_liquid_id, liquid_capacity, pump_amount)
+		next_warmup = float(advanced["warmup"])
+		next_pump_time = float(advanced["pump_time"])
+		last_pump = float(advanced["last_pump"])
+		max_pump = float(advanced["max_pump"])
+		fraction = float(advanced["fraction"])
+		accumulator += delta * efficiency
+	else:
+		next_warmup = lerpf(warmup, 0.0, clampf(SOURCE_FRACKER_WARMUP_RATE * source_delta, 0.0, 1.0))
+		last_pump = 0.0
+	return {"accumulator": accumulator, "warmup": next_warmup, "pump_time": next_pump_time, "last_pump": last_pump, "max_pump": max_pump, "fraction": fraction, "items": items}
+
 static func source_fracker_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the fracker tick wiring every tick
 	# (FrackerBuild.updateTile(), Fracker.java:30, gates on
@@ -243,6 +367,40 @@ static func source_fracker_tick_buildings_state(game: Object, seconds: float) ->
 				required_results.append(power_row.get("row", {}))
 			var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(true, bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, [], [], frame)
 			source_building_efficiency_state.apply_update_consumption_state(consumption, frame)
+		# N2224: the updateTile advance runs after consumption,
+		# like Java's Building.update() (BuildingComp.java:2274,
+		# `updateConsumption();`, then the updateTile gate
+		# `if(enabled || !block.noUpdateDisabled){` at
+		# BuildingComp.java:2276-2278; noUpdateDisabled defaults
+		# false, Block.java:170, `public boolean noUpdateDisabled = false;`),
+		# so a disabled fracker freezes its accumulator /
+		# warmup / pumpTime. The source delta is Time.delta in
+		# ticks: game_source_delta(game, seconds) is seconds * 60
+		# (arc Time.java:26), never raw seconds. timeScale reads
+		# live from the sprite meta, default 1.0
+		# (BuildingComp.java:98 `private transient float timeScale = 1f, timeScaleDuration;`).
+		# The advance reuses the N2220 SolidPump pure function
+		# for super.updateTile() (Fracker.java:37) with the
+		# oil-extractor pump amount 0.25f (Blocks.java:2969),
+		# and removes one sand through the shared inventory
+		# helper when the accumulator reaches the def item use
+		# time 60f (Blocks.java:2974). The advance mutates the
+		# frame liquids store in place (the module dict is a
+		# reference to the sprite meta store) and returns the
+		# advanced scalars + items, which the driver writes back
+		# to the frame.
+		if bool(frame.get("enabled", true)):
+			var advance_result_id: int = int(liquid_id_by_name.get(SOURCE_FRACKER_RESULT_LIQUID, -1))
+			var source_delta: float = source_placed_block_state.game_source_delta(game, seconds)
+			var time_scale: float = source_placed_block_state.time_scale(sprite, source_placed_block_state.game_default_time_scale(game))
+			var advanced: Dictionary = source_fracker_update_tile_advance_state(frame, source_delta, time_scale, advance_result_id, SOURCE_FRACKER_LIQUID_CAPACITY, SOURCE_FRACKER_PUMP_AMOUNT, SOURCE_FRACKER_ITEM_USE_TIME)
+			frame["accumulator"] = advanced["accumulator"]
+			frame["warmup"] = advanced["warmup"]
+			frame["pump_time"] = advanced["pump_time"]
+			frame["last_pump"] = advanced["last_pump"]
+			frame["max_pump"] = advanced["max_pump"]
+			frame["fraction"] = advanced["fraction"]
+			frame["items"] = advanced["items"]
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
