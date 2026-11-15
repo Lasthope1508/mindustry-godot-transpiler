@@ -48,3 +48,13 @@ Do not stage or revert known workspace noise unless the user explicitly asks:
 Agent use:
 - Spawn agents only for independent non-conflicting work.
 - Do not spawn agents for slices touching shared SSOT JSON, checklist totals, or `godot-mindustry/src/game/PortGame.gd`.
+
+## Standing hourly Godot validation duty (user-authorized 2026-11-15)
+
+- At every scheduled validation run or context recovery, read `docs/superpowers/tasks/hourly-godot-validation.md` before acting. This is the persistent scope and recovery contract for the validation agent, not an instruction for migration agents to change their slices.
+- Audit new main revisions hourly. A passing actual Godot Linux proof already satisfies this duty; Windows is also acceptable. Never repeat tests solely because Windows evidence is absent.
+- Validate only slices without credible passing Godot evidence for their current implementation. Missing-engine full-gate failures alone do not imply missing proof when a separate real engine run passed.
+- Do not implement or modify unrelated slices, gameplay, SSOT, migration totals, or another agent's in-progress work. Do not weaken assertions to obtain a pass.
+- Publish and merge only this agent's narrowly scoped passing validation reports/evidence and necessary isolated proof-fixture repairs, following the task contract. Unresolved failures must be reported, never merged as GREEN.
+- Preserve dirty workspaces, use an isolated validation branch, stage exact files, check main again before merging, and never force-push main or resolve another agent's changes by overwriting them.
+- Save the tested SHA, evidence, pending work and next action to the on-disk checkpoint after each run. Do not rely on chat history or memory alone.
