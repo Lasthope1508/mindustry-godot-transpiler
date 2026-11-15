@@ -45,7 +45,7 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
 (`docs/superpowers/handoffs/`). Khi trống task, tự làm slice tiếp theo, không
 đợi user giao.
 
-## 4. Tiến độ hiện tại (2026-11-15 14:09 +07)
+## 4. Tiến độ hiện tại (2026-11-15 14:38 +07)
 
 - Main trên fork ở `de9ab89c` (N2185 LightBlock power.status DONE + PUSHED).
 - **Batch 1 {N2186, N2187, N2189} DONE** trên branch tích hợp
@@ -112,11 +112,24 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
   (3 cherry-picks sạch); lưu ý: lần chạy targeted đầu báo 9
   FileNotFoundError do worktree tích hợp thiếu bản copy mindustry-upstream
   — đã copy từ worktree tích hợp wave-items (bố cục giống worktree slice).
-- **Tiếp theo:** payload infra (coordinator làm tuần tự — scope port payload
-  store trước, rồi các gate PayloadLoader / PayloadUnloader /
-  PayloadDeconstructor / UnitCargoLoader; xem `SCOPE-payload-wave.md`) →
-  targets → plans → units (xem `DESIGN-frame-state-infra.md` trong
-  `~/workspace/mindustry-parallel/`).
+- **Wave payload {N2208 PayloadLoader, N2209 PayloadUnloader, N2210
+  PayloadDeconstructor, N2211 UnitCargoLoader} shouldConsume gates DONE**
+  trên branch tích hợp `integration/wave-payload-n2208-n2211` (không merge
+  vào main; 4 slice branch push 14:17–14:19 + integration branch push ngay
+  sau docs commit theo push-as-you-go): neighbours họ payload 20 tests
+  (15 PASS + 5 proof Godot-absent, 0 lỗi khác) + targeted 4 module 16 tests
+  (12 PASS + 4 proof Godot-absent), full gate Ran 5901 in 1003.626s,
+  failures=152, skipped=5, 0 errors — 152/152 Godot-absent (148 inherited
+  + 4 new proof tests N2208–N2211). SSOT gộp 11421/1652/1575/2941, audit
+  1336, legacy 0. Coordinator fix `53ed2029` ở tích hợp: seed payload /
+  deconstructing fixture vào proof N2162/N2163/N2166 (nếu không key
+  efficiency_folds_power_min sẽ fail trên Godot vì gate đóng khi frame
+  trống); proof N2165 không cần fix vì gate ĐẢO. Lưu ý scoping: DEFERRED
+  gộp 257 = 251 + 6 entry PayloadLoader khôi phục từ register N2162 (bị mất
+  khi base N2199 build từ snapshot pre-N2162).
+- **Tiếp theo:** targets — RepairTurret / RepairTower / RegenProjector gates
+  (cần targets infra; xem `DESIGN-frame-state-infra.md` trong
+  `~/workspace/mindustry-parallel/`) → plans → units.
 - **KHÔNG chạy Godot ở VM này** (chỉ đạo user 2026-11-15, ưu tiên cao): mọi
   proof scene từ N2186 trở đi chỉ viết, chưa từng chạy ở đâu — ghi nợ ở §5,
   chờ agent Godot test.
@@ -365,6 +378,49 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
     `slice/N2207-fracker-should-consume` (integration cherry-pick `8bb5f81e`).
     Trạng thái "chờ agent Godot test". Chạy: targeted test
     `tests.test_c07_fracker_should_consume` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2208 `C07PayloadLoaderShouldConsumeProof` — CHƯA CHẠY ở đâu (6 key:
+    `gate_true_with_payload`, `gate_false_without_payload`,
+    `gate_ignores_enabled`, `efficiency_zero_when_gate_false`,
+    `efficiency_folds_power_when_gate_true`,
+    `def_payload_loader_consume_power_two_size_three`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `fcb9ff15` trên
+    `slice/N2208-payload-loader-should-consume` (integration cherry-pick `88b92d1f`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_payload_loader_should_consume` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2209 `C07PayloadUnloaderShouldConsumeProof` — CHƯA CHẠY ở đâu (6 key:
+    `gate_true_with_payload`, `gate_false_without_payload`,
+    `gate_ignores_enabled`, `efficiency_zero_when_gate_false`,
+    `efficiency_folds_power_when_gate_true`,
+    `def_payload_unloader_consume_power_two_size_three`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `cb77521d` trên
+    `slice/N2209-payload-unloader-should-consume` (integration cherry-pick `d9e2df14`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_payload_unloader_should_consume` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2210 `C07PayloadDeconstructorShouldConsumeProof` — CHƯA CHẠY ở đâu (6 key:
+    `gate_true_when_deconstructing_and_enabled`,
+    `gate_false_when_no_deconstructing`, `gate_false_when_disabled`,
+    `frame_key_default_null`, `efficiency_zero_when_gate_false`,
+    `efficiency_folds_power_when_gate_true`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `ba3f6bbd` trên
+    `slice/N2210-payload-deconstructor-should-consume` (integration cherry-pick `1abaed7c`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_payload_deconstructor_should_consume` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2211 `C07UnitCargoLoaderShouldConsumeProof` — CHƯA CHẠY ở đâu (6 key:
+    `gate_true_when_unit_null`, `gate_false_when_unit_present`,
+    `gate_independent_of_enabled`, `efficiency_zero_when_gate_false`,
+    `efficiency_folds_power_when_gate_true`, `frame_unit_default_null`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `1ee8ae0e` trên
+    `slice/N2211-unit-cargo-loader-should-consume` (integration cherry-pick `5a9805f5`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_unit_cargo_loader_should_consume` với Godot 4.6.2 trên PATH,
     port 7777 trống.
   - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
     trên (ghi rõ commit đưa scene tới Windows).
