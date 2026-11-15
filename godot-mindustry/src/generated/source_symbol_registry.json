@@ -179608,6 +179608,534 @@
         "test_reference_graph_and_actual_c07_wall_crafter_timer_consume"
       ],
       "runtime_proof": "/root/C07WallCrafterTimerConsumeProof"
+    },
+    "source_constructor_update_tile_advance_state_result.progress": {
+      "status": "source-backed",
+      "godot_owner": "SourceConstructorBuildState.source_constructor_update_tile_advance_state",
+      "godot_symbol": "source_constructor_update_tile_advance_state_result.progress",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_method": "BlockProducerBuild.updateTile()",
+      "java_expr": "progress += buildSpeed * edelta();",
+      "rule": "The advanced progress (BlockProducer.java:113): progress += buildSpeed * edelta() while producing, then progress %= 1f on completion (BlockProducer.java:120) -- the remainder is KEPT, not reset to 0; unchanged when not producing.",
+      "tests": [
+        "test_c07_block_producer_update_tile_registration",
+        "test_all_c07_block_producer_update_tile_input_evidence_is_exact",
+        "test_block_producer_update_tile_state",
+        "test_reference_graph_and_actual_c07_block_producer_update_tile"
+      ],
+      "runtime_proof": "/root/C07BlockProducerUpdateTileProof"
+    },
+    "source_constructor_update_tile_advance_state_result.heat": {
+      "status": "source-backed",
+      "godot_owner": "SourceConstructorBuildState.source_constructor_update_tile_advance_state",
+      "godot_symbol": "source_constructor_update_tile_advance_state_result.heat",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_method": "BlockProducerBuild.updateTile()",
+      "java_expr": "heat = Mathf.lerpDelta(heat, Mathf.num(produce), 0.15f);",
+      "rule": "The advanced heat (BlockProducer.java:124): lerpDelta toward 1.0 while producing, 0.0 otherwise, at 0.15f on the RAW Time.delta (arc Mathf.java:430-432).",
+      "tests": [
+        "test_c07_block_producer_update_tile_registration",
+        "test_all_c07_block_producer_update_tile_input_evidence_is_exact",
+        "test_block_producer_update_tile_state",
+        "test_reference_graph_and_actual_c07_block_producer_update_tile"
+      ],
+      "runtime_proof": "/root/C07BlockProducerUpdateTileProof"
+    },
+    "source_constructor_update_tile_advance_state_result.time": {
+      "status": "source-backed",
+      "godot_owner": "SourceConstructorBuildState.source_constructor_update_tile_advance_state",
+      "godot_symbol": "source_constructor_update_tile_advance_state_result.time",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_method": "BlockProducerBuild.updateTile()",
+      "java_expr": "time += heat * delta();",
+      "rule": "The advanced time (BlockProducer.java:125): time += heat * delta(), using the NEW heat (the heat line runs first).",
+      "tests": [
+        "test_c07_block_producer_update_tile_registration",
+        "test_all_c07_block_producer_update_tile_input_evidence_is_exact",
+        "test_block_producer_update_tile_state",
+        "test_reference_graph_and_actual_c07_block_producer_update_tile"
+      ],
+      "runtime_proof": "/root/C07BlockProducerUpdateTileProof"
+    },
+    "source_constructor_update_tile_advance_state_result.payload": {
+      "status": "source-backed",
+      "godot_owner": "SourceConstructorBuildState.source_constructor_update_tile_advance_state",
+      "godot_symbol": "source_constructor_update_tile_advance_state_result.payload",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_method": "BlockProducerBuild.updateTile()",
+      "java_expr": "payload = new BuildPayload(recipe, team);",
+      "rule": "The payload dict after the tick (BlockProducer.java:117): the spawned BuildPayload {\"block\": recipe id, \"team\": team id} + empty build stores when progress completes, the incoming payload otherwise, or null when moveOut handed it to the front build (movePayload success at arrival, PayloadBlock.java:220-222).",
+      "tests": [
+        "test_c07_block_producer_update_tile_registration",
+        "test_all_c07_block_producer_update_tile_input_evidence_is_exact",
+        "test_block_producer_update_tile_state",
+        "test_reference_graph_and_actual_c07_block_producer_update_tile"
+      ],
+      "runtime_proof": "/root/C07BlockProducerUpdateTileProof"
+    },
+    "source_constructor_update_tile_advance_state_result.pay_vector": {
+      "status": "source-backed",
+      "godot_owner": "SourceConstructorBuildState.source_constructor_update_tile_advance_state",
+      "godot_symbol": "source_constructor_update_tile_advance_state_result.pay_vector",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_method": "BlockProducerBuild.updateTile()",
+      "java_expr": "payVector.approach(dest, payloadSpeed * delta());",
+      "rule": "The advanced payVector {x, y}: setZero on spawn (BlockProducer.java:119), then approached toward the front dest by payloadSpeed * delta() on moveOut (PayloadBlock.java:207, via the reused helper).",
+      "tests": [
+        "test_c07_block_producer_update_tile_registration",
+        "test_all_c07_block_producer_update_tile_input_evidence_is_exact",
+        "test_block_producer_update_tile_state",
+        "test_reference_graph_and_actual_c07_block_producer_update_tile"
+      ],
+      "runtime_proof": "/root/C07BlockProducerUpdateTileProof"
+    },
+    "source_constructor_update_tile_advance_state_result.pay_rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourceConstructorBuildState.source_constructor_update_tile_advance_state",
+      "godot_symbol": "source_constructor_update_tile_advance_state_result.pay_rotation",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_method": "BlockProducerBuild.updateTile()",
+      "java_expr": "payRotation = Angles.moveToward(payRotation, rotdeg(), payloadRotateSpeed * delta());",
+      "rule": "The advanced payRotation (PayloadBlock.java:206): moved toward rotdeg() by payloadRotateSpeed * delta() on moveOut (via the reused helper).",
+      "tests": [
+        "test_c07_block_producer_update_tile_registration",
+        "test_all_c07_block_producer_update_tile_input_evidence_is_exact",
+        "test_block_producer_update_tile_state",
+        "test_reference_graph_and_actual_c07_block_producer_update_tile"
+      ],
+      "runtime_proof": "/root/C07BlockProducerUpdateTileProof"
+    },
+    "source_constructor_update_tile_advance_state_result.items": {
+      "status": "source-backed",
+      "godot_owner": "SourceConstructorBuildState.source_constructor_update_tile_advance_state",
+      "godot_symbol": "source_constructor_update_tile_advance_state_result.items",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "java_method": "BlockProducerBuild.updateTile()",
+      "java_expr": "build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));",
+      "rule": "The items dict after the tick (ConsumeItemDynamic.java:53-57): each dynamic stack removed round(amount * multiplier), clamped to the held count (ItemModule.java:258-263), when progress completes; unchanged otherwise. The N2265 trigger is wired LIVE now.",
+      "tests": [
+        "test_c07_block_producer_update_tile_registration",
+        "test_all_c07_block_producer_update_tile_input_evidence_is_exact",
+        "test_block_producer_update_tile_state",
+        "test_reference_graph_and_actual_c07_block_producer_update_tile"
+      ],
+      "runtime_proof": "/root/C07BlockProducerUpdateTileProof"
+    },
+    "source_constructor_update_tile_advance_state_result.consumed": {
+      "status": "source-backed",
+      "godot_owner": "SourceConstructorBuildState.source_constructor_update_tile_advance_state",
+      "godot_symbol": "source_constructor_update_tile_advance_state_result.consumed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_method": "BlockProducerBuild.updateTile()",
+      "java_expr": "consume();",
+      "rule": "Whether consume() fired this tick (BlockProducer.java:116): true exactly when progress reached buildTime while producing (the completion branch, BlockProducer.java:115-120).",
+      "tests": [
+        "test_c07_block_producer_update_tile_registration",
+        "test_all_c07_block_producer_update_tile_input_evidence_is_exact",
+        "test_block_producer_update_tile_state",
+        "test_reference_graph_and_actual_c07_block_producer_update_tile"
+      ],
+      "runtime_proof": "/root/C07BlockProducerUpdateTileProof"
+    },
+    "source_liquid_bridge_update_transport_state_result.warmup": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidBridgeBuildState.source_liquid_bridge_update_transport_state",
+      "godot_symbol": "source_liquid_bridge_update_transport_state_result.warmup",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "java_method": "LiquidBridgeBuild.updateTransport()",
+      "java_expr": "warmup = Mathf.approachDelta(warmup, efficiency, 1f / 30f);",
+      "rule": "The advanced warmup (ItemBridge.java:345/337): approachDelta toward the folded efficiency at 1/30f when linked, 0f when unlinked; approachDelta scales by raw Time.delta.",
+      "tests": [
+        "test_c07_liquid_bridge_update_transport_registration",
+        "test_all_c07_liquid_bridge_update_transport_input_evidence_is_exact",
+        "test_liquid_bridge_update_transport_advance_state",
+        "test_reference_graph_and_actual_c07_liquid_bridge_update_transport"
+      ],
+      "runtime_proof": "/root/C07LiquidBridgeUpdateTransportProof"
+    },
+    "source_liquid_bridge_update_transport_state_result.moved": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidBridgeBuildState.source_liquid_bridge_update_transport_state",
+      "godot_symbol": "source_liquid_bridge_update_transport_state_result.moved",
+      "java_source": "core/src/mindustry/world/blocks/liquid/LiquidBridge.java",
+      "java_method": "LiquidBridgeBuild.updateTransport()",
+      "java_expr": "moved |= moveLiquid(other, liquids.current()) > 0.05f;",
+      "rule": "Whether liquid moved this tick (LiquidBridge.java:24): set when the flow exceeds 0.05f, OR-accumulated, never cleared here (the timer snapshot defers).",
+      "tests": [
+        "test_c07_liquid_bridge_update_transport_registration",
+        "test_all_c07_liquid_bridge_update_transport_input_evidence_is_exact",
+        "test_liquid_bridge_update_transport_advance_state",
+        "test_reference_graph_and_actual_c07_liquid_bridge_update_transport"
+      ],
+      "runtime_proof": "/root/C07LiquidBridgeUpdateTransportProof"
+    },
+    "source_liquid_bridge_update_transport_state_result.flow": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidBridgeBuildState.source_liquid_bridge_update_transport_state",
+      "godot_symbol": "source_liquid_bridge_update_transport_state_result.flow",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "LiquidBridgeBuild.updateTransport()",
+      "java_expr": "float flow = Math.min(Mathf.clamp((fract - ofract)) * (block.liquidCapacity), liquids.get(liquid));",
+      "rule": "The transferred amount this tick (BuildingComp.java:946-947/949-952): min(clamp(fract - ofract) * capacity, have), capped by the partner room, 0 when the warmup gate, the moveLiquid gate, or acceptLiquid blocks the transfer (the reaction branch defers, so the else-if path returns 0).",
+      "tests": [
+        "test_c07_liquid_bridge_update_transport_registration",
+        "test_all_c07_liquid_bridge_update_transport_input_evidence_is_exact",
+        "test_liquid_bridge_update_transport_advance_state",
+        "test_reference_graph_and_actual_c07_liquid_bridge_update_transport"
+      ],
+      "runtime_proof": "/root/C07LiquidBridgeUpdateTransportProof"
+    },
+    "source_liquid_bridge_update_transport_state_result.liquids_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidBridgeBuildState.source_liquid_bridge_update_transport_state",
+      "godot_symbol": "source_liquid_bridge_update_transport_state_result.liquids_after",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "LiquidBridgeBuild.updateTransport()",
+      "java_expr": "liquids.remove(liquid, flow);",
+      "rule": "The self liquid store after the transfer (BuildingComp.java:951): the moved amount removed from the current liquid (remove caps at the stored amount, LiquidModule.java:124-127); current unchanged -- remove goes through add with the same liquid.",
+      "tests": [
+        "test_c07_liquid_bridge_update_transport_registration",
+        "test_all_c07_liquid_bridge_update_transport_input_evidence_is_exact",
+        "test_liquid_bridge_update_transport_advance_state",
+        "test_reference_graph_and_actual_c07_liquid_bridge_update_transport"
+      ],
+      "runtime_proof": "/root/C07LiquidBridgeUpdateTransportProof"
+    },
+    "source_liquid_bridge_update_transport_state_result.partner_liquids_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidBridgeBuildState.source_liquid_bridge_update_transport_state",
+      "godot_symbol": "source_liquid_bridge_update_transport_state_result.partner_liquids_after",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "LiquidBridgeBuild.updateTransport()",
+      "java_expr": "next.handleLiquid(self(), liquid, flow);",
+      "rule": "The partner liquid store after the transfer (BuildingComp.java:950; handleLiquid adds, BuildingComp.java:872-874): the moved amount added to the current liquid, and current becomes the moved liquid (add sets current, LiquidModule.java:110-112).",
+      "tests": [
+        "test_c07_liquid_bridge_update_transport_registration",
+        "test_all_c07_liquid_bridge_update_transport_input_evidence_is_exact",
+        "test_liquid_bridge_update_transport_advance_state",
+        "test_reference_graph_and_actual_c07_liquid_bridge_update_transport"
+      ],
+      "runtime_proof": "/root/C07LiquidBridgeUpdateTransportProof"
+    },
+    "source_payload_deconstructor_dump_state_result.dump_accum_after": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_dump_state",
+      "godot_symbol": "source_payload_deconstructor_dump_state_result.dump_accum_after",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "PayloadDeconstructorBuild.updateTile()",
+      "java_expr": "dumpAccum += delta();",
+      "rule": "The dump accumulator after the tick (BuildingComp.java:1055-1058): + delta() per dumpAccumulate call (4 per tick, dumpRate 4, PayloadDeconstructor.java:20), - 1f per while iteration -- unconditionally, even when the dump failed.",
+      "tests": [
+        "test_c07_payload_deconstructor_dump_registration",
+        "test_all_c07_payload_deconstructor_dump_input_evidence_is_exact",
+        "test_payload_deconstructor_dump_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_dump"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorDumpProof"
+    },
+    "source_payload_deconstructor_dump_state_result.dumped": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_dump_state",
+      "godot_symbol": "source_payload_deconstructor_dump_state_result.dumped",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "PayloadDeconstructorBuild.updateTile()",
+      "java_expr": "res |= dump(item);",
+      "rule": "Whether any dump succeeded this tick (BuildingComp.java:1054, 1057): the OR of every dump() result across the 4 dumpAccumulate calls.",
+      "tests": [
+        "test_c07_payload_deconstructor_dump_registration",
+        "test_all_c07_payload_deconstructor_dump_input_evidence_is_exact",
+        "test_payload_deconstructor_dump_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_dump"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorDumpProof"
+    },
+    "source_payload_deconstructor_dump_state_result.items_after": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_dump_state",
+      "godot_symbol": "source_payload_deconstructor_dump_state_result.items_after",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "PayloadDeconstructorBuild.updateTile()",
+      "java_expr": "items.remove(item, 1);",
+      "rule": "The items after the tick (BuildingComp.java:1090): 1 removed per successful dump, in content order per neighbour; unchanged when nothing dumps or the store is empty.",
+      "tests": [
+        "test_c07_payload_deconstructor_dump_registration",
+        "test_all_c07_payload_deconstructor_dump_input_evidence_is_exact",
+        "test_payload_deconstructor_dump_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_dump"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorDumpProof"
+    },
+    "source_payload_deconstructor_dump_state_result.cursor_after": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_dump_state",
+      "godot_symbol": "source_payload_deconstructor_dump_state_result.cursor_after",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "PayloadDeconstructorBuild.updateTile()",
+      "java_expr": "cdump = ((cdump + 1) % prox);",
+      "rule": "The dump cursor after the tick (BuildingComp.java:1116-1120): advanced once per neighbour checked (incrementDump, guarded on prox != 0), wrapping modulo the proximity size.",
+      "tests": [
+        "test_c07_payload_deconstructor_dump_registration",
+        "test_all_c07_payload_deconstructor_dump_input_evidence_is_exact",
+        "test_payload_deconstructor_dump_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_dump"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorDumpProof"
+    },
+    "source_regen_projector_update_targets_state_result.targets": {
+      "status": "source-backed",
+      "godot_owner": "SourceRegenProjectorBuildState.source_regen_projector_update_targets_state",
+      "godot_symbol": "source_regen_projector_update_targets_state_result.targets",
+      "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+      "java_method": "RegenProjectorBuild.updateTargets()",
+      "java_expr": "indexer.eachBlock(team, Tmp.r1.setCentered(x, y, range * tilesize), b -> true, targets::add);",
+      "rule": "The rebuilt targets list (RegenProjector.java:115-119): same-team buildings whose center falls inside the square range*tilesize rect (range 28, Blocks.java:2012), each entry pos / block_health / health / damaged / heal_suppressed in the exact format the N2228 advance reads; unchanged (the previous frame targets) when tile_changes equals last_change.",
+      "tests": [
+        "test_c07_regen_projector_targets_fill_registration",
+        "test_all_c07_regen_projector_targets_fill_input_evidence_is_exact",
+        "test_regen_projector_update_targets_state",
+        "test_reference_graph_and_actual_c07_regen_projector_targets_fill"
+      ],
+      "runtime_proof": "/root/C07RegenProjectorTargetsFillProof"
+    },
+    "source_regen_projector_update_targets_state_result.last_change": {
+      "status": "source-backed",
+      "godot_owner": "SourceRegenProjectorBuildState.source_regen_projector_update_targets_state",
+      "godot_symbol": "source_regen_projector_update_targets_state_result.last_change",
+      "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+      "java_method": "RegenProjectorBuild.updateTargets()",
+      "java_expr": "lastChange = world.tileChanges;",
+      "rule": "The refreshed lastChange (RegenProjector.java:123-125): tile_changes when it differed, unchanged otherwise.",
+      "tests": [
+        "test_c07_regen_projector_targets_fill_registration",
+        "test_all_c07_regen_projector_targets_fill_input_evidence_is_exact",
+        "test_regen_projector_update_targets_state",
+        "test_reference_graph_and_actual_c07_regen_projector_targets_fill"
+      ],
+      "runtime_proof": "/root/C07RegenProjectorTargetsFillProof"
+    },
+    "source_regen_projector_update_targets_state_result.refreshed": {
+      "status": "source-backed",
+      "godot_owner": "SourceRegenProjectorBuildState.source_regen_projector_update_targets_state",
+      "godot_symbol": "source_regen_projector_update_targets_state_result.refreshed",
+      "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+      "java_method": "RegenProjectorBuild.updateTargets()",
+      "java_expr": "if(lastChange != world.tileChanges){",
+      "rule": "Whether this call rebuilt targets (RegenProjector.java:123): true exactly when tile_changes differed from last_change.",
+      "tests": [
+        "test_c07_regen_projector_targets_fill_registration",
+        "test_all_c07_regen_projector_targets_fill_input_evidence_is_exact",
+        "test_regen_projector_update_targets_state",
+        "test_reference_graph_and_actual_c07_regen_projector_targets_fill"
+      ],
+      "runtime_proof": "/root/C07RegenProjectorTargetsFillProof"
+    },
+    "source_payload_loader_handle_payload_state_result.payload": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadLoaderBuildState.source_payload_loader_handle_payload_state",
+      "godot_symbol": "source_payload_loader_handle_payload_state_result.payload",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_method": "PayloadLoaderBuild.handlePayload()",
+      "java_expr": "this.payload = (T)payload;",
+      "rule": "The held payload after the handle (PayloadBlock.java:122): the incoming payload dict, set unconditionally by the pure function (the null guard lives in the driver, from acceptPayload returning this.payload == null, PayloadBlock.java:117).",
+      "tests": [
+        "test_c07_payload_loader_live_fill_registration",
+        "test_all_c07_payload_loader_live_fill_input_evidence_is_exact",
+        "test_payload_loader_live_fill_state",
+        "test_reference_graph_and_actual_c07_payload_loader_live_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderLiveFillProof"
+    },
+    "source_payload_loader_handle_payload_state_result.pay_vector": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadLoaderBuildState.source_payload_loader_handle_payload_state",
+      "godot_symbol": "source_payload_loader_handle_payload_state_result.pay_vector",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_method": "PayloadLoaderBuild.handlePayload()",
+      "java_expr": "this.payVector.set(source).sub(this).clamp(-size * tilesize / 2f, -size * tilesize / 2f, size * tilesize / 2f, size * tilesize / 2f);",
+      "rule": "The payVector {x, y} after the handle (PayloadBlock.java:123): the source offset clamped per axis to +/-size*tilesize/2 (Vec2.clamp(minx, miny, maxx, maxy), arc Vec2.java:318-322); +/-12.0 for size 3, +/-16.0 for size 4.",
+      "tests": [
+        "test_c07_payload_loader_live_fill_registration",
+        "test_all_c07_payload_loader_live_fill_input_evidence_is_exact",
+        "test_payload_loader_live_fill_state",
+        "test_reference_graph_and_actual_c07_payload_loader_live_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderLiveFillProof"
+    },
+    "source_payload_loader_handle_payload_state_result.pay_rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadLoaderBuildState.source_payload_loader_handle_payload_state",
+      "godot_symbol": "source_payload_loader_handle_payload_state_result.pay_rotation",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_method": "PayloadLoaderBuild.handlePayload()",
+      "java_expr": "this.payRotation = payload.rotation();",
+      "rule": "The payRotation after the handle (PayloadBlock.java:124): the payload rotation; the N2231 advance moves it toward rotdeg() on later ticks.",
+      "tests": [
+        "test_c07_payload_loader_live_fill_registration",
+        "test_all_c07_payload_loader_live_fill_input_evidence_is_exact",
+        "test_payload_loader_live_fill_state",
+        "test_reference_graph_and_actual_c07_payload_loader_live_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderLiveFillProof"
+    },
+    "source_payload_loader_handle_payload_state_result.exporting": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadLoaderBuildState.source_payload_loader_handle_payload_state",
+      "godot_symbol": "source_payload_loader_handle_payload_state_result.exporting",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+      "java_method": "PayloadLoaderBuild.handlePayload()",
+      "java_expr": "exporting = false;",
+      "rule": "The exporting flag after the handle (PayloadLoader.java:106, the Loader override): a fresh intake is never exporting; the N2231 advance may set it true again on later ticks.",
+      "tests": [
+        "test_c07_payload_loader_live_fill_registration",
+        "test_all_c07_payload_loader_live_fill_input_evidence_is_exact",
+        "test_payload_loader_live_fill_state",
+        "test_reference_graph_and_actual_c07_payload_loader_live_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderLiveFillProof"
+    },
+    "source_payload_loader_take_payload_state_result.payload_taken": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadLoaderBuildState.source_payload_loader_take_payload_state",
+      "godot_symbol": "source_payload_loader_take_payload_state_result.payload_taken",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_method": "PayloadBlockBuild.takePayload()",
+      "java_expr": "T t = payload;",
+      "rule": "The payload taken out (PayloadBlock.java:146-148): the previously held payload dict, returned to the caller; null when nothing was held.",
+      "tests": [
+        "test_c07_payload_loader_live_fill_registration",
+        "test_all_c07_payload_loader_live_fill_input_evidence_is_exact",
+        "test_payload_loader_live_fill_state",
+        "test_reference_graph_and_actual_c07_payload_loader_live_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderLiveFillProof"
+    },
+    "source_payload_loader_take_payload_state_result.payload_after": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadLoaderBuildState.source_payload_loader_take_payload_state",
+      "godot_symbol": "source_payload_loader_take_payload_state_result.payload_after",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_method": "PayloadBlockBuild.takePayload()",
+      "java_expr": "payload = null;",
+      "rule": "The payload after the take (PayloadBlock.java:147): always null -- takePayload clears the slot.",
+      "tests": [
+        "test_c07_payload_loader_live_fill_registration",
+        "test_all_c07_payload_loader_live_fill_input_evidence_is_exact",
+        "test_payload_loader_live_fill_state",
+        "test_reference_graph_and_actual_c07_payload_loader_live_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderLiveFillProof"
+    },
+    "source_payload_unloader_handle_payload_state_result.payload": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_handle_payload_state",
+      "godot_symbol": "source_payload_unloader_handle_payload_state_result.payload",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_method": "PayloadBlockBuild.handlePayload()",
+      "java_expr": "this.payload = (T)payload;",
+      "rule": "The held payload after the intake (PayloadBlock.java:122): the incoming payload dict when applied, the frame payload unchanged when the intake did not apply (no incoming, or the frame already holds a payload).",
+      "tests": [
+        "test_c07_payload_unloader_live_fill_registration",
+        "test_all_c07_payload_unloader_live_fill_input_evidence_is_exact",
+        "test_payload_unloader_live_fill_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_live_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderLiveFillProof"
+    },
+    "source_payload_unloader_handle_payload_state_result.pay_vector": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_handle_payload_state",
+      "godot_symbol": "source_payload_unloader_handle_payload_state_result.pay_vector",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_method": "PayloadBlockBuild.handlePayload()",
+      "java_expr": "this.payVector.set(source).sub(this).clamp(-size * tilesize / 2f, -size * tilesize / 2f, size * tilesize / 2f, size * tilesize / 2f);",
+      "rule": "The payload offset after the intake (PayloadBlock.java:123): the source offset clamped component-wise to +/-size * tilesize / 2 = +/-12.0 (the 4-arg Vec2.clamp, Vec2.java:318-322, NOT the length clamp; size 3, Blocks.java:6696; tilesize 8, Vars.java:135). Stored as {x, y}. Unchanged when the intake did not apply.",
+      "tests": [
+        "test_c07_payload_unloader_live_fill_registration",
+        "test_all_c07_payload_unloader_live_fill_input_evidence_is_exact",
+        "test_payload_unloader_live_fill_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_live_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderLiveFillProof"
+    },
+    "source_payload_unloader_handle_payload_state_result.pay_rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_handle_payload_state",
+      "godot_symbol": "source_payload_unloader_handle_payload_state_result.pay_rotation",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_method": "PayloadBlockBuild.handlePayload()",
+      "java_expr": "this.payRotation = payload.rotation();",
+      "rule": "The payload rotation after the intake (PayloadBlock.java:124): the payload \"rotation\" with a 0.0 default -- Payload.rotation() defaults to 0f (Payload.java:55-57), BuildPayload does not override it, UnitPayload returns unit.rotation (UnitPayload.java:94-96). Unchanged when the intake did not apply.",
+      "tests": [
+        "test_c07_payload_unloader_live_fill_registration",
+        "test_all_c07_payload_unloader_live_fill_input_evidence_is_exact",
+        "test_payload_unloader_live_fill_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_live_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderLiveFillProof"
+    },
+    "source_payload_unloader_take_payload_state_result.payload_taken": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_take_payload_state",
+      "godot_symbol": "source_payload_unloader_take_payload_state_result.payload_taken",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_method": "PayloadBlockBuild.takePayload()",
+      "java_expr": "T t = payload;",
+      "rule": "The payload taken (PayloadBlock.java:146): the held payload dict, or null when the frame held none.",
+      "tests": [
+        "test_c07_payload_unloader_live_fill_registration",
+        "test_all_c07_payload_unloader_live_fill_input_evidence_is_exact",
+        "test_payload_unloader_live_fill_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_live_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderLiveFillProof"
+    },
+    "source_payload_unloader_take_payload_state_result.payload_after": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_take_payload_state",
+      "godot_symbol": "source_payload_unloader_take_payload_state_result.payload_after",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_method": "PayloadBlockBuild.takePayload()",
+      "java_expr": "payload = null;",
+      "rule": "The payload after the take (PayloadBlock.java:147): always null -- takePayload clears the held payload.",
+      "tests": [
+        "test_c07_payload_unloader_live_fill_registration",
+        "test_all_c07_payload_unloader_live_fill_input_evidence_is_exact",
+        "test_payload_unloader_live_fill_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_live_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderLiveFillProof"
+    },
+    "source_repair_turret_timer_target_state_result.fired": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_timer_target_state",
+      "godot_symbol": "source_repair_turret_timer_target_state_result.fired",
+      "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+      "java_method": "RepairPointBuild.updateTile()",
+      "java_expr": "if(Float.isInfinite(time)) return false;",
+      "rule": "Whether the timer fires this tick (TimerComp.java:10-13): false when the threshold is infinite (time_scale <= 0), else elapsed >= duration / time_scale -- the Interval.check comparison (arc Interval.java:28-30) against the frame-local clock.",
+      "tests": [
+        "test_c07_repair_turret_timer_target_registration",
+        "test_all_c07_repair_turret_timer_target_input_evidence_is_exact",
+        "test_repair_turret_timer_target_state",
+        "test_reference_graph_and_actual_c07_repair_turret_timer_target"
+      ],
+      "runtime_proof": "/root/C07RepairTurretTimerTargetProof"
+    },
+    "source_repair_turret_timer_target_state_result.elapsed_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_timer_target_state",
+      "godot_symbol": "source_repair_turret_timer_target_state_result.elapsed_after",
+      "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+      "java_method": "RepairPointBuild.updateTile()",
+      "java_expr": "return timer.get(index, time);",
+      "rule": "The elapsed clock after this tick: 0.0 when fired (Interval.get RESETS times[id] = Time.time on fire, arc Interval.java:23-25 -- a reset, not a subtraction like the Fracker accumulator), otherwise the accumulated elapsed.",
+      "tests": [
+        "test_c07_repair_turret_timer_target_registration",
+        "test_all_c07_repair_turret_timer_target_input_evidence_is_exact",
+        "test_repair_turret_timer_target_state",
+        "test_reference_graph_and_actual_c07_repair_turret_timer_target"
+      ],
+      "runtime_proof": "/root/C07RepairTurretTimerTargetProof"
     }
   },
   "version": 1

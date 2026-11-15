@@ -3507,6 +3507,136 @@
       "runtime_proof": "/root/C07ConstructorShouldConsumeProof",
       "rule": "Source-backed BlockProducer (Constructor) shouldConsume gate from BlockProducer.java / Constructor.java / BuildingComp.java / Blocks.java."
     },
+    "SourceConstructorBuildState.source_constructor_update_tile_advance_state": {
+      "canonical_contract": "source_api_contracts.SourceConstructorBuildState.source_constructor_update_tile_advance_state",
+      "status": "active",
+      "source_slice": "N2274",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "source_method": "BlockProducerBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_constructor_update_tile_advance_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_constructor_update_tile_advance_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_constructor_update_tile_advance_state_input.time_scale"
+        },
+        {
+          "name": "build_speed",
+          "type": "float",
+          "schema": "source_constructor_update_tile_advance_state_input.build_speed"
+        },
+        {
+          "name": "build_time",
+          "type": "float",
+          "schema": "source_constructor_update_tile_advance_state_input.build_time"
+        },
+        {
+          "name": "stacks",
+          "type": "Array",
+          "schema": "source_constructor_update_tile_advance_state_input.stacks"
+        },
+        {
+          "name": "rotdeg_value",
+          "type": "float",
+          "schema": "source_constructor_update_tile_advance_state_input.rotdeg_value"
+        },
+        {
+          "name": "size_value",
+          "type": "float",
+          "schema": "source_constructor_update_tile_advance_state_input.size_value"
+        },
+        {
+          "name": "front",
+          "type": "Dictionary",
+          "schema": "source_constructor_update_tile_advance_state_input.front"
+        },
+        {
+          "name": "move_payload_result",
+          "type": "bool",
+          "schema": "source_constructor_update_tile_advance_state_input.move_payload_result"
+        }
+      ],
+      "return_keys": [
+        "progress",
+        "heat",
+        "time",
+        "payload",
+        "pay_vector",
+        "pay_rotation",
+        "items",
+        "consumed"
+      ],
+      "tests": [
+        "test_c07_block_producer_update_tile_registration",
+        "test_all_c07_block_producer_update_tile_input_evidence_is_exact",
+        "test_block_producer_update_tile_state",
+        "test_reference_graph_and_actual_c07_block_producer_update_tile"
+      ],
+      "runtime_proof": "/root/C07BlockProducerUpdateTileProof",
+      "rule": "Source-backed BlockProducer updateTile advance from BlockProducer.java / PayloadBlock.java / BuildPayload.java / ConsumeItemDynamic.java / BuildingComp.java / Block.java / Blocks.java / Item.java / Vars.java."
+    },
+    "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_dump_state": {
+      "canonical_contract": "source_api_contracts.SourcePayloadDeconstructorBuildState.source_payload_deconstructor_dump_state",
+      "status": "active",
+      "source_slice": "N2276",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "source_method": "PayloadDeconstructorBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_payload_deconstructor_dump_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_payload_deconstructor_dump_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_payload_deconstructor_dump_state_input.time_scale"
+        },
+        {
+          "name": "content_item_ids",
+          "type": "Array",
+          "schema": "source_payload_deconstructor_dump_state_input.content_item_ids"
+        },
+        {
+          "name": "neighbour_accepts_item",
+          "type": "Array",
+          "schema": "source_payload_deconstructor_dump_state_input.neighbour_accepts_item"
+        },
+        {
+          "name": "neighbour_can_dump",
+          "type": "Array",
+          "schema": "source_payload_deconstructor_dump_state_input.neighbour_can_dump"
+        }
+      ],
+      "return_keys": [
+        "dump_accum_after",
+        "dumped",
+        "items_after",
+        "cursor_after"
+      ],
+      "tests": [
+        "test_c07_payload_deconstructor_dump_registration",
+        "test_all_c07_payload_deconstructor_dump_input_evidence_is_exact",
+        "test_payload_deconstructor_dump_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_dump"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorDumpProof",
+      "rule": "Source-backed PayloadDeconstructor dump rows from PayloadDeconstructor.java / BuildingComp.java."
+    },
     "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourcePayloadDeconstructorBuildState.source_payload_deconstructor_power_status_row_state",
       "status": "active",
@@ -3673,6 +3803,69 @@
       ],
       "runtime_proof": "/root/C07PayloadLoaderDynamicPowerProof",
       "rule": "Source-backed PayloadLoader dynamic power usage from PayloadLoader.java / ConsumePowerDynamic.java / Blocks.java."
+    },
+    "SourcePayloadLoaderBuildState.source_payload_loader_handle_payload_state": {
+      "canonical_contract": "source_api_contracts.SourcePayloadLoaderBuildState.source_payload_loader_handle_payload_state",
+      "status": "active",
+      "source_slice": "N2278",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+      "source_method": "PayloadLoaderBuild.handlePayload()",
+      "params": [
+        {
+          "name": "incoming_payload",
+          "type": "Dictionary",
+          "schema": "source_payload_loader_handle_payload_state_input.incoming_payload"
+        },
+        {
+          "name": "source_x",
+          "type": "float",
+          "schema": "source_payload_loader_handle_payload_state_input.source_x"
+        },
+        {
+          "name": "source_y",
+          "type": "float",
+          "schema": "source_payload_loader_handle_payload_state_input.source_y"
+        },
+        {
+          "name": "self_x",
+          "type": "float",
+          "schema": "source_payload_loader_handle_payload_state_input.self_x"
+        },
+        {
+          "name": "self_y",
+          "type": "float",
+          "schema": "source_payload_loader_handle_payload_state_input.self_y"
+        },
+        {
+          "name": "payload_rotation",
+          "type": "float",
+          "schema": "source_payload_loader_handle_payload_state_input.payload_rotation"
+        },
+        {
+          "name": "block_size",
+          "type": "int",
+          "schema": "source_payload_loader_handle_payload_state_input.block_size"
+        },
+        {
+          "name": "tilesize",
+          "type": "float",
+          "schema": "source_payload_loader_handle_payload_state_input.tilesize"
+        }
+      ],
+      "return_keys": [
+        "payload",
+        "pay_vector",
+        "pay_rotation",
+        "exporting"
+      ],
+      "tests": [
+        "test_c07_payload_loader_live_fill_registration",
+        "test_all_c07_payload_loader_live_fill_input_evidence_is_exact",
+        "test_payload_loader_live_fill_state",
+        "test_reference_graph_and_actual_c07_payload_loader_live_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderLiveFillProof",
+      "rule": "Source-backed PayloadLoader live payload fill from PayloadBlock.java / PayloadLoader.java / Payload.java / Blocks.java / Vars.java."
     },
     "SourcePayloadLoaderBuildState.source_payload_loader_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourcePayloadLoaderBuildState.source_payload_loader_power_status_row_state",
@@ -4061,6 +4254,38 @@
       ],
       "runtime_proof": "/root/C07PayloadMassDriverUpdateTileProof",
       "rule": "Source-backed PayloadMassDriver updateTile advance part 1 from PayloadMassDriver.java / PayloadBlock.java / BuildPayload.java / BuildingComp.java / Blocks.java / Block.java."
+    },
+    "SourcePayloadUnloaderBuildState.source_payload_unloader_handle_payload_state": {
+      "canonical_contract": "source_api_contracts.SourcePayloadUnloaderBuildState.source_payload_unloader_handle_payload_state",
+      "status": "active",
+      "source_slice": "N2279",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "source_method": "PayloadBlockBuild.handlePayload()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_payload_unloader_handle_payload_state_input.frame"
+        },
+        {
+          "name": "incoming_payload",
+          "type": "Variant",
+          "schema": "source_payload_unloader_handle_payload_state_input.incoming_payload"
+        }
+      ],
+      "return_keys": [
+        "payload",
+        "pay_vector",
+        "pay_rotation"
+      ],
+      "tests": [
+        "test_c07_payload_unloader_live_fill_registration",
+        "test_all_c07_payload_unloader_live_fill_input_evidence_is_exact",
+        "test_payload_unloader_live_fill_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_live_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderLiveFillProof",
+      "rule": "Source-backed PayloadUnloader live payload fill from PayloadBlock.java / PayloadUnloader.java / PayloadLoader.java / Payload.java / UnitPayload.java / Blocks.java / Vars.java / Vec2.java."
     },
     "SourcePayloadUnloaderBuildState.source_payload_unloader_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourcePayloadUnloaderBuildState.source_payload_unloader_power_status_row_state",

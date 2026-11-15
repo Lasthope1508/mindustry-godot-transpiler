@@ -70837,6 +70837,425 @@
       ],
       "runtime_proof": "/root/C07WallCrafterTimerConsumeProof",
       "rule": "Source-backed WallCrafter timer-gated graphite consume from WallCrafter.java / TimerComp.java / BuildingComp.java / ConsumeItems.java / ItemModule.java / Blocks.java / Block.java."
+    },
+    "SourceConstructorBuildState.source_constructor_update_tile_advance_state": {
+      "status": "active",
+      "source_slice": "N2274",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "source_method": "BlockProducerBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_constructor_update_tile_advance_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_constructor_update_tile_advance_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_constructor_update_tile_advance_state_input.time_scale"
+        },
+        {
+          "name": "build_speed",
+          "type": "float",
+          "schema": "source_constructor_update_tile_advance_state_input.build_speed"
+        },
+        {
+          "name": "build_time",
+          "type": "float",
+          "schema": "source_constructor_update_tile_advance_state_input.build_time"
+        },
+        {
+          "name": "stacks",
+          "type": "Array",
+          "schema": "source_constructor_update_tile_advance_state_input.stacks"
+        },
+        {
+          "name": "rotdeg_value",
+          "type": "float",
+          "schema": "source_constructor_update_tile_advance_state_input.rotdeg_value"
+        },
+        {
+          "name": "size_value",
+          "type": "float",
+          "schema": "source_constructor_update_tile_advance_state_input.size_value"
+        },
+        {
+          "name": "front",
+          "type": "Dictionary",
+          "schema": "source_constructor_update_tile_advance_state_input.front"
+        },
+        {
+          "name": "move_payload_result",
+          "type": "bool",
+          "schema": "source_constructor_update_tile_advance_state_input.move_payload_result"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "progress",
+        "heat",
+        "time",
+        "payload",
+        "pay_vector",
+        "pay_rotation",
+        "items",
+        "consumed"
+      ],
+      "tests": [
+        "test_c07_block_producer_update_tile_registration",
+        "test_all_c07_block_producer_update_tile_input_evidence_is_exact",
+        "test_block_producer_update_tile_state",
+        "test_reference_graph_and_actual_c07_block_producer_update_tile"
+      ],
+      "runtime_proof": "/root/C07BlockProducerUpdateTileProof",
+      "rule": "Source-backed BlockProducer updateTile advance from BlockProducer.java / PayloadBlock.java / BuildPayload.java / ConsumeItemDynamic.java / BuildingComp.java / Block.java / Blocks.java / Item.java / Vars.java."
+    },
+    "SourceLiquidBridgeBuildState.source_liquid_bridge_update_transport_state": {
+      "status": "active",
+      "source_slice": "N2275",
+      "java_source": "core/src/mindustry/world/blocks/liquid/LiquidBridge.java",
+      "source_method": "LiquidBridgeBuild.updateTransport()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_liquid_bridge_update_transport_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_liquid_bridge_update_transport_state_input.source_delta"
+        },
+        {
+          "name": "liquid_capacity",
+          "type": "float",
+          "schema": "source_liquid_bridge_update_transport_state_input.liquid_capacity"
+        },
+        {
+          "name": "liquid_pressure",
+          "type": "float",
+          "schema": "source_liquid_bridge_update_transport_state_input.liquid_pressure"
+        },
+        {
+          "name": "had_valid_link",
+          "type": "bool",
+          "schema": "source_liquid_bridge_update_transport_state_input.had_valid_link"
+        },
+        {
+          "name": "liquids",
+          "type": "Dictionary",
+          "schema": "source_liquid_bridge_update_transport_state_input.liquids"
+        },
+        {
+          "name": "partner",
+          "type": "Dictionary",
+          "schema": "source_liquid_bridge_update_transport_state_input.partner"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "warmup",
+        "moved",
+        "flow",
+        "liquids_after",
+        "partner_liquids_after"
+      ],
+      "tests": [
+        "test_c07_liquid_bridge_update_transport_registration",
+        "test_all_c07_liquid_bridge_update_transport_input_evidence_is_exact",
+        "test_liquid_bridge_update_transport_advance_state",
+        "test_reference_graph_and_actual_c07_liquid_bridge_update_transport"
+      ],
+      "runtime_proof": "/root/C07LiquidBridgeUpdateTransportProof",
+      "rule": "Source-backed LiquidBridge updateTransport advance from LiquidBridge.java / ItemBridge.java / BuildingComp.java / Block.java / Blocks.java / LiquidModule.java / arc Mathf.java."
+    },
+    "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_dump_state": {
+      "status": "active",
+      "source_slice": "N2276",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "source_method": "PayloadDeconstructorBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_payload_deconstructor_dump_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_payload_deconstructor_dump_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_payload_deconstructor_dump_state_input.time_scale"
+        },
+        {
+          "name": "content_item_ids",
+          "type": "Array",
+          "schema": "source_payload_deconstructor_dump_state_input.content_item_ids"
+        },
+        {
+          "name": "neighbour_accepts_item",
+          "type": "Array",
+          "schema": "source_payload_deconstructor_dump_state_input.neighbour_accepts_item"
+        },
+        {
+          "name": "neighbour_can_dump",
+          "type": "Array",
+          "schema": "source_payload_deconstructor_dump_state_input.neighbour_can_dump"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "dump_accum_after",
+        "dumped",
+        "items_after",
+        "cursor_after"
+      ],
+      "tests": [
+        "test_c07_payload_deconstructor_dump_registration",
+        "test_all_c07_payload_deconstructor_dump_input_evidence_is_exact",
+        "test_payload_deconstructor_dump_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_dump"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorDumpProof",
+      "rule": "Source-backed PayloadDeconstructor dump rows from PayloadDeconstructor.java / BuildingComp.java."
+    },
+    "SourceRegenProjectorBuildState.source_regen_projector_update_targets_state": {
+      "status": "active",
+      "source_slice": "N2277",
+      "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+      "source_method": "RegenProjectorBuild.updateTargets()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_regen_projector_update_targets_state_input.frame"
+        },
+        {
+          "name": "building_x",
+          "type": "float",
+          "schema": "source_regen_projector_update_targets_state_input.building_x"
+        },
+        {
+          "name": "building_y",
+          "type": "float",
+          "schema": "source_regen_projector_update_targets_state_input.building_y"
+        },
+        {
+          "name": "candidates",
+          "type": "Array",
+          "schema": "source_regen_projector_update_targets_state_input.candidates"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "targets",
+        "last_change",
+        "refreshed"
+      ],
+      "tests": [
+        "test_c07_regen_projector_targets_fill_registration",
+        "test_all_c07_regen_projector_targets_fill_input_evidence_is_exact",
+        "test_regen_projector_update_targets_state",
+        "test_reference_graph_and_actual_c07_regen_projector_targets_fill"
+      ],
+      "runtime_proof": "/root/C07RegenProjectorTargetsFillProof",
+      "rule": "Source-backed RegenProjector updateTargets live fill from RegenProjector.java / HealthComp.java / World.java / Blocks.java / Block.java / Tile.java / BlockIndexer.java / Vars.java."
+    },
+    "SourcePayloadLoaderBuildState.source_payload_loader_handle_payload_state": {
+      "status": "active",
+      "source_slice": "N2278",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+      "source_method": "PayloadLoaderBuild.handlePayload()",
+      "params": [
+        {
+          "name": "incoming_payload",
+          "type": "Dictionary",
+          "schema": "source_payload_loader_handle_payload_state_input.incoming_payload"
+        },
+        {
+          "name": "source_x",
+          "type": "float",
+          "schema": "source_payload_loader_handle_payload_state_input.source_x"
+        },
+        {
+          "name": "source_y",
+          "type": "float",
+          "schema": "source_payload_loader_handle_payload_state_input.source_y"
+        },
+        {
+          "name": "self_x",
+          "type": "float",
+          "schema": "source_payload_loader_handle_payload_state_input.self_x"
+        },
+        {
+          "name": "self_y",
+          "type": "float",
+          "schema": "source_payload_loader_handle_payload_state_input.self_y"
+        },
+        {
+          "name": "payload_rotation",
+          "type": "float",
+          "schema": "source_payload_loader_handle_payload_state_input.payload_rotation"
+        },
+        {
+          "name": "block_size",
+          "type": "int",
+          "schema": "source_payload_loader_handle_payload_state_input.block_size"
+        },
+        {
+          "name": "tilesize",
+          "type": "float",
+          "schema": "source_payload_loader_handle_payload_state_input.tilesize"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "payload",
+        "pay_vector",
+        "pay_rotation",
+        "exporting"
+      ],
+      "tests": [
+        "test_c07_payload_loader_live_fill_registration",
+        "test_all_c07_payload_loader_live_fill_input_evidence_is_exact",
+        "test_payload_loader_live_fill_state",
+        "test_reference_graph_and_actual_c07_payload_loader_live_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderLiveFillProof",
+      "rule": "Source-backed PayloadLoader live payload fill from PayloadBlock.java / PayloadLoader.java / Payload.java / Blocks.java / Vars.java."
+    },
+    "SourcePayloadLoaderBuildState.source_payload_loader_take_payload_state": {
+      "status": "active",
+      "source_slice": "N2278",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "source_method": "PayloadBlockBuild.takePayload()",
+      "params": [
+        {
+          "name": "payload",
+          "type": "Dictionary",
+          "schema": "source_payload_loader_take_payload_state_input.payload"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "payload_taken",
+        "payload_after"
+      ],
+      "tests": [
+        "test_c07_payload_loader_live_fill_registration",
+        "test_all_c07_payload_loader_live_fill_input_evidence_is_exact",
+        "test_payload_loader_live_fill_state",
+        "test_reference_graph_and_actual_c07_payload_loader_live_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderLiveFillProof",
+      "rule": "Source-backed PayloadLoader live payload fill from PayloadBlock.java / PayloadLoader.java / Payload.java / Blocks.java / Vars.java."
+    },
+    "SourcePayloadUnloaderBuildState.source_payload_unloader_handle_payload_state": {
+      "status": "active",
+      "source_slice": "N2279",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "source_method": "PayloadBlockBuild.handlePayload()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_payload_unloader_handle_payload_state_input.frame"
+        },
+        {
+          "name": "incoming_payload",
+          "type": "Variant",
+          "schema": "source_payload_unloader_handle_payload_state_input.incoming_payload"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "payload",
+        "pay_vector",
+        "pay_rotation"
+      ],
+      "tests": [
+        "test_c07_payload_unloader_live_fill_registration",
+        "test_all_c07_payload_unloader_live_fill_input_evidence_is_exact",
+        "test_payload_unloader_live_fill_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_live_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderLiveFillProof",
+      "rule": "Source-backed PayloadUnloader live payload fill from PayloadBlock.java / PayloadUnloader.java / PayloadLoader.java / Payload.java / UnitPayload.java / Blocks.java / Vars.java / Vec2.java."
+    },
+    "SourcePayloadUnloaderBuildState.source_payload_unloader_take_payload_state": {
+      "status": "active",
+      "source_slice": "N2279",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "source_method": "PayloadBlockBuild.takePayload()",
+      "params": [
+        {
+          "name": "frame_payload",
+          "type": "Variant",
+          "schema": "source_payload_unloader_take_payload_state_input.frame_payload"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "payload_taken",
+        "payload_after"
+      ],
+      "tests": [
+        "test_c07_payload_unloader_live_fill_registration",
+        "test_all_c07_payload_unloader_live_fill_input_evidence_is_exact",
+        "test_payload_unloader_live_fill_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_live_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderLiveFillProof",
+      "rule": "Source-backed PayloadUnloader live payload fill from PayloadBlock.java / PayloadUnloader.java / PayloadLoader.java / Payload.java / UnitPayload.java / Blocks.java / Vars.java / Vec2.java."
+    },
+    "SourceRepairTurretBuildState.source_repair_turret_timer_target_state": {
+      "status": "active",
+      "source_slice": "N2280",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "source_method": "RepairPointBuild.updateTile()",
+      "params": [
+        {
+          "name": "elapsed",
+          "type": "float",
+          "schema": "source_repair_turret_timer_target_state_input.elapsed"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_repair_turret_timer_target_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_repair_turret_timer_target_state_input.time_scale"
+        },
+        {
+          "name": "duration",
+          "type": "float",
+          "schema": "source_repair_turret_timer_target_state_input.duration"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "fired",
+        "elapsed_after"
+      ],
+      "tests": [
+        "test_c07_repair_turret_timer_target_registration",
+        "test_all_c07_repair_turret_timer_target_input_evidence_is_exact",
+        "test_repair_turret_timer_target_state",
+        "test_reference_graph_and_actual_c07_repair_turret_timer_target"
+      ],
+      "runtime_proof": "/root/C07RepairTurretTimerTargetProof",
+      "rule": "Source-backed RepairTurret timer-target cadence from RepairTurret.java / TimerComp.java / BuildingComp.java / arc Interval.java / arc Time.java."
     }
   },
   "policy": {

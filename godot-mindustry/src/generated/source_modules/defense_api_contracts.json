@@ -7886,6 +7886,49 @@
       "rule": "Source-backed RegenProjector shouldConsume gate from RegenProjector.java / BuildingComp.java / Blocks.java.",
       "return_type": "Dictionary"
     },
+    "SourceRegenProjectorBuildState.source_regen_projector_update_targets_state": {
+      "canonical_contract": "source_api_contracts.SourceRegenProjectorBuildState.source_regen_projector_update_targets_state",
+      "status": "active",
+      "source_slice": "N2277",
+      "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+      "source_method": "RegenProjectorBuild.updateTargets()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_regen_projector_update_targets_state_input.frame"
+        },
+        {
+          "name": "building_x",
+          "type": "float",
+          "schema": "source_regen_projector_update_targets_state_input.building_x"
+        },
+        {
+          "name": "building_y",
+          "type": "float",
+          "schema": "source_regen_projector_update_targets_state_input.building_y"
+        },
+        {
+          "name": "candidates",
+          "type": "Array",
+          "schema": "source_regen_projector_update_targets_state_input.candidates"
+        }
+      ],
+      "return_keys": [
+        "targets",
+        "last_change",
+        "refreshed"
+      ],
+      "tests": [
+        "test_c07_regen_projector_targets_fill_registration",
+        "test_all_c07_regen_projector_targets_fill_input_evidence_is_exact",
+        "test_regen_projector_update_targets_state",
+        "test_reference_graph_and_actual_c07_regen_projector_targets_fill"
+      ],
+      "runtime_proof": "/root/C07RegenProjectorTargetsFillProof",
+      "rule": "Source-backed RegenProjector updateTargets live fill from RegenProjector.java / HealthComp.java / World.java / Blocks.java / Block.java / Tile.java / BlockIndexer.java / Vars.java.",
+      "return_type": "Dictionary"
+    },
     "SourceRegenProjectorBuildState.source_regen_projector_update_tile_advance_state": {
       "canonical_contract": "source_api_contracts.SourceRegenProjectorBuildState.source_regen_projector_update_tile_advance_state",
       "status": "active",

@@ -1969,6 +1969,93 @@
         "test_reference_graph_and_actual_c07_payload_loader_dynamic_power"
       ],
       "runtime_proof": "/root/C07PayloadLoaderDynamicPowerProof"
+    },
+    "N2274": {
+      "canonical_ledger": "source_slice_ledger.N2274",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_method": "BlockProducerBuild.updateTile()",
+      "godot_owner": "SourceConstructorBuildState.source_constructor_update_tile_advance_state",
+      "source_symbols": [
+        "source_constructor_update_tile_advance_state_result.progress",
+        "source_constructor_update_tile_advance_state_result.heat",
+        "source_constructor_update_tile_advance_state_result.time",
+        "source_constructor_update_tile_advance_state_result.payload",
+        "source_constructor_update_tile_advance_state_result.pay_vector",
+        "source_constructor_update_tile_advance_state_result.pay_rotation",
+        "source_constructor_update_tile_advance_state_result.items",
+        "source_constructor_update_tile_advance_state_result.consumed"
+      ],
+      "tests": [
+        "test_c07_block_producer_update_tile_registration",
+        "test_all_c07_block_producer_update_tile_input_evidence_is_exact",
+        "test_block_producer_update_tile_state",
+        "test_reference_graph_and_actual_c07_block_producer_update_tile"
+      ],
+      "runtime_proof": "/root/C07BlockProducerUpdateTileProof"
+    },
+    "N2276": {
+      "canonical_ledger": "source_slice_ledger.N2276",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "java_method": "PayloadDeconstructorBuild.updateTile()",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_dump_state",
+      "source_symbols": [
+        "source_payload_deconstructor_dump_state_result.dump_accum_after",
+        "source_payload_deconstructor_dump_state_result.dumped",
+        "source_payload_deconstructor_dump_state_result.items_after",
+        "source_payload_deconstructor_dump_state_result.cursor_after"
+      ],
+      "tests": [
+        "test_c07_payload_deconstructor_dump_registration",
+        "test_all_c07_payload_deconstructor_dump_input_evidence_is_exact",
+        "test_payload_deconstructor_dump_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_dump"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorDumpProof"
+    },
+    "N2278": {
+      "canonical_ledger": "source_slice_ledger.N2278",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+      "java_method": "PayloadLoaderBuild.handlePayload()",
+      "godot_owner": "SourcePayloadLoaderBuildState.source_payload_loader_handle_payload_state",
+      "source_symbols": [
+        "source_payload_loader_handle_payload_state_result.payload",
+        "source_payload_loader_handle_payload_state_result.pay_vector",
+        "source_payload_loader_handle_payload_state_result.pay_rotation",
+        "source_payload_loader_handle_payload_state_result.exporting",
+        "source_payload_loader_take_payload_state_result.payload_taken",
+        "source_payload_loader_take_payload_state_result.payload_after"
+      ],
+      "tests": [
+        "test_c07_payload_loader_live_fill_registration",
+        "test_all_c07_payload_loader_live_fill_input_evidence_is_exact",
+        "test_payload_loader_live_fill_state",
+        "test_reference_graph_and_actual_c07_payload_loader_live_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderLiveFillProof"
+    },
+    "N2279": {
+      "canonical_ledger": "source_slice_ledger.N2279",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_method": "PayloadBlockBuild.handlePayload()",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_handle_payload_state",
+      "source_symbols": [
+        "source_payload_unloader_handle_payload_state_result.payload",
+        "source_payload_unloader_handle_payload_state_result.pay_vector",
+        "source_payload_unloader_handle_payload_state_result.pay_rotation",
+        "source_payload_unloader_take_payload_state_result.payload_taken",
+        "source_payload_unloader_take_payload_state_result.payload_after"
+      ],
+      "tests": [
+        "test_c07_payload_unloader_live_fill_registration",
+        "test_all_c07_payload_unloader_live_fill_input_evidence_is_exact",
+        "test_payload_unloader_live_fill_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_live_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderLiveFillProof"
     }
   }
 }

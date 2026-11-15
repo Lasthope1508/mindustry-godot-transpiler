@@ -241151,6 +241151,928 @@
       },
       "runtime_proof": "/root/C07WallCrafterTimerConsumeProof",
       "rule": "Source-backed WallCrafter timer-gated graphite consume from WallCrafter.java / TimerComp.java / BuildingComp.java / ConsumeItems.java / ItemModule.java / Blocks.java / Block.java."
+    },
+    "source_constructor_update_tile_advance_state_input": {
+      "status": "active",
+      "owner": "SourceConstructorBuildState.source_constructor_update_tile_advance_state",
+      "source_slice": "N2274",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "java_expr": "public void updateTile(){",
+          "rule": "The building frame carrying the folded efficiency (stamped by apply_update_consumption_state), the recipe (null, the family dict fixture {\"block\": <id>}, or a bare string id), the team id, and the current progress / heat / time / payload / pay_vector / pay_rotation / items; missing keys default to the Java field defaults (efficiency 0.0, BuildingComp.java:85; progress / heat / time 0f, BlockProducer.java:78; payload null, payVector (0, 0), payRotation 0f, PayloadBlock.java:92-95; items empty).",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_update_tile_advance_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26): the base of delta() = Time.delta * timeScale (BuildingComp.java:1922-1924) and therefore of edelta() = efficiency * delta() (BuildingComp.java:1927-1929); the heat lerp takes this RAW value (arc Mathf.lerpDelta multiplies progress by Time.delta, Mathf.java:430-432).",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_update_tile_advance_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live timeScale read from the sprite meta (SourcePlacedBlockState.time_scale), default 1.0 (BuildingComp.java:98): delta() = Time.delta * timeScale (BuildingComp.java:1922-1924).",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_update_tile_advance_state"
+          ]
+        },
+        "build_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "java_expr": "public float buildSpeed = 0.4f;",
+          "rule": "The per-def buildSpeed (BlockProducer.java:22, class default 0.4f; constructor 0.6f / large-constructor 0.75f, Blocks.java:6662/6674): progress += buildSpeed * edelta() (BlockProducer.java:113). The catalog carries no buildSpeed key, so the driver resolves it from a per-def const with the class default as fallback.",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_update_tile_advance_state"
+          ]
+        },
+        "build_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "buildTime += stack.amount * stack.item.cost;",
+          "rule": "The recipe buildTime from the Block.init formula (Block.java:1432-1443): requirements present -> sum(amount * item.cost); no requirements -> 20f; then *= buildCostMultiplier. The catalog carries no buildTime key, so the driver computes it from the catalog requirements + item costs; progress completes when progress >= buildTime (BlockProducer.java:115).",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_update_tile_advance_state"
+          ]
+        },
+        "stacks": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "java_expr": "clone[i].amount = Mathf.ceil(block.requirements[i].amount * state.rules.buildCostMultiplier);",
+          "rule": "The explicit dynamic stacks (Array of {\"item\": kebab-case id, \"amount\": int}) from the N2265 stacks function: the trigger removes round(amount * multiplier) of each when progress completes (ConsumeItemDynamic.java:53-57).",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_update_tile_advance_state"
+          ]
+        },
+        "rotdeg_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return rotation * 90;",
+          "rule": "The building rotation in degrees (BuildingComp.java:582-584, rotdeg() = rotation * 90): the moveOut dest angle (PayloadBlock.java:204, dest = trns(rotdeg(), size * tilesize/2f)) and the payRotation target (PayloadBlock.java:206).",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_update_tile_advance_state"
+          ]
+        },
+        "size_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "java_expr": "size = 3;",
+          "rule": "The block size in tiles (BlockProducer.java:27, size = 3; large-constructor 5, Blocks.java:6677): the moveOut half-extent is size * tilesize / 2f (PayloadBlock.java:204). The driver reads it from the catalog block properties.",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_update_tile_advance_state"
+          ]
+        },
+        "front": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "Building front = front();",
+          "rule": "The front-building snapshot gathered by the driver (present / solid / outputs_payload / accepts_payload): canDump = front == null || !front.tile.solid() and canMove = front != null && (front.block.outputsPayload || front.block.acceptsPayload) (PayloadBlock.java:210-211); the driver passes no-front defaults (no live front query yet).",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_update_tile_advance_state"
+          ]
+        },
+        "move_payload_result": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "if(movePayload(payload)){",
+          "rule": "Whether movePayload succeeded (needs the live front build): the driver passes false (no live move); the reused helper clears the payload only when this is true at arrival (PayloadBlock.java:220-222).",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BlockProducerUpdateTileProof",
+      "rule": "Source-backed BlockProducer updateTile advance from BlockProducer.java / PayloadBlock.java / BuildPayload.java / ConsumeItemDynamic.java / BuildingComp.java / Block.java / Blocks.java / Item.java / Vars.java."
+    },
+    "source_constructor_update_tile_advance_state_result": {
+      "status": "active",
+      "owner": "SourceConstructorBuildState.source_constructor_update_tile_advance_state",
+      "source_slice": "N2274",
+      "keys": {
+        "progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "java_expr": "progress += buildSpeed * edelta();",
+          "rule": "The advanced progress (BlockProducer.java:113): progress += buildSpeed * edelta() while producing, then progress %= 1f on completion (BlockProducer.java:120) -- the remainder is KEPT, not reset to 0; unchanged when not producing.",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_update_tile_advance_state"
+          ]
+        },
+        "heat": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "java_expr": "heat = Mathf.lerpDelta(heat, Mathf.num(produce), 0.15f);",
+          "rule": "The advanced heat (BlockProducer.java:124): lerpDelta toward 1.0 while producing, 0.0 otherwise, at 0.15f on the RAW Time.delta (arc Mathf.java:430-432).",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_update_tile_advance_state"
+          ]
+        },
+        "time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "java_expr": "time += heat * delta();",
+          "rule": "The advanced time (BlockProducer.java:125): time += heat * delta(), using the NEW heat (the heat line runs first).",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_update_tile_advance_state"
+          ]
+        },
+        "payload": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "java_expr": "payload = new BuildPayload(recipe, team);",
+          "rule": "The payload dict after the tick (BlockProducer.java:117): the spawned BuildPayload {\"block\": recipe id, \"team\": team id} + empty build stores when progress completes, the incoming payload otherwise, or null when moveOut handed it to the front build (movePayload success at arrival, PayloadBlock.java:220-222).",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_update_tile_advance_state"
+          ]
+        },
+        "pay_vector": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "payVector.approach(dest, payloadSpeed * delta());",
+          "rule": "The advanced payVector {x, y}: setZero on spawn (BlockProducer.java:119), then approached toward the front dest by payloadSpeed * delta() on moveOut (PayloadBlock.java:207, via the reused helper).",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_update_tile_advance_state"
+          ]
+        },
+        "pay_rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "payRotation = Angles.moveToward(payRotation, rotdeg(), payloadRotateSpeed * delta());",
+          "rule": "The advanced payRotation (PayloadBlock.java:206): moved toward rotdeg() by payloadRotateSpeed * delta() on moveOut (via the reused helper).",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_update_tile_advance_state"
+          ]
+        },
+        "items": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+          "java_expr": "build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));",
+          "rule": "The items dict after the tick (ConsumeItemDynamic.java:53-57): each dynamic stack removed round(amount * multiplier), clamped to the held count (ItemModule.java:258-263), when progress completes; unchanged otherwise. The N2265 trigger is wired LIVE now.",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_update_tile_advance_state"
+          ]
+        },
+        "consumed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "java_expr": "consume();",
+          "rule": "Whether consume() fired this tick (BlockProducer.java:116): true exactly when progress reached buildTime while producing (the completion branch, BlockProducer.java:115-120).",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BlockProducerUpdateTileProof",
+      "rule": "Source-backed BlockProducer updateTile advance from BlockProducer.java / PayloadBlock.java / BuildPayload.java / ConsumeItemDynamic.java / BuildingComp.java / Block.java / Blocks.java / Item.java / Vars.java."
+    },
+    "source_liquid_bridge_update_transport_state_input": {
+      "status": "active",
+      "owner": "SourceLiquidBridgeBuildState.source_liquid_bridge_update_transport_state",
+      "source_slice": "N2275",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "public void updateTile(){",
+          "rule": "The building frame carrying the folded efficiency (stamped by apply_update_consumption_state) and the current warmup / moved; missing keys default to the Java field defaults (warmup 0f, moved false, ItemBridge.java:200/202).",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_update_transport_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26): the delta the Arc approachDelta formula scales by (Mathf.java:420-422, approach(from, to, Time.delta * speed)); the warmup step uses the raw source delta, never delta() = Time.delta * timeScale.",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_update_transport_state"
+          ]
+        },
+        "liquid_capacity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "liquidCapacity = 100f;",
+          "rule": "The liquid capacity def constant 100f (Blocks.java:2395, shared by bridge-conduit, Blocks.java:2381) -- the catalog carries no liquidCapacity property (the N2190 fogRadius / N2199 def-constant precedent); the Block class default is -1f (Block.java:77).",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_update_transport_state"
+          ]
+        },
+        "liquid_pressure": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public float liquidPressure = 1f;",
+          "rule": "The liquid pressure def constant 1f (Block.java:79) -- the phase-conduit def does not override it (Blocks.java:2385-2397); the fract multiplier in moveLiquid (BuildingComp.java:945).",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_update_transport_state"
+          ]
+        },
+        "had_valid_link": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "hadValidLink = linkValid(tile, other);",
+          "rule": "The freshly recomputed link validity from the N2197 driver (ItemBridge.java:332-333): the advance branches on it (doDump + warmup = 0f when false, warmup approach + updateTransport when true) but does NOT recompute it.",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_update_transport_state"
+          ]
+        },
+        "liquids": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+          "java_expr": "public Liquid current(){",
+          "rule": "The self liquid module state (the sprite liquids meta: amounts array by liquid id + current id, LiquidModule.java:24/81-83): the moved liquid is liquids.current(), and liquids.get(liquid) is the amount moved from.",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_update_transport_state"
+          ]
+        },
+        "partner": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "Tile other = world.tile(link);",
+          "rule": "The partner snapshot gathered by the driver (exists / team_matches / has_liquids / liquid_capacity / liquids): the other LiquidBridgeBuild whose frame receives the handleLiquid transfer (BuildingComp.java:950) -- getLiquidDestination returns the build itself (BuildingComp.java:980-982), so no redirect applies.",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_update_transport_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LiquidBridgeUpdateTransportProof",
+      "rule": "Source-backed LiquidBridge updateTransport advance from LiquidBridge.java / ItemBridge.java / BuildingComp.java / Block.java / Blocks.java / LiquidModule.java / arc Mathf.java."
+    },
+    "source_liquid_bridge_update_transport_state_result": {
+      "status": "active",
+      "owner": "SourceLiquidBridgeBuildState.source_liquid_bridge_update_transport_state",
+      "source_slice": "N2275",
+      "keys": {
+        "warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "warmup = Mathf.approachDelta(warmup, efficiency, 1f / 30f);",
+          "rule": "The advanced warmup (ItemBridge.java:345/337): approachDelta toward the folded efficiency at 1/30f when linked, 0f when unlinked; approachDelta scales by raw Time.delta.",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_update_transport_state"
+          ]
+        },
+        "moved": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/liquid/LiquidBridge.java",
+          "java_expr": "moved |= moveLiquid(other, liquids.current()) > 0.05f;",
+          "rule": "Whether liquid moved this tick (LiquidBridge.java:24): set when the flow exceeds 0.05f, OR-accumulated, never cleared here (the timer snapshot defers).",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_update_transport_state"
+          ]
+        },
+        "flow": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "float flow = Math.min(Mathf.clamp((fract - ofract)) * (block.liquidCapacity), liquids.get(liquid));",
+          "rule": "The transferred amount this tick (BuildingComp.java:946-947/949-952): min(clamp(fract - ofract) * capacity, have), capped by the partner room, 0 when the warmup gate, the moveLiquid gate, or acceptLiquid blocks the transfer (the reaction branch defers, so the else-if path returns 0).",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_update_transport_state"
+          ]
+        },
+        "liquids_after": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "liquids.remove(liquid, flow);",
+          "rule": "The self liquid store after the transfer (BuildingComp.java:951): the moved amount removed from the current liquid (remove caps at the stored amount, LiquidModule.java:124-127); current unchanged -- remove goes through add with the same liquid.",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_update_transport_state"
+          ]
+        },
+        "partner_liquids_after": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "next.handleLiquid(self(), liquid, flow);",
+          "rule": "The partner liquid store after the transfer (BuildingComp.java:950; handleLiquid adds, BuildingComp.java:872-874): the moved amount added to the current liquid, and current becomes the moved liquid (add sets current, LiquidModule.java:110-112).",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_update_transport_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LiquidBridgeUpdateTransportProof",
+      "rule": "Source-backed LiquidBridge updateTransport advance from LiquidBridge.java / ItemBridge.java / BuildingComp.java / Block.java / Blocks.java / LiquidModule.java / arc Mathf.java."
+    },
+    "source_payload_deconstructor_dump_state_input": {
+      "status": "active",
+      "owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_dump_state",
+      "source_slice": "N2276",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "if(items.total() > 0){",
+          "rule": "The building frame carrying the items store, the dump accumulator (dumpAccum, BuildingComp.java:99, default 0f) and the dump cursor (cdump, BuildingComp.java:68, default 0); the dump block runs only when items.total() > 0 (PayloadDeconstructor.java:111).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_dump_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26): delta() = Time.delta * timeScale (BuildingComp.java:1922-1924) is what each dumpAccumulate call adds to dumpAccum -- NOT edelta(), so the dump cadence ignores efficiency.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_dump_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live timeScale read from the sprite meta (SourcePlacedBlockState.time_scale), default 1.0 (BuildingComp.java:98): delta() = Time.delta * timeScale (BuildingComp.java:1922-1924).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_dump_state"
+          ]
+        },
+        "content_item_ids": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "var allItems = content.items();",
+          "rule": "The content items in catalog order (BuildingComp.java:1076): dump(null) scans them in order for each neighbour, handing over the first held item an accepting neighbour takes (BuildingComp.java:1084-1091). The tick reads them through SourceContentRegistryRuntimeState.source_item_catalog_state (the payload-loader / payload-unloader precedent).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_dump_state"
+          ]
+        },
+        "neighbour_accepts_item": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(other.acceptItem(self(), item) && canDump(other, item)){",
+          "rule": "The per-neighbour acceptItem answers in proximity order (BuildingComp.java:1088), as frame inputs (default [] -- no neighbours, the Java proximity.size == 0 outcome); the live proximity scan waits for its own slice.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_dump_state"
+          ]
+        },
+        "neighbour_can_dump": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public boolean canDump(Building to, Item item){",
+          "rule": "The per-neighbour canDump answers in proximity order (BuildingComp.java:1088, 1124-1126 -- the default returns true); as frame inputs alongside the acceptItem answers.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_dump_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadDeconstructorDumpProof",
+      "rule": "Source-backed PayloadDeconstructor dump rows from PayloadDeconstructor.java / BuildingComp.java."
+    },
+    "source_payload_deconstructor_dump_state_result": {
+      "status": "active",
+      "owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_dump_state",
+      "source_slice": "N2276",
+      "keys": {
+        "dump_accum_after": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "dumpAccum += delta();",
+          "rule": "The dump accumulator after the tick (BuildingComp.java:1055-1058): + delta() per dumpAccumulate call (4 per tick, dumpRate 4, PayloadDeconstructor.java:20), - 1f per while iteration -- unconditionally, even when the dump failed.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_dump_state"
+          ]
+        },
+        "dumped": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "res |= dump(item);",
+          "rule": "Whether any dump succeeded this tick (BuildingComp.java:1054, 1057): the OR of every dump() result across the 4 dumpAccumulate calls.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_dump_state"
+          ]
+        },
+        "items_after": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "items.remove(item, 1);",
+          "rule": "The items after the tick (BuildingComp.java:1090): 1 removed per successful dump, in content order per neighbour; unchanged when nothing dumps or the store is empty.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_dump_state"
+          ]
+        },
+        "cursor_after": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "cdump = ((cdump + 1) % prox);",
+          "rule": "The dump cursor after the tick (BuildingComp.java:1116-1120): advanced once per neighbour checked (incrementDump, guarded on prox != 0), wrapping modulo the proximity size.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_dump_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadDeconstructorDumpProof",
+      "rule": "Source-backed PayloadDeconstructor dump rows from PayloadDeconstructor.java / BuildingComp.java."
+    },
+    "source_regen_projector_update_targets_state_input": {
+      "status": "active",
+      "owner": "SourceRegenProjectorBuildState.source_regen_projector_update_targets_state",
+      "source_slice": "N2277",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+          "java_expr": "public Seq<Building> targets = new Seq<>();",
+          "rule": "The building frame carrying the build fields (targets / last_change, RegenProjector.java:109-110) and the frame inputs (tile_changes, default 1, World.java:35; team_id, stamped by the tick every tick).",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_update_targets_state"
+          ]
+        },
+        "building_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "return block().offset + worldx();",
+          "rule": "The projector world x: the drawx of its origin cell (Tile.java:176, block offset Block.java:761 -- 0 for the size-3 regen-projector), the rect center x (RegenProjector.java:118).",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_update_targets_state"
+          ]
+        },
+        "building_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "return block().offset + worldy();",
+          "rule": "The projector world y: the drawy of its origin cell (Tile.java:180), the rect center y (RegenProjector.java:118).",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_update_targets_state"
+          ]
+        },
+        "candidates": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+          "java_expr": "indexer.eachBlock(team, Tmp.r1.setCentered(x, y, range * tilesize), b -> true, targets::add);",
+          "rule": "The candidate buildings gathered by the driver from the placed buildings (each: pos, team_id, x, y, block_health, health, heal_suppressed) -- the port stand-in for the indexer buildingTree the Java query intersects (BlockIndexer.java:364-380).",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_update_targets_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RegenProjectorTargetsFillProof",
+      "rule": "Source-backed RegenProjector updateTargets live fill from RegenProjector.java / HealthComp.java / World.java / Blocks.java / Block.java / Tile.java / BlockIndexer.java / Vars.java."
+    },
+    "source_regen_projector_update_targets_state_result": {
+      "status": "active",
+      "owner": "SourceRegenProjectorBuildState.source_regen_projector_update_targets_state",
+      "source_slice": "N2277",
+      "keys": {
+        "targets": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+          "java_expr": "indexer.eachBlock(team, Tmp.r1.setCentered(x, y, range * tilesize), b -> true, targets::add);",
+          "rule": "The rebuilt targets list (RegenProjector.java:115-119): same-team buildings whose center falls inside the square range*tilesize rect (range 28, Blocks.java:2012), each entry pos / block_health / health / damaged / heal_suppressed in the exact format the N2228 advance reads; unchanged (the previous frame targets) when tile_changes equals last_change.",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_update_targets_state"
+          ]
+        },
+        "last_change": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+          "java_expr": "lastChange = world.tileChanges;",
+          "rule": "The refreshed lastChange (RegenProjector.java:123-125): tile_changes when it differed, unchanged otherwise.",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_update_targets_state"
+          ]
+        },
+        "refreshed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+          "java_expr": "if(lastChange != world.tileChanges){",
+          "rule": "Whether this call rebuilt targets (RegenProjector.java:123): true exactly when tile_changes differed from last_change.",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_update_targets_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RegenProjectorTargetsFillProof",
+      "rule": "Source-backed RegenProjector updateTargets live fill from RegenProjector.java / HealthComp.java / World.java / Blocks.java / Block.java / Tile.java / BlockIndexer.java / Vars.java."
+    },
+    "source_payload_loader_handle_payload_state_input": {
+      "status": "active",
+      "owner": "SourcePayloadLoaderBuildState.source_payload_loader_handle_payload_state",
+      "source_slice": "N2278",
+      "keys": {
+        "incoming_payload": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "public void handlePayload(Building source, Payload payload){",
+          "rule": "The pushed payload (PayloadBlock.java:121, handlePayload(Building source, Payload payload)): the BuildPayload dict in the N2231 contract; null means no push this tick and the driver applies nothing.",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_handle_payload_state"
+          ]
+        },
+        "source_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "this.payVector.set(source).sub(this).clamp(-size * tilesize / 2f, -size * tilesize / 2f, size * tilesize / 2f, size * tilesize / 2f);",
+          "rule": "The source building world x (PayloadBlock.java:123): Vec2.set(source) reads the source position; the driver reads it from the frame incoming_source_pos input (no live source pushes it yet).",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_handle_payload_state"
+          ]
+        },
+        "source_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "this.payVector.set(source).sub(this).clamp(-size * tilesize / 2f, -size * tilesize / 2f, size * tilesize / 2f, size * tilesize / 2f);",
+          "rule": "The source building world y (PayloadBlock.java:123): Vec2.set(source) reads the source position; the driver reads it from the frame incoming_source_pos input.",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_handle_payload_state"
+          ]
+        },
+        "self_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "this.payVector.set(source).sub(this).clamp(-size * tilesize / 2f, -size * tilesize / 2f, size * tilesize / 2f, size * tilesize / 2f);",
+          "rule": "The loader world x (PayloadBlock.java:123): .sub(this) subtracts the loader position; the driver reads it from the frame world_pos input (the port has no live world-position model for placed buildings).",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_handle_payload_state"
+          ]
+        },
+        "self_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "this.payVector.set(source).sub(this).clamp(-size * tilesize / 2f, -size * tilesize / 2f, size * tilesize / 2f, size * tilesize / 2f);",
+          "rule": "The loader world y (PayloadBlock.java:123): .sub(this) subtracts the loader position; the driver reads it from the frame world_pos input.",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_handle_payload_state"
+          ]
+        },
+        "payload_rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "this.payRotation = payload.rotation();",
+          "rule": "The payload rotation (PayloadBlock.java:124): payload.rotation(), default 0f (Payload.java:55-57); the driver reads the incoming dict rotation key (default 0.0).",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_handle_payload_state"
+          ]
+        },
+        "block_size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "size = 3;",
+          "rule": "The block size (Blocks.java:6687, payload-loader size 3; the only def, no large-payload-loader): the clamp half-extent is size*tilesize/2, so +/-12.0 for size 3 and +/-16.0 for size 4.",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_handle_payload_state"
+          ]
+        },
+        "tilesize": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/Vars.java",
+          "java_expr": "public static final int tilesize = 8;",
+          "rule": "The tile size in pixels (Vars.java:135): the driver passes SourceWorldDefaults.TILESIZE.",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_handle_payload_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadLoaderLiveFillProof",
+      "rule": "Source-backed PayloadLoader live payload fill from PayloadBlock.java / PayloadLoader.java / Payload.java / Blocks.java / Vars.java."
+    },
+    "source_payload_loader_handle_payload_state_result": {
+      "status": "active",
+      "owner": "SourcePayloadLoaderBuildState.source_payload_loader_handle_payload_state",
+      "source_slice": "N2278",
+      "keys": {
+        "payload": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "this.payload = (T)payload;",
+          "rule": "The held payload after the handle (PayloadBlock.java:122): the incoming payload dict, set unconditionally by the pure function (the null guard lives in the driver, from acceptPayload returning this.payload == null, PayloadBlock.java:117).",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_handle_payload_state"
+          ]
+        },
+        "pay_vector": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "this.payVector.set(source).sub(this).clamp(-size * tilesize / 2f, -size * tilesize / 2f, size * tilesize / 2f, size * tilesize / 2f);",
+          "rule": "The payVector {x, y} after the handle (PayloadBlock.java:123): the source offset clamped per axis to +/-size*tilesize/2 (Vec2.clamp(minx, miny, maxx, maxy), arc Vec2.java:318-322); +/-12.0 for size 3, +/-16.0 for size 4.",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_handle_payload_state"
+          ]
+        },
+        "pay_rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "this.payRotation = payload.rotation();",
+          "rule": "The payRotation after the handle (PayloadBlock.java:124): the payload rotation; the N2231 advance moves it toward rotdeg() on later ticks.",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_handle_payload_state"
+          ]
+        },
+        "exporting": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+          "java_expr": "exporting = false;",
+          "rule": "The exporting flag after the handle (PayloadLoader.java:106, the Loader override): a fresh intake is never exporting; the N2231 advance may set it true again on later ticks.",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_handle_payload_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadLoaderLiveFillProof",
+      "rule": "Source-backed PayloadLoader live payload fill from PayloadBlock.java / PayloadLoader.java / Payload.java / Blocks.java / Vars.java."
+    },
+    "source_payload_loader_take_payload_state_input": {
+      "status": "active",
+      "owner": "SourcePayloadLoaderBuildState.source_payload_loader_take_payload_state",
+      "source_slice": "N2278",
+      "keys": {
+        "payload": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "T t = payload;",
+          "rule": "The held payload (PayloadBlock.java:146): the payload dict, or null when the loader holds nothing (take then returns null).",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_take_payload_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadLoaderLiveFillProof",
+      "rule": "Source-backed PayloadLoader live payload fill from PayloadBlock.java / PayloadLoader.java / Payload.java / Blocks.java / Vars.java."
+    },
+    "source_payload_loader_take_payload_state_result": {
+      "status": "active",
+      "owner": "SourcePayloadLoaderBuildState.source_payload_loader_take_payload_state",
+      "source_slice": "N2278",
+      "keys": {
+        "payload_taken": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "T t = payload;",
+          "rule": "The payload taken out (PayloadBlock.java:146-148): the previously held payload dict, returned to the caller; null when nothing was held.",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_take_payload_state"
+          ]
+        },
+        "payload_after": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "payload = null;",
+          "rule": "The payload after the take (PayloadBlock.java:147): always null -- takePayload clears the slot.",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_take_payload_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadLoaderLiveFillProof",
+      "rule": "Source-backed PayloadLoader live payload fill from PayloadBlock.java / PayloadLoader.java / Payload.java / Blocks.java / Vars.java."
+    },
+    "source_payload_unloader_handle_payload_state_input": {
+      "status": "active",
+      "owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_handle_payload_state",
+      "source_slice": "N2279",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "payload != null",
+          "rule": "The building frame carrying the live payload key (PayloadBlock.java:92, `public @Nullable T payload;`, default null) plus pay_vector / pay_rotation (PayloadBlock.java:94-95). The intake applies only when the frame payload is null -- the acceptPayload gate (PayloadBlock.java:116-118, `return this.payload == null;`).",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_handle_payload_state"
+          ]
+        },
+        "incoming_payload": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "public void handlePayload(Building source, Payload payload){",
+          "rule": "The incoming push: {\"payload\": the payload dict (the N2232 contract: block flags + build items / liquids module state / power_status, plus a \"rotation\" key), \"source_offset\": {\"x\", \"y\"}}. The source_offset is the source world position minus this building's world position -- the set(source).sub(this) result (PayloadBlock.java:123): the port has no live building world positions, so the pusher supplies the relative offset and the pure ports the clamp exactly. Null (or malformed) means no push this tick.",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_handle_payload_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadUnloaderLiveFillProof",
+      "rule": "Source-backed PayloadUnloader live payload fill from PayloadBlock.java / PayloadUnloader.java / PayloadLoader.java / Payload.java / UnitPayload.java / Blocks.java / Vars.java / Vec2.java."
+    },
+    "source_payload_unloader_handle_payload_state_result": {
+      "status": "active",
+      "owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_handle_payload_state",
+      "source_slice": "N2279",
+      "keys": {
+        "payload": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "this.payload = (T)payload;",
+          "rule": "The held payload after the intake (PayloadBlock.java:122): the incoming payload dict when applied, the frame payload unchanged when the intake did not apply (no incoming, or the frame already holds a payload).",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_handle_payload_state"
+          ]
+        },
+        "pay_vector": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "this.payVector.set(source).sub(this).clamp(-size * tilesize / 2f, -size * tilesize / 2f, size * tilesize / 2f, size * tilesize / 2f);",
+          "rule": "The payload offset after the intake (PayloadBlock.java:123): the source offset clamped component-wise to +/-size * tilesize / 2 = +/-12.0 (the 4-arg Vec2.clamp, Vec2.java:318-322, NOT the length clamp; size 3, Blocks.java:6696; tilesize 8, Vars.java:135). Stored as {x, y}. Unchanged when the intake did not apply.",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_handle_payload_state"
+          ]
+        },
+        "pay_rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "this.payRotation = payload.rotation();",
+          "rule": "The payload rotation after the intake (PayloadBlock.java:124): the payload \"rotation\" with a 0.0 default -- Payload.rotation() defaults to 0f (Payload.java:55-57), BuildPayload does not override it, UnitPayload returns unit.rotation (UnitPayload.java:94-96). Unchanged when the intake did not apply.",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_handle_payload_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadUnloaderLiveFillProof",
+      "rule": "Source-backed PayloadUnloader live payload fill from PayloadBlock.java / PayloadUnloader.java / PayloadLoader.java / Payload.java / UnitPayload.java / Blocks.java / Vars.java / Vec2.java."
+    },
+    "source_payload_unloader_take_payload_state_input": {
+      "status": "active",
+      "owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_take_payload_state",
+      "source_slice": "N2279",
+      "keys": {
+        "frame_payload": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "T t = payload;",
+          "rule": "The held frame payload to take (PayloadBlock.java:92, `public @Nullable T payload;`, default null): the payload dict, or null when the frame holds none.",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_take_payload_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadUnloaderLiveFillProof",
+      "rule": "Source-backed PayloadUnloader live payload fill from PayloadBlock.java / PayloadUnloader.java / PayloadLoader.java / Payload.java / UnitPayload.java / Blocks.java / Vars.java / Vec2.java."
+    },
+    "source_payload_unloader_take_payload_state_result": {
+      "status": "active",
+      "owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_take_payload_state",
+      "source_slice": "N2279",
+      "keys": {
+        "payload_taken": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "T t = payload;",
+          "rule": "The payload taken (PayloadBlock.java:146): the held payload dict, or null when the frame held none.",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_take_payload_state"
+          ]
+        },
+        "payload_after": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "payload = null;",
+          "rule": "The payload after the take (PayloadBlock.java:147): always null -- takePayload clears the held payload.",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_take_payload_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadUnloaderLiveFillProof",
+      "rule": "Source-backed PayloadUnloader live payload fill from PayloadBlock.java / PayloadUnloader.java / PayloadLoader.java / Payload.java / UnitPayload.java / Blocks.java / Vars.java / Vec2.java."
+    },
+    "source_repair_turret_timer_target_state_input": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_timer_target_state",
+      "source_slice": "N2280",
+      "keys": {
+        "elapsed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+          "java_expr": "return timer.get(index, time);",
+          "rule": "The frame-local elapsed clock in ticks (frame[\"timer_target_elapsed\"], accumulated by the tick delta every tick the advance runs, unconditionally -- the port mirror of the global Time.time arc Interval.get compares against, Interval.java:20-26; Time.time counts TICKS, arc Time.java:69-80).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_timer_target_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/util/Time.java",
+          "java_expr": "timeRaw += delta;",
+          "rule": "The tick delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26) -- the per-tick growth of the frame-local clock, mirroring the per-update growth of the global Time.time (arc Time.java:69-80).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_timer_target_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live building timeScale (BuildingComp.java:98, default 1f), read from the sprite meta by the tick; the port threshold is duration / time_scale (the N2269 frame-local precedent), and a non-positive time_scale is the infinite-time branch (TimerComp.java:11). NOTE: Java passes a literal 20 here with no timeScale division (RepairTurret.java:214), so the division is a documented port deviation, Java-exact at time_scale 1f.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_timer_target_state"
+          ]
+        },
+        "duration": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "if(timer(timerTarget, 20)){",
+          "rule": "The timer duration in ticks: the literal 20f in the Java timer call (RepairTurret.java:214); both defs share it (no per-def override).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_timer_target_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretTimerTargetProof",
+      "rule": "Source-backed RepairTurret timer-target cadence from RepairTurret.java / TimerComp.java / BuildingComp.java / arc Interval.java / arc Time.java."
+    },
+    "source_repair_turret_timer_target_state_result": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_timer_target_state",
+      "source_slice": "N2280",
+      "keys": {
+        "fired": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+          "java_expr": "if(Float.isInfinite(time)) return false;",
+          "rule": "Whether the timer fires this tick (TimerComp.java:10-13): false when the threshold is infinite (time_scale <= 0), else elapsed >= duration / time_scale -- the Interval.check comparison (arc Interval.java:28-30) against the frame-local clock.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_timer_target_state"
+          ]
+        },
+        "elapsed_after": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+          "java_expr": "return timer.get(index, time);",
+          "rule": "The elapsed clock after this tick: 0.0 when fired (Interval.get RESETS times[id] = Time.time on fire, arc Interval.java:23-25 -- a reset, not a subtraction like the Fracker accumulator), otherwise the accumulated elapsed.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_timer_target_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretTimerTargetProof",
+      "rule": "Source-backed RepairTurret timer-target cadence from RepairTurret.java / TimerComp.java / BuildingComp.java / arc Interval.java / arc Time.java."
     }
   },
   "version": 1

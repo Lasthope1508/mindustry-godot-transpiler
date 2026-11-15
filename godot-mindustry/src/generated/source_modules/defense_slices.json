@@ -3396,6 +3396,25 @@
       ],
       "runtime_proof": "/root/C07MendProjectorBoosterTimerProof"
     },
+    "N2277": {
+      "canonical_ledger": "source_slice_ledger.N2277",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+      "java_method": "RegenProjectorBuild.updateTargets()",
+      "godot_owner": "SourceRegenProjectorBuildState.source_regen_projector_update_targets_state",
+      "source_symbols": [
+        "source_regen_projector_update_targets_state_result.targets",
+        "source_regen_projector_update_targets_state_result.last_change",
+        "source_regen_projector_update_targets_state_result.refreshed"
+      ],
+      "tests": [
+        "test_c07_regen_projector_targets_fill_registration",
+        "test_all_c07_regen_projector_targets_fill_input_evidence_is_exact",
+        "test_regen_projector_update_targets_state",
+        "test_reference_graph_and_actual_c07_regen_projector_targets_fill"
+      ],
+      "runtime_proof": "/root/C07RegenProjectorTargetsFillProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",
