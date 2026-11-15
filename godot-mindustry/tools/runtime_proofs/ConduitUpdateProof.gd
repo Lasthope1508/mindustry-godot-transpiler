@@ -40,8 +40,11 @@ func _ready() -> void:
 
 	# --- the conduit update (Conduit.java:249-255): one second of
 	# pumping fills 7.0 water, the pump dumps half to (5,13), and
-	# the conduit's flow timer (1s) then pushes (pump - next) to
-	# (5,12), so the two conduits swap amounts. ---
+	# the conduit's flow timer (1 tick, N2196: arc Interval.get
+	# compares against Time.time, which advances in ticks) then
+	# pushes (pump - next) to (5,12), so the two conduits swap
+	# amounts. The conduit call uses one tick (1/60 s): the timer
+	# fires once and leaves flow_timer at 0.0. ---
 	var update: Dictionary = pump_state.source_pump_update_state(game, Vector2i(5, 14), 1.0)
 	var dump: Dictionary = pump_state.source_pump_dump_liquid_state(game, Vector2i(5, 14))
 	var first: Variant = game.call("block_sprite_at_cell", Vector2i(5, 13))
@@ -50,15 +53,16 @@ func _ready() -> void:
 	var second_liquids: Dictionary = second.get_meta("source_building_liquids", {})
 	var first_before: float = float(liquid_module_state.source_get_state(first_liquids, water_id).get("amount", 0.0))
 	var second_before: float = float(liquid_module_state.source_get_state(second_liquids, water_id).get("amount", 0.0))
-	var flow: Dictionary = conduit_state.source_conduit_update_state(game, Vector2i(5, 13), 1.0)
+	var flow: Dictionary = conduit_state.source_conduit_update_state(game, Vector2i(5, 13), 1.0 / 60.0)
 	var expected_flow: float = first_before - second_before
 	proof["conduit_update_flows"] = int(flow.get("liquid", -1)) == water_id
 	proof["conduit_update_amount"] = is_equal_approx(float(flow.get("flowed", -1.0)), expected_flow) and is_equal_approx(float(liquid_module_state.source_get_state(first_liquids, water_id).get("amount", -1.0)), second_before) and is_equal_approx(float(liquid_module_state.source_get_state(second_liquids, water_id).get("amount", -1.0)), first_before)
 	proof["conduit_update_timer"] = float(flow.get("flow_timer", -1.0)) < 1.0
 
-	# --- a small delta does not fire the flow timer: no water moves. ---
+	# --- a sub-tick delta (half a tick, 1/120 s) does not fire the
+	# flow timer: no water moves. ---
 	var first_after: float = float(liquid_module_state.source_get_state(first_liquids, water_id).get("amount", 0.0))
-	var small: Dictionary = conduit_state.source_conduit_update_state(game, Vector2i(5, 13), 0.1)
+	var small: Dictionary = conduit_state.source_conduit_update_state(game, Vector2i(5, 13), 1.0 / 120.0)
 	proof["conduit_update_small_delta_no_flow"] = is_equal_approx(float(small.get("flowed", -1.0)), 0.0) and is_equal_approx(float(liquid_module_state.source_get_state(first_liquids, water_id).get("amount", -1.0)), first_after)
 
 	var state_registry := registry.canonical_headquarter_registry_state()
