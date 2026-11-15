@@ -239168,6 +239168,622 @@
       },
       "runtime_proof": "/root/C07RepairTurretCoolantProof",
       "rule": "Source-backed RepairTurret coolant optional consumer row from ConsumeCoolant.java / ConsumeLiquidFilter.java / Consume.java / BuildingComp.java / Blocks.java / Liquid.java / RepairTurret.java."
+    },
+    "source_regen_projector_liquid_consumer_row_state_input": {
+      "status": "active",
+      "owner": "SourceRegenProjectorBuildState.source_regen_projector_liquid_consumer_row_state",
+      "source_slice": "N2260",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "build.liquids.get(liquid)",
+          "rule": "The building frame carrying the Building.liquids LiquidModule (frame[\"liquids\"], synced from the sprite meta store each tick before the fold, the Fracker:361 precedent): the live store the row reads the hydrogen amount from; a frame bound before this slice has no liquids key and reads 0.0, Java liquids.get returning 0.0 for a liquid never added.",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_liquid_consumer_row_state"
+          ]
+        },
+        "has_liquid_consumer": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "consumeLiquid(Liquids.hydrogen, 1f / 60f);",
+          "rule": "Whether the def registers the required ConsumeLiquid row: the single regen-projector def does (Blocks.java:2016); a def without one contributes no row, the has_power_row pattern.",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_liquid_consumer_row_state"
+          ]
+        },
+        "liquid_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "public final Liquid liquid;",
+          "rule": "The consumed liquid resolved to its catalog id by the driver (liquid_id_by_name with the def constant \"hydrogen\", Blocks.java:2016; the Fracker oil precedent); -1 when the catalog has no such liquid, which the guard reads as 0.0.",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_liquid_consumer_row_state"
+          ]
+        },
+        "amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "consumeLiquid(Liquids.hydrogen, 1f / 60f);",
+          "rule": "The per-frame amount from the def: 1f/60f per frame (= 1/s, display amount * 60f); the divisor in the efficiency ratio and the factor in the second-pass removal.",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_liquid_consumer_row_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/util/Time.java",
+          "java_expr": "Math.min(Core.graphics.getDeltaTime() * 60f, 3f)",
+          "rule": "Time.delta in 60fps ticks (arc Time.java:26): the driver passes seconds * 60 (the N2093 pump precedent); in the first pass efficiency is assumed 1f (BuildingComp.java:1964-1965), so edelta = source_delta * time_scale.",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_liquid_consumer_row_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return timeScale;",
+          "rule": "The sprite-meta timeScale (BuildingComp.java:599-600, `return timeScale;`, default 1f, BuildingComp.java:98): delta() = Time.delta * timeScale (BuildingComp.java:1922-1924).",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_liquid_consumer_row_state"
+          ]
+        },
+        "efficiency_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "float ed = build.edelta() * build.efficiencyScale();",
+          "rule": "The efficiency scale multiplying edelta into ed (ConsumeLiquid.java:43); the canonical default is 1f (BuildingComp.java:1939-1941, efficiencyScale() returns 1f; the driver reads efficiency_scale_state()).",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_liquid_consumer_row_state"
+          ]
+        },
+        "multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+          "rule": "The consumer multiplier (Consume.java:18, default 1f): the single regen-projector def sets no multiplier, so the row defaults to 1f; it scales both the efficiency divisor and the second-pass removal.",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_liquid_consumer_row_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RegenProjectorSecondConsumersProof",
+      "rule": "Source-backed RegenProjector second consumers row from ConsumeLiquid.java / ConsumeItems.java / Consume.java / ItemModule.java / BuildingComp.java / Blocks.java."
+    },
+    "source_regen_projector_liquid_consumer_row_state_result": {
+      "status": "active",
+      "owner": "SourceRegenProjectorBuildState.source_regen_projector_liquid_consumer_row_state",
+      "source_slice": "N2260",
+      "keys": {
+        "row": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);",
+          "rule": "The folded row {\"result\": ..., \"is_power\": false}: min(liquid / (amount * ed * multiplier), 1f), 0f when ed <= 1e-8 (ConsumeLiquid.java:42-47); is_power false so the shared fold sets shouldConsumePower=false when the row is <= 1e-7 (BuildingComp.java:1972-1974).",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_liquid_consumer_row_state"
+          ]
+        },
+        "has_liquid_row": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "consumeLiquid(Liquids.hydrogen, 1f / 60f);",
+          "rule": "Whether the row exists: true when the def registers the ConsumeLiquid row (the single regen-projector def does, Blocks.java:2016), false otherwise -- the has_power_row pattern.",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_liquid_consumer_row_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RegenProjectorSecondConsumersProof",
+      "rule": "Source-backed RegenProjector second consumers row from ConsumeLiquid.java / ConsumeItems.java / Consume.java / ItemModule.java / BuildingComp.java / Blocks.java."
+    },
+    "source_regen_projector_item_consumer_row_state_input": {
+      "status": "active",
+      "owner": "SourceRegenProjectorBuildState.source_regen_projector_item_consumer_row_state",
+      "source_slice": "N2260",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_expr": "build.items.has(items, multiplier.get(build))",
+          "rule": "The building frame carrying the Building.items ItemModule (frame[\"items\"], Dictionary keyed by item name, the factory precedent SourceFactoryBuildState.gd:89-101): the live store the row counts the phaseFabric stacks from; no live intake fills it yet (the Separator precedent), so the row reads the frame as-is; a frame bound before this slice has no items key and counts 0.",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_item_consumer_row_state"
+          ]
+        },
+        "stacks": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_expr": "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;",
+          "rule": "The consumed ItemStacks as [{\"item\": <kebab-case id>, \"amount\": int}] (the single regen-projector def: [{\"item\": \"phase-fabric\", \"amount\": 1}], Blocks.java:2017; consumeItem(item) is ItemStack(item, 1), Block.java:1167-1168): every stack must be held at round(amount * multiplier) for the row to read 1.0; empty stacks contribute no row.",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_item_consumer_row_state"
+          ]
+        },
+        "consume_trigger_valid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public boolean consumeTriggerValid(){",
+          "rule": "Whether the building is currently burning a trigger consumer (BuildingComp.java:764-766, base `return false;`): the OR term in ConsumeItems.efficiency; no RegenProjector override exists, so the tick passes the canonical SourceBuildingAccessState.consume_trigger_valid_state() (false).",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_item_consumer_row_state"
+          ]
+        },
+        "multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+          "rule": "The consumer multiplier (Consume.java:18, default 1f): the single regen-projector def sets no multiplier, so the row defaults to 1f; it scales the held-count threshold (round(amount * multiplier)) and the consume() removal.",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_item_consumer_row_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RegenProjectorSecondConsumersProof",
+      "rule": "Source-backed RegenProjector second consumers row from ConsumeLiquid.java / ConsumeItems.java / Consume.java / ItemModule.java / BuildingComp.java / Blocks.java."
+    },
+    "source_regen_projector_item_consumer_row_state_result": {
+      "status": "active",
+      "owner": "SourceRegenProjectorBuildState.source_regen_projector_item_consumer_row_state",
+      "source_slice": "N2260",
+      "keys": {
+        "row": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_expr": "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;",
+          "rule": "The folded row {\"result\": ..., \"is_power\": false}: BINARY 1.0 when consumeTriggerValid() or every stack is held, else 0.0 (ConsumeItems.java:51-53); is_power false, and the booster folds into the optional pass (BuildingComp.java:1980-1981), capped by the min efficiency (BuildingComp.java:1986).",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_item_consumer_row_state"
+          ]
+        },
+        "has_item_row": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "consumeItem(Items.phaseFabric).boost();",
+          "rule": "Whether the row exists: true when the stacks list is non-empty (the single regen-projector def registers the phaseFabric booster, Blocks.java:2017), false otherwise -- the has_power_row pattern.",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_item_consumer_row_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RegenProjectorSecondConsumersProof",
+      "rule": "Source-backed RegenProjector second consumers row from ConsumeLiquid.java / ConsumeItems.java / Consume.java / ItemModule.java / BuildingComp.java / Blocks.java."
+    },
+    "source_force_projector_item_consumer_row_state_input": {
+      "status": "active",
+      "owner": "SourceForceProjectorBuildState.source_force_projector_item_consumer_row_state",
+      "source_slice": "N2261",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_expr": "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;",
+          "rule": "The building frame carrying the Building.items ItemModule (frame[\"items\"], Dictionary keyed by item name, the factory precedent SourceFactoryBuildState.gd:89-101): the held item counts the row reads through SourceDrillInventoryRuntimeState.item_count; a frame without the key reads 0, like Java items.get on an item never added. No live intake fills it yet (the Separator precedent).",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_item_consumer_row_state"
+          ]
+        },
+        "has_item_consumer": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "itemConsumer = consumeItem(Items.phaseFabric).boost();",
+          "rule": "Whether the block has an item consumer (Blocks.java:1974): the driver gate -- the single force-projector def sets itemConsumer (class default `public @Nullable Consume itemConsumer, coolantConsumer;`, ForceProjector.java:54), so the def always has the row; a block without the consumer contributes no row.",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_item_consumer_row_state"
+          ]
+        },
+        "stacks": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "return consume(new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)}));",
+          "rule": "The required stacks as Array of {\"item\": kebab-case id, \"amount\": int} dicts (Block.java:1172): the force-projector def has one stack, [{\"item\": \"phase-fabric\", \"amount\": 1}] -- consumeItem(item) is ItemStack(item, 1) (Block.java:1167-1168). Every stack must be held at round(amount * multiplier) for the row to read 1.0 (ItemModule.java:153-158).",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_item_consumer_row_state"
+          ]
+        },
+        "multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+          "rule": "The consumer multiplier (Consume.java:18): the 1f default -- the def sets none (Blocks.java:1974).",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_item_consumer_row_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ForceProjectorBoosterItemProof",
+      "rule": "Source-backed ForceProjector ConsumeItems booster row from ConsumeItems.java / Consume.java / BuildingComp.java / ForceProjector.java / Blocks.java / ItemModule.java / Block.java."
+    },
+    "source_force_projector_item_consumer_row_state_result": {
+      "status": "active",
+      "owner": "SourceForceProjectorBuildState.source_force_projector_item_consumer_row_state",
+      "source_slice": "N2261",
+      "keys": {
+        "row": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_expr": "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;",
+          "rule": "The item row for the optional pass (ConsumeItems.java:52, the canonical binary efficiency): {\"result\": 1.0 when every stack is held at round(amount * multiplier), else 0.0, \"is_power\": false}, folded by the optional pass into the optional efficiency beside the coolant row.",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_item_consumer_row_state"
+          ]
+        },
+        "has_item_row": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "for(var cons : block.optionalConsumers){",
+          "rule": "Whether the row joins the optional pass (BuildingComp.java:1980): true when the block has an item consumer; the row is the item consumer's entry in the optional pass.",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_item_consumer_row_state"
+          ]
+        },
+        "item_valid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "boolean phaseValid = itemConsumer != null && itemConsumer.efficiency(this) > 0;",
+          "rule": "Whether the row reads > 0 (ForceProjector.java:207): the phaseValid half the advance reads -- phaseValid reads itemConsumer.efficiency DIRECTLY, not through optionalEfficiency, so the row reports its validity alongside the fold value.",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_item_consumer_row_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ForceProjectorBoosterItemProof",
+      "rule": "Source-backed ForceProjector ConsumeItems booster row from ConsumeItems.java / Consume.java / BuildingComp.java / ForceProjector.java / Blocks.java / ItemModule.java / Block.java."
+    },
+    "source_overdrive_projector_item_consumer_row_state_input": {
+      "status": "active",
+      "owner": "SourceOverdriveProjectorBuildState.source_overdrive_projector_item_consumer_row_state",
+      "source_slice": "N2262",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_expr": "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;",
+          "rule": "The building frame carrying the held items (frame[\"items\"], a Dictionary keyed by item name, the factory precedent): the counts the row reads through the shared inventory helper; a frame without the key reads 0 per item, like Java items.get on an item never added.",
+          "used_by": [
+            "SourceOverdriveProjectorBuildState.source_overdrive_projector_item_consumer_row_state"
+          ]
+        },
+        "stacks": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "consumeItems(with(Items.phaseFabric, 1, Items.silicon, 1));",
+          "rule": "The per-def item stacks from the catalog consumeItem property (overdrive-projector: [{\"item\": \"phase-fabric\", \"amount\": 1, \"optional\": true, \"booster\": true}], Blocks.java:1948; overdrive-dome: [{\"item\": \"phase-fabric\", \"amount\": 1}, {\"item\": \"silicon\", \"amount\": 1}], Blocks.java:1961): the stacks the row checks, and the optional flag on the first stack routes the fold.",
+          "used_by": [
+            "SourceOverdriveProjectorBuildState.source_overdrive_projector_item_consumer_row_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07OverdriveProjectorBoosterItemsProof",
+      "rule": "Source-backed OverdriveProjector booster item rows from ConsumeItems.java / Consume.java / BuildingComp.java / ItemModule.java / Block.java / Blocks.java / OverdriveProjector.java."
+    },
+    "source_overdrive_projector_item_consumer_row_state_result": {
+      "status": "active",
+      "owner": "SourceOverdriveProjectorBuildState.source_overdrive_projector_item_consumer_row_state",
+      "source_slice": "N2262",
+      "keys": {
+        "row": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_expr": "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;",
+          "rule": "The item row for the consumption pass (ConsumeItems.java:52, the canonical item efficiency): {\"result\": 1.0 when every stack is held at round(amount * multiplier) else 0.0, \"is_power\": false} -- BINARY, not a ratio; the dome needs BOTH stacks for 1.0.",
+          "used_by": [
+            "SourceOverdriveProjectorBuildState.source_overdrive_projector_item_consumer_row_state"
+          ]
+        },
+        "has_item_row": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "consumeItem(Items.phaseFabric).boost();",
+          "rule": "Whether the row joins a consumption pass: true when the def declares an item consumer (projector consumeItem phaseFabric .boost(), Blocks.java:1948; dome consumeItems phaseFabric + silicon, Blocks.java:1961); the catalog consumeItem stacks are non-empty.",
+          "used_by": [
+            "SourceOverdriveProjectorBuildState.source_overdrive_projector_item_consumer_row_state"
+          ]
+        },
+        "is_optional": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "return optional(true, true);",
+          "rule": "Whether the row folds the optional pass (Consume.java:34, boost() = optional(true, true)): true for the projector booster row, false for the dome required row (no .boost(), Blocks.java:1961).",
+          "used_by": [
+            "SourceOverdriveProjectorBuildState.source_overdrive_projector_item_consumer_row_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07OverdriveProjectorBoosterItemsProof",
+      "rule": "Source-backed OverdriveProjector booster item rows from ConsumeItems.java / Consume.java / BuildingComp.java / ItemModule.java / Block.java / Blocks.java / OverdriveProjector.java."
+    },
+    "source_mend_projector_item_consumer_row_state_input": {
+      "status": "active",
+      "owner": "SourceMendProjectorBuildState.source_mend_projector_item_consumer_row_state",
+      "source_slice": "N2263",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_expr": "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;",
+          "rule": "The building frame carrying the live items store (frame[\"items\"], the Building.items ItemModule, Dictionary keyed by item name, the factory precedent SourceFactoryBuildState.gd:89-101); a frame without an items store reads count 0, like Java items.get for an item never added.",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_item_consumer_row_state"
+          ]
+        },
+        "stacks": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "return consumeItem(item, 1);",
+          "rule": "The per-def booster stacks (Array of {\"item\": kebab-case id, \"amount\": int}): mender [{\"item\": \"silicon\", \"amount\": 1}] (Blocks.java:1929), mend-projector [{\"item\": \"phase-fabric\", \"amount\": 1}] (Blocks.java:1941); consumeItem(item) is a single stack of 1 (Block.java:1167-1168). An empty stacks array means no item consumer and appends no row.",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_item_consumer_row_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07MendProjectorBoosterItemsProof",
+      "rule": "Source-backed MendProjector booster item row from ConsumeItems.java / Consume.java / BuildingComp.java / ItemModule.java / MendProjector.java / Blocks.java / Block.java."
+    },
+    "source_mend_projector_item_consumer_row_state_result": {
+      "status": "active",
+      "owner": "SourceMendProjectorBuildState.source_mend_projector_item_consumer_row_state",
+      "source_slice": "N2263",
+      "keys": {
+        "row": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_expr": "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;",
+          "rule": "The item row for the optional pass (ConsumeItems.java:52): {\"result\": 1.0 when every stack is held, else 0.0, \"is_power\": false}, folded by the optional pass into optionalEfficiency; BINARY, not a ratio.",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_item_consumer_row_state"
+          ]
+        },
+        "has_item_row": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "for(var cons : block.optionalConsumers){",
+          "rule": "Whether the row joins the optional pass (BuildingComp.java:1980): true when the block has an item consumer; the row is the item consumer's entry in the optional pass.",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_item_consumer_row_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07MendProjectorBoosterItemsProof",
+      "rule": "Source-backed MendProjector booster item row from ConsumeItems.java / Consume.java / BuildingComp.java / ItemModule.java / MendProjector.java / Blocks.java / Block.java."
+    },
+    "source_wall_crafter_liquid_consumer_row_state_input": {
+      "status": "active",
+      "owner": "SourceWallCrafterBuildState.source_wall_crafter_liquid_consumer_row_state",
+      "source_slice": "N2264",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);",
+          "rule": "The building frame carrying the Building.liquids LiquidModule (frame[\"liquids\"], synced from the live sprite store each tick before the fold): the held hydrogen amount the row reads through SourceLiquidModuleState.source_get_state; a frame without the key reads 0.0, like Java liquids.get on a liquid never added.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_liquid_consumer_row_state"
+          ]
+        },
+        "has_liquid_consumer": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "for(var cons : block.nonOptionalConsumers){",
+          "rule": "Whether the block has a liquid consumer (BuildingComp.java:1969): the driver gate -- the row joins the first pass only when the catalog consumeLiquid rows carry the hydrogen row, and a def with no hydrogen row contributes no row (the cliff-crusher has no consumeLiquid row).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_liquid_consumer_row_state"
+          ]
+        },
+        "liquid_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "build.liquids.get(liquid)",
+          "rule": "The catalog id of the consumed liquid (hydrogen, resolved through liquid_id_by_name with the def constant, the Fracker precedent): the LiquidModule index the held amount reads at; -1 when the catalog has no such liquid, which the Fracker guard treats as no held liquid.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_liquid_consumer_row_state"
+          ]
+        },
+        "amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "consumeLiquid(Liquids.hydrogen, 1f / 60f);",
+          "rule": "The per-frame demand from the catalog consumeLiquid row (large-cliff-crusher hydrogen 1f/60f, Blocks.java:3028).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_liquid_consumer_row_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26): in the first pass efficiency is assumed 1f (BuildingComp.java:1965), so edelta() is delta() = source_delta * time_scale (BuildingComp.java:1922-1929).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_liquid_consumer_row_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live timeScale read from the sprite meta (SourcePlacedBlockState.time_scale), default 1.0 (BuildingComp.java:98); scales delta() and therefore the row edelta.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_liquid_consumer_row_state"
+          ]
+        },
+        "efficiency_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "float ed = build.edelta() * build.efficiencyScale();",
+          "rule": "The efficiency scale (ConsumeLiquid.java:43): ed is edelta times this scale; the canonical scale is 1.0 (SourceBuildingEfficiencyState.efficiency_scale_state).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_liquid_consumer_row_state"
+          ]
+        },
+        "multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+          "rule": "The consumer multiplier (Consume.java:18): the 1f default -- the large def sets none (Blocks.java:3028 is a bare consumeLiquid call).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_liquid_consumer_row_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WallCrafterSecondConsumersProof",
+      "rule": "Source-backed WallCrafter second consumers from ConsumeLiquid.java / ConsumeItems.java / Consume.java / BuildingComp.java."
+    },
+    "source_wall_crafter_liquid_consumer_row_state_result": {
+      "status": "active",
+      "owner": "SourceWallCrafterBuildState.source_wall_crafter_liquid_consumer_row_state",
+      "source_slice": "N2264",
+      "keys": {
+        "row": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);",
+          "rule": "The hydrogen row for the first pass (ConsumeLiquid.java:46, the canonical ConsumeLiquid.efficiency): {\"result\": held / (amount * ed * multiplier) capped at 1, 0 when ed <= 1e-8, \"is_power\": false}, folded by the non-optional pass into the min efficiency.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_liquid_consumer_row_state"
+          ]
+        },
+        "has_liquid_row": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "for(var cons : block.nonOptionalConsumers){",
+          "rule": "Whether the row joins the first pass (BuildingComp.java:1969): true when the block has a hydrogen consumer; the row is the hydrogen consumer's entry in the non-optional pass.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_liquid_consumer_row_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WallCrafterSecondConsumersProof",
+      "rule": "Source-backed WallCrafter second consumers from ConsumeLiquid.java / ConsumeItems.java / Consume.java / BuildingComp.java."
+    },
+    "source_wall_crafter_item_consumer_row_state_input": {
+      "status": "active",
+      "owner": "SourceWallCrafterBuildState.source_wall_crafter_item_consumer_row_state",
+      "source_slice": "N2264",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_expr": "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;",
+          "rule": "The building frame carrying the Building.items ItemModule (frame[\"items\"], a Dictionary keyed by item name, the drill/factory precedent): the held graphite count the row reads through SourceDrillInventoryRuntimeState.item_count; a frame without the key reads 0, like Java items.get on an item never added.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_item_consumer_row_state"
+          ]
+        },
+        "has_item_consumer": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "for(var cons : block.optionalConsumers){",
+          "rule": "Whether the block has an item consumer (BuildingComp.java:1980): the driver gate -- the row joins the optional pass only when the catalog boosterItem names the booster item (large-cliff-crusher graphite, Blocks.java:3030, captured as boosterItem, not a consumeItem row, the N2115 precedent); the cliff-crusher has no boosterItem and contributes no row.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_item_consumer_row_state"
+          ]
+        },
+        "stacks": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "return consumeItem(item, 1);",
+          "rule": "The explicit item stacks (Array of {\"item\": kebab-case id, \"amount\": int}): the large def consumes one stack of graphite 1 (consumeItem(item) returns consumeItem(item, 1), Block.java:1167-1168); every stack must be held at round(amount * multiplier) for the row to read 1.0 (ItemModule.java:153-156).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_item_consumer_row_state"
+          ]
+        },
+        "multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+          "rule": "The consumer multiplier (Consume.java:18): the 1f default -- the large def sets none (Blocks.java:3030 is a bare consumeItem call with boost()).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_item_consumer_row_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WallCrafterSecondConsumersProof",
+      "rule": "Source-backed WallCrafter second consumers from ConsumeLiquid.java / ConsumeItems.java / Consume.java / BuildingComp.java."
+    },
+    "source_wall_crafter_item_consumer_row_state_result": {
+      "status": "active",
+      "owner": "SourceWallCrafterBuildState.source_wall_crafter_item_consumer_row_state",
+      "source_slice": "N2264",
+      "keys": {
+        "row": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_expr": "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;",
+          "rule": "The graphite row for the optional pass (ConsumeItems.java:52, the canonical ConsumeItems.efficiency): {\"result\": 1.0 when every stack is held (or the trigger is valid, base false), else 0.0, \"is_power\": false}, folded by the optional pass into optionalEfficiency only (BuildingComp.java:1980-1981, capped by minEfficiency at :1986).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_item_consumer_row_state"
+          ]
+        },
+        "has_item_row": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "for(var cons : block.optionalConsumers){",
+          "rule": "Whether the row joins the optional pass (BuildingComp.java:1980): true when the block has a booster item consumer; the row is the graphite consumer's entry in the optional pass.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_item_consumer_row_state"
+          ]
+        },
+        "item_valid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "boolean itemValid = itemConsumer != null && itemConsumer.efficiency(this) > 0;",
+          "rule": "Whether the item consumer is valid (WallCrafter.java:191): the updateTile read -- itemConsumer != null && its efficiency > 0, i.e. the row result > 0; stamped live onto the frame for the N2223 advance, false for the cliff-crusher (no item consumer).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_item_consumer_row_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WallCrafterSecondConsumersProof",
+      "rule": "Source-backed WallCrafter second consumers from ConsumeLiquid.java / ConsumeItems.java / Consume.java / BuildingComp.java."
     }
   },
   "version": 1

@@ -69884,6 +69884,316 @@
       ],
       "runtime_proof": "/root/C07RepairTurretCoolantProof",
       "rule": "Source-backed RepairTurret coolant optional consumer row from ConsumeCoolant.java / ConsumeLiquidFilter.java / Consume.java / BuildingComp.java / Blocks.java / Liquid.java / RepairTurret.java."
+    },
+    "SourceRegenProjectorBuildState.source_regen_projector_liquid_consumer_row_state": {
+      "status": "active",
+      "source_slice": "N2260",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "source_method": "ConsumeLiquid.efficiency(Building)",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_regen_projector_liquid_consumer_row_state_input.frame"
+        },
+        {
+          "name": "has_liquid_consumer",
+          "type": "bool",
+          "schema": "source_regen_projector_liquid_consumer_row_state_input.has_liquid_consumer"
+        },
+        {
+          "name": "liquid_id",
+          "type": "int",
+          "schema": "source_regen_projector_liquid_consumer_row_state_input.liquid_id"
+        },
+        {
+          "name": "amount",
+          "type": "float",
+          "schema": "source_regen_projector_liquid_consumer_row_state_input.amount"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_regen_projector_liquid_consumer_row_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_regen_projector_liquid_consumer_row_state_input.time_scale"
+        },
+        {
+          "name": "efficiency_scale",
+          "type": "float",
+          "schema": "source_regen_projector_liquid_consumer_row_state_input.efficiency_scale"
+        },
+        {
+          "name": "multiplier",
+          "type": "float",
+          "schema": "source_regen_projector_liquid_consumer_row_state_input.multiplier"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "row",
+        "has_liquid_row"
+      ],
+      "tests": [
+        "test_c07_regen_projector_second_consumers_registration",
+        "test_all_c07_regen_projector_second_consumers_input_evidence_is_exact",
+        "test_regen_projector_second_consumers_row_state",
+        "test_reference_graph_and_actual_c07_regen_projector_second_consumers"
+      ],
+      "runtime_proof": "/root/C07RegenProjectorSecondConsumersProof",
+      "rule": "Source-backed RegenProjector second consumers row from ConsumeLiquid.java / ConsumeItems.java / Consume.java / ItemModule.java / BuildingComp.java / Blocks.java."
+    },
+    "SourceRegenProjectorBuildState.source_regen_projector_item_consumer_row_state": {
+      "status": "active",
+      "source_slice": "N2260",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "source_method": "ConsumeItems.efficiency(Building)",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_regen_projector_item_consumer_row_state_input.frame"
+        },
+        {
+          "name": "stacks",
+          "type": "Array",
+          "schema": "source_regen_projector_item_consumer_row_state_input.stacks"
+        },
+        {
+          "name": "consume_trigger_valid",
+          "type": "bool",
+          "schema": "source_regen_projector_item_consumer_row_state_input.consume_trigger_valid"
+        },
+        {
+          "name": "multiplier",
+          "type": "float",
+          "schema": "source_regen_projector_item_consumer_row_state_input.multiplier"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "row",
+        "has_item_row"
+      ],
+      "tests": [
+        "test_c07_regen_projector_second_consumers_registration",
+        "test_all_c07_regen_projector_second_consumers_input_evidence_is_exact",
+        "test_regen_projector_second_consumers_row_state",
+        "test_reference_graph_and_actual_c07_regen_projector_second_consumers"
+      ],
+      "runtime_proof": "/root/C07RegenProjectorSecondConsumersProof",
+      "rule": "Source-backed RegenProjector second consumers row from ConsumeLiquid.java / ConsumeItems.java / Consume.java / ItemModule.java / BuildingComp.java / Blocks.java."
+    },
+    "SourceForceProjectorBuildState.source_force_projector_item_consumer_row_state": {
+      "status": "active",
+      "source_slice": "N2261",
+      "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+      "source_method": "ForceBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_force_projector_item_consumer_row_state_input.frame"
+        },
+        {
+          "name": "has_item_consumer",
+          "type": "bool",
+          "schema": "source_force_projector_item_consumer_row_state_input.has_item_consumer"
+        },
+        {
+          "name": "stacks",
+          "type": "Array",
+          "schema": "source_force_projector_item_consumer_row_state_input.stacks"
+        },
+        {
+          "name": "multiplier",
+          "type": "float",
+          "schema": "source_force_projector_item_consumer_row_state_input.multiplier"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "row",
+        "has_item_row",
+        "item_valid"
+      ],
+      "tests": [
+        "test_c07_force_projector_booster_item_registration",
+        "test_all_c07_force_projector_booster_item_input_evidence_is_exact",
+        "test_force_projector_item_consumer_row_state",
+        "test_reference_graph_and_actual_c07_force_projector_booster_item"
+      ],
+      "runtime_proof": "/root/C07ForceProjectorBoosterItemProof",
+      "rule": "Source-backed ForceProjector ConsumeItems booster row from ConsumeItems.java / Consume.java / BuildingComp.java / ForceProjector.java / Blocks.java / ItemModule.java / Block.java."
+    },
+    "SourceOverdriveProjectorBuildState.source_overdrive_projector_item_consumer_row_state": {
+      "status": "active",
+      "source_slice": "N2262",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "source_method": "OverdriveBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_overdrive_projector_item_consumer_row_state_input.frame"
+        },
+        {
+          "name": "stacks",
+          "type": "Array",
+          "schema": "source_overdrive_projector_item_consumer_row_state_input.stacks"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "row",
+        "has_item_row",
+        "is_optional"
+      ],
+      "tests": [
+        "test_c07_overdrive_projector_booster_items_registration",
+        "test_all_c07_overdrive_projector_booster_items_input_evidence_is_exact",
+        "test_overdrive_projector_booster_items_row_state",
+        "test_reference_graph_and_actual_c07_overdrive_projector_booster_items"
+      ],
+      "runtime_proof": "/root/C07OverdriveProjectorBoosterItemsProof",
+      "rule": "Source-backed OverdriveProjector booster item rows from ConsumeItems.java / Consume.java / BuildingComp.java / ItemModule.java / Block.java / Blocks.java / OverdriveProjector.java."
+    },
+    "SourceMendProjectorBuildState.source_mend_projector_item_consumer_row_state": {
+      "status": "active",
+      "source_slice": "N2263",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "source_method": "MendBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_mend_projector_item_consumer_row_state_input.frame"
+        },
+        {
+          "name": "stacks",
+          "type": "Array",
+          "schema": "source_mend_projector_item_consumer_row_state_input.stacks"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "row",
+        "has_item_row"
+      ],
+      "tests": [
+        "test_c07_mend_projector_booster_items_registration",
+        "test_all_c07_mend_projector_booster_items_input_evidence_is_exact",
+        "test_mend_projector_booster_items_row_state",
+        "test_reference_graph_and_actual_c07_mend_projector_booster_items"
+      ],
+      "runtime_proof": "/root/C07MendProjectorBoosterItemsProof",
+      "rule": "Source-backed MendProjector booster item row from ConsumeItems.java / Consume.java / BuildingComp.java / ItemModule.java / MendProjector.java / Blocks.java / Block.java."
+    },
+    "SourceWallCrafterBuildState.source_wall_crafter_liquid_consumer_row_state": {
+      "status": "active",
+      "source_slice": "N2264",
+      "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+      "source_method": "WallCrafterBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_wall_crafter_liquid_consumer_row_state_input.frame"
+        },
+        {
+          "name": "has_liquid_consumer",
+          "type": "bool",
+          "schema": "source_wall_crafter_liquid_consumer_row_state_input.has_liquid_consumer"
+        },
+        {
+          "name": "liquid_id",
+          "type": "int",
+          "schema": "source_wall_crafter_liquid_consumer_row_state_input.liquid_id"
+        },
+        {
+          "name": "amount",
+          "type": "float",
+          "schema": "source_wall_crafter_liquid_consumer_row_state_input.amount"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_wall_crafter_liquid_consumer_row_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_wall_crafter_liquid_consumer_row_state_input.time_scale"
+        },
+        {
+          "name": "efficiency_scale",
+          "type": "float",
+          "schema": "source_wall_crafter_liquid_consumer_row_state_input.efficiency_scale"
+        },
+        {
+          "name": "multiplier",
+          "type": "float",
+          "schema": "source_wall_crafter_liquid_consumer_row_state_input.multiplier"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "row",
+        "has_liquid_row"
+      ],
+      "tests": [
+        "test_c07_wall_crafter_second_consumers_registration",
+        "test_all_c07_wall_crafter_second_consumers_input_evidence_is_exact",
+        "test_wall_crafter_second_consumers_row_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_second_consumers"
+      ],
+      "runtime_proof": "/root/C07WallCrafterSecondConsumersProof",
+      "rule": "Source-backed WallCrafter second consumers from ConsumeLiquid.java / ConsumeItems.java / Consume.java / BuildingComp.java."
+    },
+    "SourceWallCrafterBuildState.source_wall_crafter_item_consumer_row_state": {
+      "status": "active",
+      "source_slice": "N2264",
+      "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+      "source_method": "WallCrafterBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_wall_crafter_item_consumer_row_state_input.frame"
+        },
+        {
+          "name": "has_item_consumer",
+          "type": "bool",
+          "schema": "source_wall_crafter_item_consumer_row_state_input.has_item_consumer"
+        },
+        {
+          "name": "stacks",
+          "type": "Array",
+          "schema": "source_wall_crafter_item_consumer_row_state_input.stacks"
+        },
+        {
+          "name": "multiplier",
+          "type": "float",
+          "schema": "source_wall_crafter_item_consumer_row_state_input.multiplier"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "row",
+        "has_item_row",
+        "item_valid"
+      ],
+      "tests": [
+        "test_c07_wall_crafter_second_consumers_registration",
+        "test_all_c07_wall_crafter_second_consumers_input_evidence_is_exact",
+        "test_wall_crafter_second_consumers_row_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_second_consumers"
+      ],
+      "runtime_proof": "/root/C07WallCrafterSecondConsumersProof",
+      "rule": "Source-backed WallCrafter second consumers from ConsumeLiquid.java / ConsumeItems.java / Consume.java / BuildingComp.java."
     }
   },
   "policy": {

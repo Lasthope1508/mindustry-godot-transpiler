@@ -178600,6 +178600,278 @@
         "test_reference_graph_and_actual_c07_repair_turret_coolant"
       ],
       "runtime_proof": "/root/C07RepairTurretCoolantProof"
+    },
+    "source_regen_projector_liquid_consumer_row_state_result.row": {
+      "status": "source-backed",
+      "godot_owner": "SourceRegenProjectorBuildState.source_regen_projector_liquid_consumer_row_state",
+      "godot_symbol": "source_regen_projector_liquid_consumer_row_state_result.row",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "ConsumeLiquid.efficiency(Building)",
+      "java_expr": "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);",
+      "rule": "The folded row {\"result\": ..., \"is_power\": false}: min(liquid / (amount * ed * multiplier), 1f), 0f when ed <= 1e-8 (ConsumeLiquid.java:42-47); is_power false so the shared fold sets shouldConsumePower=false when the row is <= 1e-7 (BuildingComp.java:1972-1974).",
+      "tests": [
+        "test_c07_regen_projector_second_consumers_registration",
+        "test_all_c07_regen_projector_second_consumers_input_evidence_is_exact",
+        "test_regen_projector_second_consumers_row_state",
+        "test_reference_graph_and_actual_c07_regen_projector_second_consumers"
+      ],
+      "runtime_proof": "/root/C07RegenProjectorSecondConsumersProof"
+    },
+    "source_regen_projector_liquid_consumer_row_state_result.has_liquid_row": {
+      "status": "source-backed",
+      "godot_owner": "SourceRegenProjectorBuildState.source_regen_projector_liquid_consumer_row_state",
+      "godot_symbol": "source_regen_projector_liquid_consumer_row_state_result.has_liquid_row",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "ConsumeLiquid.efficiency(Building)",
+      "java_expr": "consumeLiquid(Liquids.hydrogen, 1f / 60f);",
+      "rule": "Whether the row exists: true when the def registers the ConsumeLiquid row (the single regen-projector def does, Blocks.java:2016), false otherwise -- the has_power_row pattern.",
+      "tests": [
+        "test_c07_regen_projector_second_consumers_registration",
+        "test_all_c07_regen_projector_second_consumers_input_evidence_is_exact",
+        "test_regen_projector_second_consumers_row_state",
+        "test_reference_graph_and_actual_c07_regen_projector_second_consumers"
+      ],
+      "runtime_proof": "/root/C07RegenProjectorSecondConsumersProof"
+    },
+    "source_regen_projector_item_consumer_row_state_result.row": {
+      "status": "source-backed",
+      "godot_owner": "SourceRegenProjectorBuildState.source_regen_projector_item_consumer_row_state",
+      "godot_symbol": "source_regen_projector_item_consumer_row_state_result.row",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "ConsumeItems.efficiency(Building)",
+      "java_expr": "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;",
+      "rule": "The folded row {\"result\": ..., \"is_power\": false}: BINARY 1.0 when consumeTriggerValid() or every stack is held, else 0.0 (ConsumeItems.java:51-53); is_power false, and the booster folds into the optional pass (BuildingComp.java:1980-1981), capped by the min efficiency (BuildingComp.java:1986).",
+      "tests": [
+        "test_c07_regen_projector_second_consumers_registration",
+        "test_all_c07_regen_projector_second_consumers_input_evidence_is_exact",
+        "test_regen_projector_second_consumers_row_state",
+        "test_reference_graph_and_actual_c07_regen_projector_second_consumers"
+      ],
+      "runtime_proof": "/root/C07RegenProjectorSecondConsumersProof"
+    },
+    "source_regen_projector_item_consumer_row_state_result.has_item_row": {
+      "status": "source-backed",
+      "godot_owner": "SourceRegenProjectorBuildState.source_regen_projector_item_consumer_row_state",
+      "godot_symbol": "source_regen_projector_item_consumer_row_state_result.has_item_row",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "ConsumeItems.efficiency(Building)",
+      "java_expr": "consumeItem(Items.phaseFabric).boost();",
+      "rule": "Whether the row exists: true when the stacks list is non-empty (the single regen-projector def registers the phaseFabric booster, Blocks.java:2017), false otherwise -- the has_power_row pattern.",
+      "tests": [
+        "test_c07_regen_projector_second_consumers_registration",
+        "test_all_c07_regen_projector_second_consumers_input_evidence_is_exact",
+        "test_regen_projector_second_consumers_row_state",
+        "test_reference_graph_and_actual_c07_regen_projector_second_consumers"
+      ],
+      "runtime_proof": "/root/C07RegenProjectorSecondConsumersProof"
+    },
+    "source_force_projector_item_consumer_row_state_result.row": {
+      "status": "source-backed",
+      "godot_owner": "SourceForceProjectorBuildState.source_force_projector_item_consumer_row_state",
+      "godot_symbol": "source_force_projector_item_consumer_row_state_result.row",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "ForceBuild.updateTile()",
+      "java_expr": "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;",
+      "rule": "The item row for the optional pass (ConsumeItems.java:52, the canonical binary efficiency): {\"result\": 1.0 when every stack is held at round(amount * multiplier), else 0.0, \"is_power\": false}, folded by the optional pass into the optional efficiency beside the coolant row.",
+      "tests": [
+        "test_c07_force_projector_booster_item_registration",
+        "test_all_c07_force_projector_booster_item_input_evidence_is_exact",
+        "test_force_projector_item_consumer_row_state",
+        "test_reference_graph_and_actual_c07_force_projector_booster_item"
+      ],
+      "runtime_proof": "/root/C07ForceProjectorBoosterItemProof"
+    },
+    "source_force_projector_item_consumer_row_state_result.has_item_row": {
+      "status": "source-backed",
+      "godot_owner": "SourceForceProjectorBuildState.source_force_projector_item_consumer_row_state",
+      "godot_symbol": "source_force_projector_item_consumer_row_state_result.has_item_row",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "ForceBuild.updateTile()",
+      "java_expr": "for(var cons : block.optionalConsumers){",
+      "rule": "Whether the row joins the optional pass (BuildingComp.java:1980): true when the block has an item consumer; the row is the item consumer's entry in the optional pass.",
+      "tests": [
+        "test_c07_force_projector_booster_item_registration",
+        "test_all_c07_force_projector_booster_item_input_evidence_is_exact",
+        "test_force_projector_item_consumer_row_state",
+        "test_reference_graph_and_actual_c07_force_projector_booster_item"
+      ],
+      "runtime_proof": "/root/C07ForceProjectorBoosterItemProof"
+    },
+    "source_force_projector_item_consumer_row_state_result.item_valid": {
+      "status": "source-backed",
+      "godot_owner": "SourceForceProjectorBuildState.source_force_projector_item_consumer_row_state",
+      "godot_symbol": "source_force_projector_item_consumer_row_state_result.item_valid",
+      "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+      "java_method": "ForceBuild.updateTile()",
+      "java_expr": "boolean phaseValid = itemConsumer != null && itemConsumer.efficiency(this) > 0;",
+      "rule": "Whether the row reads > 0 (ForceProjector.java:207): the phaseValid half the advance reads -- phaseValid reads itemConsumer.efficiency DIRECTLY, not through optionalEfficiency, so the row reports its validity alongside the fold value.",
+      "tests": [
+        "test_c07_force_projector_booster_item_registration",
+        "test_all_c07_force_projector_booster_item_input_evidence_is_exact",
+        "test_force_projector_item_consumer_row_state",
+        "test_reference_graph_and_actual_c07_force_projector_booster_item"
+      ],
+      "runtime_proof": "/root/C07ForceProjectorBoosterItemProof"
+    },
+    "source_overdrive_projector_item_consumer_row_state_result.row": {
+      "status": "source-backed",
+      "godot_owner": "SourceOverdriveProjectorBuildState.source_overdrive_projector_item_consumer_row_state",
+      "godot_symbol": "source_overdrive_projector_item_consumer_row_state_result.row",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "OverdriveBuild.updateTile()",
+      "java_expr": "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;",
+      "rule": "The item row for the consumption pass (ConsumeItems.java:52, the canonical item efficiency): {\"result\": 1.0 when every stack is held at round(amount * multiplier) else 0.0, \"is_power\": false} -- BINARY, not a ratio; the dome needs BOTH stacks for 1.0.",
+      "tests": [
+        "test_c07_overdrive_projector_booster_items_registration",
+        "test_all_c07_overdrive_projector_booster_items_input_evidence_is_exact",
+        "test_overdrive_projector_booster_items_row_state",
+        "test_reference_graph_and_actual_c07_overdrive_projector_booster_items"
+      ],
+      "runtime_proof": "/root/C07OverdriveProjectorBoosterItemsProof"
+    },
+    "source_overdrive_projector_item_consumer_row_state_result.has_item_row": {
+      "status": "source-backed",
+      "godot_owner": "SourceOverdriveProjectorBuildState.source_overdrive_projector_item_consumer_row_state",
+      "godot_symbol": "source_overdrive_projector_item_consumer_row_state_result.has_item_row",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "OverdriveBuild.updateTile()",
+      "java_expr": "consumeItem(Items.phaseFabric).boost();",
+      "rule": "Whether the row joins a consumption pass: true when the def declares an item consumer (projector consumeItem phaseFabric .boost(), Blocks.java:1948; dome consumeItems phaseFabric + silicon, Blocks.java:1961); the catalog consumeItem stacks are non-empty.",
+      "tests": [
+        "test_c07_overdrive_projector_booster_items_registration",
+        "test_all_c07_overdrive_projector_booster_items_input_evidence_is_exact",
+        "test_overdrive_projector_booster_items_row_state",
+        "test_reference_graph_and_actual_c07_overdrive_projector_booster_items"
+      ],
+      "runtime_proof": "/root/C07OverdriveProjectorBoosterItemsProof"
+    },
+    "source_overdrive_projector_item_consumer_row_state_result.is_optional": {
+      "status": "source-backed",
+      "godot_owner": "SourceOverdriveProjectorBuildState.source_overdrive_projector_item_consumer_row_state",
+      "godot_symbol": "source_overdrive_projector_item_consumer_row_state_result.is_optional",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "OverdriveBuild.updateTile()",
+      "java_expr": "return optional(true, true);",
+      "rule": "Whether the row folds the optional pass (Consume.java:34, boost() = optional(true, true)): true for the projector booster row, false for the dome required row (no .boost(), Blocks.java:1961).",
+      "tests": [
+        "test_c07_overdrive_projector_booster_items_registration",
+        "test_all_c07_overdrive_projector_booster_items_input_evidence_is_exact",
+        "test_overdrive_projector_booster_items_row_state",
+        "test_reference_graph_and_actual_c07_overdrive_projector_booster_items"
+      ],
+      "runtime_proof": "/root/C07OverdriveProjectorBoosterItemsProof"
+    },
+    "source_mend_projector_item_consumer_row_state_result.row": {
+      "status": "source-backed",
+      "godot_owner": "SourceMendProjectorBuildState.source_mend_projector_item_consumer_row_state",
+      "godot_symbol": "source_mend_projector_item_consumer_row_state_result.row",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "MendBuild.updateTile()",
+      "java_expr": "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;",
+      "rule": "The item row for the optional pass (ConsumeItems.java:52): {\"result\": 1.0 when every stack is held, else 0.0, \"is_power\": false}, folded by the optional pass into optionalEfficiency; BINARY, not a ratio.",
+      "tests": [
+        "test_c07_mend_projector_booster_items_registration",
+        "test_all_c07_mend_projector_booster_items_input_evidence_is_exact",
+        "test_mend_projector_booster_items_row_state",
+        "test_reference_graph_and_actual_c07_mend_projector_booster_items"
+      ],
+      "runtime_proof": "/root/C07MendProjectorBoosterItemsProof"
+    },
+    "source_mend_projector_item_consumer_row_state_result.has_item_row": {
+      "status": "source-backed",
+      "godot_owner": "SourceMendProjectorBuildState.source_mend_projector_item_consumer_row_state",
+      "godot_symbol": "source_mend_projector_item_consumer_row_state_result.has_item_row",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "MendBuild.updateTile()",
+      "java_expr": "for(var cons : block.optionalConsumers){",
+      "rule": "Whether the row joins the optional pass (BuildingComp.java:1980): true when the block has an item consumer; the row is the item consumer's entry in the optional pass.",
+      "tests": [
+        "test_c07_mend_projector_booster_items_registration",
+        "test_all_c07_mend_projector_booster_items_input_evidence_is_exact",
+        "test_mend_projector_booster_items_row_state",
+        "test_reference_graph_and_actual_c07_mend_projector_booster_items"
+      ],
+      "runtime_proof": "/root/C07MendProjectorBoosterItemsProof"
+    },
+    "source_wall_crafter_liquid_consumer_row_state_result.row": {
+      "status": "source-backed",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_liquid_consumer_row_state",
+      "godot_symbol": "source_wall_crafter_liquid_consumer_row_state_result.row",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "WallCrafterBuild.updateTile()",
+      "java_expr": "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);",
+      "rule": "The hydrogen row for the first pass (ConsumeLiquid.java:46, the canonical ConsumeLiquid.efficiency): {\"result\": held / (amount * ed * multiplier) capped at 1, 0 when ed <= 1e-8, \"is_power\": false}, folded by the non-optional pass into the min efficiency.",
+      "tests": [
+        "test_c07_wall_crafter_second_consumers_registration",
+        "test_all_c07_wall_crafter_second_consumers_input_evidence_is_exact",
+        "test_wall_crafter_second_consumers_row_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_second_consumers"
+      ],
+      "runtime_proof": "/root/C07WallCrafterSecondConsumersProof"
+    },
+    "source_wall_crafter_liquid_consumer_row_state_result.has_liquid_row": {
+      "status": "source-backed",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_liquid_consumer_row_state",
+      "godot_symbol": "source_wall_crafter_liquid_consumer_row_state_result.has_liquid_row",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "WallCrafterBuild.updateTile()",
+      "java_expr": "for(var cons : block.nonOptionalConsumers){",
+      "rule": "Whether the row joins the first pass (BuildingComp.java:1969): true when the block has a hydrogen consumer; the row is the hydrogen consumer's entry in the non-optional pass.",
+      "tests": [
+        "test_c07_wall_crafter_second_consumers_registration",
+        "test_all_c07_wall_crafter_second_consumers_input_evidence_is_exact",
+        "test_wall_crafter_second_consumers_row_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_second_consumers"
+      ],
+      "runtime_proof": "/root/C07WallCrafterSecondConsumersProof"
+    },
+    "source_wall_crafter_item_consumer_row_state_result.row": {
+      "status": "source-backed",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_item_consumer_row_state",
+      "godot_symbol": "source_wall_crafter_item_consumer_row_state_result.row",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "WallCrafterBuild.updateTile()",
+      "java_expr": "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;",
+      "rule": "The graphite row for the optional pass (ConsumeItems.java:52, the canonical ConsumeItems.efficiency): {\"result\": 1.0 when every stack is held (or the trigger is valid, base false), else 0.0, \"is_power\": false}, folded by the optional pass into optionalEfficiency only (BuildingComp.java:1980-1981, capped by minEfficiency at :1986).",
+      "tests": [
+        "test_c07_wall_crafter_second_consumers_registration",
+        "test_all_c07_wall_crafter_second_consumers_input_evidence_is_exact",
+        "test_wall_crafter_second_consumers_row_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_second_consumers"
+      ],
+      "runtime_proof": "/root/C07WallCrafterSecondConsumersProof"
+    },
+    "source_wall_crafter_item_consumer_row_state_result.has_item_row": {
+      "status": "source-backed",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_item_consumer_row_state",
+      "godot_symbol": "source_wall_crafter_item_consumer_row_state_result.has_item_row",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "WallCrafterBuild.updateTile()",
+      "java_expr": "for(var cons : block.optionalConsumers){",
+      "rule": "Whether the row joins the optional pass (BuildingComp.java:1980): true when the block has a booster item consumer; the row is the graphite consumer's entry in the optional pass.",
+      "tests": [
+        "test_c07_wall_crafter_second_consumers_registration",
+        "test_all_c07_wall_crafter_second_consumers_input_evidence_is_exact",
+        "test_wall_crafter_second_consumers_row_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_second_consumers"
+      ],
+      "runtime_proof": "/root/C07WallCrafterSecondConsumersProof"
+    },
+    "source_wall_crafter_item_consumer_row_state_result.item_valid": {
+      "status": "source-backed",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_item_consumer_row_state",
+      "godot_symbol": "source_wall_crafter_item_consumer_row_state_result.item_valid",
+      "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+      "java_method": "WallCrafterBuild.updateTile()",
+      "java_expr": "boolean itemValid = itemConsumer != null && itemConsumer.efficiency(this) > 0;",
+      "rule": "Whether the item consumer is valid (WallCrafter.java:191): the updateTile read -- itemConsumer != null && its efficiency > 0, i.e. the row result > 0; stamped live onto the frame for the N2223 advance, false for the cliff-crusher (no item consumer).",
+      "tests": [
+        "test_c07_wall_crafter_second_consumers_registration",
+        "test_all_c07_wall_crafter_second_consumers_input_evidence_is_exact",
+        "test_wall_crafter_second_consumers_row_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_second_consumers"
+      ],
+      "runtime_proof": "/root/C07WallCrafterSecondConsumersProof"
     }
   },
   "version": 1

@@ -2456,6 +2456,91 @@
         }
       }
     },
+    "source_wall_crafter_liquid_consumer_row_state_input": {
+      "canonical_schema": "source_state_schema.source_wall_crafter_liquid_consumer_row_state_input",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);",
+          "rule": "The building frame carrying the Building.liquids LiquidModule (frame[\"liquids\"], synced from the live sprite store each tick before the fold): the held hydrogen amount the row reads through SourceLiquidModuleState.source_get_state; a frame without the key reads 0.0, like Java liquids.get on a liquid never added.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_liquid_consumer_row_state"
+          ]
+        },
+        "has_liquid_consumer": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "for(var cons : block.nonOptionalConsumers){",
+          "rule": "Whether the block has a liquid consumer (BuildingComp.java:1969): the driver gate -- the row joins the first pass only when the catalog consumeLiquid rows carry the hydrogen row, and a def with no hydrogen row contributes no row (the cliff-crusher has no consumeLiquid row).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_liquid_consumer_row_state"
+          ]
+        },
+        "liquid_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "build.liquids.get(liquid)",
+          "rule": "The catalog id of the consumed liquid (hydrogen, resolved through liquid_id_by_name with the def constant, the Fracker precedent): the LiquidModule index the held amount reads at; -1 when the catalog has no such liquid, which the Fracker guard treats as no held liquid.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_liquid_consumer_row_state"
+          ]
+        },
+        "amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "consumeLiquid(Liquids.hydrogen, 1f / 60f);",
+          "rule": "The per-frame demand from the catalog consumeLiquid row (large-cliff-crusher hydrogen 1f/60f, Blocks.java:3028).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_liquid_consumer_row_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26): in the first pass efficiency is assumed 1f (BuildingComp.java:1965), so edelta() is delta() = source_delta * time_scale (BuildingComp.java:1922-1929).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_liquid_consumer_row_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live timeScale read from the sprite meta (SourcePlacedBlockState.time_scale), default 1.0 (BuildingComp.java:98); scales delta() and therefore the row edelta.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_liquid_consumer_row_state"
+          ]
+        },
+        "efficiency_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "float ed = build.edelta() * build.efficiencyScale();",
+          "rule": "The efficiency scale (ConsumeLiquid.java:43): ed is edelta times this scale; the canonical scale is 1.0 (SourceBuildingEfficiencyState.efficiency_scale_state).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_liquid_consumer_row_state"
+          ]
+        },
+        "multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+          "rule": "The consumer multiplier (Consume.java:18): the 1f default -- the large def sets none (Blocks.java:3028 is a bare consumeLiquid call).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_liquid_consumer_row_state"
+          ]
+        }
+      }
+    },
     "source_wall_crafter_power_status_row_state_input": {
       "canonical_schema": "source_state_schema.source_wall_crafter_power_status_row_state_input",
       "keys": {
