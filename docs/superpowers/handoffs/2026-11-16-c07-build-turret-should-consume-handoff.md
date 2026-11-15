@@ -1,6 +1,6 @@
 # Handoff: N2201 — C07 BuildTurret shouldConsume gate
 
-Date: 2026-11-16. Batch: N2201 (single slice). Status: **DONE + GATE VERIFIED (2026-11-16 ~03:59 +07 — targeted 4/4, family 32/32 + BuildTurret family re-run 8/8, wiring 32/32; full gate Ran 5897, failures=151, skipped=5, 0 errors, all 151 verified Godot-absent). Ready to push (origin/main still e2bc910).**
+Date: 2026-11-16. Batch: N2201 (single slice). Status: **DONE + PUSHED (slice d7a3027, main 773a8309). Targeted 4/4 OK, family 32/32 OK + BuildTurret family re-run 8/8 OK, wiring 32/32 OK — GREEN total 68/68. Full gate Ran 5897 in 996.621s, failures=151, skipped=5, 0 errors — all 151 verified Godot-absent (log `full-suite-n2201-gate.log`).**
 
 ## Scope (verified against upstream Java + the port this run)
 
