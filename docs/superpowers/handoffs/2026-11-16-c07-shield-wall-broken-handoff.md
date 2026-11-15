@@ -1,6 +1,6 @@
 # Handoff: N2202 — C07 ShieldWall broken() coupling
 
-Date: 2026-11-16. Batch: N2202 (single slice). Status: **GREEN (2026-11-16 ~04:3x +07). Targeted 4/4 OK, family 8/8 OK, wiring 32/32 OK — GREEN total 44/44. Full gate LAUNCHED detached (setsid, PID 3605, SID 3605, log `tools/mindustry_godot_transpiler/full-suite-n2202-gate.log`), NOT yet verified — do NOT push before the gate footer is checked. NOT pushed.**
+Date: 2026-11-16. Batch: N2202 (single slice). Status: **DONE + PUSHED (slice 4532fb20, main 3fb25efa). Targeted 4/4 OK, family 8/8 OK, wiring 32/32 OK — GREEN total 44/44. Full gate Ran 5901 in 981.726s, failures=152, skipped=5, 0 errors — all 152 verified Godot-absent (log `full-suite-n2202-gate.log`).**
 
 ## Scope (verified against upstream Java + the port this run)
 
