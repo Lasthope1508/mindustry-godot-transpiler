@@ -81,8 +81,9 @@ func _ready() -> void:
 	# link to the candidate and -- with the link present, no
 	# held payload, and the assembler below quota (0 stored
 	# of 5) -- exposes both verdicts true on the frame. The
-	# N2248 handoff gate still reads the frame-input
-	# accept_payload predicate, so nothing hands off here.
+	# N2248 handoff gate reads the live-stamped link
+	# verdict (N2314), but the module holds no payload,
+	# so nothing hands off here.
 	var catalog = game.get("content_catalog")
 	var blocks_by_id: Dictionary = {}
 	for registered_block in catalog.get_many("block"):
