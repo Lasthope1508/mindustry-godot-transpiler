@@ -172968,6 +172968,182 @@
         "test_reference_graph_and_actual_c07_light_block_power_status"
       ],
       "runtime_proof": "/root/C07LightBlockPowerStatusProof"
+    },
+    "source_mend_projector_update_tile_advance_result.smooth_efficiency": {
+      "status": "source-backed",
+      "godot_owner": "SourceMendProjectorBuildState.source_mend_projector_update_tile_advance_state",
+      "godot_symbol": "source_mend_projector_update_tile_advance_result.smooth_efficiency",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "java_method": "MendBuild.updateTile()",
+      "java_expr": "smoothEfficiency = Mathf.lerpDelta(smoothEfficiency, efficiency, 0.08f);",
+      "rule": "The smoothed efficiency after one tick (MendProjector.java:96): lerped toward the folded frame efficiency at 0.08f by the unscaled Time.delta.",
+      "tests": [
+        "test_c07_mend_projector_update_tile_registration",
+        "test_all_c07_mend_projector_update_tile_input_evidence_is_exact",
+        "test_mend_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_mend_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07MendProjectorUpdateTileProof"
+    },
+    "source_mend_projector_update_tile_advance_result.heat": {
+      "status": "source-backed",
+      "godot_owner": "SourceMendProjectorBuildState.source_mend_projector_update_tile_advance_state",
+      "godot_symbol": "source_mend_projector_update_tile_advance_result.heat",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "java_method": "MendBuild.updateTile()",
+      "java_expr": "heat = Mathf.lerpDelta(heat, efficiency > 0 && canHeal ? 1f : 0f, 0.08f);",
+      "rule": "The heat after one tick (MendProjector.java:97): lerped toward 1f when the folded efficiency is positive and canHeal holds, else toward 0f, at 0.08f by the unscaled Time.delta.",
+      "tests": [
+        "test_c07_mend_projector_update_tile_registration",
+        "test_all_c07_mend_projector_update_tile_input_evidence_is_exact",
+        "test_mend_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_mend_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07MendProjectorUpdateTileProof"
+    },
+    "source_mend_projector_update_tile_advance_result.charge": {
+      "status": "source-backed",
+      "godot_owner": "SourceMendProjectorBuildState.source_mend_projector_update_tile_advance_state",
+      "godot_symbol": "source_mend_projector_update_tile_advance_result.charge",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "java_method": "MendBuild.updateTile()",
+      "java_expr": "charge += heat * delta();",
+      "rule": "The charge after one tick (MendProjector.java:98, 103-105): advanced by the new heat times the scaled delta(), then reset to 0f when it reaches the per-def reload while canHeal holds -- the reset precedes the deferred heal scan.",
+      "tests": [
+        "test_c07_mend_projector_update_tile_registration",
+        "test_all_c07_mend_projector_update_tile_input_evidence_is_exact",
+        "test_mend_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_mend_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07MendProjectorUpdateTileProof"
+    },
+    "source_mend_projector_update_tile_advance_result.phase_heat": {
+      "status": "source-backed",
+      "godot_owner": "SourceMendProjectorBuildState.source_mend_projector_update_tile_advance_state",
+      "godot_symbol": "source_mend_projector_update_tile_advance_result.phase_heat",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "java_method": "MendBuild.updateTile()",
+      "java_expr": "phaseHeat = Mathf.lerpDelta(phaseHeat, optionalEfficiency, 0.1f);",
+      "rule": "The phase heat after one tick (MendProjector.java:100): lerped toward the frame optionalEfficiency at 0.1f by the unscaled Time.delta.",
+      "tests": [
+        "test_c07_mend_projector_update_tile_registration",
+        "test_all_c07_mend_projector_update_tile_input_evidence_is_exact",
+        "test_mend_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_mend_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07MendProjectorUpdateTileProof"
+    },
+    "source_overdrive_projector_update_tile_advance_state_result.advanced": {
+      "status": "source-backed",
+      "godot_owner": "SourceOverdriveProjectorBuildState.source_overdrive_projector_update_tile_advance_state",
+      "godot_symbol": "source_overdrive_projector_update_tile_advance_state_result.advanced",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "java_method": "OverdriveBuild.updateTile()",
+      "java_expr": "smoothEfficiency = Mathf.lerpDelta(smoothEfficiency, efficiency, 0.08f);",
+      "rule": "The advanced frame fields (OverdriveProjector.java:97-120, in exact Java order): smooth_efficiency and heat lerped toward their targets, charge advanced on raw Time.delta and reset at reload, phase_heat lerped toward optionalEfficiency when hasBoost, use_progress advanced on delta() and wrapped at useTime.",
+      "tests": [
+        "test_c07_overdrive_projector_update_tile_registration",
+        "test_all_c07_overdrive_projector_update_tile_input_evidence_is_exact",
+        "test_overdrive_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_overdrive_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07OverdriveProjectorUpdateTileProof"
+    },
+    "source_overdrive_projector_update_tile_advance_state_result.charge_ready": {
+      "status": "source-backed",
+      "godot_owner": "SourceOverdriveProjectorBuildState.source_overdrive_projector_update_tile_advance_state",
+      "godot_symbol": "source_overdrive_projector_update_tile_advance_state_result.charge_ready",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "java_method": "OverdriveBuild.updateTile()",
+      "java_expr": "charge = 0f;",
+      "rule": "Whether the charge reached reload this tick (OverdriveProjector.java:111-112): the boost-fire signal -- the reset already happened, and the deferred boost application (OverdriveProjector.java:113) is what would fire on it.",
+      "tests": [
+        "test_c07_overdrive_projector_update_tile_registration",
+        "test_all_c07_overdrive_projector_update_tile_input_evidence_is_exact",
+        "test_overdrive_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_overdrive_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07OverdriveProjectorUpdateTileProof"
+    },
+    "source_overdrive_projector_update_tile_advance_state_result.use_ready": {
+      "status": "source-backed",
+      "godot_owner": "SourceOverdriveProjectorBuildState.source_overdrive_projector_update_tile_advance_state",
+      "godot_symbol": "source_overdrive_projector_update_tile_advance_state_result.use_ready",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "java_method": "OverdriveBuild.updateTile()",
+      "java_expr": "useProgress %= useTime;",
+      "rule": "Whether useProgress reached useTime this tick (OverdriveProjector.java:118-120): the consume-fire signal -- the wrap already happened, and the deferred consume() (OverdriveProjector.java:119) is what would fire on it.",
+      "tests": [
+        "test_c07_overdrive_projector_update_tile_registration",
+        "test_all_c07_overdrive_projector_update_tile_input_evidence_is_exact",
+        "test_overdrive_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_overdrive_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07OverdriveProjectorUpdateTileProof"
+    },
+    "source_beam_drill_update_tile_advance_state_result.warmup": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_update_tile_advance_state",
+      "godot_symbol": "source_beam_drill_update_tile_advance_state_result.warmup",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.updateTile()",
+      "java_expr": "warmup = Mathf.approachDelta(warmup, Mathf.num(efficiency > 0), 1f / 60f);",
+      "rule": "The advanced warmup (BeamDrill.java:242): approachDelta toward num(efficiency > 0) at 1f/60f per tick -- 1.0 when powered, 0.0 when not.",
+      "tests": [
+        "test_c07_beam_drill_update_tile_registration",
+        "test_all_c07_beam_drill_update_tile_input_evidence_is_exact",
+        "test_beam_drill_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_beam_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BeamDrillUpdateTileProof"
+    },
+    "source_beam_drill_update_tile_advance_state_result.boost_warmup": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_update_tile_advance_state",
+      "godot_symbol": "source_beam_drill_update_tile_advance_state_result.boost_warmup",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.updateTile()",
+      "java_expr": "boostWarmup = Mathf.lerpDelta(boostWarmup, optionalEfficiency, 0.1f);",
+      "rule": "The advanced boost warmup (BeamDrill.java:248): lerpDelta toward optionalEfficiency at 0.1f -- tracks the boost level.",
+      "tests": [
+        "test_c07_beam_drill_update_tile_registration",
+        "test_all_c07_beam_drill_update_tile_input_evidence_is_exact",
+        "test_beam_drill_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_beam_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BeamDrillUpdateTileProof"
+    },
+    "source_beam_drill_update_tile_advance_state_result.multiplier": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_update_tile_advance_state",
+      "godot_symbol": "source_beam_drill_update_tile_advance_state_result.multiplier",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.updateTile()",
+      "java_expr": "float multiplier = Mathf.lerp(1f, optionalBoostIntensity, optionalEfficiency);",
+      "rule": "The boost multiplier (BeamDrill.java:246): lerp(1, 2.5, optionalEfficiency) with the class optionalBoostIntensity 2.5f (BeamDrill.java:44), shared by both defs.",
+      "tests": [
+        "test_c07_beam_drill_update_tile_registration",
+        "test_all_c07_beam_drill_update_tile_input_evidence_is_exact",
+        "test_beam_drill_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_beam_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BeamDrillUpdateTileProof"
+    },
+    "source_beam_drill_update_tile_advance_state_result.time": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_update_tile_advance_state",
+      "godot_symbol": "source_beam_drill_update_tile_advance_state_result.time",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.updateTile()",
+      "java_expr": "time += edelta() * multiplier;",
+      "rule": "The advanced drill time (BeamDrill.java:251): time += efficiency * Time.delta * timeScale * multiplier; grows unbounded until the reset slice lands (the drop loop + time %= drillTime reset need lastItem).",
+      "tests": [
+        "test_c07_beam_drill_update_tile_registration",
+        "test_all_c07_beam_drill_update_tile_input_evidence_is_exact",
+        "test_beam_drill_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_beam_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BeamDrillUpdateTileProof"
     }
   },
   "version": 1

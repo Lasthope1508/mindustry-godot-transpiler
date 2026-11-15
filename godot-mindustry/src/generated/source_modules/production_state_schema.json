@@ -76,6 +76,41 @@
         }
       }
     },
+    "source_beam_drill_update_tile_advance_state_input": {
+      "canonical_schema": "source_state_schema.source_beam_drill_update_tile_advance_state_input",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "warmup = Mathf.approachDelta(warmup, Mathf.num(efficiency > 0), 1f / 60f);",
+          "rule": "The building frame carrying the folded efficiency / optional_efficiency (stamped by apply_update_consumption_state) and the current warmup / boost_warmup / time; missing keys default to 0.0, the Java field defaults (BuildingComp.java:85/87, BeamDrill.java:225-226).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_update_tile_advance_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26): the delta the Arc approachDelta / lerpDelta formulas scale by (Mathf.java:420-432).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_update_tile_advance_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live timeScale read from the sprite meta (SourcePlacedBlockState.time_scale), default 1.0 (BuildingComp.java:98): delta() = Time.delta * timeScale (BuildingComp.java:1922-1924).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_update_tile_advance_state"
+          ]
+        }
+      }
+    },
     "source_block_has_liquids_input": {
       "canonical_schema": "source_state_schema.source_block_has_liquids_input",
       "keys": {
