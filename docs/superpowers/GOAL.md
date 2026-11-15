@@ -309,6 +309,7 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
   audit 1336, legacy 0. DEFERRED gộp sau wave: 294 entries (283 − 11
   resolved + 22 new, diff 3 chiều với base unification). Nợ Godot: 66 →
   73 proofs + 1 re-run (N2196).
+- **Wave second-consumers-1 {N2249 UnitCargoLoader nitrogen, N2250 RepairTower ozone, N2251 BuildTurret nitrogen, N2252 Separator slag, N2253 LaunchPad oil, N2254 ImpactReactor cryofluid, N2255 Fracker water} required ConsumeLiquid rows — N2249 DONE** trên branch `slice/N2249-unit-cargo-loader-liquid-row` (đã push; hash điền khi tích hợp): pure liquid row mirror ConsumeLiquid.efficiency (ConsumeLiquid.java:42-47) + tick wiring (frame liquids sync trước fold, gate mở rộng power-or-liquid) + second-pass removal trực tiếp sau apply_update_consumption_state (AdjacentFactory updates-actor precedent không vừa — driver không có RuntimeConsumer actor infra). Targeted 3/4 PASS + proof Godot-absent; sibling N2165 + N2211 + N2234 9/12 PASS (3 proof Godot-absent), 0 lỗi khác. SSOT slice riêng +2/+1/+1/+2 → 11708/1699/1621/3033, audit 1336, no shard changes. DEFERRED 294 (294 − 1 + 1). Nợ Godot: 73 → 74 proofs + 1 re-run (N2196) khi wave gộp xong sẽ lên 80.
 - **Tiếp theo:** units → updateTile advances → second consumers (xem
   `DESIGN-frame-state-infra.md` trong `~/workspace/mindustry-parallel/`).
 - **KHÔNG chạy Godot ở VM này** (chỉ đạo user 2026-11-15, ưu tiên cao): mọi
@@ -1076,6 +1077,16 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
     `slice/N2248-unit-assembler-module-update-tile` (integration cherry-pick `2c3ded1b`).
     Trạng thái "chờ agent Godot test". Chạy: targeted test
     `tests.test_c07_unit_assembler_module_update_tile` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2249 `C07UnitCargoLoaderLiquidRowProof` — CHƯA CHẠY ở đâu (6 key:
+    `row_folds_below_one_when_starved`, `row_caps_at_one_when_full`,
+    `row_zeroes_when_edelta_zero`, `row_zeroes_without_liquid`,
+    `live_tick_folds_liquid_row`, `live_tick_removes_liquid_when_running`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit trên
+    `slice/N2249-unit-cargo-loader-liquid-row` (hash điền khi tích hợp).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_unit_cargo_loader_liquid_row` với Godot 4.6.2 trên PATH,
     port 7777 trống.
   - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
     trên (ghi rõ commit đưa scene tới Windows).
