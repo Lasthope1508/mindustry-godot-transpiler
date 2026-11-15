@@ -1,6 +1,6 @@
 # Handoff — N2194 ShockwaveTower fire gate
 
-Date: 2026-11-15. Batch: N2194 (single slice). Status: **DONE — targeted 4/4 OK, proof 9 keys matches:true, neighbours 48/48 OK; gate attempt 2 FINISHED (Ran 5869, failures=144, skipped=5, 0 errors — all Godot-absent); slice commit `a0a59cb`; docs in progress; NOT yet pushed.**
+Date: 2026-11-15. Batch: N2194 (single slice). Status: **DONE — targeted 4/4 OK, proof 9 keys matches:true, neighbours 48/48 OK; gate attempt 2 FINISHED (Ran 5869, failures=144, skipped=5, 0 errors — all Godot-absent); slice commit `a0a59cb`, docs `188c3f5`, GOAL `d2e989a`. Push follows in this tick.**
 
 ## GREEN (this run, 19:15 +07 tick)
 
@@ -227,6 +227,23 @@ Date: 2026-11-15. Batch: N2194 (single slice). Status: **DONE — targeted 4/4 O
 
 - PID 18350 alive, elapsed 07:44 at check; log `full-suite-n2194-gate.log` at 5526 bytes: 5393 dots + 128 F + 0 E + 5 s ≈ 5526/5869 tests, ~340 left. Uptime 2:18, no VM restart. Tick is doing a bounded 180s wait to see if the gate lands inside this tick; if not, the 19:45 tick takes the footer → report/spec/GOAL → push.
 - Update 19:33: after the 180s wait the gate is STILL running (PID 18350, elapsed 11:24, 99.3% CPU — actively computing, not I/O-stuck); log only 5526 → 5543 bytes (5410 dots + 128 F + 0 E + 5 s), ~17 tests in 220s — the suite tail is slow (heavy tail tests). Prior gates took ~977s total, so finish expected ~19:39–19:40; the 19:45 tick checks the footer. Do NOT touch the gate (main-thread launch).
+
+## DONE this run (19:5x +07 tick)
+
+- Full gate attempt 2 finished ~19:40 (see "Gate attempt 2 FINISHED" below) →
+  report
+  (`docs/superpowers/reports/2026-11-15-c07-shockwave-tower-fire.md`)
+  → spec (Done/ledger 1643 → 1644 + N2194 row, in the docs commit — the
+  N2190 miss is NOT repeated) → GOAL.md §5 (Windows proof stays debt) →
+  slice commit `a0a59cb` (11 files, +1197) → docs `188c3f5` + GOAL
+  `d2e989a` commits → this hash-naming commit → push to origin main in
+  this tick (origin/main re-checked before push: still f324d96).
+- **Next after N2194:** the ShockwaveTower fire follow-ups (live bullet
+  scan stamping `targets_count`, wave damage application, Fx/sound/shake,
+  shockwaveTowerUse event, timer cadence), then BuildTurret shouldConsume,
+  ShieldWall broken(), MassDriver / LaunchPad rows, RepairTurret coolant,
+  the Units.nearby live query — each its own slice; or C08 inventory
+  when asked.
 
 ## Gate attempt 2 FINISHED (19:45 +07 tick)
 

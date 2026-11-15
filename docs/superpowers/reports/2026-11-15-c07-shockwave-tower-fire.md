@@ -30,8 +30,8 @@ Tests written first per the slice process; the handoff's RED decisions section r
 ## Commits
 
 - Slice: `a0a59cb` — C07: N2194 ShockwaveTower fire gate (pure function + driver line; proof 6 keys), 11 files, +1197.
-- Docs: `TBD` — Docs: N2194 report + handoff + design spec (gate clean except Godot).
-- GOAL: `TBD` — Docs: GOAL.md names the N2194 slice commit that carries its proof to Windows.
+- Docs: `188c3f5` — Docs: N2194 report + handoff + design spec (gate clean except Godot).
+- GOAL: `d2e989a` — Docs: GOAL.md names the N2194 slice commit that carries its proof to Windows.
 - Pushed 2026-11-15 ~19:5x +07 to the fork (Lasthope1508). See the handoff Commits section for the hashes.
 
 ## Deferred (NOT this slice)
