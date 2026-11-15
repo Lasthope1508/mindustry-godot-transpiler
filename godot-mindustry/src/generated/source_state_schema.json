@@ -231540,6 +231540,102 @@
       },
       "runtime_proof": "/root/C07ConstructorShouldConsumeProof",
       "rule": "Source-backed BlockProducer (Constructor) shouldConsume gate from BlockProducer.java / Constructor.java / BuildingComp.java / Blocks.java."
+    },
+    "source_point_defense_turret_should_consume_state_input": {
+      "status": "active",
+      "owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_should_consume_state",
+      "source_slice": "N2217",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "return super.shouldConsume() && target != null;",
+          "rule": "The building frame carrying the live bullet target (frame[\"target\"], default null -- the Java field `public @Nullable Bullet target;`, PointDefenseTurret.java:59, defaults to null) and the enabled flag (frame[\"enabled\"], default true -- BuildingComp.java:77, `transient boolean enabled = true;`): the gate reads only the null-ness of the target key plus enabled; no live fill sets frame[\"target\"] yet, so a live segment with no fill reads null and does not consume.",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PointDefenseTurretShouldConsumeProof",
+      "rule": "Source-backed PointDefenseTurret shouldConsume gate from PointDefenseTurret.java / BuildingComp.java / Blocks.java."
+    },
+    "source_point_defense_turret_should_consume_state_result": {
+      "status": "active",
+      "owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_should_consume_state",
+      "source_slice": "N2217",
+      "keys": {
+        "should_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "return super.shouldConsume() && target != null;",
+          "rule": "The shouldConsume gate (PointDefenseTurret.java:105-107): true while a bullet target is locked AND the building is enabled, false with no target or while disabled; when false, updateConsumption forces efficiency to zero (BuildingComp.java:1960 + 1992-1994).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_should_consume_state"
+          ]
+        },
+        "has_target": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "public @Nullable Bullet target;",
+          "rule": "Whether the frame holds a bullet target (PointDefenseTurret.java:59, the target field): the null-ness the gate reads -- true when an enemy bullet is locked (gate true when enabled), false with no target (gate false).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PointDefenseTurretShouldConsumeProof",
+      "rule": "Source-backed PointDefenseTurret shouldConsume gate from PointDefenseTurret.java / BuildingComp.java / Blocks.java."
+    },
+    "source_tractor_beam_turret_should_consume_state_input": {
+      "status": "active",
+      "owner": "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_should_consume_state",
+      "source_slice": "N2218",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_expr": "return super.shouldConsume() && target != null;",
+          "rule": "The building frame carrying the live target (frame[\"target\"], default null -- the Java field `public @Nullable Unit target;`, TractorBeamTurret.java:72, defaults to null) and the enabled flag (frame[\"enabled\"], default true -- BuildingComp.java:77, `transient boolean enabled = true;`): the gate reads only the null-ness of the target key plus enabled; no live fill sets frame[\"target\"] yet, so a live parallax with no fill reads null and does not consume.",
+          "used_by": [
+            "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TractorBeamTurretShouldConsumeProof",
+      "rule": "Source-backed TractorBeamTurret shouldConsume gate from TractorBeamTurret.java / BaseTurret.java / BuildingComp.java / Blocks.java."
+    },
+    "source_tractor_beam_turret_should_consume_state_result": {
+      "status": "active",
+      "owner": "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_should_consume_state",
+      "source_slice": "N2218",
+      "keys": {
+        "should_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_expr": "return super.shouldConsume() && target != null;",
+          "rule": "The shouldConsume gate (TractorBeamTurret.java:141-143): true while a unit target is locked AND the building is enabled (super is the BuildingComp default `return enabled;`, BuildingComp.java:755-756), false with no target or while disabled; when false, updateConsumption forces efficiency to zero (BuildingComp.java:1960 + 1992-1994).",
+          "used_by": [
+            "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_should_consume_state"
+          ]
+        },
+        "has_target": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_expr": "public @Nullable Unit target;",
+          "rule": "Whether the frame holds a target (TractorBeamTurret.java:72, the target field -- a Unit): the null-ness the gate reads -- true when a unit is locked (gate true when enabled), false with no target (gate false).",
+          "used_by": [
+            "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TractorBeamTurretShouldConsumeProof",
+      "rule": "Source-backed TractorBeamTurret shouldConsume gate from TractorBeamTurret.java / BaseTurret.java / BuildingComp.java / Blocks.java."
     }
   },
   "version": 1

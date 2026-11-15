@@ -66756,6 +66756,58 @@
       ],
       "runtime_proof": "/root/C07ConstructorShouldConsumeProof",
       "rule": "Source-backed BlockProducer (Constructor) shouldConsume gate from BlockProducer.java / Constructor.java / BuildingComp.java / Blocks.java."
+    },
+    "SourcePointDefenseTurretBuildState.source_point_defense_turret_should_consume_state": {
+      "status": "active",
+      "source_slice": "N2217",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "source_method": "PointDefenseBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_point_defense_turret_should_consume_state_input.frame"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "should_consume",
+        "has_target"
+      ],
+      "tests": [
+        "test_c07_point_defense_turret_should_consume_registration",
+        "test_all_c07_point_defense_turret_should_consume_input_evidence_is_exact",
+        "test_point_defense_turret_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_should_consume"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretShouldConsumeProof",
+      "rule": "Source-backed PointDefenseTurret shouldConsume gate from PointDefenseTurret.java / BuildingComp.java / Blocks.java."
+    },
+    "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_should_consume_state": {
+      "status": "active",
+      "source_slice": "N2218",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "source_method": "TractorBeamBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_tractor_beam_turret_should_consume_state_input.frame"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "should_consume",
+        "has_target"
+      ],
+      "tests": [
+        "test_c07_tractor_beam_turret_should_consume_registration",
+        "test_all_c07_tractor_beam_turret_should_consume_input_evidence_is_exact",
+        "test_tractor_beam_turret_should_consume_gate_state",
+        "test_reference_graph_and_actual_c07_tractor_beam_turret_should_consume"
+      ],
+      "runtime_proof": "/root/C07TractorBeamTurretShouldConsumeProof",
+      "rule": "Source-backed TractorBeamTurret shouldConsume gate from TractorBeamTurret.java / BaseTurret.java / BuildingComp.java / Blocks.java."
     }
   },
   "policy": {
