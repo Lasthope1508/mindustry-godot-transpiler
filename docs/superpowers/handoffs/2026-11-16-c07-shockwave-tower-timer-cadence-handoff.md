@@ -109,5 +109,5 @@ Gate footer READ ~02:50 (attempt 4, PID 3399): Ran 5893, failures=150, skipped=5
 ## Gate attempt 4 FINISHED (02:50 +07 tick)
 
 - Gate attempt 4 (main thread, PID 3399, SID 3399, ~02:34): FINISHED ~02:50: **Ran 5893 in 990.017s, FAILED (failures=150, skipped=5), 0 errors** — all 150 `AssertionError: unexpectedly None` (Godot-absent, `assertIsNotNone(godot)`), 0 lines `ERROR:`, 150 tracebacks (one per failure). +1 failure vs N2199 (149 → 150) is the new N2200 proof test, also Godot-absent in the gate. Log `full-suite-n2200-gate.log` (102298 bytes). No new restart (uptime 42 min, same boot 19:18 UTC = restart #17). javalang 0.13.0 importable. Port 7777 FREE.
-- Push only after gate verified: report → spec (Done/ledger 1649 → 1650 + N2200 row) → GOAL.md §5 (Windows proof stays debt) → slice commit + docs + GOAL + hash-naming commits → push to origin main (re-check origin/main before push).
+- Push only after gate verified: report → spec (Done/ledger 1649 → 1650 + N2200 row) → GOAL.md §5 (Windows proof stays debt) → slice commit `9e0ee48` + docs `1136e56` + GOAL `47d4648` + hash-naming commits → push to origin main (re-check origin/main before push).
 - Worktree unchanged from the verified GREEN state; origin/main still ca22949 at the 03:00 fetch.

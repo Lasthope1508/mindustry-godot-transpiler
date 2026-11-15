@@ -26,7 +26,7 @@ Full gate `python3 -m unittest discover -s tests`, attempt 4 launched from the M
 
 ## PUSH (gate verified ~02:50 +07)
 
-Gate clean except Godot (Ran 5893, failures=150 all Godot-absent, skipped=5, 0 errors). Spec updated in the docs commit (Done/ledger 1649 → 1650 + N2200 row); GOAL.md §5 keeps the Windows proof as debt. Slice commit → docs commit → GOAL commit → hash-naming commit → handoff-status commit → push to origin main in this tick (origin/main re-checked before push: still ca22949).
+Gate clean except Godot (Ran 5893, failures=150 all Godot-absent, skipped=5, 0 errors). Spec updated in the docs commit (Done/ledger 1649 → 1650 + N2200 row); GOAL.md §5 keeps the Windows proof as debt. Slice `9e0ee48` (12 files, +1435) → docs `1136e56` + GOAL `47d4648` → this hash-naming commit → handoff-status commit → push to origin main in this tick (origin/main re-checked before push: still ca22949).
 
 ## Deferred (NOT this slice)
 
