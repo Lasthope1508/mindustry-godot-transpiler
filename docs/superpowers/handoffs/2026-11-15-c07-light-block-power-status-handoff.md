@@ -1,6 +1,6 @@
 # Handoff — N2185 LightBlock power.status live read
 
-Date: 2026-11-15. Batch: N2185 (single slice). Status: **DONE — push next (gate clean except Godot; slice ffe1153 committed, docs in progress).**
+Date: 2026-11-15. Batch: N2185 (single slice). Status: **DONE + PUSHED (gate clean except Godot; slice ffe1153, docs 1c161f8, GOAL 60a4a8e).**
 
 ## Scoping (DONE 2026-11-15 ~07:5x +07)
 
@@ -58,9 +58,9 @@ See `register_c07_light_block_power_status.py` EXACT_EXPRS (82 entries, includin
 ## Commits
 
 - Slice: `ffe1153` — C07: N2185 LightBlock power.status live read (illuminator; pure power row + driver wiring; proof 6 keys), 13 files.
-- Docs: (this commit) — Docs: N2185 report + design spec + handoff (gate clean except Godot).
-- GOAL: (next commit) — Docs: GOAL.md names the N2185 slice commit that carries its proof to Windows.
-- Status: (final commit) — Docs: N2185 handoff Commits records DONE + PUSHED (slice <hash>, docs <hash>, GOAL <hash>).
+- Docs: `1c161f8` — Docs: N2185 report + design spec + handoff (gate clean except Godot).
+- GOAL: `60a4a8e` — Docs: GOAL.md names the N2185 slice commit that carries its proof to Windows.
+- Status: (this commit) — Docs: N2185 handoff Commits records DONE + PUSHED (slice ffe1153, docs 1c161f8, GOAL 60a4a8e).
 
 ## Neighbours (DONE 2026-11-15 ~08:2x +07, log `n2185-neighbours.log`)
 
