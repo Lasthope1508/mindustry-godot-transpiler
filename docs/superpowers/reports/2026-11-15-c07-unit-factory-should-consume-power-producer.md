@@ -30,8 +30,8 @@ What N2189 adds (one file, +19 lines):
 ## Commits
 
 - Slice: `bcde8e4` — C07: N2189 Give C06UnitFactoryShouldConsumeProof a power producer (proof-harness-only; proof 45 keys), 1 file.
-- Docs: `TBD` — Docs: N2189 report + handoff (gate clean except Godot).
-- GOAL: `TBD` — Docs: GOAL.md names the N2189 slice commit that carries its proof to Windows.
+- Docs: `0607d3e` — Docs: N2189 report + handoff (gate clean except Godot).
+- GOAL: `32a13c8` — Docs: GOAL.md names the N2189 slice commit that carries its proof to Windows.
 - Pushed 2026-11-15 ~14:0x +07 to the fork (Lasthope1508). See the handoff Commits section for the hashes.
 
 ## Deferred (NOT this slice)
