@@ -173496,6 +173496,38 @@
         "test_reference_graph_and_actual_c07_shockwave_tower_use_event"
       ],
       "runtime_proof": "/root/C07ShockwaveTowerUseEventProof"
+    },
+    "source_shockwave_tower_timer_state_result.check_due": {
+      "status": "source-backed",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_timer_state",
+      "godot_symbol": "source_shockwave_tower_timer_state_result.check_due",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.updateTile()",
+      "java_expr": "if(potentialEfficiency > 0 && (reloadCounter += edelta()) >= reload && timer(timerCheck, checkInterval)){",
+      "rule": "Whether the timer check is due (ShockwaveTower.java:73, the third conjunct of the fire gate): true when the gate is open (potential_efficiency > 0 AND reload_counter >= 80.0, the per-def reload, Blocks.java:2044, `reload = 80f;`) AND the interval elapsed (timer_elapsed >= 8.0, the Interval.check `>=`, Interval.java:29, `return Time.time - times[id] >= time || Time.time < times[id];`) -- or the frame is fresh (no `timer_elapsed` key). The driver stamps this on the frame as `timer_check_due` and runs the N2195 scan ONLY when it is due; the N2194 fire fires only when it is true (absent means due, the backward-compatible default for N2194's direct calls).",
+      "tests": [
+        "test_c07_shockwave_tower_timer_cadence_registration",
+        "test_all_c07_shockwave_tower_timer_cadence_input_evidence_is_exact",
+        "test_shockwave_tower_timer_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_timer_cadence"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerTimerCadenceProof"
+    },
+    "source_shockwave_tower_timer_state_result.timer_elapsed": {
+      "status": "source-backed",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_timer_state",
+      "godot_symbol": "source_shockwave_tower_timer_state_result.timer_elapsed",
+      "java_source": "arc-core/src/arc/util/Interval.java",
+      "java_method": "ShockwaveTowerBuild.updateTile()",
+      "java_expr": "if(got) times[id] = Time.time;",
+      "rule": "The elapsed clock in port-seconds since the last due check (the Interval slot, Interval.java:23-24, `boolean got = check(id, time);` / `if(got) times[id] = Time.time;` -- a due check restarts the clock at 0.0). The driver stamps this on the frame as `timer_elapsed`; on a not-due check the clock advances by the tick delta (the gate inputs stay open but the interval has not elapsed, or the gate is closed -- the elapsed clock keeps running while the gate is closed, so a check that was due while unpowered stays due when power returns). The backward-time clause (`Time.time < times[id]`, Interval.java:29) is not modeled: the port's relative clock never rewinds.",
+      "tests": [
+        "test_c07_shockwave_tower_timer_cadence_registration",
+        "test_all_c07_shockwave_tower_timer_cadence_input_evidence_is_exact",
+        "test_shockwave_tower_timer_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_timer_cadence"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerTimerCadenceProof"
     }
   },
   "version": 1

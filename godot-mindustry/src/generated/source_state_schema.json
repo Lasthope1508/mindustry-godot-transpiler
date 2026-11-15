@@ -230660,6 +230660,64 @@
       },
       "runtime_proof": "/root/C07ShockwaveTowerUseEventProof",
       "rule": "Source-backed ShockwaveTower use event from ShockwaveTower.java / BuildingComp.java."
+    },
+    "source_shockwave_tower_timer_state_input": {
+      "status": "active",
+      "owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_timer_state",
+      "source_slice": "N2200",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "if(potentialEfficiency > 0 && (reloadCounter += edelta()) >= reload && timer(timerCheck, checkInterval)){",
+          "rule": "The building frame carrying the gate inputs the timer consults: `potential_efficiency` (the consumption machinery stamps it each tick, BuildingComp.java:1989, `potentialEfficiency = efficiency;`) and `reload_counter` (the N2192 charge stamps it, starting from deterministic 0.0) plus the elapsed clock `timer_elapsed` (seconds since the last due check; absent on a fresh frame -- a fresh Interval, whose slots start at 0 over `times = new float[capacity];`, Interval.java:7, while global Time.time is long past 8 at any real placement -- so a fresh frame is due on its first gated consult). A closed gate never consumes the due-ness: the elapsed clock keeps running, so the check stays due until the gate opens.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_timer_state"
+          ]
+        },
+        "seconds": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/util/Time.java",
+          "java_expr": "Math.min(Core.graphics.getDeltaTime() * 60f, 3f)",
+          "rule": "The tick delta on the port's seconds driver clock (the N2190 refresh / N2192 charge precedent: the tick's `seconds` is the delta). Java Time.delta is a tick clock (`Math.min(Core.graphics.getDeltaTime() * 60f, 3f)`, Time.java:26, with `timeRaw += delta;` / `time = (float)timeRaw;`, Time.java:70-75), so checkInterval 8f runs as 8.0 port-seconds, keeping the Java ratio of 10 checks per 80-reload charge; Java wall time is 8 ticks ~= 0.13s. The elapsed clock advances by this delta on a not-due check and restarts at 0.0 on a due check.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_timer_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShockwaveTowerTimerCadenceProof",
+      "rule": "Source-backed ShockwaveTower timer cadence from ShockwaveTower.java / TimerComp.java / Interval.java / Time.java."
+    },
+    "source_shockwave_tower_timer_state_result": {
+      "status": "active",
+      "owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_timer_state",
+      "source_slice": "N2200",
+      "keys": {
+        "check_due": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "if(potentialEfficiency > 0 && (reloadCounter += edelta()) >= reload && timer(timerCheck, checkInterval)){",
+          "rule": "Whether the timer check is due (ShockwaveTower.java:73, the third conjunct of the fire gate): true when the gate is open (potential_efficiency > 0 AND reload_counter >= 80.0, the per-def reload, Blocks.java:2044, `reload = 80f;`) AND the interval elapsed (timer_elapsed >= 8.0, the Interval.check `>=`, Interval.java:29, `return Time.time - times[id] >= time || Time.time < times[id];`) -- or the frame is fresh (no `timer_elapsed` key). The driver stamps this on the frame as `timer_check_due` and runs the N2195 scan ONLY when it is due; the N2194 fire fires only when it is true (absent means due, the backward-compatible default for N2194's direct calls).",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_timer_state"
+          ]
+        },
+        "timer_elapsed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/util/Interval.java",
+          "java_expr": "if(got) times[id] = Time.time;",
+          "rule": "The elapsed clock in port-seconds since the last due check (the Interval slot, Interval.java:23-24, `boolean got = check(id, time);` / `if(got) times[id] = Time.time;` -- a due check restarts the clock at 0.0). The driver stamps this on the frame as `timer_elapsed`; on a not-due check the clock advances by the tick delta (the gate inputs stay open but the interval has not elapsed, or the gate is closed -- the elapsed clock keeps running while the gate is closed, so a check that was due while unpowered stays due when power returns). The backward-time clause (`Time.time < times[id]`, Interval.java:29) is not modeled: the port's relative clock never rewinds.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_timer_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShockwaveTowerTimerCadenceProof",
+      "rule": "Source-backed ShockwaveTower timer cadence from ShockwaveTower.java / TimerComp.java / Interval.java / Time.java."
     }
   },
   "version": 1

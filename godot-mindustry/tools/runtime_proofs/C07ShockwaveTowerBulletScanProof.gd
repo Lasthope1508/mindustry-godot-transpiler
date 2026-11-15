@@ -132,9 +132,13 @@ func _ready() -> void:
 	# same-team hittable bullet at the tower, one enemy
 	# non-hittable bullet at the tower, one enemy hittable
 	# bullet out of range at (395, 168) (+171) -- so the driver
-	# stamps targets_count 1. The reload counter is left absent
-	# (0.0), so the N2194 fire does not run and cannot disturb
-	# the stamped count.
+	# stamps targets_count 1. The reload counter is preset to
+	# 80.0 (per-def reload, Blocks.java:2044) so the N2200 timer
+	# check is due on the fresh frame and the scan runs (Java
+	# :74-79 live inside the :73 if, so the scan runs only on a
+	# due timer tick); the N2194 fire fires this tick (PE 1.0,
+	# counter at reload, targets 1) but the fire does not touch
+	# the stamped targets_count.
 	shockwave_tower_frame["observed_bullets"] = [
 		{"team": 2, "hittable": true, "x": 324.0, "y": 168.0},
 		{"team": 1, "hittable": true, "x": 224.0, "y": 168.0},
@@ -143,6 +147,7 @@ func _ready() -> void:
 	]
 	shockwave_tower_frame["power_status"] = 1.0
 	shockwave_tower_frame["enabled"] = true
+	shockwave_tower_frame["reload_counter"] = 80.0
 	shockwave_tower_build_state.source_shockwave_tower_tick_buildings_state(game, 1.0 / 60.0)
 	shockwave_tower_frame = shockwave_tower.get_meta(shockwave_tower_build_state.SOURCE_SHOCKWAVE_TOWER_BUILDING_META_KEY, {})
 	proof["live_driver_stamps_targets_count"] = int(shockwave_tower_frame.get("targets_count", -1)) == 1

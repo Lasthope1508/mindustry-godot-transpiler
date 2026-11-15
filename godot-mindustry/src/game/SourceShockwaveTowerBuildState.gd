@@ -169,13 +169,11 @@ static func source_shockwave_tower_bullet_scan_state(frame: Dictionary) -> Dicti
 	# Java intersect rect -- the port models no bullet hitSize, so
 	# the rect overlap is approximated by the bullet point, a
 	# documented limit owned by a later bullet-hitSize slice.
-	# The scan runs every tick in the driver (after the N2192
-	# charge, before the N2194 fire) -- Java scans only when the
-	# fire gate (:73) is true, but the port's timer cadence is
-	# already deferred (N2194: the port fires on the first tick at
-	# reload), so a fresh scan every tick is observably equivalent
-	# for the fire decision, and the timer-gated scan cadence waits
-	# for the per-building-timer slice with the timer itself.
+	# The driver runs the scan after the N2192 charge and before
+	# the N2194 fire, ONLY when the N2200 timer check is due
+	# (Java :74-79 live inside the :73 if, so Java scans only on
+	# a timer tick) -- a skipped scan stamps nothing, so the frame
+	# keeps the previous `targets_count` until the next due tick.
 	# Absent `observed_bullets` (or absent `x`/`y`/`team_id`)
 	# means "no observation yet": the function returns
 	# targets_count null and has_targets_count false, and the
@@ -224,15 +222,17 @@ static func source_shockwave_tower_fire_state(frame: Dictionary, delta: float) -
 	# potentialEfficiency, not efficiency. The timer cadence
 	# (`timer(timerCheck, checkInterval)`, checkInterval 8f,
 	# ShockwaveTower.java:31; `public int timerCheck = timers ++;`,
-	# ShockwaveTower.java:23) is DEFERRED: the port tracks no
-	# per-building Interval state (`public boolean timer(int index, float time){` /
+	# ShockwaveTower.java:23) is N2200's
+	# source_shockwave_tower_timer_state: the per-building Interval
+	# state (`public boolean timer(int index, float time){` /
 	# `return timer.get(index, time);`, TimerComp.java:10-13, over
 	# `transient Interval timer = new Interval(6);`,
-	# TimerComp.java:9), so the port fires on the first tick the
-	# counter is at reload with targets observed, where Java fires
-	# only on a timer tick -- up to checkInterval (8 ticks) earlier,
-	# a documented fidelity gap owned by a later
-	# per-building-timer slice. The live bullet scan has NO frame
+	# TimerComp.java:9) runs on the port's seconds driver clock as
+	# an 8.0s interval, and the driver stamps `timer_check_due` on
+	# the frame -- the fire reads it here (absent means due, the
+	# backward-compatible default for N2194's direct calls) and
+	# fires only on a due tick, while the heat decay still runs
+	# every tick. The live bullet scan has NO frame
 	# input in the port, so the fire reads an observed
 	# `targets_count` key (the N2190 RepairTower precedent: stamped
 	# only when observed) and absent means no fire, never invented
@@ -297,8 +297,9 @@ static func source_shockwave_tower_fire_state(frame: Dictionary, delta: float) -
 	var potential_efficiency: float = float(frame.get("potential_efficiency", 0.0))
 	var heat: float = float(frame.get("heat", 0.0))
 	var observed_targets: Variant = frame.get("targets_count", null)
+	var timer_check_due: Variant = frame.get("timer_check_due", null)
 	var fired: bool = false
-	if potential_efficiency > 0.0 and reload_counter >= 80.0 and observed_targets != null and float(observed_targets) > 0.0:
+	if potential_efficiency > 0.0 and reload_counter >= 80.0 and (timer_check_due == null or bool(timer_check_due)) and observed_targets != null and float(observed_targets) > 0.0:
 		fired = true
 		heat = 1.0
 		reload_counter = 0.0
@@ -523,6 +524,76 @@ static func source_shockwave_tower_use_event_state(frame: Dictionary) -> Diction
 		return {"event": "shockwaveTowerUse", "event_fired": true}
 	return {"event": null, "event_fired": false}
 
+static func source_shockwave_tower_timer_state(frame: Dictionary, seconds: float) -> Dictionary:
+	# ShockwaveTowerBuild.updateTile fires its wave only when the
+	# reload counter reaches reload AND the per-building timer
+	# elapses (ShockwaveTower.java:73, `if(potentialEfficiency > 0 && (reloadCounter += edelta()) >= reload && timer(timerCheck, checkInterval)){` with :31, `public float
+	# checkInterval = 8f;`, and :23, `public int timerCheck
+	# = timers ++;`, over `public int timers = 0;`,
+	# Block.java:231). The timer consult is TimerComp.timer
+	# (`public boolean timer(int index, float time){` /
+	# `if(Float.isInfinite(time)) return false;` /
+	# `return timer.get(index, time);`,
+	# TimerComp.java:10-13, over
+	# `transient Interval timer = new Interval(6);`,
+	# TimerComp.java:9), and Interval.get stamps the slot
+	# on a due check (`boolean got = check(id, time);` /
+	# `if(got) times[id] = Time.time;`,
+	# Interval.java:23-24) when the global tick clock has
+	# advanced past the interval
+	# (`return Time.time - times[id] >= time || Time.time < times[id];`,
+	# Interval.java:29, over `times = new float[capacity];`,
+	# Interval.java:7 -- fresh slots start at 0) -- and
+	# Time.time is a tick clock
+	# (`Math.min(Core.graphics.getDeltaTime() * 60f, 3f)`,
+	# Time.java:26, with `timeRaw += delta;` /
+	# `time = (float)timeRaw;`, Time.java:70-75), so
+	# checkInterval 8f is 8 ticks ~= 0.13s in Java, and 8.0
+	# on the port's seconds driver clock (the N2190 refresh /
+	# N2192 charge precedent: the port's driver clock is
+	# seconds, so checkInterval 8f runs as 8.0 port-seconds,
+	# keeping the Java ratio of 10 checks per 80-reload
+	# charge).
+	# The pure function takes the frame and the tick delta
+	# and returns `{"check_due": bool, "timer_elapsed":
+	# float}`: due when the gate is open
+	# (potential_efficiency > 0 AND reload_counter >=
+	# 80.0, the per-def reload, Blocks.java:2044, `reload =
+	# 80f;`) AND the interval elapsed (timer_elapsed >=
+	# 8.0, the Interval.check `>=`); a fresh frame (no
+	# `timer_elapsed` key -- a fresh Interval while global
+	# Time.time is long past 8 at any real placement) is due
+	# on its first gated consult; a due check restarts the
+	# elapsed clock at 0.0 (the `if(got) times[id] =
+	# Time.time;` stamp); a closed gate never consumes the
+	# due-ness -- the elapsed clock keeps running, so a
+	# check that was due while unpowered stays due when
+	# power returns (the Interval property: the timer is
+	# only consulted when the first two conjuncts hold, and
+	# Time.time keeps advancing while they do not). The
+	# backward-time clause (`Time.time < times[id]`) is
+	# NOT modeled: the port's relative clock never rewinds.
+	# The driver calls the timer AFTER the N2192 charge
+	# (the Java order: the charge runs inside the gate
+	# condition before the timer consult) and BEFORE the
+	# N2195 scan, stamps `timer_elapsed` and
+	# `timer_check_due` on the frame, and runs the scan
+	# ONLY when the check is due (Java :74-79 live inside
+	# the :73 if); the N2194 fire still runs every tick for
+	# its heat decay (ShockwaveTower.java:104) but fires
+	# only when `timer_check_due` is true (absent means due,
+	# the backward-compatible default for N2194's direct
+	# calls). No RNG.
+	var elapsed_raw: Variant = frame.get("timer_elapsed", null)
+	var potential_efficiency: float = float(frame.get("potential_efficiency", 0.0))
+	var reload_counter: float = float(frame.get("reload_counter", 0.0))
+	var elapsed_value: float = 0.0 if elapsed_raw == null else float(elapsed_raw)
+	elapsed_value += seconds
+	var gate_open: bool = potential_efficiency > 0.0 and reload_counter >= 80.0
+	if gate_open and (elapsed_raw == null or elapsed_value >= 8.0):
+		return {"check_due": true, "timer_elapsed": 0.0}
+	return {"check_due": false, "timer_elapsed": elapsed_value}
+
 @warning_ignore("unused_parameter")
 static func source_shockwave_tower_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the shockwave-tower tick wiring every
@@ -583,6 +654,23 @@ static func source_shockwave_tower_tick_buildings_state(game: Object, seconds: f
 			# `reload_counter` key.
 			var charged: Dictionary = source_shockwave_tower_charge_state(frame, seconds)
 			frame["reload_counter"] = charged.get("reload_counter", 0.0)
+			# The timer cadence (N2200): the third conjunct of
+			# the fire gate (ShockwaveTower.java:73,
+			# `if(potentialEfficiency > 0 && (reloadCounter += edelta()) >= reload && timer(timerCheck, checkInterval)){`),
+			# so the driver calls the timer AFTER the N2192 charge
+			# (the Java order: the charge runs inside the gate
+			# condition before the timer consult) and BEFORE the
+			# N2195 scan, stamping `timer_elapsed` and
+			# `timer_check_due` on the frame. The scan runs ONLY
+			# when the check is due (Java :74-79 live inside the
+			# :73 if); the N2194 fire reads the stamped
+			# `timer_check_due` (absent means due) and fires only
+			# on a due tick, while its heat decay still runs every
+			# tick. The tick's `seconds` is the delta (the N2190
+			# driver convention).
+			var timer: Dictionary = source_shockwave_tower_timer_state(frame, seconds)
+			frame["timer_elapsed"] = timer.get("timer_elapsed", 0.0)
+			frame["timer_check_due"] = timer.get("check_due", false)
 			# The live bullet scan (N2195): the scan runs inside
 			# the fire gate in Java (ShockwaveTower.java:74-79,
 			# `targets.clear();` / `Groups.bullet.intersect(x - range, y - range, range * 2, range * 2, b -> {` /
@@ -590,7 +678,8 @@ static func source_shockwave_tower_tick_buildings_state(game: Object, seconds: f
 			# after the charge and before the targets.size check
 			# (ShockwaveTower.java:81, `if(targets.size > 0){`), so
 			# the driver calls it after the N2192 charge and
-			# before the N2194 fire. The tower world position comes
+			# before the N2194 fire, ONLY when the N2200 timer
+			# check is due. The tower world position comes
 			# from the placement cell (Tile.java, `return x * tilesize;`
 			# / `return block().offset + worldx();`, tilesize 8,
 			# Vars.java:135, `public static final int tilesize = 8;`,
@@ -599,11 +688,15 @@ static func source_shockwave_tower_tick_buildings_state(game: Object, seconds: f
 			# the scan stamps `targets_count` only when it reports
 			# an observation (has_targets_count true) -- absent
 			# observation stamps nothing (the N2190 precedent), so
-			# N2194 keeps reading absent as no fire.
+			# N2194 keeps reading absent as no fire. A skipped
+			# scan stamps nothing, so the frame keeps the previous
+			# `targets_count` until the next due tick.
 			var origin_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 			frame["x"] = float(origin_cell.x) * 8.0
 			frame["y"] = float(origin_cell.y) * 8.0
-			var scanned: Dictionary = source_shockwave_tower_bullet_scan_state(frame)
+			var scanned: Dictionary = {}
+			if bool(timer.get("check_due", false)):
+				scanned = source_shockwave_tower_bullet_scan_state(frame)
 			if bool(scanned.get("has_targets_count", false)):
 				frame["targets_count"] = scanned.get("targets_count", 0)
 			# The fire gate (N2194): updateConsumption runs BEFORE
