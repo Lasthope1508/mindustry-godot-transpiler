@@ -56,7 +56,7 @@ func _ready() -> void:
 	# --- Pure timer (N2266): the frame-local
 	# Interval-equivalent for `if(timer(timerUse,
 	# itemDuration / timeScale)){` (ImpactReactor.java:91).
-	# TimerComp.timer (TimerComp.java:11-14) returns false
+	# TimerComp.timer (TimerComp.java:10-13) returns false
 	# for an infinite time; Interval.get (arc
 	# Interval.java:20-26) fires when the elapsed time
 	# reaches the threshold and RESETS on fire. The

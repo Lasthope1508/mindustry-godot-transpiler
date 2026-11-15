@@ -20,7 +20,7 @@ multiplier.get(build)) ? 1f : 0f;`) is BINARY 1/0, and
 consumeTriggerValid() is false at the base
 (BuildingComp.java:764-766) with no ImpactReactor override,
 so the row turns on the held stacks alone. The timer is
-TimerComp.timer (TimerComp.java:11-14, `if(Float.isInfinite
+TimerComp.timer (TimerComp.java:10-13, `if(Float.isInfinite
 (time)) return false;` with `return timer.get(index,
 time);`) over arc Interval.get (Interval.java:20-26), which
 fires when the elapsed time reaches duration / timeScale
@@ -419,7 +419,7 @@ def main():
         'time_scale': f('float', 'return timeScale;', 'The sprite-meta timeScale (BuildingComp.java:599-600, `return timeScale;`, default 1f, BuildingComp.java:98): the threshold divisor (ImpactReactor.java:91, `if(timer(timerUse, itemDuration / timeScale)){`). A non-positive timeScale makes the Java threshold infinite, so TimerComp returns false (TimerComp.java:12).', BUILDING_COMP),
     }
     n2266_timer_outputs = {
-        'fired': f('bool', 'return timer.get(index, time);', 'Whether the timer fires this tick: TimerComp.timer (TimerComp.java:11-14) returns false for an infinite time and otherwise delegates to Interval.get, which fires when the elapsed time reaches the threshold (Interval.java:20-26).', TIMER_COMP),
+        'fired': f('bool', 'return timer.get(index, time);', 'Whether the timer fires this tick: TimerComp.timer (TimerComp.java:10-13) returns false for an infinite time and otherwise delegates to Interval.get, which fires when the elapsed time reaches the threshold (Interval.java:20-26).', TIMER_COMP),
         'elapsed_after': f('float', 'if(got) times[id] = Time.time;', 'The clock value after the check: 0.0 when the timer fires (Interval.get RESETS times[id] = Time.time on fire, arc Interval.java:24 -- reset, NOT subtract like the Fracker accumulator), the elapsed value unchanged otherwise.', INTERVAL),
         'threshold': f('float', 'if(timer(timerUse, itemDuration / timeScale)){', 'The fire threshold in ticks: duration / time_scale (ImpactReactor.java:91), INF when time_scale <= 0 (the infinite-time branch, TimerComp.java:12).', IMPACT_REACTOR),
     }

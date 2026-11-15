@@ -36,7 +36,7 @@ class C07ImpactReactorItemRowTests(unittest.TestCase):
         # false at the base (BuildingComp.java:764-766) with no
         # ImpactReactor override, so the row turns on the held
         # stacks alone. The timer is TimerComp.timer
-        # (TimerComp.java:11-14, `if(Float.isInfinite(time))
+        # (TimerComp.java:10-13, `if(Float.isInfinite(time))
         # return false;` with `return timer.get(index,
         # time);`) over arc Interval.get (Interval.java:20-26),
         # which fires when the elapsed time reaches duration /
@@ -172,7 +172,7 @@ class C07ImpactReactorItemRowTests(unittest.TestCase):
         # The pure timer is the frame-local
         # Interval-equivalent for `if(timer(timerUse,
         # itemDuration / timeScale)){` (ImpactReactor.java:91):
-        # TimerComp.timer (TimerComp.java:11-14) returns false
+        # TimerComp.timer (TimerComp.java:10-13) returns false
         # for an infinite time and otherwise delegates to arc
         # Interval.get (Interval.java:20-26), which fires when
         # the elapsed time reaches the threshold and RESETS on
