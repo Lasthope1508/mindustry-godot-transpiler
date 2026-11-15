@@ -1,6 +1,6 @@
 # Handoff — N2194 ShockwaveTower fire gate
 
-Date: 2026-11-15. Batch: N2194 (single slice). Status: **DONE — targeted 4/4 OK, proof 9 keys matches:true, neighbours 48/48 OK; gate attempt 2 FINISHED (Ran 5869, failures=144, skipped=5, 0 errors — all Godot-absent); slice commit `a0a59cb`, docs `188c3f5`, GOAL `d2e989a`. Push follows in this tick.**
+Date: 2026-11-15. Batch: N2194 (single slice). Status: **DONE + PUSHED (slice `a0a59cb`, main `25c0737`) — targeted 4/4 OK, neighbours 48/48 OK, proof 9 keys matches:true, full gate Ran 5869, failures=144, skipped=5, 0 errors (all Godot-absent).**
 
 ## GREEN (this run, 19:15 +07 tick)
 
