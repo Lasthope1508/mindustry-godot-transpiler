@@ -1,6 +1,6 @@
 # Report — N2184: BuildTurret power.status live read (build-tower) (C07)
 
-Date: 2026-11-15. Batch: N2184 (single slice). Status: **DONE (2026-11-15 ~07:2x +07 — targeted 4/4 OK, neighbours 196/196 OK, Godot proof GREEN 9 keys matches:true, full gate attempt 1 Ran 5833 in 1198.205s, failures=135, skipped=5, 0 errors — all 135 verified Godot-absent asserts). Slice commit `5dfba6e`.**
+Date: 2026-11-15. Batch: N2184 (single slice). Status: **DONE + PUSHED (2026-11-15 ~07:3x +07 — targeted 4/4 OK, neighbours 196/196 OK, Godot proof GREEN 9 keys matches:true, full gate attempt 1 Ran 5833 in 1198.205s, failures=135, skipped=5, 0 errors — all 135 verified Godot-absent asserts). Slice commit `5dfba6e`.**
 
 ## What changed
 
@@ -73,8 +73,8 @@ Finished ~07:19 +07 (log mtime 00:19 UTC): **Ran 5833 tests in 1198.205s, FAILED
 ## Commits
 
 - Slice: `5dfba6e` — C07: N2184 BuildTurret power.status live read (build-tower; pure power row + driver wiring; proof 6 keys), 13 files.
-- Docs: `<hash>` — Docs: N2184 report + design spec + handoff (gate clean except Godot).
-- GOAL: `<hash>` — Docs: GOAL.md names the N2184 slice commit that carries its proof to Windows (§5 debt line).
+- Docs: `7c6edd5` — Docs: N2184 report + design spec + handoff (gate clean except Godot).
+- GOAL: `aa1a191` — Docs: GOAL.md names the N2184 slice commit that carries its proof to Windows (§5 debt line).
 - Pushed 2026-11-15 ~07:3x +07 to the fork (Lasthope1508). See the handoff Commits section for the hashes.
 
 ## Deferred (NOT this slice)
