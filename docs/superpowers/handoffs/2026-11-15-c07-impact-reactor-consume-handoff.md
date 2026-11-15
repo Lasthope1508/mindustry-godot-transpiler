@@ -1,6 +1,6 @@
 # N2187 handoff: C07 ImpactReactor consume — blast-compound timer burn + cryofluid continuous drain
 
-Date: 2026-11-15. Batch: N2187 (single slice). Status: **DONE + PUSHED (gate clean except Godot; slice b6ead74, docs TBD, GOAL TBD).**
+Date: 2026-11-15. Batch: N2187 (single slice). Status: **DONE + PUSHED (gate clean except Godot; slice b6ead74, docs 1989387, GOAL 0172685).**
 
 ## Status
 
@@ -116,4 +116,11 @@ Date: 2026-11-15. Batch: N2187 (single slice). Status: **DONE + PUSHED (gate cle
 
 - Full gate attempt 1 (main thread, PID 2525, launched ~11:17): **Ran 5845 tests in 966.109s, FAILED (failures=138, skipped=5)** — log `tools/mindustry_godot_transpiler/full-suite-n2187-gate.log` (94,316 bytes, footer present). Verified from the log itself: 138 × `FAIL:` lines, 0 × `ERROR:`, 138 × `AssertionError: unexpectedly None`, 0 other AssertionErrors, 0 × `ERROR` lines, 0 × `7777`, 0 × `Address already in use`. The 82 `bind` grep hits are all the word "binding" in test names (consumer_binding / placement_binding / dump_binding) — NOT port-bind errors. N2187's new `test_reference_graph_and_actual_c07_impact_reactor_consume` is among the 138 (the +1 vs N2186's 137, Godot-absent in the gate as expected — no Godot on PATH). **Gate GREEN per the slice flow: all 138 failures are Godot-absent asserts, 0 errors.**
 - **N2187 is COMPLETE per process:** RED (Ran 4, failures=2, errors=2) → GREEN (targeted 4/4 OK, proof 7/7 keys matches:true) → neighbours 204/204 → gate green (138 Godot-absent, 0 errors). SSOT 11389/1638/1559/2909 (ledger rows 1638 verified from disk ~11:37; N2187 row status done).
-- **NOT done this run: commit + push.** Next run (11:45): stage EXACT slice files only — 7 modified (SourceImpactReactorBuildState.gd + source_api_contracts.json + power_api_contracts.json + power_slices.json + source_slice_ledger.json + source_state_schema.json + source_symbol_registry.json) + new test_c07_impact_reactor_consume.py + register_c07_impact_reactor_consume.py + proof C07ImpactReactorConsumeProof.gd/.tscn + proof JSON via `git add -f` (gitignored on disk; N2186 precedent — its proof JSON is tracked). NEVER stage *.gd.uid, *.log files, or the old full-suite-*/n21*-*.log noise. Then the 5-commit pattern (slice / docs report+spec+handoff / GOAL / handoff-status / report-hash) + push to origin main. Verify Done/ledger 1638 + N2187 row SSOT tuple at completion (N2182 lesson). Windows Godot proof stays debt in GOAL.md §5.
+- **NOT done this run: commit + push.** Next run (11:45): stage EXACT slice files only — 7 modified (SourceImpactReactorBuildState.gd + source_api_contracts.json + power_api_contracts.json + power_slices.json + source_slice_ledger.json + source_state_schema.json + source_symbol_registry.json) + new test_c07_impact_reactor_consume.py + register_c07_impact_reactor_consume.py + proof C07ImpactReactorConsumeProof.gd/.tscn. NEVER stage the proof .json (gitignored, and NO proof .json is tracked in the repo — verified by main thread: `git ls-files 'godot-mindustry/tools/runtime_proofs/*.json'` returns 0 files; the "N2186 precedent — its proof JSON is tracked" claim in this section was wrong), *.gd.uid, *.log files, or the old full-suite-*/n21*-*.log noise. Then the 5-commit pattern (slice / docs report+spec+handoff / GOAL / handoff-status / report-hash) + push to origin main. Verify Done/ledger 1638 + N2187 row SSOT tuple at completion (N2182 lesson). Windows Godot proof stays debt in GOAL.md §5.
+
+## Commits
+
+- Slice: `b6ead74` — C07: N2187 ImpactReactor consume live read (blast-compound timer burn + cryofluid drain; pure function + driver stamping; proof 4 keys), 11 files.
+- Docs: `1989387` — Docs: N2187 report + design spec + handoff (gate clean except Godot).
+- GOAL: `0172685` — Docs: GOAL.md names the N2187 slice commit that carries its proof to Windows.
+- Status: (this commit) — Docs: N2187 handoff Commits records DONE + PUSHED (slice b6ead74, docs 1989387, GOAL 0172685).
