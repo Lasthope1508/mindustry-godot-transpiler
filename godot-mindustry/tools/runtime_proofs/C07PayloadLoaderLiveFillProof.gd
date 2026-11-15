@@ -86,9 +86,12 @@ func _ready() -> void:
 	# the next tick starts. The intake reads the frame
 	# inputs incoming_payload / incoming_source_pos /
 	# world_pos (no live source pushes them yet) and
-	# applies only when the frame payload is null
-	# (acceptPayload returns `this.payload == null`,
-	# PayloadBlock.java:117).
+	# applies only when the full acceptPayload gate
+	# accepts the push (N2315 -- the tick computes the
+	# N2295 verdict from the incoming dict itself, so
+	# the live push below carries the descriptor keys;
+	# the base term is acceptPayload returns
+	# `this.payload == null`, PayloadBlock.java:117).
 	var catalog = game.get("content_catalog")
 	var blocks_by_id: Dictionary = {}
 	for registered_block in catalog.get_many("block"):
@@ -115,7 +118,11 @@ func _ready() -> void:
 	payload_loader_frame["power_status"] = 1.0
 	payload_loader_frame["world_pos"] = {"x": 0.0, "y": 0.0}
 	payload_loader_frame["incoming_source_pos"] = {"x": 100.0, "y": 0.0}
-	payload_loader_frame["incoming_payload"] = {"rotation": 45.0, "marker": "first"}
+	# N2315: the live push carries the N2295
+	# descriptor keys (an item container, block_size 2
+	# <= maxBlockSize 3), so the intake gate accepts
+	# it; without them the gate would reject the push.
+	payload_loader_frame["incoming_payload"] = {"is_build_payload": true, "block_size": 2, "has_items": true, "unloadable": true, "item_capacity": 10, "rotation": 45.0, "marker": "first"}
 	payload_loader_build_state.source_payload_loader_tick_buildings_state(game, 1.0 / 60.0)
 	payload_loader_frame = payload_loader.get_meta(payload_loader_build_state.SOURCE_PAYLOAD_LOADER_BUILDING_META_KEY, {})
 	var live_payload: Variant = payload_loader_frame.get("payload", null)
