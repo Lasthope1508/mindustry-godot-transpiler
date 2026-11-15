@@ -189,12 +189,13 @@ class C07PayloadUnloaderAcceptPayloadTests(unittest.TestCase):
         # offered payload is a frame input (default null -- no
         # offer), evaluated against the filled frame payload
         # each tick, and the three verdicts land on the frame.
-        # The pure is called exactly once (its definition plus
-        # the one tick call site). The N2279 intake is
-        # untouched -- the gate is exposed, not yet wired as
-        # the intake guard.
+        # The pure is called exactly twice (its definition
+        # plus the two tick call sites: the offer verdict
+        # below, and the N2313 intake verdict computed from
+        # the incoming dict itself). The N2279 intake is
+        # wired to the gate since N2313.
         self.assertIn('source_payload_unloader_accept_payload_state(has_payload, offered_payload)', payload_unloader)
-        self.assertEqual(payload_unloader.count('source_payload_unloader_accept_payload_state('), 2)
+        self.assertEqual(payload_unloader.count('source_payload_unloader_accept_payload_state('), 3)
         self.assertIn('frame.get("offered_payload", null)', payload_unloader)
         self.assertIn('frame["accepts_payload"]', payload_unloader)
         self.assertIn('frame["accepts_item"]', payload_unloader)
