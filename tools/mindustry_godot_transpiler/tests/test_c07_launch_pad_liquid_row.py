@@ -24,7 +24,7 @@ class C07LaunchPadLiquidRowTests(unittest.TestCase):
         # ConsumeLiquid, so a starved advanced pad kept launching
         # as if its oil tank were full. N2253 is the liquid row:
         # a pure ConsumeLiquid.efficiency row (ConsumeLiquid.java:
-        # 45-51) folded into the first pass beside the power row,
+        # 42-47) folded into the first pass beside the power row,
         # with the second-pass removal (ConsumeLiquid.java:37-39)
         # after the fold. ONLY the advanced def has the row -- the
         # plain launch-pad has no liquid consumer at all

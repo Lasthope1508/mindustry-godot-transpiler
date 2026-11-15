@@ -27,7 +27,7 @@ class C07SeparatorLiquidRowTests(unittest.TestCase):
         # and a separator with no slag ran at full efficiency.
         # N2252 is the required ConsumeLiquid row: the pure row
         # mirrors ConsumeLiquid.efficiency (ConsumeLiquid.java:
-        # 45-51, `float ed = build.edelta() * build.
+        # 42-47, `float ed = build.edelta() * build.
         # efficiencyScale();` / `if(ed <= 0.00000001f) return 0f;`
         # / `return Math.min(build.liquids.get(liquid) / (amount
         # * ed * multiplier.get(build)), 1f);`), folded by the
@@ -36,7 +36,7 @@ class C07SeparatorLiquidRowTests(unittest.TestCase):
         # shouldConsumePower stop on a starved non-power row
         # (BuildingComp.java:1972), and the second pass removes
         # the consumed slag (ConsumeLiquid.update,
-        # ConsumeLiquid.java:40-43, `build.liquids.remove(liquid,
+        # ConsumeLiquid.java:37-39, `build.liquids.remove(liquid,
         # amount * build.edelta() * multiplier.get(build));`,
         # only when update && efficiency > 0,
         # BuildingComp.java:1999). The amount is per def, read
@@ -101,7 +101,7 @@ class C07SeparatorLiquidRowTests(unittest.TestCase):
     def test_separator_liquid_consumer_row_state(self):
         separator = SEPARATOR_STATE.read_text(encoding='utf-8')
         # The pure liquid row mirrors ConsumeLiquid.efficiency
-        # (ConsumeLiquid.java:45-51): ed is edelta times the
+        # (ConsumeLiquid.java:42-47): ed is edelta times the
         # efficiency scale, ed <= 1e-8 returns 0, otherwise the
         # held liquid over the per-frame demand, capped at 1.
         # In the first pass efficiency is assumed 1f

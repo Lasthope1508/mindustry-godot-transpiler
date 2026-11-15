@@ -147,7 +147,7 @@ static func source_unit_cargo_loader_liquid_consumer_row_state(frame: Dictionary
 	# liquids key (the Building.liquids LiquidModule dict,
 	# default {} for a frame bound before this slice), with
 	# the Fracker guard (liquids.has("liquids") + the bounds
-	# check, SourceFrackerBuildState.gd:139-144); Java's
+	# check, SourceFrackerBuildState.gd:141-142); Java's
 	# liquids.get returns 0.0 for a liquid never added
 	# (LiquidModule.java:102-104,
 	# `return liquids[liquid.id];`). A block with no liquid

@@ -9,7 +9,7 @@ Blocks.java:1244; disassembler consumeLiquid(Liquids.slag, 0.12f),
 Blocks.java:1264 -- 0.12f PER FRAME, 7.2/s, not /60f), and a
 separator with no slag ran at full efficiency. N2252 is the
 required ConsumeLiquid row: the pure row mirrors
-ConsumeLiquid.efficiency (ConsumeLiquid.java:45-51, `float ed =
+ConsumeLiquid.efficiency (ConsumeLiquid.java:42-47, `float ed =
 build.edelta() * build.efficiencyScale();` / `if(ed <=
 0.00000001f) return 0f;` / `return Math.min(build.liquids.get(
 liquid) / (amount * ed * multiplier.get(build)), 1f);`), folded
@@ -17,7 +17,7 @@ by the shared machinery into the min efficiency
 (BuildingComp.java:1969-1976) with the shouldConsumePower stop
 on a starved non-power row (BuildingComp.java:1972), and the
 second pass removes the consumed slag (ConsumeLiquid.update,
-ConsumeLiquid.java:40-43, `build.liquids.remove(liquid, amount *
+ConsumeLiquid.java:37-39, `build.liquids.remove(liquid, amount *
 build.edelta() * multiplier.get(build));`, only when update &&
 efficiency > 0, BuildingComp.java:1999).
 
