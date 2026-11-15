@@ -7,6 +7,8 @@ const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
 const source_building_efficiency_state := preload("res://src/game/SourceBuildingEfficiencyState.gd")
 const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
 const source_liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
+const source_building_liquid_state := preload("res://src/game/SourceBuildingLiquidState.gd")
+const source_building_item_dump_state := preload("res://src/game/SourceBuildingItemDumpState.gd")
 const source_content_registry_runtime_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
 const source_solid_pump_state := preload("res://src/game/SourceSolidPumpBuildState.gd")
 const inventory := preload("res://src/game/SourceDrillInventoryRuntimeState.gd")
@@ -125,8 +127,12 @@ static func _initial_frame() -> Dictionary:
 	# (`hasItems = true;`, Fracker.java:11) and consume()
 	# removes one sand from it (Fracker.java:33); no live
 	# intake fills the items yet, so the advance reads the
-	# frame as-is.
-	return {"liquids": {}, "items": {}}
+	# frame as-is. The frame also carries the dump cursor
+	# (frame["cdump"], `transient int cdump;`,
+	# BuildingComp.java:68, default 0): the N2284 dump
+	# advances it once per proximity iteration
+	# (incrementDump, BuildingComp.java:1116-1121).
+	return {"liquids": {}, "items": {}, "cdump": 0}
 
 static func source_fracker_bind_frame_state(sprite: Sprite2D, block: Object) -> Dictionary:
 	# Placement creates the Building (Block.java:1002 newBuilding);
@@ -207,10 +213,21 @@ static func source_fracker_power_status_row_state(frame: Dictionary, has_power_c
 	# reused N2220 pure function) advance each tick from
 	# explicit fraction inputs (frame valid_tiles / boost /
 	# attribute_env, default 0f); still deferred: the
-	# else-branch dumpLiquid(result) (Fracker.java:43), the
 	# sand intake (nothing fills frame["items"] live yet),
 	# and the live onProximityUpdate fill
-	# (SolidPump.java:150-159).
+	# (SolidPump.java:150-159). (4) dumpLiquid live (N2284)
+	# -- dumpLiquid(result) runs after the advance in BOTH
+	# updateTile branches: the if-branch dump (the
+	# super.updateTile() dump, SolidPump.java:140, after the
+	# pump add) and the else-branch dump (Fracker.java:42,
+	# after the warmup decay + lastPump = 0), both at the
+	# default scaling 2f (BuildingComp.java:877-878) through
+	# the shared dump_liquid_state routing; the neighbour
+	# entries are frame inputs (default [] -- no live
+	# proximity fill yet), no neighbour write-back yet, and
+	# the campaign unlock waits for its own slice. The pure
+	# N2220 itself still does not dump -- the SolidPump-driver
+	# dump is N2286.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -287,7 +304,7 @@ static func source_fracker_update_tile_advance_state(frame: Dictionary, source_d
 	# `accumulator += delta() * efficiency;` (Fracker.java:38 -- AFTER super.updateTile(), so the consume check above reads last tick's accumulator).
 	# `warmup = Mathf.lerpDelta(warmup, 0f, 0.02f);` (Fracker.java:41 -- the else branch decays warmup ITSELF; it does NOT call super.updateTile(), so pumpTime also stands still).
 	# `lastPump = 0f;` (Fracker.java:42).
-	# `dumpLiquid(result);` (Fracker.java:43 -- DEFERRED, needs neighbor liquid transfer).
+	# `dumpLiquid(result);` (Fracker.java:42 -- live since N2284: the tick dumps after the advance in both branches; the brief/SCOPE/DEFERRED cite :43 is one line off, verified by grep).
 	# The Arc formula, not a guess: lerpDelta(from, to,
 	# progress) = lerp(from, to, clamp(progress * Time.delta))
 	# with lerp = from + (to - from) * progress and clamp(value)
@@ -336,6 +353,123 @@ static func source_fracker_update_tile_advance_state(frame: Dictionary, source_d
 		next_warmup = lerpf(warmup, 0.0, clampf(SOURCE_FRACKER_WARMUP_RATE * source_delta, 0.0, 1.0))
 		last_pump = 0.0
 	return {"accumulator": accumulator, "warmup": next_warmup, "pump_time": next_pump_time, "last_pump": last_pump, "max_pump": max_pump, "fraction": fraction, "items": items}
+
+static func source_fracker_dump_liquid_state(frame: Dictionary, result_liquid_id: int, liquid_capacity: float, dump_neighbours: Array) -> Dictionary:
+	# The dumpLiquid rows (FrackerBuild.updateTile(),
+	# Fracker.java:30-44): BOTH branches end in
+	# `dumpLiquid(result);` -- the if-branch through
+	# `super.updateTile();` (Fracker.java:37), whose
+	# SolidPump.updateTile ends in `dumpLiquid(result);`
+	# (SolidPump.java:140, unconditional, after
+	# `pumpTime += warmup * edelta();`, SolidPump.java:138),
+	# and the else-branch directly (Fracker.java:42, after
+	# `warmup = Mathf.lerpDelta(warmup, 0f, 0.02f);`
+	# (Fracker.java:40) and `lastPump = 0f;`
+	# (Fracker.java:41)). The brief/SCOPE/DEFERRED cite
+	# line :43 for the else-branch dump -- one line off,
+	# verified by grep (the method closes at :44).
+	# dumpLiquid(Liquid) is the 2f overload
+	# (`public void dumpLiquid(Liquid liquid){`,
+	# BuildingComp.java:877, with `dumpLiquid(liquid, 2f);`,
+	# BuildingComp.java:878), which delegates to the scaling
+	# overload (`public void dumpLiquid(Liquid liquid, float scaling){`, BuildingComp.java:881, with `dumpLiquid(liquid, scaling, -1);`, BuildingComp.java:882) and then the output-dir impl (`public void dumpLiquid(Liquid liquid, float scaling, int outputDir){`, BuildingComp.java:886-908):
+	# `int dump = this.cdump;` (BuildingComp.java:887).
+	# `if(liquids.get(liquid) <= 0.0001f) return;` (BuildingComp.java:889 -- the early return runs BEFORE the loop, so an empty store leaves cdump untouched).
+	# `if(!net.client() && state.isCampaign() && team == state.rules.defaultTeam) liquid.unlock();` (BuildingComp.java:891 -- the campaign unlock is NOT modeled: the frame carries no net/campaign state, so the pure passes false/false/false and the unlock waits for its own slice).
+	# `for(int i = 0; i < proximity.size; i++){` (BuildingComp.java:893).
+	# `incrementDump(proximity.size);` (BuildingComp.java:894 -- EVERY iteration, before the output-dir filter, so the cursor advances even when no neighbour takes anything).
+	# `Building other = proximity.get((i + dump) % proximity.size);` (BuildingComp.java:896).
+	# `if(outputDir != -1 && (outputDir + rotation) % 4 != relativeTo(other)) continue;` (BuildingComp.java:897 -- outputDir is -1 here, so the filter never skips).
+	# `other = other.getLiquidDestination(self(), liquid);` (BuildingComp.java:899 -- the default returns self(), `public Building getLiquidDestination(Building from, Liquid liquid){` with `return self();`, BuildingComp.java:980-982, so a neighbour entry with no destination flag defaults to present).
+	# `if(other != null && other.block.hasLiquids && canDumpLiquid(other, liquid) && other.liquids != null){` (BuildingComp.java:901).
+	# `float ofract = other.liquids.get(liquid) / other.block.liquidCapacity;` (BuildingComp.java:902).
+	# `float fract = liquids.get(liquid) / block.liquidCapacity;` (BuildingComp.java:903 -- recomputed per neighbour from the RUNNING amount, after earlier transfers).
+	# `if(ofract < fract) transferLiquid(other, (fract - ofract) * block.liquidCapacity / scaling, liquid);` (BuildingComp.java:905 -- scaling 2f, so the transfer is HALF the fraction gap times the capacity).
+	# canDumpLiquid defaults to true
+	# (`public boolean canDumpLiquid(Building to, Liquid liquid){` with `return true;`, BuildingComp.java:910-912).
+	# transferLiquid (`public void transferLiquid(Building next, float amount, Liquid liquid){`, BuildingComp.java:914-921):
+	# `float flow = Math.min(next.block.liquidCapacity - next.liquids.get(liquid), amount);` (BuildingComp.java:915).
+	# `if(next.acceptLiquid(self(), liquid)){` (BuildingComp.java:917 -- the default acceptLiquid is `public boolean acceptLiquid(Building source, Liquid liquid){` with `return block.hasLiquids && block.consumesLiquid(liquid);`, BuildingComp.java:868-870, so a neighbour entry with no accepts flag defaults to NOT accepting).
+	# `next.handleLiquid(self(), liquid, flow);` (BuildingComp.java:918).
+	# `liquids.remove(liquid, flow);` (BuildingComp.java:919).
+	# incrementDump (`public void incrementDump(int prox){`, BuildingComp.java:1116-1121):
+	# `if(prox != 0){` (BuildingComp.java:1118).
+	# `cdump = ((cdump + 1) % prox);` (BuildingComp.java:1119).
+	# The dump cursor is the Building field
+	# (`transient int cdump;`, BuildingComp.java:68, default
+	# 0), carried on the frame ("cdump", default 0 for a
+	# frame bound before this slice). The result liquid is
+	# oil (`result = Liquids.oil;`, Blocks.java:2966) and the
+	# capacity the def constant 40f (`liquidCapacity = 40f;`,
+	# Blocks.java:2971). The dump itself runs through the
+	# shared liquid-dump port
+	# (SourceBuildingLiquidState.dump_liquid_state, which
+	# supplies the transfer_liquid_state callable to
+	# SourceBuildingLiquidDumpState.dump_liquid_state -- the
+	# factory / scenario-pump precedent), with the cursor
+	# callback from SourceBuildingItemDumpState.
+	# increment_dump_cursor_state -- the pure does NOT
+	# re-implement the routing, the fraction transfer, or the
+	# accept gate. The pure N2220 is untouched: the Fracker
+	# tick dumps AFTER the advance (one call site covers both
+	# branches -- the advance already ran exactly one of them,
+	# and the dump depends only on the post-advance store; in
+	# the if-branch Java dumps before `accumulator += delta()
+	# * efficiency;` (Fracker.java:38), which cannot affect
+	# the dump). The neighbours arrive as frame inputs
+	# (default [] -- no neighbours, the Java proximity.size
+	# == 0 outcome, no transfer, cursor untouched): each
+	# entry is a Dictionary with amount / capacity / accepts /
+	# has_liquids / can_dump / liquids_present /
+	# destination_present / relative_to; the live proximity
+	# scan waits for its own slice, as does the write-back of
+	# the dumped liquid into the neighbour frame (the shared
+	# port reports only the amounts after -- the dumped liquid
+	# leaves this store without landing in any neighbour store
+	# until a neighbour write-back slice lands). The store
+	# write-back removes the dumped amount from a DUPLICATE
+	# of the module dict (the pure never mutates its inputs)
+	# through the shared liquid module helper
+	# (source_remove_state, which clamps exactly like Java's
+	# LiquidModule.remove); the driver persists the duplicate
+	# to the frame + the sprite meta (the N2275 liquid-bridge
+	# precedent). When nothing dumps the duplicate goes back
+	# untouched -- the helper's add would flip the store's
+	# "current" key even for a zero amount, so the removal
+	# runs only when the dumped amount is non-zero.
+	var cursor: int = int(frame.get("cdump", 0))
+	var store: Dictionary = (frame.get("liquids", {}) as Dictionary).duplicate(true)
+	if not store.has("liquids") or result_liquid_id < 0 or result_liquid_id >= int(store["liquids"].size()):
+		return {"liquids_after": store, "dumped_amount": 0.0, "cursor_after": cursor}
+	var current_amount: float = float(source_liquid_module_state.source_get_state(store, result_liquid_id).get("amount", 0.0))
+	var relative_to: Array = []
+	var destination_present: Array = []
+	var other_has_liquids: Array = []
+	var can_dump_liquid: Array = []
+	var other_liquids_present: Array = []
+	var other_amounts: Array = []
+	var other_capacities: Array = []
+	var other_accepts: Array = []
+	for neighbour in dump_neighbours:
+		var entry: Dictionary = neighbour if neighbour is Dictionary else {}
+		relative_to.append(int(entry.get("relative_to", 0)))
+		destination_present.append(bool(entry.get("destination_present", true)))
+		other_has_liquids.append(bool(entry.get("has_liquids", false)))
+		can_dump_liquid.append(bool(entry.get("can_dump", true)))
+		other_liquids_present.append(bool(entry.get("liquids_present", false)))
+		other_amounts.append(float(entry.get("amount", 0.0)))
+		other_capacities.append(float(entry.get("capacity", 0.0)))
+		other_accepts.append(bool(entry.get("accepts", false)))
+	var dumped: Dictionary = source_building_liquid_state.dump_liquid_state(SOURCE_FRACKER_RESULT_LIQUID, 2.0, -1, current_amount, false, false, false, dump_neighbours.size(), cursor, 0, relative_to, destination_present, other_has_liquids, can_dump_liquid, other_liquids_present, other_amounts, other_capacities, other_accepts, liquid_capacity, Callable(source_building_item_dump_state, "increment_dump_cursor_state"))
+	var amount_after: float = float(dumped.get("current_liquid_amount_after", current_amount))
+	var dumped_amount: float = current_amount - amount_after
+	if dumped_amount != 0.0:
+		var cache_sums: Array = []
+		if store.get("flow") != null:
+			cache_sums.resize(int(store["liquids"].size()))
+			cache_sums.fill(0.0)
+		source_liquid_module_state.source_remove_state(store, result_liquid_id, dumped_amount, cache_sums)
+	return {"liquids_after": store, "dumped_amount": dumped_amount, "cursor_after": int(dumped.get("final_cdump", cursor))}
 
 static func source_fracker_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the fracker tick wiring every tick
@@ -519,6 +653,30 @@ static func source_fracker_tick_buildings_state(game: Object, seconds: float) ->
 			frame["max_pump"] = advanced["max_pump"]
 			frame["fraction"] = advanced["fraction"]
 			frame["items"] = advanced["items"]
+			# N2284: dumpLiquid(result) runs after the advance
+			# in BOTH updateTile branches (the if-branch dump
+			# is the super.updateTile() dump,
+			# SolidPump.java:140, after the pump add; the
+			# else-branch dump is Fracker.java:42, after the
+			# warmup decay + lastPump = 0) -- one call site,
+			# because the advance above already ran exactly
+			# one branch and the dump depends only on the
+			# post-advance store (the accumulator advance in
+			# between cannot affect it). The pure returns a
+			# fresh liquids dict, so the driver persists it to
+			# the frame AND the sprite meta (the N2275
+			# liquid-bridge precedent -- the frame syncs from
+			# the meta each tick, so a frame-only write-back
+			# would be lost next tick) plus the advanced
+			# cdump. The neighbour entries are frame inputs
+			# (default [] -- no neighbours, the Java
+			# proximity.size == 0 outcome) until a live
+			# proximity fill lands.
+			var dump_neighbours: Array = frame.get("dump_liquid_neighbours", [])
+			var dumped: Dictionary = source_fracker_dump_liquid_state(frame, advance_result_id, SOURCE_FRACKER_LIQUID_CAPACITY, dump_neighbours)
+			frame["liquids"] = dumped["liquids_after"]
+			sprite.set_meta(source_placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, dumped["liquids_after"])
+			frame["cdump"] = dumped["cursor_after"]
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
