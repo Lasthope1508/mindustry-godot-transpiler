@@ -6,13 +6,134 @@ const source_placed_block_state := preload("res://src/game/SourcePlacedBlockStat
 const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
 const source_building_efficiency_state := preload("res://src/game/SourceBuildingEfficiencyState.gd")
 const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
+const source_math_state := preload("res://src/game/SourceMathState.gd")
+const source_world_defaults := preload("res://src/game/SourceWorldDefaults.gd")
 
 # The RepairTurret implementation (RepairTurret.java:25, `public class RepairTurret extends Block{`): repair-point (powerUse 1f, Blocks.java:6391, `powerUse = 1f;`; repairSpeed 0.45f, repairRadius 60f, Blocks.java:6388-6389) and repair-turret (powerUse 5f, Blocks.java:6402, `powerUse = 5f;`; size 2, repairSpeed 3f, repairRadius 145f, Blocks.java:6398-6401). RepairTurret extends Block, NOT a factory or crafter, so no existing driver matches it and no frame key exists for it; this driver uses its own family frame key ("source_repair_turret_building", the radar precedent), and this slice adds the repair-turret key to N2142's SOURCE_CONSUMER_FRAME_META_KEYS so the graph stamp/write-back finds it. The port has NO SourceRepairTurret* files at all yet -- no display/runtime state to lean on -- so the missing piece is the live power.status -> efficiency driver, which is exactly this slice: the updateTile heal advance (RepairTurret.java:207, `target.heal(repairSpeed * strength * edelta() * multiplier);`) heals by edelta() (BuildingComp.java:1927-1929, `return efficiency * delta();`), so a repair turret with no power would never heal -- its target's health would sit frozen as if power.status were 1.0.
 const SOURCE_REPAIR_TURRET_BUILD_IMPLEMENTATIONS := ["RepairTurret"]
 const SOURCE_REPAIR_TURRET_BUILDING_META_KEY := "source_repair_turret_building"
+# Per-def repair values (Blocks.java:6388-6389/:6400-6401):
+# repair-point `repairSpeed = 0.45f;` / `repairRadius = 60f;`,
+# repair-turret `repairSpeed = 3f;` / `repairRadius = 145f;`
+# (class defaults `public float repairSpeed = 0.3f;` /
+# `public float repairRadius = 50f;`, RepairTurret.java:32-33).
+# The catalog carries neither for this family, so the driver
+# reads these constants (the Separator craftTime precedent).
+const SOURCE_REPAIR_POINT_REPAIR_SPEED := 0.45
+const SOURCE_REPAIR_POINT_REPAIR_RADIUS := 60.0
+const SOURCE_REPAIR_TURRET_REPAIR_SPEED := 3.0
+const SOURCE_REPAIR_TURRET_REPAIR_RADIUS := 145.0
+# The heal angle margin (RepairTurret.java:205,
+# `if(Angles.angleDist(angle, rotation) < 30f){`), the rotation
+# slerp progress (RepairTurret.java:209, `0.5f * efficiency *
+# timeScale`), the strength lerp progress (RepairTurret.java:
+# 212, `0.08f * Time.delta`), and the rotation field default
+# (RepairTurret.java:156, `public float strength, rotation = 90;`).
+const SOURCE_REPAIR_TURRET_HEAL_ANGLE_MARGIN := 30.0
+const SOURCE_REPAIR_TURRET_ROTATION_SLERP_PROGRESS := 0.5
+const SOURCE_REPAIR_TURRET_STRENGTH_LERP_PROGRESS := 0.08
+const SOURCE_REPAIR_TURRET_ROTATION_DEFAULT := 90.0
 
 static func _is_repair_turret_build_implementation(implementation: String) -> bool:
 	return SOURCE_REPAIR_TURRET_BUILD_IMPLEMENTATIONS.has(implementation)
+
+static func _repair_speed_for_block(block_id: String) -> float:
+	# repairSpeed is a per-def field (RepairTurret.java:33
+	# `public float repairSpeed = 0.3f;`): repair-point 0.45f
+	# (Blocks.java:6388, `repairSpeed = 0.45f;`), repair-turret
+	# 3f (Blocks.java:6400, `repairSpeed = 3f;`). The catalog
+	# carries no repairSpeed for this family, so the driver
+	# reads these constants (the Separator craftTime
+	# precedent); an unknown RepairTurret id falls back to
+	# the repair-point def.
+	if block_id == "repair-turret":
+		return SOURCE_REPAIR_TURRET_REPAIR_SPEED
+	return SOURCE_REPAIR_POINT_REPAIR_SPEED
+
+static func _repair_radius_for_block(block_id: String) -> float:
+	# repairRadius is a per-def field (RepairTurret.java:32
+	# `public float repairRadius = 50f;`): repair-point 60f
+	# (Blocks.java:6389, `repairRadius = 60f;`), repair-turret
+	# 145f (Blocks.java:6401, `repairRadius = 145f;`). The
+	# catalog carries no repairRadius for this family, so the
+	# driver reads these constants (the Separator craftTime
+	# precedent); an unknown RepairTurret id falls back to
+	# the repair-point def.
+	if block_id == "repair-turret":
+		return SOURCE_REPAIR_TURRET_REPAIR_RADIUS
+	return SOURCE_REPAIR_POINT_REPAIR_RADIUS
+
+static func _repair_turret_slerp_delta(from_degrees: float, to_degrees: float, progress: float, source_delta: float) -> float:
+	# Mathf.slerpDelta (Mathf.java:460-462, `public static float slerpDelta(float fromDegrees, float toDegrees, float progress){` with `return slerp(fromDegrees, toDegrees, clamp(progress * Time.delta));`): slerp is the angle lerp in degrees (Mathf.java:455-458, `public static float slerp(float fromDegrees, float toDegrees, float progress){` with `float delta = ((toDegrees - fromDegrees + 360 + 180) % 360) - 180;` and `return (fromDegrees + delta * progress + 360) % 360;`), so the wrapped delta picks the shortest way round the circle; clamp is [0, 1] (Mathf.java:402-404, `public static float clamp(float value){` with `return Math.max(Math.min(value, 1f), 0f);`). The port has no slerp helper, so the advance carries this local transliteration (the N2191 precedent -- no separate symbol); GDScript fmod matches Java % (sign of the dividend), so the wrap is exact. source_delta is Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26).
+	var clamped: float = clampf(progress * source_delta, 0.0, 1.0)
+	var delta: float = fmod(to_degrees - from_degrees + 360.0 + 180.0, 360.0) - 180.0
+	return fmod(from_degrees + delta * clamped + 360.0, 360.0)
+
+static func source_repair_turret_update_tile_advance_state(frame: Dictionary, source_delta: float, time_scale: float, repair_speed: float, repair_radius: float, building_x: float, building_y: float, candidates: Array) -> Dictionary:
+	# The updateTile advance (RepairPointBuild.updateTile(), RepairTurret.java:187-218), the pure frame advance -- the build fields are `public Unit target;` (RepairTurret.java:154), `public Vec2 offset = new Vec2(), lastEnd = new Vec2();` (RepairTurret.java:155) and `public float strength, rotation = 90;` (RepairTurret.java:156), and the advance follows the Java lines in order (each exact expr on ONE comment line, the N2148 lesson):
+	# `float multiplier = 1f;`
+	# `multiplier = 1f + liquids.current().heatCapacity * coolantMultiplier * optionalEfficiency;`
+	# `if(target != null && (target.dead() || target.dst(this) - target.hitSize/2f > repairRadius || target.health() >= target.maxHealth())){`
+	# `if(target == null){`
+	# `offset.setZero();`
+	# `boolean healed = false;`
+	# `if(target != null && efficiency > 0){`
+	# `float angle = Angles.angle(x, y, target.x + offset.x, target.y + offset.y);`
+	# `if(Angles.angleDist(angle, rotation) < 30f){`
+	# `target.heal(repairSpeed * strength * edelta() * multiplier);`
+	# `rotation = Mathf.slerpDelta(rotation, angle, 0.5f * efficiency * timeScale);`
+	# `strength = Mathf.lerpDelta(strength, healed ? 1f : 0f, 0.08f * Time.delta);`
+	# `if(timer(timerTarget, 20)){`
+	# `target = Units.closest(team, x, y, repairRadius, Unit::damaged);`
+	# The Arc formulas, not guesses: lerpDelta is `return lerp(fromValue, toValue, clamp(progress * Time.delta));` (Mathf.java:430-432), slerpDelta is `return slerp(fromDegrees, toDegrees, clamp(progress * Time.delta));` (Mathf.java:460-462) with the wrapped slerp (Mathf.java:455-458), angleDist is the shortest absolute arc (Angles.java:23-28), angle is atan2 in degrees (Angles.java:56-60). delta() is `return Time.delta * timeScale;` (BuildingComp.java:1922-1924) and edelta() is `return efficiency * delta();` (BuildingComp.java:1927-1929). NOTE the strength trap: Java passes `0.08f * Time.delta` as the lerpDelta progress, and lerpDelta multiplies by Time.delta AGAIN -- the port passes 0.08 * source_delta as the progress to the shared lerp_delta helper, so the double delta is exact; the rotation slerp progress (0.5f * efficiency * timeScale) carries NO Time.delta in Java, and the local slerp helper multiplies once. The multiplier is 1.0 -- the power-only first pass (the N2212 gate leaves the coolant optional consumer to its own slice, so the acceptCoolant branch, RepairTurret.java:189-191, has no coolant inputs to read). The target is a Dictionary of explicit inputs (the N2212 fixture precedent): dead, distance (the value of `target.dst(this) - target.hitSize/2f`, RepairTurret.java:193), health / max_health (the full-health branch fires only when BOTH are present -- a dict without health data is not known to be full), x / y (the angle), hit_size / damaged / valid (the re-acquire). The heal APPLICATION defers -- target.heal writes into another unit's health and the port has no live unit frames, so the advance returns heal_amount as a pure result. The re-acquire IS ported as a pure selection: Units.closest(team, x, y, range, Unit::damaged) (Units.java:358-372) iterates nearby (Units.java:445-451, `if(unit.within(x, y, radius + unit.hitSize/2f)){`), filters isValid + damaged (`return health < maxHealth - 0.001f;`, HealthComp.java:47-49), and picks min dst2 with strict < (first wins ties); within is a STRICT dst2 < (radius + hitSize/2)^2 (`return Mathf.dst2(getX(), getY(), x, y) < dst*dst;`, Position.java:44-46). Java overwrites the target UNCONDITIONALLY on a timer tick (RepairTurret.java:216), so a non-empty candidate list overwrites the frame target (even to null when no candidate qualifies); an EMPTY list means the timer did not fire and the target is untouched. The TIMER CADENCE itself defers (no timer helper in the port, the N2193 precedent), so the driver passes an empty candidate list and no live re-acquire happens. lastEnd is only mutated by drawBeam (RepairTurret.java:106-150), never by updateTile, so it is not a frame key here.
+	var efficiency: float = float(frame.get("efficiency", 0.0))
+	var target: Variant = frame.get("target", null)
+	var offset: Dictionary = {"x": 0.0, "y": 0.0}
+	var stored_offset: Variant = frame.get("offset", null)
+	if stored_offset is Dictionary:
+		offset = {"x": float(stored_offset.get("x", 0.0)), "y": float(stored_offset.get("y", 0.0))}
+	var strength: float = float(frame.get("strength", 0.0))
+	var rotation: float = float(frame.get("rotation", SOURCE_REPAIR_TURRET_ROTATION_DEFAULT))
+	if target != null and target is Dictionary:
+		var dead: bool = bool(target.get("dead", false))
+		var distance: float = float(target.get("distance", 0.0))
+		var full_health: bool = target.has("health") and target.has("max_health") and float(target.get("health", 0.0)) >= float(target.get("max_health", 0.0))
+		if dead or distance > repair_radius or full_health:
+			target = null
+	if target == null:
+		offset = {"x": 0.0, "y": 0.0}
+	var healed: bool = false
+	var heal_amount: float = 0.0
+	var multiplier: float = 1.0
+	if target != null and target is Dictionary and efficiency > 0.0:
+		var angle: float = source_math_state.source_angles_angle(building_x, building_y, float(target.get("x", 0.0)) + float(offset.get("x", 0.0)), float(target.get("y", 0.0)) + float(offset.get("y", 0.0)))
+		if source_math_state.source_angles_angle_dist(angle, rotation) < SOURCE_REPAIR_TURRET_HEAL_ANGLE_MARGIN:
+			healed = true
+			var edelta: float = efficiency * source_delta * time_scale
+			heal_amount = repair_speed * strength * edelta * multiplier
+		rotation = _repair_turret_slerp_delta(rotation, angle, SOURCE_REPAIR_TURRET_ROTATION_SLERP_PROGRESS * efficiency * time_scale, source_delta)
+	strength = source_math_state.source_lerp_delta(strength, 1.0 if healed else 0.0, SOURCE_REPAIR_TURRET_STRENGTH_LERP_PROGRESS * source_delta, source_delta)
+	if not candidates.is_empty():
+		var best: Variant = null
+		var best_dst2: float = 0.0
+		for candidate in candidates:
+			if not (candidate is Dictionary):
+				continue
+			if not bool(candidate.get("valid", true)):
+				continue
+			if not bool(candidate.get("damaged", false)):
+				continue
+			var candidate_dx: float = float(candidate.get("x", 0.0)) - building_x
+			var candidate_dy: float = float(candidate.get("y", 0.0)) - building_y
+			var candidate_dst2: float = candidate_dx * candidate_dx + candidate_dy * candidate_dy
+			var reach: float = repair_radius + float(candidate.get("hit_size", 0.0)) / 2.0
+			if candidate_dst2 >= reach * reach:
+				continue
+			if best == null or candidate_dst2 < best_dst2:
+				best = candidate
+				best_dst2 = candidate_dst2
+		target = best
+	return {"target": target, "offset": offset, "strength": strength, "rotation": rotation, "heal_amount": heal_amount, "healed": healed}
 
 static func source_repair_turret_tick_frame_state(frame: Dictionary, block_implementation: String, team_id: int, rules_state: Variant) -> Dictionary:
 	# The repair-turret tick wires the frame keys the
@@ -62,14 +183,14 @@ static func source_repair_turret_bind_frame_state(sprite: Sprite2D, block: Objec
 	return {"applied": true, "frame": frame}
 
 static func source_repair_turret_should_consume_state(frame: Dictionary) -> Dictionary:
-	# RepairPointBuild overrides shouldConsume (RepairTurret.java:221, `public boolean shouldConsume(){` with `return target != null && enabled;`, RepairTurret.java:222): the gate reads the live target AND the enabled flag. The field is `public Unit target;` (RepairTurret.java:154) on RepairPointBuild (`public class RepairPointBuild extends Building implements Ranged, RotBlock{`, RepairTurret.java:153); RepairTurret extends Block (RepairTurret.java:25, `public class RepairTurret extends Block{`), so the default (`return enabled;`, BuildingComp.java:755) does NOT apply here. Unlike the UnitCargoLoader gate (N2211) this one HAS `&& enabled` -- the override includes the enabled check, so the pure gate reads both frame keys (the ItemBridge N2188 precedent): target (frame["target"], default null for a frame bound before this slice -- the Java field default) and enabled (frame["enabled"], default true -- BuildingComp.java:77, `transient boolean enabled = true;`); no live fill sets frame["target"] yet -- the live target acquire (Units.closest, RepairTurret.java:216, `target = Units.closest(team, x, y, repairRadius, Unit::damaged);`, every 20 ticks, RepairTurret.java:214, plus the clear when dead / out of range / full health, RepairTurret.java:193-194) is the updateTile advance (RepairTurret.java:187-218) and waits for its own slice. When the gate is false updateConsumption forces efficiency to zero (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). The heal advance (RepairTurret.java:207, `target.heal(repairSpeed * strength * edelta() * multiplier);`) follows the folded efficiency. The power consumer is conditional (`consumePowerCond(powerUse, (RepairPointBuild entity) -> entity.target != null);`, RepairTurret.java:89) -- the two defs carry powerUse 1f (repair-point, Blocks.java:6391, `powerUse = 1f;`) and 5f (repair-turret, Blocks.java:6402, `powerUse = 5f;`).
+	# RepairPointBuild overrides shouldConsume (RepairTurret.java:221, `public boolean shouldConsume(){` with `return target != null && enabled;`, RepairTurret.java:222): the gate reads the live target AND the enabled flag. The field is `public Unit target;` (RepairTurret.java:154) on RepairPointBuild (`public class RepairPointBuild extends Building implements Ranged, RotBlock{`, RepairTurret.java:153); RepairTurret extends Block (RepairTurret.java:25, `public class RepairTurret extends Block{`), so the default (`return enabled;`, BuildingComp.java:755) does NOT apply here. Unlike the UnitCargoLoader gate (N2211) this one HAS `&& enabled` -- the override includes the enabled check, so the pure gate reads both frame keys (the ItemBridge N2188 precedent): target (frame["target"], default null for a frame bound before this slice -- the Java field default) and enabled (frame["enabled"], default true -- BuildingComp.java:77, `transient boolean enabled = true;`); no live fill sets frame["target"] yet -- the live target acquire (Units.closest, RepairTurret.java:216, `target = Units.closest(team, x, y, repairRadius, Unit::damaged);`, every 20 ticks, RepairTurret.java:214, plus the clear when dead / out of range / full health, RepairTurret.java:193-194) is the updateTile advance (RepairTurret.java:187-218): N2226 ports the clear + the pure re-acquire selection, but the timer cadence + live unit query wait for the live-fill slice, so no live fill sets frame["target"] yet. When the gate is false updateConsumption forces efficiency to zero (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). The heal advance (RepairTurret.java:207, `target.heal(repairSpeed * strength * edelta() * multiplier);`) follows the folded efficiency. The power consumer is conditional (`consumePowerCond(powerUse, (RepairPointBuild entity) -> entity.target != null);`, RepairTurret.java:89) -- the two defs carry powerUse 1f (repair-point, Blocks.java:6391, `powerUse = 1f;`) and 5f (repair-turret, Blocks.java:6402, `powerUse = 5f;`).
 	var target: Variant = frame.get("target", null)
 	var enabled: bool = bool(frame.get("enabled", true))
 	return {"should_consume": target != null and enabled, "has_target": target != null}
 
 static func source_repair_turret_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
-	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a repair turret does not take the early return. The repair turret's power draw is CONDITIONAL, not static: `consumePowerCond(powerUse, (RepairPointBuild entity) -> entity.target != null);` (RepairTurret.java:89), and ConsumePowerCondition only draws when its condition holds (ConsumePowerCondition.java:17, `return consume.get(entity) ? usage : 0f;`) -- the catalog consumePower None is CORRECT for this family, it records no static consumePower def; the two defs carry powerUse 1f (repair-point, Blocks.java:6391, `powerUse = 1f;`) and 5f (repair-turret, Blocks.java:6402, `powerUse = 5f;`), and the block declares `public float powerUse;` (RepairTurret.java:34) with `hasPower = true;` (RepairTurret.java:60). The pure row is still the same ConsumePower read (`return build.power.status;`, ConsumePower.java:39) -- ConsumePowerCondition does not override efficiency(), so the row folds power.status exactly like the static case. The updateTile advance follows the folded efficiency: the heal advance (RepairTurret.java:207, `target.heal(repairSpeed * strength * edelta() * multiplier);`) heals by edelta() (BuildingComp.java:1927-1929, `return efficiency * delta();`), so a repair turret with no power would never heal. RepairPointBuild overrides shouldConsume (RepairTurret.java:221, `public boolean shouldConsume(){` with `return target != null && enabled;`, RepairTurret.java:222); updateConsumption forces efficiency to zero when the gate is false (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). The shouldConsume gate is live (N2212) -- the pure gate (source_repair_turret_should_consume_state) feeds should_consume to the machinery from the frame target key (null with no target, non-null once a damaged unit is locked) and the enabled flag; no live fill sets frame["target"] yet (the live target acquire is the updateTile advance, RepairTurret.java:187-218). The repair turret is its own family (RepairTurret.java:25, `public class RepairTurret extends Block{`; RepairPointBuild, RepairTurret.java:153, `public class RepairPointBuild extends Building implements Ranged, RotBlock{`). Two defs (repair-point, `powerUse = 1f;`, Blocks.java:6391; repair-turret, `powerUse = 5f;`, Blocks.java:6402).
-	# Documented limits: (1) power-only first pass -- the repair turret's power consumer is conditional (ConsumePowerCondition, target-gated), so the folded efficiency is the min over the *modeled* consumers (power only); the coolant optional consumer (repair-turret only: ConsumeCoolant, acceptCoolant, coolantUse 0.16f, coolantMultiplier 1.6f, Blocks.java:6404-6406) is the second pass and waits for its own slice. (2) shouldConsume gate live (N2212) -- RepairPointBuild overrides shouldConsume (`target != null && enabled`, RepairTurret.java:221-223); when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994); the pure gate reads the frame target key (default null) plus enabled and feeds should_consume to the machinery; no live fill sets frame["target"] yet (the live target acquire is the updateTile advance, RepairTurret.java:187-218). (3) No updateTile heal advance -- target re-acquire / heal / rotation slerp / strength lerp (RepairTurret.java:187-218) wait for their own slices; the proof carries no heal/strength/rotation/target keys, the heal advance (RepairTurret.java:207) is what the efficiency keys prove. (4) Two defs -- repair-point (powerUse 1f) and repair-turret (powerUse 5f + coolant) share the one driver; repairSpeed / repairRadius / length / beamWidth / pulseRadius per-def values wait for their own verification slice. (5) RepairTower (unit-repair-tower) is a different class and NOT covered by this driver.
+	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a repair turret does not take the early return. The repair turret's power draw is CONDITIONAL, not static: `consumePowerCond(powerUse, (RepairPointBuild entity) -> entity.target != null);` (RepairTurret.java:89), and ConsumePowerCondition only draws when its condition holds (ConsumePowerCondition.java:17, `return consume.get(entity) ? usage : 0f;`) -- the catalog consumePower None is CORRECT for this family, it records no static consumePower def; the two defs carry powerUse 1f (repair-point, Blocks.java:6391, `powerUse = 1f;`) and 5f (repair-turret, Blocks.java:6402, `powerUse = 5f;`), and the block declares `public float powerUse;` (RepairTurret.java:34) with `hasPower = true;` (RepairTurret.java:60). The pure row is still the same ConsumePower read (`return build.power.status;`, ConsumePower.java:39) -- ConsumePowerCondition does not override efficiency(), so the row folds power.status exactly like the static case. The updateTile advance follows the folded efficiency: the heal advance (RepairTurret.java:207, `target.heal(repairSpeed * strength * edelta() * multiplier);`) heals by edelta() (BuildingComp.java:1927-1929, `return efficiency * delta();`), so a repair turret with no power would never heal. RepairPointBuild overrides shouldConsume (RepairTurret.java:221, `public boolean shouldConsume(){` with `return target != null && enabled;`, RepairTurret.java:222); updateConsumption forces efficiency to zero when the gate is false (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). The shouldConsume gate is live (N2212) -- the pure gate (source_repair_turret_should_consume_state) feeds should_consume to the machinery from the frame target key (null with no target, non-null once a damaged unit is locked) and the enabled flag; no live fill sets frame["target"] yet (N2226: the clear + pure re-acquire selection are live; the timer cadence + live unit query wait for the live-fill slice). The repair turret is its own family (RepairTurret.java:25, `public class RepairTurret extends Block{`; RepairPointBuild, RepairTurret.java:153, `public class RepairPointBuild extends Building implements Ranged, RotBlock{`). Two defs (repair-point, `powerUse = 1f;`, Blocks.java:6391; repair-turret, `powerUse = 5f;`, Blocks.java:6402).
+	# Documented limits: (1) power-only first pass -- the repair turret's power consumer is conditional (ConsumePowerCondition, target-gated), so the folded efficiency is the min over the *modeled* consumers (power only); the coolant optional consumer (repair-turret only: ConsumeCoolant, acceptCoolant, coolantUse 0.16f, coolantMultiplier 1.6f, Blocks.java:6404-6406) is the second pass and waits for its own slice. (2) shouldConsume gate live (N2212) -- RepairPointBuild overrides shouldConsume (`target != null && enabled`, RepairTurret.java:221-223); when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994); the pure gate reads the frame target key (default null) plus enabled and feeds should_consume to the machinery; no live fill sets frame["target"] yet (N2226: the clear + pure re-acquire selection are live; the timer cadence + live unit query wait for the live-fill slice). (3) updateTile advance live (N2226) -- the target clear / heal amount / rotation slerp / strength lerp / pure re-acquire selection (RepairTurret.java:187-218) run on the frame; the heal application (target.heal writes into another unit frame), the timer re-acquire cadence (no timer helper, no live unit query -- the driver passes no candidates), and the coolant multiplier (multiplier 1.0 until the coolant row lands) wait for the live-fill slice. (4) Two defs -- repair-point (powerUse 1f) and repair-turret (powerUse 5f + coolant) share the one driver; repairSpeed / repairRadius are now read per def by the advance (N2226, driver constants -- the catalog carries neither); length / beamWidth / pulseRadius per-def values wait for their own verification slice. (5) RepairTower (unit-repair-tower) is a different class and NOT covered by this driver.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -112,7 +233,7 @@ static func source_repair_turret_tick_buildings_state(game: Object, seconds: flo
 		# into the min efficiency like every other non-optional
 		# consumer, and the heal advance (RepairTurret.java:207)
 		# follows it. The power consumer counts toward
-		# hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a repair turret does not take the early return. The driver gate reads the conditional consumer through the catalog: the conditional registration (RepairTurret.java:89, `consumePowerCond(powerUse, (RepairPointBuild entity) -> entity.target != null);`) carries no static consumePower def, so the catalog records consumePower None (CORRECT) but consumesPower true for both defs -- the gate is `block.properties.has("consumePower")` or the catalog consumesPower flag, so a repair turret is ticked while a block with no power consumer at all is untouched: the tick models no other consumers yet (the updateTile advance waits for its own slice), and RepairPointBuild overrides shouldConsume (RepairTurret.java:221, `public boolean shouldConsume(){` with `return target != null && enabled;`, RepairTurret.java:222) -- N2212 feeds the live gate to the machinery (the pure gate is source_repair_turret_should_consume_state, fed the frame); the N2174 RED decision is resolved. The gate HAS an enabled term (Java returns `target != null && enabled;`), so the pure gate reads frame["enabled"] too (the ItemBridge N2188 precedent); the outer guard below already runs the machinery only when enabled. productionValid is the canonical true default (SourceBuildingAccessState.production_valid_state()).
+		# hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a repair turret does not take the early return. The driver gate reads the conditional consumer through the catalog: the conditional registration (RepairTurret.java:89, `consumePowerCond(powerUse, (RepairPointBuild entity) -> entity.target != null);`) carries no static consumePower def, so the catalog records consumePower None (CORRECT) but consumesPower true for both defs -- the gate is `block.properties.has("consumePower")` or the catalog consumesPower flag, so a repair turret is ticked while a block with no power consumer at all is untouched: the tick models no other consumers yet (the updateTile advance is live, N2226, wired below after the consumption fold), and RepairPointBuild overrides shouldConsume (RepairTurret.java:221, `public boolean shouldConsume(){` with `return target != null && enabled;`, RepairTurret.java:222) -- N2212 feeds the live gate to the machinery (the pure gate is source_repair_turret_should_consume_state, fed the frame); the N2174 RED decision is resolved. The gate HAS an enabled term (Java returns `target != null && enabled;`), so the pure gate reads frame["enabled"] too (the ItemBridge N2188 precedent); the outer guard below already runs the machinery only when enabled. productionValid is the canonical true default (SourceBuildingAccessState.production_valid_state()).
 		var has_power_consumer: bool = bool(block.properties.has("consumePower") or block.properties.get("consumesPower", false))
 		if has_power_consumer and bool(frame.get("enabled", true)) and not bool(frame.get("cheating", false)):
 			var gate: Dictionary = source_repair_turret_should_consume_state(frame)
@@ -127,6 +248,65 @@ static func source_repair_turret_tick_buildings_state(game: Object, seconds: flo
 				required_results.append(power_row.get("row", {}))
 			var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(true, bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, [], [], frame)
 			source_building_efficiency_state.apply_update_consumption_state(consumption, frame)
+		# N2226: the updateTile advance runs after consumption,
+		# like Java's Building.update() (BuildingComp.java:2274
+		# updateConsumption(), then the updateTile gate
+		# `if(enabled || !block.noUpdateDisabled){` at
+		# BuildingComp.java:2276-2277; noUpdateDisabled defaults
+		# false, `public boolean noUpdateDisabled = false;`
+		# (Block.java:170), so Java runs updateTile even when
+		# disabled -- in Java a disabled repair turret's
+		# strength DECAYS toward 0 (efficiency is zeroed by the
+		# disabled early return, BuildingComp.java:1954-1957)
+		# and the rotation freezes (the heal branch needs
+		# efficiency > 0, RepairTurret.java:203). The port keeps
+		# the enabled gate below as a pragmatic choice (the
+		# N2195 coordinator-fix precedent): the driver skips
+		# the consumption fold when disabled, so the frame
+		# efficiency goes stale and running the advance on it
+		# would charge strength/heal from a stale efficiency.
+		# The driver-wide disabled-early-return slice
+		# (deferred in the N2226 register) removes this gate
+		# for all families. super.updateTile() is an empty
+		# no-op (BuildingComp.java:2010-2012), so the driver
+		# owes it nothing. The source delta is Time.delta in
+		# ticks: game_source_delta(game, seconds) is seconds *
+		# 60 (arc Time.java:26), never raw seconds. timeScale
+		# reads live from the sprite meta, default 1.0
+		# (BuildingComp.java:98 `private transient float
+		# timeScale = 1f, timeScaleDuration;`). repairSpeed /
+		# repairRadius come from the per-def driver helpers
+		# (repair-point 0.45f/60f, repair-turret 3f/145f,
+		# Blocks.java:6388-6389/:6400-6401 -- the catalog
+		# carries neither). The building position comes from
+		# the origin cell: Building x/y are tile.drawx()/
+		# drawy() (BuildingComp.java:124,
+		# `set(tile.drawx(), tile.drawy());`), drawx is
+		# block.offset + tile.worldx() (Tile.java:175-176) with
+		# the block offset `offset = ((size + 1) % 2) * tilesize / 2f;`
+		# (Block.java:761) -- 0 for the size-1 repair-point, 4
+		# for the size-2 repair-turret. The driver passes an
+		# EMPTY candidate list: no live unit query exists in
+		# the port, so no live re-acquire happens (the N2212
+		# live-acquire entry stays deferred); only the clear /
+		# heal / rotation / strength lines run live.
+		if bool(frame.get("enabled", true)):
+			var source_delta: float = source_placed_block_state.game_source_delta(game, seconds)
+			var time_scale: float = source_placed_block_state.time_scale(sprite, source_placed_block_state.game_default_time_scale(game))
+			var advance_repair_speed: float = _repair_speed_for_block(block_id)
+			var advance_repair_radius: float = _repair_radius_for_block(block_id)
+			var advance_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
+			var advance_block_size: int = int(block.properties.get("size", 1))
+			var advance_block_offset: float = float((advance_block_size + 1) % 2) * source_world_defaults.TILESIZE / 2.0
+			var advance_building_x: float = source_block_geometry.tile_drawx_state(advance_cell.x, source_world_defaults.TILESIZE, advance_block_offset)
+			var advance_building_y: float = source_block_geometry.tile_drawy_state(advance_cell.y, source_world_defaults.TILESIZE, advance_block_offset)
+			var advanced: Dictionary = source_repair_turret_update_tile_advance_state(frame, source_delta, time_scale, advance_repair_speed, advance_repair_radius, advance_building_x, advance_building_y, [])
+			frame["target"] = advanced["target"]
+			frame["offset"] = advanced["offset"]
+			frame["strength"] = advanced["strength"]
+			frame["rotation"] = advanced["rotation"]
+			frame["heal_amount"] = advanced["heal_amount"]
+			frame["healed"] = advanced["healed"]
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
