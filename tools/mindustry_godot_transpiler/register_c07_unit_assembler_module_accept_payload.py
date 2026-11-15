@@ -52,7 +52,7 @@ is the FIRST matching requirement's quota (plans carry one
 stack per content in every def, so the two agree in practice).
 (7) The pre-existing driver header cites acceptsPayload at
 UnitAssemblerModule.java:27 -- the real line is :28 (verified
-by grep); flagged, not fixed (outside this slice's scope).
+by grep); fixed by N2307 (cleanup slice).
 
 DEFERRED base: the MERGED DEFERRED-after-advances-8.py (321
 entries), NOT any slice's ledger snapshot (the N2277/N2290
