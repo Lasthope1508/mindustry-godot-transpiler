@@ -38,6 +38,11 @@ const SOURCE_PAYLOAD_UNLOADER_LIQUID_CAPACITY := 100.0
 const SOURCE_PAYLOAD_UNLOADER_SIZE := 3
 const SOURCE_PAYLOAD_UNLOADER_PAYLOAD_SPEED := 0.7
 const SOURCE_PAYLOAD_UNLOADER_PAYLOAD_ROTATE_SPEED := 5.0
+# `public int maxBlockSize = 3;` (PayloadLoader.java:25, inherited) -- the
+# acceptPayload fits bound (N2296): fits(maxBlockSize) is size() / tilesize
+# <= 3 (Payload.java:50-52), i.e. block.size <= 3 for build payloads
+# (BuildPayload.java:87, `return build.block.size * tilesize;`).
+const SOURCE_PAYLOAD_UNLOADER_MAX_BLOCK_SIZE := 3
 
 static func _is_payload_unloader_build_implementation(implementation: String) -> bool:
 	return SOURCE_PAYLOAD_UNLOADER_BUILD_IMPLEMENTATIONS.has(implementation)
@@ -86,6 +91,14 @@ static func source_payload_unloader_tick_frame_state(frame: Dictionary, block_im
 	# bound before this slice gets the null default.
 	if not frame.has("incoming_payload"):
 		frame["incoming_payload"] = null
+	# The frame carries the offered payload (the acceptPayload
+	# call, PayloadLoader.java:90-101): the pusher offers a
+	# payload descriptor (the N2296 contract:
+	# is_build_payload / size / block flags) and the tick
+	# evaluates the gate against it; a frame bound before
+	# this slice gets the null default (no offer).
+	if not frame.has("offered_payload"):
+		frame["offered_payload"] = null
 	# The updateTile advance keys (N2232): a frame bound before
 	# this slice gets the Java field defaults instead of
 	# crashing the advance -- payVector (0, 0) / payRotation 0f
@@ -137,13 +150,16 @@ static func _initial_frame() -> Dictionary:
 	# Building.items ItemModule (frame["items"], Dictionary
 	# keyed by item name, default {}), and `public float
 	# lastOutputPower = 0f;` (PayloadUnloader.java:33).
+	# The acceptPayload gate (N2296) reads the offered
+	# payload from the offered_payload key (default null --
+	# no offer).
 	# The dump rows (N2293) carry the dump cursor
 	# (`transient int cdump;`, BuildingComp.java:68, default
 	# 0) and the dump accumulator (`private transient float
 	# dumpAccum;`, BuildingComp.java:99, default 0f).
 	# Liquids sync from the sprite meta each tick (the N2224
 	# Fracker precedent), not from _initial_frame.
-	return {"payload": null, "pay_vector": {"x": 0.0, "y": 0.0}, "pay_rotation": 0.0, "rotation": 0, "items": {}, "last_output_power": 0.0, "incoming_payload": null, "cdump": 0, "dump_accum": 0.0}
+	return {"payload": null, "pay_vector": {"x": 0.0, "y": 0.0}, "pay_rotation": 0.0, "rotation": 0, "items": {}, "last_output_power": 0.0, "incoming_payload": null, "cdump": 0, "dump_accum": 0.0, "offered_payload": null}
 
 static func source_payload_unloader_bind_frame_state(sprite: Sprite2D, block: Object) -> Dictionary:
 	# Placement creates the Building (Block.java:1002 newBuilding);
@@ -693,6 +709,75 @@ static func source_payload_unloader_dump_state(frame: Dictionary, source_delta: 
 						items[str(item_order[j])] = int(amounts_after[j])
 	return {"liquids_after": store, "dumped_liquid": dumped_liquid, "items_after": items, "dumped_items": dumped_items, "cursor_after": cursor, "dump_accum_after": dump_accum}
 
+static func source_payload_unloader_accept_payload_state(has_payload: bool, offered_payload: Variant) -> Dictionary:
+	# The acceptPayload gate (PayloadLoaderBuild.acceptPayload(),
+	# PayloadLoader.java:90-101), inherited verbatim by
+	# PayloadUnloaderBuild -- `public class PayloadUnloader extends PayloadLoader{`
+	# (PayloadUnloader.java:8) and `public class PayloadUnloaderBuild extends PayloadLoaderBuild{`
+	# (PayloadUnloader.java:32), and PayloadUnloader.java has NO
+	# acceptPayload at all, so the Unloader inherits the Loader's
+	# override, NOT the bare PayloadBlock base gate
+	# (PayloadBlock.java:116-118). SCOPE CORRECTION: the brief
+	# claimed the base gate and called DEFERRED entry 12's
+	# "PayloadLoader.java:90-101, inherited" cite misleading --
+	# the cite was CORRECT; the Unloader's gate IS the Loader
+	# override, because `public class PayloadLoaderBuild extends PayloadBlockBuild<BuildPayload>{`
+	# (PayloadLoader.java:86) overrides acceptPayload and the
+	# UnloaderBuild does not. The Unloader accepts payloads but
+	# never loose items or liquids -- that is why its dump rows
+	# (N2293) move items/liquids OUT only. The gate (each exact
+	# expr on ONE comment line, the N2148 lesson):
+	# `public boolean acceptPayload(Building source, Payload payload){`
+	# `return super.acceptPayload(source, payload) &&`
+	# `payload.fits(maxBlockSize) &&`
+	# `payload instanceof BuildPayload build && (`
+	# `(build.build.block.hasItems && build.block().unloadable && build.block().itemCapacity >= 10 && build.block().size <= maxBlockSize) ||`
+	# `(build.build.block.hasLiquids && build.block().liquidCapacity >= 10f) ||`
+	# `(build.build.block.consPower != null && build.build.block.consPower.buffered)`
+	# `public int maxBlockSize = 3;` (PayloadLoader.java:25, inherited -- the const above).
+	# `return this.payload == null;` (PayloadBlock.java:117 -- the super call, the has_payload input).
+	# `default boolean fits(float s){` (Payload.java:50) with `return size() / tilesize <= s;` (Payload.java:51); tilesize is `public static final int tilesize = 8;` (Vars.java:135) and a BuildPayload's size() is `return build.block.size * tilesize;` (BuildPayload.java:86-88), so fits(3) is block.size <= 3 for build payloads.
+	# `public boolean unloadable = true;` (Block.java:106 -- the default when the descriptor omits it).
+	# acceptItem / acceptLiquid are hard-coded false: `public boolean acceptItem(Building source, Item item){` (PayloadUnloader.java:36) and `public boolean acceptLiquid(Building source, Liquid liquid){` (PayloadUnloader.java:41), each with `return false;` (:37, :42).
+	# Offered-payload descriptor contract (this slice):
+	# offered_payload = {"is_build_payload": bool, "size": float
+	# (Payload.size() in pixels -- build block size * tilesize,
+	# BuildPayload.java:87; unit hitSize for unit payloads),
+	# "block": {"has_items": bool, "unloadable": bool (default
+	# true, Block.java:106), "item_capacity": int, "size": int
+	# (block size in tiles), "has_liquids": bool,
+	# "liquid_capacity": float, "cons_power_capacity": float or
+	# null (null = no consPower, the N2232 contract),
+	# "cons_power_buffered": bool}}. build.build.block and
+	# build.block() are the SAME Block (BuildPayload.block()
+	# returns build.block), so one block dict covers both.
+	# Missing keys default to the rejecting values
+	# (is_build_payload false, no size key = no fits,
+	# capacities 0, no consPower) -- except unloadable, whose
+	# Java default is true. A null / non-dict offer means no
+	# payload is offered: accept_payload is false (Java would
+	# NPE on payload.fits(null); the port treats no offer as
+	# no acceptance -- the gate answers a question about an
+	# offered payload, and with nothing offered there is
+	# nothing to accept). The pure does NOT mutate its inputs.
+	# The gate is exposed on the frame by the tick; it is NOT
+	# yet wired as the N2279 intake guard (the intake still
+	# applies incoming_payload on the null check alone) --
+	# that wiring waits for its own slice.
+	var accept_item: bool = false
+	var accept_liquid: bool = false
+	var accept_payload: bool = false
+	if not has_payload and offered_payload is Dictionary:
+		var offered: Dictionary = offered_payload as Dictionary
+		var block: Dictionary = offered.get("block", {})
+		var is_build: bool = bool(offered.get("is_build_payload", false))
+		var fits: bool = offered.has("size") and float(offered.get("size", 0.0)) / source_world_defaults.TILESIZE <= float(SOURCE_PAYLOAD_UNLOADER_MAX_BLOCK_SIZE)
+		var item_container: bool = bool(block.get("has_items", false)) and bool(block.get("unloadable", true)) and int(block.get("item_capacity", 0)) >= 10 and int(block.get("size", 0)) <= SOURCE_PAYLOAD_UNLOADER_MAX_BLOCK_SIZE
+		var liquid_container: bool = bool(block.get("has_liquids", false)) and float(block.get("liquid_capacity", 0.0)) >= 10.0
+		var battery: bool = block.get("cons_power_capacity", null) != null and bool(block.get("cons_power_buffered", false))
+		accept_payload = is_build and fits and (item_container or liquid_container or battery)
+	return {"accept_payload": accept_payload, "accept_item": accept_item, "accept_liquid": accept_liquid}
+
 static func source_payload_unloader_should_consume_state(frame: Dictionary) -> Dictionary:
 	# PayloadUnloaderBuild does NOT override shouldConsume (PayloadUnloader.java has no shouldConsume at all; PayloadUnloader extends PayloadLoader, PayloadUnloader.java:8, `public class PayloadUnloader extends PayloadLoader{`, and PayloadUnloaderBuild extends PayloadLoaderBuild, PayloadUnloader.java:32, `public class PayloadUnloaderBuild extends PayloadLoaderBuild{`), so it inherits PayloadLoaderBuild.shouldConsume verbatim (PayloadLoader.java:240, `public boolean shouldConsume(){` with `return payload != null;`, PayloadLoader.java:241): the payload-unloader consumes only while it holds a payload. The default (BuildingComp.java:755, `public boolean shouldConsume(){` with `return enabled;`) does NOT apply here. Unlike the Separator/Drill gates this one has NO `&& enabled` -- Java returns the bare payload null check, so the pure gate does NOT read frame["enabled"] at all (the driver already runs the machinery only when enabled). The payload is the PayloadBlockBuild field (`public @Nullable T payload;`, PayloadBlock.java:92), default null, set by handlePayload (`this.payload = (T)payload;`, PayloadBlock.java:122) and cleared by takePayload (PayloadBlock.java:145-149); the frame carries it under the `payload` key (default null for a frame bound before this slice), and the gate reads only its null-ness -- a minimal Dictionary fixture suffices in the proof. The def is payload-unloader (`consumePower(2f);`, Blocks.java:6695; `size = 3;`, Blocks.java:6696); there is no large-payload-unloader. When the gate is false updateConsumption forces efficiency to zero (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). The live fill is live since N2279 -- handlePayload applies the frame incoming_payload input before the advance (the moveInPayload / moveOutPayload advance is live since N2232), so the gate reads the filled frame; takePayload is ported pure but not wired live.
 	var payload: Variant = frame.get("payload", null)
@@ -701,7 +786,7 @@ static func source_payload_unloader_should_consume_state(frame: Dictionary) -> D
 
 static func source_payload_unloader_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a payload-unloader does not take the early return. The unload gate follows the folded efficiency (PayloadUnloader.java:69, `if(efficiency > 0.01f && timer(timerLoad, loadTime / efficiency)){`), with the battery unload (PayloadUnloader.java:98, `float total = payload.build.power.status * cap;`) and the shouldConsume default (BuildingComp.java:755, `public boolean shouldConsume(){`) and the shouldConsume override inherited from PayloadLoaderBuild (PayloadLoader.java:241, `return payload != null;`); the gate is live since N2209 (the pure gate source_payload_unloader_should_consume_state feeds payload != null to the machinery; when the gate is false updateConsumption forces efficiency to 0, BuildingComp.java:1960 + 1992).
-	# Documented limits: (1) power-only first pass -- PayloadUnloader has NO dynamic power consumer: `loadPowerDynamic = false` (PayloadUnloader.java:18), so `init()` never registers the ConsumePowerDynamic lambda (PayloadLoader.java:77-84, guarded by `if(loadPowerDynamic){` at :78); the static consumePower(2f) def (Blocks.java:6695) is the only power consumer, so the folded efficiency is the min over the *modeled* consumers (power only) and the power-only fold is EXACT. (An earlier docstring + DEFERRED entry claimed an inherited dynamic consumer -- WRONG, corrected at wave power-launch-build integration, 2026-11-15.) (2) shouldConsume gate live (N2209) -- PayloadUnloaderBuild inherits shouldConsume() to return payload != null (PayloadLoader.java:240-242); the pure gate (source_payload_unloader_should_consume_state) feeds should_consume to the machinery from the frame payload key (default null). The live payload fill live (N2279) -- handlePayload applies the frame incoming_payload input before the advance, so a live payload-unloader with a pushed payload consumes the same tick; takePayload is ported pure but NOT wired live (the unit-pickup path waits for live units), and the live incoming source (front moveOutPayload push / unit drop) waits for its own slice, so until then incoming_payload is a frame input. (3) shouldExport gate live (N2232) -- shouldExport() (PayloadUnloader.java:116-122) runs in the pure advance over the frame payload (items empty / liquids <= 0.011f / battery status <= 0.0000001f). (4) updateTile advance live (N2232) -- moveInPayload / moveOutPayload (reused helper) / unload items+liquids / battery unload / lastOutputPower (PayloadUnloader.java:50-110) run on the frame; the timer cadence (the driver passes load_tick false), the movePayload/dumpPayload application, and the live front query wait for their own slices. The dump rows live (N2293) -- source_payload_unloader_dump_state, dumpLiquid(current) 2f + offloadSpeed x dumpAccumulate() at the end of updateTile, PayloadUnloader.java:105-108, unconditional -- outside the payload-null check and the shouldExport/moveInPayload branches. (5) No accept/handle payload rows -- acceptPayload fits maxBlockSize (PayloadLoader.java:90-101, inherited) is payload acceptance, not tick state; PayloadUnloaderBuild overrides acceptItem/acceptLiquid to return false (PayloadUnloader.java:35-44). (6) Battery unload live (N2232), power-production graph wiring deferred -- getPowerProduction returns lastOutputPower (PayloadUnloader.java:46-48; lastOutputPower 0f, PayloadUnloader.java:33) and the battery unload (PayloadUnloader.java:94-102) fills frame last_output_power each tick, but the power graph builds producers from the static block property powerProduction, so the dynamic value waits for a distribution-runtime slice; the dump rows are live since N2293 (see (4)).
+	# Documented limits: (1) power-only first pass -- PayloadUnloader has NO dynamic power consumer: `loadPowerDynamic = false` (PayloadUnloader.java:18), so `init()` never registers the ConsumePowerDynamic lambda (PayloadLoader.java:77-84, guarded by `if(loadPowerDynamic){` at :78); the static consumePower(2f) def (Blocks.java:6695) is the only power consumer, so the folded efficiency is the min over the *modeled* consumers (power only) and the power-only fold is EXACT. (An earlier docstring + DEFERRED entry claimed an inherited dynamic consumer -- WRONG, corrected at wave power-launch-build integration, 2026-11-15.) (2) shouldConsume gate live (N2209) -- PayloadUnloaderBuild inherits shouldConsume() to return payload != null (PayloadLoader.java:240-242); the pure gate (source_payload_unloader_should_consume_state) feeds should_consume to the machinery from the frame payload key (default null). The live payload fill live (N2279) -- handlePayload applies the frame incoming_payload input before the advance, so a live payload-unloader with a pushed payload consumes the same tick; takePayload is ported pure but NOT wired live (the unit-pickup path waits for live units), and the live incoming source (front moveOutPayload push / unit drop) waits for its own slice, so until then incoming_payload is a frame input. (3) shouldExport gate live (N2232) -- shouldExport() (PayloadUnloader.java:116-122) runs in the pure advance over the frame payload (items empty / liquids <= 0.011f / battery status <= 0.0000001f). (4) updateTile advance live (N2232) -- moveInPayload / moveOutPayload (reused helper) / unload items+liquids / battery unload / lastOutputPower (PayloadUnloader.java:50-110) run on the frame; the timer cadence (the driver passes load_tick false), the movePayload/dumpPayload application, and the live front query wait for their own slices. The dump rows live (N2293) -- source_payload_unloader_dump_state, dumpLiquid(current) 2f + offloadSpeed x dumpAccumulate() at the end of updateTile, PayloadUnloader.java:105-108, unconditional -- outside the payload-null check and the shouldExport/moveInPayload branches. (5) acceptPayload rows live (N2296) -- the Unloader inherits the Loader's acceptPayload override (PayloadLoader.java:90-101: base null gate + fits(maxBlockSize) + BuildPayload container branches), NOT the bare PayloadBlock base gate (PayloadBlock.java:116-118) -- PayloadUnloaderBuild extends PayloadLoaderBuild (PayloadUnloader.java:32), so the Loader override applies; the pure gate (source_payload_unloader_accept_payload_state) exposes accepts_payload / accepts_item / accepts_liquid on the frame from the offered-payload frame input (default null, no offer), and acceptItem/acceptLiquid are hard false (PayloadUnloader.java:35-44); the gate is NOT yet wired as the intake guard (the N2279 intake still applies on the null check alone) and no live source offers a payload yet. (6) Battery unload live (N2232), power-production graph wiring deferred -- getPowerProduction returns lastOutputPower (PayloadUnloader.java:46-48; lastOutputPower 0f, PayloadUnloader.java:33) and the battery unload (PayloadUnloader.java:94-102) fills frame last_output_power each tick, but the power graph builds producers from the static block property powerProduction, so the dynamic value waits for a distribution-runtime slice; the dump rows are live since N2293 (see (4)).
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -775,6 +860,25 @@ static func source_payload_unloader_tick_buildings_state(game: Object, seconds: 
 			frame["pay_vector"] = handled["pay_vector"]
 			frame["pay_rotation"] = handled["pay_rotation"]
 			frame["incoming_payload"] = null
+		# N2296: the acceptPayload gate runs every tick, after
+		# the intake -- acceptPayload is an external call (the
+		# pusher asks whether the offered payload may land),
+		# so the tick evaluates it against the filled frame
+		# payload and the offered-payload frame input
+		# (default null -- no offer) and exposes all three
+		# verdicts on the frame. The gate does NOT drive the
+		# intake yet (the N2279 intake still applies
+		# incoming_payload on the null check alone); wiring
+		# the gate as the intake guard waits for its own
+		# slice. accept_item / accept_liquid are hard false
+		# (PayloadUnloader.java:35-44) -- the Unloader
+		# accepts payloads but never loose items or liquids.
+		var has_payload: bool = frame.get("payload", null) != null
+		var offered_payload: Variant = frame.get("offered_payload", null)
+		var accepts: Dictionary = source_payload_unloader_accept_payload_state(has_payload, offered_payload)
+		frame["accepts_payload"] = accepts["accept_payload"]
+		frame["accepts_item"] = accepts["accept_item"]
+		frame["accepts_liquid"] = accepts["accept_liquid"]
 		# The power consumer reads live since N2153 (the graph
 		# update stamps frame["power_status"] each tick, N2142):
 		# a payload-unloader with a power consumer folds the pure power
