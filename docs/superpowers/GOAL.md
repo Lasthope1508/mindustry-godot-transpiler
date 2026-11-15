@@ -45,7 +45,7 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
 (`docs/superpowers/handoffs/`). Khi trống task, tự làm slice tiếp theo, không
 đợi user giao.
 
-## 4. Tiến độ hiện tại (2026-11-15 13:42 +07)
+## 4. Tiến độ hiện tại (2026-11-15 14:09 +07)
 
 - Main trên fork ở `de9ab89c` (N2185 LightBlock power.status DONE + PUSHED).
 - **Batch 1 {N2186, N2187, N2189} DONE** trên branch tích hợp
@@ -100,9 +100,22 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
   `481315f8` ở tích hợp: seed facing_amount=1 trong proof N2155 (nếu không
   key efficiency_folds_power_min sẽ fail trên Godot vì gate N2202 đóng khi
   facing_amount mặc định 0).
-- **Tiếp theo:** wave liquids — N2205 Pump, N2206 SolidPump, N2207 Fracker
-  shouldConsume gates (briefs sẵn, scoping trong `SCOPE-liquids-wave.md`) →
-  payload → targets → plans → units (xem `DESIGN-frame-state-infra.md` trong
+- **Wave liquids {N2205 Pump, N2206 SolidPump, N2207 Fracker} shouldConsume
+  gates DONE** trên branch tích hợp `integration/wave-liquids-n2205-n2207`
+  (không merge vào main; 3 slice branch push 13:50–13:55 + integration
+  branch push ngay sau docs commit theo push-as-you-go): neighbours họ
+  pump 20 tests (15 PASS + 5 proof Godot-absent, 0 lỗi khác) + targeted
+  3 module 12 tests (9 PASS + 3 proof Godot-absent), full gate Ran 5885
+  in 1005.870s, failures=148, skipped=5, 0 errors — 148/148 Godot-absent
+  (145 inherited + 3 new proof tests N2205–N2207). SSOT gộp
+  11413/1648/1571/2933, audit 1336, legacy 0. Không cần fix ở tích hợp
+  (3 cherry-picks sạch); lưu ý: lần chạy targeted đầu báo 9
+  FileNotFoundError do worktree tích hợp thiếu bản copy mindustry-upstream
+  — đã copy từ worktree tích hợp wave-items (bố cục giống worktree slice).
+- **Tiếp theo:** payload infra (coordinator làm tuần tự — scope port payload
+  store trước, rồi các gate PayloadLoader / PayloadUnloader /
+  PayloadDeconstructor / UnitCargoLoader; xem `SCOPE-payload-wave.md`) →
+  targets → plans → units (xem `DESIGN-frame-state-infra.md` trong
   `~/workspace/mindustry-parallel/`).
 - **KHÔNG chạy Godot ở VM này** (chỉ đạo user 2026-11-15, ưu tiên cao): mọi
   proof scene từ N2186 trở đi chỉ viết, chưa từng chạy ở đâu — ghi nợ ở §5,
@@ -322,6 +335,36 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
     `slice/N2204-drill-should-consume` (integration cherry-pick `df565569`).
     Trạng thái "chờ agent Godot test". Chạy: targeted test
     `tests.test_c07_drill_should_consume` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2205 `C07MechanicalPumpShouldConsumeProof` — CHƯA CHẠY ở đâu (6 key:
+    `gate_open_when_liquid_below_capacity`, `gate_closed_when_liquids_full`,
+    `gate_closed_when_no_liquid_drop`, `gate_closed_when_disabled`,
+    `efficiency_zero_when_gate_closed`, `efficiency_kept_when_gate_open`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `882ccb3e` trên
+    `slice/N2205-mechanical-pump-should-consume` (integration cherry-pick `06e8b692`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_mechanical_pump_should_consume` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2206 `C07SolidPumpShouldConsumeProof` — CHƯA CHẠY ở đâu (6 key:
+    `gate_true_below_capacity`, `gate_false_at_capacity`,
+    `gate_ignores_enabled`, `efficiency_zero_when_gate_false`,
+    `efficiency_folds_power_when_gate_true`, `def_constant_water_capacity_forty`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `6a85eed2` trên
+    `slice/N2206-solid-pump-should-consume` (integration cherry-pick `26a9afe0`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_solid_pump_should_consume` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2207 `C07FrackerShouldConsumeProof` — CHƯA CHẠY ở đâu (6 key:
+    `gate_true_below_capacity`, `gate_false_at_capacity`,
+    `gate_ignores_enabled`, `efficiency_zero_when_gate_false`,
+    `efficiency_folds_power_when_gate_true`, `def_constant_oil_capacity_forty`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `5342006a` trên
+    `slice/N2207-fracker-should-consume` (integration cherry-pick `8bb5f81e`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_fracker_should_consume` với Godot 4.6.2 trên PATH,
     port 7777 trống.
   - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
     trên (ghi rõ commit đưa scene tới Windows).

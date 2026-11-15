@@ -1,0 +1,130 @@
+# Report — N2205: Mechanical Pump shouldConsume gate (C07)
+
+Date: 2026-11-15. Slice branch `slice/N2205-mechanical-pump-should-consume`, base
+`22b410fb` (wave-items docs tip). Integrated on `integration/wave-liquids-n2205-n2207`
+(cherry-pick `06e8b692`). Status: **DONE (code + SSOT + neighbours + gate
+clean except Godot; NOT merged into main; slice branch pushed 13:50 per
+push-as-you-go; integration branch pushed immediately after the docs commit
+— see STATUS.md).**
+
+Done by worker-N2205 (slice, done 13:49 +07); integrated and documented by
+coordinator lượt 4. Slice commit `882ccb3e`; merged SSOT `a47139dc`
+(wave-level, 11413/1648/1571/2933).
+
+## What changed
+
+The Pump power.status slice (N2154) folded power only and deferred the
+shouldConsume gate ("liquidDrop is computed by the proximity scan, not
+tracked on the live frame"). N2205 wires the gate over the liquids frame
+state (the DESIGN-frame-state-infra.md liquids pattern: the liquids store
+already exists as sprite meta `source_building_liquids`; amount read via
+`SourceLiquidModuleState.source_get_state`):
+
+- **Pure gate** `source_mechanical_pump_should_consume_state(frame,
+  liquid_id_by_name, ...)` in `SourceMechanicalPumpBuildState.gd` — mirrors
+  PumpBuild.shouldConsume() (Pump.java:155-157): `return liquidDrop != null
+  && liquids.get(liquidDrop) < liquidCapacity - 0.01f && enabled;`. Returns
+  `{"should_consume", "liquid_drop"}`.
+- **liquidDrop per tick**: the N2087 helper `source_pump_proximity_state`
+  computes liquid_drop + amount but is only called from the scenario pump
+  tick — live pumps never got it. The driver now calls it every tick
+  (decision (a) in the brief — linked tiles are size 2–3, the scan is
+  cheap; NO new frame key). liquidDrop/amount come from onProximityUpdate
+  (Pump.java:141-152) via canPump (:106-108).
+- **liquidCapacity def constants** (the catalog has NO liquidCapacity for
+  pump defs — the N2190/N2199 precedent): rotary-pump 80f
+  (Blocks.java:2308), impulse-pump 200f (:2317); an unknown def falls back
+  to −1f, which closes the gate (Block.java:77, the class default).
+- **Pure gate has 5 params** — it takes `liquid_id_by_name` because the
+  liquids store is keyed by catalog id while liquidDrop is a name (the
+  factory precedent).
+- The power.row limit comment now says the gate is LIVE.
+
+## RED
+
+Test module `tools/mindustry_godot_transpiler/tests/test_c07_mechanical_pump_should_consume.py`
++ register script `tools/mindustry_godot_transpiler/register_c07_mechanical_pump_should_consume.py`
+written by worker-N2205. Register script: EXACT_EXPRS = the 19 verified
+exprs (all 19 unique, all present verbatim in upstream — script check,
+0 missing), DEFERRED 252 entries (the Pump gate entry resolved; 2 new
+deferrals added: the per-tick scan replaces the proximity hook; the
+scenario pump does not apply the gate yet).
+
+RED run: the expected no-Godot pattern — registration + exact-evidence fail
+`KeyError: 'N2205'`, the state test fails on the missing pure function, and
+the proof test fails Godot-absent (`AssertionError: unexpectedly None` at
+`assertIsNotNone(godot)`).
+
+## GREEN
+
+- Pure gate + driver wiring in `SourceMechanicalPumpBuildState.gd`; the
+  limit comment updated. Header quotes the exact exprs, each Java line on
+  ONE comment line (the N2148 lesson).
+- Proof scene `godot-mindustry/tools/runtime_proofs/C07MechanicalPumpShouldConsumeProof.gd`
+  + `.tscn` (6 keys + registry_valid / one_headquarter_per_ssot / matches):
+  gate_open_when_liquid_below_capacity, gate_closed_when_liquids_full,
+  gate_closed_when_no_liquid_drop, gate_closed_when_disabled,
+  efficiency_zero_when_gate_closed, efficiency_kept_when_gate_open. Proof
+  `.json` is gitignored (never stage, per AGENTS.md rule on proof .json).
+- Register script: SSOT single-slice **+2/+1/+1/+2 → 11409/1646/1569/2929**
+  from the wave-items base 11407/1645/1568/2927; audit totalSourceFunctions
+  1336, legacy 0. **Production shard CHANGED** (4 `production_*` files —
+  the N2201 note: production shards mirror this family).
+- Targeted: **Ran 4 tests, 3/4 PASS** (registration, exact-evidence 19/19,
+  state) + 1 FAIL, the proof test, failing exactly
+  `AssertionError: unexpectedly None` at `assertIsNotNone(godot)` — **no Godot
+  binary exists on this VM** (user order 2026-11-15: no Godot runs here at all —
+  no headless, no MCP, no editor). The proof scene is written but NEVER run;
+  see GOAL.md §5 debt.
+
+## Neighbours (coordinator, main thread — wave-level)
+
+Pump family (20 tests): 15 PASS + 5 Godot-absent (the power_status proofs
+of mechanical pump / solid pump / fracker + the liquid-bridge power_status
+and shouldConsume proofs), 0 other failures. Targeted 3 wave modules
+(12 tests): 9 PASS + 3 proof tests Godot-absent. No regression. (The first
+targeted run showed 9 FileNotFoundError — the integration worktree had no
+`mindustry-upstream` copy for the exact-evidence tests to read; copied the
+upstream checkouts from the wave-items integration worktree, the same
+layout the slice worktrees use, and the run then passed 9/12.)
+
+## Gate
+
+Full gate (PID 6624, launch 13:52 by coordinator lượt 4, done 14:09 +07, log
+`tools/mindustry_godot_transpiler/full-suite-wave-liquids-gate.log`, untracked): Ran 5885 in 1005.870s,
+failures=148, skipped=5, 0 errors — 148/148 verified Godot-absent (145 inherited + 3 new proof tests
+N2205–N2207, all confirmed present in the failures; 0 `ERROR:` lines). Gate clean except Godot; no
+regression.
+
+## Commits
+
+- Slice: `882ccb3e` — C07: N2205 Pump shouldConsume gate, 5 files
+  (+887/−13), on `slice/N2205-mechanical-pump-should-consume` (base `22b410fb`).
+  Cherry-pick `06e8b692` on `integration/wave-liquids-n2205-n2207`.
+- SSOT: merged `a47139dc` — wave-level SSOT (11413/1648/1571/2933), audit
+  1336, legacy 0, validator errors [].
+- Docs: (this commit) — report + handoff + spec + GOAL for N2205–N2207.
+- NOT merged into main. Slice branch pushed 13:50, integration branch
+  pushed per push-as-you-go immediately after the docs commit (user order
+  12:08 + parent 12:26); push recorded in STATUS.md.
+
+## Deferred (NOT this slice)
+
+- The scenario pump tick does not apply the gate yet — the N2087 scenario
+  path calls the proximity helper but never folds the gate (deferral in
+  the register script).
+- The per-tick scan replaces the proximity hook: Java computes liquidDrop
+  in onProximityUpdate (Pump.java:141-152); the port re-scans every tick
+  instead (deferral in the register script).
+- The driver-wide disabled early return (BuildingComp.java:1954-1957) —
+  deferred (same deviation as N2188/N2198/N2201–N2204).
+- Godot proof never run on this VM (no Godot here, user order) — debt in GOAL.md §5:
+  `C07MechanicalPumpShouldConsumeProof`, commit carrying the scene `882ccb3e`,
+  6 keys (listed above + `registry_valid` / `one_headquarter_per_ssot` /
+  `matches`), status "chờ agent Godot test". Run: targeted test
+  `tests.test_c07_mechanical_pump_should_consume` with Godot 4.6.2 on PATH, port
+  7777 free.
+- Next: payload infra (coordinator serial — scope the port payload store
+  first, then the PayloadLoader / PayloadUnloader / PayloadDeconstructor /
+  UnitCargoLoader gates; see `SCOPE-payload-wave.md`) → targets → plans →
+  units (see `DESIGN-frame-state-infra.md` in `~/workspace/mindustry-parallel/`).
