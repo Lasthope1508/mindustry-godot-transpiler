@@ -224,8 +224,10 @@ func _ready() -> void:
 	# lastX/lastY track the target, any is true. A second
 	# tick with the target nulled folds efficiency 0 (gate
 	# false), pulls nothing, and decays strength to 0.9. The
-	# driver passes no candidates and retarget_tick false, so
-	# no live retarget happens.
+	# retarget cadence is live since N2317 (the frame-local
+	# Interval, 5f), but the two ticks here only accumulate
+	# the clock to 2.0 -- below the threshold -- so no live
+	# retarget fires inside this proof.
 	var catalog = game.get("content_catalog")
 	var blocks_by_id: Dictionary = {}
 	for registered_block in catalog.get_many("block"):
