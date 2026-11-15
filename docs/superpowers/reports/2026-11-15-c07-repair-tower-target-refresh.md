@@ -30,8 +30,8 @@ Tests written first per the slice process; the handoff's RED decisions section r
 ## Commits
 
 - Slice: `f10c459` — C07: N2190 RepairTower target refresh (pure function + driver call; proof 7 keys), 9 files, +921.
-- Docs: (report + handoff — hash named in the follow-up commit, N2189 pattern).
-- GOAL: (GOAL.md §5 — hash named in the follow-up commit, N2189 pattern).
+- Docs: `377984d` — Docs: N2190 report + handoff (gate clean except Godot).
+- GOAL: `d4bdfc8` — Docs: GOAL.md names the N2190 slice commit that carries its proof to Windows.
 - Pushed 2026-11-15 ~15:5x +07 to the fork (Lasthope1508). See the handoff Commits section for the hashes.
 
 ## Deferred (NOT this slice)
