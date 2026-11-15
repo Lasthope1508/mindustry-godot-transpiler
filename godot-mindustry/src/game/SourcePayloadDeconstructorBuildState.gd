@@ -156,15 +156,15 @@ static func _initial_frame() -> Dictionary:
 	# deconstructing key at null. N2233 extends the frame with
 	# the rest of the updateTile state at its Java defaults:
 	# the held payload (`public @Nullable T payload;`,
-	# PayloadBlock.java:94, null), the accumulation buffer
+	# PayloadBlock.java:92, null), the accumulation buffer
 	# (`public @Nullable float[] accum;`,
 	# PayloadDeconstructor.java:53, null), `public float
 	# progress;` (PayloadDeconstructor.java:54, 0f), `public
 	# float time, speedScl;` (PayloadDeconstructor.java:55,
 	# 0f), the items ItemModule (empty), the payload offset
 	# (`public Vec2 payVector = new Vec2();`,
-	# PayloadBlock.java:95) and `public float payRotation;`
-	# (PayloadBlock.java:96, 0f). N2276 extends the frame with
+	# PayloadBlock.java:94) and `public float payRotation;`
+	# (PayloadBlock.java:95, 0f). N2276 extends the frame with
 	# the dump state at its Java defaults: the dump
 	# accumulator (`private transient float dumpAccum;`,
 	# BuildingComp.java:99, 0f) and the dump cursor
@@ -555,10 +555,10 @@ static func source_payload_deconstructor_update_tile_advance_state(frame: Dictio
 	# `public float progress;`
 	# `public float time, speedScl;`
 	# (PayloadDeconstructor.java:54-55), the held payload
-	# (`public @Nullable T payload;`, PayloadBlock.java:94),
+	# (`public @Nullable T payload;`, PayloadBlock.java:92),
 	# the payload offset (`public Vec2 payVector = new
-	# Vec2();`, PayloadBlock.java:95) and `public float
-	# payRotation;` (PayloadBlock.java:96). Payload /
+	# Vec2();`, PayloadBlock.java:94) and `public float
+	# payRotation;` (PayloadBlock.java:95). Payload /
 	# deconstructing dict contract (decision 8): kind
 	# ("build" / "unit"), requirements (ItemStack list of
 	# {item, amount}), build_time. BuildPayload requirements

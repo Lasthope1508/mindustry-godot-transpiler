@@ -4,7 +4,7 @@ N2088 is the pump's updateTile production part (Pump.java:160-176):
 each frame it pumps maxPump = min(liquidCapacity - liquids.get(liquidDrop),
 amount * pumpAmount * edelta()) into its liquids, warms up toward 1 when
 it pumped, and advances totalProgress. The dumpLiquid step (Pump.java:
-180-182) is a later slice; this one only fills the pump's own liquids.
+178-180) is a later slice; this one only fills the pump's own liquids.
 
 N2089 places the conduit line from the pump to the drill (Blocks.java:
 2322-2327, conduit liquidCapacity 20, health 45): 7 conduits from (5,13)
@@ -24,7 +24,7 @@ PUMP = 'core/src/mindustry/world/blocks/production/Pump.java'
 PROOF = '/root/PumpUpdateProof'
 TESTS = ['test_pump_update_binding_registration', 'test_all_pump_update_binding_input_evidence_is_exact', 'test_reference_graph_and_actual_pump_update']
 DEFERRED = [
-    'The pump dumpLiquid step (Pump.java:180-182) and the conduit liquid movement, then the live-loop liquid flow (the C04 gate: pump -> conduit -> Drill uses water as a booster).',
+    'The pump dumpLiquid step (Pump.java:178-180) and the conduit liquid movement, then the live-loop liquid flow (the C04 gate: pump -> conduit -> Drill uses water as a booster).',
     'C05-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption.',
 ]
 

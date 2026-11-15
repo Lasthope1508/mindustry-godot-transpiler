@@ -29,7 +29,7 @@ func _ready() -> void:
 	var pump_liquids: Dictionary = pump.get_meta("source_building_liquids", {})
 	var conduit_liquids: Dictionary = conduit.get_meta("source_building_liquids", {})
 
-	# --- the pump dump (Pump.java:180-182, BuildingComp.java:877-878):
+	# --- the pump dump (Pump.java:178-180, BuildingComp.java:877-878):
 	# one second of pumping fills 7.0 water (7/60 per frame over 60
 	# frames); the dump then moves (pump - conduit) / 2 to the
 	# conduit (fract - ofract) * 20 / 2, so both end at the average. ---

@@ -63,7 +63,7 @@ static func source_pump_update_state(game: Object, cell: Vector2i, delta: float)
 	# frame it pumps maxPump = min(liquidCapacity - liquids.get(liquidDrop),
 	# amount * pumpAmount * edelta()) into its liquids, warms up toward 1
 	# when it pumped, and advances totalProgress. The dumpLiquid step
-	# (Pump.java:180-182) is a later slice. The pump is enabled and
+	# (Pump.java:178-180) is a later slice. The pump is enabled and
 	# consumes no power, so efficiency is 1.0 and edelta() is the tick
 	# delta (delta * TICK_RATE). The warmup/totalProgress live on the
 	# pump building frame (like liquidDrop/amount), so they persist
@@ -113,7 +113,7 @@ static func _liquid_capacity_for_block_id(block_id: String) -> float:
 
 
 static func source_pump_dump_liquid_state(game: Object, cell: Vector2i) -> Dictionary:
-	# Pump.java:180-182 PumpBuild.updateTile: if(liquidDrop != null)
+	# Pump.java:178-180 PumpBuild.updateTile: if(liquidDrop != null)
 	# dumpLiquid(liquidDrop). BuildingComp.java:877-878: dumpLiquid
 	# (liquid) calls dumpLiquid(liquid, 2f) — scaling 2, any output
 	# direction (-1) — which routes the pump's water to its liquid
