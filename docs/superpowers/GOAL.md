@@ -45,7 +45,7 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
 (`docs/superpowers/handoffs/`). Khi trống task, tự làm slice tiếp theo, không
 đợi user giao.
 
-## 4. Tiến độ hiện tại (2026-11-15 13:12 +07)
+## 4. Tiến độ hiện tại (2026-11-15 13:42 +07)
 
 - Main trên fork ở `de9ab89c` (N2185 LightBlock power.status DONE + PUSHED).
 - **Batch 1 {N2186, N2187, N2189} DONE** trên branch tích hợp
@@ -88,10 +88,21 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
   legacy 0. (Gate run 1 fail 9 validator — fix bằng rename dispatch; run 2
   fail 105 registration do lỗi sort_keys của coordinator — fix bằng checkout +
   chạy lại register.)
-- **Tiếp theo:** wave items — N2200 Separator, N2201 WallCrafter, N2202
-  BeamDrill, N2203 BurstDrill, N2204 base Drill shouldConsume gates (briefs
-  sẵn, scoping trong `SCOPE-items-wave.md`) → liquids → payload → targets →
-  plans → units (xem `DESIGN-frame-state-infra.md` trong
+- **Wave items {N2200 Separator, N2201 WallCrafter, N2202 BeamDrill, N2203
+  BurstDrill, N2204 base Drill} shouldConsume gates DONE** trên branch tích
+  hợp `integration/wave-items-n2200-n2204` (không merge vào main; 5 slice
+  branch push 13:21 + integration branch push ngay sau docs commit theo
+  push-as-you-go): neighbours họ production 64 tests (16 Godot-absent,
+  0 lỗi khác) + targeted 5 module 20 tests (15 PASS + 5 proof Godot-absent),
+  full gate Ran 5873 in 985.433s, failures=145, skipped=5,
+  0 errors — 145/145 Godot-absent (140 inherited + 5 new proof tests N2200–N2204).
+  SSOT gộp 11407/1645/1568/2927, audit 1336, legacy 0. Coordinator fix
+  `481315f8` ở tích hợp: seed facing_amount=1 trong proof N2155 (nếu không
+  key efficiency_folds_power_min sẽ fail trên Godot vì gate N2202 đóng khi
+  facing_amount mặc định 0).
+- **Tiếp theo:** wave liquids — N2205 Pump, N2206 SolidPump, N2207 Fracker
+  shouldConsume gates (briefs sẵn, scoping trong `SCOPE-liquids-wave.md`) →
+  payload → targets → plans → units (xem `DESIGN-frame-state-infra.md` trong
   `~/workspace/mindustry-parallel/`).
 - **KHÔNG chạy Godot ở VM này** (chỉ đạo user 2026-11-15, ưu tiên cao): mọi
   proof scene từ N2186 trở đi chỉ viết, chưa từng chạy ở đâu — ghi nợ ở §5,
@@ -261,6 +272,56 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
     `slice/N2199-item-bridge-auto-link`.
     Trạng thái "chờ agent Godot test". Chạy: targeted test
     `tests.test_c07_item_bridge_auto_link` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2200 `C07SeparatorShouldConsumeProof` — CHƯA CHẠY ở đâu (6 key:
+    `gate_true_below_capacity`, `gate_false_when_full`,
+    `gate_false_when_disabled`, `buffer_cons_items_subtracted`,
+    `efficiency_zero_when_gate_false`, `efficiency_folds_power_when_gate_true`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `99822420` trên
+    `slice/N2200-separator-should-consume` (integration cherry-pick `437667c4`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_separator_should_consume` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2201 `C07WallCrafterShouldConsumeProof` — CHƯA CHẠY ở đâu (6 key:
+    `gate_true_below_capacity`, `gate_false_at_capacity`,
+    `gate_ignores_enabled`, `large_def_capacity_twenty`,
+    `efficiency_zero_when_gate_false`, `efficiency_folds_power_when_gate_true`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `a2a27ded` trên
+    `slice/N2201-wall-crafter-should-consume` (integration cherry-pick `42020bbb`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_wall_crafter_should_consume` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2202 `C07BeamDrillShouldConsumeProof` — CHƯA CHẠY ở đâu (6 key:
+    `gate_true_when_all_three_conditions`, `gate_false_when_items_full`,
+    `gate_false_when_no_facing`, `gate_false_when_disabled`,
+    `efficiency_zero_when_gate_false`, `efficiency_folds_power_when_gate_true`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `41ee66e0` trên
+    `slice/N2202-beam-drill-should-consume` (integration cherry-pick `8e922c31`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_beam_drill_should_consume` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2203 `C07BurstDrillShouldConsumeProof` — CHƯA CHẠY ở đâu (6 key:
+    `gate_open_below_threshold`, `gate_open_at_boundary`,
+    `gate_closed_when_over_threshold`, `gate_closed_when_disabled`,
+    `efficiency_zero_when_gate_closed`, `efficiency_kept_when_gate_open`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `4e249a60` trên
+    `slice/N2203-burst-drill-should-consume` (integration cherry-pick `04438b4c`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_burst_drill_should_consume` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2204 `C07DrillShouldConsumeProof` — CHƯA CHẠY ở đâu (6 key:
+    `gate_open_when_items_below_capacity`, `gate_closed_when_items_full`,
+    `gate_closed_when_no_dominant_item`, `gate_closed_when_disabled`,
+    `efficiency_zero_when_gate_closed`, `efficiency_kept_when_gate_open`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `c9651592` trên
+    `slice/N2204-drill-should-consume` (integration cherry-pick `df565569`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_drill_should_consume` với Godot 4.6.2 trên PATH,
     port 7777 trống.
   - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
     trên (ghi rõ commit đưa scene tới Windows).
