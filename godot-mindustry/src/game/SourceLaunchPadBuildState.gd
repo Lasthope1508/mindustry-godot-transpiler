@@ -6,6 +6,8 @@ const source_placed_block_state := preload("res://src/game/SourcePlacedBlockStat
 const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
 const source_building_efficiency_state := preload("res://src/game/SourceBuildingEfficiencyState.gd")
 const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
+const source_liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
+const source_content_registry_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
 const inventory := preload("res://src/game/SourceDrillInventoryRuntimeState.gd")
 
 # The LaunchPad implementation (LaunchPad.java:30, `public class LaunchPad extends Block{`): launch-pad (consumePower 4f, Blocks.java:6797, `consumePower(4f);`; size 3, itemCapacity 100, launchTime 60f * 20, Blocks.java:6790-6797) and advanced-launch-pad (consumePower 8f, Blocks.java:6809, `consumePower(8f);`; size 4, itemCapacity 100, launchTime 60f * 30, liquidCapacity 40f, drawLiquid oil, consumeLiquid oil 9f/60f, Blocks.java:6800-6809). LaunchPad extends Block, NOT a factory or crafter, so no existing driver matches it and no frame key exists for it; this driver uses its own family frame key ("source_launch_pad_building", the wall-crafter precedent), and this slice adds the launch-pad key to N2142's SOURCE_CONSUMER_FRAME_META_KEYS so the graph stamp/write-back finds it. The port has NO SourceLaunchPad* files at all yet -- no display/runtime state to lean on -- so the missing piece is the live power.status -> efficiency driver, which is exactly this slice: the updateTile launch gate (LaunchPad.java:146, `if((launchCounter += edelta()) >= launchTime && items.total() >= itemCapacity){`) advances launchCounter by edelta() (BuildingComp.java:1927-1929, `return efficiency * delta();`), so a launch pad with no power would never launch -- its launchCounter would sit frozen as if power.status were 1.0.
@@ -56,8 +58,12 @@ static func _initial_frame() -> Dictionary:
 	# LaunchPad.java:32); efficiency is stamped by the
 	# consumption fold and the advance reads it with the
 	# frame.get default 0.0 (BuildingComp.java:85 `transient
-	# float efficiency;`).
-	return {"launch_counter": 0.0, "items": {}}
+	# float efficiency;`). The liquids store starts empty (the
+	# Building.liquids LiquidModule, default {} -- the tick
+	# syncs the live store from the sprite meta before the
+	# fold, N2253); a pad with no liquid consumer never fills
+	# it.
+	return {"launch_counter": 0.0, "items": {}, "liquids": {}}
 
 static func source_launch_pad_bind_frame_state(sprite: Sprite2D, block: Object) -> Dictionary:
 	# Placement creates the Building (Block.java:1002 newBuilding);
@@ -78,13 +84,34 @@ static func source_launch_pad_bind_frame_state(sprite: Sprite2D, block: Object) 
 	return {"applied": true, "frame": frame}
 
 static func source_launch_pad_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
-	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a launch pad does not take the early return. The updateTile advance follows the folded efficiency: the launch gate (LaunchPad.java:146, `if((launchCounter += edelta()) >= launchTime && items.total() >= itemCapacity){`) advances launchCounter by edelta() (BuildingComp.java:1927-1929, `return efficiency * delta();`), so a launch pad with no power would never launch. LaunchPadBuild HAS a shouldConsume override (LaunchPad.java:92, `public boolean shouldConsume(){` with `return launchCounter < launchTime;`, LaunchPad.java:94) -- N2186 wires the gate: the pure source_launch_pad_should_consume_state gate reads the tracked launchCounter, the driver ANDs enabled (the BuildingComp default, BuildingComp.java:755-757, `return enabled;`, is what the driver uses), and the machinery folds efficiency to 0 when the gate is false (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();`, with BuildingComp.java:1992-1994, `if(!update){` / `efficiency = optionalEfficiency = 0f;`). The launch pad is its own family (LaunchPad.java:30, `public class LaunchPad extends Block{`; LaunchPadBuild, LaunchPad.java:83, `public class LaunchPadBuild extends Building{`). Two defs share the implementation (launch-pad, `consumePower(4f);`, Blocks.java:6797; advanced-launch-pad, `consumePower(8f);`, Blocks.java:6809), so the same driver covers the whole family; the advanced def also consumes liquid oil, which waits for its own slice.
-	# Documented limits: (1) power-only first pass -- the launch pad's power consumer is static (consumePower 4f, Blocks.java:6797; consumePower 8f, Blocks.java:6809), so the folded efficiency is the min over the *modeled* consumers (power only). (2) shouldConsume gate LIVE (N2186) -- LaunchPadBuild.shouldConsume() (`return launchCounter < launchTime;`, LaunchPad.java:92-95) is the pure source_launch_pad_should_consume_state gate over the tracked launchCounter; the driver ANDs enabled (BuildingComp.java:755-757, `return enabled;`) and the machinery folds efficiency to 0 when the gate is false (BuildingComp.java:1960/:1992-1994). (3) updateTile advance live (N2238) -- the launchCounter advance, the full-and-timed launch gate, the stacks copy, items.clear and the launchCounter = 0f reset (LaunchPad.java:143-161) advance in the pure function (source_launch_pad_update_tile_advance_state); the LaunchPayload entity creation/application (LaunchPad.java:150-155) and the launch sound / effects (launchSound / Fx.launchPod / Effect.shake, LaunchPad.java:149/156/158) still defer. (4) No liquid consumer row -- advanced-launch-pad consumes oil 9f/60f (Blocks.java:6808); see DEFERRED. (5) Two defs, one driver -- launch-pad + advanced-launch-pad share the LaunchPad implementation, so the same driver covers the whole family; the advanced def waits for its own verification slice.
+	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a launch pad does not take the early return. The updateTile advance follows the folded efficiency: the launch gate (LaunchPad.java:146, `if((launchCounter += edelta()) >= launchTime && items.total() >= itemCapacity){`) advances launchCounter by edelta() (BuildingComp.java:1927-1929, `return efficiency * delta();`), so a launch pad with no power would never launch. LaunchPadBuild HAS a shouldConsume override (LaunchPad.java:92, `public boolean shouldConsume(){` with `return launchCounter < launchTime;`, LaunchPad.java:94) -- N2186 wires the gate: the pure source_launch_pad_should_consume_state gate reads the tracked launchCounter, the driver ANDs enabled (the BuildingComp default, BuildingComp.java:755-757, `return enabled;`, is what the driver uses), and the machinery folds efficiency to 0 when the gate is false (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();`, with BuildingComp.java:1992-1994, `if(!update){` / `efficiency = optionalEfficiency = 0f;`). The launch pad is its own family (LaunchPad.java:30, `public class LaunchPad extends Block{`; LaunchPadBuild, LaunchPad.java:83, `public class LaunchPadBuild extends Building{`). Two defs share the implementation (launch-pad, `consumePower(4f);`, Blocks.java:6797; advanced-launch-pad, `consumePower(8f);`, Blocks.java:6809), so the same driver covers the whole family; the advanced def also consumes liquid oil -- the liquid row is LIVE since N2253 (source_launch_pad_liquid_consumer_row_state, oil 9f/60f, Blocks.java:6808).
+	# Documented limits: (1) power + liquid first pass -- the launch pad's power consumer is static (consumePower 4f, Blocks.java:6797; consumePower 8f, Blocks.java:6809), and the advanced def's oil consumer is static too (consumeLiquid oil 9f/60f, Blocks.java:6808), so the folded efficiency is the min over the *modeled* consumers (power + the advanced def's oil row, N2253; the plain launch-pad has no liquid consumer, so its liquid row is absent). (2) shouldConsume gate LIVE (N2186) -- LaunchPadBuild.shouldConsume() (`return launchCounter < launchTime;`, LaunchPad.java:92-95) is the pure source_launch_pad_should_consume_state gate over the tracked launchCounter; the driver ANDs enabled (BuildingComp.java:755-757, `return enabled;`) and the machinery folds efficiency to 0 when the gate is false (BuildingComp.java:1960/:1992-1994). (3) updateTile advance live (N2238) -- the launchCounter advance, the full-and-timed launch gate, the stacks copy, items.clear and the launchCounter = 0f reset (LaunchPad.java:143-161) advance in the pure function (source_launch_pad_update_tile_advance_state); the LaunchPayload entity creation/application (LaunchPad.java:150-155) and the launch sound / effects (launchSound / Fx.launchPod / Effect.shake, LaunchPad.java:149/156/158) still defer. (4) Liquid consumer row LIVE (N2253) -- advanced-launch-pad consumes oil 9f/60f (Blocks.java:6808), folded as a required row with is_power false; the plain launch-pad has no liquid consumer (row absent). (5) Two defs, one driver -- launch-pad + advanced-launch-pad share the LaunchPad implementation, so the same driver covers the whole family; the advanced def waits for its own verification slice.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
 	var live: float = 1.0 if stamped == null else float(stamped)
 	return {"has_power_row": true, "row": {"result": live, "is_power": true}}
+
+static func source_launch_pad_liquid_consumer_row_state(frame: Dictionary, has_liquid_consumer: bool, liquid_id: int, amount: float, source_delta: float, time_scale: float, efficiency_scale: float, multiplier: float = 1.0) -> Dictionary:
+	# ConsumeLiquid.efficiency (ConsumeLiquid.java:42-47), the
+	# pure liquid row -- each exact expr on ONE comment line,
+	# the N2148 lesson:
+	# `float ed = build.edelta() * build.efficiencyScale();`
+	# `if(ed <= 0.00000001f) return 0f;`
+	# `return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);`
+	# The first pass folds it into the min efficiency
+	# (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`); a starved non-power row also stops the power draw (`if(cons != block.consPower && result <= 0.0000001f){` / `shouldConsumePower = false;`, BuildingComp.java:1972-1973), which the shared fold does from is_power false. In the first pass efficiency is assumed 1f (BuildingComp.java:1964-1965), so edelta is delta() = source_delta * time_scale (`return efficiency * delta();`, BuildingComp.java:1927-1929, with `return Time.delta * timeScale;`, BuildingComp.java:1922-1924); source_delta is Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26), never raw seconds. The held amount comes from the shared liquid module helper (SourceLiquidModuleState.source_get_state, reused through a preload, NOT re-implemented) over the frame liquids key (the Building.liquids LiquidModule dict), with the Fracker guard (frame liquids has the "liquids" array + the id in bounds -- SourceFrackerBuildState.gd:139-144): a frame with no store reads 0.0, like Java's liquids.get for a liquid never added (`public float get(Liquid liquid){` with `return liquids[liquid.id];`, LiquidModule.java:102-104). The multiplier defaults to 1f (`public Floatf<Building> multiplier = b -> 1f;`, Consume.java:18); the advanced def sets none (Blocks.java:6800-6809). ONLY the advanced-launch-pad has this consumer (`consumeLiquid(Liquids.oil, 9f/60f);`, Blocks.java:6808; the plain launch-pad def, Blocks.java:6790-6797, has no liquid consumer), so a block with no liquid consumer contributes no row -- the has_power_row pattern. The second-pass removal (`build.liquids.remove(liquid, amount * build.edelta() * multiplier.get(build));`, ConsumeLiquid.java:37-39, only when `update && efficiency > 0`, BuildingComp.java:1999-2002, with edelta from the FOLDED efficiency) runs in the driver after the fold, through source_remove_state (`public void remove(Liquid liquid, float amount){` with `add(liquid, Math.max(-amount, -liquids[liquid.id]));`, LiquidModule.java:125-128); the function does NOT mutate its input frame.
+	if not has_liquid_consumer:
+		return {"has_liquid_row": false, "row": {}}
+	var liquids: Dictionary = frame.get("liquids", {})
+	var liquid_amount: float = 0.0
+	if liquids.has("liquids") and liquid_id >= 0 and liquid_id < int(liquids["liquids"].size()):
+		liquid_amount = float(source_liquid_module_state.source_get_state(liquids, liquid_id).get("amount", 0.0))
+	var ed: float = source_delta * time_scale * efficiency_scale
+	if ed <= 0.00000001:
+		return {"has_liquid_row": true, "row": {"result": 0.0, "is_power": false}}
+	var result: float = minf(liquid_amount / (amount * ed * multiplier), 1.0)
+	return {"has_liquid_row": true, "row": {"result": result, "is_power": false}}
 
 static func source_launch_pad_update_tile_advance_state(frame: Dictionary, source_delta: float, time_scale: float, item_capacity: int) -> Dictionary:
 	# The updateTile advance (LaunchPadBuild.updateTile(),
@@ -231,6 +258,19 @@ static func source_launch_pad_tick_buildings_state(game: Object, seconds: float)
 		elif block_id == "advanced-launch-pad":
 			launch_time = 60.0 * 30.0
 		frame["launch_time"] = launch_time
+		# The frame carries the Building.liquids LiquidModule
+		# (frame["liquids"]): the live store lives on the
+		# sprite meta (source_building_liquids, initialized
+		# at placement for a block with a liquid consumer --
+		# record_placed_block binds + applies consumeLiquid,
+		# then initializes the store), so the driver syncs
+		# the reference into the frame each tick BEFORE the
+		# fold and the pure liquid row reads the oil amount
+		# from it (the Fracker:327 precedent). A pad with no
+		# liquid store (the plain launch-pad) syncs {} and
+		# the row reads 0.0 -- but the plain def has no
+		# liquid consumer, so its row is absent anyway.
+		frame["liquids"] = sprite.get_meta(source_placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, {})
 		# The power consumer reads live since N2153 (the graph
 		# update stamps frame["power_status"] each tick, N2142):
 		# a launch pad with a power consumer folds the pure power
@@ -238,7 +278,7 @@ static func source_launch_pad_tick_buildings_state(game: Object, seconds: float)
 		# into the min efficiency like every other non-optional
 		# consumer, and the launch gate (LaunchPad.java:146)
 		# follows it. The power consumer counts toward
-		# hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a launch pad does not take the early return. A launch pad with no power consumer is untouched: the tick models no other consumers yet (the updateTile advance is live since N2238 -- it runs after this fold, below), and LaunchPadBuild HAS a shouldConsume override (LaunchPad.java:92, `public boolean shouldConsume(){` with `return launchCounter < launchTime;`, LaunchPad.java:94) -- N2186 wires the gate through the pure source_launch_pad_should_consume_state function, ANDed with enabled (the BuildingComp default, BuildingComp.java:755, `public boolean shouldConsume(){` with `return enabled;`, BuildingComp.java:756, is what the driver uses). productionValid is the canonical true default (SourceBuildingAccessState.production_valid_state()).
+		# hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a launch pad does not take the early return. A launch pad with no power consumer is untouched: the liquid row is live since N2253 (it folds beside the power row below) and the updateTile advance is live since N2238 (it runs after this fold, below), and LaunchPadBuild HAS a shouldConsume override (LaunchPad.java:92, `public boolean shouldConsume(){` with `return launchCounter < launchTime;`, LaunchPad.java:94) -- N2186 wires the gate through the pure source_launch_pad_should_consume_state function, ANDed with enabled (the BuildingComp default, BuildingComp.java:755, `public boolean shouldConsume(){` with `return enabled;`, BuildingComp.java:756, is what the driver uses). productionValid is the canonical true default (SourceBuildingAccessState.production_valid_state()).
 		var has_power_consumer: bool = bool(block.properties.has("consumePower"))
 		if has_power_consumer and bool(frame.get("enabled", true)) and not bool(frame.get("cheating", false)):
 			var gate: Dictionary = source_launch_pad_should_consume_state(frame)
@@ -251,8 +291,64 @@ static func source_launch_pad_tick_buildings_state(game: Object, seconds: float)
 			var required_results: Array = []
 			if bool(power_row.get("has_power_row", false)):
 				required_results.append(power_row.get("row", {}))
+			# N2253: the liquid row folds beside the power row.
+			# The consumer comes from the catalog consumeLiquid
+			# row (advanced-launch-pad only: amount 0.15 =
+			# 9f/60f, liquid oil, Blocks.java:6808); the plain
+			# launch-pad carries no consumeLiquid row, so its
+			# liquid row is absent. The oil id resolves from
+			# the liquid catalog (liquid_id_by_name, the
+			# FactoryBuildState:917 precedent). The source
+			# delta is Time.delta in ticks: game_source_delta
+			# is seconds * 60 (arc Time.java:26), never raw
+			# seconds; timeScale reads live from the sprite
+			# meta, default the game default 1.0
+			# (BuildingComp.java:98). The multiplier is the
+			# Consume default 1f (Consume.java:18) -- the def
+			# sets none.
+			var source_delta: float = source_placed_block_state.game_source_delta(game, seconds)
+			var time_scale: float = source_placed_block_state.time_scale(sprite, source_placed_block_state.game_default_time_scale(game))
+			var liquid_id_by_name: Dictionary = source_content_registry_state.source_liquid_catalog_state(catalog).get("liquid_id_by_name", {})
+			var consume_liquid_rows: Array = block.properties.get("consumeLiquid", [])
+			var liquid_row: Dictionary = {"has_liquid_row": false, "row": {}}
+			var liquid_amount_per_frame: float = 0.0
+			var oil_id: int = -1
+			if not consume_liquid_rows.is_empty():
+				var liquid_row_def: Dictionary = consume_liquid_rows[0]
+				oil_id = int(liquid_id_by_name.get(str(liquid_row_def.get("liquid", "")), -1))
+				liquid_amount_per_frame = float(liquid_row_def.get("amount", 0.0))
+				liquid_row = source_launch_pad_liquid_consumer_row_state(frame, true, oil_id, liquid_amount_per_frame, source_delta, time_scale, float(frame.get("efficiency_scale", 1.0)), 1.0)
+			if bool(liquid_row.get("has_liquid_row", false)):
+				required_results.append(liquid_row.get("row", {}))
 			var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(true, bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, [], [], frame)
 			source_building_efficiency_state.apply_update_consumption_state(consumption, frame)
+			# N2253 second pass: ConsumeLiquid.update removes
+			# the oil (`build.liquids.remove(liquid, amount *
+			# build.edelta() * multiplier.get(build));`,
+			# ConsumeLiquid.java:37-39), only when `update &&
+			# efficiency > 0` (BuildingComp.java:1999-2002),
+			# with edelta from the FOLDED efficiency
+			# (`return efficiency * delta();`,
+			# BuildingComp.java:1927-1929). Direct removal
+			# after the fold -- NOT the updates array: the
+			# machinery's second pass only records update
+			# consumers in updated_consumers, it never calls
+			# update on them (SourceAdjacentFactoryBuildState
+			# :382 passes actors for bookkeeping only), so an
+			# actor would remove no oil. The removal goes
+			# through the shared liquid module helper with a
+			# fresh cache_sums array (the PayloadLoader
+			# precedent); frame["liquids"] is the sprite meta
+			# reference, so the store updates in place.
+			if bool(liquid_row.get("has_liquid_row", false)) and bool(setup.get("update", false)) and float(frame.get("efficiency", 0.0)) > 0.0 and oil_id >= 0:
+				var folded_edelta: float = float(frame.get("efficiency", 0.0)) * source_delta * time_scale
+				var remove_amount: float = liquid_amount_per_frame * folded_edelta * 1.0
+				var liquids_store: Dictionary = frame.get("liquids", {})
+				if liquids_store.has("liquids") and oil_id < int(liquids_store["liquids"].size()):
+					var cache_sums: Array = []
+					cache_sums.resize(int(liquids_store["liquids"].size()))
+					cache_sums.fill(0.0)
+					source_liquid_module_state.source_remove_state(liquids_store, oil_id, remove_amount, cache_sums)
 		# N2238: the updateTile advance runs after consumption,
 		# like Java's Building.update() (BuildingComp.java:2274
 		# `updateConsumption();`, then the updateTile gate
