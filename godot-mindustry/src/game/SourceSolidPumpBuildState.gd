@@ -8,6 +8,8 @@ const source_building_efficiency_state := preload("res://src/game/SourceBuilding
 const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
 const source_liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
 const source_content_registry_runtime_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
+const source_building_liquid_state := preload("res://src/game/SourceBuildingLiquidState.gd")
+const source_building_item_dump_state := preload("res://src/game/SourceBuildingItemDumpState.gd")
 
 # The SolidPump implementation (SolidPump.java:19-20, `public class
 # SolidPump extends Pump{`): water-extractor (consumePower 1.5f,
@@ -92,8 +94,11 @@ static func _initial_frame() -> Dictionary:
 	# liquidCapacity - 0.01f;`). The pump advance (N2220)
 	# fills it each tick from the updateTile advance
 	# (SolidPump.java:122-141); the gate reads the store
-	# as-is.
-	return {"liquids": {}}
+	# as-is. The frame also carries the dump cursor
+	# (frame["cdump"], `transient int cdump;`,
+	# BuildingComp.java:68, default 0): the dump (N2286)
+	# scans proximity from it each tick.
+	return {"liquids": {}, "cdump": 0}
 
 static func source_solid_pump_bind_frame_state(sprite: Sprite2D, block: Object) -> Dictionary:
 	# Placement creates the Building (Block.java:1002 newBuilding);
@@ -157,10 +162,21 @@ static func source_solid_pump_power_status_row_state(frame: Dictionary, has_powe
 	# pumpTime / lastPump / maxPump / fraction advance each
 	# tick (SolidPump.java:122-141) from explicit fraction
 	# inputs (frame valid_tiles / boost / attribute_env,
-	# default 0f); still deferred: the live onProximityUpdate
-	# fill (SolidPump.java:150-159), dumpLiquid
-	# (SolidPump.java:140) and the updateEffect chance
+	# default 0f); dumpLiquid(result) live since N2286 (see
+	# (4)); still deferred: the live onProximityUpdate fill
+	# (SolidPump.java:150-159) and the updateEffect chance
 	# (SolidPump.java:131-132).
+	# (4) Dump rows live (N2286) -- dumpLiquid(result)
+	# (SolidPump.java:140) dumps the result water to
+	# neighbours through the shared dump_liquid_state routing
+	# (scaling 2f, output_dir -1, BuildingComp.java:877-878,
+	# 886-908), unconditional after pumpTime
+	# (SolidPump.java:138), so it runs even at efficiency 0;
+	# the neighbour liquid amounts / capacities / accepts /
+	# canDump arrays are frame inputs (default [] -- no live
+	# proximity fill yet) and the dumped liquid is not
+	# written into the neighbour frame yet (no neighbour
+	# write-back).
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -209,7 +225,7 @@ static func source_solid_pump_update_tile_advance_state(frame: Dictionary, sourc
 	# `warmup = Mathf.lerpDelta(warmup, 0f, 0.02f);` (SolidPump.java:134).
 	# `lastPump = 0f;` (SolidPump.java:135).
 	# `pumpTime += warmup * edelta();` (SolidPump.java:138 -- the NEW warmup, assigned above).
-	# `dumpLiquid(result);` (SolidPump.java:140 -- DEFERRED, needs neighbor liquid transfer).
+	# `dumpLiquid(result);` (SolidPump.java:140 -- live since N2286, source_solid_pump_dump_liquid_state, wired in the tick AFTER this advance -- Java order).
 	# The Arc formula, not a guess: lerpDelta(from, to,
 	# progress) = lerp(from, to, clamp(progress * Time.delta))
 	# with lerp = from + (to - from) * progress and clamp(value)
@@ -273,6 +289,99 @@ static func source_solid_pump_update_tile_advance_state(frame: Dictionary, sourc
 		last_pump = 0.0
 	var next_pump_time: float = pump_time + next_warmup * efficiency * delta
 	return {"warmup": next_warmup, "pump_time": next_pump_time, "last_pump": last_pump, "max_pump": max_pump, "fraction": fraction}
+
+static func source_solid_pump_dump_liquid_state(frame: Dictionary, result_liquid_id: int, liquid_capacity: float, neighbour_liquid_amounts: Array, neighbour_liquid_capacities: Array, neighbour_accepts_liquid: Array, neighbour_can_dump_liquid: Array) -> Dictionary:
+	# The updateTile dump step (SolidPumpBuild.updateTile(),
+	# SolidPump.java:122-141):
+	# `dumpLiquid(result);` (SolidPump.java:140 --
+	# UNCONDITIONAL, after `pumpTime += warmup * edelta();`,
+	# SolidPump.java:138, so it runs even when efficiency is
+	# 0 -- unlike the pump branch, `if(efficiency > 0 &&
+	# typeLiquid() < liquidCapacity - 0.001f){`,
+	# SolidPump.java:126 -- and after the pump add,
+	# `liquids.add(result, maxPump);`, SolidPump.java:128,
+	# so the dump drains the store the advance filled THIS
+	# tick). dumpLiquid(Liquid)
+	# (BuildingComp.java:877-908):
+	# `public void dumpLiquid(Liquid liquid){` (BuildingComp.java:877).
+	# `dumpLiquid(liquid, 2f);` (BuildingComp.java:878 -- scaling 2f).
+	# `public void dumpLiquid(Liquid liquid, float scaling){` (BuildingComp.java:881).
+	# `dumpLiquid(liquid, scaling, -1);` (BuildingComp.java:882 -- output_dir -1, any direction).
+	# `public void dumpLiquid(Liquid liquid, float scaling, int outputDir){` (BuildingComp.java:886).
+	# `int dump = this.cdump;` (BuildingComp.java:887).
+	# `if(liquids.get(liquid) <= 0.0001f) return;` (BuildingComp.java:889 -- the empty-store early return).
+	# `if(!net.client() && state.isCampaign() && team == state.rules.defaultTeam) liquid.unlock();` (BuildingComp.java:891 -- the campaign unlock; the shared helper evaluates the guard with the scenario-pump defaults, but the pure result carries no unlock key -- surfacing + applying it waits for its own slice).
+	# `for(int i = 0; i < proximity.size; i++){` (BuildingComp.java:893).
+	# `incrementDump(proximity.size);` (BuildingComp.java:894 -- once per iteration, so a full scan over N neighbours advances the cursor N times: a full cycle, leaving it where it started; the cursor still matters WITHIN the scan, as the starting neighbour).
+	# `Building other = proximity.get((i + dump) % proximity.size);` (BuildingComp.java:896).
+	# `if(outputDir != -1 && (outputDir + rotation) % 4 != relativeTo(other)) continue;` (BuildingComp.java:897 -- vacuous here: output_dir is -1).
+	# `other = other.getLiquidDestination(self(), liquid);` (BuildingComp.java:899 -- the default returns self, `public Building getLiquidDestination(Building from, Liquid liquid){` (BuildingComp.java:980) with `return self();` (BuildingComp.java:981), so every listed neighbour is its own destination).
+	# `if(other != null && other.block.hasLiquids && canDumpLiquid(other, liquid) && other.liquids != null){` (BuildingComp.java:901 -- the routing gate).
+	# `float ofract = other.liquids.get(liquid) / other.block.liquidCapacity;` (BuildingComp.java:902).
+	# `float fract = liquids.get(liquid) / block.liquidCapacity;` (BuildingComp.java:903).
+	# `if(ofract < fract) transferLiquid(other, (fract - ofract) * block.liquidCapacity / scaling, liquid);` (BuildingComp.java:905 -- the transfer is STRICTLY less-than: an equal neighbour takes nothing).
+	# `public boolean canDumpLiquid(Building to, Liquid liquid){` (BuildingComp.java:910 -- the default returns true, BuildingComp.java:911).
+	# transferLiquid (BuildingComp.java:914-921):
+	# `public void transferLiquid(Building next, float amount, Liquid liquid){` (BuildingComp.java:914).
+	# `float flow = Math.min(next.block.liquidCapacity - next.liquids.get(liquid), amount);` (BuildingComp.java:915 -- the flow is capped by the neighbour free capacity).
+	# `if(next.acceptLiquid(self(), liquid)){` (BuildingComp.java:917).
+	# `next.handleLiquid(self(), liquid, flow);` (BuildingComp.java:918 -- the neighbour write-back waits for its own slice: the neighbours here are frame-input arrays, not live frames, so the dumped liquid leaves the extractor without landing in any neighbour store yet).
+	# `liquids.remove(liquid, flow);` (BuildingComp.java:919).
+	# incrementDump (BuildingComp.java:1116-1120):
+	# `public void incrementDump(int prox){` (BuildingComp.java:1116).
+	# `if(prox != 0){` (BuildingComp.java:1117).
+	# `cdump = ((cdump + 1) % prox);` (BuildingComp.java:1119).
+	# The dump cursor is `transient int cdump;`
+	# (BuildingComp.java:68, default 0), carried on the frame.
+	# The result liquid is water (the Java field default,
+	# `public Liquid result = Liquids.water;`,
+	# SolidPump.java:22, set explicitly by the def,
+	# `result = Liquids.water;`, Blocks.java:2922) and the
+	# capacity is the def constant 40f
+	# (`liquidCapacity = 40f;`, Blocks.java:2925; the class
+	# default is -1f, `public float liquidCapacity = -1f;`,
+	# Block.java:77). The dump runs through the shared
+	# dumpLiquid port (SourceBuildingLiquidState.
+	# dump_liquid_state, which binds transfer_liquid_state --
+	# the scenario-pump N2090 precedent) with the shared
+	# increment_dump_cursor_state callback, never a
+	# hand-rolled routing loop; the store write-back reuses
+	# the shared liquid module helper (source_set_state, the
+	# scenario-pump precedent) and mutates the module dict in
+	# place (the N2220 advance precedent: the dict is a
+	# reference to the sprite meta store). The neighbour
+	# arrays are parallel, in proximity order (the N2276
+	# precedent, default [] -- no neighbours, the Java
+	# proximity.size == 0 outcome); they list only neighbours
+	# with a liquids module (the scenario-pump filter), so
+	# destination-present and liquids-present are true for
+	# every listed neighbour and hasLiquids follows from a
+	# positive capacity. The campaign / net flags follow the
+	# scenario-pump precedent (not a client, campaign,
+	# default team).
+	var liquids: Dictionary = frame.get("liquids", {})
+	var has_store: bool = result_liquid_id >= 0 and liquids.has("liquids") and result_liquid_id < int(liquids["liquids"].size())
+	var current: float = 0.0
+	if has_store:
+		current = float(source_liquid_module_state.source_get_state(liquids, result_liquid_id).get("amount", 0.0))
+	var cursor: int = int(frame.get("cdump", 0))
+	var proximity_size: int = neighbour_liquid_amounts.size()
+	var relative_to: Array = []
+	var destination_present: Array = []
+	var other_has_liquids: Array = []
+	var can_dump_liquid: Array = []
+	var other_liquids_present: Array = []
+	for i in range(proximity_size):
+		relative_to.append(i)
+		destination_present.append(true)
+		other_has_liquids.append(float(neighbour_liquid_capacities[i]) > 0.0)
+		can_dump_liquid.append(bool(neighbour_can_dump_liquid[i]))
+		other_liquids_present.append(true)
+	var dump: Dictionary = source_building_liquid_state.dump_liquid_state(SOURCE_SOLID_PUMP_RESULT_LIQUID, 2.0, -1, current, false, true, true, proximity_size, cursor, 0, relative_to, destination_present, other_has_liquids, can_dump_liquid, other_liquids_present, neighbour_liquid_amounts, neighbour_liquid_capacities, neighbour_accepts_liquid, liquid_capacity, Callable(source_building_item_dump_state, "increment_dump_cursor_state"))
+	var amount_after: float = float(dump.get("current_liquid_amount_after", current))
+	if has_store:
+		source_liquid_module_state.source_set_state(liquids, result_liquid_id, amount_after)
+	return {"liquids_after": liquids, "dumped_amount": current - amount_after, "cursor_after": int(dump.get("final_cdump", cursor))}
 
 static func source_solid_pump_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the solid-pump tick wiring every tick
@@ -388,6 +497,30 @@ static func source_solid_pump_tick_buildings_state(game: Object, seconds: float)
 			frame["last_pump"] = advanced["last_pump"]
 			frame["max_pump"] = advanced["max_pump"]
 			frame["fraction"] = advanced["fraction"]
+			# N2286: dumpLiquid(result) (SolidPump.java:140)
+			# runs after pumpTime += warmup * edelta() (:138)
+			# -- unconditional, so it runs even at efficiency
+			# 0 (unlike the pump branch, which gates on
+			# efficiency > 0, SolidPump.java:126). The dump
+			# drains the store the advance filled THIS tick
+			# (Java order: :128 add, :140 dump). The neighbour
+			# liquid amounts / capacities / accepts / canDump
+			# arrays are frame inputs (default [] -- no
+			# neighbours, the Java proximity.size == 0 outcome)
+			# until a live proximity fill lands; the dumped
+			# liquid is not written into the neighbour frame
+			# yet (no neighbour write-back). The pure N2220
+			# advance is unchanged -- the dump is a separate
+			# step after its call, and the dump mutates the
+			# frame liquids store in place (the module dict is
+			# a reference to the sprite meta store).
+			var neighbour_amounts: Array = frame.get("dump_neighbour_liquid_amounts", [])
+			var neighbour_capacities: Array = frame.get("dump_neighbour_liquid_capacities", [])
+			var neighbour_accepts: Array = frame.get("dump_neighbour_accepts_liquid", [])
+			var neighbour_can_dump: Array = frame.get("dump_neighbour_can_dump_liquid", [])
+			var dumped: Dictionary = source_solid_pump_dump_liquid_state(frame, advance_result_id, SOURCE_SOLID_PUMP_LIQUID_CAPACITY, neighbour_amounts, neighbour_capacities, neighbour_accepts, neighbour_can_dump)
+			frame["liquids"] = dumped["liquids_after"]
+			frame["cdump"] = dumped["cursor_after"]
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
