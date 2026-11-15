@@ -9,6 +9,7 @@ const source_building_access_state := preload("res://src/game/SourceBuildingAcce
 const source_math_state := preload("res://src/game/SourceMathState.gd")
 const source_liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
 const source_content_registry_runtime_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
+const source_world_defaults := preload("res://src/game/SourceWorldDefaults.gd")
 
 # The RepairTower implementation (RepairTower.java:18, `public class RepairTower extends Block{`): unit-repair-tower (consumePower 1f, Blocks.java:6582, `consumePower(1f);`; consumeLiquid ozone 3f/60f, Blocks.java:6583, `consumeLiquid(Liquids.ozone, 3f / 60f);`; size 2, range 100f, healAmount 1.5f, graphite 90 / silicon 90 / tungsten 80, Blocks.java:6575-6583). RepairTower extends Block, NOT a factory or crafter, so no existing driver matches it and no frame key exists for it; this driver uses its own family frame key ("source_repair_tower_building", the radar precedent), and this slice adds the repair-tower key to N2142's SOURCE_CONSUMER_FRAME_META_KEYS so the graph stamp/write-back finds it. The port has NO SourceRepairTower* files at all yet -- no display/runtime state to lean on -- so the missing piece is the live power.status -> efficiency driver, which is exactly this slice: the updateTile heal advance (RepairTower.java:78, `target.heal(healAmount * edelta());`) heals by edelta() (BuildingComp.java:1927-1929, `return efficiency * delta();`), so a repair tower with no power would never heal -- its targets' health would sit frozen as if power.status were 1.0.
 const SOURCE_REPAIR_TOWER_BUILD_IMPLEMENTATIONS := ["RepairTower"]
@@ -26,6 +27,13 @@ const SOURCE_REPAIR_TOWER_REFRESH_INTERVAL := 6.0
 const SOURCE_REPAIR_TOWER_WARMUP_LERP_PROGRESS := 0.08
 const SOURCE_REPAIR_TOWER_CIRCLE_SPEED := 120.0
 const SOURCE_REPAIR_TOWER_HEAL_AMOUNT := 1.5
+
+# The def scan range (Blocks.java:6579, `range = 100f;`; the
+# class default is `public float range = 80f;`,
+# RepairTower.java:21; the catalog carries the same 100.0):
+# the Units.nearby radius the live scan (N2306) filters the
+# frame unit candidates by.
+const SOURCE_REPAIR_TOWER_RANGE := 100.0
 
 # The liquid consumer def constants (Blocks.java:6583,
 # `consumeLiquid(Liquids.ozone, 3f / 60f);`): the consumed
@@ -90,15 +98,15 @@ static func source_repair_tower_bind_frame_state(sprite: Sprite2D, block: Object
 	return {"applied": true, "frame": frame}
 
 static func source_repair_tower_should_consume_state(frame: Dictionary) -> Dictionary:
-	# RepairTowerBuild overrides shouldConsume (RepairTower.java:89, `public boolean shouldConsume(){` with `return targets.size > 0;`, RepairTower.java:90): the tower consumes only while at least one damaged unit is in range. The field is `public Seq<Unit> targets = new Seq<>();` (RepairTower.java:54) on RepairTowerBuild (`public class RepairTowerBuild extends Building implements Ranged{`, RepairTower.java:46); RepairTower extends Block (RepairTower.java:18, `public class RepairTower extends Block{`), so the default (`return enabled;`, BuildingComp.java:755-756) does NOT apply here. Unlike the Separator/Drill gates this one has NO `&& enabled` -- Java returns the bare size check, so the pure gate does NOT read frame["enabled"] at all (the driver already runs the machinery only when enabled). The frame carries the targets (frame["targets"], default [] for a frame bound before this slice -- the Java field initializer is `new Seq<>()`); no live scan fills it yet -- the periodic refresh (RepairTower.java:59, `if(potentialEfficiency > 0 && (refresh += Time.delta) >= refreshInterval){` with `static final float refreshInterval = 6f;`, RepairTower.java:19, and `Units.nearby(team, x, y, range, damaged)`) is the updateTile advance (RepairTower.java:57-86, live since N2227: the cadence + clear run each tick with a supplied refill list, the Units.nearby scan itself still waits for its own slice). When the gate is false updateConsumption forces efficiency to zero (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). The heal advance (RepairTower.java:78, `target.heal(healAmount * edelta());`) follows the folded efficiency. The def consumes power 1f (`consumePower(1f);`, Blocks.java:6582) plus liquid ozone 3f/60f (`consumeLiquid(Liquids.ozone, 3f / 60f);`, Blocks.java:6583) -- the liquid row is live since N2250 (source_repair_tower_liquid_consumer_row_state, ConsumeLiquid.efficiency, ConsumeLiquid.java:42-47).
+	# RepairTowerBuild overrides shouldConsume (RepairTower.java:89, `public boolean shouldConsume(){` with `return targets.size > 0;`, RepairTower.java:90): the tower consumes only while at least one damaged unit is in range. The field is `public Seq<Unit> targets = new Seq<>();` (RepairTower.java:54) on RepairTowerBuild (`public class RepairTowerBuild extends Building implements Ranged{`, RepairTower.java:46); RepairTower extends Block (RepairTower.java:18, `public class RepairTower extends Block{`), so the default (`return enabled;`, BuildingComp.java:755-756) does NOT apply here. Unlike the Separator/Drill gates this one has NO `&& enabled` -- Java returns the bare size check, so the pure gate does NOT read frame["enabled"] at all (the driver already runs the machinery only when enabled). The frame carries the targets (frame["targets"], default [] for a frame bound before this slice -- the Java field initializer is `new Seq<>()`); the live scan fills it since N2306 -- the periodic refresh (RepairTower.java:59, `if(potentialEfficiency > 0 && (refresh += Time.delta) >= refreshInterval){` with `static final float refreshInterval = 6f;`, RepairTower.java:19, and `Units.nearby(team, x, y, range, damaged)`) is the updateTile advance (RepairTower.java:57-86, live since N2227: the cadence + clear run each tick with a supplied refill list, and the Units.nearby scan itself is live since N2306 -- source_repair_tower_supplied_damaged_state filters the frame unit candidates; the live unit query that would supply those candidates still waits for its own slice). When the gate is false updateConsumption forces efficiency to zero (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). The heal advance (RepairTower.java:78, `target.heal(healAmount * edelta());`) follows the folded efficiency. The def consumes power 1f (`consumePower(1f);`, Blocks.java:6582) plus liquid ozone 3f/60f (`consumeLiquid(Liquids.ozone, 3f / 60f);`, Blocks.java:6583) -- the liquid row is live since N2250 (source_repair_tower_liquid_consumer_row_state, ConsumeLiquid.efficiency, ConsumeLiquid.java:42-47).
 	var targets: Variant = frame.get("targets", [])
 	if not (targets is Array):
 		targets = []
 	return {"should_consume": targets.size() > 0, "target_count": targets.size()}
 
 static func source_repair_tower_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
-	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a repair tower does not take the early return. The repair tower's power draw is STATIC, not conditional: `consumePower(1f);` (Blocks.java:6582) registers a plain ConsumePower, so the catalog consumePower 1.0 is present and the plain radar gate (block.properties.has("consumePower")) works -- no RepairTurret-style `or consumesPower` adaptation is needed. The pure row is still the same ConsumePower read (`return build.power.status;`, ConsumePower.java:39). The updateTile advance follows the folded efficiency: the heal advance (RepairTower.java:78, `target.heal(healAmount * edelta());`) heals by edelta() (BuildingComp.java:1927-1929, `return efficiency * delta();`), so a repair tower with no power would never heal. RepairTowerBuild overrides shouldConsume (RepairTower.java:89, `public boolean shouldConsume(){` with `return targets.size > 0;`, RepairTower.java:90); updateConsumption forces efficiency to zero when the gate is false (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). The shouldConsume gate is live (N2213) -- the pure gate (source_repair_tower_should_consume_state) feeds should_consume to the machinery from the frame targets key (empty before any refresh, non-empty with damaged units in range); no live scan fills frame["targets"] yet (the periodic refresh is the updateTile advance, RepairTower.java:57-86, live since N2227 with a supplied refill list; the Units.nearby scan still waits). The repair tower is its own family (RepairTower.java:18, `public class RepairTower extends Block{`; RepairTowerBuild, RepairTower.java:46, `public class RepairTowerBuild extends Building implements Ranged{`). Class fields: `static final float refreshInterval = 6f;` (RepairTower.java:19), `public float range = 80f;` (RepairTower.java:21), `public float healAmount = 1f;` (RepairTower.java:24); constructor `update = true;` (RepairTower.java:29), `suppressable = true;` (RepairTower.java:31), `flags = EnumSet.of(BlockFlag.repair);` (RepairTower.java:32). The target refresh itself is gated on potentialEfficiency (RepairTower.java:59, `if(potentialEfficiency > 0 && (refresh += Time.delta) >= refreshInterval){`), and the warmup lerp (RepairTower.java:84, `warmup = Mathf.lerpDelta(warmup, any ? efficiency : 0f, 0.08f);`) follows efficiency. canConsume (BuildingComp.java:1917, `public boolean canConsume(){` with `return potentialEfficiency > 0;`, BuildingComp.java:1918) and the shouldConsume default (BuildingComp.java:755, `public boolean shouldConsume(){` with `return enabled;`, BuildingComp.java:756) are the surrounding gates. Single def -- unit-repair-tower only (size 2, range 100f, healAmount 1.5f, graphite 90 / silicon 90 / tungsten 80, Blocks.java:6575-6583). RepairTurret (repair-point / repair-turret) is a different class and NOT covered by this driver.
-	# Documented limits: (1) power + liquid first pass -- the repair tower's static power consumer (consumePower 1f, Blocks.java:6582) and its ozone liquid consumer (consumeLiquid ozone 3f/60f = 0.05, Blocks.java:6583, `consumeLiquid(Liquids.ozone, 3f / 60f);`) are both modeled since N2250 (the liquid row is source_repair_tower_liquid_consumer_row_state, ConsumeLiquid.efficiency, ConsumeLiquid.java:42-47; the second-pass removal is ConsumeLiquid.update, ConsumeLiquid.java:37-39), so the folded efficiency is the min over both modeled consumers; no other consumer rows exist on this def. (2) shouldConsume gate live (N2213) -- RepairTowerBuild overrides shouldConsume (`return targets.size > 0;`, RepairTower.java:89-91); when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994); the pure gate reads the frame targets key (default []) and feeds should_consume to the machinery; no live scan fills frame["targets"] yet (the periodic refresh is the updateTile advance, RepairTower.java:57-86, live since N2227 with a supplied refill list). (3) updateTile advance live (N2227) -- target refresh cadence + clear / heal amounts / warmup lerp / totalProgress advance (RepairTower.java:57-86) advance each tick; the live Units.nearby scan and the heal application to live units wait for their own slices (the advance returns heal amounts as a pure result, frame["heal_amounts"]). (4) Suppression branch live on a frame input (N2227) -- `suppressable = true` (RepairTower.java:31) and `checkSuppression()` zeroes warmup (RepairTower.java:69-72); the advance reads frame["heal_suppressed"] (default false, the N2215 precedent) but no live fill sets it yet (applyHealSuppression, BuildingComp.java:482-485, waits for its own slice). (5) Single def -- unit-repair-tower only (size 2, range 100f, healAmount 1.5f, graphite 90 / silicon 90 / tungsten 80); per-def stat values wait for their own verification slice. (6) RepairTurret (repair-point / repair-turret) is a different class and NOT covered by this driver.
+	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a repair tower does not take the early return. The repair tower's power draw is STATIC, not conditional: `consumePower(1f);` (Blocks.java:6582) registers a plain ConsumePower, so the catalog consumePower 1.0 is present and the plain radar gate (block.properties.has("consumePower")) works -- no RepairTurret-style `or consumesPower` adaptation is needed. The pure row is still the same ConsumePower read (`return build.power.status;`, ConsumePower.java:39). The updateTile advance follows the folded efficiency: the heal advance (RepairTower.java:78, `target.heal(healAmount * edelta());`) heals by edelta() (BuildingComp.java:1927-1929, `return efficiency * delta();`), so a repair tower with no power would never heal. RepairTowerBuild overrides shouldConsume (RepairTower.java:89, `public boolean shouldConsume(){` with `return targets.size > 0;`, RepairTower.java:90); updateConsumption forces efficiency to zero when the gate is false (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). The shouldConsume gate is live (N2213) -- the pure gate (source_repair_tower_should_consume_state) feeds should_consume to the machinery from the frame targets key (empty before any refresh, non-empty with damaged units in range); the live scan fills frame["targets"] since N2306 (the periodic refresh is the updateTile advance, RepairTower.java:57-86, live since N2227 with a supplied refill list; the Units.nearby scan pure filters the frame unit candidates). The repair tower is its own family (RepairTower.java:18, `public class RepairTower extends Block{`; RepairTowerBuild, RepairTower.java:46, `public class RepairTowerBuild extends Building implements Ranged{`). Class fields: `static final float refreshInterval = 6f;` (RepairTower.java:19), `public float range = 80f;` (RepairTower.java:21), `public float healAmount = 1f;` (RepairTower.java:24); constructor `update = true;` (RepairTower.java:29), `suppressable = true;` (RepairTower.java:31), `flags = EnumSet.of(BlockFlag.repair);` (RepairTower.java:32). The target refresh itself is gated on potentialEfficiency (RepairTower.java:59, `if(potentialEfficiency > 0 && (refresh += Time.delta) >= refreshInterval){`), and the warmup lerp (RepairTower.java:84, `warmup = Mathf.lerpDelta(warmup, any ? efficiency : 0f, 0.08f);`) follows efficiency. canConsume (BuildingComp.java:1917, `public boolean canConsume(){` with `return potentialEfficiency > 0;`, BuildingComp.java:1918) and the shouldConsume default (BuildingComp.java:755, `public boolean shouldConsume(){` with `return enabled;`, BuildingComp.java:756) are the surrounding gates. Single def -- unit-repair-tower only (size 2, range 100f, healAmount 1.5f, graphite 90 / silicon 90 / tungsten 80, Blocks.java:6575-6583). RepairTurret (repair-point / repair-turret) is a different class and NOT covered by this driver.
+	# Documented limits: (1) power + liquid first pass -- the repair tower's static power consumer (consumePower 1f, Blocks.java:6582) and its ozone liquid consumer (consumeLiquid ozone 3f/60f = 0.05, Blocks.java:6583, `consumeLiquid(Liquids.ozone, 3f / 60f);`) are both modeled since N2250 (the liquid row is source_repair_tower_liquid_consumer_row_state, ConsumeLiquid.efficiency, ConsumeLiquid.java:42-47; the second-pass removal is ConsumeLiquid.update, ConsumeLiquid.java:37-39), so the folded efficiency is the min over both modeled consumers; no other consumer rows exist on this def. (2) shouldConsume gate live (N2213) -- RepairTowerBuild overrides shouldConsume (`return targets.size > 0;`, RepairTower.java:89-91); when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994); the pure gate reads the frame targets key (default []) and feeds should_consume to the machinery; the live scan fills frame["targets"] since N2306 (the periodic refresh is the updateTile advance, RepairTower.java:57-86, live since N2227 with a supplied refill list; the Units.nearby scan pure filters the frame unit candidates). (3) updateTile advance live (N2227) -- target refresh cadence + clear / heal amounts / warmup lerp / totalProgress advance (RepairTower.java:57-86) advance each tick; Units.nearby scan live (N2306) -- the scan pure filters the frame unit candidates by the Java predicates (damaged + within range + hitSize/2) and the tick stamps the refill onto frame["supplied_damaged"], but the heal application to live units and the live unit-candidate query wait for their own slices (the advance returns heal amounts as a pure result, frame["heal_amounts"]). (4) Suppression branch live on a frame input (N2227) -- `suppressable = true` (RepairTower.java:31) and `checkSuppression()` zeroes warmup (RepairTower.java:69-72); the advance reads frame["heal_suppressed"] (default false, the N2215 precedent) but no live fill sets it yet (applyHealSuppression, BuildingComp.java:482-485, waits for its own slice). (5) Single def -- unit-repair-tower only (size 2, range 100f, healAmount 1.5f, graphite 90 / silicon 90 / tungsten 80); per-def stat values wait for their own verification slice. (6) RepairTurret (repair-point / repair-turret) is a different class and NOT covered by this driver.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -127,6 +135,95 @@ static func source_repair_tower_liquid_consumer_row_state(frame: Dictionary, has
 	if ed <= 0.00000001:
 		return {"has_liquid_row": true, "row": {"result": 0.0, "is_power": false}}
 	return {"has_liquid_row": true, "row": {"result": minf(liquid_amount / (amount * ed * multiplier), 1.0), "is_power": false}}
+
+static func source_repair_tower_supplied_damaged_state(candidates: Array, range: float, tower_x := 0.0, tower_y := 0.0) -> Dictionary:
+	# The live Units.nearby scan (RepairTower.java:62-66),
+	# the pure filter the N2227 advance refills from: at
+	# refresh (`if(potentialEfficiency > 0 && (refresh += Time.delta) >= refreshInterval){`
+	# with `static final float refreshInterval = 6f;`,
+	# RepairTower.java:19) Java clears (`targets.clear();`)
+	# and refills from
+	# `Units.nearby(team, x, y, range, u -> {`
+	# `if(u.damaged()){`
+	# `targets.add(u);`
+	# (RepairTower.java:62-64). The range predicate is NOT
+	# a plain distance <= range: Units.nearby
+	# `public static void nearby(@Nullable Team team, float x, float y, float radius, Cons<Unit> cons){`
+	# (Units.java:445-451) first intersects the team's unit
+	# tree with the bounding square
+	# `nearby(team, x - radius, y - radius, radius*2f, radius*2f, unit -> {`
+	# and then admits only
+	# `if(unit.within(x, y, radius + unit.hitSize/2f)){`
+	# -- the unit's half hitSize extends the reach -- and
+	# within is a STRICT squared-distance check
+	# `return Mathf.dst2(getX(), getY(), x, y) < dst*dst;`
+	# (Position.java:44-46), so a unit exactly at range +
+	# hitSize/2 is OUT (the N2226 RepairTurret precedent).
+	# Damaged is
+	# `boolean damaged(){`
+	# `return health < maxHealth - 0.001f;`
+	# (HealthComp.java:47-49). The range is the class
+	# default `public float range = 80f;`
+	# (RepairTower.java:21), overridden by the def
+	# `range = 100f;` (Blocks.java:6579).
+	# Scoping decisions, all source-backed: (1) the
+	# candidates are frame-supplied (frame["unit_candidates"],
+	# the N2226 frame-key precedent) -- the port has no
+	# live unit query, so no live Units.nearby over the
+	# game world fills them yet; the team filter is the
+	# caller's: Java visits the tower team's tree only
+	# (Units.java:435-436), so the caller supplies
+	# same-team candidates. (2) A candidate dict carries
+	# health / max_health plus distance (the CENTER
+	# distance from the tower -- NOT the RepairTurret
+	# dst-minus-half-hitSize value, RepairTurret.java:193)
+	# or x / y (world position, measured from the tower
+	# position params); a missing health, max_health, or
+	# distance-or-x/y key EXCLUDES the candidate (a
+	# partial fixture never supplies a target), while a
+	# missing hit_size reads as 0.0 (a point unit). A
+	# non-Dictionary entry is excluded the same way.
+	# (3) The checks run in Java order -- range first
+	# (nearby visits in-range units), damaged second --
+	# so a healthy out-of-range unit counts as
+	# out-of-range, and the exclusion counts need not sum
+	# to the candidate count: unscorable entries (missing
+	# keys) are excluded without a bucket. (4) The
+	# admitted entries are the candidate dicts themselves,
+	# in candidate order, like Java's Seq<Unit> holding
+	# the units -- the advance's heal loop reads their
+	# `damaged` key when present (default true, the N2227
+	# list-membership rule).
+	var supplied_damaged: Array = []
+	var healthy_excluded_count := 0
+	var out_of_range_count := 0
+	for candidate in candidates:
+		if not (candidate is Dictionary):
+			continue
+		var distance2 := -1.0
+		if candidate.has("distance"):
+			var center_distance: float = float(candidate.get("distance", 0.0))
+			distance2 = center_distance * center_distance
+		elif candidate.has("x") and candidate.has("y"):
+			var dx: float = float(candidate.get("x", 0.0)) - tower_x
+			var dy: float = float(candidate.get("y", 0.0)) - tower_y
+			distance2 = dx * dx + dy * dy
+		if distance2 < 0.0:
+			continue
+		var hit_size: float = float(candidate.get("hit_size", 0.0))
+		var reach: float = range + hit_size / 2.0
+		if not (distance2 < reach * reach):
+			out_of_range_count += 1
+			continue
+		if not candidate.has("health") or not candidate.has("max_health"):
+			continue
+		var health: float = float(candidate.get("health", 0.0))
+		var max_health: float = float(candidate.get("max_health", 0.0))
+		if not (health < max_health - 0.001):
+			healthy_excluded_count += 1
+			continue
+		supplied_damaged.append(candidate)
+	return {"supplied_damaged": supplied_damaged, "damaged_count": supplied_damaged.size(), "candidate_count": candidates.size(), "healthy_excluded_count": healthy_excluded_count, "out_of_range_count": out_of_range_count}
 
 static func source_repair_tower_update_tile_advance_state(frame: Dictionary, heal_amount: float, circle_speed: float, time_delta: float, time_scale := 1.0, supplied_damaged := []) -> Dictionary:
 	# RepairTowerBuild.updateTile() (RepairTower.java:57-86), the
@@ -175,11 +272,14 @@ static func source_repair_tower_update_tile_advance_state(frame: Dictionary, hea
 	# is folded onto the frame by the shared machinery
 	# (apply_update_consumption_state) and defaults to the
 	# folded efficiency: `potentialEfficiency = efficiency;`
-	# (BuildingComp.java:1989). (2) The live scan is deferred
-	# (no live unit query in the driver): at refresh the
-	# targets clear and refill from the supplied_damaged
-	# parameter -- the damaged list the scan would return --
-	# and the tick supplies the frame's current targets. (3)
+	# (BuildingComp.java:1989). (2) The live scan is live
+	# since N2306 (source_repair_tower_supplied_damaged_state
+	# filters the frame unit candidates by the Java
+	# predicates): at refresh the targets clear and refill
+	# from the supplied_damaged parameter -- the damaged
+	# list the scan returns -- and the tick stamps it from
+	# frame["supplied_damaged"]; the live unit query that
+	# would supply the candidates still waits. (3)
 	# Suppression reads frame["heal_suppressed"] (default
 	# false, the N2215 BuildTurret precedent mirroring
 	# isHealSuppressed(): `return block.suppressable && Time.time <= healSuppressionTime;`
@@ -361,12 +461,35 @@ static func source_repair_tower_tick_buildings_state(game: Object, seconds: floa
 		# timeScale were read above (before the fold, for
 		# the liquid row); the def heal amount 1.5f
 		# (Blocks.java:6580) and the class circle speed 120f
-		# (RepairTower.java:23); the refill is the frame's
-		# current targets -- no live Units.nearby scan
-		# fills them yet (the N2227 deferral), so a refresh
-		# clears and refills with the targets the tower
-		# already knows.
-		var supplied_damaged: Variant = frame.get("targets", [])
+		# (RepairTower.java:23). The refill is the live scan
+		# (N2306): the frame unit candidates (frame["unit_
+		# candidates"], default [] -- no candidates, the Java
+		# no-units-in-range outcome) are filtered by the scan
+		# pure at the def range from the live tower position
+		# (origin cell + block offset, the N2226/N2280
+		# RepairTurret precedent: Building x/y are
+		# tile.drawx()/drawy(), BuildingComp.java:124), the
+		# result is stamped onto frame["supplied_damaged"],
+		# and the advance reads that frame key (the N2226
+		# frame-fallback precedent: the frame key feeds the
+		# param; an explicit param still wins when the
+		# advance is called directly). The scan runs on every
+		# ticked tower, inside or outside the consumption
+		# gate, like the advance itself -- the advance only
+		# consumes the refill at refresh (RepairTower.java:59),
+		# so stamping it every tick is inert between refreshes.
+		var scan_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
+		var scan_block_size: int = int(block.properties.get("size", 1))
+		var scan_block_offset: float = float((scan_block_size + 1) % 2) * source_world_defaults.TILESIZE / 2.0
+		var scan_building_x: float = source_block_geometry.tile_drawx_state(scan_cell.x, source_world_defaults.TILESIZE, scan_block_offset)
+		var scan_building_y: float = source_block_geometry.tile_drawy_state(scan_cell.y, source_world_defaults.TILESIZE, scan_block_offset)
+		var scan_candidates: Array = []
+		var frame_unit_candidates: Variant = frame.get("unit_candidates", [])
+		if frame_unit_candidates is Array:
+			scan_candidates = frame_unit_candidates
+		var scan: Dictionary = source_repair_tower_supplied_damaged_state(scan_candidates, SOURCE_REPAIR_TOWER_RANGE, scan_building_x, scan_building_y)
+		frame["supplied_damaged"] = scan.get("supplied_damaged", [])
+		var supplied_damaged: Variant = frame.get("supplied_damaged", [])
 		source_repair_tower_update_tile_advance_state(frame, SOURCE_REPAIR_TOWER_HEAL_AMOUNT, SOURCE_REPAIR_TOWER_CIRCLE_SPEED, time_delta, time_scale, supplied_damaged)
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
