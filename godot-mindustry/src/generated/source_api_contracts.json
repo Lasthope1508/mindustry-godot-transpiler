@@ -65928,6 +65928,39 @@
       ],
       "runtime_proof": "/root/C07LightBlockPowerStatusProof",
       "rule": "Source-backed LightBlock power.status row from ConsumePower.java / BuildingComp.java."
+    },
+    "SourceImpactReactorBuildState.source_impact_reactor_power_production_state": {
+      "status": "active",
+      "source_slice": "N2186",
+      "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+      "source_method": "ImpactReactorBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_impact_reactor_power_production_state_input.frame"
+        },
+        {
+          "name": "delta",
+          "type": "float",
+          "schema": "source_impact_reactor_power_production_state_input.delta"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "warmup",
+        "production_efficiency",
+        "total_progress",
+        "power_production"
+      ],
+      "tests": [
+        "test_c07_impact_reactor_power_production_registration",
+        "test_all_c07_impact_reactor_power_production_input_evidence_is_exact",
+        "test_impact_reactor_power_production_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_power_production"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorPowerProductionProof",
+      "rule": "Source-backed ImpactReactor warmup advance + powerProduction live read from ImpactReactor.java / PowerGenerator.java."
     }
   },
   "policy": {

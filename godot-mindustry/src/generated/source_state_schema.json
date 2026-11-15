@@ -229936,6 +229936,84 @@
       },
       "runtime_proof": "/root/C07LightBlockPowerStatusProof",
       "rule": "Source-backed LightBlock power.status row from ConsumePower.java / BuildingComp.java."
+    },
+    "source_impact_reactor_power_production_state_input": {
+      "status": "active",
+      "owner": "SourceImpactReactorBuildState.source_impact_reactor_power_production_state",
+      "source_slice": "N2186",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+          "java_expr": "if(efficiency >= 0.9999f && power.status >= 0.99f){",
+          "rule": "The impact-reactor frame carrying the folded efficiency (set by update_consumption_state earlier in the same tick) and the live power.status (stamped by the N2142 graph update): the two gate inputs the warmup advance reads; null stamps fold to the assembler defaults (efficiency 1.0, power.status 1.0).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_power_production_state"
+          ]
+        },
+        "delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+          "java_expr": "totalProgress += warmup * Time.delta;",
+          "rule": "The tick delta (Time.delta): the warmup advance is delta-scaled through SourceMathState.source_lerp_delta and totalProgress advances by warmup * Time.delta.",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_power_production_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ImpactReactorPowerProductionProof",
+      "rule": "Source-backed ImpactReactor warmup advance + powerProduction live read from ImpactReactor.java / PowerGenerator.java."
+    },
+    "source_impact_reactor_power_production_state_result": {
+      "status": "active",
+      "owner": "SourceImpactReactorBuildState.source_impact_reactor_power_production_state",
+      "source_slice": "N2186",
+      "keys": {
+        "warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+          "java_expr": "warmup = Mathf.lerpDelta(warmup, 1f, warmupSpeed * timeScale);",
+          "rule": "The warmup after this tick (ImpactReactor.java:82, warmupSpeed 0.001f; snapped to 1f when within 0.001f, ImpactReactor.java:83-84); cooled toward 0f by the else branch (ImpactReactor.java:95) when the gate fails.",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_power_production_state"
+          ]
+        },
+        "production_efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+          "java_expr": "productionEfficiency = Mathf.pow(warmup, 5f);",
+          "rule": "The producer efficiency (ImpactReactor.java:100): pow(warmup, 5), so a half-warm reactor produces 1/32 of full output.",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_power_production_state"
+          ]
+        },
+        "total_progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+          "java_expr": "totalProgress += warmup * Time.delta;",
+          "rule": "The accumulated warmup-weighted time (ImpactReactor.java:98): totalProgress advances by warmup * Time.delta each tick.",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_power_production_state"
+          ]
+        },
+        "power_production": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "return enabled ? powerProduction * productionEfficiency : 0f;",
+          "rule": "The live production (PowerGenerator.java:157): 130f * productionEfficiency when enabled, 0f when disabled or cold.",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_power_production_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ImpactReactorPowerProductionProof",
+      "rule": "Source-backed ImpactReactor warmup advance + powerProduction live read from ImpactReactor.java / PowerGenerator.java."
     }
   },
   "version": 1

@@ -172968,6 +172968,70 @@
         "test_reference_graph_and_actual_c07_light_block_power_status"
       ],
       "runtime_proof": "/root/C07LightBlockPowerStatusProof"
+    },
+    "source_impact_reactor_power_production_state_result.warmup": {
+      "status": "source-backed",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_power_production_state",
+      "godot_symbol": "source_impact_reactor_power_production_state_result.warmup",
+      "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+      "java_method": "ImpactReactorBuild.updateTile()",
+      "java_expr": "warmup = Mathf.lerpDelta(warmup, 1f, warmupSpeed * timeScale);",
+      "rule": "The warmup after this tick (ImpactReactor.java:82, warmupSpeed 0.001f; snapped to 1f when within 0.001f, ImpactReactor.java:83-84); cooled toward 0f by the else branch (ImpactReactor.java:95) when the gate fails.",
+      "tests": [
+        "test_c07_impact_reactor_power_production_registration",
+        "test_all_c07_impact_reactor_power_production_input_evidence_is_exact",
+        "test_impact_reactor_power_production_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_power_production"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorPowerProductionProof"
+    },
+    "source_impact_reactor_power_production_state_result.production_efficiency": {
+      "status": "source-backed",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_power_production_state",
+      "godot_symbol": "source_impact_reactor_power_production_state_result.production_efficiency",
+      "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+      "java_method": "ImpactReactorBuild.updateTile()",
+      "java_expr": "productionEfficiency = Mathf.pow(warmup, 5f);",
+      "rule": "The producer efficiency (ImpactReactor.java:100): pow(warmup, 5), so a half-warm reactor produces 1/32 of full output.",
+      "tests": [
+        "test_c07_impact_reactor_power_production_registration",
+        "test_all_c07_impact_reactor_power_production_input_evidence_is_exact",
+        "test_impact_reactor_power_production_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_power_production"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorPowerProductionProof"
+    },
+    "source_impact_reactor_power_production_state_result.total_progress": {
+      "status": "source-backed",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_power_production_state",
+      "godot_symbol": "source_impact_reactor_power_production_state_result.total_progress",
+      "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+      "java_method": "ImpactReactorBuild.updateTile()",
+      "java_expr": "totalProgress += warmup * Time.delta;",
+      "rule": "The accumulated warmup-weighted time (ImpactReactor.java:98): totalProgress advances by warmup * Time.delta each tick.",
+      "tests": [
+        "test_c07_impact_reactor_power_production_registration",
+        "test_all_c07_impact_reactor_power_production_input_evidence_is_exact",
+        "test_impact_reactor_power_production_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_power_production"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorPowerProductionProof"
+    },
+    "source_impact_reactor_power_production_state_result.power_production": {
+      "status": "source-backed",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_power_production_state",
+      "godot_symbol": "source_impact_reactor_power_production_state_result.power_production",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "ImpactReactorBuild.updateTile()",
+      "java_expr": "return enabled ? powerProduction * productionEfficiency : 0f;",
+      "rule": "The live production (PowerGenerator.java:157): 130f * productionEfficiency when enabled, 0f when disabled or cold.",
+      "tests": [
+        "test_c07_impact_reactor_power_production_registration",
+        "test_all_c07_impact_reactor_power_production_input_evidence_is_exact",
+        "test_impact_reactor_power_production_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_power_production"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorPowerProductionProof"
     }
   },
   "version": 1

@@ -6,6 +6,7 @@ const source_placed_block_state := preload("res://src/game/SourcePlacedBlockStat
 const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
 const source_building_efficiency_state := preload("res://src/game/SourceBuildingEfficiencyState.gd")
 const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
+const source_math_state := preload("res://src/game/SourceMathState.gd")
 
 # The ImpactReactor implementation (ImpactReactor.java:17, `public class ImpactReactor extends PowerGenerator{`): impact-reactor (consumePower 25f, Blocks.java:2642, `consumePower(25f);`; size 4, powerProduction 130f, itemDuration 140f, health 900, lead 500 / silicon 300 / graphite 400 / thorium 100 / surge-alloy 250 / metaglass 250, Blocks.java:2632-2645). ImpactReactor extends PowerGenerator, NOT a factory or crafter or bridge or conveyor or router, so no existing driver matches it and no frame key exists for it; this driver uses its own family frame key ("source_impact_reactor_building", the radar precedent), and this slice adds the impact-reactor key to N2142's SOURCE_CONSUMER_FRAME_META_KEYS so the graph stamp/write-back finds it. The port has NO SourceImpactReactor* files at all yet -- no display/runtime state to lean on -- so the missing piece is the live power.status -> efficiency driver, which is exactly this slice: the ImpactReactorBuild.updateTile only warms up while efficiency is ~1 AND power.status is ~1 (ImpactReactor.java:79, `if(efficiency >= 0.9999f && power.status >= 0.99f){`, keep on ONE comment line, the N2148 shootWarmup lesson: a split line fails this test) -- so a reactor that cannot draw its 25f never warms up and never produces, as if power.status were 1.0. Consume-vs-produce care: the reactor is a GENERATOR -- it both consumes 25f and produces `powerProduction * productionEfficiency` (130f at full warmup) -- so the row this slice folds is the CONSUMER-side read (`return build.power.status;`, ConsumePower.java:39), exactly like every pure-consumer slice; the PRODUCER side (`getPowerProduction()`, PowerGenerator.java:156-158, `return enabled ? powerProduction * productionEfficiency : 0f;`, with `productionEfficiency = Mathf.pow(warmup, 5f);`, ImpactReactor.java:100) waits for its own slice. The warmup gate is a HARD gate, unlike the router's base-efficiency soft coupling: at efficiency 0 the warmup decays to 0 and production is 0 -- there is no baseEfficiency-style floor.
 const SOURCE_IMPACT_REACTOR_BUILD_IMPLEMENTATIONS := ["ImpactReactor"]
@@ -73,6 +74,26 @@ static func source_impact_reactor_power_status_row_state(frame: Dictionary, has_
 	var live: float = 1.0 if stamped == null else float(stamped)
 	return {"has_power_row": true, "row": {"result": live, "is_power": true}}
 
+static func source_impact_reactor_power_production_state(frame: Dictionary, delta: float) -> Dictionary:
+	# The producer side (N2186): ImpactReactorBuild.updateTile
+	# only warms up while the folded efficiency is ~1 AND
+	# power.status is ~1 (ImpactReactor.java:79, `if(efficiency >= 0.9999f && power.status >= 0.99f){`, keep on ONE comment line, the N2148 shootWarmup lesson: a split line fails this test) -- warmup rises toward 1f while the gate holds (ImpactReactor.java:82, `warmup = Mathf.lerpDelta(warmup, 1f, warmupSpeed * timeScale);` with ImpactReactor.java:19, `public float warmupSpeed = 0.001f;`, snapped by ImpactReactor.java:83-84, `if(Mathf.equal(warmup, 1f, 0.001f)){` / `warmup = 1f;`) and cools toward 0f when it fails (ImpactReactor.java:95, `warmup = Mathf.lerpDelta(warmup, 0f, 0.01f);`); the lerp is the port's frame-rate independent delta-scaled helper (SourceMathState.source_lerp_delta, the SourceBlockProducerBuildUpdateState precedent). Then `totalProgress += warmup * Time.delta;` (ImpactReactor.java:98) and `productionEfficiency = Mathf.pow(warmup, 5f);` (ImpactReactor.java:100), and the live production is `getPowerProduction()` (PowerGenerator.java:156-158, `return enabled ? powerProduction * productionEfficiency : 0f;`) with `powerProduction = 130f;` (Blocks.java:2636) -- 130f at full warmup, 0f when disabled or cold. The gate reads the FOLDED efficiency already on the frame (set by update_consumption_state earlier in the same tick, the N2182 driver) and the live power.status (frame["power_status"], stamped by the N2142 graph update), not a fresh fold. The consume timer (ImpactReactor.java:91, `if(timer(timerUse, itemDuration / timeScale)){` with ImpactReactor.java:92, `consume();`) does NOT run here: N2186 advances warmup only, the burn of blast-compound (Blocks.java:2643, `consumeItem(Items.blastCompound);`) and cryofluid 0.25f (Blocks.java:2644, `consumeLiquid(Liquids.cryofluid, 0.25f);`) waits for its own item/liquid slice. The first-production event (ImpactReactor.java:87, `if(!prevOut && consPower != null && (getPowerProduction() > consPower.requestedPower(this))){` with ImpactReactor.java:88, `Events.fire(Trigger.impactPower);`, computed from ImpactReactor.java:80, `boolean prevOut = consPower != null && getPowerProduction() <= consPower.requestedPower(this);`) is DEFERRED to its own event slice. The production efficiency persists across saves: `write.f(productionEfficiency);` (PowerGenerator.java:166) with `productionEfficiency = read.f();` (PowerGenerator.java:172) -- persistence waits for its own slice. ImpactReactorBuild fields: `public float warmup, totalProgress;` (ImpactReactor.java:75); the accessors `public float warmup(){` (ImpactReactor.java:103) with `return warmup;` and `public float totalProgress(){` (ImpactReactor.java:107) with `return totalProgress;` expose the warmup state. The parent PowerGenerator (PowerGenerator.java:22, `public class PowerGenerator extends PowerDistributor{`; GeneratorBuild, PowerGenerator.java:93, `public class GeneratorBuild extends Building{`) supplies the production side: `public float powerProduction;` (PowerGenerator.java:25), `public float generateTime;` (PowerGenerator.java:94), `public float productionEfficiency = 0.0f;` (PowerGenerator.java:96), warmup() returns productionEfficiency when enabled (PowerGenerator.java:105, `return enabled ? productionEfficiency : 0f;`), and `public float getPowerProduction(){` (PowerGenerator.java:156).
+	var efficiency: float = float(frame.get("efficiency", 1.0))
+	var power_status: float = float(frame.get("power_status", 1.0))
+	var enabled: bool = bool(frame.get("enabled", true))
+	var warmup: float = float(frame.get("warmup", 0.0))
+	var total_progress: float = float(frame.get("total_progress", 0.0))
+	if efficiency >= 0.9999 and power_status >= 0.99:
+		warmup = source_math_state.source_lerp_delta(warmup, 1.0, 0.001, delta)
+		if absf(warmup - 1.0) <= 0.001:
+			warmup = 1.0
+	else:
+		warmup = source_math_state.source_lerp_delta(warmup, 0.0, 0.01, delta)
+	total_progress += warmup * delta
+	var production_efficiency: float = pow(warmup, 5.0)
+	var power_production: float = 130.0 * production_efficiency if enabled else 0.0
+	return {"warmup": warmup, "production_efficiency": production_efficiency, "total_progress": total_progress, "power_production": power_production}
+
 @warning_ignore("unused_parameter")
 static func source_impact_reactor_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the impact-reactor tick wiring every
@@ -124,6 +145,14 @@ static func source_impact_reactor_tick_buildings_state(game: Object, seconds: fl
 				required_results.append(power_row.get("row", {}))
 			var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(true, bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, [], [], frame)
 			source_building_efficiency_state.apply_update_consumption_state(consumption, frame)
+			# The producer side (N2186): after the consumption
+			# fold, the same tick advances the warmup and stamps
+			# the live production onto the frame (ImpactReactor.java:79-100, PowerGenerator.java:156-158); the gate reads the FOLDED efficiency and the live power.status already on the frame.
+			var production: Dictionary = source_impact_reactor_power_production_state(frame, seconds)
+			frame["warmup"] = production.get("warmup", 0.0)
+			frame["production_efficiency"] = production.get("production_efficiency", 0.0)
+			frame["total_progress"] = production.get("total_progress", 0.0)
+			frame["power_production"] = production.get("power_production", 0.0)
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
