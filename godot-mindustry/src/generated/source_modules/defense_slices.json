@@ -2909,6 +2909,25 @@
       ],
       "runtime_proof": "/root/C07BuildTurretPowerStatusProof"
     },
+    "N2194": {
+      "canonical_ledger": "source_slice_ledger.N2194",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "java_method": "OverdriveBuild.updateTile()",
+      "godot_owner": "SourceOverdriveProjectorBuildState.source_overdrive_projector_update_tile_advance_state",
+      "source_symbols": [
+        "source_overdrive_projector_update_tile_advance_state_result.advanced",
+        "source_overdrive_projector_update_tile_advance_state_result.charge_ready",
+        "source_overdrive_projector_update_tile_advance_state_result.use_ready"
+      ],
+      "tests": [
+        "test_c07_overdrive_projector_update_tile_registration",
+        "test_all_c07_overdrive_projector_update_tile_input_evidence_is_exact",
+        "test_overdrive_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_overdrive_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07OverdriveProjectorUpdateTileProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

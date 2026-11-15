@@ -65928,6 +65928,58 @@
       ],
       "runtime_proof": "/root/C07LightBlockPowerStatusProof",
       "rule": "Source-backed LightBlock power.status row from ConsumePower.java / BuildingComp.java."
+    },
+    "SourceOverdriveProjectorBuildState.source_overdrive_projector_update_tile_advance_state": {
+      "status": "active",
+      "source_slice": "N2194",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "source_method": "OverdriveBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_overdrive_projector_update_tile_advance_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_overdrive_projector_update_tile_advance_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_overdrive_projector_update_tile_advance_state_input.time_scale"
+        },
+        {
+          "name": "has_boost",
+          "type": "bool",
+          "schema": "source_overdrive_projector_update_tile_advance_state_input.has_boost"
+        },
+        {
+          "name": "reload_value",
+          "type": "float",
+          "schema": "source_overdrive_projector_update_tile_advance_state_input.reload_value"
+        },
+        {
+          "name": "use_time_value",
+          "type": "float",
+          "schema": "source_overdrive_projector_update_tile_advance_state_input.use_time_value"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "advanced",
+        "charge_ready",
+        "use_ready"
+      ],
+      "tests": [
+        "test_c07_overdrive_projector_update_tile_registration",
+        "test_all_c07_overdrive_projector_update_tile_input_evidence_is_exact",
+        "test_overdrive_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_overdrive_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07OverdriveProjectorUpdateTileProof",
+      "rule": "Source-backed OverdriveProjector updateTile advance from OverdriveProjector.java / BuildingComp.java."
     }
   },
   "policy": {

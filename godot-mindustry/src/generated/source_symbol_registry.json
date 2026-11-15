@@ -172968,6 +172968,54 @@
         "test_reference_graph_and_actual_c07_light_block_power_status"
       ],
       "runtime_proof": "/root/C07LightBlockPowerStatusProof"
+    },
+    "source_overdrive_projector_update_tile_advance_state_result.advanced": {
+      "status": "source-backed",
+      "godot_owner": "SourceOverdriveProjectorBuildState.source_overdrive_projector_update_tile_advance_state",
+      "godot_symbol": "source_overdrive_projector_update_tile_advance_state_result.advanced",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "java_method": "OverdriveBuild.updateTile()",
+      "java_expr": "smoothEfficiency = Mathf.lerpDelta(smoothEfficiency, efficiency, 0.08f);",
+      "rule": "The advanced frame fields (OverdriveProjector.java:97-120, in exact Java order): smooth_efficiency and heat lerped toward their targets, charge advanced on raw Time.delta and reset at reload, phase_heat lerped toward optionalEfficiency when hasBoost, use_progress advanced on delta() and wrapped at useTime.",
+      "tests": [
+        "test_c07_overdrive_projector_update_tile_registration",
+        "test_all_c07_overdrive_projector_update_tile_input_evidence_is_exact",
+        "test_overdrive_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_overdrive_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07OverdriveProjectorUpdateTileProof"
+    },
+    "source_overdrive_projector_update_tile_advance_state_result.charge_ready": {
+      "status": "source-backed",
+      "godot_owner": "SourceOverdriveProjectorBuildState.source_overdrive_projector_update_tile_advance_state",
+      "godot_symbol": "source_overdrive_projector_update_tile_advance_state_result.charge_ready",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "java_method": "OverdriveBuild.updateTile()",
+      "java_expr": "charge = 0f;",
+      "rule": "Whether the charge reached reload this tick (OverdriveProjector.java:111-112): the boost-fire signal -- the reset already happened, and the deferred boost application (OverdriveProjector.java:113) is what would fire on it.",
+      "tests": [
+        "test_c07_overdrive_projector_update_tile_registration",
+        "test_all_c07_overdrive_projector_update_tile_input_evidence_is_exact",
+        "test_overdrive_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_overdrive_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07OverdriveProjectorUpdateTileProof"
+    },
+    "source_overdrive_projector_update_tile_advance_state_result.use_ready": {
+      "status": "source-backed",
+      "godot_owner": "SourceOverdriveProjectorBuildState.source_overdrive_projector_update_tile_advance_state",
+      "godot_symbol": "source_overdrive_projector_update_tile_advance_state_result.use_ready",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "java_method": "OverdriveBuild.updateTile()",
+      "java_expr": "useProgress %= useTime;",
+      "rule": "Whether useProgress reached useTime this tick (OverdriveProjector.java:118-120): the consume-fire signal -- the wrap already happened, and the deferred consume() (OverdriveProjector.java:119) is what would fire on it.",
+      "tests": [
+        "test_c07_overdrive_projector_update_tile_registration",
+        "test_all_c07_overdrive_projector_update_tile_input_evidence_is_exact",
+        "test_overdrive_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_overdrive_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07OverdriveProjectorUpdateTileProof"
     }
   },
   "version": 1
