@@ -230794,6 +230794,94 @@
       },
       "runtime_proof": "/root/C07ShieldWallBrokenProof",
       "rule": "Source-backed ShieldWall broken() coupling from ShieldWall.java / BuildingComp.java."
+    },
+    "source_shield_wall_damage_state_input": {
+      "status": "active",
+      "owner": "SourceShieldWallBuildState.source_shield_wall_damage_state",
+      "source_slice": "N2203",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShieldWall.java",
+          "java_expr": "float shieldTaken = broken() ? 0f : Math.min(shield, damage);",
+          "rule": "The building frame carrying the shield observation (ShieldWall.java:44, `public float shield = shieldHealth, shieldRadius = 0f;`, shieldHealth 900f, ShieldWall.java:15), the hit flash (Wall.java:89, `protected float hit;`), the break_timer observation (ShieldWall.java:45, `public float breakTimer;`) and the potential_efficiency observation stamped by the N2175 machinery (BuildingComp.java:1989, `potentialEfficiency = efficiency;`); a missing shield key means the shield was never damaged yet (900.0), a missing hit key means no flash (0.0), a missing break_timer key means no break in progress (0.0), a missing potential_efficiency key means no machinery run yet (1.0, not \"no power\").",
+          "used_by": [
+            "SourceShieldWallBuildState.source_shield_wall_damage_state"
+          ]
+        },
+        "damage": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShieldWall.java",
+          "java_expr": "public void damage(float damage){",
+          "rule": "The incoming damage amount (ShieldWall.java:100, `public void damage(float damage){`); the shield absorbs min(shield, damage) of it when the wall is whole, the rest is the residual for super.damage.",
+          "used_by": [
+            "SourceShieldWallBuildState.source_shield_wall_damage_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShieldWallDamageProof",
+      "rule": "Source-backed ShieldWall damage() coupling from ShieldWall.java / Wall.java / BuildingComp.java."
+    },
+    "source_shield_wall_damage_state_result": {
+      "status": "active",
+      "owner": "SourceShieldWallBuildState.source_shield_wall_damage_state",
+      "source_slice": "N2203",
+      "keys": {
+        "shield_taken": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShieldWall.java",
+          "java_expr": "float shieldTaken = broken() ? 0f : Math.min(shield, damage);",
+          "rule": "The damage absorbed by the shield (ShieldWall.java:102): 0 when broken() is true, else min(shield, damage); broken() is the N2202 coupling (ShieldWall.java:91-93) over break_timer and canConsume() (BuildingComp.java:1917-1919).",
+          "used_by": [
+            "SourceShieldWallBuildState.source_shield_wall_damage_state"
+          ]
+        },
+        "shield": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShieldWall.java",
+          "java_expr": "shield -= shieldTaken;",
+          "rule": "The shield left after the hit (ShieldWall.java:104): the incoming shield minus shield_taken, from the field init shieldHealth 900f (ShieldWall.java:44-45, 15); 0.0 when the shield breaks.",
+          "used_by": [
+            "SourceShieldWallBuildState.source_shield_wall_damage_state"
+          ]
+        },
+        "hit": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Wall.java",
+          "java_expr": "protected float hit;",
+          "rule": "The hit flash (ShieldWall.java:105-106, `if(shieldTaken > 0){` / `hit = 1f;`, hit declared in WallBuild, Wall.java:89, `protected float hit;`): 1.0 when anything was absorbed, otherwise the incoming hit value unchanged.",
+          "used_by": [
+            "SourceShieldWallBuildState.source_shield_wall_damage_state"
+          ]
+        },
+        "break_timer": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShieldWall.java",
+          "java_expr": "breakTimer = breakCooldown;",
+          "rule": "The break timer after the hit (ShieldWall.java:109-110, `if(shield <= 0.00001f && shieldTaken > 0){` / `breakTimer = breakCooldown;`, breakCooldown 60f * 10f, ShieldWall.java:16): breakCooldown when the shield was driven to zero by this hit, otherwise the incoming break_timer unchanged.",
+          "used_by": [
+            "SourceShieldWallBuildState.source_shield_wall_damage_state"
+          ]
+        },
+        "residual_damage": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShieldWall.java",
+          "java_expr": "super.damage(damage - shieldTaken);",
+          "rule": "The leftover damage for super.damage (ShieldWall.java:113-114, `if(damage - shieldTaken > 0){` / `super.damage(damage - shieldTaken);`): damage minus shield_taken; super.damage is BuildingComp.damage(float) (BuildingComp.java:2059-2080, `if(dead()) return;` / `health -= handleDamage(damage);` / `if(health <= 0){`). Returned for the caller -- no live damage call site applies it yet.",
+          "used_by": [
+            "SourceShieldWallBuildState.source_shield_wall_damage_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShieldWallDamageProof",
+      "rule": "Source-backed ShieldWall damage() coupling from ShieldWall.java / Wall.java / BuildingComp.java."
     }
   },
   "version": 1

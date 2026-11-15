@@ -173560,6 +173560,86 @@
         "test_reference_graph_and_actual_c07_shield_wall_broken"
       ],
       "runtime_proof": "/root/C07ShieldWallBrokenProof"
+    },
+    "source_shield_wall_damage_state_result.shield_taken": {
+      "status": "source-backed",
+      "godot_owner": "SourceShieldWallBuildState.source_shield_wall_damage_state",
+      "godot_symbol": "source_shield_wall_damage_state_result.shield_taken",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShieldWall.java",
+      "java_method": "ShieldWallBuild.damage(float)",
+      "java_expr": "float shieldTaken = broken() ? 0f : Math.min(shield, damage);",
+      "rule": "The damage absorbed by the shield (ShieldWall.java:102): 0 when broken() is true, else min(shield, damage); broken() is the N2202 coupling (ShieldWall.java:91-93) over break_timer and canConsume() (BuildingComp.java:1917-1919).",
+      "tests": [
+        "test_c07_shield_wall_damage_registration",
+        "test_all_c07_shield_wall_damage_input_evidence_is_exact",
+        "test_shield_wall_damage_state",
+        "test_reference_graph_and_actual_c07_shield_wall_damage"
+      ],
+      "runtime_proof": "/root/C07ShieldWallDamageProof"
+    },
+    "source_shield_wall_damage_state_result.shield": {
+      "status": "source-backed",
+      "godot_owner": "SourceShieldWallBuildState.source_shield_wall_damage_state",
+      "godot_symbol": "source_shield_wall_damage_state_result.shield",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShieldWall.java",
+      "java_method": "ShieldWallBuild.damage(float)",
+      "java_expr": "shield -= shieldTaken;",
+      "rule": "The shield left after the hit (ShieldWall.java:104): the incoming shield minus shield_taken, from the field init shieldHealth 900f (ShieldWall.java:44-45, 15); 0.0 when the shield breaks.",
+      "tests": [
+        "test_c07_shield_wall_damage_registration",
+        "test_all_c07_shield_wall_damage_input_evidence_is_exact",
+        "test_shield_wall_damage_state",
+        "test_reference_graph_and_actual_c07_shield_wall_damage"
+      ],
+      "runtime_proof": "/root/C07ShieldWallDamageProof"
+    },
+    "source_shield_wall_damage_state_result.hit": {
+      "status": "source-backed",
+      "godot_owner": "SourceShieldWallBuildState.source_shield_wall_damage_state",
+      "godot_symbol": "source_shield_wall_damage_state_result.hit",
+      "java_source": "core/src/mindustry/world/blocks/defense/Wall.java",
+      "java_method": "ShieldWallBuild.damage(float)",
+      "java_expr": "protected float hit;",
+      "rule": "The hit flash (ShieldWall.java:105-106, `if(shieldTaken > 0){` / `hit = 1f;`, hit declared in WallBuild, Wall.java:89, `protected float hit;`): 1.0 when anything was absorbed, otherwise the incoming hit value unchanged.",
+      "tests": [
+        "test_c07_shield_wall_damage_registration",
+        "test_all_c07_shield_wall_damage_input_evidence_is_exact",
+        "test_shield_wall_damage_state",
+        "test_reference_graph_and_actual_c07_shield_wall_damage"
+      ],
+      "runtime_proof": "/root/C07ShieldWallDamageProof"
+    },
+    "source_shield_wall_damage_state_result.break_timer": {
+      "status": "source-backed",
+      "godot_owner": "SourceShieldWallBuildState.source_shield_wall_damage_state",
+      "godot_symbol": "source_shield_wall_damage_state_result.break_timer",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShieldWall.java",
+      "java_method": "ShieldWallBuild.damage(float)",
+      "java_expr": "breakTimer = breakCooldown;",
+      "rule": "The break timer after the hit (ShieldWall.java:109-110, `if(shield <= 0.00001f && shieldTaken > 0){` / `breakTimer = breakCooldown;`, breakCooldown 60f * 10f, ShieldWall.java:16): breakCooldown when the shield was driven to zero by this hit, otherwise the incoming break_timer unchanged.",
+      "tests": [
+        "test_c07_shield_wall_damage_registration",
+        "test_all_c07_shield_wall_damage_input_evidence_is_exact",
+        "test_shield_wall_damage_state",
+        "test_reference_graph_and_actual_c07_shield_wall_damage"
+      ],
+      "runtime_proof": "/root/C07ShieldWallDamageProof"
+    },
+    "source_shield_wall_damage_state_result.residual_damage": {
+      "status": "source-backed",
+      "godot_owner": "SourceShieldWallBuildState.source_shield_wall_damage_state",
+      "godot_symbol": "source_shield_wall_damage_state_result.residual_damage",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShieldWall.java",
+      "java_method": "ShieldWallBuild.damage(float)",
+      "java_expr": "super.damage(damage - shieldTaken);",
+      "rule": "The leftover damage for super.damage (ShieldWall.java:113-114, `if(damage - shieldTaken > 0){` / `super.damage(damage - shieldTaken);`): damage minus shield_taken; super.damage is BuildingComp.damage(float) (BuildingComp.java:2059-2080, `if(dead()) return;` / `health -= handleDamage(damage);` / `if(health <= 0){`). Returned for the caller -- no live damage call site applies it yet.",
+      "tests": [
+        "test_c07_shield_wall_damage_registration",
+        "test_all_c07_shield_wall_damage_input_evidence_is_exact",
+        "test_shield_wall_damage_state",
+        "test_reference_graph_and_actual_c07_shield_wall_damage"
+      ],
+      "runtime_proof": "/root/C07ShieldWallDamageProof"
     }
   },
   "version": 1

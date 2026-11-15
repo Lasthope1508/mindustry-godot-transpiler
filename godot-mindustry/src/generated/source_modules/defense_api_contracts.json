@@ -6908,6 +6908,41 @@
       "rule": "Source-backed ShieldWall broken() coupling from ShieldWall.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceShieldWallBuildState.source_shield_wall_damage_state": {
+      "canonical_contract": "source_api_contracts.SourceShieldWallBuildState.source_shield_wall_damage_state",
+      "status": "active",
+      "source_slice": "N2203",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShieldWall.java",
+      "source_method": "ShieldWallBuild.damage(float)",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_shield_wall_damage_state_input.frame"
+        },
+        {
+          "name": "damage",
+          "type": "float",
+          "schema": "source_shield_wall_damage_state_input.damage"
+        }
+      ],
+      "return_keys": [
+        "shield_taken",
+        "shield",
+        "hit",
+        "break_timer",
+        "residual_damage"
+      ],
+      "tests": [
+        "test_c07_shield_wall_damage_registration",
+        "test_all_c07_shield_wall_damage_input_evidence_is_exact",
+        "test_shield_wall_damage_state",
+        "test_reference_graph_and_actual_c07_shield_wall_damage"
+      ],
+      "runtime_proof": "/root/C07ShieldWallDamageProof",
+      "rule": "Source-backed ShieldWall damage() coupling from ShieldWall.java / Wall.java / BuildingComp.java.",
+      "return_type": "Dictionary"
+    },
     "SourceShieldWallBuildState.source_shield_wall_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourceShieldWallBuildState.source_shield_wall_power_status_row_state",
       "status": "active",

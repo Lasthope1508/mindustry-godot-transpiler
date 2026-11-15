@@ -76,6 +76,22 @@ static func source_shield_wall_broken_state(frame: Dictionary) -> Dictionary:
 	var broken: bool = break_timer > 0.0 or not source_building_efficiency_state.can_consume_state(potential_efficiency)
 	return {"broken": broken}
 
+static func source_shield_wall_damage_state(frame: Dictionary, damage: float) -> Dictionary:
+	# The pure damage() coupling lives on the shield-wall build state: damage() (ShieldWall.java:100, `public void damage(float damage){`) absorbs `float shieldTaken = broken() ? 0f : Math.min(shield, damage);` (ShieldWall.java:102) -- broken() is the N2202 coupling (ShieldWall.java:91, `public boolean broken(){` with `return breakTimer > 0 || !canConsume();`, ShieldWall.java:92) over the break timer (ShieldWall.java:45, `public float breakTimer;`, set by ShieldWall.java:110, `breakTimer = breakCooldown;`, breakCooldown 60f * 10f, ShieldWall.java:16) and canConsume() (BuildingComp.java:1917, `public boolean canConsume(){` with `return potentialEfficiency > 0;`, BuildingComp.java:1918) over the potential efficiency (BuildingComp.java:89, `transient float potentialEfficiency;`). The shield drops by the absorbed amount (`shield -= shieldTaken;`, ShieldWall.java:104) from its field init (`public float shield = shieldHealth, shieldRadius = 0f;`, ShieldWall.java:44, shieldHealth 900f, ShieldWall.java:15); anything absorbed flashes hit (`if(shieldTaken > 0){` / `hit = 1f;`, ShieldWall.java:105-106, hit declared in WallBuild, Wall.java:89, `protected float hit;`); a shield driven to zero breaks the wall (`if(shield <= 0.00001f && shieldTaken > 0){` / `breakTimer = breakCooldown;`, ShieldWall.java:109-110); only the leftover damage reaches the building (`if(damage - shieldTaken > 0){` / `super.damage(damage - shieldTaken);`, ShieldWall.java:113-114), and super.damage is BuildingComp.damage(float) (BuildingComp.java:2059, `public void damage(float damage){` with `if(dead()) return;`, BuildingComp.java:2060, `health -= handleDamage(damage);`, BuildingComp.java:2071, and `if(health <= 0){`, BuildingComp.java:2076). The shield regen advance (ShieldWall.java:80, `shield = Mathf.clamp(shield + regenSpeed * edelta(), 0f, shieldHealth);`, keep on ONE comment line, the N2148 shootWarmup lesson: a split line fails this test) is what refills the shield between hits; the radius lerp reads broken() (ShieldWall.java:88, `shieldRadius = Mathf.lerpDelta(shieldRadius, broken() ? 0f : 1f, 0.12f);`). The power row is ConsumePower.efficiency (ConsumePower.java:39, `return build.power.status;`); one def (shielded-wall, `consumePower(3f / 60f);`, Blocks.java:1905; regenSpeed 2f, ShieldWall.java:17; `update = true;`, ShieldWall.java:27). The shield wall is its own family (ShieldWall.java:14, `public class ShieldWall extends Wall{`; ShieldWallBuild, ShieldWall.java:43, `public class ShieldWallBuild extends WallBuild{`). The frame carries the shield as `shield` (float, absent defaults to shieldHealth 900.0 -- absent means "shield never damaged yet", not "shield gone"), the hit flash as `hit` (float, absent defaults to 0.0), the break timer as `break_timer` (float, N2202 default 0.0) and the live potential efficiency as `potential_efficiency` (float, N2202 default 1.0); broken() comes from the N2202 pure function, never re-implemented. shield_taken is 0 when broken, else min(shield, damage); the shield drops by the absorbed amount; hit flashes to 1.0 only when something was absorbed; a shield driven to zero sets break_timer to breakCooldown (60f * 10f); the residual is damage minus shield_taken, returned for the caller -- no live damage call site applies it to building health yet.
+	var shield: float = float(frame.get("shield", 900.0))
+	var hit: float = float(frame.get("hit", 0.0))
+	var break_timer: float = float(frame.get("break_timer", 0.0))
+	var broken: bool = bool(source_shield_wall_broken_state(frame).get("broken", false))
+	var shield_taken: float = 0.0 if broken else minf(shield, damage)
+	shield -= shield_taken
+	if shield_taken > 0.0:
+		hit = 1.0
+	if shield <= 0.00001 and shield_taken > 0.0:
+		break_timer = 60.0 * 10.0
+	var residual_damage: float = 0.0
+	residual_damage = damage - shield_taken
+	return {"shield_taken": shield_taken, "shield": shield, "hit": hit, "break_timer": break_timer, "residual_damage": residual_damage}
+
 @warning_ignore("unused_parameter")
 static func source_shield_wall_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the shield-wall tick wiring every
