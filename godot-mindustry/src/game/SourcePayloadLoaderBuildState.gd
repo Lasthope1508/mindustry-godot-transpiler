@@ -83,10 +83,14 @@ static func _initial_frame() -> Dictionary:
 	# and the empty Building.items / Building.liquids stores
 	# (the Fracker precedent: frame["items"] is a Dictionary
 	# keyed by item name, frame["liquids"] the LiquidModule
-	# dict synced from the sprite meta each tick).
+	# dict synced from the sprite meta each tick). N2270 adds
+	# frame["power_usage"] (default 0.0: no payload, so the
+	# dynamic lambda charges 0f); the driver re-stamps it
+	# every tick at fold time.
 	return {
 		"payload": null,
 		"exporting": false,
+		"power_usage": 0.0,
 		"pay_vector": {"x": 0.0, "y": 0.0},
 		"pay_rotation": 0.0,
 		"items": {},
@@ -116,6 +120,20 @@ static func source_payload_loader_should_consume_state(frame: Dictionary) -> Dic
 	var payload: Variant = frame.get("payload", null)
 	var has_payload: bool = payload != null
 	return {"should_consume": has_payload, "has_payload": has_payload}
+
+static func source_payload_loader_dynamic_power_usage_state(should_consume: bool, has_battery: bool, exporting: bool, base_power_use: float, max_power_consumption: float) -> Dictionary:
+	# The dynamic power usage value (N2270): init() registers the dynamic consumer (PayloadLoader.java:77-84, `public void init(){` guarded by `if(loadPowerDynamic){` with `public boolean loadPowerDynamic = true;`, PayloadLoader.java:27) with the lambda (PayloadLoader.java:80, keep on ONE comment line, the N2148 shootWarmup lesson: a split line fails the test):
+	# consumePowerDynamic(basePowerUse, (PayloadLoaderBuild loader) -> loader.shouldConsume() ? (loader.hasBattery() && !loader.exporting ? maxPowerConsumption + basePowerUse : basePowerUse) : 0f);
+	# basePowerUse is consPower.usage = 2f (`basePowerUse = consPower != null ? consPower.usage : 0f;`, PayloadLoader.java:79, from the def `consumePower(2f);`, Blocks.java:6686); the max is the class constant `public float maxPowerConsumption = 40f;` (PayloadLoader.java:26). The graph queries requestedPower (`public float requestedPower(Building entity){` with `return usage.get(entity);`, ConsumePowerDynamic.java:24-25). hasBattery() is `return payload != null && payload.block().consPower != null && payload.block().consPower.buffered;` (PayloadLoader.java:235-237); exporting is the build field (`public boolean exporting = false;`, PayloadLoader.java:87); shouldConsume() is `return payload != null;` (PayloadLoader.java:240-242). Values: !should_consume -> 0.0; has_battery && !exporting -> base + max (42.0 while charging); otherwise base (2.0). charging is true exactly on the charging branch (should_consume && has_battery && !exporting) -- the battery charge itself runs in the N2231 advance (`float powerInput = power.status * (basePowerUse + maxPowerConsumption);`, PayloadLoader.java:202); this function only prices it.
+	var charging: bool = should_consume and has_battery and not exporting
+	var usage: float = 0.0
+	if not should_consume:
+		usage = 0.0
+	elif charging:
+		usage = base_power_use + max_power_consumption
+	else:
+		usage = base_power_use
+	return {"usage": usage, "charging": charging}
 
 static func source_payload_loader_update_tile_advance_state(frame: Dictionary, source_delta: float, time_scale: float, load_tick: bool, rotdeg_value: float, block_rotate: bool, item_order: Array, liquid_names_by_id: Array, front: Dictionary, move_payload_result: bool, base_power_use: float) -> Dictionary:
 	# The updateTile advance (N2231): PayloadLoaderBuild.updateTile()
@@ -425,7 +443,7 @@ static func source_payload_loader_update_tile_advance_state(frame: Dictionary, s
 
 static func source_payload_loader_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a payload-loader does not take the early return. The load gate follows the folded efficiency (PayloadLoader.java:157, `if(efficiency > 0.01f && timer(timerLoad, loadTime / efficiency)){`), with the battery charge (PayloadLoader.java:202, `float powerInput = power.status * (basePowerUse + maxPowerConsumption);`) and the shouldConsume default (BuildingComp.java:755, `public boolean shouldConsume(){`) and the shouldConsume override (PayloadLoader.java:241, `return payload != null;`).
-	# Documented limits: (1) power-only first pass -- PayloadLoader has a dynamic power consumer (consumePowerDynamic, PayloadLoader.java:80; `public float maxPowerConsumption = 40f;` (PayloadLoader.java:26) + basePowerUse when hasBattery() && !exporting, else basePowerUse) besides the static consumePower(2f) def (Blocks.java:6686), so the folded efficiency is the min over the *modeled* consumers (power only) with the dynamic usage value deferred. (2) shouldConsume gate live (N2208) -- PayloadLoaderBuild overrides shouldConsume() to return payload != null (PayloadLoader.java:240-242, `return payload != null;`); the pure gate (source_payload_loader_should_consume_state) feeds should_consume to the machinery from the frame payload key (null by default); no live fill sets frame["payload"] yet (moveInPayload / handlePayload fill waits for its own slice). (3) updateTile advance live (N2231) -- shouldExport / moveInPayload / moveOutPayload (reused helper) / load items+liquids / battery charge (PayloadLoader.java:148-220) run every tick after the consumption fold through the pure source_payload_loader_update_tile_advance_state function; the load timer cadence (PayloadLoader.java:157, the driver passes load_tick false), the movePayload/dumpPayload application, the live front gather, and the live payload fill defer (no timer/front/fill infra yet); the N2231 proof carries the load/export/battery keys. (4) No accept/handle payload rows -- acceptPayload fits maxBlockSize (PayloadLoader.java:102-115) is payload acceptance, not tick state.
+	# Documented limits: (1) power-only first pass -- the dynamic power usage value is live (N2270): the pure source_payload_loader_dynamic_power_usage_state function prices the consumePowerDynamic lambda (PayloadLoader.java:80; `public float maxPowerConsumption = 40f;` (PayloadLoader.java:26) + basePowerUse when hasBattery() && !exporting, else basePowerUse, 0f with no payload) and the driver stamps frame power_usage every tick at fold time (before the advance call, so exporting is the previous tick's value), so the folded efficiency is the min over the *modeled* consumers (power only). Graph wiring defers: the port graph builds demand from the static catalog consPower, so the per-building dynamic value waits for a distribution-runtime slice that reads frame power_usage (the N2232 Unloader last_output_power precedent). (2) shouldConsume gate live (N2208) -- PayloadLoaderBuild overrides shouldConsume() to return payload != null (PayloadLoader.java:240-242, `return payload != null;`); the pure gate (source_payload_loader_should_consume_state) feeds should_consume to the machinery from the frame payload key (null by default); no live fill sets frame["payload"] yet (moveInPayload / handlePayload fill waits for its own slice). (3) updateTile advance live (N2231) -- shouldExport / moveInPayload / moveOutPayload (reused helper) / load items+liquids / battery charge (PayloadLoader.java:148-220) run every tick after the consumption fold through the pure source_payload_loader_update_tile_advance_state function; the load timer cadence (PayloadLoader.java:157, the driver passes load_tick false), the movePayload/dumpPayload application, the live front gather, and the live payload fill defer (no timer/front/fill infra yet); the N2231 proof carries the load/export/battery keys. (4) No accept/handle payload rows -- acceptPayload fits maxBlockSize (PayloadLoader.java:102-115) is payload acceptance, not tick state.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -477,8 +495,16 @@ static func source_payload_loader_tick_buildings_state(game: Object, seconds: fl
 		# into the min efficiency like every other non-optional
 		# consumer, and the load gate (PayloadLoader.java:157)
 		# follows it. The power consumer counts toward
-		# hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a payload-loader does not take the early return. A payload-loader with no power consumer is untouched: the tick models no other consumers yet (the dynamic power consumer row waits for its own slice), and PayloadLoaderBuild overrides shouldConsume() to return payload != null (PayloadLoader.java:240-242) -- N2208 feeds the live gate to the machinery (the pure gate is source_payload_loader_should_consume_state, fed the frame; the gate has no enabled term, Java returns the bare null check, and the outer guard below already runs the machinery only when enabled); the N2162 RED decision is resolved. productionValid is the canonical true default (SourceBuildingAccessState.production_valid_state()).
+		# hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a payload-loader does not take the early return. A payload-loader with no power consumer is untouched: the tick models no other consumers yet (the dynamic usage value is live since N2270 -- frame power_usage stamped above at fold time -- and only the graph wiring waits for its own slice), and PayloadLoaderBuild overrides shouldConsume() to return payload != null (PayloadLoader.java:240-242) -- N2208 feeds the live gate to the machinery (the pure gate is source_payload_loader_should_consume_state, fed the frame; the gate has no enabled term, Java returns the bare null check, and the outer guard below already runs the machinery only when enabled); the N2162 RED decision is resolved. productionValid is the canonical true default (SourceBuildingAccessState.production_valid_state()).
+		# The dynamic power usage value (N2270, PayloadLoader.java:80): stamped at fold time, BEFORE the consumption fold and BEFORE the advance call below, so the usage reflects the fold-time state and `exporting` is the previous tick's value -- matching the Java graph query of the live usage (ConsumePowerDynamic.requestedPower returns `return usage.get(entity);`, ConsumePowerDynamic.java:24-25). The stamp sits OUTSIDE the enabled/cheating guard: the lambda reads only shouldConsume (payload != null, PayloadLoader.java:240-242 -- no enabled term) / hasBattery (`return payload != null && payload.block().consPower != null && payload.block().consPower.buffered;`, PayloadLoader.java:235-237) / exporting, so a disabled loader with a payload still prices its draw. The base reads the catalog consumePower (2.0 for payload-loader, `consumePower(2f);`, Blocks.java:6686) with the driver const as fallback; the max is the class constant (`public float maxPowerConsumption = 40f;`, PayloadLoader.java:26); has_battery reads the payload dict's block_cons_power_buffered flag (the N2231 contract). The graph does not read this value yet (graph wiring defers, the N2232 Unloader last_output_power precedent).
 		var has_power_consumer: bool = bool(block.properties.has("consumePower"))
+		if has_power_consumer:
+			var usage_gate: Dictionary = source_payload_loader_should_consume_state(frame)
+			var usage_payload: Variant = frame.get("payload", null)
+			var usage_has_battery: bool = usage_payload is Dictionary and bool(usage_payload.get("block_cons_power_buffered", false))
+			var usage_base: float = float(block.properties.get("consumePower", SOURCE_PAYLOAD_LOADER_BASE_POWER_USE))
+			var usage_state: Dictionary = source_payload_loader_dynamic_power_usage_state(bool(usage_gate.get("should_consume", false)), usage_has_battery, bool(frame.get("exporting", false)), usage_base, SOURCE_PAYLOAD_LOADER_MAX_POWER_CONSUMPTION)
+			frame["power_usage"] = usage_state["usage"]
 		if has_power_consumer and bool(frame.get("enabled", true)) and not bool(frame.get("cheating", false)):
 			var gate: Dictionary = source_payload_loader_should_consume_state(frame)
 			var should_consume: bool = bool(gate.get("should_consume", true))
