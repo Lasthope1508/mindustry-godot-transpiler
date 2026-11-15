@@ -4,6 +4,9 @@ const main_scene := preload("res://scenes/Main.tscn")
 const repair_tower_build_state := preload("res://src/game/SourceRepairTowerBuildState.gd")
 const registry := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 const proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
+const liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
+const content_registry_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
+const placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
 
 
 func _ready() -> void:
@@ -45,10 +48,17 @@ func _ready() -> void:
 	# N2172/N2173/N2174/N2175 proofs do), not simulate_factory,
 	# so the graph update does not overwrite the stamped
 	# power_status -- the write-back itself is already proven
-	# by N2142. The repair tower tick models no other
-	# consumers, so with a power consumer the first pass holds
-	# only the power row.
+	# by N2142. N2250 added the REQUIRED ozone liquid row
+	# (consumeLiquid ozone 3f/60f, Blocks.java:6583;
+	# ConsumeLiquid.java:42-47) to the driver tick, so the
+	# first pass holds the power row AND the liquid row: the
+	# proof seeds ozone 0.1 (the N2250 Tower B fill, as the
+	# N2306 live-scan proof does) so the liquid row folds
+	# 1.0 and efficiency reads the power min. Without the
+	# seed an empty ozone store would fold efficiency to 0.
 	var catalog = game.get("content_catalog")
+	var liquid_catalog: Dictionary = content_registry_state.source_liquid_catalog_state(catalog)
+	var ozone_id: int = int(liquid_catalog["liquid_id_by_name"].get("ozone", -1))
 	var blocks_by_id: Dictionary = {}
 	for registered_block in catalog.get_many("block"):
 		blocks_by_id[registered_block.id] = registered_block
@@ -63,6 +73,14 @@ func _ready() -> void:
 	# frame dict before the tick to stamp power_status on it).
 	repair_tower_build_state.source_repair_tower_bind_frame_state(repair_tower, blocks_by_id["unit-repair-tower"])
 	var repair_tower_frame: Dictionary = repair_tower.get_meta(repair_tower_build_state.SOURCE_REPAIR_TOWER_BUILDING_META_KEY, {})
+
+	# N2309: seed ozone 0.1 on the sprite liquids meta
+	# before the live ticks (N2250 Tower B fill). One seed
+	# suffices for both ticks: the first tick consumes
+	# ~0.05 x edelta (~0.025), leaving ~0.075, and the
+	# second tick asserts 0.0 at no power regardless.
+	var repair_tower_liquids: Dictionary = repair_tower.get_meta(placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, {})
+	liquid_module_state.source_set_state(repair_tower_liquids, ozone_id, 0.1)
 
 	# N2213: the shouldConsume gate (RepairTower.java:90,
 	# `return targets.size > 0;`) closes with no targets, so the
