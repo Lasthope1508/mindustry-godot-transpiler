@@ -242073,6 +242073,852 @@
       },
       "runtime_proof": "/root/C07RepairTurretTimerTargetProof",
       "rule": "Source-backed RepairTurret timer-target cadence from RepairTurret.java / TimerComp.java / BuildingComp.java / arc Interval.java / arc Time.java."
+    },
+    "source_separator_timer_dump_state_input": {
+      "status": "active",
+      "owner": "SourceSeparatorBuildState.source_separator_timer_dump_state",
+      "source_slice": "N2281",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+          "java_expr": "if(timer(timerDump, dumpTime / timeScale)){",
+          "rule": "The building frame carrying the items store, the timer clock (timer_dump_elapsed, the frame-local Interval-equivalent of the global Time.time arc Interval.get compares against, Interval.java:20-26) and the dump cursor (cdump, BuildingComp.java:68, default 0, shared with the offload -- Java uses the same `this.cdump` for both); the timer check runs after the progress/offload block in the same tick (Separator.java:165-166).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_timer_dump_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/util/Time.java",
+          "java_expr": "timeRaw += delta;",
+          "rule": "Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26) -- the per-tick growth of the frame-local clock, mirroring the per-update growth of the global Time.time (arc Time.java:69-80); accumulated unconditionally, like Time.time.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_timer_dump_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live timeScale read from the sprite meta (SourcePlacedBlockState.time_scale), default 1.0 (BuildingComp.java:98): the threshold is dumpTime / time_scale (Separator.java:165) -- unlike the N2280 literal-20 timer, this Java call DOES divide by timeScale, so the port threshold is Java-exact at every time_scale; a non-positive time_scale is the infinite-time branch (TimerComp.java:11).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_timer_dump_state"
+          ]
+        },
+        "content_item_ids": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "var allItems = content.items();",
+          "rule": "The content items in catalog order (BuildingComp.java:1076): dump(null) scans them in order for each neighbour, handing over the first held item an accepting neighbour takes (BuildingComp.java:1084-1091). The tick reads them through SourceContentRegistryRuntimeState.source_item_catalog_state (the payload-loader / payload-unloader precedent).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_timer_dump_state"
+          ]
+        },
+        "neighbour_accepts_item": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(other.acceptItem(self(), item) && canDump(other, item)){",
+          "rule": "The per-neighbour acceptItem answers in proximity order (BuildingComp.java:1088), as frame inputs (default [] -- no neighbours, the Java proximity.size == 0 outcome); the live proximity scan waits for its own slice.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_timer_dump_state"
+          ]
+        },
+        "neighbour_can_dump": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public boolean canDump(Building to, Item item){",
+          "rule": "The per-neighbour canDump answers in proximity order (BuildingComp.java:1088, 1124-1126 -- the default returns true); as frame inputs alongside the acceptItem answers.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_timer_dump_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SeparatorTimerDumpProof",
+      "rule": "Source-backed Separator timerDump dump rows from Separator.java / Block.java / TimerComp.java / BuildingComp.java / arc Interval.java / arc Time.java."
+    },
+    "source_separator_timer_dump_state_result": {
+      "status": "active",
+      "owner": "SourceSeparatorBuildState.source_separator_timer_dump_state",
+      "source_slice": "N2281",
+      "keys": {
+        "fired": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+          "java_expr": "if(Float.isInfinite(time)) return false;",
+          "rule": "Whether the timer fires this tick (TimerComp.java:10-13): false when the threshold is infinite (time_scale <= 0), else elapsed >= dumpTime / time_scale -- the Interval.check comparison (arc Interval.java:28-30) against the frame-local clock.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_timer_dump_state"
+          ]
+        },
+        "elapsed_after": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+          "java_expr": "return timer.get(index, time);",
+          "rule": "The elapsed clock after this tick: 0.0 when fired (Interval.get RESETS times[id] = Time.time on fire, arc Interval.java:23-25 -- a reset, not a subtraction like the Fracker accumulator), otherwise the accumulated elapsed.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_timer_dump_state"
+          ]
+        },
+        "dumped": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "other.handleItem(self(), item);",
+          "rule": "Whether the dump handed an item to a neighbour this tick (BuildingComp.java:1089): true only when the timer fired and a neighbour accepted an item (acceptItem && canDump); false when the timer did not fire, the store was empty, or no neighbour accepted.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_timer_dump_state"
+          ]
+        },
+        "items_after": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "items.remove(item, 1);",
+          "rule": "The items after the tick (BuildingComp.java:1090): 1 removed on a successful dump, in content order per neighbour; unchanged when nothing dumps, the timer did not fire, or the store is empty.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_timer_dump_state"
+          ]
+        },
+        "cursor_after": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "cdump = ((cdump + 1) % prox);",
+          "rule": "The dump cursor after the tick (BuildingComp.java:1116-1120): advanced once per neighbour checked (incrementDump, guarded on prox != 0), wrapping modulo the proximity size; shared with the offload, so the tick persists it back to the frame.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_timer_dump_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SeparatorTimerDumpProof",
+      "rule": "Source-backed Separator timerDump dump rows from Separator.java / Block.java / TimerComp.java / BuildingComp.java / arc Interval.java / arc Time.java."
+    },
+    "source_burst_drill_timer_dump_state_input": {
+      "status": "active",
+      "owner": "SourceBurstDrillBuildState.source_burst_drill_timer_dump_state",
+      "source_slice": "N2282",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "if(timer(timerDump, dumpTime / timeScale)){",
+          "rule": "The building frame carrying the items store, the dump clock (timer_dump_elapsed, the frame-local Interval times[id], default 0.0) and the dump cursor (cdump, BuildingComp.java:68, default 0); the timerDump check runs at the top of updateTile (BurstDrill.java:83-84), after the dominantItem null return (:77-79) and before the advance (:87+).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_timer_dump_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/util/Time.java",
+          "java_expr": "timeRaw += delta;",
+          "rule": "Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26) -- the per-tick growth of the frame-local clock, mirroring the per-update growth of the global Time.time (arc Time.java:69-80).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_timer_dump_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live timeScale read from the sprite meta (SourcePlacedBlockState.time_scale), default 1.0 (BuildingComp.java:98): the threshold is dumpTime / timeScale (BurstDrill.java:83), and a non-positive timeScale is the infinite-time branch (TimerComp.java:11, never fires).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_timer_dump_state"
+          ]
+        },
+        "dominant_item_name": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "dump(items.has(dominantItem) ? dominantItem : null);",
+          "rule": "The dominant item resolved to its catalog name by the driver (the N2219 advance precedent; the frame dominant_item is the item dict, Drill.java:244 `public Item dominantItem;`); \"\" when dominantItem is null, which takes the no-fire branch -- Java returns from updateTile before the timer check (BurstDrill.java:77-79).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_timer_dump_state"
+          ]
+        },
+        "content_item_ids": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "var allItems = content.items();",
+          "rule": "The content items in catalog order (BuildingComp.java:1076): dump(null) scans them in order for each neighbour, handing over the first held item an accepting neighbour takes (BuildingComp.java:1084-1091). The tick reads them through SourceContentRegistryRuntimeState.source_item_catalog_state (the N2276 precedent).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_timer_dump_state"
+          ]
+        },
+        "neighbour_accepts_item": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(other.acceptItem(self(), item) && canDump(other, item)){",
+          "rule": "The per-neighbour acceptItem answers in proximity order (BuildingComp.java:1088), as frame inputs (default [] -- no neighbours, the Java proximity.size == 0 outcome); the live proximity scan waits for its own slice.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_timer_dump_state"
+          ]
+        },
+        "neighbour_can_dump": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public boolean canDump(Building to, Item item){",
+          "rule": "The per-neighbour canDump answers in proximity order (BuildingComp.java:1088, 1124-1126 -- the default returns true); as frame inputs alongside the acceptItem answers.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_timer_dump_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BurstDrillTimerDumpProof",
+      "rule": "Source-backed BurstDrill timerDump dump rows from BurstDrill.java / BuildingComp.java / TimerComp.java."
+    },
+    "source_burst_drill_timer_dump_state_result": {
+      "status": "active",
+      "owner": "SourceBurstDrillBuildState.source_burst_drill_timer_dump_state",
+      "source_slice": "N2282",
+      "keys": {
+        "fired": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "if(timer(timerDump, dumpTime / timeScale)){",
+          "rule": "Whether the timer fired this tick (BurstDrill.java:83): the accumulated elapsed reached dumpTime / timeScale (5f, Block.java:438) with a dominant item present; false below the threshold, at a non-positive timeScale, or with no dominant item (Java returns before the check, BurstDrill.java:77-79).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_timer_dump_state"
+          ]
+        },
+        "elapsed_after": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/util/Interval.java",
+          "java_expr": "if(got) times[id] = Time.time;",
+          "rule": "The dump clock after the tick (arc Interval.java:20-26): reset to 0.0 on fire, otherwise the accumulated elapsed (source_delta added unconditionally, mirroring Time.time growth).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_timer_dump_state"
+          ]
+        },
+        "dumped": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public boolean dump(Item todump){",
+          "rule": "Whether the dump succeeded this tick (BuildingComp.java:1072-1113): a neighbour accepted the item and 1 left the store; false when the timer did not fire, no neighbour accepted, or the store was empty.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_timer_dump_state"
+          ]
+        },
+        "items_after": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "items.remove(item, 1);",
+          "rule": "The items after the tick (BuildingComp.java:1090/1104): 1 removed per successful dump (the dominant item when held, else the first held item in content order); unchanged when nothing dumps.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_timer_dump_state"
+          ]
+        },
+        "cursor_after": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "cdump = ((cdump + 1) % prox);",
+          "rule": "The dump cursor after the tick (BuildingComp.java:1116-1120): advanced once per neighbour checked (incrementDump, guarded on prox != 0), wrapping modulo the proximity size.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_timer_dump_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BurstDrillTimerDumpProof",
+      "rule": "Source-backed BurstDrill timerDump dump rows from BurstDrill.java / BuildingComp.java / TimerComp.java."
+    },
+    "source_wall_crafter_timer_dump_state_input": {
+      "status": "active",
+      "owner": "SourceWallCrafterBuildState.source_wall_crafter_timer_dump_state",
+      "source_slice": "N2283",
+      "keys": {
+        "elapsed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+          "java_expr": "return timer.get(index, time);",
+          "rule": "The frame-local elapsed clock in ticks (frame[\"timer_dump_elapsed\"], accumulated by the tick delta every tick, unconditionally -- the port mirror of the global Time.time arc Interval.get compares against, Interval.java:20-26; Time.time counts TICKS, arc Time.java:69-80).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_timer_dump_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live building timeScale (BuildingComp.java:98, default 1f), read from the sprite meta by the tick; the Java threshold is dumpTime / timeScale (WallCrafter.java:220), and a non-positive time_scale is the infinite-time branch (TimerComp.java:11).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_timer_dump_state"
+          ]
+        },
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "if(timer(timerDump, dumpTime / timeScale)){",
+          "rule": "The building frame carrying the items store (frame[\"items\"], the Building.items ItemModule, a Dictionary keyed by item name) and the dump cursor (cdump, BuildingComp.java:68, default 0); the dump runs when the timer fires (WallCrafter.java:220-221).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_timer_dump_state"
+          ]
+        },
+        "output_item": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "public Item output = Items.sand;",
+          "rule": "The output item dumped: sand for both defs (WallCrafter.java:43; Blocks.java:3009/:3023); the driver reads it from the catalog per def and passes it here.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_timer_dump_state"
+          ]
+        },
+        "content_item_ids": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "var allItems = content.items();",
+          "rule": "The content items in catalog order (BuildingComp.java:1076): dump(output) resolves the dumped item against them through the shared dump_item_state port. The tick reads them through SourceContentRegistryRuntimeState.source_item_catalog_state (the payload-loader / payload-unloader precedent).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_timer_dump_state"
+          ]
+        },
+        "neighbour_accepts_item": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(other.acceptItem(self(), todump) && canDump(other, todump)){",
+          "rule": "The per-neighbour acceptItem answers in proximity order (BuildingComp.java:1102), as frame inputs (default [] -- no neighbours, the Java proximity.size == 0 outcome); the live proximity scan waits for its own slice.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_timer_dump_state"
+          ]
+        },
+        "neighbour_can_dump": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public boolean canDump(Building to, Item item){",
+          "rule": "The per-neighbour canDump answers in proximity order (BuildingComp.java:1102, 1124-1126 -- the default returns true); as frame inputs alongside the acceptItem answers.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_timer_dump_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WallCrafterTimerDumpProof",
+      "rule": "Source-backed WallCrafter timerDump dump from WallCrafter.java / TimerComp.java / BuildingComp.java / Block.java / Blocks.java."
+    },
+    "source_wall_crafter_timer_dump_state_result": {
+      "status": "active",
+      "owner": "SourceWallCrafterBuildState.source_wall_crafter_timer_dump_state",
+      "source_slice": "N2283",
+      "keys": {
+        "fired": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+          "java_expr": "if(Float.isInfinite(time)) return false;",
+          "rule": "Whether the timer fires this tick (TimerComp.java:10-13): false when the threshold is infinite (time_scale <= 0), else elapsed >= dumpTime / time_scale -- the Interval.check comparison (arc Interval.java:28-30) against the frame-local clock.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_timer_dump_state"
+          ]
+        },
+        "elapsed_after": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TimerComp.java",
+          "java_expr": "return timer.get(index, time);",
+          "rule": "The elapsed clock after this tick: 0.0 when fired (Interval.get RESETS times[id] = Time.time on fire, arc Interval.java:23-25 -- a reset, not a subtraction like the Fracker accumulator), otherwise the input elapsed unchanged. The reset applies even when the dump itself fails.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_timer_dump_state"
+          ]
+        },
+        "dumped": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "other.handleItem(self(), todump);",
+          "rule": "Whether a neighbour took the output item this tick (BuildingComp.java:1102-1104): true only when the timer fired and the first accepting neighbour (from the cdump cursor) took 1 output item via handleItem.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_timer_dump_state"
+          ]
+        },
+        "items_after": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "items.remove(todump, 1);",
+          "rule": "The items after the tick (BuildingComp.java:1104): 1 output item removed when the dump succeeded, unchanged otherwise (timer not fired, output absent, or no accepting neighbour).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_timer_dump_state"
+          ]
+        },
+        "cursor_after": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "cdump = ((cdump + 1) % prox);",
+          "rule": "The dump cursor after the tick (BuildingComp.java:1116-1120): advanced once per neighbour checked (incrementDump, guarded on prox != 0), wrapping modulo the proximity size; unchanged when the timer did not fire or the dump guard failed.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_timer_dump_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WallCrafterTimerDumpProof",
+      "rule": "Source-backed WallCrafter timerDump dump from WallCrafter.java / TimerComp.java / BuildingComp.java / Block.java / Blocks.java."
+    },
+    "source_fracker_dump_liquid_state_input": {
+      "status": "active",
+      "owner": "SourceFrackerBuildState.source_fracker_dump_liquid_state",
+      "source_slice": "N2284",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Fracker.java",
+          "java_expr": "dumpLiquid(result);",
+          "rule": "The building frame carrying the liquids store (frame[\"liquids\"], the Building.liquids LiquidModule) and the dump cursor (frame[\"cdump\"], cdump, BuildingComp.java:68, default 0): both updateTile branches end in dumpLiquid(result) (Fracker.java:42 in the else-branch; SolidPump.java:140 through super.updateTile(), Fracker.java:37, in the if-branch).",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_dump_liquid_state"
+          ]
+        },
+        "result_liquid_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "result = Liquids.oil;",
+          "rule": "The catalog id of the result liquid, resolved by the driver from liquid_id_by_name with the def constant \"oil\" (Blocks.java:2966; the class default is water, SolidPump.java:22).",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_dump_liquid_state"
+          ]
+        },
+        "liquid_capacity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "liquidCapacity = 40f;",
+          "rule": "The def liquid capacity 40f (Blocks.java:2971; the class default is -1f, Block.java:77): the fract denominator and the transfer scale (fract - ofract) * block.liquidCapacity / scaling (BuildingComp.java:905).",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_dump_liquid_state"
+          ]
+        },
+        "dump_neighbours": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+          "rule": "The neighbour entries in proximity order (BuildingComp.java:896), as frame inputs (default [] -- no neighbours, the Java proximity.size == 0 outcome); each entry carries amount / capacity / accepts / has_liquids / can_dump / liquids_present / destination_present / relative_to, and the live proximity scan waits for its own slice.",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_dump_liquid_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07FrackerDumpLiquidProof",
+      "rule": "Source-backed Fracker dumpLiquid rows from Fracker.java / SolidPump.java / BuildingComp.java / Block.java / Blocks.java."
+    },
+    "source_fracker_dump_liquid_state_result": {
+      "status": "active",
+      "owner": "SourceFrackerBuildState.source_fracker_dump_liquid_state",
+      "source_slice": "N2284",
+      "keys": {
+        "liquids_after": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "liquids.remove(liquid, flow);",
+          "rule": "The liquids store after the tick (BuildingComp.java:919): the dumped amount removed through the shared liquid module helper (which clamps like Java LiquidModule.remove), on a duplicate -- the pure never mutates its inputs; unchanged when nothing dumps.",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_dump_liquid_state"
+          ]
+        },
+        "dumped_amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(ofract < fract) transferLiquid(other, (fract - ofract) * block.liquidCapacity / scaling, liquid);",
+          "rule": "The total amount dumped this tick (BuildingComp.java:905): the sum over eligible neighbours of (fract - ofract) * block.liquidCapacity / scaling with scaling 2f, each flow clamped by the neighbour free capacity and gated on acceptLiquid; 0 when no neighbour takes anything.",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_dump_liquid_state"
+          ]
+        },
+        "cursor_after": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "cdump = ((cdump + 1) % prox);",
+          "rule": "The dump cursor after the tick (BuildingComp.java:1116-1121): advanced once per proximity iteration (incrementDump, guarded on prox != 0), wrapping modulo the proximity size -- even when no neighbour takes anything, but untouched when the store is below the 0.0001f threshold (the early return runs before the loop).",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_dump_liquid_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07FrackerDumpLiquidProof",
+      "rule": "Source-backed Fracker dumpLiquid rows from Fracker.java / SolidPump.java / BuildingComp.java / Block.java / Blocks.java."
+    },
+    "source_mechanical_pump_dump_liquid_state_input": {
+      "status": "active",
+      "owner": "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_liquid_state",
+      "source_slice": "N2285",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "int dump = this.cdump;",
+          "rule": "The building frame carrying the dump cursor (cdump, BuildingComp.java:68, default 0); the dump starts its proximity scan from this cursor (BuildingComp.java:887) and the driver persists the cursor after the call.",
+          "used_by": [
+            "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_liquid_state"
+          ]
+        },
+        "liquid_drop": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+          "java_expr": "public @Nullable Liquid liquidDrop = null;",
+          "rule": "The liquid under the footprint (Pump.java:114, set by onProximityUpdate, Pump.java:141-152, from each linked tile passing canPump, Pump.java:106-108; null when no liquid floor sits under the footprint). The driver gathers it per tick from the N2087 proximity helper (source_pump_proximity_state) return value, already called for the N2205 gate / N2221 advance; the family frame carries no liquid_drop key. A null drop skips the dump entirely (Pump.java:178).",
+          "used_by": [
+            "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_liquid_state"
+          ]
+        },
+        "liquids": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(liquids.get(liquid) <= 0.0001f) return;",
+          "rule": "The Building.liquids LiquidModule (the sprite liquids meta, initialized at placement via source_initialize_building_liquids_state), read through the shared liquid module source_get_state by liquid id to find the current stored amount for the early-return threshold (BuildingComp.java:889) and the fraction transfer. The pure dump does NOT mutate it: it returns a copy with the dumped amount removed, and the driver writes it back through source_set_state after the call.",
+          "used_by": [
+            "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_liquid_state"
+          ]
+        },
+        "liquid_capacity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "liquidCapacity = 80f;",
+          "rule": "The block def capacity (rotary-pump 80f, Blocks.java:2308; impulse-pump 200f, Blocks.java:2317), passed by the driver -- the catalog carries no liquidCapacity for pump defs, so the driver resolves it from the block id (the N2190/N2199 def constant precedent); unknown Pump defs fall back to the Block.java:77 default (`liquidCapacity = -1f;`). The fraction is liquids.get(liquid) / block.liquidCapacity (BuildingComp.java:903).",
+          "used_by": [
+            "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_liquid_state"
+          ]
+        },
+        "liquid_id_by_name": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "float fract = liquids.get(liquid) / block.liquidCapacity;",
+          "rule": "The catalog liquid name -> id map (source_liquid_catalog_state), passed by the driver: the module store is id-indexed while liquidDrop is a name, so the pure dump resolves the drop name to the module index through this map (the factory precedent, source_factory_should_consume_state; the same map the N2205 gate and the N2221 advance take).",
+          "used_by": [
+            "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_liquid_state"
+          ]
+        },
+        "neighbour_amounts": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "float ofract = other.liquids.get(liquid) / other.block.liquidCapacity;",
+          "rule": "The per-neighbour stored amounts of the dumped liquid in proximity order (BuildingComp.java:902), as frame inputs (default [] -- no neighbours, the Java proximity.size == 0 outcome); the live proximity scan waits for its own slice.",
+          "used_by": [
+            "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_liquid_state"
+          ]
+        },
+        "neighbour_capacities": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "float flow = Math.min(next.block.liquidCapacity - next.liquids.get(liquid), amount);",
+          "rule": "The per-neighbour block liquid capacities in proximity order (BuildingComp.java:915), as frame inputs alongside the amounts; flow is capped by the neighbour free capacity.",
+          "used_by": [
+            "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_liquid_state"
+          ]
+        },
+        "neighbour_accepts": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(next.acceptLiquid(self(), liquid)){",
+          "rule": "The per-neighbour acceptLiquid answers in proximity order (BuildingComp.java:917), as frame inputs (default []); a neighbour that does not accept takes nothing even when the fraction transfer would flow.",
+          "used_by": [
+            "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_liquid_state"
+          ]
+        },
+        "neighbour_can_dump": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public boolean canDumpLiquid(Building to, Liquid liquid){",
+          "rule": "The per-neighbour canDumpLiquid answers in proximity order (BuildingComp.java:901, 910-912 -- the default returns true); as frame inputs alongside the acceptLiquid answers.",
+          "used_by": [
+            "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_liquid_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PumpDumpLiquidProof",
+      "rule": "Source-backed Pump dumpLiquid rows from Pump.java / BuildingComp.java."
+    },
+    "source_mechanical_pump_dump_liquid_state_result": {
+      "status": "active",
+      "owner": "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_liquid_state",
+      "source_slice": "N2285",
+      "keys": {
+        "liquids_after": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "liquids.remove(liquid, flow);",
+          "rule": "The liquids store after the tick (BuildingComp.java:919): the dumped flow removed from the drop slot, through the shared liquid module source_set_state on a copy; unchanged when nothing dumps, the drop is null, or the store is at/below the 0.0001f threshold.",
+          "used_by": [
+            "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_liquid_state"
+          ]
+        },
+        "dumped_amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(ofract < fract) transferLiquid(other, (fract - ofract) * block.liquidCapacity / scaling, liquid);",
+          "rule": "The total amount dumped this tick (BuildingComp.java:905): the sum of the per-neighbour flows, each (fract - ofract) * block.liquidCapacity / scaling with scaling 2f (BuildingComp.java:877-878), capped by the neighbour free capacity and gated on acceptLiquid; 0.0 when nothing transfers.",
+          "used_by": [
+            "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_liquid_state"
+          ]
+        },
+        "cursor_after": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "cdump = ((cdump + 1) % prox);",
+          "rule": "The dump cursor after the tick (BuildingComp.java:1116-1121): incrementDump runs once per proximity iteration, so a full loop advances it proximity.size times and it wraps back to its start value; unchanged when the dump is skipped (null drop or at/below threshold) or the proximity is empty.",
+          "used_by": [
+            "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_liquid_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PumpDumpLiquidProof",
+      "rule": "Source-backed Pump dumpLiquid rows from Pump.java / BuildingComp.java."
+    },
+    "source_solid_pump_dump_liquid_state_input": {
+      "status": "active",
+      "owner": "SourceSolidPumpBuildState.source_solid_pump_dump_liquid_state",
+      "source_slice": "N2286",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "dumpLiquid(result);",
+          "rule": "The building frame carrying the liquids module (the Building.liquids LiquidModule state dict) and the dump cursor (cdump, BuildingComp.java:68, default 0); the dump runs unconditionally after pumpTime (SolidPump.java:140, after :138), so it reads no efficiency and no gate.",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_dump_liquid_state"
+          ]
+        },
+        "result_liquid_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "public Liquid result = Liquids.water;",
+          "rule": "The result liquid's catalog id, resolved by the driver from liquid_id_by_name[\"water\"] (the def constant water, Blocks.java:2922 -- also the Java field default, SolidPump.java:22); -1 when the catalog has no such liquid, in which case the dump reads the current amount as 0.0 and dumps nothing.",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_dump_liquid_state"
+          ]
+        },
+        "liquid_capacity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "liquidCapacity = 40f;",
+          "rule": "The liquid capacity def constant 40f (Blocks.java:2925) -- the catalog carries no liquidCapacity property for pump defs (the N2190 fogRadius / N2199 transportTime def-constant precedent); the class default is -1f (Block.java:77) but every pump def sets it explicitly.",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_dump_liquid_state"
+          ]
+        },
+        "neighbour_liquid_amounts": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "float ofract = other.liquids.get(liquid) / other.block.liquidCapacity;",
+          "rule": "The per-neighbour result-liquid amounts in proximity order (BuildingComp.java:902), as frame inputs (default [] -- no neighbours, the Java proximity.size == 0 outcome); the live proximity scan waits for its own slice.",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_dump_liquid_state"
+          ]
+        },
+        "neighbour_liquid_capacities": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "float ofract = other.liquids.get(liquid) / other.block.liquidCapacity;",
+          "rule": "The per-neighbour block liquid capacities in proximity order (BuildingComp.java:902), as frame inputs alongside the amounts; a zero capacity means the neighbour has no liquids (other.block.hasLiquids false).",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_dump_liquid_state"
+          ]
+        },
+        "neighbour_accepts_liquid": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(next.acceptLiquid(self(), liquid)){",
+          "rule": "The per-neighbour acceptLiquid answers in proximity order (BuildingComp.java:917), as frame inputs; transferLiquid only hands liquid to an accepting neighbour.",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_dump_liquid_state"
+          ]
+        },
+        "neighbour_can_dump_liquid": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public boolean canDumpLiquid(Building to, Liquid liquid){",
+          "rule": "The per-neighbour canDumpLiquid answers in proximity order (BuildingComp.java:901, 910-912 -- the default returns true); as frame inputs alongside the acceptLiquid answers.",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_dump_liquid_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SolidPumpDumpLiquidProof",
+      "rule": "Source-backed SolidPump dumpLiquid rows from SolidPump.java / BuildingComp.java."
+    },
+    "source_solid_pump_dump_liquid_state_result": {
+      "status": "active",
+      "owner": "SourceSolidPumpBuildState.source_solid_pump_dump_liquid_state",
+      "source_slice": "N2286",
+      "keys": {
+        "liquids_after": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "liquids.remove(liquid, flow);",
+          "rule": "The liquids module after the tick (BuildingComp.java:919): the result amount reduced by the dumped flow, through the shared liquid module helper; unchanged when nothing dumps or the store is at/below the 0.0001f threshold.",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_dump_liquid_state"
+          ]
+        },
+        "dumped_amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(ofract < fract) transferLiquid(other, (fract - ofract) * block.liquidCapacity / scaling, liquid);",
+          "rule": "The total liquid dumped this tick (BuildingComp.java:905): the sum over eligible neighbours of the fraction transfer (fract - ofract) * block.liquidCapacity / scaling with scaling 2f (BuildingComp.java:877-878), each flow capped by the neighbour free capacity (BuildingComp.java:915); 0 when no neighbour takes liquid.",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_dump_liquid_state"
+          ]
+        },
+        "cursor_after": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "cdump = ((cdump + 1) % prox);",
+          "rule": "The dump cursor after the tick (BuildingComp.java:1116-1120): incrementDump runs once per proximity iteration (BuildingComp.java:894), so a full scan over N neighbours advances the cursor N times -- a full cycle, leaving it where it started; unchanged when the store is at/below the threshold or the proximity is empty.",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_dump_liquid_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SolidPumpDumpLiquidProof",
+      "rule": "Source-backed SolidPump dumpLiquid rows from SolidPump.java / BuildingComp.java."
+    },
+    "source_liquid_bridge_do_dump_state_input": {
+      "status": "active",
+      "owner": "SourceLiquidBridgeBuildState.source_liquid_bridge_do_dump_state",
+      "source_slice": "N2287",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "transient int cdump;",
+          "rule": "The building frame carrying the dump cursor (transient int cdump, BuildingComp.java:68, default 0): the scan starts at cdump and the cursor persists on the frame across ticks; a missing key defaults to 0.",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_do_dump_state"
+          ]
+        },
+        "had_valid_link": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "hadValidLink = linkValid(tile, other);",
+          "rule": "The freshly recomputed link validity from the N2197 driver (ItemBridge.java:332-333): doDump runs ONLY when it is false (ItemBridge.java:335-337); the linked branch never dumps, so the pure returns the store untouched when it holds.",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_do_dump_state"
+          ]
+        },
+        "liquids": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+          "java_expr": "public Liquid current(){",
+          "rule": "The self liquid module state (the sprite liquids meta: amounts array by liquid id + current id, LiquidModule.java:24/81-83): the dumped liquid is liquids.current() (LiquidBridge.java:30), and liquids.get(liquid) is the amount dumped from.",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_do_dump_state"
+          ]
+        },
+        "liquid_capacity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "liquidCapacity = 100f;",
+          "rule": "The liquid capacity def constant 100f (Blocks.java:2395, shared by bridge-conduit, Blocks.java:2381) -- the catalog carries no liquidCapacity property (the N2190 fogRadius / N2199 def-constant precedent); the fract divisor and the transfer scaler in dumpLiquid (BuildingComp.java:903/905).",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_do_dump_state"
+          ]
+        },
+        "neighbours": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+          "rule": "The proximity neighbour snapshot as frame inputs (the N2276 precedent): amounts / capacities / accepts arrays (the proximity is the shortest of the three) plus the optional gate arrays (has_liquids / can_dump / liquids_present / destination_present / relative_to, defaulting to the Java defaults); default {} means no neighbours, so nothing dumps.",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_do_dump_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LiquidBridgeDoDumpProof",
+      "rule": "Source-backed LiquidBridge doDump advance from LiquidBridge.java / ItemBridge.java / BuildingComp.java / Blocks.java / LiquidModule.java."
+    },
+    "source_liquid_bridge_do_dump_state_result": {
+      "status": "active",
+      "owner": "SourceLiquidBridgeBuildState.source_liquid_bridge_do_dump_state",
+      "source_slice": "N2287",
+      "keys": {
+        "liquids_after": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "liquids.remove(liquid, flow);",
+          "rule": "The self liquid store after the dump (BuildingComp.java:919): the transferred amount removed from the current liquid (remove caps at the stored amount, LiquidModule.java:125-127); current unchanged -- remove goes through add with the same liquid.",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_do_dump_state"
+          ]
+        },
+        "dumped_amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "float flow = Math.min(next.block.liquidCapacity - next.liquids.get(liquid), amount);",
+          "rule": "The total amount dumped this tick: the sum of the per-neighbour transferLiquid flows (BuildingComp.java:914-921), each min(neighbour free capacity, (fract - ofract) * capacity / scaling) at scaling 1f, 0 when the early return, the eligibility gate, the fraction guard, or acceptLiquid blocks every transfer.",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_do_dump_state"
+          ]
+        },
+        "cursor_after": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "cdump = ((cdump + 1) % prox);",
+          "rule": "The dump cursor after the scan (BuildingComp.java:1116-1121): incrementDump runs every iteration (BuildingComp.java:894), so a complete scan returns the cursor to its start and a stale cursor normalizes; the early return (BuildingComp.java:889) leaves it untouched.",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_do_dump_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LiquidBridgeDoDumpProof",
+      "rule": "Source-backed LiquidBridge doDump advance from LiquidBridge.java / ItemBridge.java / BuildingComp.java / Blocks.java / LiquidModule.java."
     }
   },
   "version": 1

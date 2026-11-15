@@ -2463,6 +2463,81 @@
       ],
       "runtime_proof": "/root/C07BurstDrillShouldConsumeProof"
     },
+    "source_burst_drill_timer_dump_state_result.cursor_after": {
+      "canonical_symbol": "source_symbol_registry.source_burst_drill_timer_dump_state_result.cursor_after",
+      "status": "source-backed",
+      "java_expr": "cdump = ((cdump + 1) % prox);",
+      "godot_symbol": "source_burst_drill_timer_dump_state_result.cursor_after",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_timer_dump_state",
+      "rule": "The dump cursor after the tick (BuildingComp.java:1116-1120): advanced once per neighbour checked (incrementDump, guarded on prox != 0), wrapping modulo the proximity size.",
+      "tests": [
+        "test_c07_burst_drill_timer_dump_registration",
+        "test_all_c07_burst_drill_timer_dump_input_evidence_is_exact",
+        "test_burst_drill_timer_dump_state",
+        "test_reference_graph_and_actual_c07_burst_drill_timer_dump"
+      ],
+      "runtime_proof": "/root/C07BurstDrillTimerDumpProof"
+    },
+    "source_burst_drill_timer_dump_state_result.dumped": {
+      "canonical_symbol": "source_symbol_registry.source_burst_drill_timer_dump_state_result.dumped",
+      "status": "source-backed",
+      "java_expr": "public boolean dump(Item todump){",
+      "godot_symbol": "source_burst_drill_timer_dump_state_result.dumped",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_timer_dump_state",
+      "rule": "Whether the dump succeeded this tick (BuildingComp.java:1072-1113): a neighbour accepted the item and 1 left the store; false when the timer did not fire, no neighbour accepted, or the store was empty.",
+      "tests": [
+        "test_c07_burst_drill_timer_dump_registration",
+        "test_all_c07_burst_drill_timer_dump_input_evidence_is_exact",
+        "test_burst_drill_timer_dump_state",
+        "test_reference_graph_and_actual_c07_burst_drill_timer_dump"
+      ],
+      "runtime_proof": "/root/C07BurstDrillTimerDumpProof"
+    },
+    "source_burst_drill_timer_dump_state_result.elapsed_after": {
+      "canonical_symbol": "source_symbol_registry.source_burst_drill_timer_dump_state_result.elapsed_after",
+      "status": "source-backed",
+      "java_expr": "if(got) times[id] = Time.time;",
+      "godot_symbol": "source_burst_drill_timer_dump_state_result.elapsed_after",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_timer_dump_state",
+      "rule": "The dump clock after the tick (arc Interval.java:20-26): reset to 0.0 on fire, otherwise the accumulated elapsed (source_delta added unconditionally, mirroring Time.time growth).",
+      "tests": [
+        "test_c07_burst_drill_timer_dump_registration",
+        "test_all_c07_burst_drill_timer_dump_input_evidence_is_exact",
+        "test_burst_drill_timer_dump_state",
+        "test_reference_graph_and_actual_c07_burst_drill_timer_dump"
+      ],
+      "runtime_proof": "/root/C07BurstDrillTimerDumpProof"
+    },
+    "source_burst_drill_timer_dump_state_result.fired": {
+      "canonical_symbol": "source_symbol_registry.source_burst_drill_timer_dump_state_result.fired",
+      "status": "source-backed",
+      "java_expr": "if(timer(timerDump, dumpTime / timeScale)){",
+      "godot_symbol": "source_burst_drill_timer_dump_state_result.fired",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_timer_dump_state",
+      "rule": "Whether the timer fired this tick (BurstDrill.java:83): the accumulated elapsed reached dumpTime / timeScale (5f, Block.java:438) with a dominant item present; false below the threshold, at a non-positive timeScale, or with no dominant item (Java returns before the check, BurstDrill.java:77-79).",
+      "tests": [
+        "test_c07_burst_drill_timer_dump_registration",
+        "test_all_c07_burst_drill_timer_dump_input_evidence_is_exact",
+        "test_burst_drill_timer_dump_state",
+        "test_reference_graph_and_actual_c07_burst_drill_timer_dump"
+      ],
+      "runtime_proof": "/root/C07BurstDrillTimerDumpProof"
+    },
+    "source_burst_drill_timer_dump_state_result.items_after": {
+      "canonical_symbol": "source_symbol_registry.source_burst_drill_timer_dump_state_result.items_after",
+      "status": "source-backed",
+      "java_expr": "items.remove(item, 1);",
+      "godot_symbol": "source_burst_drill_timer_dump_state_result.items_after",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_timer_dump_state",
+      "rule": "The items after the tick (BuildingComp.java:1090/1104): 1 removed per successful dump (the dominant item when held, else the first held item in content order); unchanged when nothing dumps.",
+      "tests": [
+        "test_c07_burst_drill_timer_dump_registration",
+        "test_all_c07_burst_drill_timer_dump_input_evidence_is_exact",
+        "test_burst_drill_timer_dump_state",
+        "test_reference_graph_and_actual_c07_burst_drill_timer_dump"
+      ],
+      "runtime_proof": "/root/C07BurstDrillTimerDumpProof"
+    },
     "source_burst_drill_update_tile_advance_state_result.drill_time": {
       "canonical_symbol": "source_symbol_registry.source_burst_drill_update_tile_advance_state_result.drill_time",
       "status": "source-backed",
@@ -6063,6 +6138,51 @@
       ],
       "runtime_proof": "/root/C06FactoryLiquidOutputProof"
     },
+    "source_fracker_dump_liquid_state_result.cursor_after": {
+      "canonical_symbol": "source_symbol_registry.source_fracker_dump_liquid_state_result.cursor_after",
+      "status": "source-backed",
+      "java_expr": "cdump = ((cdump + 1) % prox);",
+      "godot_symbol": "source_fracker_dump_liquid_state_result.cursor_after",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_dump_liquid_state",
+      "rule": "The dump cursor after the tick (BuildingComp.java:1116-1121): advanced once per proximity iteration (incrementDump, guarded on prox != 0), wrapping modulo the proximity size -- even when no neighbour takes anything, but untouched when the store is below the 0.0001f threshold (the early return runs before the loop).",
+      "tests": [
+        "test_c07_fracker_dump_liquid_registration",
+        "test_all_c07_fracker_dump_liquid_input_evidence_is_exact",
+        "test_fracker_dump_liquid_state",
+        "test_reference_graph_and_actual_c07_fracker_dump_liquid"
+      ],
+      "runtime_proof": "/root/C07FrackerDumpLiquidProof"
+    },
+    "source_fracker_dump_liquid_state_result.dumped_amount": {
+      "canonical_symbol": "source_symbol_registry.source_fracker_dump_liquid_state_result.dumped_amount",
+      "status": "source-backed",
+      "java_expr": "if(ofract < fract) transferLiquid(other, (fract - ofract) * block.liquidCapacity / scaling, liquid);",
+      "godot_symbol": "source_fracker_dump_liquid_state_result.dumped_amount",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_dump_liquid_state",
+      "rule": "The total amount dumped this tick (BuildingComp.java:905): the sum over eligible neighbours of (fract - ofract) * block.liquidCapacity / scaling with scaling 2f, each flow clamped by the neighbour free capacity and gated on acceptLiquid; 0 when no neighbour takes anything.",
+      "tests": [
+        "test_c07_fracker_dump_liquid_registration",
+        "test_all_c07_fracker_dump_liquid_input_evidence_is_exact",
+        "test_fracker_dump_liquid_state",
+        "test_reference_graph_and_actual_c07_fracker_dump_liquid"
+      ],
+      "runtime_proof": "/root/C07FrackerDumpLiquidProof"
+    },
+    "source_fracker_dump_liquid_state_result.liquids_after": {
+      "canonical_symbol": "source_symbol_registry.source_fracker_dump_liquid_state_result.liquids_after",
+      "status": "source-backed",
+      "java_expr": "liquids.remove(liquid, flow);",
+      "godot_symbol": "source_fracker_dump_liquid_state_result.liquids_after",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_dump_liquid_state",
+      "rule": "The liquids store after the tick (BuildingComp.java:919): the dumped amount removed through the shared liquid module helper (which clamps like Java LiquidModule.remove), on a duplicate -- the pure never mutates its inputs; unchanged when nothing dumps.",
+      "tests": [
+        "test_c07_fracker_dump_liquid_registration",
+        "test_all_c07_fracker_dump_liquid_input_evidence_is_exact",
+        "test_fracker_dump_liquid_state",
+        "test_reference_graph_and_actual_c07_fracker_dump_liquid"
+      ],
+      "runtime_proof": "/root/C07FrackerDumpLiquidProof"
+    },
     "source_fracker_item_consumer_row_state_result.has_item_row": {
       "canonical_symbol": "source_symbol_registry.source_fracker_item_consumer_row_state_result.has_item_row",
       "status": "source-backed",
@@ -6347,6 +6467,51 @@
         "test_reference_graph_and_actual_factory_consumer_binding"
       ],
       "runtime_proof": "/root/FactoryConsumerBindingProof"
+    },
+    "source_mechanical_pump_dump_liquid_state_result.cursor_after": {
+      "canonical_symbol": "source_symbol_registry.source_mechanical_pump_dump_liquid_state_result.cursor_after",
+      "status": "source-backed",
+      "java_expr": "cdump = ((cdump + 1) % prox);",
+      "godot_symbol": "source_mechanical_pump_dump_liquid_state_result.cursor_after",
+      "godot_owner": "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_liquid_state",
+      "rule": "The dump cursor after the tick (BuildingComp.java:1116-1121): incrementDump runs once per proximity iteration, so a full loop advances it proximity.size times and it wraps back to its start value; unchanged when the dump is skipped (null drop or at/below threshold) or the proximity is empty.",
+      "tests": [
+        "test_c07_pump_dump_liquid_registration",
+        "test_all_c07_pump_dump_liquid_input_evidence_is_exact",
+        "test_pump_dump_liquid_state",
+        "test_reference_graph_and_actual_c07_pump_dump_liquid"
+      ],
+      "runtime_proof": "/root/C07PumpDumpLiquidProof"
+    },
+    "source_mechanical_pump_dump_liquid_state_result.dumped_amount": {
+      "canonical_symbol": "source_symbol_registry.source_mechanical_pump_dump_liquid_state_result.dumped_amount",
+      "status": "source-backed",
+      "java_expr": "if(ofract < fract) transferLiquid(other, (fract - ofract) * block.liquidCapacity / scaling, liquid);",
+      "godot_symbol": "source_mechanical_pump_dump_liquid_state_result.dumped_amount",
+      "godot_owner": "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_liquid_state",
+      "rule": "The total amount dumped this tick (BuildingComp.java:905): the sum of the per-neighbour flows, each (fract - ofract) * block.liquidCapacity / scaling with scaling 2f (BuildingComp.java:877-878), capped by the neighbour free capacity and gated on acceptLiquid; 0.0 when nothing transfers.",
+      "tests": [
+        "test_c07_pump_dump_liquid_registration",
+        "test_all_c07_pump_dump_liquid_input_evidence_is_exact",
+        "test_pump_dump_liquid_state",
+        "test_reference_graph_and_actual_c07_pump_dump_liquid"
+      ],
+      "runtime_proof": "/root/C07PumpDumpLiquidProof"
+    },
+    "source_mechanical_pump_dump_liquid_state_result.liquids_after": {
+      "canonical_symbol": "source_symbol_registry.source_mechanical_pump_dump_liquid_state_result.liquids_after",
+      "status": "source-backed",
+      "java_expr": "liquids.remove(liquid, flow);",
+      "godot_symbol": "source_mechanical_pump_dump_liquid_state_result.liquids_after",
+      "godot_owner": "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_liquid_state",
+      "rule": "The liquids store after the tick (BuildingComp.java:919): the dumped flow removed from the drop slot, through the shared liquid module source_set_state on a copy; unchanged when nothing dumps, the drop is null, or the store is at/below the 0.0001f threshold.",
+      "tests": [
+        "test_c07_pump_dump_liquid_registration",
+        "test_all_c07_pump_dump_liquid_input_evidence_is_exact",
+        "test_pump_dump_liquid_state",
+        "test_reference_graph_and_actual_c07_pump_dump_liquid"
+      ],
+      "runtime_proof": "/root/C07PumpDumpLiquidProof"
     },
     "source_mechanical_pump_power_status_row_state_result.has_power_row": {
       "canonical_symbol": "source_symbol_registry.source_mechanical_pump_power_status_row_state_result.has_power_row",
@@ -6839,6 +7004,81 @@
       ],
       "runtime_proof": "/root/C07SeparatorShouldConsumeProof"
     },
+    "source_separator_timer_dump_state_result.cursor_after": {
+      "canonical_symbol": "source_symbol_registry.source_separator_timer_dump_state_result.cursor_after",
+      "status": "source-backed",
+      "java_expr": "cdump = ((cdump + 1) % prox);",
+      "godot_symbol": "source_separator_timer_dump_state_result.cursor_after",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_timer_dump_state",
+      "rule": "The dump cursor after the tick (BuildingComp.java:1116-1120): advanced once per neighbour checked (incrementDump, guarded on prox != 0), wrapping modulo the proximity size; shared with the offload, so the tick persists it back to the frame.",
+      "tests": [
+        "test_c07_separator_timer_dump_registration",
+        "test_all_c07_separator_timer_dump_input_evidence_is_exact",
+        "test_separator_timer_dump_state",
+        "test_reference_graph_and_actual_c07_separator_timer_dump"
+      ],
+      "runtime_proof": "/root/C07SeparatorTimerDumpProof"
+    },
+    "source_separator_timer_dump_state_result.dumped": {
+      "canonical_symbol": "source_symbol_registry.source_separator_timer_dump_state_result.dumped",
+      "status": "source-backed",
+      "java_expr": "other.handleItem(self(), item);",
+      "godot_symbol": "source_separator_timer_dump_state_result.dumped",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_timer_dump_state",
+      "rule": "Whether the dump handed an item to a neighbour this tick (BuildingComp.java:1089): true only when the timer fired and a neighbour accepted an item (acceptItem && canDump); false when the timer did not fire, the store was empty, or no neighbour accepted.",
+      "tests": [
+        "test_c07_separator_timer_dump_registration",
+        "test_all_c07_separator_timer_dump_input_evidence_is_exact",
+        "test_separator_timer_dump_state",
+        "test_reference_graph_and_actual_c07_separator_timer_dump"
+      ],
+      "runtime_proof": "/root/C07SeparatorTimerDumpProof"
+    },
+    "source_separator_timer_dump_state_result.elapsed_after": {
+      "canonical_symbol": "source_symbol_registry.source_separator_timer_dump_state_result.elapsed_after",
+      "status": "source-backed",
+      "java_expr": "return timer.get(index, time);",
+      "godot_symbol": "source_separator_timer_dump_state_result.elapsed_after",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_timer_dump_state",
+      "rule": "The elapsed clock after this tick: 0.0 when fired (Interval.get RESETS times[id] = Time.time on fire, arc Interval.java:23-25 -- a reset, not a subtraction like the Fracker accumulator), otherwise the accumulated elapsed.",
+      "tests": [
+        "test_c07_separator_timer_dump_registration",
+        "test_all_c07_separator_timer_dump_input_evidence_is_exact",
+        "test_separator_timer_dump_state",
+        "test_reference_graph_and_actual_c07_separator_timer_dump"
+      ],
+      "runtime_proof": "/root/C07SeparatorTimerDumpProof"
+    },
+    "source_separator_timer_dump_state_result.fired": {
+      "canonical_symbol": "source_symbol_registry.source_separator_timer_dump_state_result.fired",
+      "status": "source-backed",
+      "java_expr": "if(Float.isInfinite(time)) return false;",
+      "godot_symbol": "source_separator_timer_dump_state_result.fired",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_timer_dump_state",
+      "rule": "Whether the timer fires this tick (TimerComp.java:10-13): false when the threshold is infinite (time_scale <= 0), else elapsed >= dumpTime / time_scale -- the Interval.check comparison (arc Interval.java:28-30) against the frame-local clock.",
+      "tests": [
+        "test_c07_separator_timer_dump_registration",
+        "test_all_c07_separator_timer_dump_input_evidence_is_exact",
+        "test_separator_timer_dump_state",
+        "test_reference_graph_and_actual_c07_separator_timer_dump"
+      ],
+      "runtime_proof": "/root/C07SeparatorTimerDumpProof"
+    },
+    "source_separator_timer_dump_state_result.items_after": {
+      "canonical_symbol": "source_symbol_registry.source_separator_timer_dump_state_result.items_after",
+      "status": "source-backed",
+      "java_expr": "items.remove(item, 1);",
+      "godot_symbol": "source_separator_timer_dump_state_result.items_after",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_timer_dump_state",
+      "rule": "The items after the tick (BuildingComp.java:1090): 1 removed on a successful dump, in content order per neighbour; unchanged when nothing dumps, the timer did not fire, or the store is empty.",
+      "tests": [
+        "test_c07_separator_timer_dump_registration",
+        "test_all_c07_separator_timer_dump_input_evidence_is_exact",
+        "test_separator_timer_dump_state",
+        "test_reference_graph_and_actual_c07_separator_timer_dump"
+      ],
+      "runtime_proof": "/root/C07SeparatorTimerDumpProof"
+    },
     "source_separator_update_tile_advance_state_result.cdump": {
       "canonical_symbol": "source_symbol_registry.source_separator_update_tile_advance_state_result.cdump",
       "status": "source-backed",
@@ -6958,6 +7198,51 @@
         "test_reference_graph_and_actual_c07_separator_update_tile"
       ],
       "runtime_proof": "/root/C07SeparatorUpdateTileProof"
+    },
+    "source_solid_pump_dump_liquid_state_result.cursor_after": {
+      "canonical_symbol": "source_symbol_registry.source_solid_pump_dump_liquid_state_result.cursor_after",
+      "status": "source-backed",
+      "java_expr": "cdump = ((cdump + 1) % prox);",
+      "godot_symbol": "source_solid_pump_dump_liquid_state_result.cursor_after",
+      "godot_owner": "SourceSolidPumpBuildState.source_solid_pump_dump_liquid_state",
+      "rule": "The dump cursor after the tick (BuildingComp.java:1116-1120): incrementDump runs once per proximity iteration (BuildingComp.java:894), so a full scan over N neighbours advances the cursor N times -- a full cycle, leaving it where it started; unchanged when the store is at/below the threshold or the proximity is empty.",
+      "tests": [
+        "test_c07_solid_pump_dump_liquid_registration",
+        "test_all_c07_solid_pump_dump_liquid_input_evidence_is_exact",
+        "test_solid_pump_dump_liquid_state",
+        "test_reference_graph_and_actual_c07_solid_pump_dump_liquid"
+      ],
+      "runtime_proof": "/root/C07SolidPumpDumpLiquidProof"
+    },
+    "source_solid_pump_dump_liquid_state_result.dumped_amount": {
+      "canonical_symbol": "source_symbol_registry.source_solid_pump_dump_liquid_state_result.dumped_amount",
+      "status": "source-backed",
+      "java_expr": "if(ofract < fract) transferLiquid(other, (fract - ofract) * block.liquidCapacity / scaling, liquid);",
+      "godot_symbol": "source_solid_pump_dump_liquid_state_result.dumped_amount",
+      "godot_owner": "SourceSolidPumpBuildState.source_solid_pump_dump_liquid_state",
+      "rule": "The total liquid dumped this tick (BuildingComp.java:905): the sum over eligible neighbours of the fraction transfer (fract - ofract) * block.liquidCapacity / scaling with scaling 2f (BuildingComp.java:877-878), each flow capped by the neighbour free capacity (BuildingComp.java:915); 0 when no neighbour takes liquid.",
+      "tests": [
+        "test_c07_solid_pump_dump_liquid_registration",
+        "test_all_c07_solid_pump_dump_liquid_input_evidence_is_exact",
+        "test_solid_pump_dump_liquid_state",
+        "test_reference_graph_and_actual_c07_solid_pump_dump_liquid"
+      ],
+      "runtime_proof": "/root/C07SolidPumpDumpLiquidProof"
+    },
+    "source_solid_pump_dump_liquid_state_result.liquids_after": {
+      "canonical_symbol": "source_symbol_registry.source_solid_pump_dump_liquid_state_result.liquids_after",
+      "status": "source-backed",
+      "java_expr": "liquids.remove(liquid, flow);",
+      "godot_symbol": "source_solid_pump_dump_liquid_state_result.liquids_after",
+      "godot_owner": "SourceSolidPumpBuildState.source_solid_pump_dump_liquid_state",
+      "rule": "The liquids module after the tick (BuildingComp.java:919): the result amount reduced by the dumped flow, through the shared liquid module helper; unchanged when nothing dumps or the store is at/below the 0.0001f threshold.",
+      "tests": [
+        "test_c07_solid_pump_dump_liquid_registration",
+        "test_all_c07_solid_pump_dump_liquid_input_evidence_is_exact",
+        "test_solid_pump_dump_liquid_state",
+        "test_reference_graph_and_actual_c07_solid_pump_dump_liquid"
+      ],
+      "runtime_proof": "/root/C07SolidPumpDumpLiquidProof"
     },
     "source_solid_pump_power_status_row_state_result.has_power_row": {
       "canonical_symbol": "source_symbol_registry.source_solid_pump_power_status_row_state_result.has_power_row",
@@ -7228,6 +7513,81 @@
         "test_reference_graph_and_actual_c07_wall_crafter_should_consume"
       ],
       "runtime_proof": "/root/C07WallCrafterShouldConsumeProof"
+    },
+    "source_wall_crafter_timer_dump_state_result.cursor_after": {
+      "canonical_symbol": "source_symbol_registry.source_wall_crafter_timer_dump_state_result.cursor_after",
+      "status": "source-backed",
+      "java_expr": "cdump = ((cdump + 1) % prox);",
+      "godot_symbol": "source_wall_crafter_timer_dump_state_result.cursor_after",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_timer_dump_state",
+      "rule": "The dump cursor after the tick (BuildingComp.java:1116-1120): advanced once per neighbour checked (incrementDump, guarded on prox != 0), wrapping modulo the proximity size; unchanged when the timer did not fire or the dump guard failed.",
+      "tests": [
+        "test_c07_wall_crafter_timer_dump_registration",
+        "test_all_c07_wall_crafter_timer_dump_input_evidence_is_exact",
+        "test_wall_crafter_timer_dump_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_timer_dump"
+      ],
+      "runtime_proof": "/root/C07WallCrafterTimerDumpProof"
+    },
+    "source_wall_crafter_timer_dump_state_result.dumped": {
+      "canonical_symbol": "source_symbol_registry.source_wall_crafter_timer_dump_state_result.dumped",
+      "status": "source-backed",
+      "java_expr": "other.handleItem(self(), todump);",
+      "godot_symbol": "source_wall_crafter_timer_dump_state_result.dumped",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_timer_dump_state",
+      "rule": "Whether a neighbour took the output item this tick (BuildingComp.java:1102-1104): true only when the timer fired and the first accepting neighbour (from the cdump cursor) took 1 output item via handleItem.",
+      "tests": [
+        "test_c07_wall_crafter_timer_dump_registration",
+        "test_all_c07_wall_crafter_timer_dump_input_evidence_is_exact",
+        "test_wall_crafter_timer_dump_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_timer_dump"
+      ],
+      "runtime_proof": "/root/C07WallCrafterTimerDumpProof"
+    },
+    "source_wall_crafter_timer_dump_state_result.elapsed_after": {
+      "canonical_symbol": "source_symbol_registry.source_wall_crafter_timer_dump_state_result.elapsed_after",
+      "status": "source-backed",
+      "java_expr": "return timer.get(index, time);",
+      "godot_symbol": "source_wall_crafter_timer_dump_state_result.elapsed_after",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_timer_dump_state",
+      "rule": "The elapsed clock after this tick: 0.0 when fired (Interval.get RESETS times[id] = Time.time on fire, arc Interval.java:23-25 -- a reset, not a subtraction like the Fracker accumulator), otherwise the input elapsed unchanged. The reset applies even when the dump itself fails.",
+      "tests": [
+        "test_c07_wall_crafter_timer_dump_registration",
+        "test_all_c07_wall_crafter_timer_dump_input_evidence_is_exact",
+        "test_wall_crafter_timer_dump_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_timer_dump"
+      ],
+      "runtime_proof": "/root/C07WallCrafterTimerDumpProof"
+    },
+    "source_wall_crafter_timer_dump_state_result.fired": {
+      "canonical_symbol": "source_symbol_registry.source_wall_crafter_timer_dump_state_result.fired",
+      "status": "source-backed",
+      "java_expr": "if(Float.isInfinite(time)) return false;",
+      "godot_symbol": "source_wall_crafter_timer_dump_state_result.fired",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_timer_dump_state",
+      "rule": "Whether the timer fires this tick (TimerComp.java:10-13): false when the threshold is infinite (time_scale <= 0), else elapsed >= dumpTime / time_scale -- the Interval.check comparison (arc Interval.java:28-30) against the frame-local clock.",
+      "tests": [
+        "test_c07_wall_crafter_timer_dump_registration",
+        "test_all_c07_wall_crafter_timer_dump_input_evidence_is_exact",
+        "test_wall_crafter_timer_dump_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_timer_dump"
+      ],
+      "runtime_proof": "/root/C07WallCrafterTimerDumpProof"
+    },
+    "source_wall_crafter_timer_dump_state_result.items_after": {
+      "canonical_symbol": "source_symbol_registry.source_wall_crafter_timer_dump_state_result.items_after",
+      "status": "source-backed",
+      "java_expr": "items.remove(todump, 1);",
+      "godot_symbol": "source_wall_crafter_timer_dump_state_result.items_after",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_timer_dump_state",
+      "rule": "The items after the tick (BuildingComp.java:1104): 1 output item removed when the dump succeeded, unchanged otherwise (timer not fired, output absent, or no accepting neighbour).",
+      "tests": [
+        "test_c07_wall_crafter_timer_dump_registration",
+        "test_all_c07_wall_crafter_timer_dump_input_evidence_is_exact",
+        "test_wall_crafter_timer_dump_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_timer_dump"
+      ],
+      "runtime_proof": "/root/C07WallCrafterTimerDumpProof"
     },
     "source_wall_crafter_timer_use_state_result.elapsed_after": {
       "canonical_symbol": "source_symbol_registry.source_wall_crafter_timer_use_state_result.elapsed_after",

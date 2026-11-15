@@ -1359,6 +1359,126 @@
       ],
       "runtime_proof": "/root/C07WallCrafterTimerConsumeProof"
     },
+    "N2281": {
+      "canonical_ledger": "source_slice_ledger.N2281",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "java_method": "SeparatorBuild.updateTile()",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_timer_dump_state",
+      "source_symbols": [
+        "source_separator_timer_dump_state_result.fired",
+        "source_separator_timer_dump_state_result.elapsed_after",
+        "source_separator_timer_dump_state_result.dumped",
+        "source_separator_timer_dump_state_result.items_after",
+        "source_separator_timer_dump_state_result.cursor_after"
+      ],
+      "tests": [
+        "test_c07_separator_timer_dump_registration",
+        "test_all_c07_separator_timer_dump_input_evidence_is_exact",
+        "test_separator_timer_dump_state",
+        "test_reference_graph_and_actual_c07_separator_timer_dump"
+      ],
+      "runtime_proof": "/root/C07SeparatorTimerDumpProof"
+    },
+    "N2282": {
+      "canonical_ledger": "source_slice_ledger.N2282",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_method": "BurstDrillBuild.updateTile()",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_timer_dump_state",
+      "source_symbols": [
+        "source_burst_drill_timer_dump_state_result.fired",
+        "source_burst_drill_timer_dump_state_result.elapsed_after",
+        "source_burst_drill_timer_dump_state_result.dumped",
+        "source_burst_drill_timer_dump_state_result.items_after",
+        "source_burst_drill_timer_dump_state_result.cursor_after"
+      ],
+      "tests": [
+        "test_c07_burst_drill_timer_dump_registration",
+        "test_all_c07_burst_drill_timer_dump_input_evidence_is_exact",
+        "test_burst_drill_timer_dump_state",
+        "test_reference_graph_and_actual_c07_burst_drill_timer_dump"
+      ],
+      "runtime_proof": "/root/C07BurstDrillTimerDumpProof"
+    },
+    "N2283": {
+      "canonical_ledger": "source_slice_ledger.N2283",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+      "java_method": "WallCrafterBuild.updateTile()",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_timer_dump_state",
+      "source_symbols": [
+        "source_wall_crafter_timer_dump_state_result.fired",
+        "source_wall_crafter_timer_dump_state_result.elapsed_after",
+        "source_wall_crafter_timer_dump_state_result.dumped",
+        "source_wall_crafter_timer_dump_state_result.items_after",
+        "source_wall_crafter_timer_dump_state_result.cursor_after"
+      ],
+      "tests": [
+        "test_c07_wall_crafter_timer_dump_registration",
+        "test_all_c07_wall_crafter_timer_dump_input_evidence_is_exact",
+        "test_wall_crafter_timer_dump_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_timer_dump"
+      ],
+      "runtime_proof": "/root/C07WallCrafterTimerDumpProof"
+    },
+    "N2284": {
+      "canonical_ledger": "source_slice_ledger.N2284",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Fracker.java",
+      "java_method": "FrackerBuild.updateTile()",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_dump_liquid_state",
+      "source_symbols": [
+        "source_fracker_dump_liquid_state_result.liquids_after",
+        "source_fracker_dump_liquid_state_result.dumped_amount",
+        "source_fracker_dump_liquid_state_result.cursor_after"
+      ],
+      "tests": [
+        "test_c07_fracker_dump_liquid_registration",
+        "test_all_c07_fracker_dump_liquid_input_evidence_is_exact",
+        "test_fracker_dump_liquid_state",
+        "test_reference_graph_and_actual_c07_fracker_dump_liquid"
+      ],
+      "runtime_proof": "/root/C07FrackerDumpLiquidProof"
+    },
+    "N2285": {
+      "canonical_ledger": "source_slice_ledger.N2285",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+      "java_method": "PumpBuild.updateTile()",
+      "godot_owner": "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_liquid_state",
+      "source_symbols": [
+        "source_mechanical_pump_dump_liquid_state_result.liquids_after",
+        "source_mechanical_pump_dump_liquid_state_result.dumped_amount",
+        "source_mechanical_pump_dump_liquid_state_result.cursor_after"
+      ],
+      "tests": [
+        "test_c07_pump_dump_liquid_registration",
+        "test_all_c07_pump_dump_liquid_input_evidence_is_exact",
+        "test_pump_dump_liquid_state",
+        "test_reference_graph_and_actual_c07_pump_dump_liquid"
+      ],
+      "runtime_proof": "/root/C07PumpDumpLiquidProof"
+    },
+    "N2286": {
+      "canonical_ledger": "source_slice_ledger.N2286",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+      "java_method": "SolidPumpBuild.updateTile()",
+      "godot_owner": "SourceSolidPumpBuildState.source_solid_pump_dump_liquid_state",
+      "source_symbols": [
+        "source_solid_pump_dump_liquid_state_result.liquids_after",
+        "source_solid_pump_dump_liquid_state_result.dumped_amount",
+        "source_solid_pump_dump_liquid_state_result.cursor_after"
+      ],
+      "tests": [
+        "test_c07_solid_pump_dump_liquid_registration",
+        "test_all_c07_solid_pump_dump_liquid_input_evidence_is_exact",
+        "test_solid_pump_dump_liquid_state",
+        "test_reference_graph_and_actual_c07_solid_pump_dump_liquid"
+      ],
+      "runtime_proof": "/root/C07SolidPumpDumpLiquidProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",

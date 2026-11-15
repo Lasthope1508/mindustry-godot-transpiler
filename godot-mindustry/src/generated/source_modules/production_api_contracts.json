@@ -844,6 +844,66 @@
       "rule": "Source-backed BurstDrill shouldConsume gate from BurstDrill.java / Drill.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceBurstDrillBuildState.source_burst_drill_timer_dump_state": {
+      "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_burst_drill_timer_dump_state",
+      "status": "active",
+      "source_slice": "N2282",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "source_method": "BurstDrillBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_burst_drill_timer_dump_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_burst_drill_timer_dump_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_burst_drill_timer_dump_state_input.time_scale"
+        },
+        {
+          "name": "dominant_item_name",
+          "type": "String",
+          "schema": "source_burst_drill_timer_dump_state_input.dominant_item_name"
+        },
+        {
+          "name": "content_item_ids",
+          "type": "Array",
+          "schema": "source_burst_drill_timer_dump_state_input.content_item_ids"
+        },
+        {
+          "name": "neighbour_accepts_item",
+          "type": "Array",
+          "schema": "source_burst_drill_timer_dump_state_input.neighbour_accepts_item"
+        },
+        {
+          "name": "neighbour_can_dump",
+          "type": "Array",
+          "schema": "source_burst_drill_timer_dump_state_input.neighbour_can_dump"
+        }
+      ],
+      "return_keys": [
+        "fired",
+        "elapsed_after",
+        "dumped",
+        "items_after",
+        "cursor_after"
+      ],
+      "tests": [
+        "test_c07_burst_drill_timer_dump_registration",
+        "test_all_c07_burst_drill_timer_dump_input_evidence_is_exact",
+        "test_burst_drill_timer_dump_state",
+        "test_reference_graph_and_actual_c07_burst_drill_timer_dump"
+      ],
+      "runtime_proof": "/root/C07BurstDrillTimerDumpProof",
+      "rule": "Source-backed BurstDrill timerDump dump rows from BurstDrill.java / BuildingComp.java / TimerComp.java.",
+      "return_type": "Dictionary"
+    },
     "SourceBurstDrillBuildState.source_burst_drill_update_tile_advance_state": {
       "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_burst_drill_update_tile_advance_state",
       "status": "active",
@@ -1545,6 +1605,49 @@
       "rule": "Source-backed live-loop drill dump; the drill dumps through the dump composition over the stored conveyor queues, and simulate_factory calls this step instead of dumping straight to the core.",
       "return_type": "Dictionary"
     },
+    "SourceFrackerBuildState.source_fracker_dump_liquid_state": {
+      "canonical_contract": "source_api_contracts.SourceFrackerBuildState.source_fracker_dump_liquid_state",
+      "status": "active",
+      "source_slice": "N2284",
+      "java_source": "core/src/mindustry/world/blocks/production/Fracker.java",
+      "source_method": "FrackerBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_fracker_dump_liquid_state_input.frame"
+        },
+        {
+          "name": "result_liquid_id",
+          "type": "int",
+          "schema": "source_fracker_dump_liquid_state_input.result_liquid_id"
+        },
+        {
+          "name": "liquid_capacity",
+          "type": "float",
+          "schema": "source_fracker_dump_liquid_state_input.liquid_capacity"
+        },
+        {
+          "name": "dump_neighbours",
+          "type": "Array",
+          "schema": "source_fracker_dump_liquid_state_input.dump_neighbours"
+        }
+      ],
+      "return_keys": [
+        "liquids_after",
+        "dumped_amount",
+        "cursor_after"
+      ],
+      "tests": [
+        "test_c07_fracker_dump_liquid_registration",
+        "test_all_c07_fracker_dump_liquid_input_evidence_is_exact",
+        "test_fracker_dump_liquid_state",
+        "test_reference_graph_and_actual_c07_fracker_dump_liquid"
+      ],
+      "runtime_proof": "/root/C07FrackerDumpLiquidProof",
+      "rule": "Source-backed Fracker dumpLiquid rows from Fracker.java / SolidPump.java / BuildingComp.java / Block.java / Blocks.java.",
+      "return_type": "Dictionary"
+    },
     "SourceFrackerBuildState.source_fracker_item_consumer_row_state": {
       "canonical_contract": "source_api_contracts.SourceFrackerBuildState.source_fracker_item_consumer_row_state",
       "status": "active",
@@ -1778,6 +1881,74 @@
       ],
       "runtime_proof": "/root/C07FrackerUpdateTileProof",
       "rule": "Source-backed Fracker updateTile advance from Fracker.java / SolidPump.java / Pump.java / BuildingComp.java / Blocks.java / Block.java / ConsumeItems.java / Consume.java / ItemModule.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_liquid_state": {
+      "canonical_contract": "source_api_contracts.SourceMechanicalPumpBuildState.source_mechanical_pump_dump_liquid_state",
+      "status": "active",
+      "source_slice": "N2285",
+      "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+      "source_method": "PumpBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_mechanical_pump_dump_liquid_state_input.frame"
+        },
+        {
+          "name": "liquid_drop",
+          "type": "Variant",
+          "schema": "source_mechanical_pump_dump_liquid_state_input.liquid_drop"
+        },
+        {
+          "name": "liquids",
+          "type": "Dictionary",
+          "schema": "source_mechanical_pump_dump_liquid_state_input.liquids"
+        },
+        {
+          "name": "liquid_capacity",
+          "type": "float",
+          "schema": "source_mechanical_pump_dump_liquid_state_input.liquid_capacity"
+        },
+        {
+          "name": "liquid_id_by_name",
+          "type": "Dictionary",
+          "schema": "source_mechanical_pump_dump_liquid_state_input.liquid_id_by_name"
+        },
+        {
+          "name": "neighbour_amounts",
+          "type": "Array",
+          "schema": "source_mechanical_pump_dump_liquid_state_input.neighbour_amounts"
+        },
+        {
+          "name": "neighbour_capacities",
+          "type": "Array",
+          "schema": "source_mechanical_pump_dump_liquid_state_input.neighbour_capacities"
+        },
+        {
+          "name": "neighbour_accepts",
+          "type": "Array",
+          "schema": "source_mechanical_pump_dump_liquid_state_input.neighbour_accepts"
+        },
+        {
+          "name": "neighbour_can_dump",
+          "type": "Array",
+          "schema": "source_mechanical_pump_dump_liquid_state_input.neighbour_can_dump"
+        }
+      ],
+      "return_keys": [
+        "liquids_after",
+        "dumped_amount",
+        "cursor_after"
+      ],
+      "tests": [
+        "test_c07_pump_dump_liquid_registration",
+        "test_all_c07_pump_dump_liquid_input_evidence_is_exact",
+        "test_pump_dump_liquid_state",
+        "test_reference_graph_and_actual_c07_pump_dump_liquid"
+      ],
+      "runtime_proof": "/root/C07PumpDumpLiquidProof",
+      "rule": "Source-backed Pump dumpLiquid rows from Pump.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
     "SourceMechanicalPumpBuildState.source_mechanical_pump_power_status_row_state": {
@@ -2189,6 +2360,61 @@
       "rule": "Source-backed Separator shouldConsume gate from Separator.java / BuildingComp.java / Block.java / Blocks.java / ConsumeItems.java.",
       "return_type": "Dictionary"
     },
+    "SourceSeparatorBuildState.source_separator_timer_dump_state": {
+      "canonical_contract": "source_api_contracts.SourceSeparatorBuildState.source_separator_timer_dump_state",
+      "status": "active",
+      "source_slice": "N2281",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "source_method": "SeparatorBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_separator_timer_dump_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_separator_timer_dump_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_separator_timer_dump_state_input.time_scale"
+        },
+        {
+          "name": "content_item_ids",
+          "type": "Array",
+          "schema": "source_separator_timer_dump_state_input.content_item_ids"
+        },
+        {
+          "name": "neighbour_accepts_item",
+          "type": "Array",
+          "schema": "source_separator_timer_dump_state_input.neighbour_accepts_item"
+        },
+        {
+          "name": "neighbour_can_dump",
+          "type": "Array",
+          "schema": "source_separator_timer_dump_state_input.neighbour_can_dump"
+        }
+      ],
+      "return_keys": [
+        "fired",
+        "elapsed_after",
+        "dumped",
+        "items_after",
+        "cursor_after"
+      ],
+      "tests": [
+        "test_c07_separator_timer_dump_registration",
+        "test_all_c07_separator_timer_dump_input_evidence_is_exact",
+        "test_separator_timer_dump_state",
+        "test_reference_graph_and_actual_c07_separator_timer_dump"
+      ],
+      "runtime_proof": "/root/C07SeparatorTimerDumpProof",
+      "rule": "Source-backed Separator timerDump dump rows from Separator.java / Block.java / TimerComp.java / BuildingComp.java / arc Interval.java / arc Time.java.",
+      "return_type": "Dictionary"
+    },
     "SourceSeparatorBuildState.source_separator_update_tile_advance_state": {
       "canonical_contract": "source_api_contracts.SourceSeparatorBuildState.source_separator_update_tile_advance_state",
       "status": "active",
@@ -2255,6 +2481,64 @@
       ],
       "runtime_proof": "/root/C07SeparatorUpdateTileProof",
       "rule": "Source-backed Separator updateTile advance from Separator.java / BuildingComp.java / Block.java / Blocks.java / ConsumeItems.java / Consume.java / ItemModule.java / arc Mathf.java / Rand.java / Point2.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceSolidPumpBuildState.source_solid_pump_dump_liquid_state": {
+      "canonical_contract": "source_api_contracts.SourceSolidPumpBuildState.source_solid_pump_dump_liquid_state",
+      "status": "active",
+      "source_slice": "N2286",
+      "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+      "source_method": "SolidPumpBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_solid_pump_dump_liquid_state_input.frame"
+        },
+        {
+          "name": "result_liquid_id",
+          "type": "int",
+          "schema": "source_solid_pump_dump_liquid_state_input.result_liquid_id"
+        },
+        {
+          "name": "liquid_capacity",
+          "type": "float",
+          "schema": "source_solid_pump_dump_liquid_state_input.liquid_capacity"
+        },
+        {
+          "name": "neighbour_liquid_amounts",
+          "type": "Array",
+          "schema": "source_solid_pump_dump_liquid_state_input.neighbour_liquid_amounts"
+        },
+        {
+          "name": "neighbour_liquid_capacities",
+          "type": "Array",
+          "schema": "source_solid_pump_dump_liquid_state_input.neighbour_liquid_capacities"
+        },
+        {
+          "name": "neighbour_accepts_liquid",
+          "type": "Array",
+          "schema": "source_solid_pump_dump_liquid_state_input.neighbour_accepts_liquid"
+        },
+        {
+          "name": "neighbour_can_dump_liquid",
+          "type": "Array",
+          "schema": "source_solid_pump_dump_liquid_state_input.neighbour_can_dump_liquid"
+        }
+      ],
+      "return_keys": [
+        "liquids_after",
+        "dumped_amount",
+        "cursor_after"
+      ],
+      "tests": [
+        "test_c07_solid_pump_dump_liquid_registration",
+        "test_all_c07_solid_pump_dump_liquid_input_evidence_is_exact",
+        "test_solid_pump_dump_liquid_state",
+        "test_reference_graph_and_actual_c07_solid_pump_dump_liquid"
+      ],
+      "runtime_proof": "/root/C07SolidPumpDumpLiquidProof",
+      "rule": "Source-backed SolidPump dumpLiquid rows from SolidPump.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
     "SourceSolidPumpBuildState.source_solid_pump_power_status_row_state": {
@@ -2510,6 +2794,66 @@
       ],
       "runtime_proof": "/root/C07WallCrafterShouldConsumeProof",
       "rule": "Source-backed WallCrafter shouldConsume gate from WallCrafter.java / BuildingComp.java / Blocks.java / Block.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceWallCrafterBuildState.source_wall_crafter_timer_dump_state": {
+      "canonical_contract": "source_api_contracts.SourceWallCrafterBuildState.source_wall_crafter_timer_dump_state",
+      "status": "active",
+      "source_slice": "N2283",
+      "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+      "source_method": "WallCrafterBuild.updateTile()",
+      "params": [
+        {
+          "name": "elapsed",
+          "type": "float",
+          "schema": "source_wall_crafter_timer_dump_state_input.elapsed"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_wall_crafter_timer_dump_state_input.time_scale"
+        },
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_wall_crafter_timer_dump_state_input.frame"
+        },
+        {
+          "name": "output_item",
+          "type": "String",
+          "schema": "source_wall_crafter_timer_dump_state_input.output_item"
+        },
+        {
+          "name": "content_item_ids",
+          "type": "Array",
+          "schema": "source_wall_crafter_timer_dump_state_input.content_item_ids"
+        },
+        {
+          "name": "neighbour_accepts_item",
+          "type": "Array",
+          "schema": "source_wall_crafter_timer_dump_state_input.neighbour_accepts_item"
+        },
+        {
+          "name": "neighbour_can_dump",
+          "type": "Array",
+          "schema": "source_wall_crafter_timer_dump_state_input.neighbour_can_dump"
+        }
+      ],
+      "return_keys": [
+        "fired",
+        "elapsed_after",
+        "dumped",
+        "items_after",
+        "cursor_after"
+      ],
+      "tests": [
+        "test_c07_wall_crafter_timer_dump_registration",
+        "test_all_c07_wall_crafter_timer_dump_input_evidence_is_exact",
+        "test_wall_crafter_timer_dump_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_timer_dump"
+      ],
+      "runtime_proof": "/root/C07WallCrafterTimerDumpProof",
+      "rule": "Source-backed WallCrafter timerDump dump from WallCrafter.java / TimerComp.java / BuildingComp.java / Block.java / Blocks.java.",
       "return_type": "Dictionary"
     },
     "SourceWallCrafterBuildState.source_wall_crafter_timer_use_state": {
