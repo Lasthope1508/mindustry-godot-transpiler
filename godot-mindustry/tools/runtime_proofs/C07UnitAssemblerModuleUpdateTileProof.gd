@@ -75,10 +75,17 @@ func _ready() -> void:
 	# simulate_factory, so the graph update does not overwrite
 	# the stamped power_status -- the write-back itself is
 	# already proven by N2142. The frame is seeded with a held
-	# payload, a link candidate, and the handoff predicates;
-	# the fresh frame's lastChange is -2 against tileChanges 1,
-	# so the first tick refreshes the link to the candidate and
-	# -- with full power -- hands the payload off, clearing the
+	# payload, a link candidate, the module_fits /
+	# was_occupied predicates, and the offered payload +
+	# assembler state + plan that yield a TRUE link verdict
+	# (router offered, assembler empty, plan router 5 -- 0
+	# stored of 5); since N2314 the tick stamps
+	# frame["accept_payload"] live from the link verdict
+	# before the advance, so the old accept_payload=true seed
+	# is gone (the tick would overwrite it). The fresh
+	# frame's lastChange is -2 against tileChanges 1, so the
+	# first tick refreshes the link to the candidate and --
+	# with full power -- hands the payload off, clearing the
 	# frame payload. The assembler-side yeetPayload receive is
 	# N2131's intake state; the module side only clears.
 	var catalog = game.get("content_catalog")
@@ -101,7 +108,10 @@ func _ready() -> void:
 	unit_assembler_module_frame["link_candidate"] = mech_assembler
 	unit_assembler_module_frame["module_fits"] = true
 	unit_assembler_module_frame["was_occupied"] = false
-	unit_assembler_module_frame["accept_payload"] = true
+	unit_assembler_module_frame["offered_payload"] = {"content_item": "router"}
+	unit_assembler_module_frame["assembler"] = {"has_payload": false, "payload_content_equals": false, "blocks": {}}
+	unit_assembler_module_frame["plan_requirements"] = [{"item": "router", "amount": 5}]
+	unit_assembler_module_frame["unit_cost"] = 1.0
 	unit_assembler_module_frame["pay_vector"] = Vector2.ZERO
 	unit_assembler_module_frame["pay_rotation"] = 0.0
 	unit_assembler_module_frame["power_status"] = 1.0
