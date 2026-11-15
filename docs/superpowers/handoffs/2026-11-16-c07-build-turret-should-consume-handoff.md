@@ -233,6 +233,7 @@ gate.
   errors, all Godot-absent) → report/spec/GOAL/handoff → push N2201 in the
   full 5-commit pattern (check Done/ledger + new row's SSOT tuple at
   completion, N2182 lesson).
+- Push only after gate verified: report → spec (Done/ledger 1650 → 1651 + N2201 row) → GOAL.md §5 (Windows proof stays debt) → slice commit `d7a3027` + docs `05c4877` + GOAL `d3220d5` + hash-naming commits → push to origin main (re-check origin/main before push).
 - After N2201: ShieldWall broken() coupling, then MassDriver / LaunchPad
   rows, RepairTurret coolant, the Units.nearby live query — each its own
   slice; or C08 inventory when asked.
