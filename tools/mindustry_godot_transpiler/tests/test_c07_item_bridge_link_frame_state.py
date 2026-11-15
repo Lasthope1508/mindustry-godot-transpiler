@@ -215,11 +215,13 @@ class C07ItemBridgeLinkFrameStateTests(unittest.TestCase):
         self.assertIn('source_item_bridge_link_valid_state(', item_bridge)
         self.assertIn('game.get("placed_blocks")', item_bridge)
         self.assertIn('block.properties.get("range", 0)', item_bridge)
-        # The gate does NOT change in this slice: the driver
-        # still folds with should_consume=true when enabled --
-        # N2188 wires `should_consume = had_valid_link &&
-        # enabled`. The N2178 power row is preserved.
-        self.assertIn('var should_consume: bool = bool(frame.get("enabled", true))', item_bridge)
+        # The gate is LIVE since N2188: the driver reads
+        # should_consume through the pure gate function
+        # (`should_consume = had_valid_link && enabled`,
+        # ItemBridge.java:495-496). The N2178 power row is
+        # preserved.
+        self.assertIn('var gate: Dictionary = source_item_bridge_should_consume_state(frame)', item_bridge)
+        self.assertIn('var should_consume: bool = bool(gate.get("should_consume", false))', item_bridge)
         self.assertIn('static func source_item_bridge_power_status_row_state', item_bridge)
         # The proof's keys drive the frame defaults + the pure
         # configure (Point2 relative / Integer absolute) + the
