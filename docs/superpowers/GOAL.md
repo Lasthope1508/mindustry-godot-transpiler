@@ -224,6 +224,9 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
   - [ ] N2200 `C07ShockwaveTowerTimerCadenceProof` — Linux GREEN 01:45 (8 key).
     Scene tới Windows theo slice commit `9e0ee48` (pushed ~03:1x, main
     `1136e56`). Chưa chạy trên Windows Godot.
+  - [ ] N2201 `C07BuildTurretShouldConsumeProof` — Linux GREEN 03:42 (6 key).
+    Scene tới Windows theo slice commit `d7a3027` (pushed ~04:1x, main
+    `05c4877`). Chưa chạy trên Windows Godot.
   - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
     trên (ghi rõ commit đưa scene tới Windows).
   - [ ] Agent khác đang test các lỗi fail trên Windows Godot (PR #1 đã merge
