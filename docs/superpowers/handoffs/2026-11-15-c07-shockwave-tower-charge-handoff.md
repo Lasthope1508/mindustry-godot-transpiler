@@ -3,8 +3,8 @@
 Date: 2026-11-15. Batch: N2192 (single slice). Status: **DONE, gate
 finished 17:45 +07 tick** — targeted 4/4 OK, neighbours 40/40 OK,
 proof 9 keys matches:true, full gate Ran 5861, failures=142, skipped=5,
-0 errors (all Godot-absent). Slice commit `b028951`. Docs/GOAL/push
-follow in this tick.
+0 errors (all Godot-absent). Slice commit `b028951`, docs `8b609ad`,
+GOAL `9193eb4`. Push follows in this tick.
 
 ## RED (this run, 17:00 +07 tick)
 
@@ -232,6 +232,22 @@ follow in this tick.
   → spec (Done/ledger 1641 → 1642 + N2192 row, in the docs commit — the
   N2190 miss is NOT repeated) → GOAL.md §5 (Windows proof stays debt)
   → push. Windows Godot proof stays debt in GOAL.md §5.
+- **Next after N2192:** ShockwaveTower shouldConsume gate (now unblocked
+  — the charge stamps the live counter), then BuildTurret shouldConsume,
+  ShieldWall broken(), MassDriver / LaunchPad rows, RepairTurret
+  coolant, the Units.nearby live query — each its own slice; or C08
+  inventory (classify the 5,390 null-body functions) when asked.
+
+## DONE this run (17:4x +07 tick)
+
+- Full gate finished ~17:37 (see "Gate FINISHED" above) → report
+  (`docs/superpowers/reports/2026-11-15-c07-shockwave-tower-charge.md`)
+  → spec (Done/ledger 1641 → 1642 + N2192 row, in the docs commit — the
+  N2190 miss is NOT repeated) → GOAL.md §5 (Windows proof stays debt) →
+  slice commit `b028951` (11 files, +935) → docs `8b609ad` + GOAL
+  `9193eb4` commits → this hash-naming commit → push to origin main in
+  this tick (origin/main re-checked before push: still 9e26791 — new
+  slice branches N2232–N2234 exist on the fork but main is untouched).
 - **Next after N2192:** ShockwaveTower shouldConsume gate (now unblocked
   — the charge stamps the live counter), then BuildTurret shouldConsume,
   ShieldWall broken(), MassDriver / LaunchPad rows, RepairTurret

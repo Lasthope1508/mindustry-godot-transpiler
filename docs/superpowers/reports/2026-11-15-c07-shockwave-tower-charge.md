@@ -30,8 +30,8 @@ Tests written first per the slice process; the handoff's RED decisions section r
 ## Commits
 
 - Slice: `b028951` — C07: N2192 ShockwaveTower charge advance (pure function + driver line; proof 6 keys), 11 files, +935.
-- Docs: (this tick) — Docs: N2192 report + handoff + design spec (gate clean except Godot).
-- GOAL: (this tick) — Docs: GOAL.md names the N2192 slice commit that carries its proof to Windows.
+- Docs: `8b609ad` — Docs: N2192 report + handoff + design spec (gate clean except Godot).
+- GOAL: `9193eb4` — Docs: GOAL.md names the N2192 slice commit that carries its proof to Windows.
 - Pushed 2026-11-15 ~17:4x +07 to the fork (Lasthope1508). See the handoff Commits section for the hashes.
 
 ## Deferred (NOT this slice)
