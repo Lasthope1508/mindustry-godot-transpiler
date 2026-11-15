@@ -3724,6 +3724,38 @@
       "rule": "Source-backed ImpactReactor power.status row from ConsumePower.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceLightBlockBuildState.source_light_block_power_status_row_state": {
+      "canonical_contract": "source_api_contracts.SourceLightBlockBuildState.source_light_block_power_status_row_state",
+      "status": "active",
+      "source_slice": "N2185",
+      "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+      "source_method": "LightBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_light_block_power_status_row_state_input.frame"
+        },
+        {
+          "name": "has_power_consumer",
+          "type": "bool",
+          "schema": "source_light_block_power_status_row_state_input.has_power_consumer"
+        }
+      ],
+      "return_keys": [
+        "row",
+        "has_power_row"
+      ],
+      "tests": [
+        "test_c07_light_block_power_status_registration",
+        "test_all_c07_light_block_power_status_input_evidence_is_exact",
+        "test_light_block_power_status_row_state",
+        "test_reference_graph_and_actual_c07_light_block_power_status"
+      ],
+      "runtime_proof": "/root/C07LightBlockPowerStatusProof",
+      "rule": "Source-backed LightBlock power.status row from ConsumePower.java / BuildingComp.java.",
+      "return_type": "Dictionary"
+    },
     "SourcePlacedPowerGraphState.source_battery_power_status_for_cell_state": {
       "canonical_contract": "source_api_contracts.SourcePlacedPowerGraphState.source_battery_power_status_for_cell_state",
       "status": "active",
