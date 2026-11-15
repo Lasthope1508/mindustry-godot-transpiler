@@ -53,6 +53,14 @@ const SOURCE_SOLID_PUMP_LIQUID_CAPACITY := 40.0
 const SOURCE_SOLID_PUMP_PUMP_AMOUNT := 0.11
 # SolidPump.java:130/134, the warmup lerpDelta rate `0.02f`.
 const SOURCE_SOLID_PUMP_WARMUP_RATE := 0.02
+# The water-extractor def size (Blocks.java:2924, `size = 2;`)
+# and the SolidPump class base efficiency (SolidPump.java:26,
+# `public float baseEfficiency = 1f;`): both sums in the
+# onProximityUpdate fill divide by size * size
+# (SolidPump.java:153, 157), so the driver passes them to the
+# fill as parameters (the def-constant precedent).
+const SOURCE_SOLID_PUMP_SIZE := 2
+const SOURCE_SOLID_PUMP_BASE_EFFICIENCY := 1.0
 
 static func _is_solid_pump_build_implementation(implementation: String) -> bool:
 	return SOURCE_SOLID_PUMP_BUILD_IMPLEMENTATIONS.has(implementation)
@@ -146,9 +154,10 @@ static func source_solid_pump_power_status_row_state(frame: Dictionary, has_powe
 	# Documented limits: (1) power-only first pass -- the
 	# fraction inputs are explicit frame keys since N2220
 	# (valid_tiles / boost / attribute_env, default 0f); the
-	# live onProximityUpdate fill (SolidPump.java:150-159)
-	# waits for its own slice, so the folded efficiency is
-	# the min over the *modeled* consumers (power only). (2)
+	# live onProximityUpdate fill is live since N2292
+	# (recomputed each enabled tick from frame proximity
+	# inputs; see (5)), so the folded efficiency is the min
+	# over the *modeled* consumers (power only). (2)
 	# shouldConsume gate live (N2206) --
 	# SolidPumpBuild overrides shouldConsume() to return
 	# liquids.get(result) < liquidCapacity - 0.01f
@@ -163,8 +172,8 @@ static func source_solid_pump_power_status_row_state(frame: Dictionary, has_powe
 	# tick (SolidPump.java:122-141) from explicit fraction
 	# inputs (frame valid_tiles / boost / attribute_env,
 	# default 0f); dumpLiquid(result) live since N2286 (see
-	# (4)); still deferred: the live onProximityUpdate fill
-	# (SolidPump.java:150-159) and the updateEffect chance
+	# (4)); the live onProximityUpdate fill is live since
+	# N2292 (see (5)); still deferred: the updateEffect chance
 	# (SolidPump.java:131-132).
 	# (4) Dump rows live (N2286) -- dumpLiquid(result)
 	# (SolidPump.java:140) dumps the result water to
@@ -177,6 +186,22 @@ static func source_solid_pump_power_status_row_state(frame: Dictionary, has_powe
 	# proximity fill yet) and the dumped liquid is not
 	# written into the neighbour frame yet (no neighbour
 	# write-back).
+	# (5) Fraction fill live (N2292) -- onProximityUpdate
+	# (SolidPump.java:150-159) recomputed each enabled tick
+	# from frame proximity inputs (frame["proximity_linked_tiles"],
+	# default [] -- no tiles) and the N2220 attribute_env
+	# frame input (default 0.0): validTiles = baseEfficiency
+	# / (size * size) per pumpable linked tile, boost =
+	# sumAttribute / size / size with 0 for deep floors
+	# (!floating && !placeableLiquid -- the water-extractor
+	# def leaves both at the Block class defaults false),
+	# fraction = max(validTiles + boost + env, 0); the fill
+	# stamps valid_tiles / boost onto the frame BEFORE the
+	# advance (Java order), and the advance recomputes the
+	# fraction from the stamped keys. Still deferred: the
+	# live linked-tile scan, the live envAttrs read, and a
+	# proximity-change trigger (Java runs onProximityUpdate
+	# only when placement/proximity changes).
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -289,6 +314,70 @@ static func source_solid_pump_update_tile_advance_state(frame: Dictionary, sourc
 		last_pump = 0.0
 	var next_pump_time: float = pump_time + next_warmup * efficiency * delta
 	return {"warmup": next_warmup, "pump_time": next_pump_time, "last_pump": last_pump, "max_pump": max_pump, "fraction": fraction}
+
+static func source_solid_pump_proximity_fraction_state(linked_tiles: Array, block_size: int, base_efficiency: float, attribute_env: float, floating: bool, placeable_liquid: bool, has_attribute: bool) -> Dictionary:
+	# The live fraction fill (SolidPumpBuild.onProximityUpdate(),
+	# SolidPump.java:150-159). Java runs it when placement /
+	# proximity changes; the port recomputes it every enabled
+	# tick from the frame inputs (the N2205 pump re-scan
+	# precedent) -- the pure is cheap and the inputs are
+	# explicit. Each Java expr below stays on ONE comment line
+	# (the N2148 lesson):
+	# `public void onProximityUpdate(){` (SolidPump.java:150).
+	# `super.onProximityAdded();` (SolidPump.java:151 -- the parent hook, not a second updateTile).
+	# `boost = sumAttribute(attribute, tile.x, tile.y) / size / size;` (SolidPump.java:153).
+	# `validTiles = 0f;` (SolidPump.java:154).
+	# `for(Tile other : tile.getLinkedTiles(tempTiles)){` (SolidPump.java:155).
+	# `if(canPump(other)){` (SolidPump.java:156).
+	# `validTiles += baseEfficiency / (size * size);` (SolidPump.java:157).
+	# `protected boolean canPump(Tile tile){` (SolidPump.java:80).
+	# `return tile != null && !tile.floor().isLiquid;` (SolidPump.java:81).
+	# `public float baseEfficiency = 1f;` (SolidPump.java:26).
+	# `float fraction = Math.max(validTiles + boost + (attribute == null ? 0 : attribute.env()), 0);` (SolidPump.java:124).
+	# `public float sumAttribute(@Nullable Attribute attr, int x, int y){` (Block.java:575).
+	# `if(attr == null) return 0;` (Block.java:576).
+	# `if(tile == null) return 0;` (Block.java:578).
+	# `return tile.getLinkedTilesAs(this, tempTiles)` (Block.java:579).
+	# `.sumf(other -> !floating && !placeableLiquid && other.floor().isDeep() ? 0 : other.floor().attributes.get(attr));` (Block.java:580).
+	# `public float env(){` (Attribute.java:31).
+	# `if(Vars.state == null) return 0;` (Attribute.java:32).
+	# `return Vars.state.envAttrs.get(this);` (Attribute.java:33).
+	# `public boolean floating = false;` (Block.java:212, class default; the water-extractor def does not override it).
+	# `public boolean placeableLiquid = false;` (Block.java:152, class default; the water-extractor def does not override it).
+	# `attribute = Attribute.water;` (Blocks.java:2927).
+	# `size = 2;` (Blocks.java:2924).
+	# The two linked-tile scans use the same tile set:
+	# onProximityUpdate iterates tile.getLinkedTiles(tempTiles)
+	# while sumAttribute iterates tile.getLinkedTilesAs(this,
+	# tempTiles) -- both walk the size x size footprint
+	# including the origin tile (Tile.java:474-525), so one
+	# linked_tiles input serves both sums exactly. Each entry
+	# is a Dict {can_pump, attribute_value, is_deep}: the
+	# canPump answer, the floor attribute value for the block
+	# attribute, and the deep-floor flag. A null tile in Java
+	# fails canPump and never reaches either sum (the
+	# linked-tile walk skips nulls, Tile.java:480/518); a
+	# frame entry with can_pump false and attribute_value 0.0
+	# is the same outcome. pickedUp() resets boost =
+	# validTiles = 0f (SolidPump.java:100-102) -- the per-tick
+	# recompute makes that reset moot. The fill returns the
+	# fraction as a pure result, but the driver stamps only
+	# valid_tiles / boost onto the frame: the N2220 advance
+	# recomputes the fraction from the stamped keys (Java
+	# order).
+	var valid_tiles: float = 0.0
+	var attribute_sum: float = 0.0
+	for linked_tile in linked_tiles:
+		var tile: Dictionary = linked_tile
+		if bool(tile.get("can_pump", false)):
+			valid_tiles += base_efficiency / (block_size * block_size)
+		if has_attribute:
+			var deep_excluded: bool = not floating and not placeable_liquid and bool(tile.get("is_deep", false))
+			if not deep_excluded:
+				attribute_sum += float(tile.get("attribute_value", 0.0))
+	var boost: float = attribute_sum / (block_size * block_size)
+	var fraction: float = maxf(valid_tiles + boost + (attribute_env if has_attribute else 0.0), 0.0)
+	return {"valid_tiles": valid_tiles, "boost": boost, "fraction": fraction}
 
 static func source_solid_pump_dump_liquid_state(frame: Dictionary, result_liquid_id: int, liquid_capacity: float, neighbour_liquid_amounts: Array, neighbour_liquid_capacities: Array, neighbour_accepts_liquid: Array, neighbour_can_dump_liquid: Array) -> Dictionary:
 	# The updateTile dump step (SolidPumpBuild.updateTile(),
@@ -439,9 +528,10 @@ static func source_solid_pump_tick_buildings_state(game: Object, seconds: float)
 		# pump with no power consumer is untouched: the tick
 		# models no other consumers yet (the live
 		# onProximityUpdate fill for the water-attribute /
-		# validTiles / boost fraction waits for its own slice;
-		# N2220 computes the fraction from explicit frame
-		# inputs),
+		# validTiles / boost fraction is live since N2292
+		# (recomputed each enabled tick from frame proximity
+		# inputs, stamped before the advance); N2220 computes
+		# the fraction from explicit frame inputs),
 		# and SolidPumpBuild overrides shouldConsume() to return
 		# liquids.get(result) < liquidCapacity - 0.01f
 		# (SolidPump.java:117-119) -- N2206 feeds the live gate
@@ -487,6 +577,31 @@ static func source_solid_pump_tick_buildings_state(game: Object, seconds: float)
 		# store) and returns the advanced scalars, which the
 		# driver writes back to the frame.
 		if bool(frame.get("enabled", true)):
+			# N2292: the live fraction fill runs BEFORE the
+			# advance (Java order: onProximityUpdate stamps
+			# validTiles / boost, SolidPump.java:150-159, and
+			# updateTile reads them at :124). Java runs
+			# onProximityUpdate only when placement/proximity
+			# changes; the port recomputes the fill every
+			# enabled tick from the frame inputs (the N2205
+			# pump re-scan precedent) -- the pure is cheap
+			# and the inputs are explicit. The linked tiles
+			# are frame inputs (default [] -- no tiles, the
+			# Java empty-proximity outcome) until a live tile
+			# scan lands; the attribute env is the N2220
+			# frame input (default 0.0); floating /
+			# placeableLiquid ride the Block class defaults
+			# false (Block.java:212 / :152, the def does not
+			# override them) and has_attribute is true for
+			# the water-extractor def (attribute =
+			# Attribute.water, Blocks.java:2927). The fill
+			# stamps valid_tiles / boost onto the frame; the
+			# fraction is recomputed by the N2220 advance
+			# from the stamped keys.
+			var proximity_tiles: Array = frame.get("proximity_linked_tiles", [])
+			var filled: Dictionary = source_solid_pump_proximity_fraction_state(proximity_tiles, SOURCE_SOLID_PUMP_SIZE, SOURCE_SOLID_PUMP_BASE_EFFICIENCY, float(frame.get("attribute_env", 0.0)), false, false, true)
+			frame["valid_tiles"] = filled["valid_tiles"]
+			frame["boost"] = filled["boost"]
 			var advance_liquid_catalog: Dictionary = source_content_registry_runtime_state.source_liquid_catalog_state(catalog)
 			var advance_result_id: int = int(advance_liquid_catalog["liquid_id_by_name"].get(SOURCE_SOLID_PUMP_RESULT_LIQUID, -1))
 			var source_delta: float = source_placed_block_state.game_source_delta(game, seconds)
