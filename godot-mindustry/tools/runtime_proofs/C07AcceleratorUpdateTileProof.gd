@@ -29,9 +29,10 @@ func _ready() -> void:
 	# (Accelerator.java:140), and advances progress by
 	# Time.delta * efficiency / buildDuration, clamped at 1f,
 	# when efficiency >= 0 (Accelerator.java:142-145).
-	# Time.delta in the port is the driver's seconds (the
-	# conduit precedent), so the pure checks pass seconds
-	# explicitly. The lerpDelta/slerpDelta formulas come from
+	# Time.delta in the port is seconds * 60
+	# (game_source_delta, arc Time.java:26), so the pure checks
+	# pass Time.delta ticks explicitly (1.0 = one tick, 60.0 =
+	# one second). The lerpDelta/slerpDelta formulas come from
 	# Arc Mathf.java: lerpDelta is lerp(from, to, clamp
 	# (progress * Time.delta)) (Mathf.java:430-432) and
 	# slerpDelta is slerp(from, to, clamp(progress *
@@ -114,17 +115,17 @@ func _ready() -> void:
 	var accelerator_frame: Dictionary = accelerator.get_meta(accelerator_build_state.SOURCE_ACCELERATOR_BUILDING_META_KEY, {})
 
 	# Half power: efficiency folds the power min 0.5, and the
-	# frame advances one tick (seconds = 1/60): progress by
-	# (1/60) * 0.5 / 120, heat toward 0.5 by lerpDelta 0.05,
-	# time by (1/60) * 0.5.
+	# frame advances one tick (seconds = 1/60, Time.delta =
+	# 1.0): progress by 1.0 * 0.5 / 120, heat toward 0.5 by
+	# lerpDelta 0.05, time by 1.0 * 0.5.
 	accelerator_frame["power_status"] = 0.5
 	accelerator_build_state.source_accelerator_tick_buildings_state(game, 1.0 / 60.0)
 	accelerator_frame = accelerator.get_meta(accelerator_build_state.SOURCE_ACCELERATOR_BUILDING_META_KEY, {})
 	var live_progress: float = float(accelerator_frame.get("progress", -1.0))
 	var live_ok: bool = is_equal_approx(float(accelerator_frame.get("efficiency", -1.0)), 0.5)
-	live_ok = live_ok and is_equal_approx(live_progress, (1.0 / 60.0) * 0.5 / 120.0)
-	live_ok = live_ok and is_equal_approx(float(accelerator_frame.get("heat", -1.0)), lerpf(0.0, 0.5, clampf(0.05 * (1.0 / 60.0), 0.0, 1.0)))
-	live_ok = live_ok and is_equal_approx(float(accelerator_frame.get("time", -1.0)), (1.0 / 60.0) * 0.5)
+	live_ok = live_ok and is_equal_approx(live_progress, 0.5 / 120.0)
+	live_ok = live_ok and is_equal_approx(float(accelerator_frame.get("heat", -1.0)), lerpf(0.0, 0.5, clampf(0.05 * 1.0, 0.0, 1.0)))
+	live_ok = live_ok and is_equal_approx(float(accelerator_frame.get("time", -1.0)), 0.5)
 
 	# No power: efficiency 0, and progress stops advancing
 	# (progress += Time.delta * 0 / buildDuration). This proves
