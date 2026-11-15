@@ -60,6 +60,13 @@ func _ready() -> void:
 	point_defense_turret_build_state.source_point_defense_turret_bind_frame_state(segment, blocks_by_id["segment"])
 	var segment_frame: Dictionary = segment.get_meta(point_defense_turret_build_state.SOURCE_POINT_DEFENSE_TURRET_BUILDING_META_KEY, {})
 
+	# N2217: the shouldConsume gate (PointDefenseTurret.java:106,
+	# `return super.shouldConsume() && target != null;`) closes with
+	# no target, so the power proof holds a target fixture (only its
+	# null-ness is read) — otherwise efficiency_folds_power_min
+	# would read 0.
+	segment_frame["target"] = {"type": "bullet"}
+
 	# Half power: efficiency folds the power min 0.5.
 	segment_frame["power_status"] = 0.5
 	point_defense_turret_build_state.source_point_defense_turret_tick_buildings_state(game, 1.0 / 60.0)

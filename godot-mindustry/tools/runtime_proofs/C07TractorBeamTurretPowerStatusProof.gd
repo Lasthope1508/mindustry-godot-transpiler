@@ -60,6 +60,13 @@ func _ready() -> void:
 	tractor_beam_turret_build_state.source_tractor_beam_turret_bind_frame_state(parallax, blocks_by_id["parallax"])
 	var parallax_frame: Dictionary = parallax.get_meta(tractor_beam_turret_build_state.SOURCE_TRACTOR_BEAM_TURRET_BUILDING_META_KEY, {})
 
+	# N2218: the shouldConsume gate (TractorBeamTurret.java:142,
+	# `return super.shouldConsume() && target != null;`) closes with
+	# no target, so the power proof holds a target fixture (only its
+	# null-ness is read) — otherwise efficiency_folds_power_min
+	# would read 0.
+	parallax_frame["target"] = {"type": "dart"}
+
 	# Half power: efficiency folds the power min 0.5.
 	parallax_frame["power_status"] = 0.5
 	tractor_beam_turret_build_state.source_tractor_beam_turret_tick_buildings_state(game, 1.0 / 60.0)
