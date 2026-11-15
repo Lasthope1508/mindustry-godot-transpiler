@@ -39,7 +39,10 @@ func _ready() -> void:
 	# Blocks.java:6654) gives +/-20.0; size 3
 	# (small-deconstructor, Blocks.java:6645) gives
 	# +/-12.0.
-	var fixture: Dictionary = {"kind": "build", "requirements": [{"item": "copper", "amount": 10}, {"item": "lead", "amount": 5}], "build_time": 60.0, "rotation": 45.0, "marker": "first"}
+	# N2308: the fixture doubles as the live-tick push, so it carries the block_size key the
+	# intake gate reads (a 2-tile payload, fits maxPayloadSize 4); the pure handle / move-in
+	# calls below ignore the extra key.
+	var fixture: Dictionary = {"kind": "build", "requirements": [{"item": "copper", "amount": 10}, {"item": "lead", "amount": 5}], "build_time": 60.0, "rotation": 45.0, "block_size": 2, "marker": "first"}
 	var handled: Dictionary = payload_deconstructor_build_state.source_payload_deconstructor_handle_payload_state(fixture, 24.0, 8.0, 0.0, 0.0, 45.0, 5, 8.0)
 	var handled_vector: Dictionary = handled.get("pay_vector", {})
 	proof["handle_sets_payload_and_clears_accum"] = handled.get("payload", {}) == fixture and is_equal_approx(float(handled_vector.get("x", 0.0)), 20.0) and is_equal_approx(float(handled_vector.get("y", 0.0)), 8.0) and is_equal_approx(float(handled.get("pay_rotation", -1.0)), 45.0) and handled.get("accum", {}) == null
