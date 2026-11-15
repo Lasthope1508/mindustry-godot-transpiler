@@ -237,6 +237,33 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
   UnitPayload buildTime = `unit.type.getBuildTime()`; N2234 phát hiện
   manifold KHÔNG set useUnitCap = false. DEFERRED gộp sau wave:
   265 entries (260 − 14 resolved + 19 new).
+- **Wave advances-4 {N2235 ForceProjector, N2236 BaseShield,
+  N2237 MassDriver, N2238 LaunchPad, N2239 StackConveyor,
+  N2240 StackRouter, N2241 LightBlock} updateTile advances DONE**
+  trên branch tích hợp `integration/wave-advances-4-n2235-n2241` (không
+  merge vào main; 7 slice branch push 18:21–18:28 + integration branch
+  push ngay sau docs commit theo push-as-you-go): neighbours 7 module
+  power 28 tests (21 PASS + 7 proof Godot-absent, 0 lỗi khác) +
+  targeted 7 module 28 tests (21 PASS + 7 proof Godot-absent),
+  full gate Ran 6021 in 1071.101s, failures=182, skipped=5,
+  0 errors — 182/182 Godot-absent (175 inherited + 7 new proof tests
+  N2235–N2241).
+  SSOT gộp 11616/1682/1605/3001, audit 1336, legacy 0. KHÔNG cần
+  coordinator fix — advance không vỡ proof cũ (như advances-1/2/3);
+  N2235 hiệu chỉnh scope: `broken` mặc định TRUE (ForceProjector.java:167)
+  + coolantConsumer KHÔNG null (:84-86); N2236 phát hiện scope BỎ SÓT
+  nhánh instakill (BaseShield.java:43-45) + `broken` không bao giờ set
+  live; N2237 hiệu chỉnh scope: Angles.near là STRICT `<` + shooterValid
+  không check team + config handlers :58-59; N2238 phát hiện consume()
+  là no-op cả items lẫn liquids + cờ unification với N2186 (test N2186
+  assert dòng inline counter-advance phải sửa lúc unification);
+  N2239 hiệu chỉnh moveForward ở BuildingComp.java:1129-1137;
+  N2240 hiệu chỉnh enabled gate là EXACT (noUpdateDisabled=true) +
+  eff khác StackConveyor (disabled 0f, không phải 1f); N2241 hiệu
+  chỉnh smoothTime init 1f + updateTile :104-106 + N2189 đã làm
+  advance này trên batch line (line divergence — phương án gộp đã
+  soạn trong STATUS.md, chưa thực hiện). DEFERRED gộp sau wave:
+  270 entries (265 − 8 resolved + 13 new).
 - **Tiếp theo:** units → updateTile advances → second consumers (xem
   `DESIGN-frame-state-infra.md` trong `~/workspace/mindustry-parallel/`).
 - **KHÔNG chạy Godot ở VM này** (chỉ đạo user 2026-11-15, ưu tiên cao): mọi
@@ -770,6 +797,76 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
     `slice/N2234-unit-cargo-loader-update-tile` (integration cherry-pick `e246e650`).
     Trạng thái "chờ agent Godot test". Chạy: targeted test
     `tests.test_c07_unit_cargo_loader_update_tile` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2235 `C07ForceProjectorUpdateTileProof` — CHƯA CHẠY ở đâu (6 key:
+    `broken_sets_at_shield_health`, `buildup_cools_down`,
+    `deflect_absorbs_bullet_in_polygon`, `live_tick_writes_advance_frame_keys`,
+    `phase_heat_tracks_booster`, `radscl_follows_warmup`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `fb0ed566` trên
+    `slice/N2235-force-projector-update-tile` (integration cherry-pick `4fdfa9ad`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_force_projector_update_tile` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2236 `C07BaseShieldUpdateTileProof` — CHƯA CHẠY ở đâu (6 key:
+    `absorb_blocks_enemy_bullet`, `absorb_ignores_same_team`,
+    `live_tick_writes_advance_frame_keys`, `no_repel_outside_radius`,
+    `repel_pushes_enemy_unit`, `smooth_radius_tracks_efficiency`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `bfb1f442` trên
+    `slice/N2236-base-shield-update-tile` (integration cherry-pick `ff8f6220`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_base_shield_update_tile` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2237 `C07MassDriverUpdateTileProof` — CHƯA CHẠY ở đâu (6 key:
+    `reload_counter_decays`, `idle_accepts_waiting_shooter`,
+    `shooting_registers_on_link`, `fire_transfers_items_and_resets_reload`,
+    `no_fire_without_alignment`, `live_tick_writes_advance_frame_keys`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `0b79b770` trên
+    `slice/N2237-mass-driver-update-tile` (integration cherry-pick `47fac343`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_mass_driver_update_tile` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2238 `C07LaunchPadUpdateTileProof` — CHƯA CHẠY ở đâu (6 key:
+    `launch_clears_items_and_resets`, `launch_counter_advances_with_edelta`,
+    `launch_fires_when_full_and_timed`, `live_tick_writes_advance_frame_keys`,
+    `no_launch_before_launch_time`, `no_launch_when_not_full`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `1ed044a3` trên
+    `slice/N2238-launch-pad-update-tile` (integration cherry-pick `624ae329`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_launch_pad_update_tile` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2239 `C07StackConveyorUpdateTileProof` — CHƯA CHẠY ở đâu (6 key:
+    `cooldown_reels_with_speed_eff_delta`, `disabled_still_reels_but_not_transfers`,
+    `live_tick_writes_advance_frame_keys`, `no_transfer_without_link`,
+    `transfer_moves_all_items_to_front`, `unload_drains_last_item`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `c78168a7` trên
+    `slice/N2239-stack-conveyor-update-tile` (integration cherry-pick `2ad1a270`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_stack_conveyor_update_tile` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2240 `C07StackRouterUpdateTileProof` — CHƯA CHẠY ở đâu (6 key:
+    `current_picks_first_item`, `empty_resets_unloading`,
+    `handoff_drains_current_item`, `live_tick_writes_advance_frame_keys`,
+    `progress_charges_when_full`, `unloading_starts_at_cap`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `4fb9f447` trên
+    `slice/N2240-stack-router-update-tile` (integration cherry-pick `e31f88e0`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_stack_router_update_tile` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2241 `C07LightBlockUpdateTileProof` — CHƯA CHẠY ở đâu (6 key:
+    `smooth_time_lerps_toward_time_scale`, `smooth_time_holds_at_time_scale`,
+    `smooth_time_decays_when_time_scale_drops`, `smooth_time_converges_after_ticks`,
+    `frame_defaults_to_java_initial`, `live_tick_writes_advance_frame_keys`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `341b9bc5` trên
+    `slice/N2241-light-block-update-tile` (integration cherry-pick `2215a10b`).
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_light_block_update_tile` với Godot 4.6.2 trên PATH,
     port 7777 trống.
   - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
     trên (ghi rõ commit đưa scene tới Windows).
