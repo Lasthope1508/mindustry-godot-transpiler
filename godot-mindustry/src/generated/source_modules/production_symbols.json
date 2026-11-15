@@ -7499,6 +7499,81 @@
       ],
       "runtime_proof": "/root/C07SolidPumpUpdateTileProof"
     },
+    "source_wall_crafter_get_efficiency_state_result.can_place_on": {
+      "canonical_symbol": "source_symbol_registry.source_wall_crafter_get_efficiency_state_result.can_place_on",
+      "status": "source-backed",
+      "java_expr": "return getEfficiency(tile.x, tile.y, rotation, null, null) > 0;",
+      "godot_symbol": "source_wall_crafter_get_efficiency_state_result.can_place_on",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_get_efficiency_state",
+      "rule": "The placement gate (WallCrafter.java:137-139, canPlaceOn returns efficiency > 0): true when the summed efficiency is positive, false otherwise. A bonus key here, not a separate pure.",
+      "tests": [
+        "test_c07_wall_crafter_get_efficiency_registration",
+        "test_all_c07_wall_crafter_get_efficiency_input_evidence_is_exact",
+        "test_wall_crafter_get_efficiency_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_get_efficiency"
+      ],
+      "runtime_proof": "/root/C07WallCrafterGetEfficiencyProof"
+    },
+    "source_wall_crafter_get_efficiency_state_result.edge_efficiencies": {
+      "canonical_symbol": "source_symbol_registry.source_wall_crafter_get_efficiency_state_result.edge_efficiencies",
+      "status": "source-backed",
+      "java_expr": "float at = other.block().attributes.get(attribute);",
+      "godot_symbol": "source_wall_crafter_get_efficiency_state_result.edge_efficiencies",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_get_efficiency_state",
+      "rule": "The per-edge-tile contributions in edge order (WallCrafter.java:173-174): one float per tile (0.0 for a non-solid, null or missing tile), so a later slice can drive the updateEffect chance (WallCrafter.java:196-205) from them.",
+      "tests": [
+        "test_c07_wall_crafter_get_efficiency_registration",
+        "test_all_c07_wall_crafter_get_efficiency_input_evidence_is_exact",
+        "test_wall_crafter_get_efficiency_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_get_efficiency"
+      ],
+      "runtime_proof": "/root/C07WallCrafterGetEfficiencyProof"
+    },
+    "source_wall_crafter_get_efficiency_state_result.efficiency": {
+      "canonical_symbol": "source_symbol_registry.source_wall_crafter_get_efficiency_state_result.efficiency",
+      "status": "source-backed",
+      "java_expr": "eff += at;",
+      "godot_symbol": "source_wall_crafter_get_efficiency_state_result.efficiency",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_get_efficiency_state",
+      "rule": "The summed efficiency (WallCrafter.java:141-180): the block attribute values of the solid edge tiles, summed; 0 when no edge tile is solid. Stamped onto frame[\"efficiency_factor\"] each enabled tick before the N2223 advance reads it.",
+      "tests": [
+        "test_c07_wall_crafter_get_efficiency_registration",
+        "test_all_c07_wall_crafter_get_efficiency_input_evidence_is_exact",
+        "test_wall_crafter_get_efficiency_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_get_efficiency"
+      ],
+      "runtime_proof": "/root/C07WallCrafterGetEfficiencyProof"
+    },
+    "source_wall_crafter_get_efficiency_state_result.rotation": {
+      "canonical_symbol": "source_symbol_registry.source_wall_crafter_get_efficiency_state_result.rotation",
+      "status": "source-backed",
+      "java_expr": "float getEfficiency(int tx, int ty, int rotation, @Nullable Cons<Tile> ctile, @Nullable Intc2 cpos){",
+      "godot_symbol": "source_wall_crafter_get_efficiency_state_result.rotation",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_get_efficiency_state",
+      "rule": "The rotation carried through (WallCrafter.java:141, the signature carries rotation): echoes the input rotation for the proof + future live-world wiring, where it will select the facing edge.",
+      "tests": [
+        "test_c07_wall_crafter_get_efficiency_registration",
+        "test_all_c07_wall_crafter_get_efficiency_input_evidence_is_exact",
+        "test_wall_crafter_get_efficiency_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_get_efficiency"
+      ],
+      "runtime_proof": "/root/C07WallCrafterGetEfficiencyProof"
+    },
+    "source_wall_crafter_get_efficiency_state_result.solid_tile_count": {
+      "canonical_symbol": "source_symbol_registry.source_wall_crafter_get_efficiency_state_result.solid_tile_count",
+      "status": "source-backed",
+      "java_expr": "if(other != null && other.solid()){",
+      "godot_symbol": "source_wall_crafter_get_efficiency_state_result.solid_tile_count",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_get_efficiency_state",
+      "rule": "The count of solid non-null edge tiles (WallCrafter.java:172): only tiles passing the `other != null && other.solid()` gate contribute to the efficiency sum.",
+      "tests": [
+        "test_c07_wall_crafter_get_efficiency_registration",
+        "test_all_c07_wall_crafter_get_efficiency_input_evidence_is_exact",
+        "test_wall_crafter_get_efficiency_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_get_efficiency"
+      ],
+      "runtime_proof": "/root/C07WallCrafterGetEfficiencyProof"
+    },
     "source_wall_crafter_item_consumer_row_state_result.has_item_row": {
       "canonical_symbol": "source_symbol_registry.source_wall_crafter_item_consumer_row_state_result.has_item_row",
       "status": "source-backed",

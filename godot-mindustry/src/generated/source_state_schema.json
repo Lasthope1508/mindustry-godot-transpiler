@@ -243885,6 +243885,730 @@
       },
       "runtime_proof": "/root/C07MassDriverDumpProof",
       "rule": "Source-backed MassDriver dumpAccumulate dump rows from MassDriver.java / BuildingComp.java."
+    },
+    "source_payload_loader_accept_payload_state_input": {
+      "status": "active",
+      "owner": "SourcePayloadLoaderBuildState.source_payload_loader_accept_payload_state",
+      "source_slice": "N2295",
+      "keys": {
+        "payload": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+          "java_expr": "public boolean acceptPayload(Building source, Payload payload){",
+          "rule": "The offered payload descriptor (PayloadLoader.java:90, acceptPayload(Building source, Payload payload)): is_build_payload / block_size / has_items / unloadable / item_capacity / has_liquids / liquid_capacity / has_cons_power / cons_power_buffered -- the block flags Java reads live from the BuildPayload block; missing keys default to the rejecting value (false / 0), so a partial fixture never accepts. The driver reads it from the frame offered_payload input (no live source pushes it yet).",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_accept_payload_state"
+          ]
+        },
+        "has_payload": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "return this.payload == null;",
+          "rule": "Whether the loader already holds a payload (PayloadBlock.java:117, super.acceptPayload returns this.payload == null): the base gate -- a loader holding a payload accepts nothing. The driver reads the frame payload null-ness at stamp time.",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_accept_payload_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadLoaderAcceptPayloadProof",
+      "rule": "Source-backed PayloadLoader acceptPayload gate from PayloadLoader.java / PayloadBlock.java / Payload.java / BuildPayload.java / Block.java / ConsumePower.java / Blocks.java."
+    },
+    "source_payload_loader_accept_payload_state_result": {
+      "status": "active",
+      "owner": "SourcePayloadLoaderBuildState.source_payload_loader_accept_payload_state",
+      "source_slice": "N2295",
+      "keys": {
+        "accepts": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+          "java_expr": "return super.acceptPayload(source, payload) &&",
+          "rule": "The acceptPayload verdict (PayloadLoader.java:91-101): the base gate (payload == null) AND payload.fits(maxBlockSize) AND the BuildPayload instanceof AND one of the item-container / liquid-container / battery branches. The driver stamps it on frame[\"accepts_payload\"] every tick.",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_accept_payload_state"
+          ]
+        },
+        "fits": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+          "java_expr": "payload.fits(maxBlockSize) &&",
+          "rule": "Whether the payload fits (PayloadLoader.java:92): fits is size() / tilesize <= s (Payload.java:50-52) with a BuildPayload size of block.size * tilesize (BuildPayload.java:86-88), so for a BuildPayload fits is block.size <= maxBlockSize (3, PayloadLoader.java:25). For a non-build payload the value reads the descriptor block_size and is inert -- the verdict rejects through the instanceof gate.",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_accept_payload_state"
+          ]
+        },
+        "is_item_container": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+          "java_expr": "(build.build.block.hasItems && build.block().unloadable && build.block().itemCapacity >= 10 && build.block().size <= maxBlockSize) ||",
+          "rule": "The item-container branch verdict (PayloadLoader.java:95): hasItems && unloadable (Block.java:106, default true) && itemCapacity >= 10 (Block.java:75, default 10) && size <= maxBlockSize; the branch repeats the size check even though fits already covers it, and the verdict keeps it. Gated on the BuildPayload instanceof like Java.",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_accept_payload_state"
+          ]
+        },
+        "is_liquid_container": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+          "java_expr": "(build.build.block.hasLiquids && build.block().liquidCapacity >= 10f) ||",
+          "rule": "The liquid-container branch verdict (PayloadLoader.java:97): hasLiquids && liquidCapacity >= 10f (Block.java:77, default -1f); the threshold is inclusive, so exactly 10.0 accepts. Gated on the BuildPayload instanceof like Java.",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_accept_payload_state"
+          ]
+        },
+        "is_battery": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+          "java_expr": "(build.build.block.consPower != null && build.build.block.consPower.buffered)",
+          "rule": "The battery branch verdict (PayloadLoader.java:99): consPower != null (Block.java:414) && buffered (ConsumePower.java:14) -- the same hasBattery() shape the N2270 dynamic value and the N2231 advance read (PayloadLoader.java:235-237). Gated on the BuildPayload instanceof like Java.",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_accept_payload_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadLoaderAcceptPayloadProof",
+      "rule": "Source-backed PayloadLoader acceptPayload gate from PayloadLoader.java / PayloadBlock.java / Payload.java / BuildPayload.java / Block.java / ConsumePower.java / Blocks.java."
+    },
+    "source_payload_unloader_accept_payload_state_input": {
+      "status": "active",
+      "owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_accept_payload_state",
+      "source_slice": "N2296",
+      "keys": {
+        "has_payload": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "return this.payload == null;",
+          "rule": "Whether the unloader already holds a payload (the PayloadBlockBuild.payload field, PayloadBlock.java:92) -- the super.acceptPayload base gate (PayloadBlock.java:116-118) accepts only when it is null; the driver reads it from the filled frame payload key.",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_accept_payload_state"
+          ]
+        },
+        "offered_payload": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+          "java_expr": "payload instanceof BuildPayload build && (",
+          "rule": "The offered payload descriptor (null = no offer): {\"is_build_payload\": bool, \"size\": float (Payload.size() in pixels, BuildPayload.java:87), \"block\": {has_items, unloadable (default true, Block.java:106), item_capacity, size, has_liquids, liquid_capacity, cons_power_capacity (null = no consPower), cons_power_buffered}} -- the fits + container branches (PayloadLoader.java:92-100) read it; a null / non-dict offer accepts nothing.",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_accept_payload_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadUnloaderAcceptPayloadProof",
+      "rule": "Source-backed PayloadUnloader acceptPayload rows from PayloadLoader.java / PayloadBlock.java / Payload.java / BuildPayload.java / PayloadUnloader.java / Block.java / Vars.java."
+    },
+    "source_payload_unloader_accept_payload_state_result": {
+      "status": "active",
+      "owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_accept_payload_state",
+      "source_slice": "N2296",
+      "keys": {
+        "accept_payload": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+          "java_expr": "return super.acceptPayload(source, payload) &&",
+          "rule": "The acceptPayload verdict (PayloadLoader.java:90-101, inherited by PayloadUnloaderBuild): the base null gate AND fits(maxBlockSize) AND instanceof BuildPayload AND (item container || liquid container || battery); false when a payload is already held, when nothing is offered, or when the offered payload is not a fitting BuildPayload container.",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_accept_payload_state"
+          ]
+        },
+        "accept_item": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+          "java_expr": "return false;",
+          "rule": "Always false: PayloadUnloaderBuild overrides acceptItem to return false (PayloadUnloader.java:35-38) -- the Unloader never takes loose items, so its dump rows (N2293) move items OUT only.",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_accept_payload_state"
+          ]
+        },
+        "accept_liquid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+          "java_expr": "return false;",
+          "rule": "Always false: PayloadUnloaderBuild overrides acceptLiquid to return false (PayloadUnloader.java:40-43) -- the Unloader never takes loose liquids, so its dump rows (N2293) move liquids OUT only.",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_accept_payload_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadUnloaderAcceptPayloadProof",
+      "rule": "Source-backed PayloadUnloader acceptPayload rows from PayloadLoader.java / PayloadBlock.java / Payload.java / BuildPayload.java / PayloadUnloader.java / Block.java / Vars.java."
+    },
+    "source_payload_deconstructor_accept_payload_state_input": {
+      "status": "active",
+      "owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_accept_payload_state",
+      "source_slice": "N2297",
+      "keys": {
+        "payload": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "public boolean acceptPayload(Building source, Payload payload){",
+          "rule": "The offered payload descriptor (PayloadDeconstructor.java:104): requirements_length (int, the payload requirements count -- a BuildPayload carries its block requirements, BuildPayload.java:66-68, a UnitPayload its unit type total requirements, UnitPayload.java:61-63) and block_size (int, the payload size in tiles -- a BuildPayload is block.size tiles, BuildPayload.java:86-88; a unit payload supplies ceil(hitSize / tilesize), which preserves the <= comparison exactly). Missing keys default to the rejecting value (no requirements, block_size maxPayloadSize + 1). The driver reads it from the frame offered_payload input (default null -- no live source offers one yet).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_accept_payload_state"
+          ]
+        },
+        "has_payload": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "return this.payload == null;",
+          "rule": "Whether the deconstructor already holds a payload (PayloadBlock.java:117, the super gate -- and the identical this.payload == null term in the Deconstructor gate, PayloadDeconstructor.java:105; the field is public @Nullable T payload, PayloadBlock.java:92). The driver reads the frame payload null-ness.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_accept_payload_state"
+          ]
+        },
+        "has_deconstructing": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "public @Nullable Payload deconstructing;",
+          "rule": "Whether the deconstructor is already deconstructing a payload (PayloadDeconstructor.java:52, the nullable field; the gate requires deconstructing == null, PayloadDeconstructor.java:105). The driver reads the frame deconstructing null-ness.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_accept_payload_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadDeconstructorAcceptPayloadProof",
+      "rule": "Source-backed PayloadDeconstructor acceptPayload / acceptUnitPayload gates from PayloadDeconstructor.java / PayloadBlock.java / Payload.java / BuildPayload.java / UnitPayload.java / UnitType.java / UnitComp.java / Vars.java."
+    },
+    "source_payload_deconstructor_accept_payload_state_result": {
+      "status": "active",
+      "owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_accept_payload_state",
+      "source_slice": "N2297",
+      "keys": {
+        "accepts": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "return deconstructing == null && this.payload == null && super.acceptPayload(source, payload) && payload.requirements().length > 0 && payload.fits(maxPayloadSize);",
+          "rule": "Whether the deconstructor accepts the offered payload (PayloadDeconstructor.java:105): deconstructing == null && this.payload == null && super.acceptPayload (the redundant base gate, PayloadBlock.java:117, the same payload == null term again) && requirements.length > 0 && fits(maxPayloadSize).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_accept_payload_state"
+          ]
+        },
+        "deconstructing_empty": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "return deconstructing == null && this.payload == null && super.acceptPayload(source, payload) && payload.requirements().length > 0 && payload.fits(maxPayloadSize);",
+          "rule": "Whether no payload is being deconstructed (PayloadDeconstructor.java:105, the deconstructing == null term; the field is public @Nullable Payload deconstructing, PayloadDeconstructor.java:52).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_accept_payload_state"
+          ]
+        },
+        "payload_empty": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "return this.payload == null;",
+          "rule": "Whether no payload is held (PayloadBlock.java:117, the super.acceptPayload base gate -- and the identical this.payload == null term in the Deconstructor gate, PayloadDeconstructor.java:105; the field is public @Nullable T payload, PayloadBlock.java:92).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_accept_payload_state"
+          ]
+        },
+        "has_requirements": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "return deconstructing == null && this.payload == null && super.acceptPayload(source, payload) && payload.requirements().length > 0 && payload.fits(maxPayloadSize);",
+          "rule": "Whether the offered payload carries deconstructable requirements (PayloadDeconstructor.java:105, the requirements().length > 0 term: a BuildPayload carries its block requirements, BuildPayload.java:66-68; a UnitPayload its unit type total requirements, UnitPayload.java:61-63).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_accept_payload_state"
+          ]
+        },
+        "fits": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/Payload.java",
+          "java_expr": "return size() / tilesize <= s;",
+          "rule": "Whether the offered payload fits maxPayloadSize (Payload.java:51, the fits default: size() / tilesize <= s, with s = maxPayloadSize 4, PayloadDeconstructor.java:18): a BuildPayload is block.size tiles (BuildPayload.java:86-88), so it fits when block.size <= 4; a unit payload supplies ceil(hitSize / tilesize) as its block_size.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_accept_payload_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadDeconstructorAcceptPayloadProof",
+      "rule": "Source-backed PayloadDeconstructor acceptPayload / acceptUnitPayload gates from PayloadDeconstructor.java / PayloadBlock.java / Payload.java / BuildPayload.java / UnitPayload.java / UnitType.java / UnitComp.java / Vars.java."
+    },
+    "source_payload_deconstructor_accept_unit_payload_state_input": {
+      "status": "active",
+      "owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_accept_unit_payload_state",
+      "source_slice": "N2297",
+      "keys": {
+        "unit": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "public boolean acceptUnitPayload(Unit unit){",
+          "rule": "The offered unit descriptor (PayloadDeconstructor.java:92): allowed_in_payloads (bool, the unit-type flag, UnitType.java:189), spawned_by_core (bool, the unit flag, UnitComp.java:52), total_requirements_length (int, the unit type total requirements count, UnitType.java:1323) and hit_size (float, pixels -- a UnitPayload is hitSize pixels, UnitPayload.java:99-101). Missing keys default to the rejecting value (not allowed, core-spawned, no requirements, hit_size one tile over the max). The driver reads it from the frame offered_unit input (default null -- no live source offers one yet).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_accept_unit_payload_state"
+          ]
+        },
+        "has_payload": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "return payload == null && deconstructing == null && unit.type.allowedInPayloads && !unit.spawnedByCore",
+          "rule": "Whether the deconstructor already holds a payload (PayloadDeconstructor.java:93, the payload == null term; the field is public @Nullable T payload, PayloadBlock.java:92). The driver reads the frame payload null-ness.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_accept_unit_payload_state"
+          ]
+        },
+        "has_deconstructing": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "return payload == null && deconstructing == null && unit.type.allowedInPayloads && !unit.spawnedByCore",
+          "rule": "Whether the deconstructor is already deconstructing a payload (PayloadDeconstructor.java:93, the deconstructing == null term; the field is public @Nullable Payload deconstructing, PayloadDeconstructor.java:52). The driver reads the frame deconstructing null-ness.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_accept_unit_payload_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadDeconstructorAcceptPayloadProof",
+      "rule": "Source-backed PayloadDeconstructor acceptPayload / acceptUnitPayload gates from PayloadDeconstructor.java / PayloadBlock.java / Payload.java / BuildPayload.java / UnitPayload.java / UnitType.java / UnitComp.java / Vars.java."
+    },
+    "source_payload_deconstructor_accept_unit_payload_state_result": {
+      "status": "active",
+      "owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_accept_unit_payload_state",
+      "source_slice": "N2297",
+      "keys": {
+        "accepts": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "return payload == null && deconstructing == null && unit.type.allowedInPayloads && !unit.spawnedByCore",
+          "rule": "Whether the deconstructor accepts the offered unit (PayloadDeconstructor.java:93-94): payload == null && deconstructing == null && unit.type.allowedInPayloads && !unit.spawnedByCore && unit.type.getTotalRequirements().length > 0 && unit.hitSize / tilesize <= maxPayloadSize. The gate is what canControlSelect consults before a player drops a unit on the block (PayloadBlock.java:103-105).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_accept_unit_payload_state"
+          ]
+        },
+        "allowed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "return payload == null && deconstructing == null && unit.type.allowedInPayloads && !unit.spawnedByCore",
+          "rule": "Whether the unit type allows payloads and the unit is not core-spawned (PayloadDeconstructor.java:93, the allowedInPayloads && !spawnedByCore terms: allowedInPayloads defaults true, UnitType.java:189, \"if false, this unit cannot be moved into payloads\"; spawnedByCore is the unit flag, UnitComp.java:52).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_accept_unit_payload_state"
+          ]
+        },
+        "has_requirements": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "&& unit.type.getTotalRequirements().length > 0 && unit.hitSize / tilesize <= maxPayloadSize;",
+          "rule": "Whether the offered unit carries deconstructable requirements (PayloadDeconstructor.java:94, the getTotalRequirements().length > 0 term: all items needed to build the unit including reconstructor steps, UnitType.java:1323).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_accept_unit_payload_state"
+          ]
+        },
+        "fits": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "unit.hitSize / tilesize <= maxPayloadSize",
+          "rule": "Whether the offered unit fits maxPayloadSize (PayloadDeconstructor.java:94, the hitSize / tilesize <= maxPayloadSize term -- the UnitPayload fits check inlined, since a UnitPayload is hitSize pixels, UnitPayload.java:99-101): hitSize / 8 <= 4, i.e. hitSize <= 32 (tilesize 8, Vars.java:135).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_accept_unit_payload_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadDeconstructorAcceptPayloadProof",
+      "rule": "Source-backed PayloadDeconstructor acceptPayload / acceptUnitPayload gates from PayloadDeconstructor.java / PayloadBlock.java / Payload.java / BuildPayload.java / UnitPayload.java / UnitType.java / UnitComp.java / Vars.java."
+    },
+    "source_payload_mass_driver_accept_payload_state_input": {
+      "status": "active",
+      "owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_accept_payload_state",
+      "source_slice": "N2298",
+      "keys": {
+        "payload_size": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "java_expr": "return build.block.size * tilesize;",
+          "rule": "The offered payload size in world units (BuildPayload.java:86-88, size() is build.block.size * tilesize): the frame-supplied offer (frame[\"offered_payload_size\"]) -- there are no live Payload objects in the port, so the driver reads the size from the frame.",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_accept_payload_state"
+          ]
+        },
+        "has_payload": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "return this.payload == null;",
+          "rule": "Whether the driver already holds a payload (PayloadBlock.java:92, `public @Nullable T payload;`): the base gate super.acceptPayload is this.payload == null (PayloadBlock.java:116-118), so a held payload refuses every offer.",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_accept_payload_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadMassDriverAcceptPayloadProof",
+      "rule": "Source-backed PayloadMassDriver acceptPayload gate from PayloadMassDriver.java / PayloadBlock.java / BuildPayload.java / Vars.java / Blocks.java."
+    },
+    "source_payload_mass_driver_accept_payload_state_result": {
+      "status": "active",
+      "owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_accept_payload_state",
+      "source_slice": "N2298",
+      "keys": {
+        "accepts": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "return super.acceptPayload(source, payload) && payload.size() <= maxPayloadSize * tilesize;",
+          "rule": "The acceptPayload verdict (PayloadMassDriver.java:463): the base gate (no payload held) AND the size gate (payload.size() <= maxPayloadSize * tilesize).",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_accept_payload_state"
+          ]
+        },
+        "size_fits": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "payload.size() <= maxPayloadSize * tilesize",
+          "rule": "The size comparison alone (PayloadMassDriver.java:463): true when the offered size is at or under the threshold (the comparison is <=, so the boundary size 24 fits).",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_accept_payload_state"
+          ]
+        },
+        "threshold": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "public float maxPayloadSize = 3;",
+          "rule": "The acceptance threshold in world units (PayloadMassDriver.java:30, maxPayloadSize 3, times tilesize 8, Vars.java:135): 3 * 8 = 24. The class default; the per-def overrides (2.5f / 4f, Blocks.java:6624/6636) wait for their own slice.",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_accept_payload_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadMassDriverAcceptPayloadProof",
+      "rule": "Source-backed PayloadMassDriver acceptPayload gate from PayloadMassDriver.java / PayloadBlock.java / BuildPayload.java / Vars.java / Blocks.java."
+    },
+    "source_unit_assembler_module_accept_payload_state_input": {
+      "status": "active",
+      "owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_accept_payload_state",
+      "source_slice": "N2299",
+      "keys": {
+        "has_link": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+          "java_expr": "link != null && this.payload == null && link.acceptPayload(this, payload);",
+          "rule": "Whether the module has a linked assembler (link != null, UnitAssemblerModule.java:111; link is `public UnitAssemblerBuild link;`, :72, null until the first findLink); the tick reads frame[\"link\"] != null after the N2248 advance.",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_accept_payload_state"
+          ]
+        },
+        "has_payload": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "public @Nullable T payload;",
+          "rule": "Whether the module holds a payload (the held payload field, PayloadBlock.java:92); the gate needs it empty (this.payload == null, UnitAssemblerModule.java:111); the tick reads frame[\"payload\"] != null after the advance.",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_accept_payload_state"
+          ]
+        },
+        "link_accepts": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+          "java_expr": "link.acceptPayload(this, payload)",
+          "rule": "The link assembler verdict on the offered payload (UnitAssemblerModule.java:111), from Pure 2 (the slice owns both) -- a parameter, not a frame input; the tick feeds the Pure 2 verdict in.",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_accept_payload_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07UnitAssemblerModuleAcceptPayloadProof",
+      "rule": "Source-backed UnitAssemblerModule acceptPayload rows from UnitAssemblerModule.java / UnitAssembler.java / PayloadBlock.java / PayloadSeq.java / PayloadStack.java / Rules.java."
+    },
+    "source_unit_assembler_module_accept_payload_state_result": {
+      "status": "active",
+      "owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_accept_payload_state",
+      "source_slice": "N2299",
+      "keys": {
+        "accepts": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+          "java_expr": "return link != null && this.payload == null && link.acceptPayload(this, payload);",
+          "rule": "The module gate verdict (UnitAssemblerModule.java:111): link present && own payload empty && link accepts; false when unlinked, when the module already holds a payload, or when the link rejects.",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_accept_payload_state"
+          ]
+        },
+        "has_link": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+          "java_expr": "link != null && this.payload == null && link.acceptPayload(this, payload);",
+          "rule": "The link term of the gate (UnitAssemblerModule.java:111), echoed with the verdict so the proof pins each term.",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_accept_payload_state"
+          ]
+        },
+        "has_payload": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+          "java_expr": "this.payload == null",
+          "rule": "The held-payload term of the gate (UnitAssemblerModule.java:111), echoed with the verdict: true means the module holds a payload, i.e. the Java null check fails and the gate rejects.",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_accept_payload_state"
+          ]
+        },
+        "link_accepts": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+          "java_expr": "link.acceptPayload(this, payload)",
+          "rule": "The link-verdict term of the gate (UnitAssemblerModule.java:111), echoed with the verdict so the proof pins each term.",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_accept_payload_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07UnitAssemblerModuleAcceptPayloadProof",
+      "rule": "Source-backed UnitAssemblerModule acceptPayload rows from UnitAssemblerModule.java / UnitAssembler.java / PayloadBlock.java / PayloadSeq.java / PayloadStack.java / Rules.java."
+    },
+    "source_unit_assembler_accept_payload_state_input": {
+      "status": "active",
+      "owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_accept_payload_state",
+      "source_slice": "N2299",
+      "keys": {
+        "payload": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "plan.requirements.contains(b -> b.item == payload.content() &&",
+          "rule": "The offered payload descriptor {content_item} -- the content id Java reads as payload.content() (UnitAssembler.java:725; for a BuildPayload the content is the build block, BuildPayload.java:47-49); an empty descriptor matches no requirement and rejects.",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_accept_payload_state"
+          ]
+        },
+        "assembler": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "public PayloadSeq blocks = new PayloadSeq();",
+          "rule": "The link assembler state {has_payload, payload_content_equals, blocks}: whether the assembler holds a payload (this.payload, UnitAssembler.java:724/727), whether that payload is content-equal to the offered one (this.payload.contentEquals(payload), :727), and the stored-blocks map (blocks, :323) as a Dictionary item -> count.",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_accept_payload_state"
+          ]
+        },
+        "plan_requirements": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "public Seq<PayloadStack> requirements;",
+          "rule": "The current plan requirements (UnitAssembler.java:278, the AssemblerUnitPlan requirements Seq<PayloadStack>; plan() is :383-386) as an Array of Dicts {item, amount} with amount an int (PayloadStack.java:9); default [] -- no plan, so nothing is accepted.",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_accept_payload_state"
+          ]
+        },
+        "unit_cost": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_expr": "return unitCostMultiplier * teams.get(team).unitCostMultiplier;",
+          "rule": "The rules unit-cost multiplier (Rules.java:275-277, unitCostMultiplier * the team multiplier, both default 1f, so the frame input defaults 1.0); the quota is round(amount * unit_cost).",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_accept_payload_state"
+          ]
+        },
+        "source_is_module": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "return (this.payload == null || (source instanceof UnitAssemblerModuleBuild)) &&",
+          "rule": "Whether the offering source is a UnitAssemblerModuleBuild (UnitAssembler.java:724/727): a module source passes the first term even when the assembler holds a payload, and takes the -1 adjustment when the assembler holds an equal payload; the module tick always passes true (the module gate calls link.acceptPayload(this, payload)).",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_accept_payload_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07UnitAssemblerModuleAcceptPayloadProof",
+      "rule": "Source-backed UnitAssemblerModule acceptPayload rows from UnitAssemblerModule.java / UnitAssembler.java / PayloadBlock.java / PayloadSeq.java / PayloadStack.java / Rules.java."
+    },
+    "source_unit_assembler_accept_payload_state_result": {
+      "status": "active",
+      "owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_accept_payload_state",
+      "source_slice": "N2299",
+      "keys": {
+        "accepts": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "return (this.payload == null || (source instanceof UnitAssemblerModuleBuild)) &&",
+          "rule": "The assembler gate verdict (UnitAssembler.java:724-727): (assembler payload empty OR source is a module) AND some plan requirement matches the payload content with the stored count below its quota.",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_accept_payload_state"
+          ]
+        },
+        "requirement_found": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "plan.requirements.contains(b -> b.item == payload.content() &&",
+          "rule": "Whether the plan has any requirement for the payload content item (UnitAssembler.java:725); false means no quota (0) and a reject.",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_accept_payload_state"
+          ]
+        },
+        "quota": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "blocks.get(payload.content()) < Mathf.round(b.amount * state.rules.unitCost(team)) -",
+          "rule": "The first matching requirement quota (UnitAssembler.java:726-727): round(amount * unit_cost) minus the module-source adjustment (roundi, half-up on this non-negative domain: 2.5 -> 3); 0 when no requirement matches.",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_accept_payload_state"
+          ]
+        },
+        "stored_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "blocks.get(payload.content())",
+          "rule": "The stored count of the content item in the assembler blocks map (UnitAssembler.java:726; PayloadSeq.get returns 0 for a missing key, ObjectIntMap.java:285-286) -- an unknown count is 0, which ACCEPTS when a requirement exists.",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_accept_payload_state"
+          ]
+        },
+        "module_adjustment": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "(source instanceof UnitAssemblerModuleBuild && (this.payload != null && this.payload.contentEquals(payload)) ? 1 : 0));",
+          "rule": "The module-source adjustment (UnitAssembler.java:727): 1 when the source is a module AND the assembler already holds an equal payload (the -1 accounts for the in-flight payload), else 0.",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_accept_payload_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07UnitAssemblerModuleAcceptPayloadProof",
+      "rule": "Source-backed UnitAssemblerModule acceptPayload rows from UnitAssemblerModule.java / UnitAssembler.java / PayloadBlock.java / PayloadSeq.java / PayloadStack.java / Rules.java."
+    },
+    "source_wall_crafter_get_efficiency_state_input": {
+      "status": "active",
+      "owner": "SourceWallCrafterBuildState.source_wall_crafter_get_efficiency_state",
+      "source_slice": "N2301",
+      "keys": {
+        "edge_tiles": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "Tile other = world.tile(rx, ry);",
+          "rule": "The facing-edge tiles in edge order (i = 0..size-1), as frame inputs (default [] -- no tiles, the Java no-adjacent-solid-tiles outcome): each entry is a Dict {solid, attribute_value} carrying the `other != null && other.solid()` answer (WallCrafter.java:172) and the block attribute value for the block attribute (WallCrafter.java:173); a null or missing tile contributes 0. The live tile scan waits for its own slice.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_get_efficiency_state"
+          ]
+        },
+        "rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "switch(rotation){",
+          "rule": "The placement rotation 0-3 (WallCrafter.java:148-166, the switch picks the facing edge from cornerX / cornerY): the caller supplies the facing edge, so rotation selects nothing here yet -- it is carried through for the proof + future live-world wiring. Read live from the sprite rotation meta.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_get_efficiency_state"
+          ]
+        },
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "for(int i = 0; i < size; i++){",
+          "rule": "The block size (WallCrafter.java:145, the loop bound -- Java reads exactly `size` edge tiles): 2 for the cliff-crusher, 3 for the large-cliff-crusher (Blocks.java:3007/:3021), read from the catalog per def; the Block class default is 1 (Block.java:215).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_get_efficiency_state"
+          ]
+        },
+        "attribute": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "public Attribute attribute = Attribute.sand;",
+          "rule": "The attribute the scan sums (WallCrafter.java:41, the class default, set explicitly by both defs, Blocks.java:3008/:3022): sand. The caller pre-selects the per-tile attribute_value for this attribute, so the pure carries it as the lookup key for traceability.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_get_efficiency_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WallCrafterGetEfficiencyProof",
+      "rule": "Source-backed WallCrafter getEfficiency live fill rows from WallCrafter.java / Block.java / Blocks.java."
+    },
+    "source_wall_crafter_get_efficiency_state_result": {
+      "status": "active",
+      "owner": "SourceWallCrafterBuildState.source_wall_crafter_get_efficiency_state",
+      "source_slice": "N2301",
+      "keys": {
+        "efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "eff += at;",
+          "rule": "The summed efficiency (WallCrafter.java:141-180): the block attribute values of the solid edge tiles, summed; 0 when no edge tile is solid. Stamped onto frame[\"efficiency_factor\"] each enabled tick before the N2223 advance reads it.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_get_efficiency_state"
+          ]
+        },
+        "edge_efficiencies": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "float at = other.block().attributes.get(attribute);",
+          "rule": "The per-edge-tile contributions in edge order (WallCrafter.java:173-174): one float per tile (0.0 for a non-solid, null or missing tile), so a later slice can drive the updateEffect chance (WallCrafter.java:196-205) from them.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_get_efficiency_state"
+          ]
+        },
+        "can_place_on": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "return getEfficiency(tile.x, tile.y, rotation, null, null) > 0;",
+          "rule": "The placement gate (WallCrafter.java:137-139, canPlaceOn returns efficiency > 0): true when the summed efficiency is positive, false otherwise. A bonus key here, not a separate pure.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_get_efficiency_state"
+          ]
+        },
+        "solid_tile_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "if(other != null && other.solid()){",
+          "rule": "The count of solid non-null edge tiles (WallCrafter.java:172): only tiles passing the `other != null && other.solid()` gate contribute to the efficiency sum.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_get_efficiency_state"
+          ]
+        },
+        "rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "float getEfficiency(int tx, int ty, int rotation, @Nullable Cons<Tile> ctile, @Nullable Intc2 cpos){",
+          "rule": "The rotation carried through (WallCrafter.java:141, the signature carries rotation): echoes the input rotation for the proof + future live-world wiring, where it will select the facing edge.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_get_efficiency_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WallCrafterGetEfficiencyProof",
+      "rule": "Source-backed WallCrafter getEfficiency live fill rows from WallCrafter.java / Block.java / Blocks.java."
     }
   },
   "version": 1

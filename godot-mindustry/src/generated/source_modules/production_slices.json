@@ -1519,6 +1519,27 @@
       ],
       "runtime_proof": "/root/C07SolidPumpFractionFillProof"
     },
+    "N2301": {
+      "canonical_ledger": "source_slice_ledger.N2301",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+      "java_method": "WallCrafter.getEfficiency()",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_get_efficiency_state",
+      "source_symbols": [
+        "source_wall_crafter_get_efficiency_state_result.efficiency",
+        "source_wall_crafter_get_efficiency_state_result.edge_efficiencies",
+        "source_wall_crafter_get_efficiency_state_result.can_place_on",
+        "source_wall_crafter_get_efficiency_state_result.solid_tile_count",
+        "source_wall_crafter_get_efficiency_state_result.rotation"
+      ],
+      "tests": [
+        "test_c07_wall_crafter_get_efficiency_registration",
+        "test_all_c07_wall_crafter_get_efficiency_input_evidence_is_exact",
+        "test_wall_crafter_get_efficiency_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_get_efficiency"
+      ],
+      "runtime_proof": "/root/C07WallCrafterGetEfficiencyProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",

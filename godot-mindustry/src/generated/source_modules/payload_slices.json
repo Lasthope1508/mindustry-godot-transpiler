@@ -2104,6 +2104,90 @@
         "test_reference_graph_and_actual_c07_payload_unloader_dump"
       ],
       "runtime_proof": "/root/C07PayloadUnloaderDumpProof"
+    },
+    "N2295": {
+      "canonical_ledger": "source_slice_ledger.N2295",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+      "java_method": "PayloadLoaderBuild.acceptPayload()",
+      "godot_owner": "SourcePayloadLoaderBuildState.source_payload_loader_accept_payload_state",
+      "source_symbols": [
+        "source_payload_loader_accept_payload_state_result.accepts",
+        "source_payload_loader_accept_payload_state_result.fits",
+        "source_payload_loader_accept_payload_state_result.is_item_container",
+        "source_payload_loader_accept_payload_state_result.is_liquid_container",
+        "source_payload_loader_accept_payload_state_result.is_battery"
+      ],
+      "tests": [
+        "test_c07_payload_loader_accept_payload_registration",
+        "test_all_c07_payload_loader_accept_payload_input_evidence_is_exact",
+        "test_payload_loader_accept_payload_state",
+        "test_reference_graph_and_actual_c07_payload_loader_accept_payload"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderAcceptPayloadProof"
+    },
+    "N2296": {
+      "canonical_ledger": "source_slice_ledger.N2296",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+      "java_method": "PayloadLoaderBuild.acceptPayload()",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_accept_payload_state",
+      "source_symbols": [
+        "source_payload_unloader_accept_payload_state_result.accept_payload",
+        "source_payload_unloader_accept_payload_state_result.accept_item",
+        "source_payload_unloader_accept_payload_state_result.accept_liquid"
+      ],
+      "tests": [
+        "test_c07_payload_unloader_accept_payload_registration",
+        "test_all_c07_payload_unloader_accept_payload_input_evidence_is_exact",
+        "test_payload_unloader_accept_payload_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_accept_payload"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderAcceptPayloadProof"
+    },
+    "N2297": {
+      "canonical_ledger": "source_slice_ledger.N2297",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "java_method": "PayloadDeconstructorBuild.acceptPayload()",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_accept_payload_state",
+      "source_symbols": [
+        "source_payload_deconstructor_accept_payload_state_result.accepts",
+        "source_payload_deconstructor_accept_payload_state_result.deconstructing_empty",
+        "source_payload_deconstructor_accept_payload_state_result.payload_empty",
+        "source_payload_deconstructor_accept_payload_state_result.has_requirements",
+        "source_payload_deconstructor_accept_payload_state_result.fits",
+        "source_payload_deconstructor_accept_unit_payload_state_result.accepts",
+        "source_payload_deconstructor_accept_unit_payload_state_result.allowed",
+        "source_payload_deconstructor_accept_unit_payload_state_result.has_requirements",
+        "source_payload_deconstructor_accept_unit_payload_state_result.fits"
+      ],
+      "tests": [
+        "test_c07_payload_deconstructor_accept_payload_registration",
+        "test_all_c07_payload_deconstructor_accept_payload_input_evidence_is_exact",
+        "test_payload_deconstructor_accept_payload_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_accept_payload"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorAcceptPayloadProof"
+    },
+    "N2298": {
+      "canonical_ledger": "source_slice_ledger.N2298",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.acceptPayload()",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_accept_payload_state",
+      "source_symbols": [
+        "source_payload_mass_driver_accept_payload_state_result.accepts",
+        "source_payload_mass_driver_accept_payload_state_result.size_fits",
+        "source_payload_mass_driver_accept_payload_state_result.threshold"
+      ],
+      "tests": [
+        "test_c07_payload_mass_driver_accept_payload_registration",
+        "test_all_c07_payload_mass_driver_accept_payload_input_evidence_is_exact",
+        "test_payload_mass_driver_accept_payload_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_accept_payload"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverAcceptPayloadProof"
     }
   }
 }

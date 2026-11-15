@@ -181096,6 +181096,550 @@
         "test_reference_graph_and_actual_c07_mass_driver_dump"
       ],
       "runtime_proof": "/root/C07MassDriverDumpProof"
+    },
+    "source_payload_loader_accept_payload_state_result.accepts": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadLoaderBuildState.source_payload_loader_accept_payload_state",
+      "godot_symbol": "source_payload_loader_accept_payload_state_result.accepts",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+      "java_method": "PayloadLoaderBuild.acceptPayload()",
+      "java_expr": "return super.acceptPayload(source, payload) &&",
+      "rule": "The acceptPayload verdict (PayloadLoader.java:91-101): the base gate (payload == null) AND payload.fits(maxBlockSize) AND the BuildPayload instanceof AND one of the item-container / liquid-container / battery branches. The driver stamps it on frame[\"accepts_payload\"] every tick.",
+      "tests": [
+        "test_c07_payload_loader_accept_payload_registration",
+        "test_all_c07_payload_loader_accept_payload_input_evidence_is_exact",
+        "test_payload_loader_accept_payload_state",
+        "test_reference_graph_and_actual_c07_payload_loader_accept_payload"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderAcceptPayloadProof"
+    },
+    "source_payload_loader_accept_payload_state_result.fits": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadLoaderBuildState.source_payload_loader_accept_payload_state",
+      "godot_symbol": "source_payload_loader_accept_payload_state_result.fits",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+      "java_method": "PayloadLoaderBuild.acceptPayload()",
+      "java_expr": "payload.fits(maxBlockSize) &&",
+      "rule": "Whether the payload fits (PayloadLoader.java:92): fits is size() / tilesize <= s (Payload.java:50-52) with a BuildPayload size of block.size * tilesize (BuildPayload.java:86-88), so for a BuildPayload fits is block.size <= maxBlockSize (3, PayloadLoader.java:25). For a non-build payload the value reads the descriptor block_size and is inert -- the verdict rejects through the instanceof gate.",
+      "tests": [
+        "test_c07_payload_loader_accept_payload_registration",
+        "test_all_c07_payload_loader_accept_payload_input_evidence_is_exact",
+        "test_payload_loader_accept_payload_state",
+        "test_reference_graph_and_actual_c07_payload_loader_accept_payload"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderAcceptPayloadProof"
+    },
+    "source_payload_loader_accept_payload_state_result.is_item_container": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadLoaderBuildState.source_payload_loader_accept_payload_state",
+      "godot_symbol": "source_payload_loader_accept_payload_state_result.is_item_container",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+      "java_method": "PayloadLoaderBuild.acceptPayload()",
+      "java_expr": "(build.build.block.hasItems && build.block().unloadable && build.block().itemCapacity >= 10 && build.block().size <= maxBlockSize) ||",
+      "rule": "The item-container branch verdict (PayloadLoader.java:95): hasItems && unloadable (Block.java:106, default true) && itemCapacity >= 10 (Block.java:75, default 10) && size <= maxBlockSize; the branch repeats the size check even though fits already covers it, and the verdict keeps it. Gated on the BuildPayload instanceof like Java.",
+      "tests": [
+        "test_c07_payload_loader_accept_payload_registration",
+        "test_all_c07_payload_loader_accept_payload_input_evidence_is_exact",
+        "test_payload_loader_accept_payload_state",
+        "test_reference_graph_and_actual_c07_payload_loader_accept_payload"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderAcceptPayloadProof"
+    },
+    "source_payload_loader_accept_payload_state_result.is_liquid_container": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadLoaderBuildState.source_payload_loader_accept_payload_state",
+      "godot_symbol": "source_payload_loader_accept_payload_state_result.is_liquid_container",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+      "java_method": "PayloadLoaderBuild.acceptPayload()",
+      "java_expr": "(build.build.block.hasLiquids && build.block().liquidCapacity >= 10f) ||",
+      "rule": "The liquid-container branch verdict (PayloadLoader.java:97): hasLiquids && liquidCapacity >= 10f (Block.java:77, default -1f); the threshold is inclusive, so exactly 10.0 accepts. Gated on the BuildPayload instanceof like Java.",
+      "tests": [
+        "test_c07_payload_loader_accept_payload_registration",
+        "test_all_c07_payload_loader_accept_payload_input_evidence_is_exact",
+        "test_payload_loader_accept_payload_state",
+        "test_reference_graph_and_actual_c07_payload_loader_accept_payload"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderAcceptPayloadProof"
+    },
+    "source_payload_loader_accept_payload_state_result.is_battery": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadLoaderBuildState.source_payload_loader_accept_payload_state",
+      "godot_symbol": "source_payload_loader_accept_payload_state_result.is_battery",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+      "java_method": "PayloadLoaderBuild.acceptPayload()",
+      "java_expr": "(build.build.block.consPower != null && build.build.block.consPower.buffered)",
+      "rule": "The battery branch verdict (PayloadLoader.java:99): consPower != null (Block.java:414) && buffered (ConsumePower.java:14) -- the same hasBattery() shape the N2270 dynamic value and the N2231 advance read (PayloadLoader.java:235-237). Gated on the BuildPayload instanceof like Java.",
+      "tests": [
+        "test_c07_payload_loader_accept_payload_registration",
+        "test_all_c07_payload_loader_accept_payload_input_evidence_is_exact",
+        "test_payload_loader_accept_payload_state",
+        "test_reference_graph_and_actual_c07_payload_loader_accept_payload"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderAcceptPayloadProof"
+    },
+    "source_payload_unloader_accept_payload_state_result.accept_payload": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_accept_payload_state",
+      "godot_symbol": "source_payload_unloader_accept_payload_state_result.accept_payload",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+      "java_method": "PayloadLoaderBuild.acceptPayload()",
+      "java_expr": "return super.acceptPayload(source, payload) &&",
+      "rule": "The acceptPayload verdict (PayloadLoader.java:90-101, inherited by PayloadUnloaderBuild): the base null gate AND fits(maxBlockSize) AND instanceof BuildPayload AND (item container || liquid container || battery); false when a payload is already held, when nothing is offered, or when the offered payload is not a fitting BuildPayload container.",
+      "tests": [
+        "test_c07_payload_unloader_accept_payload_registration",
+        "test_all_c07_payload_unloader_accept_payload_input_evidence_is_exact",
+        "test_payload_unloader_accept_payload_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_accept_payload"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderAcceptPayloadProof"
+    },
+    "source_payload_unloader_accept_payload_state_result.accept_item": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_accept_payload_state",
+      "godot_symbol": "source_payload_unloader_accept_payload_state_result.accept_item",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+      "java_method": "PayloadLoaderBuild.acceptPayload()",
+      "java_expr": "return false;",
+      "rule": "Always false: PayloadUnloaderBuild overrides acceptItem to return false (PayloadUnloader.java:35-38) -- the Unloader never takes loose items, so its dump rows (N2293) move items OUT only.",
+      "tests": [
+        "test_c07_payload_unloader_accept_payload_registration",
+        "test_all_c07_payload_unloader_accept_payload_input_evidence_is_exact",
+        "test_payload_unloader_accept_payload_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_accept_payload"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderAcceptPayloadProof"
+    },
+    "source_payload_unloader_accept_payload_state_result.accept_liquid": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_accept_payload_state",
+      "godot_symbol": "source_payload_unloader_accept_payload_state_result.accept_liquid",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+      "java_method": "PayloadLoaderBuild.acceptPayload()",
+      "java_expr": "return false;",
+      "rule": "Always false: PayloadUnloaderBuild overrides acceptLiquid to return false (PayloadUnloader.java:40-43) -- the Unloader never takes loose liquids, so its dump rows (N2293) move liquids OUT only.",
+      "tests": [
+        "test_c07_payload_unloader_accept_payload_registration",
+        "test_all_c07_payload_unloader_accept_payload_input_evidence_is_exact",
+        "test_payload_unloader_accept_payload_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_accept_payload"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderAcceptPayloadProof"
+    },
+    "source_payload_deconstructor_accept_payload_state_result.accepts": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_accept_payload_state",
+      "godot_symbol": "source_payload_deconstructor_accept_payload_state_result.accepts",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "java_method": "PayloadDeconstructorBuild.acceptPayload()",
+      "java_expr": "return deconstructing == null && this.payload == null && super.acceptPayload(source, payload) && payload.requirements().length > 0 && payload.fits(maxPayloadSize);",
+      "rule": "Whether the deconstructor accepts the offered payload (PayloadDeconstructor.java:105): deconstructing == null && this.payload == null && super.acceptPayload (the redundant base gate, PayloadBlock.java:117, the same payload == null term again) && requirements.length > 0 && fits(maxPayloadSize).",
+      "tests": [
+        "test_c07_payload_deconstructor_accept_payload_registration",
+        "test_all_c07_payload_deconstructor_accept_payload_input_evidence_is_exact",
+        "test_payload_deconstructor_accept_payload_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_accept_payload"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorAcceptPayloadProof"
+    },
+    "source_payload_deconstructor_accept_payload_state_result.deconstructing_empty": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_accept_payload_state",
+      "godot_symbol": "source_payload_deconstructor_accept_payload_state_result.deconstructing_empty",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "java_method": "PayloadDeconstructorBuild.acceptPayload()",
+      "java_expr": "return deconstructing == null && this.payload == null && super.acceptPayload(source, payload) && payload.requirements().length > 0 && payload.fits(maxPayloadSize);",
+      "rule": "Whether no payload is being deconstructed (PayloadDeconstructor.java:105, the deconstructing == null term; the field is public @Nullable Payload deconstructing, PayloadDeconstructor.java:52).",
+      "tests": [
+        "test_c07_payload_deconstructor_accept_payload_registration",
+        "test_all_c07_payload_deconstructor_accept_payload_input_evidence_is_exact",
+        "test_payload_deconstructor_accept_payload_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_accept_payload"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorAcceptPayloadProof"
+    },
+    "source_payload_deconstructor_accept_payload_state_result.payload_empty": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_accept_payload_state",
+      "godot_symbol": "source_payload_deconstructor_accept_payload_state_result.payload_empty",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_method": "PayloadDeconstructorBuild.acceptPayload()",
+      "java_expr": "return this.payload == null;",
+      "rule": "Whether no payload is held (PayloadBlock.java:117, the super.acceptPayload base gate -- and the identical this.payload == null term in the Deconstructor gate, PayloadDeconstructor.java:105; the field is public @Nullable T payload, PayloadBlock.java:92).",
+      "tests": [
+        "test_c07_payload_deconstructor_accept_payload_registration",
+        "test_all_c07_payload_deconstructor_accept_payload_input_evidence_is_exact",
+        "test_payload_deconstructor_accept_payload_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_accept_payload"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorAcceptPayloadProof"
+    },
+    "source_payload_deconstructor_accept_payload_state_result.has_requirements": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_accept_payload_state",
+      "godot_symbol": "source_payload_deconstructor_accept_payload_state_result.has_requirements",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "java_method": "PayloadDeconstructorBuild.acceptPayload()",
+      "java_expr": "return deconstructing == null && this.payload == null && super.acceptPayload(source, payload) && payload.requirements().length > 0 && payload.fits(maxPayloadSize);",
+      "rule": "Whether the offered payload carries deconstructable requirements (PayloadDeconstructor.java:105, the requirements().length > 0 term: a BuildPayload carries its block requirements, BuildPayload.java:66-68; a UnitPayload its unit type total requirements, UnitPayload.java:61-63).",
+      "tests": [
+        "test_c07_payload_deconstructor_accept_payload_registration",
+        "test_all_c07_payload_deconstructor_accept_payload_input_evidence_is_exact",
+        "test_payload_deconstructor_accept_payload_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_accept_payload"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorAcceptPayloadProof"
+    },
+    "source_payload_deconstructor_accept_payload_state_result.fits": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_accept_payload_state",
+      "godot_symbol": "source_payload_deconstructor_accept_payload_state_result.fits",
+      "java_source": "core/src/mindustry/world/blocks/payloads/Payload.java",
+      "java_method": "PayloadDeconstructorBuild.acceptPayload()",
+      "java_expr": "return size() / tilesize <= s;",
+      "rule": "Whether the offered payload fits maxPayloadSize (Payload.java:51, the fits default: size() / tilesize <= s, with s = maxPayloadSize 4, PayloadDeconstructor.java:18): a BuildPayload is block.size tiles (BuildPayload.java:86-88), so it fits when block.size <= 4; a unit payload supplies ceil(hitSize / tilesize) as its block_size.",
+      "tests": [
+        "test_c07_payload_deconstructor_accept_payload_registration",
+        "test_all_c07_payload_deconstructor_accept_payload_input_evidence_is_exact",
+        "test_payload_deconstructor_accept_payload_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_accept_payload"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorAcceptPayloadProof"
+    },
+    "source_payload_deconstructor_accept_unit_payload_state_result.accepts": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_accept_unit_payload_state",
+      "godot_symbol": "source_payload_deconstructor_accept_unit_payload_state_result.accepts",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "java_method": "PayloadDeconstructorBuild.acceptUnitPayload()",
+      "java_expr": "return payload == null && deconstructing == null && unit.type.allowedInPayloads && !unit.spawnedByCore",
+      "rule": "Whether the deconstructor accepts the offered unit (PayloadDeconstructor.java:93-94): payload == null && deconstructing == null && unit.type.allowedInPayloads && !unit.spawnedByCore && unit.type.getTotalRequirements().length > 0 && unit.hitSize / tilesize <= maxPayloadSize. The gate is what canControlSelect consults before a player drops a unit on the block (PayloadBlock.java:103-105).",
+      "tests": [
+        "test_c07_payload_deconstructor_accept_payload_registration",
+        "test_all_c07_payload_deconstructor_accept_payload_input_evidence_is_exact",
+        "test_payload_deconstructor_accept_payload_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_accept_payload"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorAcceptPayloadProof"
+    },
+    "source_payload_deconstructor_accept_unit_payload_state_result.allowed": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_accept_unit_payload_state",
+      "godot_symbol": "source_payload_deconstructor_accept_unit_payload_state_result.allowed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "java_method": "PayloadDeconstructorBuild.acceptUnitPayload()",
+      "java_expr": "return payload == null && deconstructing == null && unit.type.allowedInPayloads && !unit.spawnedByCore",
+      "rule": "Whether the unit type allows payloads and the unit is not core-spawned (PayloadDeconstructor.java:93, the allowedInPayloads && !spawnedByCore terms: allowedInPayloads defaults true, UnitType.java:189, \"if false, this unit cannot be moved into payloads\"; spawnedByCore is the unit flag, UnitComp.java:52).",
+      "tests": [
+        "test_c07_payload_deconstructor_accept_payload_registration",
+        "test_all_c07_payload_deconstructor_accept_payload_input_evidence_is_exact",
+        "test_payload_deconstructor_accept_payload_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_accept_payload"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorAcceptPayloadProof"
+    },
+    "source_payload_deconstructor_accept_unit_payload_state_result.has_requirements": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_accept_unit_payload_state",
+      "godot_symbol": "source_payload_deconstructor_accept_unit_payload_state_result.has_requirements",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "java_method": "PayloadDeconstructorBuild.acceptUnitPayload()",
+      "java_expr": "&& unit.type.getTotalRequirements().length > 0 && unit.hitSize / tilesize <= maxPayloadSize;",
+      "rule": "Whether the offered unit carries deconstructable requirements (PayloadDeconstructor.java:94, the getTotalRequirements().length > 0 term: all items needed to build the unit including reconstructor steps, UnitType.java:1323).",
+      "tests": [
+        "test_c07_payload_deconstructor_accept_payload_registration",
+        "test_all_c07_payload_deconstructor_accept_payload_input_evidence_is_exact",
+        "test_payload_deconstructor_accept_payload_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_accept_payload"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorAcceptPayloadProof"
+    },
+    "source_payload_deconstructor_accept_unit_payload_state_result.fits": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_accept_unit_payload_state",
+      "godot_symbol": "source_payload_deconstructor_accept_unit_payload_state_result.fits",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "java_method": "PayloadDeconstructorBuild.acceptUnitPayload()",
+      "java_expr": "unit.hitSize / tilesize <= maxPayloadSize",
+      "rule": "Whether the offered unit fits maxPayloadSize (PayloadDeconstructor.java:94, the hitSize / tilesize <= maxPayloadSize term -- the UnitPayload fits check inlined, since a UnitPayload is hitSize pixels, UnitPayload.java:99-101): hitSize / 8 <= 4, i.e. hitSize <= 32 (tilesize 8, Vars.java:135).",
+      "tests": [
+        "test_c07_payload_deconstructor_accept_payload_registration",
+        "test_all_c07_payload_deconstructor_accept_payload_input_evidence_is_exact",
+        "test_payload_deconstructor_accept_payload_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_accept_payload"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorAcceptPayloadProof"
+    },
+    "source_payload_mass_driver_accept_payload_state_result.accepts": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_accept_payload_state",
+      "godot_symbol": "source_payload_mass_driver_accept_payload_state_result.accepts",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.acceptPayload()",
+      "java_expr": "return super.acceptPayload(source, payload) && payload.size() <= maxPayloadSize * tilesize;",
+      "rule": "The acceptPayload verdict (PayloadMassDriver.java:463): the base gate (no payload held) AND the size gate (payload.size() <= maxPayloadSize * tilesize).",
+      "tests": [
+        "test_c07_payload_mass_driver_accept_payload_registration",
+        "test_all_c07_payload_mass_driver_accept_payload_input_evidence_is_exact",
+        "test_payload_mass_driver_accept_payload_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_accept_payload"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverAcceptPayloadProof"
+    },
+    "source_payload_mass_driver_accept_payload_state_result.size_fits": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_accept_payload_state",
+      "godot_symbol": "source_payload_mass_driver_accept_payload_state_result.size_fits",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.acceptPayload()",
+      "java_expr": "payload.size() <= maxPayloadSize * tilesize",
+      "rule": "The size comparison alone (PayloadMassDriver.java:463): true when the offered size is at or under the threshold (the comparison is <=, so the boundary size 24 fits).",
+      "tests": [
+        "test_c07_payload_mass_driver_accept_payload_registration",
+        "test_all_c07_payload_mass_driver_accept_payload_input_evidence_is_exact",
+        "test_payload_mass_driver_accept_payload_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_accept_payload"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverAcceptPayloadProof"
+    },
+    "source_payload_mass_driver_accept_payload_state_result.threshold": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_accept_payload_state",
+      "godot_symbol": "source_payload_mass_driver_accept_payload_state_result.threshold",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.acceptPayload()",
+      "java_expr": "public float maxPayloadSize = 3;",
+      "rule": "The acceptance threshold in world units (PayloadMassDriver.java:30, maxPayloadSize 3, times tilesize 8, Vars.java:135): 3 * 8 = 24. The class default; the per-def overrides (2.5f / 4f, Blocks.java:6624/6636) wait for their own slice.",
+      "tests": [
+        "test_c07_payload_mass_driver_accept_payload_registration",
+        "test_all_c07_payload_mass_driver_accept_payload_input_evidence_is_exact",
+        "test_payload_mass_driver_accept_payload_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_accept_payload"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverAcceptPayloadProof"
+    },
+    "source_unit_assembler_module_accept_payload_state_result.accepts": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_accept_payload_state",
+      "godot_symbol": "source_unit_assembler_module_accept_payload_state_result.accepts",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+      "java_method": "UnitAssemblerModuleBuild.acceptPayload()",
+      "java_expr": "return link != null && this.payload == null && link.acceptPayload(this, payload);",
+      "rule": "The module gate verdict (UnitAssemblerModule.java:111): link present && own payload empty && link accepts; false when unlinked, when the module already holds a payload, or when the link rejects.",
+      "tests": [
+        "test_c07_unit_assembler_module_accept_payload_registration",
+        "test_all_c07_unit_assembler_module_accept_payload_input_evidence_is_exact",
+        "test_unit_assembler_module_accept_payload_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_accept_payload"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleAcceptPayloadProof"
+    },
+    "source_unit_assembler_module_accept_payload_state_result.has_link": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_accept_payload_state",
+      "godot_symbol": "source_unit_assembler_module_accept_payload_state_result.has_link",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+      "java_method": "UnitAssemblerModuleBuild.acceptPayload()",
+      "java_expr": "link != null && this.payload == null && link.acceptPayload(this, payload);",
+      "rule": "The link term of the gate (UnitAssemblerModule.java:111), echoed with the verdict so the proof pins each term.",
+      "tests": [
+        "test_c07_unit_assembler_module_accept_payload_registration",
+        "test_all_c07_unit_assembler_module_accept_payload_input_evidence_is_exact",
+        "test_unit_assembler_module_accept_payload_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_accept_payload"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleAcceptPayloadProof"
+    },
+    "source_unit_assembler_module_accept_payload_state_result.has_payload": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_accept_payload_state",
+      "godot_symbol": "source_unit_assembler_module_accept_payload_state_result.has_payload",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+      "java_method": "UnitAssemblerModuleBuild.acceptPayload()",
+      "java_expr": "this.payload == null",
+      "rule": "The held-payload term of the gate (UnitAssemblerModule.java:111), echoed with the verdict: true means the module holds a payload, i.e. the Java null check fails and the gate rejects.",
+      "tests": [
+        "test_c07_unit_assembler_module_accept_payload_registration",
+        "test_all_c07_unit_assembler_module_accept_payload_input_evidence_is_exact",
+        "test_unit_assembler_module_accept_payload_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_accept_payload"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleAcceptPayloadProof"
+    },
+    "source_unit_assembler_module_accept_payload_state_result.link_accepts": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_accept_payload_state",
+      "godot_symbol": "source_unit_assembler_module_accept_payload_state_result.link_accepts",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+      "java_method": "UnitAssemblerModuleBuild.acceptPayload()",
+      "java_expr": "link.acceptPayload(this, payload)",
+      "rule": "The link-verdict term of the gate (UnitAssemblerModule.java:111), echoed with the verdict so the proof pins each term.",
+      "tests": [
+        "test_c07_unit_assembler_module_accept_payload_registration",
+        "test_all_c07_unit_assembler_module_accept_payload_input_evidence_is_exact",
+        "test_unit_assembler_module_accept_payload_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_accept_payload"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleAcceptPayloadProof"
+    },
+    "source_unit_assembler_accept_payload_state_result.accepts": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_accept_payload_state",
+      "godot_symbol": "source_unit_assembler_accept_payload_state_result.accepts",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_method": "UnitAssemblerBuild.acceptPayload()",
+      "java_expr": "return (this.payload == null || (source instanceof UnitAssemblerModuleBuild)) &&",
+      "rule": "The assembler gate verdict (UnitAssembler.java:724-727): (assembler payload empty OR source is a module) AND some plan requirement matches the payload content with the stored count below its quota.",
+      "tests": [
+        "test_c07_unit_assembler_module_accept_payload_registration",
+        "test_all_c07_unit_assembler_module_accept_payload_input_evidence_is_exact",
+        "test_unit_assembler_module_accept_payload_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_accept_payload"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleAcceptPayloadProof"
+    },
+    "source_unit_assembler_accept_payload_state_result.requirement_found": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_accept_payload_state",
+      "godot_symbol": "source_unit_assembler_accept_payload_state_result.requirement_found",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_method": "UnitAssemblerBuild.acceptPayload()",
+      "java_expr": "plan.requirements.contains(b -> b.item == payload.content() &&",
+      "rule": "Whether the plan has any requirement for the payload content item (UnitAssembler.java:725); false means no quota (0) and a reject.",
+      "tests": [
+        "test_c07_unit_assembler_module_accept_payload_registration",
+        "test_all_c07_unit_assembler_module_accept_payload_input_evidence_is_exact",
+        "test_unit_assembler_module_accept_payload_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_accept_payload"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleAcceptPayloadProof"
+    },
+    "source_unit_assembler_accept_payload_state_result.quota": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_accept_payload_state",
+      "godot_symbol": "source_unit_assembler_accept_payload_state_result.quota",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_method": "UnitAssemblerBuild.acceptPayload()",
+      "java_expr": "blocks.get(payload.content()) < Mathf.round(b.amount * state.rules.unitCost(team)) -",
+      "rule": "The first matching requirement quota (UnitAssembler.java:726-727): round(amount * unit_cost) minus the module-source adjustment (roundi, half-up on this non-negative domain: 2.5 -> 3); 0 when no requirement matches.",
+      "tests": [
+        "test_c07_unit_assembler_module_accept_payload_registration",
+        "test_all_c07_unit_assembler_module_accept_payload_input_evidence_is_exact",
+        "test_unit_assembler_module_accept_payload_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_accept_payload"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleAcceptPayloadProof"
+    },
+    "source_unit_assembler_accept_payload_state_result.stored_count": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_accept_payload_state",
+      "godot_symbol": "source_unit_assembler_accept_payload_state_result.stored_count",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_method": "UnitAssemblerBuild.acceptPayload()",
+      "java_expr": "blocks.get(payload.content())",
+      "rule": "The stored count of the content item in the assembler blocks map (UnitAssembler.java:726; PayloadSeq.get returns 0 for a missing key, ObjectIntMap.java:285-286) -- an unknown count is 0, which ACCEPTS when a requirement exists.",
+      "tests": [
+        "test_c07_unit_assembler_module_accept_payload_registration",
+        "test_all_c07_unit_assembler_module_accept_payload_input_evidence_is_exact",
+        "test_unit_assembler_module_accept_payload_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_accept_payload"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleAcceptPayloadProof"
+    },
+    "source_unit_assembler_accept_payload_state_result.module_adjustment": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_accept_payload_state",
+      "godot_symbol": "source_unit_assembler_accept_payload_state_result.module_adjustment",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_method": "UnitAssemblerBuild.acceptPayload()",
+      "java_expr": "(source instanceof UnitAssemblerModuleBuild && (this.payload != null && this.payload.contentEquals(payload)) ? 1 : 0));",
+      "rule": "The module-source adjustment (UnitAssembler.java:727): 1 when the source is a module AND the assembler already holds an equal payload (the -1 accounts for the in-flight payload), else 0.",
+      "tests": [
+        "test_c07_unit_assembler_module_accept_payload_registration",
+        "test_all_c07_unit_assembler_module_accept_payload_input_evidence_is_exact",
+        "test_unit_assembler_module_accept_payload_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_accept_payload"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleAcceptPayloadProof"
+    },
+    "source_wall_crafter_get_efficiency_state_result.efficiency": {
+      "status": "source-backed",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_get_efficiency_state",
+      "godot_symbol": "source_wall_crafter_get_efficiency_state_result.efficiency",
+      "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+      "java_method": "WallCrafter.getEfficiency()",
+      "java_expr": "eff += at;",
+      "rule": "The summed efficiency (WallCrafter.java:141-180): the block attribute values of the solid edge tiles, summed; 0 when no edge tile is solid. Stamped onto frame[\"efficiency_factor\"] each enabled tick before the N2223 advance reads it.",
+      "tests": [
+        "test_c07_wall_crafter_get_efficiency_registration",
+        "test_all_c07_wall_crafter_get_efficiency_input_evidence_is_exact",
+        "test_wall_crafter_get_efficiency_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_get_efficiency"
+      ],
+      "runtime_proof": "/root/C07WallCrafterGetEfficiencyProof"
+    },
+    "source_wall_crafter_get_efficiency_state_result.edge_efficiencies": {
+      "status": "source-backed",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_get_efficiency_state",
+      "godot_symbol": "source_wall_crafter_get_efficiency_state_result.edge_efficiencies",
+      "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+      "java_method": "WallCrafter.getEfficiency()",
+      "java_expr": "float at = other.block().attributes.get(attribute);",
+      "rule": "The per-edge-tile contributions in edge order (WallCrafter.java:173-174): one float per tile (0.0 for a non-solid, null or missing tile), so a later slice can drive the updateEffect chance (WallCrafter.java:196-205) from them.",
+      "tests": [
+        "test_c07_wall_crafter_get_efficiency_registration",
+        "test_all_c07_wall_crafter_get_efficiency_input_evidence_is_exact",
+        "test_wall_crafter_get_efficiency_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_get_efficiency"
+      ],
+      "runtime_proof": "/root/C07WallCrafterGetEfficiencyProof"
+    },
+    "source_wall_crafter_get_efficiency_state_result.can_place_on": {
+      "status": "source-backed",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_get_efficiency_state",
+      "godot_symbol": "source_wall_crafter_get_efficiency_state_result.can_place_on",
+      "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+      "java_method": "WallCrafter.getEfficiency()",
+      "java_expr": "return getEfficiency(tile.x, tile.y, rotation, null, null) > 0;",
+      "rule": "The placement gate (WallCrafter.java:137-139, canPlaceOn returns efficiency > 0): true when the summed efficiency is positive, false otherwise. A bonus key here, not a separate pure.",
+      "tests": [
+        "test_c07_wall_crafter_get_efficiency_registration",
+        "test_all_c07_wall_crafter_get_efficiency_input_evidence_is_exact",
+        "test_wall_crafter_get_efficiency_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_get_efficiency"
+      ],
+      "runtime_proof": "/root/C07WallCrafterGetEfficiencyProof"
+    },
+    "source_wall_crafter_get_efficiency_state_result.solid_tile_count": {
+      "status": "source-backed",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_get_efficiency_state",
+      "godot_symbol": "source_wall_crafter_get_efficiency_state_result.solid_tile_count",
+      "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+      "java_method": "WallCrafter.getEfficiency()",
+      "java_expr": "if(other != null && other.solid()){",
+      "rule": "The count of solid non-null edge tiles (WallCrafter.java:172): only tiles passing the `other != null && other.solid()` gate contribute to the efficiency sum.",
+      "tests": [
+        "test_c07_wall_crafter_get_efficiency_registration",
+        "test_all_c07_wall_crafter_get_efficiency_input_evidence_is_exact",
+        "test_wall_crafter_get_efficiency_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_get_efficiency"
+      ],
+      "runtime_proof": "/root/C07WallCrafterGetEfficiencyProof"
+    },
+    "source_wall_crafter_get_efficiency_state_result.rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_get_efficiency_state",
+      "godot_symbol": "source_wall_crafter_get_efficiency_state_result.rotation",
+      "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+      "java_method": "WallCrafter.getEfficiency()",
+      "java_expr": "float getEfficiency(int tx, int ty, int rotation, @Nullable Cons<Tile> ctile, @Nullable Intc2 cpos){",
+      "rule": "The rotation carried through (WallCrafter.java:141, the signature carries rotation): echoes the input rotation for the proof + future live-world wiring, where it will select the facing edge.",
+      "tests": [
+        "test_c07_wall_crafter_get_efficiency_registration",
+        "test_all_c07_wall_crafter_get_efficiency_input_evidence_is_exact",
+        "test_wall_crafter_get_efficiency_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_get_efficiency"
+      ],
+      "runtime_proof": "/root/C07WallCrafterGetEfficiencyProof"
     }
   },
   "version": 1

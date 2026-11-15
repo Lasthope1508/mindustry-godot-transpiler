@@ -72062,6 +72062,312 @@
       ],
       "runtime_proof": "/root/C07MassDriverDumpProof",
       "rule": "Source-backed MassDriver dumpAccumulate dump rows from MassDriver.java / BuildingComp.java."
+    },
+    "SourcePayloadLoaderBuildState.source_payload_loader_accept_payload_state": {
+      "status": "active",
+      "source_slice": "N2295",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+      "source_method": "PayloadLoaderBuild.acceptPayload()",
+      "params": [
+        {
+          "name": "payload",
+          "type": "Dictionary",
+          "schema": "source_payload_loader_accept_payload_state_input.payload"
+        },
+        {
+          "name": "has_payload",
+          "type": "bool",
+          "schema": "source_payload_loader_accept_payload_state_input.has_payload"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "accepts",
+        "fits",
+        "is_item_container",
+        "is_liquid_container",
+        "is_battery"
+      ],
+      "tests": [
+        "test_c07_payload_loader_accept_payload_registration",
+        "test_all_c07_payload_loader_accept_payload_input_evidence_is_exact",
+        "test_payload_loader_accept_payload_state",
+        "test_reference_graph_and_actual_c07_payload_loader_accept_payload"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderAcceptPayloadProof",
+      "rule": "Source-backed PayloadLoader acceptPayload gate from PayloadLoader.java / PayloadBlock.java / Payload.java / BuildPayload.java / Block.java / ConsumePower.java / Blocks.java."
+    },
+    "SourcePayloadUnloaderBuildState.source_payload_unloader_accept_payload_state": {
+      "status": "active",
+      "source_slice": "N2296",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadLoader.java",
+      "source_method": "PayloadLoaderBuild.acceptPayload()",
+      "params": [
+        {
+          "name": "has_payload",
+          "type": "bool",
+          "schema": "source_payload_unloader_accept_payload_state_input.has_payload"
+        },
+        {
+          "name": "offered_payload",
+          "type": "Dictionary",
+          "schema": "source_payload_unloader_accept_payload_state_input.offered_payload"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "accept_payload",
+        "accept_item",
+        "accept_liquid"
+      ],
+      "tests": [
+        "test_c07_payload_unloader_accept_payload_registration",
+        "test_all_c07_payload_unloader_accept_payload_input_evidence_is_exact",
+        "test_payload_unloader_accept_payload_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_accept_payload"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderAcceptPayloadProof",
+      "rule": "Source-backed PayloadUnloader acceptPayload rows from PayloadLoader.java / PayloadBlock.java / Payload.java / BuildPayload.java / PayloadUnloader.java / Block.java / Vars.java."
+    },
+    "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_accept_payload_state": {
+      "status": "active",
+      "source_slice": "N2297",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "source_method": "PayloadDeconstructorBuild.acceptPayload()",
+      "params": [
+        {
+          "name": "payload",
+          "type": "Dictionary",
+          "schema": "source_payload_deconstructor_accept_payload_state_input.payload"
+        },
+        {
+          "name": "has_payload",
+          "type": "bool",
+          "schema": "source_payload_deconstructor_accept_payload_state_input.has_payload"
+        },
+        {
+          "name": "has_deconstructing",
+          "type": "bool",
+          "schema": "source_payload_deconstructor_accept_payload_state_input.has_deconstructing"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "accepts",
+        "deconstructing_empty",
+        "payload_empty",
+        "has_requirements",
+        "fits"
+      ],
+      "tests": [
+        "test_c07_payload_deconstructor_accept_payload_registration",
+        "test_all_c07_payload_deconstructor_accept_payload_input_evidence_is_exact",
+        "test_payload_deconstructor_accept_payload_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_accept_payload"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorAcceptPayloadProof",
+      "rule": "Source-backed PayloadDeconstructor acceptPayload / acceptUnitPayload gates from PayloadDeconstructor.java / PayloadBlock.java / Payload.java / BuildPayload.java / UnitPayload.java / UnitType.java / UnitComp.java / Vars.java."
+    },
+    "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_accept_unit_payload_state": {
+      "status": "active",
+      "source_slice": "N2297",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "source_method": "PayloadDeconstructorBuild.acceptUnitPayload()",
+      "params": [
+        {
+          "name": "unit",
+          "type": "Dictionary",
+          "schema": "source_payload_deconstructor_accept_unit_payload_state_input.unit"
+        },
+        {
+          "name": "has_payload",
+          "type": "bool",
+          "schema": "source_payload_deconstructor_accept_unit_payload_state_input.has_payload"
+        },
+        {
+          "name": "has_deconstructing",
+          "type": "bool",
+          "schema": "source_payload_deconstructor_accept_unit_payload_state_input.has_deconstructing"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "accepts",
+        "allowed",
+        "has_requirements",
+        "fits"
+      ],
+      "tests": [
+        "test_c07_payload_deconstructor_accept_payload_registration",
+        "test_all_c07_payload_deconstructor_accept_payload_input_evidence_is_exact",
+        "test_payload_deconstructor_accept_payload_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_accept_payload"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorAcceptPayloadProof",
+      "rule": "Source-backed PayloadDeconstructor acceptPayload / acceptUnitPayload gates from PayloadDeconstructor.java / PayloadBlock.java / Payload.java / BuildPayload.java / UnitPayload.java / UnitType.java / UnitComp.java / Vars.java."
+    },
+    "SourcePayloadMassDriverBuildState.source_payload_mass_driver_accept_payload_state": {
+      "status": "active",
+      "source_slice": "N2298",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "source_method": "PayloadDriverBuild.acceptPayload()",
+      "params": [
+        {
+          "name": "payload_size",
+          "type": "float",
+          "schema": "source_payload_mass_driver_accept_payload_state_input.payload_size"
+        },
+        {
+          "name": "has_payload",
+          "type": "bool",
+          "schema": "source_payload_mass_driver_accept_payload_state_input.has_payload"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "accepts",
+        "size_fits",
+        "threshold"
+      ],
+      "tests": [
+        "test_c07_payload_mass_driver_accept_payload_registration",
+        "test_all_c07_payload_mass_driver_accept_payload_input_evidence_is_exact",
+        "test_payload_mass_driver_accept_payload_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_accept_payload"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverAcceptPayloadProof",
+      "rule": "Source-backed PayloadMassDriver acceptPayload gate from PayloadMassDriver.java / PayloadBlock.java / BuildPayload.java / Vars.java / Blocks.java."
+    },
+    "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_accept_payload_state": {
+      "status": "active",
+      "source_slice": "N2299",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+      "source_method": "UnitAssemblerModuleBuild.acceptPayload()",
+      "params": [
+        {
+          "name": "has_link",
+          "type": "bool",
+          "schema": "source_unit_assembler_module_accept_payload_state_input.has_link"
+        },
+        {
+          "name": "has_payload",
+          "type": "bool",
+          "schema": "source_unit_assembler_module_accept_payload_state_input.has_payload"
+        },
+        {
+          "name": "link_accepts",
+          "type": "bool",
+          "schema": "source_unit_assembler_module_accept_payload_state_input.link_accepts"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "accepts",
+        "has_link",
+        "has_payload",
+        "link_accepts"
+      ],
+      "tests": [
+        "test_c07_unit_assembler_module_accept_payload_registration",
+        "test_all_c07_unit_assembler_module_accept_payload_input_evidence_is_exact",
+        "test_unit_assembler_module_accept_payload_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_accept_payload"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleAcceptPayloadProof",
+      "rule": "Source-backed UnitAssemblerModule acceptPayload rows from UnitAssemblerModule.java / UnitAssembler.java / PayloadBlock.java / PayloadSeq.java / PayloadStack.java / Rules.java."
+    },
+    "SourceUnitAssemblerModuleBuildState.source_unit_assembler_accept_payload_state": {
+      "status": "active",
+      "source_slice": "N2299",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "source_method": "UnitAssemblerBuild.acceptPayload()",
+      "params": [
+        {
+          "name": "payload",
+          "type": "Dictionary",
+          "schema": "source_unit_assembler_accept_payload_state_input.payload"
+        },
+        {
+          "name": "assembler",
+          "type": "Dictionary",
+          "schema": "source_unit_assembler_accept_payload_state_input.assembler"
+        },
+        {
+          "name": "plan_requirements",
+          "type": "Array",
+          "schema": "source_unit_assembler_accept_payload_state_input.plan_requirements"
+        },
+        {
+          "name": "unit_cost",
+          "type": "float",
+          "schema": "source_unit_assembler_accept_payload_state_input.unit_cost"
+        },
+        {
+          "name": "source_is_module",
+          "type": "bool",
+          "schema": "source_unit_assembler_accept_payload_state_input.source_is_module"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "accepts",
+        "requirement_found",
+        "quota",
+        "stored_count",
+        "module_adjustment"
+      ],
+      "tests": [
+        "test_c07_unit_assembler_module_accept_payload_registration",
+        "test_all_c07_unit_assembler_module_accept_payload_input_evidence_is_exact",
+        "test_unit_assembler_module_accept_payload_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_accept_payload"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleAcceptPayloadProof",
+      "rule": "Source-backed UnitAssemblerModule acceptPayload rows from UnitAssemblerModule.java / UnitAssembler.java / PayloadBlock.java / PayloadSeq.java / PayloadStack.java / Rules.java."
+    },
+    "SourceWallCrafterBuildState.source_wall_crafter_get_efficiency_state": {
+      "status": "active",
+      "source_slice": "N2301",
+      "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+      "source_method": "WallCrafter.getEfficiency()",
+      "params": [
+        {
+          "name": "edge_tiles",
+          "type": "Array",
+          "schema": "source_wall_crafter_get_efficiency_state_input.edge_tiles"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_wall_crafter_get_efficiency_state_input.rotation"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_wall_crafter_get_efficiency_state_input.size"
+        },
+        {
+          "name": "attribute",
+          "type": "String",
+          "schema": "source_wall_crafter_get_efficiency_state_input.attribute"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "efficiency",
+        "edge_efficiencies",
+        "can_place_on",
+        "solid_tile_count",
+        "rotation"
+      ],
+      "tests": [
+        "test_c07_wall_crafter_get_efficiency_registration",
+        "test_all_c07_wall_crafter_get_efficiency_input_evidence_is_exact",
+        "test_wall_crafter_get_efficiency_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_get_efficiency"
+      ],
+      "runtime_proof": "/root/C07WallCrafterGetEfficiencyProof",
+      "rule": "Source-backed WallCrafter getEfficiency live fill rows from WallCrafter.java / Block.java / Blocks.java."
     }
   },
   "policy": {

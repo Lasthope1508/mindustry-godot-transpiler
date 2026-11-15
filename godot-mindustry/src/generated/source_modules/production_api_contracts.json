@@ -2778,6 +2778,51 @@
       "rule": "Source-backed SolidPump updateTile advance from SolidPump.java / Pump.java / BuildingComp.java / Blocks.java / Block.java.",
       "return_type": "Dictionary"
     },
+    "SourceWallCrafterBuildState.source_wall_crafter_get_efficiency_state": {
+      "canonical_contract": "source_api_contracts.SourceWallCrafterBuildState.source_wall_crafter_get_efficiency_state",
+      "status": "active",
+      "source_slice": "N2301",
+      "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+      "source_method": "WallCrafter.getEfficiency()",
+      "params": [
+        {
+          "name": "edge_tiles",
+          "type": "Array",
+          "schema": "source_wall_crafter_get_efficiency_state_input.edge_tiles"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_wall_crafter_get_efficiency_state_input.rotation"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_wall_crafter_get_efficiency_state_input.size"
+        },
+        {
+          "name": "attribute",
+          "type": "String",
+          "schema": "source_wall_crafter_get_efficiency_state_input.attribute"
+        }
+      ],
+      "return_keys": [
+        "efficiency",
+        "edge_efficiencies",
+        "can_place_on",
+        "solid_tile_count",
+        "rotation"
+      ],
+      "tests": [
+        "test_c07_wall_crafter_get_efficiency_registration",
+        "test_all_c07_wall_crafter_get_efficiency_input_evidence_is_exact",
+        "test_wall_crafter_get_efficiency_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_get_efficiency"
+      ],
+      "runtime_proof": "/root/C07WallCrafterGetEfficiencyProof",
+      "rule": "Source-backed WallCrafter getEfficiency live fill rows from WallCrafter.java / Block.java / Blocks.java.",
+      "return_type": "Dictionary"
+    },
     "SourceWallCrafterBuildState.source_wall_crafter_liquid_consumer_row_state": {
       "canonical_contract": "source_api_contracts.SourceWallCrafterBuildState.source_wall_crafter_liquid_consumer_row_state",
       "status": "active",
