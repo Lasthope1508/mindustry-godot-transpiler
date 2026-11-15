@@ -245,7 +245,7 @@ because no live damage call site exists for ShieldWall in the port yet.
 
 ## Next
 
-- Push N2203 in the full 5-commit pattern (check Done/ledger + the new row's SSOT tuple at completion, N2182 lesson): report → spec (Done/ledger 1652 → 1653 + N2203 row) → GOAL.md §5 (Windows proof stays debt) → slice commit + docs + GOAL + hash-naming commits → push to origin main (re-check origin/main before push; still 83f3b337 at gate verification).
+- Push N2203 in the full 5-commit pattern (check Done/ledger + the new row's SSOT tuple at completion, N2182 lesson): report → spec (Done/ledger 1652 → 1653 + N2203 row) → GOAL.md §5 (Windows proof stays debt) → slice commit `4c7ece6c` + docs `bb46612f` + GOAL `0f746dcc` + hash-naming commits → push to origin main (re-check origin/main before push; still 83f3b337 at gate verification).
 - After N2203: ShieldWall updateTile advance, then MassDriver / LaunchPad rows, RepairTurret coolant, the Units.nearby live query — each its own slice; or C08 inventory when asked.
 - Proof N2203 not yet run on Windows Godot (debt in GOAL.md §5, same as
   N2175–N2202).
