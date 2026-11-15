@@ -389,6 +389,58 @@ static func source_shockwave_tower_wave_damage_state(frame: Dictionary) -> Dicti
 			bullet_outcomes.append({"damage": null, "removed": true, "hit_x": hit_x, "hit_y": hit_y})
 	return {"wave_damage": wave_damage, "bullet_outcomes": bullet_outcomes, "has_wave_damage": true}
 
+static func source_shockwave_tower_fire_effects_state(frame: Dictionary) -> Dictionary:
+	# ShockwaveTowerBuild.updateTile fires the wave effect, the
+	# shoot sound and the screen shake inside the fire gate,
+	# after heat = 1f and reloadCounter = 0f and before the wave
+	# damage (ShockwaveTower.java:82-86, `heat = 1f;` /
+	# `reloadCounter = 0f;` / `waveEffect.at(x, y, range,
+	# waveColor);` / `shootSound.at(x, y, 1f +
+	# Mathf.range(0.15f), 1f);` / `Effect.shake(shake, shake,
+	# this);`, inside `if(targets.size > 0){`,
+	# ShockwaveTower.java:81). The wave effect is
+	# Fx.pointShockwave (ShockwaveTower.java:35, `public Effect
+	# waveEffect = Fx.pointShockwave;`, at the tower with rotation
+	# = range 170f per-def, Blocks.java:2043, `range = 170f;`,
+	# in waveColor Pal.accent, ShockwaveTower.java:29, `public
+	# Color waveColor = Pal.accent, heatColor = Pal.turretHeat,
+	# shapeColor = Color.valueOf("f29c83");`, Pal.accent =
+	# Color.valueOf("ffd37f"), Pal.java:79 -- Fx.pointShockwave
+	# draws `Lines.circle(e.x, e.y, e.finpow() * e.rotation)`,
+	# Fx.java:223-228, so the `range` argument is the effect
+	# rotation). The shoot sound is Sounds.shockwaveTower
+	# (ShockwaveTower.java:30, `public Sound shootSound =
+	# Sounds.shockwaveTower;`, at the tower, pitch 1f +
+	# Mathf.range(0.15f), volume 1f). The shake is
+	# Effect.shake(shake, shake, this) (ShockwaveTower.java:27,
+	# `public float shake = 2f;`, over `public static void
+	# shake(float intensity, float duration, Position loc){`,
+	# Effect.java:210-211 -- intensity 2f, duration 2f, at the
+	# tower). The port spawns no real Fx / sound / shake (no
+	# Godot equivalents are wired), so the pure function stamps
+	# one descriptor per Java call instead of spawning it. The
+	# pitch is the DETERMINISTIC range of `1f +
+	# Mathf.range(0.15f)`, never a sampled pitch: the pure
+	# function takes no RNG. The function needs only the tower
+	# world position (`x`/`y` frame keys, derived by the driver
+	# from the placement cell: Tile.java, `return x * tilesize;`
+	# / `return block().offset + worldx();`, tilesize 8, offset 0
+	# for size 3). Absent `x`/`y` means "no effects":
+	# `{"wave_effect": null, "shoot_sound": null, "shake": null,
+	# "has_fire_effects": false}` and the driver stamps nothing
+	# (the N2190 / N2195 / N2196 precedent) -- never a fabricated
+	# descriptor. The driver calls the effects AFTER the N2194
+	# fire and ONLY when the fire fired, and BEFORE the N2196
+	# wave damage (the Java order :84-86 before :87).
+	var tower_x: Variant = frame.get("x", null)
+	var tower_y: Variant = frame.get("y", null)
+	if tower_x == null or tower_y == null:
+		return {"wave_effect": null, "shoot_sound": null, "shake": null, "has_fire_effects": false}
+	var wave_effect: Dictionary = {"effect": "pointShockwave", "x": float(tower_x), "y": float(tower_y), "rotation": 170.0, "color": "Pal.accent"}
+	var shoot_sound: Dictionary = {"sound": "shockwaveTower", "x": float(tower_x), "y": float(tower_y), "pitch_min": 0.85, "pitch_max": 1.15, "volume": 1.0}
+	var shake: Dictionary = {"intensity": 2.0, "duration": 2.0, "x": float(tower_x), "y": float(tower_y)}
+	return {"wave_effect": wave_effect, "shoot_sound": shoot_sound, "shake": shake, "has_fire_effects": true}
+
 @warning_ignore("unused_parameter")
 static func source_shockwave_tower_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the shockwave-tower tick wiring every
@@ -498,14 +550,36 @@ static func source_shockwave_tower_tick_buildings_state(game: Object, seconds: f
 			# (:82-83, `heat = 1f;` / `reloadCounter = 0f;`), so
 			# the driver calls it after the N2194 fire and ONLY
 			# when the fire fired (the local `fired` dict). The
-			# wave / hitEffect Fx, sound and shake (:84-86, :95)
-			# and the shockwaveTowerUse event (:97-99) wait for
-			# their own slices -- the wave damage stamps only
-			# `wave_damage` and `bullet_outcomes`, and only when
-			# the wave reports one (has_wave_damage true). The
-			# stamped outcomes persist on the frame until the
-			# next fire (like heat).
+			# wave damage stamps only `wave_damage` and
+			# `bullet_outcomes`, and only when the wave reports
+			# one (has_wave_damage true). The stamped outcomes
+			# persist on the frame until the next fire (like
+			# heat). The hitEffect (:95) and the
+			# shockwaveTowerUse event (:97-99) wait for their own
+			# slices; the fire effects (:84-86) land in N2197
+			# just above the wave damage call.
 			if bool(fired.get("fired", false)):
+				# The fire effects (N2197): the effects run
+				# inside the fire gate in Java
+				# (ShockwaveTower.java:81-86, `if(targets.size >
+				# 0){` / `heat = 1f;` / `reloadCounter = 0f;` /
+				# `waveEffect.at(x, y, range, waveColor);` /
+				# `shootSound.at(x, y, 1f + Mathf.range(0.15f),
+				# 1f);` / `Effect.shake(shake, shake, this);`),
+				# after the fire sets heat and resets the counter
+				# (:82-83) and before the wave damage (:87), so
+				# the driver calls them after the N2194 fire and
+				# ONLY when the fire fired, before the N2196 wave
+				# damage. The effects stamp `wave_effect` /
+				# `shoot_sound` / `shake` only when the effects
+				# report one (has_fire_effects true). The
+				# hitEffect (:95) and the shockwaveTowerUse event
+				# (:97-99) wait for their own slices.
+				var effects: Dictionary = source_shockwave_tower_fire_effects_state(frame)
+				if bool(effects.get("has_fire_effects", false)):
+					frame["wave_effect"] = effects.get("wave_effect", null)
+					frame["shoot_sound"] = effects.get("shoot_sound", null)
+					frame["shake"] = effects.get("shake", null)
 				var wave: Dictionary = source_shockwave_tower_wave_damage_state(frame)
 				if bool(wave.get("has_wave_damage", false)):
 					frame["wave_damage"] = wave.get("wave_damage", null)

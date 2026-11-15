@@ -6941,6 +6941,35 @@
       "rule": "Source-backed ShockwaveTower charge advance from ShockwaveTower.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceShockwaveTowerBuildState.source_shockwave_tower_fire_effects_state": {
+      "canonical_contract": "source_api_contracts.SourceShockwaveTowerBuildState.source_shockwave_tower_fire_effects_state",
+      "status": "active",
+      "source_slice": "N2197",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "source_method": "ShockwaveTowerBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_shockwave_tower_fire_effects_state_input.frame"
+        }
+      ],
+      "return_keys": [
+        "wave_effect",
+        "shoot_sound",
+        "shake",
+        "has_fire_effects"
+      ],
+      "tests": [
+        "test_c07_shockwave_tower_fire_effects_registration",
+        "test_all_c07_shockwave_tower_fire_effects_input_evidence_is_exact",
+        "test_shockwave_tower_fire_effects_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_fire_effects"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerFireEffectsProof",
+      "rule": "Source-backed ShockwaveTower fire effects from ShockwaveTower.java / BuildingComp.java / Tile.java / Vars.java.",
+      "return_type": "Dictionary"
+    },
     "SourceShockwaveTowerBuildState.source_shockwave_tower_fire_state": {
       "canonical_contract": "source_api_contracts.SourceShockwaveTowerBuildState.source_shockwave_tower_fire_state",
       "status": "active",

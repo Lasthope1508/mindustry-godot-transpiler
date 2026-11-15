@@ -230496,6 +230496,74 @@
       },
       "runtime_proof": "/root/C07ShockwaveTowerWaveDamageProof",
       "rule": "Source-backed ShockwaveTower wave damage from ShockwaveTower.java / BuildingComp.java / Tile.java / Vars.java."
+    },
+    "source_shockwave_tower_fire_effects_state_input": {
+      "status": "active",
+      "owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_fire_effects_state",
+      "source_slice": "N2197",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(targets.size > 0){",
+          "rule": "The building frame carrying the tower world position (x/y frame keys, derived by the driver from the placement cell: Tile.java `return x * tilesize;` / `return block().offset + worldx();`, tilesize 8, offset 0 for size 3). The fire gate (N2194) already established targets.size > 0, so the effects need no observed bullet list and no separate targets check -- the driver calls them only when the fire fired.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_fire_effects_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShockwaveTowerFireEffectsProof",
+      "rule": "Source-backed ShockwaveTower fire effects from ShockwaveTower.java / BuildingComp.java / Tile.java / Vars.java."
+    },
+    "source_shockwave_tower_fire_effects_state_result": {
+      "status": "active",
+      "owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_fire_effects_state",
+      "source_slice": "N2197",
+      "keys": {
+        "wave_effect": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "waveEffect.at(x, y, range, waveColor);",
+          "rule": "The wave-effect descriptor for this fire (ShockwaveTower.java:84): {\"effect\": \"pointShockwave\" (Fx.pointShockwave, ShockwaveTower.java:35), \"x\": the tower world x, \"y\": the tower world y, \"rotation\": range 170f per-def (Blocks.java:2043 -- the range argument is the effect rotation, Fx.pointShockwave draws Lines.circle(e.x, e.y, e.finpow() * e.rotation), Fx.java:223-228), \"color\": \"Pal.accent\" (waveColor, ShockwaveTower.java:29)}; null when no effects ran (absent position), so the driver stamps nothing.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_fire_effects_state"
+          ]
+        },
+        "shoot_sound": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "shootSound.at(x, y, 1f + Mathf.range(0.15f), 1f);",
+          "rule": "The shoot-sound descriptor for this fire (ShockwaveTower.java:85): {\"sound\": \"shockwaveTower\" (Sounds.shockwaveTower, ShockwaveTower.java:30), \"x\": the tower world x, \"y\": the tower world y, \"pitch_min\": 0.85, \"pitch_max\": 1.15 (the DETERMINISTIC range of 1f + Mathf.range(0.15f) -- never a sampled pitch, the pure function takes no RNG), \"volume\": 1.0}; null when no effects ran, so the driver stamps nothing.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_fire_effects_state"
+          ]
+        },
+        "shake": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "Effect.shake(shake, shake, this);",
+          "rule": "The shake descriptor for this fire (ShockwaveTower.java:86): {\"intensity\": 2.0, \"duration\": 2.0 (Effect.shake(float intensity, float duration, Position loc), Effect.java:210-211, called with (shake, shake, this), shake 2f, ShockwaveTower.java:27), \"x\": the tower world x, \"y\": the tower world y}; null when no effects ran, so the driver stamps nothing.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_fire_effects_state"
+          ]
+        },
+        "has_fire_effects": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "if(targets.size > 0){",
+          "rule": "Whether the fire effects ran (ShockwaveTower.java:81): true when the tower world position is present, false otherwise -- the driver stamps frame[\"wave_effect\"] / frame[\"shoot_sound\"] / frame[\"shake\"] only when this is true, and only on a tick where the N2194 fire fired, before the N2196 wave damage.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_fire_effects_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShockwaveTowerFireEffectsProof",
+      "rule": "Source-backed ShockwaveTower fire effects from ShockwaveTower.java / BuildingComp.java / Tile.java / Vars.java."
     }
   },
   "version": 1

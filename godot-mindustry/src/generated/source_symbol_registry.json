@@ -173368,6 +173368,70 @@
         "test_reference_graph_and_actual_c07_shockwave_tower_wave_damage"
       ],
       "runtime_proof": "/root/C07ShockwaveTowerWaveDamageProof"
+    },
+    "source_shockwave_tower_fire_effects_state_result.wave_effect": {
+      "status": "source-backed",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_fire_effects_state",
+      "godot_symbol": "source_shockwave_tower_fire_effects_state_result.wave_effect",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.updateTile()",
+      "java_expr": "waveEffect.at(x, y, range, waveColor);",
+      "rule": "The wave-effect descriptor for this fire (ShockwaveTower.java:84): {\"effect\": \"pointShockwave\" (Fx.pointShockwave, ShockwaveTower.java:35), \"x\": the tower world x, \"y\": the tower world y, \"rotation\": range 170f per-def (Blocks.java:2043 -- the range argument is the effect rotation, Fx.pointShockwave draws Lines.circle(e.x, e.y, e.finpow() * e.rotation), Fx.java:223-228), \"color\": \"Pal.accent\" (waveColor, ShockwaveTower.java:29)}; null when no effects ran (absent position), so the driver stamps nothing.",
+      "tests": [
+        "test_c07_shockwave_tower_fire_effects_registration",
+        "test_all_c07_shockwave_tower_fire_effects_input_evidence_is_exact",
+        "test_shockwave_tower_fire_effects_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_fire_effects"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerFireEffectsProof"
+    },
+    "source_shockwave_tower_fire_effects_state_result.shoot_sound": {
+      "status": "source-backed",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_fire_effects_state",
+      "godot_symbol": "source_shockwave_tower_fire_effects_state_result.shoot_sound",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.updateTile()",
+      "java_expr": "shootSound.at(x, y, 1f + Mathf.range(0.15f), 1f);",
+      "rule": "The shoot-sound descriptor for this fire (ShockwaveTower.java:85): {\"sound\": \"shockwaveTower\" (Sounds.shockwaveTower, ShockwaveTower.java:30), \"x\": the tower world x, \"y\": the tower world y, \"pitch_min\": 0.85, \"pitch_max\": 1.15 (the DETERMINISTIC range of 1f + Mathf.range(0.15f) -- never a sampled pitch, the pure function takes no RNG), \"volume\": 1.0}; null when no effects ran, so the driver stamps nothing.",
+      "tests": [
+        "test_c07_shockwave_tower_fire_effects_registration",
+        "test_all_c07_shockwave_tower_fire_effects_input_evidence_is_exact",
+        "test_shockwave_tower_fire_effects_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_fire_effects"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerFireEffectsProof"
+    },
+    "source_shockwave_tower_fire_effects_state_result.shake": {
+      "status": "source-backed",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_fire_effects_state",
+      "godot_symbol": "source_shockwave_tower_fire_effects_state_result.shake",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.updateTile()",
+      "java_expr": "Effect.shake(shake, shake, this);",
+      "rule": "The shake descriptor for this fire (ShockwaveTower.java:86): {\"intensity\": 2.0, \"duration\": 2.0 (Effect.shake(float intensity, float duration, Position loc), Effect.java:210-211, called with (shake, shake, this), shake 2f, ShockwaveTower.java:27), \"x\": the tower world x, \"y\": the tower world y}; null when no effects ran, so the driver stamps nothing.",
+      "tests": [
+        "test_c07_shockwave_tower_fire_effects_registration",
+        "test_all_c07_shockwave_tower_fire_effects_input_evidence_is_exact",
+        "test_shockwave_tower_fire_effects_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_fire_effects"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerFireEffectsProof"
+    },
+    "source_shockwave_tower_fire_effects_state_result.has_fire_effects": {
+      "status": "source-backed",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_fire_effects_state",
+      "godot_symbol": "source_shockwave_tower_fire_effects_state_result.has_fire_effects",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.updateTile()",
+      "java_expr": "if(targets.size > 0){",
+      "rule": "Whether the fire effects ran (ShockwaveTower.java:81): true when the tower world position is present, false otherwise -- the driver stamps frame[\"wave_effect\"] / frame[\"shoot_sound\"] / frame[\"shake\"] only when this is true, and only on a tick where the N2194 fire fired, before the N2196 wave damage.",
+      "tests": [
+        "test_c07_shockwave_tower_fire_effects_registration",
+        "test_all_c07_shockwave_tower_fire_effects_input_evidence_is_exact",
+        "test_shockwave_tower_fire_effects_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_fire_effects"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerFireEffectsProof"
     }
   },
   "version": 1
