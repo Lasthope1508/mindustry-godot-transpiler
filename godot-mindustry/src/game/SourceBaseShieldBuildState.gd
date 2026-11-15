@@ -130,6 +130,37 @@ static func source_base_shield_update_tile_advance_state(frame: Dictionary, sour
 					repelled_units.append({"unit": unit, "repel_x": repel.x, "repel_y": repel.y, "overlap_dst": overlap_dst, "stopped": true})
 	return {"smooth_radius": smooth_radius, "absorbed_bullets": absorbed_bullets, "repelled_units": repelled_units, "killed_units": killed_units}
 
+static func source_base_shield_supplied_bullets_state(candidates: Array, rad: float, building_x: float, building_y: float) -> Dictionary:
+	# The live bullet scan (Groups.bullet.intersect(x - rad, y - rad, rad * 2f, rad * 2f, bulletConsumer), BaseShield.java:96), the RECT broad phase only -- the narrow check is the N2236 advance's job (the bulletConsumer filter: enemy team + absorbable + STRICT within radius(), BaseShield.java:27-37), so this pure filters on the RECT alone and never looks at team or absorbable. The intersect runs over the spatial bullet group (`public void intersect(float x, float y, float width, float height, Cons<? super T> out){`, EntityGroup.java:195, the consumer overload, QuadTree hitbox overlap; `@GroupDef(value = Bulletc.class, spatial = true, collide = true) G bullet;`, GroupDefs.java:9) -- the port tests bullet CENTERS against the rect [x +/- rad, y +/- rad], INCLUSIVE (the N2277 precedent: a bullet at the rect corner (rad, rad) is IN even though it sits outside the radius circle), and the hitbox-overlap refinement waits for its own slice. A candidate without x/y has no center to test and is EXCLUDED; a non-dict candidate is skipped. The scan runs only when rad > 1 (`if(rad > 1){`, BaseShield.java:93) -- the gate lives at the TICK, not in this pure.
+	var bullets: Array = []
+	for candidate in candidates:
+		if not (candidate is Dictionary):
+			continue
+		if not candidate.has("x") or not candidate.has("y"):
+			continue
+		if absf(float(candidate.get("x", 0.0)) - building_x) <= rad and absf(float(candidate.get("y", 0.0)) - building_y) <= rad:
+			bullets.append(candidate)
+	return {"bullets": bullets}
+
+static func source_base_shield_supplied_enemy_units_state(candidates: Array, rad: float, building_x: float, building_y: float, team_id: int) -> Dictionary:
+	# The live enemy-unit scan (Units.nearbyEnemies(team, x, y, rad + 10f, unitConsumer), BaseShield.java:97), the nearbyEnemies radius overload (`public static void nearbyEnemies(Team team, float x, float y, float radius, Cons<Unit> cons){`, Units.java:482-488): the rect scan (`nearbyEnemies(team, x - radius, y - radius, radius * 2f, radius * 2f, u -> {`, Units.java:483) is enemy-only by construction, then the filter (`if(u.within(x, y, radius + u.hitSize/2f)){`, Units.java:484) admits a unit whose center is STRICTLY within radius + hitSize/2 of the building (`return Mathf.dst2(getX(), getY(), x, y) < dst*dst;`, Position.java:44-46): exactly at the range is OUT. The BaseShield call passes rad + 10f, so the scan range here is rad + 10 + hitSize/2 (the 10f margin is SOURCE_BASE_SHIELD_NEARBY_MARGIN). The advance checks no team (the N2230 closestEnemy precedent) -- this scan is the ONLY team filter: a unit without a team is its own team (never an enemy). A unit without x/y is EXCLUDED; a unit without hit_size defaults to 0.0 (the N2226 repair-turret precedent). The unitConsumer overlapDst / kill / repel (BaseShield.java:38-56) is the N2236 advance's job; this pure only filters. The scan runs only when rad > 1 (`if(rad > 1){`, BaseShield.java:93) -- the gate lives at the TICK, not in this pure.
+	var enemy_units: Array = []
+	for unit in candidates:
+		if not (unit is Dictionary):
+			continue
+		if int(unit.get("team", team_id)) == team_id:
+			continue
+		if not unit.has("x") or not unit.has("y"):
+			continue
+		var hit_size: float = float(unit.get("hit_size", 0.0))
+		var scan_range: float = rad + SOURCE_BASE_SHIELD_NEARBY_MARGIN + hit_size / 2.0
+		var unit_dx: float = float(unit.get("x", 0.0)) - building_x
+		var unit_dy: float = float(unit.get("y", 0.0)) - building_y
+		var unit_dst2: float = unit_dx * unit_dx + unit_dy * unit_dy
+		if unit_dst2 < scan_range * scan_range:
+			enemy_units.append(unit)
+	return {"enemy_units": enemy_units}
+
 static func source_base_shield_tick_frame_state(frame: Dictionary, block_implementation: String, team_id: int, rules_state: Variant) -> Dictionary:
 	# The base-shield tick wires the frame keys the
 	# consumption path reads (the N2148 turret pattern):
@@ -211,8 +242,13 @@ static func source_base_shield_power_status_row_state(frame: Dictionary, has_pow
 	# broken/hit are never set live (broken only from the save
 	# read, BaseShield.java:167; hit only in the commented-out
 	# line :33), so there are no broken/hit keys; the live
-	# bullet/unit scan fill + absorb/repel/kill application wait
-	# for their own slice. (4) No drawShield rows -- shieldColor / animateShields / sides 24 /
+	# bullet + enemy-unit scans live (N2328) -- the tick filters
+	# the frame bullet_candidates / enemy_unit_candidates
+	# (default [], the live Groups.bullet / Units queries still
+	# defer) and passes the scanned lists into the advance, so a
+	# live shield absorbs / repels from supplied candidates; the
+	# absorb/repel/kill APPLICATION onto live bullets/units
+	# waits for its own slice. (4) No drawShield rows -- shieldColor / animateShields / sides 24 /
 	# hit alpha (BaseShield.java:125-147) are presentation, not state.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
@@ -322,11 +358,26 @@ static func source_base_shield_tick_buildings_state(game: Object, seconds: float
 		# `return block().offset + worldy();`) with the block
 		# offset `offset = ((size + 1) % 2) * tilesize / 2f;`
 		# (Block.java:761) -- 0 for the size-3 shield-projector,
-		# 4 for the size-4 large-shield-projector. The driver
-		# passes EMPTY bullet and enemy-unit lists: no live
-		# bullet query and no live unit query exist in the port,
-		# so no live absorb/repel happens (the live fill stays
-		# deferred); only the smoothRadius fold runs live.
+		# 4 for the size-4 large-shield-projector. N2328: the
+		# driver no longer passes EMPTY bullet and enemy-unit
+		# lists -- the tick runs the two scan pures over the
+		# frame bullet_candidates / enemy_unit_candidates
+		# (default [], the live Groups.bullet / Units queries
+		# still defer) and passes the filtered lists into the
+		# advance. The rad problem (BaseShield.java:89-93): rad
+		# is radius() = smoothRadius AFTER the lerpDelta fold
+		# (`smoothRadius = Mathf.lerpDelta(smoothRadius, radius
+		# * efficiency, 0.05f);`, :89; `float rad = radius();`,
+		# :91), but the tick needs rad BEFORE the advance call
+		# to run the scans -- so the tick computes scan_rad
+		# with the SAME shared helper + const the advance uses
+		# (source_math_state.source_lerp_delta, progress *
+		# Time.delta CLAMPED, `return lerp(fromValue, toValue,
+		# clamp(progress * Time.delta));`, Mathf.java:430-432),
+		# deterministic, the same result the advance computes
+		# inside. The rad > 1 gate (`if(rad > 1){`, :93) lives
+		# at the TICK: scan_rad <= 1 skips both scans and the
+		# advance gets empty lists.
 		# Building.enabled is `transient boolean enabled = true;`
 		# (BuildingComp.java:77) and the folded efficiency reads
 		# `transient float efficiency;` (BuildingComp.java:85).
@@ -337,7 +388,14 @@ static func source_base_shield_tick_buildings_state(game: Object, seconds: float
 			var advance_block_offset: float = float((advance_block_size + 1) % 2) * source_world_defaults.TILESIZE / 2.0
 			var advance_building_x: float = source_block_geometry.tile_drawx_state(advance_cell.x, source_world_defaults.TILESIZE, advance_block_offset)
 			var advance_building_y: float = source_block_geometry.tile_drawy_state(advance_cell.y, source_world_defaults.TILESIZE, advance_block_offset)
-			var advanced: Dictionary = source_base_shield_update_tile_advance_state(frame, source_delta, _base_shield_radius_for_block(block_id), advance_building_x, advance_building_y, [], [])
+			var advance_shield_radius: float = _base_shield_radius_for_block(block_id)
+			var scan_rad: float = source_math_state.source_lerp_delta(float(frame.get("smooth_radius", SOURCE_BASE_SHIELD_SMOOTH_RADIUS_DEFAULT)), advance_shield_radius * float(frame.get("efficiency", 0.0)), SOURCE_BASE_SHIELD_SMOOTH_RADIUS_LERP, source_delta)
+			var scanned_bullets: Array = []
+			var scanned_enemy_units: Array = []
+			if scan_rad > SOURCE_BASE_SHIELD_ENGAGE_RADIUS:
+				scanned_bullets = source_base_shield_supplied_bullets_state(frame.get("bullet_candidates", []), scan_rad, advance_building_x, advance_building_y).get("bullets", [])
+				scanned_enemy_units = source_base_shield_supplied_enemy_units_state(frame.get("enemy_unit_candidates", []), scan_rad, advance_building_x, advance_building_y, team_id).get("enemy_units", [])
+			var advanced: Dictionary = source_base_shield_update_tile_advance_state(frame, source_delta, advance_shield_radius, advance_building_x, advance_building_y, scanned_bullets, scanned_enemy_units)
 			frame["smooth_radius"] = advanced["smooth_radius"]
 			frame["absorbed_bullets"] = advanced["absorbed_bullets"]
 			frame["repelled_units"] = advanced["repelled_units"]
