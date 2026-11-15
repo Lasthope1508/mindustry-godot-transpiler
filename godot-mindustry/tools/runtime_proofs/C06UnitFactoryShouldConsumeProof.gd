@@ -151,6 +151,21 @@ func _ready() -> void:
 	var assembler := Sprite2D.new()
 	game.add_child(assembler)
 	game.call("record_placed_block", assembler, assembler_block, assembler_cell)
+	# --- the scene needs power since N2142/N2160-N2187: the unit
+	# factory driver reads the live power.status (ConsumePower.efficiency,
+	# ConsumePower.java:39, `return build.power.status;`), and the
+	# live loop's graph update stamps 0.0 when no producer feeds
+	# the graph (PowerGraph.java:203, coverage 0), so an unpowered
+	# factory ticks at efficiency 0 no matter what shouldConsume
+	# says. A thorium reactor (powerProduction 15.0, no fuel in
+	# the port's producer model) covers the whole graph (worst
+	# case 1.2 + 3 + 2.5 = 6.7), so the efficiency keys below are
+	# isolated from power. (N2146 precedent, AdjacentFactory
+	# ConsumerBindingProof; N2189.)
+	var reactor_cell := Vector2i(25, 7)
+	var reactor := Sprite2D.new()
+	game.add_child(reactor)
+	game.call("record_placed_block", reactor, blocks_by_id["thorium-reactor"], reactor_cell)
 	var factory_frame: Dictionary = factory.get_meta(unit_factory_build_state.SOURCE_UNIT_FACTORY_BUILDING_META_KEY, {})
 	factory_frame["current_plan"] = 0
 	factory_frame["items"] = {"silicon": 10, "lead": 10}
@@ -170,6 +185,10 @@ func _ready() -> void:
 	proof["should_consume_live_factory_efficiency_one"] = is_equal_approx(float(factory_frame.get("efficiency", -1.0)), 1.0)
 	proof["should_consume_live_reconstructor_efficiency_one"] = is_equal_approx(float(reconstructor_frame.get("efficiency", -1.0)), 1.0)
 	proof["should_consume_live_assembler_efficiency_zero"] = is_equal_approx(float(assembler_frame.get("efficiency", -1.0)), 0.0)
+	# N2189: the reactor above covers the graph, so the live power
+	# status the driver folds is 1.0 and shouldConsume is the only
+	# gate under test.
+	proof["should_consume_live_power_status_one"] = is_equal_approx(float(factory_frame.get("power_status", -1.0)), 1.0)
 
 	# --- dropping the reconstructor's payload stops its consumption
 	# (constructing goes false); restoring it resumes. Dropping the
