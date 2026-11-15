@@ -6728,6 +6728,55 @@
       "rule": "Source-backed MendProjector power.status row from ConsumePower.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceMendProjectorBuildState.source_mend_projector_update_tile_advance_state": {
+      "canonical_contract": "source_api_contracts.SourceMendProjectorBuildState.source_mend_projector_update_tile_advance_state",
+      "status": "active",
+      "source_slice": "N2193",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "source_method": "MendBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_mend_projector_update_tile_advance_input.frame"
+        },
+        {
+          "name": "reload_value",
+          "type": "float",
+          "schema": "source_mend_projector_update_tile_advance_input.reload_value"
+        },
+        {
+          "name": "time_delta",
+          "type": "float",
+          "schema": "source_mend_projector_update_tile_advance_input.time_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_mend_projector_update_tile_advance_input.time_scale"
+        },
+        {
+          "name": "can_heal",
+          "type": "bool",
+          "schema": "source_mend_projector_update_tile_advance_input.can_heal"
+        }
+      ],
+      "return_keys": [
+        "smooth_efficiency",
+        "heat",
+        "charge",
+        "phase_heat"
+      ],
+      "tests": [
+        "test_c07_mend_projector_update_tile_registration",
+        "test_all_c07_mend_projector_update_tile_input_evidence_is_exact",
+        "test_mend_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_mend_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07MendProjectorUpdateTileProof",
+      "rule": "Source-backed MendProjector updateTile advance from MendProjector.java / BuildingComp.java / Arc Mathf.java.",
+      "return_type": "Dictionary"
+    },
     "SourceOverdriveProjectorBuildState.source_overdrive_projector_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourceOverdriveProjectorBuildState.source_overdrive_projector_power_status_row_state",
       "status": "active",

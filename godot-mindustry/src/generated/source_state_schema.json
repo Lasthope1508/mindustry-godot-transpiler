@@ -229936,6 +229936,114 @@
       },
       "runtime_proof": "/root/C07LightBlockPowerStatusProof",
       "rule": "Source-backed LightBlock power.status row from ConsumePower.java / BuildingComp.java."
+    },
+    "source_mend_projector_update_tile_advance_input": {
+      "status": "active",
+      "owner": "SourceMendProjectorBuildState.source_mend_projector_update_tile_advance_state",
+      "source_slice": "N2193",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "java_expr": "public float heat, charge = Mathf.random(reload), phaseHeat, smoothEfficiency;",
+          "rule": "The placed-building frame (MendProjector.java:85, the build fields): carries smooth_efficiency / heat / charge / phase_heat plus the folded efficiency / optional_efficiency the advance reads; missing keys fold to the Java field defaults (0.0, with charge bound deterministically to 0.0 instead of the Java random init).",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_update_tile_advance_state"
+          ]
+        },
+        "reload_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "reload = 200f;",
+          "rule": "The per-def reload (mender 200f, mend-projector 250f, Blocks.java:1923/1936): the charge threshold the reset branch compares against; read through the family helper (SourceMendProjectorState.projector_reload).",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_update_tile_advance_state"
+          ]
+        },
+        "time_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "Time.delta in ticks (BuildingComp.java:1922-1924, the delta() the charge advance scales by timeScale; the lerps use this value unscaled, Arc Mathf.java:430-432): seconds * TICK_RATE 60 from the placed-block helper.",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_update_tile_advance_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live building timeScale (BuildingComp.java:98, default 1f): read from the sprite meta; scales the charge advance only, never the lerps.",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_update_tile_advance_state"
+          ]
+        },
+        "can_heal": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "java_expr": "boolean canHeal = !checkSuppression();",
+          "rule": "Whether the projector may heal (MendProjector.java:94): the documented default true, since the tick tracks no suppression state (the N2184 BuildTurret suppression precedent); false drives the heat target to 0 and blocks the reset.",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07MendProjectorUpdateTileProof",
+      "rule": "Source-backed MendProjector updateTile advance from MendProjector.java / BuildingComp.java / Arc Mathf.java."
+    },
+    "source_mend_projector_update_tile_advance_result": {
+      "status": "active",
+      "owner": "SourceMendProjectorBuildState.source_mend_projector_update_tile_advance_state",
+      "source_slice": "N2193",
+      "keys": {
+        "smooth_efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "java_expr": "smoothEfficiency = Mathf.lerpDelta(smoothEfficiency, efficiency, 0.08f);",
+          "rule": "The smoothed efficiency after one tick (MendProjector.java:96): lerped toward the folded frame efficiency at 0.08f by the unscaled Time.delta.",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_update_tile_advance_state"
+          ]
+        },
+        "heat": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "java_expr": "heat = Mathf.lerpDelta(heat, efficiency > 0 && canHeal ? 1f : 0f, 0.08f);",
+          "rule": "The heat after one tick (MendProjector.java:97): lerped toward 1f when the folded efficiency is positive and canHeal holds, else toward 0f, at 0.08f by the unscaled Time.delta.",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_update_tile_advance_state"
+          ]
+        },
+        "charge": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "java_expr": "charge += heat * delta();",
+          "rule": "The charge after one tick (MendProjector.java:98, 103-105): advanced by the new heat times the scaled delta(), then reset to 0f when it reaches the per-def reload while canHeal holds -- the reset precedes the deferred heal scan.",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_update_tile_advance_state"
+          ]
+        },
+        "phase_heat": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "java_expr": "phaseHeat = Mathf.lerpDelta(phaseHeat, optionalEfficiency, 0.1f);",
+          "rule": "The phase heat after one tick (MendProjector.java:100): lerped toward the frame optionalEfficiency at 0.1f by the unscaled Time.delta.",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_update_tile_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07MendProjectorUpdateTileProof",
+      "rule": "Source-backed MendProjector updateTile advance from MendProjector.java / BuildingComp.java / Arc Mathf.java."
     }
   },
   "version": 1

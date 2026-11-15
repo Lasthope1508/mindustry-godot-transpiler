@@ -172968,6 +172968,70 @@
         "test_reference_graph_and_actual_c07_light_block_power_status"
       ],
       "runtime_proof": "/root/C07LightBlockPowerStatusProof"
+    },
+    "source_mend_projector_update_tile_advance_result.smooth_efficiency": {
+      "status": "source-backed",
+      "godot_owner": "SourceMendProjectorBuildState.source_mend_projector_update_tile_advance_state",
+      "godot_symbol": "source_mend_projector_update_tile_advance_result.smooth_efficiency",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "java_method": "MendBuild.updateTile()",
+      "java_expr": "smoothEfficiency = Mathf.lerpDelta(smoothEfficiency, efficiency, 0.08f);",
+      "rule": "The smoothed efficiency after one tick (MendProjector.java:96): lerped toward the folded frame efficiency at 0.08f by the unscaled Time.delta.",
+      "tests": [
+        "test_c07_mend_projector_update_tile_registration",
+        "test_all_c07_mend_projector_update_tile_input_evidence_is_exact",
+        "test_mend_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_mend_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07MendProjectorUpdateTileProof"
+    },
+    "source_mend_projector_update_tile_advance_result.heat": {
+      "status": "source-backed",
+      "godot_owner": "SourceMendProjectorBuildState.source_mend_projector_update_tile_advance_state",
+      "godot_symbol": "source_mend_projector_update_tile_advance_result.heat",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "java_method": "MendBuild.updateTile()",
+      "java_expr": "heat = Mathf.lerpDelta(heat, efficiency > 0 && canHeal ? 1f : 0f, 0.08f);",
+      "rule": "The heat after one tick (MendProjector.java:97): lerped toward 1f when the folded efficiency is positive and canHeal holds, else toward 0f, at 0.08f by the unscaled Time.delta.",
+      "tests": [
+        "test_c07_mend_projector_update_tile_registration",
+        "test_all_c07_mend_projector_update_tile_input_evidence_is_exact",
+        "test_mend_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_mend_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07MendProjectorUpdateTileProof"
+    },
+    "source_mend_projector_update_tile_advance_result.charge": {
+      "status": "source-backed",
+      "godot_owner": "SourceMendProjectorBuildState.source_mend_projector_update_tile_advance_state",
+      "godot_symbol": "source_mend_projector_update_tile_advance_result.charge",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "java_method": "MendBuild.updateTile()",
+      "java_expr": "charge += heat * delta();",
+      "rule": "The charge after one tick (MendProjector.java:98, 103-105): advanced by the new heat times the scaled delta(), then reset to 0f when it reaches the per-def reload while canHeal holds -- the reset precedes the deferred heal scan.",
+      "tests": [
+        "test_c07_mend_projector_update_tile_registration",
+        "test_all_c07_mend_projector_update_tile_input_evidence_is_exact",
+        "test_mend_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_mend_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07MendProjectorUpdateTileProof"
+    },
+    "source_mend_projector_update_tile_advance_result.phase_heat": {
+      "status": "source-backed",
+      "godot_owner": "SourceMendProjectorBuildState.source_mend_projector_update_tile_advance_state",
+      "godot_symbol": "source_mend_projector_update_tile_advance_result.phase_heat",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "java_method": "MendBuild.updateTile()",
+      "java_expr": "phaseHeat = Mathf.lerpDelta(phaseHeat, optionalEfficiency, 0.1f);",
+      "rule": "The phase heat after one tick (MendProjector.java:100): lerped toward the frame optionalEfficiency at 0.1f by the unscaled Time.delta.",
+      "tests": [
+        "test_c07_mend_projector_update_tile_registration",
+        "test_all_c07_mend_projector_update_tile_input_evidence_is_exact",
+        "test_mend_projector_update_tile_advance_state",
+        "test_reference_graph_and_actual_c07_mend_projector_update_tile"
+      ],
+      "runtime_proof": "/root/C07MendProjectorUpdateTileProof"
     }
   },
   "version": 1
