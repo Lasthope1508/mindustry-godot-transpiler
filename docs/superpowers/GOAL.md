@@ -45,7 +45,7 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
 (`docs/superpowers/handoffs/`). Khi trống task, tự làm slice tiếp theo, không
 đợi user giao.
 
-## 4. Tiến độ hiện tại (2026-11-15 12:00 +07)
+## 4. Tiến độ hiện tại (2026-11-15 13:12 +07)
 
 - Main trên fork ở `de9ab89c` (N2185 LightBlock power.status DONE + PUSHED).
 - **Batch 1 {N2186, N2187, N2189} DONE** trên branch tích hợp
@@ -75,9 +75,24 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
   `integration/wave2-n2188-n2198` (không push, không merge vào main):
   neighbours 44/60 (16 Godot-absent, 0 lỗi khác), full gate
   Ran 5849 in 1003.342s, failures=139, skipped=5, 0 errors — 139/139 Godot-absent (136 inherited + 3 new proof tests N2197/N2188/N2198). SSOT gộp 11386/1639/1560/2911.
-- **Tiếp theo:** N2199 auto-link (playerPlaced + findLink + lastBuild) →
-  items → liquids → payload → targets → plans → units (xem
-  `DESIGN-frame-state-infra.md` trong `~/workspace/mindustry-parallel/`).
+- **N2199 ItemBridge placement auto-link (playerPlaced + findLink + lastBuild)
+  DONE** trên branch `slice/N2199-item-bridge-auto-link` (coordinator làm tuần
+  tự — chạm shared placement flow; không merge vào main; branch push ngay sau
+  docs commit theo push-as-you-go): pure findLink + pure playerPlaced + game
+  lastBuild store + placement drivers (item + liquid twin) + PortGame dispatch
+  (qua SourceSelectedBuildState predicates) + hook ở player path; neighbours
+  bridge family + hydration 38 tests (7 Godot-absent, 1 skipped, 0 lỗi khác)
+  + playable/reports 2338 OK; full gate run 3 Ran 5853 in 989.761s,
+  failures=140, skipped=5, 0 errors — 140/140 Godot-absent (136 inherited +
+  4 proof N2197/N2188/N2198/N2199). SSOT 11396/1640/1563/2917, audit 1336,
+  legacy 0. (Gate run 1 fail 9 validator — fix bằng rename dispatch; run 2
+  fail 105 registration do lỗi sort_keys của coordinator — fix bằng checkout +
+  chạy lại register.)
+- **Tiếp theo:** wave items — N2200 Separator, N2201 WallCrafter, N2202
+  BeamDrill, N2203 BurstDrill, N2204 base Drill shouldConsume gates (briefs
+  sẵn, scoping trong `SCOPE-items-wave.md`) → liquids → payload → targets →
+  plans → units (xem `DESIGN-frame-state-infra.md` trong
+  `~/workspace/mindustry-parallel/`).
 - **KHÔNG chạy Godot ở VM này** (chỉ đạo user 2026-11-15, ưu tiên cao): mọi
   proof scene từ N2186 trở đi chỉ viết, chưa từng chạy ở đâu — ghi nợ ở §5,
   chờ agent Godot test.
@@ -231,6 +246,21 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
     `slice/N2198-liquid-bridge-should-consume` (integration cherry-pick `aa271fcd`).
     Trạng thái "chờ agent Godot test". Chạy: targeted test
     `tests.test_c07_liquid_bridge_should_consume` với Godot 4.6.2 trên PATH,
+    port 7777 trống.
+  - [ ] N2199 `C07ItemBridgeAutoLinkProof` — CHƯA CHẠY ở đâu (8 key:
+    `find_link_finds_unlinked_last_build`,
+    `find_link_rejects_linked_or_same_tile`,
+    `player_placed_configures_partner`,
+    `player_placed_skips_adjacent_partner`,
+    `player_placed_skips_when_already_linked`,
+    `player_placed_updates_last_build_without_partner`,
+    `live_placement_auto_links_and_updates_last_build`,
+    `live_liquid_placement_auto_links`
+    + `registry_valid` / `one_headquarter_per_ssot` / `matches`).
+    Scene mang theo slice commit `44fd1a77` trên
+    `slice/N2199-item-bridge-auto-link`.
+    Trạng thái "chờ agent Godot test". Chạy: targeted test
+    `tests.test_c07_item_bridge_auto_link` với Godot 4.6.2 trên PATH,
     port 7777 trống.
   - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
     trên (ghi rõ commit đưa scene tới Windows).
