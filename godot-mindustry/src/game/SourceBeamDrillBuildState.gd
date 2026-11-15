@@ -9,6 +9,7 @@ const source_building_access_state := preload("res://src/game/SourceBuildingAcce
 const source_drill_inventory_runtime_state := preload("res://src/game/SourceDrillInventoryRuntimeState.gd")
 const source_liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
 const source_content_registry_runtime_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
+const source_building_item_dump_state := preload("res://src/game/SourceBuildingItemDumpState.gd")
 
 # The BeamDrill implementation (BeamDrill.java:25, `public class
 # BeamDrill extends Block{`): plasma-bore (consumePower 0.15f,
@@ -34,6 +35,11 @@ const SOURCE_BEAM_DRILL_OPTIONAL_BOOST_INTENSITY := 2.5
 # boost-warmup rate `0.1f`, the approachDelta / lerpDelta rates.
 const SOURCE_BEAM_DRILL_WARMUP_SPEED := 1.0 / 60.0
 const SOURCE_BEAM_DRILL_BOOST_WARMUP_RATE := 0.1
+# BeamDrill.java:264 passes dumpTime / timeScale to the
+# timer; dumpTime is the Block default 5 (Block.java:438,
+# `public int dumpTime = 5;`, NO def overrides it anywhere
+# in upstream, grep-verified).
+const SOURCE_BEAM_DRILL_DUMP_TIME := 5.0
 
 static func _is_beam_drill_build_implementation(implementation: String) -> bool:
 	return SOURCE_BEAM_DRILL_BUILD_IMPLEMENTATIONS.has(implementation)
@@ -152,13 +158,23 @@ static func source_beam_drill_power_status_row_state(frame: Dictionary, has_powe
 	# wait for their own slices, so the gate reads the current
 	# frame. (3) Partial updateTile
 	# advance (N2195) -- warmup / boostWarmup / multiplier /
-	# time advance each tick (BeamDrill.java:242-251); still
+	# time advance each tick (BeamDrill.java:242-251); the
+	# timerDump dump is live since N2289
+	# (source_beam_drill_timer_dump_state, the frame-local
+	# Interval-equivalent, dumpTime 5f / timeScale,
+	# BeamDrill.java:264-266, dump(null) through the shared
+	# dump_item_state routing; first-fire deviation: Java
+	# fires nearly at once after placement, the frame clock
+	# delays the first fire by one interval, 5 ticks); still
 	# deferred: updateLasers / updateFacing / facingAmount,
 	# the drop loop + `time %= drillTime;` reset +
 	# lastDrillSpeed (BeamDrill.java:249, 253-262, needs
 	# lastItem / facing / items state the tick does not
-	# track), and the dump timer (BeamDrill.java:264-266).
-	# Until the reset slice lands, time grows unbounded.
+	# track), and the dump neighbour live fill + write-back
+	# (the neighbour acceptItem / canDump arrays are frame
+	# inputs, default [], and the dumped item is not written
+	# into the neighbour frame yet). Until the reset slice
+	# lands, time grows unbounded.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -211,9 +227,11 @@ static func source_beam_drill_update_tile_advance_state(frame: Dictionary, sourc
 	# updateLasers / updateFacing (BeamDrill.java:240, 244),
 	# the drop loop + `time %= drillTime;` reset +
 	# lastDrillSpeed (BeamDrill.java:249, 253-262, needs
-	# lastItem, which updateFacing sets), and the dump timer
-	# (BeamDrill.java:264-266); until the reset slice lands,
-	# time grows unbounded.
+	# lastItem, which updateFacing sets); until the reset
+	# slice lands, time grows unbounded. The dump timer
+	# (BeamDrill.java:264-266) is live since N2289
+	# (source_beam_drill_timer_dump_state, wired after this
+	# advance in the tick).
 	var efficiency: float = float(frame.get("efficiency", 0.0))
 	var optional_efficiency: float = float(frame.get("optional_efficiency", 0.0))
 	var warmup: float = float(frame.get("warmup", 0.0))
@@ -226,6 +244,124 @@ static func source_beam_drill_update_tile_advance_state(frame: Dictionary, sourc
 	var next_boost_warmup: float = lerpf(boost_warmup, optional_efficiency, clampf(SOURCE_BEAM_DRILL_BOOST_WARMUP_RATE * source_delta, 0.0, 1.0))
 	var next_time: float = time + efficiency * source_delta * time_scale * multiplier
 	return {"warmup": next_warmup, "boost_warmup": next_boost_warmup, "multiplier": multiplier, "time": next_time}
+
+static func source_beam_drill_timer_dump_state(frame: Dictionary, source_delta: float, time_scale: float, content_item_ids: Array, neighbour_accepts_item: Array, neighbour_can_dump: Array) -> Dictionary:
+	# The timerDump dump at the END of updateTile
+	# (BeamDrillBuild.updateTile(), BeamDrill.java:237-267),
+	# after the drop loop (:253-262):
+	# `if(timer(timerDump, dumpTime / timeScale)){`
+	# `dump();`
+	# -- the dump runs AFTER the advance in the same tick, so
+	# it sees the store the advance just filled, and the dump
+	# owns the frame cdump (no offload shares it on this
+	# driver). The timer id is
+	# `protected final int timerDump = timers++;`
+	# (Block.java:436) and the interval is
+	# `public int dumpTime = 5;`
+	# (Block.java:438, 5 ticks = 12 times/sec; NO def
+	# overrides it anywhere in upstream, grep-verified). The
+	# timer is TimerComp.timer (TimerComp.java:10-13):
+	# `public boolean timer(int index, float time){`
+	# `if(Float.isInfinite(time)) return false;`
+	# `return timer.get(index, time);`
+	# Interval.get resets times[id] = Time.time on fire (arc
+	# Interval.java:20-26):
+	# `boolean got = check(id, time);`
+	# `if(got) times[id] = Time.time;`
+	# and check compares Time.time - times[id] >= time (arc
+	# Interval.java:28-30):
+	# `return Time.time - times[id] >= time || Time.time < times[id];`
+	# Time.time counts TICKS (arc Time.java:69-80):
+	# `timeRaw += delta;`
+	# The port has no global tick clock at the driver layer, so
+	# the elapsed clock is frame-local (frame["timer_dump_
+	# elapsed"], the N2266/N2269/N2273/N2280/N2281 precedent):
+	# elapsed += source_delta unconditionally every tick the
+	# advance runs -- mirroring Time.time, which grows even
+	# while the gate is closed; fired = elapsed >= dumpTime /
+	# time_scale; elapsed_after RESETS to 0.0 on fire (a reset,
+	# not a subtraction like the Fracker accumulator); a
+	# non-positive time_scale is the infinite-time branch
+	# (fired false). Unlike the N2280 RepairTurret literal-20
+	# timer, this Java call DOES divide by timeScale
+	# (`dumpTime / timeScale`, BeamDrill.java:264), so the
+	# port threshold is Java-exact at every time_scale, not
+	# just 1f. The live timeScale reads from the sprite meta,
+	# default 1.0:
+	# `private transient float timeScale = 1f, timeScaleDuration;`
+	# (BuildingComp.java:98). First-fire deviation
+	# (documented): Java fires (nearly) immediately after
+	# placement (the global Time.time is already large vs a
+	# fresh Interval times[id] = 0); the frame-local clock
+	# delays the first fire by a full interval (5 ticks). It
+	# cannot be fixed without a global clock -- it waits for
+	# a timer-infra slice if exact first-fire timing is ever
+	# needed. dump() (BuildingComp.java:1064-1066):
+	# `public boolean dump(){`
+	# `return dump(null);`
+	# delegates to dump(null) (BuildingComp.java:1072-1113):
+	# `public boolean dump(Item todump){`
+	# `if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;`
+	# `int dump = this.cdump;`
+	# `var allItems = content.items();`
+	# `int itemSize = allItems.size;`
+	# `if(todump == null){`
+	# `Building other = proximity.get((i + dump) % proximity.size);`
+	# `if(!items.has(ii)) continue;`
+	# `Item item = (Item)itemArray[ii];`
+	# `if(other.acceptItem(self(), item) && canDump(other, item)){`
+	# `other.handleItem(self(), item);`
+	# `items.remove(item, 1);`
+	# `incrementDump(proximity.size);`
+	# -- neighbours outer, content items inner: for each
+	# neighbour from the cdump cursor, the first held item in
+	# content order an accepting neighbour takes is handed
+	# over, 1 leaves the store, and the cursor advances once
+	# per neighbour checked (incrementDump,
+	# BuildingComp.java:1116-1120):
+	# `public void incrementDump(int prox){`
+	# `if(prox != 0){`
+	# `cdump = ((cdump + 1) % prox);`
+	# The cursor is a Building field at its Java default:
+	# `transient int cdump;`
+	# (BuildingComp.java:68, 0). The beam drill has items
+	# (`hasItems = true;`, BeamDrill.java:66), so the hasItems
+	# guard always passes. canDump defaults to true
+	# (`public boolean canDump(Building to, Item item){`,
+	# BuildingComp.java:1124-1126); the neighbour arrays carry
+	# the live per-neighbour answers as frame inputs. The dump
+	# itself runs through the shared dump(null) port
+	# (SourceBuildingItemDumpState.dump_item_state) -- NOT the
+	# putItem gate game_put_item_state, which dumps one
+	# SPECIFIC item and needs a game object for its increment
+	# callbacks, while the timer block calls dump(). The
+	# shared port reports the handled neighbour but does not
+	# write the item into the neighbour frame -- the
+	# write-back waits for its own slice. The timer is called
+	# unconditionally in Java and dump() guards internally,
+	# so a fired timer with an empty store still resets the
+	# clock and dumps nothing.
+	var items: Dictionary = (frame.get("items", {}) as Dictionary).duplicate(true)
+	var elapsed: float = float(frame.get("timer_dump_elapsed", 0.0))
+	var cursor: int = int(frame.get("cdump", 0))
+	var threshold: float = INF if time_scale <= 0.0 else SOURCE_BEAM_DRILL_DUMP_TIME / time_scale
+	var accumulated: float = elapsed + source_delta
+	var fired: bool = accumulated >= threshold
+	var elapsed_after: float = 0.0 if fired else accumulated
+	var dumped := false
+	if fired:
+		var amounts: Array = []
+		for item_id in content_item_ids:
+			amounts.append(int(items.get(str(item_id), 0)))
+		var result: Dictionary = source_building_item_dump_state.dump_item_state(true, source_drill_inventory_runtime_state.items_total(items), neighbour_accepts_item.size(), null, false, content_item_ids, amounts, neighbour_accepts_item, neighbour_can_dump, cursor)
+		cursor = int(result.get("cdump", cursor))
+		if bool(result.get("dumped", false)):
+			dumped = true
+			var amounts_after: Array = result.get("item_amounts_by_index", amounts)
+			for j in range(content_item_ids.size()):
+				if j < amounts_after.size():
+					items[str(content_item_ids[j])] = int(amounts_after[j])
+	return {"fired": fired, "elapsed_after": elapsed_after, "dumped": dumped, "items_after": items, "cursor_after": cursor}
 
 static func source_beam_drill_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the beam-drill tick wiring every
@@ -417,6 +553,37 @@ static func source_beam_drill_tick_buildings_state(game: Object, seconds: float)
 			frame["boost_warmup"] = advanced["boost_warmup"]
 			frame["multiplier"] = advanced["multiplier"]
 			frame["time"] = advanced["time"]
+			# N2289: the timerDump dump (BeamDrill.java:264-266,
+			# `if(timer(timerDump, dumpTime / timeScale)){ dump(); }`)
+			# runs AFTER the advance in the same tick (Java order:
+			# the timer check sits after the drop loop,
+			# BeamDrill.java:253-262), so the dump sees the store
+			# the advance just filled -- the pure function reads
+			# the frame AFTER the write-back above, and persists
+			# its items/cdump back the same way. The frame-local
+			# clock (frame["timer_dump_elapsed"]) accumulates the
+			# tick delta every tick the advance runs, and when it
+			# fires the dump hands one held item to an accepting
+			# neighbour through the shared dump_item_state routing;
+			# the neighbour acceptItem / canDump arrays are frame
+			# inputs (default [] -- no neighbours, the Java
+			# proximity.size == 0 outcome) until a live proximity
+			# fill lands, and the dumped item is not written into
+			# the neighbour frame yet (no neighbour write-back).
+			# The clock runs only while enabled (the same pragmatic
+			# gate as the advance itself -- Java runs updateTile
+			# even when disabled, BuildingComp.java:2276-2277); the
+			# driver-wide disabled-early-return slice removes this
+			# gate for all families. First-fire deviation: Java
+			# fires nearly at once after placement; the frame clock
+			# delays the first fire by a full interval (5 ticks).
+			var content_item_ids: Array = source_content_registry_runtime_state.source_item_catalog_state(catalog).get("item_names_by_id", [])
+			var neighbour_accepts: Array = frame.get("dump_neighbour_accepts", [])
+			var neighbour_can_dump: Array = frame.get("dump_neighbour_can_dump", [])
+			var timer_dump: Dictionary = source_beam_drill_timer_dump_state(frame, source_delta, time_scale, content_item_ids, neighbour_accepts, neighbour_can_dump)
+			frame["timer_dump_elapsed"] = timer_dump.get("elapsed_after", 0.0)
+			frame["items"] = timer_dump.get("items_after", frame.get("items", {}))
+			frame["cdump"] = timer_dump.get("cursor_after", frame.get("cdump", 0))
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
