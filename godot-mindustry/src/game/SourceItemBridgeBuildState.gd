@@ -8,6 +8,7 @@ const source_building_efficiency_state := preload("res://src/game/SourceBuilding
 const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
 const source_math_state := preload("res://src/game/SourceMathState.gd")
 const inventory := preload("res://src/game/SourceDrillInventoryRuntimeState.gd")
+const source_building_item_dump_state := preload("res://src/game/SourceBuildingItemDumpState.gd")
 const source_content_registry_runtime_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
 
 # The ItemBridge implementation (ItemBridge.java:24, `public class ItemBridge extends Block{`): phase-conveyor (consumePower 0.30f, Blocks.java:2125, `consumePower(0.30f);`; size 1, range 12, transportTime 2f, phase-fabric 5 / silicon 7 / lead 10 / graphite 10, Blocks.java:2116-2125). ItemBridge extends Block, NOT a factory or crafter, so no existing driver matches it and no frame key exists for it; this driver uses its own family frame key ("source_item_bridge_building", the radar precedent), and this slice adds the item-bridge key to N2142's SOURCE_CONSUMER_FRAME_META_KEYS so the graph stamp/write-back finds it. The port has NO SourceItemBridge* files at all yet -- no display/runtime state to lean on -- so the missing piece is the live power.status -> efficiency driver, which is exactly this slice: the updateTransport charge (ItemBridge.java:356, `transportCounter += edelta();`) charges its transport counter by edelta() (BuildingComp.java:1927-1929, `return efficiency * delta();`), so a phase-conveyor with no power would never advance its transport counter and never move items across the bridge -- its transport counter would sit frozen as if power.status were 1.0.
@@ -72,8 +73,10 @@ static func _initial_frame() -> Dictionary:
 	# (ItemBridge.java:201 -- time starts at -8f, NOT 0), `public float transportCounter;`
 	# (ItemBridge.java:203), the Building.items ItemModule (frame["items"], Dictionary keyed
 	# by item name, the factory precedent), and the ItemModule take rotation (`protected int
-	# takeRotation;`, ItemModule.java:26, default 0).
-	return {"link": -1, "had_valid_link": false, "transport_counter": 0.0, "warmup": 0.0, "time": -8.0, "time_speed": 0.0, "moved": false, "was_moved": false, "incoming": [], "items": {}, "take_rotation": 0}
+	# takeRotation;`, ItemModule.java:26, default 0). The dump fields (N2288) carry their
+	# Java defaults too: `private transient float dumpAccum;` (BuildingComp.java:99, 0f)
+	# and `transient int cdump;` (BuildingComp.java:68, 0).
+	return {"link": -1, "had_valid_link": false, "transport_counter": 0.0, "warmup": 0.0, "time": -8.0, "time_speed": 0.0, "moved": false, "was_moved": false, "incoming": [], "items": {}, "take_rotation": 0, "dump_accum": 0.0, "cdump": 0}
 
 static func source_item_bridge_bind_frame_state(sprite: Sprite2D, block: Object) -> Dictionary:
 	# Placement creates the Building (Block.java:1002 newBuilding);
@@ -94,7 +97,7 @@ static func source_item_bridge_bind_frame_state(sprite: Sprite2D, block: Object)
 
 static func source_item_bridge_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a phase-conveyor does not take the early return. The item bridge's power draw is STATIC, not conditional: `consumePower(0.30f);` (Blocks.java:2125) registers a plain ConsumePower, so the catalog consumePower 0.3 is present and the plain radar gate (block.properties.has("consumePower")) works -- no RepairTurret-style `or consumesPower` adaptation is needed. The pure row is still the same ConsumePower read (`return build.power.status;`, ConsumePower.java:39). The updateTransport charge follows the folded efficiency: the transport charge (ItemBridge.java:356, `transportCounter += edelta();`) charges by edelta() (BuildingComp.java:1927-1929, `return efficiency * delta();`), so a phase-conveyor with no power would never advance its transport counter and never move items across the bridge. ItemBridgeBuild overrides shouldConsume (ItemBridge.java:495, `public boolean shouldConsume(){` with `return hadValidLink && enabled;`, ItemBridge.java:496); updateConsumption forces efficiency to zero when the gate is false (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). N2188 wires the gate (N2197 supplied the link frame state first: frame link/had_valid_link + pure configure + pure linkValid + the driver recompute every tick after the consumption fold): the pure source_item_bridge_should_consume_state gate is the override exactly (`return hadValidLink && enabled;`), the driver reads should_consume through it, and the machinery folds efficiency to 0 when the gate is false (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();`, with BuildingComp.java:1992-1994, `if(!update){` / `efficiency = optionalEfficiency = 0f;`). The gate reads the previous tick's had_valid_link -- the recompute runs after the fold, the Java order (BuildingComp.java:2274-2277) -- so a freshly linked bridge consumes from the next tick. The link gate itself is `hadValidLink = linkValid(tile, other);` (ItemBridge.java:333). The item bridge is its own family (ItemBridge.java:24, `public class ItemBridge extends Block{`; ItemBridgeBuild, ItemBridge.java:197, `public class ItemBridgeBuild extends Building{`), a distribution block, NOT related to any factory / turret / defense family. Class fields: `public final int timerCheckMoved = timers ++;` (ItemBridge.java:25), `public int range;` (ItemBridge.java:27), `public float transportTime;` (ItemBridge.java:28), `public boolean fadeIn = true;` (ItemBridge.java:34), `public boolean moveArrows = true;` (ItemBridge.java:35), `public boolean pulse = false;` (ItemBridge.java:36), `public float arrowSpacing = 4f, arrowOffset = 2f, arrowPeriod = 0.4f;` (ItemBridge.java:37), `public float arrowTimeScl = 6.2f;` (ItemBridge.java:38), `public float bridgeWidth = 6.5f;` (ItemBridge.java:39); constructor `update = true;` (ItemBridge.java:45), `solid = true;` (ItemBridge.java:46), `underBullets = true;` (ItemBridge.java:47), `hasPower = true;` (ItemBridge.java:48), `itemCapacity = 10;` (ItemBridge.java:49), `configurable = true;` (ItemBridge.java:50), `hasItems = true;` (ItemBridge.java:51). Build fields: `public int link = -1;` (ItemBridge.java:198), `public IntSeq incoming = new IntSeq(false, 4);` (ItemBridge.java:199), `public float warmup;` (ItemBridge.java:200), `public float time = -8f, timeSpeed;` (ItemBridge.java:201), `public boolean wasMoved, moved, hadValidLink;` (ItemBridge.java:202), `public float transportCounter;` (ItemBridge.java:203). The warmup approach (ItemBridge.java:345, `warmup = Mathf.approachDelta(warmup, efficiency, 1f / 30f);`) also follows the folded efficiency when a valid link exists; without a link `warmup = 0f` (ItemBridge.java:337). draw() uses `float warmup = hasPower ? this.warmup : 1f;` (ItemBridge.java:387) -- the bridge-conveyor (hasPower false) always draws warmup 1f, another reason the two defs must not share one driver row. BufferedItemBridge extends ItemBridge (BufferedItemBridge.java:9, `public class BufferedItemBridge extends ItemBridge{`) with `hasPower = false;` (BufferedItemBridge.java:18) and `bufferCapacity = 50` class default (def overrides to 14, Blocks.java:2113) and `speed = 74f` (def, Blocks.java:2112). canConsume (BuildingComp.java:1917, `public boolean canConsume(){` with `return potentialEfficiency > 0;`, BuildingComp.java:1918) and the shouldConsume default (BuildingComp.java:755, `public boolean shouldConsume(){` with `return enabled;`, BuildingComp.java:756) are the surrounding gates. The single def carries `consumePower(0.30f);` (Blocks.java:2125) with `range = 12;` (Blocks.java:2118) and `transportTime = 2f;` (Blocks.java:2119). Single def -- phase-conveyor only (size 1, range 12, transportTime 2f, phase-fabric 5 / silicon 7 / lead 10 / graphite 10, Blocks.java:2116-2125). bridge-conveyor (BufferedItemBridge, no power def) is explicitly OUT of scope.
-	# Documented limits: (1) power-only first pass -- the phase-conveyor's static power consumer (consumePower 0.30f, Blocks.java:2125) is the only modeled consumer, so the folded efficiency is the min over the *modeled* consumers (power only); phase-conveyor has no second consumer. (2) shouldConsume gate LIVE (N2188) -- ItemBridgeBuild.shouldConsume() (`return hadValidLink && enabled;`, ItemBridge.java:495-496) is the pure source_item_bridge_should_consume_state gate over the N2197 link frame state (frame link/had_valid_link + pure configure + pure linkValid + the driver recompute every tick after the consumption fold); the driver reads should_consume through it and the machinery folds efficiency to 0 when the gate is false (BuildingComp.java:1960/:1992-1994). The gate reads the previous tick's had_valid_link -- the Java order, updateConsumption before updateTile (BuildingComp.java:2274-2277) -- so a freshly linked bridge consumes from the next tick. (3) updateTile transport advance live (N2225) -- checkIncoming prune / incoming registration / transportCounter charge / item handoff / warmup approach / time + timeSpeed advance (ItemBridge.java:319-368) run every enabled tick after the consumption fold through the pure source_item_bridge_update_transport_state function; the timerCheckMoved snapshot (ItemBridge.java:320-323) and doDump (ItemBridge.java:336, 350-353) defer (no timer infra; no neighbor dump wiring), and checkAccept facing (ItemBridge.java:441-463) defers for non-linked sources -- the transport path takes the linked() shortcut (ItemBridge.java:464-466), so acceptItem there is the capacity gate only. The power proof carries no transport/warmup keys; the transport charge (ItemBridge.java:356) is what the efficiency keys prove, and the N2225 proof carries the transport keys. (4) No sense/warmup modeling -- `warmup()` has no override here (draw-only warmup, :387) and sense waits for its own slice. (5) Single def -- phase-conveyor only (size 1, range 12, transportTime 2f, phase-fabric 5 / silicon 7 / lead 10 / graphite 10); bridge-conveyor (BufferedItemBridge, no power def) is explicitly OUT of scope; per-def stat values wait for their own verification slice. (6) No draw/config-UI modeling -- the pure configure covers the config handlers (ItemBridge.java:64/66); placement auto-link is LIVE (N2199: pure findLink + playerPlaced + game lastBuild store + player-path driver, ItemBridge.java:41, 167-173, 211-220); bridge draw / drawSelect / drawConfigure / drawInput (ItemBridge.java:216-296, 375-394) and handlePlacementLine / pickedUp wait for their own slices.
+	# Documented limits: (1) power-only first pass -- the phase-conveyor's static power consumer (consumePower 0.30f, Blocks.java:2125) is the only modeled consumer, so the folded efficiency is the min over the *modeled* consumers (power only); phase-conveyor has no second consumer. (2) shouldConsume gate LIVE (N2188) -- ItemBridgeBuild.shouldConsume() (`return hadValidLink && enabled;`, ItemBridge.java:495-496) is the pure source_item_bridge_should_consume_state gate over the N2197 link frame state (frame link/had_valid_link + pure configure + pure linkValid + the driver recompute every tick after the consumption fold); the driver reads should_consume through it and the machinery folds efficiency to 0 when the gate is false (BuildingComp.java:1960/:1992-1994). The gate reads the previous tick's had_valid_link -- the Java order, updateConsumption before updateTile (BuildingComp.java:2274-2277) -- so a freshly linked bridge consumes from the next tick. (3) updateTile transport advance live (N2225) -- checkIncoming prune / incoming registration / transportCounter charge / item handoff / warmup approach / time + timeSpeed advance (ItemBridge.java:319-368) run every enabled tick after the consumption fold through the pure source_item_bridge_update_transport_state function; doDump live (N2288) -- dumpAccumulate (ItemBridge.java:350-353, BuildingComp.java:1048-1061) through the pure source_item_bridge_do_dump_state function, wired in the unlinked branch only after the transport advance, with the neighbour acceptItem/canDump arrays as frame inputs (default [] -- no live proximity fill yet) and no neighbour write-back yet; the timerCheckMoved snapshot (ItemBridge.java:320-323) still defers (no timer infra), and checkAccept facing (ItemBridge.java:441-463) defers for non-linked sources -- the transport path takes the linked() shortcut (ItemBridge.java:464-466), so acceptItem there is the capacity gate only. The power proof carries no transport/warmup keys; the transport charge (ItemBridge.java:356) is what the efficiency keys prove, and the N2225 proof carries the transport keys. (4) No sense/warmup modeling -- `warmup()` has no override here (draw-only warmup, :387) and sense waits for its own slice. (5) Single def -- phase-conveyor only (size 1, range 12, transportTime 2f, phase-fabric 5 / silicon 7 / lead 10 / graphite 10); bridge-conveyor (BufferedItemBridge, no power def) is explicitly OUT of scope; per-def stat values wait for their own verification slice. (6) No draw/config-UI modeling -- the pure configure covers the config handlers (ItemBridge.java:64/66); placement auto-link is LIVE (N2199: pure findLink + playerPlaced + game lastBuild store + player-path driver, ItemBridge.java:41, 167-173, 211-220); bridge draw / drawSelect / drawConfigure / drawInput (ItemBridge.java:216-296, 375-394) and handlePlacementLine / pickedUp wait for their own slices.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -203,10 +206,11 @@ static func source_item_bridge_update_transport_state(frame: Dictionary, source_
 	# is N2197's recompute, NOT redone here: the driver passes the fresh value in, the Java
 	# order (updateConsumption before updateTile, BuildingComp.java:2274-2277, `updateConsumption();`
 	# then `if(enabled || !block.noUpdateDisabled){` / `updateTile();`).
-	# `if(!hadValidLink){` (ItemBridge.java:335): `doDump();` (ItemBridge.java:336, deferred --
-	# `dumpAccumulate();` (ItemBridge.java:352) / `dumpAccum += delta();` / `while(dumpAccum >= 1f){`
-	# (BuildingComp.java:1053-1060) needs proximity + neighbor acceptItem/canDump queries the
-	# bridge driver does not gather) and `warmup = 0f;` (ItemBridge.java:337).
+	# `if(!hadValidLink){` (ItemBridge.java:335): `doDump();` (ItemBridge.java:336, live since
+	# N2288 through source_item_bridge_do_dump_state, wired in the unlinked branch after this
+	# advance -- `dumpAccumulate();` (ItemBridge.java:352) / `dumpAccum += delta();` /
+	# `while(dumpAccum >= 1f){` (BuildingComp.java:1053-1060), with the neighbour
+	# acceptItem/canDump arrays as frame inputs) and `warmup = 0f;` (ItemBridge.java:337).
 	# Else: `var inc = ((ItemBridgeBuild)other.build).incoming;` / `int pos = tile.pos();` /
 	# `if(!inc.contains(pos)){` / `inc.add(pos);` (ItemBridge.java:339-344, registration on the
 	# PARTNER frame, written back by the driver), then
@@ -291,6 +295,114 @@ static func source_item_bridge_update_transport_state(frame: Dictionary, source_
 				items = returned.get(inventory.SOURCE_DRILL_INVENTORY_DRILL_ITEMS_KEY, items)
 			transport_counter -= transport_time
 	return {"transport_counter": transport_counter, "warmup": warmup, "time": time_value, "time_speed": time_speed, "moved": moved, "incoming": incoming, "items": items, "take_rotation": take_rotation, "partner_items": partner_items, "partner_incoming": partner_incoming}
+
+static func source_item_bridge_do_dump_state(frame: Dictionary, had_valid_link: bool, source_delta: float, time_scale: float, content_item_ids: Array, neighbour_accepts_item: Array, neighbour_can_dump: Array) -> Dictionary:
+	# The unlinked-branch doDump (ItemBridgeBuild.updateTile(), ItemBridge.java:319-348,
+	# `public void updateTile(){`, on `public class ItemBridge extends Block{`
+	# (ItemBridge.java:24) / `public class ItemBridgeBuild extends Building{`
+	# (ItemBridge.java:197): `Tile other = world.tile(link);` /
+	# `hadValidLink = linkValid(tile, other);` (ItemBridge.java:332-333) is N2197's
+	# recompute, passed in fresh by the driver -- then `if(!hadValidLink){`
+	# (ItemBridge.java:335): `doDump();` (ItemBridge.java:336) and `warmup = 0f;`
+	# (ItemBridge.java:337). The N2225 advance already zeroes warmup in the unlinked
+	# branch and leaves the store untouched; this pure is the doDump half, wired after
+	# the advance in the same tick. The linked branch NEVER dumps -- Java calls doDump
+	# only when !hadValidLink, so the pure returns the store, the accumulator, and the
+	# cursor untouched when had_valid_link holds.
+	# doDump (ItemBridge.java:350-353):
+	# `public void doDump(){`
+	# `//allow dumping multiple times per frame`
+	# `dumpAccumulate();`
+	# -- the base ItemBridge doDump is an ITEM dump. The LiquidBridge override
+	# (`dumpLiquid(liquids.current(), 1f);`, LiquidBridge.java:29-31) is a different
+	# slice, N2287. dumpAccumulate (BuildingComp.java:1047-1061):
+	# `public boolean dumpAccumulate(){`
+	# `return dumpAccumulate(null);`
+	# `public boolean dumpAccumulate(Item item){`
+	# `boolean res = false;`
+	# `dumpAccum += delta();`
+	# `while(dumpAccum >= 1f){`
+	# `res |= dump(item);`
+	# `dumpAccum -=1f;`
+	# -- the accumulator grows by delta() EVERY call and the while loop can dump
+	# MULTIPLE times per frame; the 1f subtraction is unconditional, even when the
+	# dump fails. There is NO items.total() > 0 gate around the accumulator here
+	# (unlike the PayloadDeconstructor, PayloadDeconstructor.java:111) -- the
+	# accumulator advances even with an empty store and the dumps simply fail.
+	# delta() is `return Time.delta * timeScale;` (BuildingComp.java:1922-1924) --
+	# NOT edelta(), so the dump cadence ignores efficiency; source_delta is
+	# Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26),
+	# never raw seconds; timeScale reads `private transient float timeScale = 1f, timeScaleDuration;`
+	# (BuildingComp.java:98). dump() (BuildingComp.java:1064-1066):
+	# `public boolean dump(){`
+	# `return dump(null);`
+	# delegates to dump(null) (BuildingComp.java:1072-1113):
+	# `public boolean dump(Item todump){`
+	# `if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;`
+	# `int dump = this.cdump;`
+	# `var allItems = content.items();`
+	# `int itemSize = allItems.size;`
+	# `if(todump == null){`
+	# `Building other = proximity.get((i + dump) % proximity.size);`
+	# `if(!items.has(ii)) continue;`
+	# `Item item = (Item)itemArray[ii];`
+	# `if(other.acceptItem(self(), item) && canDump(other, item)){`
+	# `other.handleItem(self(), item);`
+	# `items.remove(item, 1);`
+	# `incrementDump(proximity.size);`
+	# -- neighbours outer, content items inner: for each neighbour from the cdump
+	# cursor, the first held item in content order an accepting neighbour takes is
+	# handed over, 1 leaves the store, and the cursor advances once per neighbour
+	# checked (incrementDump, BuildingComp.java:1116-1120):
+	# `public void incrementDump(int prox){`
+	# `if(prox != 0){`
+	# `cdump = ((cdump + 1) % prox);`
+	# The dump fields are Building fields at their Java defaults:
+	# `private transient float dumpAccum;` (BuildingComp.java:99, 0f) and
+	# `transient int cdump;` (BuildingComp.java:68, 0). The bridge has items
+	# (`hasItems = true;`, ItemBridge.java:51; `itemCapacity = 10;`,
+	# ItemBridge.java:49), so the hasItems guard always passes. canDump defaults to
+	# true (`public boolean canDump(Building to, Item item){`,
+	# BuildingComp.java:1124-1126); the neighbour arrays carry the live
+	# per-neighbour answers as frame inputs (default [] -- no neighbours, the Java
+	# proximity.size == 0 outcome). The attempt count + remainder come from the
+	# shared accumulator step (SourceBuildingItemDumpState.dump_accumulate_state --
+	# the static the PortBridge source_dump_accumulate_attempt_state delegates to,
+	# SourceBuildingItemDumpPortBridge.gd:57-58; the driver is all-static, so it
+	# calls the static directly, the N2276 dump_item_state precedent), and each
+	# attempt runs through the shared dump(null) port
+	# (SourceBuildingItemDumpState.dump_item_state) -- NOT the putItem gate
+	# game_put_item_state, which dumps one SPECIFIC item and needs a game object
+	# for its increment callbacks, while dumpAccumulate calls dump(null). Counting
+	# the attempts up front is Java-exact: the while loop calls dump() exactly once
+	# per whole unit of (dumpAccum + delta), and the subtraction is unconditional
+	# either way. The shared port reports the handled neighbour but does not write
+	# the item into the neighbour frame -- the write-back waits for its own slice.
+	# Returns {"dump_accum_after": ..., "dumped": ..., "dump_attempts": ...,
+	# "items_after": ..., "cursor_after": ...}.
+	var items: Dictionary = (frame.get("items", {}) as Dictionary).duplicate(true)
+	var dump_accum: float = float(frame.get("dump_accum", 0.0))
+	var cursor: int = int(frame.get("cdump", 0))
+	var dumped := false
+	var dump_attempts := 0
+	if not had_valid_link:
+		var delta: float = source_delta * time_scale
+		var accumulated: Dictionary = source_building_item_dump_state.dump_accumulate_state(dump_accum, delta)
+		dump_accum = float(accumulated.get("dump_accum", dump_accum))
+		dump_attempts = int(accumulated.get("dump_attempts", 0))
+		for _attempt in range(dump_attempts):
+			var amounts: Array = []
+			for item_id in content_item_ids:
+				amounts.append(int(items.get(str(item_id), 0)))
+			var result: Dictionary = source_building_item_dump_state.dump_item_state(true, inventory.items_total(items), neighbour_accepts_item.size(), null, false, content_item_ids, amounts, neighbour_accepts_item, neighbour_can_dump, cursor)
+			cursor = int(result.get("cdump", cursor))
+			if bool(result.get("dumped", false)):
+				dumped = true
+				var amounts_after: Array = result.get("item_amounts_by_index", amounts)
+				for j in range(content_item_ids.size()):
+					if j < amounts_after.size():
+						items[str(content_item_ids[j])] = int(amounts_after[j])
+	return {"dump_accum_after": dump_accum, "dumped": dumped, "dump_attempts": dump_attempts, "items_after": items, "cursor_after": cursor}
 
 static func source_item_bridge_find_link_state(tile_x: int, tile_y: int, tile_exists: bool, last_build_cell: Vector2i, last_build_exists: bool, last_build_link: int, range: int, blocks_match: bool, teams_match: bool) -> Dictionary:
 	# findLink (ItemBridge.java:167-173, `public Tile findLink(int x, int y){` with `Tile tile = world.tile(x, y);` and `if(tile != null && lastBuild != null && linkValid(tile, lastBuild.tile) && lastBuild.tile != tile && lastBuild.link == -1){` / `return lastBuild.tile;` / `return null;`): the lastBuild tile is a link candidate only when the tile exists, a lastBuild exists for this block def, linkValid holds with checkDouble=true (`return linkValid(tile, other, true);`, ItemBridge.java:147), the lastBuild tile is not this tile, and the lastBuild link is still -1 (`public int link = -1;`, ItemBridge.java:198, the fresh-build default). The check order is Java's (tile, lastBuild, linkValid, tile inequality, link == -1); the linkValid call is the N2197 pure function. lastBuild is a field on the Block (ItemBridge.java:41-42, `//for autolink` / `public @Nullable ItemBridgeBuild lastBuild;`) -- one per block def, never cleared on removal, overwritten by the next placement of the same def. Returns {"found": ..., "link_cell": ...}; link_cell is Vector2i.ZERO when nothing was found.
@@ -512,6 +624,21 @@ static func source_item_bridge_tick_buildings_state(game: Object, seconds: float
 			if not partner_frame.is_empty():
 				partner_frame["items"] = advanced["partner_items"]
 				partner_frame["incoming"] = advanced["partner_incoming"]
+			# The unlinked-branch doDump (N2288, ItemBridge.java:335-337, `if(!hadValidLink){
+			# doDump(); warmup = 0f; }`): runs after the transport advance above -- Java calls
+			# doDump() in the unlinked branch of the same updateTile, and the advance already
+			# zeroed warmup and left the store untouched when unlinked, so the dump sees the
+			# post-advance store. The pure gates on the freshly recomputed had_valid_link, so
+			# the linked branch never dumps. The neighbour acceptItem/canDump arrays are frame
+			# inputs (the N2281 / N2276 precedent, default [] -- no live proximity fill yet);
+			# the dumped store + accumulator + cursor persist to the frame. The dump cadence
+			# uses delta() (source_delta * time_scale), NOT edelta(), so it ignores efficiency.
+			var dump_neighbour_accepts: Array = frame.get("dump_neighbour_accepts", [])
+			var dump_neighbour_can_dump: Array = frame.get("dump_neighbour_can_dump", [])
+			var dumped: Dictionary = source_item_bridge_do_dump_state(frame, bool(frame.get("had_valid_link", false)), source_delta, time_scale, item_order, dump_neighbour_accepts, dump_neighbour_can_dump)
+			frame["items"] = dumped["items_after"]
+			frame["dump_accum"] = dumped["dump_accum_after"]
+			frame["cdump"] = dumped["cursor_after"]
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
 	return {"ticked_count": ticked_count, "results_by_cell": results_by_cell}
