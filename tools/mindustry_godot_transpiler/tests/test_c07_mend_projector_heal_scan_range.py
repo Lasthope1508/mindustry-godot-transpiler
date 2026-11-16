@@ -108,10 +108,15 @@ class C07MendProjectorHealScanRangeTests(unittest.TestCase):
         # b.hitSize() / 2f) && pred.get(b) &&
         # !b.block.privileged` (BlockIndexer.java:345-346),
         # with within a STRICT dst2 < dst^2 circle
-        # (Position.java:44-46). The port tests candidate
-        # centers against the rect inclusively (the N2277
-        # precedent) and models no hitSize / privileged flag
-        # -- a documented deviation, recorded in DEFERRED.
+        # (Position.java:44-46). Java's intersect is a
+        # QuadTree HITBOX overlap query, so since N2350 this
+        # pure delegates to the hitbox broad phase
+        # (source_mend_projector_heal_candidates_hitbox_
+        # state, STRICT Rect.overlaps, Rect.java:274-276)
+        # instead of the N2329 center-in-rect test -- a
+        # real building centered on the rect edge is
+        # admitted through its hitbox, while a degenerate
+        # hitSize-0 hitbox on the edge is dropped.
         # Keep each Java expr on ONE comment line (the N2148
         # lesson: a split line fails this test).
         self.assertIn('static func source_mend_projector_supplied_heal_candidates_state', mend_projector)
@@ -136,13 +141,19 @@ class C07MendProjectorHealScanRangeTests(unittest.TestCase):
         # heal_suppressed / max_health ride through
         # untouched), a missing x or y key EXCLUDES the
         # candidate, and a non-Dictionary entry is excluded
-        # the same way. The rect test is inclusive on the
-        # edge (|dx| <= realRange and |dy| <= realRange), so
-        # a rect corner counts -- rect, NOT circle.
+        # the same way. Since N2350 the pure DELEGATES to
+        # the hitbox broad phase instead of the rect center
+        # test: the admission is STRICT hitbox overlap, so
+        # a straddling hitbox is admitted even with its
+        # center outside the rect, and a degenerate
+        # hitSize-0 hitbox exactly on the edge is dropped.
         self.assertIn('return {"candidates": in_range}', mend_projector)
+        self.assertIn('return source_mend_projector_heal_candidates_hitbox_state(candidates, real_range, building_x, building_y)', mend_projector)
+        self.assertIn('if candidate_x - half_size >= building_x + real_range or candidate_x + half_size <= building_x - real_range:', mend_projector)
+        self.assertIn('if candidate_y - half_size >= building_y + real_range or candidate_y + half_size <= building_y - real_range:', mend_projector)
+        self.assertNotIn('if dx > real_range or dy > real_range:', mend_projector)
         self.assertIn('if not (candidate is Dictionary):', mend_projector)
         self.assertIn('if not candidate.has("x") or not candidate.has("y"):', mend_projector)
-        self.assertIn('if dx > real_range or dy > real_range:', mend_projector)
         self.assertIn('in_range.append(candidate)', mend_projector)
         # The tick wires the scan AFTER the advance (the
         # N2242 heal_scan call site): realRange needs the
@@ -160,9 +171,9 @@ class C07MendProjectorHealScanRangeTests(unittest.TestCase):
         # of []. The scan runs before the heal_scan call and
         # the result is still recorded as last_heal_scan.
         # N2335 follow-through: the narrow filter now chains
-        # between the rect scan and the heal scan, so the
-        # heal scan takes the NARROWED list (the rect call
-        # itself is unchanged).
+        # between the broad phase and the heal scan, so the
+        # heal scan takes the NARROWED list (the broad-phase
+        # call itself is unchanged).
         self.assertIn('const source_world_defaults := preload("res://src/game/SourceWorldDefaults.gd")', mend_projector)
         self.assertIn('var scan_real_range: float = scan_range + float(frame.get("phase_heat", 0.0)) * scan_phase_range_boost', mend_projector)
         self.assertIn('frame.get("heal_candidates", [])', mend_projector)
@@ -205,13 +216,15 @@ class C07MendProjectorHealScanRangeTests(unittest.TestCase):
         self.assertIn('if bool(entry.get("damaged", false)) and not bool(entry.get("heal_suppressed", false)):', mend_projector)
         # The proof's keys drive the pure scan (an in-range
         # candidate is admitted, edges and rect corners
-        # included; an out-of-range candidate is excluded,
-        # with missing-key exclusions; the realRange fold
-        # admits further as phaseHeat grows; admitted entries
-        # keep their keys intact, including a healthy +
-        # suppressed entry the range pure does not filter;
-        # empty candidates give an empty list) plus the live
-        # tick (a charged mender passes its ranged frame
+        # included -- with a real hit_size 8.0 seeded since
+        # N2350, so the STRICT hitbox overlap admits them;
+        # an out-of-range candidate is excluded, with
+        # missing-key exclusions; the realRange fold admits
+        # further as phaseHeat grows; admitted entries keep
+        # their keys intact, including a healthy + suppressed
+        # entry the range pure does not filter; empty
+        # candidates give an empty list) plus the live tick
+        # (a charged mender passes its ranged frame
         # candidates into the heal scan).
         proof = MEND_PROJECTOR_HEAL_SCAN_RANGE_PROOF.read_text(encoding='utf-8')
         for key in [
@@ -224,6 +237,14 @@ class C07MendProjectorHealScanRangeTests(unittest.TestCase):
         ]:
             with self.subTest(key=key):
                 self.assertIn(key, proof)
+        # N2350 follow-through: the in-range edge/corner
+        # candidates seed a real hit_size (a size-1 building,
+        # BuildingComp.java:2048) -- without it the STRICT
+        # hitbox overlap drops the degenerate point hitboxes
+        # on the edge and scan_admits_in_range falls from 6
+        # to 1 (verified by simulating the pure logic in
+        # Python before concluding).
+        self.assertIn('"hit_size": 8.0', proof)
         # Static proof-file checks (the N2185 lesson: the scene is
         # written but never run on this VM, so the test pins its
         # preloads to files that exist).

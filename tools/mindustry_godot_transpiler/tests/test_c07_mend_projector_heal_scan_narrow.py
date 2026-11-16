@@ -177,14 +177,18 @@ class C07MendProjectorHealScanNarrowTests(unittest.TestCase):
         self.assertIn('static func source_mend_projector_heal_scan_state', mend_projector)
         self.assertIn('static func source_mend_projector_update_tile_advance_state', mend_projector)
         self.assertIn('static func source_mend_projector_timer_use_state', mend_projector)
-        # The N2329 rect pure is untouched: its signature
-        # and its inclusive rect test are unchanged -- the
-        # narrow filter chains AFTER its call, never inside
-        # it (the N2329 proof's pure keys still admit rect
-        # corners at the pure level).
+        # The N2329 broad-phase pure keeps its signature and
+        # its {candidates} return shape, but since N2350 it
+        # DELEGATES to the hitbox broad phase instead of the
+        # rect center test -- the narrow filter chains AFTER
+        # its call, never inside it (the N2329 proof's pure
+        # keys still admit edge and corner buildings with
+        # real hitboxes at the pure level, hit_size 8.0
+        # seeded since N2350).
         self.assertIn('static func source_mend_projector_supplied_heal_candidates_state(candidates: Array, real_range: float, building_x: float, building_y: float) -> Dictionary:', mend_projector)
+        self.assertIn('return source_mend_projector_heal_candidates_hitbox_state(candidates, real_range, building_x, building_y)', mend_projector)
         self.assertIn('return {"candidates": in_range}', mend_projector)
-        self.assertIn('if dx > real_range or dy > real_range:', mend_projector)
+        self.assertNotIn('if dx > real_range or dy > real_range:', mend_projector)
         # The N2242 heal scan is untouched: its signature
         # keeps the candidates parameter and its damaged +
         # not-heal-suppressed predicate is unchanged.

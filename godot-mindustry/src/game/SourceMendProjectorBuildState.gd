@@ -151,11 +151,14 @@ static func source_mend_projector_power_status_row_state(frame: Dictionary, has_
 	# timer/consume line (MendProjector.java:102-104) is live
 	# since N2269 and the heal scan since N2242 (explicit
 	# candidates, MendProjector.java:106-122);
-	# the range query is live since N2329 (the rect filter
-	# over frame["heal_candidates"], MendProjector.java:112);
+	# the range query is live since N2329 (the broad-phase
+	# filter over frame["heal_candidates"], MendProjector.java:112),
+	# and the hitbox broad phase is live since N2350 (the
+	# N2329 pure now delegates to the STRICT hitbox overlap
+	# filter, BlockIndexer.java:345 / Rect.java:274-276);
 	# the within/privileged refinement is live since N2335
 	# (the STRICT within circle + !privileged narrow filter
-	# chained after the rect, BlockIndexer.java:346).
+	# chained after the broad phase, BlockIndexer.java:346).
 	# Fx / sound / recentlyHealed and the live building index
 	# still wait.
 	if not has_power_consumer:
@@ -411,10 +414,11 @@ static func source_mend_projector_heal_scan_state(frame: Dictionary, candidates:
 	# amounts and the flag and lets the caller apply them.
 	# The range filter over the candidate list is live
 	# since N2329 (source_mend_projector_supplied_heal_
-	# candidates_state, the eachBlock rect) and the
+	# candidates_state, the eachBlock broad phase -- the
+	# hitbox overlap filter since N2350) and the
 	# within/privileged narrow filter is live since N2335
 	# (source_mend_projector_supplied_heal_candidates_
-	# narrow_state, chained after the rect): the live tick
+	# narrow_state, chained after the broad phase): the live tick
 	# filters frame["heal_candidates"] and passes the
 	# narrowed list here. The live building index that would
 	# fill frame["heal_candidates"] is deferred still: the
@@ -438,7 +442,7 @@ static func source_mend_projector_heal_scan_state(frame: Dictionary, candidates:
 
 static func source_mend_projector_supplied_heal_candidates_state(candidates: Array, real_range: float, building_x: float, building_y: float) -> Dictionary:
 	# The heal scan range query (MendProjector.java:106-122),
-	# the pure eachBlock rect filter -- the N2242 heal scan
+	# the pure eachBlock broad phase -- the N2242 heal scan
 	# already filters damaged + not heal-suppressed and folds
 	# the heal, but takes its candidate list explicit with NO
 	# range filter; this pure adds the range half of the Java
@@ -462,12 +466,21 @@ static func source_mend_projector_supplied_heal_candidates_state(candidates: Arr
 	# range*2f), no tilesize factor (BlockIndexer.java:345;
 	# contrast the RegenProjector rect, which multiplies by
 	# tilesize, N2277) -- so the half-side is realRange
-	# itself and the test is |dx| <= realRange and |dy| <=
-	# realRange, INCLUSIVE on the edge (the N2277
-	# center-in-rect precedent: a corner candidate at
-	# (realRange, realRange) is IN the rect and out of any
-	# circle). The per-def range / phaseRangeBoost ride the
-	# caller's real_range (mender 40f / 20f, Blocks.java:
+	# itself. Java's intersect is a QuadTree HITBOX overlap
+	# query, not a center test: the QuadTree admits a
+	# building whose hitbox (a hitSize-sided square centered
+	# on the building, BuildingComp.java:2293) STRICTLY
+	# overlaps the query rect (QuadTree.java:190-191 /
+	# Rect.java:274-276). The N2329 port tested candidate
+	# CENTERS against the rect inclusively (the N2277
+	# precedent) -- an approximation that dropped
+	# large-hitbox buildings whose center sat outside the
+	# rect but within range + hitSize/2; since N2350 this
+	# pure DELEGATES to the hitbox broad phase
+	# (source_mend_projector_heal_candidates_hitbox_state)
+	# instead, keeping its signature and its {candidates}
+	# return shape. The per-def range / phaseRangeBoost ride
+	# the caller's real_range (mender 40f / 20f, Blocks.java:
 	# 1924/1927; mend-projector 85f / class 50f, Blocks.java:
 	# 1937 / MendProjector.java:30); the class defaults are
 	# range 60f / phaseRangeBoost 50f (MendProjector.java:
@@ -476,16 +489,13 @@ static func source_mend_projector_supplied_heal_candidates_state(candidates: Arr
 	# then admits only `b.within(wx, wy, range + b.hitSize()
 	# / 2f)` (a STRICT dst2 < (range + hitSize/2)^2 circle,
 	# Position.java:44-46) with the predicate and
-	# `!b.block.privileged` (BlockIndexer.java:346) -- so the
-	# port admits rect corners Java rejects (for a small
-	# hitSize) and misses large-hitbox buildings whose center
-	# sits outside the rect but within range + hitSize/2;
-	# the narrow-check refinement is live since N2335
-	# (source_mend_projector_supplied_heal_candidates_
-	# narrow_state, chained after this rect filter) -- the
-	# rect-corner half is fixed, the large-hitbox-miss half
-	# still waits (DEFERRED: Java's intersect is a QuadTree
-	# hitbox overlap query, BlockIndexer.java:345).
+	# `!b.block.privileged` (BlockIndexer.java:346) -- so
+	# the port admits rect corners Java rejects (for a small
+	# hitSize); the narrow-check refinement is live since
+	# N2335 (source_mend_projector_supplied_heal_candidates_
+	# narrow_state, chained after this broad phase) -- the
+	# rect-corner half is fixed, and the large-hitbox-miss
+	# half is fixed since N2350 (the hitbox broad phase).
 	# Scoping decisions, all source-backed: (1)
 	# the pure filters RANGE ONLY -- it does NOT filter
 	# damaged / heal_suppressed (the N2242 heal scan already
@@ -493,27 +503,85 @@ static func source_mend_projector_supplied_heal_candidates_state(candidates: Arr
 	# healthy or suppressed in-range candidate is admitted
 	# here and dropped downstream. (2) A candidate dict
 	# carries x / y (world position, the building center)
-	# plus its other keys untouched (damaged /
-	# heal_suppressed / max_health -- the pure only filters,
-	# it never rewrites an entry); a missing x or y key
-	# EXCLUDES the candidate, and a non-Dictionary entry is
-	# excluded the same way. (3) The admitted entries are
-	# the candidate dicts themselves, in candidate order,
-	# like Java's Seq<Building>. (4) The team filter is the
-	# caller's: Java visits the projector team's buildingTree
-	# only (BlockIndexer.java:343), so the caller supplies
+	# plus hit_size (default 0.0, the N2335 narrow
+	# precedent -- a degenerate point hitbox) plus its other
+	# keys untouched (damaged / heal_suppressed / max_health
+	# -- the pure only filters, it never rewrites an entry);
+	# a missing x or y key EXCLUDES the candidate, and a
+	# non-Dictionary entry is excluded the same way. (3)
+	# The admitted entries are the candidate dicts
+	# themselves, in candidate order, like Java's
+	# Seq<Building>. (4) The team filter is the caller's:
+	# Java visits the projector team's buildingTree only
+	# (BlockIndexer.java:343), so the caller supplies
 	# same-team candidates. The live building index that
 	# would supply frame["heal_candidates"] still waits
 	# (DEFERRED).
+	return source_mend_projector_heal_candidates_hitbox_state(candidates, real_range, building_x, building_y)
+
+static func source_mend_projector_heal_candidates_hitbox_state(candidates: Array, real_range: float, building_x: float, building_y: float) -> Dictionary:
+	# The heal scan hitbox broad phase (BlockIndexer.
+	# java:345), the pure QuadTree hitbox overlap filter --
+	# the N2329 pure tested candidate CENTERS against the
+	# eachBlock rect inclusively (the N2277 precedent), an
+	# approximation that dropped large-hitbox buildings
+	# whose center sat outside the rect but within range +
+	# hitSize/2 before the N2335 narrow check ever saw
+	# them. Java's buildings.intersect is a QuadTree HITBOX
+	# overlap query: EntityGroup.intersect delegates to the
+	# QuadTree (each exact expr on ONE comment line, the
+	# N2148 lesson):
+	# `public void intersect(float x, float y, float width, float height, Cons<? super T> out){`
+	# `tree.intersect(x, y, width, height, out);`
+	# `hitbox(item);`
+	# `if(tmp.overlaps(x, y, width, height)){`
+	# `return x < rx + rwidth && x + width > rx && y < ry + rheight && y + height > ry;`
+	# `out.setCentered(x, y, block.size * tilesize, block.size * tilesize);`
+	# `return tile.block().size * tilesize;`
+	# The overlap is STRICT (Rect.java:274-276): a hitbox
+	# edge exactly touching the rect edge does NOT overlap,
+	# so a degenerate hitSize-0 hitbox on the edge or corner
+	# is dropped while the same point strictly inside is
+	# admitted -- the port excludes on the negated STRICT
+	# test on both axes (the N2340 ShockwaveTower precedent).
+	# A building's hitbox is a hitSize-sided square centered
+	# on the building (BuildingComp.java:2293), with hitSize
+	# the building hitbox size in world units
+	# (BuildingComp.java:2048); a real building always has
+	# hitSize >= 8 (size 1 * tilesize 8), so a real building
+	# centered exactly on the rect edge is admitted -- its
+	# hitbox overlaps. Scoping decisions, all source-backed:
+	# (1) the pure filters HITBOX OVERLAP ONLY -- it does
+	# NOT filter damaged / heal_suppressed (the N2242 heal
+	# scan already does, MendProjector.java:112 predicate
+	# halves) and does NOT filter within / privileged (the
+	# N2335 narrow pure chains after it). (2) A candidate
+	# dict carries x / y (world position, the building
+	# center) plus hit_size (default 0.0, the N2335 narrow
+	# precedent) plus its other keys untouched (damaged /
+	# heal_suppressed / max_health -- the pure only filters,
+	# it never rewrites an entry); a missing x or y key
+	# EXCLUDES the candidate (the N2329 precedent), and a
+	# non-Dictionary entry is excluded the same way. (3)
+	# The admitted entries are the candidate dicts
+	# themselves, in candidate order, like Java's
+	# Seq<Building>. (4) The chain order is hitbox broad
+	# phase -> narrow: the tick passes the N2329 ranged
+	# list (now hitbox-backed) into the N2335 narrow pure
+	# at the SAME realRange and building position, and
+	# passes the narrowed list into the N2242 heal scan.
 	var in_range: Array = []
 	for candidate in candidates:
 		if not (candidate is Dictionary):
 			continue
 		if not candidate.has("x") or not candidate.has("y"):
 			continue
-		var dx: float = absf(float(candidate.get("x", 0.0)) - building_x)
-		var dy: float = absf(float(candidate.get("y", 0.0)) - building_y)
-		if dx > real_range or dy > real_range:
+		var half_size: float = float(candidate.get("hit_size", 0.0)) / 2.0
+		var candidate_x: float = float(candidate.get("x", 0.0))
+		var candidate_y: float = float(candidate.get("y", 0.0))
+		if candidate_x - half_size >= building_x + real_range or candidate_x + half_size <= building_x - real_range:
+			continue
+		if candidate_y - half_size >= building_y + real_range or candidate_y + half_size <= building_y - real_range:
 			continue
 		in_range.append(candidate)
 	return {"candidates": in_range}
@@ -558,16 +626,15 @@ static func source_mend_projector_supplied_heal_candidates_narrow_state(candidat
 	# the same way. (3) The admitted entries are the
 	# candidate dicts themselves, in candidate order,
 	# like Java's Seq<Building>. (4) The chain order is
-	# rect -> narrow: the tick passes the N2329 ranged
-	# list here, at the SAME realRange and building
-	# position, and passes the narrowed list into the
-	# N2242 heal scan. Documented deviation,
-	# source-backed: the rect broad phase still drops
-	# large-hitbox buildings whose center sits outside
-	# the rect but within range + hitSize/2 (Java's
-	# intersect is a QuadTree hitbox overlap query,
-	# BlockIndexer.java:345) -- those buildings never
-	# reach this narrow check (DEFERRED).
+	# hitbox broad phase -> narrow: the tick passes the
+	# N2329 ranged list here, at the SAME realRange and
+	# building position, and passes the narrowed list
+	# into the N2242 heal scan. The broad phase is the
+	# Java-exact hitbox overlap since N2350 (the N2329
+	# pure delegates to source_mend_projector_heal_
+	# candidates_hitbox_state) -- the old rect center test
+	# that dropped large-hitbox buildings whose center sat
+	# outside the rect is gone (DEFERRED #326 resolved).
 	var narrowed: Array = []
 	for candidate in candidates:
 		if not (candidate is Dictionary):
@@ -710,8 +777,10 @@ static func source_mend_projector_tick_buildings_state(game: Object, seconds: fl
 		# offset, the N2306 RepairTower precedent: Building
 		# x/y are tile.drawx()/drawy(), BuildingComp.java:124)
 		# and passes the ranged list into the heal scan; the
-		# within/privileged narrow filter is live since N2335:
-		# the tick chains the narrow pure after the rect scan
+		# broad phase is the Java-exact hitbox overlap since
+		# N2350 (the N2329 pure delegates to the hitbox pure);
+		# the within/privileged narrow filter is live since N2335:
+		# the tick chains the narrow pure after the broad phase
 		# (same realRange and building position) and passes
 		# the NARROWED list into the heal scan, so a rect
 		# corner or a privileged building is never healed.
