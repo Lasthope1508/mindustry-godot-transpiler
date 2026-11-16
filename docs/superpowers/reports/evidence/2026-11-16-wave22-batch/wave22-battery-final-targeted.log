@@ -1,0 +1,9 @@
+test_all_c07_factory_battery_enabled_stamp_input_evidence_is_exact (tests.test_c07_factory_battery_enabled_stamp.C07FactoryBatteryEnabledStampTests.test_all_c07_factory_battery_enabled_stamp_input_evidence_is_exact) ... ok
+test_c07_factory_battery_enabled_stamp_registration (tests.test_c07_factory_battery_enabled_stamp.C07FactoryBatteryEnabledStampTests.test_c07_factory_battery_enabled_stamp_registration) ... ok
+test_factory_battery_enabled_stamp_state (tests.test_c07_factory_battery_enabled_stamp.C07FactoryBatteryEnabledStampTests.test_factory_battery_enabled_stamp_state) ... ok
+test_reference_graph_and_actual_c07_factory_battery_enabled_stamp (tests.test_c07_factory_battery_enabled_stamp.C07FactoryBatteryEnabledStampTests.test_reference_graph_and_actual_c07_factory_battery_enabled_stamp) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 8.616s
+
+OK

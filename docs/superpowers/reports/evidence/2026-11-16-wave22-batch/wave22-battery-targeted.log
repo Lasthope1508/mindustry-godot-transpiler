@@ -1,0 +1,18 @@
+test_all_c07_factory_battery_enabled_stamp_input_evidence_is_exact (tests.test_c07_factory_battery_enabled_stamp.C07FactoryBatteryEnabledStampTests.test_all_c07_factory_battery_enabled_stamp_input_evidence_is_exact) ... ok
+test_c07_factory_battery_enabled_stamp_registration (tests.test_c07_factory_battery_enabled_stamp.C07FactoryBatteryEnabledStampTests.test_c07_factory_battery_enabled_stamp_registration) ... ok
+test_factory_battery_enabled_stamp_state (tests.test_c07_factory_battery_enabled_stamp.C07FactoryBatteryEnabledStampTests.test_factory_battery_enabled_stamp_state) ... ok
+test_reference_graph_and_actual_c07_factory_battery_enabled_stamp (tests.test_c07_factory_battery_enabled_stamp.C07FactoryBatteryEnabledStampTests.test_reference_graph_and_actual_c07_factory_battery_enabled_stamp) ... FAIL
+
+======================================================================
+FAIL: test_reference_graph_and_actual_c07_factory_battery_enabled_stamp (tests.test_c07_factory_battery_enabled_stamp.C07FactoryBatteryEnabledStampTests.test_reference_graph_and_actual_c07_factory_battery_enabled_stamp)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Admin\.codex\worktrees\godot-integration-validation\tools\mindustry_godot_transpiler\tests\test_c07_factory_battery_enabled_stamp.py", line 169, in test_reference_graph_and_actual_c07_factory_battery_enabled_stamp
+    self.assertTrue(proofs[0]['matches'], proofs[0])
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : {'factory_stamp_all_enabled_drain_scales_both': False, 'factory_stamp_all_enabled_flags_true': False, 'factory_stamp_all_enabled_stored_total': False, 'factory_stamp_cheat_branch_disabled_untouched': False, 'factory_stamp_cheat_branch_stored_total': False, 'factory_stamp_disabled_excluded_from_stored': False, 'factory_stamp_disabled_flag_false_in_update': False, 'factory_stamp_disabled_untouched_by_drain': True, 'factory_stamp_enabled_drained': False, 'matches': False}
+
+----------------------------------------------------------------------
+Ran 4 tests in 8.518s
+
+FAILED (failures=1)
