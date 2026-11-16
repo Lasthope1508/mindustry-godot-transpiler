@@ -34,6 +34,22 @@ const SOURCE_BUILD_TURRET_BUILD_SPEED := 1.5
 # `consumeLiquid(Liquids.nitrogen, 3f / 60f);`).
 const SOURCE_BUILD_TURRET_LIQUID := "nitrogen"
 const SOURCE_BUILD_TURRET_LIQUID_AMOUNT := 3.0 / 60.0
+# Single def -- build-tower only: the effective elevation is 1.5 --
+# the field defaults to -1f (`public float elevation = -1f;`,
+# BuildTurret.java:38) and init() lifts it (`if(elevation < 0)
+# elevation = size / 2f;`, BuildTurret.java:53), so the size-3
+# build-tower (Blocks.java:2002, `size = 3;`) shifts its shadow by
+# 3 / 2f = 1.5. The draw pure takes elevation as a param; this
+# constant is the build-tower value the caller supplies.
+const SOURCE_BUILD_TURRET_ELEVATION := 1.5
+# Single def -- build-tower only: the heatColor alpha is 0.9 --
+# `public Color heatColor = Pal.accent.cpy().a(0.9f);`
+# (BuildTurret.java:39), no def override (Blocks.java:1997-2006
+# sets neither elevation nor heatColor). The additive body
+# multiplies the passed alpha by the color alpha
+# (`Draw.color(color, alpha * color.a);`, Drawf.java:186), so the
+# effective glow alpha is warmup * 0.9.
+const SOURCE_BUILD_TURRET_HEAT_COLOR_ALPHA := 0.9
 
 static func _is_build_turret_build_implementation(implementation: String) -> bool:
 	return SOURCE_BUILD_TURRET_BUILD_IMPLEMENTATIONS.has(implementation)
@@ -111,7 +127,7 @@ static func source_build_turret_power_status_row_state(frame: Dictionary, has_po
 	# BuildTurretBuild DOES override shouldConsume (BuildTurret.java:229-230, `public boolean shouldConsume(){` / `return unit.plans().size > 0 && !isHealSuppressed();`), and updateConsumption forces efficiency to zero when the gate is false (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). The shouldConsume gate is live (N2215) -- the pure gate (source_build_turret_should_consume_state) feeds should_consume to the machinery from the frame plans key (empty before any plan is queued, non-empty once the builder unit has plans) and the heal_suppressed key (the isHealSuppressed() mirror, BuildingComp.java:487-489); the plan logic is live (N2244, source_build_turret_plan_logic_state fills frame["plans"] from the pure advance, though the driver passes no live team plans / builders / players yet) and the suppression application is BuildingComp.java:482-485. canConsume (BuildingComp.java:1917, `public boolean canConsume(){` with `return potentialEfficiency > 0;`, BuildingComp.java:1918) and edelta (BuildingComp.java:1927-1929, `return efficiency * delta();`) are the surrounding gates.
 	# The build tower is its own family (BuildTurret.java:27, `public class BuildTurret extends BaseTurret{`; BuildTurretBuild, BuildTurret.java:92, `public class BuildTurretBuild extends BaseTurretBuild implements ControlBlock, RotBlock{`), a defense / effect block, NOT a TurretBuild: SourceTurretBuildState.gd excludes it explicitly, and BaseTurretBuild (BaseTurret.java:113, `public class BaseTurretBuild extends Building implements Ranged, RotBlock{`) overrides neither shouldConsume nor updateTile -- the gate and the tick both come from BuildTurretBuild itself. Class fields: `public final int timerTarget = timers++, timerTarget2 = timers++;` (BuildTurret.java:28), `public int targetInterval = 15;` (BuildTurret.java:29), `public float buildSpeed = 1f;` (BuildTurret.java:33), `public float buildBeamOffset = 5f;` (BuildTurret.java:34), `public float elevation = -1f;` (BuildTurret.java:38), `public Color heatColor = Pal.accent.cpy().a(0.9f);` (BuildTurret.java:39); constructor `public BuildTurret(String name){` (BuildTurret.java:41), `group = BlockGroup.turrets;` (BuildTurret.java:43), `sync = false;` (BuildTurret.java:44), `rotateSpeed = 10f;` (BuildTurret.java:45), `suppressable = true;` (BuildTurret.java:46). init lifts the elevation and builds the hidden builder unit type (BuildTurret.java:53, `if(elevation < 0) elevation = size / 2f;` with BuildTurret.java:56, `unitType = new UnitType("turret-unit-" + name){{`). Build fields: `public BlockUnitc unit = (BlockUnitc)unitType.create(team);` (BuildTurret.java:93), `public @Nullable Unit following;` (BuildTurret.java:94), `public @Nullable BlockPlan lastPlan;` (BuildTurret.java:95), `public float warmup;` (BuildTurret.java:96).
 	# Single def -- build-tower only (size 3, range 200f, buildSpeed 1.5f, silicon 150 / oxide 40 / thorium 60, Blocks.java:1997-2006): `buildTower = new BuildTurret("build-tower"){{` (Blocks.java:1997) with `requirements(Category.effect, with(Items.silicon, 150, Items.oxide, 40, Items.thorium, 60));` (Blocks.java:1998), `outlineColor = Pal.darkOutline;` (Blocks.java:1999), `range = 200f;` (Blocks.java:2001), `size = 3;` (Blocks.java:2002), `buildSpeed = 1.5f;` (Blocks.java:2003), `consumePower(3f);` (Blocks.java:2005) and `consumeLiquid(Liquids.nitrogen, 3f / 60f);` (Blocks.java:2006). No second BuildTurret def exists; there is no family split to manage. The plan search (`}else if(unit.buildPlan() == null && timer(timerTarget, targetInterval)){`, :156; `Queue<BlockPlan> blocks = team.data().plans;`, :157), mimic (`Units.nearby(team, x, y, range, u -> {`, :176), validation (`boolean valid =`, :204) advance is live (N2244); `unit.updateBuildLogic();` (:225) is live since N2272. The draw / write / read / sense rows (BuildTurret.java:232-319) wait for their own slices.
-	# Documented limits: (1) power + liquid first pass -- the tower's static power consumer (consumePower 3f, Blocks.java:2005) and its required liquid consumer (consumeLiquid nitrogen 3f/60f, Blocks.java:2006 -- liquid row live (N2251)) are the modeled consumers, so the folded efficiency is the min over the *modeled* consumers (power + nitrogen); the single build-tower def has no other consumers. (2) shouldConsume gate live (N2215) -- BuildTurretBuild overrides shouldConsume (`return unit.plans().size > 0 && !isHealSuppressed();`, BuildTurret.java:229-230); when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994); the pure gate reads the frame plans key (default []) and the heal_suppressed key (default false) and feeds should_consume to the machinery; the plan logic is live (N2244) -- the pure advance fills frame["plans"] (the driver passes no live team plans / builders / players yet), while the heal suppression application (BuildingComp.java:482-485) still waits for its own slice. (3) updateTile sync/warmup advance live (N2243) -- rotation follow / lookAt / suppression zeroing / multipliers / warmup lerp (BuildTurret.java:121-140); plan logic live (N2244) -- plan search / follow / mimic / validate / suicide-plan removal (BuildTurret.java:141-225) run through the pure advance; updateBuildLogic live (N2272) -- build counter + validatePlans + plan selection (BuilderComp.java:76+; placement Call.beginPlace / Call.beginBreak / ConstructBuild :148-222 defers, so the driver runs one plan per tick and consumes the counter only when a plan is selected; the frame inputs core_items / plan_tile_states / update_building / can_build have no live fill yet); the eff fold (BuildTurret.java:136-137) is what the efficiency keys prove. (4) Liquid row live (N2251) -- consumeLiquid nitrogen 3f/60f (Blocks.java:2006) folds through source_build_turret_liquid_consumer_row_state and removes amount * edelta * multiplier on the second pass (ConsumeLiquid.java:37-39); the multiplier is the 1f default (Consume.java:18), the def sets none; the live nitrogen intake (conduit/bridge delivery into the tower) waits for its own slice, so a live tower with no intake reads 0 nitrogen and folds efficiency 0. (5) Suppression zeroing live (N2243) -- checkSuppression() (BuildTurret.java:132-133) zeroes efficiency + potentialEfficiency through the frame heal_suppressed mirror (checkSuppression returns true iff isHealSuppressed, BuildingComp.java:1336-1337; the Fx particle defers); no live fill applies suppression yet (applyHealSuppression, BuildingComp.java:482-485, needs game time + suppression application). (6) Single def -- build-tower only (size 3, range 200f, buildSpeed 1.5f, silicon 150 / oxide 40 / thorium 60); per-def stat values wait for their own verification slice. (7) No draw / read / write / sense modeling -- draw / write / read / sense (BuildTurret.java:232-319) wait for their own slices.
+	# Documented limits: (1) power + liquid first pass -- the tower's static power consumer (consumePower 3f, Blocks.java:2005) and its required liquid consumer (consumeLiquid nitrogen 3f/60f, Blocks.java:2006 -- liquid row live (N2251)) are the modeled consumers, so the folded efficiency is the min over the *modeled* consumers (power + nitrogen); the single build-tower def has no other consumers. (2) shouldConsume gate live (N2215) -- BuildTurretBuild overrides shouldConsume (`return unit.plans().size > 0 && !isHealSuppressed();`, BuildTurret.java:229-230); when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994); the pure gate reads the frame plans key (default []) and the heal_suppressed key (default false) and feeds should_consume to the machinery; the plan logic is live (N2244) -- the pure advance fills frame["plans"] (the driver passes no live team plans / builders / players yet), while the heal suppression application (BuildingComp.java:482-485) still waits for its own slice. (3) updateTile sync/warmup advance live (N2243) -- rotation follow / lookAt / suppression zeroing / multipliers / warmup lerp (BuildTurret.java:121-140); plan logic live (N2244) -- plan search / follow / mimic / validate / suicide-plan removal (BuildTurret.java:141-225) run through the pure advance; updateBuildLogic live (N2272) -- build counter + validatePlans + plan selection (BuilderComp.java:76+; placement Call.beginPlace / Call.beginBreak / ConstructBuild :148-222 defers, so the driver runs one plan per tick and consumes the counter only when a plan is selected; the frame inputs core_items / plan_tile_states / update_building / can_build have no live fill yet); the eff fold (BuildTurret.java:136-137) is what the efficiency keys prove. (4) Liquid row live (N2251) -- consumeLiquid nitrogen 3f/60f (Blocks.java:2006) folds through source_build_turret_liquid_consumer_row_state and removes amount * edelta * multiplier on the second pass (ConsumeLiquid.java:37-39); the multiplier is the 1f default (Consume.java:18), the def sets none; the live nitrogen intake (conduit/bridge delivery into the tower) waits for its own slice, so a live tower with no intake reads 0 nitrogen and folds efficiency 0. (5) Suppression zeroing live (N2243) -- checkSuppression() (BuildTurret.java:132-133) zeroes efficiency + potentialEfficiency through the frame heal_suppressed mirror (checkSuppression returns true iff isHealSuppressed, BuildingComp.java:1336-1337; the Fx particle defers); no live fill applies suppression yet (applyHealSuppression, BuildingComp.java:482-485, needs game time + suppression application). (6) Single def -- build-tower only (size 3, range 200f, buildSpeed 1.5f, silicon 150 / oxide 40 / thorium 60); per-def stat values wait for their own verification slice. (7) Draw rows live (N2431) -- the draw pure (source_build_turret_draw_state) models draw() (:234-251: base rect + turret-layer shadow/region at rotation - 90, the shadow shifted by the field elevation -- 1.5 for the size-3 build-tower after the init lift -- the glow additive by warmup at Layer.turretHeat with effective alpha warmup * 0.9, and the recorded unit.drawBuilding() call when efficiency > 0). Pure-only: the tick never calls draw -- draw is called by the renderer, and the renderer call site waits for a renderer slice. Read / write / sense (BuildTurret.java:259-295) wait for their own slices.
 	# Source lines (all 136 exact exprs, verified verbatim in upstream at RED):
 	# - `return build.power.status;`
 	# - `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`
@@ -1126,3 +1142,86 @@ static func source_build_turret_tick_buildings_state(game: Object, seconds: floa
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
 	return {"ticked_count": ticked_count, "results_by_cell": results_by_cell}
+
+static func source_build_turret_draw_state(x_value: float, y_value: float, rotation: float, elevation: float, warmup: float, efficiency: float, glow_found: bool, heat_color: String, unit_present: bool) -> Dictionary:
+	# The draw rows (BuildTurretBuild.draw(), BuildTurret.java:234-251), the pure draw-call dict -- the port never draws for real (the N2421 RepairTurret precedent: the pure returns the draw calls as data). Java draws, in order (each exact expr on ONE comment line, the N2148 lesson):
+	# `public void draw(){`
+	# `Draw.rect(baseRegion, x, y);`
+	# `Draw.color();`
+	# `Draw.z(Layer.turret);`
+	# `Drawf.shadow(region, x - elevation, y - elevation, rotation - 90);`
+	# `Draw.rect(region, x, y, rotation - 90);`
+	# `if(glowRegion.found()){`
+	# `Drawf.additive(glowRegion, heatColor, warmup, x, y, rotation - 90f, Layer.turretHeat);`
+	# `if(efficiency > 0){`
+	# `unit.drawBuilding();`
+	# The shadow shifts by the FIELD elevation (`public float elevation = -1f;`, BuildTurret.java:38), lifted by init() (`if(elevation < 0) elevation = size / 2f;`, BuildTurret.java:53), so the size-3 build-tower (`size = 3;`, Blocks.java:2002; `buildTower = new BuildTurret("build-tower"){{`, Blocks.java:1997) shifts by 1.5 -- NOT the RepairTurret literal size / 2f: here the field is the shift and the init lift is what sets it. baseRegion is the `@-base` region (`public @Load(value = "@-base", fallback = "block-@size") TextureRegion baseRegion;`, BuildTurret.java:31). The shadow overload is Drawf.shadow(TextureRegion, x, y, rotation) (`public static void shadow(TextureRegion region, float x, float y, float rotation){`, Drawf.java:366-370): `Draw.color(Pal.shadow);` + Draw.rect + `Draw.color();`. The glow is the Drawf.additive overload (region, color, alpha, x, y, rotation, layer) (`public static void additive(TextureRegion region, Color color, float alpha, float x, float y, float rotation, float layer){`, Drawf.java:183-192): `Draw.color(color, alpha * color.a);` + `Draw.blend(Blending.additive);` + Draw.rect + blend/color/z reset. heatColor is `public Color heatColor = Pal.accent.cpy().a(0.9f);` (BuildTurret.java:39) -- the 0.9f alpha makes the effective glow alpha warmup * 0.9; the single build-tower def sets neither elevation nor heatColor (Blocks.java:1997-2006, `range = 200f;` / `buildSpeed = 1.5f;` only). The glow region is the `@-glow` region (`public @Load("@-glow") TextureRegion glowRegion;`, BuildTurret.java:32). The color rides as the symbolic token ("heatColor"), the N2415 / ShockwaveTower precedent; the port never draws for real. warmup is the frame warmup (`public float warmup;`, BuildTurret.java:96, tracked by the N2243 lerp advance). The build call is a call into the builder unit (`public BlockUnitc unit = (BlockUnitc)unitType.create(team);`, BuildTurret.java:93), which Java creates at construction and never nulls -- the pure RECORDS the call, it does not model unit draw; unit_present is a defensive port flag (the port has no live Unit object behind the frame). The gate is a STRICT > 0 -- efficiency exactly 0 draws nothing. The rotation field default is `public float rotation = 90;` (BaseTurret.java:114). Pure-only: the tick never calls draw -- draw is called by the renderer, and the renderer call site waits for a renderer slice.
+	var draw_rotation: float = rotation - 90.0
+	var base_call: Dictionary = {
+		"call": "Draw.rect(baseRegion, x, y);",
+		"region": "baseRegion",
+		"x": x_value,
+		"y": y_value,
+	}
+	var shadow_call: Dictionary = {
+		"call": "Drawf.shadow(region, x - elevation, y - elevation, rotation - 90);",
+		"region": "region",
+		"x": x_value - elevation,
+		"y": y_value - elevation,
+		"rotation": draw_rotation,
+		"z": "Layer.turret",
+	}
+	var region_call: Dictionary = {
+		"call": "Draw.rect(region, x, y, rotation - 90);",
+		"region": "region",
+		"x": x_value,
+		"y": y_value,
+		"rotation": draw_rotation,
+		"z": "Layer.turret",
+	}
+	var effective_alpha: float = warmup * SOURCE_BUILD_TURRET_HEAT_COLOR_ALPHA
+	var glow_call: Variant = null
+	if glow_found:
+		glow_call = {
+			"call": "Drawf.additive(glowRegion, heatColor, warmup, x, y, rotation - 90f, Layer.turretHeat);",
+			"region": "glowRegion",
+			"color": heat_color,
+			"alpha": warmup,
+			"effective_alpha": effective_alpha,
+			"x": x_value,
+			"y": y_value,
+			"rotation": draw_rotation,
+			"layer": "Layer.turretHeat",
+		}
+	var build_call: Variant = null
+	if efficiency > 0.0 and unit_present:
+		build_call = {
+			"call": "unit.drawBuilding();",
+		}
+	return {
+		"base_expr": "Draw.rect(baseRegion, x, y);",
+		"color_expr": "Draw.color();",
+		"z_expr": "Draw.z(Layer.turret);",
+		"shadow_expr": "Drawf.shadow(region, x - elevation, y - elevation, rotation - 90);",
+		"region_expr": "Draw.rect(region, x, y, rotation - 90);",
+		"glow_gate_expr": "if(glowRegion.found()){",
+		"glow_expr": "Drawf.additive(glowRegion, heatColor, warmup, x, y, rotation - 90f, Layer.turretHeat);",
+		"build_gate_expr": "if(efficiency > 0){",
+		"build_expr": "unit.drawBuilding();",
+		"x": x_value,
+		"y": y_value,
+		"rotation": rotation,
+		"elevation": elevation,
+		"warmup": warmup,
+		"efficiency": efficiency,
+		"glow_found": glow_found,
+		"heat_color": heat_color,
+		"unit_present": unit_present,
+		"draw_rotation": draw_rotation,
+		"effective_alpha": effective_alpha,
+		"base_call": base_call,
+		"shadow_call": shadow_call,
+		"region_call": region_call,
+		"glow_call": glow_call,
+		"build_call": build_call,
+	}
