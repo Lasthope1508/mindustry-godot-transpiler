@@ -139,6 +139,60 @@ static func source_launch_pad_should_consume_state(frame: Dictionary, launch_tim
 		return {"should_consume": enabled}
 	return {"should_consume": float(observed) < launch_time and enabled}
 
+static func source_launch_pad_sense_state(frame: Dictionary, sensor: String, launch_time: float) -> Dictionary:
+	# LaunchPadBuild overrides sense
+	# (LaunchPad.java:98, `public double sense(LAccess sensor){`
+	# with `if(sensor == LAccess.progress) return Mathf.clamp(launchCounter / launchTime);`,
+	# LaunchPad.java:99) over the launch counter
+	# (LaunchPad.java:84, `public float launchCounter;`),
+	# which the updateTile advance alone writes
+	# (LaunchPad.java:146, `if((launchCounter += edelta())
+	# >= launchTime && items.total() >= itemCapacity){`).
+	# Non-progress sensors fall through to super.sense
+	# (LaunchPad.java:100, `return super.sense(sensor);`),
+	# and the BuildingComp super switch has NO progress case
+	# (BuildingComp.java:2093, `public double sense(LAccess sensor){`
+	# + 2123, `default -> Float.NaN; //gets converted to null in logic`),
+	# so a logic read of `progress` on a launch pad currently
+	# returns NaN/null while Java returns the clamped fraction. Do NOT confuse sense with progress():
+	# `public float progress(){` + `return 0f;`
+	# (BuildingComp.java:617-619) is a DIFFERENT method the
+	# sense switch never calls. The sensor enum value is
+	# `progress,` (LAccess.java:28). The same expression
+	# drives the progress bar (LaunchPad.java:70,
+	# `Mathf.clamp(build.launchCounter / launchTime)`).
+	# Mathf.clamp one-arg clamps to [0, 1]; the GDScript
+	# spelling is clampf(value, 0.0, 1.0) -- the
+	# SourceShockwaveTowerBuildState.gd:306 precedent. The
+	# per-def launchTime is 1200f for launch-pad
+	# (Blocks.java:6794, `launchTime = 60f * 20;`, with
+	# `size = 3;` and `itemCapacity = 100;`) and 1800f for
+	# advanced-launch-pad (Blocks.java:6804, `launchTime =
+	# 60f * 30;`, with `size = 4;` and `itemCapacity =
+	# 100;`), overriding the class default `public float
+	# launchTime = 1f;` (LaunchPad.java:32). Sense is a
+	# logic read, not a tick write: NO driver tick line
+	# belongs here (the N2203 damage() precedent -- the
+	# proof calls the pure function
+	# source_launch_pad_sense_state(frame, sensor, launch_time)
+	# directly with synthetic frames); the logic-processor
+	# integration -- how a logic `sense progress` read on a
+	# placed launch pad reaches this family function -- is
+	# its own later slice. An absent `launch_counter` key
+	# reads 0.0 -- the Java init default (`public float
+	# launchCounter;` defaults to 0.0f), so a freshly built
+	# pad senses 0.0, NOT NaN. Two defs share the
+	# implementation (LaunchPad.java:30, `public class
+	# LaunchPad extends Block{`; LaunchPadBuild,
+	# LaunchPad.java:83, `public class LaunchPadBuild
+	# extends Building{`).
+	if sensor == "progress":
+		var observed: Variant = frame.get("launch_counter", null)
+		var counter: float = 0.0 if observed == null else float(observed)
+		var fraction: float = clampf(counter / launch_time, 0.0, 1.0)
+		return {"handled": true, "sense_value": fraction, "sense_value_is_nan": false}
+	return {"handled": false, "sense_value": null, "sense_value_is_nan": true}
+
 @warning_ignore("unused_parameter")
 static func source_launch_pad_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the launch-pad tick wiring every

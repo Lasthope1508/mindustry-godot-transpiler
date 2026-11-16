@@ -66467,6 +66467,41 @@
       ],
       "runtime_proof": "/root/C07LaunchPadShouldConsumeProof",
       "rule": "Source-backed LaunchPad shouldConsume gate from LaunchPad.java / BuildingComp.java."
+    },
+    "SourceLaunchPadBuildState.source_launch_pad_sense_state": {
+      "status": "active",
+      "source_slice": "N2206",
+      "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+      "source_method": "LaunchPadBuild.sense()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_launch_pad_sense_state_input.frame"
+        },
+        {
+          "name": "sensor",
+          "type": "String",
+          "schema": "source_launch_pad_sense_state_input.sensor"
+        },
+        {
+          "name": "launch_time",
+          "type": "float",
+          "schema": "source_launch_pad_sense_state_input.launch_time"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "sense_value"
+      ],
+      "tests": [
+        "test_c07_launch_pad_sense_progress_registration",
+        "test_all_c07_launch_pad_sense_progress_input_evidence_is_exact",
+        "test_launch_pad_sense_progress_state",
+        "test_reference_graph_and_actual_c07_launch_pad_sense_progress"
+      ],
+      "runtime_proof": "/root/C07LaunchPadSenseProgressProof",
+      "rule": "Source-backed LaunchPad sense(progress) override from LaunchPad.java / BuildingComp.java / LAccess.java."
     }
   },
   "policy": {

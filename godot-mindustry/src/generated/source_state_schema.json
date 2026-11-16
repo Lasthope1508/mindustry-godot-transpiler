@@ -231018,6 +231018,64 @@
       },
       "runtime_proof": "/root/C07LaunchPadShouldConsumeProof",
       "rule": "Source-backed LaunchPad shouldConsume gate from LaunchPad.java / BuildingComp.java."
+    },
+    "source_launch_pad_sense_state_input": {
+      "status": "active",
+      "owner": "SourceLaunchPadBuildState.source_launch_pad_sense_state",
+      "source_slice": "N2206",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "public float launchCounter;",
+          "rule": "The building frame carrying the launch_counter observation (LaunchPad.java:84, `public float launchCounter;`, stamped by the future updateTile advance every tick after the launch gate consult) plus the sensor read; a missing launch_counter key reads 0.0 -- the Java init default, not \"no observation yet\" -- because `public float launchCounter;` defaults to 0.0f, so a freshly built pad senses clamp(0 / launchTime) = 0.0.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_sense_state"
+          ]
+        },
+        "sensor": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/logic/LAccess.java",
+          "java_expr": "progress,",
+          "rule": "The LAccess sensor enum name as a string (LAccess.java:28 lists `progress,`); the generic sense layer matches sensor strings by enum name (\"health\", \"maxHealth\", \"color\", ...). Only \"progress\" is handled by this override; any other sensor falls through to super.sense (LaunchPad.java:100, `return super.sense(sensor);`).",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_sense_state"
+          ]
+        },
+        "launch_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "public float launchTime = 1f;",
+          "rule": "The per-def launchTime the sense fraction runs the counter against (LaunchPad.java:32, the class default 1f): launch-pad 1200f (Blocks.java:6794, `launchTime = 60f * 20;`) and advanced-launch-pad 1800f (Blocks.java:6804, `launchTime = 60f * 30;`); the caller selects it by block id from SOURCE_LAUNCH_PAD_LAUNCH_TIMES and passes it in.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_sense_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaunchPadSenseProgressProof",
+      "rule": "Source-backed LaunchPad sense(progress) override from LaunchPad.java / BuildingComp.java / LAccess.java."
+    },
+    "source_launch_pad_sense_state_result": {
+      "status": "active",
+      "owner": "SourceLaunchPadBuildState.source_launch_pad_sense_state",
+      "source_slice": "N2206",
+      "keys": {
+        "sense_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "if(sensor == LAccess.progress) return Mathf.clamp(launchCounter / launchTime);",
+          "rule": "The sensed progress value (LaunchPad.java:98-101): the clamped launch fraction `Mathf.clamp(launchCounter / launchTime)` when the sensor is \"progress\" (handled true, sense_value_is_nan false), null when the sensor is not handled (fall through to super.sense, handled false, sense_value_is_nan true).",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_sense_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaunchPadSenseProgressProof",
+      "rule": "Source-backed LaunchPad sense(progress) override from LaunchPad.java / BuildingComp.java / LAccess.java."
     }
   },
   "version": 1

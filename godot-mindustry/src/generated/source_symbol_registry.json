@@ -173736,6 +173736,22 @@
         "test_reference_graph_and_actual_c07_launch_pad_should_consume"
       ],
       "runtime_proof": "/root/C07LaunchPadShouldConsumeProof"
+    },
+    "source_launch_pad_sense_state_result.sense_value": {
+      "status": "source-backed",
+      "godot_owner": "SourceLaunchPadBuildState.source_launch_pad_sense_state",
+      "godot_symbol": "source_launch_pad_sense_state_result.sense_value",
+      "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+      "java_method": "LaunchPadBuild.sense()",
+      "java_expr": "if(sensor == LAccess.progress) return Mathf.clamp(launchCounter / launchTime);",
+      "rule": "The sensed progress value (LaunchPad.java:98-101): the clamped launch fraction `Mathf.clamp(launchCounter / launchTime)` when the sensor is \"progress\" (handled true, sense_value_is_nan false), null when the sensor is not handled (fall through to super.sense, handled false, sense_value_is_nan true).",
+      "tests": [
+        "test_c07_launch_pad_sense_progress_registration",
+        "test_all_c07_launch_pad_sense_progress_input_evidence_is_exact",
+        "test_launch_pad_sense_progress_state",
+        "test_reference_graph_and_actual_c07_launch_pad_sense_progress"
+      ],
+      "runtime_proof": "/root/C07LaunchPadSenseProgressProof"
     }
   },
   "version": 1
