@@ -108,6 +108,26 @@ static func source_consumer_set_power_status_for_cell_state(game: Object, cell: 
 			return {"stored": true, "reason": "live_frame"}
 	return {"stored": false, "reason": "no_frame"}
 
+static func source_consumer_set_battery_stored_for_cell_state(game: Object, cell: Vector2i, stored: float) -> Dictionary:
+	# PowerGraph.java:236 `lastPowerStored = getBatteryStored();` — the
+	# graph records the stored total each update; the write-back
+	# (the N2142 power_status pattern, extended to battery_stored)
+	# writes it onto each consumer's family frame, so the next
+	# frame — and the accelerator driver running later in the same
+	# tick — reads the live total instead of the null fold.
+	var sprite: Variant = game.call("block_sprite_at_cell", cell)
+	if sprite == null:
+		return {"stored": false, "reason": "no_sprite"}
+	for meta_key in SOURCE_CONSUMER_FRAME_META_KEYS:
+		if not sprite.has_meta(meta_key):
+			continue
+		var frame: Variant = sprite.get_meta(meta_key)
+		if frame is Dictionary:
+			frame["battery_stored"] = stored
+			sprite.set_meta(meta_key, frame)
+			return {"stored": true, "reason": "live_frame"}
+	return {"stored": false, "reason": "no_frame"}
+
 static func source_consumer_cheating_for_cell_state(game: Object, cell: Vector2i) -> Dictionary:
 	# PowerGraph.java:217 update(): the cheat gate reads the first
 	# consumer's cheating() — TeamComp.java:17-19 returns

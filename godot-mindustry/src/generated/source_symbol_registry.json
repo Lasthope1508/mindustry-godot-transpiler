@@ -174120,6 +174120,54 @@
         "test_reference_graph_and_actual_c07_repair_turret_read_write"
       ],
       "runtime_proof": "/root/C07RepairTurretReadWriteProof"
+    },
+    "source_accelerator_battery_state_result.battery_stored": {
+      "status": "source-backed",
+      "godot_owner": "SourceAcceleratorBuildState.source_accelerator_battery_state",
+      "godot_symbol": "source_accelerator_battery_state_result.battery_stored",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "AcceleratorBuild.canLaunch()",
+      "java_expr": "return totalAccumulator;",
+      "rule": "The live stored battery total (PowerGraph.java:132, getBatteryStored returns the accumulator): the frame value echoed back, 0.0 when the graph holds no stored power.",
+      "tests": [
+        "test_c07_accelerator_battery_registration",
+        "test_all_c07_accelerator_battery_input_evidence_is_exact",
+        "test_accelerator_battery_state",
+        "test_reference_graph_and_actual_c07_accelerator_battery"
+      ],
+      "runtime_proof": "/root/C07AcceleratorBattery"
+    },
+    "source_accelerator_battery_state_result.battery_fraction": {
+      "status": "source-backed",
+      "godot_owner": "SourceAcceleratorBuildState.source_accelerator_battery_state",
+      "godot_symbol": "source_accelerator_battery_state_result.battery_fraction",
+      "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+      "java_method": "AcceleratorBuild.canLaunch()",
+      "java_expr": "() -> b.power.graph.getBatteryStored() / powerBufferRequirement",
+      "rule": "The powerBufferRequirement bar fraction (Accelerator.java:109): stored over the 1,000,000f requirement, 1.0 when the buffer is full.",
+      "tests": [
+        "test_c07_accelerator_battery_registration",
+        "test_all_c07_accelerator_battery_input_evidence_is_exact",
+        "test_accelerator_battery_state",
+        "test_reference_graph_and_actual_c07_accelerator_battery"
+      ],
+      "runtime_proof": "/root/C07AcceleratorBattery"
+    },
+    "source_accelerator_battery_state_result.can_launch_battery": {
+      "status": "source-backed",
+      "godot_owner": "SourceAcceleratorBuildState.source_accelerator_battery_state",
+      "godot_symbol": "source_accelerator_battery_state_result.can_launch_battery",
+      "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+      "java_method": "AcceleratorBuild.canLaunch()",
+      "java_expr": "power.graph.getBatteryStored() >= powerBufferRequirement-0.00001f",
+      "rule": "The canLaunch battery half-gate (Accelerator.java:240): true when the stored total reaches the requirement within the 0.00001f epsilon.",
+      "tests": [
+        "test_c07_accelerator_battery_registration",
+        "test_all_c07_accelerator_battery_input_evidence_is_exact",
+        "test_accelerator_battery_state",
+        "test_reference_graph_and_actual_c07_accelerator_battery"
+      ],
+      "runtime_proof": "/root/C07AcceleratorBattery"
     }
   },
   "version": 1

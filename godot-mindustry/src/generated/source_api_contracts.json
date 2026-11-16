@@ -67036,6 +67036,38 @@
       ],
       "runtime_proof": "/root/C07RepairTurretReadWriteProof",
       "rule": "Source-backed RepairTurret read/write persistence from RepairTurret.java."
+    },
+    "SourceAcceleratorBuildState.source_accelerator_battery_state": {
+      "status": "active",
+      "source_slice": "N2218",
+      "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+      "source_method": "AcceleratorBuild.canLaunch()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_accelerator_battery_state_input.frame"
+        },
+        {
+          "name": "power_buffer_requirement",
+          "type": "float",
+          "schema": "source_accelerator_battery_state_input.power_buffer_requirement"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "battery_stored",
+        "battery_fraction",
+        "can_launch_battery"
+      ],
+      "tests": [
+        "test_c07_accelerator_battery_registration",
+        "test_all_c07_accelerator_battery_input_evidence_is_exact",
+        "test_accelerator_battery_state",
+        "test_reference_graph_and_actual_c07_accelerator_battery"
+      ],
+      "runtime_proof": "/root/C07AcceleratorBattery",
+      "rule": "Source-backed Accelerator battery read from PowerGraph.java / Accelerator.java."
     }
   },
   "policy": {

@@ -232048,6 +232048,74 @@
       },
       "runtime_proof": "/root/C07RepairTurretReadWriteProof",
       "rule": "Source-backed RepairTurret read/write persistence from RepairTurret.java."
+    },
+    "source_accelerator_battery_state_input": {
+      "status": "active",
+      "owner": "SourceAcceleratorBuildState.source_accelerator_battery_state",
+      "source_slice": "N2218",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "totalAccumulator += battery.power.status * battery.block.consPower.capacity;",
+          "rule": "The building frame carrying the graph-stamped battery_stored (PowerGraph.java:123-132, getBatteryStored sums battery.power.status * capacity over enabled batteries): the live graph total the battery read returns; 0.0 before the first graph update.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_battery_state"
+          ]
+        },
+        "power_buffer_requirement": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "powerBufferRequirement = 1_000_000f;",
+          "rule": "The launch buffer requirement (Blocks.java:6826): the interplanetary-accelerator def value the gate and the bar fraction compare against.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_battery_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07AcceleratorBattery",
+      "rule": "Source-backed Accelerator battery read from PowerGraph.java / Accelerator.java."
+    },
+    "source_accelerator_battery_state_result": {
+      "status": "active",
+      "owner": "SourceAcceleratorBuildState.source_accelerator_battery_state",
+      "source_slice": "N2218",
+      "keys": {
+        "battery_stored": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "return totalAccumulator;",
+          "rule": "The live stored battery total (PowerGraph.java:132, getBatteryStored returns the accumulator): the frame value echoed back, 0.0 when the graph holds no stored power.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_battery_state"
+          ]
+        },
+        "battery_fraction": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "() -> b.power.graph.getBatteryStored() / powerBufferRequirement",
+          "rule": "The powerBufferRequirement bar fraction (Accelerator.java:109): stored over the 1,000,000f requirement, 1.0 when the buffer is full.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_battery_state"
+          ]
+        },
+        "can_launch_battery": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "power.graph.getBatteryStored() >= powerBufferRequirement-0.00001f",
+          "rule": "The canLaunch battery half-gate (Accelerator.java:240): true when the stored total reaches the requirement within the 0.00001f epsilon.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_battery_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07AcceleratorBattery",
+      "rule": "Source-backed Accelerator battery read from PowerGraph.java / Accelerator.java."
     }
   },
   "version": 1

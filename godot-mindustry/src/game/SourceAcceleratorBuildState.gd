@@ -73,6 +73,36 @@ static func source_accelerator_power_status_row_state(frame: Dictionary, has_pow
 	var live: float = 1.0 if stamped == null else float(stamped)
 	return {"has_power_row": true, "row": {"result": live, "is_power": true}}
 
+# The Accelerator battery read (N2218): the canLaunch battery
+# half-gate and the powerBufferRequirement bar both read the
+# graph's stored total, getBatteryStored (PowerGraph.java:118-128,
+# `public float getBatteryStored(){` with `float totalAccumulator = 0f;`
+# and `totalAccumulator += battery.power.status * battery.block.consPower.capacity;`
+# and `return totalAccumulator;`), recorded each update as
+# lastPowerStored (PowerGraph.java:236, `lastPowerStored = getBatteryStored();`).
+# canLaunch (Accelerator.java:239-240, `public boolean canLaunch(){` /
+# `power.graph.getBatteryStored() >= powerBufferRequirement-0.00001f`)
+# needs the stored total at the 1,000,000f requirement
+# (`powerBufferRequirement = 1_000_000f;`, Blocks.java:6826), and the
+# powerBufferRequirement bar (Accelerator.java:105-109,
+# `() -> b.power.graph.getBatteryStored() / powerBufferRequirement`)
+# shows the stored total over the requirement. A frame with no
+# stamp reads 0.0 before the first graph update, so the gate is
+# false and the fraction is 0.0 until the graph stamps the live
+# total -- the same null-fold shape as the N2183 power row. The
+# launch itself drains the battery (`public float useBatteries(float needed){`,
+# PowerGraph.java:154, with `float stored = getBatteryStored();`,
+# PowerGraph.java:155; Accelerator.java:270,
+# `power.graph.useBatteries(powerBufferRequirement);`) -- the launch
+# waits for its own slice, so this read never drains stored power.
+const SOURCE_ACCELERATOR_POWER_BUFFER_REQUIREMENT := 1000000.0
+
+static func source_accelerator_battery_state(frame: Dictionary, power_buffer_requirement: float) -> Dictionary:
+	var stored: float = float(frame.get("battery_stored", 0.0))
+	var fraction: float = stored / power_buffer_requirement
+	var can_launch: bool = stored >= power_buffer_requirement - 0.00001
+	return {"battery_stored": stored, "battery_fraction": fraction, "can_launch_battery": can_launch}
+
 @warning_ignore("unused_parameter")
 static func source_accelerator_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the accelerator tick wiring every
@@ -124,6 +154,19 @@ static func source_accelerator_tick_buildings_state(game: Object, seconds: float
 				required_results.append(power_row.get("row", {}))
 			var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(true, bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, [], [], frame)
 			source_building_efficiency_state.apply_update_consumption_state(consumption, frame)
+		# The battery read stamps live each tick (N2218): the
+		# graph update writes frame["battery_stored"] (the N2142
+		# write-back pattern, extended); this driver folds it
+		# into the bar fraction and the canLaunch battery
+		# half-gate (Accelerator.java:239-240), so the frame
+		# carries the gate the launch will read. The stamp runs
+		# for every ticked accelerator, not only when the power
+		# consumer folds -- the stored total is graph state, not
+		# consumption state.
+		var battery: Dictionary = source_accelerator_battery_state(frame, SOURCE_ACCELERATOR_POWER_BUFFER_REQUIREMENT)
+		frame["battery_stored"] = battery.get("battery_stored", 0.0)
+		frame["battery_fraction"] = battery.get("battery_fraction", 0.0)
+		frame["can_launch_battery"] = battery.get("can_launch_battery", false)
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1

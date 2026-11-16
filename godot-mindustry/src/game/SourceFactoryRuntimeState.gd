@@ -1105,6 +1105,22 @@ static func source_factory_update_power_graph_state(game: Object, delta: float) 
 	for consumer in updated_consumers:
 		if consumer is Dictionary and consumer.get("origin_cell", null) is Vector2i:
 			source_placed_power_graph_state.source_consumer_set_power_status_for_cell_state(game, consumer.get("origin_cell"), float(consumer.get("power_status", 0.0)))
+	# Write the stored battery total back to each consumer frame
+	# the same way (N2218, the N2142 write-back pattern extended
+	# to battery_stored): the graph update records the total as
+	# last_power_stored (PowerGraph.java:236, `lastPowerStored =
+	# getBatteryStored();`, returned by update_state on both
+	# branches), so the accelerator driver running later in the
+	# same tick reads the live total for its canLaunch battery
+	# half-gate (Accelerator.java:239-240) and the
+	# powerBufferRequirement bar (Accelerator.java:105-109). On
+	# the cheat branch the distribute state is empty and the
+	# stored total is unchanged, so the same fallback list as
+	# the power_status write-back above applies.
+	var battery_stored_total: float = float(update.get("last_power_stored", 0.0))
+	for consumer in updated_consumers:
+		if consumer is Dictionary and consumer.get("origin_cell", null) is Vector2i:
+			source_placed_power_graph_state.source_consumer_set_battery_stored_for_cell_state(game, consumer.get("origin_cell"), battery_stored_total)
 	return {
 		"power_needed": float(update.get("power_needed", 0.0)),
 		"power_produced": float(update.get("power_produced", 0.0)),
