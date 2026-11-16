@@ -83,7 +83,7 @@ static func draw_state(mend_projector, heat: float, phase_heat: float, tile_size
 		"base_color": str(properties.get("baseColor", source_projector_defaults.MEND_BASE_COLOR_DEFAULT)),
 		"phase_color": str(properties.get("phaseColor", source_projector_defaults.MEND_BASE_COLOR_DEFAULT)),
 		"phase_heat": phase_heat,
-		"top_alpha": heat * source_math_state.source_absin(source_time_ticks, 50.0 / source_math_defaults.PI2, 1.0) * 0.5 * lod_alpha2,
+		"top_alpha": heat * source_math_state.source_absin(source_time_ticks, 100.0 / source_math_defaults.PI2, 1.0) * 0.5 * lod_alpha2,
 		"top_rect": true,
 		"lod_alpha2": lod_alpha2,
 		"square_alpha": lod_alpha2,

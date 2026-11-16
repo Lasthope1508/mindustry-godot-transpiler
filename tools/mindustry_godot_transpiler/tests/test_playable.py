@@ -1,4 +1,5 @@
 import json
+import math
 import re
 import sys
 import tempfile
@@ -16898,7 +16899,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var f := 1.0 - fmod(source_time_ticks / source_projector_defaults.PROJECTOR_TIME_LOOP_PERIOD, 1.0)", display_source)
         self.assertIn("var line_r: float = max(0.0, clamp(2.0 - f * 2.0, 0.0, 1.0) * float(projector_block_size(overdrive_projector)) * float(tile_size) / 2.0 - f - 0.2)", display_source)
         self.assertIn("var line_w: float = clamp(0.5 - f, 0.0, 1.0) * float(projector_block_size(overdrive_projector)) * float(tile_size)", display_source)
-        self.assertIn('"top_alpha": heat * source_math_state.source_absin(source_time_ticks, 50.0 / source_math_defaults.PI2, 1.0) * 0.5 * lod_alpha2', display_source)
+        self.assertIn('"top_alpha": heat * source_math_state.source_absin(source_time_ticks, 100.0 / source_math_defaults.PI2, 1.0) * 0.5 * lod_alpha2', display_source)
         self.assertIn('"stroke": (2.0 * f + 0.1) * heat', display_source)
         self.assertIn("return source_overdrive_projector_state.draw_state(overdrive_projector, heat, phase_heat, source_overdrive_projector_port_bridge_world_defaults.TILESIZE, source_time_ticks, lod_l2, lod_alpha2)", port_source)
         self.assertIn("return source_build_selection_runtime_state.selected_build_overdrive_draw_state_for_inputs(self, heat, phase_heat, source_time_ticks, source_build_selection_runtime_port_bridge_world_defaults.TILESIZE)", port_source)
@@ -18505,12 +18506,41 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn('mend_projector.properties.get("size"', display_source)
         self.assertIn('"base_color": str(properties.get("baseColor", source_projector_defaults.MEND_BASE_COLOR_DEFAULT))', display_source)
         self.assertIn('"phase_color": str(properties.get("phaseColor", source_projector_defaults.MEND_BASE_COLOR_DEFAULT))', display_source)
-        self.assertIn('"top_alpha": heat * source_math_state.source_absin(source_time_ticks, 50.0 / source_math_defaults.PI2, 1.0) * 0.5 * lod_alpha2', display_source)
+        self.assertIn('"top_alpha": heat * source_math_state.source_absin(source_time_ticks, 100.0 / source_math_defaults.PI2, 1.0) * 0.5 * lod_alpha2', display_source)
         self.assertIn('"square_alpha": lod_alpha2', display_source)
         self.assertIn('"square_stroke": (2.0 * f + 0.2) * heat', display_source)
         self.assertIn('"square_radius": min(1.0 + (1.0 - f) * float(projector_block_size(mend_projector)) * float(tile_size) / 2.0, float(projector_block_size(mend_projector)) * float(tile_size) / 2.0)', display_source)
         self.assertIn("func mend_projector_draw_state_at_cell(x: int, y: int, source_time_ticks := 0.0) -> Dictionary:", source)
         self.assertIn("return source_mend_projector_state.draw_state_at_cell(self, x, y, source_time_ticks, source_mend_projector_port_bridge_world_defaults.TILESIZE)", source)
+
+    def test_display_path_absin_doubled_scale_matches_java_absin(self):
+        # N2382: Java absin(in, scl, mag) = (sin(in, scl * 2f, mag) + mag) / 2f
+        # (Mathf.java:78-80, arc) with sin(radians, scl, mag) = sin(radians / scl) * mag,
+        # while the port helper is (sin(value / scl) * 0.5 + 0.5) * mag
+        # (SourceMathState.source_absin) -- so helper(v, s) == Java absin(v, s / 2f)
+        # and the display path must pass the DOUBLED scale 100/PI2 to land Java's
+        # absin(Time.time, 50f / PI2, 1f) (MendProjector.java:152,
+        # OverdriveProjector.java:145) exactly.
+        pi2 = math.pi * 2.0
+
+        def java_absin(value, scl, mag):
+            return (math.sin(value / (scl * 2.0)) * mag + mag) / 2.0
+
+        def helper_absin(value, scl, mag):
+            return (math.sin(value / scl) * 0.5 + 0.5) * mag
+
+        for value in (0.0, 25.0, 50.0, 100.0, 157.0, 314.0):
+            self.assertAlmostEqual(
+                helper_absin(value, 100.0 / pi2, 1.0),
+                java_absin(value, 50.0 / pi2, 1.0),
+                places=9,
+            )
+        # The undoubled scale is genuinely different -- the fix matters.
+        self.assertNotAlmostEqual(
+            helper_absin(25.0, 50.0 / pi2, 1.0),
+            java_absin(25.0, 50.0 / pi2, 1.0),
+            places=6,
+        )
 
     def test_port_game_uses_source_math_state_helper_module(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

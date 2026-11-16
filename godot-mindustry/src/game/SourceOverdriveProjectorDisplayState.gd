@@ -66,7 +66,7 @@ static func draw_state(overdrive_projector, heat: float, phase_heat: float, tile
 		"base_color": str(properties.get("baseColor", source_projector_defaults.OVERDRIVE_BASE_COLOR_DEFAULT)),
 		"phase_color": str(properties.get("phaseColor", "ffd59e")),
 		"phase_heat": phase_heat,
-		"top_alpha": heat * source_math_state.source_absin(source_time_ticks, 50.0 / source_math_defaults.PI2, 1.0) * 0.5 * lod_alpha2,
+		"top_alpha": heat * source_math_state.source_absin(source_time_ticks, 100.0 / source_math_defaults.PI2, 1.0) * 0.5 * lod_alpha2,
 		"top_rect": true,
 		"lod_alpha2": lod_alpha2,
 		"stroke": (2.0 * f + 0.1) * heat,
