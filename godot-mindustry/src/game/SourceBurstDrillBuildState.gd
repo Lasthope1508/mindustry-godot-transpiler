@@ -209,11 +209,21 @@ static func source_burst_drill_power_status_row_state(frame: Dictionary, has_pow
 	# proximity before the dump reads them); first-fire deviation
 	# documented (Java fires nearly immediately after
 	# placement, the frame clock waits a full interval); still
-	# deferred: the offload
-	# shake/sound/drillEffect presentation
-	# (BurstDrill.java:114-118), and the offload neighbor
+	# deferred: the offload neighbor
 	# routing -- offload takes the no-neighbor fallback branch
 	# (BuildingComp.java:1017, `handleItem(self(), item);`).
+	# (4) updateTile offload effects rows live (N2469) -- the
+	# shake + drillSound + drillEffect presentation
+	# (BurstDrill.java:114-118) runs as one pure-only pure
+	# (source_burst_drill_offload_effects_state, the N2468
+	# precedent): call records only, no tick wiring -- the
+	# N2219 advance owns the cycle branch; the pitch +
+	# position rolls are caller-supplied (NO RNG in the pure,
+	# the N2421 precedent). The pure records the CLASS
+	# defaults (shake 2f, Fx.shockwave); both defs override
+	# shake = 4f (Blocks.java:3077/:3106) and drillEffect to
+	# a MultiEffect (:3076/:3100-3105), so the per-def rows
+	# wait for their own slice (the N2304 precedent).
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -314,7 +324,7 @@ static func source_burst_drill_update_tile_advance_state(frame: Dictionary, sour
 	# offload branch never runs when blocked. `if(dominantItems > 0 && progress >= drillTime && items.total() < itemCapacity){` (BurstDrill.java:106)
 	# is the offload branch: `offload(dominantItem);` x dominantItems (BurstDrill.java:107-109),
 	# `invertTime = 1f;` (BurstDrill.java:111), `progress %= drillTime;` (BurstDrill.java:112); the
-	# shake/sound/drillEffect presentation (BurstDrill.java:114-118) DEFERS. The Arc formulas, not
+	# shake/sound/drillEffect presentation (BurstDrill.java:114-118) is live since N2469 as pure-only call records (the pure source_burst_drill_offload_effects_state, no tick wiring). The Arc formulas, not
 	# guesses: approachDelta(from, to, speed) = approach(from, to, Time.delta * speed) with approach =
 	# from + clamp(to - from, -speed, speed), lerpDelta(from, to, progress) = lerp(from, to, clamp(progress
 	# * Time.delta)), lerp = from + (to - from) * progress (Mathf.java:402, 415-432); speedCurve is
@@ -606,6 +616,23 @@ static func source_burst_drill_dump_neighbour_live_fill_state(game: Object, cell
 		neighbour_accepts.append(accepts_item)
 		neighbour_can_dump.append(can_dump_item)
 	return {"dump_neighbour_accepts": neighbour_accepts, "dump_neighbour_can_dump": neighbour_can_dump}
+
+static func source_burst_drill_offload_effects_state(cycle_complete: bool, was_visible: bool, x: float, y: float, pitch_roll: float, effect_roll_x: float, effect_roll_y: float, dominant_item_color: Color) -> Dictionary:
+	# The updateTile offload effects rows (BurstDrillBuild.updateTile(), BurstDrill.java:106-118), the pure offload-effect rows -- the STATE is ALREADY LIVE since N2219 (the advance + the offload itself) and the timerDump dump is live since N2282, so this pure does NOT re-implement the branch: it consumes the caller-evaluated cycle_complete gate (the :106 branch verdict) + the was_visible gate (:114) and reports the shake + drillSound + drillEffect as pure call records (the N2468 precedent -- the port plays no sound, spawns no effect, shakes no camera; the audio/effect call sites wait for their own slices). The Java lines, in order (each exact expr on ONE comment line, the N2148 lesson):
+	# `if(dominantItems > 0 && progress >= drillTime && items.total() < itemCapacity){`
+	# `if(wasVisible){`
+	# `Effect.shake(shake, shake, this);`
+	# `drillSound.at(x, y, 1f + Mathf.range(drillSoundPitchRand), drillSoundVolume);`
+	# `drillEffect.at(x + Mathf.range(drillEffectRnd), y + Mathf.range(drillEffectRnd), dominantItem.color);`
+	# The fields are the block fields (`public float shake = 2f;`, BurstDrill.java:18; `public Sound drillSound = Sounds.drillImpact;`, BurstDrill.java:32; `public float drillSoundVolume = 0.6f, drillSoundPitchRand = 0.1f;`, BurstDrill.java:33; `drillEffectRnd = 0f;`, BurstDrill.java:41; `drillEffect = Fx.shockwave;`, BurstDrill.java:42). The effect is Fx.shockwave (`shockwave = new Effect(10f, 80f, e -> {`, Fx.java:1625), fired at (x + range(drillEffectRnd), y + range(drillEffectRnd)) with the dominant item's color (`public Color color;`, Item.java:19, set in the Item constructor, :51-53 -- the color comes from the item def, caller-supplied, not a def lookup). The sound is Sounds.drillImpact -- the Sounds class is build-generated (mindustry.gen.Sounds, no gen/ dir in the upstream checkout), but the token is exact: the asset is core/assets/sounds/block/drillImpact.ogg (the N2444 padLaunch precedent). The shake is Effect.shake(shake, shake, this) -- the Position overload (`public static void shake(float intensity, float duration, Position loc){`, Effect.java:210-212) delegates to (`public static void shake(float intensity, float duration, float x, float y){`, Effect.java:201), so the first arg is the intensity and the second the duration, both 2f; the camera-distance falloff inside the x/y overload (Effect.java:204-207) is the callee's own behavior -- the pure records the CALL params, not the falloff result. The pitch roll (Mathf.range(0.1f), in [-0.1, 0.1]) and the two effect position rolls (Mathf.range(drillEffectRnd)) are ALREADY-ROLLED caller-supplied inputs (Mathf.range(r) is the arc uniform roll in [-r, r], `public static float range(float range){` with `return random(-range, range);`, arc Mathf.java:220-222) -- NO RNG in the pure (the N2421 precedent). drillEffectRnd stays 0f for both defs (BurstDrill.java:41, no def override in Blocks.java; Drill.init only fills it when < 0, Drill.java:96), so the live effect spawns at (x, y) exactly -- but the pure still takes the rolls as inputs, so the formula stays Java-exact. PER-DEF DIVERGENCE (Java wins, verified first): BOTH defs override shake = 4f (`shake = 4f;`, Blocks.java:3077/:3106) and drillEffect to a MultiEffect (impact-drill `drillEffect = new MultiEffect(Fx.mineImpact, Fx.drillSteam, Fx.mineImpactWave.wrap(Pal.redLight, 40f));`, Blocks.java:3076; eruption-drill `drillEffect = new MultiEffect(`, Blocks.java:3100-3105) -- this pure records the CLASS defaults (shake 2.0, Fx.shockwave) and the per-def shake/effect rows wait for their own slice (the N2304 per-def precedent). When the gate fails all calls are null (the N2397 null-when-absent precedent). Pure-only: the tick never calls it -- the N2219 advance owns the cycle branch, and the sound/FX call sites wait for audio/effect slices.
+	var shake_call: Variant = null
+	var drill_sound_call: Variant = null
+	var drill_effect_call: Variant = null
+	if cycle_complete and was_visible:
+		shake_call = {"intensity": 2.0, "duration": 2.0}
+		drill_sound_call = {"sound": "drillImpact", "x": x, "y": y, "pitch": 1.0 + pitch_roll, "volume": 0.6}
+		drill_effect_call = {"effect": "Fx.shockwave", "x": x + effect_roll_x, "y": y + effect_roll_y, "color": dominant_item_color}
+	return {"shake_call": shake_call, "drill_sound_call": drill_sound_call, "drill_effect_call": drill_effect_call}
 
 @warning_ignore("unused_parameter")
 static func source_burst_drill_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
