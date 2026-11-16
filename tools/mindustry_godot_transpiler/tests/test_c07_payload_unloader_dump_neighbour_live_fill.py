@@ -310,6 +310,34 @@ class C07PayloadUnloaderDumpNeighbourLiveFillTests(unittest.TestCase):
         scene = PAYLOAD_UNLOADER_DUMP_NEIGHBOUR_LIVE_FILL_PROOF_SCENE.read_text(encoding='utf-8')
         self.assertIn('C07PayloadUnloaderDumpNeighbourLiveFillProof.gd', scene)
         self.assertIn('C07PayloadUnloaderDumpNeighbourLiveFillProof', scene)
+        # N2409 pins (the N2394 proof fix): the multi-press is
+        # size 3 (Blocks.java:1059, `size = 3;`), so centred at
+        # (31, 20) its footprint (30..32, 19..21) covers ring
+        # 4/5/6 with ZERO origin overlap -- and the proof
+        # asserts the ring-4 fill values too. The live-tick
+        # values are simulation-verified (a Python mirror of
+        # the exact GDScript dump_liquid_state + dump_item_state
+        # semantics over this scene): liquid transfers 25.0 to
+        # ring 4, 12.5 to ring 5, 6.25 to ring 6 (the fraction
+        # recomputes from the running amount), so dumped 43.75
+        # / live 6.25 / press 43.75; item deliveries land at
+        # rings 4, 5, 6, 4 (cursor 0 -> 5 -> 6 -> 7 -> 5), so
+        # the final cdump is 5 -- NOT 7, which only holds if
+        # ring 4 is (wrongly) ignored. The proof must carry no
+        # "size-2" claim about the multi-press.
+        self.assertIn('press_cell == Vector2i(31, 20)', proof)
+        self.assertIn('is_equal_approx(float(fill_amounts[4]), 5.0)', proof)
+        self.assertIn('is_equal_approx(float(fill_capacities[4]), 60.0)', proof)
+        self.assertIn('bool(fill_accepts_liquid[4])', proof)
+        self.assertIn('bool(fill_can_dump_liquid[4])', proof)
+        self.assertIn('bool(coal_accepts_item[4])', proof)
+        self.assertIn('bool(coal_can_dump_item[4])', proof)
+        self.assertIn('int(unloader_frame.get("cdump", -1)) == 5', proof)
+        self.assertNotIn('int(unloader_frame.get("cdump", -1)) == 7', proof)
+        self.assertIn('is_equal_approx(float(unloader_frame.get("dumped_liquid", -1.0)), 43.75)', proof)
+        self.assertIn('is_equal_approx(live_water, 6.25)', proof)
+        self.assertIn('is_equal_approx(press_water, 43.75)', proof)
+        self.assertNotIn('size-2', proof)
 
     def test_reference_graph_and_actual_c07_payload_unloader_dump_neighbour_live_fill(self):
         godot = shutil.which('Godot_v4.6.2-stable_win64_console.exe') or shutil.which('godot')
