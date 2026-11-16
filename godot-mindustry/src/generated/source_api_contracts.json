@@ -67057,7 +67057,9 @@
         "items",
         "cdump",
         "picked_item",
-        "crafted"
+        "crafted",
+        "offload_neighbour_index",
+        "offload_routed"
       ],
       "tests": [
         "test_c07_separator_update_tile_registration",
@@ -71302,7 +71304,9 @@
         "elapsed_after",
         "dumped",
         "items_after",
-        "cursor_after"
+        "cursor_after",
+        "dump_neighbour_index",
+        "dumped_item"
       ],
       "tests": [
         "test_c07_separator_timer_dump_registration",
@@ -71361,7 +71365,9 @@
         "elapsed_after",
         "dumped",
         "items_after",
-        "cursor_after"
+        "cursor_after",
+        "dump_neighbour_index",
+        "dumped_item"
       ],
       "tests": [
         "test_c07_burst_drill_timer_dump_registration",
@@ -71692,7 +71698,8 @@
         "dumped",
         "dump_attempts",
         "items_after",
-        "cursor_after"
+        "cursor_after",
+        "dump_deliveries"
       ],
       "tests": [
         "test_c07_item_bridge_do_dump_registration",
@@ -71746,7 +71753,9 @@
         "elapsed_after",
         "dumped",
         "items_after",
-        "cursor_after"
+        "cursor_after",
+        "dump_neighbour_index",
+        "dumped_item"
       ],
       "tests": [
         "test_c07_beam_drill_timer_dump_registration",

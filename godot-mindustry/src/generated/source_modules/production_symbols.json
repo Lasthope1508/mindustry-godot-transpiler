@@ -2328,6 +2328,21 @@
       ],
       "runtime_proof": "/root/C07BeamDrillTimerDumpProof"
     },
+    "source_beam_drill_timer_dump_state_result.dump_neighbour_index": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_timer_dump_state_result.dump_neighbour_index",
+      "status": "source-backed",
+      "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+      "godot_symbol": "source_beam_drill_timer_dump_state_result.dump_neighbour_index",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_timer_dump_state",
+      "rule": "The routed neighbour index the dump handed the item to (BuildingComp.java:1082/:1099, `Building other = proximity.get((i + dump) % proximity.size);`): the literal handled_index dump_item_state reports, -1 when nothing dumped. Index i is ring cell i (the N2353 convention).",
+      "tests": [
+        "test_c07_beam_drill_timer_dump_write_back_registration",
+        "test_all_c07_beam_drill_timer_dump_write_back_input_evidence_is_exact",
+        "test_beam_drill_timer_dump_write_back_state",
+        "test_reference_graph_and_actual_c07_beam_drill_timer_dump_write_back"
+      ],
+      "runtime_proof": "/root/C07BeamDrillTimerDumpWriteBackProof"
+    },
     "source_beam_drill_timer_dump_state_result.dumped": {
       "canonical_symbol": "source_symbol_registry.source_beam_drill_timer_dump_state_result.dumped",
       "status": "source-backed",
@@ -2342,6 +2357,21 @@
         "test_reference_graph_and_actual_c07_beam_drill_timer_dump"
       ],
       "runtime_proof": "/root/C07BeamDrillTimerDumpProof"
+    },
+    "source_beam_drill_timer_dump_state_result.dumped_item": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_timer_dump_state_result.dumped_item",
+      "status": "source-backed",
+      "java_expr": "other.handleItem(self(), item);",
+      "godot_symbol": "source_beam_drill_timer_dump_state_result.dumped_item",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_timer_dump_state",
+      "rule": "The item the dump handed over (BuildingComp.java:1089, `other.handleItem(self(), item);`): the port handled_item, \"\" when nothing dumped. The tick lands it in the neighbour store through the shared neighbour write-back helper (N2353).",
+      "tests": [
+        "test_c07_beam_drill_timer_dump_write_back_registration",
+        "test_all_c07_beam_drill_timer_dump_write_back_input_evidence_is_exact",
+        "test_beam_drill_timer_dump_write_back_state",
+        "test_reference_graph_and_actual_c07_beam_drill_timer_dump_write_back"
+      ],
+      "runtime_proof": "/root/C07BeamDrillTimerDumpWriteBackProof"
     },
     "source_beam_drill_timer_dump_state_result.elapsed_after": {
       "canonical_symbol": "source_symbol_registry.source_beam_drill_timer_dump_state_result.elapsed_after",

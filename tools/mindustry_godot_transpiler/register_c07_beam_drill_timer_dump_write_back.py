@@ -63,6 +63,7 @@ import json
 from pathlib import Path
 
 from mindustry_port import source_ssot, source_symbols
+from register_liquid_consumer_hydration import backed
 
 GODOT = Path(__file__).resolve().parents[2] / 'godot-mindustry'
 BEAM_DRILL = 'core/src/mindustry/world/blocks/production/BeamDrill.java'
@@ -407,18 +408,38 @@ EXACT_EXPRS = [
 
 
 def main():
-    # Ledger-only: the entry re-lists the five N2289 timerDump
-    # result symbols this slice extends (no new symbols,
-    # contracts, or schemas -- the two new advance keys are
-    # unregistered API shape for the schema-sync fold).
+    symbols = {}
+
+    def f(typ, expr, rule, source=BUILDING_COMP, **extra):
+        return backed(typ, source, expr, rule, **extra)
+
+    # N2367 (schema-sync fold): the two new advance keys are now
+    # registered symbols of this slice. The schema + contract fold
+    # lives in the N2289 register
+    # (register_c07_beam_drill_timer_dump.py).
+    n2363_outputs = {
+        'dump_neighbour_index': f('int', 'Building other = proximity.get((i + dump) % proximity.size);', 'The routed neighbour index the dump handed the item to (BuildingComp.java:1082/:1099, `Building other = proximity.get((i + dump) % proximity.size);`): the literal handled_index dump_item_state reports, -1 when nothing dumped. Index i is ring cell i (the N2353 convention).'),
+        'dumped_item': f('String', 'other.handleItem(self(), item);', 'The item the dump handed over (BuildingComp.java:1089, `other.handleItem(self(), item);`): the port handled_item, "" when nothing dumped. The tick lands it in the neighbour store through the shared neighbour write-back helper (N2353).'),
+    }
+
+    names = []
+    for field, meta in n2363_outputs.items():
+        meta['used_by'] = [OWNER]
+        symbol = 'source_beam_drill_timer_dump_state_result.' + field
+        names.append(symbol)
+        symbols[symbol] = dict(status='source-backed', godot_owner=OWNER, godot_symbol=symbol, java_source=meta['java_source'], java_method='BuildingComp.dump(Item)', java_expr=meta['java_expr'], rule=meta['rule'], tests=TESTS, runtime_proof=PROOF)
+
+    # The test pins this order: the five N2289 symbols (shared,
+    # the N2321 precedent), then the two N2367-folded symbols.
     source_symbols.upsert_source_slice(GODOT, 'N2363', dict(status='done', java_source=BEAM_DRILL, java_class='mindustry.world.blocks.production.BeamDrill.BeamDrillBuild', java_method='BeamDrillBuild.updateTile()', godot_owner=OWNER, exact_exprs=EXACT_EXPRS, source_symbols=[
         'source_beam_drill_timer_dump_state_result.fired',
         'source_beam_drill_timer_dump_state_result.elapsed_after',
         'source_beam_drill_timer_dump_state_result.dumped',
         'source_beam_drill_timer_dump_state_result.items_after',
         'source_beam_drill_timer_dump_state_result.cursor_after',
-    ], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
+    ] + names, tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
 
+    source_symbols.upsert_source_symbols(GODOT, symbols)
     source_symbols.write_source_symbol_audit_report(GODOT)
     manifest = json.loads((GODOT / 'src/generated/source_ssot_modules.json').read_text(encoding='utf-8'))
     modules = manifest['modules']

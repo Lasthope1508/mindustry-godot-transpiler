@@ -5605,7 +5605,9 @@
       "source_symbols": [
         "source_neighbour_item_write_back_state_result.written",
         "source_neighbour_item_write_back_state_result.reason",
-        "source_neighbour_item_write_back_state_result.neighbour_cell"
+        "source_neighbour_item_write_back_state_result.neighbour_cell",
+        "source_separator_update_tile_advance_state_result.offload_neighbour_index",
+        "source_separator_update_tile_advance_state_result.offload_routed"
       ],
       "tests": [
         "test_c07_separator_neighbour_write_back_registration",

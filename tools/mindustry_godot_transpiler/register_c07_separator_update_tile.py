@@ -132,12 +132,30 @@ def main():
         'crafted': f('bool', 'if(progress >= 1f){', 'Whether a craft completed this tick (Separator.java:140): progress reached 1f, so the branch ran (wrap + pick + consume + conditional offload).'),
     }
 
+    # N2367 (schema-sync fold): the two offload keys the N2353
+    # slice exposed on this advance (symbols registered by N2353),
+    # folded into the result schema + contract return_keys.
+    # Metadata copied verbatim from the N2353 register.
+    n2367_fold_outputs = {
+        'offload_neighbour_index': f('int', 'Building other = proximity.get((i + dump) % proximity.size);', 'The routed neighbour index offload handed the picked item to (BuildingComp.java:1007, `Building other = proximity.get((i + dump) % proximity.size);`): the handled index offload_item_state reports (SOURCE_DRILL_INVENTORY_HANDLED_INDEX_KEY), -1 when nothing routed. Index i is ring cell i (the N2353 convention).', source=BUILDING_COMP),
+        'offload_routed': f('bool', 'other.handleItem(self(), item);', 'Whether offload handed the picked item to a neighbour (BuildingComp.java:1009, `other.handleItem(self(), item);`): true when a neighbour accepted it, false when every neighbour refused and Java fell back to handleItem(self(), item) on the separator itself (:1014).', source=BUILDING_COMP),
+    }
+
     entries = [
         ('N2222', OWNER, 'source_separator_update_tile_advance_state', SEPARATOR, 'mindustry.world.blocks.production.Separator.SeparatorBuild', 'SeparatorBuild.updateTile()', n2222_inputs, n2222_outputs, True, 'Dictionary'),
     ]
     all_names = []
     for sid, owner, prefix, source, cls, method, inputs, outputs, has_contract, return_type in entries:
         names = []
+        # N2367 (schema-sync fold): the result schema + contract
+        # carry the folded keys; the symbol loop below still
+        # iterates the ORIGINAL outputs only
+        # (upsert_source_symbols wholesale-replaces -- folding
+        # the keys into the symbol loop here would steal the
+        # write-back slice's symbol ownership).
+        result_keys = {**outputs, **n2367_fold_outputs}
+        for meta in n2367_fold_outputs.values():
+            meta['used_by'] = [owner]
         for suffix, keys in [('input', inputs), ('result', outputs)]:
             name = prefix + '_' + suffix
             for field, meta in keys.items():
@@ -146,9 +164,9 @@ def main():
                     symbol = name + '.' + field
                     names.append(symbol)
                     symbols[symbol] = dict(status='source-backed', godot_owner=owner, godot_symbol=symbol, java_source=meta['java_source'], java_method=method, java_expr=meta['java_expr'], rule=meta['rule'], tests=TESTS, runtime_proof=PROOF)
-            source_symbols.upsert_source_state_schema(GODOT, name, dict(status='active', owner=owner, source_slice=sid, keys=keys, runtime_proof=PROOF, rule='Source-backed Separator updateTile advance from Separator.java / BuildingComp.java / Block.java / Blocks.java / ConsumeItems.java / Consume.java / ItemModule.java / arc Mathf.java / Rand.java / Point2.java.'))
+            source_symbols.upsert_source_state_schema(GODOT, name, dict(status='active', owner=owner, source_slice=sid, keys=result_keys if suffix == 'result' else keys, runtime_proof=PROOF, rule='Source-backed Separator updateTile advance from Separator.java / BuildingComp.java / Block.java / Blocks.java / ConsumeItems.java / Consume.java / ItemModule.java / arc Mathf.java / Rand.java / Point2.java.'))
         if has_contract:
-            source_symbols.upsert_source_api_contract(GODOT, owner, dict(status='active', source_slice=sid, java_source=source, source_method=method, params=[dict(name=k, type=v['type'], schema=prefix + '_input.' + k) for k, v in inputs.items()], return_type=return_type, return_keys=list(outputs), tests=TESTS, runtime_proof=PROOF, rule='Source-backed Separator updateTile advance from Separator.java / BuildingComp.java / Block.java / Blocks.java / ConsumeItems.java / Consume.java / ItemModule.java / arc Mathf.java / Rand.java / Point2.java.'))
+            source_symbols.upsert_source_api_contract(GODOT, owner, dict(status='active', source_slice=sid, java_source=source, source_method=method, params=[dict(name=k, type=v['type'], schema=prefix + '_input.' + k) for k, v in inputs.items()], return_type=return_type, return_keys=list(result_keys), tests=TESTS, runtime_proof=PROOF, rule='Source-backed Separator updateTile advance from Separator.java / BuildingComp.java / Block.java / Blocks.java / ConsumeItems.java / Consume.java / ItemModule.java / arc Mathf.java / Rand.java / Point2.java.'))
         all_names.extend(names)
 
     by_slice = {}

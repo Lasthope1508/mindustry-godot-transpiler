@@ -855,7 +855,9 @@
         "elapsed_after",
         "dumped",
         "items_after",
-        "cursor_after"
+        "cursor_after",
+        "dump_neighbour_index",
+        "dumped_item"
       ],
       "tests": [
         "test_c07_beam_drill_timer_dump_registration",
@@ -1080,7 +1082,9 @@
         "elapsed_after",
         "dumped",
         "items_after",
-        "cursor_after"
+        "cursor_after",
+        "dump_neighbour_index",
+        "dumped_item"
       ],
       "tests": [
         "test_c07_burst_drill_timer_dump_registration",
@@ -2666,7 +2670,9 @@
         "elapsed_after",
         "dumped",
         "items_after",
-        "cursor_after"
+        "cursor_after",
+        "dump_neighbour_index",
+        "dumped_item"
       ],
       "tests": [
         "test_c07_separator_timer_dump_registration",
@@ -2734,7 +2740,9 @@
         "items",
         "cdump",
         "picked_item",
-        "crafted"
+        "crafted",
+        "offload_neighbour_index",
+        "offload_routed"
       ],
       "tests": [
         "test_c07_separator_update_tile_registration",

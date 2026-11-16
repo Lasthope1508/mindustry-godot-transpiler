@@ -32,13 +32,12 @@ class C07ItemBridgeDoDumpWriteBackTests(unittest.TestCase):
         # tick lands each dumped item in the neighbour
         # store through the shared
         # source_neighbour_item_write_back_state helper.
-        # Wiring-only: no new symbols -- the ledger entry
-        # reuses the five N2288 doDump result symbols
-        # (the N2321 shared-ownership precedent), so the
-        # registry grows by zero and the contract/schema
-        # stay untouched (the new dump_deliveries key is
-        # unregistered API shape, folded by the schema-sync
-        # slice later).
+        # Wiring-only at slice time: the ledger entry reuses
+        # the five N2288 doDump result symbols (the N2321
+        # shared-ownership precedent). N2367 (schema-sync
+        # fold) registered the dump_deliveries key as a
+        # symbol of this slice, so the list is the five
+        # shared symbols plus dump_deliveries.
         self.assertEqual(
             ledger['N2362']['source_symbols'],
             [
@@ -47,6 +46,7 @@ class C07ItemBridgeDoDumpWriteBackTests(unittest.TestCase):
                 'source_item_bridge_do_dump_state_result.dump_attempts',
                 'source_item_bridge_do_dump_state_result.items_after',
                 'source_item_bridge_do_dump_state_result.cursor_after',
+                'source_item_bridge_do_dump_state_result.dump_deliveries',
             ],
         )
         for name in ledger['N2362']['source_symbols']:

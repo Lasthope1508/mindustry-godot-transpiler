@@ -64,6 +64,7 @@ import json
 from pathlib import Path
 
 from mindustry_port import source_ssot, source_symbols
+from register_liquid_consumer_hydration import backed
 
 GODOT = Path(__file__).resolve().parents[2] / 'godot-mindustry'
 ITEM_BRIDGE = 'core/src/mindustry/world/blocks/distribution/ItemBridge.java'
@@ -400,6 +401,7 @@ DEFERRED = [
 EXACT_EXPRS = [
     'public void doDump(){',
     'dumpAccumulate();',
+    'res |= dump(item);',
     'if(!hadValidLink){',
     'doDump();',
     'public boolean dump(Item todump){',
@@ -414,26 +416,41 @@ EXACT_EXPRS = [
 
 
 def main():
-    # Wiring-only: no new symbols, no new schema, no new
-    # contract. The ledger entry reuses the five N2288
-    # doDump result symbols (the N2321 shared-ownership
-    # precedent) -- the registry grows by zero and the
-    # contract keeps its five return keys (dump_deliveries
-    # is unregistered API shape, folded by schema-sync).
+    symbols = {}
+
+    def f(typ, expr, rule, source=BUILDING_COMP, **extra):
+        return backed(typ, source, expr, rule, **extra)
+
+    # N2367 (schema-sync fold): the dump_deliveries advance key
+    # is now a registered symbol -- one {neighbour_index, item}
+    # dict per successful dump() call. The schema + contract fold
+    # lives in the N2288 register
+    # (register_c07_item_bridge_do_dump.py).
+    n2362_outputs = {
+        'dump_deliveries': f('Array', 'res |= dump(item);', 'One {neighbour_index, item} dict per successful dump() call inside dumpAccumulate, in attempt order (ItemBridge.java:351; dumpAccumulate loops while(dumpAccum >= 1f), BuildingComp.java:1056-1058). Empty when nothing dumps. The neighbour_index is the proximity index i the shared dump helper returned (index i is ring cell i -- the N2353 convention); the tick lands each delivery in the neighbour store through the shared neighbour write-back helper (N2353). A singular index+item pair would drop every delivery but one when dumpAccumulate fires more than once per frame.'),
+    }
+
+    names = []
+    for field, meta in n2362_outputs.items():
+        meta['used_by'] = [OWNER]
+        symbol = 'source_item_bridge_do_dump_state_result.' + field
+        names.append(symbol)
+        symbols[symbol] = dict(status='source-backed', godot_owner=OWNER, godot_symbol=symbol, java_source=meta['java_source'], java_method='BuildingComp.dumpAccumulate()', java_expr=meta['java_expr'], rule=meta['rule'], tests=TESTS, runtime_proof=PROOF)
+
     by_slice = {}
-    # The test pins this order: dump_accum_after, dumped,
-    # dump_attempts, items_after, cursor_after (the N2288
-    # order, shared).
+    # The test pins this order: the five N2288 symbols (shared,
+    # the N2321 precedent), then the N2367-folded dump_deliveries
+    # symbol.
     by_slice['N2362'] = [
         'source_item_bridge_do_dump_state_result.dump_accum_after',
         'source_item_bridge_do_dump_state_result.dumped',
         'source_item_bridge_do_dump_state_result.dump_attempts',
         'source_item_bridge_do_dump_state_result.items_after',
         'source_item_bridge_do_dump_state_result.cursor_after',
-    ]
+    ] + names
     source_symbols.upsert_source_slice(GODOT, 'N2362', dict(status='done', java_source=ITEM_BRIDGE, java_class='mindustry.world.blocks.distribution.ItemBridge.ItemBridgeBuild', java_method='ItemBridgeBuild.doDump()', godot_owner=OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2362'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
 
-    source_symbols.upsert_source_symbols(GODOT, {})
+    source_symbols.upsert_source_symbols(GODOT, symbols)
     source_symbols.write_source_symbol_audit_report(GODOT)
     manifest = json.loads((GODOT / 'src/generated/source_ssot_modules.json').read_text(encoding='utf-8'))
     modules = manifest['modules']

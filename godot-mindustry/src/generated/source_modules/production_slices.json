@@ -1657,7 +1657,9 @@
         "source_beam_drill_timer_dump_state_result.elapsed_after",
         "source_beam_drill_timer_dump_state_result.dumped",
         "source_beam_drill_timer_dump_state_result.items_after",
-        "source_beam_drill_timer_dump_state_result.cursor_after"
+        "source_beam_drill_timer_dump_state_result.cursor_after",
+        "source_beam_drill_timer_dump_state_result.dump_neighbour_index",
+        "source_beam_drill_timer_dump_state_result.dumped_item"
       ],
       "tests": [
         "test_c07_beam_drill_timer_dump_write_back_registration",

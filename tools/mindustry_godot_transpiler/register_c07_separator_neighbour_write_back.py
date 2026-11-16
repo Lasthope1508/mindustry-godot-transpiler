@@ -482,13 +482,32 @@ def main():
             source_symbols.upsert_source_api_contract(GODOT, owner, dict(status='active', source_slice=sid, java_source=source, source_method=method, params=[dict(name=k, type=v['type'], schema=prefix + '_input.' + k) for k, v in inputs.items()], return_type=return_type, return_keys=list(outputs), tests=TESTS, runtime_proof=PROOF, rule='Source-backed neighbour item write-back rows from BuildingComp.java / Conveyor.java.'))
         all_names.extend(names)
 
+    # N2367 (schema-sync fold): the two Separator offload advance
+    # keys this slice exposed are now registered symbols -- but
+    # they live on the Separator advance, NOT on this helper, so
+    # their godot_owner is the advance owner (the N2222 owner).
+    # The schema + contract fold lives in the N2222 register
+    # (register_c07_separator_update_tile.py).
+    ADVANCE_OWNER = 'SourceSeparatorBuildState.source_separator_update_tile_advance_state'
+    n2367_offload_outputs = {
+        'offload_neighbour_index': f('int', 'Building other = proximity.get((i + dump) % proximity.size);', 'The routed neighbour index offload handed the picked item to (BuildingComp.java:1007, `Building other = proximity.get((i + dump) % proximity.size);`): the handled index offload_item_state reports (SOURCE_DRILL_INVENTORY_HANDLED_INDEX_KEY), -1 when nothing routed. Index i is ring cell i (the N2353 convention).'),
+        'offload_routed': f('bool', 'other.handleItem(self(), item);', 'Whether offload handed the picked item to a neighbour (BuildingComp.java:1009, `other.handleItem(self(), item);`): true when a neighbour accepted it, false when every neighbour refused and Java fell back to handleItem(self(), item) on the separator itself (:1014).'),
+    }
+    offload_names = []
+    for field, meta in n2367_offload_outputs.items():
+        meta['used_by'] = [ADVANCE_OWNER]
+        symbol = 'source_separator_update_tile_advance_state_result.' + field
+        offload_names.append(symbol)
+        symbols[symbol] = dict(status='source-backed', godot_owner=ADVANCE_OWNER, godot_symbol=symbol, java_source=meta['java_source'], java_method='BuildingComp.offload()', java_expr=meta['java_expr'], rule=meta['rule'], tests=TESTS, runtime_proof=PROOF)
+
     by_slice = {}
-    # The test pins this order: written, reason, neighbour_cell.
+    # The test pins this order: written, reason, neighbour_cell,
+    # then the two N2367-folded offload keys (Separator advance).
     by_slice['N2353'] = [
         'source_neighbour_item_write_back_state_result.written',
         'source_neighbour_item_write_back_state_result.reason',
         'source_neighbour_item_write_back_state_result.neighbour_cell',
-    ]
+    ] + offload_names
     source_symbols.upsert_source_slice(GODOT, 'N2353', dict(status='done', java_source=BUILDING_COMP, java_class='mindustry.entities.comp.BuildingComp', java_method='BuildingComp.offload()', godot_owner=OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2353'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
 
     source_symbols.upsert_source_symbols(GODOT, symbols)

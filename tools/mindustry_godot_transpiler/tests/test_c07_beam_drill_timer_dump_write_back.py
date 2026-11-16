@@ -28,17 +28,16 @@ class C07BeamDrillTimerDumpWriteBackTests(unittest.TestCase):
         # item);` (BuildingComp.java:1089). N2363 is the
         # wiring-only write-back (the N2353 precedent): the
         # timerDump advance exposes the routed neighbour index
-        # + dumped item (dump_neighbour_index / dumped_item,
-        # UNREGISTERED API shape -- the schema-sync slice
-        # folds them into
-        # source_beam_drill_timer_dump_state_result later),
+        # + dumped item (dump_neighbour_index / dumped_item),
         # and the tick wires the shared
         # source_neighbour_item_write_back_state helper after
-        # the timerDump advance when dumped. No new symbols,
-        # contracts, or schemas: the ledger entry re-lists the
-        # five N2289 timerDump result symbols it extends (the
-        # re-listing precedent: 781 symbols are listed by more
-        # than one slice), so the SSOT delta is +0/+1/+0/+0.
+        # the timerDump advance when dumped. Wiring-only at
+        # slice time: the ledger entry re-lists the five N2289
+        # timerDump result symbols it extends (the re-listing
+        # precedent: 781 symbols are listed by more than one
+        # slice). N2367 (schema-sync fold) registered the two
+        # new keys as symbols of this slice, so the list is
+        # the five shared symbols plus both keys.
         self.assertEqual(
             ledger['N2363']['source_symbols'],
             [
@@ -47,6 +46,8 @@ class C07BeamDrillTimerDumpWriteBackTests(unittest.TestCase):
                 'source_beam_drill_timer_dump_state_result.dumped',
                 'source_beam_drill_timer_dump_state_result.items_after',
                 'source_beam_drill_timer_dump_state_result.cursor_after',
+                'source_beam_drill_timer_dump_state_result.dump_neighbour_index',
+                'source_beam_drill_timer_dump_state_result.dumped_item',
             ],
         )
         for name in ledger['N2363']['source_symbols']:

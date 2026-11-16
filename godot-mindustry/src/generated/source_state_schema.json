@@ -232294,6 +232294,26 @@
           "used_by": [
             "SourceSeparatorBuildState.source_separator_update_tile_advance_state"
           ]
+        },
+        "offload_neighbour_index": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+          "rule": "The routed neighbour index offload handed the picked item to (BuildingComp.java:1007, `Building other = proximity.get((i + dump) % proximity.size);`): the handled index offload_item_state reports (SOURCE_DRILL_INVENTORY_HANDLED_INDEX_KEY), -1 when nothing routed. Index i is ring cell i (the N2353 convention).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_update_tile_advance_state"
+          ]
+        },
+        "offload_routed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "other.handleItem(self(), item);",
+          "rule": "Whether offload handed the picked item to a neighbour (BuildingComp.java:1009, `other.handleItem(self(), item);`): true when a neighbour accepted it, false when every neighbour refused and Java fell back to handleItem(self(), item) on the separator itself (:1014).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_update_tile_advance_state"
+          ]
         }
       },
       "runtime_proof": "/root/C07SeparatorUpdateTileProof",
@@ -242217,6 +242237,26 @@
           "used_by": [
             "SourceSeparatorBuildState.source_separator_timer_dump_state"
           ]
+        },
+        "dump_neighbour_index": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+          "rule": "The routed neighbour index the dump handed the item to (BuildingComp.java:1088, `Building other = proximity.get((i + dump) % proximity.size);`): the handled index dump_item_state reports (SOURCE_DRILL_INVENTORY_HANDLED_INDEX_KEY), -1 when nothing dumped. Index i is ring cell i (the N2353 convention).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_timer_dump_state"
+          ]
+        },
+        "dumped_item": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "other.handleItem(self(), item);",
+          "rule": "The item the dump handed over (BuildingComp.java:1089, `other.handleItem(self(), item);`): the port handled_item, \"\" when nothing dumped. The tick lands it in the neighbour store through the shared neighbour write-back helper (N2353).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_timer_dump_state"
+          ]
         }
       },
       "runtime_proof": "/root/C07SeparatorTimerDumpProof",
@@ -242352,6 +242392,26 @@
           "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
           "java_expr": "cdump = ((cdump + 1) % prox);",
           "rule": "The dump cursor after the tick (BuildingComp.java:1116-1120): advanced once per neighbour checked (incrementDump, guarded on prox != 0), wrapping modulo the proximity size.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_timer_dump_state"
+          ]
+        },
+        "dump_neighbour_index": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+          "rule": "The routed neighbour index the dump handed the item to (BuildingComp.java:1082/:1099, `Building other = proximity.get((i + dump) % proximity.size);`): the handled index dump_item_state reports (SOURCE_DRILL_INVENTORY_HANDLED_INDEX_KEY), -1 when nothing dumped. Index i is ring cell i (the N2353 convention).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_timer_dump_state"
+          ]
+        },
+        "dumped_item": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "other.handleItem(self(), todump);",
+          "rule": "The item the dump handed over (BuildingComp.java:1103, `other.handleItem(self(), todump);`, the specific branch; the dump(null) branch hands over the first held item in content order, :1089, `other.handleItem(self(), item);`): the port handled_item, \"\" when nothing dumped.",
           "used_by": [
             "SourceBurstDrillBuildState.source_burst_drill_timer_dump_state"
           ]
@@ -243073,6 +243133,16 @@
           "used_by": [
             "SourceItemBridgeBuildState.source_item_bridge_do_dump_state"
           ]
+        },
+        "dump_deliveries": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "res |= dump(item);",
+          "rule": "One {neighbour_index, item} dict per successful dump() call inside dumpAccumulate, in attempt order (ItemBridge.java:351; dumpAccumulate loops while(dumpAccum >= 1f), BuildingComp.java:1056-1058). Empty when nothing dumps. The neighbour_index is the proximity index i the shared dump helper returned (index i is ring cell i -- the N2353 convention); the tick lands each delivery in the neighbour store through the shared neighbour write-back helper (N2353). A singular index+item pair would drop every delivery but one when dumpAccumulate fires more than once per frame.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_do_dump_state"
+          ]
         }
       },
       "runtime_proof": "/root/C07ItemBridgeDoDumpProof",
@@ -243198,6 +243268,26 @@
           "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
           "java_expr": "cdump = ((cdump + 1) % prox);",
           "rule": "The dump cursor after the tick (BuildingComp.java:1116-1120): advanced once per neighbour checked (incrementDump, guarded on prox != 0), wrapping modulo the proximity size; the tick persists it back to the frame.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_timer_dump_state"
+          ]
+        },
+        "dump_neighbour_index": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+          "rule": "The routed neighbour index the dump handed the item to (BuildingComp.java:1082/:1099, `Building other = proximity.get((i + dump) % proximity.size);`): the literal handled_index dump_item_state reports, -1 when nothing dumped. Index i is ring cell i (the N2353 convention).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_timer_dump_state"
+          ]
+        },
+        "dumped_item": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "other.handleItem(self(), item);",
+          "rule": "The item the dump handed over (BuildingComp.java:1089, `other.handleItem(self(), item);`): the port handled_item, \"\" when nothing dumped. The tick lands it in the neighbour store through the shared neighbour write-back helper (N2353).",
           "used_by": [
             "SourceBeamDrillBuildState.source_beam_drill_timer_dump_state"
           ]

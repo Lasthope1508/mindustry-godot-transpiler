@@ -183096,6 +183096,86 @@
         "test_reference_graph_and_actual_c07_separator_timer_dump_write_back"
       ],
       "runtime_proof": "/root/C07SeparatorTimerDumpWriteBackProof"
+    },
+    "source_item_bridge_do_dump_state_result.dump_deliveries": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemBridgeBuildState.source_item_bridge_do_dump_state",
+      "godot_symbol": "source_item_bridge_do_dump_state_result.dump_deliveries",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.dumpAccumulate()",
+      "java_expr": "res |= dump(item);",
+      "rule": "One {neighbour_index, item} dict per successful dump() call inside dumpAccumulate, in attempt order (ItemBridge.java:351; dumpAccumulate loops while(dumpAccum >= 1f), BuildingComp.java:1056-1058). Empty when nothing dumps. The neighbour_index is the proximity index i the shared dump helper returned (index i is ring cell i -- the N2353 convention); the tick lands each delivery in the neighbour store through the shared neighbour write-back helper (N2353). A singular index+item pair would drop every delivery but one when dumpAccumulate fires more than once per frame.",
+      "tests": [
+        "test_c07_item_bridge_do_dump_write_back_registration",
+        "test_all_c07_item_bridge_do_dump_write_back_input_evidence_is_exact",
+        "test_item_bridge_do_dump_write_back_state",
+        "test_reference_graph_and_actual_c07_item_bridge_do_dump_write_back"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeDoDumpWriteBackProof"
+    },
+    "source_beam_drill_timer_dump_state_result.dump_neighbour_index": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_timer_dump_state",
+      "godot_symbol": "source_beam_drill_timer_dump_state_result.dump_neighbour_index",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.dump(Item)",
+      "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+      "rule": "The routed neighbour index the dump handed the item to (BuildingComp.java:1082/:1099, `Building other = proximity.get((i + dump) % proximity.size);`): the literal handled_index dump_item_state reports, -1 when nothing dumped. Index i is ring cell i (the N2353 convention).",
+      "tests": [
+        "test_c07_beam_drill_timer_dump_write_back_registration",
+        "test_all_c07_beam_drill_timer_dump_write_back_input_evidence_is_exact",
+        "test_beam_drill_timer_dump_write_back_state",
+        "test_reference_graph_and_actual_c07_beam_drill_timer_dump_write_back"
+      ],
+      "runtime_proof": "/root/C07BeamDrillTimerDumpWriteBackProof"
+    },
+    "source_beam_drill_timer_dump_state_result.dumped_item": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_timer_dump_state",
+      "godot_symbol": "source_beam_drill_timer_dump_state_result.dumped_item",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.dump(Item)",
+      "java_expr": "other.handleItem(self(), item);",
+      "rule": "The item the dump handed over (BuildingComp.java:1089, `other.handleItem(self(), item);`): the port handled_item, \"\" when nothing dumped. The tick lands it in the neighbour store through the shared neighbour write-back helper (N2353).",
+      "tests": [
+        "test_c07_beam_drill_timer_dump_write_back_registration",
+        "test_all_c07_beam_drill_timer_dump_write_back_input_evidence_is_exact",
+        "test_beam_drill_timer_dump_write_back_state",
+        "test_reference_graph_and_actual_c07_beam_drill_timer_dump_write_back"
+      ],
+      "runtime_proof": "/root/C07BeamDrillTimerDumpWriteBackProof"
+    },
+    "source_separator_update_tile_advance_state_result.offload_neighbour_index": {
+      "status": "source-backed",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_update_tile_advance_state",
+      "godot_symbol": "source_separator_update_tile_advance_state_result.offload_neighbour_index",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.offload()",
+      "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+      "rule": "The routed neighbour index offload handed the picked item to (BuildingComp.java:1007, `Building other = proximity.get((i + dump) % proximity.size);`): the handled index offload_item_state reports (SOURCE_DRILL_INVENTORY_HANDLED_INDEX_KEY), -1 when nothing routed. Index i is ring cell i (the N2353 convention).",
+      "tests": [
+        "test_c07_separator_neighbour_write_back_registration",
+        "test_all_c07_separator_neighbour_write_back_input_evidence_is_exact",
+        "test_separator_neighbour_write_back_state",
+        "test_reference_graph_and_actual_c07_separator_neighbour_write_back"
+      ],
+      "runtime_proof": "/root/C07SeparatorNeighbourWriteBackProof"
+    },
+    "source_separator_update_tile_advance_state_result.offload_routed": {
+      "status": "source-backed",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_update_tile_advance_state",
+      "godot_symbol": "source_separator_update_tile_advance_state_result.offload_routed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.offload()",
+      "java_expr": "other.handleItem(self(), item);",
+      "rule": "Whether offload handed the picked item to a neighbour (BuildingComp.java:1009, `other.handleItem(self(), item);`): true when a neighbour accepted it, false when every neighbour refused and Java fell back to handleItem(self(), item) on the separator itself (:1014).",
+      "tests": [
+        "test_c07_separator_neighbour_write_back_registration",
+        "test_all_c07_separator_neighbour_write_back_input_evidence_is_exact",
+        "test_separator_neighbour_write_back_state",
+        "test_reference_graph_and_actual_c07_separator_neighbour_write_back"
+      ],
+      "runtime_proof": "/root/C07SeparatorNeighbourWriteBackProof"
     }
   },
   "version": 1

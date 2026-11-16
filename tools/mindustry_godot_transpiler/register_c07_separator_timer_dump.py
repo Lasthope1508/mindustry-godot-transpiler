@@ -457,12 +457,30 @@ def main():
         'cursor_after': f('int', 'cdump = ((cdump + 1) % prox);', 'The dump cursor after the tick (BuildingComp.java:1116-1120): advanced once per neighbour checked (incrementDump, guarded on prox != 0), wrapping modulo the proximity size; shared with the offload, so the tick persists it back to the frame.', source=BUILDING_COMP),
     }
 
+    # N2367 (schema-sync fold): the two write-back keys the N2361
+    # slice exposed on this advance (symbols registered by N2361),
+    # folded into the result schema + contract return_keys.
+    # Metadata copied verbatim from the N2361 register.
+    n2367_fold_outputs = {
+        'dump_neighbour_index': f('int', 'Building other = proximity.get((i + dump) % proximity.size);', 'The routed neighbour index the dump handed the item to (BuildingComp.java:1088, `Building other = proximity.get((i + dump) % proximity.size);`): the handled index dump_item_state reports (SOURCE_DRILL_INVENTORY_HANDLED_INDEX_KEY), -1 when nothing dumped. Index i is ring cell i (the N2353 convention).', source=BUILDING_COMP),
+        'dumped_item': f('String', 'other.handleItem(self(), item);', 'The item the dump handed over (BuildingComp.java:1089, `other.handleItem(self(), item);`): the port handled_item, "" when nothing dumped. The tick lands it in the neighbour store through the shared neighbour write-back helper (N2353).', source=BUILDING_COMP),
+    }
+
     entries = [
         ('N2281', OWNER, 'source_separator_timer_dump_state', SEPARATOR, 'mindustry.world.blocks.production.Separator.SeparatorBuild', 'SeparatorBuild.updateTile()', n2281_inputs, n2281_outputs, True, 'Dictionary'),
     ]
     all_names = []
     for sid, owner, prefix, source, cls, method, inputs, outputs, has_contract, return_type in entries:
         names = []
+        # N2367 (schema-sync fold): the result schema + contract
+        # carry the folded keys; the symbol loop below still
+        # iterates the ORIGINAL outputs only
+        # (upsert_source_symbols wholesale-replaces -- folding
+        # the keys into the symbol loop here would steal the
+        # write-back slice's symbol ownership).
+        result_keys = {**outputs, **n2367_fold_outputs}
+        for meta in n2367_fold_outputs.values():
+            meta['used_by'] = [owner]
         for suffix, keys in [('input', inputs), ('result', outputs)]:
             name = prefix + '_' + suffix
             for field, meta in keys.items():
@@ -471,9 +489,9 @@ def main():
                     symbol = name + '.' + field
                     names.append(symbol)
                     symbols[symbol] = dict(status='source-backed', godot_owner=owner, godot_symbol=symbol, java_source=meta['java_source'], java_method=method, java_expr=meta['java_expr'], rule=meta['rule'], tests=TESTS, runtime_proof=PROOF)
-            source_symbols.upsert_source_state_schema(GODOT, name, dict(status='active', owner=owner, source_slice=sid, keys=keys, runtime_proof=PROOF, rule='Source-backed Separator timerDump dump rows from Separator.java / Block.java / TimerComp.java / BuildingComp.java / arc Interval.java / arc Time.java.'))
+            source_symbols.upsert_source_state_schema(GODOT, name, dict(status='active', owner=owner, source_slice=sid, keys=result_keys if suffix == 'result' else keys, runtime_proof=PROOF, rule='Source-backed Separator timerDump dump rows from Separator.java / Block.java / TimerComp.java / BuildingComp.java / arc Interval.java / arc Time.java.'))
         if has_contract:
-            source_symbols.upsert_source_api_contract(GODOT, owner, dict(status='active', source_slice=sid, java_source=source, source_method=method, params=[dict(name=k, type=v['type'], schema=prefix + '_input.' + k) for k, v in inputs.items()], return_type=return_type, return_keys=list(outputs), tests=TESTS, runtime_proof=PROOF, rule='Source-backed Separator timerDump dump rows from Separator.java / Block.java / TimerComp.java / BuildingComp.java / arc Interval.java / arc Time.java.'))
+            source_symbols.upsert_source_api_contract(GODOT, owner, dict(status='active', source_slice=sid, java_source=source, source_method=method, params=[dict(name=k, type=v['type'], schema=prefix + '_input.' + k) for k, v in inputs.items()], return_type=return_type, return_keys=list(result_keys), tests=TESTS, runtime_proof=PROOF, rule='Source-backed Separator timerDump dump rows from Separator.java / Block.java / TimerComp.java / BuildingComp.java / arc Interval.java / arc Time.java.'))
         all_names.extend(names)
 
     by_slice = {}

@@ -42,14 +42,20 @@ class C07SeparatorNeighbourWriteBackTests(unittest.TestCase):
         # frame, a frame with no items store, or a full belt
         # reports written false with a reason -- the item is
         # already routed away, so there is no fallback to the
-        # separator's own store. Three new result symbols: the
-        # written flag, the reason, and the neighbour cell.
+        # separator's own store. Three new result symbols at slice
+        # time: the written flag, the reason, and the neighbour
+        # cell. N2367 (schema-sync fold) registered the two
+        # Separator offload advance keys this slice exposed as
+        # symbols of this slice too -- they live on the Separator
+        # advance, so their godot_owner is the advance owner.
         self.assertEqual(
             ledger['N2353']['source_symbols'],
             [
                 'source_neighbour_item_write_back_state_result.written',
                 'source_neighbour_item_write_back_state_result.reason',
                 'source_neighbour_item_write_back_state_result.neighbour_cell',
+                'source_separator_update_tile_advance_state_result.offload_neighbour_index',
+                'source_separator_update_tile_advance_state_result.offload_routed',
             ],
         )
         for name in ledger['N2353']['source_symbols']:
@@ -59,7 +65,10 @@ class C07SeparatorNeighbourWriteBackTests(unittest.TestCase):
                     'core/src/mindustry/entities/comp/BuildingComp.java',
                     'core/src/mindustry/world/blocks/distribution/Conveyor.java',
                 })
-                self.assertEqual(symbol['godot_owner'], 'SourceBuildingItemState.source_neighbour_item_write_back_state')
+                if name.startswith('source_neighbour_item_write_back_state_result.'):
+                    self.assertEqual(symbol['godot_owner'], 'SourceBuildingItemState.source_neighbour_item_write_back_state')
+                else:
+                    self.assertEqual(symbol['godot_owner'], 'SourceSeparatorBuildState.source_separator_update_tile_advance_state')
         self.assertEqual(ledger['N2353']['runtime_proof'], '/root/C07SeparatorNeighbourWriteBackProof')
         self.assertEqual(
             ledger['N2353']['tests'],
@@ -100,7 +109,12 @@ class C07SeparatorNeighbourWriteBackTests(unittest.TestCase):
                 symbol = symbols[name]
                 upstream_root = ROOT / 'arc-upstream' if symbol['java_source'].startswith('arc-core/') else ROOT / 'mindustry-upstream'
                 self.assertIn(symbol['java_expr'], (upstream_root / symbol['java_source']).read_text(encoding='utf-8'))
-                self.assertEqual(symbol['godot_owner'], 'SourceBuildingItemState.source_neighbour_item_write_back_state')
+                if name.startswith('source_neighbour_item_write_back_state_result.'):
+                    self.assertEqual(symbol['godot_owner'], 'SourceBuildingItemState.source_neighbour_item_write_back_state')
+                else:
+                    # N2367 fold: the offload keys live on the
+                    # Separator advance.
+                    self.assertEqual(symbol['godot_owner'], 'SourceSeparatorBuildState.source_separator_update_tile_advance_state')
         slice_sources = {
             ('mindustry-upstream', 'core/src/mindustry/entities/comp/BuildingComp.java'),
             ('mindustry-upstream', 'core/src/mindustry/world/blocks/production/Separator.java'),

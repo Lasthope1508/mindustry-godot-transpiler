@@ -18542,7 +18542,9 @@
         "elapsed_after",
         "dumped",
         "items_after",
-        "cursor_after"
+        "cursor_after",
+        "dump_neighbour_index",
+        "dumped_item"
       ],
       "tests": [
         "test_c07_burst_drill_timer_dump_registration",

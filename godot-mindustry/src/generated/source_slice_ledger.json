@@ -114845,7 +114845,9 @@
       "source_symbols": [
         "source_neighbour_item_write_back_state_result.written",
         "source_neighbour_item_write_back_state_result.reason",
-        "source_neighbour_item_write_back_state_result.neighbour_cell"
+        "source_neighbour_item_write_back_state_result.neighbour_cell",
+        "source_separator_update_tile_advance_state_result.offload_neighbour_index",
+        "source_separator_update_tile_advance_state_result.offload_routed"
       ],
       "tests": [
         "test_c07_separator_neighbour_write_back_registration",
@@ -117360,6 +117362,7 @@
       "exact_exprs": [
         "public void doDump(){",
         "dumpAccumulate();",
+        "res |= dump(item);",
         "if(!hadValidLink){",
         "doDump();",
         "public boolean dump(Item todump){",
@@ -117376,7 +117379,8 @@
         "source_item_bridge_do_dump_state_result.dumped",
         "source_item_bridge_do_dump_state_result.dump_attempts",
         "source_item_bridge_do_dump_state_result.items_after",
-        "source_item_bridge_do_dump_state_result.cursor_after"
+        "source_item_bridge_do_dump_state_result.cursor_after",
+        "source_item_bridge_do_dump_state_result.dump_deliveries"
       ],
       "tests": [
         "test_c07_item_bridge_do_dump_write_back_registration",
@@ -117733,7 +117737,9 @@
         "source_beam_drill_timer_dump_state_result.elapsed_after",
         "source_beam_drill_timer_dump_state_result.dumped",
         "source_beam_drill_timer_dump_state_result.items_after",
-        "source_beam_drill_timer_dump_state_result.cursor_after"
+        "source_beam_drill_timer_dump_state_result.cursor_after",
+        "source_beam_drill_timer_dump_state_result.dump_neighbour_index",
+        "source_beam_drill_timer_dump_state_result.dumped_item"
       ],
       "tests": [
         "test_c07_beam_drill_timer_dump_write_back_registration",
