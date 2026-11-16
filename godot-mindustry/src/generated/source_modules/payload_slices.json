@@ -2304,6 +2304,27 @@
         "test_reference_graph_and_actual_c07_payload_unloader_load_timer"
       ],
       "runtime_proof": "/root/C07PayloadUnloaderLoadTimerProof"
+    },
+    "N2368": {
+      "canonical_ledger": "source_slice_ledger.N2368",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "java_method": "PayloadDeconstructorBuild.updateTile()",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_dump_state",
+      "source_symbols": [
+        "source_payload_deconstructor_dump_state_result.dump_accum_after",
+        "source_payload_deconstructor_dump_state_result.dumped",
+        "source_payload_deconstructor_dump_state_result.items_after",
+        "source_payload_deconstructor_dump_state_result.cursor_after",
+        "source_payload_deconstructor_dump_state_result.dump_deliveries"
+      ],
+      "tests": [
+        "test_c07_payload_deconstructor_dump_write_back_registration",
+        "test_all_c07_payload_deconstructor_dump_write_back_input_evidence_is_exact",
+        "test_payload_deconstructor_dump_write_back_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_dump_write_back"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorDumpWriteBackProof"
     }
   }
 }

@@ -4958,7 +4958,8 @@
         "current_liquid_amount_after",
         "other_liquid_amount_by_index_after",
         "unlock_called",
-        "final_cdump"
+        "final_cdump",
+        "handled_index"
       ],
       "tests": [
         "test_building_unit_payload_slice.py",
@@ -18493,6 +18494,59 @@
       "runtime_proof": "/root/BuildingProximityMutationProof",
       "rule": "Source void mutation, verified against explicit GDScript -> void; input/owner/slice/proof checks remain mandatory. No result schema or fabricated wrapper.",
       "return_type": "void"
+    },
+    "SourceBuildingLiquidState.source_neighbour_liquid_write_back_state": {
+      "canonical_contract": "source_api_contracts.SourceBuildingLiquidState.source_neighbour_liquid_write_back_state",
+      "status": "active",
+      "source_slice": "N2371",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "BuildingComp.dumpLiquid()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_neighbour_liquid_write_back_state_input.game"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_neighbour_liquid_write_back_state_input.cell"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_neighbour_liquid_write_back_state_input.size"
+        },
+        {
+          "name": "neighbour_index",
+          "type": "int",
+          "schema": "source_neighbour_liquid_write_back_state_input.neighbour_index"
+        },
+        {
+          "name": "liquid",
+          "type": "String",
+          "schema": "source_neighbour_liquid_write_back_state_input.liquid"
+        },
+        {
+          "name": "amount",
+          "type": "float",
+          "schema": "source_neighbour_liquid_write_back_state_input.amount"
+        }
+      ],
+      "return_keys": [
+        "written",
+        "reason",
+        "neighbour_cell"
+      ],
+      "tests": [
+        "test_c07_liquid_neighbour_write_back_registration",
+        "test_all_c07_liquid_neighbour_write_back_input_evidence_is_exact",
+        "test_liquid_neighbour_write_back_state",
+        "test_reference_graph_and_actual_c07_liquid_neighbour_write_back"
+      ],
+      "runtime_proof": "/root/C07LiquidNeighbourWriteBackProof",
+      "rule": "Source-backed neighbour liquid write-back rows from BuildingComp.java / Conduit.java.",
+      "return_type": "Dictionary"
     },
     "SourceBurstDrillBuildState.source_burst_drill_timer_dump_state": {
       "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_burst_drill_timer_dump_state",

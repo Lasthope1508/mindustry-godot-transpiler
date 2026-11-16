@@ -54643,7 +54643,8 @@
         "current_liquid_amount_after",
         "other_liquid_amount_by_index_after",
         "unlock_called",
-        "final_cdump"
+        "final_cdump",
+        "handled_index"
       ],
       "tests": [
         "test_building_unit_payload_slice.py",
@@ -74166,6 +74167,442 @@
       ],
       "runtime_proof": "/root/C07UnitAssemblerModuleGetLinkDiscoveryProof",
       "rule": "Source-backed UnitAssemblerModule getLink discovery from UnitAssembler.java / UnitAssemblerModule.java."
+    },
+    "SourceBuildingLiquidState.source_neighbour_liquid_write_back_state": {
+      "status": "active",
+      "source_slice": "N2371",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "BuildingComp.dumpLiquid()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_neighbour_liquid_write_back_state_input.game"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_neighbour_liquid_write_back_state_input.cell"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_neighbour_liquid_write_back_state_input.size"
+        },
+        {
+          "name": "neighbour_index",
+          "type": "int",
+          "schema": "source_neighbour_liquid_write_back_state_input.neighbour_index"
+        },
+        {
+          "name": "liquid",
+          "type": "String",
+          "schema": "source_neighbour_liquid_write_back_state_input.liquid"
+        },
+        {
+          "name": "amount",
+          "type": "float",
+          "schema": "source_neighbour_liquid_write_back_state_input.amount"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "written",
+        "reason",
+        "neighbour_cell"
+      ],
+      "tests": [
+        "test_c07_liquid_neighbour_write_back_registration",
+        "test_all_c07_liquid_neighbour_write_back_input_evidence_is_exact",
+        "test_liquid_neighbour_write_back_state",
+        "test_reference_graph_and_actual_c07_liquid_neighbour_write_back"
+      ],
+      "runtime_proof": "/root/C07LiquidNeighbourWriteBackProof",
+      "rule": "Source-backed neighbour liquid write-back rows from BuildingComp.java / Conduit.java."
+    },
+    "SourceMendProjectorBuildState.source_mend_projector_draw_rows_state": {
+      "status": "active",
+      "source_slice": "N2372",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "source_method": "MendBuild.draw()",
+      "params": [
+        {
+          "name": "x_value",
+          "type": "float",
+          "schema": "source_mend_projector_draw_rows_state_input.x_value"
+        },
+        {
+          "name": "y_value",
+          "type": "float",
+          "schema": "source_mend_projector_draw_rows_state_input.y_value"
+        },
+        {
+          "name": "heat",
+          "type": "float",
+          "schema": "source_mend_projector_draw_rows_state_input.heat"
+        },
+        {
+          "name": "phase_heat",
+          "type": "float",
+          "schema": "source_mend_projector_draw_rows_state_input.phase_heat"
+        },
+        {
+          "name": "size_value",
+          "type": "float",
+          "schema": "source_mend_projector_draw_rows_state_input.size_value"
+        },
+        {
+          "name": "time_value",
+          "type": "float",
+          "schema": "source_mend_projector_draw_rows_state_input.time_value"
+        },
+        {
+          "name": "lod_l2",
+          "type": "bool",
+          "schema": "source_mend_projector_draw_rows_state_input.lod_l2"
+        },
+        {
+          "name": "lod_alpha2",
+          "type": "float",
+          "schema": "source_mend_projector_draw_rows_state_input.lod_alpha2"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "top_call",
+        "square_call"
+      ],
+      "tests": [
+        "test_c07_mend_projector_draw_rows_registration",
+        "test_all_c07_mend_projector_draw_rows_input_evidence_is_exact",
+        "test_mend_projector_draw_rows_state",
+        "test_reference_graph_and_actual_c07_mend_projector_draw_rows"
+      ],
+      "runtime_proof": "/root/C07MendProjectorDrawRowsProof",
+      "rule": "Source-backed MendProjector draw rows from MendProjector.java / Blocks.java."
+    },
+    "SourceMendProjectorBuildState.source_mend_projector_draw_select_state": {
+      "status": "active",
+      "source_slice": "N2372",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "source_method": "MendBuild.drawSelect()",
+      "params": [
+        {
+          "name": "x_value",
+          "type": "float",
+          "schema": "source_mend_projector_draw_select_state_input.x_value"
+        },
+        {
+          "name": "y_value",
+          "type": "float",
+          "schema": "source_mend_projector_draw_select_state_input.y_value"
+        },
+        {
+          "name": "range_value",
+          "type": "float",
+          "schema": "source_mend_projector_draw_select_state_input.range_value"
+        },
+        {
+          "name": "phase_heat",
+          "type": "float",
+          "schema": "source_mend_projector_draw_select_state_input.phase_heat"
+        },
+        {
+          "name": "phase_range_boost",
+          "type": "float",
+          "schema": "source_mend_projector_draw_select_state_input.phase_range_boost"
+        },
+        {
+          "name": "candidates",
+          "type": "Array",
+          "schema": "source_mend_projector_draw_select_state_input.candidates"
+        },
+        {
+          "name": "time_value",
+          "type": "float",
+          "schema": "source_mend_projector_draw_select_state_input.time_value"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "dash_circle_call",
+        "selected_calls"
+      ],
+      "tests": [
+        "test_c07_mend_projector_draw_rows_registration",
+        "test_all_c07_mend_projector_draw_rows_input_evidence_is_exact",
+        "test_mend_projector_draw_rows_state",
+        "test_reference_graph_and_actual_c07_mend_projector_draw_rows"
+      ],
+      "runtime_proof": "/root/C07MendProjectorDrawRowsProof",
+      "rule": "Source-backed MendProjector draw rows from MendProjector.java / Blocks.java."
+    },
+    "SourceMendProjectorBuildState.source_mend_projector_draw_light_state": {
+      "status": "active",
+      "source_slice": "N2372",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "source_method": "MendBuild.drawLight()",
+      "params": [
+        {
+          "name": "x_value",
+          "type": "float",
+          "schema": "source_mend_projector_draw_light_state_input.x_value"
+        },
+        {
+          "name": "y_value",
+          "type": "float",
+          "schema": "source_mend_projector_draw_light_state_input.y_value"
+        },
+        {
+          "name": "smooth_efficiency",
+          "type": "float",
+          "schema": "source_mend_projector_draw_light_state_input.smooth_efficiency"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "light_call"
+      ],
+      "tests": [
+        "test_c07_mend_projector_draw_rows_registration",
+        "test_all_c07_mend_projector_draw_rows_input_evidence_is_exact",
+        "test_mend_projector_draw_rows_state",
+        "test_reference_graph_and_actual_c07_mend_projector_draw_rows"
+      ],
+      "runtime_proof": "/root/C07MendProjectorDrawRowsProof",
+      "rule": "Source-backed MendProjector draw rows from MendProjector.java / Blocks.java."
+    },
+    "SourceAcceleratorBuildState.source_accelerator_draw_state": {
+      "status": "active",
+      "source_slice": "N2373",
+      "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+      "source_method": "AcceleratorBuild.draw()",
+      "params": [
+        {
+          "name": "x_value",
+          "type": "float",
+          "schema": "source_accelerator_draw_state_input.x_value"
+        },
+        {
+          "name": "y_value",
+          "type": "float",
+          "schema": "source_accelerator_draw_state_input.y_value"
+        },
+        {
+          "name": "heat",
+          "type": "float",
+          "schema": "source_accelerator_draw_state_input.heat"
+        },
+        {
+          "name": "status_lerp",
+          "type": "float",
+          "schema": "source_accelerator_draw_state_input.status_lerp"
+        },
+        {
+          "name": "launch_heat",
+          "type": "float",
+          "schema": "source_accelerator_draw_state_input.launch_heat"
+        },
+        {
+          "name": "time_value",
+          "type": "float",
+          "schema": "source_accelerator_draw_state_input.time_value"
+        },
+        {
+          "name": "build_time",
+          "type": "float",
+          "schema": "source_accelerator_draw_state_input.build_time"
+        },
+        {
+          "name": "progress",
+          "type": "float",
+          "schema": "source_accelerator_draw_state_input.progress"
+        },
+        {
+          "name": "launching",
+          "type": "bool",
+          "schema": "source_accelerator_draw_state_input.launching"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "arrows_call",
+        "build_call",
+        "rings_call"
+      ],
+      "tests": [
+        "test_c07_accelerator_draw_rows_registration",
+        "test_all_c07_accelerator_draw_rows_input_evidence_is_exact",
+        "test_accelerator_draw_rows_state",
+        "test_reference_graph_and_actual_c07_accelerator_draw_rows"
+      ],
+      "runtime_proof": "/root/C07AcceleratorDrawRowsProof",
+      "rule": "Source-backed Accelerator draw rows from Accelerator.java / Blocks.java."
+    },
+    "SourceAcceleratorBuildState.source_accelerator_draw_light_state": {
+      "status": "active",
+      "source_slice": "N2373",
+      "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+      "source_method": "AcceleratorBuild.drawLight()",
+      "params": [
+        {
+          "name": "x_value",
+          "type": "float",
+          "schema": "source_accelerator_draw_light_state_input.x_value"
+        },
+        {
+          "name": "y_value",
+          "type": "float",
+          "schema": "source_accelerator_draw_light_state_input.y_value"
+        },
+        {
+          "name": "launch_heat",
+          "type": "float",
+          "schema": "source_accelerator_draw_light_state_input.launch_heat"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "light_call"
+      ],
+      "tests": [
+        "test_c07_accelerator_draw_rows_registration",
+        "test_all_c07_accelerator_draw_rows_input_evidence_is_exact",
+        "test_accelerator_draw_rows_state",
+        "test_reference_graph_and_actual_c07_accelerator_draw_rows"
+      ],
+      "runtime_proof": "/root/C07AcceleratorDrawRowsProof",
+      "rule": "Source-backed Accelerator draw rows from Accelerator.java / Blocks.java."
+    },
+    "SourceAcceleratorBuildState.source_accelerator_draw_select_state": {
+      "status": "active",
+      "source_slice": "N2373",
+      "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+      "source_method": "AcceleratorBuild.drawSelect()",
+      "params": [
+        {
+          "name": "tile_x",
+          "type": "int",
+          "schema": "source_accelerator_draw_select_state_input.tile_x"
+        },
+        {
+          "name": "tile_y",
+          "type": "int",
+          "schema": "source_accelerator_draw_select_state_input.tile_y"
+        },
+        {
+          "name": "battery_stored",
+          "type": "float",
+          "schema": "source_accelerator_draw_select_state_input.battery_stored"
+        },
+        {
+          "name": "launching",
+          "type": "bool",
+          "schema": "source_accelerator_draw_select_state_input.launching"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "battery_warning_call"
+      ],
+      "tests": [
+        "test_c07_accelerator_draw_rows_registration",
+        "test_all_c07_accelerator_draw_rows_input_evidence_is_exact",
+        "test_accelerator_draw_rows_state",
+        "test_reference_graph_and_actual_c07_accelerator_draw_rows"
+      ],
+      "runtime_proof": "/root/C07AcceleratorDrawRowsProof",
+      "rule": "Source-backed Accelerator draw rows from Accelerator.java / Blocks.java."
+    },
+    "SourceLightBlockBuildState.source_light_block_draw_state": {
+      "status": "active",
+      "source_slice": "N2374",
+      "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+      "source_method": "LightBuild.draw()",
+      "params": [
+        {
+          "name": "x_value",
+          "type": "float",
+          "schema": "source_light_block_draw_state_input.x_value"
+        },
+        {
+          "name": "y_value",
+          "type": "float",
+          "schema": "source_light_block_draw_state_input.y_value"
+        },
+        {
+          "name": "color_value",
+          "type": "int",
+          "schema": "source_light_block_draw_state_input.color_value"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "top_call"
+      ],
+      "tests": [
+        "test_c07_light_block_draw_rows_registration",
+        "test_all_c07_light_block_draw_rows_input_evidence_is_exact",
+        "test_light_block_draw_rows_state",
+        "test_reference_graph_and_actual_c07_light_block_draw_rows"
+      ],
+      "runtime_proof": "/root/C07LightBlockDrawRowsProof",
+      "rule": "Source-backed LightBlock draw rows from LightBlock.java / Blocks.java."
+    },
+    "SourceLightBlockBuildState.source_light_block_draw_light_state": {
+      "status": "active",
+      "source_slice": "N2374",
+      "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+      "source_method": "LightBuild.drawLight()",
+      "params": [
+        {
+          "name": "x_value",
+          "type": "float",
+          "schema": "source_light_block_draw_light_state_input.x_value"
+        },
+        {
+          "name": "y_value",
+          "type": "float",
+          "schema": "source_light_block_draw_light_state_input.y_value"
+        },
+        {
+          "name": "color_value",
+          "type": "int",
+          "schema": "source_light_block_draw_light_state_input.color_value"
+        },
+        {
+          "name": "smooth_time",
+          "type": "float",
+          "schema": "source_light_block_draw_light_state_input.smooth_time"
+        },
+        {
+          "name": "light_radius",
+          "type": "float",
+          "schema": "source_light_block_draw_light_state_input.light_radius"
+        },
+        {
+          "name": "brightness",
+          "type": "float",
+          "schema": "source_light_block_draw_light_state_input.brightness"
+        },
+        {
+          "name": "efficiency",
+          "type": "float",
+          "schema": "source_light_block_draw_light_state_input.efficiency"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "light_call"
+      ],
+      "tests": [
+        "test_c07_light_block_draw_rows_registration",
+        "test_all_c07_light_block_draw_rows_input_evidence_is_exact",
+        "test_light_block_draw_rows_state",
+        "test_reference_graph_and_actual_c07_light_block_draw_rows"
+      ],
+      "runtime_proof": "/root/C07LightBlockDrawRowsProof",
+      "rule": "Source-backed LightBlock draw rows from LightBlock.java / Blocks.java."
     }
   },
   "policy": {

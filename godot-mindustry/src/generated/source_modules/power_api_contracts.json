@@ -3762,6 +3762,42 @@
       "rule": "Source-backed ImpactReactor updateTile advance from ImpactReactor.java / BuildingComp.java / Mathf.java.",
       "return_type": "Dictionary"
     },
+    "SourceLightBlockBuildState.source_light_block_draw_state": {
+      "canonical_contract": "source_api_contracts.SourceLightBlockBuildState.source_light_block_draw_state",
+      "status": "active",
+      "source_slice": "N2374",
+      "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+      "source_method": "LightBuild.draw()",
+      "params": [
+        {
+          "name": "x_value",
+          "type": "float",
+          "schema": "source_light_block_draw_state_input.x_value"
+        },
+        {
+          "name": "y_value",
+          "type": "float",
+          "schema": "source_light_block_draw_state_input.y_value"
+        },
+        {
+          "name": "color_value",
+          "type": "int",
+          "schema": "source_light_block_draw_state_input.color_value"
+        }
+      ],
+      "return_keys": [
+        "top_call"
+      ],
+      "tests": [
+        "test_c07_light_block_draw_rows_registration",
+        "test_all_c07_light_block_draw_rows_input_evidence_is_exact",
+        "test_light_block_draw_rows_state",
+        "test_reference_graph_and_actual_c07_light_block_draw_rows"
+      ],
+      "runtime_proof": "/root/C07LightBlockDrawRowsProof",
+      "rule": "Source-backed LightBlock draw rows from LightBlock.java / Blocks.java.",
+      "return_type": "Dictionary"
+    },
     "SourceLightBlockBuildState.source_light_block_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourceLightBlockBuildState.source_light_block_power_status_row_state",
       "status": "active",

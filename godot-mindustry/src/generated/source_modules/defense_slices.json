@@ -3665,6 +3665,27 @@
       ],
       "runtime_proof": "/root/C07ShockwaveTowerDrawRowsProof"
     },
+    "N2372": {
+      "canonical_ledger": "source_slice_ledger.N2372",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "java_method": "MendBuild.draw()",
+      "godot_owner": "SourceMendProjectorBuildState.source_mend_projector_draw_rows_state",
+      "source_symbols": [
+        "source_mend_projector_draw_rows_state_result.top_call",
+        "source_mend_projector_draw_rows_state_result.square_call",
+        "source_mend_projector_draw_select_state_result.dash_circle_call",
+        "source_mend_projector_draw_select_state_result.selected_calls",
+        "source_mend_projector_draw_light_state_result.light_call"
+      ],
+      "tests": [
+        "test_c07_mend_projector_draw_rows_registration",
+        "test_all_c07_mend_projector_draw_rows_input_evidence_is_exact",
+        "test_mend_projector_draw_rows_state",
+        "test_reference_graph_and_actual_c07_mend_projector_draw_rows"
+      ],
+      "runtime_proof": "/root/C07MendProjectorDrawRowsProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

@@ -1307,6 +1307,24 @@
       ],
       "runtime_proof": "/root/C07FactoryBatteryEnabledStampProof"
     },
+    "N2374": {
+      "canonical_ledger": "source_slice_ledger.N2374",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+      "java_method": "LightBuild.draw()",
+      "godot_owner": "SourceLightBlockBuildState.source_light_block_draw_state",
+      "source_symbols": [
+        "source_light_block_draw_state_result.top_call",
+        "source_light_block_draw_light_state_result.light_call"
+      ],
+      "tests": [
+        "test_c07_light_block_draw_rows_registration",
+        "test_all_c07_light_block_draw_rows_input_evidence_is_exact",
+        "test_light_block_draw_rows_state",
+        "test_reference_graph_and_actual_c07_light_block_draw_rows"
+      ],
+      "runtime_proof": "/root/C07LightBlockDrawRowsProof"
+    },
     "N888": {
       "canonical_ledger": "source_slice_ledger.N888",
       "status": "done",

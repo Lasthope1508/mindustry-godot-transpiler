@@ -7257,6 +7257,68 @@
       "rule": "Source-backed ForceProjector updateTile advance from ForceProjector.java / Blocks.java / BuildingComp.java / TimerComp.java / Block.java / Tile.java / BulletType.java / BulletComp.java / EntityGroup.java / GroupDefs.java / Liquid.java / Team.java / Mathf.java / Intersector.java / Vec2.java / Time.java.",
       "return_type": "Dictionary"
     },
+    "SourceMendProjectorBuildState.source_mend_projector_draw_rows_state": {
+      "canonical_contract": "source_api_contracts.SourceMendProjectorBuildState.source_mend_projector_draw_rows_state",
+      "status": "active",
+      "source_slice": "N2372",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "source_method": "MendBuild.draw()",
+      "params": [
+        {
+          "name": "x_value",
+          "type": "float",
+          "schema": "source_mend_projector_draw_rows_state_input.x_value"
+        },
+        {
+          "name": "y_value",
+          "type": "float",
+          "schema": "source_mend_projector_draw_rows_state_input.y_value"
+        },
+        {
+          "name": "heat",
+          "type": "float",
+          "schema": "source_mend_projector_draw_rows_state_input.heat"
+        },
+        {
+          "name": "phase_heat",
+          "type": "float",
+          "schema": "source_mend_projector_draw_rows_state_input.phase_heat"
+        },
+        {
+          "name": "size_value",
+          "type": "float",
+          "schema": "source_mend_projector_draw_rows_state_input.size_value"
+        },
+        {
+          "name": "time_value",
+          "type": "float",
+          "schema": "source_mend_projector_draw_rows_state_input.time_value"
+        },
+        {
+          "name": "lod_l2",
+          "type": "bool",
+          "schema": "source_mend_projector_draw_rows_state_input.lod_l2"
+        },
+        {
+          "name": "lod_alpha2",
+          "type": "float",
+          "schema": "source_mend_projector_draw_rows_state_input.lod_alpha2"
+        }
+      ],
+      "return_keys": [
+        "top_call",
+        "square_call"
+      ],
+      "tests": [
+        "test_c07_mend_projector_draw_rows_registration",
+        "test_all_c07_mend_projector_draw_rows_input_evidence_is_exact",
+        "test_mend_projector_draw_rows_state",
+        "test_reference_graph_and_actual_c07_mend_projector_draw_rows"
+      ],
+      "runtime_proof": "/root/C07MendProjectorDrawRowsProof",
+      "rule": "Source-backed MendProjector draw rows from MendProjector.java / Blocks.java.",
+      "return_type": "Dictionary"
+    },
     "SourceMendProjectorBuildState.source_mend_projector_heal_candidates_hitbox_state": {
       "canonical_contract": "source_api_contracts.SourceMendProjectorBuildState.source_mend_projector_heal_candidates_hitbox_state",
       "status": "active",
