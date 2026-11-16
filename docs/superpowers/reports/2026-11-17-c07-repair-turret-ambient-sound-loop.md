@@ -3,7 +3,7 @@
 ## Trạng thái
 
 - N2221 (RepairTurret shouldAmbientSound/status) ĐÃ XONG + ĐÃ PUSH (origin/main == 5260285a; sau đó PR #18 merge validation lên 8b4e78ec).
-- N2222 (RepairTurret ambient-sound live-loop gate) GREEN xong lúc ~03:30–03:5x +07; gate toàn bộ xanh lúc ~03:58 +07 (Ran 5981, failures=172, skipped=5, 0 errors — toàn bộ 172 lỗi là Godot-absent). Đang làm 5-commit + push.
+- N2222 (RepairTurret ambient-sound live-loop gate) GREEN xong lúc ~03:30–03:5x +07; gate toàn bộ xanh lúc ~03:58 +07 (Ran 5981, failures=172, skipped=5, 0 errors — toàn bộ 172 lỗi là Godot-absent). Slice commit 21c4e8a9, docs 0aee9f09, GOAL abf105b8 — đang push.
 
 ## Làm được từ lần báo cáo trước
 
@@ -32,5 +32,5 @@
 
 ## Bước tiếp theo
 
-- Mẫu 5-commit cổ điển + push (spec Done 1671 → 1672 + dòng N2222; GOAL.md §5 dòng nợ Windows cho N2222 ghi hash commit slice).
+- 5-commit xong: slice 21c4e8a9, docs 0aee9f09, GOAL abf105b8 — đang push lên origin main.
 - Slice tiếp theo sau N2222: dòng RepairTurret config-display / sense theo backlog (RepairTurret.java không có sense/config override — việc BuildingComp-level, lớn hơn và chưa pin), hoặc family tiếp theo. Không bắt đầu C08 trừ khi user yêu cầu.

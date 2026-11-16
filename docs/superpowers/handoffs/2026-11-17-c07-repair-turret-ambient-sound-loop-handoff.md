@@ -57,3 +57,4 @@ Next deferred C07 item per backlog: RepairTurret config-display / sense rows (ch
 ## Commits
 
 - 21c4e8a9 C07: N2222 RepairTurret ambient-sound live-loop gate (pure function + 2 consts + proof 9 keys) — 9 files, 933 insertions.
+- Docs: 0aee9f09 (report + handoff + design spec, Done 1671 → 1672), GOAL abf105b8 (§5 Windows debt line).
