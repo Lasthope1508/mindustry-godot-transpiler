@@ -28,6 +28,8 @@ const SOURCE_MASS_DRIVER_ROTATE_SPEED := 5.0
 const SOURCE_MASS_DRIVER_MIN_DISTRIBUTE := 10
 const SOURCE_MASS_DRIVER_BULLET_SPEED := 5.5
 const SOURCE_MASS_DRIVER_BULLET_LIFETIME := 200.0
+# `public float knockback = 4f;` (MassDriver.java:32) -- the draw recoil distance per unit reloadCounter; no def overrides it (Blocks.java:2167-2174).
+const SOURCE_MASS_DRIVER_KNOCKBACK := 4.0
 
 static func _is_mass_driver_build_implementation(implementation: String) -> bool:
 	return SOURCE_MASS_DRIVER_BUILD_IMPLEMENTATIONS.has(implementation)
@@ -455,9 +457,297 @@ static func source_mass_driver_sense_state(sensor: String, reload_counter: float
 		"value": value,
 	}
 
+static func source_mass_driver_draw_rows_state(x_value: float, y_value: float, rotation: float, reload_counter: float, size_value: int) -> Dictionary:
+	# The draw rows (MassDriverBuild.draw(), MassDriver.java:230-242), the pure draw-call dict -- the port never draws for real (the SourceBlockDrawState / SourceBaseTurretDrawState pattern, the N2356 ShockwaveTower precedent: the pure returns the draw calls as data). Java draws, in order (each exact expr on ONE comment line, the N2148 lesson):
+	# `Draw.rect(baseRegion, x, y);`
+	# `Draw.z(Layer.turret);`
+	# `Drawf.shadow(region,`
+	# `x + Angles.trnsx(rotation + 180f, reloadCounter * knockback) - (size / 2),`
+	# `y + Angles.trnsy(rotation + 180f, reloadCounter * knockback) - (size / 2), rotation - 90);`
+	# `Draw.rect(region,`
+	# `x + Angles.trnsx(rotation + 180f, reloadCounter * knockback),`
+	# `y + Angles.trnsy(rotation + 180f, reloadCounter * knockback), rotation - 90);`
+	# baseRegion is the `@-base` region (`public @Load("@-base") TextureRegion baseRegion;`, MassDriver.java:44); region is the block region. The recoil is reloadCounter * knockback (`public float knockback = 4f;`, MassDriver.java:32, a driver constant -- no def overrides it, Blocks.java:2167-2174) along rotation + 180f (backwards from the aim), via Angles.trnsx/trnsy (len * cosDeg / sinDeg, Angles.java:66-72, arc) -- GDScript cos/sin of deg_to_rad (the N2373 Accelerator precedent). reloadCounter is the frame value the N2237 advance tracks (`public float reloadCounter = 0f;`, MassDriver.java:118): it counts DOWN from 1.0 after fire(), so a just-fired driver (reloadCounter 1.0) sits 4.0 back and a ready one (0.0) sits centered. The shadow shifts by (size / 2) -- Java INT division (size is int, `public int size = 1;`, Block.java:215), so a size-3 driver shifts by 1, NOT 1.5: the pure keeps size_value int and divides ints. The base rect draws at the default z BEFORE the Draw.z call; the shadow + rect draw at Layer.turret. The icons rows ride this pure: icons() (`public TextureRegion[] icons(){` / `return new TextureRegion[]{baseRegion, region};`, MassDriver.java:75-77) returns the two regions draw() draws, in draw order -- so the pure reports them as icon_regions instead of a zero-arg pure (the SSOT schema validator requires non-empty input keys, and Java icons() takes no args). outlineIcon = true (MassDriver.java:53) is a Block flag consumed by the icon OUTLINE machinery (SourceBlockIconState), not by icons() itself, so it is not part of this pure. Pure-only: draw never runs in the tick, and there is no draw state advance -- rotation / reloadCounter are frame values the caller supplies.
+	var kick: float = reload_counter * SOURCE_MASS_DRIVER_KNOCKBACK
+	var recoil_angle: float = rotation + 180.0
+	var trns_x: float = kick * cos(deg_to_rad(recoil_angle))
+	var trns_y: float = kick * sin(deg_to_rad(recoil_angle))
+	var rect_x: float = x_value + trns_x
+	var rect_y: float = y_value + trns_y
+	var size_half: int = size_value / 2
+	var shadow_x: float = rect_x - float(size_half)
+	var shadow_y: float = rect_y - float(size_half)
+	var draw_rotation: float = rotation - 90.0
+	var base_call: Dictionary = {
+		"call": "Draw.rect(baseRegion, x, y);",
+		"region": "baseRegion",
+		"x": x_value,
+		"y": y_value,
+	}
+	var shadow_call: Dictionary = {
+		"call": "Drawf.shadow(region, x + Angles.trnsx(rotation + 180f, reloadCounter * knockback) - (size / 2), y + Angles.trnsy(rotation + 180f, reloadCounter * knockback) - (size / 2), rotation - 90);",
+		"region": "region",
+		"x": shadow_x,
+		"y": shadow_y,
+		"rotation": draw_rotation,
+		"z": "Layer.turret",
+	}
+	var rect_call: Dictionary = {
+		"call": "Draw.rect(region, x + Angles.trnsx(rotation + 180f, reloadCounter * knockback), y + Angles.trnsy(rotation + 180f, reloadCounter * knockback), rotation - 90);",
+		"region": "region",
+		"x": rect_x,
+		"y": rect_y,
+		"rotation": draw_rotation,
+		"z": "Layer.turret",
+	}
+	return {
+		"base_expr": "Draw.rect(baseRegion, x, y);",
+		"z_expr": "Draw.z(Layer.turret);",
+		"shadow_expr": "Drawf.shadow(region, x + Angles.trnsx(rotation + 180f, reloadCounter * knockback) - (size / 2), y + Angles.trnsy(rotation + 180f, reloadCounter * knockback) - (size / 2), rotation - 90);",
+		"rect_expr": "Draw.rect(region, x + Angles.trnsx(rotation + 180f, reloadCounter * knockback), y + Angles.trnsy(rotation + 180f, reloadCounter * knockback), rotation - 90);",
+		"icons_expr": "return new TextureRegion[]{baseRegion, region};",
+		"x": x_value,
+		"y": y_value,
+		"rotation": rotation,
+		"reload_counter": reload_counter,
+		"size": size_value,
+		"size_half": size_half,
+		"kick": kick,
+		"trns_x": trns_x,
+		"trns_y": trns_y,
+		"draw_rotation": draw_rotation,
+		"icon_regions": ["baseRegion", "region"],
+		"base_call": base_call,
+		"shadow_call": shadow_call,
+		"rect_call": rect_call,
+	}
+
+static func source_mass_driver_draw_configure_state(x_value: float, y_value: float, size_value: int, range_value: float, time_value: float, shooters: Array, link_valid: bool, linked: Dictionary) -> Dictionary:
+	# The drawConfigure rows (MassDriverBuild.drawConfigure(), MassDriver.java:244-264), the pure draw-call dict -- the port never draws for real (the N2356 pattern: the pure returns the draw calls as data). Java draws, in order (each exact expr on ONE comment line, the N2148 lesson):
+	# `float sin = Mathf.absin(Time.time, 6f, 1f);`
+	# `Draw.color(Pal.accent);`
+	# `Lines.stroke(1f);`
+	# `Drawf.circles(x, y, (tile.block().size / 2f + 1) * tilesize + sin - 2f, Pal.accent);`
+	# `for(var shooter : waitingShooters){`
+	# `Drawf.circles(shooter.x, shooter.y, (tile.block().size / 2f + 1) * tilesize + sin - 2f, Pal.place);`
+	# `Drawf.arrow(shooter.x, shooter.y, x, y, size * tilesize + sin, 4f + sin, Pal.place);`
+	# `if(linkValid()){`
+	# `Drawf.circles(target.x, target.y, (target.block.size / 2f + 1) * tilesize + sin - 2f, Pal.place);`
+	# `Drawf.arrow(x, y, target.x, target.y, size * tilesize + sin, 4f + sin);`
+	# `Drawf.dashCircle(x, y, range, Pal.accent);`
+	# The pulse sin is Java-exact through the shared helper: Java absin is `return (sin(in, scl * 2f, mag) + mag) / 2f;` (Mathf.java:78-80, arc), while the helper is `(sin(value / scl) * 0.5 + 0.5) * mag` (SourceMathState.source_absin), i.e. helper(v, s) == Java absin(v, s / 2f) -- so the pure passes the DOUBLED scale 12f to land Java's absin(Time.time, 6f, 1f) exactly (the N2372 lesson). The self + shooter circles share the SELF size (`tile.block().size`, :249/:252 -- tile is this building's tile, so the shooter circles use the self radius, not the shooter's); only the target circle uses the target block size (`target.block.size`, :258). The shooter arrow carries Pal.place, but the link arrow has NO color arg (:259) -- it draws in the current Draw.color, which is Pal.accent from the top of the method (:247), so the pure records Pal.accent as the inherited color, not an arg. linkValid is MassDriver.java:346-349, modeled by _mass_driver_link_valid and the N2237 advance's has_link: the pure takes the verdict as link_valid and the SAME linked dict the N2237 advance reads (x / y world coords) instead of recomputing it; linked block_size defaults to the self size because linkValid requires other.block == block and the family is a single def, so a valid target is always the same size-3 block. The shooter list is caller-supplied (the N2242 precedent): the frame waiting_shooters holds positions, not coords, so each entry is a Dictionary with x / y world coords; a non-Dictionary entry or a missing x / y EXCLUDES the shooter (the N2329 precedent). tilesize is the Java constant 8.0 (`public static final int tilesize = 8;`, Vars.java:135 -- NEVER the game tile_size 32, the N2375 lesson). Pure-only: drawConfigure never runs in the tick -- it is called by the config UI, and the UI call site waits for a UI slice.
+	var tile_size: float = 8.0
+	var sin_value: float = source_math_state.source_absin(time_value, 12.0, 1.0)
+	var self_radius: float = (float(size_value) / 2.0 + 1.0) * tile_size + sin_value - 2.0
+	var arrow_length: float = float(size_value) * tile_size + sin_value
+	var arrow_width: float = 4.0 + sin_value
+	var circle_calls: Array = [{
+		"call": "Drawf.circles(x, y, (tile.block().size / 2f + 1) * tilesize + sin - 2f, Pal.accent);",
+		"target": "self",
+		"x": x_value,
+		"y": y_value,
+		"radius": self_radius,
+		"color": "Pal.accent",
+	}]
+	var arrow_calls: Array = []
+	var shooter_count: int = 0
+	for shooter in shooters:
+		if not (shooter is Dictionary):
+			continue
+		var shooter_entry: Dictionary = shooter
+		if not shooter_entry.has("x") or not shooter_entry.has("y"):
+			continue
+		var shooter_x: float = float(shooter_entry.get("x", 0.0))
+		var shooter_y: float = float(shooter_entry.get("y", 0.0))
+		shooter_count += 1
+		circle_calls.append({
+			"call": "Drawf.circles(shooter.x, shooter.y, (tile.block().size / 2f + 1) * tilesize + sin - 2f, Pal.place);",
+			"target": "shooter",
+			"x": shooter_x,
+			"y": shooter_y,
+			"radius": self_radius,
+			"color": "Pal.place",
+		})
+		arrow_calls.append({
+			"call": "Drawf.arrow(shooter.x, shooter.y, x, y, size * tilesize + sin, 4f + sin, Pal.place);",
+			"target": "shooter",
+			"x1": shooter_x,
+			"y1": shooter_y,
+			"x2": x_value,
+			"y2": y_value,
+			"length": arrow_length,
+			"width": arrow_width,
+			"color": "Pal.place",
+		})
+	if link_valid:
+		var target_x: float = float(linked.get("x", 0.0))
+		var target_y: float = float(linked.get("y", 0.0))
+		var target_size: int = int(linked.get("block_size", size_value))
+		var target_radius: float = (float(target_size) / 2.0 + 1.0) * tile_size + sin_value - 2.0
+		circle_calls.append({
+			"call": "Drawf.circles(target.x, target.y, (target.block.size / 2f + 1) * tilesize + sin - 2f, Pal.place);",
+			"target": "link",
+			"x": target_x,
+			"y": target_y,
+			"radius": target_radius,
+			"color": "Pal.place",
+		})
+		arrow_calls.append({
+			"call": "Drawf.arrow(x, y, target.x, target.y, size * tilesize + sin, 4f + sin);",
+			"target": "link",
+			"x1": x_value,
+			"y1": y_value,
+			"x2": target_x,
+			"y2": target_y,
+			"length": arrow_length,
+			"width": arrow_width,
+			"color": "Pal.accent",
+		})
+	var dash_circle_call: Dictionary = {
+		"call": "Drawf.dashCircle(x, y, range, Pal.accent);",
+		"x": x_value,
+		"y": y_value,
+		"radius": range_value,
+		"color": "Pal.accent",
+	}
+	return {
+		"sin_expr": "float sin = Mathf.absin(Time.time, 6f, 1f);",
+		"color_expr": "Draw.color(Pal.accent);",
+		"stroke_expr": "Lines.stroke(1f);",
+		"self_circle_expr": "Drawf.circles(x, y, (tile.block().size / 2f + 1) * tilesize + sin - 2f, Pal.accent);",
+		"shooter_circle_expr": "Drawf.circles(shooter.x, shooter.y, (tile.block().size / 2f + 1) * tilesize + sin - 2f, Pal.place);",
+		"shooter_arrow_expr": "Drawf.arrow(shooter.x, shooter.y, x, y, size * tilesize + sin, 4f + sin, Pal.place);",
+		"link_circle_expr": "Drawf.circles(target.x, target.y, (target.block.size / 2f + 1) * tilesize + sin - 2f, Pal.place);",
+		"link_arrow_expr": "Drawf.arrow(x, y, target.x, target.y, size * tilesize + sin, 4f + sin);",
+		"dash_circle_expr": "Drawf.dashCircle(x, y, range, Pal.accent);",
+		"x": x_value,
+		"y": y_value,
+		"size": size_value,
+		"range": range_value,
+		"time_value": time_value,
+		"sin_value": sin_value,
+		"self_radius": self_radius,
+		"arrow_length": arrow_length,
+		"arrow_width": arrow_width,
+		"link_valid": link_valid,
+		"shooter_count": shooter_count,
+		"circle_calls": circle_calls,
+		"arrow_calls": arrow_calls,
+		"dash_circle_call": dash_circle_call,
+	}
+
+static func source_mass_driver_draw_place_state(tile_x: int, tile_y: int, size_value: int, range_value: float, time_value: float, config_shown: bool, selected: Dictionary) -> Dictionary:
+	# The drawPlace rows (MassDriver.drawPlace(), MassDriver.java:80-102), the pure draw-call dict -- the port never draws for real (the N2356 pattern: the pure returns the draw calls as data). Java draws, in order (each exact expr on ONE comment line, the N2148 lesson):
+	# `public void drawPlace(int x, int y, int rotation, boolean valid){`
+	# `super.drawPlace(x, y, rotation, valid);`
+	# `Drawf.dashCircle(x * tilesize, y * tilesize, range, Pal.accent);`
+	# `if(!control.input.config.isShown()) return;`
+	# `Building selected = control.input.config.getSelected();`
+	# `if(selected == null || selected.block != this || !selected.within(x * tilesize, y * tilesize, range)) return;`
+	# `float sin = Mathf.absin(Time.time, 6f, 1f);`
+	# `Tmp.v1.set(x * tilesize + offset, y * tilesize + offset).sub(selected.x, selected.y).limit((size / 2f + 1) * tilesize + sin + 0.5f);`
+	# `float x2 = x * tilesize - Tmp.v1.x, y2 = y * tilesize - Tmp.v1.y,`
+	# `x1 = selected.x + Tmp.v1.x, y1 = selected.y + Tmp.v1.y;`
+	# `int segs = (int)(selected.dst(x * tilesize, y * tilesize) / tilesize);`
+	# `Lines.stroke(4f, Pal.gray);`
+	# `Lines.dashLine(x1, y1, x2, y2, segs);`
+	# `Lines.stroke(2f, Pal.placing);`
+	# `Lines.dashLine(x1, y1, x2, y2, segs);`
+	# `Draw.reset();`
+	# The dash circle is ALWAYS drawn (before the config early returns) at x * tilesize with NO offset (:83) -- unlike the link line, which builds its vector from x * tilesize + offset (:92). The offset is the Block offset (`offset = ((size + 1) % 2) * tilesize / 2f;`, Block.java:761 -- 0 for the odd size-3 driver, 4.0 for an even size-2 block), computed here from size_value, not passed in. The link line draws only when the config panel is shown AND a mass driver is selected AND it is within range -- the three early returns (:86/:88) collapse into link_line_shown, and an empty selected dict is the null selection (Java `selected == null`). The selected dict carries the precomputed verdicts (is_mass_driver / within_range -- within is STRICT dst < range, Position.java:44-46, the N2229 verification, the same verdict the tick stamps on the linked dict), so the pure does not re-derive the block match or the distance. sin is computed AFTER the early returns, so a hidden line reports sin_value 0.0, not the pulse. The pulse is Java-exact through the shared helper at the DOUBLED scale 12f (the N2372 lesson -- see the drawConfigure pure). The limit vector uses the shared source_vec2_limit helper (arc Vec2.limit semantics, the N2231 precedent); segs is the Java (int) cast (truncation -- dst is never negative, so int() matches). tilesize is the Java constant 8.0 (`public static final int tilesize = 8;`, Vars.java:135 -- NEVER the game tile_size 32, the N2375 lesson). super.drawPlace is Block.drawPlace (drawPotentialLinks + drawOverlay, SourceBlockDrawState) and is NOT modeled here: the pure records that the super call happens, not its content (the BaseTurret draw_place precedent). Pure-only: drawPlace never runs in the tick -- it is called by the placement UI, and the UI call site waits for a UI slice.
+	var tile_size: float = 8.0
+	var place_x: float = float(tile_x) * tile_size
+	var place_y: float = float(tile_y) * tile_size
+	var offset: float = float((size_value + 1) % 2) * tile_size / 2.0
+	var dash_circle_call: Dictionary = {
+		"call": "Drawf.dashCircle(x * tilesize, y * tilesize, range, Pal.accent);",
+		"x": place_x,
+		"y": place_y,
+		"radius": range_value,
+		"color": "Pal.accent",
+	}
+	var link_line_shown: bool = config_shown and not selected.is_empty() and bool(selected.get("is_mass_driver", false)) and bool(selected.get("within_range", false))
+	var sin_value: float = 0.0
+	var limit_value: float = 0.0
+	var line_x1: float = 0.0
+	var line_y1: float = 0.0
+	var line_x2: float = 0.0
+	var line_y2: float = 0.0
+	var segs: int = 0
+	var link_line_calls: Array = []
+	if link_line_shown:
+		sin_value = source_math_state.source_absin(time_value, 12.0, 1.0)
+		var selected_x: float = float(selected.get("x", 0.0))
+		var selected_y: float = float(selected.get("y", 0.0))
+		limit_value = (float(size_value) / 2.0 + 1.0) * tile_size + sin_value + 0.5
+		var limited: Dictionary = source_math_state.source_vec2_limit({"x": place_x + offset - selected_x, "y": place_y + offset - selected_y}, limit_value)
+		var vec_x: float = float(limited.get("x", 0.0))
+		var vec_y: float = float(limited.get("y", 0.0))
+		line_x2 = place_x - vec_x
+		line_y2 = place_y - vec_y
+		line_x1 = selected_x + vec_x
+		line_y1 = selected_y + vec_y
+		segs = int(source_math_state.source_dst(selected_x, selected_y, place_x, place_y) / tile_size)
+		link_line_calls = [
+			{
+				"call": "Lines.dashLine(x1, y1, x2, y2, segs);",
+				"stroke": 4.0,
+				"color": "Pal.gray",
+				"x1": line_x1,
+				"y1": line_y1,
+				"x2": line_x2,
+				"y2": line_y2,
+				"segs": segs,
+			},
+			{
+				"call": "Lines.dashLine(x1, y1, x2, y2, segs);",
+				"stroke": 2.0,
+				"color": "Pal.placing",
+				"x1": line_x1,
+				"y1": line_y1,
+				"x2": line_x2,
+				"y2": line_y2,
+				"segs": segs,
+			},
+		]
+	return {
+		"super_expr": "super.drawPlace(x, y, rotation, valid);",
+		"dash_circle_expr": "Drawf.dashCircle(x * tilesize, y * tilesize, range, Pal.accent);",
+		"config_shown_expr": "if(!control.input.config.isShown()) return;",
+		"selected_expr": "Building selected = control.input.config.getSelected();",
+		"selected_guard_expr": "if(selected == null || selected.block != this || !selected.within(x * tilesize, y * tilesize, range)) return;",
+		"sin_expr": "float sin = Mathf.absin(Time.time, 6f, 1f);",
+		"vector_expr": "Tmp.v1.set(x * tilesize + offset, y * tilesize + offset).sub(selected.x, selected.y).limit((size / 2f + 1) * tilesize + sin + 0.5f);",
+		"endpoints_expr": "float x2 = x * tilesize - Tmp.v1.x, y2 = y * tilesize - Tmp.v1.y, x1 = selected.x + Tmp.v1.x, y1 = selected.y + Tmp.v1.y;",
+		"segs_expr": "int segs = (int)(selected.dst(x * tilesize, y * tilesize) / tilesize);",
+		"gray_stroke_expr": "Lines.stroke(4f, Pal.gray);",
+		"dash_line_expr": "Lines.dashLine(x1, y1, x2, y2, segs);",
+		"placing_stroke_expr": "Lines.stroke(2f, Pal.placing);",
+		"reset_expr": "Draw.reset();",
+		"tile_x": tile_x,
+		"tile_y": tile_y,
+		"place_x": place_x,
+		"place_y": place_y,
+		"offset": offset,
+		"size": size_value,
+		"range": range_value,
+		"time_value": time_value,
+		"config_shown": config_shown,
+		"link_line_shown": link_line_shown,
+		"sin_value": sin_value,
+		"limit_value": limit_value,
+		"line_x1": line_x1,
+		"line_y1": line_y1,
+		"line_x2": line_x2,
+		"line_y2": line_y2,
+		"segs": segs,
+		"dash_circle_call": dash_circle_call,
+		"link_line_calls": link_line_calls,
+	}
+
 static func source_mass_driver_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a mass driver does not take the early return. The updateTile advance follows the folded efficiency: the no-power skip (MassDriver.java:169, `if(efficiency <= 0f){`), the rotation align (MassDriver.java:181, `rotation = Angles.moveToward(rotation, angleTo(currentShooter()), rotateSpeed * efficiency);`) and the reload drain (MassDriver.java:143, `reloadCounter = Mathf.clamp(reloadCounter - edelta() / reload);`). MassDriverBuild has no shouldConsume override, so the BuildingComp default applies (BuildingComp.java:755, `public boolean shouldConsume(){` with `return enabled;`, BuildingComp.java:756) -- the machinery runs with should_consume=true when enabled (the MendProjector suppression precedent). The mass driver (consumePower 1.75f, Blocks.java:2173, `consumePower(1.75f);`) is its own family (MassDriver.java:27, `public class MassDriver extends Block{`; MassDriverBuild, MassDriver.java:115, `public class MassDriverBuild extends Building implements RotBlock{`) -- power-only first pass, so the folded efficiency is the min over the *modeled* consumers (power only).
-	# Documented limits: (1) power-only first pass -- the mass driver's power consumer is static (consumePower 1.75f, Blocks.java:2173), so the folded efficiency is the min over the *modeled* consumers (power only). (2) shouldConsume default applies -- MassDriverBuild has no shouldConsume override, so the BuildingComp default (`return enabled;`, BuildingComp.java:755-757) applies; the machinery runs with should_consume=true when enabled (the MendProjector suppression precedent). (3) updateTile advance live (N2237) -- link refresh / reloadCounter decay / waitingShooters cleanup / idle-accepting-shooting switch / rotation align / register + fire (MassDriver.java:133-221 + fire() :290-317) run every tick after the consumption fold through the pure source_mass_driver_update_tile_advance_state function; dumpAccumulate (:164-166) is live since N2294 (source_mass_driver_dump_state, the idle/accepting gate + the dumpAccum while loop through the shared dumpAccumulate + dump_item_state helpers, running even without power -- the gate sits before the no-power skip) and the dump neighbour write-back is live since N2369 (the advance exposes dump_deliveries, one {neighbour_index, item} per successful attempt, and the tick lands each dumped item in the neighbour store through the N2353 helper); the Time.run arrival cleanup (:209-214), the bullet entity creation and handlePayload (:319-340) defer -- see DEFERRED. The power proof carries no link/state/reload/fire/dump keys; the N2237 proof carries the link/state/reload/fire keys, the N2294 proof carries the dump keys, and the N2369 proof carries the write-back keys. (4) No link/config / handlePayload / draw / read-write rows -- see DEFERRED (sense live since N2392, see (7)). (5) Single def -- no large-mass-driver def in this upstream version, so the same driver covers the whole family. (6) acceptItem live (N2336) -- the intake gate (MassDriver.java:285-288, items.total() < itemCapacity && linkValid(), MassDriver.java:346-349) runs every tick through the pure source_mass_driver_accept_item_state function and exposes the verdict on the frame as accepts_item (the N2295 Loader acceptPayload precedent), reading the post-tick store and the same linked dict the N2237 advance reads; the N2336 proof carries the accept keys. No live neighbour reads the verdict yet -- the frame items intake waits for its own slice, see DEFERRED. (7) Sense rows live (N2392) -- the sense pure (source_mass_driver_sense_state) models sense() (:224-228): progress is clamp(1f - reloadCounter) and every other sensor falls through to the caller-supplied super.sense value (the BuildingComp switch, already modeled by SourceBuildingSenseState). Pure-only: the tick never calls sense -- sense is called by logic, and the logic call site waits for a logic-executor slice.
+	# Documented limits: (1) power-only first pass -- the mass driver's power consumer is static (consumePower 1.75f, Blocks.java:2173), so the folded efficiency is the min over the *modeled* consumers (power only). (2) shouldConsume default applies -- MassDriverBuild has no shouldConsume override, so the BuildingComp default (`return enabled;`, BuildingComp.java:755-757) applies; the machinery runs with should_consume=true when enabled (the MendProjector suppression precedent). (3) updateTile advance live (N2237) -- link refresh / reloadCounter decay / waitingShooters cleanup / idle-accepting-shooting switch / rotation align / register + fire (MassDriver.java:133-221 + fire() :290-317) run every tick after the consumption fold through the pure source_mass_driver_update_tile_advance_state function; dumpAccumulate (:164-166) is live since N2294 (source_mass_driver_dump_state, the idle/accepting gate + the dumpAccum while loop through the shared dumpAccumulate + dump_item_state helpers, running even without power -- the gate sits before the no-power skip) and the dump neighbour write-back is live since N2369 (the advance exposes dump_deliveries, one {neighbour_index, item} per successful attempt, and the tick lands each dumped item in the neighbour store through the N2353 helper); the Time.run arrival cleanup (:209-214), the bullet entity creation and handlePayload (:319-340) defer -- see DEFERRED. The power proof carries no link/state/reload/fire/dump keys; the N2237 proof carries the link/state/reload/fire keys, the N2294 proof carries the dump keys, and the N2369 proof carries the write-back keys. (4) No link/config / handlePayload / read-write rows -- see DEFERRED (sense live since N2392, see (7); draw live since N2396, see (8)). (5) Single def -- no large-mass-driver def in this upstream version, so the same driver covers the whole family. (6) acceptItem live (N2336) -- the intake gate (MassDriver.java:285-288, items.total() < itemCapacity && linkValid(), MassDriver.java:346-349) runs every tick through the pure source_mass_driver_accept_item_state function and exposes the verdict on the frame as accepts_item (the N2295 Loader acceptPayload precedent), reading the post-tick store and the same linked dict the N2237 advance reads; the N2336 proof carries the accept keys. No live neighbour reads the verdict yet -- the frame items intake waits for its own slice, see DEFERRED. (7) Sense rows live (N2392) -- the sense pure (source_mass_driver_sense_state) models sense() (:224-228): progress is clamp(1f - reloadCounter) and every other sensor falls through to the caller-supplied super.sense value (the BuildingComp switch, already modeled by SourceBuildingSenseState). Pure-only: the tick never calls sense -- sense is called by logic, and the logic call site waits for a logic-executor slice. (8) Draw rows live (N2396) -- the draw pures (source_mass_driver_draw_rows_state / source_mass_driver_draw_configure_state / source_mass_driver_draw_place_state) model draw() (:230-242: base rect + turret-layer shadow/rect with the reloadCounter * knockback recoil along rotation + 180f, the shadow shifted by the int-divided size / 2) + icons() (:75-77: [baseRegion, region], folded into the draw pure -- icons() takes no args and the SSOT schema validator requires non-empty input keys), drawConfigure() (:244-264: accent self circle + per-shooter place circles/arrows + the linked-target circle/arrow + the range dash circle, all pulsing on absin(Time.time, 6f, 1f) through the shared helper at the DOUBLED scale 12f) and drawPlace() (:80-102: the accent range dash circle at x * tilesize + the dotted link line toward a selected in-range mass driver, segs = dst / tilesize). Pure-only: the tick never calls draw -- draw is called by the renderer, drawConfigure/drawPlace by the UI, icons by the atlas, and the call sites wait for renderer/UI slices.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
