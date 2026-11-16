@@ -731,7 +731,8 @@ static func source_payload_mass_driver_tick_buildings_state(game: Object, second
 		# same_block is the BLOCK-id match -- the two defs are different blocks, so a
 		# payload-mass-driver never links a large-payload-mass-driver (linkValid,
 		# PayloadMassDriver.java:466-468, `other.block == block`). World coords are cell *
-		# tile_size (Vars.tilesize 8, Vars.java:135; the game tile_size when set): both
+		# tile_size, the JAVA tilesize constant 8.0 (Vars.tilesize 8, Vars.java:135; N2364:
+		# the game tile_size 32 is rendering px per tile, NOT Java world units): both
 		# endpoints are odd-sized drivers, so the block offset (Block.java:761, 0 for odd
 		# sizes) cancels in the distance. within is STRICT dst < range (Position.java:44-46,
 		# the N2229 verification); range reads the per-def helper (700f / 2100f large,
@@ -747,8 +748,15 @@ static func source_payload_mass_driver_tick_buildings_state(game: Object, second
 		# precedent). pay_vector converts at the boundary: the frame stores the dict form
 		# (N2245, the N2231 precedent), the branches read Vector2 (N2246, the N2233
 		# precedent) -- see the conversion helpers below.
-		var tile_size_value: Variant = game.get("tile_size")
-		var tile_size: float = 8.0 if tile_size_value == null else float(tile_size_value)
+		# N2364: the Java tilesize constant 8.0 (`public static final int tilesize = 8;`,
+		# Vars.java:135) -- NEVER the game tile_size, which is 32 (rendering px per
+		# tile) while range 700f / 2100f is in Java world units (Blocks.java:6623/6635).
+		# The old override read the game value and shrank the live link range 4x in tiles
+		# (30 cells: Java 240 < 700 in range, port 960 > 700 out). Every consumer of this
+		# local is Java world-coord math (self / other / shooter coords + the advance
+		# tilesize param for the move-out dest, `size * tilesize/2f`, PayloadBlock.java:
+		# 204-207); none needs the game value.
+		var tile_size: float = 8.0
 		var this_pos: int = _point2_pack(cell.x, cell.y)
 		var self_x: float = float(cell.x) * tile_size
 		var self_y: float = float(cell.y) * tile_size
