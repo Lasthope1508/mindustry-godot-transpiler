@@ -142,9 +142,9 @@ static func source_mend_projector_power_status_row_state(frame: Dictionary, has_
 	# precedent), so the row and the removal read the frame
 	# as-is; canHeal is the documented default true
 	# (suppression untracked). Other unmodeled rows still
-	# defer (suppression, sense, the live building index;
+	# defer (suppression, the live building index;
 	# draw / drawLight / drawSelect / drawPlace are live
-	# since N2372). (2) No shouldConsume gate --
+	# since N2372; sense is live since N2383). (2) No shouldConsume gate --
 	# MendBuild has no shouldConsume override, so the default
 	# (BuildingComp.java:755-757, `return enabled;`) applies;
 	# the machinery runs with should_consume=true when
@@ -175,8 +175,17 @@ static func source_mend_projector_power_status_row_state(frame: Dictionary, has_
 	# drawPlace (:76-82, the baseColor dash circle +
 	# selected highlights, shared with drawSelect), and
 	# the draw-light pure models drawLight() (:162-164).
-	# Pure-only: draw never runs in the tick. sense()
-	# (:126-129) still waits for its own slice.
+	# Pure-only: draw never runs in the tick.
+	# (6) Sense rows live (N2383) -- the sense pure
+	# (source_mend_projector_sense_state) models
+	# sense() (:126-129): progress is clamp(charge /
+	# reload) and every other sensor falls through to
+	# the caller-supplied super.sense value (the
+	# BuildingComp switch, already modeled by
+	# SourceBuildingSenseState). Pure-only: the tick
+	# never calls sense -- sense is called by logic,
+	# and the logic call site waits for a
+	# logic-executor slice.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -367,8 +376,9 @@ static func source_mend_projector_update_tile_advance_state(frame: Dictionary, r
 	# DEFERRED, not done and not guessed: the heal scan
 	# + sound -- `other.heal(other.maxHealth() * (healPercent + phaseHeat * phaseBoost) / 100f * efficiency);`
 	# (MendProjector.java:113, needs targets/indexer
-	# infrastructure) -- plus sense
-	# (MendProjector.java:126-129; draw / drawLight /
+	# infrastructure) -- sense is live since N2383
+	# (source_mend_projector_sense_state, pure-only:
+	# the tick never calls sense) and draw / drawLight /
 	# drawSelect / drawPlace are live since N2372,
 	# MendProjector.java:132-164). The older runtime
 	# simulation (SourceMendProjectorRuntimeState.
@@ -815,6 +825,31 @@ static func source_mend_projector_draw_light_state(x_value: float, y_value: floa
 		"radius": SOURCE_MEND_PROJECTOR_LIGHT_RADIUS * smooth_efficiency,
 		"alpha": 0.7 * smooth_efficiency,
 		"light_call": light_call,
+	}
+
+static func source_mend_projector_sense_state(sensor: String, charge: float, reload_value: float, super_value: Variant = null) -> Dictionary:
+	# The sense rows (MendBuild.sense(), MendProjector.java:126-129), the pure logic-sense dispatch -- Java senses, in order (each exact expr on ONE comment line, the N2148 lesson):
+	# `public double sense(LAccess sensor){`
+	# `if(sensor == LAccess.progress) return Mathf.clamp(charge / reload);`
+	# `return super.sense(sensor);`
+	# charge is the frame value the N2193 advance tracks
+	# (`public float heat, charge = Mathf.random(reload), phaseHeat, smoothEfficiency;`, MendProjector.java:85: charge += heat * delta() with the reset at reload, :98-105); reload_value is the per-def explicit input (mender 200f, mend-projector 250f, Blocks.java:1923/1936; the class default is `public float reload = 250f;`, MendProjector.java:26) -- the pure stays def-agnostic (the N2193 advance precedent). Mathf.clamp(value) clamps to [0, 1] (arc Mathf.java:401-404, `return Math.max(Math.min(value, 1f), 0f);`), so the pure uses clampf(charge / reload_value, 0.0, 1.0): a charge past the reload reads 1.0, a negative charge reads 0.0, and a zero reload reads 1.0 for a positive charge (charge / 0f is +Infinity, clamped to 1f, exactly like Java). super.sense is VERIFIED, not guessed: the BuildingComp switch (BuildingComp.java:2093-2122):
+	# `return switch(sensor){`
+	# `case health -> health;`
+	# `case efficiency -> efficiency;`
+	# `default -> Float.NaN; //gets converted to null in logic`
+	# covers x / y / color / dead / solid / team / health / maxHealth / efficiency / timescale / range / rotation / totalItems / totalLiquids / totalPower / itemCapacity / liquidCapacity / powerCapacity / powerNetIn / powerNetOut / powerNetStored / powerNetCapacity / enabled / controlled / payloadCount / size / cameraX, cameraY, cameraWidth, cameraHeight, and the default branch is Float.NaN (converted to null in logic). The port ALREADY models that switch (SourceBuildingSenseState: sense_position_state, sense_health_process_state, sense_totals_state, sense_capacity_power_net_state, sense_enabled_controlled_state, sense_payload_size_state, sense_camera_default_state), so the pure takes the caller's super.sense result as super_value (default null = the default branch) instead of re-modeling the switch. The display path already owns a clamp helper (SourceMendProjectorState.progress, clamp(charge / reload_value, 0.0, 1.0) with a reload <= 0 guard returning 0.0): the driver pure does NOT reuse it -- it has no sensor dispatch and no super.sense delegation, and its reload <= 0 guard deviates from Java. senseObject / sense(Content) are separate overloads (BuildingComp.java:2124+) and are NOT modeled here. Pure-only, like the N2372 draw pures: the tick never calls sense (verified: grep `sense` in this driver finds only comment defers) -- sense is called by logic, not the tick, and the logic call site waits for a logic-executor slice (a port-wide concern, not a MendProjector deferral).
+	var is_progress: bool = sensor == "progress"
+	var value: Variant = clampf(charge / reload_value, 0.0, 1.0) if is_progress else super_value
+	return {
+		"progress_expr": "if(sensor == LAccess.progress) return Mathf.clamp(charge / reload);",
+		"super_expr": "return super.sense(sensor);",
+		"sensor": sensor,
+		"charge": charge,
+		"reload": reload_value,
+		"super_value": super_value,
+		"is_progress": is_progress,
+		"value": value,
 	}
 
 @warning_ignore("unused_parameter")
