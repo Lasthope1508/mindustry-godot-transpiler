@@ -313,9 +313,9 @@ static func source_beam_drill_blocked_items_state(blocked_item: Variant, blocked
 	# `public void drawPlace(int x, int y, int rotation, boolean valid){`)
 	# and the canPlaceOn gate (BeamDrill.java:205, in
 	# `public boolean canPlaceOn(Tile tile, Team team, int rotation){`)
-	# -- drawPlace / canPlaceOn are NOT ported (their
-	# rows wait for their own slice); this pure
-	# supplies the input they would read. Neither
+	# -- drawPlace / canPlaceOn are live since N2478
+	# (their pures read this input); this pure
+	# supplies the input they read. Neither
 	# BeamDrill def sets blockedItem / blockedItems
 	# (Blocks.java:3038-3068, catalog-verified), so
 	# both defs read null here; the thorium value in
@@ -677,6 +677,17 @@ static func source_beam_drill_power_status_row_state(frame: Dictionary, has_powe
 	# tick never calls draw/drawSelect -- draw is called
 	# by the renderer, and the renderer call site waits
 	# for a renderer slice.
+	# (5) canPlaceOn / drawPlace rows are live since
+	# N2478 -- the placement pures (pure-only) model
+	# canPlaceOn (BeamDrill.java:198-214, the :205 gate
+	# over the nearbySide rays, the first solid tile
+	# breaking each ray) + drawPlace (BeamDrill.
+	# java:137-195, the per-laser dash lines + the
+	# bar.drillspeed speed text + the single-item icon
+	# + the bar.drilltierreq tier-req text, all call
+	# records). Pure-only: the tick never calls
+	# placement -- the placement UI does, and the
+	# placement call site waits for its own slice.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -1961,3 +1972,305 @@ static func source_beam_drill_tick_buildings_state(game: Object, seconds: float)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
 	return {"ticked_count": ticked_count, "results_by_cell": results_by_cell}
+
+static func source_beam_drill_can_place_on_state(tile_x: int, tile_y: int, rotation: int, size: int, beam_range: int, tier: int, blocked_items: Variant, world_tiles: Dictionary) -> Dictionary:
+	# The canPlaceOn gate (BeamDrill.canPlaceOn,
+	# BeamDrill.java:198-214):
+	# `public boolean canPlaceOn(Tile tile, Team team, int rotation){`
+	# `for(int i = 0; i < size; i++){`
+	# `nearbySide(tile.x, tile.y, rotation, i, Tmp.p1);`
+	# `for(int j = 0; j < range; j++){`
+	# `Tile other = world.tile(Tmp.p1.x + Geometry.d4x(rotation)*j, Tmp.p1.y + Geometry.d4y(rotation)*j);`
+	# `if(other != null && other.solid()){`
+	# `Item drop = other.wallDrop();`
+	# `if(drop != null && drop.hardness <= tier && (blockedItems == null || !blockedItems.contains(drop))){`
+	# -- for each of the size lasers it walks range
+	# tiles along the rotation from the nearbySide
+	# origin and returns true on the FIRST mineable
+	# drop. The break sits OUTSIDE the drop check, so
+	# the first solid tile ends the laser's walk
+	# either way: a mineable drop behind an
+	# unmineable solid tile never counts. A null tile
+	# (out of the world) does NOT break the walk (the
+	# `if(other != null){` guard skips it) and a
+	# non-solid tile does not break it either. The
+	# Team parameter is never read by the Java body,
+	# so the pure takes no team param. The origins
+	# come from the N2346 laser-origins pure (the
+	# same nearbySide geometry updateLasers uses,
+	# BeamDrill.java:368-373 -- no second copy of the
+	# switch here):
+	# `public void nearbySide(int x, int y, int rotation, int index, Point2 out){`
+	# `int cornerX = x - (size-1)/2, cornerY = y - (size-1)/2, s = size;`
+	# `case 0 -> out.set(cornerX + s, cornerY + index);`
+	# `case 1 -> out.set(cornerX + index, cornerY + s);`
+	# `case 2 -> out.set(cornerX - 1, cornerY + index);`
+	# `case 3 -> out.set(cornerX + index, cornerY - 1);`
+	# (Block.java:936-944). The direction comes from
+	# Geometry.d4x/d4y (arc Geometry.java:23-24,
+	# `public final static int[] d4x = {1, 0, -1, 0};`
+	# `public final static int[] d4y = {0, 1, 0, -1};`,
+	# mod-4 normalized, the N2352 posmod precedent).
+	# world_tiles is the N2352 frame input (a Dict
+	# keyed "x,y" to {solid, wall_drop}); blocked_items
+	# is the N2339 Variant (an Array of item names or
+	# null, live since N2473 via the init promotion).
+	# size / range / tier read from the catalog per
+	# def: plasma-bore `tier = 3;` / `size = 2;` /
+	# `range = 5;` (Blocks.java:3043-3045) and
+	# large-plasma-bore `tier = 5;` / `size = 3;` /
+	# `range = 6;` (Blocks.java:3057-3059); the class
+	# defaults are `public int range = 5;` /
+	# `public int tier = 1;` (BeamDrill.java:35-36)
+	# and `public int size = 1;` (Block.java:215).
+	# Pure-only (N2478): the tick never calls
+	# canPlaceOn -- placement runs from the placement
+	# UI, and the placement call site waits for its
+	# own slice.
+	var lasers: Array = source_beam_drill_laser_origins_state(tile_x, tile_y, rotation, size).get("lasers", [])
+	var d4x: Array = [1, 0, -1, 0]
+	var d4y: Array = [0, 1, 0, -1]
+	var direction: int = posmod(rotation, 4)
+	var dx: int = int(d4x[direction])
+	var dy: int = int(d4y[direction])
+	for i in range(size):
+		if i >= lasers.size():
+			break
+		var laser: Variant = lasers[i]
+		if not (laser is Dictionary):
+			continue
+		var origin_x: int = int(laser.get("x", 0))
+		var origin_y: int = int(laser.get("y", 0))
+		for j in range(beam_range):
+			var rx: int = origin_x + dx * j
+			var ry: int = origin_y + dy * j
+			var tile: Variant = world_tiles.get(str(rx) + "," + str(ry), null)
+			if tile == null or not (tile is Dictionary):
+				continue
+			if not bool(tile.get("solid", false)):
+				continue
+			var drop: Variant = tile.get("wall_drop", null)
+			if drop != null and drop is Dictionary:
+				var drop_id: String = str(drop.get("id", ""))
+				var drop_hardness: int = int(drop.get("hardness", 0))
+				if drop_hardness <= tier and (blocked_items == null or not (blocked_items is Array and blocked_items.has(drop_id))):
+					return {"can_place_on": true}
+			break
+	return {"can_place_on": false}
+
+static func source_beam_drill_draw_place_state(tile_x: int, tile_y: int, rotation: int, valid: bool, size: int, beam_range: int, tier: int, blocked_items: Variant, world_tiles: Dictionary, drill_time_base: float, drill_multipliers: Dictionary, text_width: float) -> Dictionary:
+	# The drawPlace rows (BeamDrill.drawPlace,
+	# BeamDrill.java:137-195), the pure draw-call dict
+	# -- the port never draws for real (the N2396
+	# MassDriver / N2439 LightBlock / N2445 UCL
+	# drawPlace pattern: the pure returns the draw
+	# calls as data). Java, in order (each exact expr
+	# on ONE comment line, the N2148 lesson):
+	# `public void drawPlace(int x, int y, int rotation, boolean valid){`
+	# `for(int i = 0; i < size; i++){`
+	# `nearbySide(x, y, rotation, i, Tmp.p1);`
+	# `for(; j < range; j++){`
+	# `int rx = Tmp.p1.x + Geometry.d4x(rotation)*j, ry = Tmp.p1.y + Geometry.d4y(rotation)*j;`
+	# `Tile other = world.tile(rx, ry);`
+	# `if(other != null && other.solid()){`
+	# `Item drop = other.wallDrop();`
+	# `if(drop.hardness <= tier && (blockedItems == null || !blockedItems.contains(drop))){`
+	# `found = drop;`
+	# `count++;`
+	# `invalidItem = drop;`
+	# `if(item != found && item != null){`
+	# `multiple = true;`
+	# `item = found;`
+	# `int len = Math.min(j, range - 1);`
+	# `Drawf.dashLine(found == null ? Pal.remove : Pal.placing,`
+	# `(Tmp.p1.x + Geometry.d4x(rotation)*len) * tilesize,`
+	# `(Tmp.p1.y + Geometry.d4y(rotation)*len) * tilesize`
+	# `float width = drawPlaceText(Core.bundle.formatFloat("bar.drillspeed", 60f / getDrillTime(item) * count, 2), x, y, valid);`
+	# `float dx = x * tilesize + offset - width/2f - 4f, dy = y * tilesize + offset + size * tilesize / 2f + 5, s = iconSmall / 4f;`
+	# `Draw.mixcol(Color.darkGray, 1f);`
+	# `Draw.rect(item.fullIcon, dx, dy - 1, s, s);`
+	# `Draw.rect(item.fullIcon, dx, dy, s, s);`
+	# `drawPlaceText(Core.bundle.get("bar.drilltierreq"), x, y, false);`
+	# Per laser the walk is the canPlaceOn walk (the
+	# first solid tile breaks the ray either way; the
+	# drawPlace gate has no null check because the
+	# drop-null check already ran at :152). found is
+	# per laser (reset each iteration); item is the
+	# LAST found across lasers -- drawPlace does NOT
+	# null it when multiple (unlike updateFacing
+	# :408-410), so the speed text still draws with
+	# the full count and only the icon is suppressed.
+	# invalidItem is the LAST unmineable drop
+	# (`invalidItem = drop;` overwrites every time --
+	# NOT the first, as the brief said). The dash
+	# length has NO off-by-one: j is the solid tile's
+	# own index at the break, so the dash ends ON the
+	# solid tile, or on the last walked tile (j ==
+	# range -> len range-1) when nothing is found.
+	# The GDScript walk is a WHILE loop, not a for
+	# loop: after a GDScript `for j in range(n)`
+	# exhausts, j reads n - 1, while Java's for leaves
+	# j == range -- the while loop keeps the Java
+	# value. The dash endpoints use the raw tile
+	# coords times tilesize (no offset), while the
+	# icon dx/dy DO use the Block offset
+	# (`offset = ((size + 1) % 2) * tilesize / 2f;`,
+	# Block.java:761 -- 4.0 for the size-2
+	# plasma-bore, 0.0 for the size-3
+	# large-plasma-bore). tilesize is the Java
+	# constant 8 (`public static final int tilesize = 8;`,
+	# Vars.java:135 -- NEVER the game tile_size 32,
+	# the N2375 lesson) and the icon size is
+	# iconSmall / 4f = 24f / 4f = 6.0
+	# (`public static final float iconXLarge = 8*6f, iconLarge = 8*5f, iconMed = 8*4f, iconSmall = 8*3f;`,
+	# Vars.java:139). Pal.placing / Pal.remove ride as
+	# symbolic tokens (the N2373 color-token
+	# precedent; `placing = accent,`, Pal.java:95,
+	# `remove = Color.valueOf("e55454"),`, Pal.java:86).
+	# The speed text carries the bundle KEY + the RAW
+	# value + decimals 2 (the renderer formats, the
+	# N2450 precedent; `bar.drillspeed = Drill Speed: {0}/s`,
+	# bundle.properties:1279); the tier-req text
+	# carries the bundle KEY + valid=false HARDCODED
+	# (Java passes false, not the placement flag,
+	# `bar.drilltierreq = Better Drill Required`,
+	# bundle.properties:1273). drawPlaceText is the
+	# Block 4-arg overload:
+	# `public float drawPlaceText(String text, int x, int y, boolean valid){`
+	# `return drawPlaceText(text, x, y, valid ? Pal.accent : Pal.remove, true);`
+	# (Block.java:531-532 -- the color is Pal.accent
+	# when valid, Pal.remove otherwise, and the line
+	# always draws; the N2445 UCL precedent records
+	# the call the same way). The icon x reads the
+	# drawPlaceText RETURN (`float width = ...`) --
+	# the laid-out text width, a font measurement no
+	# pure can compute (0 when renderer.pixelate,
+	# Block.java:535-537) -- so it arrives
+	# caller-supplied as text_width (the N2435
+	# precedent). The speed value divides the
+	# caller-supplied base drillTime
+	# (`public float drillTime = 200f;`, BeamDrill.
+	# java:39; `drillTime = 160f;` plasma-bore /
+	# `drillTime = 100f;` large-plasma-bore,
+	# Blocks.java:3042/3055) by the multiplier looked
+	# up inline for the found item
+	# (`public float getDrillTime(Item item){`
+	# `return drillTime / drillMultipliers.get(item, 1f);`,
+	# BeamDrill.java:216-218 -- the lookup mirrors the
+	# N2473 multiplier pure exactly, default 1.0; the
+	# pure does NOT call it, whose test pins its call
+	# count at 1). Item identity is by id string
+	# (Java compares Item references; the same id IS
+	# the same Item). Item hardness: copper
+	# `hardness = 1;` / thorium `hardness = 4;` /
+	# tungsten `hardness = 5;` (Items.java:17/56/113;
+	# default 0, Item.java:30). The origins come from
+	# the N2346 laser-origins pure and the direction
+	# from Geometry.d4x/d4y (arc Geometry.java:23-24,
+	# `public final static int[] d4x = {1, 0, -1, 0};`
+	# `public final static int[] d4y = {0, 1, 0, -1};`,
+	# mod-4 normalized, the N2352 posmod precedent);
+	# world_tiles is the N2352 frame input and
+	# blocked_items the N2339 Variant (live since
+	# N2473). Pure-only (N2478): the tick never calls
+	# drawPlace -- the placement UI does, and the
+	# placement call site waits for its own slice.
+	var lasers: Array = source_beam_drill_laser_origins_state(tile_x, tile_y, rotation, size).get("lasers", [])
+	var d4x: Array = [1, 0, -1, 0]
+	var d4y: Array = [0, 1, 0, -1]
+	var direction: int = posmod(rotation, 4)
+	var dx: int = int(d4x[direction])
+	var dy: int = int(d4y[direction])
+	var tile_size: float = 8.0
+	var offset: float = float((size + 1) % 2) * tile_size / 2.0
+	var icon_small: float = 24.0
+	var item: Variant = null
+	var invalid_item: Variant = null
+	var multiple: bool = false
+	var count: int = 0
+	var dash_lines: Array = []
+	for i in range(size):
+		if i >= lasers.size():
+			break
+		var laser: Variant = lasers[i]
+		if not (laser is Dictionary):
+			continue
+		var origin_x: int = int(laser.get("x", 0))
+		var origin_y: int = int(laser.get("y", 0))
+		var j: int = 0
+		var found: Variant = null
+		while j < beam_range:
+			var rx: int = origin_x + dx * j
+			var ry: int = origin_y + dy * j
+			var tile: Variant = world_tiles.get(str(rx) + "," + str(ry), null)
+			if tile == null or not (tile is Dictionary):
+				j += 1
+				continue
+			if not bool(tile.get("solid", false)):
+				j += 1
+				continue
+			var drop: Variant = tile.get("wall_drop", null)
+			if drop != null and drop is Dictionary:
+				var drop_id: String = str(drop.get("id", ""))
+				var drop_hardness: int = int(drop.get("hardness", 0))
+				if drop_hardness <= tier and (blocked_items == null or not (blocked_items is Array and blocked_items.has(drop_id))):
+					found = drop_id
+					count += 1
+				else:
+					invalid_item = drop_id
+			break
+		if found != null:
+			if item != found and item != null:
+				multiple = true
+			item = found
+		var dash_len: int = min(j, beam_range - 1)
+		var dash_color: String = "Pal.remove" if found == null else "Pal.placing"
+		dash_lines.append({
+			"method": "Drawf.dashLine",
+			"laser": i,
+			"color": dash_color,
+			"from": {"x": float(origin_x) * tile_size, "y": float(origin_y) * tile_size},
+			"to": {"x": float(origin_x + dx * dash_len) * tile_size, "y": float(origin_y + dy * dash_len) * tile_size},
+			"len": dash_len,
+			"found": found,
+		})
+	var speed_text: Variant = null
+	var icon: Variant = null
+	var tier_req_text: Variant = null
+	if item != null:
+		var drill_time: float = drill_time_base / float(drill_multipliers.get(item, 1.0))
+		var speed_value: float = 60.0 / drill_time * float(count)
+		speed_text = {
+			"method": "drawPlaceText",
+			"text": "bar.drillspeed",
+			"value": speed_value,
+			"decimals": 2,
+			"item": item,
+			"count": count,
+			"x": tile_x,
+			"y": tile_y,
+			"valid": valid,
+		}
+		if not multiple:
+			var icon_x: float = float(tile_x) * tile_size + offset - text_width / 2.0 - 4.0
+			var icon_y: float = float(tile_y) * tile_size + offset + float(size) * tile_size / 2.0 + 5.0
+			icon = {
+				"method": "Draw.rect",
+				"region": "item.fullIcon",
+				"item": item,
+				"x": icon_x,
+				"y": icon_y,
+				"size": icon_small / 4.0,
+				"shadow_dy": -1.0,
+				"shadow_mixcol": "Color.darkGray",
+			}
+	elif invalid_item != null:
+		tier_req_text = {
+			"method": "drawPlaceText",
+			"text": "bar.drilltierreq",
+			"x": tile_x,
+			"y": tile_y,
+			"valid": false,
+			"invalid_item": invalid_item,
+		}
+	return {"dash_lines": dash_lines, "speed_text": speed_text, "icon": icon, "tier_req_text": tier_req_text}
