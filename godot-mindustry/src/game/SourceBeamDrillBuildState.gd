@@ -13,6 +13,7 @@ const source_building_item_dump_state := preload("res://src/game/SourceBuildingI
 const source_building_item_state := preload("res://src/game/SourceBuildingItemState.gd")
 const source_placed_power_graph_state := preload("res://src/game/SourcePlacedPowerGraphState.gd")
 const source_building_liquid_state := preload("res://src/game/SourceBuildingLiquidState.gd")
+const source_math_state := preload("res://src/game/SourceMathState.gd")
 
 # The BeamDrill implementation (BeamDrill.java:25, `public class
 # BeamDrill extends Block{`): plasma-bore (consumePower 0.15f,
@@ -43,6 +44,23 @@ const SOURCE_BEAM_DRILL_BOOST_WARMUP_RATE := 0.1
 # `public int dumpTime = 5;`, NO def overrides it anywhere
 # in upstream, grep-verified).
 const SOURCE_BEAM_DRILL_DUMP_TIME := 5.0
+# BeamDrill.java:53-61 draw-field class defaults -- NO def
+# overrides any of them (Blocks.java:3038-3071 sets only
+# laserWidth 0.7f on large-plasma-bore, :3061), so they ride
+# driver constants; laserWidth itself is a caller-supplied
+# pure input instead (0.65f plasma-bore / 0.7f
+# large-plasma-bore). heatColor.a is 0.9f (`public Color
+# heatColor = new Color(1f, 0.35f, 0.35f, 0.9f);`, :60).
+const SOURCE_BEAM_DRILL_GLOW_SCL := 3.0
+const SOURCE_BEAM_DRILL_PULSE_INTENSITY := 0.07
+const SOURCE_BEAM_DRILL_GLOW_INTENSITY := 0.2
+const SOURCE_BEAM_DRILL_SPARKS := 7
+const SOURCE_BEAM_DRILL_SPARK_RANGE := 10.0
+const SOURCE_BEAM_DRILL_SPARK_LIFE := 27.0
+const SOURCE_BEAM_DRILL_SPARK_RECURRENCE := 4.0
+const SOURCE_BEAM_DRILL_SPARK_SPREAD := 45.0
+const SOURCE_BEAM_DRILL_SPARK_SIZE := 3.5
+const SOURCE_BEAM_DRILL_HEAT_COLOR_ALPHA := 0.9
 
 static func _is_beam_drill_build_implementation(implementation: String) -> bool:
 	return SOURCE_BEAM_DRILL_BUILD_IMPLEMENTATIONS.has(implementation)
@@ -520,6 +538,18 @@ static func source_beam_drill_power_status_row_state(frame: Dictionary, has_powe
 	# N2363 (the dumped item lands in the neighbour
 	# frame through the shared helper). Until the reset slice
 	# lands, time grows unbounded.
+	# (4) Draw rows live (N2436) -- the draw pure
+	# (source_beam_drill_draw_state) models drawSelect()
+	# (:231-234, the recorded drawItemSelection(lastItem)
+	# call) + draw() (:275-357: base + top rects, the
+	# per-laser width / mixcol absins, the centered
+	# laserCenter branch vs the Drawf.laser branch with
+	# the asymmetric boost gates, the Lod.l2 sparks with
+	# caller-supplied rolls, the glow additive) + icons()
+	# (:108-115, {region, topRegion}). Pure-only: the
+	# tick never calls draw/drawSelect -- draw is called
+	# by the renderer, and the renderer call site waits
+	# for a renderer slice.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -855,6 +885,378 @@ static func source_beam_drill_dump_neighbour_live_fill_state(game: Object, cell:
 		neighbour_accepts.append(accepts_item)
 		neighbour_can_dump.append(can_dump_item)
 	return {"dump_neighbour_accepts": neighbour_accepts, "dump_neighbour_can_dump": neighbour_can_dump}
+
+static func source_beam_drill_draw_state(x_value: float, y_value: float, rotation: int, size_value: int, id_value: int, warmup: float, boost_warmup: float, time_value: float, lod_l2: bool, lod_alpha2: float, is_payload: bool, facing: Array, lasers: Array, last_item: Variant, glow_found: bool, heat_color: String, boost_heat_color: String, heat_pulse: float, heat_pulse_scl: float, spark_rolls: Array, laser_width: float) -> Dictionary:
+	# The draw rows (BeamDrillBuild.drawSelect(),
+	# BeamDrill.java:231-234 + BeamDrillBuild.draw(),
+	# BeamDrill.java:275-357), the pure draw-call dict
+	# -- the port never draws for real (the N2430/N2431
+	# precedent: the pure returns the draw calls as
+	# data). Java draws, in order (each exact expr on
+	# ONE comment line, the N2148 lesson):
+	# `public void drawSelect(){`
+	# `drawItemSelection(lastItem);`
+	# `public void draw(){`
+	# `Draw.rect(block.region, x, y);`
+	# `Draw.rect(topRegion, x, y, rotdeg());`
+	# `if(isPayload()) return;`
+	# `var dir = Geometry.d4(rotation);`
+	# `int ddx = Geometry.d4x(rotation + 1), ddy = Geometry.d4y(rotation + 1);`
+	# `Tile face = facing[i];`
+	# `if(face != null){`
+	# `Item drop = face.wallDrop();`
+	# `if(drop == null) continue;`
+	# `Point2 p = lasers[i];`
+	# `float lx = face.worldx() - (dir.x/2f)*tilesize, ly = face.worldy() - (dir.y/2f)*tilesize;`
+	# `float width = (laserWidth + Mathf.absin(Time.time + i*5 + (id % 9)*9, glowScl, pulseIntensity)) * warmup;`
+	# `Draw.z(Layer.power - 1);`
+	# `Draw.mixcol(glowColor, Mathf.absin(Time.time + i*5 + id*9, glowScl, glowIntensity));`
+	# `if(Math.abs(p.x - face.x) + Math.abs(p.y - face.y) == 0){`
+	# `Draw.scl(width);`
+	# `if(boostWarmup < 0.99f){`
+	# `Draw.alpha(1f - boostWarmup);`
+	# `Draw.rect(laserCenter, lx, ly);`
+	# `if(boostWarmup > 0.01f){`
+	# `Draw.alpha(boostWarmup);`
+	# `Draw.rect(laserCenterBoost, lx, ly);`
+	# `Draw.scl();`
+	# `float lsx = (p.x - dir.x/2f) * tilesize, lsy = (p.y - dir.y/2f) * tilesize;`
+	# `Drawf.laser(laser, laserEnd, lsx, lsy, lx, ly, width);`
+	# `if(boostWarmup > 0.001f){`
+	# `Drawf.laser(laserBoost, laserEndBoost, lsx, lsy, lx, ly, width);`
+	# `Draw.color();`
+	# `Draw.mixcol();`
+	# `if(Lod.l2){`
+	# `Draw.z(Layer.effect);`
+	# `Lines.stroke(warmup);`
+	# `rand.setState(i, id);`
+	# `Color col = drop.color;`
+	# `Color spark = Tmp.c3.set(sparkColor).lerp(boostHeatColor, boostWarmup);`
+	# `for(int j = 0; j < sparks; j++){`
+	# `float fin = (Time.time / sparkLife + rand.random(sparkRecurrence + 1f)) % sparkRecurrence;`
+	# `float or = rand.range(2f);`
+	# `Tmp.v1.set(sparkRange * fin, 0).rotate(rotdeg() + rand.range(sparkSpread));`
+	# `Color result = Tmp.c1.set(spark).lerp(col, fin);`
+	# `Draw.color(result.r, result.g, result.b, result.a * Lod.alpha2);`
+	# `float px = Tmp.v1.x, py = Tmp.v1.y;`
+	# `if(fin <= 1f) Lines.lineAngle(lx + px + or * ddx, ly + py + or * ddy, Angles.angle(px, py), Mathf.slope(fin) * sparkSize);`
+	# `Draw.reset();`
+	# `if(glowRegion.found()){`
+	# `Draw.z(Layer.blockAdditive);`
+	# `Draw.blend(Blending.additive);`
+	# `Draw.color(Tmp.c1.set(heatColor).lerp(boostHeatColor, boostWarmup), warmup * (heatColor.a * (1f - heatPulse + Mathf.absin(heatPulseScl, heatPulse))));`
+	# `Draw.rect(glowRegion, x, y, rotdeg());`
+	# `Draw.blend();`
+	# The fields (BeamDrill.java:221-226, 42, 53-61):
+	# `public Tile[] facing = new Tile[size];`
+	# `public Point2[] lasers = new Point2[size];`
+	# `public @Nullable Item lastItem;`
+	# `public float warmup, boostWarmup;`
+	# `public float laserWidth = 0.65f;`
+	# `public Color sparkColor = Color.valueOf("fd9e81"), glowColor = Color.white;`
+	# `public float glowIntensity = 0.2f, pulseIntensity = 0.07f;`
+	# `public float glowScl = 3f;`
+	# `public int sparks = 7;`
+	# `public float sparkRange = 10f, sparkLife = 27f, sparkRecurrence = 4f, sparkSpread = 45f, sparkSize = 3.5f;`
+	# `public Color boostHeatColor = Color.sky.cpy().mul(0.87f);`
+	# `public Color heatColor = new Color(1f, 0.35f, 0.35f, 0.9f);`
+	# `public float heatPulse = 0.3f, heatPulseScl = 7f;`
+	# The regions (BeamDrill.java:27-37):
+	# `public @Load(value = "@-beam", fallback = "drill-laser") TextureRegion laser;`
+	# `public @Load(value = "@-beam-end", fallback = "drill-laser-end") TextureRegion laserEnd;`
+	# `public @Load(value = "@-beam-center", fallback = "drill-laser-center") TextureRegion laserCenter;`
+	# `public @Load(value = "@-beam-boost", fallback = "drill-laser-boost") TextureRegion laserBoost;`
+	# `public @Load(value = "@-beam-boost-end", fallback = "drill-laser-boost-end") TextureRegion laserEndBoost;`
+	# `public @Load(value = "@-beam-boost-center", fallback = "drill-laser-boost-center") TextureRegion laserCenterBoost;`
+	# `public @Load("@-top") TextureRegion topRegion;`
+	# `public @Load("@-glow") TextureRegion glowRegion;`
+	# icons() (BeamDrill.java:108-115) is a REAL override:
+	# `public TextureRegion[] icons(){`
+	# `return new TextureRegion[]{region, topRegion};`
+	# The loop bound (BeamDrill.java:285):
+	# `for(int i = 0; i < size; i++){`
+	# The Drawf.laser overload (Drawf.java:509-511):
+	# `public static void laser(TextureRegion line, TextureRegion edge, float x, float y, float x2, float y2, float scale){`
+	# The defs (Blocks.java:3038-3071):
+	# `plasmaBore = new BeamDrill("plasma-bore"){{`
+	# `largePlasmaBore = new BeamDrill("large-plasma-bore"){{`
+	# `laserWidth = 0.7f;`
+	# `size = 2;`
+	# `size = 3;`
+	# The BuildingComp callees (BuildingComp.java:1249-1257,
+	# 582-584):
+	# `public void drawItemSelection(@Nullable UnlockableContent selection){`
+	# `float dx = x - block.size * tilesize/2f, dy = y + block.size * tilesize/2f, s = iconSmall / 4f * selection.fullIcon.ratio(), h = iconSmall / 4f;`
+	# `public float rotdeg(){`
+	# `return rotation * 90;`
+	# The Tile world coords (Tile.java:166-172) and the
+	# tile size (Vars.java:135):
+	# `public float worldx(){`
+	# `return x * tilesize;`
+	# `public float worldy(){`
+	# `return y * tilesize;`
+	# `public static final int tilesize = 8;`
+	# The Lod flags (Lod.java:16-17):
+	# `public static boolean l2 = true;`
+	# `public static float alpha2 = 1f;`
+	# The arc math (Mathf.java:78-80, 594-596):
+	# `public static float absin(float in, float scl, float mag){`
+	# `return (sin(in, scl * 2f, mag) + mag) / 2f;`
+	# `public static float slope(float fin){`
+	# `return 1f - Math.abs(fin - 0.5f) * 2f;`
+	# The arc geometry (Geometry.java:23-24, 43-53):
+	# `public static Point2 d4(int i){`
+	# `public static int d4x(int i){`
+	# `public static int d4y(int i){`
+	# `public final static int[] d4x = {1, 0, -1, 0};`
+	# `public final static int[] d4y = {0, 1, 0, -1};`
+	# The arc angle + rand (Angles.java:52-54, Rand.java:190-196, 221-224):
+	# `public static float angle(float x, float y){`
+	# `public void setState(final long seed0, final long seed1){`
+	# `public float random(float max){`
+	# `return nextFloat() * max;`
+	# `public float range(float amount){`
+	# `return nextFloat() * amount * 2 - amount;`
+	# Design notes. The base + top rects draw at the
+	# default z (both rects draw before any Draw.z call,
+	# so neither carries a z key, the N2431 shape). The
+	# payload early return skips the lasers AND the glow,
+	# but NOT the base/top rects, the select call or
+	# icons(). The width absin reads (id % 9) * 9 while
+	# the mixcol absin reads id * 9 -- NOT the same
+	# offset. The absin calls land Java-exact through the
+	# shared helper at the DOUBLED scale (the N2372/N2382
+	# precedent: Java absin is (sin(in, scl*2, mag) + mag)
+	# / 2 while the helper is (sin(v/scl)*0.5+0.5)*mag, so
+	# the pure passes 2 * scl). Mathf.slope is the
+	# triangle 1 - |fin - 0.5| * 2 (0 -> 1 -> 0), computed
+	# inline -- SourceMathState has no slope helper. The
+	# boost gates are asymmetric: the center boost gate
+	# is > 0.01 while the laser boost gate is > 0.001.
+	# Drawf.laser is RECORDED as a call + params, not
+	# ported (the N2396 callee-geometry precedent), and
+	# so is drawItemSelection (the pure records the call
+	# with the item; the callee dx/dy/s/h geometry stays
+	# in BuildingComp). NO RNG in the pure (the N2421
+	# precedent): the three spark draws per spark ride
+	# caller-supplied rolls in Java order -- per spark j:
+	# [random(sparkRecurrence+1), range(2),
+	# range(spread)] -- where each roll is the
+	# ALREADY-DRAWN value (random(max) is nextFloat() *
+	# max, range(amount) is nextFloat() * amount * 2 -
+	# amount); `rand.setState(i, id);` is the
+	# deterministic per-laser seed the rolls replace, so
+	# spark_rolls is one Array per laser; a missing or
+	# short roll reads 0.0. The facing input carries
+	# tile_x / tile_y AND world_x / world_y per entry:
+	# the centered check needs TILE coords while lx/ly
+	# need WORLD coords (the brief shape carried world
+	# coords only -- tile coords were added, a finding,
+	# not a guess). The lasers input is the N2346 origins
+	# shape ({x, y} tile coords); a missing or short
+	# entry reads (0, 0), the fresh Point2 default.
+	# laserWidth is a caller-supplied INPUT because
+	# large-plasma-bore overrides it to 0.7f over the
+	# 0.65f class default -- every other draw field takes
+	# the class default (no def overrides it) and rides a
+	# driver constant, except heat_pulse / heat_pulse_scl
+	# / heat_color / boost_heat_color which arrive as
+	# caller-supplied inputs per the brief (class
+	# defaults 0.3f / 7f / heatColor / boostHeatColor).
+	# icons() rides the pure as icon_regions (the
+	# N2396/N2430 precedent: a zero-arg icons() pure
+	# cannot register). Pure-only: the tick never calls
+	# draw/drawSelect -- draw is called by the renderer,
+	# and the renderer call site waits for a renderer
+	# slice.
+	var tile_size := 8.0
+	var draw_rotation: float = float(rotation * 90)
+	var d4x: Array = [1, 0, -1, 0]
+	var d4y: Array = [0, 1, 0, -1]
+	var direction: int = posmod(rotation, 4)
+	var dir_x: int = int(d4x[direction])
+	var dir_y: int = int(d4y[direction])
+	var side: int = posmod(rotation + 1, 4)
+	var ddx: int = int(d4x[side])
+	var ddy: int = int(d4y[side])
+	var base_call: Dictionary = {
+		"call": "Draw.rect(block.region, x, y);",
+		"region": "region",
+		"x": x_value,
+		"y": y_value,
+	}
+	var top_call: Dictionary = {
+		"call": "Draw.rect(topRegion, x, y, rotdeg());",
+		"region": "topRegion",
+		"x": x_value,
+		"y": y_value,
+		"rotation": draw_rotation,
+	}
+	var laser_calls: Array = []
+	var glow_call: Variant = null
+	if not is_payload:
+		for i in range(size_value):
+			if i >= facing.size():
+				break
+			var face: Variant = facing[i]
+			if face == null or not (face is Dictionary):
+				continue
+			var drop: Variant = face.get("drop", null)
+			if drop == null or not (drop is Dictionary):
+				continue
+			var laser_origin: Dictionary = {"x": 0, "y": 0}
+			if i < lasers.size() and lasers[i] is Dictionary:
+				laser_origin = lasers[i]
+			var laser_x: int = int(laser_origin.get("x", 0))
+			var laser_y: int = int(laser_origin.get("y", 0))
+			var face_tile_x: int = int(face.get("tile_x", 0))
+			var face_tile_y: int = int(face.get("tile_y", 0))
+			var face_world_x: float = float(face.get("world_x", 0.0))
+			var face_world_y: float = float(face.get("world_y", 0.0))
+			var lx: float = face_world_x - (float(dir_x) / 2.0) * tile_size
+			var ly: float = face_world_y - (float(dir_y) / 2.0) * tile_size
+			var width_absin: float = source_math_state.source_absin(time_value + float(i) * 5.0 + float(id_value % 9) * 9.0, SOURCE_BEAM_DRILL_GLOW_SCL * 2.0, SOURCE_BEAM_DRILL_PULSE_INTENSITY)
+			var width: float = (laser_width + width_absin) * warmup
+			var mix_amount: float = source_math_state.source_absin(time_value + float(i) * 5.0 + float(id_value) * 9.0, SOURCE_BEAM_DRILL_GLOW_SCL * 2.0, SOURCE_BEAM_DRILL_GLOW_INTENSITY)
+			var centered: bool = abs(laser_x - face_tile_x) + abs(laser_y - face_tile_y) == 0
+			var center_calls: Variant = null
+			var branch_laser_calls: Variant = null
+			if centered:
+				center_calls = []
+				if boost_warmup < 0.99:
+					center_calls.append({
+						"call": "Draw.rect(laserCenter, lx, ly);",
+						"region": "laserCenter",
+						"x": lx,
+						"y": ly,
+						"alpha": 1.0 - boost_warmup,
+						"scl": width,
+					})
+				if boost_warmup > 0.01:
+					center_calls.append({
+						"call": "Draw.rect(laserCenterBoost, lx, ly);",
+						"region": "laserCenterBoost",
+						"x": lx,
+						"y": ly,
+						"alpha": boost_warmup,
+						"scl": width,
+					})
+			else:
+				var lsx: float = (float(laser_x) - float(dir_x) / 2.0) * tile_size
+				var lsy: float = (float(laser_y) - float(dir_y) / 2.0) * tile_size
+				branch_laser_calls = []
+				if boost_warmup < 0.99:
+					branch_laser_calls.append({
+						"call": "Drawf.laser(laser, laserEnd, lsx, lsy, lx, ly, width);",
+						"line": "laser",
+						"edge": "laserEnd",
+						"x1": lsx,
+						"y1": lsy,
+						"x2": lx,
+						"y2": ly,
+						"scale": width,
+						"alpha": 1.0 - boost_warmup,
+					})
+				if boost_warmup > 0.001:
+					branch_laser_calls.append({
+						"call": "Drawf.laser(laserBoost, laserEndBoost, lsx, lsy, lx, ly, width);",
+						"line": "laserBoost",
+						"edge": "laserEndBoost",
+						"x1": lsx,
+						"y1": lsy,
+						"x2": lx,
+						"y2": ly,
+						"scale": width,
+						"alpha": boost_warmup,
+					})
+			var spark_calls: Array = []
+			var spark_stroke: Variant = null
+			if lod_l2:
+				spark_stroke = warmup
+				var rolls: Array = []
+				if i < spark_rolls.size() and spark_rolls[i] is Array:
+					rolls = spark_rolls[i]
+				var drop_color: String = str(drop.get("color", ""))
+				for j in range(SOURCE_BEAM_DRILL_SPARKS):
+					var roll_random: float = float(rolls[j * 3]) if j * 3 < rolls.size() else 0.0
+					var roll_or: float = float(rolls[j * 3 + 1]) if j * 3 + 1 < rolls.size() else 0.0
+					var roll_spread: float = float(rolls[j * 3 + 2]) if j * 3 + 2 < rolls.size() else 0.0
+					var fin: float = fmod(time_value / SOURCE_BEAM_DRILL_SPARK_LIFE + roll_random, SOURCE_BEAM_DRILL_SPARK_RECURRENCE)
+					var rotated: Dictionary = source_math_state.source_angles_trns_vec(draw_rotation + roll_spread, SOURCE_BEAM_DRILL_SPARK_RANGE * fin, 0.0)
+					var px: float = float(rotated.get("x", 0.0))
+					var py: float = float(rotated.get("y", 0.0))
+					if fin <= 1.0:
+						spark_calls.append({
+							"fin": fin,
+							"x": lx + px + roll_or * float(ddx),
+							"y": ly + py + roll_or * float(ddy),
+							"angle": source_math_state.source_vec2_angle(px, py),
+							"length": (1.0 - absf(fin - 0.5) * 2.0) * SOURCE_BEAM_DRILL_SPARK_SIZE,
+							"color": {"from": {"from": "sparkColor", "to": "boostHeatColor", "t": boost_warmup}, "to": drop_color, "t": fin},
+							"alpha_scale": lod_alpha2,
+							"z": "Layer.effect",
+						})
+			laser_calls.append({
+				"index": i,
+				"centered": centered,
+				"width": width,
+				"mixcol": {"color": "glowColor", "amount": mix_amount},
+				"lx": lx,
+				"ly": ly,
+				"z": "Layer.power - 1",
+				"center_calls": center_calls,
+				"laser_calls": branch_laser_calls,
+				"spark_calls": spark_calls,
+				"spark_stroke": spark_stroke,
+			})
+		if glow_found:
+			var glow_absin: float = source_math_state.source_absin(time_value, heat_pulse_scl * 2.0, heat_pulse)
+			var glow_alpha: float = warmup * (SOURCE_BEAM_DRILL_HEAT_COLOR_ALPHA * (1.0 - heat_pulse + glow_absin))
+			glow_call = {
+				"call": "Draw.rect(glowRegion, x, y, rotdeg());",
+				"region": "glowRegion",
+				"color": {"from": heat_color, "to": boost_heat_color, "t": boost_warmup},
+				"alpha": glow_alpha,
+				"x": x_value,
+				"y": y_value,
+				"rotation": draw_rotation,
+				"z": "Layer.blockAdditive",
+				"blend": "Blending.additive",
+			}
+	var select_call: Variant = null
+	if last_item != null:
+		select_call = {
+			"call": "drawItemSelection(lastItem);",
+			"item": last_item,
+		}
+	var icon_regions: Array = ["region", "topRegion"]
+	return {
+		"x": x_value,
+		"y": y_value,
+		"rotation": rotation,
+		"size_value": size_value,
+		"id_value": id_value,
+		"warmup": warmup,
+		"boost_warmup": boost_warmup,
+		"time_value": time_value,
+		"lod_l2": lod_l2,
+		"lod_alpha2": lod_alpha2,
+		"is_payload": is_payload,
+		"glow_found": glow_found,
+		"heat_color": heat_color,
+		"boost_heat_color": boost_heat_color,
+		"heat_pulse": heat_pulse,
+		"heat_pulse_scl": heat_pulse_scl,
+		"laser_width": laser_width,
+		"base_call": base_call,
+		"top_call": top_call,
+		"laser_calls": laser_calls,
+		"glow_call": glow_call,
+		"select_call": select_call,
+		"icon_regions": icon_regions,
+		"draw_rotation": draw_rotation,
+		"payload_return": is_payload,
+	}
 
 static func source_beam_drill_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the beam-drill tick wiring every
