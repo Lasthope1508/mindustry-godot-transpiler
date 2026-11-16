@@ -1,6 +1,6 @@
 # Handoff — N2211 RepairTower Units.nearby driver integration
 
-Date: 2026-11-16. Batch: N2211 (single slice). Status: **DONE + GATE VERIFIED (2026-11-16 ~15:15 +07 — gate Ran 5937 in 1204.237s, failures=161, skipped=5, 0 errors, all 161 verified Godot-absent). Slice 978de467, docs + GOAL + hash-naming + handoff-status commits below; push to origin main in this tick.**
+Date: 2026-11-16. Batch: N2211 (single slice). Status: **DONE + PUSHED (slice 978de467, main c9b078b5).**
 
 ## Scope
 
