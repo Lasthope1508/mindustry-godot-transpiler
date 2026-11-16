@@ -147,9 +147,16 @@ class C07UnitAssemblerModuleTierStampTests(unittest.TestCase):
         # The documented limits now record the tier stamp as
         # live (N2348) and drop tier from the missing rows;
         # the N2299 acceptPayload rows, the N2314 handoff
-        # wiring and the N2248 advance stay.
+        # wiring and the N2248 advance stay. (N2432: the
+        # 'No link/draw/onRemoved rows' pin is stale -- the
+        # draw rows went live in N2425 and the link rows in
+        # N2358/N2381, so the pin now asserts the remaining
+        # true gap instead: onRemoved / drawSelect still
+        # defer, and the draw rows are recorded live.)
         self.assertIn('Tier stamp live (N2348)', unit_assembler_module)
-        self.assertIn('No link/draw/onRemoved rows', unit_assembler_module)
+        self.assertIn('Draw rows live (N2425)', unit_assembler_module)
+        self.assertIn('onRemoved / drawSelect still defer', unit_assembler_module)
+        self.assertNotIn('No link/draw/onRemoved rows', unit_assembler_module)
         self.assertIn('Handoff-gate wiring live (N2314)', unit_assembler_module)
         self.assertIn('acceptPayload rows live (N2299)', unit_assembler_module)
         self.assertIn('updateTile advance live (N2248)', unit_assembler_module)
