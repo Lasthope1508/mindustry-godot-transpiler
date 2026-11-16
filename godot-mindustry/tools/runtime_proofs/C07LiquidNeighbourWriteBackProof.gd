@@ -144,8 +144,9 @@ func _ready() -> void:
 	# nothing moved. The N2284 values: 20 oil in a 40f store
 	# (fract 0.5) against an empty 40f neighbour (ofract 0)
 	# transfers (0.5 - 0.0) * 40 / 2 = 10. A fuller neighbour
-	# (ofract 0.75) takes nothing but the cursor still
-	# advances; a refusing neighbour (accepts false) takes
+	# (ofract 0.75) takes nothing and the cursor stays 0
+	# (N2385: the full-cycle scan wraps (0+1)%1 back to 0);
+	# a refusing neighbour (accepts false) takes
 	# nothing either -- and is NOT the handled index even
 	# though it computes a flow, so a [refusing, empty] pair
 	# reports index 1. Two empty neighbours take 10 + 5 = 15
@@ -172,7 +173,7 @@ func _ready() -> void:
 	var alone_liquids: Dictionary = liquid_module_state.source_initial_state(content_liquid_ids)
 	liquid_module_state.source_set_state(alone_liquids, oil_id, 20.0)
 	var alone: Dictionary = fracker_build_state.source_fracker_dump_liquid_state({"liquids": alone_liquids, "cdump": 0}, oil_id, 40.0, [])
-	proof["advance_exposes_dump_neighbour_index"] = is_equal_approx(float(transferred.get("dumped_amount", -1.0)), 10.0) and int(transferred.get("dump_neighbour_index", -9)) == 0 and str(transferred.get("dumped_liquid", "")) == "oil" and int(transferred.get("cursor_after", -1)) == 1 and is_equal_approx(float(full.get("dumped_amount", -1.0)), 0.0) and int(full.get("dump_neighbour_index", -9)) == -1 and int(full.get("cursor_after", -1)) == 1 and is_equal_approx(float(refused.get("dumped_amount", -1.0)), 0.0) and int(refused.get("dump_neighbour_index", -9)) == -1 and int(refused.get("cursor_after", -1)) == 1 and is_equal_approx(float(pair.get("dumped_amount", -1.0)), 10.0) and int(pair.get("dump_neighbour_index", -9)) == 1 and int(pair.get("cursor_after", -1)) == 0 and is_equal_approx(float(multi.get("dumped_amount", -1.0)), 15.0) and int(multi.get("dump_neighbour_index", -9)) == 0 and int(multi.get("cursor_after", -1)) == 0 and is_equal_approx(float(alone.get("dumped_amount", -1.0)), 0.0) and int(alone.get("dump_neighbour_index", -9)) == -1 and int(alone.get("cursor_after", -1)) == 0
+	proof["advance_exposes_dump_neighbour_index"] = is_equal_approx(float(transferred.get("dumped_amount", -1.0)), 10.0) and int(transferred.get("dump_neighbour_index", -9)) == 0 and str(transferred.get("dumped_liquid", "")) == "oil" and int(transferred.get("cursor_after", -1)) == 0 and is_equal_approx(float(full.get("dumped_amount", -1.0)), 0.0) and int(full.get("dump_neighbour_index", -9)) == -1 and int(full.get("cursor_after", -1)) == 0 and is_equal_approx(float(refused.get("dumped_amount", -1.0)), 0.0) and int(refused.get("dump_neighbour_index", -9)) == -1 and int(refused.get("cursor_after", -1)) == 0 and is_equal_approx(float(pair.get("dumped_amount", -1.0)), 10.0) and int(pair.get("dump_neighbour_index", -9)) == 1 and int(pair.get("cursor_after", -1)) == 0 and is_equal_approx(float(multi.get("dumped_amount", -1.0)), 15.0) and int(multi.get("dump_neighbour_index", -9)) == 0 and int(multi.get("cursor_after", -1)) == 0 and is_equal_approx(float(alone.get("dumped_amount", -1.0)), 0.0) and int(alone.get("dump_neighbour_index", -9)) == -1 and int(alone.get("cursor_after", -1)) == 0
 
 	# --- Live tick: two oil-extractors placed live (the
 	# N2284 live setup: full power, water + sand seeded so

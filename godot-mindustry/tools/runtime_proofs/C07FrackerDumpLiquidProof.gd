@@ -57,8 +57,9 @@ func _ready() -> void:
 	# Transfers to a neighbour: 20 oil in a 40f store
 	# (fract 0.5) against an empty 40f neighbour (ofract 0)
 	# transfers (0.5 - 0.0) * 40 / 2 = 10, so the store
-	# drops to 10 and the cursor advances 0 -> 1 (one
-	# proximity iteration, incrementDump every iteration).
+	# drops to 10 and the cursor stays 0 (N2385: the scan is a
+	# full cycle -- one proximity iteration over one neighbour
+	# advances the cursor once but it wraps (0+1)%1 back to 0).
 	# The pure never mutates its inputs: the original store
 	# still holds 20 after the call.
 	var transfer_liquids: Dictionary = liquid_module_state.source_initial_state(content_liquid_ids)
@@ -68,7 +69,7 @@ func _ready() -> void:
 	var transferred_liquids: Dictionary = transferred.get("liquids_after", {})
 	var transferred_oil: float = float(liquid_module_state.source_get_state(transferred_liquids, oil_id).get("amount", -1.0))
 	var input_oil: float = float(liquid_module_state.source_get_state(transfer_liquids, oil_id).get("amount", -1.0))
-	proof["dump_transfers_to_neighbour"] = is_equal_approx(float(transferred.get("dumped_amount", -1.0)), 10.0) and is_equal_approx(transferred_oil, 10.0) and int(transferred.get("cursor_after", -1)) == 1 and is_equal_approx(input_oil, 20.0)
+	proof["dump_transfers_to_neighbour"] = is_equal_approx(float(transferred.get("dumped_amount", -1.0)), 10.0) and is_equal_approx(transferred_oil, 10.0) and int(transferred.get("cursor_after", -1)) == 0 and is_equal_approx(input_oil, 20.0)
 
 	# Scales by two: 30 oil (fract 0.75) against a neighbour
 	# holding 10/40 (ofract 0.25) transfers (0.75 - 0.25) *
@@ -81,15 +82,16 @@ func _ready() -> void:
 	var scaled: Dictionary = fracker_build_state.source_fracker_dump_liquid_state({"liquids": scaled_liquids, "cdump": 0}, oil_id, 40.0, [scaled_neighbour])
 	var scaled_liquids_after: Dictionary = scaled.get("liquids_after", {})
 	var scaled_oil: float = float(liquid_module_state.source_get_state(scaled_liquids_after, oil_id).get("amount", -1.0))
-	proof["dump_scales_by_two"] = is_equal_approx(float(scaled.get("dumped_amount", -1.0)), 10.0) and is_equal_approx(scaled_oil, 20.0) and int(scaled.get("cursor_after", -1)) == 1
+	proof["dump_scales_by_two"] = is_equal_approx(float(scaled.get("dumped_amount", -1.0)), 10.0) and is_equal_approx(scaled_oil, 20.0) and int(scaled.get("cursor_after", -1)) == 0
 
 	# No transfer when the neighbour is fuller: 20 oil
 	# (fract 0.5) against a neighbour holding 30/40 (ofract
 	# 0.75) transfers nothing (ofract < fract fails), the
-	# store stays 20 -- but the cursor STILL advances 0 -> 1,
-	# because incrementDump runs every iteration, before any
-	# gate. A neighbour that refuses (accepts false) takes
-	# nothing either, with the cursor advancing the same way.
+	# store stays 20 -- and the cursor stays 0 (N2385: the
+	# full-cycle scan wraps (0+1)%1 back to 0 even though
+	# incrementDump runs every iteration, before any gate).
+	# A neighbour that refuses (accepts false) takes nothing
+	# either, with the cursor staying 0 the same way.
 	var full_liquids: Dictionary = liquid_module_state.source_initial_state(content_liquid_ids)
 	liquid_module_state.source_set_state(full_liquids, oil_id, 20.0)
 	var full_neighbour: Dictionary = {"amount": 30.0, "capacity": 40.0, "accepts": true, "has_liquids": true, "can_dump": true, "liquids_present": true, "destination_present": true, "relative_to": 0}
@@ -100,7 +102,7 @@ func _ready() -> void:
 	var refused: Dictionary = fracker_build_state.source_fracker_dump_liquid_state({"liquids": full_liquids, "cdump": 0}, oil_id, 40.0, [refusing_neighbour])
 	var refused_liquids_after: Dictionary = refused.get("liquids_after", {})
 	var refused_oil: float = float(liquid_module_state.source_get_state(refused_liquids_after, oil_id).get("amount", -1.0))
-	proof["dump_no_transfer_when_neighbour_full"] = is_equal_approx(float(full.get("dumped_amount", -1.0)), 0.0) and is_equal_approx(full_oil, 20.0) and int(full.get("cursor_after", -1)) == 1 and is_equal_approx(float(refused.get("dumped_amount", -1.0)), 0.0) and is_equal_approx(refused_oil, 20.0) and int(refused.get("cursor_after", -1)) == 1
+	proof["dump_no_transfer_when_neighbour_full"] = is_equal_approx(float(full.get("dumped_amount", -1.0)), 0.0) and is_equal_approx(full_oil, 20.0) and int(full.get("cursor_after", -1)) == 0 and is_equal_approx(float(refused.get("dumped_amount", -1.0)), 0.0) and is_equal_approx(refused_oil, 20.0) and int(refused.get("cursor_after", -1)) == 0
 
 	# No transfer below the threshold: 0.0001f oil hits the
 	# early return (BuildingComp.java:889), so nothing dumps
