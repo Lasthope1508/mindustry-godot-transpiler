@@ -92,21 +92,27 @@ func _ready() -> void:
 	var small_moved_vector: Dictionary = small_moved.get("pay_vector", {})
 	proof["large_def_size_5_move_out_dest"] = is_equal_approx(float(large_moved_vector.get("x", -1.0)), 20.0) and is_equal_approx(float(large_moved_vector.get("y", -1.0)), 0.0) and is_equal_approx(float(large_moved.get("pay_rotation", -1.0)), 85.0) and is_equal_approx(float(small_moved_vector.get("x", -1.0)), 18.8) and is_equal_approx(float(small_moved_vector.get("y", -1.0)), 0.0) and is_equal_approx(float(small_moved.get("pay_rotation", -1.0)), 85.0)
 
-	# --- Live tick: two linked pairs, each 40 cells apart.
-	# The tick reads the GAME tile_size (32, playable_content.
-	# json -- Main's ready runs load_config before this proof
-	# body, so game tile_size is 32 here, NOT the Java
-	# tilesize 8 the pures take as a param): 40 cells * 32 =
-	# 1280 world units -- past the small range 700 and inside
-	# the large range 2100. The large pair links: both switch
-	# idle -> shooting (PayloadMassDriver.java:212-213) with
-	# the link refreshed to the partner pos. The small pair
-	# does NOT link at the same separation: both stay idle
-	# with the stale link untouched (linkValid,
+	# --- Live tick: two linked pairs at different
+	# separations. The tick reads the JAVA tilesize constant
+	# 8.0 for world-coord math (N2364: the game tile_size 32
+	# in playable_content.json is rendering px per tile, NOT
+	# Java world units -- game.get("tile_size") is still 32
+	# here, pinned by the key below, but the driver never
+	# reads it for link math). The large pair is 40 cells
+	# apart: 40 * 8 = 320 world units, inside the large range
+	# 2100 -- both switch idle -> shooting
+	# (PayloadMassDriver.java:212-213) with the link
+	# refreshed to the partner pos. The small pair is 100
+	# cells apart (N2365 re-seed: the pair was 40 cells,
+	# 320 < 700, which LINKED under Java math after the N2364
+	# fix -- 40 * 32 = 1280 > 700 only held under the old
+	# 4x-wrong port math): 100 * 8 = 800 world units, past
+	# the small range 700 -- both stay idle with the stale
+	# link untouched (linkValid,
 	# PayloadMassDriver.java:466-468, within is STRICT dst <
 	# range). Footprints are disjoint (large size 5 spans
 	# origin +- 2, small size 3 spans origin +- 1): large
-	# (28, 21) / (68, 21), small (28, 26) / (68, 26). The
+	# (28, 21) / (68, 21), small (28, 26) / (128, 26). The
 	# tick runs at half power (efficiency 0.5): the large
 	# driver discharges its charge 50 -> 40 (raw Time.delta,
 	# PayloadMassDriver.java:162) and decays its reload
@@ -119,11 +125,11 @@ func _ready() -> void:
 	var large_a_cell := Vector2i(28, 21)
 	var large_b_cell := Vector2i(68, 21)
 	var small_a_cell := Vector2i(28, 26)
-	var small_b_cell := Vector2i(68, 26)
+	var small_b_cell := Vector2i(128, 26)
 	var large_a_pos: int = (28 << 16) | 21
 	var large_b_pos: int = (68 << 16) | 21
 	var small_a_pos: int = (28 << 16) | 26
-	var small_b_pos: int = (68 << 16) | 26
+	var small_b_pos: int = (128 << 16) | 26
 	var large_a := Sprite2D.new()
 	game.add_child(large_a)
 	game.call("record_placed_block", large_a, blocks_by_id["large-payload-mass-driver"], large_a_cell)

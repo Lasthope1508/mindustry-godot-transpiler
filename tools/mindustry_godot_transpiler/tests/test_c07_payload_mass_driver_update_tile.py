@@ -371,9 +371,15 @@ class C07PayloadMassDriverUpdateTileTests(unittest.TestCase):
         # range in tiles was 4x SHORTER than Java's.
         # Boundary numbers (the deviation, verified FIRST):
         # 30 cells apart: Java 30*8 = 240 < 700 in range, old
-        # port 30*32 = 960 > 700 out of range. 40 cells (the
-        # N2357 small pair): Java 320 < 700 in, old port 1280
-        # > 700 out. 87 cells is the last in-range separation
+        # port 30*32 = 960 > 700 out of range. 40 cells: Java
+        # 320 < 700 in, old port 1280 > 700 out -- this was
+        # the N2357 small pair's separation, which LINKED
+        # under Java math after this fix, so N2365 re-seeded
+        # the pair to 100 cells: Java 100*8 = 800 > 700 out,
+        # old port 100*32 = 3200 > 700 out (the small pair
+        # stays idle at the new separation, the large pair
+        # stays 40 cells apart: 320 < 2100, still links).
+        # 87 cells is the last in-range separation
         # for the small def under Java math (696 < 700); 88
         # cells (704 > 700) stays out of range after the fix.
         # Large def: 262 cells in (2096 < 2100), 263 out
@@ -386,6 +392,8 @@ class C07PayloadMassDriverUpdateTileTests(unittest.TestCase):
         self.assertGreater(30 * game_tile_size, small_range)
         self.assertLess(40 * java_tilesize, small_range)
         self.assertGreater(40 * game_tile_size, small_range)
+        self.assertGreater(100 * java_tilesize, small_range)
+        self.assertGreater(100 * game_tile_size, small_range)
         self.assertLess(87 * java_tilesize, small_range)
         self.assertGreater(88 * java_tilesize, small_range)
         self.assertLess(262 * java_tilesize, large_range)
@@ -423,27 +431,29 @@ class C07PayloadMassDriverUpdateTileTests(unittest.TestCase):
         # MassDriver fix slice updates it when it lands.
         mass_driver = (ROOT / 'godot-mindustry/src/game/SourceMassDriverBuildState.gd').read_text(encoding='utf-8')
         self.assertIn('game.get("tile_size")', mass_driver)
-        # N2357 RE-RUN NOTE (not a silent edit): the N2357
-        # proof fixture still encodes the pre-fix 32x
-        # assumption -- the small pair sits 40 cells apart
+        # N2357 RE-RUN NOTE (N2365 did the re-seed): the
+        # N2357 proof fixture used to encode the pre-fix 32x
+        # assumption -- the small pair sat 40 cells apart
         # (1280 world units at game tile_size 32, past the
         # small range 700) and the
         # large_def_range_2100_live_link key asserts both
-        # stay idle. After N2364 the same pair is 320 world
+        # stay idle. After N2364 the same pair was 320 world
         # units apart under Java math -- inside 700 -- so
-        # both switch idle -> shooting and that key FAILS in
-        # Godot until a follow-up slice re-seeds the small
-        # pair beyond Java small range (e.g. 100 cells = 800
-        # units: past 700, still inside the large 2100). The
-        # other N2357 keys are unaffected (catalog rows, the
-        # pure chargeTime / move-out fixtures already pass
-        # 8.0, the accept gate reads offered size, not link
-        # state). This pin documents the fixture as-is; the
-        # follow-up slice updates it (and the key) together.
+        # both would switch idle -> shooting and that key
+        # would FAIL in Godot. N2365 re-seeded the small
+        # pair to 100 cells (800 units: past 700, still
+        # inside the large 2100) and the key holds again.
+        # The other N2357 keys are unaffected (catalog rows,
+        # the pure chargeTime / move-out fixtures already
+        # pass 8.0, the accept gate reads offered size, not
+        # link state). The N2357 proof still needs a RE-RUN
+        # on the Godot side after the re-seed. This pin
+        # documents the fixture as-is.
         large_proof = PAYLOAD_MASS_DRIVER_LARGE_VARIANT_PROOF.read_text(encoding='utf-8')
-        self.assertIn('40 cells * 32 =', large_proof)
+        self.assertIn('100 * 8 = 800 world units', large_proof)
         self.assertIn('Vector2i(28, 26)', large_proof)
-        self.assertIn('Vector2i(68, 26)', large_proof)
+        self.assertIn('Vector2i(128, 26)', large_proof)
+        self.assertNotIn('Vector2i(68, 26)', large_proof)
         self.assertIn('large_def_range_2100_live_link', large_proof)
 
     def test_reference_graph_and_actual_c07_payload_mass_driver_update_tile(self):

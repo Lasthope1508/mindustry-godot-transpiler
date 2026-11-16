@@ -204,11 +204,13 @@ class C07PayloadMassDriverLargeVariantTests(unittest.TestCase):
         # The proof's keys drive the large def end to end:
         # the catalog rows, the 100f chargeTime discriminator
         # (a charge that fires the small def does not fire
-        # the large def), the 2100f range live link (a pair
-        # 1280 world units apart -- 40 cells at the game
-        # tile_size 32 -- links for the large def and not for
-        # the small def), the size-5 move-out dest,
-        # and the live per-def accept verdict. Static checks:
+        # the large def), the 2100f range live link (the
+        # large pair 40 cells apart -- 320 Java world units
+        # -- links, the small pair 100 cells apart -- 800
+        # Java world units, re-seeded N2365 after the N2364
+        # tile-size fix -- does not), the size-5 move-out
+        # dest, and the live per-def accept verdict. Static
+        # checks:
         # the proof preloads the family state file that
         # exists, and the scene file references the proof
         # script that exists.

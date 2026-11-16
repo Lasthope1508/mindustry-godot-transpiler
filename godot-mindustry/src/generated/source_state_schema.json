@@ -237029,7 +237029,7 @@
           "status": "source-backed",
           "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
           "java_expr": "Vec2 dest = Tmp.v1.trns(rotdeg(), size * tilesize/2f);",
-          "rule": "The world tilesize (Vars.tilesize 8, Vars.java:135; the game tile_size when set): the moveOut dest is size * tilesize / 2f out along rotdeg.",
+          "rule": "The world tilesize (Vars.tilesize 8, Vars.java:135; N2364: the game tile_size 32 is rendering px per tile, never a world unit): the moveOut dest is size * tilesize / 2f out along rotdeg.",
           "used_by": [
             "SourcePayloadMassDriverBuildState.source_payload_mass_driver_update_tile_advance_state"
           ]
