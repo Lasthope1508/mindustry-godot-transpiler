@@ -5615,6 +5615,24 @@
       ],
       "runtime_proof": "/root/C07SeparatorNeighbourWriteBackProof"
     },
+    "N2360": {
+      "canonical_ledger": "source_slice_ledger.N2360",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.dump(Item)",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_timer_dump_state",
+      "source_symbols": [
+        "source_burst_drill_timer_dump_state_result.dump_neighbour_index",
+        "source_burst_drill_timer_dump_state_result.dumped_item"
+      ],
+      "tests": [
+        "test_c07_burst_drill_timer_dump_write_back_registration",
+        "test_all_c07_burst_drill_timer_dump_write_back_input_evidence_is_exact",
+        "test_burst_drill_timer_dump_write_back_state",
+        "test_reference_graph_and_actual_c07_burst_drill_timer_dump_write_back"
+      ],
+      "runtime_proof": "/root/C07BurstDrillTimerDumpWriteBackProof"
+    },
     "N514": {
       "canonical_ledger": "source_slice_ledger.N514",
       "status": "done",

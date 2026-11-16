@@ -247815,6 +247815,202 @@
       },
       "runtime_proof": "/root/C07ShockwaveTowerDrawRowsProof",
       "rule": "Source-backed ShockwaveTower draw rows from ShockwaveTower.java / Blocks.java."
+    },
+    "source_unit_assembler_module_fits_state_input": {
+      "status": "active",
+      "owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_fits_state",
+      "source_slice": "N2358",
+      "keys": {
+        "module": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "public boolean moduleFits(Block other, float ox, float oy, int rotation){",
+          "rule": "The module geometry (UnitAssembler.java:338, the moduleFits parameters): {\"x\", \"y\"} are the module world coords (ox, oy -- getLink passes x * tilesize + offset, UnitAssemblerModule.java:68), \"size\" is other.size (the module block size, 5 for basic-assembler-module, Blocks.java:6572; default 1, the Block class default, Block.java:215), \"rotation\" is the module rotation the dx/dy reach and the relativeTo check use.",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_fits_state"
+          ]
+        },
+        "assembler": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "public Vec2 getUnitSpawn(){",
+          "rule": "The assembler geometry (UnitAssembler.java:332, getUnitSpawn -- the spawn source): {\"x\", \"y\"} are the assembler world coords, \"size\" is the assembler block size (5 for all three defs; default 1, Block.java:215), \"rotation\" is the ASSEMBLER rotation the spawn offset uses (it differs from the module rotation in general), \"area_size\" is the assembler areaSize (default 11, the UnitAssembler class default, UnitAssembler.java:45; the three defs all set 13, Blocks.java:6531/6546/6561).",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_fits_state"
+          ]
+        },
+        "tilesize": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/Vars.java",
+          "java_expr": "public static final int tilesize = 8;",
+          "rule": "The world tilesize in pixels (Vars.java:135): the unit of every moduleFits distance (the spawn len, the dx/dy reach, the dst target).",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_fits_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07UnitAssemblerModuleGetLinkDiscoveryProof",
+      "rule": "Source-backed UnitAssemblerModule getLink discovery from UnitAssembler.java / UnitAssemblerModule.java."
+    },
+    "source_unit_assembler_module_fits_state_result": {
+      "status": "active",
+      "owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_fits_state",
+      "source_slice": "N2358",
+      "keys": {
+        "fits": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "return Mathf.equal(dst, tilesize * areaSize / 2f - tilesize/2f);",
+          "rule": "The moduleFits verdict (UnitAssembler.java:350, the Mathf.equal return): true only when the relativeTo direction equals the module rotation AND the Chebyshev dst equals tilesize * areaSize / 2f - tilesize/2f within the FLOAT_ROUNDING_ERROR tolerance (arc Mathf.java:544-546). Geometry only -- no tier term (UnitAssembler.java:338-351).",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_fits_state"
+          ]
+        },
+        "spawn": {
+          "type": "Vector2",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "return Tmp.v4.set(unitX, unitY);",
+          "rule": "The assembler unit-spawn point (UnitAssembler.java:335, getUnitSpawn): the assembler world pos plus Geometry.d4x/d4y(assembler rotation) * tilesize * (areaSize + size)/2f (UnitAssembler.java:333-334).",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_fits_state"
+          ]
+        },
+        "dx": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "dx = ox + Geometry.d4x(rotation) * (other.size/2f + 0.5f) * tilesize,",
+          "rule": "The reached x (UnitAssembler.java:340): the module world x plus Geometry.d4x(module rotation) * (other.size/2f + 0.5f) * tilesize.",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_fits_state"
+          ]
+        },
+        "dy": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "dy = oy + Geometry.d4y(rotation) * (other.size/2f + 0.5f) * tilesize;",
+          "rule": "The reached y (UnitAssembler.java:341): the module world y plus Geometry.d4y(module rotation) * (other.size/2f + 0.5f) * tilesize.",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_fits_state"
+          ]
+        },
+        "dst": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "float dst = Math.max(Math.abs(dx - spawn.x), Math.abs(dy - spawn.y));",
+          "rule": "The Chebyshev distance from the reached point to the spawn (UnitAssembler.java:349).",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_fits_state"
+          ]
+        },
+        "target": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "return Mathf.equal(dst, tilesize * areaSize / 2f - tilesize/2f);",
+          "rule": "The dst the fit requires (UnitAssembler.java:350): tilesize * areaSize / 2f - tilesize/2f (48 for areaSize 13, 40 for the class default 11).",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_fits_state"
+          ]
+        },
+        "relative_to": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "if(Tile.relativeTo(ox, oy, spawn.x, spawn.y) != rotation){",
+          "rule": "The Tile.relativeTo float direction from the module pos to the spawn (UnitAssembler.java:345, Tile.java:103-113): 0-3 when the spawn sits in a cardinal direction from the module, -1 when it is within 1px on both axes. The fit requires it to equal the module rotation.",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_fits_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07UnitAssemblerModuleGetLinkDiscoveryProof",
+      "rule": "Source-backed UnitAssemblerModule getLink discovery from UnitAssembler.java / UnitAssemblerModule.java."
+    },
+    "source_unit_assembler_module_get_link_state_input": {
+      "status": "active",
+      "owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_get_link_state",
+      "source_slice": "N2358",
+      "keys": {
+        "module": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+          "java_expr": "return results.find(b -> b.moduleFits(this, x * tilesize + offset, y * tilesize + offset, rotation));",
+          "rule": "The module geometry the candidates are tested against (UnitAssemblerModule.java:68, the find predicate args): {\"x\", \"y\"} are the module world coords (x * tilesize + offset), \"size\" is the module block size, \"rotation\" is the module rotation.",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_get_link_state"
+          ]
+        },
+        "candidates": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+          "java_expr": "var results = Vars.indexer.getFlagged(team, BlockFlag.unitAssembler).<UnitAssemblerBuild>as();",
+          "rule": "The EXPLICIT candidate list (UnitAssemblerModule.java:66, the flagged-assembler scan -- the port has no team-wide flagged index, so the list is a frame input): each entry is {\"block\": <id>, \"cell\": <Vector2i>, \"rotation\": <int>, \"size\": <int>, \"area_size\": <int>, \"x\": <float>, \"y\": <float>} -- x/y are the assembler world coords, cell the origin cell. Non-dict entries and entries without block/cell skip (they cannot form the N2351 link format).",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_get_link_state"
+          ]
+        },
+        "tilesize": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/Vars.java",
+          "java_expr": "public static final int tilesize = 8;",
+          "rule": "The world tilesize in pixels (Vars.java:135), passed through to the fits pure.",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_get_link_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07UnitAssemblerModuleGetLinkDiscoveryProof",
+      "rule": "Source-backed UnitAssemblerModule getLink discovery from UnitAssembler.java / UnitAssemblerModule.java."
+    },
+    "source_unit_assembler_module_get_link_state_result": {
+      "status": "active",
+      "owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_get_link_state",
+      "source_slice": "N2358",
+      "keys": {
+        "link": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+          "java_expr": "link = getLink(team, tile.x, tile.y, rotation);",
+          "rule": "The discovered link (UnitAssemblerModule.java:79, the findLink assignment): the first fitting candidate as the N2351 link format {\"block\", \"cell\": Vector2i} (cell = assembler origin cell), or null when nothing fits (Java Seq.find returns null).",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_get_link_state"
+          ]
+        },
+        "candidate_index": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+          "java_expr": "return results.find(b -> b.moduleFits(this, x * tilesize + offset, y * tilesize + offset, rotation));",
+          "rule": "The index of the first fitting candidate in list order (UnitAssemblerModule.java:68, Seq.find returns the FIRST match), or -1 when nothing fits.",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_get_link_state"
+          ]
+        },
+        "checked": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+          "java_expr": "var results = Vars.indexer.getFlagged(team, BlockFlag.unitAssembler).<UnitAssemblerBuild>as();",
+          "rule": "How many candidates the fits pure evaluated (UnitAssemblerModule.java:66, the scanned results): skipped malformed entries do not count, and the scan stops at the first fit.",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_get_link_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07UnitAssemblerModuleGetLinkDiscoveryProof",
+      "rule": "Source-backed UnitAssemblerModule getLink discovery from UnitAssembler.java / UnitAssemblerModule.java."
     }
   },
   "version": 1

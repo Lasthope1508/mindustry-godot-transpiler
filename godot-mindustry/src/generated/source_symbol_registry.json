@@ -182872,6 +182872,230 @@
         "test_reference_graph_and_actual_c07_shockwave_tower_draw_rows"
       ],
       "runtime_proof": "/root/C07ShockwaveTowerDrawRowsProof"
+    },
+    "source_unit_assembler_module_fits_state_result.fits": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_fits_state",
+      "godot_symbol": "source_unit_assembler_module_fits_state_result.fits",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_method": "UnitAssemblerBuild.moduleFits()",
+      "java_expr": "return Mathf.equal(dst, tilesize * areaSize / 2f - tilesize/2f);",
+      "rule": "The moduleFits verdict (UnitAssembler.java:350, the Mathf.equal return): true only when the relativeTo direction equals the module rotation AND the Chebyshev dst equals tilesize * areaSize / 2f - tilesize/2f within the FLOAT_ROUNDING_ERROR tolerance (arc Mathf.java:544-546). Geometry only -- no tier term (UnitAssembler.java:338-351).",
+      "tests": [
+        "test_c07_unit_assembler_module_get_link_discovery_registration",
+        "test_all_c07_unit_assembler_module_get_link_discovery_input_evidence_is_exact",
+        "test_unit_assembler_module_get_link_discovery_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_get_link_discovery"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleGetLinkDiscoveryProof"
+    },
+    "source_unit_assembler_module_fits_state_result.spawn": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_fits_state",
+      "godot_symbol": "source_unit_assembler_module_fits_state_result.spawn",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_method": "UnitAssemblerBuild.moduleFits()",
+      "java_expr": "return Tmp.v4.set(unitX, unitY);",
+      "rule": "The assembler unit-spawn point (UnitAssembler.java:335, getUnitSpawn): the assembler world pos plus Geometry.d4x/d4y(assembler rotation) * tilesize * (areaSize + size)/2f (UnitAssembler.java:333-334).",
+      "tests": [
+        "test_c07_unit_assembler_module_get_link_discovery_registration",
+        "test_all_c07_unit_assembler_module_get_link_discovery_input_evidence_is_exact",
+        "test_unit_assembler_module_get_link_discovery_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_get_link_discovery"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleGetLinkDiscoveryProof"
+    },
+    "source_unit_assembler_module_fits_state_result.dx": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_fits_state",
+      "godot_symbol": "source_unit_assembler_module_fits_state_result.dx",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_method": "UnitAssemblerBuild.moduleFits()",
+      "java_expr": "dx = ox + Geometry.d4x(rotation) * (other.size/2f + 0.5f) * tilesize,",
+      "rule": "The reached x (UnitAssembler.java:340): the module world x plus Geometry.d4x(module rotation) * (other.size/2f + 0.5f) * tilesize.",
+      "tests": [
+        "test_c07_unit_assembler_module_get_link_discovery_registration",
+        "test_all_c07_unit_assembler_module_get_link_discovery_input_evidence_is_exact",
+        "test_unit_assembler_module_get_link_discovery_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_get_link_discovery"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleGetLinkDiscoveryProof"
+    },
+    "source_unit_assembler_module_fits_state_result.dy": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_fits_state",
+      "godot_symbol": "source_unit_assembler_module_fits_state_result.dy",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_method": "UnitAssemblerBuild.moduleFits()",
+      "java_expr": "dy = oy + Geometry.d4y(rotation) * (other.size/2f + 0.5f) * tilesize;",
+      "rule": "The reached y (UnitAssembler.java:341): the module world y plus Geometry.d4y(module rotation) * (other.size/2f + 0.5f) * tilesize.",
+      "tests": [
+        "test_c07_unit_assembler_module_get_link_discovery_registration",
+        "test_all_c07_unit_assembler_module_get_link_discovery_input_evidence_is_exact",
+        "test_unit_assembler_module_get_link_discovery_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_get_link_discovery"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleGetLinkDiscoveryProof"
+    },
+    "source_unit_assembler_module_fits_state_result.dst": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_fits_state",
+      "godot_symbol": "source_unit_assembler_module_fits_state_result.dst",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_method": "UnitAssemblerBuild.moduleFits()",
+      "java_expr": "float dst = Math.max(Math.abs(dx - spawn.x), Math.abs(dy - spawn.y));",
+      "rule": "The Chebyshev distance from the reached point to the spawn (UnitAssembler.java:349).",
+      "tests": [
+        "test_c07_unit_assembler_module_get_link_discovery_registration",
+        "test_all_c07_unit_assembler_module_get_link_discovery_input_evidence_is_exact",
+        "test_unit_assembler_module_get_link_discovery_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_get_link_discovery"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleGetLinkDiscoveryProof"
+    },
+    "source_unit_assembler_module_fits_state_result.target": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_fits_state",
+      "godot_symbol": "source_unit_assembler_module_fits_state_result.target",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_method": "UnitAssemblerBuild.moduleFits()",
+      "java_expr": "return Mathf.equal(dst, tilesize * areaSize / 2f - tilesize/2f);",
+      "rule": "The dst the fit requires (UnitAssembler.java:350): tilesize * areaSize / 2f - tilesize/2f (48 for areaSize 13, 40 for the class default 11).",
+      "tests": [
+        "test_c07_unit_assembler_module_get_link_discovery_registration",
+        "test_all_c07_unit_assembler_module_get_link_discovery_input_evidence_is_exact",
+        "test_unit_assembler_module_get_link_discovery_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_get_link_discovery"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleGetLinkDiscoveryProof"
+    },
+    "source_unit_assembler_module_fits_state_result.relative_to": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_fits_state",
+      "godot_symbol": "source_unit_assembler_module_fits_state_result.relative_to",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_method": "UnitAssemblerBuild.moduleFits()",
+      "java_expr": "if(Tile.relativeTo(ox, oy, spawn.x, spawn.y) != rotation){",
+      "rule": "The Tile.relativeTo float direction from the module pos to the spawn (UnitAssembler.java:345, Tile.java:103-113): 0-3 when the spawn sits in a cardinal direction from the module, -1 when it is within 1px on both axes. The fit requires it to equal the module rotation.",
+      "tests": [
+        "test_c07_unit_assembler_module_get_link_discovery_registration",
+        "test_all_c07_unit_assembler_module_get_link_discovery_input_evidence_is_exact",
+        "test_unit_assembler_module_get_link_discovery_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_get_link_discovery"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleGetLinkDiscoveryProof"
+    },
+    "source_unit_assembler_module_get_link_state_result.link": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_get_link_state",
+      "godot_symbol": "source_unit_assembler_module_get_link_state_result.link",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+      "java_method": "UnitAssemblerModule.getLink()",
+      "java_expr": "link = getLink(team, tile.x, tile.y, rotation);",
+      "rule": "The discovered link (UnitAssemblerModule.java:79, the findLink assignment): the first fitting candidate as the N2351 link format {\"block\", \"cell\": Vector2i} (cell = assembler origin cell), or null when nothing fits (Java Seq.find returns null).",
+      "tests": [
+        "test_c07_unit_assembler_module_get_link_discovery_registration",
+        "test_all_c07_unit_assembler_module_get_link_discovery_input_evidence_is_exact",
+        "test_unit_assembler_module_get_link_discovery_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_get_link_discovery"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleGetLinkDiscoveryProof"
+    },
+    "source_unit_assembler_module_get_link_state_result.candidate_index": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_get_link_state",
+      "godot_symbol": "source_unit_assembler_module_get_link_state_result.candidate_index",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+      "java_method": "UnitAssemblerModule.getLink()",
+      "java_expr": "return results.find(b -> b.moduleFits(this, x * tilesize + offset, y * tilesize + offset, rotation));",
+      "rule": "The index of the first fitting candidate in list order (UnitAssemblerModule.java:68, Seq.find returns the FIRST match), or -1 when nothing fits.",
+      "tests": [
+        "test_c07_unit_assembler_module_get_link_discovery_registration",
+        "test_all_c07_unit_assembler_module_get_link_discovery_input_evidence_is_exact",
+        "test_unit_assembler_module_get_link_discovery_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_get_link_discovery"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleGetLinkDiscoveryProof"
+    },
+    "source_unit_assembler_module_get_link_state_result.checked": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_get_link_state",
+      "godot_symbol": "source_unit_assembler_module_get_link_state_result.checked",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+      "java_method": "UnitAssemblerModule.getLink()",
+      "java_expr": "var results = Vars.indexer.getFlagged(team, BlockFlag.unitAssembler).<UnitAssemblerBuild>as();",
+      "rule": "How many candidates the fits pure evaluated (UnitAssemblerModule.java:66, the scanned results): skipped malformed entries do not count, and the scan stops at the first fit.",
+      "tests": [
+        "test_c07_unit_assembler_module_get_link_discovery_registration",
+        "test_all_c07_unit_assembler_module_get_link_discovery_input_evidence_is_exact",
+        "test_unit_assembler_module_get_link_discovery_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_get_link_discovery"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleGetLinkDiscoveryProof"
+    },
+    "source_burst_drill_timer_dump_state_result.dump_neighbour_index": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_timer_dump_state",
+      "godot_symbol": "source_burst_drill_timer_dump_state_result.dump_neighbour_index",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.dump(Item)",
+      "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+      "rule": "The routed neighbour index the dump handed the item to (BuildingComp.java:1082/:1099, `Building other = proximity.get((i + dump) % proximity.size);`): the handled index dump_item_state reports (SOURCE_DRILL_INVENTORY_HANDLED_INDEX_KEY), -1 when nothing dumped. Index i is ring cell i (the N2353 convention).",
+      "tests": [
+        "test_c07_burst_drill_timer_dump_write_back_registration",
+        "test_all_c07_burst_drill_timer_dump_write_back_input_evidence_is_exact",
+        "test_burst_drill_timer_dump_write_back_state",
+        "test_reference_graph_and_actual_c07_burst_drill_timer_dump_write_back"
+      ],
+      "runtime_proof": "/root/C07BurstDrillTimerDumpWriteBackProof"
+    },
+    "source_burst_drill_timer_dump_state_result.dumped_item": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_timer_dump_state",
+      "godot_symbol": "source_burst_drill_timer_dump_state_result.dumped_item",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.dump(Item)",
+      "java_expr": "other.handleItem(self(), todump);",
+      "rule": "The item the dump handed over (BuildingComp.java:1103, `other.handleItem(self(), todump);`, the specific branch; the dump(null) branch hands over the first held item in content order, :1089, `other.handleItem(self(), item);`): the port handled_item, \"\" when nothing dumped.",
+      "tests": [
+        "test_c07_burst_drill_timer_dump_write_back_registration",
+        "test_all_c07_burst_drill_timer_dump_write_back_input_evidence_is_exact",
+        "test_burst_drill_timer_dump_write_back_state",
+        "test_reference_graph_and_actual_c07_burst_drill_timer_dump_write_back"
+      ],
+      "runtime_proof": "/root/C07BurstDrillTimerDumpWriteBackProof"
+    },
+    "source_separator_timer_dump_state_result.dump_neighbour_index": {
+      "status": "source-backed",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_timer_dump_state",
+      "godot_symbol": "source_separator_timer_dump_state_result.dump_neighbour_index",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "SeparatorBuild.updateTile()",
+      "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+      "rule": "The routed neighbour's proximity index (BuildingComp.java:1088, `Building other = proximity.get((i + dump) % proximity.size);`): the handled neighbour dump_item_state reports (handled_index), -1 when nothing dumped; the tick maps it to ring cell i through the shared neighbour write-back helper (N2353).",
+      "tests": [
+        "test_c07_separator_timer_dump_write_back_registration",
+        "test_all_c07_separator_timer_dump_write_back_input_evidence_is_exact",
+        "test_separator_timer_dump_write_back_state",
+        "test_reference_graph_and_actual_c07_separator_timer_dump_write_back"
+      ],
+      "runtime_proof": "/root/C07SeparatorTimerDumpWriteBackProof"
+    },
+    "source_separator_timer_dump_state_result.dumped_item": {
+      "status": "source-backed",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_timer_dump_state",
+      "godot_symbol": "source_separator_timer_dump_state_result.dumped_item",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "SeparatorBuild.updateTile()",
+      "java_expr": "other.handleItem(self(), item);",
+      "rule": "The item the dump handed to the neighbour (BuildingComp.java:1089, `other.handleItem(self(), item);`): the first held item in content order an accepting neighbour takes (handled_item from dump_item_state), '' when nothing dumped; the tick lands it in the neighbour store through the shared neighbour write-back helper (N2353).",
+      "tests": [
+        "test_c07_separator_timer_dump_write_back_registration",
+        "test_all_c07_separator_timer_dump_write_back_input_evidence_is_exact",
+        "test_separator_timer_dump_write_back_state",
+        "test_reference_graph_and_actual_c07_separator_timer_dump_write_back"
+      ],
+      "runtime_proof": "/root/C07SeparatorTimerDumpWriteBackProof"
     }
   },
   "version": 1

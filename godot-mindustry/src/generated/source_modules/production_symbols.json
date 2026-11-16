@@ -7214,6 +7214,21 @@
       ],
       "runtime_proof": "/root/C07SeparatorTimerDumpProof"
     },
+    "source_separator_timer_dump_state_result.dump_neighbour_index": {
+      "canonical_symbol": "source_symbol_registry.source_separator_timer_dump_state_result.dump_neighbour_index",
+      "status": "source-backed",
+      "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+      "godot_symbol": "source_separator_timer_dump_state_result.dump_neighbour_index",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_timer_dump_state",
+      "rule": "The routed neighbour's proximity index (BuildingComp.java:1088, `Building other = proximity.get((i + dump) % proximity.size);`): the handled neighbour dump_item_state reports (handled_index), -1 when nothing dumped; the tick maps it to ring cell i through the shared neighbour write-back helper (N2353).",
+      "tests": [
+        "test_c07_separator_timer_dump_write_back_registration",
+        "test_all_c07_separator_timer_dump_write_back_input_evidence_is_exact",
+        "test_separator_timer_dump_write_back_state",
+        "test_reference_graph_and_actual_c07_separator_timer_dump_write_back"
+      ],
+      "runtime_proof": "/root/C07SeparatorTimerDumpWriteBackProof"
+    },
     "source_separator_timer_dump_state_result.dumped": {
       "canonical_symbol": "source_symbol_registry.source_separator_timer_dump_state_result.dumped",
       "status": "source-backed",
@@ -7228,6 +7243,21 @@
         "test_reference_graph_and_actual_c07_separator_timer_dump"
       ],
       "runtime_proof": "/root/C07SeparatorTimerDumpProof"
+    },
+    "source_separator_timer_dump_state_result.dumped_item": {
+      "canonical_symbol": "source_symbol_registry.source_separator_timer_dump_state_result.dumped_item",
+      "status": "source-backed",
+      "java_expr": "other.handleItem(self(), item);",
+      "godot_symbol": "source_separator_timer_dump_state_result.dumped_item",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_timer_dump_state",
+      "rule": "The item the dump handed to the neighbour (BuildingComp.java:1089, `other.handleItem(self(), item);`): the first held item in content order an accepting neighbour takes (handled_item from dump_item_state), '' when nothing dumped; the tick lands it in the neighbour store through the shared neighbour write-back helper (N2353).",
+      "tests": [
+        "test_c07_separator_timer_dump_write_back_registration",
+        "test_all_c07_separator_timer_dump_write_back_input_evidence_is_exact",
+        "test_separator_timer_dump_write_back_state",
+        "test_reference_graph_and_actual_c07_separator_timer_dump_write_back"
+      ],
+      "runtime_proof": "/root/C07SeparatorTimerDumpWriteBackProof"
     },
     "source_separator_timer_dump_state_result.elapsed_after": {
       "canonical_symbol": "source_symbol_registry.source_separator_timer_dump_state_result.elapsed_after",

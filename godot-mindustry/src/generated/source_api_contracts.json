@@ -74079,6 +74079,84 @@
       ],
       "runtime_proof": "/root/C07ShockwaveTowerDrawRowsProof",
       "rule": "Source-backed ShockwaveTower draw rows from ShockwaveTower.java / Blocks.java."
+    },
+    "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_fits_state": {
+      "status": "active",
+      "source_slice": "N2358",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "source_method": "UnitAssemblerBuild.moduleFits()",
+      "params": [
+        {
+          "name": "module",
+          "type": "Dictionary",
+          "schema": "source_unit_assembler_module_fits_state_input.module"
+        },
+        {
+          "name": "assembler",
+          "type": "Dictionary",
+          "schema": "source_unit_assembler_module_fits_state_input.assembler"
+        },
+        {
+          "name": "tilesize",
+          "type": "float",
+          "schema": "source_unit_assembler_module_fits_state_input.tilesize"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "fits",
+        "spawn",
+        "dx",
+        "dy",
+        "dst",
+        "target",
+        "relative_to"
+      ],
+      "tests": [
+        "test_c07_unit_assembler_module_get_link_discovery_registration",
+        "test_all_c07_unit_assembler_module_get_link_discovery_input_evidence_is_exact",
+        "test_unit_assembler_module_get_link_discovery_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_get_link_discovery"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleGetLinkDiscoveryProof",
+      "rule": "Source-backed UnitAssemblerModule getLink discovery from UnitAssembler.java / UnitAssemblerModule.java."
+    },
+    "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_get_link_state": {
+      "status": "active",
+      "source_slice": "N2358",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+      "source_method": "UnitAssemblerModule.getLink()",
+      "params": [
+        {
+          "name": "module",
+          "type": "Dictionary",
+          "schema": "source_unit_assembler_module_get_link_state_input.module"
+        },
+        {
+          "name": "candidates",
+          "type": "Array",
+          "schema": "source_unit_assembler_module_get_link_state_input.candidates"
+        },
+        {
+          "name": "tilesize",
+          "type": "float",
+          "schema": "source_unit_assembler_module_get_link_state_input.tilesize"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "link",
+        "candidate_index",
+        "checked"
+      ],
+      "tests": [
+        "test_c07_unit_assembler_module_get_link_discovery_registration",
+        "test_all_c07_unit_assembler_module_get_link_discovery_input_evidence_is_exact",
+        "test_unit_assembler_module_get_link_discovery_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_get_link_discovery"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleGetLinkDiscoveryProof",
+      "rule": "Source-backed UnitAssemblerModule getLink discovery from UnitAssembler.java / UnitAssemblerModule.java."
     }
   },
   "policy": {

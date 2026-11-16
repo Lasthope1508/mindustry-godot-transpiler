@@ -18494,6 +18494,66 @@
       "rule": "Source void mutation, verified against explicit GDScript -> void; input/owner/slice/proof checks remain mandatory. No result schema or fabricated wrapper.",
       "return_type": "void"
     },
+    "SourceBurstDrillBuildState.source_burst_drill_timer_dump_state": {
+      "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_burst_drill_timer_dump_state",
+      "status": "active",
+      "source_slice": "N2282",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "source_method": "BurstDrillBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_burst_drill_timer_dump_state_input.frame"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_burst_drill_timer_dump_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_burst_drill_timer_dump_state_input.time_scale"
+        },
+        {
+          "name": "dominant_item_name",
+          "type": "String",
+          "schema": "source_burst_drill_timer_dump_state_input.dominant_item_name"
+        },
+        {
+          "name": "content_item_ids",
+          "type": "Array",
+          "schema": "source_burst_drill_timer_dump_state_input.content_item_ids"
+        },
+        {
+          "name": "neighbour_accepts_item",
+          "type": "Array",
+          "schema": "source_burst_drill_timer_dump_state_input.neighbour_accepts_item"
+        },
+        {
+          "name": "neighbour_can_dump",
+          "type": "Array",
+          "schema": "source_burst_drill_timer_dump_state_input.neighbour_can_dump"
+        }
+      ],
+      "return_keys": [
+        "fired",
+        "elapsed_after",
+        "dumped",
+        "items_after",
+        "cursor_after"
+      ],
+      "tests": [
+        "test_c07_burst_drill_timer_dump_registration",
+        "test_all_c07_burst_drill_timer_dump_input_evidence_is_exact",
+        "test_burst_drill_timer_dump_state",
+        "test_reference_graph_and_actual_c07_burst_drill_timer_dump"
+      ],
+      "runtime_proof": "/root/C07BurstDrillTimerDumpProof",
+      "rule": "Source-backed BurstDrill timerDump dump rows from BurstDrill.java / BuildingComp.java / TimerComp.java.",
+      "return_type": "Dictionary"
+    },
     "SourceConduitRuntimeState.source_conduit_update_state": {
       "canonical_contract": "source_api_contracts.SourceConduitRuntimeState.source_conduit_update_state",
       "status": "active",

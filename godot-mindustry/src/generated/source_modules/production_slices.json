@@ -1628,6 +1628,45 @@
       ],
       "runtime_proof": "/root/C07BeamDrillFacingTilesFillProof"
     },
+    "N2361": {
+      "canonical_ledger": "source_slice_ledger.N2361",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "java_method": "SeparatorBuild.updateTile()",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_timer_dump_state",
+      "source_symbols": [
+        "source_separator_timer_dump_state_result.dump_neighbour_index",
+        "source_separator_timer_dump_state_result.dumped_item"
+      ],
+      "tests": [
+        "test_c07_separator_timer_dump_write_back_registration",
+        "test_all_c07_separator_timer_dump_write_back_input_evidence_is_exact",
+        "test_separator_timer_dump_write_back_state",
+        "test_reference_graph_and_actual_c07_separator_timer_dump_write_back"
+      ],
+      "runtime_proof": "/root/C07SeparatorTimerDumpWriteBackProof"
+    },
+    "N2363": {
+      "canonical_ledger": "source_slice_ledger.N2363",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.updateTile()",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_timer_dump_state",
+      "source_symbols": [
+        "source_beam_drill_timer_dump_state_result.fired",
+        "source_beam_drill_timer_dump_state_result.elapsed_after",
+        "source_beam_drill_timer_dump_state_result.dumped",
+        "source_beam_drill_timer_dump_state_result.items_after",
+        "source_beam_drill_timer_dump_state_result.cursor_after"
+      ],
+      "tests": [
+        "test_c07_beam_drill_timer_dump_write_back_registration",
+        "test_all_c07_beam_drill_timer_dump_write_back_input_evidence_is_exact",
+        "test_beam_drill_timer_dump_write_back_state",
+        "test_reference_graph_and_actual_c07_beam_drill_timer_dump_write_back"
+      ],
+      "runtime_proof": "/root/C07BeamDrillTimerDumpWriteBackProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",
