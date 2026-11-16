@@ -173784,6 +173784,38 @@
         "test_reference_graph_and_actual_c07_launch_pad_update_tile"
       ],
       "runtime_proof": "/root/C07LaunchPadUpdateTileProof"
+    },
+    "source_mass_driver_sense_state_result.sense_value": {
+      "status": "source-backed",
+      "godot_owner": "SourceMassDriverBuildState.source_mass_driver_sense_state",
+      "godot_symbol": "source_mass_driver_sense_state_result.sense_value",
+      "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+      "java_method": "MassDriverBuild.sense()",
+      "java_expr": "if(sensor == LAccess.progress) return Mathf.clamp(1f - reloadCounter);",
+      "rule": "The sensed progress value (MassDriver.java:224-227): the clamped reload fraction `Mathf.clamp(1f - reloadCounter)` when the sensor is \"progress\" (handled true, sense_value_is_nan false), null when the sensor is not handled (fall through to super.sense, handled false, sense_value_is_nan true).",
+      "tests": [
+        "test_c07_mass_driver_sense_progress_accept_item_registration",
+        "test_all_c07_mass_driver_sense_progress_accept_item_input_evidence_is_exact",
+        "test_mass_driver_sense_progress_accept_item_state",
+        "test_reference_graph_and_actual_c07_mass_driver_sense_progress_accept_item"
+      ],
+      "runtime_proof": "/root/C07MassDriverSenseProgressAcceptItemProof"
+    },
+    "source_mass_driver_accept_item_state_result.accept_item": {
+      "status": "source-backed",
+      "godot_owner": "SourceMassDriverBuildState.source_mass_driver_accept_item_state",
+      "godot_symbol": "source_mass_driver_accept_item_state_result.accept_item",
+      "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+      "java_method": "MassDriverBuild.acceptItem()",
+      "java_expr": "return items.total() < itemCapacity && linkValid();",
+      "rule": "The accept predicate (MassDriver.java:285-288): true when the held items total is below itemCapacity AND the link is valid -- \"mass drivers that output only cannot accept items\" (MassDriver.java:286) -- false otherwise.",
+      "tests": [
+        "test_c07_mass_driver_sense_progress_accept_item_registration",
+        "test_all_c07_mass_driver_sense_progress_accept_item_input_evidence_is_exact",
+        "test_mass_driver_sense_progress_accept_item_state",
+        "test_reference_graph_and_actual_c07_mass_driver_sense_progress_accept_item"
+      ],
+      "runtime_proof": "/root/C07MassDriverSenseProgressAcceptItemProof"
     }
   },
   "version": 1

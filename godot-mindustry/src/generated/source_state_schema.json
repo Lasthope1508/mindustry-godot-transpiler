@@ -231154,6 +231154,112 @@
       },
       "runtime_proof": "/root/C07LaunchPadUpdateTileProof",
       "rule": "Source-backed LaunchPad updateTile advance from LaunchPad.java / BuildingComp.java / Block.java / ItemModule.java."
+    },
+    "source_mass_driver_sense_state_input": {
+      "status": "active",
+      "owner": "SourceMassDriverBuildState.source_mass_driver_sense_state",
+      "source_slice": "N2208",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "public float reloadCounter = 0f;",
+          "rule": "The building frame carrying the reload_counter observation (MassDriver.java:117, `public float reloadCounter = 0f;`, drained by the updateTile advance every tick after the no-power skip and reset by fire()); a missing reload_counter key reads 0.0 -- the Java init default, not \"no observation yet\" -- because `public float reloadCounter = 0f;` is the init value, so a freshly built driver senses clamp(1 - 0) = 1.0, fully reloaded.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_sense_state"
+          ]
+        },
+        "sensor": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/logic/LAccess.java",
+          "java_expr": "progress,",
+          "rule": "The LAccess sensor enum name as a string (LAccess.java:28 lists `progress,`); the generic sense layer matches sensor strings by enum name (\"health\", \"maxHealth\", \"color\", ...). Only \"progress\" is handled by this override; any other sensor falls through to super.sense (MassDriver.java:226, `return super.sense(sensor);`).",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_sense_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07MassDriverSenseProgressAcceptItemProof",
+      "rule": "Source-backed MassDriver sense(progress) override + acceptItem predicate from MassDriver.java / BuildingComp.java / LAccess.java / ItemModule.java."
+    },
+    "source_mass_driver_sense_state_result": {
+      "status": "active",
+      "owner": "SourceMassDriverBuildState.source_mass_driver_sense_state",
+      "source_slice": "N2208",
+      "keys": {
+        "sense_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "if(sensor == LAccess.progress) return Mathf.clamp(1f - reloadCounter);",
+          "rule": "The sensed progress value (MassDriver.java:224-227): the clamped reload fraction `Mathf.clamp(1f - reloadCounter)` when the sensor is \"progress\" (handled true, sense_value_is_nan false), null when the sensor is not handled (fall through to super.sense, handled false, sense_value_is_nan true).",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_sense_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07MassDriverSenseProgressAcceptItemProof",
+      "rule": "Source-backed MassDriver sense(progress) override + acceptItem predicate from MassDriver.java / BuildingComp.java / LAccess.java / ItemModule.java."
+    },
+    "source_mass_driver_accept_item_state_input": {
+      "status": "active",
+      "owner": "SourceMassDriverBuildState.source_mass_driver_accept_item_state",
+      "source_slice": "N2208",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "public boolean acceptItem(Building source, Item item){",
+          "rule": "The building frame carrying the items_total observation (MassDriver.java:285, `public boolean acceptItem(Building source, Item item){` reads `items.total()`); a missing items_total key reads 0.0 -- a fresh ItemModule totals 0 (`protected int total;`, ItemModule.java:25, with `public int total(){` / `return total;`, ItemModule.java:174-175) -- so a fresh driver with a valid link accepts items, which IS the Java init behavior.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_accept_item_state"
+          ]
+        },
+        "item_capacity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "itemCapacity = 120;",
+          "rule": "The per-def itemCapacity the accept predicate runs the items total against (Blocks.java:2170, `itemCapacity = 120;` for mass-driver; class default 10, Block.java:75, `public int itemCapacity = 10;`); the caller passes it in, the N2207 launch-pad precedent.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_accept_item_state"
+          ]
+        },
+        "link_valid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "protected boolean linkValid(){",
+          "rule": "The caller-computed link validity (MassDriver.java:346, `protected boolean linkValid(){` with `if(link == -1) return false;` and the world.build(instanceof) check, MassDriver.java:347-348): linkValid() is a world query, so the pure accept function takes it as a bool; computing it from link state is its own later slice.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_accept_item_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07MassDriverSenseProgressAcceptItemProof",
+      "rule": "Source-backed MassDriver sense(progress) override + acceptItem predicate from MassDriver.java / BuildingComp.java / LAccess.java / ItemModule.java."
+    },
+    "source_mass_driver_accept_item_state_result": {
+      "status": "active",
+      "owner": "SourceMassDriverBuildState.source_mass_driver_accept_item_state",
+      "source_slice": "N2208",
+      "keys": {
+        "accept_item": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "return items.total() < itemCapacity && linkValid();",
+          "rule": "The accept predicate (MassDriver.java:285-288): true when the held items total is below itemCapacity AND the link is valid -- \"mass drivers that output only cannot accept items\" (MassDriver.java:286) -- false otherwise.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_accept_item_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07MassDriverSenseProgressAcceptItemProof",
+      "rule": "Source-backed MassDriver sense(progress) override + acceptItem predicate from MassDriver.java / BuildingComp.java / LAccess.java / ItemModule.java."
     }
   },
   "version": 1
