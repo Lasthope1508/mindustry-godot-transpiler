@@ -6,6 +6,7 @@ const source_placed_block_state := preload("res://src/game/SourcePlacedBlockStat
 const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
 const source_building_efficiency_state := preload("res://src/game/SourceBuildingEfficiencyState.gd")
 const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
+const source_unit_runtime_state := preload("res://src/game/SourceUnitRuntimeState.gd")
 
 # The RepairTurret implementation (RepairTurret.java:25, `public class RepairTurret extends Block{`): repair-point (powerUse 1f, Blocks.java:6391, `powerUse = 1f;`; repairSpeed 0.45f, repairRadius 60f, Blocks.java:6388-6389) and repair-turret (powerUse 5f, Blocks.java:6402, `powerUse = 5f;`; size 2, repairSpeed 3f, repairRadius 145f, Blocks.java:6398-6401). RepairTurret extends Block, NOT a factory or crafter, so no existing driver matches it and no frame key exists for it; this driver uses its own family frame key ("source_repair_turret_building", the radar precedent), and this slice adds the repair-turret key to N2142's SOURCE_CONSUMER_FRAME_META_KEYS so the graph stamp/write-back finds it. The port has NO SourceRepairTurret* files at all yet -- no display/runtime state to lean on -- so the missing piece is the live power.status -> efficiency driver, which is exactly this slice: the updateTile heal advance (RepairTurret.java:207, `target.heal(repairSpeed * strength * edelta() * multiplier);`) heals by edelta() (BuildingComp.java:1927-1929, `return efficiency * delta();`), so a repair turret with no power would never heal -- its target's health would sit frozen as if power.status were 1.0.
 const SOURCE_REPAIR_TURRET_BUILD_IMPLEMENTATIONS := ["RepairTurret"]
@@ -86,6 +87,59 @@ static func source_repair_turret_coolant_multiplier_state(frame: Dictionary, acc
 	var optional_efficiency: float = float(frame.get("optional_efficiency", 1.0))
 	return {"heal_multiplier": 1.0 + heat_capacity * coolant_multiplier * optional_efficiency, "coolant_active": true}
 
+static func _repair_radius_for_block_id(block_id: String) -> float:
+	# Per-def repairRadius (the catalog carries no
+	# repairRadius, so the driver resolves it from the block
+	# id, the N2209 per-def-param precedent): repair-point
+	# 60f (`repairRadius = 60f;`, Blocks.java:6389),
+	# repair-turret 145f (`repairRadius = 145f;`,
+	# Blocks.java:6400), class default 50f
+	# (`public float repairRadius = 50f;`, RepairTurret.java:31).
+	if block_id == "repair-point":
+		return 60.0
+	if block_id == "repair-turret":
+		return 145.0
+	return 50.0
+
+static func source_repair_turret_target_acquire_state(frame: Dictionary, units: Array, team_id: int, x: float, y: float, repair_radius: float, delta: float) -> Dictionary:
+	# RepairPointBuild.updateTile target acquisition
+	# (RepairTurret.java:193-199 + 214-217): the target is
+	# nulled when it dies, walks out of range, or is fully
+	# healed (`if(target != null && (target.dead() || target.dst(this) - target.hitSize/2f > repairRadius || target.health() >= target.maxHealth())){` / `target = null;`, RepairTurret.java:193-195), the beam offset is zeroed whenever there is no target (`if(target == null){` / `offset.setZero();`, RepairTurret.java:197-199), and the target is re-acquired every 20s through the closest damaged ally in range (`if(timer(timerTarget, 20)){` / `rect.setSize(repairRadius * 2).setCenter(x, y);` / `target = Units.closest(team, x, y, repairRadius, Unit::damaged);`, RepairTurret.java:214-217). The timer slot is `public int timerTarget = timers++;` (RepairTurret.java:29) on a per-building Interval (`transient Interval timer = new Interval(6);`, TimerComp.java:8); `timer()` (TimerComp.java:10-12, `public boolean timer(int index, float time){` / `if(Float.isInfinite(time)) return false;` / `return timer.get(index, time);`) delegates to `Interval.get`, which fires on elapsed game time (`return Time.time - times[id] >= time || Time.time < times[id];`, Interval.java:32, times[] init 0, so the first fire is at Time.time >= 20) and stamps the fire time (`if(got) times[id] = Time.time;`, Interval.java:31). The port models this with a per-frame accumulator `target_timer += delta; if target_timer >= 20.0: fire, target_timer = 0` -- reset-to-0 drops overshoot exactly like `Interval.get`; do NOT subtract the interval (that would carry overshoot and drift the re-acquire cadence vs Java). The invalidation reads the CURRENT unit record: the stored target is looked up by `id` in the units list (the stored dict is a snapshot, Java holds a live reference over `public Unit target;`, RepairTurret.java:154; a target whose id is absent from the list is gone, so it is dropped, and a stored target with no id cannot be re-identified, so it is dropped too). The health check is PLAIN `health >= maxHealth` (no 0.001 epsilon, unlike `damaged()`); the distance check is Euclidean dst minus hitSize/2, STRICTLY greater than repairRadius. The re-acquire replaces the target unconditionally on fire -- even a still-valid one is re-picked. The result is a 5-key dict: `target` (the target dict after this tick, null when none), `has_target` (the observation the N2188 shouldConsume gate reads, `return target != null && enabled;`, RepairTurret.java:222), `target_timer` (the accumulator after this tick, 0.0 on a fire), `offset` (the beam offset after this tick, zeroed whenever there is no target), and `reacquired` (whether the 20s timer fired this tick). The heal advance (RepairTurret.java:200-212) is NOT this slice -- it waits for its own slice.
+	var target: Variant = frame.get("target", null)
+	var target_timer: float = float(frame.get("target_timer", 0.0)) + delta
+	var offset: Vector2 = frame.get("offset", Vector2.ZERO)
+	var reacquired: bool = false
+	if target is Dictionary:
+		var target_id: int = int(target.get("id", -1))
+		var fresh: Dictionary = {}
+		for unit in units:
+			if unit is Dictionary and target_id >= 0 and int(unit.get("id", -1)) == target_id:
+				fresh = unit
+				break
+		if fresh.is_empty():
+			target = null
+		else:
+			var dead: bool = bool(fresh.get("dead", false))
+			var target_x: float = float(fresh.get("x", 0.0))
+			var target_y: float = float(fresh.get("y", 0.0))
+			var hit_size: float = float(fresh.get("hit_size", 6.0))
+			var health: float = float(fresh.get("health", 0.0))
+			var max_health: float = float(fresh.get("max_health", 1.0))
+			var dist: float = sqrt((target_x - x) * (target_x - x) + (target_y - y) * (target_y - y))
+			if dead or dist - hit_size / 2.0 > repair_radius or health >= max_health:
+				target = null
+	if target == null:
+		offset = Vector2.ZERO
+	if target_timer >= 20.0:
+		target_timer = 0.0
+		reacquired = true
+		var query: Dictionary = source_unit_runtime_state.source_units_closest_damaged_state(units, team_id, x, y, repair_radius)
+		target = query.get("target", null)
+		if target == null:
+			offset = Vector2.ZERO
+	return {"target": target, "has_target": target != null, "target_timer": target_timer, "offset": offset, "reacquired": reacquired}
+
 static func source_repair_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the repair-turret tick wiring every
 	# tick (RepairPointBuild.updateTile(), RepairTurret.java:187,
@@ -135,6 +189,30 @@ static func source_repair_turret_tick_buildings_state(game: Object, seconds: flo
 				required_results.append(power_row.get("row", {}))
 			var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(true, bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, [], [], frame)
 			source_building_efficiency_state.apply_update_consumption_state(consumption, frame)
+		# N2212: target acquisition (RepairTurret.java:193-199 +
+		# 214-217) runs on EVERY tick for every ticked repair
+		# turret, unconditional on power / enabled / cheating:
+		# Java updateTile runs regardless -- only the heal
+		# needs efficiency > 0 (RepairTurret.java:203). The
+		# units list is the frame's `units` key (the
+		# N2141/N2144 precedent -- no live units list is
+		# stamped on any frame yet, so the target stays null
+		# until a unit-list slice lands), the centre is the
+		# turret's world position (`sprite.position`, the
+		# turret-targeting precedent), the radius is the
+		# per-def repairRadius (`_repair_radius_for_block_id`
+		# -- 60f repair-point, 145f repair-turret, class
+		# default 50f; the catalog carries no repairRadius).
+		# The acquire stamps `target` / `has_target` /
+		# `target_timer` / `offset` live, so the N2188
+		# shouldConsume gate reads a live `has_target` from
+		# the next tick on.
+		var repair_radius: float = _repair_radius_for_block_id(block_id)
+		var acquire: Dictionary = source_repair_turret_target_acquire_state(frame, frame.get("units", []), team_id, sprite.position.x, sprite.position.y, repair_radius, seconds)
+		frame["target"] = acquire.get("target")
+		frame["has_target"] = acquire.get("has_target", false)
+		frame["target_timer"] = acquire.get("target_timer", 0.0)
+		frame["offset"] = acquire.get("offset", Vector2.ZERO)
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1

@@ -173864,6 +173864,118 @@
         "test_reference_graph_and_actual_c07_repair_tower_nearby_driver"
       ],
       "runtime_proof": "/root/C07RepairTowerNearbyDriverProof"
+    },
+    "source_units_closest_damaged_state_result.target": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitRuntimeState.source_units_closest_damaged_state",
+      "godot_symbol": "source_units_closest_damaged_state_result.target",
+      "java_source": "core/src/mindustry/entities/Units.java",
+      "java_method": "Units.closest(Team, float, float, float, Boolf)",
+      "java_expr": "result = e;",
+      "rule": "The closest damaged unit in range, or null when none qualifies (Units.java:368, `result = e;` -- the minimum-dst2 unit the lambda keeps; the result the RepairTurret timer block assigns to `target`, RepairTurret.java:216).",
+      "tests": [
+        "test_c07_repair_turret_target_acquire_registration",
+        "test_all_c07_repair_turret_target_acquire_input_evidence_is_exact",
+        "test_repair_turret_target_acquire_state",
+        "test_reference_graph_and_actual_c07_repair_turret_target_acquire"
+      ],
+      "runtime_proof": "/root/C07RepairTurretTargetAcquireProof"
+    },
+    "source_units_closest_damaged_state_result.has_target": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitRuntimeState.source_units_closest_damaged_state",
+      "godot_symbol": "source_units_closest_damaged_state_result.has_target",
+      "java_source": "core/src/mindustry/entities/Units.java",
+      "java_method": "Units.closest(Team, float, float, float, Boolf)",
+      "java_expr": "return result;",
+      "rule": "Whether a closest damaged unit was found (Units.java:371, `return result;` -- null means no unit passed the valid + damaged + in-range filters).",
+      "tests": [
+        "test_c07_repair_turret_target_acquire_registration",
+        "test_all_c07_repair_turret_target_acquire_input_evidence_is_exact",
+        "test_repair_turret_target_acquire_state",
+        "test_reference_graph_and_actual_c07_repair_turret_target_acquire"
+      ],
+      "runtime_proof": "/root/C07RepairTurretTargetAcquireProof"
+    },
+    "source_repair_turret_target_acquire_state_result.target": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_target_acquire_state",
+      "godot_symbol": "source_repair_turret_target_acquire_state_result.target",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairPointBuild.updateTile()",
+      "java_expr": "target = Units.closest(team, x, y, repairRadius, Unit::damaged);",
+      "rule": "The target after this tick: the validated previous target, the freshly re-acquired one on a timer fire, or null (RepairTurret.java:193-195 nulls it when invalid, :216 re-acquires it on fire).",
+      "tests": [
+        "test_c07_repair_turret_target_acquire_registration",
+        "test_all_c07_repair_turret_target_acquire_input_evidence_is_exact",
+        "test_repair_turret_target_acquire_state",
+        "test_reference_graph_and_actual_c07_repair_turret_target_acquire"
+      ],
+      "runtime_proof": "/root/C07RepairTurretTargetAcquireProof"
+    },
+    "source_repair_turret_target_acquire_state_result.has_target": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_target_acquire_state",
+      "godot_symbol": "source_repair_turret_target_acquire_state_result.has_target",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairPointBuild.updateTile()",
+      "java_expr": "return target != null && enabled;",
+      "rule": "Whether the turret has a target after this tick -- the observation the N2188 shouldConsume gate reads (RepairTurret.java:222, `return target != null && enabled;`).",
+      "tests": [
+        "test_c07_repair_turret_target_acquire_registration",
+        "test_all_c07_repair_turret_target_acquire_input_evidence_is_exact",
+        "test_repair_turret_target_acquire_state",
+        "test_reference_graph_and_actual_c07_repair_turret_target_acquire"
+      ],
+      "runtime_proof": "/root/C07RepairTurretTargetAcquireProof"
+    },
+    "source_repair_turret_target_acquire_state_result.target_timer": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_target_acquire_state",
+      "godot_symbol": "source_repair_turret_target_acquire_state_result.target_timer",
+      "java_source": "arc-core/src/arc/util/Interval.java",
+      "java_method": "RepairPointBuild.updateTile()",
+      "java_expr": "return Time.time - times[id] >= time || Time.time < times[id];",
+      "rule": "The timer accumulator after this tick, 0.0 on a fire (Interval.java:32 -- the port mirror of the per-building Interval slot for timerTarget, RepairTurret.java:29).",
+      "tests": [
+        "test_c07_repair_turret_target_acquire_registration",
+        "test_all_c07_repair_turret_target_acquire_input_evidence_is_exact",
+        "test_repair_turret_target_acquire_state",
+        "test_reference_graph_and_actual_c07_repair_turret_target_acquire"
+      ],
+      "runtime_proof": "/root/C07RepairTurretTargetAcquireProof"
+    },
+    "source_repair_turret_target_acquire_state_result.offset": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_target_acquire_state",
+      "godot_symbol": "source_repair_turret_target_acquire_state_result.offset",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairPointBuild.updateTile()",
+      "java_expr": "offset.setZero();",
+      "rule": "The beam offset after this tick: zeroed whenever there is no target (RepairTurret.java:197-199, `if(target == null){` / `offset.setZero();`), otherwise the frame offset carried forward for the heal advance.",
+      "tests": [
+        "test_c07_repair_turret_target_acquire_registration",
+        "test_all_c07_repair_turret_target_acquire_input_evidence_is_exact",
+        "test_repair_turret_target_acquire_state",
+        "test_reference_graph_and_actual_c07_repair_turret_target_acquire"
+      ],
+      "runtime_proof": "/root/C07RepairTurretTargetAcquireProof"
+    },
+    "source_repair_turret_target_acquire_state_result.reacquired": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_target_acquire_state",
+      "godot_symbol": "source_repair_turret_target_acquire_state_result.reacquired",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairPointBuild.updateTile()",
+      "java_expr": "if(timer(timerTarget, 20)){",
+      "rule": "Whether the 20s timer fired and re-ran the query this tick (RepairTurret.java:214, `if(timer(timerTarget, 20)){`).",
+      "tests": [
+        "test_c07_repair_turret_target_acquire_registration",
+        "test_all_c07_repair_turret_target_acquire_input_evidence_is_exact",
+        "test_repair_turret_target_acquire_state",
+        "test_reference_graph_and_actual_c07_repair_turret_target_acquire"
+      ],
+      "runtime_proof": "/root/C07RepairTurretTargetAcquireProof"
     }
   },
   "version": 1

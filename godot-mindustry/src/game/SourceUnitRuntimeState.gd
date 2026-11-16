@@ -327,3 +327,70 @@ static func source_units_nearby_damaged_count_state(units: Array, team_id: Varia
 		if health < max_health - 0.001:
 			count += 1
 	return {"nearby_damaged_units": count}
+
+static func source_units_closest_damaged_state(units: Array, team_id: Variant, x: float, y: float, radius: float) -> Dictionary:
+	# Units.closest range overload (Units.java:358-372) with
+	# predicate Unit::damaged -- the query the RepairTurret
+	# timer block runs to re-acquire its target
+	# (`target = Units.closest(team, x, y, repairRadius, Unit::damaged);`,
+	# RepairTurret.java:216). The range overload
+	# (`public static Unit closest(Team team, float x, float y, float range, Boolf<Unit> predicate){`,
+	# Units.java:358) runs the circle nearby
+	# (`nearby(team, x, y, range, e -> {`, Units.java:363),
+	# keeps only valid damaged units
+	# (`if(!e.isValid() || !predicate.get(e)) return;`, Units.java:364),
+	# and takes the minimum squared distance
+	# (`float dist = e.dst2(x, y);`, Units.java:366 /
+	# `if(result == null || dist < cdist){`, Units.java:367 /
+	# `result = e;` / `cdist = dist;`, Units.java:368-369).
+	# The circle test is the N2210 one
+	# (`if(unit.within(x, y, radius + unit.hitSize/2f)){`, Units.java:449,
+	# STRICT dst2 < (radius + hitSize/2)^2, with the rect
+	# pre-filter as the cheap early skip Java performs).
+	# isValid is `!dead && isAdded()` (`boolean isValid(){`,
+	# HealthComp.java:16 / `return !dead && isAdded();`,
+	# HealthComp.java:17); listed units are present by
+	# construction, so the port checks only `dead` (absent ->
+	# false). Damaged is the HealthComp predicate
+	# (`return health < maxHealth - 0.001f;`, HealthComp.java:48)
+	# -- health strictly below maxHealth minus 0.001. Ties
+	# keep the first unit (strict `<`, Units.java:367).
+	# Absent keys read the Java field defaults, the N2210
+	# convention: `team_id` -1 (matches no team when the
+	# filter is set), `x`/`y` 0.0, `hit_size` 6.0 (the
+	# UnitType default, `hitSize = 6f,`, UnitType.java:70),
+	# `health` 0.0, `max_health` 1.0, `dead` false. NO driver
+	# tick line: the query is called by the RepairTurret
+	# acquire function, which the driver ticks.
+	var best: Dictionary = {}
+	var best_dist2: float = 0.0
+	var has_target: bool = false
+	for unit in units:
+		if not unit is Dictionary:
+			continue
+		if team_id != null and int(unit.get("team_id", -1)) != int(team_id):
+			continue
+		var hit_size: float = float(unit.get("hit_size", 6.0))
+		var unit_x: float = float(unit.get("x", 0.0))
+		var unit_y: float = float(unit.get("y", 0.0))
+		var dx: float = unit_x - x
+		var dy: float = unit_y - y
+		var effective_radius: float = radius + hit_size / 2.0
+		if absf(dx) >= effective_radius or absf(dy) >= effective_radius:
+			continue
+		if dx * dx + dy * dy >= effective_radius * effective_radius:
+			continue
+		if bool(unit.get("dead", false)):
+			continue
+		var health: float = float(unit.get("health", 0.0))
+		var max_health: float = float(unit.get("max_health", 1.0))
+		if health >= max_health - 0.001:
+			continue
+		var dist2: float = dx * dx + dy * dy
+		if not has_target or dist2 < best_dist2:
+			best = unit
+			best_dist2 = dist2
+			has_target = true
+	if not has_target:
+		return {"target": null, "has_target": false}
+	return {"target": best, "has_target": true}

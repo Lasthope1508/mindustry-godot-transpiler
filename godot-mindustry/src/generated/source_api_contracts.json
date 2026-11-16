@@ -66718,6 +66718,111 @@
       ],
       "runtime_proof": "/root/C07RepairTowerNearbyDriverProof",
       "rule": "Source-backed RepairTower Units.nearby driver integration from RepairTower.java / Units.java / HealthComp.java / Blocks.java / Block.java / BuildingComp.java."
+    },
+    "SourceUnitRuntimeState.source_units_closest_damaged_state": {
+      "status": "active",
+      "source_slice": "N2212",
+      "java_source": "core/src/mindustry/entities/Units.java",
+      "source_method": "Units.closest(Team, float, float, float, Boolf)",
+      "params": [
+        {
+          "name": "units",
+          "type": "Array",
+          "schema": "source_units_closest_damaged_state_input.units"
+        },
+        {
+          "name": "team_id",
+          "type": "Variant",
+          "schema": "source_units_closest_damaged_state_input.team_id"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_units_closest_damaged_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_units_closest_damaged_state_input.y"
+        },
+        {
+          "name": "radius",
+          "type": "float",
+          "schema": "source_units_closest_damaged_state_input.radius"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "target",
+        "has_target"
+      ],
+      "tests": [
+        "test_c07_repair_turret_target_acquire_registration",
+        "test_all_c07_repair_turret_target_acquire_input_evidence_is_exact",
+        "test_repair_turret_target_acquire_state",
+        "test_reference_graph_and_actual_c07_repair_turret_target_acquire"
+      ],
+      "runtime_proof": "/root/C07RepairTurretTargetAcquireProof",
+      "rule": "Source-backed RepairTurret target acquisition from RepairTurret.java / Units.java / HealthComp.java / TimerComp.java / Interval.java / Blocks.java / UnitType.java / UnitComp.java."
+    },
+    "SourceRepairTurretBuildState.source_repair_turret_target_acquire_state": {
+      "status": "active",
+      "source_slice": "N2212",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "source_method": "RepairPointBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_repair_turret_target_acquire_state_input.frame"
+        },
+        {
+          "name": "units",
+          "type": "Array",
+          "schema": "source_repair_turret_target_acquire_state_input.units"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_repair_turret_target_acquire_state_input.team_id"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_repair_turret_target_acquire_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_repair_turret_target_acquire_state_input.y"
+        },
+        {
+          "name": "repair_radius",
+          "type": "float",
+          "schema": "source_repair_turret_target_acquire_state_input.repair_radius"
+        },
+        {
+          "name": "delta",
+          "type": "float",
+          "schema": "source_repair_turret_target_acquire_state_input.delta"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "target",
+        "has_target",
+        "target_timer",
+        "offset",
+        "reacquired"
+      ],
+      "tests": [
+        "test_c07_repair_turret_target_acquire_registration",
+        "test_all_c07_repair_turret_target_acquire_input_evidence_is_exact",
+        "test_repair_turret_target_acquire_state",
+        "test_reference_graph_and_actual_c07_repair_turret_target_acquire"
+      ],
+      "runtime_proof": "/root/C07RepairTurretTargetAcquireProof",
+      "rule": "Source-backed RepairTurret target acquisition from RepairTurret.java / Units.java / HealthComp.java / TimerComp.java / Interval.java / Blocks.java / UnitType.java / UnitComp.java."
     }
   },
   "policy": {
