@@ -326,7 +326,28 @@ static func source_overdrive_projector_power_status_row_state(frame: Dictionary,
 	# (projector 1 phaseFabric; dome 1 phaseFabric + 1
 	# silicon), clamped to the held count; the dome's
 	# hasBoost=false (Blocks.java:1960) means its phaseHeat
-	# stays 0, which the advance models.
+	# stays 0, which the advance models. (5) Draw rows live (N2435)
+	# -- the draw pure (source_overdrive_projector_draw_rows_state) models
+	# draw() (:137-158: the super call + the Lod.l2 gate +
+	# the top region at heat * absin(Time.time, 50f / PI2,
+	# 1f) * 0.5f * Lod.alpha2 + the 4-point ring at stroke
+	# (2f * f + 0.1f) * heat), drawLight() (:92-94, the
+	# smoothEfficiency-scaled light), drawSelect() (:128-133,
+	# the realRange dash circle + the selected targets) and
+	# drawPlace() (:54-61, the range dash circle + the
+	# selected targets at the tile position). Pure-only: the
+	# tick never calls draw / drawLight / drawSelect /
+	# drawPlace -- draw is called by the renderer,
+	# drawSelect / drawPlace by the UI, and the call sites
+	# wait for renderer/UI slices. The pure is named
+	# draw_rows_state (not draw_state): the older display
+	# path already owns the
+	# source_overdrive_projector_draw_state schemas
+	# (PortGame.source_overdrive_projector_draw_state, N726)
+	# and reusing the name would overwrite those schemas --
+	# the N2372 MendProjector precedent. OverdriveProjector
+	# has NO icons() override, so there is no icon_regions
+	# key (the N2429 ItemBridge precedent).
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -586,3 +607,191 @@ static func source_overdrive_projector_tick_buildings_state(game: Object, second
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
 	return {"ticked_count": ticked_count, "results_by_cell": results_by_cell}
+
+static func source_overdrive_projector_draw_rows_state(x_value: float, y_value: float, tile_x: int, tile_y: int, range_value: float, phase_heat: float, phase_range_boost: float, light_radius: float, smooth_efficiency: float, heat: float, time_value: float, lod_l2: bool, lod_alpha2: float, size_value: float, base_color: String, phase_color: String, selected_blocks: Array, place_valid: bool) -> Dictionary:
+	# The draw rows (OverdriveBuild.draw(), OverdriveProjector.java:137-158; OverdriveBuild.drawLight(), :92-94; OverdriveBuild.drawSelect(), :128-133; OverdriveProjector.drawPlace(), :54-61), the pure draw-call dict -- the port never draws for real (the N2421 RepairTurret precedent: the pure returns the draw calls as data). Java draws, in order (each exact expr on ONE comment line, the N2148 lesson):
+	# `public void draw(){`
+	# `super.draw();`
+	# `if(!Lod.l2) return;`
+	# `float f = 1f - (Time.time / 100f) % 1f;`
+	# `Draw.color(baseColor, phaseColor, phaseHeat);`
+	# `Draw.alpha(heat * Mathf.absin(Time.time, 50f / Mathf.PI2, 1f) * 0.5f * Lod.alpha2);`
+	# `Draw.rect(topRegion, x, y);`
+	# `Draw.alpha(Lod.alpha2);`
+	# `Lines.stroke((2f * f + 0.1f) * heat);`
+	# `float r = Math.max(0f, Mathf.clamp(2f - f * 2f) * size * tilesize / 2f - f - 0.2f), w = Mathf.clamp(0.5f - f) * size * tilesize;`
+	# `Lines.beginLine();`
+	# `for(int i = 0; i < 4; i++){`
+	# `Lines.linePoint(x + Geometry.d4(i).x * r + Geometry.d4(i).y * w, y + Geometry.d4(i).y * r - Geometry.d4(i).x * w);`
+	# `if(f < 0.5f) Lines.linePoint(x + Geometry.d4(i).x * r - Geometry.d4(i).y * w, y + Geometry.d4(i).y * r + Geometry.d4(i).x * w);`
+	# `Lines.endLine(true);`
+	# `Draw.reset();`
+	# `public void drawLight(){`
+	# `Drawf.light(x, y, lightRadius * smoothEfficiency, baseColor, 0.7f * smoothEfficiency);`
+	# `public void drawSelect(){`
+	# `float realRange = range + phaseHeat * phaseRangeBoost;`
+	# `indexer.eachBlock(this, realRange, other -> other.block.canOverdrive, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));`
+	# `Drawf.dashCircle(x, y, realRange, baseColor);`
+	# `public void drawPlace(int x, int y, int rotation, boolean valid){`
+	# `super.drawPlace(x, y, rotation, valid);`
+	# `Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, baseColor);`
+	# `indexer.eachBlock(player.team(), x * tilesize + offset, y * tilesize + offset, range, other -> other.block.canOverdrive, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));`
+	# The pure is named draw_rows_state (not draw_state): the older display path already owns the source_overdrive_projector_draw_state schemas (PortGame.source_overdrive_projector_draw_state, N726) and reusing the name would overwrite those schemas -- the N2372 MendProjector precedent. The f factor is computed AFTER the Lod guard (line order :140 before :142 -- the REVERSE of MendProjector, where f comes first), so the pure reports f 0.0 when hidden, with empty top/ring calls and zeroed draw scalars (the N726 display-state precedent: it returns f 0.0 when !lod_l2); the base call is still recorded because super.draw() runs BEFORE the guard (:138). topRegion is the `@-top` region (`public @Load("@-top") TextureRegion topRegion;`, OverdriveProjector.java:22). The absin calls are Java-exact through the shared helper at the DOUBLED scale: Java absin is `return (sin(in, scl * 2f, mag) + mag) / 2f;` (`public static float absin(float in, float scl, float mag){`, Mathf.java:78-80, arc), while the helper is (sin(value / scl) * 0.5 + 0.5) * mag (SourceMathState.source_absin), i.e. helper(v, s) == Java absin(v, s / 2f) -- so the pure passes 100f / PI2 for the draw absin and 8f for the select/place absin(4f, 1f), the 2-arg form that reads Time.time (`public static float absin(float scl, float mag){` / `return absin(Time.time, scl, mag);`, Mathf.java:74-75, arc) -- the N2372/N2382 precedent. The ring geometry uses Geometry.d4 (`public static Point2 d4(int i){`, Geometry.java:43; `public final static Point2[] d4 = {`, Geometry.java:9-14, (1,0) / (0,1) / (-1,0) / (0,-1)) with r and w from the clamp line, where clamp is the 1-arg [0,1] clamp (`public static float clamp(float value){`, Mathf.java:402, arc) -- GDScript clampf(v, 0.0, 1.0); the loop adds the extra point when f < 0.5f, so the ring has 4 points at f >= 0.5 and 8 at f < 0.5, closed by Lines.endLine(true). The drawPlace tile position uses the Block offset (`offset = ((size + 1) % 2) * tilesize / 2f;`, Block.java:761) -- 4 for the size-2 projector, 0 for the size-3 dome -- computed from size_value so the pure stays def-agnostic. The drawLight call is the Drawf.light overload (`public static void light(float x, float y, float radius, Color color, float opacity){`, Drawf.java:301-304) with radius lightRadius * smoothEfficiency and opacity 0.7f * smoothEfficiency; drawLight has NO Lod gate and no emitLight check in the method itself (emitLight gates the renderer call site, not the method). The selected call is Drawf.selected (`public static void selected(Building tile, Color color){`, Drawf.java:330-332) with the baseColor at the absin alpha; the dash circle is Drawf.dashCircle (`public static void dashCircle(float x, float y, float rad, Color color){`, Drawf.java:398-404) -- the double stroke (`Lines.stroke(3f, Pal.gray);` + `Lines.stroke(1f, color);`) is the callee's body, recorded as one call (the N2396 callee-geometry precedent). The eachBlock visit has no live building index behind it (the boost-scan live-index DEFERRED entry -- same index), so the caller supplies the selected blocks explicit (the N2242 heal-scan precedent); ONE array serves both drawSelect and drawPlace (the N2372 MendProjector precedent: the two queries differ only in center/range, which the caller evaluated) -- the pure renders one selected call per supplied candidate and does NOT range-filter (the range half is the index's visit, not the draw). A candidate dict carries x / y (world position); a missing x or y key EXCLUDES the candidate (the N2329 precedent), and a non-Dictionary entry is excluded the same way. The def constants are verified first: `public float range = 80f;` (OverdriveProjector.java:24) with the dome override `range = 200f;` (Blocks.java:1956, `overdriveDome = new OverdriveProjector("overdrive-dome"){{`); `public float phaseRangeBoost = 20f;` (:28, no def override); `lightRadius = 50f;` (:42, no def override) next to `emitLight = true;` (:41); `public Color baseColor = Color.valueOf("feb380");` (:30) and `public Color phaseColor = Color.valueOf("ffd59e");` (:31, no def overrides); the projector def is `overdriveProjector = new OverdriveProjector("overdrive-projector"){{` (Blocks.java:1944) with size 2, the dome with size 3 and `hasBoost = false;` (Blocks.java:1960). Lod is the zoom-detail gate (`public static boolean l2 = true;` / `public static float alpha2 = 1f;`, Lod.java:16-17, fading with camera zoom, Lod.java:22-31): the port has no live camera zoom at the driver layer, so lod_l2 / lod_alpha2 are explicit params (the N2372 precedent). The colors ride as symbolic tokens (the N2415 / ShockwaveTower precedent -- the port never draws for real). OverdriveProjector has NO icons() override (no "icon" line in OverdriveProjector.java at all), so there is no icon_regions key -- the base Block.icons() default applies (the N2429 ItemBridge precedent). Time.time is caller-supplied as time_value (the N2396/N2372 convention -- draw never runs in the tick, so the tick never stamps it). Pure-only: the tick never calls draw / drawLight / drawSelect / drawPlace -- draw is called by the renderer, drawSelect / drawPlace by the UI, and the call sites wait for renderer/UI slices.
+	var base_call: Dictionary = {
+		"call": "super.draw();",
+		"x": x_value,
+		"y": y_value,
+	}
+	var f: float = 0.0
+	var top_absin: float = 0.0
+	var top_alpha: float = 0.0
+	var stroke: float = 0.0
+	var ring_r: float = 0.0
+	var ring_w: float = 0.0
+	var ring_points: Array = []
+	var top_call: Dictionary = {}
+	var ring_call: Dictionary = {}
+	if lod_l2:
+		f = 1.0 - fmod(time_value / 100.0, 1.0)
+		top_absin = source_math_state.source_absin(time_value, 100.0 / source_math_state.SOURCE_PI2, 1.0)
+		top_alpha = heat * top_absin * 0.5 * lod_alpha2
+		stroke = (2.0 * f + 0.1) * heat
+		ring_r = max(0.0, clampf(2.0 - f * 2.0, 0.0, 1.0) * size_value * source_world_defaults.TILESIZE / 2.0 - f - 0.2)
+		ring_w = clampf(0.5 - f, 0.0, 1.0) * size_value * source_world_defaults.TILESIZE
+		var d4x: Array = [1.0, 0.0, -1.0, 0.0]
+		var d4y: Array = [0.0, 1.0, 0.0, -1.0]
+		for i in range(4):
+			var dx: float = float(d4x[i])
+			var dy: float = float(d4y[i])
+			ring_points.append({"x": x_value + dx * ring_r + dy * ring_w, "y": y_value + dy * ring_r - dx * ring_w})
+			if f < 0.5:
+				ring_points.append({"x": x_value + dx * ring_r - dy * ring_w, "y": y_value + dy * ring_r + dx * ring_w})
+		top_call = {
+			"call": "Draw.rect(topRegion, x, y);",
+			"region": "topRegion",
+			"color": {"from": base_color, "to": phase_color, "t": phase_heat},
+			"alpha": top_alpha,
+			"x": x_value,
+			"y": y_value,
+		}
+		ring_call = {
+			"call": "Lines.beginLine(); Lines.endLine(true);",
+			"points": ring_points,
+			"point_count": ring_points.size(),
+			"stroke": stroke,
+			"alpha": lod_alpha2,
+			"r": ring_r,
+			"w": ring_w,
+			"closed": true,
+		}
+	var light_call: Dictionary = {
+		"call": "Drawf.light(x, y, lightRadius * smoothEfficiency, baseColor, 0.7f * smoothEfficiency);",
+		"x": x_value,
+		"y": y_value,
+		"radius": light_radius * smooth_efficiency,
+		"color": base_color,
+		"alpha": 0.7 * smooth_efficiency,
+	}
+	var real_range: float = range_value + phase_heat * phase_range_boost
+	var selected_alpha: float = source_math_state.source_absin(time_value, 8.0, 1.0)
+	var selected_calls: Array = []
+	for candidate in selected_blocks:
+		if not (candidate is Dictionary):
+			continue
+		if not candidate.has("x") or not candidate.has("y"):
+			continue
+		selected_calls.append({
+			"call": "Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)))",
+			"x": float(candidate.get("x", 0.0)),
+			"y": float(candidate.get("y", 0.0)),
+			"color": base_color,
+			"alpha": selected_alpha,
+		})
+	var select_call: Dictionary = {
+		"dash_call": {
+			"call": "Drawf.dashCircle(x, y, realRange, baseColor);",
+			"x": x_value,
+			"y": y_value,
+			"radius": real_range,
+			"color": base_color,
+		},
+		"selected_calls": selected_calls,
+		"real_range": real_range,
+		"selected_alpha": selected_alpha,
+	}
+	var offset_value: float = float((int(size_value) + 1) % 2) * source_world_defaults.TILESIZE / 2.0
+	var place_x: float = float(tile_x) * source_world_defaults.TILESIZE + offset_value
+	var place_y: float = float(tile_y) * source_world_defaults.TILESIZE + offset_value
+	var place_call: Dictionary = {
+		"super_call": "super.drawPlace(x, y, rotation, valid);",
+		"valid": place_valid,
+		"dash_call": {
+			"call": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, baseColor);",
+			"x": place_x,
+			"y": place_y,
+			"radius": range_value,
+			"color": base_color,
+		},
+		"selected_calls": selected_calls,
+		"offset": offset_value,
+	}
+	return {
+		"super_expr": "super.draw();",
+		"lod_guard_expr": "if(!Lod.l2) return;",
+		"f_expr": "float f = 1f - (Time.time / 100f) % 1f;",
+		"color_expr": "Draw.color(baseColor, phaseColor, phaseHeat);",
+		"top_alpha_expr": "Draw.alpha(heat * Mathf.absin(Time.time, 50f / Mathf.PI2, 1f) * 0.5f * Lod.alpha2);",
+		"top_rect_expr": "Draw.rect(topRegion, x, y);",
+		"ring_alpha_expr": "Draw.alpha(Lod.alpha2);",
+		"stroke_expr": "Lines.stroke((2f * f + 0.1f) * heat);",
+		"ring_dims_expr": "float r = Math.max(0f, Mathf.clamp(2f - f * 2f) * size * tilesize / 2f - f - 0.2f), w = Mathf.clamp(0.5f - f) * size * tilesize;",
+		"ring_begin_expr": "Lines.beginLine();",
+		"ring_loop_expr": "for(int i = 0; i < 4; i++){",
+		"ring_point_expr": "Lines.linePoint(x + Geometry.d4(i).x * r + Geometry.d4(i).y * w, y + Geometry.d4(i).y * r - Geometry.d4(i).x * w);",
+		"ring_extra_expr": "if(f < 0.5f) Lines.linePoint(x + Geometry.d4(i).x * r - Geometry.d4(i).y * w, y + Geometry.d4(i).y * r + Geometry.d4(i).x * w);",
+		"ring_end_expr": "Lines.endLine(true);",
+		"reset_expr": "Draw.reset();",
+		"light_expr": "Drawf.light(x, y, lightRadius * smoothEfficiency, baseColor, 0.7f * smoothEfficiency);",
+		"select_range_expr": "float realRange = range + phaseHeat * phaseRangeBoost;",
+		"select_each_block_expr": "indexer.eachBlock(this, realRange, other -> other.block.canOverdrive, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));",
+		"select_dash_expr": "Drawf.dashCircle(x, y, realRange, baseColor);",
+		"place_super_expr": "super.drawPlace(x, y, rotation, valid);",
+		"place_dash_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, baseColor);",
+		"place_each_block_expr": "indexer.eachBlock(player.team(), x * tilesize + offset, y * tilesize + offset, range, other -> other.block.canOverdrive, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));",
+		"x": x_value,
+		"y": y_value,
+		"tile_x": tile_x,
+		"tile_y": tile_y,
+		"range": range_value,
+		"phase_heat": phase_heat,
+		"phase_range_boost": phase_range_boost,
+		"light_radius": light_radius,
+		"smooth_efficiency": smooth_efficiency,
+		"heat": heat,
+		"time_value": time_value,
+		"lod_l2": lod_l2,
+		"lod_alpha2": lod_alpha2,
+		"size": size_value,
+		"base_color": base_color,
+		"phase_color": phase_color,
+		"place_valid": place_valid,
+		"visible": lod_l2,
+		"f": f,
+		"top_absin": top_absin,
+		"top_alpha": top_alpha,
+		"stroke": stroke,
+		"ring_r": ring_r,
+		"ring_w": ring_w,
+		"ring_point_count": ring_points.size(),
+		"real_range": real_range,
+		"selected_alpha": selected_alpha,
+		"offset": offset_value,
+		"place_x": place_x,
+		"place_y": place_y,
+		"base_call": base_call,
+		"top_call": top_call,
+		"ring_call": ring_call,
+		"light_call": light_call,
+		"select_call": select_call,
+		"place_call": place_call,
+	}
