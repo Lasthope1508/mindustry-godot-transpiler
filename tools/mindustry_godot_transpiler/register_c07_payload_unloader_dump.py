@@ -444,20 +444,32 @@ def main():
         'dumped_liquid_name': f('String', 'dumpLiquid(liquids.current());', 'The dumped liquid\'s catalog name (PayloadUnloader.java:105): the current liquid (LiquidModule.java:81-83, current defaults to liquid 0, :24) resolved to its name through the liquid_names_by_id frame input (the PayloadLoader precedent -- the tick builds the names-by-id array from catalog.get_many("liquid"), index == id). "" when no current liquid resolves or the frame carries no names. Set whenever a current liquid resolves, even when nothing moved (the Fracker dumped_liquid precedent); the tick only consumes it when dumped_liquid > 0 AND the handled index is >= 0. NOT the old dumped_liquid key, which is the FLOAT amount dumped (BuildingComp.java:905).', source=PAYLOAD_UNLOADER, java_method='PayloadUnloaderBuild.updateTile()'),
     }
 
+    # N2393 (schema-sync fold): the one write-back key the N2386
+    # slice exposed on this advance (symbol registered by N2386),
+    # folded into the result schema + contract return_keys.
+    # Metadata copied verbatim from the N2386 register
+    # (BuildingComp-sourced -- source=BUILDING_COMP explicit here
+    # because this register's f() defaults to PAYLOAD_UNLOADER).
+    n2393_fold_outputs = {
+        'dump_deliveries': f('Array', 'res |= dump(item);', 'One {neighbour_index, item} dict per successful dump() call inside dumpAccumulate, in attempt order (dumpAccumulate loops while(dumpAccum >= 1f), BuildingComp.java:1056-1058, and offloadSpeed 4 runs it 4 times per tick, PayloadUnloader.java:105-108). Empty when nothing dumps. The neighbour_index is the proximity index the shared dump helper returned (index i is ring cell i -- the N2353 convention); the tick lands each delivery in the neighbour store through the shared neighbour write-back helper (N2353). A singular index+item pair would drop every delivery but one when dumpAccumulate fires more than once per frame. This is the ITEM half only: the liquid half keeps its own scalar dump_neighbour_index key (N2380) -- the item half does NOT reuse it.', java_method='BuildingComp.dumpAccumulate()', source=BUILDING_COMP),
+    }
+
     entries = [
         ('N2293', OWNER, 'source_payload_unloader_dump_state', PAYLOAD_UNLOADER, 'mindustry.world.blocks.payloads.PayloadUnloader.PayloadUnloaderBuild', 'PayloadUnloaderBuild.updateTile()', n2293_inputs, n2293_outputs, True, 'Dictionary'),
     ]
     all_names = []
     for sid, owner, prefix, source, cls, method, inputs, outputs, has_contract, return_type in entries:
         names = []
-        # N2384 (schema-sync fold): the result schema + contract
-        # carry the folded keys; the symbol loop below still
-        # iterates the ORIGINAL outputs only
+        # N2384 + N2393 (schema-sync folds): the result schema +
+        # contract carry the folded keys; the symbol loop below
+        # still iterates the ORIGINAL outputs only
         # (upsert_source_symbols wholesale-replaces -- folding
         # the keys into the symbol loop here would steal the
-        # write-back slice's symbol ownership).
-        result_keys = {**outputs, **n2384_fold_outputs}
+        # write-back slices' symbol ownership).
+        result_keys = {**outputs, **n2384_fold_outputs, **n2393_fold_outputs}
         for meta in n2384_fold_outputs.values():
+            meta['used_by'] = [owner]
+        for meta in n2393_fold_outputs.values():
             meta['used_by'] = [owner]
         for suffix, keys in [('input', inputs), ('result', outputs)]:
             name = prefix + '_' + suffix

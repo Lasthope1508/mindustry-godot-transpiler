@@ -72017,7 +72017,8 @@
         "cursor_after",
         "dump_accum_after",
         "dump_neighbour_index",
-        "dumped_liquid_name"
+        "dumped_liquid_name",
+        "dump_deliveries"
       ],
       "tests": [
         "test_c07_payload_unloader_dump_registration",

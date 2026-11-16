@@ -243983,6 +243983,17 @@
           "used_by": [
             "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_state"
           ]
+        },
+        "dump_deliveries": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "res |= dump(item);",
+          "rule": "One {neighbour_index, item} dict per successful dump() call inside dumpAccumulate, in attempt order (dumpAccumulate loops while(dumpAccum >= 1f), BuildingComp.java:1056-1058, and offloadSpeed 4 runs it 4 times per tick, PayloadUnloader.java:105-108). Empty when nothing dumps. The neighbour_index is the proximity index the shared dump helper returned (index i is ring cell i -- the N2353 convention); the tick lands each delivery in the neighbour store through the shared neighbour write-back helper (N2353). A singular index+item pair would drop every delivery but one when dumpAccumulate fires more than once per frame. This is the ITEM half only: the liquid half keeps its own scalar dump_neighbour_index key (N2380) -- the item half does NOT reuse it.",
+          "java_method": "BuildingComp.dumpAccumulate()",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_state"
+          ]
         }
       },
       "runtime_proof": "/root/C07PayloadUnloaderDumpProof",
