@@ -8,6 +8,7 @@ ROOT = Path(__file__).resolve().parents[3]
 PAYLOAD_MASS_DRIVER_STATE = ROOT / 'godot-mindustry/src/game/SourcePayloadMassDriverBuildState.gd'
 PAYLOAD_MASS_DRIVER_UPDATE_TILE_PROOF = ROOT / 'godot-mindustry/tools/runtime_proofs/C07PayloadMassDriverUpdateTileProof.gd'
 PAYLOAD_MASS_DRIVER_UPDATE_TILE_PROOF_SCENE = ROOT / 'godot-mindustry/tools/runtime_proofs/C07PayloadMassDriverUpdateTileProof.tscn'
+PAYLOAD_MASS_DRIVER_LARGE_VARIANT_PROOF = ROOT / 'godot-mindustry/tools/runtime_proofs/C07PayloadMassDriverLargeVariantProof.gd'
 
 
 class C07PayloadMassDriverUpdateTileTests(unittest.TestCase):
@@ -350,6 +351,100 @@ class C07PayloadMassDriverUpdateTileTests(unittest.TestCase):
         scene = PAYLOAD_MASS_DRIVER_UPDATE_TILE_PROOF_SCENE.read_text(encoding='utf-8')
         self.assertIn('C07PayloadMassDriverUpdateTileProof.gd', scene)
         self.assertIn('C07PayloadMassDriverUpdateTileProof', scene)
+
+    def test_payload_mass_driver_live_link_uses_java_tilesize_8(self):
+        # N2364: the live link world-coord math uses the JAVA
+        # tilesize constant 8.0 -- NEVER the game tile_size
+        # 32. Java ground truth (read verbatim below):
+        # `public static final int tilesize = 8;`
+        # (Vars.java:135); `selected.within(x * tilesize, y *
+        # tilesize, range)` (PayloadMassDriver.java:111);
+        # within is STRICT dst < range
+        # (Position.java:44-46, arc). Range is 700f / 2100f
+        # large in Java world units (Blocks.java:6623/6635).
+        # The game tile_size is 32 (rendering px per tile --
+        # it feeds viewport/input, and the N2357 proof asserts
+        # game.get("tile_size") == 32.0), so the old driver
+        # line `tile_size = game.get("tile_size")` (default
+        # 8.0 if unset) made live link distances 4x Java's
+        # while the range stayed in Java units: the live link
+        # range in tiles was 4x SHORTER than Java's.
+        # Boundary numbers (the deviation, verified FIRST):
+        # 30 cells apart: Java 30*8 = 240 < 700 in range, old
+        # port 30*32 = 960 > 700 out of range. 40 cells (the
+        # N2357 small pair): Java 320 < 700 in, old port 1280
+        # > 700 out. 87 cells is the last in-range separation
+        # for the small def under Java math (696 < 700); 88
+        # cells (704 > 700) stays out of range after the fix.
+        # Large def: 262 cells in (2096 < 2100), 263 out
+        # (2104 > 2100).
+        java_tilesize = 8.0
+        game_tile_size = 32.0
+        small_range = 700.0
+        large_range = 2100.0
+        self.assertLess(30 * java_tilesize, small_range)
+        self.assertGreater(30 * game_tile_size, small_range)
+        self.assertLess(40 * java_tilesize, small_range)
+        self.assertGreater(40 * game_tile_size, small_range)
+        self.assertLess(87 * java_tilesize, small_range)
+        self.assertGreater(88 * java_tilesize, small_range)
+        self.assertLess(262 * java_tilesize, large_range)
+        self.assertGreater(263 * java_tilesize, large_range)
+        vars_lines = (ROOT / 'mindustry-upstream/core/src/mindustry/Vars.java').read_text(encoding='utf-8').splitlines()
+        self.assertEqual(vars_lines[134].strip(), 'public static final int tilesize = 8;')
+        payload_mass_driver_lines = (ROOT / 'mindustry-upstream/core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java').read_text(encoding='utf-8').splitlines()
+        self.assertIn('selected.within(x * tilesize, y * tilesize, range)', payload_mass_driver_lines[110])
+        position_lines = (ROOT / 'arc-upstream/arc-core/src/arc/math/geom/Position.java').read_text(encoding='utf-8').splitlines()
+        self.assertEqual(position_lines[44].strip(), 'return Mathf.dst2(getX(), getY(), x, y) < dst*dst;')
+        # The fix: the driver hard-codes the Java constant
+        # and NEVER reads game tile_size for world-coord
+        # math. Every consumer of the local was audited: the
+        # self / other / shooter coords (the within_range
+        # checks + the linked x/y) and the tilesize param
+        # passed to the advance pure, whose only use is the
+        # move-out dest `size * tilesize / 2f`
+        # (PayloadBlock.java:204-207) -- ALL Java world units;
+        # none needs the game value. The old "the game
+        # tile_size when set" comment is gone.
+        payload_mass_driver = PAYLOAD_MASS_DRIVER_STATE.read_text(encoding='utf-8')
+        self.assertIn('\t\tvar tile_size: float = 8.0\n', payload_mass_driver)
+        self.assertNotIn('game.get("tile_size")', payload_mass_driver)
+        self.assertNotIn('tile_size_value', payload_mass_driver)
+        self.assertNotIn('the game tile_size when set', payload_mass_driver)
+        self.assertIn('the game tile_size 32 is rendering px per tile', payload_mass_driver)
+        self.assertIn('float(cell.x) * tile_size', payload_mass_driver)
+        self.assertIn('float(other_cell.x) * tile_size', payload_mass_driver)
+        self.assertIn('float(shooter_cell.x) * tile_size', payload_mass_driver)
+        self.assertIn('size_value * tilesize / 2.0', payload_mass_driver)
+        # MassDriver has the IDENTICAL pattern
+        # (SourceMassDriverBuildState.gd:504-505) -- NOT
+        # touched in this slice (backlog: same fix, separate
+        # slice). This pin documents the boundary; the
+        # MassDriver fix slice updates it when it lands.
+        mass_driver = (ROOT / 'godot-mindustry/src/game/SourceMassDriverBuildState.gd').read_text(encoding='utf-8')
+        self.assertIn('game.get("tile_size")', mass_driver)
+        # N2357 RE-RUN NOTE (not a silent edit): the N2357
+        # proof fixture still encodes the pre-fix 32x
+        # assumption -- the small pair sits 40 cells apart
+        # (1280 world units at game tile_size 32, past the
+        # small range 700) and the
+        # large_def_range_2100_live_link key asserts both
+        # stay idle. After N2364 the same pair is 320 world
+        # units apart under Java math -- inside 700 -- so
+        # both switch idle -> shooting and that key FAILS in
+        # Godot until a follow-up slice re-seeds the small
+        # pair beyond Java small range (e.g. 100 cells = 800
+        # units: past 700, still inside the large 2100). The
+        # other N2357 keys are unaffected (catalog rows, the
+        # pure chargeTime / move-out fixtures already pass
+        # 8.0, the accept gate reads offered size, not link
+        # state). This pin documents the fixture as-is; the
+        # follow-up slice updates it (and the key) together.
+        large_proof = PAYLOAD_MASS_DRIVER_LARGE_VARIANT_PROOF.read_text(encoding='utf-8')
+        self.assertIn('40 cells * 32 =', large_proof)
+        self.assertIn('Vector2i(28, 26)', large_proof)
+        self.assertIn('Vector2i(68, 26)', large_proof)
+        self.assertIn('large_def_range_2100_live_link', large_proof)
 
     def test_reference_graph_and_actual_c07_payload_mass_driver_update_tile(self):
         godot = shutil.which('Godot_v4.6.2-stable_win64_console.exe') or shutil.which('godot')
