@@ -1,0 +1,18 @@
+test_all_c07_payload_mass_driver_large_variant_input_evidence_is_exact (tests.test_c07_payload_mass_driver_large_variant.C07PayloadMassDriverLargeVariantTests.test_all_c07_payload_mass_driver_large_variant_input_evidence_is_exact) ... ok
+test_c07_payload_mass_driver_large_variant_registration (tests.test_c07_payload_mass_driver_large_variant.C07PayloadMassDriverLargeVariantTests.test_c07_payload_mass_driver_large_variant_registration) ... ok
+test_payload_mass_driver_large_variant_state (tests.test_c07_payload_mass_driver_large_variant.C07PayloadMassDriverLargeVariantTests.test_payload_mass_driver_large_variant_state) ... ok
+test_reference_graph_and_actual_c07_payload_mass_driver_large_variant (tests.test_c07_payload_mass_driver_large_variant.C07PayloadMassDriverLargeVariantTests.test_reference_graph_and_actual_c07_payload_mass_driver_large_variant) ... FAIL
+
+======================================================================
+FAIL: test_reference_graph_and_actual_c07_payload_mass_driver_large_variant (tests.test_c07_payload_mass_driver_large_variant.C07PayloadMassDriverLargeVariantTests.test_reference_graph_and_actual_c07_payload_mass_driver_large_variant)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Admin\.codex\worktrees\godot-integration-validation\tools\mindustry_godot_transpiler\tests\test_c07_payload_mass_driver_large_variant.py", line 244, in test_reference_graph_and_actual_c07_payload_mass_driver_large_variant
+    self.assertTrue(proofs[0]['matches'], proofs[0])
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : {'large_def_accepts_size_32_live': True, 'large_def_catalog_rows': True, 'large_def_charge_time_100': True, 'large_def_range_2100_live_link': False, 'large_def_size_5_move_out_dest': True, 'matches': False, 'one_headquarter_per_ssot': True, 'registry_valid': True}
+
+----------------------------------------------------------------------
+Ran 4 tests in 21.043s
+
+FAILED (failures=1)

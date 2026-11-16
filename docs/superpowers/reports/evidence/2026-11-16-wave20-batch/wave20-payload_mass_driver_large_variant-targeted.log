@@ -1,0 +1,18 @@
+test_all_c07_payload_mass_driver_large_variant_input_evidence_is_exact (tests.test_c07_payload_mass_driver_large_variant.C07PayloadMassDriverLargeVariantTests.test_all_c07_payload_mass_driver_large_variant_input_evidence_is_exact) ... ok
+test_c07_payload_mass_driver_large_variant_registration (tests.test_c07_payload_mass_driver_large_variant.C07PayloadMassDriverLargeVariantTests.test_c07_payload_mass_driver_large_variant_registration) ... ok
+test_payload_mass_driver_large_variant_state (tests.test_c07_payload_mass_driver_large_variant.C07PayloadMassDriverLargeVariantTests.test_payload_mass_driver_large_variant_state) ... ok
+test_reference_graph_and_actual_c07_payload_mass_driver_large_variant (tests.test_c07_payload_mass_driver_large_variant.C07PayloadMassDriverLargeVariantTests.test_reference_graph_and_actual_c07_payload_mass_driver_large_variant) ... FAIL
+
+======================================================================
+FAIL: test_reference_graph_and_actual_c07_payload_mass_driver_large_variant (tests.test_c07_payload_mass_driver_large_variant.C07PayloadMassDriverLargeVariantTests.test_reference_graph_and_actual_c07_payload_mass_driver_large_variant)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Admin\.codex\worktrees\godot-integration-validation\tools\mindustry_godot_transpiler\tests\test_c07_payload_mass_driver_large_variant.py", line 241, in test_reference_graph_and_actual_c07_payload_mass_driver_large_variant
+    self.assertNotIn('ERROR:', output)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: 'ERROR:' unexpectedly found in 'Godot Engine v4.6.2.stable.official.71f334935 - https://godotengine.org\n\n[MCP Runtime] Server listening on port 7777\n[MCP Runtime] Autoload ready, server starting on port 7777\nSCRIPT ERROR: Parse Error: Too many arguments for "get()" call. Expected at most 1 but received 2.\n   at: GDScript::reload (res://tools/runtime_proofs/C07PayloadMassDriverLargeVariantProof.gd:176)\nERROR: Failed to load script "res://tools/runtime_proofs/C07PayloadMassDriverLargeVariantProof.gd" with error "Parse error".\n   at: load (modules/gdscript/gdscript.cpp:2907)\n'
+
+----------------------------------------------------------------------
+Ran 4 tests in 13.889s
+
+FAILED (failures=1)

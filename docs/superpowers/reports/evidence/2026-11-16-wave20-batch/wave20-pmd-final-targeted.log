@@ -1,0 +1,9 @@
+test_all_c07_payload_mass_driver_large_variant_input_evidence_is_exact (tests.test_c07_payload_mass_driver_large_variant.C07PayloadMassDriverLargeVariantTests.test_all_c07_payload_mass_driver_large_variant_input_evidence_is_exact) ... ok
+test_c07_payload_mass_driver_large_variant_registration (tests.test_c07_payload_mass_driver_large_variant.C07PayloadMassDriverLargeVariantTests.test_c07_payload_mass_driver_large_variant_registration) ... ok
+test_payload_mass_driver_large_variant_state (tests.test_c07_payload_mass_driver_large_variant.C07PayloadMassDriverLargeVariantTests.test_payload_mass_driver_large_variant_state) ... ok
+test_reference_graph_and_actual_c07_payload_mass_driver_large_variant (tests.test_c07_payload_mass_driver_large_variant.C07PayloadMassDriverLargeVariantTests.test_reference_graph_and_actual_c07_payload_mass_driver_large_variant) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 21.468s
+
+OK
