@@ -19,16 +19,25 @@ func _ready() -> void:
 	game.set_process(false)
 	game.set_physics_process(false)
 
-	# --- Pure range scan (N2329): the eachBlock rect filter
-	# (MendProjector.java:112) -- the N2242 heal scan already
-	# filters damaged + not heal-suppressed and folds the
-	# heal, but takes its candidate list explicit with NO
-	# range filter; this pure adds the range half, testing
-	# candidate centers against the rect centered on the
-	# projector with half-side realRange (`float realRange =
-	# range + phaseHeat * phaseRangeBoost;`,
-	# MendProjector.java:107), INCLUSIVE on the edge (the
-	# N2277 center-in-rect precedent: a rect corner is IN).
+	# --- Pure range scan (N2329): the eachBlock broad
+	# phase (MendProjector.java:112) -- the N2242 heal scan
+	# already filters damaged + not heal-suppressed and
+	# folds the heal, but takes its candidate list explicit
+	# with NO range filter; this pure adds the range half,
+	# testing candidate HITBOXES against the rect centered
+	# on the projector with half-side realRange (`float
+	# realRange = range + phaseHeat * phaseRangeBoost;`,
+	# MendProjector.java:107) with STRICT Rect overlap
+	# (Rect.java:274-276). The N2329 port tested candidate
+	# CENTERS against the rect inclusively (the N2277
+	# center-in-rect precedent); since N2350 the pure
+	# delegates to the hitbox broad phase (Java's
+	# buildings.intersect is a QuadTree hitbox overlap
+	# query, BlockIndexer.java:345), so the edge and corner
+	# candidates below carry a real hit_size 8.0 (a size-1
+	# building, BuildingComp.java:2048) -- a degenerate
+	# hitSize-0 hitbox on the edge would only touch the
+	# rect and be dropped by the STRICT test.
 	# The rect is in WORLD units directly
 	# (BlockIndexer.java:345, no tilesize factor). All pure
 	# calls below use the projector at (100, 100) and the
@@ -37,12 +46,12 @@ func _ready() -> void:
 	var building_x := 100.0
 	var building_y := 100.0
 	var in_range_candidates: Array = [
-		{"x": 100.0, "y": 100.0, "damaged": true, "heal_suppressed": false, "max_health": 100.0},
-		{"x": 140.0, "y": 100.0, "damaged": true, "heal_suppressed": false, "max_health": 100.0},
-		{"x": 60.0, "y": 100.0, "damaged": true, "heal_suppressed": false, "max_health": 100.0},
-		{"x": 100.0, "y": 140.0, "damaged": true, "heal_suppressed": false, "max_health": 100.0},
-		{"x": 140.0, "y": 140.0, "damaged": true, "heal_suppressed": false, "max_health": 100.0},
-		{"x": 60.0, "y": 60.0, "damaged": true, "heal_suppressed": false, "max_health": 100.0},
+		{"x": 100.0, "y": 100.0, "hit_size": 8.0, "damaged": true, "heal_suppressed": false, "max_health": 100.0},
+		{"x": 140.0, "y": 100.0, "hit_size": 8.0, "damaged": true, "heal_suppressed": false, "max_health": 100.0},
+		{"x": 60.0, "y": 100.0, "hit_size": 8.0, "damaged": true, "heal_suppressed": false, "max_health": 100.0},
+		{"x": 100.0, "y": 140.0, "hit_size": 8.0, "damaged": true, "heal_suppressed": false, "max_health": 100.0},
+		{"x": 140.0, "y": 140.0, "hit_size": 8.0, "damaged": true, "heal_suppressed": false, "max_health": 100.0},
+		{"x": 60.0, "y": 60.0, "hit_size": 8.0, "damaged": true, "heal_suppressed": false, "max_health": 100.0},
 	]
 	var admitted: Dictionary = mend_projector_build_state.source_mend_projector_supplied_heal_candidates_state(in_range_candidates, 40.0, building_x, building_y)
 	var admitted_list: Array = admitted.get("candidates", [])
@@ -113,14 +122,15 @@ func _ready() -> void:
 	# optionalEfficiency 0 (no silicon in the frame), so the
 	# live realRange is 40 + phase_heat * 20 with phase_heat
 	# read back from the frame. N2335 follow-through: the
-	# narrow filter now chains after the rect scan in the
+	# narrow filter now chains after the broad phase in the
 	# live tick, so the rect corner (dst 65.05 > live
 	# realRange ~49.98) is excluded and only ONE heal lands
 	# -- the key proves the tick passes the ranged list
 	# through the narrow filter into the heal scan (one heal,
 	# at the live phase_heat fold), not []. The pure keys
-	# above still prove the rect admits corners at the pure
-	# level.
+	# above still prove the broad phase admits edge and
+	# corner buildings with real hitboxes at the pure level
+	# (hit_size 8.0 seeded since N2350).
 	var catalog = game.get("content_catalog")
 	var blocks_by_id: Dictionary = {}
 	for registered_block in catalog.get_many("block"):
