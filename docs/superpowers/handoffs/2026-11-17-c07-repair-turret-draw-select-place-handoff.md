@@ -51,3 +51,10 @@
 ## After N2220
 
 Next deferred C07 item per backlog: RepairTurret shouldAmbientSound (RepairTurret.java:181-184) / status() (RepairTurret.java:225-228), or the next family. (Do NOT start the C08 inventory unless the user asks.)
+
+## Commits
+
+- Slice: `c2f81746` (C07: N2220 RepairTurret drawSelect/drawPlace — 9 files).
+- Docs: `6dd261a4` (report + handoff + design spec Done 1670 + N2220 row).
+- GOAL: `f471c5d3` (GOAL.md §5 Windows debt line for N2220).
+- Gate: full gate (main thread, PID 10133, ~01:41) Ran 5973 in 1051.230s, failures=170, skipped=5, 0 errors — all 170 verified Godot-absent asserts (finished ~01:58 +07).
