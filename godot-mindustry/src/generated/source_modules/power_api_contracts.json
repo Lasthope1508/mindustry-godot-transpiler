@@ -3831,6 +3831,43 @@
       "rule": "Source-backed LightBlock smoothTime advance from LightBlock.java / BuildingComp.java / Arc Mathf.java.",
       "return_type": "Dictionary"
     },
+    "SourcePlacedPowerGraphState.source_accelerator_set_battery_stored_for_cell_state": {
+      "canonical_contract": "source_api_contracts.SourcePlacedPowerGraphState.source_accelerator_set_battery_stored_for_cell_state",
+      "status": "active",
+      "source_slice": "N2342",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "source_method": "PowerGraph.getBatteryStored()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_accelerator_set_battery_stored_for_cell_state_input.game"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_accelerator_set_battery_stored_for_cell_state_input.cell"
+        },
+        {
+          "name": "battery_stored",
+          "type": "float",
+          "schema": "source_accelerator_set_battery_stored_for_cell_state_input.battery_stored"
+        }
+      ],
+      "return_keys": [
+        "stored",
+        "reason"
+      ],
+      "tests": [
+        "test_c07_accelerator_battery_stamp_registration",
+        "test_all_c07_accelerator_battery_stamp_input_evidence_is_exact",
+        "test_accelerator_battery_stamp_state",
+        "test_reference_graph_and_actual_c07_accelerator_battery_stamp"
+      ],
+      "runtime_proof": "/root/C07AcceleratorBatteryStampProof",
+      "rule": "Source-backed Accelerator battery_stored graph stamp from PowerGraph.java / Accelerator.java.",
+      "return_type": "Dictionary"
+    },
     "SourcePlacedPowerGraphState.source_battery_power_status_for_cell_state": {
       "canonical_contract": "source_api_contracts.SourcePlacedPowerGraphState.source_battery_power_status_for_cell_state",
       "status": "active",

@@ -1250,6 +1250,24 @@
       ],
       "runtime_proof": "/root/C07LightBlockUpdateTileProof"
     },
+    "N2342": {
+      "canonical_ledger": "source_slice_ledger.N2342",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "PowerGraph.getBatteryStored()",
+      "godot_owner": "SourcePlacedPowerGraphState.source_accelerator_set_battery_stored_for_cell_state",
+      "source_symbols": [
+        "source_accelerator_set_battery_stored_for_cell_state_result.stored",
+        "source_accelerator_set_battery_stored_for_cell_state_result.reason"
+      ],
+      "tests": [
+        "test_c07_accelerator_battery_stamp_registration",
+        "test_all_c07_accelerator_battery_stamp_input_evidence_is_exact",
+        "test_accelerator_battery_stamp_state",
+        "test_reference_graph_and_actual_c07_accelerator_battery_stamp"
+      ],
+      "runtime_proof": "/root/C07AcceleratorBatteryStampProof"
+    },
     "N888": {
       "canonical_ledger": "source_slice_ledger.N888",
       "status": "done",

@@ -246571,6 +246571,288 @@
       },
       "runtime_proof": "/root/C07RegenProjectorTargetsNarrowProof",
       "rule": "Source-backed RegenProjector updateTargets hitbox + privileged refinement from RegenProjector.java / BlockIndexer.java / Block.java / BuildingComp.java / HealthComp.java / Blocks.java / Tile.java / Vars.java / Arc Rect.java / QuadTree.java."
+    },
+    "source_beam_drill_facing_scan_state_input": {
+      "status": "active",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_facing_scan_state",
+      "source_slice": "N2339",
+      "keys": {
+        "facing_tiles": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Tile other = world.tile(rx, ry);",
+          "rule": "The facing rays in laser order (p = 0..size-1), as frame inputs (default [] -- no tiles, the Java no-facing-wall outcome): each ray is an Array of tile Dicts in walk order (i = 0..range-1) {solid, wall_drop} carrying the `other != null && other.solid()` answer (BeamDrill.java:388-389) and the wallDrop item {id, hardness} (BeamDrill.java:390, null when the tile drops nothing); a null or non-Dict tile entry is a null world tile (the walk continues past it). The live tile fill waits for its own slice.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_facing_scan_state"
+          ]
+        },
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "for(int p = 0; p < size; p++){",
+          "rule": "The block size (BeamDrill.java:382, the outer loop bound -- Java reads exactly `size` lasers): 2 for the plasma-bore, 3 for the large-plasma-bore (Blocks.java:3044/:3058), read from the catalog per def; the Block class default is 1 (Block.java:215).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_facing_scan_state"
+          ]
+        },
+        "beam_range": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "for(int i = 0; i < range; i++){",
+          "rule": "The laser range in tiles (BeamDrill.java:385, the inner loop bound -- Java walks exactly `range` tiles per laser): 5 for the plasma-bore, 6 for the large-plasma-bore (Blocks.java:3045/:3059), read from the catalog per def; the BeamDrill class default is 5 (BeamDrill.java:35). Named beam_range in the port because GDScript reserves range().",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_facing_scan_state"
+          ]
+        },
+        "tier": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "if(drop != null && drop.hardness <= tier && (blockedItems == null || !blockedItems.contains(drop))){",
+          "rule": "The drill tier (BeamDrill.java:391, the mineable check -- a wallDrop counts only when drop.hardness <= tier): 3 for the plasma-bore, 5 for the large-plasma-bore (Blocks.java:3043/:3057), read from the catalog per def; the BeamDrill class default is 1 (BeamDrill.java:36).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_facing_scan_state"
+          ]
+        },
+        "blocked_items": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public @Nullable Seq<Item> blockedItems;",
+          "rule": "The exemption list (BeamDrill.java:40, read at :391 -- a wallDrop in blockedItems never counts): null or an Array of item ids (the drill source_can_mine_state precedent), resolved through the shared Drill bind (SourceDrillRuntimeState.source_bind_ore_items_state, the BeamDrill.java:78-83 init promotion), guarded -- neither BeamDrill def sets blockedItem / blockedItems, so the tick passes null.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_facing_scan_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BeamDrillFacingScanProof",
+      "rule": "Source-backed BeamDrill facing scan / updateFacing rows from BeamDrill.java / Block.java / Blocks.java."
+    },
+    "source_beam_drill_facing_scan_state_result": {
+      "status": "active",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_facing_scan_state",
+      "source_slice": "N2339",
+      "keys": {
+        "facing_amount": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "facingAmount ++;",
+          "rule": "The facing count (BeamDrill.java:375-411): the number of facing lasers whose first solid tile holds a mineable wallDrop (drop != null, hardness <= tier, not blocked). Stamped onto frame[\"facing_amount\"] each enabled tick before the N2195 advance; the N2202 shouldConsume gate reads it (facingAmount > 0, BeamDrill.java:271).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_facing_scan_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BeamDrillFacingScanProof",
+      "rule": "Source-backed BeamDrill facing scan / updateFacing rows from BeamDrill.java / Block.java / Blocks.java."
+    },
+    "source_shockwave_tower_supplied_bullets_hitbox_state_input": {
+      "status": "active",
+      "owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_supplied_bullets_hitbox_state",
+      "source_slice": "N2340",
+      "keys": {
+        "candidates": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "Groups.bullet.intersect(x - range, y - range, range * 2, range * 2, b -> {",
+          "rule": "The rect-admitted bullet candidates (ShockwaveTower.java:75, the Groups.bullet.intersect visit -- the N2327 rect pure already admitted them by center + enemy team + hittable, and this refinement re-tests them by hitbox STRICT overlap): each entry is a Dict {x, y, hit_size?, ...} carrying the center position and the type hitSize; a missing x or y excludes the candidate, a missing hit_size reads as the BulletType default 4.0.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_supplied_bullets_hitbox_state"
+          ]
+        },
+        "range_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "public float range = 110f;",
+          "rule": "The scan half-side (ShockwaveTower.java:25, the class default 110f; the def overrides it to 170f, Blocks.java:2043): the intersect rect is [x-range, x+range] x [y-range, y+range], tested by STRICT hitbox overlap.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_supplied_bullets_hitbox_state"
+          ]
+        },
+        "tower_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "Groups.bullet.intersect(x - range, y - range, range * 2, range * 2, b -> {",
+          "rule": "The tower world x (ShockwaveTower.java:75, the intersect center -- Building x/y are tile.drawx()/drawy(), BuildingComp.java:124): the rect center.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_supplied_bullets_hitbox_state"
+          ]
+        },
+        "tower_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "Groups.bullet.intersect(x - range, y - range, range * 2, range * 2, b -> {",
+          "rule": "The tower world y (ShockwaveTower.java:75, the intersect center): the rect center.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_supplied_bullets_hitbox_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShockwaveTowerBulletScanHitboxProof",
+      "rule": "Source-backed ShockwaveTower bullet scan hitbox refinement from ShockwaveTower.java / Blocks.java / BulletType.java / HitboxComp.java / EntityGroup.java / Arc QuadTree.java / Rect.java."
+    },
+    "source_shockwave_tower_supplied_bullets_hitbox_state_result": {
+      "status": "active",
+      "owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_supplied_bullets_hitbox_state",
+      "source_slice": "N2340",
+      "keys": {
+        "bullets": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/geom/Rect.java",
+          "java_expr": "return x < rx + rwidth && x + width > rx && y < ry + rheight && y + height > ry;",
+          "rule": "The refined list (Rect.java:274-276, the STRICT overlap): the candidate dicts themselves, in candidate order -- the bullets whose hitSize-sided hitbox (HitboxComp.java:67, rect.setCentered(x, y, hitSize, hitSize)) strictly overlaps the range*2 rect. Passed into the N2247 advance as its bullet_candidates.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_supplied_bullets_hitbox_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShockwaveTowerBulletScanHitboxProof",
+      "rule": "Source-backed ShockwaveTower bullet scan hitbox refinement from ShockwaveTower.java / Blocks.java / BulletType.java / HitboxComp.java / EntityGroup.java / Arc QuadTree.java / Rect.java."
+    },
+    "source_accelerator_set_battery_stored_for_cell_state_input": {
+      "status": "active",
+      "owner": "SourcePlacedPowerGraphState.source_accelerator_set_battery_stored_for_cell_state",
+      "source_slice": "N2342",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "public void update(){",
+          "rule": "The live game world (PowerGraph.java:215 update()): the placed-building index the stamp resolves the cell's sprite from.",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_accelerator_set_battery_stored_for_cell_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "public void add(Building build){",
+          "rule": "The placed building's origin cell (PowerGraph.java:277 add): the graph-membership gate -- only a building added to the graph has a frame to stamp.",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_accelerator_set_battery_stored_for_cell_state"
+          ]
+        },
+        "battery_stored": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "totalAccumulator += battery.power.status * battery.block.consPower.capacity;",
+          "rule": "The getBatteryStored total to stamp (PowerGraph.java:118-127): the enabled-battery total, status * capacity summed; recomputed from the updated batteries at the distribute step.",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_accelerator_set_battery_stored_for_cell_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07AcceleratorBatteryStampProof",
+      "rule": "Source-backed Accelerator battery_stored graph stamp from PowerGraph.java / Accelerator.java."
+    },
+    "source_accelerator_set_battery_stored_for_cell_state_result": {
+      "status": "active",
+      "owner": "SourcePlacedPowerGraphState.source_accelerator_set_battery_stored_for_cell_state",
+      "source_slice": "N2342",
+      "keys": {
+        "stored": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "totalAccumulator += battery.power.status * battery.block.consPower.capacity;",
+          "rule": "Whether the getBatteryStored total was stamped on the accelerator frame (PowerGraph.java:118-127): true only when the cell carries an accelerator frame (source_accelerator_building meta); a missing sprite, a bare sprite, or a non-accelerator frame stores nothing.",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_accelerator_set_battery_stored_for_cell_state"
+          ]
+        },
+        "reason": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "public void update(){",
+          "rule": "Why the stamp resolved the way it did (PowerGraph.java:215 update()): live_frame, no_sprite, not_accelerator, or no_frame.",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_accelerator_set_battery_stored_for_cell_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07AcceleratorBatteryStampProof",
+      "rule": "Source-backed Accelerator battery_stored graph stamp from PowerGraph.java / Accelerator.java."
+    },
+    "source_separator_offload_routing_context_state_input": {
+      "status": "active",
+      "owner": "SourceSeparatorBuildState.source_separator_offload_routing_context_state",
+      "source_slice": "N2343",
+      "keys": {
+        "neighbour_accepts": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(other.acceptItem(self(), item) && canDump(other, item)){",
+          "rule": "The per-neighbour acceptItem answers over the proximity (BuildingComp.java:1008, `if(other.acceptItem(self(), item) && canDump(other, item)){`): neighbour i takes the offloaded item only when its accept answer is true AND its canDump answer is true. The tick reads the shared dump frame input frame[\"dump_neighbour_accepts\"] (default [] -- no neighbours, the Java proximity.size == 0 outcome); Java has ONE proximity list, so offload() and dump() share the same arrays instead of a synonym pair.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_offload_routing_context_state"
+          ]
+        },
+        "neighbour_can_dump": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(other.acceptItem(self(), item) && canDump(other, item)){",
+          "rule": "The per-neighbour canDump answers over the proximity (BuildingComp.java:1008, `if(other.acceptItem(self(), item) && canDump(other, item)){`): canDump defaults to true (BuildingComp.java:1124-1126) and the array carries the live per-neighbour answers as frame inputs. The tick reads the shared dump frame input frame[\"dump_neighbour_can_dump\"] (default []); a missing answer in one array reads false (the dump_item_state bounds-checked precedent).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_offload_routing_context_state"
+          ]
+        },
+        "dump_cursor": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "int dump = this.cdump;",
+          "rule": "The saved cdump cursor the offload scan starts from (BuildingComp.java:1003, `int dump = this.cdump;`; the Building field `transient int cdump;`, BuildingComp.java:68, default 0). The tick passes the frame cdump -- the same cursor the N2281 dump shares, since Java uses one `this.cdump` for both paths. offload() rotates it once per neighbour checked (incrementDump, BuildingComp.java:1116-1120) and inspects from the saved value ((i + dump) % proximity.size, :1007).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_offload_routing_context_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SeparatorOffloadRoutingProof",
+      "rule": "Source-backed Separator offload neighbor routing rows from BuildingComp.java / Separator.java."
+    },
+    "source_separator_offload_routing_context_state_result": {
+      "status": "active",
+      "owner": "SourceSeparatorBuildState.source_separator_offload_routing_context_state",
+      "source_slice": "N2343",
+      "keys": {
+        "neighbors": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(other.acceptItem(self(), item) && canDump(other, item)){",
+          "rule": "The routing-context neighbors array [{accepts_item, can_dump, item_count}] the shared offload_item_state port reads (BuildingComp.java:1008, `if(other.acceptItem(self(), item) && canDump(other, item)){`): the first neighbour with accepts_item && can_dump takes the item (its item_count bumps by 1 in the returned context); when no neighbour takes it the offload falls back to the building's own items (BuildingComp.java:1014, `handleItem(self(), item);`). item_count starts at 0.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_offload_routing_context_state"
+          ]
+        },
+        "dump_cursor": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "int dump = this.cdump;",
+          "rule": "The dump cursor carried in the routing context (BuildingComp.java:1003, `int dump = this.cdump;`): the frame cdump, passed through unchanged -- offload_item_state normalizes it via modulo, like incrementDump (`cdump = ((cdump + 1) % prox);`, BuildingComp.java:1118). A routed pick leaves the cursor past the handling neighbour; a full refused scan returns it to its start (the N2286 full-cycle invariant).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_offload_routing_context_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SeparatorOffloadRoutingProof",
+      "rule": "Source-backed Separator offload neighbor routing rows from BuildingComp.java / Separator.java."
     }
   },
   "version": 1

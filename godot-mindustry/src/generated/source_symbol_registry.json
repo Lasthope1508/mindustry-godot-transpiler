@@ -182408,6 +182408,102 @@
         "test_reference_graph_and_actual_c07_regen_projector_targets_narrow"
       ],
       "runtime_proof": "/root/C07RegenProjectorTargetsNarrowProof"
+    },
+    "source_beam_drill_facing_scan_state_result.facing_amount": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_facing_scan_state",
+      "godot_symbol": "source_beam_drill_facing_scan_state_result.facing_amount",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.updateFacing()",
+      "java_expr": "facingAmount ++;",
+      "rule": "The facing count (BeamDrill.java:375-411): the number of facing lasers whose first solid tile holds a mineable wallDrop (drop != null, hardness <= tier, not blocked). Stamped onto frame[\"facing_amount\"] each enabled tick before the N2195 advance; the N2202 shouldConsume gate reads it (facingAmount > 0, BeamDrill.java:271).",
+      "tests": [
+        "test_c07_beam_drill_facing_scan_registration",
+        "test_all_c07_beam_drill_facing_scan_input_evidence_is_exact",
+        "test_beam_drill_facing_scan_state",
+        "test_reference_graph_and_actual_c07_beam_drill_facing_scan"
+      ],
+      "runtime_proof": "/root/C07BeamDrillFacingScanProof"
+    },
+    "source_shockwave_tower_supplied_bullets_hitbox_state_result.bullets": {
+      "status": "source-backed",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_supplied_bullets_hitbox_state",
+      "godot_symbol": "source_shockwave_tower_supplied_bullets_hitbox_state_result.bullets",
+      "java_source": "arc-core/src/arc/math/geom/Rect.java",
+      "java_method": "ShockwaveTowerBuild.updateTile()",
+      "java_expr": "return x < rx + rwidth && x + width > rx && y < ry + rheight && y + height > ry;",
+      "rule": "The refined list (Rect.java:274-276, the STRICT overlap): the candidate dicts themselves, in candidate order -- the bullets whose hitSize-sided hitbox (HitboxComp.java:67, rect.setCentered(x, y, hitSize, hitSize)) strictly overlaps the range*2 rect. Passed into the N2247 advance as its bullet_candidates.",
+      "tests": [
+        "test_c07_shockwave_tower_bullet_scan_hitbox_registration",
+        "test_all_c07_shockwave_tower_bullet_scan_hitbox_input_evidence_is_exact",
+        "test_shockwave_tower_bullet_scan_hitbox_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_bullet_scan_hitbox"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerBulletScanHitboxProof"
+    },
+    "source_accelerator_set_battery_stored_for_cell_state_result.stored": {
+      "status": "source-backed",
+      "godot_owner": "SourcePlacedPowerGraphState.source_accelerator_set_battery_stored_for_cell_state",
+      "godot_symbol": "source_accelerator_set_battery_stored_for_cell_state_result.stored",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "PowerGraph.getBatteryStored()",
+      "java_expr": "totalAccumulator += battery.power.status * battery.block.consPower.capacity;",
+      "rule": "Whether the getBatteryStored total was stamped on the accelerator frame (PowerGraph.java:118-127): true only when the cell carries an accelerator frame (source_accelerator_building meta); a missing sprite, a bare sprite, or a non-accelerator frame stores nothing.",
+      "tests": [
+        "test_c07_accelerator_battery_stamp_registration",
+        "test_all_c07_accelerator_battery_stamp_input_evidence_is_exact",
+        "test_accelerator_battery_stamp_state",
+        "test_reference_graph_and_actual_c07_accelerator_battery_stamp"
+      ],
+      "runtime_proof": "/root/C07AcceleratorBatteryStampProof"
+    },
+    "source_accelerator_set_battery_stored_for_cell_state_result.reason": {
+      "status": "source-backed",
+      "godot_owner": "SourcePlacedPowerGraphState.source_accelerator_set_battery_stored_for_cell_state",
+      "godot_symbol": "source_accelerator_set_battery_stored_for_cell_state_result.reason",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "PowerGraph.getBatteryStored()",
+      "java_expr": "public void update(){",
+      "rule": "Why the stamp resolved the way it did (PowerGraph.java:215 update()): live_frame, no_sprite, not_accelerator, or no_frame.",
+      "tests": [
+        "test_c07_accelerator_battery_stamp_registration",
+        "test_all_c07_accelerator_battery_stamp_input_evidence_is_exact",
+        "test_accelerator_battery_stamp_state",
+        "test_reference_graph_and_actual_c07_accelerator_battery_stamp"
+      ],
+      "runtime_proof": "/root/C07AcceleratorBatteryStampProof"
+    },
+    "source_separator_offload_routing_context_state_result.neighbors": {
+      "status": "source-backed",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_offload_routing_context_state",
+      "godot_symbol": "source_separator_offload_routing_context_state_result.neighbors",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.offload()",
+      "java_expr": "if(other.acceptItem(self(), item) && canDump(other, item)){",
+      "rule": "The routing-context neighbors array [{accepts_item, can_dump, item_count}] the shared offload_item_state port reads (BuildingComp.java:1008, `if(other.acceptItem(self(), item) && canDump(other, item)){`): the first neighbour with accepts_item && can_dump takes the item (its item_count bumps by 1 in the returned context); when no neighbour takes it the offload falls back to the building's own items (BuildingComp.java:1014, `handleItem(self(), item);`). item_count starts at 0.",
+      "tests": [
+        "test_c07_separator_offload_routing_registration",
+        "test_all_c07_separator_offload_routing_input_evidence_is_exact",
+        "test_separator_offload_routing_state",
+        "test_reference_graph_and_actual_c07_separator_offload_routing"
+      ],
+      "runtime_proof": "/root/C07SeparatorOffloadRoutingProof"
+    },
+    "source_separator_offload_routing_context_state_result.dump_cursor": {
+      "status": "source-backed",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_offload_routing_context_state",
+      "godot_symbol": "source_separator_offload_routing_context_state_result.dump_cursor",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.offload()",
+      "java_expr": "int dump = this.cdump;",
+      "rule": "The dump cursor carried in the routing context (BuildingComp.java:1003, `int dump = this.cdump;`): the frame cdump, passed through unchanged -- offload_item_state normalizes it via modulo, like incrementDump (`cdump = ((cdump + 1) % prox);`, BuildingComp.java:1118). A routed pick leaves the cursor past the handling neighbour; a full refused scan returns it to its start (the N2286 full-cycle invariant).",
+      "tests": [
+        "test_c07_separator_offload_routing_registration",
+        "test_all_c07_separator_offload_routing_input_evidence_is_exact",
+        "test_separator_offload_routing_state",
+        "test_reference_graph_and_actual_c07_separator_offload_routing"
+      ],
+      "runtime_proof": "/root/C07SeparatorOffloadRoutingProof"
     }
   },
   "version": 1

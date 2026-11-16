@@ -73393,6 +73393,163 @@
       ],
       "runtime_proof": "/root/C07RegenProjectorTargetsNarrowProof",
       "rule": "Source-backed RegenProjector updateTargets hitbox + privileged refinement from RegenProjector.java / BlockIndexer.java / Block.java / BuildingComp.java / HealthComp.java / Blocks.java / Tile.java / Vars.java / Arc Rect.java / QuadTree.java."
+    },
+    "SourceBeamDrillBuildState.source_beam_drill_facing_scan_state": {
+      "status": "active",
+      "source_slice": "N2339",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrillBuild.updateFacing()",
+      "params": [
+        {
+          "name": "facing_tiles",
+          "type": "Array",
+          "schema": "source_beam_drill_facing_scan_state_input.facing_tiles"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_beam_drill_facing_scan_state_input.size"
+        },
+        {
+          "name": "beam_range",
+          "type": "int",
+          "schema": "source_beam_drill_facing_scan_state_input.beam_range"
+        },
+        {
+          "name": "tier",
+          "type": "int",
+          "schema": "source_beam_drill_facing_scan_state_input.tier"
+        },
+        {
+          "name": "blocked_items",
+          "type": "Variant",
+          "schema": "source_beam_drill_facing_scan_state_input.blocked_items"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "facing_amount"
+      ],
+      "tests": [
+        "test_c07_beam_drill_facing_scan_registration",
+        "test_all_c07_beam_drill_facing_scan_input_evidence_is_exact",
+        "test_beam_drill_facing_scan_state",
+        "test_reference_graph_and_actual_c07_beam_drill_facing_scan"
+      ],
+      "runtime_proof": "/root/C07BeamDrillFacingScanProof",
+      "rule": "Source-backed BeamDrill facing scan / updateFacing rows from BeamDrill.java / Block.java / Blocks.java."
+    },
+    "SourceShockwaveTowerBuildState.source_shockwave_tower_supplied_bullets_hitbox_state": {
+      "status": "active",
+      "source_slice": "N2340",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "source_method": "ShockwaveTowerBuild.updateTile()",
+      "params": [
+        {
+          "name": "candidates",
+          "type": "Array",
+          "schema": "source_shockwave_tower_supplied_bullets_hitbox_state_input.candidates"
+        },
+        {
+          "name": "range_value",
+          "type": "float",
+          "schema": "source_shockwave_tower_supplied_bullets_hitbox_state_input.range_value"
+        },
+        {
+          "name": "tower_x",
+          "type": "float",
+          "schema": "source_shockwave_tower_supplied_bullets_hitbox_state_input.tower_x"
+        },
+        {
+          "name": "tower_y",
+          "type": "float",
+          "schema": "source_shockwave_tower_supplied_bullets_hitbox_state_input.tower_y"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "bullets"
+      ],
+      "tests": [
+        "test_c07_shockwave_tower_bullet_scan_hitbox_registration",
+        "test_all_c07_shockwave_tower_bullet_scan_hitbox_input_evidence_is_exact",
+        "test_shockwave_tower_bullet_scan_hitbox_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_bullet_scan_hitbox"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerBulletScanHitboxProof",
+      "rule": "Source-backed ShockwaveTower bullet scan hitbox refinement from ShockwaveTower.java / Blocks.java / BulletType.java / HitboxComp.java / EntityGroup.java / Arc QuadTree.java / Rect.java."
+    },
+    "SourcePlacedPowerGraphState.source_accelerator_set_battery_stored_for_cell_state": {
+      "status": "active",
+      "source_slice": "N2342",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "source_method": "PowerGraph.getBatteryStored()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_accelerator_set_battery_stored_for_cell_state_input.game"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_accelerator_set_battery_stored_for_cell_state_input.cell"
+        },
+        {
+          "name": "battery_stored",
+          "type": "float",
+          "schema": "source_accelerator_set_battery_stored_for_cell_state_input.battery_stored"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "stored",
+        "reason"
+      ],
+      "tests": [
+        "test_c07_accelerator_battery_stamp_registration",
+        "test_all_c07_accelerator_battery_stamp_input_evidence_is_exact",
+        "test_accelerator_battery_stamp_state",
+        "test_reference_graph_and_actual_c07_accelerator_battery_stamp"
+      ],
+      "runtime_proof": "/root/C07AcceleratorBatteryStampProof",
+      "rule": "Source-backed Accelerator battery_stored graph stamp from PowerGraph.java / Accelerator.java."
+    },
+    "SourceSeparatorBuildState.source_separator_offload_routing_context_state": {
+      "status": "active",
+      "source_slice": "N2343",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "BuildingComp.offload()",
+      "params": [
+        {
+          "name": "neighbour_accepts",
+          "type": "Array",
+          "schema": "source_separator_offload_routing_context_state_input.neighbour_accepts"
+        },
+        {
+          "name": "neighbour_can_dump",
+          "type": "Array",
+          "schema": "source_separator_offload_routing_context_state_input.neighbour_can_dump"
+        },
+        {
+          "name": "dump_cursor",
+          "type": "int",
+          "schema": "source_separator_offload_routing_context_state_input.dump_cursor"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "neighbors",
+        "dump_cursor"
+      ],
+      "tests": [
+        "test_c07_separator_offload_routing_registration",
+        "test_all_c07_separator_offload_routing_input_evidence_is_exact",
+        "test_separator_offload_routing_state",
+        "test_reference_graph_and_actual_c07_separator_offload_routing"
+      ],
+      "runtime_proof": "/root/C07SeparatorOffloadRoutingProof",
+      "rule": "Source-backed Separator offload neighbor routing rows from BuildingComp.java / Separator.java."
     }
   },
   "policy": {
