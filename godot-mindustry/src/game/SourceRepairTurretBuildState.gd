@@ -24,6 +24,41 @@ const SOURCE_REPAIR_POINT_REPAIR_SPEED := 0.45
 const SOURCE_REPAIR_POINT_REPAIR_RADIUS := 60.0
 const SOURCE_REPAIR_TURRET_REPAIR_SPEED := 3.0
 const SOURCE_REPAIR_TURRET_REPAIR_RADIUS := 145.0
+# The class defaults (RepairTurret.java:32-37):
+# `public float repairRadius = 50f;` /
+# `public float repairSpeed = 0.3f;` /
+# `public float length = 5f;` /
+# `public float beamWidth = 1f;` /
+# `public float pulseRadius = 6f;` -- an unknown
+# def id falls back to these (the N2304 fallback
+# precedent: the class default is Java behavior
+# for a def that overrides nothing). Note the
+# deliberate difference from the N2226 advance
+# helpers below, which fall back to the
+# repair-point def -- this pure is the
+# verification row, the helpers are the live
+# advance inputs.
+const SOURCE_REPAIR_TURRET_CLASS_REPAIR_SPEED := 0.3
+const SOURCE_REPAIR_TURRET_CLASS_REPAIR_RADIUS := 50.0
+const SOURCE_REPAIR_TURRET_CLASS_LENGTH := 5.0
+const SOURCE_REPAIR_TURRET_CLASS_BEAM_WIDTH := 1.0
+const SOURCE_REPAIR_TURRET_CLASS_PULSE_RADIUS := 6.0
+# The per-def length / beamWidth / pulseRadius
+# rows (Blocks.java:6386-6406): repair-point
+# sets NO length (Blocks.java:6386-6394) so it
+# keeps the class 5f; `beamWidth = 0.73f;`
+# (:6390) / `pulseRadius = 5f;` (:6392).
+# repair-turret `length = 6f;` (:6399) /
+# `beamWidth = 1.1f;` (:6403) / `pulseRadius =
+# 6.1f;` (:6404). The catalog carries none of
+# these for this family, so the driver reads
+# these constants (the Separator craftTime
+# precedent).
+const SOURCE_REPAIR_POINT_BEAM_WIDTH := 0.73
+const SOURCE_REPAIR_POINT_PULSE_RADIUS := 5.0
+const SOURCE_REPAIR_TURRET_LENGTH := 6.0
+const SOURCE_REPAIR_TURRET_BEAM_WIDTH := 1.1
+const SOURCE_REPAIR_TURRET_PULSE_RADIUS := 6.1
 # The heal angle margin (RepairTurret.java:205,
 # `if(Angles.angleDist(angle, rotation) < 30f){`), the rotation
 # slerp progress (RepairTurret.java:209, `0.5f * efficiency *
@@ -579,9 +614,86 @@ static func source_repair_turret_status_range_state(potential_efficiency: float,
 		status_value = "noInput"
 	return {"status": status_value, "range_value": repair_radius}
 
+static func source_repair_turret_per_def_stats_state(def_id: String) -> Dictionary:
+	# The per-def stat rows (RepairTurret.java:32-37 class
+	# defaults + Blocks.java:6386-6406 def overrides), the
+	# VERIFICATION slice (the N2304 / N2442 precedent): the
+	# values were already driver-header constants, and this
+	# pure returns them source-backed as the def's row --
+	# `public class RepairTurret extends Block{`
+	# (RepairTurret.java:25). The class fields are (each
+	# exact expr on ONE comment line, the N2148 lesson):
+	# `public float repairRadius = 50f;`
+	# `public float repairSpeed = 0.3f;`
+	# `public float length = 5f;`
+	# `public float beamWidth = 1f;`
+	# `public float pulseRadius = 6f;`
+	# The defs are:
+	# `repairPoint = new RepairTurret("repair-point"){{`
+	# `repairSpeed = 0.45f;`
+	# `repairRadius = 60f;`
+	# `beamWidth = 0.73f;`
+	# `pulseRadius = 5f;`
+	# `repairTurret = new RepairTurret("repair-turret"){{`
+	# `length = 6f;`
+	# `repairSpeed = 3f;`
+	# `repairRadius = 145f;`
+	# `beamWidth = 1.1f;`
+	# `pulseRadius = 6.1f;`
+	# The stat anchor is setStats() (RepairTurret.java:71-74):
+	# `stats.add(Stat.range, repairRadius / tilesize, StatUnit.blocks);`
+	# `stats.add(Stat.repairSpeed, repairSpeed * 60f, StatUnit.perSecond);`
+	# repair-point sets NO length (Blocks.java:6386-6394 has
+	# no length line), so it keeps the class 5f -- the brief's
+	# "length 5f/6f" is point = class default / turret = def
+	# override, verified first from the def blocks. An unknown
+	# def id falls back to the CLASS defaults (the N2304
+	# fallback precedent: the class default is Java behavior
+	# for a def that overrides nothing) -- NOT the
+	# repair-point fallback of the N2226 advance helpers
+	# (_repair_speed_for_block / _repair_radius_for_block),
+	# which stay untouched: the helpers are the live advance
+	# inputs, this pure is the verification row. The def-id
+	# strings are the catalog ids ("repair-point" /
+	# "repair-turret", verified in content_registry.json);
+	# the catalog carries no repairSpeed / repairRadius /
+	# length / beamWidth / pulseRadius for this family, so
+	# the driver reads the header constants (the Separator
+	# craftTime precedent). length / beamWidth / pulseRadius
+	# feed drawBeam (RepairTurret.java:106-107, the static
+	# drawBeam length / pulseRadius / beamWidth params) and
+	# repairSpeed / repairRadius feed the heal advance
+	# (RepairTurret.java:207) + setStats (:73-74) -- the
+	# advance / draw pures keep taking these values as
+	# caller-supplied inputs and are unchanged. Pure-only:
+	# the tick never calls this pure.
+	if def_id == "repair-point":
+		return {
+			"repair_speed": SOURCE_REPAIR_POINT_REPAIR_SPEED,
+			"repair_radius": SOURCE_REPAIR_POINT_REPAIR_RADIUS,
+			"length": SOURCE_REPAIR_TURRET_CLASS_LENGTH,
+			"beam_width": SOURCE_REPAIR_POINT_BEAM_WIDTH,
+			"pulse_radius": SOURCE_REPAIR_POINT_PULSE_RADIUS,
+		}
+	if def_id == "repair-turret":
+		return {
+			"repair_speed": SOURCE_REPAIR_TURRET_REPAIR_SPEED,
+			"repair_radius": SOURCE_REPAIR_TURRET_REPAIR_RADIUS,
+			"length": SOURCE_REPAIR_TURRET_LENGTH,
+			"beam_width": SOURCE_REPAIR_TURRET_BEAM_WIDTH,
+			"pulse_radius": SOURCE_REPAIR_TURRET_PULSE_RADIUS,
+		}
+	return {
+		"repair_speed": SOURCE_REPAIR_TURRET_CLASS_REPAIR_SPEED,
+		"repair_radius": SOURCE_REPAIR_TURRET_CLASS_REPAIR_RADIUS,
+		"length": SOURCE_REPAIR_TURRET_CLASS_LENGTH,
+		"beam_width": SOURCE_REPAIR_TURRET_CLASS_BEAM_WIDTH,
+		"pulse_radius": SOURCE_REPAIR_TURRET_CLASS_PULSE_RADIUS,
+	}
+
 static func source_repair_turret_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a repair turret does not take the early return. The repair turret's power draw is CONDITIONAL, not static: `consumePowerCond(powerUse, (RepairPointBuild entity) -> entity.target != null);` (RepairTurret.java:89), and ConsumePowerCondition only draws when its condition holds (ConsumePowerCondition.java:17, `return consume.get(entity) ? usage : 0f;`) -- the catalog consumePower None is CORRECT for this family, it records no static consumePower def; the two defs carry powerUse 1f (repair-point, Blocks.java:6391, `powerUse = 1f;`) and 5f (repair-turret, Blocks.java:6402, `powerUse = 5f;`), and the block declares `public float powerUse;` (RepairTurret.java:34) with `hasPower = true;` (RepairTurret.java:60). The pure row is still the same ConsumePower read (`return build.power.status;`, ConsumePower.java:39) -- ConsumePowerCondition does not override efficiency(), so the row folds power.status exactly like the static case. The updateTile advance follows the folded efficiency: the heal advance (RepairTurret.java:207, `target.heal(repairSpeed * strength * edelta() * multiplier);`) heals by edelta() (BuildingComp.java:1927-1929, `return efficiency * delta();`), so a repair turret with no power would never heal. RepairPointBuild overrides shouldConsume (RepairTurret.java:221, `public boolean shouldConsume(){` with `return target != null && enabled;`, RepairTurret.java:222); updateConsumption forces efficiency to zero when the gate is false (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). The shouldConsume gate is live (N2212) -- the pure gate (source_repair_turret_should_consume_state) feeds should_consume to the machinery from the frame target key (null with no target, non-null once a damaged unit is locked) and the enabled flag; the timer cadence is live since N2280 (N2226: the clear + pure re-acquire selection are live; the live unit query still waits for the live-fill slice, so no live fill sets frame["target"] yet without supplied candidates). The repair turret is its own family (RepairTurret.java:25, `public class RepairTurret extends Block{`; RepairPointBuild, RepairTurret.java:153, `public class RepairPointBuild extends Building implements Ranged, RotBlock{`). Two defs (repair-point, `powerUse = 1f;`, Blocks.java:6391; repair-turret, `powerUse = 5f;`, Blocks.java:6402).
-	# Documented limits: (1) power + coolant optional pass -- the repair turret's power consumer is conditional (ConsumePowerCondition, target-gated), so the folded efficiency is the min over the *modeled* non-optional consumers (power only); the coolant optional consumer (repair-turret only: ConsumeCoolant 0.16f, acceptCoolant, coolantMultiplier 1.6f, Blocks.java:6405-6407; `consume(new ConsumeCoolant(coolantUse)).optional(true, true);`, RepairTurret.java:86) is LIVE since N2259 (source_repair_turret_coolant_row_state, ConsumeLiquidFilter.efficiency, ConsumeLiquidFilter.java:50-55; the second-pass removal is ConsumeLiquidFilter.update, ConsumeLiquidFilter.java:42-47), folding into the optional pass (BuildingComp.java:1979-1981); coolant is the ONLY optional consumer on this family, so optionalEfficiency is complete. The conditional power DRAW (ConsumePowerCondition usage gated on target != null, ConsumePowerCondition.java:17) is still not modeled -- the row still reads power.status (ConsumePowerCondition does not override efficiency()). (2) shouldConsume gate live (N2212) -- RepairPointBuild overrides shouldConsume (`target != null && enabled`, RepairTurret.java:221-223); when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994); the pure gate reads the frame target key (default null) plus enabled and feeds should_consume to the machinery; the timer cadence is live since N2280 (N2226: the clear + pure re-acquire selection are live; the live unit query still waits for the live-fill slice, so no live fill sets frame["target"] yet without supplied candidates). (3) updateTile advance live (N2226) -- the target clear / heal amount / rotation slerp / strength lerp / pure re-acquire selection (RepairTurret.java:187-218) run on the frame; the coolant multiplier is live since N2259 (frame["coolant_multiplier"] from the folded optionalEfficiency + current heatCapacity, RepairTurret.java:190); the timer cadence live (N2280) -- the frame-local Interval (20f, literal-20 threshold Java-exact since N2290) passes frame-input unit_candidates into the advance when it fires, [] otherwise; the heal application (target.heal writes into another unit frame) and the live Units scan (no live unit query exists in the port) wait for the live-fill slice. (4) Two defs -- repair-point (powerUse 1f) and repair-turret (powerUse 5f + coolant) share the one driver; repairSpeed / repairRadius are now read per def by the advance (N2226, driver constants -- the catalog carries neither); length / beamWidth / pulseRadius per-def values wait for their own verification slice. (5) RepairTower (unit-repair-tower) is a different class and NOT covered by this driver. (6) Draw rows live (N2421) -- the draw pure (source_repair_turret_draw_state) models draw() (:164-174: base rect + turret-layer shadow/region at rotation - 90, the shadow shifted by the FLOAT size / 2f) + the static drawBeam (:106-150: origin = pos + trns(rotation, length), lastEnd setLength(max(2, len)), the offset.trns jitter rotated by the target rotation, the strength > 0.01 gate with the pulse circle + two Drawf.laser calls) + icons() (:102-104: [baseRegion, region], folded into the draw pure -- icons() takes no args and the SSOT schema validator requires non-empty input keys), drawSelect() (:177-179: dash circle at repairRadius) and drawPlace() (:95-99: dash circle WITH the Block offset). NO RNG in the pure: the four rand rolls are caller-supplied inputs and the pure reports beam_seed (id + target id) so the caller can seed/roll from the same seed Java uses. Pure-only: the tick never calls draw -- draw is called by the renderer, drawSelect/drawPlace by the UI, icons by the atlas, and the call sites wait for renderer/UI slices. (7) Status/range rows live (N2475) -- the status/range pure (source_repair_turret_status_range_state) models status() (:226-228: noInput when potentialEfficiency is within 0.01f of zero, else the caller-supplied super.status()) + range() (:231-233: repairRadius verbatim -- class 50f, repair-point 60f, repair-turret 145f). Pure-only: the tick never calls status() / range(); the status-display call sites wait for renderer/UI slices.
+	# Documented limits: (1) power + coolant optional pass -- the repair turret's power consumer is conditional (ConsumePowerCondition, target-gated), so the folded efficiency is the min over the *modeled* non-optional consumers (power only); the coolant optional consumer (repair-turret only: ConsumeCoolant 0.16f, acceptCoolant, coolantMultiplier 1.6f, Blocks.java:6405-6407; `consume(new ConsumeCoolant(coolantUse)).optional(true, true);`, RepairTurret.java:86) is LIVE since N2259 (source_repair_turret_coolant_row_state, ConsumeLiquidFilter.efficiency, ConsumeLiquidFilter.java:50-55; the second-pass removal is ConsumeLiquidFilter.update, ConsumeLiquidFilter.java:42-47), folding into the optional pass (BuildingComp.java:1979-1981); coolant is the ONLY optional consumer on this family, so optionalEfficiency is complete. The conditional power DRAW (ConsumePowerCondition usage gated on target != null, ConsumePowerCondition.java:17) is still not modeled -- the row still reads power.status (ConsumePowerCondition does not override efficiency()). (2) shouldConsume gate live (N2212) -- RepairPointBuild overrides shouldConsume (`target != null && enabled`, RepairTurret.java:221-223); when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994); the pure gate reads the frame target key (default null) plus enabled and feeds should_consume to the machinery; the timer cadence is live since N2280 (N2226: the clear + pure re-acquire selection are live; the live unit query still waits for the live-fill slice, so no live fill sets frame["target"] yet without supplied candidates). (3) updateTile advance live (N2226) -- the target clear / heal amount / rotation slerp / strength lerp / pure re-acquire selection (RepairTurret.java:187-218) run on the frame; the coolant multiplier is live since N2259 (frame["coolant_multiplier"] from the folded optionalEfficiency + current heatCapacity, RepairTurret.java:190); the timer cadence live (N2280) -- the frame-local Interval (20f, literal-20 threshold Java-exact since N2290) passes frame-input unit_candidates into the advance when it fires, [] otherwise; the heal application (target.heal writes into another unit frame) and the live Units scan (no live unit query exists in the port) wait for the live-fill slice. (4) Two defs -- repair-point (powerUse 1f) and repair-turret (powerUse 5f + coolant) share the one driver; repairSpeed / repairRadius are now read per def by the advance (N2226, driver constants -- the catalog carries neither); the full per-def stat rows (repairSpeed / repairRadius / length / beamWidth / pulseRadius) are live since N2489 (source_repair_turret_per_def_stats_state, unknown def falls back to the class defaults -- the N2304 fallback precedent, NOT the repair-point fallback of the N2226 advance helpers). (5) RepairTower (unit-repair-tower) is a different class and NOT covered by this driver. (6) Draw rows live (N2421) -- the draw pure (source_repair_turret_draw_state) models draw() (:164-174: base rect + turret-layer shadow/region at rotation - 90, the shadow shifted by the FLOAT size / 2f) + the static drawBeam (:106-150: origin = pos + trns(rotation, length), lastEnd setLength(max(2, len)), the offset.trns jitter rotated by the target rotation, the strength > 0.01 gate with the pulse circle + two Drawf.laser calls) + icons() (:102-104: [baseRegion, region], folded into the draw pure -- icons() takes no args and the SSOT schema validator requires non-empty input keys), drawSelect() (:177-179: dash circle at repairRadius) and drawPlace() (:95-99: dash circle WITH the Block offset). NO RNG in the pure: the four rand rolls are caller-supplied inputs and the pure reports beam_seed (id + target id) so the caller can seed/roll from the same seed Java uses. Pure-only: the tick never calls draw -- draw is called by the renderer, drawSelect/drawPlace by the UI, icons by the atlas, and the call sites wait for renderer/UI slices. (7) Status/range rows live (N2475) -- the status/range pure (source_repair_turret_status_range_state) models status() (:226-228: noInput when potentialEfficiency is within 0.01f of zero, else the caller-supplied super.status()) + range() (:231-233: repairRadius verbatim -- class 50f, repair-point 60f, repair-turret 145f). Pure-only: the tick never calls status() / range(); the status-display call sites wait for renderer/UI slices. (8) Per-def stat rows live (N2489) -- the per-def stats pure (source_repair_turret_per_def_stats_state) returns the def's {repair_speed, repair_radius, length, beam_width, pulse_radius} -- repair-point 0.45/60/5/0.73/5 (length is the class default, the def sets none), repair-turret 3/145/6/1.1/6.1, unknown def the class defaults 0.3/50/5/1/6 (the N2304 fallback precedent). Pure-only: the tick never calls it; the advance / draw pures keep taking these values as caller-supplied inputs.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
