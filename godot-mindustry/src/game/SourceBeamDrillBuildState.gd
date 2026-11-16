@@ -39,6 +39,11 @@ const SOURCE_BEAM_DRILL_OPTIONAL_BOOST_INTENSITY := 2.5
 # boost-warmup rate `0.1f`, the approachDelta / lerpDelta rates.
 const SOURCE_BEAM_DRILL_WARMUP_SPEED := 1.0 / 60.0
 const SOURCE_BEAM_DRILL_BOOST_WARMUP_RATE := 0.1
+# BeamDrill.java:39, `public float drillTime = 200f;`
+# -- the class drillTime default; the defs override it
+# (160f plasma-bore / 100f large-plasma-bore,
+# Blocks.java:3042/3055) through the catalog.
+const SOURCE_BEAM_DRILL_DRILL_TIME_DEFAULT := 200.0
 # BeamDrill.java:264 passes dumpTime / timeScale to the
 # timer; dumpTime is the Block default 5 (Block.java:438,
 # `public int dumpTime = 5;`, NO def overrides it anywhere
@@ -97,7 +102,8 @@ static func source_beam_drill_tick_frame_state(frame: Dictionary, block_implemen
 	# count (frame["facing_amount"], BeamDrill.java:228,
 	# `public int facingAmount;`, Java default 0). The tick
 	# preserves both instead of resetting them: the production
-	# advance fills items (still waiting for its own slice)
+	# advance fills items (live since N2477 -- the drop-loop
+	# pure, tick-wired after the advance)
 	# and the facing scan fills facing_amount since N2339
 	# (source_beam_drill_facing_scan_state over the frame
 	# facing_tiles, stamped each enabled tick before the
@@ -137,7 +143,7 @@ static func source_beam_drill_bind_frame_state(sprite: Sprite2D, block: Object) 
 	return {"applied": true, "frame": frame}
 
 static func source_beam_drill_should_consume_state(frame: Dictionary, item_capacity: int) -> Dictionary:
-	# BeamDrillBuild.shouldConsume (BeamDrill.java:270, `public boolean shouldConsume(){` with `return items.total() < itemCapacity && facingAmount > 0 && enabled;`, BeamDrill.java:271): the beam drill consumes only while its item store is under capacity AND at least one facing tile holds mineable wall ore AND it is enabled. BeamDrill extends Block (BeamDrill.java:25, `public class BeamDrill extends Block{`), NOT Drill, and BeamDrillBuild extends Building (BeamDrill.java:220, `public class BeamDrillBuild extends Building{`), so the gate lives on this family driver, not the drill frame. facingAmount is a plain int field (BeamDrill.java:228, `public int facingAmount;`, Java default 0), recomputed by `updateFacing();` (BeamDrill.java:375-411, called from updateTile :244 and onProximityUpdate :365): `facingAmount = 0;` then `facingAmount ++;` per mineable facing tile, where mineable is `if(drop != null && drop.hardness <= tier && (blockedItems == null || !blockedItems.contains(drop))){` (BeamDrill.java:391) -- for each of the size facing lasers it walks range tiles along the rotation, takes the first solid tile, and counts it when its wallDrop passes that check. The facing scan is live since N2339 (source_beam_drill_facing_scan_state over the frame facing_tiles, stamped each enabled tick before the advance); this gate reads frame["facing_amount"], which the tick recomputes after the fold -- the gate reads the previous tick's count (see below). The items total reuses the drill inventory helper (SourceDrillInventoryRuntimeState.items_total over frame["items"], the Building.items ItemModule); the production advance that fills the store (BeamDrill.java:253-261) waits for its own slice, so the gate reads the current frame. item_capacity comes from the catalog (block.properties["itemCapacity"]): 10 for plasma-bore (the Block.java:75 field default, `public int itemCapacity = 10;`) and 20 for large-plasma-bore (Blocks.java:3062, `itemCapacity = 20;`). When the gate is false updateConsumption forces efficiency to zero (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). The gate reads the previous tick's facingAmount -- updateConsumption runs before updateTile (BuildingComp.java:2274-2277, `updateConsumption();` then `if(enabled || !block.noUpdateDisabled){` / `updateTile();`), so the updateFacing recompute lands after the fold; correct per Java, not a bug.
+	# BeamDrillBuild.shouldConsume (BeamDrill.java:270, `public boolean shouldConsume(){` with `return items.total() < itemCapacity && facingAmount > 0 && enabled;`, BeamDrill.java:271): the beam drill consumes only while its item store is under capacity AND at least one facing tile holds mineable wall ore AND it is enabled. BeamDrill extends Block (BeamDrill.java:25, `public class BeamDrill extends Block{`), NOT Drill, and BeamDrillBuild extends Building (BeamDrill.java:220, `public class BeamDrillBuild extends Building{`), so the gate lives on this family driver, not the drill frame. facingAmount is a plain int field (BeamDrill.java:228, `public int facingAmount;`, Java default 0), recomputed by `updateFacing();` (BeamDrill.java:375-411, called from updateTile :244 and onProximityUpdate :365): `facingAmount = 0;` then `facingAmount ++;` per mineable facing tile, where mineable is `if(drop != null && drop.hardness <= tier && (blockedItems == null || !blockedItems.contains(drop))){` (BeamDrill.java:391) -- for each of the size facing lasers it walks range tiles along the rotation, takes the first solid tile, and counts it when its wallDrop passes that check. The facing scan is live since N2339 (source_beam_drill_facing_scan_state over the frame facing_tiles, stamped each enabled tick before the advance); this gate reads frame["facing_amount"], which the tick recomputes after the fold -- the gate reads the previous tick's count (see below). The items total reuses the drill inventory helper (SourceDrillInventoryRuntimeState.items_total over frame["items"], the Building.items ItemModule); the production advance that fills the store (BeamDrill.java:253-261) is live since N2477 (the drop-loop pure, tick-wired after the advance), so the gate reads the current frame. item_capacity comes from the catalog (block.properties["itemCapacity"]): 10 for plasma-bore (the Block.java:75 field default, `public int itemCapacity = 10;`) and 20 for large-plasma-bore (Blocks.java:3062, `itemCapacity = 20;`). When the gate is false updateConsumption forces efficiency to zero (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). The gate reads the previous tick's facingAmount -- updateConsumption runs before updateTile (BuildingComp.java:2274-2277, `updateConsumption();` then `if(enabled || !block.noUpdateDisabled){` / `updateTile();`), so the updateFacing recompute lands after the fold; correct per Java, not a bug.
 	var stored_items: Variant = frame.get("items", {})
 	var items: Dictionary = stored_items if stored_items is Dictionary else {}
 	var items_total: int = source_drill_inventory_runtime_state.items_total(items)
@@ -217,7 +223,9 @@ static func source_beam_drill_facing_scan_state(facing_tiles: Array, size: int, 
 	# large-plasma-bore `tier = 5;` / `size = 3;` /
 	# `range = 6;` (Blocks.java:3057-3059); the class
 	# defaults are `public int range = 5;` /
-	# `public int tier = 1;` (BeamDrill.java:35-36)
+	# `public int tier = 1;` (BeamDrill.java:40-41 -- NOT
+	# :35-36 as this docstring used to cite; :35-36 are
+	# the top/glow region lines, the N2473 :36-40 lesson)
 	# and `public int size = 1;` (Block.java:215).
 	# blockedItems is the Seq<Item> exemption list
 	# (BeamDrill.java:51 -- NOT :40, the old cite),
@@ -238,8 +246,9 @@ static func source_beam_drill_facing_scan_state(facing_tiles: Array, size: int, 
 	# distinct drops face the drill) and the facing
 	# tiles (`public Tile[] facing = new Tile[size];`,
 	# BeamDrill.java:221) are what the drop loop reads
-	# (BeamDrill.java:247, 253-262), and they wait for
-	# the drop-loop slice (entry 190) -- the count is
+	# (BeamDrill.java:247, 253-262), and the drop-loop pure
+	# (N2477) derives them by re-walking the same rays
+	# -- the count is
 	# what the shouldConsume gate reads (BeamDrill.
 	# java:271):
 	# `return items.total() < itemCapacity && facingAmount > 0 && enabled;`
@@ -598,8 +607,11 @@ static func source_beam_drill_power_status_row_state(frame: Dictionary, has_powe
 	# fields are :47/:49/:51, NOT :36-40 as the old
 	# DEFERRED cite said, and the lookup IS drill-time:
 	# updateTile :247/:249/:253/:261, not setStats-only;
-	# no tick wiring yet, the drop-loop slice wires
-	# getDrillTime into the advance). Still deferred:
+	# the drop-loop pure (N2477) wires getDrillTime
+	# into the tick -- the lookup is inlined there (the
+	# N2473 test pins the pure's call count, so the
+	# drop loop divides by the looked-up multiplier
+	# itself). Still deferred:
 	# live liquid intake (no conduit/bridge delivery fills
 	# frame["liquids"] yet; the rows read the store as-is).
 	# (2) shouldConsume gate live (N2202)
@@ -637,19 +649,22 @@ static func source_beam_drill_power_status_row_state(frame: Dictionary, has_powe
 	# each enabled tick before the facing scan (N2366:
 	# every enabled tick, no is_empty gate -- a tick
 	# with no world_tiles fills all-null rays); the
-	# LIVE world-tile query still waits); still
-	# deferred: lastItem / facing[] + the drop
-	# loop + `time %= drillTime;` reset +
-	# lastDrillSpeed (BeamDrill.java:249, 253-262, needs
-	# lastItem / facing / items state the tick does not
-	# track); the dump neighbour live fill is live since N2405
+	# LIVE world-tile query still waits); the
+	# drop loop + `time %= drillTime;` reset +
+	# lastDrillSpeed are live since N2477
+	# (BeamDrill.java:249, 253-262: the drop-loop pure
+	# re-walks the facing rays for lastItem / facing[],
+	# wires getDrillTime through the N2473 lookup,
+	# runs the capacity-gated drop loop and resets
+	# time -- the pre-N2477 note said time grows unbounded
+	# until the reset slice lands; N2477 IS that reset slice,
+	# so the note is closed); the dump neighbour live fill is live since N2405
 	# (the fill pure fills the neighbour acceptItem /
 	# canDump arrays from the live proximity before the
 	# timerDump dump, the N2394 pattern -- supplied arrays
 	# win); the dump neighbour write-back is live since
 	# N2363 (the dumped item lands in the neighbour
-	# frame through the shared helper). Until the reset slice
-	# lands, time grows unbounded.
+	# frame through the shared helper).
 	# (4) Draw rows live (N2436) -- the draw pure
 	# (source_beam_drill_draw_state) models drawSelect()
 	# (:231-234, the recorded drawItemSelection(lastItem)
@@ -724,12 +739,14 @@ static func source_beam_drill_update_tile_advance_state(frame: Dictionary, sourc
 	# facing scan each enabled tick (N2366: every
 	# enabled tick, no is_empty gate); the LIVE
 	# world-tile query still waits).
-	# Deferred, not done here: lastItem
-	# (BeamDrill.java:376-411, which updateFacing
-	# sets), the drop loop + `time %= drillTime;`
-	# reset + lastDrillSpeed (BeamDrill.java:249,
-	# 253-262); until the reset slice lands, time grows
-	# unbounded. The dump timer
+	# The drop loop + `time %= drillTime;` reset +
+	# lastDrillSpeed (BeamDrill.java:249, 253-262) are
+	# NOT done here: they live in the drop-loop pure
+	# (N2477), tick-wired right after this advance --
+	# the advance keeps exactly its four N2195 keys
+	# (a neighbour test pins the return dict), and
+	# the drop pure reads the advanced time from the
+	# frame. The dump timer
 	# (BeamDrill.java:264-266) is live since N2289
 	# (source_beam_drill_timer_dump_state, wired after this
 	# advance in the tick).
@@ -745,6 +762,148 @@ static func source_beam_drill_update_tile_advance_state(frame: Dictionary, sourc
 	var next_boost_warmup: float = lerpf(boost_warmup, optional_efficiency, clampf(SOURCE_BEAM_DRILL_BOOST_WARMUP_RATE * source_delta, 0.0, 1.0))
 	var next_time: float = time + efficiency * source_delta * time_scale * multiplier
 	return {"warmup": next_warmup, "boost_warmup": next_boost_warmup, "multiplier": multiplier, "time": next_time}
+
+static func source_beam_drill_drop_loop_state(frame: Dictionary, time_scale: float, drill_time_base: float, drill_multipliers: Dictionary, item_capacity: int, size: int, beam_range: int, tier: int, blocked_items: Variant) -> Dictionary:
+	# The drop loop + time reset + lastDrillSpeed
+	# (BeamDrillBuild.updateTile(), BeamDrill.java:237-267),
+	# in Java order, after the N2195 advance (:251 moves
+	# time) and before the timerDump dump (:264-266):
+	# `float drillTime = getDrillTime(lastItem);`
+	# (BeamDrill.java:247; getDrillTime :216-218,
+	# `public float getDrillTime(Item item){`
+	# `return drillTime / drillMultipliers.get(item, 1f);`
+	# (:217), over the map
+	# `public ObjectFloatMap<Item> drillMultipliers = new ObjectFloatMap<>();`
+	# (BeamDrill.java:47) with the 1f default honoured
+	# by arc (`public float get(K key, float defaultValue){`,
+	# ObjectFloatMap.java:286, including a null item,
+	# `if(key == null) return defaultValue;`, :287 -- the
+	# lastItem-null case),
+	# `lastDrillSpeed = (facingAmount * multiplier * timeScale) / drillTime * efficiency;`
+	# (:249),
+	# `if(time >= drillTime){`
+	# (:253),
+	# `for(Tile tile : facing){`
+	# (:254),
+	# `Item drop = tile == null ? null : tile.wallDrop();`
+	# (:255; `public @Nullable Item wallDrop(){`,
+	# Tile.java:575),
+	# `if(items.total() < itemCapacity && drop != null){`
+	# (:256 -- the capacity gate sits INSIDE the loop, so
+	# items.total() is re-checked PER tile: a store at
+	# 9/10 takes exactly one more item),
+	# `items.add(drop, 1);`
+	# (:257),
+	# `produced(drop);`
+	# (:258; `public void produced(Item item){`,
+	# BuildingComp.java:1035, the sector stats + unlock
+	# -- reported here as counts per item, not written:
+	# no sector stats exist in the port, the WallCrafter
+	# N2398 precedent),
+	# `time %= drillTime;`
+	# (:261 -- a reset, not a subtraction: the loop runs
+	# ONCE per tick even when time exceeds 2x drillTime).
+	# The facing[] dests + lastItem come from updateFacing
+	# (BeamDrill.java:375-411 -- NOT :376-411, the body
+	# range: the method opens :375):
+	# `public Tile[] facing = new Tile[size];`
+	# (BeamDrill.java:221),
+	# `public @Nullable Item lastItem;`
+	# (:223), the multiple detection
+	# `if(lastItem != drop && lastItem != null){`
+	# / `multiple = true;` (:393-394),
+	# `facing[p] = dest;` (:404), the null-out
+	# `if(multiple){` / `lastItem = null;` (:408-409),
+	# over the mineable gate
+	# `if(drop != null && drop.hardness <= tier && (blockedItems == null || !blockedItems.contains(drop))){`
+	# (:391). The pure re-walks the facing rays for them
+	# -- the N2339 scan returns ONLY the count and has no
+	# last_item / facing key to read (amending it would
+	# break the N2339 test's pinned symbols), so the walk
+	# is duplicated here deliberately: the first solid
+	# tile breaks the ray even when unmineable, a null /
+	# non-solid tile does not, rays past `size` and tiles
+	# past `beam_range` are ignored (the N2339 precedent).
+	# The multiplier lookup is INLINED, not called: the
+	# N2473 test pins the multiplier pure's call count at
+	# 1 (the definition alone), so the pure divides by
+	# the looked-up multiplier itself (null item -> 1.0,
+	# absent key -> 1.0 -- the same two arc rules). The
+	# base drillTime is
+	# `public float drillTime = 200f;`
+	# (:39), `drillTime = 160f;` plasma-bore /
+	# `drillTime = 100f;` large-plasma-bore
+	# (Blocks.java:3042/3055); itemCapacity is
+	# `public int itemCapacity = 10;`
+	# (Block.java:75), `itemCapacity = 20;`
+	# large-plasma-bore (Blocks.java:3062). The class
+	# range / tier are :40/:41 (NOT :35-36 as the old
+	# scan docstring cited -- :35-36 are the top/glow
+	# region lines, the N2473 :36-40 lesson). The frame
+	# carries the facing rays, the items store, the
+	# ADVANCED time, facing_amount, the multiplier
+	# (stamped by the advance just before this runs)
+	# and the folded efficiency; lastDrillSpeed is
+	# computed EVERY tick, before the threshold check.
+	# last_item is the item id (the N2225 precedent,
+	# Java compares Item references) or null; facing is
+	# the dest tile Dict per laser or null; produced is
+	# the per-item count of produced() calls.
+	var facing_tiles: Array = frame.get("facing_tiles", [])
+	var stored_items: Variant = frame.get("items", {})
+	var items: Dictionary = stored_items if stored_items is Dictionary else {}
+	var time: float = float(frame.get("time", 0.0))
+	var facing_amount: int = int(frame.get("facing_amount", 0))
+	var multiplier: float = float(frame.get("multiplier", 1.0))
+	var efficiency: float = float(frame.get("efficiency", 0.0))
+	var facing: Array = []
+	var last_item: Variant = null
+	var multiple := false
+	for p in range(size):
+		var dest: Variant = null
+		if p < facing_tiles.size():
+			var ray: Variant = facing_tiles[p]
+			if ray is Array:
+				for i in range(beam_range):
+					if i >= ray.size():
+						break
+					var ray_tile: Variant = ray[i]
+					if ray_tile == null or not (ray_tile is Dictionary):
+						continue
+					if not bool(ray_tile.get("solid", false)):
+						continue
+					var ray_drop: Variant = ray_tile.get("wall_drop", null)
+					if ray_drop != null and ray_drop is Dictionary:
+						var ray_drop_id: String = str(ray_drop.get("id", ""))
+						var ray_drop_hardness: int = int(ray_drop.get("hardness", 0))
+						if ray_drop_hardness <= tier and (blocked_items == null or not (blocked_items is Array and blocked_items.has(ray_drop_id))):
+							if last_item != null and str(last_item) != ray_drop_id:
+								multiple = true
+							last_item = ray_drop_id
+							dest = ray_tile
+					break
+		facing.append(dest)
+	if multiple:
+		last_item = null
+	var drill_multiplier: float = 1.0
+	if last_item != null:
+		drill_multiplier = float(drill_multipliers.get(last_item, 1.0))
+	var drill_time: float = drill_time_base / drill_multiplier
+	var last_drill_speed: float = (float(facing_amount) * multiplier * time_scale) / drill_time * efficiency
+	var next_items: Dictionary = items.duplicate(true)
+	var produced: Dictionary = {}
+	if time >= drill_time:
+		for face_tile in facing:
+			var face_drop: Variant = null
+			if face_tile != null and face_tile is Dictionary:
+				face_drop = face_tile.get("wall_drop", null)
+			if source_drill_inventory_runtime_state.items_total(next_items) < item_capacity and face_drop != null and face_drop is Dictionary:
+				var face_drop_id: String = str(face_drop.get("id", ""))
+				var added: Dictionary = source_drill_inventory_runtime_state.add_item_state(next_items, face_drop_id, 1)
+				next_items = added.get("drill_items", next_items)
+				produced[face_drop_id] = int(produced.get(face_drop_id, 0)) + 1
+		time = fmod(time, drill_time)
+	return {"last_item": last_item, "facing": facing, "drill_time": drill_time, "last_drill_speed": last_drill_speed, "time": time, "items": next_items, "produced": produced}
 
 static func source_beam_drill_timer_dump_state(frame: Dictionary, source_delta: float, time_scale: float, content_item_ids: Array, neighbour_accepts_item: Array, neighbour_can_dump: Array) -> Dictionary:
 	# The timerDump dump at the END of updateTile
@@ -1687,6 +1846,37 @@ static func source_beam_drill_tick_buildings_state(game: Object, seconds: float)
 			frame["boost_warmup"] = advanced["boost_warmup"]
 			frame["multiplier"] = advanced["multiplier"]
 			frame["time"] = advanced["time"]
+			# N2477: the drop loop + time reset + lastDrillSpeed
+			# (BeamDrill.java:249, 253-262) -- after the advance
+			# (:251 moves time) and before the timerDump dump
+			# (:264-266), the Java order inside updateTile.
+			# The pure re-walks the facing rays for lastItem /
+			# facing[], wires getDrillTime through the N2473
+			# lookup, runs the capacity-gated drop loop and
+			# resets time. drillTime reads the catalog per def
+			# (160f plasma-bore / 100f large-plasma-bore,
+			# Blocks.java:3042/3055) with the 200f class
+			# default (BeamDrill.java:39); the multiplier map
+			# is empty for both defs (neither sets an entry,
+			# Blocks.java:3038-3068, the N2473 verification),
+			# so the tick passes {} and the effective
+			# drillTime is the base; itemCapacity reads the
+			# catalog (10 default, Block.java:75; 20
+			# large-plasma-bore, Blocks.java:3062). The scan
+			# locals (size / range / tier / blockedItems) are
+			# reused. The pure reports the produced counts
+			# per item; the sector stats write + unlock
+			# (BuildingComp.java:1039-1046) wait -- no sector
+			# stats exist in the port.
+			var beam_drill_time: float = float(block.properties.get("drillTime", SOURCE_BEAM_DRILL_DRILL_TIME_DEFAULT))
+			var dropped: Dictionary = source_beam_drill_drop_loop_state(frame, time_scale, beam_drill_time, {}, int(block.properties.get("itemCapacity", 10)), beam_size, beam_range, beam_tier, beam_blocked_items)
+			frame["last_item"] = dropped.get("last_item", null)
+			frame["facing"] = dropped.get("facing", [])
+			frame["drill_time"] = dropped.get("drill_time", beam_drill_time)
+			frame["last_drill_speed"] = dropped.get("last_drill_speed", 0.0)
+			frame["time"] = dropped.get("time", frame.get("time", 0.0))
+			frame["items"] = dropped.get("items", frame.get("items", {}))
+			frame["produced"] = dropped.get("produced", {})
 			# N2289: the timerDump dump (BeamDrill.java:264-266,
 			# `if(timer(timerDump, dumpTime / timeScale)){ dump(); }`)
 			# runs AFTER the advance in the same tick (Java order:
