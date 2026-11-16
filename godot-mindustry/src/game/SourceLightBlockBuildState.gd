@@ -74,7 +74,7 @@ static func source_light_block_power_status_row_state(frame: Dictionary, has_pow
 	# LightBuild has NO shouldConsume override, so the BuildingComp default (BuildingComp.java:755-756, `return enabled;`) applies -- the power-only fold is EXACT, no deferral needed (the StackConveyor N2180 / Accelerator N2183 precedent). canConsume (BuildingComp.java:1917, `public boolean canConsume(){` with `return potentialEfficiency > 0;`, BuildingComp.java:1918) and edelta (BuildingComp.java:1927-1929, `return efficiency * delta();`) are the surrounding gates.
 	# The illuminator is its own family (LightBlock.java:21, `public class LightBlock extends Block{`; LightBuild, LightBlock.java:67, `public class LightBuild extends Building{`), a power / effect block with no parent driver: no existing family state covers it. Class fields: `public float brightness = 0.9f;` (LightBlock.java:22), `public float radius = 200f;` (LightBlock.java:23), `public @Load("@-top") TextureRegion topRegion;` (LightBlock.java:24); constructor `public LightBlock(String name){` (LightBlock.java:26), `hasPower = true;` (LightBlock.java:28), `update = true;` (LightBlock.java:29), `configurable = true;` (LightBlock.java:30), `saveConfig = true;` (LightBlock.java:31), `envEnabled |= Env.space;` (LightBlock.java:32), `swapDiagonalPlacement = true;` (LightBlock.java:33). init sets the light radius and clip (LightBlock.java:40, `lightRadius = radius*2.5f;` with LightBlock.java:41, `lightClipSize = Math.max(lightClipSize, lightRadius * 3f);` and LightBlock.java:42, `emitLight = true;`). Build fields: `public int color = Pal.accent.rgba();` (LightBlock.java:68), `public float smoothTime = 1f;` (LightBlock.java:69).
 	# Single def -- illuminator only (brightness 0.75f, radius 140f, graphite 12 / silicon 8 / lead 8, Blocks.java:6763-6767): `illuminator = new LightBlock("illuminator"){{` (Blocks.java:6763) with `requirements(Category.effect, BuildVisibility.lightingOnly, with(Items.graphite, 12, Items.silicon, 8, Items.lead, 8));` (Blocks.java:6764), `brightness = 0.75f;` (Blocks.java:6765), `radius = 140f;` (Blocks.java:6766) and `consumePower(0.05f);` (Blocks.java:6767). No second LightBlock def exists; there is no family split to manage. The color config (LightBlock.java:35, 72-94, 109-127, 132-136) waits for its own slice; the smoothTime advance (LightBlock.java:104-106) is N2189, unified with N2241 (source_light_block_smooth_time_state, below). The draw rows (LightBlock.java:96-102, 127-128) are live since N2374; the read / write / sense rows (LightBlock.java:137-148) wait for their own slices.
-	# Documented limits: (1) power-only first pass -- the illuminator's static power consumer (consumePower 0.05f, Blocks.java:6767) is the only modeled consumer, so the folded efficiency is the min over the *modeled* consumers (power only). (2) No shouldConsume override -- LightBuild has none, so the BuildingComp default `return enabled;` applies and the power-only fold is EXACT. (3) smoothTime advance DONE (N2189/N2241) -- smoothTime lerp (LightBlock.java:104-106) advances every tick toward the live timeScale; the drawLight radius clamp min(smoothTime, 2f) (LightBlock.java:128) is what the light_radius_scale key proves, and drawLight presentation is live since N2374 (source_light_block_draw_light_state, below). (4) Config/color rows live (N2443) -- config / configured / control / sense / buildConfiguration / onConfigureBuildTapped / config() (LightBlock.java:35, 72-94, 109-127, 132-133) are live in the sense + config pures below (source_light_block_sense_color_state / source_light_block_config_color_state); the logic-executor / picker-UI call sites wait for their own slices. (5) Single def -- illuminator only (brightness 0.75f, radius 140f, graphite 12 / silicon 8 / lead 8); per-def stat values wait for their own verification slice. (6) Draw rows live (N2374) -- draw / drawLight (LightBlock.java:96-102, 127-128) are live in the draw pures below; write / read (LightBlock.java:137-148) wait for their own slices. (7) DrawPlace rows live (N2439) -- drawPlace / changePlacementPath / minimapColor (LightBlock.java:48-66) are live in the draw-place pure below; the placement-UI / placer / minimap call sites wait for their own slices.
+	# Documented limits: (1) power-only first pass -- the illuminator's static power consumer (consumePower 0.05f, Blocks.java:6767) is the only modeled consumer, so the folded efficiency is the min over the *modeled* consumers (power only). (2) No shouldConsume override -- LightBuild has none, so the BuildingComp default `return enabled;` applies and the power-only fold is EXACT. (3) smoothTime advance DONE (N2189/N2241) -- smoothTime lerp (LightBlock.java:104-106) advances every tick toward the live timeScale; the drawLight radius clamp min(smoothTime, 2f) (LightBlock.java:128) is what the light_radius_scale key proves, and drawLight presentation is live since N2374 (source_light_block_draw_light_state, below). (4) Config/color rows live (N2443) -- config / configured / control / sense / buildConfiguration / onConfigureBuildTapped / config() (LightBlock.java:35, 72-94, 109-127, 132-133) are live in the sense + config pures below (source_light_block_sense_color_state / source_light_block_config_color_state); the logic-executor / picker-UI call sites wait for their own slices. (5) Single def -- illuminator only (brightness 0.75f, radius 140f, graphite 12 / silicon 8 / lead 8); Per-def stat rows live (N2500) -- source_light_block_per_def_stats_state returns the def rows with the class defaults (size 1, brightness 0.9f, radius 200f, no requirements) for an unknown def id; the def sets NO size line, so size 1 is the Block class default (Block.java:215). Init rows live (N2500) -- source_light_block_init_rows_state derives lightRadius = radius*2.5f, lightClipSize = max(in, lightRadius * 3f), emitLight = true (LightBlock.init(), LightBlock.java:39-43). (6) Draw rows live (N2374) -- draw / drawLight (LightBlock.java:96-102, 127-128) are live in the draw pures below; write / read (LightBlock.java:137-148) wait for their own slices. (7) DrawPlace rows live (N2439) -- drawPlace / changePlacementPath / minimapColor (LightBlock.java:48-66) are live in the draw-place pure below; the placement-UI / placer / minimap call sites wait for their own slices.
 	# Source lines (all 82 exact exprs, verified verbatim in upstream at RED):
 	# - `return build.power.status;`
 	# - `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`
@@ -215,7 +215,7 @@ static func source_light_block_draw_light_state(x_value: float, y_value: float, 
 	# The drawLight rows (LightBuild.drawLight(), LightBlock.java:126-128), the pure draw-call dict:
 	# `public void drawLight(){`
 	# `Drawf.light(x, y, lightRadius * Math.min(smoothTime, 2f), Tmp.c1.set(color), brightness * efficiency);`
-	# lightRadius is radius*2.5f (`lightRadius = radius*2.5f;`, LightBlock.java:40); brightness 0.9f / radius 200f are the class defaults (`public float brightness = 0.9f;` / `public float radius = 200f;`, LightBlock.java:22-23), overridden by the illuminator def to 0.75f / 140f (Blocks.java:6765-6766), so the def lightRadius is 350. The light color is Tmp.c1.set(color) with NO .a() call -- full alpha, unlike the 0.6f draw alpha. The radius clamp min(smoothTime, 2f) is the same clamp the N2189/N2241 smooth_time pure proves as light_radius_scale; smoothTime (`public float smoothTime = 1f;`, LightBlock.java:69) and efficiency ride the live frame, while lightRadius / brightness are caller-supplied so the pure stays def-agnostic (the N2356 range precedent) -- the init row itself stays deferred. An unpowered illuminator emits at brightness 0 (the N2185 fold: brightness * efficiency with efficiency 0). Draw never runs in the tick, so there is no tick wiring (pure-only). Draw rows live (N2374).
+	# lightRadius is radius*2.5f (`lightRadius = radius*2.5f;`, LightBlock.java:40); brightness 0.9f / radius 200f are the class defaults (`public float brightness = 0.9f;` / `public float radius = 200f;`, LightBlock.java:22-23), overridden by the illuminator def to 0.75f / 140f (Blocks.java:6765-6766), so the def lightRadius is 350. The light color is Tmp.c1.set(color) with NO .a() call -- full alpha, unlike the 0.6f draw alpha. The radius clamp min(smoothTime, 2f) is the same clamp the N2189/N2241 smooth_time pure proves as light_radius_scale; smoothTime (`public float smoothTime = 1f;`, LightBlock.java:69) and efficiency ride the live frame, while lightRadius / brightness are caller-supplied so the pure stays def-agnostic (the N2356 range precedent) -- the init row is live since N2500 (source_light_block_init_rows_state, below). An unpowered illuminator emits at brightness 0 (the N2185 fold: brightness * efficiency with efficiency 0). Draw never runs in the tick, so there is no tick wiring (pure-only). Draw rows live (N2374).
 	var light_radius_scale: float = minf(smooth_time, 2.0)
 	var light_brightness: float = brightness * efficiency
 	var light_call: Dictionary = {
@@ -381,6 +381,86 @@ static func source_light_block_config_color_state(color: int, action: String, ac
 		"is_self_tap": is_self_tap,
 		"headless": headless,
 	}
+
+static func source_light_block_per_def_stats_state(def_id: String) -> Dictionary:
+	# The per-def stat rows (the VERIFICATION slice: the values
+	# are already constants in this driver's header -- the
+	# N2304 / N2442 / N2489 / N2490 precedent): the def's size /
+	# brightness / radius / requirements for illuminator, the
+	# single LightBlock def (Blocks.java:6763-6767), with the
+	# CLASS defaults for an unknown def id (the N2304 fallback
+	# precedent). The def block (each exact expr on ONE comment
+	# line, the N2148 lesson):
+	# `illuminator = new LightBlock("illuminator"){{`
+	# `requirements(Category.effect, BuildVisibility.lightingOnly, with(Items.graphite, 12, Items.silicon, 8, Items.lead, 8));`
+	# `brightness = 0.75f;`
+	# `radius = 140f;`
+	# The class defaults (LightBlock.java:22-23, Block.java:215/356):
+	# `public float brightness = 0.9f;`
+	# `public float radius = 200f;`
+	# `public int size = 1;`
+	# `public ItemStack[] requirements = {};`
+	# LightBlock extends Block (`public class LightBlock extends Block{`,
+	# LightBlock.java:21). The def sets NO size line, so size 1
+	# is the inherited Block class default (Block.java:215) --
+	# the N2494 precedent: the size symbol cites Block.java,
+	# not the def block. The requirements dict is the {item:
+	# amount} dict from the def (the N2490 precedent); the
+	# catalog carries the same rows as an Array of {item,
+	# amount} dicts (content_registry.json, illuminator) but
+	# NO size / brightness / radius keys -- those values come
+	# from Java only. The requirements call carries
+	# BuildVisibility.lightingOnly -- recorded, NOT modeled
+	# (visibility is not modeled). An unknown def id falls
+	# back to the CLASS defaults -- size 1, brightness 0.9f,
+	# radius 200f, and NO requirements (the Block default is
+	# the empty array). Pure-only: the caller reads it; the
+	# existing pures are unchanged.
+	if def_id == "illuminator":
+		return {
+			"size": 1,
+			"brightness": 0.75,
+			"radius": 140.0,
+			"requirements": {"graphite": 12, "silicon": 8, "lead": 8},
+		}
+	return {
+		"size": 1,
+		"brightness": 0.9,
+		"radius": 200.0,
+		"requirements": {},
+	}
+
+
+static func source_light_block_init_rows_state(radius: float, light_clip_size_in: float) -> Dictionary:
+	# The init rows (LightBlock.init(), LightBlock.java:39-43):
+	# `lightRadius = radius*2.5f;`
+	# `lightClipSize = Math.max(lightClipSize, lightRadius * 3f);`
+	# `emitLight = true;`
+	# lightRadius is radius * 2.5f (:40); lightClipSize takes
+	# the MAX of the existing value and lightRadius * 3f (:41),
+	# so the pure takes the incoming lightClipSize as a
+	# caller-supplied input -- a fresh block reads 0f, the
+	# field is uninitialized (`public float lightClipSize;`,
+	# Block.java:223, Java float default 0f); emitLight is
+	# always true (:42). The def radius 140f derives
+	# lightRadius 350f / lightClipSize max(in, 1050f); the
+	# class radius 200f derives 500f / max(in, 1500f). The
+	# later Block.init() maxes (super.init(), LightBlock.java:44
+	# -- Block.java:1399 maxes against clipSize, >= size *
+	# tilesize = 8 for a size-1 block, and Block.java:1421-1422
+	# maxes against lightRadius * 2f) are both subsumed by the
+	# * 3f max here, so this pure's result IS the final init
+	# value for a LightBlock. Pure-only: the caller
+	# (block-init path) reads it; the existing pures are
+	# unchanged.
+	var light_radius: float = radius * 2.5
+	var light_clip_size: float = maxf(light_clip_size_in, light_radius * 3.0)
+	return {
+		"light_radius": light_radius,
+		"light_clip_size": light_clip_size,
+		"emit_light": true,
+	}
+
 
 @warning_ignore("unused_parameter")
 static func source_light_block_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
