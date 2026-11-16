@@ -259,8 +259,8 @@ static func source_fracker_power_status_row_state(frame: Dictionary, has_power_c
 	# (source_fracker_proximity_fraction_state) and stamps
 	# valid_tiles / boost onto the frame BEFORE the advance
 	# (Java order); the advance recomputes the fraction
-	# from the stamped keys. Still deferred: the live
-	# linked-tile scan, the live envAttrs read, and a
+	# from the stamped keys; linked-tile scan live since N2414.
+	# Still deferred: the live envAttrs read and a
 	# proximity-change trigger (Java runs onProximityUpdate
 	# only when placement/proximity changes).
 	if not has_power_consumer:
@@ -769,10 +769,12 @@ static func source_fracker_tick_buildings_state(game: Object, seconds: float) ->
 			# when placement/proximity changes; the port
 			# recomputes the fill every enabled tick from the
 			# frame inputs (the N2205 pump re-scan precedent).
-			# The linked tiles are frame inputs (default [] --
-			# no tiles, the Java empty-proximity outcome)
-			# until a live tile scan lands; the attribute env
-			# is the N2224 frame input (default 0.0). The fill
+			# The linked tiles are live-filled since N2414
+			# (the fill scans frame["world_tiles"] over the
+			# footprint BEFORE this recompute; a frame with
+			# no tile map fills an empty list, the Java
+			# empty-proximity outcome); the attribute env is
+			# the N2224 frame input (default 0.0). The fill
 			# delegates to the N2292 SolidPump pure through
 			# the Fracker wrapper, which binds the
 			# oil-extractor def constants (size 3,
@@ -780,7 +782,26 @@ static func source_fracker_tick_buildings_state(game: Object, seconds: float) ->
 			# never calls the SolidPump pure directly. The
 			# fill stamps valid_tiles / boost onto the frame;
 			# the fraction is recomputed by the N2224 advance
-			# from the stamped keys.
+			# from the stamped keys. Supplied arrays WIN (the
+			# N2381 precedent): the fill runs only when the
+			# frame carries no proximity_linked_tiles key --
+			# the N2305 proof seeds the array by hand, so a
+			# fill there would overwrite the seed. A frame
+			# the fill already stamped
+			# (proximity_linked_tiles_live -- port
+			# bookkeeping, not Java state, the N2394
+			# precedent) refreshes every tick, so a tile map
+			# that changes joins the array. The tick reads
+			# the origin_cell meta inline as fill_cell (cell
+			# is bound after the enabled block, the N2363
+			# note) and the catalog size.
+			var has_supplied_proximity_linked_tiles: bool = frame.has("proximity_linked_tiles")
+			if not has_supplied_proximity_linked_tiles or bool(frame.get("proximity_linked_tiles_live", false)):
+				var fill_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
+				var world_tiles: Dictionary = frame.get("world_tiles", {})
+				var filled: Dictionary = source_fracker_linked_tiles_live_fill_state(world_tiles, fill_cell, int(block.properties.get("size", 1)))
+				frame["proximity_linked_tiles"] = filled.get("proximity_linked_tiles", [])
+				frame["proximity_linked_tiles_live"] = true
 			var proximity_tiles: Array = frame.get("proximity_linked_tiles", [])
 			var filled: Dictionary = source_fracker_proximity_fraction_state(proximity_tiles, float(frame.get("attribute_env", 0.0)))
 			frame["valid_tiles"] = filled["valid_tiles"]
@@ -1010,3 +1031,76 @@ static func source_fracker_dump_liquid_neighbour_live_fill_state(game: Object, c
 					accepts = has_liquids and consumes_liquid
 		neighbours.append({"amount": amount, "capacity": capacity, "accepts": accepts, "has_liquids": has_liquids, "can_dump": can_dump, "liquids_present": liquids_present, "destination_present": destination_present, "relative_to": relative_to})
 	return {"dump_liquid_neighbours": neighbours}
+
+static func source_fracker_linked_tiles_live_fill_state(world_tiles: Dictionary, cell: Vector2i, size: int) -> Dictionary:
+	# The fraction linked-tiles live fill (N2414, DEFERRED
+	# #247): the N2305 tick recomputes validTiles/boost from
+	# frame proximity_linked_tiles each enabled tick, but the
+	# linked tiles stayed frame inputs (default [] -- no
+	# tiles), so a live oil-extractor with no fill read an
+	# empty proximity and pumped nothing. This fill scans the
+	# tile map over the fracker's linked-tile footprint BEFORE
+	# the N2305 recompute and fills the per-tile dict array.
+	# The linked tiles are the size x size FOOTPRINT
+	# (Tile.getLinkedTiles, Tile.java:474-485), NOT a ring:
+	# for the size-3 oil-extractor the footprint is the 3x3
+	# centred on the origin cell. Each Java expr below stays
+	# on ONE comment line (the N2148 lesson):
+	# `public void getLinkedTiles(Cons<Tile> cons){` (Tile.java:474).
+	# `int size = block.size, o = block.sizeOffset;` (Tile.java:476).
+	# `for(int dx = 0; dx < size; dx++){` (Tile.java:477).
+	# `for(int dy = 0; dy < size; dy++){` (Tile.java:478).
+	# `Tile other = world.tile(x + dx + o, y + dy + o);` (Tile.java:479).
+	# `if(other != null) cons.get(other);` (Tile.java:480).
+	# `sizeOffset = -((size - 1) / 2);` (Block.java:762 and :1430 -- -1 for size 3).
+	# `for(Tile other : tile.getLinkedTiles(tempTiles)){` (SolidPump.java:155).
+	# `boost = sumAttribute(attribute, tile.x, tile.y) / size / size;` (SolidPump.java:153).
+	# `protected boolean canPump(Tile tile){` (SolidPump.java:80).
+	# `return tile != null && !tile.floor().isLiquid;` (SolidPump.java:81).
+	# `public float sumAttribute(@Nullable Attribute attr, int x, int y){` (Block.java:575).
+	# `.sumf(other -> !floating && !placeableLiquid && other.floor().isDeep() ? 0 : other.floor().attributes.get(attr));` (Block.java:580).
+	# `attribute = Attribute.oil;` (Blocks.java:2972 -- the Fracker CLASS sets no attribute, but the oil-extractor DEF does).
+	# The walk order is the Java walk order (dx outer, dy
+	# inner), stable by construction. Java skips null tiles
+	# (Tile.java:480), so a missing key (or a null / non-Dict
+	# entry) contributes no dict -- an empty map fills an
+	# empty list, preserving the no-fill behavior. Each entry
+	# is the exact N2305 dict shape {can_pump,
+	# attribute_value, is_deep}: can_pump is the canPump
+	# answer (not floor_is_liquid for a present tile),
+	# attribute_value is the floor OIL attribute, is_deep is
+	# the deep-floor flag. The attribute adds whether or not
+	# the tile is pumpable -- sumAttribute has no canPump
+	# gate (Block.java:579-580) -- so a liquid-floor tile
+	# still contributes its oil attribute to the boost (the
+	# N2305 note). The deep exclusion stays in the N2305 pure
+	# (Block.java:580), not this fill. A present tile dict
+	# with missing keys reads floor_is_liquid false /
+	# oil_attribute 0.0 / is_deep false -- the Java floor
+	# defaults (a floor block's isLiquid / isDeep default
+	# false; attributes.get returns 0 for a missing
+	# attribute). DESIGN DECISION (verified, not guessed):
+	# the BeamDrill world_tiles convention is a Dict keyed
+	# "x,y" to {solid, wall_drop}
+	# (SourceBeamDrillBuildState.gd:374, the N2339 fill) --
+	# it carries NO floor / attribute / deep fields, and NO
+	# producer stamps frame["world_tiles"] anywhere (the
+	# BeamDrill tick only reads it, frame.get default {},
+	# and proofs seed it). So this slice defines the MINIMAL
+	# extension in the pure's input contract
+	# ({floor_is_liquid, oil_attribute, is_deep} per tile)
+	# and DOCUMENTS the producer gap: the live tile producer
+	# that stamps those floor fields onto frame world_tiles
+	# waits for its own slice -- this slice does NOT invent a
+	# tile producer. The pure lives after the tick function
+	# (the N2408 precedent -- a pure above the tick would
+	# shift the :633 frame-sync pin, test_c07_fracker_cite_sweep).
+	var size_offset: int = -((size - 1) / 2)
+	var linked_tiles: Array = []
+	for dx in range(size):
+		for dy in range(size):
+			var tile: Variant = world_tiles.get(str(cell.x + dx + size_offset) + "," + str(cell.y + dy + size_offset), null)
+			if tile == null or not (tile is Dictionary):
+				continue
+			linked_tiles.append({"can_pump": not bool(tile.get("floor_is_liquid", false)), "attribute_value": float(tile.get("oil_attribute", 0.0)), "is_deep": bool(tile.get("is_deep", false))})
+	return {"proximity_linked_tiles": linked_tiles}
