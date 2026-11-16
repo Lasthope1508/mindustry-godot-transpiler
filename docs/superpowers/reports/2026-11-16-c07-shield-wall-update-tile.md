@@ -26,7 +26,7 @@ Full gate `python3 -m unittest discover -s tests` launched from the MAIN thread 
 
 ## PUSH (in this tick)
 
-Gate verified: report → spec (Done/ledger 1653 → 1654 + N2204 row) → GOAL.md §5 (Windows proof stays debt). Slice `ef32a852` (11 files, +1150/-1) → docs + GOAL → hash-naming commit → handoff-status commit → push to origin main in this tick (origin/main re-checked before push: still 9cd1c4bb).
+Gate verified: report → spec (Done/ledger 1653 → 1654 + N2204 row) → GOAL.md §5 (Windows proof stays debt). Slice `ef32a852` (11 files, +1150/-1) → docs `17cd0e20` + GOAL `d105417d` → this hash-naming commit → handoff-status commit → push to origin main in this tick (origin/main re-checked before push: still 9cd1c4bb).
 
 ## Deferred (NOT this slice)
 

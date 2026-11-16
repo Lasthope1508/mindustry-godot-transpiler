@@ -100,7 +100,7 @@ Date: 2026-11-16. Batch: N2204 (single slice). Status: **DONE + GATE VERIFIED (2
 
 ## Next: GREEN N2204, then gate, then push
 
-- Write the pure function + 1 driver line → register → targeted 4/4 → proof headless → neighbours (family 16/16: N2175 + N2202 + N2203 + N2204; wiring 32/32) → full gate from the main thread → report/spec/GOAL → push (5-commit pattern).
+- Write the pure function + 1 driver line → register → targeted 4/4 → proof headless → neighbours (family 16/16: N2175 + N2202 + N2203 + N2204; wiring 32/32) → full gate from the main thread → report/spec/GOAL → slice commit `ef32a852` + docs `17cd0e20` + GOAL `d105417d` + hash-naming commits → push (5-commit pattern).
 - After N2204: MassDriver / LaunchPad rows, RepairTurret coolant, Units.nearby live query.
 
 ## GREEN verification + gate (main thread, ~06:45–06:49 +07)
