@@ -1,6 +1,6 @@
 # Handoff — N2215 RepairTurret strength lerp (C07)
 
-## Status: GREEN + gate LAUNCHED (main thread ~19:10 +07, PID 8969). Targeted 4/4 OK, family 28/28 OK, wiring 32/32 OK — GREEN total 64/64. Full gate Ran ~5953 expected, failures ~165, skipped 5, 0 errors. NOT committed/pushed yet.
+## Status: DONE + PUSHED (slice dcfff971, main 0c41db50).
 
 Next slice after N2214 (DONE + PUSHED, main 0ac75c4c): the strength lerp,
 `RepairPointBuild.updateTile()` RepairTurret.java:212.
