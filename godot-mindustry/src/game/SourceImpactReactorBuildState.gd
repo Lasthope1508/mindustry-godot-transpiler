@@ -124,6 +124,24 @@ static func source_impact_reactor_consume_state(frame: Dictionary, delta: float)
 		liquids["cryofluid"] = tank - cryofluid_drained
 	return {"blast_compound_burned": blast_compound_burned, "cryofluid_drained": cryofluid_drained, "consume_timer": consume_timer, "items": items, "liquids": liquids}
 
+static func source_impact_reactor_impact_power_state(frame: Dictionary) -> Dictionary:
+	# The first-production event (N2216): ImpactReactorBuild.updateTile
+	# fires the achievement trigger the first tick production exceeds
+	# the requested power, INSIDE the warmup hard gate
+	# (ImpactReactor.java:79, `if(efficiency >= 0.9999f && power.status >= 0.99f){`, keep on ONE comment line, the N2148 shootWarmup lesson: a split line fails this test) -- `boolean prevOut = consPower != null && getPowerProduction() <= consPower.requestedPower(this);` (ImpactReactor.java:80), then `if(!prevOut && consPower != null && (getPowerProduction() > consPower.requestedPower(this))){` with `Events.fire(Trigger.impactPower);` (ImpactReactor.java:87-88). The KEY SUBTLETY: productionEfficiency is only reassigned at ImpactReactor.java:100 (`productionEfficiency = Mathf.pow(warmup, 5f);`), AFTER the event check, so both getPowerProduction() calls read the SAME previous-tick productionEfficiency -- Java order inside updateTile is prevOut (:80) -> warmup advance (`warmup = Mathf.lerpDelta(warmup, 1f, warmupSpeed * timeScale);`, ImpactReactor.java:82, snapped by `if(Mathf.equal(warmup, 1f, 0.001f)){` / `warmup = 1f;`, :83-84) -> event check (:87-88) -> consume timer (`if(timer(timerUse, itemDuration / timeScale)){` / `consume();`, :91-92) -> `totalProgress += warmup * Time.delta;` (:98) -> productionEfficiency (:100) -- so the driver calls this function BEFORE the N2186 production step, which overwrites frame["production_efficiency"] with the new value. getPowerProduction() is `public float getPowerProduction(){` with `return enabled ? powerProduction * productionEfficiency : 0f;` (PowerGenerator.java:156-158), `powerProduction = 130f;` (Blocks.java:2636) and `public float productionEfficiency = 0.0f;` (PowerGenerator.java:96), so production is 130.0 * production_efficiency when enabled, 0.0 otherwise. requestedPower is `public float requestedPower(Building entity){` with `return buffered ?` / `(1f - entity.power.status) * capacity :` / `usage * (entity.shouldConsume() ? 1f : 0f);` (ConsumePower.java:56-60): the reactor's consPower is plain -- `consumePower(25f);` (Blocks.java:2642) -> `public ConsumePower consumePower(float powerPerTick){` with `return consume(new ConsumePower(powerPerTick, 0.0f, false));` (Block.java:1140-1142), buffered=false, capacity=0 -- so requested is 25.0 * (shouldConsume ? 1 : 0), and ImpactReactorBuild has NO shouldConsume override, so the BuildingComp default applies (`public boolean shouldConsume(){` with `return enabled;`, BuildingComp.java:755-756): requested is 25.0 when enabled, 0.0 otherwise. consPower is non-null in the driver branch (the driver only calls inside has_power_consumer), so the `consPower != null` conjuncts are true there; the condition is kept two-step exactly like Java (prevOut, then !prevOut && production > requested) instead of collapsing it. The event is the achievement trigger (`impactPower,`, EventType.java:26, with `trigger(Trigger.impactPower, powerupImpactReactor);`, GameService.java:383) -- the port has no Events / achievement system to fire into, so the stamp is the observable fact that it fired this tick.
+	var efficiency: float = float(frame.get("efficiency", 1.0))
+	var power_status: float = float(frame.get("power_status", 1.0))
+	var enabled: bool = bool(frame.get("enabled", true))
+	var production_efficiency: float = float(frame.get("production_efficiency", 0.0))
+	var impact_power_fired: bool = false
+	if efficiency >= 0.9999 and power_status >= 0.99:
+		var power_production: float = 130.0 * production_efficiency if enabled else 0.0
+		var requested_power: float = 25.0 if enabled else 0.0
+		var prev_out: bool = power_production <= requested_power
+		if not prev_out and power_production > requested_power:
+			impact_power_fired = true
+	return {"impact_power_fired": impact_power_fired}
+
 @warning_ignore("unused_parameter")
 static func source_impact_reactor_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the impact-reactor tick wiring every
@@ -175,6 +193,18 @@ static func source_impact_reactor_tick_buildings_state(game: Object, seconds: fl
 				required_results.append(power_row.get("row", {}))
 			var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(true, bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, [], [], frame)
 			source_building_efficiency_state.apply_update_consumption_state(consumption, frame)
+			# The first-production event (N2216): BEFORE the
+			# production advance -- Java computes prevOut and
+			# checks the event (ImpactReactor.java:80, :87-88)
+			# BEFORE productionEfficiency is reassigned
+			# (ImpactReactor.java:100), so both
+			# getPowerProduction() calls read the previous
+			# tick's productionEfficiency; the driver calls
+			# the event check before the production step for
+			# exactly that reason, and stamps whether the
+			# achievement trigger fired this tick.
+			var impact_power: Dictionary = source_impact_reactor_impact_power_state(frame)
+			frame["impact_power_fired"] = impact_power.get("impact_power_fired", false)
 			# The producer side (N2186): after the consumption
 			# fold, the same tick advances the warmup and stamps
 			# the live production onto the frame (ImpactReactor.java:79-100, PowerGenerator.java:156-158); the gate reads the FOLDED efficiency and the live power.status already on the frame.

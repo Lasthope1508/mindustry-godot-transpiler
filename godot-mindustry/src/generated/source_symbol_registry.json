@@ -174072,6 +174072,22 @@
         "test_reference_graph_and_actual_c07_repair_turret_strength_lerp"
       ],
       "runtime_proof": "/root/C07RepairTurretStrengthLerpProof"
+    },
+    "source_impact_reactor_impact_power_state_result.impact_power_fired": {
+      "status": "source-backed",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_impact_power_state",
+      "godot_symbol": "source_impact_reactor_impact_power_state_result.impact_power_fired",
+      "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+      "java_method": "ImpactReactorBuild.updateTile()",
+      "java_expr": "Events.fire(Trigger.impactPower);",
+      "rule": "Whether the impactPower trigger fired this tick (ImpactReactor.java:88, `Events.fire(Trigger.impactPower);`): true when the warmup hard gate holds (ImpactReactor.java:79) and production first exceeds the requested power (ImpactReactor.java:87, production 130f x previous-tick productionEfficiency vs requested 25f x shouldConsume), false otherwise -- at/below the requested power, at exact equality, when disabled, or when the gate fails.",
+      "tests": [
+        "test_c07_impact_reactor_impact_power_registration",
+        "test_all_c07_impact_reactor_impact_power_input_evidence_is_exact",
+        "test_impact_reactor_impact_power_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_impact_power"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorImpactPowerProof"
     }
   },
   "version": 1
