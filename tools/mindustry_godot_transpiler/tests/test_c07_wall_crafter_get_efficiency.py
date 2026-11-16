@@ -182,10 +182,12 @@ class C07WallCrafterGetEfficiencyTests(unittest.TestCase):
         self.assertIn('static func source_wall_crafter_update_tile_advance_state', wall_crafter)
         self.assertIn('static func source_wall_crafter_timer_use_state', wall_crafter)
         self.assertIn('static func source_wall_crafter_timer_dump_state', wall_crafter)
-        # The pure N2223 advance is untouched: its return dict
-        # keeps exactly the seven N2223 keys and the fill wires
+        # The pure N2223 advance is untouched except for the
+        # N2398 offload routing: its return dict keeps the seven
+        # N2223 keys plus the two N2398 keys
+        # (offload_neighbour_index + cdump), and the fill wires
         # BEFORE its call, never inside it.
-        self.assertIn('return {"warmup": next_warmup, "eff": eff, "last_efficiency": last_efficiency, "time": next_time, "total_time": next_total_time, "offloaded": offloaded, "items": next_items}', wall_crafter)
+        self.assertIn('return {"warmup": next_warmup, "eff": eff, "last_efficiency": last_efficiency, "time": next_time, "total_time": next_total_time, "offloaded": offloaded, "items": next_items, "offload_neighbour_index": offload_neighbour_index, "cdump": cdump}', wall_crafter)
         # The proof's keys drive the pure fill (sums solid-
         # tile BLOCK attributes; ignores non-solid tiles and
         # null tiles; an empty edge gives 0; the placement
