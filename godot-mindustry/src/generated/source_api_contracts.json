@@ -80804,6 +80804,214 @@
       ],
       "runtime_proof": "/root/C07RepairTowerPerDefStatRowsProof",
       "rule": "Source-backed RepairTower per-def stat rows from Blocks.java / RepairTower.java / Block.java."
+    },
+    "SourceShockwaveTowerBuildState.source_shockwave_tower_per_def_stats_state": {
+      "status": "active",
+      "source_slice": "N2492",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "source_method": "Blocks.load()",
+      "params": [
+        {
+          "name": "def_id",
+          "type": "String",
+          "schema": "source_shockwave_tower_per_def_stats_state_input.def_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "size",
+        "range_value",
+        "reload_value",
+        "requirements"
+      ],
+      "tests": [
+        "test_c07_shockwave_tower_per_def_stat_rows_registration",
+        "test_all_c07_shockwave_tower_per_def_stat_rows_input_evidence_is_exact",
+        "test_shockwave_tower_per_def_stat_rows_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_per_def_stat_rows"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerPerDefStatRowsProof",
+      "rule": "Source-backed ShockwaveTower per-def stat rows from Blocks.java / ShockwaveTower.java / Block.java."
+    },
+    "SourceItemBridgeBuildState.source_item_bridge_per_def_stats_state": {
+      "status": "active",
+      "source_slice": "N2493",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "source_method": "Blocks.load()",
+      "params": [
+        {
+          "name": "def_id",
+          "type": "String",
+          "schema": "source_item_bridge_per_def_stats_state_input.def_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "size",
+        "range_value",
+        "transport_time",
+        "arrow_period",
+        "arrow_time_scl",
+        "requirements"
+      ],
+      "tests": [
+        "test_c07_item_bridge_per_def_stat_rows_registration",
+        "test_all_c07_item_bridge_per_def_stat_rows_input_evidence_is_exact",
+        "test_item_bridge_per_def_stat_rows_state",
+        "test_reference_graph_and_actual_c07_item_bridge_per_def_stat_rows"
+      ],
+      "runtime_proof": "/root/C07ItemBridgePerDefStatRowsProof",
+      "rule": "Source-backed ItemBridge per-def stat rows from Blocks.java / ItemBridge.java / Block.java."
+    },
+    "SourceLiquidBridgeBuildState.source_liquid_bridge_per_def_stats_state": {
+      "status": "active",
+      "source_slice": "N2494",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "source_method": "Blocks.load()",
+      "params": [
+        {
+          "name": "def_id",
+          "type": "String",
+          "schema": "source_liquid_bridge_per_def_stats_state_input.def_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "size",
+        "range",
+        "liquid_capacity",
+        "arrow_period",
+        "arrow_time_scl",
+        "requirements"
+      ],
+      "tests": [
+        "test_c07_liquid_bridge_per_def_stat_rows_registration",
+        "test_all_c07_liquid_bridge_per_def_stat_rows_input_evidence_is_exact",
+        "test_liquid_bridge_per_def_stat_rows_state",
+        "test_reference_graph_and_actual_c07_liquid_bridge_per_def_stat_rows"
+      ],
+      "runtime_proof": "/root/C07LiquidBridgePerDefStatRowsProof",
+      "rule": "Source-backed LiquidBridge per-def stat rows from Blocks.java / LiquidBridge.java / ItemBridge.java / Block.java."
+    },
+    "SourceStackConveyorBuildState.source_stack_conveyor_per_def_stats_state": {
+      "status": "active",
+      "source_slice": "N2495",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "source_method": "Blocks.load()",
+      "params": [
+        {
+          "name": "def_id",
+          "type": "String",
+          "schema": "source_stack_conveyor_per_def_stats_state_input.def_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "size",
+        "speed",
+        "item_capacity",
+        "health",
+        "glow_alpha",
+        "glow_color",
+        "requirements"
+      ],
+      "tests": [
+        "test_c07_stack_conveyor_per_def_stat_rows_registration",
+        "test_all_c07_stack_conveyor_per_def_stat_rows_input_evidence_is_exact",
+        "test_stack_conveyor_per_def_stat_rows_state",
+        "test_reference_graph_and_actual_c07_stack_conveyor_per_def_stat_rows"
+      ],
+      "runtime_proof": "/root/C07StackConveyorPerDefStatRowsProof",
+      "rule": "Source-backed StackConveyor per-def stat rows from Blocks.java / StackConveyor.java / Block.java."
+    },
+    "SourceStackRouterBuildState.source_stack_router_per_def_stats_state": {
+      "status": "active",
+      "source_slice": "N2496",
+      "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+      "source_method": "DuctRouter.setStats()",
+      "params": [
+        {
+          "name": "def_id",
+          "type": "String",
+          "schema": "source_stack_router_per_def_stats_state_input.def_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "size",
+        "speed",
+        "item_capacity",
+        "health",
+        "glow_alpha",
+        "glow_color",
+        "requirements"
+      ],
+      "tests": [
+        "test_c07_stack_router_per_def_stat_rows_registration",
+        "test_all_c07_stack_router_per_def_stat_rows_input_evidence_is_exact",
+        "test_stack_router_per_def_stat_rows_state",
+        "test_reference_graph_and_actual_c07_stack_router_per_def_stat_rows"
+      ],
+      "runtime_proof": "/root/C07StackRouterPerDefStatRowsProof",
+      "rule": "Source-backed StackRouter per-def stat rows from StackRouter.java / DuctRouter.java / Block.java / Blocks.java."
+    },
+    "SourceImpactReactorBuildState.source_impact_reactor_per_def_stats_state": {
+      "status": "active",
+      "source_slice": "N2497",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "source_method": "Blocks.load()",
+      "params": [
+        {
+          "name": "def_id",
+          "type": "String",
+          "schema": "source_impact_reactor_per_def_stats_state_input.def_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "size",
+        "health",
+        "power_production",
+        "item_duration",
+        "liquid_capacity",
+        "requirements"
+      ],
+      "tests": [
+        "test_c07_impact_reactor_per_def_stat_rows_registration",
+        "test_all_c07_impact_reactor_per_def_stat_rows_input_evidence_is_exact",
+        "test_impact_reactor_per_def_stat_rows_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_per_def_stat_rows"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorPerDefStatRowsProof",
+      "rule": "Source-backed ImpactReactor per-def stat rows from Blocks.java / ImpactReactor.java / PowerGenerator.java / Block.java."
+    },
+    "SourceAcceleratorBuildState.source_accelerator_per_def_stats_state": {
+      "status": "active",
+      "source_slice": "N2498",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "source_method": "Blocks.load()",
+      "params": [
+        {
+          "name": "def_id",
+          "type": "String",
+          "schema": "source_accelerator_per_def_stats_state_input.def_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "size",
+        "scaled_health",
+        "power_buffer_requirement",
+        "requirements"
+      ],
+      "tests": [
+        "test_c07_accelerator_per_def_stat_rows_registration",
+        "test_all_c07_accelerator_per_def_stat_rows_input_evidence_is_exact",
+        "test_accelerator_per_def_stat_rows_state",
+        "test_reference_graph_and_actual_c07_accelerator_per_def_stat_rows"
+      ],
+      "runtime_proof": "/root/C07AcceleratorPerDefStatRowsProof",
+      "rule": "Source-backed Accelerator per-def stat rows from Blocks.java / Accelerator.java / Block.java."
     }
   },
   "policy": {

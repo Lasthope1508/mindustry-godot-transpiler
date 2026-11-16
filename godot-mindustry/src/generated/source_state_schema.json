@@ -262099,6 +262099,602 @@
       },
       "runtime_proof": "/root/C07RepairTowerPerDefStatRowsProof",
       "rule": "Source-backed RepairTower per-def stat rows from Blocks.java / RepairTower.java / Block.java."
+    },
+    "source_shockwave_tower_per_def_stats_state_input": {
+      "status": "active",
+      "owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_per_def_stats_state",
+      "source_slice": "N2492",
+      "keys": {
+        "def_id": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "shockwaveTower = new ShockwaveTower(\"shockwave-tower\"){{",
+          "rule": "The def id (Blocks.java:2038): \"shockwave-tower\" is the single ShockwaveTower def; any other id falls back to the CLASS defaults (the N2304 fallback precedent) -- size 1, range 110f, reload 90f, no requirements.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_per_def_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShockwaveTowerPerDefStatRowsProof",
+      "rule": "Source-backed ShockwaveTower per-def stat rows from Blocks.java / ShockwaveTower.java / Block.java."
+    },
+    "source_shockwave_tower_per_def_stats_state_result": {
+      "status": "active",
+      "owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_per_def_stats_state",
+      "source_slice": "N2492",
+      "keys": {
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "size = 3;",
+          "rule": "The def size (Blocks.java:2040): 3 for shockwave-tower; the class default is 1 (`public int size = 1;`, Block.java:215).",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_per_def_stats_state"
+          ]
+        },
+        "range_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "range = 170f;",
+          "rule": "The def range (Blocks.java:2043): 170f for shockwave-tower; the class default is 110f (`public float range = 110f;`, ShockwaveTower.java:25).",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_per_def_stats_state"
+          ]
+        },
+        "reload_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "reload = 80f;",
+          "rule": "The def reload (Blocks.java:2044): 80f for shockwave-tower; the class default is 90f (`public float reload = 60f * 1.5f;`, ShockwaveTower.java:26).",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_per_def_stats_state"
+          ]
+        },
+        "requirements": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "requirements(Category.effect, with(Items.surgeAlloy, 50, Items.silicon, 150, Items.oxide, 30, Items.tungsten, 100));",
+          "rule": "The def requirements (Blocks.java:2039) as the {item: amount} dict (the SourceAcceleratorBuildState capacities precedent): surge-alloy 50, silicon 150, oxide 30, tungsten 100 for shockwave-tower; the class default is NO requirements (`public ItemStack[] requirements = {};`, Block.java:356).",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_per_def_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShockwaveTowerPerDefStatRowsProof",
+      "rule": "Source-backed ShockwaveTower per-def stat rows from Blocks.java / ShockwaveTower.java / Block.java."
+    },
+    "source_item_bridge_per_def_stats_state_input": {
+      "status": "active",
+      "owner": "SourceItemBridgeBuildState.source_item_bridge_per_def_stats_state",
+      "source_slice": "N2493",
+      "keys": {
+        "def_id": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "phaseConveyor = new ItemBridge(\"phase-conveyor\"){{",
+          "rule": "The def id (Blocks.java:2116): \"phase-conveyor\" is the single ItemBridge def; any other id falls back to the CLASS defaults (the N2304 fallback precedent) -- size 1, range 0, transportTime 0f, arrowPeriod 0.4f, arrowTimeScl 6.2f, no requirements.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_per_def_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ItemBridgePerDefStatRowsProof",
+      "rule": "Source-backed ItemBridge per-def stat rows from Blocks.java / ItemBridge.java / Block.java."
+    },
+    "source_item_bridge_per_def_stats_state_result": {
+      "status": "active",
+      "owner": "SourceItemBridgeBuildState.source_item_bridge_per_def_stats_state",
+      "source_slice": "N2493",
+      "keys": {
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public int size = 1;",
+          "rule": "The def size: 1 for phase-conveyor -- the def block sets NO size, so the size is the Block class default (`public int size = 1;`, Block.java:215), and the class fallback is 1 too.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_per_def_stats_state"
+          ]
+        },
+        "range_value": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "range = 12;",
+          "rule": "The def range (Blocks.java:2118): 12 for phase-conveyor; the class default is 0 (`public int range;`, ItemBridge.java:27, no initializer).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_per_def_stats_state"
+          ]
+        },
+        "transport_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "transportTime = 2f;",
+          "rule": "The def transportTime (Blocks.java:2119): 2f for phase-conveyor; the class default is 0f (`public float transportTime;`, ItemBridge.java:28, no initializer).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_per_def_stats_state"
+          ]
+        },
+        "arrow_period": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "arrowPeriod = 0.9f;",
+          "rule": "The def arrowPeriod (Blocks.java:2120): 0.9f for phase-conveyor; the class default is 0.4f (`public float arrowSpacing = 4f, arrowOffset = 2f, arrowPeriod = 0.4f;`, ItemBridge.java:37).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_per_def_stats_state"
+          ]
+        },
+        "arrow_time_scl": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "arrowTimeScl = 2.75f;",
+          "rule": "The def arrowTimeScl (Blocks.java:2121): 2.75f for phase-conveyor; the class default is 6.2f (`public float arrowTimeScl = 6.2f;`, ItemBridge.java:38).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_per_def_stats_state"
+          ]
+        },
+        "requirements": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "requirements(Category.distribution, with(Items.phaseFabric, 5, Items.silicon, 7, Items.lead, 10, Items.graphite, 10));",
+          "rule": "The def requirements (Blocks.java:2117) as the {item: amount} dict (the N2490 precedent): phase-fabric 5, silicon 7, lead 10, graphite 10 for phase-conveyor; the class default is NO requirements (`public ItemStack[] requirements = {};`, Block.java:356).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_per_def_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ItemBridgePerDefStatRowsProof",
+      "rule": "Source-backed ItemBridge per-def stat rows from Blocks.java / ItemBridge.java / Block.java."
+    },
+    "source_liquid_bridge_per_def_stats_state_input": {
+      "status": "active",
+      "owner": "SourceLiquidBridgeBuildState.source_liquid_bridge_per_def_stats_state",
+      "source_slice": "N2494",
+      "keys": {
+        "def_id": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "phaseConduit = new LiquidBridge(\"phase-conduit\"){{",
+          "rule": "The def id (Blocks.java:2385): \"phase-conduit\" is the LiquidBridge def this slice verifies; any other id falls back to the CLASS defaults (the N2304 fallback precedent) -- size 1, range 0, liquidCapacity 10f, arrowPeriod 0.4f, arrowTimeScl 6.2f, no requirements. bridge-conduit (the second LiquidBridge def, Blocks.java:2374-2384) still falls back until its own verification slice (DEFERRED #40).",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_per_def_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LiquidBridgePerDefStatRowsProof",
+      "rule": "Source-backed LiquidBridge per-def stat rows from Blocks.java / LiquidBridge.java / ItemBridge.java / Block.java."
+    },
+    "source_liquid_bridge_per_def_stats_state_result": {
+      "status": "active",
+      "owner": "SourceLiquidBridgeBuildState.source_liquid_bridge_per_def_stats_state",
+      "source_slice": "N2494",
+      "keys": {
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public int size = 1;",
+          "rule": "The def size: 1 for phase-conduit -- the def sets NO size line, so size 1 is the inherited Block class default (`public int size = 1;`, Block.java:215); the class fallback is the same 1.",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_per_def_stats_state"
+          ]
+        },
+        "range": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "range = 12;",
+          "rule": "The def range (Blocks.java:2388): 12 for phase-conduit; the class default is 0 -- `public int range;` (ItemBridge.java:27) has NO initializer, so the Java default is 0.",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_per_def_stats_state"
+          ]
+        },
+        "liquid_capacity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "liquidCapacity = 100f;",
+          "rule": "The def liquidCapacity (Blocks.java:2395): 100f for phase-conduit; the class default is 10f -- the -1f field (`public float liquidCapacity = -1f;`, Block.java:77) is a sentinel Block.init() replaces with `liquidCapacity = Mathf.round(10f * consumeAmount);` (Block.java:1418), and consumeAmount stays 1f because LiquidBridge has no liquid consumers (consumePower only); the 10.0 port precedent (SourceFactoryBuildState; the N2412 live fill).",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_per_def_stats_state"
+          ]
+        },
+        "arrow_period": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "arrowPeriod = 0.9f;",
+          "rule": "The def arrowPeriod (Blocks.java:2389): 0.9f for phase-conduit; the class default is 0.4f (`public float arrowSpacing = 4f, arrowOffset = 2f, arrowPeriod = 0.4f;`, ItemBridge.java:37).",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_per_def_stats_state"
+          ]
+        },
+        "arrow_time_scl": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "arrowTimeScl = 2.75f;",
+          "rule": "The def arrowTimeScl (Blocks.java:2390): 2.75f for phase-conduit; the class default is 6.2f (`public float arrowTimeScl = 6.2f;`, ItemBridge.java:38).",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_per_def_stats_state"
+          ]
+        },
+        "requirements": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "requirements(Category.liquid, with(Items.phaseFabric, 5, Items.silicon, 7, Items.metaglass, 20, Items.titanium, 10));",
+          "rule": "The def requirements (Blocks.java:2386) as the {item: amount} dict (the N2490 precedent): phase-fabric 5, silicon 7, metaglass 20, titanium 10 for phase-conduit; the class default is NO requirements (`public ItemStack[] requirements = {};`, Block.java:356).",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_per_def_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LiquidBridgePerDefStatRowsProof",
+      "rule": "Source-backed LiquidBridge per-def stat rows from Blocks.java / LiquidBridge.java / ItemBridge.java / Block.java."
+    },
+    "source_stack_conveyor_per_def_stats_state_input": {
+      "status": "active",
+      "owner": "SourceStackConveyorBuildState.source_stack_conveyor_per_def_stats_state",
+      "source_slice": "N2495",
+      "keys": {
+        "def_id": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "surgeConveyor = new StackConveyor(\"surge-conveyor\"){{",
+          "rule": "The def id (Blocks.java:2237): \"surge-conveyor\" is the powered StackConveyor def; \"plastanium-conveyor\" (Blocks.java:2084) is the second def; any other id falls back to the CLASS defaults (the N2304 fallback precedent) -- size 1, speed 0f, itemCapacity 10, health 40, glowAlpha 1f, glowColor Pal.redLight, no requirements.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_per_def_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07StackConveyorPerDefStatRowsProof",
+      "rule": "Source-backed StackConveyor per-def stat rows from Blocks.java / StackConveyor.java / Block.java."
+    },
+    "source_stack_conveyor_per_def_stats_state_result": {
+      "status": "active",
+      "owner": "SourceStackConveyorBuildState.source_stack_conveyor_per_def_stats_state",
+      "source_slice": "N2495",
+      "keys": {
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public int size = 1;",
+          "rule": "The def size: 1 for both defs -- NEITHER def sets size (no size line in Blocks.java:2084-2089 or :2237-2253), so both keep the Block class default (`public int size = 1;`, Block.java:215); the class fallback is 1 too.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_per_def_stats_state"
+          ]
+        },
+        "speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "speed = 5f / 60f;",
+          "rule": "The def speed (Blocks.java:2241): 5f/60f for surge-conveyor, 4f/60f for plastanium-conveyor (`speed = 4f / 60f;`, Blocks.java:2087); the class default is 0f (`public float speed = 0f;`, StackConveyor.java:38). The literals match the existing SOURCE_STACK_CONVEYOR_SPEED table.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_per_def_stats_state"
+          ]
+        },
+        "item_capacity": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "itemCapacity = 10;",
+          "rule": "The def itemCapacity: 10 for both defs (Blocks.java:2088/:2242), the same as the class default (`itemCapacity = 10;`, StackConveyor.java:52, constructor); the class fallback is 10.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_per_def_stats_state"
+          ]
+        },
+        "health": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "health = 130;",
+          "rule": "The def health (Blocks.java:2239): 130 for surge-conveyor, 90 for plastanium-conveyor (`health = 90;`, Blocks.java:2086); the class fallback is 40 -- the class field is the -1 sentinel (`public int health = -1;`, Block.java:190), which Block.init() (Block.java:1378-1394) fills to round(size * size * scaledHealth, 5) with scaledHealth defaulting to 40 (:1381, no requirements to scale it).",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_per_def_stats_state"
+          ]
+        },
+        "glow_alpha": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "public float glowAlpha = 1f;",
+          "rule": "The glow alpha: 1f for both defs -- NEITHER def overrides it (no glowAlpha line in either def block), so both keep the class default (`public float glowAlpha = 1f;`, StackConveyor.java:34); the class fallback is 1f.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_per_def_stats_state"
+          ]
+        },
+        "glow_color": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "public Color glowColor = Pal.redLight;",
+          "rule": "The glow color as the TOKEN \"Pal.redLight\" (the N2469 token precedent), not a resolved Color: Pal.redLight for both defs -- NEITHER def overrides it (no glowColor line in either def block), so both keep the class default (`public Color glowColor = Pal.redLight;`, StackConveyor.java:35); the class fallback is the same token.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_per_def_stats_state"
+          ]
+        },
+        "requirements": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "requirements(Category.distribution, with(Items.surgeAlloy, 1, Items.tungsten, 1));",
+          "rule": "The def requirements (Blocks.java:2238) as the {item: amount} dict (the N2490 precedent): surge-alloy 1, tungsten 1 for surge-conveyor; plastanium 1, silicon 1, graphite 1 for plastanium-conveyor (Blocks.java:2085); the class default is NO requirements (`public ItemStack[] requirements = {};`, Block.java:356).",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_per_def_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07StackConveyorPerDefStatRowsProof",
+      "rule": "Source-backed StackConveyor per-def stat rows from Blocks.java / StackConveyor.java / Block.java."
+    },
+    "source_stack_router_per_def_stats_state_input": {
+      "status": "active",
+      "owner": "SourceStackRouterBuildState.source_stack_router_per_def_stats_state",
+      "source_slice": "N2496",
+      "keys": {
+        "def_id": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "surgeRouter = new StackRouter(\"surge-router\"){{",
+          "rule": "The catalog def id (\"surge-router\", verified in content_registry_blocks.json); the single StackRouter def -- any other id falls back to the CLASS defaults (the N2304 fallback precedent).",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_per_def_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07StackRouterPerDefStatRowsProof",
+      "rule": "Source-backed StackRouter per-def stat rows from StackRouter.java / DuctRouter.java / Block.java / Blocks.java."
+    },
+    "source_stack_router_per_def_stats_state_result": {
+      "status": "active",
+      "owner": "SourceStackRouterBuildState.source_stack_router_per_def_stats_state",
+      "source_slice": "N2496",
+      "keys": {
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public int size = 1;",
+          "rule": "The def size (Block.java:215): the surge-router def sets NO size (Blocks.java:2255-2268), so it takes the class 1; the class fallback is 1.",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_per_def_stats_state"
+          ]
+        },
+        "speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "speed = 6f;",
+          "rule": "The def speed (Blocks.java:2259): 6f for surge-router; the class default is 5f (`public float speed = 5f;`, DuctRouter.java:19 -- DuctRouter overrides Router.java:13's 8f). Feeds the updateTile charge cap (`float cap = speed;`, StackRouter.java:30) + setStats (DuctRouter.java:51, 60f / speed * itemCapacity).",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_per_def_stats_state"
+          ]
+        },
+        "item_capacity": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackRouter.java",
+          "java_expr": "itemCapacity = 10;",
+          "rule": "The def itemCapacity (StackRouter.java:20): the surge-router def sets NO itemCapacity (Blocks.java:2255-2268), so it takes the StackRouter ctor 10 (which re-sets the DuctRouter ctor 1, DuctRouter.java:31; also the Block default, Block.java:75); the class fallback is 10. Feeds the full gate (`items.total() >= itemCapacity`, StackRouter.java:32) + setStats (DuctRouter.java:51).",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_per_def_stats_state"
+          ]
+        },
+        "health": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "health = 130;",
+          "rule": "The def health (Blocks.java:2257): 130 for surge-router; the class field is the -1 sentinel (`public int health = -1;`, Block.java:190, \"building health; -1 to use scaledHealth\"), resolved by init() (Block.java:1378-1394) to 40 for size 1 with no requirements (`scaledHealth = 40;`, scaling 1f, `Mathf.round(size * size * scaledHealth, 5)`) -- the fallback reports the RESOLVED 40, not the sentinel.",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_per_def_stats_state"
+          ]
+        },
+        "glow_alpha": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackRouter.java",
+          "java_expr": "public float glowAlpha = 1f;",
+          "rule": "The def glowAlpha (StackRouter.java:15): the surge-router def sets NO glowAlpha (Blocks.java:2255-2268), so it takes the class 1f; the class fallback is 1f. Feeds draw() (StackRouter.java:81, `Draw.color(glowColor, glowAlpha * power.status);`).",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_per_def_stats_state"
+          ]
+        },
+        "glow_color": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackRouter.java",
+          "java_expr": "public Color glowColor = Pal.redLight;",
+          "rule": "The def glowColor (StackRouter.java:16): the surge-router def sets NO glowColor (Blocks.java:2255-2268), so it takes the class Pal.redLight; the class fallback is Pal.redLight. Carried as the TOKEN \"Pal.redLight\" (the N2469 token precedent), not a resolved Color. Feeds draw() (StackRouter.java:81).",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_per_def_stats_state"
+          ]
+        },
+        "requirements": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "requirements(Category.distribution, with(Items.surgeAlloy, 5, Items.tungsten, 1));",
+          "rule": "The def requirements (Blocks.java:2256) as the {item: amount} dict (the N2490 precedent): surge-alloy 5, tungsten 1 for surge-router; the class default is NO requirements (`public ItemStack[] requirements = {};`, Block.java:356).",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_per_def_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07StackRouterPerDefStatRowsProof",
+      "rule": "Source-backed StackRouter per-def stat rows from StackRouter.java / DuctRouter.java / Block.java / Blocks.java."
+    },
+    "source_impact_reactor_per_def_stats_state_input": {
+      "status": "active",
+      "owner": "SourceImpactReactorBuildState.source_impact_reactor_per_def_stats_state",
+      "source_slice": "N2497",
+      "keys": {
+        "def_id": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "impactReactor = new ImpactReactor(\"impact-reactor\"){{",
+          "rule": "The def id (Blocks.java:2632): \"impact-reactor\" is the single ImpactReactor def; any other id falls back to the CLASS defaults (the N2304 fallback precedent) -- size 1, health 40 post-init, powerProduction 0f, itemDuration 60f, liquidCapacity 30f, no requirements.",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_per_def_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ImpactReactorPerDefStatRowsProof",
+      "rule": "Source-backed ImpactReactor per-def stat rows from Blocks.java / ImpactReactor.java / PowerGenerator.java / Block.java."
+    },
+    "source_impact_reactor_per_def_stats_state_result": {
+      "status": "active",
+      "owner": "SourceImpactReactorBuildState.source_impact_reactor_per_def_stats_state",
+      "source_slice": "N2497",
+      "keys": {
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "size = 4;",
+          "rule": "The def size (Blocks.java:2634): 4 for impact-reactor; the class default is 1 (`public int size = 1;`, Block.java:215).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_per_def_stats_state"
+          ]
+        },
+        "health": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "health = 900;",
+          "rule": "The def health (Blocks.java:2635): 900 for impact-reactor; the class field is the -1 sentinel (`public int health = -1;`, Block.java:190), resolved by init() to 40 for size 1 with no requirements (Block.java:1378-1395, scaledHealth 40).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_per_def_stats_state"
+          ]
+        },
+        "power_production": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "powerProduction = 130f;",
+          "rule": "The def powerProduction (Blocks.java:2636): 130f for impact-reactor; the class default is 0f -- the field is declared without an initializer on the generator side (`public float powerProduction;`, PowerGenerator.java:25) and the PowerGenerator constructor never sets it.",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_per_def_stats_state"
+          ]
+        },
+        "item_duration": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "itemDuration = 140f;",
+          "rule": "The def itemDuration (Blocks.java:2637): 140f for impact-reactor; the class default is 60f (`public float itemDuration = 60f;`, ImpactReactor.java:20).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_per_def_stats_state"
+          ]
+        },
+        "liquid_capacity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "liquidCapacity = 80f;",
+          "rule": "The def liquidCapacity (Blocks.java:2640): 80f for impact-reactor; the class default is 30f (`liquidCapacity = 30f;`, ImpactReactor.java:26, the constructor).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_per_def_stats_state"
+          ]
+        },
+        "requirements": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "requirements(Category.power, with(Items.lead, 500, Items.silicon, 300, Items.graphite, 400, Items.thorium, 100, Items.surgeAlloy, 250, Items.metaglass, 250));",
+          "rule": "The def requirements (Blocks.java:2633) as the {item: amount} dict (the N2490 precedent): lead 500, silicon 300, graphite 400, thorium 100, surge-alloy 250, metaglass 250 for impact-reactor; the class default is NO requirements (`public ItemStack[] requirements = {};`, Block.java:356).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_per_def_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ImpactReactorPerDefStatRowsProof",
+      "rule": "Source-backed ImpactReactor per-def stat rows from Blocks.java / ImpactReactor.java / PowerGenerator.java / Block.java."
+    },
+    "source_accelerator_per_def_stats_state_input": {
+      "status": "active",
+      "owner": "SourceAcceleratorBuildState.source_accelerator_per_def_stats_state",
+      "source_slice": "N2498",
+      "keys": {
+        "def_id": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "interplanetaryAccelerator = new Accelerator(\"interplanetary-accelerator\"){{",
+          "rule": "The def id (Blocks.java:6823): \"interplanetary-accelerator\" is the single Accelerator def; any other id falls back to the CLASS defaults (the N2304 fallback precedent) -- size 1, scaledHealth -1, powerBufferRequirement 0f, no requirements.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_per_def_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07AcceleratorPerDefStatRowsProof",
+      "rule": "Source-backed Accelerator per-def stat rows from Blocks.java / Accelerator.java / Block.java."
+    },
+    "source_accelerator_per_def_stats_state_result": {
+      "status": "active",
+      "owner": "SourceAcceleratorBuildState.source_accelerator_per_def_stats_state",
+      "source_slice": "N2498",
+      "keys": {
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "size = 7;",
+          "rule": "The def size (Blocks.java:6827): 7 for interplanetary-accelerator; the class default is 1 (`public int size = 1;`, Block.java:215).",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_per_def_stats_state"
+          ]
+        },
+        "scaled_health": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "scaledHealth = 80;",
+          "rule": "The def scaledHealth (Blocks.java:6831): 80 for interplanetary-accelerator; the class default is -1 (`public float scaledHealth = -1;`, Block.java:188), the \"unset\" sentinel -- Block.init() resolves it to 40 when health == -1 (Block.java:1380-1381), and that resolution lives in SourceBlockInitHealthState, not here.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_per_def_stats_state"
+          ]
+        },
+        "power_buffer_requirement": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "powerBufferRequirement = 1_000_000f;",
+          "rule": "The def powerBufferRequirement (Blocks.java:6826): 1,000,000f for interplanetary-accelerator; the class default is 0f (the uninitialized float field, `public float powerBufferRequirement;`, Accelerator.java:41).",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_per_def_stats_state"
+          ]
+        },
+        "requirements": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "requirements(Category.effect, BuildVisibility.campaignOnly, with(Items.copper, 16000, Items.silicon, 11000, Items.thorium, 13000, Items.titanium, 12000, Items.surgeAlloy, 6000, Items.phaseFabric, 5000));",
+          "rule": "The def requirements (Blocks.java:6824) as the {item: amount} dict (the SourceAcceleratorBuildState capacities precedent): copper 16000, silicon 11000, thorium 13000, titanium 12000, surge-alloy 6000, phase-fabric 5000 for interplanetary-accelerator; the class default is NO requirements (`public ItemStack[] requirements = {};`, Block.java:356).",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_per_def_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07AcceleratorPerDefStatRowsProof",
+      "rule": "Source-backed Accelerator per-def stat rows from Blocks.java / Accelerator.java / Block.java."
     }
   },
   "version": 1
