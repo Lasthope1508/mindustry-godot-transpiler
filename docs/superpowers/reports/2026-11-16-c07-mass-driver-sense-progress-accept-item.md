@@ -27,7 +27,7 @@ Full gate `python3 -m unittest discover -s tests` launched from the MAIN thread 
 
 ## PUSH (in this tick)
 
-Gate verified: report → spec (Done/ledger 1657 → 1658 + N2208 row) → GOAL.md §5 (Windows proof stays debt). Slice commit (9 files, rebased cleanly onto origin/main `705a3329` — validation wave17 merge `999969e1` + `705a3329`, docs/evidence only) → docs commit + GOAL commit → hash-naming commit → handoff-status commit → push to origin main in this tick (origin/main re-checked before push; no rebase conflict expected — validation merges are docs-only).
+Gate verified: report → spec (Done/ledger 1657 → 1658 + N2208 row) → GOAL.md §5 (Windows proof stays debt). Slice `1cd99dfc` (9 files, rebased cleanly onto origin/main `705a3329` — validation wave17 merge `999969e1` + `705a3329`, docs/evidence only) → docs `7b1d4523` + GOAL `9f7549f9` → this hash-naming commit → handoff-status commit → push to origin main in this tick (origin/main re-checked before push; no rebase conflict — validation merges are docs-only). Post-rebase sanity: targeted **Ran 4 OK in 16.039s** (port 7777 free, javalang 0.13.0).
 
 ## Deferred (NOT this slice)
 
