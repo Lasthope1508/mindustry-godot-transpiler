@@ -72,3 +72,11 @@ RepairTurret drawBeam rows, or the next deferred C07 item per backlog. (Do NOT s
 - GREEN code (all pure additions, 79 insertions across 3 files): const SOURCE_ACCELERATOR_POWER_BUFFER_REQUIREMENT := 1000000.0 (:98) + `source_accelerator_battery_state(frame, power_buffer_requirement)` (:100) + driver tick line (:166) in SourceAcceleratorBuildState.gd; new `source_consumer_set_battery_stored_for_cell_state(game, cell, stored)` in SourcePlacedPowerGraphState.gd (writes frame["battery_stored"] onto each consumer's family frame — the N2142 write-back pattern extended); `source_factory_update_power_graph_state` in SourceFactoryRuntimeState.gd now writes `last_power_stored` back to each consumer frame after the power_status write-back.
 - SSOT 11452/1667/1591/2973 → **11455/1668/1592/2975** (symbols +3, ledger +1, contracts +1, schema +2; audit 1335). NO shard change (verified from `git status` — no `source_modules/` diff). Slice commit: 11 files (3 .gd + 4 SSOT JSONs + proof .gd/.tscn + register + test). The repo-root `hidden_files/` dir is working logs — never stage.
 - Gate (main thread, PID 6333, SID 6333, ~23:01): godot NOT on PATH, javalang OK, no stray gate before launch. Finished ~23:18: **Ran 5965 tests in 1025.895s — FAILED (failures=168, skipped=5), 0 errors.** All 168 failures verified Godot-absent (168 × `AssertionError: unexpectedly None`, zero `ERROR:` lines). +4 tests / +1 failure vs N2217's 5961/167 — the +1 failure is the new N2218 proof test, also Godot-absent in the gate (its real Godot proof ran green headless at GREEN and again in the main-thread targeted re-run). Log `tools/mindustry_godot_transpiler/full-suite-n2218-gate.log` (untracked, never staged). Gate ran ~2× faster than usual (1025.895s vs ~1930s). Gate VERIFIED by the 23:30 cron run; slice committed + pushed in the same tick.
+
+## Commits
+
+- Slice: 5652bba4 (C07: N2218 Accelerator battery side, 11 files)
+- Docs: f959f50b (report + handoff + design spec, Done 1668 + N2218 row)
+- GOAL: 8d904b01 (§5 Windows debt line for N2218)
+- Hash-naming: (this commit)
+- Handoff-status: (next commit)
