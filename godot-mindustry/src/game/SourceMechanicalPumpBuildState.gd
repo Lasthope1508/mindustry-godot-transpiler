@@ -367,19 +367,37 @@ static func source_mechanical_pump_dump_liquid_state(frame: Dictionary, liquid_d
 	# the scenario pump precedent -- it only appends
 	# neighbours with a liquids meta and capacity > 0), and
 	# the per-neighbour canDumpLiquid answers default true
-	# in Java. The shared port reports the per-neighbour
-	# amounts after but does not write them into the
-	# neighbour frames -- the write-back waits for its own
-	# slice -- and the campaign unlock is computed by the
-	# helper but never applied (the port has no
-	# content-unlock model). The pure function does NOT
-	# mutate the liquids store: it returns a copy with the
-	# dumped amount removed, and the driver writes it back
-	# through the shared liquid module source_set_state.
+	# in Java. The neighbour write-back live since N2378:
+	# the pure exposes the handled neighbour index
+	# (dump_neighbour_index, from the shared routing's
+	# handled_index -- the FIRST eligible neighbour whose
+	# transfer actually moved liquid, -1 when nothing
+	# moved) + the dumped liquid name (dumped_liquid),
+	# and the tick wires the shared
+	# source_neighbour_liquid_write_back_state helper
+	# after the dump when dumped_amount > 0. Unlike the
+	# Fracker's def constant "oil", the pumped liquid
+	# VARIES BY TILE: liquidDrop is the floor drop's name
+	# (water / oil / cryofluid / slag / arkycite, from
+	# source_floor_liquid_drop_state -- deep/shallow/
+	# tainted water, tar, pooled-cryofluid, molten-slag,
+	# arkycite-floor -- or null), so dumped_liquid is
+	# str(liquid_drop), the same resolution the pure
+	# already uses for liquid_id_by_name, and "" on the
+	# null-drop path. A dump that reaches several
+	# neighbours reports only the first handled index, so
+	# the write-back lands the total there -- the
+	# per-neighbour split waits for its own slice. The
+	# campaign unlock is computed by the helper but never
+	# applied (the port has no content-unlock model). The
+	# pure function does NOT mutate the liquids store: it
+	# returns a copy with the dumped amount removed, and
+	# the driver writes it back through the shared liquid
+	# module source_set_state.
 	var cdump: int = int(frame.get("cdump", 0))
 	var liquids_after: Dictionary = liquids.duplicate(true)
 	if liquid_drop == null:
-		return {"liquids_after": liquids_after, "dumped_amount": 0.0, "cursor_after": cdump}
+		return {"liquids_after": liquids_after, "dumped_amount": 0.0, "cursor_after": cdump, "dump_neighbour_index": -1, "dumped_liquid": ""}
 	var liquid_id: int = int(liquid_id_by_name.get(str(liquid_drop), -1))
 	var stored: Array = liquids.get("liquids", [])
 	var current: float = 0.0
@@ -399,7 +417,7 @@ static func source_mechanical_pump_dump_liquid_state(frame: Dictionary, liquid_d
 	var amount_after: float = float(dump.get("current_liquid_amount_after", current))
 	if liquid_id >= 0 and liquid_id < stored.size():
 		source_liquid_module_state.source_set_state(liquids_after, liquid_id, amount_after)
-	return {"liquids_after": liquids_after, "dumped_amount": current - amount_after, "cursor_after": int(dump.get("final_cdump", cdump))}
+	return {"liquids_after": liquids_after, "dumped_amount": current - amount_after, "cursor_after": int(dump.get("final_cdump", cdump)), "dump_neighbour_index": int(dump.get("handled_index", -1)), "dumped_liquid": str(liquid_drop)}
 
 static func source_mechanical_pump_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the mechanical-pump tick wiring every
@@ -550,8 +568,9 @@ static func source_mechanical_pump_tick_buildings_state(game: Object, seconds: f
 				# dumped store back through the shared liquid
 				# module source_set_state (the scenario pump
 				# precedent) and persists the cursor on the
-				# frame. The neighbour write-back waits for
-				# its own slice.
+				# frame. The neighbour write-back is live
+				# since N2378 (wired below, after the dump
+				# write-back, through the shared helper).
 				var neighbour_amounts: Array = frame.get("dump_neighbour_amounts", [])
 				var neighbour_capacities: Array = frame.get("dump_neighbour_capacities", [])
 				var neighbour_accepts: Array = frame.get("dump_neighbour_accepts", [])
@@ -561,6 +580,33 @@ static func source_mechanical_pump_tick_buildings_state(game: Object, seconds: f
 				var liquids_after: Dictionary = dumped["liquids_after"]
 				if liquid_id >= 0 and liquid_id < liquids_after.get("liquids", []).size():
 					source_liquid_module_state.source_set_state(liquids, liquid_id, float(liquids_after["liquids"][liquid_id]))
+				# N2378: neighbour write-back -- the shared
+				# source_neighbour_liquid_write_back_state helper
+				# lands the dumped liquid in the handled
+				# neighbour's store (dumpLiquid's
+				# next.handleLiquid, BuildingComp.java:918)
+				# after the dump write-back above, when
+				# something dumped. The handled index is a
+				# ring index (index i is ring cell i, the
+				# N2353 convention), so the live fill must
+				# fill the frame neighbour inputs in ring
+				# order; `cell` is already bound before the
+				# enabled block, so no N2363-style dump_cell
+				# workaround is needed, and the size comes
+				# from the block properties (the Fracker
+				# pattern). A failed write-back (no sprite /
+				# no frame / no liquids store) drops the
+				# liquid -- the routing already decided, so
+				# there is no fallback to the pump's own
+				# store (the N2353 precedent). A dump that
+				# reaches several neighbours lands the total
+				# in the first handled one -- the
+				# per-neighbour split waits for its own
+				# slice.
+				if float(dumped.get("dumped_amount", 0.0)) > 0.0:
+					var dump_index: int = int(dumped.get("dump_neighbour_index", -1))
+					if dump_index >= 0:
+						source_building_liquid_state.source_neighbour_liquid_write_back_state(game, cell, int(block.properties.get("size", 1)), dump_index, str(dumped.get("dumped_liquid", "")), float(dumped.get("dumped_amount", 0.0)))
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
 	return {"ticked_count": ticked_count, "results_by_cell": results_by_cell}
