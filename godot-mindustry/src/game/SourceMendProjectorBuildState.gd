@@ -435,9 +435,12 @@ static func source_mend_projector_heal_scan_state(frame: Dictionary, candidates:
 	# phaseRangeBoost NOT overridden so the class 50f,
 	# MendProjector.java:30, applies). DEFERRED, not done and
 	# not guessed: `other.recentlyHealed();` (MendProjector.java:114,
-	# a timestamp write on the healed building object) and
+	# a timestamp write on the healed building object). The
+	# mendSound call
 	# `mendSound.at(this, 1f + Mathf.range(0.1f), mendSoundVolume);` (MendProjector.java:120,
-	# sound, gated on `any`). The heal effect
+	# sound, gated on `any`) is live since N2504 as the pure-only call
+	# record source_mend_projector_mend_sound_state, which
+	# consumes this pure's any flag. The heal effect
 	# `Fx.healBlockFull.at(other.x, other.y, other.block.size, baseColor, other.block);` (MendProjector.java:115,
 	# presentation) is live since N2484 as the pure-only call
 	# record source_mend_projector_heal_effect_state, which
@@ -487,11 +490,26 @@ static func source_mend_projector_heal_effect_state(healed: bool, x: float, y: f
 	# `public void at(float x, float y, float rotation, Color color, Object data){`
 	# `mender = new MendProjector("mender"){{`
 	# `mendProjector = new MendProjector("mend-projector"){{`
-	# The effect fires ONCE PER HEALED BUILDING (inside the eachBlock lambda :112-117, after the heal :113 + recentlyHealed :114, before any = true :116) -- not once per tick. The effect is Fx.healBlockFull (`healBlockFull = new Effect(20, e -> {`, Fx.java:2781), a 20-tick effect whose renderer reads e.color + e.data as the Block (`if(!(e.data instanceof Block block)) return;` / `mixcol(e.color, 1f);` / `Draw.rect(block.fullIcon, e.x, e.y);`, Fx.java:2782-2786); the 20-tick renderer body is the callee presentation -- the pure records the CALL (the N2396 precedent). The .at overload is `public void at(float x, float y, float rotation, Color color, Object data){` (Effect.java:133): the block size rides the rotation arg, baseColor is the color, other.block is the data. The size arg is recorded faithfully even though this renderer's body never reads e.rotation -- the CALL passes it. The color is baseColor (`public Color baseColor = Color.valueOf("84f491");`, MendProjector.java:23; neither def overrides it, Blocks.java:1919-1942), carried as the "baseColor" field-name token (the N2373 color-token precedent, the draw rows precedent). The size is the block size in tiles, descriptor key "size" (the catalog key; mender size 1 / mend-projector size 2, Blocks.java:1922/1935). When healed is false the call is null (the N2397 null-when-absent precedent). Pure-only: the tick never calls it -- the tick runs the N2242 scan and records last_heal_scan; the per-building effect call site waits for its own slice. The mendSound (:119-121) and recentlyHealed (:114) rows defer under their own entries.
+	# The effect fires ONCE PER HEALED BUILDING (inside the eachBlock lambda :112-117, after the heal :113 + recentlyHealed :114, before any = true :116) -- not once per tick. The effect is Fx.healBlockFull (`healBlockFull = new Effect(20, e -> {`, Fx.java:2781), a 20-tick effect whose renderer reads e.color + e.data as the Block (`if(!(e.data instanceof Block block)) return;` / `mixcol(e.color, 1f);` / `Draw.rect(block.fullIcon, e.x, e.y);`, Fx.java:2782-2786); the 20-tick renderer body is the callee presentation -- the pure records the CALL (the N2396 precedent). The .at overload is `public void at(float x, float y, float rotation, Color color, Object data){` (Effect.java:133): the block size rides the rotation arg, baseColor is the color, other.block is the data. The size arg is recorded faithfully even though this renderer's body never reads e.rotation -- the CALL passes it. The color is baseColor (`public Color baseColor = Color.valueOf("84f491");`, MendProjector.java:23; neither def overrides it, Blocks.java:1919-1942), carried as the "baseColor" field-name token (the N2373 color-token precedent, the draw rows precedent). The size is the block size in tiles, descriptor key "size" (the catalog key; mender size 1 / mend-projector size 2, Blocks.java:1922/1935). When healed is false the call is null (the N2397 null-when-absent precedent). Pure-only: the tick never calls it -- the tick runs the N2242 scan and records last_heal_scan; the per-building effect call site waits for its own slice. The mendSound (:119-121) is live since N2504 as the pure-only call record source_mend_projector_mend_sound_state; the recentlyHealed (:114) row defers under its own entry.
 	var heal_effect_call: Variant = null
 	if healed:
 		heal_effect_call = {"effect": "Fx.healBlockFull", "x": x, "y": y, "size": size, "color": base_color, "block": block_id}
 	return {"heal_effect_call": heal_effect_call}
+
+static func source_mend_projector_mend_sound_state(any_healed: bool, x: float, y: float, pitch_roll: float) -> Dictionary:
+	# The mendSound row (MendBuild.updateTile() heal branch, MendProjector.java:106-122) -- the heal scan is live since N2242 as the pure source_mend_projector_heal_scan_state, so this pure does NOT recompute the gate: it consumes the caller-supplied any_healed verdict (the N2242 scan's "any" result key -- true iff at least one candidate was healed) and reports the sound as a pure call record (the N2487 precedent -- the port plays no audio; the sound call site waits for its own slice). The mendSound is live since N2504 as this pure-only call record. The Java lines, in order (each exact expr on ONE comment line, the N2148 lesson):
+	# `if(any){`
+	# `mendSound.at(this, 1f + Mathf.range(0.1f), mendSoundVolume);`
+	# `private boolean any = false;`
+	# `public Sound mendSound = Sounds.healWave;`
+	# `public float mendSoundVolume = 0.5f;`
+	# `mender = new MendProjector("mender"){{`
+	# `mendProjector = new MendProjector("mend-projector"){{`
+	# The sound fires ONCE PER TICK (after the eachBlock lambda :112-117, gated on `any` :119-121) -- not once per healed building, unlike the Fx.healBlockFull effect (:115, live since N2484). mendSound is Sounds.healWave (`public Sound mendSound = Sounds.healWave;`, MendProjector.java:32; the Sounds class is build-generated (mindustry.gen.Sounds, no gen/ dir in the upstream checkout), but the token is exact: the asset is core/assets/sounds/block/healWave.ogg, the N2444 padLaunch precedent) and the volume is the literal mendSoundVolume 0.5f (`public float mendSoundVolume = 0.5f;`, MendProjector.java:33); neither def overrides either (mender + mend-projector, Blocks.java:1919-1942, verified by grep -- no mendSound line in Blocks.java). The call passes `this` (the building, a Position), so the Position overload (`public int at(Position pos, float pitch, float volume){` with `return at(pos.getX(), pos.getY(), pitch, volume);`, arc Sound.java:180-182) fires at the building x/y. The pitch is 1f + Mathf.range(0.1f) with the roll caller-supplied in [-0.1, 0.1] (Mathf.range(r) is the arc uniform roll in [-r, r], `public static float range(float range){` with `return random(-range, range);`, arc Mathf.java:220-222) -- NO RNG in the pure (the N2421 precedent). The record uses the "token" key form (the N2487 precedent -- the N2469/N2444 "sound" key form is NOT used here). When any_healed is false the call is null (the N2397 null-when-absent precedent). Pure-only: the tick never calls it -- the tick runs the N2242 scan and records last_heal_scan; the sound call site waits for its own slice. The recentlyHealed (:114) row defers under its own entry.
+	var mend_sound_call: Variant = null
+	if any_healed:
+		mend_sound_call = {"token": "healWave", "x": x, "y": y, "pitch": 1.0 + pitch_roll, "volume": 0.5}
+	return {"mend_sound_call": mend_sound_call}
 
 static func source_mend_projector_supplied_heal_candidates_state(candidates: Array, real_range: float, building_x: float, building_y: float) -> Dictionary:
 	# The heal scan range query (MendProjector.java:106-122),
