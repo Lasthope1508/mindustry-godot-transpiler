@@ -51,6 +51,61 @@
         }
       }
     },
+    "source_beam_drill_facing_scan_state_input": {
+      "canonical_schema": "source_state_schema.source_beam_drill_facing_scan_state_input",
+      "keys": {
+        "facing_tiles": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Tile other = world.tile(rx, ry);",
+          "rule": "The facing rays in laser order (p = 0..size-1), as frame inputs (default [] -- no tiles, the Java no-facing-wall outcome): each ray is an Array of tile Dicts in walk order (i = 0..range-1) {solid, wall_drop} carrying the `other != null && other.solid()` answer (BeamDrill.java:388-389) and the wallDrop item {id, hardness} (BeamDrill.java:390, null when the tile drops nothing); a null or non-Dict tile entry is a null world tile (the walk continues past it). The live tile fill waits for its own slice.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_facing_scan_state"
+          ]
+        },
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "for(int p = 0; p < size; p++){",
+          "rule": "The block size (BeamDrill.java:382, the outer loop bound -- Java reads exactly `size` lasers): 2 for the plasma-bore, 3 for the large-plasma-bore (Blocks.java:3044/:3058), read from the catalog per def; the Block class default is 1 (Block.java:215).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_facing_scan_state"
+          ]
+        },
+        "beam_range": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "for(int i = 0; i < range; i++){",
+          "rule": "The laser range in tiles (BeamDrill.java:385, the inner loop bound -- Java walks exactly `range` tiles per laser): 5 for the plasma-bore, 6 for the large-plasma-bore (Blocks.java:3045/:3059), read from the catalog per def; the BeamDrill class default is 5 (BeamDrill.java:35). Named beam_range in the port because GDScript reserves range().",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_facing_scan_state"
+          ]
+        },
+        "tier": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "if(drop != null && drop.hardness <= tier && (blockedItems == null || !blockedItems.contains(drop))){",
+          "rule": "The drill tier (BeamDrill.java:391, the mineable check -- a wallDrop counts only when drop.hardness <= tier): 3 for the plasma-bore, 5 for the large-plasma-bore (Blocks.java:3043/:3057), read from the catalog per def; the BeamDrill class default is 1 (BeamDrill.java:36).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_facing_scan_state"
+          ]
+        },
+        "blocked_items": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public @Nullable Seq<Item> blockedItems;",
+          "rule": "The exemption list (BeamDrill.java:40, read at :391 -- a wallDrop in blockedItems never counts): null or an Array of item ids (the drill source_can_mine_state precedent), resolved through the shared Drill bind (SourceDrillRuntimeState.source_bind_ore_items_state, the BeamDrill.java:78-83 init promotion), guarded -- neither BeamDrill def sets blockedItem / blockedItems, so the tick passes null.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_facing_scan_state"
+          ]
+        }
+      }
+    },
     "source_beam_drill_liquid_consumer_row_state_input": {
       "canonical_schema": "source_state_schema.source_beam_drill_liquid_consumer_row_state_input",
       "keys": {

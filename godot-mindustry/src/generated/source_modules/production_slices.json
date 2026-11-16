@@ -1559,6 +1559,23 @@
       ],
       "runtime_proof": "/root/C07FrackerFractionFillProof"
     },
+    "N2339": {
+      "canonical_ledger": "source_slice_ledger.N2339",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.updateFacing()",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_facing_scan_state",
+      "source_symbols": [
+        "source_beam_drill_facing_scan_state_result.facing_amount"
+      ],
+      "tests": [
+        "test_c07_beam_drill_facing_scan_registration",
+        "test_all_c07_beam_drill_facing_scan_input_evidence_is_exact",
+        "test_beam_drill_facing_scan_state",
+        "test_reference_graph_and_actual_c07_beam_drill_facing_scan"
+      ],
+      "runtime_proof": "/root/C07BeamDrillFacingScanProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",
