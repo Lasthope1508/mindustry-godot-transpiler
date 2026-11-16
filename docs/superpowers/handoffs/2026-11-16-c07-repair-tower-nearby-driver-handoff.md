@@ -54,7 +54,7 @@ Deferred (NOT N2211): the live units list on frames (the unit-list slice — unt
 
 ## Commits
 
-Classic 5-commit pattern (slice / docs / GOAL / hash-naming / handoff-status), then push to origin main. Slice `978de467` (9 files). Docs commit names the report + handoff + spec (Done 1661 + N2211 row); GOAL commit adds the N2211 Windows-proof debt line; hash-naming commit names slice/docs/GOAL hashes in the report + handoff; handoff-status commit records DONE + PUSHED. Check origin/main before push (validation agent merges hourly). Spec Done 1660 → 1661 — CHECK the total in the docs commit. GOAL.md §5 debt line for N2211. Proof .json is gitignored — never stage it.
+Classic 5-commit pattern (slice / docs / GOAL / hash-naming / handoff-status), then push to origin main. Slice `978de467` (9 files) → docs `43116028` → GOAL `77591d53` → hash-naming commit → handoff-status commit → push to origin main in this tick. Check origin/main before push (validation agent merges hourly). Spec Done 1660 → 1661 — CHECK the total in the docs commit. GOAL.md §5 debt line for N2211. Proof .json is gitignored — never stage it.
 
 ## Gate (VERIFIED 2026-11-16 ~15:15 +07)
 
