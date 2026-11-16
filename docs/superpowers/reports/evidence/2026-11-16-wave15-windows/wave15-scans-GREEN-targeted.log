@@ -1,0 +1,9 @@
+test_all_c07_base_shield_scans_input_evidence_is_exact (tests.test_c07_base_shield_scans.C07BaseShieldScansTests.test_all_c07_base_shield_scans_input_evidence_is_exact) ... ok
+test_base_shield_scans_state (tests.test_c07_base_shield_scans.C07BaseShieldScansTests.test_base_shield_scans_state) ... ok
+test_c07_base_shield_scans_registration (tests.test_c07_base_shield_scans.C07BaseShieldScansTests.test_c07_base_shield_scans_registration) ... ok
+test_reference_graph_and_actual_c07_base_shield_scans (tests.test_c07_base_shield_scans.C07BaseShieldScansTests.test_reference_graph_and_actual_c07_base_shield_scans) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 21.301s
+
+OK

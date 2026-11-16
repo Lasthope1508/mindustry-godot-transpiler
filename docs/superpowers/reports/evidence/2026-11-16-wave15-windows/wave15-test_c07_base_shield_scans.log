@@ -1,0 +1,18 @@
+test_all_c07_base_shield_scans_input_evidence_is_exact (tests.test_c07_base_shield_scans.C07BaseShieldScansTests.test_all_c07_base_shield_scans_input_evidence_is_exact) ... ok
+test_base_shield_scans_state (tests.test_c07_base_shield_scans.C07BaseShieldScansTests.test_base_shield_scans_state) ... ok
+test_c07_base_shield_scans_registration (tests.test_c07_base_shield_scans.C07BaseShieldScansTests.test_c07_base_shield_scans_registration) ... ok
+test_reference_graph_and_actual_c07_base_shield_scans (tests.test_c07_base_shield_scans.C07BaseShieldScansTests.test_reference_graph_and_actual_c07_base_shield_scans) ... FAIL
+
+======================================================================
+FAIL: test_reference_graph_and_actual_c07_base_shield_scans (tests.test_c07_base_shield_scans.C07BaseShieldScansTests.test_reference_graph_and_actual_c07_base_shield_scans)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Admin\.codex\worktrees\godot-integration-validation\tools\mindustry_godot_transpiler\tests\test_c07_base_shield_scans.py", line 247, in test_reference_graph_and_actual_c07_base_shield_scans
+    self.assertTrue(proofs[0]['matches'], proofs[0])
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : {'bullet_scan_admits_in_rect': True, 'bullet_scan_excludes_out_of_rect': True, 'live_tick_passes_scanned_lists': False, 'matches': False, 'one_headquarter_per_ssot': True, 'registry_valid': True, 'scans_empty_when_radius_small': True, 'unit_scan_admits_enemy_in_range': True, 'unit_scan_excludes_out_of_range': True}
+
+----------------------------------------------------------------------
+Ran 4 tests in 21.230s
+
+FAILED (failures=1)

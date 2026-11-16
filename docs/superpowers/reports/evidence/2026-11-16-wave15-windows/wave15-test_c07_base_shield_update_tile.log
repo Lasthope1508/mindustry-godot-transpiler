@@ -1,0 +1,10 @@
+test_all_c07_base_shield_update_tile_input_evidence_is_exact (tests.test_c07_base_shield_update_tile.C07BaseShieldUpdateTileTests.test_all_c07_base_shield_update_tile_input_evidence_is_exact) ... ok
+test_base_shield_update_tile_advance_state (tests.test_c07_base_shield_update_tile.C07BaseShieldUpdateTileTests.test_base_shield_update_tile_advance_state) ... ok
+test_c07_base_shield_update_tile_registration (tests.test_c07_base_shield_update_tile.C07BaseShieldUpdateTileTests.test_c07_base_shield_update_tile_registration) ... ok
+test_no_c_style_float_math_functions_in_gdscript (tests.test_c07_base_shield_update_tile.C07BaseShieldUpdateTileTests.test_no_c_style_float_math_functions_in_gdscript) ... ok
+test_reference_graph_and_actual_c07_base_shield_update_tile (tests.test_c07_base_shield_update_tile.C07BaseShieldUpdateTileTests.test_reference_graph_and_actual_c07_base_shield_update_tile) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 22.868s
+
+OK
