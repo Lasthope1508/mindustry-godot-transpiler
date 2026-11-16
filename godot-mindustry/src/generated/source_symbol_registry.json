@@ -173640,6 +173640,86 @@
         "test_reference_graph_and_actual_c07_shield_wall_damage"
       ],
       "runtime_proof": "/root/C07ShieldWallDamageProof"
+    },
+    "source_shield_wall_update_tile_state_result.shield": {
+      "status": "source-backed",
+      "godot_owner": "SourceShieldWallBuildState.source_shield_wall_update_tile_state",
+      "godot_symbol": "source_shield_wall_update_tile_state_result.shield",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShieldWall.java",
+      "java_method": "ShieldWallBuild.updateTile()",
+      "java_expr": "shield = Mathf.clamp(shield + regenSpeed * edelta(), 0f, shieldHealth);",
+      "rule": "The shield after the tick (ShieldWall.java:80): unchanged while broken (breakTimer > 0), otherwise clamp(shield + regenSpeed * edelta(), 0, shieldHealth) with regenSpeed 2f (ShieldWall.java:17) and edelta() = efficiency * delta (BuildingComp.java:1927-1928); the regen branch is decided on the pre-update break_timer.",
+      "tests": [
+        "test_c07_shield_wall_update_tile_registration",
+        "test_all_c07_shield_wall_update_tile_input_evidence_is_exact",
+        "test_shield_wall_update_tile_state",
+        "test_reference_graph_and_actual_c07_shield_wall_update_tile"
+      ],
+      "runtime_proof": "/root/C07ShieldWallUpdateTileProof"
+    },
+    "source_shield_wall_update_tile_state_result.break_timer": {
+      "status": "source-backed",
+      "godot_owner": "SourceShieldWallBuildState.source_shield_wall_update_tile_state",
+      "godot_symbol": "source_shield_wall_update_tile_state_result.break_timer",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShieldWall.java",
+      "java_method": "ShieldWallBuild.updateTile()",
+      "java_expr": "breakTimer -= Time.delta;",
+      "rule": "The break timer after the tick (ShieldWall.java:75-76, `if(breakTimer > 0){` / `breakTimer -= Time.delta;`): decayed by the raw delta while broken, never clamped (Java lets it go slightly negative; broken() reads `breakTimer > 0`), otherwise the incoming break_timer unchanged.",
+      "tests": [
+        "test_c07_shield_wall_update_tile_registration",
+        "test_all_c07_shield_wall_update_tile_input_evidence_is_exact",
+        "test_shield_wall_update_tile_state",
+        "test_reference_graph_and_actual_c07_shield_wall_update_tile"
+      ],
+      "runtime_proof": "/root/C07ShieldWallUpdateTileProof"
+    },
+    "source_shield_wall_update_tile_state_result.hit": {
+      "status": "source-backed",
+      "godot_owner": "SourceShieldWallBuildState.source_shield_wall_update_tile_state",
+      "godot_symbol": "source_shield_wall_update_tile_state_result.hit",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShieldWall.java",
+      "java_method": "ShieldWallBuild.updateTile()",
+      "java_expr": "hit = Math.max(hit, 0f);",
+      "rule": "The hit flash after the tick (ShieldWall.java:83-86, `if(hit > 0){` / `hit -= Time.delta / 10f;` / `hit = Math.max(hit, 0f);`, hit declared in WallBuild, Wall.java:89, `protected float hit;`): decayed by delta / 10f while above zero, floored at 0.0.",
+      "tests": [
+        "test_c07_shield_wall_update_tile_registration",
+        "test_all_c07_shield_wall_update_tile_input_evidence_is_exact",
+        "test_shield_wall_update_tile_state",
+        "test_reference_graph_and_actual_c07_shield_wall_update_tile"
+      ],
+      "runtime_proof": "/root/C07ShieldWallUpdateTileProof"
+    },
+    "source_shield_wall_update_tile_state_result.shield_radius": {
+      "status": "source-backed",
+      "godot_owner": "SourceShieldWallBuildState.source_shield_wall_update_tile_state",
+      "godot_symbol": "source_shield_wall_update_tile_state_result.shield_radius",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShieldWall.java",
+      "java_method": "ShieldWallBuild.updateTile()",
+      "java_expr": "shieldRadius = Mathf.lerpDelta(shieldRadius, broken() ? 0f : 1f, 0.12f);",
+      "rule": "The shield radius after the tick (ShieldWall.java:88): lerped toward broken() ? 0f : 1f at 0.12 through the port canonical lerpDelta (SourceMathState.source_lerp_delta); broken() is the N2202 coupling read AFTER the breakTimer decay, on the updated timer.",
+      "tests": [
+        "test_c07_shield_wall_update_tile_registration",
+        "test_all_c07_shield_wall_update_tile_input_evidence_is_exact",
+        "test_shield_wall_update_tile_state",
+        "test_reference_graph_and_actual_c07_shield_wall_update_tile"
+      ],
+      "runtime_proof": "/root/C07ShieldWallUpdateTileProof"
+    },
+    "source_shield_wall_update_tile_state_result.broken": {
+      "status": "source-backed",
+      "godot_owner": "SourceShieldWallBuildState.source_shield_wall_update_tile_state",
+      "godot_symbol": "source_shield_wall_update_tile_state_result.broken",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShieldWall.java",
+      "java_method": "ShieldWallBuild.updateTile()",
+      "java_expr": "return breakTimer > 0 || !canConsume();",
+      "rule": "Whether the wall is broken after the tick (ShieldWall.java:91-92, `public boolean broken(){` with `return breakTimer > 0 || !canConsume();`, canConsume() is BuildingComp.java:1917-1918, `return potentialEfficiency > 0;`): true while the updated break_timer is above zero or the wall has no power; the driver re-stamps this outside the consumption gate.",
+      "tests": [
+        "test_c07_shield_wall_update_tile_registration",
+        "test_all_c07_shield_wall_update_tile_input_evidence_is_exact",
+        "test_shield_wall_update_tile_state",
+        "test_reference_graph_and_actual_c07_shield_wall_update_tile"
+      ],
+      "runtime_proof": "/root/C07ShieldWallUpdateTileProof"
     }
   },
   "version": 1

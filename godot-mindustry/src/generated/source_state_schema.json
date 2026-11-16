@@ -230882,6 +230882,94 @@
       },
       "runtime_proof": "/root/C07ShieldWallDamageProof",
       "rule": "Source-backed ShieldWall damage() coupling from ShieldWall.java / Wall.java / BuildingComp.java."
+    },
+    "source_shield_wall_update_tile_state_input": {
+      "status": "active",
+      "owner": "SourceShieldWallBuildState.source_shield_wall_update_tile_state",
+      "source_slice": "N2204",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShieldWall.java",
+          "java_expr": "public float shield = shieldHealth, shieldRadius = 0f;",
+          "rule": "The building frame carrying the shield observation (ShieldWall.java:44, `public float shield = shieldHealth, shieldRadius = 0f;`, shieldHealth 900f, ShieldWall.java:15), the break_timer observation (ShieldWall.java:45, `public float breakTimer;`), the hit flash (Wall.java:89, `protected float hit;`), the shield_radius observation, the folded efficiency (BuildingComp.java:85, `transient float efficiency;`) and the potential_efficiency observation stamped by the N2175 machinery (BuildingComp.java:1989, `potentialEfficiency = efficiency;`); a missing shield key means the shield was never damaged yet (900.0), a missing break_timer key means no break in progress (0.0), a missing hit key means no flash (0.0), a missing shield_radius key means never drawn (0.0), a missing efficiency key means no machinery run yet (0.0, the transient field default), a missing potential_efficiency key means no machinery run yet (1.0, not \"no power\").",
+          "used_by": [
+            "SourceShieldWallBuildState.source_shield_wall_update_tile_state"
+          ]
+        },
+        "delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShieldWall.java",
+          "java_expr": "breakTimer -= Time.delta;",
+          "rule": "The tick delta in Time.delta units (ShieldWall.java:76, `breakTimer -= Time.delta;`); the driver passes its tick seconds (the N2190 driver convention), and edelta() is efficiency * delta() (BuildingComp.java:1927-1928, `return efficiency * delta();`, delta() is Time.delta * timeScale, BuildingComp.java:1922-1923, timeScale 1 by default).",
+          "used_by": [
+            "SourceShieldWallBuildState.source_shield_wall_update_tile_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShieldWallUpdateTileProof",
+      "rule": "Source-backed ShieldWall updateTile() advance from ShieldWall.java / Wall.java / BuildingComp.java."
+    },
+    "source_shield_wall_update_tile_state_result": {
+      "status": "active",
+      "owner": "SourceShieldWallBuildState.source_shield_wall_update_tile_state",
+      "source_slice": "N2204",
+      "keys": {
+        "shield": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShieldWall.java",
+          "java_expr": "shield = Mathf.clamp(shield + regenSpeed * edelta(), 0f, shieldHealth);",
+          "rule": "The shield after the tick (ShieldWall.java:80): unchanged while broken (breakTimer > 0), otherwise clamp(shield + regenSpeed * edelta(), 0, shieldHealth) with regenSpeed 2f (ShieldWall.java:17) and edelta() = efficiency * delta (BuildingComp.java:1927-1928); the regen branch is decided on the pre-update break_timer.",
+          "used_by": [
+            "SourceShieldWallBuildState.source_shield_wall_update_tile_state"
+          ]
+        },
+        "break_timer": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShieldWall.java",
+          "java_expr": "breakTimer -= Time.delta;",
+          "rule": "The break timer after the tick (ShieldWall.java:75-76, `if(breakTimer > 0){` / `breakTimer -= Time.delta;`): decayed by the raw delta while broken, never clamped (Java lets it go slightly negative; broken() reads `breakTimer > 0`), otherwise the incoming break_timer unchanged.",
+          "used_by": [
+            "SourceShieldWallBuildState.source_shield_wall_update_tile_state"
+          ]
+        },
+        "hit": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShieldWall.java",
+          "java_expr": "hit = Math.max(hit, 0f);",
+          "rule": "The hit flash after the tick (ShieldWall.java:83-86, `if(hit > 0){` / `hit -= Time.delta / 10f;` / `hit = Math.max(hit, 0f);`, hit declared in WallBuild, Wall.java:89, `protected float hit;`): decayed by delta / 10f while above zero, floored at 0.0.",
+          "used_by": [
+            "SourceShieldWallBuildState.source_shield_wall_update_tile_state"
+          ]
+        },
+        "shield_radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShieldWall.java",
+          "java_expr": "shieldRadius = Mathf.lerpDelta(shieldRadius, broken() ? 0f : 1f, 0.12f);",
+          "rule": "The shield radius after the tick (ShieldWall.java:88): lerped toward broken() ? 0f : 1f at 0.12 through the port canonical lerpDelta (SourceMathState.source_lerp_delta); broken() is the N2202 coupling read AFTER the breakTimer decay, on the updated timer.",
+          "used_by": [
+            "SourceShieldWallBuildState.source_shield_wall_update_tile_state"
+          ]
+        },
+        "broken": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShieldWall.java",
+          "java_expr": "return breakTimer > 0 || !canConsume();",
+          "rule": "Whether the wall is broken after the tick (ShieldWall.java:91-92, `public boolean broken(){` with `return breakTimer > 0 || !canConsume();`, canConsume() is BuildingComp.java:1917-1918, `return potentialEfficiency > 0;`): true while the updated break_timer is above zero or the wall has no power; the driver re-stamps this outside the consumption gate.",
+          "used_by": [
+            "SourceShieldWallBuildState.source_shield_wall_update_tile_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShieldWallUpdateTileProof",
+      "rule": "Source-backed ShieldWall updateTile() advance from ShieldWall.java / Wall.java / BuildingComp.java."
     }
   },
   "version": 1

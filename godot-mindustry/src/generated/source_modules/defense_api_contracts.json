@@ -6975,6 +6975,41 @@
       "rule": "Source-backed ShieldWall power.status row from ConsumePower.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceShieldWallBuildState.source_shield_wall_update_tile_state": {
+      "canonical_contract": "source_api_contracts.SourceShieldWallBuildState.source_shield_wall_update_tile_state",
+      "status": "active",
+      "source_slice": "N2204",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShieldWall.java",
+      "source_method": "ShieldWallBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_shield_wall_update_tile_state_input.frame"
+        },
+        {
+          "name": "delta",
+          "type": "float",
+          "schema": "source_shield_wall_update_tile_state_input.delta"
+        }
+      ],
+      "return_keys": [
+        "shield",
+        "break_timer",
+        "hit",
+        "shield_radius",
+        "broken"
+      ],
+      "tests": [
+        "test_c07_shield_wall_update_tile_registration",
+        "test_all_c07_shield_wall_update_tile_input_evidence_is_exact",
+        "test_shield_wall_update_tile_state",
+        "test_reference_graph_and_actual_c07_shield_wall_update_tile"
+      ],
+      "runtime_proof": "/root/C07ShieldWallUpdateTileProof",
+      "rule": "Source-backed ShieldWall updateTile() advance from ShieldWall.java / Wall.java / BuildingComp.java.",
+      "return_type": "Dictionary"
+    },
     "SourceShockwaveTowerBuildState.source_shockwave_tower_bullet_scan_state": {
       "canonical_contract": "source_api_contracts.SourceShockwaveTowerBuildState.source_shockwave_tower_bullet_scan_state",
       "status": "active",

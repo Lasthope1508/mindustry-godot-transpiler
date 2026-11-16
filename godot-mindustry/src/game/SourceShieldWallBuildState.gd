@@ -6,6 +6,7 @@ const source_placed_block_state := preload("res://src/game/SourcePlacedBlockStat
 const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
 const source_building_efficiency_state := preload("res://src/game/SourceBuildingEfficiencyState.gd")
 const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
+const source_math_state := preload("res://src/game/SourceMathState.gd")
 
 # The ShieldWall implementation (ShieldWall.java:14, `public class ShieldWall extends Wall{`; ShieldWallBuild, ShieldWall.java:43, `public class ShieldWallBuild extends WallBuild{`): shielded-wall (consumePower 3f / 60f = 0.05, Blocks.java:1905, `consumePower(3f / 60f);`; size 2, health 260 * wallHealthMultiplier * 4, armor 15f, chanceDeflect 8f, Blocks.java:1903-1916). ShieldWall extends Wall, NOT a factory or crafter, so no existing driver matches it and no frame key exists for it; this driver uses its own family frame key ("source_shield_wall_building", the launch-pad precedent), and this slice adds the shield-wall key to N2142's SOURCE_CONSUMER_FRAME_META_KEYS so the graph stamp/write-back finds it. The port has NO SourceShieldWall* files at all yet -- no display/runtime state to lean on -- so the missing piece is the live power.status -> efficiency driver, which is exactly this slice: the updateTile regen advance (ShieldWall.java:80, `shield = Mathf.clamp(shield + regenSpeed * edelta(), 0f, shieldHealth);`) regens by edelta() (BuildingComp.java:1927-1929, `return efficiency * delta();`), so a shield wall with no power would never regen -- its shield would sit frozen as if power.status were 1.0. And broken() (ShieldWall.java:92, `return breakTimer > 0 || !canConsume();`) with canConsume() (BuildingComp.java:1917-1919, `return potentialEfficiency > 0;`) means a powerless shield wall is broken and absorbs nothing.
 const SOURCE_SHIELD_WALL_BUILD_IMPLEMENTATIONS := ["ShieldWall"]
@@ -92,6 +93,28 @@ static func source_shield_wall_damage_state(frame: Dictionary, damage: float) ->
 	residual_damage = damage - shield_taken
 	return {"shield_taken": shield_taken, "shield": shield, "hit": hit, "break_timer": break_timer, "residual_damage": residual_damage}
 
+static func source_shield_wall_update_tile_state(frame: Dictionary, delta: float) -> Dictionary:
+	# The pure updateTile() advance lives on the shield-wall build state: updateTile() (ShieldWall.java:74, `public void updateTile(){`) decays the break timer by the raw delta while broken (`if(breakTimer > 0){` / `breakTimer -= Time.delta;`, ShieldWall.java:75-76, no clamp -- the timer may go slightly negative and broken() reads `breakTimer > 0`), regens the shield while whole (`shield = Mathf.clamp(shield + regenSpeed * edelta(), 0f, shieldHealth);`, ShieldWall.java:80, keep on ONE comment line, the N2148 shootWarmup lesson: a split line fails this test) with edelta() = efficiency * delta() (BuildingComp.java:1927-1928, `public float edelta(){` with `return efficiency * delta();`, and `public float delta(){` with `return Time.delta * timeScale;`, BuildingComp.java:1922-1923 -- timeScale is 1 by default and the port passes the raw tick seconds, the N2190 driver convention), decays the hit flash (`if(hit > 0){` / `hit -= Time.delta / 10f;` / `hit = Math.max(hit, 0f);`, ShieldWall.java:83-86, hit declared in WallBuild, Wall.java:89, `protected float hit;`), and lerps the shield radius toward broken() ? 0f : 1f (`shieldRadius = Mathf.lerpDelta(shieldRadius, broken() ? 0f : 1f, 0.12f);`, ShieldWall.java:88) through the port's canonical lerpDelta (SourceMathState.source_lerp_delta). broken() is the N2202 coupling (ShieldWall.java:91, `public boolean broken(){` with `return breakTimer > 0 || !canConsume();`, ShieldWall.java:92) over the break timer (ShieldWall.java:45, `public float breakTimer;`, set by ShieldWall.java:110, `breakTimer = breakCooldown;`, breakCooldown 60f * 10f, ShieldWall.java:16) and canConsume() (BuildingComp.java:1917, `public boolean canConsume(){` with `return potentialEfficiency > 0;`, BuildingComp.java:1918) over the potential efficiency (BuildingComp.java:89, `transient float potentialEfficiency;`); the folded efficiency is the transient field (BuildingComp.java:85, `transient float efficiency;`), default 0.0 before the first machinery run. A disabled wall is broken and never regens: updateConsumption zeroes the efficiencies first (`if(!enabled){` with `potentialEfficiency = efficiency = optionalEfficiency = 0f;`, BuildingComp.java:1954-1955), so the driver zeroes them before the call. The power row is ConsumePower.efficiency (ConsumePower.java:39, `return build.power.status;`); one def (shielded-wall, `consumePower(3f / 60f);`, Blocks.java:1905; shieldHealth 900f, breakCooldown 60f * 10f, regenSpeed 2f, ShieldWall.java:15-17; `update = true;`, ShieldWall.java:27). The shield wall is its own family (ShieldWall.java:14, `public class ShieldWall extends Wall{`; ShieldWallBuild, ShieldWall.java:43, `public class ShieldWallBuild extends WallBuild{`). The frame carries the shield as `shield` (float, absent defaults to shieldHealth 900.0 -- the field init, ShieldWall.java:44, `public float shield = shieldHealth, shieldRadius = 0f;`), the break timer as `break_timer` (float, N2202 default 0.0), the hit flash as `hit` (float, N2203 default 0.0), the shield radius as `shield_radius` (float, absent defaults to 0.0 -- the Java field init, ShieldWall.java:44), the folded efficiency as `efficiency` (float, absent defaults to 0.0 -- the transient field default, the N2192 charge precedent) and the live potential efficiency as `potential_efficiency` (float, N2202 default 1.0); broken() comes from the N2202 pure function evaluated on the UPDATED break timer, never re-implemented and never read off the stale frame. The regen branch is decided on the PRE-update timer (the if/else, ShieldWall.java:75-81), so a timer that crosses zero this tick does NOT regen yet; broken() for the radius lerp is read AFTER the decay, so the pure function evaluates it on the updated timer (via a duplicated frame), never on the stale one.
+	var shield: float = float(frame.get("shield", 900.0))
+	var break_timer: float = float(frame.get("break_timer", 0.0))
+	var hit: float = float(frame.get("hit", 0.0))
+	var shield_radius: float = float(frame.get("shield_radius", 0.0))
+	var efficiency: float = float(frame.get("efficiency", 0.0))
+	var potential_efficiency: float = float(frame.get("potential_efficiency", 1.0))
+	if break_timer > 0.0:
+		break_timer -= delta
+	else:
+		shield = clampf(shield + 2.0 * efficiency * delta, 0.0, 900.0)
+	if hit > 0.0:
+		hit -= delta / 10.0
+		hit = maxf(hit, 0.0)
+	var advanced_frame: Dictionary = {}
+	advanced_frame["break_timer"] = break_timer
+	advanced_frame["potential_efficiency"] = potential_efficiency
+	var broken: bool = bool(source_shield_wall_broken_state(advanced_frame).get("broken", false))
+	shield_radius = source_math_state.source_lerp_delta(shield_radius, 0.0 if broken else 1.0, 0.12, delta)
+	return {"shield": shield, "break_timer": break_timer, "hit": hit, "shield_radius": shield_radius, "broken": broken}
+
 @warning_ignore("unused_parameter")
 static func source_shield_wall_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the shield-wall tick wiring every
@@ -142,8 +165,18 @@ static func source_shield_wall_tick_buildings_state(game: Object, seconds: float
 				required_results.append(power_row.get("row", {}))
 			var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(true, bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, [], [], frame)
 			source_building_efficiency_state.apply_update_consumption_state(consumption, frame)
-			# The broken coupling reads the fresh potential_efficiency the machinery just stamped: broken() (ShieldWall.java:92, `return breakTimer > 0 || !canConsume();`) with canConsume() (BuildingComp.java:1918, `return potentialEfficiency > 0;`) means a powerless shield wall is broken the same tick the power drops, so the flag is stamped here, after the machinery, inside the consumption block (the N2201 precedent). A disabled or cheating shield wall keeps its last stamped broken value -- the driver skips the whole consumption block there (the N2188/N2201 precedent); the updateTile-advance slice owns re-stamping broken outside the consumption gate.
+			# The broken coupling reads the fresh potential_efficiency the machinery just stamped: broken() (ShieldWall.java:92, `return breakTimer > 0 || !canConsume();`) with canConsume() (BuildingComp.java:1918, `return potentialEfficiency > 0;`) means a powerless shield wall is broken the same tick the power drops, so the flag is stamped here, after the machinery, inside the consumption block (the N2201 precedent). A disabled or cheating shield wall keeps its last stamped broken value from this block -- the driver skips the whole consumption block there (the N2188/N2201 precedent); the updateTile advance below re-stamps broken outside the consumption gate.
 			frame["broken"] = bool(source_shield_wall_broken_state(frame).get("broken", false))
+		# The updateTile advance runs for every ticked shield wall, after the consumption block (updateConsumption runs BEFORE updateTile in Java, ShieldWall.java:74, `public void updateTile(){`, so the advance reads this tick's freshly stamped efficiency): a disabled wall is broken and never regens, so its efficiencies are zeroed first (`if(!enabled){` with `potentialEfficiency = efficiency = optionalEfficiency = 0f;`, BuildingComp.java:1954-1955), and broken is re-stamped outside the consumption gate (the N2203 handoff note).
+		if not bool(frame.get("enabled", true)):
+			frame["potential_efficiency"] = 0.0
+			frame["efficiency"] = 0.0
+		var advanced: Dictionary = source_shield_wall_update_tile_state(frame, seconds)
+		frame["shield"] = advanced.get("shield", 900.0)
+		frame["break_timer"] = advanced.get("break_timer", 0.0)
+		frame["hit"] = advanced.get("hit", 0.0)
+		frame["shield_radius"] = advanced.get("shield_radius", 0.0)
+		frame["broken"] = advanced.get("broken", false)
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
