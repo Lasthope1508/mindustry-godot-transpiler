@@ -1,0 +1,18 @@
+test_all_c07_wall_crafter_offload_routing_input_evidence_is_exact (tests.test_c07_wall_crafter_offload_routing.C07WallCrafterOffloadRoutingTests.test_all_c07_wall_crafter_offload_routing_input_evidence_is_exact) ... ok
+test_c07_wall_crafter_offload_routing_registration (tests.test_c07_wall_crafter_offload_routing.C07WallCrafterOffloadRoutingTests.test_c07_wall_crafter_offload_routing_registration) ... ok
+test_reference_graph_and_actual_c07_wall_crafter_offload_routing (tests.test_c07_wall_crafter_offload_routing.C07WallCrafterOffloadRoutingTests.test_reference_graph_and_actual_c07_wall_crafter_offload_routing) ... FAIL
+test_wall_crafter_offload_routing_state (tests.test_c07_wall_crafter_offload_routing.C07WallCrafterOffloadRoutingTests.test_wall_crafter_offload_routing_state) ... ok
+
+======================================================================
+FAIL: test_reference_graph_and_actual_c07_wall_crafter_offload_routing (tests.test_c07_wall_crafter_offload_routing.C07WallCrafterOffloadRoutingTests.test_reference_graph_and_actual_c07_wall_crafter_offload_routing)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Admin\.codex\worktrees\godot-integration-validation\tools\mindustry_godot_transpiler\tests\test_c07_wall_crafter_offload_routing.py", line 250, in test_reference_graph_and_actual_c07_wall_crafter_offload_routing
+    self.assertTrue(proofs[0]['matches'], proofs[0])
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : {'advance_exposes_offload_neighbour_index': False, 'live_tick_offload_falls_back_to_inventory': True, 'live_tick_routed_item_leaves_crafter_without_frame': True, 'live_tick_routes_offloaded_item_to_neighbour_frame': False, 'matches': False, 'one_headquarter_per_ssot': True, 'registry_valid': True}
+
+----------------------------------------------------------------------
+Ran 4 tests in 21.000s
+
+FAILED (failures=1)

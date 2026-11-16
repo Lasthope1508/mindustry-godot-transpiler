@@ -1,0 +1,18 @@
+test_all_c07_regen_projector_heal_application_input_evidence_is_exact (tests.test_c07_regen_projector_heal_application.C07RegenProjectorHealApplicationTests.test_all_c07_regen_projector_heal_application_input_evidence_is_exact) ... ok
+test_c07_regen_projector_heal_application_registration (tests.test_c07_regen_projector_heal_application.C07RegenProjectorHealApplicationTests.test_c07_regen_projector_heal_application_registration) ... ok
+test_reference_graph_and_actual_c07_regen_projector_heal_application (tests.test_c07_regen_projector_heal_application.C07RegenProjectorHealApplicationTests.test_reference_graph_and_actual_c07_regen_projector_heal_application) ... FAIL
+test_regen_projector_heal_application_state (tests.test_c07_regen_projector_heal_application.C07RegenProjectorHealApplicationTests.test_regen_projector_heal_application_state) ... ok
+
+======================================================================
+FAIL: test_reference_graph_and_actual_c07_regen_projector_heal_application (tests.test_c07_regen_projector_heal_application.C07RegenProjectorHealApplicationTests.test_reference_graph_and_actual_c07_regen_projector_heal_application)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Admin\.codex\worktrees\godot-integration-validation\tools\mindustry_godot_transpiler\tests\test_c07_regen_projector_heal_application.py", line 266, in test_reference_graph_and_actual_c07_regen_projector_heal_application
+    self.assertTrue(proofs[0]['matches'], proofs[0])
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : {'heal_application_applies_amount_to_target': False, 'heal_application_caps_at_max_health': False, 'heal_application_decodes_pos_to_cell': False, 'heal_application_no_sprite_reports_no_sprite': True, 'live_tick_applies_flush_after_advance': False, 'matches': False, 'one_headquarter_per_ssot': True, 'recently_healed_deferred_without_time_input': True, 'registry_valid': True}
+
+----------------------------------------------------------------------
+Ran 4 tests in 21.500s
+
+FAILED (failures=1)
