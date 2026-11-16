@@ -3869,6 +3869,25 @@
       ],
       "runtime_proof": "/root/C07BaseShieldDrawShieldRowsProof"
     },
+    "N2451": {
+      "canonical_ledger": "source_slice_ledger.N2451",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.warmup()",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_warmup_state",
+      "source_symbols": [
+        "source_build_turret_warmup_state_result.warmup_value",
+        "source_build_turret_stats_state_result.stat_key",
+        "source_build_turret_stats_state_result.stat_value"
+      ],
+      "tests": [
+        "test_c07_build_turret_warmup_stats_rows_registration",
+        "test_all_c07_build_turret_warmup_stats_rows_input_evidence_is_exact",
+        "test_build_turret_warmup_stats_rows_state",
+        "test_reference_graph_and_actual_c07_build_turret_warmup_stats_rows"
+      ],
+      "runtime_proof": "/root/C07BuildTurretWarmupStatsRowsProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

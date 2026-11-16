@@ -1429,6 +1429,27 @@
       ],
       "runtime_proof": "/root/C07LightBlockConfigColorRowsProof"
     },
+    "N2450": {
+      "canonical_ledger": "source_slice_ledger.N2450",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+      "java_method": "ImpactReactor.setBars()",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_power_bar_state",
+      "source_symbols": [
+        "source_impact_reactor_power_bar_state_result.label",
+        "source_impact_reactor_power_bar_state_result.color",
+        "source_impact_reactor_power_bar_state_result.fraction",
+        "source_impact_reactor_stats_state_result.production_time_seconds",
+        "source_impact_reactor_stats_state_result.warmup_time_label"
+      ],
+      "tests": [
+        "test_c07_impact_reactor_bar_stats_rows_registration",
+        "test_all_c07_impact_reactor_bar_stats_rows_input_evidence_is_exact",
+        "test_impact_reactor_bar_stats_rows_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_bar_stats_rows"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorBarStatsRowsProof"
+    },
     "N888": {
       "canonical_ledger": "source_slice_ledger.N888",
       "status": "done",

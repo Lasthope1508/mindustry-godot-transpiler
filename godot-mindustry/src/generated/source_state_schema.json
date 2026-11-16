@@ -257162,6 +257162,857 @@
       },
       "runtime_proof": "/root/C07UnitCargoLoaderDrawPlaceRowsProof",
       "rule": "Source-backed UnitCargoLoader drawPlace rows from UnitCargoLoader.java / Block.java / Units.java / bundle.properties."
+    },
+    "source_unit_assembler_module_select_remove_state_input": {
+      "status": "active",
+      "owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_select_remove_state",
+      "source_slice": "N2447",
+      "keys": {
+        "link": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+          "java_expr": "if(link != null){",
+          "rule": "The linked assembler (UnitAssemblerModule.java:120/128, over the link field `public UnitAssemblerBuild link;`, :72): null (no select call, no remove call) or the dict in the N2351 frame-input format {\"block\", \"cell\": Vector2i} -- cell is the assembler origin cell. Caller-supplied -- the pure NEVER calls getLink (drawSelect / onRemoved read the STORED link). Defensive: a link without a cell reads as null (the N2351 precedent), and a non-Dictionary link reads as null too (the N2358 precedent).",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_select_remove_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07UnitAssemblerModuleSelectRemoveRowsProof",
+      "rule": "Source-backed UnitAssemblerModule onRemoved / drawSelect rows from UnitAssemblerModule.java / UnitAssembler.java / Drawf.java / Pal.java."
+    },
+    "source_unit_assembler_module_select_remove_state_result": {
+      "status": "active",
+      "owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_select_remove_state",
+      "source_slice": "N2447",
+      "keys": {
+        "select_call": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+          "java_expr": "Drawf.selected(link, Pal.accent);",
+          "rule": "The drawSelect highlight call (UnitAssemblerModule.java:121, the Building overload `public static void selected(Building tile, Color color){`, Drawf.java:330): null when the link is null, else the CALL record {method: \"drawSelected\", target: link, color: \"Pal.accent\"} (the N2396 precedent -- the pure returns the draw call as data, it never draws for real). The accent color is `accent = Color.valueOf(\"ffd37f\"),` (Pal.java:79). The TODO `//TODO draw area?` (:119) has no Java behaviour and is not ported.",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_select_remove_state"
+          ]
+        },
+        "remove_call": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+          "java_expr": "link.removeModule(this);",
+          "rule": "The onRemoved module-unregister call (UnitAssemblerModule.java:129): null when the link is null, else the CALL record {method: \"removeModule\", target: link}. removeModule itself is the assembler's method (`public void removeModule(UnitAssemblerModuleBuild build){` / `modules.remove(build);`, UnitAssembler.java:358-360) and is NOT ported -- the call record is the whole port. The super call (`super.onRemoved();`, :126) is recorded, not modeled (the N2425 precedent).",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_select_remove_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07UnitAssemblerModuleSelectRemoveRowsProof",
+      "rule": "Source-backed UnitAssemblerModule onRemoved / drawSelect rows from UnitAssemblerModule.java / UnitAssembler.java / Drawf.java / Pal.java."
+    },
+    "source_stack_conveyor_blends_state_input": {
+      "status": "active",
+      "owner": "SourceStackConveyorBuildState.source_stack_conveyor_blends_state",
+      "source_slice": "N2448",
+      "keys": {
+        "state": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "int state = b.state;",
+          "rule": "The tile build state (StackConveyor.java:73): null means the tile build is NOT a StackConveyorBuild (the `if(tile.build instanceof StackConveyorBuild b){` gate, :72 -- the N2434 Variant-null precedent), an int 0/1/2 is stateMove / stateLoad / stateUnload (`protected static final int stateMove = 0, stateLoad = 1, stateUnload = 2;`, :25). The pure never reads the tile.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_blends_state"
+          ]
+        },
+        "output_router": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "}else if(state == stateUnload && !outputRouter){ //router mode",
+          "rule": "The block outputRouter flag (StackConveyor.java:77, the router-mode gate): the class default is true (`public boolean outputRouter = true;`, :39); plastanium-conveyor keeps it, surge-conveyor sets false (Blocks.java:2244) -- only a surge-conveyor ever takes the router branch.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_blends_state"
+          ]
+        },
+        "other_outputs_items": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "return otherblock.outputsItems() && lookingAtEither(tile, rotation, otherx, othery, otherrot, otherblock);",
+          "rule": "otherblock.outputsItems() (StackConveyor.java:75, the load branch, and :88, the fallback -- both require it): `public boolean outputsItems(){` / `return hasItems;` (Block.java:601-603). Caller-supplied: the pure never reads the other block.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_blends_state"
+          ]
+        },
+        "other_accepts_items": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "return otherblock.acceptsItems &&",
+          "rule": "otherblock.acceptsItems (StackConveyor.java:79, the router-mode first conjunct): `public boolean acceptsItems = false;` (Block.java:67). Caller-supplied.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_blends_state"
+          ]
+        },
+        "other_no_side_blend": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "(!otherblock.noSideBlend || lookingAtEither(tile, rotation, otherx, othery, otherrot, otherblock)) &&",
+          "rule": "otherblock.noSideBlend (StackConveyor.java:80, the router-mode second conjunct): `public boolean noSideBlend = false;` (Block.java:84) -- the half is true when the other block blends on the side OR either side looks at the other. Caller-supplied.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_blends_state"
+          ]
+        },
+        "looking_at_either": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/Autotiler.java",
+          "java_expr": "default boolean lookingAtEither(Tile tile, int rotation, int otherx, int othery, int otherrot, Block otherblock){",
+          "rule": "lookingAtEither(...) (StackConveyor.java:75 / 80): the Autotiler default (Autotiler.java:211-219) -- this tile faces the other, or the other does not rotate its output, or the other faces this one. Caller-supplied: the pure never computes geometry.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_blends_state"
+          ]
+        },
+        "not_looking_at": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/Autotiler.java",
+          "java_expr": "default boolean notLookingAt(Tile tile, int rotation, int otherx, int othery, int otherrot, Block otherblock){",
+          "rule": "notLookingAt(...) (StackConveyor.java:81, the router-mode third conjunct): the Autotiler default (Autotiler.java:205-207) -- NOT (the other block rotates its output toward this tile). Caller-supplied.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_blends_state"
+          ]
+        },
+        "other_facing": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/Autotiler.java",
+          "java_expr": "default boolean facing(int x, int y, int rotation, int x2, int y2){",
+          "rule": "facing(otherx, othery, otherrot, tile.x, tile.y) (StackConveyor.java:82, the facing half of the router-mode third conjunct): the Autotiler default (Autotiler.java:175-177) -- the other block facing step lands on this tile. Caller-supplied.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_blends_state"
+          ]
+        },
+        "other_build_unload": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "!(world.build(otherx, othery) instanceof StackConveyorBuild s && s.state == stateUnload) &&",
+          "rule": "The other tile build is a StackConveyorBuild in stateUnload (StackConveyor.java:83, the router-mode fourth conjunct -- negated in Java, so the pure ANDs its negation): the world.build indexer query, caller-supplied as one bool.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_blends_state"
+          ]
+        },
+        "other_build_move_not_facing": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "!(world.build(otherx, othery) instanceof StackConveyorBuild s2 && s2.state == stateMove &&",
+          "rule": "The other tile build is a StackConveyorBuild in stateMove AND NOT facing this tile (StackConveyor.java:84-85, the router-mode fifth conjunct -- the two-line Java conjunct, negated in Java, so the pure ANDs its negation): the world.build indexer query + the facing check, caller-supplied as one bool.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_blends_state"
+          ]
+        },
+        "blends_armored": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/Autotiler.java",
+          "java_expr": "default boolean blendsArmored(Tile tile, int rotation, int otherx, int othery, int otherrot, Block otherblock){",
+          "rule": "blendsArmored(...) (StackConveyor.java:88, the fallback second conjunct): the Autotiler default (Autotiler.java:197-203) -- the armored-blend check. Caller-supplied.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_blends_state"
+          ]
+        },
+        "other_is_stack_conveyor": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "return otherblock.outputsItems() && blendsArmored(tile, rotation, otherx, othery, otherrot, otherblock) && otherblock instanceof StackConveyor;",
+          "rule": "otherblock instanceof StackConveyor (StackConveyor.java:88, the fallback third conjunct, and :82, the facing half): the other block is a StackConveyor. Caller-supplied.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_blends_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07StackConveyorBlendsPlanRowsProof",
+      "rule": "Source-backed StackConveyor blends / drawPlanRegion / rotatedOutput rows from StackConveyor.java / Autotiler.java / Block.java."
+    },
+    "source_stack_conveyor_blends_state_result": {
+      "status": "active",
+      "owner": "SourceStackConveyorBuildState.source_stack_conveyor_blends_state",
+      "source_slice": "N2448",
+      "keys": {
+        "blends": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "return otherblock.outputsItems() && blendsArmored(tile, rotation, otherx, othery, otherrot, otherblock) && otherblock instanceof StackConveyor;",
+          "rule": "The blends() result (StackConveyor.java:71-88): the load branch (stateLoad, outputsItems && lookingAtEither), the router branch (stateUnload && !outputRouter, the five-conjunct gate), or the fallback (outputsItems && blendsArmored && instanceof StackConveyor) for stateMove, unload-with-outputRouter, or a non-stack tile build.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_blends_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07StackConveyorBlendsPlanRowsProof",
+      "rule": "Source-backed StackConveyor blends / drawPlanRegion / rotatedOutput rows from StackConveyor.java / Autotiler.java / Block.java."
+    },
+    "source_stack_conveyor_draw_plan_state_input": {
+      "status": "active",
+      "owner": "SourceStackConveyorBuildState.source_stack_conveyor_draw_plan_state",
+      "source_slice": "N2448",
+      "keys": {
+        "bits": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "int[] bits = getTiling(plan, list);",
+          "rule": "The getTiling CALL record (StackConveyor.java:91): null or an Array of 4 ints. getTiling (`default @Nullable int[] getTiling(BuildPlan plan, Eachable<BuildPlan> list){`, Autotiler.java:77-86) returns null when plan.tile() is null and is NOT ported -- the bits ride caller-supplied. The pure reads ONLY bits[3] (the edge bitmask, like the N2434 drawCached edge loop).",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_draw_plan_state"
+          ]
+        },
+        "plan_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "Draw.rect(region, plan.drawx(), plan.drawy(), plan.rotation * 90);",
+          "rule": "The plan draw x (StackConveyor.java:97, the plan rect center): plan.drawx() caller-supplied, like the N2419 plan pure.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_draw_plan_state"
+          ]
+        },
+        "plan_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "Draw.rect(region, plan.drawx(), plan.drawy(), plan.rotation * 90);",
+          "rule": "The plan draw y (StackConveyor.java:97, the plan rect center): plan.drawy() caller-supplied, same mapping as x.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_draw_plan_state"
+          ]
+        },
+        "rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "Draw.rect(edgeRegion, plan.drawx(), plan.drawy(), (plan.rotation - i) * 90);",
+          "rule": "The plan rotation (StackConveyor.java:101): the base rect draws at plan.rotation * 90 (:97) and the edge rects at (plan.rotation - i) * 90.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_draw_plan_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07StackConveyorBlendsPlanRowsProof",
+      "rule": "Source-backed StackConveyor blends / drawPlanRegion / rotatedOutput rows from StackConveyor.java / Autotiler.java / Block.java."
+    },
+    "source_stack_conveyor_draw_plan_state_result": {
+      "status": "active",
+      "owner": "SourceStackConveyorBuildState.source_stack_conveyor_draw_plan_state",
+      "source_slice": "N2448",
+      "keys": {
+        "base_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "Draw.rect(region, plan.drawx(), plan.drawy(), plan.rotation * 90);",
+          "rule": "The plan base rect call (StackConveyor.java:96-97): region regions[0] (`TextureRegion region = regions[0];`, :96 -- the `@-#` length-3 array, :27) centered on the plan position, rotated plan.rotation * 90. Null when bits is null (the `if(bits == null) return;` early return, :93).",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_draw_plan_state"
+          ]
+        },
+        "edge_calls": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "Draw.rect(edgeRegion, plan.drawx(), plan.drawy(), (plan.rotation - i) * 90);",
+          "rule": "The plan edge rect calls (StackConveyor.java:99-103): one per i where `(bits[3] & (1 << i)) == 0`, region edgeRegion (`public @Load(\"@-edge\") TextureRegion edgeRegion;`, :28) at the plan position, rotated (plan.rotation - i) * 90, each carrying its side i. Null when bits is null; empty when all four bits are set.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_draw_plan_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07StackConveyorBlendsPlanRowsProof",
+      "rule": "Source-backed StackConveyor blends / drawPlanRegion / rotatedOutput rows from StackConveyor.java / Autotiler.java / Block.java."
+    },
+    "source_stack_conveyor_rotated_output_state_input": {
+      "status": "active",
+      "owner": "SourceStackConveyorBuildState.source_stack_conveyor_rotated_output_state",
+      "source_slice": "N2448",
+      "keys": {
+        "other_is_stack_build": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "if(tile instanceof StackConveyorBuild s){",
+          "rule": "The world.build(x, y) instanceof gate (StackConveyor.java:108): the other tile build is a StackConveyorBuild. The world.build indexer query, caller-supplied as one bool.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_rotated_output_state"
+          ]
+        },
+        "other_state": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "return s.state != stateUnload;",
+          "rule": "The other build state (StackConveyor.java:109): 0/1/2 = stateMove / stateLoad / stateUnload (:25). Read only when other_is_stack_build is true.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_rotated_output_state"
+          ]
+        },
+        "super_rotated_output": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "return super.rotatedOutput(x, y);",
+          "rule": "The super call (StackConveyor.java:111): the Block default is `return rotate;` (Block.java:615-617) and StackConveyor sets `rotate = true;` (:48), but the pure takes the value caller-supplied so the def flag stays out of the pure.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_rotated_output_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07StackConveyorBlendsPlanRowsProof",
+      "rule": "Source-backed StackConveyor blends / drawPlanRegion / rotatedOutput rows from StackConveyor.java / Autotiler.java / Block.java."
+    },
+    "source_stack_conveyor_rotated_output_state_result": {
+      "status": "active",
+      "owner": "SourceStackConveyorBuildState.source_stack_conveyor_rotated_output_state",
+      "source_slice": "N2448",
+      "keys": {
+        "rotated_output": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "return s.state != stateUnload;",
+          "rule": "The rotatedOutput() result (StackConveyor.java:106-112): s.state != stateUnload for a StackConveyorBuild tile, else the super call (Block.java:615-617, return rotate;).",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_rotated_output_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07StackConveyorBlendsPlanRowsProof",
+      "rule": "Source-backed StackConveyor blends / drawPlanRegion / rotatedOutput rows from StackConveyor.java / Autotiler.java / Block.java."
+    },
+    "source_stack_router_config_state_input": {
+      "status": "active",
+      "owner": "SourceStackRouterBuildState.source_stack_router_config_state",
+      "source_slice": "N2449",
+      "keys": {
+        "action": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+          "java_expr": "config(Item.class, (DuctRouterBuild tile, Item item) -> tile.sortItem = item);",
+          "rule": "The discriminated action (recorded in this rule, the N2443 precedent): \"set\" applies the config(Item) handler (DuctRouter.java:44, sortItem = item), \"clear\" applies configClear (DuctRouter.java:45, sortItem = null), \"none\" leaves sortItem untouched (the pure returns current_sort_item).",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_config_state"
+          ]
+        },
+        "item": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+          "java_expr": "public @Nullable Item sortItem;",
+          "rule": "The item to set (DuctRouter.java:44, the config(Item) value): null or a Dict {name, color} (the N2433 precedent -- the port has no live Item objects, the color token is caller-supplied). Ignored for \"clear\" and \"none\".",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_config_state"
+          ]
+        },
+        "headless": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+          "java_expr": "if(!headless){",
+          "rule": "Vars.headless (DuctRouter.java:132, the configured guard): recache() and the minimap update run only when !headless; the config handler itself (super.configured) runs regardless.",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_config_state"
+          ]
+        },
+        "current_sort_item": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+          "java_expr": "public @Nullable Item sortItem;",
+          "rule": "The sortItem before the action (DuctRouter.java:77, `public @Nullable Item sortItem;`): the value the \"none\" action returns unchanged, and the value the buildConfiguration supplier `() -> sortItem` (DuctRouter.java:126) reads -- null or a Dict {name, color}, like item.",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_config_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07StackRouterConfigRowsProof",
+      "rule": "Source-backed StackRouter config / sortItem rows from DuctRouter.java / StackRouter.java / Block.java / BuildingComp.java / InputHandler.java."
+    },
+    "source_stack_router_config_state_result": {
+      "status": "active",
+      "owner": "SourceStackRouterBuildState.source_stack_router_config_state",
+      "source_slice": "N2449",
+      "keys": {
+        "sort_item": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+          "java_expr": "config(Item.class, (DuctRouterBuild tile, Item item) -> tile.sortItem = item);",
+          "rule": "The post-action sortItem (DuctRouter.java:44-45): item for \"set\", null for \"clear\", current_sort_item for \"none\". This IS the config() value (`public Item config(){` / `return sortItem;`, DuctRouter.java:187-189).",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_config_state"
+          ]
+        },
+        "recache_called": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+          "java_expr": "recache();",
+          "rule": "The recache() call flag (DuctRouter.java:133, inside the !headless guard): true exactly when an action ran and !headless. recache() is BuildingComp.recache() (BuildingComp.java:1285-1287, `if(!headless) renderer.blocks.recacheBuilding(block.buildingCacheLayer, tile);`) -- a renderer-side cache invalidation with no pure state of its own (verified first), so it is a CALL flag, not a state key.",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_config_state"
+          ]
+        },
+        "minimap_updated": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+          "java_expr": "renderer.minimap.update(tile);",
+          "rule": "The minimap update flag (DuctRouter.java:134): true exactly when an action ran and !headless. There is NO equality condition -- InputHandler.tileConfig calls build.configured unconditionally (InputHandler.java:728), so a configure with the SAME item still recaches + updates the minimap (the N2443 lesson).",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_config_state"
+          ]
+        },
+        "configure_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+          "java_expr": "ItemSelection.buildTable(DuctRouter.this, table, content.items(), () -> sortItem, this::configure);",
+          "rule": "The buildConfiguration CALL record (DuctRouter.java:126): {method: \"ItemSelection.buildTable\", current_sort_item} -- the supplier `() -> sortItem` reads the pre-action sort item; the UI itself is NOT ported (the N2396 CALL precedent).",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_config_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07StackRouterConfigRowsProof",
+      "rule": "Source-backed StackRouter config / sortItem rows from DuctRouter.java / StackRouter.java / Block.java / BuildingComp.java / InputHandler.java."
+    },
+    "source_impact_reactor_power_bar_state_input": {
+      "status": "active",
+      "owner": "SourceImpactReactorBuildState.source_impact_reactor_power_bar_state",
+      "source_slice": "N2450",
+      "keys": {
+        "power_production": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+          "java_expr": "Strings.fixed(Math.max(entity.getPowerProduction() - (consPower == null ? 0f : consPower.usage), 0) * 60 * entity.timeScale(), 1)),",
+          "rule": "The caller-supplied getPowerProduction() live read (ImpactReactor.java:48, the bar label amount): `public float getPowerProduction(){` with `return enabled ? powerProduction * productionEfficiency : 0f;` (PowerGenerator.java:156-158). The producer fold itself waits for its own slice (DEFERRED #71), so the pure takes the live read as an input and never computes it. At full warmup the single def reads 130f (`powerProduction = 130f;`, Blocks.java:2636).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_power_bar_state"
+          ]
+        },
+        "cons_power_usage": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+          "java_expr": "(consPower == null ? 0f : consPower.usage)",
+          "rule": "The caller-supplied consPower usage (ImpactReactor.java:48, the bar label amount): the ConsumePower field (`public float usage;`, ConsumePower.java:10), 25f for the single def (`consumePower(25f);`, Blocks.java:2642). Null means consPower is null, so Java reads 0f.",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_power_bar_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+          "java_expr": "Strings.fixed(Math.max(entity.getPowerProduction() - (consPower == null ? 0f : consPower.usage), 0) * 60 * entity.timeScale(), 1)),",
+          "rule": "The building timeScale (ImpactReactor.java:48, the bar label amount): entity.timeScale(), default 1f (BuildingComp.java:98-99). The net output scales by 60 * timeScale into per-second units.",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_power_bar_state"
+          ]
+        },
+        "production_efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+          "java_expr": "() -> entity.productionEfficiency));",
+          "rule": "The caller-supplied productionEfficiency (ImpactReactor.java:50, the bar fraction): the frame value the N2192 advance tracks (`productionEfficiency = Mathf.pow(warmup, 5f);`, ImpactReactor.java:100), starting at 0.0f (PowerGenerator.java:96). The pure returns it RAW -- the Bar clamps at render (Bar.java:33/:80).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_power_bar_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ImpactReactorBarStatsRowsProof",
+      "rule": "Source-backed ImpactReactor setBars / setStats rows from ImpactReactor.java / PowerGenerator.java / ConsumePower.java / Blocks.java / Stat.java / StatUnit.java / Pal.java / Bar.java / bundle.properties / arc Strings.java / arc Mathf.java."
+    },
+    "source_impact_reactor_power_bar_state_result": {
+      "status": "active",
+      "owner": "SourceImpactReactorBuildState.source_impact_reactor_power_bar_state",
+      "source_slice": "N2450",
+      "keys": {
+        "label": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+          "java_expr": "Strings.fixed(Math.max(entity.getPowerProduction() - (consPower == null ? 0f : consPower.usage), 0) * 60 * entity.timeScale(), 1)),",
+          "rule": "The bar label (ImpactReactor.java:47-48): {key, amount} -- the bundle key \"bar.poweroutput\" (`bar.poweroutput = Power Output: {0}`, bundle.properties:1287) plus the Strings.fixed 1-place amount. Strings.fixed TRUNCATES (`dec.append((int)(float)(d * Math.pow(10, decimalPlaces) + 0.0001f));`, arc Strings.java:735), it does NOT round (the N2426 lesson): the def net (130 - 25) * 60 = 6300.0 formats \"6300.0\", and 6000.06 formats \"6000.0\". Core.bundle.format composes the rendered string at render (the N2422 precedent) -- the pure does not build it.",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_power_bar_state"
+          ]
+        },
+        "color": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+          "java_expr": "() -> Pal.powerBar,",
+          "rule": "The bar color token (ImpactReactor.java:49): \"Pal.powerBar\" (`powerBar = Color.valueOf(\"ec7b4c\"),`, Pal.java:93), carried as a symbolic token, never resolved to RGB (the N2373 color-token precedent).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_power_bar_state"
+          ]
+        },
+        "fraction": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+          "java_expr": "() -> entity.productionEfficiency));",
+          "rule": "The bar fraction (ImpactReactor.java:50): the productionEfficiency RAW -- Java does NOT clamp it in the lambda, the Bar itself clamps at render (`lastValue = value = Mathf.clamp(fraction.get());`, Bar.java:33; `float computed = Mathf.clamp(fraction.get());`, Bar.java:80; clamp to [0, 1] is `return Math.max(Math.min(value, 1f), 0f);`, arc Mathf.java:402-404) -- so a value above 1.0 reports raw here and the Bar draws it full (the N2422 lesson).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_power_bar_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ImpactReactorBarStatsRowsProof",
+      "rule": "Source-backed ImpactReactor setBars / setStats rows from ImpactReactor.java / PowerGenerator.java / ConsumePower.java / Blocks.java / Stat.java / StatUnit.java / Pal.java / Bar.java / bundle.properties / arc Strings.java / arc Mathf.java."
+    },
+    "source_impact_reactor_stats_state_input": {
+      "status": "active",
+      "owner": "SourceImpactReactorBuildState.source_impact_reactor_stats_state",
+      "source_slice": "N2450",
+      "keys": {
+        "item_duration": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+          "java_expr": "stats.add(Stat.productionTime, itemDuration / 60f, StatUnit.seconds);",
+          "rule": "The itemDuration (ImpactReactor.java:60, the productionTime row): the def value is 140f (`itemDuration = 140f;`, Blocks.java:2637), NOT the class default 60f (`public float itemDuration = 60f;`, ImpactReactor.java:20).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_stats_state"
+          ]
+        },
+        "has_items": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+          "java_expr": "if(hasItems){",
+          "rule": "The hasItems gate (ImpactReactor.java:59): the productionTime row exists only when the block has items (true for ImpactReactor, `hasItems = true;`, ImpactReactor.java:27).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_stats_state"
+          ]
+        },
+        "warmup_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+          "java_expr": "float max = -(float)Math.log(0.001f) / warmupSpeed / 60f;",
+          "rule": "The warmupSpeed (ImpactReactor.java:64, the warmupTime max): the class default 0.001f (`public float warmupSpeed = 0.001f;`, ImpactReactor.java:19) -- the single def does NOT override it (Blocks.java:2632-2645 carries no warmupSpeed line).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_stats_state"
+          ]
+        },
+        "cons_power_usage": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+          "java_expr": "float equal = -(float)Math.log(1f - Mathf.pow(consPower.usage / powerProduction, 1f / 5f)) / warmupSpeed / 60f;",
+          "rule": "The consPower usage (ImpactReactor.java:65, the warmupTime equal): the ConsumePower field (`public float usage;`, ConsumePower.java:10), 25f for the single def (`consumePower(25f);`, Blocks.java:2642). Read only when has_cons_power holds.",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_stats_state"
+          ]
+        },
+        "power_production": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+          "java_expr": "float equal = -(float)Math.log(1f - Mathf.pow(consPower.usage / powerProduction, 1f / 5f)) / warmupSpeed / 60f;",
+          "rule": "The powerProduction (ImpactReactor.java:65, the warmupTime equal): the block field, 130f for the single def (`powerProduction = 130f;`, Blocks.java:2636). Read only when has_cons_power holds.",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_stats_state"
+          ]
+        },
+        "has_cons_power": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+          "java_expr": "if(consPower != null){",
+          "rule": "The consPower gate (ImpactReactor.java:63): the warmupTime row exists only when the block has a power consumer (true for the single def, `consumePower(25f);`, Blocks.java:2642).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ImpactReactorBarStatsRowsProof",
+      "rule": "Source-backed ImpactReactor setBars / setStats rows from ImpactReactor.java / PowerGenerator.java / ConsumePower.java / Blocks.java / Stat.java / StatUnit.java / Pal.java / Bar.java / bundle.properties / arc Strings.java / arc Mathf.java."
+    },
+    "source_impact_reactor_stats_state_result": {
+      "status": "active",
+      "owner": "SourceImpactReactorBuildState.source_impact_reactor_stats_state",
+      "source_slice": "N2450",
+      "keys": {
+        "production_time_seconds": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+          "java_expr": "stats.add(Stat.productionTime, itemDuration / 60f, StatUnit.seconds);",
+          "rule": "The productionTime stat value (ImpactReactor.java:60): itemDuration / 60f in seconds -- 140 / 60 = 2.3333333 at the def, 60 / 60 = 1.0 at the class default. Null when has_items is false (no row is added). The stat token is productionTime (`productionTime = new Stat(\"productionTime\", StatCat.crafting),`, Stat.java:69) and the unit is seconds (`seconds = new StatUnit(\"seconds\"),`, StatUnit.java:26).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_stats_state"
+          ]
+        },
+        "warmup_time_label": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+          "java_expr": "t.add(Strings.autoFixed(max, 2) + \" \" + StatUnit.seconds.localized() + (consPower != null ?",
+          "rule": "The warmupTime composite label (ImpactReactor.java:67-68): autoFixed(max, 2) + \" \" + seconds.localized() + \" ~ \" + autoFixed(equal, 2) + \" \" + seconds.localized() + \" \" + powerEquilibrium.localized(). The localized units are \"seconds\" (`unit.seconds = seconds`, bundle.properties:1360) and \"power equilibrium\" (`unit.powerequilibrium = power equilibrium`, bundle.properties:1357) -- NOT the briefs \" s \" / token shorthand (verify-first correction). At the def: \"115.12 seconds ~ 21.16 seconds power equilibrium\". Null when has_cons_power is false (no row is added). The stat token is warmupTime (`warmupTime = new Stat(\"warmupTime\", StatCat.power),`, Stat.java:64).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ImpactReactorBarStatsRowsProof",
+      "rule": "Source-backed ImpactReactor setBars / setStats rows from ImpactReactor.java / PowerGenerator.java / ConsumePower.java / Blocks.java / Stat.java / StatUnit.java / Pal.java / Bar.java / bundle.properties / arc Strings.java / arc Mathf.java."
+    },
+    "source_build_turret_warmup_state_input": {
+      "status": "active",
+      "owner": "SourceBuildTurretBuildState.source_build_turret_warmup_state",
+      "source_slice": "N2451",
+      "keys": {
+        "warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "return warmup;",
+          "rule": "The live warmup field (BuildTurret.java:255, the warmup() return): the field `public float warmup;` (BuildTurret.java:96), ticked live since N2243 (`warmup = Mathf.lerpDelta(warmup, unit.activelyBuilding() ? efficiency : 0f, 0.1f);`, BuildTurret.java:139) -- the pure takes it caller-supplied and never reads the frame.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_warmup_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildTurretWarmupStatsRowsProof",
+      "rule": "Source-backed BuildTurret warmup / setStats rows from BuildTurret.java / Blocks.java / Stat.java / Stats.java / BuildingComp.java."
+    },
+    "source_build_turret_warmup_state_result": {
+      "status": "active",
+      "owner": "SourceBuildTurretBuildState.source_build_turret_warmup_state",
+      "source_slice": "N2451",
+      "keys": {
+        "warmup_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "return warmup;",
+          "rule": "The warmup() accessor value (BuildTurret.java:255): the field verbatim -- 0.0 at rest, 1.0 fully warmed up. The override of the BuildingComp default (`return 0f;`, BuildingComp.java:608-610).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_warmup_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildTurretWarmupStatsRowsProof",
+      "rule": "Source-backed BuildTurret warmup / setStats rows from BuildTurret.java / Blocks.java / Stat.java / Stats.java / BuildingComp.java."
+    },
+    "source_build_turret_stats_state_input": {
+      "status": "active",
+      "owner": "SourceBuildTurretBuildState.source_build_turret_stats_state",
+      "source_slice": "N2451",
+      "keys": {
+        "build_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "stats.addPercent(Stat.buildSpeed, buildSpeed);",
+          "rule": "The BuildTurret buildSpeed (BuildTurret.java:84, the setStats row): the class default is 1f (`public float buildSpeed = 1f;`, BuildTurret.java:33); the single build-tower def sets 1.5f (`buildSpeed = 1.5f;`, Blocks.java:2003).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildTurretWarmupStatsRowsProof",
+      "rule": "Source-backed BuildTurret warmup / setStats rows from BuildTurret.java / Blocks.java / Stat.java / Stats.java / BuildingComp.java."
+    },
+    "source_build_turret_stats_state_result": {
+      "status": "active",
+      "owner": "SourceBuildTurretBuildState.source_build_turret_stats_state",
+      "source_slice": "N2451",
+      "keys": {
+        "stat_key": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/meta/Stat.java",
+          "java_expr": "buildSpeed = new Stat(\"buildSpeed\"),",
+          "rule": "The stat token (Stat.java:30): \"buildSpeed\" -- the Stat the setStats row adds.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_stats_state"
+          ]
+        },
+        "stat_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "stats.addPercent(Stat.buildSpeed, buildSpeed);",
+          "rule": "The buildSpeed stat value (BuildTurret.java:84): the RAW buildSpeed -- 1.5 for the build-tower def, 1.0 at the class default. Percent formatting is a UI concern (the N2422 precedent): addPercent multiplies by 100 only at display time (`add(stat, StatValues.number((int)(value * 100), StatUnit.percent));`, Stats.java:38), so 1.5f displays as 150% and 1f as 100%.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildTurretWarmupStatsRowsProof",
+      "rule": "Source-backed BuildTurret warmup / setStats rows from BuildTurret.java / Blocks.java / Stat.java / Stats.java / BuildingComp.java."
+    },
+    "source_accelerator_get_cursor_state_input": {
+      "status": "active",
+      "owner": "SourceAcceleratorBuildState.source_accelerator_get_cursor_state",
+      "source_slice": "N2452",
+      "keys": {
+        "gate_can_launch": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "return isValid() && !net.client() && state.isCampaign() && efficiency > 0f && power.graph.getBatteryStored() >= powerBufferRequirement-0.00001f && progress >= 1f && !launching;",
+          "rule": "The caller-supplied tick-state gate: the can_launch output of the EXISTING pure source_accelerator_can_launch_state (N2271), which already evaluates efficiency > 0f, battery_stored >= powerBufferRequirement - 0.00001f, progress >= 1f and !launching (Accelerator.java:240). This pure does NOT recompute it -- it composes the environment half over it.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_get_cursor_state"
+          ]
+        },
+        "is_valid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public boolean isValid(){",
+          "rule": "Whether the building is valid (BuildingComp.java:2030, `return tile.build == self() && !dead();`): the first environment condition of canLaunch() (Accelerator.java:240). A caller-supplied bool -- the pure never queries the tile itself.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_get_cursor_state"
+          ]
+        },
+        "is_client": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/net/Net.java",
+          "java_expr": "public boolean client(){",
+          "rule": "Whether this peer is a net client (Net.java:404): canLaunch() needs !net.client() (Accelerator.java:240) -- a client never launches. A caller-supplied bool -- the port has no net state.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_get_cursor_state"
+          ]
+        },
+        "is_campaign": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/GameState.java",
+          "java_expr": "public boolean isCampaign(){",
+          "rule": "Whether the game state is a campaign (GameState.java:73): canLaunch() needs state.isCampaign() (Accelerator.java:240) -- the accelerator is a campaign-only launch block. A caller-supplied bool -- the port has no campaign state.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_get_cursor_state"
+          ]
+        },
+        "configurable": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "configurable = true;",
+          "rule": "Whether the block is configurable (Block.configurable, set true for Accelerator in its constructor, Accelerator.java:77): the first super-branch condition (BuildingComp.java:1684). A caller-supplied bool -- the pure reads the def flag, it never queries the block itself.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_get_cursor_state"
+          ]
+        },
+        "interactable": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public boolean interactable(Team team){",
+          "rule": "Whether the building is interactable for the player team (BuildingComp.java:595, `return state.teams.canInteract(team, team());`): the second super-branch condition (BuildingComp.java:1684). A caller-supplied bool -- the pure takes the already-evaluated value, it never queries teams itself.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_get_cursor_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07AcceleratorGetCursorRowsProof",
+      "rule": "Source-backed Accelerator getCursor rows from Accelerator.java / BuildingComp.java / Net.java / GameState.java."
+    },
+    "source_accelerator_get_cursor_state_result": {
+      "status": "active",
+      "owner": "SourceAcceleratorBuildState.source_accelerator_get_cursor_state",
+      "source_slice": "N2452",
+      "keys": {
+        "can_launch": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "return isValid() && !net.client() && state.isCampaign() && efficiency > 0f && power.graph.getBatteryStored() >= powerBufferRequirement-0.00001f && progress >= 1f && !launching;",
+          "rule": "Whether the FULL launch gate passes (Accelerator.java:240): gate_can_launch && is_valid && !is_client && is_campaign. The tick-state half arrives caller-supplied from the N2271 pure; the environment half is evaluated here.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_get_cursor_state"
+          ]
+        },
+        "cursor": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "return canLaunch() ? SystemCursor.hand : super.getCursor();",
+          "rule": "The cursor token (Accelerator.java:245): \"hand\" when can_launch, else the BuildingComp super branch (BuildingComp.java:1684) -- \"hand\" iff configurable && interactable, else \"arrow\". The SystemCursor names are carried as strings, never resolved to a Godot cursor object (the N2373 color-token precedent).",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_get_cursor_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07AcceleratorGetCursorRowsProof",
+      "rule": "Source-backed Accelerator getCursor rows from Accelerator.java / BuildingComp.java / Net.java / GameState.java."
+    },
+    "source_fracker_attribute_env_live_fill_state_input": {
+      "status": "active",
+      "owner": "SourceFrackerBuildState.source_fracker_attribute_env_live_fill_state",
+      "source_slice": "N2453",
+      "keys": {
+        "env_attrs": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/meta/Attribute.java",
+          "java_expr": "return Vars.state.envAttrs.get(this);",
+          "rule": "The env attribute map: a Dict keyed by attribute NAME (e.g. {\"oil\": 0.5}) -- the caller-supplied envAttrs. The fill reads the \"oil\" key only (the oil-extractor def sets attribute = Attribute.oil, Blocks.java:2972). A missing key fills 0.0 (the Attributes float-array default, Attributes.java:18 -- never null). No live producer stamps this frame input yet -- the producer gap is documented, not invented here.",
+          "java_method": "Attribute.env()",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_attribute_env_live_fill_state"
+          ]
+        },
+        "state_present": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/meta/Attribute.java",
+          "java_expr": "if(Vars.state == null) return 0;",
+          "rule": "Whether the game state exists (Vars.state != null, Attribute.java:32): false fills 0.0 exact, the no-state branch. The tick reads the frame state_present with default true -- a live game has a state; the false branch is exercised by the proof seed.",
+          "java_method": "Attribute.env()",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_attribute_env_live_fill_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07FrackerAttributeEnvLiveFillProof",
+      "rule": "Source-backed Fracker attribute env live fill from Fracker.java / SolidPump.java / Attribute.java / Attributes.java / GameState.java / Blocks.java."
+    },
+    "source_fracker_attribute_env_live_fill_state_result": {
+      "status": "active",
+      "owner": "SourceFrackerBuildState.source_fracker_attribute_env_live_fill_state",
+      "source_slice": "N2453",
+      "keys": {
+        "attribute_env": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/meta/Attribute.java",
+          "java_expr": "return Vars.state.envAttrs.get(this);",
+          "rule": "The oil attribute env value (Attribute.java:31-34, Vars.state.envAttrs.get(this), 0 when Vars.state is null): 0.0 when state_present is false or the \"oil\" key is missing from env_attrs (the Attributes float-array default, Attributes.java:18). The N2305 fraction adds it (SolidPump.java:124) because the attribute is present for the oil-extractor def (attribute = Attribute.oil, Blocks.java:2972).",
+          "java_method": "Attribute.env()",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_attribute_env_live_fill_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07FrackerAttributeEnvLiveFillProof",
+      "rule": "Source-backed Fracker attribute env live fill from Fracker.java / SolidPump.java / Attribute.java / Attributes.java / GameState.java / Blocks.java."
     }
   },
   "version": 1

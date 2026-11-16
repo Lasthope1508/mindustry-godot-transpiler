@@ -2024,6 +2024,37 @@
       "rule": "Source-backed live-loop drill dump; the drill dumps through the dump composition over the stored conveyor queues, and simulate_factory calls this step instead of dumping straight to the core.",
       "return_type": "Dictionary"
     },
+    "SourceFrackerBuildState.source_fracker_attribute_env_live_fill_state": {
+      "canonical_contract": "source_api_contracts.SourceFrackerBuildState.source_fracker_attribute_env_live_fill_state",
+      "status": "active",
+      "source_slice": "N2453",
+      "java_source": "core/src/mindustry/world/blocks/production/Fracker.java",
+      "source_method": "FrackerBuild.updateTile()",
+      "params": [
+        {
+          "name": "env_attrs",
+          "type": "Dictionary",
+          "schema": "source_fracker_attribute_env_live_fill_state_input.env_attrs"
+        },
+        {
+          "name": "state_present",
+          "type": "bool",
+          "schema": "source_fracker_attribute_env_live_fill_state_input.state_present"
+        }
+      ],
+      "return_keys": [
+        "attribute_env"
+      ],
+      "tests": [
+        "test_c07_fracker_attribute_env_live_fill_registration",
+        "test_all_c07_fracker_attribute_env_live_fill_input_evidence_is_exact",
+        "test_fracker_attribute_env_live_fill_state",
+        "test_reference_graph_and_actual_c07_fracker_attribute_env_live_fill"
+      ],
+      "runtime_proof": "/root/C07FrackerAttributeEnvLiveFillProof",
+      "rule": "Source-backed Fracker attribute env live fill from Fracker.java / SolidPump.java / Attribute.java / Attributes.java / GameState.java / Blocks.java.",
+      "return_type": "Dictionary"
+    },
     "SourceFrackerBuildState.source_fracker_dump_liquid_neighbour_live_fill_state": {
       "canonical_contract": "source_api_contracts.SourceFrackerBuildState.source_fracker_dump_liquid_neighbour_live_fill_state",
       "status": "active",

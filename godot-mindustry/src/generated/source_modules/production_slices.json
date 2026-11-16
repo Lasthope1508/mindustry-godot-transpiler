@@ -1974,6 +1974,23 @@
       ],
       "runtime_proof": "/root/C07BeamDrillDrawRowsProof"
     },
+    "N2453": {
+      "canonical_ledger": "source_slice_ledger.N2453",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Fracker.java",
+      "java_method": "FrackerBuild.updateTile()",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_attribute_env_live_fill_state",
+      "source_symbols": [
+        "source_fracker_attribute_env_live_fill_state_result.attribute_env"
+      ],
+      "tests": [
+        "test_c07_fracker_attribute_env_live_fill_registration",
+        "test_all_c07_fracker_attribute_env_live_fill_input_evidence_is_exact",
+        "test_fracker_attribute_env_live_fill_state",
+        "test_reference_graph_and_actual_c07_fracker_attribute_env_live_fill"
+      ],
+      "runtime_proof": "/root/C07FrackerAttributeEnvLiveFillProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",

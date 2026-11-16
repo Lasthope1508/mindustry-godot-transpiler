@@ -6468,6 +6468,21 @@
       ],
       "runtime_proof": "/root/C06FactoryLiquidOutputProof"
     },
+    "source_fracker_attribute_env_live_fill_state_result.attribute_env": {
+      "canonical_symbol": "source_symbol_registry.source_fracker_attribute_env_live_fill_state_result.attribute_env",
+      "status": "source-backed",
+      "java_expr": "return Vars.state.envAttrs.get(this);",
+      "godot_symbol": "source_fracker_attribute_env_live_fill_state_result.attribute_env",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_attribute_env_live_fill_state",
+      "rule": "The oil attribute env value (Attribute.java:31-34, Vars.state.envAttrs.get(this), 0 when Vars.state is null): 0.0 when state_present is false or the \"oil\" key is missing from env_attrs (the Attributes float-array default, Attributes.java:18). The N2305 fraction adds it (SolidPump.java:124) because the attribute is present for the oil-extractor def (attribute = Attribute.oil, Blocks.java:2972).",
+      "tests": [
+        "test_c07_fracker_attribute_env_live_fill_registration",
+        "test_all_c07_fracker_attribute_env_live_fill_input_evidence_is_exact",
+        "test_fracker_attribute_env_live_fill_state",
+        "test_reference_graph_and_actual_c07_fracker_attribute_env_live_fill"
+      ],
+      "runtime_proof": "/root/C07FrackerAttributeEnvLiveFillProof"
+    },
     "source_fracker_dump_liquid_neighbour_live_fill_state_result.dump_liquid_neighbours": {
       "canonical_symbol": "source_symbol_registry.source_fracker_dump_liquid_neighbour_live_fill_state_result.dump_liquid_neighbours",
       "status": "source-backed",

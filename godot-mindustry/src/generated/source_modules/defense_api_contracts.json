@@ -7043,6 +7043,32 @@
       "rule": "Source-backed BuildTurret updateTile advance (sync + warmup) from BuildTurret.java / BaseTurret.java / BuildingComp.java / Blocks.java / Block.java.",
       "return_type": "Dictionary"
     },
+    "SourceBuildTurretBuildState.source_build_turret_warmup_state": {
+      "canonical_contract": "source_api_contracts.SourceBuildTurretBuildState.source_build_turret_warmup_state",
+      "status": "active",
+      "source_slice": "N2451",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "source_method": "BuildTurretBuild.warmup()",
+      "params": [
+        {
+          "name": "warmup",
+          "type": "float",
+          "schema": "source_build_turret_warmup_state_input.warmup"
+        }
+      ],
+      "return_keys": [
+        "warmup_value"
+      ],
+      "tests": [
+        "test_c07_build_turret_warmup_stats_rows_registration",
+        "test_all_c07_build_turret_warmup_stats_rows_input_evidence_is_exact",
+        "test_build_turret_warmup_stats_rows_state",
+        "test_reference_graph_and_actual_c07_build_turret_warmup_stats_rows"
+      ],
+      "runtime_proof": "/root/C07BuildTurretWarmupStatsRowsProof",
+      "rule": "Source-backed BuildTurret warmup / setStats rows from BuildTurret.java / Blocks.java / Stat.java / Stats.java / BuildingComp.java.",
+      "return_type": "Dictionary"
+    },
     "SourceConsumeState.source_cost_multiplier_for_block_state": {
       "canonical_contract": "source_api_contracts.SourceConsumeState.source_cost_multiplier_for_block_state",
       "status": "active",

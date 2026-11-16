@@ -187544,6 +187544,342 @@
         "test_reference_graph_and_actual_c07_build_turret_draw_rows"
       ],
       "runtime_proof": "/root/C07BuildTurretDrawRowsProof"
+    },
+    "source_unit_assembler_module_select_remove_state_result.select_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_select_remove_state",
+      "godot_symbol": "source_unit_assembler_module_select_remove_state_result.select_call",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+      "java_method": "UnitAssemblerModuleBuild.drawSelect()",
+      "java_expr": "Drawf.selected(link, Pal.accent);",
+      "rule": "The drawSelect highlight call (UnitAssemblerModule.java:121, the Building overload `public static void selected(Building tile, Color color){`, Drawf.java:330): null when the link is null, else the CALL record {method: \"drawSelected\", target: link, color: \"Pal.accent\"} (the N2396 precedent -- the pure returns the draw call as data, it never draws for real). The accent color is `accent = Color.valueOf(\"ffd37f\"),` (Pal.java:79). The TODO `//TODO draw area?` (:119) has no Java behaviour and is not ported.",
+      "tests": [
+        "test_c07_unit_assembler_module_select_remove_rows_registration",
+        "test_all_c07_unit_assembler_module_select_remove_rows_input_evidence_is_exact",
+        "test_unit_assembler_module_select_remove_rows_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_select_remove_rows"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleSelectRemoveRowsProof"
+    },
+    "source_unit_assembler_module_select_remove_state_result.remove_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_select_remove_state",
+      "godot_symbol": "source_unit_assembler_module_select_remove_state_result.remove_call",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+      "java_method": "UnitAssemblerModuleBuild.drawSelect()",
+      "java_expr": "link.removeModule(this);",
+      "rule": "The onRemoved module-unregister call (UnitAssemblerModule.java:129): null when the link is null, else the CALL record {method: \"removeModule\", target: link}. removeModule itself is the assembler's method (`public void removeModule(UnitAssemblerModuleBuild build){` / `modules.remove(build);`, UnitAssembler.java:358-360) and is NOT ported -- the call record is the whole port. The super call (`super.onRemoved();`, :126) is recorded, not modeled (the N2425 precedent).",
+      "tests": [
+        "test_c07_unit_assembler_module_select_remove_rows_registration",
+        "test_all_c07_unit_assembler_module_select_remove_rows_input_evidence_is_exact",
+        "test_unit_assembler_module_select_remove_rows_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_select_remove_rows"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleSelectRemoveRowsProof"
+    },
+    "source_stack_conveyor_blends_state_result.blends": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackConveyorBuildState.source_stack_conveyor_blends_state",
+      "godot_symbol": "source_stack_conveyor_blends_state_result.blends",
+      "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+      "java_method": "StackConveyor.blends()",
+      "java_expr": "return otherblock.outputsItems() && blendsArmored(tile, rotation, otherx, othery, otherrot, otherblock) && otherblock instanceof StackConveyor;",
+      "rule": "The blends() result (StackConveyor.java:71-88): the load branch (stateLoad, outputsItems && lookingAtEither), the router branch (stateUnload && !outputRouter, the five-conjunct gate), or the fallback (outputsItems && blendsArmored && instanceof StackConveyor) for stateMove, unload-with-outputRouter, or a non-stack tile build.",
+      "tests": [
+        "test_c07_stack_conveyor_blends_plan_rows_registration",
+        "test_all_c07_stack_conveyor_blends_plan_rows_input_evidence_is_exact",
+        "test_stack_conveyor_blends_plan_rows_state",
+        "test_reference_graph_and_actual_c07_stack_conveyor_blends_plan_rows"
+      ],
+      "runtime_proof": "/root/C07StackConveyorBlendsPlanRowsProof"
+    },
+    "source_stack_conveyor_draw_plan_state_result.base_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackConveyorBuildState.source_stack_conveyor_draw_plan_state",
+      "godot_symbol": "source_stack_conveyor_draw_plan_state_result.base_call",
+      "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+      "java_method": "StackConveyor.drawPlanRegion()",
+      "java_expr": "Draw.rect(region, plan.drawx(), plan.drawy(), plan.rotation * 90);",
+      "rule": "The plan base rect call (StackConveyor.java:96-97): region regions[0] (`TextureRegion region = regions[0];`, :96 -- the `@-#` length-3 array, :27) centered on the plan position, rotated plan.rotation * 90. Null when bits is null (the `if(bits == null) return;` early return, :93).",
+      "tests": [
+        "test_c07_stack_conveyor_blends_plan_rows_registration",
+        "test_all_c07_stack_conveyor_blends_plan_rows_input_evidence_is_exact",
+        "test_stack_conveyor_blends_plan_rows_state",
+        "test_reference_graph_and_actual_c07_stack_conveyor_blends_plan_rows"
+      ],
+      "runtime_proof": "/root/C07StackConveyorBlendsPlanRowsProof"
+    },
+    "source_stack_conveyor_draw_plan_state_result.edge_calls": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackConveyorBuildState.source_stack_conveyor_draw_plan_state",
+      "godot_symbol": "source_stack_conveyor_draw_plan_state_result.edge_calls",
+      "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+      "java_method": "StackConveyor.drawPlanRegion()",
+      "java_expr": "Draw.rect(edgeRegion, plan.drawx(), plan.drawy(), (plan.rotation - i) * 90);",
+      "rule": "The plan edge rect calls (StackConveyor.java:99-103): one per i where `(bits[3] & (1 << i)) == 0`, region edgeRegion (`public @Load(\"@-edge\") TextureRegion edgeRegion;`, :28) at the plan position, rotated (plan.rotation - i) * 90, each carrying its side i. Null when bits is null; empty when all four bits are set.",
+      "tests": [
+        "test_c07_stack_conveyor_blends_plan_rows_registration",
+        "test_all_c07_stack_conveyor_blends_plan_rows_input_evidence_is_exact",
+        "test_stack_conveyor_blends_plan_rows_state",
+        "test_reference_graph_and_actual_c07_stack_conveyor_blends_plan_rows"
+      ],
+      "runtime_proof": "/root/C07StackConveyorBlendsPlanRowsProof"
+    },
+    "source_stack_conveyor_rotated_output_state_result.rotated_output": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackConveyorBuildState.source_stack_conveyor_rotated_output_state",
+      "godot_symbol": "source_stack_conveyor_rotated_output_state_result.rotated_output",
+      "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+      "java_method": "StackConveyor.rotatedOutput()",
+      "java_expr": "return s.state != stateUnload;",
+      "rule": "The rotatedOutput() result (StackConveyor.java:106-112): s.state != stateUnload for a StackConveyorBuild tile, else the super call (Block.java:615-617, return rotate;).",
+      "tests": [
+        "test_c07_stack_conveyor_blends_plan_rows_registration",
+        "test_all_c07_stack_conveyor_blends_plan_rows_input_evidence_is_exact",
+        "test_stack_conveyor_blends_plan_rows_state",
+        "test_reference_graph_and_actual_c07_stack_conveyor_blends_plan_rows"
+      ],
+      "runtime_proof": "/root/C07StackConveyorBlendsPlanRowsProof"
+    },
+    "source_stack_router_config_state_result.sort_item": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackRouterBuildState.source_stack_router_config_state",
+      "godot_symbol": "source_stack_router_config_state_result.sort_item",
+      "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+      "java_method": "DuctRouterBuild.configured()",
+      "java_expr": "config(Item.class, (DuctRouterBuild tile, Item item) -> tile.sortItem = item);",
+      "rule": "The post-action sortItem (DuctRouter.java:44-45): item for \"set\", null for \"clear\", current_sort_item for \"none\". This IS the config() value (`public Item config(){` / `return sortItem;`, DuctRouter.java:187-189).",
+      "tests": [
+        "test_c07_stack_router_config_rows_registration",
+        "test_all_c07_stack_router_config_rows_input_evidence_is_exact",
+        "test_stack_router_config_rows_state",
+        "test_reference_graph_and_actual_c07_stack_router_config_rows"
+      ],
+      "runtime_proof": "/root/C07StackRouterConfigRowsProof"
+    },
+    "source_stack_router_config_state_result.recache_called": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackRouterBuildState.source_stack_router_config_state",
+      "godot_symbol": "source_stack_router_config_state_result.recache_called",
+      "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+      "java_method": "DuctRouterBuild.configured()",
+      "java_expr": "recache();",
+      "rule": "The recache() call flag (DuctRouter.java:133, inside the !headless guard): true exactly when an action ran and !headless. recache() is BuildingComp.recache() (BuildingComp.java:1285-1287, `if(!headless) renderer.blocks.recacheBuilding(block.buildingCacheLayer, tile);`) -- a renderer-side cache invalidation with no pure state of its own (verified first), so it is a CALL flag, not a state key.",
+      "tests": [
+        "test_c07_stack_router_config_rows_registration",
+        "test_all_c07_stack_router_config_rows_input_evidence_is_exact",
+        "test_stack_router_config_rows_state",
+        "test_reference_graph_and_actual_c07_stack_router_config_rows"
+      ],
+      "runtime_proof": "/root/C07StackRouterConfigRowsProof"
+    },
+    "source_stack_router_config_state_result.minimap_updated": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackRouterBuildState.source_stack_router_config_state",
+      "godot_symbol": "source_stack_router_config_state_result.minimap_updated",
+      "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+      "java_method": "DuctRouterBuild.configured()",
+      "java_expr": "renderer.minimap.update(tile);",
+      "rule": "The minimap update flag (DuctRouter.java:134): true exactly when an action ran and !headless. There is NO equality condition -- InputHandler.tileConfig calls build.configured unconditionally (InputHandler.java:728), so a configure with the SAME item still recaches + updates the minimap (the N2443 lesson).",
+      "tests": [
+        "test_c07_stack_router_config_rows_registration",
+        "test_all_c07_stack_router_config_rows_input_evidence_is_exact",
+        "test_stack_router_config_rows_state",
+        "test_reference_graph_and_actual_c07_stack_router_config_rows"
+      ],
+      "runtime_proof": "/root/C07StackRouterConfigRowsProof"
+    },
+    "source_stack_router_config_state_result.configure_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackRouterBuildState.source_stack_router_config_state",
+      "godot_symbol": "source_stack_router_config_state_result.configure_call",
+      "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+      "java_method": "DuctRouterBuild.configured()",
+      "java_expr": "ItemSelection.buildTable(DuctRouter.this, table, content.items(), () -> sortItem, this::configure);",
+      "rule": "The buildConfiguration CALL record (DuctRouter.java:126): {method: \"ItemSelection.buildTable\", current_sort_item} -- the supplier `() -> sortItem` reads the pre-action sort item; the UI itself is NOT ported (the N2396 CALL precedent).",
+      "tests": [
+        "test_c07_stack_router_config_rows_registration",
+        "test_all_c07_stack_router_config_rows_input_evidence_is_exact",
+        "test_stack_router_config_rows_state",
+        "test_reference_graph_and_actual_c07_stack_router_config_rows"
+      ],
+      "runtime_proof": "/root/C07StackRouterConfigRowsProof"
+    },
+    "source_impact_reactor_power_bar_state_result.label": {
+      "status": "source-backed",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_power_bar_state",
+      "godot_symbol": "source_impact_reactor_power_bar_state_result.label",
+      "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+      "java_method": "ImpactReactor.setBars()",
+      "java_expr": "Strings.fixed(Math.max(entity.getPowerProduction() - (consPower == null ? 0f : consPower.usage), 0) * 60 * entity.timeScale(), 1)),",
+      "rule": "The bar label (ImpactReactor.java:47-48): {key, amount} -- the bundle key \"bar.poweroutput\" (`bar.poweroutput = Power Output: {0}`, bundle.properties:1287) plus the Strings.fixed 1-place amount. Strings.fixed TRUNCATES (`dec.append((int)(float)(d * Math.pow(10, decimalPlaces) + 0.0001f));`, arc Strings.java:735), it does NOT round (the N2426 lesson): the def net (130 - 25) * 60 = 6300.0 formats \"6300.0\", and 6000.06 formats \"6000.0\". Core.bundle.format composes the rendered string at render (the N2422 precedent) -- the pure does not build it.",
+      "tests": [
+        "test_c07_impact_reactor_bar_stats_rows_registration",
+        "test_all_c07_impact_reactor_bar_stats_rows_input_evidence_is_exact",
+        "test_impact_reactor_bar_stats_rows_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_bar_stats_rows"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorBarStatsRowsProof"
+    },
+    "source_impact_reactor_power_bar_state_result.color": {
+      "status": "source-backed",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_power_bar_state",
+      "godot_symbol": "source_impact_reactor_power_bar_state_result.color",
+      "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+      "java_method": "ImpactReactor.setBars()",
+      "java_expr": "() -> Pal.powerBar,",
+      "rule": "The bar color token (ImpactReactor.java:49): \"Pal.powerBar\" (`powerBar = Color.valueOf(\"ec7b4c\"),`, Pal.java:93), carried as a symbolic token, never resolved to RGB (the N2373 color-token precedent).",
+      "tests": [
+        "test_c07_impact_reactor_bar_stats_rows_registration",
+        "test_all_c07_impact_reactor_bar_stats_rows_input_evidence_is_exact",
+        "test_impact_reactor_bar_stats_rows_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_bar_stats_rows"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorBarStatsRowsProof"
+    },
+    "source_impact_reactor_power_bar_state_result.fraction": {
+      "status": "source-backed",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_power_bar_state",
+      "godot_symbol": "source_impact_reactor_power_bar_state_result.fraction",
+      "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+      "java_method": "ImpactReactor.setBars()",
+      "java_expr": "() -> entity.productionEfficiency));",
+      "rule": "The bar fraction (ImpactReactor.java:50): the productionEfficiency RAW -- Java does NOT clamp it in the lambda, the Bar itself clamps at render (`lastValue = value = Mathf.clamp(fraction.get());`, Bar.java:33; `float computed = Mathf.clamp(fraction.get());`, Bar.java:80; clamp to [0, 1] is `return Math.max(Math.min(value, 1f), 0f);`, arc Mathf.java:402-404) -- so a value above 1.0 reports raw here and the Bar draws it full (the N2422 lesson).",
+      "tests": [
+        "test_c07_impact_reactor_bar_stats_rows_registration",
+        "test_all_c07_impact_reactor_bar_stats_rows_input_evidence_is_exact",
+        "test_impact_reactor_bar_stats_rows_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_bar_stats_rows"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorBarStatsRowsProof"
+    },
+    "source_impact_reactor_stats_state_result.production_time_seconds": {
+      "status": "source-backed",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_stats_state",
+      "godot_symbol": "source_impact_reactor_stats_state_result.production_time_seconds",
+      "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+      "java_method": "ImpactReactor.setStats()",
+      "java_expr": "stats.add(Stat.productionTime, itemDuration / 60f, StatUnit.seconds);",
+      "rule": "The productionTime stat value (ImpactReactor.java:60): itemDuration / 60f in seconds -- 140 / 60 = 2.3333333 at the def, 60 / 60 = 1.0 at the class default. Null when has_items is false (no row is added). The stat token is productionTime (`productionTime = new Stat(\"productionTime\", StatCat.crafting),`, Stat.java:69) and the unit is seconds (`seconds = new StatUnit(\"seconds\"),`, StatUnit.java:26).",
+      "tests": [
+        "test_c07_impact_reactor_bar_stats_rows_registration",
+        "test_all_c07_impact_reactor_bar_stats_rows_input_evidence_is_exact",
+        "test_impact_reactor_bar_stats_rows_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_bar_stats_rows"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorBarStatsRowsProof"
+    },
+    "source_impact_reactor_stats_state_result.warmup_time_label": {
+      "status": "source-backed",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_stats_state",
+      "godot_symbol": "source_impact_reactor_stats_state_result.warmup_time_label",
+      "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+      "java_method": "ImpactReactor.setStats()",
+      "java_expr": "t.add(Strings.autoFixed(max, 2) + \" \" + StatUnit.seconds.localized() + (consPower != null ?",
+      "rule": "The warmupTime composite label (ImpactReactor.java:67-68): autoFixed(max, 2) + \" \" + seconds.localized() + \" ~ \" + autoFixed(equal, 2) + \" \" + seconds.localized() + \" \" + powerEquilibrium.localized(). The localized units are \"seconds\" (`unit.seconds = seconds`, bundle.properties:1360) and \"power equilibrium\" (`unit.powerequilibrium = power equilibrium`, bundle.properties:1357) -- NOT the briefs \" s \" / token shorthand (verify-first correction). At the def: \"115.12 seconds ~ 21.16 seconds power equilibrium\". Null when has_cons_power is false (no row is added). The stat token is warmupTime (`warmupTime = new Stat(\"warmupTime\", StatCat.power),`, Stat.java:64).",
+      "tests": [
+        "test_c07_impact_reactor_bar_stats_rows_registration",
+        "test_all_c07_impact_reactor_bar_stats_rows_input_evidence_is_exact",
+        "test_impact_reactor_bar_stats_rows_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_bar_stats_rows"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorBarStatsRowsProof"
+    },
+    "source_build_turret_warmup_state_result.warmup_value": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_warmup_state",
+      "godot_symbol": "source_build_turret_warmup_state_result.warmup_value",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.warmup()",
+      "java_expr": "return warmup;",
+      "rule": "The warmup() accessor value (BuildTurret.java:255): the field verbatim -- 0.0 at rest, 1.0 fully warmed up. The override of the BuildingComp default (`return 0f;`, BuildingComp.java:608-610).",
+      "tests": [
+        "test_c07_build_turret_warmup_stats_rows_registration",
+        "test_all_c07_build_turret_warmup_stats_rows_input_evidence_is_exact",
+        "test_build_turret_warmup_stats_rows_state",
+        "test_reference_graph_and_actual_c07_build_turret_warmup_stats_rows"
+      ],
+      "runtime_proof": "/root/C07BuildTurretWarmupStatsRowsProof"
+    },
+    "source_build_turret_stats_state_result.stat_key": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_stats_state",
+      "godot_symbol": "source_build_turret_stats_state_result.stat_key",
+      "java_source": "core/src/mindustry/world/meta/Stat.java",
+      "java_method": "BuildTurret.setStats()",
+      "java_expr": "buildSpeed = new Stat(\"buildSpeed\"),",
+      "rule": "The stat token (Stat.java:30): \"buildSpeed\" -- the Stat the setStats row adds.",
+      "tests": [
+        "test_c07_build_turret_warmup_stats_rows_registration",
+        "test_all_c07_build_turret_warmup_stats_rows_input_evidence_is_exact",
+        "test_build_turret_warmup_stats_rows_state",
+        "test_reference_graph_and_actual_c07_build_turret_warmup_stats_rows"
+      ],
+      "runtime_proof": "/root/C07BuildTurretWarmupStatsRowsProof"
+    },
+    "source_build_turret_stats_state_result.stat_value": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_stats_state",
+      "godot_symbol": "source_build_turret_stats_state_result.stat_value",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurret.setStats()",
+      "java_expr": "stats.addPercent(Stat.buildSpeed, buildSpeed);",
+      "rule": "The buildSpeed stat value (BuildTurret.java:84): the RAW buildSpeed -- 1.5 for the build-tower def, 1.0 at the class default. Percent formatting is a UI concern (the N2422 precedent): addPercent multiplies by 100 only at display time (`add(stat, StatValues.number((int)(value * 100), StatUnit.percent));`, Stats.java:38), so 1.5f displays as 150% and 1f as 100%.",
+      "tests": [
+        "test_c07_build_turret_warmup_stats_rows_registration",
+        "test_all_c07_build_turret_warmup_stats_rows_input_evidence_is_exact",
+        "test_build_turret_warmup_stats_rows_state",
+        "test_reference_graph_and_actual_c07_build_turret_warmup_stats_rows"
+      ],
+      "runtime_proof": "/root/C07BuildTurretWarmupStatsRowsProof"
+    },
+    "source_accelerator_get_cursor_state_result.can_launch": {
+      "status": "source-backed",
+      "godot_owner": "SourceAcceleratorBuildState.source_accelerator_get_cursor_state",
+      "godot_symbol": "source_accelerator_get_cursor_state_result.can_launch",
+      "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+      "java_method": "AcceleratorBuild.getCursor()",
+      "java_expr": "return isValid() && !net.client() && state.isCampaign() && efficiency > 0f && power.graph.getBatteryStored() >= powerBufferRequirement-0.00001f && progress >= 1f && !launching;",
+      "rule": "Whether the FULL launch gate passes (Accelerator.java:240): gate_can_launch && is_valid && !is_client && is_campaign. The tick-state half arrives caller-supplied from the N2271 pure; the environment half is evaluated here.",
+      "tests": [
+        "test_c07_accelerator_get_cursor_rows_registration",
+        "test_all_c07_accelerator_get_cursor_rows_input_evidence_is_exact",
+        "test_accelerator_get_cursor_rows_state",
+        "test_reference_graph_and_actual_c07_accelerator_get_cursor_rows"
+      ],
+      "runtime_proof": "/root/C07AcceleratorGetCursorRowsProof"
+    },
+    "source_accelerator_get_cursor_state_result.cursor": {
+      "status": "source-backed",
+      "godot_owner": "SourceAcceleratorBuildState.source_accelerator_get_cursor_state",
+      "godot_symbol": "source_accelerator_get_cursor_state_result.cursor",
+      "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+      "java_method": "AcceleratorBuild.getCursor()",
+      "java_expr": "return canLaunch() ? SystemCursor.hand : super.getCursor();",
+      "rule": "The cursor token (Accelerator.java:245): \"hand\" when can_launch, else the BuildingComp super branch (BuildingComp.java:1684) -- \"hand\" iff configurable && interactable, else \"arrow\". The SystemCursor names are carried as strings, never resolved to a Godot cursor object (the N2373 color-token precedent).",
+      "tests": [
+        "test_c07_accelerator_get_cursor_rows_registration",
+        "test_all_c07_accelerator_get_cursor_rows_input_evidence_is_exact",
+        "test_accelerator_get_cursor_rows_state",
+        "test_reference_graph_and_actual_c07_accelerator_get_cursor_rows"
+      ],
+      "runtime_proof": "/root/C07AcceleratorGetCursorRowsProof"
+    },
+    "source_fracker_attribute_env_live_fill_state_result.attribute_env": {
+      "status": "source-backed",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_attribute_env_live_fill_state",
+      "godot_symbol": "source_fracker_attribute_env_live_fill_state_result.attribute_env",
+      "java_source": "core/src/mindustry/world/meta/Attribute.java",
+      "java_method": "Attribute.env()",
+      "java_expr": "return Vars.state.envAttrs.get(this);",
+      "rule": "The oil attribute env value (Attribute.java:31-34, Vars.state.envAttrs.get(this), 0 when Vars.state is null): 0.0 when state_present is false or the \"oil\" key is missing from env_attrs (the Attributes float-array default, Attributes.java:18). The N2305 fraction adds it (SolidPump.java:124) because the attribute is present for the oil-extractor def (attribute = Attribute.oil, Blocks.java:2972).",
+      "tests": [
+        "test_c07_fracker_attribute_env_live_fill_registration",
+        "test_all_c07_fracker_attribute_env_live_fill_input_evidence_is_exact",
+        "test_fracker_attribute_env_live_fill_state",
+        "test_reference_graph_and_actual_c07_fracker_attribute_env_live_fill"
+      ],
+      "runtime_proof": "/root/C07FrackerAttributeEnvLiveFillProof"
     }
   },
   "version": 1

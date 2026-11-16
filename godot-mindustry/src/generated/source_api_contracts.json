@@ -78277,6 +78277,456 @@
       ],
       "runtime_proof": "/root/C07UnitCargoLoaderDrawPlaceRowsProof",
       "rule": "Source-backed UnitCargoLoader drawPlace rows from UnitCargoLoader.java / Block.java / Units.java / bundle.properties."
+    },
+    "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_select_remove_state": {
+      "status": "active",
+      "source_slice": "N2447",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+      "source_method": "UnitAssemblerModuleBuild.drawSelect()",
+      "params": [
+        {
+          "name": "link",
+          "type": "Variant",
+          "schema": "source_unit_assembler_module_select_remove_state_input.link"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "select_call",
+        "remove_call"
+      ],
+      "tests": [
+        "test_c07_unit_assembler_module_select_remove_rows_registration",
+        "test_all_c07_unit_assembler_module_select_remove_rows_input_evidence_is_exact",
+        "test_unit_assembler_module_select_remove_rows_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_select_remove_rows"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleSelectRemoveRowsProof",
+      "rule": "Source-backed UnitAssemblerModule onRemoved / drawSelect rows from UnitAssemblerModule.java / UnitAssembler.java / Drawf.java / Pal.java."
+    },
+    "SourceStackConveyorBuildState.source_stack_conveyor_blends_state": {
+      "status": "active",
+      "source_slice": "N2448",
+      "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+      "source_method": "StackConveyor.blends()",
+      "params": [
+        {
+          "name": "state",
+          "type": "Variant",
+          "schema": "source_stack_conveyor_blends_state_input.state"
+        },
+        {
+          "name": "output_router",
+          "type": "bool",
+          "schema": "source_stack_conveyor_blends_state_input.output_router"
+        },
+        {
+          "name": "other_outputs_items",
+          "type": "bool",
+          "schema": "source_stack_conveyor_blends_state_input.other_outputs_items"
+        },
+        {
+          "name": "other_accepts_items",
+          "type": "bool",
+          "schema": "source_stack_conveyor_blends_state_input.other_accepts_items"
+        },
+        {
+          "name": "other_no_side_blend",
+          "type": "bool",
+          "schema": "source_stack_conveyor_blends_state_input.other_no_side_blend"
+        },
+        {
+          "name": "looking_at_either",
+          "type": "bool",
+          "schema": "source_stack_conveyor_blends_state_input.looking_at_either"
+        },
+        {
+          "name": "not_looking_at",
+          "type": "bool",
+          "schema": "source_stack_conveyor_blends_state_input.not_looking_at"
+        },
+        {
+          "name": "other_facing",
+          "type": "bool",
+          "schema": "source_stack_conveyor_blends_state_input.other_facing"
+        },
+        {
+          "name": "other_build_unload",
+          "type": "bool",
+          "schema": "source_stack_conveyor_blends_state_input.other_build_unload"
+        },
+        {
+          "name": "other_build_move_not_facing",
+          "type": "bool",
+          "schema": "source_stack_conveyor_blends_state_input.other_build_move_not_facing"
+        },
+        {
+          "name": "blends_armored",
+          "type": "bool",
+          "schema": "source_stack_conveyor_blends_state_input.blends_armored"
+        },
+        {
+          "name": "other_is_stack_conveyor",
+          "type": "bool",
+          "schema": "source_stack_conveyor_blends_state_input.other_is_stack_conveyor"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "blends"
+      ],
+      "tests": [
+        "test_c07_stack_conveyor_blends_plan_rows_registration",
+        "test_all_c07_stack_conveyor_blends_plan_rows_input_evidence_is_exact",
+        "test_stack_conveyor_blends_plan_rows_state",
+        "test_reference_graph_and_actual_c07_stack_conveyor_blends_plan_rows"
+      ],
+      "runtime_proof": "/root/C07StackConveyorBlendsPlanRowsProof",
+      "rule": "Source-backed StackConveyor blends / drawPlanRegion / rotatedOutput rows from StackConveyor.java / Autotiler.java / Block.java."
+    },
+    "SourceStackConveyorBuildState.source_stack_conveyor_draw_plan_state": {
+      "status": "active",
+      "source_slice": "N2448",
+      "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+      "source_method": "StackConveyor.drawPlanRegion()",
+      "params": [
+        {
+          "name": "bits",
+          "type": "Variant",
+          "schema": "source_stack_conveyor_draw_plan_state_input.bits"
+        },
+        {
+          "name": "plan_x",
+          "type": "float",
+          "schema": "source_stack_conveyor_draw_plan_state_input.plan_x"
+        },
+        {
+          "name": "plan_y",
+          "type": "float",
+          "schema": "source_stack_conveyor_draw_plan_state_input.plan_y"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_stack_conveyor_draw_plan_state_input.rotation"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "base_call",
+        "edge_calls"
+      ],
+      "tests": [
+        "test_c07_stack_conveyor_blends_plan_rows_registration",
+        "test_all_c07_stack_conveyor_blends_plan_rows_input_evidence_is_exact",
+        "test_stack_conveyor_blends_plan_rows_state",
+        "test_reference_graph_and_actual_c07_stack_conveyor_blends_plan_rows"
+      ],
+      "runtime_proof": "/root/C07StackConveyorBlendsPlanRowsProof",
+      "rule": "Source-backed StackConveyor blends / drawPlanRegion / rotatedOutput rows from StackConveyor.java / Autotiler.java / Block.java."
+    },
+    "SourceStackConveyorBuildState.source_stack_conveyor_rotated_output_state": {
+      "status": "active",
+      "source_slice": "N2448",
+      "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+      "source_method": "StackConveyor.rotatedOutput()",
+      "params": [
+        {
+          "name": "other_is_stack_build",
+          "type": "bool",
+          "schema": "source_stack_conveyor_rotated_output_state_input.other_is_stack_build"
+        },
+        {
+          "name": "other_state",
+          "type": "int",
+          "schema": "source_stack_conveyor_rotated_output_state_input.other_state"
+        },
+        {
+          "name": "super_rotated_output",
+          "type": "bool",
+          "schema": "source_stack_conveyor_rotated_output_state_input.super_rotated_output"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "rotated_output"
+      ],
+      "tests": [
+        "test_c07_stack_conveyor_blends_plan_rows_registration",
+        "test_all_c07_stack_conveyor_blends_plan_rows_input_evidence_is_exact",
+        "test_stack_conveyor_blends_plan_rows_state",
+        "test_reference_graph_and_actual_c07_stack_conveyor_blends_plan_rows"
+      ],
+      "runtime_proof": "/root/C07StackConveyorBlendsPlanRowsProof",
+      "rule": "Source-backed StackConveyor blends / drawPlanRegion / rotatedOutput rows from StackConveyor.java / Autotiler.java / Block.java."
+    },
+    "SourceStackRouterBuildState.source_stack_router_config_state": {
+      "status": "active",
+      "source_slice": "N2449",
+      "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+      "source_method": "DuctRouterBuild.configured()",
+      "params": [
+        {
+          "name": "action",
+          "type": "String",
+          "schema": "source_stack_router_config_state_input.action"
+        },
+        {
+          "name": "item",
+          "type": "Variant",
+          "schema": "source_stack_router_config_state_input.item"
+        },
+        {
+          "name": "headless",
+          "type": "bool",
+          "schema": "source_stack_router_config_state_input.headless"
+        },
+        {
+          "name": "current_sort_item",
+          "type": "Variant",
+          "schema": "source_stack_router_config_state_input.current_sort_item"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "sort_item",
+        "recache_called",
+        "minimap_updated",
+        "configure_call"
+      ],
+      "tests": [
+        "test_c07_stack_router_config_rows_registration",
+        "test_all_c07_stack_router_config_rows_input_evidence_is_exact",
+        "test_stack_router_config_rows_state",
+        "test_reference_graph_and_actual_c07_stack_router_config_rows"
+      ],
+      "runtime_proof": "/root/C07StackRouterConfigRowsProof",
+      "rule": "Source-backed StackRouter config / sortItem rows from DuctRouter.java / StackRouter.java / Block.java / BuildingComp.java / InputHandler.java."
+    },
+    "SourceImpactReactorBuildState.source_impact_reactor_power_bar_state": {
+      "status": "active",
+      "source_slice": "N2450",
+      "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+      "source_method": "ImpactReactor.setBars()",
+      "params": [
+        {
+          "name": "power_production",
+          "type": "float",
+          "schema": "source_impact_reactor_power_bar_state_input.power_production"
+        },
+        {
+          "name": "cons_power_usage",
+          "type": "Variant",
+          "schema": "source_impact_reactor_power_bar_state_input.cons_power_usage"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_impact_reactor_power_bar_state_input.time_scale"
+        },
+        {
+          "name": "production_efficiency",
+          "type": "float",
+          "schema": "source_impact_reactor_power_bar_state_input.production_efficiency"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "label",
+        "color",
+        "fraction"
+      ],
+      "tests": [
+        "test_c07_impact_reactor_bar_stats_rows_registration",
+        "test_all_c07_impact_reactor_bar_stats_rows_input_evidence_is_exact",
+        "test_impact_reactor_bar_stats_rows_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_bar_stats_rows"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorBarStatsRowsProof",
+      "rule": "Source-backed ImpactReactor setBars / setStats rows from ImpactReactor.java / PowerGenerator.java / ConsumePower.java / Blocks.java / Stat.java / StatUnit.java / Pal.java / Bar.java / bundle.properties / arc Strings.java / arc Mathf.java."
+    },
+    "SourceImpactReactorBuildState.source_impact_reactor_stats_state": {
+      "status": "active",
+      "source_slice": "N2450",
+      "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+      "source_method": "ImpactReactor.setStats()",
+      "params": [
+        {
+          "name": "item_duration",
+          "type": "float",
+          "schema": "source_impact_reactor_stats_state_input.item_duration"
+        },
+        {
+          "name": "has_items",
+          "type": "bool",
+          "schema": "source_impact_reactor_stats_state_input.has_items"
+        },
+        {
+          "name": "warmup_speed",
+          "type": "float",
+          "schema": "source_impact_reactor_stats_state_input.warmup_speed"
+        },
+        {
+          "name": "cons_power_usage",
+          "type": "float",
+          "schema": "source_impact_reactor_stats_state_input.cons_power_usage"
+        },
+        {
+          "name": "power_production",
+          "type": "float",
+          "schema": "source_impact_reactor_stats_state_input.power_production"
+        },
+        {
+          "name": "has_cons_power",
+          "type": "bool",
+          "schema": "source_impact_reactor_stats_state_input.has_cons_power"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "production_time_seconds",
+        "warmup_time_label"
+      ],
+      "tests": [
+        "test_c07_impact_reactor_bar_stats_rows_registration",
+        "test_all_c07_impact_reactor_bar_stats_rows_input_evidence_is_exact",
+        "test_impact_reactor_bar_stats_rows_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_bar_stats_rows"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorBarStatsRowsProof",
+      "rule": "Source-backed ImpactReactor setBars / setStats rows from ImpactReactor.java / PowerGenerator.java / ConsumePower.java / Blocks.java / Stat.java / StatUnit.java / Pal.java / Bar.java / bundle.properties / arc Strings.java / arc Mathf.java."
+    },
+    "SourceBuildTurretBuildState.source_build_turret_warmup_state": {
+      "status": "active",
+      "source_slice": "N2451",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "source_method": "BuildTurretBuild.warmup()",
+      "params": [
+        {
+          "name": "warmup",
+          "type": "float",
+          "schema": "source_build_turret_warmup_state_input.warmup"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "warmup_value"
+      ],
+      "tests": [
+        "test_c07_build_turret_warmup_stats_rows_registration",
+        "test_all_c07_build_turret_warmup_stats_rows_input_evidence_is_exact",
+        "test_build_turret_warmup_stats_rows_state",
+        "test_reference_graph_and_actual_c07_build_turret_warmup_stats_rows"
+      ],
+      "runtime_proof": "/root/C07BuildTurretWarmupStatsRowsProof",
+      "rule": "Source-backed BuildTurret warmup / setStats rows from BuildTurret.java / Blocks.java / Stat.java / Stats.java / BuildingComp.java."
+    },
+    "SourceBuildTurretBuildState.source_build_turret_stats_state": {
+      "status": "active",
+      "source_slice": "N2451",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "source_method": "BuildTurret.setStats()",
+      "params": [
+        {
+          "name": "build_speed",
+          "type": "float",
+          "schema": "source_build_turret_stats_state_input.build_speed"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "stat_key",
+        "stat_value"
+      ],
+      "tests": [
+        "test_c07_build_turret_warmup_stats_rows_registration",
+        "test_all_c07_build_turret_warmup_stats_rows_input_evidence_is_exact",
+        "test_build_turret_warmup_stats_rows_state",
+        "test_reference_graph_and_actual_c07_build_turret_warmup_stats_rows"
+      ],
+      "runtime_proof": "/root/C07BuildTurretWarmupStatsRowsProof",
+      "rule": "Source-backed BuildTurret warmup / setStats rows from BuildTurret.java / Blocks.java / Stat.java / Stats.java / BuildingComp.java."
+    },
+    "SourceAcceleratorBuildState.source_accelerator_get_cursor_state": {
+      "status": "active",
+      "source_slice": "N2452",
+      "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+      "source_method": "AcceleratorBuild.getCursor()",
+      "params": [
+        {
+          "name": "gate_can_launch",
+          "type": "bool",
+          "schema": "source_accelerator_get_cursor_state_input.gate_can_launch"
+        },
+        {
+          "name": "is_valid",
+          "type": "bool",
+          "schema": "source_accelerator_get_cursor_state_input.is_valid"
+        },
+        {
+          "name": "is_client",
+          "type": "bool",
+          "schema": "source_accelerator_get_cursor_state_input.is_client"
+        },
+        {
+          "name": "is_campaign",
+          "type": "bool",
+          "schema": "source_accelerator_get_cursor_state_input.is_campaign"
+        },
+        {
+          "name": "configurable",
+          "type": "bool",
+          "schema": "source_accelerator_get_cursor_state_input.configurable"
+        },
+        {
+          "name": "interactable",
+          "type": "bool",
+          "schema": "source_accelerator_get_cursor_state_input.interactable"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "can_launch",
+        "cursor"
+      ],
+      "tests": [
+        "test_c07_accelerator_get_cursor_rows_registration",
+        "test_all_c07_accelerator_get_cursor_rows_input_evidence_is_exact",
+        "test_accelerator_get_cursor_rows_state",
+        "test_reference_graph_and_actual_c07_accelerator_get_cursor_rows"
+      ],
+      "runtime_proof": "/root/C07AcceleratorGetCursorRowsProof",
+      "rule": "Source-backed Accelerator getCursor rows from Accelerator.java / BuildingComp.java / Net.java / GameState.java."
+    },
+    "SourceFrackerBuildState.source_fracker_attribute_env_live_fill_state": {
+      "status": "active",
+      "source_slice": "N2453",
+      "java_source": "core/src/mindustry/world/blocks/production/Fracker.java",
+      "source_method": "FrackerBuild.updateTile()",
+      "params": [
+        {
+          "name": "env_attrs",
+          "type": "Dictionary",
+          "schema": "source_fracker_attribute_env_live_fill_state_input.env_attrs"
+        },
+        {
+          "name": "state_present",
+          "type": "bool",
+          "schema": "source_fracker_attribute_env_live_fill_state_input.state_present"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "attribute_env"
+      ],
+      "tests": [
+        "test_c07_fracker_attribute_env_live_fill_registration",
+        "test_all_c07_fracker_attribute_env_live_fill_input_evidence_is_exact",
+        "test_fracker_attribute_env_live_fill_state",
+        "test_reference_graph_and_actual_c07_fracker_attribute_env_live_fill"
+      ],
+      "runtime_proof": "/root/C07FrackerAttributeEnvLiveFillProof",
+      "rule": "Source-backed Fracker attribute env live fill from Fracker.java / SolidPump.java / Attribute.java / Attributes.java / GameState.java / Blocks.java."
     }
   },
   "policy": {

@@ -2251,6 +2251,33 @@
         }
       }
     },
+    "source_fracker_attribute_env_live_fill_state_input": {
+      "canonical_schema": "source_state_schema.source_fracker_attribute_env_live_fill_state_input",
+      "keys": {
+        "env_attrs": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/meta/Attribute.java",
+          "java_expr": "return Vars.state.envAttrs.get(this);",
+          "rule": "The env attribute map: a Dict keyed by attribute NAME (e.g. {\"oil\": 0.5}) -- the caller-supplied envAttrs. The fill reads the \"oil\" key only (the oil-extractor def sets attribute = Attribute.oil, Blocks.java:2972). A missing key fills 0.0 (the Attributes float-array default, Attributes.java:18 -- never null). No live producer stamps this frame input yet -- the producer gap is documented, not invented here.",
+          "java_method": "Attribute.env()",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_attribute_env_live_fill_state"
+          ]
+        },
+        "state_present": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/meta/Attribute.java",
+          "java_expr": "if(Vars.state == null) return 0;",
+          "rule": "Whether the game state exists (Vars.state != null, Attribute.java:32): false fills 0.0 exact, the no-state branch. The tick reads the frame state_present with default true -- a live game has a state; the false branch is exercised by the proof seed.",
+          "java_method": "Attribute.env()",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_attribute_env_live_fill_state"
+          ]
+        }
+      }
+    },
     "source_fracker_dump_liquid_neighbour_live_fill_state_input": {
       "canonical_schema": "source_state_schema.source_fracker_dump_liquid_neighbour_live_fill_state_input",
       "keys": {

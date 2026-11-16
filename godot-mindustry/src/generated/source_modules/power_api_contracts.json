@@ -3837,6 +3837,49 @@
       "rule": "Source-backed ImpactReactor draw rows from ImpactReactor.java / PowerGenerator.java / DrawMulti.java / DrawRegion.java / DrawPlasma.java / DrawDefault.java / DrawBlock.java / Block.java / BuildingComp.java / Blocks.java / Liquids.java.",
       "return_type": "Dictionary"
     },
+    "SourceImpactReactorBuildState.source_impact_reactor_power_bar_state": {
+      "canonical_contract": "source_api_contracts.SourceImpactReactorBuildState.source_impact_reactor_power_bar_state",
+      "status": "active",
+      "source_slice": "N2450",
+      "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+      "source_method": "ImpactReactor.setBars()",
+      "params": [
+        {
+          "name": "power_production",
+          "type": "float",
+          "schema": "source_impact_reactor_power_bar_state_input.power_production"
+        },
+        {
+          "name": "cons_power_usage",
+          "type": "Variant",
+          "schema": "source_impact_reactor_power_bar_state_input.cons_power_usage"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_impact_reactor_power_bar_state_input.time_scale"
+        },
+        {
+          "name": "production_efficiency",
+          "type": "float",
+          "schema": "source_impact_reactor_power_bar_state_input.production_efficiency"
+        }
+      ],
+      "return_keys": [
+        "label",
+        "color",
+        "fraction"
+      ],
+      "tests": [
+        "test_c07_impact_reactor_bar_stats_rows_registration",
+        "test_all_c07_impact_reactor_bar_stats_rows_input_evidence_is_exact",
+        "test_impact_reactor_bar_stats_rows_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_bar_stats_rows"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorBarStatsRowsProof",
+      "rule": "Source-backed ImpactReactor setBars / setStats rows from ImpactReactor.java / PowerGenerator.java / ConsumePower.java / Blocks.java / Stat.java / StatUnit.java / Pal.java / Bar.java / bundle.properties / arc Strings.java / arc Mathf.java.",
+      "return_type": "Dictionary"
+    },
     "SourceImpactReactorBuildState.source_impact_reactor_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourceImpactReactorBuildState.source_impact_reactor_power_status_row_state",
       "status": "active",
