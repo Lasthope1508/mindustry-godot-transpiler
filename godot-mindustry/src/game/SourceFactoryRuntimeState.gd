@@ -1085,6 +1085,52 @@ static func source_factory_update_power_graph_state(game: Object, delta: float) 
 	var update: Dictionary = source_power_graph_state.update_state(consumers, producers, batteries, 0.0, delta, [])
 	# Write the resulting status back so the next frame reads it.
 	var updated_batteries: Array = update.get("battery_distribute_state", {}).get("batteries", [])
+	# Launch-drain per-battery scaling (N2354; PowerGraph.java:154-167
+	# useBatteries): a launch in the driver tick writes a one-shot
+	# launch_drain_request on the accelerator frame, and this graph
+	# update takes it -- the graph update runs BEFORE the driver
+	# ticks in simulate_factory (:199 vs :509), so a launch at tick
+	# T always drains at tick T+1: a 1-tick delay, documented, not
+	# Java-exact timing (Java drains inside buildConfiguration,
+	# immediately). Each pending request drains the post-update
+	# batteries through the EXISTING use_batteries_state
+	# (Java-exact per-battery scaling, enabled batteries only),
+	# and the scaled statuses are copied back into the list in
+	# place (use_batteries_state duplicates, order preserved), so
+	# the write-back loop below stores them on the battery sprites
+	# and the N2342 stamp further below recomputes its total from
+	# the drained list -- no refund. Multiple accelerators apply
+	# sequentially, threading the list, like Java's separate
+	# useBatteries call per launch. On the cheat branch the
+	# distribute state is empty, so the top-level batteries --
+	# unchanged, since the distribution never ran -- are the
+	# source instead (the updated-consumers fallback below), and
+	# the scaled statuses are written back explicitly because the
+	# loop below only covers updated_batteries.
+	var drain_batteries: Array = updated_batteries
+	var drain_is_cheat_branch := false
+	if drain_batteries.is_empty():
+		drain_batteries = update.get("batteries", [])
+		drain_is_cheat_branch = true
+	var drain_applied := false
+	for consumer in consumers:
+		if not (consumer is Dictionary and consumer.get("origin_cell", null) is Vector2i):
+			continue
+		var request: Dictionary = source_placed_power_graph_state.source_accelerator_take_launch_drain_request_for_cell_state(game, consumer.get("origin_cell"))
+		if not bool(request.get("found", false)):
+			continue
+		var drained: Dictionary = source_power_graph_state.use_batteries_state(drain_batteries, float(request.get("requirement", 0.0)))
+		var scaled_batteries: Array = drained.get("batteries", [])
+		for i in range(mini(drain_batteries.size(), scaled_batteries.size())):
+			var drain_entry: Variant = drain_batteries[i]
+			var scaled_entry: Variant = scaled_batteries[i]
+			if drain_entry is Dictionary and scaled_entry is Dictionary:
+				drain_entry["power_status"] = float(scaled_entry.get("power_status", 0.0))
+		drain_applied = true
+	if drain_applied and drain_is_cheat_branch:
+		for battery in drain_batteries:
+			if battery is Dictionary and battery.get("origin_cell", null) is Vector2i:
+				source_placed_power_graph_state.source_battery_set_power_status_for_cell_state(game, battery.get("origin_cell"), float(battery.get("power_status", 0.0)))
 	for battery in updated_batteries:
 		if battery is Dictionary and battery.get("origin_cell", null) is Vector2i:
 			source_placed_power_graph_state.source_battery_set_power_status_for_cell_state(game, battery.get("origin_cell"), float(battery.get("power_status", 0.0)))

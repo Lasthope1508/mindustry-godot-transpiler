@@ -141,6 +141,29 @@ static func source_accelerator_set_battery_stored_for_cell_state(game: Object, c
 		return {"stored": true, "reason": "live_frame"}
 	return {"stored": false, "reason": "no_frame"}
 
+static func source_accelerator_take_launch_drain_request_for_cell_state(game: Object, cell: Vector2i) -> Dictionary:
+	# The launch drain (N2354): Java calls
+	# `power.graph.useBatteries(powerBufferRequirement);`
+	# (Accelerator.java:270) inside buildConfiguration's
+	# `if(canLaunch()){` branch, and useBatteries
+	# (PowerGraph.java:154-167, `public float useBatteries(float needed){` with `float stored = getBatteryStored();` / `float used = Math.min(stored, needed);` / `float consumedPowerPercentage = Math.min(1.0f, needed / stored);`) scales EVERY enabled battery's status down by the same percentage (`battery.power.status *= (1f-consumedPowerPercentage);`, keep on ONE comment line, the N2148 lesson). The port's graph update runs BEFORE the driver ticks in simulate_factory (SourceFactoryRuntimeState.gd:199 vs :509), so the driver cannot drain at launch time: it writes a one-shot frame["launch_drain_request"] = {requirement} on a successful launch, and the runtime takes it on the NEXT tick's graph update (a 1-tick delay, documented in the runtime). This is the take (the N2342 stamp pattern, one frame per sprite, set_meta back after mutating): it reads the requirement from the accelerator's family frame (source_accelerator_building, SourceAcceleratorBuildState.gd:14) AND erases the key, so the same launch is never applied twice. ONLY accelerator frames are read -- a sprite with no accelerator frame (bare, or another family) is a no-op. A missing sprite, a non-dict frame, or an accelerator frame with no pending request all return found false with requirement 0.0. The scaling itself is NOT here: the runtime applies the existing Java-exact use_batteries_state (SourcePowerGraphBatteryDistributionState.gd:107-143) to the post-update batteries -- no second scaling pure exists, the brief's proposed pure would be a synonym.
+	var sprite: Variant = game.call("block_sprite_at_cell", cell)
+	if sprite == null:
+		return {"requirement": 0.0, "found": false, "reason": "no_sprite"}
+	var meta_key: String = source_accelerator_build_state.SOURCE_ACCELERATOR_BUILDING_META_KEY
+	if not sprite.has_meta(meta_key):
+		return {"requirement": 0.0, "found": false, "reason": "not_accelerator"}
+	var frame: Variant = sprite.get_meta(meta_key)
+	if not (frame is Dictionary):
+		return {"requirement": 0.0, "found": false, "reason": "no_frame"}
+	var request: Variant = frame.get("launch_drain_request", null)
+	if not (request is Dictionary):
+		return {"requirement": 0.0, "found": false, "reason": "no_request"}
+	var requirement: float = float(request.get("requirement", 0.0))
+	frame.erase("launch_drain_request")
+	sprite.set_meta(meta_key, frame)
+	return {"requirement": requirement, "found": true, "reason": "live_frame"}
+
 static func source_consumer_cheating_for_cell_state(game: Object, cell: Vector2i) -> Dictionary:
 	# PowerGraph.java:217 update(): the cheat gate reads the first
 	# consumer's cheating() — TeamComp.java:17-19 returns
