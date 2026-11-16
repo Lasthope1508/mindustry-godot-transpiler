@@ -1,0 +1,9 @@
+test_all_c07_regen_projector_privileged_flag_fill_input_evidence_is_exact (tests.test_c07_regen_projector_privileged_flag_fill.C07RegenProjectorPrivilegedFlagFillTests.test_all_c07_regen_projector_privileged_flag_fill_input_evidence_is_exact) ... ok
+test_c07_regen_projector_privileged_flag_fill_registration (tests.test_c07_regen_projector_privileged_flag_fill.C07RegenProjectorPrivilegedFlagFillTests.test_c07_regen_projector_privileged_flag_fill_registration) ... ok
+test_reference_graph_and_actual_c07_regen_projector_privileged_flag_fill (tests.test_c07_regen_projector_privileged_flag_fill.C07RegenProjectorPrivilegedFlagFillTests.test_reference_graph_and_actual_c07_regen_projector_privileged_flag_fill) ... ok
+test_regen_projector_privileged_flag_fill_state (tests.test_c07_regen_projector_privileged_flag_fill.C07RegenProjectorPrivilegedFlagFillTests.test_regen_projector_privileged_flag_fill_state) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 21.168s
+
+OK
