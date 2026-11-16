@@ -182,7 +182,7 @@ class C07RepairTurretCoolantTests(unittest.TestCase):
         self.assertIn('target.heal(repairSpeed * strength * edelta() * multiplier);', repair_turret)
         # The row shape mirrors the power row (is_power false
         # here); the tick syncs the live liquids store into
-        # the frame before the fold (the Fracker:361
+        # the frame before the fold (the Fracker:623
         # precedent), folds the row into optional_results
         # when the block is the repair-turret (acceptCoolant;
         # repair-point appends no row), and removes the

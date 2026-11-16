@@ -512,7 +512,7 @@ static func source_burst_drill_tick_buildings_state(game: Object, seconds: float
 		# at placement), so the driver syncs the reference
 		# into the frame each tick BEFORE the fold, and the
 		# pure liquid row reads the held liquid from it (the
-		# Fracker precedent, SourceFrackerBuildState.gd:361).
+		# Fracker precedent, SourceFrackerBuildState.gd:623).
 		frame["liquids"] = sprite.get_meta(source_placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, {})
 		# The power consumer reads live since N2149 (the graph
 		# update stamps frame["power_status"] each tick, N2142):

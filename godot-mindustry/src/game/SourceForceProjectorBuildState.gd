@@ -586,7 +586,7 @@ static func source_force_projector_tick_buildings_state(game: Object, seconds: f
 		# at placement), so the driver syncs the reference
 		# into the frame each tick BEFORE the fold, and the
 		# pure coolant row reads the held coolant from it (the
-		# Fracker:361 precedent).
+		# Fracker:623 precedent).
 		frame["liquids"] = sprite.get_meta(source_placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, {})
 		# N2261: the phaseFabric booster item row is pure over
 		# the frame items (ConsumeItems.efficiency,

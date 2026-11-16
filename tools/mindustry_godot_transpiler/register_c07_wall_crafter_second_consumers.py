@@ -53,7 +53,7 @@ precedent). The multiplier is the 1f default (Consume.java:18)
 shared liquid module helper (SourceLiquidModuleState.
 source_get_state, the Fracker guard) over the frame liquids key,
 synced from the live sprite store each tick before the fold
-(Fracker:361); the graphite count reads through the shared
+(Fracker:623); the graphite count reads through the shared
 inventory helper (SourceDrillInventoryRuntimeState.item_count)
 over the frame items key. The second-pass removal is direct,
 after apply_update_consumption_state, with the same guard
@@ -74,7 +74,7 @@ reuses the same row.
 Line-number corrections to the brief/SCOPE: the brief's
 "Fracker:139-144" guard cite is stale -- the current guard is
 SourceFrackerBuildState.gd:221 (liquid row) / :151 (gate) (the
-N2256 lesson); the "Fracker:361" liquids sync cite is correct.
+N2256 lesson); the "Fracker:623" liquids sync cite is correct.
 The N2170 driver docstring mislabels the hydrogen row "as a
 booster" -- it is REQUIRED (not .boost(), Blocks.java:3028),
 and N2264 corrects that wording. The ledger entry's java_source

@@ -49,7 +49,7 @@ advance live fill + the manual removal. The multiplier is the
 none. The held amount reads through the shared liquid module
 helper (SourceLiquidModuleState.source_get_state, the Fracker
 guard) over the frame liquids key, synced from the live sprite
-store each tick before the fold (Fracker:361). The catalog
+store each tick before the fold (Fracker:623). The catalog
 carries liquid overrides only, so the filter + heatCapacity
 reads use the Liquid class defaults for missing props
 (coolant=true, gas=false, temp=0.5f, flammability=0f,
