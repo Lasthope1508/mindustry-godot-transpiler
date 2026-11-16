@@ -106,6 +106,61 @@
         }
       }
     },
+    "source_beam_drill_facing_tiles_fill_state_input": {
+      "canonical_schema": "source_state_schema.source_beam_drill_facing_tiles_fill_state_input",
+      "keys": {
+        "lasers": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Point2 l = lasers[p];",
+          "rule": "The laser origins (BeamDrill.java:383, the updateFacing ray start -- `Point2 l = lasers[p];`, one origin per laser in laser order, each {x, y} in tile coordinates); read from frame[\"lasers\"] (the N2346 origins, stamped when tile_changes moves). A missing or short lasers array gives an empty ray for the missing lasers (Java reads exactly `size` lasers).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_facing_tiles_fill_state"
+          ]
+        },
+        "world_tiles": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Tile other = world.tile(rx, ry);",
+          "rule": "The world tiles the rays walk through (BeamDrill.java:388, `Tile other = world.tile(rx, ry);` -- `public Tile tile(int x, int y){`, World.java:122): a frame input Dict keyed \"x,y\" to {solid, wall_drop} carrying the `other != null && other.solid()` answer (`public boolean solid(){`, Tile.java:457) and the wallDrop item {id, hardness} (`public @Nullable Item wallDrop(){`, Tile.java:575, null when the tile drops nothing); a missing key is a null world tile (the walk continues past it). Default {} -- no world data; the LIVE world-tile query still waits (no live world query exists in the port).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_facing_tiles_fill_state"
+          ]
+        },
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "for(int p = 0; p < size; p++){",
+          "rule": "The block size (BeamDrill.java:382, the updateFacing laser bound -- Java walks exactly `size` rays): 2 for the plasma-bore, 3 for the large-plasma-bore (Blocks.java:3044/:3058), read from the catalog per def; the Block class default is 1 (Block.java:215). Rays past `size` are ignored.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_facing_tiles_fill_state"
+          ]
+        },
+        "beam_range": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "for(int i = 0; i < range; i++){",
+          "rule": "The beam range (BeamDrill.java:386, the updateFacing walk bound -- Java walks exactly `range` tiles per ray): 5 for the plasma-bore, 6 for the large-plasma-bore (Blocks.java:3045/:3059), read from the catalog per def; the class default is `public int range = 5;` (BeamDrill.java:35). The parameter is beam_range, not `range` (GDScript's range() builtin). Tiles past `beam_range` are ignored.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_facing_tiles_fill_state"
+          ]
+        },
+        "rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "int dx = Geometry.d4x(rotation), dy = Geometry.d4y(rotation);",
+          "rule": "The placement rotation (BeamDrill.java:378, the updateFacing direction -- `int dx = Geometry.d4x(rotation), dy = Geometry.d4y(rotation);`, the arc Geometry d4x/d4y tables `{1, 0, -1, 0}` / `{0, 1, 0, -1}`, Geometry.java:23-24, indexed through d4x(int)/d4y(int) with Mathf.mod(i, 4), :47-52); read from the sprite rotation meta (SourceBlockGeometry.SOURCE_BUILD_ROTATION_META_KEY, default 0, the same meta the N2346 origins refresh reads). The pure normalizes with posmod(rotation, 4).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_facing_tiles_fill_state"
+          ]
+        }
+      }
+    },
     "source_beam_drill_laser_origins_state_input": {
       "canonical_schema": "source_state_schema.source_beam_drill_laser_origins_state_input",
       "keys": {

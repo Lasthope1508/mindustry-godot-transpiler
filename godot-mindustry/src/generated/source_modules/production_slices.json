@@ -1611,6 +1611,23 @@
       ],
       "runtime_proof": "/root/C07SeparatorDisassemblerScrapRowProof"
     },
+    "N2352": {
+      "canonical_ledger": "source_slice_ledger.N2352",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.updateFacing()",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_facing_tiles_fill_state",
+      "source_symbols": [
+        "source_beam_drill_facing_tiles_fill_state_result.facing_tiles"
+      ],
+      "tests": [
+        "test_c07_beam_drill_facing_tiles_fill_registration",
+        "test_all_c07_beam_drill_facing_tiles_fill_input_evidence_is_exact",
+        "test_beam_drill_facing_tiles_fill_state",
+        "test_reference_graph_and_actual_c07_beam_drill_facing_tiles_fill"
+      ],
+      "runtime_proof": "/root/C07BeamDrillFacingTilesFillProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",

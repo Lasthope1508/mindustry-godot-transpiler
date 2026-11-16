@@ -3868,6 +3868,39 @@
       "rule": "Source-backed Accelerator battery_stored graph stamp from PowerGraph.java / Accelerator.java.",
       "return_type": "Dictionary"
     },
+    "SourcePlacedPowerGraphState.source_accelerator_take_launch_drain_request_for_cell_state": {
+      "canonical_contract": "source_api_contracts.SourcePlacedPowerGraphState.source_accelerator_take_launch_drain_request_for_cell_state",
+      "status": "active",
+      "source_slice": "N2354",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "source_method": "PowerGraph.useBatteries(float)",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_accelerator_take_launch_drain_request_for_cell_state_input.game"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_accelerator_take_launch_drain_request_for_cell_state_input.cell"
+        }
+      ],
+      "return_keys": [
+        "requirement",
+        "found",
+        "reason"
+      ],
+      "tests": [
+        "test_c07_accelerator_launch_drain_registration",
+        "test_all_c07_accelerator_launch_drain_input_evidence_is_exact",
+        "test_accelerator_launch_drain_state",
+        "test_reference_graph_and_actual_c07_accelerator_launch_drain"
+      ],
+      "runtime_proof": "/root/C07AcceleratorLaunchDrainProof",
+      "rule": "Source-backed Accelerator launch-drain per-battery scaling from PowerGraph.java / Accelerator.java.",
+      "return_type": "Dictionary"
+    },
     "SourcePlacedPowerGraphState.source_battery_power_status_for_cell_state": {
       "canonical_contract": "source_api_contracts.SourcePlacedPowerGraphState.source_battery_power_status_for_cell_state",
       "status": "active",

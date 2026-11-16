@@ -2178,6 +2178,21 @@
       ],
       "runtime_proof": "/root/C07BeamDrillFacingScanProof"
     },
+    "source_beam_drill_facing_tiles_fill_state_result.facing_tiles": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_facing_tiles_fill_state_result.facing_tiles",
+      "status": "source-backed",
+      "java_expr": "Tile other = world.tile(rx, ry);",
+      "godot_symbol": "source_beam_drill_facing_tiles_fill_state_result.facing_tiles",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_facing_tiles_fill_state",
+      "rule": "The filled facing rays (BeamDrill.java:375-411): one Array per laser in laser order (p = 0..size-1), one entry per tile in walk order (i = 0..range-1) -- a Dict {solid, wall_drop} carrying the `other != null && other.solid()` answer (BeamDrill.java:388-389) and the wallDrop item {id, hardness} (BeamDrill.java:390, null when the tile drops nothing), or null when the world has no tile at that coordinate (the walk continues past it). Exactly the format the N2339 scan pure reads; stamped onto frame[\"facing_tiles\"] each enabled tick before the facing scan whenever world_tiles is supplied.",
+      "tests": [
+        "test_c07_beam_drill_facing_tiles_fill_registration",
+        "test_all_c07_beam_drill_facing_tiles_fill_input_evidence_is_exact",
+        "test_beam_drill_facing_tiles_fill_state",
+        "test_reference_graph_and_actual_c07_beam_drill_facing_tiles_fill"
+      ],
+      "runtime_proof": "/root/C07BeamDrillFacingTilesFillProof"
+    },
     "source_beam_drill_laser_origins_state_result.lasers": {
       "canonical_symbol": "source_symbol_registry.source_beam_drill_laser_origins_state_result.lasers",
       "status": "source-backed",

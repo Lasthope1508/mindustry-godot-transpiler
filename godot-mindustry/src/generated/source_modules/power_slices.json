@@ -1268,6 +1268,25 @@
       ],
       "runtime_proof": "/root/C07AcceleratorBatteryStampProof"
     },
+    "N2354": {
+      "canonical_ledger": "source_slice_ledger.N2354",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "PowerGraph.useBatteries(float)",
+      "godot_owner": "SourcePlacedPowerGraphState.source_accelerator_take_launch_drain_request_for_cell_state",
+      "source_symbols": [
+        "source_accelerator_take_launch_drain_request_for_cell_state_result.requirement",
+        "source_accelerator_take_launch_drain_request_for_cell_state_result.found",
+        "source_accelerator_take_launch_drain_request_for_cell_state_result.reason"
+      ],
+      "tests": [
+        "test_c07_accelerator_launch_drain_registration",
+        "test_all_c07_accelerator_launch_drain_input_evidence_is_exact",
+        "test_accelerator_launch_drain_state",
+        "test_reference_graph_and_actual_c07_accelerator_launch_drain"
+      ],
+      "runtime_proof": "/root/C07AcceleratorLaunchDrainProof"
+    },
     "N888": {
       "canonical_ledger": "source_slice_ledger.N888",
       "status": "done",

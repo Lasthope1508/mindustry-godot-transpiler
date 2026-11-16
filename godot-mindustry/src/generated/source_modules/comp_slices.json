@@ -5596,6 +5596,25 @@
       ],
       "runtime_proof": "/root/C07SeparatorOffloadRoutingProof"
     },
+    "N2353": {
+      "canonical_ledger": "source_slice_ledger.N2353",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.offload()",
+      "godot_owner": "SourceBuildingItemState.source_neighbour_item_write_back_state",
+      "source_symbols": [
+        "source_neighbour_item_write_back_state_result.written",
+        "source_neighbour_item_write_back_state_result.reason",
+        "source_neighbour_item_write_back_state_result.neighbour_cell"
+      ],
+      "tests": [
+        "test_c07_separator_neighbour_write_back_registration",
+        "test_all_c07_separator_neighbour_write_back_input_evidence_is_exact",
+        "test_separator_neighbour_write_back_state",
+        "test_reference_graph_and_actual_c07_separator_neighbour_write_back"
+      ],
+      "runtime_proof": "/root/C07SeparatorNeighbourWriteBackProof"
+    },
     "N514": {
       "canonical_ledger": "source_slice_ledger.N514",
       "status": "done",

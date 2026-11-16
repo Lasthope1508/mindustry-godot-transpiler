@@ -8257,6 +8257,53 @@
       "rule": "Source-backed ShieldWall power.status row from ConsumePower.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceShockwaveTowerBuildState.source_shockwave_tower_draw_state": {
+      "canonical_contract": "source_api_contracts.SourceShockwaveTowerBuildState.source_shockwave_tower_draw_state",
+      "status": "active",
+      "source_slice": "N2356",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "source_method": "ShockwaveTowerBuild.draw()",
+      "params": [
+        {
+          "name": "x_value",
+          "type": "float",
+          "schema": "source_shockwave_tower_draw_state_input.x_value"
+        },
+        {
+          "name": "y_value",
+          "type": "float",
+          "schema": "source_shockwave_tower_draw_state_input.y_value"
+        },
+        {
+          "name": "heat",
+          "type": "float",
+          "schema": "source_shockwave_tower_draw_state_input.heat"
+        },
+        {
+          "name": "potential_efficiency",
+          "type": "float",
+          "schema": "source_shockwave_tower_draw_state_input.potential_efficiency"
+        },
+        {
+          "name": "time_value",
+          "type": "float",
+          "schema": "source_shockwave_tower_draw_state_input.time_value"
+        }
+      ],
+      "return_keys": [
+        "heat_call",
+        "shape_call"
+      ],
+      "tests": [
+        "test_c07_shockwave_tower_draw_rows_registration",
+        "test_all_c07_shockwave_tower_draw_rows_input_evidence_is_exact",
+        "test_shockwave_tower_draw_rows_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_draw_rows"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerDrawRowsProof",
+      "rule": "Source-backed ShockwaveTower draw rows from ShockwaveTower.java / Blocks.java.",
+      "return_type": "Dictionary"
+    },
     "SourceShockwaveTowerBuildState.source_shockwave_tower_liquid_consumer_row_state": {
       "canonical_contract": "source_api_contracts.SourceShockwaveTowerBuildState.source_shockwave_tower_liquid_consumer_row_state",
       "status": "active",

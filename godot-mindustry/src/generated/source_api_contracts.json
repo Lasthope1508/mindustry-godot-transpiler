@@ -73791,6 +73791,294 @@
       ],
       "runtime_proof": "/root/C07MendProjectorHealScanHitboxProof",
       "rule": "Source-backed MendProjector heal scan hitbox broad phase from MendProjector.java / BlockIndexer.java / BuildingComp.java / EntityGroup.java / Arc QuadTree.java / Rect.java."
+    },
+    "SourceUnitFactoryBuildState.source_unit_assembler_modules_event_state": {
+      "status": "active",
+      "source_slice": "N2351",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "source_method": "UnitAssemblerBuild.updateModules()",
+      "params": [
+        {
+          "name": "modules",
+          "type": "Array",
+          "schema": "source_unit_assembler_modules_event_state_input.modules"
+        },
+        {
+          "name": "tier",
+          "type": "int",
+          "schema": "source_unit_assembler_modules_event_state_input.tier"
+        },
+        {
+          "name": "event",
+          "type": "String",
+          "schema": "source_unit_assembler_modules_event_state_input.event"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "modules",
+        "current_tier",
+        "tier_gap"
+      ],
+      "tests": [
+        "test_c07_unit_assembler_check_tier_wiring_registration",
+        "test_all_c07_unit_assembler_check_tier_wiring_input_evidence_is_exact",
+        "test_unit_assembler_check_tier_wiring_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_check_tier_wiring"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerCheckTierWiringProof",
+      "rule": "Source-backed UnitAssembler checkTier cross-building wiring from UnitAssembler.java / UnitAssemblerModule.java."
+    },
+    "SourceUnitFactoryBuildState.source_unit_factory_modules_event_for_cell_state": {
+      "status": "active",
+      "source_slice": "N2351",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+      "source_method": "UnitAssemblerModuleBuild.findLink()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_unit_factory_modules_event_for_cell_state_input.game"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_unit_factory_modules_event_for_cell_state_input.cell"
+        },
+        {
+          "name": "tier",
+          "type": "int",
+          "schema": "source_unit_factory_modules_event_for_cell_state_input.tier"
+        },
+        {
+          "name": "event",
+          "type": "String",
+          "schema": "source_unit_factory_modules_event_for_cell_state_input.event"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "applied",
+        "reason"
+      ],
+      "tests": [
+        "test_c07_unit_assembler_check_tier_wiring_registration",
+        "test_all_c07_unit_assembler_check_tier_wiring_input_evidence_is_exact",
+        "test_unit_assembler_check_tier_wiring_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_check_tier_wiring"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerCheckTierWiringProof",
+      "rule": "Source-backed UnitAssembler checkTier cross-building wiring from UnitAssembler.java / UnitAssemblerModule.java."
+    },
+    "SourceBeamDrillBuildState.source_beam_drill_facing_tiles_fill_state": {
+      "status": "active",
+      "source_slice": "N2352",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrillBuild.updateFacing()",
+      "params": [
+        {
+          "name": "lasers",
+          "type": "Array",
+          "schema": "source_beam_drill_facing_tiles_fill_state_input.lasers"
+        },
+        {
+          "name": "world_tiles",
+          "type": "Dictionary",
+          "schema": "source_beam_drill_facing_tiles_fill_state_input.world_tiles"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_beam_drill_facing_tiles_fill_state_input.size"
+        },
+        {
+          "name": "beam_range",
+          "type": "int",
+          "schema": "source_beam_drill_facing_tiles_fill_state_input.beam_range"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_beam_drill_facing_tiles_fill_state_input.rotation"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "facing_tiles"
+      ],
+      "tests": [
+        "test_c07_beam_drill_facing_tiles_fill_registration",
+        "test_all_c07_beam_drill_facing_tiles_fill_input_evidence_is_exact",
+        "test_beam_drill_facing_tiles_fill_state",
+        "test_reference_graph_and_actual_c07_beam_drill_facing_tiles_fill"
+      ],
+      "runtime_proof": "/root/C07BeamDrillFacingTilesFillProof",
+      "rule": "Source-backed BeamDrill facing-tile fill / updateFacing rows from BeamDrill.java / Block.java / Blocks.java / World.java / Tile.java / Geometry.java."
+    },
+    "SourceBuildingItemState.source_neighbour_item_write_back_state": {
+      "status": "active",
+      "source_slice": "N2353",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "BuildingComp.offload()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_neighbour_item_write_back_state_input.game"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_neighbour_item_write_back_state_input.cell"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_neighbour_item_write_back_state_input.size"
+        },
+        {
+          "name": "neighbour_index",
+          "type": "int",
+          "schema": "source_neighbour_item_write_back_state_input.neighbour_index"
+        },
+        {
+          "name": "item",
+          "type": "String",
+          "schema": "source_neighbour_item_write_back_state_input.item"
+        },
+        {
+          "name": "amount",
+          "type": "int",
+          "schema": "source_neighbour_item_write_back_state_input.amount"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "written",
+        "reason",
+        "neighbour_cell"
+      ],
+      "tests": [
+        "test_c07_separator_neighbour_write_back_registration",
+        "test_all_c07_separator_neighbour_write_back_input_evidence_is_exact",
+        "test_separator_neighbour_write_back_state",
+        "test_reference_graph_and_actual_c07_separator_neighbour_write_back"
+      ],
+      "runtime_proof": "/root/C07SeparatorNeighbourWriteBackProof",
+      "rule": "Source-backed neighbour item write-back rows from BuildingComp.java / Conveyor.java."
+    },
+    "SourcePlacedPowerGraphState.source_accelerator_take_launch_drain_request_for_cell_state": {
+      "status": "active",
+      "source_slice": "N2354",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "source_method": "PowerGraph.useBatteries(float)",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_accelerator_take_launch_drain_request_for_cell_state_input.game"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_accelerator_take_launch_drain_request_for_cell_state_input.cell"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "requirement",
+        "found",
+        "reason"
+      ],
+      "tests": [
+        "test_c07_accelerator_launch_drain_registration",
+        "test_all_c07_accelerator_launch_drain_input_evidence_is_exact",
+        "test_accelerator_launch_drain_state",
+        "test_reference_graph_and_actual_c07_accelerator_launch_drain"
+      ],
+      "runtime_proof": "/root/C07AcceleratorLaunchDrainProof",
+      "rule": "Source-backed Accelerator launch-drain per-battery scaling from PowerGraph.java / Accelerator.java."
+    },
+    "SourceShockwaveTowerBuildState.source_shockwave_tower_draw_state": {
+      "status": "active",
+      "source_slice": "N2356",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "source_method": "ShockwaveTowerBuild.draw()",
+      "params": [
+        {
+          "name": "x_value",
+          "type": "float",
+          "schema": "source_shockwave_tower_draw_state_input.x_value"
+        },
+        {
+          "name": "y_value",
+          "type": "float",
+          "schema": "source_shockwave_tower_draw_state_input.y_value"
+        },
+        {
+          "name": "heat",
+          "type": "float",
+          "schema": "source_shockwave_tower_draw_state_input.heat"
+        },
+        {
+          "name": "potential_efficiency",
+          "type": "float",
+          "schema": "source_shockwave_tower_draw_state_input.potential_efficiency"
+        },
+        {
+          "name": "time_value",
+          "type": "float",
+          "schema": "source_shockwave_tower_draw_state_input.time_value"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "heat_call",
+        "shape_call"
+      ],
+      "tests": [
+        "test_c07_shockwave_tower_draw_rows_registration",
+        "test_all_c07_shockwave_tower_draw_rows_input_evidence_is_exact",
+        "test_shockwave_tower_draw_rows_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_draw_rows"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerDrawRowsProof",
+      "rule": "Source-backed ShockwaveTower draw rows from ShockwaveTower.java / Blocks.java."
+    },
+    "SourceShockwaveTowerBuildState.source_shockwave_tower_draw_select_state": {
+      "status": "active",
+      "source_slice": "N2356",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "source_method": "ShockwaveTowerBuild.drawSelect()",
+      "params": [
+        {
+          "name": "x_value",
+          "type": "float",
+          "schema": "source_shockwave_tower_draw_select_state_input.x_value"
+        },
+        {
+          "name": "y_value",
+          "type": "float",
+          "schema": "source_shockwave_tower_draw_select_state_input.y_value"
+        },
+        {
+          "name": "range_value",
+          "type": "float",
+          "schema": "source_shockwave_tower_draw_select_state_input.range_value"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "dash_circle_call"
+      ],
+      "tests": [
+        "test_c07_shockwave_tower_draw_rows_registration",
+        "test_all_c07_shockwave_tower_draw_rows_input_evidence_is_exact",
+        "test_shockwave_tower_draw_rows_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_draw_rows"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerDrawRowsProof",
+      "rule": "Source-backed ShockwaveTower draw rows from ShockwaveTower.java / Blocks.java."
     }
   },
   "policy": {

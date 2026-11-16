@@ -182632,6 +182632,246 @@
         "test_reference_graph_and_actual_c07_mend_projector_heal_scan_hitbox"
       ],
       "runtime_proof": "/root/C07MendProjectorHealScanHitboxProof"
+    },
+    "source_unit_assembler_modules_event_state_result.modules": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_assembler_modules_event_state",
+      "godot_symbol": "source_unit_assembler_modules_event_state_result.modules",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_method": "UnitAssemblerBuild.updateModules()",
+      "java_expr": "modules.addUnique(build);",
+      "rule": "The modules list after the event (UnitAssembler.java:356, the addUnique half of updateModules): add APPENDS the tier (Java addUnique dedupes by build identity, so two distinct tier-1 modules both enter as [1, 1] -- the port list carries no build identity); remove drops ONE occurrence (Java removes the one build object). Insertion order, like the Java Seq.",
+      "tests": [
+        "test_c07_unit_assembler_check_tier_wiring_registration",
+        "test_all_c07_unit_assembler_check_tier_wiring_input_evidence_is_exact",
+        "test_unit_assembler_check_tier_wiring_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_check_tier_wiring"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerCheckTierWiringProof"
+    },
+    "source_unit_assembler_modules_event_state_result.current_tier": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_assembler_modules_event_state",
+      "godot_symbol": "source_unit_assembler_modules_event_state_result.current_tier",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_method": "UnitAssemblerBuild.updateModules()",
+      "java_expr": "currentTier = max;",
+      "rule": "The re-derived tier (UnitAssembler.java:377, currentTier = max): the N2133 climb over the new list -- sort by tier, climb while each module is max or max + 1, stop at the first gap.",
+      "tests": [
+        "test_c07_unit_assembler_check_tier_wiring_registration",
+        "test_all_c07_unit_assembler_check_tier_wiring_input_evidence_is_exact",
+        "test_unit_assembler_check_tier_wiring_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_check_tier_wiring"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerCheckTierWiringProof"
+    },
+    "source_unit_assembler_modules_event_state_result.tier_gap": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_assembler_modules_event_state",
+      "godot_symbol": "source_unit_assembler_modules_event_state_result.tier_gap",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_method": "UnitAssemblerBuild.updateModules()",
+      "java_expr": "//tier gap, TODO warning?",
+      "rule": "Whether a gap stopped the climb (UnitAssembler.java:373, the tier-gap break): true when the first module above the climbed max is more than one above it.",
+      "tests": [
+        "test_c07_unit_assembler_check_tier_wiring_registration",
+        "test_all_c07_unit_assembler_check_tier_wiring_input_evidence_is_exact",
+        "test_unit_assembler_check_tier_wiring_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_check_tier_wiring"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerCheckTierWiringProof"
+    },
+    "source_unit_factory_modules_event_for_cell_state_result.applied": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_modules_event_for_cell_state",
+      "godot_symbol": "source_unit_factory_modules_event_for_cell_state_result.applied",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+      "java_method": "UnitAssemblerModuleBuild.findLink()",
+      "java_expr": "modules.addUnique(build);",
+      "rule": "Whether the event landed on the assembler frame (UnitAssembler.java:356): true only when the cell carries a unit-factory frame (source_unit_factory_building meta); a missing sprite, a non-factory sprite, or a non-Dictionary frame applies nothing.",
+      "tests": [
+        "test_c07_unit_assembler_check_tier_wiring_registration",
+        "test_all_c07_unit_assembler_check_tier_wiring_input_evidence_is_exact",
+        "test_unit_assembler_check_tier_wiring_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_check_tier_wiring"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerCheckTierWiringProof"
+    },
+    "source_unit_factory_modules_event_for_cell_state_result.reason": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitFactoryBuildState.source_unit_factory_modules_event_for_cell_state",
+      "godot_symbol": "source_unit_factory_modules_event_for_cell_state_result.reason",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+      "java_method": "UnitAssemblerModuleBuild.findLink()",
+      "java_expr": "public void findLink(){",
+      "rule": "Why the apply resolved the way it did (UnitAssemblerModule.java:75, findLink): live_frame, no_sprite, not_unit_factory, or no_frame (the N2342 setter reasons).",
+      "tests": [
+        "test_c07_unit_assembler_check_tier_wiring_registration",
+        "test_all_c07_unit_assembler_check_tier_wiring_input_evidence_is_exact",
+        "test_unit_assembler_check_tier_wiring_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_check_tier_wiring"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerCheckTierWiringProof"
+    },
+    "source_beam_drill_facing_tiles_fill_state_result.facing_tiles": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_facing_tiles_fill_state",
+      "godot_symbol": "source_beam_drill_facing_tiles_fill_state_result.facing_tiles",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.updateFacing()",
+      "java_expr": "Tile other = world.tile(rx, ry);",
+      "rule": "The filled facing rays (BeamDrill.java:375-411): one Array per laser in laser order (p = 0..size-1), one entry per tile in walk order (i = 0..range-1) -- a Dict {solid, wall_drop} carrying the `other != null && other.solid()` answer (BeamDrill.java:388-389) and the wallDrop item {id, hardness} (BeamDrill.java:390, null when the tile drops nothing), or null when the world has no tile at that coordinate (the walk continues past it). Exactly the format the N2339 scan pure reads; stamped onto frame[\"facing_tiles\"] each enabled tick before the facing scan whenever world_tiles is supplied.",
+      "tests": [
+        "test_c07_beam_drill_facing_tiles_fill_registration",
+        "test_all_c07_beam_drill_facing_tiles_fill_input_evidence_is_exact",
+        "test_beam_drill_facing_tiles_fill_state",
+        "test_reference_graph_and_actual_c07_beam_drill_facing_tiles_fill"
+      ],
+      "runtime_proof": "/root/C07BeamDrillFacingTilesFillProof"
+    },
+    "source_neighbour_item_write_back_state_result.written": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemState.source_neighbour_item_write_back_state",
+      "godot_symbol": "source_neighbour_item_write_back_state_result.written",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.offload()",
+      "java_expr": "other.handleItem(self(), item);",
+      "rule": "Whether the item landed in the neighbour store (BuildingComp.java:1009, `other.handleItem(self(), item);`): true only when a belt queue took it or a neighbour frame items dict took it; false on no sprite, no frame, a frame with no items store, a full belt, or invalid inputs.",
+      "tests": [
+        "test_c07_separator_neighbour_write_back_registration",
+        "test_all_c07_separator_neighbour_write_back_input_evidence_is_exact",
+        "test_separator_neighbour_write_back_state",
+        "test_reference_graph_and_actual_c07_separator_neighbour_write_back"
+      ],
+      "runtime_proof": "/root/C07SeparatorNeighbourWriteBackProof"
+    },
+    "source_neighbour_item_write_back_state_result.reason": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemState.source_neighbour_item_write_back_state",
+      "godot_symbol": "source_neighbour_item_write_back_state_result.reason",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.offload()",
+      "java_expr": "public void handleItem(Building source, Item item){",
+      "rule": "Why the write resolved the way it did (BuildingComp.java:860, `public void handleItem(Building source, Item item){`): belt, live_frame, no_sprite, no_frame, no_items_store, belt_full, invalid_index, invalid_amount, or invalid_item.",
+      "tests": [
+        "test_c07_separator_neighbour_write_back_registration",
+        "test_all_c07_separator_neighbour_write_back_input_evidence_is_exact",
+        "test_separator_neighbour_write_back_state",
+        "test_reference_graph_and_actual_c07_separator_neighbour_write_back"
+      ],
+      "runtime_proof": "/root/C07SeparatorNeighbourWriteBackProof"
+    },
+    "source_neighbour_item_write_back_state_result.neighbour_cell": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildingItemState.source_neighbour_item_write_back_state",
+      "godot_symbol": "source_neighbour_item_write_back_state_result.neighbour_cell",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.offload()",
+      "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+      "rule": "The ring cell the index resolved to (BuildingComp.java:1007, `Building other = proximity.get((i + dump) % proximity.size);`): Vector2i(-1, -1) when no cell resolves (invalid index or invalid inputs).",
+      "tests": [
+        "test_c07_separator_neighbour_write_back_registration",
+        "test_all_c07_separator_neighbour_write_back_input_evidence_is_exact",
+        "test_separator_neighbour_write_back_state",
+        "test_reference_graph_and_actual_c07_separator_neighbour_write_back"
+      ],
+      "runtime_proof": "/root/C07SeparatorNeighbourWriteBackProof"
+    },
+    "source_accelerator_take_launch_drain_request_for_cell_state_result.requirement": {
+      "status": "source-backed",
+      "godot_owner": "SourcePlacedPowerGraphState.source_accelerator_take_launch_drain_request_for_cell_state",
+      "godot_symbol": "source_accelerator_take_launch_drain_request_for_cell_state_result.requirement",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "PowerGraph.useBatteries(float)",
+      "java_expr": "public float useBatteries(float needed){",
+      "rule": "The launch drain requirement to apply (PowerGraph.java:154-167): the `needed` Java drains via useBatteries -- the accelerator's powerBufferRequirement 1,000,000f, written by the driver on a successful launch; 0.0 when no request is pending.",
+      "tests": [
+        "test_c07_accelerator_launch_drain_registration",
+        "test_all_c07_accelerator_launch_drain_input_evidence_is_exact",
+        "test_accelerator_launch_drain_state",
+        "test_reference_graph_and_actual_c07_accelerator_launch_drain"
+      ],
+      "runtime_proof": "/root/C07AcceleratorLaunchDrainProof"
+    },
+    "source_accelerator_take_launch_drain_request_for_cell_state_result.found": {
+      "status": "source-backed",
+      "godot_owner": "SourcePlacedPowerGraphState.source_accelerator_take_launch_drain_request_for_cell_state",
+      "godot_symbol": "source_accelerator_take_launch_drain_request_for_cell_state_result.found",
+      "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+      "java_method": "PowerGraph.useBatteries(float)",
+      "java_expr": "power.graph.useBatteries(powerBufferRequirement);",
+      "rule": "Whether a pending launch-drain request existed on the accelerator frame (Accelerator.java:270): true exactly when a launch called useBatteries and left a one-shot request; the take clears it, so a second take finds nothing.",
+      "tests": [
+        "test_c07_accelerator_launch_drain_registration",
+        "test_all_c07_accelerator_launch_drain_input_evidence_is_exact",
+        "test_accelerator_launch_drain_state",
+        "test_reference_graph_and_actual_c07_accelerator_launch_drain"
+      ],
+      "runtime_proof": "/root/C07AcceleratorLaunchDrainProof"
+    },
+    "source_accelerator_take_launch_drain_request_for_cell_state_result.reason": {
+      "status": "source-backed",
+      "godot_owner": "SourcePlacedPowerGraphState.source_accelerator_take_launch_drain_request_for_cell_state",
+      "godot_symbol": "source_accelerator_take_launch_drain_request_for_cell_state_result.reason",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "PowerGraph.useBatteries(float)",
+      "java_expr": "public void update(){",
+      "rule": "Why the take resolved the way it did (PowerGraph.java:215 update()): live_frame, no_sprite, not_accelerator, no_frame, or no_request.",
+      "tests": [
+        "test_c07_accelerator_launch_drain_registration",
+        "test_all_c07_accelerator_launch_drain_input_evidence_is_exact",
+        "test_accelerator_launch_drain_state",
+        "test_reference_graph_and_actual_c07_accelerator_launch_drain"
+      ],
+      "runtime_proof": "/root/C07AcceleratorLaunchDrainProof"
+    },
+    "source_shockwave_tower_draw_state_result.heat_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_draw_state",
+      "godot_symbol": "source_shockwave_tower_draw_state_result.heat_call",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.draw()",
+      "java_expr": "Drawf.additive(heatRegion, heatColor, heat, x, y, 0f, Layer.blockAdditive);",
+      "rule": "The additive heatRegion glow call (ShockwaveTower.java:128): region heatRegion (the `@-heat` region, ShockwaveTower.java:42), color heatColor (Pal.turretHeat, ShockwaveTower.java:33), alpha = heat, rotation 0, layer Layer.blockAdditive.",
+      "tests": [
+        "test_c07_shockwave_tower_draw_rows_registration",
+        "test_all_c07_shockwave_tower_draw_rows_input_evidence_is_exact",
+        "test_shockwave_tower_draw_rows_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_draw_rows"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerDrawRowsProof"
+    },
+    "source_shockwave_tower_draw_state_result.shape_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_draw_state",
+      "godot_symbol": "source_shockwave_tower_draw_state_result.shape_call",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.draw()",
+      "java_expr": "Fill.poly(x, y, shapeSides, shapeRadius * potentialEfficiency, Time.time * shapeRotateSpeed);",
+      "rule": "The shape poly call (ShockwaveTower.java:132) at Layer.effect (Draw.z(Layer.effect), ShockwaveTower.java:130): 4 sides, radius shapeRadius (6f) * potentialEfficiency, rotation Time.time * shapeRotateSpeed (1f), color lerp shapeColor -> waveColor by Mathf.pow(heat, 2f) (ShockwaveTower.java:131) carried as an explicit from/to/t dict -- no lerp precedent exists in the port draw-call dicts.",
+      "tests": [
+        "test_c07_shockwave_tower_draw_rows_registration",
+        "test_all_c07_shockwave_tower_draw_rows_input_evidence_is_exact",
+        "test_shockwave_tower_draw_rows_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_draw_rows"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerDrawRowsProof"
+    },
+    "source_shockwave_tower_draw_select_state_result.dash_circle_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_draw_select_state",
+      "godot_symbol": "source_shockwave_tower_draw_select_state_result.dash_circle_call",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.drawSelect()",
+      "java_expr": "Drawf.dashCircle(x, y, range, waveColor);",
+      "rule": "The waveColor dash circle call (ShockwaveTower.java:138, drawSelect; ShockwaveTower.java:63, drawPlace -- VERIFIED: drawPlace uses waveColor, NOT Pal.placing, unlike the BaseTurret drawPlace): radius = range, color waveColor (Pal.accent, ShockwaveTower.java:33).",
+      "tests": [
+        "test_c07_shockwave_tower_draw_rows_registration",
+        "test_all_c07_shockwave_tower_draw_rows_input_evidence_is_exact",
+        "test_shockwave_tower_draw_rows_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_draw_rows"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerDrawRowsProof"
     }
   },
   "version": 1

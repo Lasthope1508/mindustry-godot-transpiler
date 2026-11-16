@@ -598,6 +598,52 @@
       "rule": "Source-backed BeamDrill facing scan / updateFacing rows from BeamDrill.java / Block.java / Blocks.java.",
       "return_type": "Dictionary"
     },
+    "SourceBeamDrillBuildState.source_beam_drill_facing_tiles_fill_state": {
+      "canonical_contract": "source_api_contracts.SourceBeamDrillBuildState.source_beam_drill_facing_tiles_fill_state",
+      "status": "active",
+      "source_slice": "N2352",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrillBuild.updateFacing()",
+      "params": [
+        {
+          "name": "lasers",
+          "type": "Array",
+          "schema": "source_beam_drill_facing_tiles_fill_state_input.lasers"
+        },
+        {
+          "name": "world_tiles",
+          "type": "Dictionary",
+          "schema": "source_beam_drill_facing_tiles_fill_state_input.world_tiles"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_beam_drill_facing_tiles_fill_state_input.size"
+        },
+        {
+          "name": "beam_range",
+          "type": "int",
+          "schema": "source_beam_drill_facing_tiles_fill_state_input.beam_range"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_beam_drill_facing_tiles_fill_state_input.rotation"
+        }
+      ],
+      "return_keys": [
+        "facing_tiles"
+      ],
+      "tests": [
+        "test_c07_beam_drill_facing_tiles_fill_registration",
+        "test_all_c07_beam_drill_facing_tiles_fill_input_evidence_is_exact",
+        "test_beam_drill_facing_tiles_fill_state",
+        "test_reference_graph_and_actual_c07_beam_drill_facing_tiles_fill"
+      ],
+      "runtime_proof": "/root/C07BeamDrillFacingTilesFillProof",
+      "rule": "Source-backed BeamDrill facing-tile fill / updateFacing rows from BeamDrill.java / Block.java / Blocks.java / World.java / Tile.java / Geometry.java.",
+      "return_type": "Dictionary"
+    },
     "SourceBeamDrillBuildState.source_beam_drill_laser_origins_state": {
       "canonical_contract": "source_api_contracts.SourceBeamDrillBuildState.source_beam_drill_laser_origins_state",
       "status": "active",

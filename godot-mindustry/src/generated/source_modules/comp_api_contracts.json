@@ -18246,6 +18246,59 @@
       "runtime_proof": "/root/NoSleepWakeProof",
       "rule": "Source-backed noSleep wake; the result reports the stack change and the sleep transition."
     },
+    "SourceBuildingItemState.source_neighbour_item_write_back_state": {
+      "canonical_contract": "source_api_contracts.SourceBuildingItemState.source_neighbour_item_write_back_state",
+      "status": "active",
+      "source_slice": "N2353",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "BuildingComp.offload()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_neighbour_item_write_back_state_input.game"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_neighbour_item_write_back_state_input.cell"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_neighbour_item_write_back_state_input.size"
+        },
+        {
+          "name": "neighbour_index",
+          "type": "int",
+          "schema": "source_neighbour_item_write_back_state_input.neighbour_index"
+        },
+        {
+          "name": "item",
+          "type": "String",
+          "schema": "source_neighbour_item_write_back_state_input.item"
+        },
+        {
+          "name": "amount",
+          "type": "int",
+          "schema": "source_neighbour_item_write_back_state_input.amount"
+        }
+      ],
+      "return_keys": [
+        "written",
+        "reason",
+        "neighbour_cell"
+      ],
+      "tests": [
+        "test_c07_separator_neighbour_write_back_registration",
+        "test_all_c07_separator_neighbour_write_back_input_evidence_is_exact",
+        "test_separator_neighbour_write_back_state",
+        "test_reference_graph_and_actual_c07_separator_neighbour_write_back"
+      ],
+      "runtime_proof": "/root/C07SeparatorNeighbourWriteBackProof",
+      "rule": "Source-backed neighbour item write-back rows from BuildingComp.java / Conveyor.java.",
+      "return_type": "Dictionary"
+    },
     "SourceBuildingItemState.source_remove_stack_wake_state": {
       "canonical_contract": "source_api_contracts.SourceBuildingItemState.source_remove_stack_wake_state",
       "status": "active",

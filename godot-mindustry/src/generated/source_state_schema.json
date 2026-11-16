@@ -239199,7 +239199,7 @@
           "status": "source-backed",
           "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
           "java_expr": "build.liquids.get(liquid)",
-          "rule": "The building frame carrying the Building.liquids LiquidModule (frame[\"liquids\"], synced from the sprite meta store each tick before the fold, the Fracker:361 precedent): the live store the row reads the hydrogen amount from; a frame bound before this slice has no liquids key and reads 0.0, Java liquids.get returning 0.0 for a liquid never added.",
+          "rule": "The building frame carrying the Building.liquids LiquidModule (frame[\"liquids\"], synced from the sprite meta store each tick before the fold, the Fracker:623 precedent): the live store the row reads the hydrogen amount from; a frame bound before this slice has no liquids key and reads 0.0, Java liquids.get returning 0.0 for a liquid never added.",
           "used_by": [
             "SourceRegenProjectorBuildState.source_regen_projector_liquid_consumer_row_state"
           ]
@@ -247259,6 +247259,562 @@
       },
       "runtime_proof": "/root/C07MendProjectorHealScanHitboxProof",
       "rule": "Source-backed MendProjector heal scan hitbox broad phase from MendProjector.java / BlockIndexer.java / BuildingComp.java / EntityGroup.java / Arc QuadTree.java / Rect.java."
+    },
+    "source_unit_assembler_modules_event_state_input": {
+      "status": "active",
+      "owner": "SourceUnitFactoryBuildState.source_unit_assembler_modules_event_state",
+      "source_slice": "N2351",
+      "keys": {
+        "modules": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "public Seq<UnitAssemblerModuleBuild> modules = new Seq<>();",
+          "rule": "The assembler modules list (UnitAssembler.java:323, the Seq<UnitAssemblerModuleBuild> field): the port carries it as the frame modules list of tier ints (the N2133 minimal-frame convention); the event applies to a copy, never the caller list.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_assembler_modules_event_state"
+          ]
+        },
+        "tier": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+          "java_expr": "public int tier(){",
+          "rule": "The event module tier (UnitAssemblerModule.java:85-86, tier() returns the class field tier = 1, UnitAssemblerModule.java:22): the stamped module tier the tick feeds in (N2348).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_assembler_modules_event_state"
+          ]
+        },
+        "event": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "public void updateModules(UnitAssemblerModuleBuild build){",
+          "rule": "The module event: \"add\" is updateModules (UnitAssembler.java:355-358, modules.addUnique(build) then checkTier()) and \"remove\" is removeModule (:359-362, modules.remove(build) then checkTier()); any other event mutates nothing.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_assembler_modules_event_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07UnitAssemblerCheckTierWiringProof",
+      "rule": "Source-backed UnitAssembler checkTier cross-building wiring from UnitAssembler.java / UnitAssemblerModule.java."
+    },
+    "source_unit_assembler_modules_event_state_result": {
+      "status": "active",
+      "owner": "SourceUnitFactoryBuildState.source_unit_assembler_modules_event_state",
+      "source_slice": "N2351",
+      "keys": {
+        "modules": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "modules.addUnique(build);",
+          "rule": "The modules list after the event (UnitAssembler.java:356, the addUnique half of updateModules): add APPENDS the tier (Java addUnique dedupes by build identity, so two distinct tier-1 modules both enter as [1, 1] -- the port list carries no build identity); remove drops ONE occurrence (Java removes the one build object). Insertion order, like the Java Seq.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_assembler_modules_event_state"
+          ]
+        },
+        "current_tier": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "currentTier = max;",
+          "rule": "The re-derived tier (UnitAssembler.java:377, currentTier = max): the N2133 climb over the new list -- sort by tier, climb while each module is max or max + 1, stop at the first gap.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_assembler_modules_event_state"
+          ]
+        },
+        "tier_gap": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "//tier gap, TODO warning?",
+          "rule": "Whether a gap stopped the climb (UnitAssembler.java:373, the tier-gap break): true when the first module above the climbed max is more than one above it.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_assembler_modules_event_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07UnitAssemblerCheckTierWiringProof",
+      "rule": "Source-backed UnitAssembler checkTier cross-building wiring from UnitAssembler.java / UnitAssemblerModule.java."
+    },
+    "source_unit_factory_modules_event_for_cell_state_input": {
+      "status": "active",
+      "owner": "SourceUnitFactoryBuildState.source_unit_factory_modules_event_for_cell_state",
+      "source_slice": "N2351",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+          "java_expr": "public void findLink(){",
+          "rule": "The live game world (UnitAssemblerModule.java:75, findLink -- the cross-building call site the helper serves): the placed-building index the helper resolves the assembler sprite from through block_sprite_at_cell.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_modules_event_for_cell_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+          "java_expr": "link = getLink(team, tile.x, tile.y, rotation);",
+          "rule": "The link assembler origin cell (UnitAssemblerModule.java:79, the getLink result by tile coords): the \"cell\" of the N2351 link frame-input format {\"block\", \"cell\": Vector2i} -- the discovery slice MUST produce this format.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_modules_event_for_cell_state"
+          ]
+        },
+        "tier": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+          "java_expr": "public int tier(){",
+          "rule": "The event module tier (UnitAssemblerModule.java:85-86): the stamped module tier the tick feeds in (N2348).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_modules_event_for_cell_state"
+          ]
+        },
+        "event": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "public void updateModules(UnitAssemblerModuleBuild build){",
+          "rule": "The module event: \"add\" is updateModules (UnitAssembler.java:355-358) and \"remove\" is removeModule (:359-362).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_modules_event_for_cell_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07UnitAssemblerCheckTierWiringProof",
+      "rule": "Source-backed UnitAssembler checkTier cross-building wiring from UnitAssembler.java / UnitAssemblerModule.java."
+    },
+    "source_unit_factory_modules_event_for_cell_state_result": {
+      "status": "active",
+      "owner": "SourceUnitFactoryBuildState.source_unit_factory_modules_event_for_cell_state",
+      "source_slice": "N2351",
+      "keys": {
+        "applied": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssembler.java",
+          "java_expr": "modules.addUnique(build);",
+          "rule": "Whether the event landed on the assembler frame (UnitAssembler.java:356): true only when the cell carries a unit-factory frame (source_unit_factory_building meta); a missing sprite, a non-factory sprite, or a non-Dictionary frame applies nothing.",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_modules_event_for_cell_state"
+          ]
+        },
+        "reason": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+          "java_expr": "public void findLink(){",
+          "rule": "Why the apply resolved the way it did (UnitAssemblerModule.java:75, findLink): live_frame, no_sprite, not_unit_factory, or no_frame (the N2342 setter reasons).",
+          "used_by": [
+            "SourceUnitFactoryBuildState.source_unit_factory_modules_event_for_cell_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07UnitAssemblerCheckTierWiringProof",
+      "rule": "Source-backed UnitAssembler checkTier cross-building wiring from UnitAssembler.java / UnitAssemblerModule.java."
+    },
+    "source_beam_drill_facing_tiles_fill_state_input": {
+      "status": "active",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_facing_tiles_fill_state",
+      "source_slice": "N2352",
+      "keys": {
+        "lasers": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Point2 l = lasers[p];",
+          "rule": "The laser origins (BeamDrill.java:383, the updateFacing ray start -- `Point2 l = lasers[p];`, one origin per laser in laser order, each {x, y} in tile coordinates); read from frame[\"lasers\"] (the N2346 origins, stamped when tile_changes moves). A missing or short lasers array gives an empty ray for the missing lasers (Java reads exactly `size` lasers).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_facing_tiles_fill_state"
+          ]
+        },
+        "world_tiles": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Tile other = world.tile(rx, ry);",
+          "rule": "The world tiles the rays walk through (BeamDrill.java:388, `Tile other = world.tile(rx, ry);` -- `public Tile tile(int x, int y){`, World.java:122): a frame input Dict keyed \"x,y\" to {solid, wall_drop} carrying the `other != null && other.solid()` answer (`public boolean solid(){`, Tile.java:457) and the wallDrop item {id, hardness} (`public @Nullable Item wallDrop(){`, Tile.java:575, null when the tile drops nothing); a missing key is a null world tile (the walk continues past it). Default {} -- no world data; the LIVE world-tile query still waits (no live world query exists in the port).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_facing_tiles_fill_state"
+          ]
+        },
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "for(int p = 0; p < size; p++){",
+          "rule": "The block size (BeamDrill.java:382, the updateFacing laser bound -- Java walks exactly `size` rays): 2 for the plasma-bore, 3 for the large-plasma-bore (Blocks.java:3044/:3058), read from the catalog per def; the Block class default is 1 (Block.java:215). Rays past `size` are ignored.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_facing_tiles_fill_state"
+          ]
+        },
+        "beam_range": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "for(int i = 0; i < range; i++){",
+          "rule": "The beam range (BeamDrill.java:386, the updateFacing walk bound -- Java walks exactly `range` tiles per ray): 5 for the plasma-bore, 6 for the large-plasma-bore (Blocks.java:3045/:3059), read from the catalog per def; the class default is `public int range = 5;` (BeamDrill.java:35). The parameter is beam_range, not `range` (GDScript's range() builtin). Tiles past `beam_range` are ignored.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_facing_tiles_fill_state"
+          ]
+        },
+        "rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "int dx = Geometry.d4x(rotation), dy = Geometry.d4y(rotation);",
+          "rule": "The placement rotation (BeamDrill.java:378, the updateFacing direction -- `int dx = Geometry.d4x(rotation), dy = Geometry.d4y(rotation);`, the arc Geometry d4x/d4y tables `{1, 0, -1, 0}` / `{0, 1, 0, -1}`, Geometry.java:23-24, indexed through d4x(int)/d4y(int) with Mathf.mod(i, 4), :47-52); read from the sprite rotation meta (SourceBlockGeometry.SOURCE_BUILD_ROTATION_META_KEY, default 0, the same meta the N2346 origins refresh reads). The pure normalizes with posmod(rotation, 4).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_facing_tiles_fill_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BeamDrillFacingTilesFillProof",
+      "rule": "Source-backed BeamDrill facing-tile fill / updateFacing rows from BeamDrill.java / Block.java / Blocks.java / World.java / Tile.java / Geometry.java."
+    },
+    "source_beam_drill_facing_tiles_fill_state_result": {
+      "status": "active",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_facing_tiles_fill_state",
+      "source_slice": "N2352",
+      "keys": {
+        "facing_tiles": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Tile other = world.tile(rx, ry);",
+          "rule": "The filled facing rays (BeamDrill.java:375-411): one Array per laser in laser order (p = 0..size-1), one entry per tile in walk order (i = 0..range-1) -- a Dict {solid, wall_drop} carrying the `other != null && other.solid()` answer (BeamDrill.java:388-389) and the wallDrop item {id, hardness} (BeamDrill.java:390, null when the tile drops nothing), or null when the world has no tile at that coordinate (the walk continues past it). Exactly the format the N2339 scan pure reads; stamped onto frame[\"facing_tiles\"] each enabled tick before the facing scan whenever world_tiles is supplied.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_facing_tiles_fill_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BeamDrillFacingTilesFillProof",
+      "rule": "Source-backed BeamDrill facing-tile fill / updateFacing rows from BeamDrill.java / Block.java / Blocks.java / World.java / Tile.java / Geometry.java."
+    },
+    "source_neighbour_item_write_back_state_input": {
+      "status": "active",
+      "owner": "SourceBuildingItemState.source_neighbour_item_write_back_state",
+      "source_slice": "N2353",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+          "rule": "The live game world (BuildingComp.java:1007, `Building other = proximity.get((i + dump) % proximity.size);`): the placed-building index the helper resolves the neighbour sprite from, through block_sprite_at_cell.",
+          "used_by": [
+            "SourceBuildingItemState.source_neighbour_item_write_back_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+          "rule": "The source building's origin cell (BuildingComp.java:1007): the ring is computed around it (source_block_proximity_cells_state), so index i is ring cell i.",
+          "used_by": [
+            "SourceBuildingItemState.source_neighbour_item_write_back_state"
+          ]
+        },
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+          "rule": "The source block's size (BuildingComp.java:1007): the ring shape depends on it (a size-2 source has 8 ring cells, a size-3 source 12). The Separator tick reads the catalog size (separator 2, disassembler 3).",
+          "used_by": [
+            "SourceBuildingItemState.source_neighbour_item_write_back_state"
+          ]
+        },
+        "neighbour_index": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+          "rule": "The routed neighbour's proximity index (BuildingComp.java:1007, `Building other = proximity.get((i + dump) % proximity.size);`): the handled index offload_item_state reports (SOURCE_DRILL_INVENTORY_HANDLED_INDEX_KEY), exposed by the Separator advance as offload_neighbour_index. An out-of-range index reports invalid_index.",
+          "used_by": [
+            "SourceBuildingItemState.source_neighbour_item_write_back_state"
+          ]
+        },
+        "item": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "other.handleItem(self(), item);",
+          "rule": "The item to land in the neighbour store (BuildingComp.java:1009, `other.handleItem(self(), item);`): the Separator passes the advance's picked item.",
+          "used_by": [
+            "SourceBuildingItemState.source_neighbour_item_write_back_state"
+          ]
+        },
+        "amount": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "items.add(item, amount);",
+          "rule": "How many of the item land (BuildingComp.java:797, `items.add(item, amount);`, the handleStack form): the offload passes 1 (one handleItem per offload, BuildingComp.java:1009); a belt neighbour commits only when all amount items insert.",
+          "used_by": [
+            "SourceBuildingItemState.source_neighbour_item_write_back_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SeparatorNeighbourWriteBackProof",
+      "rule": "Source-backed neighbour item write-back rows from BuildingComp.java / Conveyor.java."
+    },
+    "source_neighbour_item_write_back_state_result": {
+      "status": "active",
+      "owner": "SourceBuildingItemState.source_neighbour_item_write_back_state",
+      "source_slice": "N2353",
+      "keys": {
+        "written": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "other.handleItem(self(), item);",
+          "rule": "Whether the item landed in the neighbour store (BuildingComp.java:1009, `other.handleItem(self(), item);`): true only when a belt queue took it or a neighbour frame items dict took it; false on no sprite, no frame, a frame with no items store, a full belt, or invalid inputs.",
+          "used_by": [
+            "SourceBuildingItemState.source_neighbour_item_write_back_state"
+          ]
+        },
+        "reason": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public void handleItem(Building source, Item item){",
+          "rule": "Why the write resolved the way it did (BuildingComp.java:860, `public void handleItem(Building source, Item item){`): belt, live_frame, no_sprite, no_frame, no_items_store, belt_full, invalid_index, invalid_amount, or invalid_item.",
+          "used_by": [
+            "SourceBuildingItemState.source_neighbour_item_write_back_state"
+          ]
+        },
+        "neighbour_cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+          "rule": "The ring cell the index resolved to (BuildingComp.java:1007, `Building other = proximity.get((i + dump) % proximity.size);`): Vector2i(-1, -1) when no cell resolves (invalid index or invalid inputs).",
+          "used_by": [
+            "SourceBuildingItemState.source_neighbour_item_write_back_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SeparatorNeighbourWriteBackProof",
+      "rule": "Source-backed neighbour item write-back rows from BuildingComp.java / Conveyor.java."
+    },
+    "source_accelerator_take_launch_drain_request_for_cell_state_input": {
+      "status": "active",
+      "owner": "SourcePlacedPowerGraphState.source_accelerator_take_launch_drain_request_for_cell_state",
+      "source_slice": "N2354",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "public void update(){",
+          "rule": "The live game world (PowerGraph.java:215 update()): the placed-building index the take resolves the cell's sprite from.",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_accelerator_take_launch_drain_request_for_cell_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "public void add(Building build){",
+          "rule": "The placed building's origin cell (PowerGraph.java:277 add): the graph-membership gate -- only a building added to the graph has a frame to take from.",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_accelerator_take_launch_drain_request_for_cell_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07AcceleratorLaunchDrainProof",
+      "rule": "Source-backed Accelerator launch-drain per-battery scaling from PowerGraph.java / Accelerator.java."
+    },
+    "source_accelerator_take_launch_drain_request_for_cell_state_result": {
+      "status": "active",
+      "owner": "SourcePlacedPowerGraphState.source_accelerator_take_launch_drain_request_for_cell_state",
+      "source_slice": "N2354",
+      "keys": {
+        "requirement": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "public float useBatteries(float needed){",
+          "rule": "The launch drain requirement to apply (PowerGraph.java:154-167): the `needed` Java drains via useBatteries -- the accelerator's powerBufferRequirement 1,000,000f, written by the driver on a successful launch; 0.0 when no request is pending.",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_accelerator_take_launch_drain_request_for_cell_state"
+          ]
+        },
+        "found": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "power.graph.useBatteries(powerBufferRequirement);",
+          "rule": "Whether a pending launch-drain request existed on the accelerator frame (Accelerator.java:270): true exactly when a launch called useBatteries and left a one-shot request; the take clears it, so a second take finds nothing.",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_accelerator_take_launch_drain_request_for_cell_state"
+          ]
+        },
+        "reason": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "public void update(){",
+          "rule": "Why the take resolved the way it did (PowerGraph.java:215 update()): live_frame, no_sprite, not_accelerator, no_frame, or no_request.",
+          "used_by": [
+            "SourcePlacedPowerGraphState.source_accelerator_take_launch_drain_request_for_cell_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07AcceleratorLaunchDrainProof",
+      "rule": "Source-backed Accelerator launch-drain per-battery scaling from PowerGraph.java / Accelerator.java."
+    },
+    "source_shockwave_tower_draw_state_input": {
+      "status": "active",
+      "owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_draw_state",
+      "source_slice": "N2356",
+      "keys": {
+        "x_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "Fill.poly(x, y, shapeSides, shapeRadius * potentialEfficiency, Time.time * shapeRotateSpeed);",
+          "rule": "The building world x (ShockwaveTower.java:132, the Fill.poly center -- Building x/y are tile.drawx()/drawy(), BuildingComp.java:124): the heat glow and the shape poly are both centered here.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_draw_state"
+          ]
+        },
+        "y_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "Fill.poly(x, y, shapeSides, shapeRadius * potentialEfficiency, Time.time * shapeRotateSpeed);",
+          "rule": "The building world y (ShockwaveTower.java:132, the Fill.poly center): the heat glow and the shape poly are both centered here.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_draw_state"
+          ]
+        },
+        "heat": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "public float heat = 0f;",
+          "rule": "The frame heat (ShockwaveTower.java:68, `public float heat = 0f;`, set to 1f on fire and decayed every tick by the N2247 advance): the heat-call alpha and the shape color-lerp factor (Mathf.pow(heat, 2f), ShockwaveTower.java:131).",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_draw_state"
+          ]
+        },
+        "potential_efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "Fill.poly(x, y, shapeSides, shapeRadius * potentialEfficiency, Time.time * shapeRotateSpeed);",
+          "rule": "The frame potentialEfficiency (ShockwaveTower.java:132, stamped by apply_update_consumption_state): the shape radius is shapeRadius * potentialEfficiency, so an unpowered tower draws a collapsed poly.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_draw_state"
+          ]
+        },
+        "time_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "Fill.poly(x, y, shapeSides, shapeRadius * potentialEfficiency, Time.time * shapeRotateSpeed);",
+          "rule": "Time.time in ticks (ShockwaveTower.java:132, the shape rotation is Time.time * shapeRotateSpeed): caller-supplied -- draw never runs in the tick, so the tick never stamps it. The shape has NO state advance; the rotation is a pure function of time.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_draw_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShockwaveTowerDrawRowsProof",
+      "rule": "Source-backed ShockwaveTower draw rows from ShockwaveTower.java / Blocks.java."
+    },
+    "source_shockwave_tower_draw_state_result": {
+      "status": "active",
+      "owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_draw_state",
+      "source_slice": "N2356",
+      "keys": {
+        "heat_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "Drawf.additive(heatRegion, heatColor, heat, x, y, 0f, Layer.blockAdditive);",
+          "rule": "The additive heatRegion glow call (ShockwaveTower.java:128): region heatRegion (the `@-heat` region, ShockwaveTower.java:42), color heatColor (Pal.turretHeat, ShockwaveTower.java:33), alpha = heat, rotation 0, layer Layer.blockAdditive.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_draw_state"
+          ]
+        },
+        "shape_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "Fill.poly(x, y, shapeSides, shapeRadius * potentialEfficiency, Time.time * shapeRotateSpeed);",
+          "rule": "The shape poly call (ShockwaveTower.java:132) at Layer.effect (Draw.z(Layer.effect), ShockwaveTower.java:130): 4 sides, radius shapeRadius (6f) * potentialEfficiency, rotation Time.time * shapeRotateSpeed (1f), color lerp shapeColor -> waveColor by Mathf.pow(heat, 2f) (ShockwaveTower.java:131) carried as an explicit from/to/t dict -- no lerp precedent exists in the port draw-call dicts.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_draw_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShockwaveTowerDrawRowsProof",
+      "rule": "Source-backed ShockwaveTower draw rows from ShockwaveTower.java / Blocks.java."
+    },
+    "source_shockwave_tower_draw_select_state_input": {
+      "status": "active",
+      "owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_draw_select_state",
+      "source_slice": "N2356",
+      "keys": {
+        "x_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "Drawf.dashCircle(x, y, range, waveColor);",
+          "rule": "The dash circle center x in world coords (ShockwaveTower.java:138, drawSelect passes the building x/y; drawPlace passes x * tilesize + offset, ShockwaveTower.java:63 -- the caller supplies world coords either way).",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_draw_select_state"
+          ]
+        },
+        "y_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "Drawf.dashCircle(x, y, range, waveColor);",
+          "rule": "The dash circle center y in world coords (ShockwaveTower.java:138 / :63, same mapping as x).",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_draw_select_state"
+          ]
+        },
+        "range_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "public float range = 110f;",
+          "rule": "The dash circle radius (ShockwaveTower.java:25, the class default 110f; the def overrides it to 170f, Blocks.java:2043): the pure takes it as a parameter and stays def-agnostic.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_draw_select_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShockwaveTowerDrawRowsProof",
+      "rule": "Source-backed ShockwaveTower draw rows from ShockwaveTower.java / Blocks.java."
+    },
+    "source_shockwave_tower_draw_select_state_result": {
+      "status": "active",
+      "owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_draw_select_state",
+      "source_slice": "N2356",
+      "keys": {
+        "dash_circle_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "Drawf.dashCircle(x, y, range, waveColor);",
+          "rule": "The waveColor dash circle call (ShockwaveTower.java:138, drawSelect; ShockwaveTower.java:63, drawPlace -- VERIFIED: drawPlace uses waveColor, NOT Pal.placing, unlike the BaseTurret drawPlace): radius = range, color waveColor (Pal.accent, ShockwaveTower.java:33).",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_draw_select_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShockwaveTowerDrawRowsProof",
+      "rule": "Source-backed ShockwaveTower draw rows from ShockwaveTower.java / Blocks.java."
     }
   },
   "version": 1
