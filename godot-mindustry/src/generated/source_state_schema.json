@@ -231076,6 +231076,84 @@
       },
       "runtime_proof": "/root/C07LaunchPadSenseProgressProof",
       "rule": "Source-backed LaunchPad sense(progress) override from LaunchPad.java / BuildingComp.java / LAccess.java."
+    },
+    "source_launch_pad_update_tile_state_input": {
+      "status": "active",
+      "owner": "SourceLaunchPadBuildState.source_launch_pad_update_tile_state",
+      "source_slice": "N2207",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "public float launchCounter;",
+          "rule": "The building frame carrying the launch_counter observation (LaunchPad.java:84, `public float launchCounter;`, stamped live by the driver every tick), the folded efficiency and the held items_total; a missing launch_counter key starts at 0.0 -- the Java init default -- and a missing items_total key reads 0.0, because a fresh ItemModule totals 0 (ItemModule.java:25 + 174-175).",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_update_tile_state"
+          ]
+        },
+        "delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public float edelta(){",
+          "rule": "The tick delta the counter advances by, scaled by the frame efficiency (edelta() is efficiency * delta, BuildingComp.java:1927-1929; delta() is `Time.delta * timeScale`, BuildingComp.java:1922-1923); the driver passes its tick seconds, the N2190 driver convention.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_update_tile_state"
+          ]
+        },
+        "launch_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "public float launchTime = 1f;",
+          "rule": "The per-def launchTime the advanced counter runs against (LaunchPad.java:32, the class default 1f): launch-pad 1200f (Blocks.java:6794, `launchTime = 60f * 20;`) and advanced-launch-pad 1800f (Blocks.java:6804, `launchTime = 60f * 30;`); the driver selects it by block id from SOURCE_LAUNCH_PAD_LAUNCH_TIMES and passes it in.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_update_tile_state"
+          ]
+        },
+        "item_capacity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public int itemCapacity = 10;",
+          "rule": "The per-def itemCapacity the held items run against (Block.java:75, the class default 10): 100 for both defs (Blocks.java:6793, 6803, `itemCapacity = 100;`); the driver reads it from block.properties -- the catalog carries it -- and passes it in.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_update_tile_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaunchPadUpdateTileProof",
+      "rule": "Source-backed LaunchPad updateTile advance from LaunchPad.java / BuildingComp.java / Block.java / ItemModule.java."
+    },
+    "source_launch_pad_update_tile_state_result": {
+      "status": "active",
+      "owner": "SourceLaunchPadBuildState.source_launch_pad_update_tile_state",
+      "source_slice": "N2207",
+      "keys": {
+        "launch_counter": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "if((launchCounter += edelta()) >= launchTime && items.total() >= itemCapacity){",
+          "rule": "The advanced launch counter (LaunchPad.java:143-146): the old counter plus efficiency * delta, reset to 0.0 on the launch tick, unclamped past launchTime while the pad waits for items (Java only resets on launch, LaunchPad.java:160, `launchCounter = 0f;`).",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_update_tile_state"
+          ]
+        },
+        "launched": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "launchCounter = 0f;",
+          "rule": "Whether this tick launched (LaunchPad.java:146 + 160): true exactly when the advanced counter reaches launchTime AND the held items reach itemCapacity, the tick the counter resets to 0.0; the launch side effects (consume / sound / LaunchPayload spawn / Fx / items.clear / shake, LaunchPad.java:148-158) wait for their own slice, and this flag is the signal that slice will consume.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_update_tile_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaunchPadUpdateTileProof",
+      "rule": "Source-backed LaunchPad updateTile advance from LaunchPad.java / BuildingComp.java / Block.java / ItemModule.java."
     }
   },
   "version": 1

@@ -66502,6 +66502,47 @@
       ],
       "runtime_proof": "/root/C07LaunchPadSenseProgressProof",
       "rule": "Source-backed LaunchPad sense(progress) override from LaunchPad.java / BuildingComp.java / LAccess.java."
+    },
+    "SourceLaunchPadBuildState.source_launch_pad_update_tile_state": {
+      "status": "active",
+      "source_slice": "N2207",
+      "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+      "source_method": "LaunchPadBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_launch_pad_update_tile_state_input.frame"
+        },
+        {
+          "name": "delta",
+          "type": "float",
+          "schema": "source_launch_pad_update_tile_state_input.delta"
+        },
+        {
+          "name": "launch_time",
+          "type": "float",
+          "schema": "source_launch_pad_update_tile_state_input.launch_time"
+        },
+        {
+          "name": "item_capacity",
+          "type": "float",
+          "schema": "source_launch_pad_update_tile_state_input.item_capacity"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "launch_counter",
+        "launched"
+      ],
+      "tests": [
+        "test_c07_launch_pad_update_tile_registration",
+        "test_all_c07_launch_pad_update_tile_input_evidence_is_exact",
+        "test_launch_pad_update_tile_state",
+        "test_reference_graph_and_actual_c07_launch_pad_update_tile"
+      ],
+      "runtime_proof": "/root/C07LaunchPadUpdateTileProof",
+      "rule": "Source-backed LaunchPad updateTile advance from LaunchPad.java / BuildingComp.java / Block.java / ItemModule.java."
     }
   },
   "policy": {

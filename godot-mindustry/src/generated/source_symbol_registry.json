@@ -173752,6 +173752,38 @@
         "test_reference_graph_and_actual_c07_launch_pad_sense_progress"
       ],
       "runtime_proof": "/root/C07LaunchPadSenseProgressProof"
+    },
+    "source_launch_pad_update_tile_state_result.launch_counter": {
+      "status": "source-backed",
+      "godot_owner": "SourceLaunchPadBuildState.source_launch_pad_update_tile_state",
+      "godot_symbol": "source_launch_pad_update_tile_state_result.launch_counter",
+      "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+      "java_method": "LaunchPadBuild.updateTile()",
+      "java_expr": "if((launchCounter += edelta()) >= launchTime && items.total() >= itemCapacity){",
+      "rule": "The advanced launch counter (LaunchPad.java:143-146): the old counter plus efficiency * delta, reset to 0.0 on the launch tick, unclamped past launchTime while the pad waits for items (Java only resets on launch, LaunchPad.java:160, `launchCounter = 0f;`).",
+      "tests": [
+        "test_c07_launch_pad_update_tile_registration",
+        "test_all_c07_launch_pad_update_tile_input_evidence_is_exact",
+        "test_launch_pad_update_tile_state",
+        "test_reference_graph_and_actual_c07_launch_pad_update_tile"
+      ],
+      "runtime_proof": "/root/C07LaunchPadUpdateTileProof"
+    },
+    "source_launch_pad_update_tile_state_result.launched": {
+      "status": "source-backed",
+      "godot_owner": "SourceLaunchPadBuildState.source_launch_pad_update_tile_state",
+      "godot_symbol": "source_launch_pad_update_tile_state_result.launched",
+      "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+      "java_method": "LaunchPadBuild.updateTile()",
+      "java_expr": "launchCounter = 0f;",
+      "rule": "Whether this tick launched (LaunchPad.java:146 + 160): true exactly when the advanced counter reaches launchTime AND the held items reach itemCapacity, the tick the counter resets to 0.0; the launch side effects (consume / sound / LaunchPayload spawn / Fx / items.clear / shake, LaunchPad.java:148-158) wait for their own slice, and this flag is the signal that slice will consume.",
+      "tests": [
+        "test_c07_launch_pad_update_tile_registration",
+        "test_all_c07_launch_pad_update_tile_input_evidence_is_exact",
+        "test_launch_pad_update_tile_state",
+        "test_reference_graph_and_actual_c07_launch_pad_update_tile"
+      ],
+      "runtime_proof": "/root/C07LaunchPadUpdateTileProof"
     }
   },
   "version": 1
