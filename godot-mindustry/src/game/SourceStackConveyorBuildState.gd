@@ -103,7 +103,7 @@ static func source_stack_conveyor_power_status_row_state(frame: Dictionary, has_
 	# StackConveyorBuild has NO shouldConsume override, so the BuildingComp default applies (BuildingComp.java:755, `public boolean shouldConsume(){` with `return enabled;`, BuildingComp.java:756); updateConsumption forces efficiency to zero when the gate is false (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). There is NO gate to defer here (unlike the ItemBridge / LiquidBridge link gates): the power-only fold is EXACT, because the only gate is `enabled`, which the driver already checks. canConsume (BuildingComp.java:1917, `public boolean canConsume(){` with `return potentialEfficiency > 0;`, BuildingComp.java:1918) and edelta (BuildingComp.java:1927-1929, `return efficiency * delta();`) are the surrounding gates. The single def carries `consumePower(1f / 60f);` (Blocks.java:2251) with `baseEfficiency = 1f;` (Blocks.java:2250), `outputRouter = false;` (Blocks.java:2244), `speed = 5f / 60f;` (Blocks.java:2241), `health = 130;` (Blocks.java:2239), `hasPower = true;` (Blocks.java:2245), `consumesPower = true;` (Blocks.java:2246) and `conductivePower = true;` (Blocks.java:2247).
 	# The stack conveyor is its own family (StackConveyor.java:24, `public class StackConveyor extends Block implements Autotiler{`; StackConveyorBuild, StackConveyor.java:114, `public class StackConveyorBuild extends Building{`), a distribution block, NOT related to any factory / turret / defense / bridge family. Class fields: `protected static final int stateMove = 0, stateLoad = 1, stateUnload = 2;` (StackConveyor.java:25), `public float glowAlpha = 1f;` (StackConveyor.java:34), `public Color glowColor = Pal.redLight;` (StackConveyor.java:35), `public float baseEfficiency = 0f;` (StackConveyor.java:37), `public float speed = 0f;` (StackConveyor.java:38), `public boolean outputRouter = true;` (StackConveyor.java:39), `public float recharge = 2f;` (StackConveyor.java:41), `public Effect loadEffect = Fx.conveyorPoof;` (StackConveyor.java:42), `public Effect unloadEffect = Fx.conveyorPoof;` (StackConveyor.java:43); constructor `rotate = true;` (StackConveyor.java:48), `update = true;` (StackConveyor.java:49), `group = BlockGroup.transportation;` (StackConveyor.java:50), `hasItems = true;` (StackConveyor.java:51), `itemCapacity = 10;` (StackConveyor.java:52), `conveyorPlacement = true;` (StackConveyor.java:53), `underBullets = true;` (StackConveyor.java:54), `priority = TargetPriority.transport;` (StackConveyor.java:55), `drawCached = true;` (StackConveyor.java:56), `buildingCacheLayer = BuildingCacheLayer.under;` (StackConveyor.java:57), `ambientSound = Sounds.loopConveyor;` (StackConveyor.java:59), `ambientSoundVolume = 0.004f;` (StackConveyor.java:60). Build fields: `public int state, blendprox;` (StackConveyor.java:115), `public int link = -1;` (StackConveyor.java:117), `public float cooldown;` (StackConveyor.java:118), `public Item lastItem;` (StackConveyor.java:119), `boolean proxUpdating = false;` (StackConveyor.java:121). The transfer branch (StackConveyor.java:276, `if(link == -1) return;` with StackConveyor.java:287, `if(!enabled) return;`) returns early without a link or when disabled, and the handoff sets `cooldown = recharge;` (StackConveyor.java:311) with `e.cooldown = 1;` (StackConveyor.java:312).
 	# Single def -- surge-conveyor only (size 1, speed 5f/60f, itemCapacity 10, health 130, surge-alloy 1 / tungsten 1, Blocks.java:2237-2253). plastanium-conveyor (StackConveyor, no power def, NO hasPower line, Blocks.java:2084) is explicitly OUT of scope. No sense / read / write overrides exist on StackConveyorBuild -- those wait for their own slices only if a later Java line needs them.
-	# Documented limits: (1) power-only first pass -- the surge-conveyor's static power consumer (consumePower 1f/60f, Blocks.java:2251) is the only modeled consumer, so the folded efficiency is the min over the *modeled* consumers (power only); surge-conveyor has no second consumer. (2) NO shouldConsume gate to defer -- StackConveyorBuild has no shouldConsume override, so the BuildingComp default (`return enabled;`, BuildingComp.java:755-756) applies; the power-only fold is EXACT for this family. (3) updateTile advance LIVE (N2239) -- eff fold / cooldown reel / link gate / transfer branch / unload branch (StackConveyor.java:268-315) run every tick through the pure source_stack_conveyor_update_tile_advance_state; still deferred: the moveForward/dump application (BuildingComp.java:1129-1137 / 1072-1113, the driver passes move_forward_ok / dump_ok false), the live front() query (BuildingComp.java:550-554, the driver passes no-front), and the live items intake (acceptStack / handleStack, StackConveyor.java:344-363). (4) No sense modeling -- sense waits for its own slice. (5) Power row single def -- surge-conveyor only (size 1, speed 5f/60f, itemCapacity 10, health 130, surge-alloy 1 / tungsten 1); plastanium-conveyor (StackConveyor, no power def) has no power row, but the N2239 updateTile advance covers BOTH defs through the per-def tables (plastanium speed 4f/60f, outputRouter true, baseEfficiency 0f; surge speed 5f/60f, outputRouter false, baseEfficiency 1f). (6) No draw/config modeling -- draw / drawSelect / config wait for their own slices.
+	# Documented limits: (1) power-only first pass -- the surge-conveyor's static power consumer (consumePower 1f/60f, Blocks.java:2251) is the only modeled consumer, so the folded efficiency is the min over the *modeled* consumers (power only); surge-conveyor has no second consumer. (2) NO shouldConsume gate to defer -- StackConveyorBuild has no shouldConsume override, so the BuildingComp default (`return enabled;`, BuildingComp.java:755-756) applies; the power-only fold is EXACT for this family. (3) updateTile advance LIVE (N2239) -- eff fold / cooldown reel / link gate / transfer branch / unload branch (StackConveyor.java:268-315) run every tick through the pure source_stack_conveyor_update_tile_advance_state; still deferred: the moveForward/dump application (BuildingComp.java:1129-1137 / 1072-1113, the driver passes move_forward_ok / dump_ok false), the live front() query (BuildingComp.java:550-554, the driver passes no-front), and the live items intake (acceptStack / handleStack, StackConveyor.java:344-363). (4) No sense modeling -- sense waits for its own slice. (5) Power row single def -- surge-conveyor only (size 1, speed 5f/60f, itemCapacity 10, health 130, surge-alloy 1 / tungsten 1); plastanium-conveyor (StackConveyor, no power def) has no power row, but the N2239 updateTile advance covers BOTH defs through the per-def tables (plastanium speed 4f/60f, outputRouter true, baseEfficiency 0f; surge speed 5f/60f, outputRouter false, baseEfficiency 1f). (6) Draw rows live (N2434) -- the draw pure (source_stack_conveyor_draw_state) models drawCached() + draw() (StackConveyor.java:124-192: cached base rect + edge rects + load/unload input slices + glow by power.status + interpolated stack + sized item). Pure-only: the tick never calls draw -- draw is called by the renderer, and the renderer call site waits for a renderer slice. drawSelect / config wait for their own slices.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -328,3 +328,238 @@ static func source_stack_conveyor_tick_buildings_state(game: Object, seconds: fl
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
 	return {"ticked_count": ticked_count, "results_by_cell": results_by_cell}
+
+static func source_stack_conveyor_draw_state(x_value: float, y_value: float, rotation_value: int, state_value: int, blendprox: int, near_square: Array, front_square: Variant, link: int, from_world: Variant, from_build_null: bool, last_item: Variant, power_status: float, glow_found: bool, glow_color: String, glow_alpha: float, cooldown: float, items_total: int, item_capacity: int, item_size: float) -> Dictionary:
+	# The draw rows (StackConveyorBuild.drawCached(),
+	# StackConveyor.java:124-149 + draw(),
+	# StackConveyor.java:151-192), the pure draw-call dict
+	# -- the port never draws for real (the N2415
+	# UnitCargoLoader precedent: the pure returns the
+	# draw calls as data). Java draws, in order (each
+	# exact expr on ONE comment line, the N2148 lesson):
+	# `protected static final int stateMove = 0, stateLoad = 1, stateUnload = 2;`
+	# `public @Load(value = "@-#", length = 3) TextureRegion[] regions;`
+	# `public @Load("@-edge") TextureRegion edgeRegion;`
+	# `public @Load("@-stack") TextureRegion stackRegion;`
+	# `public @Load(value = "@-glow") TextureRegion glowRegion;`
+	# `public @Load(value = "@-edge-glow", fallback = "@-glow") TextureRegion edgeGlowRegion;`
+	# `public float glowAlpha = 1f;`
+	# `public Color glowColor = Pal.redLight;`
+	# `public void drawCached(){`
+	# `Draw.rect(regions[state], x, y, rotdeg());`
+	# `if((blendprox & (1 << i)) == 0){`
+	# `Draw.rect(edgeRegion, x, y, (rotation - i) * 90);`
+	# `if(state == stateLoad){`
+	# `int dir = Mathf.mod(rotation - i, 4);`
+	# `var near = nearby(dir);`
+	# `if((blendprox & (1 << i)) != 0 && i != 0 && near != null && !near.block.squareSprite){`
+	# `Draw.rect(sliced(regions[0], SliceMode.bottom), x + Geometry.d4x(dir) * tilesize*0.75f, y + Geometry.d4y(dir) * tilesize*0.75f, (float)(dir*90));`
+	# `}else if(state == stateUnload){ //front unload`
+	# `if((blendprox & (1)) != 0 && front() != null && !front().block.squareSprite){`
+	# `Draw.rect(sliced(regions[0], SliceMode.top), x + Geometry.d4x(rotation) * tilesize*0.75f, y + Geometry.d4y(rotation) * tilesize*0.75f, rotation * 90f);`
+	# `public void draw(){`
+	# `Draw.z(Layer.block - 0.1f);`
+	# `Tile from = world.tile(link);`
+	# `if(glowRegion.found() && power != null && power.status > 0f){`
+	# `Draw.color(glowColor, glowAlpha * power.status);`
+	# `Draw.rect(state == stateLoad ? edgeGlowRegion : glowRegion, x, y, rotation * 90);`
+	# `if(link == -1 || from == null || lastItem == null) return;`
+	# `int fromRot = from.build == null ? rotation : from.build.rotation;`
+	# `Tmp.v1.interpolate(Tmp.v2, 1f - cooldown, Interp.linear);`
+	# `float a = (fromRot%4) * 90;`
+	# `float b = (rotation%4) * 90;`
+	# `if((fromRot%4) == 3 && (rotation%4) == 0) a = -1 * 90;`
+	# `if((fromRot%4) == 0 && (rotation%4) == 3) a =  4 * 90;`
+	# `if(glowRegion.found()){`
+	# `Draw.z(Layer.blockAdditive + 0.01f);`
+	# `Draw.rect(stackRegion, Tmp.v1.x, Tmp.v1.y, Mathf.lerp(a, b, Interp.smooth.apply(1f - Mathf.clamp(cooldown * 2, 0f, 1f))));`
+	# `float size = itemSize * Mathf.lerp(Math.min((float)items.total() / itemCapacity, 1), 1f, 0.4f);`
+	# `Draw.rect(lastItem.fullIcon, Tmp.v1.x, Tmp.v1.y, size, size, 0);`
+	# `public int state, blendprox;`
+	# `public int link = -1;`
+	# `public float cooldown;`
+	# `public Item lastItem;`
+	# The state constants are stateMove 0 / stateLoad 1 /
+	# stateUnload 2; regions[state] is the `@-#`
+	# length-3 array. The def constants are glowAlpha 1f
+	# / glowColor Pal.redLight (no def override --
+	# neither
+	# `plastaniumConveyor = new StackConveyor("plastanium-conveyor"){{`
+	# nor
+	# `surgeConveyor = new StackConveyor("surge-conveyor"){{`
+	# sets them; the defs set only
+	# `speed = 4f / 60f;`
+	# and
+	# `speed = 5f / 60f;`
+	# plus health / itemCapacity / outputRouter /
+	# baseEfficiency / power, Blocks.java:2084/2237).
+	# itemSize is
+	# `public static final float itemSize = 5f;`
+	# (Vars.java:115) and tilesize is
+	# `public static final int tilesize = 8;`
+	# (Vars.java:135 -- NEVER the game tile_size 32,
+	# the N2375 lesson). rotdeg() is
+	# `public float rotdeg(){`
+	# `return rotation * 90;`
+	# (BuildingComp.java:582-584). sliced is
+	# `default TextureRegion sliced(TextureRegion input, SliceMode mode){`
+	# `return mode == SliceMode.none ? input : mode == SliceMode.bottom ? botHalf(input) : topHalf(input);`
+	# (Autotiler.java:55-57, the interface
+	# StackConveyor implements). Interp.smooth is
+	# `Interp smooth = a -> a * a * (3 - 2 * a);`
+	# and Interp.linear is
+	# `Interp linear = a -> a;`
+	# (arc Interp.java:11/8, verified verbatim, not
+	# guessed). d4x / d4y are
+	# `public final static int[] d4x = {1, 0, -1, 0};`
+	# `public final static int[] d4y = {0, 1, 0, -1};`
+	# (arc Geometry.java:24-25) and Mathf.mod is
+	# `public static int mod(int x, int n){`
+	# `return ((x % n) + n) % n;`
+	# (arc Mathf.java:579-581), so GDScript posmod is
+	# the exact match. StackConveyor has NO icons()
+	# override (Block.java:976 is the default), so
+	# there is no icons() pure to register -- and a
+	# zero-arg pure cannot register (the SSOT schema
+	# validator requires non-empty input keys, the
+	# N2396 precedent); the region tokens ride this
+	# pure as symbolic strings. blendprox is a
+	# caller-supplied input: the N2239 advance never
+	# tracks it (onProximityUpdate, StackConveyor.
+	# java:217-261, is deferred) and the pure NEVER
+	# reads the frame. near_square is an Array of 4
+	# Variants indexed by absolute dir (0 right, 1 up,
+	# 2 left, 3 down, per Geometry.d4): null means no
+	# neighbour building at that dir, a bool is that
+	# neighbour's block.squareSprite -- the null-ness
+	# carries the `near != null` half of the Java
+	# gate; front_square is the same shape for front().
+	# power_status is -1 when power is null (the
+	# sentinel folds into the single `> 0f` check,
+	# since Java requires power != null AND status >
+	# 0f). The glow draws BEFORE the early return, so
+	# glow_call can be non-null while stack_call /
+	# item_call are null. The stack/item z lifts to
+	# Layer.blockAdditive + 0.01f when the glow region
+	# is found (:182-184) and stays at Layer.block -
+	# 0.1f otherwise. The interpolate t is 1 - cooldown
+	# UNCLAMPED like Java -- cooldown runs to recharge
+	# 2f, so the lerp extrapolates when cooldown > 1.
+	# Pure-only: the tick never calls draw -- draw is
+	# called by the renderer, and the renderer call
+	# site waits for a renderer slice.
+	var d4x: Array = [1, 0, -1, 0]
+	var d4y: Array = [0, 1, 0, -1]
+	var tile_size: float = 8.0
+	var rot_deg: float = float(rotation_value) * 90.0
+	var base_call: Dictionary = {
+		"call": "Draw.rect(regions[state], x, y, rotdeg());",
+		"region": "regions[" + str(state_value) + "]",
+		"x": x_value,
+		"y": y_value,
+		"rotation": rot_deg,
+	}
+	var edge_calls: Array = []
+	for i in range(4):
+		if (blendprox & (1 << i)) == 0:
+			edge_calls.append({
+				"call": "Draw.rect(edgeRegion, x, y, (rotation - i) * 90);",
+				"region": "edgeRegion",
+				"x": x_value,
+				"y": y_value,
+				"rotation": float(rotation_value - i) * 90.0,
+				"side": i,
+			})
+	var input_calls: Array = []
+	if state_value == SOURCE_STACK_CONVEYOR_STATE_LOAD:
+		for k in range(4):
+			var dir_value: int = posmod(rotation_value - k, 4)
+			var near_value: Variant = near_square[dir_value] if dir_value < near_square.size() else null
+			if (blendprox & (1 << k)) != 0 and k != 0 and near_value != null and not bool(near_value):
+				input_calls.append({
+					"call": "Draw.rect(sliced(regions[0], SliceMode.bottom), x + Geometry.d4x(dir) * tilesize*0.75f, y + Geometry.d4y(dir) * tilesize*0.75f, (float)(dir*90));",
+					"region": "sliced(regions[0], bottom)",
+					"x": x_value + float(d4x[dir_value]) * tile_size * 0.75,
+					"y": y_value + float(d4y[dir_value]) * tile_size * 0.75,
+					"rotation": float(dir_value * 90),
+					"side": k,
+					"dir": dir_value,
+				})
+	elif state_value == SOURCE_STACK_CONVEYOR_STATE_UNLOAD:
+		if (blendprox & 1) != 0 and front_square != null and not bool(front_square):
+			var front_dir: int = posmod(rotation_value, 4)
+			input_calls.append({
+				"call": "Draw.rect(sliced(regions[0], SliceMode.top), x + Geometry.d4x(rotation) * tilesize*0.75f, y + Geometry.d4y(rotation) * tilesize*0.75f, rotation * 90f);",
+				"region": "sliced(regions[0], top)",
+				"x": x_value + float(d4x[front_dir]) * tile_size * 0.75,
+				"y": y_value + float(d4y[front_dir]) * tile_size * 0.75,
+				"rotation": rot_deg,
+				"side": 0,
+				"dir": front_dir,
+			})
+	var cached_call: Dictionary = {"base": base_call, "edge_calls": edge_calls, "input_calls": input_calls}
+	var glow_call: Variant = null
+	if glow_found and power_status > 0.0:
+		glow_call = {
+			"call": "Draw.rect(state == stateLoad ? edgeGlowRegion : glowRegion, x, y, rotation * 90);",
+			"region": "edgeGlowRegion" if state_value == SOURCE_STACK_CONVEYOR_STATE_LOAD else "glowRegion",
+			"color": glow_color,
+			"alpha": glow_alpha * power_status,
+			"x": x_value,
+			"y": y_value,
+			"rotation": rot_deg,
+			"z": "Layer.blockAdditive",
+		}
+	var stack_call: Variant = null
+	var item_call: Variant = null
+	var stack_x: float = 0.0
+	var stack_y: float = 0.0
+	var stack_angle: float = 0.0
+	var item_size_value: float = 0.0
+	if link != -1 and from_world != null and last_item != null:
+		var from_dict: Dictionary = from_world
+		var from_rot: int = rotation_value if from_build_null else int(from_dict.get("rotation", rotation_value))
+		var t_value: float = 1.0 - cooldown
+		stack_x = lerpf(float(from_dict.get("x", x_value)), x_value, t_value)
+		stack_y = lerpf(float(from_dict.get("y", y_value)), y_value, t_value)
+		var from_mod: int = posmod(from_rot, 4)
+		var rot_mod: int = posmod(rotation_value, 4)
+		var a_value: float = float(from_mod) * 90.0
+		var b_value: float = float(rot_mod) * 90.0
+		if from_mod == 3 and rot_mod == 0:
+			a_value = -90.0
+		if from_mod == 0 and rot_mod == 3:
+			a_value = 360.0
+		var smooth_t: float = 1.0 - clampf(cooldown * 2.0, 0.0, 1.0)
+		var smooth_value: float = smooth_t * smooth_t * (3.0 - 2.0 * smooth_t)
+		stack_angle = lerpf(a_value, b_value, smooth_value)
+		var stack_z: String = "Layer.blockAdditive + 0.01f" if glow_found else "Layer.block - 0.1f"
+		stack_call = {
+			"call": "Draw.rect(stackRegion, Tmp.v1.x, Tmp.v1.y, Mathf.lerp(a, b, Interp.smooth.apply(1f - Mathf.clamp(cooldown * 2, 0f, 1f))));",
+			"region": "stackRegion",
+			"x": stack_x,
+			"y": stack_y,
+			"rotation": stack_angle,
+			"z": stack_z,
+		}
+		var fill_value: float = minf(float(items_total) / float(item_capacity), 1.0)
+		item_size_value = item_size * lerpf(fill_value, 1.0, 0.4)
+		item_call = {
+			"call": "Draw.rect(lastItem.fullIcon, Tmp.v1.x, Tmp.v1.y, size, size, 0);",
+			"icon": str((last_item as Dictionary).get("icon", "")),
+			"x": stack_x,
+			"y": stack_y,
+			"size": item_size_value,
+			"rotation": 0.0,
+			"z": stack_z,
+		}
+	return {
+		"cached_call": cached_call,
+		"glow_call": glow_call,
+		"stack_call": stack_call,
+		"item_call": item_call,
+		"stack_x": stack_x,
+		"stack_y": stack_y,
+		"stack_angle": stack_angle,
+		"item_size": item_size_value,
+	}
