@@ -56,8 +56,8 @@ func _ready() -> void:
 	# recorded as a CALL record (the N2449 CALL
 	# precedent); the UI itself is NOT ported.
 	# Pure-only: the tick never calls
-	# canProduce / config / buildConfiguration
-	# / setStats.
+	# canProduce / buildConfiguration / setStats
+	# (config is live since N2462).
 	var tungsten_wall_large: Dictionary = {"name": "tungsten-wall-large", "is_visible": true, "size": 2, "is_core_block": false, "is_banned": false, "environment_buildable": true}
 	var hidden_block: Dictionary = {"name": "tungsten-wall-large", "is_visible": false, "size": 2, "is_core_block": false, "is_banned": false, "environment_buildable": true}
 	var core_block: Dictionary = {"name": "core-shard", "is_visible": true, "size": 2, "is_core_block": true, "is_banned": false, "environment_buildable": true}

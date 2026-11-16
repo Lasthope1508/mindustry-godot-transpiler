@@ -158,8 +158,9 @@ class C07ConstructorConfigFilterRowsTests(unittest.TestCase):
         # large-constructor (empty filter, min 3
         # / max 4, buildSpeed 0.75f,
         # Blocks.java:6675-6677). Pure-only: the
-        # tick never calls canProduce / config /
-        # buildConfiguration / setStats. Keep
+        # tick never calls canProduce /
+        # buildConfiguration / setStats (config
+        # is live since N2462). Keep
         # each Java expr on ONE comment line (the
         # N2148 lesson: a split line fails this
         # test).
