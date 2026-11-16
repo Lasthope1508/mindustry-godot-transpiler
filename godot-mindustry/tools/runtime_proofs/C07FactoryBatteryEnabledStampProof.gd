@@ -55,9 +55,9 @@ func _make_game(battery_ids: Array, cheating: bool) -> Dictionary:
 	# frame carries a pending one-shot launch_drain_request of
 	# 500.0 (the N2354 shape).
 	var blocks := {
-		"battery": {"id": "battery", "has_power": true, "outputs_power": true, "consumes_power": true, "power_buffered": true, "power_usage": 0.0, "power_capacity": 1000.0, "enabled": true},
-		"battery-disabled": {"id": "battery-disabled", "has_power": true, "outputs_power": true, "consumes_power": true, "power_buffered": true, "power_usage": 0.0, "power_capacity": 1000.0, "enabled": false},
-		"accelerator": {"id": "accelerator", "has_power": true, "outputs_power": false, "consumes_power": true, "power_buffered": false, "power_usage": 0.0, "power_capacity": 0.0, "enabled": true},
+		"battery": {"id": "battery", "hasPower": true, "outputsPower": true, "consumesPower": true, "powerBuffered": true, "powerUsage": 0.0, "powerCapacity": 1000.0, "enabled": true},
+		"battery-disabled": {"id": "battery-disabled", "hasPower": true, "outputsPower": true, "consumesPower": true, "powerBuffered": true, "powerUsage": 0.0, "powerCapacity": 1000.0, "enabled": false},
+		"accelerator": {"id": "accelerator", "hasPower": true, "outputsPower": false, "consumesPower": true, "powerBuffered": false, "powerUsage": 0.0, "powerCapacity": 0.0, "enabled": true},
 	}
 	var game := FakePowerGame.new()
 	game.content_catalog = FakeContentCatalog.new(blocks)
