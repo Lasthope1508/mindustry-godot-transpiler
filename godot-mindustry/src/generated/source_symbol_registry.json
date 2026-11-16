@@ -188344,6 +188344,438 @@
         "test_reference_graph_and_actual_c07_mass_driver_link_config_rows"
       ],
       "runtime_proof": "/root/C07MassDriverLinkConfigRowsProof"
+    },
+    "source_liquid_bridge_link_valid_state_result.link_valid": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidBridgeBuildState.source_liquid_bridge_link_valid_state",
+      "godot_symbol": "source_liquid_bridge_link_valid_state_result.link_valid",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "java_method": "LiquidBridgeBuild.linkValid()",
+      "java_expr": "return ((other.block() == tile.block() && tile.block() == this) || (!(tile.block() instanceof ItemBridge) && other.block() == this))",
+      "rule": "The linkValid() verdict (ItemBridge.java:145-155): false when the tile or the other tile is missing or the positions are invalid, else the AND of the block clause, the team clause and the checkDouble gate, mirroring the 3-arg Java exactly.",
+      "tests": [
+        "test_c07_liquid_bridge_link_rows_registration",
+        "test_all_c07_liquid_bridge_link_rows_input_evidence_is_exact",
+        "test_liquid_bridge_link_rows_state",
+        "test_reference_graph_and_actual_c07_liquid_bridge_link_rows"
+      ],
+      "runtime_proof": "/root/C07LiquidBridgeLinkRowsProof"
+    },
+    "source_liquid_bridge_find_link_state_result.found_tile": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidBridgeBuildState.source_liquid_bridge_find_link_state",
+      "godot_symbol": "source_liquid_bridge_find_link_state_result.found_tile",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "java_method": "LiquidBridgeBuild.findLink()",
+      "java_expr": "return lastBuild.tile;",
+      "rule": "The found link tile (ItemBridge.java:167-173): lastBuild.tile iff tile != null && lastBuild != null && link_valid && lastBuild.tile != tile && lastBuild.link == -1, else null. A Dictionary {x, y} or null.",
+      "tests": [
+        "test_c07_liquid_bridge_link_rows_registration",
+        "test_all_c07_liquid_bridge_link_rows_input_evidence_is_exact",
+        "test_liquid_bridge_link_rows_state",
+        "test_reference_graph_and_actual_c07_liquid_bridge_link_rows"
+      ],
+      "runtime_proof": "/root/C07LiquidBridgeLinkRowsProof"
+    },
+    "source_liquid_bridge_config_state_result.link": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidBridgeBuildState.source_liquid_bridge_config_state",
+      "godot_symbol": "source_liquid_bridge_config_state_result.link",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "java_method": "LiquidBridgeBuild.config()",
+      "java_expr": "config(Point2.class, (ItemBridgeBuild tile, Point2 i) -> tile.link = Point2.pack(i.x + tile.tileX(), i.y + tile.tileY()));",
+      "rule": "The post-action link (ItemBridge.java:64/66): pack(point + tile) for \"point2\", point for \"integer\", -1 for \"clear\", current_link for \"none\" (and for a \"point2\" with a null tile, and for an unknown action). The pack runs through the shared _point2_pack helper (the (short) wrap explicit -- GDScript ints are 64-bit).",
+      "tests": [
+        "test_c07_liquid_bridge_link_rows_registration",
+        "test_all_c07_liquid_bridge_link_rows_input_evidence_is_exact",
+        "test_liquid_bridge_link_rows_state",
+        "test_reference_graph_and_actual_c07_liquid_bridge_link_rows"
+      ],
+      "runtime_proof": "/root/C07LiquidBridgeLinkRowsProof"
+    },
+    "source_liquid_bridge_config_state_result.config_value": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidBridgeBuildState.source_liquid_bridge_config_state",
+      "godot_symbol": "source_liquid_bridge_config_state_result.config_value",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "java_method": "LiquidBridgeBuild.config()",
+      "java_expr": "return Point2.unpack(link).sub(tile.x, tile.y);",
+      "rule": "The config() value (ItemBridge.java:500-501): the relative Point2 {x, y} = unpack(link) - tile, null when tile is null (the documented fallback -- config() has no null check, so Java would NPE). unpack(-1) is Point2(-1, -1) (arc Point2.java:35-37), so a cleared link reads (-1 - tx, -1 - ty), Java-exact.",
+      "tests": [
+        "test_c07_liquid_bridge_link_rows_registration",
+        "test_all_c07_liquid_bridge_link_rows_input_evidence_is_exact",
+        "test_liquid_bridge_link_rows_state",
+        "test_reference_graph_and_actual_c07_liquid_bridge_link_rows"
+      ],
+      "runtime_proof": "/root/C07LiquidBridgeLinkRowsProof"
+    },
+    "source_payload_deconstructor_bar_state_result.label": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_bar_state",
+      "godot_symbol": "source_payload_deconstructor_bar_state_result.label",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "java_method": "PayloadDeconstructor.setBars()",
+      "java_expr": "addBar(\"progress\", (PayloadDeconstructorBuild e) -> new Bar(\"bar.progress\", Pal.ammo, () -> e.progress));",
+      "rule": "The bar label (PayloadDeconstructor.java:48): the bundle KEY \"bar.progress\" itself -- the 3-arg Bar constructor takes the key directly (`public Bar(String name, Color color, Floatp fraction){`, Bar.java:23-29) and resolves it at render via `this.name = Core.bundle.get(name, name);` (Bar.java:25), so there is NO Core.bundle.format Dict form here (the N2450 Dict form applies only when Java calls Core.bundle.format with args, which this bar does not). The bundle value is \"Build Progress\" (`bar.progress = Build Progress`, bundle.properties:1299) -- the pure carries the KEY, not the rendered value.",
+      "tests": [
+        "test_c07_payload_deconstructor_bar_rows_registration",
+        "test_all_c07_payload_deconstructor_bar_rows_input_evidence_is_exact",
+        "test_payload_deconstructor_bar_rows_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_bar_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorBarRowsProof"
+    },
+    "source_payload_deconstructor_bar_state_result.color": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_bar_state",
+      "godot_symbol": "source_payload_deconstructor_bar_state_result.color",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "java_method": "PayloadDeconstructor.setBars()",
+      "java_expr": "addBar(\"progress\", (PayloadDeconstructorBuild e) -> new Bar(\"bar.progress\", Pal.ammo, () -> e.progress));",
+      "rule": "The bar color token (PayloadDeconstructor.java:48): \"Pal.ammo\" (`ammo = Color.valueOf(\"ff8947\"),`, Pal.java:64), carried as a symbolic token, never resolved to RGB (the N2373 color-token precedent).",
+      "tests": [
+        "test_c07_payload_deconstructor_bar_rows_registration",
+        "test_all_c07_payload_deconstructor_bar_rows_input_evidence_is_exact",
+        "test_payload_deconstructor_bar_rows_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_bar_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorBarRowsProof"
+    },
+    "source_payload_deconstructor_bar_state_result.fraction": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_bar_state",
+      "godot_symbol": "source_payload_deconstructor_bar_state_result.fraction",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "java_method": "PayloadDeconstructor.setBars()",
+      "java_expr": "addBar(\"progress\", (PayloadDeconstructorBuild e) -> new Bar(\"bar.progress\", Pal.ammo, () -> e.progress));",
+      "rule": "The bar fraction (PayloadDeconstructor.java:48): the build progress RAW -- Java does NOT clamp it in the lambda, the 3-arg Bar constructor stores it raw (`lastValue = value = fraction.get();`, Bar.java:27) and the Bar itself clamps at render (`float computed = Mathf.clamp(fraction.get());`, Bar.java:80; clamp to [0, 1] is `return Math.max(Math.min(value, 1f), 0f);`, arc Mathf.java:402-404) -- so a value above 1.0 reports raw here and the Bar draws it full (the N2422 lesson).",
+      "tests": [
+        "test_c07_payload_deconstructor_bar_rows_registration",
+        "test_all_c07_payload_deconstructor_bar_rows_input_evidence_is_exact",
+        "test_payload_deconstructor_bar_rows_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_bar_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorBarRowsProof"
+    },
+    "source_wall_crafter_bar_state_result.label": {
+      "status": "source-backed",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_bar_state",
+      "godot_symbol": "source_wall_crafter_bar_state_result.label",
+      "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+      "java_method": "WallCrafter.setBars()",
+      "java_expr": "new Bar(() -> Core.bundle.format(\"bar.drillspeed\", Strings.fixed(e.lastEfficiency * 60 / drillTime, 2)), () -> Pal.ammo, () -> e.warmup));",
+      "rule": "The bar label (WallCrafter.java:72): {key, amount} -- the bundle key \"bar.drillspeed\" (`bar.drillspeed = Drill Speed: {0}/s`, bundle.properties:1279) plus the Strings.fixed 2-place amount. Strings.fixed TRUNCATES (`dec.append((int)(float)(d * Math.pow(10, decimalPlaces) + 0.0001f));`, arc Strings.java:737), it does NOT round (the N2426 lesson): lastEfficiency 2.0 at drillTime 110 formats \"1.09\", and the 1.099 truncation probe formats \"1.09\" where rounding would give \"1.10\". Core.bundle.format composes the rendered string at render (the N2450 precedent) -- the pure does not build it.",
+      "tests": [
+        "test_c07_wall_crafter_bar_rows_registration",
+        "test_all_c07_wall_crafter_bar_rows_input_evidence_is_exact",
+        "test_wall_crafter_bar_rows_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_bar_rows"
+      ],
+      "runtime_proof": "/root/C07WallCrafterBarRowsProof"
+    },
+    "source_wall_crafter_bar_state_result.color": {
+      "status": "source-backed",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_bar_state",
+      "godot_symbol": "source_wall_crafter_bar_state_result.color",
+      "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+      "java_method": "WallCrafter.setBars()",
+      "java_expr": "() -> Pal.ammo,",
+      "rule": "The bar color token (WallCrafter.java:72): \"Pal.ammo\" (`ammo = Color.valueOf(\"ff8947\"),`, Pal.java:64), carried as a symbolic token, never resolved to RGB (the N2373 color-token precedent).",
+      "tests": [
+        "test_c07_wall_crafter_bar_rows_registration",
+        "test_all_c07_wall_crafter_bar_rows_input_evidence_is_exact",
+        "test_wall_crafter_bar_rows_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_bar_rows"
+      ],
+      "runtime_proof": "/root/C07WallCrafterBarRowsProof"
+    },
+    "source_wall_crafter_bar_state_result.fraction": {
+      "status": "source-backed",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_bar_state",
+      "godot_symbol": "source_wall_crafter_bar_state_result.fraction",
+      "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+      "java_method": "WallCrafter.setBars()",
+      "java_expr": "() -> e.warmup));",
+      "rule": "The bar fraction (WallCrafter.java:72): the warmup RAW -- Java does NOT clamp it in the lambda, the Bar itself clamps at render (`lastValue = value = Mathf.clamp(fraction.get());`, Bar.java:33; `float computed = Mathf.clamp(fraction.get());`, Bar.java:80; clamp to [0, 1] is `return Math.max(Math.min(value, 1f), 0f);`, arc Mathf.java:402-404) -- so a value above 1.0 reports raw here and the Bar draws it full (the N2422 lesson).",
+      "tests": [
+        "test_c07_wall_crafter_bar_rows_registration",
+        "test_all_c07_wall_crafter_bar_rows_input_evidence_is_exact",
+        "test_wall_crafter_bar_rows_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_bar_rows"
+      ],
+      "runtime_proof": "/root/C07WallCrafterBarRowsProof"
+    },
+    "source_launch_pad_display_state_result.destination_label": {
+      "status": "source-backed",
+      "godot_owner": "SourceLaunchPadBuildState.source_launch_pad_display_state",
+      "godot_symbol": "source_launch_pad_display_state_result.destination_label",
+      "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+      "java_method": "LaunchPadBuild.display()",
+      "java_expr": "return Core.bundle.format(\"launch.destination\",",
+      "rule": "The destination label (LaunchPad.java:173-175): {key: \"launch.destination\", value: \"sectors.nonelaunch\" | \"[accent]\" + name} when the gate passes (campaign && !client && player team), null otherwise. A Dict because Java calls Core.bundle.format with an argument (the N2450 precedent -- the UI composes the rendered string); the \"sectors.nonelaunch\" value is the BUNDLE TOKEN (`sectors.nonelaunch = [lightgray]none (sun)`, bundle.properties:921), not the localized text, and the key is \"launch.destination\" (`launch.destination = Destination: {0}`, bundle.properties:875). The value is the token when the destination is null or has no base (`dest == null || !dest.hasBase() ? Core.bundle.get(\"sectors.nonelaunch\") :`, :174), else \"[accent]\" + dest.name() (:175).",
+      "tests": [
+        "test_c07_launch_pad_config_display_rows_registration",
+        "test_all_c07_launch_pad_config_display_rows_input_evidence_is_exact",
+        "test_launch_pad_config_display_rows_state",
+        "test_reference_graph_and_actual_c07_launch_pad_config_display_rows"
+      ],
+      "runtime_proof": "/root/C07LaunchPadConfigDisplayRowsProof"
+    },
+    "source_launch_pad_config_state_result.show_configure": {
+      "status": "source-backed",
+      "godot_owner": "SourceLaunchPadBuildState.source_launch_pad_config_state",
+      "godot_symbol": "source_launch_pad_config_state_result.show_configure",
+      "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+      "java_method": "LaunchPadBuild.buildConfiguration()",
+      "java_expr": "return state.isCampaign();",
+      "rule": "shouldShowConfigure (LaunchPad.java:180-182): campaign only, folded into this pure as a result key (the Player param is ignored by Java). True exactly when is_campaign is true.",
+      "tests": [
+        "test_c07_launch_pad_config_display_rows_registration",
+        "test_all_c07_launch_pad_config_display_rows_input_evidence_is_exact",
+        "test_launch_pad_config_display_rows_state",
+        "test_reference_graph_and_actual_c07_launch_pad_config_display_rows"
+      ],
+      "runtime_proof": "/root/C07LaunchPadConfigDisplayRowsProof"
+    },
+    "source_launch_pad_config_state_result.button_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceLaunchPadBuildState.source_launch_pad_config_state",
+      "godot_symbol": "source_launch_pad_config_state_result.button_call",
+      "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+      "java_method": "LaunchPadBuild.buildConfiguration()",
+      "java_expr": "table.button(Icon.upOpen, Styles.cleari, () -> {",
+      "rule": "The configure button CALL record (LaunchPad.java:191-192, `}).size(40f);`, :202): {icon: \"Icon.upOpen\", style: \"Styles.cleari\", size: 40.0} when campaign && !client, null otherwise (the N2443 picker precedent -- the UI is NOT ported). Icon.upOpen is LaunchPad.java:191 (used across the UI); Styles.cleari is Styles.java:89/337. The click-time deselect (:201) is part of this record, not a separate key.",
+      "tests": [
+        "test_c07_launch_pad_config_display_rows_registration",
+        "test_all_c07_launch_pad_config_display_rows_input_evidence_is_exact",
+        "test_launch_pad_config_display_rows_state",
+        "test_reference_graph_and_actual_c07_launch_pad_config_display_rows"
+      ],
+      "runtime_proof": "/root/C07LaunchPadConfigDisplayRowsProof"
+    },
+    "source_launch_pad_config_state_result.deselect_called": {
+      "status": "source-backed",
+      "godot_owner": "SourceLaunchPadBuildState.source_launch_pad_config_state",
+      "godot_symbol": "source_launch_pad_config_state_result.deselect_called",
+      "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+      "java_method": "LaunchPadBuild.buildConfiguration()",
+      "java_expr": "deselect();",
+      "rule": "The early-return deselect (LaunchPad.java:187): true exactly when the buildConfiguration gate FAILS (!campaign || client). The click-time deselect (:201) is part of the button_call record, not this key.",
+      "tests": [
+        "test_c07_launch_pad_config_display_rows_registration",
+        "test_all_c07_launch_pad_config_display_rows_input_evidence_is_exact",
+        "test_launch_pad_config_display_rows_state",
+        "test_reference_graph_and_actual_c07_launch_pad_config_display_rows"
+      ],
+      "runtime_proof": "/root/C07LaunchPadConfigDisplayRowsProof"
+    },
+    "source_launch_pad_config_state_result.destination_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceLaunchPadBuildState.source_launch_pad_config_state",
+      "godot_symbol": "source_launch_pad_config_state_result.destination_after",
+      "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+      "java_method": "LaunchPadBuild.buildConfiguration()",
+      "java_expr": "state.rules.sector.info.destination = other;",
+      "rule": "The destination after the select callback (LaunchPad.java:195): the selected sector iff campaign && the selected planet == the current planet (:193), else prev_destination. A null selection or a null current sector applies nothing.",
+      "tests": [
+        "test_c07_launch_pad_config_display_rows_registration",
+        "test_all_c07_launch_pad_config_display_rows_input_evidence_is_exact",
+        "test_launch_pad_config_display_rows_state",
+        "test_reference_graph_and_actual_c07_launch_pad_config_display_rows"
+      ],
+      "runtime_proof": "/root/C07LaunchPadConfigDisplayRowsProof"
+    },
+    "source_launch_pad_config_state_result.refresh_import_rates_called": {
+      "status": "source-backed",
+      "godot_owner": "SourceLaunchPadBuildState.source_launch_pad_config_state",
+      "godot_symbol": "source_launch_pad_config_state_result.refresh_import_rates_called",
+      "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+      "java_method": "LaunchPadBuild.buildConfiguration()",
+      "java_expr": "prev.info.refreshImportRates(state.getPlanet());",
+      "rule": "The import-rates refresh (LaunchPad.java:196-197): true exactly when prev != null AND the callback applied. Java's only condition inside the callback is `if(prev != null){` (:196) -- a same-sector re-selection still refreshes (the assignment runs, prev != null), so \"destination changed\" means the callback applied, not value-inequality.",
+      "tests": [
+        "test_c07_launch_pad_config_display_rows_registration",
+        "test_all_c07_launch_pad_config_display_rows_input_evidence_is_exact",
+        "test_launch_pad_config_display_rows_state",
+        "test_reference_graph_and_actual_c07_launch_pad_config_display_rows"
+      ],
+      "runtime_proof": "/root/C07LaunchPadConfigDisplayRowsProof"
+    },
+    "source_item_bridge_check_accept_state_result.accepts": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemBridgeBuildState.source_item_bridge_check_accept_state",
+      "godot_symbol": "source_item_bridge_check_accept_state_result.accepts",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "java_method": "ItemBridgeBuild.checkAccept()",
+      "java_expr": "return rel != rel2;",
+      "rule": "The checkAccept verdict (ItemBridge.java:441-462): true when tile_null or is_linked, else (rel != rel2) when link_valid, else false. The commented-out incoming loop (:450-456) grants no exemption -- it is commented out in Java, a kept-for-compat bug (issue #9257).",
+      "tests": [
+        "test_c07_item_bridge_check_accept_rows_registration",
+        "test_all_c07_item_bridge_check_accept_rows_input_evidence_is_exact",
+        "test_item_bridge_check_accept_rows_state",
+        "test_reference_graph_and_actual_c07_item_bridge_check_accept_rows"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeCheckAcceptRowsProof"
+    },
+    "source_payload_mass_driver_receive_effects_state_result.receive_effect_call": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_receive_effects_state",
+      "godot_symbol": "source_payload_mass_driver_receive_effects_state_result.receive_effect_call",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "java_expr": "receiveEffect.at(x - cx/2f, y - cy/2f, turretRotation);",
+      "rule": "The receive effect call (PayloadMassDriver.java:178): {effect: \"Fx.payloadReceive\", x: x - cx/2f, y: y - cy/2f, rotation: turretRotation} when the gate fires, null otherwise (the N2397 null-when-absent precedent). Fx.payloadReceive is `payloadReceive = new Effect(30, e -> {` (Fx.java:2677); cx/cy come from the OTHER driver rotation (:177) through the shared source_angles_trns_vec (the N2246 precedent). The 30-tick renderer body is the callee presentation -- the pure records the CALL (the N2396 precedent).",
+      "tests": [
+        "test_c07_payload_mass_driver_effects_rows_registration",
+        "test_all_c07_payload_mass_driver_effects_rows_input_evidence_is_exact",
+        "test_payload_mass_driver_effects_rows_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_effects_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverEffectsRowsProof"
+    },
+    "source_payload_mass_driver_receive_effects_state_result.receive_sound_call": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_receive_effects_state",
+      "godot_symbol": "source_payload_mass_driver_receive_effects_state_result.receive_sound_call",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "java_expr": "receiveSound.at(x, y, 1f + Mathf.range(0.2f), shootSoundVolume);",
+      "rule": "The receive sound call (PayloadMassDriver.java:181): {sound: \"massdriverReceive\", x, y, pitch: 1.0 + pitch_roll, volume: 0.7} when the gate fires, null otherwise (the N2397 null-when-absent precedent). The sound is Sounds.massdriverReceive (`public Sound receiveSound = Sounds.massdriverReceive;`, PayloadMassDriver.java:36; asset core/assets/sounds/block/massdriverReceive.ogg; Sounds is build-generated mindustry.gen.Sounds). The volume is shootSoundVolume 0.7f (:37). The pitch roll is caller-supplied (see pitch_roll) -- the pure never rolls.",
+      "tests": [
+        "test_c07_payload_mass_driver_effects_rows_registration",
+        "test_all_c07_payload_mass_driver_effects_rows_input_evidence_is_exact",
+        "test_payload_mass_driver_effects_rows_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_effects_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverEffectsRowsProof"
+    },
+    "source_payload_mass_driver_receive_effects_state_result.shake_call": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_receive_effects_state",
+      "godot_symbol": "source_payload_mass_driver_receive_effects_state_result.shake_call",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "java_expr": "Effect.shake(shake, shake, this);",
+      "rule": "The receive shake call (PayloadMassDriver.java:180): {intensity: 3.0, duration: 3.0} when the gate fires, null otherwise (the N2397 null-when-absent precedent). The Position overload (`public static void shake(float intensity, float duration, Position loc){`, Effect.java:210-212) delegates to shake(intensity, duration, x, y) (Effect.java:201), so the first arg is the intensity and the second the duration, both the shake field 3f (PayloadMassDriver.java:38). The camera-distance falloff inside (Effect.java:204-207) is the callee behavior -- the pure records the CALL params.",
+      "tests": [
+        "test_c07_payload_mass_driver_effects_rows_registration",
+        "test_all_c07_payload_mass_driver_effects_rows_input_evidence_is_exact",
+        "test_payload_mass_driver_effects_rows_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_effects_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverEffectsRowsProof"
+    },
+    "source_payload_mass_driver_receive_effects_state_result.reload_counter_after": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_receive_effects_state",
+      "godot_symbol": "source_payload_mass_driver_receive_effects_state_result.reload_counter_after",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "java_expr": "reloadCounter = 1f;",
+      "rule": "The receive reload stamp (PayloadMassDriver.java:179): 1.0 when the gate fires, null otherwise. A STATE stamp, reported not wired -- the N2245 advance already stamps reloadCounter = 1f live on the same gate, and the reload decay (:191-192) runs after it in the same tick.",
+      "tests": [
+        "test_c07_payload_mass_driver_effects_rows_registration",
+        "test_all_c07_payload_mass_driver_effects_rows_input_evidence_is_exact",
+        "test_payload_mass_driver_effects_rows_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_effects_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverEffectsRowsProof"
+    },
+    "source_payload_mass_driver_shoot_effects_state_result.shoot_effect_call": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_shoot_effects_state",
+      "godot_symbol": "source_payload_mass_driver_shoot_effects_state_result.shoot_effect_call",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "java_expr": "shootEffect.at(x + cx, y + cy, turretRotation);",
+      "rule": "The shoot effect call (PayloadMassDriver.java:296): {effect: \"Fx.shootBig2\", x: x + cx, y: y + cy, rotation: turretRotation} when charge_fired, null otherwise (the N2397 null-when-absent precedent). Fx.shootBig2 is `shootBig2 = new Effect(10, e -> {` (Fx.java:1866); cx/cy come from the SELF rotation (:293) through the shared source_angles_trns_vec (the N2246 precedent). The 10-tick renderer body is the callee presentation -- the pure records the CALL (the N2396 precedent).",
+      "tests": [
+        "test_c07_payload_mass_driver_effects_rows_registration",
+        "test_all_c07_payload_mass_driver_effects_rows_input_evidence_is_exact",
+        "test_payload_mass_driver_effects_rows_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_effects_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverEffectsRowsProof"
+    },
+    "source_payload_mass_driver_shoot_effects_state_result.smoke_effect_call": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_shoot_effects_state",
+      "godot_symbol": "source_payload_mass_driver_shoot_effects_state_result.smoke_effect_call",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "java_expr": "smokeEffect.at(x, y, turretRotation);",
+      "rule": "The shoot smoke call (PayloadMassDriver.java:297): {effect: \"Fx.shootPayloadDriver\", x, y, rotation: turretRotation} when charge_fired, null otherwise (the N2397 null-when-absent precedent). Fx.shootPayloadDriver is `shootPayloadDriver = new Effect(30f, e -> {` (Fx.java:2189), fired at the self position (no cx/cy offset, unlike the shoot effect). The 30-tick renderer body is the callee presentation -- the pure records the CALL (the N2396 precedent).",
+      "tests": [
+        "test_c07_payload_mass_driver_effects_rows_registration",
+        "test_all_c07_payload_mass_driver_effects_rows_input_evidence_is_exact",
+        "test_payload_mass_driver_effects_rows_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_effects_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverEffectsRowsProof"
+    },
+    "source_payload_mass_driver_shoot_effects_state_result.transfer_effect_call": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_shoot_effects_state",
+      "godot_symbol": "source_payload_mass_driver_shoot_effects_state_result.transfer_effect_call",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "java_expr": "transferEffect.at(x + cx, y + cy, turretRotation, new PayloadMassDriverData(x + cx, y + cy, other.x - cx, other.y - cy, payload));",
+      "rule": "The transfer effect call (PayloadMassDriver.java:301): {effect: \"transferEffect\", x: x + cx, y: y + cy, rotation: turretRotation, data: {from: {x: x + cx, y: y + cy}, to: {x: other_x - cx, y: other_y - cy}, payload}} when charge_fired, null otherwise (the N2397 null-when-absent precedent). The data is the PayloadMassDriverData constructor (`public PayloadMassDriverData(float x, float y, float ox, float oy, Payload payload){`, PayloadMassDriver.java:514): from is (x, y), to is (ox, oy). The callee lerp geometry (the transferEffect body, :40-47) is NOT ported (the N2396 record-the-call precedent).",
+      "tests": [
+        "test_c07_payload_mass_driver_effects_rows_registration",
+        "test_all_c07_payload_mass_driver_effects_rows_input_evidence_is_exact",
+        "test_payload_mass_driver_effects_rows_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_effects_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverEffectsRowsProof"
+    },
+    "source_payload_mass_driver_shoot_effects_state_result.shoot_sound_call": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_shoot_effects_state",
+      "godot_symbol": "source_payload_mass_driver_shoot_effects_state_result.shoot_sound_call",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "java_expr": "shootSound.at(x, y, Mathf.random(0.9f, 1.1f), shootSoundVolume);",
+      "rule": "The shoot sound call (PayloadMassDriver.java:300): {sound: \"massdriver\", x, y, pitch: pitch_roll, volume: 0.7} when charge_fired, null otherwise (the N2397 null-when-absent precedent). The sound is Sounds.massdriver (`public Sound shootSound = Sounds.massdriver;`, PayloadMassDriver.java:35; asset core/assets/sounds/block/massdriver.ogg; Sounds is build-generated mindustry.gen.Sounds). The volume is shootSoundVolume 0.7f (:37). The pitch IS the caller-supplied roll (see pitch_roll) -- the pure never rolls.",
+      "tests": [
+        "test_c07_payload_mass_driver_effects_rows_registration",
+        "test_all_c07_payload_mass_driver_effects_rows_input_evidence_is_exact",
+        "test_payload_mass_driver_effects_rows_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_effects_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverEffectsRowsProof"
+    },
+    "source_payload_mass_driver_shoot_effects_state_result.shake_call": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_shoot_effects_state",
+      "godot_symbol": "source_payload_mass_driver_shoot_effects_state_result.shake_call",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "java_expr": "Effect.shake(shake, shake, this);",
+      "rule": "The shoot shake call (PayloadMassDriver.java:299): {intensity: 3.0, duration: 3.0} when charge_fired, null otherwise (the N2397 null-when-absent precedent). The Position overload (`public static void shake(float intensity, float duration, Position loc){`, Effect.java:210-212) delegates to shake(intensity, duration, x, y) (Effect.java:201), so the first arg is the intensity and the second the duration, both the shake field 3f (PayloadMassDriver.java:38). The camera-distance falloff inside (Effect.java:204-207) is the callee behavior -- the pure records the CALL params.",
+      "tests": [
+        "test_c07_payload_mass_driver_effects_rows_registration",
+        "test_all_c07_payload_mass_driver_effects_rows_input_evidence_is_exact",
+        "test_payload_mass_driver_effects_rows_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_effects_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverEffectsRowsProof"
+    },
+    "source_payload_mass_driver_shoot_effects_state_result.effect_delay_timer_after": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_shoot_effects_state",
+      "godot_symbol": "source_payload_mass_driver_shoot_effects_state_result.effect_delay_timer_after",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "java_expr": "other.effectDelayTimer = transferEffect.lifetime;",
+      "rule": "The partner effect-delay stamp (PayloadMassDriver.java:304): 11.0 (transferEffect.lifetime, the `new Effect(11f, 600f, ...)` at :40) when charge_fired, null otherwise. A STATE stamp, reported not wired -- the N2246 branches already stamp partner_effect_delay_timer = 11.0 live on the same fire.",
+      "tests": [
+        "test_c07_payload_mass_driver_effects_rows_registration",
+        "test_all_c07_payload_mass_driver_effects_rows_input_evidence_is_exact",
+        "test_payload_mass_driver_effects_rows_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_effects_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverEffectsRowsProof"
     }
   },
   "version": 1

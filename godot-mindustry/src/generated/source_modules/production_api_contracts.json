@@ -3640,6 +3640,44 @@
       "rule": "Source-backed SolidPump updateTile advance from SolidPump.java / Pump.java / BuildingComp.java / Blocks.java / Block.java.",
       "return_type": "Dictionary"
     },
+    "SourceWallCrafterBuildState.source_wall_crafter_bar_state": {
+      "canonical_contract": "source_api_contracts.SourceWallCrafterBuildState.source_wall_crafter_bar_state",
+      "status": "active",
+      "source_slice": "N2465",
+      "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+      "source_method": "WallCrafter.setBars()",
+      "params": [
+        {
+          "name": "last_efficiency",
+          "type": "float",
+          "schema": "source_wall_crafter_bar_state_input.last_efficiency"
+        },
+        {
+          "name": "drill_time",
+          "type": "float",
+          "schema": "source_wall_crafter_bar_state_input.drill_time"
+        },
+        {
+          "name": "warmup",
+          "type": "float",
+          "schema": "source_wall_crafter_bar_state_input.warmup"
+        }
+      ],
+      "return_keys": [
+        "label",
+        "color",
+        "fraction"
+      ],
+      "tests": [
+        "test_c07_wall_crafter_bar_rows_registration",
+        "test_all_c07_wall_crafter_bar_rows_input_evidence_is_exact",
+        "test_wall_crafter_bar_rows_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_bar_rows"
+      ],
+      "runtime_proof": "/root/C07WallCrafterBarRowsProof",
+      "rule": "Source-backed WallCrafter setBars drillspeed bar row from WallCrafter.java / Blocks.java / Pal.java / Bar.java / bundle.properties / arc Strings.java / arc Mathf.java.",
+      "return_type": "Dictionary"
+    },
     "SourceWallCrafterBuildState.source_wall_crafter_draw_state": {
       "canonical_contract": "source_api_contracts.SourceWallCrafterBuildState.source_wall_crafter_draw_state",
       "status": "active",

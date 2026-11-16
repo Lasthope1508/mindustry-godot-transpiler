@@ -8354,6 +8354,51 @@
       ],
       "runtime_proof": "/root/C07SolidPumpUpdateTileProof"
     },
+    "source_wall_crafter_bar_state_result.color": {
+      "canonical_symbol": "source_symbol_registry.source_wall_crafter_bar_state_result.color",
+      "status": "source-backed",
+      "java_expr": "() -> Pal.ammo,",
+      "godot_symbol": "source_wall_crafter_bar_state_result.color",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_bar_state",
+      "rule": "The bar color token (WallCrafter.java:72): \"Pal.ammo\" (`ammo = Color.valueOf(\"ff8947\"),`, Pal.java:64), carried as a symbolic token, never resolved to RGB (the N2373 color-token precedent).",
+      "tests": [
+        "test_c07_wall_crafter_bar_rows_registration",
+        "test_all_c07_wall_crafter_bar_rows_input_evidence_is_exact",
+        "test_wall_crafter_bar_rows_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_bar_rows"
+      ],
+      "runtime_proof": "/root/C07WallCrafterBarRowsProof"
+    },
+    "source_wall_crafter_bar_state_result.fraction": {
+      "canonical_symbol": "source_symbol_registry.source_wall_crafter_bar_state_result.fraction",
+      "status": "source-backed",
+      "java_expr": "() -> e.warmup));",
+      "godot_symbol": "source_wall_crafter_bar_state_result.fraction",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_bar_state",
+      "rule": "The bar fraction (WallCrafter.java:72): the warmup RAW -- Java does NOT clamp it in the lambda, the Bar itself clamps at render (`lastValue = value = Mathf.clamp(fraction.get());`, Bar.java:33; `float computed = Mathf.clamp(fraction.get());`, Bar.java:80; clamp to [0, 1] is `return Math.max(Math.min(value, 1f), 0f);`, arc Mathf.java:402-404) -- so a value above 1.0 reports raw here and the Bar draws it full (the N2422 lesson).",
+      "tests": [
+        "test_c07_wall_crafter_bar_rows_registration",
+        "test_all_c07_wall_crafter_bar_rows_input_evidence_is_exact",
+        "test_wall_crafter_bar_rows_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_bar_rows"
+      ],
+      "runtime_proof": "/root/C07WallCrafterBarRowsProof"
+    },
+    "source_wall_crafter_bar_state_result.label": {
+      "canonical_symbol": "source_symbol_registry.source_wall_crafter_bar_state_result.label",
+      "status": "source-backed",
+      "java_expr": "new Bar(() -> Core.bundle.format(\"bar.drillspeed\", Strings.fixed(e.lastEfficiency * 60 / drillTime, 2)), () -> Pal.ammo, () -> e.warmup));",
+      "godot_symbol": "source_wall_crafter_bar_state_result.label",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_bar_state",
+      "rule": "The bar label (WallCrafter.java:72): {key, amount} -- the bundle key \"bar.drillspeed\" (`bar.drillspeed = Drill Speed: {0}/s`, bundle.properties:1279) plus the Strings.fixed 2-place amount. Strings.fixed TRUNCATES (`dec.append((int)(float)(d * Math.pow(10, decimalPlaces) + 0.0001f));`, arc Strings.java:737), it does NOT round (the N2426 lesson): lastEfficiency 2.0 at drillTime 110 formats \"1.09\", and the 1.099 truncation probe formats \"1.09\" where rounding would give \"1.10\". Core.bundle.format composes the rendered string at render (the N2450 precedent) -- the pure does not build it.",
+      "tests": [
+        "test_c07_wall_crafter_bar_rows_registration",
+        "test_all_c07_wall_crafter_bar_rows_input_evidence_is_exact",
+        "test_wall_crafter_bar_rows_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_bar_rows"
+      ],
+      "runtime_proof": "/root/C07WallCrafterBarRowsProof"
+    },
     "source_wall_crafter_draw_state_result.base_call": {
       "canonical_symbol": "source_symbol_registry.source_wall_crafter_draw_state_result.base_call",
       "status": "source-backed",

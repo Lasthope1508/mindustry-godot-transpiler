@@ -259225,6 +259225,966 @@
       },
       "runtime_proof": "/root/C07MassDriverLinkConfigRowsProof",
       "rule": "Source-backed MassDriver link/config rows from MassDriver.java / Blocks.java / Tile.java / BuildingComp.java / Point2.java / Position.java."
+    },
+    "source_liquid_bridge_link_valid_state_input": {
+      "status": "active",
+      "owner": "SourceLiquidBridgeBuildState.source_liquid_bridge_link_valid_state",
+      "source_slice": "N2463",
+      "keys": {
+        "tile_exists": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "if(other == null || tile == null || !positionsValid(tile.x, tile.y, other.x, other.y)) return false;",
+          "rule": "The tile-null term of the guard (ItemBridge.java:150, `tile == null`): tile_exists false means the tile lookup found nothing, so the link is invalid before any other check. Caller-supplied (the N2435 precedent: all world lookups caller-supplied).",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_link_valid_state"
+          ]
+        },
+        "other_exists": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "if(other == null || tile == null || !positionsValid(tile.x, tile.y, other.x, other.y)) return false;",
+          "rule": "The other-null term of the guard (ItemBridge.java:150, `other == null`): a missing other tile is never valid. Caller-supplied.",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_link_valid_state"
+          ]
+        },
+        "positions_valid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "public boolean positionsValid(int x1, int y1, int x2, int y2){",
+          "rule": "The positionsValid verdict (ItemBridge.java:157-165): same x -> `return Math.abs(y1 - y2) <= range;`, same y -> `return Math.abs(x1 - x2) <= range;`, else false. Caller-supplied because range varies per def (bridge-conduit 4, phase-conduit 12, Blocks.java:2379/2388), so the pure takes the verdict, not the range.",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_link_valid_state"
+          ]
+        },
+        "blocks_match": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "return ((other.block() == tile.block() && tile.block() == this) || (!(tile.block() instanceof ItemBridge) && other.block() == this))",
+          "rule": "The same-block term of the block clause (ItemBridge.java:152, `other.block() == tile.block()`): the other tile must carry the same block def as this tile for the first disjunct. Caller-supplied.",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_link_valid_state"
+          ]
+        },
+        "tile_is_bridge": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "return ((other.block() == tile.block() && tile.block() == this) || (!(tile.block() instanceof ItemBridge) && other.block() == this))",
+          "rule": "Whether the tile IS this bridge def (ItemBridge.java:152, `tile.block() == this`): drives the first disjunct (with blocks_match) and the team clause escape (`tile.block() != this`, :153). Caller-supplied.",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_link_valid_state"
+          ]
+        },
+        "tile_is_item_bridge": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "return ((other.block() == tile.block() && tile.block() == this) || (!(tile.block() instanceof ItemBridge) && other.block() == this))",
+          "rule": "Whether the tile block is ANY ItemBridge (ItemBridge.java:152, `tile.block() instanceof ItemBridge`): the 10th param (deviation, Java wins -- the brief's 9 params cannot express the instanceof term). A phase-conveyor tile (an ItemBridge, not this def) against a bridge-conduit other is INVALID in Java, and the pure must say so too; rendering the term as !tile_is_bridge would read it valid. Reachable via linked() (:465, `linkValid(source.tile, tile)` across defs). Caller-supplied.",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_link_valid_state"
+          ]
+        },
+        "other_is_bridge": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "return ((other.block() == tile.block() && tile.block() == this) || (!(tile.block() instanceof ItemBridge) && other.block() == this))",
+          "rule": "Whether the other tile IS this bridge def (ItemBridge.java:152, `other.block() == this`): the second disjunct lets a NON-bridge tile link to a bridge of this def. Caller-supplied.",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_link_valid_state"
+          ]
+        },
+        "teams_match": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "&& (other.team() == tile.team() || tile.block() != this)",
+          "rule": "The same-team term (ItemBridge.java:153, `other.team() == tile.team()`): the other tile must be the same team unless the tile is not this def (the `tile.block() != this` escape, driven by tile_is_bridge). Caller-supplied.",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_link_valid_state"
+          ]
+        },
+        "check_double": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "&& (!checkDouble || ((ItemBridgeBuild)other.build).link != tile.pos());",
+          "rule": "The checkDouble gate (ItemBridge.java:154): true from the 2-arg form (:146, `return linkValid(tile, other, true);`) and the live tick (:333), false from checkIncoming (:310, `linkValid(tile, other, false)`). Caller-supplied.",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_link_valid_state"
+          ]
+        },
+        "other_link_equals_tile_pos": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "&& (!checkDouble || ((ItemBridgeBuild)other.build).link != tile.pos());",
+          "rule": "Whether the other build's link already points back at this tile (ItemBridge.java:154, `((ItemBridgeBuild)other.build).link != tile.pos()`): the double-link guard -- when check_double is true and this is true, the link is invalid. Caller-supplied (the other build's link vs this tile's packed pos).",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_link_valid_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LiquidBridgeLinkRowsProof",
+      "rule": "Source-backed LiquidBridge link/findLink/linkValid rows from ItemBridge.java / LiquidBridge.java / Blocks.java / Point2.java."
+    },
+    "source_liquid_bridge_link_valid_state_result": {
+      "status": "active",
+      "owner": "SourceLiquidBridgeBuildState.source_liquid_bridge_link_valid_state",
+      "source_slice": "N2463",
+      "keys": {
+        "link_valid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "return ((other.block() == tile.block() && tile.block() == this) || (!(tile.block() instanceof ItemBridge) && other.block() == this))",
+          "rule": "The linkValid() verdict (ItemBridge.java:145-155): false when the tile or the other tile is missing or the positions are invalid, else the AND of the block clause, the team clause and the checkDouble gate, mirroring the 3-arg Java exactly.",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_link_valid_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LiquidBridgeLinkRowsProof",
+      "rule": "Source-backed LiquidBridge link/findLink/linkValid rows from ItemBridge.java / LiquidBridge.java / Blocks.java / Point2.java."
+    },
+    "source_liquid_bridge_find_link_state_input": {
+      "status": "active",
+      "owner": "SourceLiquidBridgeBuildState.source_liquid_bridge_find_link_state",
+      "source_slice": "N2463",
+      "keys": {
+        "tile": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "Tile tile = world.tile(x, y);",
+          "rule": "The world.tile(x, y) result (ItemBridge.java:168): a Dictionary {x, y} or null (the N2461 Variant-null precedent -- the brief's tile_exists bool cannot express the tile identity Java's `lastBuild.tile != tile` needs, so the pure takes the tile dict instead; tile != null IS the tile-exists check). Caller-supplied.",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_find_link_state"
+          ]
+        },
+        "last_build": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "public @Nullable ItemBridgeBuild lastBuild;",
+          "rule": "The game lastBuild store for this def (ItemBridge.java:41-42, `public @Nullable ItemBridgeBuild lastBuild;` -- one per block def, never cleared on removal): null or a Dictionary {tile: {x, y}, link: int}. Caller-supplied (the N2199 precedent).",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_find_link_state"
+          ]
+        },
+        "link_valid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "if(tile != null && lastBuild != null && linkValid(tile, lastBuild.tile) && lastBuild.tile != tile && lastBuild.link == -1){",
+          "rule": "The caller-supplied linkValid(tile, lastBuild.tile) verdict (ItemBridge.java:169) -- the output of the link_valid pure for (tile, lastBuild.tile).",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_find_link_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LiquidBridgeLinkRowsProof",
+      "rule": "Source-backed LiquidBridge link/findLink/linkValid rows from ItemBridge.java / LiquidBridge.java / Blocks.java / Point2.java."
+    },
+    "source_liquid_bridge_find_link_state_result": {
+      "status": "active",
+      "owner": "SourceLiquidBridgeBuildState.source_liquid_bridge_find_link_state",
+      "source_slice": "N2463",
+      "keys": {
+        "found_tile": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "return lastBuild.tile;",
+          "rule": "The found link tile (ItemBridge.java:167-173): lastBuild.tile iff tile != null && lastBuild != null && link_valid && lastBuild.tile != tile && lastBuild.link == -1, else null. A Dictionary {x, y} or null.",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_find_link_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LiquidBridgeLinkRowsProof",
+      "rule": "Source-backed LiquidBridge link/findLink/linkValid rows from ItemBridge.java / LiquidBridge.java / Blocks.java / Point2.java."
+    },
+    "source_liquid_bridge_config_state_input": {
+      "status": "active",
+      "owner": "SourceLiquidBridgeBuildState.source_liquid_bridge_config_state",
+      "source_slice": "N2463",
+      "keys": {
+        "action": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "config(Point2.class, (ItemBridgeBuild tile, Point2 i) -> tile.link = Point2.pack(i.x + tile.tileX(), i.y + tile.tileY()));",
+          "rule": "The discriminated action (recorded in this rule, the N2449 precedent): \"point2\" applies the config(Point2) handler (ItemBridge.java:64, link = pack(point + tile)), \"integer\" applies config(Integer) (:66, link = point), \"clear\" is configure(-1) through the Integer handler (ItemBridge registers NO configClear -- the -1 is the fresh-build default :198 and the pickedUp reset :207), \"none\" leaves current_link untouched. An unknown action matches no handler and leaves the link untouched.",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_config_state"
+          ]
+        },
+        "point": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "config(Point2.class, (ItemBridgeBuild tile, Point2 i) -> tile.link = Point2.pack(i.x + tile.tileX(), i.y + tile.tileY()));",
+          "rule": "The config value: a Dictionary {x, y} (the RELATIVE point2) for \"point2\", an int (the absolute packed int) for \"integer\". Ignored for \"clear\" and \"none\".",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_config_state"
+          ]
+        },
+        "tile": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "return Point2.unpack(link).sub(tile.x, tile.y);",
+          "rule": "The building tile (ItemBridge.java:501, config() dereferences tile): a Dictionary {x, y} or null (the N2449 Variant-null precedent). config_value is null whenever tile is null -- a documented fallback: ItemBridge.config() has NO null check (unlike MassDriver.config(), MassDriver.java:353), so a null tile would NPE in Java; the pure returns null rather than inventing a value. A \"point2\" action with a null tile leaves the link untouched (the handler dereferences tile.tileX()).",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_config_state"
+          ]
+        },
+        "current_link": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "public int link = -1;",
+          "rule": "The link before the action (ItemBridge.java:198, `public int link = -1;`): the value the \"none\" action returns unchanged, and the fallback for a \"point2\" action with a null tile.",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_config_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LiquidBridgeLinkRowsProof",
+      "rule": "Source-backed LiquidBridge link/findLink/linkValid rows from ItemBridge.java / LiquidBridge.java / Blocks.java / Point2.java."
+    },
+    "source_liquid_bridge_config_state_result": {
+      "status": "active",
+      "owner": "SourceLiquidBridgeBuildState.source_liquid_bridge_config_state",
+      "source_slice": "N2463",
+      "keys": {
+        "link": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "config(Point2.class, (ItemBridgeBuild tile, Point2 i) -> tile.link = Point2.pack(i.x + tile.tileX(), i.y + tile.tileY()));",
+          "rule": "The post-action link (ItemBridge.java:64/66): pack(point + tile) for \"point2\", point for \"integer\", -1 for \"clear\", current_link for \"none\" (and for a \"point2\" with a null tile, and for an unknown action). The pack runs through the shared _point2_pack helper (the (short) wrap explicit -- GDScript ints are 64-bit).",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_config_state"
+          ]
+        },
+        "config_value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "return Point2.unpack(link).sub(tile.x, tile.y);",
+          "rule": "The config() value (ItemBridge.java:500-501): the relative Point2 {x, y} = unpack(link) - tile, null when tile is null (the documented fallback -- config() has no null check, so Java would NPE). unpack(-1) is Point2(-1, -1) (arc Point2.java:35-37), so a cleared link reads (-1 - tx, -1 - ty), Java-exact.",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_config_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LiquidBridgeLinkRowsProof",
+      "rule": "Source-backed LiquidBridge link/findLink/linkValid rows from ItemBridge.java / LiquidBridge.java / Blocks.java / Point2.java."
+    },
+    "source_payload_deconstructor_bar_state_input": {
+      "status": "active",
+      "owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_bar_state",
+      "source_slice": "N2464",
+      "keys": {
+        "progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "addBar(\"progress\", (PayloadDeconstructorBuild e) -> new Bar(\"bar.progress\", Pal.ammo, () -> e.progress));",
+          "rule": "The build progress (PayloadDeconstructor.java:48, the bar fraction): the frame value the N2233 advance tracks (`public float progress;`, PayloadDeconstructor.java:54 -- `progress += shift;` with `float shift = edelta() * deconstructSpeed / deconstructing.buildTime();`, :142), frame[\"progress\"]. Progress can pass 1f (the advance adds shift, NOT realShift), and the pure returns it RAW -- the Bar clamps at render (Bar.java:80).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_bar_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadDeconstructorBarRowsProof",
+      "rule": "Source-backed PayloadDeconstructor setBars row from PayloadDeconstructor.java / Bar.java / Pal.java / bundle.properties / arc Mathf.java."
+    },
+    "source_payload_deconstructor_bar_state_result": {
+      "status": "active",
+      "owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_bar_state",
+      "source_slice": "N2464",
+      "keys": {
+        "label": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "addBar(\"progress\", (PayloadDeconstructorBuild e) -> new Bar(\"bar.progress\", Pal.ammo, () -> e.progress));",
+          "rule": "The bar label (PayloadDeconstructor.java:48): the bundle KEY \"bar.progress\" itself -- the 3-arg Bar constructor takes the key directly (`public Bar(String name, Color color, Floatp fraction){`, Bar.java:23-29) and resolves it at render via `this.name = Core.bundle.get(name, name);` (Bar.java:25), so there is NO Core.bundle.format Dict form here (the N2450 Dict form applies only when Java calls Core.bundle.format with args, which this bar does not). The bundle value is \"Build Progress\" (`bar.progress = Build Progress`, bundle.properties:1299) -- the pure carries the KEY, not the rendered value.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_bar_state"
+          ]
+        },
+        "color": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "addBar(\"progress\", (PayloadDeconstructorBuild e) -> new Bar(\"bar.progress\", Pal.ammo, () -> e.progress));",
+          "rule": "The bar color token (PayloadDeconstructor.java:48): \"Pal.ammo\" (`ammo = Color.valueOf(\"ff8947\"),`, Pal.java:64), carried as a symbolic token, never resolved to RGB (the N2373 color-token precedent).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_bar_state"
+          ]
+        },
+        "fraction": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "addBar(\"progress\", (PayloadDeconstructorBuild e) -> new Bar(\"bar.progress\", Pal.ammo, () -> e.progress));",
+          "rule": "The bar fraction (PayloadDeconstructor.java:48): the build progress RAW -- Java does NOT clamp it in the lambda, the 3-arg Bar constructor stores it raw (`lastValue = value = fraction.get();`, Bar.java:27) and the Bar itself clamps at render (`float computed = Mathf.clamp(fraction.get());`, Bar.java:80; clamp to [0, 1] is `return Math.max(Math.min(value, 1f), 0f);`, arc Mathf.java:402-404) -- so a value above 1.0 reports raw here and the Bar draws it full (the N2422 lesson).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_bar_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadDeconstructorBarRowsProof",
+      "rule": "Source-backed PayloadDeconstructor setBars row from PayloadDeconstructor.java / Bar.java / Pal.java / bundle.properties / arc Mathf.java."
+    },
+    "source_wall_crafter_bar_state_input": {
+      "status": "active",
+      "owner": "SourceWallCrafterBuildState.source_wall_crafter_bar_state",
+      "source_slice": "N2465",
+      "keys": {
+        "last_efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "Strings.fixed(e.lastEfficiency * 60 / drillTime, 2)",
+          "rule": "The caller-supplied lastEfficiency (WallCrafter.java:72, the bar label amount): the build field (`public float time, warmup, totalTime, lastEfficiency;`, WallCrafter.java:184) tracked by the N2223 advance (`lastEfficiency = eff * timeScale * efficiency;`, WallCrafter.java:211; frame key \"last_efficiency\"). At full efficiency it reads 1.0.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_bar_state"
+          ]
+        },
+        "drill_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "public float drillTime = 150f;",
+          "rule": "The caller-supplied drillTime (WallCrafter.java:72, the bar label amount): the class field (`public float drillTime = 150f;`, WallCrafter.java:33), overridden by both defs -- 110f for the cliff-crusher (`drillTime = 110f;`, Blocks.java:3006) and 48f for the large-cliff-crusher (`drillTime = 48f;`, Blocks.java:3020).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_bar_state"
+          ]
+        },
+        "warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "() -> e.warmup));",
+          "rule": "The caller-supplied warmup (WallCrafter.java:72, the bar fraction): the build field (`public float time, warmup, totalTime, lastEfficiency;`, WallCrafter.java:184) tracked by the N2223 advance (frame key \"warmup\"). The pure returns it RAW -- the Bar clamps at render (Bar.java:33/:80).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_bar_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WallCrafterBarRowsProof",
+      "rule": "Source-backed WallCrafter setBars drillspeed bar row from WallCrafter.java / Blocks.java / Pal.java / Bar.java / bundle.properties / arc Strings.java / arc Mathf.java."
+    },
+    "source_wall_crafter_bar_state_result": {
+      "status": "active",
+      "owner": "SourceWallCrafterBuildState.source_wall_crafter_bar_state",
+      "source_slice": "N2465",
+      "keys": {
+        "label": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "new Bar(() -> Core.bundle.format(\"bar.drillspeed\", Strings.fixed(e.lastEfficiency * 60 / drillTime, 2)), () -> Pal.ammo, () -> e.warmup));",
+          "rule": "The bar label (WallCrafter.java:72): {key, amount} -- the bundle key \"bar.drillspeed\" (`bar.drillspeed = Drill Speed: {0}/s`, bundle.properties:1279) plus the Strings.fixed 2-place amount. Strings.fixed TRUNCATES (`dec.append((int)(float)(d * Math.pow(10, decimalPlaces) + 0.0001f));`, arc Strings.java:737), it does NOT round (the N2426 lesson): lastEfficiency 2.0 at drillTime 110 formats \"1.09\", and the 1.099 truncation probe formats \"1.09\" where rounding would give \"1.10\". Core.bundle.format composes the rendered string at render (the N2450 precedent) -- the pure does not build it.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_bar_state"
+          ]
+        },
+        "color": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "() -> Pal.ammo,",
+          "rule": "The bar color token (WallCrafter.java:72): \"Pal.ammo\" (`ammo = Color.valueOf(\"ff8947\"),`, Pal.java:64), carried as a symbolic token, never resolved to RGB (the N2373 color-token precedent).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_bar_state"
+          ]
+        },
+        "fraction": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "() -> e.warmup));",
+          "rule": "The bar fraction (WallCrafter.java:72): the warmup RAW -- Java does NOT clamp it in the lambda, the Bar itself clamps at render (`lastValue = value = Mathf.clamp(fraction.get());`, Bar.java:33; `float computed = Mathf.clamp(fraction.get());`, Bar.java:80; clamp to [0, 1] is `return Math.max(Math.min(value, 1f), 0f);`, arc Mathf.java:402-404) -- so a value above 1.0 reports raw here and the Bar draws it full (the N2422 lesson).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_bar_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WallCrafterBarRowsProof",
+      "rule": "Source-backed WallCrafter setBars drillspeed bar row from WallCrafter.java / Blocks.java / Pal.java / Bar.java / bundle.properties / arc Strings.java / arc Mathf.java."
+    },
+    "source_launch_pad_display_state_input": {
+      "status": "active",
+      "owner": "SourceLaunchPadBuildState.source_launch_pad_display_state",
+      "source_slice": "N2466",
+      "keys": {
+        "is_campaign": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "if(!state.isCampaign() || net.client() || team != player.team()) return;",
+          "rule": "The campaign gate (LaunchPad.java:167, `if(!state.isCampaign() || net.client() || team != player.team()) return;`): the label row renders only in campaign. Caller-supplied (state.isCampaign() is not in the driver).",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_display_state"
+          ]
+        },
+        "is_client": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "if(!state.isCampaign() || net.client() || team != player.team()) return;",
+          "rule": "The net-client gate (LaunchPad.java:167): a client renders no label row. Caller-supplied (net.client() is not in the driver).",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_display_state"
+          ]
+        },
+        "is_player_team": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "if(!state.isCampaign() || net.client() || team != player.team()) return;",
+          "rule": "The team gate (LaunchPad.java:167, `team != player.team()`): another team's pad renders no label row. Caller-supplied (the pad team vs the player team is not in the driver).",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_display_state"
+          ]
+        },
+        "destination": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "Sector dest = state.rules.sector == null ? null : state.rules.sector.info.destination;",
+          "rule": "The current destination (LaunchPad.java:171): null when there is no sector or no destination, else a Dict {name, has_base}. Caller-supplied (the sector state is not in the driver, the N2435 precedent); the destination field is `public @Nullable Sector destination;` (SectorInfo.java:51-52) and hasBase() is Sector.java:135.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_display_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaunchPadConfigDisplayRowsProof",
+      "rule": "Source-backed LaunchPad config / display / shouldShowConfigure rows from LaunchPad.java."
+    },
+    "source_launch_pad_display_state_result": {
+      "status": "active",
+      "owner": "SourceLaunchPadBuildState.source_launch_pad_display_state",
+      "source_slice": "N2466",
+      "keys": {
+        "destination_label": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "return Core.bundle.format(\"launch.destination\",",
+          "rule": "The destination label (LaunchPad.java:173-175): {key: \"launch.destination\", value: \"sectors.nonelaunch\" | \"[accent]\" + name} when the gate passes (campaign && !client && player team), null otherwise. A Dict because Java calls Core.bundle.format with an argument (the N2450 precedent -- the UI composes the rendered string); the \"sectors.nonelaunch\" value is the BUNDLE TOKEN (`sectors.nonelaunch = [lightgray]none (sun)`, bundle.properties:921), not the localized text, and the key is \"launch.destination\" (`launch.destination = Destination: {0}`, bundle.properties:875). The value is the token when the destination is null or has no base (`dest == null || !dest.hasBase() ? Core.bundle.get(\"sectors.nonelaunch\") :`, :174), else \"[accent]\" + dest.name() (:175).",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_display_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaunchPadConfigDisplayRowsProof",
+      "rule": "Source-backed LaunchPad config / display / shouldShowConfigure rows from LaunchPad.java."
+    },
+    "source_launch_pad_config_state_input": {
+      "status": "active",
+      "owner": "SourceLaunchPadBuildState.source_launch_pad_config_state",
+      "source_slice": "N2466",
+      "keys": {
+        "is_campaign": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "if(!state.isCampaign() || net.client()){",
+          "rule": "The campaign flag (LaunchPad.java:186, the buildConfiguration gate; also shouldShowConfigure, `return state.isCampaign();`, :181, and the select-callback re-check, :193): the pure REUSES this one input for all three (one evaluation moment; a click-time campaign change is a UI-timing concern, not a pure concern). Caller-supplied (state.isCampaign() is not in the driver).",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_config_state"
+          ]
+        },
+        "is_client": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "if(!state.isCampaign() || net.client()){",
+          "rule": "The net-client flag (LaunchPad.java:186, the buildConfiguration gate): a client gets no button and the early-return deselect fires. The client gate lives on the button, not the callback -- Java's callback (:193) checks only campaign + planet. Caller-supplied (net.client() is not in the driver).",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_config_state"
+          ]
+        },
+        "selected_sector": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "ui.planet.showSelect(state.rules.sector, other -> {",
+          "rule": "The sector the user picked in the planet dialog (LaunchPad.java:192, the `other` callback arg): null when no selection was made (dialog dismissed, the listener never fires), else a Dict {planet}. Caller-supplied (the N2435 precedent); the planet compares by token (the N2225 precedent -- Java compares Planet references).",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_config_state"
+          ]
+        },
+        "current_sector": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "if(state.isCampaign() && other.planet == state.rules.sector.planet){",
+          "rule": "The pad's current sector (LaunchPad.java:193, `state.rules.sector`): null-or-Dict {planet}. Caller-supplied (the N2435 precedent). A null current sector applies nothing (Java would NPE on state.rules.sector.planet).",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_config_state"
+          ]
+        },
+        "prev_destination": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "var prev = state.rules.sector.info.destination;",
+          "rule": "The destination before the selection (LaunchPad.java:194): null-or-Dict (the current destination). Caller-supplied. The refresh fires only when prev != null and the callback applied.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_config_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaunchPadConfigDisplayRowsProof",
+      "rule": "Source-backed LaunchPad config / display / shouldShowConfigure rows from LaunchPad.java."
+    },
+    "source_launch_pad_config_state_result": {
+      "status": "active",
+      "owner": "SourceLaunchPadBuildState.source_launch_pad_config_state",
+      "source_slice": "N2466",
+      "keys": {
+        "show_configure": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "return state.isCampaign();",
+          "rule": "shouldShowConfigure (LaunchPad.java:180-182): campaign only, folded into this pure as a result key (the Player param is ignored by Java). True exactly when is_campaign is true.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_config_state"
+          ]
+        },
+        "button_call": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "table.button(Icon.upOpen, Styles.cleari, () -> {",
+          "rule": "The configure button CALL record (LaunchPad.java:191-192, `}).size(40f);`, :202): {icon: \"Icon.upOpen\", style: \"Styles.cleari\", size: 40.0} when campaign && !client, null otherwise (the N2443 picker precedent -- the UI is NOT ported). Icon.upOpen is LaunchPad.java:191 (used across the UI); Styles.cleari is Styles.java:89/337. The click-time deselect (:201) is part of this record, not a separate key.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_config_state"
+          ]
+        },
+        "deselect_called": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "deselect();",
+          "rule": "The early-return deselect (LaunchPad.java:187): true exactly when the buildConfiguration gate FAILS (!campaign || client). The click-time deselect (:201) is part of the button_call record, not this key.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_config_state"
+          ]
+        },
+        "destination_after": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "state.rules.sector.info.destination = other;",
+          "rule": "The destination after the select callback (LaunchPad.java:195): the selected sector iff campaign && the selected planet == the current planet (:193), else prev_destination. A null selection or a null current sector applies nothing.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_config_state"
+          ]
+        },
+        "refresh_import_rates_called": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "prev.info.refreshImportRates(state.getPlanet());",
+          "rule": "The import-rates refresh (LaunchPad.java:196-197): true exactly when prev != null AND the callback applied. Java's only condition inside the callback is `if(prev != null){` (:196) -- a same-sector re-selection still refreshes (the assignment runs, prev != null), so \"destination changed\" means the callback applied, not value-inequality.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_config_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaunchPadConfigDisplayRowsProof",
+      "rule": "Source-backed LaunchPad config / display / shouldShowConfigure rows from LaunchPad.java."
+    },
+    "source_item_bridge_check_accept_state_input": {
+      "status": "active",
+      "owner": "SourceItemBridgeBuildState.source_item_bridge_check_accept_state",
+      "source_slice": "N2467",
+      "keys": {
+        "tile_null": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "if(tile == null || linked(source)) return true;",
+          "rule": "Whether this build has no tile (ItemBridge.java:442, the first half of the shortcut): a missing tile accepts outright, before the linkValid gate.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_check_accept_state"
+          ]
+        },
+        "is_linked": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "return source instanceof ItemBridgeBuild && linkValid(source.tile, tile) && ((ItemBridgeBuild)source).link == pos();",
+          "rule": "The linked(source) verdict (ItemBridge.java:464-466): the source is an ItemBridgeBuild AND linkValid(source.tile, tile) holds AND the source link points back at this build. A linked source accepts outright -- the N2225 transport path takes this shortcut, so acceptItem there is the capacity gate only.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_check_accept_state"
+          ]
+        },
+        "link_valid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "if(linkValid(tile, link)){",
+          "rule": "The linkValid(tile, link) verdict (ItemBridge.java:444, the two-arg form, so checkDouble is true, ItemBridge.java:145-146): the output of the N2197 linkValid pure source_item_bridge_link_valid_state. Without a valid link a non-linked source with a tile is refused.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_check_accept_state"
+          ]
+        },
+        "rel": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "int rel = relativeTo(link);",
+          "rule": "The link direction (ItemBridge.java:445): BuildingComp.relativeTo(Tile) (BuildingComp.java:526-528) via Tile.absoluteRelativeTo (Tile.java:114) -- 0 east, 1 north, 2 west, 3 south, -1 same tile. A real direction even at range (the link sits up to range 12 away); NOT Tile.relativeTo (Tile.java:82-84), which returns -1 for the non-adjacent link.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_check_accept_state"
+          ]
+        },
+        "rel2": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "int rel2 = facing == null ? -1 : relativeTo(facing);",
+          "rule": "The source facing direction (ItemBridge.java:447): relativeTo of the Edges.getFacingEdge(source, this) tile (Edges.java:52-55), or -1 when the facing edge is null (only when the source has no tile).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_check_accept_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ItemBridgeCheckAcceptRowsProof",
+      "rule": "Source-backed ItemBridge check-accept rows from ItemBridge.java / BuildingComp.java / Tile.java / Edges.java."
+    },
+    "source_item_bridge_check_accept_state_result": {
+      "status": "active",
+      "owner": "SourceItemBridgeBuildState.source_item_bridge_check_accept_state",
+      "source_slice": "N2467",
+      "keys": {
+        "accepts": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "return rel != rel2;",
+          "rule": "The checkAccept verdict (ItemBridge.java:441-462): true when tile_null or is_linked, else (rel != rel2) when link_valid, else false. The commented-out incoming loop (:450-456) grants no exemption -- it is commented out in Java, a kept-for-compat bug (issue #9257).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_check_accept_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ItemBridgeCheckAcceptRowsProof",
+      "rule": "Source-backed ItemBridge check-accept rows from ItemBridge.java / BuildingComp.java / Tile.java / Edges.java."
+    },
+    "source_payload_mass_driver_receive_effects_state_input": {
+      "status": "active",
+      "owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_receive_effects_state",
+      "source_slice": "N2468",
+      "keys": {
+        "effect_delay_crossed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "if(effectDelayTimer <= 0 && pos && lastOther != null){",
+          "rule": "The caller-evaluated timer verdict (PayloadMassDriver.java:173-175, `boolean pos = effectDelayTimer > 0;` / `effectDelayTimer -= Time.delta;` / `if(effectDelayTimer <= 0 && pos && lastOther != null){`): true exactly when the timer was > 0 and is now <= 0. The pure does NOT recompute the countdown (the N2397 precedent -- the N2245 advance owns it).",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_receive_effects_state"
+          ]
+        },
+        "last_other": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "if(effectDelayTimer <= 0 && pos && lastOther != null){",
+          "rule": "The looked-up lastOther partner (PayloadMassDriver.java:175-177, `lastOther != null` / `var other = lastOther;`): null when there is no partner, else a Dict {turret_rotation} -- the partner turretRotation the receive geometry reads. The lookup is caller-supplied (the N2435 precedent -- the frame stores last_other as a tile pos int, -1 when null).",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_receive_effects_state"
+          ]
+        },
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "receiveEffect.at(x - cx/2f, y - cy/2f, turretRotation);",
+          "rule": "The self world x (PayloadMassDriver.java:178, the receiveEffect.at x; also the receiveSound.at x, :181): an explicit input, passed through to the effect (offset by -cx/2f) and the sound (untouched).",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_receive_effects_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "receiveEffect.at(x - cx/2f, y - cy/2f, turretRotation);",
+          "rule": "The self world y (PayloadMassDriver.java:178, the receiveEffect.at y; also the receiveSound.at y, :181): an explicit input, passed through to the effect (offset by -cy/2f) and the sound (untouched).",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_receive_effects_state"
+          ]
+        },
+        "turret_rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "receiveEffect.at(x - cx/2f, y - cy/2f, turretRotation);",
+          "rule": "The SELF turretRotation (PayloadMassDriver.java:178, the receiveEffect.at rotation -- the SELF rotation, while cx/cy come from the OTHER driver rotation at :177).",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_receive_effects_state"
+          ]
+        },
+        "length": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "public float length = 89 / 8f;",
+          "rule": "The block length (PayloadMassDriver.java:25, `public float length = 89 / 8f;` = 11.125): the trns distance for the receive offset, taken as a param (no def overrides it).",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_receive_effects_state"
+          ]
+        },
+        "pitch_roll": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "receiveSound.at(x, y, 1f + Mathf.range(0.2f), shootSoundVolume);",
+          "rule": "The ALREADY-ROLLED Mathf.range(0.2f) value in [-0.2, 0.2] (PayloadMassDriver.java:181; arc Mathf.range(r) = random(-r, r), Mathf.java:220-222): caller-supplied, NO RNG in the pure (the N2421 precedent). The pitch is 1f + pitch_roll.",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_receive_effects_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadMassDriverEffectsRowsProof",
+      "rule": "Source-backed PayloadMassDriver updateTile effects / sound / shake rows from PayloadMassDriver.java / Fx.java / Effect.java."
+    },
+    "source_payload_mass_driver_receive_effects_state_result": {
+      "status": "active",
+      "owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_receive_effects_state",
+      "source_slice": "N2468",
+      "keys": {
+        "receive_effect_call": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "receiveEffect.at(x - cx/2f, y - cy/2f, turretRotation);",
+          "rule": "The receive effect call (PayloadMassDriver.java:178): {effect: \"Fx.payloadReceive\", x: x - cx/2f, y: y - cy/2f, rotation: turretRotation} when the gate fires, null otherwise (the N2397 null-when-absent precedent). Fx.payloadReceive is `payloadReceive = new Effect(30, e -> {` (Fx.java:2677); cx/cy come from the OTHER driver rotation (:177) through the shared source_angles_trns_vec (the N2246 precedent). The 30-tick renderer body is the callee presentation -- the pure records the CALL (the N2396 precedent).",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_receive_effects_state"
+          ]
+        },
+        "receive_sound_call": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "receiveSound.at(x, y, 1f + Mathf.range(0.2f), shootSoundVolume);",
+          "rule": "The receive sound call (PayloadMassDriver.java:181): {sound: \"massdriverReceive\", x, y, pitch: 1.0 + pitch_roll, volume: 0.7} when the gate fires, null otherwise (the N2397 null-when-absent precedent). The sound is Sounds.massdriverReceive (`public Sound receiveSound = Sounds.massdriverReceive;`, PayloadMassDriver.java:36; asset core/assets/sounds/block/massdriverReceive.ogg; Sounds is build-generated mindustry.gen.Sounds). The volume is shootSoundVolume 0.7f (:37). The pitch roll is caller-supplied (see pitch_roll) -- the pure never rolls.",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_receive_effects_state"
+          ]
+        },
+        "shake_call": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "Effect.shake(shake, shake, this);",
+          "rule": "The receive shake call (PayloadMassDriver.java:180): {intensity: 3.0, duration: 3.0} when the gate fires, null otherwise (the N2397 null-when-absent precedent). The Position overload (`public static void shake(float intensity, float duration, Position loc){`, Effect.java:210-212) delegates to shake(intensity, duration, x, y) (Effect.java:201), so the first arg is the intensity and the second the duration, both the shake field 3f (PayloadMassDriver.java:38). The camera-distance falloff inside (Effect.java:204-207) is the callee behavior -- the pure records the CALL params.",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_receive_effects_state"
+          ]
+        },
+        "reload_counter_after": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "reloadCounter = 1f;",
+          "rule": "The receive reload stamp (PayloadMassDriver.java:179): 1.0 when the gate fires, null otherwise. A STATE stamp, reported not wired -- the N2245 advance already stamps reloadCounter = 1f live on the same gate, and the reload decay (:191-192) runs after it in the same tick.",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_receive_effects_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadMassDriverEffectsRowsProof",
+      "rule": "Source-backed PayloadMassDriver updateTile effects / sound / shake rows from PayloadMassDriver.java / Fx.java / Effect.java."
+    },
+    "source_payload_mass_driver_shoot_effects_state_input": {
+      "status": "active",
+      "owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_shoot_effects_state",
+      "source_slice": "N2468",
+      "keys": {
+        "charge_fired": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "if(charge >= chargeTime){",
+          "rule": "The caller-evaluated fire verdict (PayloadMassDriver.java:292, `if(charge >= chargeTime){`): true exactly when the charge reached chargeTime this tick. The pure does NOT recompute the charge (the N2397 precedent -- the N2246 branches own it).",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_shoot_effects_state"
+          ]
+        },
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "shootEffect.at(x + cx, y + cy, turretRotation);",
+          "rule": "The self world x (PayloadMassDriver.java:296, the shootEffect.at x; also the smokeEffect.at x, :297, and the shootSound.at x, :300): an explicit input, passed through to the shoot effect (offset by +cx), the smoke effect, the transfer effect (offset by +cx) and the sound (untouched).",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_shoot_effects_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "shootEffect.at(x + cx, y + cy, turretRotation);",
+          "rule": "The self world y (PayloadMassDriver.java:296, the shootEffect.at y; also the smokeEffect.at y, :297, and the shootSound.at y, :300): an explicit input, passed through to the shoot effect (offset by +cy), the smoke effect, the transfer effect (offset by +cy) and the sound (untouched).",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_shoot_effects_state"
+          ]
+        },
+        "turret_rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "shootEffect.at(x + cx, y + cy, turretRotation);",
+          "rule": "The SELF turretRotation (PayloadMassDriver.java:293/296, the trns angle and the shootEffect.at rotation -- the SELF rotation here, unlike the receive geometry which reads the OTHER driver rotation).",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_shoot_effects_state"
+          ]
+        },
+        "length": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "public float length = 89 / 8f;",
+          "rule": "The block length (PayloadMassDriver.java:25, `public float length = 89 / 8f;` = 11.125): the trns distance for the shoot offset, taken as a param (no def overrides it).",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_shoot_effects_state"
+          ]
+        },
+        "pitch_roll": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "shootSound.at(x, y, Mathf.random(0.9f, 1.1f), shootSoundVolume);",
+          "rule": "The ALREADY-ROLLED Mathf.random(0.9f, 1.1f) value in [0.9, 1.1] (PayloadMassDriver.java:300; arc Mathf.random(a, b) = uniform in [a, b], Mathf.java:285-287): caller-supplied, NO RNG in the pure (the N2421 precedent). The pitch IS the roll (no 1f + offset, unlike the receive pitch).",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_shoot_effects_state"
+          ]
+        },
+        "other_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "transferEffect.at(x + cx, y + cy, turretRotation, new PayloadMassDriverData(x + cx, y + cy, other.x - cx, other.y - cy, payload));",
+          "rule": "The partner world x (PayloadMassDriver.java:301, other.x): the transfer target is other.x - cx (the PayloadMassDriverData ox).",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_shoot_effects_state"
+          ]
+        },
+        "other_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "transferEffect.at(x + cx, y + cy, turretRotation, new PayloadMassDriverData(x + cx, y + cy, other.x - cx, other.y - cy, payload));",
+          "rule": "The partner world y (PayloadMassDriver.java:301, other.y): the transfer target is other.y - cy (the PayloadMassDriverData oy).",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_shoot_effects_state"
+          ]
+        },
+        "payload": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "transferEffect.at(x + cx, y + cy, turretRotation, new PayloadMassDriverData(x + cx, y + cy, other.x - cx, other.y - cy, payload));",
+          "rule": "The transferred payload (PayloadMassDriver.java:301, the PayloadMassDriverData payload): passed through untouched into the transfer data (the N2234 spawned_unit precedent -- the pure reports the payload, it does not move it).",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_shoot_effects_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadMassDriverEffectsRowsProof",
+      "rule": "Source-backed PayloadMassDriver updateTile effects / sound / shake rows from PayloadMassDriver.java / Fx.java / Effect.java."
+    },
+    "source_payload_mass_driver_shoot_effects_state_result": {
+      "status": "active",
+      "owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_shoot_effects_state",
+      "source_slice": "N2468",
+      "keys": {
+        "shoot_effect_call": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "shootEffect.at(x + cx, y + cy, turretRotation);",
+          "rule": "The shoot effect call (PayloadMassDriver.java:296): {effect: \"Fx.shootBig2\", x: x + cx, y: y + cy, rotation: turretRotation} when charge_fired, null otherwise (the N2397 null-when-absent precedent). Fx.shootBig2 is `shootBig2 = new Effect(10, e -> {` (Fx.java:1866); cx/cy come from the SELF rotation (:293) through the shared source_angles_trns_vec (the N2246 precedent). The 10-tick renderer body is the callee presentation -- the pure records the CALL (the N2396 precedent).",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_shoot_effects_state"
+          ]
+        },
+        "smoke_effect_call": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "smokeEffect.at(x, y, turretRotation);",
+          "rule": "The shoot smoke call (PayloadMassDriver.java:297): {effect: \"Fx.shootPayloadDriver\", x, y, rotation: turretRotation} when charge_fired, null otherwise (the N2397 null-when-absent precedent). Fx.shootPayloadDriver is `shootPayloadDriver = new Effect(30f, e -> {` (Fx.java:2189), fired at the self position (no cx/cy offset, unlike the shoot effect). The 30-tick renderer body is the callee presentation -- the pure records the CALL (the N2396 precedent).",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_shoot_effects_state"
+          ]
+        },
+        "transfer_effect_call": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "transferEffect.at(x + cx, y + cy, turretRotation, new PayloadMassDriverData(x + cx, y + cy, other.x - cx, other.y - cy, payload));",
+          "rule": "The transfer effect call (PayloadMassDriver.java:301): {effect: \"transferEffect\", x: x + cx, y: y + cy, rotation: turretRotation, data: {from: {x: x + cx, y: y + cy}, to: {x: other_x - cx, y: other_y - cy}, payload}} when charge_fired, null otherwise (the N2397 null-when-absent precedent). The data is the PayloadMassDriverData constructor (`public PayloadMassDriverData(float x, float y, float ox, float oy, Payload payload){`, PayloadMassDriver.java:514): from is (x, y), to is (ox, oy). The callee lerp geometry (the transferEffect body, :40-47) is NOT ported (the N2396 record-the-call precedent).",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_shoot_effects_state"
+          ]
+        },
+        "shoot_sound_call": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "shootSound.at(x, y, Mathf.random(0.9f, 1.1f), shootSoundVolume);",
+          "rule": "The shoot sound call (PayloadMassDriver.java:300): {sound: \"massdriver\", x, y, pitch: pitch_roll, volume: 0.7} when charge_fired, null otherwise (the N2397 null-when-absent precedent). The sound is Sounds.massdriver (`public Sound shootSound = Sounds.massdriver;`, PayloadMassDriver.java:35; asset core/assets/sounds/block/massdriver.ogg; Sounds is build-generated mindustry.gen.Sounds). The volume is shootSoundVolume 0.7f (:37). The pitch IS the caller-supplied roll (see pitch_roll) -- the pure never rolls.",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_shoot_effects_state"
+          ]
+        },
+        "shake_call": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "Effect.shake(shake, shake, this);",
+          "rule": "The shoot shake call (PayloadMassDriver.java:299): {intensity: 3.0, duration: 3.0} when charge_fired, null otherwise (the N2397 null-when-absent precedent). The Position overload (`public static void shake(float intensity, float duration, Position loc){`, Effect.java:210-212) delegates to shake(intensity, duration, x, y) (Effect.java:201), so the first arg is the intensity and the second the duration, both the shake field 3f (PayloadMassDriver.java:38). The camera-distance falloff inside (Effect.java:204-207) is the callee behavior -- the pure records the CALL params.",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_shoot_effects_state"
+          ]
+        },
+        "effect_delay_timer_after": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "other.effectDelayTimer = transferEffect.lifetime;",
+          "rule": "The partner effect-delay stamp (PayloadMassDriver.java:304): 11.0 (transferEffect.lifetime, the `new Effect(11f, 600f, ...)` at :40) when charge_fired, null otherwise. A STATE stamp, reported not wired -- the N2246 branches already stamp partner_effect_delay_timer = 11.0 live on the same fire.",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_shoot_effects_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadMassDriverEffectsRowsProof",
+      "rule": "Source-backed PayloadMassDriver updateTile effects / sound / shake rows from PayloadMassDriver.java / Fx.java / Effect.java."
     }
   },
   "version": 1

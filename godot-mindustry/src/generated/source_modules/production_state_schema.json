@@ -4044,6 +4044,41 @@
         }
       }
     },
+    "source_wall_crafter_bar_state_input": {
+      "canonical_schema": "source_state_schema.source_wall_crafter_bar_state_input",
+      "keys": {
+        "last_efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "Strings.fixed(e.lastEfficiency * 60 / drillTime, 2)",
+          "rule": "The caller-supplied lastEfficiency (WallCrafter.java:72, the bar label amount): the build field (`public float time, warmup, totalTime, lastEfficiency;`, WallCrafter.java:184) tracked by the N2223 advance (`lastEfficiency = eff * timeScale * efficiency;`, WallCrafter.java:211; frame key \"last_efficiency\"). At full efficiency it reads 1.0.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_bar_state"
+          ]
+        },
+        "drill_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "public float drillTime = 150f;",
+          "rule": "The caller-supplied drillTime (WallCrafter.java:72, the bar label amount): the class field (`public float drillTime = 150f;`, WallCrafter.java:33), overridden by both defs -- 110f for the cliff-crusher (`drillTime = 110f;`, Blocks.java:3006) and 48f for the large-cliff-crusher (`drillTime = 48f;`, Blocks.java:3020).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_bar_state"
+          ]
+        },
+        "warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "() -> e.warmup));",
+          "rule": "The caller-supplied warmup (WallCrafter.java:72, the bar fraction): the build field (`public float time, warmup, totalTime, lastEfficiency;`, WallCrafter.java:184) tracked by the N2223 advance (frame key \"warmup\"). The pure returns it RAW -- the Bar clamps at render (Bar.java:33/:80).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_bar_state"
+          ]
+        }
+      }
+    },
     "source_wall_crafter_draw_state_input": {
       "canonical_schema": "source_state_schema.source_wall_crafter_draw_state_input",
       "keys": {

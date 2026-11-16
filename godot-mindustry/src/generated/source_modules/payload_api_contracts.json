@@ -3763,6 +3763,34 @@
       "rule": "Source-backed PayloadDeconstructor acceptPayload / acceptUnitPayload gates from PayloadDeconstructor.java / PayloadBlock.java / Payload.java / BuildPayload.java / UnitPayload.java / UnitType.java / UnitComp.java / Vars.java.",
       "return_type": "Dictionary"
     },
+    "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_bar_state": {
+      "canonical_contract": "source_api_contracts.SourcePayloadDeconstructorBuildState.source_payload_deconstructor_bar_state",
+      "status": "active",
+      "source_slice": "N2464",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "source_method": "PayloadDeconstructor.setBars()",
+      "params": [
+        {
+          "name": "progress",
+          "type": "float",
+          "schema": "source_payload_deconstructor_bar_state_input.progress"
+        }
+      ],
+      "return_keys": [
+        "label",
+        "color",
+        "fraction"
+      ],
+      "tests": [
+        "test_c07_payload_deconstructor_bar_rows_registration",
+        "test_all_c07_payload_deconstructor_bar_rows_input_evidence_is_exact",
+        "test_payload_deconstructor_bar_rows_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_bar_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorBarRowsProof",
+      "rule": "Source-backed PayloadDeconstructor setBars row from PayloadDeconstructor.java / Bar.java / Pal.java / bundle.properties / arc Mathf.java.",
+      "return_type": "Dictionary"
+    },
     "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_draw_state": {
       "canonical_contract": "source_api_contracts.SourcePayloadDeconstructorBuildState.source_payload_deconstructor_draw_state",
       "status": "active",
@@ -4646,6 +4674,65 @@
       ],
       "runtime_proof": "/root/C07PayloadMassDriverPowerStatusProof",
       "rule": "Source-backed PayloadMassDriver power.status row from ConsumePower.java / BuildingComp.java.",
+      "return_type": "Dictionary"
+    },
+    "SourcePayloadMassDriverBuildState.source_payload_mass_driver_receive_effects_state": {
+      "canonical_contract": "source_api_contracts.SourcePayloadMassDriverBuildState.source_payload_mass_driver_receive_effects_state",
+      "status": "active",
+      "source_slice": "N2468",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "source_method": "PayloadDriverBuild.updateTile()",
+      "params": [
+        {
+          "name": "effect_delay_crossed",
+          "type": "bool",
+          "schema": "source_payload_mass_driver_receive_effects_state_input.effect_delay_crossed"
+        },
+        {
+          "name": "last_other",
+          "type": "Variant",
+          "schema": "source_payload_mass_driver_receive_effects_state_input.last_other"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_payload_mass_driver_receive_effects_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_payload_mass_driver_receive_effects_state_input.y"
+        },
+        {
+          "name": "turret_rotation",
+          "type": "float",
+          "schema": "source_payload_mass_driver_receive_effects_state_input.turret_rotation"
+        },
+        {
+          "name": "length",
+          "type": "float",
+          "schema": "source_payload_mass_driver_receive_effects_state_input.length"
+        },
+        {
+          "name": "pitch_roll",
+          "type": "float",
+          "schema": "source_payload_mass_driver_receive_effects_state_input.pitch_roll"
+        }
+      ],
+      "return_keys": [
+        "receive_effect_call",
+        "receive_sound_call",
+        "shake_call",
+        "reload_counter_after"
+      ],
+      "tests": [
+        "test_c07_payload_mass_driver_effects_rows_registration",
+        "test_all_c07_payload_mass_driver_effects_rows_input_evidence_is_exact",
+        "test_payload_mass_driver_effects_rows_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_effects_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverEffectsRowsProof",
+      "rule": "Source-backed PayloadMassDriver updateTile effects / sound / shake rows from PayloadMassDriver.java / Fx.java / Effect.java.",
       "return_type": "Dictionary"
     },
     "SourcePayloadMassDriverBuildState.source_payload_mass_driver_state_branches_state": {

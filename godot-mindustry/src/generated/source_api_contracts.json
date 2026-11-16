@@ -79357,6 +79357,478 @@
       ],
       "runtime_proof": "/root/C07MassDriverLinkConfigRowsProof",
       "rule": "Source-backed MassDriver link/config rows from MassDriver.java / Blocks.java / Tile.java / BuildingComp.java / Point2.java / Position.java."
+    },
+    "SourceLiquidBridgeBuildState.source_liquid_bridge_link_valid_state": {
+      "status": "active",
+      "source_slice": "N2463",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "source_method": "LiquidBridgeBuild.linkValid()",
+      "params": [
+        {
+          "name": "tile_exists",
+          "type": "bool",
+          "schema": "source_liquid_bridge_link_valid_state_input.tile_exists"
+        },
+        {
+          "name": "other_exists",
+          "type": "bool",
+          "schema": "source_liquid_bridge_link_valid_state_input.other_exists"
+        },
+        {
+          "name": "positions_valid",
+          "type": "bool",
+          "schema": "source_liquid_bridge_link_valid_state_input.positions_valid"
+        },
+        {
+          "name": "blocks_match",
+          "type": "bool",
+          "schema": "source_liquid_bridge_link_valid_state_input.blocks_match"
+        },
+        {
+          "name": "tile_is_bridge",
+          "type": "bool",
+          "schema": "source_liquid_bridge_link_valid_state_input.tile_is_bridge"
+        },
+        {
+          "name": "tile_is_item_bridge",
+          "type": "bool",
+          "schema": "source_liquid_bridge_link_valid_state_input.tile_is_item_bridge"
+        },
+        {
+          "name": "other_is_bridge",
+          "type": "bool",
+          "schema": "source_liquid_bridge_link_valid_state_input.other_is_bridge"
+        },
+        {
+          "name": "teams_match",
+          "type": "bool",
+          "schema": "source_liquid_bridge_link_valid_state_input.teams_match"
+        },
+        {
+          "name": "check_double",
+          "type": "bool",
+          "schema": "source_liquid_bridge_link_valid_state_input.check_double"
+        },
+        {
+          "name": "other_link_equals_tile_pos",
+          "type": "bool",
+          "schema": "source_liquid_bridge_link_valid_state_input.other_link_equals_tile_pos"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "link_valid"
+      ],
+      "tests": [
+        "test_c07_liquid_bridge_link_rows_registration",
+        "test_all_c07_liquid_bridge_link_rows_input_evidence_is_exact",
+        "test_liquid_bridge_link_rows_state",
+        "test_reference_graph_and_actual_c07_liquid_bridge_link_rows"
+      ],
+      "runtime_proof": "/root/C07LiquidBridgeLinkRowsProof",
+      "rule": "Source-backed LiquidBridge link/findLink/linkValid rows from ItemBridge.java / LiquidBridge.java / Blocks.java / Point2.java."
+    },
+    "SourceLiquidBridgeBuildState.source_liquid_bridge_find_link_state": {
+      "status": "active",
+      "source_slice": "N2463",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "source_method": "LiquidBridgeBuild.findLink()",
+      "params": [
+        {
+          "name": "tile",
+          "type": "Variant",
+          "schema": "source_liquid_bridge_find_link_state_input.tile"
+        },
+        {
+          "name": "last_build",
+          "type": "Variant",
+          "schema": "source_liquid_bridge_find_link_state_input.last_build"
+        },
+        {
+          "name": "link_valid",
+          "type": "bool",
+          "schema": "source_liquid_bridge_find_link_state_input.link_valid"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "found_tile"
+      ],
+      "tests": [
+        "test_c07_liquid_bridge_link_rows_registration",
+        "test_all_c07_liquid_bridge_link_rows_input_evidence_is_exact",
+        "test_liquid_bridge_link_rows_state",
+        "test_reference_graph_and_actual_c07_liquid_bridge_link_rows"
+      ],
+      "runtime_proof": "/root/C07LiquidBridgeLinkRowsProof",
+      "rule": "Source-backed LiquidBridge link/findLink/linkValid rows from ItemBridge.java / LiquidBridge.java / Blocks.java / Point2.java."
+    },
+    "SourceLiquidBridgeBuildState.source_liquid_bridge_config_state": {
+      "status": "active",
+      "source_slice": "N2463",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "source_method": "LiquidBridgeBuild.config()",
+      "params": [
+        {
+          "name": "action",
+          "type": "String",
+          "schema": "source_liquid_bridge_config_state_input.action"
+        },
+        {
+          "name": "point",
+          "type": "Variant",
+          "schema": "source_liquid_bridge_config_state_input.point"
+        },
+        {
+          "name": "tile",
+          "type": "Variant",
+          "schema": "source_liquid_bridge_config_state_input.tile"
+        },
+        {
+          "name": "current_link",
+          "type": "int",
+          "schema": "source_liquid_bridge_config_state_input.current_link"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "link",
+        "config_value"
+      ],
+      "tests": [
+        "test_c07_liquid_bridge_link_rows_registration",
+        "test_all_c07_liquid_bridge_link_rows_input_evidence_is_exact",
+        "test_liquid_bridge_link_rows_state",
+        "test_reference_graph_and_actual_c07_liquid_bridge_link_rows"
+      ],
+      "runtime_proof": "/root/C07LiquidBridgeLinkRowsProof",
+      "rule": "Source-backed LiquidBridge link/findLink/linkValid rows from ItemBridge.java / LiquidBridge.java / Blocks.java / Point2.java."
+    },
+    "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_bar_state": {
+      "status": "active",
+      "source_slice": "N2464",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "source_method": "PayloadDeconstructor.setBars()",
+      "params": [
+        {
+          "name": "progress",
+          "type": "float",
+          "schema": "source_payload_deconstructor_bar_state_input.progress"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "label",
+        "color",
+        "fraction"
+      ],
+      "tests": [
+        "test_c07_payload_deconstructor_bar_rows_registration",
+        "test_all_c07_payload_deconstructor_bar_rows_input_evidence_is_exact",
+        "test_payload_deconstructor_bar_rows_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_bar_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorBarRowsProof",
+      "rule": "Source-backed PayloadDeconstructor setBars row from PayloadDeconstructor.java / Bar.java / Pal.java / bundle.properties / arc Mathf.java."
+    },
+    "SourceWallCrafterBuildState.source_wall_crafter_bar_state": {
+      "status": "active",
+      "source_slice": "N2465",
+      "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+      "source_method": "WallCrafter.setBars()",
+      "params": [
+        {
+          "name": "last_efficiency",
+          "type": "float",
+          "schema": "source_wall_crafter_bar_state_input.last_efficiency"
+        },
+        {
+          "name": "drill_time",
+          "type": "float",
+          "schema": "source_wall_crafter_bar_state_input.drill_time"
+        },
+        {
+          "name": "warmup",
+          "type": "float",
+          "schema": "source_wall_crafter_bar_state_input.warmup"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "label",
+        "color",
+        "fraction"
+      ],
+      "tests": [
+        "test_c07_wall_crafter_bar_rows_registration",
+        "test_all_c07_wall_crafter_bar_rows_input_evidence_is_exact",
+        "test_wall_crafter_bar_rows_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_bar_rows"
+      ],
+      "runtime_proof": "/root/C07WallCrafterBarRowsProof",
+      "rule": "Source-backed WallCrafter setBars drillspeed bar row from WallCrafter.java / Blocks.java / Pal.java / Bar.java / bundle.properties / arc Strings.java / arc Mathf.java."
+    },
+    "SourceLaunchPadBuildState.source_launch_pad_display_state": {
+      "status": "active",
+      "source_slice": "N2466",
+      "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+      "source_method": "LaunchPadBuild.display()",
+      "params": [
+        {
+          "name": "is_campaign",
+          "type": "bool",
+          "schema": "source_launch_pad_display_state_input.is_campaign"
+        },
+        {
+          "name": "is_client",
+          "type": "bool",
+          "schema": "source_launch_pad_display_state_input.is_client"
+        },
+        {
+          "name": "is_player_team",
+          "type": "bool",
+          "schema": "source_launch_pad_display_state_input.is_player_team"
+        },
+        {
+          "name": "destination",
+          "type": "Variant",
+          "schema": "source_launch_pad_display_state_input.destination"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "destination_label"
+      ],
+      "tests": [
+        "test_c07_launch_pad_config_display_rows_registration",
+        "test_all_c07_launch_pad_config_display_rows_input_evidence_is_exact",
+        "test_launch_pad_config_display_rows_state",
+        "test_reference_graph_and_actual_c07_launch_pad_config_display_rows"
+      ],
+      "runtime_proof": "/root/C07LaunchPadConfigDisplayRowsProof",
+      "rule": "Source-backed LaunchPad config / display / shouldShowConfigure rows from LaunchPad.java."
+    },
+    "SourceLaunchPadBuildState.source_launch_pad_config_state": {
+      "status": "active",
+      "source_slice": "N2466",
+      "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+      "source_method": "LaunchPadBuild.buildConfiguration()",
+      "params": [
+        {
+          "name": "is_campaign",
+          "type": "bool",
+          "schema": "source_launch_pad_config_state_input.is_campaign"
+        },
+        {
+          "name": "is_client",
+          "type": "bool",
+          "schema": "source_launch_pad_config_state_input.is_client"
+        },
+        {
+          "name": "selected_sector",
+          "type": "Variant",
+          "schema": "source_launch_pad_config_state_input.selected_sector"
+        },
+        {
+          "name": "current_sector",
+          "type": "Variant",
+          "schema": "source_launch_pad_config_state_input.current_sector"
+        },
+        {
+          "name": "prev_destination",
+          "type": "Variant",
+          "schema": "source_launch_pad_config_state_input.prev_destination"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "show_configure",
+        "button_call",
+        "deselect_called",
+        "destination_after",
+        "refresh_import_rates_called"
+      ],
+      "tests": [
+        "test_c07_launch_pad_config_display_rows_registration",
+        "test_all_c07_launch_pad_config_display_rows_input_evidence_is_exact",
+        "test_launch_pad_config_display_rows_state",
+        "test_reference_graph_and_actual_c07_launch_pad_config_display_rows"
+      ],
+      "runtime_proof": "/root/C07LaunchPadConfigDisplayRowsProof",
+      "rule": "Source-backed LaunchPad config / display / shouldShowConfigure rows from LaunchPad.java."
+    },
+    "SourceItemBridgeBuildState.source_item_bridge_check_accept_state": {
+      "status": "active",
+      "source_slice": "N2467",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "source_method": "ItemBridgeBuild.checkAccept()",
+      "params": [
+        {
+          "name": "tile_null",
+          "type": "bool",
+          "schema": "source_item_bridge_check_accept_state_input.tile_null"
+        },
+        {
+          "name": "is_linked",
+          "type": "bool",
+          "schema": "source_item_bridge_check_accept_state_input.is_linked"
+        },
+        {
+          "name": "link_valid",
+          "type": "bool",
+          "schema": "source_item_bridge_check_accept_state_input.link_valid"
+        },
+        {
+          "name": "rel",
+          "type": "int",
+          "schema": "source_item_bridge_check_accept_state_input.rel"
+        },
+        {
+          "name": "rel2",
+          "type": "int",
+          "schema": "source_item_bridge_check_accept_state_input.rel2"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "accepts"
+      ],
+      "tests": [
+        "test_c07_item_bridge_check_accept_rows_registration",
+        "test_all_c07_item_bridge_check_accept_rows_input_evidence_is_exact",
+        "test_item_bridge_check_accept_rows_state",
+        "test_reference_graph_and_actual_c07_item_bridge_check_accept_rows"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeCheckAcceptRowsProof",
+      "rule": "Source-backed ItemBridge check-accept rows from ItemBridge.java / BuildingComp.java / Tile.java / Edges.java."
+    },
+    "SourcePayloadMassDriverBuildState.source_payload_mass_driver_receive_effects_state": {
+      "status": "active",
+      "source_slice": "N2468",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "source_method": "PayloadDriverBuild.updateTile()",
+      "params": [
+        {
+          "name": "effect_delay_crossed",
+          "type": "bool",
+          "schema": "source_payload_mass_driver_receive_effects_state_input.effect_delay_crossed"
+        },
+        {
+          "name": "last_other",
+          "type": "Variant",
+          "schema": "source_payload_mass_driver_receive_effects_state_input.last_other"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_payload_mass_driver_receive_effects_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_payload_mass_driver_receive_effects_state_input.y"
+        },
+        {
+          "name": "turret_rotation",
+          "type": "float",
+          "schema": "source_payload_mass_driver_receive_effects_state_input.turret_rotation"
+        },
+        {
+          "name": "length",
+          "type": "float",
+          "schema": "source_payload_mass_driver_receive_effects_state_input.length"
+        },
+        {
+          "name": "pitch_roll",
+          "type": "float",
+          "schema": "source_payload_mass_driver_receive_effects_state_input.pitch_roll"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "receive_effect_call",
+        "receive_sound_call",
+        "shake_call",
+        "reload_counter_after"
+      ],
+      "tests": [
+        "test_c07_payload_mass_driver_effects_rows_registration",
+        "test_all_c07_payload_mass_driver_effects_rows_input_evidence_is_exact",
+        "test_payload_mass_driver_effects_rows_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_effects_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverEffectsRowsProof",
+      "rule": "Source-backed PayloadMassDriver updateTile effects / sound / shake rows from PayloadMassDriver.java / Fx.java / Effect.java."
+    },
+    "SourcePayloadMassDriverBuildState.source_payload_mass_driver_shoot_effects_state": {
+      "status": "active",
+      "source_slice": "N2468",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "source_method": "PayloadDriverBuild.updateTile()",
+      "params": [
+        {
+          "name": "charge_fired",
+          "type": "bool",
+          "schema": "source_payload_mass_driver_shoot_effects_state_input.charge_fired"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_payload_mass_driver_shoot_effects_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_payload_mass_driver_shoot_effects_state_input.y"
+        },
+        {
+          "name": "turret_rotation",
+          "type": "float",
+          "schema": "source_payload_mass_driver_shoot_effects_state_input.turret_rotation"
+        },
+        {
+          "name": "length",
+          "type": "float",
+          "schema": "source_payload_mass_driver_shoot_effects_state_input.length"
+        },
+        {
+          "name": "pitch_roll",
+          "type": "float",
+          "schema": "source_payload_mass_driver_shoot_effects_state_input.pitch_roll"
+        },
+        {
+          "name": "other_x",
+          "type": "float",
+          "schema": "source_payload_mass_driver_shoot_effects_state_input.other_x"
+        },
+        {
+          "name": "other_y",
+          "type": "float",
+          "schema": "source_payload_mass_driver_shoot_effects_state_input.other_y"
+        },
+        {
+          "name": "payload",
+          "type": "Variant",
+          "schema": "source_payload_mass_driver_shoot_effects_state_input.payload"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "shoot_effect_call",
+        "smoke_effect_call",
+        "transfer_effect_call",
+        "shoot_sound_call",
+        "shake_call",
+        "effect_delay_timer_after"
+      ],
+      "tests": [
+        "test_c07_payload_mass_driver_effects_rows_registration",
+        "test_all_c07_payload_mass_driver_effects_rows_input_evidence_is_exact",
+        "test_payload_mass_driver_effects_rows_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_effects_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverEffectsRowsProof",
+      "rule": "Source-backed PayloadMassDriver updateTile effects / sound / shake rows from PayloadMassDriver.java / Fx.java / Effect.java."
     }
   },
   "policy": {

@@ -2527,6 +2527,51 @@
         "test_reference_graph_and_actual_c07_payload_mass_driver_link_config_rows"
       ],
       "runtime_proof": "/root/C07PayloadMassDriverLinkConfigRowsProof"
+    },
+    "N2464": {
+      "canonical_ledger": "source_slice_ledger.N2464",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "java_method": "PayloadDeconstructor.setBars()",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_bar_state",
+      "source_symbols": [
+        "source_payload_deconstructor_bar_state_result.label",
+        "source_payload_deconstructor_bar_state_result.color",
+        "source_payload_deconstructor_bar_state_result.fraction"
+      ],
+      "tests": [
+        "test_c07_payload_deconstructor_bar_rows_registration",
+        "test_all_c07_payload_deconstructor_bar_rows_input_evidence_is_exact",
+        "test_payload_deconstructor_bar_rows_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_bar_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorBarRowsProof"
+    },
+    "N2468": {
+      "canonical_ledger": "source_slice_ledger.N2468",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.updateTile()",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_receive_effects_state",
+      "source_symbols": [
+        "source_payload_mass_driver_receive_effects_state_result.receive_effect_call",
+        "source_payload_mass_driver_receive_effects_state_result.receive_sound_call",
+        "source_payload_mass_driver_receive_effects_state_result.shake_call",
+        "source_payload_mass_driver_receive_effects_state_result.reload_counter_after",
+        "source_payload_mass_driver_shoot_effects_state_result.shoot_effect_call",
+        "source_payload_mass_driver_shoot_effects_state_result.smoke_effect_call",
+        "source_payload_mass_driver_shoot_effects_state_result.transfer_effect_call",
+        "source_payload_mass_driver_shoot_effects_state_result.shoot_sound_call",
+        "source_payload_mass_driver_shoot_effects_state_result.shake_call",
+        "source_payload_mass_driver_shoot_effects_state_result.effect_delay_timer_after"
+      ],
+      "tests": [
+        "test_c07_payload_mass_driver_effects_rows_registration",
+        "test_all_c07_payload_mass_driver_effects_rows_input_evidence_is_exact",
+        "test_payload_mass_driver_effects_rows_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_effects_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverEffectsRowsProof"
     }
   }
 }
