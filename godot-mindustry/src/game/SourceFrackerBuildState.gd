@@ -236,8 +236,11 @@ static func source_fracker_power_status_row_state(frame: Dictionary, has_power_c
 	# default scaling 2f (BuildingComp.java:877-878) through
 	# the shared dump_liquid_state routing; the neighbour
 	# entries are frame inputs (default [] -- no live
-	# proximity fill yet), no neighbour write-back yet, and
-	# the campaign unlock waits for its own slice. The pure
+	# proximity fill yet), neighbour write-back live since N2371
+	# (the shared helper lands the dumped oil in the handled
+	# neighbour's store -- first handled index only, the
+	# multi-recipient split defers), and the campaign unlock
+	# waits for its own slice. The pure
 	# N2220 itself still does not dump -- the SolidPump-driver
 	# dump is N2286. (5) Fraction fill live (N2305) --
 	# onProximityUpdate (SolidPump.java:150-159, inherited:
@@ -526,11 +529,18 @@ static func source_fracker_dump_liquid_state(frame: Dictionary, result_liquid_id
 	# entry is a Dictionary with amount / capacity / accepts /
 	# has_liquids / can_dump / liquids_present /
 	# destination_present / relative_to; the live proximity
-	# scan waits for its own slice, as does the write-back of
-	# the dumped liquid into the neighbour frame (the shared
-	# port reports only the amounts after -- the dumped liquid
-	# leaves this store without landing in any neighbour store
-	# until a neighbour write-back slice lands). The store
+	# scan waits for its own slice. The neighbour write-back
+	# is live since N2371: the pure exposes the handled
+	# neighbour index (dump_neighbour_index, from the shared
+	# routing's handled_index -- the FIRST eligible neighbour
+	# whose transfer actually moved liquid, -1 when nothing
+	# moved) + the dumped liquid name (dumped_liquid, the def
+	# constant "oil"), and the tick wires the shared
+	# source_neighbour_liquid_write_back_state helper after
+	# the dump when dumped_amount > 0. A dump that reaches
+	# several neighbours reports only the first handled index,
+	# so the write-back lands the total there -- the
+	# per-neighbour split waits for its own slice. The store
 	# write-back removes the dumped amount from a DUPLICATE
 	# of the module dict (the pure never mutates its inputs)
 	# through the shared liquid module helper
@@ -544,7 +554,7 @@ static func source_fracker_dump_liquid_state(frame: Dictionary, result_liquid_id
 	var cursor: int = int(frame.get("cdump", 0))
 	var store: Dictionary = (frame.get("liquids", {}) as Dictionary).duplicate(true)
 	if not store.has("liquids") or result_liquid_id < 0 or result_liquid_id >= int(store["liquids"].size()):
-		return {"liquids_after": store, "dumped_amount": 0.0, "cursor_after": cursor}
+		return {"liquids_after": store, "dumped_amount": 0.0, "cursor_after": cursor, "dump_neighbour_index": -1, "dumped_liquid": SOURCE_FRACKER_RESULT_LIQUID}
 	var current_amount: float = float(source_liquid_module_state.source_get_state(store, result_liquid_id).get("amount", 0.0))
 	var relative_to: Array = []
 	var destination_present: Array = []
@@ -573,7 +583,7 @@ static func source_fracker_dump_liquid_state(frame: Dictionary, result_liquid_id
 			cache_sums.resize(int(store["liquids"].size()))
 			cache_sums.fill(0.0)
 		source_liquid_module_state.source_remove_state(store, result_liquid_id, dumped_amount, cache_sums)
-	return {"liquids_after": store, "dumped_amount": dumped_amount, "cursor_after": int(dumped.get("final_cdump", cursor))}
+	return {"liquids_after": store, "dumped_amount": dumped_amount, "cursor_after": int(dumped.get("final_cdump", cursor)), "dump_neighbour_index": int(dumped.get("handled_index", -1)), "dumped_liquid": SOURCE_FRACKER_RESULT_LIQUID}
 
 static func source_fracker_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the fracker tick wiring every tick
@@ -808,6 +818,30 @@ static func source_fracker_tick_buildings_state(game: Object, seconds: float) ->
 			frame["liquids"] = dumped["liquids_after"]
 			sprite.set_meta(source_placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, dumped["liquids_after"])
 			frame["cdump"] = dumped["cursor_after"]
+			# N2371: neighbour write-back -- the shared
+			# source_neighbour_liquid_write_back_state helper
+			# lands the dumped oil in the handled neighbour's
+			# store (dumpLiquid's next.handleLiquid,
+			# BuildingComp.java:918) after the dump write-back
+			# above, when something dumped. The handled index
+			# is a ring index (index i is ring cell i, the
+			# N2353 convention), so the live fill must fill
+			# frame["dump_liquid_neighbours"] in ring order;
+			# the tick reads the origin_cell meta inline as
+			# dump_cell (cell is bound after the enabled block,
+			# the N2363 note) and the catalog size. A failed
+			# write-back (no sprite / no frame / no liquids
+			# store) drops the oil -- the routing already
+			# decided, so there is no fallback to the fracker's
+			# own store (the N2353 precedent). A dump that
+			# reaches several neighbours lands the total in
+			# the first handled one -- the per-neighbour split
+			# waits for its own slice.
+			if float(dumped.get("dumped_amount", 0.0)) > 0.0:
+				var dump_index: int = int(dumped.get("dump_neighbour_index", -1))
+				if dump_index >= 0:
+					var dump_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
+					source_building_liquid_state.source_neighbour_liquid_write_back_state(game, dump_cell, int(block.properties.get("size", 1)), dump_index, str(dumped.get("dumped_liquid", SOURCE_FRACKER_RESULT_LIQUID)), float(dumped.get("dumped_amount", 0.0)))
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1

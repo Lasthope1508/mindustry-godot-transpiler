@@ -174,6 +174,25 @@ static func dump_liquid_state(liquid: Variant, scaling: float, output_dir: int, 
 			transfer_states_by_index[other_index] = transfer_state
 			current_amount_after = float(transfer_state.get("current_liquid_amount_after", current_amount_after))
 			other_amounts_after[other_index] = float(transfer_state.get("next_liquid_amount_after", other_amounts_after[other_index]))
+	# N2371: the handled neighbour index -- the FIRST eligible
+	# index whose transfer actually moved liquid, in routing
+	# order, -1 when nothing moved (no eligible neighbour, the
+	# ofract guard failed everywhere, every transfer refused,
+	# or the empty-store early return). Both halves of the
+	# check matter: a refusing neighbour still computes a flow
+	# (transferLiquid computes flow before the accept guard,
+	# BuildingComp.java:915-917), and a full neighbour handles
+	# a zero flow -- so handled means handle_liquid_called AND
+	# flow_value > 0. A dump that reaches several neighbours
+	# reports only the first: the per-neighbour split (each
+	# recipient's own write-back) waits for its own slice.
+	var handled_index := -1
+	for raw_index in routing_state.get("eligible_indices", []):
+		var check_index := int(raw_index)
+		var check_state: Dictionary = transfer_states_by_index.get(check_index, {})
+		if bool(check_state.get("handle_liquid_called", false)) and float(check_state.get("flow_value", 0.0)) > 0.0:
+			handled_index = check_index
+			break
 	return {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_DUMP_LIQUID_STATE,
 		"method_default": overload_state.get("method_default", ""),
@@ -190,4 +209,5 @@ static func dump_liquid_state(liquid: Variant, scaling: float, output_dir: int, 
 		"other_liquid_amount_by_index_after": other_amounts_after,
 		"unlock_called": bool(campaign_state.get("unlock_called", false)),
 		"final_cdump": int(routing_state.get("final_cdump", dump_cursor)),
+		"handled_index": handled_index,
 	}

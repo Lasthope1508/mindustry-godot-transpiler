@@ -200,7 +200,11 @@ class C07FrackerDumpLiquidTests(unittest.TestCase):
         self.assertIn('Callable(source_building_item_dump_state, "increment_dump_cursor_state")', fracker)
         self.assertIn('source_liquid_module_state.source_remove_state(store, result_liquid_id, dumped_amount, cache_sums)', fracker)
         self.assertNotIn('source_liquid_module_state.source_add_state(', fracker)
-        self.assertIn('return {"liquids_after": store, "dumped_amount": dumped_amount, "cursor_after": int(dumped.get("final_cdump", cursor))}', fracker)
+        # N2371: the dump also exposes the handled neighbour index
+        # (from the shared routing's handled_index) + the dumped
+        # liquid name, so the tick can wire the neighbour
+        # write-back helper after the dump.
+        self.assertIn('return {"liquids_after": store, "dumped_amount": dumped_amount, "cursor_after": int(dumped.get("final_cdump", cursor)), "dump_neighbour_index": int(dumped.get("handled_index", -1)), "dumped_liquid": SOURCE_FRACKER_RESULT_LIQUID}', fracker)
         # The frame carries the dump cursor at the Java field
         # default (cdump 0, BuildingComp.java:68); the
         # neighbour entries are frame inputs (default [] --

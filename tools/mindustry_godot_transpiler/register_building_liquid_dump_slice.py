@@ -89,7 +89,12 @@ def main() -> None:
         "java_source": SOURCE,
         "source_method": METHOD,
         "params": [{"name": name, "type": type_name, "schema": f"source_building_dump_liquid_input.{name}"} for name, type_name in params],
-        "return_keys": ["source_owner", "method_default", "method_scaling", "method_output_dir", "liquid", "scaling", "output_dir", "overload_state", "campaign_state", "routing_state", "transfer_states_by_index", "current_liquid_amount_after", "other_liquid_amount_by_index_after", "unlock_called", "final_cdump"],
+        # N2371: the routing reports the handled neighbour index
+        # (the first eligible index whose transfer actually moved
+        # liquid, -1 when nothing moved); the symbol lives in the
+        # N2371 register, NOT the symbol loop below (the N2367
+        # lesson: upsert_source_symbols wholesale-replaces).
+        "return_keys": ["source_owner", "method_default", "method_scaling", "method_output_dir", "liquid", "scaling", "output_dir", "overload_state", "campaign_state", "routing_state", "transfer_states_by_index", "current_liquid_amount_after", "other_liquid_amount_by_index_after", "unlock_called", "final_cdump", "handled_index"],
         "tests": TESTS,
         "runtime_proof": PROOF,
         "rule": "Public source-backed BuildingComp.dumpLiquid overload orchestration contract.",
@@ -116,6 +121,7 @@ def main() -> None:
             "other_liquid_amount_by_index_after": schema_key("Array", EXPRESSIONS[8], "Destination amounts after sequential transfers."),
             "unlock_called": schema_key("bool", EXPRESSIONS[6], "Campaign unlock effect."),
             "final_cdump": schema_key("int", EXPRESSIONS[7], "Dump cursor after proximity iteration."),
+            "handled_index": schema_key("int", "Building other = proximity.get((i + dump) % proximity.size);", "First eligible neighbour whose transfer actually moved liquid (N2371); -1 when nothing moved."),
         },
     })
     source_symbols.upsert_source_symbols(GODOT, dict(symbols))
