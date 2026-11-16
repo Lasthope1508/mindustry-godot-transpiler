@@ -3724,6 +3724,43 @@
       "rule": "Source-backed ImpactReactor power.status row from ConsumePower.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceImpactReactorBuildState.source_impact_reactor_sense_state": {
+      "canonical_contract": "source_api_contracts.SourceImpactReactorBuildState.source_impact_reactor_sense_state",
+      "status": "active",
+      "source_slice": "N2391",
+      "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+      "source_method": "ImpactReactorBuild.sense()",
+      "params": [
+        {
+          "name": "sensor",
+          "type": "String",
+          "schema": "source_impact_reactor_sense_state_input.sensor"
+        },
+        {
+          "name": "warmup",
+          "type": "float",
+          "schema": "source_impact_reactor_sense_state_input.warmup"
+        },
+        {
+          "name": "super_value",
+          "type": "Variant",
+          "schema": "source_impact_reactor_sense_state_input.super_value"
+        }
+      ],
+      "return_keys": [
+        "value",
+        "is_heat"
+      ],
+      "tests": [
+        "test_c07_impact_reactor_sense_rows_registration",
+        "test_all_c07_impact_reactor_sense_rows_input_evidence_is_exact",
+        "test_impact_reactor_sense_rows_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_sense_rows"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorSenseRowsProof",
+      "rule": "Source-backed ImpactReactor sense rows from ImpactReactor.java / BuildingComp.java / DrawPlasma.java.",
+      "return_type": "Dictionary"
+    },
     "SourceImpactReactorBuildState.source_impact_reactor_update_tile_advance_state": {
       "canonical_contract": "source_api_contracts.SourceImpactReactorBuildState.source_impact_reactor_update_tile_advance_state",
       "status": "active",

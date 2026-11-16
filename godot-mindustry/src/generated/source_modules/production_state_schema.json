@@ -2761,6 +2761,41 @@
         }
       }
     },
+    "source_separator_sense_state_input": {
+      "canonical_schema": "source_state_schema.source_separator_sense_state_input",
+      "keys": {
+        "sensor": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+          "java_expr": "public double sense(LAccess sensor){",
+          "rule": "The LAccess sensor name (Separator.java:171, the sense parameter): \"progress\" takes the progress branch, any other name falls through to super.sense (BuildingComp.java:2094-2123). Sensor names are the camelCase LAccess enum names (the SourceBuildingSenseState.sense_object_state precedent: \"type\", \"firstItem\", \"config\", \"payloadType\").",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_sense_state"
+          ]
+        },
+        "progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+          "java_expr": "public float progress;",
+          "rule": "The frame progress (Separator.java:76, tracked by the N2222 advance: progress += getProgressIncrease(craftTime), Separator.java:134): the progress value, returned as-is with NO clamp.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_sense_state"
+          ]
+        },
+        "super_value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+          "java_expr": "return super.sense(sensor);",
+          "rule": "The caller-supplied super.sense(sensor) result (Separator.java:173): the BuildingComp switch value (BuildingComp.java:2094-2123) computed through the already-modeled SourceBuildingSenseState pures (sense_position_state / sense_health_process_state / sense_totals_state / sense_capacity_power_net_state / sense_enabled_controlled_state / sense_payload_size_state / sense_camera_default_state). Null is the super switch default branch (`default -> Float.NaN; //gets converted to null in logic`, BuildingComp.java:2123).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_sense_state"
+          ]
+        }
+      }
+    },
     "source_separator_should_consume_state_input": {
       "canonical_schema": "source_state_schema.source_separator_should_consume_state_input",
       "keys": {

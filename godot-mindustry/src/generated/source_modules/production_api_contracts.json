@@ -2594,6 +2594,43 @@
       "rule": "Source-backed Separator power.status row from ConsumePower.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceSeparatorBuildState.source_separator_sense_state": {
+      "canonical_contract": "source_api_contracts.SourceSeparatorBuildState.source_separator_sense_state",
+      "status": "active",
+      "source_slice": "N2388",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "source_method": "SeparatorBuild.sense()",
+      "params": [
+        {
+          "name": "sensor",
+          "type": "String",
+          "schema": "source_separator_sense_state_input.sensor"
+        },
+        {
+          "name": "progress",
+          "type": "float",
+          "schema": "source_separator_sense_state_input.progress"
+        },
+        {
+          "name": "super_value",
+          "type": "Variant",
+          "schema": "source_separator_sense_state_input.super_value"
+        }
+      ],
+      "return_keys": [
+        "value",
+        "is_progress"
+      ],
+      "tests": [
+        "test_c07_separator_sense_rows_registration",
+        "test_all_c07_separator_sense_rows_input_evidence_is_exact",
+        "test_separator_sense_rows_state",
+        "test_reference_graph_and_actual_c07_separator_sense_rows"
+      ],
+      "runtime_proof": "/root/C07SeparatorSenseRowsProof",
+      "rule": "Source-backed Separator sense rows from Separator.java / BuildingComp.java.",
+      "return_type": "Dictionary"
+    },
     "SourceSeparatorBuildState.source_separator_should_consume_state": {
       "canonical_contract": "source_api_contracts.SourceSeparatorBuildState.source_separator_should_consume_state",
       "status": "active",

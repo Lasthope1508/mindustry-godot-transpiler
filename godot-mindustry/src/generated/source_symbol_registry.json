@@ -183704,6 +183704,278 @@
         "test_reference_graph_and_actual_c07_mend_projector_sense_rows"
       ],
       "runtime_proof": "/root/C07MendProjectorSenseRowsProof"
+    },
+    "source_payload_unloader_dump_state_result.dump_deliveries": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_state",
+      "godot_symbol": "source_payload_unloader_dump_state_result.dump_deliveries",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.dumpAccumulate()",
+      "java_expr": "res |= dump(item);",
+      "rule": "One {neighbour_index, item} dict per successful dump() call inside dumpAccumulate, in attempt order (dumpAccumulate loops while(dumpAccum >= 1f), BuildingComp.java:1056-1058, and offloadSpeed 4 runs it 4 times per tick, PayloadUnloader.java:105-108). Empty when nothing dumps. The neighbour_index is the proximity index the shared dump helper returned (index i is ring cell i -- the N2353 convention); the tick lands each delivery in the neighbour store through the shared neighbour write-back helper (N2353). A singular index+item pair would drop every delivery but one when dumpAccumulate fires more than once per frame. This is the ITEM half only: the liquid half keeps its own scalar dump_neighbour_index key (N2380) -- the item half does NOT reuse it.",
+      "tests": [
+        "test_c07_payload_unloader_dump_item_write_back_registration",
+        "test_all_c07_payload_unloader_dump_item_write_back_input_evidence_is_exact",
+        "test_payload_unloader_dump_item_write_back_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_dump_item_write_back"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderDumpItemWriteBackProof"
+    },
+    "source_payload_deconstructor_sense_state_result.value": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_sense_state",
+      "godot_symbol": "source_payload_deconstructor_sense_state_result.value",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "java_method": "PayloadDeconstructorBuild.sense()",
+      "java_expr": "if(sensor == LAccess.progress) return progress;",
+      "rule": "The sensed value (PayloadDeconstructor.java:214-215): progress returns the frame progress as-is with NO clamp (progress can pass 1f -- the N2233 advance adds shift, NOT realShift); any other sensor returns the caller-supplied super_value (null for the super default branch).",
+      "tests": [
+        "test_c07_payload_deconstructor_sense_rows_registration",
+        "test_all_c07_payload_deconstructor_sense_rows_input_evidence_is_exact",
+        "test_payload_deconstructor_sense_rows_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_sense_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorSenseRowsProof"
+    },
+    "source_payload_deconstructor_sense_state_result.is_progress": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_sense_state",
+      "godot_symbol": "source_payload_deconstructor_sense_state_result.is_progress",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "java_method": "PayloadDeconstructorBuild.sense()",
+      "java_expr": "if(sensor == LAccess.progress) return progress;",
+      "rule": "The dispatch flag (PayloadDeconstructor.java:214, the `sensor == LAccess.progress` guard): true exactly when the sensor is progress and the value is the frame progress.",
+      "tests": [
+        "test_c07_payload_deconstructor_sense_rows_registration",
+        "test_all_c07_payload_deconstructor_sense_rows_input_evidence_is_exact",
+        "test_payload_deconstructor_sense_rows_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_sense_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorSenseRowsProof"
+    },
+    "source_payload_deconstructor_sense_content_state_result.value": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_sense_content_state",
+      "godot_symbol": "source_payload_deconstructor_sense_content_state_result.value",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "java_method": "PayloadDeconstructorBuild.sense()",
+      "java_expr": "if(deconstructing instanceof UnitPayload up) return up.unit.type == content ? 1 : 0;",
+      "rule": "The sensed value (PayloadDeconstructor.java:207-209): 1.0 when the deconstructing payload identity matches the queried content id, 0.0 otherwise; a null deconstructing returns the caller-supplied super_value (null for the invalid-sense branch).",
+      "tests": [
+        "test_c07_payload_deconstructor_sense_rows_registration",
+        "test_all_c07_payload_deconstructor_sense_rows_input_evidence_is_exact",
+        "test_payload_deconstructor_sense_rows_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_sense_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorSenseRowsProof"
+    },
+    "source_payload_deconstructor_sense_content_state_result.is_unit_payload": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_sense_content_state",
+      "godot_symbol": "source_payload_deconstructor_sense_content_state_result.is_unit_payload",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "java_method": "PayloadDeconstructorBuild.sense()",
+      "java_expr": "if(deconstructing instanceof UnitPayload up) return up.unit.type == content ? 1 : 0;",
+      "rule": "The dispatch flag (PayloadDeconstructor.java:207, the `deconstructing instanceof UnitPayload` guard): true exactly when the deconstructing payload is a UnitPayload (descriptor kind \"unit\"); false for a BuildPayload and for a null deconstructing.",
+      "tests": [
+        "test_c07_payload_deconstructor_sense_rows_registration",
+        "test_all_c07_payload_deconstructor_sense_rows_input_evidence_is_exact",
+        "test_payload_deconstructor_sense_rows_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_sense_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorSenseRowsProof"
+    },
+    "source_separator_sense_state_result.value": {
+      "status": "source-backed",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_sense_state",
+      "godot_symbol": "source_separator_sense_state_result.value",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "java_method": "SeparatorBuild.sense()",
+      "java_expr": "if(sensor == LAccess.progress) return progress;",
+      "rule": "The sensed value (Separator.java:172-173): progress returns the frame progress as-is, with NO clamp (unlike the MendProjector clamp); any other sensor returns the caller-supplied super_value (null for the super default branch).",
+      "tests": [
+        "test_c07_separator_sense_rows_registration",
+        "test_all_c07_separator_sense_rows_input_evidence_is_exact",
+        "test_separator_sense_rows_state",
+        "test_reference_graph_and_actual_c07_separator_sense_rows"
+      ],
+      "runtime_proof": "/root/C07SeparatorSenseRowsProof"
+    },
+    "source_separator_sense_state_result.is_progress": {
+      "status": "source-backed",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_sense_state",
+      "godot_symbol": "source_separator_sense_state_result.is_progress",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "java_method": "SeparatorBuild.sense()",
+      "java_expr": "if(sensor == LAccess.progress) return progress;",
+      "rule": "The dispatch flag (Separator.java:172, the `sensor == LAccess.progress` guard): true exactly when the sensor is progress and the value is the frame progress.",
+      "tests": [
+        "test_c07_separator_sense_rows_registration",
+        "test_all_c07_separator_sense_rows_input_evidence_is_exact",
+        "test_separator_sense_rows_state",
+        "test_reference_graph_and_actual_c07_separator_sense_rows"
+      ],
+      "runtime_proof": "/root/C07SeparatorSenseRowsProof"
+    },
+    "source_launch_pad_sense_state_result.value": {
+      "status": "source-backed",
+      "godot_owner": "SourceLaunchPadBuildState.source_launch_pad_sense_state",
+      "godot_symbol": "source_launch_pad_sense_state_result.value",
+      "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+      "java_method": "LaunchPadBuild.sense()",
+      "java_expr": "if(sensor == LAccess.progress) return Mathf.clamp(launchCounter / launchTime);",
+      "rule": "The sensed value (LaunchPad.java:99-100): progress returns clamp(launchCounter / launchTime) to [0, 1] (Mathf.clamp(value) clamps to [0, 1], arc Mathf.java:401-404); any other sensor returns the caller-supplied super_value (null for the super default branch).",
+      "tests": [
+        "test_c07_launch_pad_sense_rows_registration",
+        "test_all_c07_launch_pad_sense_rows_input_evidence_is_exact",
+        "test_launch_pad_sense_rows_state",
+        "test_reference_graph_and_actual_c07_launch_pad_sense_rows"
+      ],
+      "runtime_proof": "/root/C07LaunchPadSenseRowsProof"
+    },
+    "source_launch_pad_sense_state_result.is_progress": {
+      "status": "source-backed",
+      "godot_owner": "SourceLaunchPadBuildState.source_launch_pad_sense_state",
+      "godot_symbol": "source_launch_pad_sense_state_result.is_progress",
+      "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+      "java_method": "LaunchPadBuild.sense()",
+      "java_expr": "if(sensor == LAccess.progress) return Mathf.clamp(launchCounter / launchTime);",
+      "rule": "The dispatch flag (LaunchPad.java:99, the `sensor == LAccess.progress` guard): true exactly when the sensor is progress and the value is the clamped launchCounter ratio.",
+      "tests": [
+        "test_c07_launch_pad_sense_rows_registration",
+        "test_all_c07_launch_pad_sense_rows_input_evidence_is_exact",
+        "test_launch_pad_sense_rows_state",
+        "test_reference_graph_and_actual_c07_launch_pad_sense_rows"
+      ],
+      "runtime_proof": "/root/C07LaunchPadSenseRowsProof"
+    },
+    "source_shockwave_tower_sense_state_result.value": {
+      "status": "source-backed",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_sense_state",
+      "godot_symbol": "source_shockwave_tower_sense_state_result.value",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.sense()",
+      "java_expr": "if(sensor == LAccess.progress) return reloadCounter / reload;",
+      "rule": "The sensed value (ShockwaveTower.java:110-111): progress returns the BARE reloadCounter / reload ratio -- Java has NO clamp here, so a counter past the reload reads above 1.0 and a zero reload reads +Infinity for a positive counter, exactly like Java float division; any other sensor returns the caller-supplied super_value (null for the super default branch).",
+      "tests": [
+        "test_c07_shockwave_tower_sense_rows_registration",
+        "test_all_c07_shockwave_tower_sense_rows_input_evidence_is_exact",
+        "test_shockwave_tower_sense_rows_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_sense_rows"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerSenseRowsProof"
+    },
+    "source_shockwave_tower_sense_state_result.is_progress": {
+      "status": "source-backed",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_sense_state",
+      "godot_symbol": "source_shockwave_tower_sense_state_result.is_progress",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.sense()",
+      "java_expr": "if(sensor == LAccess.progress) return reloadCounter / reload;",
+      "rule": "The dispatch flag (ShockwaveTower.java:110, the `sensor == LAccess.progress` guard): true exactly when the sensor is progress and the value is the bare counter ratio.",
+      "tests": [
+        "test_c07_shockwave_tower_sense_rows_registration",
+        "test_all_c07_shockwave_tower_sense_rows_input_evidence_is_exact",
+        "test_shockwave_tower_sense_rows_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_sense_rows"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerSenseRowsProof"
+    },
+    "source_shockwave_tower_warmup_state_result.warmup": {
+      "status": "source-backed",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_warmup_state",
+      "godot_symbol": "source_shockwave_tower_warmup_state_result.warmup",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.warmup()",
+      "java_expr": "return heat;",
+      "rule": "The warmup value (ShockwaveTower.java:117): warmup() returns heat, a trivial accessor kept as its own pure so each pure has one Java method (the N2383 single-purpose precedent).",
+      "tests": [
+        "test_c07_shockwave_tower_sense_rows_registration",
+        "test_all_c07_shockwave_tower_sense_rows_input_evidence_is_exact",
+        "test_shockwave_tower_sense_rows_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_sense_rows"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerSenseRowsProof"
+    },
+    "source_impact_reactor_sense_state_result.value": {
+      "status": "source-backed",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_sense_state",
+      "godot_symbol": "source_impact_reactor_sense_state_result.value",
+      "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+      "java_method": "ImpactReactorBuild.sense()",
+      "java_expr": "if(sensor == LAccess.heat) return warmup;",
+      "rule": "The sensed value (ImpactReactor.java:120-121): heat returns the frame warmup directly; any other sensor returns the caller-supplied super_value (null for the super default branch).",
+      "tests": [
+        "test_c07_impact_reactor_sense_rows_registration",
+        "test_all_c07_impact_reactor_sense_rows_input_evidence_is_exact",
+        "test_impact_reactor_sense_rows_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_sense_rows"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorSenseRowsProof"
+    },
+    "source_impact_reactor_sense_state_result.is_heat": {
+      "status": "source-backed",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_sense_state",
+      "godot_symbol": "source_impact_reactor_sense_state_result.is_heat",
+      "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+      "java_method": "ImpactReactorBuild.sense()",
+      "java_expr": "if(sensor == LAccess.heat) return warmup;",
+      "rule": "The dispatch flag (ImpactReactor.java:120, the `sensor == LAccess.heat` guard): true exactly when the sensor is heat and the value is the frame warmup.",
+      "tests": [
+        "test_c07_impact_reactor_sense_rows_registration",
+        "test_all_c07_impact_reactor_sense_rows_input_evidence_is_exact",
+        "test_impact_reactor_sense_rows_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_sense_rows"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorSenseRowsProof"
+    },
+    "source_impact_reactor_warmup_state_result.value": {
+      "status": "source-backed",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_warmup_state",
+      "godot_symbol": "source_impact_reactor_warmup_state_result.value",
+      "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+      "java_method": "ImpactReactorBuild.warmup()",
+      "java_expr": "return warmup;",
+      "rule": "The warmup value (ImpactReactor.java:105): the raw frame warmup field, NOT the parent PowerGenerator.warmup() value (productionEfficiency when enabled, PowerGenerator.java:105) -- ImpactReactorBuild overrides the accessor.",
+      "tests": [
+        "test_c07_impact_reactor_sense_rows_registration",
+        "test_all_c07_impact_reactor_sense_rows_input_evidence_is_exact",
+        "test_impact_reactor_sense_rows_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_sense_rows"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorSenseRowsProof"
+    },
+    "source_mass_driver_sense_state_result.value": {
+      "status": "source-backed",
+      "godot_owner": "SourceMassDriverBuildState.source_mass_driver_sense_state",
+      "godot_symbol": "source_mass_driver_sense_state_result.value",
+      "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+      "java_method": "MassDriverBuild.sense()",
+      "java_expr": "if(sensor == LAccess.progress) return Mathf.clamp(1f - reloadCounter);",
+      "rule": "The sensed value (MassDriver.java:226-227): progress returns clamp(1f - reloadCounter) to [0, 1] (Mathf.clamp(value) clamps to [0, 1], arc Mathf.java:401-404) -- a fresh reloadCounter 1.0 reads 0, a ready reloadCounter 0.0 reads 1; any other sensor returns the caller-supplied super_value (null for the super default branch).",
+      "tests": [
+        "test_c07_mass_driver_sense_rows_registration",
+        "test_all_c07_mass_driver_sense_rows_input_evidence_is_exact",
+        "test_mass_driver_sense_rows_state",
+        "test_reference_graph_and_actual_c07_mass_driver_sense_rows"
+      ],
+      "runtime_proof": "/root/C07MassDriverSenseRowsProof"
+    },
+    "source_mass_driver_sense_state_result.is_progress": {
+      "status": "source-backed",
+      "godot_owner": "SourceMassDriverBuildState.source_mass_driver_sense_state",
+      "godot_symbol": "source_mass_driver_sense_state_result.is_progress",
+      "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+      "java_method": "MassDriverBuild.sense()",
+      "java_expr": "if(sensor == LAccess.progress) return Mathf.clamp(1f - reloadCounter);",
+      "rule": "The dispatch flag (MassDriver.java:226, the `sensor == LAccess.progress` guard): true exactly when the sensor is progress and the value is the clamped 1f - reloadCounter.",
+      "tests": [
+        "test_c07_mass_driver_sense_rows_registration",
+        "test_all_c07_mass_driver_sense_rows_input_evidence_is_exact",
+        "test_mass_driver_sense_rows_state",
+        "test_reference_graph_and_actual_c07_mass_driver_sense_rows"
+      ],
+      "runtime_proof": "/root/C07MassDriverSenseRowsProof"
     }
   },
   "version": 1

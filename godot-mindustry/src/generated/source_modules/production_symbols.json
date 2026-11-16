@@ -7229,6 +7229,36 @@
       ],
       "runtime_proof": "/root/C07SeparatorPowerStatusProof"
     },
+    "source_separator_sense_state_result.is_progress": {
+      "canonical_symbol": "source_symbol_registry.source_separator_sense_state_result.is_progress",
+      "status": "source-backed",
+      "java_expr": "if(sensor == LAccess.progress) return progress;",
+      "godot_symbol": "source_separator_sense_state_result.is_progress",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_sense_state",
+      "rule": "The dispatch flag (Separator.java:172, the `sensor == LAccess.progress` guard): true exactly when the sensor is progress and the value is the frame progress.",
+      "tests": [
+        "test_c07_separator_sense_rows_registration",
+        "test_all_c07_separator_sense_rows_input_evidence_is_exact",
+        "test_separator_sense_rows_state",
+        "test_reference_graph_and_actual_c07_separator_sense_rows"
+      ],
+      "runtime_proof": "/root/C07SeparatorSenseRowsProof"
+    },
+    "source_separator_sense_state_result.value": {
+      "canonical_symbol": "source_symbol_registry.source_separator_sense_state_result.value",
+      "status": "source-backed",
+      "java_expr": "if(sensor == LAccess.progress) return progress;",
+      "godot_symbol": "source_separator_sense_state_result.value",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_sense_state",
+      "rule": "The sensed value (Separator.java:172-173): progress returns the frame progress as-is, with NO clamp (unlike the MendProjector clamp); any other sensor returns the caller-supplied super_value (null for the super default branch).",
+      "tests": [
+        "test_c07_separator_sense_rows_registration",
+        "test_all_c07_separator_sense_rows_input_evidence_is_exact",
+        "test_separator_sense_rows_state",
+        "test_reference_graph_and_actual_c07_separator_sense_rows"
+      ],
+      "runtime_proof": "/root/C07SeparatorSenseRowsProof"
+    },
     "source_separator_should_consume_state_result.should_consume": {
       "canonical_symbol": "source_symbol_registry.source_separator_should_consume_state_result.should_consume",
       "status": "source-backed",

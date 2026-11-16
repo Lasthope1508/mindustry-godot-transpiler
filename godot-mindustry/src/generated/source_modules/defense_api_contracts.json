@@ -8502,6 +8502,48 @@
       "rule": "Source-backed ShockwaveTower power.status row from ConsumePower.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceShockwaveTowerBuildState.source_shockwave_tower_sense_state": {
+      "canonical_contract": "source_api_contracts.SourceShockwaveTowerBuildState.source_shockwave_tower_sense_state",
+      "status": "active",
+      "source_slice": "N2390",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "source_method": "ShockwaveTowerBuild.sense()",
+      "params": [
+        {
+          "name": "sensor",
+          "type": "String",
+          "schema": "source_shockwave_tower_sense_state_input.sensor"
+        },
+        {
+          "name": "reload_counter",
+          "type": "float",
+          "schema": "source_shockwave_tower_sense_state_input.reload_counter"
+        },
+        {
+          "name": "reload_value",
+          "type": "float",
+          "schema": "source_shockwave_tower_sense_state_input.reload_value"
+        },
+        {
+          "name": "super_value",
+          "type": "Variant",
+          "schema": "source_shockwave_tower_sense_state_input.super_value"
+        }
+      ],
+      "return_keys": [
+        "value",
+        "is_progress"
+      ],
+      "tests": [
+        "test_c07_shockwave_tower_sense_rows_registration",
+        "test_all_c07_shockwave_tower_sense_rows_input_evidence_is_exact",
+        "test_shockwave_tower_sense_rows_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_sense_rows"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerSenseRowsProof",
+      "rule": "Source-backed ShockwaveTower sense / warmup rows from ShockwaveTower.java / Blocks.java / BuildingComp.java.",
+      "return_type": "Dictionary"
+    },
     "SourceShockwaveTowerBuildState.source_shockwave_tower_should_consume_state": {
       "canonical_contract": "source_api_contracts.SourceShockwaveTowerBuildState.source_shockwave_tower_should_consume_state",
       "status": "active",

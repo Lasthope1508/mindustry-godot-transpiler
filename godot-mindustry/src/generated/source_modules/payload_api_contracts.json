@@ -3779,6 +3779,43 @@
       "rule": "Source-backed PayloadDeconstructor power.status row from ConsumePower.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_sense_state": {
+      "canonical_contract": "source_api_contracts.SourcePayloadDeconstructorBuildState.source_payload_deconstructor_sense_state",
+      "status": "active",
+      "source_slice": "N2387",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "source_method": "PayloadDeconstructorBuild.sense()",
+      "params": [
+        {
+          "name": "sensor",
+          "type": "String",
+          "schema": "source_payload_deconstructor_sense_state_input.sensor"
+        },
+        {
+          "name": "progress",
+          "type": "float",
+          "schema": "source_payload_deconstructor_sense_state_input.progress"
+        },
+        {
+          "name": "super_value",
+          "type": "Variant",
+          "schema": "source_payload_deconstructor_sense_state_input.super_value"
+        }
+      ],
+      "return_keys": [
+        "value",
+        "is_progress"
+      ],
+      "tests": [
+        "test_c07_payload_deconstructor_sense_rows_registration",
+        "test_all_c07_payload_deconstructor_sense_rows_input_evidence_is_exact",
+        "test_payload_deconstructor_sense_rows_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_sense_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorSenseRowsProof",
+      "rule": "Source-backed PayloadDeconstructor sense rows from PayloadDeconstructor.java / BuildingComp.java.",
+      "return_type": "Dictionary"
+    },
     "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_should_consume_state": {
       "canonical_contract": "source_api_contracts.SourcePayloadDeconstructorBuildState.source_payload_deconstructor_should_consume_state",
       "status": "active",

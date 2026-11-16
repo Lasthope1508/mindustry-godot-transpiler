@@ -249189,6 +249189,588 @@
       },
       "runtime_proof": "/root/C07MendProjectorSenseRowsProof",
       "rule": "Source-backed MendProjector sense rows from MendProjector.java / Blocks.java / BuildingComp.java."
+    },
+    "source_payload_deconstructor_sense_state_input": {
+      "status": "active",
+      "owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_sense_state",
+      "source_slice": "N2387",
+      "keys": {
+        "sensor": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "public double sense(LAccess sensor){",
+          "rule": "The LAccess sensor name (PayloadDeconstructor.java:213, the sense parameter): \"progress\" takes the progress branch, any other name falls through to super.sense (BuildingComp.java:2093-2122). Sensor names are the camelCase LAccess enum names (the SourceBuildingSenseState.sense_object_state precedent: \"type\", \"firstItem\", \"config\", \"payloadType\").",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_sense_state"
+          ]
+        },
+        "progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "public float progress;",
+          "rule": "The frame progress (PayloadDeconstructor.java:54, tracked by the N2233 advance: progress += shift with shift = edelta() * deconstructSpeed / deconstructing.buildTime(), PayloadDeconstructor.java:142): the sensed value, returned as-is with NO clamp -- unlike the MendProjector clamp (MendProjector.java:127).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_sense_state"
+          ]
+        },
+        "super_value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "return super.sense(sensor);",
+          "rule": "The caller-supplied super.sense(sensor) result (PayloadDeconstructor.java:215): the BuildingComp switch value (BuildingComp.java:2093-2122) computed through the already-modeled SourceBuildingSenseState pures (sense_position_state / sense_health_process_state / sense_totals_state / sense_capacity_power_net_state / sense_enabled_controlled_state / sense_payload_size_state / sense_camera_default_state). Null is the super switch default branch (`default -> Float.NaN; //gets converted to null in logic`, BuildingComp.java:2121).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_sense_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadDeconstructorSenseRowsProof",
+      "rule": "Source-backed PayloadDeconstructor sense rows from PayloadDeconstructor.java / BuildingComp.java."
+    },
+    "source_payload_deconstructor_sense_state_result": {
+      "status": "active",
+      "owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_sense_state",
+      "source_slice": "N2387",
+      "keys": {
+        "value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "if(sensor == LAccess.progress) return progress;",
+          "rule": "The sensed value (PayloadDeconstructor.java:214-215): progress returns the frame progress as-is with NO clamp (progress can pass 1f -- the N2233 advance adds shift, NOT realShift); any other sensor returns the caller-supplied super_value (null for the super default branch).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_sense_state"
+          ]
+        },
+        "is_progress": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "if(sensor == LAccess.progress) return progress;",
+          "rule": "The dispatch flag (PayloadDeconstructor.java:214, the `sensor == LAccess.progress` guard): true exactly when the sensor is progress and the value is the frame progress.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_sense_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadDeconstructorSenseRowsProof",
+      "rule": "Source-backed PayloadDeconstructor sense rows from PayloadDeconstructor.java / BuildingComp.java."
+    },
+    "source_payload_deconstructor_sense_content_state_input": {
+      "status": "active",
+      "owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_sense_content_state",
+      "source_slice": "N2387",
+      "keys": {
+        "deconstructing": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "public @Nullable Payload deconstructing;",
+          "rule": "The deconstructing payload (PayloadDeconstructor.java:52, the nullable field; the frame key frame[\"deconstructing\"], default null): the N2233 payload dict contract (decision 8) -- kind (\"build\" / \"unit\"), requirements (ItemStack list), build_time. kind runs the instanceof dispatch (\"unit\" is the UnitPayload branch, \"build\" -- the N2233 default for a missing kind -- is the BuildPayload branch). Null falls through to super.sense(content).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_sense_content_state"
+          ]
+        },
+        "content_id": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "if(deconstructing instanceof UnitPayload up) return up.unit.type == content ? 1 : 0;",
+          "rule": "The queried content id (PayloadDeconstructor.java:207, the sense parameter): the content id string (\"dagger\" for a unit type, \"conveyor\" for a block) compared against the deconstructing payload identity.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_sense_content_state"
+          ]
+        },
+        "payload_content_id": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "if(deconstructing instanceof BuildPayload bp) return bp.build.block == content ? 1 : 0;",
+          "rule": "The caller-supplied identity of the deconstructing payload (PayloadDeconstructor.java:207-208, the up.unit.type / bp.build.block equality operand): the unit type id / block id as a content id string. An explicit input (the N2383 reload_value / super_value precedent) -- the N2233 descriptor carries NO identity key, so the equality operand cannot come from the frame; NO descriptor key is invented here. A payload-contract slice that adds identity keys to the descriptor lets the live call site supply this from the frame.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_sense_content_state"
+          ]
+        },
+        "super_value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "return super.sense(content);",
+          "rule": "The caller-supplied super.sense(content) result (PayloadDeconstructor.java:209): the BuildingComp content switch value (BuildingComp.java:2139-2147) computed through the already-modeled SourceBuildingSenseState.sense_content_state pure. Null is the invalid-sense branch (`return Float.NaN; //invalid sense`, BuildingComp.java:2146).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_sense_content_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadDeconstructorSenseRowsProof",
+      "rule": "Source-backed PayloadDeconstructor sense rows from PayloadDeconstructor.java / BuildingComp.java."
+    },
+    "source_payload_deconstructor_sense_content_state_result": {
+      "status": "active",
+      "owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_sense_content_state",
+      "source_slice": "N2387",
+      "keys": {
+        "value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "if(deconstructing instanceof UnitPayload up) return up.unit.type == content ? 1 : 0;",
+          "rule": "The sensed value (PayloadDeconstructor.java:207-209): 1.0 when the deconstructing payload identity matches the queried content id, 0.0 otherwise; a null deconstructing returns the caller-supplied super_value (null for the invalid-sense branch).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_sense_content_state"
+          ]
+        },
+        "is_unit_payload": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "if(deconstructing instanceof UnitPayload up) return up.unit.type == content ? 1 : 0;",
+          "rule": "The dispatch flag (PayloadDeconstructor.java:207, the `deconstructing instanceof UnitPayload` guard): true exactly when the deconstructing payload is a UnitPayload (descriptor kind \"unit\"); false for a BuildPayload and for a null deconstructing.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_sense_content_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadDeconstructorSenseRowsProof",
+      "rule": "Source-backed PayloadDeconstructor sense rows from PayloadDeconstructor.java / BuildingComp.java."
+    },
+    "source_separator_sense_state_input": {
+      "status": "active",
+      "owner": "SourceSeparatorBuildState.source_separator_sense_state",
+      "source_slice": "N2388",
+      "keys": {
+        "sensor": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+          "java_expr": "public double sense(LAccess sensor){",
+          "rule": "The LAccess sensor name (Separator.java:171, the sense parameter): \"progress\" takes the progress branch, any other name falls through to super.sense (BuildingComp.java:2094-2123). Sensor names are the camelCase LAccess enum names (the SourceBuildingSenseState.sense_object_state precedent: \"type\", \"firstItem\", \"config\", \"payloadType\").",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_sense_state"
+          ]
+        },
+        "progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+          "java_expr": "public float progress;",
+          "rule": "The frame progress (Separator.java:76, tracked by the N2222 advance: progress += getProgressIncrease(craftTime), Separator.java:134): the progress value, returned as-is with NO clamp.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_sense_state"
+          ]
+        },
+        "super_value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+          "java_expr": "return super.sense(sensor);",
+          "rule": "The caller-supplied super.sense(sensor) result (Separator.java:173): the BuildingComp switch value (BuildingComp.java:2094-2123) computed through the already-modeled SourceBuildingSenseState pures (sense_position_state / sense_health_process_state / sense_totals_state / sense_capacity_power_net_state / sense_enabled_controlled_state / sense_payload_size_state / sense_camera_default_state). Null is the super switch default branch (`default -> Float.NaN; //gets converted to null in logic`, BuildingComp.java:2123).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_sense_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SeparatorSenseRowsProof",
+      "rule": "Source-backed Separator sense rows from Separator.java / BuildingComp.java."
+    },
+    "source_separator_sense_state_result": {
+      "status": "active",
+      "owner": "SourceSeparatorBuildState.source_separator_sense_state",
+      "source_slice": "N2388",
+      "keys": {
+        "value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+          "java_expr": "if(sensor == LAccess.progress) return progress;",
+          "rule": "The sensed value (Separator.java:172-173): progress returns the frame progress as-is, with NO clamp (unlike the MendProjector clamp); any other sensor returns the caller-supplied super_value (null for the super default branch).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_sense_state"
+          ]
+        },
+        "is_progress": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+          "java_expr": "if(sensor == LAccess.progress) return progress;",
+          "rule": "The dispatch flag (Separator.java:172, the `sensor == LAccess.progress` guard): true exactly when the sensor is progress and the value is the frame progress.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_sense_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SeparatorSenseRowsProof",
+      "rule": "Source-backed Separator sense rows from Separator.java / BuildingComp.java."
+    },
+    "source_launch_pad_sense_state_input": {
+      "status": "active",
+      "owner": "SourceLaunchPadBuildState.source_launch_pad_sense_state",
+      "source_slice": "N2389",
+      "keys": {
+        "sensor": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "public double sense(LAccess sensor){",
+          "rule": "The LAccess sensor name (LaunchPad.java:98, the sense parameter): \"progress\" takes the clamp branch, any other name falls through to super.sense (BuildingComp.java:2093-2122). Sensor names are the camelCase LAccess enum names (the SourceBuildingSenseState.sense_object_state precedent: \"type\", \"firstItem\", \"config\", \"payloadType\").",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_sense_state"
+          ]
+        },
+        "launch_counter": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "public float launchCounter;",
+          "rule": "The frame launchCounter (LaunchPad.java:84, tracked by the N2238 advance: launchCounter += edelta() with the reset to 0f on launch, LaunchPad.java:146/161): the progress numerator.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_sense_state"
+          ]
+        },
+        "launch_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "public float launchTime = 1f;",
+          "rule": "The per-def launchTime (LaunchPad.java:32, the class default 1f; launch-pad 60f * 20, Blocks.java:6794; advanced-launch-pad 60f * 30, Blocks.java:6804): the progress denominator, an explicit input -- the pure stays def-agnostic (the N2383 precedent); the driver already stamps it per def every tick.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_sense_state"
+          ]
+        },
+        "super_value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "return super.sense(sensor);",
+          "rule": "The caller-supplied super.sense(sensor) result (LaunchPad.java:100): the BuildingComp switch value (BuildingComp.java:2093-2122) computed through the already-modeled SourceBuildingSenseState pures (sense_position_state / sense_health_process_state / sense_totals_state / sense_capacity_power_net_state / sense_enabled_controlled_state / sense_payload_size_state / sense_camera_default_state). Null is the super switch default branch (`default -> Float.NaN; //gets converted to null in logic`, BuildingComp.java:2123).",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_sense_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaunchPadSenseRowsProof",
+      "rule": "Source-backed LaunchPad sense rows from LaunchPad.java / Blocks.java / BuildingComp.java."
+    },
+    "source_launch_pad_sense_state_result": {
+      "status": "active",
+      "owner": "SourceLaunchPadBuildState.source_launch_pad_sense_state",
+      "source_slice": "N2389",
+      "keys": {
+        "value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "if(sensor == LAccess.progress) return Mathf.clamp(launchCounter / launchTime);",
+          "rule": "The sensed value (LaunchPad.java:99-100): progress returns clamp(launchCounter / launchTime) to [0, 1] (Mathf.clamp(value) clamps to [0, 1], arc Mathf.java:401-404); any other sensor returns the caller-supplied super_value (null for the super default branch).",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_sense_state"
+          ]
+        },
+        "is_progress": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "if(sensor == LAccess.progress) return Mathf.clamp(launchCounter / launchTime);",
+          "rule": "The dispatch flag (LaunchPad.java:99, the `sensor == LAccess.progress` guard): true exactly when the sensor is progress and the value is the clamped launchCounter ratio.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_sense_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaunchPadSenseRowsProof",
+      "rule": "Source-backed LaunchPad sense rows from LaunchPad.java / Blocks.java / BuildingComp.java."
+    },
+    "source_shockwave_tower_sense_state_input": {
+      "status": "active",
+      "owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_sense_state",
+      "source_slice": "N2390",
+      "keys": {
+        "sensor": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "public double sense(LAccess sensor) {",
+          "rule": "The LAccess sensor name (ShockwaveTower.java:109, the sense parameter): \"progress\" takes the bare-ratio branch, any other name falls through to super.sense (BuildingComp.java:2094-2123). Sensor names are the camelCase LAccess enum names (the SourceBuildingSenseState.sense_object_state precedent: \"type\", \"firstItem\", \"config\", \"payloadType\").",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_sense_state"
+          ]
+        },
+        "reload_counter": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "public float reloadCounter = Mathf.random(reload);",
+          "rule": "The frame reload counter (ShockwaveTower.java:67, tracked by the N2187 gate + the N2247 advance: charged by edelta() each tick, reset to 0f on fire, ShockwaveTower.java:73/83): the progress numerator.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_sense_state"
+          ]
+        },
+        "reload_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "public float reload = 60f * 1.5f;",
+          "rule": "The per-def reload (ShockwaveTower.java:26, the class default 60f * 1.5f; shockwave-tower 80f, Blocks.java:2044): the progress denominator, an explicit input -- the pure stays def-agnostic (the N2187 gate precedent).",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_sense_state"
+          ]
+        },
+        "super_value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "return super.sense(sensor);",
+          "rule": "The caller-supplied super.sense(sensor) result (ShockwaveTower.java:111): the BuildingComp switch value (BuildingComp.java:2094-2123) computed through the already-modeled SourceBuildingSenseState pures (sense_position_state / sense_health_process_state / sense_totals_state / sense_capacity_power_net_state / sense_enabled_controlled_state / sense_payload_size_state / sense_camera_default_state). Null is the super switch default branch (`default -> Float.NaN; //gets converted to null in logic`, BuildingComp.java:2123).",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_sense_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShockwaveTowerSenseRowsProof",
+      "rule": "Source-backed ShockwaveTower sense / warmup rows from ShockwaveTower.java / Blocks.java / BuildingComp.java."
+    },
+    "source_shockwave_tower_sense_state_result": {
+      "status": "active",
+      "owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_sense_state",
+      "source_slice": "N2390",
+      "keys": {
+        "value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "if(sensor == LAccess.progress) return reloadCounter / reload;",
+          "rule": "The sensed value (ShockwaveTower.java:110-111): progress returns the BARE reloadCounter / reload ratio -- Java has NO clamp here, so a counter past the reload reads above 1.0 and a zero reload reads +Infinity for a positive counter, exactly like Java float division; any other sensor returns the caller-supplied super_value (null for the super default branch).",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_sense_state"
+          ]
+        },
+        "is_progress": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "if(sensor == LAccess.progress) return reloadCounter / reload;",
+          "rule": "The dispatch flag (ShockwaveTower.java:110, the `sensor == LAccess.progress` guard): true exactly when the sensor is progress and the value is the bare counter ratio.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_sense_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShockwaveTowerSenseRowsProof",
+      "rule": "Source-backed ShockwaveTower sense / warmup rows from ShockwaveTower.java / Blocks.java / BuildingComp.java."
+    },
+    "source_shockwave_tower_warmup_state_input": {
+      "status": "active",
+      "owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_warmup_state",
+      "source_slice": "N2390",
+      "keys": {
+        "heat": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "public float heat = 0f;",
+          "rule": "The frame heat (ShockwaveTower.java:68, `public float heat = 0f;`, set to 1f on fire and decayed every tick by the N2247 advance, ShockwaveTower.java:82/104): the warmup value.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_warmup_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShockwaveTowerSenseRowsProof",
+      "rule": "Source-backed ShockwaveTower sense / warmup rows from ShockwaveTower.java / Blocks.java / BuildingComp.java."
+    },
+    "source_shockwave_tower_warmup_state_result": {
+      "status": "active",
+      "owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_warmup_state",
+      "source_slice": "N2390",
+      "keys": {
+        "warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "return heat;",
+          "rule": "The warmup value (ShockwaveTower.java:117): warmup() returns heat, a trivial accessor kept as its own pure so each pure has one Java method (the N2383 single-purpose precedent).",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_warmup_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShockwaveTowerSenseRowsProof",
+      "rule": "Source-backed ShockwaveTower sense / warmup rows from ShockwaveTower.java / Blocks.java / BuildingComp.java."
+    },
+    "source_impact_reactor_sense_state_input": {
+      "status": "active",
+      "owner": "SourceImpactReactorBuildState.source_impact_reactor_sense_state",
+      "source_slice": "N2391",
+      "keys": {
+        "sensor": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+          "java_expr": "public double sense(LAccess sensor){",
+          "rule": "The LAccess sensor name (ImpactReactor.java:119, the sense parameter): \"heat\" takes the warmup branch, any other name falls through to super.sense (BuildingComp.java:2093-2125). Sensor names are the camelCase LAccess enum names (the SourceBuildingSenseState.sense_object_state precedent: \"type\", \"firstItem\", \"config\", \"payloadType\").",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_sense_state"
+          ]
+        },
+        "warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+          "java_expr": "public float warmup, totalProgress;",
+          "rule": "The frame warmup (ImpactReactor.java:75, tracked by the N2192 advance: the lerp toward 1 while the gate holds, ImpactReactor.java:82, and the decay toward 0, ImpactReactor.java:95): the heat value itself, returned directly with no clamp and no ratio.",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_sense_state"
+          ]
+        },
+        "super_value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+          "java_expr": "return super.sense(sensor);",
+          "rule": "The caller-supplied super.sense(sensor) result (ImpactReactor.java:121): the BuildingComp switch value (BuildingComp.java:2093-2125) computed through the already-modeled SourceBuildingSenseState pures (sense_position_state / sense_health_process_state / sense_totals_state / sense_capacity_power_net_state / sense_enabled_controlled_state / sense_payload_size_state / sense_camera_default_state). Null is the super switch default branch (`default -> Float.NaN; //gets converted to null in logic`, BuildingComp.java:2123).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_sense_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ImpactReactorSenseRowsProof",
+      "rule": "Source-backed ImpactReactor sense rows from ImpactReactor.java / BuildingComp.java / DrawPlasma.java."
+    },
+    "source_impact_reactor_sense_state_result": {
+      "status": "active",
+      "owner": "SourceImpactReactorBuildState.source_impact_reactor_sense_state",
+      "source_slice": "N2391",
+      "keys": {
+        "value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+          "java_expr": "if(sensor == LAccess.heat) return warmup;",
+          "rule": "The sensed value (ImpactReactor.java:120-121): heat returns the frame warmup directly; any other sensor returns the caller-supplied super_value (null for the super default branch).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_sense_state"
+          ]
+        },
+        "is_heat": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+          "java_expr": "if(sensor == LAccess.heat) return warmup;",
+          "rule": "The dispatch flag (ImpactReactor.java:120, the `sensor == LAccess.heat` guard): true exactly when the sensor is heat and the value is the frame warmup.",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_sense_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ImpactReactorSenseRowsProof",
+      "rule": "Source-backed ImpactReactor sense rows from ImpactReactor.java / BuildingComp.java / DrawPlasma.java."
+    },
+    "source_impact_reactor_warmup_state_input": {
+      "status": "active",
+      "owner": "SourceImpactReactorBuildState.source_impact_reactor_warmup_state",
+      "source_slice": "N2391",
+      "keys": {
+        "warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+          "java_expr": "public float warmup, totalProgress;",
+          "rule": "The frame warmup (ImpactReactor.java:75, tracked by the N2192 advance): the field the warmup() accessor returns (ImpactReactor.java:104-106).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_warmup_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ImpactReactorSenseRowsProof",
+      "rule": "Source-backed ImpactReactor sense rows from ImpactReactor.java / BuildingComp.java / DrawPlasma.java."
+    },
+    "source_impact_reactor_warmup_state_result": {
+      "status": "active",
+      "owner": "SourceImpactReactorBuildState.source_impact_reactor_warmup_state",
+      "source_slice": "N2391",
+      "keys": {
+        "value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+          "java_expr": "return warmup;",
+          "rule": "The warmup value (ImpactReactor.java:105): the raw frame warmup field, NOT the parent PowerGenerator.warmup() value (productionEfficiency when enabled, PowerGenerator.java:105) -- ImpactReactorBuild overrides the accessor.",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_warmup_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ImpactReactorSenseRowsProof",
+      "rule": "Source-backed ImpactReactor sense rows from ImpactReactor.java / BuildingComp.java / DrawPlasma.java."
+    },
+    "source_mass_driver_sense_state_input": {
+      "status": "active",
+      "owner": "SourceMassDriverBuildState.source_mass_driver_sense_state",
+      "source_slice": "N2392",
+      "keys": {
+        "sensor": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "public double sense(LAccess sensor){",
+          "rule": "The LAccess sensor name (MassDriver.java:224, the sense parameter): \"progress\" takes the clamp branch, any other name falls through to super.sense (BuildingComp.java:2093-2122). Sensor names are the camelCase LAccess enum names (the SourceBuildingSenseState.sense_object_state precedent: \"type\", \"firstItem\", \"config\", \"payloadType\").",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_sense_state"
+          ]
+        },
+        "reload_counter": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "public float reloadCounter = 0f;",
+          "rule": "The frame reloadCounter (MassDriver.java:118, tracked by the N2237 advance: fire() resets it to 1f, MassDriver.java:292, and the decay drains it, MassDriver.java:143): it counts DOWN from 1.0 to 0, so progress is clamp(1f - reloadCounter), NOT reloadCounter / reload.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_sense_state"
+          ]
+        },
+        "super_value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "return super.sense(sensor);",
+          "rule": "The caller-supplied super.sense(sensor) result (MassDriver.java:227): the BuildingComp switch value (BuildingComp.java:2093-2122) computed through the already-modeled SourceBuildingSenseState pures (sense_position_state / sense_health_process_state / sense_totals_state / sense_capacity_power_net_state / sense_enabled_controlled_state / sense_payload_size_state / sense_camera_default_state). Null is the super switch default branch (`default -> Float.NaN; //gets converted to null in logic`, BuildingComp.java:2121).",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_sense_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07MassDriverSenseRowsProof",
+      "rule": "Source-backed MassDriver sense rows from MassDriver.java / BuildingComp.java."
+    },
+    "source_mass_driver_sense_state_result": {
+      "status": "active",
+      "owner": "SourceMassDriverBuildState.source_mass_driver_sense_state",
+      "source_slice": "N2392",
+      "keys": {
+        "value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "if(sensor == LAccess.progress) return Mathf.clamp(1f - reloadCounter);",
+          "rule": "The sensed value (MassDriver.java:226-227): progress returns clamp(1f - reloadCounter) to [0, 1] (Mathf.clamp(value) clamps to [0, 1], arc Mathf.java:401-404) -- a fresh reloadCounter 1.0 reads 0, a ready reloadCounter 0.0 reads 1; any other sensor returns the caller-supplied super_value (null for the super default branch).",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_sense_state"
+          ]
+        },
+        "is_progress": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "if(sensor == LAccess.progress) return Mathf.clamp(1f - reloadCounter);",
+          "rule": "The dispatch flag (MassDriver.java:226, the `sensor == LAccess.progress` guard): true exactly when the sensor is progress and the value is the clamped 1f - reloadCounter.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_sense_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07MassDriverSenseRowsProof",
+      "rule": "Source-backed MassDriver sense rows from MassDriver.java / BuildingComp.java."
     }
   },
   "version": 1

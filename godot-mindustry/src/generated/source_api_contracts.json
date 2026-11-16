@@ -74688,6 +74688,323 @@
       ],
       "runtime_proof": "/root/C07MendProjectorSenseRowsProof",
       "rule": "Source-backed MendProjector sense rows from MendProjector.java / Blocks.java / BuildingComp.java."
+    },
+    "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_sense_state": {
+      "status": "active",
+      "source_slice": "N2387",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "source_method": "PayloadDeconstructorBuild.sense()",
+      "params": [
+        {
+          "name": "sensor",
+          "type": "String",
+          "schema": "source_payload_deconstructor_sense_state_input.sensor"
+        },
+        {
+          "name": "progress",
+          "type": "float",
+          "schema": "source_payload_deconstructor_sense_state_input.progress"
+        },
+        {
+          "name": "super_value",
+          "type": "Variant",
+          "schema": "source_payload_deconstructor_sense_state_input.super_value"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "value",
+        "is_progress"
+      ],
+      "tests": [
+        "test_c07_payload_deconstructor_sense_rows_registration",
+        "test_all_c07_payload_deconstructor_sense_rows_input_evidence_is_exact",
+        "test_payload_deconstructor_sense_rows_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_sense_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorSenseRowsProof",
+      "rule": "Source-backed PayloadDeconstructor sense rows from PayloadDeconstructor.java / BuildingComp.java."
+    },
+    "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_sense_content_state": {
+      "status": "active",
+      "source_slice": "N2387",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "source_method": "PayloadDeconstructorBuild.sense()",
+      "params": [
+        {
+          "name": "deconstructing",
+          "type": "Variant",
+          "schema": "source_payload_deconstructor_sense_content_state_input.deconstructing"
+        },
+        {
+          "name": "content_id",
+          "type": "String",
+          "schema": "source_payload_deconstructor_sense_content_state_input.content_id"
+        },
+        {
+          "name": "payload_content_id",
+          "type": "String",
+          "schema": "source_payload_deconstructor_sense_content_state_input.payload_content_id"
+        },
+        {
+          "name": "super_value",
+          "type": "Variant",
+          "schema": "source_payload_deconstructor_sense_content_state_input.super_value"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "value",
+        "is_unit_payload"
+      ],
+      "tests": [
+        "test_c07_payload_deconstructor_sense_rows_registration",
+        "test_all_c07_payload_deconstructor_sense_rows_input_evidence_is_exact",
+        "test_payload_deconstructor_sense_rows_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_sense_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorSenseRowsProof",
+      "rule": "Source-backed PayloadDeconstructor sense rows from PayloadDeconstructor.java / BuildingComp.java."
+    },
+    "SourceSeparatorBuildState.source_separator_sense_state": {
+      "status": "active",
+      "source_slice": "N2388",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "source_method": "SeparatorBuild.sense()",
+      "params": [
+        {
+          "name": "sensor",
+          "type": "String",
+          "schema": "source_separator_sense_state_input.sensor"
+        },
+        {
+          "name": "progress",
+          "type": "float",
+          "schema": "source_separator_sense_state_input.progress"
+        },
+        {
+          "name": "super_value",
+          "type": "Variant",
+          "schema": "source_separator_sense_state_input.super_value"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "value",
+        "is_progress"
+      ],
+      "tests": [
+        "test_c07_separator_sense_rows_registration",
+        "test_all_c07_separator_sense_rows_input_evidence_is_exact",
+        "test_separator_sense_rows_state",
+        "test_reference_graph_and_actual_c07_separator_sense_rows"
+      ],
+      "runtime_proof": "/root/C07SeparatorSenseRowsProof",
+      "rule": "Source-backed Separator sense rows from Separator.java / BuildingComp.java."
+    },
+    "SourceLaunchPadBuildState.source_launch_pad_sense_state": {
+      "status": "active",
+      "source_slice": "N2389",
+      "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+      "source_method": "LaunchPadBuild.sense()",
+      "params": [
+        {
+          "name": "sensor",
+          "type": "String",
+          "schema": "source_launch_pad_sense_state_input.sensor"
+        },
+        {
+          "name": "launch_counter",
+          "type": "float",
+          "schema": "source_launch_pad_sense_state_input.launch_counter"
+        },
+        {
+          "name": "launch_time",
+          "type": "float",
+          "schema": "source_launch_pad_sense_state_input.launch_time"
+        },
+        {
+          "name": "super_value",
+          "type": "Variant",
+          "schema": "source_launch_pad_sense_state_input.super_value"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "value",
+        "is_progress"
+      ],
+      "tests": [
+        "test_c07_launch_pad_sense_rows_registration",
+        "test_all_c07_launch_pad_sense_rows_input_evidence_is_exact",
+        "test_launch_pad_sense_rows_state",
+        "test_reference_graph_and_actual_c07_launch_pad_sense_rows"
+      ],
+      "runtime_proof": "/root/C07LaunchPadSenseRowsProof",
+      "rule": "Source-backed LaunchPad sense rows from LaunchPad.java / Blocks.java / BuildingComp.java."
+    },
+    "SourceShockwaveTowerBuildState.source_shockwave_tower_sense_state": {
+      "status": "active",
+      "source_slice": "N2390",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "source_method": "ShockwaveTowerBuild.sense()",
+      "params": [
+        {
+          "name": "sensor",
+          "type": "String",
+          "schema": "source_shockwave_tower_sense_state_input.sensor"
+        },
+        {
+          "name": "reload_counter",
+          "type": "float",
+          "schema": "source_shockwave_tower_sense_state_input.reload_counter"
+        },
+        {
+          "name": "reload_value",
+          "type": "float",
+          "schema": "source_shockwave_tower_sense_state_input.reload_value"
+        },
+        {
+          "name": "super_value",
+          "type": "Variant",
+          "schema": "source_shockwave_tower_sense_state_input.super_value"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "value",
+        "is_progress"
+      ],
+      "tests": [
+        "test_c07_shockwave_tower_sense_rows_registration",
+        "test_all_c07_shockwave_tower_sense_rows_input_evidence_is_exact",
+        "test_shockwave_tower_sense_rows_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_sense_rows"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerSenseRowsProof",
+      "rule": "Source-backed ShockwaveTower sense / warmup rows from ShockwaveTower.java / Blocks.java / BuildingComp.java."
+    },
+    "SourceShockwaveTowerBuildState.source_shockwave_tower_warmup_state": {
+      "status": "active",
+      "source_slice": "N2390",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "source_method": "ShockwaveTowerBuild.warmup()",
+      "params": [
+        {
+          "name": "heat",
+          "type": "float",
+          "schema": "source_shockwave_tower_warmup_state_input.heat"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "warmup"
+      ],
+      "tests": [
+        "test_c07_shockwave_tower_sense_rows_registration",
+        "test_all_c07_shockwave_tower_sense_rows_input_evidence_is_exact",
+        "test_shockwave_tower_sense_rows_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_sense_rows"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerSenseRowsProof",
+      "rule": "Source-backed ShockwaveTower sense / warmup rows from ShockwaveTower.java / Blocks.java / BuildingComp.java."
+    },
+    "SourceImpactReactorBuildState.source_impact_reactor_sense_state": {
+      "status": "active",
+      "source_slice": "N2391",
+      "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+      "source_method": "ImpactReactorBuild.sense()",
+      "params": [
+        {
+          "name": "sensor",
+          "type": "String",
+          "schema": "source_impact_reactor_sense_state_input.sensor"
+        },
+        {
+          "name": "warmup",
+          "type": "float",
+          "schema": "source_impact_reactor_sense_state_input.warmup"
+        },
+        {
+          "name": "super_value",
+          "type": "Variant",
+          "schema": "source_impact_reactor_sense_state_input.super_value"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "value",
+        "is_heat"
+      ],
+      "tests": [
+        "test_c07_impact_reactor_sense_rows_registration",
+        "test_all_c07_impact_reactor_sense_rows_input_evidence_is_exact",
+        "test_impact_reactor_sense_rows_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_sense_rows"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorSenseRowsProof",
+      "rule": "Source-backed ImpactReactor sense rows from ImpactReactor.java / BuildingComp.java / DrawPlasma.java."
+    },
+    "SourceImpactReactorBuildState.source_impact_reactor_warmup_state": {
+      "status": "active",
+      "source_slice": "N2391",
+      "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+      "source_method": "ImpactReactorBuild.warmup()",
+      "params": [
+        {
+          "name": "warmup",
+          "type": "float",
+          "schema": "source_impact_reactor_warmup_state_input.warmup"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "value"
+      ],
+      "tests": [
+        "test_c07_impact_reactor_sense_rows_registration",
+        "test_all_c07_impact_reactor_sense_rows_input_evidence_is_exact",
+        "test_impact_reactor_sense_rows_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_sense_rows"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorSenseRowsProof",
+      "rule": "Source-backed ImpactReactor sense rows from ImpactReactor.java / BuildingComp.java / DrawPlasma.java."
+    },
+    "SourceMassDriverBuildState.source_mass_driver_sense_state": {
+      "status": "active",
+      "source_slice": "N2392",
+      "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+      "source_method": "MassDriverBuild.sense()",
+      "params": [
+        {
+          "name": "sensor",
+          "type": "String",
+          "schema": "source_mass_driver_sense_state_input.sensor"
+        },
+        {
+          "name": "reload_counter",
+          "type": "float",
+          "schema": "source_mass_driver_sense_state_input.reload_counter"
+        },
+        {
+          "name": "super_value",
+          "type": "Variant",
+          "schema": "source_mass_driver_sense_state_input.super_value"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "value",
+        "is_progress"
+      ],
+      "tests": [
+        "test_c07_mass_driver_sense_rows_registration",
+        "test_all_c07_mass_driver_sense_rows_input_evidence_is_exact",
+        "test_mass_driver_sense_rows_state",
+        "test_reference_graph_and_actual_c07_mass_driver_sense_rows"
+      ],
+      "runtime_proof": "/root/C07MassDriverSenseRowsProof",
+      "rule": "Source-backed MassDriver sense rows from MassDriver.java / BuildingComp.java."
     }
   },
   "policy": {

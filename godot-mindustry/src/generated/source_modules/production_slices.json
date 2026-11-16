@@ -1711,6 +1711,24 @@
       ],
       "runtime_proof": "/root/C07PumpLiquidNeighbourWriteBackProof"
     },
+    "N2388": {
+      "canonical_ledger": "source_slice_ledger.N2388",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "java_method": "SeparatorBuild.sense()",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_sense_state",
+      "source_symbols": [
+        "source_separator_sense_state_result.value",
+        "source_separator_sense_state_result.is_progress"
+      ],
+      "tests": [
+        "test_c07_separator_sense_rows_registration",
+        "test_all_c07_separator_sense_rows_input_evidence_is_exact",
+        "test_separator_sense_rows_state",
+        "test_reference_graph_and_actual_c07_separator_sense_rows"
+      ],
+      "runtime_proof": "/root/C07SeparatorSenseRowsProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",

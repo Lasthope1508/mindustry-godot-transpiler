@@ -1325,6 +1325,25 @@
       ],
       "runtime_proof": "/root/C07LightBlockDrawRowsProof"
     },
+    "N2391": {
+      "canonical_ledger": "source_slice_ledger.N2391",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+      "java_method": "ImpactReactorBuild.sense()",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_sense_state",
+      "source_symbols": [
+        "source_impact_reactor_sense_state_result.value",
+        "source_impact_reactor_sense_state_result.is_heat",
+        "source_impact_reactor_warmup_state_result.value"
+      ],
+      "tests": [
+        "test_c07_impact_reactor_sense_rows_registration",
+        "test_all_c07_impact_reactor_sense_rows_input_evidence_is_exact",
+        "test_impact_reactor_sense_rows_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_sense_rows"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorSenseRowsProof"
+    },
     "N888": {
       "canonical_ledger": "source_slice_ledger.N888",
       "status": "done",
