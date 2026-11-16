@@ -68,7 +68,7 @@ static func source_radar_bind_frame_state(sprite: Sprite2D, block: Object) -> Di
 
 static func source_radar_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a radar does not take the early return. The updateTile advance follows the folded efficiency: the progress advance (Radar.java:68, `progress += edelta() / discoveryTime;`) advances progress by edelta() (BuildingComp.java:1927-1929, `return efficiency * delta();`), so a radar with no power would never discover; the smooth-efficiency lerp (Radar.java:61, `smoothEfficiency = Mathf.lerpDelta(smoothEfficiency, efficiency, 0.05f);`) and the total-progress advance (Radar.java:71, `totalProgress += efficiency * edelta();`) follow the folded efficiency too. RadarBuild has NO shouldConsume override, so the BuildingComp default (BuildingComp.java:755, `public boolean shouldConsume(){` with `return enabled;`, BuildingComp.java:756) applies; the machinery runs with should_consume=true when enabled (the MendProjector suppression precedent). The radar is its own family (Radar.java:17, `public class Radar extends Block{`; RadarBuild, Radar.java:48, `public class RadarBuild extends Building{`). One def (radar, `consumePower(0.6f);`, Blocks.java:1994; fogRadius 34, Blocks.java:1991; discoveryTime 60f * 10f, Radar.java:18; rotateSpeed 2f, Radar.java:19).
-	# Documented limits: (1) power-only first pass -- the radar's power consumer is static (consumePower 0.6f, Blocks.java:1994), so the folded efficiency is the min over the *modeled* consumers (power only). (2) No shouldConsume override -- RadarBuild has NO shouldConsume override, so the BuildingComp default (`return enabled;`, BuildingComp.java:755-757) applies; the machinery runs with should_consume=true when enabled (the MendProjector suppression precedent). (3) updateTile advance done (N2190) -- smoothEfficiency / progress / totalProgress / lastRadius (Radar.java:60-72) advance every tick via source_radar_update_tile_state; the fogControl.forceUpdate call (`Vars.fogControl.forceUpdate(team, this);`, Radar.java:64) waits for its own fog slice (the advance tracks the `if(Math.abs(fogRadius() - lastRadius) >= 0.5f){` condition + the `lastRadius = fogRadius();` write only), and sense / read-write wait for their own slices (draw / drawSelect / icons / drawPlace live since N2427, see (5); canPickup / progress() live since N2479, see (7)). (4) One def -- radar is the only Radar def; fogRadius 34 (Blocks.java:1991) and discoveryTime 60f * 10f (Radar.java:18) are consumed by the N2190 advance; rotateSpeed 2f (Radar.java:19) and the glow defs (glowColor Pal.turretHeat, glowScl 5f, glowMag 0.6f, Radar.java:24-25) are caller-supplied inputs to the N2427 draw pure. (5) Draw rows live (N2427) -- the draw pure (source_radar_draw_state) models draw() (:85-90: base rect + region rect rotated rotateSpeed * totalProgress + additive glow on Layer.blockAdditive, absin Java-exact through the shared helper at the DOUBLED scale glow_scl * 2f) + drawSelect (:80-82: dash circle on the LIVE fogRadius() method radius) + icons() (:37-39: [baseRegion, region], folded into the draw pure -- icons() takes no args and the SSOT schema validator requires non-empty input keys) + drawPlace (:42-46: dash circle on the DEF fogRadius field radius at x * tilesize + offset). Pure-only: the tick never calls draw -- draw is called by the renderer, drawSelect/drawPlace by the UI, icons by the atlas, and the call sites wait for renderer/UI slices. (6) Fog radius accessor live (N2474) -- source_radar_fog_radius_state computes fogRadius() (Radar.java:55-57) as a pure-only accessor; the update_tile advance (N2190) still computes fog_radius_now inline and the draw pure (N2427) still takes fog_radius_live as a caller-supplied input, so the caller wiring that feeds this pure's output into them waits for its own slice (the fogControl.forceUpdate call itself is #123). (7) CanPickup / progress rows live (N2479) -- source_radar_can_pickup_progress_state computes canPickup() (Radar.java:75-77, false unconditionally) + progress() (Radar.java:93-95, returns the build progress field) as a pure-only accessor; the caller (pickup/UI path) reads it, no tick wiring; the frame progress key is advanced + clamped [0, 1] by the N2190 advance (Radar.java:68-69) -- the pure itself does not clamp.
+	# Documented limits: (1) power-only first pass -- the radar's power consumer is static (consumePower 0.6f, Blocks.java:1994), so the folded efficiency is the min over the *modeled* consumers (power only). (2) No shouldConsume override -- RadarBuild has NO shouldConsume override, so the BuildingComp default (`return enabled;`, BuildingComp.java:755-757) applies; the machinery runs with should_consume=true when enabled (the MendProjector suppression precedent). (3) updateTile advance done (N2190) -- smoothEfficiency / progress / totalProgress / lastRadius (Radar.java:60-72) advance every tick via source_radar_update_tile_state; the fogControl.forceUpdate call (`Vars.fogControl.forceUpdate(team, this);`, Radar.java:64) waits for its own fog slice (the advance tracks the `if(Math.abs(fogRadius() - lastRadius) >= 0.5f){` condition + the `lastRadius = fogRadius();` write only), and sense / read-write wait for their own slices (draw / drawSelect / icons / drawPlace live since N2427, see (5); canPickup / progress() live since N2479, see (7)). (4) One def -- radar is the only Radar def; fogRadius 34 (Blocks.java:1991) and discoveryTime 60f * 10f (Radar.java:18) are consumed by the N2190 advance; rotateSpeed 2f (Radar.java:19) and the glow defs (glowColor Pal.turretHeat, glowScl 5f, glowMag 0.6f, Radar.java:24-25) are caller-supplied inputs to the N2427 draw pure. (5) Draw rows live (N2427) -- the draw pure (source_radar_draw_state) models draw() (:85-90: base rect + region rect rotated rotateSpeed * totalProgress + additive glow on Layer.blockAdditive, absin Java-exact through the shared helper at the DOUBLED scale glow_scl * 2f) + drawSelect (:80-82: dash circle on the LIVE fogRadius() method radius) + icons() (:37-39: [baseRegion, region], folded into the draw pure -- icons() takes no args and the SSOT schema validator requires non-empty input keys) + drawPlace (:42-46: dash circle on the DEF fogRadius field radius at x * tilesize + offset). Pure-only: the tick never calls draw -- draw is called by the renderer, drawSelect/drawPlace by the UI, icons by the atlas, and the call sites wait for renderer/UI slices. (6) Fog radius accessor live (N2474) -- source_radar_fog_radius_state computes fogRadius() (Radar.java:55-57) as a pure-only accessor; the update_tile advance (N2190) still computes fog_radius_now inline and the draw pure (N2427) still takes fog_radius_live as a caller-supplied input, so the caller wiring that feeds this pure's output into them waits for its own slice (the fogControl.forceUpdate call itself is #123). (7) CanPickup / progress rows live (N2479) -- source_radar_can_pickup_progress_state computes canPickup() (Radar.java:75-77, false unconditionally) + progress() (Radar.java:93-95, returns the build progress field) as a pure-only accessor; the caller (pickup/UI path) reads it, no tick wiring; the frame progress key is advanced + clamped [0, 1] by the N2190 advance (Radar.java:68-69) -- the pure itself does not clamp. (8) Discovery/glow rows live (N2503) -- source_radar_discovery_glow_rows_state returns the static defs (discoveryTime 60f * 10f, rotateSpeed 2f, glowColor Pal.turretHeat, glowScl 5f, glowMag 0.6f, Radar.java:18-19/:24-25) for the radar def, with the class defaults for an unknown def id; the def does NOT override any of them (Blocks.java:1988-1995), so the def row equals the class row. Pure-only: the caller (the N2427 draw pure's caller, the N2190 advance's caller) reads it; the existing pures are unchanged.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -180,6 +180,70 @@ static func source_radar_can_pickup_progress_state(progress: float) -> Dictionar
 	# rows (Radar.java:98-110) are #32 -- neither
 	# is in scope.
 	return {"can_pickup": false, "progress": progress}
+
+static func source_radar_discovery_glow_rows_state(def_id: String) -> Dictionary:
+	# The discovery/glow static defs (the VERIFICATION
+	# slice: the values are already constants in this
+	# driver's header -- the N2304 / N2442 / N2489 /
+	# N2490 / N2498 precedent): the def's
+	# discoveryTime / rotateSpeed / glowColor /
+	# glowScl / glowMag for radar, the single Radar
+	# def (Blocks.java:1988-1995), with the CLASS
+	# defaults for an unknown def id (the N2304
+	# fallback precedent). The class fields (each
+	# exact expr on ONE comment line, the N2148
+	# lesson):
+	# `public float discoveryTime = 60f * 10f;`
+	# `public float rotateSpeed = 2f;`
+	# `public Color glowColor = Pal.turretHeat;`
+	# `public float glowScl = 5f, glowMag = 0.6f;`
+	# (Radar.java:18-19, :24-25). Radar extends Block
+	# (`public class Radar extends Block{`,
+	# Radar.java:17). The def block:
+	# `radar = new Radar("radar"){{`
+	# (Blocks.java:1988) sets only
+	# `fogRadius = 34;`
+	# (Blocks.java:1991) + consumers
+	# (`consumePower(0.6f);`, Blocks.java:1994) --
+	# it does NOT override discoveryTime /
+	# rotateSpeed / glow, so the def row EQUALS the
+	# class row here; the class row is the fallback
+	# for an unknown def id. The glow color rides
+	# as a String TOKEN ("Pal.turretHeat", the
+	# N2469 token precedent -- SSOT has no Color
+	# type, the MendProjector precedent):
+	# `turretHeat = Color.valueOf("ab3400"),`
+	# (Pal.java:52 -- 6-digit hex, so alpha 1.0);
+	# the alpha Java reads (glowColor.a) rides as
+	# the separate glow_alpha float input of the
+	# N2427 draw pure. The consumers are already
+	# live and UNCHANGED: the N2190 advance
+	# divides by discoveryTime
+	# (`progress += edelta() / discoveryTime;`,
+	# Radar.java:68 -- a full-efficiency radar
+	# discovers in 600 ticks) and the N2427 draw
+	# pure models the additive glow
+	# (`Drawf.additive(glowRegion, glowColor, glowColor.a * (1f - glowMag + Mathf.absin(glowScl, glowMag)), x, y, rotateSpeed * totalProgress, Layer.blockAdditive);`,
+	# Radar.java:89) with rotateSpeed / glow as
+	# caller-supplied inputs. Pure-only: the
+	# caller (the N2427 draw pure's caller, the
+	# N2190 advance's caller) reads it; the
+	# existing pures are unchanged.
+	if def_id == "radar":
+		return {
+			"discovery_time": 60.0 * 10.0,
+			"rotate_speed": 2.0,
+			"glow_color": "Pal.turretHeat",
+			"glow_scl": 5.0,
+			"glow_mag": 0.6,
+		}
+	return {
+		"discovery_time": 60.0 * 10.0,
+		"rotate_speed": 2.0,
+		"glow_color": "Pal.turretHeat",
+		"glow_scl": 5.0,
+		"glow_mag": 0.6,
+	}
 
 static func source_radar_draw_state(x_value: float, y_value: float, rotate_speed: float, total_progress: float, glow_color: String, glow_alpha: float, glow_mag: float, glow_scl: float, time_value: float, fog_radius: float, fog_radius_live: float, offset: float, size_value: int, tile_x: int, tile_y: int) -> Dictionary:
 	# The draw rows (RadarBuild.draw(), Radar.java:85-90),
