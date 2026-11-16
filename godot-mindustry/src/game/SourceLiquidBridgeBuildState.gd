@@ -105,7 +105,7 @@ static func source_liquid_bridge_power_status_row_state(frame: Dictionary, has_p
 	# LiquidBridgeBuild inherits ItemBridgeBuild.shouldConsume (ItemBridge.java:495, `public boolean shouldConsume(){` with `return hadValidLink && enabled;`, ItemBridge.java:496); updateConsumption forces efficiency to zero when the gate is false (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). N2198 makes the gate live (resolving the N2179 RED decision, the PointDefenseTurret N2151 precedent and the RepairTurret N2174 / RepairTower N2176 / ShockwaveTower N2177 / ItemBridge N2178 precedents): the LiquidBridge frame tracks its own link/had_valid_link keys (Java field defaults, ItemBridge.java:198/:202), the driver recomputes had_valid_link every tick through N2197's pure linkValid, and the pure gate (source_liquid_bridge_should_consume_state) feeds `should_consume = had_valid_link && enabled` to the machinery -- when unlinked efficiency folds to 0 like Java. The link gate itself is `hadValidLink = linkValid(tile, other);` (ItemBridge.java:333).
 	# The liquid bridge is its own family (LiquidBridge.java:7, `public class LiquidBridge extends ItemBridge{`; LiquidBridgeBuild, LiquidBridge.java:19, `public class LiquidBridgeBuild extends ItemBridgeBuild{`), a liquid block, NOT related to any factory / turret / defense family. Constructor: `hasItems = false;` (LiquidBridge.java:11), `hasLiquids = true;` (LiquidBridge.java:12), `outputsLiquid = true;` (LiquidBridge.java:13), `canOverdrive = false;` (LiquidBridge.java:14), `group = BlockGroup.liquids;` (LiquidBridge.java:15), `envEnabled = Env.any;` (LiquidBridge.java:16). It inherits the ItemBridge class (ItemBridge.java:24, `public class ItemBridge extends Block{`; ItemBridgeBuild, ItemBridge.java:197, `public class ItemBridgeBuild extends Building{`), a distribution block. Class fields: `public final int timerCheckMoved = timers ++;` (ItemBridge.java:25), `public int range;` (ItemBridge.java:27), `public float transportTime;` (ItemBridge.java:28), `public boolean fadeIn = true;` (ItemBridge.java:34), `public boolean moveArrows = true;` (ItemBridge.java:35), `public boolean pulse = false;` (ItemBridge.java:36), `public float arrowSpacing = 4f, arrowOffset = 2f, arrowPeriod = 0.4f;` (ItemBridge.java:37), `public float arrowTimeScl = 6.2f;` (ItemBridge.java:38), `public float bridgeWidth = 6.5f;` (ItemBridge.java:39); constructor `update = true;` (ItemBridge.java:45), `solid = true;` (ItemBridge.java:46), `underBullets = true;` (ItemBridge.java:47), `hasPower = true;` (ItemBridge.java:48), `itemCapacity = 10;` (ItemBridge.java:49), `configurable = true;` (ItemBridge.java:50), `hasItems = true;` (ItemBridge.java:51). Build fields: `public int link = -1;` (ItemBridge.java:198), `public IntSeq incoming = new IntSeq(false, 4);` (ItemBridge.java:199), `public float warmup;` (ItemBridge.java:200), `public float time = -8f, timeSpeed;` (ItemBridge.java:201), `public boolean wasMoved, moved, hadValidLink;` (ItemBridge.java:202), `public float transportCounter;` (ItemBridge.java:203). canConsume (BuildingComp.java:1917, `public boolean canConsume(){` with `return potentialEfficiency > 0;`, BuildingComp.java:1918) and the shouldConsume default (BuildingComp.java:755, `public boolean shouldConsume(){` with `return enabled;`, BuildingComp.java:756) are the surrounding gates. The single def carries `consumePower(0.30f);` (Blocks.java:2396) with `range = 12;` (Blocks.java:2388) and `liquidCapacity = 100f;` (Blocks.java:2395). No sense / read / write overrides exist on LiquidBridgeBuild -- those wait for their own slices only if a later Java line needs them.
 	# Single def -- phase-conduit only (size 1, range 12, liquidCapacity 100f, phase-fabric 5 / silicon 7 / metaglass 20 / titanium 10, Blocks.java:2385-2397). bridge-conduit (LiquidBridge, no power def, `hasPower = false;`, Blocks.java:2380) is explicitly OUT of scope; reinforced-bridge-conduit (DirectionLiquidBridge, Blocks.java:2432, different class, hasPower false) is explicitly OUT of scope.
-	# Documented limits: (1) power-only first pass -- the phase-conduit's static power consumer (consumePower 0.30f, Blocks.java:2396) is the only modeled consumer, so the folded efficiency is the min over the *modeled* consumers (power only); phase-conduit has no second consumer. (2) shouldConsume gate live (N2198) -- LiquidBridgeBuild inherits ItemBridgeBuild.shouldConsume (`return hadValidLink && enabled;`, ItemBridge.java:495-496); when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994); the pure gate feeds had_valid_link && enabled to the machinery, and the driver recomputes had_valid_link every tick after the consumption fold through N2197's pure linkValid. (3) updateTransport advance live (N2275) -- warmup gate / moveLiquid / moved flag (LiquidBridge.java:22-26) run every enabled tick after the consumption fold through the pure source_liquid_bridge_update_transport_state function; doDump live (N2287) -- dumpLiquid(liquids.current(), 1f); at scaling 1f (LiquidBridge.java:29-31), NOT the 2f default (BuildingComp.java:877-878), through the pure source_liquid_bridge_do_dump_state function, wired in the unlinked branch only; the neighbour arrays are frame inputs, default [] (no live proximity fill yet). Dump neighbour write-back live since N2379 -- the pure exposes the handled neighbour index + the dumped liquid id and the tick lands the dumped liquid in the neighbour frame through the shared N2371 helper. The moveLiquid reaction branch (BuildingComp.java:954-976) still defers (Java itself TODOs the reaction as wrong for multi-liquid blocks), and the timerCheckMoved snapshot (ItemBridge.java:320-323) defers (no timer infra), so moved is set by the transfer but never snapshots into wasMoved. The power proof carries no transport/warmup/move keys; the N2275 proof carries the transport keys; the N2287 proof carries the dump keys; the N2379 proof carries the write-back keys. (4) No sense/warmup modeling -- `warmup()` has no override here (draw-only warmup, ItemBridge.java:387) and sense waits for its own slice. (5) Single def -- phase-conduit only (size 1, range 12, liquidCapacity 100f, phase-fabric 5 / silicon 7 / metaglass 20 / titanium 10); bridge-conduit (LiquidBridge, no power def) and reinforced-bridge-conduit (DirectionLiquidBridge, different class) are explicitly OUT of scope; per-def stat values wait for their own verification slice. (6) No draw/config-UI modeling -- the config handlers (ItemBridge.java:64/66) are covered by N2197's pure configure (reused, not copied), but bridge draw / drawSelect / drawConfigure (ItemBridge.java:216-296, 375-394, inherited) and placement auto-link (playerPlaced / findLink / lastBuild, ItemBridge.java:167-173, 211) wait for their own slices (N2199).
+	# Documented limits: (1) power-only first pass -- the phase-conduit's static power consumer (consumePower 0.30f, Blocks.java:2396) is the only modeled consumer, so the folded efficiency is the min over the *modeled* consumers (power only); phase-conduit has no second consumer. (2) shouldConsume gate live (N2198) -- LiquidBridgeBuild inherits ItemBridgeBuild.shouldConsume (`return hadValidLink && enabled;`, ItemBridge.java:495-496); when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994); the pure gate feeds had_valid_link && enabled to the machinery, and the driver recomputes had_valid_link every tick after the consumption fold through N2197's pure linkValid. (3) updateTransport advance live (N2275) -- warmup gate / moveLiquid / moved flag (LiquidBridge.java:22-26) run every enabled tick after the consumption fold through the pure source_liquid_bridge_update_transport_state function; doDump live (N2287) -- dumpLiquid(liquids.current(), 1f); at scaling 1f (LiquidBridge.java:29-31), NOT the 2f default (BuildingComp.java:877-878), through the pure source_liquid_bridge_do_dump_state function, wired in the unlinked branch only; the neighbour arrays are live-filled since N2412 (the tick scans the live proximity BEFORE the dump reads them, the N2394 liquid half + the N2408 8-field shape; supplied arrays win, the N2381 precedent). Dump neighbour write-back live since N2379 -- the pure exposes the handled neighbour index + the dumped liquid id and the tick lands the dumped liquid in the neighbour frame through the shared N2371 helper. The moveLiquid reaction branch (BuildingComp.java:954-976) still defers (Java itself TODOs the reaction as wrong for multi-liquid blocks), and the timerCheckMoved snapshot (ItemBridge.java:320-323) defers (no timer infra), so moved is set by the transfer but never snapshots into wasMoved. The power proof carries no transport/warmup/move keys; the N2275 proof carries the transport keys; the N2287 proof carries the dump keys; the N2379 proof carries the write-back keys; the N2412 proof carries the fill keys. (4) No sense/warmup modeling -- `warmup()` has no override here (draw-only warmup, ItemBridge.java:387) and sense waits for its own slice. (5) Single def -- phase-conduit only (size 1, range 12, liquidCapacity 100f, phase-fabric 5 / silicon 7 / metaglass 20 / titanium 10); bridge-conduit (LiquidBridge, no power def) and reinforced-bridge-conduit (DirectionLiquidBridge, different class) are explicitly OUT of scope; per-def stat values wait for their own verification slice. (6) No draw/config-UI modeling -- the config handlers (ItemBridge.java:64/66) are covered by N2197's pure configure (reused, not copied), but bridge draw / drawSelect / drawConfigure (ItemBridge.java:216-296, 375-394, inherited) and placement auto-link (playerPlaced / findLink / lastBuild, ItemBridge.java:167-173, 211) wait for their own slices (N2199).
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -148,8 +148,8 @@ static func source_liquid_bridge_update_transport_state(frame: Dictionary, sourc
 	# then `if(enabled || !block.noUpdateDisabled){` / `updateTile();`).
 	# `if(!hadValidLink){` (ItemBridge.java:335): `doDump();` (ItemBridge.java:336, live since N2287 --
 	# `public void doDump(){` / `dumpLiquid(liquids.current(), 1f);`, LiquidBridge.java:29-31, through
-	# source_liquid_bridge_do_dump_state below; the neighbour arrays are frame inputs, default [] -- no live
-	# proximity fill yet) and `warmup = 0f;` (ItemBridge.java:337).
+	# source_liquid_bridge_do_dump_state below; the neighbour arrays are live-filled since N2412)
+	# and `warmup = 0f;` (ItemBridge.java:337).
 	# Else: `warmup = Mathf.approachDelta(warmup, efficiency, 1f / 30f);` (ItemBridge.java:345) and
 	# `updateTransport(other.build);` (ItemBridge.java:346). The timer snapshot defers (no timer helper in the port):
 	# `if(timer(timerCheckMoved, 30f)){` / `wasMoved = moved;` / `moved = false;` (ItemBridge.java:320-323);
@@ -532,11 +532,47 @@ static func source_liquid_bridge_tick_buildings_state(game: Object, seconds: flo
 			# scaling 1f): Java calls doDump() in the !hadValidLink branch (ItemBridge.java:335-337) before
 			# zeroing warmup; the transport advance above already zeroed warmup when unlinked and left the
 			# store untouched, so the dump runs here on the advanced store. The linked branch never dumps.
-			# The neighbour arrays are frame inputs (the N2276 precedent, default [] -- no live proximity
-			# fill yet), so a live bridge with no fill dumps nothing. The neighbour write-back is live
+			# The neighbour arrays are live-filled since N2412 (the tick scans the live proximity BEFORE
+			# the dump reads them below; a frame with supplied arrays keeps them, the N2381/N2394
+			# precedent -- the N2287/N2379 proofs seed the arrays by hand). The neighbour write-back is live
 			# since N2379 (the N2371 Fracker precedent): the dumped liquid lands in the handled
 			# neighbour's store through the shared helper below. The cursor persists on the frame (cdump).
 			if not bool(frame.get("had_valid_link", false)):
+				# N2412: the doDump neighbour live fill -- the
+				# tick fills the eight neighbour arrays from
+				# the live proximity BEFORE the dump reads
+				# them below (the N2394 liquid half + the
+				# N2408 Fracker 8-field shape, as eight
+				# parallel arrays). Supplied arrays WIN (the
+				# N2381 / N2394 precedent): the fill runs only
+				# when the frame carries NONE of the eight
+				# keys -- the N2287/N2379 proofs seed the
+				# arrays by hand, so a fill there would
+				# overwrite the seed. A frame the fill already
+				# stamped (dump_neighbour_live -- port
+				# bookkeeping, not Java state) refreshes every
+				# tick, so a later-placed neighbour joins the
+				# arrays and a removed one leaves them. The
+				# fill reads the dumped liquid from the
+				# advanced store (liquids.current(),
+				# LiquidBridge.java:30) and resolves its name
+				# through the tick's liquid_names_by_id. The
+				# tick reads the origin_cell meta inline as
+				# fill_cell (the N2363 note) and the catalog
+				# size.
+				var has_supplied_dump_neighbour_arrays: bool = frame.has("dump_neighbour_amounts") or frame.has("dump_neighbour_capacities") or frame.has("dump_neighbour_accepts") or frame.has("dump_neighbour_has_liquids") or frame.has("dump_neighbour_can_dump") or frame.has("dump_neighbour_liquids_present") or frame.has("dump_neighbour_destination_present") or frame.has("dump_neighbour_relative_to")
+				if not has_supplied_dump_neighbour_arrays or bool(frame.get("dump_neighbour_live", false)):
+					var fill_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
+					var filled: Dictionary = source_liquid_bridge_dodump_neighbour_live_fill_state(game, fill_cell, int(block.properties.get("size", 1)), advanced["liquids_after"], liquid_names_by_id)
+					frame["dump_neighbour_amounts"] = filled.get("dump_neighbour_amounts", [])
+					frame["dump_neighbour_capacities"] = filled.get("dump_neighbour_capacities", [])
+					frame["dump_neighbour_accepts"] = filled.get("dump_neighbour_accepts", [])
+					frame["dump_neighbour_has_liquids"] = filled.get("dump_neighbour_has_liquids", [])
+					frame["dump_neighbour_can_dump"] = filled.get("dump_neighbour_can_dump", [])
+					frame["dump_neighbour_liquids_present"] = filled.get("dump_neighbour_liquids_present", [])
+					frame["dump_neighbour_destination_present"] = filled.get("dump_neighbour_destination_present", [])
+					frame["dump_neighbour_relative_to"] = filled.get("dump_neighbour_relative_to", [])
+					frame["dump_neighbour_live"] = true
 				var dump_neighbours: Dictionary = {"amounts": frame.get("dump_neighbour_amounts", []), "capacities": frame.get("dump_neighbour_capacities", []), "accepts": frame.get("dump_neighbour_accepts", []), "has_liquids": frame.get("dump_neighbour_has_liquids", []), "can_dump": frame.get("dump_neighbour_can_dump", []), "liquids_present": frame.get("dump_neighbour_liquids_present", []), "destination_present": frame.get("dump_neighbour_destination_present", []), "relative_to": frame.get("dump_neighbour_relative_to", [])}
 				var dumped: Dictionary = source_liquid_bridge_do_dump_state(frame, bool(frame.get("had_valid_link", false)), advanced["liquids_after"], SOURCE_LIQUID_BRIDGE_LIQUID_CAPACITY, dump_neighbours)
 				frame["cdump"] = dumped["cursor_after"]
@@ -575,3 +611,172 @@ static func source_liquid_bridge_tick_buildings_state(game: Object, seconds: flo
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
 	return {"ticked_count": ticked_count, "results_by_cell": results_by_cell}
+
+static func source_liquid_bridge_dodump_neighbour_live_fill_state(game: Object, cell: Vector2i, size: int, liquids: Dictionary, liquid_names_by_id: Array) -> Dictionary:
+	# The doDump neighbour live fill (N2412, DEFERRED
+	# #232): the N2287 doDump reads the eight neighbour
+	# arrays as frame inputs (default [] -- no neighbours,
+	# the Java proximity.size == 0 outcome), so a live
+	# bridge with no fill never dumped. This fill scans the
+	# live proximity BEFORE the dump pure and fills the
+	# eight arrays from the live neighbour frames, in ring
+	# order (index i is ring cell i, the N2353 convention --
+	# the ring comes from source_block_proximity_cells_state,
+	# the sprite from block_sprite_at_cell, the frame from
+	# the first SOURCE_CONSUMER_FRAME_META_KEYS meta on the
+	# sprite, the N2353/N2371 resolution path):
+	# `Building other = proximity.get((i + dump) % proximity.size);`
+	# The dumped liquid is liquids.current() -- the
+	# LiquidBridge override (LiquidBridge.java:29-31):
+	# `public void doDump(){`
+	# `dumpLiquid(liquids.current(), 1f);`
+	# so the fill reads the current id from the advanced
+	# store (the same read the N2287 doDump pure makes)
+	# and resolves its name through liquid_names_by_id
+	# (catalog order, index = liquid id, the PayloadLoader
+	# precedent) -- the N2394 unloader case, NOT the N2408
+	# fixed def result. The amount is the neighbour frame
+	# liquids module's amount for the current id, the
+	# capacity is the neighbour def's liquidCapacity (the
+	# ofract denominator):
+	# `float ofract = other.liquids.get(liquid) / other.block.liquidCapacity;`
+	# A neighbour frame with no liquids store reports
+	# capacity 0.0 (the N2371 no_liquids_store precedent);
+	# the :901 gate needs the store too:
+	# `if(other != null && other.block.hasLiquids && canDumpLiquid(other, liquid) && other.liquids != null){`
+	# The accepts/canDump verdicts come from the DEFAULT
+	# BuildingComp gates -- acceptLiquid is hasLiquids AND
+	# consumesLiquid:
+	# `public boolean acceptLiquid(Building source, Liquid liquid){`
+	# `return block.hasLiquids && block.consumesLiquid(liquid);`
+	# and canDumpLiquid defaults to true:
+	# `public boolean canDumpLiquid(Building to, Liquid liquid){`
+	# The consumes read is the liquidFilter:
+	# `public boolean consumesLiquid(Liquid liq){`
+	# `return liquidFilter[liq.id];`
+	# which the port represents as the catalog consumeLiquid
+	# rows. The destination defaults to present (the default
+	# getLiquidDestination returns self()):
+	# `public Building getLiquidDestination(Building from, Liquid liquid){`
+	# and relative_to is 0 (outputDir is -1, so the filter
+	# never reads it). The liquid capacity default is the
+	# 10.0 port precedent (SourceFactoryBuildState) when the
+	# catalog carries no liquidCapacity key -- Java computes
+	# it in Block.init:
+	# `liquidCapacity = Mathf.round(10f * consumeAmount);`
+	# (min 10f, since consumeAmount starts at 1f). Per-block
+	# overrides are OUT of scope: a neighbour with a modeled
+	# override is evaluated with the DEFAULT gate here (the
+	# override dispatch is a follow-through note). A
+	# neighbour with no frame (no sprite / unknown def /
+	# conduit / no meta-key frame) reports the no-frame
+	# outcome -- 0.0 / 0.0 / false / false / false / false /
+	# false / 0 -- the N2353/N2371 no-frame precedent (a
+	# routed liquid to a frameless neighbour drops, so the
+	# fill closes the gates and nothing routes there). A
+	# conduit is no-frame because its acceptLiquid is a
+	# per-block override (Conduit.java:242-244, out of
+	# scope) and the DEFAULT gate would reject it anyway (a
+	# conduit consumes no liquid). Catalog gap (NOT fixed):
+	# 30 defs carry consumeLiquid rows but lack the
+	# hasLiquids key (e.g. electrolyzer) -- the fill reads
+	# the catalog key with the Java field default false (the
+	# N2394 precedent). Two ring-model notes: Java
+	# updateProximity dedupes multi-cell neighbours
+	# (`//using a set to prevent duplicates`,
+	# BuildingComp.java:1879-1900) and keeps same-team
+	# buildings only (`other.team != team` skips), while the
+	# ring reports a multi-cell neighbour at each of its
+	# ring cells with no team filter -- the N2353 / N2371
+	# ring convention this fill mirrors (a delivery to
+	# either index lands in the same frame). Dedup + the
+	# team filter wait for a shared ring-geometry slice.
+	# The frame-key list comes from a runtime load (the
+	# N2371/BeamDrill precedent), NOT a preload: the
+	# power-graph state's 104-file transitive preload tree
+	# is cycle-risky, and a preload line above the tick
+	# would shift the :540 dump-read site. The liquid-module
+	# read goes through the shared source_get_state helper
+	# (the N2394/N2408 precedent), resolved the same way.
+	# This pure lives after the tick function (the N2408
+	# precedent).
+	var ring: Array = source_block_geometry.source_block_proximity_cells_state(size, cell.x, cell.y).get("cells", [])
+	var power_graph_state = load("res://src/game/SourcePlacedPowerGraphState.gd")
+	var liquid_module_state = load("res://src/game/SourceLiquidModuleState.gd")
+	var blocks_by_id: Dictionary = {}
+	if game != null:
+		var catalog: Variant = game.get("content_catalog")
+		if catalog != null:
+			for registered_block in catalog.get_many("block"):
+				blocks_by_id[registered_block.id] = registered_block
+	var current_liquid_id: int = int(liquids.get("current", -1))
+	var current_liquid_name: String = ""
+	if current_liquid_id >= 0 and current_liquid_id < liquid_names_by_id.size():
+		current_liquid_name = str(liquid_names_by_id[current_liquid_id])
+	var dump_neighbour_amounts: Array = []
+	var dump_neighbour_capacities: Array = []
+	var dump_neighbour_accepts: Array = []
+	var dump_neighbour_has_liquids: Array = []
+	var dump_neighbour_can_dump: Array = []
+	var dump_neighbour_liquids_present: Array = []
+	var dump_neighbour_destination_present: Array = []
+	var dump_neighbour_relative_to: Array = []
+	for neighbour_cell in ring:
+		var amount := 0.0
+		var capacity := 0.0
+		var accepts := false
+		var has_liquids := false
+		var can_dump := false
+		var liquids_present := false
+		var destination_present := false
+		var relative_to := 0
+		var sprite: Variant = null
+		if game != null:
+			sprite = game.call("block_sprite_at_cell", neighbour_cell)
+		if sprite != null:
+			var block_id: String = str(sprite.get_meta(source_placed_block_state.SOURCE_BLOCK_ID_META_KEY, ""))
+			var is_conduit: bool = sprite.has_meta(source_building_liquid_state.SOURCE_NEIGHBOUR_CONDUIT_FRAME_META_KEY) or source_building_liquid_state.SOURCE_NEIGHBOUR_CONDUIT_BLOCK_IDS.has(block_id)
+			if not is_conduit and blocks_by_id.has(block_id):
+				var neighbour_block = blocks_by_id[block_id]
+				var neighbour_frame: Dictionary = {}
+				var has_neighbour_frame := false
+				for meta_key in power_graph_state.SOURCE_CONSUMER_FRAME_META_KEYS:
+					if not sprite.has_meta(meta_key):
+						continue
+					var candidate: Variant = sprite.get_meta(meta_key)
+					if candidate is Dictionary:
+						neighbour_frame = candidate
+						has_neighbour_frame = true
+						break
+				if has_neighbour_frame:
+					var neighbour_properties = neighbour_block.properties
+					can_dump = true
+					destination_present = true
+					has_liquids = bool(neighbour_properties.get("hasLiquids", false))
+					var neighbour_liquids: Variant = neighbour_frame.get("liquids", null)
+					var neighbour_store_amounts: Variant = null
+					if neighbour_liquids is Dictionary:
+						neighbour_store_amounts = (neighbour_liquids as Dictionary).get("liquids", null)
+					if neighbour_store_amounts is Array:
+						liquids_present = true
+						capacity = float(neighbour_properties.get("liquidCapacity", 10.0))
+						if current_liquid_id >= 0 and current_liquid_id < (neighbour_store_amounts as Array).size():
+							amount = float(liquid_module_state.source_get_state(neighbour_liquids, current_liquid_id).get("amount", 0.0))
+					if not current_liquid_name.is_empty():
+						var consumes_liquid := false
+						for row in neighbour_properties.get("consumeLiquid", []):
+							if not (row is Dictionary):
+								continue
+							if str(row.get("liquid", "")) == current_liquid_name:
+								consumes_liquid = true
+								break
+						accepts = has_liquids and consumes_liquid
+		dump_neighbour_amounts.append(amount)
+		dump_neighbour_capacities.append(capacity)
+		dump_neighbour_accepts.append(accepts)
+		dump_neighbour_has_liquids.append(has_liquids)
+		dump_neighbour_can_dump.append(can_dump)
+		dump_neighbour_liquids_present.append(liquids_present)
+		dump_neighbour_destination_present.append(destination_present)
+		dump_neighbour_relative_to.append(relative_to)
+	return {"dump_neighbour_amounts": dump_neighbour_amounts, "dump_neighbour_capacities": dump_neighbour_capacities, "dump_neighbour_accepts": dump_neighbour_accepts, "dump_neighbour_has_liquids": dump_neighbour_has_liquids, "dump_neighbour_can_dump": dump_neighbour_can_dump, "dump_neighbour_liquids_present": dump_neighbour_liquids_present, "dump_neighbour_destination_present": dump_neighbour_destination_present, "dump_neighbour_relative_to": dump_neighbour_relative_to}
