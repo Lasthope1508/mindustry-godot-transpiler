@@ -10,6 +10,7 @@ const source_drill_inventory_runtime_state := preload("res://src/game/SourceDril
 const source_liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
 const source_content_registry_runtime_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
 const source_building_item_dump_state := preload("res://src/game/SourceBuildingItemDumpState.gd")
+const source_building_item_state := preload("res://src/game/SourceBuildingItemState.gd")
 
 # The BeamDrill implementation (BeamDrill.java:25, `public class
 # BeamDrill extends Block{`): plasma-bore (consumePower 0.15f,
@@ -507,10 +508,11 @@ static func source_beam_drill_power_status_row_state(frame: Dictionary, has_powe
 	# loop + `time %= drillTime;` reset +
 	# lastDrillSpeed (BeamDrill.java:249, 253-262, needs
 	# lastItem / facing / items state the tick does not
-	# track), and the dump neighbour live fill + write-back
+	# track), and the dump neighbour live fill
 	# (the neighbour acceptItem / canDump arrays are frame
-	# inputs, default [], and the dumped item is not written
-	# into the neighbour frame yet). Until the reset slice
+	# inputs, default []); the dump neighbour write-back is
+	# live since N2363 (the dumped item lands in the neighbour
+	# frame through the shared helper). Until the reset slice
 	# lands, time grows unbounded.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
@@ -685,9 +687,20 @@ static func source_beam_drill_timer_dump_state(frame: Dictionary, source_delta: 
 	# putItem gate game_put_item_state, which dumps one
 	# SPECIFIC item and needs a game object for its increment
 	# callbacks, while the timer block calls dump(). The
-	# shared port reports the handled neighbour but does not
-	# write the item into the neighbour frame -- the
-	# write-back waits for its own slice. The timer is called
+	# shared port reports the handled neighbour index + item
+	# (handled_index / handled_item, -1 / null when nothing
+	# dumps); since N2363 the advance exposes them as
+	# dump_neighbour_index / dumped_item (-1 / "" when
+	# nothing dumps) and the tick wires the shared neighbour
+	# write-back helper after the advance (the handleItem
+	# call, `other.handleItem(self(), item);`,
+	# BuildingComp.java:1089), so the dumped item lands in
+	# the neighbour frame -- the dump neighbour write-back
+	# live since N2363. The two new keys are UNREGISTERED
+	# API shape (the N2353 offload_neighbour_index /
+	# offload_routed precedent): the schema-sync slice folds
+	# them into source_beam_drill_timer_dump_state_result.
+	# The timer is called
 	# unconditionally in Java and dump() guards internally,
 	# so a fired timer with an empty store still resets the
 	# clock and dumps nothing.
@@ -699,6 +712,8 @@ static func source_beam_drill_timer_dump_state(frame: Dictionary, source_delta: 
 	var fired: bool = accumulated >= threshold
 	var elapsed_after: float = 0.0 if fired else accumulated
 	var dumped := false
+	var dump_neighbour_index := -1
+	var dumped_item := ""
 	if fired:
 		var amounts: Array = []
 		for item_id in content_item_ids:
@@ -707,11 +722,13 @@ static func source_beam_drill_timer_dump_state(frame: Dictionary, source_delta: 
 		cursor = int(result.get("cdump", cursor))
 		if bool(result.get("dumped", false)):
 			dumped = true
+			dump_neighbour_index = int(result.get("handled_index", -1))
+			dumped_item = str(result.get("handled_item", ""))
 			var amounts_after: Array = result.get("item_amounts_by_index", amounts)
 			for j in range(content_item_ids.size()):
 				if j < amounts_after.size():
 					items[str(content_item_ids[j])] = int(amounts_after[j])
-	return {"fired": fired, "elapsed_after": elapsed_after, "dumped": dumped, "items_after": items, "cursor_after": cursor}
+	return {"fired": fired, "elapsed_after": elapsed_after, "dumped": dumped, "items_after": items, "cursor_after": cursor, "dump_neighbour_index": dump_neighbour_index, "dumped_item": dumped_item}
 
 static func source_beam_drill_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the beam-drill tick wiring every
@@ -1043,8 +1060,9 @@ static func source_beam_drill_tick_buildings_state(game: Object, seconds: float)
 			# the neighbour acceptItem / canDump arrays are frame
 			# inputs (default [] -- no neighbours, the Java
 			# proximity.size == 0 outcome) until a live proximity
-			# fill lands, and the dumped item is not written into
-			# the neighbour frame yet (no neighbour write-back).
+			# fill lands; the dumped item lands in the neighbour
+			# frame through the shared write-back helper since
+			# N2363 (dump neighbour write-back live since N2363).
 			# The clock runs only while enabled (the same pragmatic
 			# gate as the advance itself -- Java runs updateTile
 			# even when disabled, BuildingComp.java:2276-2277); the
@@ -1059,6 +1077,26 @@ static func source_beam_drill_tick_buildings_state(game: Object, seconds: float)
 			frame["timer_dump_elapsed"] = timer_dump.get("elapsed_after", 0.0)
 			frame["items"] = timer_dump.get("items_after", frame.get("items", {}))
 			frame["cdump"] = timer_dump.get("cursor_after", frame.get("cdump", 0))
+			# N2363: the timerDump dump neighbour write-back --
+			# the advance exposed the routed neighbour index +
+			# dumped item (dump_neighbour_index / dumped_item,
+			# -1 / "" when nothing dumps), so the tick lands
+			# the dumped item in the neighbour store through
+			# the shared helper (other.handleItem(self(), item),
+			# BuildingComp.java:1089 -- the handleItem call is
+			# `other.handleItem(self(), item);`), right after
+			# the timerDump write-back above (the N2353
+			# Separator offload precedent: index i is ring
+			# cell i, amount 1, one handleItem per dump). A
+			# failed write-back (no sprite / no frame / no
+			# items store / full belt) drops the item -- the
+			# routing already decided, so there is no fallback
+			# to the drill's own store.
+			if bool(timer_dump.get("dumped", false)):
+				var dump_index: int = int(timer_dump.get("dump_neighbour_index", -1))
+				if dump_index >= 0:
+					var dump_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
+					source_building_item_state.source_neighbour_item_write_back_state(game, dump_cell, int(block.properties.get("size", 1)), dump_index, str(timer_dump.get("dumped_item", "")), 1)
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
