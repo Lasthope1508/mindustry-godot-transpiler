@@ -182504,6 +182504,134 @@
         "test_reference_graph_and_actual_c07_separator_offload_routing"
       ],
       "runtime_proof": "/root/C07SeparatorOffloadRoutingProof"
+    },
+    "source_regen_projector_privileged_state_result.privileged": {
+      "status": "source-backed",
+      "godot_owner": "SourceRegenProjectorBuildState.source_regen_projector_privileged_state",
+      "godot_symbol": "source_regen_projector_privileged_state_result.privileged",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "RegenProjectorBuild.updateTargets()",
+      "java_expr": "privileged = true;",
+      "rule": "The privileged flag (Blocks.java:6955/6965/6974/6981, the `privileged = true;` line in each of the four world-processor-only logic block defs, against the `public boolean privileged = false;` default, Block.java:148): true iff the block id is one of the four defs. The tick stamps it on every live candidate and the N2338 narrow drops the privileged ones (BlockIndexer.java:372, `if(pred.get(b) && !b.block.privileged){`).",
+      "tests": [
+        "test_c07_regen_projector_privileged_flag_fill_registration",
+        "test_all_c07_regen_projector_privileged_flag_fill_input_evidence_is_exact",
+        "test_regen_projector_privileged_flag_fill_state",
+        "test_reference_graph_and_actual_c07_regen_projector_privileged_flag_fill"
+      ],
+      "runtime_proof": "/root/C07RegenProjectorPrivilegedFlagFillProof"
+    },
+    "source_unit_assembler_module_can_place_on_state_result.can_place_on": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_can_place_on_state",
+      "godot_symbol": "source_unit_assembler_module_can_place_on_state_result.can_place_on",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+      "java_method": "UnitAssemblerModule.canPlaceOn()",
+      "java_expr": "return getLink(team, tile.x, tile.y, rotation) != null;",
+      "rule": "Whether the unit-assembler-module can be placed (UnitAssemblerModule.java:48-51): true iff getLink(team, tile.x, tile.y, rotation) != null -- the frame link (UnitAssemblerModule.java:72) is non-null, i.e. the N2248 findLink re-discovery found a fitting assembler (getLink, UnitAssemblerModule.java:65-69, returns the first flagged assembler whose moduleFits holds). False when no link is stamped (absent or null).",
+      "tests": [
+        "test_c07_unit_assembler_module_can_place_on_registration",
+        "test_all_c07_unit_assembler_module_can_place_on_input_evidence_is_exact",
+        "test_unit_assembler_module_can_place_on_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_can_place_on"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleCanPlaceOnProof"
+    },
+    "source_beam_drill_laser_origins_state_result.lasers": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_laser_origins_state",
+      "godot_symbol": "source_beam_drill_laser_origins_state_result.lasers",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.updateLasers()",
+      "java_expr": "nearbySide(tileX(), tileY(), rotation, i, lasers[i]);",
+      "rule": "The laser origins (BeamDrill.java:368-373): one {x, y} tile-coordinate origin per laser, size origins in laser order (i = 0..size-1), computed by the nearbySide geometry (Block.java:936-944). Stamped onto frame[\"lasers\"] when tile_changes moves (the N2277 pattern), with a first-tick refresh covering the lazy BeamDrill.java:240 call; updateFacing walks its rays from these origins (BeamDrill.java:383-387).",
+      "tests": [
+        "test_c07_beam_drill_laser_origins_registration",
+        "test_all_c07_beam_drill_laser_origins_input_evidence_is_exact",
+        "test_beam_drill_laser_origins_state",
+        "test_reference_graph_and_actual_c07_beam_drill_laser_origins"
+      ],
+      "runtime_proof": "/root/C07BeamDrillLaserOriginsProof"
+    },
+    "source_shockwave_tower_supplied_bullets_broad_hitbox_state_result.bullets": {
+      "status": "source-backed",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_supplied_bullets_broad_hitbox_state",
+      "godot_symbol": "source_shockwave_tower_supplied_bullets_broad_hitbox_state_result.bullets",
+      "java_source": "arc-core/src/arc/math/geom/Rect.java",
+      "java_method": "ShockwaveTowerBuild.updateTile()",
+      "java_expr": "return x < rx + rwidth && x + width > rx && y < ry + rheight && y + height > ry;",
+      "rule": "The broad-admitted list (Rect.java:274-276, the STRICT overlap): the candidate dicts themselves, in candidate order -- the bullets whose hitSize-sided hitbox (HitboxComp.java:67, rect.setCentered(x, y, hitSize, hitSize)) strictly overlaps the range*2 rect. The N2327 scan pure filters team / hittable on this list; the N2340 refinement re-filters the same overlap downstream (idempotent).",
+      "tests": [
+        "test_c07_shockwave_tower_bullet_scan_broad_hitbox_registration",
+        "test_all_c07_shockwave_tower_bullet_scan_broad_hitbox_input_evidence_is_exact",
+        "test_shockwave_tower_bullet_scan_broad_hitbox_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_bullet_scan_broad_hitbox"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerBulletScanBroadHitboxProof"
+    },
+    "source_unit_assembler_module_tier_state_result.tier": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_tier_state",
+      "godot_symbol": "source_unit_assembler_module_tier_state_result.tier",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+      "java_method": "UnitAssemblerModuleBuild.tier()",
+      "java_expr": "return tier;",
+      "rule": "The module tier (UnitAssemblerModule.java:85-86, `public int tier(){` / `return tier;`): the block tier field, stamped on the frame as frame[\"tier\"] every tick. The assembler consumes it in checkTier() (UnitAssembler.java:364-378, `modules.sort(b -> b.tier());` plus the max-tier walk), whose pure is live since N2133 reading the assembler frame modules list; the cross-building wiring feeding stamped module tiers into that list waits for its own slice.",
+      "tests": [
+        "test_c07_unit_assembler_module_tier_stamp_registration",
+        "test_all_c07_unit_assembler_module_tier_stamp_input_evidence_is_exact",
+        "test_unit_assembler_module_tier_stamp_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_tier_stamp"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleTierStampProof"
+    },
+    "source_separator_disassembler_scrap_row_state_result.row": {
+      "status": "source-backed",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_disassembler_scrap_row_state",
+      "godot_symbol": "source_separator_disassembler_scrap_row_state_result.row",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "SeparatorBuild.updateTile()",
+      "java_expr": "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;",
+      "rule": "The scrap row for the first pass (ConsumeItems.java:52, the canonical ConsumeItems.efficiency): {\"result\": 1.0 when every stack is held (or the trigger is valid, base false), else 0.0, \"is_power\": false}, folded by the non-optional pass into the min efficiency; 0.0 when the store holds no scrap. is_power false, so the shared fold sets shouldConsumePower=false when the row is <= 1e-7 (BuildingComp.java:1972-1973).",
+      "tests": [
+        "test_c07_separator_disassembler_scrap_row_registration",
+        "test_all_c07_separator_disassembler_scrap_row_input_evidence_is_exact",
+        "test_separator_disassembler_scrap_row_state",
+        "test_reference_graph_and_actual_c07_separator_disassembler_scrap_row"
+      ],
+      "runtime_proof": "/root/C07SeparatorDisassemblerScrapRowProof"
+    },
+    "source_separator_disassembler_scrap_row_state_result.has_item_row": {
+      "status": "source-backed",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_disassembler_scrap_row_state",
+      "godot_symbol": "source_separator_disassembler_scrap_row_state_result.has_item_row",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "SeparatorBuild.updateTile()",
+      "java_expr": "for(var cons : block.nonOptionalConsumers){",
+      "rule": "Whether the row joins the first pass (BuildingComp.java:1969): true when the block has an item consumer; the row is the scrap consumer's entry in the non-optional pass.",
+      "tests": [
+        "test_c07_separator_disassembler_scrap_row_registration",
+        "test_all_c07_separator_disassembler_scrap_row_input_evidence_is_exact",
+        "test_separator_disassembler_scrap_row_state",
+        "test_reference_graph_and_actual_c07_separator_disassembler_scrap_row"
+      ],
+      "runtime_proof": "/root/C07SeparatorDisassemblerScrapRowProof"
+    },
+    "source_mend_projector_heal_candidates_hitbox_state_result.candidates": {
+      "status": "source-backed",
+      "godot_owner": "SourceMendProjectorBuildState.source_mend_projector_heal_candidates_hitbox_state",
+      "godot_symbol": "source_mend_projector_heal_candidates_hitbox_state_result.candidates",
+      "java_source": "arc-core/src/arc/math/geom/Rect.java",
+      "java_method": "MendProjectorBuild.updateTile()",
+      "java_expr": "return x < rx + rwidth && x + width > rx && y < ry + rheight && y + height > ry;",
+      "rule": "The hitbox-admitted list (Rect.java:274-276, the STRICT overlap): the candidate dicts themselves, in candidate order -- the buildings whose hitSize-sided hitbox (BuildingComp.java:2293, out.setCentered(x, y, block.size * tilesize, block.size * tilesize)) strictly overlaps the realRange*2 rect. Passed into the N2335 narrow pure, then into the N2242 heal scan.",
+      "tests": [
+        "test_c07_mend_projector_heal_scan_hitbox_registration",
+        "test_all_c07_mend_projector_heal_scan_hitbox_input_evidence_is_exact",
+        "test_mend_projector_heal_scan_hitbox_state",
+        "test_reference_graph_and_actual_c07_mend_projector_heal_scan_hitbox"
+      ],
+      "runtime_proof": "/root/C07MendProjectorHealScanHitboxProof"
     }
   },
   "version": 1

@@ -598,6 +598,47 @@
       "rule": "Source-backed BeamDrill facing scan / updateFacing rows from BeamDrill.java / Block.java / Blocks.java.",
       "return_type": "Dictionary"
     },
+    "SourceBeamDrillBuildState.source_beam_drill_laser_origins_state": {
+      "canonical_contract": "source_api_contracts.SourceBeamDrillBuildState.source_beam_drill_laser_origins_state",
+      "status": "active",
+      "source_slice": "N2346",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrillBuild.updateLasers()",
+      "params": [
+        {
+          "name": "tile_x",
+          "type": "int",
+          "schema": "source_beam_drill_laser_origins_state_input.tile_x"
+        },
+        {
+          "name": "tile_y",
+          "type": "int",
+          "schema": "source_beam_drill_laser_origins_state_input.tile_y"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_beam_drill_laser_origins_state_input.rotation"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_beam_drill_laser_origins_state_input.size"
+        }
+      ],
+      "return_keys": [
+        "lasers"
+      ],
+      "tests": [
+        "test_c07_beam_drill_laser_origins_registration",
+        "test_all_c07_beam_drill_laser_origins_input_evidence_is_exact",
+        "test_beam_drill_laser_origins_state",
+        "test_reference_graph_and_actual_c07_beam_drill_laser_origins"
+      ],
+      "runtime_proof": "/root/C07BeamDrillLaserOriginsProof",
+      "rule": "Source-backed BeamDrill laser origins / updateLasers rows from BeamDrill.java / Block.java / Blocks.java.",
+      "return_type": "Dictionary"
+    },
     "SourceBeamDrillBuildState.source_beam_drill_liquid_consumer_row_state": {
       "canonical_contract": "source_api_contracts.SourceBeamDrillBuildState.source_beam_drill_liquid_consumer_row_state",
       "status": "active",
@@ -2361,6 +2402,48 @@
       ],
       "runtime_proof": "/root/PumpUpdateProof",
       "rule": "Source-backed pump update and conduit line; the pump fills its liquids and the conduits link it to the drill.",
+      "return_type": "Dictionary"
+    },
+    "SourceSeparatorBuildState.source_separator_disassembler_scrap_row_state": {
+      "canonical_contract": "source_api_contracts.SourceSeparatorBuildState.source_separator_disassembler_scrap_row_state",
+      "status": "active",
+      "source_slice": "N2349",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "source_method": "SeparatorBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_separator_disassembler_scrap_row_state_input.frame"
+        },
+        {
+          "name": "has_item_consumer",
+          "type": "bool",
+          "schema": "source_separator_disassembler_scrap_row_state_input.has_item_consumer"
+        },
+        {
+          "name": "stacks",
+          "type": "Array",
+          "schema": "source_separator_disassembler_scrap_row_state_input.stacks"
+        },
+        {
+          "name": "multiplier",
+          "type": "float",
+          "schema": "source_separator_disassembler_scrap_row_state_input.multiplier"
+        }
+      ],
+      "return_keys": [
+        "row",
+        "has_item_row"
+      ],
+      "tests": [
+        "test_c07_separator_disassembler_scrap_row_registration",
+        "test_all_c07_separator_disassembler_scrap_row_input_evidence_is_exact",
+        "test_separator_disassembler_scrap_row_state",
+        "test_reference_graph_and_actual_c07_separator_disassembler_scrap_row"
+      ],
+      "runtime_proof": "/root/C07SeparatorDisassemblerScrapRowProof",
+      "rule": "Source-backed Separator disassembler scrap item consumer row from ConsumeItems.java / Consume.java / BuildingComp.java / Block.java / Blocks.java / ItemModule.java / Separator.java.",
       "return_type": "Dictionary"
     },
     "SourceSeparatorBuildState.source_separator_liquid_consumer_row_state": {

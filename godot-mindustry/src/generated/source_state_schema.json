@@ -246853,6 +246853,412 @@
       },
       "runtime_proof": "/root/C07SeparatorOffloadRoutingProof",
       "rule": "Source-backed Separator offload neighbor routing rows from BuildingComp.java / Separator.java."
+    },
+    "source_regen_projector_privileged_state_input": {
+      "status": "active",
+      "owner": "SourceRegenProjectorBuildState.source_regen_projector_privileged_state",
+      "source_slice": "N2344",
+      "keys": {
+        "block_id": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "worldProcessor = new LogicBlock(\"world-processor\"){{",
+          "rule": "The candidate block id (Blocks.java:6948, the world-processor def -- the first of the four privileged defs): the catalog block id the tick already reads from SOURCE_BLOCK_ID_META_KEY for every placed building. The pure matches it against the four privileged def ids (world-processor, world-cell, world-message, world-switch, Blocks.java:6948/6961/6970/6977); an empty or unknown id is not privileged (the false default, Block.java:148).",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_privileged_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RegenProjectorPrivilegedFlagFillProof",
+      "rule": "Source-backed RegenProjector updateTargets live privileged flag fill from RegenProjector.java / BlockIndexer.java / Block.java / Blocks.java."
+    },
+    "source_regen_projector_privileged_state_result": {
+      "status": "active",
+      "owner": "SourceRegenProjectorBuildState.source_regen_projector_privileged_state",
+      "source_slice": "N2344",
+      "keys": {
+        "privileged": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "privileged = true;",
+          "rule": "The privileged flag (Blocks.java:6955/6965/6974/6981, the `privileged = true;` line in each of the four world-processor-only logic block defs, against the `public boolean privileged = false;` default, Block.java:148): true iff the block id is one of the four defs. The tick stamps it on every live candidate and the N2338 narrow drops the privileged ones (BlockIndexer.java:372, `if(pred.get(b) && !b.block.privileged){`).",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_privileged_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RegenProjectorPrivilegedFlagFillProof",
+      "rule": "Source-backed RegenProjector updateTargets live privileged flag fill from RegenProjector.java / BlockIndexer.java / Block.java / Blocks.java."
+    },
+    "source_unit_assembler_module_can_place_on_state_input": {
+      "status": "active",
+      "owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_can_place_on_state",
+      "source_slice": "N2345",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+          "java_expr": "return getLink(team, tile.x, tile.y, rotation) != null;",
+          "rule": "The building frame carrying the getLink verdict as frame[\"link\"] (an assembler link ref dict, or null when nothing fits) -- the frame-input pattern (N2226 candidates precedent), because the port has no live building query (no Vars.indexer.getFlagged equivalent). The N2248 advance refreshes the link with findLink on tileChanges (UnitAssemblerModule.java:79), so the frame link IS the getLink verdict. No link stamped (absent or null) means cannot place: the link field defaults null (UnitAssemblerModule.java:72, no initializer) and getLink returns null when no assembler fits -- the RESTRICTIVE default, unlike the N2330 permissive canCreate default.",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_can_place_on_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07UnitAssemblerModuleCanPlaceOnProof",
+      "rule": "Source-backed UnitAssemblerModule canPlaceOn placement gate from UnitAssemblerModule.java."
+    },
+    "source_unit_assembler_module_can_place_on_state_result": {
+      "status": "active",
+      "owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_can_place_on_state",
+      "source_slice": "N2345",
+      "keys": {
+        "can_place_on": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+          "java_expr": "return getLink(team, tile.x, tile.y, rotation) != null;",
+          "rule": "Whether the unit-assembler-module can be placed (UnitAssemblerModule.java:48-51): true iff getLink(team, tile.x, tile.y, rotation) != null -- the frame link (UnitAssemblerModule.java:72) is non-null, i.e. the N2248 findLink re-discovery found a fitting assembler (getLink, UnitAssemblerModule.java:65-69, returns the first flagged assembler whose moduleFits holds). False when no link is stamped (absent or null).",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_can_place_on_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07UnitAssemblerModuleCanPlaceOnProof",
+      "rule": "Source-backed UnitAssemblerModule canPlaceOn placement gate from UnitAssemblerModule.java."
+    },
+    "source_beam_drill_laser_origins_state_input": {
+      "status": "active",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_laser_origins_state",
+      "source_slice": "N2346",
+      "keys": {
+        "tile_x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "nearbySide(tileX(), tileY(), rotation, i, lasers[i]);",
+          "rule": "The building tile X (BeamDrill.java:371, the updateLasers call site -- tileX() returns tile.x, BuildingComp.java:166-168); read from the sprite origin_cell (the building tile). The corner is tile_x - (size-1)/2 (Block.java:937).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_laser_origins_state"
+          ]
+        },
+        "tile_y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "nearbySide(tileX(), tileY(), rotation, i, lasers[i]);",
+          "rule": "The building tile Y (BeamDrill.java:371, the updateLasers call site -- tileY() returns tile.y, BuildingComp.java:172-174); read from the sprite origin_cell (the building tile). The corner is tile_y - (size-1)/2 (Block.java:937).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_laser_origins_state"
+          ]
+        },
+        "rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "switch(rotation){",
+          "rule": "The placement rotation (Block.java:938, the nearbySide switch -- 0 east / 1 north / 2 west / 3 south; `transient int rotation;`, BuildingComp.java:69); read from the sprite rotation meta (SourceBlockGeometry.SOURCE_BUILD_ROTATION_META_KEY, default 0, set by the placement path). The switch has no default: an unmatched rotation leaves the fresh Point2 at (0, 0).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_laser_origins_state"
+          ]
+        },
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "for(int i = 0; i < size; i++){",
+          "rule": "The block size (BeamDrill.java:369, the updateLasers loop bound -- Java computes exactly `size` origins): 2 for the plasma-bore, 3 for the large-plasma-bore (Blocks.java:3044/:3058), read from the catalog per def; the Block class default is 1 (Block.java:215).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_laser_origins_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BeamDrillLaserOriginsProof",
+      "rule": "Source-backed BeamDrill laser origins / updateLasers rows from BeamDrill.java / Block.java / Blocks.java."
+    },
+    "source_beam_drill_laser_origins_state_result": {
+      "status": "active",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_laser_origins_state",
+      "source_slice": "N2346",
+      "keys": {
+        "lasers": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "nearbySide(tileX(), tileY(), rotation, i, lasers[i]);",
+          "rule": "The laser origins (BeamDrill.java:368-373): one {x, y} tile-coordinate origin per laser, size origins in laser order (i = 0..size-1), computed by the nearbySide geometry (Block.java:936-944). Stamped onto frame[\"lasers\"] when tile_changes moves (the N2277 pattern), with a first-tick refresh covering the lazy BeamDrill.java:240 call; updateFacing walks its rays from these origins (BeamDrill.java:383-387).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_laser_origins_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BeamDrillLaserOriginsProof",
+      "rule": "Source-backed BeamDrill laser origins / updateLasers rows from BeamDrill.java / Block.java / Blocks.java."
+    },
+    "source_shockwave_tower_supplied_bullets_broad_hitbox_state_input": {
+      "status": "active",
+      "owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_supplied_bullets_broad_hitbox_state",
+      "source_slice": "N2347",
+      "keys": {
+        "candidates": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "Groups.bullet.intersect(x - range, y - range, range * 2, range * 2, b -> {",
+          "rule": "The frame-supplied bullet candidates (ShockwaveTower.java:75, the Groups.bullet.intersect visit -- the N2327 scan pure passes them here INSTEAD of the rect center test, and filters team / hittable on the broad-admitted list): each entry is a Dict {x, y, hit_size?, ...} carrying the center position and the type hitSize; a missing x or y excludes the candidate, a missing hit_size reads as the BulletType default 4.0.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_supplied_bullets_broad_hitbox_state"
+          ]
+        },
+        "range_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "public float range = 110f;",
+          "rule": "The scan half-side (ShockwaveTower.java:25, the class default 110f; the def overrides it to 170f, Blocks.java:2043): the intersect rect is [x-range, x+range] x [y-range, y+range], tested by STRICT hitbox overlap.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_supplied_bullets_broad_hitbox_state"
+          ]
+        },
+        "tower_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "Groups.bullet.intersect(x - range, y - range, range * 2, range * 2, b -> {",
+          "rule": "The tower world x (ShockwaveTower.java:75, the intersect center -- Building x/y are tile.drawx()/drawy(), BuildingComp.java:124): the rect center.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_supplied_bullets_broad_hitbox_state"
+          ]
+        },
+        "tower_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "Groups.bullet.intersect(x - range, y - range, range * 2, range * 2, b -> {",
+          "rule": "The tower world y (ShockwaveTower.java:75, the intersect center): the rect center.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_supplied_bullets_broad_hitbox_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShockwaveTowerBulletScanBroadHitboxProof",
+      "rule": "Source-backed ShockwaveTower bullet scan hitbox broad phase from ShockwaveTower.java / Blocks.java / BulletType.java / HitboxComp.java / EntityGroup.java / Arc QuadTree.java / Rect.java."
+    },
+    "source_shockwave_tower_supplied_bullets_broad_hitbox_state_result": {
+      "status": "active",
+      "owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_supplied_bullets_broad_hitbox_state",
+      "source_slice": "N2347",
+      "keys": {
+        "bullets": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/geom/Rect.java",
+          "java_expr": "return x < rx + rwidth && x + width > rx && y < ry + rheight && y + height > ry;",
+          "rule": "The broad-admitted list (Rect.java:274-276, the STRICT overlap): the candidate dicts themselves, in candidate order -- the bullets whose hitSize-sided hitbox (HitboxComp.java:67, rect.setCentered(x, y, hitSize, hitSize)) strictly overlaps the range*2 rect. The N2327 scan pure filters team / hittable on this list; the N2340 refinement re-filters the same overlap downstream (idempotent).",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_supplied_bullets_broad_hitbox_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShockwaveTowerBulletScanBroadHitboxProof",
+      "rule": "Source-backed ShockwaveTower bullet scan hitbox broad phase from ShockwaveTower.java / Blocks.java / BulletType.java / HitboxComp.java / EntityGroup.java / Arc QuadTree.java / Rect.java."
+    },
+    "source_unit_assembler_module_tier_state_input": {
+      "status": "active",
+      "owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_tier_state",
+      "source_slice": "N2348",
+      "keys": {
+        "block_id": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+          "java_expr": "public int tier = 1;",
+          "rule": "The def the tier belongs to (the single def is basic-assembler-module, Blocks.java:6566-6573, which sets no tier). The pure is def-agnostic -- it returns tier_default for every def -- but the contract is per-def: a future def that overrides tier passes its own value as tier_default, so the tick stamps the right tier per placed block.",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_tier_state"
+          ]
+        },
+        "tier_default": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+          "java_expr": "public int tier = 1;",
+          "rule": "The class-default tier the def keeps (UnitAssemblerModule.java:22, `public int tier = 1;`): the catalog carries no tier key for basic-assembler-module and the def sets no tier, so the driver passes the class default explicitly (the N2333 acceptMultipleItems precedent). The tick passes SOURCE_UNIT_ASSEMBLER_MODULE_TIER_DEFAULT (1).",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_tier_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07UnitAssemblerModuleTierStampProof",
+      "rule": "Source-backed UnitAssemblerModule tier rows from UnitAssemblerModule.java / UnitAssembler.java."
+    },
+    "source_unit_assembler_module_tier_state_result": {
+      "status": "active",
+      "owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_tier_state",
+      "source_slice": "N2348",
+      "keys": {
+        "tier": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+          "java_expr": "return tier;",
+          "rule": "The module tier (UnitAssemblerModule.java:85-86, `public int tier(){` / `return tier;`): the block tier field, stamped on the frame as frame[\"tier\"] every tick. The assembler consumes it in checkTier() (UnitAssembler.java:364-378, `modules.sort(b -> b.tier());` plus the max-tier walk), whose pure is live since N2133 reading the assembler frame modules list; the cross-building wiring feeding stamped module tiers into that list waits for its own slice.",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_tier_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07UnitAssemblerModuleTierStampProof",
+      "rule": "Source-backed UnitAssemblerModule tier rows from UnitAssemblerModule.java / UnitAssembler.java."
+    },
+    "source_separator_disassembler_scrap_row_state_input": {
+      "status": "active",
+      "owner": "SourceSeparatorBuildState.source_separator_disassembler_scrap_row_state",
+      "source_slice": "N2349",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_expr": "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;",
+          "rule": "The building frame carrying the Building.items ItemModule (frame[\"items\"], a Dictionary keyed by item name, the factory precedent): the held scrap count the row reads through SourceDrillInventoryRuntimeState.item_count; a frame without the key reads 0, like Java items.get on an item never added.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_disassembler_scrap_row_state"
+          ]
+        },
+        "has_item_consumer": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "for(var cons : block.nonOptionalConsumers){",
+          "rule": "Whether the block has an item consumer (BuildingComp.java:1969): the driver gate -- the row joins the first pass only when the catalog consumeItem rows carry the scrap row (the disassembler does, consumeItem scrap, Blocks.java:1263; the separator def has no consumeItem, Blocks.java:1231-1246); a def with no item consumer contributes no row.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_disassembler_scrap_row_state"
+          ]
+        },
+        "stacks": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "return consumeItem(item, 1);",
+          "rule": "The explicit item stacks (Array of {\"item\": kebab-case id, \"amount\": int}), read by the driver from the catalog consumeItem rows: the disassembler consumes one stack of scrap 1 (consumeItem(item) returns consumeItem(item, 1), Block.java:1167-1168); every stack must be held at round(amount * multiplier) for the row to read 1.0 (ItemModule.java:153-156).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_disassembler_scrap_row_state"
+          ]
+        },
+        "multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+          "rule": "The cost multiplier (ConsumeItems.java:52, items.has(items, multiplier.get(build))): the disassembler def sets none (a bare consumeItem call, Blocks.java:1263), so the default 1f (Consume.java:18) applies; explicit parameter, default 1.0.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_disassembler_scrap_row_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SeparatorDisassemblerScrapRowProof",
+      "rule": "Source-backed Separator disassembler scrap item consumer row from ConsumeItems.java / Consume.java / BuildingComp.java / Block.java / Blocks.java / ItemModule.java / Separator.java."
+    },
+    "source_separator_disassembler_scrap_row_state_result": {
+      "status": "active",
+      "owner": "SourceSeparatorBuildState.source_separator_disassembler_scrap_row_state",
+      "source_slice": "N2349",
+      "keys": {
+        "row": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_expr": "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;",
+          "rule": "The scrap row for the first pass (ConsumeItems.java:52, the canonical ConsumeItems.efficiency): {\"result\": 1.0 when every stack is held (or the trigger is valid, base false), else 0.0, \"is_power\": false}, folded by the non-optional pass into the min efficiency; 0.0 when the store holds no scrap. is_power false, so the shared fold sets shouldConsumePower=false when the row is <= 1e-7 (BuildingComp.java:1972-1973).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_disassembler_scrap_row_state"
+          ]
+        },
+        "has_item_row": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "for(var cons : block.nonOptionalConsumers){",
+          "rule": "Whether the row joins the first pass (BuildingComp.java:1969): true when the block has an item consumer; the row is the scrap consumer's entry in the non-optional pass.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_disassembler_scrap_row_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SeparatorDisassemblerScrapRowProof",
+      "rule": "Source-backed Separator disassembler scrap item consumer row from ConsumeItems.java / Consume.java / BuildingComp.java / Block.java / Blocks.java / ItemModule.java / Separator.java."
+    },
+    "source_mend_projector_heal_candidates_hitbox_state_input": {
+      "status": "active",
+      "owner": "SourceMendProjectorBuildState.source_mend_projector_heal_candidates_hitbox_state",
+      "source_slice": "N2350",
+      "keys": {
+        "candidates": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/ai/BlockIndexer.java",
+          "java_expr": "buildings.intersect(wx - range, wy - range, range*2f, range*2f, b -> {",
+          "rule": "The frame-supplied heal candidates (BlockIndexer.java:345, the buildings.intersect visit -- the N2329 pure passes the frame list here, and this pure re-tests them by hitbox STRICT overlap): each entry is a Dict {x, y, hit_size?, ...} carrying the building center position and its hitbox size; a missing x or y excludes the candidate, a missing hit_size reads as 0.0 (the N2335 narrow precedent -- a degenerate point hitbox).",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_heal_candidates_hitbox_state"
+          ]
+        },
+        "real_range": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "java_expr": "float realRange = range + phaseHeat * phaseRangeBoost;",
+          "rule": "The scan half-side (MendProjector.java:107, the realRange fold -- mender 40f / phaseRangeBoost 20f, mend-projector 85f / class 50f): the intersect rect is [x-realRange, x+realRange] x [y-realRange, y+realRange], tested by STRICT hitbox overlap.",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_heal_candidates_hitbox_state"
+          ]
+        },
+        "building_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/ai/BlockIndexer.java",
+          "java_expr": "buildings.intersect(wx - range, wy - range, range*2f, range*2f, b -> {",
+          "rule": "The projector world x (BlockIndexer.java:345, the intersect center -- Building x/y are tile.drawx()/drawy(), BuildingComp.java:124): the rect center.",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_heal_candidates_hitbox_state"
+          ]
+        },
+        "building_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/ai/BlockIndexer.java",
+          "java_expr": "buildings.intersect(wx - range, wy - range, range*2f, range*2f, b -> {",
+          "rule": "The projector world y (BlockIndexer.java:345, the intersect center): the rect center.",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_heal_candidates_hitbox_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07MendProjectorHealScanHitboxProof",
+      "rule": "Source-backed MendProjector heal scan hitbox broad phase from MendProjector.java / BlockIndexer.java / BuildingComp.java / EntityGroup.java / Arc QuadTree.java / Rect.java."
+    },
+    "source_mend_projector_heal_candidates_hitbox_state_result": {
+      "status": "active",
+      "owner": "SourceMendProjectorBuildState.source_mend_projector_heal_candidates_hitbox_state",
+      "source_slice": "N2350",
+      "keys": {
+        "candidates": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/geom/Rect.java",
+          "java_expr": "return x < rx + rwidth && x + width > rx && y < ry + rheight && y + height > ry;",
+          "rule": "The hitbox-admitted list (Rect.java:274-276, the STRICT overlap): the candidate dicts themselves, in candidate order -- the buildings whose hitSize-sided hitbox (BuildingComp.java:2293, out.setCentered(x, y, block.size * tilesize, block.size * tilesize)) strictly overlaps the realRange*2 rect. Passed into the N2335 narrow pure, then into the N2242 heal scan.",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_heal_candidates_hitbox_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07MendProjectorHealScanHitboxProof",
+      "rule": "Source-backed MendProjector heal scan hitbox broad phase from MendProjector.java / BlockIndexer.java / BuildingComp.java / EntityGroup.java / Arc QuadTree.java / Rect.java."
     }
   },
   "version": 1

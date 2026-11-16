@@ -3612,6 +3612,40 @@
       ],
       "runtime_proof": "/root/C07ShockwaveTowerBulletScanHitboxProof"
     },
+    "N2347": {
+      "canonical_ledger": "source_slice_ledger.N2347",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.updateTile()",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_supplied_bullets_broad_hitbox_state",
+      "source_symbols": [
+        "source_shockwave_tower_supplied_bullets_broad_hitbox_state_result.bullets"
+      ],
+      "tests": [
+        "test_c07_shockwave_tower_bullet_scan_broad_hitbox_registration",
+        "test_all_c07_shockwave_tower_bullet_scan_broad_hitbox_input_evidence_is_exact",
+        "test_shockwave_tower_bullet_scan_broad_hitbox_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_bullet_scan_broad_hitbox"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerBulletScanBroadHitboxProof"
+    },
+    "N2350": {
+      "canonical_ledger": "source_slice_ledger.N2350",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "java_method": "MendProjectorBuild.updateTile()",
+      "godot_owner": "SourceMendProjectorBuildState.source_mend_projector_heal_candidates_hitbox_state",
+      "source_symbols": [
+        "source_mend_projector_heal_candidates_hitbox_state_result.candidates"
+      ],
+      "tests": [
+        "test_c07_mend_projector_heal_scan_hitbox_registration",
+        "test_all_c07_mend_projector_heal_scan_hitbox_input_evidence_is_exact",
+        "test_mend_projector_heal_scan_hitbox_state",
+        "test_reference_graph_and_actual_c07_mend_projector_heal_scan_hitbox"
+      ],
+      "runtime_proof": "/root/C07MendProjectorHealScanHitboxProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

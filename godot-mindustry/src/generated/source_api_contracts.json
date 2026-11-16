@@ -73550,6 +73550,247 @@
       ],
       "runtime_proof": "/root/C07SeparatorOffloadRoutingProof",
       "rule": "Source-backed Separator offload neighbor routing rows from BuildingComp.java / Separator.java."
+    },
+    "SourceRegenProjectorBuildState.source_regen_projector_privileged_state": {
+      "status": "active",
+      "source_slice": "N2344",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "source_method": "RegenProjectorBuild.updateTargets()",
+      "params": [
+        {
+          "name": "block_id",
+          "type": "String",
+          "schema": "source_regen_projector_privileged_state_input.block_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "privileged"
+      ],
+      "tests": [
+        "test_c07_regen_projector_privileged_flag_fill_registration",
+        "test_all_c07_regen_projector_privileged_flag_fill_input_evidence_is_exact",
+        "test_regen_projector_privileged_flag_fill_state",
+        "test_reference_graph_and_actual_c07_regen_projector_privileged_flag_fill"
+      ],
+      "runtime_proof": "/root/C07RegenProjectorPrivilegedFlagFillProof",
+      "rule": "Source-backed RegenProjector updateTargets live privileged flag fill from RegenProjector.java / BlockIndexer.java / Block.java / Blocks.java."
+    },
+    "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_can_place_on_state": {
+      "status": "active",
+      "source_slice": "N2345",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+      "source_method": "UnitAssemblerModule.canPlaceOn()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_unit_assembler_module_can_place_on_state_input.frame"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "can_place_on"
+      ],
+      "tests": [
+        "test_c07_unit_assembler_module_can_place_on_registration",
+        "test_all_c07_unit_assembler_module_can_place_on_input_evidence_is_exact",
+        "test_unit_assembler_module_can_place_on_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_can_place_on"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleCanPlaceOnProof",
+      "rule": "Source-backed UnitAssemblerModule canPlaceOn placement gate from UnitAssemblerModule.java."
+    },
+    "SourceBeamDrillBuildState.source_beam_drill_laser_origins_state": {
+      "status": "active",
+      "source_slice": "N2346",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrillBuild.updateLasers()",
+      "params": [
+        {
+          "name": "tile_x",
+          "type": "int",
+          "schema": "source_beam_drill_laser_origins_state_input.tile_x"
+        },
+        {
+          "name": "tile_y",
+          "type": "int",
+          "schema": "source_beam_drill_laser_origins_state_input.tile_y"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_beam_drill_laser_origins_state_input.rotation"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_beam_drill_laser_origins_state_input.size"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "lasers"
+      ],
+      "tests": [
+        "test_c07_beam_drill_laser_origins_registration",
+        "test_all_c07_beam_drill_laser_origins_input_evidence_is_exact",
+        "test_beam_drill_laser_origins_state",
+        "test_reference_graph_and_actual_c07_beam_drill_laser_origins"
+      ],
+      "runtime_proof": "/root/C07BeamDrillLaserOriginsProof",
+      "rule": "Source-backed BeamDrill laser origins / updateLasers rows from BeamDrill.java / Block.java / Blocks.java."
+    },
+    "SourceShockwaveTowerBuildState.source_shockwave_tower_supplied_bullets_broad_hitbox_state": {
+      "status": "active",
+      "source_slice": "N2347",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "source_method": "ShockwaveTowerBuild.updateTile()",
+      "params": [
+        {
+          "name": "candidates",
+          "type": "Array",
+          "schema": "source_shockwave_tower_supplied_bullets_broad_hitbox_state_input.candidates"
+        },
+        {
+          "name": "range_value",
+          "type": "float",
+          "schema": "source_shockwave_tower_supplied_bullets_broad_hitbox_state_input.range_value"
+        },
+        {
+          "name": "tower_x",
+          "type": "float",
+          "schema": "source_shockwave_tower_supplied_bullets_broad_hitbox_state_input.tower_x"
+        },
+        {
+          "name": "tower_y",
+          "type": "float",
+          "schema": "source_shockwave_tower_supplied_bullets_broad_hitbox_state_input.tower_y"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "bullets"
+      ],
+      "tests": [
+        "test_c07_shockwave_tower_bullet_scan_broad_hitbox_registration",
+        "test_all_c07_shockwave_tower_bullet_scan_broad_hitbox_input_evidence_is_exact",
+        "test_shockwave_tower_bullet_scan_broad_hitbox_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_bullet_scan_broad_hitbox"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerBulletScanBroadHitboxProof",
+      "rule": "Source-backed ShockwaveTower bullet scan hitbox broad phase from ShockwaveTower.java / Blocks.java / BulletType.java / HitboxComp.java / EntityGroup.java / Arc QuadTree.java / Rect.java."
+    },
+    "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_tier_state": {
+      "status": "active",
+      "source_slice": "N2348",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+      "source_method": "UnitAssemblerModuleBuild.tier()",
+      "params": [
+        {
+          "name": "block_id",
+          "type": "String",
+          "schema": "source_unit_assembler_module_tier_state_input.block_id"
+        },
+        {
+          "name": "tier_default",
+          "type": "int",
+          "schema": "source_unit_assembler_module_tier_state_input.tier_default"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "tier"
+      ],
+      "tests": [
+        "test_c07_unit_assembler_module_tier_stamp_registration",
+        "test_all_c07_unit_assembler_module_tier_stamp_input_evidence_is_exact",
+        "test_unit_assembler_module_tier_stamp_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_tier_stamp"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleTierStampProof",
+      "rule": "Source-backed UnitAssemblerModule tier rows from UnitAssemblerModule.java / UnitAssembler.java."
+    },
+    "SourceSeparatorBuildState.source_separator_disassembler_scrap_row_state": {
+      "status": "active",
+      "source_slice": "N2349",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "source_method": "SeparatorBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_separator_disassembler_scrap_row_state_input.frame"
+        },
+        {
+          "name": "has_item_consumer",
+          "type": "bool",
+          "schema": "source_separator_disassembler_scrap_row_state_input.has_item_consumer"
+        },
+        {
+          "name": "stacks",
+          "type": "Array",
+          "schema": "source_separator_disassembler_scrap_row_state_input.stacks"
+        },
+        {
+          "name": "multiplier",
+          "type": "float",
+          "schema": "source_separator_disassembler_scrap_row_state_input.multiplier"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "row",
+        "has_item_row"
+      ],
+      "tests": [
+        "test_c07_separator_disassembler_scrap_row_registration",
+        "test_all_c07_separator_disassembler_scrap_row_input_evidence_is_exact",
+        "test_separator_disassembler_scrap_row_state",
+        "test_reference_graph_and_actual_c07_separator_disassembler_scrap_row"
+      ],
+      "runtime_proof": "/root/C07SeparatorDisassemblerScrapRowProof",
+      "rule": "Source-backed Separator disassembler scrap item consumer row from ConsumeItems.java / Consume.java / BuildingComp.java / Block.java / Blocks.java / ItemModule.java / Separator.java."
+    },
+    "SourceMendProjectorBuildState.source_mend_projector_heal_candidates_hitbox_state": {
+      "status": "active",
+      "source_slice": "N2350",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "source_method": "MendProjectorBuild.updateTile()",
+      "params": [
+        {
+          "name": "candidates",
+          "type": "Array",
+          "schema": "source_mend_projector_heal_candidates_hitbox_state_input.candidates"
+        },
+        {
+          "name": "real_range",
+          "type": "float",
+          "schema": "source_mend_projector_heal_candidates_hitbox_state_input.real_range"
+        },
+        {
+          "name": "building_x",
+          "type": "float",
+          "schema": "source_mend_projector_heal_candidates_hitbox_state_input.building_x"
+        },
+        {
+          "name": "building_y",
+          "type": "float",
+          "schema": "source_mend_projector_heal_candidates_hitbox_state_input.building_y"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "candidates"
+      ],
+      "tests": [
+        "test_c07_mend_projector_heal_scan_hitbox_registration",
+        "test_all_c07_mend_projector_heal_scan_hitbox_input_evidence_is_exact",
+        "test_mend_projector_heal_scan_hitbox_state",
+        "test_reference_graph_and_actual_c07_mend_projector_heal_scan_hitbox"
+      ],
+      "runtime_proof": "/root/C07MendProjectorHealScanHitboxProof",
+      "rule": "Source-backed MendProjector heal scan hitbox broad phase from MendProjector.java / BlockIndexer.java / BuildingComp.java / EntityGroup.java / Arc QuadTree.java / Rect.java."
     }
   },
   "policy": {

@@ -106,6 +106,51 @@
         }
       }
     },
+    "source_beam_drill_laser_origins_state_input": {
+      "canonical_schema": "source_state_schema.source_beam_drill_laser_origins_state_input",
+      "keys": {
+        "tile_x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "nearbySide(tileX(), tileY(), rotation, i, lasers[i]);",
+          "rule": "The building tile X (BeamDrill.java:371, the updateLasers call site -- tileX() returns tile.x, BuildingComp.java:166-168); read from the sprite origin_cell (the building tile). The corner is tile_x - (size-1)/2 (Block.java:937).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_laser_origins_state"
+          ]
+        },
+        "tile_y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "nearbySide(tileX(), tileY(), rotation, i, lasers[i]);",
+          "rule": "The building tile Y (BeamDrill.java:371, the updateLasers call site -- tileY() returns tile.y, BuildingComp.java:172-174); read from the sprite origin_cell (the building tile). The corner is tile_y - (size-1)/2 (Block.java:937).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_laser_origins_state"
+          ]
+        },
+        "rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "switch(rotation){",
+          "rule": "The placement rotation (Block.java:938, the nearbySide switch -- 0 east / 1 north / 2 west / 3 south; `transient int rotation;`, BuildingComp.java:69); read from the sprite rotation meta (SourceBlockGeometry.SOURCE_BUILD_ROTATION_META_KEY, default 0, set by the placement path). The switch has no default: an unmatched rotation leaves the fresh Point2 at (0, 0).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_laser_origins_state"
+          ]
+        },
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "for(int i = 0; i < size; i++){",
+          "rule": "The block size (BeamDrill.java:369, the updateLasers loop bound -- Java computes exactly `size` origins): 2 for the plasma-bore, 3 for the large-plasma-bore (Blocks.java:3044/:3058), read from the catalog per def; the Block class default is 1 (Block.java:215).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_laser_origins_state"
+          ]
+        }
+      }
+    },
     "source_beam_drill_liquid_consumer_row_state_input": {
       "canonical_schema": "source_state_schema.source_beam_drill_liquid_consumer_row_state_input",
       "keys": {
@@ -2502,6 +2547,51 @@
           "rule": "The frame delta in seconds.",
           "used_by": [
             "SourcePumpRuntimeState.source_pump_update_state"
+          ]
+        }
+      }
+    },
+    "source_separator_disassembler_scrap_row_state_input": {
+      "canonical_schema": "source_state_schema.source_separator_disassembler_scrap_row_state_input",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_expr": "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;",
+          "rule": "The building frame carrying the Building.items ItemModule (frame[\"items\"], a Dictionary keyed by item name, the factory precedent): the held scrap count the row reads through SourceDrillInventoryRuntimeState.item_count; a frame without the key reads 0, like Java items.get on an item never added.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_disassembler_scrap_row_state"
+          ]
+        },
+        "has_item_consumer": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "for(var cons : block.nonOptionalConsumers){",
+          "rule": "Whether the block has an item consumer (BuildingComp.java:1969): the driver gate -- the row joins the first pass only when the catalog consumeItem rows carry the scrap row (the disassembler does, consumeItem scrap, Blocks.java:1263; the separator def has no consumeItem, Blocks.java:1231-1246); a def with no item consumer contributes no row.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_disassembler_scrap_row_state"
+          ]
+        },
+        "stacks": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "return consumeItem(item, 1);",
+          "rule": "The explicit item stacks (Array of {\"item\": kebab-case id, \"amount\": int}), read by the driver from the catalog consumeItem rows: the disassembler consumes one stack of scrap 1 (consumeItem(item) returns consumeItem(item, 1), Block.java:1167-1168); every stack must be held at round(amount * multiplier) for the row to read 1.0 (ItemModule.java:153-156).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_disassembler_scrap_row_state"
+          ]
+        },
+        "multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+          "rule": "The cost multiplier (ConsumeItems.java:52, items.has(items, multiplier.get(build))): the disassembler def sets none (a bare consumeItem call, Blocks.java:1263), so the default 1f (Consume.java:18) applies; explicit parameter, default 1.0.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_disassembler_scrap_row_state"
           ]
         }
       }

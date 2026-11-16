@@ -7257,6 +7257,47 @@
       "rule": "Source-backed ForceProjector updateTile advance from ForceProjector.java / Blocks.java / BuildingComp.java / TimerComp.java / Block.java / Tile.java / BulletType.java / BulletComp.java / EntityGroup.java / GroupDefs.java / Liquid.java / Team.java / Mathf.java / Intersector.java / Vec2.java / Time.java.",
       "return_type": "Dictionary"
     },
+    "SourceMendProjectorBuildState.source_mend_projector_heal_candidates_hitbox_state": {
+      "canonical_contract": "source_api_contracts.SourceMendProjectorBuildState.source_mend_projector_heal_candidates_hitbox_state",
+      "status": "active",
+      "source_slice": "N2350",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "source_method": "MendProjectorBuild.updateTile()",
+      "params": [
+        {
+          "name": "candidates",
+          "type": "Array",
+          "schema": "source_mend_projector_heal_candidates_hitbox_state_input.candidates"
+        },
+        {
+          "name": "real_range",
+          "type": "float",
+          "schema": "source_mend_projector_heal_candidates_hitbox_state_input.real_range"
+        },
+        {
+          "name": "building_x",
+          "type": "float",
+          "schema": "source_mend_projector_heal_candidates_hitbox_state_input.building_x"
+        },
+        {
+          "name": "building_y",
+          "type": "float",
+          "schema": "source_mend_projector_heal_candidates_hitbox_state_input.building_y"
+        }
+      ],
+      "return_keys": [
+        "candidates"
+      ],
+      "tests": [
+        "test_c07_mend_projector_heal_scan_hitbox_registration",
+        "test_all_c07_mend_projector_heal_scan_hitbox_input_evidence_is_exact",
+        "test_mend_projector_heal_scan_hitbox_state",
+        "test_reference_graph_and_actual_c07_mend_projector_heal_scan_hitbox"
+      ],
+      "runtime_proof": "/root/C07MendProjectorHealScanHitboxProof",
+      "rule": "Source-backed MendProjector heal scan hitbox broad phase from MendProjector.java / BlockIndexer.java / BuildingComp.java / EntityGroup.java / Arc QuadTree.java / Rect.java.",
+      "return_type": "Dictionary"
+    },
     "SourceMendProjectorBuildState.source_mend_projector_heal_scan_state": {
       "canonical_contract": "source_api_contracts.SourceMendProjectorBuildState.source_mend_projector_heal_scan_state",
       "status": "active",
@@ -8340,6 +8381,47 @@
       ],
       "runtime_proof": "/root/C07ShockwaveTowerShouldConsumeProof",
       "rule": "Source-backed ShockwaveTower shouldConsume gate from ShockwaveTower.java / BuildingComp.java / Blocks.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceShockwaveTowerBuildState.source_shockwave_tower_supplied_bullets_broad_hitbox_state": {
+      "canonical_contract": "source_api_contracts.SourceShockwaveTowerBuildState.source_shockwave_tower_supplied_bullets_broad_hitbox_state",
+      "status": "active",
+      "source_slice": "N2347",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "source_method": "ShockwaveTowerBuild.updateTile()",
+      "params": [
+        {
+          "name": "candidates",
+          "type": "Array",
+          "schema": "source_shockwave_tower_supplied_bullets_broad_hitbox_state_input.candidates"
+        },
+        {
+          "name": "range_value",
+          "type": "float",
+          "schema": "source_shockwave_tower_supplied_bullets_broad_hitbox_state_input.range_value"
+        },
+        {
+          "name": "tower_x",
+          "type": "float",
+          "schema": "source_shockwave_tower_supplied_bullets_broad_hitbox_state_input.tower_x"
+        },
+        {
+          "name": "tower_y",
+          "type": "float",
+          "schema": "source_shockwave_tower_supplied_bullets_broad_hitbox_state_input.tower_y"
+        }
+      ],
+      "return_keys": [
+        "bullets"
+      ],
+      "tests": [
+        "test_c07_shockwave_tower_bullet_scan_broad_hitbox_registration",
+        "test_all_c07_shockwave_tower_bullet_scan_broad_hitbox_input_evidence_is_exact",
+        "test_shockwave_tower_bullet_scan_broad_hitbox_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_bullet_scan_broad_hitbox"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerBulletScanBroadHitboxProof",
+      "rule": "Source-backed ShockwaveTower bullet scan hitbox broad phase from ShockwaveTower.java / Blocks.java / BulletType.java / HitboxComp.java / EntityGroup.java / Arc QuadTree.java / Rect.java.",
       "return_type": "Dictionary"
     },
     "SourceShockwaveTowerBuildState.source_shockwave_tower_supplied_bullets_hitbox_state": {

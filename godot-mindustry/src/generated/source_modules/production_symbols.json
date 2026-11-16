@@ -2178,6 +2178,21 @@
       ],
       "runtime_proof": "/root/C07BeamDrillFacingScanProof"
     },
+    "source_beam_drill_laser_origins_state_result.lasers": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_laser_origins_state_result.lasers",
+      "status": "source-backed",
+      "java_expr": "nearbySide(tileX(), tileY(), rotation, i, lasers[i]);",
+      "godot_symbol": "source_beam_drill_laser_origins_state_result.lasers",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_laser_origins_state",
+      "rule": "The laser origins (BeamDrill.java:368-373): one {x, y} tile-coordinate origin per laser, size origins in laser order (i = 0..size-1), computed by the nearbySide geometry (Block.java:936-944). Stamped onto frame[\"lasers\"] when tile_changes moves (the N2277 pattern), with a first-tick refresh covering the lazy BeamDrill.java:240 call; updateFacing walks its rays from these origins (BeamDrill.java:383-387).",
+      "tests": [
+        "test_c07_beam_drill_laser_origins_registration",
+        "test_all_c07_beam_drill_laser_origins_input_evidence_is_exact",
+        "test_beam_drill_laser_origins_state",
+        "test_reference_graph_and_actual_c07_beam_drill_laser_origins"
+      ],
+      "runtime_proof": "/root/C07BeamDrillLaserOriginsProof"
+    },
     "source_beam_drill_liquid_consumer_row_state_result.has_liquid_row": {
       "canonical_symbol": "source_symbol_registry.source_beam_drill_liquid_consumer_row_state_result.has_liquid_row",
       "status": "source-backed",
@@ -7048,6 +7063,36 @@
         "test_reference_graph_and_actual_pump_update"
       ],
       "runtime_proof": "/root/PumpUpdateProof"
+    },
+    "source_separator_disassembler_scrap_row_state_result.has_item_row": {
+      "canonical_symbol": "source_symbol_registry.source_separator_disassembler_scrap_row_state_result.has_item_row",
+      "status": "source-backed",
+      "java_expr": "for(var cons : block.nonOptionalConsumers){",
+      "godot_symbol": "source_separator_disassembler_scrap_row_state_result.has_item_row",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_disassembler_scrap_row_state",
+      "rule": "Whether the row joins the first pass (BuildingComp.java:1969): true when the block has an item consumer; the row is the scrap consumer's entry in the non-optional pass.",
+      "tests": [
+        "test_c07_separator_disassembler_scrap_row_registration",
+        "test_all_c07_separator_disassembler_scrap_row_input_evidence_is_exact",
+        "test_separator_disassembler_scrap_row_state",
+        "test_reference_graph_and_actual_c07_separator_disassembler_scrap_row"
+      ],
+      "runtime_proof": "/root/C07SeparatorDisassemblerScrapRowProof"
+    },
+    "source_separator_disassembler_scrap_row_state_result.row": {
+      "canonical_symbol": "source_symbol_registry.source_separator_disassembler_scrap_row_state_result.row",
+      "status": "source-backed",
+      "java_expr": "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;",
+      "godot_symbol": "source_separator_disassembler_scrap_row_state_result.row",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_disassembler_scrap_row_state",
+      "rule": "The scrap row for the first pass (ConsumeItems.java:52, the canonical ConsumeItems.efficiency): {\"result\": 1.0 when every stack is held (or the trigger is valid, base false), else 0.0, \"is_power\": false}, folded by the non-optional pass into the min efficiency; 0.0 when the store holds no scrap. is_power false, so the shared fold sets shouldConsumePower=false when the row is <= 1e-7 (BuildingComp.java:1972-1973).",
+      "tests": [
+        "test_c07_separator_disassembler_scrap_row_registration",
+        "test_all_c07_separator_disassembler_scrap_row_input_evidence_is_exact",
+        "test_separator_disassembler_scrap_row_state",
+        "test_reference_graph_and_actual_c07_separator_disassembler_scrap_row"
+      ],
+      "runtime_proof": "/root/C07SeparatorDisassemblerScrapRowProof"
     },
     "source_separator_liquid_consumer_row_state_result.has_liquid_row": {
       "canonical_symbol": "source_symbol_registry.source_separator_liquid_consumer_row_state_result.has_liquid_row",

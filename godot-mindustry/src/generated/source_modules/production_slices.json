@@ -1576,6 +1576,41 @@
       ],
       "runtime_proof": "/root/C07BeamDrillFacingScanProof"
     },
+    "N2346": {
+      "canonical_ledger": "source_slice_ledger.N2346",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.updateLasers()",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_laser_origins_state",
+      "source_symbols": [
+        "source_beam_drill_laser_origins_state_result.lasers"
+      ],
+      "tests": [
+        "test_c07_beam_drill_laser_origins_registration",
+        "test_all_c07_beam_drill_laser_origins_input_evidence_is_exact",
+        "test_beam_drill_laser_origins_state",
+        "test_reference_graph_and_actual_c07_beam_drill_laser_origins"
+      ],
+      "runtime_proof": "/root/C07BeamDrillLaserOriginsProof"
+    },
+    "N2349": {
+      "canonical_ledger": "source_slice_ledger.N2349",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "java_method": "SeparatorBuild.updateTile()",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_disassembler_scrap_row_state",
+      "source_symbols": [
+        "source_separator_disassembler_scrap_row_state_result.row",
+        "source_separator_disassembler_scrap_row_state_result.has_item_row"
+      ],
+      "tests": [
+        "test_c07_separator_disassembler_scrap_row_registration",
+        "test_all_c07_separator_disassembler_scrap_row_input_evidence_is_exact",
+        "test_separator_disassembler_scrap_row_state",
+        "test_reference_graph_and_actual_c07_separator_disassembler_scrap_row"
+      ],
+      "runtime_proof": "/root/C07SeparatorDisassemblerScrapRowProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",
