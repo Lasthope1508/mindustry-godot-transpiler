@@ -148378,7 +148378,10 @@
       ],
       "source_symbols": [
         "source_burst_drill_offload_route_state_result.routed_index",
-        "source_burst_drill_offload_route_state_result.cdump_after"
+        "source_burst_drill_offload_route_state_result.cdump_after",
+        "source_burst_drill_update_tile_advance_state_result.offload_routed_indices",
+        "source_burst_drill_update_tile_advance_state_result.offload_fallback_count",
+        "source_burst_drill_update_tile_advance_state_result.cdump"
       ],
       "tests": [
         "test_c07_burst_drill_offload_neighbor_routing_registration",

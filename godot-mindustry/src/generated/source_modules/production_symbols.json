@@ -3189,7 +3189,7 @@
       "java_expr": "offload(dominantItem);",
       "godot_symbol": "source_burst_drill_update_tile_advance_state_result.items",
       "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_update_tile_advance_state",
-      "rule": "The next items map (BurstDrill.java:107-109): the offload branch adds dominantItems of the dominant item through the shared inventory helper, the no-neighbor fallback branch of offload (BuildingComp.java:1017, `handleItem(self(), item);`); unchanged when no offload fires.",
+      "rule": "The next items map (BurstDrill.java:107-109): the offload branch adds dominantItems of the dominant item through the shared inventory helper, the no-neighbor fallback branch of offload (BuildingComp.java:1014, `handleItem(self(), item);`); unchanged when no offload fires.",
       "tests": [
         "test_c07_burst_drill_update_tile_registration",
         "test_all_c07_burst_drill_update_tile_input_evidence_is_exact",

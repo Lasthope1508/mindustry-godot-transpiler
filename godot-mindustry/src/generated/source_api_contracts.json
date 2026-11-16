@@ -66868,7 +66868,10 @@
         "items",
         "offloaded",
         "drill_time",
-        "speed"
+        "speed",
+        "offload_routed_indices",
+        "offload_fallback_count",
+        "cdump"
       ],
       "tests": [
         "test_c07_burst_drill_update_tile_registration",

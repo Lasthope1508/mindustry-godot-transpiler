@@ -51,20 +51,32 @@ class C07BurstDrillOffloadNeighborRoutingTests(unittest.TestCase):
         # for the first held item at dump time, and the
         # dump write-back may have filled a neighbour
         # since -- both stale for the offload). Two new
-        # result symbols: the routed index, then the
-        # new cdump.
+        # result symbols at slice time: the routed index,
+        # then the new cdump. N2491 (schema-sync fold)
+        # registered the three BurstDrill offload advance
+        # keys this slice exposed as symbols of this slice
+        # too -- they live on the BurstDrill advance, so
+        # their godot_owner is the advance owner.
         self.assertEqual(
             ledger['N2476']['source_symbols'],
             [
                 'source_burst_drill_offload_route_state_result.routed_index',
                 'source_burst_drill_offload_route_state_result.cdump_after',
+                'source_burst_drill_update_tile_advance_state_result.offload_routed_indices',
+                'source_burst_drill_update_tile_advance_state_result.offload_fallback_count',
+                'source_burst_drill_update_tile_advance_state_result.cdump',
             ],
         )
         for name in ledger['N2476']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertEqual(symbol['java_source'], 'core/src/mindustry/entities/comp/BuildingComp.java')
-                self.assertEqual(symbol['godot_owner'], 'SourceBurstDrillBuildState.source_burst_drill_offload_route_state')
+                if name.startswith('source_burst_drill_offload_route_state_result.'):
+                    self.assertEqual(symbol['godot_owner'], 'SourceBurstDrillBuildState.source_burst_drill_offload_route_state')
+                else:
+                    # N2491 fold: the offload keys live on the
+                    # BurstDrill advance.
+                    self.assertEqual(symbol['godot_owner'], 'SourceBurstDrillBuildState.source_burst_drill_update_tile_advance_state')
         self.assertEqual(ledger['N2476']['runtime_proof'], '/root/C07BurstDrillOffloadNeighborRoutingProof')
         self.assertEqual(
             ledger['N2476']['tests'],

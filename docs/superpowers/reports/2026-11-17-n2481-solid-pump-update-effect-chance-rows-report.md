@@ -16,7 +16,7 @@ SolidPump.java (core/src/mindustry/world/blocks/production/):
   updateEffectChance)) updateEffect.at(x + Mathf.range(size *
   2f), y + Mathf.range(size * 2f));` — INSIDE the pump branch
   (`efficiency > 0 && typeLiquid() < liquidCapacity - 0.001f`,
-  :125-126).
+  :126).
 
 ## Implementation
 

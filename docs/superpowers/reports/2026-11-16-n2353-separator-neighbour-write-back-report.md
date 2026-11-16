@@ -7,7 +7,7 @@
 
 ## Source
 
-Java: BuildingComp.java:1001-1017 (offload/dump path), :1009. Separator
+Java: BuildingComp.java:1001-1015 (offload/dump path), :1009. Separator
 offload runs BEFORE dump (Java order). 14 exact exprs, all verified verbatim.
 
 ## Implementation

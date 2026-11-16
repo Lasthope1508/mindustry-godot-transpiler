@@ -14,7 +14,7 @@ offload effect lines :114-118 (Effect.shake / drillSound.at /
 drillEffect.at on the timerDump dump). The timerDump dump itself is
 live since N2282 (frame-local Interval-equivalent, 5f/time_scale,
 BurstDrill.java:83-84). The offload neighbor acceptItem/handleItem
-scan is BuildingComp.java:1001-1017.
+scan is BuildingComp.java:1001-1015.
 
 ## Implementation
 

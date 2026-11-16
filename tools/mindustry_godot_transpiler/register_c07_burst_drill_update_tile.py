@@ -111,10 +111,20 @@ def main():
         'last_drill_speed': f('float', 'lastDrillSpeed = 1f / drillTime * speed * dominantItems;', 'The advanced lastDrillSpeed (BurstDrill.java:98): 1/drillTime * speed * dominantItems in the gate branch, 0f when blocked (BurstDrill.java:102).'),
         'smooth_progress': f('float', 'smoothProgress = Mathf.lerpDelta(smoothProgress, progress / (drillTime - 20f), 0.1f);', 'The advanced smoothProgress (BurstDrill.java:89): lerpDelta toward progress/(drillTime - 20f) at 0.1f, computed BEFORE the gate branch from the pre-advance progress, so it moves even when blocked.'),
         'invert_time': f('float', 'invertTime = 1f;', 'The advanced invertTime (BurstDrill.java:111): set to 1f on offload; otherwise it decays by delta()/invertedTime while positive (BurstDrill.java:81, invertedTime 200f, BurstDrill.java:26), with no clamp at 0, exactly like Java.'),
-        'items': f('Dictionary', 'offload(dominantItem);', 'The next items map (BurstDrill.java:107-109): the offload branch adds dominantItems of the dominant item through the shared inventory helper, the no-neighbor fallback branch of offload (BuildingComp.java:1017, `handleItem(self(), item);`); unchanged when no offload fires.'),
+        'items': f('Dictionary', 'offload(dominantItem);', 'The next items map (BurstDrill.java:107-109): the offload branch adds dominantItems of the dominant item through the shared inventory helper, the no-neighbor fallback branch of offload (BuildingComp.java:1014, `handleItem(self(), item);`); unchanged when no offload fires.'),
         'offloaded': f('int', 'for(int i = 0; i < dominantItems; i++){', 'The offloaded count this tick (BurstDrill.java:107-109): dominantItems when the offload branch fires, 0 otherwise.'),
         'drill_time': f('float', 'return drillTime / drillMultipliers.get(item, 1f);', 'The effective drillTime (BurstDrill.java:87 + :54): the BurstDrill getDrillTime OVERRIDE, drillTime / drillMultipliers.get(item, 1f), with NO hardness term -- NOT the base-Drill formula (Drill.java:171). 0.0 when the dominant item is null (Java returns before computing it, BurstDrill.java:77-79).'),
         'speed': f('float', 'float speed = Mathf.lerp(1f, liquidBoostIntensity, optionalEfficiency) * efficiency;', 'The speed this tick (BurstDrill.java:94): lerp(1, liquidBoostIntensity, optionalEfficiency) * efficiency in the gate branch, 0.0 when blocked or the dominant item is null.'),
+    }
+
+    # N2491 (schema-sync fold): the three offload keys the N2476
+    # slice exposed on this advance (symbols registered by N2476),
+    # folded into the result schema + contract return_keys.
+    # Metadata copied verbatim from the N2476 register.
+    n2491_fold_outputs = {
+        'offload_routed_indices': f('Array', 'Building other = proximity.get((i + dump) % proximity.size);', 'One ring index per offloaded item the advance routed to a neighbour, in loop order (BuildingComp.java:1007, `Building other = proximity.get((i + dump) % proximity.size);`): the routed_index the routing pure reports per dominantItems iteration, appended in order. Empty when nothing routed. Index i is ring cell i (the N2353 convention); the tick lands each routed item in the neighbour store through the shared N2353 helper.', source=BUILDING_COMP),
+        'offload_fallback_count': f('int', 'handleItem(self(), item);', 'How many offloaded items fell back to the drill\'s own store this tick (BuildingComp.java:1014, `handleItem(self(), item);`): the count of dominantItems iterations where no neighbour accepted the item, so Java keeps it in the own inventory. 0 when every offloaded item routed.', source=BUILDING_COMP),
+        'cdump': f('int', 'cdump = ((cdump + 1) % prox);', 'The dump cursor after the offload loop (BuildingComp.java:1119, `cdump = ((cdump + 1) % prox);`, inside incrementDump :1116-1120, guarded on prox != 0): the cursor the routing pure threaded across the dominantItems iterations, advanced once per scanned neighbour INCLUDING each handling one. A full refused scan returns it to its start (the N2286 full-cycle invariant).', source=BUILDING_COMP),
     }
 
     entries = [
@@ -123,6 +133,15 @@ def main():
     all_names = []
     for sid, owner, prefix, source, cls, method, inputs, outputs, has_contract, return_type in entries:
         names = []
+        # N2491 (schema-sync fold): the result schema + contract
+        # carry the folded keys; the symbol loop below still
+        # iterates the ORIGINAL outputs only
+        # (upsert_source_symbols wholesale-replaces -- folding
+        # the keys into the symbol loop here would steal the
+        # N2476 slice's symbol ownership).
+        result_keys = {**outputs, **n2491_fold_outputs}
+        for meta in n2491_fold_outputs.values():
+            meta['used_by'] = [owner]
         for suffix, keys in [('input', inputs), ('result', outputs)]:
             name = prefix + '_' + suffix
             for field, meta in keys.items():
@@ -131,9 +150,9 @@ def main():
                     symbol = name + '.' + field
                     names.append(symbol)
                     symbols[symbol] = dict(status='source-backed', godot_owner=owner, godot_symbol=symbol, java_source=meta['java_source'], java_method=method, java_expr=meta['java_expr'], rule=meta['rule'], tests=TESTS, runtime_proof=PROOF)
-            source_symbols.upsert_source_state_schema(GODOT, name, dict(status='active', owner=owner, source_slice=sid, keys=keys, runtime_proof=PROOF, rule='Source-backed BurstDrill updateTile advance from BurstDrill.java / Drill.java / BuildingComp.java.'))
+            source_symbols.upsert_source_state_schema(GODOT, name, dict(status='active', owner=owner, source_slice=sid, keys=result_keys if suffix == 'result' else keys, runtime_proof=PROOF, rule='Source-backed BurstDrill updateTile advance from BurstDrill.java / Drill.java / BuildingComp.java.'))
         if has_contract:
-            source_symbols.upsert_source_api_contract(GODOT, owner, dict(status='active', source_slice=sid, java_source=source, source_method=method, params=[dict(name=k, type=v['type'], schema=prefix + '_input.' + k) for k, v in inputs.items()], return_type=return_type, return_keys=list(outputs), tests=TESTS, runtime_proof=PROOF, rule='Source-backed BurstDrill updateTile advance from BurstDrill.java / Drill.java / BuildingComp.java.'))
+            source_symbols.upsert_source_api_contract(GODOT, owner, dict(status='active', source_slice=sid, java_source=source, source_method=method, params=[dict(name=k, type=v['type'], schema=prefix + '_input.' + k) for k, v in inputs.items()], return_type=return_type, return_keys=list(result_keys), tests=TESTS, runtime_proof=PROOF, rule='Source-backed BurstDrill updateTile advance from BurstDrill.java / Drill.java / BuildingComp.java.'))
         all_names.extend(names)
 
     by_slice = {}

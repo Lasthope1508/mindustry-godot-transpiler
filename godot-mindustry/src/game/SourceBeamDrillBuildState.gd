@@ -522,7 +522,7 @@ static func source_beam_drill_facing_tiles_fill_state(lasers: Array, world_tiles
 	# large-plasma-bore `size = 3;` / `range = 6;`
 	# (Blocks.java:3058-3059); the class defaults are
 	# `public int range = 5;` / `public int tier = 1;`
-	# (BeamDrill.java:35-36) and `public int size = 1;`
+	# (BeamDrill.java:40-41) and `public int size = 1;`
 	# (Block.java:215). The parameter is beam_range,
 	# not `range` (GDScript's range() builtin -- the
 	# pure loops `range(size)` / `range(beam_range)`);
@@ -1793,7 +1793,7 @@ static func source_beam_drill_tick_buildings_state(game: Object, seconds: float)
 			# the catalog per def (2/5/3 plasma-bore,
 			# 3/6/5 large-plasma-bore; the class
 			# defaults are size 1 Block.java:215, range
-			# 5 / tier 1 BeamDrill.java:35-36).
+			# 5 / tier 1 BeamDrill.java:40-41).
 			# blockedItems resolve through the shared
 			# Drill bind (SourceDrillRuntimeState.
 			# source_bind_ore_items_state, the
@@ -2021,7 +2021,7 @@ static func source_beam_drill_can_place_on_state(tile_x: int, tile_y: int, rotat
 	# large-plasma-bore `tier = 5;` / `size = 3;` /
 	# `range = 6;` (Blocks.java:3057-3059); the class
 	# defaults are `public int range = 5;` /
-	# `public int tier = 1;` (BeamDrill.java:35-36)
+	# `public int tier = 1;` (BeamDrill.java:40-41)
 	# and `public int size = 1;` (Block.java:215).
 	# Pure-only (N2478): the tick never calls
 	# canPlaceOn -- placement runs from the placement

@@ -10,7 +10,7 @@ routing half of DEFERRED #89; the per-def shake/effect rows stay
 ## Source
 
 BuildingComp.java (core/src/mindustry/entities/comp/):
-offload :1001-1017 (`produced(item, 1); int dump = this.cdump;
+offload :1001-1015 (`produced(item, 1); int dump = this.cdump;
 for(int i = 0; i < proximity.size; i++){ incrementDump(
 proximity.size); Building other = proximity.get((i + dump) %
 proximity.size); if(other.acceptItem(self(), item) &&

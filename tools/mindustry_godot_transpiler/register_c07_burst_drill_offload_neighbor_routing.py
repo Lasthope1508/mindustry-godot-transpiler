@@ -491,12 +491,32 @@ def main():
             source_symbols.upsert_source_api_contract(GODOT, owner, dict(status='active', source_slice=sid, java_source=source, source_method=method, params=[dict(name=k, type=v['type'], schema=prefix + '_input.' + k) for k, v in inputs.items()], return_type=return_type, return_keys=list(outputs), tests=TESTS, runtime_proof=PROOF, rule='Source-backed BurstDrill updateTile offload neighbor routing rows from BuildingComp.java / BurstDrill.java.'))
         all_names.extend(names)
 
+    # N2491 (schema-sync fold): the three BurstDrill offload advance
+    # keys this slice exposed are now registered symbols -- but
+    # they live on the BurstDrill advance, NOT on this routing pure,
+    # so their godot_owner is the advance owner (the N2219 owner).
+    # The schema + contract fold lives in the N2219 register
+    # (register_c07_burst_drill_update_tile.py).
+    ADVANCE_OWNER = 'SourceBurstDrillBuildState.source_burst_drill_update_tile_advance_state'
+    n2491_offload_outputs = {
+        'offload_routed_indices': f('Array', 'Building other = proximity.get((i + dump) % proximity.size);', 'One ring index per offloaded item the advance routed to a neighbour, in loop order (BuildingComp.java:1007, `Building other = proximity.get((i + dump) % proximity.size);`): the routed_index the routing pure reports per dominantItems iteration, appended in order. Empty when nothing routed. Index i is ring cell i (the N2353 convention); the tick lands each routed item in the neighbour store through the shared N2353 helper.'),
+        'offload_fallback_count': f('int', 'handleItem(self(), item);', 'How many offloaded items fell back to the drill\'s own store this tick (BuildingComp.java:1014, `handleItem(self(), item);`): the count of dominantItems iterations where no neighbour accepted the item, so Java keeps it in the own inventory. 0 when every offloaded item routed.'),
+        'cdump': f('int', 'cdump = ((cdump + 1) % prox);', 'The dump cursor after the offload loop (BuildingComp.java:1119, `cdump = ((cdump + 1) % prox);`, inside incrementDump :1116-1120, guarded on prox != 0): the cursor the routing pure threaded across the dominantItems iterations, advanced once per scanned neighbour INCLUDING each handling one. A full refused scan returns it to its start (the N2286 full-cycle invariant).'),
+    }
+    offload_names = []
+    for field, meta in n2491_offload_outputs.items():
+        meta['used_by'] = [ADVANCE_OWNER]
+        symbol = 'source_burst_drill_update_tile_advance_state_result.' + field
+        offload_names.append(symbol)
+        symbols[symbol] = dict(status='source-backed', godot_owner=ADVANCE_OWNER, godot_symbol=symbol, java_source=meta['java_source'], java_method='BuildingComp.offload()', java_expr=meta['java_expr'], rule=meta['rule'], tests=TESTS, runtime_proof=PROOF)
+
     by_slice = {}
-    # The test pins this order: the routed index, then the new cdump.
+    # The test pins this order: the routed index, then the new cdump,
+    # then the three N2491-folded offload keys (BurstDrill advance).
     by_slice['N2476'] = [
         'source_burst_drill_offload_route_state_result.routed_index',
         'source_burst_drill_offload_route_state_result.cdump_after',
-    ]
+    ] + offload_names
     source_symbols.upsert_source_slice(GODOT, 'N2476', dict(status='done', java_source=BUILDING_COMP, java_class='mindustry.entities.comp.BuildingComp', java_method='BuildingComp.offload()', godot_owner=OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2476'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
 
     source_symbols.upsert_source_symbols(GODOT, symbols)
