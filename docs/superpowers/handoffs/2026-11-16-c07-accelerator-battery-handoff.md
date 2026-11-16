@@ -1,6 +1,6 @@
 # Handoff — N2218 Accelerator battery side (C07)
 
-## Status: GREEN + GATE VERIFIED (23:30 +07 run — targeted 4/4, family 8/8, wiring 32/32, proof 9 keys matches:true; full gate Ran 5965, failures=168, skipped=5, 0 errors, all Godot-absent). NOT committed/pushed yet — slice commit follows in this tick.
+## Status: DONE + PUSHED (slice 5652bba4, main e98d3802).
 
 ## RED
 
