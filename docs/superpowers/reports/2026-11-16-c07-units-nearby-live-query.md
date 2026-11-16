@@ -27,7 +27,7 @@ Full gate `python3 -m unittest discover -s tests` launched from the MAIN thread 
 
 ## PUSH (in this tick)
 
-Gate verified: report → spec (Done/ledger 1659 → 1660 + N2210 row) → GOAL.md §5 (Windows proof stays debt). Slice commit (9 files, fast-forwarded to origin/main 0c742bf7 first — validation merges b03f69bb + 0c742bf7 landed since N2209, docs-only, no rebase needed) → docs commit + GOAL commit → hash-naming commit → handoff-status commit → push to origin main in this tick (origin/main re-checked before push).
+Gate verified: report → spec (Done/ledger 1659 → 1660 + N2210 row) → GOAL.md §5 (Windows proof stays debt). Slice `a43bb520` (9 files, fast-forwarded to origin/main 0c742bf7 first — validation merges b03f69bb + 0c742bf7 landed since N2209, docs-only, no rebase needed) → docs `7a5c6eaa` + GOAL `5e0d2aa1` → this hash-naming commit → handoff-status commit → push to origin main in this tick (origin/main re-checked before push). Post-commit sanity: targeted **Ran 4 OK in 20.204s** (port 7777 free, Godot 4.6.2-stable Linux headless).
 
 ## Deferred (NOT this slice)
 
