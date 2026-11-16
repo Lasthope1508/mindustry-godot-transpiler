@@ -67212,6 +67212,61 @@
       ],
       "runtime_proof": "/root/C07RepairTurretDrawSelectPlaceProof",
       "rule": "Source-backed RepairTurret drawSelect/drawPlace range state from RepairTurret.java."
+    },
+    "SourceRepairTurretBuildState.source_repair_turret_should_ambient_sound_state": {
+      "status": "active",
+      "source_slice": "N2221",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "source_method": "RepairPointBuild.shouldAmbientSound()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_repair_turret_should_ambient_sound_state_input.frame"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "should_ambient_sound"
+      ],
+      "tests": [
+        "test_c07_repair_turret_should_ambient_sound_status_registration",
+        "test_all_c07_repair_turret_should_ambient_sound_status_input_evidence_is_exact",
+        "test_repair_turret_should_ambient_sound_status_state",
+        "test_reference_graph_and_actual_c07_repair_turret_should_ambient_sound_status"
+      ],
+      "runtime_proof": "/root/C07RepairTurretShouldAmbientSoundStatusProof",
+      "rule": "Source-backed RepairTurret shouldAmbientSound/status state from RepairTurret.java."
+    },
+    "SourceRepairTurretBuildState.source_repair_turret_status_state": {
+      "status": "active",
+      "source_slice": "N2221",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "source_method": "RepairPointBuild.status()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_repair_turret_status_state_input.frame"
+        },
+        {
+          "name": "tick",
+          "type": "float",
+          "schema": "source_repair_turret_status_state_input.tick"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "status"
+      ],
+      "tests": [
+        "test_c07_repair_turret_should_ambient_sound_status_registration",
+        "test_all_c07_repair_turret_should_ambient_sound_status_input_evidence_is_exact",
+        "test_repair_turret_should_ambient_sound_status_state",
+        "test_reference_graph_and_actual_c07_repair_turret_should_ambient_sound_status"
+      ],
+      "runtime_proof": "/root/C07RepairTurretShouldAmbientSoundStatusProof",
+      "rule": "Source-backed RepairTurret shouldAmbientSound/status state from RepairTurret.java."
     }
   },
   "policy": {

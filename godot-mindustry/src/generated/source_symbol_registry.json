@@ -174360,6 +174360,38 @@
         "test_reference_graph_and_actual_c07_repair_turret_draw_select_place"
       ],
       "runtime_proof": "/root/C07RepairTurretDrawSelectPlaceProof"
+    },
+    "source_repair_turret_should_ambient_sound_state_result.should_ambient_sound": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_should_ambient_sound_state",
+      "godot_symbol": "source_repair_turret_should_ambient_sound_state_result.should_ambient_sound",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairPointBuild.shouldAmbientSound()",
+      "java_expr": "return target != null && efficiency > 0f;",
+      "rule": "The ambient-sound gate (RepairTurret.java:182, `return target != null && efficiency > 0f;`): true only with a live target and efficiency above zero.",
+      "tests": [
+        "test_c07_repair_turret_should_ambient_sound_status_registration",
+        "test_all_c07_repair_turret_should_ambient_sound_status_input_evidence_is_exact",
+        "test_repair_turret_should_ambient_sound_status_state",
+        "test_reference_graph_and_actual_c07_repair_turret_should_ambient_sound_status"
+      ],
+      "runtime_proof": "/root/C07RepairTurretShouldAmbientSoundStatusProof"
+    },
+    "source_repair_turret_status_state_result.status": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_status_state",
+      "godot_symbol": "source_repair_turret_status_state_result.status",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairPointBuild.status()",
+      "java_expr": "return Mathf.equal(potentialEfficiency, 0f, 0.01f) ? BlockStatus.noInput : super.status();",
+      "rule": "The block status (RepairTurret.java:226, `return Mathf.equal(potentialEfficiency, 0f, 0.01f) ? BlockStatus.noInput : super.status();`): \"noInput\" when potential efficiency is within 0.01 of zero, else BuildingComp.status() (BuildingComp.java:632-646) -- \"logicDisable\" / \"noOutput\" / \"noInput\" / \"active\" (the SourceBuildingAccessState constants).",
+      "tests": [
+        "test_c07_repair_turret_should_ambient_sound_status_registration",
+        "test_all_c07_repair_turret_should_ambient_sound_status_input_evidence_is_exact",
+        "test_repair_turret_should_ambient_sound_status_state",
+        "test_reference_graph_and_actual_c07_repair_turret_should_ambient_sound_status"
+      ],
+      "runtime_proof": "/root/C07RepairTurretShouldAmbientSoundStatusProof"
     }
   },
   "version": 1

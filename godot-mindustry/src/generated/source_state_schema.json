@@ -232440,6 +232440,92 @@
       },
       "runtime_proof": "/root/C07RepairTurretDrawSelectPlaceProof",
       "rule": "Source-backed RepairTurret drawSelect/drawPlace range state from RepairTurret.java."
+    },
+    "source_repair_turret_should_ambient_sound_state_input": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_should_ambient_sound_state",
+      "source_slice": "N2221",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "return target != null && efficiency > 0f;",
+          "rule": "The repair-turret frame carrying the live target observation as `has_target` (stamped every tick by the N2212 acquire; absent means \"no observation yet\", so it reads false) and the folded `efficiency` (stamped every tick by the driver via apply_update_consumption_state; absent folds to 1.0, the N2174 missing-stamp precedent).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_should_ambient_sound_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretShouldAmbientSoundStatusProof",
+      "rule": "Source-backed RepairTurret shouldAmbientSound/status state from RepairTurret.java."
+    },
+    "source_repair_turret_should_ambient_sound_state_result": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_should_ambient_sound_state",
+      "source_slice": "N2221",
+      "keys": {
+        "should_ambient_sound": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "return target != null && efficiency > 0f;",
+          "rule": "The ambient-sound gate (RepairTurret.java:182, `return target != null && efficiency > 0f;`): true only with a live target and efficiency above zero.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_should_ambient_sound_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretShouldAmbientSoundStatusProof",
+      "rule": "Source-backed RepairTurret shouldAmbientSound/status state from RepairTurret.java."
+    },
+    "source_repair_turret_status_state_input": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_status_state",
+      "source_slice": "N2221",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "return Mathf.equal(potentialEfficiency, 0f, 0.01f) ? BlockStatus.noInput : super.status();",
+          "rule": "The repair-turret frame carrying `potential_efficiency` (stamped every tick by the driver via apply_update_consumption_state; absent reads 0.0, the Java transient field default, BuildingComp.java:89, `transient float potentialEfficiency;`), `enabled`, `has_target` (the N2188 shouldConsume leg) and the folded `efficiency` (stamped every tick by the driver).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_status_state"
+          ]
+        },
+        "tick": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return ((state.tick / 30f) % 1f) < efficiency ? BlockStatus.active : BlockStatus.noInput;",
+          "rule": "The game tick (state.tick, BuildingComp.java:645, `return ((state.tick / 30f) % 1f) < efficiency ? BlockStatus.active : BlockStatus.noInput;`): the flicker term of the active leg; passed explicitly because the driver stamps no tick key on the frame.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_status_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretShouldAmbientSoundStatusProof",
+      "rule": "Source-backed RepairTurret shouldAmbientSound/status state from RepairTurret.java."
+    },
+    "source_repair_turret_status_state_result": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_status_state",
+      "source_slice": "N2221",
+      "keys": {
+        "status": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "return Mathf.equal(potentialEfficiency, 0f, 0.01f) ? BlockStatus.noInput : super.status();",
+          "rule": "The block status (RepairTurret.java:226, `return Mathf.equal(potentialEfficiency, 0f, 0.01f) ? BlockStatus.noInput : super.status();`): \"noInput\" when potential efficiency is within 0.01 of zero, else BuildingComp.status() (BuildingComp.java:632-646) -- \"logicDisable\" / \"noOutput\" / \"noInput\" / \"active\" (the SourceBuildingAccessState constants).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_status_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretShouldAmbientSoundStatusProof",
+      "rule": "Source-backed RepairTurret shouldAmbientSound/status state from RepairTurret.java."
     }
   },
   "version": 1

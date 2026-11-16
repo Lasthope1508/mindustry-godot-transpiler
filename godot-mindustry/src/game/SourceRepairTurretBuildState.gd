@@ -358,6 +358,41 @@ static func _block_offset_for_block_id(block_id: String) -> float:
 		return 4.0
 	return 0.0
 
+static func source_repair_turret_should_ambient_sound_state(frame: Dictionary) -> Dictionary:
+	# RepairPointBuild.shouldAmbientSound() (RepairTurret.java:182, inside `public boolean shouldAmbientSound(){`, RepairTurret.java:181):
+	# return target != null && efficiency > 0f;
+	# The live target observation is `has_target` (stamped every tick by the N2212 acquire; absent means "no observation yet", so it reads false) and `efficiency` is the folded efficiency (stamped every tick by the driver via apply_update_consumption_state; absent folds to 1.0, the N2174 missing-stamp precedent). There is no driver tick line: shouldAmbientSound() is a read function (the ambient-sound gate BuildingComp.update() calls), not per-tick.
+	var has_target: bool = bool(frame.get("has_target", false))
+	var efficiency: float = float(frame.get("efficiency", 1.0))
+	return {"should_ambient_sound": has_target and efficiency > 0.0}
+
+static func source_repair_turret_status_state(frame: Dictionary, tick: float) -> Dictionary:
+	# RepairPointBuild.status() (RepairTurret.java:226, inside `public BlockStatus status(){`, RepairTurret.java:225):
+	# return Mathf.equal(potentialEfficiency, 0f, 0.01f) ? BlockStatus.noInput : super.status();
+	# potentialEfficiency is a transient Java field (`transient float potentialEfficiency;`, BuildingComp.java:89), so an unticked frame reads 0.0 and reports noInput, exactly like Java before the first updateConsumption. Mathf.equal(potentialEfficiency, 0f, 0.01f) is `Math.abs(a - b) <= tolerance` (Mathf.java:554-556, arc-upstream/arc-core/src/arc/math/Mathf.java).
+	# super.status() is BuildingComp.status() (BuildingComp.java:632-646):
+	# if(!enabled){ return BlockStatus.logicDisable; }
+	# if(!shouldConsume()){ return BlockStatus.noOutput; }
+	# if(efficiency <= 0 || !productionValid()){ return BlockStatus.noInput; }
+	# return ((state.tick / 30f) % 1f) < efficiency ? BlockStatus.active : BlockStatus.noInput;
+	# The shouldConsume leg reuses source_repair_turret_should_consume_state (N2188) and productionValid is the canonical true default (source_building_access_state.production_valid_state()). The tick arrives as an explicit float param, not from the frame (the driver stamps no tick key). There is no driver tick line: status() is a read function, not per-tick.
+	var potential_efficiency: float = float(frame.get("potential_efficiency", 0.0))
+	if absf(potential_efficiency) <= 0.01:
+		return {"status": source_building_access_state.SOURCE_BUILDING_STATUS_NO_INPUT}
+	var enabled: bool = bool(frame.get("enabled", true))
+	if not enabled:
+		return {"status": source_building_access_state.SOURCE_BUILDING_STATUS_LOGIC_DISABLE}
+	var should_consume: bool = bool(source_repair_turret_should_consume_state(frame).get("should_consume", true))
+	if not should_consume:
+		return {"status": source_building_access_state.SOURCE_BUILDING_STATUS_NO_OUTPUT}
+	var efficiency: float = float(frame.get("efficiency", 1.0))
+	var production_valid: bool = source_building_access_state.production_valid_state()
+	if efficiency <= 0.0 or not production_valid:
+		return {"status": source_building_access_state.SOURCE_BUILDING_STATUS_NO_INPUT}
+	if fmod(tick / 30.0, 1.0) < efficiency:
+		return {"status": source_building_access_state.SOURCE_BUILDING_STATUS_ACTIVE}
+	return {"status": source_building_access_state.SOURCE_BUILDING_STATUS_NO_INPUT}
+
 const REPAIR_TURRET_SAVE_VERSION := 1
 
 static func source_repair_turret_write_state(frame: Dictionary) -> Dictionary:
