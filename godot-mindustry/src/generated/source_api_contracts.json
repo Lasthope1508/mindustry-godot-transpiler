@@ -79829,6 +79829,327 @@
       ],
       "runtime_proof": "/root/C07PayloadMassDriverEffectsRowsProof",
       "rule": "Source-backed PayloadMassDriver updateTile effects / sound / shake rows from PayloadMassDriver.java / Fx.java / Effect.java."
+    },
+    "SourceBurstDrillBuildState.source_burst_drill_offload_effects_state": {
+      "status": "active",
+      "source_slice": "N2469",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "source_method": "BurstDrillBuild.updateTile()",
+      "params": [
+        {
+          "name": "cycle_complete",
+          "type": "bool",
+          "schema": "source_burst_drill_offload_effects_state_input.cycle_complete"
+        },
+        {
+          "name": "was_visible",
+          "type": "bool",
+          "schema": "source_burst_drill_offload_effects_state_input.was_visible"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_burst_drill_offload_effects_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_burst_drill_offload_effects_state_input.y"
+        },
+        {
+          "name": "pitch_roll",
+          "type": "float",
+          "schema": "source_burst_drill_offload_effects_state_input.pitch_roll"
+        },
+        {
+          "name": "effect_roll_x",
+          "type": "float",
+          "schema": "source_burst_drill_offload_effects_state_input.effect_roll_x"
+        },
+        {
+          "name": "effect_roll_y",
+          "type": "float",
+          "schema": "source_burst_drill_offload_effects_state_input.effect_roll_y"
+        },
+        {
+          "name": "dominant_item_color",
+          "type": "Color",
+          "schema": "source_burst_drill_offload_effects_state_input.dominant_item_color"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "shake_call",
+        "drill_sound_call",
+        "drill_effect_call"
+      ],
+      "tests": [
+        "test_c07_burst_drill_offload_effects_rows_registration",
+        "test_all_c07_burst_drill_offload_effects_rows_input_evidence_is_exact",
+        "test_burst_drill_offload_effects_rows_state",
+        "test_reference_graph_and_actual_c07_burst_drill_offload_effects_rows"
+      ],
+      "runtime_proof": "/root/C07BurstDrillOffloadEffectsRowsProof",
+      "rule": "Source-backed BurstDrill updateTile offload effects rows from BurstDrill.java / Fx.java / Effect.java / Item.java."
+    },
+    "SourceShockwaveTowerBuildState.source_shockwave_tower_wave_effects_state": {
+      "status": "active",
+      "source_slice": "N2470",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "source_method": "ShockwaveTowerBuild.updateTile()",
+      "params": [
+        {
+          "name": "fired",
+          "type": "bool",
+          "schema": "source_shockwave_tower_wave_effects_state_input.fired"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_shockwave_tower_wave_effects_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_shockwave_tower_wave_effects_state_input.y"
+        },
+        {
+          "name": "range_value",
+          "type": "float",
+          "schema": "source_shockwave_tower_wave_effects_state_input.range_value"
+        },
+        {
+          "name": "pitch_roll",
+          "type": "float",
+          "schema": "source_shockwave_tower_wave_effects_state_input.pitch_roll"
+        },
+        {
+          "name": "targets",
+          "type": "Array",
+          "schema": "source_shockwave_tower_wave_effects_state_input.targets"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "wave_effect_call",
+        "shoot_sound_call",
+        "shake_call",
+        "hit_effect_calls"
+      ],
+      "tests": [
+        "test_c07_shockwave_tower_wave_effects_rows_registration",
+        "test_all_c07_shockwave_tower_wave_effects_rows_input_evidence_is_exact",
+        "test_shockwave_tower_wave_effects_rows_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_wave_effects_rows"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerWaveEffectsRowsProof",
+      "rule": "Source-backed ShockwaveTower wave effects / sound / shake rows from ShockwaveTower.java / Fx.java / Effect.java / Pal.java."
+    },
+    "SourcePayloadLoaderBuildState.source_payload_loader_payload_update_state": {
+      "status": "active",
+      "source_slice": "N2471",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "source_method": "PayloadBlockBuild.updateTile()",
+      "params": [
+        {
+          "name": "payload",
+          "type": "Variant",
+          "schema": "source_payload_loader_payload_update_state_input.payload"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "payload_update_call"
+      ],
+      "tests": [
+        "test_c07_payload_loader_super_update_tile_rows_registration",
+        "test_all_c07_payload_loader_super_update_tile_rows_input_evidence_is_exact",
+        "test_payload_loader_super_update_tile_rows_state",
+        "test_reference_graph_and_actual_c07_payload_loader_super_update_tile_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderSuperUpdateTileRowsProof",
+      "rule": "Source-backed PayloadLoader super.updateTile payload update from PayloadBlock.java / PayloadLoader.java / Payload.java / BuildPayload.java / UnitPayload.java."
+    },
+    "SourceStackRouterBuildState.source_stack_router_proximity_neighbours_live_fill_state": {
+      "status": "active",
+      "source_slice": "N2472",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "BuildingComp.updateProximity()",
+      "params": [
+        {
+          "name": "world_tiles",
+          "type": "Dictionary",
+          "schema": "source_stack_router_proximity_neighbours_live_fill_state_input.world_tiles"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_stack_router_proximity_neighbours_live_fill_state_input.cell"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_stack_router_proximity_neighbours_live_fill_state_input.size"
+        },
+        {
+          "name": "team",
+          "type": "int",
+          "schema": "source_stack_router_proximity_neighbours_live_fill_state_input.team"
+        },
+        {
+          "name": "team_map",
+          "type": "Dictionary",
+          "schema": "source_stack_router_proximity_neighbours_live_fill_state_input.team_map"
+        },
+        {
+          "name": "accepts_map",
+          "type": "Dictionary",
+          "schema": "source_stack_router_proximity_neighbours_live_fill_state_input.accepts_map"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "proximity_neighbours"
+      ],
+      "tests": [
+        "test_c07_stack_router_live_proximity_query_registration",
+        "test_all_c07_stack_router_live_proximity_query_input_evidence_is_exact",
+        "test_stack_router_live_proximity_query_state",
+        "test_reference_graph_and_actual_c07_stack_router_live_proximity_query"
+      ],
+      "runtime_proof": "/root/C07StackRouterLiveProximityQueryProof",
+      "rule": "Source-backed StackRouter live proximity query from BuildingComp.java / Edges.java / DuctRouter.java / StackRouter.java / Block.java."
+    },
+    "SourceBeamDrillBuildState.source_beam_drill_blocked_items_state": {
+      "status": "active",
+      "source_slice": "N2473",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrill.init()",
+      "params": [
+        {
+          "name": "blocked_item",
+          "type": "Variant",
+          "schema": "source_beam_drill_blocked_items_state_input.blocked_item"
+        },
+        {
+          "name": "blocked_items",
+          "type": "Variant",
+          "schema": "source_beam_drill_blocked_items_state_input.blocked_items"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "blocked_items_after"
+      ],
+      "tests": [
+        "test_c07_beam_drill_multipliers_blocked_item_rows_registration",
+        "test_all_c07_beam_drill_multipliers_blocked_item_rows_input_evidence_is_exact",
+        "test_beam_drill_multipliers_blocked_item_rows_state",
+        "test_reference_graph_and_actual_c07_beam_drill_multipliers_blocked_item_rows"
+      ],
+      "runtime_proof": "/root/C07BeamDrillMultipliersBlockedItemRowsProof",
+      "rule": "Source-backed BeamDrill drillMultipliers / blockedItem rows from BeamDrill.java / Blocks.java / ObjectFloatMap.java."
+    },
+    "SourceBeamDrillBuildState.source_beam_drill_drill_multiplier_state": {
+      "status": "active",
+      "source_slice": "N2473",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrill.getDrillTime(Item)",
+      "params": [
+        {
+          "name": "item",
+          "type": "Variant",
+          "schema": "source_beam_drill_drill_multiplier_state_input.item"
+        },
+        {
+          "name": "drill_multipliers",
+          "type": "Dictionary",
+          "schema": "source_beam_drill_drill_multiplier_state_input.drill_multipliers"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "multiplier"
+      ],
+      "tests": [
+        "test_c07_beam_drill_multipliers_blocked_item_rows_registration",
+        "test_all_c07_beam_drill_multipliers_blocked_item_rows_input_evidence_is_exact",
+        "test_beam_drill_multipliers_blocked_item_rows_state",
+        "test_reference_graph_and_actual_c07_beam_drill_multipliers_blocked_item_rows"
+      ],
+      "runtime_proof": "/root/C07BeamDrillMultipliersBlockedItemRowsProof",
+      "rule": "Source-backed BeamDrill drillMultipliers / blockedItem rows from BeamDrill.java / Blocks.java / ObjectFloatMap.java."
+    },
+    "SourceRadarBuildState.source_radar_fog_radius_state": {
+      "status": "active",
+      "source_slice": "N2474",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "source_method": "RadarBuild.fogRadius()",
+      "params": [
+        {
+          "name": "fog_radius_field",
+          "type": "float",
+          "schema": "source_radar_fog_radius_state_input.fog_radius_field"
+        },
+        {
+          "name": "progress",
+          "type": "float",
+          "schema": "source_radar_fog_radius_state_input.progress"
+        },
+        {
+          "name": "smooth_efficiency",
+          "type": "float",
+          "schema": "source_radar_fog_radius_state_input.smooth_efficiency"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "fog_radius"
+      ],
+      "tests": [
+        "test_c07_radar_fog_radius_rows_registration",
+        "test_all_c07_radar_fog_radius_rows_input_evidence_is_exact",
+        "test_radar_fog_radius_rows_state",
+        "test_reference_graph_and_actual_c07_radar_fog_radius_rows"
+      ],
+      "runtime_proof": "/root/C07RadarFogRadiusRowsProof",
+      "rule": "Source-backed Radar fogRadius rows from Radar.java / Block.java / Blocks.java."
+    },
+    "SourceRepairTurretBuildState.source_repair_turret_status_range_state": {
+      "status": "active",
+      "source_slice": "N2475",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "source_method": "RepairPointBuild.status()/range()",
+      "params": [
+        {
+          "name": "potential_efficiency",
+          "type": "float",
+          "schema": "source_repair_turret_status_range_state_input.potential_efficiency"
+        },
+        {
+          "name": "super_status",
+          "type": "String",
+          "schema": "source_repair_turret_status_range_state_input.super_status"
+        },
+        {
+          "name": "repair_radius",
+          "type": "float",
+          "schema": "source_repair_turret_status_range_state_input.repair_radius"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "status",
+        "range_value"
+      ],
+      "tests": [
+        "test_c07_repair_turret_status_range_rows_registration",
+        "test_all_c07_repair_turret_status_range_rows_input_evidence_is_exact",
+        "test_repair_turret_status_range_rows_state",
+        "test_reference_graph_and_actual_c07_repair_turret_status_range_rows"
+      ],
+      "runtime_proof": "/root/C07RepairTurretStatusRangeRowsProof",
+      "rule": "Source-backed RepairTurret status/range rows from RepairTurret.java / BuildingComp.java / BlockStatus.java / Blocks.java / Ranged.java."
     }
   },
   "policy": {

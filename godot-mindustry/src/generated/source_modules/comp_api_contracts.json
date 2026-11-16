@@ -18755,6 +18755,57 @@
       "runtime_proof": "/root/C07SeparatorOffloadRoutingProof",
       "rule": "Source-backed Separator offload neighbor routing rows from BuildingComp.java / Separator.java.",
       "return_type": "Dictionary"
+    },
+    "SourceStackRouterBuildState.source_stack_router_proximity_neighbours_live_fill_state": {
+      "canonical_contract": "source_api_contracts.SourceStackRouterBuildState.source_stack_router_proximity_neighbours_live_fill_state",
+      "status": "active",
+      "source_slice": "N2472",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "BuildingComp.updateProximity()",
+      "params": [
+        {
+          "name": "world_tiles",
+          "type": "Dictionary",
+          "schema": "source_stack_router_proximity_neighbours_live_fill_state_input.world_tiles"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_stack_router_proximity_neighbours_live_fill_state_input.cell"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_stack_router_proximity_neighbours_live_fill_state_input.size"
+        },
+        {
+          "name": "team",
+          "type": "int",
+          "schema": "source_stack_router_proximity_neighbours_live_fill_state_input.team"
+        },
+        {
+          "name": "team_map",
+          "type": "Dictionary",
+          "schema": "source_stack_router_proximity_neighbours_live_fill_state_input.team_map"
+        },
+        {
+          "name": "accepts_map",
+          "type": "Dictionary",
+          "schema": "source_stack_router_proximity_neighbours_live_fill_state_input.accepts_map"
+        }
+      ],
+      "return_keys": [
+        "proximity_neighbours"
+      ],
+      "tests": [
+        "test_c07_stack_router_live_proximity_query_registration",
+        "test_all_c07_stack_router_live_proximity_query_input_evidence_is_exact",
+        "test_stack_router_live_proximity_query_state",
+        "test_reference_graph_and_actual_c07_stack_router_live_proximity_query"
+      ],
+      "runtime_proof": "/root/C07StackRouterLiveProximityQueryProof",
+      "rule": "Source-backed StackRouter live proximity query from BuildingComp.java / Edges.java / DuctRouter.java / StackRouter.java / Block.java.",
+      "return_type": "Dictionary"
     }
   }
 }

@@ -3888,6 +3888,43 @@
       ],
       "runtime_proof": "/root/C07BuildTurretWarmupStatsRowsProof"
     },
+    "N2470": {
+      "canonical_ledger": "source_slice_ledger.N2470",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.updateTile()",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_wave_effects_state",
+      "source_symbols": [
+        "source_shockwave_tower_wave_effects_state_result.wave_effect_call",
+        "source_shockwave_tower_wave_effects_state_result.shoot_sound_call",
+        "source_shockwave_tower_wave_effects_state_result.shake_call",
+        "source_shockwave_tower_wave_effects_state_result.hit_effect_calls"
+      ],
+      "tests": [
+        "test_c07_shockwave_tower_wave_effects_rows_registration",
+        "test_all_c07_shockwave_tower_wave_effects_rows_input_evidence_is_exact",
+        "test_shockwave_tower_wave_effects_rows_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_wave_effects_rows"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerWaveEffectsRowsProof"
+    },
+    "N2474": {
+      "canonical_ledger": "source_slice_ledger.N2474",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "RadarBuild.fogRadius()",
+      "godot_owner": "SourceRadarBuildState.source_radar_fog_radius_state",
+      "source_symbols": [
+        "source_radar_fog_radius_state_result.fog_radius"
+      ],
+      "tests": [
+        "test_c07_radar_fog_radius_rows_registration",
+        "test_all_c07_radar_fog_radius_rows_input_evidence_is_exact",
+        "test_radar_fog_radius_rows_state",
+        "test_reference_graph_and_actual_c07_radar_fog_radius_rows"
+      ],
+      "runtime_proof": "/root/C07RadarFogRadiusRowsProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

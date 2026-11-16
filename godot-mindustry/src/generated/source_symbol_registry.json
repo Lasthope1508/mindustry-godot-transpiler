@@ -188776,6 +188776,230 @@
         "test_reference_graph_and_actual_c07_payload_mass_driver_effects_rows"
       ],
       "runtime_proof": "/root/C07PayloadMassDriverEffectsRowsProof"
+    },
+    "source_burst_drill_offload_effects_state_result.shake_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_offload_effects_state",
+      "godot_symbol": "source_burst_drill_offload_effects_state_result.shake_call",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_method": "BurstDrillBuild.updateTile()",
+      "java_expr": "Effect.shake(shake, shake, this);",
+      "rule": "The offload shake call (BurstDrill.java:115): {intensity: 2.0, duration: 2.0} when the gate fires, null otherwise (the N2397 null-when-absent precedent). The Position overload (`public static void shake(float intensity, float duration, Position loc){`, Effect.java:210-212) delegates to shake(intensity, duration, x, y) (Effect.java:201), so the first arg is the intensity and the second the duration, both the shake field 2f (BurstDrill.java:18). The camera-distance falloff inside (Effect.java:204-207) is the callee behavior -- the pure records the CALL params. Both defs override shake = 4f (Blocks.java:3077/:3106) -- the per-def rows wait for their own slice (the N2304 precedent).",
+      "tests": [
+        "test_c07_burst_drill_offload_effects_rows_registration",
+        "test_all_c07_burst_drill_offload_effects_rows_input_evidence_is_exact",
+        "test_burst_drill_offload_effects_rows_state",
+        "test_reference_graph_and_actual_c07_burst_drill_offload_effects_rows"
+      ],
+      "runtime_proof": "/root/C07BurstDrillOffloadEffectsRowsProof"
+    },
+    "source_burst_drill_offload_effects_state_result.drill_sound_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_offload_effects_state",
+      "godot_symbol": "source_burst_drill_offload_effects_state_result.drill_sound_call",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_method": "BurstDrillBuild.updateTile()",
+      "java_expr": "drillSound.at(x, y, 1f + Mathf.range(drillSoundPitchRand), drillSoundVolume);",
+      "rule": "The offload drill-sound call (BurstDrill.java:116): {sound: \"drillImpact\", x, y, pitch: 1.0 + pitch_roll, volume: 0.6} when the gate fires, null otherwise (the N2397 null-when-absent precedent). The sound is Sounds.drillImpact (`public Sound drillSound = Sounds.drillImpact;`, BurstDrill.java:32; asset core/assets/sounds/block/drillImpact.ogg; Sounds is build-generated mindustry.gen.Sounds). The volume is drillSoundVolume 0.6f (:33). The pitch roll is caller-supplied (see pitch_roll) -- the pure never rolls.",
+      "tests": [
+        "test_c07_burst_drill_offload_effects_rows_registration",
+        "test_all_c07_burst_drill_offload_effects_rows_input_evidence_is_exact",
+        "test_burst_drill_offload_effects_rows_state",
+        "test_reference_graph_and_actual_c07_burst_drill_offload_effects_rows"
+      ],
+      "runtime_proof": "/root/C07BurstDrillOffloadEffectsRowsProof"
+    },
+    "source_burst_drill_offload_effects_state_result.drill_effect_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_offload_effects_state",
+      "godot_symbol": "source_burst_drill_offload_effects_state_result.drill_effect_call",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_method": "BurstDrillBuild.updateTile()",
+      "java_expr": "drillEffect.at(x + Mathf.range(drillEffectRnd), y + Mathf.range(drillEffectRnd), dominantItem.color);",
+      "rule": "The offload drill-effect call (BurstDrill.java:117): {effect: \"Fx.shockwave\", x: x + effect_roll_x, y: y + effect_roll_y, color: dominant_item_color} when the gate fires, null otherwise (the N2397 null-when-absent precedent). Fx.shockwave is `shockwave = new Effect(10f, 80f, e -> {` (Fx.java:1625); the color is the caller-supplied dominant item color (Item.java:19). The position rolls are caller-supplied (see effect_roll_x / effect_roll_y) -- the pure never rolls. Both defs override drillEffect to a MultiEffect (Blocks.java:3076/:3100-3105) -- the per-def rows wait for their own slice (the N2304 precedent). The 10-tick renderer body is the callee presentation -- the pure records the CALL (the N2396 precedent).",
+      "tests": [
+        "test_c07_burst_drill_offload_effects_rows_registration",
+        "test_all_c07_burst_drill_offload_effects_rows_input_evidence_is_exact",
+        "test_burst_drill_offload_effects_rows_state",
+        "test_reference_graph_and_actual_c07_burst_drill_offload_effects_rows"
+      ],
+      "runtime_proof": "/root/C07BurstDrillOffloadEffectsRowsProof"
+    },
+    "source_shockwave_tower_wave_effects_state_result.wave_effect_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_wave_effects_state",
+      "godot_symbol": "source_shockwave_tower_wave_effects_state_result.wave_effect_call",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.updateTile()",
+      "java_expr": "waveEffect.at(x, y, range, waveColor);",
+      "rule": "The wave effect call (ShockwaveTower.java:84): {token: \"Fx.pointShockwave\", x, y, range: range_value, color: \"Pal.accent\"} when the gate fires, null otherwise (the N2397 null-when-absent precedent). The effect is Fx.pointShockwave (`pointShockwave = new Effect(20, e -> {`, Fx.java:223), fired with the 4-arg .at (range + color); the color is waveColor = Pal.accent (`public Color waveColor = Pal.accent, ...`, ShockwaveTower.java:33; `accent = Color.valueOf(\"ffd37f\"),`, Pal.java:79). The 20-tick renderer body is the callee presentation -- the pure records the CALL (the N2396 precedent).",
+      "tests": [
+        "test_c07_shockwave_tower_wave_effects_rows_registration",
+        "test_all_c07_shockwave_tower_wave_effects_rows_input_evidence_is_exact",
+        "test_shockwave_tower_wave_effects_rows_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_wave_effects_rows"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerWaveEffectsRowsProof"
+    },
+    "source_shockwave_tower_wave_effects_state_result.shoot_sound_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_wave_effects_state",
+      "godot_symbol": "source_shockwave_tower_wave_effects_state_result.shoot_sound_call",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.updateTile()",
+      "java_expr": "shootSound.at(x, y, 1f + Mathf.range(0.15f), 1f);",
+      "rule": "The shoot sound call (ShockwaveTower.java:85): {token: \"shockwaveTower\", pitch: 1.0 + pitch_roll, volume: 1.0} when the gate fires, null otherwise (the N2397 null-when-absent precedent). The sound is Sounds.shockwaveTower (`public Sound shootSound = Sounds.shockwaveTower;`, ShockwaveTower.java:32; asset core/assets/sounds/block/shockwaveTower.ogg; Sounds is build-generated mindustry.gen.Sounds) -- the token is bare, the N2444/N2468 sound-token precedent. The volume is the literal 1f (:85). The pitch roll is caller-supplied (see pitch_roll) -- the pure never rolls.",
+      "tests": [
+        "test_c07_shockwave_tower_wave_effects_rows_registration",
+        "test_all_c07_shockwave_tower_wave_effects_rows_input_evidence_is_exact",
+        "test_shockwave_tower_wave_effects_rows_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_wave_effects_rows"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerWaveEffectsRowsProof"
+    },
+    "source_shockwave_tower_wave_effects_state_result.shake_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_wave_effects_state",
+      "godot_symbol": "source_shockwave_tower_wave_effects_state_result.shake_call",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.updateTile()",
+      "java_expr": "Effect.shake(shake, shake, this);",
+      "rule": "The shake call (ShockwaveTower.java:86): {intensity: 2.0, duration: 2.0} when the gate fires, null otherwise (the N2397 null-when-absent precedent). The Position overload (`public static void shake(float intensity, float duration, Position loc){`, Effect.java:210-212) delegates to shake(intensity, duration, x, y) (Effect.java:201), so the first arg is the intensity and the second the duration, both the shake field 2f (ShockwaveTower.java:29). The camera-distance falloff inside (Effect.java:204-207) is the callee behavior -- the pure records the CALL params.",
+      "tests": [
+        "test_c07_shockwave_tower_wave_effects_rows_registration",
+        "test_all_c07_shockwave_tower_wave_effects_rows_input_evidence_is_exact",
+        "test_shockwave_tower_wave_effects_rows_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_wave_effects_rows"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerWaveEffectsRowsProof"
+    },
+    "source_shockwave_tower_wave_effects_state_result.hit_effect_calls": {
+      "status": "source-backed",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_wave_effects_state",
+      "godot_symbol": "source_shockwave_tower_wave_effects_state_result.hit_effect_calls",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.updateTile()",
+      "java_expr": "hitEffect.at(target.x, target.y, waveColor);",
+      "rule": "The per-target hit effect calls (ShockwaveTower.java:95): an Array of {token: \"Fx.hitSquaresColor\", x, y, color: \"Pal.accent\"} -- ONE per target, in Java loop order -- when the gate fires, empty when the gate fails or when targets is empty. The effect is Fx.hitSquaresColor (`hitSquaresColor = new Effect(14, e -> {`, Fx.java:890), fired at each target position with waveColor = Pal.accent. The 14-tick renderer body is the callee presentation -- the pure records the CALL (the N2396 precedent).",
+      "tests": [
+        "test_c07_shockwave_tower_wave_effects_rows_registration",
+        "test_all_c07_shockwave_tower_wave_effects_rows_input_evidence_is_exact",
+        "test_shockwave_tower_wave_effects_rows_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_wave_effects_rows"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerWaveEffectsRowsProof"
+    },
+    "source_payload_loader_payload_update_state_result.payload_update_call": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadLoaderBuildState.source_payload_loader_payload_update_state",
+      "godot_symbol": "source_payload_loader_payload_update_state_result.payload_update_call",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_method": "PayloadBlockBuild.updateTile()",
+      "java_expr": "payload.update(null, this);",
+      "rule": "The payload.update CALL record (PayloadBlock.java:160, `payload.update(null, this);`): null when the payload is null (the `if(payload != null){` gate, PayloadBlock.java:159), else {method: \"payload.update\", unit_holder: null, building_holder: \"self\", payload_kind: \"BuildPayload\" | \"UnitPayload\"}. The callee's entity behaviour is NOT ported (BuildPayload.update :52-57 sets build.tile = emptyTile and calls build.updatePayload; UnitPayload.update :51-53 delegates to the unit type) -- there is no live payload entity in the port. The call is unconditional on payload non-null: BuildPayload.update's gate (`if(unitHolder != null && ...) return;`, BuildPayload.java:53) short-circuits with the Loader's null unit holder.",
+      "tests": [
+        "test_c07_payload_loader_super_update_tile_rows_registration",
+        "test_all_c07_payload_loader_super_update_tile_rows_input_evidence_is_exact",
+        "test_payload_loader_super_update_tile_rows_state",
+        "test_reference_graph_and_actual_c07_payload_loader_super_update_tile_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderSuperUpdateTileRowsProof"
+    },
+    "source_stack_router_proximity_neighbours_live_fill_state_result.proximity_neighbours": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackRouterBuildState.source_stack_router_proximity_neighbours_live_fill_state",
+      "godot_symbol": "source_stack_router_proximity_neighbours_live_fill_state_result.proximity_neighbours",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.updateProximity()",
+      "java_expr": "proximity.add(tile);",
+      "rule": "Per-neighbour dict, in Edges ring order: id is the ring tile \"x,y\" key, rel is relativeTo(other) (BuildingComp.java:530-540) in tile-offset form, team is the neighbour team, accepts_item is the neighbour acceptItem(this, current) answer. A ring tile yields an entry only when the tile is known (world_tiles Dict entry), a building stands there (team_map key) and its team matches the router (BuildingComp.java:1887). The N2324 pure reads the filled array unchanged.",
+      "tests": [
+        "test_c07_stack_router_live_proximity_query_registration",
+        "test_all_c07_stack_router_live_proximity_query_input_evidence_is_exact",
+        "test_stack_router_live_proximity_query_state",
+        "test_reference_graph_and_actual_c07_stack_router_live_proximity_query"
+      ],
+      "runtime_proof": "/root/C07StackRouterLiveProximityQueryProof"
+    },
+    "source_beam_drill_blocked_items_state_result.blocked_items_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_blocked_items_state",
+      "godot_symbol": "source_beam_drill_blocked_items_state_result.blocked_items_after",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrill.init()",
+      "java_expr": "blockedItems = Seq.with(blockedItem);",
+      "rule": "The list AFTER init (BeamDrill.java:84-85): [blocked_item] iff blocked_items is null and blocked_item is non-null, else blocked_items unchanged. The promoted list is what the updateFacing gate (:391, live since N2339), the drawPlace gate (:154) and the canPlaceOn gate (:205) read; this pure supplies the input, it does not evaluate any gate.",
+      "tests": [
+        "test_c07_beam_drill_multipliers_blocked_item_rows_registration",
+        "test_all_c07_beam_drill_multipliers_blocked_item_rows_input_evidence_is_exact",
+        "test_beam_drill_multipliers_blocked_item_rows_state",
+        "test_reference_graph_and_actual_c07_beam_drill_multipliers_blocked_item_rows"
+      ],
+      "runtime_proof": "/root/C07BeamDrillMultipliersBlockedItemRowsProof"
+    },
+    "source_beam_drill_drill_multiplier_state_result.multiplier": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_drill_multiplier_state",
+      "godot_symbol": "source_beam_drill_drill_multiplier_state_result.multiplier",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrill.getDrillTime(Item)",
+      "java_expr": "return drillTime / drillMultipliers.get(item, 1f);",
+      "rule": "The drill-speed multiplier for the item (BeamDrill.java:217): the mapped value, or the 1f default when the item is absent (arc ObjectFloatMap.get(key, defaultValue), ObjectFloatMap.java:286) or the item is null (:287). The pure returns ONLY the multiplier -- dividing the per-def base drillTime (160f / 100f, Blocks.java:3042/3055) by it is the drop-loop slice wiring (the N2195 advance tracks no drillTime yet).",
+      "tests": [
+        "test_c07_beam_drill_multipliers_blocked_item_rows_registration",
+        "test_all_c07_beam_drill_multipliers_blocked_item_rows_input_evidence_is_exact",
+        "test_beam_drill_multipliers_blocked_item_rows_state",
+        "test_reference_graph_and_actual_c07_beam_drill_multipliers_blocked_item_rows"
+      ],
+      "runtime_proof": "/root/C07BeamDrillMultipliersBlockedItemRowsProof"
+    },
+    "source_radar_fog_radius_state_result.fog_radius": {
+      "status": "source-backed",
+      "godot_owner": "SourceRadarBuildState.source_radar_fog_radius_state",
+      "godot_symbol": "source_radar_fog_radius_state_result.fog_radius",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "RadarBuild.fogRadius()",
+      "java_expr": "return fogRadius * progress * smoothEfficiency;",
+      "rule": "The fogRadius() method value (Radar.java:55-57): fogRadius * progress * smoothEfficiency, Java-exact multiplication order -- the radius the updateTile gate (Radar.java:63) compares against lastRadius and the drawSelect dash circle (Radar.java:81) draws at tilesize scale.",
+      "tests": [
+        "test_c07_radar_fog_radius_rows_registration",
+        "test_all_c07_radar_fog_radius_rows_input_evidence_is_exact",
+        "test_radar_fog_radius_rows_state",
+        "test_reference_graph_and_actual_c07_radar_fog_radius_rows"
+      ],
+      "runtime_proof": "/root/C07RadarFogRadiusRowsProof"
+    },
+    "source_repair_turret_status_range_state_result.status": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_status_range_state",
+      "godot_symbol": "source_repair_turret_status_range_state_result.status",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairPointBuild.status()/range()",
+      "java_expr": "return Mathf.equal(potentialEfficiency, 0f, 0.01f) ? BlockStatus.noInput : super.status();",
+      "rule": "The status() verdict (RepairTurret.java:226-228): \"noInput\" when |potentialEfficiency - 0f| <= 0.01f (Mathf.equal, arc Mathf.java:554-556, INCLUSIVE -- exactly 0.01f still reads noInput), else the caller-supplied super_status.",
+      "tests": [
+        "test_c07_repair_turret_status_range_rows_registration",
+        "test_all_c07_repair_turret_status_range_rows_input_evidence_is_exact",
+        "test_repair_turret_status_range_rows_state",
+        "test_reference_graph_and_actual_c07_repair_turret_status_range_rows"
+      ],
+      "runtime_proof": "/root/C07RepairTurretStatusRangeRowsProof"
+    },
+    "source_repair_turret_status_range_state_result.range_value": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_status_range_state",
+      "godot_symbol": "source_repair_turret_status_range_state_result.range_value",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairPointBuild.status()/range()",
+      "java_expr": "return repairRadius;",
+      "rule": "The range() value (RepairTurret.java:231-233): the repairRadius param -- the class 50f or the def override (60f repair-point / 145f repair-turret). The Ranged.range() accessor (Ranged.java:6).",
+      "tests": [
+        "test_c07_repair_turret_status_range_rows_registration",
+        "test_all_c07_repair_turret_status_range_rows_input_evidence_is_exact",
+        "test_repair_turret_status_range_rows_state",
+        "test_reference_graph_and_actual_c07_repair_turret_status_range_rows"
+      ],
+      "runtime_proof": "/root/C07RepairTurretStatusRangeRowsProof"
     }
   },
   "version": 1

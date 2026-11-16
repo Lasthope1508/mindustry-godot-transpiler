@@ -5657,6 +5657,23 @@
       ],
       "runtime_proof": "/root/C07LiquidNeighbourWriteBackProof"
     },
+    "N2472": {
+      "canonical_ledger": "source_slice_ledger.N2472",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.updateProximity()",
+      "godot_owner": "SourceStackRouterBuildState.source_stack_router_proximity_neighbours_live_fill_state",
+      "source_symbols": [
+        "source_stack_router_proximity_neighbours_live_fill_state_result.proximity_neighbours"
+      ],
+      "tests": [
+        "test_c07_stack_router_live_proximity_query_registration",
+        "test_all_c07_stack_router_live_proximity_query_input_evidence_is_exact",
+        "test_stack_router_live_proximity_query_state",
+        "test_reference_graph_and_actual_c07_stack_router_live_proximity_query"
+      ],
+      "runtime_proof": "/root/C07StackRouterLiveProximityQueryProof"
+    },
     "N514": {
       "canonical_ledger": "source_slice_ledger.N514",
       "status": "done",

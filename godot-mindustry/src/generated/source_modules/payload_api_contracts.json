@@ -4379,6 +4379,32 @@
       "rule": "Source-backed PayloadLoader load timer cadence from PayloadLoader.java / TimerComp.java / BuildingComp.java / Blocks.java / arc Interval.java / arc Time.java.",
       "return_type": "Dictionary"
     },
+    "SourcePayloadLoaderBuildState.source_payload_loader_payload_update_state": {
+      "canonical_contract": "source_api_contracts.SourcePayloadLoaderBuildState.source_payload_loader_payload_update_state",
+      "status": "active",
+      "source_slice": "N2471",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "source_method": "PayloadBlockBuild.updateTile()",
+      "params": [
+        {
+          "name": "payload",
+          "type": "Variant",
+          "schema": "source_payload_loader_payload_update_state_input.payload"
+        }
+      ],
+      "return_keys": [
+        "payload_update_call"
+      ],
+      "tests": [
+        "test_c07_payload_loader_super_update_tile_rows_registration",
+        "test_all_c07_payload_loader_super_update_tile_rows_input_evidence_is_exact",
+        "test_payload_loader_super_update_tile_rows_state",
+        "test_reference_graph_and_actual_c07_payload_loader_super_update_tile_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderSuperUpdateTileRowsProof",
+      "rule": "Source-backed PayloadLoader super.updateTile payload update from PayloadBlock.java / PayloadLoader.java / Payload.java / BuildPayload.java / UnitPayload.java.",
+      "return_type": "Dictionary"
+    },
     "SourcePayloadLoaderBuildState.source_payload_loader_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourcePayloadLoaderBuildState.source_payload_loader_power_status_row_state",
       "status": "active",

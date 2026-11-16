@@ -2572,6 +2572,23 @@
         "test_reference_graph_and_actual_c07_payload_mass_driver_effects_rows"
       ],
       "runtime_proof": "/root/C07PayloadMassDriverEffectsRowsProof"
+    },
+    "N2471": {
+      "canonical_ledger": "source_slice_ledger.N2471",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_method": "PayloadBlockBuild.updateTile()",
+      "godot_owner": "SourcePayloadLoaderBuildState.source_payload_loader_payload_update_state",
+      "source_symbols": [
+        "source_payload_loader_payload_update_state_result.payload_update_call"
+      ],
+      "tests": [
+        "test_c07_payload_loader_super_update_tile_rows_registration",
+        "test_all_c07_payload_loader_super_update_tile_rows_input_evidence_is_exact",
+        "test_payload_loader_super_update_tile_rows_state",
+        "test_reference_graph_and_actual_c07_payload_loader_super_update_tile_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadLoaderSuperUpdateTileRowsProof"
     }
   }
 }

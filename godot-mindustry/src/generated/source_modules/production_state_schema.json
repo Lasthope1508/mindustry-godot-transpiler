@@ -51,6 +51,31 @@
         }
       }
     },
+    "source_beam_drill_blocked_items_state_input": {
+      "canonical_schema": "source_state_schema.source_beam_drill_blocked_items_state_input",
+      "keys": {
+        "blocked_item": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public @Nullable Item blockedItem;",
+          "rule": "The single exemption item (BeamDrill.java:49, read at init :84 -- the promotion fires only when blockedItems is null AND blockedItem is non-null): an item-name String or null (the N2225 precedent, Java compares Item references). Neither BeamDrill def sets one (Blocks.java:3038-3068); the thorium proof value is the impact-drill def (`blockedItem = Items.thorium;`, Blocks.java:3080, a BurstDrill def) used as a caller-supplied input.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_blocked_items_state"
+          ]
+        },
+        "blocked_items": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public @Nullable Seq<Item> blockedItems;",
+          "rule": "The exemption list (BeamDrill.java:51, read at init :84 and at the three drill gates :154/:205/:391): null or an Array of item names (the N2339 facing-scan precedent). A set list -- even an empty one -- passes through unchanged (Java checks null, not emptiness); neither BeamDrill def sets one, so both defs read null.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_blocked_items_state"
+          ]
+        }
+      }
+    },
     "source_beam_drill_draw_state_input": {
       "canonical_schema": "source_state_schema.source_beam_drill_draw_state_input",
       "keys": {
@@ -884,6 +909,91 @@
           "rule": "The consumer multiplier (Consume.java:18): the 1f default -- neither def sets one (Blocks.java:3089-3090/3119-3120 are bare consumeLiquid calls, the booster rows only adding .boost()).",
           "used_by": [
             "SourceBurstDrillBuildState.source_burst_drill_liquid_consumer_row_state"
+          ]
+        }
+      }
+    },
+    "source_burst_drill_offload_effects_state_input": {
+      "canonical_schema": "source_state_schema.source_burst_drill_offload_effects_state_input",
+      "keys": {
+        "cycle_complete": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "if(dominantItems > 0 && progress >= drillTime && items.total() < itemCapacity){",
+          "rule": "The caller-evaluated cycle-complete verdict (BurstDrill.java:106, `if(dominantItems > 0 && progress >= drillTime && items.total() < itemCapacity){`): true exactly when the drill completed a cycle this tick. The pure does NOT recompute the progress / capacity checks (the N2397 precedent -- the N2219 advance owns the branch).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_offload_effects_state"
+          ]
+        },
+        "was_visible": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "if(wasVisible){",
+          "rule": "The caller-evaluated wasVisible gate (BurstDrill.java:114, `if(wasVisible){`): true exactly when the building was visible this tick. The pure does NOT recompute visibility (the N2397 precedent).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_offload_effects_state"
+          ]
+        },
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "drillSound.at(x, y, 1f + Mathf.range(drillSoundPitchRand), drillSoundVolume);",
+          "rule": "The self world x (BurstDrill.java:116, the drillSound.at x; also the drillEffect.at x, :117): an explicit input, passed through to the sound (untouched) and the effect (offset by effect_roll_x).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_offload_effects_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "drillSound.at(x, y, 1f + Mathf.range(drillSoundPitchRand), drillSoundVolume);",
+          "rule": "The self world y (BurstDrill.java:116, the drillSound.at y; also the drillEffect.at y, :117): an explicit input, passed through to the sound (untouched) and the effect (offset by effect_roll_y).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_offload_effects_state"
+          ]
+        },
+        "pitch_roll": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "drillSound.at(x, y, 1f + Mathf.range(drillSoundPitchRand), drillSoundVolume);",
+          "rule": "The ALREADY-ROLLED Mathf.range(0.1f) value in [-0.1, 0.1] (BurstDrill.java:116; arc Mathf.range(r) = random(-r, r), Mathf.java:220-222): caller-supplied, NO RNG in the pure (the N2421 precedent). The pitch is 1f + pitch_roll.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_offload_effects_state"
+          ]
+        },
+        "effect_roll_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "drillEffect.at(x + Mathf.range(drillEffectRnd), y + Mathf.range(drillEffectRnd), dominantItem.color);",
+          "rule": "The ALREADY-ROLLED Mathf.range(drillEffectRnd) x value (BurstDrill.java:117; arc Mathf.range(r) = random(-r, r), Mathf.java:220-222): caller-supplied, NO RNG in the pure (the N2421 precedent). drillEffectRnd is 0f for both defs (BurstDrill.java:41, no def override), so the live roll is 0.0 and the effect spawns at x exactly -- but the pure still takes the roll as an input, so the formula stays Java-exact.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_offload_effects_state"
+          ]
+        },
+        "effect_roll_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "drillEffect.at(x + Mathf.range(drillEffectRnd), y + Mathf.range(drillEffectRnd), dominantItem.color);",
+          "rule": "The ALREADY-ROLLED Mathf.range(drillEffectRnd) y value (BurstDrill.java:117; arc Mathf.range(r) = random(-r, r), Mathf.java:220-222): caller-supplied, NO RNG in the pure (the N2421 precedent). drillEffectRnd is 0f for both defs (BurstDrill.java:41, no def override), so the live roll is 0.0 and the effect spawns at y exactly -- but the pure still takes the roll as an input, so the formula stays Java-exact.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_offload_effects_state"
+          ]
+        },
+        "dominant_item_color": {
+          "type": "Color",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "drillEffect.at(x + Mathf.range(drillEffectRnd), y + Mathf.range(drillEffectRnd), dominantItem.color);",
+          "rule": "The dominant item color (BurstDrill.java:117, dominantItem.color): the item-def color (`public Color color;`, Item.java:19, set in the Item constructor, :51-53), caller-supplied and passed through untouched -- never a def lookup in the pure.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_offload_effects_state"
           ]
         }
       }

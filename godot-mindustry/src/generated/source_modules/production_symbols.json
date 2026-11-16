@@ -2163,6 +2163,21 @@
       ],
       "runtime_proof": "/root/AdjacentFactoryLiveLoopProof"
     },
+    "source_beam_drill_blocked_items_state_result.blocked_items_after": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_blocked_items_state_result.blocked_items_after",
+      "status": "source-backed",
+      "java_expr": "blockedItems = Seq.with(blockedItem);",
+      "godot_symbol": "source_beam_drill_blocked_items_state_result.blocked_items_after",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_blocked_items_state",
+      "rule": "The list AFTER init (BeamDrill.java:84-85): [blocked_item] iff blocked_items is null and blocked_item is non-null, else blocked_items unchanged. The promoted list is what the updateFacing gate (:391, live since N2339), the drawPlace gate (:154) and the canPlaceOn gate (:205) read; this pure supplies the input, it does not evaluate any gate.",
+      "tests": [
+        "test_c07_beam_drill_multipliers_blocked_item_rows_registration",
+        "test_all_c07_beam_drill_multipliers_blocked_item_rows_input_evidence_is_exact",
+        "test_beam_drill_multipliers_blocked_item_rows_state",
+        "test_reference_graph_and_actual_c07_beam_drill_multipliers_blocked_item_rows"
+      ],
+      "runtime_proof": "/root/C07BeamDrillMultipliersBlockedItemRowsProof"
+    },
     "source_beam_drill_draw_state_result.base_call": {
       "canonical_symbol": "source_symbol_registry.source_beam_drill_draw_state_result.base_call",
       "status": "source-backed",
@@ -2282,6 +2297,21 @@
         "test_reference_graph_and_actual_c07_beam_drill_draw_rows"
       ],
       "runtime_proof": "/root/C07BeamDrillDrawRowsProof"
+    },
+    "source_beam_drill_drill_multiplier_state_result.multiplier": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_drill_multiplier_state_result.multiplier",
+      "status": "source-backed",
+      "java_expr": "return drillTime / drillMultipliers.get(item, 1f);",
+      "godot_symbol": "source_beam_drill_drill_multiplier_state_result.multiplier",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_drill_multiplier_state",
+      "rule": "The drill-speed multiplier for the item (BeamDrill.java:217): the mapped value, or the 1f default when the item is absent (arc ObjectFloatMap.get(key, defaultValue), ObjectFloatMap.java:286) or the item is null (:287). The pure returns ONLY the multiplier -- dividing the per-def base drillTime (160f / 100f, Blocks.java:3042/3055) by it is the drop-loop slice wiring (the N2195 advance tracks no drillTime yet).",
+      "tests": [
+        "test_c07_beam_drill_multipliers_blocked_item_rows_registration",
+        "test_all_c07_beam_drill_multipliers_blocked_item_rows_input_evidence_is_exact",
+        "test_beam_drill_multipliers_blocked_item_rows_state",
+        "test_reference_graph_and_actual_c07_beam_drill_multipliers_blocked_item_rows"
+      ],
+      "runtime_proof": "/root/C07BeamDrillMultipliersBlockedItemRowsProof"
     },
     "source_beam_drill_dump_neighbour_live_fill_state_result.dump_neighbour_accepts": {
       "canonical_symbol": "source_symbol_registry.source_beam_drill_dump_neighbour_live_fill_state_result.dump_neighbour_accepts",
@@ -2732,6 +2762,51 @@
         "test_reference_graph_and_actual_c07_burst_drill_liquid_rows"
       ],
       "runtime_proof": "/root/C07BurstDrillLiquidRowsProof"
+    },
+    "source_burst_drill_offload_effects_state_result.drill_effect_call": {
+      "canonical_symbol": "source_symbol_registry.source_burst_drill_offload_effects_state_result.drill_effect_call",
+      "status": "source-backed",
+      "java_expr": "drillEffect.at(x + Mathf.range(drillEffectRnd), y + Mathf.range(drillEffectRnd), dominantItem.color);",
+      "godot_symbol": "source_burst_drill_offload_effects_state_result.drill_effect_call",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_offload_effects_state",
+      "rule": "The offload drill-effect call (BurstDrill.java:117): {effect: \"Fx.shockwave\", x: x + effect_roll_x, y: y + effect_roll_y, color: dominant_item_color} when the gate fires, null otherwise (the N2397 null-when-absent precedent). Fx.shockwave is `shockwave = new Effect(10f, 80f, e -> {` (Fx.java:1625); the color is the caller-supplied dominant item color (Item.java:19). The position rolls are caller-supplied (see effect_roll_x / effect_roll_y) -- the pure never rolls. Both defs override drillEffect to a MultiEffect (Blocks.java:3076/:3100-3105) -- the per-def rows wait for their own slice (the N2304 precedent). The 10-tick renderer body is the callee presentation -- the pure records the CALL (the N2396 precedent).",
+      "tests": [
+        "test_c07_burst_drill_offload_effects_rows_registration",
+        "test_all_c07_burst_drill_offload_effects_rows_input_evidence_is_exact",
+        "test_burst_drill_offload_effects_rows_state",
+        "test_reference_graph_and_actual_c07_burst_drill_offload_effects_rows"
+      ],
+      "runtime_proof": "/root/C07BurstDrillOffloadEffectsRowsProof"
+    },
+    "source_burst_drill_offload_effects_state_result.drill_sound_call": {
+      "canonical_symbol": "source_symbol_registry.source_burst_drill_offload_effects_state_result.drill_sound_call",
+      "status": "source-backed",
+      "java_expr": "drillSound.at(x, y, 1f + Mathf.range(drillSoundPitchRand), drillSoundVolume);",
+      "godot_symbol": "source_burst_drill_offload_effects_state_result.drill_sound_call",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_offload_effects_state",
+      "rule": "The offload drill-sound call (BurstDrill.java:116): {sound: \"drillImpact\", x, y, pitch: 1.0 + pitch_roll, volume: 0.6} when the gate fires, null otherwise (the N2397 null-when-absent precedent). The sound is Sounds.drillImpact (`public Sound drillSound = Sounds.drillImpact;`, BurstDrill.java:32; asset core/assets/sounds/block/drillImpact.ogg; Sounds is build-generated mindustry.gen.Sounds). The volume is drillSoundVolume 0.6f (:33). The pitch roll is caller-supplied (see pitch_roll) -- the pure never rolls.",
+      "tests": [
+        "test_c07_burst_drill_offload_effects_rows_registration",
+        "test_all_c07_burst_drill_offload_effects_rows_input_evidence_is_exact",
+        "test_burst_drill_offload_effects_rows_state",
+        "test_reference_graph_and_actual_c07_burst_drill_offload_effects_rows"
+      ],
+      "runtime_proof": "/root/C07BurstDrillOffloadEffectsRowsProof"
+    },
+    "source_burst_drill_offload_effects_state_result.shake_call": {
+      "canonical_symbol": "source_symbol_registry.source_burst_drill_offload_effects_state_result.shake_call",
+      "status": "source-backed",
+      "java_expr": "Effect.shake(shake, shake, this);",
+      "godot_symbol": "source_burst_drill_offload_effects_state_result.shake_call",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_offload_effects_state",
+      "rule": "The offload shake call (BurstDrill.java:115): {intensity: 2.0, duration: 2.0} when the gate fires, null otherwise (the N2397 null-when-absent precedent). The Position overload (`public static void shake(float intensity, float duration, Position loc){`, Effect.java:210-212) delegates to shake(intensity, duration, x, y) (Effect.java:201), so the first arg is the intensity and the second the duration, both the shake field 2f (BurstDrill.java:18). The camera-distance falloff inside (Effect.java:204-207) is the callee behavior -- the pure records the CALL params. Both defs override shake = 4f (Blocks.java:3077/:3106) -- the per-def rows wait for their own slice (the N2304 precedent).",
+      "tests": [
+        "test_c07_burst_drill_offload_effects_rows_registration",
+        "test_all_c07_burst_drill_offload_effects_rows_input_evidence_is_exact",
+        "test_burst_drill_offload_effects_rows_state",
+        "test_reference_graph_and_actual_c07_burst_drill_offload_effects_rows"
+      ],
+      "runtime_proof": "/root/C07BurstDrillOffloadEffectsRowsProof"
     },
     "source_burst_drill_power_status_row_state_result.has_power_row": {
       "canonical_symbol": "source_symbol_registry.source_burst_drill_power_status_row_state_result.has_power_row",

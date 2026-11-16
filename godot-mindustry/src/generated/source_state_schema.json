@@ -260185,6 +260185,600 @@
       },
       "runtime_proof": "/root/C07PayloadMassDriverEffectsRowsProof",
       "rule": "Source-backed PayloadMassDriver updateTile effects / sound / shake rows from PayloadMassDriver.java / Fx.java / Effect.java."
+    },
+    "source_burst_drill_offload_effects_state_input": {
+      "status": "active",
+      "owner": "SourceBurstDrillBuildState.source_burst_drill_offload_effects_state",
+      "source_slice": "N2469",
+      "keys": {
+        "cycle_complete": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "if(dominantItems > 0 && progress >= drillTime && items.total() < itemCapacity){",
+          "rule": "The caller-evaluated cycle-complete verdict (BurstDrill.java:106, `if(dominantItems > 0 && progress >= drillTime && items.total() < itemCapacity){`): true exactly when the drill completed a cycle this tick. The pure does NOT recompute the progress / capacity checks (the N2397 precedent -- the N2219 advance owns the branch).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_offload_effects_state"
+          ]
+        },
+        "was_visible": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "if(wasVisible){",
+          "rule": "The caller-evaluated wasVisible gate (BurstDrill.java:114, `if(wasVisible){`): true exactly when the building was visible this tick. The pure does NOT recompute visibility (the N2397 precedent).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_offload_effects_state"
+          ]
+        },
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "drillSound.at(x, y, 1f + Mathf.range(drillSoundPitchRand), drillSoundVolume);",
+          "rule": "The self world x (BurstDrill.java:116, the drillSound.at x; also the drillEffect.at x, :117): an explicit input, passed through to the sound (untouched) and the effect (offset by effect_roll_x).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_offload_effects_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "drillSound.at(x, y, 1f + Mathf.range(drillSoundPitchRand), drillSoundVolume);",
+          "rule": "The self world y (BurstDrill.java:116, the drillSound.at y; also the drillEffect.at y, :117): an explicit input, passed through to the sound (untouched) and the effect (offset by effect_roll_y).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_offload_effects_state"
+          ]
+        },
+        "pitch_roll": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "drillSound.at(x, y, 1f + Mathf.range(drillSoundPitchRand), drillSoundVolume);",
+          "rule": "The ALREADY-ROLLED Mathf.range(0.1f) value in [-0.1, 0.1] (BurstDrill.java:116; arc Mathf.range(r) = random(-r, r), Mathf.java:220-222): caller-supplied, NO RNG in the pure (the N2421 precedent). The pitch is 1f + pitch_roll.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_offload_effects_state"
+          ]
+        },
+        "effect_roll_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "drillEffect.at(x + Mathf.range(drillEffectRnd), y + Mathf.range(drillEffectRnd), dominantItem.color);",
+          "rule": "The ALREADY-ROLLED Mathf.range(drillEffectRnd) x value (BurstDrill.java:117; arc Mathf.range(r) = random(-r, r), Mathf.java:220-222): caller-supplied, NO RNG in the pure (the N2421 precedent). drillEffectRnd is 0f for both defs (BurstDrill.java:41, no def override), so the live roll is 0.0 and the effect spawns at x exactly -- but the pure still takes the roll as an input, so the formula stays Java-exact.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_offload_effects_state"
+          ]
+        },
+        "effect_roll_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "drillEffect.at(x + Mathf.range(drillEffectRnd), y + Mathf.range(drillEffectRnd), dominantItem.color);",
+          "rule": "The ALREADY-ROLLED Mathf.range(drillEffectRnd) y value (BurstDrill.java:117; arc Mathf.range(r) = random(-r, r), Mathf.java:220-222): caller-supplied, NO RNG in the pure (the N2421 precedent). drillEffectRnd is 0f for both defs (BurstDrill.java:41, no def override), so the live roll is 0.0 and the effect spawns at y exactly -- but the pure still takes the roll as an input, so the formula stays Java-exact.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_offload_effects_state"
+          ]
+        },
+        "dominant_item_color": {
+          "type": "Color",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "drillEffect.at(x + Mathf.range(drillEffectRnd), y + Mathf.range(drillEffectRnd), dominantItem.color);",
+          "rule": "The dominant item color (BurstDrill.java:117, dominantItem.color): the item-def color (`public Color color;`, Item.java:19, set in the Item constructor, :51-53), caller-supplied and passed through untouched -- never a def lookup in the pure.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_offload_effects_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BurstDrillOffloadEffectsRowsProof",
+      "rule": "Source-backed BurstDrill updateTile offload effects rows from BurstDrill.java / Fx.java / Effect.java / Item.java."
+    },
+    "source_burst_drill_offload_effects_state_result": {
+      "status": "active",
+      "owner": "SourceBurstDrillBuildState.source_burst_drill_offload_effects_state",
+      "source_slice": "N2469",
+      "keys": {
+        "shake_call": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "Effect.shake(shake, shake, this);",
+          "rule": "The offload shake call (BurstDrill.java:115): {intensity: 2.0, duration: 2.0} when the gate fires, null otherwise (the N2397 null-when-absent precedent). The Position overload (`public static void shake(float intensity, float duration, Position loc){`, Effect.java:210-212) delegates to shake(intensity, duration, x, y) (Effect.java:201), so the first arg is the intensity and the second the duration, both the shake field 2f (BurstDrill.java:18). The camera-distance falloff inside (Effect.java:204-207) is the callee behavior -- the pure records the CALL params. Both defs override shake = 4f (Blocks.java:3077/:3106) -- the per-def rows wait for their own slice (the N2304 precedent).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_offload_effects_state"
+          ]
+        },
+        "drill_sound_call": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "drillSound.at(x, y, 1f + Mathf.range(drillSoundPitchRand), drillSoundVolume);",
+          "rule": "The offload drill-sound call (BurstDrill.java:116): {sound: \"drillImpact\", x, y, pitch: 1.0 + pitch_roll, volume: 0.6} when the gate fires, null otherwise (the N2397 null-when-absent precedent). The sound is Sounds.drillImpact (`public Sound drillSound = Sounds.drillImpact;`, BurstDrill.java:32; asset core/assets/sounds/block/drillImpact.ogg; Sounds is build-generated mindustry.gen.Sounds). The volume is drillSoundVolume 0.6f (:33). The pitch roll is caller-supplied (see pitch_roll) -- the pure never rolls.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_offload_effects_state"
+          ]
+        },
+        "drill_effect_call": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "drillEffect.at(x + Mathf.range(drillEffectRnd), y + Mathf.range(drillEffectRnd), dominantItem.color);",
+          "rule": "The offload drill-effect call (BurstDrill.java:117): {effect: \"Fx.shockwave\", x: x + effect_roll_x, y: y + effect_roll_y, color: dominant_item_color} when the gate fires, null otherwise (the N2397 null-when-absent precedent). Fx.shockwave is `shockwave = new Effect(10f, 80f, e -> {` (Fx.java:1625); the color is the caller-supplied dominant item color (Item.java:19). The position rolls are caller-supplied (see effect_roll_x / effect_roll_y) -- the pure never rolls. Both defs override drillEffect to a MultiEffect (Blocks.java:3076/:3100-3105) -- the per-def rows wait for their own slice (the N2304 precedent). The 10-tick renderer body is the callee presentation -- the pure records the CALL (the N2396 precedent).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_offload_effects_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BurstDrillOffloadEffectsRowsProof",
+      "rule": "Source-backed BurstDrill updateTile offload effects rows from BurstDrill.java / Fx.java / Effect.java / Item.java."
+    },
+    "source_shockwave_tower_wave_effects_state_input": {
+      "status": "active",
+      "owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_wave_effects_state",
+      "source_slice": "N2470",
+      "keys": {
+        "fired": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "if(targets.size > 0){",
+          "rule": "The caller-evaluated fire verdict (ShockwaveTower.java:81, `if(targets.size > 0){`): true exactly when the N2247 advance fired this tick (targets.size > 0 inside the fire gate). The pure does NOT recompute the gate (the N2397 precedent -- the N2247 advance owns it).",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_wave_effects_state"
+          ]
+        },
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "waveEffect.at(x, y, range, waveColor);",
+          "rule": "The tower world x (ShockwaveTower.java:84, the waveEffect.at x; also the shootSound.at x, :85): an explicit input, passed through to the wave effect and the sound (untouched).",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_wave_effects_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "waveEffect.at(x, y, range, waveColor);",
+          "rule": "The tower world y (ShockwaveTower.java:84, the waveEffect.at y; also the shootSound.at y, :85): an explicit input, passed through to the wave effect and the sound (untouched).",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_wave_effects_state"
+          ]
+        },
+        "range_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "waveEffect.at(x, y, range, waveColor);",
+          "rule": "The tower range (ShockwaveTower.java:84, the waveEffect.at range): taken as a param -- the def value is 170f (`range = 170f;`, Blocks.java:2043) over the class `public float range = 110f;` (ShockwaveTower.java:25). The caller passes the def value.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_wave_effects_state"
+          ]
+        },
+        "pitch_roll": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "shootSound.at(x, y, 1f + Mathf.range(0.15f), 1f);",
+          "rule": "The ALREADY-ROLLED Mathf.range(0.15f) value in [-0.15, 0.15] (ShockwaveTower.java:85; arc Mathf.range(r) = random(-r, r), Mathf.java:220-222): caller-supplied, NO RNG in the pure (the N2421 precedent). The pitch is 1f + pitch_roll.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_wave_effects_state"
+          ]
+        },
+        "targets": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "hitEffect.at(target.x, target.y, waveColor);",
+          "rule": "The N2247 targets (ShockwaveTower.java:88-95, `for(var target : targets){` / `hitEffect.at(target.x, target.y, waveColor);`): a caller-supplied Array of Dicts {x, y} -- the bullets the wave hit, in Java loop order. The pure reports one hit call per target; a non-Dict entry is skipped (the N2247 advance skips non-Dict candidates the same way).",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_wave_effects_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShockwaveTowerWaveEffectsRowsProof",
+      "rule": "Source-backed ShockwaveTower wave effects / sound / shake rows from ShockwaveTower.java / Fx.java / Effect.java / Pal.java."
+    },
+    "source_shockwave_tower_wave_effects_state_result": {
+      "status": "active",
+      "owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_wave_effects_state",
+      "source_slice": "N2470",
+      "keys": {
+        "wave_effect_call": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "waveEffect.at(x, y, range, waveColor);",
+          "rule": "The wave effect call (ShockwaveTower.java:84): {token: \"Fx.pointShockwave\", x, y, range: range_value, color: \"Pal.accent\"} when the gate fires, null otherwise (the N2397 null-when-absent precedent). The effect is Fx.pointShockwave (`pointShockwave = new Effect(20, e -> {`, Fx.java:223), fired with the 4-arg .at (range + color); the color is waveColor = Pal.accent (`public Color waveColor = Pal.accent, ...`, ShockwaveTower.java:33; `accent = Color.valueOf(\"ffd37f\"),`, Pal.java:79). The 20-tick renderer body is the callee presentation -- the pure records the CALL (the N2396 precedent).",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_wave_effects_state"
+          ]
+        },
+        "shoot_sound_call": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "shootSound.at(x, y, 1f + Mathf.range(0.15f), 1f);",
+          "rule": "The shoot sound call (ShockwaveTower.java:85): {token: \"shockwaveTower\", pitch: 1.0 + pitch_roll, volume: 1.0} when the gate fires, null otherwise (the N2397 null-when-absent precedent). The sound is Sounds.shockwaveTower (`public Sound shootSound = Sounds.shockwaveTower;`, ShockwaveTower.java:32; asset core/assets/sounds/block/shockwaveTower.ogg; Sounds is build-generated mindustry.gen.Sounds) -- the token is bare, the N2444/N2468 sound-token precedent. The volume is the literal 1f (:85). The pitch roll is caller-supplied (see pitch_roll) -- the pure never rolls.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_wave_effects_state"
+          ]
+        },
+        "shake_call": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "Effect.shake(shake, shake, this);",
+          "rule": "The shake call (ShockwaveTower.java:86): {intensity: 2.0, duration: 2.0} when the gate fires, null otherwise (the N2397 null-when-absent precedent). The Position overload (`public static void shake(float intensity, float duration, Position loc){`, Effect.java:210-212) delegates to shake(intensity, duration, x, y) (Effect.java:201), so the first arg is the intensity and the second the duration, both the shake field 2f (ShockwaveTower.java:29). The camera-distance falloff inside (Effect.java:204-207) is the callee behavior -- the pure records the CALL params.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_wave_effects_state"
+          ]
+        },
+        "hit_effect_calls": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "hitEffect.at(target.x, target.y, waveColor);",
+          "rule": "The per-target hit effect calls (ShockwaveTower.java:95): an Array of {token: \"Fx.hitSquaresColor\", x, y, color: \"Pal.accent\"} -- ONE per target, in Java loop order -- when the gate fires, empty when the gate fails or when targets is empty. The effect is Fx.hitSquaresColor (`hitSquaresColor = new Effect(14, e -> {`, Fx.java:890), fired at each target position with waveColor = Pal.accent. The 14-tick renderer body is the callee presentation -- the pure records the CALL (the N2396 precedent).",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_wave_effects_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShockwaveTowerWaveEffectsRowsProof",
+      "rule": "Source-backed ShockwaveTower wave effects / sound / shake rows from ShockwaveTower.java / Fx.java / Effect.java / Pal.java."
+    },
+    "source_payload_loader_payload_update_state_input": {
+      "status": "active",
+      "owner": "SourcePayloadLoaderBuildState.source_payload_loader_payload_update_state",
+      "source_slice": "N2471",
+      "keys": {
+        "payload": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "public @Nullable T payload;",
+          "rule": "The held payload (PayloadBlock.java:92, `public @Nullable T payload;`): null or a Dictionary following the N2231 payload contract (block flags + build items/liquids/power_status). The Loader's payload is always a BuildPayload (`public class PayloadLoaderBuild extends PayloadBlockBuild<BuildPayload>{`, PayloadLoader.java:86), so a kind-less dict records the build call; a caller-supplied dict carrying kind \"UnitPayload\" records the unit dispatch (the port's payload-kind convention, SourceUnitSensorState.gd). Caller-supplied: the N2231 advance still skips the super.updateTile call and the tick never calls this pure.",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_payload_update_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadLoaderSuperUpdateTileRowsProof",
+      "rule": "Source-backed PayloadLoader super.updateTile payload update from PayloadBlock.java / PayloadLoader.java / Payload.java / BuildPayload.java / UnitPayload.java."
+    },
+    "source_payload_loader_payload_update_state_result": {
+      "status": "active",
+      "owner": "SourcePayloadLoaderBuildState.source_payload_loader_payload_update_state",
+      "source_slice": "N2471",
+      "keys": {
+        "payload_update_call": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "payload.update(null, this);",
+          "rule": "The payload.update CALL record (PayloadBlock.java:160, `payload.update(null, this);`): null when the payload is null (the `if(payload != null){` gate, PayloadBlock.java:159), else {method: \"payload.update\", unit_holder: null, building_holder: \"self\", payload_kind: \"BuildPayload\" | \"UnitPayload\"}. The callee's entity behaviour is NOT ported (BuildPayload.update :52-57 sets build.tile = emptyTile and calls build.updatePayload; UnitPayload.update :51-53 delegates to the unit type) -- there is no live payload entity in the port. The call is unconditional on payload non-null: BuildPayload.update's gate (`if(unitHolder != null && ...) return;`, BuildPayload.java:53) short-circuits with the Loader's null unit holder.",
+          "used_by": [
+            "SourcePayloadLoaderBuildState.source_payload_loader_payload_update_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadLoaderSuperUpdateTileRowsProof",
+      "rule": "Source-backed PayloadLoader super.updateTile payload update from PayloadBlock.java / PayloadLoader.java / Payload.java / BuildPayload.java / UnitPayload.java."
+    },
+    "source_stack_router_proximity_neighbours_live_fill_state_input": {
+      "status": "active",
+      "owner": "SourceStackRouterBuildState.source_stack_router_proximity_neighbours_live_fill_state",
+      "source_slice": "N2472",
+      "keys": {
+        "world_tiles": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = world.build(tile.x + point.x, tile.y + point.y);",
+          "rule": "The tile map: a Dict keyed \"x,y\" to a per-tile Dict {solid, wall_drop} (the BeamDrill N2339 convention). The fill reads tile PRESENCE per ring coordinate -- a missing key (or a null / non-Dict entry) is a null world tile (Java: world.build returns null, BuildingComp.java:1885-1887), so no neighbour can stand there. The solid flag is never read: a neighbour building is not a wall tile. No live producer stamps this frame input yet -- the producer gap is documented, not invented here.",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_proximity_neighbours_live_fill_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = world.build(tile.x + point.x, tile.y + point.y);",
+          "rule": "The router origin cell (tile.x / tile.y in Java): the Edges ring offsets (Edges.getEdges(size), Edges.java:23-40) add to it to give the ring coordinates. The tick reads the origin_cell sprite meta inline.",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_proximity_neighbours_live_fill_state"
+          ]
+        },
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Point2[] nearby = Edges.getEdges(block.size);",
+          "rule": "The block size (BuildingComp.java:1883, the getEdges argument -- the Edges ring has 4*size cells): 1 for the surge-router (the Block class default, `public int size = 1;`, Block.java:215), read from the catalog per def. Size < 1 fills an empty list (the shared helper invalid_size precedent).",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_proximity_neighbours_live_fill_state"
+          ]
+        },
+        "team": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(other == null || other.team != team) continue;",
+          "rule": "The router team (frame team_id) for the Java same-team filter (BuildingComp.java:1887): updateProximity keeps same-team buildings only, so the fill needs the router team to reproduce proximity membership -- and cdump rotation -- exactly (an enemy entry in the list would be scanned and skipped by the N2324 pure, advancing cdump past it, which Java never does).",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_proximity_neighbours_live_fill_state"
+          ]
+        },
+        "team_map": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(other == null || other.team != team) continue;",
+          "rule": "The caller-supplied neighbour team map: a Dict keyed \"x,y\" to int, the placed building team per tile (the N2459 minimal-extension precedent -- world_tiles carries no team field). Its PRESENCE is the building signal: a team only exists on a placed building, so a ring tile with no team_map key has no building. No live producer stamps this frame input yet -- the producer gap is documented, not invented here.",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_proximity_neighbours_live_fill_state"
+          ]
+        },
+        "accepts_map": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+          "java_expr": "if(!(sortItem != null && (current == sortItem) != (rel == rotation)) && !(rel == (rotation + 2) % 4) && other.team == team && other.acceptItem(this, current)){",
+          "rule": "The caller-supplied neighbour acceptItem map: a Dict keyed \"x,y\" to bool, the neighbour acceptItem(this, current) answer for the router current item (DuctRouter.java:148). A missing key rejects (false -- the N2324 pure default). The per-neighbour-type acceptItem evaluation waits for its own slice. No live producer stamps this frame input yet -- the producer gap is documented, not invented here.",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_proximity_neighbours_live_fill_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07StackRouterLiveProximityQueryProof",
+      "rule": "Source-backed StackRouter live proximity query from BuildingComp.java / Edges.java / DuctRouter.java / StackRouter.java / Block.java."
+    },
+    "source_stack_router_proximity_neighbours_live_fill_state_result": {
+      "status": "active",
+      "owner": "SourceStackRouterBuildState.source_stack_router_proximity_neighbours_live_fill_state",
+      "source_slice": "N2472",
+      "keys": {
+        "proximity_neighbours": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "proximity.add(tile);",
+          "rule": "Per-neighbour dict, in Edges ring order: id is the ring tile \"x,y\" key, rel is relativeTo(other) (BuildingComp.java:530-540) in tile-offset form, team is the neighbour team, accepts_item is the neighbour acceptItem(this, current) answer. A ring tile yields an entry only when the tile is known (world_tiles Dict entry), a building stands there (team_map key) and its team matches the router (BuildingComp.java:1887). The N2324 pure reads the filled array unchanged.",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_proximity_neighbours_live_fill_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07StackRouterLiveProximityQueryProof",
+      "rule": "Source-backed StackRouter live proximity query from BuildingComp.java / Edges.java / DuctRouter.java / StackRouter.java / Block.java."
+    },
+    "source_beam_drill_blocked_items_state_input": {
+      "status": "active",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_blocked_items_state",
+      "source_slice": "N2473",
+      "keys": {
+        "blocked_item": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public @Nullable Item blockedItem;",
+          "rule": "The single exemption item (BeamDrill.java:49, read at init :84 -- the promotion fires only when blockedItems is null AND blockedItem is non-null): an item-name String or null (the N2225 precedent, Java compares Item references). Neither BeamDrill def sets one (Blocks.java:3038-3068); the thorium proof value is the impact-drill def (`blockedItem = Items.thorium;`, Blocks.java:3080, a BurstDrill def) used as a caller-supplied input.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_blocked_items_state"
+          ]
+        },
+        "blocked_items": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public @Nullable Seq<Item> blockedItems;",
+          "rule": "The exemption list (BeamDrill.java:51, read at init :84 and at the three drill gates :154/:205/:391): null or an Array of item names (the N2339 facing-scan precedent). A set list -- even an empty one -- passes through unchanged (Java checks null, not emptiness); neither BeamDrill def sets one, so both defs read null.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_blocked_items_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BeamDrillMultipliersBlockedItemRowsProof",
+      "rule": "Source-backed BeamDrill drillMultipliers / blockedItem rows from BeamDrill.java / Blocks.java / ObjectFloatMap.java."
+    },
+    "source_beam_drill_blocked_items_state_result": {
+      "status": "active",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_blocked_items_state",
+      "source_slice": "N2473",
+      "keys": {
+        "blocked_items_after": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "blockedItems = Seq.with(blockedItem);",
+          "rule": "The list AFTER init (BeamDrill.java:84-85): [blocked_item] iff blocked_items is null and blocked_item is non-null, else blocked_items unchanged. The promoted list is what the updateFacing gate (:391, live since N2339), the drawPlace gate (:154) and the canPlaceOn gate (:205) read; this pure supplies the input, it does not evaluate any gate.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_blocked_items_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BeamDrillMultipliersBlockedItemRowsProof",
+      "rule": "Source-backed BeamDrill drillMultipliers / blockedItem rows from BeamDrill.java / Blocks.java / ObjectFloatMap.java."
+    },
+    "source_beam_drill_drill_multiplier_state_input": {
+      "status": "active",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_drill_multiplier_state",
+      "source_slice": "N2473",
+      "keys": {
+        "item": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public float getDrillTime(Item item){",
+          "rule": "The drilled item (BeamDrill.java:216, the getDrillTime argument -- updateTile passes lastItem, :247): an item-name String or null (null when no facing item or multiple items face the drill, BeamDrill.java:376/408-410 -- the arc null-key rule returns the 1f default, ObjectFloatMap.java:287).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_drill_multiplier_state"
+          ]
+        },
+        "drill_multipliers": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public ObjectFloatMap<Item> drillMultipliers = new ObjectFloatMap<>();",
+          "rule": "The drill-speed multipliers (BeamDrill.java:47, \"Multipliers of drill speed for each item. Defaults to 1.\", :46): a caller-supplied Dict item-name -> float (the N2435 precedent), the ObjectFloatMap by item id. The Java field is never null (initialized `new ObjectFloatMap<>()`). Neither BeamDrill def sets an entry (Blocks.java:3038-3068), so both defs read the default 1.0 for every item; the beryllium 2f proof value is the BurstDrill def (`drillMultipliers.put(Items.beryllium, 2f);`, Blocks.java:3083/3114) used as a caller-supplied map entry.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_drill_multiplier_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BeamDrillMultipliersBlockedItemRowsProof",
+      "rule": "Source-backed BeamDrill drillMultipliers / blockedItem rows from BeamDrill.java / Blocks.java / ObjectFloatMap.java."
+    },
+    "source_beam_drill_drill_multiplier_state_result": {
+      "status": "active",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_drill_multiplier_state",
+      "source_slice": "N2473",
+      "keys": {
+        "multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "return drillTime / drillMultipliers.get(item, 1f);",
+          "rule": "The drill-speed multiplier for the item (BeamDrill.java:217): the mapped value, or the 1f default when the item is absent (arc ObjectFloatMap.get(key, defaultValue), ObjectFloatMap.java:286) or the item is null (:287). The pure returns ONLY the multiplier -- dividing the per-def base drillTime (160f / 100f, Blocks.java:3042/3055) by it is the drop-loop slice wiring (the N2195 advance tracks no drillTime yet).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_drill_multiplier_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BeamDrillMultipliersBlockedItemRowsProof",
+      "rule": "Source-backed BeamDrill drillMultipliers / blockedItem rows from BeamDrill.java / Blocks.java / ObjectFloatMap.java."
+    },
+    "source_radar_fog_radius_state_input": {
+      "status": "active",
+      "owner": "SourceRadarBuildState.source_radar_fog_radius_state",
+      "source_slice": "N2474",
+      "keys": {
+        "fog_radius_field": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "fogRadius = 34;",
+          "rule": "The fogRadius FIELD (Block.java:348, def 34, Blocks.java:1991; class default 10, Radar.java:33 -- a constructor assignment, not a field declaration): the base of fogRadius() (Radar.java:56). Rides as an input so either def works.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_fog_radius_state"
+          ]
+        },
+        "progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "public float progress;",
+          "rule": "The build progress (Radar.java:49, tracked on the frame as progress by the N2190 advance): the discovery fraction, 0 at placement, clamped to [0, 1] (Radar.java:69).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_fog_radius_state"
+          ]
+        },
+        "smooth_efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "public float smoothEfficiency = 1f;",
+          "rule": "The smoothed efficiency (Radar.java:51, tracked on the frame as smooth_efficiency by the N2190 advance): lerped toward efficiency in updateTile (Radar.java:61), 1.0 at placement.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_fog_radius_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RadarFogRadiusRowsProof",
+      "rule": "Source-backed Radar fogRadius rows from Radar.java / Block.java / Blocks.java."
+    },
+    "source_radar_fog_radius_state_result": {
+      "status": "active",
+      "owner": "SourceRadarBuildState.source_radar_fog_radius_state",
+      "source_slice": "N2474",
+      "keys": {
+        "fog_radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "return fogRadius * progress * smoothEfficiency;",
+          "rule": "The fogRadius() method value (Radar.java:55-57): fogRadius * progress * smoothEfficiency, Java-exact multiplication order -- the radius the updateTile gate (Radar.java:63) compares against lastRadius and the drawSelect dash circle (Radar.java:81) draws at tilesize scale.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_fog_radius_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RadarFogRadiusRowsProof",
+      "rule": "Source-backed Radar fogRadius rows from Radar.java / Block.java / Blocks.java."
+    },
+    "source_repair_turret_status_range_state_input": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_status_range_state",
+      "source_slice": "N2475",
+      "keys": {
+        "potential_efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "transient float potentialEfficiency;",
+          "rule": "The folded potential efficiency (BuildingComp.java:89): the consumption fold writes it (`potentialEfficiency = efficiency;`, BuildingComp.java:1989), so it is the live folded efficiency at status() time -- 0f when the gate is false or the fold found no consumers. status() reads it, not the raw efficiency.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_status_range_state"
+          ]
+        },
+        "super_status": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return ((state.tick / 30f) % 1f) < efficiency ? BlockStatus.active : BlockStatus.noInput;",
+          "rule": "The caller-supplied BuildingComp.status() result (BuildingComp.java:632-646): logicDisable when !enabled, noOutput when !shouldConsume(), noInput when efficiency <= 0 or !productionValid(), else active on the tick-phase gate. The port computes it as source_building_status_state (SourceBuildingAccessPortBridge.gd) delegating to source_building_access_state.status_state; the pure passes it through unchanged when potentialEfficiency is outside tolerance.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_status_range_state"
+          ]
+        },
+        "repair_radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "public float repairRadius = 50f;",
+          "rule": "The class field (RepairTurret.java:32): 50f by default, overridden per def -- repair-point 60f (Blocks.java:6389), repair-turret 145f (Blocks.java:6401). The pure takes it as a param (the N2226 advance precedent -- the driver constants SOURCE_REPAIR_POINT_REPAIR_RADIUS / SOURCE_REPAIR_TURRET_REPAIR_RADIUS already carry the def values).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_status_range_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretStatusRangeRowsProof",
+      "rule": "Source-backed RepairTurret status/range rows from RepairTurret.java / BuildingComp.java / BlockStatus.java / Blocks.java / Ranged.java."
+    },
+    "source_repair_turret_status_range_state_result": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_status_range_state",
+      "source_slice": "N2475",
+      "keys": {
+        "status": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "return Mathf.equal(potentialEfficiency, 0f, 0.01f) ? BlockStatus.noInput : super.status();",
+          "rule": "The status() verdict (RepairTurret.java:226-228): \"noInput\" when |potentialEfficiency - 0f| <= 0.01f (Mathf.equal, arc Mathf.java:554-556, INCLUSIVE -- exactly 0.01f still reads noInput), else the caller-supplied super_status.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_status_range_state"
+          ]
+        },
+        "range_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "return repairRadius;",
+          "rule": "The range() value (RepairTurret.java:231-233): the repairRadius param -- the class 50f or the def override (60f repair-point / 145f repair-turret). The Ranged.range() accessor (Ranged.java:6).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_status_range_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretStatusRangeRowsProof",
+      "rule": "Source-backed RepairTurret status/range rows from RepairTurret.java / BuildingComp.java / BlockStatus.java / Blocks.java / Ranged.java."
     }
   },
   "version": 1

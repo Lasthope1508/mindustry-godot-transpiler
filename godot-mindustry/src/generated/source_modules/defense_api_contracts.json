@@ -8539,6 +8539,42 @@
       "rule": "Source-backed Radar draw rows from Radar.java / Block.java / Drawf.java / Pal.java / Vars.java / Blocks.java / Mathf.java.",
       "return_type": "Dictionary"
     },
+    "SourceRadarBuildState.source_radar_fog_radius_state": {
+      "canonical_contract": "source_api_contracts.SourceRadarBuildState.source_radar_fog_radius_state",
+      "status": "active",
+      "source_slice": "N2474",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "source_method": "RadarBuild.fogRadius()",
+      "params": [
+        {
+          "name": "fog_radius_field",
+          "type": "float",
+          "schema": "source_radar_fog_radius_state_input.fog_radius_field"
+        },
+        {
+          "name": "progress",
+          "type": "float",
+          "schema": "source_radar_fog_radius_state_input.progress"
+        },
+        {
+          "name": "smooth_efficiency",
+          "type": "float",
+          "schema": "source_radar_fog_radius_state_input.smooth_efficiency"
+        }
+      ],
+      "return_keys": [
+        "fog_radius"
+      ],
+      "tests": [
+        "test_c07_radar_fog_radius_rows_registration",
+        "test_all_c07_radar_fog_radius_rows_input_evidence_is_exact",
+        "test_radar_fog_radius_rows_state",
+        "test_reference_graph_and_actual_c07_radar_fog_radius_rows"
+      ],
+      "runtime_proof": "/root/C07RadarFogRadiusRowsProof",
+      "rule": "Source-backed Radar fogRadius rows from Radar.java / Block.java / Blocks.java.",
+      "return_type": "Dictionary"
+    },
     "SourceRadarBuildState.source_radar_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourceRadarBuildState.source_radar_power_status_row_state",
       "status": "active",
@@ -9348,6 +9384,60 @@
       ],
       "runtime_proof": "/root/C07ShockwaveTowerUpdateTileProof",
       "rule": "Source-backed ShockwaveTower updateTile advance from ShockwaveTower.java / BuildingComp.java / Blocks.java / BulletType.java / BulletComp.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceShockwaveTowerBuildState.source_shockwave_tower_wave_effects_state": {
+      "canonical_contract": "source_api_contracts.SourceShockwaveTowerBuildState.source_shockwave_tower_wave_effects_state",
+      "status": "active",
+      "source_slice": "N2470",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "source_method": "ShockwaveTowerBuild.updateTile()",
+      "params": [
+        {
+          "name": "fired",
+          "type": "bool",
+          "schema": "source_shockwave_tower_wave_effects_state_input.fired"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_shockwave_tower_wave_effects_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_shockwave_tower_wave_effects_state_input.y"
+        },
+        {
+          "name": "range_value",
+          "type": "float",
+          "schema": "source_shockwave_tower_wave_effects_state_input.range_value"
+        },
+        {
+          "name": "pitch_roll",
+          "type": "float",
+          "schema": "source_shockwave_tower_wave_effects_state_input.pitch_roll"
+        },
+        {
+          "name": "targets",
+          "type": "Array",
+          "schema": "source_shockwave_tower_wave_effects_state_input.targets"
+        }
+      ],
+      "return_keys": [
+        "wave_effect_call",
+        "shoot_sound_call",
+        "shake_call",
+        "hit_effect_calls"
+      ],
+      "tests": [
+        "test_c07_shockwave_tower_wave_effects_rows_registration",
+        "test_all_c07_shockwave_tower_wave_effects_rows_input_evidence_is_exact",
+        "test_shockwave_tower_wave_effects_rows_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_wave_effects_rows"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerWaveEffectsRowsProof",
+      "rule": "Source-backed ShockwaveTower wave effects / sound / shake rows from ShockwaveTower.java / Fx.java / Effect.java / Pal.java.",
       "return_type": "Dictionary"
     },
     "SourceTractorBeamTurretBuildState.source_tractor_beam_turret_power_status_row_state": {

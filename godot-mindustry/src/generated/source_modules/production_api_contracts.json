@@ -552,6 +552,37 @@
       "rule": "Source-backed adjacent factory family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so a cheating team's adjacent factory counts everything as valid in updateConsumption, the tick gates efficiency on the family's own shouldConsume() body, and the tick binds one RuntimeConsumer per consumeItem/consumeLiquid row and runs the bound actors through updateConsumption so the placed adjacent factory consumes its liquid rows each tick and gates efficiency on its item rows, and a sprite re-recorded with a different block reinitializes its consumers from the new block's consumeBuilder.",
       "return_type": "Dictionary"
     },
+    "SourceBeamDrillBuildState.source_beam_drill_blocked_items_state": {
+      "canonical_contract": "source_api_contracts.SourceBeamDrillBuildState.source_beam_drill_blocked_items_state",
+      "status": "active",
+      "source_slice": "N2473",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrill.init()",
+      "params": [
+        {
+          "name": "blocked_item",
+          "type": "Variant",
+          "schema": "source_beam_drill_blocked_items_state_input.blocked_item"
+        },
+        {
+          "name": "blocked_items",
+          "type": "Variant",
+          "schema": "source_beam_drill_blocked_items_state_input.blocked_items"
+        }
+      ],
+      "return_keys": [
+        "blocked_items_after"
+      ],
+      "tests": [
+        "test_c07_beam_drill_multipliers_blocked_item_rows_registration",
+        "test_all_c07_beam_drill_multipliers_blocked_item_rows_input_evidence_is_exact",
+        "test_beam_drill_multipliers_blocked_item_rows_state",
+        "test_reference_graph_and_actual_c07_beam_drill_multipliers_blocked_item_rows"
+      ],
+      "runtime_proof": "/root/C07BeamDrillMultipliersBlockedItemRowsProof",
+      "rule": "Source-backed BeamDrill drillMultipliers / blockedItem rows from BeamDrill.java / Blocks.java / ObjectFloatMap.java.",
+      "return_type": "Dictionary"
+    },
     "SourceBeamDrillBuildState.source_beam_drill_draw_state": {
       "canonical_contract": "source_api_contracts.SourceBeamDrillBuildState.source_beam_drill_draw_state",
       "status": "active",
@@ -1195,6 +1226,69 @@
       ],
       "runtime_proof": "/root/C07BurstDrillLiquidRowsProof",
       "rule": "Source-backed BurstDrill liquid consumer rows from ConsumeLiquid.java / Consume.java / BuildingComp.java / Block.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceBurstDrillBuildState.source_burst_drill_offload_effects_state": {
+      "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_burst_drill_offload_effects_state",
+      "status": "active",
+      "source_slice": "N2469",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "source_method": "BurstDrillBuild.updateTile()",
+      "params": [
+        {
+          "name": "cycle_complete",
+          "type": "bool",
+          "schema": "source_burst_drill_offload_effects_state_input.cycle_complete"
+        },
+        {
+          "name": "was_visible",
+          "type": "bool",
+          "schema": "source_burst_drill_offload_effects_state_input.was_visible"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_burst_drill_offload_effects_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_burst_drill_offload_effects_state_input.y"
+        },
+        {
+          "name": "pitch_roll",
+          "type": "float",
+          "schema": "source_burst_drill_offload_effects_state_input.pitch_roll"
+        },
+        {
+          "name": "effect_roll_x",
+          "type": "float",
+          "schema": "source_burst_drill_offload_effects_state_input.effect_roll_x"
+        },
+        {
+          "name": "effect_roll_y",
+          "type": "float",
+          "schema": "source_burst_drill_offload_effects_state_input.effect_roll_y"
+        },
+        {
+          "name": "dominant_item_color",
+          "type": "Color",
+          "schema": "source_burst_drill_offload_effects_state_input.dominant_item_color"
+        }
+      ],
+      "return_keys": [
+        "shake_call",
+        "drill_sound_call",
+        "drill_effect_call"
+      ],
+      "tests": [
+        "test_c07_burst_drill_offload_effects_rows_registration",
+        "test_all_c07_burst_drill_offload_effects_rows_input_evidence_is_exact",
+        "test_burst_drill_offload_effects_rows_state",
+        "test_reference_graph_and_actual_c07_burst_drill_offload_effects_rows"
+      ],
+      "runtime_proof": "/root/C07BurstDrillOffloadEffectsRowsProof",
+      "rule": "Source-backed BurstDrill updateTile offload effects rows from BurstDrill.java / Fx.java / Effect.java / Item.java.",
       "return_type": "Dictionary"
     },
     "SourceBurstDrillBuildState.source_burst_drill_power_status_row_state": {
