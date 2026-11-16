@@ -1,0 +1,18 @@
+test_all_c07_unit_assembler_module_flagged_buildings_fill_input_evidence_is_exact (tests.test_c07_unit_assembler_module_flagged_buildings_fill.C07UnitAssemblerModuleFlaggedBuildingsFillTests.test_all_c07_unit_assembler_module_flagged_buildings_fill_input_evidence_is_exact) ... ok
+test_c07_unit_assembler_module_flagged_buildings_fill_registration (tests.test_c07_unit_assembler_module_flagged_buildings_fill.C07UnitAssemblerModuleFlaggedBuildingsFillTests.test_c07_unit_assembler_module_flagged_buildings_fill_registration) ... ok
+test_reference_graph_and_actual_c07_unit_assembler_module_flagged_buildings_fill (tests.test_c07_unit_assembler_module_flagged_buildings_fill.C07UnitAssemblerModuleFlaggedBuildingsFillTests.test_reference_graph_and_actual_c07_unit_assembler_module_flagged_buildings_fill) ... FAIL
+test_unit_assembler_module_flagged_buildings_fill_state (tests.test_c07_unit_assembler_module_flagged_buildings_fill.C07UnitAssemblerModuleFlaggedBuildingsFillTests.test_unit_assembler_module_flagged_buildings_fill_state) ... ok
+
+======================================================================
+FAIL: test_reference_graph_and_actual_c07_unit_assembler_module_flagged_buildings_fill (tests.test_c07_unit_assembler_module_flagged_buildings_fill.C07UnitAssemblerModuleFlaggedBuildingsFillTests.test_reference_graph_and_actual_c07_unit_assembler_module_flagged_buildings_fill)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Admin\.codex\worktrees\godot-integration-validation\tools\mindustry_godot_transpiler\tests\test_c07_unit_assembler_module_flagged_buildings_fill.py", line 248, in test_reference_graph_and_actual_c07_unit_assembler_module_flagged_buildings_fill
+    self.assertTrue(proofs[0]['matches'], proofs[0])
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : {'live_tick_discovery_links_fit': True, 'live_tick_fills_two_candidates': False, 'live_tick_no_assembler_null': True, 'live_tick_no_fit_null': False, 'live_tick_refresh_adds_assembler': False, 'live_tick_seeded_candidate_kept': True, 'live_tick_supplied_candidates_win': True, 'matches': False, 'one_headquarter_per_ssot': True, 'registry_valid': True, 'scan_default_area_size': True, 'scan_descriptor_format': True, 'scan_empty_list': True, 'scan_preserves_input_order': True, 'scan_same_team_assemblers_only': True, 'scan_skips_malformed': True}
+
+----------------------------------------------------------------------
+Ran 4 tests in 39.475s
+
+FAILED (failures=1)
