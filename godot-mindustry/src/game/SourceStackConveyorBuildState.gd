@@ -103,7 +103,7 @@ static func source_stack_conveyor_power_status_row_state(frame: Dictionary, has_
 	# StackConveyorBuild has NO shouldConsume override, so the BuildingComp default applies (BuildingComp.java:755, `public boolean shouldConsume(){` with `return enabled;`, BuildingComp.java:756); updateConsumption forces efficiency to zero when the gate is false (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). There is NO gate to defer here (unlike the ItemBridge / LiquidBridge link gates): the power-only fold is EXACT, because the only gate is `enabled`, which the driver already checks. canConsume (BuildingComp.java:1917, `public boolean canConsume(){` with `return potentialEfficiency > 0;`, BuildingComp.java:1918) and edelta (BuildingComp.java:1927-1929, `return efficiency * delta();`) are the surrounding gates. The single def carries `consumePower(1f / 60f);` (Blocks.java:2251) with `baseEfficiency = 1f;` (Blocks.java:2250), `outputRouter = false;` (Blocks.java:2244), `speed = 5f / 60f;` (Blocks.java:2241), `health = 130;` (Blocks.java:2239), `hasPower = true;` (Blocks.java:2245), `consumesPower = true;` (Blocks.java:2246) and `conductivePower = true;` (Blocks.java:2247).
 	# The stack conveyor is its own family (StackConveyor.java:24, `public class StackConveyor extends Block implements Autotiler{`; StackConveyorBuild, StackConveyor.java:114, `public class StackConveyorBuild extends Building{`), a distribution block, NOT related to any factory / turret / defense / bridge family. Class fields: `protected static final int stateMove = 0, stateLoad = 1, stateUnload = 2;` (StackConveyor.java:25), `public float glowAlpha = 1f;` (StackConveyor.java:34), `public Color glowColor = Pal.redLight;` (StackConveyor.java:35), `public float baseEfficiency = 0f;` (StackConveyor.java:37), `public float speed = 0f;` (StackConveyor.java:38), `public boolean outputRouter = true;` (StackConveyor.java:39), `public float recharge = 2f;` (StackConveyor.java:41), `public Effect loadEffect = Fx.conveyorPoof;` (StackConveyor.java:42), `public Effect unloadEffect = Fx.conveyorPoof;` (StackConveyor.java:43); constructor `rotate = true;` (StackConveyor.java:48), `update = true;` (StackConveyor.java:49), `group = BlockGroup.transportation;` (StackConveyor.java:50), `hasItems = true;` (StackConveyor.java:51), `itemCapacity = 10;` (StackConveyor.java:52), `conveyorPlacement = true;` (StackConveyor.java:53), `underBullets = true;` (StackConveyor.java:54), `priority = TargetPriority.transport;` (StackConveyor.java:55), `drawCached = true;` (StackConveyor.java:56), `buildingCacheLayer = BuildingCacheLayer.under;` (StackConveyor.java:57), `ambientSound = Sounds.loopConveyor;` (StackConveyor.java:59), `ambientSoundVolume = 0.004f;` (StackConveyor.java:60). Build fields: `public int state, blendprox;` (StackConveyor.java:115), `public int link = -1;` (StackConveyor.java:117), `public float cooldown;` (StackConveyor.java:118), `public Item lastItem;` (StackConveyor.java:119), `boolean proxUpdating = false;` (StackConveyor.java:121). The transfer branch (StackConveyor.java:276, `if(link == -1) return;` with StackConveyor.java:287, `if(!enabled) return;`) returns early without a link or when disabled, and the handoff sets `cooldown = recharge;` (StackConveyor.java:311) with `e.cooldown = 1;` (StackConveyor.java:312).
 	# Single def -- surge-conveyor only (size 1, speed 5f/60f, itemCapacity 10, health 130, surge-alloy 1 / tungsten 1, Blocks.java:2237-2253). plastanium-conveyor (StackConveyor, no power def, NO hasPower line, Blocks.java:2084) is explicitly OUT of scope. No sense / read / write overrides exist on StackConveyorBuild -- those wait for their own slices only if a later Java line needs them.
-	# Documented limits: (1) power-only first pass -- the surge-conveyor's static power consumer (consumePower 1f/60f, Blocks.java:2251) is the only modeled consumer, so the folded efficiency is the min over the *modeled* consumers (power only); surge-conveyor has no second consumer. (2) NO shouldConsume gate to defer -- StackConveyorBuild has no shouldConsume override, so the BuildingComp default (`return enabled;`, BuildingComp.java:755-756) applies; the power-only fold is EXACT for this family. (3) updateTile advance LIVE (N2239) -- eff fold / cooldown reel / link gate / transfer branch / unload branch (StackConveyor.java:268-315) run every tick through the pure source_stack_conveyor_update_tile_advance_state; still deferred: the moveForward/dump application (BuildingComp.java:1129-1137 / 1072-1113, the driver passes move_forward_ok / dump_ok false), the live front() query (BuildingComp.java:550-554, the driver passes no-front), and the live items intake (acceptStack / handleStack, StackConveyor.java:344-363). (4) No sense modeling -- sense waits for its own slice. (5) Power row single def -- surge-conveyor only (size 1, speed 5f/60f, itemCapacity 10, health 130, surge-alloy 1 / tungsten 1); plastanium-conveyor (StackConveyor, no power def) has no power row, but the N2239 updateTile advance covers BOTH defs through the per-def tables (plastanium speed 4f/60f, outputRouter true, baseEfficiency 0f; surge speed 5f/60f, outputRouter false, baseEfficiency 1f). (6) Draw rows live (N2434) -- the draw pure (source_stack_conveyor_draw_state) models drawCached() + draw() (StackConveyor.java:124-192: cached base rect + edge rects + load/unload input slices + glow by power.status + interpolated stack + sized item). Pure-only: the tick never calls draw -- draw is called by the renderer, and the renderer call site waits for a renderer slice. drawSelect / config wait for their own slices.
+	# Documented limits: (1) power-only first pass -- the surge-conveyor's static power consumer (consumePower 1f/60f, Blocks.java:2251) is the only modeled consumer, so the folded efficiency is the min over the *modeled* consumers (power only); surge-conveyor has no second consumer. (2) NO shouldConsume gate to defer -- StackConveyorBuild has no shouldConsume override, so the BuildingComp default (`return enabled;`, BuildingComp.java:755-756) applies; the power-only fold is EXACT for this family. (3) updateTile advance LIVE (N2239) -- eff fold / cooldown reel / link gate / transfer branch / unload branch (StackConveyor.java:268-315) run every tick through the pure source_stack_conveyor_update_tile_advance_state; still deferred: the moveForward/dump application (BuildingComp.java:1129-1137 / 1072-1113, the driver passes move_forward_ok / dump_ok false), the live front() query (BuildingComp.java:550-554, the driver passes no-front), and the live items intake (acceptStack / handleStack, StackConveyor.java:344-363). (4) No sense modeling -- sense waits for its own slice. (5) Power row single def -- surge-conveyor only (size 1, speed 5f/60f, itemCapacity 10, health 130, surge-alloy 1 / tungsten 1); plastanium-conveyor (StackConveyor, no power def) has no power row, but the N2239 updateTile advance covers BOTH defs through the per-def tables (plastanium speed 4f/60f, outputRouter true, baseEfficiency 0f; surge speed 5f/60f, outputRouter false, baseEfficiency 1f). (6) Draw rows live (N2434) -- the draw pure (source_stack_conveyor_draw_state) models drawCached() + draw() (StackConveyor.java:124-192: cached base rect + edge rects + load/unload input slices + glow by power.status + interpolated stack + sized item). Pure-only: the tick never calls draw -- draw is called by the renderer, and the renderer call site waits for a renderer slice. drawSelect / config wait for their own slices. (7) Blends / plan / rotatedOutput rows live (N2448) -- the blends pure (source_stack_conveyor_blends_state) models blends() (StackConveyor.java:71-88) with every geometry / indexer predicate caller-supplied, the plan pure (source_stack_conveyor_draw_plan_state) models drawPlanRegion() (StackConveyor.java:90-104) with the getTiling bits caller-supplied, and the rotated-output pure (source_stack_conveyor_rotated_output_state) models rotatedOutput() (StackConveyor.java:106-112). Pure-only: the tick never calls blends / drawPlanRegion / rotatedOutput -- the blending / placement-renderer call sites wait for their own slices. setStats (:64-68) is NOT ported here -- it has its own DEFERRED entry.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -563,3 +563,171 @@ static func source_stack_conveyor_draw_state(x_value: float, y_value: float, rot
 		"stack_angle": stack_angle,
 		"item_size": item_size_value,
 	}
+
+static func source_stack_conveyor_blends_state(state: Variant, output_router: bool, other_outputs_items: bool, other_accepts_items: bool, other_no_side_blend: bool, looking_at_either: bool, not_looking_at: bool, other_facing: bool, other_build_unload: bool, other_build_move_not_facing: bool, blends_armored: bool, other_is_stack_conveyor: bool) -> Dictionary:
+	# The blends rows (StackConveyor.blends(),
+	# StackConveyor.java:71-88), the pure blend
+	# predicate -- the port never blends for
+	# real (the N2435 precedent: every
+	# geometry / indexer predicate is a
+	# caller-supplied bool and the pure NEVER
+	# reads world / tile). Java, in order
+	# (each exact expr on ONE comment line,
+	# the N2148 lesson):
+	# `public class StackConveyor extends Block implements Autotiler{`
+	# `protected static final int stateMove = 0, stateLoad = 1, stateUnload = 2;`
+	# `public boolean outputRouter = true;`
+	# `public boolean blends(Tile tile, int rotation, int otherx, int othery, int otherrot, Block otherblock){`
+	# `if(tile.build instanceof StackConveyorBuild b){`
+	# `int state = b.state;`
+	# `if(state == stateLoad){ //standard conveyor mode`
+	# `return otherblock.outputsItems() && lookingAtEither(tile, rotation, otherx, othery, otherrot, otherblock);`
+	# `}else if(state == stateUnload && !outputRouter){ //router mode`
+	# `return otherblock.acceptsItems &&`
+	# `(!otherblock.noSideBlend || lookingAtEither(tile, rotation, otherx, othery, otherrot, otherblock)) &&`
+	# `(notLookingAt(tile, rotation, otherx, othery, otherrot, otherblock) ||`
+	# `(otherblock instanceof StackConveyor && facing(otherx, othery, otherrot, tile.x, tile.y))) &&`
+	# `!(world.build(otherx, othery) instanceof StackConveyorBuild s && s.state == stateUnload) &&`
+	# `!(world.build(otherx, othery) instanceof StackConveyorBuild s2 && s2.state == stateMove &&`
+	# `!facing(otherx, othery, otherrot, tile.x, tile.y));`
+	# `return otherblock.outputsItems() && blendsArmored(tile, rotation, otherx, othery, otherrot, otherblock) && otherblock instanceof StackConveyor;`
+	# `public class StackConveyorBuild extends Building{`
+	# The state constants are stateMove 0 /
+	# stateLoad 1 / stateUnload 2 -- the brief
+	# mislabels stateLoad as 0, Java wins.
+	# The `state` input is a Variant: null
+	# means the tile build is NOT a
+	# StackConveyorBuild (the instanceof gate,
+	# the N2434 Variant-null precedent), an
+	# int 0/1/2 is the build state. The load
+	# branch needs outputsItems() AND
+	# lookingAtEither; the router branch
+	# (unload && !outputRouter) needs all five
+	# conjuncts -- acceptsItems, the
+	# noSideBlend / lookingAtEither half, the
+	# notLookingAt / facing half, NOT the other
+	# build unloading, NOT the other build
+	# moving away; anything else (not a stack
+	# build, stateMove, unload with
+	# outputRouter) falls through to the
+	# outputsItems && blendsArmored &&
+	# instanceof StackConveyor fallback. The
+	# Autotiler defaults are NOT ported --
+	# their signatures ride here for the
+	# caller-supplied contract:
+	# `default boolean facing(int x, int y, int rotation, int x2, int y2){`
+	# `default boolean blendsArmored(Tile tile, int rotation, int otherx, int othery, int otherrot, Block otherblock){`
+	# `default boolean notLookingAt(Tile tile, int rotation, int otherx, int othery, int otherrot, Block otherblock){`
+	# `default boolean lookingAtEither(Tile tile, int rotation, int otherx, int othery, int otherrot, Block otherblock){`
+	# The Block fields behind the bool inputs:
+	# `public boolean acceptsItems = false;`
+	# `public boolean noSideBlend = false;`
+	# `public boolean outputsItems(){`
+	# (Block.java:67 / 84 / 601-603, outputsItems
+	# returns hasItems). outputRouter is the
+	# class default true (StackConveyor.
+	# java:39); plastanium-conveyor keeps it,
+	# surge-conveyor sets false (Blocks.
+	# java:2244) -- only a surge-conveyor ever
+	# takes the router branch. Pure-only: the
+	# tick never calls blends -- the blending
+	# call site waits for its own slice.
+	var blends := false
+	if state != null:
+		var state_value: int = int(state)
+		if state_value == SOURCE_STACK_CONVEYOR_STATE_LOAD:
+			blends = other_outputs_items and looking_at_either
+		elif state_value == SOURCE_STACK_CONVEYOR_STATE_UNLOAD and not output_router:
+			blends = other_accepts_items and (not other_no_side_blend or looking_at_either) and (not_looking_at or (other_is_stack_conveyor and other_facing)) and not other_build_unload and not other_build_move_not_facing
+		else:
+			blends = other_outputs_items and blends_armored and other_is_stack_conveyor
+	else:
+		blends = other_outputs_items and blends_armored and other_is_stack_conveyor
+	return {"blends": blends}
+
+static func source_stack_conveyor_draw_plan_state(bits: Variant, plan_x: float, plan_y: float, rotation: int) -> Dictionary:
+	# The drawPlan rows (StackConveyor.
+	# drawPlanRegion(), StackConveyor.
+	# java:90-104), the pure plan draw-call
+	# dict -- the port never draws for real
+	# (the N2419 plan-pure precedent: the pure
+	# returns the plan calls as data). Java, in
+	# order (each exact expr on ONE comment
+	# line, the N2148 lesson):
+	# `public @Load(value = "@-#", length = 3) TextureRegion[] regions;`
+	# `public @Load("@-edge") TextureRegion edgeRegion;`
+	# `public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){`
+	# `int[] bits = getTiling(plan, list);`
+	# `if(bits == null) return;`
+	# `TextureRegion region = regions[0];`
+	# `Draw.rect(region, plan.drawx(), plan.drawy(), plan.rotation * 90);`
+	# `for(int i = 0; i < 4; i++){`
+	# `if((bits[3] & (1 << i)) == 0){`
+	# `Draw.rect(edgeRegion, plan.drawx(), plan.drawy(), (plan.rotation - i) * 90);`
+	# getTiling is a CALL record, NOT ported:
+	# `default @Nullable int[] getTiling(BuildPlan plan, Eachable<BuildPlan> list){`
+	# (Autotiler.java:77-86, null when
+	# plan.tile() is null). The bits ride
+	# caller-supplied as null or an Array of 4
+	# ints and the pure reads ONLY bits[3] --
+	# the edge bitmask, the same bit the N2434
+	# drawCached edge loop reads (StackConveyor.
+	# java:133-136). bits null -> BOTH result
+	# keys null (the early return draws
+	# nothing). The base rect region token is
+	# "regions[0]" (the `@-#` length-3 array)
+	# and the edge region token is "edgeRegion";
+	# the rect dicts use the "rotation" key
+	# (the N2438/N2442 plan convention).
+	# Pure-only: the tick never calls
+	# drawPlanRegion -- the placement renderer
+	# call site waits for its own slice.
+	if bits == null:
+		return {"base_call": null, "edge_calls": null}
+	var bits_array: Array = bits
+	var base_call: Dictionary = {
+		"call": "Draw.rect(region, plan.drawx(), plan.drawy(), plan.rotation * 90);",
+		"region": "regions[0]",
+		"x": plan_x,
+		"y": plan_y,
+		"rotation": float(rotation) * 90.0,
+	}
+	var edge_calls: Array = []
+	for i in range(4):
+		if (int(bits_array[3]) & (1 << i)) == 0:
+			edge_calls.append({
+				"call": "Draw.rect(edgeRegion, plan.drawx(), plan.drawy(), (plan.rotation - i) * 90);",
+				"region": "edgeRegion",
+				"x": plan_x,
+				"y": plan_y,
+				"rotation": float(rotation - i) * 90.0,
+				"side": i,
+			})
+	return {"base_call": base_call, "edge_calls": edge_calls}
+
+static func source_stack_conveyor_rotated_output_state(other_is_stack_build: bool, other_state: int, super_rotated_output: bool) -> Dictionary:
+	# The rotated-output rows (StackConveyor.
+	# rotatedOutput(), StackConveyor.
+	# java:106-112), the pure rotated-output
+	# predicate. Java, in order (each exact
+	# expr on ONE comment line, the N2148
+	# lesson):
+	# `public boolean rotatedOutput(int x, int y){`
+	# `Building tile = world.build(x, y);`
+	# `if(tile instanceof StackConveyorBuild s){`
+	# `return s.state != stateUnload;`
+	# `return super.rotatedOutput(x, y);`
+	# The super default is
+	# `return rotate;`
+	# (Block.java:615-617) and StackConveyor
+	# sets rotate = true (:48), but the pure
+	# takes the super value caller-supplied so
+	# the def flag stays out of the pure. The
+	# world.build indexer query rides as the
+	# other_is_stack_build bool (the N2435
+	# caller-supplied precedent); other_state
+	# is read only when it is true. Pure-only:
+	# the tick never calls rotatedOutput.
+	if other_is_stack_build:
+		return {"rotated_output": other_state != SOURCE_STACK_CONVEYOR_STATE_UNLOAD}
+	return {"rotated_output": super_rotated_output}
