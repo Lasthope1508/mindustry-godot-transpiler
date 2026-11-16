@@ -232594,6 +232594,94 @@
       },
       "runtime_proof": "/root/C07RepairTurretAmbientSoundLoopProof",
       "rule": "Source-backed RepairTurret ambient-sound live-loop gate state from RepairTurret.java + BuildingComp.java + Block.java."
+    },
+    "source_repair_turret_sense_state_input": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_sense_state",
+      "source_slice": "N2223",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "case rotation -> rotation;",
+          "rule": "The repair-turret frame carrying the live `rotation` (stamped every tick by the N2214 slerp and persisted by the N2217 read/write; absent folds to 90.0, the Java field init `public float strength, rotation = 90;`, RepairTurret.java:156).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_sense_state"
+          ]
+        },
+        "sensor": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public double sense(LAccess sensor){",
+          "rule": "The logic sensor to read, spelled by its LAccess enum name (LAccess.java:30 `rotation,` and LAccess.java:48 `range,`): \"range\" or \"rotation\" are handled here, anything else falls through to super.sense (BuildingComp.java:2123, `default -> Float.NaN; //gets converted to null in logic`).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_sense_state"
+          ]
+        },
+        "repair_radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "public float repairRadius = 50f;",
+          "rule": "The per-def repair radius in world pixels (RepairTurret.java:32, `public float repairRadius = 50f;`, the class default; repair-point 60f and repair-turret 145f, Blocks.java:6389, :6401); passed explicitly because it is per-def static state, not a live frame key (the N2212 acquire / N2220 draw-place per-def-param precedent).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_sense_state"
+          ]
+        },
+        "tilesize": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/Vars.java",
+          "java_expr": "public static final int tilesize = 8;",
+          "rule": "The world tilesize in pixels (Vars.java:135, `public static final int tilesize = 8;`); passed explicitly (the N2220 draw-place precedent) so the range leg divides by the caller-supplied world constant.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_sense_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretSenseRangeRotationProof",
+      "rule": "Source-backed RepairTurret sense(range)/sense(rotation) state from RepairTurret.java + BuildingComp.java + Vars.java + LAccess.java."
+    },
+    "source_repair_turret_sense_state_result": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_sense_state",
+      "source_slice": "N2223",
+      "keys": {
+        "handled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "case range -> this instanceof Ranged r ? r.range() / tilesize : 0;",
+          "rule": "Whether this slice handled the sensor (\"range\" or \"rotation\"); false means \"not handled -- fall through to super.sense\" (the N2208 mass-driver sense precedent).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_sense_state"
+          ]
+        },
+        "sense_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "case range -> this instanceof Ranged r ? r.range() / tilesize : 0;",
+          "rule": "The sensed value: repairRadius / tilesize in blocks for \"range\" (BuildingComp.java:2105, `case range -> this instanceof Ranged r ? r.range() / tilesize : 0;`, with range() returning repairRadius, RepairTurret.java:231-232) or the live rotation in degrees for \"rotation\" (BuildingComp.java:2106, `case rotation -> rotation;`); null when the sensor is not handled.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_sense_state"
+          ]
+        },
+        "sense_value_is_nan": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "default -> Float.NaN; //gets converted to null in logic",
+          "rule": "Whether the sensed value is NaN: true only when the sensor is not handled (the switch default, BuildingComp.java:2123, `default -> Float.NaN; //gets converted to null in logic`, converts to null in logic); false for both handled rows.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_sense_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretSenseRangeRotationProof",
+      "rule": "Source-backed RepairTurret sense(range)/sense(rotation) state from RepairTurret.java + BuildingComp.java + Vars.java + LAccess.java."
     }
   },
   "version": 1

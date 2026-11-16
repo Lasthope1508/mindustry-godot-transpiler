@@ -174440,6 +174440,54 @@
         "test_reference_graph_and_actual_c07_repair_turret_ambient_sound_loop"
       ],
       "runtime_proof": "/root/C07RepairTurretAmbientSoundLoopProof"
+    },
+    "source_repair_turret_sense_state_result.handled": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_sense_state",
+      "godot_symbol": "source_repair_turret_sense_state_result.handled",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.sense(LAccess)",
+      "java_expr": "case range -> this instanceof Ranged r ? r.range() / tilesize : 0;",
+      "rule": "Whether this slice handled the sensor (\"range\" or \"rotation\"); false means \"not handled -- fall through to super.sense\" (the N2208 mass-driver sense precedent).",
+      "tests": [
+        "test_c07_repair_turret_sense_range_rotation_registration",
+        "test_all_c07_repair_turret_sense_range_rotation_input_evidence_is_exact",
+        "test_repair_turret_sense_range_rotation_state",
+        "test_reference_graph_and_actual_c07_repair_turret_sense_range_rotation"
+      ],
+      "runtime_proof": "/root/C07RepairTurretSenseRangeRotationProof"
+    },
+    "source_repair_turret_sense_state_result.sense_value": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_sense_state",
+      "godot_symbol": "source_repair_turret_sense_state_result.sense_value",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.sense(LAccess)",
+      "java_expr": "case range -> this instanceof Ranged r ? r.range() / tilesize : 0;",
+      "rule": "The sensed value: repairRadius / tilesize in blocks for \"range\" (BuildingComp.java:2105, `case range -> this instanceof Ranged r ? r.range() / tilesize : 0;`, with range() returning repairRadius, RepairTurret.java:231-232) or the live rotation in degrees for \"rotation\" (BuildingComp.java:2106, `case rotation -> rotation;`); null when the sensor is not handled.",
+      "tests": [
+        "test_c07_repair_turret_sense_range_rotation_registration",
+        "test_all_c07_repair_turret_sense_range_rotation_input_evidence_is_exact",
+        "test_repair_turret_sense_range_rotation_state",
+        "test_reference_graph_and_actual_c07_repair_turret_sense_range_rotation"
+      ],
+      "runtime_proof": "/root/C07RepairTurretSenseRangeRotationProof"
+    },
+    "source_repair_turret_sense_state_result.sense_value_is_nan": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_sense_state",
+      "godot_symbol": "source_repair_turret_sense_state_result.sense_value_is_nan",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.sense(LAccess)",
+      "java_expr": "default -> Float.NaN; //gets converted to null in logic",
+      "rule": "Whether the sensed value is NaN: true only when the sensor is not handled (the switch default, BuildingComp.java:2123, `default -> Float.NaN; //gets converted to null in logic`, converts to null in logic); false for both handled rows.",
+      "tests": [
+        "test_c07_repair_turret_sense_range_rotation_registration",
+        "test_all_c07_repair_turret_sense_range_rotation_input_evidence_is_exact",
+        "test_repair_turret_sense_range_rotation_state",
+        "test_reference_graph_and_actual_c07_repair_turret_sense_range_rotation"
+      ],
+      "runtime_proof": "/root/C07RepairTurretSenseRangeRotationProof"
     }
   },
   "version": 1

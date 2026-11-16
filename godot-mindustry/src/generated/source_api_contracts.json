@@ -67299,6 +67299,48 @@
       ],
       "runtime_proof": "/root/C07RepairTurretAmbientSoundLoopProof",
       "rule": "Source-backed RepairTurret ambient-sound live-loop gate state from RepairTurret.java + BuildingComp.java + Block.java."
+    },
+    "SourceRepairTurretBuildState.source_repair_turret_sense_state": {
+      "status": "active",
+      "source_slice": "N2223",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "source_method": "BuildingComp.sense(LAccess)",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_repair_turret_sense_state_input.frame"
+        },
+        {
+          "name": "sensor",
+          "type": "String",
+          "schema": "source_repair_turret_sense_state_input.sensor"
+        },
+        {
+          "name": "repair_radius",
+          "type": "float",
+          "schema": "source_repair_turret_sense_state_input.repair_radius"
+        },
+        {
+          "name": "tilesize",
+          "type": "float",
+          "schema": "source_repair_turret_sense_state_input.tilesize"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "handled",
+        "sense_value",
+        "sense_value_is_nan"
+      ],
+      "tests": [
+        "test_c07_repair_turret_sense_range_rotation_registration",
+        "test_all_c07_repair_turret_sense_range_rotation_input_evidence_is_exact",
+        "test_repair_turret_sense_range_rotation_state",
+        "test_reference_graph_and_actual_c07_repair_turret_sense_range_rotation"
+      ],
+      "runtime_proof": "/root/C07RepairTurretSenseRangeRotationProof",
+      "rule": "Source-backed RepairTurret sense(range)/sense(rotation) state from RepairTurret.java + BuildingComp.java + Vars.java + LAccess.java."
     }
   },
   "policy": {

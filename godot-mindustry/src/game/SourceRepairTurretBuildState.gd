@@ -418,6 +418,36 @@ static func source_repair_turret_ambient_sound_loop_state(frame: Dictionary, hea
 	var should_loop: bool = (not headless) and SOURCE_REPAIR_TURRET_AMBIENT_SOUND != "none" and should_ambient_sound
 	return {"should_loop": should_loop, "sound": SOURCE_REPAIR_TURRET_AMBIENT_SOUND, "volume": volume}
 
+static func source_repair_turret_sense_state(frame: Dictionary, sensor: String, repair_radius: float, tilesize: float) -> Dictionary:
+	# BuildingComp.sense reads the two RepairTurret-specific legs (BuildingComp.java:2093):
+	# public double sense(LAccess sensor){
+	# case range -> this instanceof Ranged r ? r.range() / tilesize : 0;
+	# case rotation -> rotation;
+	# RepairPointBuild implements Ranged (RepairTurret.java:153):
+	# public class RepairPointBuild extends Building implements Ranged, RotBlock{
+	# with range() returning repairRadius (RepairTurret.java:231-232):
+	# public float range(){
+	# return repairRadius;
+	# and its rotation field defaulting to 90 (RepairTurret.java:156):
+	# public float strength, rotation = 90;
+	# read by buildRotation() (RepairTurret.java:158-161):
+	# return rotation;
+	# The class-default radius (RepairTurret.java:32):
+	# public float repairRadius = 50f;
+	# repair-point 60f and repair-turret 145f (Blocks.java:6389, :6401). The world tilesize (Vars.java:135):
+	# public static final int tilesize = 8;
+	# The sensor spellings are the LAccess enum names (LAccess.java:48, `range,`; LAccess.java:30, `rotation,`). Any other sensor falls through to the switch default (BuildingComp.java:2123):
+	# default -> Float.NaN; //gets converted to null in logic
+	# repair_radius and tilesize are explicit float params (the N2212 acquire / N2220 draw-place per-def-param precedent -- repairRadius is per-def static state, not a live frame key); rotation is the live frame key (stamped by the N2214 slerp + N2217 read/write), absent folding to 90.0, the Java field init. There is no driver tick line: sense is a logic read, not a tick write (the N2206 launch-pad / N2208 mass-driver sense precedent); the logic-processor dispatch hook is its own later slice.
+	if sensor == "range":
+		var range_value: float = repair_radius / tilesize
+		return {"handled": true, "sense_value": range_value, "sense_value_is_nan": false}
+	if sensor == "rotation":
+		var observed: Variant = frame.get("rotation", null)
+		var rotation_value: float = 90.0 if observed == null else float(observed)
+		return {"handled": true, "sense_value": rotation_value, "sense_value_is_nan": false}
+	return {"handled": false, "sense_value": null, "sense_value_is_nan": true}
+
 const REPAIR_TURRET_SAVE_VERSION := 1
 
 static func source_repair_turret_write_state(frame: Dictionary) -> Dictionary:
