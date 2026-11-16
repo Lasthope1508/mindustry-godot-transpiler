@@ -264,6 +264,240 @@ static func source_repair_turret_timer_target_state(elapsed: float, source_delta
 	var elapsed_after: float = 0.0 if fired else accumulated
 	return {"fired": fired, "elapsed_after": elapsed_after}
 
+static func source_repair_turret_draw_state(x_value: float, y_value: float, rotation: float, length: float, building_id: int, target: Variant, strength: float, pulse_stroke: float, pulse_radius: float, beam_width: float, last_end: Dictionary, offset: Dictionary, time_value: float, rolls: Dictionary, repair_radius: float, size_value: int, tile_x: int, tile_y: int) -> Dictionary:
+	# The draw rows (RepairPointBuild.draw(), RepairTurret.java:164-174 + the static drawBeam, RepairTurret.java:106-150 + drawSelect, :177-179 + drawPlace, :95-99 + icons, :102-104), the pure draw-call dict -- the port never draws for real (the N2396 MassDriver precedent: the pure returns the draw calls as data). Java draws, in order (each exact expr on ONE comment line, the N2148 lesson):
+	# `Draw.rect(baseRegion, x, y);`
+	# `Draw.z(Layer.turret);`
+	# `Drawf.shadow(region, x - (size / 2f), y - (size / 2f), rotation - 90);`
+	# `Draw.rect(region, x, y, rotation - 90);`
+	# `drawBeam(x, y, rotation, length, id, target, team, strength,`
+	# `pulseStroke, pulseRadius, beamWidth, lastEnd, offset, laserColor, laserTopColor,`
+	# `laser, laserEnd, laserTop, laserTopEnd);`
+	# `Drawf.dashCircle(x, y, repairRadius, Pal.accent);`
+	# `Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, repairRadius, Pal.accent);`
+	# `return new TextureRegion[]{baseRegion, region};`
+	# The shadow shifts by (size / 2f) -- Java FLOAT division (size is int, `public int size = 1;`, Block.java:215, but the divisor is the float literal 2f), so a size-2 repair-turret shifts by 1.0 and a size-1 repair-point by 0.5 -- NOT the MassDriver int division (the N2396 trap, inverted). baseRegion is the `@-base` region (`public @Load(value = "@-base", fallback = "block-@size") TextureRegion baseRegion;`, RepairTurret.java:47). The frame fields are `public Unit target;` (RepairTurret.java:154), `public Vec2 offset = new Vec2(), lastEnd = new Vec2();` (RepairTurret.java:155) and `public float strength, rotation = 90;` (RepairTurret.java:156), all tracked by the N2226 advance. The def values (verified first, RepairTurret.java class defaults + Blocks.java:6386-6406): `public float repairRadius = 50f;` (class; 60f repair-point, 145f repair-turret), `public float length = 5f;` (class; 6f repair-turret), `public float beamWidth = 1f;` (class; 0.73f repair-point, 1.1f repair-turret), `public float pulseRadius = 6f;` (class; 5f repair-point, 6.1f repair-turret), `public float pulseStroke = 2f;` (no def override), size 1 repair-point (class default) / 2 repair-turret. `public Color laserColor = Color.valueOf("98ffa9"), laserTopColor = Color.white.cpy();` (RepairTurret.java:53) -- carried as symbolic tokens ("laserColor" / "laserTopColor") in the laser calls, the N2415 precedent; the port never draws for real. drawBeam (static, RepairTurret.java:106-150):
+	# `public static void drawBeam(float x, float y, float rotation, float length, int id, @Nullable Sized target, Team team,`
+	# `rand.setSeed(id + (target instanceof Entityc e ? e.id() : 0));`
+	# `if(target != null){`
+	# `originX = x + Angles.trnsx(rotation, length),`
+	# `originY = y + Angles.trnsy(rotation, length);`
+	# `lastEnd.set(target).sub(originX, originY);`
+	# `lastEnd.setLength(Math.max(2f, lastEnd.len()));`
+	# `lastEnd.add(offset.trns(`
+	# `rand.random(360f) + Time.time/2f,`
+	# `Mathf.sin(Time.time + rand.random(200f), 55f, rand.random(target.hitSize() * 0.2f, target.hitSize() * 0.45f))`
+	# `).rotate(target instanceof Rotc rot ? rot.rotation() : 0f));`
+	# `lastEnd.add(originX, originY);`
+	# `if(strength > 0.01f){`
+	# `Draw.z(Layer.flyingUnit + 1); //above all units`
+	# `Draw.color(laserColor);`
+	# `float f = (Time.time / 85f + rand.random(1f)) % 1f;`
+	# `Draw.alpha(1f - Interp.pow5In.apply(f));`
+	# `Lines.stroke(strength * pulseStroke);`
+	# `Lines.circle(lastEnd.x, lastEnd.y, 1f + f * pulseRadius);`
+	# `Drawf.laser(laser, laserEnd, originX, originY, lastEnd.x, lastEnd.y, strength * beamWidth);`
+	# `Draw.z(Layer.flyingUnit + 1.1f);`
+	# `Draw.color(laserTopColor);`
+	# `Drawf.laser(laserTop, laserTopEnd, originX, originY, lastEnd.x, lastEnd.y, strength * beamWidth);`
+	# `Draw.color();`
+	# NO RNG IN THE PURE: drawBeam rolls rand four times (angle 360f, phase 200f, magnitude range, f 1f). The rolls are INPUTS -- caller-supplied already-rolled values in the rolls dict (roll_angle / roll_phase / roll_magnitude / roll_f) -- and the pure computes geometry deterministically from them. The pure reports beam_seed (id + target id, 0 when the target is null or carries no id) so the caller can seed/roll from the same seed Java uses; the caller (game runtime) owns the seed/roll. The magnitude roll is the ALREADY-RANGED value (hitSize*0.2 .. hitSize*0.45), not a 0..1 fraction -- the pure never sees hitSize except through the roll. Angles.trnsx/trnsy are len * cosDeg / sinDeg (Angles.java:66-72, arc), computed in GDScript as cos/sin of deg_to_rad (the N2373 precedent). Vec2.setLength is a no-op at len 0 (Vec2.java:299-308, arc, `oldLen2 == 0` keeps the vector), so a target AT the origin leaves lastEnd (0,0) -- the pure guards the divide. Vec2.trns SETS the vector (Vec2.java:40-42, arc, `return set(amount, 0).rotate(angle);`), so the pre-draw offset value is DISCARDED: drawBeam overwrites offset with the jitter vector (the pure reports it as offset_after; unchanged when the target is null). The jitter magnitude is the arc 3-arg sin (`return sin(radians / scl) * mag;`, Mathf.java:90-92, arc), computed with GDScript sin() like the shared absin helper does (the N2415 precedent; Java's arc sin is a table lookup, so the pure is exact to <1e-3). The target rotation is 0f for a non-Rotc target. Interp.pow5In is PowIn(5) (Interp.java:45, arc), apply = f^5. Java % on non-negative floats == GDScript fmod. The two branches are INDEPENDENT: the target branch runs even when strength <= 0.01 (lastEnd still updates), and the beam draws even with a null target (at the held lastEnd). A non-Dictionary non-null target behaves as null (the N2329 precedent -- the pure cannot read coords from it). drawSelect is `public void drawSelect(){` (RepairTurret.java:177) with the dash circle at the building world pos. drawPlace is `public void drawPlace(int x, int y, int rotation, boolean valid){` (RepairTurret.java:95) with `super.drawPlace(x, y, rotation, valid);` (Block.drawPlace, NOT modeled here -- the pure records the call, the N2396 precedent) + the dash circle WITH the Block offset (`offset = ((size + 1) % 2) * tilesize / 2f;`, Block.java:761 -- 0 for the size-1 repair-point, 4.0 for the size-2 repair-turret), unlike the MassDriver place circle. icons() is `public TextureRegion[] icons(){` (RepairTurret.java:102) -- folded into this pure as icon_regions because icons() takes no args and the SSOT schema validator requires non-empty input keys (the N2396 precedent); outlineIcon = true (RepairTurret.java:62) is a Block flag for the outline machinery, not part of icons(). tilesize is the Java constant 8.0 (`public static final int tilesize = 8;`, Vars.java:135 -- NEVER the game tile_size 32, the N2375 lesson). Time.time is caller-supplied as time_value (the N2396/N2372 convention -- draw never runs in the tick, so the tick never stamps it). Pure-only: the tick never calls draw -- draw is called by the renderer, drawSelect/drawPlace by the UI, icons by the atlas, and the call sites wait for renderer/UI slices.
+	var tile_size: float = 8.0
+	var draw_rotation: float = rotation - 90.0
+	var size_half: float = float(size_value) / 2.0
+	var base_call: Dictionary = {
+		"call": "Draw.rect(baseRegion, x, y);",
+		"region": "baseRegion",
+		"x": x_value,
+		"y": y_value,
+	}
+	var shadow_call: Dictionary = {
+		"call": "Drawf.shadow(region, x - (size / 2f), y - (size / 2f), rotation - 90);",
+		"region": "region",
+		"x": x_value - size_half,
+		"y": y_value - size_half,
+		"rotation": draw_rotation,
+		"z": "Layer.turret",
+	}
+	var region_call: Dictionary = {
+		"call": "Draw.rect(region, x, y, rotation - 90);",
+		"region": "region",
+		"x": x_value,
+		"y": y_value,
+		"rotation": draw_rotation,
+		"z": "Layer.turret",
+	}
+	var origin_x: float = x_value + length * cos(deg_to_rad(rotation))
+	var origin_y: float = y_value + length * sin(deg_to_rad(rotation))
+	var target_id: int = 0
+	if target != null and target is Dictionary:
+		target_id = int(target.get("id", 0))
+	var beam_seed: int = building_id + target_id
+	var last_end_x: float = float(last_end.get("x", 0.0))
+	var last_end_y: float = float(last_end.get("y", 0.0))
+	var offset_after: Dictionary = {"x": float(offset.get("x", 0.0)), "y": float(offset.get("y", 0.0))}
+	var jitter_angle: float = 0.0
+	var jitter_magnitude: float = 0.0
+	var jitter_x: float = 0.0
+	var jitter_y: float = 0.0
+	if target != null and target is Dictionary:
+		var target_x: float = float(target.get("x", 0.0))
+		var target_y: float = float(target.get("y", 0.0))
+		var target_rotation: float = float(target.get("rotation", 0.0))
+		var rel_x: float = target_x - origin_x
+		var rel_y: float = target_y - origin_y
+		var rel_len: float = sqrt(rel_x * rel_x + rel_y * rel_y)
+		var scaled_len: float = maxf(2.0, rel_len)
+		var scaled_x: float = rel_x
+		var scaled_y: float = rel_y
+		if rel_len > 0.0:
+			scaled_x = rel_x * scaled_len / rel_len
+			scaled_y = rel_y * scaled_len / rel_len
+		var roll_angle: float = float(rolls.get("roll_angle", 0.0))
+		var roll_phase: float = float(rolls.get("roll_phase", 0.0))
+		var roll_magnitude: float = float(rolls.get("roll_magnitude", 0.0))
+		jitter_angle = roll_angle + time_value / 2.0
+		jitter_magnitude = sin((time_value + roll_phase) / 55.0) * roll_magnitude
+		var trns_x: float = jitter_magnitude * cos(deg_to_rad(jitter_angle))
+		var trns_y: float = jitter_magnitude * sin(deg_to_rad(jitter_angle))
+		var rotated: Dictionary = source_math_state.source_angles_trns_vec(target_rotation, trns_x, trns_y)
+		jitter_x = float(rotated.get("x", 0.0))
+		jitter_y = float(rotated.get("y", 0.0))
+		offset_after = {"x": jitter_x, "y": jitter_y}
+		last_end_x = scaled_x + jitter_x + origin_x
+		last_end_y = scaled_y + jitter_y + origin_y
+	var has_beam: bool = strength > 0.01
+	var beam_call: Variant = null
+	var f_value: float = 0.0
+	var alpha_value: float = 0.0
+	var stroke_value: float = 0.0
+	var circle_radius: float = 0.0
+	var laser_width: float = 0.0
+	if has_beam:
+		var roll_f: float = float(rolls.get("roll_f", 0.0))
+		f_value = fmod(time_value / 85.0 + roll_f, 1.0)
+		alpha_value = 1.0 - pow(f_value, 5.0)
+		stroke_value = strength * pulse_stroke
+		circle_radius = 1.0 + f_value * pulse_radius
+		laser_width = strength * beam_width
+		beam_call = {
+			"call": "Drawf.laser(laser, laserEnd, originX, originY, lastEnd.x, lastEnd.y, strength * beamWidth);",
+			"origin": {"x": origin_x, "y": origin_y},
+			"last_end": {"x": last_end_x, "y": last_end_y},
+			"f": f_value,
+			"alpha": alpha_value,
+			"stroke": stroke_value,
+			"circle_x": last_end_x,
+			"circle_y": last_end_y,
+			"circle_radius": circle_radius,
+			"z": "Layer.flyingUnit + 1",
+			"laser_calls": [
+				{
+					"call": "Drawf.laser(laser, laserEnd, originX, originY, lastEnd.x, lastEnd.y, strength * beamWidth);",
+					"line": "laser",
+					"edge": "laserEnd",
+					"x1": origin_x,
+					"y1": origin_y,
+					"x2": last_end_x,
+					"y2": last_end_y,
+					"width": laser_width,
+					"color": "laserColor",
+					"z": "Layer.flyingUnit + 1",
+				},
+				{
+					"call": "Drawf.laser(laserTop, laserTopEnd, originX, originY, lastEnd.x, lastEnd.y, strength * beamWidth);",
+					"line": "laserTop",
+					"edge": "laserTopEnd",
+					"x1": origin_x,
+					"y1": origin_y,
+					"x2": last_end_x,
+					"y2": last_end_y,
+					"width": laser_width,
+					"color": "laserTopColor",
+					"z": "Layer.flyingUnit + 1.1",
+				},
+			],
+		}
+	var select_call: Dictionary = {
+		"call": "Drawf.dashCircle(x, y, repairRadius, Pal.accent);",
+		"x": x_value,
+		"y": y_value,
+		"radius": repair_radius,
+		"color": "Pal.accent",
+	}
+	var block_offset: float = float((size_value + 1) % 2) * tile_size / 2.0
+	var place_x: float = float(tile_x) * tile_size + block_offset
+	var place_y: float = float(tile_y) * tile_size + block_offset
+	var place_call: Dictionary = {
+		"call": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, repairRadius, Pal.accent);",
+		"super": "super.drawPlace(x, y, rotation, valid);",
+		"x": place_x,
+		"y": place_y,
+		"radius": repair_radius,
+		"color": "Pal.accent",
+	}
+	return {
+		"base_expr": "Draw.rect(baseRegion, x, y);",
+		"z_expr": "Draw.z(Layer.turret);",
+		"shadow_expr": "Drawf.shadow(region, x - (size / 2f), y - (size / 2f), rotation - 90);",
+		"region_expr": "Draw.rect(region, x, y, rotation - 90);",
+		"draw_beam_expr": "drawBeam(x, y, rotation, length, id, target, team, strength, pulseStroke, pulseRadius, beamWidth, lastEnd, offset, laserColor, laserTopColor, laser, laserEnd, laserTop, laserTopEnd);",
+		"seed_expr": "rand.setSeed(id + (target instanceof Entityc e ? e.id() : 0));",
+		"set_length_expr": "lastEnd.setLength(Math.max(2f, lastEnd.len()));",
+		"jitter_expr": "lastEnd.add(offset.trns(rand.random(360f) + Time.time/2f, Mathf.sin(Time.time + rand.random(200f), 55f, rand.random(target.hitSize() * 0.2f, target.hitSize() * 0.45f))).rotate(target instanceof Rotc rot ? rot.rotation() : 0f));",
+		"strength_gate_expr": "if(strength > 0.01f){",
+		"f_expr": "float f = (Time.time / 85f + rand.random(1f)) % 1f;",
+		"alpha_expr": "Draw.alpha(1f - Interp.pow5In.apply(f));",
+		"stroke_expr": "Lines.stroke(strength * pulseStroke);",
+		"circle_expr": "Lines.circle(lastEnd.x, lastEnd.y, 1f + f * pulseRadius);",
+		"laser_expr": "Drawf.laser(laser, laserEnd, originX, originY, lastEnd.x, lastEnd.y, strength * beamWidth);",
+		"laser_top_expr": "Drawf.laser(laserTop, laserTopEnd, originX, originY, lastEnd.x, lastEnd.y, strength * beamWidth);",
+		"select_expr": "Drawf.dashCircle(x, y, repairRadius, Pal.accent);",
+		"place_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, repairRadius, Pal.accent);",
+		"icons_expr": "return new TextureRegion[]{baseRegion, region};",
+		"x": x_value,
+		"y": y_value,
+		"rotation": rotation,
+		"length": length,
+		"building_id": building_id,
+		"strength": strength,
+		"pulse_stroke": pulse_stroke,
+		"pulse_radius": pulse_radius,
+		"beam_width": beam_width,
+		"time_value": time_value,
+		"repair_radius": repair_radius,
+		"size": size_value,
+		"tile_x": tile_x,
+		"tile_y": tile_y,
+		"draw_rotation": draw_rotation,
+		"size_half": size_half,
+		"origin_x": origin_x,
+		"origin_y": origin_y,
+		"beam_seed": beam_seed,
+		"jitter_angle": jitter_angle,
+		"jitter_magnitude": jitter_magnitude,
+		"jitter_x": jitter_x,
+		"jitter_y": jitter_y,
+		"last_end": {"x": last_end_x, "y": last_end_y},
+		"offset_after": offset_after,
+		"has_beam": has_beam,
+		"f": f_value,
+		"alpha": alpha_value,
+		"stroke": stroke_value,
+		"circle_radius": circle_radius,
+		"laser_width": laser_width,
+		"block_offset": block_offset,
+		"place_x": place_x,
+		"place_y": place_y,
+		"icon_regions": ["baseRegion", "region"],
+		"base_call": base_call,
+		"shadow_call": shadow_call,
+		"region_call": region_call,
+		"beam_call": beam_call,
+		"select_call": select_call,
+		"place_call": place_call,
+	}
+
 static func source_repair_turret_tick_frame_state(frame: Dictionary, block_implementation: String, team_id: int, rules_state: Variant) -> Dictionary:
 	# The repair-turret tick wires the frame keys the
 	# consumption path reads (the N2148 turret pattern):
@@ -319,7 +553,7 @@ static func source_repair_turret_should_consume_state(frame: Dictionary) -> Dict
 
 static func source_repair_turret_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a repair turret does not take the early return. The repair turret's power draw is CONDITIONAL, not static: `consumePowerCond(powerUse, (RepairPointBuild entity) -> entity.target != null);` (RepairTurret.java:89), and ConsumePowerCondition only draws when its condition holds (ConsumePowerCondition.java:17, `return consume.get(entity) ? usage : 0f;`) -- the catalog consumePower None is CORRECT for this family, it records no static consumePower def; the two defs carry powerUse 1f (repair-point, Blocks.java:6391, `powerUse = 1f;`) and 5f (repair-turret, Blocks.java:6402, `powerUse = 5f;`), and the block declares `public float powerUse;` (RepairTurret.java:34) with `hasPower = true;` (RepairTurret.java:60). The pure row is still the same ConsumePower read (`return build.power.status;`, ConsumePower.java:39) -- ConsumePowerCondition does not override efficiency(), so the row folds power.status exactly like the static case. The updateTile advance follows the folded efficiency: the heal advance (RepairTurret.java:207, `target.heal(repairSpeed * strength * edelta() * multiplier);`) heals by edelta() (BuildingComp.java:1927-1929, `return efficiency * delta();`), so a repair turret with no power would never heal. RepairPointBuild overrides shouldConsume (RepairTurret.java:221, `public boolean shouldConsume(){` with `return target != null && enabled;`, RepairTurret.java:222); updateConsumption forces efficiency to zero when the gate is false (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). The shouldConsume gate is live (N2212) -- the pure gate (source_repair_turret_should_consume_state) feeds should_consume to the machinery from the frame target key (null with no target, non-null once a damaged unit is locked) and the enabled flag; the timer cadence is live since N2280 (N2226: the clear + pure re-acquire selection are live; the live unit query still waits for the live-fill slice, so no live fill sets frame["target"] yet without supplied candidates). The repair turret is its own family (RepairTurret.java:25, `public class RepairTurret extends Block{`; RepairPointBuild, RepairTurret.java:153, `public class RepairPointBuild extends Building implements Ranged, RotBlock{`). Two defs (repair-point, `powerUse = 1f;`, Blocks.java:6391; repair-turret, `powerUse = 5f;`, Blocks.java:6402).
-	# Documented limits: (1) power + coolant optional pass -- the repair turret's power consumer is conditional (ConsumePowerCondition, target-gated), so the folded efficiency is the min over the *modeled* non-optional consumers (power only); the coolant optional consumer (repair-turret only: ConsumeCoolant 0.16f, acceptCoolant, coolantMultiplier 1.6f, Blocks.java:6405-6407; `consume(new ConsumeCoolant(coolantUse)).optional(true, true);`, RepairTurret.java:86) is LIVE since N2259 (source_repair_turret_coolant_row_state, ConsumeLiquidFilter.efficiency, ConsumeLiquidFilter.java:50-55; the second-pass removal is ConsumeLiquidFilter.update, ConsumeLiquidFilter.java:42-47), folding into the optional pass (BuildingComp.java:1979-1981); coolant is the ONLY optional consumer on this family, so optionalEfficiency is complete. The conditional power DRAW (ConsumePowerCondition usage gated on target != null, ConsumePowerCondition.java:17) is still not modeled -- the row still reads power.status (ConsumePowerCondition does not override efficiency()). (2) shouldConsume gate live (N2212) -- RepairPointBuild overrides shouldConsume (`target != null && enabled`, RepairTurret.java:221-223); when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994); the pure gate reads the frame target key (default null) plus enabled and feeds should_consume to the machinery; the timer cadence is live since N2280 (N2226: the clear + pure re-acquire selection are live; the live unit query still waits for the live-fill slice, so no live fill sets frame["target"] yet without supplied candidates). (3) updateTile advance live (N2226) -- the target clear / heal amount / rotation slerp / strength lerp / pure re-acquire selection (RepairTurret.java:187-218) run on the frame; the coolant multiplier is live since N2259 (frame["coolant_multiplier"] from the folded optionalEfficiency + current heatCapacity, RepairTurret.java:190); the timer cadence live (N2280) -- the frame-local Interval (20f, literal-20 threshold Java-exact since N2290) passes frame-input unit_candidates into the advance when it fires, [] otherwise; the heal application (target.heal writes into another unit frame) and the live Units scan (no live unit query exists in the port) wait for the live-fill slice. (4) Two defs -- repair-point (powerUse 1f) and repair-turret (powerUse 5f + coolant) share the one driver; repairSpeed / repairRadius are now read per def by the advance (N2226, driver constants -- the catalog carries neither); length / beamWidth / pulseRadius per-def values wait for their own verification slice. (5) RepairTower (unit-repair-tower) is a different class and NOT covered by this driver.
+	# Documented limits: (1) power + coolant optional pass -- the repair turret's power consumer is conditional (ConsumePowerCondition, target-gated), so the folded efficiency is the min over the *modeled* non-optional consumers (power only); the coolant optional consumer (repair-turret only: ConsumeCoolant 0.16f, acceptCoolant, coolantMultiplier 1.6f, Blocks.java:6405-6407; `consume(new ConsumeCoolant(coolantUse)).optional(true, true);`, RepairTurret.java:86) is LIVE since N2259 (source_repair_turret_coolant_row_state, ConsumeLiquidFilter.efficiency, ConsumeLiquidFilter.java:50-55; the second-pass removal is ConsumeLiquidFilter.update, ConsumeLiquidFilter.java:42-47), folding into the optional pass (BuildingComp.java:1979-1981); coolant is the ONLY optional consumer on this family, so optionalEfficiency is complete. The conditional power DRAW (ConsumePowerCondition usage gated on target != null, ConsumePowerCondition.java:17) is still not modeled -- the row still reads power.status (ConsumePowerCondition does not override efficiency()). (2) shouldConsume gate live (N2212) -- RepairPointBuild overrides shouldConsume (`target != null && enabled`, RepairTurret.java:221-223); when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994); the pure gate reads the frame target key (default null) plus enabled and feeds should_consume to the machinery; the timer cadence is live since N2280 (N2226: the clear + pure re-acquire selection are live; the live unit query still waits for the live-fill slice, so no live fill sets frame["target"] yet without supplied candidates). (3) updateTile advance live (N2226) -- the target clear / heal amount / rotation slerp / strength lerp / pure re-acquire selection (RepairTurret.java:187-218) run on the frame; the coolant multiplier is live since N2259 (frame["coolant_multiplier"] from the folded optionalEfficiency + current heatCapacity, RepairTurret.java:190); the timer cadence live (N2280) -- the frame-local Interval (20f, literal-20 threshold Java-exact since N2290) passes frame-input unit_candidates into the advance when it fires, [] otherwise; the heal application (target.heal writes into another unit frame) and the live Units scan (no live unit query exists in the port) wait for the live-fill slice. (4) Two defs -- repair-point (powerUse 1f) and repair-turret (powerUse 5f + coolant) share the one driver; repairSpeed / repairRadius are now read per def by the advance (N2226, driver constants -- the catalog carries neither); length / beamWidth / pulseRadius per-def values wait for their own verification slice. (5) RepairTower (unit-repair-tower) is a different class and NOT covered by this driver. (6) Draw rows live (N2421) -- the draw pure (source_repair_turret_draw_state) models draw() (:164-174: base rect + turret-layer shadow/region at rotation - 90, the shadow shifted by the FLOAT size / 2f) + the static drawBeam (:106-150: origin = pos + trns(rotation, length), lastEnd setLength(max(2, len)), the offset.trns jitter rotated by the target rotation, the strength > 0.01 gate with the pulse circle + two Drawf.laser calls) + icons() (:102-104: [baseRegion, region], folded into the draw pure -- icons() takes no args and the SSOT schema validator requires non-empty input keys), drawSelect() (:177-179: dash circle at repairRadius) and drawPlace() (:95-99: dash circle WITH the Block offset). NO RNG in the pure: the four rand rolls are caller-supplied inputs and the pure reports beam_seed (id + target id) so the caller can seed/roll from the same seed Java uses. Pure-only: the tick never calls draw -- draw is called by the renderer, drawSelect/drawPlace by the UI, icons by the atlas, and the call sites wait for renderer/UI slices.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
