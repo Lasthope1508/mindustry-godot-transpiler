@@ -859,9 +859,122 @@ static func source_mass_driver_draw_place_state(tile_x: int, tile_y: int, size_v
 		"link_line_calls": link_line_calls,
 	}
 
+static func source_mass_driver_link_valid_state(link: int, other_is_mass_driver_build: bool, other_block_matches: bool, other_team_matches: bool, within_range: bool) -> Dictionary:
+	# The linkValid rows (MassDriver.java:346-349), the public link-validity pure -- the private helper _mass_driver_link_valid above already models the same conjunction for the tick / acceptItem gate (N2237 / N2336), and this pure exposes it as a registered state row over caller-supplied world-lookup verdicts (the N2435 precedent: all world lookups caller-supplied). Java, in order (each exact expr on ONE comment line, the N2148 lesson):
+	# `protected boolean linkValid(){`
+	# `if(link == -1) return false;`
+	# `return world.build(this.link) instanceof MassDriverBuild other && other.block == block && other.team == team && within(other, range);`
+	# `public int link = -1;`
+	# `public class MassDriverBuild extends Building implements RotBlock{`
+	# `default boolean within(Position other, float dst){`
+	# `return Mathf.dst2(getX(), getY(), x, y) < dst*dst;`
+	# The link is the config link (`public int link = -1;`, MassDriver.java:116, default -1) and the packed-int link, NOT a Vector2i. link == -1 returns false before any lookup. The instanceof term is false when world.build(link) is null, so other_is_mass_driver_build == false covers the missing-build case too -- the pure passes exists = other_is_mass_driver_build into the shared helper (instanceof implies non-null). within is STRICT dst2 < range*range (Position.java:44-46, the N2229 verification): `default boolean within(Position other, float dst){` delegates to `default boolean within(float x, float y, float dst){` with `return Mathf.dst2(getX(), getY(), x, y) < dst*dst;` -- pixels, range the single def 440f (`range = 440f;`, Blocks.java:2172); the caller computes the verdict (the tick computes within_range that way) and the pure takes it as input. NOTE: this strict within is NOT the tap range check -- onConfigureBuildTapped uses other.dst(tile) <= range INCLUSIVE (see source_mass_driver_configure_tapped_state below, the (c) verification). shooterValid (MassDriver.java:342-344) is NOT ported here -- it is already ported as the private _mass_driver_shooter_valid helper, live in the N2237 tick (no new DEFERRED entry). Pure-only: the tick never calls linkValid through this pure -- it reads the private helper; the public pure is the registered row for the config UI / logic call sites, which wait for their own slices. Link/config rows live (N2461).
+	var linked: Dictionary = {"exists": other_is_mass_driver_build, "is_mass_driver": other_is_mass_driver_build, "same_block": other_block_matches, "same_team": other_team_matches, "within_range": within_range}
+	var link_valid: bool = _mass_driver_link_valid(link, linked)
+	return {
+		"link_valid_expr": "return world.build(this.link) instanceof MassDriverBuild other && other.block == block && other.team == team && within(other, range);",
+		"link_minus_one_expr": "if(link == -1) return false;",
+		"within_expr": "return Mathf.dst2(getX(), getY(), x, y) < dst*dst;",
+		"link": link,
+		"other_is_mass_driver_build": other_is_mass_driver_build,
+		"other_block_matches": other_block_matches,
+		"other_team_matches": other_team_matches,
+		"within_range": within_range,
+		"link_valid": link_valid,
+	}
+
+static func source_mass_driver_config_state(action: String, point: Variant, tile: Variant, current_link: int) -> Dictionary:
+	# The config rows (MassDriver config(Point2), MassDriver.java:58; config(Integer), :59; config(), :352-355), the pure config fold over the discriminated action (the N2449 precedent). Java, in order (each exact expr on ONE comment line, the N2148 lesson):
+	# `config(Point2.class, (MassDriverBuild tile, Point2 point) -> tile.link = Point2.pack(point.x + tile.tileX(), point.y + tile.tileY()));`
+	# `config(Integer.class, (MassDriverBuild tile, Integer point) -> tile.link = point);`
+	# `public Point2 config(){`
+	# `if(tile == null) return null;`
+	# `return Point2.unpack(link).sub(tile.x, tile.y);`
+	# `public int link = -1;`
+	# `return new Point2((short)(pos >>> 16), (short)(pos & 0xFFFF));`
+	# `return (((short)x) << 16) | (((short)y) & 0xFFFF);`
+	# `return Point2.pack(x, y);`
+	# `public int pos(){`
+	# The link is a PACKED INT (not a Vector2i -- different from the UAM link format): config(Point2) packs the RELATIVE point against the tile (point.x + tile.tileX(), point.y + tile.tileY()), config(Integer) takes the absolute packed int, and config() returns unpack(link) - tile -- the relative Point2, null when tile == null. unpack(-1) is Point2(-1, -1) (the (short) casts, arc Point2.java:35-37), so a cleared link reads config_value (-1 - tx, -1 - ty), Java-exact. The tile is a Variant Dictionary {x, y} or null (the N2449 Variant-null precedent for nullable inputs -- the brief's tile_x/tile_y ints cannot express the null tile Java's config() checks, so the pure takes the tile dict instead); point is a Variant Dictionary {x, y} for "point2" and an int for "integer". The action is "point2" / "integer" / "clear" / "none" (the N2449 discriminated-action precedent): "point2" packs point + tile, "integer" takes point as-is, "clear" sets link -1, "none" leaves current_link untouched. A "point2" action with a null tile has NO defined Java outcome -- the handler dereferences tile (tile.tileX()), so Java would throw -- and the pure leaves the link untouched rather than inventing a pack (documented fallback); config_value is null whenever tile is null, per config() (:352-355), for every action. The pack/unpack run through the shared _point2_pack / _point2_unpack helpers above (the (short) wrap is explicit -- GDScript ints are 64-bit). Pure-only: the tick never calls config -- config runs from the configure UI / input handler, and the call sites wait for their own slices. Link/config rows live (N2461).
+	var new_link: int = current_link
+	if action == "point2":
+		if point is Dictionary and tile is Dictionary:
+			var point_dict: Dictionary = point
+			var tile_dict: Dictionary = tile
+			new_link = _point2_pack(int(point_dict.get("x", 0)) + int(tile_dict.get("x", 0)), int(point_dict.get("y", 0)) + int(tile_dict.get("y", 0)))
+	elif action == "integer":
+		if point is int:
+			new_link = int(point)
+	elif action == "clear":
+		new_link = -1
+	var config_value: Variant = null
+	if tile is Dictionary:
+		var tile_dict2: Dictionary = tile
+		var unpacked: Vector2i = _point2_unpack(new_link)
+		config_value = {"x": unpacked.x - int(tile_dict2.get("x", 0)), "y": unpacked.y - int(tile_dict2.get("y", 0))}
+	return {
+		"config_point2_expr": "config(Point2.class, (MassDriverBuild tile, Point2 point) -> tile.link = Point2.pack(point.x + tile.tileX(), point.y + tile.tileY()));",
+		"config_integer_expr": "config(Integer.class, (MassDriverBuild tile, Integer point) -> tile.link = point);",
+		"config_getter_expr": "return Point2.unpack(link).sub(tile.x, tile.y);",
+		"action": action,
+		"point": point,
+		"tile": tile,
+		"current_link": current_link,
+		"link": new_link,
+		"config_value": config_value,
+	}
+
+static func source_mass_driver_configure_tapped_state(is_self: bool, link: int, other_pos: int, other_block_matches: bool, other_dst: float, range_value: float, other_team_matches: bool) -> Dictionary:
+	# The onConfigureBuildTapped rows (MassDriver.java:266-282), the pure tap fold. Java, in order (each exact expr on ONE comment line, the N2148 lesson):
+	# `public boolean onConfigureBuildTapped(Building other){`
+	# `if(this == other){`
+	# `if(link == -1) deselect();`
+	# `configure(-1);`
+	# `if(link == other.pos()){`
+	# `}else if(other.block == block && other.dst(tile) <= range && other.team == team){`
+	# `configure(other.pos());`
+	# `return true;`
+	# `return false;`
+	# `public void deselect(){`
+	# `public int pos(){`
+	# `public float range;`
+	# `range = 440f;`
+	# Branch by branch: self (this == other) -> deselect() iff link == -1, then configure(-1) ALWAYS (the configure runs even when link was set -- only the deselect is conditional), return false; link == other.pos() -> configure(-1), return false (NO deselect on this branch); block + other.dst(tile) <= range + team -> configure(other.pos()), return false; else return true. other.pos() is the packed tile pos (`public int pos(){` / `return tile.pos();`, BuildingComp.java:578-580; `return Point2.pack(x, y);`, Tile.java:73-75). deselect() is BuildingComp.deselect() (BuildingComp.java:394-397, hides the config UI when this is the selected build, !headless-guarded inside) -- recorded as a CALL flag (deselect_called), not the hide itself. The range check is other.dst(tile) <= range INCLUSIVE on the Euclidean pixel distance (Position.dst, arc Position.java) -- NOT within's strict dst2 < range*range (Position.java:44-46): the boundary dst == range LINKS on tap but FAILS linkValid's within (the (c) verification -- other.dst(tile) vs within are DIFFERENT metrics, same pixel units, range the single def 440f, Blocks.java:2172). The pure names the key `handled` = NOT the Java return: Java returns false = handled, don't propagate (the self / unlink / link branches) and true = not handled, propagate (the reject branch) -- the inversion is documented here so no caller misreads it. range_value is named with the _value suffix (the N2396 precedent) so it does not shadow GDScript's builtin range(). Pure-only: the tick never calls onConfigureBuildTapped -- it runs from the configure UI tap handler, and the call site waits for a UI slice. Link/config rows live (N2461).
+	var link_after: int = link
+	var deselect_called: bool = false
+	var handled: bool = false
+	if is_self:
+		deselect_called = link == -1
+		link_after = -1
+		handled = true
+	elif link == other_pos:
+		link_after = -1
+		handled = true
+	elif other_block_matches and other_dst <= range_value and other_team_matches:
+		link_after = other_pos
+		handled = true
+	return {
+		"tapped_expr": "public boolean onConfigureBuildTapped(Building other){",
+		"self_expr": "if(this == other){",
+		"deselect_expr": "if(link == -1) deselect();",
+		"unlink_expr": "configure(-1);",
+		"link_expr": "configure(other.pos());",
+		"range_guard_expr": "}else if(other.block == block && other.dst(tile) <= range && other.team == team){",
+		"is_self": is_self,
+		"link": link,
+		"other_pos": other_pos,
+		"other_block_matches": other_block_matches,
+		"other_dst": other_dst,
+		"range_value": range_value,
+		"other_team_matches": other_team_matches,
+		"link_after": link_after,
+		"deselect_called": deselect_called,
+		"handled": handled,
+	}
+
 static func source_mass_driver_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a mass driver does not take the early return. The updateTile advance follows the folded efficiency: the no-power skip (MassDriver.java:169, `if(efficiency <= 0f){`), the rotation align (MassDriver.java:181, `rotation = Angles.moveToward(rotation, angleTo(currentShooter()), rotateSpeed * efficiency);`) and the reload drain (MassDriver.java:143, `reloadCounter = Mathf.clamp(reloadCounter - edelta() / reload);`). MassDriverBuild has no shouldConsume override, so the BuildingComp default applies (BuildingComp.java:755, `public boolean shouldConsume(){` with `return enabled;`, BuildingComp.java:756) -- the machinery runs with should_consume=true when enabled (the MendProjector suppression precedent). The mass driver (consumePower 1.75f, Blocks.java:2173, `consumePower(1.75f);`) is its own family (MassDriver.java:27, `public class MassDriver extends Block{`; MassDriverBuild, MassDriver.java:115, `public class MassDriverBuild extends Building implements RotBlock{`) -- power-only first pass, so the folded efficiency is the min over the *modeled* consumers (power only).
-	# Documented limits: (1) power-only first pass -- the mass driver's power consumer is static (consumePower 1.75f, Blocks.java:2173), so the folded efficiency is the min over the *modeled* consumers (power only). (2) shouldConsume default applies -- MassDriverBuild has no shouldConsume override, so the BuildingComp default (`return enabled;`, BuildingComp.java:755-757) applies; the machinery runs with should_consume=true when enabled (the MendProjector suppression precedent). (3) updateTile advance live (N2237) -- link refresh / reloadCounter decay / waitingShooters cleanup / idle-accepting-shooting switch / rotation align / register + fire (MassDriver.java:133-221 + fire() :290-317) run every tick after the consumption fold through the pure source_mass_driver_update_tile_advance_state function; dumpAccumulate (:164-166) is live since N2294 (source_mass_driver_dump_state, the idle/accepting gate + the dumpAccum while loop through the shared dumpAccumulate + dump_item_state helpers, running even without power -- the gate sits before the no-power skip) and the dump neighbour write-back is live since N2369 (the advance exposes dump_deliveries, one {neighbour_index, item} per successful attempt, and the tick lands each dumped item in the neighbour store through the N2353 helper); the Time.run arrival cleanup (:209-214), the bullet entity creation and handlePayload (:319-340) defer -- see DEFERRED. The power proof carries no link/state/reload/fire/dump keys; the N2237 proof carries the link/state/reload/fire keys, the N2294 proof carries the dump keys, and the N2369 proof carries the write-back keys. (4) No link/config / handlePayload / read-write rows -- see DEFERRED (sense live since N2392, see (7); draw live since N2396, see (8)). (5) Single def -- no large-mass-driver def in this upstream version, so the same driver covers the whole family. (6) acceptItem live (N2336) -- the intake gate (MassDriver.java:285-288, items.total() < itemCapacity && linkValid(), MassDriver.java:346-349) runs every tick through the pure source_mass_driver_accept_item_state function and exposes the verdict on the frame as accepts_item (the N2295 Loader acceptPayload precedent), reading the post-tick store and the same linked dict the N2237 advance reads; the N2336 proof carries the accept keys. No live neighbour reads the verdict yet -- the frame items intake waits for its own slice, see DEFERRED. (7) Sense rows live (N2392) -- the sense pure (source_mass_driver_sense_state) models sense() (:224-228): progress is clamp(1f - reloadCounter) and every other sensor falls through to the caller-supplied super.sense value (the BuildingComp switch, already modeled by SourceBuildingSenseState). Pure-only: the tick never calls sense -- sense is called by logic, and the logic call site waits for a logic-executor slice. (8) Draw rows live (N2396) -- the draw pures (source_mass_driver_draw_rows_state / source_mass_driver_draw_configure_state / source_mass_driver_draw_place_state) model draw() (:230-242: base rect + turret-layer shadow/rect with the reloadCounter * knockback recoil along rotation + 180f, the shadow shifted by the int-divided size / 2) + icons() (:75-77: [baseRegion, region], folded into the draw pure -- icons() takes no args and the SSOT schema validator requires non-empty input keys), drawConfigure() (:244-264: accent self circle + per-shooter place circles/arrows + the linked-target circle/arrow + the range dash circle, all pulsing on absin(Time.time, 6f, 1f) through the shared helper at the DOUBLED scale 12f) and drawPlace() (:80-102: the accent range dash circle at x * tilesize + the dotted link line toward a selected in-range mass driver, segs = dst / tilesize). Pure-only: the tick never calls draw -- draw is called by the renderer, drawConfigure/drawPlace by the UI, icons by the atlas, and the call sites wait for renderer/UI slices. (9) Dump neighbour live fill live (N2406) -- the dump neighbour live fill is live since N2406: the tick fills frame["dump_neighbour_accepts"] / frame["dump_neighbour_can_dump"] from the live proximity (ring order, index i is ring cell i, the N2353 convention) through the pure source_mass_driver_dump_neighbour_live_fill_state function BEFORE the N2294 dump reads them (supplied arrays win, the N2381 precedent; a previously live-filled frame refreshes every tick); accepts come from the DEFAULT acceptItem gate (consumesItem + capacity, BuildingComp.java:864-866) and canDump defaults true (:1124-1126); per-block overrides are out of scope (the override dispatch is a follow-through note, not a new DEFERRED entry).
+	# Documented limits: (1) power-only first pass -- the mass driver's power consumer is static (consumePower 1.75f, Blocks.java:2173), so the folded efficiency is the min over the *modeled* consumers (power only). (2) shouldConsume default applies -- MassDriverBuild has no shouldConsume override, so the BuildingComp default (`return enabled;`, BuildingComp.java:755-757) applies; the machinery runs with should_consume=true when enabled (the MendProjector suppression precedent). (3) updateTile advance live (N2237) -- link refresh / reloadCounter decay / waitingShooters cleanup / idle-accepting-shooting switch / rotation align / register + fire (MassDriver.java:133-221 + fire() :290-317) run every tick after the consumption fold through the pure source_mass_driver_update_tile_advance_state function; dumpAccumulate (:164-166) is live since N2294 (source_mass_driver_dump_state, the idle/accepting gate + the dumpAccum while loop through the shared dumpAccumulate + dump_item_state helpers, running even without power -- the gate sits before the no-power skip) and the dump neighbour write-back is live since N2369 (the advance exposes dump_deliveries, one {neighbour_index, item} per successful attempt, and the tick lands each dumped item in the neighbour store through the N2353 helper); the Time.run arrival cleanup (:209-214), the bullet entity creation and handlePayload (:319-340) defer -- see DEFERRED. The power proof carries no link/state/reload/fire/dump keys; the N2237 proof carries the link/state/reload/fire keys, the N2294 proof carries the dump keys, and the N2369 proof carries the write-back keys. (4) No handlePayload / read-write rows -- see DEFERRED (sense live since N2392, see (7); draw live since N2396, see (8); link/config live since N2461, see (10)). (5) Single def -- no large-mass-driver def in this upstream version, so the same driver covers the whole family. (6) acceptItem live (N2336) -- the intake gate (MassDriver.java:285-288, items.total() < itemCapacity && linkValid(), MassDriver.java:346-349) runs every tick through the pure source_mass_driver_accept_item_state function and exposes the verdict on the frame as accepts_item (the N2295 Loader acceptPayload precedent), reading the post-tick store and the same linked dict the N2237 advance reads; the N2336 proof carries the accept keys. No live neighbour reads the verdict yet -- the frame items intake waits for its own slice, see DEFERRED. (7) Sense rows live (N2392) -- the sense pure (source_mass_driver_sense_state) models sense() (:224-228): progress is clamp(1f - reloadCounter) and every other sensor falls through to the caller-supplied super.sense value (the BuildingComp switch, already modeled by SourceBuildingSenseState). Pure-only: the tick never calls sense -- sense is called by logic, and the logic call site waits for a logic-executor slice. (8) Draw rows live (N2396) -- the draw pures (source_mass_driver_draw_rows_state / source_mass_driver_draw_configure_state / source_mass_driver_draw_place_state) model draw() (:230-242: base rect + turret-layer shadow/rect with the reloadCounter * knockback recoil along rotation + 180f, the shadow shifted by the int-divided size / 2) + icons() (:75-77: [baseRegion, region], folded into the draw pure -- icons() takes no args and the SSOT schema validator requires non-empty input keys), drawConfigure() (:244-264: accent self circle + per-shooter place circles/arrows + the linked-target circle/arrow + the range dash circle, all pulsing on absin(Time.time, 6f, 1f) through the shared helper at the DOUBLED scale 12f) and drawPlace() (:80-102: the accent range dash circle at x * tilesize + the dotted link line toward a selected in-range mass driver, segs = dst / tilesize). Pure-only: the tick never calls draw -- draw is called by the renderer, drawConfigure/drawPlace by the UI, icons by the atlas, and the call sites wait for renderer/UI slices. (9) Dump neighbour live fill live (N2406) -- the dump neighbour live fill is live since N2406: the tick fills frame["dump_neighbour_accepts"] / frame["dump_neighbour_can_dump"] from the live proximity (ring order, index i is ring cell i, the N2353 convention) through the pure source_mass_driver_dump_neighbour_live_fill_state function BEFORE the N2294 dump reads them (supplied arrays win, the N2381 precedent; a previously live-filled frame refreshes every tick); accepts come from the DEFAULT acceptItem gate (consumesItem + capacity, BuildingComp.java:864-866) and canDump defaults true (:1124-1126); per-block overrides are out of scope (the override dispatch is a follow-through note, not a new DEFERRED entry). (10) Link/config rows live (N2461) -- the link/config pures (source_mass_driver_link_valid_state / source_mass_driver_config_state / source_mass_driver_configure_tapped_state) model linkValid() (:346-349: link != -1 AND the linked build is a MassDriverBuild of the same block + team + within(range), strict dst2 < range*range, caller-supplied verdicts) + config(Point2) (:58: the RELATIVE point packed against the tile) / config(Integer) (:59: the absolute packed int) + config() (:352-355: the relative Point2, null when tile == null) + onConfigureBuildTapped (:266-282: self / unlink / link / reject, the tap range check dst <= range INCLUSIVE -- NOT within's strict < -- and `handled` = NOT the Java return). The link is a PACKED INT (not a Vector2i). Pure-only: the tick never calls linkValid / config / onConfigureBuildTapped through these pures -- the config-UI / input-handler call sites wait for their own slices; the draw pures (N2396) keep taking link_valid/linked caller-supplied, NOT rewired. shooterValid (:342-344) needs no slice: it is already ported as the private _mass_driver_shooter_valid helper, live in the N2237 tick.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
