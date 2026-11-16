@@ -8119,6 +8119,40 @@
       "rule": "Source-backed Radar updateTile advance from Radar.java / BuildingComp.java / arc Mathf.java.",
       "return_type": "Dictionary"
     },
+    "SourceRegenProjectorBuildState.source_regen_projector_heal_application_state": {
+      "canonical_contract": "source_api_contracts.SourceRegenProjectorBuildState.source_regen_projector_heal_application_state",
+      "status": "active",
+      "source_slice": "N2399",
+      "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+      "source_method": "RegenProjectorBuild.updateTile()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_regen_projector_heal_application_state_input.game"
+        },
+        {
+          "name": "heal_applications",
+          "type": "Dictionary",
+          "schema": "source_regen_projector_heal_application_state_input.heal_applications"
+        }
+      ],
+      "return_keys": [
+        "applications",
+        "applied_count",
+        "skipped_count",
+        "recently_healed"
+      ],
+      "tests": [
+        "test_c07_regen_projector_heal_application_registration",
+        "test_all_c07_regen_projector_heal_application_input_evidence_is_exact",
+        "test_regen_projector_heal_application_state",
+        "test_reference_graph_and_actual_c07_regen_projector_heal_application"
+      ],
+      "runtime_proof": "/root/C07RegenProjectorHealApplicationProof",
+      "rule": "Source-backed RegenProjector mendMap flush live heal application rows from RegenProjector.java / BuildingComp.java / HealthComp.java / World.java / Tile.java / Point2.java.",
+      "return_type": "Dictionary"
+    },
     "SourceRegenProjectorBuildState.source_regen_projector_liquid_consumer_row_state": {
       "canonical_contract": "source_api_contracts.SourceRegenProjectorBuildState.source_regen_projector_liquid_consumer_row_state",
       "status": "active",

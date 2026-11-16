@@ -2458,6 +2458,43 @@
       "rule": "Source-backed pump update and conduit line; the pump fills its liquids and the conduits link it to the drill.",
       "return_type": "Dictionary"
     },
+    "SourceSeparatorBuildState.source_separator_can_dump_state": {
+      "canonical_contract": "source_api_contracts.SourceSeparatorBuildState.source_separator_can_dump_state",
+      "status": "active",
+      "source_slice": "N2395",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "source_method": "SeparatorBuild.canDump()",
+      "params": [
+        {
+          "name": "item_filter",
+          "type": "Array",
+          "schema": "source_separator_can_dump_state_input.item_filter"
+        },
+        {
+          "name": "item_id",
+          "type": "int",
+          "schema": "source_separator_can_dump_state_input.item_id"
+        },
+        {
+          "name": "item",
+          "type": "Variant",
+          "schema": "source_separator_can_dump_state_input.item"
+        }
+      ],
+      "return_keys": [
+        "can_dump",
+        "consumes_item"
+      ],
+      "tests": [
+        "test_c07_separator_candump_item_filter_registration",
+        "test_all_c07_separator_candump_item_filter_input_evidence_is_exact",
+        "test_separator_candump_item_filter_state",
+        "test_reference_graph_and_actual_c07_separator_candump_item_filter"
+      ],
+      "runtime_proof": "/root/C07SeparatorCanDumpItemFilterProof",
+      "rule": "Source-backed Separator canDump itemFilter model from Separator.java / Block.java / ConsumeItems.java / Blocks.java / BuildingComp.java.",
+      "return_type": "Dictionary"
+    },
     "SourceSeparatorBuildState.source_separator_disassembler_scrap_row_state": {
       "canonical_contract": "source_api_contracts.SourceSeparatorBuildState.source_separator_disassembler_scrap_row_state",
       "status": "active",

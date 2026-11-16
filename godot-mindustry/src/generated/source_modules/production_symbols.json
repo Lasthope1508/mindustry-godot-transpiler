@@ -7139,6 +7139,36 @@
       ],
       "runtime_proof": "/root/PumpUpdateProof"
     },
+    "source_separator_can_dump_state_result.can_dump": {
+      "canonical_symbol": "source_symbol_registry.source_separator_can_dump_state_result.can_dump",
+      "status": "source-backed",
+      "java_expr": "return !consumesItem(item);",
+      "godot_symbol": "source_separator_can_dump_state_result.can_dump",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_can_dump_state",
+      "rule": "The canDump verdict (Separator.java:178): true exactly when the item is NOT consumed -- always true for a separator, false for scrap and true for other items on a disassembler.",
+      "tests": [
+        "test_c07_separator_candump_item_filter_registration",
+        "test_all_c07_separator_candump_item_filter_input_evidence_is_exact",
+        "test_separator_candump_item_filter_state",
+        "test_reference_graph_and_actual_c07_separator_candump_item_filter"
+      ],
+      "runtime_proof": "/root/C07SeparatorCanDumpItemFilterProof"
+    },
+    "source_separator_can_dump_state_result.consumes_item": {
+      "canonical_symbol": "source_symbol_registry.source_separator_can_dump_state_result.consumes_item",
+      "status": "source-backed",
+      "java_expr": "return itemFilter[item.id];",
+      "godot_symbol": "source_separator_can_dump_state_result.consumes_item",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_can_dump_state",
+      "rule": "The consumesItem flag (Block.java:775): the generic consumes_item_state verdict the gate negates -- true exactly when the filter bit for the item id is set.",
+      "tests": [
+        "test_c07_separator_candump_item_filter_registration",
+        "test_all_c07_separator_candump_item_filter_input_evidence_is_exact",
+        "test_separator_candump_item_filter_state",
+        "test_reference_graph_and_actual_c07_separator_candump_item_filter"
+      ],
+      "runtime_proof": "/root/C07SeparatorCanDumpItemFilterProof"
+    },
     "source_separator_disassembler_scrap_row_state_result.has_item_row": {
       "canonical_symbol": "source_symbol_registry.source_separator_disassembler_scrap_row_state_result.has_item_row",
       "status": "source-backed",
@@ -7168,6 +7198,36 @@
         "test_reference_graph_and_actual_c07_separator_disassembler_scrap_row"
       ],
       "runtime_proof": "/root/C07SeparatorDisassemblerScrapRowProof"
+    },
+    "source_separator_item_filter_state_result.consumed_item_ids": {
+      "canonical_symbol": "source_symbol_registry.source_separator_item_filter_state_result.consumed_item_ids",
+      "status": "source-backed",
+      "java_expr": "block.itemFilter[stack.item.id] = true;",
+      "godot_symbol": "source_separator_item_filter_state_result.consumed_item_ids",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_item_filter_state",
+      "rule": "The consumed item ids (ConsumeItems.java:27, the bit set per stack): [] for the separator, [8] (scrap) for the disassembler; a stack naming an item outside the order is skipped, a duplicated id recorded once.",
+      "tests": [
+        "test_c07_separator_candump_item_filter_registration",
+        "test_all_c07_separator_candump_item_filter_input_evidence_is_exact",
+        "test_separator_candump_item_filter_state",
+        "test_reference_graph_and_actual_c07_separator_candump_item_filter"
+      ],
+      "runtime_proof": "/root/C07SeparatorCanDumpItemFilterProof"
+    },
+    "source_separator_item_filter_state_result.item_filter": {
+      "canonical_symbol": "source_symbol_registry.source_separator_item_filter_state_result.item_filter",
+      "status": "source-backed",
+      "java_expr": "itemFilter = new boolean[content.items().size];",
+      "godot_symbol": "source_separator_item_filter_state_result.item_filter",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_item_filter_state",
+      "rule": "The def itemFilter (Block.java:764 + ConsumeItems.java:27): one boolean per content item, true exactly for the consumed stacks -- all-false for the separator (no consumeItem, Blocks.java:1231-1246), scrap-only (index 8) for the disassembler.",
+      "tests": [
+        "test_c07_separator_candump_item_filter_registration",
+        "test_all_c07_separator_candump_item_filter_input_evidence_is_exact",
+        "test_separator_candump_item_filter_state",
+        "test_reference_graph_and_actual_c07_separator_candump_item_filter"
+      ],
+      "runtime_proof": "/root/C07SeparatorCanDumpItemFilterProof"
     },
     "source_separator_liquid_consumer_row_state_result.has_liquid_row": {
       "canonical_symbol": "source_symbol_registry.source_separator_liquid_consumer_row_state_result.has_liquid_row",
@@ -8099,6 +8159,21 @@
       ],
       "runtime_proof": "/root/C07WallCrafterTimerConsumeProof"
     },
+    "source_wall_crafter_update_tile_advance_state_result.cdump": {
+      "canonical_symbol": "source_symbol_registry.source_wall_crafter_update_tile_advance_state_result.cdump",
+      "status": "source-backed",
+      "java_expr": "int dump = this.cdump;",
+      "godot_symbol": "source_wall_crafter_update_tile_advance_state_result.cdump",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_update_tile_advance_state",
+      "rule": "The shared dump cursor after the offload scan (BuildingComp.java:1003, `int dump = this.cdump;`; the Building field `transient int cdump;`, BuildingComp.java:68, default 0): dump_item_state advances it once per checked neighbour (incrementDump, BuildingComp.java:1116-1120), so a routed offload leaves the cursor past the handling neighbour and a full refused scan returns it to its start (the N2286 full-cycle invariant). The tick persists it into the frame before the timerDump dump runs (Java order: the offload at WallCrafter.java:214 precedes the dump at :220-221), so offload() and dump() share this.cdump without double-advancing it. Unchanged when no offload ran.",
+      "tests": [
+        "test_c07_wall_crafter_offload_routing_registration",
+        "test_all_c07_wall_crafter_offload_routing_input_evidence_is_exact",
+        "test_wall_crafter_offload_routing_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_offload_routing"
+      ],
+      "runtime_proof": "/root/C07WallCrafterOffloadRoutingProof"
+    },
     "source_wall_crafter_update_tile_advance_state_result.eff": {
       "canonical_symbol": "source_symbol_registry.source_wall_crafter_update_tile_advance_state_result.eff",
       "status": "source-backed",
@@ -8143,6 +8218,21 @@
         "test_reference_graph_and_actual_c07_wall_crafter_update_tile"
       ],
       "runtime_proof": "/root/C07WallCrafterUpdateTileProof"
+    },
+    "source_wall_crafter_update_tile_advance_state_result.offload_neighbour_index": {
+      "canonical_symbol": "source_symbol_registry.source_wall_crafter_update_tile_advance_state_result.offload_neighbour_index",
+      "status": "source-backed",
+      "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+      "godot_symbol": "source_wall_crafter_update_tile_advance_state_result.offload_neighbour_index",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_update_tile_advance_state",
+      "rule": "The routed neighbour index offload handed the produced output to (BuildingComp.java:1007, `Building other = proximity.get((i + dump) % proximity.size);`): the handled index the shared dump_item_state routing reports, -1 when the offload fell back to the own inventory (BuildingComp.java:1014) or no offload ran. Index i is ring cell i (the N2353 convention); the tick lands the routed item in the neighbour store through the shared neighbour write-back helper (N2353). One scalar, not an array: offload() returns after the first success (BuildingComp.java:1010), so a single delivery needs no array (contrast N2386 dumpAccumulate multi-fire).",
+      "tests": [
+        "test_c07_wall_crafter_offload_routing_registration",
+        "test_all_c07_wall_crafter_offload_routing_input_evidence_is_exact",
+        "test_wall_crafter_offload_routing_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_offload_routing"
+      ],
+      "runtime_proof": "/root/C07WallCrafterOffloadRoutingProof"
     },
     "source_wall_crafter_update_tile_advance_state_result.offloaded": {
       "canonical_symbol": "source_symbol_registry.source_wall_crafter_update_tile_advance_state_result.offloaded",

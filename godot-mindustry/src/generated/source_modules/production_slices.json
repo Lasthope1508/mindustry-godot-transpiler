@@ -1729,6 +1729,51 @@
       ],
       "runtime_proof": "/root/C07SeparatorSenseRowsProof"
     },
+    "N2395": {
+      "canonical_ledger": "source_slice_ledger.N2395",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "java_method": "SeparatorBuild.canDump()",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_can_dump_state",
+      "source_symbols": [
+        "source_separator_item_filter_state_result.item_filter",
+        "source_separator_item_filter_state_result.consumed_item_ids",
+        "source_separator_can_dump_state_result.can_dump",
+        "source_separator_can_dump_state_result.consumes_item"
+      ],
+      "tests": [
+        "test_c07_separator_candump_item_filter_registration",
+        "test_all_c07_separator_candump_item_filter_input_evidence_is_exact",
+        "test_separator_candump_item_filter_state",
+        "test_reference_graph_and_actual_c07_separator_candump_item_filter"
+      ],
+      "runtime_proof": "/root/C07SeparatorCanDumpItemFilterProof"
+    },
+    "N2398": {
+      "canonical_ledger": "source_slice_ledger.N2398",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+      "java_method": "WallCrafterBuild.updateTile()",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_update_tile_advance_state",
+      "source_symbols": [
+        "source_wall_crafter_update_tile_advance_state_result.warmup",
+        "source_wall_crafter_update_tile_advance_state_result.eff",
+        "source_wall_crafter_update_tile_advance_state_result.last_efficiency",
+        "source_wall_crafter_update_tile_advance_state_result.time",
+        "source_wall_crafter_update_tile_advance_state_result.total_time",
+        "source_wall_crafter_update_tile_advance_state_result.offloaded",
+        "source_wall_crafter_update_tile_advance_state_result.items",
+        "source_wall_crafter_update_tile_advance_state_result.offload_neighbour_index",
+        "source_wall_crafter_update_tile_advance_state_result.cdump"
+      ],
+      "tests": [
+        "test_c07_wall_crafter_offload_routing_registration",
+        "test_all_c07_wall_crafter_offload_routing_input_evidence_is_exact",
+        "test_wall_crafter_offload_routing_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_offload_routing"
+      ],
+      "runtime_proof": "/root/C07WallCrafterOffloadRoutingProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",

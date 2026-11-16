@@ -2394,6 +2394,28 @@
         "test_reference_graph_and_actual_c07_payload_deconstructor_sense_rows"
       ],
       "runtime_proof": "/root/C07PayloadDeconstructorSenseRowsProof"
+    },
+    "N2394": {
+      "canonical_ledger": "source_slice_ledger.N2394",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+      "java_method": "PayloadUnloaderBuild.updateTile()",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_neighbour_live_fill_state",
+      "source_symbols": [
+        "source_payload_unloader_dump_neighbour_live_fill_state_result.dump_neighbour_liquid_amounts",
+        "source_payload_unloader_dump_neighbour_live_fill_state_result.dump_neighbour_liquid_capacities",
+        "source_payload_unloader_dump_neighbour_live_fill_state_result.dump_neighbour_accepts_liquid",
+        "source_payload_unloader_dump_neighbour_live_fill_state_result.dump_neighbour_can_dump_liquid",
+        "source_payload_unloader_dump_neighbour_live_fill_state_result.dump_neighbour_accepts_item",
+        "source_payload_unloader_dump_neighbour_live_fill_state_result.dump_neighbour_can_dump_item"
+      ],
+      "tests": [
+        "test_c07_payload_unloader_dump_neighbour_live_fill_registration",
+        "test_all_c07_payload_unloader_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_payload_unloader_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderDumpNeighbourLiveFillProof"
     }
   }
 }

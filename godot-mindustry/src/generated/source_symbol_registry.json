@@ -183976,6 +183976,438 @@
         "test_reference_graph_and_actual_c07_mass_driver_sense_rows"
       ],
       "runtime_proof": "/root/C07MassDriverSenseRowsProof"
+    },
+    "source_payload_unloader_dump_neighbour_live_fill_state_result.dump_neighbour_liquid_amounts": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_neighbour_live_fill_state",
+      "godot_symbol": "source_payload_unloader_dump_neighbour_live_fill_state_result.dump_neighbour_liquid_amounts",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.dumpLiquid()",
+      "java_expr": "float ofract = other.liquids.get(liquid) / other.block.liquidCapacity;",
+      "rule": "Per-ring-neighbour amount of the dumped current liquid (liquids.current()) from the neighbour frame liquids module, in ring order. 0.0 for a neighbour with no frame, no liquids store, or a store that does not cover the current id (the N2371 no_liquids_store precedent). The pure dumps the current liquid only, so the fill reads that id.",
+      "tests": [
+        "test_c07_payload_unloader_dump_neighbour_live_fill_registration",
+        "test_all_c07_payload_unloader_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_payload_unloader_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderDumpNeighbourLiveFillProof"
+    },
+    "source_payload_unloader_dump_neighbour_live_fill_state_result.dump_neighbour_liquid_capacities": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_neighbour_live_fill_state",
+      "godot_symbol": "source_payload_unloader_dump_neighbour_live_fill_state_result.dump_neighbour_liquid_capacities",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.dumpLiquid()",
+      "java_expr": "float ofract = other.liquids.get(liquid) / other.block.liquidCapacity;",
+      "rule": "Per-ring-neighbour block.liquidCapacity from the catalog (10.0 port default when the key is missing -- Java computes round(10f * consumeAmount) in Block.init, min 10f), in ring order. 0.0 when the neighbour frame carries no liquids store, so the pure derives other_has_liquids false from the capacity (the N2371 no_liquids_store precedent).",
+      "tests": [
+        "test_c07_payload_unloader_dump_neighbour_live_fill_registration",
+        "test_all_c07_payload_unloader_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_payload_unloader_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderDumpNeighbourLiveFillProof"
+    },
+    "source_payload_unloader_dump_neighbour_live_fill_state_result.dump_neighbour_accepts_liquid": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_neighbour_live_fill_state",
+      "godot_symbol": "source_payload_unloader_dump_neighbour_live_fill_state_result.dump_neighbour_accepts_liquid",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.acceptLiquid()",
+      "java_expr": "return block.hasLiquids && block.consumesLiquid(liquid);",
+      "rule": "Per-ring-neighbour DEFAULT acceptLiquid verdict for the dumped current liquid, in ring order: hasLiquids (catalog key, Java field default false) AND consumesLiquid (the catalog consumeLiquid rows carry the liquidFilter). False for a neighbour with no frame, and false when the current liquid name does not resolve (a partial fixture without liquid_names_by_id). Per-block overrides (e.g. Conduit acceptLiquid) are OUT of scope -- the default gate decides.",
+      "tests": [
+        "test_c07_payload_unloader_dump_neighbour_live_fill_registration",
+        "test_all_c07_payload_unloader_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_payload_unloader_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderDumpNeighbourLiveFillProof"
+    },
+    "source_payload_unloader_dump_neighbour_live_fill_state_result.dump_neighbour_can_dump_liquid": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_neighbour_live_fill_state",
+      "godot_symbol": "source_payload_unloader_dump_neighbour_live_fill_state_result.dump_neighbour_can_dump_liquid",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.canDumpLiquid()",
+      "java_expr": "public boolean canDumpLiquid(Building to, Liquid liquid){",
+      "rule": "Per-ring-neighbour DEFAULT canDumpLiquid verdict, in ring order: true for every framed neighbour (the Java default returns true), false for a neighbour with no frame (no building to dump to -- the N2353/N2371 no-frame precedent). Per-block overrides are OUT of scope.",
+      "tests": [
+        "test_c07_payload_unloader_dump_neighbour_live_fill_registration",
+        "test_all_c07_payload_unloader_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_payload_unloader_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderDumpNeighbourLiveFillProof"
+    },
+    "source_payload_unloader_dump_neighbour_live_fill_state_result.dump_neighbour_accepts_item": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_neighbour_live_fill_state",
+      "godot_symbol": "source_payload_unloader_dump_neighbour_live_fill_state_result.dump_neighbour_accepts_item",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.acceptItem()",
+      "java_expr": "return block.consumesItem(item) && items.get(item) < getMaximumAccepted(item);",
+      "rule": "Per-ring-neighbour DEFAULT acceptItem verdict, in ring order, evaluated for the FIRST held item in content order -- the item the dump pure offers (its accepts array is per-neighbour, not per-item). consumesItem comes from the catalog consumeItem rows (the itemFilter), the held count from the neighbour frame items dict, and getMaximumAccepted is block.itemCapacity (catalog key, default 10). False for a neighbour with no frame, no items store, or no held item. Per-block overrides (e.g. StorageBlock open-item accept) are OUT of scope; Java trying later held items against the same neighbour waits for a dump-shape slice.",
+      "tests": [
+        "test_c07_payload_unloader_dump_neighbour_live_fill_registration",
+        "test_all_c07_payload_unloader_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_payload_unloader_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderDumpNeighbourLiveFillProof"
+    },
+    "source_payload_unloader_dump_neighbour_live_fill_state_result.dump_neighbour_can_dump_item": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_neighbour_live_fill_state",
+      "godot_symbol": "source_payload_unloader_dump_neighbour_live_fill_state_result.dump_neighbour_can_dump_item",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.canDump()",
+      "java_expr": "public boolean canDump(Building to, Item item){",
+      "rule": "Per-ring-neighbour DEFAULT canDump verdict, in ring order: true for every framed neighbour (the Java default returns true), false for a neighbour with no frame (no building to dump to -- the N2353/N2371 no-frame precedent). Per-block overrides are OUT of scope.",
+      "tests": [
+        "test_c07_payload_unloader_dump_neighbour_live_fill_registration",
+        "test_all_c07_payload_unloader_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_payload_unloader_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderDumpNeighbourLiveFillProof"
+    },
+    "source_separator_item_filter_state_result.item_filter": {
+      "status": "source-backed",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_item_filter_state",
+      "godot_symbol": "source_separator_item_filter_state_result.item_filter",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "ConsumeItems.apply()",
+      "java_expr": "itemFilter = new boolean[content.items().size];",
+      "rule": "The def itemFilter (Block.java:764 + ConsumeItems.java:27): one boolean per content item, true exactly for the consumed stacks -- all-false for the separator (no consumeItem, Blocks.java:1231-1246), scrap-only (index 8) for the disassembler.",
+      "tests": [
+        "test_c07_separator_candump_item_filter_registration",
+        "test_all_c07_separator_candump_item_filter_input_evidence_is_exact",
+        "test_separator_candump_item_filter_state",
+        "test_reference_graph_and_actual_c07_separator_candump_item_filter"
+      ],
+      "runtime_proof": "/root/C07SeparatorCanDumpItemFilterProof"
+    },
+    "source_separator_item_filter_state_result.consumed_item_ids": {
+      "status": "source-backed",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_item_filter_state",
+      "godot_symbol": "source_separator_item_filter_state_result.consumed_item_ids",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "ConsumeItems.apply()",
+      "java_expr": "block.itemFilter[stack.item.id] = true;",
+      "rule": "The consumed item ids (ConsumeItems.java:27, the bit set per stack): [] for the separator, [8] (scrap) for the disassembler; a stack naming an item outside the order is skipped, a duplicated id recorded once.",
+      "tests": [
+        "test_c07_separator_candump_item_filter_registration",
+        "test_all_c07_separator_candump_item_filter_input_evidence_is_exact",
+        "test_separator_candump_item_filter_state",
+        "test_reference_graph_and_actual_c07_separator_candump_item_filter"
+      ],
+      "runtime_proof": "/root/C07SeparatorCanDumpItemFilterProof"
+    },
+    "source_separator_can_dump_state_result.can_dump": {
+      "status": "source-backed",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_can_dump_state",
+      "godot_symbol": "source_separator_can_dump_state_result.can_dump",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "java_method": "SeparatorBuild.canDump()",
+      "java_expr": "return !consumesItem(item);",
+      "rule": "The canDump verdict (Separator.java:178): true exactly when the item is NOT consumed -- always true for a separator, false for scrap and true for other items on a disassembler.",
+      "tests": [
+        "test_c07_separator_candump_item_filter_registration",
+        "test_all_c07_separator_candump_item_filter_input_evidence_is_exact",
+        "test_separator_candump_item_filter_state",
+        "test_reference_graph_and_actual_c07_separator_candump_item_filter"
+      ],
+      "runtime_proof": "/root/C07SeparatorCanDumpItemFilterProof"
+    },
+    "source_separator_can_dump_state_result.consumes_item": {
+      "status": "source-backed",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_can_dump_state",
+      "godot_symbol": "source_separator_can_dump_state_result.consumes_item",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "SeparatorBuild.canDump()",
+      "java_expr": "return itemFilter[item.id];",
+      "rule": "The consumesItem flag (Block.java:775): the generic consumes_item_state verdict the gate negates -- true exactly when the filter bit for the item id is set.",
+      "tests": [
+        "test_c07_separator_candump_item_filter_registration",
+        "test_all_c07_separator_candump_item_filter_input_evidence_is_exact",
+        "test_separator_candump_item_filter_state",
+        "test_reference_graph_and_actual_c07_separator_candump_item_filter"
+      ],
+      "runtime_proof": "/root/C07SeparatorCanDumpItemFilterProof"
+    },
+    "source_mass_driver_draw_rows_state_result.base_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceMassDriverBuildState.source_mass_driver_draw_rows_state",
+      "godot_symbol": "source_mass_driver_draw_rows_state_result.base_call",
+      "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+      "java_method": "MassDriverBuild.draw()",
+      "java_expr": "Draw.rect(baseRegion, x, y);",
+      "rule": "The base rect call (MassDriver.java:231): region baseRegion (the `@-base` region, MassDriver.java:44), centered on the building, drawn at the default z before the Draw.z call.",
+      "tests": [
+        "test_c07_mass_driver_draw_rows_registration",
+        "test_all_c07_mass_driver_draw_rows_input_evidence_is_exact",
+        "test_mass_driver_draw_rows_state",
+        "test_reference_graph_and_actual_c07_mass_driver_draw_rows"
+      ],
+      "runtime_proof": "/root/C07MassDriverDrawRowsProof"
+    },
+    "source_mass_driver_draw_rows_state_result.shadow_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceMassDriverBuildState.source_mass_driver_draw_rows_state",
+      "godot_symbol": "source_mass_driver_draw_rows_state_result.shadow_call",
+      "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+      "java_method": "MassDriverBuild.draw()",
+      "java_expr": "Drawf.shadow(region,",
+      "rule": "The shadow call (MassDriver.java:235-237): region region at the recoiled center shifted by the int-divided size / 2, rotation - 90, layer Layer.turret.",
+      "tests": [
+        "test_c07_mass_driver_draw_rows_registration",
+        "test_all_c07_mass_driver_draw_rows_input_evidence_is_exact",
+        "test_mass_driver_draw_rows_state",
+        "test_reference_graph_and_actual_c07_mass_driver_draw_rows"
+      ],
+      "runtime_proof": "/root/C07MassDriverDrawRowsProof"
+    },
+    "source_mass_driver_draw_rows_state_result.rect_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceMassDriverBuildState.source_mass_driver_draw_rows_state",
+      "godot_symbol": "source_mass_driver_draw_rows_state_result.rect_call",
+      "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+      "java_method": "MassDriverBuild.draw()",
+      "java_expr": "Draw.rect(region,",
+      "rule": "The region rect call (MassDriver.java:238-240): region region at the recoiled center (x + trnsx(rotation + 180f, reloadCounter * knockback)), rotation - 90, layer Layer.turret.",
+      "tests": [
+        "test_c07_mass_driver_draw_rows_registration",
+        "test_all_c07_mass_driver_draw_rows_input_evidence_is_exact",
+        "test_mass_driver_draw_rows_state",
+        "test_reference_graph_and_actual_c07_mass_driver_draw_rows"
+      ],
+      "runtime_proof": "/root/C07MassDriverDrawRowsProof"
+    },
+    "source_mass_driver_draw_rows_state_result.icon_regions": {
+      "status": "source-backed",
+      "godot_owner": "SourceMassDriverBuildState.source_mass_driver_draw_rows_state",
+      "godot_symbol": "source_mass_driver_draw_rows_state_result.icon_regions",
+      "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+      "java_method": "MassDriverBuild.draw()",
+      "java_expr": "return new TextureRegion[]{baseRegion, region};",
+      "rule": "The icon regions in Java order (MassDriver.java:76, icons()): [baseRegion, region] -- baseRegion is the `@-base` region (MassDriver.java:44), region is the block region. Folded into the draw pure because icons() takes no args and the SSOT schema validator requires non-empty input keys; the two regions are the regions draw() draws, in draw order.",
+      "tests": [
+        "test_c07_mass_driver_draw_rows_registration",
+        "test_all_c07_mass_driver_draw_rows_input_evidence_is_exact",
+        "test_mass_driver_draw_rows_state",
+        "test_reference_graph_and_actual_c07_mass_driver_draw_rows"
+      ],
+      "runtime_proof": "/root/C07MassDriverDrawRowsProof"
+    },
+    "source_mass_driver_draw_configure_state_result.circle_calls": {
+      "status": "source-backed",
+      "godot_owner": "SourceMassDriverBuildState.source_mass_driver_draw_configure_state",
+      "godot_symbol": "source_mass_driver_draw_configure_state_result.circle_calls",
+      "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+      "java_method": "MassDriverBuild.drawConfigure()",
+      "java_expr": "Drawf.circles(x, y, (tile.block().size / 2f + 1) * tilesize + sin - 2f, Pal.accent);",
+      "rule": "The circle calls (MassDriver.java:249/252/258): the accent self circle first, then one Pal.place circle per shooter (SELF radius -- tile.block().size, :252), then the Pal.place target circle when linked (TARGET radius -- target.block.size, :258). Radius (size / 2f + 1) * tilesize + sin - 2f.",
+      "tests": [
+        "test_c07_mass_driver_draw_rows_registration",
+        "test_all_c07_mass_driver_draw_rows_input_evidence_is_exact",
+        "test_mass_driver_draw_rows_state",
+        "test_reference_graph_and_actual_c07_mass_driver_draw_rows"
+      ],
+      "runtime_proof": "/root/C07MassDriverDrawRowsProof"
+    },
+    "source_mass_driver_draw_configure_state_result.arrow_calls": {
+      "status": "source-backed",
+      "godot_owner": "SourceMassDriverBuildState.source_mass_driver_draw_configure_state",
+      "godot_symbol": "source_mass_driver_draw_configure_state_result.arrow_calls",
+      "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+      "java_method": "MassDriverBuild.drawConfigure()",
+      "java_expr": "Drawf.arrow(shooter.x, shooter.y, x, y, size * tilesize + sin, 4f + sin, Pal.place);",
+      "rule": "The arrow calls (MassDriver.java:253/259): one Pal.place arrow per shooter (shooter -> self), then the link arrow (self -> target) when linked -- the link arrow has NO color arg (:259), so it inherits the current Draw.color Pal.accent (:247). Length size * tilesize + sin, width 4f + sin.",
+      "tests": [
+        "test_c07_mass_driver_draw_rows_registration",
+        "test_all_c07_mass_driver_draw_rows_input_evidence_is_exact",
+        "test_mass_driver_draw_rows_state",
+        "test_reference_graph_and_actual_c07_mass_driver_draw_rows"
+      ],
+      "runtime_proof": "/root/C07MassDriverDrawRowsProof"
+    },
+    "source_mass_driver_draw_configure_state_result.dash_circle_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceMassDriverBuildState.source_mass_driver_draw_configure_state",
+      "godot_symbol": "source_mass_driver_draw_configure_state_result.dash_circle_call",
+      "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+      "java_method": "MassDriverBuild.drawConfigure()",
+      "java_expr": "Drawf.dashCircle(x, y, range, Pal.accent);",
+      "rule": "The range dash circle call (MassDriver.java:262): radius range, color Pal.accent, always drawn.",
+      "tests": [
+        "test_c07_mass_driver_draw_rows_registration",
+        "test_all_c07_mass_driver_draw_rows_input_evidence_is_exact",
+        "test_mass_driver_draw_rows_state",
+        "test_reference_graph_and_actual_c07_mass_driver_draw_rows"
+      ],
+      "runtime_proof": "/root/C07MassDriverDrawRowsProof"
+    },
+    "source_mass_driver_draw_place_state_result.dash_circle_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceMassDriverBuildState.source_mass_driver_draw_place_state",
+      "godot_symbol": "source_mass_driver_draw_place_state_result.dash_circle_call",
+      "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+      "java_method": "MassDriver.drawPlace()",
+      "java_expr": "Drawf.dashCircle(x * tilesize, y * tilesize, range, Pal.accent);",
+      "rule": "The range dash circle call (MassDriver.java:83): center x * tilesize (NO offset), radius range, color Pal.accent, always drawn -- before the config early returns.",
+      "tests": [
+        "test_c07_mass_driver_draw_rows_registration",
+        "test_all_c07_mass_driver_draw_rows_input_evidence_is_exact",
+        "test_mass_driver_draw_rows_state",
+        "test_reference_graph_and_actual_c07_mass_driver_draw_rows"
+      ],
+      "runtime_proof": "/root/C07MassDriverDrawRowsProof"
+    },
+    "source_mass_driver_draw_place_state_result.link_line_calls": {
+      "status": "source-backed",
+      "godot_owner": "SourceMassDriverBuildState.source_mass_driver_draw_place_state",
+      "godot_symbol": "source_mass_driver_draw_place_state_result.link_line_calls",
+      "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+      "java_method": "MassDriver.drawPlace()",
+      "java_expr": "Lines.dashLine(x1, y1, x2, y2, segs);",
+      "rule": "The dotted link line calls (MassDriver.java:97-100): the same dashLine twice -- gray stroke 4f, then placing stroke 2f -- from the selected building toward the placement point, segs = (int)(dst / tilesize). Empty when the config panel is hidden, nothing is selected, the selection is not a mass driver, or it is out of range.",
+      "tests": [
+        "test_c07_mass_driver_draw_rows_registration",
+        "test_all_c07_mass_driver_draw_rows_input_evidence_is_exact",
+        "test_mass_driver_draw_rows_state",
+        "test_reference_graph_and_actual_c07_mass_driver_draw_rows"
+      ],
+      "runtime_proof": "/root/C07MassDriverDrawRowsProof"
+    },
+    "source_launch_pad_launch_pod_state_result.pod": {
+      "status": "source-backed",
+      "godot_owner": "SourceLaunchPadBuildState.source_launch_pad_launch_pod_state",
+      "godot_symbol": "source_launch_pad_launch_pod_state_result.pod",
+      "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+      "java_method": "LaunchPadBuild.updateTile()",
+      "java_expr": "LaunchPayload entity = LaunchPayload.create();",
+      "rule": "The pod descriptor (LaunchPad.java:150-155): {stacks, lifetime: 120.0, team, x, y} when launched, null otherwise (the N2234 spawned_unit precedent -- a live-entity creation reported as a pure result, no live entity created). The stacks are the launched_stacks copy (LaunchPad.java:151, `Seq<ItemStack> stacks = new Seq<>();`, LaunchPad.java:230); the lifetime is the 120f literal (`entity.lifetime(120f);`, LaunchPad.java:153, the Timedc lifetime field, TimedComp.java:10); team + x/y come from `entity.team(team);` / `entity.set(this);` (LaunchPad.java:154/152). entity.add() (:155) has no live-entity meaning in the port.",
+      "tests": [
+        "test_c07_launch_pad_pod_result_registration",
+        "test_all_c07_launch_pad_pod_result_input_evidence_is_exact",
+        "test_launch_pad_pod_result_state",
+        "test_reference_graph_and_actual_c07_launch_pad_pod_result"
+      ],
+      "runtime_proof": "/root/C07LaunchPadPodResultProof"
+    },
+    "source_launch_pad_launch_pod_state_result.launched": {
+      "status": "source-backed",
+      "godot_owner": "SourceLaunchPadBuildState.source_launch_pad_launch_pod_state",
+      "godot_symbol": "source_launch_pad_launch_pod_state_result.launched",
+      "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+      "java_method": "LaunchPadBuild.updateTile()",
+      "java_expr": "if((launchCounter += edelta()) >= launchTime && items.total() >= itemCapacity){",
+      "rule": "The launched gate echo (LaunchPad.java:146): true exactly when the pod exists; lets callers read the gate without null-checking the pod.",
+      "tests": [
+        "test_c07_launch_pad_pod_result_registration",
+        "test_all_c07_launch_pad_pod_result_input_evidence_is_exact",
+        "test_launch_pad_pod_result_state",
+        "test_reference_graph_and_actual_c07_launch_pad_pod_result"
+      ],
+      "runtime_proof": "/root/C07LaunchPadPodResultProof"
+    },
+    "source_wall_crafter_update_tile_advance_state_result.offload_neighbour_index": {
+      "status": "source-backed",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_update_tile_advance_state",
+      "godot_symbol": "source_wall_crafter_update_tile_advance_state_result.offload_neighbour_index",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.offload()",
+      "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+      "rule": "The routed neighbour index offload handed the produced output to (BuildingComp.java:1007, `Building other = proximity.get((i + dump) % proximity.size);`): the handled index the shared dump_item_state routing reports, -1 when the offload fell back to the own inventory (BuildingComp.java:1014) or no offload ran. Index i is ring cell i (the N2353 convention); the tick lands the routed item in the neighbour store through the shared neighbour write-back helper (N2353). One scalar, not an array: offload() returns after the first success (BuildingComp.java:1010), so a single delivery needs no array (contrast N2386 dumpAccumulate multi-fire).",
+      "tests": [
+        "test_c07_wall_crafter_offload_routing_registration",
+        "test_all_c07_wall_crafter_offload_routing_input_evidence_is_exact",
+        "test_wall_crafter_offload_routing_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_offload_routing"
+      ],
+      "runtime_proof": "/root/C07WallCrafterOffloadRoutingProof"
+    },
+    "source_wall_crafter_update_tile_advance_state_result.cdump": {
+      "status": "source-backed",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_update_tile_advance_state",
+      "godot_symbol": "source_wall_crafter_update_tile_advance_state_result.cdump",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.offload()",
+      "java_expr": "int dump = this.cdump;",
+      "rule": "The shared dump cursor after the offload scan (BuildingComp.java:1003, `int dump = this.cdump;`; the Building field `transient int cdump;`, BuildingComp.java:68, default 0): dump_item_state advances it once per checked neighbour (incrementDump, BuildingComp.java:1116-1120), so a routed offload leaves the cursor past the handling neighbour and a full refused scan returns it to its start (the N2286 full-cycle invariant). The tick persists it into the frame before the timerDump dump runs (Java order: the offload at WallCrafter.java:214 precedes the dump at :220-221), so offload() and dump() share this.cdump without double-advancing it. Unchanged when no offload ran.",
+      "tests": [
+        "test_c07_wall_crafter_offload_routing_registration",
+        "test_all_c07_wall_crafter_offload_routing_input_evidence_is_exact",
+        "test_wall_crafter_offload_routing_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_offload_routing"
+      ],
+      "runtime_proof": "/root/C07WallCrafterOffloadRoutingProof"
+    },
+    "source_regen_projector_heal_application_state_result.applications": {
+      "status": "source-backed",
+      "godot_owner": "SourceRegenProjectorBuildState.source_regen_projector_heal_application_state",
+      "godot_symbol": "source_regen_projector_heal_application_state_result.applications",
+      "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+      "java_method": "RegenProjectorBuild.updateTile()",
+      "java_expr": "var build = world.build(entry.key);",
+      "rule": "One entry per flushed pos, in flush order: {pos, cell, amount, healed, reason} (RegenProjector.java:169-173, `for(var entry : mendMap.entries()){` / `var build = world.build(entry.key);` / `if(build != null){` / `build.heal(entry.value);`). cell is the Point2.unpack decode of pos (arc Point2.java:35-37); healed is the actual amount repair_sprite applied (0.0 at full health or on a skip); reason is healed, no_sprite (the Java build == null skip, World.java:142-146), or invalid_amount.",
+      "tests": [
+        "test_c07_regen_projector_heal_application_registration",
+        "test_all_c07_regen_projector_heal_application_input_evidence_is_exact",
+        "test_regen_projector_heal_application_state",
+        "test_reference_graph_and_actual_c07_regen_projector_heal_application"
+      ],
+      "runtime_proof": "/root/C07RegenProjectorHealApplicationProof"
+    },
+    "source_regen_projector_heal_application_state_result.applied_count": {
+      "status": "source-backed",
+      "godot_owner": "SourceRegenProjectorBuildState.source_regen_projector_heal_application_state",
+      "godot_symbol": "source_regen_projector_heal_application_state_result.applied_count",
+      "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+      "java_method": "RegenProjectorBuild.updateTile()",
+      "java_expr": "build.heal(entry.value);",
+      "rule": "How many flushed entries healed a live target (RegenProjector.java:172, `build.heal(entry.value);`): the count of healed reasons. heal() caps at maxHealth (HealthComp.heal, `health += amount;` + clampHealth `health = Math.min(health, maxHealth);`, HealthComp.java:103-112), so an entry can count as applied with healed 0.0 when the target is already full.",
+      "tests": [
+        "test_c07_regen_projector_heal_application_registration",
+        "test_all_c07_regen_projector_heal_application_input_evidence_is_exact",
+        "test_regen_projector_heal_application_state",
+        "test_reference_graph_and_actual_c07_regen_projector_heal_application"
+      ],
+      "runtime_proof": "/root/C07RegenProjectorHealApplicationProof"
+    },
+    "source_regen_projector_heal_application_state_result.skipped_count": {
+      "status": "source-backed",
+      "godot_owner": "SourceRegenProjectorBuildState.source_regen_projector_heal_application_state",
+      "godot_symbol": "source_regen_projector_heal_application_state_result.skipped_count",
+      "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+      "java_method": "RegenProjectorBuild.updateTile()",
+      "java_expr": "if(build != null){",
+      "rule": "How many flushed entries healed nothing (RegenProjector.java:171, `if(build != null){`): the count of no_sprite + invalid_amount reasons. A missing target is the Java null skip, never an error.",
+      "tests": [
+        "test_c07_regen_projector_heal_application_registration",
+        "test_all_c07_regen_projector_heal_application_input_evidence_is_exact",
+        "test_regen_projector_heal_application_state",
+        "test_reference_graph_and_actual_c07_regen_projector_heal_application"
+      ],
+      "runtime_proof": "/root/C07RegenProjectorHealApplicationProof"
+    },
+    "source_regen_projector_heal_application_state_result.recently_healed": {
+      "status": "source-backed",
+      "godot_owner": "SourceRegenProjectorBuildState.source_regen_projector_heal_application_state",
+      "godot_symbol": "source_regen_projector_heal_application_state_result.recently_healed",
+      "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+      "java_method": "RegenProjectorBuild.updateTile()",
+      "java_expr": "build.recentlyHealed();",
+      "rule": "Always false: recentlyHealed() (RegenProjector.java:173, `build.recentlyHealed();`, the timestamp write `lastHealTime = Time.time;`, BuildingComp.java:491-493) DEFERS -- no Time.time input reaches the tick (the tick gets game + seconds, a delta, and the port exposes no live elapsed time), so no last_heal_time is stamped; the timestamp write waits for a game-time slice.",
+      "tests": [
+        "test_c07_regen_projector_heal_application_registration",
+        "test_all_c07_regen_projector_heal_application_input_evidence_is_exact",
+        "test_regen_projector_heal_application_state",
+        "test_reference_graph_and_actual_c07_regen_projector_heal_application"
+      ],
+      "runtime_proof": "/root/C07RegenProjectorHealApplicationProof"
     }
   },
   "version": 1

@@ -3723,6 +3723,26 @@
       ],
       "runtime_proof": "/root/C07ShockwaveTowerSenseRowsProof"
     },
+    "N2399": {
+      "canonical_ledger": "source_slice_ledger.N2399",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+      "java_method": "RegenProjectorBuild.updateTile()",
+      "godot_owner": "SourceRegenProjectorBuildState.source_regen_projector_heal_application_state",
+      "source_symbols": [
+        "source_regen_projector_heal_application_state_result.applications",
+        "source_regen_projector_heal_application_state_result.applied_count",
+        "source_regen_projector_heal_application_state_result.skipped_count",
+        "source_regen_projector_heal_application_state_result.recently_healed"
+      ],
+      "tests": [
+        "test_c07_regen_projector_heal_application_registration",
+        "test_all_c07_regen_projector_heal_application_input_evidence_is_exact",
+        "test_regen_projector_heal_application_state",
+        "test_reference_graph_and_actual_c07_regen_projector_heal_application"
+      ],
+      "runtime_proof": "/root/C07RegenProjectorHealApplicationProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

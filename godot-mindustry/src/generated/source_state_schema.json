@@ -249782,6 +249782,781 @@
       },
       "runtime_proof": "/root/C07MassDriverSenseRowsProof",
       "rule": "Source-backed MassDriver sense rows from MassDriver.java / BuildingComp.java."
+    },
+    "source_payload_unloader_dump_neighbour_live_fill_state_input": {
+      "status": "active",
+      "owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_neighbour_live_fill_state",
+      "source_slice": "N2394",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = world.build(tile.x + point.x, tile.y + point.y);",
+          "rule": "The live game object: the world lookup (block_sprite_at_cell resolves a ring cell to its placed sprite -- the port of world.build) and the content catalog (blocks_by_id resolves a neighbour sprite block id to its def). Null means no live neighbours resolve (all ring entries report the no-frame outcome).",
+          "java_method": "BuildingComp.updateProximity()",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_neighbour_live_fill_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Point2[] nearby = Edges.getEdges(block.size);",
+          "rule": "The unloader origin cell (the ring centre -- the port ring is centred on the origin cell, Edges.getEdges(block.size) in Java). The tick reads the origin_cell sprite meta inline.",
+          "java_method": "BuildingComp.updateProximity()",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_neighbour_live_fill_state"
+          ]
+        },
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Point2[] nearby = Edges.getEdges(block.size);",
+          "rule": "The unloader block size (3 -- the ring radius comes from the ORIGIN size, Edges.getEdges(block.size) in Java). The tick reads the catalog size.",
+          "java_method": "BuildingComp.updateProximity()",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_neighbour_live_fill_state"
+          ]
+        },
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+          "java_expr": "dumpLiquid(liquids.current());",
+          "rule": "The unloader frame carrying the held items dict (the offered item is the first held item in content order), the liquids module (the dumped current liquid), and the liquid_names_by_id input (the current liquid name for the consumesLiquid read).",
+          "java_method": "PayloadUnloaderBuild.updateTile()",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_neighbour_live_fill_state"
+          ]
+        },
+        "item_order": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "var allItems = content.items();",
+          "rule": "The catalog item names in content-id order (content.items() in Java -- the dump scans content items in this order, so the first held item in this order is the item the pure offers).",
+          "java_method": "BuildingComp.dump()",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_neighbour_live_fill_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadUnloaderDumpNeighbourLiveFillProof",
+      "rule": "Source-backed PayloadUnloader dump neighbour live fill from PayloadUnloader.java / BuildingComp.java / Block.java."
+    },
+    "source_payload_unloader_dump_neighbour_live_fill_state_result": {
+      "status": "active",
+      "owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_neighbour_live_fill_state",
+      "source_slice": "N2394",
+      "keys": {
+        "dump_neighbour_liquid_amounts": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "float ofract = other.liquids.get(liquid) / other.block.liquidCapacity;",
+          "rule": "Per-ring-neighbour amount of the dumped current liquid (liquids.current()) from the neighbour frame liquids module, in ring order. 0.0 for a neighbour with no frame, no liquids store, or a store that does not cover the current id (the N2371 no_liquids_store precedent). The pure dumps the current liquid only, so the fill reads that id.",
+          "java_method": "BuildingComp.dumpLiquid()",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_neighbour_live_fill_state"
+          ]
+        },
+        "dump_neighbour_liquid_capacities": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "float ofract = other.liquids.get(liquid) / other.block.liquidCapacity;",
+          "rule": "Per-ring-neighbour block.liquidCapacity from the catalog (10.0 port default when the key is missing -- Java computes round(10f * consumeAmount) in Block.init, min 10f), in ring order. 0.0 when the neighbour frame carries no liquids store, so the pure derives other_has_liquids false from the capacity (the N2371 no_liquids_store precedent).",
+          "java_method": "BuildingComp.dumpLiquid()",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_neighbour_live_fill_state"
+          ]
+        },
+        "dump_neighbour_accepts_liquid": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return block.hasLiquids && block.consumesLiquid(liquid);",
+          "rule": "Per-ring-neighbour DEFAULT acceptLiquid verdict for the dumped current liquid, in ring order: hasLiquids (catalog key, Java field default false) AND consumesLiquid (the catalog consumeLiquid rows carry the liquidFilter). False for a neighbour with no frame, and false when the current liquid name does not resolve (a partial fixture without liquid_names_by_id). Per-block overrides (e.g. Conduit acceptLiquid) are OUT of scope -- the default gate decides.",
+          "java_method": "BuildingComp.acceptLiquid()",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_neighbour_live_fill_state"
+          ]
+        },
+        "dump_neighbour_can_dump_liquid": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public boolean canDumpLiquid(Building to, Liquid liquid){",
+          "rule": "Per-ring-neighbour DEFAULT canDumpLiquid verdict, in ring order: true for every framed neighbour (the Java default returns true), false for a neighbour with no frame (no building to dump to -- the N2353/N2371 no-frame precedent). Per-block overrides are OUT of scope.",
+          "java_method": "BuildingComp.canDumpLiquid()",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_neighbour_live_fill_state"
+          ]
+        },
+        "dump_neighbour_accepts_item": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return block.consumesItem(item) && items.get(item) < getMaximumAccepted(item);",
+          "rule": "Per-ring-neighbour DEFAULT acceptItem verdict, in ring order, evaluated for the FIRST held item in content order -- the item the dump pure offers (its accepts array is per-neighbour, not per-item). consumesItem comes from the catalog consumeItem rows (the itemFilter), the held count from the neighbour frame items dict, and getMaximumAccepted is block.itemCapacity (catalog key, default 10). False for a neighbour with no frame, no items store, or no held item. Per-block overrides (e.g. StorageBlock open-item accept) are OUT of scope; Java trying later held items against the same neighbour waits for a dump-shape slice.",
+          "java_method": "BuildingComp.acceptItem()",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_neighbour_live_fill_state"
+          ]
+        },
+        "dump_neighbour_can_dump_item": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public boolean canDump(Building to, Item item){",
+          "rule": "Per-ring-neighbour DEFAULT canDump verdict, in ring order: true for every framed neighbour (the Java default returns true), false for a neighbour with no frame (no building to dump to -- the N2353/N2371 no-frame precedent). Per-block overrides are OUT of scope.",
+          "java_method": "BuildingComp.canDump()",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_neighbour_live_fill_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadUnloaderDumpNeighbourLiveFillProof",
+      "rule": "Source-backed PayloadUnloader dump neighbour live fill from PayloadUnloader.java / BuildingComp.java / Block.java."
+    },
+    "source_separator_item_filter_state_input": {
+      "status": "active",
+      "owner": "SourceSeparatorBuildState.source_separator_item_filter_state",
+      "source_slice": "N2395",
+      "keys": {
+        "consume_stacks": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_expr": "for(var stack : items){",
+          "rule": "The def consumeItem rows (ConsumeItems.java:26, the apply loop): the catalog consumeItem rows the driver reads (block.properties.get(\"consumeItem\", []) -- [] for the separator, [{\"item\": \"scrap\", \"amount\": 1}] for the disassembler, `consumeItem(Items.scrap);`, Blocks.java:1263); each stack sets one filter bit by item id.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_item_filter_state"
+          ]
+        },
+        "item_order": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "itemFilter = new boolean[content.items().size];",
+          "rule": "The catalog item_names_by_id (Block.java:764, the filter is sized by content.items().size): the content-id order, index IS the id (Items.load() order: copper 0 ... scrap 8 ... dormant-cyst 21, 22 items); the filter array is built one boolean per entry, in this order.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_item_filter_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SeparatorCanDumpItemFilterProof",
+      "rule": "Source-backed Separator canDump itemFilter model from Separator.java / Block.java / ConsumeItems.java / Blocks.java / BuildingComp.java."
+    },
+    "source_separator_item_filter_state_result": {
+      "status": "active",
+      "owner": "SourceSeparatorBuildState.source_separator_item_filter_state",
+      "source_slice": "N2395",
+      "keys": {
+        "item_filter": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "itemFilter = new boolean[content.items().size];",
+          "rule": "The def itemFilter (Block.java:764 + ConsumeItems.java:27): one boolean per content item, true exactly for the consumed stacks -- all-false for the separator (no consumeItem, Blocks.java:1231-1246), scrap-only (index 8) for the disassembler.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_item_filter_state"
+          ]
+        },
+        "consumed_item_ids": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_expr": "block.itemFilter[stack.item.id] = true;",
+          "rule": "The consumed item ids (ConsumeItems.java:27, the bit set per stack): [] for the separator, [8] (scrap) for the disassembler; a stack naming an item outside the order is skipped, a duplicated id recorded once.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_item_filter_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SeparatorCanDumpItemFilterProof",
+      "rule": "Source-backed Separator canDump itemFilter model from Separator.java / Block.java / ConsumeItems.java / Blocks.java / BuildingComp.java."
+    },
+    "source_separator_can_dump_state_input": {
+      "status": "active",
+      "owner": "SourceSeparatorBuildState.source_separator_can_dump_state",
+      "source_slice": "N2395",
+      "keys": {
+        "item_filter": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "return itemFilter[item.id];",
+          "rule": "The caller-supplied def itemFilter (Block.java:775): the filter built by source_separator_item_filter_state -- all-false for the separator, scrap-only for the disassembler.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_can_dump_state"
+          ]
+        },
+        "item_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "return itemFilter[item.id];",
+          "rule": "The offered item id (Block.java:775, itemFilter[item.id]): the content id from the catalog item_names_by_id (scrap 8, copper 0); Java guarantees item.id < content.items().size, so the lookup is in range.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_can_dump_state"
+          ]
+        },
+        "item": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+          "java_expr": "public boolean canDump(Building to, Item item){",
+          "rule": "The offered item (Separator.java:177, the canDump parameter): the item value carried through the generic consumesItem pure; compared by id, not by value. The `to` Building parameter is unused by the Java body, so the pure takes no `to`.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_can_dump_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SeparatorCanDumpItemFilterProof",
+      "rule": "Source-backed Separator canDump itemFilter model from Separator.java / Block.java / ConsumeItems.java / Blocks.java / BuildingComp.java."
+    },
+    "source_separator_can_dump_state_result": {
+      "status": "active",
+      "owner": "SourceSeparatorBuildState.source_separator_can_dump_state",
+      "source_slice": "N2395",
+      "keys": {
+        "can_dump": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+          "java_expr": "return !consumesItem(item);",
+          "rule": "The canDump verdict (Separator.java:178): true exactly when the item is NOT consumed -- always true for a separator, false for scrap and true for other items on a disassembler.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_can_dump_state"
+          ]
+        },
+        "consumes_item": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "return itemFilter[item.id];",
+          "rule": "The consumesItem flag (Block.java:775): the generic consumes_item_state verdict the gate negates -- true exactly when the filter bit for the item id is set.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_can_dump_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SeparatorCanDumpItemFilterProof",
+      "rule": "Source-backed Separator canDump itemFilter model from Separator.java / Block.java / ConsumeItems.java / Blocks.java / BuildingComp.java."
+    },
+    "source_mass_driver_draw_rows_state_input": {
+      "status": "active",
+      "owner": "SourceMassDriverBuildState.source_mass_driver_draw_rows_state",
+      "source_slice": "N2396",
+      "keys": {
+        "x_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "Draw.rect(baseRegion, x, y);",
+          "rule": "The building world x (MassDriver.java:231, the Draw.rect center -- Building x/y are tile.drawx()/drawy(), BuildingComp.java:124): the base rect, the shadow and the region rect are all centered here before the recoil offset.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_draw_rows_state"
+          ]
+        },
+        "y_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "Draw.rect(baseRegion, x, y);",
+          "rule": "The building world y (MassDriver.java:231, the Draw.rect center): the base rect, the shadow and the region rect are all centered here before the recoil offset.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_draw_rows_state"
+          ]
+        },
+        "rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "public float rotation = 90;",
+          "rule": "The frame rotation (MassDriver.java:117, tracked by the N2237 advance): the recoil runs along rotation + 180f and the region draws at rotation - 90 (MassDriver.java:236-240).",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_draw_rows_state"
+          ]
+        },
+        "reload_counter": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "public float reloadCounter = 0f;",
+          "rule": "The frame reloadCounter (MassDriver.java:118, tracked by the N2237 advance: fire() resets it to 1f, MassDriver.java:292, and the decay drains it, MassDriver.java:143): the recoil distance is reloadCounter * knockback, so a just-fired driver sits 4.0 back and a ready one sits centered.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_draw_rows_state"
+          ]
+        },
+        "size_value": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "size = 3;",
+          "rule": "The block size in tiles (mass-driver 3, Blocks.java:2170): the shadow shifts by the INT-divided size / 2 (MassDriver.java:236-237) -- 1 for the size-3 driver, NOT 1.5. The pure keeps size int and divides ints.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_draw_rows_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07MassDriverDrawRowsProof",
+      "rule": "Source-backed MassDriver draw rows from MassDriver.java / Block.java / Vars.java / Blocks.java."
+    },
+    "source_mass_driver_draw_rows_state_result": {
+      "status": "active",
+      "owner": "SourceMassDriverBuildState.source_mass_driver_draw_rows_state",
+      "source_slice": "N2396",
+      "keys": {
+        "base_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "Draw.rect(baseRegion, x, y);",
+          "rule": "The base rect call (MassDriver.java:231): region baseRegion (the `@-base` region, MassDriver.java:44), centered on the building, drawn at the default z before the Draw.z call.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_draw_rows_state"
+          ]
+        },
+        "shadow_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "Drawf.shadow(region,",
+          "rule": "The shadow call (MassDriver.java:235-237): region region at the recoiled center shifted by the int-divided size / 2, rotation - 90, layer Layer.turret.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_draw_rows_state"
+          ]
+        },
+        "rect_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "Draw.rect(region,",
+          "rule": "The region rect call (MassDriver.java:238-240): region region at the recoiled center (x + trnsx(rotation + 180f, reloadCounter * knockback)), rotation - 90, layer Layer.turret.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_draw_rows_state"
+          ]
+        },
+        "icon_regions": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "return new TextureRegion[]{baseRegion, region};",
+          "rule": "The icon regions in Java order (MassDriver.java:76, icons()): [baseRegion, region] -- baseRegion is the `@-base` region (MassDriver.java:44), region is the block region. Folded into the draw pure because icons() takes no args and the SSOT schema validator requires non-empty input keys; the two regions are the regions draw() draws, in draw order.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_draw_rows_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07MassDriverDrawRowsProof",
+      "rule": "Source-backed MassDriver draw rows from MassDriver.java / Block.java / Vars.java / Blocks.java."
+    },
+    "source_mass_driver_draw_configure_state_input": {
+      "status": "active",
+      "owner": "SourceMassDriverBuildState.source_mass_driver_draw_configure_state",
+      "source_slice": "N2396",
+      "keys": {
+        "x_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "Drawf.circles(x, y, (tile.block().size / 2f + 1) * tilesize + sin - 2f, Pal.accent);",
+          "rule": "The building world x (MassDriver.java:249, the self circle center; the dash circle center, :262; the link arrow origin, :259).",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_draw_configure_state"
+          ]
+        },
+        "y_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "Drawf.circles(x, y, (tile.block().size / 2f + 1) * tilesize + sin - 2f, Pal.accent);",
+          "rule": "The building world y (MassDriver.java:249 / :262 / :259, same mapping as x).",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_draw_configure_state"
+          ]
+        },
+        "size_value": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "size = 3;",
+          "rule": "The block size in tiles (mass-driver 3, Blocks.java:2170): the self + shooter circle radius is (size / 2f + 1) * tilesize + sin - 2f and the arrow length is size * tilesize + sin (MassDriver.java:249-253).",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_draw_configure_state"
+          ]
+        },
+        "range_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "range = 440f;",
+          "rule": "The def range (mass-driver 440f, Blocks.java:2172): the dash circle radius (MassDriver.java:262).",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_draw_configure_state"
+          ]
+        },
+        "time_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "float sin = Mathf.absin(Time.time, 6f, 1f);",
+          "rule": "Time.time in ticks (MassDriver.java:245, the pulse sin): caller-supplied -- draw never runs in the tick, so the tick never stamps it. Java-exact through the shared helper at the DOUBLED scale 12f (the N2372 lesson).",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_draw_configure_state"
+          ]
+        },
+        "shooters": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "for(var shooter : waitingShooters){",
+          "rule": "The explicit shooter list replacing the waitingShooters iteration (MassDriver.java:251-254): each entry is a Dictionary with x / y world coords (the N2242 precedent -- the frame waiting_shooters holds positions, not coords). A non-Dictionary entry or a missing x / y excludes the shooter (the N2329 precedent).",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_draw_configure_state"
+          ]
+        },
+        "link_valid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "if(linkValid()){",
+          "rule": "The linkValid() verdict (MassDriver.java:256, linkValid is MassDriver.java:346-349, modeled by the driver _mass_driver_link_valid helper and the N2237 advance has_link): the target circle + arrow draw only when true.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_draw_configure_state"
+          ]
+        },
+        "linked": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "Building target = world.build(link);",
+          "rule": "The linked target dict (MassDriver.java:257, the SAME dict the N2237 advance reads): x / y world coords + block_size for the target circle radius (MassDriver.java:258, target.block.size -- defaults to the self size because linkValid requires other.block == block and the family is a single def).",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_draw_configure_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07MassDriverDrawRowsProof",
+      "rule": "Source-backed MassDriver draw rows from MassDriver.java / Block.java / Vars.java / Blocks.java."
+    },
+    "source_mass_driver_draw_configure_state_result": {
+      "status": "active",
+      "owner": "SourceMassDriverBuildState.source_mass_driver_draw_configure_state",
+      "source_slice": "N2396",
+      "keys": {
+        "circle_calls": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "Drawf.circles(x, y, (tile.block().size / 2f + 1) * tilesize + sin - 2f, Pal.accent);",
+          "rule": "The circle calls (MassDriver.java:249/252/258): the accent self circle first, then one Pal.place circle per shooter (SELF radius -- tile.block().size, :252), then the Pal.place target circle when linked (TARGET radius -- target.block.size, :258). Radius (size / 2f + 1) * tilesize + sin - 2f.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_draw_configure_state"
+          ]
+        },
+        "arrow_calls": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "Drawf.arrow(shooter.x, shooter.y, x, y, size * tilesize + sin, 4f + sin, Pal.place);",
+          "rule": "The arrow calls (MassDriver.java:253/259): one Pal.place arrow per shooter (shooter -> self), then the link arrow (self -> target) when linked -- the link arrow has NO color arg (:259), so it inherits the current Draw.color Pal.accent (:247). Length size * tilesize + sin, width 4f + sin.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_draw_configure_state"
+          ]
+        },
+        "dash_circle_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "Drawf.dashCircle(x, y, range, Pal.accent);",
+          "rule": "The range dash circle call (MassDriver.java:262): radius range, color Pal.accent, always drawn.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_draw_configure_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07MassDriverDrawRowsProof",
+      "rule": "Source-backed MassDriver draw rows from MassDriver.java / Block.java / Vars.java / Blocks.java."
+    },
+    "source_mass_driver_draw_place_state_input": {
+      "status": "active",
+      "owner": "SourceMassDriverBuildState.source_mass_driver_draw_place_state",
+      "source_slice": "N2396",
+      "keys": {
+        "tile_x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "Drawf.dashCircle(x * tilesize, y * tilesize, range, Pal.accent);",
+          "rule": "The placement tile x (MassDriver.java:83, the dash circle center is x * tilesize with NO offset).",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_draw_place_state"
+          ]
+        },
+        "tile_y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "Drawf.dashCircle(x * tilesize, y * tilesize, range, Pal.accent);",
+          "rule": "The placement tile y (MassDriver.java:83, same mapping as x).",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_draw_place_state"
+          ]
+        },
+        "size_value": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "size = 3;",
+          "rule": "The block size in tiles (mass-driver 3, Blocks.java:2170): the link-line vector limit is (size / 2f + 1) * tilesize + sin + 0.5f (MassDriver.java:92) and the Block offset is ((size + 1) % 2) * tilesize / 2f (Block.java:761 -- 0 for the odd size-3 driver).",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_draw_place_state"
+          ]
+        },
+        "range_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "range = 440f;",
+          "rule": "The def range (mass-driver 440f, Blocks.java:2172): the dash circle radius (MassDriver.java:83) and the within-range guard (MassDriver.java:88).",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_draw_place_state"
+          ]
+        },
+        "time_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "float sin = Mathf.absin(Time.time, 6f, 1f);",
+          "rule": "Time.time in ticks (MassDriver.java:91, the pulse sin -- computed AFTER the config early returns, so a hidden line reports sin 0.0): caller-supplied -- draw never runs in the tick. Java-exact through the shared helper at the DOUBLED scale 12f (the N2372 lesson).",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_draw_place_state"
+          ]
+        },
+        "config_shown": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "if(!control.input.config.isShown()) return;",
+          "rule": "Whether the config panel is shown (MassDriver.java:86, the first early return): the link line draws only when true.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_draw_place_state"
+          ]
+        },
+        "selected": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "Building selected = control.input.config.getSelected();",
+          "rule": "The selected building (MassDriver.java:87-88): x / y world coords + the precomputed verdicts is_mass_driver / within_range (within is STRICT dst < range, Position.java:44-46, the N2229 verification). An empty dict is the null selection (Java `selected == null`).",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_draw_place_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07MassDriverDrawRowsProof",
+      "rule": "Source-backed MassDriver draw rows from MassDriver.java / Block.java / Vars.java / Blocks.java."
+    },
+    "source_mass_driver_draw_place_state_result": {
+      "status": "active",
+      "owner": "SourceMassDriverBuildState.source_mass_driver_draw_place_state",
+      "source_slice": "N2396",
+      "keys": {
+        "dash_circle_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "Drawf.dashCircle(x * tilesize, y * tilesize, range, Pal.accent);",
+          "rule": "The range dash circle call (MassDriver.java:83): center x * tilesize (NO offset), radius range, color Pal.accent, always drawn -- before the config early returns.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_draw_place_state"
+          ]
+        },
+        "link_line_calls": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "Lines.dashLine(x1, y1, x2, y2, segs);",
+          "rule": "The dotted link line calls (MassDriver.java:97-100): the same dashLine twice -- gray stroke 4f, then placing stroke 2f -- from the selected building toward the placement point, segs = (int)(dst / tilesize). Empty when the config panel is hidden, nothing is selected, the selection is not a mass driver, or it is out of range.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_draw_place_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07MassDriverDrawRowsProof",
+      "rule": "Source-backed MassDriver draw rows from MassDriver.java / Block.java / Vars.java / Blocks.java."
+    },
+    "source_launch_pad_launch_pod_state_input": {
+      "status": "active",
+      "owner": "SourceLaunchPadBuildState.source_launch_pad_launch_pod_state",
+      "source_slice": "N2397",
+      "keys": {
+        "launched": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "if((launchCounter += edelta()) >= launchTime && items.total() >= itemCapacity){",
+          "rule": "The N2238 advance launched gate (LaunchPad.java:146, the full-and-timed gate): true exactly when the launch fired this tick (launchCounter >= launchTime with items.total() >= itemCapacity); the pod exists only when launched is true.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_launch_pod_state"
+          ]
+        },
+        "launched_stacks": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "items.each((item, amount) -> entity.stacks.add(new ItemStack(item, amount)));",
+          "rule": "The N2238 launched_stacks (LaunchPad.java:151, the items.each stacks copy): {item name: amount}, zero amounts skipped like ItemModule.each (ItemModule.java:100-106); the pod stacks mirror this dict verbatim.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_launch_pod_state"
+          ]
+        },
+        "team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "entity.team(team);",
+          "rule": "The pad team id (LaunchPad.java:154, entity.team(team)): the Building.team stamped on the pod; an explicit input (the frame team_id the tick wires, the N2148 pattern).",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_launch_pod_state"
+          ]
+        },
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "entity.set(this);",
+          "rule": "The pad world x (LaunchPad.java:152, entity.set(this) positions the pod at the pad): an explicit input, passed through to the pod descriptor untouched.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_launch_pod_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "entity.set(this);",
+          "rule": "The pad world y (LaunchPad.java:152, entity.set(this) positions the pod at the pad): an explicit input, passed through to the pod descriptor untouched.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_launch_pod_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaunchPadPodResultProof",
+      "rule": "Source-backed LaunchPad LaunchPayload pod result from LaunchPad.java / Consume.java."
+    },
+    "source_launch_pad_launch_pod_state_result": {
+      "status": "active",
+      "owner": "SourceLaunchPadBuildState.source_launch_pad_launch_pod_state",
+      "source_slice": "N2397",
+      "keys": {
+        "pod": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "LaunchPayload entity = LaunchPayload.create();",
+          "rule": "The pod descriptor (LaunchPad.java:150-155): {stacks, lifetime: 120.0, team, x, y} when launched, null otherwise (the N2234 spawned_unit precedent -- a live-entity creation reported as a pure result, no live entity created). The stacks are the launched_stacks copy (LaunchPad.java:151, `Seq<ItemStack> stacks = new Seq<>();`, LaunchPad.java:230); the lifetime is the 120f literal (`entity.lifetime(120f);`, LaunchPad.java:153, the Timedc lifetime field, TimedComp.java:10); team + x/y come from `entity.team(team);` / `entity.set(this);` (LaunchPad.java:154/152). entity.add() (:155) has no live-entity meaning in the port.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_launch_pod_state"
+          ]
+        },
+        "launched": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "if((launchCounter += edelta()) >= launchTime && items.total() >= itemCapacity){",
+          "rule": "The launched gate echo (LaunchPad.java:146): true exactly when the pod exists; lets callers read the gate without null-checking the pod.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_launch_pod_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaunchPadPodResultProof",
+      "rule": "Source-backed LaunchPad LaunchPayload pod result from LaunchPad.java / Consume.java."
+    },
+    "source_regen_projector_heal_application_state_input": {
+      "status": "active",
+      "owner": "SourceRegenProjectorBuildState.source_regen_projector_heal_application_state",
+      "source_slice": "N2399",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+          "java_expr": "var build = world.build(entry.key);",
+          "rule": "The live game world (RegenProjector.java:170, `var build = world.build(entry.key);`): the placed-building index the helper resolves the target sprite from, through block_sprite_at_cell (the N2353/N2371 precedent).",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_heal_application_state"
+          ]
+        },
+        "heal_applications": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+          "java_expr": "build.heal(entry.value);",
+          "rule": "The flushed mend amounts {pos: amount} the N2325 flush reported (RegenProjector.java:168-177): pos is the packed origin cell (Tile.pos() is `return Point2.pack(x, y);`, Tile.java:73-75), amount the mend to apply. The tick passes the advance result after the flush write-back.",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_heal_application_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RegenProjectorHealApplicationProof",
+      "rule": "Source-backed RegenProjector mendMap flush live heal application rows from RegenProjector.java / BuildingComp.java / HealthComp.java / World.java / Tile.java / Point2.java."
+    },
+    "source_regen_projector_heal_application_state_result": {
+      "status": "active",
+      "owner": "SourceRegenProjectorBuildState.source_regen_projector_heal_application_state",
+      "source_slice": "N2399",
+      "keys": {
+        "applications": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+          "java_expr": "var build = world.build(entry.key);",
+          "rule": "One entry per flushed pos, in flush order: {pos, cell, amount, healed, reason} (RegenProjector.java:169-173, `for(var entry : mendMap.entries()){` / `var build = world.build(entry.key);` / `if(build != null){` / `build.heal(entry.value);`). cell is the Point2.unpack decode of pos (arc Point2.java:35-37); healed is the actual amount repair_sprite applied (0.0 at full health or on a skip); reason is healed, no_sprite (the Java build == null skip, World.java:142-146), or invalid_amount.",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_heal_application_state"
+          ]
+        },
+        "applied_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+          "java_expr": "build.heal(entry.value);",
+          "rule": "How many flushed entries healed a live target (RegenProjector.java:172, `build.heal(entry.value);`): the count of healed reasons. heal() caps at maxHealth (HealthComp.heal, `health += amount;` + clampHealth `health = Math.min(health, maxHealth);`, HealthComp.java:103-112), so an entry can count as applied with healed 0.0 when the target is already full.",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_heal_application_state"
+          ]
+        },
+        "skipped_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+          "java_expr": "if(build != null){",
+          "rule": "How many flushed entries healed nothing (RegenProjector.java:171, `if(build != null){`): the count of no_sprite + invalid_amount reasons. A missing target is the Java null skip, never an error.",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_heal_application_state"
+          ]
+        },
+        "recently_healed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+          "java_expr": "build.recentlyHealed();",
+          "rule": "Always false: recentlyHealed() (RegenProjector.java:173, `build.recentlyHealed();`, the timestamp write `lastHealTime = Time.time;`, BuildingComp.java:491-493) DEFERS -- no Time.time input reaches the tick (the tick gets game + seconds, a delta, and the port exposes no live elapsed time), so no last_heal_time is stamped; the timestamp write waits for a game-time slice.",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_heal_application_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RegenProjectorHealApplicationProof",
+      "rule": "Source-backed RegenProjector mendMap flush live heal application rows from RegenProjector.java / BuildingComp.java / HealthComp.java / World.java / Tile.java / Point2.java."
     }
   },
   "version": 1

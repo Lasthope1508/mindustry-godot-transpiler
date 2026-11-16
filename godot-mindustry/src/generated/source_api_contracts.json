@@ -75006,6 +75006,368 @@
       ],
       "runtime_proof": "/root/C07MassDriverSenseRowsProof",
       "rule": "Source-backed MassDriver sense rows from MassDriver.java / BuildingComp.java."
+    },
+    "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_neighbour_live_fill_state": {
+      "status": "active",
+      "source_slice": "N2394",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+      "source_method": "PayloadUnloaderBuild.updateTile()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_payload_unloader_dump_neighbour_live_fill_state_input.game"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_payload_unloader_dump_neighbour_live_fill_state_input.cell"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_payload_unloader_dump_neighbour_live_fill_state_input.size"
+        },
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_payload_unloader_dump_neighbour_live_fill_state_input.frame"
+        },
+        {
+          "name": "item_order",
+          "type": "Array",
+          "schema": "source_payload_unloader_dump_neighbour_live_fill_state_input.item_order"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "dump_neighbour_liquid_amounts",
+        "dump_neighbour_liquid_capacities",
+        "dump_neighbour_accepts_liquid",
+        "dump_neighbour_can_dump_liquid",
+        "dump_neighbour_accepts_item",
+        "dump_neighbour_can_dump_item"
+      ],
+      "tests": [
+        "test_c07_payload_unloader_dump_neighbour_live_fill_registration",
+        "test_all_c07_payload_unloader_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_payload_unloader_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderDumpNeighbourLiveFillProof",
+      "rule": "Source-backed PayloadUnloader dump neighbour live fill from PayloadUnloader.java / BuildingComp.java / Block.java."
+    },
+    "SourceSeparatorBuildState.source_separator_item_filter_state": {
+      "status": "active",
+      "source_slice": "N2395",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "source_method": "ConsumeItems.apply()",
+      "params": [
+        {
+          "name": "consume_stacks",
+          "type": "Array",
+          "schema": "source_separator_item_filter_state_input.consume_stacks"
+        },
+        {
+          "name": "item_order",
+          "type": "Array",
+          "schema": "source_separator_item_filter_state_input.item_order"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "item_filter",
+        "consumed_item_ids"
+      ],
+      "tests": [
+        "test_c07_separator_candump_item_filter_registration",
+        "test_all_c07_separator_candump_item_filter_input_evidence_is_exact",
+        "test_separator_candump_item_filter_state",
+        "test_reference_graph_and_actual_c07_separator_candump_item_filter"
+      ],
+      "runtime_proof": "/root/C07SeparatorCanDumpItemFilterProof",
+      "rule": "Source-backed Separator canDump itemFilter model from Separator.java / Block.java / ConsumeItems.java / Blocks.java / BuildingComp.java."
+    },
+    "SourceSeparatorBuildState.source_separator_can_dump_state": {
+      "status": "active",
+      "source_slice": "N2395",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "source_method": "SeparatorBuild.canDump()",
+      "params": [
+        {
+          "name": "item_filter",
+          "type": "Array",
+          "schema": "source_separator_can_dump_state_input.item_filter"
+        },
+        {
+          "name": "item_id",
+          "type": "int",
+          "schema": "source_separator_can_dump_state_input.item_id"
+        },
+        {
+          "name": "item",
+          "type": "Variant",
+          "schema": "source_separator_can_dump_state_input.item"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "can_dump",
+        "consumes_item"
+      ],
+      "tests": [
+        "test_c07_separator_candump_item_filter_registration",
+        "test_all_c07_separator_candump_item_filter_input_evidence_is_exact",
+        "test_separator_candump_item_filter_state",
+        "test_reference_graph_and_actual_c07_separator_candump_item_filter"
+      ],
+      "runtime_proof": "/root/C07SeparatorCanDumpItemFilterProof",
+      "rule": "Source-backed Separator canDump itemFilter model from Separator.java / Block.java / ConsumeItems.java / Blocks.java / BuildingComp.java."
+    },
+    "SourceMassDriverBuildState.source_mass_driver_draw_rows_state": {
+      "status": "active",
+      "source_slice": "N2396",
+      "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+      "source_method": "MassDriverBuild.draw()",
+      "params": [
+        {
+          "name": "x_value",
+          "type": "float",
+          "schema": "source_mass_driver_draw_rows_state_input.x_value"
+        },
+        {
+          "name": "y_value",
+          "type": "float",
+          "schema": "source_mass_driver_draw_rows_state_input.y_value"
+        },
+        {
+          "name": "rotation",
+          "type": "float",
+          "schema": "source_mass_driver_draw_rows_state_input.rotation"
+        },
+        {
+          "name": "reload_counter",
+          "type": "float",
+          "schema": "source_mass_driver_draw_rows_state_input.reload_counter"
+        },
+        {
+          "name": "size_value",
+          "type": "int",
+          "schema": "source_mass_driver_draw_rows_state_input.size_value"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "base_call",
+        "shadow_call",
+        "rect_call",
+        "icon_regions"
+      ],
+      "tests": [
+        "test_c07_mass_driver_draw_rows_registration",
+        "test_all_c07_mass_driver_draw_rows_input_evidence_is_exact",
+        "test_mass_driver_draw_rows_state",
+        "test_reference_graph_and_actual_c07_mass_driver_draw_rows"
+      ],
+      "runtime_proof": "/root/C07MassDriverDrawRowsProof",
+      "rule": "Source-backed MassDriver draw rows from MassDriver.java / Block.java / Vars.java / Blocks.java."
+    },
+    "SourceMassDriverBuildState.source_mass_driver_draw_configure_state": {
+      "status": "active",
+      "source_slice": "N2396",
+      "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+      "source_method": "MassDriverBuild.drawConfigure()",
+      "params": [
+        {
+          "name": "x_value",
+          "type": "float",
+          "schema": "source_mass_driver_draw_configure_state_input.x_value"
+        },
+        {
+          "name": "y_value",
+          "type": "float",
+          "schema": "source_mass_driver_draw_configure_state_input.y_value"
+        },
+        {
+          "name": "size_value",
+          "type": "int",
+          "schema": "source_mass_driver_draw_configure_state_input.size_value"
+        },
+        {
+          "name": "range_value",
+          "type": "float",
+          "schema": "source_mass_driver_draw_configure_state_input.range_value"
+        },
+        {
+          "name": "time_value",
+          "type": "float",
+          "schema": "source_mass_driver_draw_configure_state_input.time_value"
+        },
+        {
+          "name": "shooters",
+          "type": "Array",
+          "schema": "source_mass_driver_draw_configure_state_input.shooters"
+        },
+        {
+          "name": "link_valid",
+          "type": "bool",
+          "schema": "source_mass_driver_draw_configure_state_input.link_valid"
+        },
+        {
+          "name": "linked",
+          "type": "Dictionary",
+          "schema": "source_mass_driver_draw_configure_state_input.linked"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "circle_calls",
+        "arrow_calls",
+        "dash_circle_call"
+      ],
+      "tests": [
+        "test_c07_mass_driver_draw_rows_registration",
+        "test_all_c07_mass_driver_draw_rows_input_evidence_is_exact",
+        "test_mass_driver_draw_rows_state",
+        "test_reference_graph_and_actual_c07_mass_driver_draw_rows"
+      ],
+      "runtime_proof": "/root/C07MassDriverDrawRowsProof",
+      "rule": "Source-backed MassDriver draw rows from MassDriver.java / Block.java / Vars.java / Blocks.java."
+    },
+    "SourceMassDriverBuildState.source_mass_driver_draw_place_state": {
+      "status": "active",
+      "source_slice": "N2396",
+      "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+      "source_method": "MassDriver.drawPlace()",
+      "params": [
+        {
+          "name": "tile_x",
+          "type": "int",
+          "schema": "source_mass_driver_draw_place_state_input.tile_x"
+        },
+        {
+          "name": "tile_y",
+          "type": "int",
+          "schema": "source_mass_driver_draw_place_state_input.tile_y"
+        },
+        {
+          "name": "size_value",
+          "type": "int",
+          "schema": "source_mass_driver_draw_place_state_input.size_value"
+        },
+        {
+          "name": "range_value",
+          "type": "float",
+          "schema": "source_mass_driver_draw_place_state_input.range_value"
+        },
+        {
+          "name": "time_value",
+          "type": "float",
+          "schema": "source_mass_driver_draw_place_state_input.time_value"
+        },
+        {
+          "name": "config_shown",
+          "type": "bool",
+          "schema": "source_mass_driver_draw_place_state_input.config_shown"
+        },
+        {
+          "name": "selected",
+          "type": "Dictionary",
+          "schema": "source_mass_driver_draw_place_state_input.selected"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "dash_circle_call",
+        "link_line_calls"
+      ],
+      "tests": [
+        "test_c07_mass_driver_draw_rows_registration",
+        "test_all_c07_mass_driver_draw_rows_input_evidence_is_exact",
+        "test_mass_driver_draw_rows_state",
+        "test_reference_graph_and_actual_c07_mass_driver_draw_rows"
+      ],
+      "runtime_proof": "/root/C07MassDriverDrawRowsProof",
+      "rule": "Source-backed MassDriver draw rows from MassDriver.java / Block.java / Vars.java / Blocks.java."
+    },
+    "SourceLaunchPadBuildState.source_launch_pad_launch_pod_state": {
+      "status": "active",
+      "source_slice": "N2397",
+      "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+      "source_method": "LaunchPadBuild.updateTile()",
+      "params": [
+        {
+          "name": "launched",
+          "type": "bool",
+          "schema": "source_launch_pad_launch_pod_state_input.launched"
+        },
+        {
+          "name": "launched_stacks",
+          "type": "Dictionary",
+          "schema": "source_launch_pad_launch_pod_state_input.launched_stacks"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_launch_pad_launch_pod_state_input.team_id"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_launch_pad_launch_pod_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_launch_pad_launch_pod_state_input.y"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "pod",
+        "launched"
+      ],
+      "tests": [
+        "test_c07_launch_pad_pod_result_registration",
+        "test_all_c07_launch_pad_pod_result_input_evidence_is_exact",
+        "test_launch_pad_pod_result_state",
+        "test_reference_graph_and_actual_c07_launch_pad_pod_result"
+      ],
+      "runtime_proof": "/root/C07LaunchPadPodResultProof",
+      "rule": "Source-backed LaunchPad LaunchPayload pod result from LaunchPad.java / Consume.java."
+    },
+    "SourceRegenProjectorBuildState.source_regen_projector_heal_application_state": {
+      "status": "active",
+      "source_slice": "N2399",
+      "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+      "source_method": "RegenProjectorBuild.updateTile()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_regen_projector_heal_application_state_input.game"
+        },
+        {
+          "name": "heal_applications",
+          "type": "Dictionary",
+          "schema": "source_regen_projector_heal_application_state_input.heal_applications"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "applications",
+        "applied_count",
+        "skipped_count",
+        "recently_healed"
+      ],
+      "tests": [
+        "test_c07_regen_projector_heal_application_registration",
+        "test_all_c07_regen_projector_heal_application_input_evidence_is_exact",
+        "test_regen_projector_heal_application_state",
+        "test_reference_graph_and_actual_c07_regen_projector_heal_application"
+      ],
+      "runtime_proof": "/root/C07RegenProjectorHealApplicationProof",
+      "rule": "Source-backed RegenProjector mendMap flush live heal application rows from RegenProjector.java / BuildingComp.java / HealthComp.java / World.java / Tile.java / Point2.java."
     }
   },
   "policy": {

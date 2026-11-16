@@ -2606,6 +2606,41 @@
         }
       }
     },
+    "source_separator_can_dump_state_input": {
+      "canonical_schema": "source_state_schema.source_separator_can_dump_state_input",
+      "keys": {
+        "item_filter": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "return itemFilter[item.id];",
+          "rule": "The caller-supplied def itemFilter (Block.java:775): the filter built by source_separator_item_filter_state -- all-false for the separator, scrap-only for the disassembler.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_can_dump_state"
+          ]
+        },
+        "item_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "return itemFilter[item.id];",
+          "rule": "The offered item id (Block.java:775, itemFilter[item.id]): the content id from the catalog item_names_by_id (scrap 8, copper 0); Java guarantees item.id < content.items().size, so the lookup is in range.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_can_dump_state"
+          ]
+        },
+        "item": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+          "java_expr": "public boolean canDump(Building to, Item item){",
+          "rule": "The offered item (Separator.java:177, the canDump parameter): the item value carried through the generic consumesItem pure; compared by id, not by value. The `to` Building parameter is unused by the Java body, so the pure takes no `to`.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_can_dump_state"
+          ]
+        }
+      }
+    },
     "source_separator_disassembler_scrap_row_state_input": {
       "canonical_schema": "source_state_schema.source_separator_disassembler_scrap_row_state_input",
       "keys": {
