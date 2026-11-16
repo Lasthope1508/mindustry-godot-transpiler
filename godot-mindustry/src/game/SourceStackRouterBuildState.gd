@@ -27,6 +27,9 @@ const SOURCE_STACK_ROUTER_BUILDING_META_KEY := "source_stack_router_building"
 const SOURCE_STACK_ROUTER_SPEED := 6.0
 const SOURCE_STACK_ROUTER_BASE_EFFICIENCY := 1.0
 const SOURCE_STACK_ROUTER_ITEM_CAPACITY := 10
+# The glow def constants (StackRouter.java:15-16): `public float glowAlpha = 1f;` and `public Color glowColor = Pal.redLight;` (`redLight = Color.valueOf("feb380"),`, Pal.java:138) -- the single surge-router def sets NEITHER (Blocks.java:2255-2268), so both take the class defaults. The draw pure takes glow_color / glow_alpha as caller-supplied inputs and these constants record the def values (the N2431 elevation precedent).
+const SOURCE_STACK_ROUTER_GLOW_ALPHA := 1.0
+const SOURCE_STACK_ROUTER_GLOW_COLOR := "Pal.redLight"
 
 static func _is_stack_router_build_implementation(implementation: String) -> bool:
 	return SOURCE_STACK_ROUTER_BUILD_IMPLEMENTATIONS.has(implementation)
@@ -228,12 +231,124 @@ static func source_stack_router_power_status_row_state(frame: Dictionary, has_po
 	# The stack router is its own family (StackRouter.java:11, `public class StackRouter extends DuctRouter{`; StackRouterBuild, StackRouter.java:24, `public class StackRouterBuild extends DuctRouterBuild{`), a distribution block, NOT related to any factory / turret / defense / bridge / conveyor family. Class fields: `public float baseEfficiency = 0f;` (StackRouter.java:12), `public @Load(value = "@-glow", fallback = "arrow-glow") TextureRegion glowRegion;` (StackRouter.java:14), `public float glowAlpha = 1f;` (StackRouter.java:15), `public Color glowColor = Pal.redLight;` (StackRouter.java:16); constructor `public StackRouter(String name){` (StackRouter.java:18), `itemCapacity = 10;` (StackRouter.java:20), `drawDynamic = true;` (StackRouter.java:21). Build fields: `public boolean unloading = false;` (StackRouter.java:25). The updateTile advance (StackRouter.java:29, `float eff = enabled ? (efficiency + baseEfficiency) : 0f;` with StackRouter.java:30, `float cap = speed;` and StackRouter.java:35, `progress += eff;`, keep on ONE comment line, the N2148 shootWarmup lesson: a split line fails this test) fills toward the cap: `if(!unloading && current != null && items.total() >= itemCapacity){` (StackRouter.java:32) with `if(progress < cap){` (StackRouter.java:33), then `if(progress >= cap){` (StackRouter.java:37) sets `unloading = true;` (StackRouter.java:38) and `progress %= cap;` (StackRouter.java:39). The unload branch `if(unloading && current != null){` (StackRouter.java:46) hands items to the target: `var target = target();` (StackRouter.java:47), `while(target != null && items.get(current) > 0){` (StackRouter.java:48), `target.handleItem(this, current);` (StackRouter.java:49), `items.remove(current, 1);` (StackRouter.java:50), `if(items.get(current) == 0){` (StackRouter.java:52) sets `current = null;` (StackRouter.java:53) and `unloading = false;` (StackRouter.java:54). The current-pick branch `if((current == null || items.get(current) == 0) && items.total() > 0){` (StackRouter.java:62) with `current = items.first();` (StackRouter.java:63) picks the next item, and `if(items.empty()){` (StackRouter.java:68) clears it. The draw branch `public void drawCached(){` (StackRouter.java:75) calls `super.draw();` (StackRouter.java:76), then `if(glowRegion.found() && power != null && power.status > 0){` (StackRouter.java:79) with `Draw.z(Layer.blockAdditive);` (StackRouter.java:80), `Draw.color(glowColor, glowAlpha * power.status);` (StackRouter.java:81), `Draw.blend(Blending.additive);` (StackRouter.java:82), `Draw.rect(glowRegion, x, y, rotation * 90);` (StackRouter.java:83), `Draw.blend();` (StackRouter.java:84) and `Draw.color();` (StackRouter.java:85). The accept branch `public boolean acceptItem(Building source, Item item){` (StackRouter.java:89) checks `(Edges.getFacingEdge(source.tile, tile).relativeTo(tile) == rotation);` (StackRouter.java:90).
 	# The parent DuctRouter (DuctRouter.java:18, `public class DuctRouter extends Block{`; DuctRouterBuild, DuctRouter.java:76, `public class DuctRouterBuild extends Building{`) supplies the sortItem / progress / current build fields and the base updateTile (`progress += edelta() / speed * 2f;`, DuctRouter.java:102, with `if(progress >= (1f - 1f/speed)){`, DuctRouter.java:103, and `progress %= (1f - 1f/speed);`, DuctRouter.java:104) -- but StackRouterBuild OVERRIDES updateTile (StackRouter.java:28), so the parent's edelta-based advance never runs for a surge-router. Parent class fields: `public float speed = 5f;` (DuctRouter.java:19), `public @Load(value = "@-top") TextureRegion topRegion;` (DuctRouter.java:21); constructor `public DuctRouter(String name){` (DuctRouter.java:25), `group = BlockGroup.transportation;` (DuctRouter.java:26), `update = true;` (DuctRouter.java:27), `solid = false;` (DuctRouter.java:28), `hasItems = true;` (DuctRouter.java:29), `unloadable = false;` (DuctRouter.java:30), `itemCapacity = 1;` (DuctRouter.java:31), `noUpdateDisabled = true;` (DuctRouter.java:32), `configurable = true;` (DuctRouter.java:33), `saveConfig = true;` (DuctRouter.java:34), `rotate = true;` (DuctRouter.java:35), `clearOnDoubleTap = true;` (DuctRouter.java:36), `underBullets = true;` (DuctRouter.java:37), `priority = TargetPriority.transport;` (DuctRouter.java:38), `envEnabled = Env.space | Env.terrestrial | Env.underwater;` (DuctRouter.java:39), `drawCached = true;` (DuctRouter.java:40), `drawDynamic = false;` (DuctRouter.java:41). Parent build fields: `public @Nullable Item sortItem;` (DuctRouter.java:77), `public float progress;` (DuctRouter.java:79), `public @Nullable Item current;` (DuctRouter.java:80).
 	# Single def -- surge-router only (size 1, speed 6f, itemCapacity 10, health 130, surge-alloy 5 / tungsten 1, Blocks.java:2255-2268). duct-router (DuctRouter, no power def, NO hasPower line, Blocks.java:2193) and router (Router, no power def, NO hasPower line, Blocks.java:2139) are explicitly OUT of scope. No sense / read / write overrides exist on StackRouterBuild -- those wait for their own slices only if a later Java line needs them.
-	# Documented limits: (1) power-only first pass -- the surge-router's static power consumer (consumePower 3f/60f, Blocks.java:2266) is the only modeled consumer, so the folded efficiency is the min over the *modeled* consumers (power only); surge-router has no second consumer. (2) NO shouldConsume gate to defer -- StackRouterBuild has no shouldConsume override, so the BuildingComp default (`return enabled;`, BuildingComp.java:755-756) applies; the power-only fold is EXACT for this family. (3) updateTile advance live (N2240) -- eff fold / progress advance / unload branch / target handoff / current-pick branch (StackRouter.java:28-70) run every enabled tick after the consumption fold through the pure source_stack_router_update_tile_advance_state function; target() selection live (N2324) -- the tick simulates consecutive DuctRouter.target() calls (DuctRouter.java:139-157) over the frame proximity_neighbours input and passes the ordered list into the advance, stamping cdump only when a handoff happened; handleItem application still defers (the advance returns handed_off / handed_to as pure results) and the live proximity query still defers (the neighbour list is a frame input -- no live query fills it yet, so a router with no stamped neighbours still passes an empty list); acceptItem gate live (N2332) -- the pure source_stack_router_accept_item_state ports the 4-term StackRouter acceptItem override (StackRouter.java:89-93), NOT the stricter parent DuctRouter acceptItem (DuctRouter.java:160-164); no live caller evaluates it yet (acceptItem is called by other buildings' dump/offload, BuildingComp.java:1001-1016, and no live proximity/facing query fills facing_rel) and handleItem application still defers (the gate reports the verdict only). The power proof carries no progress / unloading / target / acceptItem keys; the eff fold (StackRouter.java:29) is what the efficiency keys prove, and the N2240 proof carries the advance keys. (4) No sense modeling -- sense waits for its own slice. (5) Single def -- surge-router only (size 1, speed 6f, itemCapacity 10, health 130, surge-alloy 5 / tungsten 1); duct-router (DuctRouter, no power def) and router (Router, no power def) are explicitly OUT of scope; per-def stat values wait for their own verification slice. (6) No draw/config modeling -- draw / drawSelect / config wait for their own slices.
+	# Documented limits: (1) power-only first pass -- the surge-router's static power consumer (consumePower 3f/60f, Blocks.java:2266) is the only modeled consumer, so the folded efficiency is the min over the *modeled* consumers (power only); surge-router has no second consumer. (2) NO shouldConsume gate to defer -- StackRouterBuild has no shouldConsume override, so the BuildingComp default (`return enabled;`, BuildingComp.java:755-756) applies; the power-only fold is EXACT for this family. (3) updateTile advance live (N2240) -- eff fold / progress advance / unload branch / target handoff / current-pick branch (StackRouter.java:28-70) run every enabled tick after the consumption fold through the pure source_stack_router_update_tile_advance_state function; target() selection live (N2324) -- the tick simulates consecutive DuctRouter.target() calls (DuctRouter.java:139-157) over the frame proximity_neighbours input and passes the ordered list into the advance, stamping cdump only when a handoff happened; handleItem application still defers (the advance returns handed_off / handed_to as pure results) and the live proximity query still defers (the neighbour list is a frame input -- no live query fills it yet, so a router with no stamped neighbours still passes an empty list); acceptItem gate live (N2332) -- the pure source_stack_router_accept_item_state ports the 4-term StackRouter acceptItem override (StackRouter.java:89-93), NOT the stricter parent DuctRouter acceptItem (DuctRouter.java:160-164); no live caller evaluates it yet (acceptItem is called by other buildings' dump/offload, BuildingComp.java:1001-1016, and no live proximity/facing query fills facing_rel) and handleItem application still defers (the gate reports the verdict only). The power proof carries no progress / unloading / target / acceptItem keys; the eff fold (StackRouter.java:29) is what the efficiency keys prove, and the N2240 proof carries the advance keys. (4) No sense modeling -- sense waits for its own slice. (5) Single def -- surge-router only (size 1, speed 6f, itemCapacity 10, health 130, surge-alloy 5 / tungsten 1); duct-router (DuctRouter, no power def) and router (Router, no power def) are explicitly OUT of scope; per-def stat values wait for their own verification slice. (6) Draw rows live (N2433) -- the draw pure (source_stack_router_draw_state) models drawCached() (:73-75: super.draw() = the parent DuctRouter draw, base rect + sort center when sortItem != null else the top rect at rotdeg()) + draw() (:78-87: the additive glow at Layer.blockAdditive with alpha glowAlpha * power.status when the glow region is found AND power != null AND power.status > 0) + drawSelect() (DuctRouter.java:93-99: super.drawSelect() + drawItemSelection(sortItem), recorded as calls) + icons() (DuctRouter.java:55-57: {region, topRegion}). Pure-only: the tick never calls draw -- drawCached/draw are called by the renderer, drawSelect by the UI, and the renderer/UI call sites wait for their own slices. Config still waits for its own slice.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
 	var live: float = 1.0 if stamped == null else float(stamped)
 	return {"has_power_row": true, "row": {"result": live, "is_power": true}}
+
+static func source_stack_router_draw_state(x_value: float, y_value: float, rotation: int, sort_item: Variant, power_status: float, glow_found: bool, glow_color: String, glow_alpha: float) -> Dictionary:
+	# The draw rows (StackRouterBuild.drawCached(), StackRouter.java:73-75, + draw(), :78-87, + the parent DuctRouterBuild.draw(), DuctRouter.java:83-92, + drawSelect(), :93-99), the pure draw-call dict -- the port never draws for real (the N2431 precedent: the pure returns the draw calls as data). Java draws, in order (each exact expr on ONE comment line, the N2148 lesson):
+	# `public void drawCached(){`
+	# `super.draw();`
+	# `public void draw(){`
+	# `Draw.rect(region, x, y);`
+	# `if(sortItem != null){`
+	# `Draw.color(sortItem.color);`
+	# `Draw.rect("center", x, y);`
+	# `Draw.color();`
+	# `Draw.rect(topRegion, x, y, rotdeg());`
+	# `if(glowRegion.found() && power != null && power.status > 0){`
+	# `Draw.z(Layer.blockAdditive);`
+	# `Draw.color(glowColor, glowAlpha * power.status);`
+	# `Draw.blend(Blending.additive);`
+	# `Draw.rect(glowRegion, x, y, rotation * 90);`
+	# `Draw.blend();`
+	# `Draw.color();`
+	# `public void drawSelect(){`
+	# `super.drawSelect();`
+	# `drawItemSelection(sortItem);`
+	# `public TextureRegion[] icons(){`
+	# `return new TextureRegion[]{region, topRegion};`
+	# drawCached() calls super.draw() -- the DuctRouter draw -- and DuctRouter sets `drawCached = true;` (DuctRouter.java:40) while StackRouter sets `drawDynamic = true;` (StackRouter.java:21), so the cached layer is the parent draw and the dynamic layer is the glow. The glow region is the `@-glow` region with the arrow-glow fallback (`public @Load(value = "@-glow", fallback = "arrow-glow") TextureRegion glowRegion;`, StackRouter.java:14) and the top region is the `@-top` region (`public @Load(value = "@-top") TextureRegion topRegion;`, DuctRouter.java:21). glowAlpha is `public float glowAlpha = 1f;` (StackRouter.java:15) and glowColor is `public Color glowColor = Pal.redLight;` (StackRouter.java:16, `redLight = Color.valueOf("feb380"),`, Pal.java:138) -- the single surge-router def (`surgeRouter = new StackRouter("surge-router"){{`, Blocks.java:2255, `consumePower(3f / 60f);`, Blocks.java:2266) sets NEITHER, so both take the class defaults (the driver constants SOURCE_STACK_ROUTER_GLOW_ALPHA / SOURCE_STACK_ROUTER_GLOW_COLOR). The sort item is the frame state the N2324 target pure reads (`public @Nullable Item sortItem;`, DuctRouter.java:77) -- the pure takes it caller-supplied as null or a Dict {name, color} and never reads the frame; the color token is caller-supplied (the port has no live Item objects, the N2415 token precedent), and a non-Dict non-null value is read as a bare name with an empty color token. rotdeg() is rotation * 90 (`public float rotdeg(){` with `return rotation * 90;`, BuildingComp.java:582-584) and rotation is the transient int (`transient int rotation;`, BuildingComp.java:69). The power gate is a STRICT > 0 -- power.status exactly 0 draws no glow -- and power_status -1 is the power-null sentinel (the `power != null` gate, StackRouter.java:79): the gate is glow_found && power_status > 0.0, so -1 fails it exactly like a null power. drawItemSelection draws the icon only when the selection is non-null (`public void drawItemSelection(@Nullable UnlockableContent selection){` with `if(selection != null){`, BuildingComp.java:1249-1250), so the select call carries draws_icon true iff sort_item is set; the super call is always recorded. StackRouter does NOT override icons() -- the override is the parent's, inherited by the surge-router. Pure-only: the tick never calls draw -- drawCached/draw are called by the renderer, drawSelect by the UI, and the renderer/UI call sites wait for their own slices.
+	var rotdeg_value: float = float(rotation * 90)
+	var sort_name: String = ""
+	var sort_color: String = ""
+	if sort_item != null:
+		if sort_item is Dictionary:
+			sort_name = str(sort_item.get("name", ""))
+			sort_color = str(sort_item.get("color", ""))
+		else:
+			sort_name = str(sort_item)
+	var cached_base_call: Dictionary = {
+		"call": "Draw.rect(region, x, y);",
+		"region": "region",
+		"x": x_value,
+		"y": y_value,
+	}
+	var cached_sort_call: Variant = null
+	if sort_item != null:
+		cached_sort_call = {
+			"call": "Draw.rect(\"center\", x, y);",
+			"region": "center",
+			"color": sort_color,
+			"sort_item": sort_name,
+			"x": x_value,
+			"y": y_value,
+		}
+	var cached_top_call: Variant = null
+	if sort_item == null:
+		cached_top_call = {
+			"call": "Draw.rect(topRegion, x, y, rotdeg());",
+			"region": "topRegion",
+			"x": x_value,
+			"y": y_value,
+			"rotation": rotdeg_value,
+		}
+	var glow_alpha_value: float = glow_alpha * power_status
+	var glow_call: Variant = null
+	if glow_found and power_status > 0.0:
+		glow_call = {
+			"call": "Draw.rect(glowRegion, x, y, rotation * 90);",
+			"region": "glowRegion",
+			"color": glow_color,
+			"alpha": glow_alpha_value,
+			"x": x_value,
+			"y": y_value,
+			"rotation": rotdeg_value,
+			"z": "Layer.blockAdditive",
+			"blend": "additive",
+		}
+	var select_call: Dictionary = {
+		"super_call": "super.drawSelect();",
+		"item_selection_call": "drawItemSelection(sortItem);",
+		"sort_item": sort_name if sort_item != null else null,
+		"draws_icon": sort_item != null,
+	}
+	var icon_regions: Array = ["region", "topRegion"]
+	return {
+		"cached_expr": "super.draw();",
+		"base_expr": "Draw.rect(region, x, y);",
+		"sort_gate_expr": "if(sortItem != null){",
+		"sort_color_expr": "Draw.color(sortItem.color);",
+		"sort_expr": "Draw.rect(\"center\", x, y);",
+		"top_expr": "Draw.rect(topRegion, x, y, rotdeg());",
+		"glow_gate_expr": "if(glowRegion.found() && power != null && power.status > 0){",
+		"glow_z_expr": "Draw.z(Layer.blockAdditive);",
+		"glow_color_expr": "Draw.color(glowColor, glowAlpha * power.status);",
+		"glow_blend_expr": "Draw.blend(Blending.additive);",
+		"glow_expr": "Draw.rect(glowRegion, x, y, rotation * 90);",
+		"select_super_expr": "super.drawSelect();",
+		"select_expr": "drawItemSelection(sortItem);",
+		"icons_expr": "return new TextureRegion[]{region, topRegion};",
+		"x": x_value,
+		"y": y_value,
+		"rotation": rotation,
+		"sort_item": sort_item,
+		"power_status": power_status,
+		"glow_found": glow_found,
+		"glow_color": glow_color,
+		"glow_alpha": glow_alpha,
+		"rotdeg": rotdeg_value,
+		"glow_alpha_value": glow_alpha_value,
+		"cached_base_call": cached_base_call,
+		"cached_sort_call": cached_sort_call,
+		"cached_top_call": cached_top_call,
+		"glow_call": glow_call,
+		"select_call": select_call,
+		"icon_regions": icon_regions,
+	}
 
 @warning_ignore("unused_parameter")
 static func source_stack_router_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
