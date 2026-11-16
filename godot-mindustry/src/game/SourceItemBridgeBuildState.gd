@@ -102,7 +102,7 @@ static func source_item_bridge_bind_frame_state(sprite: Sprite2D, block: Object)
 
 static func source_item_bridge_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a phase-conveyor does not take the early return. The item bridge's power draw is STATIC, not conditional: `consumePower(0.30f);` (Blocks.java:2125) registers a plain ConsumePower, so the catalog consumePower 0.3 is present and the plain radar gate (block.properties.has("consumePower")) works -- no RepairTurret-style `or consumesPower` adaptation is needed. The pure row is still the same ConsumePower read (`return build.power.status;`, ConsumePower.java:39). The updateTransport charge follows the folded efficiency: the transport charge (ItemBridge.java:356, `transportCounter += edelta();`) charges by edelta() (BuildingComp.java:1927-1929, `return efficiency * delta();`), so a phase-conveyor with no power would never advance its transport counter and never move items across the bridge. ItemBridgeBuild overrides shouldConsume (ItemBridge.java:495, `public boolean shouldConsume(){` with `return hadValidLink && enabled;`, ItemBridge.java:496); updateConsumption forces efficiency to zero when the gate is false (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). N2188 wires the gate (N2197 supplied the link frame state first: frame link/had_valid_link + pure configure + pure linkValid + the driver recompute every tick after the consumption fold): the pure source_item_bridge_should_consume_state gate is the override exactly (`return hadValidLink && enabled;`), the driver reads should_consume through it, and the machinery folds efficiency to 0 when the gate is false (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();`, with BuildingComp.java:1992-1994, `if(!update){` / `efficiency = optionalEfficiency = 0f;`). The gate reads the previous tick's had_valid_link -- the recompute runs after the fold, the Java order (BuildingComp.java:2274-2277) -- so a freshly linked bridge consumes from the next tick. The link gate itself is `hadValidLink = linkValid(tile, other);` (ItemBridge.java:333). The item bridge is its own family (ItemBridge.java:24, `public class ItemBridge extends Block{`; ItemBridgeBuild, ItemBridge.java:197, `public class ItemBridgeBuild extends Building{`), a distribution block, NOT related to any factory / turret / defense family. Class fields: `public final int timerCheckMoved = timers ++;` (ItemBridge.java:25), `public int range;` (ItemBridge.java:27), `public float transportTime;` (ItemBridge.java:28), `public boolean fadeIn = true;` (ItemBridge.java:34), `public boolean moveArrows = true;` (ItemBridge.java:35), `public boolean pulse = false;` (ItemBridge.java:36), `public float arrowSpacing = 4f, arrowOffset = 2f, arrowPeriod = 0.4f;` (ItemBridge.java:37), `public float arrowTimeScl = 6.2f;` (ItemBridge.java:38), `public float bridgeWidth = 6.5f;` (ItemBridge.java:39); constructor `update = true;` (ItemBridge.java:45), `solid = true;` (ItemBridge.java:46), `underBullets = true;` (ItemBridge.java:47), `hasPower = true;` (ItemBridge.java:48), `itemCapacity = 10;` (ItemBridge.java:49), `configurable = true;` (ItemBridge.java:50), `hasItems = true;` (ItemBridge.java:51). Build fields: `public int link = -1;` (ItemBridge.java:198), `public IntSeq incoming = new IntSeq(false, 4);` (ItemBridge.java:199), `public float warmup;` (ItemBridge.java:200), `public float time = -8f, timeSpeed;` (ItemBridge.java:201), `public boolean wasMoved, moved, hadValidLink;` (ItemBridge.java:202), `public float transportCounter;` (ItemBridge.java:203). The warmup approach (ItemBridge.java:345, `warmup = Mathf.approachDelta(warmup, efficiency, 1f / 30f);`) also follows the folded efficiency when a valid link exists; without a link `warmup = 0f` (ItemBridge.java:337). draw() uses `float warmup = hasPower ? this.warmup : 1f;` (ItemBridge.java:387) -- the bridge-conveyor (hasPower false) always draws warmup 1f, another reason the two defs must not share one driver row. BufferedItemBridge extends ItemBridge (BufferedItemBridge.java:9, `public class BufferedItemBridge extends ItemBridge{`) with `hasPower = false;` (BufferedItemBridge.java:18) and `bufferCapacity = 50` class default (def overrides to 14, Blocks.java:2113) and `speed = 74f` (def, Blocks.java:2112). canConsume (BuildingComp.java:1917, `public boolean canConsume(){` with `return potentialEfficiency > 0;`, BuildingComp.java:1918) and the shouldConsume default (BuildingComp.java:755, `public boolean shouldConsume(){` with `return enabled;`, BuildingComp.java:756) are the surrounding gates. The single def carries `consumePower(0.30f);` (Blocks.java:2125) with `range = 12;` (Blocks.java:2118) and `transportTime = 2f;` (Blocks.java:2119). Single def -- phase-conveyor only (size 1, range 12, transportTime 2f, phase-fabric 5 / silicon 7 / lead 10 / graphite 10, Blocks.java:2116-2125). bridge-conveyor (BufferedItemBridge, no power def) is explicitly OUT of scope.
-	# Documented limits: (1) power-only first pass -- the phase-conveyor's static power consumer (consumePower 0.30f, Blocks.java:2125) is the only modeled consumer, so the folded efficiency is the min over the *modeled* consumers (power only); phase-conveyor has no second consumer. (2) shouldConsume gate LIVE (N2188) -- ItemBridgeBuild.shouldConsume() (`return hadValidLink && enabled;`, ItemBridge.java:495-496) is the pure source_item_bridge_should_consume_state gate over the N2197 link frame state (frame link/had_valid_link + pure configure + pure linkValid + the driver recompute every tick after the consumption fold); the driver reads should_consume through it and the machinery folds efficiency to 0 when the gate is false (BuildingComp.java:1960/:1992-1994). The gate reads the previous tick's had_valid_link -- the Java order, updateConsumption before updateTile (BuildingComp.java:2274-2277) -- so a freshly linked bridge consumes from the next tick. (3) updateTile transport advance live (N2225) -- checkIncoming prune / incoming registration / transportCounter charge / item handoff / warmup approach / time + timeSpeed advance (ItemBridge.java:319-368) run every enabled tick after the consumption fold through the pure source_item_bridge_update_transport_state function; doDump live (N2288) -- dumpAccumulate (ItemBridge.java:350-353, BuildingComp.java:1048-1061) through the pure source_item_bridge_do_dump_state function, wired in the unlinked branch only after the transport advance, with the neighbour acceptItem/canDump arrays as frame inputs (default [] -- the dump neighbour live fill is live since N2404: the tick fills the arrays from the live proximity before the doDump, supplied arrays win) and doDump neighbour write-back live since N2362 (the advance exposes dump_deliveries, one {neighbour_index, item} per successful attempt, and the tick lands each dumped item in the neighbour store through the N2353 helper); the timerCheckMoved snapshot live (N2321) -- the frame-local Interval-equivalent pure source_item_bridge_timer_check_moved_state (ItemBridge.java:320-323, 30f, no timeScale division) runs in the driver before the advance call and stamps frame was_moved/moved/timer_check_moved_elapsed, so the advance reads the snapshot values (first-fire deviation: Java fires nearly immediately after placement, the frame clock delays the first fire by a full 30-tick interval), and checkAccept facing (ItemBridge.java:441-463) defers for non-linked sources -- the transport path takes the linked() shortcut (ItemBridge.java:464-466), so acceptItem there is the capacity gate only. The power proof carries no transport/warmup keys; the transport charge (ItemBridge.java:356) is what the efficiency keys prove, and the N2225 proof carries the transport keys. (4) No sense/warmup modeling -- `warmup()` has no override here (draw-only warmup, :387) and sense waits for its own slice. (5) Single def -- phase-conveyor only (size 1, range 12, transportTime 2f, phase-fabric 5 / silicon 7 / lead 10 / graphite 10); bridge-conveyor (BufferedItemBridge, no power def) is explicitly OUT of scope; per-def stat values wait for their own verification slice. (6) Draw rows live (N2429) -- the pure source_item_bridge_draw_state models draw() (ItemBridge.java:371-420: super.draw + Layer.power z + the linkValid / bridgeOpacity early returns + the relativeTo direction + the pulse color (live for the phase-conveyor, pulse = true, Blocks.java:2124) + the draw warmup `float warmup = hasPower ? this.warmup : 1f;` (:387) + the fadeIn 0.25f alpha floor + the endRegion rects + the bridgeRegion line + dist + the Lod.l1 moving arrows) + drawSelect (:223-231) / drawInput (:233-266: the pulsing alpha + the lerp arrow at rel * 90 + the gray background + place/accent foreground) / drawConfigure (:269-281: the self select + one select per linkValid candidate, linked ? Pal.place : Pal.breakInvalid). The warmup approach (:345) is updateTile logic, already live since N2225 -- NOT part of this slice. ItemBridge has NO icons() override and moveArrows is a dead field (declared :34, never read). Pure-only: the tick never calls draw -- draw is called by the renderer, drawSelect/drawConfigure by the UI, and the call sites wait for renderer/UI slices. The pure configure covers the config handlers (ItemBridge.java:64/66); placement auto-link is LIVE (N2199: pure findLink + playerPlaced + game lastBuild store + player-path driver, ItemBridge.java:41, 167-173, 211-220); drawPlace / drawPlanConfigTop (ItemBridge.java:118-142, :82-96) and handlePlacementLine / pickedUp wait for their own slices.
+	# Documented limits: (1) power-only first pass -- the phase-conveyor's static power consumer (consumePower 0.30f, Blocks.java:2125) is the only modeled consumer, so the folded efficiency is the min over the *modeled* consumers (power only); phase-conveyor has no second consumer. (2) shouldConsume gate LIVE (N2188) -- ItemBridgeBuild.shouldConsume() (`return hadValidLink && enabled;`, ItemBridge.java:495-496) is the pure source_item_bridge_should_consume_state gate over the N2197 link frame state (frame link/had_valid_link + pure configure + pure linkValid + the driver recompute every tick after the consumption fold); the driver reads should_consume through it and the machinery folds efficiency to 0 when the gate is false (BuildingComp.java:1960/:1992-1994). The gate reads the previous tick's had_valid_link -- the Java order, updateConsumption before updateTile (BuildingComp.java:2274-2277) -- so a freshly linked bridge consumes from the next tick. (3) updateTile transport advance live (N2225) -- checkIncoming prune / incoming registration / transportCounter charge / item handoff / warmup approach / time + timeSpeed advance (ItemBridge.java:319-368) run every enabled tick after the consumption fold through the pure source_item_bridge_update_transport_state function; doDump live (N2288) -- dumpAccumulate (ItemBridge.java:350-353, BuildingComp.java:1048-1061) through the pure source_item_bridge_do_dump_state function, wired in the unlinked branch only after the transport advance, with the neighbour acceptItem/canDump arrays as frame inputs (default [] -- the dump neighbour live fill is live since N2404: the tick fills the arrays from the live proximity before the doDump, supplied arrays win) and doDump neighbour write-back live since N2362 (the advance exposes dump_deliveries, one {neighbour_index, item} per successful attempt, and the tick lands each dumped item in the neighbour store through the N2353 helper); the timerCheckMoved snapshot live (N2321) -- the frame-local Interval-equivalent pure source_item_bridge_timer_check_moved_state (ItemBridge.java:320-323, 30f, no timeScale division) runs in the driver before the advance call and stamps frame was_moved/moved/timer_check_moved_elapsed, so the advance reads the snapshot values (first-fire deviation: Java fires nearly immediately after placement, the frame clock delays the first fire by a full 30-tick interval), and checkAccept facing (ItemBridge.java:441-463) defers for non-linked sources -- the transport path takes the linked() shortcut (ItemBridge.java:464-466), so acceptItem there is the capacity gate only. The power proof carries no transport/warmup keys; the transport charge (ItemBridge.java:356) is what the efficiency keys prove, and the N2225 proof carries the transport keys. (4) No sense/warmup modeling -- `warmup()` has no override here (draw-only warmup, :387) and sense waits for its own slice. (5) Single def -- phase-conveyor only (size 1, range 12, transportTime 2f, phase-fabric 5 / silicon 7 / lead 10 / graphite 10); bridge-conveyor (BufferedItemBridge, no power def) is explicitly OUT of scope; per-def stat values wait for their own verification slice. (6) Draw rows live (N2429) -- the pure source_item_bridge_draw_state models draw() (ItemBridge.java:371-420: super.draw + Layer.power z + the linkValid / bridgeOpacity early returns + the relativeTo direction + the pulse color (live for the phase-conveyor, pulse = true, Blocks.java:2124) + the draw warmup `float warmup = hasPower ? this.warmup : 1f;` (:387) + the fadeIn 0.25f alpha floor + the endRegion rects + the bridgeRegion line + dist + the Lod.l1 moving arrows) + drawSelect (:223-231) / drawInput (:233-266: the pulsing alpha + the lerp arrow at rel * 90 + the gray background + place/accent foreground) / drawConfigure (:269-281: the self select + one select per linkValid candidate, linked ? Pal.place : Pal.breakInvalid). The warmup approach (:345) is updateTile logic, already live since N2225 -- NOT part of this slice. ItemBridge has NO icons() override and moveArrows is a dead field (declared :34, never read). Pure-only: the tick never calls draw -- draw is called by the renderer, drawSelect/drawConfigure by the UI, and the call sites wait for renderer/UI slices. The pure configure covers the config handlers (ItemBridge.java:64/66); placement auto-link is LIVE (N2199: pure findLink + playerPlaced + game lastBuild store + player-path driver, ItemBridge.java:41, 167-173, 211-220); handlePlacementLine / pickedUp wait for their own slices. (7) DrawPlace rows live (N2456) -- the pures source_item_bridge_draw_place_state + source_item_bridge_draw_plan_config_top_state model drawPlace (ItemBridge.java:118-142: super.drawPlace recorded + the findLink caller-supplied link + the 4 Pal.placing dash lines in d4 order + the Manhattan > 1 link rect + the bridge-arrow at rot * 90) + drawPlanConfigTop (:82-96: the Point2 config gate + the caller-supplied findPlan result) + drawBridge (:98-115: the Mathf.zero opacity gate + the bridgeRegion line 4px short of each end + the arrowRegion arrow at the midpoint, Angles.angle + flip 0). Pure-only: the tick never calls drawPlace/drawPlanConfigTop -- the placement UI calls them, and the call sites wait for UI slices.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -356,6 +356,172 @@ static func source_item_bridge_draw_state(x_value: float, y_value: float, tile_x
 		"input_call": input_calls,
 		"configure_call": configure_call,
 		"draw_skipped_reason": draw_skipped_reason,
+	}
+
+static func source_item_bridge_draw_place_state(tile_x: int, tile_y: int, range: int, link: Variant) -> Dictionary:
+	# The draw-place rows (ItemBridge.drawPlace(), ItemBridge.java:118-142), the pure draw-call dict -- the port never draws for real (the N2429 draw precedent: the pure returns the draw calls as data). Java, in order (each exact expr on ONE comment line, the N2148 lesson):
+	# `public void drawPlace(int x, int y, int rotation, boolean valid){`
+	# `super.drawPlace(x, y, rotation, valid);`
+	# `Tile link = findLink(x, y);`
+	# `for(int i = 0; i < 4; i++){`
+	# `Drawf.dashLine(Pal.placing,`
+	# `x * tilesize + Geometry.d4[i].x * (tilesize / 2f + 2),`
+	# `y * tilesize + Geometry.d4[i].y * (tilesize / 2f + 2),`
+	# `x * tilesize + Geometry.d4[i].x * (range) * tilesize,`
+	# `y * tilesize + Geometry.d4[i].y * (range) * tilesize);`
+	# `Draw.reset();`
+	# `Draw.color(Pal.placing);`
+	# `Lines.stroke(1f);`
+	# `if(link != null && Math.abs(link.x - x) + Math.abs(link.y - y) > 1){`
+	# `int rot = link.absoluteRelativeTo(x, y);`
+	# `float w = (link.x == x ? tilesize : Math.abs(link.x - x) * tilesize - tilesize);`
+	# `float h = (link.y == y ? tilesize : Math.abs(link.y - y) * tilesize - tilesize);`
+	# `Lines.rect((x + link.x) / 2f * tilesize - w / 2f, (y + link.y) / 2f * tilesize - h / 2f, w, h);`
+	# `Draw.rect("bridge-arrow", link.x * tilesize + Geometry.d4(rot).x * tilesize, link.y * tilesize + Geometry.d4(rot).y * tilesize, link.absoluteRelativeTo(x, y) * 90);`
+	# `public Tile findLink(int x, int y){`
+	# `public byte absoluteRelativeTo(int cx, int cy){`
+	# `public int range;`
+	# `public static void dashLine(Color color, float x, float y, float x2, float y2){`
+	# `dashLine(color, x, y, x2, y2, (int)(Math.max(Math.abs(x - x2), Math.abs(y - y2)) / tilesize * 2));`
+	# `placing = accent,`
+	# `public static final int tilesize = 8;`
+	# `range = 12;`
+	# `public final static Point2[] d4 = {`
+	# `new Point2(1, 0),`
+	# `new Point2(0, 1),`
+	# `new Point2(-1, 0),`
+	# `new Point2(0, -1)`
+	# `public final static int[] d4x = {1, 0, -1, 0};`
+	# `public final static int[] d4y = {0, 1, 0, -1};`
+	# `return d4[Mathf.mod(i, 4)];`
+	# super.drawPlace is Block.drawPlace (drawPotentialLinks + drawOverlay, SourceBlockDrawState) and is NOT modeled here: the pure records that the super call happens, not its content (the N2374 precedent -- super is recorded, not a symbol). rotation / valid pass through to super only, so the pure takes neither. findLink is already live since N2199 (`public Tile findLink(int x, int y){`, ItemBridge.java:167-173, the pure source_item_bridge_find_link_state): the pure takes its output caller-supplied as link ({x, y} Dict, or null when nothing was found) and does NOT port findLink again. The link tile is always the same ItemBridge def -- findLink only returns linkValid tiles, and linkValid requires the same block def (ItemBridge.java:152) -- so the link block is size 1 and absoluteRelativeTo takes the odd branch (Tile.java:117). absoluteRelativeTo is called ON the link tile with the placement coords (`public byte absoluteRelativeTo(int cx, int cy){`, Tile.java:114): rot 0 means the placement tile is EAST of the link, so an EAST link has rot 2 (the placement tile is west of it) -- the arrow sits on the link tile's edge facing the placement tile at rot * 90. Geometry.d4 order is 0 east (+x), 1 north (+y), 2 west (-x), 3 south (-y) (Geometry.java:10-14, arc -- the comment "starting at the left" is wrong, the values win); Geometry.d4(rot) wraps with Mathf.mod (the draw pure's posmod pattern). Pal.placing IS the accent color (`placing = accent,`, Pal.java:95). The dash segments come from the Drawf 4-arg overload (`public static void dashLine(Color color, float x, float y, float x2, float y2){` / `dashLine(color, x, y, x2, y2, (int)(Math.max(Math.abs(x - x2), Math.abs(y - y2)) / tilesize * 2));`, Drawf.java:223-224, mindustry -- the underlay is gray stroke 3f + the overlay is the color stroke 1f, Drawf.java:227-234, recorded in the comment, not per-dash). tilesize is the Java constant 8.0 (`public static final int tilesize = 8;`, Vars.java:135 -- NEVER the game tile_size 32, the N2375 lesson). The single ItemBridge def is the phase-conveyor (`range = 12;`, Blocks.java:2118 -- there is NO separate "item-bridge" def in Blocks.java, only phase-conveyor carries `new ItemBridge(`). The Manhattan gate is STRICTLY greater than 1: an adjacent link (dist 1) draws the dashes but no rect and no arrow. A diagonal link passes the gate (Manhattan 2) and gets the degenerate zero-size rect Java draws (w = h = |1| * tilesize - tilesize = 0). Pure-only: drawPlace never runs in the tick -- it is called by the placement UI, and the call site waits for a UI slice. DrawPlace rows live (N2456).
+	var tile_size: float = 8.0
+	var d4_x: Array = [1, 0, -1, 0]
+	var d4_y: Array = [0, 1, 0, -1]
+	var super_place_call: Dictionary = {
+		"call": "super.drawPlace(x, y, rotation, valid);",
+		"tile_x": tile_x,
+		"tile_y": tile_y,
+	}
+	var dash_calls: Array = []
+	for i in 4:
+		var dir_x: int = int(d4_x[i])
+		var dir_y: int = int(d4_y[i])
+		var dash_x1: float = float(tile_x) * tile_size + float(dir_x) * (tile_size / 2.0 + 2.0)
+		var dash_y1: float = float(tile_y) * tile_size + float(dir_y) * (tile_size / 2.0 + 2.0)
+		var dash_x2: float = float(tile_x) * tile_size + float(dir_x) * float(range) * tile_size
+		var dash_y2: float = float(tile_y) * tile_size + float(dir_y) * float(range) * tile_size
+		var dash_segments: int = int(maxf(absf(dash_x1 - dash_x2), absf(dash_y1 - dash_y2)) / tile_size * 2.0)
+		dash_calls.append({"call": "Drawf.dashLine(Pal.placing, x1, y1, x2, y2);", "direction": i, "color": "Pal.placing", "x1": dash_x1, "y1": dash_y1, "x2": dash_x2, "y2": dash_y2, "segments": dash_segments})
+	var link_rect: Variant = null
+	var arrow_call: Variant = null
+	if link is Dictionary:
+		var link_dict: Dictionary = link
+		var link_x: int = int(link_dict.get("x", 0))
+		var link_y: int = int(link_dict.get("y", 0))
+		var link_manhattan: int = absi(link_x - tile_x) + absi(link_y - tile_y)
+		if link_manhattan > 1:
+			var link_rot: int = _item_bridge_absolute_relative_to(link_x, link_y, tile_x, tile_y, 1)
+			var rect_w: float = tile_size if link_x == tile_x else float(absi(link_x - tile_x)) * tile_size - tile_size
+			var rect_h: float = tile_size if link_y == tile_y else float(absi(link_y - tile_y)) * tile_size - tile_size
+			var rect_x: float = float(tile_x + link_x) / 2.0 * tile_size - rect_w / 2.0
+			var rect_y: float = float(tile_y + link_y) / 2.0 * tile_size - rect_h / 2.0
+			link_rect = {"x": rect_x, "y": rect_y, "w": rect_w, "h": rect_h, "rotation": link_rot, "stroke": 1.0, "color": "Pal.placing"}
+			var arrow_dir_x: int = int(d4_x[posmod(link_rot, 4)])
+			var arrow_dir_y: int = int(d4_y[posmod(link_rot, 4)])
+			arrow_call = {"region": "bridge-arrow", "x": float(link_x) * tile_size + float(arrow_dir_x) * tile_size, "y": float(link_y) * tile_size + float(arrow_dir_y) * tile_size, "rotation_degrees": float(link_rot * 90)}
+	return {
+		"super_place_call": super_place_call,
+		"dash_calls": dash_calls,
+		"link_rect": link_rect,
+		"arrow_call": arrow_call,
+	}
+
+static func source_item_bridge_draw_plan_config_top_state(plan_x: int, plan_y: int, plan_config: Variant, range: int, other_req: Variant, bridge_opacity: float, bridge_width: float) -> Dictionary:
+	# The draw-plan-config-top rows (ItemBridge.drawPlanConfigTop(), ItemBridge.java:82-96 + drawBridge(), :98-115), the pure draw-call dict -- the port never draws for real (the N2429 draw precedent). Java, in order (each exact expr on ONE comment line, the N2148 lesson):
+	# `public void drawPlanConfigTop(BuildPlan plan, Eachable<BuildPlan> list){`
+	# `if(plan.config instanceof Point2 p && (Math.abs(p.x) <= range && Math.abs(p.y) <= range && (p.x == 0 || p.y == 0))){`
+	# `currentFindX = plan.x + p.x;`
+	# `currentFindY = plan.y + p.y;`
+	# `var otherReq = findPlan(list, currentFindX, currentFindY, planFinder);`
+	# `if(otherReq != null){`
+	# `drawBridge(plan, otherReq.drawx(), otherReq.drawy(), 0);`
+	# `public void drawBridge(BuildPlan req, float ox, float oy, float flip){`
+	# `if(Mathf.zero(Renderer.bridgeOpacity)) return;`
+	# `Draw.alpha(Renderer.bridgeOpacity);`
+	# `Lines.stroke(bridgeWidth);`
+	# `Tmp.v1.set(ox, oy).sub(req.drawx(), req.drawy()).setLength(tilesize/2f);`
+	# `Lines.line(`
+	# `bridgeRegion,`
+	# `req.drawx() + Tmp.v1.x,`
+	# `req.drawy() + Tmp.v1.y,`
+	# `ox - Tmp.v1.x,`
+	# `oy - Tmp.v1.y, false`
+	# `Draw.rect(arrowRegion, (req.drawx() + ox) / 2f, (req.drawy() + oy) / 2f,`
+	# `Angles.angle(req.drawx(), req.drawy(), ox, oy) + flip);`
+	# `Draw.reset();`
+	# `public @Load("@-bridge") TextureRegion bridgeRegion;`
+	# `public @Load("@-arrow") TextureRegion arrowRegion;`
+	# `public float bridgeWidth = 6.5f;`
+	# `public static BuildPlan findPlan(Eachable<BuildPlan> list, int x, int y, Boolf<BuildPlan> predicate){`
+	# `offset = ((size + 1) % 2) * tilesize / 2f;`
+	# `return x*tilesize + (block == null ? 0 : block.offset);`
+	# `return y*tilesize + (block == null ? 0 : block.offset);`
+	# `public static final float FLOAT_ROUNDING_ERROR = 0.000001f; // 32 bits`
+	# `return Math.abs(value) <= FLOAT_ROUNDING_ERROR;`
+	# `float ang = Mathf.atan2(x2 - x, y2 - y) * Mathf.radDeg;`
+	# `if(ang < 0) ang += 360f;`
+	# `return (oldLen2 == 0 || oldLen2 == len2) ? this : scl((float)Math.sqrt(len2 / oldLen2));`
+	# The plan config is the relative Point2 (the Point2 config handler is the relative one, ItemBridge.java:64): a non-Dict config (the Integer handler, :66, or null) fails the instanceof gate, and so does a diagonal or out-of-range Point2 -- (0, 0) PASSES (both |p| <= range and p.x == 0), it just finds nothing unless another plan sits on the same tile. The findPlan scan is the caller's: the pure cannot query the plan list, so other_req arrives caller-supplied ({draw_x, draw_y} Dict, or null when findPlan found nothing -- the N2429 caller-supplied precedent: link_valid / the incoming tiles / the configure candidates are caller-evaluated the same way; the planFinder predicate itself -- same block def, not the current plan, coords match, ItemBridge.java:79 -- is evaluated by the caller). The req draw pos is plan * tilesize: BuildPlan.drawx() adds the Block offset (`return x*tilesize + (block == null ? 0 : block.offset);`, BuildPlan.java:142-144), which is 0 for the size-1 bridge (`offset = ((size + 1) % 2) * tilesize / 2f;`, Block.java:761). Mathf.zero is |value| <= 1e-6 (`public static final float FLOAT_ROUNDING_ERROR = 0.000001f; // 32 bits` / `return Math.abs(value) <= FLOAT_ROUNDING_ERROR;`, Mathf.java:522-524, arc -- the draw pure's 0.000001 pattern). Angles.angle is atan2(dy, dx) degrees normalized to [0, 360) (`float ang = Mathf.atan2(x2 - x, y2 - y) * Mathf.radDeg;` / `if(ang < 0) ang += 360f;`, Angles.java:56-60, arc -- arc's atan2(x, y) is Math.atan2(y, x), Mathf.java:151) through the shared source_angles_angle helper, + flip 0 (drawPlanConfigTop always passes flip 0). A zero-length v1 STAYS zero (`return (oldLen2 == 0 || oldLen2 == len2) ? this : scl((float)Math.sqrt(len2 / oldLen2));`, Vec2.setLength2, arc -- the (0, 0)-config same-tile case), so the line runs req-to-o with no inset. Pure-only: drawPlanConfigTop never runs in the tick -- the placement UI calls it, and the call site waits for a UI slice.
+	var tile_size: float = 8.0
+	var config_valid: bool = false
+	var config_dx: int = 0
+	var config_dy: int = 0
+	if plan_config is Dictionary:
+		var plan_config_dict: Dictionary = plan_config
+		config_dx = int(plan_config_dict.get("x", 0))
+		config_dy = int(plan_config_dict.get("y", 0))
+		config_valid = absi(config_dx) <= range and absi(config_dy) <= range and (config_dx == 0 or config_dy == 0)
+	var find_x: Variant = null
+	var find_y: Variant = null
+	var skipped_reason: String = ""
+	if not config_valid:
+		skipped_reason = "invalid_config"
+	elif not (other_req is Dictionary):
+		skipped_reason = "no_other_req"
+	elif absf(bridge_opacity) <= 0.000001:
+		skipped_reason = "zero_opacity"
+	var bridge_call: Variant = null
+	if config_valid:
+		find_x = plan_x + config_dx
+		find_y = plan_y + config_dy
+	if skipped_reason.is_empty():
+		var other_dict: Dictionary = other_req
+		var req_x: float = float(plan_x) * tile_size
+		var req_y: float = float(plan_y) * tile_size
+		var other_x: float = float(other_dict.get("draw_x", 0.0))
+		var other_y: float = float(other_dict.get("draw_y", 0.0))
+		var delta_x: float = other_x - req_x
+		var delta_y: float = other_y - req_y
+		var delta_len: float = sqrt(delta_x * delta_x + delta_y * delta_y)
+		var v1_x: float = 0.0
+		var v1_y: float = 0.0
+		if delta_len > 0.0:
+			v1_x = delta_x * (tile_size / 2.0) / delta_len
+			v1_y = delta_y * (tile_size / 2.0) / delta_len
+		var bridge_angle: float = source_math_state.source_angles_angle(req_x, req_y, other_x, other_y)
+		bridge_call = {
+			"line": {"region": "bridgeRegion", "stroke": bridge_width, "x1": req_x + v1_x, "y1": req_y + v1_y, "x2": other_x - v1_x, "y2": other_y - v1_y},
+			"arrow": {"region": "arrowRegion", "x": (req_x + other_x) / 2.0, "y": (req_y + other_y) / 2.0, "angle_degrees": bridge_angle},
+			"alpha": bridge_opacity,
+			"flip": 0.0,
+		}
+	return {
+		"bridge_call": bridge_call,
+		"config_valid": config_valid,
+		"find_x": find_x,
+		"find_y": find_y,
+		"skipped_reason": skipped_reason,
 	}
 
 static func _item_bridge_take_item(items: Dictionary, take_rotation: int, item_order: Array) -> Dictionary:
