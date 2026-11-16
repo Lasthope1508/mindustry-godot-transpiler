@@ -1,0 +1,18 @@
+test_all_c07_liquid_neighbour_write_back_input_evidence_is_exact (tests.test_c07_liquid_neighbour_write_back.C07LiquidNeighbourWriteBackTests.test_all_c07_liquid_neighbour_write_back_input_evidence_is_exact) ... ok
+test_c07_liquid_neighbour_write_back_registration (tests.test_c07_liquid_neighbour_write_back.C07LiquidNeighbourWriteBackTests.test_c07_liquid_neighbour_write_back_registration) ... ok
+test_liquid_neighbour_write_back_state (tests.test_c07_liquid_neighbour_write_back.C07LiquidNeighbourWriteBackTests.test_liquid_neighbour_write_back_state) ... ok
+test_reference_graph_and_actual_c07_liquid_neighbour_write_back (tests.test_c07_liquid_neighbour_write_back.C07LiquidNeighbourWriteBackTests.test_reference_graph_and_actual_c07_liquid_neighbour_write_back) ... FAIL
+
+======================================================================
+FAIL: test_reference_graph_and_actual_c07_liquid_neighbour_write_back (tests.test_c07_liquid_neighbour_write_back.C07LiquidNeighbourWriteBackTests.test_reference_graph_and_actual_c07_liquid_neighbour_write_back)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Admin\.codex\worktrees\godot-integration-validation\tools\mindustry_godot_transpiler\tests\test_c07_liquid_neighbour_write_back.py", line 354, in test_reference_graph_and_actual_c07_liquid_neighbour_write_back
+    self.assertTrue(proofs[0]['matches'], proofs[0])
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : {'advance_exposes_dump_neighbour_index': True, 'live_tick_dumped_liquid_leaves_fracker_without_frame': False, 'live_tick_writes_dumped_liquid_to_neighbour_frame': False, 'matches': False, 'one_headquarter_per_ssot': True, 'registry_valid': True, 'write_back_conduit_neighbour_lands_liquid': True, 'write_back_frame_neighbour_lands_liquid': True, 'write_back_no_frame_reports_no_frame': True, 'write_back_no_sprite_reports_no_sprite': True}
+
+----------------------------------------------------------------------
+Ran 4 tests in 21.401s
+
+FAILED (failures=1)
