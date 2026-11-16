@@ -266,6 +266,9 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
   - [ ] N2214 `C07RepairTurretRotationSlerpProof` — Linux GREEN ~17:5x (8 key).
     Scene tới Windows theo slice commit `e1322bb7` (pushed ~18:3x, main
     `1513486b`). Chưa chạy trên Windows Godot.
+  - [ ] N2215 `C07RepairTurretStrengthLerpProof` — Linux GREEN ~19:0x (8 key).
+    Scene tới Windows theo slice commit `dcfff971` (pushed ~19:4x, main
+    `bedcf73b`). Chưa chạy trên Windows Godot.
   - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
     trên (ghi rõ commit đưa scene tới Windows).
   - [ ] Agent khác đang test các lỗi fail trên Windows Godot (PR #1 đã merge
