@@ -1,6 +1,6 @@
 # Handoff — N2217 RepairTurret read/write persistence (C07)
 
-## Status: GREEN verified by the 21:30 +07 run (family 32/32 + wiring 32/32, logs on disk); full gate RUNNING from ~21:46 +07 (main-thread launch, PID 9745, log `tools/mindustry_godot_transpiler/full-suite-n2217-gate.log`). NOT committed/pushed yet — waits for the gate footer.
+## Status: DONE + PUSHED (slice 7b7bd0a8, main c960823a).
 
 ## GREEN (21:30 +07 run)
 
