@@ -246493,6 +246493,74 @@
       },
       "runtime_proof": "/root/C07MassDriverAcceptItemProof",
       "rule": "Source-backed MassDriver acceptItem rows from MassDriver.java / Blocks.java / Arc Position.java."
+    },
+    "source_separator_offload_routing_context_state_input": {
+      "status": "active",
+      "owner": "SourceSeparatorBuildState.source_separator_offload_routing_context_state",
+      "source_slice": "N2343",
+      "keys": {
+        "neighbour_accepts": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(other.acceptItem(self(), item) && canDump(other, item)){",
+          "rule": "The per-neighbour acceptItem answers over the proximity (BuildingComp.java:1008, `if(other.acceptItem(self(), item) && canDump(other, item)){`): neighbour i takes the offloaded item only when its accept answer is true AND its canDump answer is true. The tick reads the shared dump frame input frame[\"dump_neighbour_accepts\"] (default [] -- no neighbours, the Java proximity.size == 0 outcome); Java has ONE proximity list, so offload() and dump() share the same arrays instead of a synonym pair.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_offload_routing_context_state"
+          ]
+        },
+        "neighbour_can_dump": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(other.acceptItem(self(), item) && canDump(other, item)){",
+          "rule": "The per-neighbour canDump answers over the proximity (BuildingComp.java:1008, `if(other.acceptItem(self(), item) && canDump(other, item)){`): canDump defaults to true (BuildingComp.java:1124-1126) and the array carries the live per-neighbour answers as frame inputs. The tick reads the shared dump frame input frame[\"dump_neighbour_can_dump\"] (default []); a missing answer in one array reads false (the dump_item_state bounds-checked precedent).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_offload_routing_context_state"
+          ]
+        },
+        "dump_cursor": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "int dump = this.cdump;",
+          "rule": "The saved cdump cursor the offload scan starts from (BuildingComp.java:1003, `int dump = this.cdump;`; the Building field `transient int cdump;`, BuildingComp.java:68, default 0). The tick passes the frame cdump -- the same cursor the N2281 dump shares, since Java uses one `this.cdump` for both paths. offload() rotates it once per neighbour checked (incrementDump, BuildingComp.java:1116-1120) and inspects from the saved value ((i + dump) % proximity.size, :1007).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_offload_routing_context_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SeparatorOffloadRoutingProof",
+      "rule": "Source-backed Separator offload neighbor routing rows from BuildingComp.java / Separator.java."
+    },
+    "source_separator_offload_routing_context_state_result": {
+      "status": "active",
+      "owner": "SourceSeparatorBuildState.source_separator_offload_routing_context_state",
+      "source_slice": "N2343",
+      "keys": {
+        "neighbors": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(other.acceptItem(self(), item) && canDump(other, item)){",
+          "rule": "The routing-context neighbors array [{accepts_item, can_dump, item_count}] the shared offload_item_state port reads (BuildingComp.java:1008, `if(other.acceptItem(self(), item) && canDump(other, item)){`): the first neighbour with accepts_item && can_dump takes the item (its item_count bumps by 1 in the returned context); when no neighbour takes it the offload falls back to the building's own items (BuildingComp.java:1014, `handleItem(self(), item);`). item_count starts at 0.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_offload_routing_context_state"
+          ]
+        },
+        "dump_cursor": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "int dump = this.cdump;",
+          "rule": "The dump cursor carried in the routing context (BuildingComp.java:1003, `int dump = this.cdump;`): the frame cdump, passed through unchanged -- offload_item_state normalizes it via modulo, like incrementDump (`cdump = ((cdump + 1) % prox);`, BuildingComp.java:1118). A routed pick leaves the cursor past the handling neighbour; a full refused scan returns it to its start (the N2286 full-cycle invariant).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_offload_routing_context_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SeparatorOffloadRoutingProof",
+      "rule": "Source-backed Separator offload neighbor routing rows from BuildingComp.java / Separator.java."
     }
   },
   "version": 1

@@ -182392,6 +182392,38 @@
         "test_reference_graph_and_actual_c07_mass_driver_accept_item"
       ],
       "runtime_proof": "/root/C07MassDriverAcceptItemProof"
+    },
+    "source_separator_offload_routing_context_state_result.neighbors": {
+      "status": "source-backed",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_offload_routing_context_state",
+      "godot_symbol": "source_separator_offload_routing_context_state_result.neighbors",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.offload()",
+      "java_expr": "if(other.acceptItem(self(), item) && canDump(other, item)){",
+      "rule": "The routing-context neighbors array [{accepts_item, can_dump, item_count}] the shared offload_item_state port reads (BuildingComp.java:1008, `if(other.acceptItem(self(), item) && canDump(other, item)){`): the first neighbour with accepts_item && can_dump takes the item (its item_count bumps by 1 in the returned context); when no neighbour takes it the offload falls back to the building's own items (BuildingComp.java:1014, `handleItem(self(), item);`). item_count starts at 0.",
+      "tests": [
+        "test_c07_separator_offload_routing_registration",
+        "test_all_c07_separator_offload_routing_input_evidence_is_exact",
+        "test_separator_offload_routing_state",
+        "test_reference_graph_and_actual_c07_separator_offload_routing"
+      ],
+      "runtime_proof": "/root/C07SeparatorOffloadRoutingProof"
+    },
+    "source_separator_offload_routing_context_state_result.dump_cursor": {
+      "status": "source-backed",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_offload_routing_context_state",
+      "godot_symbol": "source_separator_offload_routing_context_state_result.dump_cursor",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.offload()",
+      "java_expr": "int dump = this.cdump;",
+      "rule": "The dump cursor carried in the routing context (BuildingComp.java:1003, `int dump = this.cdump;`): the frame cdump, passed through unchanged -- offload_item_state normalizes it via modulo, like incrementDump (`cdump = ((cdump + 1) % prox);`, BuildingComp.java:1118). A routed pick leaves the cursor past the handling neighbour; a full refused scan returns it to its start (the N2286 full-cycle invariant).",
+      "tests": [
+        "test_c07_separator_offload_routing_registration",
+        "test_all_c07_separator_offload_routing_input_evidence_is_exact",
+        "test_separator_offload_routing_state",
+        "test_reference_graph_and_actual_c07_separator_offload_routing"
+      ],
+      "runtime_proof": "/root/C07SeparatorOffloadRoutingProof"
     }
   },
   "version": 1

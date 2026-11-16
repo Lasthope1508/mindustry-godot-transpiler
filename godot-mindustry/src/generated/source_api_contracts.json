@@ -73348,6 +73348,42 @@
       ],
       "runtime_proof": "/root/C07MassDriverAcceptItemProof",
       "rule": "Source-backed MassDriver acceptItem rows from MassDriver.java / Blocks.java / Arc Position.java."
+    },
+    "SourceSeparatorBuildState.source_separator_offload_routing_context_state": {
+      "status": "active",
+      "source_slice": "N2343",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "BuildingComp.offload()",
+      "params": [
+        {
+          "name": "neighbour_accepts",
+          "type": "Array",
+          "schema": "source_separator_offload_routing_context_state_input.neighbour_accepts"
+        },
+        {
+          "name": "neighbour_can_dump",
+          "type": "Array",
+          "schema": "source_separator_offload_routing_context_state_input.neighbour_can_dump"
+        },
+        {
+          "name": "dump_cursor",
+          "type": "int",
+          "schema": "source_separator_offload_routing_context_state_input.dump_cursor"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "neighbors",
+        "dump_cursor"
+      ],
+      "tests": [
+        "test_c07_separator_offload_routing_registration",
+        "test_all_c07_separator_offload_routing_input_evidence_is_exact",
+        "test_separator_offload_routing_state",
+        "test_reference_graph_and_actual_c07_separator_offload_routing"
+      ],
+      "runtime_proof": "/root/C07SeparatorOffloadRoutingProof",
+      "rule": "Source-backed Separator offload neighbor routing rows from BuildingComp.java / Separator.java."
     }
   },
   "policy": {

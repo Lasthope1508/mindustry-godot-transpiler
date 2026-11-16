@@ -260,7 +260,11 @@ class C07SeparatorUpdateTileTests(unittest.TestCase):
         # capacity from the catalog itemCapacity.
         self.assertIn('game_source_delta(game, seconds)', separator)
         self.assertIn('time_scale(sprite', separator)
-        self.assertIn('source_separator_update_tile_advance_state(frame, source_delta, time_scale, craft_time, results, cons_items, item_capacity)', separator)
+        # N2343 passes the routing context into the advance
+        # (built from the shared dump neighbour frame inputs
+        # + the frame cdump), so the call pin carries the
+        # eighth argument.
+        self.assertIn('source_separator_update_tile_advance_state(frame, source_delta, time_scale, craft_time, results, cons_items, item_capacity, routing_context)', separator)
         self.assertIn('frame["progress"]', separator)
         self.assertIn('frame["warmup"]', separator)
         self.assertIn('frame["total_progress"]', separator)
