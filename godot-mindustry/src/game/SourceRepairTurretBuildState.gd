@@ -393,6 +393,31 @@ static func source_repair_turret_status_state(frame: Dictionary, tick: float) ->
 		return {"status": source_building_access_state.SOURCE_BUILDING_STATUS_ACTIVE}
 	return {"status": source_building_access_state.SOURCE_BUILDING_STATUS_NO_INPUT}
 
+const SOURCE_REPAIR_TURRET_AMBIENT_SOUND := "beamHeal"
+const SOURCE_REPAIR_TURRET_AMBIENT_SOUND_VOLUME := 1.0
+
+static func source_repair_turret_ambient_sound_loop_state(frame: Dictionary, headless: bool) -> Dictionary:
+	# BuildingComp.update() loops the ambient sound each tick (BuildingComp.java:2270-2271, inside `public void update(){`, BuildingComp.java:2262):
+	# if(!headless && block.ambientSound != Sounds.none && shouldAmbientSound()){
+	# control.sound.loop(block.ambientSound, self(), block.ambientSoundVolume * ambientVolume());
+	# The sound is `Sounds.beamHeal` and its volume scale is `1f` (RepairTurret.java:66-67, set in the RepairTurret constructor, so both defs share them):
+	# ambientSound = Sounds.beamHeal;
+	# ambientSoundVolume = 1f;
+	# The Block defaults they override (Block.java:351, :353):
+	# public Sound ambientSound = Sounds.none;
+	# public float ambientSoundVolume = 0.05f;
+	# ambientVolume() is the folded efficiency (BuildingComp.java:2015-2017):
+	# public float ambientVolume(){
+	# return efficiency;
+	# The shouldAmbientSound() leg reuses the N2221 pure function (RepairTurret.java:182):
+	# return target != null && efficiency > 0f;
+	# headless arrives as an explicit bool param (the SourceBlockGeometry precedent -- the port has no game-level headless flag yet). There is no driver tick line: the loop call is a sound side effect (control.sound.loop) with no sink in the port yet, and nothing consumes an ambient-loop stamp.
+	var should_ambient_sound: bool = bool(source_repair_turret_should_ambient_sound_state(frame).get("should_ambient_sound", false))
+	var efficiency: float = float(frame.get("efficiency", 1.0))
+	var volume: float = SOURCE_REPAIR_TURRET_AMBIENT_SOUND_VOLUME * efficiency
+	var should_loop: bool = (not headless) and SOURCE_REPAIR_TURRET_AMBIENT_SOUND != "none" and should_ambient_sound
+	return {"should_loop": should_loop, "sound": SOURCE_REPAIR_TURRET_AMBIENT_SOUND, "volume": volume}
+
 const REPAIR_TURRET_SAVE_VERSION := 1
 
 static func source_repair_turret_write_state(frame: Dictionary) -> Dictionary:

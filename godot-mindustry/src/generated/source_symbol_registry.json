@@ -174392,6 +174392,54 @@
         "test_reference_graph_and_actual_c07_repair_turret_should_ambient_sound_status"
       ],
       "runtime_proof": "/root/C07RepairTurretShouldAmbientSoundStatusProof"
+    },
+    "source_repair_turret_ambient_sound_loop_state_result.should_loop": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_ambient_sound_loop_state",
+      "godot_symbol": "source_repair_turret_ambient_sound_loop_state_result.should_loop",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.update()",
+      "java_expr": "if(!headless && block.ambientSound != Sounds.none && shouldAmbientSound()){",
+      "rule": "The live-loop gate (BuildingComp.java:2270, `if(!headless && block.ambientSound != Sounds.none && shouldAmbientSound()){`): true only in a headed game, with the block ambient sound set (beamHeal, not Sounds.none) and the N2221 shouldAmbientSound() gate true.",
+      "tests": [
+        "test_c07_repair_turret_ambient_sound_loop_registration",
+        "test_all_c07_repair_turret_ambient_sound_loop_input_evidence_is_exact",
+        "test_repair_turret_ambient_sound_loop_state",
+        "test_reference_graph_and_actual_c07_repair_turret_ambient_sound_loop"
+      ],
+      "runtime_proof": "/root/C07RepairTurretAmbientSoundLoopProof"
+    },
+    "source_repair_turret_ambient_sound_loop_state_result.sound": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_ambient_sound_loop_state",
+      "godot_symbol": "source_repair_turret_ambient_sound_loop_state_result.sound",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "BuildingComp.update()",
+      "java_expr": "ambientSound = Sounds.beamHeal;",
+      "rule": "The ambient sound to loop (RepairTurret.java:66, `ambientSound = Sounds.beamHeal;`, set in the RepairTurret constructor, so both defs share it; the Block default it overrides is Sounds.none, Block.java:351).",
+      "tests": [
+        "test_c07_repair_turret_ambient_sound_loop_registration",
+        "test_all_c07_repair_turret_ambient_sound_loop_input_evidence_is_exact",
+        "test_repair_turret_ambient_sound_loop_state",
+        "test_reference_graph_and_actual_c07_repair_turret_ambient_sound_loop"
+      ],
+      "runtime_proof": "/root/C07RepairTurretAmbientSoundLoopProof"
+    },
+    "source_repair_turret_ambient_sound_loop_state_result.volume": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_ambient_sound_loop_state",
+      "godot_symbol": "source_repair_turret_ambient_sound_loop_state_result.volume",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.update()",
+      "java_expr": "control.sound.loop(block.ambientSound, self(), block.ambientSoundVolume * ambientVolume());",
+      "rule": "The loop volume (BuildingComp.java:2271, `control.sound.loop(block.ambientSound, self(), block.ambientSoundVolume * ambientVolume());`): ambientSoundVolume (1f, RepairTurret.java:67) times ambientVolume() (the folded efficiency, BuildingComp.java:2015-2017).",
+      "tests": [
+        "test_c07_repair_turret_ambient_sound_loop_registration",
+        "test_all_c07_repair_turret_ambient_sound_loop_input_evidence_is_exact",
+        "test_repair_turret_ambient_sound_loop_state",
+        "test_reference_graph_and_actual_c07_repair_turret_ambient_sound_loop"
+      ],
+      "runtime_proof": "/root/C07RepairTurretAmbientSoundLoopProof"
     }
   },
   "version": 1
