@@ -160,7 +160,12 @@ class C07BeamDrillTimerDumpWriteBackTests(unittest.TestCase):
         # advance, the N2202 gate, the N2339 facing scan, and
         # the N2352 facing-tile fill are preserved -- the
         # facing-tiles stamp is a different path and this
-        # slice does not touch it.
+        # slice does not touch it. (N2366 removed the
+        # fill's is_empty gate -- the fill still stamps
+        # facing_tiles before the scan every enabled tick,
+        # and a tick with no world_tiles fills all-null
+        # rays -- but that is the N2366 change, not this
+        # slice's.)
         self.assertIn('dump neighbour write-back live since N2363', beam_drill)
         self.assertIn('timerDump dump is live since N2289', beam_drill)
         self.assertIn('(3) Partial updateTile', beam_drill)
@@ -168,7 +173,7 @@ class C07BeamDrillTimerDumpWriteBackTests(unittest.TestCase):
         self.assertIn('shouldConsume gate live (N2202)', beam_drill)
         self.assertIn('facing scan live (N2339)', beam_drill)
         self.assertIn('facing-tile fill live since N2352', beam_drill)
-        self.assertIn('if not world_tiles.is_empty():', beam_drill)
+        self.assertNotIn('if not world_tiles.is_empty():', beam_drill)
         self.assertIn('frame["facing_tiles"] = filled.get("facing_tiles", [])', beam_drill)
         self.assertIn('static func source_beam_drill_power_status_row_state', beam_drill)
         self.assertIn('static func source_beam_drill_should_consume_state', beam_drill)

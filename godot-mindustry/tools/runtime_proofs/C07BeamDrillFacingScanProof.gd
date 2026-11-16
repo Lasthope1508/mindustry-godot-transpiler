@@ -2,6 +2,7 @@ extends Node
 
 const main_scene := preload("res://scenes/Main.tscn")
 const beam_drill_build_state := preload("res://src/game/SourceBeamDrillBuildState.gd")
+const block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
 const registry := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 const proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 
@@ -131,10 +132,19 @@ func _ready() -> void:
 	# liquid row (the hydrogen row is a booster), so no liquid
 	# seeding is needed: with no hydrogen held the booster row
 	# folds optionalEfficiency 0 and efficiency still folds
-	# the power min (the N2289 precedent). The facing rays are
-	# frame inputs (frame["facing_tiles"], default []),
-	# stamped here like the N2228 targets precedent: two
-	# mineable walls (copper, lead) face the drill. One 1/60s
+	# the power min (the N2289 precedent). The facing rays
+	# come from the N2352 fill, not a direct facing_tiles
+	# seed (N2366 migration: the proof used to seed
+	# frame["facing_tiles"] directly, which is why the tick
+	# carried an is_empty gate preserving it -- the gate is
+	# gone now): the frame seeds world_tiles with two
+	# mineable walls at the laser origins -- a copper wall
+	# at (30, 20) on ray 0 and a lead wall at (30, 21) on
+	# ray 1 (the N2346 origins for the drill at (28, 20),
+	# rotation 0, the N2352 tick-1 precedent) -- so the
+	# fill walks [[copper, null, null, null, null],
+	# [lead, null, null, null, null]] and the scan counts
+	# 2, exactly as the old direct seed did. One 1/60s
 	# tick is one source tick. Tick 1: the shouldConsume gate
 	# reads the PREVIOUS facing_amount (0, seeded -- Java
 	# order, BuildingComp.java:2274-2277, updateConsumption
@@ -164,7 +174,8 @@ func _ready() -> void:
 	drill_frame["items"] = {}
 	drill_frame["power_status"] = 1.0
 	drill_frame["facing_amount"] = 0
-	drill_frame["facing_tiles"] = [[{"solid": true, "wall_drop": copper}], [{"solid": true, "wall_drop": lead}]]
+	drill_frame["world_tiles"] = {"30,20": {"solid": true, "wall_drop": copper}, "30,21": {"solid": true, "wall_drop": lead}}
+	drill.set_meta(block_geometry.SOURCE_BUILD_ROTATION_META_KEY, 0)
 	beam_drill_build_state.source_beam_drill_tick_buildings_state(game, 1.0 / 60.0)
 	drill_frame = drill.get_meta(beam_drill_build_state.SOURCE_BEAM_DRILL_BUILDING_META_KEY, {})
 	var tick_one_efficiency: float = float(drill_frame.get("efficiency", -1.0))

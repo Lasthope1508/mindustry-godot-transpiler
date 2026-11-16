@@ -397,13 +397,15 @@ static func source_beam_drill_facing_tiles_fill_state(lasers: Array, world_tiles
 	# tick stamps the result onto frame["facing_tiles"]
 	# each enabled tick BEFORE the facing scan (Java
 	# order: updateFacing inside updateTile,
-	# BeamDrill.java:244, before the advance), whenever
-	# world_tiles is supplied -- a tick with no
-	# world_tiles keeps the previous facing_tiles (the
-	# N2339 frame-input path, preserved for the N2339
-	# proof, which seeds facing_tiles directly). The
-	# LIVE world-tile query still waits (no live world
-	# query exists in the port).
+	# BeamDrill.java:244, before the advance) -- every
+	# enabled tick (N2366: the is_empty gate is gone;
+	# the N2339 proof seeds world_tiles now, so no
+	# proof seeds facing_tiles directly anymore). A
+	# tick with no world_tiles fills all-null rays
+	# (no solid tiles anywhere, the Java
+	# no-facing-wall outcome). The LIVE world-tile
+	# query still waits (no live world query exists
+	# in the port).
 	var d4x: Array = [1, 0, -1, 0]
 	var d4y: Array = [0, 1, 0, -1]
 	var direction: int = posmod(rotation, 4)
@@ -500,10 +502,10 @@ static func source_beam_drill_power_status_row_state(frame: Dictionary, has_powe
 	# source_beam_drill_facing_tiles_fill_state walks each
 	# laser ray from frame["lasers"] through the frame
 	# input world_tiles and stamps frame["facing_tiles"]
-	# each enabled tick before the facing scan whenever
-	# world_tiles is supplied; the LIVE world-tile query
-	# still waits, so a live beam drill with no supplied
-	# world_tiles keeps its previous facing_tiles); still
+	# each enabled tick before the facing scan (N2366:
+	# every enabled tick, no is_empty gate -- a tick
+	# with no world_tiles fills all-null rays); the
+	# LIVE world-tile query still waits); still
 	# deferred: lastItem / facing[] + the drop
 	# loop + `time %= drillTime;` reset +
 	# lastDrillSpeed (BeamDrill.java:249, 253-262, needs
@@ -573,8 +575,9 @@ static func source_beam_drill_update_tile_advance_state(frame: Dictionary, sourc
 	# the fill pure walks each laser ray from
 	# frame["lasers"] through the frame input world_tiles,
 	# stamped onto frame["facing_tiles"] before the
-	# facing scan each enabled tick whenever world_tiles
-	# is supplied; the LIVE world-tile query still waits).
+	# facing scan each enabled tick (N2366: every
+	# enabled tick, no is_empty gate); the LIVE
+	# world-tile query still waits).
 	# Deferred, not done here: lastItem
 	# (BeamDrill.java:376-411, which updateFacing
 	# sets), the drop loop + `time %= drillTime;`
@@ -974,11 +977,11 @@ static func source_beam_drill_tick_buildings_state(game: Object, seconds: float)
 			# fill stamps frame["facing_tiles"] from
 			# frame["lasers"] + the frame input
 			# world_tiles each enabled tick before the
-			# scan whenever world_tiles is supplied,
-			# and a tick with no world_tiles keeps the
-			# previous facing_tiles (the N2339
-			# frame-input path, preserved for the N2339
-			# proof, which seeds facing_tiles directly).
+			# scan (N2366: every enabled tick, no
+			# is_empty gate -- a tick with no
+			# world_tiles fills all-null rays, the
+			# Java no-facing-wall outcome; the N2339
+			# proof seeds world_tiles now).
 			# size / range / tier read from
 			# the catalog per def (2/5/3 plasma-bore,
 			# 3/6/5 large-plasma-bore; the class
@@ -1016,22 +1019,24 @@ static func source_beam_drill_tick_buildings_state(game: Object, seconds: float)
 			# and stamps frame["facing_tiles"] BEFORE
 			# the scan below (Java order: updateFacing
 			# inside updateTile, BeamDrill.java:244,
-			# before the advance). The stamp runs ONLY
-			# when world_tiles is supplied (non-empty):
-			# a tick with no world_tiles keeps the
-			# previous facing_tiles, so the N2339
-			# frame-input path -- and the N2339 proof,
-			# which seeds facing_tiles directly -- is
-			# preserved. Rotation comes from the sprite
-			# rotation meta (the same meta the N2346
-			# origins refresh reads); the LIVE
-			# world-tile query still waits (no live
-			# world query exists in the port).
+			# before the advance). The stamp runs EVERY
+			# enabled tick (N2366: the is_empty gate is
+			# gone -- it only preserved the N2339 proof,
+			# which seeded facing_tiles directly, and
+			# the N2339 proof seeds world_tiles now):
+			# a tick with no world_tiles fills
+			# all-null rays (no solid tiles anywhere,
+			# the Java no-facing-wall outcome) and the
+			# scan stamps facing_amount 0. Rotation
+			# comes from the sprite rotation meta (the
+			# same meta the N2346 origins refresh
+			# reads); the LIVE world-tile query still
+			# waits (no live world query exists in the
+			# port).
 			var world_tiles: Dictionary = frame.get("world_tiles", {})
-			if not world_tiles.is_empty():
-				var fill_rotation: int = int(sprite.get_meta(source_block_geometry.SOURCE_BUILD_ROTATION_META_KEY, 0))
-				var filled: Dictionary = source_beam_drill_facing_tiles_fill_state(frame.get("lasers", []), world_tiles, beam_size, beam_range, fill_rotation)
-				frame["facing_tiles"] = filled.get("facing_tiles", [])
+			var fill_rotation: int = int(sprite.get_meta(source_block_geometry.SOURCE_BUILD_ROTATION_META_KEY, 0))
+			var filled: Dictionary = source_beam_drill_facing_tiles_fill_state(frame.get("lasers", []), world_tiles, beam_size, beam_range, fill_rotation)
+			frame["facing_tiles"] = filled.get("facing_tiles", [])
 			var facing_tiles: Array = frame.get("facing_tiles", [])
 			var item_catalog: Dictionary = source_content_registry_runtime_state.source_item_catalog_state(catalog)
 			var beam_blocked_items: Variant = null

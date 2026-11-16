@@ -44,12 +44,13 @@ class C07BeamDrillFacingTilesFillTests(unittest.TestCase):
         # the facing scan (Java order: updateLasers /
         # updateFacing in onProximityUpdate :364-365,
         # updateFacing inside updateTile :244 before the
-        # advance), whenever world_tiles is supplied --
-        # a tick with no world_tiles keeps the previous
-        # facing_tiles, so the N2339 frame-input path
-        # (and its proof, which seeds facing_tiles
-        # directly) is preserved. One new result symbol:
-        # the filled facing rays.
+        # advance) -- every enabled tick (N2366: the
+        # is_empty gate is gone; a tick with no
+        # world_tiles fills all-null rays, the Java
+        # no-facing-wall outcome, and the N2339 proof
+        # seeds world_tiles now, so no proof seeds
+        # facing_tiles directly anymore). One new result
+        # symbol: the filled facing rays.
         self.assertEqual(
             ledger['N2352']['source_symbols'],
             [
@@ -77,21 +78,22 @@ class C07BeamDrillFacingTilesFillTests(unittest.TestCase):
         # live since N2352 (the fill pure walks each
         # laser ray from frame["lasers"] through the
         # frame input world_tiles, stamped each enabled
-        # tick before the facing scan whenever
-        # world_tiles is supplied), but the LIVE
+        # tick before the facing scan), but the LIVE
         # world-tile query still waits (no live world
         # query exists, so world_tiles is a frame input
         # and a live beam drill with no supplied
-        # world_tiles keeps its previous facing_tiles
-        # and facing_amount stays 0), and lastItem /
-        # facing[] wait for the drop-loop slice (entry
-        # 183 in the advances-16 merged numbering -- the
-        # old text cited entry 187, stale from the
-        # advances-15 numbering). The facing count (live
-        # since N2339) and the laser geometry (live
-        # since N2346) are preserved in the rewritten
-        # text, and the drop loop + drillMultipliers
-        # entries stay.
+        # world_tiles gets all-null rays from the fill
+        # and facing_amount 0 -- N2366 removed the
+        # is_empty gate that used to keep the previous
+        # facing_tiles), and lastItem / facing[] wait
+        # for the drop-loop slice (entry 183 in the
+        # advances-16 merged numbering -- the old text
+        # cited entry 187, stale from the advances-15
+        # numbering). The facing count (live since
+        # N2339) and the laser geometry (live since
+        # N2346) are preserved in the rewritten text,
+        # and the drop loop + drillMultipliers entries
+        # stay.
         self.assertTrue(any(entry.startswith('BeamDrill facing / laser binding (') and 'live since N2352' in entry and 'live since N2339' in entry and 'live since N2346' in entry for entry in ledger['N2352']['deferred_exprs']))
         self.assertFalse(any('still waiting: the LIVE facing-tile fill' in entry for entry in ledger['N2352']['deferred_exprs']))
         self.assertTrue(any(entry.startswith('BeamDrill facing / laser binding (') and 'LIVE world-tile query' in entry for entry in ledger['N2352']['deferred_exprs']))
@@ -218,18 +220,21 @@ class C07BeamDrillFacingTilesFillTests(unittest.TestCase):
         # 2274-2277), inside the same enabled gate as
         # the scan and the advance
         # (BuildingComp.java:2276-2277). The stamp runs
-        # ONLY when world_tiles is supplied (non-empty):
-        # a tick with no world_tiles keeps the previous
-        # facing_tiles, so the N2339 frame-input path --
-        # and the N2339 proof, which seeds facing_tiles
-        # directly -- is preserved. size / range read
-        # from the catalog per def (2/5 plasma-bore,
-        # 3/6 large-plasma-bore); rotation from the
-        # sprite rotation meta (SourceBlockGeometry.
+        # EVERY enabled tick (N2366: the is_empty gate
+        # is gone -- it only preserved the N2339 proof,
+        # which seeded facing_tiles directly, and the
+        # N2339 proof seeds world_tiles now): a tick
+        # with no world_tiles fills all-null rays (no
+        # solid tiles anywhere, the Java no-facing-wall
+        # outcome) and the scan stamps facing_amount 0.
+        # size / range read from the catalog per def
+        # (2/5 plasma-bore, 3/6 large-plasma-bore);
+        # rotation from the sprite rotation meta
+        # (SourceBlockGeometry.
         # SOURCE_BUILD_ROTATION_META_KEY, default 0, the
         # same meta the N2346 origins refresh reads).
         self.assertIn('frame.get("world_tiles", {})', beam_drill)
-        self.assertIn('if not world_tiles.is_empty():', beam_drill)
+        self.assertNotIn('if not world_tiles.is_empty():', beam_drill)
         self.assertIn('var fill_rotation: int = int(sprite.get_meta(source_block_geometry.SOURCE_BUILD_ROTATION_META_KEY, 0))', beam_drill)
         self.assertIn('source_beam_drill_facing_tiles_fill_state(frame.get("lasers", []), world_tiles, beam_size, beam_range, fill_rotation)', beam_drill)
         self.assertIn('frame["facing_tiles"] = filled.get("facing_tiles", [])', beam_drill)
@@ -287,8 +292,10 @@ class C07BeamDrillFacingTilesFillTests(unittest.TestCase):
         # feed the N2339 scan to the right count) plus
         # the live tick (a placed plasma-bore stamps
         # facing_tiles from seeded world_tiles in one
-        # tick and facing_amount follows, and a rotation
-        # re-walks the rays).
+        # tick and facing_amount follows, a rotation
+        # re-walks the rays, and clearing world_tiles
+        # fills all-null rays with facing_amount 0 --
+        # N2366, no is_empty gate).
         proof = BEAM_DRILL_FACING_TILES_FILL_PROOF.read_text(encoding='utf-8')
         for key in [
             'walks_rays_from_laser_origins',

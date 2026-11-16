@@ -153,9 +153,12 @@ func _ready() -> void:
 	# copper wall seeded at (28, 22) lands at ray 0 index 0
 	# (it was null at rotation 0), so facing_tiles change
 	# with the rotation while facing_amount stays 1. Tick 3:
-	# world_tiles is cleared ({}), so the fill is skipped and
-	# facing_tiles keep the tick-2 rays (the N2339
-	# frame-input path, preserved) and facing_amount stays 1.
+	# world_tiles is cleared ({}), so the fill walks empty
+	# world data: every ray is all null (no solid tiles
+	# anywhere, the Java no-facing-wall outcome) and
+	# facing_amount drops to 0 (N2366: the is_empty gate
+	# is gone -- the fill runs every enabled tick, and no
+	# proof seeds facing_tiles directly anymore).
 	var catalog = game.get("content_catalog")
 	var blocks_by_id: Dictionary = {}
 	for registered_block in catalog.get_many("block"):
@@ -191,7 +194,7 @@ func _ready() -> void:
 	drill_frame["world_tiles"] = {}
 	beam_drill_build_state.source_beam_drill_tick_buildings_state(game, 1.0 / 60.0)
 	drill_frame = drill.get_meta(beam_drill_build_state.SOURCE_BEAM_DRILL_BUILDING_META_KEY, {})
-	proof["live_tick_stamps_facing_tiles"] = _origins_equal(tick_one_lasers, [{"x": 30, "y": 20}, {"x": 30, "y": 21}]) and _rays_equal(tick_one_tiles, [[null, null, {"solid": true, "wall_drop": copper}, null, null], [null, {"solid": true, "wall_drop": thorium}, null, null, null]]) and tick_one_facing == 1 and _origins_equal(tick_two_lasers, [{"x": 28, "y": 22}, {"x": 29, "y": 22}]) and _rays_equal(tick_two_tiles, [[{"solid": true, "wall_drop": copper}, null, null, null, null], [null, null, null, null, null]]) and tick_two_facing == 1 and _rays_equal(drill_frame.get("facing_tiles", []), [[{"solid": true, "wall_drop": copper}, null, null, null, null], [null, null, null, null, null]]) and int(drill_frame.get("facing_amount", -1)) == 1
+	proof["live_tick_stamps_facing_tiles"] = _origins_equal(tick_one_lasers, [{"x": 30, "y": 20}, {"x": 30, "y": 21}]) and _rays_equal(tick_one_tiles, [[null, null, {"solid": true, "wall_drop": copper}, null, null], [null, {"solid": true, "wall_drop": thorium}, null, null, null]]) and tick_one_facing == 1 and _origins_equal(tick_two_lasers, [{"x": 28, "y": 22}, {"x": 29, "y": 22}]) and _rays_equal(tick_two_tiles, [[{"solid": true, "wall_drop": copper}, null, null, null, null], [null, null, null, null, null]]) and tick_two_facing == 1 and _rays_equal(drill_frame.get("facing_tiles", []), [[null, null, null, null, null], [null, null, null, null, null]]) and int(drill_frame.get("facing_amount", -1)) == 0
 
 	var state_registry := registry.canonical_headquarter_registry_state()
 	proof["registry_valid"] = state_registry.get("errors", []).is_empty()

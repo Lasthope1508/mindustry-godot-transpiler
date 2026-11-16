@@ -182720,7 +182720,7 @@
       "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
       "java_method": "BeamDrillBuild.updateFacing()",
       "java_expr": "Tile other = world.tile(rx, ry);",
-      "rule": "The filled facing rays (BeamDrill.java:375-411): one Array per laser in laser order (p = 0..size-1), one entry per tile in walk order (i = 0..range-1) -- a Dict {solid, wall_drop} carrying the `other != null && other.solid()` answer (BeamDrill.java:388-389) and the wallDrop item {id, hardness} (BeamDrill.java:390, null when the tile drops nothing), or null when the world has no tile at that coordinate (the walk continues past it). Exactly the format the N2339 scan pure reads; stamped onto frame[\"facing_tiles\"] each enabled tick before the facing scan whenever world_tiles is supplied.",
+      "rule": "The filled facing rays (BeamDrill.java:375-411): one Array per laser in laser order (p = 0..size-1), one entry per tile in walk order (i = 0..range-1) -- a Dict {solid, wall_drop} carrying the `other != null && other.solid()` answer (BeamDrill.java:388-389) and the wallDrop item {id, hardness} (BeamDrill.java:390, null when the tile drops nothing), or null when the world has no tile at that coordinate (the walk continues past it). Exactly the format the N2339 scan pure reads; stamped onto frame[\"facing_tiles\"] each enabled tick before the facing scan (N2366: every enabled tick, no is_empty gate).",
       "tests": [
         "test_c07_beam_drill_facing_tiles_fill_registration",
         "test_all_c07_beam_drill_facing_tiles_fill_input_evidence_is_exact",
