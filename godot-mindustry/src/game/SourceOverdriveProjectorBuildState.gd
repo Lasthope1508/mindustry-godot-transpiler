@@ -10,6 +10,7 @@ const source_math_state := preload("res://src/game/SourceMathState.gd")
 const source_projector_boost_state := preload("res://src/game/SourceProjectorBoostState.gd")
 const source_overdrive_projector_state := preload("res://src/game/SourceOverdriveProjectorState.gd")
 const source_drill_inventory := preload("res://src/game/SourceDrillInventoryRuntimeState.gd")
+const source_world_defaults := preload("res://src/game/SourceWorldDefaults.gd")
 
 # The OverdriveProjector implementation (OverdriveProjector.java:21, `public class
 # OverdriveProjector extends Block{`): overdrive-projector (consumePower 3.50f,
@@ -36,8 +37,13 @@ const source_drill_inventory := preload("res://src/game/SourceDrillInventoryRunt
 # (OverdriveProjector.java:97-120): the frame now tracks
 # smoothEfficiency / heat / charge / phaseHeat / useProgress,
 # advanced every tick from the folded efficiency, with the
-# charge reset at reload; the boost application
-# (OverdriveProjector.java:113) is deferred to its own
+# charge reset at reload; the boost scan
+# (OverdriveProjector.java:106-111) is live since N2334 --
+# the tick reports the in-range overdrivable targets into
+# frame["last_boost_scan"] when the advance reports
+# charge_ready -- and only the boost application
+# (applyBoost on the reported targets,
+# OverdriveProjector.java:110) is deferred to its own
 # slice, and consume() (OverdriveProjector.java:118) is
 # wired by N2262: when the advance reports use_ready, the
 # tick removes the per-def item stacks (projector 1
@@ -161,6 +167,95 @@ static func source_overdrive_projector_update_tile_advance_state(frame: Dictiona
 		use_progress = fmod(use_progress, use_time_value) if use_time_value > 0.0 else 0.0
 	return {"advanced": {"smooth_efficiency": smooth_efficiency, "heat": heat, "charge": charge, "phase_heat": phase_heat, "use_progress": use_progress}, "charge_ready": charge_ready, "use_ready": use_ready}
 
+static func source_overdrive_projector_supplied_boost_targets_state(candidates: Array, real_range: float, building_x: float, building_y: float) -> Dictionary:
+	# The boost scan range query (OverdriveProjector.java:106-111),
+	# the pure eachBlock rect filter + canOverdrive predicate -- the
+	# N2194 advance already ran on this frame (smoothEfficiency /
+	# heat / charge / phaseHeat, including the charge reset), so the
+	# scan reads the POST-advance phase_heat through the caller's
+	# real_range and runs when the advance reports charge_ready
+	# (each exact expr on ONE comment line, the N2148 lesson):
+	# `if(charge >= reload){`
+	# `float realRange = range + phaseHeat * phaseRangeBoost;`
+	# `indexer.eachBlock(this, realRange, other -> other.block.canOverdrive, other -> other.applyBoost(realBoost(), reload + 1f));`
+	# `public boolean eachBlock(Teamc team, float range, Boolf<Building> pred, Cons<Building> cons){`
+	# `return eachBlock(team.team(), team.getX(), team.getY(), range, pred, cons);`
+	# `public boolean eachBlock(@Nullable Team team, float wx, float wy, float range, Boolf<Building> pred, Cons<Building> cons){`
+	# `buildings.intersect(wx - range, wy - range, range*2f, range*2f, b -> {`
+	# `if(b.within(wx, wy, range + b.hitSize() / 2f) && pred.get(b) && !b.block.privileged){`
+	# `return Mathf.dst2(getX(), getY(), x, y) < dst*dst;`
+	# `public boolean canOverdrive = true;`
+	# `public float range = 80f;`
+	# `public float phaseRangeBoost = 20f;`
+	# `range = 200f;`
+	# `hasBoost = false;`
+	# `return (speedBoost + phaseHeat * speedBoostPhase) * efficiency;`
+	# The rect is in WORLD units directly -- the quadtree
+	# intersect takes (wx - range, wy - range, range*2f,
+	# range*2f), no tilesize factor (BlockIndexer.java:345)
+	# -- so the half-side is realRange itself and the test is
+	# |dx| <= realRange and |dy| <= realRange, INCLUSIVE on
+	# the edge (the N2277 center-in-rect precedent: a corner
+	# candidate at (realRange, realRange) is IN the rect and
+	# out of any circle). The per-def range / phaseRangeBoost
+	# ride the caller's real_range (overdrive-projector 80f /
+	# 20f, OverdriveProjector.java:24/28; overdrive-dome range
+	# 200f, Blocks.java:1956, phaseRangeBoost NOT overridden
+	# so the class 20f applies -- and the dome's hasBoost =
+	# false, Blocks.java:1960, keeps its phaseHeat at 0, so
+	# its realRange is always the base 200f). Documented
+	# deviation, source-backed: the rect is only Java's BROAD
+	# phase -- the float-range overload then admits only
+	# `b.within(wx, wy, range + b.hitSize() / 2f)` (a STRICT
+	# dst2 < (range + hitSize/2)^2 circle, Position.java:44-46)
+	# with the predicate and `!b.block.privileged`
+	# (BlockIndexer.java:346) -- so the port admits rect
+	# corners Java rejects (for a small hitSize) and misses
+	# large-hitbox buildings whose center sits outside the
+	# rect but within range + hitSize/2; the narrow-check
+	# refinement waits for its own slice (DEFERRED, the N2329
+	# precedent). Scoping decisions, all source-backed: (1)
+	# the pure filters RANGE + the canOverdrive predicate --
+	# the Java pred half (`other.block.canOverdrive`,
+	# OverdriveProjector.java:110); a candidate dict carries
+	# x / y (world position, the building center) plus
+	# can_overdrive, and a MISSING can_overdrive reads TRUE
+	# -- the Java field default (`public boolean canOverdrive
+	# = true;`, Block.java:309); only defs that opt out
+	# (Blocks.java:2392/6591/6596/6602/6612/6951) read false.
+	# (2) A missing x or y key EXCLUDES the candidate, and a
+	# non-Dictionary entry is excluded the same way. (3) The
+	# admitted entries are the candidate dicts themselves, in
+	# candidate order, like Java's Seq<Building>; the pure
+	# only filters, it never rewrites an entry. (4) The team
+	# filter is the caller's: Java visits the projector team's
+	# buildingTree only (BlockIndexer.java:343), so the caller
+	# supplies same-team candidates. APPLICATION DEFERRED, not
+	# done and not guessed: the pure only REPORTS the targets
+	# -- applyBoost(realBoost(), reload + 1f) on another
+	# building (OverdriveProjector.java:110; realBoost() is
+	# `return (speedBoost + phaseHeat * speedBoostPhase) *
+	# efficiency;`, OverdriveProjector.java:124, already
+	# covered by SourceOverdriveProjectorRuntimeState.
+	# real_boost) waits for its own slice (DEFERRED, the
+	# N2325 heal_applications precedent). The live building
+	# index that would supply frame["boost_candidates"] still
+	# waits (DEFERRED).
+	var boost_targets: Array = []
+	for candidate in candidates:
+		if not (candidate is Dictionary):
+			continue
+		if not candidate.has("x") or not candidate.has("y"):
+			continue
+		if not bool(candidate.get("can_overdrive", true)):
+			continue
+		var dx: float = absf(float(candidate.get("x", 0.0)) - building_x)
+		var dy: float = absf(float(candidate.get("y", 0.0)) - building_y)
+		if dx > real_range or dy > real_range:
+			continue
+		boost_targets.append(candidate)
+	return {"boost_targets": boost_targets, "real_range": real_range}
+
 static func source_overdrive_projector_bind_frame_state(sprite: Sprite2D, block: Object) -> Dictionary:
 	# Placement creates the Building (Block.java:1002 newBuilding);
 	# the port's frame is that Building state, bound on the sprite
@@ -214,11 +309,16 @@ static func source_overdrive_projector_power_status_row_state(frame: Dictionary,
 	# enabled. (3) updateTile advance DONE (N2194) -- smoothEfficiency /
 	# heat / charge / phaseHeat / useProgress advance every tick
 	# (OverdriveProjector.java:97-120) and charge resets at reload;
-	# the boost application (indexer.eachBlock + applyBoost,
-	# OverdriveProjector.java:113) and the realRange fold
-	# (OverdriveProjector.java:110) wait for their own slices --
-	# the proof asserts only the charge reset, never a boosted
-	# target. (4) useProgress consume() rows -- useTime 400f /
+	# the boost scan is live since N2334 -- the realRange fold
+	# (OverdriveProjector.java:107) and the eachBlock rect filter
+	# + canOverdrive predicate (OverdriveProjector.java:110)
+	# report the in-range overdrivable targets into
+	# frame["last_boost_scan"] when the advance reports
+	# charge_ready -- and only the boost application (applyBoost
+	# on the reported targets, OverdriveProjector.java:110)
+	# still waits for its own slice, as does the live building
+	# index that would fill frame["boost_candidates"]. (4)
+	# useProgress consume() rows -- useTime 400f /
 	# dome 300f (OverdriveProjector.java:117-120): useProgress
 	# advances and wraps at useTime since N2194, and the
 	# consume() removal wired (N2262): when the advance
@@ -408,9 +508,9 @@ static func source_overdrive_projector_tick_buildings_state(game: Object, second
 		# 60f, useTime 400f; overdrive-dome: hasBoost false,
 		# reload 60f, useTime 300f). The advanced frame merges
 		# back into the bound frame; charge_ready is the
-		# boost-fire signal for the slice that models the boost
-		# application (still deferred), and use_ready is the
-		# consume-fire signal the tick below consumes (N2262).
+		# boost-fire signal the scan below consumes (N2334),
+		# and use_ready is the consume-fire signal the tick
+		# below consumes (N2262).
 		var advance: Dictionary = source_overdrive_projector_update_tile_advance_state(frame, source_placed_block_state.game_source_delta(game, seconds), source_placed_block_state.time_scale(sprite, source_placed_block_state.game_default_time_scale(game)), source_overdrive_projector_state.has_boost(block), source_overdrive_projector_state.projector_reload(block), source_overdrive_projector_state.use_time(block))
 		frame.merge(advance.get("advanced", {}), true)
 		# N2262: consume() (OverdriveProjector.java:117-120,
@@ -445,6 +545,43 @@ static func source_overdrive_projector_tick_buildings_state(game: Object, second
 				var removed: Dictionary = source_drill_inventory.remove_item_state(items, str(stack.get("item", "")), int(stack.get("amount", 0)))
 				items = removed.get(source_drill_inventory.SOURCE_DRILL_INVENTORY_DRILL_ITEMS_KEY, items)
 			frame["items"] = items
+		# N2334: the boost scan runs AFTER the advance (realRange
+		# needs the post-advance phase_heat), in Java order
+		# (OverdriveProjector.java:106-111): when the advance
+		# reports charge_ready, the tick folds the live realRange
+		# from the post-advance frame phase_heat + the block props
+		# through the existing projector_range accessor (the SAME
+		# formula the drawSelect fold uses, OverdriveProjector.
+		# java:129 -- range + phaseHeat * phaseRangeBoost, the
+		# N2329 realRange precedent -- no duplicate math) and
+		# filters the frame boost candidates (frame[
+		# "boost_candidates"], default [] -- no candidates, the
+		# Java no-buildings-in-range outcome) from the live
+		# building position (origin cell + block offset, the
+		# N2306 RepairTower precedent: Building x/y are
+		# tile.drawx()/drawy(), BuildingComp.java:124). The scan
+		# reports its targets into the frame as last_boost_scan;
+		# the boost APPLICATION (applyBoost on the reported
+		# targets, OverdriveProjector.java:110) still waits for
+		# its own slice (DEFERRED), and the live building index
+		# that would fill frame["boost_candidates"] still waits
+		# too. When charge is not ready, Java runs no scan at
+		# all (the `if(charge >= reload){` gate), so the tick
+		# reports an empty target list at the live realRange.
+		var scan_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
+		var scan_block_size: int = int(block.properties.get("size", 1))
+		var scan_block_offset: float = float((scan_block_size + 1) % 2) * source_world_defaults.TILESIZE / 2.0
+		var scan_building_x: float = source_block_geometry.tile_drawx_state(scan_cell.x, source_world_defaults.TILESIZE, scan_block_offset)
+		var scan_building_y: float = source_block_geometry.tile_drawy_state(scan_cell.y, source_world_defaults.TILESIZE, scan_block_offset)
+		var scan_real_range: float = source_overdrive_projector_state.projector_range(block, float(frame.get("phase_heat", 0.0)))
+		var scan_candidates: Array = []
+		var frame_boost_candidates: Variant = frame.get("boost_candidates", [])
+		if frame_boost_candidates is Array:
+			scan_candidates = frame_boost_candidates
+		var boost_scan: Dictionary = {"boost_targets": [], "real_range": scan_real_range}
+		if bool(advance.get("charge_ready", false)):
+			boost_scan = source_overdrive_projector_supplied_boost_targets_state(scan_candidates, scan_real_range, scan_building_x, scan_building_y)
+		frame["last_boost_scan"] = boost_scan
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
