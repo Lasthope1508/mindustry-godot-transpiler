@@ -1,0 +1,36 @@
+# Report — N2208: MassDriver sense(progress) / acceptItem (MassDriver.java:224-228, 285-288, C07)
+
+Date: 2026-11-16. Batch: N2208 (single slice). Status: **DONE + GATE VERIFIED (2026-11-16 ~11:54 +07 — targeted 4/4, family 12/12, wiring 32/32; full gate Ran 5925, failures=158, skipped=5, 0 errors, all 158 verified Godot-absent). Ready to push (origin/main moved to 705a3329 — validation wave17 merge; slice rebased cleanly onto it).**
+
+## What changed
+
+N2207 is DONE + PUSHED (main ef6f8086); this tick finishes the MassDriver sense(progress) / acceptItem rows — the next deferred item after N2207 per the N2207 handoff ("Next after N2208: RepairTurret coolant, Units.nearby live query" — N2208 itself was the MassDriver pair named in the N2207 report's deferred list). Java: `sense()` returns `Mathf.clamp(1f - reloadCounter)` for `LAccess.progress` and falls through to `super.sense(sensor)` otherwise (MassDriver.java:224-228); `acceptItem()` returns `items.total() < itemCapacity && linkValid()` (MassDriver.java:285-288) — yet the port had neither a sense(progress) override nor an acceptItem predicate for the mass-driver, so a logic processor could not read its reload progress and no intake check existed. No gameplay change; slice committed + rebased in this tick, docs + push below.
+
+What N2208 adds (9 files):
+
+- **Two pure functions, no driver tick line** `source_mass_driver_sense_state(frame, sensor)` (:72) + `source_mass_driver_accept_item_state(frame, item_capacity, link_valid)` (:81) in the EXISTING `SourceMassDriverBuildState.gd`, after the N2171 power row. Sense: absent `reload_counter` → 0.0 → sense 1.0 (fresh driver fully reloaded, Java init `public float reloadCounter = 0f;`, MassDriver.java:117); progress → `clampf(1.0 - reload_counter, 0.0, 1.0)`; any other sensor → `{"handled": false, ...}` (fall through to super.sense). AcceptItem: absent `items_total` → 0.0; returns `items_total < item_capacity and link_valid`. Per-def itemCapacity passed in by the caller (mass-driver 120, Blocks.java:2170; class default 10, Block.java:75); `link_valid` passed in by the caller — linkValid() is a world query (MassDriver.java:346-349), computing it from link state is its own later slice. No driver tick line for either (N2206 precedent — sense is a logic read, acceptItem is an intake predicate). One-line Java-quote comments per the test's assertIn list.
+- **Test module + register script** `test_c07_mass_driver_sense_progress_accept_item.py` + `register_c07_mass_driver_sense_progress_accept_item.py` (N2206 pattern; register DEFERRED carried from N2207 via import). SSOT baseline re-verified from disk: 11431/1657/1578/2947, audit 1335. After GREEN: **11433/1658/1580/2951** (+2/+1/+2/+4, exactly as expected at RED), audit 1335. No shard change (no shard selection matches MassDriver.java, N2171 precedent).
+- **Proof scene** `C07MassDriverSenseProgressAcceptItemProof.gd` (+ `.tscn`, `.json` untracked per .gitignore:6), N2206 pure-function proof shape. 6 semantic keys: sense_progress_fresh_driver_full / sense_progress_half_reloaded / sense_progress_after_fire_zero / sense_fall_through_non_progress / accept_item_below_capacity_with_link / accept_item_full_or_no_link_rejects.
+- **Handoff** `docs/superpowers/handoffs/2026-11-16-c07-mass-driver-sense-progress-accept-item-handoff.md` — design, RED decisions (all pinned), Java evidence (24 exact exprs), scope, gate result.
+
+## RED
+
+Tests written first per the slice process (4 targeted: input evidence exact; registration; state; reference graph + actual incl. Godot proof). Targeted run: **Ran 4, FAILED (failures=2, errors=2) — classic RED** (log `n2208-red.log`): registration ERROR KeyError 'N2208' (register runs at GREEN); evidence ERROR KeyError 'N2208'; state FAIL missing `source_mass_driver_sense_state`; proof FAIL Godot parse error (functions not found yet). Register --verify: **31/31 exprs present, exit 0** (24 exact + 7 input/output). Port 7777 was FREE at run start. `git diff --check` clean.
+
+## GREEN (2026-11-16 ~11:3x +07; main-thread verified ~11:37)
+
+Two pure functions in `SourceMassDriverBuildState.gd` (:72/:81, all exact exprs in one-line Java-quote comments). Register script run (not just --verify): SSOT **11433/1658/1580/2951** đúng kỳ vọng (+2/+1/+2/+4 vs N2207), audit 1335; N2208 in the ledger. Targeted GREEN **Ran 4 OK in 15.906s** (log `n2208-green.log`, includes the Godot proof run; main-thread re-run Ran 4 OK in 15.520s); family MassDriver **12/12 OK in 44.183s** (log `n2208-family.log`); wiring **32/32 OK in 125.528s** (9 modules; log `n2208-wiring.log`). **GREEN tổng 48/48**. Proof `C07MassDriverSenseProgressAcceptItemProof.json` (9 keys: 6 semantic + matches + 2 harness), matches:true, 0 false, Godot headless 4.6.2-stable Linux in this VM. Register --verify 31/31 exprs present, exit 0 (main-thread re-run). `git diff --check` sạch. Environment: no VM restart since N2207 (restart #21 ~09:14); javalang 0.13.0 importable (survived); port 7777 free.
+
+## Gate (VERIFIED 2026-11-16 ~11:54 +07)
+
+Full gate `python3 -m unittest discover -s tests` launched from the MAIN thread (PID 17650, ~11:37; godot NOT on PATH, javalang OK). Finished: **Ran 5925 tests in 1019.502s — FAILED (failures=158, skipped=5), 0 errors, 0 `ERROR:` lines.** All 158 failures verified Godot-absent: 158 × `AssertionError: unexpectedly None` (157 plain `assertIsNotNone(godot)` + 1 with the 'Godot required for hydration proof' message arg — the known undercount-by-1 case). +4 tests / +1 failure vs N2207's 5921/157: the new N2208 proof test, also Godot-absent in the gate (its real Godot proof ran green headless at GREEN; same pattern as the N2171/N2206 mass-driver proof tests already in the failure list). No failure names any N2208 function except that one proof test; failure-list diff vs N2207's gate shows exactly one new entry. Gate clean except Godot — the expected signature. Log `tools/mindustry_godot_transpiler/full-suite-n2208-gate.log` (untracked, never staged). No duplicate gate this run (PID 17650/17647 gone at 12:00 check; no second gate process found).
+
+## PUSH (in this tick)
+
+Gate verified: report → spec (Done/ledger 1657 → 1658 + N2208 row) → GOAL.md §5 (Windows proof stays debt). Slice commit (9 files, rebased cleanly onto origin/main `705a3329` — validation wave17 merge `999969e1` + `705a3329`, docs/evidence only) → docs commit + GOAL commit → hash-naming commit → handoff-status commit → push to origin main in this tick (origin/main re-checked before push; no rebase conflict expected — validation merges are docs-only).
+
+## Deferred (NOT this slice)
+
+- MassDriver updateTile advance (link/state-machine / reloadCounter / waitingShooters / rotation align / fire / dumpAccumulate, MassDriver.java:133-221); link/config rows; fire/bullet rows; handlePayload rows; sense/draw/drawConfigure/drawPlace/icons rows; read/write rows; link-validity computation from link state; logic-processor sense dispatch hook; intake/dump integration calling acceptItem; spawn_occupied/allow_update frame inputs, moveOutPayload(), net drone sync.
+- RepairTurret coolant, Units.nearby live query — still deferred after the MassDriver rows (next after N2208).
+- Windows Godot proof — debt in GOAL.md §5, same as N2175–N2207.
