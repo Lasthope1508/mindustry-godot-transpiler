@@ -112,9 +112,15 @@ func _ready() -> void:
 	# phase_heat decays from 0.5 toward the folded
 	# optionalEfficiency 0 (no silicon in the frame), so the
 	# live realRange is 40 + phase_heat * 20 with phase_heat
-	# read back from the frame -- the key proves the tick
-	# passes the ranged list into the heal scan (two heals,
-	# both at the live phase_heat fold), not [].
+	# read back from the frame. N2335 follow-through: the
+	# narrow filter now chains after the rect scan in the
+	# live tick, so the rect corner (dst 65.05 > live
+	# realRange ~49.98) is excluded and only ONE heal lands
+	# -- the key proves the tick passes the ranged list
+	# through the narrow filter into the heal scan (one heal,
+	# at the live phase_heat fold), not []. The pure keys
+	# above still prove the rect admits corners at the pure
+	# level.
 	var catalog = game.get("content_catalog")
 	var blocks_by_id: Dictionary = {}
 	for registered_block in catalog.get_many("block"):
@@ -147,7 +153,7 @@ func _ready() -> void:
 	var live_phase_heat: float = float(projector_frame.get("phase_heat", -1.0))
 	var live_amounts: Array = live_scan.get("heal_amounts", [])
 	var live_expected_heal: float = 100.0 * (4.0 + live_phase_heat * 4.0) / 100.0 * 1.0
-	proof["live_tick_passes_ranged_candidates"] = is_equal_approx(float(projector_frame.get("efficiency", -1.0)), 1.0) and is_equal_approx(float(projector_frame.get("charge", -1.0)), 0.0) and bool(live_scan.get("scanned", false)) and bool(live_scan.get("any", false)) and is_equal_approx(float(live_scan.get("real_range", -1.0)), 40.0 + live_phase_heat * 20.0) and live_amounts.size() == 2 and is_equal_approx(float(live_amounts[0]), live_expected_heal) and is_equal_approx(float(live_amounts[1]), live_expected_heal)
+	proof["live_tick_passes_ranged_candidates"] = is_equal_approx(float(projector_frame.get("efficiency", -1.0)), 1.0) and is_equal_approx(float(projector_frame.get("charge", -1.0)), 0.0) and bool(live_scan.get("scanned", false)) and bool(live_scan.get("any", false)) and is_equal_approx(float(live_scan.get("real_range", -1.0)), 40.0 + live_phase_heat * 20.0) and live_amounts.size() == 1 and is_equal_approx(float(live_amounts[0]), live_expected_heal)
 
 	var state_registry := registry.canonical_headquarter_registry_state()
 	proof["registry_valid"] = state_registry.get("errors", []).is_empty()

@@ -152,7 +152,10 @@ static func source_mend_projector_power_status_row_state(frame: Dictionary, has_
 	# since N2269 and the heal scan since N2242 (explicit
 	# candidates, MendProjector.java:106-122);
 	# the range query is live since N2329 (the rect filter
-	# over frame["heal_candidates"], MendProjector.java:112).
+	# over frame["heal_candidates"], MendProjector.java:112);
+	# the within/privileged refinement is live since N2335
+	# (the STRICT within circle + !privileged narrow filter
+	# chained after the rect, BlockIndexer.java:346).
 	# Fx / sound / recentlyHealed and the live building index
 	# still wait.
 	if not has_power_consumer:
@@ -408,9 +411,12 @@ static func source_mend_projector_heal_scan_state(frame: Dictionary, candidates:
 	# amounts and the flag and lets the caller apply them.
 	# The range filter over the candidate list is live
 	# since N2329 (source_mend_projector_supplied_heal_
-	# candidates_state, the eachBlock rect): the live tick
+	# candidates_state, the eachBlock rect) and the
+	# within/privileged narrow filter is live since N2335
+	# (source_mend_projector_supplied_heal_candidates_
+	# narrow_state, chained after the rect): the live tick
 	# filters frame["heal_candidates"] and passes the
-	# ranged list here. The live building index that would
+	# narrowed list here. The live building index that would
 	# fill frame["heal_candidates"] is deferred still: the
 	# port has no live building query, so the caller
 	# passes the candidate list explicit.
@@ -474,8 +480,13 @@ static func source_mend_projector_supplied_heal_candidates_state(candidates: Arr
 	# port admits rect corners Java rejects (for a small
 	# hitSize) and misses large-hitbox buildings whose center
 	# sits outside the rect but within range + hitSize/2;
-	# the narrow-check refinement waits for its own slice
-	# (DEFERRED). Scoping decisions, all source-backed: (1)
+	# the narrow-check refinement is live since N2335
+	# (source_mend_projector_supplied_heal_candidates_
+	# narrow_state, chained after this rect filter) -- the
+	# rect-corner half is fixed, the large-hitbox-miss half
+	# still waits (DEFERRED: Java's intersect is a QuadTree
+	# hitbox overlap query, BlockIndexer.java:345).
+	# Scoping decisions, all source-backed: (1)
 	# the pure filters RANGE ONLY -- it does NOT filter
 	# damaged / heal_suppressed (the N2242 heal scan already
 	# does, MendProjector.java:112 predicate halves), so a
@@ -506,6 +517,72 @@ static func source_mend_projector_supplied_heal_candidates_state(candidates: Arr
 			continue
 		in_range.append(candidate)
 	return {"candidates": in_range}
+
+static func source_mend_projector_supplied_heal_candidates_narrow_state(candidates: Array, real_range: float, building_x: float, building_y: float) -> Dictionary:
+	# The heal scan narrow check (BlockIndexer.java:346),
+	# the pure within / privileged filter -- the N2329 rect
+	# pure is only Java's BROAD phase: past the rect, the
+	# float-range overload admits only the STRICT within
+	# circle plus the predicate plus the privileged
+	# exclusion (each exact expr on ONE comment line, the
+	# N2148 lesson):
+	# `float realRange = range + phaseHeat * phaseRangeBoost;`
+	# `indexer.eachBlock(this, realRange, b -> b.damaged() && !b.isHealSuppressed(), other -> {`
+	# `buildings.intersect(wx - range, wy - range, range*2f, range*2f, b -> {`
+	# `if(b.within(wx, wy, range + b.hitSize() / 2f) && pred.get(b) && !b.block.privileged){`
+	# `return Mathf.dst2(getX(), getY(), x, y) < dst*dst;`
+	# `return tile.block().size * tilesize;`
+	# `public boolean privileged = false;`
+	# Within is STRICT (Position.java:44-46): dst2 <
+	# (range + hitSize/2)^2, so exactly at range +
+	# hitSize/2 is OUT -- the port excludes on dst2 >=
+	# limit^2, the same strict boundary. hitSize is the
+	# building hitbox size in world units
+	# (BuildingComp.java:2048), so the limit grows with
+	# the candidate's own hitbox; privileged defaults
+	# false (Block.java:148). Scoping decisions, all
+	# source-backed: (1) the pure filters WITHIN +
+	# PRIVILEGED ONLY -- it does NOT filter damaged /
+	# heal_suppressed (the N2242 heal scan already does,
+	# MendProjector.java:112 predicate halves), so a
+	# healthy or suppressed in-circle candidate is
+	# admitted here and dropped downstream. (2) A
+	# candidate dict carries x / y (world position, the
+	# building center) plus hit_size (default 0.0, the
+	# N2226 RepairTurret precedent) and privileged
+	# (default false) plus its other keys untouched
+	# (damaged / heal_suppressed / max_health -- the pure
+	# only filters, it never rewrites an entry); a missing
+	# x or y key EXCLUDES the candidate (the N2329
+	# precedent), and a non-Dictionary entry is excluded
+	# the same way. (3) The admitted entries are the
+	# candidate dicts themselves, in candidate order,
+	# like Java's Seq<Building>. (4) The chain order is
+	# rect -> narrow: the tick passes the N2329 ranged
+	# list here, at the SAME realRange and building
+	# position, and passes the narrowed list into the
+	# N2242 heal scan. Documented deviation,
+	# source-backed: the rect broad phase still drops
+	# large-hitbox buildings whose center sits outside
+	# the rect but within range + hitSize/2 (Java's
+	# intersect is a QuadTree hitbox overlap query,
+	# BlockIndexer.java:345) -- those buildings never
+	# reach this narrow check (DEFERRED).
+	var narrowed: Array = []
+	for candidate in candidates:
+		if not (candidate is Dictionary):
+			continue
+		if not candidate.has("x") or not candidate.has("y"):
+			continue
+		if bool(candidate.get("privileged", false)):
+			continue
+		var limit: float = real_range + float(candidate.get("hit_size", 0.0)) / 2.0
+		var dx: float = float(candidate.get("x", 0.0)) - building_x
+		var dy: float = float(candidate.get("y", 0.0)) - building_y
+		if dx * dx + dy * dy >= limit * limit:
+			continue
+		narrowed.append(candidate)
+	return {"candidates": narrowed}
 
 @warning_ignore("unused_parameter")
 static func source_mend_projector_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
@@ -633,10 +710,15 @@ static func source_mend_projector_tick_buildings_state(game: Object, seconds: fl
 		# offset, the N2306 RepairTower precedent: Building
 		# x/y are tile.drawx()/drawy(), BuildingComp.java:124)
 		# and passes the ranged list into the heal scan; the
-		# live building index that would fill the frame list
-		# still waits. The tick records the scan result on the
-		# frame as last_heal_scan (its `any` entry mirrors the
-		# Java `any` field, MendProjector.java:35).
+		# within/privileged narrow filter is live since N2335:
+		# the tick chains the narrow pure after the rect scan
+		# (same realRange and building position) and passes
+		# the NARROWED list into the heal scan, so a rect
+		# corner or a privileged building is never healed.
+		# The live building index that would fill the frame
+		# list still waits. The tick records the scan result
+		# on the frame as last_heal_scan (its `any` entry
+		# mirrors the Java `any` field, MendProjector.java:35).
 		var charge_before: float = float(frame.get("charge", 0.0))
 		source_mend_projector_update_tile_advance_state(frame, reload_value, time_delta, time_scale)
 		# The booster timer consume (N2269) runs between the
@@ -679,7 +761,8 @@ static func source_mend_projector_tick_buildings_state(game: Object, seconds: fl
 		if frame_heal_candidates is Array:
 			scan_candidates = frame_heal_candidates
 		var ranged_candidates: Dictionary = source_mend_projector_supplied_heal_candidates_state(scan_candidates, scan_real_range, scan_building_x, scan_building_y)
-		var heal_scan: Dictionary = source_mend_projector_heal_scan_state(frame, ranged_candidates.get("candidates", []), charge_before, reload_value, scan_range, float(block.properties.get("healPercent", 12.0)), float(block.properties.get("phaseBoost", 12.0)), scan_phase_range_boost, time_delta, time_scale)
+		var narrowed_candidates: Dictionary = source_mend_projector_supplied_heal_candidates_narrow_state(ranged_candidates.get("candidates", []), scan_real_range, scan_building_x, scan_building_y)
+		var heal_scan: Dictionary = source_mend_projector_heal_scan_state(frame, narrowed_candidates.get("candidates", []), charge_before, reload_value, scan_range, float(block.properties.get("healPercent", 12.0)), float(block.properties.get("phaseBoost", 12.0)), scan_phase_range_boost, time_delta, time_scale)
 		frame["last_heal_scan"] = heal_scan
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired

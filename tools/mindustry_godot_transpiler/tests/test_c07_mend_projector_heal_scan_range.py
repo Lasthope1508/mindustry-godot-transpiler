@@ -159,17 +159,26 @@ class C07MendProjectorHealScanRangeTests(unittest.TestCase):
         # passes the ranged list into the heal scan instead
         # of []. The scan runs before the heal_scan call and
         # the result is still recorded as last_heal_scan.
+        # N2335 follow-through: the narrow filter now chains
+        # between the rect scan and the heal scan, so the
+        # heal scan takes the NARROWED list (the rect call
+        # itself is unchanged).
         self.assertIn('const source_world_defaults := preload("res://src/game/SourceWorldDefaults.gd")', mend_projector)
         self.assertIn('var scan_real_range: float = scan_range + float(frame.get("phase_heat", 0.0)) * scan_phase_range_boost', mend_projector)
         self.assertIn('frame.get("heal_candidates", [])', mend_projector)
         self.assertIn('source_mend_projector_supplied_heal_candidates_state(scan_candidates, scan_real_range, scan_building_x, scan_building_y)', mend_projector)
-        self.assertIn('source_mend_projector_heal_scan_state(frame, ranged_candidates.get("candidates", [])', mend_projector)
+        self.assertIn('source_mend_projector_supplied_heal_candidates_narrow_state(ranged_candidates.get("candidates", []), scan_real_range, scan_building_x, scan_building_y)', mend_projector)
+        self.assertIn('source_mend_projector_heal_scan_state(frame, narrowed_candidates.get("candidates", [])', mend_projector)
         self.assertIn('source_block_geometry.tile_drawx_state(scan_cell.x, source_world_defaults.TILESIZE, scan_block_offset)', mend_projector)
         self.assertIn('source_block_geometry.tile_drawy_state(scan_cell.y, source_world_defaults.TILESIZE, scan_block_offset)', mend_projector)
         self.assertIn('frame["last_heal_scan"] = heal_scan', mend_projector)
         self.assertLess(
             mend_projector.index('source_mend_projector_supplied_heal_candidates_state(scan_candidates, scan_real_range, scan_building_x, scan_building_y)'),
-            mend_projector.index('source_mend_projector_heal_scan_state(frame, ranged_candidates.get("candidates", [])'),
+            mend_projector.index('source_mend_projector_supplied_heal_candidates_narrow_state(ranged_candidates.get("candidates", []), scan_real_range, scan_building_x, scan_building_y)'),
+        )
+        self.assertLess(
+            mend_projector.index('source_mend_projector_supplied_heal_candidates_narrow_state(ranged_candidates.get("candidates", []), scan_real_range, scan_building_x, scan_building_y)'),
+            mend_projector.index('source_mend_projector_heal_scan_state(frame, narrowed_candidates.get("candidates", [])'),
         )
         self.assertLess(
             mend_projector.index('source_mend_projector_update_tile_advance_state(frame, reload_value, time_delta, time_scale)'),
