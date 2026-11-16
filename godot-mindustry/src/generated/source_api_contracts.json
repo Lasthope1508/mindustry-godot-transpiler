@@ -80576,6 +80576,231 @@
       ],
       "runtime_proof": "/root/C07ForceProjectorAbsorbEffectProof",
       "rule": "Source-backed ForceProjector absorbExplosion absorbEffect FX row from ForceProjector.java / Fx.java."
+    },
+    "SourceMendProjectorBuildState.source_mend_projector_heal_effect_state": {
+      "status": "active",
+      "source_slice": "N2484",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "source_method": "MendBuild.updateTile()",
+      "params": [
+        {
+          "name": "healed",
+          "type": "bool",
+          "schema": "source_mend_projector_heal_effect_state_input.healed"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_mend_projector_heal_effect_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_mend_projector_heal_effect_state_input.y"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_mend_projector_heal_effect_state_input.size"
+        },
+        {
+          "name": "base_color",
+          "type": "String",
+          "schema": "source_mend_projector_heal_effect_state_input.base_color"
+        },
+        {
+          "name": "block_id",
+          "type": "String",
+          "schema": "source_mend_projector_heal_effect_state_input.block_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "heal_effect_call"
+      ],
+      "tests": [
+        "test_c07_mend_projector_heal_effect_rows_registration",
+        "test_all_c07_mend_projector_heal_effect_rows_input_evidence_is_exact",
+        "test_mend_projector_heal_effect_rows_state",
+        "test_reference_graph_and_actual_c07_mend_projector_heal_effect_rows"
+      ],
+      "runtime_proof": "/root/C07MendProjectorHealEffectRowsProof",
+      "rule": "Source-backed MendProjector heal effect FX row from MendProjector.java / Fx.java / Effect.java."
+    },
+    "SourceAcceleratorBuildState.source_accelerator_progress_is_core_built_state": {
+      "status": "active",
+      "source_slice": "N2485",
+      "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+      "source_method": "AcceleratorBuild.progress()/isCoreBuilt()",
+      "params": [
+        {
+          "name": "progress",
+          "type": "float",
+          "schema": "source_accelerator_progress_is_core_built_state_input.progress"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "progress",
+        "is_core_built"
+      ],
+      "tests": [
+        "test_c07_accelerator_progress_is_core_built_rows_registration",
+        "test_all_c07_accelerator_progress_is_core_built_rows_input_evidence_is_exact",
+        "test_accelerator_progress_is_core_built_rows_state",
+        "test_reference_graph_and_actual_c07_accelerator_progress_is_core_built_rows"
+      ],
+      "runtime_proof": "/root/C07AcceleratorProgressIsCoreBuiltRowsProof",
+      "rule": "Source-backed Accelerator progress / isCoreBuilt rows from Accelerator.java."
+    },
+    "SourceBurstDrillBuildState.source_burst_drill_per_def_offload_effects_state": {
+      "status": "active",
+      "source_slice": "N2486",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "source_method": "BurstDrillBuild.updateTile()",
+      "params": [
+        {
+          "name": "def_id",
+          "type": "String",
+          "schema": "source_burst_drill_per_def_offload_effects_state_input.def_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "shake",
+        "drill_effect"
+      ],
+      "tests": [
+        "test_c07_burst_drill_per_def_shake_effect_rows_registration",
+        "test_all_c07_burst_drill_per_def_shake_effect_rows_input_evidence_is_exact",
+        "test_burst_drill_per_def_shake_effect_rows_state",
+        "test_reference_graph_and_actual_c07_burst_drill_per_def_shake_effect_rows"
+      ],
+      "runtime_proof": "/root/C07BurstDrillPerDefShakeEffectRowsProof",
+      "rule": "Source-backed BurstDrill per-def offload shake/effect rows from Blocks.java / BurstDrill.java / Fx.java / Pal.java / Liquids.java / MultiEffect.java / Effect.java."
+    },
+    "SourceForceProjectorBuildState.source_force_projector_shield_consumer_absorb_fx_state": {
+      "status": "active",
+      "source_slice": "N2487",
+      "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+      "source_method": "ForceBuild.deflectBullets()",
+      "params": [
+        {
+          "name": "absorbed",
+          "type": "bool",
+          "schema": "source_force_projector_shield_consumer_absorb_fx_state_input.absorbed"
+        },
+        {
+          "name": "bullet_x",
+          "type": "float",
+          "schema": "source_force_projector_shield_consumer_absorb_fx_state_input.bullet_x"
+        },
+        {
+          "name": "bullet_y",
+          "type": "float",
+          "schema": "source_force_projector_shield_consumer_absorb_fx_state_input.bullet_y"
+        },
+        {
+          "name": "pitch_roll",
+          "type": "float",
+          "schema": "source_force_projector_shield_consumer_absorb_fx_state_input.pitch_roll"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "hit_sound_call",
+        "absorb_effect_call"
+      ],
+      "tests": [
+        "test_c07_force_projector_shield_consumer_absorb_fx_rows_registration",
+        "test_all_c07_force_projector_shield_consumer_absorb_fx_rows_input_evidence_is_exact",
+        "test_force_projector_shield_consumer_absorb_fx_rows_state",
+        "test_reference_graph_and_actual_c07_force_projector_shield_consumer_absorb_fx_rows"
+      ],
+      "runtime_proof": "/root/C07ForceProjectorShieldConsumerAbsorbFxProof",
+      "rule": "Source-backed ForceProjector shieldConsumer absorb FX rows from ForceProjector.java / Fx.java / Effect.java."
+    },
+    "SourcePayloadMassDriverBuildState.source_payload_mass_driver_payload_update_state": {
+      "status": "active",
+      "source_slice": "N2488",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "source_method": "PayloadBlockBuild.updateTile()",
+      "params": [
+        {
+          "name": "payload",
+          "type": "Variant",
+          "schema": "source_payload_mass_driver_payload_update_state_input.payload"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "payload_update_call"
+      ],
+      "tests": [
+        "test_c07_payload_mass_driver_super_update_tile_rows_registration",
+        "test_all_c07_payload_mass_driver_super_update_tile_rows_input_evidence_is_exact",
+        "test_payload_mass_driver_super_update_tile_rows_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_super_update_tile_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverSuperUpdateTileRowsProof",
+      "rule": "Source-backed PayloadMassDriver super.updateTile payload update from PayloadBlock.java / PayloadMassDriver.java / Payload.java / BuildPayload.java / UnitPayload.java."
+    },
+    "SourceRepairTurretBuildState.source_repair_turret_per_def_stats_state": {
+      "status": "active",
+      "source_slice": "N2489",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "source_method": "RepairTurret.setStats()",
+      "params": [
+        {
+          "name": "def_id",
+          "type": "String",
+          "schema": "source_repair_turret_per_def_stats_state_input.def_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "repair_speed",
+        "repair_radius",
+        "length",
+        "beam_width",
+        "pulse_radius"
+      ],
+      "tests": [
+        "test_c07_repair_turret_per_def_stat_rows_registration",
+        "test_all_c07_repair_turret_per_def_stat_rows_input_evidence_is_exact",
+        "test_repair_turret_per_def_stat_rows_state",
+        "test_reference_graph_and_actual_c07_repair_turret_per_def_stat_rows"
+      ],
+      "runtime_proof": "/root/C07RepairTurretPerDefStatRowsProof",
+      "rule": "Source-backed RepairTurret per-def stat rows from RepairTurret.java / Blocks.java."
+    },
+    "SourceRepairTowerBuildState.source_repair_tower_per_def_stats_state": {
+      "status": "active",
+      "source_slice": "N2490",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "source_method": "Blocks.load()",
+      "params": [
+        {
+          "name": "def_id",
+          "type": "String",
+          "schema": "source_repair_tower_per_def_stats_state_input.def_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "size",
+        "range_value",
+        "heal_amount",
+        "requirements"
+      ],
+      "tests": [
+        "test_c07_repair_tower_per_def_stat_rows_registration",
+        "test_all_c07_repair_tower_per_def_stat_rows_input_evidence_is_exact",
+        "test_repair_tower_per_def_stat_rows_state",
+        "test_reference_graph_and_actual_c07_repair_tower_per_def_stat_rows"
+      ],
+      "runtime_proof": "/root/C07RepairTowerPerDefStatRowsProof",
+      "rule": "Source-backed RepairTower per-def stat rows from Blocks.java / RepairTower.java / Block.java."
     }
   },
   "policy": {

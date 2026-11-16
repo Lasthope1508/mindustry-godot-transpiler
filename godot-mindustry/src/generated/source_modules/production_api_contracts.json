@@ -1424,6 +1424,33 @@
       "rule": "Source-backed BurstDrill updateTile offload effects rows from BurstDrill.java / Fx.java / Effect.java / Item.java.",
       "return_type": "Dictionary"
     },
+    "SourceBurstDrillBuildState.source_burst_drill_per_def_offload_effects_state": {
+      "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_burst_drill_per_def_offload_effects_state",
+      "status": "active",
+      "source_slice": "N2486",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "source_method": "BurstDrillBuild.updateTile()",
+      "params": [
+        {
+          "name": "def_id",
+          "type": "String",
+          "schema": "source_burst_drill_per_def_offload_effects_state_input.def_id"
+        }
+      ],
+      "return_keys": [
+        "shake",
+        "drill_effect"
+      ],
+      "tests": [
+        "test_c07_burst_drill_per_def_shake_effect_rows_registration",
+        "test_all_c07_burst_drill_per_def_shake_effect_rows_input_evidence_is_exact",
+        "test_burst_drill_per_def_shake_effect_rows_state",
+        "test_reference_graph_and_actual_c07_burst_drill_per_def_shake_effect_rows"
+      ],
+      "runtime_proof": "/root/C07BurstDrillPerDefShakeEffectRowsProof",
+      "rule": "Source-backed BurstDrill per-def offload shake/effect rows from Blocks.java / BurstDrill.java / Fx.java / Pal.java / Liquids.java / MultiEffect.java / Effect.java.",
+      "return_type": "Dictionary"
+    },
     "SourceBurstDrillBuildState.source_burst_drill_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_burst_drill_power_status_row_state",
       "status": "active",

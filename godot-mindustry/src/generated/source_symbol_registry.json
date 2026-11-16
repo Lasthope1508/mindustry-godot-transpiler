@@ -189304,6 +189304,278 @@
         "test_reference_graph_and_actual_c07_force_projector_absorb_effect_rows"
       ],
       "runtime_proof": "/root/C07ForceProjectorAbsorbEffectProof"
+    },
+    "source_mend_projector_heal_effect_state_result.heal_effect_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceMendProjectorBuildState.source_mend_projector_heal_effect_state",
+      "godot_symbol": "source_mend_projector_heal_effect_state_result.heal_effect_call",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "java_method": "MendBuild.updateTile()",
+      "java_expr": "Fx.healBlockFull.at(other.x, other.y, other.block.size, baseColor, other.block);",
+      "rule": "The heal-effect call (MendProjector.java:115): {effect: \"Fx.healBlockFull\", x, y, size, color: base_color, block: block_id} when healed is true, null otherwise (the N2397 null-when-absent precedent). Fx.healBlockFull is `healBlockFull = new Effect(20, e -> {` (Fx.java:2781); the 20-tick renderer body is the callee presentation -- the pure records the CALL (the N2396 precedent). The effect fires once per healed building (inside the eachBlock lambda, :112-117). The mendSound (:119-121) and recentlyHealed (:114) rows defer under their own entries.",
+      "tests": [
+        "test_c07_mend_projector_heal_effect_rows_registration",
+        "test_all_c07_mend_projector_heal_effect_rows_input_evidence_is_exact",
+        "test_mend_projector_heal_effect_rows_state",
+        "test_reference_graph_and_actual_c07_mend_projector_heal_effect_rows"
+      ],
+      "runtime_proof": "/root/C07MendProjectorHealEffectRowsProof"
+    },
+    "source_accelerator_progress_is_core_built_state_result.progress": {
+      "status": "source-backed",
+      "godot_owner": "SourceAcceleratorBuildState.source_accelerator_progress_is_core_built_state",
+      "godot_symbol": "source_accelerator_progress_is_core_built_state_result.progress",
+      "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+      "java_method": "AcceleratorBuild.progress()/isCoreBuilt()",
+      "java_expr": "return progress;",
+      "rule": "The progress() method value (Accelerator.java:149-150): the build progress field as-is -- the pure does NOT clamp (the clamp lives in updateTile, Accelerator.java:144); the base BuildingComp.progress() returns 0f.",
+      "tests": [
+        "test_c07_accelerator_progress_is_core_built_rows_registration",
+        "test_all_c07_accelerator_progress_is_core_built_rows_input_evidence_is_exact",
+        "test_accelerator_progress_is_core_built_rows_state",
+        "test_reference_graph_and_actual_c07_accelerator_progress_is_core_built_rows"
+      ],
+      "runtime_proof": "/root/C07AcceleratorProgressIsCoreBuiltRowsProof"
+    },
+    "source_accelerator_progress_is_core_built_state_result.is_core_built": {
+      "status": "source-backed",
+      "godot_owner": "SourceAcceleratorBuildState.source_accelerator_progress_is_core_built_state",
+      "godot_symbol": "source_accelerator_progress_is_core_built_state_result.is_core_built",
+      "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+      "java_method": "AcceleratorBuild.progress()/isCoreBuilt()",
+      "java_expr": "return progress >= 1f;",
+      "rule": "The isCoreBuilt() verdict (Accelerator.java:153-154): true exactly when progress >= 1f -- progress exactly 1f IS core-built. canLaunch() (Accelerator.java:239-240) and getMaximumAccepted() (Accelerator.java:293-294) both gate on it.",
+      "tests": [
+        "test_c07_accelerator_progress_is_core_built_rows_registration",
+        "test_all_c07_accelerator_progress_is_core_built_rows_input_evidence_is_exact",
+        "test_accelerator_progress_is_core_built_rows_state",
+        "test_reference_graph_and_actual_c07_accelerator_progress_is_core_built_rows"
+      ],
+      "runtime_proof": "/root/C07AcceleratorProgressIsCoreBuiltRowsProof"
+    },
+    "source_burst_drill_per_def_offload_effects_state_result.shake": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_per_def_offload_effects_state",
+      "godot_symbol": "source_burst_drill_per_def_offload_effects_state_result.shake",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "BurstDrillBuild.updateTile()",
+      "java_expr": "shake = 4f;",
+      "rule": "The per-def offload shake (Blocks.java:3077/:3106): 4.0 for both defs, 2.0 for an unknown def id (the class default, `public float shake = 2f;`, BurstDrill.java:18 -- the N2304 fallback precedent). The shake feeds Effect.shake(shake, shake, this) (BurstDrill.java:115), so the live rows shake 4.0 while the N2469 pure keeps recording the class-default 2.0.",
+      "tests": [
+        "test_c07_burst_drill_per_def_shake_effect_rows_registration",
+        "test_all_c07_burst_drill_per_def_shake_effect_rows_input_evidence_is_exact",
+        "test_burst_drill_per_def_shake_effect_rows_state",
+        "test_reference_graph_and_actual_c07_burst_drill_per_def_shake_effect_rows"
+      ],
+      "runtime_proof": "/root/C07BurstDrillPerDefShakeEffectRowsProof"
+    },
+    "source_burst_drill_per_def_offload_effects_state_result.drill_effect": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_per_def_offload_effects_state",
+      "godot_symbol": "source_burst_drill_per_def_offload_effects_state_result.drill_effect",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "BurstDrillBuild.updateTile()",
+      "java_expr": "drillEffect = new MultiEffect(Fx.mineImpact, Fx.drillSteam, Fx.mineImpactWave.wrap(Pal.redLight, 40f));",
+      "rule": "The per-def drill effect as an ordered token list (Blocks.java:3076/:3100-3105): impact-drill [Fx.mineImpact, Fx.drillSteam, {Fx.mineImpactWave wrap Pal.redLight 40.0}], eruption-drill [Fx.mineImpact, Fx.drillSteam, {Fx.dynamicSpikes wrap Liquids.hydrogen.color 30.0}, {Fx.mineImpactWave wrap Liquids.hydrogen.color 45.0}]. A MultiEffect fires its children in order at the same x/y/rotation/color/data (MultiEffect.java:19-20), so the list order IS the firing order. A wrapped child is {effect, wrap_color, wrap_rotation}: the wrap second arg is a ROTATION (Effect.java:101, WrapEffect.create passes its own rotation + color), never a scale; the wrap colors are TOKENS (Pal.redLight is Color.valueOf(\"feb380\"), Pal.java:138; Liquids.hydrogen is Color.valueOf(\"9eabf7\"), Liquids.java:83). An unknown def id falls back to [\"Fx.shockwave\"] (the class default, BurstDrill.java:42). The Fx tokens are exact (mineImpact Fx.java:2655, drillSteam Fx.java:1474, mineImpactWave Fx.java:2662, dynamicSpikes Fx.java:737). drillSound / drillSoundVolume do NOT differ per def (BurstDrill.java:32-33, no def override), so the pure returns no sound row.",
+      "tests": [
+        "test_c07_burst_drill_per_def_shake_effect_rows_registration",
+        "test_all_c07_burst_drill_per_def_shake_effect_rows_input_evidence_is_exact",
+        "test_burst_drill_per_def_shake_effect_rows_state",
+        "test_reference_graph_and_actual_c07_burst_drill_per_def_shake_effect_rows"
+      ],
+      "runtime_proof": "/root/C07BurstDrillPerDefShakeEffectRowsProof"
+    },
+    "source_force_projector_shield_consumer_absorb_fx_state_result.hit_sound_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceForceProjectorBuildState.source_force_projector_shield_consumer_absorb_fx_state",
+      "godot_symbol": "source_force_projector_shield_consumer_absorb_fx_state_result.hit_sound_call",
+      "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+      "java_method": "ForceBuild.deflectBullets()",
+      "java_expr": "paramBlock.hitSound.at(bullet.x, bullet.y, 1f + Mathf.range(0.1f), paramBlock.hitSoundVolume);",
+      "rule": "The shieldConsumer hit-sound call (ForceProjector.java:64): {token: \"shieldHit\", x: bullet_x, y: bullet_y, pitch: 1f + pitch_roll, volume: 0.12} when absorbed is true, null otherwise (the N2397 null-when-absent precedent). hitSound is `public Sound hitSound = Sounds.shieldHit;` (ForceProjector.java:47; asset core/assets/sounds/shieldHit.ogg, the N2444 padLaunch precedent) and the volume is the literal `public float hitSoundVolume = 0.12f;` (ForceProjector.java:48); the single def does not override either (Blocks.java:1964-1976). The record uses the N2468 \"token\" key form (the N2469 \"sound\" key form is NOT used here). The 4-arg Sound.at overload is `public int at(float x, float y, float pitch, float volume){` (arc Sound.java:188-189). The pure records the CALL -- no sound is played (the N2396 precedent).",
+      "tests": [
+        "test_c07_force_projector_shield_consumer_absorb_fx_rows_registration",
+        "test_all_c07_force_projector_shield_consumer_absorb_fx_rows_input_evidence_is_exact",
+        "test_force_projector_shield_consumer_absorb_fx_rows_state",
+        "test_reference_graph_and_actual_c07_force_projector_shield_consumer_absorb_fx_rows"
+      ],
+      "runtime_proof": "/root/C07ForceProjectorShieldConsumerAbsorbFxProof"
+    },
+    "source_force_projector_shield_consumer_absorb_fx_state_result.absorb_effect_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceForceProjectorBuildState.source_force_projector_shield_consumer_absorb_fx_state",
+      "godot_symbol": "source_force_projector_shield_consumer_absorb_fx_state_result.absorb_effect_call",
+      "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+      "java_method": "ForceBuild.deflectBullets()",
+      "java_expr": "paramBlock.absorbEffect.at(bullet);",
+      "rule": "The shieldConsumer absorb-effect call (ForceProjector.java:65): {effect: \"Fx.absorb\", x: bullet_x, y: bullet_y} when absorbed is true, null otherwise (the N2397 null-when-absent precedent). Fx.absorb is `absorb = new Effect(12, e -> {` (Fx.java:1356); the effect field is `public Effect absorbEffect = Fx.absorb;` (ForceProjector.java:49) and the single def does not override it (Blocks.java:1964-1976). The effect fires AT the bullet: the Position overload (`public void at(Position pos){`, Effect.java:105) delegates to create(pos.getX(), pos.getY(), 0, Color.white, null), so the position is the bullet x/y with rotation 0 and no extra args. The 12-tick renderer body is the callee presentation -- the pure records the CALL (the N2396 precedent). The absorbExplosion :272 call is a DIFFERENT call site (live since N2482 as source_force_projector_absorb_effect_state).",
+      "tests": [
+        "test_c07_force_projector_shield_consumer_absorb_fx_rows_registration",
+        "test_all_c07_force_projector_shield_consumer_absorb_fx_rows_input_evidence_is_exact",
+        "test_force_projector_shield_consumer_absorb_fx_rows_state",
+        "test_reference_graph_and_actual_c07_force_projector_shield_consumer_absorb_fx_rows"
+      ],
+      "runtime_proof": "/root/C07ForceProjectorShieldConsumerAbsorbFxProof"
+    },
+    "source_payload_mass_driver_payload_update_state_result.payload_update_call": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_payload_update_state",
+      "godot_symbol": "source_payload_mass_driver_payload_update_state_result.payload_update_call",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_method": "PayloadBlockBuild.updateTile()",
+      "java_expr": "payload.update(null, this);",
+      "rule": "The payload.update CALL record (PayloadBlock.java:160, `payload.update(null, this);`): null when the payload is null (the `if(payload != null){` gate, PayloadBlock.java:159), else {method: \"payload.update\", unit_holder: null, building_holder: \"self\", payload_kind: \"BuildPayload\" | \"UnitPayload\"}. The callee's entity behaviour is NOT ported (BuildPayload.update :52-57 sets build.tile = emptyTile and calls build.updatePayload; UnitPayload.update :51-53 delegates to the unit type) -- there is no live payload entity in the port. The call is unconditional on payload non-null: BuildPayload.update's gate (`if(unitHolder != null && ...) return;`, BuildPayload.java:53) short-circuits with the PMD's null unit holder.",
+      "tests": [
+        "test_c07_payload_mass_driver_super_update_tile_rows_registration",
+        "test_all_c07_payload_mass_driver_super_update_tile_rows_input_evidence_is_exact",
+        "test_payload_mass_driver_super_update_tile_rows_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_super_update_tile_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverSuperUpdateTileRowsProof"
+    },
+    "source_repair_turret_per_def_stats_state_result.repair_speed": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_per_def_stats_state",
+      "godot_symbol": "source_repair_turret_per_def_stats_state_result.repair_speed",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairTurret.setStats()",
+      "java_expr": "public float repairSpeed = 0.3f;",
+      "rule": "The def repairSpeed (RepairTurret.java:33): 0.45f repair-point (Blocks.java:6388), 3f repair-turret (Blocks.java:6400), class 0.3f fallback. Feeds the heal advance (RepairTurret.java:207, target.heal(repairSpeed * strength * edelta() * multiplier)) + setStats (RepairTurret.java:74, repairSpeed * 60f per second).",
+      "tests": [
+        "test_c07_repair_turret_per_def_stat_rows_registration",
+        "test_all_c07_repair_turret_per_def_stat_rows_input_evidence_is_exact",
+        "test_repair_turret_per_def_stat_rows_state",
+        "test_reference_graph_and_actual_c07_repair_turret_per_def_stat_rows"
+      ],
+      "runtime_proof": "/root/C07RepairTurretPerDefStatRowsProof"
+    },
+    "source_repair_turret_per_def_stats_state_result.repair_radius": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_per_def_stats_state",
+      "godot_symbol": "source_repair_turret_per_def_stats_state_result.repair_radius",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairTurret.setStats()",
+      "java_expr": "public float repairRadius = 50f;",
+      "rule": "The def repairRadius (RepairTurret.java:32): 60f repair-point (Blocks.java:6389), 145f repair-turret (Blocks.java:6401), class 50f fallback. Feeds range() (RepairTurret.java:231-233) + setStats (RepairTurret.java:73, repairRadius / tilesize blocks) + the re-acquire range (RepairTurret.java:216, Units.closest(team, x, y, repairRadius, Unit::damaged)).",
+      "tests": [
+        "test_c07_repair_turret_per_def_stat_rows_registration",
+        "test_all_c07_repair_turret_per_def_stat_rows_input_evidence_is_exact",
+        "test_repair_turret_per_def_stat_rows_state",
+        "test_reference_graph_and_actual_c07_repair_turret_per_def_stat_rows"
+      ],
+      "runtime_proof": "/root/C07RepairTurretPerDefStatRowsProof"
+    },
+    "source_repair_turret_per_def_stats_state_result.length": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_per_def_stats_state",
+      "godot_symbol": "source_repair_turret_per_def_stats_state_result.length",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairTurret.setStats()",
+      "java_expr": "public float length = 5f;",
+      "rule": "The def length (RepairTurret.java:35): repair-point sets NO length (Blocks.java:6386-6394) so it keeps the class 5f; 6f repair-turret (Blocks.java:6399). Feeds drawBeam (RepairTurret.java:106, the origin = pos + trns(rotation, length)).",
+      "tests": [
+        "test_c07_repair_turret_per_def_stat_rows_registration",
+        "test_all_c07_repair_turret_per_def_stat_rows_input_evidence_is_exact",
+        "test_repair_turret_per_def_stat_rows_state",
+        "test_reference_graph_and_actual_c07_repair_turret_per_def_stat_rows"
+      ],
+      "runtime_proof": "/root/C07RepairTurretPerDefStatRowsProof"
+    },
+    "source_repair_turret_per_def_stats_state_result.beam_width": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_per_def_stats_state",
+      "godot_symbol": "source_repair_turret_per_def_stats_state_result.beam_width",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairTurret.setStats()",
+      "java_expr": "public float beamWidth = 1f;",
+      "rule": "The def beamWidth (RepairTurret.java:36): 0.73f repair-point (Blocks.java:6390), 1.1f repair-turret (Blocks.java:6403), class 1f fallback. Feeds drawBeam (RepairTurret.java:145/148, strength * beamWidth).",
+      "tests": [
+        "test_c07_repair_turret_per_def_stat_rows_registration",
+        "test_all_c07_repair_turret_per_def_stat_rows_input_evidence_is_exact",
+        "test_repair_turret_per_def_stat_rows_state",
+        "test_reference_graph_and_actual_c07_repair_turret_per_def_stat_rows"
+      ],
+      "runtime_proof": "/root/C07RepairTurretPerDefStatRowsProof"
+    },
+    "source_repair_turret_per_def_stats_state_result.pulse_radius": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_per_def_stats_state",
+      "godot_symbol": "source_repair_turret_per_def_stats_state_result.pulse_radius",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairTurret.setStats()",
+      "java_expr": "public float pulseRadius = 6f;",
+      "rule": "The def pulseRadius (RepairTurret.java:37): 5f repair-point (Blocks.java:6392), 6.1f repair-turret (Blocks.java:6404), class 6f fallback. Feeds drawBeam (RepairTurret.java:142, 1f + f * pulseRadius).",
+      "tests": [
+        "test_c07_repair_turret_per_def_stat_rows_registration",
+        "test_all_c07_repair_turret_per_def_stat_rows_input_evidence_is_exact",
+        "test_repair_turret_per_def_stat_rows_state",
+        "test_reference_graph_and_actual_c07_repair_turret_per_def_stat_rows"
+      ],
+      "runtime_proof": "/root/C07RepairTurretPerDefStatRowsProof"
+    },
+    "source_repair_tower_per_def_stats_state_result.size": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_per_def_stats_state",
+      "godot_symbol": "source_repair_tower_per_def_stats_state_result.size",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "Blocks.load()",
+      "java_expr": "size = 2;",
+      "rule": "The def size (Blocks.java:6578): 2 for unit-repair-tower; the class default is 1 (`public int size = 1;`, Block.java:215).",
+      "tests": [
+        "test_c07_repair_tower_per_def_stat_rows_registration",
+        "test_all_c07_repair_tower_per_def_stat_rows_input_evidence_is_exact",
+        "test_repair_tower_per_def_stat_rows_state",
+        "test_reference_graph_and_actual_c07_repair_tower_per_def_stat_rows"
+      ],
+      "runtime_proof": "/root/C07RepairTowerPerDefStatRowsProof"
+    },
+    "source_repair_tower_per_def_stats_state_result.range_value": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_per_def_stats_state",
+      "godot_symbol": "source_repair_tower_per_def_stats_state_result.range_value",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "Blocks.load()",
+      "java_expr": "range = 100f;",
+      "rule": "The def range (Blocks.java:6579): 100f for unit-repair-tower; the class default is 80f (`public float range = 80f;`, RepairTower.java:21).",
+      "tests": [
+        "test_c07_repair_tower_per_def_stat_rows_registration",
+        "test_all_c07_repair_tower_per_def_stat_rows_input_evidence_is_exact",
+        "test_repair_tower_per_def_stat_rows_state",
+        "test_reference_graph_and_actual_c07_repair_tower_per_def_stat_rows"
+      ],
+      "runtime_proof": "/root/C07RepairTowerPerDefStatRowsProof"
+    },
+    "source_repair_tower_per_def_stats_state_result.heal_amount": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_per_def_stats_state",
+      "godot_symbol": "source_repair_tower_per_def_stats_state_result.heal_amount",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "Blocks.load()",
+      "java_expr": "healAmount = 1.5f;",
+      "rule": "The def healAmount (Blocks.java:6580): 1.5f for unit-repair-tower; the class default is 1f (`public float healAmount = 1f;`, RepairTower.java:24).",
+      "tests": [
+        "test_c07_repair_tower_per_def_stat_rows_registration",
+        "test_all_c07_repair_tower_per_def_stat_rows_input_evidence_is_exact",
+        "test_repair_tower_per_def_stat_rows_state",
+        "test_reference_graph_and_actual_c07_repair_tower_per_def_stat_rows"
+      ],
+      "runtime_proof": "/root/C07RepairTowerPerDefStatRowsProof"
+    },
+    "source_repair_tower_per_def_stats_state_result.requirements": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_per_def_stats_state",
+      "godot_symbol": "source_repair_tower_per_def_stats_state_result.requirements",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "Blocks.load()",
+      "java_expr": "requirements(Category.units, with(Items.graphite, 90, Items.silicon, 90, Items.tungsten, 80));",
+      "rule": "The def requirements (Blocks.java:6576) as the {item: amount} dict (the SourceAcceleratorBuildState capacities precedent): graphite 90, silicon 90, tungsten 80 for unit-repair-tower; the class default is NO requirements (`public ItemStack[] requirements = {};`, Block.java:356).",
+      "tests": [
+        "test_c07_repair_tower_per_def_stat_rows_registration",
+        "test_all_c07_repair_tower_per_def_stat_rows_input_evidence_is_exact",
+        "test_repair_tower_per_def_stat_rows_state",
+        "test_reference_graph_and_actual_c07_repair_tower_per_def_stat_rows"
+      ],
+      "runtime_proof": "/root/C07RepairTowerPerDefStatRowsProof"
     }
   },
   "version": 1

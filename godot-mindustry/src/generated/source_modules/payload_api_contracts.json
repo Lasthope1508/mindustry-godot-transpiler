@@ -4711,6 +4711,32 @@
       "rule": "Source-backed PayloadMassDriver link/config rows from PayloadMassDriver.java / MassDriver.java / BuildingComp.java / InputHandler.java.",
       "return_type": "Dictionary"
     },
+    "SourcePayloadMassDriverBuildState.source_payload_mass_driver_payload_update_state": {
+      "canonical_contract": "source_api_contracts.SourcePayloadMassDriverBuildState.source_payload_mass_driver_payload_update_state",
+      "status": "active",
+      "source_slice": "N2488",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "source_method": "PayloadBlockBuild.updateTile()",
+      "params": [
+        {
+          "name": "payload",
+          "type": "Variant",
+          "schema": "source_payload_mass_driver_payload_update_state_input.payload"
+        }
+      ],
+      "return_keys": [
+        "payload_update_call"
+      ],
+      "tests": [
+        "test_c07_payload_mass_driver_super_update_tile_rows_registration",
+        "test_all_c07_payload_mass_driver_super_update_tile_rows_input_evidence_is_exact",
+        "test_payload_mass_driver_super_update_tile_rows_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_super_update_tile_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverSuperUpdateTileRowsProof",
+      "rule": "Source-backed PayloadMassDriver super.updateTile payload update from PayloadBlock.java / PayloadMassDriver.java / Payload.java / BuildPayload.java / UnitPayload.java.",
+      "return_type": "Dictionary"
+    },
     "SourcePayloadMassDriverBuildState.source_payload_mass_driver_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourcePayloadMassDriverBuildState.source_payload_mass_driver_power_status_row_state",
       "status": "active",

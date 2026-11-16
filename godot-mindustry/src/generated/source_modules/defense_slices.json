@@ -3960,6 +3960,41 @@
       ],
       "runtime_proof": "/root/C07ForceProjectorAbsorbEffectProof"
     },
+    "N2484": {
+      "canonical_ledger": "source_slice_ledger.N2484",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "java_method": "MendBuild.updateTile()",
+      "godot_owner": "SourceMendProjectorBuildState.source_mend_projector_heal_effect_state",
+      "source_symbols": [
+        "source_mend_projector_heal_effect_state_result.heal_effect_call"
+      ],
+      "tests": [
+        "test_c07_mend_projector_heal_effect_rows_registration",
+        "test_all_c07_mend_projector_heal_effect_rows_input_evidence_is_exact",
+        "test_mend_projector_heal_effect_rows_state",
+        "test_reference_graph_and_actual_c07_mend_projector_heal_effect_rows"
+      ],
+      "runtime_proof": "/root/C07MendProjectorHealEffectRowsProof"
+    },
+    "N2487": {
+      "canonical_ledger": "source_slice_ledger.N2487",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+      "java_method": "ForceBuild.deflectBullets()",
+      "godot_owner": "SourceForceProjectorBuildState.source_force_projector_shield_consumer_absorb_fx_state",
+      "source_symbols": [
+        "source_force_projector_shield_consumer_absorb_fx_state_result.hit_sound_call",
+        "source_force_projector_shield_consumer_absorb_fx_state_result.absorb_effect_call"
+      ],
+      "tests": [
+        "test_c07_force_projector_shield_consumer_absorb_fx_rows_registration",
+        "test_all_c07_force_projector_shield_consumer_absorb_fx_rows_input_evidence_is_exact",
+        "test_force_projector_shield_consumer_absorb_fx_rows_state",
+        "test_reference_graph_and_actual_c07_force_projector_shield_consumer_absorb_fx_rows"
+      ],
+      "runtime_proof": "/root/C07ForceProjectorShieldConsumerAbsorbFxProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

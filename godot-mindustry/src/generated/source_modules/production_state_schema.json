@@ -1178,6 +1178,21 @@
         }
       }
     },
+    "source_burst_drill_per_def_offload_effects_state_input": {
+      "canonical_schema": "source_state_schema.source_burst_drill_per_def_offload_effects_state_input",
+      "keys": {
+        "def_id": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "impactDrill = new BurstDrill(\"impact-drill\"){{",
+          "rule": "The caller-supplied catalog block id (\"impact-drill\" / \"eruption-drill\", Blocks.java:3070/:3093 -- the same ids the driver consts SOURCE_BURST_DRILL_DRILL_TIME / SOURCE_BURST_DRILL_LIQUID_BOOST_INTENSITY already key on). The pure never looks the def up itself -- the caller owns the def id (the N2304 per-def precedent). An unknown def id falls back to the CLASS defaults (shake 2.0, [\"Fx.shockwave\"]) -- defensive, not a deviation: every real BurstDrill build has one of the two defs.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_per_def_offload_effects_state"
+          ]
+        }
+      }
+    },
     "source_burst_drill_power_status_row_state_input": {
       "canonical_schema": "source_state_schema.source_burst_drill_power_status_row_state_input",
       "keys": {

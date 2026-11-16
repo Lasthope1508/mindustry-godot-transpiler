@@ -2125,6 +2125,24 @@
       ],
       "runtime_proof": "/root/C07SolidPumpUpdateEffectChanceProof"
     },
+    "N2486": {
+      "canonical_ledger": "source_slice_ledger.N2486",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_method": "BurstDrillBuild.updateTile()",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_per_def_offload_effects_state",
+      "source_symbols": [
+        "source_burst_drill_per_def_offload_effects_state_result.shake",
+        "source_burst_drill_per_def_offload_effects_state_result.drill_effect"
+      ],
+      "tests": [
+        "test_c07_burst_drill_per_def_shake_effect_rows_registration",
+        "test_all_c07_burst_drill_per_def_shake_effect_rows_input_evidence_is_exact",
+        "test_burst_drill_per_def_shake_effect_rows_state",
+        "test_reference_graph_and_actual_c07_burst_drill_per_def_shake_effect_rows"
+      ],
+      "runtime_proof": "/root/C07BurstDrillPerDefShakeEffectRowsProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",

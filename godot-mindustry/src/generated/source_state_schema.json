@@ -261623,6 +261623,452 @@
       },
       "runtime_proof": "/root/C07ForceProjectorAbsorbEffectProof",
       "rule": "Source-backed ForceProjector absorbExplosion absorbEffect FX row from ForceProjector.java / Fx.java."
+    },
+    "source_mend_projector_heal_effect_state_input": {
+      "status": "active",
+      "owner": "SourceMendProjectorBuildState.source_mend_projector_heal_effect_state",
+      "source_slice": "N2484",
+      "keys": {
+        "healed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "java_expr": "indexer.eachBlock(this, realRange, b -> b.damaged() && !b.isHealSuppressed(), other -> {",
+          "rule": "The caller-evaluated healed verdict for one building (MendProjector.java:112, the eachBlock predicate `b -> b.damaged() && !b.isHealSuppressed()` plus the charge crossing): true exactly when the N2242 heal scan healed this building. The pure does NOT recompute the heal gate (the N2397 precedent -- the N2242 pure owns the gate).",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_heal_effect_state"
+          ]
+        },
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "java_expr": "Fx.healBlockFull.at(other.x, other.y, other.block.size, baseColor, other.block);",
+          "rule": "The healed building world x (MendProjector.java:115, the Fx.healBlockFull.at other.x): an explicit input, passed through to the effect call untouched.",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_heal_effect_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "java_expr": "Fx.healBlockFull.at(other.x, other.y, other.block.size, baseColor, other.block);",
+          "rule": "The healed building world y (MendProjector.java:115, the Fx.healBlockFull.at other.y): an explicit input, passed through to the effect call untouched.",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_heal_effect_state"
+          ]
+        },
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "java_expr": "Fx.healBlockFull.at(other.x, other.y, other.block.size, baseColor, other.block);",
+          "rule": "The healed block size in tiles (MendProjector.java:115, the Fx.healBlockFull.at other.block.size -- descriptor key \"size\", the catalog key; mender 1 / mend-projector 2, Blocks.java:1922/1935): an explicit input, passed through to the effect call untouched. It rides the rotation arg of the .at overload (Effect.java:133).",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_heal_effect_state"
+          ]
+        },
+        "base_color": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "java_expr": "public Color baseColor = Color.valueOf(\"84f491\");",
+          "rule": "The baseColor token (MendProjector.java:23, `public Color baseColor = Color.valueOf(\"84f491\");`; neither def overrides it, Blocks.java:1919-1942): carried as the \"baseColor\" field-name string (the N2373 color-token precedent), passed through to the effect call untouched.",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_heal_effect_state"
+          ]
+        },
+        "block_id": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "java_expr": "Fx.healBlockFull.at(other.x, other.y, other.block.size, baseColor, other.block);",
+          "rule": "The healed block id, kebab-case (MendProjector.java:115, the Fx.healBlockFull.at other.block -- the effect data, which the renderer reads as the Block for block.fullIcon, Fx.java:2782-2786): an explicit input, passed through to the effect call untouched.",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_heal_effect_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07MendProjectorHealEffectRowsProof",
+      "rule": "Source-backed MendProjector heal effect FX row from MendProjector.java / Fx.java / Effect.java."
+    },
+    "source_mend_projector_heal_effect_state_result": {
+      "status": "active",
+      "owner": "SourceMendProjectorBuildState.source_mend_projector_heal_effect_state",
+      "source_slice": "N2484",
+      "keys": {
+        "heal_effect_call": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "java_expr": "Fx.healBlockFull.at(other.x, other.y, other.block.size, baseColor, other.block);",
+          "rule": "The heal-effect call (MendProjector.java:115): {effect: \"Fx.healBlockFull\", x, y, size, color: base_color, block: block_id} when healed is true, null otherwise (the N2397 null-when-absent precedent). Fx.healBlockFull is `healBlockFull = new Effect(20, e -> {` (Fx.java:2781); the 20-tick renderer body is the callee presentation -- the pure records the CALL (the N2396 precedent). The effect fires once per healed building (inside the eachBlock lambda, :112-117). The mendSound (:119-121) and recentlyHealed (:114) rows defer under their own entries.",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_heal_effect_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07MendProjectorHealEffectRowsProof",
+      "rule": "Source-backed MendProjector heal effect FX row from MendProjector.java / Fx.java / Effect.java."
+    },
+    "source_accelerator_progress_is_core_built_state_input": {
+      "status": "active",
+      "owner": "SourceAcceleratorBuildState.source_accelerator_progress_is_core_built_state",
+      "source_slice": "N2485",
+      "keys": {
+        "progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "public float progress;",
+          "rule": "The build progress (Accelerator.java:121, tracked on the frame as progress by the N2191 advance): the build fraction, 0 at placement, advanced by progress += Time.delta * efficiency / buildDuration (Accelerator.java:143) and clamped to 1f (Accelerator.java:144).",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_progress_is_core_built_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07AcceleratorProgressIsCoreBuiltRowsProof",
+      "rule": "Source-backed Accelerator progress / isCoreBuilt rows from Accelerator.java."
+    },
+    "source_accelerator_progress_is_core_built_state_result": {
+      "status": "active",
+      "owner": "SourceAcceleratorBuildState.source_accelerator_progress_is_core_built_state",
+      "source_slice": "N2485",
+      "keys": {
+        "progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "return progress;",
+          "rule": "The progress() method value (Accelerator.java:149-150): the build progress field as-is -- the pure does NOT clamp (the clamp lives in updateTile, Accelerator.java:144); the base BuildingComp.progress() returns 0f.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_progress_is_core_built_state"
+          ]
+        },
+        "is_core_built": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "return progress >= 1f;",
+          "rule": "The isCoreBuilt() verdict (Accelerator.java:153-154): true exactly when progress >= 1f -- progress exactly 1f IS core-built. canLaunch() (Accelerator.java:239-240) and getMaximumAccepted() (Accelerator.java:293-294) both gate on it.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_progress_is_core_built_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07AcceleratorProgressIsCoreBuiltRowsProof",
+      "rule": "Source-backed Accelerator progress / isCoreBuilt rows from Accelerator.java."
+    },
+    "source_burst_drill_per_def_offload_effects_state_input": {
+      "status": "active",
+      "owner": "SourceBurstDrillBuildState.source_burst_drill_per_def_offload_effects_state",
+      "source_slice": "N2486",
+      "keys": {
+        "def_id": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "impactDrill = new BurstDrill(\"impact-drill\"){{",
+          "rule": "The caller-supplied catalog block id (\"impact-drill\" / \"eruption-drill\", Blocks.java:3070/:3093 -- the same ids the driver consts SOURCE_BURST_DRILL_DRILL_TIME / SOURCE_BURST_DRILL_LIQUID_BOOST_INTENSITY already key on). The pure never looks the def up itself -- the caller owns the def id (the N2304 per-def precedent). An unknown def id falls back to the CLASS defaults (shake 2.0, [\"Fx.shockwave\"]) -- defensive, not a deviation: every real BurstDrill build has one of the two defs.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_per_def_offload_effects_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BurstDrillPerDefShakeEffectRowsProof",
+      "rule": "Source-backed BurstDrill per-def offload shake/effect rows from Blocks.java / BurstDrill.java / Fx.java / Pal.java / Liquids.java / MultiEffect.java / Effect.java."
+    },
+    "source_burst_drill_per_def_offload_effects_state_result": {
+      "status": "active",
+      "owner": "SourceBurstDrillBuildState.source_burst_drill_per_def_offload_effects_state",
+      "source_slice": "N2486",
+      "keys": {
+        "shake": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "shake = 4f;",
+          "rule": "The per-def offload shake (Blocks.java:3077/:3106): 4.0 for both defs, 2.0 for an unknown def id (the class default, `public float shake = 2f;`, BurstDrill.java:18 -- the N2304 fallback precedent). The shake feeds Effect.shake(shake, shake, this) (BurstDrill.java:115), so the live rows shake 4.0 while the N2469 pure keeps recording the class-default 2.0.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_per_def_offload_effects_state"
+          ]
+        },
+        "drill_effect": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "drillEffect = new MultiEffect(Fx.mineImpact, Fx.drillSteam, Fx.mineImpactWave.wrap(Pal.redLight, 40f));",
+          "rule": "The per-def drill effect as an ordered token list (Blocks.java:3076/:3100-3105): impact-drill [Fx.mineImpact, Fx.drillSteam, {Fx.mineImpactWave wrap Pal.redLight 40.0}], eruption-drill [Fx.mineImpact, Fx.drillSteam, {Fx.dynamicSpikes wrap Liquids.hydrogen.color 30.0}, {Fx.mineImpactWave wrap Liquids.hydrogen.color 45.0}]. A MultiEffect fires its children in order at the same x/y/rotation/color/data (MultiEffect.java:19-20), so the list order IS the firing order. A wrapped child is {effect, wrap_color, wrap_rotation}: the wrap second arg is a ROTATION (Effect.java:101, WrapEffect.create passes its own rotation + color), never a scale; the wrap colors are TOKENS (Pal.redLight is Color.valueOf(\"feb380\"), Pal.java:138; Liquids.hydrogen is Color.valueOf(\"9eabf7\"), Liquids.java:83). An unknown def id falls back to [\"Fx.shockwave\"] (the class default, BurstDrill.java:42). The Fx tokens are exact (mineImpact Fx.java:2655, drillSteam Fx.java:1474, mineImpactWave Fx.java:2662, dynamicSpikes Fx.java:737). drillSound / drillSoundVolume do NOT differ per def (BurstDrill.java:32-33, no def override), so the pure returns no sound row.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_per_def_offload_effects_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BurstDrillPerDefShakeEffectRowsProof",
+      "rule": "Source-backed BurstDrill per-def offload shake/effect rows from Blocks.java / BurstDrill.java / Fx.java / Pal.java / Liquids.java / MultiEffect.java / Effect.java."
+    },
+    "source_force_projector_shield_consumer_absorb_fx_state_input": {
+      "status": "active",
+      "owner": "SourceForceProjectorBuildState.source_force_projector_shield_consumer_absorb_fx_state",
+      "source_slice": "N2487",
+      "keys": {
+        "absorbed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "if(bullet.team != paramEntity.team && bullet.type.absorbable && !bullet.absorbed &&",
+          "rule": "The caller-evaluated absorbed verdict (ForceProjector.java:60-62, the shieldConsumer gate): true exactly when this bullet was absorbed -- one entry of the N2235 advance source_force_projector_update_tile_advance_state absorbed_bullets result. The pure does NOT recompute the polygon gate (the N2397 precedent -- the N2235 advance owns the gate).",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_shield_consumer_absorb_fx_state"
+          ]
+        },
+        "bullet_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "paramBlock.hitSound.at(bullet.x, bullet.y, 1f + Mathf.range(0.1f), paramBlock.hitSoundVolume);",
+          "rule": "The absorbed bullet world x (ForceProjector.java:64, the hitSound.at bullet.x; the absorbEffect.at(bullet) Position overload fires at pos.getX(), Effect.java:105-107): an explicit input, passed through to both call records untouched.",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_shield_consumer_absorb_fx_state"
+          ]
+        },
+        "bullet_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "paramBlock.hitSound.at(bullet.x, bullet.y, 1f + Mathf.range(0.1f), paramBlock.hitSoundVolume);",
+          "rule": "The absorbed bullet world y (ForceProjector.java:64, the hitSound.at bullet.y; the absorbEffect.at(bullet) Position overload fires at pos.getY(), Effect.java:105-107): an explicit input, passed through to both call records untouched.",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_shield_consumer_absorb_fx_state"
+          ]
+        },
+        "pitch_roll": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "paramBlock.hitSound.at(bullet.x, bullet.y, 1f + Mathf.range(0.1f), paramBlock.hitSoundVolume);",
+          "rule": "The ALREADY-ROLLED pitch roll in [-0.1, 0.1] (ForceProjector.java:64, `1f + Mathf.range(0.1f)`; Mathf.range(r) is the arc uniform roll in [-r, r], arc Mathf.java:220-222): an explicit caller-supplied input -- NO RNG in the pure (the N2421 precedent).",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_shield_consumer_absorb_fx_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ForceProjectorShieldConsumerAbsorbFxProof",
+      "rule": "Source-backed ForceProjector shieldConsumer absorb FX rows from ForceProjector.java / Fx.java / Effect.java."
+    },
+    "source_force_projector_shield_consumer_absorb_fx_state_result": {
+      "status": "active",
+      "owner": "SourceForceProjectorBuildState.source_force_projector_shield_consumer_absorb_fx_state",
+      "source_slice": "N2487",
+      "keys": {
+        "hit_sound_call": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "paramBlock.hitSound.at(bullet.x, bullet.y, 1f + Mathf.range(0.1f), paramBlock.hitSoundVolume);",
+          "rule": "The shieldConsumer hit-sound call (ForceProjector.java:64): {token: \"shieldHit\", x: bullet_x, y: bullet_y, pitch: 1f + pitch_roll, volume: 0.12} when absorbed is true, null otherwise (the N2397 null-when-absent precedent). hitSound is `public Sound hitSound = Sounds.shieldHit;` (ForceProjector.java:47; asset core/assets/sounds/shieldHit.ogg, the N2444 padLaunch precedent) and the volume is the literal `public float hitSoundVolume = 0.12f;` (ForceProjector.java:48); the single def does not override either (Blocks.java:1964-1976). The record uses the N2468 \"token\" key form (the N2469 \"sound\" key form is NOT used here). The 4-arg Sound.at overload is `public int at(float x, float y, float pitch, float volume){` (arc Sound.java:188-189). The pure records the CALL -- no sound is played (the N2396 precedent).",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_shield_consumer_absorb_fx_state"
+          ]
+        },
+        "absorb_effect_call": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "paramBlock.absorbEffect.at(bullet);",
+          "rule": "The shieldConsumer absorb-effect call (ForceProjector.java:65): {effect: \"Fx.absorb\", x: bullet_x, y: bullet_y} when absorbed is true, null otherwise (the N2397 null-when-absent precedent). Fx.absorb is `absorb = new Effect(12, e -> {` (Fx.java:1356); the effect field is `public Effect absorbEffect = Fx.absorb;` (ForceProjector.java:49) and the single def does not override it (Blocks.java:1964-1976). The effect fires AT the bullet: the Position overload (`public void at(Position pos){`, Effect.java:105) delegates to create(pos.getX(), pos.getY(), 0, Color.white, null), so the position is the bullet x/y with rotation 0 and no extra args. The 12-tick renderer body is the callee presentation -- the pure records the CALL (the N2396 precedent). The absorbExplosion :272 call is a DIFFERENT call site (live since N2482 as source_force_projector_absorb_effect_state).",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_shield_consumer_absorb_fx_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ForceProjectorShieldConsumerAbsorbFxProof",
+      "rule": "Source-backed ForceProjector shieldConsumer absorb FX rows from ForceProjector.java / Fx.java / Effect.java."
+    },
+    "source_payload_mass_driver_payload_update_state_input": {
+      "status": "active",
+      "owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_payload_update_state",
+      "source_slice": "N2488",
+      "keys": {
+        "payload": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "public @Nullable T payload;",
+          "rule": "The held payload (PayloadBlock.java:92, `public @Nullable T payload;`): null or a Dictionary following the N2245 PMD payload contract (\"size\" in world units, no kind key). The PMD generic is PayloadBlockBuild<Payload> (`public class PayloadDriverBuild extends PayloadBlockBuild<Payload> implements RotBlock{`, PayloadMassDriver.java:132), so BOTH kinds are genuinely possible in Java -- the \"BuildPayload\" default for a kind-less dict is the N2471 PORT convention, not a Java-exact generic default; a caller-supplied dict carrying kind \"UnitPayload\" records the unit dispatch (the port's payload-kind convention, SourceUnitSensorState.gd). Caller-supplied: the N2245 advance still skips the super.updateTile call and the tick never calls this pure.",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_payload_update_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadMassDriverSuperUpdateTileRowsProof",
+      "rule": "Source-backed PayloadMassDriver super.updateTile payload update from PayloadBlock.java / PayloadMassDriver.java / Payload.java / BuildPayload.java / UnitPayload.java."
+    },
+    "source_payload_mass_driver_payload_update_state_result": {
+      "status": "active",
+      "owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_payload_update_state",
+      "source_slice": "N2488",
+      "keys": {
+        "payload_update_call": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "payload.update(null, this);",
+          "rule": "The payload.update CALL record (PayloadBlock.java:160, `payload.update(null, this);`): null when the payload is null (the `if(payload != null){` gate, PayloadBlock.java:159), else {method: \"payload.update\", unit_holder: null, building_holder: \"self\", payload_kind: \"BuildPayload\" | \"UnitPayload\"}. The callee's entity behaviour is NOT ported (BuildPayload.update :52-57 sets build.tile = emptyTile and calls build.updatePayload; UnitPayload.update :51-53 delegates to the unit type) -- there is no live payload entity in the port. The call is unconditional on payload non-null: BuildPayload.update's gate (`if(unitHolder != null && ...) return;`, BuildPayload.java:53) short-circuits with the PMD's null unit holder.",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_payload_update_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadMassDriverSuperUpdateTileRowsProof",
+      "rule": "Source-backed PayloadMassDriver super.updateTile payload update from PayloadBlock.java / PayloadMassDriver.java / Payload.java / BuildPayload.java / UnitPayload.java."
+    },
+    "source_repair_turret_per_def_stats_state_input": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_per_def_stats_state",
+      "source_slice": "N2489",
+      "keys": {
+        "def_id": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "repairPoint = new RepairTurret(\"repair-point\"){{",
+          "rule": "The catalog def id (\"repair-point\" / \"repair-turret\", verified in content_registry.json); an unknown id falls back to the class defaults (the N2304 fallback precedent).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_per_def_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretPerDefStatRowsProof",
+      "rule": "Source-backed RepairTurret per-def stat rows from RepairTurret.java / Blocks.java."
+    },
+    "source_repair_turret_per_def_stats_state_result": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_per_def_stats_state",
+      "source_slice": "N2489",
+      "keys": {
+        "repair_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "public float repairSpeed = 0.3f;",
+          "rule": "The def repairSpeed (RepairTurret.java:33): 0.45f repair-point (Blocks.java:6388), 3f repair-turret (Blocks.java:6400), class 0.3f fallback. Feeds the heal advance (RepairTurret.java:207, target.heal(repairSpeed * strength * edelta() * multiplier)) + setStats (RepairTurret.java:74, repairSpeed * 60f per second).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_per_def_stats_state"
+          ]
+        },
+        "repair_radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "public float repairRadius = 50f;",
+          "rule": "The def repairRadius (RepairTurret.java:32): 60f repair-point (Blocks.java:6389), 145f repair-turret (Blocks.java:6401), class 50f fallback. Feeds range() (RepairTurret.java:231-233) + setStats (RepairTurret.java:73, repairRadius / tilesize blocks) + the re-acquire range (RepairTurret.java:216, Units.closest(team, x, y, repairRadius, Unit::damaged)).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_per_def_stats_state"
+          ]
+        },
+        "length": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "public float length = 5f;",
+          "rule": "The def length (RepairTurret.java:35): repair-point sets NO length (Blocks.java:6386-6394) so it keeps the class 5f; 6f repair-turret (Blocks.java:6399). Feeds drawBeam (RepairTurret.java:106, the origin = pos + trns(rotation, length)).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_per_def_stats_state"
+          ]
+        },
+        "beam_width": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "public float beamWidth = 1f;",
+          "rule": "The def beamWidth (RepairTurret.java:36): 0.73f repair-point (Blocks.java:6390), 1.1f repair-turret (Blocks.java:6403), class 1f fallback. Feeds drawBeam (RepairTurret.java:145/148, strength * beamWidth).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_per_def_stats_state"
+          ]
+        },
+        "pulse_radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "public float pulseRadius = 6f;",
+          "rule": "The def pulseRadius (RepairTurret.java:37): 5f repair-point (Blocks.java:6392), 6.1f repair-turret (Blocks.java:6404), class 6f fallback. Feeds drawBeam (RepairTurret.java:142, 1f + f * pulseRadius).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_per_def_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretPerDefStatRowsProof",
+      "rule": "Source-backed RepairTurret per-def stat rows from RepairTurret.java / Blocks.java."
+    },
+    "source_repair_tower_per_def_stats_state_input": {
+      "status": "active",
+      "owner": "SourceRepairTowerBuildState.source_repair_tower_per_def_stats_state",
+      "source_slice": "N2490",
+      "keys": {
+        "def_id": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "unitRepairTower = new RepairTower(\"unit-repair-tower\"){{",
+          "rule": "The def id (Blocks.java:6575): \"unit-repair-tower\" is the single RepairTower def; any other id falls back to the CLASS defaults (the N2304 fallback precedent) -- size 1, range 80f, healAmount 1f, no requirements.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_per_def_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTowerPerDefStatRowsProof",
+      "rule": "Source-backed RepairTower per-def stat rows from Blocks.java / RepairTower.java / Block.java."
+    },
+    "source_repair_tower_per_def_stats_state_result": {
+      "status": "active",
+      "owner": "SourceRepairTowerBuildState.source_repair_tower_per_def_stats_state",
+      "source_slice": "N2490",
+      "keys": {
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "size = 2;",
+          "rule": "The def size (Blocks.java:6578): 2 for unit-repair-tower; the class default is 1 (`public int size = 1;`, Block.java:215).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_per_def_stats_state"
+          ]
+        },
+        "range_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "range = 100f;",
+          "rule": "The def range (Blocks.java:6579): 100f for unit-repair-tower; the class default is 80f (`public float range = 80f;`, RepairTower.java:21).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_per_def_stats_state"
+          ]
+        },
+        "heal_amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "healAmount = 1.5f;",
+          "rule": "The def healAmount (Blocks.java:6580): 1.5f for unit-repair-tower; the class default is 1f (`public float healAmount = 1f;`, RepairTower.java:24).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_per_def_stats_state"
+          ]
+        },
+        "requirements": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "requirements(Category.units, with(Items.graphite, 90, Items.silicon, 90, Items.tungsten, 80));",
+          "rule": "The def requirements (Blocks.java:6576) as the {item: amount} dict (the SourceAcceleratorBuildState capacities precedent): graphite 90, silicon 90, tungsten 80 for unit-repair-tower; the class default is NO requirements (`public ItemStack[] requirements = {};`, Block.java:356).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_per_def_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTowerPerDefStatRowsProof",
+      "rule": "Source-backed RepairTower per-def stat rows from Blocks.java / RepairTower.java / Block.java."
     }
   },
   "version": 1

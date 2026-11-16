@@ -2988,6 +2988,36 @@
       ],
       "runtime_proof": "/root/C07BurstDrillOffloadEffectsRowsProof"
     },
+    "source_burst_drill_per_def_offload_effects_state_result.drill_effect": {
+      "canonical_symbol": "source_symbol_registry.source_burst_drill_per_def_offload_effects_state_result.drill_effect",
+      "status": "source-backed",
+      "java_expr": "drillEffect = new MultiEffect(Fx.mineImpact, Fx.drillSteam, Fx.mineImpactWave.wrap(Pal.redLight, 40f));",
+      "godot_symbol": "source_burst_drill_per_def_offload_effects_state_result.drill_effect",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_per_def_offload_effects_state",
+      "rule": "The per-def drill effect as an ordered token list (Blocks.java:3076/:3100-3105): impact-drill [Fx.mineImpact, Fx.drillSteam, {Fx.mineImpactWave wrap Pal.redLight 40.0}], eruption-drill [Fx.mineImpact, Fx.drillSteam, {Fx.dynamicSpikes wrap Liquids.hydrogen.color 30.0}, {Fx.mineImpactWave wrap Liquids.hydrogen.color 45.0}]. A MultiEffect fires its children in order at the same x/y/rotation/color/data (MultiEffect.java:19-20), so the list order IS the firing order. A wrapped child is {effect, wrap_color, wrap_rotation}: the wrap second arg is a ROTATION (Effect.java:101, WrapEffect.create passes its own rotation + color), never a scale; the wrap colors are TOKENS (Pal.redLight is Color.valueOf(\"feb380\"), Pal.java:138; Liquids.hydrogen is Color.valueOf(\"9eabf7\"), Liquids.java:83). An unknown def id falls back to [\"Fx.shockwave\"] (the class default, BurstDrill.java:42). The Fx tokens are exact (mineImpact Fx.java:2655, drillSteam Fx.java:1474, mineImpactWave Fx.java:2662, dynamicSpikes Fx.java:737). drillSound / drillSoundVolume do NOT differ per def (BurstDrill.java:32-33, no def override), so the pure returns no sound row.",
+      "tests": [
+        "test_c07_burst_drill_per_def_shake_effect_rows_registration",
+        "test_all_c07_burst_drill_per_def_shake_effect_rows_input_evidence_is_exact",
+        "test_burst_drill_per_def_shake_effect_rows_state",
+        "test_reference_graph_and_actual_c07_burst_drill_per_def_shake_effect_rows"
+      ],
+      "runtime_proof": "/root/C07BurstDrillPerDefShakeEffectRowsProof"
+    },
+    "source_burst_drill_per_def_offload_effects_state_result.shake": {
+      "canonical_symbol": "source_symbol_registry.source_burst_drill_per_def_offload_effects_state_result.shake",
+      "status": "source-backed",
+      "java_expr": "shake = 4f;",
+      "godot_symbol": "source_burst_drill_per_def_offload_effects_state_result.shake",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_per_def_offload_effects_state",
+      "rule": "The per-def offload shake (Blocks.java:3077/:3106): 4.0 for both defs, 2.0 for an unknown def id (the class default, `public float shake = 2f;`, BurstDrill.java:18 -- the N2304 fallback precedent). The shake feeds Effect.shake(shake, shake, this) (BurstDrill.java:115), so the live rows shake 4.0 while the N2469 pure keeps recording the class-default 2.0.",
+      "tests": [
+        "test_c07_burst_drill_per_def_shake_effect_rows_registration",
+        "test_all_c07_burst_drill_per_def_shake_effect_rows_input_evidence_is_exact",
+        "test_burst_drill_per_def_shake_effect_rows_state",
+        "test_reference_graph_and_actual_c07_burst_drill_per_def_shake_effect_rows"
+      ],
+      "runtime_proof": "/root/C07BurstDrillPerDefShakeEffectRowsProof"
+    },
     "source_burst_drill_power_status_row_state_result.has_power_row": {
       "canonical_symbol": "source_symbol_registry.source_burst_drill_power_status_row_state_result.has_power_row",
       "status": "source-backed",
