@@ -1,6 +1,6 @@
 # Handoff: N2204 — C07 ShieldWall updateTile advance
 
-Date: 2026-11-16. Batch: N2204 (single slice). Status: **DONE + GATE VERIFIED (2026-11-16 ~07:2x +07 — targeted 4/4, family 16/16, wiring 32/32; full gate Ran 5909, failures=154, skipped=5, 0 errors, all 154 verified Godot-absent). Ready to push (origin/main still 9cd1c4bb).**
+Date: 2026-11-16. Batch: N2204 (single slice). Status: **DONE + PUSHED (slice ef32a852, main 1f18a181). Targeted 4/4 OK, family 16/16 OK, wiring 32/32 OK — GREEN total 52/52. Full gate Ran 5909 in 1029.379s, failures=154, skipped=5, 0 errors — all 154 verified Godot-absent (log `full-suite-n2204-gate.log`).**
 
 ## Scope (verified against upstream Java + the port this run)
 
