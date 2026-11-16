@@ -66608,6 +66608,41 @@
       ],
       "runtime_proof": "/root/C07MassDriverSenseProgressAcceptItemProof",
       "rule": "Source-backed MassDriver sense(progress) override + acceptItem predicate from MassDriver.java / BuildingComp.java / LAccess.java / ItemModule.java."
+    },
+    "SourceRepairTurretBuildState.source_repair_turret_coolant_multiplier_state": {
+      "status": "active",
+      "source_slice": "N2209",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "source_method": "RepairPointBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_repair_turret_coolant_multiplier_state_input.frame"
+        },
+        {
+          "name": "accept_coolant",
+          "type": "bool",
+          "schema": "source_repair_turret_coolant_multiplier_state_input.accept_coolant"
+        },
+        {
+          "name": "coolant_multiplier",
+          "type": "float",
+          "schema": "source_repair_turret_coolant_multiplier_state_input.coolant_multiplier"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "heal_multiplier"
+      ],
+      "tests": [
+        "test_c07_repair_turret_coolant_registration",
+        "test_all_c07_repair_turret_coolant_input_evidence_is_exact",
+        "test_repair_turret_coolant_multiplier_state",
+        "test_reference_graph_and_actual_c07_repair_turret_coolant"
+      ],
+      "runtime_proof": "/root/C07RepairTurretCoolantProof",
+      "rule": "Source-backed RepairTurret coolant heal multiplier from RepairTurret.java / ConsumeCoolant.java / ConsumeLiquidFilter.java / BuildingComp.java / LiquidModule.java / Liquid.java."
     }
   },
   "policy": {

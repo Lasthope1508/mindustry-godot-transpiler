@@ -78,6 +78,14 @@ static func source_repair_turret_should_consume_state(frame: Dictionary) -> Dict
 		return {"should_consume": enabled}
 	return {"should_consume": bool(has_target) and enabled}
 
+static func source_repair_turret_coolant_multiplier_state(frame: Dictionary, accept_coolant: bool, coolant_multiplier: float) -> Dictionary:
+	# RepairPointBuild.updateTile computes the heal multiplier as `float multiplier = 1f;` then `if(acceptCoolant){ multiplier = 1f + liquids.current().heatCapacity * coolantMultiplier * optionalEfficiency; }` (RepairTurret.java:188-190), and heals with it: `target.heal(repairSpeed * strength * edelta() * multiplier);` (RepairTurret.java:207). The coolant consumer is registered only when the block accepts coolant: `if(acceptCoolant){ hasLiquids = true; consume(new ConsumeCoolant(coolantUse)).optional(true, true); }` (RepairTurret.java:84-86), and it is OPTIONAL, so its efficiency folds into optionalEfficiency in the optional pass (BuildingComp.java:1979-1981, `optionalEfficiency = Math.min(optionalEfficiency, cons.efficiency(self()));`), which updateConsumption initializes to 1f before the pass (BuildingComp.java:1965, `efficiency = optionalEfficiency = 1f;`). Per-def, only repair-turret accepts coolant: `coolantUse = 0.16f;` + `coolantMultiplier = 1.6f;` + `acceptCoolant = true;` (Blocks.java:6404-6406); class defaults are `public boolean acceptCoolant = false;` and `public float coolantMultiplier = 1f;` (RepairTurret.java:39/45), so repair-point never boosts. Java's `current()` can never be null in practice (`private Liquid current = content.liquid(0);`, LiquidModule.java:24), but the port frame carries no liquid observation yet, and absent means "no observation", not "a liquid with zero heat capacity" -- the observable (multiplier 1.0) is the same either way. coolantUse is NOT a parameter: it belongs to the ConsumeCoolant consumer's efficiency/update (the optional coolant row that folds optionalEfficiency from the liquid amount), which waits for its own slice; the multiplier formula never reads it. No driver tick line: the multiplier feeds the updateTile heal advance, which waits for its own slice (the N2208 precedent).
+	if not accept_coolant:
+		return {"heal_multiplier": 1.0, "coolant_active": false}
+	var heat_capacity: float = float(frame.get("liquids_current_heat_capacity", 0.0))
+	var optional_efficiency: float = float(frame.get("optional_efficiency", 1.0))
+	return {"heal_multiplier": 1.0 + heat_capacity * coolant_multiplier * optional_efficiency, "coolant_active": true}
+
 static func source_repair_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the repair-turret tick wiring every
 	# tick (RepairPointBuild.updateTile(), RepairTurret.java:187,

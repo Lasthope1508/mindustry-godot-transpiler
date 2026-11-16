@@ -173816,6 +173816,22 @@
         "test_reference_graph_and_actual_c07_mass_driver_sense_progress_accept_item"
       ],
       "runtime_proof": "/root/C07MassDriverSenseProgressAcceptItemProof"
+    },
+    "source_repair_turret_coolant_multiplier_state_result.heal_multiplier": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_coolant_multiplier_state",
+      "godot_symbol": "source_repair_turret_coolant_multiplier_state_result.heal_multiplier",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairPointBuild.updateTile()",
+      "java_expr": "multiplier = 1f + liquids.current().heatCapacity * coolantMultiplier * optionalEfficiency;",
+      "rule": "The heal multiplier (RepairTurret.java:188-190): 1.0 when acceptCoolant is false, else `1f + liquids.current().heatCapacity * coolantMultiplier * optionalEfficiency` -- the factor the updateTile heal advance multiplies by (`target.heal(repairSpeed * strength * edelta() * multiplier);`, RepairTurret.java:207).",
+      "tests": [
+        "test_c07_repair_turret_coolant_registration",
+        "test_all_c07_repair_turret_coolant_input_evidence_is_exact",
+        "test_repair_turret_coolant_multiplier_state",
+        "test_reference_graph_and_actual_c07_repair_turret_coolant"
+      ],
+      "runtime_proof": "/root/C07RepairTurretCoolantProof"
     }
   },
   "version": 1

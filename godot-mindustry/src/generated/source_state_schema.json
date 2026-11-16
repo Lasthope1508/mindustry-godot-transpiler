@@ -231260,6 +231260,64 @@
       },
       "runtime_proof": "/root/C07MassDriverSenseProgressAcceptItemProof",
       "rule": "Source-backed MassDriver sense(progress) override + acceptItem predicate from MassDriver.java / BuildingComp.java / LAccess.java / ItemModule.java."
+    },
+    "source_repair_turret_coolant_multiplier_state_input": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_coolant_multiplier_state",
+      "source_slice": "N2209",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "multiplier = 1f + liquids.current().heatCapacity * coolantMultiplier * optionalEfficiency;",
+          "rule": "The building frame carrying the liquids_current_heat_capacity observation (RepairTurret.java:190, `liquids.current().heatCapacity`) and the optional_efficiency the driver stamps every tick; a missing liquids_current_heat_capacity key reads 0.0 -- no current coolant liquid observed yet -- and a missing optional_efficiency key reads 1.0 -- BuildingComp initializes `efficiency = optionalEfficiency = 1f` before the optional pass (BuildingComp.java:1965).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_coolant_multiplier_state"
+          ]
+        },
+        "accept_coolant": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "public boolean acceptCoolant = false;",
+          "rule": "Whether this def accepts coolant (RepairTurret.java:39, `public boolean acceptCoolant = false;` class default; repair-turret sets `acceptCoolant = true;`, Blocks.java:6406); false returns the 1.0 base multiplier -- the Java `if(acceptCoolant){` guard (RepairTurret.java:189) leaves multiplier at 1f.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_coolant_multiplier_state"
+          ]
+        },
+        "coolant_multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "public float coolantMultiplier = 1f;",
+          "rule": "The per-def coolant multiplier (RepairTurret.java:45, `public float coolantMultiplier = 1f;` class default; repair-turret sets `coolantMultiplier = 1.6f;`, Blocks.java:6405); the caller passes it in, the N2207 launch-pad precedent.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_coolant_multiplier_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretCoolantProof",
+      "rule": "Source-backed RepairTurret coolant heal multiplier from RepairTurret.java / ConsumeCoolant.java / ConsumeLiquidFilter.java / BuildingComp.java / LiquidModule.java / Liquid.java."
+    },
+    "source_repair_turret_coolant_multiplier_state_result": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_coolant_multiplier_state",
+      "source_slice": "N2209",
+      "keys": {
+        "heal_multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "multiplier = 1f + liquids.current().heatCapacity * coolantMultiplier * optionalEfficiency;",
+          "rule": "The heal multiplier (RepairTurret.java:188-190): 1.0 when acceptCoolant is false, else `1f + liquids.current().heatCapacity * coolantMultiplier * optionalEfficiency` -- the factor the updateTile heal advance multiplies by (`target.heal(repairSpeed * strength * edelta() * multiplier);`, RepairTurret.java:207).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_coolant_multiplier_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretCoolantProof",
+      "rule": "Source-backed RepairTurret coolant heal multiplier from RepairTurret.java / ConsumeCoolant.java / ConsumeLiquidFilter.java / BuildingComp.java / LiquidModule.java / Liquid.java."
     }
   },
   "version": 1
