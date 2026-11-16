@@ -118,7 +118,7 @@ static func source_base_shield_update_tile_advance_state(frame: Dictionary, sour
 			var hit_size: float = float(unit.get("hit_size", 0.0))
 			var unit_dx: float = float(unit.get("x", 0.0)) - building_x
 			var unit_dy: float = float(unit.get("y", 0.0)) - building_y
-			var unit_dst: float = sqrtf(unit_dx * unit_dx + unit_dy * unit_dy)
+			var unit_dst: float = sqrt(unit_dx * unit_dx + unit_dy * unit_dy)
 			var overlap_dst: float = (hit_size / 2.0 + rad) - unit_dst
 			if overlap_dst > 0.0:
 				if overlap_dst > hit_size * SOURCE_BASE_SHIELD_KILL_MULTIPLIER:
