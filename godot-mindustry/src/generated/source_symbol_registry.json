@@ -182392,6 +182392,22 @@
         "test_reference_graph_and_actual_c07_mass_driver_accept_item"
       ],
       "runtime_proof": "/root/C07MassDriverAcceptItemProof"
+    },
+    "source_shockwave_tower_supplied_bullets_hitbox_state_result.bullets": {
+      "status": "source-backed",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_supplied_bullets_hitbox_state",
+      "godot_symbol": "source_shockwave_tower_supplied_bullets_hitbox_state_result.bullets",
+      "java_source": "arc-core/src/arc/math/geom/Rect.java",
+      "java_method": "ShockwaveTowerBuild.updateTile()",
+      "java_expr": "return x < rx + rwidth && x + width > rx && y < ry + rheight && y + height > ry;",
+      "rule": "The refined list (Rect.java:274-276, the STRICT overlap): the candidate dicts themselves, in candidate order -- the bullets whose hitSize-sided hitbox (HitboxComp.java:67, rect.setCentered(x, y, hitSize, hitSize)) strictly overlaps the range*2 rect. Passed into the N2247 advance as its bullet_candidates.",
+      "tests": [
+        "test_c07_shockwave_tower_bullet_scan_hitbox_registration",
+        "test_all_c07_shockwave_tower_bullet_scan_hitbox_input_evidence_is_exact",
+        "test_shockwave_tower_bullet_scan_hitbox_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_bullet_scan_hitbox"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerBulletScanHitboxProof"
     }
   },
   "version": 1
