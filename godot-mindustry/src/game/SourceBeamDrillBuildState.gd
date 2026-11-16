@@ -1223,9 +1223,9 @@ static func source_beam_drill_tick_buildings_state(game: Object, seconds: float)
 			var has_supplied_dump_neighbour_arrays: bool = frame.has("dump_neighbour_accepts") or frame.has("dump_neighbour_can_dump")
 			if not has_supplied_dump_neighbour_arrays or bool(frame.get("dump_neighbour_live", false)):
 				var fill_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
-				var filled: Dictionary = source_beam_drill_dump_neighbour_live_fill_state(game, fill_cell, int(block.properties.get("size", 1)), frame, content_item_ids)
-				frame["dump_neighbour_accepts"] = filled.get("dump_neighbour_accepts", [])
-				frame["dump_neighbour_can_dump"] = filled.get("dump_neighbour_can_dump", [])
+				var dump_filled: Dictionary = source_beam_drill_dump_neighbour_live_fill_state(game, fill_cell, int(block.properties.get("size", 1)), frame, content_item_ids)
+				frame["dump_neighbour_accepts"] = dump_filled.get("dump_neighbour_accepts", [])
+				frame["dump_neighbour_can_dump"] = dump_filled.get("dump_neighbour_can_dump", [])
 				frame["dump_neighbour_live"] = true
 			var neighbour_accepts: Array = frame.get("dump_neighbour_accepts", [])
 			var neighbour_can_dump: Array = frame.get("dump_neighbour_can_dump", [])

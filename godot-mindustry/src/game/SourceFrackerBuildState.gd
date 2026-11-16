@@ -782,9 +782,9 @@ static func source_fracker_tick_buildings_state(game: Object, seconds: float) ->
 			# the fraction is recomputed by the N2224 advance
 			# from the stamped keys.
 			var proximity_tiles: Array = frame.get("proximity_linked_tiles", [])
-			var filled: Dictionary = source_fracker_proximity_fraction_state(proximity_tiles, float(frame.get("attribute_env", 0.0)))
-			frame["valid_tiles"] = filled["valid_tiles"]
-			frame["boost"] = filled["boost"]
+			var fraction_filled: Dictionary = source_fracker_proximity_fraction_state(proximity_tiles, float(frame.get("attribute_env", 0.0)))
+			frame["valid_tiles"] = fraction_filled["valid_tiles"]
+			frame["boost"] = fraction_filled["boost"]
 			var advance_result_id: int = int(liquid_id_by_name.get(SOURCE_FRACKER_RESULT_LIQUID, -1))
 			var advanced: Dictionary = source_fracker_update_tile_advance_state(frame, source_delta, time_scale, advance_result_id, SOURCE_FRACKER_LIQUID_CAPACITY, SOURCE_FRACKER_PUMP_AMOUNT, SOURCE_FRACKER_ITEM_USE_TIME)
 			frame["accumulator"] = advanced["accumulator"]
@@ -829,8 +829,8 @@ static func source_fracker_tick_buildings_state(game: Object, seconds: float) ->
 			var has_supplied_dump_liquid_neighbours: bool = frame.has("dump_liquid_neighbours")
 			if not has_supplied_dump_liquid_neighbours or bool(frame.get("dump_liquid_neighbours_live", false)):
 				var fill_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
-				var filled: Dictionary = source_fracker_dump_liquid_neighbour_live_fill_state(game, fill_cell, int(block.properties.get("size", 1)), advance_result_id)
-				frame["dump_liquid_neighbours"] = filled.get("dump_liquid_neighbours", [])
+				var dump_filled: Dictionary = source_fracker_dump_liquid_neighbour_live_fill_state(game, fill_cell, int(block.properties.get("size", 1)), advance_result_id)
+				frame["dump_liquid_neighbours"] = dump_filled.get("dump_liquid_neighbours", [])
 				frame["dump_liquid_neighbours_live"] = true
 			var dump_neighbours: Array = frame.get("dump_liquid_neighbours", [])
 			var dumped: Dictionary = source_fracker_dump_liquid_state(frame, advance_result_id, SOURCE_FRACKER_LIQUID_CAPACITY, dump_neighbours)
