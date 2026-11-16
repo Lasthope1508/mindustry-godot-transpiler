@@ -10,6 +10,8 @@ const source_math_state := preload("res://src/game/SourceMathState.gd")
 const inventory := preload("res://src/game/SourceDrillInventoryRuntimeState.gd")
 const source_building_item_dump_state := preload("res://src/game/SourceBuildingItemDumpState.gd")
 const source_building_item_state := preload("res://src/game/SourceBuildingItemState.gd")
+const source_building_liquid_state := preload("res://src/game/SourceBuildingLiquidState.gd")
+const source_placed_power_graph_state := preload("res://src/game/SourcePlacedPowerGraphState.gd")
 const source_content_registry_runtime_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
 
 # The MassDriver implementation (MassDriver.java:27, `public class MassDriver extends Block{`): mass-driver (consumePower 1.75f, Blocks.java:2173, `consumePower(1.75f);`; size 3, itemCapacity 120, reload 200f, range 440f, Blocks.java:2167-2174). MassDriver extends Block, NOT a factory or crafter, so no existing driver matches it and no frame key exists for it; this driver uses its own family frame key ("source_mass_driver_building", the wall-crafter precedent), and this slice adds the mass-driver key to N2142's SOURCE_CONSUMER_FRAME_META_KEYS so the graph stamp/write-back finds it. The port has NO SourceMassDriver* files at all yet -- no display/runtime state to lean on -- so the missing piece is the live power.status -> efficiency driver, which is exactly this slice: the updateTile no-power skip (MassDriver.java:169, `if(efficiency <= 0f){`) gates on efficiency, so a mass driver with no power would keep rotating and firing as if power.status were 1.0.
@@ -433,6 +435,118 @@ static func source_mass_driver_dump_state(frame: Dictionary, state_after_switch:
 						items[str(content_item_ids[j])] = int(amounts_after[j])
 	return {"dump_accum_after": dump_accum, "dumped": dumped, "items_after": items, "cursor_after": cursor, "dump_deliveries": dump_deliveries}
 
+static func source_mass_driver_dump_neighbour_live_fill_state(game: Object, cell: Vector2i, size: int, frame: Dictionary, item_order: Array) -> Dictionary:
+	# The dump neighbour live fill (N2406, DEFERRED #247):
+	# the N2294 dump rows read the two neighbour arrays as
+	# frame inputs (default [] -- no neighbours, the Java
+	# proximity.size == 0 outcome), so a live mass driver
+	# with no fill never dumped. This fill scans the live
+	# proximity BEFORE the dump pure and fills the two
+	# arrays from the live neighbour frames, in ring order
+	# (index i is ring cell i, the N2353 convention -- the
+	# ring comes from source_block_proximity_cells_state,
+	# the sprite from block_sprite_at_cell, the frame from
+	# the first SOURCE_CONSUMER_FRAME_META_KEYS meta on the
+	# sprite, the N2353 resolution path):
+	# `Building other = proximity.get((i + dump) % proximity.size);`
+	# The accepts/canDump arrays come from the DEFAULT
+	# BuildingComp gates -- acceptItem REQUIRES consumesItem,
+	# not just capacity:
+	# `public boolean acceptItem(Building source, Item item){`
+	# `return block.consumesItem(item) && items.get(item) < getMaximumAccepted(item);`
+	# `public int getMaximumAccepted(Item item){`
+	# `return block.itemCapacity;`
+	# `public int itemCapacity = 10;`
+	# The consumes read is the itemFilter:
+	# `public boolean consumesItem(Item item){`
+	# `return itemFilter[item.id];`
+	# which the port represents as the catalog consumeItem
+	# rows. The canDump default is true:
+	# `public boolean canDump(Building to, Item item){`
+	# and the item routing gates on both:
+	# `if(other.acceptItem(self(), item) && canDump(other, item)){`
+	# The item gate answers for the FIRST held item in
+	# content order -- the item the dump pure offers (its
+	# accepts array is per-neighbour, not per-item, so a
+	# per-item answer would misdeliver: Java tries later
+	# held items against the same neighbour, and that
+	# per-item routing waits for a dump-shape slice).
+	# Per-block overrides are OUT of scope: a neighbour
+	# with a modeled override is evaluated with the DEFAULT
+	# gate here (the override dispatch is a follow-through
+	# note). A neighbour with no frame (no sprite / unknown
+	# def / conduit / no meta-key frame) reports the
+	# no-frame outcome -- false / false -- the N2353
+	# no-frame precedent (a routed item to a frameless
+	# neighbour drops, so the fill closes the gates and
+	# nothing routes there). A conduit is no-frame because
+	# its acceptItem is a per-block override (out of scope)
+	# and the DEFAULT gate would reject it anyway (a
+	# conduit consumes no item). Two ring-model notes: Java
+	# updateProximity dedupes multi-cell neighbours
+	# (`//using a set to prevent duplicates`,
+	# BuildingComp.java:1879-1900) and keeps same-team
+	# buildings only (`other.team != team` skips), while
+	# the ring reports a multi-cell neighbour at each of
+	# its ring cells with no team filter -- the N2353
+	# ring convention this fill mirrors (a delivery to
+	# either index lands in the same frame). Dedup + the
+	# team filter wait for a shared ring-geometry slice.
+	var ring: Array = source_block_geometry.source_block_proximity_cells_state(size, cell.x, cell.y).get("cells", [])
+	var blocks_by_id: Dictionary = {}
+	if game != null:
+		var catalog: Variant = game.get("content_catalog")
+		if catalog != null:
+			for registered_block in catalog.get_many("block"):
+				blocks_by_id[registered_block.id] = registered_block
+	var held_variant: Variant = frame.get("items", {})
+	var held_items: Dictionary = held_variant if held_variant is Dictionary else {}
+	var offered_item: String = ""
+	for item_id in item_order:
+		if int(held_items.get(str(item_id), 0)) > 0:
+			offered_item = str(item_id)
+			break
+	var neighbour_accepts: Array = []
+	var neighbour_can_dump: Array = []
+	for neighbour_cell in ring:
+		var accepts_item := false
+		var can_dump_item := false
+		var sprite: Variant = null
+		if game != null:
+			sprite = game.call("block_sprite_at_cell", neighbour_cell)
+		if sprite != null:
+			var block_id: String = str(sprite.get_meta(source_placed_block_state.SOURCE_BLOCK_ID_META_KEY, ""))
+			var is_conduit: bool = sprite.has_meta(source_building_liquid_state.SOURCE_NEIGHBOUR_CONDUIT_FRAME_META_KEY) or source_building_liquid_state.SOURCE_NEIGHBOUR_CONDUIT_BLOCK_IDS.has(block_id)
+			if not is_conduit and blocks_by_id.has(block_id):
+				var neighbour_block = blocks_by_id[block_id]
+				var neighbour_frame: Dictionary = {}
+				var has_neighbour_frame := false
+				for meta_key in source_placed_power_graph_state.SOURCE_CONSUMER_FRAME_META_KEYS:
+					if not sprite.has_meta(meta_key):
+						continue
+					var candidate: Variant = sprite.get_meta(meta_key)
+					if candidate is Dictionary:
+						neighbour_frame = candidate
+						has_neighbour_frame = true
+						break
+				if has_neighbour_frame:
+					var neighbour_properties = neighbour_block.properties
+					can_dump_item = true
+					if not offered_item.is_empty():
+						var neighbour_items: Variant = neighbour_frame.get("items", null)
+						if neighbour_items is Dictionary:
+							var consumes_item := false
+							for row in neighbour_properties.get("consumeItem", []):
+								if not (row is Dictionary):
+									continue
+								if str(row.get("item", "")) == offered_item:
+									consumes_item = true
+									break
+							accepts_item = consumes_item and int((neighbour_items as Dictionary).get(offered_item, 0)) < int(neighbour_properties.get("itemCapacity", 10))
+		neighbour_accepts.append(accepts_item)
+		neighbour_can_dump.append(can_dump_item)
+	return {"dump_neighbour_accepts": neighbour_accepts, "dump_neighbour_can_dump": neighbour_can_dump}
+
 static func source_mass_driver_sense_state(sensor: String, reload_counter: float, super_value: Variant = null) -> Dictionary:
 	# The sense rows (MassDriverBuild.sense(), MassDriver.java:224-228), the pure logic-sense dispatch -- Java senses, in order (each exact expr on ONE comment line, the N2148 lesson):
 	# `public double sense(LAccess sensor){`
@@ -747,7 +861,7 @@ static func source_mass_driver_draw_place_state(tile_x: int, tile_y: int, size_v
 
 static func source_mass_driver_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a mass driver does not take the early return. The updateTile advance follows the folded efficiency: the no-power skip (MassDriver.java:169, `if(efficiency <= 0f){`), the rotation align (MassDriver.java:181, `rotation = Angles.moveToward(rotation, angleTo(currentShooter()), rotateSpeed * efficiency);`) and the reload drain (MassDriver.java:143, `reloadCounter = Mathf.clamp(reloadCounter - edelta() / reload);`). MassDriverBuild has no shouldConsume override, so the BuildingComp default applies (BuildingComp.java:755, `public boolean shouldConsume(){` with `return enabled;`, BuildingComp.java:756) -- the machinery runs with should_consume=true when enabled (the MendProjector suppression precedent). The mass driver (consumePower 1.75f, Blocks.java:2173, `consumePower(1.75f);`) is its own family (MassDriver.java:27, `public class MassDriver extends Block{`; MassDriverBuild, MassDriver.java:115, `public class MassDriverBuild extends Building implements RotBlock{`) -- power-only first pass, so the folded efficiency is the min over the *modeled* consumers (power only).
-	# Documented limits: (1) power-only first pass -- the mass driver's power consumer is static (consumePower 1.75f, Blocks.java:2173), so the folded efficiency is the min over the *modeled* consumers (power only). (2) shouldConsume default applies -- MassDriverBuild has no shouldConsume override, so the BuildingComp default (`return enabled;`, BuildingComp.java:755-757) applies; the machinery runs with should_consume=true when enabled (the MendProjector suppression precedent). (3) updateTile advance live (N2237) -- link refresh / reloadCounter decay / waitingShooters cleanup / idle-accepting-shooting switch / rotation align / register + fire (MassDriver.java:133-221 + fire() :290-317) run every tick after the consumption fold through the pure source_mass_driver_update_tile_advance_state function; dumpAccumulate (:164-166) is live since N2294 (source_mass_driver_dump_state, the idle/accepting gate + the dumpAccum while loop through the shared dumpAccumulate + dump_item_state helpers, running even without power -- the gate sits before the no-power skip) and the dump neighbour write-back is live since N2369 (the advance exposes dump_deliveries, one {neighbour_index, item} per successful attempt, and the tick lands each dumped item in the neighbour store through the N2353 helper); the Time.run arrival cleanup (:209-214), the bullet entity creation and handlePayload (:319-340) defer -- see DEFERRED. The power proof carries no link/state/reload/fire/dump keys; the N2237 proof carries the link/state/reload/fire keys, the N2294 proof carries the dump keys, and the N2369 proof carries the write-back keys. (4) No link/config / handlePayload / read-write rows -- see DEFERRED (sense live since N2392, see (7); draw live since N2396, see (8)). (5) Single def -- no large-mass-driver def in this upstream version, so the same driver covers the whole family. (6) acceptItem live (N2336) -- the intake gate (MassDriver.java:285-288, items.total() < itemCapacity && linkValid(), MassDriver.java:346-349) runs every tick through the pure source_mass_driver_accept_item_state function and exposes the verdict on the frame as accepts_item (the N2295 Loader acceptPayload precedent), reading the post-tick store and the same linked dict the N2237 advance reads; the N2336 proof carries the accept keys. No live neighbour reads the verdict yet -- the frame items intake waits for its own slice, see DEFERRED. (7) Sense rows live (N2392) -- the sense pure (source_mass_driver_sense_state) models sense() (:224-228): progress is clamp(1f - reloadCounter) and every other sensor falls through to the caller-supplied super.sense value (the BuildingComp switch, already modeled by SourceBuildingSenseState). Pure-only: the tick never calls sense -- sense is called by logic, and the logic call site waits for a logic-executor slice. (8) Draw rows live (N2396) -- the draw pures (source_mass_driver_draw_rows_state / source_mass_driver_draw_configure_state / source_mass_driver_draw_place_state) model draw() (:230-242: base rect + turret-layer shadow/rect with the reloadCounter * knockback recoil along rotation + 180f, the shadow shifted by the int-divided size / 2) + icons() (:75-77: [baseRegion, region], folded into the draw pure -- icons() takes no args and the SSOT schema validator requires non-empty input keys), drawConfigure() (:244-264: accent self circle + per-shooter place circles/arrows + the linked-target circle/arrow + the range dash circle, all pulsing on absin(Time.time, 6f, 1f) through the shared helper at the DOUBLED scale 12f) and drawPlace() (:80-102: the accent range dash circle at x * tilesize + the dotted link line toward a selected in-range mass driver, segs = dst / tilesize). Pure-only: the tick never calls draw -- draw is called by the renderer, drawConfigure/drawPlace by the UI, icons by the atlas, and the call sites wait for renderer/UI slices.
+	# Documented limits: (1) power-only first pass -- the mass driver's power consumer is static (consumePower 1.75f, Blocks.java:2173), so the folded efficiency is the min over the *modeled* consumers (power only). (2) shouldConsume default applies -- MassDriverBuild has no shouldConsume override, so the BuildingComp default (`return enabled;`, BuildingComp.java:755-757) applies; the machinery runs with should_consume=true when enabled (the MendProjector suppression precedent). (3) updateTile advance live (N2237) -- link refresh / reloadCounter decay / waitingShooters cleanup / idle-accepting-shooting switch / rotation align / register + fire (MassDriver.java:133-221 + fire() :290-317) run every tick after the consumption fold through the pure source_mass_driver_update_tile_advance_state function; dumpAccumulate (:164-166) is live since N2294 (source_mass_driver_dump_state, the idle/accepting gate + the dumpAccum while loop through the shared dumpAccumulate + dump_item_state helpers, running even without power -- the gate sits before the no-power skip) and the dump neighbour write-back is live since N2369 (the advance exposes dump_deliveries, one {neighbour_index, item} per successful attempt, and the tick lands each dumped item in the neighbour store through the N2353 helper); the Time.run arrival cleanup (:209-214), the bullet entity creation and handlePayload (:319-340) defer -- see DEFERRED. The power proof carries no link/state/reload/fire/dump keys; the N2237 proof carries the link/state/reload/fire keys, the N2294 proof carries the dump keys, and the N2369 proof carries the write-back keys. (4) No link/config / handlePayload / read-write rows -- see DEFERRED (sense live since N2392, see (7); draw live since N2396, see (8)). (5) Single def -- no large-mass-driver def in this upstream version, so the same driver covers the whole family. (6) acceptItem live (N2336) -- the intake gate (MassDriver.java:285-288, items.total() < itemCapacity && linkValid(), MassDriver.java:346-349) runs every tick through the pure source_mass_driver_accept_item_state function and exposes the verdict on the frame as accepts_item (the N2295 Loader acceptPayload precedent), reading the post-tick store and the same linked dict the N2237 advance reads; the N2336 proof carries the accept keys. No live neighbour reads the verdict yet -- the frame items intake waits for its own slice, see DEFERRED. (7) Sense rows live (N2392) -- the sense pure (source_mass_driver_sense_state) models sense() (:224-228): progress is clamp(1f - reloadCounter) and every other sensor falls through to the caller-supplied super.sense value (the BuildingComp switch, already modeled by SourceBuildingSenseState). Pure-only: the tick never calls sense -- sense is called by logic, and the logic call site waits for a logic-executor slice. (8) Draw rows live (N2396) -- the draw pures (source_mass_driver_draw_rows_state / source_mass_driver_draw_configure_state / source_mass_driver_draw_place_state) model draw() (:230-242: base rect + turret-layer shadow/rect with the reloadCounter * knockback recoil along rotation + 180f, the shadow shifted by the int-divided size / 2) + icons() (:75-77: [baseRegion, region], folded into the draw pure -- icons() takes no args and the SSOT schema validator requires non-empty input keys), drawConfigure() (:244-264: accent self circle + per-shooter place circles/arrows + the linked-target circle/arrow + the range dash circle, all pulsing on absin(Time.time, 6f, 1f) through the shared helper at the DOUBLED scale 12f) and drawPlace() (:80-102: the accent range dash circle at x * tilesize + the dotted link line toward a selected in-range mass driver, segs = dst / tilesize). Pure-only: the tick never calls draw -- draw is called by the renderer, drawConfigure/drawPlace by the UI, icons by the atlas, and the call sites wait for renderer/UI slices. (9) Dump neighbour live fill live (N2406) -- the dump neighbour live fill is live since N2406: the tick fills frame["dump_neighbour_accepts"] / frame["dump_neighbour_can_dump"] from the live proximity (ring order, index i is ring cell i, the N2353 convention) through the pure source_mass_driver_dump_neighbour_live_fill_state function BEFORE the N2294 dump reads them (supplied arrays win, the N2381 precedent; a previously live-filled frame refreshes every tick); accepts come from the DEFAULT acceptItem gate (consumesItem + capacity, BuildingComp.java:864-866) and canDump defaults true (:1124-1126); per-block overrides are out of scope (the override dispatch is a follow-through note, not a new DEFERRED entry).
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -917,7 +1031,8 @@ static func source_mass_driver_tick_buildings_state(game: Object, seconds: float
 		# branch that mutates items is fire(), which runs only while shooting, so the post-advance
 		# store is the store Java dumps from in every dump-eligible state. The neighbour acceptItem
 		# / canDump arrays are frame inputs (default [] -- no neighbours, the Java proximity.size
-		# == 0 outcome) until a live proximity fill lands; the dump neighbour write-back is live
+		# == 0 outcome); the live proximity scan fills them since N2406 (the fill below, before
+		# the reads -- supplied arrays win, the N2381 precedent); the dump neighbour write-back is live
 		# since N2369 (the advance exposes dump_deliveries and the tick lands each dumped item in
 		# the neighbour store through the N2353 helper, right after the write-back below). The
 		# frame dumpAccum (frame["dump_accum"],
@@ -926,6 +1041,31 @@ static func source_mass_driver_tick_buildings_state(game: Object, seconds: float
 		# accumulator does not grow there -- and the shared cdump cursor (frame["cdump"], default 0,
 		# BuildingComp.java:68) persists back like the advance keys.
 		var post_switch_state: String = str(advanced.get("state_after_switch", advanced.get("state", "idle")))
+		# N2406: the dump neighbour live fill -- the tick
+		# fills the two neighbour arrays from the live
+		# proximity BEFORE the dump pure reads them (the
+		# fill needs the post-advance store above to pick
+		# the offered item -- the store Java dumps from,
+		# since fire() runs only while shooting and the
+		# dump gate is idle/accepting). Supplied arrays WIN
+		# (the N2381 precedent): the fill runs only when
+		# the frame carries NONE of the two keys -- the
+		# N2294/N2369 proofs seed the arrays by hand, so a
+		# fill there would overwrite the seed. A frame the
+		# fill already stamped (dump_neighbour_live -- port
+		# bookkeeping, not Java state) refreshes every
+		# tick, so a later-placed neighbour joins the
+		# arrays and a removed one leaves them. The tick
+		# cell is already bound before the advance, so no
+		# fill_cell inline read is needed (the N2369
+		# write-back uses the same cell) -- and the catalog
+		# size.
+		var has_supplied_dump_neighbour_arrays: bool = frame.has("dump_neighbour_accepts") or frame.has("dump_neighbour_can_dump")
+		if not has_supplied_dump_neighbour_arrays or bool(frame.get("dump_neighbour_live", false)):
+			var filled: Dictionary = source_mass_driver_dump_neighbour_live_fill_state(game, cell, int(block.properties.get("size", 1)), frame, item_order)
+			frame["dump_neighbour_accepts"] = filled.get("dump_neighbour_accepts", [])
+			frame["dump_neighbour_can_dump"] = filled.get("dump_neighbour_can_dump", [])
+			frame["dump_neighbour_live"] = true
 		var dump_neighbour_accepts: Array = frame.get("dump_neighbour_accepts", [])
 		var dump_neighbour_can_dump: Array = frame.get("dump_neighbour_can_dump", [])
 		var dumped: Dictionary = source_mass_driver_dump_state(frame, post_switch_state, source_delta, time_scale, item_order, dump_neighbour_accepts, dump_neighbour_can_dump)
