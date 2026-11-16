@@ -63,6 +63,14 @@ const SOURCE_REGEN_PROJECTOR_BOOSTER_AMOUNT := 1
 # RegenProjector.java:26). The scan rect is range * tilesize on a
 # side (RegenProjector.java:118), tilesize 8 (Vars.java:135).
 const SOURCE_REGEN_PROJECTOR_RANGE := 28
+# N2344 def constant: the four privileged block ids (the
+# world-processor-only logic blocks, each with
+# `privileged = true;`, Blocks.java:6955/6965/6974/6981,
+# against the `public boolean privileged = false;` default,
+# Block.java:148). The catalog carries no privileged flag,
+# so the tick fill reads this list through the pure below
+# instead of the catalog.
+const SOURCE_REGEN_PROJECTOR_PRIVILEGED_BLOCK_IDS := ["world-processor", "world-cell", "world-message", "world-switch"]
 
 static func _is_regen_projector_build_implementation(implementation: String) -> bool:
 	return SOURCE_REGEN_PROJECTOR_BUILD_IMPLEMENTATIONS.has(implementation)
@@ -219,7 +227,9 @@ static func source_regen_projector_power_status_row_state(frame: Dictionary, has
 	# list before the advance whenever tile_changes moves; the
 	# hitbox-overlap + privileged refinement is live since N2338
 	# (the narrow pure chains after the scan and the tick passes
-	# the narrowed list into the frame targets); the
+	# the narrowed list into the frame targets) and the live
+	# privileged flag fill is live since N2344 (the tick stamps
+	# the pure result on every candidate by block id); the
 	# mendMap flush is live (N2325) as the pure heal_applications
 	# result (last_update_frame / update_id frame inputs, defaults
 	# -1/0; the tick write-backs the flushed amounts on the frame
@@ -323,9 +333,12 @@ static func source_regen_projector_update_targets_state(frame: Dictionary, build
 	# counter waits for a game-state slice. (3) the Java query is
 	# a quadtree hitbox intersect (BlockIndexer.java:364-380) with
 	# a privileged exclusion (:372); the port tests building
-	# centers against the rect and models no privileged flag (the
-	# only privileged defs are the world-processor-only logic
-	# blocks, Blocks.java:6955/6965/6974/6981) -- the hitbox-overlap
+	# centers against the rect and the live privileged flag
+	# fill is live since N2344 (the tick stamps the
+	# source_regen_projector_privileged_state result on
+	# every candidate by block id -- the only privileged
+	# defs are the world-processor-only logic blocks,
+	# Blocks.java:6955/6965/6974/6981) -- the hitbox-overlap
 	# refinement is live since N2338
 	# (source_regen_projector_update_targets_narrow_state,
 	# chained after this scan). (4) the projector itself
@@ -355,6 +368,33 @@ static func source_regen_projector_update_targets_state(frame: Dictionary, build
 		var health: float = float(candidate.get("health", 0.0))
 		targets.append({"pos": int(candidate.get("pos", 0)), "block_health": block_health, "health": health, "damaged": health < block_health - 0.001, "heal_suppressed": bool(candidate.get("heal_suppressed", false))})
 	return {"targets": targets, "last_change": tile_changes, "refreshed": true}
+
+static func source_regen_projector_privileged_state(block_id: String) -> Dictionary:
+	# The live privileged flag (BlockIndexer.eachBlock,
+	# BlockIndexer.java:364-380): Java's eachBlock excludes
+	# privileged blocks from the updateTargets query (each
+	# exact expr on ONE comment line, the N2148 lesson):
+	# `indexer.eachBlock(team, Tmp.r1.setCentered(x, y, range * tilesize), b -> true, targets::add);`
+	# `if(pred.get(b) && !b.block.privileged){`
+	# `public boolean privileged = false;`
+	# `privileged = true;`
+	# `worldProcessor = new LogicBlock("world-processor"){{`
+	# `worldCell = new MemoryBlock("world-cell"){{`
+	# `worldMessage = new MessageBlock("world-message"){{`
+	# `worldSwitch = new SwitchBlock("world-switch"){{`
+	# privileged defaults false (Block.java:148) and exactly
+	# four defs set it (Blocks.java:6955/6965/6974/6981):
+	# the world-processor-only logic blocks (verified by
+	# grep: exactly four `privileged = true;` lines in
+	# Blocks.java). The catalog carries no privileged flag,
+	# so the pure reads the block id against the four def
+	# ids above; an empty or unknown id is NOT privileged
+	# (the false default). The tick stamps the result on
+	# every live candidate (the N2338 narrow then drops the
+	# privileged ones); the N2277 rect pure and the N2338
+	# narrow pure are untouched (their candidates are frame
+	# inputs, not tick-filled).
+	return {"privileged": SOURCE_REGEN_PROJECTOR_PRIVILEGED_BLOCK_IDS.has(block_id)}
 
 static func source_regen_projector_update_targets_narrow_state(targets: Array, candidates: Array, team_id: int, building_x: float, building_y: float) -> Dictionary:
 	# The updateTargets hitbox + privileged refinement
@@ -843,12 +883,13 @@ static func source_regen_projector_tick_buildings_state(game: Object, seconds: f
 			# candidate: the port tracks no live suppression
 			# state (the suppression live fill is still
 			# deferred). hit_size is size * tilesize
-			# (BuildingComp.java:2048) and privileged is false
-			# for every candidate: the catalog carries no
-			# privileged flag, so the live privileged flag fill
-			# defers (the only privileged defs are the
+			# (BuildingComp.java:2048) and privileged is the
+			# live privileged flag fill, live since N2344
+			# (the pure reads the candidate block id against
+			# the four privileged defs -- the
 			# world-processor-only logic blocks,
-			# Blocks.java:6955/6965/6974/6981). The projector
+			# Blocks.java:6955/6965/6974/6981 -- because the
+			# catalog carries no privileged flag). The projector
 			# itself counts when it falls in its own rect (Java
 			# predicate `b -> true`).
 			if int(frame.get("tile_changes", 1)) != int(frame.get("last_change", -2)):
@@ -868,7 +909,7 @@ static func source_regen_projector_tick_buildings_state(game: Object, seconds: f
 					var other_cell: Vector2i = other_sprite.get_meta("origin_cell", Vector2i.ZERO)
 					var other_size: int = int(other_block.properties.get("size", 1))
 					var other_offset: float = float((other_size + 1) % 2) * source_world_defaults.TILESIZE / 2.0
-					scan_candidates.append({"pos": source_block_geometry.tile_pos_state(other_cell.x, other_cell.y), "team_id": int(other_sprite.get_meta(source_block_geometry.SOURCE_BUILD_TEAM_META_KEY, source_block_geometry.SOURCE_TEAM_DERELICT_ID)), "x": source_block_geometry.tile_drawx_state(other_cell.x, source_world_defaults.TILESIZE, other_offset), "y": source_block_geometry.tile_drawy_state(other_cell.y, source_world_defaults.TILESIZE, other_offset), "block_health": float(other_sprite.get_meta(source_placed_block_state.SOURCE_BLOCK_MAX_HEALTH_META_KEY, 0.0)), "health": source_placed_block_state.health(other_sprite), "heal_suppressed": false, "hit_size": float(other_size) * source_world_defaults.TILESIZE, "privileged": false})
+					scan_candidates.append({"pos": source_block_geometry.tile_pos_state(other_cell.x, other_cell.y), "team_id": int(other_sprite.get_meta(source_block_geometry.SOURCE_BUILD_TEAM_META_KEY, source_block_geometry.SOURCE_TEAM_DERELICT_ID)), "x": source_block_geometry.tile_drawx_state(other_cell.x, source_world_defaults.TILESIZE, other_offset), "y": source_block_geometry.tile_drawy_state(other_cell.y, source_world_defaults.TILESIZE, other_offset), "block_health": float(other_sprite.get_meta(source_placed_block_state.SOURCE_BLOCK_MAX_HEALTH_META_KEY, 0.0)), "health": source_placed_block_state.health(other_sprite), "heal_suppressed": false, "hit_size": float(other_size) * source_world_defaults.TILESIZE, "privileged": bool(source_regen_projector_privileged_state(other_block_id).get("privileged", false))})
 				var scanned: Dictionary = source_regen_projector_update_targets_state(frame, scan_building_x, scan_building_y, scan_candidates)
 				# N2338: the hitbox-overlap + privileged
 				# refinement chains AFTER the rect scan (the

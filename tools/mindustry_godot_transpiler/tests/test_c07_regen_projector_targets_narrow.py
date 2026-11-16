@@ -172,16 +172,21 @@ class C07RegenProjectorTargetsNarrowTests(unittest.TestCase):
         # NARROWED list (not the rect-only list) while
         # last_change still stamps from the scan. The
         # candidates now carry hit_size (size * tilesize,
-        # BuildingComp.java:2048) and privileged (false --
-        # the catalog carries no privileged flag, so the live
-        # flag fill defers).
+        # BuildingComp.java:2048) and privileged (the live
+        # flag fill, N2344: the pure result per candidate
+        # block id -- the catalog carries no privileged
+        # flag, so the pure reads the four def ids).
         self.assertIn('source_regen_projector_update_targets_state(frame, scan_building_x, scan_building_y, scan_candidates)', regen_projector)
         self.assertIn('source_regen_projector_update_targets_narrow_state(scanned["targets"], scan_candidates, team_id, scan_building_x, scan_building_y)', regen_projector)
         self.assertIn('frame["targets"] = narrowed["targets"]', regen_projector)
         self.assertIn('frame["last_change"] = scanned["last_change"]', regen_projector)
         self.assertNotIn('frame["targets"] = scanned["targets"]', regen_projector)
         self.assertIn('"hit_size": float(other_size) * source_world_defaults.TILESIZE', regen_projector)
-        self.assertIn('"privileged": false', regen_projector)
+        # N2344 follow-through: the tick no longer stamps the
+        # literal false -- the live privileged flag fill
+        # stamps the pure result per candidate block id (the
+        # narrow then drops the privileged ones).
+        self.assertIn('"privileged": bool(source_regen_projector_privileged_state(other_block_id).get("privileged", false))', regen_projector)
         self.assertLess(
             regen_projector.index('source_regen_projector_update_targets_state(frame, scan_building_x, scan_building_y, scan_candidates)'),
             regen_projector.index('source_regen_projector_update_targets_narrow_state(scanned["targets"], scan_candidates, team_id, scan_building_x, scan_building_y)'),
