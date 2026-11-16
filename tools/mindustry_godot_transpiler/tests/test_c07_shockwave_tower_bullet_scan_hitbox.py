@@ -114,15 +114,15 @@ class C07ShockwaveTowerBulletScanHitboxTests(unittest.TestCase):
         # `bullet.hitSize = hitSize;`, BulletType.java:970),
         # a hitSize-sided square centered on the bullet
         # (`rect.setCentered(x, y, hitSize, hitSize);`,
-        # HitboxComp.java:67). The N2327 rect pure tests the
-        # bullet CENTER against the inclusive rect, so this
-        # refinement chains AFTER it (the N2335 pattern) and
-        # filters hitbox overlap ONLY -- it does not
-        # re-filter team / hittable (the N2327 pure already
-        # did). A missing hit_size reads as the BulletType
-        # default 4.0. Keep each Java expr on ONE comment
-        # line (the N2148 lesson: a split line fails this
-        # test).
+        # HitboxComp.java:67). Since N2347 the N2327 scan pure
+        # calls the broad hitbox pure (the same STRICT
+        # overlap), so this refinement chains AFTER it (the
+        # N2335 pattern) and re-filters hitbox overlap ONLY
+        # -- idempotent, harmless; it does not re-filter team
+        # / hittable (the N2327 pure already did). A missing
+        # hit_size reads as the BulletType default 4.0. Keep
+        # each Java expr on ONE comment line (the N2148
+        # lesson: a split line fails this test).
         self.assertIn('static func source_shockwave_tower_supplied_bullets_hitbox_state', shockwave_tower)
         self.assertIn('Groups.bullet.intersect(x - range, y - range, range * 2, range * 2, b -> {', shockwave_tower)
         self.assertIn('public void intersect(float x, float y, float width, float height, Cons<? super T> out){', shockwave_tower)
@@ -173,21 +173,28 @@ class C07ShockwaveTowerBulletScanHitboxTests(unittest.TestCase):
         )
         # The documented limits now record the refinement as
         # live and the remaining deferral is the live bullet
-        # QUERY (Groups.bullet) plus the rect broad phase
-        # dropping straddlers, not the refinement.
+        # QUERY (Groups.bullet), not the refinement -- the
+        # rect broad phase dropping straddlers is resolved
+        # by N2347 (the broad phase is live).
         self.assertIn('hitbox refinement is live (N2340)', shockwave_tower)
         self.assertIn('live bullet scan is live (N2327)', shockwave_tower)
         self.assertIn('updateTile advance live (N2247)', shockwave_tower)
         self.assertIn('timerCheck cadence live (N2318)', shockwave_tower)
         self.assertIn('shouldConsume gate live (N2187)', shockwave_tower)
-        # The N2327 rect pure is untouched: its signature
-        # keeps the five parameters and its inclusive
-        # center test + exact return are unchanged -- the
-        # refinement chains AFTER its call, never inside it.
+        # The N2327 scan pure now calls the broad hitbox pure
+        # (N2347): its signature keeps the five parameters
+        # and its exact return is unchanged, but the
+        # inclusive center test is GONE -- the scan calls the
+        # broad pure (the FULL call pin, the N2335 precedent)
+        # and filters team / hittable on the broad-admitted
+        # list. The refinement chains AFTER its call, never
+        # inside it.
         self.assertIn('static func source_shockwave_tower_supplied_bullets_state(candidates: Array, range_value: float, tower_x: float, tower_y: float, tower_team: int) -> Dictionary:', shockwave_tower)
         self.assertIn('return {"bullets": bullets}', shockwave_tower)
-        self.assertIn('if bullet_x < tower_x - range_value or bullet_x > tower_x + range_value:', shockwave_tower)
-        self.assertIn('if bullet_y < tower_y - range_value or bullet_y > tower_y + range_value:', shockwave_tower)
+        self.assertIn('var broad: Dictionary = source_shockwave_tower_supplied_bullets_broad_hitbox_state(candidates, range_value, tower_x, tower_y)', shockwave_tower)
+        self.assertIn('for candidate in broad.get("bullets", []):', shockwave_tower)
+        self.assertNotIn('if bullet_x < tower_x - range_value or bullet_x > tower_x + range_value:', shockwave_tower)
+        self.assertNotIn('if bullet_y < tower_y - range_value or bullet_y > tower_y + range_value:', shockwave_tower)
         # The N2247 advance is untouched: its signature keeps
         # the bullet_candidates parameter and its fire gate /
         # wave / heat lines are unchanged -- the refinement

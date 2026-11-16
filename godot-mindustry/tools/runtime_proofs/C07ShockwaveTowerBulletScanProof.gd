@@ -43,10 +43,18 @@ func _ready() -> void:
 	# QuadTree.java:190-191) with the STRICT Rect overlap
 	# (`return x < rx + rwidth && x + width > rx && y < ry
 	# + rheight && y + height > ry;`, Rect.java:274-276).
-	# DOCUMENTED DEVIATION (the N2277 precedent): the port
-	# tests the bullet CENTER against the rect (INCLUSIVE
-	# bounds -- a center exactly on the edge counts)
-	# because the candidate dict carries no hitbox. The
+	# Since N2347 the port tests the HITBOX, not the center:
+	# the scan pure calls the broad hitbox pure (the
+	# Java-exact QuadTree test, resolving DEFERRED #330)
+	# and then filters team / hittable on the
+	# broad-admitted list; the old inclusive center test
+	# (the N2277 precedent) is gone -- a straddler whose
+	# center sits just outside the rect but whose hitbox
+	# overlaps it is admitted like Java. A missing hit_size
+	# reads as the BulletType default 4.0, so a bullet at
+	# (171, 0) with no hit_size key spans [169, 173] and is
+	# admitted -- the out-of-rect fixtures below therefore
+	# sit at 173, clear even of the default hitbox. The
 	# range is the class `public float range = 110f;`
 	# (ShockwaveTower.java:25), overridden by the def
 	# `range = 170f;` (Blocks.java:2043); the pure takes it
@@ -71,8 +79,8 @@ func _ready() -> void:
 		{"id": "edge", "team": 2, "hittable": true, "damage": 500.0, "x": 170.0, "y": 0.0},
 		{"id": "far_corner", "team": 2, "hittable": true, "damage": 500.0, "x": -170.0, "y": -170.0},
 		{"id": "default_hittable", "team": 2, "damage": 500.0, "x": 0.0, "y": 0.0},
-		{"id": "x_out", "team": 2, "hittable": true, "damage": 500.0, "x": 171.0, "y": 0.0},
-		{"id": "y_out", "team": 2, "hittable": true, "damage": 500.0, "x": 0.0, "y": -171.0},
+		{"id": "x_out", "team": 2, "hittable": true, "damage": 500.0, "x": 173.0, "y": 0.0},
+		{"id": "y_out", "team": 2, "hittable": true, "damage": 500.0, "x": 0.0, "y": -173.0},
 		{"id": "own_team", "team": 1, "hittable": true, "damage": 500.0, "x": 10.0, "y": 10.0},
 		{"id": "missing_team", "hittable": true, "damage": 500.0, "x": 10.0, "y": 10.0},
 		{"id": "non_hittable", "team": 2, "hittable": false, "damage": 500.0, "x": 10.0, "y": 10.0},
@@ -92,22 +100,22 @@ func _ready() -> void:
 	# java:143). Five admitted out of thirteen candidates.
 	proof["scan_admits_enemy_hittable_in_rect"] = mixed_bullets.size() == 5 and str(mixed_bullets[0].get("id", "")) == "center" and str(mixed_bullets[1].get("id", "")) == "corner" and str(mixed_bullets[2].get("id", "")) == "edge" and str(mixed_bullets[3].get("id", "")) == "far_corner" and str(mixed_bullets[4].get("id", "")) == "default_hittable" and is_equal_approx(float(mixed_bullets[1].get("x", -1.0)), 170.0) and is_equal_approx(float(mixed_bullets[1].get("y", -1.0)), 170.0)
 
-	# Out of the rect is excluded on either axis: x 171
-	# out, y -171 out, both out (171, 171) out -- while the
+	# Out of the rect is excluded on either axis: x 173
+	# out, y -173 out, both out (173, 173) out -- while the
 	# in-rect control stays. The range parameter is
 	# honored: a bullet at (150, 0) is in the def range
 	# 170f but out of the class range 110f -- the pure
 	# stays def-agnostic.
 	var rect_cases: Dictionary = scan.call([
-		{"id": "x_out", "team": 2, "hittable": true, "damage": 500.0, "x": 171.0, "y": 0.0},
-		{"id": "y_out", "team": 2, "hittable": true, "damage": 500.0, "x": 0.0, "y": 171.0},
-		{"id": "both_out", "team": 2, "hittable": true, "damage": 500.0, "x": 171.0, "y": 171.0},
+		{"id": "x_out", "team": 2, "hittable": true, "damage": 500.0, "x": 173.0, "y": 0.0},
+		{"id": "y_out", "team": 2, "hittable": true, "damage": 500.0, "x": 0.0, "y": 173.0},
+		{"id": "both_out", "team": 2, "hittable": true, "damage": 500.0, "x": 173.0, "y": 173.0},
 		{"id": "control", "team": 2, "hittable": true, "damage": 500.0, "x": 0.0, "y": 0.0},
 	], 170.0, 0.0, 0.0, 1)
 	var rect_bullets: Array = rect_cases.get("bullets", [])
 	var class_range: Dictionary = scan.call([{"id": "mid", "team": 2, "hittable": true, "damage": 500.0, "x": 150.0, "y": 0.0}], 110.0, 0.0, 0.0, 1)
 	var def_range: Dictionary = scan.call([{"id": "mid", "team": 2, "hittable": true, "damage": 500.0, "x": 150.0, "y": 0.0}], 170.0, 0.0, 0.0, 1)
-	proof["scan_excludes_out_of_rect"] = rect_bullets.size() == 1 and str(rect_bullets[0].get("id", "")) == "control" and (scan.call([{"id": "x_out", "team": 2, "hittable": true, "damage": 500.0, "x": 171.0, "y": 0.0}], 170.0, 0.0, 0.0, 1).get("bullets", [{}]) as Array).is_empty() and (class_range.get("bullets", [{}]) as Array).is_empty() and (def_range.get("bullets", []) as Array).size() == 1
+	proof["scan_excludes_out_of_rect"] = rect_bullets.size() == 1 and str(rect_bullets[0].get("id", "")) == "control" and (scan.call([{"id": "x_out", "team": 2, "hittable": true, "damage": 500.0, "x": 173.0, "y": 0.0}], 170.0, 0.0, 0.0, 1).get("bullets", [{}]) as Array).is_empty() and (class_range.get("bullets", [{}]) as Array).is_empty() and (def_range.get("bullets", []) as Array).size() == 1
 
 	# Own team is excluded -- including a candidate with
 	# no team key (missing team reads as the tower's own
