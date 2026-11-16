@@ -195,15 +195,22 @@ class C07LaunchPadAdvancedVariantTests(unittest.TestCase):
         self.assertIn('var item_capacity: int = int(block.properties.get("itemCapacity", 10))', launch_pad)
         # DISCREPANCY (reported, not fixed -- verification
         # only): the driver NEVER reads liquidCapacity
-        # (no catalog get, no frame get) and never reads
-        # size either -- size flows through the catalog
-        # into placement / geometry, liquidCapacity flows
-        # nowhere at all. The sense capacity pure takes
-        # it as a caller-supplied input, so nothing in
-        # the port supplies the Java 40f; the oil row
-        # only ever reads what is held, never a cap.
+        # from the catalog or the frame (no catalog get,
+        # no frame get) and never reads size either --
+        # size flows through the catalog into placement /
+        # geometry, liquidCapacity flows nowhere at all
+        # as a SUPPLIED value. N2420 narrowed the gap:
+        # the draw pure takes liquid_capacity as an
+        # explicit caller-supplied input (like the sense
+        # capacity pure), so the driver now MENTIONS it
+        # -- exactly twice (the param + the alpha ratio)
+        # -- but nothing in the port still supplies the
+        # Java 40f; the oil row only ever reads what is
+        # held, never a cap.
         self.assertNotIn('get("liquidCapacity"', launch_pad)
-        self.assertNotIn('liquid_capacity', launch_pad)
+        self.assertNotIn('frame["liquid_capacity"]', launch_pad)
+        self.assertIn('liquid_capacity: float', launch_pad)
+        self.assertEqual(launch_pad.count('liquid_capacity'), 2)
         self.assertNotIn('properties.get("size"', launch_pad)
         # The geometry helpers turn the catalog size into
         # world extents: block_world_size(size, tile_size)
