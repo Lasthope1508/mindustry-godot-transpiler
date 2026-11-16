@@ -325,6 +325,112 @@ static func source_beam_drill_laser_origins_state(tile_x: int, tile_y: int, rota
 		lasers.append(origin)
 	return {"lasers": lasers}
 
+static func source_beam_drill_facing_tiles_fill_state(lasers: Array, world_tiles: Dictionary, size: int, beam_range: int, rotation: int) -> Dictionary:
+	# The facing-tile fill (BeamDrillBuild.updateFacing,
+	# BeamDrill.java:375-411 -- called from
+	# onProximityUpdate :362-366 (`public void onProximityUpdate(){` /
+	# `updateLasers();` / `updateFacing();`, when the drill
+	# is placed or rotated) and from updateTile :244):
+	# `protected void updateFacing(){`
+	# `int dx = Geometry.d4x(rotation), dy = Geometry.d4y(rotation);`
+	# `for(int p = 0; p < size; p++){`
+	# `Point2 l = lasers[p];`
+	# `for(int i = 0; i < range; i++){`
+	# `int rx = l.x + dx*i, ry = l.y + dy*i;`
+	# `Tile other = world.tile(rx, ry);`
+	# `if(other != null){`
+	# `if(other.solid()){`
+	# `Item drop = other.wallDrop();`
+	# `facing[p] = dest;`
+	# -- for each of the size facing lasers it walks
+	# range tiles along the rotation from the laser
+	# origin, takes the FIRST solid tile, and counts it
+	# when its wallDrop passes the mineable check
+	# (BeamDrill.java:391). The direction comes from
+	# Geometry.d4x/d4y (arc Geometry.java:23-24,
+	# `public final static int[] d4x = {1, 0, -1, 0};`
+	# `public final static int[] d4y = {0, 1, 0, -1};`,
+	# indexed through `public static int d4x(int i){`
+	# `return d4x[Mathf.mod(i, 4)];`
+	# `public static int d4y(int i){`
+	# `return d4y[Mathf.mod(i, 4)];`
+	# -- rotation is normalized mod 4, so the pure uses
+	# posmod). world.tile is `public Tile tile(int x, int y){`
+	# (World.java:122); solid() is `public boolean solid(){`
+	# (Tile.java:457) and the drop is `public @Nullable Item wallDrop(){`
+	# (Tile.java:575). The lasers (`public Point2[] lasers = new Point2[size];`,
+	# BeamDrill.java:222) are the N2346 origins, read
+	# from frame["lasers"]; the facing tiles
+	# (`public Tile[] facing = new Tile[size];`,
+	# BeamDrill.java:221) are what the drop loop reads,
+	# and they wait for the drop-loop slice -- this pure
+	# returns the RAYS the scan reads, not the facing[]
+	# dest array. The port has no live world, so the
+	# caller supplies the world tiles as a frame input
+	# (the N2301 WallCrafter getEfficiency precedent):
+	# world_tiles is a Dict keyed "x,y" to {solid,
+	# wall_drop} carrying the `other != null &&
+	# other.solid()` answer and the wallDrop item {id,
+	# hardness} (null when the tile drops nothing). A
+	# missing key (or a null / non-Dict entry) is a null
+	# world tile (the walk continues past it); the fill
+	# emits the FULL ray -- one entry per tile in walk
+	# order -- and the N2339 scan does the breaking (the
+	# first solid tile breaks the ray, a null or
+	# non-solid tile does not). A missing or short
+	# lasers array gives an empty ray for the missing
+	# lasers, and rays past `size` and tiles past
+	# `beam_range` are ignored (Java reads exactly
+	# `size` lasers and `range` tiles per laser, the
+	# N2339 precedent). size / range read from the
+	# catalog per def: plasma-bore `size = 2;` /
+	# `range = 5;` (Blocks.java:3044-3045) and
+	# large-plasma-bore `size = 3;` / `range = 6;`
+	# (Blocks.java:3058-3059); the class defaults are
+	# `public int range = 5;` / `public int tier = 1;`
+	# (BeamDrill.java:35-36) and `public int size = 1;`
+	# (Block.java:215). The parameter is beam_range,
+	# not `range` (GDScript's range() builtin -- the
+	# pure loops `range(size)` / `range(beam_range)`);
+	# it is the BeamDrill.java:35 `range` field. The
+	# tick stamps the result onto frame["facing_tiles"]
+	# each enabled tick BEFORE the facing scan (Java
+	# order: updateFacing inside updateTile,
+	# BeamDrill.java:244, before the advance), whenever
+	# world_tiles is supplied -- a tick with no
+	# world_tiles keeps the previous facing_tiles (the
+	# N2339 frame-input path, preserved for the N2339
+	# proof, which seeds facing_tiles directly). The
+	# LIVE world-tile query still waits (no live world
+	# query exists in the port).
+	var d4x: Array = [1, 0, -1, 0]
+	var d4y: Array = [0, 1, 0, -1]
+	var direction: int = posmod(rotation, 4)
+	var dx: int = int(d4x[direction])
+	var dy: int = int(d4y[direction])
+	var facing_tiles: Array = []
+	for p in range(size):
+		if p >= lasers.size():
+			facing_tiles.append([])
+			continue
+		var laser: Variant = lasers[p]
+		if not (laser is Dictionary):
+			facing_tiles.append([])
+			continue
+		var origin_x: int = int(laser.get("x", 0))
+		var origin_y: int = int(laser.get("y", 0))
+		var ray: Array = []
+		for i in range(beam_range):
+			var rx: int = origin_x + dx * i
+			var ry: int = origin_y + dy * i
+			var tile: Variant = world_tiles.get(str(rx) + "," + str(ry), null)
+			if tile == null or not (tile is Dictionary):
+				ray.append(null)
+				continue
+			ray.append({"solid": bool(tile.get("solid", false)), "wall_drop": tile.get("wall_drop", null)})
+		facing_tiles.append(ray)
+	return {"facing_tiles": facing_tiles}
+
 static func source_beam_drill_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40,
 	# `return build.power.status;`): the power consumer's
@@ -388,8 +494,16 @@ static func source_beam_drill_power_status_row_state(frame: Dictionary, has_powe
 	# nearbySide laser origins and stamps frame["lasers"]
 	# when tile_changes moves, the N2277 pattern, with a
 	# first-tick refresh covering the lazy BeamDrill.java:240
-	# call); still deferred: the live facing-tile fill,
-	# lastItem / facing[] + the drop
+	# call); the facing-tile fill is live since N2352
+	# (facing-tile fill live since N2352:
+	# source_beam_drill_facing_tiles_fill_state walks each
+	# laser ray from frame["lasers"] through the frame
+	# input world_tiles and stamps frame["facing_tiles"]
+	# each enabled tick before the facing scan whenever
+	# world_tiles is supplied; the LIVE world-tile query
+	# still waits, so a live beam drill with no supplied
+	# world_tiles keeps its previous facing_tiles); still
+	# deferred: lastItem / facing[] + the drop
 	# loop + `time %= drillTime;` reset +
 	# lastDrillSpeed (BeamDrill.java:249, 253-262, needs
 	# lastItem / facing / items state the tick does not
@@ -452,8 +566,14 @@ static func source_beam_drill_update_tile_advance_state(frame: Dictionary, sourc
 	# updateLasers origins are live since N2346
 	# (BeamDrill.java:368-373, stamped when tile_changes
 	# moves; the :240 lazy first-tick call is covered by
-	# the first-tick refresh). Deferred, not done here:
-	# the live facing-tile fill, lastItem
+	# the first-tick refresh). The facing-tile fill is
+	# live since N2352 (facing-tile fill live since N2352:
+	# the fill pure walks each laser ray from
+	# frame["lasers"] through the frame input world_tiles,
+	# stamped onto frame["facing_tiles"] before the
+	# facing scan each enabled tick whenever world_tiles
+	# is supplied; the LIVE world-tile query still waits).
+	# Deferred, not done here: lastItem
 	# (BeamDrill.java:376-411, which updateFacing
 	# sets), the drop loop + `time %= drillTime;`
 	# reset + lastDrillSpeed (BeamDrill.java:249,
@@ -674,8 +794,9 @@ static func source_beam_drill_tick_buildings_state(game: Object, seconds: float)
 		# BuildingComp.java:69), size from the catalog per
 		# def (2 plasma-bore / 3 large-plasma-bore). The
 		# origins land on frame["lasers"] for the facing
-		# scan's future live fill to read (the scan still
-		# takes its rays as frame inputs -- N2339 untouched).
+		# scan's live fill to read (N2352 -- the scan
+		# still reads frame["facing_tiles"], N2339
+		# untouched).
 		if int(frame.get("tile_changes", 1)) != int(frame.get("lasers_last_change", -2)) or (frame.get("lasers", []) as Array).is_empty():
 			var laser_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 			var laser_rotation: int = int(sprite.get_meta(source_block_geometry.SOURCE_BUILD_ROTATION_META_KEY, 0))
@@ -832,8 +953,16 @@ static func source_beam_drill_tick_buildings_state(game: Object, seconds: float)
 			# before updateTile). The facing rays are
 			# frame inputs (frame["facing_tiles"],
 			# default [] -- no tiles, the Java
-			# no-facing-wall outcome) until a live tile
-			# fill lands; size / range / tier read from
+			# no-facing-wall outcome); since N2352 the
+			# fill stamps frame["facing_tiles"] from
+			# frame["lasers"] + the frame input
+			# world_tiles each enabled tick before the
+			# scan whenever world_tiles is supplied,
+			# and a tick with no world_tiles keeps the
+			# previous facing_tiles (the N2339
+			# frame-input path, preserved for the N2339
+			# proof, which seeds facing_tiles directly).
+			# size / range / tier read from
 			# the catalog per def (2/5/3 plasma-bore,
 			# 3/6/5 large-plasma-bore; the class
 			# defaults are size 1 Block.java:215, range
@@ -858,10 +987,35 @@ static func source_beam_drill_tick_buildings_state(game: Object, seconds: float)
 			# gate for all families). The item catalog
 			# is fetched once here and reused by the
 			# timerDump dump below.
-			var facing_tiles: Array = frame.get("facing_tiles", [])
 			var beam_size: int = int(block.properties.get("size", 1))
 			var beam_range: int = int(block.properties.get("range", 5))
 			var beam_tier: int = int(block.properties.get("tier", 1))
+			# N2352: the facing-tile fill
+			# (BeamDrill.java:375-411) walks each laser
+			# ray from frame["lasers"] (the N2346
+			# origins) through the frame input
+			# world_tiles (a Dict keyed "x,y" to {solid,
+			# wall_drop}, default {} -- no world data)
+			# and stamps frame["facing_tiles"] BEFORE
+			# the scan below (Java order: updateFacing
+			# inside updateTile, BeamDrill.java:244,
+			# before the advance). The stamp runs ONLY
+			# when world_tiles is supplied (non-empty):
+			# a tick with no world_tiles keeps the
+			# previous facing_tiles, so the N2339
+			# frame-input path -- and the N2339 proof,
+			# which seeds facing_tiles directly -- is
+			# preserved. Rotation comes from the sprite
+			# rotation meta (the same meta the N2346
+			# origins refresh reads); the LIVE
+			# world-tile query still waits (no live
+			# world query exists in the port).
+			var world_tiles: Dictionary = frame.get("world_tiles", {})
+			if not world_tiles.is_empty():
+				var fill_rotation: int = int(sprite.get_meta(source_block_geometry.SOURCE_BUILD_ROTATION_META_KEY, 0))
+				var filled: Dictionary = source_beam_drill_facing_tiles_fill_state(frame.get("lasers", []), world_tiles, beam_size, beam_range, fill_rotation)
+				frame["facing_tiles"] = filled.get("facing_tiles", [])
+			var facing_tiles: Array = frame.get("facing_tiles", [])
 			var item_catalog: Dictionary = source_content_registry_runtime_state.source_item_catalog_state(catalog)
 			var beam_blocked_items: Variant = null
 			if block.properties.has("blockedItems") and block.properties.has("blockedItem"):
