@@ -339,6 +339,25 @@ static func _beam_width_for_block_id(block_id: String) -> float:
 		return 1.1
 	return 1.0
 
+static func source_repair_turret_draw_select_state(x: float, y: float, repair_radius: float) -> Dictionary:
+	# RepairPointBuild.drawSelect() draws one dash circle around the building (RepairTurret.java:177-179, inside `public void drawSelect(){`, RepairTurret.java:177):
+	# Drawf.dashCircle(x, y, repairRadius, Pal.accent);
+	# The radius is the per-def repairRadius, resolved by the caller through the existing `_repair_radius_for_block_id` helper (N2212): repair-point 60f (Blocks.java:6389), repair-turret 145f (Blocks.java:6401), class default 50f (`public float repairRadius = 50f;`, RepairTurret.java:32). The color is Pal.accent (SourceBlockDrawState.gd:182 precedent). There is no driver tick line: drawSelect is selection UI, not per-tick. Rendering itself stays out of the game -- only the state the circle depends on is captured, per the user boundary.
+	return {"center": Vector2(x, y), "radius": repair_radius, "color": "Pal.accent"}
+
+static func source_repair_turret_draw_place_state(tile_x: int, tile_y: int, repair_radius: float, tilesize: float, block_offset: float) -> Dictionary:
+	# RepairTurret.drawPlace() draws the same dash circle at the ghost position (RepairTurret.java:95-100, inside `public void drawPlace(int x, int y, int rotation, boolean valid){`, RepairTurret.java:95, after `super.drawPlace(x, y, rotation, valid);`, RepairTurret.java:96 -- the super call draws the block itself, not the circle, so it is out of scope):
+	# Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, repairRadius, Pal.accent);
+	# The place center converts tile coords to world coords with the tilesize and the block offset (`x * tilesize + offset`, RepairTurret.java:98; tilesize 8, Vars.java:135). The radius is a world distance, not repairRadius / tilesize tiles. The color is Pal.accent in both call sites. There is no driver tick line: drawPlace is placement UI, not per-tick.
+	var center: Vector2 = Vector2(float(tile_x) * tilesize + block_offset, float(tile_y) * tilesize + block_offset)
+	return {"center": center, "radius": repair_radius, "color": "Pal.accent"}
+
+static func _block_offset_for_block_id(block_id: String) -> float:
+	# Per-def block offset (`offset = ((size + 1) % 2) * tilesize / 2f;`, Block.java:761, tilesize 8, Vars.java:135): repair-turret size 2 (Blocks.java:6398) so 4.0, repair-point size 1 (no size override in Blocks.java:6386) so 0.0, class default 0.0.
+	if block_id == "repair-turret":
+		return 4.0
+	return 0.0
+
 const REPAIR_TURRET_SAVE_VERSION := 1
 
 static func source_repair_turret_write_state(frame: Dictionary) -> Dictionary:

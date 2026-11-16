@@ -174264,6 +174264,102 @@
         "test_reference_graph_and_actual_c07_repair_turret_draw_beam"
       ],
       "runtime_proof": "/root/C07RepairTurretDrawBeamProof"
+    },
+    "source_repair_turret_draw_select_state_result.center": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_draw_select_state",
+      "godot_symbol": "source_repair_turret_draw_select_state_result.center",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairPointBuild.drawSelect()",
+      "java_expr": "Drawf.dashCircle(x, y, repairRadius, Pal.accent);",
+      "rule": "The dash-circle center (RepairTurret.java:178, `Drawf.dashCircle(x, y, repairRadius, Pal.accent);`): the building position itself.",
+      "tests": [
+        "test_c07_repair_turret_draw_select_place_registration",
+        "test_all_c07_repair_turret_draw_select_place_input_evidence_is_exact",
+        "test_repair_turret_draw_select_place_state",
+        "test_reference_graph_and_actual_c07_repair_turret_draw_select_place"
+      ],
+      "runtime_proof": "/root/C07RepairTurretDrawSelectPlaceProof"
+    },
+    "source_repair_turret_draw_select_state_result.radius": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_draw_select_state",
+      "godot_symbol": "source_repair_turret_draw_select_state_result.radius",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairPointBuild.drawSelect()",
+      "java_expr": "public float repairRadius = 50f;",
+      "rule": "The dash-circle radius (RepairTurret.java:178, `Drawf.dashCircle(x, y, repairRadius, Pal.accent);`): the per-def repairRadius passed in.",
+      "tests": [
+        "test_c07_repair_turret_draw_select_place_registration",
+        "test_all_c07_repair_turret_draw_select_place_input_evidence_is_exact",
+        "test_repair_turret_draw_select_place_state",
+        "test_reference_graph_and_actual_c07_repair_turret_draw_select_place"
+      ],
+      "runtime_proof": "/root/C07RepairTurretDrawSelectPlaceProof"
+    },
+    "source_repair_turret_draw_select_state_result.color": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_draw_select_state",
+      "godot_symbol": "source_repair_turret_draw_select_state_result.color",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairPointBuild.drawSelect()",
+      "java_expr": "Drawf.dashCircle(x, y, repairRadius, Pal.accent);",
+      "rule": "The dash-circle color (RepairTurret.java:178, `Drawf.dashCircle(x, y, repairRadius, Pal.accent);`): Pal.accent, represented as the string \"Pal.accent\" (the SourceBlockDrawState.gd:182 precedent).",
+      "tests": [
+        "test_c07_repair_turret_draw_select_place_registration",
+        "test_all_c07_repair_turret_draw_select_place_input_evidence_is_exact",
+        "test_repair_turret_draw_select_place_state",
+        "test_reference_graph_and_actual_c07_repair_turret_draw_select_place"
+      ],
+      "runtime_proof": "/root/C07RepairTurretDrawSelectPlaceProof"
+    },
+    "source_repair_turret_draw_place_state_result.center": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_draw_place_state",
+      "godot_symbol": "source_repair_turret_draw_place_state_result.center",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairTurret.drawPlace()",
+      "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, repairRadius, Pal.accent);",
+      "rule": "The ghost dash-circle center (RepairTurret.java:98, `Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, repairRadius, Pal.accent);`): tile_x * tilesize + block_offset, tile_y * tilesize + block_offset.",
+      "tests": [
+        "test_c07_repair_turret_draw_select_place_registration",
+        "test_all_c07_repair_turret_draw_select_place_input_evidence_is_exact",
+        "test_repair_turret_draw_select_place_state",
+        "test_reference_graph_and_actual_c07_repair_turret_draw_select_place"
+      ],
+      "runtime_proof": "/root/C07RepairTurretDrawSelectPlaceProof"
+    },
+    "source_repair_turret_draw_place_state_result.radius": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_draw_place_state",
+      "godot_symbol": "source_repair_turret_draw_place_state_result.radius",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairTurret.drawPlace()",
+      "java_expr": "public float repairRadius = 50f;",
+      "rule": "The ghost dash-circle radius (RepairTurret.java:98, `Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, repairRadius, Pal.accent);`): the per-def repairRadius passed in.",
+      "tests": [
+        "test_c07_repair_turret_draw_select_place_registration",
+        "test_all_c07_repair_turret_draw_select_place_input_evidence_is_exact",
+        "test_repair_turret_draw_select_place_state",
+        "test_reference_graph_and_actual_c07_repair_turret_draw_select_place"
+      ],
+      "runtime_proof": "/root/C07RepairTurretDrawSelectPlaceProof"
+    },
+    "source_repair_turret_draw_place_state_result.color": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_draw_place_state",
+      "godot_symbol": "source_repair_turret_draw_place_state_result.color",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairTurret.drawPlace()",
+      "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, repairRadius, Pal.accent);",
+      "rule": "The ghost dash-circle color (RepairTurret.java:98, `Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, repairRadius, Pal.accent);`): Pal.accent, represented as the string \"Pal.accent\" (the SourceBlockDrawState.gd:182 precedent).",
+      "tests": [
+        "test_c07_repair_turret_draw_select_place_registration",
+        "test_all_c07_repair_turret_draw_select_place_input_evidence_is_exact",
+        "test_repair_turret_draw_select_place_state",
+        "test_reference_graph_and_actual_c07_repair_turret_draw_select_place"
+      ],
+      "runtime_proof": "/root/C07RepairTurretDrawSelectPlaceProof"
     }
   },
   "version": 1

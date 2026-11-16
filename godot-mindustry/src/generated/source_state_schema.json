@@ -232264,6 +232264,182 @@
       },
       "runtime_proof": "/root/C07RepairTurretDrawBeamProof",
       "rule": "Source-backed RepairTurret drawBeam state from RepairTurret.java."
+    },
+    "source_repair_turret_draw_select_state_input": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_draw_select_state",
+      "source_slice": "N2220",
+      "keys": {
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "Drawf.dashCircle(x, y, repairRadius, Pal.accent);",
+          "rule": "The building world x (RepairTurret.java:178, `Drawf.dashCircle(x, y, repairRadius, Pal.accent);`): the dash circle is centered on the building position.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_select_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "Drawf.dashCircle(x, y, repairRadius, Pal.accent);",
+          "rule": "The building world y (RepairTurret.java:178, `Drawf.dashCircle(x, y, repairRadius, Pal.accent);`): the dash circle is centered on the building position.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_select_state"
+          ]
+        },
+        "repair_radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "public float repairRadius = 50f;",
+          "rule": "The dash-circle radius (RepairTurret.java:178, `Drawf.dashCircle(x, y, repairRadius, Pal.accent);`): the per-def repairRadius -- repair-point 60f (Blocks.java:6389), repair-turret 145f (Blocks.java:6401), class default 50f (`public float repairRadius = 50f;`, RepairTurret.java:32) -- resolved by the caller through the existing _repair_radius_for_block_id helper (N2212).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_select_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretDrawSelectPlaceProof",
+      "rule": "Source-backed RepairTurret drawSelect/drawPlace range state from RepairTurret.java."
+    },
+    "source_repair_turret_draw_select_state_result": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_draw_select_state",
+      "source_slice": "N2220",
+      "keys": {
+        "center": {
+          "type": "Vector2",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "Drawf.dashCircle(x, y, repairRadius, Pal.accent);",
+          "rule": "The dash-circle center (RepairTurret.java:178, `Drawf.dashCircle(x, y, repairRadius, Pal.accent);`): the building position itself.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_select_state"
+          ]
+        },
+        "radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "public float repairRadius = 50f;",
+          "rule": "The dash-circle radius (RepairTurret.java:178, `Drawf.dashCircle(x, y, repairRadius, Pal.accent);`): the per-def repairRadius passed in.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_select_state"
+          ]
+        },
+        "color": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "Drawf.dashCircle(x, y, repairRadius, Pal.accent);",
+          "rule": "The dash-circle color (RepairTurret.java:178, `Drawf.dashCircle(x, y, repairRadius, Pal.accent);`): Pal.accent, represented as the string \"Pal.accent\" (the SourceBlockDrawState.gd:182 precedent).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_select_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretDrawSelectPlaceProof",
+      "rule": "Source-backed RepairTurret drawSelect/drawPlace range state from RepairTurret.java."
+    },
+    "source_repair_turret_draw_place_state_input": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_draw_place_state",
+      "source_slice": "N2220",
+      "keys": {
+        "tile_x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, repairRadius, Pal.accent);",
+          "rule": "The placement tile x (RepairTurret.java:98, `Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, repairRadius, Pal.accent);`): the ghost circle center converts the tile coord to world coords with the tilesize and the block offset.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_place_state"
+          ]
+        },
+        "tile_y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, repairRadius, Pal.accent);",
+          "rule": "The placement tile y (RepairTurret.java:98, `Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, repairRadius, Pal.accent);`): the ghost circle center converts the tile coord to world coords with the tilesize and the block offset.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_place_state"
+          ]
+        },
+        "repair_radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "public float repairRadius = 50f;",
+          "rule": "The dash-circle radius (RepairTurret.java:98, `Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, repairRadius, Pal.accent);`): the per-def repairRadius -- repair-point 60f (Blocks.java:6389), repair-turret 145f (Blocks.java:6401), class default 50f (`public float repairRadius = 50f;`, RepairTurret.java:32) -- resolved by the caller through the existing _repair_radius_for_block_id helper (N2212).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_place_state"
+          ]
+        },
+        "tilesize": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, repairRadius, Pal.accent);",
+          "rule": "The world-units-per-tile factor (RepairTurret.java:98, `x * tilesize + offset`): Vars.tilesize is 8 (Vars.java:135); the port passes it explicitly (the SourceTurretPlacementState.draw_place_state precedent).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_place_state"
+          ]
+        },
+        "block_offset": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, repairRadius, Pal.accent);",
+          "rule": "The block placement offset (RepairTurret.java:98, `x * tilesize + offset`): Block.offset is `((size + 1) % 2) * tilesize / 2f` (Block.java:761) -- repair-point size 1, no size override in Blocks.java:6386, so 0.0; repair-turret size 2, Blocks.java:6398, so 4.0 -- resolved by the new _block_offset_for_block_id helper.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_place_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretDrawSelectPlaceProof",
+      "rule": "Source-backed RepairTurret drawSelect/drawPlace range state from RepairTurret.java."
+    },
+    "source_repair_turret_draw_place_state_result": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_draw_place_state",
+      "source_slice": "N2220",
+      "keys": {
+        "center": {
+          "type": "Vector2",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, repairRadius, Pal.accent);",
+          "rule": "The ghost dash-circle center (RepairTurret.java:98, `Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, repairRadius, Pal.accent);`): tile_x * tilesize + block_offset, tile_y * tilesize + block_offset.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_place_state"
+          ]
+        },
+        "radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "public float repairRadius = 50f;",
+          "rule": "The ghost dash-circle radius (RepairTurret.java:98, `Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, repairRadius, Pal.accent);`): the per-def repairRadius passed in.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_place_state"
+          ]
+        },
+        "color": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, repairRadius, Pal.accent);",
+          "rule": "The ghost dash-circle color (RepairTurret.java:98, `Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, repairRadius, Pal.accent);`): Pal.accent, represented as the string \"Pal.accent\" (the SourceBlockDrawState.gd:182 precedent).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_place_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretDrawSelectPlaceProof",
+      "rule": "Source-backed RepairTurret drawSelect/drawPlace range state from RepairTurret.java."
     }
   },
   "version": 1
