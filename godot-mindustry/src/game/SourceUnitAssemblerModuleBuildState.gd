@@ -125,7 +125,7 @@ static func source_unit_assembler_module_bind_frame_state(sprite: Sprite2D, bloc
 
 static func source_unit_assembler_module_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a unit-assembler-module does not take the early return. The forward gate follows the folded efficiency (UnitAssemblerModule.java:138, `if(moveInPayload() && link != null && link.moduleFits(block, x, y, rotation) && !link.wasOccupied && link.acceptPayload(this, payload) && efficiency > 0){`) and the module has no shouldConsume override, so the default (BuildingComp.java:755, `public boolean shouldConsume(){`) applies -- the row folds under the live default, not the MendProjector-suppression precedent. The basic-assembler-module (consumePower 3.5f, Blocks.java:6568, `consumePower(3.5f);`) has no liquid consumer, so the folded efficiency is the min over the *modeled* consumers (power only).
-	# Documented limits: (1) power-only first pass -- the module has no liquid/item consumer, so the folded efficiency is the min over the *modeled* consumers (power only). (2) shouldConsume default applies -- the module has no override; the machinery runs with should_consume=true when enabled. (3) updateTile advance live (N2248) -- the lastChange refresh + findLink re-discovery + moveInPayload + the handoff gate (UnitAssemblerModule.java:132-141) run in source_unit_assembler_module_update_tile_advance_state; the N2168 proof still carries no link/payload/tier keys (the efficiency > 0 gate (UnitAssemblerModule.java:138) is what the efficiency keys prove) while the N2248 proof carries the link/payload keys. getLink discovery live (N2358) -- the moduleFits geometry pure + the discovery pure over an EXPLICIT frame-input candidate list, the tick filling frame["link_candidate"] before the N2248 advance (the live flagged fill is live since N2381 -- see below); the wasOccupied predicate evaluation, the handoff-to-intake wiring, and the live payload fill wait for their own slices -- see DEFERRED. Live flagged-buildings index fill live (N2381) -- the tick scans placed_blocks team-wide for UnitAssembler builds (the unitAssembler flag is class-wide, UnitAssembler.java:66) and fills frame["link_candidates"] with N2358 descriptors before the discovery, when the frame carries no supplied candidates and no seeded link_candidate (supplied candidates win; a previously live-filled frame refreshes every tick). (4) Draw rows live (N2425) -- draw() (UnitAssemblerModule.java:90-108: base rect + blends-gated input side regions + always-drawn side region + drawPayload on Layer.blockOver + top rect on Layer.blockOver + 0.1f) + drawPlace (:38-45: super + the link delegation) + drawPlanRegion (:54-58) + icons() (:59-63, [region, topRegion] riding the pure as icon_regions, the N2396 precedent) are modeled by the pure-only source_unit_assembler_module_draw_state (the link is caller-supplied -- the pure never calls getLink; the blends verdicts are caller-supplied -- the live neighbour query waits for its own slice; the drawSideRegion edge geometry is the canonical SourceBlockDrawState pure). Link rows live since N2358/N2381 (see (3)); onRemoved / drawSelect still defer -- see DEFERRED. canPlaceOn live (N2345) -- the placement gate (UnitAssemblerModule.java:48-51) runs in source_unit_assembler_module_can_place_on_state, reading the frame link verdict (N2248); the live placement call site waits for its own slice. acceptPayload rows live (N2299) -- the module gate (UnitAssemblerModule.java:110-111) and the link assembler gate (UnitAssembler.java:722-727) run in source_unit_assembler_module_accept_payload_state / source_unit_assembler_accept_payload_state, and the tick exposes both verdicts on the frame (accepts_payload / link_accepts_payload). Handoff-gate wiring live (N2314) -- the N2248 handoff gate reads the LINK verdict live: the tick stamps frame["accept_payload"] from link_accepts_payload before the advance, so a live module hands off when the link accepts; the module verdict does NOT drive the gate. Tier stamp live (N2348) -- tier() (UnitAssemblerModule.java:85-86) returns the class field tier = 1 (UnitAssemblerModule.java:22); the tick stamps frame["tier"] every tick (the catalog carries no tier key and the def sets no tier, so the driver passes the class default explicitly); the checkTier pure is live since N2133; checkTier wiring live (N2351) -- the module tick feeds updateModules/removeModule events into the assembler frame modules list through the unit-factory cell helper (the link cell comes from the {"block", "cell"} frame-input format; a link without a cell skips); the getLink discovery produces those links since N2358 (from an explicit candidate list, or the live fill since N2381). Handoff-gate moduleFits wiring live (N2370) -- the tick stamps frame["module_fits"] from the N2358 fits pure over the current link's candidate descriptor before the N2248 advance (only when frame["link_candidates"] is supplied; a link with no matching descriptor stamps false, a tick with no candidate list keeps the seeded value). (5) No variant verification -- there is only one module def (basic-assembler-module).
+	# Documented limits: (1) power-only first pass -- the module has no liquid/item consumer, so the folded efficiency is the min over the *modeled* consumers (power only). (2) shouldConsume default applies -- the module has no override; the machinery runs with should_consume=true when enabled. (3) updateTile advance live (N2248) -- the lastChange refresh + findLink re-discovery + moveInPayload + the handoff gate (UnitAssemblerModule.java:132-141) run in source_unit_assembler_module_update_tile_advance_state; the N2168 proof still carries no link/payload/tier keys (the efficiency > 0 gate (UnitAssemblerModule.java:138) is what the efficiency keys prove) while the N2248 proof carries the link/payload keys. getLink discovery live (N2358) -- the moduleFits geometry pure + the discovery pure over an EXPLICIT frame-input candidate list, the tick filling frame["link_candidate"] before the N2248 advance (the live flagged fill is live since N2381 -- see below); the wasOccupied predicate evaluation, the handoff-to-intake wiring, and the live payload fill wait for their own slices -- see DEFERRED. Live flagged-buildings index fill live (N2381) -- the tick scans placed_blocks team-wide for UnitAssembler builds (the unitAssembler flag is class-wide, UnitAssembler.java:66) and fills frame["link_candidates"] with N2358 descriptors before the discovery, when the frame carries no supplied candidates and no seeded link_candidate (supplied candidates win; a previously live-filled frame refreshes every tick). (4) Draw rows live (N2425) -- draw() (UnitAssemblerModule.java:90-108: base rect + blends-gated input side regions + always-drawn side region + drawPayload on Layer.blockOver + top rect on Layer.blockOver + 0.1f) + drawPlace (:38-45: super + the link delegation) + drawPlanRegion (:54-58) + icons() (:59-63, [region, topRegion] riding the pure as icon_regions, the N2396 precedent) are modeled by the pure-only source_unit_assembler_module_draw_state (the link is caller-supplied -- the pure never calls getLink; the blends verdicts are caller-supplied -- the live neighbour query waits for its own slice; the drawSideRegion edge geometry is the canonical SourceBlockDrawState pure). Link rows live since N2358/N2381 (see (3)); Select / remove rows live (N2447) -- drawSelect (UnitAssemblerModule.java:118-123: Drawf.selected(link, Pal.accent) when linked) + onRemoved (:125-131: super + link.removeModule(this) when linked) are modeled by the pure-only source_unit_assembler_module_select_remove_state (the link is caller-supplied in the N2351 {block, cell} format -- a link without a cell reads as null; the TODO draw area? has no Java behaviour and is not ported; removeModule itself is the assembler's method and is recorded as a call, not ported). canPlaceOn live (N2345) -- the placement gate (UnitAssemblerModule.java:48-51) runs in source_unit_assembler_module_can_place_on_state, reading the frame link verdict (N2248); the live placement call site waits for its own slice. acceptPayload rows live (N2299) -- the module gate (UnitAssemblerModule.java:110-111) and the link assembler gate (UnitAssembler.java:722-727) run in source_unit_assembler_module_accept_payload_state / source_unit_assembler_accept_payload_state, and the tick exposes both verdicts on the frame (accepts_payload / link_accepts_payload). Handoff-gate wiring live (N2314) -- the N2248 handoff gate reads the LINK verdict live: the tick stamps frame["accept_payload"] from link_accepts_payload before the advance, so a live module hands off when the link accepts; the module verdict does NOT drive the gate. Tier stamp live (N2348) -- tier() (UnitAssemblerModule.java:85-86) returns the class field tier = 1 (UnitAssemblerModule.java:22); the tick stamps frame["tier"] every tick (the catalog carries no tier key and the def sets no tier, so the driver passes the class default explicitly); the checkTier pure is live since N2133; checkTier wiring live (N2351) -- the module tick feeds updateModules/removeModule events into the assembler frame modules list through the unit-factory cell helper (the link cell comes from the {"block", "cell"} frame-input format; a link without a cell skips); the getLink discovery produces those links since N2358 (from an explicit candidate list, or the live fill since N2381). Handoff-gate moduleFits wiring live (N2370) -- the tick stamps frame["module_fits"] from the N2358 fits pure over the current link's candidate descriptor before the N2248 advance (only when frame["link_candidates"] is supplied; a link with no matching descriptor stamps false, a tick with no candidate list keeps the seeded value). (5) No variant verification -- there is only one module def (basic-assembler-module).
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -1091,7 +1091,8 @@ static func source_unit_assembler_module_draw_state(x_value: float, y_value: flo
 	# the values); plan_call is null when no plan is supplied. The Block
 	# default (drawDefaultPlanRegion, Block.java:851-852) does not apply --
 	# the module overrides it. drawSelect is NOT in this entry (it lives
-	# under the onRemoved / drawSelect entry) and is not ported. Pure-only:
+	# under the onRemoved / drawSelect entry) and is ported by N2447 (the
+	# pure-only source_unit_assembler_module_select_remove_state). Pure-only:
 	# the tick never calls draw -- draw is called by the renderer,
 	# drawPlace / drawPlanRegion by the placement UI, icons by the atlas,
 	# and the call sites wait for renderer / UI slices.
@@ -1211,4 +1212,77 @@ static func source_unit_assembler_module_draw_state(x_value: float, y_value: flo
 		"place_call": place_call,
 		"plan_call": plan_call,
 		"icon_regions": ["region", "topRegion"],
+	}
+
+# --- N2447: onRemoved / drawSelect rows (DEFERRED #29) ---
+static func source_unit_assembler_module_select_remove_state(link: Variant) -> Dictionary:
+	# The onRemoved / drawSelect rows
+	# (UnitAssemblerModuleBuild.drawSelect(), UnitAssemblerModule.java:118-123
+	# + onRemoved(), :125-131), the pure select/remove-call dict -- the port
+	# never draws for real and never runs the removal lifecycle (the N2396
+	# MassDriver precedent: the pure returns the calls as data). Java
+	# (each exact expr on ONE comment line, the N2148 lesson):
+	# `public void drawSelect(){`
+	# `//TODO draw area?`
+	# `if(link != null){`
+	# `Drawf.selected(link, Pal.accent);`
+	# `public void onRemoved(){`
+	# `super.onRemoved();`
+	# `link.removeModule(this);`
+	# -- drawSelect() is the TODO plus the link highlight when linked;
+	# onRemoved() is the super call plus the module unregister when
+	# linked. The TODO has no Java behaviour and is not ported. The
+	# highlight is the Building overload:
+	# `public static void selected(Building tile, Color color){`
+	# (Drawf.java:330, over the link field
+	# `public UnitAssemblerBuild link;`
+	# UnitAssemblerModule.java:72), so the pure records it as a CALL
+	# {method: "drawSelected", target: link, color: "Pal.accent"} --
+	# the accent color is
+	# `accent = Color.valueOf("ffd37f"),`
+	# (Pal.java:79) -- null when the link is null. The inner
+	# selected() geometry (the block-select rects, Drawf.java:338-349)
+	# is the draw implementation, not the call -- the pure records the
+	# call only. The unregister is recorded as a CALL {method:
+	# "removeModule", target: link}, null when the link is null.
+	# removeModule itself is the assembler's method:
+	# `public void removeModule(UnitAssemblerModuleBuild build){`
+	# `modules.remove(build);`
+	# (UnitAssembler.java:358-360, plus checkTier()) and is NOT ported
+	# -- the call record is the whole port (the N2351 tick already
+	# wires the live removeModule event into the assembler frame
+	# through the cell helper; this pure covers the onRemoved call
+	# site, not the assembler side). super.onRemoved() is recorded,
+	# not modeled (the N2425 place_super_expr precedent: BuildingComp
+	# removal lifecycle, not module state). The link input is the
+	# N2351 frame-input format {"block", "cell": Vector2i} (cell is
+	# the assembler origin cell); a link without a cell reads as null
+	# (defensive, the N2351 precedent -- the cell helper skips a link
+	# without a cell), and a non-Dictionary link reads as null too
+	# (the N2358 defensive-skip precedent). The pure NEVER calls
+	# getLink (getLink discovery is live since N2358 but drawSelect /
+	# onRemoved read the STORED link, not a fresh discovery).
+	# Pure-only: drawSelect is called by the selection UI and
+	# onRemoved by the removal lifecycle, never by the tick, and the
+	# call sites wait for UI / lifecycle slices.
+	var has_link: bool = link is Dictionary and (link as Dictionary).get("cell") is Vector2i
+	var select_call: Variant = null
+	var remove_call: Variant = null
+	if has_link:
+		select_call = {
+			"method": "drawSelected",
+			"target": link,
+			"color": "Pal.accent",
+		}
+		remove_call = {
+			"method": "removeModule",
+			"target": link,
+		}
+	return {
+		"select_expr": "Drawf.selected(link, Pal.accent);",
+		"remove_expr": "link.removeModule(this);",
+		"remove_super_expr": "super.onRemoved();",
+		"has_link": has_link,
+		"select_call": select_call,
+		"remove_call": remove_call,
 	}
