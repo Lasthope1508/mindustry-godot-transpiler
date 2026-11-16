@@ -73348,6 +73348,51 @@
       ],
       "runtime_proof": "/root/C07MassDriverAcceptItemProof",
       "rule": "Source-backed MassDriver acceptItem rows from MassDriver.java / Blocks.java / Arc Position.java."
+    },
+    "SourceBeamDrillBuildState.source_beam_drill_facing_scan_state": {
+      "status": "active",
+      "source_slice": "N2339",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrillBuild.updateFacing()",
+      "params": [
+        {
+          "name": "facing_tiles",
+          "type": "Array",
+          "schema": "source_beam_drill_facing_scan_state_input.facing_tiles"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_beam_drill_facing_scan_state_input.size"
+        },
+        {
+          "name": "beam_range",
+          "type": "int",
+          "schema": "source_beam_drill_facing_scan_state_input.beam_range"
+        },
+        {
+          "name": "tier",
+          "type": "int",
+          "schema": "source_beam_drill_facing_scan_state_input.tier"
+        },
+        {
+          "name": "blocked_items",
+          "type": "Variant",
+          "schema": "source_beam_drill_facing_scan_state_input.blocked_items"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "facing_amount"
+      ],
+      "tests": [
+        "test_c07_beam_drill_facing_scan_registration",
+        "test_all_c07_beam_drill_facing_scan_input_evidence_is_exact",
+        "test_beam_drill_facing_scan_state",
+        "test_reference_graph_and_actual_c07_beam_drill_facing_scan"
+      ],
+      "runtime_proof": "/root/C07BeamDrillFacingScanProof",
+      "rule": "Source-backed BeamDrill facing scan / updateFacing rows from BeamDrill.java / Block.java / Blocks.java."
     }
   },
   "policy": {

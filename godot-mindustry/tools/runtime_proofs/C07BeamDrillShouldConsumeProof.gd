@@ -30,10 +30,13 @@ func _ready() -> void:
 	# the plasma-bore's 10 (the Block.java:75 field default,
 	# `public int itemCapacity = 10;`); the large-plasma-bore's
 	# 20 (Blocks.java:3062) takes the same pure path through the
-	# catalog. The gate reads the current frame: the live
-	# facing scan (updateFacing, BeamDrill.java:375-410) and the
+	# catalog. The gate reads the current frame: the facing
+	# scan is live since N2339 (updateFacing,
+	# BeamDrill.java:375-411 -- the old :375-410 cite was off
+	# by one) but the gate reads the PREVIOUS tick's count
+	# (Java order, BuildingComp.java:2274-2277), and the
 	# production advance that fills the store
-	# (BeamDrill.java:253-261) wait for their own slices, so the
+	# (BeamDrill.java:253-261) waits for its own slice, so the
 	# proof sets facing_amount and items on the frame directly.
 	var all_three: Dictionary = beam_drill_build_state.source_beam_drill_should_consume_state({"items": {"beryllium": 5}, "facing_amount": 2, "enabled": true}, 10)
 	proof["gate_true_when_all_three_conditions"] = bool(all_three.get("should_consume", false)) and int(all_three.get("items_total", -1)) == 5 and int(all_three.get("facing_amount", -1)) == 2

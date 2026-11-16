@@ -182392,6 +182392,22 @@
         "test_reference_graph_and_actual_c07_mass_driver_accept_item"
       ],
       "runtime_proof": "/root/C07MassDriverAcceptItemProof"
+    },
+    "source_beam_drill_facing_scan_state_result.facing_amount": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_facing_scan_state",
+      "godot_symbol": "source_beam_drill_facing_scan_state_result.facing_amount",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.updateFacing()",
+      "java_expr": "facingAmount ++;",
+      "rule": "The facing count (BeamDrill.java:375-411): the number of facing lasers whose first solid tile holds a mineable wallDrop (drop != null, hardness <= tier, not blocked). Stamped onto frame[\"facing_amount\"] each enabled tick before the N2195 advance; the N2202 shouldConsume gate reads it (facingAmount > 0, BeamDrill.java:271).",
+      "tests": [
+        "test_c07_beam_drill_facing_scan_registration",
+        "test_all_c07_beam_drill_facing_scan_input_evidence_is_exact",
+        "test_beam_drill_facing_scan_state",
+        "test_reference_graph_and_actual_c07_beam_drill_facing_scan"
+      ],
+      "runtime_proof": "/root/C07BeamDrillFacingScanProof"
     }
   },
   "version": 1

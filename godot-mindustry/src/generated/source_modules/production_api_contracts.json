@@ -552,6 +552,52 @@
       "rule": "Source-backed adjacent factory family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so a cheating team's adjacent factory counts everything as valid in updateConsumption, the tick gates efficiency on the family's own shouldConsume() body, and the tick binds one RuntimeConsumer per consumeItem/consumeLiquid row and runs the bound actors through updateConsumption so the placed adjacent factory consumes its liquid rows each tick and gates efficiency on its item rows, and a sprite re-recorded with a different block reinitializes its consumers from the new block's consumeBuilder.",
       "return_type": "Dictionary"
     },
+    "SourceBeamDrillBuildState.source_beam_drill_facing_scan_state": {
+      "canonical_contract": "source_api_contracts.SourceBeamDrillBuildState.source_beam_drill_facing_scan_state",
+      "status": "active",
+      "source_slice": "N2339",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrillBuild.updateFacing()",
+      "params": [
+        {
+          "name": "facing_tiles",
+          "type": "Array",
+          "schema": "source_beam_drill_facing_scan_state_input.facing_tiles"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_beam_drill_facing_scan_state_input.size"
+        },
+        {
+          "name": "beam_range",
+          "type": "int",
+          "schema": "source_beam_drill_facing_scan_state_input.beam_range"
+        },
+        {
+          "name": "tier",
+          "type": "int",
+          "schema": "source_beam_drill_facing_scan_state_input.tier"
+        },
+        {
+          "name": "blocked_items",
+          "type": "Variant",
+          "schema": "source_beam_drill_facing_scan_state_input.blocked_items"
+        }
+      ],
+      "return_keys": [
+        "facing_amount"
+      ],
+      "tests": [
+        "test_c07_beam_drill_facing_scan_registration",
+        "test_all_c07_beam_drill_facing_scan_input_evidence_is_exact",
+        "test_beam_drill_facing_scan_state",
+        "test_reference_graph_and_actual_c07_beam_drill_facing_scan"
+      ],
+      "runtime_proof": "/root/C07BeamDrillFacingScanProof",
+      "rule": "Source-backed BeamDrill facing scan / updateFacing rows from BeamDrill.java / Block.java / Blocks.java.",
+      "return_type": "Dictionary"
+    },
     "SourceBeamDrillBuildState.source_beam_drill_liquid_consumer_row_state": {
       "canonical_contract": "source_api_contracts.SourceBeamDrillBuildState.source_beam_drill_liquid_consumer_row_state",
       "status": "active",
