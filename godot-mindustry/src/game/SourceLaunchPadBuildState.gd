@@ -85,7 +85,7 @@ static func source_launch_pad_bind_frame_state(sprite: Sprite2D, block: Object) 
 
 static func source_launch_pad_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a launch pad does not take the early return. The updateTile advance follows the folded efficiency: the launch gate (LaunchPad.java:146, `if((launchCounter += edelta()) >= launchTime && items.total() >= itemCapacity){`) advances launchCounter by edelta() (BuildingComp.java:1927-1929, `return efficiency * delta();`), so a launch pad with no power would never launch. LaunchPadBuild HAS a shouldConsume override (LaunchPad.java:92, `public boolean shouldConsume(){` with `return launchCounter < launchTime;`, LaunchPad.java:94) -- N2186 wires the gate: the pure source_launch_pad_should_consume_state gate reads the tracked launchCounter, the driver ANDs enabled (the BuildingComp default, BuildingComp.java:755-757, `return enabled;`, is what the driver uses), and the machinery folds efficiency to 0 when the gate is false (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();`, with BuildingComp.java:1992-1994, `if(!update){` / `efficiency = optionalEfficiency = 0f;`). The launch pad is its own family (LaunchPad.java:30, `public class LaunchPad extends Block{`; LaunchPadBuild, LaunchPad.java:83, `public class LaunchPadBuild extends Building{`). Two defs share the implementation (launch-pad, `consumePower(4f);`, Blocks.java:6797; advanced-launch-pad, `consumePower(8f);`, Blocks.java:6809), so the same driver covers the whole family; the advanced def also consumes liquid oil -- the liquid row is LIVE since N2253 (source_launch_pad_liquid_consumer_row_state, oil 9f/60f, Blocks.java:6808).
-	# Documented limits: (1) power + liquid first pass -- the launch pad's power consumer is static (consumePower 4f, Blocks.java:6797; consumePower 8f, Blocks.java:6809), and the advanced def's oil consumer is static too (consumeLiquid oil 9f/60f, Blocks.java:6808), so the folded efficiency is the min over the *modeled* consumers (power + the advanced def's oil row, N2253; the plain launch-pad has no liquid consumer, so its liquid row is absent). (2) shouldConsume gate LIVE (N2186) -- LaunchPadBuild.shouldConsume() (`return launchCounter < launchTime;`, LaunchPad.java:92-95) is the pure source_launch_pad_should_consume_state gate over the tracked launchCounter; the driver ANDs enabled (BuildingComp.java:755-757, `return enabled;`) and the machinery folds efficiency to 0 when the gate is false (BuildingComp.java:1960/:1992-1994). (3) updateTile advance live (N2238) -- the launchCounter advance, the full-and-timed launch gate, the stacks copy, items.clear and the launchCounter = 0f reset (LaunchPad.java:143-161) advance in the pure function (source_launch_pad_update_tile_advance_state); the LaunchPayload entity creation/application (LaunchPad.java:150-155) and the launch sound / effects (launchSound / Fx.launchPod / Effect.shake, LaunchPad.java:149/156/158) still defer. (4) Liquid consumer row LIVE (N2253) -- advanced-launch-pad consumes oil 9f/60f (Blocks.java:6808), folded as a required row with is_power false; the plain launch-pad has no liquid consumer (row absent). (5) Two defs, one driver -- launch-pad + advanced-launch-pad share the LaunchPad implementation, so the same driver covers the whole family; the advanced def waits for its own verification slice. (6) acceptItem gate LIVE (N2333) -- LaunchPadBuild.acceptItem() (LaunchPad.java:138-140) is the pure source_launch_pad_accept_item_state gate (total < capacity AND (accept_multiple OR total == 0 OR first == item), first scanned in content-id order); launch-pad accepts multiple items (`acceptMultipleItems = true;`, Blocks.java:6796), advanced-launch-pad keeps the false class default (LaunchPad.java:40). Pure + test + proof only: no intake path calls acceptItem yet, so the driver wiring waits for the frame-items-intake design. (7) Sense rows live (N2389) -- LaunchPadBuild.sense() (LaunchPad.java:98-101) is the pure source_launch_pad_sense_state dispatch (progress -> clampf(launch_counter / launch_time, 0.0, 1.0), other sensors -> the caller-supplied super_value, null = the Float.NaN default branch); pure-only, the tick never calls sense (sense is called by logic, and the logic call site waits for a logic-executor slice).
+	# Documented limits: (1) power + liquid first pass -- the launch pad's power consumer is static (consumePower 4f, Blocks.java:6797; consumePower 8f, Blocks.java:6809), and the advanced def's oil consumer is static too (consumeLiquid oil 9f/60f, Blocks.java:6808), so the folded efficiency is the min over the *modeled* consumers (power + the advanced def's oil row, N2253; the plain launch-pad has no liquid consumer, so its liquid row is absent). (2) shouldConsume gate LIVE (N2186) -- LaunchPadBuild.shouldConsume() (`return launchCounter < launchTime;`, LaunchPad.java:92-95) is the pure source_launch_pad_should_consume_state gate over the tracked launchCounter; the driver ANDs enabled (BuildingComp.java:755-757, `return enabled;`) and the machinery folds efficiency to 0 when the gate is false (BuildingComp.java:1960/:1992-1994). (3) updateTile advance live (N2238) -- the launchCounter advance, the full-and-timed launch gate, the stacks copy, items.clear and the launchCounter = 0f reset (LaunchPad.java:143-161) advance in the pure function (source_launch_pad_update_tile_advance_state); the LaunchPayload entity creation/application (LaunchPad.java:150-155) and the launch sound / effects (launchSound / Fx.launchPod / Effect.shake, LaunchPad.java:149/156/158) still defer. (4) Liquid consumer row LIVE (N2253) -- advanced-launch-pad consumes oil 9f/60f (Blocks.java:6808), folded as a required row with is_power false; the plain launch-pad has no liquid consumer (row absent). (5) Two defs, one driver -- launch-pad + advanced-launch-pad share the LaunchPad implementation, so the same driver covers the whole family; the advanced def waits for its own verification slice. (6) acceptItem gate LIVE (N2333) -- LaunchPadBuild.acceptItem() (LaunchPad.java:138-140) is the pure source_launch_pad_accept_item_state gate (total < capacity AND (accept_multiple OR total == 0 OR first == item), first scanned in content-id order); launch-pad accepts multiple items (`acceptMultipleItems = true;`, Blocks.java:6796), advanced-launch-pad keeps the false class default (LaunchPad.java:40). Pure + test + proof only: no intake path calls acceptItem yet, so the driver wiring waits for the frame-items-intake design. (7) Sense rows live (N2389) -- LaunchPadBuild.sense() (LaunchPad.java:98-101) is the pure source_launch_pad_sense_state dispatch (progress -> clampf(launch_counter / launch_time, 0.0, 1.0), other sensors -> the caller-supplied super_value, null = the Float.NaN default branch); pure-only, the tick never calls sense (sense is called by logic, and the logic call site waits for a logic-executor slice). (8) Launch pod result live (N2397) -- the LaunchPayload entity creation (LaunchPad.java:150-155) is the pure source_launch_pad_launch_pod_state descriptor ({stacks, lifetime 120f, team, x, y} from the N2238 launched + launched_stacks, null when not launched, the N2234 spawned_unit precedent); no live entity is created, consume() is a no-op for a LaunchPad (no item consumer; the Consume default trigger is empty, Consume.java:50), and the launch sound / effects (launchSound / Fx.launchPod / Effect.shake, LaunchPad.java:149/156/158) still defer.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -216,6 +216,70 @@ static func source_launch_pad_update_tile_advance_state(frame: Dictionary, sourc
 		items = {}
 		launch_counter = 0.0
 	return {"launched": launched, "launched_stacks": launched_stacks, "launch_counter": launch_counter, "items": items}
+
+static func source_launch_pad_launch_pod_state(launched: bool, launched_stacks: Dictionary, team_id: int, x: float, y: float) -> Dictionary:
+	# The launch pod descriptor (LaunchPadBuild.updateTile(),
+	# LaunchPad.java:147-159), the pure pod result -- the
+	# launch fire itself is ALREADY LIVE since N2238 (the
+	# full-and-timed gate, the stacks copy, items.clear(),
+	# the launchCounter = 0f reset, exposing launched +
+	# launched_stacks), so this pure does NOT re-implement
+	# the fire: it consumes the N2238 advance's launched /
+	# launched_stacks shape and reports the LaunchPayload
+	# entity creation as a pure descriptor (the N2234
+	# spawned_unit precedent -- a live-entity creation
+	# reported as a pure result, NO live entity created;
+	# the port has no live entity spawn path). The Java
+	# lines, in order (each exact expr on ONE comment line,
+	# the N2148 lesson):
+	# `if((launchCounter += edelta()) >= launchTime && items.total() >= itemCapacity){`
+	# `consume();`
+	# `launchSound.at(x, y, 1f + Mathf.range(launchSoundPitchRand));`
+	# `LaunchPayload entity = LaunchPayload.create();`
+	# `items.each((item, amount) -> entity.stacks.add(new ItemStack(item, amount)));`
+	# `entity.set(this);`
+	# `entity.lifetime(120f);`
+	# `entity.team(team);`
+	# `entity.add();`
+	# `Fx.launchPod.at(this);`
+	# `items.clear();`
+	# `Effect.shake(3f, 3f, this);`
+	# `launchCounter = 0f;`
+	# The pod stacks are the N2238 launched_stacks (the
+	# items.each copy -- `Seq<ItemStack> stacks = new Seq<>();`,
+	# LaunchPad.java:230, the LaunchPayloadComp stacks field,
+	# LaunchPad.java:227-230 -- zero amounts skipped like
+	# ItemModule.each); the lifetime is the 120f literal
+	# (`entity.lifetime(120f);`, the Timedc lifetime field,
+	# TimedComp.java:10 `float time, lifetime;`); team is the
+	# pad's team (`entity.team(team);`); x / y are the pad's
+	# world position (`entity.set(this);` positions the pod
+	# at the pad). consume() (:148) is a no-op for a
+	# LaunchPad, verified: the pad has NO item consumer
+	# (only `consumePower(4f);`, Blocks.java:6797, and the
+	# advanced def's `consumeLiquid(Liquids.oil, 9f/60f);`,
+	# Blocks.java:6808), only ConsumeItems /
+	# ConsumeItemDynamic override trigger (ConsumeItems.
+	# java:44 `public void trigger(Building build){`), and
+	# the Consume default trigger is empty (`public void trigger(Building build){}`,
+	# Consume.java:50) -- so the pure owes consume()
+	# nothing. entity.add() has no live-entity meaning in
+	# the port (no Groups / entity add path), so the pod is
+	# reported, never added. The launch sound and effects
+	# (launchSound.at + Fx.launchPod + Effect.shake(3f, 3f,
+	# this)) are sound/presentation and still defer. When
+	# launched is false the pod is null (no pod exists --
+	# the N2234 null-when-not-spawned precedent). The pod
+	# holds a deep copy of the stacks, so mutating the
+	# caller's launched_stacks after the call never changes
+	# the reported pod. The function does NOT mutate its
+	# inputs, and does NOT touch the N2238 advance's result
+	# keys (no schema churn on N2238).
+	var pod: Variant = null
+	if launched:
+		pod = {"stacks": (launched_stacks as Dictionary).duplicate(true), "lifetime": 120.0, "team": team_id, "x": x, "y": y}
+	return {"pod": pod, "launched": launched}
+
 static func source_launch_pad_should_consume_state(frame: Dictionary) -> Dictionary:
 	# LaunchPadBuild.shouldConsume() (LaunchPad.java:92, `public boolean shouldConsume(){` with `return launchCounter < launchTime;`, LaunchPad.java:94): the pad consumes only while its launchCounter is below launchTime. The override has NO enabled check -- enabled is handled separately by updateConsumption (BuildingComp.java:1954-1957, the disabled early return) and by the driver gate, the WallCrafter precedent -- so this pure function reads only the counter and the threshold: launchCounter is the build field (LaunchPad.java:84, `public float launchCounter;`, default 0f), launchTime is the block field (LaunchPad.java:32, `public float launchTime = 1f;`, the class default when the driver has not stamped the def value: launch-pad `launchTime = 60f * 20;`, Blocks.java:6794; advanced-launch-pad `launchTime = 60f * 30;`, Blocks.java:6804). A missing counter reads 0.0 (fresh build); a missing threshold reads the class default 1f. When the gate is false, updateConsumption folds efficiency to 0 (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();`, with BuildingComp.java:1992-1994, `if(!update){` / `efficiency = optionalEfficiency = 0f;`), so the pad draws no power while its counter sits full.
 	var launch_counter: float = float(frame.get("launch_counter", 0.0))
