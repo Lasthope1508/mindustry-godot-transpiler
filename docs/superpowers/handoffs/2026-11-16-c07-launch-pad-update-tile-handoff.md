@@ -61,7 +61,7 @@ Deferred: LaunchPayload entity spawn (no entity model), launchSound/Fx.launchPod
 
 ## Commits (in progress — this tick)
 
-Classic 5-commit pattern (slice / docs / GOAL / hash-naming / handoff-status), then push to origin main. Slice `6d642065` (9 files) rebased cleanly onto origin/main `c16ee14b` (validation wave16 merge, docs only); post-rebase targeted Ran 4 OK in 15.898s. Spec Done 1656 → 1657 + N2207 row — CHECK the total in the docs commit (N2205's docs commit left it stale at 1654; N2206's got it right). GOAL.md §5 debt line for N2207. Proof .json is gitignored — never stage it.
+Classic 5-commit pattern: slice `6d642065` + docs `dd7fb715` + GOAL `1fea24f2` + this hash-naming commit + handoff-status, then push to origin main. Slice `6d642065` (9 files) rebased cleanly onto origin/main `c16ee14b` (validation wave16 merge, docs only); post-rebase targeted Ran 4 OK in 15.898s. Spec Done 1656 → 1657 + N2207 row — CHECK the total in the docs commit (N2205's docs commit left it stale at 1654; N2206's got it right). GOAL.md §5 debt line for N2207. Proof .json is gitignored — never stage it.
 
 ## Next
 
