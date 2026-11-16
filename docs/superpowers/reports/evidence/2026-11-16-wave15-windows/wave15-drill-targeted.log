@@ -1,0 +1,9 @@
+test_all_c07_drill_should_consume_input_evidence_is_exact (tests.test_c07_drill_should_consume.C07DrillShouldConsumeTests.test_all_c07_drill_should_consume_input_evidence_is_exact) ... ok
+test_c07_drill_should_consume_registration (tests.test_c07_drill_should_consume.C07DrillShouldConsumeTests.test_c07_drill_should_consume_registration) ... ok
+test_drill_should_consume_gate_state (tests.test_c07_drill_should_consume.C07DrillShouldConsumeTests.test_drill_should_consume_gate_state) ... ok
+test_reference_graph_and_actual_c07_drill_should_consume (tests.test_c07_drill_should_consume.C07DrillShouldConsumeTests.test_reference_graph_and_actual_c07_drill_should_consume) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 21.779s
+
+OK
