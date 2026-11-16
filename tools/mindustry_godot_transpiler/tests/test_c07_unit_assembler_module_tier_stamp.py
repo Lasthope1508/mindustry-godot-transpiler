@@ -149,7 +149,7 @@ class C07UnitAssemblerModuleTierStampTests(unittest.TestCase):
         # the N2299 acceptPayload rows, the N2314 handoff
         # wiring and the N2248 advance stay.
         self.assertIn('Tier stamp live (N2348)', unit_assembler_module)
-        self.assertIn('No link/canPlaceOn/draw/onRemoved rows', unit_assembler_module)
+        self.assertIn('No link/draw/onRemoved rows', unit_assembler_module)
         self.assertIn('Handoff-gate wiring live (N2314)', unit_assembler_module)
         self.assertIn('acceptPayload rows live (N2299)', unit_assembler_module)
         self.assertIn('updateTile advance live (N2248)', unit_assembler_module)

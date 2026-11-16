@@ -44,7 +44,7 @@ class C07SeparatorShouldConsumeTests(unittest.TestCase):
         # its held scrap is subtracted. The capacity is the
         # catalog itemCapacity (`public int itemCapacity = 10;`,
         # Block.java:75, the default; disassembler `itemCapacity
-        # = 20;`, Blocks.java:1261). N2200 wires the gate into the
+        # = 20;`, Blocks.java:1260). N2200 wires the gate into the
         # separator's OWN driver (SourceSeparatorBuildState.gd,
         # frame key "source_separator_building"): the frame gets
         # an `items` key (Dictionary keyed by item name, default
@@ -137,7 +137,7 @@ class C07SeparatorShouldConsumeTests(unittest.TestCase):
         # Blocks.java:1263). The capacity is the catalog
         # itemCapacity (`public int itemCapacity = 10;`,
         # Block.java:75, the default; disassembler `itemCapacity
-        # = 20;`, Blocks.java:1261). SeparatorBuild overrides
+        # = 20;`, Blocks.java:1260). SeparatorBuild overrides
         # shouldConsume (Separator.java:75, `public class
         # SeparatorBuild extends Building{`; Separator.java:19,
         # `public class Separator extends Block{`), so the default
