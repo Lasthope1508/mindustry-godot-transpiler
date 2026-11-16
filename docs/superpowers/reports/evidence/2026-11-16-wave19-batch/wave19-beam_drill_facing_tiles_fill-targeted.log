@@ -1,0 +1,18 @@
+test_all_c07_beam_drill_facing_tiles_fill_input_evidence_is_exact (tests.test_c07_beam_drill_facing_tiles_fill.C07BeamDrillFacingTilesFillTests.test_all_c07_beam_drill_facing_tiles_fill_input_evidence_is_exact) ... ok
+test_beam_drill_facing_tiles_fill_state (tests.test_c07_beam_drill_facing_tiles_fill.C07BeamDrillFacingTilesFillTests.test_beam_drill_facing_tiles_fill_state) ... ok
+test_c07_beam_drill_facing_tiles_fill_registration (tests.test_c07_beam_drill_facing_tiles_fill.C07BeamDrillFacingTilesFillTests.test_c07_beam_drill_facing_tiles_fill_registration) ... ok
+test_reference_graph_and_actual_c07_beam_drill_facing_tiles_fill (tests.test_c07_beam_drill_facing_tiles_fill.C07BeamDrillFacingTilesFillTests.test_reference_graph_and_actual_c07_beam_drill_facing_tiles_fill) ... FAIL
+
+======================================================================
+FAIL: test_reference_graph_and_actual_c07_beam_drill_facing_tiles_fill (tests.test_c07_beam_drill_facing_tiles_fill.C07BeamDrillFacingTilesFillTests.test_reference_graph_and_actual_c07_beam_drill_facing_tiles_fill)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Admin\.codex\worktrees\godot-integration-validation\tools\mindustry_godot_transpiler\tests\test_c07_beam_drill_facing_tiles_fill.py", line 335, in test_reference_graph_and_actual_c07_beam_drill_facing_tiles_fill
+    self.assertTrue(proofs[0]['matches'], proofs[0])
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : {'fill_feeds_scan_count': True, 'live_tick_stamps_facing_tiles': True, 'matches': False, 'missing_short_rays_and_bounds': True, 'null_and_nonsolid_tiles_pass_through': True, 'one_headquarter_per_ssot': True, 'registry_valid': True, 'rotation_changes_ray_direction': False, 'walks_rays_from_laser_origins': True}
+
+----------------------------------------------------------------------
+Ran 4 tests in 21.503s
+
+FAILED (failures=1)
