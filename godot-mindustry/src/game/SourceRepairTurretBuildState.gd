@@ -260,6 +260,27 @@ static func source_repair_turret_rotation_slerp_state(frame: Dictionary, x: floa
 	var new_rotation: float = fmod(rotation + angle_delta * progress + 360.0, 360.0)
 	return {"rotation": new_rotation}
 
+static func source_repair_turret_strength_lerp_state(frame: Dictionary, delta: float) -> Dictionary:
+	# RepairPointBuild.updateTile fades the beam strength toward 1 while healing and toward 0 otherwise (RepairTurret.java:212):
+	# strength = Mathf.lerpDelta(strength, healed ? 1f : 0f, 0.08f * Time.delta);
+	# The lerp sits OUTSIDE the `if(target != null && efficiency > 0){` gate (RepairTurret.java:203) -- it runs on EVERY tick, so a turret that stops healing decays its beam back to 0 instead of freezing at full strength. `healed` is the same tick's local (`boolean healed = false;`, RepairTurret.java:200, set `healed = true;` only inside the aim cone, RepairTurret.java:206, before the heal `target.heal(repairSpeed * strength * edelta() * multiplier);`, RepairTurret.java:207) -- the N2213 heal stamps it on the frame, so the pure function reads `frame["healed"]` (absent -> false, no heal observed). strength is a Java field (`public float strength, rotation = 90;`, RepairTurret.java:155), default 0. Mathf.lerpDelta multiplies its progress by Time.delta and clamps to [0, 1] (Mathf.java:430-432):
+	# public static float lerpDelta(float fromValue, float toValue, float progress){
+	# return lerp(fromValue, toValue, clamp(progress * Time.delta));
+	# and lerp is the plain linear interpolation (Mathf.java:425-427):
+	# public static float lerp(float fromValue, float toValue, float progress){
+	# return fromValue + (toValue - fromValue) * progress;
+	# clamp with one argument clamps to [0, 1] (Mathf.java:402-403):
+	# public static float clamp(float value){
+	# return Math.max(Math.min(value, 1f), 0f);
+	# Time.delta is the per-frame delta (Time.java:15):
+	# public static float delta = 1f;
+	# -- the driver passes its per-tick seconds as delta, the same `seconds` the N2212 acquire, the N2213 heal and the N2214 slerp use, so the pure function folds it as `0.08 * delta` and clamps. The driver calls the lerp AFTER the N2214 slerp in the same tick (the Java order: angle -> cone/heal -> slerp -> strength lerp), because the heal reads the pre-lerp strength. This is the FIRST stamp of `frame["strength"]` -- before N2215 the N2213 heal read strength 0.0 forever, so no repair turret ever healed anything. The result carries ONLY strength.
+	var strength: float = float(frame.get("strength", 0.0))
+	var healed: bool = bool(frame.get("healed", false))
+	var target_strength: float = 1.0 if healed else 0.0
+	var progress: float = clampf(0.08 * delta, 0.0, 1.0)
+	return {"strength": strength + (target_strength - strength) * progress}
+
 static func source_repair_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the repair-turret tick wiring every
 	# tick (RepairPointBuild.updateTile(), RepairTurret.java:187,
@@ -373,6 +394,19 @@ static func source_repair_turret_tick_buildings_state(game: Object, seconds: flo
 		# default the N2213 heal read.
 		var slerp: Dictionary = source_repair_turret_rotation_slerp_state(frame, sprite.position.x, sprite.position.y, seconds, float(frame.get("time_scale", 1.0)))
 		frame["rotation"] = slerp.get("rotation", 90.0)
+		# N2215: strength lerp (RepairTurret.java:212)
+		# runs after the slerp stamps, on EVERY tick like
+		# the acquire/heal/slerp -- the lerp sits OUTSIDE
+		# the target/efficiency gate, so the beam fades
+		# toward 0 with no target or no power instead of
+		# freezing. The lerp MUST run after the heal (the
+		# Java order), because the heal reads the
+		# pre-lerp strength. This is the first stamp of
+		# `frame["strength"]`: before N2215 the N2213 heal
+		# read strength 0.0 forever, so no repair turret
+		# ever healed anything.
+		var lerp: Dictionary = source_repair_turret_strength_lerp_state(frame, seconds)
+		frame["strength"] = lerp.get("strength", 0.0)
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1

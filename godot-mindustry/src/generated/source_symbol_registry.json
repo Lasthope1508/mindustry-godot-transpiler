@@ -174056,6 +174056,22 @@
         "test_reference_graph_and_actual_c07_repair_turret_rotation_slerp"
       ],
       "runtime_proof": "/root/C07RepairTurretRotationSlerpProof"
+    },
+    "source_repair_turret_strength_lerp_state_result.strength": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_strength_lerp_state",
+      "godot_symbol": "source_repair_turret_strength_lerp_state_result.strength",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairPointBuild.updateTile()",
+      "java_expr": "strength = Mathf.lerpDelta(strength, healed ? 1f : 0f, 0.08f * Time.delta);",
+      "rule": "The strength after this tick: lerped toward 1 while healing and toward 0 otherwise, by `0.08 * delta` clamped to [0, 1] (RepairTurret.java:212 with Mathf.java:425-432 -- runs on every tick, outside the target/efficiency gate, so strength decays toward 0 with no target or no power).",
+      "tests": [
+        "test_c07_repair_turret_strength_lerp_registration",
+        "test_all_c07_repair_turret_strength_lerp_input_evidence_is_exact",
+        "test_repair_turret_strength_lerp_state",
+        "test_reference_graph_and_actual_c07_repair_turret_strength_lerp"
+      ],
+      "runtime_proof": "/root/C07RepairTurretStrengthLerpProof"
     }
   },
   "version": 1
