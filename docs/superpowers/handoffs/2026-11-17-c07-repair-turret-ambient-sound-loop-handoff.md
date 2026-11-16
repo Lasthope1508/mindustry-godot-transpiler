@@ -1,6 +1,6 @@
 # Handoff — N2222 RepairTurret ambient-sound live-loop gate (C07)
 
-## Status: GREEN DONE (this run, ~03:30–03:5x +07). Gate xanh lúc ~03:58 +07 (Ran 5981, failures=172, skipped=5, 0 errors — toàn bộ Godot-absent). Slice commit 21c4e8a9. Đang làm docs + push.
+## Status: DONE + PUSHED (slice 21c4e8a9, main d9e9b2d0). Gate xanh lúc ~03:58 +07 (Ran 5981, failures=172, skipped=5, 0 errors — toàn bộ Godot-absent). Proof chưa chạy trên Windows Godot (nợ GOAL.md §5).
 
 ## GREEN (verified from disk/logs this run)
 
