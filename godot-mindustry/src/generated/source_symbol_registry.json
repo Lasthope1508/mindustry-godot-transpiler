@@ -174088,6 +174088,38 @@
         "test_reference_graph_and_actual_c07_impact_reactor_impact_power"
       ],
       "runtime_proof": "/root/C07ImpactReactorImpactPowerProof"
+    },
+    "source_repair_turret_write_state_result.rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_write_state",
+      "godot_symbol": "source_repair_turret_write_state_result.rotation",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairPointBuild.write()",
+      "java_expr": "write.f(rotation);",
+      "rule": "The persisted rotation (RepairTurret.java:239, `write.f(rotation);`): the frame rotation, or 90.0 when the frame carries none -- the ONLY value write persists; strength is re-lerped every tick (RepairTurret.java:212) and target is re-acquired by the 20-tick timer (RepairTurret.java:216), so neither survives save/load.",
+      "tests": [
+        "test_c07_repair_turret_read_write_registration",
+        "test_all_c07_repair_turret_read_write_input_evidence_is_exact",
+        "test_repair_turret_read_write_state",
+        "test_reference_graph_and_actual_c07_repair_turret_read_write"
+      ],
+      "runtime_proof": "/root/C07RepairTurretReadWriteProof"
+    },
+    "source_repair_turret_read_state_result.rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_read_state",
+      "godot_symbol": "source_repair_turret_read_state_result.rotation",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairPointBuild.read()",
+      "java_expr": "rotation = read.f();",
+      "rule": "The rotation after load (RepairTurret.java:247, `rotation = read.f();`): the saved rotation when revision >= 1, the frame rotation (default 90.0) otherwise.",
+      "tests": [
+        "test_c07_repair_turret_read_write_registration",
+        "test_all_c07_repair_turret_read_write_input_evidence_is_exact",
+        "test_repair_turret_read_write_state",
+        "test_reference_graph_and_actual_c07_repair_turret_read_write"
+      ],
+      "runtime_proof": "/root/C07RepairTurretReadWriteProof"
     }
   },
   "version": 1

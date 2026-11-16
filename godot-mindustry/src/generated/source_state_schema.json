@@ -231952,6 +231952,102 @@
       },
       "runtime_proof": "/root/C07ImpactReactorImpactPowerProof",
       "rule": "Source-backed ImpactReactor impactPower first-production event from ImpactReactor.java / PowerGenerator.java / ConsumePower.java."
+    },
+    "source_repair_turret_write_state_input": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_write_state",
+      "source_slice": "N2217",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "public void write(Writes write){",
+          "rule": "The repair-turret frame carrying the live rotation (stamped by the N2214 slerp; absent reads 90.0, the field default `public float strength, rotation = 90;`, RepairTurret.java:156) -- write persists exactly this one field (`write.f(rotation);`, RepairTurret.java:239).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_write_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretReadWriteProof",
+      "rule": "Source-backed RepairTurret read/write persistence from RepairTurret.java."
+    },
+    "source_repair_turret_write_state_result": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_write_state",
+      "source_slice": "N2217",
+      "keys": {
+        "rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "write.f(rotation);",
+          "rule": "The persisted rotation (RepairTurret.java:239, `write.f(rotation);`): the frame rotation, or 90.0 when the frame carries none -- the ONLY value write persists; strength is re-lerped every tick (RepairTurret.java:212) and target is re-acquired by the 20-tick timer (RepairTurret.java:216), so neither survives save/load.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_write_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretReadWriteProof",
+      "rule": "Source-backed RepairTurret read/write persistence from RepairTurret.java."
+    },
+    "source_repair_turret_read_state_input": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_read_state",
+      "source_slice": "N2217",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "public void read(Reads read, byte revision){",
+          "rule": "The repair-turret frame carrying the current rotation (the value a revision-0 save leaves untouched, since `if(revision >= 1){` guards the restore, RepairTurret.java:246; absent reads 90.0, the field default, RepairTurret.java:156).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_read_state"
+          ]
+        },
+        "saved_rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "rotation = read.f();",
+          "rule": "The rotation value read from the save stream (`rotation = read.f();`, RepairTurret.java:247) -- applied only when revision >= 1.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_read_state"
+          ]
+        },
+        "revision": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "if(revision >= 1){",
+          "rule": "The save revision (RepairTurret.java:246, `if(revision >= 1){`): the restore runs only at revision >= 1, because `public byte version(){` returns 1 (RepairTurret.java:252-254) -- a revision-0 save carries no rotation float to read.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_read_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretReadWriteProof",
+      "rule": "Source-backed RepairTurret read/write persistence from RepairTurret.java."
+    },
+    "source_repair_turret_read_state_result": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_read_state",
+      "source_slice": "N2217",
+      "keys": {
+        "rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "rotation = read.f();",
+          "rule": "The rotation after load (RepairTurret.java:247, `rotation = read.f();`): the saved rotation when revision >= 1, the frame rotation (default 90.0) otherwise.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_read_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretReadWriteProof",
+      "rule": "Source-backed RepairTurret read/write persistence from RepairTurret.java."
     }
   },
   "version": 1

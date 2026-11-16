@@ -281,6 +281,47 @@ static func source_repair_turret_strength_lerp_state(frame: Dictionary, delta: f
 	var progress: float = clampf(0.08 * delta, 0.0, 1.0)
 	return {"strength": strength + (target_strength - strength) * progress}
 
+const REPAIR_TURRET_SAVE_VERSION := 1
+
+static func source_repair_turret_write_state(frame: Dictionary) -> Dictionary:
+	# RepairPointBuild persists exactly ONE field, its rotation
+	# (RepairTurret.java:236-239):
+	# public void write(Writes write){
+	# super.write(write);
+	# write.f(rotation);
+	# The rotation default is 90.0 (`public float strength, rotation = 90;`, RepairTurret.java:156).
+	# Strength is NOT persisted -- it is re-lerped every tick
+	# (`strength = Mathf.lerpDelta(strength, healed ? 1f : 0f, 0.08f * Time.delta);`, RepairTurret.java:212),
+	# so a loaded turret rebuilds it from 0. Target is NOT persisted
+	# either -- it is re-acquired by the 20-tick timer
+	# (`target = Units.closest(team, x, y, repairRadius, Unit::damaged);`, RepairTurret.java:216).
+	# The write returns ONLY rotation (the proof checks the result has exactly one key).
+	# There is NO driver tick line: persistence is not a per-tick call, and the port has no save/load stream to call this function yet.
+	var rotation: float = float(frame.get("rotation", 90.0))
+	return {"rotation": rotation}
+
+static func source_repair_turret_read_state(frame: Dictionary, saved_rotation: float, revision: int) -> Dictionary:
+	# RepairPointBuild restores the rotation only for saves written at revision >= 1
+	# (RepairTurret.java:243-248):
+	# public void read(Reads read, byte revision){
+	# super.read(read, revision);
+	# if(revision >= 1){
+	# rotation = read.f();
+	# because the save version is 1 (RepairTurret.java:252-254):
+	# public byte version(){
+	# return 1;
+	# A revision-0 save leaves the turret pointing where it already
+	# points -- the frame's current rotation (default 90.0, `public float strength, rotation = 90;`, RepairTurret.java:156).
+	# Strength is NOT persisted -- it is re-lerped every tick
+	# (`strength = Mathf.lerpDelta(strength, healed ? 1f : 0f, 0.08f * Time.delta);`, RepairTurret.java:212) --
+	# and target is NOT persisted either -- it is re-acquired by the 20-tick timer
+	# (`target = Units.closest(team, x, y, repairRadius, Unit::damaged);`, RepairTurret.java:216).
+	# There is NO driver tick line: persistence is not a per-tick call, and the port has no save/load stream to call this function yet.
+	var rotation: float = float(frame.get("rotation", 90.0))
+	if revision >= 1:
+		rotation = saved_rotation
+	return {"rotation": rotation}
+
 static func source_repair_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the repair-turret tick wiring every
 	# tick (RepairPointBuild.updateTile(), RepairTurret.java:187,
