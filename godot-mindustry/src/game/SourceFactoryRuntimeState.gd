@@ -5,6 +5,7 @@ const source_drill_consumption_runtime_state := preload("res://src/game/SourceDr
 const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
 const source_conveyor_runtime_state := preload("res://src/game/SourceConveyorRuntimeState.gd")
 const source_building_item_dump_state := preload("res://src/game/SourceBuildingItemDumpState.gd")
+const source_building_power_state := preload("res://src/game/SourceBuildingPowerState.gd")
 const source_placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
 const source_placed_power_graph_state := preload("res://src/game/SourcePlacedPowerGraphState.gd")
 const source_power_graph_state := preload("res://src/game/SourcePowerGraphState.gd")
@@ -1082,6 +1083,25 @@ static func source_factory_update_power_graph_state(game: Object, delta: float) 
 			var should_state: Dictionary = source_placed_power_graph_state.source_consumer_should_consume_for_cell_state(game, consumer.get("origin_cell"))
 			consumer["should_consume"] = bool(should_state.get("should_consume", true))
 			consumer["shouldConsumePower"] = bool(should_state.get("shouldConsumePower", true))
+	# Stamp each grouped battery with its building's live enabled
+	# value before the graph update reads them (N2359; the N2134
+	# stamp, already wired into SourcePlacedPowerGraphState.
+	# runtime_state): PowerGraph gates every battery pass on
+	# battery.enabled (PowerGraph.java:123, 135, 147, 163, 180),
+	# but the grouped dicts carry the statically derived enabled
+	# from block_battery_state, so a disabled battery still
+	# counted as enabled in the live-loop distribution, the
+	# launch drain, and the stored total. The stamp is pure (it
+	# duplicates each dict), so the stamped list replaces the
+	# grouped list here: the distribute step, the drain, and the
+	# stored total below all read stamped batteries, and on the
+	# cheat branch update["batteries"] is this same stamped list
+	# (the fallback the drain and the stored total read there).
+	# A battery whose block carries no live enabled keeps its
+	# static value (the N2134 guard), so all-enabled frames are
+	# unchanged.
+	var stamped_batteries: Dictionary = source_building_power_state.source_building_power_battery_enabled_stamp_state({"batteries": batteries})
+	batteries = stamped_batteries.get("batteries", batteries)
 	var update: Dictionary = source_power_graph_state.update_state(consumers, producers, batteries, 0.0, delta, [])
 	# Write the resulting status back so the next frame reads it.
 	var updated_batteries: Array = update.get("battery_distribute_state", {}).get("batteries", [])
