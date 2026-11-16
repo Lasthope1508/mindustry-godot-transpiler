@@ -187,8 +187,8 @@ class C07FrackerFractionFillTests(unittest.TestCase):
         # advance from the stamped keys.
         self.assertIn('frame.get("proximity_linked_tiles", [])', fracker)
         self.assertIn('source_fracker_proximity_fraction_state(proximity_tiles, float(frame.get("attribute_env", 0.0)))', fracker)
-        self.assertIn('frame["valid_tiles"] = filled["valid_tiles"]', fracker)
-        self.assertIn('frame["boost"] = filled["boost"]', fracker)
+        self.assertIn('frame["valid_tiles"] = fraction_filled["valid_tiles"]', fracker)
+        self.assertIn('frame["boost"] = fraction_filled["boost"]', fracker)
         self.assertLess(
             fracker.index('source_fracker_proximity_fraction_state(proximity_tiles, float(frame.get("attribute_env", 0.0)))'),
             fracker.index('source_fracker_update_tile_advance_state(frame, source_delta, time_scale, advance_result_id, SOURCE_FRACKER_LIQUID_CAPACITY, SOURCE_FRACKER_PUMP_AMOUNT, SOURCE_FRACKER_ITEM_USE_TIME)'),

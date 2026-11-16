@@ -205,8 +205,8 @@ class C07FrackerLinkedTilesLiveFillTests(unittest.TestCase):
         # call, the frame-input read, the valid_tiles / boost
         # stamps, and the doc strings.
         self.assertIn('source_fracker_proximity_fraction_state(proximity_tiles, float(frame.get("attribute_env", 0.0)))', fracker)
-        self.assertIn('frame["valid_tiles"] = filled["valid_tiles"]', fracker)
-        self.assertIn('frame["boost"] = filled["boost"]', fracker)
+        self.assertIn('frame["valid_tiles"] = fraction_filled["valid_tiles"]', fracker)
+        self.assertIn('frame["boost"] = fraction_filled["boost"]', fracker)
         self.assertIn('Fraction fill live (N2305)', fracker)
         self.assertIn('dumpLiquid live (N2284)', fracker)
         self.assertIn('shouldConsume gate live (N2207)', fracker)

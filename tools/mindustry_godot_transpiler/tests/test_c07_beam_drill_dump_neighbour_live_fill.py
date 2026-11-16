@@ -194,11 +194,11 @@ class C07BeamDrillDumpNeighbourLiveFillTests(unittest.TestCase):
             beam_drill.index('frame.get("dump_neighbour_accepts", [])'),
         )
         self.assertLess(
-            beam_drill.index('frame["dump_neighbour_accepts"] = filled.get("dump_neighbour_accepts", [])'),
+            beam_drill.index('frame["dump_neighbour_accepts"] = dump_filled.get("dump_neighbour_accepts", [])'),
             beam_drill.index('frame.get("dump_neighbour_accepts", [])'),
         )
         self.assertLess(
-            beam_drill.index('frame["dump_neighbour_can_dump"] = filled.get("dump_neighbour_can_dump", [])'),
+            beam_drill.index('frame["dump_neighbour_can_dump"] = dump_filled.get("dump_neighbour_can_dump", [])'),
             beam_drill.index('frame.get("dump_neighbour_can_dump", [])'),
         )
         # The N2289 dump pins still hold: the dump call, the
