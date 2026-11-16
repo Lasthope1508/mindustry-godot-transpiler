@@ -202,3 +202,11 @@ backlog. (Do NOT start the C08 inventory unless the user asks.)
 - Post-gate targeted re-run: Ran 4 OK in 17.643s, log `hidden_files/n2217-green.log` (closes the missing-log note from the 21:45 run).
 - SSOT final: 11452/1667/1591/2973. NO shard change (verified from `git status` — no `source_modules/` diff). Slice commit: 9 files.
 - origin/main == HEAD == bccb6fb0 at completion (no validation merge since the N2216 push; fetch showed only a new validation branch `codex/godot-wave26-batch3-report`). No rebase needed.
+
+## Commits
+
+- Slice: 7b7bd0a8 (C07: N2217 RepairTurret read/write persistence, 9 files)
+- Docs: 4a6b665e (report + handoff + design spec, Done 1667 + N2217 row)
+- GOAL: b55c7e37 (§5 Windows debt line for N2217)
+- Hash-naming: (this commit)
+- Handoff-status: (next commit)
