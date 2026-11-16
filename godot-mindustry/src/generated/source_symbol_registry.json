@@ -182248,6 +182248,150 @@
         "test_reference_graph_and_actual_c07_mend_projector_heal_scan_range"
       ],
       "runtime_proof": "/root/C07MendProjectorHealScanRangeProof"
+    },
+    "source_unit_cargo_loader_can_place_on_state_result.can_place_on": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_can_place_on_state",
+      "godot_symbol": "source_unit_cargo_loader_can_place_on_state_result.can_place_on",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+      "java_method": "UnitCargoLoader.canPlaceOn()",
+      "java_expr": "return super.canPlaceOn(tile, team, rotation) && Units.canCreate(team, unitType);",
+      "rule": "Whether the unit-cargo-loader can be placed (UnitCargoLoader.java:65-68): super.canPlaceOn is the Block default TRUE (Block.java:606-608, `return true;`), so the verdict IS Units.canCreate(team, unitType) (Units.java:115-117) -- true when the type ignores the unit cap, else countType < getCap and the type is not banned; manifold keeps the UnitType default useUnitCap = true (UnitType.java:205), so the check is live, not vacuous. True when no frame input is stamped (the permissive default, inherited from N2322).",
+      "tests": [
+        "test_c07_unit_cargo_loader_can_place_on_registration",
+        "test_all_c07_unit_cargo_loader_can_place_on_input_evidence_is_exact",
+        "test_unit_cargo_loader_can_place_on_state",
+        "test_reference_graph_and_actual_c07_unit_cargo_loader_can_place_on"
+      ],
+      "runtime_proof": "/root/C07UnitCargoLoaderCanPlaceOnProof"
+    },
+    "source_shockwave_tower_liquid_consumer_row_state_result.row": {
+      "status": "source-backed",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_liquid_consumer_row_state",
+      "godot_symbol": "source_shockwave_tower_liquid_consumer_row_state_result.row",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+      "java_method": "ShockwaveTowerBuild.updateTile()",
+      "java_expr": "min = Math.min(build.liquids.get(stack.liquid) / (stack.amount * ed * mult), min);",
+      "rule": "The liquid row for the first pass (ConsumeLiquids.java:56-60): {\"result\": min over the stacks of held / (amount * ed * mult), starting from 1f, \"is_power\": false}, folded by the non-optional pass into the min efficiency; 0f when ed <= 1e-8 (ConsumeLiquids.java:55) or when the store holds none of the liquid. The single-stack def collapses to min(cyanogen / (0.025 * ed * mult), 1f). is_power false, so the shared fold sets shouldConsumePower=false when the row is <= 1e-7 (BuildingComp.java:1972-1973).",
+      "tests": [
+        "test_c07_shockwave_tower_cyanogen_row_registration",
+        "test_all_c07_shockwave_tower_cyanogen_row_input_evidence_is_exact",
+        "test_shockwave_tower_liquid_consumer_row_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_cyanogen_row"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerCyanogenRowProof"
+    },
+    "source_shockwave_tower_liquid_consumer_row_state_result.has_liquid_row": {
+      "status": "source-backed",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_liquid_consumer_row_state",
+      "godot_symbol": "source_shockwave_tower_liquid_consumer_row_state_result.has_liquid_row",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "ShockwaveTowerBuild.updateTile()",
+      "java_expr": "for(var cons : block.nonOptionalConsumers){",
+      "rule": "Whether the row joins the first pass (BuildingComp.java:1969): true when the block has a liquid consumer; the row is the liquid consumer's entry in the non-optional pass.",
+      "tests": [
+        "test_c07_shockwave_tower_cyanogen_row_registration",
+        "test_all_c07_shockwave_tower_cyanogen_row_input_evidence_is_exact",
+        "test_shockwave_tower_liquid_consumer_row_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_cyanogen_row"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerCyanogenRowProof"
+    },
+    "source_stack_router_accept_item_state_result.accepts": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackRouterBuildState.source_stack_router_accept_item_state",
+      "godot_symbol": "source_stack_router_accept_item_state_result.accepts",
+      "java_source": "core/src/mindustry/world/blocks/distribution/StackRouter.java",
+      "java_method": "StackRouterBuild.acceptItem()",
+      "java_expr": "return !unloading && (current == null || item == current) && items.total() < itemCapacity &&",
+      "rule": "The acceptItem verdict (StackRouter.java:91-92): true only when all four terms hold -- idle, current null-or-matching, under capacity, and facing == rotation. The gate reports the verdict only; handleItem application (DuctRouter.java:179-184) still defers.",
+      "tests": [
+        "test_c07_stack_router_accept_item_registration",
+        "test_all_c07_stack_router_accept_item_input_evidence_is_exact",
+        "test_stack_router_accept_item_state",
+        "test_reference_graph_and_actual_c07_stack_router_accept_item"
+      ],
+      "runtime_proof": "/root/C07StackRouterAcceptItemProof"
+    },
+    "source_launch_pad_accept_item_state_result.accepts": {
+      "status": "source-backed",
+      "godot_owner": "SourceLaunchPadBuildState.source_launch_pad_accept_item_state",
+      "godot_symbol": "source_launch_pad_accept_item_state_result.accepts",
+      "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+      "java_method": "LaunchPadBuild.acceptItem()",
+      "java_expr": "return items.total() < itemCapacity && (acceptMultipleItems || items.total() == 0 || items.first() == item);",
+      "rule": "The acceptItem verdict (LaunchPad.java:139): true when total < capacity AND (accept_multiple OR total == 0 OR first == item) -- a full pad rejects every item, an empty pad accepts any item, and a partial single-item pad accepts only its first item.",
+      "tests": [
+        "test_c07_launch_pad_accept_item_registration",
+        "test_all_c07_launch_pad_accept_item_input_evidence_is_exact",
+        "test_launch_pad_accept_item_state",
+        "test_reference_graph_and_actual_c07_launch_pad_accept_item"
+      ],
+      "runtime_proof": "/root/C07LaunchPadAcceptItemProof"
+    },
+    "source_overdrive_projector_supplied_boost_targets_state_result.boost_targets": {
+      "status": "source-backed",
+      "godot_owner": "SourceOverdriveProjectorBuildState.source_overdrive_projector_supplied_boost_targets_state",
+      "godot_symbol": "source_overdrive_projector_supplied_boost_targets_state_result.boost_targets",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "java_method": "OverdriveBuild.updateTile()",
+      "java_expr": "indexer.eachBlock(this, realRange, other -> other.block.canOverdrive, other -> other.applyBoost(realBoost(), reload + 1f));",
+      "rule": "The reported boost targets (OverdriveProjector.java:110): the admitted candidate dicts themselves, in candidate order -- the entries whose center falls in the eachBlock rect (|dx| <= realRange and |dy| <= realRange, INCLUSIVE, the N2277 center-in-rect precedent) AND whose block can be overdriven (can_overdrive true, the Java pred half; a missing flag reads the Java default true, Block.java:309). Entries keep every key untouched; the pure only reports -- applyBoost on the reported targets waits for its own slice.",
+      "tests": [
+        "test_c07_overdrive_projector_boost_scan_registration",
+        "test_all_c07_overdrive_projector_boost_scan_input_evidence_is_exact",
+        "test_overdrive_projector_boost_scan_state",
+        "test_reference_graph_and_actual_c07_overdrive_projector_boost_scan"
+      ],
+      "runtime_proof": "/root/C07OverdriveProjectorBoostScanProof"
+    },
+    "source_overdrive_projector_supplied_boost_targets_state_result.real_range": {
+      "status": "source-backed",
+      "godot_owner": "SourceOverdriveProjectorBuildState.source_overdrive_projector_supplied_boost_targets_state",
+      "godot_symbol": "source_overdrive_projector_supplied_boost_targets_state_result.real_range",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "java_method": "OverdriveBuild.updateTile()",
+      "java_expr": "float realRange = range + phaseHeat * phaseRangeBoost;",
+      "rule": "The folded realRange (OverdriveProjector.java:107): range + phaseHeat * phaseRangeBoost, echoed back so the caller (and the proof) can pin the fold the scan ran at.",
+      "tests": [
+        "test_c07_overdrive_projector_boost_scan_registration",
+        "test_all_c07_overdrive_projector_boost_scan_input_evidence_is_exact",
+        "test_overdrive_projector_boost_scan_state",
+        "test_reference_graph_and_actual_c07_overdrive_projector_boost_scan"
+      ],
+      "runtime_proof": "/root/C07OverdriveProjectorBoostScanProof"
+    },
+    "source_mend_projector_supplied_heal_candidates_narrow_state_result.candidates": {
+      "status": "source-backed",
+      "godot_owner": "SourceMendProjectorBuildState.source_mend_projector_supplied_heal_candidates_narrow_state",
+      "godot_symbol": "source_mend_projector_supplied_heal_candidates_narrow_state_result.candidates",
+      "java_source": "core/src/mindustry/ai/BlockIndexer.java",
+      "java_method": "MendBuild.updateTile()",
+      "java_expr": "if(b.within(wx, wy, range + b.hitSize() / 2f) && pred.get(b) && !b.block.privileged){",
+      "rule": "The narrowed candidate list (BlockIndexer.java:346): the admitted candidate dicts themselves, in candidate order -- the entries whose center falls STRICTLY inside the within circle (dst2 < (realRange + hitSize/2)^2, Position.java:44-46) and whose block is not privileged, passed into the N2242 heal scan. Entries keep every key (hit_size / privileged / damaged / heal_suppressed / max_health untouched); the pure filters within + privileged only.",
+      "tests": [
+        "test_c07_mend_projector_heal_scan_narrow_registration",
+        "test_all_c07_mend_projector_heal_scan_narrow_input_evidence_is_exact",
+        "test_mend_projector_heal_scan_narrow_state",
+        "test_reference_graph_and_actual_c07_mend_projector_heal_scan_narrow"
+      ],
+      "runtime_proof": "/root/C07MendProjectorHealScanNarrowProof"
+    },
+    "source_mass_driver_accept_item_state_result.accepts": {
+      "status": "source-backed",
+      "godot_owner": "SourceMassDriverBuildState.source_mass_driver_accept_item_state",
+      "godot_symbol": "source_mass_driver_accept_item_state_result.accepts",
+      "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+      "java_method": "MassDriverBuild.acceptItem()",
+      "java_expr": "return items.total() < itemCapacity && linkValid();",
+      "rule": "Whether the mass driver accepts an item (MassDriver.java:285-288): true only when the store total is under itemCapacity AND linkValid() holds (link != -1, the partner exists and is a MassDriver of the same block and team within range). The source/item args are ignored by Java -- the gate is capacity + link only.",
+      "tests": [
+        "test_c07_mass_driver_accept_item_registration",
+        "test_all_c07_mass_driver_accept_item_input_evidence_is_exact",
+        "test_mass_driver_accept_item_state",
+        "test_reference_graph_and_actual_c07_mass_driver_accept_item"
+      ],
+      "runtime_proof": "/root/C07MassDriverAcceptItemProof"
     }
   },
   "version": 1

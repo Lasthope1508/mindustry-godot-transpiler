@@ -3559,6 +3559,42 @@
       ],
       "runtime_proof": "/root/C07MendProjectorHealScanRangeProof"
     },
+    "N2331": {
+      "canonical_ledger": "source_slice_ledger.N2331",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.updateTile()",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_liquid_consumer_row_state",
+      "source_symbols": [
+        "source_shockwave_tower_liquid_consumer_row_state_result.row",
+        "source_shockwave_tower_liquid_consumer_row_state_result.has_liquid_row"
+      ],
+      "tests": [
+        "test_c07_shockwave_tower_cyanogen_row_registration",
+        "test_all_c07_shockwave_tower_cyanogen_row_input_evidence_is_exact",
+        "test_shockwave_tower_liquid_consumer_row_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_cyanogen_row"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerCyanogenRowProof"
+    },
+    "N2334": {
+      "canonical_ledger": "source_slice_ledger.N2334",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "java_method": "OverdriveBuild.updateTile()",
+      "godot_owner": "SourceOverdriveProjectorBuildState.source_overdrive_projector_supplied_boost_targets_state",
+      "source_symbols": [
+        "source_overdrive_projector_supplied_boost_targets_state_result.boost_targets",
+        "source_overdrive_projector_supplied_boost_targets_state_result.real_range"
+      ],
+      "tests": [
+        "test_c07_overdrive_projector_boost_scan_registration",
+        "test_all_c07_overdrive_projector_boost_scan_input_evidence_is_exact",
+        "test_overdrive_projector_boost_scan_state",
+        "test_reference_graph_and_actual_c07_overdrive_projector_boost_scan"
+      ],
+      "runtime_proof": "/root/C07OverdriveProjectorBoostScanProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

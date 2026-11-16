@@ -73046,6 +73046,308 @@
       ],
       "runtime_proof": "/root/C07MendProjectorHealScanRangeProof",
       "rule": "Source-backed MendProjector heal scan range query from MendProjector.java / BlockIndexer.java / Blocks.java / Arc Position.java."
+    },
+    "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_can_place_on_state": {
+      "status": "active",
+      "source_slice": "N2330",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+      "source_method": "UnitCargoLoader.canPlaceOn()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_unit_cargo_loader_can_place_on_state_input.frame"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "can_place_on"
+      ],
+      "tests": [
+        "test_c07_unit_cargo_loader_can_place_on_registration",
+        "test_all_c07_unit_cargo_loader_can_place_on_input_evidence_is_exact",
+        "test_unit_cargo_loader_can_place_on_state",
+        "test_reference_graph_and_actual_c07_unit_cargo_loader_can_place_on"
+      ],
+      "runtime_proof": "/root/C07UnitCargoLoaderCanPlaceOnProof",
+      "rule": "Source-backed UnitCargoLoader canPlaceOn placement gate from UnitCargoLoader.java / Block.java / Units.java / UnitType.java."
+    },
+    "SourceShockwaveTowerBuildState.source_shockwave_tower_liquid_consumer_row_state": {
+      "status": "active",
+      "source_slice": "N2331",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "source_method": "ShockwaveTowerBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_shockwave_tower_liquid_consumer_row_state_input.frame"
+        },
+        {
+          "name": "has_liquid_consumer",
+          "type": "bool",
+          "schema": "source_shockwave_tower_liquid_consumer_row_state_input.has_liquid_consumer"
+        },
+        {
+          "name": "liquid_id",
+          "type": "int",
+          "schema": "source_shockwave_tower_liquid_consumer_row_state_input.liquid_id"
+        },
+        {
+          "name": "amount",
+          "type": "float",
+          "schema": "source_shockwave_tower_liquid_consumer_row_state_input.amount"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_shockwave_tower_liquid_consumer_row_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_shockwave_tower_liquid_consumer_row_state_input.time_scale"
+        },
+        {
+          "name": "efficiency_scale",
+          "type": "float",
+          "schema": "source_shockwave_tower_liquid_consumer_row_state_input.efficiency_scale"
+        },
+        {
+          "name": "multiplier",
+          "type": "float",
+          "schema": "source_shockwave_tower_liquid_consumer_row_state_input.multiplier"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "row",
+        "has_liquid_row"
+      ],
+      "tests": [
+        "test_c07_shockwave_tower_cyanogen_row_registration",
+        "test_all_c07_shockwave_tower_cyanogen_row_input_evidence_is_exact",
+        "test_shockwave_tower_liquid_consumer_row_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_cyanogen_row"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerCyanogenRowProof",
+      "rule": "Source-backed ShockwaveTower cyanogen ConsumeLiquids row from ConsumeLiquids.java / Consume.java / BuildingComp.java / Block.java / Blocks.java / LiquidModule.java / ShockwaveTower.java."
+    },
+    "SourceStackRouterBuildState.source_stack_router_accept_item_state": {
+      "status": "active",
+      "source_slice": "N2332",
+      "java_source": "core/src/mindustry/world/blocks/distribution/StackRouter.java",
+      "source_method": "StackRouterBuild.acceptItem()",
+      "params": [
+        {
+          "name": "unloading",
+          "type": "bool",
+          "schema": "source_stack_router_accept_item_state_input.unloading"
+        },
+        {
+          "name": "current",
+          "type": "Variant",
+          "schema": "source_stack_router_accept_item_state_input.current"
+        },
+        {
+          "name": "item",
+          "type": "Variant",
+          "schema": "source_stack_router_accept_item_state_input.item"
+        },
+        {
+          "name": "items",
+          "type": "Dictionary",
+          "schema": "source_stack_router_accept_item_state_input.items"
+        },
+        {
+          "name": "item_capacity",
+          "type": "int",
+          "schema": "source_stack_router_accept_item_state_input.item_capacity"
+        },
+        {
+          "name": "facing_rel",
+          "type": "int",
+          "schema": "source_stack_router_accept_item_state_input.facing_rel"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_stack_router_accept_item_state_input.rotation"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "accepts"
+      ],
+      "tests": [
+        "test_c07_stack_router_accept_item_registration",
+        "test_all_c07_stack_router_accept_item_input_evidence_is_exact",
+        "test_stack_router_accept_item_state",
+        "test_reference_graph_and_actual_c07_stack_router_accept_item"
+      ],
+      "runtime_proof": "/root/C07StackRouterAcceptItemProof",
+      "rule": "Source-backed StackRouter acceptItem intake gate from StackRouter.java / DuctRouter.java / ItemModule.java / Block.java / Edges.java / Tile.java / BuildingComp.java."
+    },
+    "SourceLaunchPadBuildState.source_launch_pad_accept_item_state": {
+      "status": "active",
+      "source_slice": "N2333",
+      "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+      "source_method": "LaunchPadBuild.acceptItem()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_launch_pad_accept_item_state_input.frame"
+        },
+        {
+          "name": "item",
+          "type": "String",
+          "schema": "source_launch_pad_accept_item_state_input.item"
+        },
+        {
+          "name": "item_capacity",
+          "type": "int",
+          "schema": "source_launch_pad_accept_item_state_input.item_capacity"
+        },
+        {
+          "name": "accept_multiple_items",
+          "type": "bool",
+          "schema": "source_launch_pad_accept_item_state_input.accept_multiple_items"
+        },
+        {
+          "name": "item_order",
+          "type": "Array",
+          "schema": "source_launch_pad_accept_item_state_input.item_order"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "accepts"
+      ],
+      "tests": [
+        "test_c07_launch_pad_accept_item_registration",
+        "test_all_c07_launch_pad_accept_item_input_evidence_is_exact",
+        "test_launch_pad_accept_item_state",
+        "test_reference_graph_and_actual_c07_launch_pad_accept_item"
+      ],
+      "runtime_proof": "/root/C07LaunchPadAcceptItemProof",
+      "rule": "Source-backed LaunchPad acceptItem gate from LaunchPad.java / ItemModule.java / Blocks.java / Block.java."
+    },
+    "SourceOverdriveProjectorBuildState.source_overdrive_projector_supplied_boost_targets_state": {
+      "status": "active",
+      "source_slice": "N2334",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "source_method": "OverdriveBuild.updateTile()",
+      "params": [
+        {
+          "name": "candidates",
+          "type": "Array",
+          "schema": "source_overdrive_projector_supplied_boost_targets_state_input.candidates"
+        },
+        {
+          "name": "real_range",
+          "type": "float",
+          "schema": "source_overdrive_projector_supplied_boost_targets_state_input.real_range"
+        },
+        {
+          "name": "building_x",
+          "type": "float",
+          "schema": "source_overdrive_projector_supplied_boost_targets_state_input.building_x"
+        },
+        {
+          "name": "building_y",
+          "type": "float",
+          "schema": "source_overdrive_projector_supplied_boost_targets_state_input.building_y"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "boost_targets",
+        "real_range"
+      ],
+      "tests": [
+        "test_c07_overdrive_projector_boost_scan_registration",
+        "test_all_c07_overdrive_projector_boost_scan_input_evidence_is_exact",
+        "test_overdrive_projector_boost_scan_state",
+        "test_reference_graph_and_actual_c07_overdrive_projector_boost_scan"
+      ],
+      "runtime_proof": "/root/C07OverdriveProjectorBoostScanProof",
+      "rule": "Source-backed OverdriveProjector boost scan from OverdriveProjector.java / BlockIndexer.java / Blocks.java / Block.java / Arc Position.java."
+    },
+    "SourceMendProjectorBuildState.source_mend_projector_supplied_heal_candidates_narrow_state": {
+      "status": "active",
+      "source_slice": "N2335",
+      "java_source": "core/src/mindustry/ai/BlockIndexer.java",
+      "source_method": "MendBuild.updateTile()",
+      "params": [
+        {
+          "name": "candidates",
+          "type": "Array",
+          "schema": "source_mend_projector_supplied_heal_candidates_narrow_state_input.candidates"
+        },
+        {
+          "name": "real_range",
+          "type": "float",
+          "schema": "source_mend_projector_supplied_heal_candidates_narrow_state_input.real_range"
+        },
+        {
+          "name": "building_x",
+          "type": "float",
+          "schema": "source_mend_projector_supplied_heal_candidates_narrow_state_input.building_x"
+        },
+        {
+          "name": "building_y",
+          "type": "float",
+          "schema": "source_mend_projector_supplied_heal_candidates_narrow_state_input.building_y"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "candidates"
+      ],
+      "tests": [
+        "test_c07_mend_projector_heal_scan_narrow_registration",
+        "test_all_c07_mend_projector_heal_scan_narrow_input_evidence_is_exact",
+        "test_mend_projector_heal_scan_narrow_state",
+        "test_reference_graph_and_actual_c07_mend_projector_heal_scan_narrow"
+      ],
+      "runtime_proof": "/root/C07MendProjectorHealScanNarrowProof",
+      "rule": "Source-backed MendProjector heal scan within / privileged refinement from MendProjector.java / BlockIndexer.java / Block.java / BuildingComp.java / Arc Position.java."
+    },
+    "SourceMassDriverBuildState.source_mass_driver_accept_item_state": {
+      "status": "active",
+      "source_slice": "N2336",
+      "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+      "source_method": "MassDriverBuild.acceptItem()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_mass_driver_accept_item_state_input.frame"
+        },
+        {
+          "name": "item_capacity",
+          "type": "int",
+          "schema": "source_mass_driver_accept_item_state_input.item_capacity"
+        },
+        {
+          "name": "linked",
+          "type": "Dictionary",
+          "schema": "source_mass_driver_accept_item_state_input.linked"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "accepts"
+      ],
+      "tests": [
+        "test_c07_mass_driver_accept_item_registration",
+        "test_all_c07_mass_driver_accept_item_input_evidence_is_exact",
+        "test_mass_driver_accept_item_state",
+        "test_reference_graph_and_actual_c07_mass_driver_accept_item"
+      ],
+      "runtime_proof": "/root/C07MassDriverAcceptItemProof",
+      "rule": "Source-backed MassDriver acceptItem rows from MassDriver.java / Blocks.java / Arc Position.java."
     }
   },
   "policy": {
