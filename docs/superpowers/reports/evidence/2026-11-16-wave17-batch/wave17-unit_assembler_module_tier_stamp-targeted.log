@@ -1,0 +1,9 @@
+test_all_c07_unit_assembler_module_tier_stamp_input_evidence_is_exact (tests.test_c07_unit_assembler_module_tier_stamp.C07UnitAssemblerModuleTierStampTests.test_all_c07_unit_assembler_module_tier_stamp_input_evidence_is_exact) ... ok
+test_c07_unit_assembler_module_tier_stamp_registration (tests.test_c07_unit_assembler_module_tier_stamp.C07UnitAssemblerModuleTierStampTests.test_c07_unit_assembler_module_tier_stamp_registration) ... ok
+test_reference_graph_and_actual_c07_unit_assembler_module_tier_stamp (tests.test_c07_unit_assembler_module_tier_stamp.C07UnitAssemblerModuleTierStampTests.test_reference_graph_and_actual_c07_unit_assembler_module_tier_stamp) ... ok
+test_unit_assembler_module_tier_stamp_state (tests.test_c07_unit_assembler_module_tier_stamp.C07UnitAssemblerModuleTierStampTests.test_unit_assembler_module_tier_stamp_state) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 21.836s
+
+OK
