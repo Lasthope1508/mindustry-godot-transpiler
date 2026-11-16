@@ -230970,6 +230970,54 @@
       },
       "runtime_proof": "/root/C07ShieldWallUpdateTileProof",
       "rule": "Source-backed ShieldWall updateTile() advance from ShieldWall.java / Wall.java / BuildingComp.java."
+    },
+    "source_launch_pad_should_consume_state_input": {
+      "status": "active",
+      "owner": "SourceLaunchPadBuildState.source_launch_pad_should_consume_state",
+      "source_slice": "N2205",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "return launchCounter < launchTime;",
+          "rule": "The building frame carrying the launch_counter observation (LaunchPad.java:84, `public float launchCounter;`, stamped by the future updateTile advance every tick after the launch gate consult) plus enabled; a missing launch_counter key means no observation yet (N2172 behavior preserved), not fully launched. The per-def launchTime arrives as the separate launch_time parameter, not a frame key, because the catalog carries no launchTime property.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_should_consume_state"
+          ]
+        },
+        "launch_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "public float launchTime = 1f;",
+          "rule": "The per-def launchTime the gate runs the counter against (LaunchPad.java:32, the class default 1f): launch-pad 1200f (Blocks.java:6794, `launchTime = 60f * 20;`) and advanced-launch-pad 1800f (Blocks.java:6804, `launchTime = 60f * 30;`); the driver selects it by block id from SOURCE_LAUNCH_PAD_LAUNCH_TIMES and passes it in.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaunchPadShouldConsumeProof",
+      "rule": "Source-backed LaunchPad shouldConsume gate from LaunchPad.java / BuildingComp.java."
+    },
+    "source_launch_pad_should_consume_state_result": {
+      "status": "active",
+      "owner": "SourceLaunchPadBuildState.source_launch_pad_should_consume_state",
+      "source_slice": "N2205",
+      "keys": {
+        "should_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "return launchCounter < launchTime;",
+          "rule": "The shouldConsume gate (LaunchPad.java:92-95): float(launch_counter) < launch_time and enabled when a counter observation is present, enabled when the frame carries no launch_counter key (the N2172 behavior); false gates efficiency to 0 via updateConsumption (BuildingComp.java:1960 + 1992-1993).",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaunchPadShouldConsumeProof",
+      "rule": "Source-backed LaunchPad shouldConsume gate from LaunchPad.java / BuildingComp.java."
     }
   },
   "version": 1

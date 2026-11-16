@@ -66437,6 +66437,36 @@
       ],
       "runtime_proof": "/root/C07ShieldWallUpdateTileProof",
       "rule": "Source-backed ShieldWall updateTile() advance from ShieldWall.java / Wall.java / BuildingComp.java."
+    },
+    "SourceLaunchPadBuildState.source_launch_pad_should_consume_state": {
+      "status": "active",
+      "source_slice": "N2205",
+      "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+      "source_method": "LaunchPadBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_launch_pad_should_consume_state_input.frame"
+        },
+        {
+          "name": "launch_time",
+          "type": "float",
+          "schema": "source_launch_pad_should_consume_state_input.launch_time"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "should_consume"
+      ],
+      "tests": [
+        "test_c07_launch_pad_should_consume_registration",
+        "test_all_c07_launch_pad_should_consume_input_evidence_is_exact",
+        "test_launch_pad_should_consume_state",
+        "test_reference_graph_and_actual_c07_launch_pad_should_consume"
+      ],
+      "runtime_proof": "/root/C07LaunchPadShouldConsumeProof",
+      "rule": "Source-backed LaunchPad shouldConsume gate from LaunchPad.java / BuildingComp.java."
     }
   },
   "policy": {

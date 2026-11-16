@@ -11,6 +11,16 @@ const source_building_access_state := preload("res://src/game/SourceBuildingAcce
 const SOURCE_LAUNCH_PAD_BUILD_IMPLEMENTATIONS := ["LaunchPad"]
 const SOURCE_LAUNCH_PAD_BUILDING_META_KEY := "source_launch_pad_building"
 
+# The per-def launchTime (N2205): launch-pad 1200f (Blocks.java:6794,
+# `launchTime = 60f * 20;`) and advanced-launch-pad 1800f
+# (Blocks.java:6804, `launchTime = 60f * 30;`), overriding the class
+# default `public float launchTime = 1f;` (LaunchPad.java:32). The
+# catalog carries no launchTime property
+# (content_registry.json blocks[404]/[405] properties), so the driver
+# selects the per-def value by block id here and passes it to the
+# shouldConsume gate; an unknown id falls back to the class default.
+const SOURCE_LAUNCH_PAD_LAUNCH_TIMES := {"launch-pad": 1200.0, "advanced-launch-pad": 1800.0}
+
 static func _is_launch_pad_build_implementation(implementation: String) -> bool:
 	return SOURCE_LAUNCH_PAD_BUILD_IMPLEMENTATIONS.has(implementation)
 
@@ -69,6 +79,66 @@ static func source_launch_pad_power_status_row_state(frame: Dictionary, has_powe
 	var live: float = 1.0 if stamped == null else float(stamped)
 	return {"has_power_row": true, "row": {"result": live, "is_power": true}}
 
+static func source_launch_pad_should_consume_state(frame: Dictionary, launch_time: float) -> Dictionary:
+	# LaunchPadBuild overrides shouldConsume
+	# (LaunchPad.java:92, `public boolean shouldConsume(){`
+	# with `return launchCounter < launchTime;`,
+	# LaunchPad.java:94) over the launch counter
+	# (LaunchPad.java:84, `public float launchCounter;`),
+	# which the updateTile advance alone writes
+	# (LaunchPad.java:146, `if((launchCounter += edelta())
+	# >= launchTime && items.total() >= itemCapacity){`).
+	# The per-def launchTime is 1200f for launch-pad
+	# (Blocks.java:6794, `launchTime = 60f * 20;`, with
+	# `size = 3;` and `itemCapacity = 100;` and
+	# `consumePower(4f);`) and 1800f for
+	# advanced-launch-pad (Blocks.java:6804, `launchTime =
+	# 60f * 30;`, with `size = 4;` and `itemCapacity =
+	# 100;` and `consumePower(8f);`), overriding the class
+	# default `public float launchTime = 1f;`
+	# (LaunchPad.java:32). The driver passes the per-def
+	# value (SOURCE_LAUNCH_PAD_LAUNCH_TIMES, keyed by block
+	# id, defaulting to the class default 1.0): the catalog
+	# carries no launchTime property, so the pure function
+	# cannot read it from the block. An absent
+	# `launch_counter` key means "no observation yet" and
+	# preserves the N2172 behavior (`should_consume =
+	# enabled`) -- the N2191 `targets_count` precedent --
+	# never "fully launched": the future updateTile advance
+	# stamps `launch_counter` only after the first launch
+	# gate consult each tick, and defaulting absent to
+	# false would zero efficiency for every live launch
+	# pad before its first advance tick, a live regression
+	# against N2172 GREEN. It also matches the Java init:
+	# `public float launchCounter;` defaults to 0.0f, which
+	# is always < launchTime, so at Java init the gate is
+	# true when enabled. updateConsumption forces
+	# efficiency to zero when the gate is false
+	# (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();`
+	# + 1992, `if(!update){` + 1993, `efficiency = optionalEfficiency = 0f;`).
+	# A missing power stamp
+	# folds to 1.0 before the first graph update, the
+	# assembler fold (UnitAssembler.java:469, `float
+	# powerStatus = !enabled ? 0f : power == null ? 1f :
+	# power.status;`), and the power consumer counts toward
+	# hasConsumers (Block.java:1449, `hasConsumers =
+	# consumers.length > 0;`); edelta() is efficiency *
+	# delta (BuildingComp.java:1928, `return efficiency *
+	# delta();`). The default shouldConsume is `return
+	# enabled;` (BuildingComp.java:755-756). sense
+	# (LAccess.progress) reads the same counter
+	# (LaunchPad.java:98, `if(sensor == LAccess.progress) return Mathf.clamp(launchCounter / launchTime);`)
+	# and waits for its own slice. Two defs share the
+	# implementation (LaunchPad.java:30, `public class
+	# LaunchPad extends Block{`; LaunchPadBuild,
+	# LaunchPad.java:83, `public class LaunchPadBuild
+	# extends Building{`).
+	var enabled: bool = bool(frame.get("enabled", true))
+	var observed: Variant = frame.get("launch_counter", null)
+	if observed == null:
+		return {"should_consume": enabled}
+	return {"should_consume": float(observed) < launch_time and enabled}
+
 @warning_ignore("unused_parameter")
 static func source_launch_pad_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the launch-pad tick wiring every
@@ -105,10 +175,12 @@ static func source_launch_pad_tick_buildings_state(game: Object, seconds: float)
 		# into the min efficiency like every other non-optional
 		# consumer, and the launch gate (LaunchPad.java:146)
 		# follows it. The power consumer counts toward
-		# hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a launch pad does not take the early return. A launch pad with no power consumer is untouched: the tick models no other consumers yet (the updateTile advance waits for its own slice), and LaunchPadBuild HAS a shouldConsume override (LaunchPad.java:92, `public boolean shouldConsume(){` with `return launchCounter < launchTime;`, LaunchPad.java:94) -- the gate waits for its own slice, so the machinery runs with should_consume=true when enabled (the BuildingComp default, BuildingComp.java:755, `public boolean shouldConsume(){` with `return enabled;`, BuildingComp.java:756, is what the driver uses). productionValid is the canonical true default (SourceBuildingAccessState.production_valid_state()).
+		# hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a launch pad does not take the early return. A launch pad with no power consumer is untouched: the tick models no other consumers yet (the updateTile advance waits for its own slice), and LaunchPadBuild HAS a shouldConsume override (LaunchPad.java:92, `public boolean shouldConsume(){` with `return launchCounter < launchTime;`, LaunchPad.java:94) -- N2205 wires the gate through source_launch_pad_should_consume_state(frame, launch_time) (the BuildingComp default, BuildingComp.java:755, `public boolean shouldConsume(){` with `return enabled;`, BuildingComp.java:756, is what an absent launch_counter key preserves). productionValid is the canonical true default (SourceBuildingAccessState.production_valid_state()).
 		var has_power_consumer: bool = bool(block.properties.has("consumePower"))
 		if has_power_consumer and bool(frame.get("enabled", true)) and not bool(frame.get("cheating", false)):
-			var should_consume: bool = bool(frame.get("enabled", true))
+			# N2205 wires the shouldConsume gate through source_launch_pad_should_consume_state(frame, launch_time): float(launch_counter) < launch_time and enabled when a counter observation is present, enabled when the frame carries no launch_counter key (the N2172 behavior preserved; the future updateTile advance stamps launch_counter). The per-def launchTime comes from SOURCE_LAUNCH_PAD_LAUNCH_TIMES by block id (launch-pad 1200.0, advanced-launch-pad 1800.0, class default 1.0) because the catalog carries no launchTime property.
+			var launch_time: float = float(SOURCE_LAUNCH_PAD_LAUNCH_TIMES.get(block_id, 1.0))
+			var should_consume: bool = bool(source_launch_pad_should_consume_state(frame, launch_time).get("should_consume", true))
 			var valid: bool = source_building_access_state.production_valid_state()
 			var setup: Dictionary = source_building_efficiency_state.update_consumption_setup_state(should_consume, valid)
 			frame["efficiency"] = setup.get("efficiency", 1.0)
