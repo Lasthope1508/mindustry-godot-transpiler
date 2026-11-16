@@ -42,6 +42,16 @@ const SOURCE_UNIT_CARGO_LOADER_LIQUID_AMOUNT := 10.0 / 60.0
 # canCreate pure reports when no frame input is stamped (the
 # permissive default: no cap information, do not block).
 const SOURCE_UNIT_CARGO_LOADER_UNIT_CAP_MAX := 2147483647
+# N2415 def constants (single def -- unit-cargo-loader): the
+# poly ring defs (`public float polyStroke = 1.8f, polyRadius = 8f;`,
+# `public int polySides = 6;`, `public float polyRotateSpeed = 1f;`,
+# `public Color polyColor = Pal.accent;`, UnitCargoLoader.java:27-30,
+# no def override -- the unit-cargo-loader def, Blocks.java:2270-2283,
+# sets only size 3 / unitBuildTime / consumers / itemCapacity).
+const SOURCE_UNIT_CARGO_LOADER_POLY_STROKE := 1.8
+const SOURCE_UNIT_CARGO_LOADER_POLY_RADIUS := 8.0
+const SOURCE_UNIT_CARGO_LOADER_POLY_SIDES := 6
+const SOURCE_UNIT_CARGO_LOADER_POLY_ROTATE_SPEED := 1.0
 
 static func _is_unit_cargo_loader_build_implementation(implementation: String) -> bool:
 	return SOURCE_UNIT_CARGO_LOADER_BUILD_IMPLEMENTATIONS.has(implementation)
@@ -115,7 +125,7 @@ static func source_unit_cargo_loader_should_consume_state(frame: Dictionary) -> 
 
 static func source_unit_cargo_loader_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a unit-cargo-loader does not take the early return. The warmup fold follows the folded efficiency (UnitCargoLoader.java:105, `warmup = Mathf.approachDelta(warmup, efficiency, 1f / 60f);`), with the build advance (UnitCargoLoader.java:109, `buildProgress += edelta() / unitBuildTime;`) and the shouldConsume override (UnitCargoLoader.java:141-143, `return unit == null;`, default BuildingComp.java:755, `public boolean shouldConsume(){`) -- UnitTransportSourceBuild overrides shouldConsume() to return unit == null, so the default does not apply here; the shouldConsume gate is live (N2211) -- the pure gate (source_unit_cargo_loader_should_consume_state) feeds should_consume to the machinery from the frame unit key (null while building, non-null once a unit waits to be loaded); the updateTile advance is live (N2234) -- the pure advance fills frame["unit"] from the found_unit param and from the spawn, while the live Groups.unit.getByID fill still waits for its own slice. The unit-cargo-loader also consumes liquid nitrogen 10f/60f (Blocks.java:2279, `consumeLiquid(Liquids.nitrogen, 10f / 60f);`), so the folded efficiency is the min over power + liquid -- the liquid row is live (N2249).
-	# Documented limits: (1) liquid row live (N2249) -- the unit-cargo-loader also consumes liquid nitrogen 10f/60f (Blocks.java:2279, `consumeLiquid(Liquids.nitrogen, 10f / 60f);`), so the folded efficiency is the min over power + liquid (source_unit_cargo_loader_liquid_consumer_row_state, ConsumeLiquid.efficiency ConsumeLiquid.java:42-47, with the second-pass removal ConsumeLiquid.java:37-39); the consumer's build/display rows (ConsumeLiquid.build ReqImage, ConsumeLiquid.java:31-34; display Stat.input, ConsumeLiquid.java:49-52) still defer. (2) shouldConsume gate live (N2211) -- UnitTransportSourceBuild overrides shouldConsume() to return unit == null (UnitCargoLoader.java:141-143, `return unit == null;`); the pure gate reads the frame unit key (default null) and feeds should_consume to the machinery; the updateTile advance is live (N2234) -- the pure advance fills frame["unit"] from the found_unit param and from the spawn, so the gate closes the tick after a unit spawns. (3) updateTile advance live (N2234) -- unit lost/destroyed / readUnitId / warmup / readyness / buildProgress / totalProgress / unit spawn (UnitCargoLoader.java:92-125) advance in the pure function (source_unit_cargo_loader_update_tile_advance_state), the warmup fold (UnitCargoLoader.java:105, `warmup = Mathf.approachDelta(warmup, efficiency, 1f / 60f);`) and the build advance (UnitCargoLoader.java:109, `buildProgress += edelta() / unitBuildTime;`) following the folded efficiency; the canCreate live evaluation (N2322) feeds the spawn gate from the frame can_create_inputs dict (Units.canCreate, Units.java:115-117, over getCap, Units.java:119-126, via the shared N2140 bridge); the live fill (Groups.unit.getByID query + live spawn application + live unit-count source for count_type) still defers. (4) canPlaceOn live (N2330) -- the placement gate (UnitCargoLoader.java:65-68, `return super.canPlaceOn(tile, team, rotation) && Units.canCreate(team, unitType);` over the Block default true, Block.java:606-608) is the pure source_unit_cargo_loader_can_place_on_state composing the N2322 canCreate verdict; it is a placement gate, NOT tick wiring (the driver never calls canPlaceOn each tick), and no placement path calls it yet -- the live call site waits for its own slice. Bar / draw / read-write rows still defer: setBars (UnitCargoLoader.java:48-63), draw (UnitCargoLoader.java:146-162), read/write (UnitCargoLoader.java:174-188) are presentation/serialization, not tick state. (5) Unit spawn pure result live (N2234) -- unitType manifold / unitBuildTime 60f * 8f (UnitCargoLoader.java:24-25, `public float unitBuildTime = 60f * 8f;`) and the spawn report (spawned_unit + buildProgress 0f, UnitCargoLoader.java:114-122/127-133) are modeled; the live application (unitType.create + unit.add + Call.unitTetherBlockSpawned + Fx.spawn) waits for its own slice. (6) canCreate live evaluation (N2322) -- Units.canCreate(team, unitType) (Units.java:115-117) is evaluated by the pure source_unit_cargo_loader_can_create_state from the frame can_create_inputs dict (count_type / use_unit_cap / is_banned / is_wave_team / is_campaign / is_pvp / disable_unit_cap / ignore_unit_cap / unit_cap / unit_cap_variable / team_unit_cap), default permissive (can_create true, cap Integer.MAX_VALUE) when no input is stamped; the cap comes from the shared N2140 bridge (SourceUnitUpdateState.cap_state + SourceUnitRuntimeState.source_units_can_create_state), and the live unit-count source (team.data().countType live query) still defers -- nothing stamps count_type live yet. canPlaceOn (UnitCargoLoader.java:65-68) is live (N2330) as the pure source_unit_cargo_loader_can_place_on_state composing this verdict.
+	# Documented limits: (1) liquid row live (N2249) -- the unit-cargo-loader also consumes liquid nitrogen 10f/60f (Blocks.java:2279, `consumeLiquid(Liquids.nitrogen, 10f / 60f);`), so the folded efficiency is the min over power + liquid (source_unit_cargo_loader_liquid_consumer_row_state, ConsumeLiquid.efficiency ConsumeLiquid.java:42-47, with the second-pass removal ConsumeLiquid.java:37-39); the consumer's build/display rows (ConsumeLiquid.build ReqImage, ConsumeLiquid.java:31-34; display Stat.input, ConsumeLiquid.java:49-52) still defer. (2) shouldConsume gate live (N2211) -- UnitTransportSourceBuild overrides shouldConsume() to return unit == null (UnitCargoLoader.java:141-143, `return unit == null;`); the pure gate reads the frame unit key (default null) and feeds should_consume to the machinery; the updateTile advance is live (N2234) -- the pure advance fills frame["unit"] from the found_unit param and from the spawn, so the gate closes the tick after a unit spawns. (3) updateTile advance live (N2234) -- unit lost/destroyed / readUnitId / warmup / readyness / buildProgress / totalProgress / unit spawn (UnitCargoLoader.java:92-125) advance in the pure function (source_unit_cargo_loader_update_tile_advance_state), the warmup fold (UnitCargoLoader.java:105, `warmup = Mathf.approachDelta(warmup, efficiency, 1f / 60f);`) and the build advance (UnitCargoLoader.java:109, `buildProgress += edelta() / unitBuildTime;`) following the folded efficiency; the canCreate live evaluation (N2322) feeds the spawn gate from the frame can_create_inputs dict (Units.canCreate, Units.java:115-117, over getCap, Units.java:119-126, via the shared N2140 bridge); the live fill (Groups.unit.getByID query + live spawn application + live unit-count source for count_type) still defers. (4) canPlaceOn live (N2330) -- the placement gate (UnitCargoLoader.java:65-68, `return super.canPlaceOn(tile, team, rotation) && Units.canCreate(team, unitType);` over the Block default true, Block.java:606-608) is the pure source_unit_cargo_loader_can_place_on_state composing the N2322 canCreate verdict; it is a placement gate, NOT tick wiring (the driver never calls canPlaceOn each tick), and no placement path calls it yet -- the live call site waits for its own slice. Draw rows live (N2415) -- the draw pure (source_unit_cargo_loader_draw_state) models draw() (UnitCargoLoader.java:146-162: base rect + the Drawf.construct call while no unit is held + the poly ring once a unit waits, the icon unitType.fullIcon riding the pure as the construct_icon result key). Pure-only: the tick never calls draw -- draw is called by the renderer, and the renderer call site waits for a renderer slice. Bar / read-write rows still defer: setBars (UnitCargoLoader.java:48-63), read/write (UnitCargoLoader.java:174-188) are presentation/serialization, not tick state. (5) Unit spawn pure result live (N2234) -- unitType manifold / unitBuildTime 60f * 8f (UnitCargoLoader.java:24-25, `public float unitBuildTime = 60f * 8f;`) and the spawn report (spawned_unit + buildProgress 0f, UnitCargoLoader.java:114-122/127-133) are modeled; the live application (unitType.create + unit.add + Call.unitTetherBlockSpawned + Fx.spawn) waits for its own slice. (6) canCreate live evaluation (N2322) -- Units.canCreate(team, unitType) (Units.java:115-117) is evaluated by the pure source_unit_cargo_loader_can_create_state from the frame can_create_inputs dict (count_type / use_unit_cap / is_banned / is_wave_team / is_campaign / is_pvp / disable_unit_cap / ignore_unit_cap / unit_cap / unit_cap_variable / team_unit_cap), default permissive (can_create true, cap Integer.MAX_VALUE) when no input is stamped; the cap comes from the shared N2140 bridge (SourceUnitUpdateState.cap_state + SourceUnitRuntimeState.source_units_can_create_state), and the live unit-count source (team.data().countType live query) still defers -- nothing stamps count_type live yet. canPlaceOn (UnitCargoLoader.java:65-68) is live (N2330) as the pure source_unit_cargo_loader_can_place_on_state composing this verdict.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -438,6 +448,159 @@ static func source_unit_cargo_loader_can_place_on_state(frame: Dictionary) -> Di
 	var super_can_place_on: bool = true
 	var can_create_state: Dictionary = source_unit_cargo_loader_can_create_state(frame)
 	return {"can_place_on": super_can_place_on and bool(can_create_state.get("can_create", true))}
+
+static func source_unit_cargo_loader_draw_state(x_value: float, y_value: float, unit: Variant, build_progress: float, warmup: float, total_progress: float, readyness: float, time_value: float, size_value: int) -> Dictionary:
+	# The draw rows (UnitTransportSourceBuild.draw(),
+	# UnitCargoLoader.java:146-162), the pure draw-call dict
+	# -- the port never draws for real (the N2396 MassDriver
+	# precedent: the pure returns the draw calls as data).
+	# Java draws, in order (each exact expr on ONE comment
+	# line, the N2148 lesson):
+	# `Draw.rect(block.region, x, y);`
+	# `if(unit == null){`
+	# `Draw.draw(Layer.blockOver, () -> {`
+	# `Drawf.construct(this, unitType.fullIcon, 0f, buildProgress, warmup, totalProgress);`
+	# `Draw.z(Layer.bullet - 0.01f);`
+	# `Draw.color(polyColor);`
+	# `Lines.stroke(polyStroke * readyness);`
+	# `Lines.poly(x, y, polySides, polyRadius, Time.time * polyRotateSpeed);`
+	# `Draw.reset();`
+	# `Draw.z(Layer.block);`
+	# The base rect always draws; then EITHER the construct
+	# call on Layer.blockOver while no unit is held OR the
+	# poly ring once a unit waits to be loaded. The branch
+	# is the SAME null check as the N2211 shouldConsume gate
+	# (`if(unit == null){`, UnitCargoLoader.java:148, over
+	# `public @Nullable Unit unit;`, UnitCargoLoader.java:89)
+	# -- the pure takes the unit as a Variant (null or the
+	# unit dict/id, the frame key the gate reads) and
+	# branches on null-ness only. The frame inputs are
+	# `public float buildProgress, totalProgress;` and
+	# `public float warmup, readyness;`
+	# (UnitCargoLoader.java:87-88, all tracked by the N2234
+	# advance). The def constants are
+	# `public float polyStroke = 1.8f, polyRadius = 8f;`
+	# `public int polySides = 6;`
+	# `public float polyRotateSpeed = 1f;`
+	# `public Color polyColor = Pal.accent;`
+	# (UnitCargoLoader.java:27-30, no def override -- the
+	# unit-cargo-loader def, Blocks.java:2270-2283, sets
+	# only size 3 / unitBuildTime / consumers /
+	# itemCapacity), so the rotation is Time.time * 1f and
+	# the stroke is 1.8f * readyness. Drawf.construct
+	# delegates (Drawf.java:574-579):
+	# `public static void construct(Building t, TextureRegion region, float rotation, float progress, float alpha, float time){`
+	# `construct(t, region, Pal.accent, rotation, progress, alpha, time);`
+	# `construct(t, region, color, rotation, progress, alpha, time, t.block.size * tilesize - 4f);`
+	# -- color Pal.accent, size t.block.size * tilesize - 4f
+	# = 3 * 8 - 4 = 20f. The sized overload
+	# (Drawf.java:582-599) draws the build-shader rect:
+	# `Shaders.build.progress = progress;`
+	# `Shaders.build.color.a = alpha;`
+	# `Shaders.build.time = -time / 20f;`
+	# `Draw.rect(region, t.x, t.y, rotation);`
+	# `Draw.color(Pal.accent);`
+	# `Draw.alpha(alpha);`
+	# plus the scan line:
+	# `Lines.lineAngleCenter(t.x + Mathf.sin(time, 20f, size / 2f), t.y, 90, size);`
+	# The construct call args map: rotation 0f, progress
+	# buildProgress, alpha warmup, time totalProgress. The
+	# sin is the arc 3-arg form
+	# `return sin(radians / scl) * mag;`
+	# (Mathf.java:90-92, arc), so the line offset is
+	# sin(totalProgress / 20f) * 10f, computed with
+	# GDScript sin() like the shared absin helper does
+	# (SourceMathState.source_absin). No absin is involved
+	# here -- the N2372/N2382 double-scale precedent does
+	# not apply, construct pulses on sin, not absin. The
+	# icon rides this pure: the construct region is
+	# unitType.fullIcon (`public UnitType unitType = UnitTypes.manifold;`,
+	# UnitCargoLoader.java:24) and UnitCargoLoader has NO
+	# icons() override, so there is no icons() pure to
+	# register -- and a zero-arg pure cannot register (the
+	# SSOT schema validator requires non-empty input keys,
+	# the N2396 precedent); the pure reports the icon as the
+	# symbolic token "unitType.fullIcon", the literal Java
+	# expr. tilesize is the Java constant 8.0
+	# (`public static final int tilesize = 8;`, Vars.java:135
+	# -- NEVER the game tile_size 32, the N2375 lesson).
+	# Time.time is caller-supplied as time_value (the
+	# N2396/N2372 convention -- draw never runs in the
+	# tick, so the tick never stamps it). Pure-only: the
+	# tick never calls draw -- draw is called by the
+	# renderer, and the renderer call site waits for a
+	# renderer slice. drawSelect / drawConfigure are NOT
+	# modeled (UnitCargoLoader overrides neither).
+	var tile_size: float = 8.0
+	var has_unit: bool = unit != null
+	var construct_size: float = float(size_value) * tile_size - 4.0
+	var construct_shader_time: float = -total_progress / 20.0
+	var construct_line_x: float = x_value + sin(total_progress / 20.0) * (construct_size / 2.0)
+	var poly_rotation: float = time_value * SOURCE_UNIT_CARGO_LOADER_POLY_ROTATE_SPEED
+	var poly_stroke: float = SOURCE_UNIT_CARGO_LOADER_POLY_STROKE * readyness
+	var base_call: Dictionary = {
+		"call": "Draw.rect(block.region, x, y);",
+		"region": "region",
+		"x": x_value,
+		"y": y_value,
+	}
+	var construct_call: Dictionary = {}
+	if not has_unit:
+		construct_call = {
+			"call": "Drawf.construct(this, unitType.fullIcon, 0f, buildProgress, warmup, totalProgress);",
+			"icon": "unitType.fullIcon",
+			"rotation": 0.0,
+			"progress": build_progress,
+			"alpha": warmup,
+			"time": total_progress,
+			"color": "Pal.accent",
+			"size": construct_size,
+			"shader_time": construct_shader_time,
+			"z": "Layer.blockOver",
+			"line": {
+				"call": "Lines.lineAngleCenter(t.x + Mathf.sin(time, 20f, size / 2f), t.y, 90, size);",
+				"x": construct_line_x,
+				"y": y_value,
+				"angle": 90.0,
+				"length": construct_size,
+			},
+		}
+	var poly_call: Dictionary = {}
+	if has_unit:
+		poly_call = {
+			"call": "Lines.poly(x, y, polySides, polyRadius, Time.time * polyRotateSpeed);",
+			"x": x_value,
+			"y": y_value,
+			"sides": SOURCE_UNIT_CARGO_LOADER_POLY_SIDES,
+			"radius": SOURCE_UNIT_CARGO_LOADER_POLY_RADIUS,
+			"rotation": poly_rotation,
+			"stroke": poly_stroke,
+			"color": "Pal.accent",
+			"z": "Layer.bullet - 0.01f",
+		}
+	return {
+		"base_expr": "Draw.rect(block.region, x, y);",
+		"construct_expr": "Drawf.construct(this, unitType.fullIcon, 0f, buildProgress, warmup, totalProgress);",
+		"poly_expr": "Lines.poly(x, y, polySides, polyRadius, Time.time * polyRotateSpeed);",
+		"x": x_value,
+		"y": y_value,
+		"has_unit": has_unit,
+		"build_progress": build_progress,
+		"warmup": warmup,
+		"total_progress": total_progress,
+		"readyness": readyness,
+		"time_value": time_value,
+		"size": size_value,
+		"construct_size": construct_size,
+		"construct_shader_time": construct_shader_time,
+		"construct_line_x": construct_line_x,
+		"poly_rotation": poly_rotation,
+		"poly_stroke": poly_stroke,
+		"construct_icon": "unitType.fullIcon",
+		"base_call": base_call,
+		"construct_call": construct_call,
+		"poly_call": poly_call,
+	}
 
 @warning_ignore("unused_parameter")
 static func source_unit_cargo_loader_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
