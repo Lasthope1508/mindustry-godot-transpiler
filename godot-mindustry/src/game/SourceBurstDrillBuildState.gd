@@ -208,10 +208,19 @@ static func source_burst_drill_power_status_row_state(frame: Dictionary, has_pow
 	# (the tick fills the two neighbour arrays from the live
 	# proximity before the dump reads them); first-fire deviation
 	# documented (Java fires nearly immediately after
-	# placement, the frame clock waits a full interval); still
-	# deferred: the offload neighbor
-	# routing -- offload takes the no-neighbor fallback branch
-	# (BuildingComp.java:1017, `handleItem(self(), item);`).
+	# placement, the frame clock waits a full interval); the
+	# updateTile offload neighbor routing live (N2476) -- the
+	# advance routes each offloaded item through the pure
+	# source_burst_drill_offload_route_state (the neighbour
+	# acceptItem/canDump scan from the saved cdump,
+	# BuildingComp.java:1001-1015) and the tick lands each
+	# routed item in the neighbour store through the shared
+	# helper (the N2360 write-back precedent); the fallback
+	# keeps the no-neighbor branch (BuildingComp.java:1014,
+	# `handleItem(self(), item);`). The produced(item, 1)
+	# stats call defers (no sector production stats in this
+	# driver -- the advance's offloaded count is the per-item
+	# produced record aggregated).
 	# (4) updateTile offload effects rows live (N2469) -- the
 	# shake + drillSound + drillEffect presentation
 	# (BurstDrill.java:114-118) runs as one pure-only pure
@@ -343,10 +352,30 @@ static func source_burst_drill_update_tile_advance_state(frame: Dictionary, sour
 	# (apply_update_consumption_state stamps frame["optional_efficiency"]; the booster liquid rows
 	# fold live since N2257, capped by the min efficiency, BuildingComp.java:1965/1986). dominant_item_name is the
 	# dominant item resolved to its catalog name by the driver (the frame dominant_item is the item dict,
-	# Drill.java:244 `public Item dominantItem;`); the offload adds it through the shared inventory helper
-	# (add_item_state), the no-neighbor fallback branch of offload (BuildingComp.java:1017,
-	# `handleItem(self(), item);`), the base-Drill driver precedent -- the neighbor routing waits for its
-	# own slice. `public class BurstDrill extends Drill{` (BurstDrill.java:17) and
+	# Drill.java:244 `public Item dominantItem;`); the offload routes each item through the pure
+	# source_burst_drill_offload_route_state (offload(), BuildingComp.java:1001-1015:
+	# `produced(item, 1);` / `int dump = this.cdump;` / `for(int i = 0; i < proximity.size; i++){` with
+	# `incrementDump(proximity.size);` BEFORE the check and `Building other = proximity.get((i + dump) % proximity.size);`
+	# handing the item to the first neighbour where `if(other.acceptItem(self(), item) && canDump(other, item)){`
+	# holds, via `other.handleItem(self(), item);`, and falling back to `handleItem(self(), item);`
+	# (BuildingComp.java:1014) when no neighbour takes it). The routing reads the neighbour gate arrays
+	# from the frame (dump_neighbour_accepts / dump_neighbour_can_dump, default [] -- the N2403 live
+	# fill, refreshed for the dominant item before this advance in the tick) plus the frame cdump
+	# (`transient int cdump;`, BuildingComp.java:68), and threads the cdump across the dominantItems loop
+	# (one offload(item) call per item, BurstDrill.java:107-109, `for(int i = 0; i < dominantItems; i++){`
+	# / `offload(dominantItem);`); the fallback items land in the own store through the shared inventory
+	# helper (add_item_state, one call with the fallback count -- add_item_state has no capacity cap, so
+	# it equals the per-item adds). The advance exposes the routed indices (offload_routed_indices, one
+	# ring index per routed item, in loop order) + the fallback count (offload_fallback_count) + the
+	# cursor after the loop (cdump) so the tick can land the routed items in the neighbour stores (the
+	# N2353 helper) and stamp the cursor; the three keys are unregistered API shape (the N2353
+	# precedent -- a schema-sync slice folds them in, the N2367 pattern). produced(item, 1) is a stats
+	# call (sector production stats, no port path -- the N2398 WallCrafter precedent): the advance's
+	# offloaded count IS the per-item produced record aggregated (offloaded == dominantItems whenever
+	# the branch fires, routed or fallback). The gate arrays are a snapshot at advance entry: Java
+	# re-evaluates acceptItem per offload() call, so a neighbour that fills mid-loop keeps receiving
+	# in the port (the write-back does not re-check, the N2353 precedent) -- the per-neighbour
+	# remaining-capacity refinement waits for its own slice. `public class BurstDrill extends Drill{` (BurstDrill.java:17) and
 	# `public class BurstDrillBuild extends DrillBuild{` (BurstDrill.java:70), so the override wins over
 	# the base-Drill updateTile, which the BurstDrill override never calls.
 	var stored_items: Variant = frame.get("items", {})
@@ -363,11 +392,18 @@ static func source_burst_drill_update_tile_advance_state(frame: Dictionary, sour
 	var invert_time: float = float(frame.get("invert_time", 0.0))
 	var items_total: int = source_drill_inventory_runtime_state.items_total(items)
 	var next_items: Dictionary = items.duplicate(true)
+	var cdump: int = int(frame.get("cdump", 0))
+	var accepts_value: Variant = frame.get("dump_neighbour_accepts")
+	var neighbour_accepts_item: Array = accepts_value if accepts_value is Array else []
+	var can_dump_value: Variant = frame.get("dump_neighbour_can_dump")
+	var neighbour_can_dump: Array = can_dump_value if can_dump_value is Array else []
 	var offloaded := 0
+	var offload_routed_indices: Array = []
+	var offload_fallback_count := 0
 	var speed := 0.0
 	var effective_drill_time := 0.0
 	if dominant_item == null:
-		return {"progress": progress, "warmup": warmup, "time_drilled": time_drilled, "last_drill_speed": last_drill_speed, "smooth_progress": smooth_progress, "invert_time": invert_time, "items": next_items, "offloaded": offloaded, "drill_time": effective_drill_time, "speed": speed}
+		return {"progress": progress, "warmup": warmup, "time_drilled": time_drilled, "last_drill_speed": last_drill_speed, "smooth_progress": smooth_progress, "invert_time": invert_time, "items": next_items, "offloaded": offloaded, "offload_routed_indices": offload_routed_indices, "offload_fallback_count": offload_fallback_count, "cdump": cdump, "drill_time": effective_drill_time, "speed": speed}
 	var scaled_delta: float = source_delta * time_scale
 	if invert_time > 0.0:
 		invert_time -= scaled_delta / SOURCE_BURST_DRILL_INVERTED_TIME
@@ -385,14 +421,77 @@ static func source_burst_drill_update_tile_advance_state(frame: Dictionary, sour
 		var decay_step: float = source_delta * SOURCE_BURST_DRILL_WARMUP_RATE
 		warmup = warmup + clampf(0.0 - warmup, -decay_step, decay_step)
 		last_drill_speed = 0.0
-		return {"progress": progress, "warmup": warmup, "time_drilled": time_drilled, "last_drill_speed": last_drill_speed, "smooth_progress": smooth_progress, "invert_time": invert_time, "items": next_items, "offloaded": offloaded, "drill_time": effective_drill_time, "speed": speed}
+		return {"progress": progress, "warmup": warmup, "time_drilled": time_drilled, "last_drill_speed": last_drill_speed, "smooth_progress": smooth_progress, "invert_time": invert_time, "items": next_items, "offloaded": offloaded, "offload_routed_indices": offload_routed_indices, "offload_fallback_count": offload_fallback_count, "cdump": cdump, "drill_time": effective_drill_time, "speed": speed}
 	if dominant_items > 0 and progress >= effective_drill_time and items_total < item_capacity:
-		var offloaded_state: Dictionary = source_drill_inventory_runtime_state.add_item_state(next_items, dominant_item_name, dominant_items)
-		next_items = offloaded_state.get("drill_items", next_items)
+		var routed_cdump: int = cdump
+		for _offload_index in range(dominant_items):
+			var routed: Dictionary = source_burst_drill_offload_route_state(neighbour_accepts_item, neighbour_can_dump, routed_cdump, dominant_item_name)
+			routed_cdump = int(routed.get("cdump_after", routed_cdump))
+			var routed_index: int = int(routed.get("routed_index", -1))
+			if routed_index >= 0:
+				offload_routed_indices.append(routed_index)
+			else:
+				offload_fallback_count += 1
+		if offload_fallback_count > 0:
+			var offloaded_state: Dictionary = source_drill_inventory_runtime_state.add_item_state(next_items, dominant_item_name, offload_fallback_count)
+			next_items = offloaded_state.get("drill_items", next_items)
 		offloaded = dominant_items
+		cdump = routed_cdump
 		invert_time = 1.0
 		progress = fmod(progress, effective_drill_time)
-	return {"progress": progress, "warmup": warmup, "time_drilled": time_drilled, "last_drill_speed": last_drill_speed, "smooth_progress": smooth_progress, "invert_time": invert_time, "items": next_items, "offloaded": offloaded, "drill_time": effective_drill_time, "speed": speed}
+	return {"progress": progress, "warmup": warmup, "time_drilled": time_drilled, "last_drill_speed": last_drill_speed, "smooth_progress": smooth_progress, "invert_time": invert_time, "items": next_items, "offloaded": offloaded, "offload_routed_indices": offload_routed_indices, "offload_fallback_count": offload_fallback_count, "cdump": cdump, "drill_time": effective_drill_time, "speed": speed}
+
+@warning_ignore("unused_parameter")
+static func source_burst_drill_offload_route_state(neighbour_accepts_item: Array, neighbour_can_dump: Array, cdump: int, offloaded_item_name: String) -> Dictionary:
+	# The offload neighbour routing (offload(), BuildingComp.java:1001-1015) for ONE offloaded item --
+	# the BurstDrill offload branch calls offload(dominantItem) once per dominant item
+	# (BurstDrill.java:107-109, `for(int i = 0; i < dominantItems; i++){` / `offload(dominantItem);`),
+	# and the advance loops this pure with the cdump threaded across items. The Java lines, in order
+	# (each exact expr on ONE comment line, the N2148 lesson):
+	# `public void offload(Item item){`
+	# `produced(item, 1);`
+	# `int dump = this.cdump;`
+	# `for(int i = 0; i < proximity.size; i++){`
+	# `incrementDump(proximity.size);`
+	# `Building other = proximity.get((i + dump) % proximity.size);`
+	# `if(other.acceptItem(self(), item) && canDump(other, item)){`
+	# `other.handleItem(self(), item);`
+	# `handleItem(self(), item);`
+	# The scan starts at the cdump SNAPSHOT (`int dump = this.cdump;`, BuildingComp.java:1003) and
+	# incrementDump runs BEFORE each check (:1006), so the cursor advances once per scanned neighbour
+	# INCLUDING the handling one (a routed item leaves the cursor past the handler; a full refused scan
+	# returns it to its start -- the N2286 full-cycle invariant). incrementDump is
+	# `public void incrementDump(int prox){` (BuildingComp.java:1116-1120) with `if(prox != 0){` and
+	# `cdump = ((cdump + 1) % prox);`, and the port reuses the shared rotation helper
+	# (SourceBuildingItemDumpState.increment_dump_cursor_state -- the dump path's helper, no duplicate
+	# modulo here). The cursor is the Building field `transient int cdump;` (BuildingComp.java:68, 0).
+	# The two gate arrays are the per-neighbour acceptItem / canDump answers in PROXIMITY order (index
+	# i is ring cell i, the N2353 convention -- the arrays ARE the proximity order, no separate order
+	# array is needed): acceptItem is `public boolean acceptItem(Building source, Item item){` with
+	# `return block.consumesItem(item) && items.get(item) < getMaximumAccepted(item);`
+	# (BuildingComp.java:864-866), and canDump defaults to true (`public boolean canDump(Building to, Item item){`,
+	# BuildingComp.java:1124-1126). The arrays answer for the OFFLOADED item (the caller fills them for
+	# it -- the tick refreshes the N2403 fill for the dominant item before the advance), so the pure
+	# reads the gates only; offloaded_item_name names the item the gates answer for (the Java method's
+	# argument, `public void offload(Item item){`) and is otherwise unused -- a wiring guard, not a
+	# lookup. A mismatched pair scans the LONGER proximity with bounds-checked reads (missing side
+	# reads false, the Separator N2343 / dump_item_state precedent). An empty proximity routes
+	# nowhere and leaves the cursor untouched (the incrementDump prox != 0 guard). The fallback verdict
+	# is routed_index -1: the caller keeps the item in the own store through add_item_state
+	# (`handleItem(self(), item);`, BuildingComp.java:1014, via `public void handleItem(Building source, Item item){`
+	# with `items.add(item, 1);`, BuildingComp.java:860-862). produced(item, 1) is a stats call with no
+	# port path (the N2398 WallCrafter precedent) -- the advance's offloaded count aggregates it.
+	var proximity_size: int = maxi(neighbour_accepts_item.size(), neighbour_can_dump.size())
+	var dump: int = cdump
+	var next_cdump: int = cdump
+	for i in range(proximity_size):
+		next_cdump = source_building_item_dump_state.increment_dump_cursor_state(next_cdump, proximity_size)
+		var other_index: int = (i + dump) % proximity_size
+		var accepts_item: bool = other_index < neighbour_accepts_item.size() and bool(neighbour_accepts_item[other_index])
+		var can_dump: bool = other_index < neighbour_can_dump.size() and bool(neighbour_can_dump[other_index])
+		if accepts_item and can_dump:
+			return {"routed_index": other_index, "cdump_after": next_cdump}
+	return {"routed_index": -1, "cdump_after": next_cdump}
 
 static func source_burst_drill_timer_dump_state(frame: Dictionary, source_delta: float, time_scale: float, dominant_item_name: String, content_item_ids: Array, neighbour_accepts_item: Array, neighbour_can_dump: Array) -> Dictionary:
 	# The timerDump dump (BurstDrillBuild.updateTile(),
@@ -898,6 +997,27 @@ static func source_burst_drill_tick_buildings_state(game: Object, seconds: float
 					var dump_index: int = int(dumped.get("dump_neighbour_index", -1))
 					if dump_index >= 0:
 						source_building_item_state.source_neighbour_item_write_back_state(game, cell, int(block.properties.get("size", 1)), dump_index, str(dumped.get("dumped_item", "")), 1)
+				# N2476: the offload neighbour refresh -- the
+				# dump fill answered for the FIRST held item at
+				# dump time, but offload routes the DOMINANT
+				# item (BurstDrill.java:107-109), and the dump
+				# write-back above may have filled a neighbour
+				# to capacity since the fill ran -- so the
+				# arrays are stale for the offload on both
+				# counts (an empty store at fill time answers
+				# all-false even with an accepting neighbour).
+				# Refresh them for the dominant item before
+				# the advance, through the same fill (the
+				# probe frame holds one dominant item, so the
+				# fill's first-held pick IS the dominant item
+				# -- the fill reads only frame["items"]).
+				# Live-managed frames only (dump_neighbour_live
+				# -- the N2403 gate): a frame with supplied
+				# arrays keeps its seed for the offload too.
+				if dominant_item_name != "" and bool(frame.get("dump_neighbour_live", false)):
+					var refreshed: Dictionary = source_burst_drill_dump_neighbour_live_fill_state(game, cell, int(block.properties.get("size", 1)), {"items": {dominant_item_name: 1}}, content_item_ids)
+					frame["dump_neighbour_accepts"] = refreshed.get("dump_neighbour_accepts", [])
+					frame["dump_neighbour_can_dump"] = refreshed.get("dump_neighbour_can_dump", [])
 				var advanced: Dictionary = source_burst_drill_update_tile_advance_state(frame, source_delta, time_scale, block_drill_time, block_boost, drill_multiplier, dominant_item_name, int(block.properties.get("itemCapacity", 10)))
 				frame["progress"] = advanced["progress"]
 				frame["warmup"] = advanced["warmup"]
@@ -906,6 +1026,25 @@ static func source_burst_drill_tick_buildings_state(game: Object, seconds: float
 				frame["smooth_progress"] = advanced["smooth_progress"]
 				frame["invert_time"] = advanced["invert_time"]
 				frame["items"] = advanced["items"]
+				frame["cdump"] = advanced["cdump"]
+				# N2476: the offload neighbour write-back --
+				# the advance routed each offloaded item (or
+				# fell back to the own store), so the tick
+				# lands each routed item in its neighbour
+				# store through the shared helper
+				# (other.handleItem(self(), item),
+				# BuildingComp.java:1009 -- one handleItem per
+				# offloaded item, Java order: handleItem runs
+				# INSIDE offload(), BurstDrill.java:107-109,
+				# before invertTime / progress reset). Index i
+				# is ring cell i (the N2353 convention). A
+				# failed write-back (no sprite / no frame /
+				# no items store / full belt) drops the item
+				# -- the routing already decided, so there is
+				# no fallback to the drill's own store (the
+				# N2360 dump write-back precedent).
+				for routed_index in advanced.get("offload_routed_indices", []):
+					source_building_item_state.source_neighbour_item_write_back_state(game, cell, int(block.properties.get("size", 1)), int(routed_index), dominant_item_name, 1)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
 	return {"ticked_count": ticked_count, "results_by_cell": results_by_cell}
