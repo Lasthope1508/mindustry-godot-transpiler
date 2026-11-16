@@ -125,7 +125,7 @@ static func source_unit_cargo_loader_should_consume_state(frame: Dictionary) -> 
 
 static func source_unit_cargo_loader_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a unit-cargo-loader does not take the early return. The warmup fold follows the folded efficiency (UnitCargoLoader.java:105, `warmup = Mathf.approachDelta(warmup, efficiency, 1f / 60f);`), with the build advance (UnitCargoLoader.java:109, `buildProgress += edelta() / unitBuildTime;`) and the shouldConsume override (UnitCargoLoader.java:141-143, `return unit == null;`, default BuildingComp.java:755, `public boolean shouldConsume(){`) -- UnitTransportSourceBuild overrides shouldConsume() to return unit == null, so the default does not apply here; the shouldConsume gate is live (N2211) -- the pure gate (source_unit_cargo_loader_should_consume_state) feeds should_consume to the machinery from the frame unit key (null while building, non-null once a unit waits to be loaded); the updateTile advance is live (N2234) -- the pure advance fills frame["unit"] from the found_unit param and from the spawn, while the live Groups.unit.getByID fill still waits for its own slice. The unit-cargo-loader also consumes liquid nitrogen 10f/60f (Blocks.java:2279, `consumeLiquid(Liquids.nitrogen, 10f / 60f);`), so the folded efficiency is the min over power + liquid -- the liquid row is live (N2249).
-	# Documented limits: (1) liquid row live (N2249) -- the unit-cargo-loader also consumes liquid nitrogen 10f/60f (Blocks.java:2279, `consumeLiquid(Liquids.nitrogen, 10f / 60f);`), so the folded efficiency is the min over power + liquid (source_unit_cargo_loader_liquid_consumer_row_state, ConsumeLiquid.efficiency ConsumeLiquid.java:42-47, with the second-pass removal ConsumeLiquid.java:37-39); the consumer's build/display rows (ConsumeLiquid.build ReqImage, ConsumeLiquid.java:31-34; display Stat.input, ConsumeLiquid.java:49-52) still defer. (2) shouldConsume gate live (N2211) -- UnitTransportSourceBuild overrides shouldConsume() to return unit == null (UnitCargoLoader.java:141-143, `return unit == null;`); the pure gate reads the frame unit key (default null) and feeds should_consume to the machinery; the updateTile advance is live (N2234) -- the pure advance fills frame["unit"] from the found_unit param and from the spawn, so the gate closes the tick after a unit spawns. (3) updateTile advance live (N2234) -- unit lost/destroyed / readUnitId / warmup / readyness / buildProgress / totalProgress / unit spawn (UnitCargoLoader.java:92-125) advance in the pure function (source_unit_cargo_loader_update_tile_advance_state), the warmup fold (UnitCargoLoader.java:105, `warmup = Mathf.approachDelta(warmup, efficiency, 1f / 60f);`) and the build advance (UnitCargoLoader.java:109, `buildProgress += edelta() / unitBuildTime;`) following the folded efficiency; the canCreate live evaluation (N2322) feeds the spawn gate from the frame can_create_inputs dict (Units.canCreate, Units.java:115-117, over getCap, Units.java:119-126, via the shared N2140 bridge); the live fill (Groups.unit.getByID query + live spawn application + live unit-count source for count_type) still defers. (4) canPlaceOn live (N2330) -- the placement gate (UnitCargoLoader.java:65-68, `return super.canPlaceOn(tile, team, rotation) && Units.canCreate(team, unitType);` over the Block default true, Block.java:606-608) is the pure source_unit_cargo_loader_can_place_on_state composing the N2322 canCreate verdict; it is a placement gate, NOT tick wiring (the driver never calls canPlaceOn each tick), and no placement path calls it yet -- the live call site waits for its own slice. Draw rows live (N2415) -- the draw pure (source_unit_cargo_loader_draw_state) models draw() (UnitCargoLoader.java:146-162: base rect + the Drawf.construct call while no unit is held + the poly ring once a unit waits, the icon unitType.fullIcon riding the pure as the construct_icon result key). Pure-only: the tick never calls draw -- draw is called by the renderer, and the renderer call site waits for a renderer slice. Bar / read-write rows still defer: setBars (UnitCargoLoader.java:48-63), read/write (UnitCargoLoader.java:174-188) are presentation/serialization, not tick state. (5) Unit spawn pure result live (N2234) -- unitType manifold / unitBuildTime 60f * 8f (UnitCargoLoader.java:24-25, `public float unitBuildTime = 60f * 8f;`) and the spawn report (spawned_unit + buildProgress 0f, UnitCargoLoader.java:114-122/127-133) are modeled; the live application (unitType.create + unit.add + Call.unitTetherBlockSpawned + Fx.spawn) waits for its own slice. (6) canCreate live evaluation (N2322) -- Units.canCreate(team, unitType) (Units.java:115-117) is evaluated by the pure source_unit_cargo_loader_can_create_state from the frame can_create_inputs dict (count_type / use_unit_cap / is_banned / is_wave_team / is_campaign / is_pvp / disable_unit_cap / ignore_unit_cap / unit_cap / unit_cap_variable / team_unit_cap), default permissive (can_create true, cap Integer.MAX_VALUE) when no input is stamped; the cap comes from the shared N2140 bridge (SourceUnitUpdateState.cap_state + SourceUnitRuntimeState.source_units_can_create_state), and the live unit-count source (team.data().countType live query) still defers -- nothing stamps count_type live yet. canPlaceOn (UnitCargoLoader.java:65-68) is live (N2330) as the pure source_unit_cargo_loader_can_place_on_state composing this verdict.
+	# Documented limits: (1) liquid row live (N2249) -- the unit-cargo-loader also consumes liquid nitrogen 10f/60f (Blocks.java:2279, `consumeLiquid(Liquids.nitrogen, 10f / 60f);`), so the folded efficiency is the min over power + liquid (source_unit_cargo_loader_liquid_consumer_row_state, ConsumeLiquid.efficiency ConsumeLiquid.java:42-47, with the second-pass removal ConsumeLiquid.java:37-39); the consumer's build/display rows (ConsumeLiquid.build ReqImage, ConsumeLiquid.java:31-34; display Stat.input, ConsumeLiquid.java:49-52) still defer. (2) shouldConsume gate live (N2211) -- UnitTransportSourceBuild overrides shouldConsume() to return unit == null (UnitCargoLoader.java:141-143, `return unit == null;`); the pure gate reads the frame unit key (default null) and feeds should_consume to the machinery; the updateTile advance is live (N2234) -- the pure advance fills frame["unit"] from the found_unit param and from the spawn, so the gate closes the tick after a unit spawns. (3) updateTile advance live (N2234) -- unit lost/destroyed / readUnitId / warmup / readyness / buildProgress / totalProgress / unit spawn (UnitCargoLoader.java:92-125) advance in the pure function (source_unit_cargo_loader_update_tile_advance_state), the warmup fold (UnitCargoLoader.java:105, `warmup = Mathf.approachDelta(warmup, efficiency, 1f / 60f);`) and the build advance (UnitCargoLoader.java:109, `buildProgress += edelta() / unitBuildTime;`) following the folded efficiency; the canCreate live evaluation (N2322) feeds the spawn gate from the frame can_create_inputs dict (Units.canCreate, Units.java:115-117, over getCap, Units.java:119-126, via the shared N2140 bridge); the live fill (Groups.unit.getByID query + live spawn application + live unit-count source for count_type) still defers. (4) canPlaceOn live (N2330) -- the placement gate (UnitCargoLoader.java:65-68, `return super.canPlaceOn(tile, team, rotation) && Units.canCreate(team, unitType);` over the Block default true, Block.java:606-608) is the pure source_unit_cargo_loader_can_place_on_state composing the N2322 canCreate verdict; it is a placement gate, NOT tick wiring (the driver never calls canPlaceOn each tick), and no placement path calls it yet -- the live call site waits for its own slice. Draw rows live (N2415) -- the draw pure (source_unit_cargo_loader_draw_state) models draw() (UnitCargoLoader.java:146-162: base rect + the Drawf.construct call while no unit is held + the poly ring once a unit waits, the icon unitType.fullIcon riding the pure as the construct_icon result key). Pure-only: the tick never calls draw -- draw is called by the renderer, and the renderer call site waits for a renderer slice. Bar rows live (N2417) -- the bar pure (source_unit_cargo_loader_bar_rows_state) models setBars (UnitCargoLoader.java:48-63: the units bar -- the bar.unitcap label + the Pal.power color + the count/cap fraction, 1f when the type ignores the unit cap). Pure-only: the tick never calls setBars -- the bar is presentation, read by the UI, and no UI call site wires it yet. Read-write rows still defer: read/write (UnitCargoLoader.java:174-188) are serialization, not tick state. (5) Unit spawn pure result live (N2234) -- unitType manifold / unitBuildTime 60f * 8f (UnitCargoLoader.java:24-25, `public float unitBuildTime = 60f * 8f;`) and the spawn report (spawned_unit + buildProgress 0f, UnitCargoLoader.java:114-122/127-133) are modeled; the live application (unitType.create + unit.add + Call.unitTetherBlockSpawned + Fx.spawn) waits for its own slice. (6) canCreate live evaluation (N2322) -- Units.canCreate(team, unitType) (Units.java:115-117) is evaluated by the pure source_unit_cargo_loader_can_create_state from the frame can_create_inputs dict (count_type / use_unit_cap / is_banned / is_wave_team / is_campaign / is_pvp / disable_unit_cap / ignore_unit_cap / unit_cap / unit_cap_variable / team_unit_cap), default permissive (can_create true, cap Integer.MAX_VALUE) when no input is stamped; the cap comes from the shared N2140 bridge (SourceUnitUpdateState.cap_state + SourceUnitRuntimeState.source_units_can_create_state), and the live unit-count source (team.data().countType live query) still defers -- nothing stamps count_type live yet. canPlaceOn (UnitCargoLoader.java:65-68) is live (N2330) as the pure source_unit_cargo_loader_can_place_on_state composing this verdict.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -600,6 +600,87 @@ static func source_unit_cargo_loader_draw_state(x_value: float, y_value: float, 
 		"base_call": base_call,
 		"construct_call": construct_call,
 		"poly_call": poly_call,
+	}
+
+static func source_unit_cargo_loader_bar_rows_state(unit_type_name: String, unit_icon: String, count_type: int, use_unit_cap: bool, cap: int) -> Dictionary:
+	# The bar rows (UnitCargoLoader.setBars(),
+	# UnitCargoLoader.java:48-63), the pure bar dict --
+	# the port never draws bars for real (the N2415 draw
+	# precedent: the pure returns the bar as data). Java
+	# registers, in order (each exact expr on ONE comment
+	# line, the N2148 lesson):
+	# `public void setBars(){`
+	# `super.setBars();`
+	# `addBar("units", (UnitTransportSourceBuild e) ->`
+	# `Core.bundle.format("bar.unitcap",`
+	# `Fonts.getUnicodeStr(unitType.name),`
+	# `e.team.data().countType(unitType),`
+	# `unitType.useUnitCap ? Units.getStringCap(e.team) : "∞"`
+	# `() -> Pal.power,`
+	# `() -> unitType.useUnitCap ? (float)e.team.data().countType(unitType) / Units.getCap(e.team) : 1f`
+	# The label formats through the bundle key
+	# `bar.unitcap = {0} {1}/{2}`
+	# (bundle.properties:1291), so the text is the icon,
+	# a space, the count, a slash, and the cap string.
+	# The unit type is
+	# `public UnitType unitType = UnitTypes.manifold;`
+	# (UnitCargoLoader.java:24, the def does NOT override
+	# it). The cap string comes from getStringCap
+	# (Units.java:128-132):
+	# `public static String getStringCap(Team team){`
+	# `int cap = getCap(team);`
+	# `return cap >= Integer.MAX_VALUE - 1 ? "∞" : cap + "";`
+	# -- an uncapped team reads "∞" even in the capped
+	# branch. getCap (Units.java:119-126):
+	# `public static int getCap(Team team){`
+	# `return Math.max(0, state.rules.unitCapVariable ? state.rules.unitCap + team.data().unitCap : state.rules.unitCap);`
+	# clamps at 0 but never below -- so cap 0 IS
+	# reachable in Java (unitCap 0, Rules.java:157
+	# `public int unitCap = 0;`), and Java divides
+	# anyway: the fraction is UNGUARDED float division
+	# (count 0 / cap 0 is NaN, count > 0 / cap 0 is
+	# Infinity), and this pure matches it with no guard
+	# (GDScript float division by zero is inf/nan like
+	# Java's -- only integer division by zero errors, so
+	# the count is cast to float first). The unicode icon
+	# is the Fonts lookup:
+	# `public static String getUnicodeStr(String content){`
+	# `return stringIcons.get(content, "");`
+	# (Fonts.java:43-45) over the runtime font atlas
+	# (Fonts.java:141/224), so it arrives
+	# caller-supplied as unit_icon ("" when the name has
+	# no icon) -- like countType and cap, which are live
+	# team data the pure never queries (countType defaults
+	# 0: `return typeCounts == null || typeCounts.length <= type.id ? 0 : typeCounts[type.id];`, Teams.java:442-444).
+	# The color is Pal.power
+	# (`power = Color.valueOf("fbad67"),`, Pal.java:92),
+	# carried as the symbolic token "Pal.power" like the
+	# draw pure carries "Pal.accent". Pure-only: the tick
+	# never calls setBars -- the bar is presentation,
+	# read by the UI, and no UI call site wires it yet.
+	var cap_text: String = "∞"
+	if use_unit_cap and cap < SOURCE_UNIT_CARGO_LOADER_UNIT_CAP_MAX - 1:
+		cap_text = str(cap)
+	var bar_fraction: float = 1.0
+	if use_unit_cap:
+		bar_fraction = float(count_type) / float(cap)
+	var bar_label: Dictionary = {
+		"icon": unit_icon,
+		"count": count_type,
+		"cap_text": cap_text,
+		"text": unit_icon + " " + str(count_type) + "/" + cap_text,
+	}
+	return {
+		"bar_name": "units",
+		"unit_type_name": unit_type_name,
+		"unit_icon": unit_icon,
+		"count_type": count_type,
+		"use_unit_cap": use_unit_cap,
+		"cap": cap,
+		"cap_text": cap_text,
+		"bar_label": bar_label,
+		"bar_color": "Pal.power",
+		"bar_fraction": bar_fraction,
 	}
 
 @warning_ignore("unused_parameter")
