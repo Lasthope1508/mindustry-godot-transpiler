@@ -47,6 +47,16 @@ const SOURCE_SEPARATOR_LIQUID := "slag"
 # timer id is `protected final int timerDump = timers++;`
 # (Block.java:436).
 const SOURCE_SEPARATOR_DUMP_TIME := 5.0
+# The DrawRegion("-spinner", 3, true) rotate speed (Blocks.java:1246/1266,
+# the DrawMulti def drawer shared by both defs): the spinner region
+# rotates at totalProgress * rotateSpeed (DrawRegion.java:49).
+const SOURCE_SEPARATOR_SPINNER_ROTATE_SPEED := 3.0
+# BuildingComp.java:1313, the drawLight visualLiquid lerpDelta rate
+# (`visualLiquid = Mathf.lerpDelta(visualLiquid, liquids.get(liq)>= 0.01f ? 1f : 0f, 0.06f);`).
+const SOURCE_SEPARATOR_DRAW_LIGHT_RATE := 0.06
+# BuildingComp.java:1326, the Drawf.light radius factor
+# (`Drawf.light(x, y, block.size * 30f * fract, color, opacity * amount);`, fract = 1f).
+const SOURCE_SEPARATOR_DRAW_LIGHT_RADIUS := 30.0
 
 static func _is_separator_build_implementation(implementation: String) -> bool:
 	return SOURCE_SEPARATOR_BUILD_IMPLEMENTATIONS.has(implementation)
@@ -118,7 +128,7 @@ static func source_separator_bind_frame_state(sprite: Sprite2D, block: Object) -
 
 static func source_separator_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a separator does not take the early return. The progress advance follows the folded efficiency (Separator.java:133, `if(efficiency > 0){` with `progress += getProgressIncrease(craftTime);`) and the shouldConsume override (Separator.java:92, `public boolean shouldConsume(){` with `return total < itemCapacity && enabled;`, Separator.java:100; default BuildingComp.java:755, `public boolean shouldConsume(){`) -- SeparatorBuild (Separator.java:75, `public class SeparatorBuild extends Building{`) overrides shouldConsume() to return total < itemCapacity && enabled, so the default does not apply here; the gate is live since N2200 (the pure gate source_separator_should_consume_state feeds total-minus-consItems-buffer < itemCapacity && enabled to the machinery; when the gate is false updateConsumption forces efficiency to 0, BuildingComp.java:1960 + 1992). The separator (consumePower 1.1f, Blocks.java:1243, `consumePower(1.1f);`; disassembler consumePower 4f, Blocks.java:1262, `consumePower(4f);`) also consumes liquid slag (separator `consumeLiquid(Liquids.slag, 4f / 60f);`, Blocks.java:1244; disassembler `consumeLiquid(Liquids.slag, 0.12f);`, Blocks.java:1264) -- the liquid row is live since N2252 (source_separator_liquid_consumer_row_state) and the disassembler scrap item row is live since N2349 (source_separator_disassembler_scrap_row_state), so the folded efficiency is the min over the *modeled* consumers (power + liquid + item).
-	# Documented limits: (1) liquid row live (N2252) -- the separator consumes liquid slag (separator 4f/60f, Blocks.java:1244; disassembler 0.12f per frame, Blocks.java:1264), folded by the pure liquid row (source_separator_liquid_consumer_row_state, ConsumeLiquid.efficiency, ConsumeLiquid.java:42-47) with the second-pass removal (ConsumeLiquid.update, ConsumeLiquid.java:37-39); the folded efficiency is the min over the *modeled* consumers (power + liquid + item). The disassembler scrap item row is live since N2349 (item row live (N2349), source_separator_disassembler_scrap_row_state, ConsumeItems.efficiency, ConsumeItems.java:51-53, binary 1/0 on items.has(scrap, 1)) -- the scrap is only removed by consume() in the updateTile advance (N2222), and a disassembler with no scrap now folds efficiency 0 on the item row; the separator def has no consumeItem, so it contributes no row. (2) shouldConsume gate live (N2200) -- SeparatorBuild overrides shouldConsume() to return total < itemCapacity && enabled (Separator.java:92-100, `return total < itemCapacity && enabled;`); the pure gate reads the frame items Dictionary (minus the consItems buffer from the catalog consumeItem rows) and feeds should_consume to the machinery; when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994). No live intake fills frame["items"] yet -- the gate reads the frame as-is, and intake waits for its own slice. (3) Partial updateTile advance (N2222) -- progress / warmup / totalProgress / seed / consume() / the offload random result pick (Separator.java:130-167) advance each tick, and a fresh frame is seeded from its tile position like created() (Separator.java:82-84); the timerDump dump is live since N2281 (source_separator_timer_dump_state, the frame-local Interval-equivalent, dumpTime 5f / timeScale, Separator.java:165-166, dump(null) through the shared dump_item_state routing; first-fire deviation: Java fires nearly at once after placement, the frame clock delays the first fire by one interval, 5 ticks); the offload neighbor routing live since N2343 (the tick builds the routing context from the shared dump neighbour frame inputs and passes it into the advance, so the picked result routes to the first accepting neighbour from the cdump cursor, BuildingComp.java:1001-1016; the offload neighbour write-back live since N2353 (the advance exposes the routed neighbour index and the tick calls the shared neighbour write-back helper, so the routed item lands in the neighbour frame or belt queue)); the timerDump dump neighbour write-back live since N2361 (the advance exposes the routed neighbour index + dumped item and the tick calls the shared neighbour write-back helper, so the dumped item lands in the neighbour frame or belt queue); the dump neighbour live fill is live since N2402 (the tick fills the neighbour acceptItem / canDump arrays from the live proximity before the timerDump dump reads them, the N2394 precedent: supplied arrays win, a live-filled frame refreshes every tick). (4) Sense rows live (N2388) -- the sense pure (source_separator_sense_state) models sense() (:169-172): progress returns the frame progress as-is, NO clamp, and other sensors return the caller-supplied super_value (null = the Float.NaN default branch); canDump live since N2395 (source_separator_can_dump_state + source_separator_item_filter_state, pure-only: the def filter is built from the catalog consumeItem rows, all-false for the separator, scrap-only for the disassembler; the N2388 'canDump still waits' deferral is resolved, DEFERRED #300). No draw / drawLight / icons / drawPlanRegion / read-write / shouldAmbientSound rows -- draw (Separator.java:109-111), drawLight (Separator.java:114-117), icons (Separator.java:71-73), drawPlanRegion (Separator.java:66-69), read/write (Separator.java:180-194), shouldAmbientSound (Separator.java:87-89) are logic / presentation / serialization / lifecycle, not tick state; created() (Separator.java:82-84) is live since N2222 (the driver seeds a fresh frame from its tile position). (5) Disassembler variant verification pending -- the same driver covers both defs via the catalog consumePower.
+	# Documented limits: (1) liquid row live (N2252) -- the separator consumes liquid slag (separator 4f/60f, Blocks.java:1244; disassembler 0.12f per frame, Blocks.java:1264), folded by the pure liquid row (source_separator_liquid_consumer_row_state, ConsumeLiquid.efficiency, ConsumeLiquid.java:42-47) with the second-pass removal (ConsumeLiquid.update, ConsumeLiquid.java:37-39); the folded efficiency is the min over the *modeled* consumers (power + liquid + item). The disassembler scrap item row is live since N2349 (item row live (N2349), source_separator_disassembler_scrap_row_state, ConsumeItems.efficiency, ConsumeItems.java:51-53, binary 1/0 on items.has(scrap, 1)) -- the scrap is only removed by consume() in the updateTile advance (N2222), and a disassembler with no scrap now folds efficiency 0 on the item row; the separator def has no consumeItem, so it contributes no row. (2) shouldConsume gate live (N2200) -- SeparatorBuild overrides shouldConsume() to return total < itemCapacity && enabled (Separator.java:92-100, `return total < itemCapacity && enabled;`); the pure gate reads the frame items Dictionary (minus the consItems buffer from the catalog consumeItem rows) and feeds should_consume to the machinery; when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994). No live intake fills frame["items"] yet -- the gate reads the frame as-is, and intake waits for its own slice. (3) Partial updateTile advance (N2222) -- progress / warmup / totalProgress / seed / consume() / the offload random result pick (Separator.java:130-167) advance each tick, and a fresh frame is seeded from its tile position like created() (Separator.java:82-84); the timerDump dump is live since N2281 (source_separator_timer_dump_state, the frame-local Interval-equivalent, dumpTime 5f / timeScale, Separator.java:165-166, dump(null) through the shared dump_item_state routing; first-fire deviation: Java fires nearly at once after placement, the frame clock delays the first fire by one interval, 5 ticks); the offload neighbor routing live since N2343 (the tick builds the routing context from the shared dump neighbour frame inputs and passes it into the advance, so the picked result routes to the first accepting neighbour from the cdump cursor, BuildingComp.java:1001-1016; the offload neighbour write-back live since N2353 (the advance exposes the routed neighbour index and the tick calls the shared neighbour write-back helper, so the routed item lands in the neighbour frame or belt queue)); the timerDump dump neighbour write-back live since N2361 (the advance exposes the routed neighbour index + dumped item and the tick calls the shared neighbour write-back helper, so the dumped item lands in the neighbour frame or belt queue); the dump neighbour live fill is live since N2402 (the tick fills the neighbour acceptItem / canDump arrays from the live proximity before the timerDump dump reads them, the N2394 precedent: supplied arrays win, a live-filled frame refreshes every tick). (4) Sense rows live (N2388) -- the sense pure (source_separator_sense_state) models sense() (:169-172): progress returns the frame progress as-is, NO clamp, and other sensors return the caller-supplied super_value (null = the Float.NaN default branch); canDump live since N2395 (source_separator_can_dump_state + source_separator_item_filter_state, pure-only: the def filter is built from the catalog consumeItem rows, all-false for the separator, scrap-only for the disassembler; the N2388 'canDump still waits' deferral is resolved, DEFERRED #300). Draw rows live (N2419) -- draw / drawLight / icons / drawPlanRegion are live as pure-only draw pures (source_separator_draw_state + source_separator_draw_plan_state, the DrawMulti def drawer, Blocks.java:1246/1266, NOT the DrawDefault class default, Separator.java:25); read/write (Separator.java:180-194) and shouldAmbientSound (Separator.java:87-89) still defer (serialization / lifecycle, not tick state); created() (Separator.java:82-84) is live since N2222 (the driver seeds a fresh frame from its tile position). (5) Disassembler variant verification pending -- the same driver covers both defs via the catalog consumePower.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -1091,3 +1101,335 @@ static func source_separator_tick_buildings_state(game: Object, seconds: float) 
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
 	return {"ticked_count": ticked_count, "results_by_cell": results_by_cell}
+
+static func source_separator_draw_state(x_value: float, y_value: float, rotation_value: int, total_progress: float, liquid_gas: bool, liquid_color: String, liquid_light_alpha: float, liquid_amount: float, liquid_capacity: float, animation_frame: int, visual_liquid: float, source_delta: float, size_value: int) -> Dictionary:
+	# The draw / drawLight / icons rows (SeparatorBuild.draw(),
+	# Separator.java:104-106, `drawer.draw(this);`;
+	# drawLight(), :109-112; icons(), :71-73), the pure
+	# draw-call dict -- the port never draws
+	# for real (the N2396 MassDriver precedent: the pure
+	# returns the draw calls as data). Verify-first finding
+	# (N2419): the class default drawer is DrawDefault
+	# (`public DrawBlock drawer = new DrawDefault();`,
+	# Separator.java:25), but BOTH defs override it with the
+	# SAME DrawMulti (Blocks.java:1246 separator /
+	# Blocks.java:1266 disassembler):
+	# `drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(), new DrawRegion("-spinner", 3, true), new DrawDefault());`
+	# so the live draw is the DrawMulti composition, in
+	# drawer order (DrawMulti.java:33-36, `for(var draw : drawers){`):
+	# (1) DrawRegion("-bottom") -- a plain region rect
+	# (`Draw.rect(region, build.x + x, build.y + y, build.totalProgress() * rotateSpeed + rotation + (buildingRotate ? build.rotdeg() : 0));`,
+	# DrawRegion.java:51) with rotateSpeed 0, rotation 0,
+	# buildingRotate false, x/y 0, color null, layer -1, so
+	# the rotation folds to 0; the region loads as
+	# block.name + suffix (`region = Core.atlas.find(name != null ? name : block.name + suffix);`,
+	# DrawRegion.java:74), token "block.name-bottom".
+	# (2) DrawLiquidTile() -- the current liquid tiled over
+	# the block (`Liquid drawn = drawLiquid != null ? drawLiquid : build.liquids.current();`,
+	# DrawLiquidTile.java:28, drawLiquid null, so the drawn
+	# liquid is liquids.current())
+	# `LiquidBlock.drawTiledFrames(build.block.size, build.x, build.y, padLeft, padRight, padTop, padBottom, drawn, build.liquids.get(drawn) / build.block.liquidCapacity * alpha);`
+	# (DrawLiquidTile.java:29) with pads all 0 (padding 0,
+	# load() fills padLeft/padRight/padTop/padBottom from
+	# padding) and alpha 1f, so the fill fraction is
+	# amount / liquidCapacity (separator 40f, disassembler
+	# 72f, Block.java:1406-1419, round(10 * max(1,
+	# amount * 60)) -- 4f/60f -> 40, 0.12f -> 72). The
+	# frames tile size*size (`TextureRegion region = renderer.fluidFrames[liquid.gas ? 1 : 0][liquid.getAnimationFrame()];`,
+	# LiquidBlock.java:41; `float leftBounds = size/2f * tilesize - padRight;`,
+	# :44), one Drawf.liquid per tile at x + relx * tilesize
+	# (`Drawf.liquid(toDraw, x + rightBorder + ox, y + topBorder + oy, alpha, color);`,
+	# :77; `Color color = Tmp.c1.set(liquid.color).a(1f);`,
+	# :46), with NO truncation at zero padding (squish <= 0
+	# for every tile) and the Drawf.liquid gate
+	# (`if(alpha < 1f/255f) return;`, Drawf.java:392) -- an
+	# empty tank draws no tiles. tilesize is the Java
+	# constant 8.0 (`public static final int tilesize = 8;`,
+	# Vars.java:135 -- NEVER the game tile_size 32, the
+	# N2375 lesson). The animation frame is
+	# liquid.getAnimationFrame(), a Time.time value, so it
+	# arrives caller-supplied like time_value (the
+	# N2396/N2372 convention).
+	# (3) DrawRegion("-spinner", 3, true) -- a spinning
+	# sprite (`Drawf.spinSprite(region, build.x + x, build.y + y, build.totalProgress() * rotateSpeed + rotation + (buildingRotate ? build.rotdeg() : 0));`,
+	# DrawRegion.java:49) at totalProgress * 3 + 0 + 0;
+	# totalProgress is the frame value the N2222 advance
+	# tracks (`public float totalProgress;`,
+	# Separator.java:77). Drawf.spinSprite (Drawf.java:602-608)
+	# draws TWO rects: `r = Mathf.mod(r, 90f);`
+	# `Draw.rect(region, x, y, r);`
+	# `Draw.alpha(r / 90f*a);`
+	# `Draw.rect(region, x, y, r - 90f);`
+	# -- the second rect fades in as the first rotates
+	# toward 90. Mathf.mod is the positive mod
+	# (`return ((f % n) + n) % n;`, arc Mathf.java:574-576);
+	# totalProgress never goes negative (the N2222 advance
+	# only adds warmup * delta), so GDScript fmod matches.
+	# (4) DrawDefault -- the base region rect
+	# (`Draw.rect(build.block.region, build.x, build.y, build.drawrot());`,
+	# DrawDefault.java:13) at drawrot()
+	# (`return block.rotate && block.rotateDraw ? rotation * 90 : 0f;`,
+	# BuildingComp.java:587-589), which folds to 0:
+	# Separator sets no rotate (`public boolean rotate;`,
+	# Block.java:120, default false). The rotation input is
+	# still taken so the drawrot formula is explicit.
+	# drawLight() (Separator.java:109-112) is super.drawLight()
+	# (`super.drawLight();` + `drawer.drawLight(this);`)
+	# plus the drawer light -- and the drawer adds NOTHING:
+	# DrawMulti.drawLight iterates (DrawMulti.java:47-50)
+	# but NO member overrides drawLight (the base is the
+	# no-op `public void drawLight(Building build){}`,
+	# DrawBlock.java:31-33). The super light is the
+	# BuildingComp liquid light (BuildingComp.java:1309-1317):
+	# `Liquid liq = block.hasLiquids && block.lightLiquid == null ? liquids.current() : block.lightLiquid;`
+	# (lightLiquid null, so the current liquid) and
+	# `if(block.hasLiquids && block.drawLiquidLight && liq.lightColor.a > 0.001f){`
+	# (hasLiquids true, `public boolean drawLiquidLight = true;`,
+	# Block.java:276; slag lightColor alpha 0.4,
+	# `lightColor = Color.valueOf("f0511d").a(0.4f);`,
+	# Liquids.java:25, so the gate passes for slag), then
+	# `visualLiquid = Mathf.lerpDelta(visualLiquid, liquids.get(liq)>= 0.01f ? 1f : 0f, 0.06f);`
+	# -- lerpDelta is the arc form
+	# (`return lerp(fromValue, toValue, clamp(progress * Time.delta));`,
+	# arc Mathf.java:430-432; clamp to [0, 1],
+	# `return Math.max(Math.min(value, 1f), 0f);`,
+	# arc Mathf.java:402-404), so the step is
+	# clamp(0.06 * delta) toward 1 when the tank holds >=
+	# 0.01, else toward 0 -- and drawLiquidLight
+	# (BuildingComp.java:1319-1327):
+	# `if(amount > 0.01f){`
+	# `Drawf.light(x, y, block.size * 30f * fract, color, opacity * amount);`
+	# with fract 1f, opacity = lightColor.a, radius
+	# size * 30 (60 separator, 90 disassembler). The pure
+	# returns the light call as data (empty when the gate
+	# fails or the visual amount is <= 0.01) plus the new
+	# visualLiquid -- visualLiquid is transient draw state
+	# the tick never tracks, so the caller supplies the
+	# previous value and reads the new one back.
+	# The icons ride this pure: icons() returns
+	# `drawer.finalIcons(this);` (Separator.java:72);
+	# finalIcons (DrawBlock.java:50-59) takes the
+	# iconOverride branch only when iconOverride != null
+	# (`if(iconOverride != null){`, DrawBlock.java:51 --
+	# null here, neither def sets it), else the drawer
+	# icons, falling back to the error region only when
+	# empty. DrawMulti.icons concatenates in drawer order
+	# (`result.addAll(draw.icons(block));`,
+	# DrawMulti.java:63): "-bottom" gives its region
+	# (`return new TextureRegion[]{region};`,
+	# DrawRegion.java:69), DrawLiquidTile gives NOTHING
+	# (no icons() override, the base
+	# `return new TextureRegion[]{};`, DrawBlock.java:47),
+	# "-spinner" gives its region, DrawDefault gives
+	# (`return new TextureRegion[]{block.region};`,
+	# DrawDefault.java:23). A zero-arg icons() pure cannot
+	# register (the SSOT schema validator requires
+	# non-empty input keys, the N2396 precedent), so the
+	# three regions ride the draw pure as icon_regions.
+	# Pure-only: the tick never calls draw -- draw is
+	# called by the renderer, and the renderer call site
+	# waits for a renderer slice.
+	var tile_size: float = 8.0
+	var draw_rotation: float = 0.0
+	var bottom_call: Dictionary = {
+		"call": "Draw.rect(region, build.x + x, build.y + y, build.totalProgress() * rotateSpeed + rotation + (buildingRotate ? build.rotdeg() : 0));",
+		"region": "block.name-bottom",
+		"x": x_value,
+		"y": y_value,
+		"rotation": 0.0,
+	}
+	var liquid_alpha: float = liquid_amount / liquid_capacity * 1.0
+	var liquid_tiles: Array = []
+	for tile_sx in range(size_value):
+		for tile_sy in range(size_value):
+			var rel_x: float = float(tile_sx) - (float(size_value) - 1.0) / 2.0
+			var rel_y: float = float(tile_sy) - (float(size_value) - 1.0) / 2.0
+			liquid_tiles.append({"x": x_value + rel_x * tile_size, "y": y_value + rel_y * tile_size})
+	var frame_row: int = 1 if liquid_gas else 0
+	var frame_token: String = "fluidFrames[" + str(frame_row) + "][" + str(animation_frame) + "]"
+	var liquid_call: Dictionary = {}
+	if liquid_alpha >= 1.0 / 255.0:
+		liquid_call = {
+			"call": "LiquidBlock.drawTiledFrames(build.block.size, build.x, build.y, padLeft, padRight, padTop, padBottom, drawn, build.liquids.get(drawn) / build.block.liquidCapacity * alpha);",
+			"tiles": liquid_tiles,
+			"tile_count": size_value * size_value,
+			"alpha": liquid_alpha,
+			"color": liquid_color,
+			"frame": frame_token,
+			"gas": liquid_gas,
+			"animation_frame": animation_frame,
+		}
+	var spinner_raw: float = total_progress * SOURCE_SEPARATOR_SPINNER_ROTATE_SPEED
+	var spinner_rotation: float = fmod(spinner_raw, 90.0)
+	var spinner_call: Dictionary = {
+		"call": "Drawf.spinSprite(region, build.x + x, build.y + y, build.totalProgress() * rotateSpeed + rotation + (buildingRotate ? build.rotdeg() : 0));",
+		"region": "block.name-spinner",
+		"x": x_value,
+		"y": y_value,
+		"rotation": spinner_rotation,
+		"second_rotation": spinner_rotation - 90.0,
+		"second_alpha_factor": spinner_rotation / 90.0,
+		"raw_rotation": spinner_raw,
+	}
+	var base_call: Dictionary = {
+		"call": "Draw.rect(build.block.region, build.x, build.y, build.drawrot());",
+		"region": "block.region",
+		"x": x_value,
+		"y": y_value,
+		"rotation": draw_rotation,
+	}
+	var light_target: float = 1.0 if liquid_amount >= 0.01 else 0.0
+	var light_lerp: float = clampf(SOURCE_SEPARATOR_DRAW_LIGHT_RATE * source_delta, 0.0, 1.0)
+	var visual_after: float = visual_liquid + (light_target - visual_liquid) * light_lerp
+	var light_opacity: float = liquid_light_alpha * 1.0
+	var light_drawn: bool = liquid_light_alpha > 0.001 and visual_after > 0.01 and light_opacity > 0.001
+	var draw_light_call: Dictionary = {}
+	if light_drawn:
+		draw_light_call = {
+			"call": "Drawf.light(x, y, block.size * 30f * fract, color, opacity * amount);",
+			"x": x_value,
+			"y": y_value,
+			"radius": float(size_value) * SOURCE_SEPARATOR_DRAW_LIGHT_RADIUS,
+			"color": "liquid.lightColor",
+			"opacity": light_opacity * visual_after,
+			"light_alpha": liquid_light_alpha,
+			"visual_liquid": visual_after,
+			"fract": 1.0,
+		}
+	var icon_regions: Array = ["block.name-bottom", "block.name-spinner", "block.region"]
+	return {
+		"bottom_expr": "Draw.rect(region, build.x + x, build.y + y, build.totalProgress() * rotateSpeed + rotation + (buildingRotate ? build.rotdeg() : 0));",
+		"liquid_expr": "LiquidBlock.drawTiledFrames(build.block.size, build.x, build.y, padLeft, padRight, padTop, padBottom, drawn, build.liquids.get(drawn) / build.block.liquidCapacity * alpha);",
+		"spinner_expr": "Drawf.spinSprite(region, build.x + x, build.y + y, build.totalProgress() * rotateSpeed + rotation + (buildingRotate ? build.rotdeg() : 0));",
+		"base_expr": "Draw.rect(build.block.region, build.x, build.y, build.drawrot());",
+		"light_expr": "Drawf.light(x, y, block.size * 30f * fract, color, opacity * amount);",
+		"icons_expr": "return drawer.finalIcons(this);",
+		"x": x_value,
+		"y": y_value,
+		"rotation": rotation_value,
+		"total_progress": total_progress,
+		"liquid_gas": liquid_gas,
+		"liquid_color": liquid_color,
+		"liquid_light_alpha": liquid_light_alpha,
+		"liquid_amount": liquid_amount,
+		"liquid_capacity": liquid_capacity,
+		"animation_frame": animation_frame,
+		"visual_liquid_before": visual_liquid,
+		"source_delta": source_delta,
+		"size": size_value,
+		"draw_rotation": draw_rotation,
+		"liquid_alpha": liquid_alpha,
+		"tile_count": size_value * size_value,
+		"frame": frame_token,
+		"spinner_rotation": spinner_rotation,
+		"spinner_raw_rotation": spinner_raw,
+		"light_target": light_target,
+		"light_lerp": light_lerp,
+		"visual_liquid_after": visual_after,
+		"light_opacity": light_opacity,
+		"light_drawn": light_drawn,
+		"icon_regions": icon_regions,
+		"bottom_call": bottom_call,
+		"liquid_call": liquid_call,
+		"spinner_call": spinner_call,
+		"base_call": base_call,
+		"draw_light_call": draw_light_call,
+	}
+
+static func source_separator_draw_plan_state(plan_drawx: float, plan_drawy: float, plan_rotation: int, plan_world_context: bool, player_present: bool, team_region_found: bool, team_matches: bool) -> Dictionary:
+	# The drawPlanRegion rows (Separator.drawPlanRegion(),
+	# Separator.java:66-69, `drawer.drawPlan(this, plan, list);`),
+	# the pure plan draw-call dict -- the port never draws for
+	# real (the N2396 MassDriver precedent). The drawer is the
+	# DrawMulti def drawer (Blocks.java:1246/1266, see
+	# source_separator_draw_state), and DrawMulti.drawPlan
+	# iterates in drawer order (DrawMulti.java:40-43,
+	# `for(var draw : drawers){`): DrawRegion("-bottom")
+	# draws its plan rect
+	# (`Draw.rect(region, plan.drawx()+ x, plan.drawy() + y, (buildingRotate ? plan.rotation * 90f : 0 + rotation));`,
+	# DrawRegion.java:63) with drawPlan true (no early return,
+	# `if(!drawPlan) return;`, DrawRegion.java:59), rotation
+	# 0 + rotation 0 = 0 (buildingRotate false); DrawLiquidTile
+	# draws NOTHING in the plan (no drawPlan() override, the
+	# base is the no-op `public void drawPlan(Block block, BuildPlan plan, Eachable<BuildPlan> list){}`,
+	# DrawBlock.java:37-39); DrawRegion("-spinner") draws its
+	# plan spin (`Drawf.spinSprite(region, plan.drawx() + x, plan.drawy() + y, (buildingRotate ? plan.rotation * 90f : 0 + rotation));`,
+	# DrawRegion.java:61) at rotation 0, so spinSprite
+	# (Drawf.java:602-608, `r = Mathf.mod(r, 90f);`) draws
+	# the rect at 0 plus the second rect at -90 with alpha
+	# factor 0/90 = 0; DrawDefault draws the default plan
+	# region (`block.drawDefaultPlanRegion(plan, list);`,
+	# DrawDefault.java:18). drawDefaultPlanRegion
+	# (Block.java:856-870) rects the plan region
+	# (`TextureRegion reg = getPlanRegion(plan, list);`,
+	# :857; `return fullIcon;`, getPlanRegion, :881-883) at
+	# the plan position
+	# (`Draw.rect(reg, plan.drawx(), plan.drawy(), !rotate || !rotateDraw ? 0 : plan.rotation * 90);`,
+	# :859) -- rotation 0, Separator sets no rotate
+	# (`public boolean rotate;`, Block.java:120, default
+	# false) -- then the team overlay, only in a world
+	# context with a player and a found team region
+	# (`if(plan.worldContext && player != null && teamRegion != null && teamRegion.found()){`,
+	# :861), coloring the team color only when the team's
+	# region IS the base team region
+	# (`if(teamRegions[player.team().id] == teamRegion) Draw.color(player.team().color, a);`,
+	# :862) before
+	# (`Draw.rect(teamRegions[player.team().id], plan.drawx(), plan.drawy());`,
+	# :863), and finally drawPlanConfig -- the base no-op
+	# (`public void drawPlanConfig(BuildPlan plan, Eachable<BuildPlan> list){}`,
+	# Block.java:885-887), so the plan carries no config
+	# call. Pure-only: the plan is caller-supplied data, the
+	# tick never plans.
+	var plan_rotation_value: float = 0.0
+	var plan_bottom_call: Dictionary = {
+		"call": "Draw.rect(region, plan.drawx()+ x, plan.drawy() + y, (buildingRotate ? plan.rotation * 90f : 0 + rotation));",
+		"region": "block.name-bottom",
+		"x": plan_drawx,
+		"y": plan_drawy,
+		"rotation": 0.0,
+	}
+	var plan_spinner_call: Dictionary = {
+		"call": "Drawf.spinSprite(region, plan.drawx() + x, plan.drawy() + y, (buildingRotate ? plan.rotation * 90f : 0 + rotation));",
+		"region": "block.name-spinner",
+		"x": plan_drawx,
+		"y": plan_drawy,
+		"rotation": 0.0,
+		"second_rotation": -90.0,
+		"second_alpha_factor": 0.0,
+	}
+	var plan_call: Dictionary = {
+		"call": "Draw.rect(reg, plan.drawx(), plan.drawy(), !rotate || !rotateDraw ? 0 : plan.rotation * 90);",
+		"region": "fullIcon",
+		"x": plan_drawx,
+		"y": plan_drawy,
+		"rotation": plan_rotation_value,
+	}
+	var team_gate: bool = plan_world_context and player_present and team_region_found
+	var plan_team_call: Dictionary = {}
+	if team_gate:
+		plan_team_call = {
+			"call": "Draw.rect(teamRegions[player.team().id], plan.drawx(), plan.drawy());",
+			"region": "teamRegions[player.team().id]",
+			"x": plan_drawx,
+			"y": plan_drawy,
+			"color": "player.team().color" if team_matches else "",
+		}
+	return {
+		"plan_bottom_expr": "Draw.rect(region, plan.drawx()+ x, plan.drawy() + y, (buildingRotate ? plan.rotation * 90f : 0 + rotation));",
+		"plan_spinner_expr": "Drawf.spinSprite(region, plan.drawx() + x, plan.drawy() + y, (buildingRotate ? plan.rotation * 90f : 0 + rotation));",
+		"plan_expr": "Draw.rect(reg, plan.drawx(), plan.drawy(), !rotate || !rotateDraw ? 0 : plan.rotation * 90);",
+		"plan_team_expr": "Draw.rect(teamRegions[player.team().id], plan.drawx(), plan.drawy());",
+		"plan_drawx": plan_drawx,
+		"plan_drawy": plan_drawy,
+		"plan_rotation": plan_rotation,
+		"plan_rotation_value": plan_rotation_value,
+		"plan_world_context": plan_world_context,
+		"player_present": player_present,
+		"team_region_found": team_region_found,
+		"team_matches": team_matches,
+		"team_gate": team_gate,
+		"plan_bottom_call": plan_bottom_call,
+		"plan_spinner_call": plan_spinner_call,
+		"plan_call": plan_call,
+		"plan_team_call": plan_team_call,
+	}
