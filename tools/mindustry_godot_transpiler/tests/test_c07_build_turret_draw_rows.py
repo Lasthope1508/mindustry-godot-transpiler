@@ -34,10 +34,14 @@ class C07BuildTurretDrawRowsTests(unittest.TestCase):
         # returns the draw calls as data. unit.
         # drawBuilding() is a call into the builder unit
         # -- the pure RECORDS the call, it does not model
-        # unit draw. Five new result symbols: the base /
+        # unit draw. Six result symbols: the base /
         # shadow / region calls, the glow call (null when
-        # the glow region is not found) and the build
-        # call (null when efficiency <= 0 or no unit).
+        # the glow region is not found), the build
+        # call (null when efficiency <= 0 or no unit)
+        # and the icon regions (N2446 amend: icons()
+        # rides the draw pure as icon_regions, the
+        # N2433 StackRouter precedent -- a zero-arg
+        # icons() pure cannot register).
         self.assertEqual(
             ledger['N2431']['source_symbols'],
             [
@@ -46,6 +50,7 @@ class C07BuildTurretDrawRowsTests(unittest.TestCase):
                 'source_build_turret_draw_state_result.region_call',
                 'source_build_turret_draw_state_result.glow_call',
                 'source_build_turret_draw_state_result.build_call',
+                'source_build_turret_draw_state_result.icon_regions',
             ],
         )
         for name in ledger['N2431']['source_symbols']:
@@ -64,17 +69,23 @@ class C07BuildTurretDrawRowsTests(unittest.TestCase):
             ],
         )
         self.assertTrue(ledger['N2431']['deferred_exprs'])
-        # This slice RESOLVES DEFERRED #96 (1-based in
-        # the merged advances-25 DEFERRED base): the
-        # BuildTurret draw rows entry is REMOVED -- the
-        # base rect, the shadow / region pair, the glow
-        # additive by warmup and the drawBuilding call
-        # are all live now, so nothing of the entry
-        # remains. Net 280 - 1 = 279.
+        # The register now carries the MERGED
+        # DEFERRED-after-advances-27 base (266 entries),
+        # NOT the advances-25 base N2431 shipped with
+        # (the N2277/N2290 stale-base lesson). This
+        # slice (N2446) RESOLVES DEFERRED #266 (1-based
+        # in the merged advances-27 base): the
+        # BuildTurret icons rows entry is REMOVED --
+        # icons() rides the draw pure as icon_regions
+        # now, so nothing of the entry remains. Net
+        # 266 - 1 = 265. The N2431 resolution stands:
+        # the BuildTurret draw rows entry (#96 in the
+        # old base) is absent from the merged base too.
         self.assertFalse(any(entry.startswith('BuildTurret draw rows (') for entry in ledger['N2431']['deferred_exprs']))
+        self.assertFalse(any(entry.startswith('BuildTurret icons rows (') for entry in ledger['N2431']['deferred_exprs']))
         self.assertTrue(any(entry.startswith('BuildTurret unit rows (') for entry in ledger['N2431']['deferred_exprs']))
         self.assertTrue(any(entry.startswith('BuildTurret read/write rows (') for entry in ledger['N2431']['deferred_exprs']))
-        self.assertEqual(len(ledger['N2431']['deferred_exprs']), 279)
+        self.assertEqual(len(ledger['N2431']['deferred_exprs']), 265)
 
     def test_all_c07_build_turret_draw_rows_input_evidence_is_exact(self):
         generated = ROOT / 'godot-mindustry/src/generated'
@@ -156,6 +167,17 @@ class C07BuildTurretDrawRowsTests(unittest.TestCase):
         self.assertIn('buildTower = new BuildTurret("build-tower"){{', build_turret)
         self.assertIn('size = 3;', build_turret)
         self.assertIn('public float rotation = 90;', build_turret)
+        # The icons rows ride the draw pure (N2446
+        # amend, the N2433 StackRouter precedent):
+        # icons() (BuildTurret.java:88-90) returns
+        # {baseRegion, region} in Java order, and the
+        # pure returns them as the icon_regions
+        # region-name array -- a zero-arg icons() pure
+        # cannot register (the N2396/N2430 precedent).
+        self.assertIn('public TextureRegion[] icons(){', build_turret)
+        self.assertIn('return new TextureRegion[]{baseRegion, region};', build_turret)
+        self.assertIn('var icon_regions: Array = ["baseRegion", "region"]', build_turret)
+        self.assertIn('"icon_regions": icon_regions,', build_turret)
         # The def constants (verified first): the
         # effective elevation for the size-3 build-tower
         # is 1.5 (the init lift, size / 2f) and the
