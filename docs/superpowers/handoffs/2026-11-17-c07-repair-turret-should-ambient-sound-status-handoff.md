@@ -47,3 +47,10 @@
 ## After N2221
 
 Next deferred C07 item per backlog: next RepairTurret row per backlog (config-display / sense rows), or the next family. (Do NOT start the C08 inventory unless the user asks.)
+
+## Commits
+
+- Slice: `ad384b23` (C07: N2221 RepairTurret shouldAmbientSound/status — 9 files).
+- Docs: `54ad2333` (report + handoff + design spec Done 1671 + N2221 row).
+- GOAL: `2b2585d7` (GOAL.md §5 Windows debt line for N2221).
+- Gate: full gate (main thread, PID 3888, ~02:42) Ran 5977 in 1033.561s, failures=171, skipped=5, 0 errors — all 171 verified Godot-absent asserts (finished ~02:59 +07).
