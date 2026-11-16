@@ -2,6 +2,9 @@ extends Node
 
 const main_scene := preload("res://scenes/Main.tscn")
 const shockwave_tower_build_state := preload("res://src/game/SourceShockwaveTowerBuildState.gd")
+const liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
+const placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
+const content_registry_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
 const registry := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 const proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 
@@ -123,8 +126,22 @@ func _ready() -> void:
 	# 0.0. Tower B (cell (20, 10)) has its clock at 0.0, so
 	# one step does not fire: the gate fails, the stale
 	# target is PRESERVED (targets.clear() runs INSIDE the
-	# gate), and the clock reads 1.0.
+	# gate), and the clock reads 1.0. Both towers are seeded
+	# with 1.0 cyanogen on their sprite liquids meta before
+	# the tick (the N2331 pattern, N2341 fix): the first pass
+	# folds the required cyanogen row since N2331
+	# (ConsumeLiquids 1.5f / 60f, Blocks.java:2041), and
+	# PortGame never binds that store for a shockwave tower
+	# (the catalog carries no consumeLiquids property), so
+	# the proof initializes it explicitly and the driver
+	# syncs it into the frame each tick. One tick at eff 1.0
+	# removes 0.025 * 1.0 = 0.025 cyanogen per tower, so the
+	# 1.0 seed is a 40x margin and the row stays capped at
+	# 1.0 (it needs >= 0.025 at the first pass) -- the
+	# counter charges by the full edelta 1.0.
 	var catalog = game.get("content_catalog")
+	var liquid_catalog: Dictionary = content_registry_state.source_liquid_catalog_state(catalog)
+	var cyanogen_id: int = int(liquid_catalog["liquid_id_by_name"].get("cyanogen", -1))
 	var blocks_by_id: Dictionary = {}
 	for registered_block in catalog.get_many("block"):
 		blocks_by_id[registered_block.id] = registered_block
@@ -137,6 +154,16 @@ func _ready() -> void:
 	game.call("record_placed_block", tower_a, blocks_by_id["shockwave-tower"], tower_a_cell)
 	shockwave_tower_build_state.source_shockwave_tower_bind_frame_state(tower_a, blocks_by_id["shockwave-tower"])
 	var tower_a_frame: Dictionary = tower_a.get_meta(shockwave_tower_build_state.SOURCE_SHOCKWAVE_TOWER_BUILDING_META_KEY, {})
+	# Seed cyanogen 1.0 on the sprite liquids meta (the
+	# N2331 pattern, N2341 fix): the store is initialized
+	# explicitly first -- PortGame never binds it for a
+	# shockwave tower -- and the driver syncs this same
+	# reference into the frame each tick, so the live liquid
+	# row folds 1.0 and the counter charges by the full
+	# edelta.
+	placed_block_state.source_initialize_building_liquids_state(tower_a, true, catalog)
+	var tower_a_liquids: Dictionary = tower_a.get_meta(placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, {})
+	liquid_module_state.source_set_state(tower_a_liquids, cyanogen_id, 1.0)
 	tower_a_frame["timer_check_elapsed"] = 7.0
 	tower_a_frame["reload_counter"] = 79.0
 	tower_a_frame["heat"] = 0.5
@@ -148,6 +175,11 @@ func _ready() -> void:
 	game.call("record_placed_block", tower_b, blocks_by_id["shockwave-tower"], tower_b_cell)
 	shockwave_tower_build_state.source_shockwave_tower_bind_frame_state(tower_b, blocks_by_id["shockwave-tower"])
 	var tower_b_frame: Dictionary = tower_b.get_meta(shockwave_tower_build_state.SOURCE_SHOCKWAVE_TOWER_BUILDING_META_KEY, {})
+	# Seed cyanogen 1.0 on tower B's sprite liquids meta
+	# too (same N2341 fix -- each tower has its own store).
+	placed_block_state.source_initialize_building_liquids_state(tower_b, true, catalog)
+	var tower_b_liquids: Dictionary = tower_b.get_meta(placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, {})
+	liquid_module_state.source_set_state(tower_b_liquids, cyanogen_id, 1.0)
 	tower_b_frame["timer_check_elapsed"] = 0.0
 	tower_b_frame["reload_counter"] = 79.0
 	tower_b_frame["heat"] = 0.5

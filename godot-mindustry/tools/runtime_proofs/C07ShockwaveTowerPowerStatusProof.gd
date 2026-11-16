@@ -2,6 +2,9 @@ extends Node
 
 const main_scene := preload("res://scenes/Main.tscn")
 const shockwave_tower_build_state := preload("res://src/game/SourceShockwaveTowerBuildState.gd")
+const liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
+const placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
+const content_registry_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
 const registry := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 const proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 
@@ -45,10 +48,22 @@ func _ready() -> void:
 	# N2172/N2173/N2174/N2175/N2176 proofs do), not simulate_factory,
 	# so the graph update does not overwrite the stamped
 	# power_status -- the write-back itself is already proven
-	# by N2142. The shockwave tower tick models no other
-	# consumers, so with a power consumer the first pass holds
-	# only the power row.
+	# by N2142. The first pass also folds the required
+	# cyanogen row since N2331 (ConsumeLiquids 1.5f / 60f,
+	# Blocks.java:2041), so the tower is seeded with 1.0
+	# cyanogen on the sprite liquids meta before the first
+	# tick (the N2331 pattern, N2341 fix): PortGame never
+	# binds that store for a shockwave tower (the catalog
+	# carries no consumeLiquids property), so the proof
+	# initializes it explicitly and the driver syncs it into
+	# the frame each tick. Two ticks at eff 0.5 / 0.0 remove
+	# 0.025 * 0.5 + 0 = 0.0125 cyanogen in total, so the
+	# 1.0 seed is an 80x margin and the row stays capped at
+	# 1.0 (it needs >= 0.025 at each first pass) -- the min
+	# stays the stamped power.
 	var catalog = game.get("content_catalog")
+	var liquid_catalog: Dictionary = content_registry_state.source_liquid_catalog_state(catalog)
+	var cyanogen_id: int = int(liquid_catalog["liquid_id_by_name"].get("cyanogen", -1))
 	var blocks_by_id: Dictionary = {}
 	for registered_block in catalog.get_many("block"):
 		blocks_by_id[registered_block.id] = registered_block
@@ -63,6 +78,15 @@ func _ready() -> void:
 	# frame dict before the tick to stamp power_status on it).
 	shockwave_tower_build_state.source_shockwave_tower_bind_frame_state(shockwave_tower, blocks_by_id["shockwave-tower"])
 	var shockwave_tower_frame: Dictionary = shockwave_tower.get_meta(shockwave_tower_build_state.SOURCE_SHOCKWAVE_TOWER_BUILDING_META_KEY, {})
+	# Seed cyanogen 1.0 on the sprite liquids meta (the
+	# N2331 pattern, N2341 fix): the store is initialized
+	# explicitly first -- PortGame never binds it for a
+	# shockwave tower -- and the driver syncs this same
+	# reference into the frame each tick, so the live liquid
+	# row folds 1.0 and the min stays the stamped power.
+	placed_block_state.source_initialize_building_liquids_state(shockwave_tower, true, catalog)
+	var shockwave_tower_liquids: Dictionary = shockwave_tower.get_meta(placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, {})
+	liquid_module_state.source_set_state(shockwave_tower_liquids, cyanogen_id, 1.0)
 
 	# Half power: efficiency folds the power min 0.5.
 	shockwave_tower_frame["power_status"] = 0.5
