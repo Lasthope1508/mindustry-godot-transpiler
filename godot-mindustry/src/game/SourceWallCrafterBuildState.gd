@@ -11,6 +11,7 @@ const source_liquid_module_state := preload("res://src/game/SourceLiquidModuleSt
 const source_content_registry_runtime_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
 const source_block_metadata_state := preload("res://src/game/SourceBlockMetadataState.gd")
 const source_building_item_dump_state := preload("res://src/game/SourceBuildingItemDumpState.gd")
+const source_building_item_state := preload("res://src/game/SourceBuildingItemState.gd")
 
 # The WallCrafter implementation (WallCrafter.java:25, `public class WallCrafter extends Block{`): cliff-crusher (consumePower 11 / 60f, Blocks.java:3004, `consumePower(11 / 60f);`; size 2, drillTime 110f, Blocks.java:3006-3007) and large-cliff-crusher (consumePower 1f, Blocks.java:3018, `consumePower(1f);`; size 3, drillTime 48f, Blocks.java:3020-3021). WallCrafter extends Block, NOT a factory or crafter, so no existing driver matches it and no frame key exists for it; this driver uses its own family frame key ("source_wall_crafter_building", the separator precedent), and this slice adds the wall-crafter key to N2142's SOURCE_CONSUMER_FRAME_META_KEYS so the graph stamp/write-back finds it. The port has NO SourceWallCrafter* files at all yet -- no display/runtime state to lean on -- so the missing piece is the live power.status -> efficiency driver, which is exactly this slice: the updateTile warmup fold (WallCrafter.java:193, `warmup = Mathf.approachDelta(warmup, Mathf.num(efficiency > 0), 1f / 40f);`) gates on efficiency > 0, so a wall crafter with no power would warm up as if power.status were 1.0.
 const SOURCE_WALL_CRAFTER_BUILD_IMPLEMENTATIONS := ["WallCrafter"]
@@ -147,7 +148,7 @@ static func source_wall_crafter_should_consume_state(frame: Dictionary, output_i
 
 static func source_wall_crafter_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a wall crafter does not take the early return. The updateTile advance follows the folded efficiency (WallCrafter.java:193, `warmup = Mathf.approachDelta(warmup, Mathf.num(efficiency > 0), 1f / 40f);` with `lastEfficiency = eff * timeScale * efficiency;`, WallCrafter.java:211) and the shouldConsume override (WallCrafter.java:226, `public boolean shouldConsume(){` with `return items.get(output) < itemCapacity;`, WallCrafter.java:227; default BuildingComp.java:755, `public boolean shouldConsume(){`) -- WallCrafterBuild (WallCrafter.java:183, `public class WallCrafterBuild extends Building{`) overrides shouldConsume() to return items.get(output) < itemCapacity, so the default does not apply here; the shouldConsume gate is live (N2201) -- the pure gate (source_wall_crafter_should_consume_state) feeds should_consume to the machinery from the frame items count and the catalog output/capacity. The cliff-crusher (consumePower 11 / 60f, Blocks.java:3004, `consumePower(11 / 60f);`; large-cliff-crusher consumePower 1f, Blocks.java:3018, `consumePower(1f);`) also consumes liquid hydrogen as a REQUIRED row on the large def (`consumeLiquid(Liquids.hydrogen, 1f / 60f);`, Blocks.java:3028 -- NOT .boost(), so hasLiquidBooster stays false, WallCrafter.java:106) and a graphite item booster (Blocks.java:3030; itemBoostIntensity 1.6f, WallCrafter.java:47; boostItemUseTime 60f/0.75f, Blocks.java:3032) -- both rows live since N2264 (source_wall_crafter_liquid_consumer_row_state + source_wall_crafter_item_consumer_row_state), so the folded efficiency is the min over the *modeled* consumers (power + hydrogen), with the graphite row folded into optionalEfficiency only.
-	# Documented limits: (1) hydrogen + graphite rows live (N2264) -- the large-cliff-crusher consumes liquid hydrogen as a REQUIRED row (1f/60f, Blocks.java:3028; NOT .boost(), so hasLiquidBooster stays false and the liquid multiplier term is 1.0) and a graphite item booster (Blocks.java:3030), folded by the pure rows (source_wall_crafter_liquid_consumer_row_state, ConsumeLiquid.efficiency, ConsumeLiquid.java:42-47; source_wall_crafter_item_consumer_row_state, ConsumeItems.efficiency, ConsumeItems.java:51-53) with the second-pass hydrogen removal (ConsumeLiquid.update, ConsumeLiquid.java:37-39); the folded efficiency is the min over the *modeled* consumers (power + hydrogen), with the graphite row in the optional pass only. The timer-gated consume() of the graphite booster is live since N2273 (WallCrafter.java:207-209): the tick accumulates frame["timer_use_elapsed"] every tick and, after the N2223 advance, removes 1 graphite when item_valid holds and eff * efficiency > 0 and the timer fires at the per-def boostItemUseTime (120f class default, WallCrafter.java:45; the large def overrides it to 60f/0.75f = 80f, Blocks.java:3032). Documented deviation: the frame-local clock delays the first fire by a full interval after placement (Java fires nearly at once -- the global Time.time is already large vs a fresh Interval times[id] = 0, arc Interval.java:20-26); the cliff-crusher has no booster item, so nothing is removed for it; no live intake fills frame["items"] yet, so the removal reads the frame as-is. (2) shouldConsume gate live (N2201) -- WallCrafterBuild overrides shouldConsume() to return items.get(output) < itemCapacity (WallCrafter.java:226-228, `return items.get(output) < itemCapacity;`); the pure gate reads the frame items count via the shared inventory helper, with the output item and capacity from the catalog; the offload intake is live (N2223) and the timerDump dump is live since N2283 (WallCrafter.java:220-221, frame-local Interval-equivalent at 5f/time_scale, dump(output) through the shared dump_item_state routing). (3) updateTile advance live (N2223) -- warmup / eff / lastEfficiency / time / totalTime / offload advance each tick (WallCrafter.java:193-218); the timerUse booster consume is live since N2273 (WallCrafter.java:207-209, checked after the advance -- order-equivalent for the tick, since consume only removes 1 graphite); the timerDump dump is live since N2283 (WallCrafter.java:220-221, checked after the timerUse consume -- the Java order, :207-209 then :220-221): when the timer fires at 5f/time_scale it dumps 1 sand (the output item, WallCrafter.java:43) through the shared dump_item_state routing, with the neighbour acceptItem/canDump arrays as frame inputs (default []); documented deviation: the frame-local clock delays the first fire by a full interval after placement (Java fires nearly at once -- the global Time.time is already large vs a fresh Interval times[id] = 0, arc Interval.java:20-26); getEfficiency fill live (N2301) -- the tick stamps efficiency_factor from frame["wall_edge_tiles"] each enabled tick before the advance (WallCrafter.java:141-180), so a live cliff-crusher accumulates time; still deferred: the live edge-tile scan (no live tile scan fills the frame input yet), the offload neighbor routing (BuildingComp.java:1001-1013, the port offloads to own inventory only), the updateEffect chance (WallCrafter.java:196-205), and the disabled early return (BuildingComp.java:1954-1957, the advance runs only when enabled). (4) No setBars / draw / icons / drawPlanRegion / drawPlace rows -- see DEFERRED. (5) Large-cliff-crusher variant verification pending -- the same driver covers both defs via the catalog consumePower.
+	# Documented limits: (1) hydrogen + graphite rows live (N2264) -- the large-cliff-crusher consumes liquid hydrogen as a REQUIRED row (1f/60f, Blocks.java:3028; NOT .boost(), so hasLiquidBooster stays false and the liquid multiplier term is 1.0) and a graphite item booster (Blocks.java:3030), folded by the pure rows (source_wall_crafter_liquid_consumer_row_state, ConsumeLiquid.efficiency, ConsumeLiquid.java:42-47; source_wall_crafter_item_consumer_row_state, ConsumeItems.efficiency, ConsumeItems.java:51-53) with the second-pass hydrogen removal (ConsumeLiquid.update, ConsumeLiquid.java:37-39); the folded efficiency is the min over the *modeled* consumers (power + hydrogen), with the graphite row in the optional pass only. The timer-gated consume() of the graphite booster is live since N2273 (WallCrafter.java:207-209): the tick accumulates frame["timer_use_elapsed"] every tick and, after the N2223 advance, removes 1 graphite when item_valid holds and eff * efficiency > 0 and the timer fires at the per-def boostItemUseTime (120f class default, WallCrafter.java:45; the large def overrides it to 60f/0.75f = 80f, Blocks.java:3032). Documented deviation: the frame-local clock delays the first fire by a full interval after placement (Java fires nearly at once -- the global Time.time is already large vs a fresh Interval times[id] = 0, arc Interval.java:20-26); the cliff-crusher has no booster item, so nothing is removed for it; no live intake fills frame["items"] yet, so the removal reads the frame as-is. (2) shouldConsume gate live (N2201) -- WallCrafterBuild overrides shouldConsume() to return items.get(output) < itemCapacity (WallCrafter.java:226-228, `return items.get(output) < itemCapacity;`); the pure gate reads the frame items count via the shared inventory helper, with the output item and capacity from the catalog; the offload intake is live (N2223) and the timerDump dump is live since N2283 (WallCrafter.java:220-221, frame-local Interval-equivalent at 5f/time_scale, dump(output) through the shared dump_item_state routing). (3) updateTile advance live (N2223) -- warmup / eff / lastEfficiency / time / totalTime / offload advance each tick (WallCrafter.java:193-218); the timerUse booster consume is live since N2273 (WallCrafter.java:207-209, checked after the advance -- order-equivalent for the tick, since consume only removes 1 graphite); the timerDump dump is live since N2283 (WallCrafter.java:220-221, checked after the timerUse consume -- the Java order, :207-209 then :220-221): when the timer fires at 5f/time_scale it dumps 1 sand (the output item, WallCrafter.java:43) through the shared dump_item_state routing, with the neighbour acceptItem/canDump arrays as frame inputs (default []); documented deviation: the frame-local clock delays the first fire by a full interval after placement (Java fires nearly at once -- the global Time.time is already large vs a fresh Interval times[id] = 0, arc Interval.java:20-26); getEfficiency fill live (N2301) -- the tick stamps efficiency_factor from frame["wall_edge_tiles"] each enabled tick before the advance (WallCrafter.java:141-180), so a live cliff-crusher accumulates time; the offload neighbor routing is live since N2398 (BuildingComp.java:1001-1014, the produced output routes through the shared dump_item_state routing from the shared cdump cursor, with the neighbour acceptItem/canDump arrays as frame inputs, and the tick lands the routed item in the neighbour store through the shared N2353 helper; the produced(item, 1) stats call defers -- no sector production stats in this driver); still deferred: the live edge-tile scan (no live tile scan fills the frame input yet), the updateEffect chance (WallCrafter.java:196-205), and the disabled early return (BuildingComp.java:1954-1957, the advance runs only when enabled). (4) No setBars / draw / icons / drawPlanRegion / drawPlace rows -- see DEFERRED. (5) Large-cliff-crusher variant verification pending -- the same driver covers both defs via the catalog consumePower.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -489,14 +490,59 @@ static func source_wall_crafter_update_tile_advance_state(frame: Dictionary, sou
 	# (WallCrafter.java:207-209, live since N2273) and the
 	# timerDump dump (WallCrafter.java:220-221, live since
 	# N2283, frame-local Interval-equivalent at 5f/time_scale).
-	# Deferred, not done here: the offload neighbor routing (BuildingComp.java:1001-1013
-	# -- the shared inventory helper falls back to the own
-	# inventory, the handleItem path, BuildingComp.java:1014/
-	# :860-861), the updateEffect chance (WallCrafter.java:
-	# 196-205), the live edge-tile scan (frame["wall_edge_tiles"]
-	# is a frame input; no live tile scan fills it yet), and the
-	# disabled early return (BuildingComp.java:1954-1957, the
-	# driver gates the advance on enabled).
+	# The offload neighbor routing is live since N2398:
+	# offload() (`public void offload(Item item){`,
+	# BuildingComp.java:1001-1014) scans proximity from the
+	# saved cdump -- `produced(item, 1);` (:1002),
+	# `int dump = this.cdump;` (:1003), then
+	# `for(int i = 0; i < proximity.size; i++){` (:1005)
+	# with `incrementDump(proximity.size);` BEFORE the check
+	# (:1006) and `Building other = proximity.get((i + dump) % proximity.size);`
+	# (:1007) -- handing the item to the first neighbour where
+	# `if(other.acceptItem(self(), item) && canDump(other, item)){`
+	# (:1008) holds, via `other.handleItem(self(), item);`
+	# (:1009), and falling back to `handleItem(self(), item);`
+	# (:1014) when no neighbour takes it. produced(item, 1)
+	# DEFERS (no sector production stats in this driver -- the
+	# shared produced_item_amount_state pure exists, but no
+	# WallCrafter call site supplies sector / team / net
+	# inputs, so no stats write is invented). The produced item
+	# first lands in the own store through the shared inventory
+	# helper (the handleItem fallback, :1014/:860-861), then
+	# the advance routes it through the shared dump_item_state
+	# routing (the N2283 timerDump pattern): the neighbour
+	# acceptItem / canDump arrays are the SAME frame inputs the
+	# timerDump reads (dump_neighbour_accepts /
+	# dump_neighbour_can_dump, default [] -- Java has ONE
+	# proximity list, so the port keeps one pair instead of
+	# adding a synonym pair) and the scan starts from the SAME
+	# frame cdump (`transient int cdump;`,
+	# BuildingComp.java:68). dump_item_state advances the
+	# cursor once per checked neighbour (incrementDump,
+	# BuildingComp.java:1116-1120, `cdump = ((cdump + 1) % prox);`)
+	# -- the Java-exact offload cursor -- and on success
+	# removes 1 output from the store (the produced item leaves
+	# home) and reports the handled index; on no accepting
+	# neighbour the item stays home (the Java handleItem(self)
+	# outcome, :1014). The item ids are the single-element
+	# [output_item] array: the todump branch only ever touches
+	# the output item's amount, and the full catalog order is
+	# only needed for the null dump-any branch, which offload
+	# never takes. The advance exposes the routing as ONE
+	# scalar key (offload_neighbour_index, -1 when it stayed
+	# home -- offload() returns after the FIRST success, so a
+	# single delivery needs no array, contrast N2386's
+	# dumpAccumulate multi-fire) plus the post-offload cdump,
+	# so the tick persists the shared cursor BEFORE the
+	# timerDump dump runs (Java order: the offload at
+	# WallCrafter.java:214 precedes the dump at :220-221) and
+	# the cursor is never double-advanced -- each path advances
+	# it only for its own checks. Deferred, not done here: the
+	# updateEffect chance (WallCrafter.java:196-205), the live
+	# edge-tile scan (frame["wall_edge_tiles"] is a frame
+	# input; no live tile scan fills it yet), and the disabled
+	# early return (BuildingComp.java:1954-1957, the driver
+	# gates the advance on enabled).
 	var efficiency: float = float(frame.get("efficiency", 0.0))
 	var optional_efficiency: float = float(frame.get("optional_efficiency", 0.0))
 	var efficiency_factor: float = float(frame.get("efficiency_factor", 0.0))
@@ -506,6 +552,9 @@ static func source_wall_crafter_update_tile_advance_state(frame: Dictionary, sou
 	var time: float = float(frame.get("time", 0.0))
 	var total_time: float = float(frame.get("total_time", 0.0))
 	var items: Dictionary = frame.get("items", {})
+	var cdump: int = int(frame.get("cdump", 0))
+	var offload_neighbour_accepts: Array = frame.get("dump_neighbour_accepts", [])
+	var offload_neighbour_can_dump: Array = frame.get("dump_neighbour_can_dump", [])
 	var target: float = 1.0 if efficiency > 0.0 else 0.0
 	var step: float = source_delta * SOURCE_WALL_CRAFTER_WARMUP_SPEED
 	var next_warmup: float = warmup + clampf(target - warmup, -step, step)
@@ -519,15 +568,32 @@ static func source_wall_crafter_update_tile_advance_state(frame: Dictionary, sou
 	var next_time: float = time
 	var next_items: Dictionary = items
 	var offloaded: bool = false
+	var offload_neighbour_index := -1
 	if cons:
 		next_time = time + edelta * eff
 		if next_time >= drill_time:
 			var offload_state: Dictionary = inventory.offload_item_state(items, output_item)
 			next_items = offload_state.get(inventory.SOURCE_DRILL_INVENTORY_DRILL_ITEMS_KEY, items)
+			# N2398: the produced output routes through the
+			# shared dump_item_state routing (the N2283
+			# pattern -- see the function docstring above):
+			# the first accepting neighbour takes the produced
+			# item (handled_index, the store loses 1 output)
+			# and the cursor comes back advanced once per
+			# checked neighbour; with no accepting neighbour
+			# the item stays home (the Java handleItem(self)
+			# outcome, BuildingComp.java:1014).
+			var routed: Dictionary = source_building_item_dump_state.dump_item_state(true, inventory.items_total(next_items), offload_neighbour_accepts.size(), output_item, inventory.item_count(next_items, output_item) > 0, [output_item], [inventory.item_count(next_items, output_item)], offload_neighbour_accepts, offload_neighbour_can_dump, cdump)
+			cdump = int(routed.get("cdump", cdump))
+			if bool(routed.get("dumped", false)):
+				offload_neighbour_index = int(routed.get("handled_index", -1))
+				var routed_amounts: Array = routed.get("item_amounts_by_index", [])
+				if not routed_amounts.is_empty():
+					next_items[output_item] = int(routed_amounts[0])
 			next_time = fmod(next_time, drill_time)
 			offloaded = true
 	var next_total_time: float = total_time + edelta * next_warmup * (0.0 if eff <= 0.0 else 1.0)
-	return {"warmup": next_warmup, "eff": eff, "last_efficiency": last_efficiency, "time": next_time, "total_time": next_total_time, "offloaded": offloaded, "items": next_items}
+	return {"warmup": next_warmup, "eff": eff, "last_efficiency": last_efficiency, "time": next_time, "total_time": next_total_time, "offloaded": offloaded, "items": next_items, "offload_neighbour_index": offload_neighbour_index, "cdump": cdump}
 
 @warning_ignore("unused_parameter")
 static func source_wall_crafter_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
@@ -775,6 +841,41 @@ static func source_wall_crafter_tick_buildings_state(game: Object, seconds: floa
 			frame["total_time"] = advanced["total_time"]
 			frame["offloaded"] = advanced["offloaded"]
 			frame["items"] = advanced["items"]
+			frame["offload_neighbour_index"] = advanced["offload_neighbour_index"]
+			frame["cdump"] = advanced["cdump"]
+			# N2398: the offload neighbour write-back -- the
+			# advance exposed the routed neighbour index
+			# (offload_neighbour_index, -1 when no offload
+			# ran or it fell back), so the tick lands the
+			# output item in the neighbour store through the
+			# shared helper (other.handleItem(self(), item),
+			# BuildingComp.java:1009), right after the
+			# advance and before the timerUse consume and
+			# the timerDump dump (Java order: the offload at
+			# WallCrafter.java:214 precedes the dump at
+			# :220-221; the timerUse consume at :207-209
+			# removes only the booster item, so it cannot
+			# affect the routed output). The cdump write-back
+			# above already persisted the post-offload
+			# cursor, so the timerDump dump below scans from
+			# it -- offload() and dump() share this.cdump in
+			# Java (BuildingComp.java:68/:1003) and each path
+			# advances it only for its own checks, so the
+			# cursor is never double-advanced. A failed
+			# write-back (no sprite / no frame / no items
+			# store / full belt) drops the item -- the
+			# routing already decided, so there is no
+			# fallback to the wall crafter's own store (the
+			# N2353 precedent). cell is bound after the
+			# enabled block, so the origin_cell meta is read
+			# inline as offload_cell (the N2363 precedent);
+			# the size is the catalog per-def size (2 / 3,
+			# Blocks.java:3007/:3021) already bound as
+			# wall_size above.
+			var offload_index: int = int(advanced.get("offload_neighbour_index", -1))
+			if offload_index >= 0:
+				var offload_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
+				source_building_item_state.source_neighbour_item_write_back_state(game, offload_cell, wall_size, offload_index, advance_output_item, 1)
 			# N2273: the timer-gated consume()
 			# `if(itemValid && eff * efficiency > 0 && timer(timerUse, boostItemUseTime / timeScale)){`
 			# (WallCrafter.java:207-209) runs AFTER the
