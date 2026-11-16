@@ -251,3 +251,11 @@ the user asks.)
 - CORRECTION (shard change): the register DID change two shards — `source_modules/power_api_contracts.json` and `source_modules/power_slices.json` (pure additions of the N2216 entry, N2186 precedent). The "NO shard change (verify at completion)" line in the main-thread verification section above is WRONG; the RED expectation was also wrong for the power domain. Slice commit carries 11 files (incl. the 2 shards).
 - CORRECTION (lost logs): the `n2216-green.log` / `n2216-family.log` / `n2216-wiring.log` / `n2216-wiring-rerun.log` files this handoff references are NOT on disk (lost in VM restart #26 / worker-session death; `hidden_files/` under handoffs does not exist). The numbers were re-verified this run from fresh re-runs (targeted + family, logs above) and the gate log on disk. The wiring 32/32 claim rests on the handoff's main-thread note + the gate, which re-covers all 9 wiring modules (their non-Godot tests pass inside the gate; only Godot-absent failures) — the wiring set was NOT re-run this run (time budget before the cron timeout).
 - Completion: fast-forwarded origin/main 405423ac → f704a5dc (PR #13 validation merge, docs-only) before the 5 commits — no rebase needed. Slice commit (11 files) → docs commit (report + handoff + spec Done 1666 + N2216 row) → GOAL.md §5 debt line → hash-naming commit → handoff-status commit → push to origin main in this tick.
+
+## Commits
+
+- Slice: 86bce937 (C07: N2216 ImpactReactor impactPower event, 11 files)
+- Docs: 7a16b0da (report + handoff + design spec, Done 1666 + N2216 row)
+- GOAL: 1790dc52 (§5 Windows debt line for N2216)
+- Hash-naming: (this commit)
+- Handoff-status: (next commit)
