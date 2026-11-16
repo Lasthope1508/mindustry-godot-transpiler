@@ -103,7 +103,7 @@ static func source_stack_conveyor_power_status_row_state(frame: Dictionary, has_
 	# StackConveyorBuild has NO shouldConsume override, so the BuildingComp default applies (BuildingComp.java:755, `public boolean shouldConsume(){` with `return enabled;`, BuildingComp.java:756); updateConsumption forces efficiency to zero when the gate is false (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). There is NO gate to defer here (unlike the ItemBridge / LiquidBridge link gates): the power-only fold is EXACT, because the only gate is `enabled`, which the driver already checks. canConsume (BuildingComp.java:1917, `public boolean canConsume(){` with `return potentialEfficiency > 0;`, BuildingComp.java:1918) and edelta (BuildingComp.java:1927-1929, `return efficiency * delta();`) are the surrounding gates. The single def carries `consumePower(1f / 60f);` (Blocks.java:2251) with `baseEfficiency = 1f;` (Blocks.java:2250), `outputRouter = false;` (Blocks.java:2244), `speed = 5f / 60f;` (Blocks.java:2241), `health = 130;` (Blocks.java:2239), `hasPower = true;` (Blocks.java:2245), `consumesPower = true;` (Blocks.java:2246) and `conductivePower = true;` (Blocks.java:2247).
 	# The stack conveyor is its own family (StackConveyor.java:24, `public class StackConveyor extends Block implements Autotiler{`; StackConveyorBuild, StackConveyor.java:114, `public class StackConveyorBuild extends Building{`), a distribution block, NOT related to any factory / turret / defense / bridge family. Class fields: `protected static final int stateMove = 0, stateLoad = 1, stateUnload = 2;` (StackConveyor.java:25), `public float glowAlpha = 1f;` (StackConveyor.java:34), `public Color glowColor = Pal.redLight;` (StackConveyor.java:35), `public float baseEfficiency = 0f;` (StackConveyor.java:37), `public float speed = 0f;` (StackConveyor.java:38), `public boolean outputRouter = true;` (StackConveyor.java:39), `public float recharge = 2f;` (StackConveyor.java:41), `public Effect loadEffect = Fx.conveyorPoof;` (StackConveyor.java:42), `public Effect unloadEffect = Fx.conveyorPoof;` (StackConveyor.java:43); constructor `rotate = true;` (StackConveyor.java:48), `update = true;` (StackConveyor.java:49), `group = BlockGroup.transportation;` (StackConveyor.java:50), `hasItems = true;` (StackConveyor.java:51), `itemCapacity = 10;` (StackConveyor.java:52), `conveyorPlacement = true;` (StackConveyor.java:53), `underBullets = true;` (StackConveyor.java:54), `priority = TargetPriority.transport;` (StackConveyor.java:55), `drawCached = true;` (StackConveyor.java:56), `buildingCacheLayer = BuildingCacheLayer.under;` (StackConveyor.java:57), `ambientSound = Sounds.loopConveyor;` (StackConveyor.java:59), `ambientSoundVolume = 0.004f;` (StackConveyor.java:60). Build fields: `public int state, blendprox;` (StackConveyor.java:115), `public int link = -1;` (StackConveyor.java:117), `public float cooldown;` (StackConveyor.java:118), `public Item lastItem;` (StackConveyor.java:119), `boolean proxUpdating = false;` (StackConveyor.java:121). The transfer branch (StackConveyor.java:276, `if(link == -1) return;` with StackConveyor.java:287, `if(!enabled) return;`) returns early without a link or when disabled, and the handoff sets `cooldown = recharge;` (StackConveyor.java:311) with `e.cooldown = 1;` (StackConveyor.java:312).
 	# Single def -- surge-conveyor only (size 1, speed 5f/60f, itemCapacity 10, health 130, surge-alloy 1 / tungsten 1, Blocks.java:2237-2253). plastanium-conveyor (StackConveyor, no power def, NO hasPower line, Blocks.java:2084) is explicitly OUT of scope. No sense / read / write overrides exist on StackConveyorBuild -- those wait for their own slices only if a later Java line needs them.
-	# Documented limits: (1) power-only first pass -- the surge-conveyor's static power consumer (consumePower 1f/60f, Blocks.java:2251) is the only modeled consumer, so the folded efficiency is the min over the *modeled* consumers (power only); surge-conveyor has no second consumer. (2) NO shouldConsume gate to defer -- StackConveyorBuild has no shouldConsume override, so the BuildingComp default (`return enabled;`, BuildingComp.java:755-756) applies; the power-only fold is EXACT for this family. (3) updateTile advance LIVE (N2239) -- eff fold / cooldown reel / link gate / transfer branch / unload branch (StackConveyor.java:268-315) run every tick through the pure source_stack_conveyor_update_tile_advance_state; still deferred: the moveForward/dump application (BuildingComp.java:1129-1137 / 1072-1113, the driver passes move_forward_ok / dump_ok false), the live front() query (BuildingComp.java:550-554, the driver passes no-front), and the live items intake (acceptStack / handleStack, StackConveyor.java:344-363). (4) No sense modeling -- sense waits for its own slice. (5) Power row single def -- surge-conveyor only (size 1, speed 5f/60f, itemCapacity 10, health 130, surge-alloy 1 / tungsten 1); plastanium-conveyor (StackConveyor, no power def) has no power row, but the N2239 updateTile advance covers BOTH defs through the per-def tables (plastanium speed 4f/60f, outputRouter true, baseEfficiency 0f; surge speed 5f/60f, outputRouter false, baseEfficiency 1f). (6) Draw rows live (N2434) -- the draw pure (source_stack_conveyor_draw_state) models drawCached() + draw() (StackConveyor.java:124-192: cached base rect + edge rects + load/unload input slices + glow by power.status + interpolated stack + sized item). Pure-only: the tick never calls draw -- draw is called by the renderer, and the renderer call site waits for a renderer slice. drawSelect / config wait for their own slices. (7) Blends / plan / rotatedOutput rows live (N2448) -- the blends pure (source_stack_conveyor_blends_state) models blends() (StackConveyor.java:71-88) with every geometry / indexer predicate caller-supplied, the plan pure (source_stack_conveyor_draw_plan_state) models drawPlanRegion() (StackConveyor.java:90-104) with the getTiling bits caller-supplied, and the rotated-output pure (source_stack_conveyor_rotated_output_state) models rotatedOutput() (StackConveyor.java:106-112). Pure-only: the tick never calls blends / drawPlanRegion / rotatedOutput -- the blending / placement-renderer call sites wait for their own slices. setStats (:64-68) -- see (8). (8) SetStats rows live (N2457) -- the stats pure (source_stack_conveyor_stats_state) models setStats() (StackConveyor.java:64-68: stats.add(Stat.itemsMoved, Mathf.round(itemCapacity * speed * 60), StatUnit.itemsSecond), round(10*0*60) = 0 at the class defaults, 40 for plastanium-conveyor, 50 for surge-conveyor; Mathf.round is floor(v + 0.5) for non-negative v, arc Mathf.java:500-502). Pure-only: the tick never calls setStats -- the stats UI call site waits for its own slice.
+	# Documented limits: (1) power-only first pass -- the surge-conveyor's static power consumer (consumePower 1f/60f, Blocks.java:2251) is the only modeled consumer, so the folded efficiency is the min over the *modeled* consumers (power only); surge-conveyor has no second consumer. (2) NO shouldConsume gate to defer -- StackConveyorBuild has no shouldConsume override, so the BuildingComp default (`return enabled;`, BuildingComp.java:755-756) applies; the power-only fold is EXACT for this family. (3) updateTile advance LIVE (N2239) -- eff fold / cooldown reel / link gate / transfer branch / unload branch (StackConveyor.java:268-315) run every tick through the pure source_stack_conveyor_update_tile_advance_state; still deferred: the moveForward/dump application (BuildingComp.java:1129-1137 / 1072-1113, the driver passes move_forward_ok / dump_ok false), the live front() query (BuildingComp.java:550-554, the driver passes no-front), and the live items intake (acceptStack / handleStack, StackConveyor.java:344-363). (4) No sense modeling -- sense waits for its own slice. (5) Power row single def -- surge-conveyor only (size 1, speed 5f/60f, itemCapacity 10, health 130, surge-alloy 1 / tungsten 1); plastanium-conveyor (StackConveyor, no power def) has no power row, but the N2239 updateTile advance covers BOTH defs through the per-def tables (plastanium speed 4f/60f, outputRouter true, baseEfficiency 0f; surge speed 5f/60f, outputRouter false, baseEfficiency 1f). (6) Draw rows live (N2434) -- the draw pure (source_stack_conveyor_draw_state) models drawCached() + draw() (StackConveyor.java:124-192: cached base rect + edge rects + load/unload input slices + glow by power.status + interpolated stack + sized item). Pure-only: the tick never calls draw -- draw is called by the renderer, and the renderer call site waits for a renderer slice. drawSelect / config wait for their own slices. (7) Blends / plan / rotatedOutput rows live (N2448) -- the blends pure (source_stack_conveyor_blends_state) models blends() (StackConveyor.java:71-88) with every geometry / indexer predicate caller-supplied, the plan pure (source_stack_conveyor_draw_plan_state) models drawPlanRegion() (StackConveyor.java:90-104) with the getTiling bits caller-supplied, and the rotated-output pure (source_stack_conveyor_rotated_output_state) models rotatedOutput() (StackConveyor.java:106-112). Pure-only: the tick never calls blends / drawPlanRegion / rotatedOutput -- the blending / placement-renderer call sites wait for their own slices. setStats (:64-68) -- see (8). (8) SetStats rows live (N2457) -- the stats pure (source_stack_conveyor_stats_state) models setStats() (StackConveyor.java:64-68: stats.add(Stat.itemsMoved, Mathf.round(itemCapacity * speed * 60), StatUnit.itemsSecond), round(10*0*60) = 0 at the class defaults, 40 for plastanium-conveyor, 50 for surge-conveyor; Mathf.round is floor(v + 0.5) for non-negative v, arc Mathf.java:500-502). Pure-only: the tick never calls setStats -- the stats UI call site waits for its own slice. (9) Per-def stat rows live (N2495) -- source_stack_conveyor_per_def_stats_state returns the def rows for plastanium-conveyor (health 90, speed 4f/60f, plastanium 1 / silicon 1 / graphite 1) and surge-conveyor (health 130, speed 5f/60f, surge-alloy 1 / tungsten 1), both size 1 / itemCapacity 10 / glowAlpha 1f / glowColor Pal.redLight, with the class defaults (size 1, speed 0f, itemCapacity 10, health 40 after the Block.init() fill, glowAlpha 1f, glowColor Pal.redLight, no requirements) for an unknown def id. Pure-only: the caller reads it.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -758,4 +758,89 @@ static func source_stack_conveyor_stats_state(item_capacity: int, speed: float) 
 		"items_moved_per_second": items_moved_per_second,
 		"stat_key": "itemsMoved",
 		"stat_unit": "itemsSecond",
+	}
+
+static func source_stack_conveyor_per_def_stats_state(def_id: String) -> Dictionary:
+	# The per-def stat rows (the VERIFICATION slice: the
+	# values are already constants in this driver's header --
+	# the N2304 / N2442 precedent): the def's size / speed /
+	# itemCapacity / health / glowAlpha / glowColor /
+	# requirements for the TWO StackConveyor defs
+	# (plastanium-conveyor Blocks.java:2084-2089,
+	# surge-conveyor Blocks.java:2237-2253), with the CLASS
+	# defaults for an unknown def id (the N2304 fallback
+	# precedent). The def blocks (each exact expr on ONE
+	# comment line, the N2148 lesson):
+	# `plastaniumConveyor = new StackConveyor("plastanium-conveyor"){{`
+	# `requirements(Category.distribution, with(Items.plastanium, 1, Items.silicon, 1, Items.graphite, 1));`
+	# `health = 90;`
+	# `speed = 4f / 60f;`
+	# `surgeConveyor = new StackConveyor("surge-conveyor"){{`
+	# `requirements(Category.distribution, with(Items.surgeAlloy, 1, Items.tungsten, 1));`
+	# `health = 130;`
+	# `speed = 5f / 60f;`
+	# `itemCapacity = 10;`
+	# The class defaults (StackConveyor.java:34-38/52, Block.java:190/215/356):
+	# `public float glowAlpha = 1f;`
+	# `public Color glowColor = Pal.redLight;`
+	# `public float speed = 0f;`
+	# `public int size = 1;`
+	# `public int health = -1;`
+	# `public ItemStack[] requirements = {};`
+	# StackConveyor extends Block (`public class StackConveyor extends Block implements Autotiler{`,
+	# StackConveyor.java:24). NEITHER def sets size (size 1
+	# is the Block class default, Block.java:215) or
+	# overrides the glow (glowAlpha 1f / glowColor
+	# Pal.redLight, StackConveyor.java:34-35) -- both defs
+	# keep the class values, and both set itemCapacity 10
+	# explicitly (Blocks.java:2088/:2242), the same as the
+	# class default (StackConveyor.java:52). The class
+	# health field is the -1 sentinel (`public int health =
+	# -1;`, Block.java:190, "-1 to use scaledHealth"),
+	# which Block.init() (Block.java:1378-1394) fills to
+	# round(size * size * scaledHealth, 5) with
+	# scaledHealth defaulting to 40 (:1381, no requirements
+	# to scale it since the class requirements are the
+	# empty array), so a no-override def has health 40
+	# after init -- the fallback row carries 40, the health
+	# a class-default block actually has, not the sentinel.
+	# The glow color carries the TOKEN "Pal.redLight" (the
+	# N2469 token precedent), not a resolved Color. The
+	# requirements dict is the {item: amount} dict from the
+	# def (the N2490 precedent); the catalog carries the
+	# same rows as an Array of {item, amount} dicts
+	# (content_registry.json, plastanium-conveyor /
+	# surge-conveyor). The speed literals match the
+	# existing SOURCE_STACK_CONVEYOR_SPEED table (the
+	# N2219 tables precedent). Pure-only: the caller reads
+	# it; the advance / draw / stats pures take these
+	# values as caller-supplied inputs and are unchanged.
+	if def_id == "plastanium-conveyor":
+		return {
+			"size": 1,
+			"speed": 4.0 / 60.0,
+			"item_capacity": 10,
+			"health": 90,
+			"glow_alpha": 1.0,
+			"glow_color": "Pal.redLight",
+			"requirements": {"plastanium": 1, "silicon": 1, "graphite": 1},
+		}
+	if def_id == "surge-conveyor":
+		return {
+			"size": 1,
+			"speed": 5.0 / 60.0,
+			"item_capacity": 10,
+			"health": 130,
+			"glow_alpha": 1.0,
+			"glow_color": "Pal.redLight",
+			"requirements": {"surge-alloy": 1, "tungsten": 1},
+		}
+	return {
+		"size": 1,
+		"speed": 0.0,
+		"item_capacity": 10,
+		"health": 40,
+		"glow_alpha": 1.0,
+		"glow_color": "Pal.redLight",
+		"requirements": {},
 	}
