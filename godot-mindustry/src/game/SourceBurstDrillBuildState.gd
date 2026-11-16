@@ -231,8 +231,12 @@ static func source_burst_drill_power_status_row_state(frame: Dictionary, has_pow
 	# the N2421 precedent). The pure records the CLASS
 	# defaults (shake 2f, Fx.shockwave); both defs override
 	# shake = 4f (Blocks.java:3077/:3106) and drillEffect to
-	# a MultiEffect (:3076/:3100-3105), so the per-def rows
-	# wait for their own slice (the N2304 precedent).
+	# a MultiEffect (:3076/:3100-3105) -- per-def shake/effect rows live (N2486)
+	# as one pure-only per-def pure
+	# (source_burst_drill_per_def_offload_effects_state,
+	# the N2304 per-def precedent): {shake, drill_effect} for
+	# a caller-supplied def id, CLASS defaults for an unknown
+	# def id; the N2469 pure is unchanged.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -732,6 +736,39 @@ static func source_burst_drill_offload_effects_state(cycle_complete: bool, was_v
 		drill_sound_call = {"sound": "drillImpact", "x": x, "y": y, "pitch": 1.0 + pitch_roll, "volume": 0.6}
 		drill_effect_call = {"effect": "Fx.shockwave", "x": x + effect_roll_x, "y": y + effect_roll_y, "color": dominant_item_color}
 	return {"shake_call": shake_call, "drill_sound_call": drill_sound_call, "drill_effect_call": drill_effect_call}
+
+static func source_burst_drill_per_def_offload_effects_state(def_id: String) -> Dictionary:
+	# The per-def offload shake/effect rows (N2486, the N2304 per-def precedent) -- the N2469 pure records the CLASS defaults, but BOTH defs override shake = 4f and drillEffect to a MultiEffect, so the live offload rows are per-def. This pure returns {shake, drill_effect} for a caller-supplied def id: shake 4.0 + the def's MultiEffect children as an ordered token list for impact-drill / eruption-drill, and the CLASS defaults (shake 2.0, ["Fx.shockwave"]) for an unknown def id (the N2304 fallback precedent -- every real BurstDrill build has one of the two defs, so the fallback is defensive, not a deviation). The Java lines, in order (each exact expr on ONE comment line, the N2148 lesson):
+	# `public float shake = 2f;`
+	# `drillEffect = Fx.shockwave;`
+	# `public Sound drillSound = Sounds.drillImpact;`
+	# `public float drillSoundVolume = 0.6f, drillSoundPitchRand = 0.1f;`
+	# `impactDrill = new BurstDrill("impact-drill"){{`
+	# `drillEffect = new MultiEffect(Fx.mineImpact, Fx.drillSteam, Fx.mineImpactWave.wrap(Pal.redLight, 40f));`
+	# `shake = 4f;`
+	# `eruptionDrill = new BurstDrill("eruption-drill"){{`
+	# `drillEffect = new MultiEffect(`
+	# `Fx.dynamicSpikes.wrap(Liquids.hydrogen.color, 30f),`
+	# `Fx.mineImpactWave.wrap(Liquids.hydrogen.color, 45f)`
+	# `mineImpact = new Effect(90, e -> {`
+	# `drillSteam = new Effect(220f, e -> {`
+	# `mineImpactWave = new Effect(50f, e -> {`
+	# `dynamicSpikes = new Effect(40f, 100f, e -> {`
+	# `redLight = Color.valueOf("feb380"),`
+	# `hydrogen = new Liquid("hydrogen", Color.valueOf("9eabf7")){{`
+	# `public class MultiEffect extends Effect{`
+	# `for(var effect : effects){`
+	# `effect.create(x, y, rotation, color, data);`
+	# `public WrapEffect wrap(Color color, float rotation){`
+	# `Effect.shake(shake, shake, this);`
+	# Impact-drill (Blocks.java:3070-3077): shake 4f + MultiEffect(Fx.mineImpact, Fx.drillSteam, Fx.mineImpactWave.wrap(Pal.redLight, 40f)). Eruption-drill (Blocks.java:3093-3106): shake 4f + MultiEffect(Fx.mineImpact, Fx.drillSteam, Fx.dynamicSpikes.wrap(Liquids.hydrogen.color, 30f), Fx.mineImpactWave.wrap(Liquids.hydrogen.color, 45f)). The Fx tokens are exact (mineImpact Fx.java:2655, drillSteam Fx.java:1474, mineImpactWave Fx.java:2662, dynamicSpikes Fx.java:737). A MultiEffect fires its children in order at the same x/y/rotation/color/data (MultiEffect.java:19-20, the create loop), so the token list order IS the firing order. The wrap second arg is a ROTATION (`public WrapEffect wrap(Color color, float rotation){`, Effect.java:101 -- WrapEffect.create passes its own rotation + color to the wrapped effect, ignoring the caller's, WrapEffect.java:37-39), so 40f/30f/45f are recorded as wrap_rotation, never as a scale. The wrap colors are recorded as TOKENS ("Pal.redLight", "Liquids.hydrogen.color"), not resolved Colors (Pal.redLight is Color.valueOf("feb380"), Pal.java:138; Liquids.hydrogen is Color.valueOf("9eabf7"), Liquids.java:83) -- the N2469 token precedent. The shake feeds Effect.shake(shake, shake, this) (BurstDrill.java:115), so the per-def shake is 4.0 for the live rows. drillSound / drillSoundVolume do NOT differ per def (BurstDrill.java:32-33, no override in either def block, Blocks.java:3070-3121 -- verified first), so the pure returns only {shake, drill_effect} and the N2469 drill_sound_call stays the single sound record. The def ids are the catalog block ids ("impact-drill" / "eruption-drill", Blocks.java:3070/:3093 -- the same ids the driver consts SOURCE_BURST_DRILL_DRILL_TIME / SOURCE_BURST_DRILL_LIQUID_BOOST_INTENSITY already key on). Pure-only: the caller (effects path) reads it; the N2469 pure is UNCHANGED (it keeps recording the CLASS defaults) and the tick never calls this pure -- no tick wiring.
+	match def_id:
+		"impact-drill":
+			return {"shake": 4.0, "drill_effect": ["Fx.mineImpact", "Fx.drillSteam", {"effect": "Fx.mineImpactWave", "wrap_color": "Pal.redLight", "wrap_rotation": 40.0}]}
+		"eruption-drill":
+			return {"shake": 4.0, "drill_effect": ["Fx.mineImpact", "Fx.drillSteam", {"effect": "Fx.dynamicSpikes", "wrap_color": "Liquids.hydrogen.color", "wrap_rotation": 30.0}, {"effect": "Fx.mineImpactWave", "wrap_color": "Liquids.hydrogen.color", "wrap_rotation": 45.0}]}
+		_:
+			return {"shake": 2.0, "drill_effect": ["Fx.shockwave"]}
 
 @warning_ignore("unused_parameter")
 static func source_burst_drill_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
