@@ -26,14 +26,18 @@ class C07ShockwaveTowerBulletScanTests(unittest.TestCase):
         # so the tick passed [] and a live tower never fired.
         # N2327 is the scan: a pure filter over the
         # frame-supplied bullet candidates by the exact Java
-        # predicates -- in the range*2 RECT
-        # (`Groups.bullet.intersect(x - range, y - range,
-        # range * 2, range * 2, b -> {`, ShockwaveTower.
-        # java:75), enemy team and hittable (`if(b.team !=
-        # team && b.type.hittable){`, ShockwaveTower.java:76)
-        # -- returning the admitted list, which the tick
-        # passes into the N2247 advance before its call. One
-        # new result symbol: the admitted bullets list.
+        # predicates -- the QuadTree hitbox overlap over the
+        # range*2 rect (`Groups.bullet.intersect(x - range,
+        # y - range, range * 2, range * 2, b -> {`,
+        # ShockwaveTower.java:75), enemy team and hittable
+        # (`if(b.team != team && b.type.hittable){`,
+        # ShockwaveTower.java:76) -- returning the admitted
+        # list, which the tick passes into the N2247 advance
+        # before its call. One new result symbol: the
+        # admitted bullets list. (Since N2347 the range test
+        # is the broad hitbox STRICT overlap -- the N2327
+        # pure calls the broad hitbox pure -- not the rect
+        # center test the slice originally shipped.)
         self.assertEqual(
             ledger['N2327']['source_symbols'],
             [
@@ -120,23 +124,31 @@ class C07ShockwaveTowerBulletScanTests(unittest.TestCase):
         # (`return x < rx + rwidth && x + width > rx && y <
         # ry + rheight && y + height > ry;`, Rect.java:274-276);
         # a bullet's hitbox is its type hitSize (`public float
-        # hitSize = 4;`, BulletType.java:43). DOCUMENTED
-        # DEVIATION (the N2277 precedent): the port tests the
-        # bullet CENTER against the rect (INCLUSIVE bounds)
-        # because the candidate dict carries no hitbox. The
-        # range is the class `public float range = 110f;`
-        # (ShockwaveTower.java:25), overridden by the def
-        # `range = 170f;` (Blocks.java:2043); the pure takes
-        # it as a parameter and stays def-agnostic. hittable
-        # lives on the bullet TYPE (`public boolean hittable
-        # = true;`, BulletType.java:143, default true),
-        # carried on the candidate dict; the bullet dict
-        # contract (the N2212 fixture precedent) is x / y /
-        # team / hittable / damage (`@Import float x, y,
-        # damage, lastX, lastY, time, lifetime;`,
-        # BulletComp.java:31). Keep each Java expr on ONE
-        # comment line (the N2148 lesson: a split line fails
-        # this test).
+        # hitSize = 4;`, BulletType.java:43). Since N2347 the
+        # port tests the HITBOX, not the center: the scan pure
+        # calls the broad hitbox pure (the Java-exact QuadTree
+        # test, resolving DEFERRED #330) and then filters team
+        # / hittable on the broad-admitted list; the old
+        # inclusive center test (the N2277 precedent) is gone
+        # -- a straddler whose center sits just outside the
+        # rect but whose hitbox overlaps it is admitted like
+        # Java, and a degenerate hitSize-0 point exactly on
+        # the edge is dropped (the STRICT boundary). The N2340
+        # refinement chains after this pure and re-tests the
+        # admitted bullets by the SAME hitbox STRICT overlap
+        # -- idempotent, harmless. The range is the class
+        # `public float range = 110f;` (ShockwaveTower.
+        # java:25), overridden by the def `range = 170f;`
+        # (Blocks.java:2043); the pure takes it as a parameter
+        # and stays def-agnostic. hittable lives on the bullet
+        # TYPE (`public boolean hittable = true;`,
+        # BulletType.java:143, default true), carried on the
+        # candidate dict; the bullet dict contract (the N2212
+        # fixture precedent) is x / y / team / hittable /
+        # damage (`@Import float x, y, damage, lastX, lastY,
+        # time, lifetime;`, BulletComp.java:31). Keep each
+        # Java expr on ONE comment line (the N2148 lesson: a
+        # split line fails this test).
         self.assertIn('static func source_shockwave_tower_supplied_bullets_state', shockwave_tower)
         self.assertIn('Groups.bullet.intersect(x - range, y - range, range * 2, range * 2, b -> {', shockwave_tower)
         self.assertIn('if(b.team != team && b.type.hittable){', shockwave_tower)
@@ -152,17 +164,22 @@ class C07ShockwaveTowerBulletScanTests(unittest.TestCase):
         self.assertIn('@Import float x, y, damage, lastX, lastY, time, lifetime;', shockwave_tower)
         self.assertIn('public float hitSize = 4;', shockwave_tower)
         # The pure returns exactly the one N2327 key, the
-        # admitted bullets in candidate order; the rect test
-        # is INCLUSIVE on both axes (a center exactly on the
-        # edge counts); a missing x or y excludes; a missing
-        # team reads as the tower's own team (the N2236
-        # precedent); a missing hittable reads as true (the
-        # BulletType default); the tower team is an explicit
-        # parameter (the pure reads no frame).
+        # admitted bullets in candidate order; the range test
+        # is the broad hitbox STRICT overlap (the N2327 pure
+        # calls the broad hitbox pure, N2347 -- a center
+        # exactly on the edge with a real hitbox counts, a
+        # degenerate hitSize-0 point on the edge does not);
+        # a missing x or y excludes (the broad pure excludes
+        # it); a missing team reads as the tower's own team
+        # (the N2236 precedent); a missing hittable reads as
+        # true (the BulletType default); the tower team is an
+        # explicit parameter (the pure reads no frame).
         self.assertIn('static func source_shockwave_tower_supplied_bullets_state(candidates: Array, range_value: float, tower_x: float, tower_y: float, tower_team: int) -> Dictionary:', shockwave_tower)
         self.assertIn('return {"bullets": bullets}', shockwave_tower)
-        self.assertIn('if bullet_x < tower_x - range_value or bullet_x > tower_x + range_value:', shockwave_tower)
-        self.assertIn('if bullet_y < tower_y - range_value or bullet_y > tower_y + range_value:', shockwave_tower)
+        self.assertIn('var broad: Dictionary = source_shockwave_tower_supplied_bullets_broad_hitbox_state(candidates, range_value, tower_x, tower_y)', shockwave_tower)
+        self.assertIn('for candidate in broad.get("bullets", []):', shockwave_tower)
+        self.assertNotIn('if bullet_x < tower_x - range_value or bullet_x > tower_x + range_value:', shockwave_tower)
+        self.assertNotIn('if bullet_y < tower_y - range_value or bullet_y > tower_y + range_value:', shockwave_tower)
         self.assertIn('if not candidate.has("x") or not candidate.has("y"):', shockwave_tower)
         self.assertIn('int(candidate.get("team", tower_team)) == tower_team', shockwave_tower)
         self.assertIn('bool(candidate.get("hittable", true))', shockwave_tower)
@@ -176,9 +193,11 @@ class C07ShockwaveTowerBulletScanTests(unittest.TestCase):
         # tile.drawx()/drawy(), BuildingComp.java:124), and
         # the filtered list reaches the advance call -- the
         # empty-list literal is gone. N2340 follow-through:
-        # the hitbox refinement now chains between the rect
-        # scan and the advance, so the advance takes the
-        # REFINED list (the rect call itself is unchanged).
+        # the hitbox refinement now chains between the scan
+        # and the advance, so the advance takes the REFINED
+        # list (the scan call itself is unchanged -- N2347
+        # rewired the scan pure internally to call the broad
+        # hitbox pure instead of the rect center test).
         self.assertIn('const source_world_defaults := preload("res://src/game/SourceWorldDefaults.gd")', shockwave_tower)
         self.assertIn('frame.get("bullet_candidates", [])', shockwave_tower)
         self.assertIn('source_shockwave_tower_supplied_bullets_state(scan_candidates, float(block.properties.get("range", 110.0)), scan_building_x, scan_building_y, team_id)', shockwave_tower)
@@ -219,9 +238,12 @@ class C07ShockwaveTowerBulletScanTests(unittest.TestCase):
         self.assertIn('static func source_shockwave_tower_power_status_row_state', shockwave_tower)
         # The proof's keys drive the pure scan (an enemy
         # hittable bullet in the rect is admitted, with the
-        # rect corner and the inclusive edge; out-of-rect on
-        # either axis is excluded; own team -- including a
-        # missing team -- is excluded; non-hittable is
+        # rect corner and the edge hitbox; clear of the rect
+        # on either axis is excluded -- the out-of-rect
+        # fixtures sit at 173, clear even of the default 4.0
+        # hitbox (a 171 center straddles under the default
+        # and is admitted since N2347); own team -- including
+        # a missing team -- is excluded; non-hittable is
         # excluded; empty candidates give an empty scan) plus
         # the live tick (a placed tower fires its wave from
         # the scanned bullets).
