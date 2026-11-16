@@ -448,6 +448,35 @@ static func source_repair_turret_sense_state(frame: Dictionary, sensor: String, 
 		return {"handled": true, "sense_value": rotation_value, "sense_value_is_nan": false}
 	return {"handled": false, "sense_value": null, "sense_value_is_nan": true}
 
+static func source_repair_turret_set_stats_state(repair_radius: float, repair_speed: float, accept_coolant: bool, coolant_use: float, coolant_multiplier: float, tilesize: float) -> Dictionary:
+	# RepairTurret.setStats() (RepairTurret.java:75-84):
+	# public void setStats(){
+	# super.setStats();
+	# stats.add(Stat.range, repairRadius / tilesize, StatUnit.blocks);
+	# stats.add(Stat.repairSpeed, repairSpeed * 60f, StatUnit.perSecond);
+	# if(acceptCoolant){
+	# stats.remove(Stat.booster);
+	# stats.add(Stat.booster, StatValues.speedBoosters(Core.bundle.get("bar.strength"), coolantUse, coolantMultiplier, true, this::consumesLiquid));
+	# }
+	# The `super.setStats();` leg (:76) is Block-level stat work (N1696), NOT this slice; this slice owns the two unconditional rows (:77-:78) and the coolant-gated booster row (:80-:82).
+	# The booster value builder (StatValues.java:506):
+	# public static StatValue speedBoosters(String unit, float amount, float speed, boolean strength, Boolf<Liquid> filter){
+	# The class (RepairTurret.java:27):
+	# public class RepairTurret extends Block{
+	# Class defaults (RepairTurret.java:32, :33, :40, :42, :45):
+	# public float repairRadius = 50f;
+	# public float repairSpeed = 0.3f;
+	# public boolean acceptCoolant = false;
+	# public float coolantUse = 0.5f;
+	# public float coolantMultiplier = 1f;
+	# The world tilesize (Vars.java:135):
+	# public static final int tilesize = 8;
+	# repair-point 60f / 0.45f and repair-turret 145f / 3f / acceptCoolant true / coolantUse 0.16f / coolantMultiplier 1.6f (Blocks.java:6389, :6388, :6401, :6400, :6404, :6405, :6406).
+	# There is no driver tick line: setStats is a stat-display read, not a tick write (the N2220 draw-select/draw-place precedent); the proof calls the pure function directly with per-def params.
+	var range_blocks: float = repair_radius / tilesize
+	var repair_speed_per_second: float = repair_speed * 60.0
+	return {"range_blocks": range_blocks, "repair_speed_per_second": repair_speed_per_second, "booster_present": accept_coolant, "booster_coolant_use": coolant_use, "booster_coolant_multiplier": coolant_multiplier}
+
 const REPAIR_TURRET_SAVE_VERSION := 1
 
 static func source_repair_turret_write_state(frame: Dictionary) -> Dictionary:

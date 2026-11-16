@@ -232682,6 +232682,134 @@
       },
       "runtime_proof": "/root/C07RepairTurretSenseRangeRotationProof",
       "rule": "Source-backed RepairTurret sense(range)/sense(rotation) state from RepairTurret.java + BuildingComp.java + Vars.java + LAccess.java."
+    },
+    "source_repair_turret_set_stats_state_input": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_set_stats_state",
+      "source_slice": "N2224",
+      "keys": {
+        "repair_radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "public float repairRadius = 50f;",
+          "rule": "The per-def repair radius in world pixels (RepairTurret.java:32, `public float repairRadius = 50f;`, the class default; repair-point 60f and repair-turret 145f, Blocks.java:6389, :6401); passed explicitly because it is per-def static state, not a live frame key (the N2212 acquire / N2220 draw-place per-def-param precedent).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_set_stats_state"
+          ]
+        },
+        "repair_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "public float repairSpeed = 0.3f;",
+          "rule": "The per-def repair speed in health per tick (RepairTurret.java:33, `public float repairSpeed = 0.3f;`, the class default; repair-point 0.45f and repair-turret 3f, Blocks.java:6388, :6400); passed explicitly because it is per-def static state, not a live frame key.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_set_stats_state"
+          ]
+        },
+        "accept_coolant": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "public boolean acceptCoolant = false;",
+          "rule": "Whether the def accepts coolant (RepairTurret.java:40, `public boolean acceptCoolant = false;`, the class default; repair-turret true, Blocks.java:6404); passed explicitly because it is per-def static state, not a live frame key.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_set_stats_state"
+          ]
+        },
+        "coolant_use": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "public float coolantUse = 0.5f;",
+          "rule": "The per-def coolant use in liquid per tick (RepairTurret.java:42, `public float coolantUse = 0.5f;`, the class default; repair-turret 0.16f, Blocks.java:6405); passed explicitly because it is per-def static state, not a live frame key.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_set_stats_state"
+          ]
+        },
+        "coolant_multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "public float coolantMultiplier = 1f;",
+          "rule": "The per-def coolant heal multiplier (RepairTurret.java:45, `public float coolantMultiplier = 1f;`, the class default; repair-turret 1.6f, Blocks.java:6406); passed explicitly because it is per-def static state, not a live frame key.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_set_stats_state"
+          ]
+        },
+        "tilesize": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/Vars.java",
+          "java_expr": "public static final int tilesize = 8;",
+          "rule": "The world tilesize in pixels (Vars.java:135, `public static final int tilesize = 8;`); passed explicitly (the N2220 draw-place precedent) so the range leg divides by the caller-supplied world constant.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_set_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretSetStatsProof",
+      "rule": "Source-backed RepairTurret setStats() state from RepairTurret.java + Vars.java + Blocks.java + StatValues.java."
+    },
+    "source_repair_turret_set_stats_state_result": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_set_stats_state",
+      "source_slice": "N2224",
+      "keys": {
+        "range_blocks": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "stats.add(Stat.range, repairRadius / tilesize, StatUnit.blocks);",
+          "rule": "The Stat.range row value in blocks: repairRadius / tilesize (RepairTurret.java:77, `stats.add(Stat.range, repairRadius / tilesize, StatUnit.blocks);`).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_set_stats_state"
+          ]
+        },
+        "repair_speed_per_second": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "stats.add(Stat.repairSpeed, repairSpeed * 60f, StatUnit.perSecond);",
+          "rule": "The Stat.repairSpeed row value in health per second: repairSpeed * 60f (RepairTurret.java:78, `stats.add(Stat.repairSpeed, repairSpeed * 60f, StatUnit.perSecond);`).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_set_stats_state"
+          ]
+        },
+        "booster_present": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "if(acceptCoolant){",
+          "rule": "Whether the Stat.booster row is added at all: only when the def accepts coolant (RepairTurret.java:80, `if(acceptCoolant){`, with `stats.remove(Stat.booster);` at :81 removing the base row first).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_set_stats_state"
+          ]
+        },
+        "booster_coolant_use": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "stats.add(Stat.booster, StatValues.speedBoosters(Core.bundle.get(\"bar.strength\"), coolantUse, coolantMultiplier, true, this::consumesLiquid));",
+          "rule": "The booster amount param passed to StatValues.speedBoosters: coolantUse (RepairTurret.java:82, `stats.add(Stat.booster, StatValues.speedBoosters(Core.bundle.get(\"bar.strength\"), coolantUse, coolantMultiplier, true, this::consumesLiquid));`).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_set_stats_state"
+          ]
+        },
+        "booster_coolant_multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "stats.add(Stat.booster, StatValues.speedBoosters(Core.bundle.get(\"bar.strength\"), coolantUse, coolantMultiplier, true, this::consumesLiquid));",
+          "rule": "The booster speed param passed to StatValues.speedBoosters: coolantMultiplier (RepairTurret.java:82, same line as booster_coolant_use).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_set_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretSetStatsProof",
+      "rule": "Source-backed RepairTurret setStats() state from RepairTurret.java + Vars.java + Blocks.java + StatValues.java."
     }
   },
   "version": 1
