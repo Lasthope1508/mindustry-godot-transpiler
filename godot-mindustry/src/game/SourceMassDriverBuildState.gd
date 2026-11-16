@@ -64,7 +64,7 @@ static func _initial_frame() -> Dictionary:
 	# `public DriverState state = DriverState.idle;` (MassDriver.java:119),
 	# `public OrderedSet<Building> waitingShooters = new OrderedSet<>();` (MassDriver.java:121, empty),
 	# and the Building.items ItemModule (frame["items"], Dictionary keyed by item name, the factory precedent).
-	return {"link": -1, "rotation": 90.0, "reload_counter": 0.0, "state": "idle", "waiting_shooters": [], "items": {}}
+	return {"link": -1, "rotation": 90.0, "reload_counter": 0.0, "state": "idle", "waiting_shooters": [], "items": {}, "accepts_item": false}
 
 static func source_mass_driver_bind_frame_state(sprite: Sprite2D, block: Object) -> Dictionary:
 	# Placement creates the Building (Block.java:1002 newBuilding);
@@ -110,6 +110,40 @@ static func _mass_driver_shooter_valid(record: Dictionary) -> bool:
 	# NOTE: unlike linkValid, shooterValid does NOT check the team. The record is the driver-gathered
 	# per-shooter snapshot (is_mass_driver / is_valid / efficiency / same_block / link_equals_self / within_range).
 	return bool(record.get("is_mass_driver", false)) and bool(record.get("is_valid", false)) and float(record.get("efficiency", 0.0)) > 0.0 and bool(record.get("same_block", false)) and bool(record.get("link_equals_self", false)) and bool(record.get("within_range", false))
+
+static func _mass_driver_link_valid(link: int, linked: Dictionary) -> bool:
+	# linkValid (MassDriver.java:346-349, `protected boolean linkValid(){` with `if(link == -1) return false;`
+	# and `return world.build(this.link) instanceof MassDriverBuild other && other.block == block && other.team == team && within(other, range);`):
+	# the link is the config link (`public int link = -1;`, MassDriver.java:116, default -1), and the
+	# linked dict carries the precomputed components (exists / is_mass_driver / same_block / same_team /
+	# within_range), the N2225 partner precedent -- the SAME dict the N2237 advance reads for its has_link
+	# conjunction, so this helper mirrors that conjunction exactly (the advance itself is untouched).
+	# within is STRICT dst2 < range*range (Position.java:44-46, the N2229 verification):
+	# `default boolean within(Position other, float dst){` delegates to
+	# `default boolean within(float x, float y, float dst){` with
+	# `return Mathf.dst2(getX(), getY(), x, y) < dst*dst;`; the tick computes within_range that way
+	# (source_dst < link_range, range the single def 440f, `range = 440f;`, Blocks.java:2172).
+	return link != -1 and bool(linked.get("exists", false)) and bool(linked.get("is_mass_driver", false)) and bool(linked.get("same_block", false)) and bool(linked.get("same_team", false)) and bool(linked.get("within_range", false))
+
+static func source_mass_driver_accept_item_state(frame: Dictionary, item_capacity: int, linked: Dictionary) -> Dictionary:
+	# The intake gate (MassDriver.java:285-288, `public boolean acceptItem(Building source, Item item){` with
+	# `//mass drivers that output only cannot accept items` and
+	# `return items.total() < itemCapacity && linkValid();`): two terms -- the store total under the def
+	# itemCapacity (`itemCapacity = 120;`, Blocks.java:2170, against the Block default `public int itemCapacity = 10;`,
+	# Block.java:75) AND linkValid() (MassDriver.java:346-349, the private helper above). The source/item
+	# args are ignored by Java -- the gate is capacity + link only -- so the pure takes no source/item
+	# inputs. The store total reads through the shared drill inventory helper (never a hand-rolled total).
+	# The driver has no intake path of its own -- the only acceptItem mentions are the neighbour arrays
+	# the N2294 dump reads as frame inputs -- so there is no call site to wire the gate INTO; the tick
+	# stamps the verdict on the frame as accepts_item every tick after the dump write-back (the N2295
+	# Loader acceptPayload precedent), reading the post-tick store and the same linked dict the advance
+	# reads, so neighbour intake queries (dump paths consult acceptItem, BuildingComp.java:1088,
+	# `if(other.acceptItem(self(), item) && canDump(other, item)){`) can consult it. No live neighbour
+	# reads it yet (see DEFERRED -- the MassDriver frame items intake entry).
+	var link: int = int(frame.get("link", -1))
+	var items_total: int = inventory.items_total(frame.get("items", {}))
+	var accepts: bool = items_total < item_capacity and _mass_driver_link_valid(link, linked)
+	return {"accepts": accepts}
 
 static func source_mass_driver_update_tile_advance_state(frame: Dictionary, source_delta: float, time_scale: float, item_capacity: int, reload: float, rotate_speed: float, min_distribute: int, bullet_speed: float, bullet_lifetime: float, tile_pos: int, self_x: float, self_y: float, linked: Dictionary, shooters: Dictionary, item_order: Array) -> Dictionary:
 	# The updateTile advance (MassDriverBuild.updateTile(), MassDriver.java:133-221,
@@ -384,7 +418,7 @@ static func source_mass_driver_dump_state(frame: Dictionary, state_after_switch:
 
 static func source_mass_driver_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a mass driver does not take the early return. The updateTile advance follows the folded efficiency: the no-power skip (MassDriver.java:169, `if(efficiency <= 0f){`), the rotation align (MassDriver.java:181, `rotation = Angles.moveToward(rotation, angleTo(currentShooter()), rotateSpeed * efficiency);`) and the reload drain (MassDriver.java:143, `reloadCounter = Mathf.clamp(reloadCounter - edelta() / reload);`). MassDriverBuild has no shouldConsume override, so the BuildingComp default applies (BuildingComp.java:755, `public boolean shouldConsume(){` with `return enabled;`, BuildingComp.java:756) -- the machinery runs with should_consume=true when enabled (the MendProjector suppression precedent). The mass driver (consumePower 1.75f, Blocks.java:2173, `consumePower(1.75f);`) is its own family (MassDriver.java:27, `public class MassDriver extends Block{`; MassDriverBuild, MassDriver.java:115, `public class MassDriverBuild extends Building implements RotBlock{`) -- power-only first pass, so the folded efficiency is the min over the *modeled* consumers (power only).
-	# Documented limits: (1) power-only first pass -- the mass driver's power consumer is static (consumePower 1.75f, Blocks.java:2173), so the folded efficiency is the min over the *modeled* consumers (power only). (2) shouldConsume default applies -- MassDriverBuild has no shouldConsume override, so the BuildingComp default (`return enabled;`, BuildingComp.java:755-757) applies; the machinery runs with should_consume=true when enabled (the MendProjector suppression precedent). (3) updateTile advance live (N2237) -- link refresh / reloadCounter decay / waitingShooters cleanup / idle-accepting-shooting switch / rotation align / register + fire (MassDriver.java:133-221 + fire() :290-317) run every tick after the consumption fold through the pure source_mass_driver_update_tile_advance_state function; dumpAccumulate (:164-166) is live since N2294 (source_mass_driver_dump_state, the idle/accepting gate + the dumpAccum while loop through the shared dumpAccumulate + dump_item_state helpers, running even without power -- the gate sits before the no-power skip); the Time.run arrival cleanup (:209-214), the bullet entity creation and handlePayload (:319-340) defer -- see DEFERRED. The power proof carries no link/state/reload/fire/dump keys; the N2237 proof carries the link/state/reload/fire keys and the N2294 proof carries the dump keys. (4) No link/config / handlePayload / sense / draw / read-write / acceptItem rows -- see DEFERRED. (5) Single def -- no large-mass-driver def in this upstream version, so the same driver covers the whole family.
+	# Documented limits: (1) power-only first pass -- the mass driver's power consumer is static (consumePower 1.75f, Blocks.java:2173), so the folded efficiency is the min over the *modeled* consumers (power only). (2) shouldConsume default applies -- MassDriverBuild has no shouldConsume override, so the BuildingComp default (`return enabled;`, BuildingComp.java:755-757) applies; the machinery runs with should_consume=true when enabled (the MendProjector suppression precedent). (3) updateTile advance live (N2237) -- link refresh / reloadCounter decay / waitingShooters cleanup / idle-accepting-shooting switch / rotation align / register + fire (MassDriver.java:133-221 + fire() :290-317) run every tick after the consumption fold through the pure source_mass_driver_update_tile_advance_state function; dumpAccumulate (:164-166) is live since N2294 (source_mass_driver_dump_state, the idle/accepting gate + the dumpAccum while loop through the shared dumpAccumulate + dump_item_state helpers, running even without power -- the gate sits before the no-power skip); the Time.run arrival cleanup (:209-214), the bullet entity creation and handlePayload (:319-340) defer -- see DEFERRED. The power proof carries no link/state/reload/fire/dump keys; the N2237 proof carries the link/state/reload/fire keys and the N2294 proof carries the dump keys. (4) No link/config / handlePayload / sense / draw / read-write rows -- see DEFERRED. (5) Single def -- no large-mass-driver def in this upstream version, so the same driver covers the whole family. (6) acceptItem live (N2336) -- the intake gate (MassDriver.java:285-288, items.total() < itemCapacity && linkValid(), MassDriver.java:346-349) runs every tick through the pure source_mass_driver_accept_item_state function and exposes the verdict on the frame as accepts_item (the N2295 Loader acceptPayload precedent), reading the post-tick store and the same linked dict the N2237 advance reads; the N2336 proof carries the accept keys. No live neighbour reads the verdict yet -- the frame items intake waits for its own slice, see DEFERRED.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -559,6 +593,16 @@ static func source_mass_driver_tick_buildings_state(game: Object, seconds: float
 		frame["dump_accum"] = dumped.get("dump_accum_after", frame.get("dump_accum", 0.0))
 		frame["items"] = dumped.get("items_after", frame.get("items", {}))
 		frame["cdump"] = dumped.get("cursor_after", frame.get("cdump", 0))
+		# N2336: the acceptItem intake verdict (MassDriver.java:285-288, `return items.total() <
+		# itemCapacity && linkValid();`, MassDriver.java:346-349) is stamped on the frame every tick
+		# (the N2295 Loader acceptPayload precedent) so neighbour intake queries -- dump paths
+		# consult acceptItem (BuildingComp.java:1088) -- can read it; no live neighbour reads it
+		# yet (see DEFERRED). The pure reads the post-tick store (fire() and the dump above are
+		# the only item mutations this tick) and the same linked dict the advance reads -- no
+		# second gather. The advance's link refresh cannot invalidate the snapshot: a valid link
+		# refreshes to the same pos, and an unlinked driver keeps link -1 with exists false.
+		var accept_verdict: Dictionary = source_mass_driver_accept_item_state(frame, SOURCE_MASS_DRIVER_ITEM_CAPACITY, linked)
+		frame["accepts_item"] = bool(accept_verdict.get("accepts", false))
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
 	return {"ticked_count": ticked_count, "results_by_cell": results_by_cell}
