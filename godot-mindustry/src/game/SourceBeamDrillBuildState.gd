@@ -89,7 +89,14 @@ static func source_beam_drill_tick_frame_state(frame: Dictionary, block_implemen
 	return frame
 
 static func _initial_frame() -> Dictionary:
-	return {"items": {}, "facing_amount": 0, "liquids": {}}
+	# The lasers origins (N2346): the frame starts with no
+	# origins computed (lasers [], the Java `public Point2[]
+	# lasers = new Point2[size];` slots before updateLasers
+	# fills them) and lasers_last_change -2 (the N2277
+	# sentinel, `public int lastChange = -2;`,
+	# RegenProjector.java:110), so the first tick always
+	# refreshes the origins.
+	return {"items": {}, "facing_amount": 0, "liquids": {}, "lasers": [], "lasers_last_change": -2}
 
 static func source_beam_drill_bind_frame_state(sprite: Sprite2D, block: Object) -> Dictionary:
 	# Placement creates the Building (Block.java:1002 newBuilding);
@@ -244,6 +251,80 @@ static func source_beam_drill_facing_scan_state(facing_tiles: Array, size: int, 
 			break
 	return {"facing_amount": facing_amount}
 
+static func source_beam_drill_laser_origins_state(tile_x: int, tile_y: int, rotation: int, size: int) -> Dictionary:
+	# The updateLasers origins (BeamDrillBuild.updateLasers,
+	# BeamDrill.java:368-373 -- called from onProximityUpdate
+	# :362-366, `public void onProximityUpdate(){` /
+	# `updateLasers();` / `updateFacing();`, when the drill
+	# is placed or rotated, NOT every tick, plus the lazy
+	# first-tick call `if(lasers[0] == null) updateLasers();`
+	# (BeamDrill.java:240)):
+	# `protected void updateLasers(){`
+	# `for(int i = 0; i < size; i++){`
+	# `if(lasers[i] == null) lasers[i] = new Point2();`
+	# `nearbySide(tileX(), tileY(), rotation, i, lasers[i]);`
+	# The lasers (`public Point2[] lasers = new Point2[size];`,
+	# BeamDrill.java:222) are the origins updateFacing walks
+	# from (`Point2 l = lasers[p];`, BeamDrill.java:383,
+	# `int rx = l.x + dx*i, ry = l.y + dy*i;`, :387).
+	# nearbySide (Block.java:936-944 -- NOT :936-947, the
+	# brief cite: :946-948 is getEdges):
+	# `public void nearbySide(int x, int y, int rotation, int index, Point2 out){`
+	# `int cornerX = x - (size-1)/2, cornerY = y - (size-1)/2, s = size;`
+	# `switch(rotation){`
+	# `case 0 -> out.set(cornerX + s, cornerY + index);`
+	# `case 1 -> out.set(cornerX + index, cornerY + s);`
+	# `case 2 -> out.set(cornerX - 1, cornerY + index);`
+	# `case 3 -> out.set(cornerX + index, cornerY - 1);`
+	# tileX()/tileY() are the building tile (`public int tileX(){`
+	# / `return tile.x;`, BuildingComp.java:166-168;
+	# `public int tileY(){` / `return tile.y;`, :172-174),
+	# rotation is the placement rotation (`transient int rotation;`,
+	# BuildingComp.java:69), and size is the block size
+	# (`public int size = 1;`, Block.java:215; `size = 2;`
+	# plasma-bore / `size = 3;` large-plasma-bore,
+	# Blocks.java:3044/3058). The corner is tile - (size-1)/2
+	# with JAVA integer division (truncated toward zero --
+	# GDScript int/int divides the same way, so (size-1)/2
+	# matches for every size >= 1): size 2 corners ON the
+	# tile ((2-1)/2 = 0), size 3 one tile back ((3-1)/2 =
+	# 1). The geometry is driver-local (a helper inside this
+	# pure) -- nearbySide has no other caller in the port, so
+	# it does NOT belong in the shared SourceBlockGeometry.gd.
+	# The switch has NO default in Java: an out-of-range
+	# rotation leaves `out` unchanged, and updateLasers
+	# creates a fresh `new Point2()` (`public Point2(){`,
+	# arc Point2.java:12, x = 0, y = 0, the field defaults)
+	# when the slot is null, so a fresh laser under an
+	# unmatched rotation reads (0, 0) -- the pure seeds each
+	# origin at (0, 0) and only the four rotation cases move
+	# it. The tick refreshes the origins only when
+	# tile_changes moves (the N2277 pattern:
+	# `if(lastChange != world.tileChanges){` /
+	# `lastChange = world.tileChanges;`,
+	# RegenProjector.java:122-125, against the sentinel
+	# `public int lastChange = -2;`, RegenProjector.java:110;
+	# the counter starts at `public int tileChanges = 1, floorChanges = 1;`, World.java:35).
+	# The pure returns one origin per laser, size origins,
+	# each {x, y} in tile coordinates, in laser order
+	# (i = 0..size-1).
+	var corner_x: int = tile_x - (size - 1) / 2
+	var corner_y: int = tile_y - (size - 1) / 2
+	var lasers: Array = []
+	for i in range(size):
+		var origin := {"x": 0, "y": 0}
+		match rotation:
+			0:
+				origin = {"x": corner_x + size, "y": corner_y + i}
+			1:
+				origin = {"x": corner_x + i, "y": corner_y + size}
+			2:
+				origin = {"x": corner_x - 1, "y": corner_y + i}
+			3:
+				origin = {"x": corner_x + i, "y": corner_y - 1}
+		lasers.append(origin)
+	return {"lasers": lasers}
+
 static func source_beam_drill_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40,
 	# `return build.power.status;`): the power consumer's
@@ -302,8 +383,13 @@ static func source_beam_drill_power_status_row_state(frame: Dictionary, has_powe
 	# (N2339): source_beam_drill_facing_scan_state counts
 	# mineable facing tiles from the frame facing_tiles and
 	# stamps facing_amount each enabled tick before the
-	# advance); still deferred: updateLasers geometry / the
-	# live facing-tile fill, lastItem / facing[] + the drop
+	# advance); updateLasers geometry live since N2346
+	# (source_beam_drill_laser_origins_state computes the
+	# nearbySide laser origins and stamps frame["lasers"]
+	# when tile_changes moves, the N2277 pattern, with a
+	# first-tick refresh covering the lazy BeamDrill.java:240
+	# call); still deferred: the live facing-tile fill,
+	# lastItem / facing[] + the drop
 	# loop + `time %= drillTime;` reset +
 	# lastDrillSpeed (BeamDrill.java:249, 253-262, needs
 	# lastItem / facing / items state the tick does not
@@ -362,9 +448,12 @@ static func source_beam_drill_update_tile_advance_state(frame: Dictionary, sourc
 	# modeled it is min(booster row, minEfficiency),
 	# BuildingComp.java:1965/1986). The facing count is
 	# live since N2339 (the facing scan pure, stamped
-	# before this advance each enabled tick). Deferred,
-	# not done here: updateLasers (BeamDrill.java:240)
-	# / the live facing-tile fill, lastItem
+	# before this advance each enabled tick). The
+	# updateLasers origins are live since N2346
+	# (BeamDrill.java:368-373, stamped when tile_changes
+	# moves; the :240 lazy first-tick call is covered by
+	# the first-tick refresh). Deferred, not done here:
+	# the live facing-tile fill, lastItem
 	# (BeamDrill.java:376-411, which updateFacing
 	# sets), the drop loop + `time %= drillTime;`
 	# reset + lastDrillSpeed (BeamDrill.java:249,
@@ -553,6 +642,47 @@ static func source_beam_drill_tick_buildings_state(game: Object, seconds: float)
 		# pure liquid row reads the held hydrogen / nitrogen
 		# from it (the Fracker:361 precedent).
 		frame["liquids"] = sprite.get_meta(source_placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, {})
+		# N2346: the updateLasers origins (BeamDrill.java:
+		# 368-373) -- updateLasers runs in onProximityUpdate
+		# (BeamDrill.java:362-366, when the drill is placed
+		# or rotated), NOT every tick, so the origins
+		# refresh only when tile_changes moves (the N2277
+		# RegenProjector pattern: `if(lastChange != world.
+		# tileChanges){` / `lastChange = world.tileChanges;`
+		# / `updateTargets();`, RegenProjector.java:122-125;
+		# tile_changes is the frame input, default 1,
+		# `public int tileChanges = 1, floorChanges = 1;`,
+		# World.java:35, and lasers_last_change starts at
+		# -2, the N2277 sentinel `public int lastChange =
+		# -2;`, RegenProjector.java:110, so the first tick
+		# always refreshes -- covering the lazy
+		# `if(lasers[0] == null) updateLasers();`,
+		# BeamDrill.java:240), plus the direct :240 analog
+		# (an empty lasers array refreshes even without a
+		# tile_changes move). The refresh is NOT gated on
+		# enabled -- onProximityUpdate fires on placement /
+		# rotation regardless of enabled -- and it runs
+		# BEFORE the consumption fold and the facing scan
+		# (Java order: updateLasers :364 before updateFacing
+		# :365 in onProximityUpdate). tileX/tileY come from
+		# the sprite origin_cell (the building tile,
+		# `return tile.x;` / `return tile.y;`,
+		# BuildingComp.java:167/173), rotation from the
+		# sprite rotation meta (SourceBlockGeometry.
+		# SOURCE_BUILD_ROTATION_META_KEY, default 0, the
+		# placement rotation `transient int rotation;`,
+		# BuildingComp.java:69), size from the catalog per
+		# def (2 plasma-bore / 3 large-plasma-bore). The
+		# origins land on frame["lasers"] for the facing
+		# scan's future live fill to read (the scan still
+		# takes its rays as frame inputs -- N2339 untouched).
+		if int(frame.get("tile_changes", 1)) != int(frame.get("lasers_last_change", -2)) or (frame.get("lasers", []) as Array).is_empty():
+			var laser_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
+			var laser_rotation: int = int(sprite.get_meta(source_block_geometry.SOURCE_BUILD_ROTATION_META_KEY, 0))
+			var laser_size: int = int(block.properties.get("size", 1))
+			var laser_origins: Dictionary = source_beam_drill_laser_origins_state(laser_cell.x, laser_cell.y, laser_rotation, laser_size)
+			frame["lasers"] = laser_origins.get("lasers", [])
+			frame["lasers_last_change"] = int(frame.get("tile_changes", 1))
 		# The power consumer reads live since N2153 (the graph
 		# update stamps frame["power_status"] each tick, N2142):
 		# a beam drill with a power consumer folds the pure power
