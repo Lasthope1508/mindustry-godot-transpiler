@@ -13,6 +13,9 @@ const inventory := preload("res://src/game/SourceDrillInventoryRuntimeState.gd")
 # The LaunchPad implementation (LaunchPad.java:30, `public class LaunchPad extends Block{`): launch-pad (consumePower 4f, Blocks.java:6797, `consumePower(4f);`; size 3, itemCapacity 100, launchTime 60f * 20, Blocks.java:6790-6797) and advanced-launch-pad (consumePower 8f, Blocks.java:6809, `consumePower(8f);`; size 4, itemCapacity 100, launchTime 60f * 30, liquidCapacity 40f, drawLiquid oil, consumeLiquid oil 9f/60f, Blocks.java:6800-6809). LaunchPad extends Block, NOT a factory or crafter, so no existing driver matches it and no frame key exists for it; this driver uses its own family frame key ("source_launch_pad_building", the wall-crafter precedent), and this slice adds the launch-pad key to N2142's SOURCE_CONSUMER_FRAME_META_KEYS so the graph stamp/write-back finds it. The port has NO SourceLaunchPad* files at all yet -- no display/runtime state to lean on -- so the missing piece is the live power.status -> efficiency driver, which is exactly this slice: the updateTile launch gate (LaunchPad.java:146, `if((launchCounter += edelta()) >= launchTime && items.total() >= itemCapacity){`) advances launchCounter by edelta() (BuildingComp.java:1927-1929, `return efficiency * delta();`), so a launch pad with no power would never launch -- its launchCounter would sit frozen as if power.status were 1.0.
 const SOURCE_LAUNCH_PAD_BUILD_IMPLEMENTATIONS := ["LaunchPad"]
 const SOURCE_LAUNCH_PAD_BUILDING_META_KEY := "source_launch_pad_building"
+# Geometry.d8edge (arc Geometry.java:35-40), the diagonal edge
+# array the light loop offsets along (`public static Point2 d8edge(int i){` with `return d8edge[Mathf.mod(i, 4)];`, Geometry.java:59-61).
+const SOURCE_LAUNCH_PAD_D8EDGE := [Vector2i(1, 1), Vector2i(-1, 1), Vector2i(-1, -1), Vector2i(1, -1)]
 
 static func _is_launch_pad_build_implementation(implementation: String) -> bool:
 	return SOURCE_LAUNCH_PAD_BUILD_IMPLEMENTATIONS.has(implementation)
@@ -85,7 +88,7 @@ static func source_launch_pad_bind_frame_state(sprite: Sprite2D, block: Object) 
 
 static func source_launch_pad_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a launch pad does not take the early return. The updateTile advance follows the folded efficiency: the launch gate (LaunchPad.java:146, `if((launchCounter += edelta()) >= launchTime && items.total() >= itemCapacity){`) advances launchCounter by edelta() (BuildingComp.java:1927-1929, `return efficiency * delta();`), so a launch pad with no power would never launch. LaunchPadBuild HAS a shouldConsume override (LaunchPad.java:92, `public boolean shouldConsume(){` with `return launchCounter < launchTime;`, LaunchPad.java:94) -- N2186 wires the gate: the pure source_launch_pad_should_consume_state gate reads the tracked launchCounter, the driver ANDs enabled (the BuildingComp default, BuildingComp.java:755-757, `return enabled;`, is what the driver uses), and the machinery folds efficiency to 0 when the gate is false (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();`, with BuildingComp.java:1992-1994, `if(!update){` / `efficiency = optionalEfficiency = 0f;`). The launch pad is its own family (LaunchPad.java:30, `public class LaunchPad extends Block{`; LaunchPadBuild, LaunchPad.java:83, `public class LaunchPadBuild extends Building{`). Two defs share the implementation (launch-pad, `consumePower(4f);`, Blocks.java:6797; advanced-launch-pad, `consumePower(8f);`, Blocks.java:6809), so the same driver covers the whole family; the advanced def also consumes liquid oil -- the liquid row is LIVE since N2253 (source_launch_pad_liquid_consumer_row_state, oil 9f/60f, Blocks.java:6808).
-	# Documented limits: (1) power + liquid first pass -- the launch pad's power consumer is static (consumePower 4f, Blocks.java:6797; consumePower 8f, Blocks.java:6809), and the advanced def's oil consumer is static too (consumeLiquid oil 9f/60f, Blocks.java:6808), so the folded efficiency is the min over the *modeled* consumers (power + the advanced def's oil row, N2253; the plain launch-pad has no liquid consumer, so its liquid row is absent). (2) shouldConsume gate LIVE (N2186) -- LaunchPadBuild.shouldConsume() (`return launchCounter < launchTime;`, LaunchPad.java:92-95) is the pure source_launch_pad_should_consume_state gate over the tracked launchCounter; the driver ANDs enabled (BuildingComp.java:755-757, `return enabled;`) and the machinery folds efficiency to 0 when the gate is false (BuildingComp.java:1960/:1992-1994). (3) updateTile advance live (N2238) -- the launchCounter advance, the full-and-timed launch gate, the stacks copy, items.clear and the launchCounter = 0f reset (LaunchPad.java:143-161) advance in the pure function (source_launch_pad_update_tile_advance_state); the LaunchPayload entity creation/application (LaunchPad.java:150-155) and the launch sound / effects (launchSound / Fx.launchPod / Effect.shake, LaunchPad.java:149/156/158) still defer. (4) Liquid consumer row LIVE (N2253) -- advanced-launch-pad consumes oil 9f/60f (Blocks.java:6808), folded as a required row with is_power false; the plain launch-pad has no liquid consumer (row absent). (5) Two defs, one driver -- launch-pad + advanced-launch-pad share the LaunchPad implementation, so the same driver covers the whole family; the advanced def waits for its own verification slice. (6) acceptItem gate LIVE (N2333) -- LaunchPadBuild.acceptItem() (LaunchPad.java:138-140) is the pure source_launch_pad_accept_item_state gate (total < capacity AND (accept_multiple OR total == 0 OR first == item), first scanned in content-id order); launch-pad accepts multiple items (`acceptMultipleItems = true;`, Blocks.java:6796), advanced-launch-pad keeps the false class default (LaunchPad.java:40). Pure + test + proof only: no intake path calls acceptItem yet, so the driver wiring waits for the frame-items-intake design. (7) Sense rows live (N2389) -- LaunchPadBuild.sense() (LaunchPad.java:98-101) is the pure source_launch_pad_sense_state dispatch (progress -> clampf(launch_counter / launch_time, 0.0, 1.0), other sensors -> the caller-supplied super_value, null = the Float.NaN default branch); pure-only, the tick never calls sense (sense is called by logic, and the logic call site waits for a logic-executor slice). (8) Launch pod result live (N2397) -- the LaunchPayload entity creation (LaunchPad.java:150-155) is the pure source_launch_pad_launch_pod_state descriptor ({stacks, lifetime 120f, team, x, y} from the N2238 launched + launched_stacks, null when not launched, the N2234 spawned_unit precedent); no live entity is created, consume() is a no-op for a LaunchPad (no item consumer; the Consume default trigger is empty, Consume.java:50), and the launch sound / effects (launchSound / Fx.launchPod / Effect.shake, LaunchPad.java:149/156/158) still defer.
+	# Documented limits: (1) power + liquid first pass -- the launch pad's power consumer is static (consumePower 4f, Blocks.java:6797; consumePower 8f, Blocks.java:6809), and the advanced def's oil consumer is static too (consumeLiquid oil 9f/60f, Blocks.java:6808), so the folded efficiency is the min over the *modeled* consumers (power + the advanced def's oil row, N2253; the plain launch-pad has no liquid consumer, so its liquid row is absent). (2) shouldConsume gate LIVE (N2186) -- LaunchPadBuild.shouldConsume() (`return launchCounter < launchTime;`, LaunchPad.java:92-95) is the pure source_launch_pad_should_consume_state gate over the tracked launchCounter; the driver ANDs enabled (BuildingComp.java:755-757, `return enabled;`) and the machinery folds efficiency to 0 when the gate is false (BuildingComp.java:1960/:1992-1994). (3) updateTile advance live (N2238) -- the launchCounter advance, the full-and-timed launch gate, the stacks copy, items.clear and the launchCounter = 0f reset (LaunchPad.java:143-161) advance in the pure function (source_launch_pad_update_tile_advance_state); the LaunchPayload entity creation/application (LaunchPad.java:150-155) and the launch sound / effects (launchSound / Fx.launchPod / Effect.shake, LaunchPad.java:149/156/158) still defer. (4) Liquid consumer row LIVE (N2253) -- advanced-launch-pad consumes oil 9f/60f (Blocks.java:6808), folded as a required row with is_power false; the plain launch-pad has no liquid consumer (row absent). (5) Two defs, one driver -- launch-pad + advanced-launch-pad share the LaunchPad implementation, so the same driver covers the whole family; the advanced def waits for its own verification slice. (6) acceptItem gate LIVE (N2333) -- LaunchPadBuild.acceptItem() (LaunchPad.java:138-140) is the pure source_launch_pad_accept_item_state gate (total < capacity AND (accept_multiple OR total == 0 OR first == item), first scanned in content-id order); launch-pad accepts multiple items (`acceptMultipleItems = true;`, Blocks.java:6796), advanced-launch-pad keeps the false class default (LaunchPad.java:40). Pure + test + proof only: no intake path calls acceptItem yet, so the driver wiring waits for the frame-items-intake design. (7) Sense rows live (N2389) -- LaunchPadBuild.sense() (LaunchPad.java:98-101) is the pure source_launch_pad_sense_state dispatch (progress -> clampf(launch_counter / launch_time, 0.0, 1.0), other sensors -> the caller-supplied super_value, null = the Float.NaN default branch); pure-only, the tick never calls sense (sense is called by logic, and the logic call site waits for a logic-executor slice). (8) Launch pod result live (N2397) -- the LaunchPayload entity creation (LaunchPad.java:150-155) is the pure source_launch_pad_launch_pod_state descriptor ({stacks, lifetime 120f, team, x, y} from the N2238 launched + launched_stacks, null when not launched, the N2234 spawned_unit precedent); no live entity is created, consume() is a no-op for a LaunchPad (no item consumer; the Consume default trigger is empty, Consume.java:50), and the launch sound / effects (launchSound / Fx.launchPod / Effect.shake, LaunchPad.java:149/156/158) still defer. (9) Draw rows live (N2420) -- the draw pure (source_launch_pad_draw_state) models draw() (LaunchPad.java:104-136: the bottom/liquid branch + super.draw() + the light-region progress loop + the shadow/pod pair) + icons() (:79-80: [previewRegion], folded into the draw pure -- icons() takes no args and the SSOT schema validator requires non-empty input keys). Pure-only: the tick never calls draw -- draw is called by the renderer, icons by the atlas, and the call sites wait for renderer/UI slices.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -325,6 +328,125 @@ static func source_launch_pad_accept_item_state(frame: Dictionary, item: String,
 	var first_item: Variant = _launch_pad_first_item(items, item_order)
 	var accepts: bool = total < item_capacity and (accept_multiple_items or total == 0 or (first_item != null and str(first_item) == item))
 	return {"accepts": accepts}
+
+static func _launch_pad_mathf_curve(f_value: float, from_value: float, to_value: float) -> float:
+	# Mathf.curve(f, from, to) (arc Mathf.java:608-616), Java-exact: 0 below from, 1 above to, linear between.
+	# `public static float curve(float f, float from, float to){`
+	# `return (f - from) / (to - from);`
+	if f_value < from_value:
+		return 0.0
+	if f_value > to_value:
+		return 1.0
+	return (f_value - from_value) / (to_value - from_value)
+
+static func source_launch_pad_draw_state(x_value: float, y_value: float, size_value: int, has_liquids: bool, draw_liquid: Variant, liquid_amount: float, liquid_capacity: float, bottom_color: String, liquid_pad: float, items_total: int, item_capacity: int, launch_counter: float, launch_time: float, light_region_found: bool, light_steps: int, light_step: float, light_color: String) -> Dictionary:
+	# The draw rows (LaunchPadBuild.draw(), LaunchPad.java:104-136), the pure draw-call dict -- the port never draws for real (the SourceBlockDrawState / SourceBaseTurretDrawState pattern, the N2396 MassDriver precedent: the pure returns the draw calls as data). Java draws, in order (each exact expr on ONE comment line, the N2148 lesson):
+	# `if(hasLiquids && drawLiquid != null){`
+	# `Draw.color(bottomColor);`
+	# `Fill.square(x, y, size * tilesize/2f - liquidPad);`
+	# `Draw.color();`
+	# `LiquidBlock.drawTiledFrames(block.size, x, y, liquidPad, liquidPad, liquidPad, liquidPad, drawLiquid, liquids.get(drawLiquid) / liquidCapacity);`
+	# `super.draw();`
+	# `if(lightRegion.found()){`
+	# `Draw.color(lightColor);`
+	# `float progress = Math.min((float)items.total() / itemCapacity, launchCounter / launchTime);`
+	# `for(int i = 0; i < 4; i++){`
+	# `for(int j = 0; j < lightSteps; j++){`
+	# `float alpha = Mathf.curve(progress, (float)j / lightSteps, (j+1f) / lightSteps);`
+	# `float offset = -(j - 1f) * lightStep;`
+	# `Draw.color(Pal.metalGrayDark, lightColor, alpha);`
+	# `Draw.rect(lightRegion, x + Geometry.d8edge(i).x * offset, y + Geometry.d8edge(i).y * offset, i * 90);`
+	# `Draw.reset();`
+	# `Drawf.shadow(x, y, size * tilesize);`
+	# `Draw.rect(podRegion, x, y);`
+	# The def constants (LaunchPad.java:39-47, verify-first -- no def overrides them except drawLiquid / liquidCapacity):
+	# `public Color lightColor = Color.valueOf("eab678");`
+	# `public float lightStep = 1f;`
+	# `public int lightSteps = 3;`
+	# `public float liquidPad = 2f;`
+	# `public @Nullable Liquid drawLiquid;`
+	# `public Color bottomColor = Pal.darkerMetal;`
+	# `public TextureRegion[] icons(){`
+	# `return new TextureRegion[]{previewRegion};`
+	# `public static void drawTiledFrames(int size, float x, float y, float padLeft, float padRight, float padTop, float padBottom, Liquid liquid, float alpha){`
+	# `public static void shadow(float x, float y, float rad){`
+	# `darkerMetal = Color.valueOf("565666"),`
+	# `metalGrayDark = Color.valueOf("6e7080"),`
+	# `public static final int tilesize = 8;`
+	# The liquid branch is the advanced def only in practice: drawLiquid is null by default (`public @Nullable Liquid drawLiquid;`, LaunchPad.java:46) and only the advanced-launch-pad sets it (`drawLiquid = Liquids.oil;`, Blocks.java:6807, with `liquidCapacity = 40f;`, Blocks.java:6805); the plain launch-pad def (Blocks.java:6790-6797) has no liquid consumer, so hasLiquids is false there and the branch is off. The pure takes has_liquids + draw_liquid as explicit inputs and returns liquid_call null unless BOTH hold (the N2397 null-when-absent precedent). The bottom square half-size is size * tilesize/2f - liquidPad (10.0 for the size-3 pad, 14.0 for the size-4 pad); the tiled-frames call carries all four pads (the 8-arg overload, LiquidBlock.java:39-41, each pad liquidPad) and alpha liquids.get(drawLiquid) / liquidCapacity. The per-tile truncation loop inside drawTiledFrames (LiquidBlock.java:44-72) is the callee's own geometry -- the pure records the CALL, not the tiles (the N2396 record-the-call precedent). The light loop is the progress math: progress is the min of the items fraction and the launch-counter fraction (the N2238 advance tracks launchCounter, the N2389 sense pure reads the same launchCounter / launchTime ratio -- the pure takes items_total / item_capacity / launch_counter / launch_time as explicit params, not the frame, the N2415 precedent). Mathf.curve(f, from, to) is the arc 3-arg form (`public static float curve(float f, float from, float to){`, Mathf.java:608-616: 0 below from, 1 above to, `return (f - from) / (to - from);` between), implemented by the _launch_pad_mathf_curve helper (first use in the port -- no curve helper existed). The edge offsets ride Geometry.d8edge(i) (`public static Point2 d8edge(int i){` with `return d8edge[Mathf.mod(i, 4)];`, Geometry.java:59-61), the arc diagonal array [(1, 1), (-1, 1), (-1, -1), (1, -1)] (Geometry.java:35-40), as the SOURCE_LAUNCH_PAD_D8EDGE const. The color mix is Pal.metalGrayDark ("6e7080", Pal.java:83) -> lightColor ("eab678", LaunchPad.java:39) by alpha; bottomColor is Pal.darkerMetal ("565666", Pal.java:35). lightSteps 3 / lightStep 1f / liquidPad 2f are class defaults (LaunchPad.java:42-45) with NO def override on either def, so the loop is 4 x 3 = 12 calls for both defs -- the pure still takes them as explicit params (def-agnostic, the N2383 precedent). icons() (LaunchPad.java:79-80) returns {previewRegion} -- folded into the draw pure as the icon_regions result key: icons() takes no args and the SSOT schema validator requires non-empty input keys, so a zero-arg pure cannot register (the N2396 precedent). previewRegion is the `@-preview` region with fallback `@` (LaunchPad.java:38). super.draw() is Block/Building draw (NOT modeled here -- the pure records the call, the N2396 drawPlace precedent). Drawf.shadow (Drawf.java:350-352) is the circle-shadow rect at radius size * tilesize (24.0 / 32.0). tilesize is the Java constant 8.0 (`public static final int tilesize = 8;`, Vars.java:135 -- NEVER the game tile_size 32, the N2375 lesson). Two defs: launch-pad size 3 / itemCapacity 100 / launchTime 60f * 20 (Blocks.java:6792-6794), advanced-launch-pad size 4 / itemCapacity 100 / launchTime 60f * 30 (Blocks.java:6802-6804). Pure-only: the tick never calls draw -- draw is called by the renderer, icons by the atlas, and the call sites wait for renderer/UI slices.
+	var liquid_call: Variant = null
+	if has_liquids and draw_liquid != null:
+		liquid_call = {
+			"call": "LiquidBlock.drawTiledFrames(block.size, x, y, liquidPad, liquidPad, liquidPad, liquidPad, drawLiquid, liquids.get(drawLiquid) / liquidCapacity);",
+			"bottom_color": bottom_color,
+			"square_half_size": float(size_value) * 8.0 / 2.0 - liquid_pad,
+			"size": size_value,
+			"x": x_value,
+			"y": y_value,
+			"pad_left": liquid_pad,
+			"pad_right": liquid_pad,
+			"pad_top": liquid_pad,
+			"pad_bottom": liquid_pad,
+			"liquid": str(draw_liquid),
+			"alpha": liquid_amount / liquid_capacity,
+		}
+	var super_draw_call: Dictionary = {
+		"call": "super.draw();",
+	}
+	var light_progress: Variant = null
+	var light_calls: Array = []
+	if light_region_found:
+		light_progress = minf(float(items_total) / float(item_capacity), launch_counter / launch_time)
+		for i in range(4):
+			for j in range(light_steps):
+				var alpha: float = _launch_pad_mathf_curve(float(light_progress), float(j) / float(light_steps), float(j + 1) / float(light_steps))
+				var offset: float = -(float(j) - 1.0) * light_step
+				var edge: Vector2i = SOURCE_LAUNCH_PAD_D8EDGE[i]
+				light_calls.append({
+					"i": i,
+					"j": j,
+					"alpha": alpha,
+					"offset": offset,
+					"x": x_value + float(edge.x) * offset,
+					"y": y_value + float(edge.y) * offset,
+					"rotation": float(i * 90),
+					"progress": float(light_progress),
+					"color_from": "6e7080",
+					"color_to": light_color,
+				})
+	var shadow_call: Dictionary = {
+		"call": "Drawf.shadow(x, y, size * tilesize);",
+		"x": x_value,
+		"y": y_value,
+		"radius": float(size_value) * 8.0,
+	}
+	var pod_call: Dictionary = {
+		"call": "Draw.rect(podRegion, x, y);",
+		"region": "podRegion",
+		"x": x_value,
+		"y": y_value,
+	}
+	return {
+		"liquid_expr": "LiquidBlock.drawTiledFrames(block.size, x, y, liquidPad, liquidPad, liquidPad, liquidPad, drawLiquid, liquids.get(drawLiquid) / liquidCapacity);",
+		"super_expr": "super.draw();",
+		"light_expr": "Draw.rect(lightRegion, x + Geometry.d8edge(i).x * offset, y + Geometry.d8edge(i).y * offset, i * 90);",
+		"shadow_expr": "Drawf.shadow(x, y, size * tilesize);",
+		"pod_expr": "Draw.rect(podRegion, x, y);",
+		"icons_expr": "return new TextureRegion[]{previewRegion};",
+		"x": x_value,
+		"y": y_value,
+		"size": size_value,
+		"has_liquids": has_liquids,
+		"draw_liquid": draw_liquid,
+		"light_region_found": light_region_found,
+		"light_progress": light_progress,
+		"liquid_call": liquid_call,
+		"super_draw_call": super_draw_call,
+		"light_calls": light_calls,
+		"shadow_call": shadow_call,
+		"pod_call": pod_call,
+		"icon_regions": ["previewRegion"],
+	}
 
 @warning_ignore("unused_parameter")
 static func source_launch_pad_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
