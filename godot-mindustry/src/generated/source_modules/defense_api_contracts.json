@@ -7887,6 +7887,47 @@
       "rule": "Source-backed MendProjector booster item row from ConsumeItems.java / Consume.java / BuildingComp.java / ItemModule.java / MendProjector.java / Blocks.java / Block.java.",
       "return_type": "Dictionary"
     },
+    "SourceMendProjectorBuildState.source_mend_projector_mend_sound_state": {
+      "canonical_contract": "source_api_contracts.SourceMendProjectorBuildState.source_mend_projector_mend_sound_state",
+      "status": "active",
+      "source_slice": "N2504",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "source_method": "MendBuild.updateTile()",
+      "params": [
+        {
+          "name": "any_healed",
+          "type": "bool",
+          "schema": "source_mend_projector_mend_sound_state_input.any_healed"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_mend_projector_mend_sound_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_mend_projector_mend_sound_state_input.y"
+        },
+        {
+          "name": "pitch_roll",
+          "type": "float",
+          "schema": "source_mend_projector_mend_sound_state_input.pitch_roll"
+        }
+      ],
+      "return_keys": [
+        "mend_sound_call"
+      ],
+      "tests": [
+        "test_c07_mend_projector_mend_sound_rows_registration",
+        "test_all_c07_mend_projector_mend_sound_rows_input_evidence_is_exact",
+        "test_mend_projector_mend_sound_rows_state",
+        "test_reference_graph_and_actual_c07_mend_projector_mend_sound_rows"
+      ],
+      "runtime_proof": "/root/C07MendProjectorMendSoundRowsProof",
+      "rule": "Source-backed MendProjector mendSound row from MendProjector.java / Blocks.java.",
+      "return_type": "Dictionary"
+    },
     "SourceMendProjectorBuildState.source_mend_projector_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourceMendProjectorBuildState.source_mend_projector_power_status_row_state",
       "status": "active",
@@ -8592,6 +8633,36 @@
       ],
       "runtime_proof": "/root/C07RadarCanPickupProgressProof",
       "rule": "Source-backed Radar canPickup / progress() rows from Radar.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceRadarBuildState.source_radar_discovery_glow_rows_state": {
+      "canonical_contract": "source_api_contracts.SourceRadarBuildState.source_radar_discovery_glow_rows_state",
+      "status": "active",
+      "source_slice": "N2503",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "source_method": "Radar.discoveryTime/rotateSpeed/glow",
+      "params": [
+        {
+          "name": "def_id",
+          "type": "String",
+          "schema": "source_radar_discovery_glow_rows_state_input.def_id"
+        }
+      ],
+      "return_keys": [
+        "discovery_time",
+        "rotate_speed",
+        "glow_color",
+        "glow_scl",
+        "glow_mag"
+      ],
+      "tests": [
+        "test_c07_radar_discovery_glow_rows_registration",
+        "test_all_c07_radar_discovery_glow_rows_input_evidence_is_exact",
+        "test_radar_discovery_glow_rows_state",
+        "test_reference_graph_and_actual_c07_radar_discovery_glow_rows"
+      ],
+      "runtime_proof": "/root/C07RadarDiscoveryGlowRowsProof",
+      "rule": "Source-backed Radar discovery/glow rows from Radar.java / Blocks.java.",
       "return_type": "Dictionary"
     },
     "SourceRadarBuildState.source_radar_draw_state": {
@@ -9475,6 +9546,37 @@
       ],
       "runtime_proof": "/root/C07ShockwaveTowerTimerCheckProof",
       "rule": "Source-backed ShockwaveTower timerCheck cadence from ShockwaveTower.java / TimerComp.java / BuildingComp.java / arc Interval.java / arc Time.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceShockwaveTowerBuildState.source_shockwave_tower_trigger_state": {
+      "canonical_contract": "source_api_contracts.SourceShockwaveTowerBuildState.source_shockwave_tower_trigger_state",
+      "status": "active",
+      "source_slice": "N2505",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "source_method": "ShockwaveTowerBuild.updateTile()",
+      "params": [
+        {
+          "name": "fired",
+          "type": "bool",
+          "schema": "source_shockwave_tower_trigger_state_input.fired"
+        },
+        {
+          "name": "is_default_team",
+          "type": "bool",
+          "schema": "source_shockwave_tower_trigger_state_input.is_default_team"
+        }
+      ],
+      "return_keys": [
+        "trigger_call"
+      ],
+      "tests": [
+        "test_c07_shockwave_tower_trigger_row_registration",
+        "test_all_c07_shockwave_tower_trigger_row_input_evidence_is_exact",
+        "test_shockwave_tower_trigger_row_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_trigger_row"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerTriggerRowProof",
+      "rule": "Source-backed ShockwaveTower trigger row from ShockwaveTower.java / EventType.java / Rules.java.",
       "return_type": "Dictionary"
     },
     "SourceShockwaveTowerBuildState.source_shockwave_tower_update_tile_advance_state": {

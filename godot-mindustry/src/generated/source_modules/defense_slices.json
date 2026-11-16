@@ -3995,6 +3995,61 @@
       ],
       "runtime_proof": "/root/C07ForceProjectorShieldConsumerAbsorbFxProof"
     },
+    "N2503": {
+      "canonical_ledger": "source_slice_ledger.N2503",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "Radar.discoveryTime/rotateSpeed/glow",
+      "godot_owner": "SourceRadarBuildState.source_radar_discovery_glow_rows_state",
+      "source_symbols": [
+        "source_radar_discovery_glow_rows_state_result.discovery_time",
+        "source_radar_discovery_glow_rows_state_result.rotate_speed",
+        "source_radar_discovery_glow_rows_state_result.glow_color",
+        "source_radar_discovery_glow_rows_state_result.glow_scl",
+        "source_radar_discovery_glow_rows_state_result.glow_mag"
+      ],
+      "tests": [
+        "test_c07_radar_discovery_glow_rows_registration",
+        "test_all_c07_radar_discovery_glow_rows_input_evidence_is_exact",
+        "test_radar_discovery_glow_rows_state",
+        "test_reference_graph_and_actual_c07_radar_discovery_glow_rows"
+      ],
+      "runtime_proof": "/root/C07RadarDiscoveryGlowRowsProof"
+    },
+    "N2504": {
+      "canonical_ledger": "source_slice_ledger.N2504",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "java_method": "MendBuild.updateTile()",
+      "godot_owner": "SourceMendProjectorBuildState.source_mend_projector_mend_sound_state",
+      "source_symbols": [
+        "source_mend_projector_mend_sound_state_result.mend_sound_call"
+      ],
+      "tests": [
+        "test_c07_mend_projector_mend_sound_rows_registration",
+        "test_all_c07_mend_projector_mend_sound_rows_input_evidence_is_exact",
+        "test_mend_projector_mend_sound_rows_state",
+        "test_reference_graph_and_actual_c07_mend_projector_mend_sound_rows"
+      ],
+      "runtime_proof": "/root/C07MendProjectorMendSoundRowsProof"
+    },
+    "N2505": {
+      "canonical_ledger": "source_slice_ledger.N2505",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.updateTile()",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_trigger_state",
+      "source_symbols": [
+        "source_shockwave_tower_trigger_state_result.trigger_call"
+      ],
+      "tests": [
+        "test_c07_shockwave_tower_trigger_row_registration",
+        "test_all_c07_shockwave_tower_trigger_row_input_evidence_is_exact",
+        "test_shockwave_tower_trigger_row_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_trigger_row"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerTriggerRowProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

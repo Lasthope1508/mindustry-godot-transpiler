@@ -262695,6 +262695,492 @@
       },
       "runtime_proof": "/root/C07AcceleratorPerDefStatRowsProof",
       "rule": "Source-backed Accelerator per-def stat rows from Blocks.java / Accelerator.java / Block.java."
+    },
+    "source_build_turret_per_def_stats_state_input": {
+      "status": "active",
+      "owner": "SourceBuildTurretBuildState.source_build_turret_per_def_stats_state",
+      "source_slice": "N2499",
+      "keys": {
+        "def_id": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "buildTower = new BuildTurret(\"build-tower\"){{",
+          "rule": "The def id (Blocks.java:1997): \"build-tower\" is the single BuildTurret def; any other id falls back to the CLASS defaults (the N2304 fallback precedent) -- size 1, range 80f, buildSpeed 1f, no requirements.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_per_def_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildTurretPerDefStatRowsProof",
+      "rule": "Source-backed BuildTurret per-def stat rows from Blocks.java / BuildTurret.java / BaseTurret.java / Block.java."
+    },
+    "source_build_turret_per_def_stats_state_result": {
+      "status": "active",
+      "owner": "SourceBuildTurretBuildState.source_build_turret_per_def_stats_state",
+      "source_slice": "N2499",
+      "keys": {
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "size = 3;",
+          "rule": "The def size (Blocks.java:2002): 3 for build-tower; the class default is 1 (`public int size = 1;`, Block.java:215).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_per_def_stats_state"
+          ]
+        },
+        "range_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "range = 200f;",
+          "rule": "The def range (Blocks.java:2001): 200f for build-tower; the class default is 80f -- the range field lives on BaseTurret, NOT on Block or BuildTurret (`public float range = 80f;`, BaseTurret.java:21; `public class BuildTurret extends BaseTurret{`, BuildTurret.java:27). The key is range_value, NOT range (`range` shadows the GDScript builtin, the N2493 precedent).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_per_def_stats_state"
+          ]
+        },
+        "build_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "buildSpeed = 1.5f;",
+          "rule": "The def buildSpeed (Blocks.java:2003): 1.5f for build-tower; the class default is 1f (`public float buildSpeed = 1f;`, BuildTurret.java:33).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_per_def_stats_state"
+          ]
+        },
+        "requirements": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "requirements(Category.effect, with(Items.silicon, 150, Items.oxide, 40, Items.thorium, 60));",
+          "rule": "The def requirements (Blocks.java:1998) as the {item: amount} dict (the N2490 precedent): silicon 150, oxide 40, thorium 60 for build-tower; the class default is NO requirements (`public ItemStack[] requirements = {};`, Block.java:356).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_per_def_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildTurretPerDefStatRowsProof",
+      "rule": "Source-backed BuildTurret per-def stat rows from Blocks.java / BuildTurret.java / BaseTurret.java / Block.java."
+    },
+    "source_light_block_per_def_stats_state_input": {
+      "status": "active",
+      "owner": "SourceLightBlockBuildState.source_light_block_per_def_stats_state",
+      "source_slice": "N2500",
+      "keys": {
+        "def_id": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "illuminator = new LightBlock(\"illuminator\"){{",
+          "rule": "The def id (Blocks.java:6763): \"illuminator\" is the single LightBlock def; any other id falls back to the CLASS defaults (the N2304 fallback precedent) -- size 1, brightness 0.9f, radius 200f, no requirements.",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_per_def_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LightBlockPerDefStatInitRowsProof",
+      "rule": "Source-backed LightBlock per-def stat + init rows from Blocks.java / LightBlock.java / Block.java."
+    },
+    "source_light_block_per_def_stats_state_result": {
+      "status": "active",
+      "owner": "SourceLightBlockBuildState.source_light_block_per_def_stats_state",
+      "source_slice": "N2500",
+      "keys": {
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public int size = 1;",
+          "rule": "The def size: 1 for illuminator -- the def sets NO size line, so size 1 is the inherited Block class default (`public int size = 1;`, Block.java:215); the class fallback is the same 1 (the N2494 precedent).",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_per_def_stats_state"
+          ]
+        },
+        "brightness": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "brightness = 0.75f;",
+          "rule": "The def brightness (Blocks.java:6765): 0.75f for illuminator; the class default is 0.9f (`public float brightness = 0.9f;`, LightBlock.java:22).",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_per_def_stats_state"
+          ]
+        },
+        "radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "radius = 140f;",
+          "rule": "The def radius (Blocks.java:6766): 140f for illuminator; the class default is 200f (`public float radius = 200f;`, LightBlock.java:23).",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_per_def_stats_state"
+          ]
+        },
+        "requirements": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "requirements(Category.effect, BuildVisibility.lightingOnly, with(Items.graphite, 12, Items.silicon, 8, Items.lead, 8));",
+          "rule": "The def requirements (Blocks.java:6764) as the {item: amount} dict (the N2490 precedent): graphite 12, silicon 8, lead 8 for illuminator; the class default is NO requirements (`public ItemStack[] requirements = {};`, Block.java:356). The call carries BuildVisibility.lightingOnly -- recorded, NOT modeled (visibility is not modeled).",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_per_def_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LightBlockPerDefStatInitRowsProof",
+      "rule": "Source-backed LightBlock per-def stat + init rows from Blocks.java / LightBlock.java / Block.java."
+    },
+    "source_light_block_init_rows_state_input": {
+      "status": "active",
+      "owner": "SourceLightBlockBuildState.source_light_block_init_rows_state",
+      "source_slice": "N2500",
+      "keys": {
+        "radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+          "java_expr": "lightRadius = radius*2.5f;",
+          "rule": "The radius the init derivation reads (LightBlock.java:40): the def radius 140f or the class radius 200f, caller-supplied (the N2356 range precedent) -- the pure stays def-agnostic.",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_init_rows_state"
+          ]
+        },
+        "light_clip_size_in": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+          "java_expr": "lightClipSize = Math.max(lightClipSize, lightRadius * 3f);",
+          "rule": "The incoming lightClipSize the init derivation maxes against (LightBlock.java:41): caller-supplied -- a fresh block reads 0f, the field is uninitialized (`public float lightClipSize;`, Block.java:223, Java float default 0f).",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_init_rows_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LightBlockPerDefStatInitRowsProof",
+      "rule": "Source-backed LightBlock per-def stat + init rows from Blocks.java / LightBlock.java / Block.java."
+    },
+    "source_light_block_init_rows_state_result": {
+      "status": "active",
+      "owner": "SourceLightBlockBuildState.source_light_block_init_rows_state",
+      "source_slice": "N2500",
+      "keys": {
+        "light_radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+          "java_expr": "lightRadius = radius*2.5f;",
+          "rule": "The init light radius (LightBlock.java:40): radius * 2.5f -- 350f for the def radius 140f, 500f for the class radius 200f.",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_init_rows_state"
+          ]
+        },
+        "light_clip_size": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+          "java_expr": "lightClipSize = Math.max(lightClipSize, lightRadius * 3f);",
+          "rule": "The init light clip size (LightBlock.java:41): max(incoming, lightRadius * 3f) -- max(in, 1050f) for the def, max(in, 1500f) for the class radius. The later Block.init() maxes (Block.java:1399/1421-1422) are subsumed by the * 3f max, so this IS the final init value.",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_init_rows_state"
+          ]
+        },
+        "emit_light": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+          "java_expr": "emitLight = true;",
+          "rule": "The init emit flag (LightBlock.java:42): init always sets emitLight = true (the Block default is false, Block.java:341).",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_init_rows_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LightBlockPerDefStatInitRowsProof",
+      "rule": "Source-backed LightBlock per-def stat + init rows from Blocks.java / LightBlock.java / Block.java."
+    },
+    "source_direction_liquid_bridge_per_def_stats_state_input": {
+      "status": "active",
+      "owner": "SourceDirectionLiquidBridgeBuildState.source_direction_liquid_bridge_per_def_stats_state",
+      "source_slice": "N2502",
+      "keys": {
+        "def_id": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "reinforcedBridgeConduit = new DirectionLiquidBridge(\"reinforced-bridge-conduit\"){{",
+          "rule": "The def id (Blocks.java:2432): \"reinforced-bridge-conduit\" is the single DirectionLiquidBridge def; any other id falls back to the CLASS defaults (the N2304 fallback precedent) -- size 1, range 4, liquidCapacity 20f, health 40 post-init, speed 5f, no requirements.",
+          "used_by": [
+            "SourceDirectionLiquidBridgeBuildState.source_direction_liquid_bridge_per_def_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07DirectionLiquidBridgePerDefStatRowsProof",
+      "rule": "Source-backed DirectionLiquidBridge per-def stat rows from Blocks.java / DirectionLiquidBridge.java / DirectionBridge.java / Block.java."
+    },
+    "source_direction_liquid_bridge_per_def_stats_state_result": {
+      "status": "active",
+      "owner": "SourceDirectionLiquidBridgeBuildState.source_direction_liquid_bridge_per_def_stats_state",
+      "source_slice": "N2502",
+      "keys": {
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public int size = 1;",
+          "rule": "The def size: 1 for reinforced-bridge-conduit -- the def sets NO size line, so size 1 is the inherited Block class default (`public int size = 1;`, Block.java:215); the class fallback is the same 1.",
+          "used_by": [
+            "SourceDirectionLiquidBridgeBuildState.source_direction_liquid_bridge_per_def_stats_state"
+          ]
+        },
+        "range_value": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "range = 4;",
+          "rule": "The def range (Blocks.java:2434): 4 for reinforced-bridge-conduit; the class default is the same 4 (`public int range = 4;`, DirectionBridge.java:31) -- the def restates the class value.",
+          "used_by": [
+            "SourceDirectionLiquidBridgeBuildState.source_direction_liquid_bridge_per_def_stats_state"
+          ]
+        },
+        "liquid_capacity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "liquidCapacity = 120f;",
+          "rule": "The def liquidCapacity (Blocks.java:2436): 120f for reinforced-bridge-conduit; the class default is 20f -- the CONSTRUCTOR value (`liquidCapacity = 20f;`, DirectionLiquidBridge.java:26), which survives Block.init() because the replace only runs under `if(liquidCapacity < 0){` (Block.java:1407), not the Block -1f sentinel (`public float liquidCapacity = -1f;`, Block.java:77).",
+          "used_by": [
+            "SourceDirectionLiquidBridgeBuildState.source_direction_liquid_bridge_per_def_stats_state"
+          ]
+        },
+        "health": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "health = 250;",
+          "rule": "The def health (Blocks.java:2439): 250 for reinforced-bridge-conduit; the class field is the -1 sentinel (`public int health = -1;`, Block.java:190), resolved by init() to 40 for size 1 with no requirements (Block.java:1378-1395, scaledHealth 40 -- the N2495 / N2496 / N2497 coordinator decision).",
+          "used_by": [
+            "SourceDirectionLiquidBridgeBuildState.source_direction_liquid_bridge_per_def_stats_state"
+          ]
+        },
+        "speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/DirectionLiquidBridge.java",
+          "java_expr": "public float speed = 5f;",
+          "rule": "The def speed: 5f for reinforced-bridge-conduit -- the def sets NO speed line, so 5f is the class field (`public float speed = 5f;`, DirectionLiquidBridge.java:15); the class fallback is the same 5f. No method in DirectionLiquidBridge.java / DirectionBridge.java reads it, but the row ports the declared field value (the N2495 / N2496 speed-row precedent).",
+          "used_by": [
+            "SourceDirectionLiquidBridgeBuildState.source_direction_liquid_bridge_per_def_stats_state"
+          ]
+        },
+        "requirements": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "requirements(Category.liquid, with(Items.graphite, 8, Items.beryllium, 20));",
+          "rule": "The def requirements (Blocks.java:2433) as the {item: amount} dict (the N2490 precedent): graphite 8, beryllium 20 for reinforced-bridge-conduit; the class default is NO requirements (`public ItemStack[] requirements = {};`, Block.java:356).",
+          "used_by": [
+            "SourceDirectionLiquidBridgeBuildState.source_direction_liquid_bridge_per_def_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07DirectionLiquidBridgePerDefStatRowsProof",
+      "rule": "Source-backed DirectionLiquidBridge per-def stat rows from Blocks.java / DirectionLiquidBridge.java / DirectionBridge.java / Block.java."
+    },
+    "source_radar_discovery_glow_rows_state_input": {
+      "status": "active",
+      "owner": "SourceRadarBuildState.source_radar_discovery_glow_rows_state",
+      "source_slice": "N2503",
+      "keys": {
+        "def_id": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "radar = new Radar(\"radar\"){{",
+          "rule": "The def id (Blocks.java:1988): \"radar\" is the single Radar def; any other id falls back to the CLASS defaults (the N2304 fallback precedent) -- discoveryTime 60f * 10f, rotateSpeed 2f, glowColor Pal.turretHeat, glowScl 5f, glowMag 0.6f. The def does NOT override any of them, so the def row equals the class row here.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_discovery_glow_rows_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RadarDiscoveryGlowRowsProof",
+      "rule": "Source-backed Radar discovery/glow rows from Radar.java / Blocks.java."
+    },
+    "source_radar_discovery_glow_rows_state_result": {
+      "status": "active",
+      "owner": "SourceRadarBuildState.source_radar_discovery_glow_rows_state",
+      "source_slice": "N2503",
+      "keys": {
+        "discovery_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "public float discoveryTime = 60f * 10f;",
+          "rule": "The discovery time (Radar.java:18): 60f * 10f = 600f -- the progress advance divisor (Radar.java:68, `progress += edelta() / discoveryTime;`); a full-efficiency radar discovers in 600 ticks. No def override (Blocks.java:1988-1995), so the def row equals the class row.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_discovery_glow_rows_state"
+          ]
+        },
+        "rotate_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "public float rotateSpeed = 2f;",
+          "rule": "The rotate speed (Radar.java:19): 2f -- the draw rotation factor (`rotateSpeed * totalProgress`, Radar.java:87/89). No def override (Blocks.java:1988-1995), so the def row equals the class row.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_discovery_glow_rows_state"
+          ]
+        },
+        "glow_color": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "public Color glowColor = Pal.turretHeat;",
+          "rule": "The glow color (Radar.java:24): Pal.turretHeat, recorded as a String TOKEN (the N2469 token precedent -- SSOT has no Color type, the MendProjector precedent). Pal.turretHeat is `turretHeat = Color.valueOf(\"ab3400\"),` (Pal.java:52 -- 6-digit hex, so alpha 1.0). No def override (Blocks.java:1988-1995), so the def row equals the class row.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_discovery_glow_rows_state"
+          ]
+        },
+        "glow_scl": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "public float glowScl = 5f, glowMag = 0.6f;",
+          "rule": "The glow pulse scale (Radar.java:25): 5f -- the absin scale in the additive glow call (Radar.java:89). No def override (Blocks.java:1988-1995), so the def row equals the class row.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_discovery_glow_rows_state"
+          ]
+        },
+        "glow_mag": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "public float glowScl = 5f, glowMag = 0.6f;",
+          "rule": "The glow pulse magnitude (Radar.java:25): 0.6f -- the absin magnitude in the additive glow call (Radar.java:89). No def override (Blocks.java:1988-1995), so the def row equals the class row.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_discovery_glow_rows_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RadarDiscoveryGlowRowsProof",
+      "rule": "Source-backed Radar discovery/glow rows from Radar.java / Blocks.java."
+    },
+    "source_mend_projector_mend_sound_state_input": {
+      "status": "active",
+      "owner": "SourceMendProjectorBuildState.source_mend_projector_mend_sound_state",
+      "source_slice": "N2504",
+      "keys": {
+        "any_healed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "java_expr": "if(any){",
+          "rule": "The caller-evaluated any verdict (MendProjector.java:119, the `if(any){` gate): true exactly when the N2242 heal scan healed at least one building -- the scan source_mend_projector_heal_scan_state \"any\" result key. The pure does NOT recompute the heal gate (the N2397 precedent -- the N2242 pure owns the gate).",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_mend_sound_state"
+          ]
+        },
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "java_expr": "mendSound.at(this, 1f + Mathf.range(0.1f), mendSoundVolume);",
+          "rule": "The mend projector building world x (MendProjector.java:120, the mendSound.at `this` -- the Position overload fires at pos.getX(), arc Sound.java:180-182): an explicit input, passed through to the sound call untouched.",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_mend_sound_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "java_expr": "mendSound.at(this, 1f + Mathf.range(0.1f), mendSoundVolume);",
+          "rule": "The mend projector building world y (MendProjector.java:120, the mendSound.at `this` -- the Position overload fires at pos.getY(), arc Sound.java:180-182): an explicit input, passed through to the sound call untouched.",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_mend_sound_state"
+          ]
+        },
+        "pitch_roll": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "java_expr": "mendSound.at(this, 1f + Mathf.range(0.1f), mendSoundVolume);",
+          "rule": "The ALREADY-ROLLED pitch roll in [-0.1, 0.1] (MendProjector.java:120, `1f + Mathf.range(0.1f)`; Mathf.range(r) is the arc uniform roll in [-r, r], arc Mathf.java:220-222): an explicit caller-supplied input -- NO RNG in the pure (the N2421 precedent).",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_mend_sound_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07MendProjectorMendSoundRowsProof",
+      "rule": "Source-backed MendProjector mendSound row from MendProjector.java / Blocks.java."
+    },
+    "source_mend_projector_mend_sound_state_result": {
+      "status": "active",
+      "owner": "SourceMendProjectorBuildState.source_mend_projector_mend_sound_state",
+      "source_slice": "N2504",
+      "keys": {
+        "mend_sound_call": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+          "java_expr": "mendSound.at(this, 1f + Mathf.range(0.1f), mendSoundVolume);",
+          "rule": "The mendSound call (MendProjector.java:119-121): {token: \"healWave\", x, y, pitch: 1f + pitch_roll, volume: 0.5} when any_healed is true, null otherwise (the N2397 null-when-absent precedent). mendSound is `public Sound mendSound = Sounds.healWave;` (MendProjector.java:32; asset core/assets/sounds/block/healWave.ogg, the N2444 padLaunch precedent) and the volume is the literal `public float mendSoundVolume = 0.5f;` (MendProjector.java:33); neither def overrides either (Blocks.java:1919-1942). The record uses the N2487 \"token\" key form (the N2469/N2444 \"sound\" key form is NOT used here). The call passes `this`, so the Position overload (`public int at(Position pos, float pitch, float volume){`, arc Sound.java:180-182) fires at the building x/y. The sound fires ONCE PER TICK, gated on `any` -- not once per healed building, unlike the Fx.healBlockFull effect (:115, live since N2484). The pure records the CALL -- no sound is played (the N2396 precedent).",
+          "used_by": [
+            "SourceMendProjectorBuildState.source_mend_projector_mend_sound_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07MendProjectorMendSoundRowsProof",
+      "rule": "Source-backed MendProjector mendSound row from MendProjector.java / Blocks.java."
+    },
+    "source_shockwave_tower_trigger_state_input": {
+      "status": "active",
+      "owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_trigger_state",
+      "source_slice": "N2505",
+      "keys": {
+        "fired": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "if(targets.size > 0){",
+          "rule": "The fire-branch verdict (ShockwaveTower.java:81, `if(targets.size > 0){`): true exactly when the N2247 advance fired -- the fire gate (`if(potentialEfficiency > 0 && (reloadCounter += edelta()) >= reload && timer(timerCheck, checkInterval)){`, ShockwaveTower.java:73) passed and the bullet scan found at least one enemy hittable target. Caller-supplied: the caller composes it from the live fire-branch inputs (the N2340/N2347 hitbox + the N2390 sense/warmup rows); the pure never re-evaluates the fire.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_trigger_state"
+          ]
+        },
+        "is_default_team": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "if(team == state.rules.defaultTeam){",
+          "rule": "The team gate (ShockwaveTower.java:98, `if(team == state.rules.defaultTeam){`): true exactly when the tower's team is state.rules.defaultTeam (`public Team defaultTeam = Team.sharded;`, Rules.java:205). Caller-supplied: the pure takes no frame and reads no game state; the caller compares the tower team against the rules default team.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_trigger_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShockwaveTowerTriggerRowProof",
+      "rule": "Source-backed ShockwaveTower trigger row from ShockwaveTower.java / EventType.java / Rules.java."
+    },
+    "source_shockwave_tower_trigger_state_result": {
+      "status": "active",
+      "owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_trigger_state",
+      "source_slice": "N2505",
+      "keys": {
+        "trigger_call": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+          "java_expr": "Events.fire(Trigger.shockwaveTowerUse);",
+          "rule": "The Events.fire CALL record (ShockwaveTower.java:99, `Events.fire(Trigger.shockwaveTowerUse);`): {event: \"Trigger.shockwaveTowerUse\"} when fired AND is_default_team, null otherwise (the N2397 null-when-absent precedent). The trigger is the LAST statement of the fire branch, AFTER the wave damage loop (`for(var target : targets){`, ShockwaveTower.java:89-96). The enum value is verified: `public enum Trigger{` (EventType.java:20) carries `shockwaveTowerUse,` (EventType.java:28). The event is NOT fired -- the event-dispatch call site waits for an event slice.",
+          "used_by": [
+            "SourceShockwaveTowerBuildState.source_shockwave_tower_trigger_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ShockwaveTowerTriggerRowProof",
+      "rule": "Source-backed ShockwaveTower trigger row from ShockwaveTower.java / EventType.java / Rules.java."
     }
   },
   "version": 1

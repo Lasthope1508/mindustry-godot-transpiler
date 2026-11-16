@@ -190264,6 +190264,390 @@
         "test_reference_graph_and_actual_c07_accelerator_per_def_stat_rows"
       ],
       "runtime_proof": "/root/C07AcceleratorPerDefStatRowsProof"
+    },
+    "source_build_turret_per_def_stats_state_result.size": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_per_def_stats_state",
+      "godot_symbol": "source_build_turret_per_def_stats_state_result.size",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "Blocks.load()",
+      "java_expr": "size = 3;",
+      "rule": "The def size (Blocks.java:2002): 3 for build-tower; the class default is 1 (`public int size = 1;`, Block.java:215).",
+      "tests": [
+        "test_c07_build_turret_per_def_stat_rows_registration",
+        "test_all_c07_build_turret_per_def_stat_rows_input_evidence_is_exact",
+        "test_build_turret_per_def_stat_rows_state",
+        "test_reference_graph_and_actual_c07_build_turret_per_def_stat_rows"
+      ],
+      "runtime_proof": "/root/C07BuildTurretPerDefStatRowsProof"
+    },
+    "source_build_turret_per_def_stats_state_result.range_value": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_per_def_stats_state",
+      "godot_symbol": "source_build_turret_per_def_stats_state_result.range_value",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "Blocks.load()",
+      "java_expr": "range = 200f;",
+      "rule": "The def range (Blocks.java:2001): 200f for build-tower; the class default is 80f -- the range field lives on BaseTurret, NOT on Block or BuildTurret (`public float range = 80f;`, BaseTurret.java:21; `public class BuildTurret extends BaseTurret{`, BuildTurret.java:27). The key is range_value, NOT range (`range` shadows the GDScript builtin, the N2493 precedent).",
+      "tests": [
+        "test_c07_build_turret_per_def_stat_rows_registration",
+        "test_all_c07_build_turret_per_def_stat_rows_input_evidence_is_exact",
+        "test_build_turret_per_def_stat_rows_state",
+        "test_reference_graph_and_actual_c07_build_turret_per_def_stat_rows"
+      ],
+      "runtime_proof": "/root/C07BuildTurretPerDefStatRowsProof"
+    },
+    "source_build_turret_per_def_stats_state_result.build_speed": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_per_def_stats_state",
+      "godot_symbol": "source_build_turret_per_def_stats_state_result.build_speed",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "Blocks.load()",
+      "java_expr": "buildSpeed = 1.5f;",
+      "rule": "The def buildSpeed (Blocks.java:2003): 1.5f for build-tower; the class default is 1f (`public float buildSpeed = 1f;`, BuildTurret.java:33).",
+      "tests": [
+        "test_c07_build_turret_per_def_stat_rows_registration",
+        "test_all_c07_build_turret_per_def_stat_rows_input_evidence_is_exact",
+        "test_build_turret_per_def_stat_rows_state",
+        "test_reference_graph_and_actual_c07_build_turret_per_def_stat_rows"
+      ],
+      "runtime_proof": "/root/C07BuildTurretPerDefStatRowsProof"
+    },
+    "source_build_turret_per_def_stats_state_result.requirements": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_per_def_stats_state",
+      "godot_symbol": "source_build_turret_per_def_stats_state_result.requirements",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "Blocks.load()",
+      "java_expr": "requirements(Category.effect, with(Items.silicon, 150, Items.oxide, 40, Items.thorium, 60));",
+      "rule": "The def requirements (Blocks.java:1998) as the {item: amount} dict (the N2490 precedent): silicon 150, oxide 40, thorium 60 for build-tower; the class default is NO requirements (`public ItemStack[] requirements = {};`, Block.java:356).",
+      "tests": [
+        "test_c07_build_turret_per_def_stat_rows_registration",
+        "test_all_c07_build_turret_per_def_stat_rows_input_evidence_is_exact",
+        "test_build_turret_per_def_stat_rows_state",
+        "test_reference_graph_and_actual_c07_build_turret_per_def_stat_rows"
+      ],
+      "runtime_proof": "/root/C07BuildTurretPerDefStatRowsProof"
+    },
+    "source_light_block_per_def_stats_state_result.size": {
+      "status": "source-backed",
+      "godot_owner": "SourceLightBlockBuildState.source_light_block_per_def_stats_state",
+      "godot_symbol": "source_light_block_per_def_stats_state_result.size",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Blocks.load()",
+      "java_expr": "public int size = 1;",
+      "rule": "The def size: 1 for illuminator -- the def sets NO size line, so size 1 is the inherited Block class default (`public int size = 1;`, Block.java:215); the class fallback is the same 1 (the N2494 precedent).",
+      "tests": [
+        "test_c07_light_block_per_def_stat_init_rows_registration",
+        "test_all_c07_light_block_per_def_stat_init_rows_input_evidence_is_exact",
+        "test_light_block_per_def_stat_init_rows_state",
+        "test_reference_graph_and_actual_c07_light_block_per_def_stat_init_rows"
+      ],
+      "runtime_proof": "/root/C07LightBlockPerDefStatInitRowsProof"
+    },
+    "source_light_block_per_def_stats_state_result.brightness": {
+      "status": "source-backed",
+      "godot_owner": "SourceLightBlockBuildState.source_light_block_per_def_stats_state",
+      "godot_symbol": "source_light_block_per_def_stats_state_result.brightness",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "Blocks.load()",
+      "java_expr": "brightness = 0.75f;",
+      "rule": "The def brightness (Blocks.java:6765): 0.75f for illuminator; the class default is 0.9f (`public float brightness = 0.9f;`, LightBlock.java:22).",
+      "tests": [
+        "test_c07_light_block_per_def_stat_init_rows_registration",
+        "test_all_c07_light_block_per_def_stat_init_rows_input_evidence_is_exact",
+        "test_light_block_per_def_stat_init_rows_state",
+        "test_reference_graph_and_actual_c07_light_block_per_def_stat_init_rows"
+      ],
+      "runtime_proof": "/root/C07LightBlockPerDefStatInitRowsProof"
+    },
+    "source_light_block_per_def_stats_state_result.radius": {
+      "status": "source-backed",
+      "godot_owner": "SourceLightBlockBuildState.source_light_block_per_def_stats_state",
+      "godot_symbol": "source_light_block_per_def_stats_state_result.radius",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "Blocks.load()",
+      "java_expr": "radius = 140f;",
+      "rule": "The def radius (Blocks.java:6766): 140f for illuminator; the class default is 200f (`public float radius = 200f;`, LightBlock.java:23).",
+      "tests": [
+        "test_c07_light_block_per_def_stat_init_rows_registration",
+        "test_all_c07_light_block_per_def_stat_init_rows_input_evidence_is_exact",
+        "test_light_block_per_def_stat_init_rows_state",
+        "test_reference_graph_and_actual_c07_light_block_per_def_stat_init_rows"
+      ],
+      "runtime_proof": "/root/C07LightBlockPerDefStatInitRowsProof"
+    },
+    "source_light_block_per_def_stats_state_result.requirements": {
+      "status": "source-backed",
+      "godot_owner": "SourceLightBlockBuildState.source_light_block_per_def_stats_state",
+      "godot_symbol": "source_light_block_per_def_stats_state_result.requirements",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "Blocks.load()",
+      "java_expr": "requirements(Category.effect, BuildVisibility.lightingOnly, with(Items.graphite, 12, Items.silicon, 8, Items.lead, 8));",
+      "rule": "The def requirements (Blocks.java:6764) as the {item: amount} dict (the N2490 precedent): graphite 12, silicon 8, lead 8 for illuminator; the class default is NO requirements (`public ItemStack[] requirements = {};`, Block.java:356). The call carries BuildVisibility.lightingOnly -- recorded, NOT modeled (visibility is not modeled).",
+      "tests": [
+        "test_c07_light_block_per_def_stat_init_rows_registration",
+        "test_all_c07_light_block_per_def_stat_init_rows_input_evidence_is_exact",
+        "test_light_block_per_def_stat_init_rows_state",
+        "test_reference_graph_and_actual_c07_light_block_per_def_stat_init_rows"
+      ],
+      "runtime_proof": "/root/C07LightBlockPerDefStatInitRowsProof"
+    },
+    "source_light_block_init_rows_state_result.light_radius": {
+      "status": "source-backed",
+      "godot_owner": "SourceLightBlockBuildState.source_light_block_init_rows_state",
+      "godot_symbol": "source_light_block_init_rows_state_result.light_radius",
+      "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+      "java_method": "LightBlock.init()",
+      "java_expr": "lightRadius = radius*2.5f;",
+      "rule": "The init light radius (LightBlock.java:40): radius * 2.5f -- 350f for the def radius 140f, 500f for the class radius 200f.",
+      "tests": [
+        "test_c07_light_block_per_def_stat_init_rows_registration",
+        "test_all_c07_light_block_per_def_stat_init_rows_input_evidence_is_exact",
+        "test_light_block_per_def_stat_init_rows_state",
+        "test_reference_graph_and_actual_c07_light_block_per_def_stat_init_rows"
+      ],
+      "runtime_proof": "/root/C07LightBlockPerDefStatInitRowsProof"
+    },
+    "source_light_block_init_rows_state_result.light_clip_size": {
+      "status": "source-backed",
+      "godot_owner": "SourceLightBlockBuildState.source_light_block_init_rows_state",
+      "godot_symbol": "source_light_block_init_rows_state_result.light_clip_size",
+      "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+      "java_method": "LightBlock.init()",
+      "java_expr": "lightClipSize = Math.max(lightClipSize, lightRadius * 3f);",
+      "rule": "The init light clip size (LightBlock.java:41): max(incoming, lightRadius * 3f) -- max(in, 1050f) for the def, max(in, 1500f) for the class radius. The later Block.init() maxes (Block.java:1399/1421-1422) are subsumed by the * 3f max, so this IS the final init value.",
+      "tests": [
+        "test_c07_light_block_per_def_stat_init_rows_registration",
+        "test_all_c07_light_block_per_def_stat_init_rows_input_evidence_is_exact",
+        "test_light_block_per_def_stat_init_rows_state",
+        "test_reference_graph_and_actual_c07_light_block_per_def_stat_init_rows"
+      ],
+      "runtime_proof": "/root/C07LightBlockPerDefStatInitRowsProof"
+    },
+    "source_light_block_init_rows_state_result.emit_light": {
+      "status": "source-backed",
+      "godot_owner": "SourceLightBlockBuildState.source_light_block_init_rows_state",
+      "godot_symbol": "source_light_block_init_rows_state_result.emit_light",
+      "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+      "java_method": "LightBlock.init()",
+      "java_expr": "emitLight = true;",
+      "rule": "The init emit flag (LightBlock.java:42): init always sets emitLight = true (the Block default is false, Block.java:341).",
+      "tests": [
+        "test_c07_light_block_per_def_stat_init_rows_registration",
+        "test_all_c07_light_block_per_def_stat_init_rows_input_evidence_is_exact",
+        "test_light_block_per_def_stat_init_rows_state",
+        "test_reference_graph_and_actual_c07_light_block_per_def_stat_init_rows"
+      ],
+      "runtime_proof": "/root/C07LightBlockPerDefStatInitRowsProof"
+    },
+    "source_direction_liquid_bridge_per_def_stats_state_result.size": {
+      "status": "source-backed",
+      "godot_owner": "SourceDirectionLiquidBridgeBuildState.source_direction_liquid_bridge_per_def_stats_state",
+      "godot_symbol": "source_direction_liquid_bridge_per_def_stats_state_result.size",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Blocks.load()",
+      "java_expr": "public int size = 1;",
+      "rule": "The def size: 1 for reinforced-bridge-conduit -- the def sets NO size line, so size 1 is the inherited Block class default (`public int size = 1;`, Block.java:215); the class fallback is the same 1.",
+      "tests": [
+        "test_c07_direction_liquid_bridge_per_def_stat_rows_registration",
+        "test_all_c07_direction_liquid_bridge_per_def_stat_rows_input_evidence_is_exact",
+        "test_direction_liquid_bridge_per_def_stat_rows_state",
+        "test_reference_graph_and_actual_c07_direction_liquid_bridge_per_def_stat_rows"
+      ],
+      "runtime_proof": "/root/C07DirectionLiquidBridgePerDefStatRowsProof"
+    },
+    "source_direction_liquid_bridge_per_def_stats_state_result.range_value": {
+      "status": "source-backed",
+      "godot_owner": "SourceDirectionLiquidBridgeBuildState.source_direction_liquid_bridge_per_def_stats_state",
+      "godot_symbol": "source_direction_liquid_bridge_per_def_stats_state_result.range_value",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "Blocks.load()",
+      "java_expr": "range = 4;",
+      "rule": "The def range (Blocks.java:2434): 4 for reinforced-bridge-conduit; the class default is the same 4 (`public int range = 4;`, DirectionBridge.java:31) -- the def restates the class value.",
+      "tests": [
+        "test_c07_direction_liquid_bridge_per_def_stat_rows_registration",
+        "test_all_c07_direction_liquid_bridge_per_def_stat_rows_input_evidence_is_exact",
+        "test_direction_liquid_bridge_per_def_stat_rows_state",
+        "test_reference_graph_and_actual_c07_direction_liquid_bridge_per_def_stat_rows"
+      ],
+      "runtime_proof": "/root/C07DirectionLiquidBridgePerDefStatRowsProof"
+    },
+    "source_direction_liquid_bridge_per_def_stats_state_result.liquid_capacity": {
+      "status": "source-backed",
+      "godot_owner": "SourceDirectionLiquidBridgeBuildState.source_direction_liquid_bridge_per_def_stats_state",
+      "godot_symbol": "source_direction_liquid_bridge_per_def_stats_state_result.liquid_capacity",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "Blocks.load()",
+      "java_expr": "liquidCapacity = 120f;",
+      "rule": "The def liquidCapacity (Blocks.java:2436): 120f for reinforced-bridge-conduit; the class default is 20f -- the CONSTRUCTOR value (`liquidCapacity = 20f;`, DirectionLiquidBridge.java:26), which survives Block.init() because the replace only runs under `if(liquidCapacity < 0){` (Block.java:1407), not the Block -1f sentinel (`public float liquidCapacity = -1f;`, Block.java:77).",
+      "tests": [
+        "test_c07_direction_liquid_bridge_per_def_stat_rows_registration",
+        "test_all_c07_direction_liquid_bridge_per_def_stat_rows_input_evidence_is_exact",
+        "test_direction_liquid_bridge_per_def_stat_rows_state",
+        "test_reference_graph_and_actual_c07_direction_liquid_bridge_per_def_stat_rows"
+      ],
+      "runtime_proof": "/root/C07DirectionLiquidBridgePerDefStatRowsProof"
+    },
+    "source_direction_liquid_bridge_per_def_stats_state_result.health": {
+      "status": "source-backed",
+      "godot_owner": "SourceDirectionLiquidBridgeBuildState.source_direction_liquid_bridge_per_def_stats_state",
+      "godot_symbol": "source_direction_liquid_bridge_per_def_stats_state_result.health",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "Blocks.load()",
+      "java_expr": "health = 250;",
+      "rule": "The def health (Blocks.java:2439): 250 for reinforced-bridge-conduit; the class field is the -1 sentinel (`public int health = -1;`, Block.java:190), resolved by init() to 40 for size 1 with no requirements (Block.java:1378-1395, scaledHealth 40 -- the N2495 / N2496 / N2497 coordinator decision).",
+      "tests": [
+        "test_c07_direction_liquid_bridge_per_def_stat_rows_registration",
+        "test_all_c07_direction_liquid_bridge_per_def_stat_rows_input_evidence_is_exact",
+        "test_direction_liquid_bridge_per_def_stat_rows_state",
+        "test_reference_graph_and_actual_c07_direction_liquid_bridge_per_def_stat_rows"
+      ],
+      "runtime_proof": "/root/C07DirectionLiquidBridgePerDefStatRowsProof"
+    },
+    "source_direction_liquid_bridge_per_def_stats_state_result.speed": {
+      "status": "source-backed",
+      "godot_owner": "SourceDirectionLiquidBridgeBuildState.source_direction_liquid_bridge_per_def_stats_state",
+      "godot_symbol": "source_direction_liquid_bridge_per_def_stats_state_result.speed",
+      "java_source": "core/src/mindustry/world/blocks/distribution/DirectionLiquidBridge.java",
+      "java_method": "Blocks.load()",
+      "java_expr": "public float speed = 5f;",
+      "rule": "The def speed: 5f for reinforced-bridge-conduit -- the def sets NO speed line, so 5f is the class field (`public float speed = 5f;`, DirectionLiquidBridge.java:15); the class fallback is the same 5f. No method in DirectionLiquidBridge.java / DirectionBridge.java reads it, but the row ports the declared field value (the N2495 / N2496 speed-row precedent).",
+      "tests": [
+        "test_c07_direction_liquid_bridge_per_def_stat_rows_registration",
+        "test_all_c07_direction_liquid_bridge_per_def_stat_rows_input_evidence_is_exact",
+        "test_direction_liquid_bridge_per_def_stat_rows_state",
+        "test_reference_graph_and_actual_c07_direction_liquid_bridge_per_def_stat_rows"
+      ],
+      "runtime_proof": "/root/C07DirectionLiquidBridgePerDefStatRowsProof"
+    },
+    "source_direction_liquid_bridge_per_def_stats_state_result.requirements": {
+      "status": "source-backed",
+      "godot_owner": "SourceDirectionLiquidBridgeBuildState.source_direction_liquid_bridge_per_def_stats_state",
+      "godot_symbol": "source_direction_liquid_bridge_per_def_stats_state_result.requirements",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "Blocks.load()",
+      "java_expr": "requirements(Category.liquid, with(Items.graphite, 8, Items.beryllium, 20));",
+      "rule": "The def requirements (Blocks.java:2433) as the {item: amount} dict (the N2490 precedent): graphite 8, beryllium 20 for reinforced-bridge-conduit; the class default is NO requirements (`public ItemStack[] requirements = {};`, Block.java:356).",
+      "tests": [
+        "test_c07_direction_liquid_bridge_per_def_stat_rows_registration",
+        "test_all_c07_direction_liquid_bridge_per_def_stat_rows_input_evidence_is_exact",
+        "test_direction_liquid_bridge_per_def_stat_rows_state",
+        "test_reference_graph_and_actual_c07_direction_liquid_bridge_per_def_stat_rows"
+      ],
+      "runtime_proof": "/root/C07DirectionLiquidBridgePerDefStatRowsProof"
+    },
+    "source_radar_discovery_glow_rows_state_result.discovery_time": {
+      "status": "source-backed",
+      "godot_owner": "SourceRadarBuildState.source_radar_discovery_glow_rows_state",
+      "godot_symbol": "source_radar_discovery_glow_rows_state_result.discovery_time",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "Radar.discoveryTime/rotateSpeed/glow",
+      "java_expr": "public float discoveryTime = 60f * 10f;",
+      "rule": "The discovery time (Radar.java:18): 60f * 10f = 600f -- the progress advance divisor (Radar.java:68, `progress += edelta() / discoveryTime;`); a full-efficiency radar discovers in 600 ticks. No def override (Blocks.java:1988-1995), so the def row equals the class row.",
+      "tests": [
+        "test_c07_radar_discovery_glow_rows_registration",
+        "test_all_c07_radar_discovery_glow_rows_input_evidence_is_exact",
+        "test_radar_discovery_glow_rows_state",
+        "test_reference_graph_and_actual_c07_radar_discovery_glow_rows"
+      ],
+      "runtime_proof": "/root/C07RadarDiscoveryGlowRowsProof"
+    },
+    "source_radar_discovery_glow_rows_state_result.rotate_speed": {
+      "status": "source-backed",
+      "godot_owner": "SourceRadarBuildState.source_radar_discovery_glow_rows_state",
+      "godot_symbol": "source_radar_discovery_glow_rows_state_result.rotate_speed",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "Radar.discoveryTime/rotateSpeed/glow",
+      "java_expr": "public float rotateSpeed = 2f;",
+      "rule": "The rotate speed (Radar.java:19): 2f -- the draw rotation factor (`rotateSpeed * totalProgress`, Radar.java:87/89). No def override (Blocks.java:1988-1995), so the def row equals the class row.",
+      "tests": [
+        "test_c07_radar_discovery_glow_rows_registration",
+        "test_all_c07_radar_discovery_glow_rows_input_evidence_is_exact",
+        "test_radar_discovery_glow_rows_state",
+        "test_reference_graph_and_actual_c07_radar_discovery_glow_rows"
+      ],
+      "runtime_proof": "/root/C07RadarDiscoveryGlowRowsProof"
+    },
+    "source_radar_discovery_glow_rows_state_result.glow_color": {
+      "status": "source-backed",
+      "godot_owner": "SourceRadarBuildState.source_radar_discovery_glow_rows_state",
+      "godot_symbol": "source_radar_discovery_glow_rows_state_result.glow_color",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "Radar.discoveryTime/rotateSpeed/glow",
+      "java_expr": "public Color glowColor = Pal.turretHeat;",
+      "rule": "The glow color (Radar.java:24): Pal.turretHeat, recorded as a String TOKEN (the N2469 token precedent -- SSOT has no Color type, the MendProjector precedent). Pal.turretHeat is `turretHeat = Color.valueOf(\"ab3400\"),` (Pal.java:52 -- 6-digit hex, so alpha 1.0). No def override (Blocks.java:1988-1995), so the def row equals the class row.",
+      "tests": [
+        "test_c07_radar_discovery_glow_rows_registration",
+        "test_all_c07_radar_discovery_glow_rows_input_evidence_is_exact",
+        "test_radar_discovery_glow_rows_state",
+        "test_reference_graph_and_actual_c07_radar_discovery_glow_rows"
+      ],
+      "runtime_proof": "/root/C07RadarDiscoveryGlowRowsProof"
+    },
+    "source_radar_discovery_glow_rows_state_result.glow_scl": {
+      "status": "source-backed",
+      "godot_owner": "SourceRadarBuildState.source_radar_discovery_glow_rows_state",
+      "godot_symbol": "source_radar_discovery_glow_rows_state_result.glow_scl",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "Radar.discoveryTime/rotateSpeed/glow",
+      "java_expr": "public float glowScl = 5f, glowMag = 0.6f;",
+      "rule": "The glow pulse scale (Radar.java:25): 5f -- the absin scale in the additive glow call (Radar.java:89). No def override (Blocks.java:1988-1995), so the def row equals the class row.",
+      "tests": [
+        "test_c07_radar_discovery_glow_rows_registration",
+        "test_all_c07_radar_discovery_glow_rows_input_evidence_is_exact",
+        "test_radar_discovery_glow_rows_state",
+        "test_reference_graph_and_actual_c07_radar_discovery_glow_rows"
+      ],
+      "runtime_proof": "/root/C07RadarDiscoveryGlowRowsProof"
+    },
+    "source_radar_discovery_glow_rows_state_result.glow_mag": {
+      "status": "source-backed",
+      "godot_owner": "SourceRadarBuildState.source_radar_discovery_glow_rows_state",
+      "godot_symbol": "source_radar_discovery_glow_rows_state_result.glow_mag",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "Radar.discoveryTime/rotateSpeed/glow",
+      "java_expr": "public float glowScl = 5f, glowMag = 0.6f;",
+      "rule": "The glow pulse magnitude (Radar.java:25): 0.6f -- the absin magnitude in the additive glow call (Radar.java:89). No def override (Blocks.java:1988-1995), so the def row equals the class row.",
+      "tests": [
+        "test_c07_radar_discovery_glow_rows_registration",
+        "test_all_c07_radar_discovery_glow_rows_input_evidence_is_exact",
+        "test_radar_discovery_glow_rows_state",
+        "test_reference_graph_and_actual_c07_radar_discovery_glow_rows"
+      ],
+      "runtime_proof": "/root/C07RadarDiscoveryGlowRowsProof"
+    },
+    "source_mend_projector_mend_sound_state_result.mend_sound_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceMendProjectorBuildState.source_mend_projector_mend_sound_state",
+      "godot_symbol": "source_mend_projector_mend_sound_state_result.mend_sound_call",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "java_method": "MendBuild.updateTile()",
+      "java_expr": "mendSound.at(this, 1f + Mathf.range(0.1f), mendSoundVolume);",
+      "rule": "The mendSound call (MendProjector.java:119-121): {token: \"healWave\", x, y, pitch: 1f + pitch_roll, volume: 0.5} when any_healed is true, null otherwise (the N2397 null-when-absent precedent). mendSound is `public Sound mendSound = Sounds.healWave;` (MendProjector.java:32; asset core/assets/sounds/block/healWave.ogg, the N2444 padLaunch precedent) and the volume is the literal `public float mendSoundVolume = 0.5f;` (MendProjector.java:33); neither def overrides either (Blocks.java:1919-1942). The record uses the N2487 \"token\" key form (the N2469/N2444 \"sound\" key form is NOT used here). The call passes `this`, so the Position overload (`public int at(Position pos, float pitch, float volume){`, arc Sound.java:180-182) fires at the building x/y. The sound fires ONCE PER TICK, gated on `any` -- not once per healed building, unlike the Fx.healBlockFull effect (:115, live since N2484). The pure records the CALL -- no sound is played (the N2396 precedent).",
+      "tests": [
+        "test_c07_mend_projector_mend_sound_rows_registration",
+        "test_all_c07_mend_projector_mend_sound_rows_input_evidence_is_exact",
+        "test_mend_projector_mend_sound_rows_state",
+        "test_reference_graph_and_actual_c07_mend_projector_mend_sound_rows"
+      ],
+      "runtime_proof": "/root/C07MendProjectorMendSoundRowsProof"
+    },
+    "source_shockwave_tower_trigger_state_result.trigger_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceShockwaveTowerBuildState.source_shockwave_tower_trigger_state",
+      "godot_symbol": "source_shockwave_tower_trigger_state_result.trigger_call",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "java_method": "ShockwaveTowerBuild.updateTile()",
+      "java_expr": "Events.fire(Trigger.shockwaveTowerUse);",
+      "rule": "The Events.fire CALL record (ShockwaveTower.java:99, `Events.fire(Trigger.shockwaveTowerUse);`): {event: \"Trigger.shockwaveTowerUse\"} when fired AND is_default_team, null otherwise (the N2397 null-when-absent precedent). The trigger is the LAST statement of the fire branch, AFTER the wave damage loop (`for(var target : targets){`, ShockwaveTower.java:89-96). The enum value is verified: `public enum Trigger{` (EventType.java:20) carries `shockwaveTowerUse,` (EventType.java:28). The event is NOT fired -- the event-dispatch call site waits for an event slice.",
+      "tests": [
+        "test_c07_shockwave_tower_trigger_row_registration",
+        "test_all_c07_shockwave_tower_trigger_row_input_evidence_is_exact",
+        "test_shockwave_tower_trigger_row_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_trigger_row"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerTriggerRowProof"
     }
   },
   "version": 1

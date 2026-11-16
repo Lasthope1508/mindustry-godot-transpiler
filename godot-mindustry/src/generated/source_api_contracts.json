@@ -81012,6 +81012,223 @@
       ],
       "runtime_proof": "/root/C07AcceleratorPerDefStatRowsProof",
       "rule": "Source-backed Accelerator per-def stat rows from Blocks.java / Accelerator.java / Block.java."
+    },
+    "SourceBuildTurretBuildState.source_build_turret_per_def_stats_state": {
+      "status": "active",
+      "source_slice": "N2499",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "source_method": "Blocks.load()",
+      "params": [
+        {
+          "name": "def_id",
+          "type": "String",
+          "schema": "source_build_turret_per_def_stats_state_input.def_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "size",
+        "range_value",
+        "build_speed",
+        "requirements"
+      ],
+      "tests": [
+        "test_c07_build_turret_per_def_stat_rows_registration",
+        "test_all_c07_build_turret_per_def_stat_rows_input_evidence_is_exact",
+        "test_build_turret_per_def_stat_rows_state",
+        "test_reference_graph_and_actual_c07_build_turret_per_def_stat_rows"
+      ],
+      "runtime_proof": "/root/C07BuildTurretPerDefStatRowsProof",
+      "rule": "Source-backed BuildTurret per-def stat rows from Blocks.java / BuildTurret.java / BaseTurret.java / Block.java."
+    },
+    "SourceLightBlockBuildState.source_light_block_per_def_stats_state": {
+      "status": "active",
+      "source_slice": "N2500",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "source_method": "Blocks.load()",
+      "params": [
+        {
+          "name": "def_id",
+          "type": "String",
+          "schema": "source_light_block_per_def_stats_state_input.def_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "size",
+        "brightness",
+        "radius",
+        "requirements"
+      ],
+      "tests": [
+        "test_c07_light_block_per_def_stat_init_rows_registration",
+        "test_all_c07_light_block_per_def_stat_init_rows_input_evidence_is_exact",
+        "test_light_block_per_def_stat_init_rows_state",
+        "test_reference_graph_and_actual_c07_light_block_per_def_stat_init_rows"
+      ],
+      "runtime_proof": "/root/C07LightBlockPerDefStatInitRowsProof",
+      "rule": "Source-backed LightBlock per-def stat + init rows from Blocks.java / LightBlock.java / Block.java."
+    },
+    "SourceLightBlockBuildState.source_light_block_init_rows_state": {
+      "status": "active",
+      "source_slice": "N2500",
+      "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+      "source_method": "LightBlock.init()",
+      "params": [
+        {
+          "name": "radius",
+          "type": "float",
+          "schema": "source_light_block_init_rows_state_input.radius"
+        },
+        {
+          "name": "light_clip_size_in",
+          "type": "float",
+          "schema": "source_light_block_init_rows_state_input.light_clip_size_in"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "light_radius",
+        "light_clip_size",
+        "emit_light"
+      ],
+      "tests": [
+        "test_c07_light_block_per_def_stat_init_rows_registration",
+        "test_all_c07_light_block_per_def_stat_init_rows_input_evidence_is_exact",
+        "test_light_block_per_def_stat_init_rows_state",
+        "test_reference_graph_and_actual_c07_light_block_per_def_stat_init_rows"
+      ],
+      "runtime_proof": "/root/C07LightBlockPerDefStatInitRowsProof",
+      "rule": "Source-backed LightBlock per-def stat + init rows from Blocks.java / LightBlock.java / Block.java."
+    },
+    "SourceDirectionLiquidBridgeBuildState.source_direction_liquid_bridge_per_def_stats_state": {
+      "status": "active",
+      "source_slice": "N2502",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "source_method": "Blocks.load()",
+      "params": [
+        {
+          "name": "def_id",
+          "type": "String",
+          "schema": "source_direction_liquid_bridge_per_def_stats_state_input.def_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "size",
+        "range_value",
+        "liquid_capacity",
+        "health",
+        "speed",
+        "requirements"
+      ],
+      "tests": [
+        "test_c07_direction_liquid_bridge_per_def_stat_rows_registration",
+        "test_all_c07_direction_liquid_bridge_per_def_stat_rows_input_evidence_is_exact",
+        "test_direction_liquid_bridge_per_def_stat_rows_state",
+        "test_reference_graph_and_actual_c07_direction_liquid_bridge_per_def_stat_rows"
+      ],
+      "runtime_proof": "/root/C07DirectionLiquidBridgePerDefStatRowsProof",
+      "rule": "Source-backed DirectionLiquidBridge per-def stat rows from Blocks.java / DirectionLiquidBridge.java / DirectionBridge.java / Block.java."
+    },
+    "SourceRadarBuildState.source_radar_discovery_glow_rows_state": {
+      "status": "active",
+      "source_slice": "N2503",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "source_method": "Radar.discoveryTime/rotateSpeed/glow",
+      "params": [
+        {
+          "name": "def_id",
+          "type": "String",
+          "schema": "source_radar_discovery_glow_rows_state_input.def_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "discovery_time",
+        "rotate_speed",
+        "glow_color",
+        "glow_scl",
+        "glow_mag"
+      ],
+      "tests": [
+        "test_c07_radar_discovery_glow_rows_registration",
+        "test_all_c07_radar_discovery_glow_rows_input_evidence_is_exact",
+        "test_radar_discovery_glow_rows_state",
+        "test_reference_graph_and_actual_c07_radar_discovery_glow_rows"
+      ],
+      "runtime_proof": "/root/C07RadarDiscoveryGlowRowsProof",
+      "rule": "Source-backed Radar discovery/glow rows from Radar.java / Blocks.java."
+    },
+    "SourceMendProjectorBuildState.source_mend_projector_mend_sound_state": {
+      "status": "active",
+      "source_slice": "N2504",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "source_method": "MendBuild.updateTile()",
+      "params": [
+        {
+          "name": "any_healed",
+          "type": "bool",
+          "schema": "source_mend_projector_mend_sound_state_input.any_healed"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_mend_projector_mend_sound_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_mend_projector_mend_sound_state_input.y"
+        },
+        {
+          "name": "pitch_roll",
+          "type": "float",
+          "schema": "source_mend_projector_mend_sound_state_input.pitch_roll"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "mend_sound_call"
+      ],
+      "tests": [
+        "test_c07_mend_projector_mend_sound_rows_registration",
+        "test_all_c07_mend_projector_mend_sound_rows_input_evidence_is_exact",
+        "test_mend_projector_mend_sound_rows_state",
+        "test_reference_graph_and_actual_c07_mend_projector_mend_sound_rows"
+      ],
+      "runtime_proof": "/root/C07MendProjectorMendSoundRowsProof",
+      "rule": "Source-backed MendProjector mendSound row from MendProjector.java / Blocks.java."
+    },
+    "SourceShockwaveTowerBuildState.source_shockwave_tower_trigger_state": {
+      "status": "active",
+      "source_slice": "N2505",
+      "java_source": "core/src/mindustry/world/blocks/defense/ShockwaveTower.java",
+      "source_method": "ShockwaveTowerBuild.updateTile()",
+      "params": [
+        {
+          "name": "fired",
+          "type": "bool",
+          "schema": "source_shockwave_tower_trigger_state_input.fired"
+        },
+        {
+          "name": "is_default_team",
+          "type": "bool",
+          "schema": "source_shockwave_tower_trigger_state_input.is_default_team"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "trigger_call"
+      ],
+      "tests": [
+        "test_c07_shockwave_tower_trigger_row_registration",
+        "test_all_c07_shockwave_tower_trigger_row_input_evidence_is_exact",
+        "test_shockwave_tower_trigger_row_state",
+        "test_reference_graph_and_actual_c07_shockwave_tower_trigger_row"
+      ],
+      "runtime_proof": "/root/C07ShockwaveTowerTriggerRowProof",
+      "rule": "Source-backed ShockwaveTower trigger row from ShockwaveTower.java / EventType.java / Rules.java."
     }
   },
   "policy": {
