@@ -34,6 +34,11 @@ const source_world_defaults := preload("res://src/game/SourceWorldDefaults.gd")
 # efficiency driver, which is exactly this slice.
 const SOURCE_MEND_PROJECTOR_BUILD_IMPLEMENTATIONS := ["MendProjector"]
 const SOURCE_MEND_PROJECTOR_BUILDING_META_KEY := "source_mend_projector_building"
+# The light radius (MendProjector.java:46, `lightRadius = 50f;`,
+# set in the constructor next to `emitLight = true;`); neither
+# def overrides it (Blocks.java:1919-1942), so it is a driver
+# constant (the N2356 shape-constant precedent).
+const SOURCE_MEND_PROJECTOR_LIGHT_RADIUS := 50.0
 
 static func _is_mend_projector_build_implementation(implementation: String) -> bool:
 	return SOURCE_MEND_PROJECTOR_BUILD_IMPLEMENTATIONS.has(implementation)
@@ -137,8 +142,9 @@ static func source_mend_projector_power_status_row_state(frame: Dictionary, has_
 	# precedent), so the row and the removal read the frame
 	# as-is; canHeal is the documented default true
 	# (suppression untracked). Other unmodeled rows still
-	# defer (suppression, draw / drawLight / sense, the live
-	# building index). (2) No shouldConsume gate --
+	# defer (suppression, sense, the live building index;
+	# draw / drawLight / drawSelect / drawPlace are live
+	# since N2372). (2) No shouldConsume gate --
 	# MendBuild has no shouldConsume override, so the default
 	# (BuildingComp.java:755-757, `return enabled;`) applies;
 	# the machinery runs with should_consume=true when
@@ -160,7 +166,17 @@ static func source_mend_projector_power_status_row_state(frame: Dictionary, has_
 	# (the STRICT within circle + !privileged narrow filter
 	# chained after the broad phase, BlockIndexer.java:346).
 	# Fx / sound / recentlyHealed and the live building index
-	# still wait.
+	# still wait. (5) Draw rows live (N2372) -- the draw pure
+	# (source_mend_projector_draw_rows_state) models draw()
+	# (MendProjector.java:146-159: the f cycle, the Lod
+	# guard, the baseColor -> phaseColor blend, the
+	# topRegion glow, the expanding square), the
+	# draw-select pure models drawSelect() (:132-139) +
+	# drawPlace (:76-82, the baseColor dash circle +
+	# selected highlights, shared with drawSelect), and
+	# the draw-light pure models drawLight() (:162-164).
+	# Pure-only: draw never runs in the tick. sense()
+	# (:126-129) still waits for its own slice.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -351,8 +367,10 @@ static func source_mend_projector_update_tile_advance_state(frame: Dictionary, r
 	# DEFERRED, not done and not guessed: the heal scan
 	# + sound -- `other.heal(other.maxHealth() * (healPercent + phaseHeat * phaseBoost) / 100f * efficiency);`
 	# (MendProjector.java:113, needs targets/indexer
-	# infrastructure) -- plus draw / drawLight / sense
-	# (MendProjector.java:122-170). The older runtime
+	# infrastructure) -- plus sense
+	# (MendProjector.java:126-129; draw / drawLight /
+	# drawSelect / drawPlace are live since N2372,
+	# MendProjector.java:132-164). The older runtime
 	# simulation (SourceMendProjectorRuntimeState.
 	# runtime_step_state) is a separate state store that
 	# lerps toward 1.0 unconditionally with no charge reset;
@@ -650,6 +668,154 @@ static func source_mend_projector_supplied_heal_candidates_narrow_state(candidat
 			continue
 		narrowed.append(candidate)
 	return {"candidates": narrowed}
+
+static func source_mend_projector_draw_rows_state(x_value: float, y_value: float, heat: float, phase_heat: float, size_value: float, time_value: float, lod_l2 := true, lod_alpha2 := 1.0) -> Dictionary:
+	# The draw rows (MendBuild.draw(), MendProjector.java:146-159), the pure draw-call dict -- the port never draws for real (the SourceBlockDrawState / SourceBaseTurretDrawState pattern, the N2356 ShockwaveTower precedent: the pure returns the draw calls as data). Java draws, in order (each exact expr on ONE comment line, the N2148 lesson):
+	# `float f = 1f - (Time.time / 100f) % 1f;`
+	# `if(!Lod.l2) return;`
+	# `Draw.color(baseColor, phaseColor, phaseHeat);`
+	# `Draw.alpha(heat * Mathf.absin(Time.time, 50f / Mathf.PI2, 1f) * 0.5f * Lod.alpha2);`
+	# `Draw.rect(topRegion, x, y);`
+	# `Draw.alpha(Lod.alpha2);`
+	# `Lines.stroke((2f * f + 0.2f) * heat);`
+	# `Lines.square(x, y, Math.min(1f + (1f - f) * size * tilesize / 2f, size * tilesize/2f));`
+	# `Draw.reset();`
+	# The pure is named draw_rows_state (not draw_state):
+	# the older display path already owns the
+	# source_mend_projector_draw_state schemas
+	# (PortGame.source_mend_projector_draw_state, the
+	# SourceMendProjectorDisplayState.draw_state bridge),
+	# and reusing the name would overwrite those schemas
+	# -- the draw_rows name keeps this slice's SSOT
+	# additive.
+	# baseColor is `public Color baseColor = Color.valueOf("84f491");` and phaseColor is `public Color phaseColor = baseColor;` (MendProjector.java:23-24); topRegion is the `@-top` region (`public @Load("@-top") TextureRegion topRegion;`, MendProjector.java:25). Neither def overrides any of them (Blocks.java:1919-1942). The cycle factor f is computed BEFORE the Lod guard (line order :147 before :149), so the pure reports f even when hidden; every draw output is empty/zero when !lod_l2 because Java returns before the first Draw call. Lod is the zoom-detail gate (Lod.java:17-20, `public static boolean l2 = true;` / `public static float alpha2 = 1f;`, fading with camera zoom, Lod.java:22-33): the port has no live camera zoom at the driver layer, so lod_l2 / lod_alpha2 are explicit params defaulting to the fully-zoomed-in values (the SourceMendProjectorDisplayState.draw_state precedent). The absin call is Java-exact through the shared helper: Java absin is `return (sin(in, scl * 2f, mag) + mag) / 2f;` (Mathf.java:78-80, arc), while the helper is `(sin(value / scl) * 0.5 + 0.5) * mag` (SourceMathState.source_absin), i.e. helper(v, s) == Java absin(v, s / 2f) -- so the pure passes the DOUBLED scale 100f / PI2 to land Java's absin(Time.time, 50f / PI2, 1f) exactly. (The display state passes the undoubled 50f / PI2, which oscillates twice as fast as Java -- a display-path deviation, not this slice's file.) The color lerp carries as an explicit from/to/t dict {from: baseColor, to: phaseColor, t: phaseHeat} (the N2356 precedent -- no lerp precedent exists in the port's draw-call dicts). The square radius clamps at size * tilesize / 2f (min), so a size-1 mender caps at 4.0 and a size-2 mend-projector at 8.0 (tilesize 8, SourceWorldDefaults). drawCached() (:141-144) only calls super.draw() and gets no pure of its own. Pure-only: draw never runs in the tick, and there is no draw state advance -- f and the absin are functions of Time.time, which the caller supplies as time_value.
+	var f: float = 1.0 - fmod(time_value / 100.0, 1.0)
+	var top_absin: float = source_math_state.source_absin(time_value, 100.0 / source_math_state.SOURCE_PI2, 1.0)
+	var top_alpha: float = heat * top_absin * 0.5 * lod_alpha2
+	var stroke: float = (2.0 * f + 0.2) * heat
+	var square_radius: float = min(1.0 + (1.0 - f) * size_value * source_world_defaults.TILESIZE / 2.0, size_value * source_world_defaults.TILESIZE / 2.0)
+	var top_call: Dictionary = {}
+	var square_call: Dictionary = {}
+	if lod_l2:
+		top_call = {
+			"call": "Draw.rect(topRegion, x, y);",
+			"region": "topRegion",
+			"color": {"from": "baseColor", "to": "phaseColor", "t": phase_heat},
+			"alpha": top_alpha,
+			"x": x_value,
+			"y": y_value,
+		}
+		square_call = {
+			"call": "Lines.square(x, y, Math.min(1f + (1f - f) * size * tilesize / 2f, size * tilesize/2f));",
+			"x": x_value,
+			"y": y_value,
+			"radius": square_radius,
+			"stroke": stroke,
+			"alpha": lod_alpha2,
+		}
+	return {
+		"visible": lod_l2,
+		"f_expr": "float f = 1f - (Time.time / 100f) % 1f;",
+		"lod_guard_expr": "if(!Lod.l2) return;",
+		"color_expr": "Draw.color(baseColor, phaseColor, phaseHeat);",
+		"top_alpha_expr": "Draw.alpha(heat * Mathf.absin(Time.time, 50f / Mathf.PI2, 1f) * 0.5f * Lod.alpha2);",
+		"top_rect_expr": "Draw.rect(topRegion, x, y);",
+		"square_alpha_expr": "Draw.alpha(Lod.alpha2);",
+		"stroke_expr": "Lines.stroke((2f * f + 0.2f) * heat);",
+		"square_expr": "Lines.square(x, y, Math.min(1f + (1f - f) * size * tilesize / 2f, size * tilesize/2f));",
+		"reset_expr": "Draw.reset();",
+		"x": x_value,
+		"y": y_value,
+		"heat": heat,
+		"phase_heat": phase_heat,
+		"size": size_value,
+		"time_value": time_value,
+		"lod_l2": lod_l2,
+		"lod_alpha2": lod_alpha2,
+		"f": f,
+		"top_absin": top_absin if lod_l2 else 0.0,
+		"top_alpha": top_alpha if lod_l2 else 0.0,
+		"color_lerp": {"from": "baseColor", "to": "phaseColor", "t": phase_heat},
+		"stroke": stroke if lod_l2 else 0.0,
+		"square_radius": square_radius if lod_l2 else 0.0,
+		"square_alpha": lod_alpha2 if lod_l2 else 0.0,
+		"top_call": top_call,
+		"square_call": square_call,
+	}
+
+static func source_mend_projector_draw_select_state(x_value: float, y_value: float, range_value: float, phase_heat: float, phase_range_boost: float, candidates: Array, time_value: float) -> Dictionary:
+	# The drawSelect / drawPlace rows (MendBuild.drawSelect(), MendProjector.java:132-139; MendProjector.drawPlace(), MendProjector.java:76-82), the pure draw-call dict shared by both -- drawSelect is
+	# `float realRange = range + phaseHeat * phaseRangeBoost;`
+	# `indexer.eachBlock(this, realRange, other -> true, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));`
+	# `Drawf.dashCircle(x, y, realRange, baseColor);`
+	# at the building x/y, and drawPlace is
+	# `super.drawPlace(x, y, rotation, valid);`
+	# `Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, baseColor);`
+	# `indexer.eachBlock(player.team(), x * tilesize + offset, y * tilesize + offset, range, other -> true, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));`
+	# at the tile position. Both use baseColor (NOT Pal.placing), and the selected call is identical -- so ONE pure serves both: the caller supplies world coords, and drawPlace passes the plain range with phaseHeat 0 (realRange collapses to range). super.drawPlace is Block.drawPlace (drawPotentialLinks + drawOverlay, SourceBlockDrawState) and is NOT modeled here: the pure covers only the MendProjector dash circle + selected lines. The range is the class `public float range = 60f;` (MendProjector.java:27), overridden by the defs (mender 40f, Blocks.java:1924; mend-projector 85f, Blocks.java:1937); phaseRangeBoost is the class `public float phaseRangeBoost = 50f;` (MendProjector.java:30), overridden by mender to 20f (Blocks.java:1927); the pure takes both as parameters and stays def-agnostic. The eachBlock visit has no live building index behind it (the heal-scan live-index DEFERRED entry -- same index, the drawSelect predicate is `other -> true`), so the caller supplies the candidate list explicit (the N2242 heal-scan precedent); the pure renders one selected call per supplied candidate and does NOT range-filter (the range half is the index's visit, not the draw). A candidate dict carries x / y (world position); a missing x or y key EXCLUDES the candidate (the N2329 precedent), and a non-Dictionary entry is excluded the same way. The select alpha is Mathf.absin(4f, 1f), the 2-arg form that reads Time.time (`return absin(Time.time, scl, mag);`, Mathf.java:74-75, arc) -- Java-exact through the shared helper at the DOUBLED scale 8f (see the draw pure note on the helper's 2f fold). Like the draw pure, this pure never runs in the tick (pure-only, like the BaseTurret drawPlace).
+	var real_range: float = range_value + phase_heat * phase_range_boost
+	var selected_alpha: float = source_math_state.source_absin(time_value, 8.0, 1.0)
+	var selected_calls: Array = []
+	for candidate in candidates:
+		if not (candidate is Dictionary):
+			continue
+		if not candidate.has("x") or not candidate.has("y"):
+			continue
+		selected_calls.append({
+			"call": "Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)))",
+			"x": float(candidate.get("x", 0.0)),
+			"y": float(candidate.get("y", 0.0)),
+			"color": "baseColor",
+			"alpha": selected_alpha,
+		})
+	var dash_circle_call: Dictionary = {
+		"call": "Drawf.dashCircle(x, y, realRange, baseColor);",
+		"x": x_value,
+		"y": y_value,
+		"radius": real_range,
+		"color": "baseColor",
+	}
+	return {
+		"real_range_expr": "float realRange = range + phaseHeat * phaseRangeBoost;",
+		"each_block_expr": "indexer.eachBlock(this, realRange, other -> true, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));",
+		"dash_circle_expr": "Drawf.dashCircle(x, y, realRange, baseColor);",
+		"draw_place_super_expr": "super.drawPlace(x, y, rotation, valid);",
+		"draw_place_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, baseColor);",
+		"draw_place_each_block_expr": "indexer.eachBlock(player.team(), x * tilesize + offset, y * tilesize + offset, range, other -> true, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));",
+		"x": x_value,
+		"y": y_value,
+		"range": range_value,
+		"phase_heat": phase_heat,
+		"phase_range_boost": phase_range_boost,
+		"real_range": real_range,
+		"time_value": time_value,
+		"selected_alpha": selected_alpha,
+		"dash_circle_call": dash_circle_call,
+		"selected_calls": selected_calls,
+	}
+
+static func source_mend_projector_draw_light_state(x_value: float, y_value: float, smooth_efficiency: float) -> Dictionary:
+	# The drawLight rows (MendBuild.drawLight(), MendProjector.java:162-164), the pure draw-call dict -- the port never draws for real (the N2356 pattern). Java draws one light call (each exact expr on ONE comment line, the N2148 lesson):
+	# `Drawf.light(x, y, lightRadius * smoothEfficiency, baseColor, 0.7f * smoothEfficiency);`
+	# lightRadius is `lightRadius = 50f;` (MendProjector.java:46, set in the constructor next to `emitLight = true;`); neither def overrides it (Blocks.java:1919-1942), so it is a driver constant. baseColor is `public Color baseColor = Color.valueOf("84f491");` (MendProjector.java:23). smoothEfficiency is the frame value the N2193 advance tracks (`smoothEfficiency = Mathf.lerpDelta(smoothEfficiency, efficiency, 0.08f);`, MendProjector.java:96) -- an unpowered projector draws a collapsed light of radius 0 and alpha 0, Java still calls Drawf.light. Pure-only: drawLight never runs in the tick.
+	var light_call: Dictionary = {
+		"call": "Drawf.light(x, y, lightRadius * smoothEfficiency, baseColor, 0.7f * smoothEfficiency);",
+		"x": x_value,
+		"y": y_value,
+		"radius": SOURCE_MEND_PROJECTOR_LIGHT_RADIUS * smooth_efficiency,
+		"color": "baseColor",
+		"alpha": 0.7 * smooth_efficiency,
+	}
+	return {
+		"light_expr": "Drawf.light(x, y, lightRadius * smoothEfficiency, baseColor, 0.7f * smoothEfficiency);",
+		"x": x_value,
+		"y": y_value,
+		"smooth_efficiency": smooth_efficiency,
+		"light_radius": SOURCE_MEND_PROJECTOR_LIGHT_RADIUS,
+		"radius": SOURCE_MEND_PROJECTOR_LIGHT_RADIUS * smooth_efficiency,
+		"alpha": 0.7 * smooth_efficiency,
+		"light_call": light_call,
+	}
 
 @warning_ignore("unused_parameter")
 static func source_mend_projector_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
