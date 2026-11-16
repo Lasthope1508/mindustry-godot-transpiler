@@ -130,7 +130,10 @@ static func source_mechanical_pump_power_status_row_state(frame: Dictionary, has
 	# the scenario path stays untouched, and the per-tick
 	# proximity re-scan (Java computes liquidDrop only in
 	# onProximityUpdate, Pump.java:141-152) still waits for
-	# its own slice.
+	# its own slice. The neighbour arrays are
+	# live-filled since N2410 (the tick scans the live
+	# proximity BEFORE the dump reads them; supplied
+	# arrays win, the N2381 precedent).
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -563,14 +566,46 @@ static func source_mechanical_pump_tick_buildings_state(game: Object, seconds: f
 				# null (the pure function guards it). The
 				# neighbour arrays are frame inputs (default
 				# [] -- no neighbours, the Java
-				# proximity.size == 0 outcome) until a live
-				# proximity fill lands; the driver writes the
+				# proximity.size == 0 outcome), live-filled
+				# since N2410 (the tick scans the live
+				# proximity BEFORE the dump reads them; a
+				# frame with no fill still reads the frame
+				# input as-is); the driver writes the
 				# dumped store back through the shared liquid
 				# module source_set_state (the scenario pump
 				# precedent) and persists the cursor on the
 				# frame. The neighbour write-back is live
 				# since N2378 (wired below, after the dump
 				# write-back, through the shared helper).
+				# N2410: the dump neighbour live fill -- the tick
+				# fills the four neighbour arrays from the live
+				# proximity BEFORE the dump pure reads them.
+				# Supplied arrays WIN (the N2381 precedent): the
+				# fill runs only when the frame carries NONE of
+				# the four keys -- the N2285/N2378 proofs seed
+				# the arrays by hand, so a fill there would
+				# overwrite the seed. A frame the fill already
+				# stamped (dump_neighbour_live -- port
+				# bookkeeping, not Java state) refreshes every
+				# tick, so a later-placed neighbour joins the
+				# arrays and a removed one leaves them. `cell`
+				# is already bound before the enabled block, so
+				# no N2363-style fill_cell workaround is
+				# needed, and the size comes from the block
+				# properties (the Fracker pattern). The dumped
+				# liquid is the proximity liquid_drop NAME
+				# (it varies by tile, the N2378 precedent),
+				# resolved to the module id inside the fill
+				# through the same liquid_id_by_name map the
+				# dump pure takes.
+				var has_supplied_dump_neighbour_arrays: bool = frame.has("dump_neighbour_amounts") or frame.has("dump_neighbour_capacities") or frame.has("dump_neighbour_accepts") or frame.has("dump_neighbour_can_dump")
+				if not has_supplied_dump_neighbour_arrays or bool(frame.get("dump_neighbour_live", false)):
+					var filled: Dictionary = source_mechanical_pump_dump_neighbour_live_fill_state(game, cell, int(block.properties.get("size", 1)), proximity.get("liquid_drop", null), liquid_id_by_name)
+					frame["dump_neighbour_amounts"] = filled.get("dump_neighbour_amounts", [])
+					frame["dump_neighbour_capacities"] = filled.get("dump_neighbour_capacities", [])
+					frame["dump_neighbour_accepts"] = filled.get("dump_neighbour_accepts", [])
+					frame["dump_neighbour_can_dump"] = filled.get("dump_neighbour_can_dump", [])
+					frame["dump_neighbour_live"] = true
 				var neighbour_amounts: Array = frame.get("dump_neighbour_amounts", [])
 				var neighbour_capacities: Array = frame.get("dump_neighbour_capacities", [])
 				var neighbour_accepts: Array = frame.get("dump_neighbour_accepts", [])
@@ -610,3 +645,157 @@ static func source_mechanical_pump_tick_buildings_state(game: Object, seconds: f
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
 	return {"ticked_count": ticked_count, "results_by_cell": results_by_cell}
+
+static func source_mechanical_pump_dump_neighbour_live_fill_state(game: Object, cell: Vector2i, size: int, liquid_drop: Variant, liquid_id_by_name: Dictionary) -> Dictionary:
+	# The dump neighbour live fill (N2410, DEFERRED #228):
+	# the N2285 dump pure takes the four neighbour arrays
+	# as explicit frame inputs (default [] -- no neighbours,
+	# the Java proximity.size == 0 outcome), so a live pump
+	# with no fill never dumped. This fill scans the live
+	# proximity BEFORE the dump pure and fills the four
+	# arrays from the live neighbour frames, in ring order
+	# (index i is ring cell i, the N2353 convention -- the
+	# ring comes from source_block_proximity_cells_state,
+	# the sprite from block_sprite_at_cell, the frame from
+	# the first SOURCE_CONSUMER_FRAME_META_KEYS meta on the
+	# sprite, the N2353/N2371 resolution path):
+	# `Building other = proximity.get((i + dump) % proximity.size);`
+	# The dumped liquid VARIES BY TILE: liquidDrop is the
+	# floor drop's NAME (water / oil / cryofluid / slag /
+	# arkycite, or null), NOT a constant id (unlike
+	# SolidPump's water or Fracker's oil):
+	# `public @Nullable Liquid liquidDrop = null;`
+	# `dumpLiquid(liquidDrop);`
+	# so the fill takes the NAME + the liquid_id_by_name
+	# map, like the N2285 dump pure -- the consumeLiquid
+	# rows match on the NAME, and the amount read resolves
+	# the id through the same map the dump pure uses. A
+	# null drop fills no accepts and no amounts (the id
+	# resolves to -1); the capacities still fill when a
+	# neighbour frame carries a liquids store (the N2394
+	# precedent -- capacity is liquid-independent). The
+	# amount is the neighbour frame liquids module's amount
+	# for the dumped id, the capacity is the neighbour
+	# def's liquidCapacity (the ofract denominator):
+	# `float ofract = other.liquids.get(liquid) / other.block.liquidCapacity;`
+	# A neighbour frame with no liquids store reports
+	# capacity 0.0 (the N2371 no_liquids_store precedent);
+	# the :901 gate needs the store too:
+	# `if(other != null && other.block.hasLiquids && canDumpLiquid(other, liquid) && other.liquids != null){`
+	# The accepts/canDump verdicts come from the DEFAULT
+	# BuildingComp gates -- acceptLiquid is hasLiquids AND
+	# consumesLiquid:
+	# `public boolean acceptLiquid(Building source, Liquid liquid){`
+	# `return block.hasLiquids && block.consumesLiquid(liquid);`
+	# and canDumpLiquid defaults to true:
+	# `public boolean canDumpLiquid(Building to, Liquid liquid){`
+	# The consumes read is the liquidFilter:
+	# `public boolean consumesLiquid(Liquid liq){`
+	# `return liquidFilter[liq.id];`
+	# which the port represents as the catalog consumeLiquid
+	# rows. The destination defaults to present (the default
+	# getLiquidDestination returns self()):
+	# `public Building getLiquidDestination(Building from, Liquid liquid){`
+	# The liquid capacity default is the 10.0 port precedent
+	# (SourceFactoryBuildState) when the catalog carries no
+	# liquidCapacity key -- Java computes it in Block.init:
+	# `liquidCapacity = Mathf.round(10f * consumeAmount);`
+	# (min 10f, since consumeAmount starts at 1f). The dump
+	# pure hardcodes other_has_liquids / liquids_present
+	# true for every array entry (the N2285 frame-input
+	# shape), so rejecting neighbours stay in the arrays
+	# with accepts false and the transfer gate
+	# (acceptLiquid, BuildingComp.java:917) keeps liquid
+	# out -- the accepts array is the gate that matters.
+	# Per-block overrides are OUT of scope: a neighbour
+	# with a modeled override is evaluated with the DEFAULT
+	# gate here (the override dispatch is a follow-through
+	# note). A neighbour with no frame (no sprite / unknown
+	# def / conduit / no meta-key frame) reports the
+	# no-frame outcome -- 0.0 / 0.0 / false / false -- the
+	# N2353/N2371 no-frame precedent (a routed liquid to a
+	# frameless neighbour drops, so the fill closes the
+	# gates and nothing routes there). A conduit is
+	# no-frame because its acceptLiquid is a per-block
+	# override (Conduit.java:242-244, out of scope) and the
+	# DEFAULT gate would reject it anyway (a conduit
+	# consumes no liquid). Catalog gap (NOT fixed): 30 defs
+	# carry consumeLiquid rows but lack the hasLiquids key
+	# (e.g. electrolyzer) -- the fill reads the catalog key
+	# with the Java field default false (the N2394
+	# precedent). Two ring-model notes: Java
+	# updateProximity dedupes multi-cell neighbours
+	# (`//using a set to prevent duplicates`,
+	# BuildingComp.java:1879-1900) and keeps same-team
+	# buildings only (`other.team != team` skips), while
+	# the ring reports a multi-cell neighbour at each of
+	# its ring cells with no team filter -- the N2353 /
+	# N2371 ring convention this fill mirrors (a delivery
+	# to either index lands in the same frame). Dedup + the
+	# team filter wait for a shared ring-geometry slice.
+	# The frame-key list comes from a runtime load (the
+	# N2371/BeamDrill/N2408 precedent), NOT a preload, and
+	# this pure lives after the tick function (the N2408
+	# placement).
+	var ring: Array = source_block_geometry.source_block_proximity_cells_state(size, cell.x, cell.y).get("cells", [])
+	var power_graph_state = load("res://src/game/SourcePlacedPowerGraphState.gd")
+	var blocks_by_id: Dictionary = {}
+	if game != null:
+		var catalog: Variant = game.get("content_catalog")
+		if catalog != null:
+			for registered_block in catalog.get_many("block"):
+				blocks_by_id[registered_block.id] = registered_block
+	var liquid_name: String = str(liquid_drop) if liquid_drop != null else ""
+	var liquid_id: int = int(liquid_id_by_name.get(liquid_name, -1)) if liquid_drop != null else -1
+	var neighbour_amounts: Array = []
+	var neighbour_capacities: Array = []
+	var neighbour_accepts: Array = []
+	var neighbour_can_dump: Array = []
+	for neighbour_cell in ring:
+		var amount := 0.0
+		var capacity := 0.0
+		var accepts := false
+		var can_dump := false
+		var sprite: Variant = null
+		if game != null:
+			sprite = game.call("block_sprite_at_cell", neighbour_cell)
+		if sprite != null:
+			var block_id: String = str(sprite.get_meta(source_placed_block_state.SOURCE_BLOCK_ID_META_KEY, ""))
+			var is_conduit: bool = sprite.has_meta(source_building_liquid_state.SOURCE_NEIGHBOUR_CONDUIT_FRAME_META_KEY) or source_building_liquid_state.SOURCE_NEIGHBOUR_CONDUIT_BLOCK_IDS.has(block_id)
+			if not is_conduit and blocks_by_id.has(block_id):
+				var neighbour_block = blocks_by_id[block_id]
+				var neighbour_frame: Dictionary = {}
+				var has_neighbour_frame := false
+				for meta_key in power_graph_state.SOURCE_CONSUMER_FRAME_META_KEYS:
+					if not sprite.has_meta(meta_key):
+						continue
+					var candidate: Variant = sprite.get_meta(meta_key)
+					if candidate is Dictionary:
+						neighbour_frame = candidate
+						has_neighbour_frame = true
+						break
+				if has_neighbour_frame:
+					var neighbour_properties = neighbour_block.properties
+					can_dump = true
+					var neighbour_liquids: Variant = neighbour_frame.get("liquids", null)
+					var neighbour_store_amounts: Variant = null
+					if neighbour_liquids is Dictionary:
+						neighbour_store_amounts = (neighbour_liquids as Dictionary).get("liquids", null)
+					if neighbour_store_amounts is Array:
+						capacity = float(neighbour_properties.get("liquidCapacity", 10.0))
+						if liquid_id >= 0 and liquid_id < (neighbour_store_amounts as Array).size():
+							amount = float(source_liquid_module_state.source_get_state(neighbour_liquids, liquid_id).get("amount", 0.0))
+					if not liquid_name.is_empty():
+						var consumes_liquid := false
+						for row in neighbour_properties.get("consumeLiquid", []):
+							if not (row is Dictionary):
+								continue
+							if str(row.get("liquid", "")) == liquid_name:
+								consumes_liquid = true
+								break
+						accepts = bool(neighbour_properties.get("hasLiquids", false)) and consumes_liquid
+		neighbour_amounts.append(amount)
+		neighbour_capacities.append(capacity)
+		neighbour_accepts.append(accepts)
+		neighbour_can_dump.append(can_dump)
+	return {"dump_neighbour_amounts": neighbour_amounts, "dump_neighbour_capacities": neighbour_capacities, "dump_neighbour_accepts": neighbour_accepts, "dump_neighbour_can_dump": neighbour_can_dump}
