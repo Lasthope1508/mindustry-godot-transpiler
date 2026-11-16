@@ -2483,6 +2483,50 @@
         "test_reference_graph_and_actual_c07_constructor_draw_rows"
       ],
       "runtime_proof": "/root/C07ConstructorDrawRowsProof"
+    },
+    "N2455": {
+      "canonical_ledger": "source_slice_ledger.N2455",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/Constructor.java",
+      "java_method": "Constructor.canProduce()",
+      "godot_owner": "SourceConstructorBuildState.source_constructor_can_produce_state",
+      "source_symbols": [
+        "source_constructor_can_produce_state_result.can_produce",
+        "source_constructor_config_state_result.recipe",
+        "source_constructor_config_state_result.progress_reset",
+        "source_constructor_config_state_result.configure_call",
+        "source_constructor_stats_state_result.output_stat",
+        "source_constructor_stats_state_result.build_speed_stat"
+      ],
+      "tests": [
+        "test_c07_constructor_config_filter_rows_registration",
+        "test_all_c07_constructor_config_filter_rows_input_evidence_is_exact",
+        "test_constructor_config_filter_rows_state",
+        "test_reference_graph_and_actual_c07_constructor_config_filter_rows"
+      ],
+      "runtime_proof": "/root/C07ConstructorConfigFilterRowsProof"
+    },
+    "N2460": {
+      "canonical_ledger": "source_slice_ledger.N2460",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.linkValid()",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_link_valid_state",
+      "source_symbols": [
+        "source_payload_mass_driver_link_valid_state_result.link_valid",
+        "source_payload_mass_driver_config_state_result.link",
+        "source_payload_mass_driver_config_state_result.config_value",
+        "source_payload_mass_driver_configure_tapped_state_result.link_after",
+        "source_payload_mass_driver_configure_tapped_state_result.deselect_called",
+        "source_payload_mass_driver_configure_tapped_state_result.handled"
+      ],
+      "tests": [
+        "test_c07_payload_mass_driver_link_config_rows_registration",
+        "test_all_c07_payload_mass_driver_link_config_rows_input_evidence_is_exact",
+        "test_payload_mass_driver_link_config_rows_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_link_config_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverLinkConfigRowsProof"
     }
   }
 }

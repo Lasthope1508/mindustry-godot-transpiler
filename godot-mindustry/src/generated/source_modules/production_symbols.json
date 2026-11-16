@@ -8444,6 +8444,21 @@
       ],
       "runtime_proof": "/root/C07WallCrafterDrawRowsProof"
     },
+    "source_wall_crafter_edge_tiles_live_fill_state_result.wall_edge_tiles": {
+      "canonical_symbol": "source_symbol_registry.source_wall_crafter_edge_tiles_live_fill_state_result.wall_edge_tiles",
+      "status": "source-backed",
+      "java_expr": "Tile other = world.tile(rx, ry);",
+      "godot_symbol": "source_wall_crafter_edge_tiles_live_fill_state_result.wall_edge_tiles",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_edge_tiles_live_fill_state",
+      "rule": "Per-edge-tile dict, in edge order (i = 0..size-1): solid is the `other != null && other.solid()` answer (WallCrafter.java:172) and attribute_value is the wall block attribute (WallCrafter.java:173). A missing / null / non-Dict map entry or a non-solid tile fills {solid: false, attribute_value: 0.0} -- the Java contributes-0 outcome. The N2301 pure reads the filled array unchanged.",
+      "tests": [
+        "test_c07_wall_crafter_edge_tiles_live_fill_registration",
+        "test_all_c07_wall_crafter_edge_tiles_live_fill_input_evidence_is_exact",
+        "test_wall_crafter_edge_tiles_live_fill_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_edge_tiles_live_fill"
+      ],
+      "runtime_proof": "/root/C07WallCrafterEdgeTilesLiveFillProof"
+    },
     "source_wall_crafter_get_efficiency_state_result.can_place_on": {
       "canonical_symbol": "source_symbol_registry.source_wall_crafter_get_efficiency_state_result.can_place_on",
       "status": "source-backed",

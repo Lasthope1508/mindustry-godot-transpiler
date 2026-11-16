@@ -258013,6 +258013,1218 @@
       },
       "runtime_proof": "/root/C07FrackerAttributeEnvLiveFillProof",
       "rule": "Source-backed Fracker attribute env live fill from Fracker.java / SolidPump.java / Attribute.java / Attributes.java / GameState.java / Blocks.java."
+    },
+    "source_constructor_can_produce_state_input": {
+      "status": "active",
+      "owner": "SourceConstructorBuildState.source_constructor_can_produce_state",
+      "source_slice": "N2455",
+      "keys": {
+        "block": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/Constructor.java",
+          "java_expr": "public boolean canProduce(Block b){",
+          "rule": "The candidate block (Constructor.java:54, the canProduce parameter): a caller-supplied Dict {name, is_visible, size, is_core_block, is_banned, environment_buildable} -- all predicates caller-supplied (the N2435 precedent; the pure never reads content/rules).",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_can_produce_state"
+          ]
+        },
+        "min_block_size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/Constructor.java",
+          "java_expr": "public int minBlockSize = 1, maxBlockSize = 2;",
+          "rule": "The minimum producible block size (Constructor.java:22, class default 1; large-constructor overrides 3, Blocks.java:6677): the size >= min term.",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_can_produce_state"
+          ]
+        },
+        "max_block_size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/Constructor.java",
+          "java_expr": "public int minBlockSize = 1, maxBlockSize = 2;",
+          "rule": "The maximum producible block size (Constructor.java:22, class default 2; large-constructor overrides 4, Blocks.java:6676): the size <= max term.",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_can_produce_state"
+          ]
+        },
+        "filter": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/Constructor.java",
+          "java_expr": "public Seq<Block> filter = new Seq<>();",
+          "rule": "The filter as an Array of block names (Constructor.java:21, empty = no filter): the (filter.isEmpty() || filter.contains(b)) term. The constructor def sets the 7-entry filter (Blocks.java:6666); large-constructor keeps it empty.",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_can_produce_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ConstructorConfigFilterRowsProof",
+      "rule": "Source-backed Constructor config / filter rows from Constructor.java / BlockProducer.java / Blocks.java / Stat.java / Stats.java."
+    },
+    "source_constructor_can_produce_state_result": {
+      "status": "active",
+      "owner": "SourceConstructorBuildState.source_constructor_can_produce_state",
+      "source_slice": "N2455",
+      "keys": {
+        "can_produce": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/Constructor.java",
+          "java_expr": "return b.isVisible() && b.size >= minBlockSize && b.size <= maxBlockSize && !(b instanceof CoreBlock) && !state.rules.isBanned(b) && b.environmentBuildable() && (filter.isEmpty() || filter.contains(b));",
+          "rule": "The canProduce verdict (Constructor.java:55): all 7 conditions in Java order -- visible, size >= min, size <= max, not a core block, not banned, environment-buildable, and (filter empty OR filter contains the block). getPlanConfigs (:50-52) selects content.blocks() by this same predicate, so the pure IS the plan-options gate.",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_can_produce_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ConstructorConfigFilterRowsProof",
+      "rule": "Source-backed Constructor config / filter rows from Constructor.java / BlockProducer.java / Blocks.java / Stat.java / Stats.java."
+    },
+    "source_constructor_config_state_input": {
+      "status": "active",
+      "owner": "SourceConstructorBuildState.source_constructor_config_state",
+      "source_slice": "N2455",
+      "keys": {
+        "action": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/Constructor.java",
+          "java_expr": "config(Block.class, (ConstructorBuild tile, Block block) -> {",
+          "rule": "The discriminated action (recorded in this rule, the N2449 precedent): \"set\" applies the config(Block) handler (Constructor.java:32-37, progress reset BEFORE the canProduce gate, recipe = block iff canProduce), \"clear\" applies configClear (Constructor.java:31/:38, recipe = null, no progress reset), \"none\" leaves the recipe untouched (the pure returns current_recipe).",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_config_state"
+          ]
+        },
+        "block": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/Constructor.java",
+          "java_expr": "public @Nullable Block recipe;",
+          "rule": "The block to set (Constructor.java:32, the config(Block) value): null or a Dict {name, ...} (the N2433 precedent -- the port has no live Block objects, the dict is caller-supplied). Ignored for \"clear\" and \"none\".",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_config_state"
+          ]
+        },
+        "current_recipe": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/Constructor.java",
+          "java_expr": "public @Nullable Block recipe;",
+          "rule": "The recipe before the action (Constructor.java:59, `public @Nullable Block recipe;`): the value the \"none\" action returns unchanged, the value the \"set\" reset compares against (`if(tile.recipe != block)`, Constructor.java:33) and the value the buildConfiguration supplier `() -> recipe` (Constructor.java:67) reads -- null or a Dict {name, ...}, like block.",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_config_state"
+          ]
+        },
+        "can_produce": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/Constructor.java",
+          "java_expr": "if(canProduce(block)){",
+          "rule": "The caller-supplied canProduce verdict (Constructor.java:34, the gate on the recipe assignment): the output of source_constructor_can_produce_state for this block. The reset (:33) runs BEFORE this gate, so a non-producible block still resets progress.",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_config_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ConstructorConfigFilterRowsProof",
+      "rule": "Source-backed Constructor config / filter rows from Constructor.java / BlockProducer.java / Blocks.java / Stat.java / Stats.java."
+    },
+    "source_constructor_config_state_result": {
+      "status": "active",
+      "owner": "SourceConstructorBuildState.source_constructor_config_state",
+      "source_slice": "N2455",
+      "keys": {
+        "recipe": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/Constructor.java",
+          "java_expr": "tile.recipe = block;",
+          "rule": "The post-action recipe (Constructor.java:35): block for a producible \"set\", current_recipe for a non-producible \"set\" or \"none\", null for \"clear\". This IS the config() value (`public Object config(){` / `return recipe;`, Constructor.java:73-75).",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_config_state"
+          ]
+        },
+        "progress_reset": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/Constructor.java",
+          "java_expr": "if(tile.recipe != block) tile.progress = 0f;",
+          "rule": "The progress-reset flag (Constructor.java:33): true exactly when the \"set\" block differs from the current recipe -- the reset runs BEFORE the canProduce gate, so a non-producible block still resets progress; \"clear\" never resets (configClear sets recipe = null with no progress write, Constructor.java:31/:38) and \"none\" never resets.",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_config_state"
+          ]
+        },
+        "configure_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/Constructor.java",
+          "java_expr": "ItemSelection.buildTable(Constructor.this, table, filter.isEmpty() ? content.blocks().select(Constructor.this::canProduce) : filter, () -> recipe, this::configure, selectionRows, selectionColumns);",
+          "rule": "The buildConfiguration CALL record (Constructor.java:67): {method: \"ItemSelection.buildTable\", current_recipe} -- the supplier `() -> recipe` reads the pre-action recipe; the UI itself is NOT ported (the N2449 CALL precedent).",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_config_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ConstructorConfigFilterRowsProof",
+      "rule": "Source-backed Constructor config / filter rows from Constructor.java / BlockProducer.java / Blocks.java / Stat.java / Stats.java."
+    },
+    "source_constructor_stats_state_input": {
+      "status": "active",
+      "owner": "SourceConstructorBuildState.source_constructor_stats_state",
+      "source_slice": "N2455",
+      "keys": {
+        "min_block_size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/Constructor.java",
+          "java_expr": "public int minBlockSize = 1, maxBlockSize = 2;",
+          "rule": "The minimum block size (Constructor.java:22, class default 1; large-constructor overrides 3, Blocks.java:6677): the first two values of the Stat.output row.",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_stats_state"
+          ]
+        },
+        "max_block_size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/Constructor.java",
+          "java_expr": "public int minBlockSize = 1, maxBlockSize = 2;",
+          "rule": "The maximum block size (Constructor.java:22, class default 2; large-constructor overrides 4, Blocks.java:6676): the last two values of the Stat.output row.",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_stats_state"
+          ]
+        },
+        "build_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "java_expr": "public float buildSpeed = 0.4f;",
+          "rule": "The buildSpeed (BlockProducer.java:22, class default 0.4f; constructor 0.6f, Blocks.java:6662; large-constructor 0.75f, Blocks.java:6675): the RAW value of the Stat.buildSpeed row -- addPercent formats at display (Stats.java:37-38).",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ConstructorConfigFilterRowsProof",
+      "rule": "Source-backed Constructor config / filter rows from Constructor.java / BlockProducer.java / Blocks.java / Stat.java / Stats.java."
+    },
+    "source_constructor_stats_state_result": {
+      "status": "active",
+      "owner": "SourceConstructorBuildState.source_constructor_stats_state",
+      "source_slice": "N2455",
+      "keys": {
+        "output_stat": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/Constructor.java",
+          "java_expr": "stats.add(Stat.output, \"@x@ ~ @x@\", minBlockSize, minBlockSize, maxBlockSize, maxBlockSize);",
+          "rule": "The Stat.output row (Constructor.java:44): {key: \"output\", format: \"@x@ ~ @x@\", values: [min, min, max, max]} -- the token is exact (`output = new Stat(\"output\", StatCat.crafting),`, Stat.java:68).",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_stats_state"
+          ]
+        },
+        "build_speed_stat": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/Constructor.java",
+          "java_expr": "stats.addPercent(Stat.buildSpeed, buildSpeed);",
+          "rule": "The Stat.buildSpeed row (Constructor.java:45): {key: \"buildSpeed\", value: build_speed RAW} -- the token is exact (`buildSpeed = new Stat(\"buildSpeed\"),`, Stat.java:30); addPercent formats at display time only (`public void addPercent(Stat stat, float value){` / `add(stat, StatValues.number((int)(value * 100), StatUnit.percent));`, Stats.java:37-38), so 0.6f displays as 60% and 0.75f as 75% (the N2451 precedent).",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ConstructorConfigFilterRowsProof",
+      "rule": "Source-backed Constructor config / filter rows from Constructor.java / BlockProducer.java / Blocks.java / Stat.java / Stats.java."
+    },
+    "source_item_bridge_draw_place_state_input": {
+      "status": "active",
+      "owner": "SourceItemBridgeBuildState.source_item_bridge_draw_place_state",
+      "source_slice": "N2456",
+      "keys": {
+        "tile_x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "public void drawPlace(int x, int y, int rotation, boolean valid){",
+          "rule": "The placement tile x (ItemBridge.java:118, the drawPlace origin): the dash lines start/end on x * tilesize, the link gate measures from here, and the rect center is (x + link.x) / 2f * tilesize.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_place_state"
+          ]
+        },
+        "tile_y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "public void drawPlace(int x, int y, int rotation, boolean valid){",
+          "rule": "The placement tile y (ItemBridge.java:118, the drawPlace origin): same mapping as x.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_place_state"
+          ]
+        },
+        "range": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "public int range;",
+          "rule": "The def range in tiles (ItemBridge.java:27; phase-conveyor 12, `range = 12;`, Blocks.java:2118): the dash lines end at range * tilesize along each axis.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_place_state"
+          ]
+        },
+        "link": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "Tile link = findLink(x, y);",
+          "rule": "The findLink output, caller-supplied (ItemBridge.java:120): a {x, y} Dict for the would-be link tile, or null when findLink found nothing. findLink itself is already live since N2199 (the pure source_item_bridge_find_link_state) and is NOT ported again.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_place_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ItemBridgeDrawPlaceRowsProof",
+      "rule": "Source-backed ItemBridge draw-place rows from ItemBridge.java / Tile.java / Block.java / BuildPlan.java / Drawf.java / Pal.java / Vars.java / Blocks.java / Geometry.java / Mathf.java / Angles.java / Vec2.java."
+    },
+    "source_item_bridge_draw_place_state_result": {
+      "status": "active",
+      "owner": "SourceItemBridgeBuildState.source_item_bridge_draw_place_state",
+      "source_slice": "N2456",
+      "keys": {
+        "dash_calls": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "Drawf.dashLine(Pal.placing,",
+          "rule": "The 4 dash lines (ItemBridge.java:123-130, the i = 0..3 loop in Geometry.d4 order): each carries direction, the Pal.placing color, the x1/y1 start (tilesize/2f + 2 out) and x2/y2 end (range * tilesize out), and the segments (int)(max span / tilesize * 2) from the Drawf 4-arg overload (Drawf.java:223-224).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_place_state"
+          ]
+        },
+        "link_rect": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "Lines.rect((x + link.x) / 2f * tilesize - w / 2f, (y + link.y) / 2f * tilesize - h / 2f, w, h);",
+          "rule": "The link rect (ItemBridge.java:133-138): null unless link != null and the Manhattan distance is STRICTLY greater than 1, else x / y / w / h per the span formulas (w = tilesize on the same column, else |dx| * tilesize - tilesize) plus the rot direction, the 1f stroke and the Pal.placing color.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_place_state"
+          ]
+        },
+        "arrow_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "Draw.rect(\"bridge-arrow\", link.x * tilesize + Geometry.d4(rot).x * tilesize, link.y * tilesize + Geometry.d4(rot).y * tilesize, link.absoluteRelativeTo(x, y) * 90);",
+          "rule": "The link arrow (ItemBridge.java:140): null unless the same gate as the rect holds, else the literal \"bridge-arrow\" region at the link tile offset by d4(rot) toward the placement tile, rotation rot * 90.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_place_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ItemBridgeDrawPlaceRowsProof",
+      "rule": "Source-backed ItemBridge draw-place rows from ItemBridge.java / Tile.java / Block.java / BuildPlan.java / Drawf.java / Pal.java / Vars.java / Blocks.java / Geometry.java / Mathf.java / Angles.java / Vec2.java."
+    },
+    "source_item_bridge_draw_plan_config_top_state_input": {
+      "status": "active",
+      "owner": "SourceItemBridgeBuildState.source_item_bridge_draw_plan_config_top_state",
+      "source_slice": "N2456",
+      "keys": {
+        "plan_x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "currentFindX = plan.x + p.x;",
+          "rule": "The plan tile x (ItemBridge.java:84, the find origin): the req draw pos is plan_x * tilesize (the Block offset is 0 for the size-1 bridge, Block.java:761) and the find x is plan_x + p.x.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_plan_config_top_state"
+          ]
+        },
+        "plan_y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "currentFindY = plan.y + p.y;",
+          "rule": "The plan tile y (ItemBridge.java:85, the find origin): same mapping as x.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_plan_config_top_state"
+          ]
+        },
+        "plan_config": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "if(plan.config instanceof Point2 p && (Math.abs(p.x) <= range && Math.abs(p.y) <= range && (p.x == 0 || p.y == 0))){",
+          "rule": "The plan config (ItemBridge.java:83, the Point2 gate): a {x, y} Dict for the relative Point2, or null / a non-Dict (the Integer handler) -- both fail the instanceof gate. A diagonal or out-of-range Point2 fails; (0, 0) passes.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_plan_config_top_state"
+          ]
+        },
+        "range": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "public int range;",
+          "rule": "The def range in tiles (ItemBridge.java:27; phase-conveyor 12, `range = 12;`, Blocks.java:2118): both |p.x| and |p.y| must be <= range.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_plan_config_top_state"
+          ]
+        },
+        "other_req": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "var otherReq = findPlan(list, currentFindX, currentFindY, planFinder);",
+          "rule": "The findPlan result, caller-supplied (ItemBridge.java:87): a {draw_x, draw_y} Dict for the planned partner, or null when findPlan found nothing. The pure cannot query the plan list (the N2429 caller-supplied precedent).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_plan_config_top_state"
+          ]
+        },
+        "bridge_opacity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "if(Mathf.zero(Renderer.bridgeOpacity)) return;",
+          "rule": "Renderer.bridgeOpacity (ItemBridge.java:99, the zero early return -- Mathf.zero is |value| <= 1e-6, Mathf.java:522-524, arc; also the Draw.alpha factor, :100): caller-supplied, the renderer owns it.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_plan_config_top_state"
+          ]
+        },
+        "bridge_width": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "public float bridgeWidth = 6.5f;",
+          "rule": "The def bridge width (ItemBridge.java:38, class default 6.5f, no def override): the bridgeRegion line stroke (:102).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_plan_config_top_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ItemBridgeDrawPlaceRowsProof",
+      "rule": "Source-backed ItemBridge draw-place rows from ItemBridge.java / Tile.java / Block.java / BuildPlan.java / Drawf.java / Pal.java / Vars.java / Blocks.java / Geometry.java / Mathf.java / Angles.java / Vec2.java."
+    },
+    "source_item_bridge_draw_plan_config_top_state_result": {
+      "status": "active",
+      "owner": "SourceItemBridgeBuildState.source_item_bridge_draw_plan_config_top_state",
+      "source_slice": "N2456",
+      "keys": {
+        "bridge_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "drawBridge(plan, otherReq.drawx(), otherReq.drawy(), 0);",
+          "rule": "The plan bridge call (ItemBridge.java:82-115): null unless the config is valid AND findPlan found a partner AND the opacity is not zero, else the bridgeRegion line (stroke bridgeWidth, from req+v1 to o-v1 with v1 = (o - req) set to tilesize/2f -- a zero-length v1 stays zero, Vec2.setLength2) + the arrowRegion arrow at the midpoint with Angles.angle(req, o) + flip 0 + the Draw.alpha opacity.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_plan_config_top_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ItemBridgeDrawPlaceRowsProof",
+      "rule": "Source-backed ItemBridge draw-place rows from ItemBridge.java / Tile.java / Block.java / BuildPlan.java / Drawf.java / Pal.java / Vars.java / Blocks.java / Geometry.java / Mathf.java / Angles.java / Vec2.java."
+    },
+    "source_stack_conveyor_stats_state_input": {
+      "status": "active",
+      "owner": "SourceStackConveyorBuildState.source_stack_conveyor_stats_state",
+      "source_slice": "N2457",
+      "keys": {
+        "item_capacity": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "stats.add(Stat.itemsMoved, Mathf.round(itemCapacity * speed * 60), StatUnit.itemsSecond);",
+          "rule": "The conveyor itemCapacity (StackConveyor.java:67, the itemsMoved rate): the class default is 10 (`itemCapacity = 10;`, StackConveyor.java:52); both defs set 10 as well (plastanium-conveyor, Blocks.java:2088; surge-conveyor, Blocks.java:2242).",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_stats_state"
+          ]
+        },
+        "speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "stats.add(Stat.itemsMoved, Mathf.round(itemCapacity * speed * 60), StatUnit.itemsSecond);",
+          "rule": "The conveyor speed (StackConveyor.java:67, the itemsMoved rate): the class default is 0f (`public float speed = 0f;`, StackConveyor.java:38); the plastanium-conveyor def sets 4f/60f (`speed = 4f / 60f;`, Blocks.java:2087) and the surge-conveyor def 5f/60f (`speed = 5f / 60f;`, Blocks.java:2241).",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07StackConveyorSetStatsRowsProof",
+      "rule": "Source-backed StackConveyor setStats rows from StackConveyor.java / Blocks.java / Stat.java / StatUnit.java / arc Mathf.java."
+    },
+    "source_stack_conveyor_stats_state_result": {
+      "status": "active",
+      "owner": "SourceStackConveyorBuildState.source_stack_conveyor_stats_state",
+      "source_slice": "N2457",
+      "keys": {
+        "items_moved_per_second": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "stats.add(Stat.itemsMoved, Mathf.round(itemCapacity * speed * 60), StatUnit.itemsSecond);",
+          "rule": "The itemsMoved stat value (StackConveyor.java:67): Mathf.round(itemCapacity * speed * 60) -- itemCapacity * speed FIRST, then times 60 (Java float math, left-assoc), then Mathf.round, which is floor(v + 0.5) for non-negative v (arc Mathf.java:500-502, BIG_ENOUGH_ROUND = 16384.5f) -- round(10 * 0 * 60) = 0 at the class defaults, round(10 * 4/60 * 60) = 40 for the plastanium-conveyor def, round(10 * 5/60 * 60) = 50 for the surge-conveyor def. An int, because Mathf.round returns int.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_stats_state"
+          ]
+        },
+        "stat_key": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/meta/Stat.java",
+          "java_expr": "itemsMoved = new Stat(\"itemsMoved\", StatCat.items),",
+          "rule": "The stat token (Stat.java:52): \"itemsMoved\" -- the Stat the setStats row adds.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_stats_state"
+          ]
+        },
+        "stat_unit": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/meta/StatUnit.java",
+          "java_expr": "itemsSecond = new StatUnit(\"itemsSecond\"),",
+          "rule": "The stat unit token (StatUnit.java:20): \"itemsSecond\" -- the unit of the itemsMoved row.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07StackConveyorSetStatsRowsProof",
+      "rule": "Source-backed StackConveyor setStats rows from StackConveyor.java / Blocks.java / Stat.java / StatUnit.java / arc Mathf.java."
+    },
+    "source_duct_router_handle_stack_state_input": {
+      "status": "active",
+      "owner": "SourceStackRouterBuildState.source_duct_router_handle_stack_state",
+      "source_slice": "N2458",
+      "keys": {
+        "action": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+          "java_expr": "public void handleStack(Item item, int amount, Teamc source){",
+          "rule": "The discriminated action (recorded in this rule, the N2443/N2449 precedent): \"handle_stack\" runs the handleStack override (DuctRouter.java:173-177, super adds the stack then current = item), \"remove_stack\" runs the removeStack override (DuctRouter.java:166-171, super removes the clamped amount then current = null iff item == current).",
+          "used_by": [
+            "SourceStackRouterBuildState.source_duct_router_handle_stack_state"
+          ]
+        },
+        "item": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+          "java_expr": "public int removeStack(Item item, int amount){",
+          "rule": "The stack item (the Item param of both overrides, DuctRouter.java:166/173): null or a Dict {name} (the N2433/N2449 precedent -- the port has no live Item objects); the port compares item names (Java == on Item is identity).",
+          "used_by": [
+            "SourceStackRouterBuildState.source_duct_router_handle_stack_state"
+          ]
+        },
+        "amount": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+          "java_expr": "public int removeStack(Item item, int amount){",
+          "rule": "The stack amount (the int param of both overrides, DuctRouter.java:166/173): handle_stack adds it whole (BuildingComp.handleStack, BuildingComp.java:795-798, items.add unclamped); remove_stack clamps it by min(amount, items.get(item)) (BuildingComp.removeStack, BuildingComp.java:788).",
+          "used_by": [
+            "SourceStackRouterBuildState.source_duct_router_handle_stack_state"
+          ]
+        },
+        "current": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+          "java_expr": "public @Nullable Item current;",
+          "rule": "The build current field before the action (DuctRouter.java:80, `public @Nullable Item current;`) -- the SAME field the N2324 target pure reads (the frame key \"current\"): null or a Dict {name}, like item.",
+          "used_by": [
+            "SourceStackRouterBuildState.source_duct_router_handle_stack_state"
+          ]
+        },
+        "items_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/modules/ItemModule.java",
+          "java_expr": "public int get(Item item){",
+          "rule": "The held count of the stack item before the call -- items.get(item) (`public int get(Item item){` / `return items[item.id];`, ItemModule.java:209-211), caller-supplied because the pure takes the count, not the store.",
+          "used_by": [
+            "SourceStackRouterBuildState.source_duct_router_handle_stack_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07DuctRouterHandleStackRowsProof",
+      "rule": "Source-backed DuctRouter handleStack / removeStack rows from DuctRouter.java / StackRouter.java / BuildingComp.java / ItemModule.java."
+    },
+    "source_duct_router_handle_stack_state_result": {
+      "status": "active",
+      "owner": "SourceStackRouterBuildState.source_duct_router_handle_stack_state",
+      "source_slice": "N2458",
+      "keys": {
+        "current_after": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+          "java_expr": "current = item;",
+          "rule": "The post-action current item: handle_stack sets current = item (DuctRouter.java:175); remove_stack clears it to null iff item == current (DuctRouter.java:168, name equality) -- the clear is UNCONDITIONAL on the removed amount (no removed > 0 guard: a zero-amount removeStack still clears current when item == current).",
+          "used_by": [
+            "SourceStackRouterBuildState.source_duct_router_handle_stack_state"
+          ]
+        },
+        "removed_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "amount = Math.min(amount, items.get(item));",
+          "rule": "The super removeStack return (BuildingComp.java:786-792): min(amount, items.get(item)) -- the amount ACTUALLY removed, clamped by the store; 0 for handle_stack (handleStack returns void).",
+          "used_by": [
+            "SourceStackRouterBuildState.source_duct_router_handle_stack_state"
+          ]
+        },
+        "items_count_after": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "items.add(item, amount);",
+          "rule": "The post-action held count: handle_stack adds the whole amount (BuildingComp.handleStack, BuildingComp.java:797, items.add, unclamped -- ItemModule.add just +=, ItemModule.java:234-242); remove_stack subtracts the clamped removed count (BuildingComp.java:790, items.remove; ItemModule.remove re-clamps, ItemModule.java:258-263, but the super already clamped).",
+          "used_by": [
+            "SourceStackRouterBuildState.source_duct_router_handle_stack_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07DuctRouterHandleStackRowsProof",
+      "rule": "Source-backed DuctRouter handleStack / removeStack rows from DuctRouter.java / StackRouter.java / BuildingComp.java / ItemModule.java."
+    },
+    "source_wall_crafter_edge_tiles_live_fill_state_input": {
+      "status": "active",
+      "owner": "SourceWallCrafterBuildState.source_wall_crafter_edge_tiles_live_fill_state",
+      "source_slice": "N2459",
+      "keys": {
+        "world_tiles": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "Tile other = world.tile(rx, ry);",
+          "rule": "The tile map: a Dict keyed \"x,y\" to a per-tile Dict {solid, wall_drop} (the BeamDrill N2339 convention). The fill reads the solid flag per facing-edge coordinate; a missing key (or a null / non-Dict entry) is a null world tile, which contributes a non-solid entry (Java: other == null -> skipped, contributes 0). An empty map fills an all-non-solid edge. No live producer stamps this frame input yet -- the producer gap is documented, not invented here.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_edge_tiles_live_fill_state"
+          ]
+        },
+        "wall_attribute_by_tile": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "float at = other.block().attributes.get(attribute);",
+          "rule": "The caller-supplied wall block attribute map: a Dict keyed \"x,y\" to float, the WALL BLOCK's attribute value per tile (the N2414 minimal-extension precedent -- world_tiles carries no block attribute; wall_drop is the drop ITEM, not the attribute). A solid tile with no entry reads 0.0 (attributes.get returns 0 for a missing attribute). No live producer stamps this frame input yet -- the producer gap is documented, not invented here.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_edge_tiles_live_fill_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "int cornerX = tx - (size-1)/2, cornerY = ty - (size-1)/2, s = size;",
+          "rule": "The wall crafter origin cell (tile.x / tile.y in Java): cornerX = tx - (size-1)/2 and cornerY = ty - (size-1)/2 derive from it (INTEGER division: size 3 -> 1, size 2 -> 0). The tick reads the origin_cell sprite meta inline.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_edge_tiles_live_fill_state"
+          ]
+        },
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "for(int i = 0; i < size; i++){",
+          "rule": "The block size (WallCrafter.java:145, the loop bound -- Java reads exactly `size` edge tiles): 2 for the cliff-crusher, 3 for the large-cliff-crusher (Blocks.java:3007/:3021), read from the catalog per def; the Block class default is 1 (Block.java:215).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_edge_tiles_live_fill_state"
+          ]
+        },
+        "rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "switch(rotation){",
+          "rule": "The placement rotation 0-3 (WallCrafter.java:148-166, the switch picks the facing edge from cornerX / cornerY): 0 -> (cornerX+s, cornerY+i); 1 -> (cornerX+i, cornerY+s); 2 -> (cornerX-1, cornerY+i); 3 -> (cornerX+i, cornerY-1). Read live from the sprite rotation meta.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_edge_tiles_live_fill_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WallCrafterEdgeTilesLiveFillProof",
+      "rule": "Source-backed WallCrafter getEfficiency live edge-tile scan from WallCrafter.java / Block.java / Blocks.java."
+    },
+    "source_wall_crafter_edge_tiles_live_fill_state_result": {
+      "status": "active",
+      "owner": "SourceWallCrafterBuildState.source_wall_crafter_edge_tiles_live_fill_state",
+      "source_slice": "N2459",
+      "keys": {
+        "wall_edge_tiles": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "Tile other = world.tile(rx, ry);",
+          "rule": "Per-edge-tile dict, in edge order (i = 0..size-1): solid is the `other != null && other.solid()` answer (WallCrafter.java:172) and attribute_value is the wall block attribute (WallCrafter.java:173). A missing / null / non-Dict map entry or a non-solid tile fills {solid: false, attribute_value: 0.0} -- the Java contributes-0 outcome. The N2301 pure reads the filled array unchanged.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_edge_tiles_live_fill_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WallCrafterEdgeTilesLiveFillProof",
+      "rule": "Source-backed WallCrafter getEfficiency live edge-tile scan from WallCrafter.java / Block.java / Blocks.java."
+    },
+    "source_payload_mass_driver_link_valid_state_input": {
+      "status": "active",
+      "owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_link_valid_state",
+      "source_slice": "N2460",
+      "keys": {
+        "link": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "public int link = -1;",
+          "rule": "The packed link (PayloadMassDriver.java:133, `public int link = -1;`): -1 means unlinked, any other value is a Point2-packed tile position (arc Point2.pack, Point2.java:40-42).",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_link_valid_state"
+          ]
+        },
+        "other_is_pmd_build": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "return link != -1 && world.build(this.link) instanceof PayloadDriverBuild other && other.block == block && other.team == team && within(other, range);",
+          "rule": "The `world.build(this.link) instanceof PayloadDriverBuild` verdict on the caller-found build (PayloadMassDriver.java:467): the world lookup is caller-supplied (the N2435 precedent) -- the pure takes the LOOKED-UP predicate, never the lookup itself. False when the lookup finds no build or a non-driver build.",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_link_valid_state"
+          ]
+        },
+        "other_block_matches": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "return link != -1 && world.build(this.link) instanceof PayloadDriverBuild other && other.block == block && other.team == team && within(other, range);",
+          "rule": "The `other.block == block` conjunct (PayloadMassDriver.java:467): the looked-up build is the SAME block def as this driver.",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_link_valid_state"
+          ]
+        },
+        "other_team_matches": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "return link != -1 && world.build(this.link) instanceof PayloadDriverBuild other && other.block == block && other.team == team && within(other, range);",
+          "rule": "The `other.team == team` conjunct (PayloadMassDriver.java:467): the looked-up build is on this team.",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_link_valid_state"
+          ]
+        },
+        "within_range": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "return link != -1 && world.build(this.link) instanceof PayloadDriverBuild other && other.block == block && other.team == team && within(other, range);",
+          "rule": "The `within(other, range)` conjunct (PayloadMassDriver.java:467): within is STRICT dst2 < range^2 (arc Position.java:44-46), evaluated by the caller against the def range (700f / 2100f, Blocks.java:6623/6635).",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_link_valid_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadMassDriverLinkConfigRowsProof",
+      "rule": "Source-backed PayloadMassDriver link/config rows from PayloadMassDriver.java / MassDriver.java / BuildingComp.java / InputHandler.java."
+    },
+    "source_payload_mass_driver_link_valid_state_result": {
+      "status": "active",
+      "owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_link_valid_state",
+      "source_slice": "N2460",
+      "keys": {
+        "link_valid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "return link != -1 && world.build(this.link) instanceof PayloadDriverBuild other && other.block == block && other.team == team && within(other, range);",
+          "rule": "The linkValid verdict (PayloadMassDriver.java:466-468): one conjunction of five gates -- link != -1, the lookup is a PayloadDriverBuild, same block, same team, within range. No extra PMD-specific gates (verified first from the real method -- no state/shooter conditions). The MassDriver twin (MassDriver.java:346-349) has the same five gates with an early `if(link == -1) return false;`; the verdict is identical.",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_link_valid_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadMassDriverLinkConfigRowsProof",
+      "rule": "Source-backed PayloadMassDriver link/config rows from PayloadMassDriver.java / MassDriver.java / BuildingComp.java / InputHandler.java."
+    },
+    "source_payload_mass_driver_config_state_input": {
+      "status": "active",
+      "owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_config_state",
+      "source_slice": "N2460",
+      "keys": {
+        "action": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "config(Point2.class, (PayloadDriverBuild tile, Point2 point) -> tile.link = Point2.pack(point.x + tile.tileX(), point.y + tile.tileY()));",
+          "rule": "The discriminated action (recorded in this rule, the N2449 precedent): \"point2\" applies the config(Point2) handler (PayloadMassDriver.java:70, relative point + tile, packed), \"integer\" applies the config(Integer) handler (:71, absolute packed int), \"clear\" is configure(-1) through the Integer handler (PMD registers NO configClear -- the -1 comes from onConfigureBuildTapped :446/:452), \"none\" leaves the link untouched. An unknown action matches no handler and leaves the link untouched.",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_config_state"
+          ]
+        },
+        "point": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "config(Point2.class, (PayloadDriverBuild tile, Point2 point) -> tile.link = Point2.pack(point.x + tile.tileX(), point.y + tile.tileY()));",
+          "rule": "The config value: a Dict {x, y} relative point for \"point2\" (PayloadMassDriver.java:70, the `//point2 is relative` comment at :69), the absolute packed int for \"integer\" (:71). Ignored for \"clear\" and \"none\".",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_config_state"
+          ]
+        },
+        "tile_x": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "return Point2.unpack(link).sub(tile.x, tile.y);",
+          "rule": "The tile x (PayloadMassDriver.java:70/473, tile.tileX() / tile.x): null models a null tile, for which config() returns null (:472) and a \"point2\" leaves the link untouched (the Java handler dereferences tile.tileX(), so a null tile can never reach the pack).",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_config_state"
+          ]
+        },
+        "tile_y": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "return Point2.unpack(link).sub(tile.x, tile.y);",
+          "rule": "The tile y (PayloadMassDriver.java:70/473, tile.tileY() / tile.y): null models a null tile, like tile_x.",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_config_state"
+          ]
+        },
+        "current_link": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "public int link = -1;",
+          "rule": "The link before the action (PayloadMassDriver.java:133): the value the \"none\" action returns unchanged.",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_config_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadMassDriverLinkConfigRowsProof",
+      "rule": "Source-backed PayloadMassDriver link/config rows from PayloadMassDriver.java / MassDriver.java / BuildingComp.java / InputHandler.java."
+    },
+    "source_payload_mass_driver_config_state_result": {
+      "status": "active",
+      "owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_config_state",
+      "source_slice": "N2460",
+      "keys": {
+        "link": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "config(Point2.class, (PayloadDriverBuild tile, Point2 point) -> tile.link = Point2.pack(point.x + tile.tileX(), point.y + tile.tileY()));",
+          "rule": "The post-action link (PayloadMassDriver.java:70-71): pack(point + tile) for \"point2\", the packed int for \"integer\", -1 for \"clear\", current_link for \"none\".",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_config_state"
+          ]
+        },
+        "config_value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "return Point2.unpack(link).sub(tile.x, tile.y);",
+          "rule": "The post-action config() value (PayloadMassDriver.java:471-474): null when the tile is null (`if(tile == null) return null;`), else the unpacked post-action link minus the tile coords, as a Dict {x, y}. config() has NO -1 special case: unpack(-1) is (-1, -1) (arc Point2.java:35-37), so a cleared link with a tile reads {-1 - tile_x, -1 - tile_y}, Java-exact.",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_config_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadMassDriverLinkConfigRowsProof",
+      "rule": "Source-backed PayloadMassDriver link/config rows from PayloadMassDriver.java / MassDriver.java / BuildingComp.java / InputHandler.java."
+    },
+    "source_payload_mass_driver_configure_tapped_state_input": {
+      "status": "active",
+      "owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_configure_tapped_state",
+      "source_slice": "N2460",
+      "keys": {
+        "is_self": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "if(this == other){",
+          "rule": "The `this == other` test (PayloadMassDriver.java:444): a self-tap always unlinks and deselects only when already unlinked. Checked FIRST, so it wins over the unlink branch.",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_configure_tapped_state"
+          ]
+        },
+        "link": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "public int link = -1;",
+          "rule": "The current link (PayloadMassDriver.java:133): -1 means unlinked; the self-tap deselects exactly when link == -1 (:445).",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_configure_tapped_state"
+          ]
+        },
+        "other_pos": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "configure(other.pos());",
+          "rule": "The tapped build packed position, other.pos() (PayloadMassDriver.java:456): the link value a valid tap configures, and the value the unlink branch compares against (:450, `if(link == other.pos()){`).",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_configure_tapped_state"
+          ]
+        },
+        "other_block_matches": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "}else if(other.block instanceof PayloadMassDriver && other.dst(tile) <= range && other.team == team){",
+          "rule": "The `other.block instanceof PayloadMassDriver` gate (PayloadMassDriver.java:455) -- the instanceof verdict, NOT a def-equality verdict: ANY PayloadMassDriver def qualifies, so a small driver links to a large one. MassDriver requires the same block def instead (`other.block == block`, MassDriver.java:274) -- the verified PMD/MassDriver difference.",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_configure_tapped_state"
+          ]
+        },
+        "other_dst": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "}else if(other.block instanceof PayloadMassDriver && other.dst(tile) <= range && other.team == team){",
+          "rule": "The `other.dst(tile)` distance in world units (PayloadMassDriver.java:455), caller-supplied: the link gate is other_dst <= range.",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_configure_tapped_state"
+          ]
+        },
+        "range": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "}else if(other.block instanceof PayloadMassDriver && other.dst(tile) <= range && other.team == team){",
+          "rule": "The def range (PayloadMassDriver.java:455): 700f for payload-mass-driver, 2100f for large-payload-mass-driver (Blocks.java:6623/6635).",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_configure_tapped_state"
+          ]
+        },
+        "other_team_matches": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "}else if(other.block instanceof PayloadMassDriver && other.dst(tile) <= range && other.team == team){",
+          "rule": "The `other.team == team` gate (PayloadMassDriver.java:455): the tapped build is on this team.",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_configure_tapped_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadMassDriverLinkConfigRowsProof",
+      "rule": "Source-backed PayloadMassDriver link/config rows from PayloadMassDriver.java / MassDriver.java / BuildingComp.java / InputHandler.java."
+    },
+    "source_payload_mass_driver_configure_tapped_state_result": {
+      "status": "active",
+      "owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_configure_tapped_state",
+      "source_slice": "N2460",
+      "keys": {
+        "link_after": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "configure(other.pos());",
+          "rule": "The post-tap link (PayloadMassDriver.java:443-460): -1 after a self-tap (configure(-1), :446) or an unlink tap (:452), other_pos after a valid link tap (configure(other.pos()), :456), unchanged on fall-through. The configure calls run the Integer handler (:71).",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_configure_tapped_state"
+          ]
+        },
+        "deselect_called": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+          "java_expr": "if(link == -1) deselect();",
+          "rule": "The deselect() CALL flag (PayloadMassDriver.java:445): true exactly for a self-tap with link == -1. deselect() is a UI call (InputHandler deselect), recorded as a flag, not state.",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_configure_tapped_state"
+          ]
+        },
+        "handled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "@return whether this block should be deselected.",
+          "rule": "Whether the tap was consumed by a configure (PayloadMassDriver.java:443-460): true exactly when a configure ran (self-tap, unlink, or link). Java returns whether the block should be DESELECTED (BuildingComp.java:1690, `@return whether this block should be deselected.`), so handled INVERTS the Java return -- false = consumed, true = falls through and the input handler switches or hides the config (InputHandler.java:2002).",
+          "used_by": [
+            "SourcePayloadMassDriverBuildState.source_payload_mass_driver_configure_tapped_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadMassDriverLinkConfigRowsProof",
+      "rule": "Source-backed PayloadMassDriver link/config rows from PayloadMassDriver.java / MassDriver.java / BuildingComp.java / InputHandler.java."
+    },
+    "source_mass_driver_link_valid_state_input": {
+      "status": "active",
+      "owner": "SourceMassDriverBuildState.source_mass_driver_link_valid_state",
+      "source_slice": "N2461",
+      "keys": {
+        "link": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "public int link = -1;",
+          "rule": "The config link (MassDriver.java:116, `public int link = -1;`, default -1): the PACKED INT link (not a Vector2i). link == -1 returns false before any lookup (MassDriver.java:347).",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_link_valid_state"
+          ]
+        },
+        "other_is_mass_driver_build": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "return world.build(this.link) instanceof MassDriverBuild other && other.block == block && other.team == team && within(other, range);",
+          "rule": "The instanceof term (MassDriver.java:348, `world.build(this.link) instanceof MassDriverBuild other`): false when world.build(link) is null too, so it covers the missing-build case (instanceof implies non-null -- the pure passes exists = this verdict into the shared helper). Caller-supplied (the N2435 precedent: all world lookups caller-supplied).",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_link_valid_state"
+          ]
+        },
+        "other_block_matches": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "return world.build(this.link) instanceof MassDriverBuild other && other.block == block && other.team == team && within(other, range);",
+          "rule": "The same-block term (MassDriver.java:348, `other.block == block`): the linked build must be the same block def. Caller-supplied.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_link_valid_state"
+          ]
+        },
+        "other_team_matches": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "return world.build(this.link) instanceof MassDriverBuild other && other.block == block && other.team == team && within(other, range);",
+          "rule": "The same-team term (MassDriver.java:348, `other.team == team`): the linked build must be the same team. Caller-supplied.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_link_valid_state"
+          ]
+        },
+        "within_range": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/geom/Position.java",
+          "java_expr": "return Mathf.dst2(getX(), getY(), x, y) < dst*dst;",
+          "rule": "The within verdict (MassDriver.java:348, `within(other, range)`): STRICT dst2 < range*range (arc Position.java:44-46, `return Mathf.dst2(getX(), getY(), x, y) < dst*dst;`), pixels, range the single def 440f (Blocks.java:2172). Caller-supplied -- the tick computes it that way. NOT the tap range check: onConfigureBuildTapped uses dst <= range INCLUSIVE (see the tapped pure).",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_link_valid_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07MassDriverLinkConfigRowsProof",
+      "rule": "Source-backed MassDriver link/config rows from MassDriver.java / Blocks.java / Tile.java / BuildingComp.java / Point2.java / Position.java."
+    },
+    "source_mass_driver_link_valid_state_result": {
+      "status": "active",
+      "owner": "SourceMassDriverBuildState.source_mass_driver_link_valid_state",
+      "source_slice": "N2461",
+      "keys": {
+        "link_valid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "return world.build(this.link) instanceof MassDriverBuild other && other.block == block && other.team == team && within(other, range);",
+          "rule": "The linkValid() verdict (MassDriver.java:346-349): false when link == -1, else the AND of the four caller-supplied terms. The pure delegates to the private _mass_driver_link_valid helper (live since N2237), so the conjunction stays single-sourced with the tick / acceptItem gate.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_link_valid_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07MassDriverLinkConfigRowsProof",
+      "rule": "Source-backed MassDriver link/config rows from MassDriver.java / Blocks.java / Tile.java / BuildingComp.java / Point2.java / Position.java."
+    },
+    "source_mass_driver_config_state_input": {
+      "status": "active",
+      "owner": "SourceMassDriverBuildState.source_mass_driver_config_state",
+      "source_slice": "N2461",
+      "keys": {
+        "action": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "config(Point2.class, (MassDriverBuild tile, Point2 point) -> tile.link = Point2.pack(point.x + tile.tileX(), point.y + tile.tileY()));",
+          "rule": "The discriminated action (recorded in this rule, the N2449 precedent): \"point2\" applies the config(Point2) handler (MassDriver.java:58, link = pack(point + tile)), \"integer\" applies config(Integer) (:59, link = point), \"clear\" sets link -1, \"none\" leaves current_link untouched.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_config_state"
+          ]
+        },
+        "point": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "config(Point2.class, (MassDriverBuild tile, Point2 point) -> tile.link = Point2.pack(point.x + tile.tileX(), point.y + tile.tileY()));",
+          "rule": "The config value: a Dictionary {x, y} (the RELATIVE point2) for \"point2\", an int (the absolute packed int) for \"integer\". Ignored for \"clear\" and \"none\".",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_config_state"
+          ]
+        },
+        "tile": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "if(tile == null) return null;",
+          "rule": "The building tile (MassDriver.java:353, the config() null check): a Dictionary {x, y} or null (the N2449 Variant-null precedent -- the brief's tile_x/tile_y ints cannot express the null tile Java checks). config_value is null whenever tile is null, for every action; a \"point2\" action with a null tile leaves the link untouched (no defined Java outcome -- the handler dereferences tile.tileX()).",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_config_state"
+          ]
+        },
+        "current_link": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "public int link = -1;",
+          "rule": "The link before the action (MassDriver.java:116, `public int link = -1;`): the value the \"none\" action returns unchanged, and the fallback for a \"point2\" action with a null tile.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_config_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07MassDriverLinkConfigRowsProof",
+      "rule": "Source-backed MassDriver link/config rows from MassDriver.java / Blocks.java / Tile.java / BuildingComp.java / Point2.java / Position.java."
+    },
+    "source_mass_driver_config_state_result": {
+      "status": "active",
+      "owner": "SourceMassDriverBuildState.source_mass_driver_config_state",
+      "source_slice": "N2461",
+      "keys": {
+        "link": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "config(Point2.class, (MassDriverBuild tile, Point2 point) -> tile.link = Point2.pack(point.x + tile.tileX(), point.y + tile.tileY()));",
+          "rule": "The post-action link (MassDriver.java:58-59): pack(point + tile) for \"point2\", point for \"integer\", -1 for \"clear\", current_link for \"none\" (and for a \"point2\" with a null tile). The pack runs through the shared _point2_pack helper (the (short) wrap explicit -- GDScript ints are 64-bit).",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_config_state"
+          ]
+        },
+        "config_value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "return Point2.unpack(link).sub(tile.x, tile.y);",
+          "rule": "The config() value (MassDriver.java:352-355): the relative Point2 {x, y} = unpack(link) - tile, null when tile == null. unpack(-1) is Point2(-1, -1) (arc Point2.java:35-37), so a cleared link reads (-1 - tx, -1 - ty), Java-exact.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_config_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07MassDriverLinkConfigRowsProof",
+      "rule": "Source-backed MassDriver link/config rows from MassDriver.java / Blocks.java / Tile.java / BuildingComp.java / Point2.java / Position.java."
+    },
+    "source_mass_driver_configure_tapped_state_input": {
+      "status": "active",
+      "owner": "SourceMassDriverBuildState.source_mass_driver_configure_tapped_state",
+      "source_slice": "N2461",
+      "keys": {
+        "is_self": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "if(this == other){",
+          "rule": "Whether the tapped building IS this building (MassDriver.java:267, `if(this == other){`): the self branch deselects iff link == -1, then configure(-1) ALWAYS, and is handled.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_configure_tapped_state"
+          ]
+        },
+        "link": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "if(link == other.pos()){",
+          "rule": "The current link (MassDriver.java:272, `if(link == other.pos()){`): tapping the linked target unlinks (configure(-1)) with NO deselect.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_configure_tapped_state"
+          ]
+        },
+        "other_pos": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "return Point2.pack(x, y);",
+          "rule": "The tapped building's packed pos (MassDriver.java:272/276, `other.pos()`): `public int pos(){` / `return tile.pos();` (BuildingComp.java:578-580) / `return Point2.pack(x, y);` (Tile.java:73-75).",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_configure_tapped_state"
+          ]
+        },
+        "other_block_matches": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "}else if(other.block == block && other.dst(tile) <= range && other.team == team){",
+          "rule": "The same-block term of the link branch (MassDriver.java:274, `other.block == block`): the tapped building must be the same block def. Caller-supplied.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_configure_tapped_state"
+          ]
+        },
+        "other_dst": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "}else if(other.block == block && other.dst(tile) <= range && other.team == team){",
+          "rule": "The Euclidean pixel distance from the tapped building to this tile (MassDriver.java:274, `other.dst(tile)`): the link branch requires other_dst <= range INCLUSIVE -- NOT within's strict dst2 < range*range (the (c) verification: the boundary dst == range LINKS on tap). Caller-supplied.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_configure_tapped_state"
+          ]
+        },
+        "range_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "range = 440f;",
+          "rule": "The def range (mass-driver 440f, Blocks.java:2172): the link-branch threshold (MassDriver.java:274). Named range_value (the N2396 precedent) so it does not shadow GDScript's builtin range().",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_configure_tapped_state"
+          ]
+        },
+        "other_team_matches": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "}else if(other.block == block && other.dst(tile) <= range && other.team == team){",
+          "rule": "The same-team term of the link branch (MassDriver.java:274, `other.team == team`): the tapped building must be the same team. Caller-supplied.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_configure_tapped_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07MassDriverLinkConfigRowsProof",
+      "rule": "Source-backed MassDriver link/config rows from MassDriver.java / Blocks.java / Tile.java / BuildingComp.java / Point2.java / Position.java."
+    },
+    "source_mass_driver_configure_tapped_state_result": {
+      "status": "active",
+      "owner": "SourceMassDriverBuildState.source_mass_driver_configure_tapped_state",
+      "source_slice": "N2461",
+      "keys": {
+        "link_after": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "configure(other.pos());",
+          "rule": "The link after the tap (MassDriver.java:266-282): -1 for the self branch (configure(-1) always runs there) and the unlink branch, other_pos for the link branch (configure(other.pos())), the input link unchanged for the reject branch.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_configure_tapped_state"
+          ]
+        },
+        "deselect_called": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "if(link == -1) deselect();",
+          "rule": "The deselect() CALL flag (MassDriver.java:268, `if(link == -1) deselect();`): true only in the self branch when link == -1. deselect() is BuildingComp.deselect() (BuildingComp.java:394-397, hides the config UI when this is the selected build, !headless-guarded inside) -- recorded as a CALL flag, not the hide itself.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_configure_tapped_state"
+          ]
+        },
+        "handled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+          "java_expr": "public boolean onConfigureBuildTapped(Building other){",
+          "rule": "Whether the tap was handled (MassDriver.java:266-282): `handled` = NOT the Java return -- Java returns false = handled, don't propagate (self / unlink / link) and true = not handled, propagate (reject). The inversion is documented in the driver.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_configure_tapped_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07MassDriverLinkConfigRowsProof",
+      "rule": "Source-backed MassDriver link/config rows from MassDriver.java / Blocks.java / Tile.java / BuildingComp.java / Point2.java / Position.java."
     }
   },
   "version": 1

@@ -78727,6 +78727,636 @@
       ],
       "runtime_proof": "/root/C07FrackerAttributeEnvLiveFillProof",
       "rule": "Source-backed Fracker attribute env live fill from Fracker.java / SolidPump.java / Attribute.java / Attributes.java / GameState.java / Blocks.java."
+    },
+    "SourceConstructorBuildState.source_constructor_can_produce_state": {
+      "status": "active",
+      "source_slice": "N2455",
+      "java_source": "core/src/mindustry/world/blocks/payloads/Constructor.java",
+      "source_method": "Constructor.canProduce()",
+      "params": [
+        {
+          "name": "block",
+          "type": "Dictionary",
+          "schema": "source_constructor_can_produce_state_input.block"
+        },
+        {
+          "name": "min_block_size",
+          "type": "int",
+          "schema": "source_constructor_can_produce_state_input.min_block_size"
+        },
+        {
+          "name": "max_block_size",
+          "type": "int",
+          "schema": "source_constructor_can_produce_state_input.max_block_size"
+        },
+        {
+          "name": "filter",
+          "type": "Array",
+          "schema": "source_constructor_can_produce_state_input.filter"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "can_produce"
+      ],
+      "tests": [
+        "test_c07_constructor_config_filter_rows_registration",
+        "test_all_c07_constructor_config_filter_rows_input_evidence_is_exact",
+        "test_constructor_config_filter_rows_state",
+        "test_reference_graph_and_actual_c07_constructor_config_filter_rows"
+      ],
+      "runtime_proof": "/root/C07ConstructorConfigFilterRowsProof",
+      "rule": "Source-backed Constructor config / filter rows from Constructor.java / BlockProducer.java / Blocks.java / Stat.java / Stats.java."
+    },
+    "SourceConstructorBuildState.source_constructor_config_state": {
+      "status": "active",
+      "source_slice": "N2455",
+      "java_source": "core/src/mindustry/world/blocks/payloads/Constructor.java",
+      "source_method": "ConstructorBuild.config()",
+      "params": [
+        {
+          "name": "action",
+          "type": "String",
+          "schema": "source_constructor_config_state_input.action"
+        },
+        {
+          "name": "block",
+          "type": "Variant",
+          "schema": "source_constructor_config_state_input.block"
+        },
+        {
+          "name": "current_recipe",
+          "type": "Variant",
+          "schema": "source_constructor_config_state_input.current_recipe"
+        },
+        {
+          "name": "can_produce",
+          "type": "bool",
+          "schema": "source_constructor_config_state_input.can_produce"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "recipe",
+        "progress_reset",
+        "configure_call"
+      ],
+      "tests": [
+        "test_c07_constructor_config_filter_rows_registration",
+        "test_all_c07_constructor_config_filter_rows_input_evidence_is_exact",
+        "test_constructor_config_filter_rows_state",
+        "test_reference_graph_and_actual_c07_constructor_config_filter_rows"
+      ],
+      "runtime_proof": "/root/C07ConstructorConfigFilterRowsProof",
+      "rule": "Source-backed Constructor config / filter rows from Constructor.java / BlockProducer.java / Blocks.java / Stat.java / Stats.java."
+    },
+    "SourceConstructorBuildState.source_constructor_stats_state": {
+      "status": "active",
+      "source_slice": "N2455",
+      "java_source": "core/src/mindustry/world/blocks/payloads/Constructor.java",
+      "source_method": "Constructor.setStats()",
+      "params": [
+        {
+          "name": "min_block_size",
+          "type": "int",
+          "schema": "source_constructor_stats_state_input.min_block_size"
+        },
+        {
+          "name": "max_block_size",
+          "type": "int",
+          "schema": "source_constructor_stats_state_input.max_block_size"
+        },
+        {
+          "name": "build_speed",
+          "type": "float",
+          "schema": "source_constructor_stats_state_input.build_speed"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "output_stat",
+        "build_speed_stat"
+      ],
+      "tests": [
+        "test_c07_constructor_config_filter_rows_registration",
+        "test_all_c07_constructor_config_filter_rows_input_evidence_is_exact",
+        "test_constructor_config_filter_rows_state",
+        "test_reference_graph_and_actual_c07_constructor_config_filter_rows"
+      ],
+      "runtime_proof": "/root/C07ConstructorConfigFilterRowsProof",
+      "rule": "Source-backed Constructor config / filter rows from Constructor.java / BlockProducer.java / Blocks.java / Stat.java / Stats.java."
+    },
+    "SourceItemBridgeBuildState.source_item_bridge_draw_place_state": {
+      "status": "active",
+      "source_slice": "N2456",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "source_method": "ItemBridge.drawPlace()",
+      "params": [
+        {
+          "name": "tile_x",
+          "type": "int",
+          "schema": "source_item_bridge_draw_place_state_input.tile_x"
+        },
+        {
+          "name": "tile_y",
+          "type": "int",
+          "schema": "source_item_bridge_draw_place_state_input.tile_y"
+        },
+        {
+          "name": "range",
+          "type": "int",
+          "schema": "source_item_bridge_draw_place_state_input.range"
+        },
+        {
+          "name": "link",
+          "type": "Variant",
+          "schema": "source_item_bridge_draw_place_state_input.link"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "dash_calls",
+        "link_rect",
+        "arrow_call"
+      ],
+      "tests": [
+        "test_c07_item_bridge_draw_place_rows_registration",
+        "test_all_c07_item_bridge_draw_place_rows_input_evidence_is_exact",
+        "test_item_bridge_draw_place_rows_state",
+        "test_reference_graph_and_actual_c07_item_bridge_draw_place_rows"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeDrawPlaceRowsProof",
+      "rule": "Source-backed ItemBridge draw-place rows from ItemBridge.java / Tile.java / Block.java / BuildPlan.java / Drawf.java / Pal.java / Vars.java / Blocks.java / Geometry.java / Mathf.java / Angles.java / Vec2.java."
+    },
+    "SourceItemBridgeBuildState.source_item_bridge_draw_plan_config_top_state": {
+      "status": "active",
+      "source_slice": "N2456",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "source_method": "ItemBridge.drawPlanConfigTop()",
+      "params": [
+        {
+          "name": "plan_x",
+          "type": "int",
+          "schema": "source_item_bridge_draw_plan_config_top_state_input.plan_x"
+        },
+        {
+          "name": "plan_y",
+          "type": "int",
+          "schema": "source_item_bridge_draw_plan_config_top_state_input.plan_y"
+        },
+        {
+          "name": "plan_config",
+          "type": "Variant",
+          "schema": "source_item_bridge_draw_plan_config_top_state_input.plan_config"
+        },
+        {
+          "name": "range",
+          "type": "int",
+          "schema": "source_item_bridge_draw_plan_config_top_state_input.range"
+        },
+        {
+          "name": "other_req",
+          "type": "Variant",
+          "schema": "source_item_bridge_draw_plan_config_top_state_input.other_req"
+        },
+        {
+          "name": "bridge_opacity",
+          "type": "float",
+          "schema": "source_item_bridge_draw_plan_config_top_state_input.bridge_opacity"
+        },
+        {
+          "name": "bridge_width",
+          "type": "float",
+          "schema": "source_item_bridge_draw_plan_config_top_state_input.bridge_width"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "bridge_call"
+      ],
+      "tests": [
+        "test_c07_item_bridge_draw_place_rows_registration",
+        "test_all_c07_item_bridge_draw_place_rows_input_evidence_is_exact",
+        "test_item_bridge_draw_place_rows_state",
+        "test_reference_graph_and_actual_c07_item_bridge_draw_place_rows"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeDrawPlaceRowsProof",
+      "rule": "Source-backed ItemBridge draw-place rows from ItemBridge.java / Tile.java / Block.java / BuildPlan.java / Drawf.java / Pal.java / Vars.java / Blocks.java / Geometry.java / Mathf.java / Angles.java / Vec2.java."
+    },
+    "SourceStackConveyorBuildState.source_stack_conveyor_stats_state": {
+      "status": "active",
+      "source_slice": "N2457",
+      "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+      "source_method": "StackConveyor.setStats()",
+      "params": [
+        {
+          "name": "item_capacity",
+          "type": "int",
+          "schema": "source_stack_conveyor_stats_state_input.item_capacity"
+        },
+        {
+          "name": "speed",
+          "type": "float",
+          "schema": "source_stack_conveyor_stats_state_input.speed"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "items_moved_per_second",
+        "stat_key",
+        "stat_unit"
+      ],
+      "tests": [
+        "test_c07_stack_conveyor_set_stats_rows_registration",
+        "test_all_c07_stack_conveyor_set_stats_rows_input_evidence_is_exact",
+        "test_stack_conveyor_set_stats_rows_state",
+        "test_reference_graph_and_actual_c07_stack_conveyor_set_stats_rows"
+      ],
+      "runtime_proof": "/root/C07StackConveyorSetStatsRowsProof",
+      "rule": "Source-backed StackConveyor setStats rows from StackConveyor.java / Blocks.java / Stat.java / StatUnit.java / arc Mathf.java."
+    },
+    "SourceStackRouterBuildState.source_duct_router_handle_stack_state": {
+      "status": "active",
+      "source_slice": "N2458",
+      "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+      "source_method": "DuctRouterBuild.handleStack()",
+      "params": [
+        {
+          "name": "action",
+          "type": "String",
+          "schema": "source_duct_router_handle_stack_state_input.action"
+        },
+        {
+          "name": "item",
+          "type": "Variant",
+          "schema": "source_duct_router_handle_stack_state_input.item"
+        },
+        {
+          "name": "amount",
+          "type": "int",
+          "schema": "source_duct_router_handle_stack_state_input.amount"
+        },
+        {
+          "name": "current",
+          "type": "Variant",
+          "schema": "source_duct_router_handle_stack_state_input.current"
+        },
+        {
+          "name": "items_count",
+          "type": "int",
+          "schema": "source_duct_router_handle_stack_state_input.items_count"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "current_after",
+        "removed_count",
+        "items_count_after"
+      ],
+      "tests": [
+        "test_c07_duct_router_handle_stack_rows_registration",
+        "test_all_c07_duct_router_handle_stack_rows_input_evidence_is_exact",
+        "test_duct_router_handle_stack_rows_state",
+        "test_reference_graph_and_actual_c07_duct_router_handle_stack_rows"
+      ],
+      "runtime_proof": "/root/C07DuctRouterHandleStackRowsProof",
+      "rule": "Source-backed DuctRouter handleStack / removeStack rows from DuctRouter.java / StackRouter.java / BuildingComp.java / ItemModule.java."
+    },
+    "SourceWallCrafterBuildState.source_wall_crafter_edge_tiles_live_fill_state": {
+      "status": "active",
+      "source_slice": "N2459",
+      "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+      "source_method": "WallCrafter.getEfficiency()",
+      "params": [
+        {
+          "name": "world_tiles",
+          "type": "Dictionary",
+          "schema": "source_wall_crafter_edge_tiles_live_fill_state_input.world_tiles"
+        },
+        {
+          "name": "wall_attribute_by_tile",
+          "type": "Dictionary",
+          "schema": "source_wall_crafter_edge_tiles_live_fill_state_input.wall_attribute_by_tile"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_wall_crafter_edge_tiles_live_fill_state_input.cell"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_wall_crafter_edge_tiles_live_fill_state_input.size"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_wall_crafter_edge_tiles_live_fill_state_input.rotation"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "wall_edge_tiles"
+      ],
+      "tests": [
+        "test_c07_wall_crafter_edge_tiles_live_fill_registration",
+        "test_all_c07_wall_crafter_edge_tiles_live_fill_input_evidence_is_exact",
+        "test_wall_crafter_edge_tiles_live_fill_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_edge_tiles_live_fill"
+      ],
+      "runtime_proof": "/root/C07WallCrafterEdgeTilesLiveFillProof",
+      "rule": "Source-backed WallCrafter getEfficiency live edge-tile scan from WallCrafter.java / Block.java / Blocks.java."
+    },
+    "SourcePayloadMassDriverBuildState.source_payload_mass_driver_link_valid_state": {
+      "status": "active",
+      "source_slice": "N2460",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "source_method": "PayloadDriverBuild.linkValid()",
+      "params": [
+        {
+          "name": "link",
+          "type": "int",
+          "schema": "source_payload_mass_driver_link_valid_state_input.link"
+        },
+        {
+          "name": "other_is_pmd_build",
+          "type": "bool",
+          "schema": "source_payload_mass_driver_link_valid_state_input.other_is_pmd_build"
+        },
+        {
+          "name": "other_block_matches",
+          "type": "bool",
+          "schema": "source_payload_mass_driver_link_valid_state_input.other_block_matches"
+        },
+        {
+          "name": "other_team_matches",
+          "type": "bool",
+          "schema": "source_payload_mass_driver_link_valid_state_input.other_team_matches"
+        },
+        {
+          "name": "within_range",
+          "type": "bool",
+          "schema": "source_payload_mass_driver_link_valid_state_input.within_range"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "link_valid"
+      ],
+      "tests": [
+        "test_c07_payload_mass_driver_link_config_rows_registration",
+        "test_all_c07_payload_mass_driver_link_config_rows_input_evidence_is_exact",
+        "test_payload_mass_driver_link_config_rows_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_link_config_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverLinkConfigRowsProof",
+      "rule": "Source-backed PayloadMassDriver link/config rows from PayloadMassDriver.java / MassDriver.java / BuildingComp.java / InputHandler.java."
+    },
+    "SourcePayloadMassDriverBuildState.source_payload_mass_driver_config_state": {
+      "status": "active",
+      "source_slice": "N2460",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "source_method": "PayloadDriverBuild.config()",
+      "params": [
+        {
+          "name": "action",
+          "type": "String",
+          "schema": "source_payload_mass_driver_config_state_input.action"
+        },
+        {
+          "name": "point",
+          "type": "Variant",
+          "schema": "source_payload_mass_driver_config_state_input.point"
+        },
+        {
+          "name": "tile_x",
+          "type": "Variant",
+          "schema": "source_payload_mass_driver_config_state_input.tile_x"
+        },
+        {
+          "name": "tile_y",
+          "type": "Variant",
+          "schema": "source_payload_mass_driver_config_state_input.tile_y"
+        },
+        {
+          "name": "current_link",
+          "type": "int",
+          "schema": "source_payload_mass_driver_config_state_input.current_link"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "link",
+        "config_value"
+      ],
+      "tests": [
+        "test_c07_payload_mass_driver_link_config_rows_registration",
+        "test_all_c07_payload_mass_driver_link_config_rows_input_evidence_is_exact",
+        "test_payload_mass_driver_link_config_rows_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_link_config_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverLinkConfigRowsProof",
+      "rule": "Source-backed PayloadMassDriver link/config rows from PayloadMassDriver.java / MassDriver.java / BuildingComp.java / InputHandler.java."
+    },
+    "SourcePayloadMassDriverBuildState.source_payload_mass_driver_configure_tapped_state": {
+      "status": "active",
+      "source_slice": "N2460",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "source_method": "PayloadDriverBuild.onConfigureBuildTapped()",
+      "params": [
+        {
+          "name": "is_self",
+          "type": "bool",
+          "schema": "source_payload_mass_driver_configure_tapped_state_input.is_self"
+        },
+        {
+          "name": "link",
+          "type": "int",
+          "schema": "source_payload_mass_driver_configure_tapped_state_input.link"
+        },
+        {
+          "name": "other_pos",
+          "type": "int",
+          "schema": "source_payload_mass_driver_configure_tapped_state_input.other_pos"
+        },
+        {
+          "name": "other_block_matches",
+          "type": "bool",
+          "schema": "source_payload_mass_driver_configure_tapped_state_input.other_block_matches"
+        },
+        {
+          "name": "other_dst",
+          "type": "float",
+          "schema": "source_payload_mass_driver_configure_tapped_state_input.other_dst"
+        },
+        {
+          "name": "range",
+          "type": "float",
+          "schema": "source_payload_mass_driver_configure_tapped_state_input.range"
+        },
+        {
+          "name": "other_team_matches",
+          "type": "bool",
+          "schema": "source_payload_mass_driver_configure_tapped_state_input.other_team_matches"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "link_after",
+        "deselect_called",
+        "handled"
+      ],
+      "tests": [
+        "test_c07_payload_mass_driver_link_config_rows_registration",
+        "test_all_c07_payload_mass_driver_link_config_rows_input_evidence_is_exact",
+        "test_payload_mass_driver_link_config_rows_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_link_config_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverLinkConfigRowsProof",
+      "rule": "Source-backed PayloadMassDriver link/config rows from PayloadMassDriver.java / MassDriver.java / BuildingComp.java / InputHandler.java."
+    },
+    "SourceMassDriverBuildState.source_mass_driver_link_valid_state": {
+      "status": "active",
+      "source_slice": "N2461",
+      "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+      "source_method": "MassDriverBuild.linkValid()",
+      "params": [
+        {
+          "name": "link",
+          "type": "int",
+          "schema": "source_mass_driver_link_valid_state_input.link"
+        },
+        {
+          "name": "other_is_mass_driver_build",
+          "type": "bool",
+          "schema": "source_mass_driver_link_valid_state_input.other_is_mass_driver_build"
+        },
+        {
+          "name": "other_block_matches",
+          "type": "bool",
+          "schema": "source_mass_driver_link_valid_state_input.other_block_matches"
+        },
+        {
+          "name": "other_team_matches",
+          "type": "bool",
+          "schema": "source_mass_driver_link_valid_state_input.other_team_matches"
+        },
+        {
+          "name": "within_range",
+          "type": "bool",
+          "schema": "source_mass_driver_link_valid_state_input.within_range"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "link_valid"
+      ],
+      "tests": [
+        "test_c07_mass_driver_link_config_rows_registration",
+        "test_all_c07_mass_driver_link_config_rows_input_evidence_is_exact",
+        "test_mass_driver_link_config_rows_state",
+        "test_reference_graph_and_actual_c07_mass_driver_link_config_rows"
+      ],
+      "runtime_proof": "/root/C07MassDriverLinkConfigRowsProof",
+      "rule": "Source-backed MassDriver link/config rows from MassDriver.java / Blocks.java / Tile.java / BuildingComp.java / Point2.java / Position.java."
+    },
+    "SourceMassDriverBuildState.source_mass_driver_config_state": {
+      "status": "active",
+      "source_slice": "N2461",
+      "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+      "source_method": "MassDriverBuild.config()",
+      "params": [
+        {
+          "name": "action",
+          "type": "String",
+          "schema": "source_mass_driver_config_state_input.action"
+        },
+        {
+          "name": "point",
+          "type": "Variant",
+          "schema": "source_mass_driver_config_state_input.point"
+        },
+        {
+          "name": "tile",
+          "type": "Variant",
+          "schema": "source_mass_driver_config_state_input.tile"
+        },
+        {
+          "name": "current_link",
+          "type": "int",
+          "schema": "source_mass_driver_config_state_input.current_link"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "link",
+        "config_value"
+      ],
+      "tests": [
+        "test_c07_mass_driver_link_config_rows_registration",
+        "test_all_c07_mass_driver_link_config_rows_input_evidence_is_exact",
+        "test_mass_driver_link_config_rows_state",
+        "test_reference_graph_and_actual_c07_mass_driver_link_config_rows"
+      ],
+      "runtime_proof": "/root/C07MassDriverLinkConfigRowsProof",
+      "rule": "Source-backed MassDriver link/config rows from MassDriver.java / Blocks.java / Tile.java / BuildingComp.java / Point2.java / Position.java."
+    },
+    "SourceMassDriverBuildState.source_mass_driver_configure_tapped_state": {
+      "status": "active",
+      "source_slice": "N2461",
+      "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+      "source_method": "MassDriverBuild.onConfigureBuildTapped()",
+      "params": [
+        {
+          "name": "is_self",
+          "type": "bool",
+          "schema": "source_mass_driver_configure_tapped_state_input.is_self"
+        },
+        {
+          "name": "link",
+          "type": "int",
+          "schema": "source_mass_driver_configure_tapped_state_input.link"
+        },
+        {
+          "name": "other_pos",
+          "type": "int",
+          "schema": "source_mass_driver_configure_tapped_state_input.other_pos"
+        },
+        {
+          "name": "other_block_matches",
+          "type": "bool",
+          "schema": "source_mass_driver_configure_tapped_state_input.other_block_matches"
+        },
+        {
+          "name": "other_dst",
+          "type": "float",
+          "schema": "source_mass_driver_configure_tapped_state_input.other_dst"
+        },
+        {
+          "name": "range_value",
+          "type": "float",
+          "schema": "source_mass_driver_configure_tapped_state_input.range_value"
+        },
+        {
+          "name": "other_team_matches",
+          "type": "bool",
+          "schema": "source_mass_driver_configure_tapped_state_input.other_team_matches"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "link_after",
+        "deselect_called",
+        "handled"
+      ],
+      "tests": [
+        "test_c07_mass_driver_link_config_rows_registration",
+        "test_all_c07_mass_driver_link_config_rows_input_evidence_is_exact",
+        "test_mass_driver_link_config_rows_state",
+        "test_reference_graph_and_actual_c07_mass_driver_link_config_rows"
+      ],
+      "runtime_proof": "/root/C07MassDriverLinkConfigRowsProof",
+      "rule": "Source-backed MassDriver link/config rows from MassDriver.java / Blocks.java / Tile.java / BuildingComp.java / Point2.java / Position.java."
     }
   },
   "policy": {

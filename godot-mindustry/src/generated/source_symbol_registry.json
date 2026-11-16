@@ -187880,6 +187880,470 @@
         "test_reference_graph_and_actual_c07_fracker_attribute_env_live_fill"
       ],
       "runtime_proof": "/root/C07FrackerAttributeEnvLiveFillProof"
+    },
+    "source_constructor_can_produce_state_result.can_produce": {
+      "status": "source-backed",
+      "godot_owner": "SourceConstructorBuildState.source_constructor_can_produce_state",
+      "godot_symbol": "source_constructor_can_produce_state_result.can_produce",
+      "java_source": "core/src/mindustry/world/blocks/payloads/Constructor.java",
+      "java_method": "Constructor.canProduce()",
+      "java_expr": "return b.isVisible() && b.size >= minBlockSize && b.size <= maxBlockSize && !(b instanceof CoreBlock) && !state.rules.isBanned(b) && b.environmentBuildable() && (filter.isEmpty() || filter.contains(b));",
+      "rule": "The canProduce verdict (Constructor.java:55): all 7 conditions in Java order -- visible, size >= min, size <= max, not a core block, not banned, environment-buildable, and (filter empty OR filter contains the block). getPlanConfigs (:50-52) selects content.blocks() by this same predicate, so the pure IS the plan-options gate.",
+      "tests": [
+        "test_c07_constructor_config_filter_rows_registration",
+        "test_all_c07_constructor_config_filter_rows_input_evidence_is_exact",
+        "test_constructor_config_filter_rows_state",
+        "test_reference_graph_and_actual_c07_constructor_config_filter_rows"
+      ],
+      "runtime_proof": "/root/C07ConstructorConfigFilterRowsProof"
+    },
+    "source_constructor_config_state_result.recipe": {
+      "status": "source-backed",
+      "godot_owner": "SourceConstructorBuildState.source_constructor_config_state",
+      "godot_symbol": "source_constructor_config_state_result.recipe",
+      "java_source": "core/src/mindustry/world/blocks/payloads/Constructor.java",
+      "java_method": "ConstructorBuild.config()",
+      "java_expr": "tile.recipe = block;",
+      "rule": "The post-action recipe (Constructor.java:35): block for a producible \"set\", current_recipe for a non-producible \"set\" or \"none\", null for \"clear\". This IS the config() value (`public Object config(){` / `return recipe;`, Constructor.java:73-75).",
+      "tests": [
+        "test_c07_constructor_config_filter_rows_registration",
+        "test_all_c07_constructor_config_filter_rows_input_evidence_is_exact",
+        "test_constructor_config_filter_rows_state",
+        "test_reference_graph_and_actual_c07_constructor_config_filter_rows"
+      ],
+      "runtime_proof": "/root/C07ConstructorConfigFilterRowsProof"
+    },
+    "source_constructor_config_state_result.progress_reset": {
+      "status": "source-backed",
+      "godot_owner": "SourceConstructorBuildState.source_constructor_config_state",
+      "godot_symbol": "source_constructor_config_state_result.progress_reset",
+      "java_source": "core/src/mindustry/world/blocks/payloads/Constructor.java",
+      "java_method": "ConstructorBuild.config()",
+      "java_expr": "if(tile.recipe != block) tile.progress = 0f;",
+      "rule": "The progress-reset flag (Constructor.java:33): true exactly when the \"set\" block differs from the current recipe -- the reset runs BEFORE the canProduce gate, so a non-producible block still resets progress; \"clear\" never resets (configClear sets recipe = null with no progress write, Constructor.java:31/:38) and \"none\" never resets.",
+      "tests": [
+        "test_c07_constructor_config_filter_rows_registration",
+        "test_all_c07_constructor_config_filter_rows_input_evidence_is_exact",
+        "test_constructor_config_filter_rows_state",
+        "test_reference_graph_and_actual_c07_constructor_config_filter_rows"
+      ],
+      "runtime_proof": "/root/C07ConstructorConfigFilterRowsProof"
+    },
+    "source_constructor_config_state_result.configure_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceConstructorBuildState.source_constructor_config_state",
+      "godot_symbol": "source_constructor_config_state_result.configure_call",
+      "java_source": "core/src/mindustry/world/blocks/payloads/Constructor.java",
+      "java_method": "ConstructorBuild.config()",
+      "java_expr": "ItemSelection.buildTable(Constructor.this, table, filter.isEmpty() ? content.blocks().select(Constructor.this::canProduce) : filter, () -> recipe, this::configure, selectionRows, selectionColumns);",
+      "rule": "The buildConfiguration CALL record (Constructor.java:67): {method: \"ItemSelection.buildTable\", current_recipe} -- the supplier `() -> recipe` reads the pre-action recipe; the UI itself is NOT ported (the N2449 CALL precedent).",
+      "tests": [
+        "test_c07_constructor_config_filter_rows_registration",
+        "test_all_c07_constructor_config_filter_rows_input_evidence_is_exact",
+        "test_constructor_config_filter_rows_state",
+        "test_reference_graph_and_actual_c07_constructor_config_filter_rows"
+      ],
+      "runtime_proof": "/root/C07ConstructorConfigFilterRowsProof"
+    },
+    "source_constructor_stats_state_result.output_stat": {
+      "status": "source-backed",
+      "godot_owner": "SourceConstructorBuildState.source_constructor_stats_state",
+      "godot_symbol": "source_constructor_stats_state_result.output_stat",
+      "java_source": "core/src/mindustry/world/blocks/payloads/Constructor.java",
+      "java_method": "Constructor.setStats()",
+      "java_expr": "stats.add(Stat.output, \"@x@ ~ @x@\", minBlockSize, minBlockSize, maxBlockSize, maxBlockSize);",
+      "rule": "The Stat.output row (Constructor.java:44): {key: \"output\", format: \"@x@ ~ @x@\", values: [min, min, max, max]} -- the token is exact (`output = new Stat(\"output\", StatCat.crafting),`, Stat.java:68).",
+      "tests": [
+        "test_c07_constructor_config_filter_rows_registration",
+        "test_all_c07_constructor_config_filter_rows_input_evidence_is_exact",
+        "test_constructor_config_filter_rows_state",
+        "test_reference_graph_and_actual_c07_constructor_config_filter_rows"
+      ],
+      "runtime_proof": "/root/C07ConstructorConfigFilterRowsProof"
+    },
+    "source_constructor_stats_state_result.build_speed_stat": {
+      "status": "source-backed",
+      "godot_owner": "SourceConstructorBuildState.source_constructor_stats_state",
+      "godot_symbol": "source_constructor_stats_state_result.build_speed_stat",
+      "java_source": "core/src/mindustry/world/blocks/payloads/Constructor.java",
+      "java_method": "Constructor.setStats()",
+      "java_expr": "stats.addPercent(Stat.buildSpeed, buildSpeed);",
+      "rule": "The Stat.buildSpeed row (Constructor.java:45): {key: \"buildSpeed\", value: build_speed RAW} -- the token is exact (`buildSpeed = new Stat(\"buildSpeed\"),`, Stat.java:30); addPercent formats at display time only (`public void addPercent(Stat stat, float value){` / `add(stat, StatValues.number((int)(value * 100), StatUnit.percent));`, Stats.java:37-38), so 0.6f displays as 60% and 0.75f as 75% (the N2451 precedent).",
+      "tests": [
+        "test_c07_constructor_config_filter_rows_registration",
+        "test_all_c07_constructor_config_filter_rows_input_evidence_is_exact",
+        "test_constructor_config_filter_rows_state",
+        "test_reference_graph_and_actual_c07_constructor_config_filter_rows"
+      ],
+      "runtime_proof": "/root/C07ConstructorConfigFilterRowsProof"
+    },
+    "source_item_bridge_draw_place_state_result.dash_calls": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemBridgeBuildState.source_item_bridge_draw_place_state",
+      "godot_symbol": "source_item_bridge_draw_place_state_result.dash_calls",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "java_method": "ItemBridge.drawPlace()",
+      "java_expr": "Drawf.dashLine(Pal.placing,",
+      "rule": "The 4 dash lines (ItemBridge.java:123-130, the i = 0..3 loop in Geometry.d4 order): each carries direction, the Pal.placing color, the x1/y1 start (tilesize/2f + 2 out) and x2/y2 end (range * tilesize out), and the segments (int)(max span / tilesize * 2) from the Drawf 4-arg overload (Drawf.java:223-224).",
+      "tests": [
+        "test_c07_item_bridge_draw_place_rows_registration",
+        "test_all_c07_item_bridge_draw_place_rows_input_evidence_is_exact",
+        "test_item_bridge_draw_place_rows_state",
+        "test_reference_graph_and_actual_c07_item_bridge_draw_place_rows"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeDrawPlaceRowsProof"
+    },
+    "source_item_bridge_draw_place_state_result.link_rect": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemBridgeBuildState.source_item_bridge_draw_place_state",
+      "godot_symbol": "source_item_bridge_draw_place_state_result.link_rect",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "java_method": "ItemBridge.drawPlace()",
+      "java_expr": "Lines.rect((x + link.x) / 2f * tilesize - w / 2f, (y + link.y) / 2f * tilesize - h / 2f, w, h);",
+      "rule": "The link rect (ItemBridge.java:133-138): null unless link != null and the Manhattan distance is STRICTLY greater than 1, else x / y / w / h per the span formulas (w = tilesize on the same column, else |dx| * tilesize - tilesize) plus the rot direction, the 1f stroke and the Pal.placing color.",
+      "tests": [
+        "test_c07_item_bridge_draw_place_rows_registration",
+        "test_all_c07_item_bridge_draw_place_rows_input_evidence_is_exact",
+        "test_item_bridge_draw_place_rows_state",
+        "test_reference_graph_and_actual_c07_item_bridge_draw_place_rows"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeDrawPlaceRowsProof"
+    },
+    "source_item_bridge_draw_place_state_result.arrow_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemBridgeBuildState.source_item_bridge_draw_place_state",
+      "godot_symbol": "source_item_bridge_draw_place_state_result.arrow_call",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "java_method": "ItemBridge.drawPlace()",
+      "java_expr": "Draw.rect(\"bridge-arrow\", link.x * tilesize + Geometry.d4(rot).x * tilesize, link.y * tilesize + Geometry.d4(rot).y * tilesize, link.absoluteRelativeTo(x, y) * 90);",
+      "rule": "The link arrow (ItemBridge.java:140): null unless the same gate as the rect holds, else the literal \"bridge-arrow\" region at the link tile offset by d4(rot) toward the placement tile, rotation rot * 90.",
+      "tests": [
+        "test_c07_item_bridge_draw_place_rows_registration",
+        "test_all_c07_item_bridge_draw_place_rows_input_evidence_is_exact",
+        "test_item_bridge_draw_place_rows_state",
+        "test_reference_graph_and_actual_c07_item_bridge_draw_place_rows"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeDrawPlaceRowsProof"
+    },
+    "source_item_bridge_draw_plan_config_top_state_result.bridge_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemBridgeBuildState.source_item_bridge_draw_plan_config_top_state",
+      "godot_symbol": "source_item_bridge_draw_plan_config_top_state_result.bridge_call",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "java_method": "ItemBridge.drawPlanConfigTop()",
+      "java_expr": "drawBridge(plan, otherReq.drawx(), otherReq.drawy(), 0);",
+      "rule": "The plan bridge call (ItemBridge.java:82-115): null unless the config is valid AND findPlan found a partner AND the opacity is not zero, else the bridgeRegion line (stroke bridgeWidth, from req+v1 to o-v1 with v1 = (o - req) set to tilesize/2f -- a zero-length v1 stays zero, Vec2.setLength2) + the arrowRegion arrow at the midpoint with Angles.angle(req, o) + flip 0 + the Draw.alpha opacity.",
+      "tests": [
+        "test_c07_item_bridge_draw_place_rows_registration",
+        "test_all_c07_item_bridge_draw_place_rows_input_evidence_is_exact",
+        "test_item_bridge_draw_place_rows_state",
+        "test_reference_graph_and_actual_c07_item_bridge_draw_place_rows"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeDrawPlaceRowsProof"
+    },
+    "source_stack_conveyor_stats_state_result.items_moved_per_second": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackConveyorBuildState.source_stack_conveyor_stats_state",
+      "godot_symbol": "source_stack_conveyor_stats_state_result.items_moved_per_second",
+      "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+      "java_method": "StackConveyor.setStats()",
+      "java_expr": "stats.add(Stat.itemsMoved, Mathf.round(itemCapacity * speed * 60), StatUnit.itemsSecond);",
+      "rule": "The itemsMoved stat value (StackConveyor.java:67): Mathf.round(itemCapacity * speed * 60) -- itemCapacity * speed FIRST, then times 60 (Java float math, left-assoc), then Mathf.round, which is floor(v + 0.5) for non-negative v (arc Mathf.java:500-502, BIG_ENOUGH_ROUND = 16384.5f) -- round(10 * 0 * 60) = 0 at the class defaults, round(10 * 4/60 * 60) = 40 for the plastanium-conveyor def, round(10 * 5/60 * 60) = 50 for the surge-conveyor def. An int, because Mathf.round returns int.",
+      "tests": [
+        "test_c07_stack_conveyor_set_stats_rows_registration",
+        "test_all_c07_stack_conveyor_set_stats_rows_input_evidence_is_exact",
+        "test_stack_conveyor_set_stats_rows_state",
+        "test_reference_graph_and_actual_c07_stack_conveyor_set_stats_rows"
+      ],
+      "runtime_proof": "/root/C07StackConveyorSetStatsRowsProof"
+    },
+    "source_stack_conveyor_stats_state_result.stat_key": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackConveyorBuildState.source_stack_conveyor_stats_state",
+      "godot_symbol": "source_stack_conveyor_stats_state_result.stat_key",
+      "java_source": "core/src/mindustry/world/meta/Stat.java",
+      "java_method": "StackConveyor.setStats()",
+      "java_expr": "itemsMoved = new Stat(\"itemsMoved\", StatCat.items),",
+      "rule": "The stat token (Stat.java:52): \"itemsMoved\" -- the Stat the setStats row adds.",
+      "tests": [
+        "test_c07_stack_conveyor_set_stats_rows_registration",
+        "test_all_c07_stack_conveyor_set_stats_rows_input_evidence_is_exact",
+        "test_stack_conveyor_set_stats_rows_state",
+        "test_reference_graph_and_actual_c07_stack_conveyor_set_stats_rows"
+      ],
+      "runtime_proof": "/root/C07StackConveyorSetStatsRowsProof"
+    },
+    "source_stack_conveyor_stats_state_result.stat_unit": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackConveyorBuildState.source_stack_conveyor_stats_state",
+      "godot_symbol": "source_stack_conveyor_stats_state_result.stat_unit",
+      "java_source": "core/src/mindustry/world/meta/StatUnit.java",
+      "java_method": "StackConveyor.setStats()",
+      "java_expr": "itemsSecond = new StatUnit(\"itemsSecond\"),",
+      "rule": "The stat unit token (StatUnit.java:20): \"itemsSecond\" -- the unit of the itemsMoved row.",
+      "tests": [
+        "test_c07_stack_conveyor_set_stats_rows_registration",
+        "test_all_c07_stack_conveyor_set_stats_rows_input_evidence_is_exact",
+        "test_stack_conveyor_set_stats_rows_state",
+        "test_reference_graph_and_actual_c07_stack_conveyor_set_stats_rows"
+      ],
+      "runtime_proof": "/root/C07StackConveyorSetStatsRowsProof"
+    },
+    "source_duct_router_handle_stack_state_result.current_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackRouterBuildState.source_duct_router_handle_stack_state",
+      "godot_symbol": "source_duct_router_handle_stack_state_result.current_after",
+      "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+      "java_method": "DuctRouterBuild.handleStack()",
+      "java_expr": "current = item;",
+      "rule": "The post-action current item: handle_stack sets current = item (DuctRouter.java:175); remove_stack clears it to null iff item == current (DuctRouter.java:168, name equality) -- the clear is UNCONDITIONAL on the removed amount (no removed > 0 guard: a zero-amount removeStack still clears current when item == current).",
+      "tests": [
+        "test_c07_duct_router_handle_stack_rows_registration",
+        "test_all_c07_duct_router_handle_stack_rows_input_evidence_is_exact",
+        "test_duct_router_handle_stack_rows_state",
+        "test_reference_graph_and_actual_c07_duct_router_handle_stack_rows"
+      ],
+      "runtime_proof": "/root/C07DuctRouterHandleStackRowsProof"
+    },
+    "source_duct_router_handle_stack_state_result.removed_count": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackRouterBuildState.source_duct_router_handle_stack_state",
+      "godot_symbol": "source_duct_router_handle_stack_state_result.removed_count",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "DuctRouterBuild.handleStack()",
+      "java_expr": "amount = Math.min(amount, items.get(item));",
+      "rule": "The super removeStack return (BuildingComp.java:786-792): min(amount, items.get(item)) -- the amount ACTUALLY removed, clamped by the store; 0 for handle_stack (handleStack returns void).",
+      "tests": [
+        "test_c07_duct_router_handle_stack_rows_registration",
+        "test_all_c07_duct_router_handle_stack_rows_input_evidence_is_exact",
+        "test_duct_router_handle_stack_rows_state",
+        "test_reference_graph_and_actual_c07_duct_router_handle_stack_rows"
+      ],
+      "runtime_proof": "/root/C07DuctRouterHandleStackRowsProof"
+    },
+    "source_duct_router_handle_stack_state_result.items_count_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackRouterBuildState.source_duct_router_handle_stack_state",
+      "godot_symbol": "source_duct_router_handle_stack_state_result.items_count_after",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "DuctRouterBuild.handleStack()",
+      "java_expr": "items.add(item, amount);",
+      "rule": "The post-action held count: handle_stack adds the whole amount (BuildingComp.handleStack, BuildingComp.java:797, items.add, unclamped -- ItemModule.add just +=, ItemModule.java:234-242); remove_stack subtracts the clamped removed count (BuildingComp.java:790, items.remove; ItemModule.remove re-clamps, ItemModule.java:258-263, but the super already clamped).",
+      "tests": [
+        "test_c07_duct_router_handle_stack_rows_registration",
+        "test_all_c07_duct_router_handle_stack_rows_input_evidence_is_exact",
+        "test_duct_router_handle_stack_rows_state",
+        "test_reference_graph_and_actual_c07_duct_router_handle_stack_rows"
+      ],
+      "runtime_proof": "/root/C07DuctRouterHandleStackRowsProof"
+    },
+    "source_wall_crafter_edge_tiles_live_fill_state_result.wall_edge_tiles": {
+      "status": "source-backed",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_edge_tiles_live_fill_state",
+      "godot_symbol": "source_wall_crafter_edge_tiles_live_fill_state_result.wall_edge_tiles",
+      "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+      "java_method": "WallCrafter.getEfficiency()",
+      "java_expr": "Tile other = world.tile(rx, ry);",
+      "rule": "Per-edge-tile dict, in edge order (i = 0..size-1): solid is the `other != null && other.solid()` answer (WallCrafter.java:172) and attribute_value is the wall block attribute (WallCrafter.java:173). A missing / null / non-Dict map entry or a non-solid tile fills {solid: false, attribute_value: 0.0} -- the Java contributes-0 outcome. The N2301 pure reads the filled array unchanged.",
+      "tests": [
+        "test_c07_wall_crafter_edge_tiles_live_fill_registration",
+        "test_all_c07_wall_crafter_edge_tiles_live_fill_input_evidence_is_exact",
+        "test_wall_crafter_edge_tiles_live_fill_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_edge_tiles_live_fill"
+      ],
+      "runtime_proof": "/root/C07WallCrafterEdgeTilesLiveFillProof"
+    },
+    "source_payload_mass_driver_link_valid_state_result.link_valid": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_link_valid_state",
+      "godot_symbol": "source_payload_mass_driver_link_valid_state_result.link_valid",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.linkValid()",
+      "java_expr": "return link != -1 && world.build(this.link) instanceof PayloadDriverBuild other && other.block == block && other.team == team && within(other, range);",
+      "rule": "The linkValid verdict (PayloadMassDriver.java:466-468): one conjunction of five gates -- link != -1, the lookup is a PayloadDriverBuild, same block, same team, within range. No extra PMD-specific gates (verified first from the real method -- no state/shooter conditions). The MassDriver twin (MassDriver.java:346-349) has the same five gates with an early `if(link == -1) return false;`; the verdict is identical.",
+      "tests": [
+        "test_c07_payload_mass_driver_link_config_rows_registration",
+        "test_all_c07_payload_mass_driver_link_config_rows_input_evidence_is_exact",
+        "test_payload_mass_driver_link_config_rows_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_link_config_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverLinkConfigRowsProof"
+    },
+    "source_payload_mass_driver_config_state_result.link": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_config_state",
+      "godot_symbol": "source_payload_mass_driver_config_state_result.link",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.config()",
+      "java_expr": "config(Point2.class, (PayloadDriverBuild tile, Point2 point) -> tile.link = Point2.pack(point.x + tile.tileX(), point.y + tile.tileY()));",
+      "rule": "The post-action link (PayloadMassDriver.java:70-71): pack(point + tile) for \"point2\", the packed int for \"integer\", -1 for \"clear\", current_link for \"none\".",
+      "tests": [
+        "test_c07_payload_mass_driver_link_config_rows_registration",
+        "test_all_c07_payload_mass_driver_link_config_rows_input_evidence_is_exact",
+        "test_payload_mass_driver_link_config_rows_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_link_config_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverLinkConfigRowsProof"
+    },
+    "source_payload_mass_driver_config_state_result.config_value": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_config_state",
+      "godot_symbol": "source_payload_mass_driver_config_state_result.config_value",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.config()",
+      "java_expr": "return Point2.unpack(link).sub(tile.x, tile.y);",
+      "rule": "The post-action config() value (PayloadMassDriver.java:471-474): null when the tile is null (`if(tile == null) return null;`), else the unpacked post-action link minus the tile coords, as a Dict {x, y}. config() has NO -1 special case: unpack(-1) is (-1, -1) (arc Point2.java:35-37), so a cleared link with a tile reads {-1 - tile_x, -1 - tile_y}, Java-exact.",
+      "tests": [
+        "test_c07_payload_mass_driver_link_config_rows_registration",
+        "test_all_c07_payload_mass_driver_link_config_rows_input_evidence_is_exact",
+        "test_payload_mass_driver_link_config_rows_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_link_config_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverLinkConfigRowsProof"
+    },
+    "source_payload_mass_driver_configure_tapped_state_result.link_after": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_configure_tapped_state",
+      "godot_symbol": "source_payload_mass_driver_configure_tapped_state_result.link_after",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.onConfigureBuildTapped()",
+      "java_expr": "configure(other.pos());",
+      "rule": "The post-tap link (PayloadMassDriver.java:443-460): -1 after a self-tap (configure(-1), :446) or an unlink tap (:452), other_pos after a valid link tap (configure(other.pos()), :456), unchanged on fall-through. The configure calls run the Integer handler (:71).",
+      "tests": [
+        "test_c07_payload_mass_driver_link_config_rows_registration",
+        "test_all_c07_payload_mass_driver_link_config_rows_input_evidence_is_exact",
+        "test_payload_mass_driver_link_config_rows_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_link_config_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverLinkConfigRowsProof"
+    },
+    "source_payload_mass_driver_configure_tapped_state_result.deselect_called": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_configure_tapped_state",
+      "godot_symbol": "source_payload_mass_driver_configure_tapped_state_result.deselect_called",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "java_method": "PayloadDriverBuild.onConfigureBuildTapped()",
+      "java_expr": "if(link == -1) deselect();",
+      "rule": "The deselect() CALL flag (PayloadMassDriver.java:445): true exactly for a self-tap with link == -1. deselect() is a UI call (InputHandler deselect), recorded as a flag, not state.",
+      "tests": [
+        "test_c07_payload_mass_driver_link_config_rows_registration",
+        "test_all_c07_payload_mass_driver_link_config_rows_input_evidence_is_exact",
+        "test_payload_mass_driver_link_config_rows_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_link_config_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverLinkConfigRowsProof"
+    },
+    "source_payload_mass_driver_configure_tapped_state_result.handled": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadMassDriverBuildState.source_payload_mass_driver_configure_tapped_state",
+      "godot_symbol": "source_payload_mass_driver_configure_tapped_state_result.handled",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "PayloadDriverBuild.onConfigureBuildTapped()",
+      "java_expr": "@return whether this block should be deselected.",
+      "rule": "Whether the tap was consumed by a configure (PayloadMassDriver.java:443-460): true exactly when a configure ran (self-tap, unlink, or link). Java returns whether the block should be DESELECTED (BuildingComp.java:1690, `@return whether this block should be deselected.`), so handled INVERTS the Java return -- false = consumed, true = falls through and the input handler switches or hides the config (InputHandler.java:2002).",
+      "tests": [
+        "test_c07_payload_mass_driver_link_config_rows_registration",
+        "test_all_c07_payload_mass_driver_link_config_rows_input_evidence_is_exact",
+        "test_payload_mass_driver_link_config_rows_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_link_config_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverLinkConfigRowsProof"
+    },
+    "source_mass_driver_link_valid_state_result.link_valid": {
+      "status": "source-backed",
+      "godot_owner": "SourceMassDriverBuildState.source_mass_driver_link_valid_state",
+      "godot_symbol": "source_mass_driver_link_valid_state_result.link_valid",
+      "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+      "java_method": "MassDriverBuild.linkValid()",
+      "java_expr": "return world.build(this.link) instanceof MassDriverBuild other && other.block == block && other.team == team && within(other, range);",
+      "rule": "The linkValid() verdict (MassDriver.java:346-349): false when link == -1, else the AND of the four caller-supplied terms. The pure delegates to the private _mass_driver_link_valid helper (live since N2237), so the conjunction stays single-sourced with the tick / acceptItem gate.",
+      "tests": [
+        "test_c07_mass_driver_link_config_rows_registration",
+        "test_all_c07_mass_driver_link_config_rows_input_evidence_is_exact",
+        "test_mass_driver_link_config_rows_state",
+        "test_reference_graph_and_actual_c07_mass_driver_link_config_rows"
+      ],
+      "runtime_proof": "/root/C07MassDriverLinkConfigRowsProof"
+    },
+    "source_mass_driver_config_state_result.link": {
+      "status": "source-backed",
+      "godot_owner": "SourceMassDriverBuildState.source_mass_driver_config_state",
+      "godot_symbol": "source_mass_driver_config_state_result.link",
+      "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+      "java_method": "MassDriverBuild.config()",
+      "java_expr": "config(Point2.class, (MassDriverBuild tile, Point2 point) -> tile.link = Point2.pack(point.x + tile.tileX(), point.y + tile.tileY()));",
+      "rule": "The post-action link (MassDriver.java:58-59): pack(point + tile) for \"point2\", point for \"integer\", -1 for \"clear\", current_link for \"none\" (and for a \"point2\" with a null tile). The pack runs through the shared _point2_pack helper (the (short) wrap explicit -- GDScript ints are 64-bit).",
+      "tests": [
+        "test_c07_mass_driver_link_config_rows_registration",
+        "test_all_c07_mass_driver_link_config_rows_input_evidence_is_exact",
+        "test_mass_driver_link_config_rows_state",
+        "test_reference_graph_and_actual_c07_mass_driver_link_config_rows"
+      ],
+      "runtime_proof": "/root/C07MassDriverLinkConfigRowsProof"
+    },
+    "source_mass_driver_config_state_result.config_value": {
+      "status": "source-backed",
+      "godot_owner": "SourceMassDriverBuildState.source_mass_driver_config_state",
+      "godot_symbol": "source_mass_driver_config_state_result.config_value",
+      "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+      "java_method": "MassDriverBuild.config()",
+      "java_expr": "return Point2.unpack(link).sub(tile.x, tile.y);",
+      "rule": "The config() value (MassDriver.java:352-355): the relative Point2 {x, y} = unpack(link) - tile, null when tile == null. unpack(-1) is Point2(-1, -1) (arc Point2.java:35-37), so a cleared link reads (-1 - tx, -1 - ty), Java-exact.",
+      "tests": [
+        "test_c07_mass_driver_link_config_rows_registration",
+        "test_all_c07_mass_driver_link_config_rows_input_evidence_is_exact",
+        "test_mass_driver_link_config_rows_state",
+        "test_reference_graph_and_actual_c07_mass_driver_link_config_rows"
+      ],
+      "runtime_proof": "/root/C07MassDriverLinkConfigRowsProof"
+    },
+    "source_mass_driver_configure_tapped_state_result.link_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceMassDriverBuildState.source_mass_driver_configure_tapped_state",
+      "godot_symbol": "source_mass_driver_configure_tapped_state_result.link_after",
+      "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+      "java_method": "MassDriverBuild.onConfigureBuildTapped()",
+      "java_expr": "configure(other.pos());",
+      "rule": "The link after the tap (MassDriver.java:266-282): -1 for the self branch (configure(-1) always runs there) and the unlink branch, other_pos for the link branch (configure(other.pos())), the input link unchanged for the reject branch.",
+      "tests": [
+        "test_c07_mass_driver_link_config_rows_registration",
+        "test_all_c07_mass_driver_link_config_rows_input_evidence_is_exact",
+        "test_mass_driver_link_config_rows_state",
+        "test_reference_graph_and_actual_c07_mass_driver_link_config_rows"
+      ],
+      "runtime_proof": "/root/C07MassDriverLinkConfigRowsProof"
+    },
+    "source_mass_driver_configure_tapped_state_result.deselect_called": {
+      "status": "source-backed",
+      "godot_owner": "SourceMassDriverBuildState.source_mass_driver_configure_tapped_state",
+      "godot_symbol": "source_mass_driver_configure_tapped_state_result.deselect_called",
+      "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+      "java_method": "MassDriverBuild.onConfigureBuildTapped()",
+      "java_expr": "if(link == -1) deselect();",
+      "rule": "The deselect() CALL flag (MassDriver.java:268, `if(link == -1) deselect();`): true only in the self branch when link == -1. deselect() is BuildingComp.deselect() (BuildingComp.java:394-397, hides the config UI when this is the selected build, !headless-guarded inside) -- recorded as a CALL flag, not the hide itself.",
+      "tests": [
+        "test_c07_mass_driver_link_config_rows_registration",
+        "test_all_c07_mass_driver_link_config_rows_input_evidence_is_exact",
+        "test_mass_driver_link_config_rows_state",
+        "test_reference_graph_and_actual_c07_mass_driver_link_config_rows"
+      ],
+      "runtime_proof": "/root/C07MassDriverLinkConfigRowsProof"
+    },
+    "source_mass_driver_configure_tapped_state_result.handled": {
+      "status": "source-backed",
+      "godot_owner": "SourceMassDriverBuildState.source_mass_driver_configure_tapped_state",
+      "godot_symbol": "source_mass_driver_configure_tapped_state_result.handled",
+      "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+      "java_method": "MassDriverBuild.onConfigureBuildTapped()",
+      "java_expr": "public boolean onConfigureBuildTapped(Building other){",
+      "rule": "Whether the tap was handled (MassDriver.java:266-282): `handled` = NOT the Java return -- Java returns false = handled, don't propagate (self / unlink / link) and true = not handled, propagate (reject). The inversion is documented in the driver.",
+      "tests": [
+        "test_c07_mass_driver_link_config_rows_registration",
+        "test_all_c07_mass_driver_link_config_rows_input_evidence_is_exact",
+        "test_mass_driver_link_config_rows_state",
+        "test_reference_graph_and_actual_c07_mass_driver_link_config_rows"
+      ],
+      "runtime_proof": "/root/C07MassDriverLinkConfigRowsProof"
     }
   },
   "version": 1

@@ -4179,6 +4179,61 @@
         }
       }
     },
+    "source_wall_crafter_edge_tiles_live_fill_state_input": {
+      "canonical_schema": "source_state_schema.source_wall_crafter_edge_tiles_live_fill_state_input",
+      "keys": {
+        "world_tiles": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "Tile other = world.tile(rx, ry);",
+          "rule": "The tile map: a Dict keyed \"x,y\" to a per-tile Dict {solid, wall_drop} (the BeamDrill N2339 convention). The fill reads the solid flag per facing-edge coordinate; a missing key (or a null / non-Dict entry) is a null world tile, which contributes a non-solid entry (Java: other == null -> skipped, contributes 0). An empty map fills an all-non-solid edge. No live producer stamps this frame input yet -- the producer gap is documented, not invented here.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_edge_tiles_live_fill_state"
+          ]
+        },
+        "wall_attribute_by_tile": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "float at = other.block().attributes.get(attribute);",
+          "rule": "The caller-supplied wall block attribute map: a Dict keyed \"x,y\" to float, the WALL BLOCK's attribute value per tile (the N2414 minimal-extension precedent -- world_tiles carries no block attribute; wall_drop is the drop ITEM, not the attribute). A solid tile with no entry reads 0.0 (attributes.get returns 0 for a missing attribute). No live producer stamps this frame input yet -- the producer gap is documented, not invented here.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_edge_tiles_live_fill_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "int cornerX = tx - (size-1)/2, cornerY = ty - (size-1)/2, s = size;",
+          "rule": "The wall crafter origin cell (tile.x / tile.y in Java): cornerX = tx - (size-1)/2 and cornerY = ty - (size-1)/2 derive from it (INTEGER division: size 3 -> 1, size 2 -> 0). The tick reads the origin_cell sprite meta inline.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_edge_tiles_live_fill_state"
+          ]
+        },
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "for(int i = 0; i < size; i++){",
+          "rule": "The block size (WallCrafter.java:145, the loop bound -- Java reads exactly `size` edge tiles): 2 for the cliff-crusher, 3 for the large-cliff-crusher (Blocks.java:3007/:3021), read from the catalog per def; the Block class default is 1 (Block.java:215).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_edge_tiles_live_fill_state"
+          ]
+        },
+        "rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "switch(rotation){",
+          "rule": "The placement rotation 0-3 (WallCrafter.java:148-166, the switch picks the facing edge from cornerX / cornerY): 0 -> (cornerX+s, cornerY+i); 1 -> (cornerX+i, cornerY+s); 2 -> (cornerX-1, cornerY+i); 3 -> (cornerX+i, cornerY-1). Read live from the sprite rotation meta.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_edge_tiles_live_fill_state"
+          ]
+        }
+      }
+    },
     "source_wall_crafter_get_efficiency_state_input": {
       "canonical_schema": "source_state_schema.source_wall_crafter_get_efficiency_state_input",
       "keys": {

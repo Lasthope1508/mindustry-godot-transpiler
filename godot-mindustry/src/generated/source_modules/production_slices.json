@@ -1991,6 +1991,23 @@
       ],
       "runtime_proof": "/root/C07FrackerAttributeEnvLiveFillProof"
     },
+    "N2459": {
+      "canonical_ledger": "source_slice_ledger.N2459",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+      "java_method": "WallCrafter.getEfficiency()",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_edge_tiles_live_fill_state",
+      "source_symbols": [
+        "source_wall_crafter_edge_tiles_live_fill_state_result.wall_edge_tiles"
+      ],
+      "tests": [
+        "test_c07_wall_crafter_edge_tiles_live_fill_registration",
+        "test_all_c07_wall_crafter_edge_tiles_live_fill_input_evidence_is_exact",
+        "test_wall_crafter_edge_tiles_live_fill_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_edge_tiles_live_fill"
+      ],
+      "runtime_proof": "/root/C07WallCrafterEdgeTilesLiveFillProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",

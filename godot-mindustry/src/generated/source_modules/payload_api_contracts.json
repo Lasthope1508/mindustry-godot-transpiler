@@ -3414,6 +3414,47 @@
       "runtime_proof": "/root/Main.source_unit_payload_y_state",
       "rule": "Dictionary returned by port_game.source_unit_payload_y_state mirrors UnitPayload.y()."
     },
+    "SourceConstructorBuildState.source_constructor_can_produce_state": {
+      "canonical_contract": "source_api_contracts.SourceConstructorBuildState.source_constructor_can_produce_state",
+      "status": "active",
+      "source_slice": "N2455",
+      "java_source": "core/src/mindustry/world/blocks/payloads/Constructor.java",
+      "source_method": "Constructor.canProduce()",
+      "params": [
+        {
+          "name": "block",
+          "type": "Dictionary",
+          "schema": "source_constructor_can_produce_state_input.block"
+        },
+        {
+          "name": "min_block_size",
+          "type": "int",
+          "schema": "source_constructor_can_produce_state_input.min_block_size"
+        },
+        {
+          "name": "max_block_size",
+          "type": "int",
+          "schema": "source_constructor_can_produce_state_input.max_block_size"
+        },
+        {
+          "name": "filter",
+          "type": "Array",
+          "schema": "source_constructor_can_produce_state_input.filter"
+        }
+      ],
+      "return_keys": [
+        "can_produce"
+      ],
+      "tests": [
+        "test_c07_constructor_config_filter_rows_registration",
+        "test_all_c07_constructor_config_filter_rows_input_evidence_is_exact",
+        "test_constructor_config_filter_rows_state",
+        "test_reference_graph_and_actual_c07_constructor_config_filter_rows"
+      ],
+      "runtime_proof": "/root/C07ConstructorConfigFilterRowsProof",
+      "rule": "Source-backed Constructor config / filter rows from Constructor.java / BlockProducer.java / Blocks.java / Stat.java / Stats.java.",
+      "return_type": "Dictionary"
+    },
     "SourceConstructorBuildState.source_constructor_draw_state": {
       "canonical_contract": "source_api_contracts.SourceConstructorBuildState.source_constructor_draw_state",
       "status": "active",
@@ -4527,6 +4568,52 @@
       ],
       "runtime_proof": "/root/C07PayloadMassDriverPerDefThresholdProof",
       "rule": "Source-backed PayloadMassDriver acceptPayload gate from PayloadMassDriver.java / PayloadBlock.java / BuildPayload.java / Vars.java / Blocks.java.",
+      "return_type": "Dictionary"
+    },
+    "SourcePayloadMassDriverBuildState.source_payload_mass_driver_link_valid_state": {
+      "canonical_contract": "source_api_contracts.SourcePayloadMassDriverBuildState.source_payload_mass_driver_link_valid_state",
+      "status": "active",
+      "source_slice": "N2460",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadMassDriver.java",
+      "source_method": "PayloadDriverBuild.linkValid()",
+      "params": [
+        {
+          "name": "link",
+          "type": "int",
+          "schema": "source_payload_mass_driver_link_valid_state_input.link"
+        },
+        {
+          "name": "other_is_pmd_build",
+          "type": "bool",
+          "schema": "source_payload_mass_driver_link_valid_state_input.other_is_pmd_build"
+        },
+        {
+          "name": "other_block_matches",
+          "type": "bool",
+          "schema": "source_payload_mass_driver_link_valid_state_input.other_block_matches"
+        },
+        {
+          "name": "other_team_matches",
+          "type": "bool",
+          "schema": "source_payload_mass_driver_link_valid_state_input.other_team_matches"
+        },
+        {
+          "name": "within_range",
+          "type": "bool",
+          "schema": "source_payload_mass_driver_link_valid_state_input.within_range"
+        }
+      ],
+      "return_keys": [
+        "link_valid"
+      ],
+      "tests": [
+        "test_c07_payload_mass_driver_link_config_rows_registration",
+        "test_all_c07_payload_mass_driver_link_config_rows_input_evidence_is_exact",
+        "test_payload_mass_driver_link_config_rows_state",
+        "test_reference_graph_and_actual_c07_payload_mass_driver_link_config_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadMassDriverLinkConfigRowsProof",
+      "rule": "Source-backed PayloadMassDriver link/config rows from PayloadMassDriver.java / MassDriver.java / BuildingComp.java / InputHandler.java.",
       "return_type": "Dictionary"
     },
     "SourcePayloadMassDriverBuildState.source_payload_mass_driver_power_status_row_state": {
