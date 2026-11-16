@@ -8,6 +8,10 @@ ROOT = Path(__file__).resolve().parents[3]
 MASS_DRIVER_STATE = ROOT / 'godot-mindustry/src/game/SourceMassDriverBuildState.gd'
 MASS_DRIVER_UPDATE_TILE_PROOF = ROOT / 'godot-mindustry/tools/runtime_proofs/C07MassDriverUpdateTileProof.gd'
 MASS_DRIVER_UPDATE_TILE_PROOF_SCENE = ROOT / 'godot-mindustry/tools/runtime_proofs/C07MassDriverUpdateTileProof.tscn'
+MASS_DRIVER_ACCEPT_ITEM_PROOF = ROOT / 'godot-mindustry/tools/runtime_proofs/C07MassDriverAcceptItemProof.gd'
+MASS_DRIVER_DUMP_PROOF = ROOT / 'godot-mindustry/tools/runtime_proofs/C07MassDriverDumpProof.gd'
+MASS_DRIVER_DUMP_WRITE_BACK_PROOF = ROOT / 'godot-mindustry/tools/runtime_proofs/C07MassDriverDumpWriteBackProof.gd'
+MASS_DRIVER_POWER_STATUS_PROOF = ROOT / 'godot-mindustry/tools/runtime_proofs/C07MassDriverPowerStatusProof.gd'
 
 
 class C07MassDriverUpdateTileTests(unittest.TestCase):
@@ -301,6 +305,89 @@ class C07MassDriverUpdateTileTests(unittest.TestCase):
         scene = MASS_DRIVER_UPDATE_TILE_PROOF_SCENE.read_text(encoding='utf-8')
         self.assertIn('C07MassDriverUpdateTileProof.gd', scene)
         self.assertIn('C07MassDriverUpdateTileProof', scene)
+
+    def test_mass_driver_live_link_uses_java_tilesize_8(self):
+        # N2375: the live link world-coord math uses the JAVA
+        # tilesize constant 8.0 -- NEVER the game tile_size
+        # 32 (the N2364 PMD precedent). Java ground truth
+        # (read verbatim below): `public static final int
+        # tilesize = 8;` (Vars.java:135); linkValid /
+        # shooterValid gate on `within(other, range)`
+        # (MassDriver.java:343/:348); within is STRICT dst <
+        # range (Position.java:44-46, arc). Range is 440f in
+        # Java world units (Blocks.java:2172). The game
+        # tile_size is 32 (rendering px per tile -- it feeds
+        # viewport/input), so the old driver line `tile_size
+        # = game.get("tile_size")` (default 8.0 if unset)
+        # made live link distances 4x Java's while the range
+        # stayed in Java units: the live link range in tiles
+        # was 4x SHORTER than Java's.
+        # Boundary numbers (the deviation, verified FIRST):
+        # 30 cells apart: Java 30*8 = 240 < 440 in range, old
+        # port 30*32 = 960 > 440 out of range. 54 cells is
+        # the last in-range separation under Java math (432 <
+        # 440); 55 cells (440, NOT < 440) stays out of range
+        # after the fix -- strict dst. Old boundary: 13
+        # cells in (416 < 440), 14 cells out (448 > 440).
+        java_tilesize = 8.0
+        game_tile_size = 32.0
+        mass_driver_range = 440.0
+        self.assertLess(30 * java_tilesize, mass_driver_range)
+        self.assertGreater(30 * game_tile_size, mass_driver_range)
+        self.assertLess(54 * java_tilesize, mass_driver_range)
+        self.assertFalse(55 * java_tilesize < mass_driver_range)
+        self.assertLess(13 * game_tile_size, mass_driver_range)
+        self.assertGreater(14 * game_tile_size, mass_driver_range)
+        vars_lines = (ROOT / 'mindustry-upstream/core/src/mindustry/Vars.java').read_text(encoding='utf-8').splitlines()
+        self.assertEqual(vars_lines[134].strip(), 'public static final int tilesize = 8;')
+        mass_driver_lines = (ROOT / 'mindustry-upstream/core/src/mindustry/world/blocks/distribution/MassDriver.java').read_text(encoding='utf-8').splitlines()
+        self.assertIn('within(other, range)', mass_driver_lines[342])
+        self.assertIn('within(other, range)', mass_driver_lines[347])
+        blocks_lines = (ROOT / 'mindustry-upstream/core/src/mindustry/content/Blocks.java').read_text(encoding='utf-8').splitlines()
+        self.assertEqual(blocks_lines[2171].strip(), 'range = 440f;')
+        position_lines = (ROOT / 'arc-upstream/arc-core/src/arc/math/geom/Position.java').read_text(encoding='utf-8').splitlines()
+        self.assertEqual(position_lines[44].strip(), 'return Mathf.dst2(getX(), getY(), x, y) < dst*dst;')
+        # The fix: the driver hard-codes the Java constant
+        # and NEVER reads game tile_size for world-coord
+        # math. Every consumer of the local was audited: the
+        # self / other / shooter coords (the within_range
+        # checks + the linked x/y) -- ALL Java world units;
+        # none needs the game value. The old "the game
+        # tile_size when set" comment is gone.
+        mass_driver = MASS_DRIVER_STATE.read_text(encoding='utf-8')
+        self.assertIn('\t\tvar tile_size: float = 8.0\n', mass_driver)
+        self.assertNotIn('game.get("tile_size")', mass_driver)
+        self.assertNotIn('tile_size_value', mass_driver)
+        self.assertNotIn('the game tile_size when set', mass_driver)
+        self.assertIn('the game tile_size 32 is rendering px per tile', mass_driver)
+        self.assertIn('float(cell.x) * tile_size', mass_driver)
+        self.assertIn('float(other_cell.x) * tile_size', mass_driver)
+        self.assertIn('float(shooter_cell.x) * tile_size', mass_driver)
+        # NO RE-SEED NEEDED (unlike N2364 -> N2365): every
+        # MassDriver proof was checked against the fix --
+        # the AcceptItem pair sits 2 cells apart (in range
+        # under BOTH maths: 2*8 = 16 < 440 and 2*32 = 64 <
+        # 440, so no verdict flips), and every other
+        # live-tick proof ticks with link -1 / no link / no
+        # waiting shooter (the updateTile live tick, the
+        # Dump proof, the DumpWriteBack proof, the
+        # PowerStatus proof -- single unlinked driver). The
+        # pure/advance fixtures pass precomputed coords
+        # already in Java units (partner x 80.0 = 10 cells *
+        # 8). No MassDriver proof needs a re-run for N2375.
+        self.assertLess(2 * java_tilesize, mass_driver_range)
+        self.assertLess(2 * game_tile_size, mass_driver_range)
+        accept_proof = MASS_DRIVER_ACCEPT_ITEM_PROOF.read_text(encoding='utf-8')
+        self.assertIn('Vector2i(28, 21)', accept_proof)
+        self.assertIn('Vector2i(30, 21)', accept_proof)
+        update_proof = MASS_DRIVER_UPDATE_TILE_PROOF.read_text(encoding='utf-8')
+        self.assertIn('int(mass_driver_frame.get("link", 0)) == -1', update_proof)
+        dump_proof = MASS_DRIVER_DUMP_PROOF.read_text(encoding='utf-8')
+        self.assertIn('no link) with the reload counter', dump_proof)
+        write_back_proof = MASS_DRIVER_DUMP_WRITE_BACK_PROOF.read_text(encoding='utf-8')
+        self.assertIn('link -1, no waiting', write_back_proof)
+        power_proof = MASS_DRIVER_POWER_STATUS_PROOF.read_text(encoding='utf-8')
+        self.assertNotIn('frame["link"]', power_proof)
 
     def test_reference_graph_and_actual_c07_mass_driver_update_tile(self):
         godot = shutil.which('Godot_v4.6.2-stable_win64_console.exe') or shutil.which('godot')

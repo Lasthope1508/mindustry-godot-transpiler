@@ -424,13 +424,17 @@ class C07PayloadMassDriverUpdateTileTests(unittest.TestCase):
         self.assertIn('float(other_cell.x) * tile_size', payload_mass_driver)
         self.assertIn('float(shooter_cell.x) * tile_size', payload_mass_driver)
         self.assertIn('size_value * tilesize / 2.0', payload_mass_driver)
-        # MassDriver has the IDENTICAL pattern
-        # (SourceMassDriverBuildState.gd:504-505) -- NOT
-        # touched in this slice (backlog: same fix, separate
-        # slice). This pin documents the boundary; the
-        # MassDriver fix slice updates it when it lands.
+        # MassDriver HAD the IDENTICAL pattern
+        # (SourceMassDriverBuildState.gd:504-505) -- fixed by
+        # N2375 (same fix, separate slice, range 440f): the
+        # MassDriver driver now hard-codes 8.0 too, and no
+        # MassDriver proof needed a re-seed (the AcceptItem
+        # pair is 2 cells apart -- in range under both
+        # maths -- and every other live-tick proof ticks
+        # unlinked).
         mass_driver = (ROOT / 'godot-mindustry/src/game/SourceMassDriverBuildState.gd').read_text(encoding='utf-8')
-        self.assertIn('game.get("tile_size")', mass_driver)
+        self.assertNotIn('game.get("tile_size")', mass_driver)
+        self.assertIn('\t\tvar tile_size: float = 8.0\n', mass_driver)
         # N2357 RE-RUN NOTE (N2365 did the re-seed): the
         # N2357 proof fixture used to encode the pre-fix 32x
         # assumption -- the small pair sat 40 cells apart

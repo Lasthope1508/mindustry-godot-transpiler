@@ -503,7 +503,8 @@ static func source_mass_driver_tick_buildings_state(game: Object, seconds: float
 		# arc Point2.java:35-37; a missing sprite or a partner that is not a MassDriver fails
 		# the block match, the N2225 precedent) and the per-shooter records for every
 		# waiting entry (shooterValid, MassDriver.java:342-344). World coords are cell *
-		# tile_size (Vars.tilesize 8, Vars.java:135; the game tile_size when set): both
+		# tile_size, the JAVA tilesize constant 8.0 (Vars.tilesize 8, Vars.java:135; N2375:
+		# the game tile_size 32 is rendering px per tile, NOT Java world units): both
 		# endpoints are size-3 mass drivers, so the block offset (Block.java:761, 0 for
 		# odd sizes) cancels in the angle and the distance. within is STRICT dst2 <
 		# range*range (Position.java:44-46, the N2229 verification); range reads the
@@ -516,8 +517,15 @@ static func source_mass_driver_tick_buildings_state(game: Object, seconds: float
 		# (BuildingComp.java:98). The pure advance returns the advanced self values plus
 		# the partner waiting list, which the driver writes back to both frames (the
 		# N2225 precedent).
-		var tile_size_value: Variant = game.get("tile_size")
-		var tile_size: float = 8.0 if tile_size_value == null else float(tile_size_value)
+		# N2375: the Java tilesize constant 8.0 (`public static final int tilesize = 8;`,
+		# Vars.java:135) -- NEVER the game tile_size, which is 32 (rendering px per
+		# tile) while range 440f is in Java world units (Blocks.java:2172). The old
+		# override read the game value and shrank the live link range 4x in tiles
+		# (30 cells: Java 240 < 440 in range, port 960 > 440 out; the N2364 PMD
+		# precedent). Every consumer of this local is Java world-coord math (self /
+		# other / shooter coords + the within_range checks + the linked x/y); none
+		# needs the game value.
+		var tile_size: float = 8.0
 		var this_pos: int = _point2_pack(cell.x, cell.y)
 		var self_x: float = float(cell.x) * tile_size
 		var self_y: float = float(cell.y) * tile_size
