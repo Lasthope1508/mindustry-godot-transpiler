@@ -3791,6 +3791,47 @@
       "rule": "Source-backed PayloadDeconstructor setBars row from PayloadDeconstructor.java / Bar.java / Pal.java / bundle.properties / arc Mathf.java.",
       "return_type": "Dictionary"
     },
+    "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_break_block_fx_state": {
+      "canonical_contract": "source_api_contracts.SourcePayloadDeconstructorBuildState.source_payload_deconstructor_break_block_fx_state",
+      "status": "active",
+      "source_slice": "N2480",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "source_method": "PayloadDeconstructorBuild.updateTile()",
+      "params": [
+        {
+          "name": "finish",
+          "type": "bool",
+          "schema": "source_payload_deconstructor_break_block_fx_state_input.finish"
+        },
+        {
+          "name": "deconstructing_size",
+          "type": "float",
+          "schema": "source_payload_deconstructor_break_block_fx_state_input.deconstructing_size"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_payload_deconstructor_break_block_fx_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_payload_deconstructor_break_block_fx_state_input.y"
+        }
+      ],
+      "return_keys": [
+        "break_block_call"
+      ],
+      "tests": [
+        "test_c07_deconstructor_break_block_fx_rows_registration",
+        "test_all_c07_deconstructor_break_block_fx_rows_input_evidence_is_exact",
+        "test_deconstructor_break_block_fx_rows_state",
+        "test_reference_graph_and_actual_c07_deconstructor_break_block_fx_rows"
+      ],
+      "runtime_proof": "/root/C07DeconstructorBreakBlockFxProof",
+      "rule": "Source-backed PayloadDeconstructor breakBlock finish FX row from PayloadDeconstructor.java / Payload.java / BuildPayload.java / UnitPayload.java / Vars.java / Fx.java.",
+      "return_type": "Dictionary"
+    },
     "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_draw_state": {
       "canonical_contract": "source_api_contracts.SourcePayloadDeconstructorBuildState.source_payload_deconstructor_draw_state",
       "status": "active",

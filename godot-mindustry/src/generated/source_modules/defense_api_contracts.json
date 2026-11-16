@@ -7189,6 +7189,42 @@
       "rule": "Source-backed ContinuousLiquidTurret tick frame wiring; the tick sets the frame keys the N2101 cost multiplier reads (current_liquid from the liquid module, ammo_types from the block), so the multiplier is paid live.",
       "return_type": "Dictionary"
     },
+    "SourceForceProjectorBuildState.source_force_projector_absorb_effect_state": {
+      "canonical_contract": "source_api_contracts.SourceForceProjectorBuildState.source_force_projector_absorb_effect_state",
+      "status": "active",
+      "source_slice": "N2482",
+      "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+      "source_method": "ForceBuild.absorbExplosion()",
+      "params": [
+        {
+          "name": "absorb",
+          "type": "bool",
+          "schema": "source_force_projector_absorb_effect_state_input.absorb"
+        },
+        {
+          "name": "ex",
+          "type": "float",
+          "schema": "source_force_projector_absorb_effect_state_input.ex"
+        },
+        {
+          "name": "ey",
+          "type": "float",
+          "schema": "source_force_projector_absorb_effect_state_input.ey"
+        }
+      ],
+      "return_keys": [
+        "absorb_effect_call"
+      ],
+      "tests": [
+        "test_c07_force_projector_absorb_effect_rows_registration",
+        "test_all_c07_force_projector_absorb_effect_rows_input_evidence_is_exact",
+        "test_force_projector_absorb_effect_rows_state",
+        "test_reference_graph_and_actual_c07_force_projector_absorb_effect_rows"
+      ],
+      "runtime_proof": "/root/C07ForceProjectorAbsorbEffectProof",
+      "rule": "Source-backed ForceProjector absorbExplosion absorbEffect FX row from ForceProjector.java / Fx.java.",
+      "return_type": "Dictionary"
+    },
     "SourceForceProjectorBuildState.source_force_projector_absorb_explosion_state": {
       "canonical_contract": "source_api_contracts.SourceForceProjectorBuildState.source_force_projector_absorb_explosion_state",
       "status": "active",
@@ -8436,6 +8472,33 @@
       ],
       "runtime_proof": "/root/C07PointDefenseUpdateTileProof",
       "rule": "Source-backed PointDefenseTurret updateTile advance from PointDefenseTurret.java / ReloadTurret.java / BaseTurret.java / Blocks.java / BuildingComp.java / EntityComp.java / EntityGroup.java / GroupDefs.java / BulletType.java / BulletComp.java / Rules.java / Team.java / Block.java / Tile.java / Position.java / Angles.java / Seq.java / QuadTree.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceRadarBuildState.source_radar_can_pickup_progress_state": {
+      "canonical_contract": "source_api_contracts.SourceRadarBuildState.source_radar_can_pickup_progress_state",
+      "status": "active",
+      "source_slice": "N2479",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "source_method": "RadarBuild.canPickup()/progress()",
+      "params": [
+        {
+          "name": "progress",
+          "type": "float",
+          "schema": "source_radar_can_pickup_progress_state_input.progress"
+        }
+      ],
+      "return_keys": [
+        "can_pickup",
+        "progress"
+      ],
+      "tests": [
+        "test_c07_radar_can_pickup_progress_rows_registration",
+        "test_all_c07_radar_can_pickup_progress_rows_input_evidence_is_exact",
+        "test_radar_can_pickup_progress_rows_state",
+        "test_reference_graph_and_actual_c07_radar_can_pickup_progress_rows"
+      ],
+      "runtime_proof": "/root/C07RadarCanPickupProgressProof",
+      "rule": "Source-backed Radar canPickup / progress() rows from Radar.java.",
       "return_type": "Dictionary"
     },
     "SourceRadarBuildState.source_radar_draw_state": {

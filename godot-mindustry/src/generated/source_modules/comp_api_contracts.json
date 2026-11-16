@@ -18548,6 +18548,48 @@
       "rule": "Source-backed neighbour liquid write-back rows from BuildingComp.java / Conduit.java.",
       "return_type": "Dictionary"
     },
+    "SourceBurstDrillBuildState.source_burst_drill_offload_route_state": {
+      "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_burst_drill_offload_route_state",
+      "status": "active",
+      "source_slice": "N2476",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "BuildingComp.offload()",
+      "params": [
+        {
+          "name": "neighbour_accepts_item",
+          "type": "Array",
+          "schema": "source_burst_drill_offload_route_state_input.neighbour_accepts_item"
+        },
+        {
+          "name": "neighbour_can_dump",
+          "type": "Array",
+          "schema": "source_burst_drill_offload_route_state_input.neighbour_can_dump"
+        },
+        {
+          "name": "cdump",
+          "type": "int",
+          "schema": "source_burst_drill_offload_route_state_input.cdump"
+        },
+        {
+          "name": "offloaded_item_name",
+          "type": "String",
+          "schema": "source_burst_drill_offload_route_state_input.offloaded_item_name"
+        }
+      ],
+      "return_keys": [
+        "routed_index",
+        "cdump_after"
+      ],
+      "tests": [
+        "test_c07_burst_drill_offload_neighbor_routing_registration",
+        "test_all_c07_burst_drill_offload_neighbor_routing_input_evidence_is_exact",
+        "test_burst_drill_offload_neighbor_routing_state",
+        "test_reference_graph_and_actual_c07_burst_drill_offload_neighbor_routing"
+      ],
+      "runtime_proof": "/root/C07BurstDrillOffloadNeighborRoutingProof",
+      "rule": "Source-backed BurstDrill updateTile offload neighbor routing rows from BuildingComp.java / BurstDrill.java.",
+      "return_type": "Dictionary"
+    },
     "SourceBurstDrillBuildState.source_burst_drill_timer_dump_state": {
       "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_burst_drill_timer_dump_state",
       "status": "active",

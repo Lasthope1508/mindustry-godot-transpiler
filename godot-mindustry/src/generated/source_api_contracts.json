@@ -80150,6 +80150,432 @@
       ],
       "runtime_proof": "/root/C07RepairTurretStatusRangeRowsProof",
       "rule": "Source-backed RepairTurret status/range rows from RepairTurret.java / BuildingComp.java / BlockStatus.java / Blocks.java / Ranged.java."
+    },
+    "SourceBurstDrillBuildState.source_burst_drill_offload_route_state": {
+      "status": "active",
+      "source_slice": "N2476",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "BuildingComp.offload()",
+      "params": [
+        {
+          "name": "neighbour_accepts_item",
+          "type": "Array",
+          "schema": "source_burst_drill_offload_route_state_input.neighbour_accepts_item"
+        },
+        {
+          "name": "neighbour_can_dump",
+          "type": "Array",
+          "schema": "source_burst_drill_offload_route_state_input.neighbour_can_dump"
+        },
+        {
+          "name": "cdump",
+          "type": "int",
+          "schema": "source_burst_drill_offload_route_state_input.cdump"
+        },
+        {
+          "name": "offloaded_item_name",
+          "type": "String",
+          "schema": "source_burst_drill_offload_route_state_input.offloaded_item_name"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "routed_index",
+        "cdump_after"
+      ],
+      "tests": [
+        "test_c07_burst_drill_offload_neighbor_routing_registration",
+        "test_all_c07_burst_drill_offload_neighbor_routing_input_evidence_is_exact",
+        "test_burst_drill_offload_neighbor_routing_state",
+        "test_reference_graph_and_actual_c07_burst_drill_offload_neighbor_routing"
+      ],
+      "runtime_proof": "/root/C07BurstDrillOffloadNeighborRoutingProof",
+      "rule": "Source-backed BurstDrill updateTile offload neighbor routing rows from BuildingComp.java / BurstDrill.java."
+    },
+    "SourceBeamDrillBuildState.source_beam_drill_drop_loop_state": {
+      "status": "active",
+      "source_slice": "N2477",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrillBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_beam_drill_drop_loop_state_input.frame"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_beam_drill_drop_loop_state_input.time_scale"
+        },
+        {
+          "name": "drill_time_base",
+          "type": "float",
+          "schema": "source_beam_drill_drop_loop_state_input.drill_time_base"
+        },
+        {
+          "name": "drill_multipliers",
+          "type": "Dictionary",
+          "schema": "source_beam_drill_drop_loop_state_input.drill_multipliers"
+        },
+        {
+          "name": "item_capacity",
+          "type": "int",
+          "schema": "source_beam_drill_drop_loop_state_input.item_capacity"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_beam_drill_drop_loop_state_input.size"
+        },
+        {
+          "name": "beam_range",
+          "type": "int",
+          "schema": "source_beam_drill_drop_loop_state_input.beam_range"
+        },
+        {
+          "name": "tier",
+          "type": "int",
+          "schema": "source_beam_drill_drop_loop_state_input.tier"
+        },
+        {
+          "name": "blocked_items",
+          "type": "Variant",
+          "schema": "source_beam_drill_drop_loop_state_input.blocked_items"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "last_item",
+        "facing",
+        "drill_time",
+        "last_drill_speed",
+        "time",
+        "items",
+        "produced"
+      ],
+      "tests": [
+        "test_c07_beam_drill_drop_loop_registration",
+        "test_all_c07_beam_drill_drop_loop_input_evidence_is_exact",
+        "test_beam_drill_drop_loop_state",
+        "test_reference_graph_and_actual_c07_beam_drill_drop_loop"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDropLoopProof",
+      "rule": "Source-backed BeamDrill drop loop + time reset + lastDrillSpeed from BeamDrill.java / Blocks.java / BuildingComp.java / Block.java / Tile.java / ObjectFloatMap.java."
+    },
+    "SourceBeamDrillBuildState.source_beam_drill_can_place_on_state": {
+      "status": "active",
+      "source_slice": "N2478",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrill.canPlaceOn(Tile, Team, int)",
+      "params": [
+        {
+          "name": "tile_x",
+          "type": "int",
+          "schema": "source_beam_drill_can_place_on_state_input.tile_x"
+        },
+        {
+          "name": "tile_y",
+          "type": "int",
+          "schema": "source_beam_drill_can_place_on_state_input.tile_y"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_beam_drill_can_place_on_state_input.rotation"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_beam_drill_can_place_on_state_input.size"
+        },
+        {
+          "name": "beam_range",
+          "type": "int",
+          "schema": "source_beam_drill_can_place_on_state_input.beam_range"
+        },
+        {
+          "name": "tier",
+          "type": "int",
+          "schema": "source_beam_drill_can_place_on_state_input.tier"
+        },
+        {
+          "name": "blocked_items",
+          "type": "Variant",
+          "schema": "source_beam_drill_can_place_on_state_input.blocked_items"
+        },
+        {
+          "name": "world_tiles",
+          "type": "Dictionary",
+          "schema": "source_beam_drill_can_place_on_state_input.world_tiles"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "can_place_on"
+      ],
+      "tests": [
+        "test_c07_beam_drill_can_place_on_draw_place_rows_registration",
+        "test_all_c07_beam_drill_can_place_on_draw_place_rows_input_evidence_is_exact",
+        "test_beam_drill_can_place_on_draw_place_rows_state",
+        "test_reference_graph_and_actual_c07_beam_drill_can_place_on_draw_place_rows"
+      ],
+      "runtime_proof": "/root/C07BeamDrillCanPlaceOnDrawPlaceProof",
+      "rule": "Source-backed BeamDrill canPlaceOn / drawPlace rows from BeamDrill.java / Block.java / Vars.java / Blocks.java / Items.java / Pal.java / bundle.properties / Geometry.java."
+    },
+    "SourceBeamDrillBuildState.source_beam_drill_draw_place_state": {
+      "status": "active",
+      "source_slice": "N2478",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrill.drawPlace(int, int, int, boolean)",
+      "params": [
+        {
+          "name": "tile_x",
+          "type": "int",
+          "schema": "source_beam_drill_draw_place_state_input.tile_x"
+        },
+        {
+          "name": "tile_y",
+          "type": "int",
+          "schema": "source_beam_drill_draw_place_state_input.tile_y"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_beam_drill_draw_place_state_input.rotation"
+        },
+        {
+          "name": "valid",
+          "type": "bool",
+          "schema": "source_beam_drill_draw_place_state_input.valid"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_beam_drill_draw_place_state_input.size"
+        },
+        {
+          "name": "beam_range",
+          "type": "int",
+          "schema": "source_beam_drill_draw_place_state_input.beam_range"
+        },
+        {
+          "name": "tier",
+          "type": "int",
+          "schema": "source_beam_drill_draw_place_state_input.tier"
+        },
+        {
+          "name": "blocked_items",
+          "type": "Variant",
+          "schema": "source_beam_drill_draw_place_state_input.blocked_items"
+        },
+        {
+          "name": "world_tiles",
+          "type": "Dictionary",
+          "schema": "source_beam_drill_draw_place_state_input.world_tiles"
+        },
+        {
+          "name": "drill_time_base",
+          "type": "float",
+          "schema": "source_beam_drill_draw_place_state_input.drill_time_base"
+        },
+        {
+          "name": "drill_multipliers",
+          "type": "Dictionary",
+          "schema": "source_beam_drill_draw_place_state_input.drill_multipliers"
+        },
+        {
+          "name": "text_width",
+          "type": "float",
+          "schema": "source_beam_drill_draw_place_state_input.text_width"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "dash_lines",
+        "speed_text",
+        "icon",
+        "tier_req_text"
+      ],
+      "tests": [
+        "test_c07_beam_drill_can_place_on_draw_place_rows_registration",
+        "test_all_c07_beam_drill_can_place_on_draw_place_rows_input_evidence_is_exact",
+        "test_beam_drill_can_place_on_draw_place_rows_state",
+        "test_reference_graph_and_actual_c07_beam_drill_can_place_on_draw_place_rows"
+      ],
+      "runtime_proof": "/root/C07BeamDrillCanPlaceOnDrawPlaceProof",
+      "rule": "Source-backed BeamDrill canPlaceOn / drawPlace rows from BeamDrill.java / Block.java / Vars.java / Blocks.java / Items.java / Pal.java / bundle.properties / Geometry.java."
+    },
+    "SourceRadarBuildState.source_radar_can_pickup_progress_state": {
+      "status": "active",
+      "source_slice": "N2479",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "source_method": "RadarBuild.canPickup()/progress()",
+      "params": [
+        {
+          "name": "progress",
+          "type": "float",
+          "schema": "source_radar_can_pickup_progress_state_input.progress"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "can_pickup",
+        "progress"
+      ],
+      "tests": [
+        "test_c07_radar_can_pickup_progress_rows_registration",
+        "test_all_c07_radar_can_pickup_progress_rows_input_evidence_is_exact",
+        "test_radar_can_pickup_progress_rows_state",
+        "test_reference_graph_and_actual_c07_radar_can_pickup_progress_rows"
+      ],
+      "runtime_proof": "/root/C07RadarCanPickupProgressProof",
+      "rule": "Source-backed Radar canPickup / progress() rows from Radar.java."
+    },
+    "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_break_block_fx_state": {
+      "status": "active",
+      "source_slice": "N2480",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "source_method": "PayloadDeconstructorBuild.updateTile()",
+      "params": [
+        {
+          "name": "finish",
+          "type": "bool",
+          "schema": "source_payload_deconstructor_break_block_fx_state_input.finish"
+        },
+        {
+          "name": "deconstructing_size",
+          "type": "float",
+          "schema": "source_payload_deconstructor_break_block_fx_state_input.deconstructing_size"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_payload_deconstructor_break_block_fx_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_payload_deconstructor_break_block_fx_state_input.y"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "break_block_call"
+      ],
+      "tests": [
+        "test_c07_deconstructor_break_block_fx_rows_registration",
+        "test_all_c07_deconstructor_break_block_fx_rows_input_evidence_is_exact",
+        "test_deconstructor_break_block_fx_rows_state",
+        "test_reference_graph_and_actual_c07_deconstructor_break_block_fx_rows"
+      ],
+      "runtime_proof": "/root/C07DeconstructorBreakBlockFxProof",
+      "rule": "Source-backed PayloadDeconstructor breakBlock finish FX row from PayloadDeconstructor.java / Payload.java / BuildPayload.java / UnitPayload.java / Vars.java / Fx.java."
+    },
+    "SourceSolidPumpBuildState.source_solid_pump_update_effect_chance_state": {
+      "status": "active",
+      "source_slice": "N2481",
+      "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+      "source_method": "SolidPumpBuild.updateTile()",
+      "params": [
+        {
+          "name": "pump_branch_open",
+          "type": "bool",
+          "schema": "source_solid_pump_update_effect_chance_state_input.pump_branch_open"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_solid_pump_update_effect_chance_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_solid_pump_update_effect_chance_state_input.time_scale"
+        },
+        {
+          "name": "update_effect_chance",
+          "type": "float",
+          "schema": "source_solid_pump_update_effect_chance_state_input.update_effect_chance"
+        },
+        {
+          "name": "update_effect",
+          "type": "String",
+          "schema": "source_solid_pump_update_effect_chance_state_input.update_effect"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_solid_pump_update_effect_chance_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_solid_pump_update_effect_chance_state_input.y"
+        },
+        {
+          "name": "chance_roll",
+          "type": "float",
+          "schema": "source_solid_pump_update_effect_chance_state_input.chance_roll"
+        },
+        {
+          "name": "range_roll_x",
+          "type": "float",
+          "schema": "source_solid_pump_update_effect_chance_state_input.range_roll_x"
+        },
+        {
+          "name": "range_roll_y",
+          "type": "float",
+          "schema": "source_solid_pump_update_effect_chance_state_input.range_roll_y"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "effect_call"
+      ],
+      "tests": [
+        "test_c07_solid_pump_update_effect_chance_rows_registration",
+        "test_all_c07_solid_pump_update_effect_chance_rows_input_evidence_is_exact",
+        "test_solid_pump_update_effect_chance_rows_state",
+        "test_reference_graph_and_actual_c07_solid_pump_update_effect_chance_rows"
+      ],
+      "runtime_proof": "/root/C07SolidPumpUpdateEffectChanceProof",
+      "rule": "Source-backed SolidPump updateEffect chance rows from SolidPump.java / BuildingComp.java / Blocks.java / Fx.java."
+    },
+    "SourceForceProjectorBuildState.source_force_projector_absorb_effect_state": {
+      "status": "active",
+      "source_slice": "N2482",
+      "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+      "source_method": "ForceBuild.absorbExplosion()",
+      "params": [
+        {
+          "name": "absorb",
+          "type": "bool",
+          "schema": "source_force_projector_absorb_effect_state_input.absorb"
+        },
+        {
+          "name": "ex",
+          "type": "float",
+          "schema": "source_force_projector_absorb_effect_state_input.ex"
+        },
+        {
+          "name": "ey",
+          "type": "float",
+          "schema": "source_force_projector_absorb_effect_state_input.ey"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "absorb_effect_call"
+      ],
+      "tests": [
+        "test_c07_force_projector_absorb_effect_rows_registration",
+        "test_all_c07_force_projector_absorb_effect_rows_input_evidence_is_exact",
+        "test_force_projector_absorb_effect_rows_state",
+        "test_reference_graph_and_actual_c07_force_projector_absorb_effect_rows"
+      ],
+      "runtime_proof": "/root/C07ForceProjectorAbsorbEffectProof",
+      "rule": "Source-backed ForceProjector absorbExplosion absorbEffect FX row from ForceProjector.java / Fx.java."
     }
   },
   "policy": {

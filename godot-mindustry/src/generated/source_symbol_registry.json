@@ -189000,6 +189000,310 @@
         "test_reference_graph_and_actual_c07_repair_turret_status_range_rows"
       ],
       "runtime_proof": "/root/C07RepairTurretStatusRangeRowsProof"
+    },
+    "source_burst_drill_offload_route_state_result.routed_index": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_offload_route_state",
+      "godot_symbol": "source_burst_drill_offload_route_state_result.routed_index",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.offload()",
+      "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+      "rule": "The routed neighbour index (BuildingComp.java:1007, `Building other = proximity.get((i + dump) % proximity.size);`): the first neighbour in scan order (from the cdump snapshot, wrapping) where acceptItem && canDump both hold, -1 when no neighbour takes the item (the fallback verdict -- the caller keeps the item in the own store through add_item_state, `handleItem(self(), item);`, BuildingComp.java:1014). Index i is ring cell i (the N2353 convention).",
+      "tests": [
+        "test_c07_burst_drill_offload_neighbor_routing_registration",
+        "test_all_c07_burst_drill_offload_neighbor_routing_input_evidence_is_exact",
+        "test_burst_drill_offload_neighbor_routing_state",
+        "test_reference_graph_and_actual_c07_burst_drill_offload_neighbor_routing"
+      ],
+      "runtime_proof": "/root/C07BurstDrillOffloadNeighborRoutingProof"
+    },
+    "source_burst_drill_offload_route_state_result.cdump_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_offload_route_state",
+      "godot_symbol": "source_burst_drill_offload_route_state_result.cdump_after",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.offload()",
+      "java_expr": "cdump = ((cdump + 1) % prox);",
+      "rule": "The cursor after the scan (BuildingComp.java:1119, `cdump = ((cdump + 1) % prox);`, inside incrementDump :1116-1120, guarded on prox != 0): the cursor advances once per scanned neighbour INCLUDING the handling one (a routed item leaves the cursor past the handler; a full refused scan returns it to its start -- the N2286 full-cycle invariant). The port reuses the shared rotation helper (SourceBuildingItemDumpState.increment_dump_cursor_state). An empty proximity leaves the cursor untouched.",
+      "tests": [
+        "test_c07_burst_drill_offload_neighbor_routing_registration",
+        "test_all_c07_burst_drill_offload_neighbor_routing_input_evidence_is_exact",
+        "test_burst_drill_offload_neighbor_routing_state",
+        "test_reference_graph_and_actual_c07_burst_drill_offload_neighbor_routing"
+      ],
+      "runtime_proof": "/root/C07BurstDrillOffloadNeighborRoutingProof"
+    },
+    "source_beam_drill_drop_loop_state_result.last_item": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_drop_loop_state",
+      "godot_symbol": "source_beam_drill_drop_loop_state_result.last_item",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.updateTile()",
+      "java_expr": "public @Nullable Item lastItem;",
+      "rule": "The last facing item (BeamDrill.java:223): the last distinct mineable drop across the lasers, or null when no mineable drop faces the drill or MULTIPLE distinct drops do (the multiple detection :393-394, nulled out :408-409). An item-name String or null (the N2225 precedent, Java compares Item references). Drives getDrillTime (:247).",
+      "tests": [
+        "test_c07_beam_drill_drop_loop_registration",
+        "test_all_c07_beam_drill_drop_loop_input_evidence_is_exact",
+        "test_beam_drill_drop_loop_state",
+        "test_reference_graph_and_actual_c07_beam_drill_drop_loop"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDropLoopProof"
+    },
+    "source_beam_drill_drop_loop_state_result.facing": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_drop_loop_state",
+      "godot_symbol": "source_beam_drill_drop_loop_state_result.facing",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.updateTile()",
+      "java_expr": "public Tile[] facing = new Tile[size];",
+      "rule": "The facing dest tiles (BeamDrill.java:221): one entry per laser, the first solid mineable tile Dict {solid, wall_drop} on that ray, or null when the ray finds no mineable wall (`facing[p] = dest;`, :404 -- dest is set only when the drop passes the :391 gate, and the first solid tile breaks the ray even when unmineable). The drop loop reads wallDrop() off these tiles (:255).",
+      "tests": [
+        "test_c07_beam_drill_drop_loop_registration",
+        "test_all_c07_beam_drill_drop_loop_input_evidence_is_exact",
+        "test_beam_drill_drop_loop_state",
+        "test_reference_graph_and_actual_c07_beam_drill_drop_loop"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDropLoopProof"
+    },
+    "source_beam_drill_drop_loop_state_result.drill_time": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_drop_loop_state",
+      "godot_symbol": "source_beam_drill_drop_loop_state_result.drill_time",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.updateTile()",
+      "java_expr": "float drillTime = getDrillTime(lastItem);",
+      "rule": "The effective drillTime for this tick (BeamDrill.java:247): the per-def base divided by the looked-up multiplier (getDrillTime :216-218, `return drillTime / drillMultipliers.get(item, 1f);`, :217 -- 1.0 for a null item or an absent key, arc ObjectFloatMap.java:286-287). The drop threshold (:253) and the reset divisor (:261).",
+      "tests": [
+        "test_c07_beam_drill_drop_loop_registration",
+        "test_all_c07_beam_drill_drop_loop_input_evidence_is_exact",
+        "test_beam_drill_drop_loop_state",
+        "test_reference_graph_and_actual_c07_beam_drill_drop_loop"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDropLoopProof"
+    },
+    "source_beam_drill_drop_loop_state_result.last_drill_speed": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_drop_loop_state",
+      "godot_symbol": "source_beam_drill_drop_loop_state_result.last_drill_speed",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.updateTile()",
+      "java_expr": "lastDrillSpeed = (facingAmount * multiplier * timeScale) / drillTime * efficiency;",
+      "rule": "The drill speed (BeamDrill.java:249): (facingAmount * multiplier * timeScale) / drillTime * efficiency -- computed EVERY tick, before the threshold check, even when nothing drops.",
+      "tests": [
+        "test_c07_beam_drill_drop_loop_registration",
+        "test_all_c07_beam_drill_drop_loop_input_evidence_is_exact",
+        "test_beam_drill_drop_loop_state",
+        "test_reference_graph_and_actual_c07_beam_drill_drop_loop"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDropLoopProof"
+    },
+    "source_beam_drill_drop_loop_state_result.time": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_drop_loop_state",
+      "godot_symbol": "source_beam_drill_drop_loop_state_result.time",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.updateTile()",
+      "java_expr": "time %= drillTime;",
+      "rule": "The clock after this tick (BeamDrill.java:261): the remainder of time / drillTime when the threshold fired (a reset, not a subtraction -- the loop runs ONCE per tick even when time exceeds 2x drillTime), unchanged when below the threshold.",
+      "tests": [
+        "test_c07_beam_drill_drop_loop_registration",
+        "test_all_c07_beam_drill_drop_loop_input_evidence_is_exact",
+        "test_beam_drill_drop_loop_state",
+        "test_reference_graph_and_actual_c07_beam_drill_drop_loop"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDropLoopProof"
+    },
+    "source_beam_drill_drop_loop_state_result.items": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_drop_loop_state",
+      "godot_symbol": "source_beam_drill_drop_loop_state_result.items",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.updateTile()",
+      "java_expr": "items.add(drop, 1);",
+      "rule": "The items store after the tick (BeamDrill.java:257): one of each facing drop added, each add gated on the re-checked items.total() < itemCapacity (:256); unchanged when the threshold did not fire or the store was full.",
+      "tests": [
+        "test_c07_beam_drill_drop_loop_registration",
+        "test_all_c07_beam_drill_drop_loop_input_evidence_is_exact",
+        "test_beam_drill_drop_loop_state",
+        "test_reference_graph_and_actual_c07_beam_drill_drop_loop"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDropLoopProof"
+    },
+    "source_beam_drill_drop_loop_state_result.produced": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_drop_loop_state",
+      "godot_symbol": "source_beam_drill_drop_loop_state_result.produced",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.updateTile()",
+      "java_expr": "produced(drop);",
+      "rule": "The produced counts per item id (BeamDrill.java:258, `produced(drop);` -> `produced(item, 1);`, BuildingComp.java:1035-1036): the sector stats + unlock write (BuildingComp.java:1039-1046) is NOT performed -- no sector stats exist in the port (the WallCrafter N2398 precedent) -- so the pure reports the counts and the tick stamps them for a later stats slice.",
+      "tests": [
+        "test_c07_beam_drill_drop_loop_registration",
+        "test_all_c07_beam_drill_drop_loop_input_evidence_is_exact",
+        "test_beam_drill_drop_loop_state",
+        "test_reference_graph_and_actual_c07_beam_drill_drop_loop"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDropLoopProof"
+    },
+    "source_beam_drill_can_place_on_state_result.can_place_on": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_can_place_on_state",
+      "godot_symbol": "source_beam_drill_can_place_on_state_result.can_place_on",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrill.canPlaceOn(Tile, Team, int)",
+      "java_expr": "public boolean canPlaceOn(Tile tile, Team team, int rotation){",
+      "rule": "Whether the drill can be placed here (BeamDrill.java:198-214): true on the FIRST mineable drop on any laser's ray (`return true;`, :206), false when no laser finds one (`return false;`, :213). The first solid tile ends each laser's walk either way -- the `break;` (:207) sits OUTSIDE the drop check, so a mineable drop behind an unmineable solid tile never counts.",
+      "tests": [
+        "test_c07_beam_drill_can_place_on_draw_place_rows_registration",
+        "test_all_c07_beam_drill_can_place_on_draw_place_rows_input_evidence_is_exact",
+        "test_beam_drill_can_place_on_draw_place_rows_state",
+        "test_reference_graph_and_actual_c07_beam_drill_can_place_on_draw_place_rows"
+      ],
+      "runtime_proof": "/root/C07BeamDrillCanPlaceOnDrawPlaceProof"
+    },
+    "source_beam_drill_draw_place_state_result.dash_lines": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_place_state",
+      "godot_symbol": "source_beam_drill_draw_place_state_result.dash_lines",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrill.drawPlace(int, int, int, boolean)",
+      "java_expr": "Drawf.dashLine(found == null ? Pal.remove : Pal.placing,",
+      "rule": "One dash-line call record per laser (BeamDrill.java:172-179): Pal.placing when the laser found a mineable drop, Pal.remove otherwise (`placing = accent,`, Pal.java:95; `remove = Color.valueOf(\"e55454\"),`, Pal.java:86 -- symbolic tokens, the N2373 precedent); from the laser origin times tilesize (8, Vars.java:135) to the origin + d4 * len, where `int len = Math.min(j, range - 1);` (:172) -- j is the solid tile's own index at the break, so the dash ends ON the solid tile, or on the last walked tile when nothing is found.",
+      "tests": [
+        "test_c07_beam_drill_can_place_on_draw_place_rows_registration",
+        "test_all_c07_beam_drill_can_place_on_draw_place_rows_input_evidence_is_exact",
+        "test_beam_drill_can_place_on_draw_place_rows_state",
+        "test_reference_graph_and_actual_c07_beam_drill_can_place_on_draw_place_rows"
+      ],
+      "runtime_proof": "/root/C07BeamDrillCanPlaceOnDrawPlaceProof"
+    },
+    "source_beam_drill_draw_place_state_result.speed_text": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_place_state",
+      "godot_symbol": "source_beam_drill_draw_place_state_result.speed_text",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrill.drawPlace(int, int, int, boolean)",
+      "java_expr": "float width = drawPlaceText(Core.bundle.formatFloat(\"bar.drillspeed\", 60f / getDrillTime(item) * count, 2), x, y, valid);",
+      "rule": "The speed-text drawPlaceText call record (BeamDrill.java:183) when an item was found, else null: the bundle KEY `bar.drillspeed` (`bar.drillspeed = Drill Speed: {0}/s`, bundle.properties:1279) + the RAW value 60f / getDrillTime(item) * count + decimals 2 (the renderer formats, the N2450 precedent) + the item id + the mineable-laser count + the tile coords + valid. item is the LAST found item across lasers (`item = found;`, :169) -- drawPlace does NOT null it when multiple, unlike updateFacing.",
+      "tests": [
+        "test_c07_beam_drill_can_place_on_draw_place_rows_registration",
+        "test_all_c07_beam_drill_can_place_on_draw_place_rows_input_evidence_is_exact",
+        "test_beam_drill_can_place_on_draw_place_rows_state",
+        "test_reference_graph_and_actual_c07_beam_drill_can_place_on_draw_place_rows"
+      ],
+      "runtime_proof": "/root/C07BeamDrillCanPlaceOnDrawPlaceProof"
+    },
+    "source_beam_drill_draw_place_state_result.icon": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_place_state",
+      "godot_symbol": "source_beam_drill_draw_place_state_result.icon",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrill.drawPlace(int, int, int, boolean)",
+      "java_expr": "Draw.rect(item.fullIcon, dx, dy, s, s);",
+      "rule": "The single-item icon call record (BeamDrill.java:185-189) when an item was found AND !multiple, else null: the item fullIcon rect at dx = x * tilesize + offset - width/2f - 4f, dy = y * tilesize + offset + size * tilesize / 2f + 5, size s = iconSmall / 4f = 6.0 (Vars.java:139), plus the darkGray shadow rect at dy - 1 (`Draw.mixcol(Color.darkGray, 1f);` / `Draw.rect(item.fullIcon, dx, dy - 1, s, s);`, :186-187). offset is the Block offset (`offset = ((size + 1) % 2) * tilesize / 2f;`, Block.java:761).",
+      "tests": [
+        "test_c07_beam_drill_can_place_on_draw_place_rows_registration",
+        "test_all_c07_beam_drill_can_place_on_draw_place_rows_input_evidence_is_exact",
+        "test_beam_drill_can_place_on_draw_place_rows_state",
+        "test_reference_graph_and_actual_c07_beam_drill_can_place_on_draw_place_rows"
+      ],
+      "runtime_proof": "/root/C07BeamDrillCanPlaceOnDrawPlaceProof"
+    },
+    "source_beam_drill_draw_place_state_result.tier_req_text": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_place_state",
+      "godot_symbol": "source_beam_drill_draw_place_state_result.tier_req_text",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrill.drawPlace(int, int, int, boolean)",
+      "java_expr": "drawPlaceText(Core.bundle.get(\"bar.drilltierreq\"), x, y, false);",
+      "rule": "The tier-req drawPlaceText call record (BeamDrill.java:191-193) when NO item was found but an invalid drop was, else null: the bundle KEY `bar.drilltierreq` (`bar.drilltierreq = Better Drill Required`, bundle.properties:1273) + valid=false HARDCODED (Java passes false, not the placement flag) + the invalid item id (port bookkeeping -- the Java call takes only the bundle string). invalidItem is the LAST unmineable drop (`invalidItem = drop;`, :158, overwrites every time).",
+      "tests": [
+        "test_c07_beam_drill_can_place_on_draw_place_rows_registration",
+        "test_all_c07_beam_drill_can_place_on_draw_place_rows_input_evidence_is_exact",
+        "test_beam_drill_can_place_on_draw_place_rows_state",
+        "test_reference_graph_and_actual_c07_beam_drill_can_place_on_draw_place_rows"
+      ],
+      "runtime_proof": "/root/C07BeamDrillCanPlaceOnDrawPlaceProof"
+    },
+    "source_radar_can_pickup_progress_state_result.can_pickup": {
+      "status": "source-backed",
+      "godot_owner": "SourceRadarBuildState.source_radar_can_pickup_progress_state",
+      "godot_symbol": "source_radar_can_pickup_progress_state_result.can_pickup",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "RadarBuild.canPickup()/progress()",
+      "java_expr": "return false;",
+      "rule": "The canPickup() verdict (Radar.java:75-77): false unconditionally, whatever the progress -- the base BuildingComp.canPickup() returns block.canPickup (BuildingComp.java:1838-1840, default true, Block.java:176), so the override is what makes a radar unpickupable.",
+      "tests": [
+        "test_c07_radar_can_pickup_progress_rows_registration",
+        "test_all_c07_radar_can_pickup_progress_rows_input_evidence_is_exact",
+        "test_radar_can_pickup_progress_rows_state",
+        "test_reference_graph_and_actual_c07_radar_can_pickup_progress_rows"
+      ],
+      "runtime_proof": "/root/C07RadarCanPickupProgressProof"
+    },
+    "source_radar_can_pickup_progress_state_result.progress": {
+      "status": "source-backed",
+      "godot_owner": "SourceRadarBuildState.source_radar_can_pickup_progress_state",
+      "godot_symbol": "source_radar_can_pickup_progress_state_result.progress",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "RadarBuild.canPickup()/progress()",
+      "java_expr": "return progress;",
+      "rule": "The progress() method value (Radar.java:93-95): the build progress field as-is -- the pure does NOT clamp (the clamp lives in updateTile, Radar.java:69); the base BuildingComp.progress() returns 0f (BuildingComp.java:617-619).",
+      "tests": [
+        "test_c07_radar_can_pickup_progress_rows_registration",
+        "test_all_c07_radar_can_pickup_progress_rows_input_evidence_is_exact",
+        "test_radar_can_pickup_progress_rows_state",
+        "test_reference_graph_and_actual_c07_radar_can_pickup_progress_rows"
+      ],
+      "runtime_proof": "/root/C07RadarCanPickupProgressProof"
+    },
+    "source_payload_deconstructor_break_block_fx_state_result.break_block_call": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_break_block_fx_state",
+      "godot_symbol": "source_payload_deconstructor_break_block_fx_state_result.break_block_call",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "java_method": "PayloadDeconstructorBuild.updateTile()",
+      "java_expr": "Fx.breakBlock.at(x, y, deconstructing.size() / tilesize);",
+      "rule": "The breakBlock effect call (PayloadDeconstructor.java:191): {effect: \"Fx.breakBlock\", x, y, scale: deconstructing_size / 8.0} when the gate fires, null otherwise (the N2397 null-when-absent precedent). The effect is Fx.breakBlock (`breakBlock = new Effect(12, e -> {`, Fx.java:285), and its renderer reads the third .at arg (e.rotation) as the size scale (`Lines.square(e.x, e.y, tilesize / 2f * e.rotation + e.fin() * 3f);`, Fx.java:288) -- so the record carries the value under the \"scale\" key. The 12-tick renderer body is the callee presentation -- the pure records the CALL (the N2396 precedent).",
+      "tests": [
+        "test_c07_deconstructor_break_block_fx_rows_registration",
+        "test_all_c07_deconstructor_break_block_fx_rows_input_evidence_is_exact",
+        "test_deconstructor_break_block_fx_rows_state",
+        "test_reference_graph_and_actual_c07_deconstructor_break_block_fx_rows"
+      ],
+      "runtime_proof": "/root/C07DeconstructorBreakBlockFxProof"
+    },
+    "source_solid_pump_update_effect_chance_state_result.effect_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceSolidPumpBuildState.source_solid_pump_update_effect_chance_state",
+      "godot_symbol": "source_solid_pump_update_effect_chance_state_result.effect_call",
+      "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+      "java_method": "SolidPumpBuild.updateTile()",
+      "java_expr": "updateEffect.at(x + Mathf.range(size * 2f), y + Mathf.range(size * 2f));",
+      "rule": "The updateEffect call record (SolidPump.java:131-132): {effect: <updateEffect token>, x: x + range_roll_x, y: y + range_roll_y} when the pump branch is open and the chance roll hits (roll < delta * updateEffectChance, or the d >= 1f short-circuit), null otherwise (the N2397 null-when-absent precedent). The live token is Fx.none -- the pure records the CALL, not the renderer body (the N2396 precedent).",
+      "tests": [
+        "test_c07_solid_pump_update_effect_chance_rows_registration",
+        "test_all_c07_solid_pump_update_effect_chance_rows_input_evidence_is_exact",
+        "test_solid_pump_update_effect_chance_rows_state",
+        "test_reference_graph_and_actual_c07_solid_pump_update_effect_chance_rows"
+      ],
+      "runtime_proof": "/root/C07SolidPumpUpdateEffectChanceProof"
+    },
+    "source_force_projector_absorb_effect_state_result.absorb_effect_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceForceProjectorBuildState.source_force_projector_absorb_effect_state",
+      "godot_symbol": "source_force_projector_absorb_effect_state_result.absorb_effect_call",
+      "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+      "java_method": "ForceBuild.absorbExplosion()",
+      "java_expr": "absorbEffect.at(ex, ey);",
+      "rule": "The absorbExplosion absorb-effect call (ForceProjector.java:272): {effect: \"Fx.absorb\", ex, ey} when absorb is true, null otherwise (the N2397 null-when-absent precedent). Fx.absorb is `absorb = new Effect(12, e -> {` (Fx.java:1356); the effect field is `public Effect absorbEffect = Fx.absorb;` (ForceProjector.java:49) and the single def does not override it (Blocks.java:1964-1976). The 12-tick renderer body is the callee presentation -- the pure records the CALL (the N2396 precedent). The shieldConsumer bullet-path call (absorbEffect.at(bullet), ForceProjector.java:65) is a DIFFERENT call site and defers under its own entry.",
+      "tests": [
+        "test_c07_force_projector_absorb_effect_rows_registration",
+        "test_all_c07_force_projector_absorb_effect_rows_input_evidence_is_exact",
+        "test_force_projector_absorb_effect_rows_state",
+        "test_reference_graph_and_actual_c07_force_projector_absorb_effect_rows"
+      ],
+      "runtime_proof": "/root/C07ForceProjectorAbsorbEffectProof"
     }
   },
   "version": 1

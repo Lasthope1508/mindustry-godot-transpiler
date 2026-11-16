@@ -260779,6 +260779,850 @@
       },
       "runtime_proof": "/root/C07RepairTurretStatusRangeRowsProof",
       "rule": "Source-backed RepairTurret status/range rows from RepairTurret.java / BuildingComp.java / BlockStatus.java / Blocks.java / Ranged.java."
+    },
+    "source_burst_drill_offload_route_state_input": {
+      "status": "active",
+      "owner": "SourceBurstDrillBuildState.source_burst_drill_offload_route_state",
+      "source_slice": "N2476",
+      "keys": {
+        "neighbour_accepts_item": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(other.acceptItem(self(), item) && canDump(other, item)){",
+          "rule": "The per-neighbour acceptItem answers in proximity order (BuildingComp.java:1008, `if(other.acceptItem(self(), item) && canDump(other, item)){`): index i is ring cell i (the N2353 convention) and answers whether neighbour i accepts the offloaded item (acceptItem REQUIRES consumesItem, BuildingComp.java:864-866). The arrays answer for the offloaded item -- the tick refreshes the N2403 fill for the dominant item before the advance. A missing answer reads false (the N2343 bounds-checked precedent).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_offload_route_state"
+          ]
+        },
+        "neighbour_can_dump": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(other.acceptItem(self(), item) && canDump(other, item)){",
+          "rule": "The per-neighbour canDump answers in proximity order (BuildingComp.java:1008, `if(other.acceptItem(self(), item) && canDump(other, item)){`): index i is ring cell i (the N2353 convention); the canDump default is true (BuildingComp.java:1124-1126). A missing answer reads false (the N2343 bounds-checked precedent).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_offload_route_state"
+          ]
+        },
+        "cdump": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "int dump = this.cdump;",
+          "rule": "The saved dump cursor (BuildingComp.java:1003, `int dump = this.cdump;`): the scan starts at this snapshot (`transient int cdump;`, BuildingComp.java:68, 0) and the cursor advances once per scanned neighbour. The advance reads the POST-dump frame cursor (Java order: the timerDump dump :83-84 runs before the offload :106-109 on the shared this.cdump) and threads the result across the dominantItems loop.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_offload_route_state"
+          ]
+        },
+        "offloaded_item_name": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public void offload(Item item){",
+          "rule": "The item being offloaded (BuildingComp.java:1001, `public void offload(Item item){`): the dominant item (BurstDrill.java:108, `offload(dominantItem);`). The pure reads the gates only -- the arrays already answer for this item -- so the name is a wiring guard (it names the item the caller must have answered for), not a lookup.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_offload_route_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BurstDrillOffloadNeighborRoutingProof",
+      "rule": "Source-backed BurstDrill updateTile offload neighbor routing rows from BuildingComp.java / BurstDrill.java."
+    },
+    "source_burst_drill_offload_route_state_result": {
+      "status": "active",
+      "owner": "SourceBurstDrillBuildState.source_burst_drill_offload_route_state",
+      "source_slice": "N2476",
+      "keys": {
+        "routed_index": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+          "rule": "The routed neighbour index (BuildingComp.java:1007, `Building other = proximity.get((i + dump) % proximity.size);`): the first neighbour in scan order (from the cdump snapshot, wrapping) where acceptItem && canDump both hold, -1 when no neighbour takes the item (the fallback verdict -- the caller keeps the item in the own store through add_item_state, `handleItem(self(), item);`, BuildingComp.java:1014). Index i is ring cell i (the N2353 convention).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_offload_route_state"
+          ]
+        },
+        "cdump_after": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "cdump = ((cdump + 1) % prox);",
+          "rule": "The cursor after the scan (BuildingComp.java:1119, `cdump = ((cdump + 1) % prox);`, inside incrementDump :1116-1120, guarded on prox != 0): the cursor advances once per scanned neighbour INCLUDING the handling one (a routed item leaves the cursor past the handler; a full refused scan returns it to its start -- the N2286 full-cycle invariant). The port reuses the shared rotation helper (SourceBuildingItemDumpState.increment_dump_cursor_state). An empty proximity leaves the cursor untouched.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_offload_route_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BurstDrillOffloadNeighborRoutingProof",
+      "rule": "Source-backed BurstDrill updateTile offload neighbor routing rows from BuildingComp.java / BurstDrill.java."
+    },
+    "source_beam_drill_drop_loop_state_input": {
+      "status": "active",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_drop_loop_state",
+      "source_slice": "N2477",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "if(time >= drillTime){",
+          "rule": "The building frame carrying the facing rays (facing_tiles, stamped by the N2352 fill each enabled tick), the items store (frame[\"items\"], the Building.items ItemModule), the ADVANCED time (the N2195 advance already moved it, BeamDrill.java:251, before this pure runs), the facing count (facing_amount, stamped by the N2339 scan), the boost multiplier (stamped by the advance) and the folded efficiency; the threshold check reads the advanced time (BeamDrill.java:253).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_drop_loop_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live timeScale read from the sprite meta (SourcePlacedBlockState.time_scale), default 1.0 (BuildingComp.java:98): lastDrillSpeed scales by it (BeamDrill.java:249).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_drop_loop_state"
+          ]
+        },
+        "drill_time_base": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public float drillTime = 200f;",
+          "rule": "The per-def base drillTime from the catalog (block.properties[\"drillTime\"], 160f for the plasma-bore / 100f for the large-plasma-bore, Blocks.java:3042/3055; class default 200f, BeamDrill.java:39): the effective drillTime is this base divided by the looked-up multiplier (getDrillTime, BeamDrill.java:216-218).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_drop_loop_state"
+          ]
+        },
+        "drill_multipliers": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public ObjectFloatMap<Item> drillMultipliers = new ObjectFloatMap<>();",
+          "rule": "The drill-speed multipliers (BeamDrill.java:47, \"Multipliers of drill speed for each item. Defaults to 1.\", :46): a caller-supplied Dict item-name -> float (the N2435 precedent), the ObjectFloatMap by item id. The tick passes {} -- neither BeamDrill def sets an entry (Blocks.java:3038-3068, the N2473 verification) -- so the effective drillTime is the base live; the beryllium 2f proof value is the BurstDrill def (`drillMultipliers.put(Items.beryllium, 2f);`, Blocks.java:3083/3114) used as a caller-supplied map entry.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_drop_loop_state"
+          ]
+        },
+        "item_capacity": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public int itemCapacity = 10;",
+          "rule": "The item capacity from the catalog (block.properties[\"itemCapacity\"], 10 default, Block.java:75; 20 for the large-plasma-bore, Blocks.java:3062): the per-tile gate re-checks items.total() < itemCapacity inside the loop (BeamDrill.java:256).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_drop_loop_state"
+          ]
+        },
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public int size = 1;",
+          "rule": "The block size from the catalog (2 plasma-bore / 3 large-plasma-bore, Blocks.java:3044/3058; class default 1, Block.java:215): the number of facing lasers (BeamDrill.java:375-411 walks exactly size lasers).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_drop_loop_state"
+          ]
+        },
+        "beam_range": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public int range = 5;",
+          "rule": "The beam range from the catalog (5 plasma-bore / 6 large-plasma-bore, Blocks.java:3045/3059; class default 5, BeamDrill.java:40 -- NOT :35 as the old scan docstring cited): each laser walks range tiles (BeamDrill.java:375-411). The parameter is beam_range, not `range` (GDScript's range() builtin -- the N2339 precedent).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_drop_loop_state"
+          ]
+        },
+        "tier": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public int tier = 1;",
+          "rule": "The drill tier from the catalog (3 plasma-bore / 5 large-plasma-bore, Blocks.java:3043/3057; class default 1, BeamDrill.java:41 -- NOT :36 as the old scan docstring cited): the mineable gate admits drops with hardness <= tier (BeamDrill.java:391).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_drop_loop_state"
+          ]
+        },
+        "blocked_items": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public @Nullable Seq<Item> blockedItems;",
+          "rule": "The exemption list (BeamDrill.java:51, read at the mineable gate :391): null or an Array of item names (the N2339 facing-scan precedent). Neither BeamDrill def sets one, so both defs read null.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_drop_loop_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BeamDrillDropLoopProof",
+      "rule": "Source-backed BeamDrill drop loop + time reset + lastDrillSpeed from BeamDrill.java / Blocks.java / BuildingComp.java / Block.java / Tile.java / ObjectFloatMap.java."
+    },
+    "source_beam_drill_drop_loop_state_result": {
+      "status": "active",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_drop_loop_state",
+      "source_slice": "N2477",
+      "keys": {
+        "last_item": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public @Nullable Item lastItem;",
+          "rule": "The last facing item (BeamDrill.java:223): the last distinct mineable drop across the lasers, or null when no mineable drop faces the drill or MULTIPLE distinct drops do (the multiple detection :393-394, nulled out :408-409). An item-name String or null (the N2225 precedent, Java compares Item references). Drives getDrillTime (:247).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_drop_loop_state"
+          ]
+        },
+        "facing": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public Tile[] facing = new Tile[size];",
+          "rule": "The facing dest tiles (BeamDrill.java:221): one entry per laser, the first solid mineable tile Dict {solid, wall_drop} on that ray, or null when the ray finds no mineable wall (`facing[p] = dest;`, :404 -- dest is set only when the drop passes the :391 gate, and the first solid tile breaks the ray even when unmineable). The drop loop reads wallDrop() off these tiles (:255).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_drop_loop_state"
+          ]
+        },
+        "drill_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "float drillTime = getDrillTime(lastItem);",
+          "rule": "The effective drillTime for this tick (BeamDrill.java:247): the per-def base divided by the looked-up multiplier (getDrillTime :216-218, `return drillTime / drillMultipliers.get(item, 1f);`, :217 -- 1.0 for a null item or an absent key, arc ObjectFloatMap.java:286-287). The drop threshold (:253) and the reset divisor (:261).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_drop_loop_state"
+          ]
+        },
+        "last_drill_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "lastDrillSpeed = (facingAmount * multiplier * timeScale) / drillTime * efficiency;",
+          "rule": "The drill speed (BeamDrill.java:249): (facingAmount * multiplier * timeScale) / drillTime * efficiency -- computed EVERY tick, before the threshold check, even when nothing drops.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_drop_loop_state"
+          ]
+        },
+        "time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "time %= drillTime;",
+          "rule": "The clock after this tick (BeamDrill.java:261): the remainder of time / drillTime when the threshold fired (a reset, not a subtraction -- the loop runs ONCE per tick even when time exceeds 2x drillTime), unchanged when below the threshold.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_drop_loop_state"
+          ]
+        },
+        "items": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "items.add(drop, 1);",
+          "rule": "The items store after the tick (BeamDrill.java:257): one of each facing drop added, each add gated on the re-checked items.total() < itemCapacity (:256); unchanged when the threshold did not fire or the store was full.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_drop_loop_state"
+          ]
+        },
+        "produced": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "produced(drop);",
+          "rule": "The produced counts per item id (BeamDrill.java:258, `produced(drop);` -> `produced(item, 1);`, BuildingComp.java:1035-1036): the sector stats + unlock write (BuildingComp.java:1039-1046) is NOT performed -- no sector stats exist in the port (the WallCrafter N2398 precedent) -- so the pure reports the counts and the tick stamps them for a later stats slice.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_drop_loop_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BeamDrillDropLoopProof",
+      "rule": "Source-backed BeamDrill drop loop + time reset + lastDrillSpeed from BeamDrill.java / Blocks.java / BuildingComp.java / Block.java / Tile.java / ObjectFloatMap.java."
+    },
+    "source_beam_drill_can_place_on_state_input": {
+      "status": "active",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_can_place_on_state",
+      "source_slice": "N2478",
+      "keys": {
+        "tile_x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "nearbySide(tile.x, tile.y, rotation, i, Tmp.p1);",
+          "rule": "The placement tile x (BeamDrill.java:200, the canPlaceOn nearbySide call -- tile.x of the placement Tile): the laser origins are computed from it by the N2346 laser-origins pure (nearbySide, Block.java:936-944).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_can_place_on_state"
+          ]
+        },
+        "tile_y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "nearbySide(tile.x, tile.y, rotation, i, Tmp.p1);",
+          "rule": "The placement tile y (BeamDrill.java:200, the canPlaceOn nearbySide call -- tile.y of the placement Tile).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_can_place_on_state"
+          ]
+        },
+        "rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Tile other = world.tile(Tmp.p1.x + Geometry.d4x(rotation)*j, Tmp.p1.y + Geometry.d4y(rotation)*j);",
+          "rule": "The placement rotation (BeamDrill.java:202, the ray direction Geometry.d4x/d4y -- arc Geometry.java:23-24, mod-4 normalized, the N2352 posmod precedent). The Java canPlaceOn also takes a Team, but the body never reads it, so the pure takes no team param.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_can_place_on_state"
+          ]
+        },
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "for(int i = 0; i < size; i++){",
+          "rule": "The block size (BeamDrill.java:199, the laser count): plasma-bore `size = 2;` / large-plasma-bore `size = 3;` (Blocks.java:3044/3058); the class default is `public int size = 1;` (Block.java:215).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_can_place_on_state"
+          ]
+        },
+        "beam_range": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "for(int j = 0; j < range; j++){",
+          "rule": "The laser range in tiles (BeamDrill.java:201, the walk length): plasma-bore `range = 5;` / large-plasma-bore `range = 6;` (Blocks.java:3045/3059); the class default is `public int range = 5;` (BeamDrill.java:35). The parameter is beam_range, not `range` (GDScript's range() builtin -- the N2339 precedent).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_can_place_on_state"
+          ]
+        },
+        "tier": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "if(drop != null && drop.hardness <= tier && (blockedItems == null || !blockedItems.contains(drop))){",
+          "rule": "The drill tier (BeamDrill.java:205, the mineable gate): plasma-bore `tier = 3;` / large-plasma-bore `tier = 5;` (Blocks.java:3043/3057); the class default is `public int tier = 1;` (BeamDrill.java:36). A drop mines iff hardness <= tier (copper 1 / thorium 4 / tungsten 5, Items.java:17/56/113).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_can_place_on_state"
+          ]
+        },
+        "blocked_items": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "if(drop != null && drop.hardness <= tier && (blockedItems == null || !blockedItems.contains(drop))){",
+          "rule": "The exemption list (BeamDrill.java:205, read by the gate): null or an Array of item names (the N2339 facing-scan precedent), live since N2473 via the init promotion (BeamDrill.java:84-85). Neither BeamDrill def sets one, so both defs read null.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_can_place_on_state"
+          ]
+        },
+        "world_tiles": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Tile other = world.tile(Tmp.p1.x + Geometry.d4x(rotation)*j, Tmp.p1.y + Geometry.d4y(rotation)*j);",
+          "rule": "The world tiles the rays walk (BeamDrill.java:202, world.tile -- `public Tile tile(int x, int y){`, World.java:122): the N2352 frame input, a Dict keyed \"x,y\" to {solid, wall_drop} carrying the `other != null && other.solid()` answer and the wallDrop item {id, hardness} (null when the tile drops nothing). A missing key (or a null / non-Dict entry) is a null world tile -- the walk continues past it.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_can_place_on_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BeamDrillCanPlaceOnDrawPlaceProof",
+      "rule": "Source-backed BeamDrill canPlaceOn / drawPlace rows from BeamDrill.java / Block.java / Vars.java / Blocks.java / Items.java / Pal.java / bundle.properties / Geometry.java."
+    },
+    "source_beam_drill_can_place_on_state_result": {
+      "status": "active",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_can_place_on_state",
+      "source_slice": "N2478",
+      "keys": {
+        "can_place_on": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public boolean canPlaceOn(Tile tile, Team team, int rotation){",
+          "rule": "Whether the drill can be placed here (BeamDrill.java:198-214): true on the FIRST mineable drop on any laser's ray (`return true;`, :206), false when no laser finds one (`return false;`, :213). The first solid tile ends each laser's walk either way -- the `break;` (:207) sits OUTSIDE the drop check, so a mineable drop behind an unmineable solid tile never counts.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_can_place_on_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BeamDrillCanPlaceOnDrawPlaceProof",
+      "rule": "Source-backed BeamDrill canPlaceOn / drawPlace rows from BeamDrill.java / Block.java / Vars.java / Blocks.java / Items.java / Pal.java / bundle.properties / Geometry.java."
+    },
+    "source_beam_drill_draw_place_state_input": {
+      "status": "active",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_draw_place_state",
+      "source_slice": "N2478",
+      "keys": {
+        "tile_x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "nearbySide(x, y, rotation, i, Tmp.p1);",
+          "rule": "The placement tile x (BeamDrill.java:143, the drawPlace nearbySide call): the laser origins are computed from it by the N2346 laser-origins pure, and the speed text / tier-req text / icon records carry it (drawPlaceText takes tile coords, Block.java:531-546).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_place_state"
+          ]
+        },
+        "tile_y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "nearbySide(x, y, rotation, i, Tmp.p1);",
+          "rule": "The placement tile y (BeamDrill.java:143, the drawPlace nearbySide call).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_place_state"
+          ]
+        },
+        "rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "int rx = Tmp.p1.x + Geometry.d4x(rotation)*j, ry = Tmp.p1.y + Geometry.d4y(rotation)*j;",
+          "rule": "The placement rotation (BeamDrill.java:148, the ray direction Geometry.d4x/d4y -- arc Geometry.java:23-24, mod-4 normalized, the N2352 posmod precedent).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_place_state"
+          ]
+        },
+        "valid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "float width = drawPlaceText(Core.bundle.formatFloat(\"bar.drillspeed\", 60f / getDrillTime(item) * count, 2), x, y, valid);",
+          "rule": "The placement-valid flag (BeamDrill.java:183, passed to the speed-text drawPlaceText call -- the 4-arg overload colors it Pal.accent when valid, Pal.remove otherwise, Block.java:531-532). The tier-req text does NOT use it: Java passes false hardcoded (:192).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_place_state"
+          ]
+        },
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "for(int i = 0; i < size; i++){",
+          "rule": "The block size (BeamDrill.java:142, the laser count; also the icon dy, :185): plasma-bore `size = 2;` / large-plasma-bore `size = 3;` (Blocks.java:3044/3058).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_place_state"
+          ]
+        },
+        "beam_range": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "for(; j < range; j++){",
+          "rule": "The laser range in tiles (BeamDrill.java:147, the walk length; also the dash length cap, `int len = Math.min(j, range - 1);`, :172): plasma-bore `range = 5;` / large-plasma-bore `range = 6;` (Blocks.java:3045/3059). The parameter is beam_range, not `range` (GDScript's range() builtin -- the N2339 precedent).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_place_state"
+          ]
+        },
+        "tier": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "if(drop.hardness <= tier && (blockedItems == null || !blockedItems.contains(drop))){",
+          "rule": "The drill tier (BeamDrill.java:154, the drawPlace mineable gate -- the drop-null check already ran at :152, so this gate has no null check, unlike :205): plasma-bore `tier = 3;` / large-plasma-bore `tier = 5;` (Blocks.java:3043/3057).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_place_state"
+          ]
+        },
+        "blocked_items": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "if(drop.hardness <= tier && (blockedItems == null || !blockedItems.contains(drop))){",
+          "rule": "The exemption list (BeamDrill.java:154, read by the drawPlace gate): null or an Array of item names (the N2339 precedent), live since N2473 via the init promotion (BeamDrill.java:84-85).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_place_state"
+          ]
+        },
+        "world_tiles": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Tile other = world.tile(rx, ry);",
+          "rule": "The world tiles the rays walk (BeamDrill.java:149, world.tile): the N2352 frame input, a Dict keyed \"x,y\" to {solid, wall_drop}. A missing key (or a null / non-Dict entry) is a null world tile -- the walk continues past it.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_place_state"
+          ]
+        },
+        "drill_time_base": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public float drillTime = 200f;",
+          "rule": "The per-def base drillTime (BeamDrill.java:39, the class default 200f): `drillTime = 160f;` plasma-bore / `drillTime = 100f;` large-plasma-bore (Blocks.java:3042/3055). The speed value divides it by the multiplier for the found item (getDrillTime, BeamDrill.java:216-218).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_place_state"
+          ]
+        },
+        "drill_multipliers": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "return drillTime / drillMultipliers.get(item, 1f);",
+          "rule": "The drill-speed multipliers (BeamDrill.java:217, the getDrillTime lookup): a caller-supplied Dict item-name -> float (the N2435 precedent), the ObjectFloatMap by item id, default 1.0. Neither BeamDrill def sets an entry (Blocks.java:3038-3068). The pure looks the multiplier up inline -- it does NOT call the N2473 multiplier pure, whose test pins its call count at 1.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_place_state"
+          ]
+        },
+        "text_width": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "float width = drawPlaceText(Core.bundle.formatFloat(\"bar.drillspeed\", 60f / getDrillTime(item) * count, 2), x, y, valid);",
+          "rule": "The drawPlaceText RETURN for the speed text (BeamDrill.java:183, `float width = ...` -- the laid-out text width, Block.java:535-560, 0 when renderer.pixelate): a font measurement no pure can compute, so it arrives caller-supplied (the N2435 precedent). The icon dx reads it (`- width/2f - 4f`, :185).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_place_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BeamDrillCanPlaceOnDrawPlaceProof",
+      "rule": "Source-backed BeamDrill canPlaceOn / drawPlace rows from BeamDrill.java / Block.java / Vars.java / Blocks.java / Items.java / Pal.java / bundle.properties / Geometry.java."
+    },
+    "source_beam_drill_draw_place_state_result": {
+      "status": "active",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_draw_place_state",
+      "source_slice": "N2478",
+      "keys": {
+        "dash_lines": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Drawf.dashLine(found == null ? Pal.remove : Pal.placing,",
+          "rule": "One dash-line call record per laser (BeamDrill.java:172-179): Pal.placing when the laser found a mineable drop, Pal.remove otherwise (`placing = accent,`, Pal.java:95; `remove = Color.valueOf(\"e55454\"),`, Pal.java:86 -- symbolic tokens, the N2373 precedent); from the laser origin times tilesize (8, Vars.java:135) to the origin + d4 * len, where `int len = Math.min(j, range - 1);` (:172) -- j is the solid tile's own index at the break, so the dash ends ON the solid tile, or on the last walked tile when nothing is found.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_place_state"
+          ]
+        },
+        "speed_text": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "float width = drawPlaceText(Core.bundle.formatFloat(\"bar.drillspeed\", 60f / getDrillTime(item) * count, 2), x, y, valid);",
+          "rule": "The speed-text drawPlaceText call record (BeamDrill.java:183) when an item was found, else null: the bundle KEY `bar.drillspeed` (`bar.drillspeed = Drill Speed: {0}/s`, bundle.properties:1279) + the RAW value 60f / getDrillTime(item) * count + decimals 2 (the renderer formats, the N2450 precedent) + the item id + the mineable-laser count + the tile coords + valid. item is the LAST found item across lasers (`item = found;`, :169) -- drawPlace does NOT null it when multiple, unlike updateFacing.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_place_state"
+          ]
+        },
+        "icon": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Draw.rect(item.fullIcon, dx, dy, s, s);",
+          "rule": "The single-item icon call record (BeamDrill.java:185-189) when an item was found AND !multiple, else null: the item fullIcon rect at dx = x * tilesize + offset - width/2f - 4f, dy = y * tilesize + offset + size * tilesize / 2f + 5, size s = iconSmall / 4f = 6.0 (Vars.java:139), plus the darkGray shadow rect at dy - 1 (`Draw.mixcol(Color.darkGray, 1f);` / `Draw.rect(item.fullIcon, dx, dy - 1, s, s);`, :186-187). offset is the Block offset (`offset = ((size + 1) % 2) * tilesize / 2f;`, Block.java:761).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_place_state"
+          ]
+        },
+        "tier_req_text": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "drawPlaceText(Core.bundle.get(\"bar.drilltierreq\"), x, y, false);",
+          "rule": "The tier-req drawPlaceText call record (BeamDrill.java:191-193) when NO item was found but an invalid drop was, else null: the bundle KEY `bar.drilltierreq` (`bar.drilltierreq = Better Drill Required`, bundle.properties:1273) + valid=false HARDCODED (Java passes false, not the placement flag) + the invalid item id (port bookkeeping -- the Java call takes only the bundle string). invalidItem is the LAST unmineable drop (`invalidItem = drop;`, :158, overwrites every time).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_place_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BeamDrillCanPlaceOnDrawPlaceProof",
+      "rule": "Source-backed BeamDrill canPlaceOn / drawPlace rows from BeamDrill.java / Block.java / Vars.java / Blocks.java / Items.java / Pal.java / bundle.properties / Geometry.java."
+    },
+    "source_radar_can_pickup_progress_state_input": {
+      "status": "active",
+      "owner": "SourceRadarBuildState.source_radar_can_pickup_progress_state",
+      "source_slice": "N2479",
+      "keys": {
+        "progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "public float progress;",
+          "rule": "The build progress (Radar.java:49, tracked on the frame as progress by the N2190 advance): the discovery fraction, 0 at placement, advanced by progress += edelta() / discoveryTime (Radar.java:68) and clamped to [0, 1] (Radar.java:69).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_can_pickup_progress_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RadarCanPickupProgressProof",
+      "rule": "Source-backed Radar canPickup / progress() rows from Radar.java."
+    },
+    "source_radar_can_pickup_progress_state_result": {
+      "status": "active",
+      "owner": "SourceRadarBuildState.source_radar_can_pickup_progress_state",
+      "source_slice": "N2479",
+      "keys": {
+        "can_pickup": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "return false;",
+          "rule": "The canPickup() verdict (Radar.java:75-77): false unconditionally, whatever the progress -- the base BuildingComp.canPickup() returns block.canPickup (BuildingComp.java:1838-1840, default true, Block.java:176), so the override is what makes a radar unpickupable.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_can_pickup_progress_state"
+          ]
+        },
+        "progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "return progress;",
+          "rule": "The progress() method value (Radar.java:93-95): the build progress field as-is -- the pure does NOT clamp (the clamp lives in updateTile, Radar.java:69); the base BuildingComp.progress() returns 0f (BuildingComp.java:617-619).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_can_pickup_progress_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RadarCanPickupProgressProof",
+      "rule": "Source-backed Radar canPickup / progress() rows from Radar.java."
+    },
+    "source_payload_deconstructor_break_block_fx_state_input": {
+      "status": "active",
+      "owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_break_block_fx_state",
+      "source_slice": "N2480",
+      "keys": {
+        "finish": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "if(progress >= 1f){",
+          "rule": "The caller-evaluated finish verdict (PayloadDeconstructor.java:179-195, `if(progress >= 1f){` + `if(canProgress){`): true exactly when the N2233 advance finished this tick (progress reached 1f and the rounding check passed, so deconstructing / accum were cleared). The pure does NOT recompute the gate (the N2397 precedent -- the N2233 advance owns it).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_break_block_fx_state"
+          ]
+        },
+        "deconstructing_size": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "Fx.breakBlock.at(x, y, deconstructing.size() / tilesize);",
+          "rule": "The deconstructing payload size() in pixels (PayloadDeconstructor.java:191; `float size();`, Payload.java:27): a BuildPayload is block.size * tilesize (`return build.block.size * tilesize;`, BuildPayload.java:86-88), a UnitPayload is hitSize (`return unit.hitSize;`, UnitPayload.java:99-101). Caller-supplied -- the N2233 deconstructing descriptor (kind / requirements / build_time) carries no size key -- and captured BEFORE the advance clears deconstructing. The scale is deconstructing_size / 8.0, the JAVA tilesize (`public static final int tilesize = 8;`, Vars.java:135), NOT the game tile_size 32 (the N2364 lesson).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_break_block_fx_state"
+          ]
+        },
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "Fx.breakBlock.at(x, y, deconstructing.size() / tilesize);",
+          "rule": "The building world x (PayloadDeconstructor.java:191, the breakBlock.at x): an explicit input, passed through to the effect call (untouched).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_break_block_fx_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "Fx.breakBlock.at(x, y, deconstructing.size() / tilesize);",
+          "rule": "The building world y (PayloadDeconstructor.java:191, the breakBlock.at y): an explicit input, passed through to the effect call (untouched).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_break_block_fx_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07DeconstructorBreakBlockFxProof",
+      "rule": "Source-backed PayloadDeconstructor breakBlock finish FX row from PayloadDeconstructor.java / Payload.java / BuildPayload.java / UnitPayload.java / Vars.java / Fx.java."
+    },
+    "source_payload_deconstructor_break_block_fx_state_result": {
+      "status": "active",
+      "owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_break_block_fx_state",
+      "source_slice": "N2480",
+      "keys": {
+        "break_block_call": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "Fx.breakBlock.at(x, y, deconstructing.size() / tilesize);",
+          "rule": "The breakBlock effect call (PayloadDeconstructor.java:191): {effect: \"Fx.breakBlock\", x, y, scale: deconstructing_size / 8.0} when the gate fires, null otherwise (the N2397 null-when-absent precedent). The effect is Fx.breakBlock (`breakBlock = new Effect(12, e -> {`, Fx.java:285), and its renderer reads the third .at arg (e.rotation) as the size scale (`Lines.square(e.x, e.y, tilesize / 2f * e.rotation + e.fin() * 3f);`, Fx.java:288) -- so the record carries the value under the \"scale\" key. The 12-tick renderer body is the callee presentation -- the pure records the CALL (the N2396 precedent).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_break_block_fx_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07DeconstructorBreakBlockFxProof",
+      "rule": "Source-backed PayloadDeconstructor breakBlock finish FX row from PayloadDeconstructor.java / Payload.java / BuildPayload.java / UnitPayload.java / Vars.java / Fx.java."
+    },
+    "source_solid_pump_update_effect_chance_state_input": {
+      "status": "active",
+      "owner": "SourceSolidPumpBuildState.source_solid_pump_update_effect_chance_state",
+      "source_slice": "N2481",
+      "keys": {
+        "pump_branch_open": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "if(efficiency > 0 && typeLiquid() < liquidCapacity - 0.001f){",
+          "rule": "The caller-evaluated pump-branch verdict (SolidPump.java:126): true exactly when efficiency > 0 and typeLiquid() < liquidCapacity - 0.001f. The pure does NOT recompute the gate (the N2397 precedent -- the N2220 advance owns it; the advance computes the gate inline, there is no separate gate key).",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_update_effect_chance_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26): the delta the chance threshold scales by (SolidPump.java:131), like the N2220 advance (the family precedent).",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_update_effect_chance_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live timeScale (BuildingComp.java:98), default 1.0: delta() = Time.delta * timeScale (BuildingComp.java:1922-1923).",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_update_effect_chance_state"
+          ]
+        },
+        "update_effect_chance": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "public float updateEffectChance = 0.02f;",
+          "rule": "The class field (SolidPump.java:24): 0.02f by default; the water-extractor def does not override it (Blocks.java:2920-2930). The pure takes it as a param (the N2475 repair_radius precedent), so a def override would pass through verbatim.",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_update_effect_chance_state"
+          ]
+        },
+        "update_effect": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "public Effect updateEffect = Fx.none;",
+          "rule": "The class field (SolidPump.java:23): Fx.none by default (`none = new Effect(0, 0f, e -> {}),`, Fx.java:30); the water-extractor def does not override it (Blocks.java:2920-2930), so the live call records the Fx.none token. The pure records the token, it does not hardcode none.",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_update_effect_chance_state"
+          ]
+        },
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "updateEffect.at(x + Mathf.range(size * 2f), y + Mathf.range(size * 2f));",
+          "rule": "The building world x (SolidPump.java:132): the effect spawns at x + the already-rolled range offset.",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_update_effect_chance_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "updateEffect.at(x + Mathf.range(size * 2f), y + Mathf.range(size * 2f));",
+          "rule": "The building world y (SolidPump.java:132): the effect spawns at y + the already-rolled range offset.",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_update_effect_chance_state"
+          ]
+        },
+        "chance_roll": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "if(Mathf.chance(delta() * updateEffectChance))",
+          "rule": "The already-rolled rand.nextFloat() in [0, 1) (arc Mathf.java:241): the hit is chance_roll < delta * updateEffectChance, STRICT -- a roll exactly at the threshold misses -- plus the d >= 1f short-circuit (arc Mathf.java:241). NO RNG in the pure (the N2421/N2468 precedent): the caller owns the seed/roll.",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_update_effect_chance_state"
+          ]
+        },
+        "range_roll_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "updateEffect.at(x + Mathf.range(size * 2f), y + Mathf.range(size * 2f));",
+          "rule": "The already-rolled Mathf.range(size * 2f) x offset (arc Mathf.range(r) = random(-r, r), Mathf.java:220-222): in [-4f, 4f] for the size-2 water-extractor (`size = 2;`, Blocks.java:2924). The pure never sees the size, only the offset (the N2421 already-ranged precedent).",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_update_effect_chance_state"
+          ]
+        },
+        "range_roll_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "updateEffect.at(x + Mathf.range(size * 2f), y + Mathf.range(size * 2f));",
+          "rule": "The already-rolled Mathf.range(size * 2f) y offset (arc Mathf.range(r) = random(-r, r), Mathf.java:220-222): in [-4f, 4f] for the size-2 water-extractor (`size = 2;`, Blocks.java:2924). The pure never sees the size, only the offset (the N2421 already-ranged precedent).",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_update_effect_chance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SolidPumpUpdateEffectChanceProof",
+      "rule": "Source-backed SolidPump updateEffect chance rows from SolidPump.java / BuildingComp.java / Blocks.java / Fx.java."
+    },
+    "source_solid_pump_update_effect_chance_state_result": {
+      "status": "active",
+      "owner": "SourceSolidPumpBuildState.source_solid_pump_update_effect_chance_state",
+      "source_slice": "N2481",
+      "keys": {
+        "effect_call": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "updateEffect.at(x + Mathf.range(size * 2f), y + Mathf.range(size * 2f));",
+          "rule": "The updateEffect call record (SolidPump.java:131-132): {effect: <updateEffect token>, x: x + range_roll_x, y: y + range_roll_y} when the pump branch is open and the chance roll hits (roll < delta * updateEffectChance, or the d >= 1f short-circuit), null otherwise (the N2397 null-when-absent precedent). The live token is Fx.none -- the pure records the CALL, not the renderer body (the N2396 precedent).",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_update_effect_chance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SolidPumpUpdateEffectChanceProof",
+      "rule": "Source-backed SolidPump updateEffect chance rows from SolidPump.java / BuildingComp.java / Blocks.java / Fx.java."
+    },
+    "source_force_projector_absorb_effect_state_input": {
+      "status": "active",
+      "owner": "SourceForceProjectorBuildState.source_force_projector_absorb_effect_state",
+      "source_slice": "N2482",
+      "keys": {
+        "absorb": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "if(absorb){",
+          "rule": "The caller-evaluated absorb verdict (ForceProjector.java:271, `if(absorb){`): true exactly when the explosion was absorbed -- the N2423 pure source_force_projector_absorb_explosion_state absorb result key. The pure does NOT recompute the polygon gate (the N2397 precedent -- the N2423 pure owns the gate).",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_absorb_effect_state"
+          ]
+        },
+        "ex": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "absorbEffect.at(ex, ey);",
+          "rule": "The explosion world x (ForceProjector.java:272, the absorbEffect.at ex): an explicit input, passed through to the effect call untouched.",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_absorb_effect_state"
+          ]
+        },
+        "ey": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "absorbEffect.at(ex, ey);",
+          "rule": "The explosion world y (ForceProjector.java:272, the absorbEffect.at ey): an explicit input, passed through to the effect call untouched.",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_absorb_effect_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ForceProjectorAbsorbEffectProof",
+      "rule": "Source-backed ForceProjector absorbExplosion absorbEffect FX row from ForceProjector.java / Fx.java."
+    },
+    "source_force_projector_absorb_effect_state_result": {
+      "status": "active",
+      "owner": "SourceForceProjectorBuildState.source_force_projector_absorb_effect_state",
+      "source_slice": "N2482",
+      "keys": {
+        "absorb_effect_call": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "absorbEffect.at(ex, ey);",
+          "rule": "The absorbExplosion absorb-effect call (ForceProjector.java:272): {effect: \"Fx.absorb\", ex, ey} when absorb is true, null otherwise (the N2397 null-when-absent precedent). Fx.absorb is `absorb = new Effect(12, e -> {` (Fx.java:1356); the effect field is `public Effect absorbEffect = Fx.absorb;` (ForceProjector.java:49) and the single def does not override it (Blocks.java:1964-1976). The 12-tick renderer body is the callee presentation -- the pure records the CALL (the N2396 precedent). The shieldConsumer bullet-path call (absorbEffect.at(bullet), ForceProjector.java:65) is a DIFFERENT call site and defers under its own entry.",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_absorb_effect_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ForceProjectorAbsorbEffectProof",
+      "rule": "Source-backed ForceProjector absorbExplosion absorbEffect FX row from ForceProjector.java / Fx.java."
     }
   },
   "version": 1

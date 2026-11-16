@@ -76,6 +76,91 @@
         }
       }
     },
+    "source_beam_drill_can_place_on_state_input": {
+      "canonical_schema": "source_state_schema.source_beam_drill_can_place_on_state_input",
+      "keys": {
+        "tile_x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "nearbySide(tile.x, tile.y, rotation, i, Tmp.p1);",
+          "rule": "The placement tile x (BeamDrill.java:200, the canPlaceOn nearbySide call -- tile.x of the placement Tile): the laser origins are computed from it by the N2346 laser-origins pure (nearbySide, Block.java:936-944).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_can_place_on_state"
+          ]
+        },
+        "tile_y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "nearbySide(tile.x, tile.y, rotation, i, Tmp.p1);",
+          "rule": "The placement tile y (BeamDrill.java:200, the canPlaceOn nearbySide call -- tile.y of the placement Tile).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_can_place_on_state"
+          ]
+        },
+        "rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Tile other = world.tile(Tmp.p1.x + Geometry.d4x(rotation)*j, Tmp.p1.y + Geometry.d4y(rotation)*j);",
+          "rule": "The placement rotation (BeamDrill.java:202, the ray direction Geometry.d4x/d4y -- arc Geometry.java:23-24, mod-4 normalized, the N2352 posmod precedent). The Java canPlaceOn also takes a Team, but the body never reads it, so the pure takes no team param.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_can_place_on_state"
+          ]
+        },
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "for(int i = 0; i < size; i++){",
+          "rule": "The block size (BeamDrill.java:199, the laser count): plasma-bore `size = 2;` / large-plasma-bore `size = 3;` (Blocks.java:3044/3058); the class default is `public int size = 1;` (Block.java:215).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_can_place_on_state"
+          ]
+        },
+        "beam_range": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "for(int j = 0; j < range; j++){",
+          "rule": "The laser range in tiles (BeamDrill.java:201, the walk length): plasma-bore `range = 5;` / large-plasma-bore `range = 6;` (Blocks.java:3045/3059); the class default is `public int range = 5;` (BeamDrill.java:35). The parameter is beam_range, not `range` (GDScript's range() builtin -- the N2339 precedent).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_can_place_on_state"
+          ]
+        },
+        "tier": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "if(drop != null && drop.hardness <= tier && (blockedItems == null || !blockedItems.contains(drop))){",
+          "rule": "The drill tier (BeamDrill.java:205, the mineable gate): plasma-bore `tier = 3;` / large-plasma-bore `tier = 5;` (Blocks.java:3043/3057); the class default is `public int tier = 1;` (BeamDrill.java:36). A drop mines iff hardness <= tier (copper 1 / thorium 4 / tungsten 5, Items.java:17/56/113).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_can_place_on_state"
+          ]
+        },
+        "blocked_items": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "if(drop != null && drop.hardness <= tier && (blockedItems == null || !blockedItems.contains(drop))){",
+          "rule": "The exemption list (BeamDrill.java:205, read by the gate): null or an Array of item names (the N2339 facing-scan precedent), live since N2473 via the init promotion (BeamDrill.java:84-85). Neither BeamDrill def sets one, so both defs read null.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_can_place_on_state"
+          ]
+        },
+        "world_tiles": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Tile other = world.tile(Tmp.p1.x + Geometry.d4x(rotation)*j, Tmp.p1.y + Geometry.d4y(rotation)*j);",
+          "rule": "The world tiles the rays walk (BeamDrill.java:202, world.tile -- `public Tile tile(int x, int y){`, World.java:122): the N2352 frame input, a Dict keyed \"x,y\" to {solid, wall_drop} carrying the `other != null && other.solid()` answer and the wallDrop item {id, hardness} (null when the tile drops nothing). A missing key (or a null / non-Dict entry) is a null world tile -- the walk continues past it.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_can_place_on_state"
+          ]
+        }
+      }
+    },
     "source_beam_drill_draw_state_input": {
       "canonical_schema": "source_state_schema.source_beam_drill_draw_state_input",
       "keys": {
@@ -287,6 +372,101 @@
           "rule": "The def laserWidth (BeamDrill.java:42, the class default 0.65f; the laser width base, :293): large-plasma-bore overrides it to 0.7f (`laserWidth = 0.7f;`, Blocks.java:3061), so it is a caller-supplied INPUT, not a driver constant.",
           "used_by": [
             "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        }
+      }
+    },
+    "source_beam_drill_drop_loop_state_input": {
+      "canonical_schema": "source_state_schema.source_beam_drill_drop_loop_state_input",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "if(time >= drillTime){",
+          "rule": "The building frame carrying the facing rays (facing_tiles, stamped by the N2352 fill each enabled tick), the items store (frame[\"items\"], the Building.items ItemModule), the ADVANCED time (the N2195 advance already moved it, BeamDrill.java:251, before this pure runs), the facing count (facing_amount, stamped by the N2339 scan), the boost multiplier (stamped by the advance) and the folded efficiency; the threshold check reads the advanced time (BeamDrill.java:253).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_drop_loop_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live timeScale read from the sprite meta (SourcePlacedBlockState.time_scale), default 1.0 (BuildingComp.java:98): lastDrillSpeed scales by it (BeamDrill.java:249).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_drop_loop_state"
+          ]
+        },
+        "drill_time_base": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public float drillTime = 200f;",
+          "rule": "The per-def base drillTime from the catalog (block.properties[\"drillTime\"], 160f for the plasma-bore / 100f for the large-plasma-bore, Blocks.java:3042/3055; class default 200f, BeamDrill.java:39): the effective drillTime is this base divided by the looked-up multiplier (getDrillTime, BeamDrill.java:216-218).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_drop_loop_state"
+          ]
+        },
+        "drill_multipliers": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public ObjectFloatMap<Item> drillMultipliers = new ObjectFloatMap<>();",
+          "rule": "The drill-speed multipliers (BeamDrill.java:47, \"Multipliers of drill speed for each item. Defaults to 1.\", :46): a caller-supplied Dict item-name -> float (the N2435 precedent), the ObjectFloatMap by item id. The tick passes {} -- neither BeamDrill def sets an entry (Blocks.java:3038-3068, the N2473 verification) -- so the effective drillTime is the base live; the beryllium 2f proof value is the BurstDrill def (`drillMultipliers.put(Items.beryllium, 2f);`, Blocks.java:3083/3114) used as a caller-supplied map entry.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_drop_loop_state"
+          ]
+        },
+        "item_capacity": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public int itemCapacity = 10;",
+          "rule": "The item capacity from the catalog (block.properties[\"itemCapacity\"], 10 default, Block.java:75; 20 for the large-plasma-bore, Blocks.java:3062): the per-tile gate re-checks items.total() < itemCapacity inside the loop (BeamDrill.java:256).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_drop_loop_state"
+          ]
+        },
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public int size = 1;",
+          "rule": "The block size from the catalog (2 plasma-bore / 3 large-plasma-bore, Blocks.java:3044/3058; class default 1, Block.java:215): the number of facing lasers (BeamDrill.java:375-411 walks exactly size lasers).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_drop_loop_state"
+          ]
+        },
+        "beam_range": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public int range = 5;",
+          "rule": "The beam range from the catalog (5 plasma-bore / 6 large-plasma-bore, Blocks.java:3045/3059; class default 5, BeamDrill.java:40 -- NOT :35 as the old scan docstring cited): each laser walks range tiles (BeamDrill.java:375-411). The parameter is beam_range, not `range` (GDScript's range() builtin -- the N2339 precedent).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_drop_loop_state"
+          ]
+        },
+        "tier": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public int tier = 1;",
+          "rule": "The drill tier from the catalog (3 plasma-bore / 5 large-plasma-bore, Blocks.java:3043/3057; class default 1, BeamDrill.java:41 -- NOT :36 as the old scan docstring cited): the mineable gate admits drops with hardness <= tier (BeamDrill.java:391).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_drop_loop_state"
+          ]
+        },
+        "blocked_items": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public @Nullable Seq<Item> blockedItems;",
+          "rule": "The exemption list (BeamDrill.java:51, read at the mineable gate :391): null or an Array of item names (the N2339 facing-scan precedent). Neither BeamDrill def sets one, so both defs read null.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_drop_loop_state"
           ]
         }
       }
@@ -4085,6 +4265,111 @@
           "rule": "The liquid capacity def constant 40f (Blocks.java:2925) -- the catalog carries no liquidCapacity property for pump defs (the N2190 fogRadius / N2199 transportTime def-constant precedent); the class default is -1f (Block.java:77) but every pump def sets it explicitly.",
           "used_by": [
             "SourceSolidPumpBuildState.source_solid_pump_should_consume_state"
+          ]
+        }
+      }
+    },
+    "source_solid_pump_update_effect_chance_state_input": {
+      "canonical_schema": "source_state_schema.source_solid_pump_update_effect_chance_state_input",
+      "keys": {
+        "pump_branch_open": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "if(efficiency > 0 && typeLiquid() < liquidCapacity - 0.001f){",
+          "rule": "The caller-evaluated pump-branch verdict (SolidPump.java:126): true exactly when efficiency > 0 and typeLiquid() < liquidCapacity - 0.001f. The pure does NOT recompute the gate (the N2397 precedent -- the N2220 advance owns it; the advance computes the gate inline, there is no separate gate key).",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_update_effect_chance_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "Time.delta in ticks (seconds * 60 through game_source_delta, arc Time.java:26): the delta the chance threshold scales by (SolidPump.java:131), like the N2220 advance (the family precedent).",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_update_effect_chance_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The live timeScale (BuildingComp.java:98), default 1.0: delta() = Time.delta * timeScale (BuildingComp.java:1922-1923).",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_update_effect_chance_state"
+          ]
+        },
+        "update_effect_chance": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "public float updateEffectChance = 0.02f;",
+          "rule": "The class field (SolidPump.java:24): 0.02f by default; the water-extractor def does not override it (Blocks.java:2920-2930). The pure takes it as a param (the N2475 repair_radius precedent), so a def override would pass through verbatim.",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_update_effect_chance_state"
+          ]
+        },
+        "update_effect": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "public Effect updateEffect = Fx.none;",
+          "rule": "The class field (SolidPump.java:23): Fx.none by default (`none = new Effect(0, 0f, e -> {}),`, Fx.java:30); the water-extractor def does not override it (Blocks.java:2920-2930), so the live call records the Fx.none token. The pure records the token, it does not hardcode none.",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_update_effect_chance_state"
+          ]
+        },
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "updateEffect.at(x + Mathf.range(size * 2f), y + Mathf.range(size * 2f));",
+          "rule": "The building world x (SolidPump.java:132): the effect spawns at x + the already-rolled range offset.",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_update_effect_chance_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "updateEffect.at(x + Mathf.range(size * 2f), y + Mathf.range(size * 2f));",
+          "rule": "The building world y (SolidPump.java:132): the effect spawns at y + the already-rolled range offset.",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_update_effect_chance_state"
+          ]
+        },
+        "chance_roll": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "if(Mathf.chance(delta() * updateEffectChance))",
+          "rule": "The already-rolled rand.nextFloat() in [0, 1) (arc Mathf.java:241): the hit is chance_roll < delta * updateEffectChance, STRICT -- a roll exactly at the threshold misses -- plus the d >= 1f short-circuit (arc Mathf.java:241). NO RNG in the pure (the N2421/N2468 precedent): the caller owns the seed/roll.",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_update_effect_chance_state"
+          ]
+        },
+        "range_roll_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "updateEffect.at(x + Mathf.range(size * 2f), y + Mathf.range(size * 2f));",
+          "rule": "The already-rolled Mathf.range(size * 2f) x offset (arc Mathf.range(r) = random(-r, r), Mathf.java:220-222): in [-4f, 4f] for the size-2 water-extractor (`size = 2;`, Blocks.java:2924). The pure never sees the size, only the offset (the N2421 already-ranged precedent).",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_update_effect_chance_state"
+          ]
+        },
+        "range_roll_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "updateEffect.at(x + Mathf.range(size * 2f), y + Mathf.range(size * 2f));",
+          "rule": "The already-rolled Mathf.range(size * 2f) y offset (arc Mathf.range(r) = random(-r, r), Mathf.java:220-222): in [-4f, 4f] for the size-2 water-extractor (`size = 2;`, Blocks.java:2924). The pure never sees the size, only the offset (the N2421 already-ranged precedent).",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_update_effect_chance_state"
           ]
         }
       }

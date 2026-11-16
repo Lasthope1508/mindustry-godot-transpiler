@@ -5674,6 +5674,24 @@
       ],
       "runtime_proof": "/root/C07StackRouterLiveProximityQueryProof"
     },
+    "N2476": {
+      "canonical_ledger": "source_slice_ledger.N2476",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.offload()",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_offload_route_state",
+      "source_symbols": [
+        "source_burst_drill_offload_route_state_result.routed_index",
+        "source_burst_drill_offload_route_state_result.cdump_after"
+      ],
+      "tests": [
+        "test_c07_burst_drill_offload_neighbor_routing_registration",
+        "test_all_c07_burst_drill_offload_neighbor_routing_input_evidence_is_exact",
+        "test_burst_drill_offload_neighbor_routing_state",
+        "test_reference_graph_and_actual_c07_burst_drill_offload_neighbor_routing"
+      ],
+      "runtime_proof": "/root/C07BurstDrillOffloadNeighborRoutingProof"
+    },
     "N514": {
       "canonical_ledger": "source_slice_ledger.N514",
       "status": "done",

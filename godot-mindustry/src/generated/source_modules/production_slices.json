@@ -2064,6 +2064,67 @@
       ],
       "runtime_proof": "/root/C07BeamDrillMultipliersBlockedItemRowsProof"
     },
+    "N2477": {
+      "canonical_ledger": "source_slice_ledger.N2477",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.updateTile()",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_drop_loop_state",
+      "source_symbols": [
+        "source_beam_drill_drop_loop_state_result.last_item",
+        "source_beam_drill_drop_loop_state_result.facing",
+        "source_beam_drill_drop_loop_state_result.drill_time",
+        "source_beam_drill_drop_loop_state_result.last_drill_speed",
+        "source_beam_drill_drop_loop_state_result.time",
+        "source_beam_drill_drop_loop_state_result.items",
+        "source_beam_drill_drop_loop_state_result.produced"
+      ],
+      "tests": [
+        "test_c07_beam_drill_drop_loop_registration",
+        "test_all_c07_beam_drill_drop_loop_input_evidence_is_exact",
+        "test_beam_drill_drop_loop_state",
+        "test_reference_graph_and_actual_c07_beam_drill_drop_loop"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDropLoopProof"
+    },
+    "N2478": {
+      "canonical_ledger": "source_slice_ledger.N2478",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrill.canPlaceOn(Tile, Team, int)",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_can_place_on_state",
+      "source_symbols": [
+        "source_beam_drill_can_place_on_state_result.can_place_on",
+        "source_beam_drill_draw_place_state_result.dash_lines",
+        "source_beam_drill_draw_place_state_result.speed_text",
+        "source_beam_drill_draw_place_state_result.icon",
+        "source_beam_drill_draw_place_state_result.tier_req_text"
+      ],
+      "tests": [
+        "test_c07_beam_drill_can_place_on_draw_place_rows_registration",
+        "test_all_c07_beam_drill_can_place_on_draw_place_rows_input_evidence_is_exact",
+        "test_beam_drill_can_place_on_draw_place_rows_state",
+        "test_reference_graph_and_actual_c07_beam_drill_can_place_on_draw_place_rows"
+      ],
+      "runtime_proof": "/root/C07BeamDrillCanPlaceOnDrawPlaceProof"
+    },
+    "N2481": {
+      "canonical_ledger": "source_slice_ledger.N2481",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+      "java_method": "SolidPumpBuild.updateTile()",
+      "godot_owner": "SourceSolidPumpBuildState.source_solid_pump_update_effect_chance_state",
+      "source_symbols": [
+        "source_solid_pump_update_effect_chance_state_result.effect_call"
+      ],
+      "tests": [
+        "test_c07_solid_pump_update_effect_chance_rows_registration",
+        "test_all_c07_solid_pump_update_effect_chance_rows_input_evidence_is_exact",
+        "test_solid_pump_update_effect_chance_rows_state",
+        "test_reference_graph_and_actual_c07_solid_pump_update_effect_chance_rows"
+      ],
+      "runtime_proof": "/root/C07SolidPumpUpdateEffectChanceProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",

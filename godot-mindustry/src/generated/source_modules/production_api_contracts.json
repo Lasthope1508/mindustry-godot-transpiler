@@ -583,6 +583,67 @@
       "rule": "Source-backed BeamDrill drillMultipliers / blockedItem rows from BeamDrill.java / Blocks.java / ObjectFloatMap.java.",
       "return_type": "Dictionary"
     },
+    "SourceBeamDrillBuildState.source_beam_drill_can_place_on_state": {
+      "canonical_contract": "source_api_contracts.SourceBeamDrillBuildState.source_beam_drill_can_place_on_state",
+      "status": "active",
+      "source_slice": "N2478",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrill.canPlaceOn(Tile, Team, int)",
+      "params": [
+        {
+          "name": "tile_x",
+          "type": "int",
+          "schema": "source_beam_drill_can_place_on_state_input.tile_x"
+        },
+        {
+          "name": "tile_y",
+          "type": "int",
+          "schema": "source_beam_drill_can_place_on_state_input.tile_y"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_beam_drill_can_place_on_state_input.rotation"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_beam_drill_can_place_on_state_input.size"
+        },
+        {
+          "name": "beam_range",
+          "type": "int",
+          "schema": "source_beam_drill_can_place_on_state_input.beam_range"
+        },
+        {
+          "name": "tier",
+          "type": "int",
+          "schema": "source_beam_drill_can_place_on_state_input.tier"
+        },
+        {
+          "name": "blocked_items",
+          "type": "Variant",
+          "schema": "source_beam_drill_can_place_on_state_input.blocked_items"
+        },
+        {
+          "name": "world_tiles",
+          "type": "Dictionary",
+          "schema": "source_beam_drill_can_place_on_state_input.world_tiles"
+        }
+      ],
+      "return_keys": [
+        "can_place_on"
+      ],
+      "tests": [
+        "test_c07_beam_drill_can_place_on_draw_place_rows_registration",
+        "test_all_c07_beam_drill_can_place_on_draw_place_rows_input_evidence_is_exact",
+        "test_beam_drill_can_place_on_draw_place_rows_state",
+        "test_reference_graph_and_actual_c07_beam_drill_can_place_on_draw_place_rows"
+      ],
+      "runtime_proof": "/root/C07BeamDrillCanPlaceOnDrawPlaceProof",
+      "rule": "Source-backed BeamDrill canPlaceOn / drawPlace rows from BeamDrill.java / Block.java / Vars.java / Blocks.java / Items.java / Pal.java / bundle.properties / Geometry.java.",
+      "return_type": "Dictionary"
+    },
     "SourceBeamDrillBuildState.source_beam_drill_draw_state": {
       "canonical_contract": "source_api_contracts.SourceBeamDrillBuildState.source_beam_drill_draw_state",
       "status": "active",
@@ -714,6 +775,78 @@
       ],
       "runtime_proof": "/root/C07BeamDrillDrawRowsProof",
       "rule": "Source-backed BeamDrill draw rows from BeamDrill.java / Drawf.java / Blocks.java / BuildingComp.java / Tile.java / Vars.java / Lod.java / arc Mathf.java / Geometry.java / Angles.java / Rand.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceBeamDrillBuildState.source_beam_drill_drop_loop_state": {
+      "canonical_contract": "source_api_contracts.SourceBeamDrillBuildState.source_beam_drill_drop_loop_state",
+      "status": "active",
+      "source_slice": "N2477",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrillBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_beam_drill_drop_loop_state_input.frame"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_beam_drill_drop_loop_state_input.time_scale"
+        },
+        {
+          "name": "drill_time_base",
+          "type": "float",
+          "schema": "source_beam_drill_drop_loop_state_input.drill_time_base"
+        },
+        {
+          "name": "drill_multipliers",
+          "type": "Dictionary",
+          "schema": "source_beam_drill_drop_loop_state_input.drill_multipliers"
+        },
+        {
+          "name": "item_capacity",
+          "type": "int",
+          "schema": "source_beam_drill_drop_loop_state_input.item_capacity"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_beam_drill_drop_loop_state_input.size"
+        },
+        {
+          "name": "beam_range",
+          "type": "int",
+          "schema": "source_beam_drill_drop_loop_state_input.beam_range"
+        },
+        {
+          "name": "tier",
+          "type": "int",
+          "schema": "source_beam_drill_drop_loop_state_input.tier"
+        },
+        {
+          "name": "blocked_items",
+          "type": "Variant",
+          "schema": "source_beam_drill_drop_loop_state_input.blocked_items"
+        }
+      ],
+      "return_keys": [
+        "last_item",
+        "facing",
+        "drill_time",
+        "last_drill_speed",
+        "time",
+        "items",
+        "produced"
+      ],
+      "tests": [
+        "test_c07_beam_drill_drop_loop_registration",
+        "test_all_c07_beam_drill_drop_loop_input_evidence_is_exact",
+        "test_beam_drill_drop_loop_state",
+        "test_reference_graph_and_actual_c07_beam_drill_drop_loop"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDropLoopProof",
+      "rule": "Source-backed BeamDrill drop loop + time reset + lastDrillSpeed from BeamDrill.java / Blocks.java / BuildingComp.java / Block.java / Tile.java / ObjectFloatMap.java.",
       "return_type": "Dictionary"
     },
     "SourceBeamDrillBuildState.source_beam_drill_dump_neighbour_live_fill_state": {
@@ -3677,6 +3810,77 @@
       ],
       "runtime_proof": "/root/C07SolidPumpShouldConsumeProof",
       "rule": "Source-backed SolidPump shouldConsume gate from SolidPump.java / BuildingComp.java / Blocks.java / Block.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceSolidPumpBuildState.source_solid_pump_update_effect_chance_state": {
+      "canonical_contract": "source_api_contracts.SourceSolidPumpBuildState.source_solid_pump_update_effect_chance_state",
+      "status": "active",
+      "source_slice": "N2481",
+      "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+      "source_method": "SolidPumpBuild.updateTile()",
+      "params": [
+        {
+          "name": "pump_branch_open",
+          "type": "bool",
+          "schema": "source_solid_pump_update_effect_chance_state_input.pump_branch_open"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_solid_pump_update_effect_chance_state_input.source_delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_solid_pump_update_effect_chance_state_input.time_scale"
+        },
+        {
+          "name": "update_effect_chance",
+          "type": "float",
+          "schema": "source_solid_pump_update_effect_chance_state_input.update_effect_chance"
+        },
+        {
+          "name": "update_effect",
+          "type": "String",
+          "schema": "source_solid_pump_update_effect_chance_state_input.update_effect"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_solid_pump_update_effect_chance_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_solid_pump_update_effect_chance_state_input.y"
+        },
+        {
+          "name": "chance_roll",
+          "type": "float",
+          "schema": "source_solid_pump_update_effect_chance_state_input.chance_roll"
+        },
+        {
+          "name": "range_roll_x",
+          "type": "float",
+          "schema": "source_solid_pump_update_effect_chance_state_input.range_roll_x"
+        },
+        {
+          "name": "range_roll_y",
+          "type": "float",
+          "schema": "source_solid_pump_update_effect_chance_state_input.range_roll_y"
+        }
+      ],
+      "return_keys": [
+        "effect_call"
+      ],
+      "tests": [
+        "test_c07_solid_pump_update_effect_chance_rows_registration",
+        "test_all_c07_solid_pump_update_effect_chance_rows_input_evidence_is_exact",
+        "test_solid_pump_update_effect_chance_rows_state",
+        "test_reference_graph_and_actual_c07_solid_pump_update_effect_chance_rows"
+      ],
+      "runtime_proof": "/root/C07SolidPumpUpdateEffectChanceProof",
+      "rule": "Source-backed SolidPump updateEffect chance rows from SolidPump.java / BuildingComp.java / Blocks.java / Fx.java.",
       "return_type": "Dictionary"
     },
     "SourceSolidPumpBuildState.source_solid_pump_update_tile_advance_state": {

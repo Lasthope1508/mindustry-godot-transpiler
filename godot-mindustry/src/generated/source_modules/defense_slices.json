@@ -3925,6 +3925,41 @@
       ],
       "runtime_proof": "/root/C07RadarFogRadiusRowsProof"
     },
+    "N2479": {
+      "canonical_ledger": "source_slice_ledger.N2479",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "RadarBuild.canPickup()/progress()",
+      "godot_owner": "SourceRadarBuildState.source_radar_can_pickup_progress_state",
+      "source_symbols": [
+        "source_radar_can_pickup_progress_state_result.can_pickup",
+        "source_radar_can_pickup_progress_state_result.progress"
+      ],
+      "tests": [
+        "test_c07_radar_can_pickup_progress_rows_registration",
+        "test_all_c07_radar_can_pickup_progress_rows_input_evidence_is_exact",
+        "test_radar_can_pickup_progress_rows_state",
+        "test_reference_graph_and_actual_c07_radar_can_pickup_progress_rows"
+      ],
+      "runtime_proof": "/root/C07RadarCanPickupProgressProof"
+    },
+    "N2482": {
+      "canonical_ledger": "source_slice_ledger.N2482",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+      "java_method": "ForceBuild.absorbExplosion()",
+      "godot_owner": "SourceForceProjectorBuildState.source_force_projector_absorb_effect_state",
+      "source_symbols": [
+        "source_force_projector_absorb_effect_state_result.absorb_effect_call"
+      ],
+      "tests": [
+        "test_c07_force_projector_absorb_effect_rows_registration",
+        "test_all_c07_force_projector_absorb_effect_rows_input_evidence_is_exact",
+        "test_force_projector_absorb_effect_rows_state",
+        "test_reference_graph_and_actual_c07_force_projector_absorb_effect_rows"
+      ],
+      "runtime_proof": "/root/C07ForceProjectorAbsorbEffectProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",
