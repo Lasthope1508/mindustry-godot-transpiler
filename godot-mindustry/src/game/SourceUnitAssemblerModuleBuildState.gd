@@ -8,6 +8,7 @@ const source_building_efficiency_state := preload("res://src/game/SourceBuilding
 const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
 const source_math_state := preload("res://src/game/SourceMathState.gd")
 const source_unit_factory_build_state := preload("res://src/game/SourceUnitFactoryBuildState.gd")
+const source_world_defaults := preload("res://src/game/SourceWorldDefaults.gd")
 
 # The UnitAssemblerModule implementation (UnitAssemblerModule.java:18, `public class UnitAssemblerModule extends PayloadBlock{`): basic-assembler-module (consumePower 3.5f, Blocks.java:6568, `consumePower(3.5f);`; size 5, tier 1, UnitAssemblerModule.java:22, `public int tier = 1;`). UnitAssemblerModule sets acceptsPayload=true (UnitAssemblerModule.java:28, `acceptsPayload = true;`), and its build extends PayloadBlockBuild<Payload> (UnitAssemblerModule.java:71, `public class UnitAssemblerModuleBuild extends PayloadBlockBuild<Payload>{`). The module finds its linked assembler on tileChanges (UnitAssemblerModule.java:79, `link = getLink(team, tile.x, tile.y, rotation);`) and forwards its payload when the forward gate holds (UnitAssemblerModule.java:138, `if(moveInPayload() && link != null && link.moduleFits(block, x, y, rotation) && !link.wasOccupied && link.acceptPayload(this, payload) && efficiency > 0){`). UnitAssemblerModule extends PayloadBlock, NOT UnitAssembler, so it cannot reuse the unit-factory driver (implementations ["UnitFactory", "Reconstructor", "UnitAssembler"], SourceUnitFactoryBuildState.gd:31); this driver uses its own family frame key ("source_unit_assembler_module_building", the payload-deconstructor precedent), and this slice adds the unit-assembler-module key to N2142's SOURCE_CONSUMER_FRAME_META_KEYS so the graph stamp/write-back finds it. The module has NO shouldConsume override, so the BuildingComp default (BuildingComp.java:755, `public boolean shouldConsume(){`) applies. The port has NO SourceUnitAssemblerModule* files at all yet -- no display/runtime state to lean on -- so the missing piece is the live power.status -> efficiency driver, which is exactly this slice: the forward gate (UnitAssemblerModule.java:138) follows the folded efficiency.
 const SOURCE_UNIT_ASSEMBLER_MODULE_BUILD_IMPLEMENTATIONS := ["UnitAssemblerModule"]
@@ -65,10 +66,15 @@ static func _initial_frame() -> Dictionary:
 	# (`public @Nullable T payload;`, PayloadBlock.java:92), the payload
 	# offset (`public Vec2 payVector = new Vec2();`, PayloadBlock.java:94)
 	# and `public float payRotation;` (PayloadBlock.java:95). The frame
-	# inputs (tile_changes, link_candidate, module_fits, was_occupied,
+	# inputs (tile_changes, link_candidate,
+	# link_candidates, module_fits, was_occupied,
 	# rotation) are NOT bound here: the advance reads
 	# them with frame.get defaults (1 / null / false / false /
-	# 0), the N2228 regen-projector precedent. accept_payload is
+	# 0), the N2228 regen-projector precedent, and the
+	# tick fills link_candidate from the N2358 discovery
+	# when link_candidates is supplied (a tick with no
+	# link_candidates input keeps the seeded
+	# link_candidate). accept_payload is
 	# NOT a frame input anymore: the tick stamps it live from
 	# the link verdict before the advance (N2314).
 	return {"link": null, "last_change": -2, "payload": null, "pay_vector": Vector2.ZERO, "pay_rotation": 0.0}
@@ -93,7 +99,7 @@ static func source_unit_assembler_module_bind_frame_state(sprite: Sprite2D, bloc
 
 static func source_unit_assembler_module_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a unit-assembler-module does not take the early return. The forward gate follows the folded efficiency (UnitAssemblerModule.java:138, `if(moveInPayload() && link != null && link.moduleFits(block, x, y, rotation) && !link.wasOccupied && link.acceptPayload(this, payload) && efficiency > 0){`) and the module has no shouldConsume override, so the default (BuildingComp.java:755, `public boolean shouldConsume(){`) applies -- the row folds under the live default, not the MendProjector-suppression precedent. The basic-assembler-module (consumePower 3.5f, Blocks.java:6568, `consumePower(3.5f);`) has no liquid consumer, so the folded efficiency is the min over the *modeled* consumers (power only).
-	# Documented limits: (1) power-only first pass -- the module has no liquid/item consumer, so the folded efficiency is the min over the *modeled* consumers (power only). (2) shouldConsume default applies -- the module has no override; the machinery runs with should_consume=true when enabled. (3) updateTile advance live (N2248) -- the lastChange refresh + findLink re-discovery + moveInPayload + the handoff gate (UnitAssemblerModule.java:132-141) run in source_unit_assembler_module_update_tile_advance_state; the N2168 proof still carries no link/payload/tier keys (the efficiency > 0 gate (UnitAssemblerModule.java:138) is what the efficiency keys prove) while the N2248 proof carries the link/payload keys. The getLink discovery, the live moduleFits / wasOccupied predicate evaluation (acceptPayload evaluation is live since N2299 and wired into the handoff gate since N2314), the handoff-to-intake wiring, and the live payload fill wait for their own slices -- see DEFERRED. (4) No link/draw/onRemoved rows -- see DEFERRED. canPlaceOn live (N2345) -- the placement gate (UnitAssemblerModule.java:48-51) runs in source_unit_assembler_module_can_place_on_state, reading the frame link verdict (N2248); the live placement call site waits for its own slice. acceptPayload rows live (N2299) -- the module gate (UnitAssemblerModule.java:110-111) and the link assembler gate (UnitAssembler.java:722-727) run in source_unit_assembler_module_accept_payload_state / source_unit_assembler_accept_payload_state, and the tick exposes both verdicts on the frame (accepts_payload / link_accepts_payload). Handoff-gate wiring live (N2314) -- the N2248 handoff gate reads the LINK verdict live: the tick stamps frame["accept_payload"] from link_accepts_payload before the advance, so a live module hands off when the link accepts; the module verdict does NOT drive the gate. Tier stamp live (N2348) -- tier() (UnitAssemblerModule.java:85-86) returns the class field tier = 1 (UnitAssemblerModule.java:22); the tick stamps frame["tier"] every tick (the catalog carries no tier key and the def sets no tier, so the driver passes the class default explicitly); the checkTier pure is live since N2133; checkTier wiring live (N2351) -- the module tick feeds updateModules/removeModule events into the assembler frame modules list through the unit-factory cell helper (the link cell comes from the {"block", "cell"} frame-input format; a link without a cell skips); the getLink discovery that would produce those links still waits for its own slice. (5) No variant verification -- there is only one module def (basic-assembler-module).
+	# Documented limits: (1) power-only first pass -- the module has no liquid/item consumer, so the folded efficiency is the min over the *modeled* consumers (power only). (2) shouldConsume default applies -- the module has no override; the machinery runs with should_consume=true when enabled. (3) updateTile advance live (N2248) -- the lastChange refresh + findLink re-discovery + moveInPayload + the handoff gate (UnitAssemblerModule.java:132-141) run in source_unit_assembler_module_update_tile_advance_state; the N2168 proof still carries no link/payload/tier keys (the efficiency > 0 gate (UnitAssemblerModule.java:138) is what the efficiency keys prove) while the N2248 proof carries the link/payload keys. getLink discovery live (N2358) -- the moduleFits geometry pure + the discovery pure over an EXPLICIT frame-input candidate list, the tick filling frame["link_candidate"] before the N2248 advance (the live team-wide flagged fill still waits -- see DEFERRED); the wasOccupied predicate evaluation, the handoff-to-intake wiring, and the live payload fill wait for their own slices -- see DEFERRED. (4) No link/draw/onRemoved rows -- see DEFERRED. canPlaceOn live (N2345) -- the placement gate (UnitAssemblerModule.java:48-51) runs in source_unit_assembler_module_can_place_on_state, reading the frame link verdict (N2248); the live placement call site waits for its own slice. acceptPayload rows live (N2299) -- the module gate (UnitAssemblerModule.java:110-111) and the link assembler gate (UnitAssembler.java:722-727) run in source_unit_assembler_module_accept_payload_state / source_unit_assembler_accept_payload_state, and the tick exposes both verdicts on the frame (accepts_payload / link_accepts_payload). Handoff-gate wiring live (N2314) -- the N2248 handoff gate reads the LINK verdict live: the tick stamps frame["accept_payload"] from link_accepts_payload before the advance, so a live module hands off when the link accepts; the module verdict does NOT drive the gate. Tier stamp live (N2348) -- tier() (UnitAssemblerModule.java:85-86) returns the class field tier = 1 (UnitAssemblerModule.java:22); the tick stamps frame["tier"] every tick (the catalog carries no tier key and the def sets no tier, so the driver passes the class default explicitly); the checkTier pure is live since N2133; checkTier wiring live (N2351) -- the module tick feeds updateModules/removeModule events into the assembler frame modules list through the unit-factory cell helper (the link cell comes from the {"block", "cell"} frame-input format; a link without a cell skips); the getLink discovery produces those links since N2358 (from an explicit candidate list; the live flagged fill waits for its own slice). (5) No variant verification -- there is only one module def (basic-assembler-module).
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -250,6 +256,133 @@ static func source_unit_assembler_accept_payload_state(payload: Dictionary, asse
 static func source_unit_assembler_module_can_place_on_state(frame: Dictionary) -> Dictionary:
 	return {"can_place_on": frame.get("link", null) != null}
 
+# --- N2358: getLink discovery (DEFERRED #317) ---
+# Pure (a) -- moduleFits (UnitAssembler.java:338-351),
+# geometry only (NO tier term -- the tier climb lives in
+# checkTier, UnitAssembler.java:364-378, live since
+# N2133):
+# `public boolean moduleFits(Block other, float ox, float oy, int rotation){`
+# `float`
+# `dx = ox + Geometry.d4x(rotation) * (other.size/2f + 0.5f) * tilesize,`
+# `dy = oy + Geometry.d4y(rotation) * (other.size/2f + 0.5f) * tilesize;`
+# `Vec2 spawn = getUnitSpawn();`
+# `if(Tile.relativeTo(ox, oy, spawn.x, spawn.y) != rotation){`
+# `return false;`
+# `float dst = Math.max(Math.abs(dx - spawn.x), Math.abs(dy - spawn.y));`
+# `return Mathf.equal(dst, tilesize * areaSize / 2f - tilesize/2f);`
+# getUnitSpawn() (UnitAssembler.java:332-336):
+# `public Vec2 getUnitSpawn(){`
+# `float len = tilesize * (areaSize + size)/2f;`
+# `float unitX = x + Geometry.d4x(rotation) * len, unitY = y + Geometry.d4y(rotation) * len;`
+# `return Tmp.v4.set(unitX, unitY);`
+# -- the spawn uses the ASSEMBLER rotation and world pos
+# (the build fields of the UnitAssemblerBuild), while the
+# dx/dy reach and the relativeTo check use the MODULE
+# rotation (the moduleFits parameter, passed by getLink
+# from the module's own rotation): the two rotations
+# differ in general, so the pure takes both. The d4
+# tables are local arrays indexed through posmod
+# (rotation, 4) (the BeamDrill precedent for
+# Geometry.d4x/d4y, arc Geometry.java:23-24,
+# `public final static int[] d4x = {1, 0, -1, 0};`
+# `public final static int[] d4y = {0, 1, 0, -1};`,
+# indexed through `return d4x[Mathf.mod(i, 4)];` /
+# `return d4y[Mathf.mod(i, 4)];`, arc Geometry.java:47-52).
+# Tile.relativeTo is NOT re-invented: the float overload
+# (Tile.java:103-113,
+# `public static int relativeTo(float x, float y, float cx, float cy){`)
+# already has its port in tile_relative_float_state
+# (SourceBlockGeometry.gd:61-72) and the pure calls it.
+# Mathf.equal is the arc tolerance check
+# (Mathf.java:544-546,
+# `public static boolean equal(float a, float b){`
+# `return Math.abs(a - b) <= FLOAT_ROUNDING_ERROR;`
+# with `public static final float FLOAT_ROUNDING_ERROR = 0.000001f;`,
+# Mathf.java:10), inlined as absf(dst - target) <=
+# 0.000001. area_size defaults to the UnitAssembler
+# class default 11 (UnitAssembler.java:45,
+# `public int areaSize = 11;`); the three defs all set
+# 13 (Blocks.java:6531/6546/6561). Sizes default to the
+# Block class default 1 (Block.java:215,
+# `public int size = 1;`). tilesize is 8
+# (Vars.java:135, `public static final int tilesize = 8;`),
+# passed in so the pure stays testable. The result
+# echoes the intermediates (spawn / dx / dy / dst /
+# target / relative_to) so the proof pins each term
+# (the acceptPayload precedent).
+static func source_unit_assembler_module_fits_state(module: Dictionary, assembler: Dictionary, tilesize: float) -> Dictionary:
+	var module_x: float = float(module.get("x", 0.0))
+	var module_y: float = float(module.get("y", 0.0))
+	var module_size: int = int(module.get("size", 1))
+	var module_rotation: int = int(module.get("rotation", 0))
+	var assembler_x: float = float(assembler.get("x", 0.0))
+	var assembler_y: float = float(assembler.get("y", 0.0))
+	var assembler_size: int = int(assembler.get("size", 1))
+	var assembler_rotation: int = int(assembler.get("rotation", 0))
+	var area_size: int = int(assembler.get("area_size", 11))
+	var d4x: Array = [1, 0, -1, 0]
+	var d4y: Array = [0, 1, 0, -1]
+	var spawn_len: float = tilesize * float(area_size + assembler_size) / 2.0
+	var spawn := Vector2(assembler_x + float(d4x[posmod(assembler_rotation, 4)]) * spawn_len, assembler_y + float(d4y[posmod(assembler_rotation, 4)]) * spawn_len)
+	var relative_to: int = source_block_geometry.tile_relative_float_state(module_x, module_y, spawn.x, spawn.y)
+	var reach: float = (float(module_size) / 2.0 + 0.5) * tilesize
+	var dx: float = module_x + float(d4x[posmod(module_rotation, 4)]) * reach
+	var dy: float = module_y + float(d4y[posmod(module_rotation, 4)]) * reach
+	var dst: float = maxf(absf(dx - spawn.x), absf(dy - spawn.y))
+	var target: float = tilesize * float(area_size) / 2.0 - tilesize / 2.0
+	var fits: bool = relative_to == module_rotation and absf(dst - target) <= 0.000001
+	return {"fits": fits, "spawn": spawn, "dx": dx, "dy": dy, "dst": dst, "target": target, "relative_to": relative_to}
+
+# Pure (b) -- getLink discovery
+# (UnitAssemblerModule.java:65-69):
+# `public @Nullable UnitAssemblerBuild getLink(Team team, int x, int y, int rotation){`
+# `var results = Vars.indexer.getFlagged(team, BlockFlag.unitAssembler).<UnitAssemblerBuild>as();`
+# `return results.find(b -> b.moduleFits(this, x * tilesize + offset, y * tilesize + offset, rotation));`
+# -- the FIRST assembler in list order whose moduleFits
+# holds (Java Seq.find). The port has NO team-wide
+# flagged-buildings index (Vars.indexer is not ported),
+# so the candidate list is an EXPLICIT frame input (the
+# N2301 precedent -- the consuming slice defines the
+# frame-input format, the producer conforms later; the
+# live flagged fill waits for its own slice -- see
+# DEFERRED): each candidate is {"block": <id>, "cell":
+# <Vector2i>, "rotation": <int>, "size": <int>,
+# "area_size": <int>, "x": <float>, "y": <float>} -- x/y
+# are the assembler world coords, cell the origin cell.
+# The pure returns the first fitting candidate as the
+# N2351 link format {"block", "cell": Vector2i} (cell =
+# assembler origin cell -- the N2351 checkTier wiring
+# reads frame["link"]["cell"] and skips a link without
+# a cell), or null with candidate_index -1 when nothing
+# fits. Non-dict entries and entries without a block or
+# a Vector2i cell skip (they cannot form the N2351 link
+# format -- the N2351 defensive-skip precedent); checked
+# counts only the candidates the fits pure evaluated,
+# and the scan stops at the first fit. The module dict
+# is the fits-pure module geometry ({"x", "y", "size",
+# "rotation"} -- x/y are the module world coords, x *
+# tilesize + offset in getLink terms). The function does
+# NOT mutate its inputs.
+static func source_unit_assembler_module_get_link_state(module: Dictionary, candidates: Array, tilesize: float) -> Dictionary:
+	var link: Variant = null
+	var candidate_index := -1
+	var checked := 0
+	for index in range(candidates.size()):
+		var candidate: Variant = candidates[index]
+		if not (candidate is Dictionary):
+			continue
+		var candidate_dict: Dictionary = candidate
+		if not candidate_dict.has("block") or not (candidate_dict.get("cell") is Vector2i):
+			continue
+		var assembler: Dictionary = {"x": float(candidate_dict.get("x", 0.0)), "y": float(candidate_dict.get("y", 0.0)), "size": int(candidate_dict.get("size", 1)), "rotation": int(candidate_dict.get("rotation", 0)), "area_size": int(candidate_dict.get("area_size", 11))}
+		checked += 1
+		var verdict: Dictionary = source_unit_assembler_module_fits_state(module, assembler, tilesize)
+		if bool(verdict.get("fits", false)):
+			link = {"block": str(candidate_dict.get("block", "")), "cell": candidate_dict.get("cell")}
+			candidate_index = index
+			break
+	return {"link": link, "candidate_index": candidate_index, "checked": checked}
+
 static func _unit_assembler_module_vec2_approach(pay_vector: Vector2, alpha: float) -> Vector2:
 	# Vec2.approach(Vec2 target, float alpha) (Vec2.java:525-537),
 	# target Vec2.ZERO here (PayloadBlock.java:194,
@@ -328,10 +461,15 @@ static func source_unit_assembler_module_update_tile_advance_state(frame: Dictio
 	# `public @Nullable UnitAssemblerBuild getLink(Team team, int x, int y, int rotation){`
 	# `var results = Vars.indexer.getFlagged(team, BlockFlag.unitAssembler).<UnitAssemblerBuild>as();`
 	# `return results.find(b -> b.moduleFits(this, x * tilesize + offset, y * tilesize + offset, rotation));`
-	# (UnitAssemblerModule.java:65-69) has no live building query in
-	# the port, so the candidate arrives as the frame input
-	# link_candidate (the getLink result: an assembler link ref dict,
-	# or null when nothing fits; default null).
+	# (UnitAssemblerModule.java:65-69) is live since N2358
+	# (source_unit_assembler_module_get_link_state over the
+	# explicit frame-input candidate list
+	# frame["link_candidates"], the tick filling
+	# frame["link_candidate"] before this advance); the live
+	# team-wide flagged fill still waits, so a tick with no
+	# link_candidates input keeps the seeded link_candidate
+	# (the getLink result: an assembler link ref dict, or
+	# null when nothing fits; default null).
 	# `link.updateModules(this);` -- live since N2351: the tick
 	# wires it through the unit-factory cell helper (the link
 	# cell comes from the {"block", "cell"} frame-input format;
@@ -340,10 +478,14 @@ static func source_unit_assembler_module_update_tile_advance_state(frame: Dictio
 	# `link.yeetPayload(payload);`
 	# `payload = null;`
 	# -- moduleFits (`public boolean moduleFits(Block other, float ox, float oy, int rotation){`,
-	# UnitAssembler.java:338) and wasOccupied (`public boolean wasOccupied = false;`,
-	# UnitAssembler.java:328) are explicit frame predicates (defaults
-	# false / false, the safe no-assembler values); the live
-	# evaluation needs the assembler object and defers. acceptPayload
+	# UnitAssembler.java:338) is live as a pure since N2358
+	# (source_unit_assembler_module_fits_state, used by the
+	# discovery) but the handoff gate still reads the frame
+	# predicate module_fits (default false, the safe
+	# no-assembler value) -- wiring the pure into the gate
+	# waits for its own slice; wasOccupied (`public boolean wasOccupied = false;`,
+	# UnitAssembler.java:328) is an explicit frame predicate (default
+	# false); the live evaluation needs the assembler object and defers. acceptPayload
 	# is the LINK verdict, stamped live onto frame["accept_payload"]
 	# by the tick before the advance (N2314) -- the advance still
 	# reads it with the frame.get default false, so the pure keeps
@@ -491,12 +633,15 @@ static func source_unit_assembler_module_tick_buildings_state(game: Object, seco
 		# (SourceBlockGeometry.SOURCE_BUILD_ROTATION_META_KEY,
 		# default 0) -- the moveInPayload rotation target is
 		# rotdeg() = rotation * 90 (BuildingComp.java:582-584).
-		# The advance reads the link candidate + the
-		# module_fits / was_occupied predicates + tile_changes
-		# as frame inputs (the N2248 live-fill deferral): a
-		# live module with no fill refreshes once (lastChange
-		# -2 vs tileChanges 1), reads link null, and never
-		# hands off. accept_payload is NOT a frame input
+		# The advance reads the link candidate (filled by
+		# the N2358 discovery when frame["link_candidates"]
+		# is supplied, else the seeded candidate -- see the
+		# N2358 fill below) + the module_fits / was_occupied
+		# predicates + tile_changes as frame inputs (the
+		# N2248 live-fill deferral): a live module with no
+		# fill refreshes once (lastChange -2 vs tileChanges
+		# 1), reads link null, and never hands off.
+		# accept_payload is NOT a frame input
 		# anymore: the N2314 stamp below feeds the live link
 		# verdict into the gate before the advance runs.
 		# N2314: the LINK verdict evaluates BEFORE the advance
@@ -536,6 +681,38 @@ static func source_unit_assembler_module_tick_buildings_state(game: Object, seco
 		if bool(frame.get("enabled", true)):
 			var previous_link: Variant = frame.get("link", null)
 			frame["rotation"] = int(sprite.get_meta(source_block_geometry.SOURCE_BUILD_ROTATION_META_KEY, 0))
+			# N2358: the getLink discovery -- findLink
+			# (UnitAssemblerModule.java:75-83) refreshes the
+			# link from getLink (UnitAssemblerModule.java:65-69),
+			# so the tick fills frame["link_candidate"] from
+			# the discovery BEFORE the N2248 advance reads
+			# it -- but ONLY when frame["link_candidates"] is
+			# supplied (the N2352 facing_tiles precedent): a
+			# tick with no candidate list keeps the seeded
+			# link_candidate, so the N2248/N2351 proofs
+			# (which seed link_candidate directly and run
+			# the live tick) stay green. The candidate list
+			# is an EXPLICIT frame input (the port has no
+			# team-wide flagged-buildings index -- the live
+			# fill waits for its own slice, see DEFERRED).
+			# The module world position comes from the sprite
+			# origin cell through tile_drawx/y_state with
+			# the Block offset formula (Block.java:761/:1429,
+			# `offset = ((size + 1) % 2) * tilesize / 2f;` --
+			# 0 for the size-5 module) and the catalog size
+			# (the BaseShield precedent); the rotation is
+			# the frame rotation stamped just above; the
+			# tilesize is source_world_defaults.TILESIZE
+			# (Vars.java:135,
+			# `public static final int tilesize = 8;`).
+			if frame.has("link_candidates"):
+				var discovery_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
+				var discovery_size: int = int(block.properties.get("size", 1))
+				var discovery_offset: float = float((discovery_size + 1) % 2) * source_world_defaults.TILESIZE / 2.0
+				var discovery_module: Dictionary = {"x": source_block_geometry.tile_drawx_state(discovery_cell.x, source_world_defaults.TILESIZE, discovery_offset), "y": source_block_geometry.tile_drawy_state(discovery_cell.y, source_world_defaults.TILESIZE, discovery_offset), "size": discovery_size, "rotation": int(frame.get("rotation", 0))}
+				var discovery_candidates: Array = frame.get("link_candidates", [])
+				var discovered: Dictionary = source_unit_assembler_module_get_link_state(discovery_module, discovery_candidates, source_world_defaults.TILESIZE)
+				frame["link_candidate"] = discovered.get("link", null)
 			var source_delta: float = source_placed_block_state.game_source_delta(game, seconds)
 			var time_scale: float = source_placed_block_state.time_scale(sprite, source_placed_block_state.game_default_time_scale(game))
 			var advanced: Dictionary = source_unit_assembler_module_update_tile_advance_state(frame, source_delta, time_scale)
