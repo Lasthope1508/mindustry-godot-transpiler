@@ -21,6 +21,11 @@ const SOURCE_ACCELERATOR_HEAT_LERP_PROGRESS := 0.05
 const SOURCE_ACCELERATOR_STATUS_LERP_PROGRESS := 0.05
 const SOURCE_ACCELERATOR_TIME_SLERP_PROGRESS := 0.4
 const SOURCE_ACCELERATOR_LAUNCH_HEAT_LERP_PROGRESS := 0.1
+# Draw constants (N2373): the def size (Blocks.java:6827, `size = 7;`), the launch-block size (core-nucleus, Blocks.java:3159, `size = 5;`), the tile size (Vars.java:135, `public static final int tilesize = 8;`) and the light radius (Accelerator.java:79, `lightRadius = 70f;`, with `lightColor = Pal.accent;`, Accelerator.java:80). No def override for any of them.
+const SOURCE_ACCELERATOR_SIZE := 7
+const SOURCE_ACCELERATOR_LAUNCH_BLOCK_SIZE := 5
+const SOURCE_ACCELERATOR_TILESIZE := 8.0
+const SOURCE_ACCELERATOR_LIGHT_RADIUS := 70.0
 
 static func _is_accelerator_build_implementation(implementation: String) -> bool:
 	return SOURCE_ACCELERATOR_BUILD_IMPLEMENTATIONS.has(implementation)
@@ -77,7 +82,7 @@ static func source_accelerator_power_status_row_state(frame: Dictionary, has_pow
 	# The accelerator is its own family (Accelerator.java:35, `public class Accelerator extends Block{`; AcceleratorBuild, Accelerator.java:119, `public class AcceleratorBuild extends Building implements LaunchAnimator{`), a campaign / effect block, NOT related to any factory / turret / defense / bridge / conveyor / router / power-generator family. Class fields: `public Block launchBlock = Blocks.coreNucleus;` (Accelerator.java:40), `public float powerBufferRequirement;` (Accelerator.java:41), `public float launchDuration = 120f;` (Accelerator.java:50), `public float chargeDuration = 220f;` (Accelerator.java:51), `public float buildDuration = 120f;` (Accelerator.java:52); constructor `public Accelerator(String name){` (Accelerator.java:70), `update = true;` (Accelerator.java:72), `solid = true;` (Accelerator.java:73), `hasItems = true;` (Accelerator.java:74), `hasPower = true;` (Accelerator.java:75), `itemCapacity = 8000;` (Accelerator.java:76), `configurable = true;` (Accelerator.java:77), `emitLight = true;` (Accelerator.java:78), `lightRadius = 70f;` (Accelerator.java:79), `lightColor = Pal.accent;` (Accelerator.java:80). init fills the item capacity from the launch block's requirements (Accelerator.java:85, `itemCapacity = 0;` with Accelerator.java:86, `capacities = new int[content.items().size];` and Accelerator.java:91, `consumeItems(launchBlock.requirements);`). The powerBufferRequirement bar (Accelerator.java:105, `if(powerBufferRequirement > 0f){` with Accelerator.java:106, `addBar("powerBufferRequirement", b -> new Bar(`) shows the stored battery over the requirement (Accelerator.java:109, `() -> b.power.graph.getBatteryStored() / powerBufferRequirement`).
 	# Build fields: `public float heat, statusLerp;` (Accelerator.java:120), `public float progress;` (Accelerator.java:121), `public float time, launchHeat;` (Accelerator.java:122), `public boolean launching;` (Accelerator.java:123), `public float launchTime;` (Accelerator.java:124). The accessors `public float progress(){` (Accelerator.java:149) with `return progress;` (Accelerator.java:150) expose the progress, `public boolean isCoreBuilt(){` (Accelerator.java:153) with `return progress >= 1f;` (Accelerator.java:154) gates the launch, and `public boolean canLaunch(){` (Accelerator.java:239) with `return isValid() && !net.client() && state.isCampaign() && efficiency > 0f && power.graph.getBatteryStored() >= powerBufferRequirement-0.00001f && progress >= 1f && !launching;` (Accelerator.java:240, keep on ONE comment line, the N2148 shootWarmup lesson) needs efficiency AND a full battery AND progress 1f; the battery half waits for its own slice. The launch itself consumes the stored items and the battery (Accelerator.java:252, `if(power.graph.getBatteryStored() < powerBufferRequirement && !launching){` is the drawSelect battery warning, not the launch; the launch is Accelerator.java:270, `power.graph.useBatteries(powerBufferRequirement);`, Accelerator.java:271, `progress = 0f;`, and Accelerator.java:289, `Events.fire(Trigger.acceleratorUse);`) -- the canLaunch gate and the launch transition are live since N2271; the renderer / Time.runTask / event half still waits for its own slice. The item gate `public int getMaximumAccepted(Item item){` (Accelerator.java:293) with `return capacities[item.id] + (isCoreBuilt() ? launchBlock.itemCapacity : 0);` (Accelerator.java:294) and `return items.get(item) < getMaximumAccepted(item);` (Accelerator.java:299) rides on the launch, not the tick. The progress persists across saves: `write.f(progress);` (Accelerator.java:305) with `progress = read.f();` (Accelerator.java:311). The launch duration `public float launchDuration(){` (Accelerator.java:317) with `return launchDuration + chargeDuration;` (Accelerator.java:318) is the full launch time.
 	# Single def -- interplanetary-accelerator only (size 7, scaledHealth 80, powerBufferRequirement 1,000,000f, copper 16000 / silicon 11000 / thorium 13000 / titanium 12000 / surge-alloy 6000 / phase-fabric 5000, Blocks.java:6823-6832): `interplanetaryAccelerator = new Accelerator("interplanetary-accelerator"){{` (Blocks.java:6823) with `requirements(Category.effect, BuildVisibility.campaignOnly, with(Items.copper, 16000, Items.silicon, 11000, Items.thorium, 13000, Items.titanium, 12000, Items.surgeAlloy, 6000, Items.phaseFabric, 5000));` (Blocks.java:6824), `researchCostMultiplier = 0.1f;` (Blocks.java:6825), `powerBufferRequirement = 1_000_000f;` (Blocks.java:6826), `size = 7;` (Blocks.java:6827), `consumePower(10f);` (Blocks.java:6829), `buildCostMultiplier = 0.5f;` (Blocks.java:6830) and `scaledHealth = 80;` (Blocks.java:6831). No second Accelerator def exists; there is no family split to manage. No sense / read / write overrides exist on AcceleratorBuild beyond the progress save -- those wait for their own slices only if a later Java line needs them.
-	# Documented limits: (1) power + item first pass -- the accelerator's static power consumer (consumePower 10f, Blocks.java:6829) and the launch-block item consumer rows (core-nucleus requirements copper 8000 / lead 8000 / silicon 5000 / thorium 4000, Blocks.java:3154, registered by `consumeItems(launchBlock.requirements);`, Accelerator.java:91) are live since N2267, with the init() capacities (copper 8000 / lead 8000 / silicon 5000 / thorium 4000, itemCapacity 25000, Accelerator.java:85-90) and the getMaximumAccepted / acceptItem accessors (Accelerator.java:293-299, core bonus 13000 from the core-nucleus itemCapacity, Blocks.java:3158); the folded efficiency is the min over the *modeled* consumers (power + items). No live intake fills frame["items"] yet (the Separator precedent) -- the row reads the frame as-is, so a live accelerator with no intake folds efficiency 0; the launch consume() (Accelerator.java:258-290) and the battery gate (Accelerator.java:239-240, 270) are live since N2271 (canLaunch gate + launch transition, driven by the one-shot frame key launch_requested; battery_stored is a frame input with no live fill yet -- see (4)). (2) NO shouldConsume gate to defer -- AcceleratorBuild has no shouldConsume override, so the BuildingComp default (`return enabled;`, BuildingComp.java:755-756) applies; the power + item fold is EXACT for this family. (3) updateTile advance is DONE (N2191: heat/statusLerp/time/launchHeat/progress, Accelerator.java:127-146) -- the launch / battery advance is PARTLY DONE (N2271: canLaunch battery gate + useBatteries total drain + consume() item removal + progress reset, Accelerator.java:239-240, 261-271); still waiting: the acceleratorUse event (Accelerator.java:289), the renderer.showLaunch / Time.runTask launch (Accelerator.java:273-286), the launching flag transitions (beginLaunch / endLaunch, Accelerator.java:334-337, 392-394) and the launchTime / cloudSeed state (Accelerator.java:124, 126); the proof carries launch / battery keys since N2271, and the launching branch of the advance is proven pure only, because nothing in the port sets the flag yet. (4) Battery-side modeling is PARTLY live (N2271): the canLaunch gate reads frame["battery_stored"] (getBatteryStored, PowerGraph.java:118-127, the enabled-battery total) and the launch drains the total by the requirement (useBatteries, PowerGraph.java:154-167); the graph stamp is live since N2342 (the distribute step stamps frame battery_stored from the updated batteries); the per-battery proportional status scaling (PowerGraph.java:160-165) is live since N2354 (one-shot launch_drain_request + runtime apply through the existing use_batteries_state, 1-tick delay -- the graph update runs before the driver ticks); the powerBufferRequirement bar (Accelerator.java:105-109) still waits for its own slice. (5) Single def -- interplanetary-accelerator only (size 7, scaledHealth 80, powerBufferRequirement 1,000,000f, copper 16000 / silicon 11000 / thorium 13000 / titanium 12000 / surge-alloy 6000 / phase-fabric 5000); per-def stat values wait for their own verification slice. (6) No draw/config modeling -- draw / drawSelect / config wait for their own slices. (7) Disabled-efficiency staleness -- updateConsumption forces efficiency to 0 when !shouldConsume (BuildingComp.java:1992), but the driver skips the consumption fold when disabled, so frame["efficiency"] keeps its last folded value and the updateTile advance reads it stale; the driver zeroing waits for its own slice.
+	# Documented limits: (1) power + item first pass -- the accelerator's static power consumer (consumePower 10f, Blocks.java:6829) and the launch-block item consumer rows (core-nucleus requirements copper 8000 / lead 8000 / silicon 5000 / thorium 4000, Blocks.java:3154, registered by `consumeItems(launchBlock.requirements);`, Accelerator.java:91) are live since N2267, with the init() capacities (copper 8000 / lead 8000 / silicon 5000 / thorium 4000, itemCapacity 25000, Accelerator.java:85-90) and the getMaximumAccepted / acceptItem accessors (Accelerator.java:293-299, core bonus 13000 from the core-nucleus itemCapacity, Blocks.java:3158); the folded efficiency is the min over the *modeled* consumers (power + items). No live intake fills frame["items"] yet (the Separator precedent) -- the row reads the frame as-is, so a live accelerator with no intake folds efficiency 0; the launch consume() (Accelerator.java:258-290) and the battery gate (Accelerator.java:239-240, 270) are live since N2271 (canLaunch gate + launch transition, driven by the one-shot frame key launch_requested; battery_stored is a frame input with no live fill yet -- see (4)). (2) NO shouldConsume gate to defer -- AcceleratorBuild has no shouldConsume override, so the BuildingComp default (`return enabled;`, BuildingComp.java:755-756) applies; the power + item fold is EXACT for this family. (3) updateTile advance is DONE (N2191: heat/statusLerp/time/launchHeat/progress, Accelerator.java:127-146) -- the launch / battery advance is PARTLY DONE (N2271: canLaunch battery gate + useBatteries total drain + consume() item removal + progress reset, Accelerator.java:239-240, 261-271); still waiting: the acceleratorUse event (Accelerator.java:289), the renderer.showLaunch / Time.runTask launch (Accelerator.java:273-286), the launching flag transitions (beginLaunch / endLaunch, Accelerator.java:334-337, 392-394) and the launchTime / cloudSeed state (Accelerator.java:124, 126); the proof carries launch / battery keys since N2271, and the launching branch of the advance is proven pure only, because nothing in the port sets the flag yet. (4) Battery-side modeling is PARTLY live (N2271): the canLaunch gate reads frame["battery_stored"] (getBatteryStored, PowerGraph.java:118-127, the enabled-battery total) and the launch drains the total by the requirement (useBatteries, PowerGraph.java:154-167); the graph stamp is live since N2342 (the distribute step stamps frame battery_stored from the updated batteries); the per-battery proportional status scaling (PowerGraph.java:160-165) is live since N2354 (one-shot launch_drain_request + runtime apply through the existing use_batteries_state, 1-tick delay -- the graph update runs before the driver ticks); the powerBufferRequirement bar (Accelerator.java:105-109) still waits for its own slice. (5) Single def -- interplanetary-accelerator only (size 7, scaledHealth 80, powerBufferRequirement 1,000,000f, copper 16000 / silicon 11000 / thorium 13000 / titanium 12000 / surge-alloy 6000 / phase-fabric 5000); per-def stat values wait for their own verification slice. (6) Draw rows live (N2373) -- the draw pure (source_accelerator_draw_state) models draw() (:157-233): super.draw + the statusLerp arrows (4 layers x 4 arrows, absin pulse) + the shadow (launchBlock.size * tilesize * 2f = 80) + blockbuild shader draw + the heat-gated charge rings (3 Lines.square rings + team-color arrows); the draw-light pure (source_accelerator_draw_light_state) models drawLight() (:235-237, lightRadius 70f, lightColor Pal.accent, opacity launchHeat); the draw-select pure (source_accelerator_draw_select_state) models drawSelect() (:249-256, battery warning when stored < requirement && !launching). Pure-only: draw never runs in the tick. Still deferred: the launching branch of draw() (:180-194, launchTime untracked), getCursor (:242-244, canLaunch environment half), drawLaunch / drawLaunchGlobalZ / drawLanding (launch sequence rendering), and config (the buildConfiguration dialog / sector select waits for its own slice). (7) Disabled-efficiency staleness -- updateConsumption forces efficiency to 0 when !shouldConsume (BuildingComp.java:1992), but the driver skips the consumption fold when disabled, so frame["efficiency"] keeps its last folded value and the updateTile advance reads it stale; the driver zeroing waits for its own slice.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -428,6 +433,186 @@ static func source_accelerator_update_tile_advance_state(frame: Dictionary, sour
 	if efficiency >= 0.0:
 		progress_after = minf(progress + source_delta * efficiency / SOURCE_ACCELERATOR_BUILD_DURATION, 1.0)
 	return {"heat": heat_after, "status_lerp": status_lerp_after, "time": time_after, "launch_heat": launch_heat_after, "progress": progress_after}
+
+static func source_accelerator_draw_state(x_value: float, y_value: float, heat: float, status_lerp: float, launch_heat: float, time_value: float, build_time: float, progress: float, launching: bool) -> Dictionary:
+	# The draw rows (AcceleratorBuild.draw(), Accelerator.java:157-233), the pure draw-call dict -- the port never draws for real (the SourceBlockDrawState / SourceBaseTurretDrawState pattern, the N2356 ShockwaveTower precedent: the pure returns the draw calls as data). Java draws, in order (each exact expr on ONE comment line, the N2148 lesson):
+	# `super.draw();`
+	# `float length = 7f + l * 5f;`
+	# `Draw.color(Tmp.c1.set(Pal.darkMetal).lerp(team.color, statusLerp), Pal.darkMetal, Mathf.absin(Time.time + l*50f, 10f, 1f));`
+	# `Draw.rect(arrowRegion, x + Angles.trnsx(rot, length), y + Angles.trnsy(rot, length), rot + 180f);`
+	# `Drawf.shadow(x, y, launchBlock.size * tilesize * 2f, progress);`
+	# `Draw.draw(Layer.blockBuilding, () -> {`
+	# `Draw.color(Pal.accent, heat);`
+	# `Shaders.blockbuild.progress = progress;`
+	# `if(heat < 0.0001f) return;`
+	# `float rad = size * tilesize / 2f * 0.74f * Mathf.lerp(1f, 1.3f, launchHeat);`
+	# `Lines.stroke(1.75f * heat, Pal.accent);`
+	# `Lines.square(x, y, rad * 1.22f, Mathf.lerp(45f, 0f, launchHeat));`
+	# `Lines.square(x, y, rad * Mathf.lerp(1f, 1.3f, launchHeat), 45f + time / scl);`
+	# `Lines.square(x, y, rad * Mathf.lerp(1f, 1.8f, launchHeat), Mathf.lerp(45f, 0f, launchHeat) - time / scl);`
+	# `Draw.alpha(Mathf.clamp(heat * 3f));`
+	# `float length = 26f * heat * Mathf.lerp(1f, 1.5f, launchHeat);`
+	# arrowRegion is the `@-launch-arrow` region (`public @Load(value = "@-launch-arrow", fallback = "launch-arrow") TextureRegion arrowRegion;`, Accelerator.java:36). The arrows loop (:160-169) runs 4 layers x 4 arrows: layer l has length 7f + l * 5f and pulse Mathf.absin(Time.time + l*50f, 10f, 1f) -- ported as source_absin(time_value + l * 50.0, 10.0, 1.0), the ThermalGenerator precedent (SourceThermalGeneratorState.gd:236, Java Mathf.absin(10f, 5f) -> source_absin(source_time, 10.0, 5.0)) -- and the color is the nested lerp (darkMetal -> team.color by statusLerp, then -> darkMetal by the pulse), carried as from/to/t dicts (the N2356 color-lerp precedent); team.color stays a symbolic token, never resolved to RGB. Arrow i sits at rot i*90f + 45f (`float rot = i*90f + 45f;`, :165) via Angles.trnsx/trnsy (len * cosDeg / sinDeg, Angles.java:66-72) with rotation rot + 180f. The launching branch (:180-194) is DEFERRED: `Fill.light(x, y, 15, launchBlock.size * tilesize * 1f, Tmp.c2.set(Pal.accent).a(launchTime / chargeDuration), Tmp.c1.set(Pal.accent).a(0f));` and the fullIcon / mixcol lines (`Draw.mixcol(Pal.accent, Mathf.clamp(launchTime / chargeDuration));`, `Draw.color(1f, 1f, 1f, Interp.pow2In.apply(Mathf.clamp(launchTime / chargeDuration * 0.7f)));`, `Draw.rect(launchBlock.fullIcon, x, y);`) need launchTime, which the frame does not track (see the launchTime / cloudSeed DEFERRED entry) -- when launching is true the pure returns launching_visual_deferred and no shadow / blockbuild calls. The non-launching branch (:195-212) is the shadow (launchBlock.size * tilesize * 2f = 5 * 8 * 2 = 80 -- the launchBlock is core-nucleus, `public Block launchBlock = Blocks.coreNucleus;`, Accelerator.java:40, size 5, Blocks.java:3159; Drawf.shadow draws the circle-shadow at black alpha 0.4 * progress, Drawf.java:360-364) + the Layer.blockBuilding draw (`Draw.color(Pal.accent, heat);` + the blockbuild shader: `Shaders.blockbuild.region = region;` / `Shaders.blockbuild.time = time;` / `Shaders.blockbuild.progress = progress;` per generated icon, `for(TextureRegion region : launchBlock.getGeneratedIcons()){` -- the region list is content, so the call carries the shader params, not the enumeration). The rings (:217-232) run only when heat >= 0.0001f (`if(heat < 0.0001f) return;`); rad = size * tilesize / 2f * 0.74f * lerp(1f, 1.3f, launchHeat) (base 20.72 at size 7, tilesize 8) at z Layer.bullet - 0.0001f (`Draw.z(Layer.bullet - 0.0001f);`); the three Pal.accent squares (`float scl = 2f;`, :218; `Lines.stroke(3f * heat, Pal.accent);`, :224) and the team-color arrows (`Draw.color(team.color);`, :228; rot `float rot = i*90f + 45f + (-time/3f)%360f;`, :230 -- GDScript fmod matches Java % (sign of the dividend), the N2191 precedent). All frame state the pure reads (heat, statusLerp, launchHeat, time, progress, launching) is tracked by the N2191 advance; Time.time is caller-supplied as time_value (the N2356 precedent: draw never runs in the tick, so the tick never stamps it; the pure takes no frame).
+	var layers: Array = []
+	for l in range(4):
+		var length: float = 7.0 + float(l) * 5.0
+		var pulse: float = source_math_state.source_absin(time_value + float(l) * 50.0, 10.0, 1.0)
+		var arrows: Array = []
+		for i in range(4):
+			var rot: float = float(i) * 90.0 + 45.0
+			arrows.append({
+				"x": x_value + cos(deg_to_rad(rot)) * length,
+				"y": y_value + sin(deg_to_rad(rot)) * length,
+				"rotation": rot + 180.0,
+				"rot": rot,
+			})
+		layers.append({
+			"layer": l,
+			"length": length,
+			"pulse": pulse,
+			"color": {"base": {"from": "Pal.darkMetal", "to": "team.color", "t": status_lerp}, "pulse_to": "Pal.darkMetal", "pulse_t": pulse},
+			"arrows": arrows,
+		})
+	var arrows_call: Dictionary = {
+		"call": "Draw.rect(arrowRegion, x + Angles.trnsx(rot, length), y + Angles.trnsy(rot, length), rot + 180f);",
+		"region": "arrowRegion",
+		"layers": layers,
+	}
+	var shadow_call: Dictionary = {}
+	var blockbuild_call: Dictionary = {}
+	if not launching:
+		shadow_call = {
+			"call": "Drawf.shadow(x, y, launchBlock.size * tilesize * 2f, progress);",
+			"region": "circle-shadow",
+			"radius": float(SOURCE_ACCELERATOR_LAUNCH_BLOCK_SIZE) * SOURCE_ACCELERATOR_TILESIZE * 2.0,
+			"alpha_factor": progress,
+			"black_alpha": 0.4 * progress,
+			"x": x_value,
+			"y": y_value,
+		}
+		blockbuild_call = {
+			"call": "Draw.draw(Layer.blockBuilding, () -> {",
+			"layer": "Layer.blockBuilding",
+			"color": "Pal.accent",
+			"alpha": heat,
+			"shader_time": build_time,
+			"shader_progress": progress,
+			"region_source": "launchBlock.getGeneratedIcons()",
+			"x": x_value,
+			"y": y_value,
+		}
+	var build_call: Dictionary = {
+		"launching": launching,
+		"launching_visual_deferred": launching,
+		"shadow_call": shadow_call,
+		"blockbuild_call": blockbuild_call,
+	}
+	var heat_gate: bool = heat >= 0.0001
+	var rad: float = 0.0
+	var squares: Array = []
+	var ring_arrows: Array = []
+	if heat_gate:
+		rad = float(SOURCE_ACCELERATOR_SIZE) * SOURCE_ACCELERATOR_TILESIZE / 2.0 * 0.74 * lerpf(1.0, 1.3, launch_heat)
+		squares = [
+			{"stroke": 1.75 * heat, "color": "Pal.accent", "radius": rad * 1.22, "rotation": lerpf(45.0, 0.0, launch_heat)},
+			{"stroke": 3.0 * heat, "color": "Pal.accent", "radius": rad * lerpf(1.0, 1.3, launch_heat), "rotation": 45.0 + build_time / 2.0},
+			{"stroke": 3.0 * heat, "color": "Pal.accent", "radius": rad * lerpf(1.0, 1.8, launch_heat), "rotation": lerpf(45.0, 0.0, launch_heat) - build_time / 2.0},
+		]
+		var ring_length: float = 26.0 * heat * lerpf(1.0, 1.5, launch_heat)
+		for i in range(4):
+			var rot: float = float(i) * 90.0 + 45.0 + fmod(-build_time / 3.0, 360.0)
+			ring_arrows.append({
+				"x": x_value + cos(deg_to_rad(rot)) * ring_length,
+				"y": y_value + sin(deg_to_rad(rot)) * ring_length,
+				"rotation": rot + 180.0,
+				"rot": rot,
+				"length": ring_length,
+			})
+	var rings_call: Dictionary = {
+		"present": heat_gate,
+		"heat_gate": heat_gate,
+		"rad": rad,
+		"z": "Layer.bullet - 0.0001f",
+		"squares": squares,
+		"arrows": ring_arrows,
+		"arrow_color": "team.color",
+		"arrow_alpha": clampf(heat * 3.0, 0.0, 1.0),
+	}
+	return {
+		"super_draw_called": true,
+		"super_draw_expr": "super.draw();",
+		"arrow_color_expr": "Draw.color(Tmp.c1.set(Pal.darkMetal).lerp(team.color, statusLerp), Pal.darkMetal, Mathf.absin(Time.time + l*50f, 10f, 1f));",
+		"arrow_rect_expr": "Draw.rect(arrowRegion, x + Angles.trnsx(rot, length), y + Angles.trnsy(rot, length), rot + 180f);",
+		"shadow_expr": "Drawf.shadow(x, y, launchBlock.size * tilesize * 2f, progress);",
+		"blockbuild_expr": "Draw.draw(Layer.blockBuilding, () -> {",
+		"heat_gate_expr": "if(heat < 0.0001f) return;",
+		"rad_expr": "float rad = size * tilesize / 2f * 0.74f * Mathf.lerp(1f, 1.3f, launchHeat);",
+		"z_expr": "Draw.z(Layer.bullet - 0.0001f);",
+		"reset_expr": "Draw.reset();",
+		"x": x_value,
+		"y": y_value,
+		"heat": heat,
+		"status_lerp": status_lerp,
+		"launch_heat": launch_heat,
+		"time_value": time_value,
+		"build_time": build_time,
+		"progress": progress,
+		"launching": launching,
+		"shadow_radius": float(SOURCE_ACCELERATOR_LAUNCH_BLOCK_SIZE) * SOURCE_ACCELERATOR_TILESIZE * 2.0,
+		"rad": rad,
+		"arrows_call": arrows_call,
+		"build_call": build_call,
+		"rings_call": rings_call,
+	}
+
+static func source_accelerator_draw_light_state(x_value: float, y_value: float, launch_heat: float) -> Dictionary:
+	# The drawLight rows (AcceleratorBuild.drawLight(), Accelerator.java:235-237), the pure draw-call dict -- the port never draws for real (the N2356 pattern). Java draws, in order (each exact expr on ONE comment line, the N2148 lesson):
+	# `Drawf.light(x, y, lightRadius, lightColor, launchHeat);`
+	# lightRadius is 70f and lightColor is Pal.accent (`lightRadius = 70f;` / `lightColor = Pal.accent;`, Accelerator.java:79-80, set in the constructor; `emitLight = true;`, Accelerator.java:78); the opacity is the frame launchHeat (Accelerator.java:122, advanced by the N2191 advance toward 1f when launching, 0f otherwise), so an idle accelerator emits no light. Drawf.light(x, y, radius, color, opacity) adds the light to the renderer (Drawf.java:301-304, `public static void light(float x, float y, float radius, Color color, float opacity){`); the pure records the call as data, like the draw pure. Pure-only: drawLight never runs in the tick.
+	var light_call: Dictionary = {
+		"call": "Drawf.light(x, y, lightRadius, lightColor, launchHeat);",
+		"x": x_value,
+		"y": y_value,
+		"radius": SOURCE_ACCELERATOR_LIGHT_RADIUS,
+		"color": "lightColor",
+		"opacity": launch_heat,
+	}
+	return {
+		"light_expr": "Drawf.light(x, y, lightRadius, lightColor, launchHeat);",
+		"x": x_value,
+		"y": y_value,
+		"launch_heat": launch_heat,
+		"light_call": light_call,
+	}
+
+static func source_accelerator_draw_select_state(tile_x: int, tile_y: int, battery_stored: float, launching: bool) -> Dictionary:
+	# The drawSelect rows (AcceleratorBuild.drawSelect(), Accelerator.java:249-256), the pure draw-call dict -- the port never draws for real (the N2356 pattern). Java draws, in order (each exact expr on ONE comment line, the N2148 lesson):
+	# `super.drawSelect();`
+	# `if(power.graph.getBatteryStored() < powerBufferRequirement && !launching){`
+	# `drawPlaceText(Core.bundle.get("bar.nobatterypower"), tile.x, tile.y, false);`
+	# super.drawSelect() is Building.drawSelect() (the selection overlay); the pure records that the super call happens, not its content (the N2356 super.draw() precedent). The battery warning shows exactly when the stored battery is below the requirement (powerBufferRequirement 1,000,000f, Blocks.java:6826, `powerBufferRequirement = 1_000_000f;`) and the accelerator is not launching; battery_stored is the frame input stamped live by the N2342 graph stamp (getBatteryStored(), PowerGraph.java:118-127), and launching is the N2191 frame flag. drawPlaceText(text, x, y, valid) with valid false draws the text in Pal.remove with the underline (`public float drawPlaceText(String text, int x, int y, boolean valid){` / `return drawPlaceText(text, x, y, valid ? Pal.accent : Pal.remove, true);`, Block.java:531-532). getCursor (`return canLaunch() ? SystemCursor.hand : super.getCursor();`, Accelerator.java:243) is NOT modeled here: canLaunch needs the environment half (isValid() / !net.client() / state.isCampaign()) the port does not model -- it stays deferred. Pure-only: drawSelect never runs in the tick.
+	var warning_shown: bool = battery_stored < SOURCE_ACCELERATOR_POWER_BUFFER_REQUIREMENT and not launching
+	var battery_warning_call: Dictionary = {
+		"call": "drawPlaceText(Core.bundle.get(\"bar.nobatterypower\"), tile.x, tile.y, false);",
+		"shown": warning_shown,
+		"text_key": "bar.nobatterypower",
+		"tile_x": tile_x,
+		"tile_y": tile_y,
+		"valid": false,
+		"color": "Pal.remove",
+		"draw_line": true,
+	}
+	return {
+		"super_draw_select_called": true,
+		"super_draw_select_expr": "super.drawSelect();",
+		"warning_gate_expr": "if(power.graph.getBatteryStored() < powerBufferRequirement && !launching){",
+		"warning_expr": "drawPlaceText(Core.bundle.get(\"bar.nobatterypower\"), tile.x, tile.y, false);",
+		"tile_x": tile_x,
+		"tile_y": tile_y,
+		"battery_stored": battery_stored,
+		"launching": launching,
+		"battery_warning_call": battery_warning_call,
+	}
 
 static func source_accelerator_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the accelerator tick wiring every
