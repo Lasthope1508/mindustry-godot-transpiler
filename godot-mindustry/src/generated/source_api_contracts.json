@@ -66823,6 +66823,59 @@
       ],
       "runtime_proof": "/root/C07RepairTurretTargetAcquireProof",
       "rule": "Source-backed RepairTurret target acquisition from RepairTurret.java / Units.java / HealthComp.java / TimerComp.java / Interval.java / Blocks.java / UnitType.java / UnitComp.java."
+    },
+    "SourceRepairTurretBuildState.source_repair_turret_heal_advance_state": {
+      "status": "active",
+      "source_slice": "N2213",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "source_method": "RepairPointBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_repair_turret_heal_advance_state_input.frame"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_repair_turret_heal_advance_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_repair_turret_heal_advance_state_input.y"
+        },
+        {
+          "name": "repair_speed",
+          "type": "float",
+          "schema": "source_repair_turret_heal_advance_state_input.repair_speed"
+        },
+        {
+          "name": "delta",
+          "type": "float",
+          "schema": "source_repair_turret_heal_advance_state_input.delta"
+        },
+        {
+          "name": "multiplier",
+          "type": "float",
+          "schema": "source_repair_turret_heal_advance_state_input.multiplier"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "healed",
+        "heal_amount",
+        "target",
+        "target_health"
+      ],
+      "tests": [
+        "test_c07_repair_turret_heal_advance_registration",
+        "test_all_c07_repair_turret_heal_advance_input_evidence_is_exact",
+        "test_repair_turret_heal_advance_state",
+        "test_reference_graph_and_actual_c07_repair_turret_heal_advance"
+      ],
+      "runtime_proof": "/root/C07RepairTurretHealAdvanceProof",
+      "rule": "Source-backed RepairTurret heal advance from RepairTurret.java / HealthComp.java / BuildingComp.java / Angles.java / Blocks.java / UnitComp.java."
     }
   },
   "policy": {

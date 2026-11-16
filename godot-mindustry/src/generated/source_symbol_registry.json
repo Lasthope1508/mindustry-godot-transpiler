@@ -173976,6 +173976,70 @@
         "test_reference_graph_and_actual_c07_repair_turret_target_acquire"
       ],
       "runtime_proof": "/root/C07RepairTurretTargetAcquireProof"
+    },
+    "source_repair_turret_heal_advance_state_result.healed": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_heal_advance_state",
+      "godot_symbol": "source_repair_turret_heal_advance_state_result.healed",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairPointBuild.updateTile()",
+      "java_expr": "healed = true;",
+      "rule": "Whether the target was healed this tick: the angle gate passed with a target and efficiency > 0 (RepairTurret.java:205-206, `if(Angles.angleDist(angle, rotation) < 30f){` / `healed = true;` -- set by the gate, not by the amount, so a strength-0 turret still reports healed with a 0.0 amount).",
+      "tests": [
+        "test_c07_repair_turret_heal_advance_registration",
+        "test_all_c07_repair_turret_heal_advance_input_evidence_is_exact",
+        "test_repair_turret_heal_advance_state",
+        "test_reference_graph_and_actual_c07_repair_turret_heal_advance"
+      ],
+      "runtime_proof": "/root/C07RepairTurretHealAdvanceProof"
+    },
+    "source_repair_turret_heal_advance_state_result.heal_amount": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_heal_advance_state",
+      "godot_symbol": "source_repair_turret_heal_advance_state_result.heal_amount",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairPointBuild.updateTile()",
+      "java_expr": "target.heal(repairSpeed * strength * edelta() * multiplier);",
+      "rule": "The health added this tick: repairSpeed * strength * edelta * multiplier (RepairTurret.java:207 -- 0.0 when the gate fails or strength is 0).",
+      "tests": [
+        "test_c07_repair_turret_heal_advance_registration",
+        "test_all_c07_repair_turret_heal_advance_input_evidence_is_exact",
+        "test_repair_turret_heal_advance_state",
+        "test_reference_graph_and_actual_c07_repair_turret_heal_advance"
+      ],
+      "runtime_proof": "/root/C07RepairTurretHealAdvanceProof"
+    },
+    "source_repair_turret_heal_advance_state_result.target": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_heal_advance_state",
+      "godot_symbol": "source_repair_turret_heal_advance_state_result.target",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairPointBuild.updateTile()",
+      "java_expr": "target.heal(repairSpeed * strength * edelta() * multiplier);",
+      "rule": "The target after this tick: a duplicate of the frame target dict with the healed health, or null when the frame carries no target dict (RepairTurret.java:207 -- the heal mutates the live Unit in Java; the port returns a duplicate so the input dict is not mutated and the driver stamps the returned target).",
+      "tests": [
+        "test_c07_repair_turret_heal_advance_registration",
+        "test_all_c07_repair_turret_heal_advance_input_evidence_is_exact",
+        "test_repair_turret_heal_advance_state",
+        "test_reference_graph_and_actual_c07_repair_turret_heal_advance"
+      ],
+      "runtime_proof": "/root/C07RepairTurretHealAdvanceProof"
+    },
+    "source_repair_turret_heal_advance_state_result.target_health": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_heal_advance_state",
+      "godot_symbol": "source_repair_turret_heal_advance_state_result.target_health",
+      "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+      "java_method": "RepairPointBuild.updateTile()",
+      "java_expr": "health += amount;",
+      "rule": "The target health after this tick, clamped at maxHealth (HealthComp.java:110, `health += amount;` with clampHealth, HealthComp.java:104 -- 0.0 when the frame carries no target dict; unchanged when the gate fails).",
+      "tests": [
+        "test_c07_repair_turret_heal_advance_registration",
+        "test_all_c07_repair_turret_heal_advance_input_evidence_is_exact",
+        "test_repair_turret_heal_advance_state",
+        "test_reference_graph_and_actual_c07_repair_turret_heal_advance"
+      ],
+      "runtime_proof": "/root/C07RepairTurretHealAdvanceProof"
     }
   },
   "version": 1

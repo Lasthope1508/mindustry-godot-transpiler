@@ -101,6 +101,20 @@ static func _repair_radius_for_block_id(block_id: String) -> float:
 		return 145.0
 	return 50.0
 
+static func _repair_speed_for_block_id(block_id: String) -> float:
+	# Per-def repairSpeed (the catalog carries no
+	# repairSpeed, so the driver resolves it from the block
+	# id, the N2209 per-def-param precedent): repair-point
+	# 0.45f (`repairSpeed = 0.45f;`, Blocks.java:6388),
+	# repair-turret 3f (`repairSpeed = 3f;`,
+	# Blocks.java:6400), class default 0.3f
+	# (`public float repairSpeed = 0.3f;`, RepairTurret.java:32).
+	if block_id == "repair-point":
+		return 0.45
+	if block_id == "repair-turret":
+		return 3.0
+	return 0.3
+
 static func source_repair_turret_target_acquire_state(frame: Dictionary, units: Array, team_id: int, x: float, y: float, repair_radius: float, delta: float) -> Dictionary:
 	# RepairPointBuild.updateTile target acquisition
 	# (RepairTurret.java:193-199 + 214-217): the target is
@@ -139,6 +153,63 @@ static func source_repair_turret_target_acquire_state(frame: Dictionary, units: 
 		if target == null:
 			offset = Vector2.ZERO
 	return {"target": target, "has_target": target != null, "target_timer": target_timer, "offset": offset, "reacquired": reacquired}
+
+static func source_repair_turret_heal_advance_state(frame: Dictionary, x: float, y: float, repair_speed: float, delta: float, multiplier: float) -> Dictionary:
+	# RepairPointBuild.updateTile heals the acquired target only when it has efficiency and the beam is aimed at it (RepairTurret.java:203-207):
+	# if(target != null && efficiency > 0){
+	# float angle = Angles.angle(x, y, target.x + offset.x, target.y + offset.y);
+	# if(Angles.angleDist(angle, rotation) < 30f){
+	# healed = true;
+	# target.heal(repairSpeed * strength * edelta() * multiplier);
+	# edelta() is efficiency * delta() (BuildingComp.java:1927-1928):
+	# public float edelta(){
+	# return efficiency * delta();
+	# delta() is Time.delta * timeScale (BuildingComp.java:1922-1923):
+	# public float delta(){
+	# return Time.delta * timeScale;
+	# HealthComp.heal(float) adds the amount and clamps (HealthComp.java:109-111, with HealthComp.java:104):
+	# void heal(float amount){
+	# health += amount;
+	# clampHealth();
+	# health = Math.min(health, maxHealth);
+	# The frame carries the target dict (already validated by the N2212 acquire, which runs first in the same tick), rotation (Java field default 90, `public float strength, rotation = 90;`, RepairTurret.java:155), strength (Java field default 0), efficiency (folded, absent -> 1.0, the N2174 fold), and the beam offset (Vector2.ZERO when there is no target). The angle follows Angles.angle exactly: atan2(dx, dy) in degrees, normalized to [0, 360) (Angles.java:56-58):
+	# float ang = Mathf.atan2(x2 - x, y2 - y) * Mathf.radDeg;
+	# if(ang < 0) ang += 360f;
+	# The distance is the minimal circular distance, always in [0, 180] (Angles.java:23-26):
+	# return Math.min((a - b) < 0 ? a - b + 360 : a - b, (b - a) < 0 ? b - a + 360 : b - a);
+	# The cone is STRICT `< 30` (30.0 exactly does not heal). `healed` is set by the angle gate, not by the amount: Java sets `healed = true;` before the heal call, so a strength-0 turret still reports healed with a 0.0 amount. The returned target is a DUPLICATE with the healed health -- the input dict is not mutated, so the driver stamps the returned target. Rotation slerp and strength lerp are NOT this slice -- they wait for their own slices (the N2212 handoff deferral):
+	# rotation = Mathf.slerpDelta(rotation, angle, 0.5f * efficiency * timeScale);
+	# strength = Mathf.lerpDelta(strength, healed ? 1f : 0f, 0.08f * Time.delta);
+	# UnitComp.heal(float) only sets the wasHealed flag (UnitComp.java:623-625):
+	# wasHealed = true;
+	# Per-def repairSpeed: repair-point 0.45f, repair-turret 3f (Blocks.java:6388/6400); class default 0.3f (RepairTurret.java:32):
+	# public float repairSpeed = 0.3f;
+	# repairSpeed = 0.45f;
+	# repairSpeed = 3f;
+	var target: Variant = frame.get("target", null)
+	if not (target is Dictionary):
+		return {"healed": false, "heal_amount": 0.0, "target": null, "target_health": 0.0}
+	var efficiency: float = float(frame.get("efficiency", 1.0))
+	var strength: float = float(frame.get("strength", 0.0))
+	var rotation: float = float(frame.get("rotation", 90.0))
+	var offset: Vector2 = frame.get("offset", Vector2.ZERO)
+	var target_x: float = float(target.get("x", 0.0)) + offset.x
+	var target_y: float = float(target.get("y", 0.0)) + offset.y
+	var health: float = float(target.get("health", 0.0))
+	var max_health: float = float(target.get("max_health", 1.0))
+	if efficiency <= 0.0:
+		return {"healed": false, "heal_amount": 0.0, "target": target, "target_health": health}
+	var angle: float = fmod(rad_to_deg(atan2(target_x - x, target_y - y)) + 360.0, 360.0)
+	var angle_dist: float = abs(fmod(angle - rotation, 360.0))
+	if angle_dist > 180.0:
+		angle_dist = 360.0 - angle_dist
+	if angle_dist >= 30.0:
+		return {"healed": false, "heal_amount": 0.0, "target": target, "target_health": health}
+	var edelta: float = efficiency * delta
+	var heal_amount: float = repair_speed * strength * edelta * multiplier
+	var healed_target: Dictionary = target.duplicate()
+	healed_target["health"] = min(health + heal_amount, max_health)
+	return {"healed": true, "heal_amount": heal_amount, "target": healed_target, "target_health": float(healed_target["health"])}
 
 static func source_repair_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the repair-turret tick wiring every
@@ -213,6 +284,30 @@ static func source_repair_turret_tick_buildings_state(game: Object, seconds: flo
 		frame["has_target"] = acquire.get("has_target", false)
 		frame["target_timer"] = acquire.get("target_timer", 0.0)
 		frame["offset"] = acquire.get("offset", Vector2.ZERO)
+		# N2213: heal advance (RepairTurret.java:203-207)
+		# runs after the acquire stamps, on EVERY tick like
+		# the acquire: the pure function gates on target /
+		# efficiency / aim cone itself, so a blocked heal
+		# returns the target unchanged. repairSpeed is the
+		# per-def value (`_repair_speed_for_block_id` --
+		# 0.45f repair-point, 3f repair-turret, class default
+		# 0.3f; the catalog carries no repairSpeed), and the
+		# multiplier is the N2209 coolant multiplier
+		# (repair-turret only accepts coolant,
+		# `acceptCoolant = true;` + `coolantMultiplier =
+		# 1.6f;`, Blocks.java:6404-6406; repair-point never
+		# boosts, class default `acceptCoolant = false;`).
+		# The heal stamps the returned target /
+		# target_health live, so the healed health is what
+		# the next tick reads.
+		var repair_speed: float = _repair_speed_for_block_id(block_id)
+		var accept_coolant: bool = block_id == "repair-turret"
+		var multiplier: float = float(source_repair_turret_coolant_multiplier_state(frame, accept_coolant, 1.6).get("heal_multiplier", 1.0))
+		var heal: Dictionary = source_repair_turret_heal_advance_state(frame, sprite.position.x, sprite.position.y, repair_speed, seconds, multiplier)
+		frame["target"] = heal.get("target")
+		frame["target_health"] = heal.get("target_health", 0.0)
+		frame["healed"] = heal.get("healed", false)
+		frame["heal_amount"] = heal.get("heal_amount", 0.0)
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1

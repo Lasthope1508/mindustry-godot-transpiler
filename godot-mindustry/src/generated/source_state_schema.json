@@ -231670,6 +231670,124 @@
       },
       "runtime_proof": "/root/C07RepairTurretTargetAcquireProof",
       "rule": "Source-backed RepairTurret target acquisition from RepairTurret.java / Units.java / HealthComp.java / TimerComp.java / Interval.java / Blocks.java / UnitType.java / UnitComp.java."
+    },
+    "source_repair_turret_heal_advance_state_input": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_heal_advance_state",
+      "source_slice": "N2213",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "public Unit target;",
+          "rule": "The turret frame (RepairTurret.java:154, `public Unit target;` -- the frame carries the current target dict, rotation, strength, efficiency, and the beam offset; absent keys read the Java field defaults: rotation 90, strength 0, efficiency 1.0, offset zero).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_heal_advance_state"
+          ]
+        },
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "float angle = Angles.angle(x, y, target.x + offset.x, target.y + offset.y);",
+          "rule": "The turret x (RepairTurret.java:204 -- the Building x Java passes to Angles.angle; the driver reads sprite.position.x).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_heal_advance_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "float angle = Angles.angle(x, y, target.x + offset.x, target.y + offset.y);",
+          "rule": "The turret y (RepairTurret.java:204 -- the Building y Java passes to Angles.angle; the driver reads sprite.position.y).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_heal_advance_state"
+          ]
+        },
+        "repair_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "target.heal(repairSpeed * strength * edelta() * multiplier);",
+          "rule": "The per-def repairSpeed (RepairTurret.java:207 -- class default `public float repairSpeed = 0.3f;`, RepairTurret.java:32; repair-point 0.45f, repair-turret 3f, Blocks.java:6388/6400).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_heal_advance_state"
+          ]
+        },
+        "delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return efficiency * delta();",
+          "rule": "The tick delta in seconds (BuildingComp.java:1928, `return efficiency * delta();` -- edelta is efficiency * delta, and delta() is Time.delta * timeScale, BuildingComp.java:1922-1923; the driver passes its per-tick seconds, the same `seconds` the N2212 acquire uses).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_heal_advance_state"
+          ]
+        },
+        "multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "target.heal(repairSpeed * strength * edelta() * multiplier);",
+          "rule": "The heal multiplier (RepairTurret.java:207 -- the N2209 coolant multiplier: 1.0 without coolant, `1f + liquids.current().heatCapacity * coolantMultiplier * optionalEfficiency` when the def accepts coolant, RepairTurret.java:188-190).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_heal_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretHealAdvanceProof",
+      "rule": "Source-backed RepairTurret heal advance from RepairTurret.java / HealthComp.java / BuildingComp.java / Angles.java / Blocks.java / UnitComp.java."
+    },
+    "source_repair_turret_heal_advance_state_result": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_heal_advance_state",
+      "source_slice": "N2213",
+      "keys": {
+        "healed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "healed = true;",
+          "rule": "Whether the target was healed this tick: the angle gate passed with a target and efficiency > 0 (RepairTurret.java:205-206, `if(Angles.angleDist(angle, rotation) < 30f){` / `healed = true;` -- set by the gate, not by the amount, so a strength-0 turret still reports healed with a 0.0 amount).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_heal_advance_state"
+          ]
+        },
+        "heal_amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "target.heal(repairSpeed * strength * edelta() * multiplier);",
+          "rule": "The health added this tick: repairSpeed * strength * edelta * multiplier (RepairTurret.java:207 -- 0.0 when the gate fails or strength is 0).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_heal_advance_state"
+          ]
+        },
+        "target": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "target.heal(repairSpeed * strength * edelta() * multiplier);",
+          "rule": "The target after this tick: a duplicate of the frame target dict with the healed health, or null when the frame carries no target dict (RepairTurret.java:207 -- the heal mutates the live Unit in Java; the port returns a duplicate so the input dict is not mutated and the driver stamps the returned target).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_heal_advance_state"
+          ]
+        },
+        "target_health": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+          "java_expr": "health += amount;",
+          "rule": "The target health after this tick, clamped at maxHealth (HealthComp.java:110, `health += amount;` with clampHealth, HealthComp.java:104 -- 0.0 when the frame carries no target dict; unchanged when the gate fails).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_heal_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretHealAdvanceProof",
+      "rule": "Source-backed RepairTurret heal advance from RepairTurret.java / HealthComp.java / BuildingComp.java / Angles.java / Blocks.java / UnitComp.java."
     }
   },
   "version": 1
