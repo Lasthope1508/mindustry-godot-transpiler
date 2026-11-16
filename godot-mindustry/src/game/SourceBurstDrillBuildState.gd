@@ -8,6 +8,7 @@ const source_building_efficiency_state := preload("res://src/game/SourceBuilding
 const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
 const source_drill_inventory_runtime_state := preload("res://src/game/SourceDrillInventoryRuntimeState.gd")
 const source_building_item_dump_state := preload("res://src/game/SourceBuildingItemDumpState.gd")
+const source_building_item_state := preload("res://src/game/SourceBuildingItemState.gd")
 const source_liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
 const source_content_registry_runtime_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
 
@@ -192,9 +193,13 @@ static func source_burst_drill_power_status_row_state(frame: Dictionary, has_pow
 	# BurstDrill.java:83-84) runs before the advance each tick
 	# and dumps the dominant item (or dump(null) when the store
 	# lacks it) through the shared dump_item_state routing;
-	# first-fire deviation documented (Java fires nearly
-	# immediately after placement, the frame clock waits a full
-	# interval); still deferred: the offload
+	# the timerDump neighbour write-back live since N2360 (the
+	# advance exposes dump_neighbour_index / dumped_item and
+	# the tick lands the dumped item in the neighbour store
+	# through the shared helper); first-fire deviation
+	# documented (Java fires nearly immediately after
+	# placement, the frame clock waits a full interval); still
+	# deferred: the offload
 	# shake/sound/drillEffect presentation
 	# (BurstDrill.java:114-118), and the offload neighbor
 	# routing -- offload takes the no-neighbor fallback branch
@@ -446,27 +451,38 @@ static func source_burst_drill_timer_dump_state(frame: Dictionary, source_delta:
 	# shared dump(Item) port (SourceBuildingItemDumpState.dump_item_state), which covers BOTH branches -- NOT
 	# the putItem gate game_put_item_state / put_item_state, which dumps one SPECIFIC item through
 	# game-bound increment callbacks and cannot express dump(null) (the N2276 lesson). The shared port
-	# reports the handled neighbour but does not write the item into the neighbour frame -- the write-back
-	# waits for its own slice.
+	# reports the handled neighbour index + the dumped item, and the advance exposes both
+	# (dump_neighbour_index / dumped_item, N2360) so the tick can land the item in the neighbour store
+	# through the shared neighbour write-back helper (other.handleItem(self(), item),
+	# BuildingComp.java:1089, and other.handleItem(self(), todump), BuildingComp.java:1103) -- the
+	# write-back is live since N2360. The handled index is the port's "handled_index" result key
+	# (SOURCE_DRILL_INVENTORY_HANDLED_INDEX_KEY); the dumped item is the port's handled_item -- the
+	# dominant item (todump) on the specific branch, the first held item in content order on the
+	# dump(null) branch. A no-fire tick reports index -1 and an empty dumped item. The 2 new keys are
+	# registered as registry symbols only (N2360): the schema-sync slice folds them into
+	# source_burst_drill_timer_dump_state_result + the contract return_keys.
 	var items: Dictionary = (frame.get("items", {}) as Dictionary).duplicate(true)
 	var elapsed: float = float(frame.get("timer_dump_elapsed", 0.0))
 	var cursor: int = int(frame.get("cdump", 0))
 	var accumulated: float = elapsed + source_delta
 	var threshold: float = INF if time_scale <= 0.0 else SOURCE_BURST_DRILL_DUMP_TIME / time_scale
 	if dominant_item_name == "" or accumulated < threshold:
-		return {"fired": false, "elapsed_after": accumulated, "dumped": false, "items_after": items, "cursor_after": cursor}
+		return {"fired": false, "elapsed_after": accumulated, "dumped": false, "items_after": items, "cursor_after": cursor, "dump_neighbour_index": -1, "dumped_item": ""}
 	var todump: Variant = dominant_item_name if int(items.get(dominant_item_name, 0)) > 0 else null
 	var amounts: Array = []
 	for item_id in content_item_ids:
 		amounts.append(int(items.get(str(item_id), 0)))
 	var result: Dictionary = source_building_item_dump_state.dump_item_state(true, source_drill_inventory_runtime_state.items_total(items), neighbour_accepts_item.size(), todump, todump != null, content_item_ids, amounts, neighbour_accepts_item, neighbour_can_dump, cursor)
 	var dumped := bool(result.get("dumped", false))
+	var dump_neighbour_index: int = int(result.get(source_drill_inventory_runtime_state.SOURCE_DRILL_INVENTORY_HANDLED_INDEX_KEY, -1))
+	var handled_item: Variant = result.get("handled_item", null)
+	var dumped_item: String = "" if handled_item == null else str(handled_item)
 	if dumped:
 		var amounts_after: Array = result.get("item_amounts_by_index", amounts)
 		for j in range(content_item_ids.size()):
 			if j < amounts_after.size():
 				items[str(content_item_ids[j])] = int(amounts_after[j])
-	return {"fired": true, "elapsed_after": 0.0, "dumped": dumped, "items_after": items, "cursor_after": int(result.get("cdump", cursor))}
+	return {"fired": true, "elapsed_after": 0.0, "dumped": dumped, "items_after": items, "cursor_after": int(result.get("cdump", cursor)), "dump_neighbour_index": dump_neighbour_index, "dumped_item": dumped_item}
 
 @warning_ignore("unused_parameter")
 static func source_burst_drill_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
@@ -506,6 +522,7 @@ static func source_burst_drill_tick_buildings_state(game: Object, seconds: float
 		var team_id: int = int(sprite.get_meta(source_block_geometry.SOURCE_BUILD_TEAM_META_KEY, source_block_geometry.SOURCE_TEAM_DERELICT_ID))
 		var rules_state: Variant = source_rules_state.source_game_rules_state(game.get("rules_state")).get("rules", {})
 		var wired: Dictionary = source_burst_drill_tick_frame_state(frame, str(block.implementation), team_id, rules_state)
+		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		# The frame carries the Building.liquids LiquidModule
 		# (frame["liquids"]): the live store lives on the
 		# sprite meta (source_building_liquids, initialized
@@ -684,6 +701,31 @@ static func source_burst_drill_tick_buildings_state(game: Object, seconds: float
 				frame["timer_dump_elapsed"] = dumped["elapsed_after"]
 				frame["items"] = dumped["items_after"]
 				frame["cdump"] = dumped["cursor_after"]
+				# N2360: the timerDump neighbour write-back --
+				# the advance exposed the routed neighbour
+				# index (dump_neighbour_index, -1 when nothing
+				# dumped) + the dumped item (dumped_item), so
+				# the tick lands the item in the neighbour
+				# store through the shared helper
+				# (other.handleItem(self(), item),
+				# BuildingComp.java:1089, and
+				# other.handleItem(self(), todump), :1103),
+				# right after the dump and before the advance
+				# (Java order: handleItem happens INSIDE
+				# dump(), BurstDrill.java:83-84, before the
+				# :87+ advance). Index i is ring cell i (the
+				# N2353 convention), so the frame neighbour
+				# inputs must be filled in ring order and the
+				# helper takes the catalog size (the ring
+				# shape depends on it). A failed write-back
+				# (no sprite / no frame / no items store /
+				# full belt) drops the item -- the routing
+				# already decided, so there is no fallback to
+				# the drill's own store.
+				if bool(dumped.get("dumped", false)):
+					var dump_index: int = int(dumped.get("dump_neighbour_index", -1))
+					if dump_index >= 0:
+						source_building_item_state.source_neighbour_item_write_back_state(game, cell, int(block.properties.get("size", 1)), dump_index, str(dumped.get("dumped_item", "")), 1)
 				var advanced: Dictionary = source_burst_drill_update_tile_advance_state(frame, source_delta, time_scale, block_drill_time, block_boost, drill_multiplier, dominant_item_name, int(block.properties.get("itemCapacity", 10)))
 				frame["progress"] = advanced["progress"]
 				frame["warmup"] = advanced["warmup"]
@@ -692,7 +734,6 @@ static func source_burst_drill_tick_buildings_state(game: Object, seconds: float
 				frame["smooth_progress"] = advanced["smooth_progress"]
 				frame["invert_time"] = advanced["invert_time"]
 				frame["items"] = advanced["items"]
-		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
 	return {"ticked_count": ticked_count, "results_by_cell": results_by_cell}
