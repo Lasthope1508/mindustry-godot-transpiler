@@ -1,6 +1,6 @@
 # Handoff — N2213 RepairTurret heal advance (C07)
 
-## Status: DONE + GATE VERIFIED (2026-11-16 ~17:10 +07 — targeted 4/4, family 20/20, wiring 32/32; full gate Ran 5945, failures=163, skipped=5, 0 errors, all 163 verified Godot-absent). Ready to push (origin/main 956cef42 — no rebase needed).
+## Status: DONE + GATE VERIFIED (2026-11-16 ~17:10 +07 — targeted 4/4, family 20/20, wiring 32/32; full gate Ran 5945, failures=163, skipped=5, 0 errors, all 163 verified Godot-absent). Slice fd7a3739 / docs 288e7c47 / GOAL 06bf8d10. Ready to push (origin/main 956cef42 — no rebase needed).
 
 Next slice after N2212 (DONE + PUSHED, main 956cef42): the heal advance,
 `RepairPointBuild.updateTile()` RepairTurret.java:203-207.
