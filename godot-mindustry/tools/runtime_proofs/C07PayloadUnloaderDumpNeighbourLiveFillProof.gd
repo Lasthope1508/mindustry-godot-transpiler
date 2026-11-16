@@ -69,21 +69,30 @@ func _ready() -> void:
 	# ring 0 is (26, 19) and its ring 5 is (30, 20). The
 	# neighbours here are a size-1 melter at ring 0
 	# (consumes scrap, itemCapacity 10, no liquid -- the
-	# catalog carries its consumeItem row) and a size-2
-	# multi-press at ring 5 (consumes coal + water,
-	# hasLiquids true, liquidCapacity 60f, itemCapacity 20
-	# -- the catalog carries both rows). The multi-press
-	# footprint (30..31, 20..21) also covers ring 6
-	# (30, 21), so the ring reports it at BOTH indices 5
-	# and 6 (Java updateProximity dedupes multi-cell
+	# catalog carries its consumeItem row) and a size-3
+	# multi-press centred at (31, 20) (consumes coal +
+	# water, hasLiquids true, liquidCapacity 60f,
+	# itemCapacity 20 -- the catalog carries both rows;
+	# Blocks.java:1059, `size = 3;`). The multi-press
+	# footprint (30..32, 19..21) covers ring 4 (30, 19),
+	# ring 5 (30, 20) and ring 6 (30, 21), with ZERO
+	# overlap of the unloader footprint (27..29, 19..21)
+	# -- so the ring reports it at indices 4, 5 and 6
+	# (Java updateProximity dedupes multi-cell
 	# neighbours, but the ring convention this fill mirrors
-	# does not -- a delivery to either index lands in the
+	# does not -- a delivery to any index lands in the
 	# same frame). A copper wall at ring 11 (26, 20) is the
 	# frameless neighbour; the other ring cells are empty.
+	# (N2409: the press was centred at ring 5 (30, 20)
+	# with a wrong size-two claim in the comment -- a
+	# size-3 press there covers ring 4 too AND overlaps
+	# the origin footprint at x = 29, so the live tick
+	# reached an accepting neighbour earlier than the
+	# proof assumed.)
 	var ring: Array = block_geometry.source_block_proximity_cells_state(3, 28, 20).get("cells", [])
 	var unloader_cell := Vector2i(28, 20)
 	var melter_cell: Vector2i = ring[0]
-	var press_cell: Vector2i = ring[5]
+	var press_cell: Vector2i = Vector2i(31, 20)
 	var wall_cell: Vector2i = ring[11]
 	var unloader := Sprite2D.new()
 	game.add_child(unloader)
@@ -116,8 +125,8 @@ func _ready() -> void:
 	# the unloader's current is water (50.0), the
 	# multi-press holds 5.0 water at capacity 60f and
 	# consumes water with hasLiquids true -- so it reports
-	# 5.0 / 60.0 / accepts true / canDump true at BOTH of
-	# its ring indices (5 and 6). The melter has no liquids
+	# 5.0 / 60.0 / accepts true / canDump true at all three
+	# of its ring indices (4, 5 and 6). The melter has no liquids
 	# store, so it reports 0.0 / 0.0 / accepts false -- but
 	# canDump true, because it HAS a frame (the canDump
 	# default is unconditional). All six arrays are 12 long
@@ -130,18 +139,18 @@ func _ready() -> void:
 	var fill_can_dump_liquid: Array = liquid_fill.get("dump_neighbour_can_dump_liquid", [])
 	var fill_accepts_item: Array = liquid_fill.get("dump_neighbour_accepts_item", [])
 	var fill_can_dump_item: Array = liquid_fill.get("dump_neighbour_can_dump_item", [])
-	proof["fill_liquid_arrays_from_live_neighbour"] = ring.size() == 12 and melter_cell == Vector2i(26, 19) and press_cell == Vector2i(30, 20) and wall_cell == Vector2i(26, 20) and fill_amounts.size() == 12 and fill_capacities.size() == 12 and fill_accepts_liquid.size() == 12 and fill_can_dump_liquid.size() == 12 and fill_accepts_item.size() == 12 and fill_can_dump_item.size() == 12 and is_equal_approx(float(fill_amounts[5]), 5.0) and is_equal_approx(float(fill_amounts[6]), 5.0) and is_equal_approx(float(fill_capacities[5]), 60.0) and is_equal_approx(float(fill_capacities[6]), 60.0) and bool(fill_accepts_liquid[5]) and bool(fill_accepts_liquid[6]) and bool(fill_can_dump_liquid[5]) and bool(fill_can_dump_liquid[6]) and is_equal_approx(float(fill_amounts[0]), 0.0) and is_equal_approx(float(fill_capacities[0]), 0.0) and not bool(fill_accepts_liquid[0]) and bool(fill_can_dump_liquid[0])
+	proof["fill_liquid_arrays_from_live_neighbour"] = ring.size() == 12 and melter_cell == Vector2i(26, 19) and press_cell == Vector2i(31, 20) and wall_cell == Vector2i(26, 20) and fill_amounts.size() == 12 and fill_capacities.size() == 12 and fill_accepts_liquid.size() == 12 and fill_can_dump_liquid.size() == 12 and fill_accepts_item.size() == 12 and fill_can_dump_item.size() == 12 and is_equal_approx(float(fill_amounts[4]), 5.0) and is_equal_approx(float(fill_amounts[5]), 5.0) and is_equal_approx(float(fill_amounts[6]), 5.0) and is_equal_approx(float(fill_capacities[4]), 60.0) and is_equal_approx(float(fill_capacities[5]), 60.0) and is_equal_approx(float(fill_capacities[6]), 60.0) and bool(fill_accepts_liquid[4]) and bool(fill_accepts_liquid[5]) and bool(fill_accepts_liquid[6]) and bool(fill_can_dump_liquid[4]) and bool(fill_can_dump_liquid[5]) and bool(fill_can_dump_liquid[6]) and is_equal_approx(float(fill_amounts[0]), 0.0) and is_equal_approx(float(fill_capacities[0]), 0.0) and not bool(fill_accepts_liquid[0]) and bool(fill_can_dump_liquid[0])
 
 	# The item arrays fill from the live neighbour frames:
 	# the unloader holds coal only, so the offered item is
 	# coal -- the multi-press consumes coal with room
-	# (0 < 20), so it accepts at both indices 5 and 6, and
+	# (0 < 20), so it accepts at indices 4, 5 and 6, and
 	# the melter (which consumes scrap, not coal) rejects.
 	var coal_frame: Dictionary = {"items": {"coal": 3}, "liquids": {}, "liquid_names_by_id": liquid_names_by_id}
 	var coal_fill: Dictionary = payload_unloader_build_state.source_payload_unloader_dump_neighbour_live_fill_state(game, unloader_cell, 3, coal_frame, item_order)
 	var coal_accepts_item: Array = coal_fill.get("dump_neighbour_accepts_item", [])
 	var coal_can_dump_item: Array = coal_fill.get("dump_neighbour_can_dump_item", [])
-	proof["fill_item_arrays_from_live_neighbour"] = bool(coal_accepts_item[5]) and bool(coal_accepts_item[6]) and bool(coal_can_dump_item[5]) and bool(coal_can_dump_item[6]) and not bool(coal_accepts_item[0]) and bool(coal_can_dump_item[0])
+	proof["fill_item_arrays_from_live_neighbour"] = bool(coal_accepts_item[4]) and bool(coal_accepts_item[5]) and bool(coal_accepts_item[6]) and bool(coal_can_dump_item[4]) and bool(coal_can_dump_item[5]) and bool(coal_can_dump_item[6]) and not bool(coal_accepts_item[0]) and bool(coal_can_dump_item[0])
 
 	# The accepts gate REQUIRES consumesItem, not just
 	# capacity: with copper held, neither neighbour accepts
@@ -192,17 +201,23 @@ func _ready() -> void:
 	# seeded dump arrays -- the tick fills them live. The
 	# unloader holds 5 coal + 50 water; the multi-press
 	# water is reset to 0.0 first so the liquid transfer is
-	# exact. The liquid phase transfers 25.0 to ring 5
-	# ((0.5 - 0) * 100 / 2) then 12.5 to ring 6 ((0.25 - 0)
-	# * 100 / 2, the fraction recomputes from the running
-	# amount) -- 37.5 total, all landing in the press frame
+	# exact. The liquid phase transfers 25.0 to ring 4
+	# ((0.5 - 0) * 100 / 2), then 12.5 to ring 5 ((0.25 - 0)
+	# * 100 / 2), then 6.25 to ring 6 ((0.125 - 0) * 100 / 2,
+	# the fraction recomputes from the running amount) --
+	# 43.75 total, all landing in the press frame
 	# through the N2371 helper (the first handled index
 	# takes the total, the N2380 precedent). The item phase
 	# dumps 4 coal (dump_accum 0.9 + 4 * 1.0, one attempt
-	# per call) to the press at ring 5, then 6, then 5,
-	# then 6 (the cursor walks: 0 -> 6 -> 7 -> 6 -> 7) --
+	# per call) to the press at ring 4, then 5, then 6,
+	# then 4 (the cursor walks: 0 -> 5 -> 6 -> 7 -> 5) --
 	# all 4 land in the press frame through the N2353
 	# helper. The melter takes nothing (it rejects coal).
+	# (N2409: the old proof asserted cdump 7 and 37.5 /
+	# 12.5 / 37.5 liquid -- those values only hold if ring
+	# 4 is ignored; with ring 4 accepting, a Python mirror
+	# of the exact dump semantics gives cdump 5 and 43.75
+	# / 6.25 / 43.75.)
 	# The frame keeps the live-filled arrays and the
 	# dump_neighbour_live flag.
 	liquid_module_state.source_set_state(press_liquids, water_id, 0.0)
@@ -223,7 +238,7 @@ func _ready() -> void:
 	var press_water: float = float(liquid_module_state.source_get_state(press_liquids, water_id).get("amount", -1.0))
 	var live_accepts_item: Array = unloader_frame.get("dump_neighbour_accepts_item", [])
 	var live_capacities: Array = unloader_frame.get("dump_neighbour_liquid_capacities", [])
-	proof["live_tick_dumps_with_live_fill"] = is_equal_approx(float(unloader_frame.get("efficiency", -1.0)), 0.0) and int(live_items.get("coal", -1)) == 1 and int(unloader_frame.get("dumped_items", -1)) == 4 and int(press_items.get("coal", -1)) == 4 and int(melter_items.get("coal", 0)) == 0 and is_equal_approx(float(unloader_frame.get("dumped_liquid", -1.0)), 37.5) and is_equal_approx(live_water, 12.5) and is_equal_approx(press_water, 37.5) and int(unloader_frame.get("cdump", -1)) == 7 and is_equal_approx(float(unloader_frame.get("dump_accum", -1.0)), 0.9) and bool(unloader_frame.get("dump_neighbour_live", false)) and bool(live_accepts_item[5]) and not bool(live_accepts_item[0]) and is_equal_approx(float(live_capacities[5]), 60.0)
+	proof["live_tick_dumps_with_live_fill"] = is_equal_approx(float(unloader_frame.get("efficiency", -1.0)), 0.0) and int(live_items.get("coal", -1)) == 1 and int(unloader_frame.get("dumped_items", -1)) == 4 and int(press_items.get("coal", -1)) == 4 and int(melter_items.get("coal", 0)) == 0 and is_equal_approx(float(unloader_frame.get("dumped_liquid", -1.0)), 43.75) and is_equal_approx(live_water, 6.25) and is_equal_approx(press_water, 43.75) and int(unloader_frame.get("cdump", -1)) == 5 and is_equal_approx(float(unloader_frame.get("dump_accum", -1.0)), 0.9) and bool(unloader_frame.get("dump_neighbour_live", false)) and bool(live_accepts_item[4]) and bool(live_accepts_item[5]) and not bool(live_accepts_item[0]) and is_equal_approx(float(live_capacities[4]), 60.0) and is_equal_approx(float(live_capacities[5]), 60.0)
 
 	var state_registry := registry.canonical_headquarter_registry_state()
 	proof["registry_valid"] = state_registry.get("errors", []).is_empty()
