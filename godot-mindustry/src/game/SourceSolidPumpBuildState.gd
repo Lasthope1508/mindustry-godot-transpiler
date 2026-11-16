@@ -173,8 +173,8 @@ static func source_solid_pump_power_status_row_state(frame: Dictionary, has_powe
 	# inputs (frame valid_tiles / boost / attribute_env,
 	# default 0f); dumpLiquid(result) live since N2286 (see
 	# (4)); the live onProximityUpdate fill is live since
-	# N2292 (see (5)); still deferred: the updateEffect chance
-	# (SolidPump.java:131-132).
+	# N2292 (see (5)); the updateEffect chance is live since
+	# N2481 (see (6)).
 	# (4) Dump rows live (N2286) -- dumpLiquid(result)
 	# (SolidPump.java:140) dumps the result water to
 	# neighbours through the shared dump_liquid_state routing
@@ -205,6 +205,22 @@ static func source_solid_pump_power_status_row_state(frame: Dictionary, has_powe
 	# live linked-tile scan, the live envAttrs read, and a
 	# proximity-change trigger (Java runs onProximityUpdate
 	# only when placement/proximity changes).
+	# (6) UpdateEffect chance rows live (N2481) -- the
+	# chance pure (source_solid_pump_update_effect_chance_
+	# state) models `if(Mathf.chance(delta() *
+	# updateEffectChance)) updateEffect.at(x + Mathf.range(
+	# size * 2f), y + Mathf.range(size * 2f));`
+	# (SolidPump.java:131-132) inside the pump branch
+	# (SolidPump.java:126) as a pure-only call record
+	# {effect, x, y} (null when the gate fails or the roll
+	# misses): the gate verdict + delta + chance + token +
+	# the three rolls are caller-supplied (NO RNG in the
+	# pure, the N2421/N2468 precedent), the chance
+	# comparison is STRICT < with the d >= 1f short-circuit
+	# (arc Mathf.java:240-242), and the position rolls are
+	# already-ranged in [-4f, 4f] for the size-2
+	# water-extractor. The live token is Fx.none (the def
+	# overrides neither field, Blocks.java:2920-2930).
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -249,7 +265,7 @@ static func source_solid_pump_update_tile_advance_state(frame: Dictionary, sourc
 	# `liquids.add(result, maxPump);` (SolidPump.java:128 -- via the shared liquid module helper, the SourcePumpRuntimeState precedent).
 	# `lastPump = maxPump / Time.delta;` (SolidPump.java:129 -- RAW Time.delta, not delta()).
 	# `warmup = Mathf.lerpDelta(warmup, 1f, 0.02f);` (SolidPump.java:130).
-	# `if(Mathf.chance(delta() * updateEffectChance))` (SolidPump.java:131 -- DEFERRED, presentation; updateEffect is Fx.none by default, SolidPump.java:23).
+	# `if(Mathf.chance(delta() * updateEffectChance))` (SolidPump.java:131 -- live since N2481, source_solid_pump_update_effect_chance_state, pure-only; updateEffect is Fx.none by default, SolidPump.java:23).
 	# `warmup = Mathf.lerpDelta(warmup, 0f, 0.02f);` (SolidPump.java:134).
 	# `lastPump = 0f;` (SolidPump.java:135).
 	# `pumpTime += warmup * edelta();` (SolidPump.java:138 -- the NEW warmup, assigned above).
@@ -317,6 +333,33 @@ static func source_solid_pump_update_tile_advance_state(frame: Dictionary, sourc
 		last_pump = 0.0
 	var next_pump_time: float = pump_time + next_warmup * efficiency * delta
 	return {"warmup": next_warmup, "pump_time": next_pump_time, "last_pump": last_pump, "max_pump": max_pump, "fraction": fraction}
+
+static func source_solid_pump_update_effect_chance_state(pump_branch_open: bool, source_delta: float, time_scale: float, update_effect_chance: float, update_effect: String, x: float, y: float, chance_roll: float, range_roll_x: float, range_roll_y: float) -> Dictionary:
+	# The updateEffect chance rows (SolidPumpBuild.updateTile(), each exact expr on ONE comment line, the N2148 lesson):
+	# `public class SolidPump extends Pump{` (SolidPump.java:21)
+	# `public class SolidPumpBuild extends PumpBuild{` (SolidPump.java:89)
+	# `public void updateTile(){` (SolidPump.java:122)
+	# `public Effect updateEffect = Fx.none;` (SolidPump.java:23)
+	# `public float updateEffectChance = 0.02f;` (SolidPump.java:24)
+	# `if(efficiency > 0 && typeLiquid() < liquidCapacity - 0.001f){` (SolidPump.java:126)
+	# `if(Mathf.chance(delta() * updateEffectChance))` (SolidPump.java:131)
+	# `updateEffect.at(x + Mathf.range(size * 2f), y + Mathf.range(size * 2f));` (SolidPump.java:132)
+	# `public float delta(){` (BuildingComp.java:1922)
+	# `return Time.delta * timeScale;` (BuildingComp.java:1923)
+	# `private transient float timeScale = 1f, timeScaleDuration;` (BuildingComp.java:98)
+	# `none = new Effect(0, 0f, e -> {}),` (Fx.java:30)
+	# `size = 2;` (water-extractor, Blocks.java:2924; the driver constant SOURCE_SOLID_PUMP_SIZE)
+	# `public static boolean chance(double d){` (arc Mathf.java:240)
+	# `return d >= 1f || rand.nextFloat() < d;` (arc Mathf.java:241)
+	# `public static float range(float range){` (arc Mathf.java:220)
+	# `return random(-range, range);` (arc Mathf.java:221)
+	# The chance gate sits INSIDE the pump branch (SolidPump.java:126), so the pure takes pump_branch_open as a caller-evaluated bool and does NOT recompute efficiency / typeLiquid (the N2397 precedent -- the N2220 advance owns the gate; the advance computes it inline, there is no separate gate key). delta() is Time.delta * timeScale (BuildingComp.java:1922-1923); the pure takes source_delta + time_scale like the N2220 advance (the family precedent) and computes delta inside. Mathf.chance is `return d >= 1f || rand.nextFloat() < d;` -- the d >= 1f short-circuit fires unconditionally, and the comparison is STRICT < (a roll exactly at the threshold misses). Mathf.range(r) is random(-r, r), so the position rolls span [-size * 2f, size * 2f] = [-4f, 4f] for the size-2 water-extractor. The water-extractor def overrides NEITHER updateEffect nor updateEffectChance (Blocks.java:2920-2930 -- the Blocks.java updateEffect hits are Drill defs and the Fracker oil-extractor), so the live call records the Fx.none token -- the pure still records the call with that token, and takes the token + the chance as params (the N2475 repair_radius precedent) so a def override would pass through verbatim. NO RNG in the pure (the N2421/N2468 precedent): the chance roll + the two position rolls are caller-supplied already-rolled inputs -- the position rolls arrive ALREADY-RANGED (the N2421 magnitude precedent), so the pure never sees the size, only the offsets. Pure-only: the tick never calls the chance pure -- the effect call sites that would spawn the Fx effect wait for renderer/effect slices (the N2421 draw precedent); the dump half of the old combined entry is live since N2286.
+	var delta: float = source_delta * time_scale
+	var threshold: float = delta * update_effect_chance
+	var effect_call: Variant = null
+	if pump_branch_open and (threshold >= 1.0 or chance_roll < threshold):
+		effect_call = {"effect": update_effect, "x": x + range_roll_x, "y": y + range_roll_y}
+	return {"effect_call": effect_call}
 
 static func source_solid_pump_proximity_fraction_state(linked_tiles: Array, block_size: int, base_efficiency: float, attribute_env: float, floating: bool, placeable_liquid: bool, has_attribute: bool) -> Dictionary:
 	# The live fraction fill (SolidPumpBuild.onProximityUpdate(),
