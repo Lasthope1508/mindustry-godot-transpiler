@@ -1,0 +1,9 @@
+test_all_c07_payload_unloader_dump_item_write_back_input_evidence_is_exact (tests.test_c07_payload_unloader_dump_item_write_back.C07PayloadUnloaderDumpItemWriteBackTests.test_all_c07_payload_unloader_dump_item_write_back_input_evidence_is_exact) ... ok
+test_c07_payload_unloader_dump_item_write_back_registration (tests.test_c07_payload_unloader_dump_item_write_back.C07PayloadUnloaderDumpItemWriteBackTests.test_c07_payload_unloader_dump_item_write_back_registration) ... ok
+test_payload_unloader_dump_item_write_back_state (tests.test_c07_payload_unloader_dump_item_write_back.C07PayloadUnloaderDumpItemWriteBackTests.test_payload_unloader_dump_item_write_back_state) ... ok
+test_reference_graph_and_actual_c07_payload_unloader_dump_item_write_back (tests.test_c07_payload_unloader_dump_item_write_back.C07PayloadUnloaderDumpItemWriteBackTests.test_reference_graph_and_actual_c07_payload_unloader_dump_item_write_back) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 21.315s
+
+OK
