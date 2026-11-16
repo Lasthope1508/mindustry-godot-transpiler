@@ -162,7 +162,7 @@ class C07BurstDrillLiquidRowsTests(unittest.TestCase):
         # module helper over the frame liquids key, with the
         # Fracker guard (SourceFrackerBuildState.gd:151); the
         # tick syncs the live sprite store into the frame
-        # BEFORE the fold (SourceFrackerBuildState.gd:361), and
+        # BEFORE the fold (SourceFrackerBuildState.gd:623), and
         # the second pass removes the consumed liquid through
         # the same helper (PayloadLoader cache_sums precedent).
         self.assertIn('source_liquid_module_state.source_get_state', burst_drill)

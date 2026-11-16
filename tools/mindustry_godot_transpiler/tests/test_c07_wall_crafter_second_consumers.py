@@ -190,7 +190,7 @@ class C07WallCrafterSecondConsumersTests(unittest.TestCase):
         # module helper over the frame liquids key, with the
         # Fracker guard (SourceFrackerBuildState.gd:221); the
         # tick syncs the live sprite store into the frame
-        # BEFORE the fold (Fracker:361), and the second pass
+        # BEFORE the fold (Fracker:623), and the second pass
         # removes the consumed hydrogen through the same helper
         # (PayloadLoader cache_sums precedent). The graphite
         # count reads through the shared inventory helper over

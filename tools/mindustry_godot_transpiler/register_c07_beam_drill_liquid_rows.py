@@ -51,7 +51,7 @@ default (Consume.java:18) -- no def sets one. The held amount
 reads through the shared liquid module helper
 (SourceLiquidModuleState.source_get_state, the Fracker guard)
 over the frame liquids key, synced from the live sprite store
-each tick before the fold (Fracker:361). The second-pass removal
+each tick before the fold (Fracker:623). The second-pass removal
 is direct, after apply_update_consumption_state, with the same
 guard (update && efficiency > 0) and edelta from the folded
 efficiency: the AdjacentFactory updates-array precedent
@@ -70,7 +70,7 @@ yet; the rows read the store as-is).
 Line-number corrections to the brief/SCOPE: the brief's
 "Fracker:139-144" guard cite is stale -- the current guard is
 SourceFrackerBuildState.gd:221 (liquid row) / :151 (gate); the
-"Fracker:361" liquids sync cite is correct. The ledger entry's
+"Fracker:623" liquids sync cite is correct. The ledger entry's
 java_source is BeamDrill.java (the N2155/N2202 family pattern),
 NOT ConsumeLiquid.java: the consumer_slices shard selects ledger
 slices by java_source containing /world/consumers/ and mirrors a

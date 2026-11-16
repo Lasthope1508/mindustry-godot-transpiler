@@ -50,7 +50,7 @@ the 1f default (Consume.java:18) -- neither def sets one. The
 held amount reads through the shared liquid module helper
 (SourceLiquidModuleState.source_get_state, the Fracker guard)
 over the frame liquids key, synced from the live sprite store
-each tick before the fold (SourceFrackerBuildState.gd:361). The
+each tick before the fold (SourceFrackerBuildState.gd:623). The
 second-pass removal is direct, after
 apply_update_consumption_state, with the same guard (update &&
 efficiency > 0) and edelta from the folded efficiency: the

@@ -751,7 +751,7 @@ static func source_regen_projector_tick_buildings_state(game: Object, seconds: f
 		# hasLiquids flag for regen-projector), so the driver
 		# syncs the reference into the frame each tick BEFORE
 		# the fold, and the pure liquid row reads the hydrogen
-		# amount from it (the Fracker:361 precedent).
+		# amount from it (the Fracker:623 precedent).
 		frame["liquids"] = sprite.get_meta(source_placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, {})
 		# The power consumer reads live since N2153 (the graph
 		# update stamps frame["power_status"] each tick, N2142):

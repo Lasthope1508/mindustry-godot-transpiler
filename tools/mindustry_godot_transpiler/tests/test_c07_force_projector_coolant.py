@@ -198,7 +198,7 @@ class C07ForceProjectorCoolantTests(unittest.TestCase):
         # The held amount reads through the shared liquid module
         # helper over the frame liquids key, with the Fracker
         # guard; the tick syncs the live sprite store into the
-        # frame BEFORE the fold (Fracker:361), and the removal
+        # frame BEFORE the fold (Fracker:623), and the removal
         # after the advance goes through the same helper (the
         # N2226 heal_amount pattern: the advance reports the
         # pure consumption, the driver applies it).

@@ -57,7 +57,8 @@ with a catalog consumeLiquid property (PortGame.gd:30-34),
 and the shockwave-tower catalog entry carries no consumeLiquid
 or consumeLiquids property, so no store exists at placement
 and the tick lazily initializes it. The RegenProjector
-comment's "Fracker:361" frame-sync cite is also stale -- the
+comment's frame-sync cite is also stale (it cites the old
+line; N2355 sweeps it to :623) -- the
 sync is at SourceFrackerBuildState.gd:623 now (the driver
 cites :623). The SCOPE "#76" for the resolved DEFERRED entry
 is 0-based index 76 in DEFERRED-after-advances-13.py, resolved

@@ -117,7 +117,7 @@ static func _initial_frame() -> Dictionary:
 	# Interval-equivalent, frame key timer_dump_elapsed).
 	# The frame also carries the Building.liquids LiquidModule
 	# (frame["liquids"], the live sprite store synced each tick
-	# before the fold, the Fracker:361 precedent): the
+	# before the fold, the Fracker:623 precedent): the
 	# large-cliff-crusher's required hydrogen row (N2264) reads
 	# the held hydrogen from it; the cliff-crusher has no liquid
 	# row and leaves it empty.
@@ -565,7 +565,7 @@ static func source_wall_crafter_tick_buildings_state(game: Object, seconds: floa
 		# at placement), so the driver syncs the reference
 		# into the frame each tick BEFORE the fold, and the
 		# pure liquid row reads the held hydrogen from it (the
-		# Fracker:361 precedent).
+		# Fracker:623 precedent).
 		frame["liquids"] = sprite.get_meta(source_placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, {})
 		# N2264: the graphite booster row is computed here --
 		# outside the consumption guard -- because itemValid
