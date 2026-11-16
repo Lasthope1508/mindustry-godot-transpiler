@@ -170,12 +170,17 @@ class C07BurstDrillDumpNeighbourLiveFillTests(unittest.TestCase):
         self.assertIn('properties.get("itemCapacity", 10)', burst_drill)
         self.assertIn('"dump_neighbour_accepts": neighbour_accepts', burst_drill)
         self.assertIn('"dump_neighbour_can_dump": neighbour_can_dump', burst_drill)
-        # The fill is called exactly once (its definition plus
-        # the one tick call site), with the tick cell in scope
+        # The fill is called exactly twice (its definition plus
+        # two tick call sites), with the tick cell in scope
         # (cell is bound before the enabled block in this
         # driver, so no N2363 inline origin_cell read) and
-        # the catalog size + the content item order.
-        self.assertEqual(burst_drill.count('source_burst_drill_dump_neighbour_live_fill_state('), 2)
+        # the catalog size + the content item order. The second
+        # call site is the N2476 offload refresh (probe frame
+        # {"items": {dominant_item_name: 1}} -- the fill reads
+        # only frame["items"], so the probe makes the fill
+        # answer for the dominant item; gated on
+        # dump_neighbour_live, live-managed frames only).
+        self.assertEqual(burst_drill.count('source_burst_drill_dump_neighbour_live_fill_state('), 3)
         self.assertIn('source_burst_drill_dump_neighbour_live_fill_state(game, cell, int(block.properties.get("size", 1)), frame, content_item_ids)', burst_drill)
         # The tick wires the fill BEFORE the dump reads the
         # frame arrays: supplied arrays WIN (the N2381

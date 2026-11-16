@@ -125,6 +125,14 @@ class C07BeamDrillFacingTilesFillTests(unittest.TestCase):
 
     def test_beam_drill_facing_tiles_fill_state(self):
         beam_drill = BEAM_DRILL_STATE.read_text(encoding='utf-8')
+        # The ordering pins below are TICK pins (the fill runs
+        # in the tick before the scan reads facing_tiles) --
+        # scope them to the tick function: N2477's drop loop
+        # reads frame["facing_tiles"] in the update_tile
+        # advance (earlier in the file), so a file-wide
+        # .index() finds the advance's read, not the tick's
+        # (serial N2483).
+        tick = beam_drill[beam_drill.index('static func source_beam_drill_tick_buildings_state'):]
         # The facing-tile fill (BeamDrillBuild.
         # updateFacing(), BeamDrill.java:375-411 -- called
         # from onProximityUpdate :362-366 (`public void
@@ -239,12 +247,12 @@ class C07BeamDrillFacingTilesFillTests(unittest.TestCase):
         self.assertIn('source_beam_drill_facing_tiles_fill_state(frame.get("lasers", []), world_tiles, beam_size, beam_range, fill_rotation)', beam_drill)
         self.assertIn('frame["facing_tiles"] = filled.get("facing_tiles", [])', beam_drill)
         self.assertLess(
-            beam_drill.index('frame["facing_tiles"] = filled.get("facing_tiles", [])'),
-            beam_drill.index('var facing_tiles: Array = frame.get("facing_tiles", [])'),
+            tick.index('frame["facing_tiles"] = filled.get("facing_tiles", [])'),
+            tick.index('var facing_tiles: Array = frame.get("facing_tiles", [])'),
         )
         self.assertLess(
-            beam_drill.index('source_beam_drill_facing_tiles_fill_state(frame.get("lasers", []), world_tiles, beam_size, beam_range, fill_rotation)'),
-            beam_drill.index('source_beam_drill_facing_scan_state(facing_tiles, beam_size, beam_range, beam_tier, beam_blocked_items)'),
+            tick.index('source_beam_drill_facing_tiles_fill_state(frame.get("lasers", []), world_tiles, beam_size, beam_range, fill_rotation)'),
+            tick.index('source_beam_drill_facing_scan_state(facing_tiles, beam_size, beam_range, beam_tier, beam_blocked_items)'),
         )
         # The N2339 facing scan pure and the N2346 laser
         # origins pure are untouched: their signatures,
