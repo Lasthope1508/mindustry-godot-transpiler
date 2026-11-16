@@ -105,7 +105,7 @@ static func source_liquid_bridge_power_status_row_state(frame: Dictionary, has_p
 	# LiquidBridgeBuild inherits ItemBridgeBuild.shouldConsume (ItemBridge.java:495, `public boolean shouldConsume(){` with `return hadValidLink && enabled;`, ItemBridge.java:496); updateConsumption forces efficiency to zero when the gate is false (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). N2198 makes the gate live (resolving the N2179 RED decision, the PointDefenseTurret N2151 precedent and the RepairTurret N2174 / RepairTower N2176 / ShockwaveTower N2177 / ItemBridge N2178 precedents): the LiquidBridge frame tracks its own link/had_valid_link keys (Java field defaults, ItemBridge.java:198/:202), the driver recomputes had_valid_link every tick through N2197's pure linkValid, and the pure gate (source_liquid_bridge_should_consume_state) feeds `should_consume = had_valid_link && enabled` to the machinery -- when unlinked efficiency folds to 0 like Java. The link gate itself is `hadValidLink = linkValid(tile, other);` (ItemBridge.java:333).
 	# The liquid bridge is its own family (LiquidBridge.java:7, `public class LiquidBridge extends ItemBridge{`; LiquidBridgeBuild, LiquidBridge.java:19, `public class LiquidBridgeBuild extends ItemBridgeBuild{`), a liquid block, NOT related to any factory / turret / defense family. Constructor: `hasItems = false;` (LiquidBridge.java:11), `hasLiquids = true;` (LiquidBridge.java:12), `outputsLiquid = true;` (LiquidBridge.java:13), `canOverdrive = false;` (LiquidBridge.java:14), `group = BlockGroup.liquids;` (LiquidBridge.java:15), `envEnabled = Env.any;` (LiquidBridge.java:16). It inherits the ItemBridge class (ItemBridge.java:24, `public class ItemBridge extends Block{`; ItemBridgeBuild, ItemBridge.java:197, `public class ItemBridgeBuild extends Building{`), a distribution block. Class fields: `public final int timerCheckMoved = timers ++;` (ItemBridge.java:25), `public int range;` (ItemBridge.java:27), `public float transportTime;` (ItemBridge.java:28), `public boolean fadeIn = true;` (ItemBridge.java:34), `public boolean moveArrows = true;` (ItemBridge.java:35), `public boolean pulse = false;` (ItemBridge.java:36), `public float arrowSpacing = 4f, arrowOffset = 2f, arrowPeriod = 0.4f;` (ItemBridge.java:37), `public float arrowTimeScl = 6.2f;` (ItemBridge.java:38), `public float bridgeWidth = 6.5f;` (ItemBridge.java:39); constructor `update = true;` (ItemBridge.java:45), `solid = true;` (ItemBridge.java:46), `underBullets = true;` (ItemBridge.java:47), `hasPower = true;` (ItemBridge.java:48), `itemCapacity = 10;` (ItemBridge.java:49), `configurable = true;` (ItemBridge.java:50), `hasItems = true;` (ItemBridge.java:51). Build fields: `public int link = -1;` (ItemBridge.java:198), `public IntSeq incoming = new IntSeq(false, 4);` (ItemBridge.java:199), `public float warmup;` (ItemBridge.java:200), `public float time = -8f, timeSpeed;` (ItemBridge.java:201), `public boolean wasMoved, moved, hadValidLink;` (ItemBridge.java:202), `public float transportCounter;` (ItemBridge.java:203). canConsume (BuildingComp.java:1917, `public boolean canConsume(){` with `return potentialEfficiency > 0;`, BuildingComp.java:1918) and the shouldConsume default (BuildingComp.java:755, `public boolean shouldConsume(){` with `return enabled;`, BuildingComp.java:756) are the surrounding gates. The single def carries `consumePower(0.30f);` (Blocks.java:2396) with `range = 12;` (Blocks.java:2388) and `liquidCapacity = 100f;` (Blocks.java:2395). No sense / read / write overrides exist on LiquidBridgeBuild -- those wait for their own slices only if a later Java line needs them.
 	# Single def -- phase-conduit only (size 1, range 12, liquidCapacity 100f, phase-fabric 5 / silicon 7 / metaglass 20 / titanium 10, Blocks.java:2385-2397). bridge-conduit (LiquidBridge, no power def, `hasPower = false;`, Blocks.java:2380) is explicitly OUT of scope; reinforced-bridge-conduit (DirectionLiquidBridge, Blocks.java:2432, different class, hasPower false) is explicitly OUT of scope.
-	# Documented limits: (1) power-only first pass -- the phase-conduit's static power consumer (consumePower 0.30f, Blocks.java:2396) is the only modeled consumer, so the folded efficiency is the min over the *modeled* consumers (power only); phase-conduit has no second consumer. (2) shouldConsume gate live (N2198) -- LiquidBridgeBuild inherits ItemBridgeBuild.shouldConsume (`return hadValidLink && enabled;`, ItemBridge.java:495-496); when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994); the pure gate feeds had_valid_link && enabled to the machinery, and the driver recomputes had_valid_link every tick after the consumption fold through N2197's pure linkValid. (3) updateTransport advance live (N2275) -- warmup gate / moveLiquid / moved flag (LiquidBridge.java:22-26) run every enabled tick after the consumption fold through the pure source_liquid_bridge_update_transport_state function; doDump live (N2287) -- dumpLiquid(liquids.current(), 1f); at scaling 1f (LiquidBridge.java:29-31), NOT the 2f default (BuildingComp.java:877-878), through the pure source_liquid_bridge_do_dump_state function, wired in the unlinked branch only; the neighbour arrays are live-filled since N2412 (the tick scans the live proximity BEFORE the dump reads them, the N2394 liquid half + the N2408 8-field shape; supplied arrays win, the N2381 precedent). Dump neighbour write-back live since N2379 -- the pure exposes the handled neighbour index + the dumped liquid id and the tick lands the dumped liquid in the neighbour frame through the shared N2371 helper. The moveLiquid reaction branch (BuildingComp.java:954-976) still defers (Java itself TODOs the reaction as wrong for multi-liquid blocks), and the timerCheckMoved snapshot (ItemBridge.java:320-323) defers (no timer infra), so moved is set by the transfer but never snapshots into wasMoved. The power proof carries no transport/warmup/move keys; the N2275 proof carries the transport keys; the N2287 proof carries the dump keys; the N2379 proof carries the write-back keys; the N2412 proof carries the fill keys. (4) No sense/warmup modeling -- `warmup()` has no override here (draw-only warmup, ItemBridge.java:387) and sense waits for its own slice. (5) Single def -- phase-conduit only (size 1, range 12, liquidCapacity 100f, phase-fabric 5 / silicon 7 / metaglass 20 / titanium 10); bridge-conduit (LiquidBridge, no power def) and reinforced-bridge-conduit (DirectionLiquidBridge, different class) are explicitly OUT of scope; per-def stat values wait for their own verification slice. (6) No draw/config-UI modeling -- the config handlers (ItemBridge.java:64/66) are covered by N2197's pure configure (reused, not copied), but bridge draw / drawSelect / drawConfigure (ItemBridge.java:216-296, 375-394, inherited) and placement auto-link (playerPlaced / findLink / lastBuild, ItemBridge.java:167-173, 211) wait for their own slices (N2199). (7) Link/findLink/linkValid rows live (N2463) -- the link/findLink/linkValid pures (source_liquid_bridge_link_valid_state / source_liquid_bridge_find_link_state / source_liquid_bridge_config_state) model linkValid() (:145-155: the null/positions guard, the block clause ((other.block == tile.block && tile.block == this) || (!(tile.block instanceof ItemBridge) && other.block == this)), the team clause and the checkDouble gate, all predicates caller-supplied) + positionsValid (:157-165, caller-supplied verdict -- range varies per def, bridge-conduit 4 / phase-conduit 12) + findLink() (:167-173: lastBuild.tile iff the tile exists, a lastBuild exists, linkValid holds, lastBuild.tile != tile and lastBuild.link == -1) + config(Point2) (:64: the RELATIVE point packed against the tile) / config(Integer) (:66: the absolute packed int) + config() (:500-501: the relative Point2, null when tile is null as a documented fallback -- ItemBridge.config() has NO null check, unlike MassDriver.config()). LiquidBridge overrides NOTHING here (LiquidBridge.java is 33 lines, overriding only updateTransport / doDump), so the pures port the inherited ItemBridge versions. Pure-only: the tick keeps recomputing had_valid_link through N2197's pure linkValid and the placement-time auto-link driver (N2199) is untouched -- NOT rewired; the config-UI / input-handler call sites wait for their own slices.
+	# Documented limits: (1) power-only first pass -- the phase-conduit's static power consumer (consumePower 0.30f, Blocks.java:2396) is the only modeled consumer, so the folded efficiency is the min over the *modeled* consumers (power only); phase-conduit has no second consumer. (2) shouldConsume gate live (N2198) -- LiquidBridgeBuild inherits ItemBridgeBuild.shouldConsume (`return hadValidLink && enabled;`, ItemBridge.java:495-496); when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994); the pure gate feeds had_valid_link && enabled to the machinery, and the driver recomputes had_valid_link every tick after the consumption fold through N2197's pure linkValid. (3) updateTransport advance live (N2275) -- warmup gate / moveLiquid / moved flag (LiquidBridge.java:22-26) run every enabled tick after the consumption fold through the pure source_liquid_bridge_update_transport_state function; doDump live (N2287) -- dumpLiquid(liquids.current(), 1f); at scaling 1f (LiquidBridge.java:29-31), NOT the 2f default (BuildingComp.java:877-878), through the pure source_liquid_bridge_do_dump_state function, wired in the unlinked branch only; the neighbour arrays are live-filled since N2412 (the tick scans the live proximity BEFORE the dump reads them, the N2394 liquid half + the N2408 8-field shape; supplied arrays win, the N2381 precedent). Dump neighbour write-back live since N2379 -- the pure exposes the handled neighbour index + the dumped liquid id and the tick lands the dumped liquid in the neighbour frame through the shared N2371 helper. The moveLiquid reaction branch (BuildingComp.java:954-976) still defers (Java itself TODOs the reaction as wrong for multi-liquid blocks), and the timerCheckMoved snapshot (ItemBridge.java:320-323) defers (no timer infra), so moved is set by the transfer but never snapshots into wasMoved. The power proof carries no transport/warmup/move keys; the N2275 proof carries the transport keys; the N2287 proof carries the dump keys; the N2379 proof carries the write-back keys; the N2412 proof carries the fill keys. (4) No sense/warmup modeling -- `warmup()` has no override here (draw-only warmup, ItemBridge.java:387) and sense waits for its own slice. (5) Single def -- phase-conduit only (size 1, range 12, liquidCapacity 100f, phase-fabric 5 / silicon 7 / metaglass 20 / titanium 10); bridge-conduit (LiquidBridge, no power def) and reinforced-bridge-conduit (DirectionLiquidBridge, different class) are explicitly OUT of scope; Per-def stat rows live (N2494) -- source_liquid_bridge_per_def_stats_state returns the phase-conduit rows (size 1, range 12, liquidCapacity 100f, arrowPeriod 0.9f, arrowTimeScl 2.75f, phase-fabric 5 / silicon 7 / metaglass 20 / titanium 10) with the class defaults (size 1, range 0, liquidCapacity 10f, arrowPeriod 0.4f, arrowTimeScl 6.2f, no requirements) for an unknown def id; bridge-conduit still falls back until its own verification slice (DEFERRED #40). (6) No draw/config-UI modeling -- the config handlers (ItemBridge.java:64/66) are covered by N2197's pure configure (reused, not copied), but bridge draw / drawSelect / drawConfigure (ItemBridge.java:216-296, 375-394, inherited) and placement auto-link (playerPlaced / findLink / lastBuild, ItemBridge.java:167-173, 211) wait for their own slices (N2199). (7) Link/findLink/linkValid rows live (N2463) -- the link/findLink/linkValid pures (source_liquid_bridge_link_valid_state / source_liquid_bridge_find_link_state / source_liquid_bridge_config_state) model linkValid() (:145-155: the null/positions guard, the block clause ((other.block == tile.block && tile.block == this) || (!(tile.block instanceof ItemBridge) && other.block == this)), the team clause and the checkDouble gate, all predicates caller-supplied) + positionsValid (:157-165, caller-supplied verdict -- range varies per def, bridge-conduit 4 / phase-conduit 12) + findLink() (:167-173: lastBuild.tile iff the tile exists, a lastBuild exists, linkValid holds, lastBuild.tile != tile and lastBuild.link == -1) + config(Point2) (:64: the RELATIVE point packed against the tile) / config(Integer) (:66: the absolute packed int) + config() (:500-501: the relative Point2, null when tile is null as a documented fallback -- ItemBridge.config() has NO null check, unlike MassDriver.config()). LiquidBridge overrides NOTHING here (LiquidBridge.java is 33 lines, overriding only updateTransport / doDump), so the pures port the inherited ItemBridge versions. Pure-only: the tick keeps recomputing had_valid_link through N2197's pure linkValid and the placement-time auto-link driver (N2199) is untouched -- NOT rewired; the config-UI / input-handler call sites wait for their own slices.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -884,3 +884,82 @@ static func source_liquid_bridge_dodump_neighbour_live_fill_state(game: Object, 
 		dump_neighbour_destination_present.append(destination_present)
 		dump_neighbour_relative_to.append(relative_to)
 	return {"dump_neighbour_amounts": dump_neighbour_amounts, "dump_neighbour_capacities": dump_neighbour_capacities, "dump_neighbour_accepts": dump_neighbour_accepts, "dump_neighbour_has_liquids": dump_neighbour_has_liquids, "dump_neighbour_can_dump": dump_neighbour_can_dump, "dump_neighbour_liquids_present": dump_neighbour_liquids_present, "dump_neighbour_destination_present": dump_neighbour_destination_present, "dump_neighbour_relative_to": dump_neighbour_relative_to}
+
+static func source_liquid_bridge_per_def_stats_state(def_id: String) -> Dictionary:
+	# The per-def stat rows (the VERIFICATION slice: the values
+	# are already constants in this driver's header -- the
+	# N2304 / N2442 / N2489 / N2490 precedent): the def's size /
+	# range / liquidCapacity / arrowPeriod / arrowTimeScl /
+	# requirements for phase-conduit, the LiquidBridge def this
+	# slice verifies (Blocks.java:2385-2397), with the CLASS
+	# defaults for an unknown def id (the N2304 fallback
+	# precedent). The def block (each exact expr on ONE comment
+	# line, the N2148 lesson):
+	# `phaseConduit = new LiquidBridge("phase-conduit"){{`
+	# `requirements(Category.liquid, with(Items.phaseFabric, 5, Items.silicon, 7, Items.metaglass, 20, Items.titanium, 10));`
+	# `range = 12;`
+	# `arrowPeriod = 0.9f;`
+	# `arrowTimeScl = 2.75f;`
+	# `liquidCapacity = 100f;`
+	# The def sets NO size line -- size 1 is the Block class
+	# default (`public int size = 1;`, Block.java:215). The
+	# class defaults live on the PARENTS, not on LiquidBridge
+	# itself: LiquidBridge extends ItemBridge
+	# (`public class LiquidBridge extends ItemBridge{`,
+	# LiquidBridge.java:7) and ItemBridge extends Block
+	# (`public class ItemBridge extends Block{`,
+	# ItemBridge.java:24) -- LiquidBridge.java sets NO stat
+	# field, only the constructor flags hasItems / hasLiquids /
+	# outputsLiquid / canOverdrive / group / envEnabled
+	# (LiquidBridge.java:11-16):
+	# `public int range;`
+	# `public float arrowSpacing = 4f, arrowOffset = 2f, arrowPeriod = 0.4f;`
+	# `public float arrowTimeScl = 6.2f;`
+	# `public int size = 1;`
+	# `public float liquidCapacity = -1f;`
+	# `public ItemStack[] requirements = {};`
+	# Range has NO initializer (ItemBridge.java:27), so the
+	# Java default is 0. liquidCapacity is -1f at the FIELD
+	# (Block.java:77) but that is a sentinel, not a runtime
+	# value: Block.init() replaces it --
+	# `liquidCapacity = Mathf.round(10f * consumeAmount);`
+	# (Block.java:1418) -- and consumeAmount starts at 1f and
+	# only grows over liquid consumers (Block.java:1407-1416),
+	# which LiquidBridge has none of (consumePower only), so
+	# the effective class default is 10f -- the 10.0 port
+	# precedent (SourceFactoryBuildState; the N2412 live fill
+	# in this driver). An unknown def id therefore falls back
+	# to size 1, range 0, liquidCapacity 10f, arrowPeriod 0.4f,
+	# arrowTimeScl 6.2f, and NO requirements (the Block
+	# default is the empty array). bridge-conduit (the second
+	# LiquidBridge def, range 4 / liquidCapacity 100f,
+	# Blocks.java:2374-2384) still falls back until its own
+	# verification slice (DEFERRED #40); reinforced-bridge-
+	# conduit is a DirectionLiquidBridge (Blocks.java:2432),
+	# a different class, and is NOT covered. The requirements
+	# dict is the {item: amount} dict from the def (the
+	# SourceAcceleratorBuildState capacities precedent); the
+	# catalog carries the same rows as an Array of {item,
+	# amount} dicts (content_registry.json, phase-conduit) but
+	# NO size / liquidCapacity / arrowPeriod / arrowTimeScl
+	# keys, so the driver reads them from the def block.
+	# Pure-only: the caller reads it; the advance +
+	# shouldConsume pures take these values as caller-supplied
+	# inputs and are unchanged. Per-def stat rows live (N2494).
+	if def_id == "phase-conduit":
+		return {
+			"size": 1,
+			"range": 12,
+			"liquid_capacity": 100.0,
+			"arrow_period": 0.9,
+			"arrow_time_scl": 2.75,
+			"requirements": {"phase-fabric": 5, "silicon": 7, "metaglass": 20, "titanium": 10},
+		}
+	return {
+		"size": 1,
+		"range": 0,
+		"liquid_capacity": 10.0,
+		"arrow_period": 0.4,
+		"arrow_time_scl": 6.2,
+		"requirements": {},
+	}
