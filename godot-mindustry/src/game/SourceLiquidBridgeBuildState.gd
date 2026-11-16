@@ -105,7 +105,7 @@ static func source_liquid_bridge_power_status_row_state(frame: Dictionary, has_p
 	# LiquidBridgeBuild inherits ItemBridgeBuild.shouldConsume (ItemBridge.java:495, `public boolean shouldConsume(){` with `return hadValidLink && enabled;`, ItemBridge.java:496); updateConsumption forces efficiency to zero when the gate is false (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). N2198 makes the gate live (resolving the N2179 RED decision, the PointDefenseTurret N2151 precedent and the RepairTurret N2174 / RepairTower N2176 / ShockwaveTower N2177 / ItemBridge N2178 precedents): the LiquidBridge frame tracks its own link/had_valid_link keys (Java field defaults, ItemBridge.java:198/:202), the driver recomputes had_valid_link every tick through N2197's pure linkValid, and the pure gate (source_liquid_bridge_should_consume_state) feeds `should_consume = had_valid_link && enabled` to the machinery -- when unlinked efficiency folds to 0 like Java. The link gate itself is `hadValidLink = linkValid(tile, other);` (ItemBridge.java:333).
 	# The liquid bridge is its own family (LiquidBridge.java:7, `public class LiquidBridge extends ItemBridge{`; LiquidBridgeBuild, LiquidBridge.java:19, `public class LiquidBridgeBuild extends ItemBridgeBuild{`), a liquid block, NOT related to any factory / turret / defense family. Constructor: `hasItems = false;` (LiquidBridge.java:11), `hasLiquids = true;` (LiquidBridge.java:12), `outputsLiquid = true;` (LiquidBridge.java:13), `canOverdrive = false;` (LiquidBridge.java:14), `group = BlockGroup.liquids;` (LiquidBridge.java:15), `envEnabled = Env.any;` (LiquidBridge.java:16). It inherits the ItemBridge class (ItemBridge.java:24, `public class ItemBridge extends Block{`; ItemBridgeBuild, ItemBridge.java:197, `public class ItemBridgeBuild extends Building{`), a distribution block. Class fields: `public final int timerCheckMoved = timers ++;` (ItemBridge.java:25), `public int range;` (ItemBridge.java:27), `public float transportTime;` (ItemBridge.java:28), `public boolean fadeIn = true;` (ItemBridge.java:34), `public boolean moveArrows = true;` (ItemBridge.java:35), `public boolean pulse = false;` (ItemBridge.java:36), `public float arrowSpacing = 4f, arrowOffset = 2f, arrowPeriod = 0.4f;` (ItemBridge.java:37), `public float arrowTimeScl = 6.2f;` (ItemBridge.java:38), `public float bridgeWidth = 6.5f;` (ItemBridge.java:39); constructor `update = true;` (ItemBridge.java:45), `solid = true;` (ItemBridge.java:46), `underBullets = true;` (ItemBridge.java:47), `hasPower = true;` (ItemBridge.java:48), `itemCapacity = 10;` (ItemBridge.java:49), `configurable = true;` (ItemBridge.java:50), `hasItems = true;` (ItemBridge.java:51). Build fields: `public int link = -1;` (ItemBridge.java:198), `public IntSeq incoming = new IntSeq(false, 4);` (ItemBridge.java:199), `public float warmup;` (ItemBridge.java:200), `public float time = -8f, timeSpeed;` (ItemBridge.java:201), `public boolean wasMoved, moved, hadValidLink;` (ItemBridge.java:202), `public float transportCounter;` (ItemBridge.java:203). canConsume (BuildingComp.java:1917, `public boolean canConsume(){` with `return potentialEfficiency > 0;`, BuildingComp.java:1918) and the shouldConsume default (BuildingComp.java:755, `public boolean shouldConsume(){` with `return enabled;`, BuildingComp.java:756) are the surrounding gates. The single def carries `consumePower(0.30f);` (Blocks.java:2396) with `range = 12;` (Blocks.java:2388) and `liquidCapacity = 100f;` (Blocks.java:2395). No sense / read / write overrides exist on LiquidBridgeBuild -- those wait for their own slices only if a later Java line needs them.
 	# Single def -- phase-conduit only (size 1, range 12, liquidCapacity 100f, phase-fabric 5 / silicon 7 / metaglass 20 / titanium 10, Blocks.java:2385-2397). bridge-conduit (LiquidBridge, no power def, `hasPower = false;`, Blocks.java:2380) is explicitly OUT of scope; reinforced-bridge-conduit (DirectionLiquidBridge, Blocks.java:2432, different class, hasPower false) is explicitly OUT of scope.
-	# Documented limits: (1) power-only first pass -- the phase-conduit's static power consumer (consumePower 0.30f, Blocks.java:2396) is the only modeled consumer, so the folded efficiency is the min over the *modeled* consumers (power only); phase-conduit has no second consumer. (2) shouldConsume gate live (N2198) -- LiquidBridgeBuild inherits ItemBridgeBuild.shouldConsume (`return hadValidLink && enabled;`, ItemBridge.java:495-496); when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994); the pure gate feeds had_valid_link && enabled to the machinery, and the driver recomputes had_valid_link every tick after the consumption fold through N2197's pure linkValid. (3) updateTransport advance live (N2275) -- warmup gate / moveLiquid / moved flag (LiquidBridge.java:22-26) run every enabled tick after the consumption fold through the pure source_liquid_bridge_update_transport_state function; doDump live (N2287) -- dumpLiquid(liquids.current(), 1f); at scaling 1f (LiquidBridge.java:29-31), NOT the 2f default (BuildingComp.java:877-878), through the pure source_liquid_bridge_do_dump_state function, wired in the unlinked branch only; the neighbour arrays are live-filled since N2412 (the tick scans the live proximity BEFORE the dump reads them, the N2394 liquid half + the N2408 8-field shape; supplied arrays win, the N2381 precedent). Dump neighbour write-back live since N2379 -- the pure exposes the handled neighbour index + the dumped liquid id and the tick lands the dumped liquid in the neighbour frame through the shared N2371 helper. The moveLiquid reaction branch (BuildingComp.java:954-976) still defers (Java itself TODOs the reaction as wrong for multi-liquid blocks), and the timerCheckMoved snapshot (ItemBridge.java:320-323) defers (no timer infra), so moved is set by the transfer but never snapshots into wasMoved. The power proof carries no transport/warmup/move keys; the N2275 proof carries the transport keys; the N2287 proof carries the dump keys; the N2379 proof carries the write-back keys; the N2412 proof carries the fill keys. (4) No sense/warmup modeling -- `warmup()` has no override here (draw-only warmup, ItemBridge.java:387) and sense waits for its own slice. (5) Single def -- phase-conduit only (size 1, range 12, liquidCapacity 100f, phase-fabric 5 / silicon 7 / metaglass 20 / titanium 10); bridge-conduit (LiquidBridge, no power def) and reinforced-bridge-conduit (DirectionLiquidBridge, different class) are explicitly OUT of scope; per-def stat values wait for their own verification slice. (6) No draw/config-UI modeling -- the config handlers (ItemBridge.java:64/66) are covered by N2197's pure configure (reused, not copied), but bridge draw / drawSelect / drawConfigure (ItemBridge.java:216-296, 375-394, inherited) and placement auto-link (playerPlaced / findLink / lastBuild, ItemBridge.java:167-173, 211) wait for their own slices (N2199).
+	# Documented limits: (1) power-only first pass -- the phase-conduit's static power consumer (consumePower 0.30f, Blocks.java:2396) is the only modeled consumer, so the folded efficiency is the min over the *modeled* consumers (power only); phase-conduit has no second consumer. (2) shouldConsume gate live (N2198) -- LiquidBridgeBuild inherits ItemBridgeBuild.shouldConsume (`return hadValidLink && enabled;`, ItemBridge.java:495-496); when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994); the pure gate feeds had_valid_link && enabled to the machinery, and the driver recomputes had_valid_link every tick after the consumption fold through N2197's pure linkValid. (3) updateTransport advance live (N2275) -- warmup gate / moveLiquid / moved flag (LiquidBridge.java:22-26) run every enabled tick after the consumption fold through the pure source_liquid_bridge_update_transport_state function; doDump live (N2287) -- dumpLiquid(liquids.current(), 1f); at scaling 1f (LiquidBridge.java:29-31), NOT the 2f default (BuildingComp.java:877-878), through the pure source_liquid_bridge_do_dump_state function, wired in the unlinked branch only; the neighbour arrays are live-filled since N2412 (the tick scans the live proximity BEFORE the dump reads them, the N2394 liquid half + the N2408 8-field shape; supplied arrays win, the N2381 precedent). Dump neighbour write-back live since N2379 -- the pure exposes the handled neighbour index + the dumped liquid id and the tick lands the dumped liquid in the neighbour frame through the shared N2371 helper. The moveLiquid reaction branch (BuildingComp.java:954-976) still defers (Java itself TODOs the reaction as wrong for multi-liquid blocks), and the timerCheckMoved snapshot (ItemBridge.java:320-323) defers (no timer infra), so moved is set by the transfer but never snapshots into wasMoved. The power proof carries no transport/warmup/move keys; the N2275 proof carries the transport keys; the N2287 proof carries the dump keys; the N2379 proof carries the write-back keys; the N2412 proof carries the fill keys. (4) No sense/warmup modeling -- `warmup()` has no override here (draw-only warmup, ItemBridge.java:387) and sense waits for its own slice. (5) Single def -- phase-conduit only (size 1, range 12, liquidCapacity 100f, phase-fabric 5 / silicon 7 / metaglass 20 / titanium 10); bridge-conduit (LiquidBridge, no power def) and reinforced-bridge-conduit (DirectionLiquidBridge, different class) are explicitly OUT of scope; per-def stat values wait for their own verification slice. (6) No draw/config-UI modeling -- the config handlers (ItemBridge.java:64/66) are covered by N2197's pure configure (reused, not copied), but bridge draw / drawSelect / drawConfigure (ItemBridge.java:216-296, 375-394, inherited) and placement auto-link (playerPlaced / findLink / lastBuild, ItemBridge.java:167-173, 211) wait for their own slices (N2199). (7) Link/findLink/linkValid rows live (N2463) -- the link/findLink/linkValid pures (source_liquid_bridge_link_valid_state / source_liquid_bridge_find_link_state / source_liquid_bridge_config_state) model linkValid() (:145-155: the null/positions guard, the block clause ((other.block == tile.block && tile.block == this) || (!(tile.block instanceof ItemBridge) && other.block == this)), the team clause and the checkDouble gate, all predicates caller-supplied) + positionsValid (:157-165, caller-supplied verdict -- range varies per def, bridge-conduit 4 / phase-conduit 12) + findLink() (:167-173: lastBuild.tile iff the tile exists, a lastBuild exists, linkValid holds, lastBuild.tile != tile and lastBuild.link == -1) + config(Point2) (:64: the RELATIVE point packed against the tile) / config(Integer) (:66: the absolute packed int) + config() (:500-501: the relative Point2, null when tile is null as a documented fallback -- ItemBridge.config() has NO null check, unlike MassDriver.config()). LiquidBridge overrides NOTHING here (LiquidBridge.java is 33 lines, overriding only updateTransport / doDump), so the pures port the inherited ItemBridge versions. Pure-only: the tick keeps recomputing had_valid_link through N2197's pure linkValid and the placement-time auto-link driver (N2199) is untouched -- NOT rewired; the config-UI / input-handler call sites wait for their own slices.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -132,6 +132,110 @@ static func source_liquid_bridge_should_consume_state(frame: Dictionary) -> Dict
 	var had_valid_link: bool = bool(frame.get("had_valid_link", false))
 	var enabled: bool = bool(frame.get("enabled", true))
 	return {"should_consume": had_valid_link and enabled, "had_valid_link": had_valid_link}
+
+static func source_liquid_bridge_link_valid_state(tile_exists: bool, other_exists: bool, positions_valid: bool, blocks_match: bool, tile_is_bridge: bool, tile_is_item_bridge: bool, other_is_bridge: bool, teams_match: bool, check_double: bool, other_link_equals_tile_pos: bool) -> Dictionary:
+	# The linkValid rows (ItemBridge.java:145-155, inherited -- LiquidBridge overrides NOTHING here: LiquidBridge.java:7 `public class LiquidBridge extends ItemBridge{` and :19 `public class LiquidBridgeBuild extends ItemBridgeBuild{`, overriding only updateTransport / doDump), the public link-validity pure over caller-supplied world-lookup verdicts (the N2435 precedent: all world lookups caller-supplied). Java, in order (each exact expr on ONE comment line, the N2148 lesson):
+	# `public boolean linkValid(Tile tile, Tile other){`
+	# `return linkValid(tile, other, true);`
+	# `public boolean linkValid(Tile tile, Tile other, boolean checkDouble){`
+	# `if(other == null || tile == null || !positionsValid(tile.x, tile.y, other.x, other.y)) return false;`
+	# `return ((other.block() == tile.block() && tile.block() == this) || (!(tile.block() instanceof ItemBridge) && other.block() == this))`
+	# `&& (other.team() == tile.team() || tile.block() != this)`
+	# `&& (!checkDouble || ((ItemBridgeBuild)other.build).link != tile.pos());`
+	# `public boolean positionsValid(int x1, int y1, int x2, int y2){`
+	# `return Math.abs(y1 - y2) <= range;`
+	# `return Math.abs(x1 - x2) <= range;`
+	# `return source instanceof ItemBridgeBuild && linkValid(source.tile, tile) && ((ItemBridgeBuild)source).link == pos();`
+	# `public class ItemBridgeBuild extends Building{`
+	# The guard runs first (a missing tile, a missing other tile, or invalid positions are never valid), then the block clause ((blocks_match AND tile_is_bridge) OR (NOT tile_is_item_bridge AND other_is_bridge)), the team clause (teams_match OR NOT tile_is_bridge) and the checkDouble gate (NOT check_double OR NOT other_link_equals_tile_pos). positionsValid is caller-supplied (same x -> |dy| <= range; same y -> |dx| <= range; else false) because range VARIES per def -- bridge-conduit `range = 4;` (Blocks.java:2379), phase-conduit `range = 12;` (Blocks.java:2388) -- so the pure takes the verdict, not the range. The block clause has FOUR distinct predicates, so the pure takes a 10th param, tile_is_item_bridge (the instanceof term -- the brief's 9 params cover three; deviation, Java wins): a phase-conveyor tile (an ItemBridge, not this def) against a bridge-conduit other is INVALID in Java, and rendering the instanceof term as !tile_is_bridge would read it valid -- the case is reachable via linked() (ItemBridge.java:465, `linkValid(source.tile, tile)` across defs), and the proof pins it. The tick keeps recomputing had_valid_link through N2197's pure linkValid (the N2197 pure takes coords + range and assumes tile.block() == this; this pure is the registered row for the config UI / logic call sites, which wait for their own slices) -- NOT rewired. Pure-only: the tick never calls linkValid through this pure. Link/findLink/linkValid rows live (N2463).
+	var link_valid := false
+	if tile_exists and other_exists and positions_valid:
+		var block_ok: bool = (blocks_match and tile_is_bridge) or ((not tile_is_item_bridge) and other_is_bridge)
+		var team_ok: bool = teams_match or (not tile_is_bridge)
+		var double_ok: bool = (not check_double) or (not other_link_equals_tile_pos)
+		link_valid = block_ok and team_ok and double_ok
+	return {
+		"link_valid_expr": "return ((other.block() == tile.block() && tile.block() == this) || (!(tile.block() instanceof ItemBridge) && other.block() == this))",
+		"guard_expr": "if(other == null || tile == null || !positionsValid(tile.x, tile.y, other.x, other.y)) return false;",
+		"team_expr": "&& (other.team() == tile.team() || tile.block() != this)",
+		"double_expr": "&& (!checkDouble || ((ItemBridgeBuild)other.build).link != tile.pos());",
+		"tile_exists": tile_exists,
+		"other_exists": other_exists,
+		"positions_valid": positions_valid,
+		"blocks_match": blocks_match,
+		"tile_is_bridge": tile_is_bridge,
+		"tile_is_item_bridge": tile_is_item_bridge,
+		"other_is_bridge": other_is_bridge,
+		"teams_match": teams_match,
+		"check_double": check_double,
+		"other_link_equals_tile_pos": other_link_equals_tile_pos,
+		"link_valid": link_valid,
+	}
+
+static func source_liquid_bridge_find_link_state(tile: Variant, last_build: Variant, link_valid: bool) -> Dictionary:
+	# The findLink rows (ItemBridge.java:167-173, inherited -- see the link_valid pure above for the inheritance note), the runtime autolink pure -- NOT the placement-time auto-link driver (source_liquid_bridge_auto_link_placement_state, N2199, untouched). Java, in order (each exact expr on ONE comment line, the N2148 lesson):
+	# `public Tile findLink(int x, int y){`
+	# `Tile tile = world.tile(x, y);`
+	# `if(tile != null && lastBuild != null && linkValid(tile, lastBuild.tile) && lastBuild.tile != tile && lastBuild.link == -1){`
+	# `return lastBuild.tile;`
+	# `public @Nullable ItemBridgeBuild lastBuild;`
+	# `public int link = -1;`
+	# The lastBuild tile is a link candidate only when the tile exists, a lastBuild exists for this block def, linkValid holds (the caller-supplied output of the link_valid pure for (tile, lastBuild.tile)), the lastBuild tile is not this tile, and the lastBuild link is still -1 (the fresh-build default). The check order is Java's (tile, lastBuild, linkValid, tile inequality, link == -1). lastBuild is a field on the Block (ItemBridge.java:41-42, `//for autolink` / `public @Nullable ItemBridgeBuild lastBuild;`) -- one per block def, never cleared on removal, overwritten by the next placement of the same def. The tile is a Variant Dictionary {x, y} or null (the N2461 Variant-null precedent -- the brief's tile_exists bool cannot express the tile identity Java's `lastBuild.tile != tile` needs, so the pure takes the tile dict instead; tile != null IS the tile-exists check; deviation, Java wins). last_build is null or a Dictionary {tile: {x, y}, link: int} (the game lastBuild store, caller-supplied, the N2199 precedent); a last_build without a tile dict is treated as no lastBuild tile. Returns {"found_tile": ...}; found_tile is the lastBuild tile Dict or null. Pure-only: the tick never calls findLink through this pure -- the placement-time driver (N2199) reuses the ItemBridge pures, and the runtime call sites wait for their own slices. Link/findLink/linkValid rows live (N2463).
+	var found_tile: Variant = null
+	if tile is Dictionary and last_build is Dictionary and link_valid:
+		var tile_dict: Dictionary = tile
+		var last_dict: Dictionary = last_build
+		var last_tile: Variant = last_dict.get("tile", null)
+		if last_tile is Dictionary:
+			var last_tile_dict: Dictionary = last_tile
+			var same_tile: bool = int(last_tile_dict.get("x", 0)) == int(tile_dict.get("x", 0)) and int(last_tile_dict.get("y", 0)) == int(tile_dict.get("y", 0))
+			if not same_tile and int(last_dict.get("link", -1)) == -1:
+				found_tile = last_tile_dict
+	return {
+		"find_link_expr": "if(tile != null && lastBuild != null && linkValid(tile, lastBuild.tile) && lastBuild.tile != tile && lastBuild.link == -1){",
+		"tile": tile,
+		"last_build": last_build,
+		"link_valid": link_valid,
+		"found_tile": found_tile,
+	}
+
+static func source_liquid_bridge_config_state(action: String, point: Variant, tile: Variant, current_link: int) -> Dictionary:
+	# The config rows (ItemBridge config(Point2), ItemBridge.java:64; config(Integer), :66; config(), :500-501 -- inherited, see the link_valid pure above), the pure config fold over the discriminated action (the N2449 precedent). Java, in order (each exact expr on ONE comment line, the N2148 lesson):
+	# `config(Point2.class, (ItemBridgeBuild tile, Point2 i) -> tile.link = Point2.pack(i.x + tile.tileX(), i.y + tile.tileY()));`
+	# `config(Integer.class, (ItemBridgeBuild tile, Integer i) -> tile.link = i);`
+	# `public Point2 config(){`
+	# `return Point2.unpack(link).sub(tile.x, tile.y);`
+	# `public int link = -1;`
+	# `return new Point2((short)(pos >>> 16), (short)(pos & 0xFFFF));`
+	# `return (((short)x) << 16) | (((short)y) & 0xFFFF);`
+	# The link is a PACKED INT (not a Vector2i): config(Point2) packs the RELATIVE point against the tile (point.x + tile.tileX(), point.y + tile.tileY()), config(Integer) takes the absolute packed int, and config() returns unpack(link) - tile -- the relative Point2. unpack(-1) is Point2(-1, -1) (the (short) casts, arc Point2.java:35-37), so a cleared link reads config_value (-1 - tx, -1 - ty), Java-exact. NOTE: ItemBridge.config() (:500-501) has NO null check (unlike MassDriver.config(), MassDriver.java:353) -- a null tile would NPE in Java, so config_value null whenever tile is null is a documented fallback (the N2461 precedent), not a Java line. The tile is a Variant Dictionary {x, y} or null (the N2449 Variant-null precedent); point is a Variant Dictionary {x, y} for "point2" and an int for "integer". The action is "point2" / "integer" / "clear" / "none" (the N2449 discriminated-action precedent): "point2" packs point + tile, "integer" takes point as-is, "clear" is configure(-1) through the Integer handler (ItemBridge registers NO configClear -- the -1 is the fresh-build default :198 and the pickedUp reset :207), "none" leaves current_link untouched, and an unknown action matches no handler and leaves the link untouched. A "point2" action with a null tile has NO defined Java outcome -- the handler dereferences tile (tile.tileX()), so Java would throw -- and the pure leaves the link untouched rather than inventing a pack (documented fallback). The pack/unpack run through the shared _point2_pack / _point2_unpack helpers above (the (short) wrap is explicit -- GDScript ints are 64-bit). Pure-only: the tick never calls config -- config runs from the configure UI / input handler, and the call sites wait for their own slices. Link/findLink/linkValid rows live (N2463).
+	var new_link: int = current_link
+	if action == "point2":
+		if point is Dictionary and tile is Dictionary:
+			var point_dict: Dictionary = point
+			var tile_dict: Dictionary = tile
+			new_link = _point2_pack(int(point_dict.get("x", 0)) + int(tile_dict.get("x", 0)), int(point_dict.get("y", 0)) + int(tile_dict.get("y", 0)))
+	elif action == "integer":
+		if point is int:
+			new_link = int(point)
+	elif action == "clear":
+		new_link = -1
+	var config_value: Variant = null
+	if tile is Dictionary:
+		var tile_dict2: Dictionary = tile
+		var unpacked: Vector2i = _point2_unpack(new_link)
+		config_value = {"x": unpacked.x - int(tile_dict2.get("x", 0)), "y": unpacked.y - int(tile_dict2.get("y", 0))}
+	return {
+		"config_point2_expr": "config(Point2.class, (ItemBridgeBuild tile, Point2 i) -> tile.link = Point2.pack(i.x + tile.tileX(), i.y + tile.tileY()));",
+		"config_integer_expr": "config(Integer.class, (ItemBridgeBuild tile, Integer i) -> tile.link = i);",
+		"config_getter_expr": "return Point2.unpack(link).sub(tile.x, tile.y);",
+		"action": action,
+		"point": point,
+		"tile": tile,
+		"current_link": current_link,
+		"link": new_link,
+		"config_value": config_value,
+	}
 
 static func source_liquid_bridge_update_transport_state(frame: Dictionary, source_delta: float, liquid_capacity: float, liquid_pressure: float, had_valid_link: bool, liquids: Dictionary, partner: Dictionary) -> Dictionary:
 	# The updateTile transport advance (LiquidBridgeBuild.updateTransport(), LiquidBridge.java:22-26,
