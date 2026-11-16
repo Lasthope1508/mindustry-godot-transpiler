@@ -220,10 +220,10 @@ static func source_beam_drill_facing_scan_state(facing_tiles: Array, size: int, 
 	# `public int tier = 1;` (BeamDrill.java:35-36)
 	# and `public int size = 1;` (Block.java:215).
 	# blockedItems is the Seq<Item> exemption list
-	# (BeamDrill.java:40), promoted from the single
-	# blockedItem (BeamDrill.java:38) by init
-	# (BeamDrill.java:78-83, the Drill init
-	# precedent):
+	# (BeamDrill.java:51 -- NOT :40, the old cite),
+	# promoted from the single
+	# blockedItem (BeamDrill.java:49 -- NOT :38) by init
+	# (BeamDrill.java:81-87 -- NOT :78-83, the old cite;
 	# `public @Nullable Seq<Item> blockedItems;`
 	# `public @Nullable Item blockedItem;`
 	# `if(blockedItems == null && blockedItem != null){`
@@ -271,6 +271,110 @@ static func source_beam_drill_facing_scan_state(facing_tiles: Array, size: int, 
 					facing_amount += 1
 			break
 	return {"facing_amount": facing_amount}
+
+static func source_beam_drill_blocked_items_state(blocked_item: Variant, blocked_items: Variant) -> Dictionary:
+	# The init promotion (BeamDrill.init, BeamDrill.java:81-87):
+	# `if(blockedItems == null && blockedItem != null){`
+	# `blockedItems = Seq.with(blockedItem);`
+	# The fields are
+	# `public @Nullable Item blockedItem;`
+	# (BeamDrill.java:49 -- NOT :38, the old facing-scan
+	# docstring cite) and
+	# `public @Nullable Seq<Item> blockedItems;`
+	# (BeamDrill.java:51 -- NOT :40, the old docstring
+	# cite, and NOT :36-40, the old DEFERRED cite:
+	# :36-40 are the top/glow regions + drillTime +
+	# range). When the def sets only the single
+	# blockedItem, init wraps it into the one-element
+	# list; when blockedItems is already set (even an
+	# empty Seq) or blockedItem is null, init leaves
+	# blockedItems untouched. The port carries item
+	# ids (the N2225 precedent, Java compares Item
+	# references): blocked_item is an item-name String
+	# or null, blocked_items is an Array of item names
+	# or null, and the result is the list AFTER init
+	# (null stays null, a set list passes through
+	# unchanged -- the pure never mutates its input).
+	# The promoted list is what the three drill gates
+	# read: the updateFacing gate
+	# `if(drop != null && drop.hardness <= tier && (blockedItems == null || !blockedItems.contains(drop))){`
+	# (BeamDrill.java:391, live since N2339 as the
+	# facing-scan pure's blocked_items input), the
+	# drawPlace gate (BeamDrill.java:154, in
+	# `public void drawPlace(int x, int y, int rotation, boolean valid){`)
+	# and the canPlaceOn gate (BeamDrill.java:205, in
+	# `public boolean canPlaceOn(Tile tile, Team team, int rotation){`)
+	# -- drawPlace / canPlaceOn are NOT ported (their
+	# rows wait for their own slice); this pure
+	# supplies the input they would read. Neither
+	# BeamDrill def sets blockedItem / blockedItems
+	# (Blocks.java:3038-3068, catalog-verified), so
+	# both defs read null here; the thorium value in
+	# the proof is the impact-drill def
+	# (`blockedItem = Items.thorium;`, Blocks.java:3080,
+	# a BurstDrill def) used as a caller-supplied
+	# input. Pure-only (N2473): the tick keeps the
+	# shared Drill bind for the scan and never calls
+	# this pure -- the init transition is a def-time
+	# row, not a tick row.
+	if blocked_items == null and blocked_item != null:
+		return {"blocked_items_after": [blocked_item]}
+	return {"blocked_items_after": blocked_items}
+
+static func source_beam_drill_drill_multiplier_state(item: Variant, drill_multipliers: Dictionary) -> Dictionary:
+	# The drill-time multiplier lookup (BeamDrill.
+	# getDrillTime, BeamDrill.java:216-218):
+	# `public float getDrillTime(Item item){`
+	# `return drillTime / drillMultipliers.get(item, 1f);`
+	# The map is
+	# `public ObjectFloatMap<Item> drillMultipliers = new ObjectFloatMap<>();`
+	# (BeamDrill.java:47 -- NOT :36-40, the old
+	# DEFERRED cite), and the lookup IS drill-time,
+	# not setStats-only: updateTile calls it every
+	# tick (`float drillTime = getDrillTime(lastItem);`,
+	# BeamDrill.java:247) and the result drives the
+	# drill speed
+	# `lastDrillSpeed = (facingAmount * multiplier * timeScale) / drillTime * efficiency;`
+	# (:249), the drop threshold
+	# `if(time >= drillTime){`
+	# (:253) and the reset
+	# `time %= drillTime;`
+	# (:261); drawPlace reads it too for the placement
+	# speed text
+	# `float width = drawPlaceText(Core.bundle.formatFloat("bar.drillspeed", 60f / getDrillTime(item) * count, 2), x, y, valid);`
+	# (:183). setStats is only the OTHER use
+	# (`stats.add(Stat.drillTier, StatValues.drillables(drillTime, 0f, size, drillMultipliers, b ->`,
+	# :122). The default is 1f, twice over: the call
+	# site passes it (`drillMultipliers.get(item, 1f)`)
+	# and arc honours it
+	# (`public float get(K key, float defaultValue){`,
+	# ObjectFloatMap.java:286, returns defaultValue
+	# when the key is absent) -- including a null item
+	# (`if(key == null) return defaultValue;`, :287),
+	# which is the updateTile case when lastItem is
+	# null (no facing item or multiple items,
+	# BeamDrill.java:376/408-410). The base drillTime
+	# is `public float drillTime = 200f;` (:39) at the
+	# class default, `drillTime = 160f;` for the
+	# plasma-bore (Blocks.java:3042) and
+	# `drillTime = 100f;` for the large-plasma-bore
+	# (Blocks.java:3055) -- this pure returns ONLY the
+	# multiplier; dividing the base by it is the
+	# drop-loop slice's wiring (the N2195 advance
+	# tracks no drillTime yet). The map is
+	# caller-supplied (the N2435 precedent): a Dict
+	# item-name -> float, the ObjectFloatMap by item
+	# id. Neither BeamDrill def sets an entry
+	# (Blocks.java:3038-3068), so both defs read the
+	# default 1.0 for every item; the beryllium 2f
+	# value in the proof is the BurstDrill def
+	# (`drillMultipliers.put(Items.beryllium, 2f);`,
+	# Blocks.java:3083/3114, impact-drill /
+	# eruption-drill) used as a caller-supplied map
+	# entry. Pure-only (N2473): no tick wiring.
+	if item == null:
+		return {"multiplier": 1.0}
+	return {"multiplier": float(drill_multipliers.get(item, 1.0))}
 
 static func source_beam_drill_laser_origins_state(tile_x: int, tile_y: int, rotation: int, size: int) -> Dictionary:
 	# The updateLasers origins (BeamDrillBuild.updateLasers,
@@ -485,10 +589,18 @@ static func source_beam_drill_power_status_row_state(frame: Dictionary, has_powe
 	# the second-pass removal (ConsumeLiquid.update,
 	# ConsumeLiquid.java:37-39); the folded efficiency is the
 	# min over the *modeled* consumers (power + liquid), which
-	# is every consumer either def declares. Still deferred:
-	# the drillMultipliers / blockedItem rows (BeamDrill.java:
-	# 36-40, drill-time multipliers, not consumers) and live
-	# liquid intake (no conduit/bridge delivery fills
+	# is every consumer either def declares. The
+	# drillMultipliers / blockedItem rows are live since
+	# N2473 (pure-only: source_beam_drill_blocked_items_state,
+	# the init promotion BeamDrill.java:84-85, +
+	# source_beam_drill_drill_multiplier_state, the
+	# getDrillTime lookup BeamDrill.java:216-218 -- the
+	# fields are :47/:49/:51, NOT :36-40 as the old
+	# DEFERRED cite said, and the lookup IS drill-time:
+	# updateTile :247/:249/:253/:261, not setStats-only;
+	# no tick wiring yet, the drop-loop slice wires
+	# getDrillTime into the advance). Still deferred:
+	# live liquid intake (no conduit/bridge delivery fills
 	# frame["liquids"] yet; the rows read the store as-is).
 	# (2) shouldConsume gate live (N2202)
 	# -- BeamDrillBuild.shouldConsume() (BeamDrill.java:270-271,
