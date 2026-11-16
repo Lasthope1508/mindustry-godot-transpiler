@@ -199,7 +199,7 @@ class C07FrackerDumpLiquidNeighbourLiveFillTests(unittest.TestCase):
             fracker.index('frame.get("dump_liquid_neighbours", [])'),
         )
         self.assertLess(
-            fracker.index('frame["dump_liquid_neighbours"] = filled.get("dump_liquid_neighbours", [])'),
+            fracker.index('frame["dump_liquid_neighbours"] = dump_filled.get("dump_liquid_neighbours", [])'),
             fracker.index('frame.get("dump_liquid_neighbours", [])'),
         )
         # The N2284 dump pins still hold: the dump call, the

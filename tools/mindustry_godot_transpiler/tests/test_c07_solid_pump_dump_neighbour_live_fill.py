@@ -194,7 +194,7 @@ class C07SolidPumpDumpNeighbourLiveFillTests(unittest.TestCase):
             solid_pump.index('frame.get("dump_neighbour_liquid_amounts", [])'),
         )
         self.assertLess(
-            solid_pump.index('frame["dump_neighbour_liquid_amounts"] = filled.get("dump_neighbour_liquid_amounts", [])'),
+            solid_pump.index('frame["dump_neighbour_liquid_amounts"] = dump_filled.get("dump_neighbour_liquid_amounts", [])'),
             solid_pump.index('frame.get("dump_neighbour_liquid_amounts", [])'),
         )
         # The N2286 dump pins still hold: the dump call, the
