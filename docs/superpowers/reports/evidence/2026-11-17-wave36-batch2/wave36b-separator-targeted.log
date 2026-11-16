@@ -1,0 +1,18 @@
+test_all_c07_separator_dump_neighbour_live_fill_input_evidence_is_exact (tests.test_c07_separator_dump_neighbour_live_fill.C07SeparatorDumpNeighbourLiveFillTests.test_all_c07_separator_dump_neighbour_live_fill_input_evidence_is_exact) ... ok
+test_c07_separator_dump_neighbour_live_fill_registration (tests.test_c07_separator_dump_neighbour_live_fill.C07SeparatorDumpNeighbourLiveFillTests.test_c07_separator_dump_neighbour_live_fill_registration) ... ok
+test_reference_graph_and_actual_c07_separator_dump_neighbour_live_fill (tests.test_c07_separator_dump_neighbour_live_fill.C07SeparatorDumpNeighbourLiveFillTests.test_reference_graph_and_actual_c07_separator_dump_neighbour_live_fill) ... FAIL
+test_separator_dump_neighbour_live_fill_state (tests.test_c07_separator_dump_neighbour_live_fill.C07SeparatorDumpNeighbourLiveFillTests.test_separator_dump_neighbour_live_fill_state) ... ok
+
+======================================================================
+FAIL: test_reference_graph_and_actual_c07_separator_dump_neighbour_live_fill (tests.test_c07_separator_dump_neighbour_live_fill.C07SeparatorDumpNeighbourLiveFillTests.test_reference_graph_and_actual_c07_separator_dump_neighbour_live_fill)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Admin\.codex\worktrees\godot-integration-validation\tools\mindustry_godot_transpiler\tests\test_c07_separator_dump_neighbour_live_fill.py", line 303, in test_reference_graph_and_actual_c07_separator_dump_neighbour_live_fill
+    self.assertTrue(proofs[0]['matches'], proofs[0])
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : {'fill_accepts_from_live_neighbours': True, 'fill_accepts_gate_requires_capacity': True, 'fill_accepts_gate_requires_consumes_item': True, 'fill_can_dump_from_live_neighbours': False, 'fill_no_frame_neighbour_reports_empty': False, 'live_tick_dumps_with_live_fill': False, 'matches': False, 'one_headquarter_per_ssot': True, 'registry_valid': True}
+
+----------------------------------------------------------------------
+Ran 4 tests in 21.708s
+
+FAILED (failures=1)

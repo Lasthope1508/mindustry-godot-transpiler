@@ -1,0 +1,8 @@
+test_all_c07_launch_pad_advanced_variant_input_evidence_is_exact (tests.test_c07_launch_pad_advanced_variant.C07LaunchPadAdvancedVariantTests.test_all_c07_launch_pad_advanced_variant_input_evidence_is_exact) ... ok
+test_launch_pad_advanced_variant_state (tests.test_c07_launch_pad_advanced_variant.C07LaunchPadAdvancedVariantTests.test_launch_pad_advanced_variant_state) ... ok
+test_reference_graph_and_actual_c07_launch_pad_advanced_variant (tests.test_c07_launch_pad_advanced_variant.C07LaunchPadAdvancedVariantTests.test_reference_graph_and_actual_c07_launch_pad_advanced_variant) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 31.728s
+
+OK
