@@ -91,15 +91,19 @@ Scoping, all source-backed:
   (BaseTurret.java:114), the same 90 as the
   unit init block (`unit.rotation(90f);`,
   BuildTurret.java:99-101).
-- DEFERRED base: the MERGED
-  DEFERRED-after-advances-25.py (280 entries),
-  NOT any slice's ledger snapshot (the N2277/
-  N2290 stale-base lesson): entry #96
-  (BuildTurret draw rows) REMOVED -- the base
-  rect, the shadow / region pair, the glow
-  additive by warmup and the drawBuilding call
-  are all live now, so nothing of the entry
-  remains -- net 279.
+- N2446 AMEND (this slice): icons() rides the
+  draw pure as icon_regions (BuildTurret.java:
+  88-90, `return new TextureRegion[]{baseRegion,
+  region};`), the N2433 StackRouter precedent --
+  NO new pure, NO new ledger entry, NO proof
+  change; the N2431 entry is upserted in place
+  (REPLACE, the N2435 lesson: a fresh register
+  would DROP the five call symbols). DEFERRED
+  base: the MERGED DEFERRED-after-advances-27.py
+  (266 entries), NOT any slice's ledger snapshot
+  (the N2277/N2290 stale-base lesson): entry
+  #266 (BuildTurret icons rows) REMOVED -- net
+  265.
 
 DEFERRED (not done, not guessed): the renderer
 call site that would call draw() on a placed
@@ -125,7 +129,7 @@ BASE_TURRET = 'core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java'
 PROOF = '/root/C07BuildTurretDrawRowsProof'
 OWNER = 'SourceBuildTurretBuildState.source_build_turret_draw_state'
 TESTS = ['test_c07_build_turret_draw_rows_registration', 'test_all_c07_build_turret_draw_rows_input_evidence_is_exact', 'test_build_turret_draw_rows_state', 'test_reference_graph_and_actual_c07_build_turret_draw_rows']
-EXACT_EXPRS = ['public void draw(){', 'Draw.rect(baseRegion, x, y);', 'Draw.color();', 'Draw.z(Layer.turret);', 'Drawf.shadow(region, x - elevation, y - elevation, rotation - 90);', 'Draw.rect(region, x, y, rotation - 90);', 'if(glowRegion.found()){', 'Drawf.additive(glowRegion, heatColor, warmup, x, y, rotation - 90f, Layer.turretHeat);', 'if(efficiency > 0){', 'unit.drawBuilding();', 'public @Load(value = "@-base", fallback = "block-@size") TextureRegion baseRegion;', 'public @Load("@-glow") TextureRegion glowRegion;', 'public float elevation = -1f;', 'public Color heatColor = Pal.accent.cpy().a(0.9f);', 'if(elevation < 0) elevation = size / 2f;', 'public float warmup;', 'public BlockUnitc unit = (BlockUnitc)unitType.create(team);', 'public static void shadow(TextureRegion region, float x, float y, float rotation){', 'Draw.color(Pal.shadow);', 'public static void additive(TextureRegion region, Color color, float alpha, float x, float y, float rotation, float layer){', 'Draw.color(color, alpha * color.a);', 'Draw.blend(Blending.additive);', 'buildTower = new BuildTurret("build-tower"){{', 'size = 3;', 'range = 200f;', 'buildSpeed = 1.5f;', 'public float rotation = 90;']
+EXACT_EXPRS = ['public void draw(){', 'Draw.rect(baseRegion, x, y);', 'Draw.color();', 'Draw.z(Layer.turret);', 'Drawf.shadow(region, x - elevation, y - elevation, rotation - 90);', 'Draw.rect(region, x, y, rotation - 90);', 'if(glowRegion.found()){', 'Drawf.additive(glowRegion, heatColor, warmup, x, y, rotation - 90f, Layer.turretHeat);', 'if(efficiency > 0){', 'unit.drawBuilding();', 'public @Load(value = "@-base", fallback = "block-@size") TextureRegion baseRegion;', 'public @Load("@-glow") TextureRegion glowRegion;', 'public float elevation = -1f;', 'public Color heatColor = Pal.accent.cpy().a(0.9f);', 'if(elevation < 0) elevation = size / 2f;', 'public float warmup;', 'public BlockUnitc unit = (BlockUnitc)unitType.create(team);', 'public static void shadow(TextureRegion region, float x, float y, float rotation){', 'Draw.color(Pal.shadow);', 'public static void additive(TextureRegion region, Color color, float alpha, float x, float y, float rotation, float layer){', 'Draw.color(color, alpha * color.a);', 'Draw.blend(Blending.additive);', 'buildTower = new BuildTurret("build-tower"){{', 'size = 3;', 'range = 200f;', 'buildSpeed = 1.5f;', 'public float rotation = 90;', 'public TextureRegion[] icons(){', 'return new TextureRegion[]{baseRegion, region};']
 
 DEFERRED = [
     'MendProjector runtime-simulation divergence (SourceMendProjectorRuntimeState.runtime_step_state lerps smoothEfficiency / heat toward 1.0 unconditionally and phaseHeat toward booster presence, with no charge reset) -- the older simulation path is a separate state store (game dicts, not the sprite frame) and is not the C07 driver frame; reconciling it with the N2193 Java-exact advance waits for its own slice.',
@@ -158,33 +162,27 @@ DEFERRED = [
     "Teams.updateTeamStats full multi-team rebuild (present/bosses/players/unitsByType/unitTree, Teams.java:182-245) -- N2141 rebuilds one team's counts only.",
     'Units.notifyUnitSpawn / spawn path, Call.unitCapDeath / Call.unitEnvDeath net calls -- presentation/net, not state.',
     'C07-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption.',
-    'UnitAssemblerModule draw / drawPlace / drawPlanRegion / icons rows (draw side regions / payload / top region, UnitAssemblerModule.java:31-50, 59-63, 90-108; icons, UnitAssemblerModule.java:59-63) -- presentation, not tick state; waits for its own slice.',
     'UnitAssemblerModule onRemoved / drawSelect rows (removeModule on remove, UnitAssemblerModule.java:111-115; drawSelect link highlight, UnitAssemblerModule.java:118-123) -- lifecycle / presentation, not tick state; waits for its own slice.',
     'Separator disassembler variant (disassembler, consumePower 4f, Blocks.java:1262; size 3, Blocks.java:1259; craftTime 15f, Blocks.java:1258; itemCapacity 20, Blocks.java:1260)',
     'Separator read/write rows (progress / warmup / seed, Separator.java:180-194) -- net/serialization, not tick state; waits for its own slice.',
     'WallCrafter large variant (large-cliff-crusher, consumePower 1f, Blocks.java:3018; size 3, Blocks.java:3021; drillTime 48f, Blocks.java:3020) -- the same driver covers both defs via the catalog consumePower; the large def waits for its own verification slice.',
     'WallCrafter setBars row (drillspeed bar, WallCrafter.java:68-76) -- presentation, not tick state; waits for its own slice.',
-    'WallCrafter draw / icons / drawPlanRegion / drawPlace rows (draw rotator, WallCrafter.java:231-243; icons, WallCrafter.java:120-122; drawPlanRegion, WallCrafter.java:125-129; drawPlace drillspeed text, WallCrafter.java:131-135) -- presentation, not tick state; waits for its own slice.',
     'MassDriver shouldConsume gate (MassDriverBuild has no shouldConsume override, so the BuildingComp default, BuildingComp.java:755, applies; the machinery runs with should_consume=true when enabled (the MendProjector suppression precedent)).',
     'MassDriver link/config rows (link -1, config Point2/Integer, onConfigureBuildTapped, linkValid, MassDriver.java:58-59, 266-282, 346-349) -- needs tile/link state the tick does not track yet; config, not tick state.',
     'MassDriver handlePayload / receive rows (handlePayload, MassDriver.java:319-340; receiveEffect / receiveSound, MassDriver.java:39/41) -- payload receipt waits for its own slice.',
     'MassDriver read/write rows (link / rotation / state, MassDriver.java:358-372) -- net/serialization, not tick state; waits for its own slice.',
     'LaunchPad config / display / shouldShowConfigure rows (buildConfiguration sector select, LaunchPad.java:185-...; display destination label, LaunchPad.java:164-178; shouldShowConfigure campaign only, LaunchPad.java:180-183) -- config/presentation, not tick state; waits for its own slice.',
     'Radar shouldConsume gate (RadarBuild has no shouldConsume override, so the BuildingComp default, BuildingComp.java:755, applies; the machinery runs with should_consume=true when enabled (the MendProjector suppression precedent)).',
-    'Radar draw / drawSelect / icons rows (draw base/region/glow rotateSpeed * totalProgress, Radar.java:85-90; drawSelect dash circle, Radar.java:80-82; icons, Radar.java:37-39) -- presentation, not tick state; waits for its own slice.',
-    'Radar drawPlace rows (dash circle fogRadius * tilesize, Radar.java:42-46) -- presentation, not tick state; waits for its own slice.',
     'Radar read/write rows (progress, Radar.java:98-110) -- net/serialization, not tick state; waits for its own slice.',
     'Radar canPickup / progress() rows (canPickup false, Radar.java:75-77; progress() returns progress, Radar.java:93-95) -- pickup/accessor, not tick state; waits for its own slice.',
     'RepairTurret read/write rows (rotation, RepairTurret.java:236-249) -- net/serialization, not tick state; waits for its own slice.',
     'RepairTurret status() / range() rows (status() noInput when potentialEfficiency ~0, RepairTurret.java:226-228; range() returns repairRadius, RepairTurret.java:231-233) -- accessor/status, not tick state; waits for its own slice.',
     'RepairTurret per-def stat rows (repairSpeed 0.45f/3f, repairRadius 60f/145f, length 5f/6f, beamWidth 0.73f/1.1f, pulseRadius 5f/6.1f, Blocks.java:6386-6406) -- static defs, wait for their own verification slice.',
     'RepairTower suppression rows (suppressable = true, RepairTower.java:31; checkSuppression() zeroes warmup, RepairTower.java:69-72) -- needs suppression state the tick does not track yet.',
-    'RepairTower draw / drawSelect / drawPlace / setStats / range / warmup rows (draw circle/glow, RepairTower.java:94-110; drawSelect dash circle, RepairTower.java:122-124; drawPlace dash circle, RepairTower.java:44-48; setStats range/repairSpeed, RepairTower.java:36-40; range() returns range, RepairTower.java:112-114; warmup() returns warmup, RepairTower.java:117-119) -- presentation/accessor, not tick state; waits for its own slice.',
     'RepairTower per-def stat rows (size 2, range 100f, healAmount 1.5f, graphite 90 / silicon 90 / tungsten 80, Blocks.java:6575-6583) -- static defs, wait for their own verification slice.',
     'ShockwaveTower trigger row (Events.fire(Trigger.shockwaveTowerUse), ShockwaveTower.java:97) -- event, not tick state; waits for its own slice.',
     'ShockwaveTower per-def stat rows (size 3, range 170f, reload 80f, surge-alloy 50 / silicon 150 / oxide 30 / tungsten 100, Blocks.java:2038-2044) -- static defs, wait for their own verification slice.',
     'ItemBridge shouldConsume gate (ItemBridgeBuild.shouldConsume() returns hadValidLink && enabled, ItemBridge.java:495-496; updateConsumption forces efficiency to 0 when the gate is false, BuildingComp.java:1960 + 1992-1994) -- RED decision: fold power-only and defer the gate (the PointDefenseTurret N2151 precedent); the port tracks no live link on any placed-building frame, so the driver needs a link frame input (public int link, ItemBridge.java:202) or a documented deferral; when unlinked power.status reads 1.0 while Java efficiency is 0.',
-    'ItemBridge warmup / draw rows (warmup approach, ItemBridge.java:345; draw warmup `float warmup = hasPower ? this.warmup : 1f;`, ItemBridge.java:387; draw / drawSelect / drawConfigure / drawInput, ItemBridge.java:216-296, 375-394) -- presentation, not tick state; waits for its own slice.',
     'BufferedItemBridge rows (bridge-conveyor, no power def, hasPower false, BufferedItemBridge.java:18; bufferCapacity 14, speed 74f, Blocks.java:2112-2113; ItemBuffer transport, BufferedItemBridge.java:30-60) -- explicitly OUT of scope for this driver; the bridge-conveyor transport does not depend on power.status.',
     'ItemBridge per-def stat rows (size 1, range 12, transportTime 2f, phase-fabric 5 / silicon 7 / lead 10 / graphite 10, Blocks.java:2116-2125; arrowPeriod 0.9f / arrowTimeScl 2.75f, Blocks.java:2120-2121) -- static defs, wait for their own verification slice.',
     'LiquidBridge link / findLink / linkValid rows (findLink autolink over lastBuild, ItemBridge.java:167-180; linkValid, ItemBridge.java:145-165; link -1, ItemBridge.java:202; config Point2, ItemBridge.java:500) -- inherited from ItemBridge; needs tile/link state the tick does not track yet; config, not tick state.',
@@ -194,16 +192,14 @@ DEFERRED = [
     'StackConveyor shouldConsume gate -- StackConveyorBuild has NO shouldConsume override, so the BuildingComp default (BuildingComp.java:755-756, return enabled;) applies; the power-only fold is EXACT, no deferral needed.',
     'StackConveyor onProximityUpdate state machine (stateLoad / stateUnload / blendprox / proxUpdating, StackConveyor.java:217-261) -- needs tile proximity state the tick does not track yet.',
     'StackConveyor blends / rotatedOutput / drawPlanRegion rows (blends, StackConveyor.java:71-88; rotatedOutput, StackConveyor.java:106-112; drawPlanRegion, StackConveyor.java:90-104) -- autotiler/blending, not tick state; waits for its own slice.',
-    'StackConveyor draw / drawCached rows (glow alpha by power.status, StackConveyor.java:156-158; stack/item draw, StackConveyor.java:151-192; drawCached, StackConveyor.java:124-149) -- presentation, not tick state; waits for its own slice.',
     'StackConveyor acceptStack / handleStack / removeStack / itemTaken / acceptItem rows (acceptStack, StackConveyor.java:344-348; handleStack, StackConveyor.java:357-363; removeStack, StackConveyor.java:365-372; itemTaken, StackConveyor.java:374-377; acceptItem, StackConveyor.java:379-387) -- item transfer waits for its own slice.',
     'StackConveyor dropped / overwrote / poofIn / poofOut rows (dropped, StackConveyor.java:194-204; overwrote, StackConveyor.java:319-327; poofIn/poofOut, StackConveyor.java:333-342) -- lifecycle/effects, not tick state; waits for its own slice.',
     'StackConveyor read/write rows (link / cooldown, StackConveyor.java:389-403) -- net/serialization, not tick state; waits for its own slice.',
     'plastanium-conveyor rows (StackConveyor, no power def, no hasPower line, Blocks.java:2084; health 90, speed 4f/60f, Blocks.java:2086-2088) -- explicitly OUT of scope for this driver; the plastanium-conveyor transport does not depend on power.status.',
     'StackConveyor per-def stat rows (size 1, speed 5f/60f, itemCapacity 10, health 130, surge-alloy 1 / tungsten 1, Blocks.java:2237-2253; glowAlpha 1f / glowColor Pal.redLight, StackConveyor.java:34-35) -- static defs, wait for their own verification slice.',
     'StackRouter shouldConsume gate -- StackRouterBuild has NO shouldConsume override, so the BuildingComp default (BuildingComp.java:755-756, return enabled;) applies; the power-only fold is EXACT, no deferral needed.',
-    'StackRouter draw / drawCached rows (glow by power.status, StackRouter.java:78-87; drawCached, StackRouter.java:73-75; parent draw / drawSelect, DuctRouter.java:83-99) -- presentation, not tick state; waits for its own slice.',
     'StackRouter config / sortItem rows (config Item sortItem, DuctRouter.java:44-45; configClear, DuctRouter.java:46; buildConfiguration, DuctRouter.java:124-127; configured recache, DuctRouter.java:129-136; config() returns sortItem, DuctRouter.java:187-189; handleStack / handleItem set current, DuctRouter.java:173-185; removeStack clears current, DuctRouter.java:166-171) -- config, not tick state; waits for its own slice.',
-    'StackRouter setStats / icons / drawPlanRegion rows (setStats itemsMoved, DuctRouter.java:48-53; icons, DuctRouter.java:55-57; drawPlanRegion, DuctRouter.java:59-64; minimapColor, DuctRouter.java:66-70; rotatedOutput, DuctRouter.java:72-74) -- presentation/stats, not tick state; waits for its own slice.',
+    'StackRouter setStats / drawPlanRegion rows (setStats itemsMoved, DuctRouter.java:48-53; drawPlanRegion, DuctRouter.java:59-64; minimapColor, DuctRouter.java:66-70; rotatedOutput, DuctRouter.java:72-74) -- presentation/stats, not tick state; waits for its own slice (icons() live since N2433 via icon_regions in the draw pure).',
     'StackRouter read/write rows (write sortItem id, DuctRouter.java:197-201; read sortItem, DuctRouter.java:203-209; version 1, DuctRouter.java:192-194) -- net/serialization, not tick state; waits for its own slice.',
     'StackRouter parent updateTile rows (progress += edelta() / speed * 2f, DuctRouter.java:102; progress >= (1f - 1f/speed), DuctRouter.java:105; progress %= (1f - 1f/speed), DuctRouter.java:111) -- overridden by StackRouterBuild.updateTile (StackRouter.java:28); the parent advance never runs for a surge-router.',
     'duct-router rows (DuctRouter, no power def, no hasPower line, Blocks.java:2193; health 90, speed 4f, Blocks.java:2195-2196) -- explicitly OUT of scope for this driver; the duct-router transport does not depend on power.status.',
@@ -213,7 +209,6 @@ DEFERRED = [
     'ImpactReactor explosion rows (explosionDamage 1900 * 4, explosionRadius 12, explosionMinWarmup 0.3f, createExplosion / shouldExplode, PowerGenerator.java:120-146; onDestroyed, PowerGenerator.java:111-117) -- explosion waits for its own slice.',
     'ImpactReactor setBars / setStats rows (power bar net output, ImpactReactor.java:48-51; warmupTime stats, ImpactReactor.java:65-66) -- presentation, not tick state; waits for its own slice.',
     'ImpactReactor read/write rows (warmup, ImpactReactor.java:130-140; productionEfficiency / generateTime, PowerGenerator.java:166-177) -- net/serialization, not tick state; waits for its own slice.',
-    'ImpactReactor draw rows (DrawMulti / DrawPlasma drawer, ImpactReactor.java:34) -- presentation, not tick state; waits for its own slice.',
     'ImpactReactor per-def stat rows (size 4, health 900, powerProduction 130f, itemDuration 140f, liquidCapacity 80f, requirements lead 500 / silicon 300 / graphite 400 / thorium 100 / surge-alloy 250 / metaglass 250, Blocks.java:2632-2645) -- static defs, wait for their own verification slice.',
     'ImpactReactor shouldConsume gate -- ImpactReactorBuild has NO shouldConsume override (nor does GeneratorBuild / PowerGenerator), so the BuildingComp default (BuildingComp.java:755-756, return enabled;) applies; the power-only fold is EXACT, no deferral needed.',
     'Accelerator launch rows (buildConfiguration consume() / useBatteries / progress reset / renderer.showLaunch / Time.runTask launch, Accelerator.java:258-291; beginLaunch / endLaunch / updateLaunch / drawLaunch, Accelerator.java:324-...) -- launch waits for its own slice.',
@@ -224,18 +219,15 @@ DEFERRED = [
     'BuildTurret suppression rows (suppressable = true, BuildTurret.java:46; checkSuppression() zeroes efficiency + potentialEfficiency, BuildTurret.java:132-133; isHealSuppressed, BuildingComp.java:487) -- needs suppression state the tick does not track yet.',
     'BuildTurret unit rows (unitType turret-unit-build-tower, BuildTurret.java:56-68; unit() accessor, BuildTurret.java:113-119; canControl / buildRotation, BuildTurret.java:103-110; BlockUnitc unit create, BuildTurret.java:93) -- unit creation + control waits for its own slice.',
     'BuildTurret read/write rows (rotation + plans, BuildTurret.java:259-278) -- net/serialization, not tick state; waits for its own slice.',
-    'BuildTurret sense rows (sense buildX/buildY + senseObject building/breaking delegate to unit, BuildTurret.java:281-295) -- logic sensing waits for its own slice.',
     'BuildTurret warmup / setStats rows (warmup() returns warmup, BuildTurret.java:254-255; setStats buildSpeed percent, BuildTurret.java:81-84) -- accessor/stats, not tick state; waits for its own slice.',
     'BuildTurret per-def stat rows (size 3, range 200f, buildSpeed 1.5f, silicon 150 / oxide 40 / thorium 60, Blocks.java:1997-2006) -- static defs, wait for their own verification slice.',
     'LightBlock shouldConsume gate -- LightBuild has NO shouldConsume override, so the BuildingComp default (BuildingComp.java:755-756, return enabled;) applies; the power-only fold is EXACT, no deferral needed.',
     'LightBlock config / color rows (config Integer color, LightBlock.java:35; configured / control / sense color, LightBlock.java:72-94; buildConfiguration color picker, LightBlock.java:109-115; onConfigureBuildTapped, LightBlock.java:117-127; config() returns color, LightBlock.java:132-133) -- config, not tick state; waits for its own slice.',
     'LightBlock init rows (lightRadius = radius*2.5f, LightBlock.java:40; lightClipSize = Math.max(lightClipSize, lightRadius * 3f), LightBlock.java:41; emitLight = true, LightBlock.java:42; brightness 0.9f / radius 200f class defaults, LightBlock.java:22-23) -- static defs + init, wait for their own slice.',
-    'LightBlock drawPlace / changePlacementPath / minimapColor rows (dashCircle radius * 0.75f, LightBlock.java:48-53; placeRadius2 nodes, LightBlock.java:55-59; minimapColor color | 0xff, LightBlock.java:61-66) -- placement/presentation, not tick state; waits for its own slice.',
     'LightBlock read/write rows (color int, LightBlock.java:137-148) -- net/serialization, not tick state; waits for its own slice.',
     'LightBlock env / placement flag rows (envEnabled space, swapDiagonalPlacement, LightBlock.java:32-33; hasPower / update / configurable / saveConfig, LightBlock.java:28-31) -- static flags, not tick state; wait for their own slice.',
     'LightBlock per-def stat rows (brightness 0.75f, radius 140f, graphite 12 / silicon 8 / lead 8, Blocks.java:6763-6767) -- static defs, wait for their own verification slice.',
     'ItemBridge config() getter / rebuild rows (config() returns the relative Point2, ItemBridge.java:500-502; write serializes link, ItemBridge.java:510-522; read restores link, ItemBridge.java:524-536) -- config serves rebuild/schematic (BuildingComp.java:2022-2026, "Tile configuration. Defaults to null. Used for block rebuilding."); the N2197 pure configure applies configs to the frame, but the getter + save/load round-trip wait for their own slice.',
-    'ItemBridge draw / config UI rows (drawSelect / drawInput / drawConfigure, ItemBridge.java:223-296; draw, ItemBridge.java:371-394; draw warmup `float warmup = hasPower ? this.warmup : 1f;`, ItemBridge.java:387) -- presentation, not tick state; the N2197 pure configure covers the config handlers, but the draw/config UI waits for its own slice.',
     'ItemBridge handlePlacementLine (ItemBridge.java:184-193, `cur.config = new Point2(next.x - cur.x, next.y - cur.y);`) -- consecutive placement-line plans get a relative Point2 config pointing at the next plan; the port has no placement lines / BuildPlan list yet, so there is nothing to wire it to; waits for its own slice.',
     'ItemBridge pickedUp link reset (ItemBridge.java:205-207, `link = -1;`) -- a picked-up bridge unlinks; the generic pickup lifecycle exists (SourceBuildingLifecyclePickupState) but no bridge-specific link reset is wired; waits for its own slice.',
     'LiquidBridge tick blocks_match is implementation-loose for cross-def pairs (SourceLiquidBridgeBuildState recompute accepts any LiquidBridge implementation as the partner, but Java requires the SAME block def, ItemBridge.java:152, `other.block() == tile.block()` -- a phase-conduit must not validate against a bridge-conduit); the N2199 auto-link gathers a strict def match (other block id == this block id); the tick needs its own fix slice + proof update.',
@@ -276,9 +268,7 @@ DEFERRED = [
     'StackConveyor live front() query (front(), BuildingComp.java:550-554; if(front() instanceof StackConveyorBuild e && e.team == team && e.link == -1){, StackConveyor.java:303) -- the N2239 advance takes an explicit front dict and returns front_updated values (front_items / front_last_item / front_link / front_cooldown) for the driver to write back (the N2225 partner precedent), but no live front() query fills it yet: the driver passes the no-front default, so a live stack conveyor never transfers until the front-building lookup + frame write-back land.',
     'StackConveyor live items intake (no live intake fills frame["items"] yet -- acceptItem / handleStack / conveyor delivery / dump into the building waits for its own slice, see the existing acceptStack / handleStack entry; the N2239 advance reads the frame as-is and the transfer branch is the only live fill, which itself waits on the front() query above, so a live stack conveyor with no intake has nothing to reel, unload, or transfer).',
     'StackConveyor moveForward / dump application (moveForward, BuildingComp.java:1129-1137; dump(Item), BuildingComp.java:1072-1113; while(lastItem != null && !outputRouter ? moveForward(lastItem) : dump(lastItem)), StackConveyor.java:290) -- the N2239 advance takes explicit move_forward_ok / dump_ok bools (the per-tick live answers, assumed stable within the tick) and drains lastItem through the shared inventory helpers, but no live neighbour query fills them yet: moveForward needs front() + acceptItem + handleItem on the front building and dump needs the proximity acceptItem/canDump scan with cdump rotation (BuildingComp.java:1072-1113, 1115-1120); the driver passes false for both, so a live stack conveyor never unloads until the neighbour queries land; the poofOut link = -1 state effect IS modeled (the unloadEffect.at(this) presentation stays under the existing poofIn/poofOut entry).',
-    'OverdriveProjector draw / drawLight / drawSelect / drawPlace rows (draw top region + ring, OverdriveProjector.java:137-158; drawLight smoothEfficiency-scaled light, OverdriveProjector.java:92-94; drawSelect range circle + target highlight, OverdriveProjector.java:128-133; drawPlace range circle, OverdriveProjector.java:54-61) -- presentation, not tick state; waits for its own slice.',
     "LaunchPad shouldConsume gate cheating-path counter advance -- the driver skips the consumption block when cheating (the N2172 guard), so a cheating pad's launchCounter never advances even though Java updateTile still runs after updateConsumption (BuildingComp.java:2274-2278) with efficiency = shouldConsume() ? potentialEfficiency : 0f (BuildingComp.java:1944-1947); the cheating-path advance waits for its own slice.",
-    'BeamDrill draw / drawSelect rows (draw lasers/glow/sparks, BeamDrill.java:275+; drawSelect drawItemSelection, BeamDrill.java:231-234) -- presentation, not tick state; waits for its own slice.',
     'BeamDrill disabled-early-return rows (BuildingComp.java:1954-1957, potentialEfficiency = efficiency = optionalEfficiency = 0f; when disabled -- the driver skips the consumption fold when disabled and leaves frame efficiency stale, so the N2195 advance is gated on enabled and a disabled beam drill warmup/time freeze in the port instead of warmup decaying toward 0 and time freezing via edelta 0 as in Java; the driver-wide disabled-early-return slice fixes this for all families).',
     'Accelerator launchTime / cloudSeed rows (launchTime, Accelerator.java:124, set in updateLaunch, Accelerator.java:419, reset in endLaunch, Accelerator.java:394; cloudSeed, Accelerator.java:126, set in beginLaunch, Accelerator.java:340) -- launch-animation state, not tick state; waits for the launch-sequence slice.',
     'ImpactReactor impactPower event rows (prevOut / getPowerProduction() > consPower.requestedPower(this), ImpactReactor.java:80, 87-88; Events.fire(Trigger.impactPower), ImpactReactor.java:88) -- needs getPowerProduction() and consPower.requestedPower(this) from the power graph, which the port does not model yet; the N2192 advance tracks warmup/totalProgress/productionEfficiency but fires no event.',
@@ -433,6 +423,7 @@ def main():
         'region_call': f('Dictionary', 'Draw.rect(region, x, y, rotation - 90);', 'The region rect call (BuildTurret.java:242): region region centered on the building, rotation - 90, layer Layer.turret.'),
         'glow_call': f('Dictionary', 'Drawf.additive(glowRegion, heatColor, warmup, x, y, rotation - 90f, Layer.turretHeat);', 'The glow additive call (BuildTurret.java:245): null when the glow region is not found, else region glowRegion, color heatColor (symbolic token), alpha warmup, effective alpha warmup * 0.9 (heatColor alpha 0.9f, Drawf.java:186), rotation - 90, layer Layer.turretHeat. The overload is Drawf.additive(region, color, alpha, x, y, rotation, layer) (Drawf.java:183-192).'),
         'build_call': f('Dictionary', 'unit.drawBuilding();', 'The build call (BuildTurret.java:249): null when efficiency <= 0 or no unit is present, else the recorded `unit.drawBuilding();` call -- the pure records the call into the builder unit, it does not model unit draw.'),
+        'icon_regions': f('Array', 'return new TextureRegion[]{baseRegion, region};', 'The icon regions in Java order (BuildTurret.java:88-90, icons() returns {baseRegion, region}): ["baseRegion", "region"]. Folded into the draw pure because icons() takes no args and the SSOT schema validator requires non-empty input keys (the N2396/N2430 precedent; the N2433 StackRouter precedent). Added by the N2446 amend.'),
     }
     entries = [
         ('N2431', OWNER, 'source_build_turret_draw_state', BUILD_TURRET, 'mindustry.world.blocks.defense.BuildTurret.BuildTurretBuild', 'BuildTurretBuild.draw()', n2431_draw_inputs, n2431_draw_outputs, True, 'Dictionary'),
@@ -454,13 +445,14 @@ def main():
         all_names.extend(names)
 
     by_slice = {}
-    # The test pins this order: the base / shadow / region calls, the glow call, the build call.
+    # The test pins this order: the base / shadow / region calls, the glow call, the build call, the icon regions (N2446 amend).
     by_slice['N2431'] = [
         'source_build_turret_draw_state_result.base_call',
         'source_build_turret_draw_state_result.shadow_call',
         'source_build_turret_draw_state_result.region_call',
         'source_build_turret_draw_state_result.glow_call',
         'source_build_turret_draw_state_result.build_call',
+        'source_build_turret_draw_state_result.icon_regions',
     ]
     source_symbols.upsert_source_slice(GODOT, 'N2431', dict(status='done', java_source=BUILD_TURRET, java_class='mindustry.world.blocks.defense.BuildTurret.BuildTurretBuild', java_method='BuildTurretBuild.draw()', godot_owner=OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2431'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
 
