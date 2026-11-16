@@ -88,7 +88,7 @@ static func source_constructor_should_consume_state(frame: Dictionary) -> Dictio
 
 static func source_constructor_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a constructor does not take the early return. The produce gate follows the folded efficiency (BlockProducer.java:110, `boolean produce = recipe != null && efficiency > 0 && payload == null;`), with the progress advance (BlockProducer.java:113, `progress += buildSpeed * edelta();`) and the shouldConsume default (BuildingComp.java:755, `public boolean shouldConsume(){`) and the shouldConsume override (BlockProducer.java:103, `return super.shouldConsume() && recipe() != null;`). The shouldConsume gate is live (N2216) -- the pure gate (source_constructor_should_consume_state) feeds should_consume to the machinery from the frame recipe key (null with no recipe, non-null once a block is configured as the recipe) and the enabled flag; no live fill sets frame["recipe"] yet (the config path is a config advance, Constructor.java:31-38).
-	# Documented limits: (1) dynamic item row live (N2265) -- the ConsumeItemDynamic over the recipe requirements (BlockProducer.java:39-55) folds beside power into the first pass: the stacks clone the recipe block's requirements with each amount ceiled against the build-cost multiplier (BlockProducer.java:49), the row is BINARY (ConsumeItemDynamic.efficiency, ConsumeItemDynamic.java:60-62), and a null recipe folds 1.0 (ItemStack.empty, BlockProducer.java:53). The build-cost multiplier reads rules_state.get("buildCostMultiplier", 1.0) -- the port rules_state carries no buildCostMultiplier key yet, so the 1.0 default (Rules.java:115) always applies for now. No live intake fills frame["items"] yet, so the row reads the frame as-is; the trigger is wired live since N2274 (consume() fires when the progress advance completes, BlockProducer.java:115-116); the config path (recipe set, Constructor.java:31-38) still waits for its own slice. (2) shouldConsume gate live (N2216) -- BlockProducerBuild overrides shouldConsume() to return super.shouldConsume() && recipe() != null (BlockProducer.java:102-104); when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994); the pure gate reads the frame recipe key (default null) plus enabled and feeds should_consume to the machinery; no live fill sets frame["recipe"] yet (the config path, Constructor.java:31-38, waits for its own slice). (3) updateTile advance live (N2274) -- progress / heat / time / moveOutPayload (BlockProducer.java:107-128) run every tick after the consumption fold through the pure source_constructor_update_tile_advance_state function: the produce gate (BlockProducer.java:110, `boolean produce = recipe != null && efficiency > 0 && payload == null;`), progress += buildSpeed * edelta (BlockProducer.java:113), completion consumes via the N2265 trigger (now wired live) + spawns the BuildPayload dict + payVector zero + progress %= 1f (BlockProducer.java:115-120, the remainder is kept, not reset to 0), heat lerps toward produce at 0.15f (BlockProducer.java:124), time += heat * delta (BlockProducer.java:125), moveOutPayload reuses the shared helper (PayloadBlock.java:199-228) with no-front defaults; the placeEffect (BlockProducer.java:118) is presentation and defers, the recipe buildTime follows the Block.init formula (Block.java:1432-1443) from the catalog requirements + item costs since the catalog carries no buildTime key, and the config path (recipe set, Constructor.java:31-38) still waits for its own slice. (4) No config/filter rows -- filter, minBlockSize/maxBlockSize, canProduce (Constructor.java:21-22, 54-56) are config, not tick state.
+	# Documented limits: (1) dynamic item row live (N2265) -- the ConsumeItemDynamic over the recipe requirements (BlockProducer.java:39-55) folds beside power into the first pass: the stacks clone the recipe block's requirements with each amount ceiled against the build-cost multiplier (BlockProducer.java:49), the row is BINARY (ConsumeItemDynamic.efficiency, ConsumeItemDynamic.java:60-62), and a null recipe folds 1.0 (ItemStack.empty, BlockProducer.java:53). The build-cost multiplier reads rules_state.get("buildCostMultiplier", 1.0) -- the port rules_state carries no buildCostMultiplier key yet, so the 1.0 default (Rules.java:115) always applies for now. No live intake fills frame["items"] yet, so the row reads the frame as-is; the trigger is wired live since N2274 (consume() fires when the progress advance completes, BlockProducer.java:115-116); the config path (recipe set, Constructor.java:31-38) still waits for its own slice. (2) shouldConsume gate live (N2216) -- BlockProducerBuild overrides shouldConsume() to return super.shouldConsume() && recipe() != null (BlockProducer.java:102-104); when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994); the pure gate reads the frame recipe key (default null) plus enabled and feeds should_consume to the machinery; no live fill sets frame["recipe"] yet (the config path, Constructor.java:31-38, waits for its own slice). (3) updateTile advance live (N2274) -- progress / heat / time / moveOutPayload (BlockProducer.java:107-128) run every tick after the consumption fold through the pure source_constructor_update_tile_advance_state function: the produce gate (BlockProducer.java:110, `boolean produce = recipe != null && efficiency > 0 && payload == null;`), progress += buildSpeed * edelta (BlockProducer.java:113), completion consumes via the N2265 trigger (now wired live) + spawns the BuildPayload dict + payVector zero + progress %= 1f (BlockProducer.java:115-120, the remainder is kept, not reset to 0), heat lerps toward produce at 0.15f (BlockProducer.java:124), time += heat * delta (BlockProducer.java:125), moveOutPayload reuses the shared helper (PayloadBlock.java:199-228) with no-front defaults; the placeEffect (BlockProducer.java:118) is recorded by the draw pure (N2440, see (5)), the recipe buildTime follows the Block.init formula (Block.java:1432-1443) from the catalog requirements + item costs since the catalog carries no buildTime key, and the config path (recipe set, Constructor.java:31-38) still waits for its own slice. (4) No config/filter rows -- filter, minBlockSize/maxBlockSize, canProduce (Constructor.java:21-22, 54-56) are config, not tick state. (5) Draw rows live (N2440) -- draw (BlockProducer.java:134-160) + drawSelect (Constructor.java:77-87) + the placeEffect (BlockProducer.java:116-119) are modeled by the pure-only source_constructor_draw_state (base rect + out rect at rotdeg() + recipe shadow + blockbuild shader loop + scan line + drawPayload + top rect + drawSelect icon + place effect); config/filter rows (Constructor.java:21-22, 54-56) still defer (see (4)).
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -338,3 +338,289 @@ static func source_constructor_tick_buildings_state(game: Object, seconds: float
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
 	return {"ticked_count": ticked_count, "results_by_cell": results_by_cell}
+
+static func source_constructor_draw_state(x_value: float, y_value: float, rotation: int, time_value: float, heat: float, progress: float, recipe: Variant, payload_present: bool, just_crafted: bool, size_value: int, draw_scl: float, draw_xscl: float, draw_yscl: float) -> Dictionary:
+	# The draw / drawSelect / placeEffect rows
+	# (BlockProducerBuild.draw(), BlockProducer.java:134-160
+	# + ConstructorBuild.drawSelect(), Constructor.java:77-87
+	# + the craft-complete effect, BlockProducer.java:116-119),
+	# the pure draw-call dict -- the port never draws for real
+	# (the N2418 PayloadDeconstructor precedent: the pure
+	# returns the draw calls as data). Java draws, in order
+	# (each exact expr on ONE comment line, the N2148 lesson):
+	# `Draw.rect(region, x, y);`
+	# `Draw.rect(outRegion, x, y, rotdeg());`
+	# `if(recipe != null){`
+	# `Drawf.shadow(x, y, recipe.size * tilesize * 2f, progress / recipe.buildTime);`
+	# `Draw.draw(Layer.blockBuilding, () -> {`
+	# `Draw.color(Pal.accent);`
+	# `for(TextureRegion region : recipe.getGeneratedIcons()){`
+	# `Shaders.blockbuild.region = region;`
+	# `Shaders.blockbuild.time = time;`
+	# `Shaders.blockbuild.progress = progress / recipe.buildTime;`
+	# `Draw.rect(region, x, y, recipe.rotate ? rotdeg() : 0);`
+	# `Draw.flush();`
+	# `Draw.color();`
+	# `Draw.z(Layer.blockBuilding + 1);`
+	# `Draw.color(Pal.accent, heat);`
+	# `Lines.lineAngleCenter(x + Mathf.sin(time, 10f, Vars.tilesize / 2f * recipe.size + 1f), y, 90, recipe.size * Vars.tilesize + 1f);`
+	# `Draw.reset();`
+	# `drawPayload();`
+	# `Draw.z(Layer.blockBuilding + 1.1f);`
+	# `Draw.rect(topRegion, x, y);`
+	# The base rect always draws; then the out rect at
+	# rotdeg(); then, only with a recipe, the shadow + the
+	# blockbuild shader loop + the scan line; then
+	# drawPayload(); then the top rect always, at z
+	# Layer.blockBuilding + 1.1f. drawSelect():
+	# `float dx = x - size * tilesize/2f, dy = y + size * tilesize/2f;`
+	# `TextureRegion icon = recipe.uiIcon;`
+	# `Draw.mixcol(Color.darkGray, 1f);`
+	# `Draw.rect(icon, dx - 0.7f, dy - 1f, Draw.scl * Draw.xscl * 24f, Draw.scl * Draw.yscl * 24f);`
+	# `Draw.reset();`
+	# `Draw.rect(icon, dx, dy, Draw.scl * Draw.xscl * 24f, Draw.scl * Draw.yscl * 24f);`
+	# -- dx / dy use the PRODUCER block size (3 / 5), not
+	# the recipe size; the shadow rect sits at dx - 0.7f,
+	# dy - 1f under the darkGray mixcol. The placeEffect
+	# fires when the craft completes:
+	# `if(progress >= recipe.buildTime){`
+	# `payload = new BuildPayload(recipe, team);`
+	# `payload.block().placeEffect.at(x, y, payload.size() / tilesize);`
+	# -- the scale is payload.size() / tilesize, and
+	# BuildPayload.size() is `public float size(){` /
+	# `return build.block.size * tilesize;`
+	# (BuildPayload.java:86-88), so the scale is the RECIPE
+	# block size in tiles -- NOT the producer size. The
+	# placeEffect default is `public Effect placeEffect = Fx.placeBlock;`
+	# (Block.java:374); the recipe dict carries its
+	# place_effect token caller-supplied. just_crafted is
+	# the caller-supplied craft-complete flag -- the N2274
+	# advance owns the progress >= buildTime condition, so
+	# the pure fires the effect only when just_crafted is
+	# true (and a recipe is present). drawPayload()
+	# (PayloadBlock.java:246-253):
+	# `public void drawPayload(){`
+	# `if(payload != null){`
+	# `updatePayload();`
+	# `Draw.z(Layer.blockOver);`
+	# `payload.draw();`
+	# -- the HELD payload, recorded as the call + z + the
+	# updatePayload() call, not the inner draw (the N2418
+	# precedent). The generated icons come from
+	# `public TextureRegion[] getGeneratedIcons(){` /
+	# `return generatedIcons == null ? (generatedIcons = icons()) : generatedIcons;`
+	# (Block.java:986-988) -- content, caller-supplied as
+	# the recipe icons array of region names; the shader
+	# loop is recorded as CALL + params (region / time /
+	# progress ratio / per-region rotation), the shader
+	# itself is NOT ported. The sin is the arc 3-arg form
+	# `public static float sin(float radians, float scl, float mag){`
+	# `return sin(radians / scl) * mag;`
+	# (Mathf.java:90-92, arc) -- NOT absin (the N2415
+	# precedent) -- so the scan offset is sin(time / 10f)
+	# * (tilesize / 2f * recipe.size + 1f) and the length
+	# is recipe.size * tilesize + 1f: recipe size 2 gives
+	# magnitude 9 and length 17, recipe size 4 gives 17
+	# and 33. rotdeg() is `public float rotdeg(){` /
+	# `return rotation * 90;` (BuildingComp.java:582-584).
+	# Layer.blockBuilding is `blockBuilding = 40,` and
+	# Layer.blockOver is `blockOver = 35,` (Layer.java:
+	# 42/45), so the scan z is 41 and the top z is 41.1.
+	# Drawf.shadow is
+	# `public static void shadow(float x, float y, float rad, float alpha){`
+	# (Drawf.java:360-364):
+	# `Draw.color(0, 0, 0, 0.4f * alpha);`
+	# `Draw.rect("circle-shadow", x, y, rad * Draw.xscl, rad * Draw.yscl);`
+	# -- the circle-shadow at black alpha 0.4 * progress
+	# ratio. Build fields are `public float progress, time, heat;`
+	# (BlockProducer.java:78, tracked by the N2274 advance)
+	# and the recipe is `public abstract @Nullable Block recipe();`
+	# (BlockProducer.java:80) over the field
+	# `public @Nullable Block recipe;` (Constructor.java:59)
+	# on `public class Constructor extends BlockProducer{`
+	# (Constructor.java:19). tilesize is the Java constant
+	# 8.0 (`public static final int tilesize = 8;`,
+	# Vars.java:135 -- NEVER the game tile_size 32, the
+	# N2375 lesson). Two defs share this driver:
+	# `size = 3;` (constructor, Blocks.java:6658-6667,
+	# `buildSpeed = 0.6f;`) and `size = 5;`
+	# (large-constructor, Blocks.java:6670-6680,
+	# `buildSpeed = 0.75f;`); neither def overrides the
+	# drawer -- draw() is the BlockProducerBuild override,
+	# no drawer field on Constructor / BlockProducer.
+	# size_value is the PRODUCER block size (the drawSelect
+	# dx / dy input); draw_scl / draw_xscl / draw_yscl are
+	# the Draw scale statics, caller-supplied (draw never
+	# runs in the tick, so the tick never stamps them, the
+	# N2396/N2372 convention). Pure-only: the tick never
+	# calls draw -- draw is called by the renderer, and
+	# the renderer call site waits for a renderer slice.
+	var tile_size: float = source_world_defaults.TILESIZE
+	var rotdeg_value: float = float(rotation) * 90.0
+	var has_recipe: bool = recipe != null
+	var recipe_dict: Dictionary = {}
+	if recipe is Dictionary:
+		recipe_dict = recipe
+	var recipe_size: int = int(recipe_dict.get("size", 0))
+	var recipe_build_time: float = float(recipe_dict.get("build_time", 0.0))
+	var progress_ratio: float = 0.0
+	if has_recipe and recipe_build_time != 0.0:
+		progress_ratio = progress / recipe_build_time
+	var recipe_rotate: bool = bool(recipe_dict.get("rotate", false))
+	var recipe_icons: Array = []
+	if recipe_dict.get("icons", null) is Array:
+		recipe_icons = recipe_dict.get("icons")
+	var ui_icon: String = str(recipe_dict.get("ui_icon", "recipe.uiIcon"))
+	var place_effect: String = str(recipe_dict.get("place_effect", "Fx.placeBlock"))
+	var shadow_radius: float = float(recipe_size) * tile_size * 2.0
+	var scan_magnitude: float = tile_size / 2.0 * float(recipe_size) + 1.0
+	var scan_length: float = float(recipe_size) * tile_size + 1.0
+	var scan_x: float = x_value + sin(time_value / 10.0) * scan_magnitude
+	var select_dx: float = x_value - float(size_value) * tile_size / 2.0
+	var select_dy: float = y_value + float(size_value) * tile_size / 2.0
+	var select_width: float = draw_scl * draw_xscl * 24.0
+	var select_height: float = draw_scl * draw_yscl * 24.0
+	var base_call: Dictionary = {
+		"call": "Draw.rect(region, x, y);",
+		"region": "region",
+		"x": x_value,
+		"y": y_value,
+	}
+	var out_call: Dictionary = {
+		"call": "Draw.rect(outRegion, x, y, rotdeg());",
+		"region": "outRegion",
+		"x": x_value,
+		"y": y_value,
+		"rotation": rotdeg_value,
+	}
+	var shadow_call: Variant = null
+	if has_recipe:
+		shadow_call = {
+			"call": "Drawf.shadow(x, y, recipe.size * tilesize * 2f, progress / recipe.buildTime);",
+			"x": x_value,
+			"y": y_value,
+			"radius": shadow_radius,
+			"alpha": progress_ratio,
+			"color_alpha": 0.4 * progress_ratio,
+			"region": "circle-shadow",
+		}
+	var build_call: Variant = null
+	if has_recipe:
+		var region_calls: Array = []
+		for icon in recipe_icons:
+			region_calls.append({
+				"call": "Draw.rect(region, x, y, recipe.rotate ? rotdeg() : 0);",
+				"region": str(icon),
+				"x": x_value,
+				"y": y_value,
+				"rotation": rotdeg_value if recipe_rotate else 0.0,
+				"shader_region": "Shaders.blockbuild.region = region;",
+				"shader_time_expr": "Shaders.blockbuild.time = time;",
+				"shader_progress_expr": "Shaders.blockbuild.progress = progress / recipe.buildTime;",
+				"flush": "Draw.flush();",
+			})
+		build_call = {
+			"call": "Draw.draw(Layer.blockBuilding, () -> {",
+			"layer": "Layer.blockBuilding",
+			"layer_value": 40.0,
+			"color": "Pal.accent",
+			"regions": recipe_icons,
+			"region_calls": region_calls,
+			"shader_time": time_value,
+			"shader_progress": progress_ratio,
+			"rotate": recipe_rotate,
+		}
+	var scan_call: Variant = null
+	if has_recipe:
+		scan_call = {
+			"call": "Lines.lineAngleCenter(x + Mathf.sin(time, 10f, Vars.tilesize / 2f * recipe.size + 1f), y, 90, recipe.size * Vars.tilesize + 1f);",
+			"x": scan_x,
+			"y": y_value,
+			"angle": 90.0,
+			"length": scan_length,
+			"color": "Pal.accent",
+			"alpha": heat,
+			"z": "Layer.blockBuilding + 1",
+			"z_value": 41.0,
+			"magnitude": scan_magnitude,
+		}
+	var payload_call: Variant = null
+	if payload_present:
+		payload_call = {
+			"call": "payload.draw();",
+			"update_payload_call": "updatePayload();",
+			"z": "Layer.blockOver",
+			"z_value": 35.0,
+		}
+	var top_call: Dictionary = {
+		"call": "Draw.rect(topRegion, x, y);",
+		"region": "topRegion",
+		"x": x_value,
+		"y": y_value,
+		"z": "Layer.blockBuilding + 1.1f",
+		"z_value": 41.1,
+	}
+	var select_call: Variant = null
+	if has_recipe:
+		select_call = {
+			"call": "Draw.rect(icon, dx, dy, Draw.scl * Draw.xscl * 24f, Draw.scl * Draw.yscl * 24f);",
+			"shadow_call": "Draw.rect(icon, dx - 0.7f, dy - 1f, Draw.scl * Draw.xscl * 24f, Draw.scl * Draw.yscl * 24f);",
+			"icon": ui_icon,
+			"x": select_dx,
+			"y": select_dy,
+			"shadow_x": select_dx - 0.7,
+			"shadow_y": select_dy - 1.0,
+			"width": select_width,
+			"height": select_height,
+			"mixcol": "Color.darkGray",
+			"mixcol_alpha": 1.0,
+		}
+	var place_effect_call: Variant = null
+	if just_crafted and has_recipe:
+		place_effect_call = {
+			"call": "payload.block().placeEffect.at(x, y, payload.size() / tilesize);",
+			"effect": place_effect,
+			"x": x_value,
+			"y": y_value,
+			"scale": float(recipe_size),
+		}
+	return {
+		"base_expr": "Draw.rect(region, x, y);",
+		"out_expr": "Draw.rect(outRegion, x, y, rotdeg());",
+		"shadow_expr": "Drawf.shadow(x, y, recipe.size * tilesize * 2f, progress / recipe.buildTime);",
+		"build_expr": "Draw.draw(Layer.blockBuilding, () -> {",
+		"scan_expr": "Lines.lineAngleCenter(x + Mathf.sin(time, 10f, Vars.tilesize / 2f * recipe.size + 1f), y, 90, recipe.size * Vars.tilesize + 1f);",
+		"payload_expr": "payload.draw();",
+		"top_expr": "Draw.rect(topRegion, x, y);",
+		"select_expr": "Draw.rect(icon, dx, dy, Draw.scl * Draw.xscl * 24f, Draw.scl * Draw.yscl * 24f);",
+		"place_effect_expr": "payload.block().placeEffect.at(x, y, payload.size() / tilesize);",
+		"x": x_value,
+		"y": y_value,
+		"rotdeg": rotdeg_value,
+		"has_recipe": has_recipe,
+		"payload_present": payload_present,
+		"just_crafted": just_crafted,
+		"progress": progress,
+		"progress_ratio": progress_ratio,
+		"time_value": time_value,
+		"heat": heat,
+		"size": size_value,
+		"recipe_size": recipe_size,
+		"shadow_radius": shadow_radius,
+		"scan_magnitude": scan_magnitude,
+		"scan_length": scan_length,
+		"scan_x": scan_x,
+		"select_dx": select_dx,
+		"select_dy": select_dy,
+		"select_width": select_width,
+		"select_height": select_height,
+		"base_call": base_call,
+		"out_call": out_call,
+		"shadow_call": shadow_call,
+		"build_call": build_call,
+		"scan_call": scan_call,
+		"payload_call": payload_call,
+		"top_call": top_call,
+		"select_call": select_call,
+		"place_effect_call": place_effect_call,
+	}
