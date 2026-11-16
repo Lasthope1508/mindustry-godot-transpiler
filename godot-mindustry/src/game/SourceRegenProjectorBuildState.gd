@@ -233,11 +233,14 @@ static func source_regen_projector_power_status_row_state(frame: Dictionary, has
 	# mendMap flush is live (N2325) as the pure heal_applications
 	# result (last_update_frame / update_id frame inputs, defaults
 	# -1/0; the tick write-backs the flushed amounts on the frame
-	# and applies nothing to the target buildings yet); the live
-	# heal application, the effect chance, the live tileChanges
+	# and the live heal application is live (N2399) -- the tick
+	# applies the flushed amounts to the target sprite health
+	# after the flush, capped at maxHealth, while
+	# recentlyHealed() still waits (no Time.time input reaches
+	# the tick); the effect chance, the live tileChanges
 	# counter, the live updateId counter and the disabled early
 	# return wait for their own slices (see the N2228 live-fill
-	# deferral, rewritten by N2325).
+	# deferral, rewritten by N2325 and N2399).
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -623,8 +626,12 @@ static func source_regen_projector_update_tile_advance_state(frame: Dictionary, 
 	# buildings (world.build(pos) + build.heal +
 	# `public void recentlyHealed(){`, the timestamp write
 	# `lastHealTime = Time.time;`, BuildingComp.java:491-493)
-	# still waits for its own slice: the tick write-backs
-	# heal_applications on the frame and applies nothing.
+	# is live since N2399: the tick applies the flushed
+	# amounts to the target sprite health after the flush
+	# (capped at maxHealth, HealthComp.heal + clampHealth),
+	# while recentlyHealed() still waits -- no Time.time
+	# input reaches the tick, so no last_heal_time is
+	# stamped.
 	# `private static final IntFloatMap mendMap = new IntFloatMap();`
 	# (RegenProjector.java:23) is static-shared across
 	# projectors in Java, so the first projector ticked in a
@@ -696,6 +703,100 @@ static func source_regen_projector_update_tile_advance_state(frame: Dictionary, 
 		heal_applications = Dictionary(mend_map)
 		mend_map = {}
 	return {"last_change": last_change, "warmup": warmup, "total_time": total_time, "optional_timer": optional_timer, "did_regen": did_regen, "any_targets": any_targets, "mend_map": mend_map, "heal_amount": heal_amount, "consumed": consumed, "last_update_frame": last_update_frame, "heal_applications": heal_applications}
+
+static func _to_short(value: int) -> int:
+	# The Java (short) cast: truncate to the low 16 bits, then sign-extend (Point2.pack/unpack cast through short, arc Point2.java:35-42); GDScript ints are 64-bit, so the wrap is explicit.
+	var truncated: int = value & 0xFFFF
+	if truncated >= 0x8000:
+		return truncated - 0x10000
+	return truncated
+
+static func _point2_unpack(pos: int) -> Vector2i:
+	# Point2.unpack (arc Point2.java:35-37, `return new Point2((short)(pos >>> 16), (short)(pos & 0xFFFF));`).
+	return Vector2i(_to_short(pos >> 16), _to_short(pos & 0xFFFF))
+
+static func source_regen_projector_heal_application_state(game: Object, heal_applications: Dictionary) -> Dictionary:
+	# The live heal application (N2399): the mendMap flush loop
+	# (RegenProjectorBuild.updateTile(), RegenProjector.java:168-177)
+	# applies each flushed entry to its live building (each exact
+	# expr on ONE comment line, the N2148 lesson):
+	# `for(var entry : mendMap.entries()){`
+	# `var build = world.build(entry.key);`
+	# `if(build != null){`
+	# `build.heal(entry.value);`
+	# `build.recentlyHealed();`
+	# `mendMap.clear();`
+	# `public @Nullable Building build(int pos){`
+	# `if(tile == null) return null;`
+	# `health += amount;`
+	# `health = Math.min(health, maxHealth);`
+	# `public void recentlyHealed(){`
+	# `lastHealTime = Time.time;`
+	# `return new Point2((short)(pos >>> 16), (short)(pos & 0xFFFF));`
+	# `return (((short)x) << 16) | (((short)y) & 0xFFFF);`
+	# `return Point2.pack(x, y);`
+	# `return tile.pos();`
+	# Verified before coding: (a) pos is the packed ORIGIN cell --
+	# the N2277 fill packs the origin cell with tile_pos_state,
+	# Tile.pos() is `return Point2.pack(x, y);`
+	# (Tile.java:73-75) and build.pos() is `return tile.pos();`
+	# (BuildingComp.java:578-580) -- decoded here with
+	# _point2_unpack (the ItemBridge / LiquidBridge / MassDriver
+	# precedent, no separate symbol). (b) The cell resolves to
+	# its sprite through block_sprite_at_cell (the N2353/N2371
+	# helper precedent); a missing sprite reports no_sprite --
+	# the Java `build == null` skip (world.build(int pos)
+	# returns null for a missing tile/build,
+	# World.java:142-146), which covers a demolished or
+	# out-of-range target. (c) NO family frame carries health
+	# (verified by grep: no frame key holds a health value --
+	# the N2277 candidates carry health as VALUES read from the
+	# sprite metas), so the heal lands on the sprite health
+	# meta directly through the shared repair_sprite -- walls
+	# and cores heal through the same path, like Java healing
+	# ANY building, and there is no frame lookup and no frame
+	# write-back here. (d) heal() caps at maxHealth:
+	# HealthComp.heal is `health += amount;` + clampHealth
+	# (HealthComp.java:103-112), and repair_sprite is that
+	# exact cap (min of max health, before + amount), returning
+	# the actual healed amount (0.0 at full health). (e)
+	# recentlyHealed() DEFERS: no Time.time input reaches the
+	# tick (the tick gets game + seconds, a delta, and the port
+	# exposes no live elapsed time), so the result reports
+	# recently_healed false and no last_heal_time is stamped
+	# anywhere -- the timestamp write waits for a game-time
+	# slice. Every input pos gets exactly one application entry
+	# {pos, cell, amount, healed, reason}; a non-positive
+	# amount reports invalid_amount (defensive -- the advance
+	# only ever flushes non-negative amounts). The tick calls
+	# this AFTER the flush write-back (Java order: the heal
+	# loop IS the flush block). Follow-up, not this slice: the
+	# frame targets entries keep their pre-heal health snapshot
+	# until the next tile_changes scan rebuilds the list, so
+	# any_targets keeps reading a healed target as damaged for
+	# one scan cycle.
+	var applications: Array = []
+	var applied_count := 0
+	var skipped_count := 0
+	for pos_key in heal_applications:
+		var pos: int = int(pos_key)
+		var amount: float = float(heal_applications[pos_key])
+		var target_cell: Vector2i = _point2_unpack(pos)
+		if amount <= 0.0:
+			applications.append({"pos": pos, "cell": target_cell, "amount": amount, "healed": 0.0, "reason": "invalid_amount"})
+			skipped_count += 1
+			continue
+		var target_sprite: Variant = null
+		if game != null:
+			target_sprite = game.call("block_sprite_at_cell", target_cell)
+		if target_sprite == null:
+			applications.append({"pos": pos, "cell": target_cell, "amount": amount, "healed": 0.0, "reason": "no_sprite"})
+			skipped_count += 1
+			continue
+		var healed: float = source_placed_block_state.repair_sprite(target_sprite, amount)
+		applications.append({"pos": pos, "cell": target_cell, "amount": amount, "healed": healed, "reason": "healed"})
+		applied_count += 1
+	return {"applications": applications, "applied_count": applied_count, "skipped_count": skipped_count, "recently_healed": false}
 
 @warning_ignore("unused_parameter")
 static func source_regen_projector_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
@@ -936,13 +1037,21 @@ static func source_regen_projector_tick_buildings_state(game: Object, seconds: f
 			# N2325: the mendMap flush result rides the frame --
 			# last_update_frame stamps the flushed update_id and
 			# heal_applications carries the flushed {pos:
-			# amount} map (RegenProjector.java:168-177). The
-			# tick applies nothing to the target buildings:
-			# the live heal application (world.build(pos) +
-			# build.heal + recentlyHealed()) waits for its own
-			# slice.
+			# amount} map (RegenProjector.java:168-177).
 			frame["last_update_frame"] = advanced["last_update_frame"]
 			frame["heal_applications"] = advanced["heal_applications"]
+			# N2399: the live heal application runs AFTER the
+			# flush write-back above (Java order: the heal loop
+			# IS the flush block, RegenProjector.java:168-177):
+			# each flushed {pos: amount} decodes to its origin
+			# cell and heals the sprite health there, capped at
+			# maxHealth; a missing target reports no_sprite
+			# (the Java build == null skip). The result rides
+			# the frame as heal_applied; recentlyHealed()
+			# still waits (no Time.time input reaches the
+			# tick), so the result reports recently_healed
+			# false and no last_heal_time is stamped.
+			frame["heal_applied"] = source_regen_projector_heal_application_state(game, advanced["heal_applications"])
 			# N2260: consume() fires on the tick the advance
 			# reports consumed (`if((optionalTimer += edelta() *
 			# optionalEfficiency) >= optionalUseTime){`,
