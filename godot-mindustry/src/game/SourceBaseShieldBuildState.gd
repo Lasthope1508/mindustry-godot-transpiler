@@ -50,6 +50,11 @@ const SOURCE_BASE_SHIELD_ENGAGE_RADIUS := 1.0
 const SOURCE_BASE_SHIELD_NEARBY_MARGIN := 10.0
 const SOURCE_BASE_SHIELD_KILL_MULTIPLIER := 1.5
 const SOURCE_BASE_SHIELD_REPEL_EPSILON := 0.01
+# The drawShield rows (BaseShield.java:125-147): the shield poly has
+# `public int sides = 24;` (BaseShield.java:21, no def override) and
+# draws at z Layer.shields (`shields = 125,`, Layer.java:87).
+const SOURCE_BASE_SHIELD_SIDES := 24
+const SOURCE_BASE_SHIELD_LAYER_SHIELDS := 125
 
 static func _is_base_shield_build_implementation(implementation: String) -> bool:
 	return SOURCE_BASE_SHIELD_BUILD_IMPLEMENTATIONS.has(implementation)
@@ -161,6 +166,71 @@ static func source_base_shield_supplied_enemy_units_state(candidates: Array, rad
 			enemy_units.append(unit)
 	return {"enemy_units": enemy_units}
 
+static func source_base_shield_draw_shield_state(x: float, y: float, broken: bool, smooth_radius: float, radius: float, hit: float, shield_color: Variant, team_color: String, animate_shields: bool) -> Dictionary:
+	# The drawShield + drawSelect rows (BaseShieldBuild.drawShield(), BaseShield.java:125-147; drawSelect(), BaseShield.java:106-110), the pure draw-call dict -- the port never draws for real (the N2439 LightBlock draw-place precedent: pures return draw-call dicts). Java, in order (each exact expr on ONE comment line, the N2148 lesson):
+	# `public void drawShield(){`
+	# `if(!broken){`
+	# `float radius = radius();`
+	# `Draw.z(Layer.shields);`
+	# `Draw.color(shieldColor == null ? team.color : shieldColor, Color.white, Mathf.clamp(hit));`
+	# `if(renderer.animateShields){`
+	# `Fill.poly(x, y, sides, radius);`
+	# `Lines.stroke(1.5f);`
+	# `Draw.alpha(0.09f + Mathf.clamp(0.08f * hit));`
+	# `Draw.alpha(1f);`
+	# `Lines.poly(x, y, sides, radius);`
+	# `Draw.reset();`
+	# `public void drawSelect(){`
+	# `super.drawSelect();`
+	# `Drawf.dashCircle(x, y, radius, team.color);`
+	# `public float radius(){`
+	# `return smoothRadius;`
+	# The shield poly uses radius() = smoothRadius (`public float radius(){` / `return smoothRadius;`, BaseShield.java:101-103), NOT the field radius -- the field (`public float radius = 200f;`, BaseShield.java:20) feeds ONLY the drawSelect dashCircle (the drawPlace dashCircle, BaseShield.java:76-80, stays deferred under the radius/sides entry) -- the large def sets `radius = 400f;` (Blocks.java:2060) and neither def overrides sides (`public int sides = 24;`, BaseShield.java:21) or shieldColor (`public @Nullable Color shieldColor;`, BaseShield.java:23, null by default). z is Layer.shields = 125 (`shields = 125,`, Layer.java:87). The color mix is Draw.color(a, b, s) = a lerped toward b by s (`public static void color(Color a, Color b, float s){` / `Core.batch.setPackedColor(Tmp.c1.set(a).lerp(b, s).toFloatBits());`, arc Draw.java:234-236) with the base shieldColor == null ? team.color : shieldColor and the mix Mathf.clamp(hit) (`public static float clamp(float value){`, arc Mathf.java:402-404, clamp [0,1]). animateShields is the renderer flag (`public boolean animateShields, animateWater, drawWeather = true, drawStatus, enableEffects, drawDisplays = true, drawLight = true, pixelate = false, showPings = true, showOtherBuildPlans = true;`, Renderer.java:42, loaded from settings at :168) -- caller-supplied, like the N2439 caller-supplied params. The animated branch draws ONLY the fill (no stroke, no line, no Draw.alpha -- the fill uses the color's own alpha, 1.0); the static branch strokes 1.5f, fills at alpha 0.09 + clamp(0.08 * hit) (the sum is NOT clamped -- 0.09..1.09 in Java), resets alpha to 1f, then draws the outline. Draw.reset() closes both branches and the method (recorded, not modeled -- the pure returns calls, it never touches the real Draw state). drawSelect is super.drawSelect() (recorded, NOT ported -- Block.drawSelect is the selection highlight) + the dashCircle with the FIELD radius (`public static void dashCircle(float x, float y, float rad, Color color){`, Drawf.java:398-403: a gray 3f stroke pass + a color 1f stroke pass). The dash runs regardless of broken -- drawSelect has no broken gate. Pure-only: drawShield/drawSelect never run in the tick (the draw loop / selection UI call them); no tick wiring. Draw rows live (N2441).
+	var clamped_hit: float = clampf(hit, 0.0, 1.0)
+	var base_color: String = team_color if shield_color == null else str(shield_color)
+	var dash_call: Dictionary = {
+		"call": "Drawf.dashCircle(x, y, radius, team.color);",
+		"super_call": "super.drawSelect();",
+		"x": x,
+		"y": y,
+		"radius": radius,
+		"color": team_color,
+	}
+	if broken:
+		return {"shield_call": null, "fill_call": null, "line_call": null, "dash_call": dash_call}
+	var shield_call: Dictionary = {
+		"call": "Draw.z(Layer.shields);",
+		"z": SOURCE_BASE_SHIELD_LAYER_SHIELDS,
+		"z_name": "Layer.shields",
+		"color_call": "Draw.color(shieldColor == null ? team.color : shieldColor, Color.white, Mathf.clamp(hit));",
+		"base_color": base_color,
+		"mix_color": "Color.white",
+		"mix": clamped_hit,
+	}
+	var fill_alpha: float = 1.0 if animate_shields else 0.09 + clampf(0.08 * hit, 0.0, 1.0)
+	var fill_call: Dictionary = {
+		"call": "Fill.poly(x, y, sides, radius);",
+		"branch": "animated" if animate_shields else "static",
+		"x": x,
+		"y": y,
+		"sides": SOURCE_BASE_SHIELD_SIDES,
+		"radius": smooth_radius,
+		"alpha": fill_alpha,
+	}
+	var line_call: Variant = null
+	if not animate_shields:
+		line_call = {
+			"call": "Lines.poly(x, y, sides, radius);",
+			"stroke_call": "Lines.stroke(1.5f);",
+			"stroke": 1.5,
+			"alpha": 1.0,
+			"x": x,
+			"y": y,
+			"sides": SOURCE_BASE_SHIELD_SIDES,
+			"radius": smooth_radius,
+		}
+	return {"shield_call": shield_call, "fill_call": fill_call, "line_call": line_call, "dash_call": dash_call}
+
 static func source_base_shield_tick_frame_state(frame: Dictionary, block_implementation: String, team_id: int, rules_state: Variant) -> Dictionary:
 	# The base-shield tick wires the frame keys the
 	# consumption path reads (the N2148 turret pattern):
@@ -248,8 +318,11 @@ static func source_base_shield_power_status_row_state(frame: Dictionary, has_pow
 	# defer) and passes the scanned lists into the advance, so a
 	# live shield absorbs / repels from supplied candidates; the
 	# absorb/repel/kill APPLICATION onto live bullets/units
-	# waits for its own slice. (4) No drawShield rows -- shieldColor / animateShields / sides 24 /
-	# hit alpha (BaseShield.java:125-147) are presentation, not state.
+	# waits for its own slice. (4) Draw rows live (N2441) --
+	# drawShield() (BaseShield.java:125-147) + drawSelect()
+	# (BaseShield.java:106-110) are pure draw-call dicts
+	# (source_base_shield_draw_shield_state); the draw loop /
+	# selection UI call sites wait for their own slices.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
