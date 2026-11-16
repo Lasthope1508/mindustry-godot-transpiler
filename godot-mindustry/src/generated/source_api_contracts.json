@@ -67068,6 +67068,66 @@
       ],
       "runtime_proof": "/root/C07AcceleratorBattery",
       "rule": "Source-backed Accelerator battery read from PowerGraph.java / Accelerator.java."
+    },
+    "SourceRepairTurretBuildState.source_repair_turret_draw_beam_state": {
+      "status": "active",
+      "source_slice": "N2219",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "source_method": "RepairPointBuild.draw()/drawBeam()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_repair_turret_draw_beam_state_input.frame"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_repair_turret_draw_beam_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_repair_turret_draw_beam_state_input.y"
+        },
+        {
+          "name": "rotation",
+          "type": "float",
+          "schema": "source_repair_turret_draw_beam_state_input.rotation"
+        },
+        {
+          "name": "length",
+          "type": "float",
+          "schema": "source_repair_turret_draw_beam_state_input.length"
+        },
+        {
+          "name": "beam_width",
+          "type": "float",
+          "schema": "source_repair_turret_draw_beam_state_input.beam_width"
+        },
+        {
+          "name": "pulse_stroke",
+          "type": "float",
+          "schema": "source_repair_turret_draw_beam_state_input.pulse_stroke"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "beam_origin",
+        "beam_end",
+        "beam_visible",
+        "beam_width",
+        "pulse_stroke",
+        "has_target"
+      ],
+      "tests": [
+        "test_c07_repair_turret_draw_beam_registration",
+        "test_all_c07_repair_turret_draw_beam_input_evidence_is_exact",
+        "test_repair_turret_draw_beam_state",
+        "test_reference_graph_and_actual_c07_repair_turret_draw_beam"
+      ],
+      "runtime_proof": "/root/C07RepairTurretDrawBeamProof",
+      "rule": "Source-backed RepairTurret drawBeam state from RepairTurret.java."
     }
   },
   "policy": {

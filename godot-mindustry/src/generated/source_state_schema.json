@@ -232116,6 +232116,154 @@
       },
       "runtime_proof": "/root/C07AcceleratorBattery",
       "rule": "Source-backed Accelerator battery read from PowerGraph.java / Accelerator.java."
+    },
+    "source_repair_turret_draw_beam_state_input": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_draw_beam_state",
+      "source_slice": "N2219",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "public static void drawBeam(float x, float y, float rotation, float length, int id, @Nullable Sized target, Team team,",
+          "rule": "The repair-turret frame carrying the live target (stamped by the N2212 acquire), strength (stamped by the N2215 lerp) and last_end (the persisted beam endpoint, `public Vec2 offset = new Vec2(), lastEnd = new Vec2();`, RepairTurret.java:155; absent reads Vector2.ZERO, the `new Vec2()` field default) -- with no target the endpoint stays stale, so the function returns the stored last_end.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_beam_state"
+          ]
+        },
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "originX = x + Angles.trnsx(rotation, length),",
+          "rule": "The turret world x (RepairTurret.java:115, `originX = x + Angles.trnsx(rotation, length),`): the beam origin starts at the turret position.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_beam_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "originY = y + Angles.trnsy(rotation, length);",
+          "rule": "The turret world y (RepairTurret.java:116, `originY = y + Angles.trnsy(rotation, length);`): the beam origin starts at the turret position.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_beam_state"
+          ]
+        },
+        "rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "originX = x + Angles.trnsx(rotation, length),",
+          "rule": "The turret rotation in degrees (RepairTurret.java:115-116, `Angles.trnsx(rotation, length)` / `Angles.trnsy(rotation, length)`): the beam origin is the turret position plus the length rotated by this angle; the driver reads the frame rotation stamped by the N2214 slerp (default 90.0, `public float strength, rotation = 90;`, RepairTurret.java:156).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_beam_state"
+          ]
+        },
+        "length": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "originX = x + Angles.trnsx(rotation, length),",
+          "rule": "The beam origin offset (RepairTurret.java:115-116, `Angles.trnsx(rotation, length)`): the per-def length -- repair-point 5f (class default, `public float length = 5f;`, RepairTurret.java:35), repair-turret 6f (Blocks.java:6399) -- resolved by the driver.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_beam_state"
+          ]
+        },
+        "beam_width": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "Drawf.laser(laser, laserEnd, originX, originY, lastEnd.x, lastEnd.y, strength * beamWidth);",
+          "rule": "The laser width factor (RepairTurret.java:145, `strength * beamWidth`): the per-def beamWidth -- repair-point 0.73f (Blocks.java:6390), repair-turret 1.1f (Blocks.java:6403), class default 1f (`public float beamWidth = 1f;`, RepairTurret.java:36) -- resolved by the driver.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_beam_state"
+          ]
+        },
+        "pulse_stroke": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "Lines.stroke(strength * pulseStroke);",
+          "rule": "The pulse circle stroke factor (RepairTurret.java:141, `strength * pulseStroke`): the 2f class default (`public float pulseStroke = 2f;`, RepairTurret.java:38), overridden by neither def, so the driver passes the 2.0 literal.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_beam_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretDrawBeamProof",
+      "rule": "Source-backed RepairTurret drawBeam state from RepairTurret.java."
+    },
+    "source_repair_turret_draw_beam_state_result": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_draw_beam_state",
+      "source_slice": "N2219",
+      "keys": {
+        "beam_origin": {
+          "type": "Vector2",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "originX = x + Angles.trnsx(rotation, length),",
+          "rule": "The beam origin (RepairTurret.java:115-116, `originX = x + Angles.trnsx(rotation, length),` / `originY = y + Angles.trnsy(rotation, length);`): the turret position plus the rotated length -- the muzzle the laser starts from.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_beam_state"
+          ]
+        },
+        "beam_end": {
+          "type": "Vector2",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "lastEnd.setLength(Math.max(2f, lastEnd.len()));",
+          "rule": "The beam endpoint (RepairTurret.java:118-119, `lastEnd.set(target).sub(originX, originY);` / `lastEnd.setLength(Math.max(2f, lastEnd.len()));`): the target position relative to the origin, clamped to at least 2f, re-added to the origin -- the PRE-JITTER position (the rand jitter, RepairTurret.java:121-124, is deferred); with no target this is the frame stored last_end, left stale by Java (`if(target != null){`, RepairTurret.java:113).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_beam_state"
+          ]
+        },
+        "beam_visible": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "if(strength > 0.01f){",
+          "rule": "Whether the laser draws this frame (RepairTurret.java:129, `if(strength > 0.01f){`): STRICT -- strength 0.01f itself does not draw.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_beam_state"
+          ]
+        },
+        "beam_width": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "Drawf.laser(laser, laserEnd, originX, originY, lastEnd.x, lastEnd.y, strength * beamWidth);",
+          "rule": "The laser width (RepairTurret.java:145, `strength * beamWidth`): strength scaled by the per-def beamWidth.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_beam_state"
+          ]
+        },
+        "pulse_stroke": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "Lines.stroke(strength * pulseStroke);",
+          "rule": "The pulse circle stroke width (RepairTurret.java:141, `strength * pulseStroke`): strength scaled by the 2f pulseStroke default.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_beam_state"
+          ]
+        },
+        "has_target": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "if(target != null){",
+          "rule": "Whether a target drives the endpoint this frame (RepairTurret.java:113, `if(target != null){`): the gate the endpoint branch reads -- false means the endpoint is the stale stored last_end.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_beam_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretDrawBeamProof",
+      "rule": "Source-backed RepairTurret drawBeam state from RepairTurret.java."
     }
   },
   "version": 1

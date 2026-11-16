@@ -281,6 +281,64 @@ static func source_repair_turret_strength_lerp_state(frame: Dictionary, delta: f
 	var progress: float = clampf(0.08 * delta, 0.0, 1.0)
 	return {"strength": strength + (target_strength - strength) * progress}
 
+static func source_repair_turret_draw_beam_state(frame: Dictionary, x: float, y: float, rotation: float, length: float, beam_width: float, pulse_stroke: float) -> Dictionary:
+	# RepairPointBuild.draw() calls the static drawBeam (RepairTurret.java:171-173, inside `public void draw(){`, RepairTurret.java:164-174):
+	# drawBeam(x, y, rotation, length, id, target, team, strength,
+	# public static void drawBeam(float x, float y, float rotation, float length, int id, @Nullable Sized target, Team team,
+	# float strength, float pulseStroke, float pulseRadius, float beamWidth,
+	# Vec2 lastEnd, Vec2 offset,
+	# Color laserColor, Color laserTopColor,
+	# TextureRegion laser, TextureRegion laserEnd, TextureRegion laserTop, TextureRegion laserTopEnd){
+	# rand.setSeed(id + (target instanceof Entityc e ? e.id() : 0));
+	# The beam origin is the turret position plus the rotated length (RepairTurret.java:115-116):
+	# originX = x + Angles.trnsx(rotation, length),
+	# originY = y + Angles.trnsy(rotation, length);
+	# With a target the endpoint is the target position relative to the origin, clamped to at least 2f (RepairTurret.java:118-119):
+	# lastEnd.set(target).sub(originX, originY);
+	# lastEnd.setLength(Math.max(2f, lastEnd.len()));
+	# then the random jitter is added and the origin re-added (RepairTurret.java:121-125):
+	# lastEnd.add(offset.trns(
+	# rand.random(360f) + Time.time/2f,
+	# Mathf.sin(Time.time + rand.random(200f), 55f, rand.random(target.hitSize() * 0.2f, target.hitSize() * 0.45f))
+	# ).rotate(target instanceof Rotc rot ? rot.rotation() : 0f));
+	# lastEnd.add(originX, originY);
+	# -- the jitter is DEFERRED: it needs arc Rand modeling (three rand.random calls plus Time.time), so the endpoint this slice returns is the PRE-JITTER position. The whole endpoint branch is guarded by the target (RepairTurret.java:113):
+	# if(target != null){
+	# -- with no target Java leaves lastEnd untouched, so the function returns the frame's stored last_end (Vector2.ZERO when the frame carries none, the `new Vec2()` field default, `public Vec2 offset = new Vec2(), lastEnd = new Vec2();`, RepairTurret.java:155).
+	# The laser draws only while the beam is strong (RepairTurret.java:129, STRICT -- 0.01f itself does not draw):
+	# if(strength > 0.01f){
+	# float f = (Time.time / 85f + rand.random(1f)) % 1f;
+	# Draw.alpha(1f - Interp.pow5In.apply(f));
+	# Lines.stroke(strength * pulseStroke);
+	# Lines.circle(lastEnd.x, lastEnd.y, 1f + f * pulseRadius);
+	# Drawf.laser(laser, laserEnd, originX, originY, lastEnd.x, lastEnd.y, strength * beamWidth);
+	# -- the pulse phase (`float f = (Time.time / 85f + rand.random(1f)) % 1f;`) is DEFERRED with the jitter (same Rand + Time.time modeling), so there is no pulse-circle radius key: the pulse stroke (`strength * pulseStroke`, RepairTurret.java:141) and the laser width (`strength * beamWidth`, RepairTurret.java:145) are deterministic and ARE returned. strength is a Java field (`public float strength, rotation = 90;`, RepairTurret.java:155), default 0, stamped live by the N2215 lerp. Per-def length / beamWidth (the driver resolves them, the N2209 per-def-param precedent): repair-point length 5f class default (`public float length = 5f;`, RepairTurret.java:35), beamWidth 0.73f (Blocks.java:6390); repair-turret length 6f (Blocks.java:6399), beamWidth 1.1f (Blocks.java:6403); class defaults `public float length = 5f;` / `public float beamWidth = 1f;` (RepairTurret.java:35-36). pulseStroke is the 2f class default (`public float pulseStroke = 2f;`, RepairTurret.java:38), overridden by neither def; pulseRadius is the 6f class default (`public float pulseRadius = 6f;`, RepairTurret.java:37), repair-point 5f (Blocks.java:6392) / repair-turret 6.1f (Blocks.java:6404) -- it feeds only the deferred pulse circle. The driver calls this pure function once per tick AFTER the N2215 strength lerp (draw() runs after updateTile in the frame loop, so the beam reads the tick's final target/rotation/strength), stamping beam_origin, last_end (= beam_end), beam_visible, beam_width and pulse_stroke on the frame. Rendering itself stays out of the game -- only the state the beam depends on is captured, per the user boundary.
+	var beam_origin: Vector2 = Vector2(x + cos(deg_to_rad(rotation)) * length, y + sin(deg_to_rad(rotation)) * length)
+	var strength: float = float(frame.get("strength", 0.0))
+	var target: Variant = frame.get("target", null)
+	var has_target: bool = target is Dictionary
+	var beam_end: Vector2 = frame.get("last_end", Vector2.ZERO)
+	if has_target:
+		var rel: Vector2 = Vector2(float(target.get("x", 0.0)), float(target.get("y", 0.0))) - beam_origin
+		if rel.length() > 0.0:
+			rel = rel.normalized() * maxf(2.0, rel.length())
+		beam_end = beam_origin + rel
+	return {"beam_origin": beam_origin, "beam_end": beam_end, "beam_visible": strength > 0.01, "beam_width": strength * beam_width, "pulse_stroke": strength * pulse_stroke, "has_target": has_target}
+
+static func _beam_length_for_block_id(block_id: String) -> float:
+	# Per-def length (the catalog carries no length, so the driver resolves it from the block id, the N2209 per-def-param precedent): repair-turret 6f (`length = 6f;`, Blocks.java:6399), repair-point the 5f class default (`public float length = 5f;`, RepairTurret.java:35).
+	if block_id == "repair-turret":
+		return 6.0
+	return 5.0
+
+static func _beam_width_for_block_id(block_id: String) -> float:
+	# Per-def beamWidth (the catalog carries no beamWidth, so the driver resolves it from the block id, the N2209 per-def-param precedent): repair-point 0.73f (`beamWidth = 0.73f;`, Blocks.java:6390), repair-turret 1.1f (`beamWidth = 1.1f;`, Blocks.java:6403), class default 1f (`public float beamWidth = 1f;`, RepairTurret.java:36).
+	if block_id == "repair-point":
+		return 0.73
+	if block_id == "repair-turret":
+		return 1.1
+	return 1.0
+
 const REPAIR_TURRET_SAVE_VERSION := 1
 
 static func source_repair_turret_write_state(frame: Dictionary) -> Dictionary:
@@ -448,6 +506,29 @@ static func source_repair_turret_tick_buildings_state(game: Object, seconds: flo
 		# ever healed anything.
 		var lerp: Dictionary = source_repair_turret_strength_lerp_state(frame, seconds)
 		frame["strength"] = lerp.get("strength", 0.0)
+		# N2219: drawBeam state (RepairTurret.java:106-151, called
+		# from draw(), RepairTurret.java:164-176) runs after the
+		# strength lerp stamps, on EVERY tick like the
+		# acquire/heal/slerp/lerp -- draw() runs after updateTile
+		# in the frame loop, so the beam reads the tick's final
+		# target/rotation/strength. The pure function returns the
+		# deterministic beam geometry (origin, pre-jitter
+		# endpoint, visibility, widths); the driver stamps
+		# beam_origin, last_end (= beam_end), beam_visible,
+		# beam_width and pulse_stroke live. length / beamWidth
+		# are the per-def values (`_beam_length_for_block_id` --
+		# 5f repair-point class default, 6f repair-turret;
+		# `_beam_width_for_block_id` -- 0.73f repair-point,
+		# 1.1f repair-turret, class default 1f); pulseStroke is
+		# the 2f class default (`public float pulseStroke = 2f;`,
+		# RepairTurret.java:38), overridden by neither def, so
+		# the driver passes the 2.0 literal.
+		var beam: Dictionary = source_repair_turret_draw_beam_state(frame, sprite.position.x, sprite.position.y, float(frame.get("rotation", 90.0)), _beam_length_for_block_id(block_id), _beam_width_for_block_id(block_id), 2.0)
+		frame["beam_origin"] = beam.get("beam_origin", Vector2.ZERO)
+		frame["last_end"] = beam.get("beam_end", Vector2.ZERO)
+		frame["beam_visible"] = beam.get("beam_visible", false)
+		frame["beam_width"] = beam.get("beam_width", 0.0)
+		frame["pulse_stroke"] = beam.get("pulse_stroke", 0.0)
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
