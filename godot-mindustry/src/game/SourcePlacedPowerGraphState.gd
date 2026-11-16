@@ -10,6 +10,7 @@ const source_rules_state := preload("res://src/game/SourceRulesRuntimeState.gd")
 const source_factory_build_state := preload("res://src/game/SourceFactoryBuildState.gd")
 const source_adjacent_factory_build_state := preload("res://src/game/SourceAdjacentFactoryBuildState.gd")
 const source_unit_factory_build_state := preload("res://src/game/SourceUnitFactoryBuildState.gd")
+const source_accelerator_build_state := preload("res://src/game/SourceAcceleratorBuildState.gd")
 const source_placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
 const source_content_registry_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
 
@@ -106,6 +107,38 @@ static func source_consumer_set_power_status_for_cell_state(game: Object, cell: 
 			frame["power_status"] = status
 			sprite.set_meta(meta_key, frame)
 			return {"stored": true, "reason": "live_frame"}
+	return {"stored": false, "reason": "no_frame"}
+
+static func source_accelerator_set_battery_stored_for_cell_state(game: Object, cell: Vector2i, battery_stored: float) -> Dictionary:
+	# PowerGraph.java:118-127 getBatteryStored is the
+	# enabled-battery total (`totalAccumulator += battery.power.status * battery.block.consPower.capacity;`, keep on ONE comment line, the N2148 lesson) that
+	# the Accelerator canLaunch gate reads
+	# (Accelerator.java:239-240, `power.graph.getBatteryStored()
+	# >= powerBufferRequirement-0.00001f`). Java reads the live
+	# graph; the port's graph summary computes battery_stored
+	# (runtime_state below) but never stamped it on the building
+	# frame, so a live accelerator read the frame input as-is
+	# (default 0.0) and the gate stayed closed. This is the stamp
+	# (the N2142 power_status write-back pattern, one frame per
+	# sprite, set_meta back after mutating): it writes the total
+	# onto the accelerator's family frame
+	# (source_accelerator_building, SourceAcceleratorBuildState.
+	# gd:14) so the driver running later in the same tick reads
+	# the live value. ONLY accelerator frames are stamped -- the
+	# stored total is meaningless for any other consumer, so a
+	# sprite with no accelerator frame (bare, or another family)
+	# is a no-op, not a stamp on the first frame present.
+	var sprite: Variant = game.call("block_sprite_at_cell", cell)
+	if sprite == null:
+		return {"stored": false, "reason": "no_sprite"}
+	var meta_key: String = source_accelerator_build_state.SOURCE_ACCELERATOR_BUILDING_META_KEY
+	if not sprite.has_meta(meta_key):
+		return {"stored": false, "reason": "not_accelerator"}
+	var frame: Variant = sprite.get_meta(meta_key)
+	if frame is Dictionary:
+		frame["battery_stored"] = battery_stored
+		sprite.set_meta(meta_key, frame)
+		return {"stored": true, "reason": "live_frame"}
 	return {"stored": false, "reason": "no_frame"}
 
 static func source_consumer_cheating_for_cell_state(game: Object, cell: Vector2i) -> Dictionary:
