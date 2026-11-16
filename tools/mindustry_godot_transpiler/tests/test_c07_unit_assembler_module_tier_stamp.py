@@ -152,10 +152,18 @@ class C07UnitAssemblerModuleTierStampTests(unittest.TestCase):
         # draw rows went live in N2425 and the link rows in
         # N2358/N2381, so the pin now asserts the remaining
         # true gap instead: onRemoved / drawSelect still
-        # defer, and the draw rows are recorded live.)
+        # defer, and the draw rows are recorded live.
+        # N2454: the onRemoved / drawSelect rows went live
+        # in N2447, so the pin now asserts them live and
+        # asserts the remaining true gap instead: the
+        # wasOccupied predicate evaluation, the
+        # handoff-to-intake wiring, and the live payload
+        # fill wait for their own slices.)
         self.assertIn('Tier stamp live (N2348)', unit_assembler_module)
         self.assertIn('Draw rows live (N2425)', unit_assembler_module)
-        self.assertIn('onRemoved / drawSelect still defer', unit_assembler_module)
+        self.assertIn('Select / remove rows live (N2447)', unit_assembler_module)
+        self.assertNotIn('onRemoved / drawSelect still defer', unit_assembler_module)
+        self.assertIn('the wasOccupied predicate evaluation, the handoff-to-intake wiring, and the live payload fill wait for their own slices', unit_assembler_module)
         self.assertNotIn('No link/draw/onRemoved rows', unit_assembler_module)
         self.assertIn('Handoff-gate wiring live (N2314)', unit_assembler_module)
         self.assertIn('acceptPayload rows live (N2299)', unit_assembler_module)
