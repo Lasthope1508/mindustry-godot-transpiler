@@ -393,12 +393,32 @@ def main():
         'cursor_after': f('int', 'cdump = ((cdump + 1) % prox);', 'The dump cursor after the scan (BuildingComp.java:1116-1121): incrementDump runs every iteration (BuildingComp.java:894), so a complete scan returns the cursor to its start and a stale cursor normalizes; the early return (BuildingComp.java:889) leaves it untouched.', source=BUILDING_COMP),
     }
 
+    # N2384 (schema-sync fold): the two write-back keys the N2379
+    # slice exposed on this advance (symbols registered by N2379),
+    # folded into the result schema + contract return_keys.
+    # Metadata copied verbatim from the N2379 register
+    # (dump_neighbour_index is BuildingComp-sourced; the dumped
+    # liquid key is LiquidBridge-sourced -- the register default here).
+    n2384_fold_outputs = {
+        'dump_neighbour_index': f('int', 'Building other = proximity.get((i + dump) % proximity.size);', 'The handled neighbour index the dump routed the liquid to (BuildingComp.java:896, `Building other = proximity.get((i + dump) % proximity.size);`): the shared routing\'s handled_index (the first eligible neighbour whose transfer actually moved liquid -- handle_liquid_called AND flow > 0), -1 when nothing moved. Index i is ring cell i (the N2353 convention). A dump that reaches several neighbours reports only the first handled index, so the write-back lands the total there -- the per-neighbour split waits for its own slice.', source=BUILDING_COMP),
+        'dumped_liquid_id': f('int', 'dumpLiquid(liquids.current(), 1f);', 'The dumped liquid\'s module id (the dumped liquid is liquids.current(), LiquidBridge.java:30; `private Liquid current = content.liquid(0);`, LiquidModule.java:24): the current id of the self store, -1 when the store has no current liquid. The pure has no catalog input, so it exposes the id -- the tick resolves the name through liquid_names_by_id (catalog order, index = liquid id, the PayloadLoader precedent) before calling the shared neighbour write-back helper. The amount rides the existing dumped_amount key.', source=LIQUID_BRIDGE),
+    }
+
     entries = [
         ('N2287', OWNER, 'source_liquid_bridge_do_dump_state', LIQUID_BRIDGE, 'mindustry.world.blocks.liquid.LiquidBridge.LiquidBridgeBuild', 'LiquidBridgeBuild.doDump()', n2287_inputs, n2287_outputs, True, 'Dictionary'),
     ]
     all_names = []
     for sid, owner, prefix, source, cls, method, inputs, outputs, has_contract, return_type in entries:
         names = []
+        # N2384 (schema-sync fold): the result schema + contract
+        # carry the folded keys; the symbol loop below still
+        # iterates the ORIGINAL outputs only
+        # (upsert_source_symbols wholesale-replaces -- folding
+        # the keys into the symbol loop here would steal the
+        # write-back slice's symbol ownership).
+        result_keys = {**outputs, **n2384_fold_outputs}
+        for meta in n2384_fold_outputs.values():
+            meta['used_by'] = [owner]
         for suffix, keys in [('input', inputs), ('result', outputs)]:
             name = prefix + '_' + suffix
             for field, meta in keys.items():
@@ -407,9 +427,9 @@ def main():
                     symbol = name + '.' + field
                     names.append(symbol)
                     symbols[symbol] = dict(status='source-backed', godot_owner=owner, godot_symbol=symbol, java_source=meta['java_source'], java_method=method, java_expr=meta['java_expr'], rule=meta['rule'], tests=TESTS, runtime_proof=PROOF)
-            source_symbols.upsert_source_state_schema(GODOT, name, dict(status='active', owner=owner, source_slice=sid, keys=keys, runtime_proof=PROOF, rule='Source-backed LiquidBridge doDump advance from LiquidBridge.java / ItemBridge.java / BuildingComp.java / Blocks.java / LiquidModule.java.'))
+            source_symbols.upsert_source_state_schema(GODOT, name, dict(status='active', owner=owner, source_slice=sid, keys=result_keys if suffix == 'result' else keys, runtime_proof=PROOF, rule='Source-backed LiquidBridge doDump advance from LiquidBridge.java / ItemBridge.java / BuildingComp.java / Blocks.java / LiquidModule.java.'))
         if has_contract:
-            source_symbols.upsert_source_api_contract(GODOT, owner, dict(status='active', source_slice=sid, java_source=source, source_method=method, params=[dict(name=k, type=v['type'], schema=prefix + '_input.' + k) for k, v in inputs.items()], return_type=return_type, return_keys=list(outputs), tests=TESTS, runtime_proof=PROOF, rule='Source-backed LiquidBridge doDump advance from LiquidBridge.java / ItemBridge.java / BuildingComp.java / Blocks.java / LiquidModule.java.'))
+            source_symbols.upsert_source_api_contract(GODOT, owner, dict(status='active', source_slice=sid, java_source=source, source_method=method, params=[dict(name=k, type=v['type'], schema=prefix + '_input.' + k) for k, v in inputs.items()], return_type=return_type, return_keys=list(result_keys), tests=TESTS, runtime_proof=PROOF, rule='Source-backed LiquidBridge doDump advance from LiquidBridge.java / ItemBridge.java / BuildingComp.java / Blocks.java / LiquidModule.java.'))
         all_names.extend(names)
 
     by_slice = {}

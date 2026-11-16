@@ -242817,6 +242817,26 @@
           "used_by": [
             "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_liquid_state"
           ]
+        },
+        "dump_neighbour_index": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+          "rule": "The handled neighbour index the dump routed the liquid to (BuildingComp.java:896, `Building other = proximity.get((i + dump) % proximity.size);`): the shared routing's handled_index (the first eligible neighbour whose transfer actually moved liquid), -1 when nothing moved. Index i is ring cell i (the N2353 convention).",
+          "used_by": [
+            "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_liquid_state"
+          ]
+        },
+        "dumped_liquid": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+          "java_expr": "dumpLiquid(liquidDrop);",
+          "rule": "The dumped liquid's name (Pump.java:179, `dumpLiquid(liquidDrop);`): str(liquid_drop) -- the floor drop's name, which VARIES BY TILE (water / oil / cryofluid / slag / arkycite, source_floor_liquid_drop_state), unlike the Fracker's def constant \"oil\". Empty on the null-drop path (the tick never calls the helper when dumped_amount is 0). The amount rides the existing dumped_amount key.",
+          "used_by": [
+            "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_liquid_state"
+          ]
         }
       },
       "runtime_proof": "/root/C07PumpDumpLiquidProof",
@@ -242935,6 +242955,26 @@
           "used_by": [
             "SourceSolidPumpBuildState.source_solid_pump_dump_liquid_state"
           ]
+        },
+        "dump_neighbour_index": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+          "rule": "The handled neighbour index the dump routed the liquid to (BuildingComp.java:896, `Building other = proximity.get((i + dump) % proximity.size);`): the shared routing's handled_index (the first eligible neighbour whose transfer actually moved liquid), -1 when nothing moved. Index i is ring cell i (the N2353 convention).",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_dump_liquid_state"
+          ]
+        },
+        "dumped_liquid": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "dumpLiquid(result);",
+          "rule": "The dumped liquid's name (SolidPump.java:140, `dumpLiquid(result);`): the def constant \"water\" (`result = Liquids.water;`, Blocks.java:2922). The amount rides the existing dumped_amount key.",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_dump_liquid_state"
+          ]
         }
       },
       "runtime_proof": "/root/C07SolidPumpDumpLiquidProof",
@@ -243030,6 +243070,26 @@
           "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
           "java_expr": "cdump = ((cdump + 1) % prox);",
           "rule": "The dump cursor after the scan (BuildingComp.java:1116-1121): incrementDump runs every iteration (BuildingComp.java:894), so a complete scan returns the cursor to its start and a stale cursor normalizes; the early return (BuildingComp.java:889) leaves it untouched.",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_do_dump_state"
+          ]
+        },
+        "dump_neighbour_index": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+          "rule": "The handled neighbour index the dump routed the liquid to (BuildingComp.java:896, `Building other = proximity.get((i + dump) % proximity.size);`): the shared routing's handled_index (the first eligible neighbour whose transfer actually moved liquid -- handle_liquid_called AND flow > 0), -1 when nothing moved. Index i is ring cell i (the N2353 convention). A dump that reaches several neighbours reports only the first handled index, so the write-back lands the total there -- the per-neighbour split waits for its own slice.",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_do_dump_state"
+          ]
+        },
+        "dumped_liquid_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/liquid/LiquidBridge.java",
+          "java_expr": "dumpLiquid(liquids.current(), 1f);",
+          "rule": "The dumped liquid's module id (the dumped liquid is liquids.current(), LiquidBridge.java:30; `private Liquid current = content.liquid(0);`, LiquidModule.java:24): the current id of the self store, -1 when the store has no current liquid. The pure has no catalog input, so it exposes the id -- the tick resolves the name through liquid_names_by_id (catalog order, index = liquid id, the PayloadLoader precedent) before calling the shared neighbour write-back helper. The amount rides the existing dumped_amount key.",
           "used_by": [
             "SourceLiquidBridgeBuildState.source_liquid_bridge_do_dump_state"
           ]
@@ -243898,6 +243958,28 @@
           "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
           "java_expr": "dumpAccum -=1f;",
           "rule": "The dump accumulator after the tick (BuildingComp.java:1055-1058): each of the offloadSpeed dumpAccumulate() calls adds delta() and subtracts 1f per fired dump attempt, so the accumulator grows by 4*delta per tick minus the attempts fired.",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_state"
+          ]
+        },
+        "dump_neighbour_index": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+          "rule": "The handled neighbour index (BuildingComp.java:896): the FIRST eligible neighbour whose transfer actually moved liquid (handle_liquid_called AND flow > 0, the N2371 rule), -1 when nothing moved (no eligible neighbour, the ofract guard failed everywhere, every transfer refused, or the empty-store early return). Index i is ring cell i (the N2353 convention); the tick lands the dumped liquid in that neighbour frame through the shared N2371 helper. A dump that reaches several neighbours reports only the first -- the per-neighbour split waits for its own slice.",
+          "java_method": "BuildingComp.dumpLiquid()",
+          "used_by": [
+            "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_state"
+          ]
+        },
+        "dumped_liquid_name": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+          "java_expr": "dumpLiquid(liquids.current());",
+          "rule": "The dumped liquid's catalog name (PayloadUnloader.java:105): the current liquid (LiquidModule.java:81-83, current defaults to liquid 0, :24) resolved to its name through the liquid_names_by_id frame input (the PayloadLoader precedent -- the tick builds the names-by-id array from catalog.get_many(\"liquid\"), index == id). \"\" when no current liquid resolves or the frame carries no names. Set whenever a current liquid resolves, even when nothing moved (the Fracker dumped_liquid precedent); the tick only consumes it when dumped_liquid > 0 AND the handled index is >= 0. NOT the old dumped_liquid key, which is the FLOAT amount dumped (BuildingComp.java:905).",
+          "java_method": "PayloadUnloaderBuild.updateTile()",
           "used_by": [
             "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_state"
           ]

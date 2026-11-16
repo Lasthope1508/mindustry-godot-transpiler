@@ -2166,7 +2166,9 @@
       "return_keys": [
         "liquids_after",
         "dumped_amount",
-        "cursor_after"
+        "cursor_after",
+        "dump_neighbour_index",
+        "dumped_liquid"
       ],
       "tests": [
         "test_c07_pump_dump_liquid_registration",
@@ -2802,7 +2804,9 @@
       "return_keys": [
         "liquids_after",
         "dumped_amount",
-        "cursor_after"
+        "cursor_after",
+        "dump_neighbour_index",
+        "dumped_liquid"
       ],
       "tests": [
         "test_c07_solid_pump_dump_liquid_registration",

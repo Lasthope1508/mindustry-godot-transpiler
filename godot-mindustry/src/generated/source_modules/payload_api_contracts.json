@@ -4626,7 +4626,9 @@
         "items_after",
         "dumped_items",
         "cursor_after",
-        "dump_accum_after"
+        "dump_accum_after",
+        "dump_neighbour_index",
+        "dumped_liquid_name"
       ],
       "tests": [
         "test_c07_payload_unloader_dump_registration",

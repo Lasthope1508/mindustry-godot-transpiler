@@ -71539,7 +71539,9 @@
       "return_keys": [
         "liquids_after",
         "dumped_amount",
-        "cursor_after"
+        "cursor_after",
+        "dump_neighbour_index",
+        "dumped_liquid"
       ],
       "tests": [
         "test_c07_pump_dump_liquid_registration",
@@ -71596,7 +71598,9 @@
       "return_keys": [
         "liquids_after",
         "dumped_amount",
-        "cursor_after"
+        "cursor_after",
+        "dump_neighbour_index",
+        "dumped_liquid"
       ],
       "tests": [
         "test_c07_solid_pump_dump_liquid_registration",
@@ -71643,7 +71647,9 @@
       "return_keys": [
         "liquids_after",
         "dumped_amount",
-        "cursor_after"
+        "cursor_after",
+        "dump_neighbour_index",
+        "dumped_liquid_id"
       ],
       "tests": [
         "test_c07_liquid_bridge_do_dump_registration",
@@ -72009,7 +72015,9 @@
         "items_after",
         "dumped_items",
         "cursor_after",
-        "dump_accum_after"
+        "dump_accum_after",
+        "dump_neighbour_index",
+        "dumped_liquid_name"
       ],
       "tests": [
         "test_c07_payload_unloader_dump_registration",

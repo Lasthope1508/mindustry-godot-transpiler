@@ -433,12 +433,32 @@ def main():
         'dump_accum_after': f('float', 'dumpAccum -=1f;', 'The dump accumulator after the tick (BuildingComp.java:1055-1058): each of the offloadSpeed dumpAccumulate() calls adds delta() and subtracts 1f per fired dump attempt, so the accumulator grows by 4*delta per tick minus the attempts fired.', source=BUILDING_COMP),
     }
 
+    # N2384 (schema-sync fold): the two write-back keys the N2380
+    # slice exposed on this advance (symbols registered by N2380),
+    # folded into the result schema + contract return_keys.
+    # Metadata copied verbatim from the N2380 register
+    # (dump_neighbour_index is BuildingComp-sourced; the dumped
+    # liquid key is PayloadUnloader-sourced -- the register default here).
+    n2384_fold_outputs = {
+        'dump_neighbour_index': f('int', 'Building other = proximity.get((i + dump) % proximity.size);', 'The handled neighbour index (BuildingComp.java:896): the FIRST eligible neighbour whose transfer actually moved liquid (handle_liquid_called AND flow > 0, the N2371 rule), -1 when nothing moved (no eligible neighbour, the ofract guard failed everywhere, every transfer refused, or the empty-store early return). Index i is ring cell i (the N2353 convention); the tick lands the dumped liquid in that neighbour frame through the shared N2371 helper. A dump that reaches several neighbours reports only the first -- the per-neighbour split waits for its own slice.', java_method='BuildingComp.dumpLiquid()', source=BUILDING_COMP),
+        'dumped_liquid_name': f('String', 'dumpLiquid(liquids.current());', 'The dumped liquid\'s catalog name (PayloadUnloader.java:105): the current liquid (LiquidModule.java:81-83, current defaults to liquid 0, :24) resolved to its name through the liquid_names_by_id frame input (the PayloadLoader precedent -- the tick builds the names-by-id array from catalog.get_many("liquid"), index == id). "" when no current liquid resolves or the frame carries no names. Set whenever a current liquid resolves, even when nothing moved (the Fracker dumped_liquid precedent); the tick only consumes it when dumped_liquid > 0 AND the handled index is >= 0. NOT the old dumped_liquid key, which is the FLOAT amount dumped (BuildingComp.java:905).', source=PAYLOAD_UNLOADER, java_method='PayloadUnloaderBuild.updateTile()'),
+    }
+
     entries = [
         ('N2293', OWNER, 'source_payload_unloader_dump_state', PAYLOAD_UNLOADER, 'mindustry.world.blocks.payloads.PayloadUnloader.PayloadUnloaderBuild', 'PayloadUnloaderBuild.updateTile()', n2293_inputs, n2293_outputs, True, 'Dictionary'),
     ]
     all_names = []
     for sid, owner, prefix, source, cls, method, inputs, outputs, has_contract, return_type in entries:
         names = []
+        # N2384 (schema-sync fold): the result schema + contract
+        # carry the folded keys; the symbol loop below still
+        # iterates the ORIGINAL outputs only
+        # (upsert_source_symbols wholesale-replaces -- folding
+        # the keys into the symbol loop here would steal the
+        # write-back slice's symbol ownership).
+        result_keys = {**outputs, **n2384_fold_outputs}
+        for meta in n2384_fold_outputs.values():
+            meta['used_by'] = [owner]
         for suffix, keys in [('input', inputs), ('result', outputs)]:
             name = prefix + '_' + suffix
             for field, meta in keys.items():
@@ -447,9 +467,9 @@ def main():
                     symbol = name + '.' + field
                     names.append(symbol)
                     symbols[symbol] = dict(status='source-backed', godot_owner=owner, godot_symbol=symbol, java_source=meta['java_source'], java_method=method, java_expr=meta['java_expr'], rule=meta['rule'], tests=TESTS, runtime_proof=PROOF)
-            source_symbols.upsert_source_state_schema(GODOT, name, dict(status='active', owner=owner, source_slice=sid, keys=keys, runtime_proof=PROOF, rule='Source-backed PayloadUnloader dump rows from PayloadUnloader.java / PayloadLoader.java / BuildingComp.java / LiquidModule.java.'))
+            source_symbols.upsert_source_state_schema(GODOT, name, dict(status='active', owner=owner, source_slice=sid, keys=result_keys if suffix == 'result' else keys, runtime_proof=PROOF, rule='Source-backed PayloadUnloader dump rows from PayloadUnloader.java / PayloadLoader.java / BuildingComp.java / LiquidModule.java.'))
         if has_contract:
-            source_symbols.upsert_source_api_contract(GODOT, owner, dict(status='active', source_slice=sid, java_source=source, source_method=method, params=[dict(name=k, type=v['type'], schema=prefix + '_input.' + k) for k, v in inputs.items()], return_type=return_type, return_keys=list(outputs), tests=TESTS, runtime_proof=PROOF, rule='Source-backed PayloadUnloader dump rows from PayloadUnloader.java / PayloadLoader.java / BuildingComp.java / LiquidModule.java.'))
+            source_symbols.upsert_source_api_contract(GODOT, owner, dict(status='active', source_slice=sid, java_source=source, source_method=method, params=[dict(name=k, type=v['type'], schema=prefix + '_input.' + k) for k, v in inputs.items()], return_type=return_type, return_keys=list(result_keys), tests=TESTS, runtime_proof=PROOF, rule='Source-backed PayloadUnloader dump rows from PayloadUnloader.java / PayloadLoader.java / BuildingComp.java / LiquidModule.java.'))
         all_names.extend(names)
 
     by_slice = {}

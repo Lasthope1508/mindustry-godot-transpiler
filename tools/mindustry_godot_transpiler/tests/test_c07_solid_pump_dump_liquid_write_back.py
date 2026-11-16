@@ -73,17 +73,16 @@ class C07SolidPumpDumpLiquidWriteBackTests(unittest.TestCase):
                 'test_reference_graph_and_actual_c07_solid_pump_dump_liquid_write_back',
             ],
         )
-        # The schema/contract fold waits for a schema-sync
-        # slice (the N2367 precedent): the new keys are
-        # registered symbols but NOT contract return keys or
-        # schema keys yet.
+        # The schema/contract fold LANDED in N2384 (the N2367/N2376
+        # precedent): the new keys are now contract return keys
+        # and schema keys too.
         self.assertEqual(
             contracts['SourceSolidPumpBuildState.source_solid_pump_dump_liquid_state']['return_keys'],
-            ['liquids_after', 'dumped_amount', 'cursor_after'],
+            ['liquids_after', 'dumped_amount', 'cursor_after', 'dump_neighbour_index', 'dumped_liquid'],
         )
         self.assertEqual(
             sorted(schemas['source_solid_pump_dump_liquid_state_result']['keys']),
-            ['cursor_after', 'dumped_amount', 'liquids_after'],
+            ['cursor_after', 'dump_neighbour_index', 'dumped_amount', 'dumped_liquid', 'liquids_after'],
         )
         self.assertTrue(ledger['N2377']['deferred_exprs'])
         # This slice resolves the SolidPump dump neighbour
