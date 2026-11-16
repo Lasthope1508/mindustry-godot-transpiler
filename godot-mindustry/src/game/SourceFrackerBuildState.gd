@@ -260,7 +260,7 @@ static func source_fracker_power_status_row_state(frame: Dictionary, has_power_c
 	# valid_tiles / boost onto the frame BEFORE the advance
 	# (Java order); the advance recomputes the fraction
 	# from the stamped keys; linked-tile scan live since N2414.
-	# Still deferred: the live envAttrs read and a
+	# Attribute env live fill live (N2453). Still deferred: a
 	# proximity-change trigger (Java runs onProximityUpdate
 	# only when placement/proximity changes).
 	if not has_power_consumer:
@@ -774,7 +774,9 @@ static func source_fracker_tick_buildings_state(game: Object, seconds: float) ->
 			# footprint BEFORE this recompute; a frame with
 			# no tile map fills an empty list, the Java
 			# empty-proximity outcome); the attribute env is
-			# the N2224 frame input (default 0.0). The fill
+			# live-filled since N2453 (the fill reads the
+			# frame env map before this recompute; a
+			# supplied value wins). The fill
 			# delegates to the N2292 SolidPump pure through
 			# the Fracker wrapper, which binds the
 			# oil-extractor def constants (size 3,
@@ -802,6 +804,25 @@ static func source_fracker_tick_buildings_state(game: Object, seconds: float) ->
 				var filled: Dictionary = source_fracker_linked_tiles_live_fill_state(world_tiles, fill_cell, int(block.properties.get("size", 1)))
 				frame["proximity_linked_tiles"] = filled.get("proximity_linked_tiles", [])
 				frame["proximity_linked_tiles_live"] = true
+			# The attribute env is live-filled since N2453
+			# (the fill reads frame["env_attrs"] -- the
+			# caller-supplied envAttrs keyed by attribute
+			# NAME -- plus frame["state_present"], default
+			# true, BEFORE this recompute). Supplied values
+			# WIN (the N2381 precedent): the fill runs only
+			# when the frame carries no attribute_env key --
+			# the N2224/N2305 proofs seed the env by hand,
+			# so a fill there would overwrite the seed. A
+			# frame the fill already stamped
+			# (attribute_env_live -- port bookkeeping, not
+			# Java state, the N2394 precedent) refreshes
+			# every tick, so an env map that changes joins
+			# the frame.
+			var has_supplied_attribute_env: bool = frame.has("attribute_env")
+			if not has_supplied_attribute_env or bool(frame.get("attribute_env_live", false)):
+				var env_filled: Dictionary = source_fracker_attribute_env_live_fill_state(frame.get("env_attrs", {}), bool(frame.get("state_present", true)))
+				frame["attribute_env"] = env_filled.get("attribute_env", 0.0)
+				frame["attribute_env_live"] = true
 			var proximity_tiles: Array = frame.get("proximity_linked_tiles", [])
 			var fraction_filled: Dictionary = source_fracker_proximity_fraction_state(proximity_tiles, float(frame.get("attribute_env", 0.0)))
 			frame["valid_tiles"] = fraction_filled["valid_tiles"]
@@ -1104,3 +1125,47 @@ static func source_fracker_linked_tiles_live_fill_state(world_tiles: Dictionary,
 				continue
 			linked_tiles.append({"can_pump": not bool(tile.get("floor_is_liquid", false)), "attribute_value": float(tile.get("oil_attribute", 0.0)), "is_deep": bool(tile.get("is_deep", false))})
 	return {"proximity_linked_tiles": linked_tiles}
+
+static func source_fracker_attribute_env_live_fill_state(env_attrs: Dictionary, state_present: bool) -> Dictionary:
+	# The attribute env live fill (N2453, DEFERRED #216):
+	# the N2305 tick recomputes the fraction from the
+	# attribute_env frame input each enabled tick, but the
+	# env stayed a frame input (default 0f -- no env), so a
+	# live oil-extractor with no fill pumped at boost alone.
+	# This fill reads the env attribute map BEFORE the N2305
+	# recompute and fills the OIL env value. Java: the
+	# fraction adds the attribute env, and Attribute.env()
+	# returns 0 when Vars.state is null and otherwise reads
+	# the state's envAttrs. Each Java expr below stays on ONE
+	# comment line (the N2148 lesson):
+	# `float fraction = Math.max(validTiles + boost + (attribute == null ? 0 : attribute.env()), 0);` (SolidPump.java:124).
+	# `public float env(){` (Attribute.java:31).
+	# `if(Vars.state == null) return 0;` (Attribute.java:32).
+	# `return Vars.state.envAttrs.get(this);` (Attribute.java:33).
+	# `public Attributes envAttrs = new Attributes();` (GameState.java:43).
+	# `public float get(Attribute attr){` (Attributes.java:16).
+	# `return arr[attr.id];` (Attributes.java:18).
+	# `attribute = Attribute.oil;` (Blocks.java:2972 -- the Fracker CLASS sets no attribute, but the oil-extractor DEF does).
+	# Verify-first: envAttrs is an Attributes -- a float
+	# array indexed by attribute id, NOT an ObjectMap /
+	# ObjectFloatMap -- so a missing / unset key reads the
+	# array default 0.0, never null; the pure's missing-key
+	# default 0.0 is Java-exact. No state reads 0.0 exact
+	# (the Vars.state == null branch, Attribute.java:32).
+	# DESIGN DECISION (verified, not guessed): the port has
+	# no envAttrs model -- no producer stamps a state env
+	# map anywhere, and the only env() port is the
+	# SourceAttributeState.env_state helper, which takes the
+	# env VALUE as an explicit param (it never reads a map).
+	# So this slice defines the MINIMAL extension in the
+	# pure's input contract (env_attrs: a Dict keyed by
+	# attribute NAME, e.g. {"oil": 0.5}, read through the
+	# "oil" key; state_present: the Vars.state-null guard)
+	# and DOCUMENTS the producer gap: the live envAttrs producer
+	# that stamps those frame inputs waits for its own slice --
+	# this slice does NOT invent an envAttrs producer. The pure
+	# lives after the tick function (the N2408 precedent -- a
+	# pure above the tick would shift the :633 frame-sync pin,
+	# test_c07_fracker_cite_sweep).
+	var attribute_env: float = 0.0 if not state_present else float(env_attrs.get("oil", 0.0))
+	return {"attribute_env": attribute_env}
