@@ -70,11 +70,11 @@ static func source_light_block_bind_frame_state(sprite: Sprite2D, block: Object)
 	return {"applied": true, "frame": frame}
 
 static func source_light_block_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
-	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so an illuminator does not take the early return. The illuminator's power draw is STATIC, not conditional: `consumePower(0.05f);` (Blocks.java:6767) registers a plain ConsumePower, so the catalog consumePower 0.05 is present and the plain radar gate (block.properties.has("consumePower")) works -- no RepairTurret-style `or consumesPower` adaptation is needed. The pure row is still the same ConsumePower read (`return build.power.status;`, ConsumePower.java:39). The illuminator's updateTile (LightBlock.java:104-106, `smoothTime = Mathf.lerpDelta(smoothTime, timeScale, 0.1f);`) only advances smoothTime -- the smoothTime advance is the tick, and drawLight (LightBlock.java:127-128, `Drawf.light(x, y, lightRadius * Math.min(smoothTime, 2f), Tmp.c1.set(color), brightness * efficiency);`) scales the emitted light by brightness * efficiency; because there is no baseEfficiency-style floor, the light emits at brightness 0 when the gate fails; the folded efficiency is what the efficiency keys prove, and the color config waits for its own slice; the draw rows are live since N2374 (source_light_block_draw_state / source_light_block_draw_light_state, below).
+	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so an illuminator does not take the early return. The illuminator's power draw is STATIC, not conditional: `consumePower(0.05f);` (Blocks.java:6767) registers a plain ConsumePower, so the catalog consumePower 0.05 is present and the plain radar gate (block.properties.has("consumePower")) works -- no RepairTurret-style `or consumesPower` adaptation is needed. The pure row is still the same ConsumePower read (`return build.power.status;`, ConsumePower.java:39). The illuminator's updateTile (LightBlock.java:104-106, `smoothTime = Mathf.lerpDelta(smoothTime, timeScale, 0.1f);`) only advances smoothTime -- the smoothTime advance is the tick, and drawLight (LightBlock.java:127-128, `Drawf.light(x, y, lightRadius * Math.min(smoothTime, 2f), Tmp.c1.set(color), brightness * efficiency);`) scales the emitted light by brightness * efficiency; because there is no baseEfficiency-style floor, the light emits at brightness 0 when the gate fails; the folded efficiency is what the efficiency keys prove, and the color config is live since N2443 (source_light_block_sense_color_state / source_light_block_config_color_state, below); the draw rows are live since N2374 (source_light_block_draw_state / source_light_block_draw_light_state, below).
 	# LightBuild has NO shouldConsume override, so the BuildingComp default (BuildingComp.java:755-756, `return enabled;`) applies -- the power-only fold is EXACT, no deferral needed (the StackConveyor N2180 / Accelerator N2183 precedent). canConsume (BuildingComp.java:1917, `public boolean canConsume(){` with `return potentialEfficiency > 0;`, BuildingComp.java:1918) and edelta (BuildingComp.java:1927-1929, `return efficiency * delta();`) are the surrounding gates.
 	# The illuminator is its own family (LightBlock.java:21, `public class LightBlock extends Block{`; LightBuild, LightBlock.java:67, `public class LightBuild extends Building{`), a power / effect block with no parent driver: no existing family state covers it. Class fields: `public float brightness = 0.9f;` (LightBlock.java:22), `public float radius = 200f;` (LightBlock.java:23), `public @Load("@-top") TextureRegion topRegion;` (LightBlock.java:24); constructor `public LightBlock(String name){` (LightBlock.java:26), `hasPower = true;` (LightBlock.java:28), `update = true;` (LightBlock.java:29), `configurable = true;` (LightBlock.java:30), `saveConfig = true;` (LightBlock.java:31), `envEnabled |= Env.space;` (LightBlock.java:32), `swapDiagonalPlacement = true;` (LightBlock.java:33). init sets the light radius and clip (LightBlock.java:40, `lightRadius = radius*2.5f;` with LightBlock.java:41, `lightClipSize = Math.max(lightClipSize, lightRadius * 3f);` and LightBlock.java:42, `emitLight = true;`). Build fields: `public int color = Pal.accent.rgba();` (LightBlock.java:68), `public float smoothTime = 1f;` (LightBlock.java:69).
 	# Single def -- illuminator only (brightness 0.75f, radius 140f, graphite 12 / silicon 8 / lead 8, Blocks.java:6763-6767): `illuminator = new LightBlock("illuminator"){{` (Blocks.java:6763) with `requirements(Category.effect, BuildVisibility.lightingOnly, with(Items.graphite, 12, Items.silicon, 8, Items.lead, 8));` (Blocks.java:6764), `brightness = 0.75f;` (Blocks.java:6765), `radius = 140f;` (Blocks.java:6766) and `consumePower(0.05f);` (Blocks.java:6767). No second LightBlock def exists; there is no family split to manage. The color config (LightBlock.java:35, 72-94, 109-127, 132-136) waits for its own slice; the smoothTime advance (LightBlock.java:104-106) is N2189, unified with N2241 (source_light_block_smooth_time_state, below). The draw rows (LightBlock.java:96-102, 127-128) are live since N2374; the read / write / sense rows (LightBlock.java:137-148) wait for their own slices.
-	# Documented limits: (1) power-only first pass -- the illuminator's static power consumer (consumePower 0.05f, Blocks.java:6767) is the only modeled consumer, so the folded efficiency is the min over the *modeled* consumers (power only). (2) No shouldConsume override -- LightBuild has none, so the BuildingComp default `return enabled;` applies and the power-only fold is EXACT. (3) smoothTime advance DONE (N2189/N2241) -- smoothTime lerp (LightBlock.java:104-106) advances every tick toward the live timeScale; the drawLight radius clamp min(smoothTime, 2f) (LightBlock.java:128) is what the light_radius_scale key proves, and drawLight presentation is live since N2374 (source_light_block_draw_light_state, below). (4) No color-config modeling -- config / configured / control / sense / buildConfiguration / onConfigureBuildTapped (LightBlock.java:35, 72-94, 109-127) wait for their own slices. (5) Single def -- illuminator only (brightness 0.75f, radius 140f, graphite 12 / silicon 8 / lead 8); per-def stat values wait for their own verification slice. (6) Draw rows live (N2374) -- draw / drawLight (LightBlock.java:96-102, 127-128) are live in the draw pures below; write / read (LightBlock.java:137-148) wait for their own slices. (7) DrawPlace rows live (N2439) -- drawPlace / changePlacementPath / minimapColor (LightBlock.java:48-66) are live in the draw-place pure below; the placement-UI / placer / minimap call sites wait for their own slices.
+	# Documented limits: (1) power-only first pass -- the illuminator's static power consumer (consumePower 0.05f, Blocks.java:6767) is the only modeled consumer, so the folded efficiency is the min over the *modeled* consumers (power only). (2) No shouldConsume override -- LightBuild has none, so the BuildingComp default `return enabled;` applies and the power-only fold is EXACT. (3) smoothTime advance DONE (N2189/N2241) -- smoothTime lerp (LightBlock.java:104-106) advances every tick toward the live timeScale; the drawLight radius clamp min(smoothTime, 2f) (LightBlock.java:128) is what the light_radius_scale key proves, and drawLight presentation is live since N2374 (source_light_block_draw_light_state, below). (4) Config/color rows live (N2443) -- config / configured / control / sense / buildConfiguration / onConfigureBuildTapped / config() (LightBlock.java:35, 72-94, 109-127, 132-133) are live in the sense + config pures below (source_light_block_sense_color_state / source_light_block_config_color_state); the logic-executor / picker-UI call sites wait for their own slices. (5) Single def -- illuminator only (brightness 0.75f, radius 140f, graphite 12 / silicon 8 / lead 8); per-def stat values wait for their own verification slice. (6) Draw rows live (N2374) -- draw / drawLight (LightBlock.java:96-102, 127-128) are live in the draw pures below; write / read (LightBlock.java:137-148) wait for their own slices. (7) DrawPlace rows live (N2439) -- drawPlace / changePlacementPath / minimapColor (LightBlock.java:48-66) are live in the draw-place pure below; the placement-UI / placer / minimap call sites wait for their own slices.
 	# Source lines (all 82 exact exprs, verified verbatim in upstream at RED):
 	# - `return build.power.status;`
 	# - `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`
@@ -189,7 +189,7 @@ static func source_light_block_draw_state(x_value: float, y_value: float, color_
 	# `Draw.color(Tmp.c1.set(color).a(0.6f));`
 	# `Draw.rect(topRegion, x, y);`
 	# `Draw.color();`
-	# topRegion is the `@-top` region (`public @Load("@-top") TextureRegion topRegion;`, LightBlock.java:24); the color is `public int color = Pal.accent.rgba();` (LightBlock.java:68), tinted at alpha 0.6f -- NOT the 0.5f picker alpha (buildConfiguration, LightBlock.java:112). The color is an explicit param: it is NOT frame state (the color config waits for its own slice). super.draw() is Building.draw() (the base region); the pure records that the super call happens, not its content (the BaseTurret draw_place precedent). Draw never runs in the tick, so there is no tick wiring (pure-only). Draw rows live (N2374).
+	# topRegion is the `@-top` region (`public @Load("@-top") TextureRegion topRegion;`, LightBlock.java:24); the color is `public int color = Pal.accent.rgba();` (LightBlock.java:68), tinted at alpha 0.6f -- NOT the 0.5f picker alpha (buildConfiguration, LightBlock.java:112). The color is an explicit param: it is NOT frame state (the color config is live since N2443, source_light_block_config_color_state, below). super.draw() is Building.draw() (the base region); the pure records that the super call happens, not its content (the BaseTurret draw_place precedent). Draw never runs in the tick, so there is no tick wiring (pure-only). Draw rows live (N2374).
 	var top_call: Dictionary = {
 		"call": "Draw.rect(topRegion, x, y);",
 		"region": "topRegion",
@@ -301,6 +301,85 @@ static func source_light_block_draw_place_state(tile_x: int, tile_y: int, rotati
 		"place_radius2": place_radius2,
 		"calculate_nodes_call": calculate_nodes_call,
 		"minimap_color": minimap_color,
+	}
+
+static func source_light_block_sense_color_state(sensor: String, color: int, super_value: Variant = null) -> Dictionary:
+	# The sense rows (LightBuild.sense(), LightBlock.java:90-94), the pure logic-sense dispatch -- Java senses, in order (each exact expr on ONE comment line, the N2148 lesson):
+	# `public double sense(LAccess sensor){`
+	# `if(sensor == LAccess.color) return Tmp.c1.set(color).toDoubleBits();`
+	# `return super.sense(sensor);`
+	# The LAccess token is the exact enum name `color("to");` (LAccess.java:84 -- NOTE: LAccess is mindustry.logic.LAccess, not arc, the N2437 lesson). super.sense is the BuildingComp switch (BuildingComp.java:2093-2125), already modeled by SourceBuildingSenseState (the N2437 precedent), so the pure takes the caller's super.sense result as super_value (default null = the default branch) instead of re-modeling the switch. The color value is arc's double-bits encoding (Color.java:756-758):
+	# `public double toDoubleBits(){`
+	# `return toDoubleBits(r, g, b, a);`
+	# `return Double.longBitsToDouble(Color.rgba8888(r, g, b, a) & 0x00000000_ffffffffL);`
+	# i.e. a double denormal whose raw bits are the rgba8888 int zero-extended. Tmp.c1.set(color) unpacks the int (Color.java:504-506):
+	# `public Color set(int rgba){`
+	# `return rgba8888(rgba);`
+	# with R in the top byte (Color.java:286-292):
+	# `r = ((value & 0xff000000) >>> 24) / 255f;`
+	# and rgba8888() repacks it (Color.java:236-238):
+	# `return ((int)(r * 255) << 24) | ((int)(g * 255) << 16) | ((int)(b * 255) << 8) | (int)(a * 255);`
+	# The float32 set(int)->rgba8888() round-trip is EXACT for every channel 0-255 (verified by float32 emulation: (int)((c/255f)*255f) == c for all c), so the denormal's raw bits ARE the color int, and the double value is exactly float(unsigned_rgba) * 2^-1074 (verified for 200k random 32-bit values + endpoints -- a denormal double with fraction B < 2^52 has value B * 2^-1074, exactly representable, so the IEEE multiply is exact). GDScript ints are 64-bit while the Java color is a signed 32-bit int, so the pure zero-extends with `color & 0xffffffff` before the float conversion (a negative Java int like -1 reads as the unsigned 0xffffffff). 5e-324 is the 2^-1074 literal (the smallest positive double denormal); the proof verifies the encoding by dividing back (value / 5e-324 == float(unsigned), exact) instead of is_equal_approx, whose epsilon would swallow any denormal difference. The color is `public int color = Pal.accent.rgba();` (LightBlock.java:68), Pal.accent being `accent = Color.valueOf("ffd37f"),` (Pal.java:79 -- a 6-digit hex, so valueOf defaults alpha to 255 and the default color is 0xffd37fff). Pure-only, like the N2437 sense pure: the tick never calls sense -- sense is called by logic, and the logic call site waits for a logic-executor slice. Config/color rows live (N2443).
+	var delegated: bool = sensor != "color"
+	var value: Variant = super_value
+	if sensor == "color":
+		value = float(color & 0xffffffff) * 5e-324
+	return {
+		"sense_expr": "if(sensor == LAccess.color) return Tmp.c1.set(color).toDoubleBits();",
+		"super_expr": "return super.sense(sensor);",
+		"double_bits_expr": "return Double.longBitsToDouble(Color.rgba8888(r, g, b, a) & 0x00000000_ffffffffL);",
+		"sensor": sensor,
+		"color": color,
+		"super_value": super_value,
+		"delegated": delegated,
+		"value": value,
+	}
+
+static func source_light_block_config_color_state(color: int, action: String, action_value: Variant, is_self_tap: bool, headless: bool) -> Dictionary:
+	# The config / color rows (LightBlock config(Integer), LightBlock.java:35; configured(), LightBlock.java:72-76; control(), LightBlock.java:78-88; buildConfiguration(), LightBlock.java:109-115; onConfigureBuildTapped(), LightBlock.java:117-127; config(), LightBlock.java:132-133), the pure config fold -- Java, in order (each exact expr on ONE comment line, the N2148 lesson):
+	# `config(Integer.class, (LightBuild tile, Integer value) -> tile.color = value);`
+	# `public void configured(Unit player, Object value){`
+	# `super.configured(player, value);`
+	# `if(!headless) renderer.minimap.update(tile);`
+	# `public void control(LAccess type, double p1, double p2, double p3, double p4){`
+	# `if(type == LAccess.color){`
+	# `color = Tmp.c1.fromDouble(p1).rgba8888();`
+	# `super.control(type, p1, p2, p3, p4);`
+	# `public void buildConfiguration(Table table){`
+	# `table.button(Icon.pencil, Styles.cleari, () -> {`
+	# `ui.picker.show(Tmp.c1.set(color).a(0.5f), false, res -> configure(res.rgba()));`
+	# `deselect();`
+	# `}).size(40f);`
+	# `public boolean onConfigureBuildTapped(Building other){`
+	# `if(this == other){`
+	# `return false;`
+	# `return true;`
+	# `public Integer config(){`
+	# `return color;`
+	# The action is a discriminated input: "configure" applies the config(Integer) handler (color = action_value, the Integer value), "control" applies the LAccess.color control (color = action_value, the caller-supplied raw low 32 bits of p1 -- fromDouble takes the low 32 bits of the double's raw bits, Color.java:174-176, `return rgba8888((int)(Double.doubleToRawLongBits(value)));`, and the set->rgba8888 round-trip is EXACT, so the control color IS those bits; GDScript has no double bitcast, so the logic executor owns the bitcast and supplies the int, the N2435 caller-supplied precedent), "none" leaves the color untouched. The super configured() runs the config handler with NO equality check anywhere in the chain (BuildingComp.java:1429, `block.configurations.get(type).get(this, value);`; InputHandler.tileConfig, InputHandler.java:706-728, calls configured unconditionally), so a configure updates the minimap even when the new color equals the old one: minimap_updated = (action is configure/control) && !headless, with NO color-changed condition (Java-verified; the brief's formula carried a color-changed condition Java does not have). The picker is recorded as a CALL (icon pencil, size 40f, picker alpha 0.5f -- NOT the 0.6f draw alpha), the UI itself is NOT ported (the N2396 CALL precedent). The tap result records onConfigureBuildTapped: a self tap deselects and returns false, any other tap returns true. config() returns the post-action color. The color field is `public int color = Pal.accent.rgba();` (LightBlock.java:68); headless is caller-supplied (Vars.headless). Pure-only: config/control run from the picker UI and the logic executor, the tap from the configure UI -- the call sites wait for their own slices. Config/color rows live (N2443).
+	var is_action: bool = action == "configure" or action == "control"
+	var new_color: int = color
+	if is_action:
+		new_color = int(action_value)
+	var minimap_updated: bool = is_action and not headless
+	var tapped_result: Dictionary = {"deselect": is_self_tap, "return_value": not is_self_tap}
+	var picker_call: Dictionary = {"icon": "pencil", "size": 40.0, "color_a": 0.5}
+	return {
+		"configure_expr": "config(Integer.class, (LightBuild tile, Integer value) -> tile.color = value);",
+		"configured_expr": "if(!headless) renderer.minimap.update(tile);",
+		"control_expr": "color = Tmp.c1.fromDouble(p1).rgba8888();",
+		"picker_expr": "ui.picker.show(Tmp.c1.set(color).a(0.5f), false, res -> configure(res.rgba()));",
+		"tapped_expr": "public boolean onConfigureBuildTapped(Building other){",
+		"config_expr": "return color;",
+		"color": new_color,
+		"minimap_updated": minimap_updated,
+		"tapped_result": tapped_result,
+		"picker_call": picker_call,
+		"config_value": new_color,
+		"action": action,
+		"action_value": action_value,
+		"is_self_tap": is_self_tap,
+		"headless": headless,
 	}
 
 @warning_ignore("unused_parameter")
