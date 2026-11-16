@@ -66688,6 +66688,36 @@
       ],
       "runtime_proof": "/root/C07UnitsNearbyProof",
       "rule": "Source-backed Units.nearby live query from Units.java / RepairTower.java / HealthComp.java / UnitType.java / UnitComp.java."
+    },
+    "SourceRepairTowerBuildState.source_repair_tower_tick_buildings_state": {
+      "status": "active",
+      "source_slice": "N2211",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "source_method": "RepairTowerBuild.updateTile()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_repair_tower_tick_buildings_state_input.game"
+        },
+        {
+          "name": "seconds",
+          "type": "float",
+          "schema": "source_repair_tower_tick_buildings_state_input.seconds"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "nearby_damaged_units"
+      ],
+      "tests": [
+        "test_c07_repair_tower_nearby_driver_registration",
+        "test_all_c07_repair_tower_nearby_driver_input_evidence_is_exact",
+        "test_repair_tower_nearby_driver_state",
+        "test_reference_graph_and_actual_c07_repair_tower_nearby_driver"
+      ],
+      "runtime_proof": "/root/C07RepairTowerNearbyDriverProof",
+      "rule": "Source-backed RepairTower Units.nearby driver integration from RepairTower.java / Units.java / HealthComp.java / Blocks.java / Block.java / BuildingComp.java."
     }
   },
   "policy": {

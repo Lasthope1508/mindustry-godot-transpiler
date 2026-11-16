@@ -173848,6 +173848,22 @@
         "test_reference_graph_and_actual_c07_units_nearby"
       ],
       "runtime_proof": "/root/C07UnitsNearbyProof"
+    },
+    "source_repair_tower_tick_buildings_state_result.nearby_damaged_units": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_tick_buildings_state",
+      "godot_symbol": "source_repair_tower_tick_buildings_state_result.nearby_damaged_units",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.updateTile()",
+      "java_expr": "Units.nearby(team, x, y, range, u -> {",
+      "rule": "The live count of damaged units in range, stamped on the RepairTower frame (RepairTower.java:62, `Units.nearby(team, x, y, range, u -> {` -- the query the refresh block runs on expiry; the driver stamps the N2210 pure function result so the refresh consumes a live observation and the N2191 gate reads a live targets_count).",
+      "tests": [
+        "test_c07_repair_tower_nearby_driver_registration",
+        "test_all_c07_repair_tower_nearby_driver_input_evidence_is_exact",
+        "test_repair_tower_nearby_driver_state",
+        "test_reference_graph_and_actual_c07_repair_tower_nearby_driver"
+      ],
+      "runtime_proof": "/root/C07RepairTowerNearbyDriverProof"
     }
   },
   "version": 1

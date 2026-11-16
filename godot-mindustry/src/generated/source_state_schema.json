@@ -231396,6 +231396,54 @@
       },
       "runtime_proof": "/root/C07UnitsNearbyProof",
       "rule": "Source-backed Units.nearby live query from Units.java / RepairTower.java / HealthComp.java / UnitType.java / UnitComp.java."
+    },
+    "source_repair_tower_tick_buildings_state_input": {
+      "status": "active",
+      "owner": "SourceRepairTowerBuildState.source_repair_tower_tick_buildings_state",
+      "source_slice": "N2211",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public final Building newBuilding(){",
+          "rule": "The game object carrying the placed buildings (Block.java:1002, `public final Building newBuilding();` -- the tick iterates the placed RepairTower builds through the live loop, exactly as the N2109 factory tick does).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_tick_buildings_state"
+          ]
+        },
+        "seconds": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return efficiency * delta();",
+          "rule": "The tick delta in seconds (BuildingComp.java:1928, `return efficiency * delta();` -- edelta is efficiency * delta, so the tick seconds is Time.delta, the same delta the refresh block accumulates).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_tick_buildings_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTowerNearbyDriverProof",
+      "rule": "Source-backed RepairTower Units.nearby driver integration from RepairTower.java / Units.java / HealthComp.java / Blocks.java / Block.java / BuildingComp.java."
+    },
+    "source_repair_tower_tick_buildings_state_result": {
+      "status": "active",
+      "owner": "SourceRepairTowerBuildState.source_repair_tower_tick_buildings_state",
+      "source_slice": "N2211",
+      "keys": {
+        "nearby_damaged_units": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "Units.nearby(team, x, y, range, u -> {",
+          "rule": "The live count of damaged units in range, stamped on the RepairTower frame (RepairTower.java:62, `Units.nearby(team, x, y, range, u -> {` -- the query the refresh block runs on expiry; the driver stamps the N2210 pure function result so the refresh consumes a live observation and the N2191 gate reads a live targets_count).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_tick_buildings_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTowerNearbyDriverProof",
+      "rule": "Source-backed RepairTower Units.nearby driver integration from RepairTower.java / Units.java / HealthComp.java / Blocks.java / Block.java / BuildingComp.java."
     }
   },
   "version": 1
