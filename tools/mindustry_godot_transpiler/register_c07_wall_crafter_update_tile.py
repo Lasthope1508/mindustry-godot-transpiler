@@ -113,12 +113,32 @@ def main():
         'items': f('Dictionary', 'handleItem(self(), item);', 'The items after this tick (BuildingComp.java:1014/:860-861): the offload fallback adds 1 output to the own inventory when the tick offloaded, else unchanged; the neighbor routing (BuildingComp.java:1001-1013) defers.', source=BUILDING_COMP),
     }
 
+    # N2401 (schema-sync fold): the two advance keys the N2398
+    # slice exposed on this advance (symbols registered by N2398),
+    # folded into the result schema + contract return_keys.
+    # Metadata copied verbatim from the N2398 register
+    # (BuildingComp-sourced -- source=BUILDING_COMP explicit here
+    # because this register's f() defaults to WALL_CRAFTER).
+    n2401_fold_outputs = {
+        'offload_neighbour_index': f('int', 'Building other = proximity.get((i + dump) % proximity.size);', 'The routed neighbour index offload handed the produced output to (BuildingComp.java:1007, `Building other = proximity.get((i + dump) % proximity.size);`): the handled index the shared dump_item_state routing reports, -1 when the offload fell back to the own inventory (BuildingComp.java:1014) or no offload ran. Index i is ring cell i (the N2353 convention); the tick lands the routed item in the neighbour store through the shared neighbour write-back helper (N2353). One scalar, not an array: offload() returns after the first success (BuildingComp.java:1010), so a single delivery needs no array (contrast N2386 dumpAccumulate multi-fire).', java_method='BuildingComp.offload()', source=BUILDING_COMP),
+        'cdump': f('int', 'int dump = this.cdump;', 'The shared dump cursor after the offload scan (BuildingComp.java:1003, `int dump = this.cdump;`; the Building field `transient int cdump;`, BuildingComp.java:68, default 0): dump_item_state advances it once per checked neighbour (incrementDump, BuildingComp.java:1116-1120), so a routed offload leaves the cursor past the handling neighbour and a full refused scan returns it to its start (the N2286 full-cycle invariant). The tick persists it into the frame before the timerDump dump runs (Java order: the offload at WallCrafter.java:214 precedes the dump at :220-221), so offload() and dump() share this.cdump without double-advancing it. Unchanged when no offload ran.', java_method='BuildingComp.offload()', source=BUILDING_COMP),
+    }
+
     entries = [
         ('N2223', OWNER, 'source_wall_crafter_update_tile_advance_state', WALL_CRAFTER, 'mindustry.world.blocks.production.WallCrafter.WallCrafterBuild', 'WallCrafterBuild.updateTile()', n2223_inputs, n2223_outputs, True, 'Dictionary'),
     ]
     all_names = []
     for sid, owner, prefix, source, cls, method, inputs, outputs, has_contract, return_type in entries:
         names = []
+        # N2401 (schema-sync fold): the result schema + contract
+        # carry the folded keys; the symbol loop below still
+        # iterates the ORIGINAL outputs only
+        # (upsert_source_symbols wholesale-replaces -- folding
+        # the keys into the symbol loop here would steal the
+        # N2398 slice's symbol ownership).
+        result_keys = {**outputs, **n2401_fold_outputs}
+        for meta in n2401_fold_outputs.values():
+            meta['used_by'] = [owner]
         for suffix, keys in [('input', inputs), ('result', outputs)]:
             name = prefix + '_' + suffix
             for field, meta in keys.items():
@@ -127,9 +147,9 @@ def main():
                     symbol = name + '.' + field
                     names.append(symbol)
                     symbols[symbol] = dict(status='source-backed', godot_owner=owner, godot_symbol=symbol, java_source=meta['java_source'], java_method=method, java_expr=meta['java_expr'], rule=meta['rule'], tests=TESTS, runtime_proof=PROOF)
-            source_symbols.upsert_source_state_schema(GODOT, name, dict(status='active', owner=owner, source_slice=sid, keys=keys, runtime_proof=PROOF, rule='Source-backed WallCrafter updateTile advance from WallCrafter.java / BuildingComp.java / Blocks.java / Block.java.'))
+            source_symbols.upsert_source_state_schema(GODOT, name, dict(status='active', owner=owner, source_slice=sid, keys=result_keys if suffix == 'result' else keys, runtime_proof=PROOF, rule='Source-backed WallCrafter updateTile advance from WallCrafter.java / BuildingComp.java / Blocks.java / Block.java.'))
         if has_contract:
-            source_symbols.upsert_source_api_contract(GODOT, owner, dict(status='active', source_slice=sid, java_source=source, source_method=method, params=[dict(name=k, type=v['type'], schema=prefix + '_input.' + k) for k, v in inputs.items()], return_type=return_type, return_keys=list(outputs), tests=TESTS, runtime_proof=PROOF, rule='Source-backed WallCrafter updateTile advance from WallCrafter.java / BuildingComp.java / Blocks.java / Block.java.'))
+            source_symbols.upsert_source_api_contract(GODOT, owner, dict(status='active', source_slice=sid, java_source=source, source_method=method, params=[dict(name=k, type=v['type'], schema=prefix + '_input.' + k) for k, v in inputs.items()], return_type=return_type, return_keys=list(result_keys), tests=TESTS, runtime_proof=PROOF, rule='Source-backed WallCrafter updateTile advance from WallCrafter.java / BuildingComp.java / Blocks.java / Block.java.'))
         all_names.extend(names)
 
     by_slice = {}

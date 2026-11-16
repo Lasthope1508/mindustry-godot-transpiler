@@ -232470,6 +232470,28 @@
           "used_by": [
             "SourceWallCrafterBuildState.source_wall_crafter_update_tile_advance_state"
           ]
+        },
+        "offload_neighbour_index": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+          "rule": "The routed neighbour index offload handed the produced output to (BuildingComp.java:1007, `Building other = proximity.get((i + dump) % proximity.size);`): the handled index the shared dump_item_state routing reports, -1 when the offload fell back to the own inventory (BuildingComp.java:1014) or no offload ran. Index i is ring cell i (the N2353 convention); the tick lands the routed item in the neighbour store through the shared neighbour write-back helper (N2353). One scalar, not an array: offload() returns after the first success (BuildingComp.java:1010), so a single delivery needs no array (contrast N2386 dumpAccumulate multi-fire).",
+          "java_method": "BuildingComp.offload()",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_update_tile_advance_state"
+          ]
+        },
+        "cdump": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "int dump = this.cdump;",
+          "rule": "The shared dump cursor after the offload scan (BuildingComp.java:1003, `int dump = this.cdump;`; the Building field `transient int cdump;`, BuildingComp.java:68, default 0): dump_item_state advances it once per checked neighbour (incrementDump, BuildingComp.java:1116-1120), so a routed offload leaves the cursor past the handling neighbour and a full refused scan returns it to its start (the N2286 full-cycle invariant). The tick persists it into the frame before the timerDump dump runs (Java order: the offload at WallCrafter.java:214 precedes the dump at :220-221), so offload() and dump() share this.cdump without double-advancing it. Unchanged when no offload ran.",
+          "java_method": "BuildingComp.offload()",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_update_tile_advance_state"
+          ]
         }
       },
       "runtime_proof": "/root/C07WallCrafterUpdateTileProof",

@@ -67116,7 +67116,9 @@
         "time",
         "total_time",
         "offloaded",
-        "items"
+        "items",
+        "offload_neighbour_index",
+        "cdump"
       ],
       "tests": [
         "test_c07_wall_crafter_update_tile_registration",
