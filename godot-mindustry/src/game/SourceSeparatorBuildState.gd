@@ -945,6 +945,35 @@ static func source_separator_tick_buildings_state(game: Object, seconds: float) 
 				var row_dict: Dictionary = row
 				cons_items.append({"item": str(row_dict.get("item", "")), "amount": int(row_dict.get("amount", 1))})
 			var item_capacity: int = int(block.properties.get("itemCapacity", 10))
+			var content_item_ids: Array = source_content_registry_runtime_state.source_item_catalog_state(catalog).get("item_names_by_id", [])
+			# N2402: the dump neighbour live fill -- the tick
+			# fills the two neighbour arrays from the live
+			# proximity BEFORE the offload routing-context
+			# build below (hoisted here by N2413, so the
+			# offload reads the CURRENT tick's live-filled
+			# arrays instead of the previous tick's) and
+			# before the timerDump dump reads them (the fill
+			# answers for the first held item in content
+			# order, the item the dump offers). The fill runs
+			# ONCE per tick -- the timerDump reads below read
+			# the same frame keys afterwards.
+			# Supplied arrays WIN (the N2381 precedent): the
+			# fill runs only when the frame carries NEITHER
+			# of the two keys -- the N2281/N2343/N2361 proofs
+			# seed the arrays by hand, so a fill there would
+			# overwrite the seed. A frame the fill already
+			# stamped (dump_neighbour_live -- port
+			# bookkeeping, not Java state) refreshes every
+			# tick, so a later-placed neighbour joins the
+			# arrays and a removed one leaves them. The cell
+			# is bound before the enabled block in this
+			# driver, and the catalog size is read inline.
+			var has_supplied_dump_neighbour_arrays: bool = frame.has("dump_neighbour_accepts") or frame.has("dump_neighbour_can_dump")
+			if not has_supplied_dump_neighbour_arrays or bool(frame.get("dump_neighbour_live", false)):
+				var filled: Dictionary = source_separator_dump_neighbour_live_fill_state(game, cell, int(block.properties.get("size", 1)), frame, content_item_ids)
+				frame["dump_neighbour_accepts"] = filled.get("dump_neighbour_accepts", [])
+				frame["dump_neighbour_can_dump"] = filled.get("dump_neighbour_can_dump", [])
+				frame["dump_neighbour_live"] = true
 			# N2343: the offload neighbor routing -- the
 			# advance's routing context is built from the
 			# SAME frame neighbour inputs the N2281 dump
@@ -958,11 +987,21 @@ static func source_separator_tick_buildings_state(game: Object, seconds: float) 
 			# accepting neighbour from the saved cursor
 			# instead of always falling back to the own
 			# items. The inputs default [] (no neighbours,
-			# the Java proximity.size == 0 outcome); the live
-			# fill lands AFTER the advance (N2402), so the
-			# offload reads the previous tick's live-filled
-			# arrays (a one-tick lag, not a miss -- the fill
-			# stamps the frame every tick); the routed item
+			# the Java proximity.size == 0 outcome); the
+			# live fill lands BEFORE the advance (N2413),
+			# so the offload reads the CURRENT tick's
+			# live-filled arrays (Java order: the offload at
+			# Separator.java:160-161 precedes the dump at
+			# :165-166, so the offload sees the same current
+			# proximity the timerDump dump does). Judgment
+			# call (N2413): the offload routing uses the
+			# fill's FIRST-held-item accepts (the same
+			# approximation the timerDump dump uses -- the
+			# fill answers for the first held item in
+			# content order). Per-item routing for the PICKED
+			# item (Java's offload(item) checks acceptItem
+			# for the picked item specifically) waits for the
+			# per-item dump routing slice. The routed item
 			# lands in the neighbour
 			# frame or belt queue through the shared
 			# write-back helper (N2353), called after the
@@ -1010,7 +1049,8 @@ static func source_separator_tick_buildings_state(game: Object, seconds: float) 
 			# neighbour acceptItem / canDump arrays are frame inputs
 			# (default [] -- no neighbours, the Java
 			# proximity.size == 0 outcome), live-filled since N2402
-			# (the fill runs just below, before the reads; supplied
+			# (the fill runs above, before the routing-context
+			# build (N2413); supplied
 			# arrays win, the N2394 precedent); the dumped item
 			# lands in the neighbour
 			# frame or belt queue through the shared neighbour
@@ -1023,29 +1063,6 @@ static func source_separator_tick_buildings_state(game: Object, seconds: float) 
 			# gate for all families. First-fire deviation: Java
 			# fires nearly at once after placement; the frame clock
 			# delays the first fire by a full interval (5 ticks).
-			var content_item_ids: Array = source_content_registry_runtime_state.source_item_catalog_state(catalog).get("item_names_by_id", [])
-			# N2402: the dump neighbour live fill -- the tick
-			# fills the two neighbour arrays from the live
-			# proximity BEFORE the timerDump dump reads them
-			# (the fill answers for the first held item in
-			# content order, the item the dump offers).
-			# Supplied arrays WIN (the N2381 precedent): the
-			# fill runs only when the frame carries NEITHER
-			# of the two keys -- the N2281/N2343/N2361 proofs
-			# seed the arrays by hand, so a fill there would
-			# overwrite the seed. A frame the fill already
-			# stamped (dump_neighbour_live -- port
-			# bookkeeping, not Java state) refreshes every
-			# tick, so a later-placed neighbour joins the
-			# arrays and a removed one leaves them. The cell
-			# is bound before the enabled block in this
-			# driver, and the catalog size is read inline.
-			var has_supplied_dump_neighbour_arrays: bool = frame.has("dump_neighbour_accepts") or frame.has("dump_neighbour_can_dump")
-			if not has_supplied_dump_neighbour_arrays or bool(frame.get("dump_neighbour_live", false)):
-				var filled: Dictionary = source_separator_dump_neighbour_live_fill_state(game, cell, int(block.properties.get("size", 1)), frame, content_item_ids)
-				frame["dump_neighbour_accepts"] = filled.get("dump_neighbour_accepts", [])
-				frame["dump_neighbour_can_dump"] = filled.get("dump_neighbour_can_dump", [])
-				frame["dump_neighbour_live"] = true
 			var neighbour_accepts: Array = frame.get("dump_neighbour_accepts", [])
 			var neighbour_can_dump: Array = frame.get("dump_neighbour_can_dump", [])
 			var timer_dump: Dictionary = source_separator_timer_dump_state(frame, source_delta, time_scale, content_item_ids, neighbour_accepts, neighbour_can_dump)
