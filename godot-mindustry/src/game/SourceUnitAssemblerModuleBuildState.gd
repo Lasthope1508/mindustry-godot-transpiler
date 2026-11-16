@@ -19,6 +19,12 @@ const SOURCE_UNIT_ASSEMBLER_MODULE_BUILDING_META_KEY := "source_unit_assembler_m
 const SOURCE_UNIT_ASSEMBLER_MODULE_PAYLOAD_SPEED := 0.7
 const SOURCE_UNIT_ASSEMBLER_MODULE_PAYLOAD_ROTATE_SPEED := 5.0
 const SOURCE_UNIT_ASSEMBLER_MODULE_ARRIVAL_MARGIN := 0.01
+# tier is the UnitAssemblerModule class field (`public int tier = 1;`,
+# UnitAssemblerModule.java:22); the single def basic-assembler-module
+# sets no tier (Blocks.java:6566-6573) and the catalog carries no tier
+# key, so the driver passes the class default explicitly (N2348, the
+# N2333 acceptMultipleItems precedent).
+const SOURCE_UNIT_ASSEMBLER_MODULE_TIER_DEFAULT := 1
 
 static func _is_unit_assembler_module_build_implementation(implementation: String) -> bool:
 	return SOURCE_UNIT_ASSEMBLER_MODULE_BUILD_IMPLEMENTATIONS.has(implementation)
@@ -86,7 +92,7 @@ static func source_unit_assembler_module_bind_frame_state(sprite: Sprite2D, bloc
 
 static func source_unit_assembler_module_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a unit-assembler-module does not take the early return. The forward gate follows the folded efficiency (UnitAssemblerModule.java:138, `if(moveInPayload() && link != null && link.moduleFits(block, x, y, rotation) && !link.wasOccupied && link.acceptPayload(this, payload) && efficiency > 0){`) and the module has no shouldConsume override, so the default (BuildingComp.java:755, `public boolean shouldConsume(){`) applies -- the row folds under the live default, not the MendProjector-suppression precedent. The basic-assembler-module (consumePower 3.5f, Blocks.java:6568, `consumePower(3.5f);`) has no liquid consumer, so the folded efficiency is the min over the *modeled* consumers (power only).
-	# Documented limits: (1) power-only first pass -- the module has no liquid/item consumer, so the folded efficiency is the min over the *modeled* consumers (power only). (2) shouldConsume default applies -- the module has no override; the machinery runs with should_consume=true when enabled. (3) updateTile advance live (N2248) -- the lastChange refresh + findLink re-discovery + moveInPayload + the handoff gate (UnitAssemblerModule.java:132-141) run in source_unit_assembler_module_update_tile_advance_state; the N2168 proof still carries no link/payload/tier keys (the efficiency > 0 gate (UnitAssemblerModule.java:138) is what the efficiency keys prove) while the N2248 proof carries the link/payload keys. The getLink discovery, the removeModule / updateModules side effects, the live moduleFits / wasOccupied predicate evaluation (acceptPayload evaluation is live since N2299 and wired into the handoff gate since N2314), the handoff-to-intake wiring, and the live payload fill wait for their own slices -- see DEFERRED. (4) No link/tier/canPlaceOn/draw/onRemoved rows -- see DEFERRED. acceptPayload rows live (N2299) -- the module gate (UnitAssemblerModule.java:110-111) and the link assembler gate (UnitAssembler.java:722-727) run in source_unit_assembler_module_accept_payload_state / source_unit_assembler_accept_payload_state, and the tick exposes both verdicts on the frame (accepts_payload / link_accepts_payload). Handoff-gate wiring live (N2314) -- the N2248 handoff gate reads the LINK verdict live: the tick stamps frame["accept_payload"] from link_accepts_payload before the advance, so a live module hands off when the link accepts; the module verdict does NOT drive the gate. (5) No variant verification -- there is only one module def (basic-assembler-module).
+	# Documented limits: (1) power-only first pass -- the module has no liquid/item consumer, so the folded efficiency is the min over the *modeled* consumers (power only). (2) shouldConsume default applies -- the module has no override; the machinery runs with should_consume=true when enabled. (3) updateTile advance live (N2248) -- the lastChange refresh + findLink re-discovery + moveInPayload + the handoff gate (UnitAssemblerModule.java:132-141) run in source_unit_assembler_module_update_tile_advance_state; the N2168 proof still carries no link/payload/tier keys (the efficiency > 0 gate (UnitAssemblerModule.java:138) is what the efficiency keys prove) while the N2248 proof carries the link/payload keys. The getLink discovery, the removeModule / updateModules side effects, the live moduleFits / wasOccupied predicate evaluation (acceptPayload evaluation is live since N2299 and wired into the handoff gate since N2314), the handoff-to-intake wiring, and the live payload fill wait for their own slices -- see DEFERRED. (4) No link/canPlaceOn/draw/onRemoved rows -- see DEFERRED. acceptPayload rows live (N2299) -- the module gate (UnitAssemblerModule.java:110-111) and the link assembler gate (UnitAssembler.java:722-727) run in source_unit_assembler_module_accept_payload_state / source_unit_assembler_accept_payload_state, and the tick exposes both verdicts on the frame (accepts_payload / link_accepts_payload). Handoff-gate wiring live (N2314) -- the N2248 handoff gate reads the LINK verdict live: the tick stamps frame["accept_payload"] from link_accepts_payload before the advance, so a live module hands off when the link accepts; the module verdict does NOT drive the gate. Tier stamp live (N2348) -- tier() (UnitAssemblerModule.java:85-86) returns the class field tier = 1 (UnitAssemblerModule.java:22); the tick stamps frame["tier"] every tick (the catalog carries no tier key and the def sets no tier, so the driver passes the class default explicitly); the checkTier pure is live since N2133 but the cross-building wiring feeding stamped module tiers into the assembler frame modules list waits for its own slice. (5) No variant verification -- there is only one module def (basic-assembler-module).
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -112,6 +118,27 @@ static func source_unit_assembler_module_accept_payload_state(has_link: bool, ha
 	# so the proof pins each term.
 	var accepts: bool = has_link and not has_payload and link_accepts
 	return {"accepts": accepts, "has_link": has_link, "has_payload": has_payload, "link_accepts": link_accepts}
+
+@warning_ignore("unused_parameter")
+static func source_unit_assembler_module_tier_state(block_id: String, tier_default: int) -> Dictionary:
+	# tier() (UnitAssemblerModule.java:85, `public int tier(){` with
+	# `return tier;`, UnitAssemblerModule.java:86) returns the block's
+	# tier field (`public int tier = 1;`, UnitAssemblerModule.java:22),
+	# also surfaced in setStats (`stats.add(Stat.moduleTier, tier);`,
+	# UnitAssemblerModule.java:33). The assembler consumes it in
+	# checkTier() (UnitAssembler.java:364-378): `modules.sort(b -> b.tier());`
+	# then the max-tier walk (`if(mod.tier() == max || mod.tier() == max + 1){`
+	# / `max = mod.tier();`), with the tier-gap break. moduleFits
+	# (UnitAssembler.java:338-351) is geometry only -- no tier term.
+	# The catalog carries no tier key for basic-assembler-module and
+	# the def sets no tier (Blocks.java:6566-6573), so the single def
+	# keeps the class default: the driver passes it explicitly as
+	# tier_default (the N2333 acceptMultipleItems precedent) and the
+	# pure returns it. block_id is the def the tier belongs to -- a
+	# future def that overrides tier passes its own value as
+	# tier_default; the pure itself is def-agnostic.
+	var tier: int = tier_default
+	return {"tier": tier}
 
 static func source_unit_assembler_accept_payload_state(payload: Dictionary, assembler: Dictionary, plan_requirements: Array, unit_cost: float, source_is_module: bool) -> Dictionary:
 	# The link assembler acceptPayload gate (UnitAssemblerBuild.
@@ -359,6 +386,22 @@ static func source_unit_assembler_module_tick_buildings_state(game: Object, seco
 		var team_id: int = int(sprite.get_meta(source_block_geometry.SOURCE_BUILD_TEAM_META_KEY, source_block_geometry.SOURCE_TEAM_DERELICT_ID))
 		var rules_state: Variant = source_rules_state.source_game_rules_state(game.get("rules_state")).get("rules", {})
 		var wired: Dictionary = source_unit_assembler_module_tick_frame_state(frame, str(block.implementation), team_id, rules_state)
+		# N2348: the tier stamp -- tier() (UnitAssemblerModule.java:85-86)
+		# returns the block's tier field (`public int tier = 1;`,
+		# UnitAssemblerModule.java:22); the catalog carries no tier key
+		# for basic-assembler-module and the def sets no tier
+		# (Blocks.java:6566-6573), so the driver passes the class
+		# default explicitly (the N2333 acceptMultipleItems
+		# precedent). tier is a static class field, not
+		# consumption-gated, so the stamp runs every tick whether
+		# or not the module is enabled, and overwrites any seeded
+		# frame input. The checkTier pure is live since N2133
+		# (source_unit_factory_assembler_check_tier_state, reading
+		# the assembler frame modules list); the cross-building
+		# wiring feeding stamped module tiers into that list waits
+		# for its own slice -- see DEFERRED.
+		var tier_state: Dictionary = source_unit_assembler_module_tier_state(block_id, SOURCE_UNIT_ASSEMBLER_MODULE_TIER_DEFAULT)
+		frame["tier"] = tier_state["tier"]
 		# The power consumer reads live since N2153 (the graph
 		# update stamps frame["power_status"] each tick, N2142):
 		# a unit-assembler-module with a power consumer folds the pure power
