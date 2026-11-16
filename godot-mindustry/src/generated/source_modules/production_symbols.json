@@ -6678,6 +6678,21 @@
       ],
       "runtime_proof": "/root/C07PumpDumpLiquidProof"
     },
+    "source_mechanical_pump_dump_liquid_state_result.dump_neighbour_index": {
+      "canonical_symbol": "source_symbol_registry.source_mechanical_pump_dump_liquid_state_result.dump_neighbour_index",
+      "status": "source-backed",
+      "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+      "godot_symbol": "source_mechanical_pump_dump_liquid_state_result.dump_neighbour_index",
+      "godot_owner": "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_liquid_state",
+      "rule": "The handled neighbour index the dump routed the liquid to (BuildingComp.java:896, `Building other = proximity.get((i + dump) % proximity.size);`): the shared routing's handled_index (the first eligible neighbour whose transfer actually moved liquid), -1 when nothing moved. Index i is ring cell i (the N2353 convention).",
+      "tests": [
+        "test_c07_pump_liquid_neighbour_write_back_registration",
+        "test_all_c07_pump_liquid_neighbour_write_back_input_evidence_is_exact",
+        "test_pump_liquid_neighbour_write_back_state",
+        "test_reference_graph_and_actual_c07_pump_liquid_neighbour_write_back"
+      ],
+      "runtime_proof": "/root/C07PumpLiquidNeighbourWriteBackProof"
+    },
     "source_mechanical_pump_dump_liquid_state_result.dumped_amount": {
       "canonical_symbol": "source_symbol_registry.source_mechanical_pump_dump_liquid_state_result.dumped_amount",
       "status": "source-backed",
@@ -6692,6 +6707,21 @@
         "test_reference_graph_and_actual_c07_pump_dump_liquid"
       ],
       "runtime_proof": "/root/C07PumpDumpLiquidProof"
+    },
+    "source_mechanical_pump_dump_liquid_state_result.dumped_liquid": {
+      "canonical_symbol": "source_symbol_registry.source_mechanical_pump_dump_liquid_state_result.dumped_liquid",
+      "status": "source-backed",
+      "java_expr": "dumpLiquid(liquidDrop);",
+      "godot_symbol": "source_mechanical_pump_dump_liquid_state_result.dumped_liquid",
+      "godot_owner": "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_liquid_state",
+      "rule": "The dumped liquid's name (Pump.java:179, `dumpLiquid(liquidDrop);`): str(liquid_drop) -- the floor drop's name, which VARIES BY TILE (water / oil / cryofluid / slag / arkycite, source_floor_liquid_drop_state), unlike the Fracker's def constant \"oil\". Empty on the null-drop path (the tick never calls the helper when dumped_amount is 0). The amount rides the existing dumped_amount key.",
+      "tests": [
+        "test_c07_pump_liquid_neighbour_write_back_registration",
+        "test_all_c07_pump_liquid_neighbour_write_back_input_evidence_is_exact",
+        "test_pump_liquid_neighbour_write_back_state",
+        "test_reference_graph_and_actual_c07_pump_liquid_neighbour_write_back"
+      ],
+      "runtime_proof": "/root/C07PumpLiquidNeighbourWriteBackProof"
     },
     "source_mechanical_pump_dump_liquid_state_result.liquids_after": {
       "canonical_symbol": "source_symbol_registry.source_mechanical_pump_dump_liquid_state_result.liquids_after",
@@ -7469,6 +7499,21 @@
       ],
       "runtime_proof": "/root/C07SolidPumpDumpLiquidProof"
     },
+    "source_solid_pump_dump_liquid_state_result.dump_neighbour_index": {
+      "canonical_symbol": "source_symbol_registry.source_solid_pump_dump_liquid_state_result.dump_neighbour_index",
+      "status": "source-backed",
+      "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+      "godot_symbol": "source_solid_pump_dump_liquid_state_result.dump_neighbour_index",
+      "godot_owner": "SourceSolidPumpBuildState.source_solid_pump_dump_liquid_state",
+      "rule": "The handled neighbour index the dump routed the liquid to (BuildingComp.java:896, `Building other = proximity.get((i + dump) % proximity.size);`): the shared routing's handled_index (the first eligible neighbour whose transfer actually moved liquid), -1 when nothing moved. Index i is ring cell i (the N2353 convention).",
+      "tests": [
+        "test_c07_solid_pump_dump_liquid_write_back_registration",
+        "test_all_c07_solid_pump_dump_liquid_write_back_input_evidence_is_exact",
+        "test_solid_pump_dump_liquid_write_back_state",
+        "test_reference_graph_and_actual_c07_solid_pump_dump_liquid_write_back"
+      ],
+      "runtime_proof": "/root/C07SolidPumpDumpLiquidWriteBackProof"
+    },
     "source_solid_pump_dump_liquid_state_result.dumped_amount": {
       "canonical_symbol": "source_symbol_registry.source_solid_pump_dump_liquid_state_result.dumped_amount",
       "status": "source-backed",
@@ -7483,6 +7528,21 @@
         "test_reference_graph_and_actual_c07_solid_pump_dump_liquid"
       ],
       "runtime_proof": "/root/C07SolidPumpDumpLiquidProof"
+    },
+    "source_solid_pump_dump_liquid_state_result.dumped_liquid": {
+      "canonical_symbol": "source_symbol_registry.source_solid_pump_dump_liquid_state_result.dumped_liquid",
+      "status": "source-backed",
+      "java_expr": "dumpLiquid(result);",
+      "godot_symbol": "source_solid_pump_dump_liquid_state_result.dumped_liquid",
+      "godot_owner": "SourceSolidPumpBuildState.source_solid_pump_dump_liquid_state",
+      "rule": "The dumped liquid's name (SolidPump.java:140, `dumpLiquid(result);`): the def constant \"water\" (`result = Liquids.water;`, Blocks.java:2922). The amount rides the existing dumped_amount key.",
+      "tests": [
+        "test_c07_solid_pump_dump_liquid_write_back_registration",
+        "test_all_c07_solid_pump_dump_liquid_write_back_input_evidence_is_exact",
+        "test_solid_pump_dump_liquid_write_back_state",
+        "test_reference_graph_and_actual_c07_solid_pump_dump_liquid_write_back"
+      ],
+      "runtime_proof": "/root/C07SolidPumpDumpLiquidWriteBackProof"
     },
     "source_solid_pump_dump_liquid_state_result.liquids_after": {
       "canonical_symbol": "source_symbol_registry.source_solid_pump_dump_liquid_state_result.liquids_after",

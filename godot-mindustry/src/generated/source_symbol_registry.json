@@ -183496,6 +183496,214 @@
         "test_reference_graph_and_actual_c07_light_block_draw_rows"
       ],
       "runtime_proof": "/root/C07LightBlockDrawRowsProof"
+    },
+    "source_solid_pump_dump_liquid_state_result.dump_neighbour_index": {
+      "status": "source-backed",
+      "godot_owner": "SourceSolidPumpBuildState.source_solid_pump_dump_liquid_state",
+      "godot_symbol": "source_solid_pump_dump_liquid_state_result.dump_neighbour_index",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "SolidPumpBuild.updateTile()",
+      "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+      "rule": "The handled neighbour index the dump routed the liquid to (BuildingComp.java:896, `Building other = proximity.get((i + dump) % proximity.size);`): the shared routing's handled_index (the first eligible neighbour whose transfer actually moved liquid), -1 when nothing moved. Index i is ring cell i (the N2353 convention).",
+      "tests": [
+        "test_c07_solid_pump_dump_liquid_write_back_registration",
+        "test_all_c07_solid_pump_dump_liquid_write_back_input_evidence_is_exact",
+        "test_solid_pump_dump_liquid_write_back_state",
+        "test_reference_graph_and_actual_c07_solid_pump_dump_liquid_write_back"
+      ],
+      "runtime_proof": "/root/C07SolidPumpDumpLiquidWriteBackProof"
+    },
+    "source_solid_pump_dump_liquid_state_result.dumped_liquid": {
+      "status": "source-backed",
+      "godot_owner": "SourceSolidPumpBuildState.source_solid_pump_dump_liquid_state",
+      "godot_symbol": "source_solid_pump_dump_liquid_state_result.dumped_liquid",
+      "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+      "java_method": "SolidPumpBuild.updateTile()",
+      "java_expr": "dumpLiquid(result);",
+      "rule": "The dumped liquid's name (SolidPump.java:140, `dumpLiquid(result);`): the def constant \"water\" (`result = Liquids.water;`, Blocks.java:2922). The amount rides the existing dumped_amount key.",
+      "tests": [
+        "test_c07_solid_pump_dump_liquid_write_back_registration",
+        "test_all_c07_solid_pump_dump_liquid_write_back_input_evidence_is_exact",
+        "test_solid_pump_dump_liquid_write_back_state",
+        "test_reference_graph_and_actual_c07_solid_pump_dump_liquid_write_back"
+      ],
+      "runtime_proof": "/root/C07SolidPumpDumpLiquidWriteBackProof"
+    },
+    "source_mechanical_pump_dump_liquid_state_result.dump_neighbour_index": {
+      "status": "source-backed",
+      "godot_owner": "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_liquid_state",
+      "godot_symbol": "source_mechanical_pump_dump_liquid_state_result.dump_neighbour_index",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "PumpBuild.updateTile()",
+      "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+      "rule": "The handled neighbour index the dump routed the liquid to (BuildingComp.java:896, `Building other = proximity.get((i + dump) % proximity.size);`): the shared routing's handled_index (the first eligible neighbour whose transfer actually moved liquid), -1 when nothing moved. Index i is ring cell i (the N2353 convention).",
+      "tests": [
+        "test_c07_pump_liquid_neighbour_write_back_registration",
+        "test_all_c07_pump_liquid_neighbour_write_back_input_evidence_is_exact",
+        "test_pump_liquid_neighbour_write_back_state",
+        "test_reference_graph_and_actual_c07_pump_liquid_neighbour_write_back"
+      ],
+      "runtime_proof": "/root/C07PumpLiquidNeighbourWriteBackProof"
+    },
+    "source_mechanical_pump_dump_liquid_state_result.dumped_liquid": {
+      "status": "source-backed",
+      "godot_owner": "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_liquid_state",
+      "godot_symbol": "source_mechanical_pump_dump_liquid_state_result.dumped_liquid",
+      "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+      "java_method": "PumpBuild.updateTile()",
+      "java_expr": "dumpLiquid(liquidDrop);",
+      "rule": "The dumped liquid's name (Pump.java:179, `dumpLiquid(liquidDrop);`): str(liquid_drop) -- the floor drop's name, which VARIES BY TILE (water / oil / cryofluid / slag / arkycite, source_floor_liquid_drop_state), unlike the Fracker's def constant \"oil\". Empty on the null-drop path (the tick never calls the helper when dumped_amount is 0). The amount rides the existing dumped_amount key.",
+      "tests": [
+        "test_c07_pump_liquid_neighbour_write_back_registration",
+        "test_all_c07_pump_liquid_neighbour_write_back_input_evidence_is_exact",
+        "test_pump_liquid_neighbour_write_back_state",
+        "test_reference_graph_and_actual_c07_pump_liquid_neighbour_write_back"
+      ],
+      "runtime_proof": "/root/C07PumpLiquidNeighbourWriteBackProof"
+    },
+    "source_liquid_bridge_do_dump_state_result.dump_neighbour_index": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidBridgeBuildState.source_liquid_bridge_do_dump_state",
+      "godot_symbol": "source_liquid_bridge_do_dump_state_result.dump_neighbour_index",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "LiquidBridgeBuild.doDump()",
+      "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+      "rule": "The handled neighbour index the dump routed the liquid to (BuildingComp.java:896, `Building other = proximity.get((i + dump) % proximity.size);`): the shared routing's handled_index (the first eligible neighbour whose transfer actually moved liquid -- handle_liquid_called AND flow > 0), -1 when nothing moved. Index i is ring cell i (the N2353 convention). A dump that reaches several neighbours reports only the first handled index, so the write-back lands the total there -- the per-neighbour split waits for its own slice.",
+      "tests": [
+        "test_c07_liquid_bridge_dump_write_back_registration",
+        "test_all_c07_liquid_bridge_dump_write_back_input_evidence_is_exact",
+        "test_liquid_bridge_dump_write_back_state",
+        "test_reference_graph_and_actual_c07_liquid_bridge_dump_write_back"
+      ],
+      "runtime_proof": "/root/C07LiquidBridgeDumpWriteBackProof"
+    },
+    "source_liquid_bridge_do_dump_state_result.dumped_liquid_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidBridgeBuildState.source_liquid_bridge_do_dump_state",
+      "godot_symbol": "source_liquid_bridge_do_dump_state_result.dumped_liquid_id",
+      "java_source": "core/src/mindustry/world/blocks/liquid/LiquidBridge.java",
+      "java_method": "LiquidBridgeBuild.doDump()",
+      "java_expr": "dumpLiquid(liquids.current(), 1f);",
+      "rule": "The dumped liquid's module id (the dumped liquid is liquids.current(), LiquidBridge.java:30; `private Liquid current = content.liquid(0);`, LiquidModule.java:24): the current id of the self store, -1 when the store has no current liquid. The pure has no catalog input, so it exposes the id -- the tick resolves the name through liquid_names_by_id (catalog order, index = liquid id, the PayloadLoader precedent) before calling the shared neighbour write-back helper. The amount rides the existing dumped_amount key.",
+      "tests": [
+        "test_c07_liquid_bridge_dump_write_back_registration",
+        "test_all_c07_liquid_bridge_dump_write_back_input_evidence_is_exact",
+        "test_liquid_bridge_dump_write_back_state",
+        "test_reference_graph_and_actual_c07_liquid_bridge_dump_write_back"
+      ],
+      "runtime_proof": "/root/C07LiquidBridgeDumpWriteBackProof"
+    },
+    "source_payload_unloader_dump_state_result.dump_neighbour_index": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_state",
+      "godot_symbol": "source_payload_unloader_dump_state_result.dump_neighbour_index",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.dumpLiquid()",
+      "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+      "rule": "The handled neighbour index (BuildingComp.java:896): the FIRST eligible neighbour whose transfer actually moved liquid (handle_liquid_called AND flow > 0, the N2371 rule), -1 when nothing moved (no eligible neighbour, the ofract guard failed everywhere, every transfer refused, or the empty-store early return). Index i is ring cell i (the N2353 convention); the tick lands the dumped liquid in that neighbour frame through the shared N2371 helper. A dump that reaches several neighbours reports only the first -- the per-neighbour split waits for its own slice.",
+      "tests": [
+        "test_c07_payload_unloader_dump_liquid_write_back_registration",
+        "test_all_c07_payload_unloader_dump_liquid_write_back_input_evidence_is_exact",
+        "test_payload_unloader_dump_liquid_write_back_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_dump_liquid_write_back"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderDumpLiquidWriteBackProof"
+    },
+    "source_payload_unloader_dump_state_result.dumped_liquid_name": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_state",
+      "godot_symbol": "source_payload_unloader_dump_state_result.dumped_liquid_name",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+      "java_method": "PayloadUnloaderBuild.updateTile()",
+      "java_expr": "dumpLiquid(liquids.current());",
+      "rule": "The dumped liquid's catalog name (PayloadUnloader.java:105): the current liquid (LiquidModule.java:81-83, current defaults to liquid 0, :24) resolved to its name through the liquid_names_by_id frame input (the PayloadLoader precedent -- the tick builds the names-by-id array from catalog.get_many(\"liquid\"), index == id). \"\" when no current liquid resolves or the frame carries no names. Set whenever a current liquid resolves, even when nothing moved (the Fracker dumped_liquid precedent); the tick only consumes it when dumped_liquid > 0 AND the handled index is >= 0. NOT the old dumped_liquid key, which is the FLOAT amount dumped (BuildingComp.java:905).",
+      "tests": [
+        "test_c07_payload_unloader_dump_liquid_write_back_registration",
+        "test_all_c07_payload_unloader_dump_liquid_write_back_input_evidence_is_exact",
+        "test_payload_unloader_dump_liquid_write_back_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_dump_liquid_write_back"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderDumpLiquidWriteBackProof"
+    },
+    "source_unit_assembler_module_flagged_candidates_state_result.candidates": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_flagged_candidates_state",
+      "godot_symbol": "source_unit_assembler_module_flagged_candidates_state_result.candidates",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+      "java_method": "UnitAssemblerModule.getLink()",
+      "java_expr": "var results = Vars.indexer.getFlagged(team, BlockFlag.unitAssembler).<UnitAssemblerBuild>as();",
+      "rule": "The filled candidate list (UnitAssemblerModule.java:66, the flagged-assembler scan): the same-team UnitAssembler builds as N2358 descriptors {\"block\", \"cell\": Vector2i, \"rotation\", \"size\", \"area_size\", \"x\", \"y\"} -- x/y are the assembler world coords, cell the origin cell -- in input order (the placed_blocks insertion order, matching Java append-on-index order, BlockIndexer.java:599). The flag lookup is the implementation check: the UnitAssembler constructor sets flags = EnumSet.of(BlockFlag.unitAssembler) class-wide (UnitAssembler.java:66).",
+      "tests": [
+        "test_c07_unit_assembler_module_flagged_buildings_fill_registration",
+        "test_all_c07_unit_assembler_module_flagged_buildings_fill_input_evidence_is_exact",
+        "test_unit_assembler_module_flagged_buildings_fill_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_flagged_buildings_fill"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleFlaggedBuildingsFillProof"
+    },
+    "source_unit_assembler_module_flagged_candidates_state_result.checked": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_flagged_candidates_state",
+      "godot_symbol": "source_unit_assembler_module_flagged_candidates_state_result.checked",
+      "java_source": "core/src/mindustry/ai/BlockIndexer.java",
+      "java_method": "UnitAssemblerModule.getLink()",
+      "java_expr": "public Seq<Building> getFlagged(Team team, BlockFlag type){",
+      "rule": "How many placed buildings the pure evaluated (BlockIndexer.java:315, the scanned flagged list): well-formed entries only -- skipped malformed entries do not count.",
+      "tests": [
+        "test_c07_unit_assembler_module_flagged_buildings_fill_registration",
+        "test_all_c07_unit_assembler_module_flagged_buildings_fill_input_evidence_is_exact",
+        "test_unit_assembler_module_flagged_buildings_fill_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_flagged_buildings_fill"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleFlaggedBuildingsFillProof"
+    },
+    "source_unit_assembler_module_flagged_candidates_state_result.matched": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_flagged_candidates_state",
+      "godot_symbol": "source_unit_assembler_module_flagged_candidates_state_result.matched",
+      "java_source": "core/src/mindustry/ai/BlockIndexer.java",
+      "java_method": "UnitAssemblerModule.getLink()",
+      "java_expr": "map[flag.ordinal()].add(tile.build);",
+      "rule": "How many descriptors the pure emitted (BlockIndexer.java:599, the builds indexed under the flag): the same-team UnitAssembler builds among the checked entries.",
+      "tests": [
+        "test_c07_unit_assembler_module_flagged_buildings_fill_registration",
+        "test_all_c07_unit_assembler_module_flagged_buildings_fill_input_evidence_is_exact",
+        "test_unit_assembler_module_flagged_buildings_fill_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_flagged_buildings_fill"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleFlaggedBuildingsFillProof"
+    },
+    "source_mend_projector_sense_state_result.value": {
+      "status": "source-backed",
+      "godot_owner": "SourceMendProjectorBuildState.source_mend_projector_sense_state",
+      "godot_symbol": "source_mend_projector_sense_state_result.value",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "java_method": "MendBuild.sense()",
+      "java_expr": "if(sensor == LAccess.progress) return Mathf.clamp(charge / reload);",
+      "rule": "The sensed value (MendProjector.java:127-128): progress returns clamp(charge / reload) to [0, 1] (Mathf.clamp(value) clamps to [0, 1], arc Mathf.java:401-404); any other sensor returns the caller-supplied super_value (null for the super default branch).",
+      "tests": [
+        "test_c07_mend_projector_sense_rows_registration",
+        "test_all_c07_mend_projector_sense_rows_input_evidence_is_exact",
+        "test_mend_projector_sense_rows_state",
+        "test_reference_graph_and_actual_c07_mend_projector_sense_rows"
+      ],
+      "runtime_proof": "/root/C07MendProjectorSenseRowsProof"
+    },
+    "source_mend_projector_sense_state_result.is_progress": {
+      "status": "source-backed",
+      "godot_owner": "SourceMendProjectorBuildState.source_mend_projector_sense_state",
+      "godot_symbol": "source_mend_projector_sense_state_result.is_progress",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "java_method": "MendBuild.sense()",
+      "java_expr": "if(sensor == LAccess.progress) return Mathf.clamp(charge / reload);",
+      "rule": "The dispatch flag (MendProjector.java:127, the `sensor == LAccess.progress` guard): true exactly when the sensor is progress and the value is the clamped charge ratio.",
+      "tests": [
+        "test_c07_mend_projector_sense_rows_registration",
+        "test_all_c07_mend_projector_sense_rows_input_evidence_is_exact",
+        "test_mend_projector_sense_rows_state",
+        "test_reference_graph_and_actual_c07_mend_projector_sense_rows"
+      ],
+      "runtime_proof": "/root/C07MendProjectorSenseRowsProof"
     }
   },
   "version": 1

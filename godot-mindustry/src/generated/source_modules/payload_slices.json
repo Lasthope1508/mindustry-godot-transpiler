@@ -2325,6 +2325,30 @@
         "test_reference_graph_and_actual_c07_payload_deconstructor_dump_write_back"
       ],
       "runtime_proof": "/root/C07PayloadDeconstructorDumpWriteBackProof"
+    },
+    "N2380": {
+      "canonical_ledger": "source_slice_ledger.N2380",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadUnloader.java",
+      "java_method": "PayloadUnloaderBuild.updateTile()",
+      "godot_owner": "SourcePayloadUnloaderBuildState.source_payload_unloader_dump_state",
+      "source_symbols": [
+        "source_payload_unloader_dump_state_result.liquids_after",
+        "source_payload_unloader_dump_state_result.dumped_liquid",
+        "source_payload_unloader_dump_state_result.items_after",
+        "source_payload_unloader_dump_state_result.dumped_items",
+        "source_payload_unloader_dump_state_result.cursor_after",
+        "source_payload_unloader_dump_state_result.dump_accum_after",
+        "source_payload_unloader_dump_state_result.dump_neighbour_index",
+        "source_payload_unloader_dump_state_result.dumped_liquid_name"
+      ],
+      "tests": [
+        "test_c07_payload_unloader_dump_liquid_write_back_registration",
+        "test_all_c07_payload_unloader_dump_liquid_write_back_input_evidence_is_exact",
+        "test_payload_unloader_dump_liquid_write_back_state",
+        "test_reference_graph_and_actual_c07_payload_unloader_dump_liquid_write_back"
+      ],
+      "runtime_proof": "/root/C07PayloadUnloaderDumpLiquidWriteBackProof"
     }
   }
 }

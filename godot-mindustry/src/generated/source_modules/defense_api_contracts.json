@@ -7503,6 +7503,48 @@
       "rule": "Source-backed MendProjector power.status row from ConsumePower.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceMendProjectorBuildState.source_mend_projector_sense_state": {
+      "canonical_contract": "source_api_contracts.SourceMendProjectorBuildState.source_mend_projector_sense_state",
+      "status": "active",
+      "source_slice": "N2383",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "source_method": "MendBuild.sense()",
+      "params": [
+        {
+          "name": "sensor",
+          "type": "String",
+          "schema": "source_mend_projector_sense_state_input.sensor"
+        },
+        {
+          "name": "charge",
+          "type": "float",
+          "schema": "source_mend_projector_sense_state_input.charge"
+        },
+        {
+          "name": "reload_value",
+          "type": "float",
+          "schema": "source_mend_projector_sense_state_input.reload_value"
+        },
+        {
+          "name": "super_value",
+          "type": "Variant",
+          "schema": "source_mend_projector_sense_state_input.super_value"
+        }
+      ],
+      "return_keys": [
+        "value",
+        "is_progress"
+      ],
+      "tests": [
+        "test_c07_mend_projector_sense_rows_registration",
+        "test_all_c07_mend_projector_sense_rows_input_evidence_is_exact",
+        "test_mend_projector_sense_rows_state",
+        "test_reference_graph_and_actual_c07_mend_projector_sense_rows"
+      ],
+      "runtime_proof": "/root/C07MendProjectorSenseRowsProof",
+      "rule": "Source-backed MendProjector sense rows from MendProjector.java / Blocks.java / BuildingComp.java.",
+      "return_type": "Dictionary"
+    },
     "SourceMendProjectorBuildState.source_mend_projector_supplied_heal_candidates_state": {
       "canonical_contract": "source_api_contracts.SourceMendProjectorBuildState.source_mend_projector_supplied_heal_candidates_state",
       "status": "active",

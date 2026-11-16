@@ -74607,6 +74607,79 @@
       ],
       "runtime_proof": "/root/C07LightBlockDrawRowsProof",
       "rule": "Source-backed LightBlock draw rows from LightBlock.java / Blocks.java."
+    },
+    "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_flagged_candidates_state": {
+      "status": "active",
+      "source_slice": "N2381",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+      "source_method": "UnitAssemblerModule.getLink()",
+      "params": [
+        {
+          "name": "buildings",
+          "type": "Array",
+          "schema": "source_unit_assembler_module_flagged_candidates_state_input.buildings"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_unit_assembler_module_flagged_candidates_state_input.team_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "candidates",
+        "checked",
+        "matched"
+      ],
+      "tests": [
+        "test_c07_unit_assembler_module_flagged_buildings_fill_registration",
+        "test_all_c07_unit_assembler_module_flagged_buildings_fill_input_evidence_is_exact",
+        "test_unit_assembler_module_flagged_buildings_fill_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_flagged_buildings_fill"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleFlaggedBuildingsFillProof",
+      "rule": "Source-backed UnitAssemblerModule live flagged-buildings index fill from UnitAssemblerModule.java / UnitAssembler.java / BlockIndexer.java."
+    },
+    "SourceMendProjectorBuildState.source_mend_projector_sense_state": {
+      "status": "active",
+      "source_slice": "N2383",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "source_method": "MendBuild.sense()",
+      "params": [
+        {
+          "name": "sensor",
+          "type": "String",
+          "schema": "source_mend_projector_sense_state_input.sensor"
+        },
+        {
+          "name": "charge",
+          "type": "float",
+          "schema": "source_mend_projector_sense_state_input.charge"
+        },
+        {
+          "name": "reload_value",
+          "type": "float",
+          "schema": "source_mend_projector_sense_state_input.reload_value"
+        },
+        {
+          "name": "super_value",
+          "type": "Variant",
+          "schema": "source_mend_projector_sense_state_input.super_value"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "value",
+        "is_progress"
+      ],
+      "tests": [
+        "test_c07_mend_projector_sense_rows_registration",
+        "test_all_c07_mend_projector_sense_rows_input_evidence_is_exact",
+        "test_mend_projector_sense_rows_state",
+        "test_reference_graph_and_actual_c07_mend_projector_sense_rows"
+      ],
+      "runtime_proof": "/root/C07MendProjectorSenseRowsProof",
+      "rule": "Source-backed MendProjector sense rows from MendProjector.java / Blocks.java / BuildingComp.java."
     }
   },
   "policy": {

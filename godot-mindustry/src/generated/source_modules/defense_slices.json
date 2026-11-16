@@ -3686,6 +3686,24 @@
       ],
       "runtime_proof": "/root/C07MendProjectorDrawRowsProof"
     },
+    "N2383": {
+      "canonical_ledger": "source_slice_ledger.N2383",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "java_method": "MendBuild.sense()",
+      "godot_owner": "SourceMendProjectorBuildState.source_mend_projector_sense_state",
+      "source_symbols": [
+        "source_mend_projector_sense_state_result.value",
+        "source_mend_projector_sense_state_result.is_progress"
+      ],
+      "tests": [
+        "test_c07_mend_projector_sense_rows_registration",
+        "test_all_c07_mend_projector_sense_rows_input_evidence_is_exact",
+        "test_mend_projector_sense_rows_state",
+        "test_reference_graph_and_actual_c07_mend_projector_sense_rows"
+      ],
+      "runtime_proof": "/root/C07MendProjectorSenseRowsProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

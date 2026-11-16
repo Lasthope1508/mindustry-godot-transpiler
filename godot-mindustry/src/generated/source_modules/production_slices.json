@@ -1669,6 +1669,48 @@
       ],
       "runtime_proof": "/root/C07BeamDrillTimerDumpWriteBackProof"
     },
+    "N2377": {
+      "canonical_ledger": "source_slice_ledger.N2377",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+      "java_method": "SolidPumpBuild.updateTile()",
+      "godot_owner": "SourceSolidPumpBuildState.source_solid_pump_dump_liquid_state",
+      "source_symbols": [
+        "source_solid_pump_dump_liquid_state_result.liquids_after",
+        "source_solid_pump_dump_liquid_state_result.dumped_amount",
+        "source_solid_pump_dump_liquid_state_result.cursor_after",
+        "source_solid_pump_dump_liquid_state_result.dump_neighbour_index",
+        "source_solid_pump_dump_liquid_state_result.dumped_liquid"
+      ],
+      "tests": [
+        "test_c07_solid_pump_dump_liquid_write_back_registration",
+        "test_all_c07_solid_pump_dump_liquid_write_back_input_evidence_is_exact",
+        "test_solid_pump_dump_liquid_write_back_state",
+        "test_reference_graph_and_actual_c07_solid_pump_dump_liquid_write_back"
+      ],
+      "runtime_proof": "/root/C07SolidPumpDumpLiquidWriteBackProof"
+    },
+    "N2378": {
+      "canonical_ledger": "source_slice_ledger.N2378",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+      "java_method": "PumpBuild.updateTile()",
+      "godot_owner": "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_liquid_state",
+      "source_symbols": [
+        "source_mechanical_pump_dump_liquid_state_result.liquids_after",
+        "source_mechanical_pump_dump_liquid_state_result.dumped_amount",
+        "source_mechanical_pump_dump_liquid_state_result.cursor_after",
+        "source_mechanical_pump_dump_liquid_state_result.dump_neighbour_index",
+        "source_mechanical_pump_dump_liquid_state_result.dumped_liquid"
+      ],
+      "tests": [
+        "test_c07_pump_liquid_neighbour_write_back_registration",
+        "test_all_c07_pump_liquid_neighbour_write_back_input_evidence_is_exact",
+        "test_pump_liquid_neighbour_write_back_state",
+        "test_reference_graph_and_actual_c07_pump_liquid_neighbour_write_back"
+      ],
+      "runtime_proof": "/root/C07PumpLiquidNeighbourWriteBackProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",
