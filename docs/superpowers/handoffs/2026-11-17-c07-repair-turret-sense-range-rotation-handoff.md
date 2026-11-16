@@ -1,6 +1,6 @@
 # Handoff — N2223 RepairTurret sense(range)/sense(rotation) (C07)
 
-## Status: GREEN DONE (this run, ~04:1x–04:5x +07). Gate xanh lúc ~04:50 +07 (Ran 5985, failures=173, skipped=5, 0 errors — toàn bộ Godot-absent). GOAL + push pending (main thread).
+## Status: DONE + PUSHED (slice 99bafab1, main af5f089f). Gate xanh lúc ~04:50 +07 (Ran 5985, failures=173, skipped=5, 0 errors — toàn bộ Godot-absent). Proof chưa chạy trên Windows Godot (nợ GOAL.md §5).
 
 ## GREEN (verified from disk/logs this run)
 
