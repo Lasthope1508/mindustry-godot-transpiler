@@ -5,7 +5,7 @@
 Wired the MendProjector heal scan narrow filter: a new pure admits only
 candidates within `range + hitSize/2` (STRICT) and NOT privileged, chained
 after the N2329 rect. 7 files, +1924/−16, commit `30dc19bf` on
-`slice/N2335-mend-projector-heal-scan-narrow`.
+`slice/N2335-mend-projector-within-privileged`.
 
 ## Key facts for the next agent
 

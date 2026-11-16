@@ -3,7 +3,7 @@
 **Slice:** N2335 — MendProjector heal scan within/privileged narrow filter
 (STRICT dst2 circle + !privileged, chained after the N2329 rect). **Wave:**
 advances-14.
-**Commit:** `30dc19bf` on `slice/N2335-mend-projector-heal-scan-narrow`
+**Commit:** `30dc19bf` on `slice/N2335-mend-projector-within-privileged`
 (base `f3f7af8e`). **Files:** 7, +1924/−16.
 
 ## Source
