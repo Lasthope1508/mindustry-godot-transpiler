@@ -34,3 +34,8 @@
 ## After N2223
 
 Next deferred C07 item per backlog: RepairTurret config-display rows (checked at N2222 RED: RepairTurret.java carries NO sense/config overrides — the rows would be BuildingComp-level work, bigger and unpinned; the sense rows are now DONE at N2223), or the next family. (Do NOT start the C08 inventory unless the user asks.)
+
+## Commits
+
+- 99bafab1 C07: N2223 RepairTurret sense(range)/sense(rotation) (pure function + proof 9 keys) — 9 files, 998 insertions.
+- Docs: 64db845f (report + handoff + design spec, Done 1672 → 1673), GOAL bedf88fc (§5 Windows debt line).
