@@ -213,7 +213,7 @@ static func source_payload_deconstructor_bind_frame_state(sprite: Sprite2D, bloc
 
 static func source_payload_deconstructor_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a payload-deconstructor does not take the early return. The progress advance follows the folded efficiency (PayloadDeconstructor.java:142, `float shift = edelta() * deconstructSpeed / deconstructing.buildTime();`) with `progress += shift;` and the shouldConsume override (PayloadDeconstructor.java:219-221, `return deconstructing != null && enabled;`, default BuildingComp.java:755, `public boolean shouldConsume(){`) -- PayloadDeconstructorBuild overrides shouldConsume() to return deconstructing != null && enabled, so the default does not apply here; the gate is live since N2210 (the pure gate source_payload_deconstructor_should_consume_state feeds deconstructing != null && enabled to the machinery; when the gate is false updateConsumption forces efficiency to 0, BuildingComp.java:1960 + 1992). The deconstructor (consumePower 3f, Blocks.java:6653, `consumePower(3f);`; small-deconstructor consumePower 1f, Blocks.java:6644, `consumePower(1f);`) has no liquid consumer, so the folded efficiency is the min over the *modeled* consumers (power only).
-	# Documented limits: (1) power-only first pass -- the deconstructor has no liquid consumer, so the folded efficiency is the min over the *modeled* consumers (power only). (2) shouldConsume gate live (N2210) -- PayloadDeconstructorBuild overrides shouldConsume() to return deconstructing != null && enabled (PayloadDeconstructor.java:219-221, `return deconstructing != null && enabled;`); the pure gate reads the null-ness of the frame deconstructing payload plus the frame enabled flag and feeds should_consume to the machinery; when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994). The updateTile advance (N2233) fills frame["deconstructing"] from the frame payload via the moveInPayload intake; the handlePayload live fill is live since N2291 (source_payload_deconstructor_handle_payload_state, through the frame incoming_payload push). (3) Partial updateTile advance (N2233) -- progress / payRotation / canProgress / accum / speedScl / item transfer / finish deconstruction / moveInPayload intake (PayloadDeconstructor.java:109-204) are live; the dumpAccumulate dump is live since N2276 (see (5)); the puddles liquid dump, the Fx.breakBlock finish effect, and the live payload positioning wait for their own slices. (4) No draw / icons / setBars / read-write rows -- draw (PayloadDeconstructor.java:58-89), icons (PayloadDeconstructor.java:40-42), setBars (PayloadDeconstructor.java:45-49), read/write (PayloadDeconstructor.java:224-252) are presentation / serialization, not tick state; acceptPayload (PayloadDeconstructor.java:104-106) and acceptUnitPayload (PayloadDeconstructor.java:92-95) are live since N2297 (see (7)); handlePayload (PayloadDeconstructor.java:98-101) is live since N2291 (see (6)). (5) Dump rows live (N2276) -- dumpRate 4 (PayloadDeconstructor.java:20) and dumpAccumulate (PayloadDeconstructor.java:111-115) dump through the shared dump_item_state routing; the neighbour acceptItem / canDump arrays are frame inputs (default [] -- no neighbours, the Java proximity.size == 0 outcome); the dump neighbour live fill is live since N2407 (the tick scans the live proximity before the dump pure, ring order, default gates only). Dump neighbour write-back live since N2368 -- the advance exposes dump_deliveries, one {neighbour_index, item} per successful dump attempt, and the tick lands each dumped item in the neighbour store through the N2353 helper. (6) Live deconstructing fill live (N2291) -- the handlePayload intake (PayloadBlock.java:121-127 + the Deconstructor override PayloadDeconstructor.java:98-101, clearing accum) applies the frame incoming_payload push before the fold when the full acceptPayload gate accepts it (N2308 -- the tick computes the N2297 verdict from the incoming dict itself; a refused push is dropped, still consumed), and the moveInPayload handoff (PayloadDeconstructor.java:197-202, moveInPayload(false), no rotate) is a registered pure (source_payload_deconstructor_move_in_payload_state) called from the N2233 advance's else-if branch; updatePayload() live positioning defers (no live payload entity) and the incoming push has no live source yet (the front moveOutPayload handoff and the unit drop wait for their own slices). (7) Acceptance gates live (N2297) -- acceptPayload (PayloadDeconstructor.java:104-106) and acceptUnitPayload (PayloadDeconstructor.java:92-95) are registered pures (source_payload_deconstructor_accept_payload_state / source_payload_deconstructor_accept_unit_payload_state) wired to frame["accepts_payload"] / frame["accepts_unit_payload"] from the frame offered_payload / offered_unit descriptors (default null -- no live source offers them yet, so both verdicts read false live). (8) Intake full-gate wiring live (N2308) -- the tick computes the N2297 acceptPayload verdict from the incoming dict itself (requirements_length from the N2233 requirements array, block_size from the new incoming-dict key; a push without block_size rejects) and applies the push only when it accepts; the offered-payload verdict still governs frame["accepts_payload"] (when both an offer and a push are present, the offer verdict governs the frame key and the intake verdict decides the push alone). (9) Sense rows live (N2387) -- sense(Content) (PayloadDeconstructor.java:206-210) and sense(LAccess.progress) (PayloadDeconstructor.java:213-216) are registered pures (source_payload_deconstructor_sense_state / source_payload_deconstructor_sense_content_state), pure-only (sense is called by logic, not the tick, and the logic call site waits for a logic-executor slice); progress returns as-is with NO clamp; the content dispatch reads the descriptor kind key (the N2233 contract: kind "build" / "unit") and takes the payload identity as the caller-supplied payload_content_id explicit input (the descriptor carries no identity key, so no live call site can supply it until a payload-contract slice adds one).
+	# Documented limits: (1) power-only first pass -- the deconstructor has no liquid consumer, so the folded efficiency is the min over the *modeled* consumers (power only). (2) shouldConsume gate live (N2210) -- PayloadDeconstructorBuild overrides shouldConsume() to return deconstructing != null && enabled (PayloadDeconstructor.java:219-221, `return deconstructing != null && enabled;`); the pure gate reads the null-ness of the frame deconstructing payload plus the frame enabled flag and feeds should_consume to the machinery; when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994). The updateTile advance (N2233) fills frame["deconstructing"] from the frame payload via the moveInPayload intake; the handlePayload live fill is live since N2291 (source_payload_deconstructor_handle_payload_state, through the frame incoming_payload push). (3) Partial updateTile advance (N2233) -- progress / payRotation / canProgress / accum / speedScl / item transfer / finish deconstruction / moveInPayload intake (PayloadDeconstructor.java:109-204) are live; the dumpAccumulate dump is live since N2276 (see (5)); the puddles liquid dump, the Fx.breakBlock finish effect, and the live payload positioning wait for their own slices. (4) Draw rows live (N2418) -- draw (PayloadDeconstructor.java:58-89) + icons (PayloadDeconstructor.java:40-42) are modeled by the pure-only source_payload_deconstructor_draw_state (base rect + input regions + drawPayload + deconstructing shadow + construct effect + scan line + top region; icons ride the pure as icon_regions, the N2396 precedent); setBars (PayloadDeconstructor.java:45-49) and read/write (PayloadDeconstructor.java:224-252) still defer (presentation / serialization, not tick state); acceptPayload (PayloadDeconstructor.java:104-106) and acceptUnitPayload (PayloadDeconstructor.java:92-95) are live since N2297 (see (7)); handlePayload (PayloadDeconstructor.java:98-101) is live since N2291 (see (6)). (5) Dump rows live (N2276) -- dumpRate 4 (PayloadDeconstructor.java:20) and dumpAccumulate (PayloadDeconstructor.java:111-115) dump through the shared dump_item_state routing; the neighbour acceptItem / canDump arrays are frame inputs (default [] -- no neighbours, the Java proximity.size == 0 outcome); the dump neighbour live fill is live since N2407 (the tick scans the live proximity before the dump pure, ring order, default gates only). Dump neighbour write-back live since N2368 -- the advance exposes dump_deliveries, one {neighbour_index, item} per successful dump attempt, and the tick lands each dumped item in the neighbour store through the N2353 helper. (6) Live deconstructing fill live (N2291) -- the handlePayload intake (PayloadBlock.java:121-127 + the Deconstructor override PayloadDeconstructor.java:98-101, clearing accum) applies the frame incoming_payload push before the fold when the full acceptPayload gate accepts it (N2308 -- the tick computes the N2297 verdict from the incoming dict itself; a refused push is dropped, still consumed), and the moveInPayload handoff (PayloadDeconstructor.java:197-202, moveInPayload(false), no rotate) is a registered pure (source_payload_deconstructor_move_in_payload_state) called from the N2233 advance's else-if branch; updatePayload() live positioning defers (no live payload entity) and the incoming push has no live source yet (the front moveOutPayload handoff and the unit drop wait for their own slices). (7) Acceptance gates live (N2297) -- acceptPayload (PayloadDeconstructor.java:104-106) and acceptUnitPayload (PayloadDeconstructor.java:92-95) are registered pures (source_payload_deconstructor_accept_payload_state / source_payload_deconstructor_accept_unit_payload_state) wired to frame["accepts_payload"] / frame["accepts_unit_payload"] from the frame offered_payload / offered_unit descriptors (default null -- no live source offers them yet, so both verdicts read false live). (8) Intake full-gate wiring live (N2308) -- the tick computes the N2297 acceptPayload verdict from the incoming dict itself (requirements_length from the N2233 requirements array, block_size from the new incoming-dict key; a push without block_size rejects) and applies the push only when it accepts; the offered-payload verdict still governs frame["accepts_payload"] (when both an offer and a push are present, the offer verdict governs the frame key and the intake verdict decides the push alone). (9) Sense rows live (N2387) -- sense(Content) (PayloadDeconstructor.java:206-210) and sense(LAccess.progress) (PayloadDeconstructor.java:213-216) are registered pures (source_payload_deconstructor_sense_state / source_payload_deconstructor_sense_content_state), pure-only (sense is called by logic, not the tick, and the logic call site waits for a logic-executor slice); progress returns as-is with NO clamp; the content dispatch reads the descriptor kind key (the N2233 contract: kind "build" / "unit") and takes the payload identity as the caller-supplied payload_content_id explicit input (the descriptor carries no identity key, so no live call site can supply it until a payload-contract slice adds one).
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -1208,3 +1208,229 @@ static func source_payload_deconstructor_tick_buildings_state(game: Object, seco
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
 	return {"ticked_count": ticked_count, "results_by_cell": results_by_cell}
+
+static func source_payload_deconstructor_draw_state(x_value: float, y_value: float, blends: Array, payload_present: bool, deconstructing: Variant, progress: float, time_value: float, size_value: int) -> Dictionary:
+	# The draw / icons rows (PayloadDeconstructorBuild.draw(),
+	# PayloadDeconstructor.java:58-89 + icons(),
+	# PayloadDeconstructor.java:40-42), the pure draw-call
+	# dict -- the port never draws for real (the N2396
+	# MassDriver precedent: the pure returns the draw calls
+	# as data). Java draws, in order (each exact expr on ONE
+	# comment line, the N2148 lesson):
+	# `Draw.rect(region, x, y);`
+	# `for(int i = 0; i < 4; i++){`
+	# `if(blends(i)){`
+	# `Draw.rect(inRegion, x, y, (i * 90) - 180);`
+	# `Draw.z(Layer.blockOver);`
+	# `drawPayload();`
+	# `if(deconstructing != null){`
+	# `deconstructing.set(x + payVector.x, y + payVector.y, payRotation);`
+	# `deconstructing.drawShadow(1f - progress);`
+	# `Draw.draw(Layer.blockOver, () -> {`
+	# `Drawf.construct(x, y, deconstructing.icon(), Pal.remove, deconstructing instanceof BuildPayload ? 0f : payRotation - 90f, 1f - progress, 1f - progress, time);`
+	# `Draw.color(Pal.remove);`
+	# `Draw.alpha(1f);`
+	# `Lines.lineAngleCenter(x + Mathf.sin(time, 20f, tilesize / 2f * block.size - 3f), y, 90f, block.size * tilesize - 6f);`
+	# `Draw.reset();`
+	# `Draw.rect(topRegion, x, y);`
+	# The base rect always draws; then the input regions,
+	# one per blends direction (rotation (i * 90) - 180:
+	# -180 / -90 / 0 / 90 for i = 0..3); then drawPayload()
+	# on Layer.blockOver; then, only while a payload is
+	# being deconstructed, the shadow + the construct effect
+	# + the scan line; then the top rect always. icons():
+	# `public TextureRegion[] icons(){`
+	# `return new TextureRegion[]{region, topRegion};`
+	# -- the two regions draw() draws, in draw order, so
+	# the pure reports them as icon_regions instead of a
+	# zero-arg pure (the SSOT schema validator requires
+	# non-empty input keys, the N2396 precedent).
+	# drawPayload() (PayloadBlock.java:246-253):
+	# `public void drawPayload(){`
+	# `if(payload != null){`
+	# `updatePayload();`
+	# `payload.draw();`
+	# -- the HELD payload, a different field from the
+	# deconstructing payload (`public @Nullable Payload deconstructing;`,
+	# PayloadDeconstructor.java:52, vs the held `public
+	# @Nullable T payload;`, PayloadBlock.java:92), so the
+	# pure takes a separate payload_present bool. The inner
+	# payload.draw() dispatch (BuildPayload.draw /
+	# UnitPayload.draw, over Payload.java:22 `void draw();`)
+	# needs the live payload entity, so the pure reports
+	# the call + z + the updatePayload() call, not the inner
+	# draw. blends(i) is the PayloadBlock neighbour check:
+	# `public boolean blends(int direction){`
+	# `return PayloadBlock.blends(this, direction);`
+	# (PayloadBlock.java:170-172, over the static blends,
+	# PayloadBlock.java:51-74) -- the pure takes the 4
+	# verdicts as an explicit Array input (the live
+	# neighbour query waits for its own slice); a blends
+	# array shorter than 4 reads the missing directions
+	# as false. The deconstructing descriptor carries icon
+	# (the symbolic token for deconstructing.icon(),
+	# Payload.java:65 `TextureRegion icon();`),
+	# is_build_payload (the `deconstructing instanceof
+	# BuildPayload` dispatch -- rotation 0f for a
+	# BuildPayload, payRotation - 90f otherwise),
+	# pay_vector (the {x, y} dict form of `public Vec2 payVector = new Vec2();`,
+	# PayloadBlock.java:94) and pay_rotation (`public float payRotation;`,
+	# PayloadBlock.java:95). The shadow draws at the set()
+	# position (x + payVector.x, y + payVector.y) with
+	# alpha 1f - progress; the inner shadow dispatch
+	# (BuildPayload `Drawf.squareShadow(build.x, build.y, build.block.size * tilesize * 1.85f, alpha);`,
+	# BuildPayload.java:110 / UnitPayload `unit.type.drawSoftShadow(unit, alpha);`,
+	# UnitPayload.java:147, over Payload.java:24 `void drawShadow(float alpha);`)
+	# needs the payload block size / unit type the N2233
+	# descriptor does not carry, so the pure reports the
+	# call + alpha + position + kind. Drawf.construct here
+	# is the (x, y, region, color, rotation, progress,
+	# alpha, time) overload:
+	# `public static void construct(float x, float y, TextureRegion region, Color color, float rotation, float progress, float alpha, float time){`
+	# (Drawf.java:560-572) -- a shader rect ONLY:
+	# `Shaders.build.progress = progress;`
+	# `Shaders.build.color.a = alpha;`
+	# `Shaders.build.time = -time / 20f;`
+	# `Draw.rect(region, x, y, rotation);`
+	# -- NO scan line of its own, unlike the Building
+	# overload (Drawf.java:582-599). The Deconstructor's
+	# scan line is its own line, drawn after Draw.color(Pal.
+	# remove) + Draw.alpha(1f) inside the same Draw.draw
+	# lambda. The sin is the arc 3-arg form
+	# `return sin(radians / scl) * mag;`
+	# (Mathf.java:90-92, arc) -- NOT absin (the N2415
+	# precedent) -- so the scan offset is sin(time / 20f)
+	# * (tilesize / 2f * size - 3f) and the length is size
+	# * tilesize - 6f: size 5 gives magnitude 17 and length
+	# 34, size 3 gives 9 and 18. time is the BUILD field
+	# (`public float time, speedScl;`,
+	# PayloadDeconstructor.java:55, advanced by the N2233
+	# advance as `time += edelta();`), caller-supplied as
+	# time_value (the N2396/N2372 convention -- draw never
+	# runs in the tick, so the tick never stamps it);
+	# progress is `public float progress;`
+	# (PayloadDeconstructor.java:54, tracked by the N2233
+	# advance). tilesize is the Java constant 8.0
+	# (`public static final int tilesize = 8;`, Vars.java:135
+	# -- NEVER the game tile_size 32, the N2375 lesson).
+	# Two defs share this driver: `size = 5;`
+	# (deconstructor, Blocks.java:6654) and size 3
+	# (small-deconstructor, Blocks.java:6645); size_value
+	# is an explicit param. Pure-only: the tick never calls
+	# draw -- draw is called by the renderer, and the
+	# renderer call site waits for a renderer slice.
+	var tile_size: float = source_world_defaults.TILESIZE
+	var has_deconstructing: bool = deconstructing != null
+	var deconstructing_dict: Dictionary = {}
+	if deconstructing is Dictionary:
+		deconstructing_dict = deconstructing
+	var is_build_payload: bool = bool(deconstructing_dict.get("is_build_payload", false))
+	var pay_vector: Dictionary = {"x": 0.0, "y": 0.0}
+	if deconstructing_dict.get("pay_vector", null) is Dictionary:
+		pay_vector = deconstructing_dict.get("pay_vector")
+	var pay_rotation: float = float(deconstructing_dict.get("pay_rotation", 0.0))
+	var pay_x: float = float(pay_vector.get("x", 0.0))
+	var pay_y: float = float(pay_vector.get("y", 0.0))
+	var remaining: float = 1.0 - progress
+	var scan_magnitude: float = tile_size / 2.0 * float(size_value) - 3.0
+	var scan_length: float = float(size_value) * tile_size - 6.0
+	var scan_x: float = x_value + sin(time_value / 20.0) * scan_magnitude
+	var construct_rotation: float = 0.0 if is_build_payload else pay_rotation - 90.0
+	var icon_token: String = str(deconstructing_dict.get("icon", "deconstructing.icon()"))
+	var base_call: Dictionary = {
+		"call": "Draw.rect(region, x, y);",
+		"region": "region",
+		"x": x_value,
+		"y": y_value,
+	}
+	var input_calls: Array = []
+	for i in range(4):
+		if i < blends.size() and bool(blends[i]):
+			input_calls.append({
+				"call": "Draw.rect(inRegion, x, y, (i * 90) - 180);",
+				"region": "inRegion",
+				"x": x_value,
+				"y": y_value,
+				"index": i,
+				"rotation": float(i * 90 - 180),
+			})
+	var payload_call: Dictionary = {}
+	if payload_present:
+		payload_call = {
+			"call": "payload.draw();",
+			"update_payload_call": "updatePayload();",
+			"z": "Layer.blockOver",
+		}
+	var shadow_call: Dictionary = {}
+	if has_deconstructing:
+		shadow_call = {
+			"call": "deconstructing.drawShadow(1f - progress);",
+			"alpha": remaining,
+			"x": x_value + pay_x,
+			"y": y_value + pay_y,
+			"rotation": pay_rotation,
+			"is_build_payload": is_build_payload,
+			"z": "Layer.blockOver",
+		}
+	var construct_call: Dictionary = {}
+	if has_deconstructing:
+		construct_call = {
+			"call": "Drawf.construct(x, y, deconstructing.icon(), Pal.remove, deconstructing instanceof BuildPayload ? 0f : payRotation - 90f, 1f - progress, 1f - progress, time);",
+			"icon": icon_token,
+			"color": "Pal.remove",
+			"rotation": construct_rotation,
+			"progress": remaining,
+			"alpha": remaining,
+			"time": time_value,
+			"shader_time": -time_value / 20.0,
+			"x": x_value,
+			"y": y_value,
+			"z": "Layer.blockOver",
+		}
+	var scan_line: Dictionary = {}
+	if has_deconstructing:
+		scan_line = {
+			"call": "Lines.lineAngleCenter(x + Mathf.sin(time, 20f, tilesize / 2f * block.size - 3f), y, 90f, block.size * tilesize - 6f);",
+			"x": scan_x,
+			"y": y_value,
+			"angle": 90.0,
+			"length": scan_length,
+			"color": "Pal.remove",
+			"alpha": 1.0,
+		}
+	var top_call: Dictionary = {
+		"call": "Draw.rect(topRegion, x, y);",
+		"region": "topRegion",
+		"x": x_value,
+		"y": y_value,
+	}
+	return {
+		"base_expr": "Draw.rect(region, x, y);",
+		"input_expr": "Draw.rect(inRegion, x, y, (i * 90) - 180);",
+		"payload_expr": "payload.draw();",
+		"shadow_expr": "deconstructing.drawShadow(1f - progress);",
+		"construct_expr": "Drawf.construct(x, y, deconstructing.icon(), Pal.remove, deconstructing instanceof BuildPayload ? 0f : payRotation - 90f, 1f - progress, 1f - progress, time);",
+		"scan_expr": "Lines.lineAngleCenter(x + Mathf.sin(time, 20f, tilesize / 2f * block.size - 3f), y, 90f, block.size * tilesize - 6f);",
+		"top_expr": "Draw.rect(topRegion, x, y);",
+		"icons_expr": "return new TextureRegion[]{region, topRegion};",
+		"x": x_value,
+		"y": y_value,
+		"has_deconstructing": has_deconstructing,
+		"payload_present": payload_present,
+		"progress": progress,
+		"remaining": remaining,
+		"time_value": time_value,
+		"size": size_value,
+		"scan_magnitude": scan_magnitude,
+		"scan_length": scan_length,
+		"scan_x": scan_x,
+		"construct_rotation": construct_rotation,
+		"base_call": base_call,
+		"input_calls": input_calls,
+		"payload_call": payload_call,
+		"shadow_call": shadow_call,
+		"construct_call": construct_call,
+		"scan_line": scan_line,
+		"top_call": top_call,
+		"icon_regions": ["region", "topRegion"],
+	}
