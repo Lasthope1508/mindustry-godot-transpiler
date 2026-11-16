@@ -5578,6 +5578,24 @@
       ],
       "runtime_proof": "/root/C07BuildTurretUpdateBuildLogicProof"
     },
+    "N2343": {
+      "canonical_ledger": "source_slice_ledger.N2343",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.offload()",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_offload_routing_context_state",
+      "source_symbols": [
+        "source_separator_offload_routing_context_state_result.neighbors",
+        "source_separator_offload_routing_context_state_result.dump_cursor"
+      ],
+      "tests": [
+        "test_c07_separator_offload_routing_registration",
+        "test_all_c07_separator_offload_routing_input_evidence_is_exact",
+        "test_separator_offload_routing_state",
+        "test_reference_graph_and_actual_c07_separator_offload_routing"
+      ],
+      "runtime_proof": "/root/C07SeparatorOffloadRoutingProof"
+    },
     "N514": {
       "canonical_ledger": "source_slice_ledger.N514",
       "status": "done",

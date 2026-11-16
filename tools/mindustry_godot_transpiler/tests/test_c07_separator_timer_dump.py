@@ -225,7 +225,7 @@ class C07SeparatorTimerDumpTests(unittest.TestCase):
         self.assertIn('frame["timer_dump_elapsed"]', separator)
         self.assertIn('frame["cdump"]', separator)
         self.assertLess(
-            separator.index('source_separator_update_tile_advance_state(frame, source_delta, time_scale, craft_time, results, cons_items, item_capacity)'),
+            separator.index('source_separator_update_tile_advance_state(frame, source_delta, time_scale, craft_time, results, cons_items, item_capacity, routing_context)'),
             separator.index('source_separator_timer_dump_state(frame, source_delta, time_scale, content_item_ids, neighbour_accepts, neighbour_can_dump)'),
         )
         # The documented limits now record the dump as live
