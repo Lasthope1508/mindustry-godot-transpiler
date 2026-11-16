@@ -239,6 +239,9 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
   - [ ] N2205 `C07LaunchPadShouldConsumeProof` — Linux GREEN ~08:03 (6 key).
     Scene tới Windows theo slice commit `68b32928` (pushed ~08:5x, main
     `b56b13b8`). Chưa chạy trên Windows Godot.
+  - [ ] N2206 `C07LaunchPadSenseProgressProof` — Linux GREEN ~09:4x (6 key).
+    Scene tới Windows theo slice commit `8db29088` (pushed ~10:0x, main
+    `13fe94f3`). Chưa chạy trên Windows Godot.
   - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
     trên (ghi rõ commit đưa scene tới Windows).
   - [ ] Agent khác đang test các lỗi fail trên Windows Godot (PR #1 đã merge
