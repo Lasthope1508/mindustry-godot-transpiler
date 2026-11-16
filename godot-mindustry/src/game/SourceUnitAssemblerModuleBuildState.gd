@@ -86,7 +86,7 @@ static func source_unit_assembler_module_bind_frame_state(sprite: Sprite2D, bloc
 
 static func source_unit_assembler_module_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a unit-assembler-module does not take the early return. The forward gate follows the folded efficiency (UnitAssemblerModule.java:138, `if(moveInPayload() && link != null && link.moduleFits(block, x, y, rotation) && !link.wasOccupied && link.acceptPayload(this, payload) && efficiency > 0){`) and the module has no shouldConsume override, so the default (BuildingComp.java:755, `public boolean shouldConsume(){`) applies -- the row folds under the live default, not the MendProjector-suppression precedent. The basic-assembler-module (consumePower 3.5f, Blocks.java:6568, `consumePower(3.5f);`) has no liquid consumer, so the folded efficiency is the min over the *modeled* consumers (power only).
-	# Documented limits: (1) power-only first pass -- the module has no liquid/item consumer, so the folded efficiency is the min over the *modeled* consumers (power only). (2) shouldConsume default applies -- the module has no override; the machinery runs with should_consume=true when enabled. (3) updateTile advance live (N2248) -- the lastChange refresh + findLink re-discovery + moveInPayload + the handoff gate (UnitAssemblerModule.java:132-141) run in source_unit_assembler_module_update_tile_advance_state; the N2168 proof still carries no link/payload/tier keys (the efficiency > 0 gate (UnitAssemblerModule.java:138) is what the efficiency keys prove) while the N2248 proof carries the link/payload keys. The getLink discovery, the removeModule / updateModules side effects, the live moduleFits / wasOccupied predicate evaluation (acceptPayload evaluation is live since N2299 and wired into the handoff gate since N2314), the handoff-to-intake wiring, and the live payload fill wait for their own slices -- see DEFERRED. (4) No link/tier/canPlaceOn/draw/onRemoved rows -- see DEFERRED. acceptPayload rows live (N2299) -- the module gate (UnitAssemblerModule.java:110-111) and the link assembler gate (UnitAssembler.java:722-727) run in source_unit_assembler_module_accept_payload_state / source_unit_assembler_accept_payload_state, and the tick exposes both verdicts on the frame (accepts_payload / link_accepts_payload). Handoff-gate wiring live (N2314) -- the N2248 handoff gate reads the LINK verdict live: the tick stamps frame["accept_payload"] from link_accepts_payload before the advance, so a live module hands off when the link accepts; the module verdict does NOT drive the gate. (5) No variant verification -- there is only one module def (basic-assembler-module).
+	# Documented limits: (1) power-only first pass -- the module has no liquid/item consumer, so the folded efficiency is the min over the *modeled* consumers (power only). (2) shouldConsume default applies -- the module has no override; the machinery runs with should_consume=true when enabled. (3) updateTile advance live (N2248) -- the lastChange refresh + findLink re-discovery + moveInPayload + the handoff gate (UnitAssemblerModule.java:132-141) run in source_unit_assembler_module_update_tile_advance_state; the N2168 proof still carries no link/payload/tier keys (the efficiency > 0 gate (UnitAssemblerModule.java:138) is what the efficiency keys prove) while the N2248 proof carries the link/payload keys. The getLink discovery, the removeModule / updateModules side effects, the live moduleFits / wasOccupied predicate evaluation (acceptPayload evaluation is live since N2299 and wired into the handoff gate since N2314), the handoff-to-intake wiring, and the live payload fill wait for their own slices -- see DEFERRED. (4) No link/tier/draw/onRemoved rows -- see DEFERRED. canPlaceOn live (N2345) -- the placement gate (UnitAssemblerModule.java:48-51) runs in source_unit_assembler_module_can_place_on_state, reading the frame link verdict (N2248); the live placement call site waits for its own slice. acceptPayload rows live (N2299) -- the module gate (UnitAssemblerModule.java:110-111) and the link assembler gate (UnitAssembler.java:722-727) run in source_unit_assembler_module_accept_payload_state / source_unit_assembler_accept_payload_state, and the tick exposes both verdicts on the frame (accepts_payload / link_accepts_payload). Handoff-gate wiring live (N2314) -- the N2248 handoff gate reads the LINK verdict live: the tick stamps frame["accept_payload"] from link_accepts_payload before the advance, so a live module hands off when the link accepts; the module verdict does NOT drive the gate. (5) No variant verification -- there is only one module def (basic-assembler-module).
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -188,6 +188,39 @@ static func source_unit_assembler_accept_payload_state(payload: Dictionary, asse
 			any_requirement_passes = true
 	var accepts: bool = (not assembler_has_payload or source_is_module) and any_requirement_passes
 	return {"accepts": accepts, "requirement_found": requirement_found, "quota": quota, "stored_count": stored_count, "module_adjustment": module_adjustment}
+
+# --- N2345: canPlaceOn placement gate (DEFERRED #41) ---
+# The canPlaceOn pure evaluates the getLink verdict the frame already
+# carries. Java's override (UnitAssemblerModule.java:48-51):
+# `public boolean canPlaceOn(Tile tile, Team team, int rotation){`
+# `return getLink(team, tile.x, tile.y, rotation) != null;`
+# -- a module can be placed only where a fitting assembler is linked.
+# getLink (UnitAssemblerModule.java:65-69):
+# `public @Nullable UnitAssemblerBuild getLink(Team team, int x, int y, int rotation){`
+# `return results.find(b -> b.moduleFits(this, x * tilesize + offset, y * tilesize + offset, rotation));`
+# -- the first flagged assembler whose moduleFits holds. The build
+# field is `public UnitAssemblerBuild link;`
+# (UnitAssemblerModule.java:72), refreshed by findLink
+# (UnitAssemblerModule.java:75-83):
+# `link = getLink(team, tile.x, tile.y, rotation);`
+# on tileChanges -- the N2248 advance ports that refresh, so the frame
+# link IS the getLink verdict. The pure takes the frame only: Java
+# receives tile / team / rotation, but the port has no live building
+# query, so the verdict arrives through the frame link (the N2330 UCL
+# canPlaceOn precedent). No link stamped (absent or null) means CANNOT
+# place -- the Java-exact default: the link field defaults null (:72,
+# no initializer; _initial_frame binds null) and getLink returns null
+# when no assembler fits. This is RESTRICTIVE, unlike the N2330
+# permissive canCreate default. The pure does NOT read link_candidate:
+# the candidate only becomes the link on refresh. canPlaceOn is a
+# placement gate, NOT tick wiring: the driver never calls this pure
+# each tick, and the live placement call site (the valid-place hook,
+# SourceBlockGeometry.gd:1149-1151) waits for its own slice. Cite
+# correction: the brief and the resolved DEFERRED entry cited :53-55,
+# but the method is :48-51 at this pin (signature :49, return :50);
+# :53-55 is inside drawPlanRegion.
+static func source_unit_assembler_module_can_place_on_state(frame: Dictionary) -> Dictionary:
+	return {"can_place_on": frame.get("link", null) != null}
 
 static func _unit_assembler_module_vec2_approach(pay_vector: Vector2, alpha: float) -> Vector2:
 	# Vec2.approach(Vec2 target, float alpha) (Vec2.java:525-537),
