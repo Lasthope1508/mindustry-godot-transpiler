@@ -133,7 +133,7 @@ class C07SeparatorLiquidRowTests(unittest.TestCase):
         self.assertIn('{"has_liquid_row": false, "row": {}}', separator)
         # The held amount reads through the shared liquid
         # module helper over the frame liquids key, with the
-        # Fracker guard (SourceFrackerBuildState.gd:141); the
+        # Fracker guard (SourceFrackerBuildState.gd:279); the
         # tick syncs the live sprite store into the frame
         # BEFORE the fold (Fracker:327), and the second pass
         # removes the consumed slag through the same helper

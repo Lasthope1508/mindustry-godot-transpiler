@@ -99,7 +99,7 @@ class C07RepairTowerLiquidRowTests(unittest.TestCase):
         # state: ConsumeLiquid.efficiency (ConsumeLiquid.java:
         # 42-47) over the frame liquids store, read through
         # the shared liquid module helper with the Fracker
-        # guard (SourceFrackerBuildState.gd:141-142,
+        # guard (SourceFrackerBuildState.gd:279,
         # `liquids.has("liquids")` + bounds check) -- Java's
         # liquids.get returns 0.0 for a liquid never added.
         # In the first pass efficiency is assumed 1f

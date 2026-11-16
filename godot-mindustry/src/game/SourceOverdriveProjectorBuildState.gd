@@ -129,9 +129,9 @@ static func source_overdrive_projector_update_tile_advance_state(frame: Dictiona
 	# lerps only when hasBoost (OverdriveProjector.java:102 `if(hasBoost){`); the
 	# overdrive-dome sets hasBoost = false (Blocks.java:1960), so its phaseHeat
 	# stays 0. The charge reset sits inside `if(charge >= reload){` BEFORE the
-	# indexer scan (OverdriveProjector.java:110-112), so the reset does not depend
+	# indexer scan (OverdriveProjector.java:106-111), so the reset does not depend
 	# on finding a target -- this slice resets, and only the boost application is
-	# deferred (OverdriveProjector.java:113):
+	# deferred (OverdriveProjector.java:110):
 	# indexer.eachBlock(this, realRange, other -> other.block.canOverdrive, other -> other.applyBoost(realBoost(), reload + 1f));
 	# The useProgress wrap is unconditional arithmetic in the `if(useProgress >= useTime){`
 	# branch: consume() returns void, so nothing gates the wrap on consume's outcome --
