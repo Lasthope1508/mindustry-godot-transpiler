@@ -11,6 +11,14 @@ const source_building_item_dump_state := preload("res://src/game/SourceBuildingI
 const source_building_item_state := preload("res://src/game/SourceBuildingItemState.gd")
 const source_liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
 const source_content_registry_runtime_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
+# The N2403 live fill needs the consumer frame-key list (the
+# N2353 resolution path) and the conduit markers (a conduit is
+# no-frame): both preloads are cycle-free (verified by
+# transitive closure: the 105-file power-graph tree and the
+# 53-file liquid tree do not contain this file, and this file
+# already reaches the power-graph state through the item state).
+const source_placed_power_graph_state := preload("res://src/game/SourcePlacedPowerGraphState.gd")
+const source_building_liquid_state := preload("res://src/game/SourceBuildingLiquidState.gd")
 
 # The BurstDrill implementation (BurstDrill.java:17, `public class
 # BurstDrill extends Drill{`): eruption-drill (consumePower 6f,
@@ -196,7 +204,9 @@ static func source_burst_drill_power_status_row_state(frame: Dictionary, has_pow
 	# the timerDump neighbour write-back live since N2360 (the
 	# advance exposes dump_neighbour_index / dumped_item and
 	# the tick lands the dumped item in the neighbour store
-	# through the shared helper); first-fire deviation
+	# through the shared helper); dump neighbour live fill is live since N2403
+	# (the tick fills the two neighbour arrays from the live
+	# proximity before the dump reads them); first-fire deviation
 	# documented (Java fires nearly immediately after
 	# placement, the frame clock waits a full interval); still
 	# deferred: the offload
@@ -484,6 +494,119 @@ static func source_burst_drill_timer_dump_state(frame: Dictionary, source_delta:
 				items[str(content_item_ids[j])] = int(amounts_after[j])
 	return {"fired": true, "elapsed_after": 0.0, "dumped": dumped, "items_after": items, "cursor_after": int(result.get("cdump", cursor)), "dump_neighbour_index": dump_neighbour_index, "dumped_item": dumped_item}
 
+static func source_burst_drill_dump_neighbour_live_fill_state(game: Object, cell: Vector2i, size: int, frame: Dictionary, item_order: Array) -> Dictionary:
+	# The dump neighbour live fill (N2403, DEFERRED #228):
+	# the N2282 timerDump dump reads the two neighbour arrays as
+	# frame inputs (default [] -- no neighbours, the Java
+	# proximity.size == 0 outcome), so a live burst drill with
+	# no fill never dumped. This fill scans the live
+	# proximity BEFORE the dump pure and fills the two
+	# arrays from the live neighbour frames, in ring order
+	# (index i is ring cell i, the N2353 convention -- the
+	# ring comes from source_block_proximity_cells_state,
+	# the sprite from block_sprite_at_cell, the frame from
+	# the first SOURCE_CONSUMER_FRAME_META_KEYS meta on the
+	# sprite, the N2353 resolution path):
+	# `Building other = proximity.get((i + dump) % proximity.size);`
+	# The accepts/canDump arrays come from the DEFAULT
+	# BuildingComp gates -- acceptItem REQUIRES consumesItem,
+	# not just capacity:
+	# `public boolean acceptItem(Building source, Item item){`
+	# `return block.consumesItem(item) && items.get(item) < getMaximumAccepted(item);`
+	# `public int getMaximumAccepted(Item item){`
+	# `return block.itemCapacity;`
+	# `public int itemCapacity = 10;`
+	# The consumes read is the itemFilter:
+	# `public boolean consumesItem(Item item){`
+	# `return itemFilter[item.id];`
+	# which the port represents as the catalog consumeItem
+	# rows. The canDump default is true:
+	# `public boolean canDump(Building to, Item item){`
+	# and the dump routing gates on both:
+	# `if(other.acceptItem(self(), item) && canDump(other, item)){`
+	# `if(other.acceptItem(self(), todump) && canDump(other, todump)){`
+	# The item gate answers for the FIRST held item in content
+	# order -- the item the dump pure offers (its accepts array
+	# is per-neighbour, not per-item, so a per-item answer
+	# would misdeliver: Java tries later held items against
+	# the same neighbour, and that per-item routing waits
+	# for a dump-shape slice). Per-block overrides are OUT
+	# of scope: a neighbour with a modeled override is
+	# evaluated with the DEFAULT gate here (the override
+	# dispatch is a follow-through note). A neighbour with
+	# no frame (no sprite / unknown def / conduit / no
+	# meta-key frame) reports the no-frame outcome -- false /
+	# false -- the N2353 no-frame precedent (a routed item
+	# to a frameless neighbour drops, so the fill closes the
+	# gates and nothing routes there). A conduit is
+	# no-frame because the DEFAULT gate would reject it
+	# anyway (a conduit consumes no item) and the N2353
+	# helper drops a routed item to a conduit with reason
+	# no_frame. Two ring-model notes: Java updateProximity
+	# dedupes multi-cell neighbours
+	# (`//using a set to prevent duplicates`,
+	# BuildingComp.java:1879-1900) and keeps same-team
+	# buildings only (`other.team != team` skips), while
+	# the ring reports a multi-cell neighbour at each of
+	# its ring cells with no team filter -- the N2353 ring
+	# convention this fill mirrors (a delivery to either
+	# index lands in the same frame). Dedup + the team
+	# filter wait for a shared ring-geometry slice.
+	var ring: Array = source_block_geometry.source_block_proximity_cells_state(size, cell.x, cell.y).get("cells", [])
+	var blocks_by_id: Dictionary = {}
+	if game != null:
+		var catalog: Variant = game.get("content_catalog")
+		if catalog != null:
+			for registered_block in catalog.get_many("block"):
+				blocks_by_id[registered_block.id] = registered_block
+	var held_variant: Variant = frame.get("items", {})
+	var held_items: Dictionary = held_variant if held_variant is Dictionary else {}
+	var offered_item: String = ""
+	for item_id in item_order:
+		if int(held_items.get(str(item_id), 0)) > 0:
+			offered_item = str(item_id)
+			break
+	var neighbour_accepts: Array = []
+	var neighbour_can_dump: Array = []
+	for neighbour_cell in ring:
+		var accepts_item := false
+		var can_dump_item := false
+		var sprite: Variant = null
+		if game != null:
+			sprite = game.call("block_sprite_at_cell", neighbour_cell)
+		if sprite != null:
+			var block_id: String = str(sprite.get_meta(source_placed_block_state.SOURCE_BLOCK_ID_META_KEY, ""))
+			var is_conduit: bool = sprite.has_meta(source_building_liquid_state.SOURCE_NEIGHBOUR_CONDUIT_FRAME_META_KEY) or source_building_liquid_state.SOURCE_NEIGHBOUR_CONDUIT_BLOCK_IDS.has(block_id)
+			if not is_conduit and blocks_by_id.has(block_id):
+				var neighbour_block = blocks_by_id[block_id]
+				var neighbour_frame: Dictionary = {}
+				var has_neighbour_frame := false
+				for meta_key in source_placed_power_graph_state.SOURCE_CONSUMER_FRAME_META_KEYS:
+					if not sprite.has_meta(meta_key):
+						continue
+					var candidate: Variant = sprite.get_meta(meta_key)
+					if candidate is Dictionary:
+						neighbour_frame = candidate
+						has_neighbour_frame = true
+						break
+				if has_neighbour_frame:
+					var neighbour_properties = neighbour_block.properties
+					can_dump_item = true
+					if not offered_item.is_empty():
+						var neighbour_items: Variant = neighbour_frame.get("items", null)
+						if neighbour_items is Dictionary:
+							var consumes_item := false
+							for row in neighbour_properties.get("consumeItem", []):
+								if not (row is Dictionary):
+									continue
+								if str(row.get("item", "")) == offered_item:
+									consumes_item = true
+									break
+							accepts_item = consumes_item and int((neighbour_items as Dictionary).get(offered_item, 0)) < int(neighbour_properties.get("itemCapacity", 10))
+		neighbour_accepts.append(accepts_item)
+		neighbour_can_dump.append(can_dump_item)
+	return {"dump_neighbour_accepts": neighbour_accepts, "dump_neighbour_can_dump": neighbour_can_dump}
+
 @warning_ignore("unused_parameter")
 static func source_burst_drill_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the burst-drill tick wiring every tick
@@ -690,11 +813,33 @@ static func source_burst_drill_tick_buildings_state(game: Object, seconds: float
 				# source_item_catalog_state); the neighbour
 				# acceptItem / canDump arrays are frame inputs
 				# (default [] -- no neighbours, the Java
-				# proximity.size == 0 outcome) until a live
-				# proximity fill lands. The dump is
+				# proximity.size == 0 outcome) and the live
+				# proximity fill lands since N2403 (below, before
+				# the reads -- supplied arrays win, the N2381
+				# precedent). The dump is
 				# efficiency-independent (a timer, not edelta), so
 				# it runs even when the folded efficiency is 0.
 				var content_item_ids: Array = source_content_registry_runtime_state.source_item_catalog_state(catalog).get("item_names_by_id", [])
+				# N2403: the dump neighbour live fill -- the tick
+				# fills the two neighbour arrays from the live
+				# proximity BEFORE the dump pure reads them.
+				# Supplied arrays WIN (the N2381 precedent): the
+				# fill runs only when the frame carries NEITHER
+				# of the two keys -- the N2282/N2360 proofs seed
+				# the arrays by hand, so a fill there would
+				# overwrite the seed. A frame the fill already
+				# stamped (dump_neighbour_live -- port
+				# bookkeeping, not Java state) refreshes every
+				# tick, so a later-placed neighbour joins the
+				# arrays and a removed one leaves them. cell is
+				# already bound before the enabled block in this
+				# driver (no N2363 inline origin_cell read).
+				var has_supplied_dump_neighbour_arrays: bool = frame.has("dump_neighbour_accepts") or frame.has("dump_neighbour_can_dump")
+				if not has_supplied_dump_neighbour_arrays or bool(frame.get("dump_neighbour_live", false)):
+					var filled: Dictionary = source_burst_drill_dump_neighbour_live_fill_state(game, cell, int(block.properties.get("size", 1)), frame, content_item_ids)
+					frame["dump_neighbour_accepts"] = filled.get("dump_neighbour_accepts", [])
+					frame["dump_neighbour_can_dump"] = filled.get("dump_neighbour_can_dump", [])
+					frame["dump_neighbour_live"] = true
 				var neighbour_accepts: Array = frame.get("dump_neighbour_accepts", [])
 				var neighbour_can_dump: Array = frame.get("dump_neighbour_can_dump", [])
 				var dumped: Dictionary = source_burst_drill_timer_dump_state(frame, source_delta, time_scale, dominant_item_name, content_item_ids, neighbour_accepts, neighbour_can_dump)
