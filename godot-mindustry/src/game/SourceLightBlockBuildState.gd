@@ -74,7 +74,7 @@ static func source_light_block_power_status_row_state(frame: Dictionary, has_pow
 	# LightBuild has NO shouldConsume override, so the BuildingComp default (BuildingComp.java:755-756, `return enabled;`) applies -- the power-only fold is EXACT, no deferral needed (the StackConveyor N2180 / Accelerator N2183 precedent). canConsume (BuildingComp.java:1917, `public boolean canConsume(){` with `return potentialEfficiency > 0;`, BuildingComp.java:1918) and edelta (BuildingComp.java:1927-1929, `return efficiency * delta();`) are the surrounding gates.
 	# The illuminator is its own family (LightBlock.java:21, `public class LightBlock extends Block{`; LightBuild, LightBlock.java:67, `public class LightBuild extends Building{`), a power / effect block with no parent driver: no existing family state covers it. Class fields: `public float brightness = 0.9f;` (LightBlock.java:22), `public float radius = 200f;` (LightBlock.java:23), `public @Load("@-top") TextureRegion topRegion;` (LightBlock.java:24); constructor `public LightBlock(String name){` (LightBlock.java:26), `hasPower = true;` (LightBlock.java:28), `update = true;` (LightBlock.java:29), `configurable = true;` (LightBlock.java:30), `saveConfig = true;` (LightBlock.java:31), `envEnabled |= Env.space;` (LightBlock.java:32), `swapDiagonalPlacement = true;` (LightBlock.java:33). init sets the light radius and clip (LightBlock.java:40, `lightRadius = radius*2.5f;` with LightBlock.java:41, `lightClipSize = Math.max(lightClipSize, lightRadius * 3f);` and LightBlock.java:42, `emitLight = true;`). Build fields: `public int color = Pal.accent.rgba();` (LightBlock.java:68), `public float smoothTime = 1f;` (LightBlock.java:69).
 	# Single def -- illuminator only (brightness 0.75f, radius 140f, graphite 12 / silicon 8 / lead 8, Blocks.java:6763-6767): `illuminator = new LightBlock("illuminator"){{` (Blocks.java:6763) with `requirements(Category.effect, BuildVisibility.lightingOnly, with(Items.graphite, 12, Items.silicon, 8, Items.lead, 8));` (Blocks.java:6764), `brightness = 0.75f;` (Blocks.java:6765), `radius = 140f;` (Blocks.java:6766) and `consumePower(0.05f);` (Blocks.java:6767). No second LightBlock def exists; there is no family split to manage. The color config (LightBlock.java:35, 72-94, 109-127, 132-136) waits for its own slice; the smoothTime advance (LightBlock.java:104-106) is N2189, unified with N2241 (source_light_block_smooth_time_state, below). The draw rows (LightBlock.java:96-102, 127-128) are live since N2374; the read / write / sense rows (LightBlock.java:137-148) wait for their own slices.
-	# Documented limits: (1) power-only first pass -- the illuminator's static power consumer (consumePower 0.05f, Blocks.java:6767) is the only modeled consumer, so the folded efficiency is the min over the *modeled* consumers (power only). (2) No shouldConsume override -- LightBuild has none, so the BuildingComp default `return enabled;` applies and the power-only fold is EXACT. (3) smoothTime advance DONE (N2189/N2241) -- smoothTime lerp (LightBlock.java:104-106) advances every tick toward the live timeScale; the drawLight radius clamp min(smoothTime, 2f) (LightBlock.java:128) is what the light_radius_scale key proves, and drawLight presentation is live since N2374 (source_light_block_draw_light_state, below). (4) No color-config modeling -- config / configured / control / sense / buildConfiguration / onConfigureBuildTapped (LightBlock.java:35, 72-94, 109-127) wait for their own slices. (5) Single def -- illuminator only (brightness 0.75f, radius 140f, graphite 12 / silicon 8 / lead 8); per-def stat values wait for their own verification slice. (6) Draw rows live (N2374) -- draw / drawLight (LightBlock.java:96-102, 127-128) are live in the draw pures below; write / read (LightBlock.java:137-148) wait for their own slices.
+	# Documented limits: (1) power-only first pass -- the illuminator's static power consumer (consumePower 0.05f, Blocks.java:6767) is the only modeled consumer, so the folded efficiency is the min over the *modeled* consumers (power only). (2) No shouldConsume override -- LightBuild has none, so the BuildingComp default `return enabled;` applies and the power-only fold is EXACT. (3) smoothTime advance DONE (N2189/N2241) -- smoothTime lerp (LightBlock.java:104-106) advances every tick toward the live timeScale; the drawLight radius clamp min(smoothTime, 2f) (LightBlock.java:128) is what the light_radius_scale key proves, and drawLight presentation is live since N2374 (source_light_block_draw_light_state, below). (4) No color-config modeling -- config / configured / control / sense / buildConfiguration / onConfigureBuildTapped (LightBlock.java:35, 72-94, 109-127) wait for their own slices. (5) Single def -- illuminator only (brightness 0.75f, radius 140f, graphite 12 / silicon 8 / lead 8); per-def stat values wait for their own verification slice. (6) Draw rows live (N2374) -- draw / drawLight (LightBlock.java:96-102, 127-128) are live in the draw pures below; write / read (LightBlock.java:137-148) wait for their own slices. (7) DrawPlace rows live (N2439) -- drawPlace / changePlacementPath / minimapColor (LightBlock.java:48-66) are live in the draw-place pure below; the placement-UI / placer / minimap call sites wait for their own slices.
 	# Source lines (all 82 exact exprs, verified verbatim in upstream at RED):
 	# - `return build.power.status;`
 	# - `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`
@@ -239,6 +239,68 @@ static func source_light_block_draw_light_state(x_value: float, y_value: float, 
 		"light_radius_value": light_radius * light_radius_scale,
 		"light_brightness": light_brightness,
 		"light_call": light_call,
+	}
+
+static func source_light_block_draw_place_state(tile_x: int, tile_y: int, rotation: int, valid: bool, radius: float, offset: float, build_color: Variant) -> Dictionary:
+	# The draw-place rows (LightBlock.drawPlace(), LightBlock.java:48-53; changePlacementPath(), LightBlock.java:55-59; minimapColor(), LightBlock.java:61-66), the pure draw-call dict -- the port never draws for real (the N2356 ShockwaveTower / N2396 MassDriver drawPlace pattern: the pure returns the draw calls as data). Java, in order (each exact expr on ONE comment line, the N2148 lesson):
+	# `public void drawPlace(int x, int y, int rotation, boolean valid){`
+	# `super.drawPlace(x, y, rotation, valid);`
+	# `Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, radius * 0.75f, Pal.placing);`
+	# `public void changePlacementPath(Seq<Point2> points, int rotation){`
+	# `var placeRadius2 = Mathf.pow(radius * 0.7f / tilesize, 2f) * 3;`
+	# `Placement.calculateNodes(points, this, rotation, (point, other) -> point.dst2(other) <= placeRadius2);`
+	# `public int minimapColor(Tile tile){`
+	# `var build = (LightBuild)tile.build;`
+	# `return build == null ? 0 : build.color | 0xff;`
+	# The dash circle uses the Block offset (`offset = ((size + 1) % 2) * tilesize / 2f;`, Block.java:761 -- 0 for the size-1 LightBlock, `public int size = 1;`, Block.java:215), unlike the MassDriver dash circle (no offset, MassDriver.java:83). tilesize is the Java constant 8 (`public static final int tilesize = 8;`, Vars.java:135 -- NEVER the game tile_size 32, the N2375 lesson). Pal.placing IS the accent color (`placing = accent,`, Pal.java:95). radius is the class default 200f (`public float radius = 200f;`, LightBlock.java:23), overridden by the illuminator def to 140f (`radius = 140f;`, Blocks.java:6766) -- caller-supplied, def-agnostic (the N2356 range precedent). The calculateNodes callee is `public static void calculateNodes(Seq<Point2> points, Block block, int rotation, Boolf2<Point2, Point2> overlapper){` (Placement.java:92); the pure records the call + predicate threshold, it does NOT port the node algorithm (the N2396 CALL precedent -- the port has no placement point list). The color is `public int color = Pal.accent.rgba();` (LightBlock.java:68); build_color is a Variant null-or-int -- null when the tile has no build. super.drawPlace is Block.drawPlace (drawPotentialLinks + drawOverlay, SourceBlockDrawState) and is NOT modeled here: the pure records that the super call happens, not its content (the BaseTurret draw_place precedent). Pure-only: drawPlace never runs in the tick -- it is called by the placement UI, changePlacementPath by the placer, minimapColor by the minimap, and the call sites wait for UI slices. draw() / drawLight() are untouched (live since N2374). DrawPlace rows live (N2439).
+	var tile_size: float = 8.0
+	var place_x: float = float(tile_x) * tile_size + offset
+	var place_y: float = float(tile_y) * tile_size + offset
+	var dash_radius: float = radius * 0.75
+	var place_radius2: float = pow(radius * 0.7 / tile_size, 2.0) * 3.0
+	var minimap_color: int = 0 if build_color == null else (int(build_color) | 0xff)
+	var super_place_call: Dictionary = {
+		"call": "super.drawPlace(x, y, rotation, valid);",
+		"tile_x": tile_x,
+		"tile_y": tile_y,
+		"rotation": rotation,
+		"valid": valid,
+	}
+	var dash_call: Dictionary = {
+		"call": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, radius * 0.75f, Pal.placing);",
+		"x": place_x,
+		"y": place_y,
+		"radius": dash_radius,
+		"color": "Pal.placing",
+	}
+	var calculate_nodes_call: Dictionary = {
+		"call": "Placement.calculateNodes(points, this, rotation, (point, other) -> point.dst2(other) <= placeRadius2);",
+		"callee": "Placement.calculateNodes",
+		"rotation": rotation,
+		"predicate": "point.dst2(other) <= placeRadius2",
+		"predicate_threshold": place_radius2,
+	}
+	return {
+		"super_expr": "super.drawPlace(x, y, rotation, valid);",
+		"dash_circle_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, radius * 0.75f, Pal.placing);",
+		"place_radius2_expr": "var placeRadius2 = Mathf.pow(radius * 0.7f / tilesize, 2f) * 3;",
+		"calculate_nodes_expr": "Placement.calculateNodes(points, this, rotation, (point, other) -> point.dst2(other) <= placeRadius2);",
+		"minimap_expr": "return build == null ? 0 : build.color | 0xff;",
+		"tile_x": tile_x,
+		"tile_y": tile_y,
+		"place_x": place_x,
+		"place_y": place_y,
+		"rotation": rotation,
+		"valid": valid,
+		"radius": radius,
+		"offset": offset,
+		"build_color": build_color,
+		"dash_radius": dash_radius,
+		"super_place_call": super_place_call,
+		"dash_call": dash_call,
+		"place_radius2": place_radius2,
+		"calculate_nodes_call": calculate_nodes_call,
+		"minimap_color": minimap_color,
 	}
 
 @warning_ignore("unused_parameter")
