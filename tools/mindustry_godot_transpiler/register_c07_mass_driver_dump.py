@@ -459,12 +459,29 @@ def main():
         'cursor_after': f('int', 'cdump = ((cdump + 1) % prox);', 'The dump cursor after the tick (BuildingComp.java:1116-1120): advanced once per neighbour checked (incrementDump, guarded on prox != 0), wrapping modulo the proximity size; the tick persists it back to the frame.', source=BUILDING_COMP),
     }
 
+    # N2376 (schema-sync fold): the write-back key the N2369
+    # slice exposed on this advance (symbol registered by N2369),
+    # folded into the result schema + contract return_keys.
+    # Metadata copied verbatim from the N2369 register.
+    n2376_fold_outputs = {
+        'dump_deliveries': f('Array', 'res |= dump(item);', 'One {neighbour_index, item} dict per successful dump() call inside dumpAccumulate, in attempt order (MassDriver.java:163-166; dumpAccumulate loops while(dumpAccum >= 1f), BuildingComp.java:1056-1058). Empty when nothing dumps. The neighbour_index is the proximity index i the shared dump helper returned (index i is ring cell i -- the N2353 convention); the tick lands each delivery in the neighbour store through the shared neighbour write-back helper (N2353). A singular index+item pair would drop every delivery but one when dumpAccumulate fires more than once per frame.', source=BUILDING_COMP),
+    }
+
     entries = [
         ('N2294', OWNER, 'source_mass_driver_dump_state', MASS_DRIVER, 'mindustry.world.blocks.distribution.MassDriver.MassDriverBuild', 'MassDriverBuild.updateTile()', n2294_inputs, n2294_outputs, True, 'Dictionary'),
     ]
     all_names = []
     for sid, owner, prefix, source, cls, method, inputs, outputs, has_contract, return_type in entries:
         names = []
+        # N2376 (schema-sync fold): the result schema + contract
+        # carry the folded keys; the symbol loop below still
+        # iterates the ORIGINAL outputs only
+        # (upsert_source_symbols wholesale-replaces -- folding
+        # the keys into the symbol loop here would steal the
+        # write-back slice's symbol ownership).
+        result_keys = {**outputs, **n2376_fold_outputs}
+        for meta in n2376_fold_outputs.values():
+            meta['used_by'] = [owner]
         for suffix, keys in [('input', inputs), ('result', outputs)]:
             name = prefix + '_' + suffix
             for field, meta in keys.items():
@@ -473,9 +490,9 @@ def main():
                     symbol = name + '.' + field
                     names.append(symbol)
                     symbols[symbol] = dict(status='source-backed', godot_owner=owner, godot_symbol=symbol, java_source=meta['java_source'], java_method=method, java_expr=meta['java_expr'], rule=meta['rule'], tests=TESTS, runtime_proof=PROOF)
-            source_symbols.upsert_source_state_schema(GODOT, name, dict(status='active', owner=owner, source_slice=sid, keys=keys, runtime_proof=PROOF, rule='Source-backed MassDriver dumpAccumulate dump rows from MassDriver.java / BuildingComp.java.'))
+            source_symbols.upsert_source_state_schema(GODOT, name, dict(status='active', owner=owner, source_slice=sid, keys=result_keys if suffix == 'result' else keys, runtime_proof=PROOF, rule='Source-backed MassDriver dumpAccumulate dump rows from MassDriver.java / BuildingComp.java.'))
         if has_contract:
-            source_symbols.upsert_source_api_contract(GODOT, owner, dict(status='active', source_slice=sid, java_source=source, source_method=method, params=[dict(name=k, type=v['type'], schema=prefix + '_input.' + k) for k, v in inputs.items()], return_type=return_type, return_keys=list(outputs), tests=TESTS, runtime_proof=PROOF, rule='Source-backed MassDriver dumpAccumulate dump rows from MassDriver.java / BuildingComp.java.'))
+            source_symbols.upsert_source_api_contract(GODOT, owner, dict(status='active', source_slice=sid, java_source=source, source_method=method, params=[dict(name=k, type=v['type'], schema=prefix + '_input.' + k) for k, v in inputs.items()], return_type=return_type, return_keys=list(result_keys), tests=TESTS, runtime_proof=PROOF, rule='Source-backed MassDriver dumpAccumulate dump rows from MassDriver.java / BuildingComp.java.'))
         all_names.extend(names)
 
     by_slice = {}

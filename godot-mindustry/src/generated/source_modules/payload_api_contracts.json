@@ -3670,7 +3670,8 @@
         "dump_accum_after",
         "dumped",
         "items_after",
-        "cursor_after"
+        "cursor_after",
+        "dump_deliveries"
       ],
       "tests": [
         "test_c07_payload_deconstructor_dump_registration",

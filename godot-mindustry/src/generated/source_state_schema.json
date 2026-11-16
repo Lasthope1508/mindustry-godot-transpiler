@@ -241649,6 +241649,16 @@
           "used_by": [
             "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_dump_state"
           ]
+        },
+        "dump_deliveries": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "res |= dump(item);",
+          "rule": "One {neighbour_index, item} dict per successful dump() call inside dumpAccumulate, in attempt order (dumpAccumulate loops while(dumpAccum >= 1f), BuildingComp.java:1056-1058, and dumpRate 4 runs it 4 times per tick, PayloadDeconstructor.java:111-115). Empty when nothing dumps. The neighbour_index is the proximity index the shared dump helper returned (index i is ring cell i -- the N2353 convention); the tick lands each delivery in the neighbour store through the shared neighbour write-back helper (N2353). A singular index+item pair would drop every delivery but one when dumpAccumulate fires more than once per frame.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_dump_state"
+          ]
         }
       },
       "runtime_proof": "/root/C07PayloadDeconstructorDumpProof",
@@ -242646,6 +242656,26 @@
           "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
           "java_expr": "cdump = ((cdump + 1) % prox);",
           "rule": "The dump cursor after the tick (BuildingComp.java:1116-1121): advanced once per proximity iteration (incrementDump, guarded on prox != 0), wrapping modulo the proximity size -- even when no neighbour takes anything, but untouched when the store is below the 0.0001f threshold (the early return runs before the loop).",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_dump_liquid_state"
+          ]
+        },
+        "dump_neighbour_index": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+          "rule": "The handled neighbour index the dump routed the liquid to (BuildingComp.java:896, `Building other = proximity.get((i + dump) % proximity.size);`): the shared routing's handled_index (the first eligible neighbour whose transfer actually moved liquid), -1 when nothing moved. Index i is ring cell i (the N2353 convention).",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_dump_liquid_state"
+          ]
+        },
+        "dumped_liquid": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Fracker.java",
+          "java_expr": "dumpLiquid(result);",
+          "rule": "The dumped liquid's name (Fracker.java:42, `dumpLiquid(result);` -- the else-branch dump; the if-branch dumps through super.updateTile(), SolidPump.java:140): the def constant \"oil\" (`result = Liquids.oil;`, Blocks.java:2966). The amount rides the existing dumped_amount key.",
           "used_by": [
             "SourceFrackerBuildState.source_fracker_dump_liquid_state"
           ]
@@ -243996,6 +244026,16 @@
           "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
           "java_expr": "cdump = ((cdump + 1) % prox);",
           "rule": "The dump cursor after the tick (BuildingComp.java:1116-1120): advanced once per neighbour checked (incrementDump, guarded on prox != 0), wrapping modulo the proximity size; the tick persists it back to the frame.",
+          "used_by": [
+            "SourceMassDriverBuildState.source_mass_driver_dump_state"
+          ]
+        },
+        "dump_deliveries": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "res |= dump(item);",
+          "rule": "One {neighbour_index, item} dict per successful dump() call inside dumpAccumulate, in attempt order (MassDriver.java:163-166; dumpAccumulate loops while(dumpAccum >= 1f), BuildingComp.java:1056-1058). Empty when nothing dumps. The neighbour_index is the proximity index i the shared dump helper returned (index i is ring cell i -- the N2353 convention); the tick lands each delivery in the neighbour store through the shared neighbour write-back helper (N2353). A singular index+item pair would drop every delivery but one when dumpAccumulate fires more than once per frame.",
           "used_by": [
             "SourceMassDriverBuildState.source_mass_driver_dump_state"
           ]

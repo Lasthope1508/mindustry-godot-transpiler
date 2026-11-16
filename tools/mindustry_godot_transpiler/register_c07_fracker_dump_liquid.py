@@ -413,12 +413,32 @@ def main():
         'cursor_after': f('int', 'cdump = ((cdump + 1) % prox);', 'The dump cursor after the tick (BuildingComp.java:1116-1121): advanced once per proximity iteration (incrementDump, guarded on prox != 0), wrapping modulo the proximity size -- even when no neighbour takes anything, but untouched when the store is below the 0.0001f threshold (the early return runs before the loop).', source=BUILDING_COMP),
     }
 
+    # N2376 (schema-sync fold): the two write-back keys the N2371
+    # slice exposed on this advance (symbols registered by N2371),
+    # folded into the result schema + contract return_keys.
+    # Metadata copied verbatim from the N2371 register
+    # (dump_neighbour_index is BuildingComp-sourced; dumped_liquid
+    # is Fracker-sourced -- the register default here).
+    n2376_fold_outputs = {
+        'dump_neighbour_index': f('int', 'Building other = proximity.get((i + dump) % proximity.size);', 'The handled neighbour index the dump routed the liquid to (BuildingComp.java:896, `Building other = proximity.get((i + dump) % proximity.size);`): the shared routing\'s handled_index (the first eligible neighbour whose transfer actually moved liquid), -1 when nothing moved. Index i is ring cell i (the N2353 convention).', source=BUILDING_COMP),
+        'dumped_liquid': f('String', 'dumpLiquid(result);', 'The dumped liquid\'s name (Fracker.java:42, `dumpLiquid(result);` -- the else-branch dump; the if-branch dumps through super.updateTile(), SolidPump.java:140): the def constant "oil" (`result = Liquids.oil;`, Blocks.java:2966). The amount rides the existing dumped_amount key.'),
+    }
+
     entries = [
         ('N2284', OWNER, 'source_fracker_dump_liquid_state', FRACKER, 'mindustry.world.blocks.production.Fracker.FrackerBuild', 'FrackerBuild.updateTile()', n2284_inputs, n2284_outputs, True, 'Dictionary'),
     ]
     all_names = []
     for sid, owner, prefix, source, cls, method, inputs, outputs, has_contract, return_type in entries:
         names = []
+        # N2376 (schema-sync fold): the result schema + contract
+        # carry the folded keys; the symbol loop below still
+        # iterates the ORIGINAL outputs only
+        # (upsert_source_symbols wholesale-replaces -- folding
+        # the keys into the symbol loop here would steal the
+        # write-back slice's symbol ownership).
+        result_keys = {**outputs, **n2376_fold_outputs}
+        for meta in n2376_fold_outputs.values():
+            meta['used_by'] = [owner]
         for suffix, keys in [('input', inputs), ('result', outputs)]:
             name = prefix + '_' + suffix
             for field, meta in keys.items():
@@ -427,9 +447,9 @@ def main():
                     symbol = name + '.' + field
                     names.append(symbol)
                     symbols[symbol] = dict(status='source-backed', godot_owner=owner, godot_symbol=symbol, java_source=meta['java_source'], java_method=method, java_expr=meta['java_expr'], rule=meta['rule'], tests=TESTS, runtime_proof=PROOF)
-            source_symbols.upsert_source_state_schema(GODOT, name, dict(status='active', owner=owner, source_slice=sid, keys=keys, runtime_proof=PROOF, rule='Source-backed Fracker dumpLiquid rows from Fracker.java / SolidPump.java / BuildingComp.java / Block.java / Blocks.java.'))
+            source_symbols.upsert_source_state_schema(GODOT, name, dict(status='active', owner=owner, source_slice=sid, keys=result_keys if suffix == 'result' else keys, runtime_proof=PROOF, rule='Source-backed Fracker dumpLiquid rows from Fracker.java / SolidPump.java / BuildingComp.java / Block.java / Blocks.java.'))
         if has_contract:
-            source_symbols.upsert_source_api_contract(GODOT, owner, dict(status='active', source_slice=sid, java_source=source, source_method=method, params=[dict(name=k, type=v['type'], schema=prefix + '_input.' + k) for k, v in inputs.items()], return_type=return_type, return_keys=list(outputs), tests=TESTS, runtime_proof=PROOF, rule='Source-backed Fracker dumpLiquid rows from Fracker.java / SolidPump.java / BuildingComp.java / Block.java / Blocks.java.'))
+            source_symbols.upsert_source_api_contract(GODOT, owner, dict(status='active', source_slice=sid, java_source=source, source_method=method, params=[dict(name=k, type=v['type'], schema=prefix + '_input.' + k) for k, v in inputs.items()], return_type=return_type, return_keys=list(result_keys), tests=TESTS, runtime_proof=PROOF, rule='Source-backed Fracker dumpLiquid rows from Fracker.java / SolidPump.java / BuildingComp.java / Block.java / Blocks.java.'))
         all_names.extend(names)
 
     by_slice = {}

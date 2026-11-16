@@ -71021,7 +71021,8 @@
         "dump_accum_after",
         "dumped",
         "items_after",
-        "cursor_after"
+        "cursor_after",
+        "dump_deliveries"
       ],
       "tests": [
         "test_c07_payload_deconstructor_dump_registration",
@@ -71469,7 +71470,9 @@
       "return_keys": [
         "liquids_after",
         "dumped_amount",
-        "cursor_after"
+        "cursor_after",
+        "dump_neighbour_index",
+        "dumped_liquid"
       ],
       "tests": [
         "test_c07_fracker_dump_liquid_registration",
@@ -72064,7 +72067,8 @@
         "dump_accum_after",
         "dumped",
         "items_after",
-        "cursor_after"
+        "cursor_after",
+        "dump_deliveries"
       ],
       "tests": [
         "test_c07_mass_driver_dump_registration",

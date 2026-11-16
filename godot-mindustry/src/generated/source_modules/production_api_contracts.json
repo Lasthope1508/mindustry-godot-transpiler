@@ -1828,7 +1828,9 @@
       "return_keys": [
         "liquids_after",
         "dumped_amount",
-        "cursor_after"
+        "cursor_after",
+        "dump_neighbour_index",
+        "dumped_liquid"
       ],
       "tests": [
         "test_c07_fracker_dump_liquid_registration",
