@@ -2953,6 +2953,141 @@
         }
       }
     },
+    "source_separator_draw_state_input": {
+      "canonical_schema": "source_state_schema.source_separator_draw_state_input",
+      "keys": {
+        "x_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/draw/DrawDefault.java",
+          "java_expr": "Draw.rect(build.block.region, build.x, build.y, build.drawrot());",
+          "rule": "The building world x (DrawDefault.java:13, the base rect center; the bottom / spinner rect centers, DrawRegion.java:49/51; the liquid tile grid origin, LiquidBlock.java:77; the light center, BuildingComp.java:1326).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_draw_state"
+          ]
+        },
+        "y_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/draw/DrawDefault.java",
+          "java_expr": "Draw.rect(build.block.region, build.x, build.y, build.drawrot());",
+          "rule": "The building world y (DrawDefault.java:13 / DrawRegion.java:49/51 / LiquidBlock.java:77 / BuildingComp.java:1326, same mapping as x).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_draw_state"
+          ]
+        },
+        "rotation_value": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return block.rotate && block.rotateDraw ? rotation * 90 : 0f;",
+          "rule": "The building rotation (BuildingComp.java:587-589, drawrot()): taken so the drawrot formula is explicit, but it folds to 0 -- Separator sets no rotate (Block.java:120, default false).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_draw_state"
+          ]
+        },
+        "total_progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/draw/DrawRegion.java",
+          "java_expr": "Drawf.spinSprite(region, build.x + x, build.y + y, build.totalProgress() * rotateSpeed + rotation + (buildingRotate ? build.rotdeg() : 0));",
+          "rule": "The frame totalProgress (Separator.java:77, tracked by the N2222 advance): the spinner rotation is totalProgress * rotateSpeed = totalProgress * 3 (DrawRegion.java:49, the \"-spinner\" drawer, Blocks.java:1246/1266).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_draw_state"
+          ]
+        },
+        "liquid_gas": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/liquid/LiquidBlock.java",
+          "java_expr": "TextureRegion region = renderer.fluidFrames[liquid.gas ? 1 : 0][liquid.getAnimationFrame()];",
+          "rule": "Whether the current liquid is a gas (LiquidBlock.java:41): the fluid frame row is 1 for gas, 0 otherwise (slag is not gas).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_draw_state"
+          ]
+        },
+        "liquid_color": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/liquid/LiquidBlock.java",
+          "java_expr": "Color color = Tmp.c1.set(liquid.color).a(1f);",
+          "rule": "The current liquid color token (LiquidBlock.java:46, slag \"ffa166\"): the tiled frames draw in the liquid color at alpha 1.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_draw_state"
+          ]
+        },
+        "liquid_light_alpha": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(block.hasLiquids && block.drawLiquidLight && liq.lightColor.a > 0.001f){",
+          "rule": "The current liquid lightColor alpha (BuildingComp.java:1312, the drawLight gate): slag 0.4 (Liquids.java:25), so the gate passes for slag.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_draw_state"
+          ]
+        },
+        "liquid_amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/draw/DrawLiquidTile.java",
+          "java_expr": "LiquidBlock.drawTiledFrames(build.block.size, build.x, build.y, padLeft, padRight, padTop, padBottom, drawn, build.liquids.get(drawn) / build.block.liquidCapacity * alpha);",
+          "rule": "The held amount of the current liquid (DrawLiquidTile.java:29): the tile fill fraction is amount / liquidCapacity, and the visualLiquid target is 1 when amount >= 0.01, else 0 (BuildingComp.java:1313).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_draw_state"
+          ]
+        },
+        "liquid_capacity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/draw/DrawLiquidTile.java",
+          "java_expr": "LiquidBlock.drawTiledFrames(build.block.size, build.x, build.y, padLeft, padRight, padTop, padBottom, drawn, build.liquids.get(drawn) / build.block.liquidCapacity * alpha);",
+          "rule": "The block liquidCapacity (DrawLiquidTile.java:29): separator 40f, disassembler 72f (Block.java:1406-1419, round(10 * max(1, amount * 60))).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_draw_state"
+          ]
+        },
+        "animation_frame": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/liquid/LiquidBlock.java",
+          "java_expr": "TextureRegion region = renderer.fluidFrames[liquid.gas ? 1 : 0][liquid.getAnimationFrame()];",
+          "rule": "The liquid.getAnimationFrame() value (LiquidBlock.java:41): a Time.time value, caller-supplied like time_value (the N2396/N2372 convention).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_draw_state"
+          ]
+        },
+        "visual_liquid": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "visualLiquid = Mathf.lerpDelta(visualLiquid, liquids.get(liq)>= 0.01f ? 1f : 0f, 0.06f);",
+          "rule": "The previous visualLiquid (BuildingComp.java:1313): transient draw state the tick never tracks, so the caller supplies it and reads the new value back from the light call dict.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_draw_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "visualLiquid = Mathf.lerpDelta(visualLiquid, liquids.get(liq)>= 0.01f ? 1f : 0f, 0.06f);",
+          "rule": "Time.delta in ticks (BuildingComp.java:1313, inside lerpDelta: clamp(0.06 * Time.delta), arc Mathf.java:430-432).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_draw_state"
+          ]
+        },
+        "size_value": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/draw/DrawLiquidTile.java",
+          "java_expr": "LiquidBlock.drawTiledFrames(build.block.size, build.x, build.y, padLeft, padRight, padTop, padBottom, drawn, build.liquids.get(drawn) / build.block.liquidCapacity * alpha);",
+          "rule": "The block size in tiles (DrawLiquidTile.java:29): separator 2 (Blocks.java:1240), disassembler 3 (Blocks.java:1259) -- the tile grid is size*size and the light radius is size * 30 (BuildingComp.java:1326).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_draw_state"
+          ]
+        }
+      }
+    },
     "source_separator_dump_neighbour_live_fill_state_input": {
       "canonical_schema": "source_state_schema.source_separator_dump_neighbour_live_fill_state_input",
       "keys": {

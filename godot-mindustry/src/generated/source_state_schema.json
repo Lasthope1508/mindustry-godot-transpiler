@@ -251836,6 +251836,1360 @@
       },
       "runtime_proof": "/root/C07UnitCargoLoaderDrawRowsProof",
       "rule": "Source-backed UnitCargoLoader draw rows from UnitCargoLoader.java / Drawf.java / Vars.java / Blocks.java."
+    },
+    "source_unit_cargo_loader_bar_rows_state_input": {
+      "status": "active",
+      "owner": "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_bar_rows_state",
+      "source_slice": "N2417",
+      "keys": {
+        "unit_type_name": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+          "java_expr": "Fonts.getUnicodeStr(unitType.name),",
+          "rule": "The unit type name (unitType.name, UnitCargoLoader.java:55, over `public UnitType unitType = UnitTypes.manifold;`, UnitCargoLoader.java:24): identifies the bar's unit type; the label's icon is the Fonts lookup of this name, which arrives as the separate unit_icon input because the lookup table is runtime font data.",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_bar_rows_state"
+          ]
+        },
+        "unit_icon": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/ui/Fonts.java",
+          "java_expr": "return stringIcons.get(content, \"\");",
+          "rule": "The Fonts.getUnicodeStr(unitType.name) result (Fonts.java:43-45): the unicode icon char for the unit type name, caller-supplied -- the stringIcons table is runtime font-atlas data (Fonts.java:141/224), so the pure cannot compute it; \"\" when the name has no icon (the get default).",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_bar_rows_state"
+          ]
+        },
+        "count_type": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+          "java_expr": "e.team.data().countType(unitType),",
+          "rule": "The live team count of this unit type (UnitCargoLoader.java:56, e.team.data().countType(unitType)): caller-supplied live team data -- the pure never queries team data (countType defaults 0, Teams.java:442-444).",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_bar_rows_state"
+          ]
+        },
+        "use_unit_cap": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+          "java_expr": "unitType.useUnitCap ? Units.getStringCap(e.team) : \"\u221e\"",
+          "rule": "Whether the unit type counts toward the unit cap (unitType.useUnitCap, UnitCargoLoader.java:57/60): false selects the \"\u221e\" cap string and the 1f fraction; manifold keeps the UnitType default true (UnitType.java:205), so the capped branch is live for this def.",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_bar_rows_state"
+          ]
+        },
+        "cap": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Units.java",
+          "java_expr": "public static int getCap(Team team){",
+          "rule": "The unit cap from Units.getCap(e.team) (Units.java:119-126): caller-supplied live team data -- the pure never queries rules/team state; Integer.MAX_VALUE (2147483647) on any uncapped branch, else Math.max(0, ...) -- so 0 is reachable and the fraction divides unguarded like Java.",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_bar_rows_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07UnitCargoLoaderBarRowsProof",
+      "rule": "Source-backed UnitCargoLoader bar rows from UnitCargoLoader.java / Units.java / Fonts.java / bundle.properties / Pal.java / Teams.java."
+    },
+    "source_unit_cargo_loader_bar_rows_state_result": {
+      "status": "active",
+      "owner": "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_bar_rows_state",
+      "source_slice": "N2417",
+      "keys": {
+        "bar_label": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+          "java_expr": "Core.bundle.format(\"bar.unitcap\",",
+          "rule": "The bar label parts (UnitCargoLoader.java:54-58): the icon, the count, the cap string, and the formatted text -- `bar.unitcap = {0} {1}/{2}` (bundle.properties:1291), so the text is icon + \" \" + count + \"/\" + cap string. The cap string is getStringCap(cap) (\"\u221e\" at cap >= Integer.MAX_VALUE - 1, Units.java:128-132) when useUnitCap holds, else the literal \"\u221e\".",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_bar_rows_state"
+          ]
+        },
+        "bar_color": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+          "java_expr": "() -> Pal.power,",
+          "rule": "The bar color (UnitCargoLoader.java:59): Pal.power (`power = Color.valueOf(\"fbad67\"),`, Pal.java:92), carried as the symbolic token \"Pal.power\" like the draw pure carries \"Pal.accent\".",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_bar_rows_state"
+          ]
+        },
+        "bar_fraction": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+          "java_expr": "() -> unitType.useUnitCap ? (float)e.team.data().countType(unitType) / Units.getCap(e.team) : 1f",
+          "rule": "The bar fraction (UnitCargoLoader.java:60): count/cap when the type uses the unit cap, else 1f. UNGUARDED like Java -- getCap clamps at 0 (Units.java:125), so cap 0 is reachable and the float division yields NaN (count 0) or Infinity (count > 0); GDScript float division matches Java here.",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_bar_rows_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07UnitCargoLoaderBarRowsProof",
+      "rule": "Source-backed UnitCargoLoader bar rows from UnitCargoLoader.java / Units.java / Fonts.java / bundle.properties / Pal.java / Teams.java."
+    },
+    "source_payload_deconstructor_draw_state_input": {
+      "status": "active",
+      "owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_draw_state",
+      "source_slice": "N2418",
+      "keys": {
+        "x_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "Draw.rect(region, x, y);",
+          "rule": "The building world x (PayloadDeconstructor.java:59, the base rect center; the construct shader rect + scan line center, :79/:83; the top rect center, :88).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_draw_state"
+          ]
+        },
+        "y_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "Draw.rect(region, x, y);",
+          "rule": "The building world y (PayloadDeconstructor.java:59 / :79/:83 / :88, same mapping as x).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_draw_state"
+          ]
+        },
+        "blends": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "if(blends(i)){",
+          "rule": "The 4 blends verdicts (PayloadDeconstructor.java:64, over `public boolean blends(int direction){`, PayloadBlock.java:170-172): one bool per input direction i = 0..3 -- the input region draws only where the neighbour blends. Caller-supplied: the live neighbour query waits for its own slice.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_draw_state"
+          ]
+        },
+        "payload_present": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "if(payload != null){",
+          "rule": "Whether a payload is held (PayloadBlock.java:247, over `public @Nullable T payload;`, PayloadBlock.java:92): drawPayload() draws only when present -- a different field from deconstructing.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_draw_state"
+          ]
+        },
+        "deconstructing": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "public @Nullable Payload deconstructing;",
+          "rule": "The payload being deconstructed (PayloadDeconstructor.java:52, the frame key the N2233 advance fills): null (no shadow / construct / scan line) or the descriptor dict {icon, is_build_payload, pay_vector, pay_rotation}. The pure branches on null-ness only, like the N2210 shouldConsume gate.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_draw_state"
+          ]
+        },
+        "progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "public float progress;",
+          "rule": "The frame progress (PayloadDeconstructor.java:54, tracked by the N2233 advance): the shadow alpha, the construct progress and the construct alpha are all 1f - progress (PayloadDeconstructor.java:76/:79).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_draw_state"
+          ]
+        },
+        "time_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "public float time, speedScl;",
+          "rule": "The frame time (PayloadDeconstructor.java:55, advanced by the N2233 advance as `time += edelta();`): the construct shader time (-time / 20f, Drawf.java:565) and the scan-line pulse input (PayloadDeconstructor.java:83, `Mathf.sin(time, 20f, ...)`). Caller-supplied -- draw never runs in the tick, so the tick never stamps it (the N2396/N2372 convention).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_draw_state"
+          ]
+        },
+        "size_value": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "size = 5;",
+          "rule": "The block size in tiles (deconstructor 5, Blocks.java:6654; small-deconstructor 3, Blocks.java:6645): the scan magnitude is tilesize / 2f * size - 3f and the scan length is size * tilesize - 6f (PayloadDeconstructor.java:83).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_draw_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadDeconstructorDrawRowsProof",
+      "rule": "Source-backed PayloadDeconstructor draw / icons rows from PayloadDeconstructor.java / PayloadBlock.java / Payload.java / Drawf.java / Vars.java / Blocks.java / BuildPayload.java / UnitPayload.java."
+    },
+    "source_payload_deconstructor_draw_state_result": {
+      "status": "active",
+      "owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_draw_state",
+      "source_slice": "N2418",
+      "keys": {
+        "base_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "Draw.rect(region, x, y);",
+          "rule": "The base rect call (PayloadDeconstructor.java:59): region region, centered on the building, always drawn -- before the input regions.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_draw_state"
+          ]
+        },
+        "input_calls": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "Draw.rect(inRegion, x, y, (i * 90) - 180);",
+          "rule": "The input region calls (PayloadDeconstructor.java:63-67): one per blends direction i, region inRegion, centered on the building, rotation (i * 90) - 180 -- -180 / -90 / 0 / 90 for i = 0..3. Empty when no direction blends.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_draw_state"
+          ]
+        },
+        "payload_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "payload.draw();",
+          "rule": "The held-payload draw call (PayloadBlock.java:251, inside drawPayload(), PayloadBlock.java:246-253, on Layer.blockOver after updatePayload()): present only when a payload is held. The inner payload.draw() dispatch (BuildPayload.draw / UnitPayload.draw) needs the live payload entity, so the pure reports the call + z + the updatePayload() call.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_draw_state"
+          ]
+        },
+        "shadow_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "deconstructing.drawShadow(1f - progress);",
+          "rule": "The deconstructing shadow call (PayloadDeconstructor.java:76, on Layer.blockOver): alpha 1f - progress, at the set() position (x + payVector.x, y + payVector.y) with rotation payRotation (PayloadDeconstructor.java:73). The inner dispatch (BuildPayload squareShadow sized build.block.size * tilesize * 1.85f / UnitPayload drawSoftShadow) needs the payload block size / unit type the N2233 descriptor does not carry, so the pure reports the call + alpha + position + kind. Empty when deconstructing is null.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_draw_state"
+          ]
+        },
+        "construct_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "Drawf.construct(x, y, deconstructing.icon(), Pal.remove, deconstructing instanceof BuildPayload ? 0f : payRotation - 90f, 1f - progress, 1f - progress, time);",
+          "rule": "The construct call (PayloadDeconstructor.java:78-79, on Layer.blockOver inside the Draw.draw lambda): icon deconstructing.icon(), color Pal.remove, rotation 0f for a BuildPayload else payRotation - 90f, progress 1f - progress, alpha 1f - progress, time = the frame time, shader time -time / 20f (Drawf.java:565). The (x, y, region, color, rotation, progress, alpha, time) overload (Drawf.java:560-572) draws a shader rect only -- no scan line of its own. Empty when deconstructing is null.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_draw_state"
+          ]
+        },
+        "scan_line": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "Lines.lineAngleCenter(x + Mathf.sin(time, 20f, tilesize / 2f * block.size - 3f), y, 90f, block.size * tilesize - 6f);",
+          "rule": "The scan line (PayloadDeconstructor.java:83, inside the Draw.draw lambda after Draw.color(Pal.remove) + Draw.alpha(1f)): center x + sin(time / 20f) * (tilesize / 2f * size - 3f) -- the arc 3-arg sin (`return sin(radians / scl) * mag;`, Mathf.java:90-92, arc), NOT absin -- angle 90f, length size * tilesize - 6f: size 5 gives magnitude 17 and length 34, size 3 gives 9 and 18. Empty when deconstructing is null.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_draw_state"
+          ]
+        },
+        "top_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "Draw.rect(topRegion, x, y);",
+          "rule": "The top rect call (PayloadDeconstructor.java:88): region topRegion, centered on the building, always drawn -- after the deconstructing branch.",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_draw_state"
+          ]
+        },
+        "icon_regions": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+          "java_expr": "return new TextureRegion[]{region, topRegion};",
+          "rule": "The icon regions in Java order (PayloadDeconstructor.java:41, icons()): [region, topRegion] -- the two regions draw() draws, in draw order. Folded into the draw pure because icons() takes no args and the SSOT schema validator requires non-empty input keys (the N2396 precedent).",
+          "used_by": [
+            "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_draw_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadDeconstructorDrawRowsProof",
+      "rule": "Source-backed PayloadDeconstructor draw / icons rows from PayloadDeconstructor.java / PayloadBlock.java / Payload.java / Drawf.java / Vars.java / Blocks.java / BuildPayload.java / UnitPayload.java."
+    },
+    "source_separator_draw_state_input": {
+      "status": "active",
+      "owner": "SourceSeparatorBuildState.source_separator_draw_state",
+      "source_slice": "N2419",
+      "keys": {
+        "x_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/draw/DrawDefault.java",
+          "java_expr": "Draw.rect(build.block.region, build.x, build.y, build.drawrot());",
+          "rule": "The building world x (DrawDefault.java:13, the base rect center; the bottom / spinner rect centers, DrawRegion.java:49/51; the liquid tile grid origin, LiquidBlock.java:77; the light center, BuildingComp.java:1326).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_draw_state"
+          ]
+        },
+        "y_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/draw/DrawDefault.java",
+          "java_expr": "Draw.rect(build.block.region, build.x, build.y, build.drawrot());",
+          "rule": "The building world y (DrawDefault.java:13 / DrawRegion.java:49/51 / LiquidBlock.java:77 / BuildingComp.java:1326, same mapping as x).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_draw_state"
+          ]
+        },
+        "rotation_value": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return block.rotate && block.rotateDraw ? rotation * 90 : 0f;",
+          "rule": "The building rotation (BuildingComp.java:587-589, drawrot()): taken so the drawrot formula is explicit, but it folds to 0 -- Separator sets no rotate (Block.java:120, default false).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_draw_state"
+          ]
+        },
+        "total_progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/draw/DrawRegion.java",
+          "java_expr": "Drawf.spinSprite(region, build.x + x, build.y + y, build.totalProgress() * rotateSpeed + rotation + (buildingRotate ? build.rotdeg() : 0));",
+          "rule": "The frame totalProgress (Separator.java:77, tracked by the N2222 advance): the spinner rotation is totalProgress * rotateSpeed = totalProgress * 3 (DrawRegion.java:49, the \"-spinner\" drawer, Blocks.java:1246/1266).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_draw_state"
+          ]
+        },
+        "liquid_gas": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/liquid/LiquidBlock.java",
+          "java_expr": "TextureRegion region = renderer.fluidFrames[liquid.gas ? 1 : 0][liquid.getAnimationFrame()];",
+          "rule": "Whether the current liquid is a gas (LiquidBlock.java:41): the fluid frame row is 1 for gas, 0 otherwise (slag is not gas).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_draw_state"
+          ]
+        },
+        "liquid_color": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/liquid/LiquidBlock.java",
+          "java_expr": "Color color = Tmp.c1.set(liquid.color).a(1f);",
+          "rule": "The current liquid color token (LiquidBlock.java:46, slag \"ffa166\"): the tiled frames draw in the liquid color at alpha 1.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_draw_state"
+          ]
+        },
+        "liquid_light_alpha": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(block.hasLiquids && block.drawLiquidLight && liq.lightColor.a > 0.001f){",
+          "rule": "The current liquid lightColor alpha (BuildingComp.java:1312, the drawLight gate): slag 0.4 (Liquids.java:25), so the gate passes for slag.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_draw_state"
+          ]
+        },
+        "liquid_amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/draw/DrawLiquidTile.java",
+          "java_expr": "LiquidBlock.drawTiledFrames(build.block.size, build.x, build.y, padLeft, padRight, padTop, padBottom, drawn, build.liquids.get(drawn) / build.block.liquidCapacity * alpha);",
+          "rule": "The held amount of the current liquid (DrawLiquidTile.java:29): the tile fill fraction is amount / liquidCapacity, and the visualLiquid target is 1 when amount >= 0.01, else 0 (BuildingComp.java:1313).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_draw_state"
+          ]
+        },
+        "liquid_capacity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/draw/DrawLiquidTile.java",
+          "java_expr": "LiquidBlock.drawTiledFrames(build.block.size, build.x, build.y, padLeft, padRight, padTop, padBottom, drawn, build.liquids.get(drawn) / build.block.liquidCapacity * alpha);",
+          "rule": "The block liquidCapacity (DrawLiquidTile.java:29): separator 40f, disassembler 72f (Block.java:1406-1419, round(10 * max(1, amount * 60))).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_draw_state"
+          ]
+        },
+        "animation_frame": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/liquid/LiquidBlock.java",
+          "java_expr": "TextureRegion region = renderer.fluidFrames[liquid.gas ? 1 : 0][liquid.getAnimationFrame()];",
+          "rule": "The liquid.getAnimationFrame() value (LiquidBlock.java:41): a Time.time value, caller-supplied like time_value (the N2396/N2372 convention).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_draw_state"
+          ]
+        },
+        "visual_liquid": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "visualLiquid = Mathf.lerpDelta(visualLiquid, liquids.get(liq)>= 0.01f ? 1f : 0f, 0.06f);",
+          "rule": "The previous visualLiquid (BuildingComp.java:1313): transient draw state the tick never tracks, so the caller supplies it and reads the new value back from the light call dict.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_draw_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "visualLiquid = Mathf.lerpDelta(visualLiquid, liquids.get(liq)>= 0.01f ? 1f : 0f, 0.06f);",
+          "rule": "Time.delta in ticks (BuildingComp.java:1313, inside lerpDelta: clamp(0.06 * Time.delta), arc Mathf.java:430-432).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_draw_state"
+          ]
+        },
+        "size_value": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/draw/DrawLiquidTile.java",
+          "java_expr": "LiquidBlock.drawTiledFrames(build.block.size, build.x, build.y, padLeft, padRight, padTop, padBottom, drawn, build.liquids.get(drawn) / build.block.liquidCapacity * alpha);",
+          "rule": "The block size in tiles (DrawLiquidTile.java:29): separator 2 (Blocks.java:1240), disassembler 3 (Blocks.java:1259) -- the tile grid is size*size and the light radius is size * 30 (BuildingComp.java:1326).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_draw_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SeparatorDrawRowsProof",
+      "rule": "Source-backed Separator draw rows from Separator.java / DrawDefault.java / DrawMulti.java / DrawRegion.java / DrawLiquidTile.java / DrawBlock.java / LiquidBlock.java / Drawf.java / BuildingComp.java / Block.java / Blocks.java / Liquids.java / Vars.java."
+    },
+    "source_separator_draw_state_result": {
+      "status": "active",
+      "owner": "SourceSeparatorBuildState.source_separator_draw_state",
+      "source_slice": "N2419",
+      "keys": {
+        "bottom_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/draw/DrawRegion.java",
+          "java_expr": "Draw.rect(region, build.x + x, build.y + y, build.totalProgress() * rotateSpeed + rotation + (buildingRotate ? build.rotdeg() : 0));",
+          "rule": "The \"-bottom\" rect call (DrawRegion.java:51): region block.name-bottom, centered on the building, rotation 0 (rotateSpeed 0, buildingRotate false).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_draw_state"
+          ]
+        },
+        "liquid_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/draw/DrawLiquidTile.java",
+          "java_expr": "LiquidBlock.drawTiledFrames(build.block.size, build.x, build.y, padLeft, padRight, padTop, padBottom, drawn, build.liquids.get(drawn) / build.block.liquidCapacity * alpha);",
+          "rule": "The liquid tile call (DrawLiquidTile.java:29 / LiquidBlock.java:39-78): size*size fluid frames at relx * tilesize offsets, alpha amount / liquidCapacity, color liquid.color, frame fluidFrames[gas ? 1 : 0][animationFrame]. Empty when alpha < 1/255 (the Drawf.liquid gate, Drawf.java:392).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_draw_state"
+          ]
+        },
+        "spinner_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/draw/DrawRegion.java",
+          "java_expr": "Drawf.spinSprite(region, build.x + x, build.y + y, build.totalProgress() * rotateSpeed + rotation + (buildingRotate ? build.rotdeg() : 0));",
+          "rule": "The \"-spinner\" spin call (DrawRegion.java:49 / Drawf.java:602-608): region block.name-spinner, rotation mod(totalProgress * 3, 90), second rect at rotation - 90 with alpha factor rotation / 90.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_draw_state"
+          ]
+        },
+        "base_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/draw/DrawDefault.java",
+          "java_expr": "Draw.rect(build.block.region, build.x, build.y, build.drawrot());",
+          "rule": "The base rect call (DrawDefault.java:13): region block.region, centered on the building, rotation drawrot() = 0 (Separator sets no rotate).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_draw_state"
+          ]
+        },
+        "draw_light_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Drawf.light(x, y, block.size * 30f * fract, color, opacity * amount);",
+          "rule": "The liquid light call (BuildingComp.java:1319-1327, via super.drawLight() -- the drawer adds no light, no DrawMulti member overrides drawLight): radius size * 30, color liquid.lightColor, opacity lightColor.a * visualLiquid. Empty when the light gate fails (lightColor.a <= 0.001) or the visual amount is <= 0.01. Carries the new visualLiquid.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_draw_state"
+          ]
+        },
+        "icon_regions": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/draw/DrawMulti.java",
+          "java_expr": "result.addAll(draw.icons(block));",
+          "rule": "The icon regions in Java order (DrawMulti.java:63, via finalIcons, Separator.java:72): [\"block.name-bottom\", \"block.name-spinner\", \"block.region\"] -- DrawLiquidTile contributes nothing (the base icons() returns empty, DrawBlock.java:47). Folded into the draw pure because icons() takes no args and the SSOT schema validator requires non-empty input keys (the N2396 precedent).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_draw_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SeparatorDrawRowsProof",
+      "rule": "Source-backed Separator draw rows from Separator.java / DrawDefault.java / DrawMulti.java / DrawRegion.java / DrawLiquidTile.java / DrawBlock.java / LiquidBlock.java / Drawf.java / BuildingComp.java / Block.java / Blocks.java / Liquids.java / Vars.java."
+    },
+    "source_separator_draw_plan_state_input": {
+      "status": "active",
+      "owner": "SourceSeparatorBuildState.source_separator_draw_plan_state",
+      "source_slice": "N2419",
+      "keys": {
+        "plan_drawx": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "Draw.rect(reg, plan.drawx(), plan.drawy(), !rotate || !rotateDraw ? 0 : plan.rotation * 90);",
+          "rule": "The plan draw x (Block.java:859, the main plan rect center; the bottom / spinner plan rect centers, DrawRegion.java:61/63).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_draw_plan_state"
+          ]
+        },
+        "plan_drawy": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "Draw.rect(reg, plan.drawx(), plan.drawy(), !rotate || !rotateDraw ? 0 : plan.rotation * 90);",
+          "rule": "The plan draw y (Block.java:859 / DrawRegion.java:61/63, same mapping as x).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_draw_plan_state"
+          ]
+        },
+        "plan_rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "Draw.rect(reg, plan.drawx(), plan.drawy(), !rotate || !rotateDraw ? 0 : plan.rotation * 90);",
+          "rule": "The plan rotation (Block.java:859): taken so the plan rotation formula is explicit, but it folds to 0 -- Separator sets no rotate (Block.java:120, default false).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_draw_plan_state"
+          ]
+        },
+        "plan_world_context": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "if(plan.worldContext && player != null && teamRegion != null && teamRegion.found()){",
+          "rule": "Whether the plan is drawn in a world context (Block.java:861, the team overlay gate).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_draw_plan_state"
+          ]
+        },
+        "player_present": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "if(plan.worldContext && player != null && teamRegion != null && teamRegion.found()){",
+          "rule": "Whether a player exists (Block.java:861, the team overlay gate: player != null).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_draw_plan_state"
+          ]
+        },
+        "team_region_found": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "if(plan.worldContext && player != null && teamRegion != null && teamRegion.found()){",
+          "rule": "Whether the team region exists and is found (Block.java:861, the team overlay gate: teamRegion != null && teamRegion.found()).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_draw_plan_state"
+          ]
+        },
+        "team_matches": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "if(teamRegions[player.team().id] == teamRegion) Draw.color(player.team().color, a);",
+          "rule": "Whether the player team region IS the base team region (Block.java:862): only then does the overlay draw in the team color.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_draw_plan_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SeparatorDrawRowsProof",
+      "rule": "Source-backed Separator draw rows from Separator.java / DrawDefault.java / DrawMulti.java / DrawRegion.java / DrawLiquidTile.java / DrawBlock.java / LiquidBlock.java / Drawf.java / BuildingComp.java / Block.java / Blocks.java / Liquids.java / Vars.java."
+    },
+    "source_separator_draw_plan_state_result": {
+      "status": "active",
+      "owner": "SourceSeparatorBuildState.source_separator_draw_plan_state",
+      "source_slice": "N2419",
+      "keys": {
+        "plan_bottom_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/draw/DrawRegion.java",
+          "java_expr": "Draw.rect(region, plan.drawx()+ x, plan.drawy() + y, (buildingRotate ? plan.rotation * 90f : 0 + rotation));",
+          "rule": "The \"-bottom\" plan rect call (DrawRegion.java:63): region block.name-bottom, at the plan position, rotation 0 (buildingRotate false).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_draw_plan_state"
+          ]
+        },
+        "plan_spinner_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/draw/DrawRegion.java",
+          "java_expr": "Drawf.spinSprite(region, plan.drawx() + x, plan.drawy() + y, (buildingRotate ? plan.rotation * 90f : 0 + rotation));",
+          "rule": "The \"-spinner\" plan spin call (DrawRegion.java:61 / Drawf.java:602-608): region block.name-spinner, rotation 0, second rect at -90 with alpha factor 0.",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_draw_plan_state"
+          ]
+        },
+        "plan_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "Draw.rect(reg, plan.drawx(), plan.drawy(), !rotate || !rotateDraw ? 0 : plan.rotation * 90);",
+          "rule": "The main plan rect call (Block.java:859, via DrawDefault.drawPlan -> drawDefaultPlanRegion): region fullIcon (getPlanRegion, Block.java:881-883), at the plan position, rotation 0 (Separator sets no rotate).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_draw_plan_state"
+          ]
+        },
+        "plan_team_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "Draw.rect(teamRegions[player.team().id], plan.drawx(), plan.drawy());",
+          "rule": "The team overlay rect call (Block.java:863): region teamRegions[player.team().id], at the plan position, team color only when team_matches. Empty when the world-context gate fails (Block.java:861).",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_draw_plan_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SeparatorDrawRowsProof",
+      "rule": "Source-backed Separator draw rows from Separator.java / DrawDefault.java / DrawMulti.java / DrawRegion.java / DrawLiquidTile.java / DrawBlock.java / LiquidBlock.java / Drawf.java / BuildingComp.java / Block.java / Blocks.java / Liquids.java / Vars.java."
+    },
+    "source_launch_pad_draw_state_input": {
+      "status": "active",
+      "owner": "SourceLaunchPadBuildState.source_launch_pad_draw_state",
+      "source_slice": "N2420",
+      "keys": {
+        "x_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "Draw.rect(podRegion, x, y);",
+          "rule": "The building world x (LaunchPad.java:132, the pod rect center; the bottom square center, :107; the tiled-frames center, :109; the light rects center, :124; the shadow center, :131).",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_draw_state"
+          ]
+        },
+        "y_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "Draw.rect(podRegion, x, y);",
+          "rule": "The building world y (LaunchPad.java:132 / :107 / :109 / :124 / :131, same mapping as x).",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_draw_state"
+          ]
+        },
+        "size_value": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "Drawf.shadow(x, y, size * tilesize);",
+          "rule": "The block size in tiles (launch-pad 3, advanced-launch-pad 4, Blocks.java:6792/6802): the bottom square half-size is size * tilesize/2f - liquidPad (LaunchPad.java:107), the shadow radius is size * tilesize (LaunchPad.java:131), the tiled-frames size is block.size (LaunchPad.java:109).",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_draw_state"
+          ]
+        },
+        "has_liquids": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "if(hasLiquids && drawLiquid != null){",
+          "rule": "The Block.hasLiquids flag (LaunchPad.java:105, the liquid-branch gate): true only when the block consumes a liquid -- the advanced def (consumeLiquid oil, Blocks.java:6808); the plain launch-pad def has no liquid consumer, so its branch is off.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_draw_state"
+          ]
+        },
+        "draw_liquid": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "public @Nullable Liquid drawLiquid;",
+          "rule": "The draw liquid (LaunchPad.java:46, null by default): the liquid name when set (oil on the advanced def, Blocks.java:6807), null otherwise -- the second half of the liquid-branch gate (LaunchPad.java:105). The pure branches on null-ness only.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_draw_state"
+          ]
+        },
+        "liquid_amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "LiquidBlock.drawTiledFrames(block.size, x, y, liquidPad, liquidPad, liquidPad, liquidPad, drawLiquid, liquids.get(drawLiquid) / liquidCapacity);",
+          "rule": "The held amount of the draw liquid (liquids.get(drawLiquid), LaunchPad.java:109): the tiled-frames alpha numerator, over liquid_capacity.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_draw_state"
+          ]
+        },
+        "liquid_capacity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "LiquidBlock.drawTiledFrames(block.size, x, y, liquidPad, liquidPad, liquidPad, liquidPad, drawLiquid, liquids.get(drawLiquid) / liquidCapacity);",
+          "rule": "The block liquidCapacity (LaunchPad.java:109, the tiled-frames alpha denominator): 40f on the advanced def (Blocks.java:6805); the plain def carries no liquid, so the branch is off there regardless.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_draw_state"
+          ]
+        },
+        "bottom_color": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "public Color bottomColor = Pal.darkerMetal;",
+          "rule": "The bottom square color as a hex string (LaunchPad.java:47, Pal.darkerMetal = \"565666\", Pal.java:35): the Draw.color(bottomColor) arg (LaunchPad.java:106).",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_draw_state"
+          ]
+        },
+        "liquid_pad": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "public float liquidPad = 2f;",
+          "rule": "The liquid pad (LaunchPad.java:45, 2f, no def override): the bottom square inset (LaunchPad.java:107) and all four tiled-frames pads (LaunchPad.java:109).",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_draw_state"
+          ]
+        },
+        "items_total": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "float progress = Math.min((float)items.total() / itemCapacity, launchCounter / launchTime);",
+          "rule": "The held items total (items.total(), LaunchPad.java:116): the items-fraction numerator for the light progress.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_draw_state"
+          ]
+        },
+        "item_capacity": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "float progress = Math.min((float)items.total() / itemCapacity, launchCounter / launchTime);",
+          "rule": "The block itemCapacity (LaunchPad.java:116, the items-fraction denominator): 100 on both defs (Blocks.java:6793/6803).",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_draw_state"
+          ]
+        },
+        "launch_counter": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "float progress = Math.min((float)items.total() / itemCapacity, launchCounter / launchTime);",
+          "rule": "The frame launchCounter (LaunchPad.java:84, tracked by the N2238 advance): the counter-fraction numerator for the light progress (LaunchPad.java:116, the same ratio the N2389 sense pure reads).",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_draw_state"
+          ]
+        },
+        "launch_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "float progress = Math.min((float)items.total() / itemCapacity, launchCounter / launchTime);",
+          "rule": "The per-def launchTime (LaunchPad.java:116, the counter-fraction denominator): launch-pad 60f * 20, advanced-launch-pad 60f * 30 (Blocks.java:6794/6804); the class default is 1f (LaunchPad.java:32).",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_draw_state"
+          ]
+        },
+        "light_region_found": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "if(lightRegion.found()){",
+          "rule": "Whether the @-light region loaded (LaunchPad.java:114, the light-branch gate): the light loop + progress run only when found.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_draw_state"
+          ]
+        },
+        "light_steps": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "public int lightSteps = 3;",
+          "rule": "The light steps per side (LaunchPad.java:43, 3, no def override): the inner loop bound (LaunchPad.java:119), so the loop is 4 x lightSteps calls.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_draw_state"
+          ]
+        },
+        "light_step": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "public float lightStep = 1f;",
+          "rule": "The light step size (LaunchPad.java:42, 1f, no def override): the offset scale (LaunchPad.java:121, offset = -(j - 1f) * lightStep).",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_draw_state"
+          ]
+        },
+        "light_color": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "public Color lightColor = Color.valueOf(\"eab678\");",
+          "rule": "The light color as a hex string (LaunchPad.java:39, \"eab678\"): the mix target in Draw.color(Pal.metalGrayDark, lightColor, alpha) (LaunchPad.java:123).",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_draw_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaunchPadDrawRowsProof",
+      "rule": "Source-backed LaunchPad draw rows from LaunchPad.java / LiquidBlock.java / Drawf.java / Pal.java / Vars.java / Blocks.java."
+    },
+    "source_launch_pad_draw_state_result": {
+      "status": "active",
+      "owner": "SourceLaunchPadBuildState.source_launch_pad_draw_state",
+      "source_slice": "N2420",
+      "keys": {
+        "liquid_call": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "LiquidBlock.drawTiledFrames(block.size, x, y, liquidPad, liquidPad, liquidPad, liquidPad, drawLiquid, liquids.get(drawLiquid) / liquidCapacity);",
+          "rule": "The liquid branch call (LaunchPad.java:105-110): {bottom_color, square_half_size, size, x, y, pad_left/right/top/bottom (all liquidPad), liquid, alpha (liquid_amount / liquid_capacity)} -- null unless hasLiquids && drawLiquid != null (the N2397 null-when-absent precedent). The bottom square half-size is size * tilesize/2f - liquidPad (10.0 / 14.0); the per-tile truncation inside drawTiledFrames (LiquidBlock.java:44-72) is the callee geometry, not modeled.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_draw_state"
+          ]
+        },
+        "super_draw_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "super.draw();",
+          "rule": "The super.draw() base call (LaunchPad.java:112): the Block/Building draw, recorded as {call} -- the base the liquid branch draws under and the light/shadow/pod draw over (the N2396 record-the-call precedent).",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_draw_state"
+          ]
+        },
+        "light_calls": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "Draw.rect(lightRegion, x + Geometry.d8edge(i).x * offset, y + Geometry.d8edge(i).y * offset, i * 90);",
+          "rule": "The light rect calls (LaunchPad.java:118-126): 4 x lightSteps entries {i, j, alpha, offset, x, y, rotation, progress, color_from (\"6e7080\", Pal.metalGrayDark), color_to (light_color)} -- alpha is Mathf.curve(progress, j / lightSteps, (j+1) / lightSteps) (arc Mathf.java:608-616), offset is -(j - 1f) * lightStep, x/y ride Geometry.d8edge(i) (arc Geometry.java:35-40: (1,1) / (-1,1) / (-1,-1) / (1,-1)), rotation is i * 90. Empty when the light region is not found.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_draw_state"
+          ]
+        },
+        "shadow_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "Drawf.shadow(x, y, size * tilesize);",
+          "rule": "The shadow call (LaunchPad.java:131): {x, y, radius (size * tilesize = 24.0 / 32.0)} -- the circle-shadow rect (Drawf.java:350-352), always drawn.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_draw_state"
+          ]
+        },
+        "pod_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "Draw.rect(podRegion, x, y);",
+          "rule": "The pod rect call (LaunchPad.java:132): {region (\"podRegion\"), x, y} -- always drawn, after the shadow.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_draw_state"
+          ]
+        },
+        "icon_regions": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "return new TextureRegion[]{previewRegion};",
+          "rule": "The icons() regions (LaunchPad.java:79-80): [\"previewRegion\"] -- folded into the draw pure because icons() takes no args and a zero-arg pure cannot register (the SSOT schema validator requires non-empty input keys, the N2396 precedent).",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_draw_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaunchPadDrawRowsProof",
+      "rule": "Source-backed LaunchPad draw rows from LaunchPad.java / LiquidBlock.java / Drawf.java / Pal.java / Vars.java / Blocks.java."
+    },
+    "source_repair_turret_draw_state_input": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_draw_state",
+      "source_slice": "N2421",
+      "keys": {
+        "x_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "Draw.rect(baseRegion, x, y);",
+          "rule": "The building world x (RepairTurret.java:166, the Draw.rect center -- Building x/y are tile.drawx()/drawy(), BuildingComp.java:124): the base rect, the shadow and the region rect are all centered here, and the beam origin is x + trnsx(rotation, length) (:119).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_state"
+          ]
+        },
+        "y_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "Draw.rect(baseRegion, x, y);",
+          "rule": "The building world y (RepairTurret.java:166, the Draw.rect center): the base rect, the shadow and the region rect are all centered here, and the beam origin is y + trnsy(rotation, length) (:120).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_state"
+          ]
+        },
+        "rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "public float strength, rotation = 90;",
+          "rule": "The frame rotation (RepairTurret.java:156, tracked by the N2226 advance): the shadow + region draw at rotation - 90 and the beam origin runs along rotation (RepairTurret.java:119-120, 169-170).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_state"
+          ]
+        },
+        "length": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "public float length = 5f;",
+          "rule": "The def beam length (RepairTurret.java:36, class default 5f; repair-turret 6f, Blocks.java:6399): the beam origin offset along rotation (RepairTurret.java:119-120).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_state"
+          ]
+        },
+        "building_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "rand.setSeed(id + (target instanceof Entityc e ? e.id() : 0));",
+          "rule": "The building id (RepairTurret.java:109, the drawBeam seed base): the pure reports beam_seed = id + target id so the caller can seed/roll from the same seed Java uses -- the pure itself never rolls (no RNG in pures).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_state"
+          ]
+        },
+        "target": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "public Unit target;",
+          "rule": "The frame target (RepairTurret.java:154, tracked by the N2226 advance): null (no target -- lastEnd holds, the beam draws at the held lastEnd when strong) or a Dictionary with x / y world coords, hit_size, rotation and id. The pure branches on null-ness like Java (`if(target != null){`, RepairTurret.java:111).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_state"
+          ]
+        },
+        "strength": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "public float strength, rotation = 90;",
+          "rule": "The frame strength (RepairTurret.java:156, tracked by the N2226 advance): the beam draws only when strength > 0.01f (RepairTurret.java:135) and scales the stroke + laser width (strength * pulseStroke / beamWidth, :141/:144/:148).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_state"
+          ]
+        },
+        "pulse_stroke": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "public float pulseStroke = 2f;",
+          "rule": "The def pulse stroke (RepairTurret.java:39, class default 2f, no def override): the pulse circle stroke is strength * pulseStroke (RepairTurret.java:141).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_state"
+          ]
+        },
+        "pulse_radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "public float pulseRadius = 6f;",
+          "rule": "The def pulse radius (RepairTurret.java:38, class default 6f; repair-point 5f, Blocks.java:6392; repair-turret 6.1f, Blocks.java:6404): the pulse circle radius is 1f + f * pulseRadius (RepairTurret.java:142).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_state"
+          ]
+        },
+        "beam_width": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "public float beamWidth = 1f;",
+          "rule": "The def beam width (RepairTurret.java:37, class default 1f; repair-point 0.73f, Blocks.java:6390; repair-turret 1.1f, Blocks.java:6403): both Drawf.laser calls use width strength * beamWidth (RepairTurret.java:144/148).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_state"
+          ]
+        },
+        "last_end": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "public Vec2 offset = new Vec2(), lastEnd = new Vec2();",
+          "rule": "The frame lastEnd (RepairTurret.java:155, the drawBeam out-vector): the pre-draw value -- the pure returns the post-drawBeam lastEnd, recomputed from the target when one exists and held unchanged when the target is null (RepairTurret.java:111-133).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_state"
+          ]
+        },
+        "offset": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "public Vec2 offset = new Vec2(), lastEnd = new Vec2();",
+          "rule": "The frame offset (RepairTurret.java:155, zeroed by updateTile when the target is null, :196-198): the pre-draw value -- Java DISCARDS it inside drawBeam (offset.trns SETS the vector, Vec2.java:40-42, arc), so the pure reports offset_after as the jitter vector drawBeam overwrites it with (unchanged when the target is null).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_state"
+          ]
+        },
+        "time_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "float f = (Time.time / 85f + rand.random(1f)) % 1f;",
+          "rule": "Time.time in ticks (RepairTurret.java:139, the pulse f; also the jitter angle Time.time/2f, :127, and the sin input, :128): caller-supplied -- draw never runs in the tick, so the tick never stamps it (the N2396/N2372 convention).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_state"
+          ]
+        },
+        "rolls": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "rand.random(360f) + Time.time/2f,",
+          "rule": "The four already-rolled rand values (RepairTurret.java:127-128/139): roll_angle (rand.random(360f)), roll_phase (rand.random(200f)), roll_magnitude (rand.random(hitSize*0.2, hitSize*0.45) -- the ALREADY-RANGED value, not a 0..1 fraction), roll_f (rand.random(1f)). NO RNG in the pure: the caller rolls from beam_seed and the pure computes geometry deterministically.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_state"
+          ]
+        },
+        "repair_radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "public float repairRadius = 50f;",
+          "rule": "The def repair radius (RepairTurret.java:32, class default 50f; repair-point 60f, Blocks.java:6389; repair-turret 145f, Blocks.java:6401): the drawSelect + drawPlace dash circle radius (RepairTurret.java:98/178).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_state"
+          ]
+        },
+        "size_value": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "size = 2;",
+          "rule": "The block size in tiles (repair-turret 2, Blocks.java:6398; repair-point 1, the Block class default): the shadow shifts by the FLOAT size / 2f (RepairTurret.java:169) and the Block offset is ((size + 1) % 2) * tilesize / 2f (Block.java:761 -- 0 for size 1, 4.0 for size 2).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_state"
+          ]
+        },
+        "tile_x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, repairRadius, Pal.accent);",
+          "rule": "The placement tile x (RepairTurret.java:98, the drawPlace dash circle center is x * tilesize + offset -- WITH the Block offset, unlike MassDriver).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_state"
+          ]
+        },
+        "tile_y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, repairRadius, Pal.accent);",
+          "rule": "The placement tile y (RepairTurret.java:98, same mapping as x).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretDrawRowsProof",
+      "rule": "Source-backed RepairTurret draw rows from RepairTurret.java / Block.java / Vars.java / Blocks.java."
+    },
+    "source_repair_turret_draw_state_result": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_draw_state",
+      "source_slice": "N2421",
+      "keys": {
+        "base_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "Draw.rect(baseRegion, x, y);",
+          "rule": "The base rect call (RepairTurret.java:166): region baseRegion (the `@-base` region, RepairTurret.java:47), centered on the building, drawn at the default z before the Draw.z call.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_state"
+          ]
+        },
+        "shadow_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "Drawf.shadow(region, x - (size / 2f), y - (size / 2f), rotation - 90);",
+          "rule": "The shadow call (RepairTurret.java:169): region region at (x - size / 2f, y - size / 2f) -- the FLOAT shift, 1.0 for the size-2 repair-turret, 0.5 for the size-1 repair-point -- rotation - 90, layer Layer.turret.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_state"
+          ]
+        },
+        "region_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "Draw.rect(region, x, y, rotation - 90);",
+          "rule": "The region rect call (RepairTurret.java:170): region region centered on the building, rotation - 90, layer Layer.turret.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_state"
+          ]
+        },
+        "beam_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "Drawf.laser(laser, laserEnd, originX, originY, lastEnd.x, lastEnd.y, strength * beamWidth);",
+          "rule": "The beam call (RepairTurret.java:135-150): null when strength <= 0.01f, else the origin, the post-drawBeam last_end, f, alpha 1 - pow5In(f), stroke strength * pulseStroke, circle radius 1f + f * pulseRadius at lastEnd, and the two Drawf.laser calls (laser/laserEnd at Layer.flyingUnit + 1, laserTop/laserTopEnd at Layer.flyingUnit + 1.1f, width strength * beamWidth, colors laserColor / laserTopColor as symbolic tokens).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_state"
+          ]
+        },
+        "select_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "Drawf.dashCircle(x, y, repairRadius, Pal.accent);",
+          "rule": "The drawSelect dash circle call (RepairTurret.java:178): center the building world pos, radius repairRadius, color Pal.accent.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_state"
+          ]
+        },
+        "place_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, repairRadius, Pal.accent);",
+          "rule": "The drawPlace dash circle call (RepairTurret.java:98): center x * tilesize + offset (WITH the Block offset -- 0 for size 1, 4.0 for size 2), radius repairRadius, color Pal.accent. Records the super.drawPlace call (Block.drawPlace, not modeled here, the N2396 precedent).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_state"
+          ]
+        },
+        "icon_regions": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "return new TextureRegion[]{baseRegion, region};",
+          "rule": "The icon regions in Java order (RepairTurret.java:103, icons()): [baseRegion, region] -- baseRegion is the `@-base` region (RepairTurret.java:47), region is the block region. Folded into the draw pure because icons() takes no args and the SSOT schema validator requires non-empty input keys; the two regions are the regions draw() draws, in draw order.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretDrawRowsProof",
+      "rule": "Source-backed RepairTurret draw rows from RepairTurret.java / Block.java / Vars.java / Blocks.java."
+    },
+    "source_accelerator_power_buffer_bar_state_input": {
+      "status": "active",
+      "owner": "SourceAcceleratorBuildState.source_accelerator_power_buffer_bar_state",
+      "source_slice": "N2422",
+      "keys": {
+        "battery_stored": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "public float getBatteryStored(){",
+          "rule": "The caller-supplied stored battery (getBatteryStored(), PowerGraph.java:118-127, the enabled-battery total, stamped live on the frame by the N2342 graph stamp): the label amount and the fraction numerator. The pure never queries the power graph itself -- the caller supplies the value.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_power_buffer_bar_state"
+          ]
+        },
+        "power_buffer_requirement": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "powerBufferRequirement = 1_000_000f;",
+          "rule": "The power buffer requirement (the class field `public float powerBufferRequirement;`, Accelerator.java:41, set by the single def to 1,000,000f, Blocks.java:6826): the bar gate (the bar exists only when the requirement > 0f), the label amount and the fraction denominator.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_power_buffer_bar_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07AcceleratorPowerBufferBarRowsProof",
+      "rule": "Source-backed Accelerator powerBufferRequirement bar rows from Accelerator.java / Blocks.java."
+    },
+    "source_accelerator_power_buffer_bar_state_result": {
+      "status": "active",
+      "owner": "SourceAcceleratorBuildState.source_accelerator_power_buffer_bar_state",
+      "source_slice": "N2422",
+      "keys": {
+        "bar_present": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "if(powerBufferRequirement > 0f){",
+          "rule": "The setBars gate (Accelerator.java:105): the bar exists only when the requirement is strictly positive. When the requirement is 0f or negative the bar does not exist at all -- the pure returns bar_present false, an empty bar dict and fraction 0.0 (Java never evaluates the fraction lambda then, so 0.0 is the documented absent default, not a Java value).",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_power_buffer_bar_state"
+          ]
+        },
+        "bar": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+          "java_expr": "addBar(\"powerBufferRequirement\", b -> new Bar(",
+          "rule": "The bar descriptor (Accelerator.java:106-109): name \"powerBufferRequirement\", label key \"bar.powerbuffer\" with the raw stored + requirement amounts (Java casts the floats to long; UI.formatAmount renders the magnitude suffixes + [gray] markup, UI.java:781-800, which is a UI concern the pure does not build), color Pal.powerBar (Pal.java:93, carried as a symbolic token), and the RAW fraction stored / requirement -- Java does not clamp it in the lambda, the Bar clamps at render (Bar.java: `lastValue = value = Mathf.clamp(fraction.get());` / `float computed = Mathf.clamp(fraction.get());`), so a stored battery above the requirement reports a raw fraction above 1.0. Empty when the bar is absent.",
+          "used_by": [
+            "SourceAcceleratorBuildState.source_accelerator_power_buffer_bar_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07AcceleratorPowerBufferBarRowsProof",
+      "rule": "Source-backed Accelerator powerBufferRequirement bar rows from Accelerator.java / Blocks.java."
+    },
+    "source_force_projector_absorb_explosion_state_input": {
+      "status": "active",
+      "owner": "SourceForceProjectorBuildState.source_force_projector_absorb_explosion_state",
+      "source_slice": "N2423",
+      "keys": {
+        "broken": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "boolean absorb = !broken && Intersector.isInRegularPolygon(sides, x, y, realRadius(), shieldRotation, ex, ey);",
+          "rule": "Whether the shield is broken (ForceProjector.java:270): the !broken half of the absorb gate. Java default true (ForceProjector.java:165, `public boolean broken = true;`) -- a fresh shield starts broken and absorbs nothing.",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_absorb_explosion_state"
+          ]
+        },
+        "ex": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "public boolean absorbExplosion(float ex, float ey, float damage){",
+          "rule": "The explosion world x (ForceProjector.java:269): the point tested against the shield polygon. Damage.explode passes the blast position (Damage.java:113); the unit crash path passes the crash position (UnitComp.java:906).",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_absorb_explosion_state"
+          ]
+        },
+        "ey": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "public boolean absorbExplosion(float ex, float ey, float damage){",
+          "rule": "The explosion world y (ForceProjector.java:269): the point tested against the shield polygon.",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_absorb_explosion_state"
+          ]
+        },
+        "damage": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "buildup += damage * crashDamageMultiplier;",
+          "rule": "The explosion damage (ForceProjector.java:269, 274): buildup grows by damage * crashDamageMultiplier when absorb fires. The gate never checks damage, so a 0-damage explosion inside the polygon still absorbs (and still sets hit) with a 0 delta.",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_absorb_explosion_state"
+          ]
+        },
+        "sides": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "boolean absorb = !broken && Intersector.isInRegularPolygon(sides, x, y, realRadius(), shieldRotation, ex, ey);",
+          "rule": "The polygon side count (ForceProjector.java:270): 6 for force-projector (`public int sides = 6;`, ForceProjector.java:39). Explicit so the pure reuses the N2235 polygon helper unchanged.",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_absorb_explosion_state"
+          ]
+        },
+        "building_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "boolean absorb = !broken && Intersector.isInRegularPolygon(sides, x, y, realRadius(), shieldRotation, ex, ey);",
+          "rule": "The building world x (ForceProjector.java:270): the polygon center, Building x = tile.drawx() (BuildingComp.java:124). Explicit so the pure reuses the N2235 polygon helper unchanged.",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_absorb_explosion_state"
+          ]
+        },
+        "building_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "boolean absorb = !broken && Intersector.isInRegularPolygon(sides, x, y, realRadius(), shieldRotation, ex, ey);",
+          "rule": "The building world y (ForceProjector.java:270): the polygon center, Building y = tile.drawy() (BuildingComp.java:124). Explicit so the pure reuses the N2235 polygon helper unchanged.",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_absorb_explosion_state"
+          ]
+        },
+        "real_radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "return (radius + phaseHeat * phaseRadiusBoost) * radscl;",
+          "rule": "The real shield radius (ForceProjector.java:270, 280): the caller supplies the N2235 advance real_radius result ((radius + phaseHeat * phaseRadiusBoost) * radscl, radius 101.7f, phaseRadiusBoost 80f) -- the pure does not re-derive it. A 0 radius degenerates the polygon to a point and absorbs nothing.",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_absorb_explosion_state"
+          ]
+        },
+        "shield_rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "boolean absorb = !broken && Intersector.isInRegularPolygon(sides, x, y, realRadius(), shieldRotation, ex, ey);",
+          "rule": "The shield rotation in degrees (ForceProjector.java:270): 0f for force-projector (`public float shieldRotation = 0f;`, ForceProjector.java:40). Explicit so the pure reuses the N2235 polygon helper unchanged.",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_absorb_explosion_state"
+          ]
+        },
+        "hit": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "hit = 1f;",
+          "rule": "The current hit flash (ForceProjector.java:273): Java sets hit to 1f ONLY when absorb fires and leaves it untouched otherwise, so the pure takes the incoming hit and returns it unchanged (as hit_value, with hit_set false) when the gate fails.",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_absorb_explosion_state"
+          ]
+        },
+        "crash_damage_multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "public float crashDamageMultiplier = 2f;",
+          "rule": "The buildup multiplier (ForceProjector.java:274, `public float crashDamageMultiplier = 2f;`, ForceProjector.java:45; the def does not override it, Blocks.java:1964-1976). Explicit with the 2f driver constant as the default, so a proof can still vary it.",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_absorb_explosion_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ForceProjectorAbsorbExplosionProof",
+      "rule": "Source-backed ForceProjector absorbExplosion from ForceProjector.java / ExplosionShield.java / Damage.java / UnitComp.java / Intersector.java / Vec2.java."
+    },
+    "source_force_projector_absorb_explosion_state_result": {
+      "status": "active",
+      "owner": "SourceForceProjectorBuildState.source_force_projector_absorb_explosion_state",
+      "source_slice": "N2423",
+      "keys": {
+        "absorb": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "boolean absorb = !broken && Intersector.isInRegularPolygon(sides, x, y, realRadius(), shieldRotation, ex, ey);",
+          "rule": "Whether the shield absorbed the explosion (ForceProjector.java:270, 276): !broken && the explosion point inside the regular polygon (sides, real radius, shield rotation) -- the same polygon test deflectBullets uses (ForceProjector.java:61), via the REUSED N2235 port.",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_absorb_explosion_state"
+          ]
+        },
+        "hit_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "hit = 1f;",
+          "rule": "The hit flash after the call (ForceProjector.java:273): 1f when absorb fires, the incoming hit otherwise -- Java sets hit ONLY when absorb. Read together with hit_set: a hit already at 1f that was NOT set this call still reports hit_value 1f with hit_set false.",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_absorb_explosion_state"
+          ]
+        },
+        "hit_set": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "hit = 1f;",
+          "rule": "Whether hit was set to 1f by THIS call (ForceProjector.java:273): true exactly when absorb fires. The caller stamps hit = hit_value when this is true (the N2235 consumed-flag precedent: the pure reports, the driver writes).",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_absorb_explosion_state"
+          ]
+        },
+        "buildup_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+          "java_expr": "buildup += damage * crashDamageMultiplier;",
+          "rule": "The buildup added by this call as a pure result (ForceProjector.java:274): damage * crashDamageMultiplier (2f) when absorb fires, 0.0 otherwise. The caller adds it to buildup; the pure writes no live field.",
+          "used_by": [
+            "SourceForceProjectorBuildState.source_force_projector_absorb_explosion_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ForceProjectorAbsorbExplosionProof",
+      "rule": "Source-backed ForceProjector absorbExplosion from ForceProjector.java / ExplosionShield.java / Damage.java / UnitComp.java / Intersector.java / Vec2.java."
     }
   },
   "version": 1

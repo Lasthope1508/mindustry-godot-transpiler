@@ -2757,6 +2757,97 @@
       "rule": "Source-backed Separator disassembler scrap item consumer row from ConsumeItems.java / Consume.java / BuildingComp.java / Block.java / Blocks.java / ItemModule.java / Separator.java.",
       "return_type": "Dictionary"
     },
+    "SourceSeparatorBuildState.source_separator_draw_state": {
+      "canonical_contract": "source_api_contracts.SourceSeparatorBuildState.source_separator_draw_state",
+      "status": "active",
+      "source_slice": "N2419",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "source_method": "SeparatorBuild.draw()",
+      "params": [
+        {
+          "name": "x_value",
+          "type": "float",
+          "schema": "source_separator_draw_state_input.x_value"
+        },
+        {
+          "name": "y_value",
+          "type": "float",
+          "schema": "source_separator_draw_state_input.y_value"
+        },
+        {
+          "name": "rotation_value",
+          "type": "int",
+          "schema": "source_separator_draw_state_input.rotation_value"
+        },
+        {
+          "name": "total_progress",
+          "type": "float",
+          "schema": "source_separator_draw_state_input.total_progress"
+        },
+        {
+          "name": "liquid_gas",
+          "type": "bool",
+          "schema": "source_separator_draw_state_input.liquid_gas"
+        },
+        {
+          "name": "liquid_color",
+          "type": "String",
+          "schema": "source_separator_draw_state_input.liquid_color"
+        },
+        {
+          "name": "liquid_light_alpha",
+          "type": "float",
+          "schema": "source_separator_draw_state_input.liquid_light_alpha"
+        },
+        {
+          "name": "liquid_amount",
+          "type": "float",
+          "schema": "source_separator_draw_state_input.liquid_amount"
+        },
+        {
+          "name": "liquid_capacity",
+          "type": "float",
+          "schema": "source_separator_draw_state_input.liquid_capacity"
+        },
+        {
+          "name": "animation_frame",
+          "type": "int",
+          "schema": "source_separator_draw_state_input.animation_frame"
+        },
+        {
+          "name": "visual_liquid",
+          "type": "float",
+          "schema": "source_separator_draw_state_input.visual_liquid"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_separator_draw_state_input.source_delta"
+        },
+        {
+          "name": "size_value",
+          "type": "int",
+          "schema": "source_separator_draw_state_input.size_value"
+        }
+      ],
+      "return_keys": [
+        "bottom_call",
+        "liquid_call",
+        "spinner_call",
+        "base_call",
+        "draw_light_call",
+        "icon_regions"
+      ],
+      "tests": [
+        "test_c07_separator_draw_rows_registration",
+        "test_all_c07_separator_draw_rows_input_evidence_is_exact",
+        "test_separator_draw_rows_state",
+        "test_reference_graph_and_actual_c07_separator_draw_rows"
+      ],
+      "runtime_proof": "/root/C07SeparatorDrawRowsProof",
+      "rule": "Source-backed Separator draw rows from Separator.java / DrawDefault.java / DrawMulti.java / DrawRegion.java / DrawLiquidTile.java / DrawBlock.java / LiquidBlock.java / Drawf.java / BuildingComp.java / Block.java / Blocks.java / Liquids.java / Vars.java.",
+      "return_type": "Dictionary"
+    },
     "SourceSeparatorBuildState.source_separator_dump_neighbour_live_fill_state": {
       "canonical_contract": "source_api_contracts.SourceSeparatorBuildState.source_separator_dump_neighbour_live_fill_state",
       "status": "active",

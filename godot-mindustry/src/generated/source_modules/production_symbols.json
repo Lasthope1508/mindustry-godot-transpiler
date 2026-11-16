@@ -7349,6 +7349,156 @@
       ],
       "runtime_proof": "/root/C07SeparatorDisassemblerScrapRowProof"
     },
+    "source_separator_draw_plan_state_result.plan_bottom_call": {
+      "canonical_symbol": "source_symbol_registry.source_separator_draw_plan_state_result.plan_bottom_call",
+      "status": "source-backed",
+      "java_expr": "Draw.rect(region, plan.drawx()+ x, plan.drawy() + y, (buildingRotate ? plan.rotation * 90f : 0 + rotation));",
+      "godot_symbol": "source_separator_draw_plan_state_result.plan_bottom_call",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_draw_plan_state",
+      "rule": "The \"-bottom\" plan rect call (DrawRegion.java:63): region block.name-bottom, at the plan position, rotation 0 (buildingRotate false).",
+      "tests": [
+        "test_c07_separator_draw_rows_registration",
+        "test_all_c07_separator_draw_rows_input_evidence_is_exact",
+        "test_separator_draw_rows_state",
+        "test_reference_graph_and_actual_c07_separator_draw_rows"
+      ],
+      "runtime_proof": "/root/C07SeparatorDrawRowsProof"
+    },
+    "source_separator_draw_plan_state_result.plan_call": {
+      "canonical_symbol": "source_symbol_registry.source_separator_draw_plan_state_result.plan_call",
+      "status": "source-backed",
+      "java_expr": "Draw.rect(reg, plan.drawx(), plan.drawy(), !rotate || !rotateDraw ? 0 : plan.rotation * 90);",
+      "godot_symbol": "source_separator_draw_plan_state_result.plan_call",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_draw_plan_state",
+      "rule": "The main plan rect call (Block.java:859, via DrawDefault.drawPlan -> drawDefaultPlanRegion): region fullIcon (getPlanRegion, Block.java:881-883), at the plan position, rotation 0 (Separator sets no rotate).",
+      "tests": [
+        "test_c07_separator_draw_rows_registration",
+        "test_all_c07_separator_draw_rows_input_evidence_is_exact",
+        "test_separator_draw_rows_state",
+        "test_reference_graph_and_actual_c07_separator_draw_rows"
+      ],
+      "runtime_proof": "/root/C07SeparatorDrawRowsProof"
+    },
+    "source_separator_draw_plan_state_result.plan_spinner_call": {
+      "canonical_symbol": "source_symbol_registry.source_separator_draw_plan_state_result.plan_spinner_call",
+      "status": "source-backed",
+      "java_expr": "Drawf.spinSprite(region, plan.drawx() + x, plan.drawy() + y, (buildingRotate ? plan.rotation * 90f : 0 + rotation));",
+      "godot_symbol": "source_separator_draw_plan_state_result.plan_spinner_call",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_draw_plan_state",
+      "rule": "The \"-spinner\" plan spin call (DrawRegion.java:61 / Drawf.java:602-608): region block.name-spinner, rotation 0, second rect at -90 with alpha factor 0.",
+      "tests": [
+        "test_c07_separator_draw_rows_registration",
+        "test_all_c07_separator_draw_rows_input_evidence_is_exact",
+        "test_separator_draw_rows_state",
+        "test_reference_graph_and_actual_c07_separator_draw_rows"
+      ],
+      "runtime_proof": "/root/C07SeparatorDrawRowsProof"
+    },
+    "source_separator_draw_plan_state_result.plan_team_call": {
+      "canonical_symbol": "source_symbol_registry.source_separator_draw_plan_state_result.plan_team_call",
+      "status": "source-backed",
+      "java_expr": "Draw.rect(teamRegions[player.team().id], plan.drawx(), plan.drawy());",
+      "godot_symbol": "source_separator_draw_plan_state_result.plan_team_call",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_draw_plan_state",
+      "rule": "The team overlay rect call (Block.java:863): region teamRegions[player.team().id], at the plan position, team color only when team_matches. Empty when the world-context gate fails (Block.java:861).",
+      "tests": [
+        "test_c07_separator_draw_rows_registration",
+        "test_all_c07_separator_draw_rows_input_evidence_is_exact",
+        "test_separator_draw_rows_state",
+        "test_reference_graph_and_actual_c07_separator_draw_rows"
+      ],
+      "runtime_proof": "/root/C07SeparatorDrawRowsProof"
+    },
+    "source_separator_draw_state_result.base_call": {
+      "canonical_symbol": "source_symbol_registry.source_separator_draw_state_result.base_call",
+      "status": "source-backed",
+      "java_expr": "Draw.rect(build.block.region, build.x, build.y, build.drawrot());",
+      "godot_symbol": "source_separator_draw_state_result.base_call",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_draw_state",
+      "rule": "The base rect call (DrawDefault.java:13): region block.region, centered on the building, rotation drawrot() = 0 (Separator sets no rotate).",
+      "tests": [
+        "test_c07_separator_draw_rows_registration",
+        "test_all_c07_separator_draw_rows_input_evidence_is_exact",
+        "test_separator_draw_rows_state",
+        "test_reference_graph_and_actual_c07_separator_draw_rows"
+      ],
+      "runtime_proof": "/root/C07SeparatorDrawRowsProof"
+    },
+    "source_separator_draw_state_result.bottom_call": {
+      "canonical_symbol": "source_symbol_registry.source_separator_draw_state_result.bottom_call",
+      "status": "source-backed",
+      "java_expr": "Draw.rect(region, build.x + x, build.y + y, build.totalProgress() * rotateSpeed + rotation + (buildingRotate ? build.rotdeg() : 0));",
+      "godot_symbol": "source_separator_draw_state_result.bottom_call",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_draw_state",
+      "rule": "The \"-bottom\" rect call (DrawRegion.java:51): region block.name-bottom, centered on the building, rotation 0 (rotateSpeed 0, buildingRotate false).",
+      "tests": [
+        "test_c07_separator_draw_rows_registration",
+        "test_all_c07_separator_draw_rows_input_evidence_is_exact",
+        "test_separator_draw_rows_state",
+        "test_reference_graph_and_actual_c07_separator_draw_rows"
+      ],
+      "runtime_proof": "/root/C07SeparatorDrawRowsProof"
+    },
+    "source_separator_draw_state_result.draw_light_call": {
+      "canonical_symbol": "source_symbol_registry.source_separator_draw_state_result.draw_light_call",
+      "status": "source-backed",
+      "java_expr": "Drawf.light(x, y, block.size * 30f * fract, color, opacity * amount);",
+      "godot_symbol": "source_separator_draw_state_result.draw_light_call",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_draw_state",
+      "rule": "The liquid light call (BuildingComp.java:1319-1327, via super.drawLight() -- the drawer adds no light, no DrawMulti member overrides drawLight): radius size * 30, color liquid.lightColor, opacity lightColor.a * visualLiquid. Empty when the light gate fails (lightColor.a <= 0.001) or the visual amount is <= 0.01. Carries the new visualLiquid.",
+      "tests": [
+        "test_c07_separator_draw_rows_registration",
+        "test_all_c07_separator_draw_rows_input_evidence_is_exact",
+        "test_separator_draw_rows_state",
+        "test_reference_graph_and_actual_c07_separator_draw_rows"
+      ],
+      "runtime_proof": "/root/C07SeparatorDrawRowsProof"
+    },
+    "source_separator_draw_state_result.icon_regions": {
+      "canonical_symbol": "source_symbol_registry.source_separator_draw_state_result.icon_regions",
+      "status": "source-backed",
+      "java_expr": "result.addAll(draw.icons(block));",
+      "godot_symbol": "source_separator_draw_state_result.icon_regions",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_draw_state",
+      "rule": "The icon regions in Java order (DrawMulti.java:63, via finalIcons, Separator.java:72): [\"block.name-bottom\", \"block.name-spinner\", \"block.region\"] -- DrawLiquidTile contributes nothing (the base icons() returns empty, DrawBlock.java:47). Folded into the draw pure because icons() takes no args and the SSOT schema validator requires non-empty input keys (the N2396 precedent).",
+      "tests": [
+        "test_c07_separator_draw_rows_registration",
+        "test_all_c07_separator_draw_rows_input_evidence_is_exact",
+        "test_separator_draw_rows_state",
+        "test_reference_graph_and_actual_c07_separator_draw_rows"
+      ],
+      "runtime_proof": "/root/C07SeparatorDrawRowsProof"
+    },
+    "source_separator_draw_state_result.liquid_call": {
+      "canonical_symbol": "source_symbol_registry.source_separator_draw_state_result.liquid_call",
+      "status": "source-backed",
+      "java_expr": "LiquidBlock.drawTiledFrames(build.block.size, build.x, build.y, padLeft, padRight, padTop, padBottom, drawn, build.liquids.get(drawn) / build.block.liquidCapacity * alpha);",
+      "godot_symbol": "source_separator_draw_state_result.liquid_call",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_draw_state",
+      "rule": "The liquid tile call (DrawLiquidTile.java:29 / LiquidBlock.java:39-78): size*size fluid frames at relx * tilesize offsets, alpha amount / liquidCapacity, color liquid.color, frame fluidFrames[gas ? 1 : 0][animationFrame]. Empty when alpha < 1/255 (the Drawf.liquid gate, Drawf.java:392).",
+      "tests": [
+        "test_c07_separator_draw_rows_registration",
+        "test_all_c07_separator_draw_rows_input_evidence_is_exact",
+        "test_separator_draw_rows_state",
+        "test_reference_graph_and_actual_c07_separator_draw_rows"
+      ],
+      "runtime_proof": "/root/C07SeparatorDrawRowsProof"
+    },
+    "source_separator_draw_state_result.spinner_call": {
+      "canonical_symbol": "source_symbol_registry.source_separator_draw_state_result.spinner_call",
+      "status": "source-backed",
+      "java_expr": "Drawf.spinSprite(region, build.x + x, build.y + y, build.totalProgress() * rotateSpeed + rotation + (buildingRotate ? build.rotdeg() : 0));",
+      "godot_symbol": "source_separator_draw_state_result.spinner_call",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_draw_state",
+      "rule": "The \"-spinner\" spin call (DrawRegion.java:49 / Drawf.java:602-608): region block.name-spinner, rotation mod(totalProgress * 3, 90), second rect at rotation - 90 with alpha factor rotation / 90.",
+      "tests": [
+        "test_c07_separator_draw_rows_registration",
+        "test_all_c07_separator_draw_rows_input_evidence_is_exact",
+        "test_separator_draw_rows_state",
+        "test_reference_graph_and_actual_c07_separator_draw_rows"
+      ],
+      "runtime_proof": "/root/C07SeparatorDrawRowsProof"
+    },
     "source_separator_dump_neighbour_live_fill_state_result.dump_neighbour_accepts": {
       "canonical_symbol": "source_symbol_registry.source_separator_dump_neighbour_live_fill_state_result.dump_neighbour_accepts",
       "status": "source-backed",

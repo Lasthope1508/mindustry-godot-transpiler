@@ -1902,6 +1902,32 @@
       ],
       "runtime_proof": "/root/C07FrackerLinkedTilesLiveFillProof"
     },
+    "N2419": {
+      "canonical_ledger": "source_slice_ledger.N2419",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "java_method": "SeparatorBuild.draw()",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_draw_state",
+      "source_symbols": [
+        "source_separator_draw_state_result.bottom_call",
+        "source_separator_draw_state_result.liquid_call",
+        "source_separator_draw_state_result.spinner_call",
+        "source_separator_draw_state_result.base_call",
+        "source_separator_draw_state_result.draw_light_call",
+        "source_separator_draw_state_result.icon_regions",
+        "source_separator_draw_plan_state_result.plan_bottom_call",
+        "source_separator_draw_plan_state_result.plan_spinner_call",
+        "source_separator_draw_plan_state_result.plan_call",
+        "source_separator_draw_plan_state_result.plan_team_call"
+      ],
+      "tests": [
+        "test_c07_separator_draw_rows_registration",
+        "test_all_c07_separator_draw_rows_input_evidence_is_exact",
+        "test_separator_draw_rows_state",
+        "test_reference_graph_and_actual_c07_separator_draw_rows"
+      ],
+      "runtime_proof": "/root/C07SeparatorDrawRowsProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",

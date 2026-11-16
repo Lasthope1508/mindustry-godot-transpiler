@@ -3628,6 +3628,74 @@
       "rule": "Source-backed PayloadDeconstructor acceptPayload / acceptUnitPayload gates from PayloadDeconstructor.java / PayloadBlock.java / Payload.java / BuildPayload.java / UnitPayload.java / UnitType.java / UnitComp.java / Vars.java.",
       "return_type": "Dictionary"
     },
+    "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_draw_state": {
+      "canonical_contract": "source_api_contracts.SourcePayloadDeconstructorBuildState.source_payload_deconstructor_draw_state",
+      "status": "active",
+      "source_slice": "N2418",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "source_method": "PayloadDeconstructorBuild.draw()",
+      "params": [
+        {
+          "name": "x_value",
+          "type": "float",
+          "schema": "source_payload_deconstructor_draw_state_input.x_value"
+        },
+        {
+          "name": "y_value",
+          "type": "float",
+          "schema": "source_payload_deconstructor_draw_state_input.y_value"
+        },
+        {
+          "name": "blends",
+          "type": "Array",
+          "schema": "source_payload_deconstructor_draw_state_input.blends"
+        },
+        {
+          "name": "payload_present",
+          "type": "bool",
+          "schema": "source_payload_deconstructor_draw_state_input.payload_present"
+        },
+        {
+          "name": "deconstructing",
+          "type": "Variant",
+          "schema": "source_payload_deconstructor_draw_state_input.deconstructing"
+        },
+        {
+          "name": "progress",
+          "type": "float",
+          "schema": "source_payload_deconstructor_draw_state_input.progress"
+        },
+        {
+          "name": "time_value",
+          "type": "float",
+          "schema": "source_payload_deconstructor_draw_state_input.time_value"
+        },
+        {
+          "name": "size_value",
+          "type": "int",
+          "schema": "source_payload_deconstructor_draw_state_input.size_value"
+        }
+      ],
+      "return_keys": [
+        "base_call",
+        "input_calls",
+        "payload_call",
+        "shadow_call",
+        "construct_call",
+        "scan_line",
+        "top_call",
+        "icon_regions"
+      ],
+      "tests": [
+        "test_c07_payload_deconstructor_draw_rows_registration",
+        "test_all_c07_payload_deconstructor_draw_rows_input_evidence_is_exact",
+        "test_payload_deconstructor_draw_rows_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_draw_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorDrawRowsProof",
+      "rule": "Source-backed PayloadDeconstructor draw / icons rows from PayloadDeconstructor.java / PayloadBlock.java / Payload.java / Drawf.java / Vars.java / Blocks.java / BuildPayload.java / UnitPayload.java.",
+      "return_type": "Dictionary"
+    },
     "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_dump_neighbour_live_fill_state": {
       "canonical_contract": "source_api_contracts.SourcePayloadDeconstructorBuildState.source_payload_deconstructor_dump_neighbour_live_fill_state",
       "status": "active",

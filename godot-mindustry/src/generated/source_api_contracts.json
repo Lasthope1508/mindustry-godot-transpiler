@@ -75934,6 +75934,603 @@
       ],
       "runtime_proof": "/root/C07UnitCargoLoaderDrawRowsProof",
       "rule": "Source-backed UnitCargoLoader draw rows from UnitCargoLoader.java / Drawf.java / Vars.java / Blocks.java."
+    },
+    "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_bar_rows_state": {
+      "status": "active",
+      "source_slice": "N2417",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+      "source_method": "UnitCargoLoader.setBars()",
+      "params": [
+        {
+          "name": "unit_type_name",
+          "type": "String",
+          "schema": "source_unit_cargo_loader_bar_rows_state_input.unit_type_name"
+        },
+        {
+          "name": "unit_icon",
+          "type": "String",
+          "schema": "source_unit_cargo_loader_bar_rows_state_input.unit_icon"
+        },
+        {
+          "name": "count_type",
+          "type": "int",
+          "schema": "source_unit_cargo_loader_bar_rows_state_input.count_type"
+        },
+        {
+          "name": "use_unit_cap",
+          "type": "bool",
+          "schema": "source_unit_cargo_loader_bar_rows_state_input.use_unit_cap"
+        },
+        {
+          "name": "cap",
+          "type": "int",
+          "schema": "source_unit_cargo_loader_bar_rows_state_input.cap"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "bar_label",
+        "bar_color",
+        "bar_fraction"
+      ],
+      "tests": [
+        "test_c07_unit_cargo_loader_bar_rows_registration",
+        "test_all_c07_unit_cargo_loader_bar_rows_input_evidence_is_exact",
+        "test_unit_cargo_loader_bar_rows_state",
+        "test_reference_graph_and_actual_c07_unit_cargo_loader_bar_rows"
+      ],
+      "runtime_proof": "/root/C07UnitCargoLoaderBarRowsProof",
+      "rule": "Source-backed UnitCargoLoader bar rows from UnitCargoLoader.java / Units.java / Fonts.java / bundle.properties / Pal.java / Teams.java."
+    },
+    "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_draw_state": {
+      "status": "active",
+      "source_slice": "N2418",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "source_method": "PayloadDeconstructorBuild.draw()",
+      "params": [
+        {
+          "name": "x_value",
+          "type": "float",
+          "schema": "source_payload_deconstructor_draw_state_input.x_value"
+        },
+        {
+          "name": "y_value",
+          "type": "float",
+          "schema": "source_payload_deconstructor_draw_state_input.y_value"
+        },
+        {
+          "name": "blends",
+          "type": "Array",
+          "schema": "source_payload_deconstructor_draw_state_input.blends"
+        },
+        {
+          "name": "payload_present",
+          "type": "bool",
+          "schema": "source_payload_deconstructor_draw_state_input.payload_present"
+        },
+        {
+          "name": "deconstructing",
+          "type": "Variant",
+          "schema": "source_payload_deconstructor_draw_state_input.deconstructing"
+        },
+        {
+          "name": "progress",
+          "type": "float",
+          "schema": "source_payload_deconstructor_draw_state_input.progress"
+        },
+        {
+          "name": "time_value",
+          "type": "float",
+          "schema": "source_payload_deconstructor_draw_state_input.time_value"
+        },
+        {
+          "name": "size_value",
+          "type": "int",
+          "schema": "source_payload_deconstructor_draw_state_input.size_value"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "base_call",
+        "input_calls",
+        "payload_call",
+        "shadow_call",
+        "construct_call",
+        "scan_line",
+        "top_call",
+        "icon_regions"
+      ],
+      "tests": [
+        "test_c07_payload_deconstructor_draw_rows_registration",
+        "test_all_c07_payload_deconstructor_draw_rows_input_evidence_is_exact",
+        "test_payload_deconstructor_draw_rows_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_draw_rows"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorDrawRowsProof",
+      "rule": "Source-backed PayloadDeconstructor draw / icons rows from PayloadDeconstructor.java / PayloadBlock.java / Payload.java / Drawf.java / Vars.java / Blocks.java / BuildPayload.java / UnitPayload.java."
+    },
+    "SourceSeparatorBuildState.source_separator_draw_state": {
+      "status": "active",
+      "source_slice": "N2419",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "source_method": "SeparatorBuild.draw()",
+      "params": [
+        {
+          "name": "x_value",
+          "type": "float",
+          "schema": "source_separator_draw_state_input.x_value"
+        },
+        {
+          "name": "y_value",
+          "type": "float",
+          "schema": "source_separator_draw_state_input.y_value"
+        },
+        {
+          "name": "rotation_value",
+          "type": "int",
+          "schema": "source_separator_draw_state_input.rotation_value"
+        },
+        {
+          "name": "total_progress",
+          "type": "float",
+          "schema": "source_separator_draw_state_input.total_progress"
+        },
+        {
+          "name": "liquid_gas",
+          "type": "bool",
+          "schema": "source_separator_draw_state_input.liquid_gas"
+        },
+        {
+          "name": "liquid_color",
+          "type": "String",
+          "schema": "source_separator_draw_state_input.liquid_color"
+        },
+        {
+          "name": "liquid_light_alpha",
+          "type": "float",
+          "schema": "source_separator_draw_state_input.liquid_light_alpha"
+        },
+        {
+          "name": "liquid_amount",
+          "type": "float",
+          "schema": "source_separator_draw_state_input.liquid_amount"
+        },
+        {
+          "name": "liquid_capacity",
+          "type": "float",
+          "schema": "source_separator_draw_state_input.liquid_capacity"
+        },
+        {
+          "name": "animation_frame",
+          "type": "int",
+          "schema": "source_separator_draw_state_input.animation_frame"
+        },
+        {
+          "name": "visual_liquid",
+          "type": "float",
+          "schema": "source_separator_draw_state_input.visual_liquid"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_separator_draw_state_input.source_delta"
+        },
+        {
+          "name": "size_value",
+          "type": "int",
+          "schema": "source_separator_draw_state_input.size_value"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "bottom_call",
+        "liquid_call",
+        "spinner_call",
+        "base_call",
+        "draw_light_call",
+        "icon_regions"
+      ],
+      "tests": [
+        "test_c07_separator_draw_rows_registration",
+        "test_all_c07_separator_draw_rows_input_evidence_is_exact",
+        "test_separator_draw_rows_state",
+        "test_reference_graph_and_actual_c07_separator_draw_rows"
+      ],
+      "runtime_proof": "/root/C07SeparatorDrawRowsProof",
+      "rule": "Source-backed Separator draw rows from Separator.java / DrawDefault.java / DrawMulti.java / DrawRegion.java / DrawLiquidTile.java / DrawBlock.java / LiquidBlock.java / Drawf.java / BuildingComp.java / Block.java / Blocks.java / Liquids.java / Vars.java."
+    },
+    "SourceSeparatorBuildState.source_separator_draw_plan_state": {
+      "status": "active",
+      "source_slice": "N2419",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "source_method": "Separator.drawPlanRegion()",
+      "params": [
+        {
+          "name": "plan_drawx",
+          "type": "float",
+          "schema": "source_separator_draw_plan_state_input.plan_drawx"
+        },
+        {
+          "name": "plan_drawy",
+          "type": "float",
+          "schema": "source_separator_draw_plan_state_input.plan_drawy"
+        },
+        {
+          "name": "plan_rotation",
+          "type": "int",
+          "schema": "source_separator_draw_plan_state_input.plan_rotation"
+        },
+        {
+          "name": "plan_world_context",
+          "type": "bool",
+          "schema": "source_separator_draw_plan_state_input.plan_world_context"
+        },
+        {
+          "name": "player_present",
+          "type": "bool",
+          "schema": "source_separator_draw_plan_state_input.player_present"
+        },
+        {
+          "name": "team_region_found",
+          "type": "bool",
+          "schema": "source_separator_draw_plan_state_input.team_region_found"
+        },
+        {
+          "name": "team_matches",
+          "type": "bool",
+          "schema": "source_separator_draw_plan_state_input.team_matches"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "plan_bottom_call",
+        "plan_spinner_call",
+        "plan_call",
+        "plan_team_call"
+      ],
+      "tests": [
+        "test_c07_separator_draw_rows_registration",
+        "test_all_c07_separator_draw_rows_input_evidence_is_exact",
+        "test_separator_draw_rows_state",
+        "test_reference_graph_and_actual_c07_separator_draw_rows"
+      ],
+      "runtime_proof": "/root/C07SeparatorDrawRowsProof",
+      "rule": "Source-backed Separator draw rows from Separator.java / DrawDefault.java / DrawMulti.java / DrawRegion.java / DrawLiquidTile.java / DrawBlock.java / LiquidBlock.java / Drawf.java / BuildingComp.java / Block.java / Blocks.java / Liquids.java / Vars.java."
+    },
+    "SourceLaunchPadBuildState.source_launch_pad_draw_state": {
+      "status": "active",
+      "source_slice": "N2420",
+      "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+      "source_method": "LaunchPadBuild.draw()",
+      "params": [
+        {
+          "name": "x_value",
+          "type": "float",
+          "schema": "source_launch_pad_draw_state_input.x_value"
+        },
+        {
+          "name": "y_value",
+          "type": "float",
+          "schema": "source_launch_pad_draw_state_input.y_value"
+        },
+        {
+          "name": "size_value",
+          "type": "int",
+          "schema": "source_launch_pad_draw_state_input.size_value"
+        },
+        {
+          "name": "has_liquids",
+          "type": "bool",
+          "schema": "source_launch_pad_draw_state_input.has_liquids"
+        },
+        {
+          "name": "draw_liquid",
+          "type": "Variant",
+          "schema": "source_launch_pad_draw_state_input.draw_liquid"
+        },
+        {
+          "name": "liquid_amount",
+          "type": "float",
+          "schema": "source_launch_pad_draw_state_input.liquid_amount"
+        },
+        {
+          "name": "liquid_capacity",
+          "type": "float",
+          "schema": "source_launch_pad_draw_state_input.liquid_capacity"
+        },
+        {
+          "name": "bottom_color",
+          "type": "String",
+          "schema": "source_launch_pad_draw_state_input.bottom_color"
+        },
+        {
+          "name": "liquid_pad",
+          "type": "float",
+          "schema": "source_launch_pad_draw_state_input.liquid_pad"
+        },
+        {
+          "name": "items_total",
+          "type": "int",
+          "schema": "source_launch_pad_draw_state_input.items_total"
+        },
+        {
+          "name": "item_capacity",
+          "type": "int",
+          "schema": "source_launch_pad_draw_state_input.item_capacity"
+        },
+        {
+          "name": "launch_counter",
+          "type": "float",
+          "schema": "source_launch_pad_draw_state_input.launch_counter"
+        },
+        {
+          "name": "launch_time",
+          "type": "float",
+          "schema": "source_launch_pad_draw_state_input.launch_time"
+        },
+        {
+          "name": "light_region_found",
+          "type": "bool",
+          "schema": "source_launch_pad_draw_state_input.light_region_found"
+        },
+        {
+          "name": "light_steps",
+          "type": "int",
+          "schema": "source_launch_pad_draw_state_input.light_steps"
+        },
+        {
+          "name": "light_step",
+          "type": "float",
+          "schema": "source_launch_pad_draw_state_input.light_step"
+        },
+        {
+          "name": "light_color",
+          "type": "String",
+          "schema": "source_launch_pad_draw_state_input.light_color"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "liquid_call",
+        "super_draw_call",
+        "light_calls",
+        "shadow_call",
+        "pod_call",
+        "icon_regions"
+      ],
+      "tests": [
+        "test_c07_launch_pad_draw_rows_registration",
+        "test_all_c07_launch_pad_draw_rows_input_evidence_is_exact",
+        "test_launch_pad_draw_rows_state",
+        "test_reference_graph_and_actual_c07_launch_pad_draw_rows"
+      ],
+      "runtime_proof": "/root/C07LaunchPadDrawRowsProof",
+      "rule": "Source-backed LaunchPad draw rows from LaunchPad.java / LiquidBlock.java / Drawf.java / Pal.java / Vars.java / Blocks.java."
+    },
+    "SourceRepairTurretBuildState.source_repair_turret_draw_state": {
+      "status": "active",
+      "source_slice": "N2421",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "source_method": "RepairPointBuild.draw()",
+      "params": [
+        {
+          "name": "x_value",
+          "type": "float",
+          "schema": "source_repair_turret_draw_state_input.x_value"
+        },
+        {
+          "name": "y_value",
+          "type": "float",
+          "schema": "source_repair_turret_draw_state_input.y_value"
+        },
+        {
+          "name": "rotation",
+          "type": "float",
+          "schema": "source_repair_turret_draw_state_input.rotation"
+        },
+        {
+          "name": "length",
+          "type": "float",
+          "schema": "source_repair_turret_draw_state_input.length"
+        },
+        {
+          "name": "building_id",
+          "type": "int",
+          "schema": "source_repair_turret_draw_state_input.building_id"
+        },
+        {
+          "name": "target",
+          "type": "Variant",
+          "schema": "source_repair_turret_draw_state_input.target"
+        },
+        {
+          "name": "strength",
+          "type": "float",
+          "schema": "source_repair_turret_draw_state_input.strength"
+        },
+        {
+          "name": "pulse_stroke",
+          "type": "float",
+          "schema": "source_repair_turret_draw_state_input.pulse_stroke"
+        },
+        {
+          "name": "pulse_radius",
+          "type": "float",
+          "schema": "source_repair_turret_draw_state_input.pulse_radius"
+        },
+        {
+          "name": "beam_width",
+          "type": "float",
+          "schema": "source_repair_turret_draw_state_input.beam_width"
+        },
+        {
+          "name": "last_end",
+          "type": "Dictionary",
+          "schema": "source_repair_turret_draw_state_input.last_end"
+        },
+        {
+          "name": "offset",
+          "type": "Dictionary",
+          "schema": "source_repair_turret_draw_state_input.offset"
+        },
+        {
+          "name": "time_value",
+          "type": "float",
+          "schema": "source_repair_turret_draw_state_input.time_value"
+        },
+        {
+          "name": "rolls",
+          "type": "Dictionary",
+          "schema": "source_repair_turret_draw_state_input.rolls"
+        },
+        {
+          "name": "repair_radius",
+          "type": "float",
+          "schema": "source_repair_turret_draw_state_input.repair_radius"
+        },
+        {
+          "name": "size_value",
+          "type": "int",
+          "schema": "source_repair_turret_draw_state_input.size_value"
+        },
+        {
+          "name": "tile_x",
+          "type": "int",
+          "schema": "source_repair_turret_draw_state_input.tile_x"
+        },
+        {
+          "name": "tile_y",
+          "type": "int",
+          "schema": "source_repair_turret_draw_state_input.tile_y"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "base_call",
+        "shadow_call",
+        "region_call",
+        "beam_call",
+        "select_call",
+        "place_call",
+        "icon_regions"
+      ],
+      "tests": [
+        "test_c07_repair_turret_draw_rows_registration",
+        "test_all_c07_repair_turret_draw_rows_input_evidence_is_exact",
+        "test_repair_turret_draw_rows_state",
+        "test_reference_graph_and_actual_c07_repair_turret_draw_rows"
+      ],
+      "runtime_proof": "/root/C07RepairTurretDrawRowsProof",
+      "rule": "Source-backed RepairTurret draw rows from RepairTurret.java / Block.java / Vars.java / Blocks.java."
+    },
+    "SourceAcceleratorBuildState.source_accelerator_power_buffer_bar_state": {
+      "status": "active",
+      "source_slice": "N2422",
+      "java_source": "core/src/mindustry/world/blocks/campaign/Accelerator.java",
+      "source_method": "Accelerator.setBars()",
+      "params": [
+        {
+          "name": "battery_stored",
+          "type": "float",
+          "schema": "source_accelerator_power_buffer_bar_state_input.battery_stored"
+        },
+        {
+          "name": "power_buffer_requirement",
+          "type": "float",
+          "schema": "source_accelerator_power_buffer_bar_state_input.power_buffer_requirement"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "bar_present",
+        "bar"
+      ],
+      "tests": [
+        "test_c07_accelerator_power_buffer_bar_rows_registration",
+        "test_all_c07_accelerator_power_buffer_bar_rows_input_evidence_is_exact",
+        "test_accelerator_power_buffer_bar_rows_state",
+        "test_reference_graph_and_actual_c07_accelerator_power_buffer_bar_rows"
+      ],
+      "runtime_proof": "/root/C07AcceleratorPowerBufferBarRowsProof",
+      "rule": "Source-backed Accelerator powerBufferRequirement bar rows from Accelerator.java / Blocks.java."
+    },
+    "SourceForceProjectorBuildState.source_force_projector_absorb_explosion_state": {
+      "status": "active",
+      "source_slice": "N2423",
+      "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+      "source_method": "ForceBuild.absorbExplosion()",
+      "params": [
+        {
+          "name": "broken",
+          "type": "bool",
+          "schema": "source_force_projector_absorb_explosion_state_input.broken"
+        },
+        {
+          "name": "ex",
+          "type": "float",
+          "schema": "source_force_projector_absorb_explosion_state_input.ex"
+        },
+        {
+          "name": "ey",
+          "type": "float",
+          "schema": "source_force_projector_absorb_explosion_state_input.ey"
+        },
+        {
+          "name": "damage",
+          "type": "float",
+          "schema": "source_force_projector_absorb_explosion_state_input.damage"
+        },
+        {
+          "name": "sides",
+          "type": "int",
+          "schema": "source_force_projector_absorb_explosion_state_input.sides"
+        },
+        {
+          "name": "building_x",
+          "type": "float",
+          "schema": "source_force_projector_absorb_explosion_state_input.building_x"
+        },
+        {
+          "name": "building_y",
+          "type": "float",
+          "schema": "source_force_projector_absorb_explosion_state_input.building_y"
+        },
+        {
+          "name": "real_radius",
+          "type": "float",
+          "schema": "source_force_projector_absorb_explosion_state_input.real_radius"
+        },
+        {
+          "name": "shield_rotation",
+          "type": "float",
+          "schema": "source_force_projector_absorb_explosion_state_input.shield_rotation"
+        },
+        {
+          "name": "hit",
+          "type": "float",
+          "schema": "source_force_projector_absorb_explosion_state_input.hit"
+        },
+        {
+          "name": "crash_damage_multiplier",
+          "type": "float",
+          "schema": "source_force_projector_absorb_explosion_state_input.crash_damage_multiplier"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "absorb",
+        "hit_value",
+        "hit_set",
+        "buildup_delta"
+      ],
+      "tests": [
+        "test_c07_force_projector_absorb_explosion_registration",
+        "test_all_c07_force_projector_absorb_explosion_input_evidence_is_exact",
+        "test_force_projector_absorb_explosion_state",
+        "test_reference_graph_and_actual_c07_force_projector_absorb_explosion"
+      ],
+      "runtime_proof": "/root/C07ForceProjectorAbsorbExplosionProof",
+      "rule": "Source-backed ForceProjector absorbExplosion from ForceProjector.java / ExplosionShield.java / Damage.java / UnitComp.java / Intersector.java / Vec2.java."
     }
   },
   "policy": {

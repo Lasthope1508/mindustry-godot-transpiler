@@ -6981,6 +6981,85 @@
       "rule": "Source-backed ContinuousLiquidTurret tick frame wiring; the tick sets the frame keys the N2101 cost multiplier reads (current_liquid from the liquid module, ammo_types from the block), so the multiplier is paid live.",
       "return_type": "Dictionary"
     },
+    "SourceForceProjectorBuildState.source_force_projector_absorb_explosion_state": {
+      "canonical_contract": "source_api_contracts.SourceForceProjectorBuildState.source_force_projector_absorb_explosion_state",
+      "status": "active",
+      "source_slice": "N2423",
+      "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+      "source_method": "ForceBuild.absorbExplosion()",
+      "params": [
+        {
+          "name": "broken",
+          "type": "bool",
+          "schema": "source_force_projector_absorb_explosion_state_input.broken"
+        },
+        {
+          "name": "ex",
+          "type": "float",
+          "schema": "source_force_projector_absorb_explosion_state_input.ex"
+        },
+        {
+          "name": "ey",
+          "type": "float",
+          "schema": "source_force_projector_absorb_explosion_state_input.ey"
+        },
+        {
+          "name": "damage",
+          "type": "float",
+          "schema": "source_force_projector_absorb_explosion_state_input.damage"
+        },
+        {
+          "name": "sides",
+          "type": "int",
+          "schema": "source_force_projector_absorb_explosion_state_input.sides"
+        },
+        {
+          "name": "building_x",
+          "type": "float",
+          "schema": "source_force_projector_absorb_explosion_state_input.building_x"
+        },
+        {
+          "name": "building_y",
+          "type": "float",
+          "schema": "source_force_projector_absorb_explosion_state_input.building_y"
+        },
+        {
+          "name": "real_radius",
+          "type": "float",
+          "schema": "source_force_projector_absorb_explosion_state_input.real_radius"
+        },
+        {
+          "name": "shield_rotation",
+          "type": "float",
+          "schema": "source_force_projector_absorb_explosion_state_input.shield_rotation"
+        },
+        {
+          "name": "hit",
+          "type": "float",
+          "schema": "source_force_projector_absorb_explosion_state_input.hit"
+        },
+        {
+          "name": "crash_damage_multiplier",
+          "type": "float",
+          "schema": "source_force_projector_absorb_explosion_state_input.crash_damage_multiplier"
+        }
+      ],
+      "return_keys": [
+        "absorb",
+        "hit_value",
+        "hit_set",
+        "buildup_delta"
+      ],
+      "tests": [
+        "test_c07_force_projector_absorb_explosion_registration",
+        "test_all_c07_force_projector_absorb_explosion_input_evidence_is_exact",
+        "test_force_projector_absorb_explosion_state",
+        "test_reference_graph_and_actual_c07_force_projector_absorb_explosion"
+      ],
+      "runtime_proof": "/root/C07ForceProjectorAbsorbExplosionProof",
+      "rule": "Source-backed ForceProjector absorbExplosion from ForceProjector.java / ExplosionShield.java / Damage.java / UnitComp.java / Intersector.java / Vec2.java.",
+      "return_type": "Dictionary"
+    },
     "SourceForceProjectorBuildState.source_force_projector_coolant_consumer_row_state": {
       "canonical_contract": "source_api_contracts.SourceForceProjectorBuildState.source_force_projector_coolant_consumer_row_state",
       "status": "active",

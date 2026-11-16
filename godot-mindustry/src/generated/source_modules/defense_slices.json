@@ -3743,6 +3743,26 @@
       ],
       "runtime_proof": "/root/C07RegenProjectorHealApplicationProof"
     },
+    "N2423": {
+      "canonical_ledger": "source_slice_ledger.N2423",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/ForceProjector.java",
+      "java_method": "ForceBuild.absorbExplosion()",
+      "godot_owner": "SourceForceProjectorBuildState.source_force_projector_absorb_explosion_state",
+      "source_symbols": [
+        "source_force_projector_absorb_explosion_state_result.absorb",
+        "source_force_projector_absorb_explosion_state_result.hit_value",
+        "source_force_projector_absorb_explosion_state_result.hit_set",
+        "source_force_projector_absorb_explosion_state_result.buildup_delta"
+      ],
+      "tests": [
+        "test_c07_force_projector_absorb_explosion_registration",
+        "test_all_c07_force_projector_absorb_explosion_input_evidence_is_exact",
+        "test_force_projector_absorb_explosion_state",
+        "test_reference_graph_and_actual_c07_force_projector_absorb_explosion"
+      ],
+      "runtime_proof": "/root/C07ForceProjectorAbsorbExplosionProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",
