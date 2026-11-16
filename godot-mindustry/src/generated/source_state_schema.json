@@ -231318,6 +231318,84 @@
       },
       "runtime_proof": "/root/C07RepairTurretCoolantProof",
       "rule": "Source-backed RepairTurret coolant heal multiplier from RepairTurret.java / ConsumeCoolant.java / ConsumeLiquidFilter.java / BuildingComp.java / LiquidModule.java / Liquid.java."
+    },
+    "source_units_nearby_damaged_count_state_input": {
+      "status": "active",
+      "owner": "SourceUnitRuntimeState.source_units_nearby_damaged_count_state",
+      "source_slice": "N2210",
+      "keys": {
+        "units": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Units.java",
+          "java_expr": "team.data().tree().intersect(x, y, width, height, cons);",
+          "rule": "The units the query scans (Units.java:436, `team.data().tree().intersect(x, y, width, height, cons);` -- the rect overload materialized as an Array of Dictionary unit records, the N2141 pattern; non-Dictionary entries are skipped). The caller supplies the enumeration; no driver stamps a live units list on any frame yet (the N2190 finding).",
+          "used_by": [
+            "SourceUnitRuntimeState.source_units_nearby_damaged_count_state"
+          ]
+        },
+        "team_id": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Units.java",
+          "java_expr": "public static void nearby(@Nullable Team team, float x, float y, float radius, Cons<Unit> cons){",
+          "rule": "The team filter (Units.java:445, `@Nullable Team team`): null reads ALL teams (the null branch of the rect overload, Units.java:438-440), an int reads only that team (Units.java:436).",
+          "used_by": [
+            "SourceUnitRuntimeState.source_units_nearby_damaged_count_state"
+          ]
+        },
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Units.java",
+          "java_expr": "public static void nearby(@Nullable Team team, float x, float y, float radius, Cons<Unit> cons){",
+          "rule": "The query centre x (Units.java:445) -- the tower x the caller passes in.",
+          "used_by": [
+            "SourceUnitRuntimeState.source_units_nearby_damaged_count_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Units.java",
+          "java_expr": "public static void nearby(@Nullable Team team, float x, float y, float radius, Cons<Unit> cons){",
+          "rule": "The query centre y (Units.java:445) -- the tower y the caller passes in.",
+          "used_by": [
+            "SourceUnitRuntimeState.source_units_nearby_damaged_count_state"
+          ]
+        },
+        "radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Units.java",
+          "java_expr": "public static void nearby(@Nullable Team team, float x, float y, float radius, Cons<Unit> cons){",
+          "rule": "The query radius (Units.java:445) -- the tower range the caller passes in (RepairTower class default `public float range = 80f;`, RepairTower.java:21).",
+          "used_by": [
+            "SourceUnitRuntimeState.source_units_nearby_damaged_count_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07UnitsNearbyProof",
+      "rule": "Source-backed Units.nearby live query from Units.java / RepairTower.java / HealthComp.java / UnitType.java / UnitComp.java."
+    },
+    "source_units_nearby_damaged_count_state_result": {
+      "status": "active",
+      "owner": "SourceUnitRuntimeState.source_units_nearby_damaged_count_state",
+      "source_slice": "N2210",
+      "keys": {
+        "nearby_damaged_units": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Units.java",
+          "java_expr": "cons.get(unit);",
+          "rule": "The count of damaged units in range (Units.java:450, `cons.get(unit);` -- one cons.get call per unit the circle test yields; the count is the number of units the query yields to the damaged filter, i.e. targets.size after the RepairTower refresh block, RepairTower.java:59-66). This is the `nearby_damaged_units` observation the N2190 refresh reads via `int(observed)`.",
+          "used_by": [
+            "SourceUnitRuntimeState.source_units_nearby_damaged_count_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07UnitsNearbyProof",
+      "rule": "Source-backed Units.nearby live query from Units.java / RepairTower.java / HealthComp.java / UnitType.java / UnitComp.java."
     }
   },
   "version": 1

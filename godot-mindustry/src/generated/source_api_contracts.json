@@ -66643,6 +66643,51 @@
       ],
       "runtime_proof": "/root/C07RepairTurretCoolantProof",
       "rule": "Source-backed RepairTurret coolant heal multiplier from RepairTurret.java / ConsumeCoolant.java / ConsumeLiquidFilter.java / BuildingComp.java / LiquidModule.java / Liquid.java."
+    },
+    "SourceUnitRuntimeState.source_units_nearby_damaged_count_state": {
+      "status": "active",
+      "source_slice": "N2210",
+      "java_source": "core/src/mindustry/entities/Units.java",
+      "source_method": "Units.nearby(Team, float, float, float, Cons)",
+      "params": [
+        {
+          "name": "units",
+          "type": "Array",
+          "schema": "source_units_nearby_damaged_count_state_input.units"
+        },
+        {
+          "name": "team_id",
+          "type": "Variant",
+          "schema": "source_units_nearby_damaged_count_state_input.team_id"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_units_nearby_damaged_count_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_units_nearby_damaged_count_state_input.y"
+        },
+        {
+          "name": "radius",
+          "type": "float",
+          "schema": "source_units_nearby_damaged_count_state_input.radius"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "nearby_damaged_units"
+      ],
+      "tests": [
+        "test_c07_units_nearby_registration",
+        "test_all_c07_units_nearby_input_evidence_is_exact",
+        "test_units_nearby_damaged_count_state",
+        "test_reference_graph_and_actual_c07_units_nearby"
+      ],
+      "runtime_proof": "/root/C07UnitsNearbyProof",
+      "rule": "Source-backed Units.nearby live query from Units.java / RepairTower.java / HealthComp.java / UnitType.java / UnitComp.java."
     }
   },
   "policy": {

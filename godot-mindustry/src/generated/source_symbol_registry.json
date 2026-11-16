@@ -173832,6 +173832,22 @@
         "test_reference_graph_and_actual_c07_repair_turret_coolant"
       ],
       "runtime_proof": "/root/C07RepairTurretCoolantProof"
+    },
+    "source_units_nearby_damaged_count_state_result.nearby_damaged_units": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitRuntimeState.source_units_nearby_damaged_count_state",
+      "godot_symbol": "source_units_nearby_damaged_count_state_result.nearby_damaged_units",
+      "java_source": "core/src/mindustry/entities/Units.java",
+      "java_method": "Units.nearby(Team, float, float, float, Cons)",
+      "java_expr": "cons.get(unit);",
+      "rule": "The count of damaged units in range (Units.java:450, `cons.get(unit);` -- one cons.get call per unit the circle test yields; the count is the number of units the query yields to the damaged filter, i.e. targets.size after the RepairTower refresh block, RepairTower.java:59-66). This is the `nearby_damaged_units` observation the N2190 refresh reads via `int(observed)`.",
+      "tests": [
+        "test_c07_units_nearby_registration",
+        "test_all_c07_units_nearby_input_evidence_is_exact",
+        "test_units_nearby_damaged_count_state",
+        "test_reference_graph_and_actual_c07_units_nearby"
+      ],
+      "runtime_proof": "/root/C07UnitsNearbyProof"
     }
   },
   "version": 1

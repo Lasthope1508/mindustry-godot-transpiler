@@ -262,3 +262,68 @@ static func source_units_can_create_state(use_unit_cap: bool, count_type: int, u
 		"count_type": count_type,
 		"is_banned": is_banned,
 	}
+
+static func source_units_nearby_damaged_count_state(units: Array, team_id: Variant, x: float, y: float, radius: float) -> Dictionary:
+	# Units.nearby live query (Units.java:434-451) — the query
+	# that produces the `nearby_damaged_units` observation the
+	# N2190 RepairTower refresh consumes. The circle overload
+	# (`public static void nearby(@Nullable Team team, float x, float y, float radius, Cons<Unit> cons){`,
+	# Units.java:445) first intersects the rect
+	# (`nearby(team, x - radius, y - radius, radius*2f, radius*2f, unit -> {`,
+	# Units.java:446) then keeps only units within the
+	# effective radius (`if(unit.within(x, y, radius + unit.hitSize/2f)){`,
+	# Units.java:449). The rect overload
+	# (`public static void nearby(@Nullable Team team, float x, float y, float width, float height, Cons<Unit> cons){`,
+	# Units.java:434) filters by team: a non-null team reads
+	# only that team's tree
+	# (`team.data().tree().intersect(x, y, width, height, cons);`,
+	# Units.java:436), a null team reads every present team's
+	# tree (`for(var other : state.teams.present){`,
+	# Units.java:438). Damaged is the HealthComp predicate
+	# (`boolean damaged(){`, HealthComp.java:47 /
+	# `return health < maxHealth - 0.001f;`, HealthComp.java:48)
+	# — health strictly below maxHealth minus 0.001. The
+	# RepairTower refresh block
+	# (`if(potentialEfficiency > 0 && (refresh += Time.delta) >= refreshInterval){`,
+	# RepairTower.java:59) re-queries
+	# (`Units.nearby(team, x, y, range, u -> {`,
+	# RepairTower.java:62) for damaged units
+	# (`if(u.damaged()){`, RepairTower.java:63 /
+	# `targets.add(u);`, RepairTower.java:64). The rect
+	# pre-filter is the unit hitbox overlapping the query rect
+	# (QuadTree.intersect over
+	# `rect.setCentered(x, y, hitSize, hitSize);`,
+	# HitboxComp.java:65-67, with the STRICT overlap
+	# `return x < rx + rwidth && x + width > rx && y < ry + rheight && y + height > ry;`,
+	# Rect.java:274-276) — i.e. |dx| < radius + hitSize/2 and
+	# |dy| < radius + hitSize/2 — but the circle test subsumes
+	# it, so the rect can never change the count; it is kept as
+	# the cheap early skip Java performs. The circle test is
+	# STRICT (`return Mathf.dst2(getX(), getY(), x, y) < dst*dst;`,
+	# Position.java:44-46): a unit exactly on the effective
+	# radius is NOT counted. Absent keys read the Java field
+	# defaults: `hit_size` 6.0 (the UnitType default,
+	# `hitSize = 6f,`, UnitType.java:70), `health` 0.0,
+	# `max_health` 1.0. NO driver tick line: no driver can
+	# supply a live units list (the N2208/N2209 precedent).
+	var count: int = 0
+	for unit in units:
+		if not unit is Dictionary:
+			continue
+		if team_id != null and int(unit.get("team_id", -1)) != int(team_id):
+			continue
+		var hit_size: float = float(unit.get("hit_size", 6.0))
+		var unit_x: float = float(unit.get("x", 0.0))
+		var unit_y: float = float(unit.get("y", 0.0))
+		var health: float = float(unit.get("health", 0.0))
+		var max_health: float = float(unit.get("max_health", 1.0))
+		var dx: float = unit_x - x
+		var dy: float = unit_y - y
+		var effective_radius: float = radius + hit_size / 2.0
+		if absf(dx) >= effective_radius or absf(dy) >= effective_radius:
+			continue
+		if dx * dx + dy * dy >= effective_radius * effective_radius:
+			continue
+		if health < max_health - 0.001:
+			count += 1
+	return {"nearby_damaged_units": count}
