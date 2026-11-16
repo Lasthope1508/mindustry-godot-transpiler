@@ -518,6 +518,11 @@ static func source_unit_factory_assembler_check_tier_state(frame: Dictionary) ->
 	# module tiers when the frame carries them, and keeps the stored
 	# current_tier otherwise (a module-less frame must not reset to
 	# 0 — Java only re-derives the tier on a module event).
+	# Since N2351 the modules list is filled live: the module
+	# tick feeds updateModules/removeModule events through
+	# source_unit_assembler_modules_event_state + the cell
+	# helper below (the link cell comes from the {"block",
+	# "cell"} frame-input format; a link without a cell skips).
 	var tiers: Array = frame.get("modules", [])
 	if not tiers is Array:
 		tiers = []
@@ -533,6 +538,82 @@ static func source_unit_factory_assembler_check_tier_state(frame: Dictionary) ->
 			tier_gap = true
 			break
 	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_FACTORY_BUILD_ASSEMBLER_CHECK_TIER_STATE, "current_tier": max_tier, "module_tiers": sorted_tiers, "tier_gap": tier_gap}
+
+static func source_unit_assembler_modules_event_state(modules: Array, tier: int, event: String) -> Dictionary:
+	# One module event on the assembler's module list
+	# (UnitAssemblerBuild.modules,
+	# `public Seq<UnitAssemblerModuleBuild> modules = new Seq<>();`,
+	# UnitAssembler.java:323): updateModules
+	# (UnitAssembler.java:355-358,
+	# `public void updateModules(UnitAssemblerModuleBuild build){`
+	# `modules.addUnique(build);`
+	# `checkTier();`) and removeModule (:359-362,
+	# `public void removeModule(UnitAssemblerModuleBuild build){`
+	# `modules.remove(build);`
+	# `checkTier();`). The call sites are findLink
+	# (UnitAssemblerModule.java:75-83,
+	# `link.removeModule(this);` on the old link,
+	# `link.updateModules(this);` on the new one).
+	# Java's addUnique dedupes by BUILD identity (Seq.addUnique
+	# uses equals, and the build overrides none), so two
+	# distinct tier-1 modules both enter -- the port's tier
+	# list carries no build identity, so add appends and
+	# remove drops ONE occurrence (Java removes the one build
+	# object): [1, 1] minus one tier-1 module is [1], not [].
+	# An unknown event mutates nothing. The tier is re-derived
+	# through the N2133 pure (the climb itself is not
+	# duplicated here): `modules.sort(b -> b.tier());` then
+	# the max walk to `currentTier = max;`, stopping at the
+	# first gap. The function is pure: it never touches a
+	# frame -- the cell helper below applies it to a placed
+	# assembler's frame.
+	var updated: Array = modules.duplicate()
+	if event == "add":
+		updated.append(tier)
+	elif event == "remove":
+		var index: int = updated.find(tier)
+		if index != -1:
+			updated.remove_at(index)
+	var derived: Dictionary = source_unit_factory_assembler_check_tier_state({"modules": updated})
+	return {
+		"modules": updated,
+		"current_tier": int(derived.get("current_tier", 0)),
+		"tier_gap": bool(derived.get("tier_gap", false)),
+	}
+
+static func source_unit_factory_modules_event_for_cell_state(game: Object, cell: Vector2i, tier: int, event: String) -> Dictionary:
+	# The cell-level apply of the modules event (the battery
+	# setter pattern, source_consumer_set_power_status_for_cell_state
+	# in SourcePlacedPowerGraphState.gd: the sprite resolves
+	# through block_sprite_at_cell, the frame through the
+	# family meta key, and the mutated frame goes back with
+	# set_meta): the module tick calls this with the link
+	# assembler's origin cell -- the "cell" of the N2351 link
+	# frame-input format {"block", "cell": Vector2i} -- and
+	# the module's stamped tier (N2348), so the assembler's
+	# frame modules list + current_tier track the live links.
+	# ONLY unit-factory frames are written (a sprite with no
+	# unit-factory frame is a no-op, the N2342 accelerator
+	# precedent); a cell with no sprite or a sprite whose
+	# frame is not a Dictionary applies nothing. The frame's
+	# modules list defaults to [] (a fresh frame binds no
+	# modules key, like the N2133 missing-key read).
+	var sprite: Variant = game.call("block_sprite_at_cell", cell)
+	if sprite == null:
+		return {"applied": false, "reason": "no_sprite"}
+	if not sprite.has_meta(SOURCE_UNIT_FACTORY_BUILDING_META_KEY):
+		return {"applied": false, "reason": "not_unit_factory"}
+	var frame: Variant = sprite.get_meta(SOURCE_UNIT_FACTORY_BUILDING_META_KEY)
+	if frame is Dictionary:
+		var modules: Array = frame.get("modules", [])
+		if not modules is Array:
+			modules = []
+		var result: Dictionary = source_unit_assembler_modules_event_state(modules, tier, event)
+		frame["modules"] = result.get("modules", [])
+		frame["current_tier"] = int(result.get("current_tier", 0))
+		sprite.set_meta(SOURCE_UNIT_FACTORY_BUILDING_META_KEY, frame)
+		return {"applied": true, "reason": "live_frame"}
+	return {"applied": false, "reason": "no_frame"}
 
 static func source_unit_factory_should_consume_state(frame: Dictionary, block: Object, game: Object) -> Dictionary:
 	# The per-class shouldConsume() bodies, wired into the live loop
