@@ -62,3 +62,11 @@ ImpactReactor impactPower event, Accelerator battery side. (Do NOT start the C08
 - Gate (main PID 8969): **Ran 5953 in 1026.067s, FAILED (failures=165, skipped=5), 0 errors** — all 165 verified Godot-absent (165 × `AssertionError: unexpectedly None`, 0 `ERROR:` lines). +4 tests / +1 failure vs N2214 (5949/164): the new N2215 proof test. Log `tools/mindustry_godot_transpiler/full-suite-n2215-gate.log`.
 - Completion: fast-forwarded origin/main 0ac75c4c → 6e90868 (PR #12 wave26 validation merge, docs-only) before the 5 commits — no rebase needed. Slice commit (9 files) → docs commit (report + handoff + spec Done 1665 + N2215 row) → GOAL.md §5 debt line → hash-naming commit → handoff-status commit → push to origin main.
 - SSOT 11449/1665/1588/2967 verified from disk at completion; NO shard change.
+
+## Commits
+
+- Slice: dcfff971 (C07: N2215 RepairTurret strength lerp, 9 files)
+- Docs: bedcf73b (report + handoff + design spec, Done 1665 + N2215 row)
+- GOAL: fe1f9c24 (§5 Windows debt line for N2215)
+- Hash-naming: (this commit)
+- Handoff-status: (next commit)
