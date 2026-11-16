@@ -9,8 +9,10 @@ class C07FrackerCiteSweepTests(unittest.TestCase):
     def test_no_stale_fracker_361_cite(self):
         # N2355 sweep: the frame-sync cite points at the live
         # sync in SourceFrackerBuildState.gd, which sits at line
-        # 623 now (frame["liquids"] = sprite.get_meta(...), the
-        # comment explaining it spans :616-622). The old line
+        # 633 now (frame["liquids"] = sprite.get_meta(...), the
+        # comment explaining it spans :626-632 -- N2371 moved
+        # it down 10 lines with the dump doc + write-back
+        # wiring above it). The old line
         # number went stale as the driver grew, and 20 copies
         # of the stale cite had spread over 6 drivers, 6
         # registers and 5 test modules (grep-verified
@@ -48,10 +50,10 @@ class C07FrackerCiteSweepTests(unittest.TestCase):
                         hits.append(f'{path.relative_to(ROOT)}:{line_no}:{line.strip()}')
         self.assertEqual(hits, [])
         # Positive pin: the real sync the cite points at is
-        # still at :623, so the sweep cannot pass vacuously by
+        # still at :633, so the sweep cannot pass vacuously by
         # deleting every cite.
         lines = FRACKER_STATE.read_text(encoding='utf-8').splitlines()
         self.assertEqual(
-            lines[622].strip(),
+            lines[632].strip(),
             'frame["liquids"] = sprite.get_meta(source_placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, {})',
         )
