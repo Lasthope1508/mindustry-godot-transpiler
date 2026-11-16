@@ -1,0 +1,9 @@
+test_all_c07_shockwave_tower_bullet_scan_broad_hitbox_input_evidence_is_exact (tests.test_c07_shockwave_tower_bullet_scan_broad_hitbox.C07ShockwaveTowerBulletScanBroadHitboxTests.test_all_c07_shockwave_tower_bullet_scan_broad_hitbox_input_evidence_is_exact) ... ok
+test_c07_shockwave_tower_bullet_scan_broad_hitbox_registration (tests.test_c07_shockwave_tower_bullet_scan_broad_hitbox.C07ShockwaveTowerBulletScanBroadHitboxTests.test_c07_shockwave_tower_bullet_scan_broad_hitbox_registration) ... ok
+test_reference_graph_and_actual_c07_shockwave_tower_bullet_scan_broad_hitbox (tests.test_c07_shockwave_tower_bullet_scan_broad_hitbox.C07ShockwaveTowerBulletScanBroadHitboxTests.test_reference_graph_and_actual_c07_shockwave_tower_bullet_scan_broad_hitbox) ... ok
+test_shockwave_tower_bullet_scan_broad_hitbox_state (tests.test_c07_shockwave_tower_bullet_scan_broad_hitbox.C07ShockwaveTowerBulletScanBroadHitboxTests.test_shockwave_tower_bullet_scan_broad_hitbox_state) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 22.180s
+
+OK
