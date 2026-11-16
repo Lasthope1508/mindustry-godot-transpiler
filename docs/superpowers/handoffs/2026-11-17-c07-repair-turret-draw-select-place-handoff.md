@@ -1,6 +1,6 @@
 # Handoff — N2220 RepairTurret drawSelect/drawPlace range state (C07)
 
-## Status: GREEN (this run, 01:30–01:4x +07). Gate + commit/push pending on the main thread.
+## Status: DONE + PUSHED (slice c2f81746, main 28bec215).
 
 ## GREEN
 
