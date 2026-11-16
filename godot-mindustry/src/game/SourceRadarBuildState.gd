@@ -68,7 +68,7 @@ static func source_radar_bind_frame_state(sprite: Sprite2D, block: Object) -> Di
 
 static func source_radar_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a radar does not take the early return. The updateTile advance follows the folded efficiency: the progress advance (Radar.java:68, `progress += edelta() / discoveryTime;`) advances progress by edelta() (BuildingComp.java:1927-1929, `return efficiency * delta();`), so a radar with no power would never discover; the smooth-efficiency lerp (Radar.java:61, `smoothEfficiency = Mathf.lerpDelta(smoothEfficiency, efficiency, 0.05f);`) and the total-progress advance (Radar.java:71, `totalProgress += efficiency * edelta();`) follow the folded efficiency too. RadarBuild has NO shouldConsume override, so the BuildingComp default (BuildingComp.java:755, `public boolean shouldConsume(){` with `return enabled;`, BuildingComp.java:756) applies; the machinery runs with should_consume=true when enabled (the MendProjector suppression precedent). The radar is its own family (Radar.java:17, `public class Radar extends Block{`; RadarBuild, Radar.java:48, `public class RadarBuild extends Building{`). One def (radar, `consumePower(0.6f);`, Blocks.java:1994; fogRadius 34, Blocks.java:1991; discoveryTime 60f * 10f, Radar.java:18; rotateSpeed 2f, Radar.java:19).
-	# Documented limits: (1) power-only first pass -- the radar's power consumer is static (consumePower 0.6f, Blocks.java:1994), so the folded efficiency is the min over the *modeled* consumers (power only). (2) No shouldConsume override -- RadarBuild has NO shouldConsume override, so the BuildingComp default (`return enabled;`, BuildingComp.java:755-757) applies; the machinery runs with should_consume=true when enabled (the MendProjector suppression precedent). (3) updateTile advance done (N2190) -- smoothEfficiency / progress / totalProgress / lastRadius (Radar.java:60-72) advance every tick via source_radar_update_tile_state; the fogControl.forceUpdate call (`Vars.fogControl.forceUpdate(team, this);`, Radar.java:64) waits for its own fog slice (the advance tracks the `if(Math.abs(fogRadius() - lastRadius) >= 0.5f){` condition + the `lastRadius = fogRadius();` write only), and sense / draw / drawSelect / icons / drawPlace / read-write / canPickup wait for their own slices. (4) One def -- radar is the only Radar def; fogRadius 34 (Blocks.java:1991) and discoveryTime 60f * 10f (Radar.java:18) are consumed by the N2190 advance; rotateSpeed 2f (Radar.java:19) and the glow defs wait for their own slice.
+	# Documented limits: (1) power-only first pass -- the radar's power consumer is static (consumePower 0.6f, Blocks.java:1994), so the folded efficiency is the min over the *modeled* consumers (power only). (2) No shouldConsume override -- RadarBuild has NO shouldConsume override, so the BuildingComp default (`return enabled;`, BuildingComp.java:755-757) applies; the machinery runs with should_consume=true when enabled (the MendProjector suppression precedent). (3) updateTile advance done (N2190) -- smoothEfficiency / progress / totalProgress / lastRadius (Radar.java:60-72) advance every tick via source_radar_update_tile_state; the fogControl.forceUpdate call (`Vars.fogControl.forceUpdate(team, this);`, Radar.java:64) waits for its own fog slice (the advance tracks the `if(Math.abs(fogRadius() - lastRadius) >= 0.5f){` condition + the `lastRadius = fogRadius();` write only), and sense / read-write / canPickup wait for their own slices (draw / drawSelect / icons / drawPlace live since N2427, see (5)). (4) One def -- radar is the only Radar def; fogRadius 34 (Blocks.java:1991) and discoveryTime 60f * 10f (Radar.java:18) are consumed by the N2190 advance; rotateSpeed 2f (Radar.java:19) and the glow defs (glowColor Pal.turretHeat, glowScl 5f, glowMag 0.6f, Radar.java:24-25) are caller-supplied inputs to the N2427 draw pure. (5) Draw rows live (N2427) -- the draw pure (source_radar_draw_state) models draw() (:85-90: base rect + region rect rotated rotateSpeed * totalProgress + additive glow on Layer.blockAdditive, absin Java-exact through the shared helper at the DOUBLED scale glow_scl * 2f) + drawSelect (:80-82: dash circle on the LIVE fogRadius() method radius) + icons() (:37-39: [baseRegion, region], folded into the draw pure -- icons() takes no args and the SSOT schema validator requires non-empty input keys) + drawPlace (:42-46: dash circle on the DEF fogRadius field radius at x * tilesize + offset). Pure-only: the tick never calls draw -- draw is called by the renderer, drawSelect/drawPlace by the UI, icons by the atlas, and the call sites wait for renderer/UI slices.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -88,6 +88,160 @@ static func source_radar_update_tile_state(frame: Dictionary, efficiency: float,
 	var progress: float = clampf(progress_before + edelta / discovery_time, 0.0, 1.0)
 	var total_progress: float = total_progress_before + efficiency * edelta
 	return {"advance": {"smooth_efficiency": smooth_efficiency, "progress": progress, "total_progress": total_progress, "last_radius": last_radius}, "force_update_needed": force_update_needed}
+
+static func source_radar_draw_state(x_value: float, y_value: float, rotate_speed: float, total_progress: float, glow_color: String, glow_alpha: float, glow_mag: float, glow_scl: float, time_value: float, fog_radius: float, fog_radius_live: float, offset: float, size_value: int, tile_x: int, tile_y: int) -> Dictionary:
+	# The draw rows (RadarBuild.draw(), Radar.java:85-90),
+	# the pure draw-call dict -- the port never draws for
+	# real (the N2396 MassDriver precedent: the pure
+	# returns the draw calls as data). Java draws, in
+	# order (each exact expr on ONE comment line, the
+	# N2148 lesson):
+	# `Draw.rect(baseRegion, x, y);`
+	# `Draw.rect(region, x, y, rotateSpeed * totalProgress);`
+	# `Drawf.additive(glowRegion, glowColor, glowColor.a * (1f - glowMag + Mathf.absin(glowScl, glowMag)), x, y, rotateSpeed * totalProgress, Layer.blockAdditive);`
+	# The glow is the 7-arg additive overload:
+	# `public static void additive(TextureRegion region, Color color, float alpha, float x, float y, float rotation, float layer){`
+	# (Drawf.java:183) -- the pure models the CALL args
+	# (alpha = glowColor.a * (1f - glowMag + absin)),
+	# not the callee internals (Drawf.java:184-191
+	# re-applies color.a inside). The glow absin is the
+	# 2-arg form:
+	# `return absin(Time.time, scl, mag);`
+	# (Mathf.java:74-75, arc) over the 3-arg form:
+	# `return (sin(in, scl * 2f, mag) + mag) / 2f;`
+	# (Mathf.java:78-80, arc) -- Java-exact through the
+	# shared helper at the DOUBLED scale (helper(v, s)
+	# == Java absin(v, s / 2f), the N2372/N2382 lesson),
+	# so the pure passes glow_scl * 2f (10f at the class
+	# default glowScl 5f). drawSelect (Radar.java:80-82)
+	# dashes the LIVE radius:
+	# `Drawf.dashCircle(x, y, fogRadius() * tilesize, Pal.accent);`
+	# where fogRadius() is the method:
+	# `public float fogRadius(){`
+	# `return fogRadius * progress * smoothEfficiency;`
+	# (Radar.java:55-57) -- while drawPlace
+	# (Radar.java:42-46) dashes the DEF radius:
+	# `public void drawPlace(int x, int y, int rotation, boolean valid){`
+	# `super.drawPlace(x, y, rotation, valid);`
+	# `Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, fogRadius * tilesize, Pal.accent);`
+	# over the FIELD `public int fogRadius = -1;`
+	# (Block.java:348, def 34, Blocks.java:1991). Method
+	# vs field, verified first: they differ whenever
+	# progress * smoothEfficiency < 1, so the pure takes
+	# BOTH radii as separate inputs (fog_radius the def
+	# field, fog_radius_live the method value the N2190
+	# advance already computes as fog_radius_now). The
+	# dash circle itself is:
+	# `public static void dashCircle(float x, float y, float rad, Color color){`
+	# (Drawf.java:398). icons() (Radar.java:37-39):
+	# `public TextureRegion[] icons(){`
+	# `return new TextureRegion[]{baseRegion, region};`
+	# rides this pure as icon_regions -- icons() takes
+	# no args and the SSOT schema validator requires
+	# non-empty input keys (the N2396 precedent).
+	# outlineIcon = true (Radar.java:30) is a Block flag
+	# consumed by the icon OUTLINE machinery
+	# (SourceBlockIconState), not by icons() itself, so
+	# it is not part of this pure. The defs are
+	# `public float rotateSpeed = 2f;`
+	# `public Color glowColor = Pal.turretHeat;`
+	# `public float glowScl = 5f, glowMag = 0.6f;`
+	# `public @Load("@-base") TextureRegion baseRegion;`
+	# `public @Load("@-glow") TextureRegion glowRegion;`
+	# (Radar.java:19/21-25, no def override -- the radar
+	# def, Blocks.java:1989-1995, sets only
+	# `fogRadius = 34;` / consumers; the class fogRadius
+	# default is 10, Radar.java:31). glowColor is
+	# Pal.turretHeat:
+	# `turretHeat = Color.valueOf("ab3400"),`
+	# (Pal.java:52 -- 6-digit hex, so alpha 1.0). The
+	# color rides as a String token (SSOT has no Color
+	# type, the MendProjector precedent), so the alpha
+	# Java reads (glowColor.a) rides as the separate
+	# glow_alpha float input. tilesize is the Java
+	# constant 8.0:
+	# `public static final int tilesize = 8;`
+	# (Vars.java:135 -- NEVER the game tile_size 32,
+	# the N2375 lesson). The offset is the Block
+	# offset:
+	# `offset = ((size + 1) % 2) * tilesize / 2f;`
+	# (Block.java:761 -- 0 for the size-1 radar,
+	# `public int size = 1;`, Block.java:215),
+	# caller-supplied because Block.offset is set at
+	# load time; the pure records size + offset in the
+	# place call. super.drawPlace is Block.drawPlace
+	# (drawPotentialLinks + drawOverlay,
+	# SourceBlockDrawState) and is NOT modeled here:
+	# the pure records that the super call happens, not
+	# its content (the BaseTurret draw_place
+	# precedent). drawPlace takes tile coords (ints)
+	# separately from the world coords: the building
+	# does not exist yet at placement time. Time.time
+	# is caller-supplied as time_value (the N2396/N2372
+	# convention -- draw never runs in the tick, so the
+	# tick never stamps it). Pure-only: the tick never
+	# calls draw -- draw is called by the renderer,
+	# drawSelect/drawPlace by the UI, icons by the
+	# atlas, and the call sites wait for renderer/UI
+	# slices.
+	var tile_size: float = 8.0
+	var rotation: float = rotate_speed * total_progress
+	var glow_absin: float = source_math_state.source_absin(time_value, glow_scl * 2.0, glow_mag)
+	var glow_alpha_value: float = glow_alpha * (1.0 - glow_mag + glow_absin)
+	var base_call: Dictionary = {
+		"call": "Draw.rect(baseRegion, x, y);",
+		"region": "baseRegion",
+		"x": x_value,
+		"y": y_value,
+	}
+	var region_call: Dictionary = {
+		"call": "Draw.rect(region, x, y, rotateSpeed * totalProgress);",
+		"region": "region",
+		"x": x_value,
+		"y": y_value,
+		"rotation": rotation,
+	}
+	var glow_call: Dictionary = {
+		"call": "Drawf.additive(glowRegion, glowColor, glowColor.a * (1f - glowMag + Mathf.absin(glowScl, glowMag)), x, y, rotateSpeed * totalProgress, Layer.blockAdditive);",
+		"region": "glowRegion",
+		"color": glow_color,
+		"alpha": glow_alpha_value,
+		"absin": glow_absin,
+		"x": x_value,
+		"y": y_value,
+		"rotation": rotation,
+		"z": "Layer.blockAdditive",
+	}
+	var select_call: Dictionary = {
+		"call": "Drawf.dashCircle(x, y, fogRadius() * tilesize, Pal.accent);",
+		"x": x_value,
+		"y": y_value,
+		"radius": fog_radius_live * tile_size,
+		"color": "Pal.accent",
+	}
+	var place_call: Dictionary = {
+		"call": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, fogRadius * tilesize, Pal.accent);",
+		"super_call": "super.drawPlace(x, y, rotation, valid);",
+		"tile_x": tile_x,
+		"tile_y": tile_y,
+		"center_x": float(tile_x) * tile_size + offset,
+		"center_y": float(tile_y) * tile_size + offset,
+		"radius": fog_radius * tile_size,
+		"color": "Pal.accent",
+		"size": size_value,
+		"offset": offset,
+	}
+	return {
+		"rotation": rotation,
+		"glow_absin": glow_absin,
+		"glow_alpha_value": glow_alpha_value,
+		"base_call": base_call,
+		"region_call": region_call,
+		"glow_call": glow_call,
+		"select_call": select_call,
+		"place_call": place_call,
+		"icon_regions": ["baseRegion", "region"],
+	}
 
 static func source_radar_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the radar tick wiring every
