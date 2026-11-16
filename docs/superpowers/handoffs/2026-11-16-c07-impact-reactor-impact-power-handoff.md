@@ -1,6 +1,6 @@
 # Handoff — N2216 ImpactReactor impactPower event (C07)
 
-## Status: GREEN COMPLETE (tests + proof) — targeted 4/4 + family 16/16 + wiring 32/32 + register --verify 33/33; proof 11 keys matches:true. Full gate + 5-commit pattern + push remain for the main thread. NOT committed, NOT pushed.
+## Status: DONE + PUSHED (slice 86bce937, main eb07b726).
 
 Next slice after N2215 (DONE + PUSHED, main 405423ac): the
 impactPower event, `ImpactReactorBuild.updateTile()`
