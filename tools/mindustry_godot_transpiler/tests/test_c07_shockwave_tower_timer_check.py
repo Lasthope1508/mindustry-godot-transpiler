@@ -167,14 +167,16 @@ class C07ShockwaveTowerTimerCheckTests(unittest.TestCase):
         # The tick wiring: the timer call with the frame clock
         # + tick delta + live time scale + 8f duration; the
         # elapsed write-back; check_ready passed into the
-        # advance with the scanned bullet list (the live
+        # advance with the refined bullet list (the live
         # bullet scan is live since N2327 -- the N2318 pin
         # on the empty candidate list was updated by the
         # N2327 follow-through, the N2316 / d4c14912
-        # precedent).
+        # precedent -- and the hitbox refinement is live
+        # since N2340, so the advance now takes the refined
+        # list, the N2335 follow-through precedent).
         self.assertIn('source_shockwave_tower_timer_check_state(float(frame.get("timer_check_elapsed", 0.0)), source_placed_block_state.game_source_delta(game, seconds), source_placed_block_state.time_scale(sprite, source_placed_block_state.game_default_time_scale(game)), SOURCE_SHOCKWAVE_TOWER_CHECK_INTERVAL)', shockwave_tower)
         self.assertIn('frame["timer_check_elapsed"]', shockwave_tower)
-        self.assertIn('SOURCE_SHOCKWAVE_TOWER_COOLDOWN_MULTIPLIER, scanned_bullets, check_ready)', shockwave_tower)
+        self.assertIn('SOURCE_SHOCKWAVE_TOWER_COOLDOWN_MULTIPLIER, refined_bullets, check_ready)', shockwave_tower)
         # The N2247-pinned advance call prefix is UNCHANGED --
         # only the trailing check_ready argument changed from
         # the false literal.

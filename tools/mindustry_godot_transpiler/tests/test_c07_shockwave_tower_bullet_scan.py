@@ -175,16 +175,25 @@ class C07ShockwaveTowerBulletScanTests(unittest.TestCase):
         # RepairTower precedent: Building x/y are
         # tile.drawx()/drawy(), BuildingComp.java:124), and
         # the filtered list reaches the advance call -- the
-        # empty-list literal is gone.
+        # empty-list literal is gone. N2340 follow-through:
+        # the hitbox refinement now chains between the rect
+        # scan and the advance, so the advance takes the
+        # REFINED list (the rect call itself is unchanged).
         self.assertIn('const source_world_defaults := preload("res://src/game/SourceWorldDefaults.gd")', shockwave_tower)
         self.assertIn('frame.get("bullet_candidates", [])', shockwave_tower)
         self.assertIn('source_shockwave_tower_supplied_bullets_state(scan_candidates, float(block.properties.get("range", 110.0)), scan_building_x, scan_building_y, team_id)', shockwave_tower)
         self.assertIn('var scanned_bullets: Array = scan.get("bullets", [])', shockwave_tower)
-        self.assertIn('SOURCE_SHOCKWAVE_TOWER_COOLDOWN_MULTIPLIER, scanned_bullets, check_ready)', shockwave_tower)
+        self.assertIn('source_shockwave_tower_supplied_bullets_hitbox_state(scanned_bullets, float(block.properties.get("range", 110.0)), scan_building_x, scan_building_y)', shockwave_tower)
+        self.assertIn('var refined_bullets: Array = refinement.get("bullets", [])', shockwave_tower)
+        self.assertIn('SOURCE_SHOCKWAVE_TOWER_COOLDOWN_MULTIPLIER, refined_bullets, check_ready)', shockwave_tower)
         self.assertIn('source_block_geometry.tile_drawx_state(scan_cell.x, source_world_defaults.TILESIZE, scan_block_offset)', shockwave_tower)
         self.assertIn('source_block_geometry.tile_drawy_state(scan_cell.y, source_world_defaults.TILESIZE, scan_block_offset)', shockwave_tower)
         self.assertLess(
             shockwave_tower.index('source_shockwave_tower_supplied_bullets_state(scan_candidates, float(block.properties.get("range", 110.0)), scan_building_x, scan_building_y, team_id)'),
+            shockwave_tower.index('source_shockwave_tower_supplied_bullets_hitbox_state(scanned_bullets, float(block.properties.get("range", 110.0)), scan_building_x, scan_building_y)'),
+        )
+        self.assertLess(
+            shockwave_tower.index('source_shockwave_tower_supplied_bullets_hitbox_state(scanned_bullets, float(block.properties.get("range", 110.0)), scan_building_x, scan_building_y)'),
             shockwave_tower.index('source_shockwave_tower_update_tile_advance_state(frame, source_placed_block_state.game_source_delta(game, seconds)'),
         )
         # The documented limits now record the scan as live
