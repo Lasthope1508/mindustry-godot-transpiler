@@ -435,11 +435,15 @@ static func source_mend_projector_heal_scan_state(frame: Dictionary, candidates:
 	# phaseRangeBoost NOT overridden so the class 50f,
 	# MendProjector.java:30, applies). DEFERRED, not done and
 	# not guessed: `other.recentlyHealed();` (MendProjector.java:114,
-	# a timestamp write on the healed building object),
+	# a timestamp write on the healed building object) and
+	# `mendSound.at(this, 1f + Mathf.range(0.1f), mendSoundVolume);` (MendProjector.java:120,
+	# sound, gated on `any`). The heal effect
 	# `Fx.healBlockFull.at(other.x, other.y, other.block.size, baseColor, other.block);` (MendProjector.java:115,
-	# presentation), and `mendSound.at(this, 1f + Mathf.range(0.1f), mendSoundVolume);` (MendProjector.java:120,
-	# sound, gated on `any`) -- the pure scan returns the
-	# amounts and the flag and lets the caller apply them.
+	# presentation) is live since N2484 as the pure-only call
+	# record source_mend_projector_heal_effect_state, which
+	# consumes this pure's healed verdict -- the pure scan
+	# returns the amounts and the flag and lets the caller
+	# apply them.
 	# The range filter over the candidate list is live
 	# since N2329 (source_mend_projector_supplied_heal_
 	# candidates_state, the eachBlock broad phase -- the
@@ -467,6 +471,27 @@ static func source_mend_projector_heal_scan_state(frame: Dictionary, candidates:
 				heal_amounts.append(max_health * (heal_percent + phase_heat * phase_boost) / 100.0 * efficiency)
 				any_healed = true
 	return {"real_range": real_range, "heal_amounts": heal_amounts, "any": any_healed, "scanned": crossed}
+
+static func source_mend_projector_heal_effect_state(healed: bool, x: float, y: float, size: int, base_color: String, block_id: String) -> Dictionary:
+	# The heal effect FX row (MendBuild.updateTile() heal branch, MendProjector.java:106-122) -- the heal scan is live since N2242 as the pure source_mend_projector_heal_scan_state, so this pure does NOT recompute the gate: it consumes the caller-supplied healed verdict (a candidate is healed iff damaged && !heal_suppressed && the charge crossed) and reports the effect as a pure call record (the N2469 precedent -- the port spawns no effect; the effect call site waits for its own slice). The heal effect is live since N2484 as this pure-only call record. The Java lines, in order (each exact expr on ONE comment line, the N2148 lesson):
+	# `indexer.eachBlock(this, realRange, b -> b.damaged() && !b.isHealSuppressed(), other -> {`
+	# `other.heal(other.maxHealth() * (healPercent + phaseHeat * phaseBoost) / 100f * efficiency);`
+	# `other.recentlyHealed();`
+	# `Fx.healBlockFull.at(other.x, other.y, other.block.size, baseColor, other.block);`
+	# `any = true;`
+	# `public Color baseColor = Color.valueOf("84f491");`
+	# `healBlockFull = new Effect(20, e -> {`
+	# `if(!(e.data instanceof Block block)) return;`
+	# `mixcol(e.color, 1f);`
+	# `Draw.rect(block.fullIcon, e.x, e.y);`
+	# `public void at(float x, float y, float rotation, Color color, Object data){`
+	# `mender = new MendProjector("mender"){{`
+	# `mendProjector = new MendProjector("mend-projector"){{`
+	# The effect fires ONCE PER HEALED BUILDING (inside the eachBlock lambda :112-117, after the heal :113 + recentlyHealed :114, before any = true :116) -- not once per tick. The effect is Fx.healBlockFull (`healBlockFull = new Effect(20, e -> {`, Fx.java:2781), a 20-tick effect whose renderer reads e.color + e.data as the Block (`if(!(e.data instanceof Block block)) return;` / `mixcol(e.color, 1f);` / `Draw.rect(block.fullIcon, e.x, e.y);`, Fx.java:2782-2786); the 20-tick renderer body is the callee presentation -- the pure records the CALL (the N2396 precedent). The .at overload is `public void at(float x, float y, float rotation, Color color, Object data){` (Effect.java:133): the block size rides the rotation arg, baseColor is the color, other.block is the data. The size arg is recorded faithfully even though this renderer's body never reads e.rotation -- the CALL passes it. The color is baseColor (`public Color baseColor = Color.valueOf("84f491");`, MendProjector.java:23; neither def overrides it, Blocks.java:1919-1942), carried as the "baseColor" field-name token (the N2373 color-token precedent, the draw rows precedent). The size is the block size in tiles, descriptor key "size" (the catalog key; mender size 1 / mend-projector size 2, Blocks.java:1922/1935). When healed is false the call is null (the N2397 null-when-absent precedent). Pure-only: the tick never calls it -- the tick runs the N2242 scan and records last_heal_scan; the per-building effect call site waits for its own slice. The mendSound (:119-121) and recentlyHealed (:114) rows defer under their own entries.
+	var heal_effect_call: Variant = null
+	if healed:
+		heal_effect_call = {"effect": "Fx.healBlockFull", "x": x, "y": y, "size": size, "color": base_color, "block": block_id}
+	return {"heal_effect_call": heal_effect_call}
 
 static func source_mend_projector_supplied_heal_candidates_state(candidates: Array, real_range: float, building_x: float, building_y: float) -> Dictionary:
 	# The heal scan range query (MendProjector.java:106-122),
