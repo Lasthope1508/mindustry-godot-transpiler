@@ -220,7 +220,20 @@ class C07BaseShieldUpdateTileTests(unittest.TestCase):
         # overlap uses the real dst.
         self.assertIn('source_math_state.source_lerp_delta(', base_shield)
         self.assertIn('bullet_dst2 < rad * rad', base_shield)
-        self.assertIn('sqrtf(unit_dx * unit_dx + unit_dy * unit_dy)', base_shield)
+        # N2337: the unit overlap uses the real dst via the
+        # GDScript global sqrt() -- NOT sqrtf(), which does not
+        # exist in GDScript and blocked the N2236 proof from
+        # starting (the FIRST real Godot error, found by the
+        # user running Godot 4.6.2 on wave-13; the sqrtf call
+        # came from N2236 itself). The formula is Java-exact:
+        # unit.dst(paramBuild) is Mathf.sqrt(xd*xd + yd*yd)
+        # (Position.java:28-32), so only the function name
+        # changes. The pure distance logic is not separable at
+        # the Python layer (it lives in the GDScript advance),
+        # so the grep pin below plus the Java read is the RED
+        # evidence for this fix slice.
+        self.assertIn('sqrt(unit_dx * unit_dx + unit_dy * unit_dy)', base_shield)
+        self.assertNotIn('sqrtf(', base_shield)
         self.assertIn('overlap_dst > hit_size * SOURCE_BASE_SHIELD_KILL_MULTIPLIER', base_shield)
         # The driver wires the advance into the live tick: the
         # source delta is game_source_delta(game, seconds); the
@@ -312,6 +325,28 @@ class C07BaseShieldUpdateTileTests(unittest.TestCase):
         scene = BASE_SHIELD_UPDATE_TILE_PROOF_SCENE.read_text(encoding='utf-8')
         self.assertIn('C07BaseShieldUpdateTileProof.gd', scene)
         self.assertIn('C07BaseShieldUpdateTileProof', scene)
+
+    def test_no_c_style_float_math_functions_in_gdscript(self):
+        # N2337 sweep: GDScript has NO C-style float-suffixed
+        # math functions (sinf/cosf/tanf/powf/expf/logf/asinf/
+        # acosf/atanf/sinhf/coshf/tanhf/fmodf/sqrtf) -- the
+        # globals are sqrt/sin/cos/tan/pow/exp/log/asin/acos/
+        # atan/sinh/cosh/tanh/fmod. The f-suffixed clampf/minf/
+        # maxf/absf/lerpf/floorf/ceilf DO exist in Godot 4 and
+        # must NOT be flagged. The N2236 sqrtf() at
+        # SourceBaseShieldBuildState.gd:121 was the only hit
+        # in the whole godot-mindustry tree (verified by grep
+        # 2026-11-16); this pin keeps the sweep durable so a
+        # future slice cannot reintroduce one.
+        import re
+
+        banned = re.compile(r'\b(sinf|cosf|tanf|powf|expf|logf|log2f|asinf|acosf|atanf|atan2f|sinhf|coshf|tanhf|fmodf|sqrtf)\(')
+        hits = []
+        for gd_file in sorted((ROOT / 'godot-mindustry').rglob('*.gd')):
+            for line_no, line in enumerate(gd_file.read_text(encoding='utf-8').splitlines(), 1):
+                if banned.search(line):
+                    hits.append(f'{gd_file.relative_to(ROOT)}:{line_no}:{line.strip()}')
+        self.assertEqual(hits, [])
 
     def test_reference_graph_and_actual_c07_base_shield_update_tile(self):
         godot = shutil.which('Godot_v4.6.2-stable_win64_console.exe') or shutil.which('godot')
