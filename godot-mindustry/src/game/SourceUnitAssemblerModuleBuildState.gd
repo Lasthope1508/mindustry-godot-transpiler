@@ -125,7 +125,7 @@ static func source_unit_assembler_module_bind_frame_state(sprite: Sprite2D, bloc
 
 static func source_unit_assembler_module_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a unit-assembler-module does not take the early return. The forward gate follows the folded efficiency (UnitAssemblerModule.java:138, `if(moveInPayload() && link != null && link.moduleFits(block, x, y, rotation) && !link.wasOccupied && link.acceptPayload(this, payload) && efficiency > 0){`) and the module has no shouldConsume override, so the default (BuildingComp.java:755, `public boolean shouldConsume(){`) applies -- the row folds under the live default, not the MendProjector-suppression precedent. The basic-assembler-module (consumePower 3.5f, Blocks.java:6568, `consumePower(3.5f);`) has no liquid consumer, so the folded efficiency is the min over the *modeled* consumers (power only).
-	# Documented limits: (1) power-only first pass -- the module has no liquid/item consumer, so the folded efficiency is the min over the *modeled* consumers (power only). (2) shouldConsume default applies -- the module has no override; the machinery runs with should_consume=true when enabled. (3) updateTile advance live (N2248) -- the lastChange refresh + findLink re-discovery + moveInPayload + the handoff gate (UnitAssemblerModule.java:132-141) run in source_unit_assembler_module_update_tile_advance_state; the N2168 proof still carries no link/payload/tier keys (the efficiency > 0 gate (UnitAssemblerModule.java:138) is what the efficiency keys prove) while the N2248 proof carries the link/payload keys. getLink discovery live (N2358) -- the moduleFits geometry pure + the discovery pure over an EXPLICIT frame-input candidate list, the tick filling frame["link_candidate"] before the N2248 advance (the live flagged fill is live since N2381 -- see below); the wasOccupied predicate evaluation, the handoff-to-intake wiring, and the live payload fill wait for their own slices -- see DEFERRED. Live flagged-buildings index fill live (N2381) -- the tick scans placed_blocks team-wide for UnitAssembler builds (the unitAssembler flag is class-wide, UnitAssembler.java:66) and fills frame["link_candidates"] with N2358 descriptors before the discovery, when the frame carries no supplied candidates and no seeded link_candidate (supplied candidates win; a previously live-filled frame refreshes every tick). (4) No link/draw/onRemoved rows -- see DEFERRED. canPlaceOn live (N2345) -- the placement gate (UnitAssemblerModule.java:48-51) runs in source_unit_assembler_module_can_place_on_state, reading the frame link verdict (N2248); the live placement call site waits for its own slice. acceptPayload rows live (N2299) -- the module gate (UnitAssemblerModule.java:110-111) and the link assembler gate (UnitAssembler.java:722-727) run in source_unit_assembler_module_accept_payload_state / source_unit_assembler_accept_payload_state, and the tick exposes both verdicts on the frame (accepts_payload / link_accepts_payload). Handoff-gate wiring live (N2314) -- the N2248 handoff gate reads the LINK verdict live: the tick stamps frame["accept_payload"] from link_accepts_payload before the advance, so a live module hands off when the link accepts; the module verdict does NOT drive the gate. Tier stamp live (N2348) -- tier() (UnitAssemblerModule.java:85-86) returns the class field tier = 1 (UnitAssemblerModule.java:22); the tick stamps frame["tier"] every tick (the catalog carries no tier key and the def sets no tier, so the driver passes the class default explicitly); the checkTier pure is live since N2133; checkTier wiring live (N2351) -- the module tick feeds updateModules/removeModule events into the assembler frame modules list through the unit-factory cell helper (the link cell comes from the {"block", "cell"} frame-input format; a link without a cell skips); the getLink discovery produces those links since N2358 (from an explicit candidate list, or the live fill since N2381). Handoff-gate moduleFits wiring live (N2370) -- the tick stamps frame["module_fits"] from the N2358 fits pure over the current link's candidate descriptor before the N2248 advance (only when frame["link_candidates"] is supplied; a link with no matching descriptor stamps false, a tick with no candidate list keeps the seeded value). (5) No variant verification -- there is only one module def (basic-assembler-module).
+	# Documented limits: (1) power-only first pass -- the module has no liquid/item consumer, so the folded efficiency is the min over the *modeled* consumers (power only). (2) shouldConsume default applies -- the module has no override; the machinery runs with should_consume=true when enabled. (3) updateTile advance live (N2248) -- the lastChange refresh + findLink re-discovery + moveInPayload + the handoff gate (UnitAssemblerModule.java:132-141) run in source_unit_assembler_module_update_tile_advance_state; the N2168 proof still carries no link/payload/tier keys (the efficiency > 0 gate (UnitAssemblerModule.java:138) is what the efficiency keys prove) while the N2248 proof carries the link/payload keys. getLink discovery live (N2358) -- the moduleFits geometry pure + the discovery pure over an EXPLICIT frame-input candidate list, the tick filling frame["link_candidate"] before the N2248 advance (the live flagged fill is live since N2381 -- see below); the wasOccupied predicate evaluation, the handoff-to-intake wiring, and the live payload fill wait for their own slices -- see DEFERRED. Live flagged-buildings index fill live (N2381) -- the tick scans placed_blocks team-wide for UnitAssembler builds (the unitAssembler flag is class-wide, UnitAssembler.java:66) and fills frame["link_candidates"] with N2358 descriptors before the discovery, when the frame carries no supplied candidates and no seeded link_candidate (supplied candidates win; a previously live-filled frame refreshes every tick). (4) Draw rows live (N2425) -- draw() (UnitAssemblerModule.java:90-108: base rect + blends-gated input side regions + always-drawn side region + drawPayload on Layer.blockOver + top rect on Layer.blockOver + 0.1f) + drawPlace (:38-45: super + the link delegation) + drawPlanRegion (:54-58) + icons() (:59-63, [region, topRegion] riding the pure as icon_regions, the N2396 precedent) are modeled by the pure-only source_unit_assembler_module_draw_state (the link is caller-supplied -- the pure never calls getLink; the blends verdicts are caller-supplied -- the live neighbour query waits for its own slice; the drawSideRegion edge geometry is the canonical SourceBlockDrawState pure). Link rows live since N2358/N2381 (see (3)); onRemoved / drawSelect still defer -- see DEFERRED. canPlaceOn live (N2345) -- the placement gate (UnitAssemblerModule.java:48-51) runs in source_unit_assembler_module_can_place_on_state, reading the frame link verdict (N2248); the live placement call site waits for its own slice. acceptPayload rows live (N2299) -- the module gate (UnitAssemblerModule.java:110-111) and the link assembler gate (UnitAssembler.java:722-727) run in source_unit_assembler_module_accept_payload_state / source_unit_assembler_accept_payload_state, and the tick exposes both verdicts on the frame (accepts_payload / link_accepts_payload). Handoff-gate wiring live (N2314) -- the N2248 handoff gate reads the LINK verdict live: the tick stamps frame["accept_payload"] from link_accepts_payload before the advance, so a live module hands off when the link accepts; the module verdict does NOT drive the gate. Tier stamp live (N2348) -- tier() (UnitAssemblerModule.java:85-86) returns the class field tier = 1 (UnitAssemblerModule.java:22); the tick stamps frame["tier"] every tick (the catalog carries no tier key and the def sets no tier, so the driver passes the class default explicitly); the checkTier pure is live since N2133; checkTier wiring live (N2351) -- the module tick feeds updateModules/removeModule events into the assembler frame modules list through the unit-factory cell helper (the link cell comes from the {"block", "cell"} frame-input format; a link without a cell skips); the getLink discovery produces those links since N2358 (from an explicit candidate list, or the live fill since N2381). Handoff-gate moduleFits wiring live (N2370) -- the tick stamps frame["module_fits"] from the N2358 fits pure over the current link's candidate descriptor before the N2248 advance (only when frame["link_candidates"] is supplied; a link with no matching descriptor stamps false, a tick with no candidate list keeps the seeded value). (5) No variant verification -- there is only one module def (basic-assembler-module).
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -967,3 +967,248 @@ static func source_unit_assembler_module_tick_buildings_state(game: Object, seco
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
 	return {"ticked_count": ticked_count, "results_by_cell": results_by_cell}
+
+# --- N2425: draw / drawPlace / drawPlanRegion / icons rows (DEFERRED #31) ---
+static func source_unit_assembler_module_draw_state(x_value: float, y_value: float, rotation: int, blends: Array, payload: Variant, link: Variant, plan: Variant) -> Dictionary:
+	# The draw / drawPlace / drawPlanRegion / icons rows
+	# (UnitAssemblerModuleBuild.draw(), UnitAssemblerModule.java:90-108
+	# + drawPlace(), :38-45 + drawPlanRegion(), :54-58 + icons(), :59-63),
+	# the pure draw-call dict -- the port never draws for real (the N2396
+	# MassDriver precedent: the pure returns the draw calls as data). Java
+	# draws, in order (each exact expr on ONE comment line, the N2148 lesson):
+	# `public void draw(){`
+	# `Draw.rect(region, x, y);`
+	# `//draw input conveyors`
+	# `for(int i = 0; i < 4; i++){`
+	# `if(blends(i) && i != rotation){`
+	# `drawSideRegion(inRegion, x, y, i - 2);`
+	# `drawSideRegion(rotation >= 2 ? sideRegion2 : sideRegion1, x, y, rotation);`
+	# `Draw.z(Layer.blockOver);`
+	# `payRotation = rotdeg();`
+	# `drawPayload();`
+	# `Draw.z(Layer.blockOver + 0.1f);`
+	# `Draw.rect(topRegion, x, y);`
+	# The base rect always draws; then the input side regions, one per
+	# direction i where blends(i) holds AND i != rotation (the module's own
+	# facing is excluded -- a blends direction that IS the rotation draws
+	# nothing), with the side-region rotation i - 2 (draw rotation
+	# (i - 2) * 90f: -180 / -90 / 0 / 90 for i = 0..3); then the
+	# always-drawn side region (NOT blends-gated, unlike the inputs) with
+	# the side select rotation >= 2 (sideRegion2 for rotations 2-3,
+	# sideRegion1 for 0-1); then drawPayload() on Layer.blockOver; then
+	# the top rect always, on Layer.blockOver + 0.1f -- ABOVE the payload.
+	# The side regions are the @Load fields
+	# `public @Load("@-side1") TextureRegion sideRegion1;`
+	# `public @Load("@-side2") TextureRegion sideRegion2;`
+	# (UnitAssemblerModule.java:19-20); the input region is the PayloadBlock
+	# inRegion (`public TextureRegion topRegion, outRegion, inRegion;`,
+	# PayloadBlock.java:21, loaded
+	# `topRegion = findFactoryRegion("-top");`
+	# PayloadBlock.java:38 -- the -in twin loads the same way). The module
+	# has NO drawer field -- draw() is a direct override, not a drawer
+	# dispatch (the N2419 UCL lesson: check for a drawer before assuming
+	# one). icons():
+	# `public TextureRegion[] icons(){`
+	# `return new TextureRegion[]{region, topRegion};`
+	# -- the two regions draw() draws, in draw order, so the pure reports
+	# them as icon_regions instead of a zero-arg pure (the SSOT schema
+	# validator requires non-empty input keys, the N2396 precedent).
+	# drawPayload() (PayloadBlock.java:246-253):
+	# `public void drawPayload(){`
+	# `if(payload != null){`
+	# `updatePayload();`
+	# `Draw.z(Layer.blockOver);`
+	# `payload.draw();`
+	# -- the HELD payload (`public @Nullable T payload;`,
+	# PayloadBlock.java:92), so the pure takes payload as a Variant (null
+	# or the dict) and branches on null-ness only. payRotation is set
+	# UNCONDITIONALLY before the call (`payRotation = rotdeg();`, :103,
+	# over
+	# `public float rotdeg(){`
+	# `return rotation * 90;`
+	# BuildingComp.java:582-584), so the pure reports pay_rotation =
+	# rotation * 90 whether or not a payload is held; the payload_call
+	# carries it too (updatePayload positions the payload from payVector /
+	# payRotation, PayloadBlock.java:174-177, over
+	# `public Vec2 payVector = new Vec2();`
+	# `public float payRotation;`
+	# PayloadBlock.java:94-95). The inner payload.draw() dispatch
+	# (BuildPayload.draw / UnitPayload.draw) needs the live payload entity,
+	# so the pure reports the call + z + the updatePayload() call, not the
+	# inner draw. blends(i) is the PayloadBlock neighbour check:
+	# `public boolean blends(int direction){`
+	# `return PayloadBlock.blends(this, direction);`
+	# (PayloadBlock.java:170-172, over the static blends,
+	# PayloadBlock.java:51-74) -- the pure takes the 4 verdicts as an
+	# explicit Array input (the live neighbour query waits for its own
+	# slice); a blends array shorter than 4 reads the missing directions
+	# as false (the N2418 precedent).
+	# drawSideRegion (Block.java:497-505):
+	# `public void drawSideRegion(TextureRegion region, float x, float y, int rotation){`
+	# `var p = Geometry.d4[Mathf.mod(rotation, 4)];`
+	# `float s = size * tilesize/2f;`
+	# -- the edge geometry is the canonical
+	# SourceBlockDrawState.draw_side_region_state pure (region.width /
+	# region.scl are atlas values no caller can supply, and no family
+	# driver calls it), so this pure reports the calls symbolically
+	# (region token + center + rotation param + the draw rotation
+	# rotation * 90f, Block.java:503). Single def: `size = 5;`
+	# (basic-assembler-module, Blocks.java:6572).
+	# drawPlace (UnitAssemblerModule.java:38-45):
+	# `public void drawPlace(int x, int y, int rotation, boolean valid){`
+	# `super.drawPlace(x, y, rotation, valid);`
+	# `var link = getLink(player.team(), x, y, rotation);`
+	# `if(link != null){`
+	# `link.block.drawPlace(link.tile.x, link.tile.y, link.rotation, true);`
+	# -- the super call is Block.drawPlace
+	# `drawPotentialLinks(x, y);`
+	# `drawOverlay(x * tilesize + offset, y * tilesize + offset, rotation);`
+	# (Block.java:491-494), already ported as the canonical
+	# SourceBlockDrawState.draw_place_state, so the pure RECORDS that the
+	# super call happens (the N2396 MassDriver precedent, place_super_expr)
+	# and models only the module part: the delegation, as place_call --
+	# null when the link is null, else the delegated target {block,
+	# tile_x, tile_y, rotation, valid true}. The link is caller-supplied
+	# as {block, tile: {x, y}, rotation} -- the pure NEVER calls getLink
+	# (getLink discovery is live since N2358 but drawPlace reads
+	# player.team(), a runtime value, and draw never runs in the tick).
+	# A link that is not a Dictionary (or a tile that is not a {x, y}
+	# Dictionary) reads the 0 defaults -- the defined malformed-input
+	# behaviour, the N2358 defensive-skip precedent.
+	# drawPlanRegion (UnitAssemblerModule.java:54-58):
+	# `public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){`
+	# `Draw.rect(region, plan.drawx(), plan.drawy());`
+	# `drawSideRegion(plan.rotation >= 2 ? sideRegion2 : sideRegion1, plan.drawx(), plan.drawy(), plan.rotation);`
+	# `Draw.rect(topRegion, plan.drawx(), plan.drawy());`
+	# -- the base + side + top at the PLAN position, with the plan rotation
+	# driving the side select. The plan is caller-supplied as {drawx,
+	# drawy, rotation} (drawx/drawy are
+	# `public float drawx(){`
+	# `return x*tilesize + (block == null ? 0 : block.offset);`
+	# `public float drawy(){`
+	# `return y*tilesize + (block == null ? 0 : block.offset);`
+	# BuildPlan.java:142-148 -- the caller computes them, the pure takes
+	# the values); plan_call is null when no plan is supplied. The Block
+	# default (drawDefaultPlanRegion, Block.java:851-852) does not apply --
+	# the module overrides it. drawSelect is NOT in this entry (it lives
+	# under the onRemoved / drawSelect entry) and is not ported. Pure-only:
+	# the tick never calls draw -- draw is called by the renderer,
+	# drawPlace / drawPlanRegion by the placement UI, icons by the atlas,
+	# and the call sites wait for renderer / UI slices.
+	var pay_rotation: float = float(rotation) * 90.0
+	var side_region: String = "sideRegion2" if rotation >= 2 else "sideRegion1"
+	var base_call: Dictionary = {
+		"call": "Draw.rect(region, x, y);",
+		"region": "region",
+		"x": x_value,
+		"y": y_value,
+	}
+	var input_calls: Array = []
+	for i in range(4):
+		if i < blends.size() and bool(blends[i]) and i != rotation:
+			input_calls.append({
+				"call": "drawSideRegion(inRegion, x, y, i - 2);",
+				"region": "inRegion",
+				"x": x_value,
+				"y": y_value,
+				"index": i,
+				"rotation": i - 2,
+				"draw_rotation": float(i - 2) * 90.0,
+			})
+	var side_call: Dictionary = {
+		"call": "drawSideRegion(rotation >= 2 ? sideRegion2 : sideRegion1, x, y, rotation);",
+		"region": side_region,
+		"x": x_value,
+		"y": y_value,
+		"rotation": rotation,
+		"draw_rotation": pay_rotation,
+	}
+	var payload_call: Dictionary = {}
+	if payload != null:
+		payload_call = {
+			"call": "payload.draw();",
+			"update_payload_call": "updatePayload();",
+			"z": "Layer.blockOver",
+			"pay_rotation": pay_rotation,
+		}
+	var top_call: Dictionary = {
+		"call": "Draw.rect(topRegion, x, y);",
+		"region": "topRegion",
+		"x": x_value,
+		"y": y_value,
+		"z": "Layer.blockOver + 0.1f",
+	}
+	var place_call: Variant = null
+	if link is Dictionary:
+		var link_dict: Dictionary = link
+		var link_tile: Variant = link_dict.get("tile", null)
+		var link_tile_x := 0
+		var link_tile_y := 0
+		if link_tile is Dictionary:
+			link_tile_x = int((link_tile as Dictionary).get("x", 0))
+			link_tile_y = int((link_tile as Dictionary).get("y", 0))
+		place_call = {
+			"call": "link.block.drawPlace(link.tile.x, link.tile.y, link.rotation, true);",
+			"block": str(link_dict.get("block", "")),
+			"tile_x": link_tile_x,
+			"tile_y": link_tile_y,
+			"rotation": int(link_dict.get("rotation", 0)),
+			"valid": true,
+		}
+	var plan_call: Variant = null
+	if plan is Dictionary:
+		var plan_dict: Dictionary = plan
+		var plan_drawx: float = float(plan_dict.get("drawx", 0.0))
+		var plan_drawy: float = float(plan_dict.get("drawy", 0.0))
+		var plan_rotation: int = int(plan_dict.get("rotation", 0))
+		var plan_side_region: String = "sideRegion2" if plan_rotation >= 2 else "sideRegion1"
+		plan_call = {
+			"call": "drawPlanRegion(plan, list);",
+			"base_call": {
+				"call": "Draw.rect(region, plan.drawx(), plan.drawy());",
+				"region": "region",
+				"x": plan_drawx,
+				"y": plan_drawy,
+			},
+			"side_call": {
+				"call": "drawSideRegion(plan.rotation >= 2 ? sideRegion2 : sideRegion1, plan.drawx(), plan.drawy(), plan.rotation);",
+				"region": plan_side_region,
+				"x": plan_drawx,
+				"y": plan_drawy,
+				"rotation": plan_rotation,
+				"draw_rotation": float(plan_rotation) * 90.0,
+			},
+			"top_call": {
+				"call": "Draw.rect(topRegion, plan.drawx(), plan.drawy());",
+				"region": "topRegion",
+				"x": plan_drawx,
+				"y": plan_drawy,
+			},
+		}
+	return {
+		"base_expr": "Draw.rect(region, x, y);",
+		"input_expr": "drawSideRegion(inRegion, x, y, i - 2);",
+		"side_expr": "drawSideRegion(rotation >= 2 ? sideRegion2 : sideRegion1, x, y, rotation);",
+		"payload_expr": "payload.draw();",
+		"top_expr": "Draw.rect(topRegion, x, y);",
+		"place_expr": "link.block.drawPlace(link.tile.x, link.tile.y, link.rotation, true);",
+		"place_super_expr": "super.drawPlace(x, y, rotation, valid);",
+		"plan_expr": "drawPlanRegion(plan, list);",
+		"icons_expr": "return new TextureRegion[]{region, topRegion};",
+		"x": x_value,
+		"y": y_value,
+		"rotation": rotation,
+		"has_payload": payload != null,
+		"has_link": link != null,
+		"has_plan": plan != null,
+		"pay_rotation": pay_rotation,
+		"side_region": side_region,
+		"base_call": base_call,
+		"input_calls": input_calls,
+		"side_call": side_call,
+		"payload_call": payload_call,
+		"top_call": top_call,
+		"place_call": place_call,
+		"plan_call": plan_call,
+		"icon_regions": ["region", "topRegion"],
+	}
