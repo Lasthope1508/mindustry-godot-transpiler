@@ -106,7 +106,7 @@ static func source_repair_tower_should_consume_state(frame: Dictionary) -> Dicti
 
 static func source_repair_tower_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a repair tower does not take the early return. The repair tower's power draw is STATIC, not conditional: `consumePower(1f);` (Blocks.java:6582) registers a plain ConsumePower, so the catalog consumePower 1.0 is present and the plain radar gate (block.properties.has("consumePower")) works -- no RepairTurret-style `or consumesPower` adaptation is needed. The pure row is still the same ConsumePower read (`return build.power.status;`, ConsumePower.java:39). The updateTile advance follows the folded efficiency: the heal advance (RepairTower.java:78, `target.heal(healAmount * edelta());`) heals by edelta() (BuildingComp.java:1927-1929, `return efficiency * delta();`), so a repair tower with no power would never heal. RepairTowerBuild overrides shouldConsume (RepairTower.java:89, `public boolean shouldConsume(){` with `return targets.size > 0;`, RepairTower.java:90); updateConsumption forces efficiency to zero when the gate is false (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). The shouldConsume gate is live (N2213) -- the pure gate (source_repair_tower_should_consume_state) feeds should_consume to the machinery from the frame targets key (empty before any refresh, non-empty with damaged units in range); the live scan fills frame["targets"] since N2306 (the periodic refresh is the updateTile advance, RepairTower.java:57-86, live since N2227 with a supplied refill list; the Units.nearby scan pure filters the frame unit candidates). The repair tower is its own family (RepairTower.java:18, `public class RepairTower extends Block{`; RepairTowerBuild, RepairTower.java:46, `public class RepairTowerBuild extends Building implements Ranged{`). Class fields: `static final float refreshInterval = 6f;` (RepairTower.java:19), `public float range = 80f;` (RepairTower.java:21), `public float healAmount = 1f;` (RepairTower.java:24); constructor `update = true;` (RepairTower.java:29), `suppressable = true;` (RepairTower.java:31), `flags = EnumSet.of(BlockFlag.repair);` (RepairTower.java:32). The target refresh itself is gated on potentialEfficiency (RepairTower.java:59, `if(potentialEfficiency > 0 && (refresh += Time.delta) >= refreshInterval){`), and the warmup lerp (RepairTower.java:84, `warmup = Mathf.lerpDelta(warmup, any ? efficiency : 0f, 0.08f);`) follows efficiency. canConsume (BuildingComp.java:1917, `public boolean canConsume(){` with `return potentialEfficiency > 0;`, BuildingComp.java:1918) and the shouldConsume default (BuildingComp.java:755, `public boolean shouldConsume(){` with `return enabled;`, BuildingComp.java:756) are the surrounding gates. Single def -- unit-repair-tower only (size 2, range 100f, healAmount 1.5f, graphite 90 / silicon 90 / tungsten 80, Blocks.java:6575-6583). RepairTurret (repair-point / repair-turret) is a different class and NOT covered by this driver.
-	# Documented limits: (1) power + liquid first pass -- the repair tower's static power consumer (consumePower 1f, Blocks.java:6582) and its ozone liquid consumer (consumeLiquid ozone 3f/60f = 0.05, Blocks.java:6583, `consumeLiquid(Liquids.ozone, 3f / 60f);`) are both modeled since N2250 (the liquid row is source_repair_tower_liquid_consumer_row_state, ConsumeLiquid.efficiency, ConsumeLiquid.java:42-47; the second-pass removal is ConsumeLiquid.update, ConsumeLiquid.java:37-39), so the folded efficiency is the min over both modeled consumers; no other consumer rows exist on this def. (2) shouldConsume gate live (N2213) -- RepairTowerBuild overrides shouldConsume (`return targets.size > 0;`, RepairTower.java:89-91); when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994); the pure gate reads the frame targets key (default []) and feeds should_consume to the machinery; the live scan fills frame["targets"] since N2306 (the periodic refresh is the updateTile advance, RepairTower.java:57-86, live since N2227 with a supplied refill list; the Units.nearby scan pure filters the frame unit candidates). (3) updateTile advance live (N2227) -- target refresh cadence + clear / heal amounts / warmup lerp / totalProgress advance (RepairTower.java:57-86) advance each tick; Units.nearby scan live (N2306) -- the scan pure filters the frame unit candidates by the Java predicates (damaged + within range + hitSize/2) and the tick stamps the refill onto frame["supplied_damaged"], but the heal application to live units and the live unit-candidate query wait for their own slices (the advance returns heal amounts as a pure result, frame["heal_amounts"]). (4) Suppression branch live on a frame input (N2227) -- `suppressable = true` (RepairTower.java:31) and `checkSuppression()` zeroes warmup (RepairTower.java:69-72); the advance reads frame["heal_suppressed"] (default false, the N2215 precedent) but no live fill sets it yet (applyHealSuppression, BuildingComp.java:482-485, waits for its own slice). (5) Single def -- unit-repair-tower only (size 2, range 100f, healAmount 1.5f, graphite 90 / silicon 90 / tungsten 80); per-def stat values wait for their own verification slice. (6) RepairTurret (repair-point / repair-turret) is a different class and NOT covered by this driver.
+	# Documented limits: (1) power + liquid first pass -- the repair tower's static power consumer (consumePower 1f, Blocks.java:6582) and its ozone liquid consumer (consumeLiquid ozone 3f/60f = 0.05, Blocks.java:6583, `consumeLiquid(Liquids.ozone, 3f / 60f);`) are both modeled since N2250 (the liquid row is source_repair_tower_liquid_consumer_row_state, ConsumeLiquid.efficiency, ConsumeLiquid.java:42-47; the second-pass removal is ConsumeLiquid.update, ConsumeLiquid.java:37-39), so the folded efficiency is the min over both modeled consumers; no other consumer rows exist on this def. (2) shouldConsume gate live (N2213) -- RepairTowerBuild overrides shouldConsume (`return targets.size > 0;`, RepairTower.java:89-91); when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994); the pure gate reads the frame targets key (default []) and feeds should_consume to the machinery; the live scan fills frame["targets"] since N2306 (the periodic refresh is the updateTile advance, RepairTower.java:57-86, live since N2227 with a supplied refill list; the Units.nearby scan pure filters the frame unit candidates). (3) updateTile advance live (N2227) -- target refresh cadence + clear / heal amounts / warmup lerp / totalProgress advance (RepairTower.java:57-86) advance each tick; Units.nearby scan live (N2306) -- the scan pure filters the frame unit candidates by the Java predicates (damaged + within range + hitSize/2) and the tick stamps the refill onto frame["supplied_damaged"], but the heal application to live units and the live unit-candidate query wait for their own slices (the advance returns heal amounts as a pure result, frame["heal_amounts"]). (4) Suppression branch live on a frame input (N2227) -- `suppressable = true` (RepairTower.java:31) and `checkSuppression()` zeroes warmup (RepairTower.java:69-72); the advance reads frame["heal_suppressed"] (default false, the N2215 precedent) but no live fill sets it yet (applyHealSuppression, BuildingComp.java:482-485, waits for its own slice). (5) Single def -- unit-repair-tower only (size 2, range 100f, healAmount 1.5f, graphite 90 / silicon 90 / tungsten 80); per-def stat values wait for their own verification slice. (6) RepairTurret (repair-point / repair-turret) is a different class and NOT covered by this driver. (7) Draw rows live (N2428) -- the draw pure (source_repair_tower_draw_state) models draw() (RepairTower.java:94-110: super + the warmup-gated Layer.effect circle / Pal.heal square / additive glow at Layer.blockAdditive, Java-exact absin at the doubled scale) + drawSelect (:122-124) + drawPlace (:44-48, tile coords + offset), and the stats pure (source_repair_tower_stats_state) models setStats (:36-40, range / tilesize blocks + healAmount * 60 per second) + the range() / warmup() accessors. Pure-only: draw never runs in the tick.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -342,6 +342,246 @@ static func source_repair_tower_update_tile_advance_state(frame: Dictionary, hea
 	frame["total_progress"] = total_progress
 	frame["heal_amounts"] = heal_amounts
 	return frame
+
+static func source_repair_tower_draw_state(x_value: float, y_value: float, warmup: float, total_progress: float, range_value: float, time_value: float, circle_color: String, circle_stroke: float, square_rad: float, square_spin_scl: float, glow_color: String, glow_mag: float, glow_scl: float, offset: float, tile_x: int, tile_y: int) -> Dictionary:
+	# The draw / drawSelect / drawPlace rows (RepairTowerBuild.draw(),
+	# RepairTower.java:94-110; drawSelect(), :122-124;
+	# RepairTower.drawPlace(), :44-48), the pure draw-call dict -- the
+	# port never draws for real (the N2419 Separator precedent: the pure
+	# returns the draw calls as data). Java draws, in order (each exact
+	# expr on ONE comment line, the N2148 lesson):
+	# `super.draw();`
+	# `if(warmup <= 0.001f) return;`
+	# `Draw.z(Layer.effect);`
+	# `float mod = totalProgress % 1f;`
+	# `Draw.color(circleColor);`
+	# `Lines.stroke(circleStroke * (1f - mod) * warmup);`
+	# `Lines.circle(x, y, range * mod);`
+	# `Draw.color(Pal.heal);`
+	# `Fill.square(x, y, squareRad * warmup, Time.time / squareSpinScl);`
+	# `Draw.reset();`
+	# `Drawf.additive(glow, glowColor, warmup * (1f - glowMag + Mathf.absin(Time.time, glowScl, glowMag)), x, y, 0f, Layer.blockAdditive);`
+	# super.draw() runs BEFORE the warmup gate, so a cold tower still
+	# draws its base (the super call is a marker -- the BuildingComp base
+	# draw is the shared renderer concern, not a RepairTower row). Past
+	# the gate everything draws at z Layer.effect (Layer.java:75) except
+	# the glow, which is the additive call at Layer.blockAdditive
+	# (Layer.java:36). mod is totalProgress % 1f: totalProgress never goes
+	# negative (the N2227 advance only adds Time.delta / circleSpeed), so
+	# GDScript fmod matches Java %. The square color is Pal.heal
+	# (Pal.java:77). The glow region is the `@-glow` region
+	# (RepairTower.java:25) through the 7-arg additive form
+	# (Drawf.java:183). The absin is Java-exact through the shared helper
+	# at the DOUBLED scale (the N2372/N2382 lesson): Java absin is
+	# `return (sin(in, scl * 2f, mag) + mag) / 2f;` (arc Mathf.java:78-80)
+	# while the helper is `(sin(value / scl) * 0.5 + 0.5) * mag` (SourceMathState.source_absin),
+	# i.e. helper(v, s) == Java absin(v, s / 2f) -- so the pure passes
+	# glowScl * 2f (16f at the class default) to land Java's absin
+	# (Time.time, glowScl, glowMag) exactly. Layer / palette / Drawf /
+	# tilesize exact exprs (each on ONE line, the N2148 lesson):
+	# `effect = 110,`
+	# `blockAdditive = 31,`
+	# `heal = Color.valueOf("98ffa9"),`
+	# `placing = accent,`
+	# `public static void dashCircle(float x, float y, float rad, Color color){`
+	# `public static void additive(TextureRegion region, Color color, float alpha, float x, float y, float rotation, float layer){`
+	# `public static final int tilesize = 8;`
+	# `public @Load("@-glow") TextureRegion glow;`
+	# The class defaults are
+	# `public Color circleColor = Pal.heal, glowColor = Pal.heal.cpy().a(0.5f);`
+	# (RepairTower.java:22) and `public float circleSpeed = 120f, circleStroke = 3f, squareRad = 3f, squareSpinScl = 0.8f, glowMag = 0.5f, glowScl = 8f;`
+	# (RepairTower.java:23); the def (unit-repair-tower,
+	# Blocks.java:6575-6583) overrides only range (`range = 100f;`,
+	# :6579; the class default is `public float range = 80f;`,
+	# RepairTower.java:21) and healAmount -- every draw constant arrives
+	# as an explicit caller-supplied input, so the pure stays
+	# def-agnostic. Time.time is caller-supplied as time_value (the
+	# N2356 precedent: draw never runs in the tick, so the tick never
+	# stamps it).
+	# drawSelect() is one line (RepairTower.java:122-124):
+	# `Drawf.dashCircle(x, y, range, Pal.placing);`
+	# at the building x/y, with NO warmup gate -- a cold tower still
+	# selects. drawPlace() (RepairTower.java:44-48) is:
+	# `super.drawPlace(x, y, rotation, valid);`
+	# `Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);`
+	# at the TILE position: offset is the Block offset (`offset = ((size + 1) % 2) * tilesize / 2f;`,
+	# Block.java:761 -- 4.0 for the size-2 def, `size = 2;`,
+	# Blocks.java:6578) and tilesize is the Java constant 8.0 (Vars.java:135
+	# -- NEVER the game tile_size 32, the N2375 lesson). The pure takes
+	# tile_x / tile_y as explicit int inputs (the draw x/y are world
+	# coords and cannot serve both). super.drawPlace is Block.drawPlace
+	# (drawPotentialLinks + drawOverlay, the shared placement concern)
+	# and is NOT modeled here (the N2372 MendProjector precedent).
+	# Pal.placing is Pal.accent (Pal.java:95); dashCircle is the Drawf
+	# helper (Drawf.java:398). The build fields are `public float warmup = 0f;`
+	# and `public float totalProgress = 0f;` (RepairTower.java:52-53) on
+	# RepairTowerBuild (`public class RepairTowerBuild extends Building implements Ranged{`,
+	# RepairTower.java:46); RepairTower extends Block (`public class RepairTower extends Block{`,
+	# RepairTower.java:18). Pure-only: draw never runs in the tick, and
+	# the renderer call site that would call draw() on a placed repair
+	# tower waits for a renderer slice.
+	var tile_size: float = source_world_defaults.TILESIZE
+	var warmup_gated: bool = warmup <= 0.001
+	var mod_value: float = fmod(total_progress, 1.0)
+	var circle_stroke_value: float = circle_stroke * (1.0 - mod_value) * warmup
+	var circle_radius: float = range_value * mod_value
+	var square_radius: float = square_rad * warmup
+	var square_rotation: float = time_value / square_spin_scl
+	var glow_absin: float = source_math_state.source_absin(time_value, glow_scl * 2.0, glow_mag)
+	var glow_alpha: float = warmup * (1.0 - glow_mag + glow_absin)
+	var place_x: float = float(tile_x) * tile_size + offset
+	var place_y: float = float(tile_y) * tile_size + offset
+	var super_call: Dictionary = {
+		"call": "super.draw();",
+		"x": x_value,
+		"y": y_value,
+	}
+	var circle_call: Dictionary = {}
+	var square_call: Dictionary = {}
+	var glow_call: Dictionary = {}
+	if not warmup_gated:
+		circle_call = {
+			"call": "Lines.circle(x, y, range * mod);",
+			"x": x_value,
+			"y": y_value,
+			"radius": circle_radius,
+			"stroke": circle_stroke_value,
+			"color": circle_color,
+			"layer": "Layer.effect",
+			"mod": mod_value,
+		}
+		square_call = {
+			"call": "Fill.square(x, y, squareRad * warmup, Time.time / squareSpinScl);",
+			"x": x_value,
+			"y": y_value,
+			"radius": square_radius,
+			"rotation": square_rotation,
+			"color": "Pal.heal",
+			"layer": "Layer.effect",
+		}
+		glow_call = {
+			"call": "Drawf.additive(glow, glowColor, warmup * (1f - glowMag + Mathf.absin(Time.time, glowScl, glowMag)), x, y, 0f, Layer.blockAdditive);",
+			"region": "glow",
+			"color": glow_color,
+			"alpha": glow_alpha,
+			"x": x_value,
+			"y": y_value,
+			"rotation": 0.0,
+			"layer": "Layer.blockAdditive",
+			"absin": glow_absin,
+		}
+	var select_call: Dictionary = {
+		"call": "Drawf.dashCircle(x, y, range, Pal.placing);",
+		"x": x_value,
+		"y": y_value,
+		"radius": range_value,
+		"color": "Pal.placing",
+	}
+	var place_call: Dictionary = {
+		"call": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);",
+		"x": place_x,
+		"y": place_y,
+		"radius": range_value,
+		"color": "Pal.placing",
+		"tile_x": tile_x,
+		"tile_y": tile_y,
+		"offset": offset,
+	}
+	return {
+		"super_expr": "super.draw();",
+		"gate_expr": "if(warmup <= 0.001f) return;",
+		"z_expr": "Draw.z(Layer.effect);",
+		"mod_expr": "float mod = totalProgress % 1f;",
+		"circle_color_expr": "Draw.color(circleColor);",
+		"stroke_expr": "Lines.stroke(circleStroke * (1f - mod) * warmup);",
+		"circle_expr": "Lines.circle(x, y, range * mod);",
+		"heal_color_expr": "Draw.color(Pal.heal);",
+		"square_expr": "Fill.square(x, y, squareRad * warmup, Time.time / squareSpinScl);",
+		"reset_expr": "Draw.reset();",
+		"glow_expr": "Drawf.additive(glow, glowColor, warmup * (1f - glowMag + Mathf.absin(Time.time, glowScl, glowMag)), x, y, 0f, Layer.blockAdditive);",
+		"select_expr": "Drawf.dashCircle(x, y, range, Pal.placing);",
+		"place_super_expr": "super.drawPlace(x, y, rotation, valid);",
+		"place_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);",
+		"x": x_value,
+		"y": y_value,
+		"warmup": warmup,
+		"total_progress": total_progress,
+		"range": range_value,
+		"time_value": time_value,
+		"circle_color": circle_color,
+		"circle_stroke": circle_stroke,
+		"square_rad": square_rad,
+		"square_spin_scl": square_spin_scl,
+		"glow_color": glow_color,
+		"glow_mag": glow_mag,
+		"glow_scl": glow_scl,
+		"offset": offset,
+		"tile_x": tile_x,
+		"tile_y": tile_y,
+		"warmup_gated": warmup_gated,
+		"mod": mod_value,
+		"circle_stroke_value": circle_stroke_value,
+		"circle_radius": circle_radius,
+		"square_radius": square_radius,
+		"square_rotation": square_rotation,
+		"glow_absin": glow_absin,
+		"glow_alpha": glow_alpha,
+		"place_x": place_x,
+		"place_y": place_y,
+		"super_call": super_call,
+		"circle_call": circle_call,
+		"square_call": square_call,
+		"glow_call": glow_call,
+		"select_call": select_call,
+		"place_call": place_call,
+	}
+
+static func source_repair_tower_stats_state(range_value: float, heal_amount: float, warmup: float) -> Dictionary:
+	# The setStats / range() / warmup() rows (RepairTower.setStats(),
+	# RepairTower.java:36-40; RepairTowerBuild.range(), :112-114;
+	# warmup(), :117-119), the pure stat-row dict. Java adds, in order
+	# (each exact expr on ONE comment line, the N2148 lesson):
+	# `stats.add(Stat.range, range / tilesize, StatUnit.blocks);`
+	# `stats.add(Stat.repairSpeed, healAmount * 60f, StatUnit.perSecond);`
+	# super.setStats() is the shared stats concern and is NOT modeled
+	# here. tilesize is the Java constant 8.0 (Vars.java:135 -- NEVER the
+	# game tile_size 32, the N2375 lesson), so the def range 100f (`range = 100f;`,
+	# Blocks.java:6579; the class default is `public float range = 80f;`,
+	# RepairTower.java:21) reads 12.5 blocks and the def healAmount 1.5f
+	# (`healAmount = 1.5f;`, Blocks.java:6580; the class default is
+	# `public float healAmount = 1f;`, RepairTower.java:24) reads 90 per
+	# second. The accessors are the bare returns:
+	# `return range;`
+	# `return warmup;`
+	# warmup is a caller-supplied input (the frame warmup the N2227
+	# advance tracks, `public float warmup = 0f;`, RepairTower.java:52).
+	# Pure-only: stats never run in the tick.
+	var tile_size: float = source_world_defaults.TILESIZE
+	var range_blocks_value: float = range_value / tile_size
+	var repair_per_second_value: float = heal_amount * 60.0
+	var range_blocks: Dictionary = {
+		"stat": "Stat.range",
+		"value": range_blocks_value,
+		"unit": "StatUnit.blocks",
+	}
+	var repair_per_second: Dictionary = {
+		"stat": "Stat.repairSpeed",
+		"value": repair_per_second_value,
+		"unit": "StatUnit.perSecond",
+	}
+	return {
+		"range_stat_expr": "stats.add(Stat.range, range / tilesize, StatUnit.blocks);",
+		"repair_stat_expr": "stats.add(Stat.repairSpeed, healAmount * 60f, StatUnit.perSecond);",
+		"range_expr": "return range;",
+		"warmup_expr": "return warmup;",
+		"range": range_value,
+		"heal_amount": heal_amount,
+		"warmup": warmup,
+		"range_blocks": range_blocks,
+		"repair_per_second": repair_per_second,
+		"range_value": range_value,
+		"warmup_value": warmup,
+	}
 
 @warning_ignore("unused_parameter")
 static func source_repair_tower_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
