@@ -127,8 +127,8 @@ hash-naming 2fa75d50 + handoff-status 8cb6e987 + main-thread spec fix-up
   a computed expression) → register --verify (EXACT_EXPRS verbatim) →
   targeted 4/4 → proof headless (PATH export first, port 7777 free) →
   neighbours (family + wiring 32/32) → full gate from the main thread,
-  godot NOT on PATH → report/spec/GOAL → slice commit + docs + GOAL +
-  hash-naming commits → push (5-commit pattern).
+  godot NOT on PATH → report/spec/GOAL → slice commit `8db29088` + docs
+  `13fe94f3` + GOAL `fca286e8` + hash-naming commits → push (5-commit pattern).
 
 ## Scope (verified against upstream Java + the port this run)
 
