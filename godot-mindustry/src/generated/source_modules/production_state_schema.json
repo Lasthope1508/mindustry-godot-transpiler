@@ -51,6 +51,66 @@
         }
       }
     },
+    "source_beam_drill_dump_neighbour_live_fill_state_input": {
+      "canonical_schema": "source_state_schema.source_beam_drill_dump_neighbour_live_fill_state_input",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = world.build(tile.x + point.x, tile.y + point.y);",
+          "rule": "The live game object: the world lookup (block_sprite_at_cell resolves a ring cell to its placed sprite -- the port of world.build) and the content catalog (blocks_by_id resolves a neighbour sprite block id to its def). Null means no live neighbours resolve (all ring entries report the no-frame outcome).",
+          "java_method": "BuildingComp.updateProximity()",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_dump_neighbour_live_fill_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Point2[] nearby = Edges.getEdges(block.size);",
+          "rule": "The drill origin cell (the ring centre -- the port ring is centred on the origin cell, Edges.getEdges(block.size) in Java). The tick reads the origin_cell sprite meta inline.",
+          "java_method": "BuildingComp.updateProximity()",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_dump_neighbour_live_fill_state"
+          ]
+        },
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Point2[] nearby = Edges.getEdges(block.size);",
+          "rule": "The drill block size (2 plasma-bore / 3 large-plasma-bore -- the ring radius comes from the ORIGIN size, Edges.getEdges(block.size) in Java). The tick reads the catalog size.",
+          "java_method": "BuildingComp.updateProximity()",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_dump_neighbour_live_fill_state"
+          ]
+        },
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "if(timer(timerDump, dumpTime / timeScale)){",
+          "rule": "The drill frame carrying the held items dict (the offered item is the first held item in content order). The fill runs in the timerDump branch of the tick, before the dump pure reads the arrays.",
+          "java_method": "BeamDrillBuild.updateTile()",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_dump_neighbour_live_fill_state"
+          ]
+        },
+        "item_order": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "var allItems = content.items();",
+          "rule": "The catalog item names in content-id order (content.items() in Java -- the dump scans content items in this order, so the first held item in this order is the item the pure offers).",
+          "java_method": "BuildingComp.dump()",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_dump_neighbour_live_fill_state"
+          ]
+        }
+      }
+    },
     "source_beam_drill_facing_scan_state_input": {
       "canonical_schema": "source_state_schema.source_beam_drill_facing_scan_state_input",
       "keys": {
@@ -464,6 +524,66 @@
           "rule": "Source-explicit flags follow constructor inheritance and initializer overrides. Consumer.apply-only flags and absent flags remain deferred.",
           "used_by": [
             "SourcePlacedBlockState.source_block_has_liquids_state"
+          ]
+        }
+      }
+    },
+    "source_burst_drill_dump_neighbour_live_fill_state_input": {
+      "canonical_schema": "source_state_schema.source_burst_drill_dump_neighbour_live_fill_state_input",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = world.build(tile.x + point.x, tile.y + point.y);",
+          "rule": "The live game object: the world lookup (block_sprite_at_cell resolves a ring cell to its placed sprite -- the port of world.build) and the content catalog (blocks_by_id resolves a neighbour sprite block id to its def). Null means no live neighbours resolve (all ring entries report the no-frame outcome).",
+          "java_method": "BuildingComp.updateProximity()",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_dump_neighbour_live_fill_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Point2[] nearby = Edges.getEdges(block.size);",
+          "rule": "The burst-drill origin cell (the ring centre -- the port ring is centred on the origin cell, Edges.getEdges(block.size) in Java). The tick reads the cell bound before the enabled block.",
+          "java_method": "BuildingComp.updateProximity()",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_dump_neighbour_live_fill_state"
+          ]
+        },
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Point2[] nearby = Edges.getEdges(block.size);",
+          "rule": "The burst-drill block size (5 eruption / 4 impact -- the ring radius comes from the ORIGIN size, Edges.getEdges(block.size) in Java). The tick reads the catalog size.",
+          "java_method": "BuildingComp.updateProximity()",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_dump_neighbour_live_fill_state"
+          ]
+        },
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "dump(items.has(dominantItem) ? dominantItem : null);",
+          "rule": "The burst-drill frame carrying the held items dict (the offered item is the first held item in content order -- the item the dump pure offers on the dump(null) branch, and the dominant item on the specific branch).",
+          "java_method": "BurstDrillBuild.updateTile()",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_dump_neighbour_live_fill_state"
+          ]
+        },
+        "item_order": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "var allItems = content.items();",
+          "rule": "The catalog item names in content-id order (content.items() in Java -- the dump scans content items in this order, so the first held item in this order is the item the pure offers).",
+          "java_method": "BuildingComp.dump()",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_dump_neighbour_live_fill_state"
           ]
         }
       }
@@ -1916,6 +2036,55 @@
         }
       }
     },
+    "source_fracker_dump_liquid_neighbour_live_fill_state_input": {
+      "canonical_schema": "source_state_schema.source_fracker_dump_liquid_neighbour_live_fill_state_input",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = world.build(tile.x + point.x, tile.y + point.y);",
+          "rule": "The live game object: the world lookup (block_sprite_at_cell resolves a ring cell to its placed sprite -- the port of world.build) and the content catalog (blocks_by_id resolves a neighbour sprite block id to its def). Null means no live neighbours resolve (all ring entries report the no-frame outcome).",
+          "java_method": "BuildingComp.updateProximity()",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_dump_liquid_neighbour_live_fill_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Point2[] nearby = Edges.getEdges(block.size);",
+          "rule": "The fracker origin cell (the ring centre -- the port ring is centred on the origin cell, Edges.getEdges(block.size) in Java). The tick reads the origin_cell sprite meta inline.",
+          "java_method": "BuildingComp.updateProximity()",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_dump_liquid_neighbour_live_fill_state"
+          ]
+        },
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Point2[] nearby = Edges.getEdges(block.size);",
+          "rule": "The fracker block size (3 -- the ring radius comes from the ORIGIN size, Edges.getEdges(block.size) in Java). The tick reads the catalog size.",
+          "java_method": "BuildingComp.updateProximity()",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_dump_liquid_neighbour_live_fill_state"
+          ]
+        },
+        "result_liquid_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "result = Liquids.oil;",
+          "rule": "The catalog id of the dumped result liquid, resolved by the driver from liquid_id_by_name with the def constant \"oil\" (Blocks.java:2966; the class default is water, SolidPump.java:22). The fill reads the neighbour amount for this id and matches the consumeLiquid rows against the def constant name.",
+          "java_method": "FrackerBuild.updateTile()",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_dump_liquid_neighbour_live_fill_state"
+          ]
+        }
+      }
+    },
     "source_fracker_dump_liquid_state_input": {
       "canonical_schema": "source_state_schema.source_fracker_dump_liquid_state_input",
       "keys": {
@@ -2682,6 +2851,66 @@
           "rule": "The cost multiplier (ConsumeItems.java:52, items.has(items, multiplier.get(build))): the disassembler def sets none (a bare consumeItem call, Blocks.java:1263), so the default 1f (Consume.java:18) applies; explicit parameter, default 1.0.",
           "used_by": [
             "SourceSeparatorBuildState.source_separator_disassembler_scrap_row_state"
+          ]
+        }
+      }
+    },
+    "source_separator_dump_neighbour_live_fill_state_input": {
+      "canonical_schema": "source_state_schema.source_separator_dump_neighbour_live_fill_state_input",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = world.build(tile.x + point.x, tile.y + point.y);",
+          "rule": "The live game object: the world lookup (block_sprite_at_cell resolves a ring cell to its placed sprite -- the port of world.build) and the content catalog (blocks_by_id resolves a neighbour sprite block id to its def). Null means no live neighbours resolve (all ring entries report the no-frame outcome).",
+          "java_method": "BuildingComp.updateProximity()",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_dump_neighbour_live_fill_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Point2[] nearby = Edges.getEdges(block.size);",
+          "rule": "The separator origin cell (the ring centre -- the port ring is centred on the origin cell, Edges.getEdges(block.size) in Java). The tick reads the bound cell (bound before the enabled block in this driver).",
+          "java_method": "BuildingComp.updateProximity()",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_dump_neighbour_live_fill_state"
+          ]
+        },
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Point2[] nearby = Edges.getEdges(block.size);",
+          "rule": "The separator block size (2 -- the ring radius comes from the ORIGIN size, Edges.getEdges(block.size) in Java). The tick reads the catalog size.",
+          "java_method": "BuildingComp.updateProximity()",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_dump_neighbour_live_fill_state"
+          ]
+        },
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(!block.hasItems || items.total() == 0 || proximity.size == 0 || (todump != null && !items.has(todump))) return false;",
+          "rule": "The separator frame carrying the held items dict (the offered item is the first held item in content order -- the dump guards on the same store, items.total() == 0, before it routes).",
+          "java_method": "BuildingComp.dump()",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_dump_neighbour_live_fill_state"
+          ]
+        },
+        "item_order": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "var allItems = content.items();",
+          "rule": "The catalog item names in content-id order (content.items() in Java -- the dump scans content items in this order, so the first held item in this order is the item the pure offers).",
+          "java_method": "BuildingComp.dump()",
+          "used_by": [
+            "SourceSeparatorBuildState.source_separator_dump_neighbour_live_fill_state"
           ]
         }
       }

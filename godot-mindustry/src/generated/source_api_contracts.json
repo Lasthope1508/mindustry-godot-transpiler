@@ -75370,6 +75370,322 @@
       ],
       "runtime_proof": "/root/C07RegenProjectorHealApplicationProof",
       "rule": "Source-backed RegenProjector mendMap flush live heal application rows from RegenProjector.java / BuildingComp.java / HealthComp.java / World.java / Tile.java / Point2.java."
+    },
+    "SourceSeparatorBuildState.source_separator_dump_neighbour_live_fill_state": {
+      "status": "active",
+      "source_slice": "N2402",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "source_method": "SeparatorBuild.updateTile()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_separator_dump_neighbour_live_fill_state_input.game"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_separator_dump_neighbour_live_fill_state_input.cell"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_separator_dump_neighbour_live_fill_state_input.size"
+        },
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_separator_dump_neighbour_live_fill_state_input.frame"
+        },
+        {
+          "name": "item_order",
+          "type": "Array",
+          "schema": "source_separator_dump_neighbour_live_fill_state_input.item_order"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "dump_neighbour_accepts",
+        "dump_neighbour_can_dump"
+      ],
+      "tests": [
+        "test_c07_separator_dump_neighbour_live_fill_registration",
+        "test_all_c07_separator_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_separator_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_separator_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07SeparatorDumpNeighbourLiveFillProof",
+      "rule": "Source-backed Separator dump neighbour live fill from Separator.java / BuildingComp.java / Block.java."
+    },
+    "SourceBurstDrillBuildState.source_burst_drill_dump_neighbour_live_fill_state": {
+      "status": "active",
+      "source_slice": "N2403",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "source_method": "BurstDrillBuild.updateTile()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_burst_drill_dump_neighbour_live_fill_state_input.game"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_burst_drill_dump_neighbour_live_fill_state_input.cell"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_burst_drill_dump_neighbour_live_fill_state_input.size"
+        },
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_burst_drill_dump_neighbour_live_fill_state_input.frame"
+        },
+        {
+          "name": "item_order",
+          "type": "Array",
+          "schema": "source_burst_drill_dump_neighbour_live_fill_state_input.item_order"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "dump_neighbour_accepts",
+        "dump_neighbour_can_dump"
+      ],
+      "tests": [
+        "test_c07_burst_drill_dump_neighbour_live_fill_registration",
+        "test_all_c07_burst_drill_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_burst_drill_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_burst_drill_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07BurstDrillDumpNeighbourLiveFillProof",
+      "rule": "Source-backed BurstDrill timerDump dump neighbour live fill from BurstDrill.java / BuildingComp.java / Block.java."
+    },
+    "SourceItemBridgeBuildState.source_item_bridge_dump_neighbour_live_fill_state": {
+      "status": "active",
+      "source_slice": "N2404",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "source_method": "ItemBridgeBuild.updateTile()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_item_bridge_dump_neighbour_live_fill_state_input.game"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_item_bridge_dump_neighbour_live_fill_state_input.cell"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_item_bridge_dump_neighbour_live_fill_state_input.size"
+        },
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_item_bridge_dump_neighbour_live_fill_state_input.frame"
+        },
+        {
+          "name": "item_order",
+          "type": "Array",
+          "schema": "source_item_bridge_dump_neighbour_live_fill_state_input.item_order"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "dump_neighbour_accepts",
+        "dump_neighbour_can_dump"
+      ],
+      "tests": [
+        "test_c07_item_bridge_dump_neighbour_live_fill_registration",
+        "test_all_c07_item_bridge_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_item_bridge_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_item_bridge_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeDumpNeighbourLiveFillProof",
+      "rule": "Source-backed ItemBridge doDump neighbour live fill from ItemBridge.java / BuildingComp.java / Block.java."
+    },
+    "SourceBeamDrillBuildState.source_beam_drill_dump_neighbour_live_fill_state": {
+      "status": "active",
+      "source_slice": "N2405",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrillBuild.updateTile()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_beam_drill_dump_neighbour_live_fill_state_input.game"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_beam_drill_dump_neighbour_live_fill_state_input.cell"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_beam_drill_dump_neighbour_live_fill_state_input.size"
+        },
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_beam_drill_dump_neighbour_live_fill_state_input.frame"
+        },
+        {
+          "name": "item_order",
+          "type": "Array",
+          "schema": "source_beam_drill_dump_neighbour_live_fill_state_input.item_order"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "dump_neighbour_accepts",
+        "dump_neighbour_can_dump"
+      ],
+      "tests": [
+        "test_c07_beam_drill_dump_neighbour_live_fill_registration",
+        "test_all_c07_beam_drill_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_beam_drill_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_beam_drill_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDumpNeighbourLiveFillProof",
+      "rule": "Source-backed BeamDrill timerDump dump neighbour live fill from BeamDrill.java / BuildingComp.java / Block.java."
+    },
+    "SourceMassDriverBuildState.source_mass_driver_dump_neighbour_live_fill_state": {
+      "status": "active",
+      "source_slice": "N2406",
+      "java_source": "core/src/mindustry/world/blocks/distribution/MassDriver.java",
+      "source_method": "MassDriverBuild.updateTile()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_mass_driver_dump_neighbour_live_fill_state_input.game"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_mass_driver_dump_neighbour_live_fill_state_input.cell"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_mass_driver_dump_neighbour_live_fill_state_input.size"
+        },
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_mass_driver_dump_neighbour_live_fill_state_input.frame"
+        },
+        {
+          "name": "item_order",
+          "type": "Array",
+          "schema": "source_mass_driver_dump_neighbour_live_fill_state_input.item_order"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "dump_neighbour_accepts",
+        "dump_neighbour_can_dump"
+      ],
+      "tests": [
+        "test_c07_mass_driver_dump_neighbour_live_fill_registration",
+        "test_all_c07_mass_driver_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_mass_driver_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_mass_driver_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07MassDriverDumpNeighbourLiveFillProof",
+      "rule": "Source-backed MassDriver dump neighbour live fill from MassDriver.java / BuildingComp.java / Block.java."
+    },
+    "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_dump_neighbour_live_fill_state": {
+      "status": "active",
+      "source_slice": "N2407",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "source_method": "PayloadDeconstructorBuild.updateTile()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_payload_deconstructor_dump_neighbour_live_fill_state_input.game"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_payload_deconstructor_dump_neighbour_live_fill_state_input.cell"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_payload_deconstructor_dump_neighbour_live_fill_state_input.size"
+        },
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_payload_deconstructor_dump_neighbour_live_fill_state_input.frame"
+        },
+        {
+          "name": "item_order",
+          "type": "Array",
+          "schema": "source_payload_deconstructor_dump_neighbour_live_fill_state_input.item_order"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "dump_neighbour_accepts",
+        "dump_neighbour_can_dump"
+      ],
+      "tests": [
+        "test_c07_payload_deconstructor_dump_neighbour_live_fill_registration",
+        "test_all_c07_payload_deconstructor_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_payload_deconstructor_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorDumpNeighbourLiveFillProof",
+      "rule": "Source-backed PayloadDeconstructor dump neighbour live fill from PayloadDeconstructor.java / BuildingComp.java / Block.java."
+    },
+    "SourceFrackerBuildState.source_fracker_dump_liquid_neighbour_live_fill_state": {
+      "status": "active",
+      "source_slice": "N2408",
+      "java_source": "core/src/mindustry/world/blocks/production/Fracker.java",
+      "source_method": "FrackerBuild.updateTile()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_fracker_dump_liquid_neighbour_live_fill_state_input.game"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_fracker_dump_liquid_neighbour_live_fill_state_input.cell"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_fracker_dump_liquid_neighbour_live_fill_state_input.size"
+        },
+        {
+          "name": "result_liquid_id",
+          "type": "int",
+          "schema": "source_fracker_dump_liquid_neighbour_live_fill_state_input.result_liquid_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "dump_liquid_neighbours"
+      ],
+      "tests": [
+        "test_c07_fracker_dump_liquid_neighbour_live_fill_registration",
+        "test_all_c07_fracker_dump_liquid_neighbour_live_fill_input_evidence_is_exact",
+        "test_fracker_dump_liquid_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_fracker_dump_liquid_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07FrackerDumpLiquidNeighbourLiveFillProof",
+      "rule": "Source-backed Fracker dumpLiquid neighbour live fill from Fracker.java / SolidPump.java / BuildingComp.java / Block.java / Blocks.java."
     }
   },
   "policy": {

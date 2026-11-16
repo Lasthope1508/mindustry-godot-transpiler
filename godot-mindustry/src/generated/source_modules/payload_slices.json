@@ -2416,6 +2416,24 @@
         "test_reference_graph_and_actual_c07_payload_unloader_dump_neighbour_live_fill"
       ],
       "runtime_proof": "/root/C07PayloadUnloaderDumpNeighbourLiveFillProof"
+    },
+    "N2407": {
+      "canonical_ledger": "source_slice_ledger.N2407",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "java_method": "PayloadDeconstructorBuild.updateTile()",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_dump_neighbour_live_fill_state",
+      "source_symbols": [
+        "source_payload_deconstructor_dump_neighbour_live_fill_state_result.dump_neighbour_accepts",
+        "source_payload_deconstructor_dump_neighbour_live_fill_state_result.dump_neighbour_can_dump"
+      ],
+      "tests": [
+        "test_c07_payload_deconstructor_dump_neighbour_live_fill_registration",
+        "test_all_c07_payload_deconstructor_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_payload_deconstructor_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorDumpNeighbourLiveFillProof"
     }
   }
 }

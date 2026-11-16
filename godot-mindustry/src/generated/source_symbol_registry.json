@@ -184408,6 +184408,214 @@
         "test_reference_graph_and_actual_c07_regen_projector_heal_application"
       ],
       "runtime_proof": "/root/C07RegenProjectorHealApplicationProof"
+    },
+    "source_separator_dump_neighbour_live_fill_state_result.dump_neighbour_accepts": {
+      "status": "source-backed",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_dump_neighbour_live_fill_state",
+      "godot_symbol": "source_separator_dump_neighbour_live_fill_state_result.dump_neighbour_accepts",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.acceptItem()",
+      "java_expr": "return block.consumesItem(item) && items.get(item) < getMaximumAccepted(item);",
+      "rule": "Per-ring-neighbour DEFAULT acceptItem verdict, in ring order, evaluated for the FIRST held item in content order -- the item the dump pure offers (its accepts array is per-neighbour, not per-item). consumesItem comes from the catalog consumeItem rows (the itemFilter), the held count from the neighbour frame items dict, and getMaximumAccepted is block.itemCapacity (catalog key, default 10). False for a neighbour with no frame, no items store, or no held item. Per-block overrides (e.g. the Separator own canDump, StorageBlock open-item accept) are OUT of scope; Java trying later held items against the same neighbour waits for a dump-shape slice.",
+      "tests": [
+        "test_c07_separator_dump_neighbour_live_fill_registration",
+        "test_all_c07_separator_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_separator_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_separator_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07SeparatorDumpNeighbourLiveFillProof"
+    },
+    "source_separator_dump_neighbour_live_fill_state_result.dump_neighbour_can_dump": {
+      "status": "source-backed",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_dump_neighbour_live_fill_state",
+      "godot_symbol": "source_separator_dump_neighbour_live_fill_state_result.dump_neighbour_can_dump",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.canDump()",
+      "java_expr": "public boolean canDump(Building to, Item item){",
+      "rule": "Per-ring-neighbour DEFAULT canDump verdict, in ring order: true for every framed neighbour (the Java default returns true), false for a neighbour with no frame (no building to dump to -- the N2353/N2371 no-frame precedent). Per-block overrides are OUT of scope.",
+      "tests": [
+        "test_c07_separator_dump_neighbour_live_fill_registration",
+        "test_all_c07_separator_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_separator_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_separator_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07SeparatorDumpNeighbourLiveFillProof"
+    },
+    "source_burst_drill_dump_neighbour_live_fill_state_result.dump_neighbour_accepts": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_dump_neighbour_live_fill_state",
+      "godot_symbol": "source_burst_drill_dump_neighbour_live_fill_state_result.dump_neighbour_accepts",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.acceptItem()",
+      "java_expr": "return block.consumesItem(item) && items.get(item) < getMaximumAccepted(item);",
+      "rule": "Per-ring-neighbour DEFAULT acceptItem verdict, in ring order, evaluated for the FIRST held item in content order -- the item the dump pure offers (its accepts array is per-neighbour, not per-item). consumesItem comes from the catalog consumeItem rows (the itemFilter), the held count from the neighbour frame items dict, and getMaximumAccepted is block.itemCapacity (catalog key, default 10). False for a neighbour with no frame, no items store, or no held item. Per-block overrides (e.g. StorageBlock open-item accept) are OUT of scope; Java trying later held items against the same neighbour waits for a dump-shape slice.",
+      "tests": [
+        "test_c07_burst_drill_dump_neighbour_live_fill_registration",
+        "test_all_c07_burst_drill_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_burst_drill_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_burst_drill_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07BurstDrillDumpNeighbourLiveFillProof"
+    },
+    "source_burst_drill_dump_neighbour_live_fill_state_result.dump_neighbour_can_dump": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_dump_neighbour_live_fill_state",
+      "godot_symbol": "source_burst_drill_dump_neighbour_live_fill_state_result.dump_neighbour_can_dump",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.canDump()",
+      "java_expr": "public boolean canDump(Building to, Item item){",
+      "rule": "Per-ring-neighbour DEFAULT canDump verdict, in ring order: true for every framed neighbour (the Java default returns true), false for a neighbour with no frame (no building to dump to -- the N2353 no-frame precedent). Per-block overrides are OUT of scope.",
+      "tests": [
+        "test_c07_burst_drill_dump_neighbour_live_fill_registration",
+        "test_all_c07_burst_drill_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_burst_drill_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_burst_drill_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07BurstDrillDumpNeighbourLiveFillProof"
+    },
+    "source_item_bridge_dump_neighbour_live_fill_state_result.dump_neighbour_accepts": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemBridgeBuildState.source_item_bridge_dump_neighbour_live_fill_state",
+      "godot_symbol": "source_item_bridge_dump_neighbour_live_fill_state_result.dump_neighbour_accepts",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.acceptItem()",
+      "java_expr": "return block.consumesItem(item) && items.get(item) < getMaximumAccepted(item);",
+      "rule": "Per-ring-neighbour DEFAULT acceptItem verdict, in ring order, evaluated for the FIRST held item in content order -- the item the dump pure offers (its accepts array is per-neighbour, not per-item). consumesItem comes from the catalog consumeItem rows (the itemFilter), the held count from the neighbour frame items dict, and getMaximumAccepted is block.itemCapacity (catalog key, default 10). False for a neighbour with no frame, no items store, or no held item. Per-block overrides (e.g. StorageBlock open-item accept) are OUT of scope; Java trying later held items against the same neighbour waits for a dump-shape slice.",
+      "tests": [
+        "test_c07_item_bridge_dump_neighbour_live_fill_registration",
+        "test_all_c07_item_bridge_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_item_bridge_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_item_bridge_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeDumpNeighbourLiveFillProof"
+    },
+    "source_item_bridge_dump_neighbour_live_fill_state_result.dump_neighbour_can_dump": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemBridgeBuildState.source_item_bridge_dump_neighbour_live_fill_state",
+      "godot_symbol": "source_item_bridge_dump_neighbour_live_fill_state_result.dump_neighbour_can_dump",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.canDump()",
+      "java_expr": "public boolean canDump(Building to, Item item){",
+      "rule": "Per-ring-neighbour DEFAULT canDump verdict, in ring order: true for every framed neighbour (the Java default returns true), false for a neighbour with no frame (no building to dump to -- the N2353/N2371 no-frame precedent). Per-block overrides are OUT of scope.",
+      "tests": [
+        "test_c07_item_bridge_dump_neighbour_live_fill_registration",
+        "test_all_c07_item_bridge_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_item_bridge_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_item_bridge_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeDumpNeighbourLiveFillProof"
+    },
+    "source_beam_drill_dump_neighbour_live_fill_state_result.dump_neighbour_accepts": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_dump_neighbour_live_fill_state",
+      "godot_symbol": "source_beam_drill_dump_neighbour_live_fill_state_result.dump_neighbour_accepts",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.acceptItem()",
+      "java_expr": "return block.consumesItem(item) && items.get(item) < getMaximumAccepted(item);",
+      "rule": "Per-ring-neighbour DEFAULT acceptItem verdict, in ring order, evaluated for the FIRST held item in content order -- the item the dump pure offers (its accepts array is per-neighbour, not per-item). consumesItem comes from the catalog consumeItem rows (the itemFilter), the held count from the neighbour frame items dict, and getMaximumAccepted is block.itemCapacity (catalog key, default 10). False for a neighbour with no frame, no items store, or no held item. Per-block overrides (e.g. StorageBlock open-item accept) are OUT of scope; Java trying later held items against the same neighbour waits for a dump-shape slice.",
+      "tests": [
+        "test_c07_beam_drill_dump_neighbour_live_fill_registration",
+        "test_all_c07_beam_drill_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_beam_drill_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_beam_drill_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDumpNeighbourLiveFillProof"
+    },
+    "source_beam_drill_dump_neighbour_live_fill_state_result.dump_neighbour_can_dump": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_dump_neighbour_live_fill_state",
+      "godot_symbol": "source_beam_drill_dump_neighbour_live_fill_state_result.dump_neighbour_can_dump",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.canDump()",
+      "java_expr": "public boolean canDump(Building to, Item item){",
+      "rule": "Per-ring-neighbour DEFAULT canDump verdict, in ring order: true for every framed neighbour (the Java default returns true), false for a neighbour with no frame (no building to dump to -- the N2353/N2371 no-frame precedent). Per-block overrides are OUT of scope.",
+      "tests": [
+        "test_c07_beam_drill_dump_neighbour_live_fill_registration",
+        "test_all_c07_beam_drill_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_beam_drill_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_beam_drill_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDumpNeighbourLiveFillProof"
+    },
+    "source_mass_driver_dump_neighbour_live_fill_state_result.dump_neighbour_accepts": {
+      "status": "source-backed",
+      "godot_owner": "SourceMassDriverBuildState.source_mass_driver_dump_neighbour_live_fill_state",
+      "godot_symbol": "source_mass_driver_dump_neighbour_live_fill_state_result.dump_neighbour_accepts",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.acceptItem()",
+      "java_expr": "return block.consumesItem(item) && items.get(item) < getMaximumAccepted(item);",
+      "rule": "Per-ring-neighbour DEFAULT acceptItem verdict, in ring order, evaluated for the FIRST held item in content order -- the item the dump pure offers (its accepts array is per-neighbour, not per-item). consumesItem comes from the catalog consumeItem rows (the itemFilter), the held count from the neighbour frame items dict, and getMaximumAccepted is block.itemCapacity (catalog key, default 10). False for a neighbour with no frame, no items store, or no held item. Per-block overrides (e.g. StorageBlock open-item accept) are OUT of scope; Java trying later held items against the same neighbour waits for a dump-shape slice.",
+      "tests": [
+        "test_c07_mass_driver_dump_neighbour_live_fill_registration",
+        "test_all_c07_mass_driver_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_mass_driver_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_mass_driver_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07MassDriverDumpNeighbourLiveFillProof"
+    },
+    "source_mass_driver_dump_neighbour_live_fill_state_result.dump_neighbour_can_dump": {
+      "status": "source-backed",
+      "godot_owner": "SourceMassDriverBuildState.source_mass_driver_dump_neighbour_live_fill_state",
+      "godot_symbol": "source_mass_driver_dump_neighbour_live_fill_state_result.dump_neighbour_can_dump",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.canDump()",
+      "java_expr": "public boolean canDump(Building to, Item item){",
+      "rule": "Per-ring-neighbour DEFAULT canDump verdict, in ring order: true for every framed neighbour (the Java default returns true), false for a neighbour with no frame (no building to dump to -- the N2353 no-frame precedent). Per-block overrides are OUT of scope.",
+      "tests": [
+        "test_c07_mass_driver_dump_neighbour_live_fill_registration",
+        "test_all_c07_mass_driver_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_mass_driver_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_mass_driver_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07MassDriverDumpNeighbourLiveFillProof"
+    },
+    "source_payload_deconstructor_dump_neighbour_live_fill_state_result.dump_neighbour_accepts": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_dump_neighbour_live_fill_state",
+      "godot_symbol": "source_payload_deconstructor_dump_neighbour_live_fill_state_result.dump_neighbour_accepts",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.acceptItem()",
+      "java_expr": "return block.consumesItem(item) && items.get(item) < getMaximumAccepted(item);",
+      "rule": "Per-ring-neighbour DEFAULT acceptItem verdict, in ring order, evaluated for the FIRST held item in content order -- the item the dump pure offers (its accepts array is per-neighbour, not per-item). consumesItem comes from the catalog consumeItem rows (the itemFilter), the held count from the neighbour frame items dict, and getMaximumAccepted is block.itemCapacity (catalog key, default 10). False for a neighbour with no frame, no items store, or no held item. Per-block overrides (e.g. StorageBlock open-item accept) are OUT of scope; Java trying later held items against the same neighbour waits for a dump-shape slice.",
+      "tests": [
+        "test_c07_payload_deconstructor_dump_neighbour_live_fill_registration",
+        "test_all_c07_payload_deconstructor_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_payload_deconstructor_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorDumpNeighbourLiveFillProof"
+    },
+    "source_payload_deconstructor_dump_neighbour_live_fill_state_result.dump_neighbour_can_dump": {
+      "status": "source-backed",
+      "godot_owner": "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_dump_neighbour_live_fill_state",
+      "godot_symbol": "source_payload_deconstructor_dump_neighbour_live_fill_state_result.dump_neighbour_can_dump",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.canDump()",
+      "java_expr": "public boolean canDump(Building to, Item item){",
+      "rule": "Per-ring-neighbour DEFAULT canDump verdict, in ring order: true for every framed neighbour (the Java default returns true), false for a neighbour with no frame (no building to dump to -- the N2353/N2371 no-frame precedent). Per-block overrides are OUT of scope.",
+      "tests": [
+        "test_c07_payload_deconstructor_dump_neighbour_live_fill_registration",
+        "test_all_c07_payload_deconstructor_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_payload_deconstructor_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorDumpNeighbourLiveFillProof"
+    },
+    "source_fracker_dump_liquid_neighbour_live_fill_state_result.dump_liquid_neighbours": {
+      "status": "source-backed",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_dump_liquid_neighbour_live_fill_state",
+      "godot_symbol": "source_fracker_dump_liquid_neighbour_live_fill_state_result.dump_liquid_neighbours",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.dumpLiquid()",
+      "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+      "rule": "Per-ring-neighbour dump dict, in ring order: the amount of the dumped result liquid (oil) from the neighbour frame liquids module, the capacity from the neighbour def liquidCapacity (10.0 port default when the key is missing, 0.0 when the frame carries no liquids store), accepts from the DEFAULT acceptLiquid gate (hasLiquids AND consumesLiquid for oil), has_liquids from the catalog key (Java field default false), can_dump true for every framed neighbour (the Java default), liquids_present when the frame carries a liquids store, destination_present true for a framed neighbour (getLiquidDestination returns self()), relative_to 0 (outputDir is -1, so the filter never reads it). A neighbour with no frame reports the no-frame outcome (0.0 / 0.0 / false / false / false / false / false / 0). Per-block overrides are OUT of scope -- the default gates decide.",
+      "tests": [
+        "test_c07_fracker_dump_liquid_neighbour_live_fill_registration",
+        "test_all_c07_fracker_dump_liquid_neighbour_live_fill_input_evidence_is_exact",
+        "test_fracker_dump_liquid_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_fracker_dump_liquid_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07FrackerDumpLiquidNeighbourLiveFillProof"
     }
   },
   "version": 1

@@ -3628,6 +3628,53 @@
       "rule": "Source-backed PayloadDeconstructor acceptPayload / acceptUnitPayload gates from PayloadDeconstructor.java / PayloadBlock.java / Payload.java / BuildPayload.java / UnitPayload.java / UnitType.java / UnitComp.java / Vars.java.",
       "return_type": "Dictionary"
     },
+    "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_dump_neighbour_live_fill_state": {
+      "canonical_contract": "source_api_contracts.SourcePayloadDeconstructorBuildState.source_payload_deconstructor_dump_neighbour_live_fill_state",
+      "status": "active",
+      "source_slice": "N2407",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadDeconstructor.java",
+      "source_method": "PayloadDeconstructorBuild.updateTile()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_payload_deconstructor_dump_neighbour_live_fill_state_input.game"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_payload_deconstructor_dump_neighbour_live_fill_state_input.cell"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_payload_deconstructor_dump_neighbour_live_fill_state_input.size"
+        },
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_payload_deconstructor_dump_neighbour_live_fill_state_input.frame"
+        },
+        {
+          "name": "item_order",
+          "type": "Array",
+          "schema": "source_payload_deconstructor_dump_neighbour_live_fill_state_input.item_order"
+        }
+      ],
+      "return_keys": [
+        "dump_neighbour_accepts",
+        "dump_neighbour_can_dump"
+      ],
+      "tests": [
+        "test_c07_payload_deconstructor_dump_neighbour_live_fill_registration",
+        "test_all_c07_payload_deconstructor_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_payload_deconstructor_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_payload_deconstructor_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07PayloadDeconstructorDumpNeighbourLiveFillProof",
+      "rule": "Source-backed PayloadDeconstructor dump neighbour live fill from PayloadDeconstructor.java / BuildingComp.java / Block.java.",
+      "return_type": "Dictionary"
+    },
     "SourcePayloadDeconstructorBuildState.source_payload_deconstructor_dump_state": {
       "canonical_contract": "source_api_contracts.SourcePayloadDeconstructorBuildState.source_payload_deconstructor_dump_state",
       "status": "active",

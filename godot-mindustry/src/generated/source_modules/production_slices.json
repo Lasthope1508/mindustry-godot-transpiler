@@ -1774,6 +1774,77 @@
       ],
       "runtime_proof": "/root/C07WallCrafterOffloadRoutingProof"
     },
+    "N2402": {
+      "canonical_ledger": "source_slice_ledger.N2402",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Separator.java",
+      "java_method": "SeparatorBuild.updateTile()",
+      "godot_owner": "SourceSeparatorBuildState.source_separator_dump_neighbour_live_fill_state",
+      "source_symbols": [
+        "source_separator_dump_neighbour_live_fill_state_result.dump_neighbour_accepts",
+        "source_separator_dump_neighbour_live_fill_state_result.dump_neighbour_can_dump"
+      ],
+      "tests": [
+        "test_c07_separator_dump_neighbour_live_fill_registration",
+        "test_all_c07_separator_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_separator_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_separator_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07SeparatorDumpNeighbourLiveFillProof"
+    },
+    "N2403": {
+      "canonical_ledger": "source_slice_ledger.N2403",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_method": "BurstDrillBuild.updateTile()",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_dump_neighbour_live_fill_state",
+      "source_symbols": [
+        "source_burst_drill_dump_neighbour_live_fill_state_result.dump_neighbour_accepts",
+        "source_burst_drill_dump_neighbour_live_fill_state_result.dump_neighbour_can_dump"
+      ],
+      "tests": [
+        "test_c07_burst_drill_dump_neighbour_live_fill_registration",
+        "test_all_c07_burst_drill_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_burst_drill_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_burst_drill_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07BurstDrillDumpNeighbourLiveFillProof"
+    },
+    "N2405": {
+      "canonical_ledger": "source_slice_ledger.N2405",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.updateTile()",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_dump_neighbour_live_fill_state",
+      "source_symbols": [
+        "source_beam_drill_dump_neighbour_live_fill_state_result.dump_neighbour_accepts",
+        "source_beam_drill_dump_neighbour_live_fill_state_result.dump_neighbour_can_dump"
+      ],
+      "tests": [
+        "test_c07_beam_drill_dump_neighbour_live_fill_registration",
+        "test_all_c07_beam_drill_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_beam_drill_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_beam_drill_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDumpNeighbourLiveFillProof"
+    },
+    "N2408": {
+      "canonical_ledger": "source_slice_ledger.N2408",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Fracker.java",
+      "java_method": "FrackerBuild.updateTile()",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_dump_liquid_neighbour_live_fill_state",
+      "source_symbols": [
+        "source_fracker_dump_liquid_neighbour_live_fill_state_result.dump_liquid_neighbours"
+      ],
+      "tests": [
+        "test_c07_fracker_dump_liquid_neighbour_live_fill_registration",
+        "test_all_c07_fracker_dump_liquid_neighbour_live_fill_input_evidence_is_exact",
+        "test_fracker_dump_liquid_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_fracker_dump_liquid_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07FrackerDumpLiquidNeighbourLiveFillProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",
