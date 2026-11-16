@@ -183,9 +183,10 @@ static func source_solid_pump_power_status_row_state(frame: Dictionary, has_powe
 	# (SolidPump.java:138), so it runs even at efficiency 0;
 	# the neighbour liquid amounts / capacities / accepts /
 	# canDump arrays are frame inputs (default [] -- no live
-	# proximity fill yet) and the dumped liquid is not
-	# written into the neighbour frame yet (no neighbour
-	# write-back).
+	# proximity fill yet); the dump exposes
+	# dump_neighbour_index + dumped_liquid and the tick
+	# wires the N2371 shared helper after the dump --
+	# neighbour write-back live since N2377.
 	# (5) Fraction fill live (N2292) -- onProximityUpdate
 	# (SolidPump.java:150-159) recomputed each enabled tick
 	# from frame proximity inputs (frame["proximity_linked_tiles"],
@@ -414,7 +415,7 @@ static func source_solid_pump_dump_liquid_state(frame: Dictionary, result_liquid
 	# `public void transferLiquid(Building next, float amount, Liquid liquid){` (BuildingComp.java:914).
 	# `float flow = Math.min(next.block.liquidCapacity - next.liquids.get(liquid), amount);` (BuildingComp.java:915 -- the flow is capped by the neighbour free capacity).
 	# `if(next.acceptLiquid(self(), liquid)){` (BuildingComp.java:917).
-	# `next.handleLiquid(self(), liquid, flow);` (BuildingComp.java:918 -- the neighbour write-back waits for its own slice: the neighbours here are frame-input arrays, not live frames, so the dumped liquid leaves the extractor without landing in any neighbour store yet).
+	# `next.handleLiquid(self(), liquid, flow);` (BuildingComp.java:918 -- the neighbour write-back is live since N2377: the pure exposes the handled neighbour index + the dumped liquid name, and the tick wires the shared source_neighbour_liquid_write_back_state helper (N2371) after the dump write-back when something dumped).
 	# `liquids.remove(liquid, flow);` (BuildingComp.java:919).
 	# incrementDump (BuildingComp.java:1116-1120):
 	# `public void incrementDump(int prox){` (BuildingComp.java:1116).
@@ -447,7 +448,18 @@ static func source_solid_pump_dump_liquid_state(frame: Dictionary, result_liquid
 	# every listed neighbour and hasLiquids follows from a
 	# positive capacity. The campaign / net flags follow the
 	# scenario-pump precedent (not a client, campaign,
-	# default team).
+	# default team). The neighbour write-back is live since
+	# N2377 (the N2371 Fracker precedent): the pure exposes
+	# the handled neighbour index (dump_neighbour_index, from
+	# the shared routing's handled_index -- the FIRST eligible
+	# neighbour whose transfer actually moved liquid, -1 when
+	# nothing moved) + the dumped liquid name (dumped_liquid,
+	# the def constant "water"), and the tick wires the shared
+	# source_neighbour_liquid_write_back_state helper after
+	# the dump when dumped_amount > 0. A dump that reaches
+	# several neighbours reports only the first handled index,
+	# so the write-back lands the total there -- the
+	# per-neighbour split waits for its own slice.
 	var liquids: Dictionary = frame.get("liquids", {})
 	var has_store: bool = result_liquid_id >= 0 and liquids.has("liquids") and result_liquid_id < int(liquids["liquids"].size())
 	var current: float = 0.0
@@ -470,7 +482,7 @@ static func source_solid_pump_dump_liquid_state(frame: Dictionary, result_liquid
 	var amount_after: float = float(dump.get("current_liquid_amount_after", current))
 	if has_store:
 		source_liquid_module_state.source_set_state(liquids, result_liquid_id, amount_after)
-	return {"liquids_after": liquids, "dumped_amount": current - amount_after, "cursor_after": int(dump.get("final_cdump", cursor))}
+	return {"liquids_after": liquids, "dumped_amount": current - amount_after, "cursor_after": int(dump.get("final_cdump", cursor)), "dump_neighbour_index": int(dump.get("handled_index", -1)), "dumped_liquid": SOURCE_SOLID_PUMP_RESULT_LIQUID}
 
 static func source_solid_pump_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the solid-pump tick wiring every tick
@@ -622,9 +634,7 @@ static func source_solid_pump_tick_buildings_state(game: Object, seconds: float)
 			# liquid amounts / capacities / accepts / canDump
 			# arrays are frame inputs (default [] -- no
 			# neighbours, the Java proximity.size == 0 outcome)
-			# until a live proximity fill lands; the dumped
-			# liquid is not written into the neighbour frame
-			# yet (no neighbour write-back). The pure N2220
+			# until a live proximity fill lands. The pure N2220
 			# advance is unchanged -- the dump is a separate
 			# step after its call, and the dump mutates the
 			# frame liquids store in place (the module dict is
@@ -636,6 +646,30 @@ static func source_solid_pump_tick_buildings_state(game: Object, seconds: float)
 			var dumped: Dictionary = source_solid_pump_dump_liquid_state(frame, advance_result_id, SOURCE_SOLID_PUMP_LIQUID_CAPACITY, neighbour_amounts, neighbour_capacities, neighbour_accepts, neighbour_can_dump)
 			frame["liquids"] = dumped["liquids_after"]
 			frame["cdump"] = dumped["cursor_after"]
+			# N2377: neighbour write-back -- the shared
+			# source_neighbour_liquid_write_back_state helper
+			# lands the dumped water in the handled neighbour's
+			# store (dumpLiquid's next.handleLiquid,
+			# BuildingComp.java:918) after the dump write-back
+			# above, when something dumped. The handled index
+			# is a ring index (index i is ring cell i, the
+			# N2353 convention), so the live fill must fill
+			# the frame neighbour arrays in ring order; the
+			# tick reads the origin_cell meta inline as
+			# dump_cell (cell is bound after the enabled block,
+			# the N2363 note) and the catalog size. A failed
+			# write-back (no sprite / no frame / no liquids
+			# store) drops the water -- the routing already
+			# decided, so there is no fallback to the pump's
+			# own store (the N2353 precedent). A dump that
+			# reaches several neighbours lands the total in
+			# the first handled one -- the per-neighbour split
+			# waits for its own slice.
+			if float(dumped.get("dumped_amount", 0.0)) > 0.0:
+				var dump_index: int = int(dumped.get("dump_neighbour_index", -1))
+				if dump_index >= 0:
+					var dump_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
+					source_building_liquid_state.source_neighbour_liquid_write_back_state(game, dump_cell, int(block.properties.get("size", 1)), dump_index, str(dumped.get("dumped_liquid", SOURCE_SOLID_PUMP_RESULT_LIQUID)), float(dumped.get("dumped_amount", 0.0)))
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
