@@ -66876,6 +66876,51 @@
       ],
       "runtime_proof": "/root/C07RepairTurretHealAdvanceProof",
       "rule": "Source-backed RepairTurret heal advance from RepairTurret.java / HealthComp.java / BuildingComp.java / Angles.java / Blocks.java / UnitComp.java."
+    },
+    "SourceRepairTurretBuildState.source_repair_turret_rotation_slerp_state": {
+      "status": "active",
+      "source_slice": "N2214",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "source_method": "RepairPointBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_repair_turret_rotation_slerp_state_input.frame"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_repair_turret_rotation_slerp_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_repair_turret_rotation_slerp_state_input.y"
+        },
+        {
+          "name": "delta",
+          "type": "float",
+          "schema": "source_repair_turret_rotation_slerp_state_input.delta"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_repair_turret_rotation_slerp_state_input.time_scale"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "rotation"
+      ],
+      "tests": [
+        "test_c07_repair_turret_rotation_slerp_registration",
+        "test_all_c07_repair_turret_rotation_slerp_input_evidence_is_exact",
+        "test_repair_turret_rotation_slerp_state",
+        "test_reference_graph_and_actual_c07_repair_turret_rotation_slerp"
+      ],
+      "runtime_proof": "/root/C07RepairTurretRotationSlerpProof",
+      "rule": "Source-backed RepairTurret rotation slerp from RepairTurret.java / Mathf.java / BuildingComp.java / Angles.java / Time.java."
     }
   },
   "policy": {

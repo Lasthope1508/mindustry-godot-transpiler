@@ -174040,6 +174040,22 @@
         "test_reference_graph_and_actual_c07_repair_turret_heal_advance"
       ],
       "runtime_proof": "/root/C07RepairTurretHealAdvanceProof"
+    },
+    "source_repair_turret_rotation_slerp_state_result.rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_rotation_slerp_state",
+      "godot_symbol": "source_repair_turret_rotation_slerp_state_result.rotation",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairPointBuild.updateTile()",
+      "java_expr": "rotation = Mathf.slerpDelta(rotation, angle, 0.5f * efficiency * timeScale);",
+      "rule": "The rotation after this tick: slerped toward the target angle by `0.5 * efficiency * timeScale * delta`, clamped to [0, 1], along the shortest circular path (RepairTurret.java:209 with Mathf.java:455-462 -- unchanged when the frame carries no target dict or efficiency <= 0).",
+      "tests": [
+        "test_c07_repair_turret_rotation_slerp_registration",
+        "test_all_c07_repair_turret_rotation_slerp_input_evidence_is_exact",
+        "test_repair_turret_rotation_slerp_state",
+        "test_reference_graph_and_actual_c07_repair_turret_rotation_slerp"
+      ],
+      "runtime_proof": "/root/C07RepairTurretRotationSlerpProof"
     }
   },
   "version": 1

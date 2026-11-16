@@ -231788,6 +231788,84 @@
       },
       "runtime_proof": "/root/C07RepairTurretHealAdvanceProof",
       "rule": "Source-backed RepairTurret heal advance from RepairTurret.java / HealthComp.java / BuildingComp.java / Angles.java / Blocks.java / UnitComp.java."
+    },
+    "source_repair_turret_rotation_slerp_state_input": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_rotation_slerp_state",
+      "source_slice": "N2214",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "public Unit target;",
+          "rule": "The turret frame (RepairTurret.java:154, `public Unit target;` -- the frame carries the current target dict, rotation, efficiency, and the beam offset; absent keys read the Java field defaults: rotation 90, efficiency 1.0, offset zero).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_rotation_slerp_state"
+          ]
+        },
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "float angle = Angles.angle(x, y, target.x + offset.x, target.y + offset.y);",
+          "rule": "The turret x (RepairTurret.java:204 -- the Building x Java passes to Angles.angle; the driver reads sprite.position.x).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_rotation_slerp_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "float angle = Angles.angle(x, y, target.x + offset.x, target.y + offset.y);",
+          "rule": "The turret y (RepairTurret.java:204 -- the Building y Java passes to Angles.angle; the driver reads sprite.position.y).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_rotation_slerp_state"
+          ]
+        },
+        "delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_expr": "return slerp(fromDegrees, toDegrees, clamp(progress * Time.delta));",
+          "rule": "The tick delta in seconds (Mathf.java:461, `return slerp(fromDegrees, toDegrees, clamp(progress * Time.delta));` -- slerpDelta multiplies its progress by Time.delta; the driver passes its per-tick seconds, the same `seconds` the N2212 acquire and the N2213 heal use).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_rotation_slerp_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The Building timeScale (BuildingComp.java:98, `private transient float timeScale = 1f, timeScaleDuration;` -- read through `timeScale()`, BuildingComp.java:599-600; the driver passes `frame.get(\"time_scale\", 1.0)`, the Java default, until a timeScale slice stamps the frame key).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_rotation_slerp_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretRotationSlerpProof",
+      "rule": "Source-backed RepairTurret rotation slerp from RepairTurret.java / Mathf.java / BuildingComp.java / Angles.java / Time.java."
+    },
+    "source_repair_turret_rotation_slerp_state_result": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_rotation_slerp_state",
+      "source_slice": "N2214",
+      "keys": {
+        "rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "rotation = Mathf.slerpDelta(rotation, angle, 0.5f * efficiency * timeScale);",
+          "rule": "The rotation after this tick: slerped toward the target angle by `0.5 * efficiency * timeScale * delta`, clamped to [0, 1], along the shortest circular path (RepairTurret.java:209 with Mathf.java:455-462 -- unchanged when the frame carries no target dict or efficiency <= 0).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_rotation_slerp_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretRotationSlerpProof",
+      "rule": "Source-backed RepairTurret rotation slerp from RepairTurret.java / Mathf.java / BuildingComp.java / Angles.java / Time.java."
     }
   },
   "version": 1

@@ -211,6 +211,55 @@ static func source_repair_turret_heal_advance_state(frame: Dictionary, x: float,
 	healed_target["health"] = min(health + heal_amount, max_health)
 	return {"healed": true, "heal_amount": heal_amount, "target": healed_target, "target_health": float(healed_target["health"])}
 
+static func source_repair_turret_rotation_slerp_state(frame: Dictionary, x: float, y: float, delta: float, time_scale: float) -> Dictionary:
+	# RepairPointBuild.updateTile rotates the turret toward the acquired target after the heal (RepairTurret.java:209):
+	# rotation = Mathf.slerpDelta(rotation, angle, 0.5f * efficiency * timeScale);
+	# inside the same gate as the heal (RepairTurret.java:203):
+	# if(target != null && efficiency > 0){
+	# but OUTSIDE the aim cone (RepairTurret.java:205, `if(Angles.angleDist(angle, rotation) < 30f){`), which gates only the heal -- the slerp runs every tick with a target and efficiency > 0, even when the target is outside the cone. The angle is the same as the N2213 heal (RepairTurret.java:204):
+	# float angle = Angles.angle(x, y, target.x + offset.x, target.y + offset.y);
+	# Angles.angle is atan2(dx, dy) in degrees, normalized to [0, 360) (Angles.java:56-58):
+	# float ang = Mathf.atan2(x2 - x, y2 - y) * Mathf.radDeg;
+	# if(ang < 0) ang += 360f;
+	# Mathf.slerpDelta multiplies its progress by Time.delta and clamps to [0, 1] (Mathf.java:460-462):
+	# public static float slerpDelta(float fromDegrees, float toDegrees, float progress){
+	# return slerp(fromDegrees, toDegrees, clamp(progress * Time.delta));
+	# and slerp always takes the shortest circular path, returning [0, 360) (Mathf.java:455-458):
+	# public static float slerp(float fromDegrees, float toDegrees, float progress){
+	# float delta = ((toDegrees - fromDegrees + 360 + 180) % 360) - 180;
+	# return (fromDegrees + delta * progress + 360) % 360;
+	# clamp with one argument clamps to [0, 1] (Mathf.java:402-403):
+	# public static float clamp(float value){
+	# return Math.max(Math.min(value, 1f), 0f);
+	# timeScale is the Building's own field (BuildingComp.java:98):
+	# private transient float timeScale = 1f, timeScaleDuration;
+	# read through (BuildingComp.java:599-600):
+	# public float timeScale(){
+	# return timeScale;
+	# -- NOT the global Time.timeScale. delta() is Time.delta * timeScale (BuildingComp.java:1922-1923):
+	# public float delta(){
+	# return Time.delta * timeScale;
+	# and Time.delta is the per-frame delta (Time.java:15):
+	# public static float delta = 1f;
+	# -- the driver passes its per-tick seconds as delta, the same `seconds` the N2212 acquire and the N2213 heal use, so the pure function folds it as `0.5 * efficiency * time_scale * delta` and clamps. The frame carries the target dict (already validated by the N2212 acquire, which runs first in the same tick), rotation (Java field default 90, `public float strength, rotation = 90;`, RepairTurret.java:155), efficiency (folded, absent -> 1.0, the N2174 fold), and the beam offset (Vector2.ZERO when there is no target). The driver calls the slerp AFTER the N2213 heal in the same tick (the Java order: angle -> cone/heal -> slerp), because the heal reads the pre-slerp rotation for its cone check. The strength lerp is NOT this slice -- it waits for its own slice:
+	# strength = Mathf.lerpDelta(strength, healed ? 1f : 0f, 0.08f * Time.delta);
+	# time_scale has no live source in the port yet (no frame key stamps it), so the driver passes `frame.get("time_scale", 1.0)` -- the Java default 1f -- and a future timeScale slice only needs to stamp the frame key. The result carries ONLY rotation: angle is an intermediate like edelta in N2213, no consumer stamps it.
+	var target: Variant = frame.get("target", null)
+	var rotation: float = float(frame.get("rotation", 90.0))
+	if not (target is Dictionary):
+		return {"rotation": rotation}
+	var efficiency: float = float(frame.get("efficiency", 1.0))
+	if efficiency <= 0.0:
+		return {"rotation": rotation}
+	var offset: Vector2 = frame.get("offset", Vector2.ZERO)
+	var target_x: float = float(target.get("x", 0.0)) + offset.x
+	var target_y: float = float(target.get("y", 0.0)) + offset.y
+	var angle: float = fmod(rad_to_deg(atan2(target_x - x, target_y - y)) + 360.0, 360.0)
+	var progress: float = clampf(0.5 * efficiency * time_scale * delta, 0.0, 1.0)
+	var angle_delta: float = fmod(angle - rotation + 360.0 + 180.0, 360.0) - 180.0
+	var new_rotation: float = fmod(rotation + angle_delta * progress + 360.0, 360.0)
+	return {"rotation": new_rotation}
+
 static func source_repair_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the repair-turret tick wiring every
 	# tick (RepairPointBuild.updateTile(), RepairTurret.java:187,
@@ -308,6 +357,22 @@ static func source_repair_turret_tick_buildings_state(game: Object, seconds: flo
 		frame["target_health"] = heal.get("target_health", 0.0)
 		frame["healed"] = heal.get("healed", false)
 		frame["heal_amount"] = heal.get("heal_amount", 0.0)
+		# N2214: rotation slerp (RepairTurret.java:209)
+		# runs after the heal stamps, on EVERY tick like
+		# the acquire/heal: the pure function gates on
+		# target / efficiency itself, and the cone does NOT
+		# gate it -- the turret turns toward a target even
+		# outside the 30-degree cone. The slerp MUST run
+		# after the heal (the Java order), because the heal
+		# reads the pre-slerp rotation for its cone check.
+		# time_scale has no live source in the port yet, so
+		# the driver passes `frame.get("time_scale", 1.0)`
+		# -- the Java default 1f (BuildingComp.java:98).
+		# This is the first stamp of `frame["rotation"]`:
+		# before N2214 every repair turret sat at the 90.0
+		# default the N2213 heal read.
+		var slerp: Dictionary = source_repair_turret_rotation_slerp_state(frame, sprite.position.x, sprite.position.y, seconds, float(frame.get("time_scale", 1.0)))
+		frame["rotation"] = slerp.get("rotation", 90.0)
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
