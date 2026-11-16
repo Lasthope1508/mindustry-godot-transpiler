@@ -66951,6 +66951,91 @@
       ],
       "runtime_proof": "/root/C07RepairTurretStrengthLerpProof",
       "rule": "Source-backed RepairTurret strength lerp from RepairTurret.java / Mathf.java / Time.java."
+    },
+    "SourceImpactReactorBuildState.source_impact_reactor_impact_power_state": {
+      "status": "active",
+      "source_slice": "N2216",
+      "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+      "source_method": "ImpactReactorBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_impact_reactor_impact_power_state_input.frame"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "impact_power_fired"
+      ],
+      "tests": [
+        "test_c07_impact_reactor_impact_power_registration",
+        "test_all_c07_impact_reactor_impact_power_input_evidence_is_exact",
+        "test_impact_reactor_impact_power_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_impact_power"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorImpactPowerProof",
+      "rule": "Source-backed ImpactReactor impactPower first-production event from ImpactReactor.java / PowerGenerator.java / ConsumePower.java."
+    },
+    "SourceRepairTurretBuildState.source_repair_turret_write_state": {
+      "status": "active",
+      "source_slice": "N2217",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "source_method": "RepairPointBuild.write()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_repair_turret_write_state_input.frame"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "rotation"
+      ],
+      "tests": [
+        "test_c07_repair_turret_read_write_registration",
+        "test_all_c07_repair_turret_read_write_input_evidence_is_exact",
+        "test_repair_turret_read_write_state",
+        "test_reference_graph_and_actual_c07_repair_turret_read_write"
+      ],
+      "runtime_proof": "/root/C07RepairTurretReadWriteProof",
+      "rule": "Source-backed RepairTurret read/write persistence from RepairTurret.java."
+    },
+    "SourceRepairTurretBuildState.source_repair_turret_read_state": {
+      "status": "active",
+      "source_slice": "N2217",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "source_method": "RepairPointBuild.read()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_repair_turret_read_state_input.frame"
+        },
+        {
+          "name": "saved_rotation",
+          "type": "float",
+          "schema": "source_repair_turret_read_state_input.saved_rotation"
+        },
+        {
+          "name": "revision",
+          "type": "int",
+          "schema": "source_repair_turret_read_state_input.revision"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "rotation"
+      ],
+      "tests": [
+        "test_c07_repair_turret_read_write_registration",
+        "test_all_c07_repair_turret_read_write_input_evidence_is_exact",
+        "test_repair_turret_read_write_state",
+        "test_reference_graph_and_actual_c07_repair_turret_read_write"
+      ],
+      "runtime_proof": "/root/C07RepairTurretReadWriteProof",
+      "rule": "Source-backed RepairTurret read/write persistence from RepairTurret.java."
     }
   },
   "policy": {

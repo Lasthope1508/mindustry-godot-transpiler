@@ -1237,6 +1237,23 @@
       ],
       "runtime_proof": "/root/C07ImpactReactorConsumeProof"
     },
+    "N2216": {
+      "canonical_ledger": "source_slice_ledger.N2216",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+      "java_method": "ImpactReactorBuild.updateTile()",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_impact_power_state",
+      "source_symbols": [
+        "source_impact_reactor_impact_power_state_result.impact_power_fired"
+      ],
+      "tests": [
+        "test_c07_impact_reactor_impact_power_registration",
+        "test_all_c07_impact_reactor_impact_power_input_evidence_is_exact",
+        "test_impact_reactor_impact_power_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_impact_power"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorImpactPowerProof"
+    },
     "N888": {
       "canonical_ledger": "source_slice_ledger.N888",
       "status": "done",
