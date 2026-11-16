@@ -3414,6 +3414,100 @@
       "runtime_proof": "/root/Main.source_unit_payload_y_state",
       "rule": "Dictionary returned by port_game.source_unit_payload_y_state mirrors UnitPayload.y()."
     },
+    "SourceConstructorBuildState.source_constructor_draw_state": {
+      "canonical_contract": "source_api_contracts.SourceConstructorBuildState.source_constructor_draw_state",
+      "status": "active",
+      "source_slice": "N2440",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "source_method": "BlockProducerBuild.draw()",
+      "params": [
+        {
+          "name": "x_value",
+          "type": "float",
+          "schema": "source_constructor_draw_state_input.x_value"
+        },
+        {
+          "name": "y_value",
+          "type": "float",
+          "schema": "source_constructor_draw_state_input.y_value"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_constructor_draw_state_input.rotation"
+        },
+        {
+          "name": "time_value",
+          "type": "float",
+          "schema": "source_constructor_draw_state_input.time_value"
+        },
+        {
+          "name": "heat",
+          "type": "float",
+          "schema": "source_constructor_draw_state_input.heat"
+        },
+        {
+          "name": "progress",
+          "type": "float",
+          "schema": "source_constructor_draw_state_input.progress"
+        },
+        {
+          "name": "recipe",
+          "type": "Variant",
+          "schema": "source_constructor_draw_state_input.recipe"
+        },
+        {
+          "name": "payload_present",
+          "type": "bool",
+          "schema": "source_constructor_draw_state_input.payload_present"
+        },
+        {
+          "name": "just_crafted",
+          "type": "bool",
+          "schema": "source_constructor_draw_state_input.just_crafted"
+        },
+        {
+          "name": "size_value",
+          "type": "int",
+          "schema": "source_constructor_draw_state_input.size_value"
+        },
+        {
+          "name": "draw_scl",
+          "type": "float",
+          "schema": "source_constructor_draw_state_input.draw_scl"
+        },
+        {
+          "name": "draw_xscl",
+          "type": "float",
+          "schema": "source_constructor_draw_state_input.draw_xscl"
+        },
+        {
+          "name": "draw_yscl",
+          "type": "float",
+          "schema": "source_constructor_draw_state_input.draw_yscl"
+        }
+      ],
+      "return_keys": [
+        "base_call",
+        "out_call",
+        "shadow_call",
+        "build_call",
+        "scan_call",
+        "payload_call",
+        "top_call",
+        "select_call",
+        "place_effect_call"
+      ],
+      "tests": [
+        "test_c07_constructor_draw_rows_registration",
+        "test_all_c07_constructor_draw_rows_input_evidence_is_exact",
+        "test_constructor_draw_rows_state",
+        "test_reference_graph_and_actual_c07_constructor_draw_rows"
+      ],
+      "runtime_proof": "/root/C07ConstructorDrawRowsProof",
+      "rule": "Source-backed Constructor payload / draw rows from BlockProducer.java / Constructor.java / PayloadBlock.java / BuildPayload.java / Block.java / Drawf.java / Layer.java / Vars.java / Blocks.java / BuildingComp.java.",
+      "return_type": "Dictionary"
+    },
     "SourceConstructorBuildState.source_constructor_dynamic_item_consumer_row_state": {
       "canonical_contract": "source_api_contracts.SourceConstructorBuildState.source_constructor_dynamic_item_consumer_row_state",
       "status": "active",

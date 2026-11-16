@@ -3796,7 +3796,8 @@
         "source_build_turret_draw_state_result.shadow_call",
         "source_build_turret_draw_state_result.region_call",
         "source_build_turret_draw_state_result.glow_call",
-        "source_build_turret_draw_state_result.build_call"
+        "source_build_turret_draw_state_result.build_call",
+        "source_build_turret_draw_state_result.icon_regions"
       ],
       "tests": [
         "test_c07_build_turret_draw_rows_registration",
@@ -3847,6 +3848,26 @@
         "test_reference_graph_and_actual_c07_build_turret_sense_rows"
       ],
       "runtime_proof": "/root/C07BuildTurretSenseRowsProof"
+    },
+    "N2441": {
+      "canonical_ledger": "source_slice_ledger.N2441",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/BaseShield.java",
+      "java_method": "BaseShield.drawShield()",
+      "godot_owner": "SourceBaseShieldBuildState.source_base_shield_draw_shield_state",
+      "source_symbols": [
+        "source_base_shield_draw_shield_state_result.shield_call",
+        "source_base_shield_draw_shield_state_result.fill_call",
+        "source_base_shield_draw_shield_state_result.line_call",
+        "source_base_shield_draw_shield_state_result.dash_call"
+      ],
+      "tests": [
+        "test_c07_base_shield_draw_shield_rows_registration",
+        "test_all_c07_base_shield_draw_shield_rows_input_evidence_is_exact",
+        "test_base_shield_draw_shield_rows_state",
+        "test_reference_graph_and_actual_c07_base_shield_draw_shield_rows"
+      ],
+      "runtime_proof": "/root/C07BaseShieldDrawShieldRowsProof"
     },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",

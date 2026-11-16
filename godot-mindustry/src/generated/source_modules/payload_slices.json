@@ -2458,6 +2458,31 @@
         "test_reference_graph_and_actual_c07_payload_deconstructor_draw_rows"
       ],
       "runtime_proof": "/root/C07PayloadDeconstructorDrawRowsProof"
+    },
+    "N2440": {
+      "canonical_ledger": "source_slice_ledger.N2440",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_method": "BlockProducerBuild.draw()",
+      "godot_owner": "SourceConstructorBuildState.source_constructor_draw_state",
+      "source_symbols": [
+        "source_constructor_draw_state_result.base_call",
+        "source_constructor_draw_state_result.out_call",
+        "source_constructor_draw_state_result.shadow_call",
+        "source_constructor_draw_state_result.build_call",
+        "source_constructor_draw_state_result.scan_call",
+        "source_constructor_draw_state_result.payload_call",
+        "source_constructor_draw_state_result.top_call",
+        "source_constructor_draw_state_result.select_call",
+        "source_constructor_draw_state_result.place_effect_call"
+      ],
+      "tests": [
+        "test_c07_constructor_draw_rows_registration",
+        "test_all_c07_constructor_draw_rows_input_evidence_is_exact",
+        "test_constructor_draw_rows_state",
+        "test_reference_graph_and_actual_c07_constructor_draw_rows"
+      ],
+      "runtime_proof": "/root/C07ConstructorDrawRowsProof"
     }
   }
 }

@@ -187032,6 +187032,518 @@
         "test_reference_graph_and_actual_c07_light_block_draw_place_rows"
       ],
       "runtime_proof": "/root/C07LightBlockDrawPlaceRowsProof"
+    },
+    "source_constructor_draw_state_result.base_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceConstructorBuildState.source_constructor_draw_state",
+      "godot_symbol": "source_constructor_draw_state_result.base_call",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_method": "BlockProducerBuild.draw()",
+      "java_expr": "Draw.rect(region, x, y);",
+      "rule": "The base rect call (BlockProducer.java:135): region region, centered on the building, always drawn -- before the out rect.",
+      "tests": [
+        "test_c07_constructor_draw_rows_registration",
+        "test_all_c07_constructor_draw_rows_input_evidence_is_exact",
+        "test_constructor_draw_rows_state",
+        "test_reference_graph_and_actual_c07_constructor_draw_rows"
+      ],
+      "runtime_proof": "/root/C07ConstructorDrawRowsProof"
+    },
+    "source_constructor_draw_state_result.out_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceConstructorBuildState.source_constructor_draw_state",
+      "godot_symbol": "source_constructor_draw_state_result.out_call",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_method": "BlockProducerBuild.draw()",
+      "java_expr": "Draw.rect(outRegion, x, y, rotdeg());",
+      "rule": "The out rect call (BlockProducer.java:136): region outRegion, centered on the building, rotated by rotdeg() = rotation * 90 (BuildingComp.java:582-584), always drawn.",
+      "tests": [
+        "test_c07_constructor_draw_rows_registration",
+        "test_all_c07_constructor_draw_rows_input_evidence_is_exact",
+        "test_constructor_draw_rows_state",
+        "test_reference_graph_and_actual_c07_constructor_draw_rows"
+      ],
+      "runtime_proof": "/root/C07ConstructorDrawRowsProof"
+    },
+    "source_constructor_draw_state_result.shadow_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceConstructorBuildState.source_constructor_draw_state",
+      "godot_symbol": "source_constructor_draw_state_result.shadow_call",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_method": "BlockProducerBuild.draw()",
+      "java_expr": "Drawf.shadow(x, y, recipe.size * tilesize * 2f, progress / recipe.buildTime);",
+      "rule": "The recipe shadow call (BlockProducer.java:140): radius recipe.size * tilesize * 2f, alpha progress / recipe.buildTime, circle-shadow at black alpha 0.4 * alpha (Drawf.java:360-364). Null when no recipe.",
+      "tests": [
+        "test_c07_constructor_draw_rows_registration",
+        "test_all_c07_constructor_draw_rows_input_evidence_is_exact",
+        "test_constructor_draw_rows_state",
+        "test_reference_graph_and_actual_c07_constructor_draw_rows"
+      ],
+      "runtime_proof": "/root/C07ConstructorDrawRowsProof"
+    },
+    "source_constructor_draw_state_result.build_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceConstructorBuildState.source_constructor_draw_state",
+      "godot_symbol": "source_constructor_draw_state_result.build_call",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_method": "BlockProducerBuild.draw()",
+      "java_expr": "Draw.draw(Layer.blockBuilding, () -> {",
+      "rule": "The blockbuild shader loop call (BlockProducer.java:141-153, on Layer.blockBuilding = 40, Layer.java:45): color Pal.accent, one region rect per recipe generated icon with shader region / time / progress params and rotation rotdeg() when recipe.rotate else 0, flush per icon. Recorded as CALL + params -- the shader itself is NOT ported. Null when no recipe.",
+      "tests": [
+        "test_c07_constructor_draw_rows_registration",
+        "test_all_c07_constructor_draw_rows_input_evidence_is_exact",
+        "test_constructor_draw_rows_state",
+        "test_reference_graph_and_actual_c07_constructor_draw_rows"
+      ],
+      "runtime_proof": "/root/C07ConstructorDrawRowsProof"
+    },
+    "source_constructor_draw_state_result.scan_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceConstructorBuildState.source_constructor_draw_state",
+      "godot_symbol": "source_constructor_draw_state_result.scan_call",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_method": "BlockProducerBuild.draw()",
+      "java_expr": "Lines.lineAngleCenter(x + Mathf.sin(time, 10f, Vars.tilesize / 2f * recipe.size + 1f), y, 90, recipe.size * Vars.tilesize + 1f);",
+      "rule": "The scan line (BlockProducer.java:155, at z Layer.blockBuilding + 1 = 41 after Draw.color(Pal.accent, heat)): center x + sin(time / 10f) * (tilesize / 2f * recipe.size + 1f) -- the arc 3-arg sin (`return sin(radians / scl) * mag;`, Mathf.java:90-92, arc), NOT absin -- angle 90, length recipe.size * tilesize + 1f: recipe size 2 gives magnitude 9 and length 17, recipe size 4 gives 17 and 33. Null when no recipe.",
+      "tests": [
+        "test_c07_constructor_draw_rows_registration",
+        "test_all_c07_constructor_draw_rows_input_evidence_is_exact",
+        "test_constructor_draw_rows_state",
+        "test_reference_graph_and_actual_c07_constructor_draw_rows"
+      ],
+      "runtime_proof": "/root/C07ConstructorDrawRowsProof"
+    },
+    "source_constructor_draw_state_result.payload_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceConstructorBuildState.source_constructor_draw_state",
+      "godot_symbol": "source_constructor_draw_state_result.payload_call",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_method": "BlockProducerBuild.draw()",
+      "java_expr": "payload.draw();",
+      "rule": "The held-payload draw call (PayloadBlock.java:251, inside drawPayload(), PayloadBlock.java:246-253, on Layer.blockOver = 35 after updatePayload()): present only when a payload is held. The inner payload.draw() dispatch needs the live payload entity, so the pure reports the call + z + the updatePayload() call.",
+      "tests": [
+        "test_c07_constructor_draw_rows_registration",
+        "test_all_c07_constructor_draw_rows_input_evidence_is_exact",
+        "test_constructor_draw_rows_state",
+        "test_reference_graph_and_actual_c07_constructor_draw_rows"
+      ],
+      "runtime_proof": "/root/C07ConstructorDrawRowsProof"
+    },
+    "source_constructor_draw_state_result.top_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceConstructorBuildState.source_constructor_draw_state",
+      "godot_symbol": "source_constructor_draw_state_result.top_call",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_method": "BlockProducerBuild.draw()",
+      "java_expr": "Draw.rect(topRegion, x, y);",
+      "rule": "The top rect call (BlockProducer.java:160, at z Layer.blockBuilding + 1.1f = 41.1): region topRegion, centered on the building, always drawn -- after drawPayload().",
+      "tests": [
+        "test_c07_constructor_draw_rows_registration",
+        "test_all_c07_constructor_draw_rows_input_evidence_is_exact",
+        "test_constructor_draw_rows_state",
+        "test_reference_graph_and_actual_c07_constructor_draw_rows"
+      ],
+      "runtime_proof": "/root/C07ConstructorDrawRowsProof"
+    },
+    "source_constructor_draw_state_result.select_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceConstructorBuildState.source_constructor_draw_state",
+      "godot_symbol": "source_constructor_draw_state_result.select_call",
+      "java_source": "core/src/mindustry/world/blocks/payloads/Constructor.java",
+      "java_method": "BlockProducerBuild.draw()",
+      "java_expr": "Draw.rect(icon, dx, dy, Draw.scl * Draw.xscl * 24f, Draw.scl * Draw.yscl * 24f);",
+      "rule": "The drawSelect icon call (Constructor.java:77-87): icon recipe.uiIcon at dx = x - size * tilesize / 2f, dy = y + size * tilesize / 2f (the PRODUCER size), sized Draw.scl * Draw.xscl * 24f by Draw.scl * Draw.yscl * 24f, with the darkGray mixcol shadow rect at dx - 0.7f, dy - 1f. Null when no recipe.",
+      "tests": [
+        "test_c07_constructor_draw_rows_registration",
+        "test_all_c07_constructor_draw_rows_input_evidence_is_exact",
+        "test_constructor_draw_rows_state",
+        "test_reference_graph_and_actual_c07_constructor_draw_rows"
+      ],
+      "runtime_proof": "/root/C07ConstructorDrawRowsProof"
+    },
+    "source_constructor_draw_state_result.place_effect_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceConstructorBuildState.source_constructor_draw_state",
+      "godot_symbol": "source_constructor_draw_state_result.place_effect_call",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_method": "BlockProducerBuild.draw()",
+      "java_expr": "payload.block().placeEffect.at(x, y, payload.size() / tilesize);",
+      "rule": "The craft-complete placement effect (BlockProducer.java:118): the recipe block placeEffect (default Fx.placeBlock, Block.java:374) at (x, y) with scale payload.size() / tilesize = the RECIPE block size in tiles (BuildPayload.size() is build.block.size * tilesize, BuildPayload.java:86-88). Null unless just_crafted (and a recipe is present).",
+      "tests": [
+        "test_c07_constructor_draw_rows_registration",
+        "test_all_c07_constructor_draw_rows_input_evidence_is_exact",
+        "test_constructor_draw_rows_state",
+        "test_reference_graph_and_actual_c07_constructor_draw_rows"
+      ],
+      "runtime_proof": "/root/C07ConstructorDrawRowsProof"
+    },
+    "source_base_shield_draw_shield_state_result.shield_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceBaseShieldBuildState.source_base_shield_draw_shield_state",
+      "godot_symbol": "source_base_shield_draw_shield_state_result.shield_call",
+      "java_source": "core/src/mindustry/world/blocks/defense/BaseShield.java",
+      "java_method": "BaseShield.drawShield()",
+      "java_expr": "Draw.color(shieldColor == null ? team.color : shieldColor, Color.white, Mathf.clamp(hit));",
+      "rule": "The shield z + color call (BaseShield.java:129-131): z Layer.shields (125, Layer.java:87) + the color mix (base shieldColor or team.color, lerped toward Color.white by clamp(hit) -- Draw.color(a, b, s) lerps a toward b by s, arc Draw.java:234-236). Null when broken.",
+      "tests": [
+        "test_c07_base_shield_draw_shield_rows_registration",
+        "test_all_c07_base_shield_draw_shield_rows_input_evidence_is_exact",
+        "test_base_shield_draw_shield_rows_state",
+        "test_reference_graph_and_actual_c07_base_shield_draw_shield_rows"
+      ],
+      "runtime_proof": "/root/C07BaseShieldDrawShieldRowsProof"
+    },
+    "source_base_shield_draw_shield_state_result.fill_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceBaseShieldBuildState.source_base_shield_draw_shield_state",
+      "godot_symbol": "source_base_shield_draw_shield_state_result.fill_call",
+      "java_source": "core/src/mindustry/world/blocks/defense/BaseShield.java",
+      "java_method": "BaseShield.drawShield()",
+      "java_expr": "Fill.poly(x, y, sides, radius);",
+      "rule": "The fill call (BaseShield.java:134, animated branch; :139, static branch): Fill.poly(x, y, sides 24, smooth_radius) with the branch + alpha recorded -- the animated branch draws the fill only (no stroke, no line, no Draw.alpha; alpha 1.0, the color own alpha) and the static branch fills at alpha 0.09 + clamp(0.08 * hit). Null when broken.",
+      "tests": [
+        "test_c07_base_shield_draw_shield_rows_registration",
+        "test_all_c07_base_shield_draw_shield_rows_input_evidence_is_exact",
+        "test_base_shield_draw_shield_rows_state",
+        "test_reference_graph_and_actual_c07_base_shield_draw_shield_rows"
+      ],
+      "runtime_proof": "/root/C07BaseShieldDrawShieldRowsProof"
+    },
+    "source_base_shield_draw_shield_state_result.line_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceBaseShieldBuildState.source_base_shield_draw_shield_state",
+      "godot_symbol": "source_base_shield_draw_shield_state_result.line_call",
+      "java_source": "core/src/mindustry/world/blocks/defense/BaseShield.java",
+      "java_method": "BaseShield.drawShield()",
+      "java_expr": "Lines.poly(x, y, sides, radius);",
+      "rule": "The outline call (BaseShield.java:136 + :140-141): Lines.poly(x, y, sides 24, smooth_radius) with stroke 1.5f and alpha 1f -- static branch only. Null in the animated branch (no outline there) and when broken.",
+      "tests": [
+        "test_c07_base_shield_draw_shield_rows_registration",
+        "test_all_c07_base_shield_draw_shield_rows_input_evidence_is_exact",
+        "test_base_shield_draw_shield_rows_state",
+        "test_reference_graph_and_actual_c07_base_shield_draw_shield_rows"
+      ],
+      "runtime_proof": "/root/C07BaseShieldDrawShieldRowsProof"
+    },
+    "source_base_shield_draw_shield_state_result.dash_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceBaseShieldBuildState.source_base_shield_draw_shield_state",
+      "godot_symbol": "source_base_shield_draw_shield_state_result.dash_call",
+      "java_source": "core/src/mindustry/world/blocks/defense/BaseShield.java",
+      "java_method": "BaseShield.drawShield()",
+      "java_expr": "Drawf.dashCircle(x, y, radius, team.color);",
+      "rule": "The drawSelect dash call (BaseShield.java:106-110): Drawf.dashCircle(x, y, FIELD radius, team.color) -- the FIELD radius (200f / 400f), never smoothRadius -- with the super.drawSelect() call recorded, not ported (the N2439 super-recorded precedent). Runs regardless of broken.",
+      "tests": [
+        "test_c07_base_shield_draw_shield_rows_registration",
+        "test_all_c07_base_shield_draw_shield_rows_input_evidence_is_exact",
+        "test_base_shield_draw_shield_rows_state",
+        "test_reference_graph_and_actual_c07_base_shield_draw_shield_rows"
+      ],
+      "runtime_proof": "/root/C07BaseShieldDrawShieldRowsProof"
+    },
+    "source_stack_router_stats_state_result.items_moved_per_second": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackRouterBuildState.source_stack_router_stats_state",
+      "godot_symbol": "source_stack_router_stats_state_result.items_moved_per_second",
+      "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+      "java_method": "DuctRouter.setStats()",
+      "java_expr": "stats.add(Stat.itemsMoved, 60f / speed * itemCapacity, StatUnit.itemsSecond);",
+      "rule": "The itemsMoved stat value (DuctRouter.java:51): 60f / speed FIRST, then times itemCapacity (Java float math, left-assoc) -- 60 / 5 * 10 = 120 at the class defaults, 60 / 6 * 10 = 100 for the surge-router def, 60 / 4 * 1 = 15 for the duct-router def.",
+      "tests": [
+        "test_c07_stack_router_stats_plan_rows_registration",
+        "test_all_c07_stack_router_stats_plan_rows_input_evidence_is_exact",
+        "test_stack_router_stats_plan_rows_state",
+        "test_reference_graph_and_actual_c07_stack_router_stats_plan_rows"
+      ],
+      "runtime_proof": "/root/C07StackRouterStatsPlanRowsProof"
+    },
+    "source_stack_router_stats_state_result.stat_key": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackRouterBuildState.source_stack_router_stats_state",
+      "godot_symbol": "source_stack_router_stats_state_result.stat_key",
+      "java_source": "core/src/mindustry/world/meta/Stat.java",
+      "java_method": "DuctRouter.setStats()",
+      "java_expr": "itemsMoved = new Stat(\"itemsMoved\", StatCat.items),",
+      "rule": "The stat token (Stat.java:52): \"itemsMoved\" -- the Stat the setStats row adds.",
+      "tests": [
+        "test_c07_stack_router_stats_plan_rows_registration",
+        "test_all_c07_stack_router_stats_plan_rows_input_evidence_is_exact",
+        "test_stack_router_stats_plan_rows_state",
+        "test_reference_graph_and_actual_c07_stack_router_stats_plan_rows"
+      ],
+      "runtime_proof": "/root/C07StackRouterStatsPlanRowsProof"
+    },
+    "source_stack_router_stats_state_result.stat_unit": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackRouterBuildState.source_stack_router_stats_state",
+      "godot_symbol": "source_stack_router_stats_state_result.stat_unit",
+      "java_source": "core/src/mindustry/world/meta/StatUnit.java",
+      "java_method": "DuctRouter.setStats()",
+      "java_expr": "itemsSecond = new StatUnit(\"itemsSecond\"),",
+      "rule": "The stat unit token (StatUnit.java:20): \"itemsSecond\" -- the unit of the itemsMoved row.",
+      "tests": [
+        "test_c07_stack_router_stats_plan_rows_registration",
+        "test_all_c07_stack_router_stats_plan_rows_input_evidence_is_exact",
+        "test_stack_router_stats_plan_rows_state",
+        "test_reference_graph_and_actual_c07_stack_router_stats_plan_rows"
+      ],
+      "runtime_proof": "/root/C07StackRouterStatsPlanRowsProof"
+    },
+    "source_stack_router_draw_plan_state_result.base_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackRouterBuildState.source_stack_router_draw_plan_state",
+      "godot_symbol": "source_stack_router_draw_plan_state_result.base_call",
+      "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+      "java_method": "DuctRouter.drawPlanRegion()",
+      "java_expr": "Draw.rect(region, plan.drawx(), plan.drawy());",
+      "rule": "The plan base rect call (DuctRouter.java:61): region region centered on the plan position, unrotated -- always drawn, the first call of the plan draw.",
+      "tests": [
+        "test_c07_stack_router_stats_plan_rows_registration",
+        "test_all_c07_stack_router_stats_plan_rows_input_evidence_is_exact",
+        "test_stack_router_stats_plan_rows_state",
+        "test_reference_graph_and_actual_c07_stack_router_stats_plan_rows"
+      ],
+      "runtime_proof": "/root/C07StackRouterStatsPlanRowsProof"
+    },
+    "source_stack_router_draw_plan_state_result.top_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackRouterBuildState.source_stack_router_draw_plan_state",
+      "godot_symbol": "source_stack_router_draw_plan_state_result.top_call",
+      "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+      "java_method": "DuctRouter.drawPlanRegion()",
+      "java_expr": "Draw.rect(topRegion, plan.drawx(), plan.drawy(), plan.rotation * 90);",
+      "rule": "The plan top rect call (DuctRouter.java:62): region topRegion (`public @Load(value = \"@-top\") TextureRegion topRegion;`, DuctRouter.java:21) centered on the plan position, rotated plan.rotation * 90.",
+      "tests": [
+        "test_c07_stack_router_stats_plan_rows_registration",
+        "test_all_c07_stack_router_stats_plan_rows_input_evidence_is_exact",
+        "test_stack_router_stats_plan_rows_state",
+        "test_reference_graph_and_actual_c07_stack_router_stats_plan_rows"
+      ],
+      "runtime_proof": "/root/C07StackRouterStatsPlanRowsProof"
+    },
+    "source_stack_router_draw_plan_state_result.minimap_color": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackRouterBuildState.source_stack_router_draw_plan_state",
+      "godot_symbol": "source_stack_router_draw_plan_state_result.minimap_color",
+      "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+      "java_method": "DuctRouter.drawPlanRegion()",
+      "java_expr": "return build == null || build.sortItem == null ? 0 : build.sortItem.color.rgba();",
+      "rule": "The minimap color (DuctRouter.java:68): 0 when the build or the sort item is null, else sortItem.color.rgba() -- the rgba8888 int (arc Color.java:365-367). Surge-alloy is 0xf3e979ff, the Java signed int -202802689 (`surgeAlloy = new Item(\"surge-alloy\", Color.valueOf(\"f3e979\")){{`, Items.java:83).",
+      "tests": [
+        "test_c07_stack_router_stats_plan_rows_registration",
+        "test_all_c07_stack_router_stats_plan_rows_input_evidence_is_exact",
+        "test_stack_router_stats_plan_rows_state",
+        "test_reference_graph_and_actual_c07_stack_router_stats_plan_rows"
+      ],
+      "runtime_proof": "/root/C07StackRouterStatsPlanRowsProof"
+    },
+    "source_stack_router_draw_plan_state_result.rotated_output": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackRouterBuildState.source_stack_router_draw_plan_state",
+      "godot_symbol": "source_stack_router_draw_plan_state_result.rotated_output",
+      "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+      "java_method": "DuctRouter.drawPlanRegion()",
+      "java_expr": "return false;",
+      "rule": "rotatedOutput (DuctRouter.java:73): always false -- the constant, no inputs.",
+      "tests": [
+        "test_c07_stack_router_stats_plan_rows_registration",
+        "test_all_c07_stack_router_stats_plan_rows_input_evidence_is_exact",
+        "test_stack_router_stats_plan_rows_state",
+        "test_reference_graph_and_actual_c07_stack_router_stats_plan_rows"
+      ],
+      "runtime_proof": "/root/C07StackRouterStatsPlanRowsProof"
+    },
+    "source_light_block_sense_color_state_result.value": {
+      "status": "source-backed",
+      "godot_owner": "SourceLightBlockBuildState.source_light_block_sense_color_state",
+      "godot_symbol": "source_light_block_sense_color_state_result.value",
+      "java_source": "arc-core/src/arc/graphics/Color.java",
+      "java_method": "LightBuild.sense()",
+      "java_expr": "return Double.longBitsToDouble(Color.rgba8888(r, g, b, a) & 0x00000000_ffffffffL);",
+      "rule": "The sensed value (LightBlock.java:92; arc Color.java:166-168): for the color sensor, the double denormal float(unsigned rgba8888) * 2^-1074, whose raw bits are the color int zero-extended -- the float32 set(int)->rgba8888() round-trip is EXACT for every channel 0-255 (verified by float32 emulation), so the denormal bits ARE the color int. Any other sensor returns the caller-supplied super_value (null for the super default branch).",
+      "tests": [
+        "test_c07_light_block_config_color_rows_registration",
+        "test_all_c07_light_block_config_color_rows_input_evidence_is_exact",
+        "test_light_block_config_color_rows_state",
+        "test_reference_graph_and_actual_c07_light_block_config_color_rows"
+      ],
+      "runtime_proof": "/root/C07LightBlockConfigColorRowsProof"
+    },
+    "source_light_block_sense_color_state_result.delegated": {
+      "status": "source-backed",
+      "godot_owner": "SourceLightBlockBuildState.source_light_block_sense_color_state",
+      "godot_symbol": "source_light_block_sense_color_state_result.delegated",
+      "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+      "java_method": "LightBuild.sense()",
+      "java_expr": "if(sensor == LAccess.color) return Tmp.c1.set(color).toDoubleBits();",
+      "rule": "The dispatch flag (LightBlock.java:92, the color branch): true exactly when the sensor is NOT color and the value is the caller-supplied super value.",
+      "tests": [
+        "test_c07_light_block_config_color_rows_registration",
+        "test_all_c07_light_block_config_color_rows_input_evidence_is_exact",
+        "test_light_block_config_color_rows_state",
+        "test_reference_graph_and_actual_c07_light_block_config_color_rows"
+      ],
+      "runtime_proof": "/root/C07LightBlockConfigColorRowsProof"
+    },
+    "source_light_block_config_color_state_result.color": {
+      "status": "source-backed",
+      "godot_owner": "SourceLightBlockBuildState.source_light_block_config_color_state",
+      "godot_symbol": "source_light_block_config_color_state_result.color",
+      "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+      "java_method": "LightBuild.config()",
+      "java_expr": "config(Integer.class, (LightBuild tile, Integer value) -> tile.color = value);",
+      "rule": "The post-action color (LightBlock.java:35, the config handler assignment; LightBlock.java:81, the control assignment): action_value for \"configure\" / \"control\", unchanged for \"none\".",
+      "tests": [
+        "test_c07_light_block_config_color_rows_registration",
+        "test_all_c07_light_block_config_color_rows_input_evidence_is_exact",
+        "test_light_block_config_color_rows_state",
+        "test_reference_graph_and_actual_c07_light_block_config_color_rows"
+      ],
+      "runtime_proof": "/root/C07LightBlockConfigColorRowsProof"
+    },
+    "source_light_block_config_color_state_result.minimap_updated": {
+      "status": "source-backed",
+      "godot_owner": "SourceLightBlockBuildState.source_light_block_config_color_state",
+      "godot_symbol": "source_light_block_config_color_state_result.minimap_updated",
+      "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+      "java_method": "LightBuild.config()",
+      "java_expr": "if(!headless) renderer.minimap.update(tile);",
+      "rule": "The minimap update flag (LightBlock.java:75, configured; LightBlock.java:84, control): true exactly when an action ran and !headless. There is NO color-changed condition -- the super configured() runs the config handler with no equality check anywhere in the chain (BuildingComp.java:1429; InputHandler.tileConfig, InputHandler.java:706-728, calls configured unconditionally), so a configure with the same color still updates the minimap (Java-verified; the brief formula carried a color-changed condition Java does not have).",
+      "tests": [
+        "test_c07_light_block_config_color_rows_registration",
+        "test_all_c07_light_block_config_color_rows_input_evidence_is_exact",
+        "test_light_block_config_color_rows_state",
+        "test_reference_graph_and_actual_c07_light_block_config_color_rows"
+      ],
+      "runtime_proof": "/root/C07LightBlockConfigColorRowsProof"
+    },
+    "source_light_block_config_color_state_result.tapped_result": {
+      "status": "source-backed",
+      "godot_owner": "SourceLightBlockBuildState.source_light_block_config_color_state",
+      "godot_symbol": "source_light_block_config_color_state_result.tapped_result",
+      "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+      "java_method": "LightBuild.config()",
+      "java_expr": "public boolean onConfigureBuildTapped(Building other){",
+      "rule": "The tap result (LightBlock.java:117-127): {deselect, return_value} -- a self tap deselects and returns false, any other tap returns true.",
+      "tests": [
+        "test_c07_light_block_config_color_rows_registration",
+        "test_all_c07_light_block_config_color_rows_input_evidence_is_exact",
+        "test_light_block_config_color_rows_state",
+        "test_reference_graph_and_actual_c07_light_block_config_color_rows"
+      ],
+      "runtime_proof": "/root/C07LightBlockConfigColorRowsProof"
+    },
+    "source_light_block_config_color_state_result.picker_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceLightBlockBuildState.source_light_block_config_color_state",
+      "godot_symbol": "source_light_block_config_color_state_result.picker_call",
+      "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+      "java_method": "LightBuild.config()",
+      "java_expr": "ui.picker.show(Tmp.c1.set(color).a(0.5f), false, res -> configure(res.rgba()));",
+      "rule": "The buildConfiguration CALL record (LightBlock.java:109-115): {icon: \"pencil\", size: 40f, color_a: 0.5} -- the pencil button (`table.button(Icon.pencil, Styles.cleari, () -> {`, `}).size(40f);`) opening the picker at alpha 0.5f (NOT the 0.6f draw alpha). The UI itself is NOT ported (the N2396 CALL precedent).",
+      "tests": [
+        "test_c07_light_block_config_color_rows_registration",
+        "test_all_c07_light_block_config_color_rows_input_evidence_is_exact",
+        "test_light_block_config_color_rows_state",
+        "test_reference_graph_and_actual_c07_light_block_config_color_rows"
+      ],
+      "runtime_proof": "/root/C07LightBlockConfigColorRowsProof"
+    },
+    "source_light_block_config_color_state_result.config_value": {
+      "status": "source-backed",
+      "godot_owner": "SourceLightBlockBuildState.source_light_block_config_color_state",
+      "godot_symbol": "source_light_block_config_color_state_result.config_value",
+      "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+      "java_method": "LightBuild.config()",
+      "java_expr": "return color;",
+      "rule": "The config() value (LightBlock.java:132-133, `return color;`): the post-action color.",
+      "tests": [
+        "test_c07_light_block_config_color_rows_registration",
+        "test_all_c07_light_block_config_color_rows_input_evidence_is_exact",
+        "test_light_block_config_color_rows_state",
+        "test_reference_graph_and_actual_c07_light_block_config_color_rows"
+      ],
+      "runtime_proof": "/root/C07LightBlockConfigColorRowsProof"
+    },
+    "source_launch_pad_launch_effect_state_result.sound_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceLaunchPadBuildState.source_launch_pad_launch_effect_state",
+      "godot_symbol": "source_launch_pad_launch_effect_state_result.sound_call",
+      "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+      "java_method": "LaunchPadBuild.updateTile()",
+      "java_expr": "launchSound.at(x, y, 1f + Mathf.range(launchSoundPitchRand));",
+      "rule": "The launch sound call (LaunchPad.java:149): {sound: \"padLaunch\", x, y, pitch: 1.0 + pitch_roll} when launched, null otherwise (the N2397 null-when-absent precedent). The sound is Sounds.padLaunch (`public Sound launchSound = Sounds.padLaunch;`, LaunchPad.java:34; asset core/assets/sounds/block/padLaunch.ogg; Sounds is build-generated mindustry.gen.Sounds). The pitch roll is caller-supplied (see pitch_roll) -- the pure never rolls.",
+      "tests": [
+        "test_c07_launch_pad_launch_effect_registration",
+        "test_all_c07_launch_pad_launch_effect_input_evidence_is_exact",
+        "test_launch_pad_launch_effect_state",
+        "test_reference_graph_and_actual_c07_launch_pad_launch_effect"
+      ],
+      "runtime_proof": "/root/C07LaunchPadLaunchEffectProof"
+    },
+    "source_launch_pad_launch_effect_state_result.fx_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceLaunchPadBuildState.source_launch_pad_launch_effect_state",
+      "godot_symbol": "source_launch_pad_launch_effect_state_result.fx_call",
+      "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+      "java_method": "LaunchPadBuild.updateTile()",
+      "java_expr": "Fx.launchPod.at(this);",
+      "rule": "The launch effect call (LaunchPad.java:156): {effect: \"launchPod\", x, y} when launched, null otherwise (the N2397 null-when-absent precedent). Fx.launchPod is `launchPod = new Effect(50, e -> {` (Fx.java:2747); `.at(this)` fires it at the pad position. The 50-tick renderer body is the callee presentation -- the pure records the CALL (the N2396 precedent).",
+      "tests": [
+        "test_c07_launch_pad_launch_effect_registration",
+        "test_all_c07_launch_pad_launch_effect_input_evidence_is_exact",
+        "test_launch_pad_launch_effect_state",
+        "test_reference_graph_and_actual_c07_launch_pad_launch_effect"
+      ],
+      "runtime_proof": "/root/C07LaunchPadLaunchEffectProof"
+    },
+    "source_launch_pad_launch_effect_state_result.shake_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceLaunchPadBuildState.source_launch_pad_launch_effect_state",
+      "godot_symbol": "source_launch_pad_launch_effect_state_result.shake_call",
+      "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+      "java_method": "LaunchPadBuild.updateTile()",
+      "java_expr": "Effect.shake(3f, 3f, this);",
+      "rule": "The launch shake call (LaunchPad.java:158): {intensity: 3.0, duration: 3.0, x, y} when launched, null otherwise (the N2397 null-when-absent precedent). The Position overload (`public static void shake(float intensity, float duration, Position loc){`, Effect.java:210-212) delegates to shake(intensity, duration, x, y) (Effect.java:201), so the first arg is the intensity and the second the duration, both 3f. The camera-distance falloff inside (Effect.java:204-207) is the callee behavior -- the pure records the CALL params at the pad position.",
+      "tests": [
+        "test_c07_launch_pad_launch_effect_registration",
+        "test_all_c07_launch_pad_launch_effect_input_evidence_is_exact",
+        "test_launch_pad_launch_effect_state",
+        "test_reference_graph_and_actual_c07_launch_pad_launch_effect"
+      ],
+      "runtime_proof": "/root/C07LaunchPadLaunchEffectProof"
+    },
+    "source_unit_cargo_loader_draw_place_state_result.warning_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_draw_place_state",
+      "godot_symbol": "source_unit_cargo_loader_draw_place_state_result.warning_call",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+      "java_method": "UnitCargoLoader.drawPlace()",
+      "java_expr": "drawPlaceText(Core.bundle.get(\"bar.cargounitcap\"), x, y, valid);",
+      "rule": "The cap warning call (UnitCargoLoader.java:74): null when can_create holds, else the drawPlaceText CALL record {method: \"drawPlaceText\", text: \"bar.cargounitcap\", x: tile_x, y: tile_y, valid} (the N2396 CALL precedent -- the pure records the call, it does not draw the text). The bundle key is exact (`bar.cargounitcap = Cargo Unit Cap Reached`, bundle.properties:1278).",
+      "tests": [
+        "test_c07_unit_cargo_loader_draw_place_rows_registration",
+        "test_all_c07_unit_cargo_loader_draw_place_rows_input_evidence_is_exact",
+        "test_unit_cargo_loader_draw_place_rows_state",
+        "test_reference_graph_and_actual_c07_unit_cargo_loader_draw_place_rows"
+      ],
+      "runtime_proof": "/root/C07UnitCargoLoaderDrawPlaceRowsProof"
+    },
+    "source_build_turret_draw_state_result.icon_regions": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_draw_state",
+      "godot_symbol": "source_build_turret_draw_state_result.icon_regions",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.draw()",
+      "java_expr": "return new TextureRegion[]{baseRegion, region};",
+      "rule": "The icon regions in Java order (BuildTurret.java:88-90, icons() returns {baseRegion, region}): [\"baseRegion\", \"region\"]. Folded into the draw pure because icons() takes no args and the SSOT schema validator requires non-empty input keys (the N2396/N2430 precedent; the N2433 StackRouter precedent). Added by the N2446 amend.",
+      "tests": [
+        "test_c07_build_turret_draw_rows_registration",
+        "test_all_c07_build_turret_draw_rows_input_evidence_is_exact",
+        "test_build_turret_draw_rows_state",
+        "test_reference_graph_and_actual_c07_build_turret_draw_rows"
+      ],
+      "runtime_proof": "/root/C07BuildTurretDrawRowsProof"
     }
   },
   "version": 1

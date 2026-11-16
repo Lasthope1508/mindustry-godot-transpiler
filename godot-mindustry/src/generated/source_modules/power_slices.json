@@ -1406,6 +1406,29 @@
       ],
       "runtime_proof": "/root/C07LightBlockDrawPlaceRowsProof"
     },
+    "N2443": {
+      "canonical_ledger": "source_slice_ledger.N2443",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+      "java_method": "LightBuild.sense()",
+      "godot_owner": "SourceLightBlockBuildState.source_light_block_sense_color_state",
+      "source_symbols": [
+        "source_light_block_sense_color_state_result.value",
+        "source_light_block_sense_color_state_result.delegated",
+        "source_light_block_config_color_state_result.color",
+        "source_light_block_config_color_state_result.minimap_updated",
+        "source_light_block_config_color_state_result.tapped_result",
+        "source_light_block_config_color_state_result.picker_call",
+        "source_light_block_config_color_state_result.config_value"
+      ],
+      "tests": [
+        "test_c07_light_block_config_color_rows_registration",
+        "test_all_c07_light_block_config_color_rows_input_evidence_is_exact",
+        "test_light_block_config_color_rows_state",
+        "test_reference_graph_and_actual_c07_light_block_config_color_rows"
+      ],
+      "runtime_proof": "/root/C07LightBlockConfigColorRowsProof"
+    },
     "N888": {
       "canonical_ledger": "source_slice_ledger.N888",
       "status": "done",

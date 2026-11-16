@@ -77230,7 +77230,8 @@
         "shadow_call",
         "region_call",
         "glow_call",
-        "build_call"
+        "build_call",
+        "icon_regions"
       ],
       "tests": [
         "test_c07_build_turret_draw_rows_registration",
@@ -77873,6 +77874,409 @@
       ],
       "runtime_proof": "/root/C07LightBlockDrawPlaceRowsProof",
       "rule": "Source-backed LightBlock draw-place rows from LightBlock.java / Block.java / Vars.java / Pal.java / Placement.java / Blocks.java."
+    },
+    "SourceConstructorBuildState.source_constructor_draw_state": {
+      "status": "active",
+      "source_slice": "N2440",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "source_method": "BlockProducerBuild.draw()",
+      "params": [
+        {
+          "name": "x_value",
+          "type": "float",
+          "schema": "source_constructor_draw_state_input.x_value"
+        },
+        {
+          "name": "y_value",
+          "type": "float",
+          "schema": "source_constructor_draw_state_input.y_value"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_constructor_draw_state_input.rotation"
+        },
+        {
+          "name": "time_value",
+          "type": "float",
+          "schema": "source_constructor_draw_state_input.time_value"
+        },
+        {
+          "name": "heat",
+          "type": "float",
+          "schema": "source_constructor_draw_state_input.heat"
+        },
+        {
+          "name": "progress",
+          "type": "float",
+          "schema": "source_constructor_draw_state_input.progress"
+        },
+        {
+          "name": "recipe",
+          "type": "Variant",
+          "schema": "source_constructor_draw_state_input.recipe"
+        },
+        {
+          "name": "payload_present",
+          "type": "bool",
+          "schema": "source_constructor_draw_state_input.payload_present"
+        },
+        {
+          "name": "just_crafted",
+          "type": "bool",
+          "schema": "source_constructor_draw_state_input.just_crafted"
+        },
+        {
+          "name": "size_value",
+          "type": "int",
+          "schema": "source_constructor_draw_state_input.size_value"
+        },
+        {
+          "name": "draw_scl",
+          "type": "float",
+          "schema": "source_constructor_draw_state_input.draw_scl"
+        },
+        {
+          "name": "draw_xscl",
+          "type": "float",
+          "schema": "source_constructor_draw_state_input.draw_xscl"
+        },
+        {
+          "name": "draw_yscl",
+          "type": "float",
+          "schema": "source_constructor_draw_state_input.draw_yscl"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "base_call",
+        "out_call",
+        "shadow_call",
+        "build_call",
+        "scan_call",
+        "payload_call",
+        "top_call",
+        "select_call",
+        "place_effect_call"
+      ],
+      "tests": [
+        "test_c07_constructor_draw_rows_registration",
+        "test_all_c07_constructor_draw_rows_input_evidence_is_exact",
+        "test_constructor_draw_rows_state",
+        "test_reference_graph_and_actual_c07_constructor_draw_rows"
+      ],
+      "runtime_proof": "/root/C07ConstructorDrawRowsProof",
+      "rule": "Source-backed Constructor payload / draw rows from BlockProducer.java / Constructor.java / PayloadBlock.java / BuildPayload.java / Block.java / Drawf.java / Layer.java / Vars.java / Blocks.java / BuildingComp.java."
+    },
+    "SourceBaseShieldBuildState.source_base_shield_draw_shield_state": {
+      "status": "active",
+      "source_slice": "N2441",
+      "java_source": "core/src/mindustry/world/blocks/defense/BaseShield.java",
+      "source_method": "BaseShield.drawShield()",
+      "params": [
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_base_shield_draw_shield_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_base_shield_draw_shield_state_input.y"
+        },
+        {
+          "name": "broken",
+          "type": "bool",
+          "schema": "source_base_shield_draw_shield_state_input.broken"
+        },
+        {
+          "name": "smooth_radius",
+          "type": "float",
+          "schema": "source_base_shield_draw_shield_state_input.smooth_radius"
+        },
+        {
+          "name": "radius",
+          "type": "float",
+          "schema": "source_base_shield_draw_shield_state_input.radius"
+        },
+        {
+          "name": "hit",
+          "type": "float",
+          "schema": "source_base_shield_draw_shield_state_input.hit"
+        },
+        {
+          "name": "shield_color",
+          "type": "Variant",
+          "schema": "source_base_shield_draw_shield_state_input.shield_color"
+        },
+        {
+          "name": "team_color",
+          "type": "String",
+          "schema": "source_base_shield_draw_shield_state_input.team_color"
+        },
+        {
+          "name": "animate_shields",
+          "type": "bool",
+          "schema": "source_base_shield_draw_shield_state_input.animate_shields"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "shield_call",
+        "fill_call",
+        "line_call",
+        "dash_call"
+      ],
+      "tests": [
+        "test_c07_base_shield_draw_shield_rows_registration",
+        "test_all_c07_base_shield_draw_shield_rows_input_evidence_is_exact",
+        "test_base_shield_draw_shield_rows_state",
+        "test_reference_graph_and_actual_c07_base_shield_draw_shield_rows"
+      ],
+      "runtime_proof": "/root/C07BaseShieldDrawShieldRowsProof",
+      "rule": "Source-backed BaseShield drawShield + drawSelect rows from BaseShield.java / Blocks.java / Layer.java / Drawf.java / Renderer.java / arc Mathf.java / arc Draw.java."
+    },
+    "SourceStackRouterBuildState.source_stack_router_stats_state": {
+      "status": "active",
+      "source_slice": "N2442",
+      "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+      "source_method": "DuctRouter.setStats()",
+      "params": [
+        {
+          "name": "speed",
+          "type": "float",
+          "schema": "source_stack_router_stats_state_input.speed"
+        },
+        {
+          "name": "item_capacity",
+          "type": "int",
+          "schema": "source_stack_router_stats_state_input.item_capacity"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "items_moved_per_second",
+        "stat_key",
+        "stat_unit"
+      ],
+      "tests": [
+        "test_c07_stack_router_stats_plan_rows_registration",
+        "test_all_c07_stack_router_stats_plan_rows_input_evidence_is_exact",
+        "test_stack_router_stats_plan_rows_state",
+        "test_reference_graph_and_actual_c07_stack_router_stats_plan_rows"
+      ],
+      "runtime_proof": "/root/C07StackRouterStatsPlanRowsProof",
+      "rule": "Source-backed StackRouter stats / plan rows from DuctRouter.java / StackRouter.java / Blocks.java / Items.java / Stat.java / StatUnit.java / arc Color.java."
+    },
+    "SourceStackRouterBuildState.source_stack_router_draw_plan_state": {
+      "status": "active",
+      "source_slice": "N2442",
+      "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+      "source_method": "DuctRouter.drawPlanRegion()",
+      "params": [
+        {
+          "name": "plan_x",
+          "type": "float",
+          "schema": "source_stack_router_draw_plan_state_input.plan_x"
+        },
+        {
+          "name": "plan_y",
+          "type": "float",
+          "schema": "source_stack_router_draw_plan_state_input.plan_y"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_stack_router_draw_plan_state_input.rotation"
+        },
+        {
+          "name": "sort_item",
+          "type": "Variant",
+          "schema": "source_stack_router_draw_plan_state_input.sort_item"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "base_call",
+        "top_call",
+        "minimap_color",
+        "rotated_output"
+      ],
+      "tests": [
+        "test_c07_stack_router_stats_plan_rows_registration",
+        "test_all_c07_stack_router_stats_plan_rows_input_evidence_is_exact",
+        "test_stack_router_stats_plan_rows_state",
+        "test_reference_graph_and_actual_c07_stack_router_stats_plan_rows"
+      ],
+      "runtime_proof": "/root/C07StackRouterStatsPlanRowsProof",
+      "rule": "Source-backed StackRouter stats / plan rows from DuctRouter.java / StackRouter.java / Blocks.java / Items.java / Stat.java / StatUnit.java / arc Color.java."
+    },
+    "SourceLightBlockBuildState.source_light_block_sense_color_state": {
+      "status": "active",
+      "source_slice": "N2443",
+      "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+      "source_method": "LightBuild.sense()",
+      "params": [
+        {
+          "name": "sensor",
+          "type": "String",
+          "schema": "source_light_block_sense_color_state_input.sensor"
+        },
+        {
+          "name": "color",
+          "type": "int",
+          "schema": "source_light_block_sense_color_state_input.color"
+        },
+        {
+          "name": "super_value",
+          "type": "Variant",
+          "schema": "source_light_block_sense_color_state_input.super_value"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "value",
+        "delegated"
+      ],
+      "tests": [
+        "test_c07_light_block_config_color_rows_registration",
+        "test_all_c07_light_block_config_color_rows_input_evidence_is_exact",
+        "test_light_block_config_color_rows_state",
+        "test_reference_graph_and_actual_c07_light_block_config_color_rows"
+      ],
+      "runtime_proof": "/root/C07LightBlockConfigColorRowsProof",
+      "rule": "Source-backed LightBlock config / color rows from LightBlock.java / LAccess.java / BuildingComp.java / Pal.java / arc Color.java."
+    },
+    "SourceLightBlockBuildState.source_light_block_config_color_state": {
+      "status": "active",
+      "source_slice": "N2443",
+      "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+      "source_method": "LightBuild.config()",
+      "params": [
+        {
+          "name": "color",
+          "type": "int",
+          "schema": "source_light_block_config_color_state_input.color"
+        },
+        {
+          "name": "action",
+          "type": "String",
+          "schema": "source_light_block_config_color_state_input.action"
+        },
+        {
+          "name": "action_value",
+          "type": "Variant",
+          "schema": "source_light_block_config_color_state_input.action_value"
+        },
+        {
+          "name": "is_self_tap",
+          "type": "bool",
+          "schema": "source_light_block_config_color_state_input.is_self_tap"
+        },
+        {
+          "name": "headless",
+          "type": "bool",
+          "schema": "source_light_block_config_color_state_input.headless"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "color",
+        "minimap_updated",
+        "tapped_result",
+        "picker_call",
+        "config_value"
+      ],
+      "tests": [
+        "test_c07_light_block_config_color_rows_registration",
+        "test_all_c07_light_block_config_color_rows_input_evidence_is_exact",
+        "test_light_block_config_color_rows_state",
+        "test_reference_graph_and_actual_c07_light_block_config_color_rows"
+      ],
+      "runtime_proof": "/root/C07LightBlockConfigColorRowsProof",
+      "rule": "Source-backed LightBlock config / color rows from LightBlock.java / LAccess.java / BuildingComp.java / Pal.java / arc Color.java."
+    },
+    "SourceLaunchPadBuildState.source_launch_pad_launch_effect_state": {
+      "status": "active",
+      "source_slice": "N2444",
+      "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+      "source_method": "LaunchPadBuild.updateTile()",
+      "params": [
+        {
+          "name": "launched",
+          "type": "bool",
+          "schema": "source_launch_pad_launch_effect_state_input.launched"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_launch_pad_launch_effect_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_launch_pad_launch_effect_state_input.y"
+        },
+        {
+          "name": "pitch_roll",
+          "type": "float",
+          "schema": "source_launch_pad_launch_effect_state_input.pitch_roll"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "sound_call",
+        "fx_call",
+        "shake_call"
+      ],
+      "tests": [
+        "test_c07_launch_pad_launch_effect_registration",
+        "test_all_c07_launch_pad_launch_effect_input_evidence_is_exact",
+        "test_launch_pad_launch_effect_state",
+        "test_reference_graph_and_actual_c07_launch_pad_launch_effect"
+      ],
+      "runtime_proof": "/root/C07LaunchPadLaunchEffectProof",
+      "rule": "Source-backed LaunchPad launch sound / FX rows from LaunchPad.java / Fx.java / Effect.java."
+    },
+    "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_draw_place_state": {
+      "status": "active",
+      "source_slice": "N2445",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+      "source_method": "UnitCargoLoader.drawPlace()",
+      "params": [
+        {
+          "name": "tile_x",
+          "type": "int",
+          "schema": "source_unit_cargo_loader_draw_place_state_input.tile_x"
+        },
+        {
+          "name": "tile_y",
+          "type": "int",
+          "schema": "source_unit_cargo_loader_draw_place_state_input.tile_y"
+        },
+        {
+          "name": "valid",
+          "type": "bool",
+          "schema": "source_unit_cargo_loader_draw_place_state_input.valid"
+        },
+        {
+          "name": "can_create",
+          "type": "bool",
+          "schema": "source_unit_cargo_loader_draw_place_state_input.can_create"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "warning_call"
+      ],
+      "tests": [
+        "test_c07_unit_cargo_loader_draw_place_rows_registration",
+        "test_all_c07_unit_cargo_loader_draw_place_rows_input_evidence_is_exact",
+        "test_unit_cargo_loader_draw_place_rows_state",
+        "test_reference_graph_and_actual_c07_unit_cargo_loader_draw_place_rows"
+      ],
+      "runtime_proof": "/root/C07UnitCargoLoaderDrawPlaceRowsProof",
+      "rule": "Source-backed UnitCargoLoader drawPlace rows from UnitCargoLoader.java / Block.java / Units.java / bundle.properties."
     }
   },
   "policy": {

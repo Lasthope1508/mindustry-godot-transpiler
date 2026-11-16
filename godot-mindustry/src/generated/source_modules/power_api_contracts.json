@@ -4071,6 +4071,43 @@
       "rule": "Source-backed LightBlock power.status row from ConsumePower.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceLightBlockBuildState.source_light_block_sense_color_state": {
+      "canonical_contract": "source_api_contracts.SourceLightBlockBuildState.source_light_block_sense_color_state",
+      "status": "active",
+      "source_slice": "N2443",
+      "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+      "source_method": "LightBuild.sense()",
+      "params": [
+        {
+          "name": "sensor",
+          "type": "String",
+          "schema": "source_light_block_sense_color_state_input.sensor"
+        },
+        {
+          "name": "color",
+          "type": "int",
+          "schema": "source_light_block_sense_color_state_input.color"
+        },
+        {
+          "name": "super_value",
+          "type": "Variant",
+          "schema": "source_light_block_sense_color_state_input.super_value"
+        }
+      ],
+      "return_keys": [
+        "value",
+        "delegated"
+      ],
+      "tests": [
+        "test_c07_light_block_config_color_rows_registration",
+        "test_all_c07_light_block_config_color_rows_input_evidence_is_exact",
+        "test_light_block_config_color_rows_state",
+        "test_reference_graph_and_actual_c07_light_block_config_color_rows"
+      ],
+      "runtime_proof": "/root/C07LightBlockConfigColorRowsProof",
+      "rule": "Source-backed LightBlock config / color rows from LightBlock.java / LAccess.java / BuildingComp.java / Pal.java / arc Color.java.",
+      "return_type": "Dictionary"
+    },
     "SourceLightBlockBuildState.source_light_block_smooth_time_state": {
       "canonical_contract": "source_api_contracts.SourceLightBlockBuildState.source_light_block_smooth_time_state",
       "status": "active",

@@ -6480,6 +6480,75 @@
       "runtime_proof": "/root/Main.source_turret_total_inaccuracy",
       "rule": "Public runtime contract for TurretBuild.bullet total inaccuracy range using Turret.inaccuracy plus BulletType.inaccuracy."
     },
+    "SourceBaseShieldBuildState.source_base_shield_draw_shield_state": {
+      "canonical_contract": "source_api_contracts.SourceBaseShieldBuildState.source_base_shield_draw_shield_state",
+      "status": "active",
+      "source_slice": "N2441",
+      "java_source": "core/src/mindustry/world/blocks/defense/BaseShield.java",
+      "source_method": "BaseShield.drawShield()",
+      "params": [
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_base_shield_draw_shield_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_base_shield_draw_shield_state_input.y"
+        },
+        {
+          "name": "broken",
+          "type": "bool",
+          "schema": "source_base_shield_draw_shield_state_input.broken"
+        },
+        {
+          "name": "smooth_radius",
+          "type": "float",
+          "schema": "source_base_shield_draw_shield_state_input.smooth_radius"
+        },
+        {
+          "name": "radius",
+          "type": "float",
+          "schema": "source_base_shield_draw_shield_state_input.radius"
+        },
+        {
+          "name": "hit",
+          "type": "float",
+          "schema": "source_base_shield_draw_shield_state_input.hit"
+        },
+        {
+          "name": "shield_color",
+          "type": "Variant",
+          "schema": "source_base_shield_draw_shield_state_input.shield_color"
+        },
+        {
+          "name": "team_color",
+          "type": "String",
+          "schema": "source_base_shield_draw_shield_state_input.team_color"
+        },
+        {
+          "name": "animate_shields",
+          "type": "bool",
+          "schema": "source_base_shield_draw_shield_state_input.animate_shields"
+        }
+      ],
+      "return_keys": [
+        "shield_call",
+        "fill_call",
+        "line_call",
+        "dash_call"
+      ],
+      "tests": [
+        "test_c07_base_shield_draw_shield_rows_registration",
+        "test_all_c07_base_shield_draw_shield_rows_input_evidence_is_exact",
+        "test_base_shield_draw_shield_rows_state",
+        "test_reference_graph_and_actual_c07_base_shield_draw_shield_rows"
+      ],
+      "runtime_proof": "/root/C07BaseShieldDrawShieldRowsProof",
+      "rule": "Source-backed BaseShield drawShield + drawSelect rows from BaseShield.java / Blocks.java / Layer.java / Drawf.java / Renderer.java / arc Mathf.java / arc Draw.java.",
+      "return_type": "Dictionary"
+    },
     "SourceBaseShieldBuildState.source_base_shield_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourceBaseShieldBuildState.source_base_shield_power_status_row_state",
       "status": "active",
@@ -6670,7 +6739,8 @@
         "shadow_call",
         "region_call",
         "glow_call",
-        "build_call"
+        "build_call",
+        "icon_regions"
       ],
       "tests": [
         "test_c07_build_turret_draw_rows_registration",

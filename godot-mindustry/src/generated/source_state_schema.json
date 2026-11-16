@@ -254820,6 +254820,16 @@
           "used_by": [
             "SourceBuildTurretBuildState.source_build_turret_draw_state"
           ]
+        },
+        "icon_regions": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "return new TextureRegion[]{baseRegion, region};",
+          "rule": "The icon regions in Java order (BuildTurret.java:88-90, icons() returns {baseRegion, region}): [\"baseRegion\", \"region\"]. Folded into the draw pure because icons() takes no args and the SSOT schema validator requires non-empty input keys (the N2396/N2430 precedent; the N2433 StackRouter precedent). Added by the N2446 amend.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_draw_state"
+          ]
         }
       },
       "runtime_proof": "/root/C07BuildTurretDrawRowsProof",
@@ -256258,6 +256268,900 @@
       },
       "runtime_proof": "/root/C07LightBlockDrawPlaceRowsProof",
       "rule": "Source-backed LightBlock draw-place rows from LightBlock.java / Block.java / Vars.java / Pal.java / Placement.java / Blocks.java."
+    },
+    "source_constructor_draw_state_input": {
+      "status": "active",
+      "owner": "SourceConstructorBuildState.source_constructor_draw_state",
+      "source_slice": "N2440",
+      "keys": {
+        "x_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "java_expr": "Draw.rect(region, x, y);",
+          "rule": "The building world x (BlockProducer.java:135, the base rect center; the shadow + build shader rects + scan line center, :140/:148/:155; the top rect center, :160; the placeEffect x, :118).",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_draw_state"
+          ]
+        },
+        "y_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "java_expr": "Draw.rect(region, x, y);",
+          "rule": "The building world y (BlockProducer.java:135 / :140/:148/:155 / :160 / :118, same mapping as x).",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_draw_state"
+          ]
+        },
+        "rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return rotation * 90;",
+          "rule": "The building rotation in quarter turns (BuildingComp.java:582-584, `public float rotdeg(){` / `return rotation * 90;`): the out rect rotation and the per-icon rotation when the recipe rotates.",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_draw_state"
+          ]
+        },
+        "time_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "java_expr": "public float progress, time, heat;",
+          "rule": "The frame time (BlockProducer.java:78, advanced by the N2274 advance as `time += heat * delta();`): the blockbuild shader time (BlockProducer.java:146) and the scan-line pulse input (BlockProducer.java:155, `Mathf.sin(time, 10f, ...)`). Caller-supplied -- draw never runs in the tick, so the tick never stamps it (the N2396/N2372 convention).",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_draw_state"
+          ]
+        },
+        "heat": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "java_expr": "public float progress, time, heat;",
+          "rule": "The frame heat (BlockProducer.java:78, lerped by the N2274 advance toward produce at 0.15f): the scan line alpha via `Draw.color(Pal.accent, heat);` (BlockProducer.java:154).",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_draw_state"
+          ]
+        },
+        "progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "java_expr": "public float progress, time, heat;",
+          "rule": "The frame progress (BlockProducer.java:78, tracked by the N2274 advance): the shadow alpha and the shader progress are both progress / recipe.buildTime (BlockProducer.java:140/:147).",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_draw_state"
+          ]
+        },
+        "recipe": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/Constructor.java",
+          "java_expr": "public @Nullable Block recipe;",
+          "rule": "The configured recipe block (Constructor.java:59, the field behind `public abstract @Nullable Block recipe();`, BlockProducer.java:80): null (no shadow / build / scan / select / placeEffect) or the descriptor dict {name, size, build_time, rotate, icons, ui_icon, place_effect}. The pure branches on null-ness only, like the N2210 shouldConsume gate.",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_draw_state"
+          ]
+        },
+        "payload_present": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "if(payload != null){",
+          "rule": "Whether a payload is held (PayloadBlock.java:247, over `public @Nullable T payload;`, PayloadBlock.java:92): drawPayload() draws only when present.",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_draw_state"
+          ]
+        },
+        "just_crafted": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "java_expr": "if(progress >= recipe.buildTime){",
+          "rule": "Whether the craft completed on this tick (BlockProducer.java:115, the condition the N2274 advance owns): the placeEffect fires only then.",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_draw_state"
+          ]
+        },
+        "size_value": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "size = 3;",
+          "rule": "The producer block size in tiles (constructor 3, Blocks.java:6664; large-constructor 5, Blocks.java:6677): the drawSelect dx / dy offsets are size * tilesize / 2f (Constructor.java:79) -- the PRODUCER size, not the recipe size.",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_draw_state"
+          ]
+        },
+        "draw_scl": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/Constructor.java",
+          "java_expr": "Draw.rect(icon, dx, dy, Draw.scl * Draw.xscl * 24f, Draw.scl * Draw.yscl * 24f);",
+          "rule": "The Draw.scl scale static (Constructor.java:85, the drawSelect icon width / height factor): caller-supplied, draw never runs in the tick.",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_draw_state"
+          ]
+        },
+        "draw_xscl": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/Constructor.java",
+          "java_expr": "Draw.rect(icon, dx, dy, Draw.scl * Draw.xscl * 24f, Draw.scl * Draw.yscl * 24f);",
+          "rule": "The Draw.xscl scale static (Constructor.java:85, the drawSelect icon width factor): caller-supplied.",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_draw_state"
+          ]
+        },
+        "draw_yscl": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/Constructor.java",
+          "java_expr": "Draw.rect(icon, dx, dy, Draw.scl * Draw.xscl * 24f, Draw.scl * Draw.yscl * 24f);",
+          "rule": "The Draw.yscl scale static (Constructor.java:85, the drawSelect icon height factor): caller-supplied.",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_draw_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ConstructorDrawRowsProof",
+      "rule": "Source-backed Constructor payload / draw rows from BlockProducer.java / Constructor.java / PayloadBlock.java / BuildPayload.java / Block.java / Drawf.java / Layer.java / Vars.java / Blocks.java / BuildingComp.java."
+    },
+    "source_constructor_draw_state_result": {
+      "status": "active",
+      "owner": "SourceConstructorBuildState.source_constructor_draw_state",
+      "source_slice": "N2440",
+      "keys": {
+        "base_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "java_expr": "Draw.rect(region, x, y);",
+          "rule": "The base rect call (BlockProducer.java:135): region region, centered on the building, always drawn -- before the out rect.",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_draw_state"
+          ]
+        },
+        "out_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "java_expr": "Draw.rect(outRegion, x, y, rotdeg());",
+          "rule": "The out rect call (BlockProducer.java:136): region outRegion, centered on the building, rotated by rotdeg() = rotation * 90 (BuildingComp.java:582-584), always drawn.",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_draw_state"
+          ]
+        },
+        "shadow_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "java_expr": "Drawf.shadow(x, y, recipe.size * tilesize * 2f, progress / recipe.buildTime);",
+          "rule": "The recipe shadow call (BlockProducer.java:140): radius recipe.size * tilesize * 2f, alpha progress / recipe.buildTime, circle-shadow at black alpha 0.4 * alpha (Drawf.java:360-364). Null when no recipe.",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_draw_state"
+          ]
+        },
+        "build_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "java_expr": "Draw.draw(Layer.blockBuilding, () -> {",
+          "rule": "The blockbuild shader loop call (BlockProducer.java:141-153, on Layer.blockBuilding = 40, Layer.java:45): color Pal.accent, one region rect per recipe generated icon with shader region / time / progress params and rotation rotdeg() when recipe.rotate else 0, flush per icon. Recorded as CALL + params -- the shader itself is NOT ported. Null when no recipe.",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_draw_state"
+          ]
+        },
+        "scan_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "java_expr": "Lines.lineAngleCenter(x + Mathf.sin(time, 10f, Vars.tilesize / 2f * recipe.size + 1f), y, 90, recipe.size * Vars.tilesize + 1f);",
+          "rule": "The scan line (BlockProducer.java:155, at z Layer.blockBuilding + 1 = 41 after Draw.color(Pal.accent, heat)): center x + sin(time / 10f) * (tilesize / 2f * recipe.size + 1f) -- the arc 3-arg sin (`return sin(radians / scl) * mag;`, Mathf.java:90-92, arc), NOT absin -- angle 90, length recipe.size * tilesize + 1f: recipe size 2 gives magnitude 9 and length 17, recipe size 4 gives 17 and 33. Null when no recipe.",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_draw_state"
+          ]
+        },
+        "payload_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "payload.draw();",
+          "rule": "The held-payload draw call (PayloadBlock.java:251, inside drawPayload(), PayloadBlock.java:246-253, on Layer.blockOver = 35 after updatePayload()): present only when a payload is held. The inner payload.draw() dispatch needs the live payload entity, so the pure reports the call + z + the updatePayload() call.",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_draw_state"
+          ]
+        },
+        "top_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "java_expr": "Draw.rect(topRegion, x, y);",
+          "rule": "The top rect call (BlockProducer.java:160, at z Layer.blockBuilding + 1.1f = 41.1): region topRegion, centered on the building, always drawn -- after drawPayload().",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_draw_state"
+          ]
+        },
+        "select_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/Constructor.java",
+          "java_expr": "Draw.rect(icon, dx, dy, Draw.scl * Draw.xscl * 24f, Draw.scl * Draw.yscl * 24f);",
+          "rule": "The drawSelect icon call (Constructor.java:77-87): icon recipe.uiIcon at dx = x - size * tilesize / 2f, dy = y + size * tilesize / 2f (the PRODUCER size), sized Draw.scl * Draw.xscl * 24f by Draw.scl * Draw.yscl * 24f, with the darkGray mixcol shadow rect at dx - 0.7f, dy - 1f. Null when no recipe.",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_draw_state"
+          ]
+        },
+        "place_effect_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "java_expr": "payload.block().placeEffect.at(x, y, payload.size() / tilesize);",
+          "rule": "The craft-complete placement effect (BlockProducer.java:118): the recipe block placeEffect (default Fx.placeBlock, Block.java:374) at (x, y) with scale payload.size() / tilesize = the RECIPE block size in tiles (BuildPayload.size() is build.block.size * tilesize, BuildPayload.java:86-88). Null unless just_crafted (and a recipe is present).",
+          "used_by": [
+            "SourceConstructorBuildState.source_constructor_draw_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ConstructorDrawRowsProof",
+      "rule": "Source-backed Constructor payload / draw rows from BlockProducer.java / Constructor.java / PayloadBlock.java / BuildPayload.java / Block.java / Drawf.java / Layer.java / Vars.java / Blocks.java / BuildingComp.java."
+    },
+    "source_base_shield_draw_shield_state_input": {
+      "status": "active",
+      "owner": "SourceBaseShieldBuildState.source_base_shield_draw_shield_state",
+      "source_slice": "N2441",
+      "keys": {
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BaseShield.java",
+          "java_expr": "Fill.poly(x, y, sides, radius);",
+          "rule": "The building world x (BaseShield.java:134, the Fill.poly center x; also the dashCircle center x, :109): the shield poly and the dash circle are both centered here.",
+          "used_by": [
+            "SourceBaseShieldBuildState.source_base_shield_draw_shield_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BaseShield.java",
+          "java_expr": "Fill.poly(x, y, sides, radius);",
+          "rule": "The building world y (BaseShield.java:134, the Fill.poly center y; also the dashCircle center y, :109): the shield poly and the dash circle are both centered here.",
+          "used_by": [
+            "SourceBaseShieldBuildState.source_base_shield_draw_shield_state"
+          ]
+        },
+        "broken": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BaseShield.java",
+          "java_expr": "if(!broken){",
+          "rule": "The broken flag (BaseShield.java:126, `if(!broken){`): when true, the shield call, the fill call and the line call are all null -- only the drawSelect dash call survives (drawSelect has no broken gate). Broken is only ever set by the save read (BaseShield.java:167), so live it is caller-supplied.",
+          "used_by": [
+            "SourceBaseShieldBuildState.source_base_shield_draw_shield_state"
+          ]
+        },
+        "smooth_radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BaseShield.java",
+          "java_expr": "float radius = radius();",
+          "rule": "The radius() value = smoothRadius (BaseShield.java:127 + :101-103, `public float radius(){` / `return smoothRadius;`): the shield poly radius in both branches (Fill.poly / Lines.poly, :134/:141). Caller-supplied -- the tick tracks it live since N2236. NEVER the field radius.",
+          "used_by": [
+            "SourceBaseShieldBuildState.source_base_shield_draw_shield_state"
+          ]
+        },
+        "radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BaseShield.java",
+          "java_expr": "public float radius = 200f;",
+          "rule": "The FIELD radius (BaseShield.java:20, `public float radius = 200f;`, the large def sets `radius = 400f;`, Blocks.java:2060): feeds ONLY the drawSelect dashCircle (BaseShield.java:109) -- caller-supplied so the pure stays def-agnostic (the N2356 range precedent).",
+          "used_by": [
+            "SourceBaseShieldBuildState.source_base_shield_draw_shield_state"
+          ]
+        },
+        "hit": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BaseShield.java",
+          "java_expr": "Draw.color(shieldColor == null ? team.color : shieldColor, Color.white, Mathf.clamp(hit));",
+          "rule": "The hit flash (BaseShield.java:131, the Mathf.clamp(hit) mix toward white; also the static fill alpha, :137, 0.09 + clamp(0.08 * hit)): clamped to [0,1] (arc Mathf.java:402-404) for the mix and for the 0.08 * hit term -- the 0.09 + sum itself is NOT clamped (0.09..1.09 in Java). Hit is only ever set in the commented-out line :33, so live it is caller-supplied.",
+          "used_by": [
+            "SourceBaseShieldBuildState.source_base_shield_draw_shield_state"
+          ]
+        },
+        "shield_color": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BaseShield.java",
+          "java_expr": "public @Nullable Color shieldColor;",
+          "rule": "The shield color or null (BaseShield.java:23, `public @Nullable Color shieldColor;`, null by default; neither def overrides it): null means the team color is the mix base (`shieldColor == null ? team.color : shieldColor`, :131). A String token when set.",
+          "used_by": [
+            "SourceBaseShieldBuildState.source_base_shield_draw_shield_state"
+          ]
+        },
+        "team_color": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BaseShield.java",
+          "java_expr": "Drawf.dashCircle(x, y, radius, team.color);",
+          "rule": "The team color token (BaseShield.java:109, the dashCircle color; also the mix base when shieldColor is null, :131): caller-supplied as a String token (the N2439 Pal.placing token precedent).",
+          "used_by": [
+            "SourceBaseShieldBuildState.source_base_shield_draw_shield_state"
+          ]
+        },
+        "animate_shields": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/Renderer.java",
+          "java_expr": "if(renderer.animateShields){",
+          "rule": "The renderer animateShields flag (BaseShield.java:133; `public boolean animateShields, ...`, Renderer.java:42, loaded from settings at :168): caller-supplied -- the animated branch draws the fill only, the static branch strokes + fills at the hit alpha + draws the outline.",
+          "used_by": [
+            "SourceBaseShieldBuildState.source_base_shield_draw_shield_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BaseShieldDrawShieldRowsProof",
+      "rule": "Source-backed BaseShield drawShield + drawSelect rows from BaseShield.java / Blocks.java / Layer.java / Drawf.java / Renderer.java / arc Mathf.java / arc Draw.java."
+    },
+    "source_base_shield_draw_shield_state_result": {
+      "status": "active",
+      "owner": "SourceBaseShieldBuildState.source_base_shield_draw_shield_state",
+      "source_slice": "N2441",
+      "keys": {
+        "shield_call": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BaseShield.java",
+          "java_expr": "Draw.color(shieldColor == null ? team.color : shieldColor, Color.white, Mathf.clamp(hit));",
+          "rule": "The shield z + color call (BaseShield.java:129-131): z Layer.shields (125, Layer.java:87) + the color mix (base shieldColor or team.color, lerped toward Color.white by clamp(hit) -- Draw.color(a, b, s) lerps a toward b by s, arc Draw.java:234-236). Null when broken.",
+          "used_by": [
+            "SourceBaseShieldBuildState.source_base_shield_draw_shield_state"
+          ]
+        },
+        "fill_call": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BaseShield.java",
+          "java_expr": "Fill.poly(x, y, sides, radius);",
+          "rule": "The fill call (BaseShield.java:134, animated branch; :139, static branch): Fill.poly(x, y, sides 24, smooth_radius) with the branch + alpha recorded -- the animated branch draws the fill only (no stroke, no line, no Draw.alpha; alpha 1.0, the color own alpha) and the static branch fills at alpha 0.09 + clamp(0.08 * hit). Null when broken.",
+          "used_by": [
+            "SourceBaseShieldBuildState.source_base_shield_draw_shield_state"
+          ]
+        },
+        "line_call": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BaseShield.java",
+          "java_expr": "Lines.poly(x, y, sides, radius);",
+          "rule": "The outline call (BaseShield.java:136 + :140-141): Lines.poly(x, y, sides 24, smooth_radius) with stroke 1.5f and alpha 1f -- static branch only. Null in the animated branch (no outline there) and when broken.",
+          "used_by": [
+            "SourceBaseShieldBuildState.source_base_shield_draw_shield_state"
+          ]
+        },
+        "dash_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BaseShield.java",
+          "java_expr": "Drawf.dashCircle(x, y, radius, team.color);",
+          "rule": "The drawSelect dash call (BaseShield.java:106-110): Drawf.dashCircle(x, y, FIELD radius, team.color) -- the FIELD radius (200f / 400f), never smoothRadius -- with the super.drawSelect() call recorded, not ported (the N2439 super-recorded precedent). Runs regardless of broken.",
+          "used_by": [
+            "SourceBaseShieldBuildState.source_base_shield_draw_shield_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BaseShieldDrawShieldRowsProof",
+      "rule": "Source-backed BaseShield drawShield + drawSelect rows from BaseShield.java / Blocks.java / Layer.java / Drawf.java / Renderer.java / arc Mathf.java / arc Draw.java."
+    },
+    "source_stack_router_stats_state_input": {
+      "status": "active",
+      "owner": "SourceStackRouterBuildState.source_stack_router_stats_state",
+      "source_slice": "N2442",
+      "keys": {
+        "speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+          "java_expr": "stats.add(Stat.itemsMoved, 60f / speed * itemCapacity, StatUnit.itemsSecond);",
+          "rule": "The router speed (DuctRouter.java:51, the itemsMoved rate): the class default is 5f (`public float speed = 5f;`, DuctRouter.java:19); the surge-router def sets 6f (`speed = 6f;`, Blocks.java:2259) and the duct-router def 4f (`speed = 4f;`, Blocks.java:2196).",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_stats_state"
+          ]
+        },
+        "item_capacity": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+          "java_expr": "stats.add(Stat.itemsMoved, 60f / speed * itemCapacity, StatUnit.itemsSecond);",
+          "rule": "The router itemCapacity (DuctRouter.java:51, the itemsMoved rate): the DuctRouter class default is 1 (`itemCapacity = 1;`, DuctRouter.java:31); StackRouter sets 10 (`itemCapacity = 10;`, StackRouter.java:20); neither the surge-router nor the duct-router def overrides it (Blocks.java:2193-2200 / 2255-2268).",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07StackRouterStatsPlanRowsProof",
+      "rule": "Source-backed StackRouter stats / plan rows from DuctRouter.java / StackRouter.java / Blocks.java / Items.java / Stat.java / StatUnit.java / arc Color.java."
+    },
+    "source_stack_router_stats_state_result": {
+      "status": "active",
+      "owner": "SourceStackRouterBuildState.source_stack_router_stats_state",
+      "source_slice": "N2442",
+      "keys": {
+        "items_moved_per_second": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+          "java_expr": "stats.add(Stat.itemsMoved, 60f / speed * itemCapacity, StatUnit.itemsSecond);",
+          "rule": "The itemsMoved stat value (DuctRouter.java:51): 60f / speed FIRST, then times itemCapacity (Java float math, left-assoc) -- 60 / 5 * 10 = 120 at the class defaults, 60 / 6 * 10 = 100 for the surge-router def, 60 / 4 * 1 = 15 for the duct-router def.",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_stats_state"
+          ]
+        },
+        "stat_key": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/meta/Stat.java",
+          "java_expr": "itemsMoved = new Stat(\"itemsMoved\", StatCat.items),",
+          "rule": "The stat token (Stat.java:52): \"itemsMoved\" -- the Stat the setStats row adds.",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_stats_state"
+          ]
+        },
+        "stat_unit": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/meta/StatUnit.java",
+          "java_expr": "itemsSecond = new StatUnit(\"itemsSecond\"),",
+          "rule": "The stat unit token (StatUnit.java:20): \"itemsSecond\" -- the unit of the itemsMoved row.",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07StackRouterStatsPlanRowsProof",
+      "rule": "Source-backed StackRouter stats / plan rows from DuctRouter.java / StackRouter.java / Blocks.java / Items.java / Stat.java / StatUnit.java / arc Color.java."
+    },
+    "source_stack_router_draw_plan_state_input": {
+      "status": "active",
+      "owner": "SourceStackRouterBuildState.source_stack_router_draw_plan_state",
+      "source_slice": "N2442",
+      "keys": {
+        "plan_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+          "java_expr": "Draw.rect(region, plan.drawx(), plan.drawy());",
+          "rule": "The plan draw x (DuctRouter.java:61, the plan rect center): plan.drawx() caller-supplied, like the N2419 plan pure.",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_draw_plan_state"
+          ]
+        },
+        "plan_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+          "java_expr": "Draw.rect(region, plan.drawx(), plan.drawy());",
+          "rule": "The plan draw y (DuctRouter.java:61, the plan rect center): plan.drawy() caller-supplied, same mapping as x.",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_draw_plan_state"
+          ]
+        },
+        "rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+          "java_expr": "Draw.rect(topRegion, plan.drawx(), plan.drawy(), plan.rotation * 90);",
+          "rule": "The plan rotation (DuctRouter.java:62): the top rect draws at plan.rotation * 90; the base rect is unrotated.",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_draw_plan_state"
+          ]
+        },
+        "sort_item": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+          "java_expr": "public @Nullable Item sortItem;",
+          "rule": "The nullable sortItem build field (DuctRouter.java:77), the frame state the N2324 target pure reads -- the pure takes it caller-supplied as null or a Dict {name, color} and never reads the frame. The color is the caller-supplied rgba8888 INT (arc Color.rgba(), Color.java:365-367), not a string token: minimapColor returns build.sortItem.color.rgba() as an int. A null sort_item covers BOTH null branches of minimapColor (no build means no sortItem).",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_draw_plan_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07StackRouterStatsPlanRowsProof",
+      "rule": "Source-backed StackRouter stats / plan rows from DuctRouter.java / StackRouter.java / Blocks.java / Items.java / Stat.java / StatUnit.java / arc Color.java."
+    },
+    "source_stack_router_draw_plan_state_result": {
+      "status": "active",
+      "owner": "SourceStackRouterBuildState.source_stack_router_draw_plan_state",
+      "source_slice": "N2442",
+      "keys": {
+        "base_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+          "java_expr": "Draw.rect(region, plan.drawx(), plan.drawy());",
+          "rule": "The plan base rect call (DuctRouter.java:61): region region centered on the plan position, unrotated -- always drawn, the first call of the plan draw.",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_draw_plan_state"
+          ]
+        },
+        "top_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+          "java_expr": "Draw.rect(topRegion, plan.drawx(), plan.drawy(), plan.rotation * 90);",
+          "rule": "The plan top rect call (DuctRouter.java:62): region topRegion (`public @Load(value = \"@-top\") TextureRegion topRegion;`, DuctRouter.java:21) centered on the plan position, rotated plan.rotation * 90.",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_draw_plan_state"
+          ]
+        },
+        "minimap_color": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+          "java_expr": "return build == null || build.sortItem == null ? 0 : build.sortItem.color.rgba();",
+          "rule": "The minimap color (DuctRouter.java:68): 0 when the build or the sort item is null, else sortItem.color.rgba() -- the rgba8888 int (arc Color.java:365-367). Surge-alloy is 0xf3e979ff, the Java signed int -202802689 (`surgeAlloy = new Item(\"surge-alloy\", Color.valueOf(\"f3e979\")){{`, Items.java:83).",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_draw_plan_state"
+          ]
+        },
+        "rotated_output": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+          "java_expr": "return false;",
+          "rule": "rotatedOutput (DuctRouter.java:73): always false -- the constant, no inputs.",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_draw_plan_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07StackRouterStatsPlanRowsProof",
+      "rule": "Source-backed StackRouter stats / plan rows from DuctRouter.java / StackRouter.java / Blocks.java / Items.java / Stat.java / StatUnit.java / arc Color.java."
+    },
+    "source_light_block_sense_color_state_input": {
+      "status": "active",
+      "owner": "SourceLightBlockBuildState.source_light_block_sense_color_state",
+      "source_slice": "N2443",
+      "keys": {
+        "sensor": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+          "java_expr": "public double sense(LAccess sensor){",
+          "rule": "The LAccess sensor name (LightBlock.java:91, the sense parameter): \"color\" dispatches to the double-bits value, any other name falls through to the caller-supplied super.sense value (BuildingComp.java:2093-2125). The sensor name is the exact LAccess enum name (`color(\"to\");`, LAccess.java:84 -- LAccess is mindustry.logic.LAccess, NOT arc, the N2437 lesson).",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_sense_color_state"
+          ]
+        },
+        "color": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+          "java_expr": "public int color = Pal.accent.rgba();",
+          "rule": "The build color int (LightBlock.java:68, `public int color = Pal.accent.rgba();`; Pal.accent is `accent = Color.valueOf(\"ffd37f\"),`, Pal.java:79, a 6-digit hex, so the default color is 0xffd37fff): the Java signed 32-bit int the pure zero-extends (`color & 0xffffffff`) before the float conversion, because GDScript ints are 64-bit.",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_sense_color_state"
+          ]
+        },
+        "super_value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+          "java_expr": "return super.sense(sensor);",
+          "rule": "The caller-supplied super.sense(sensor) result (LightBlock.java:93): the BuildingComp switch value (BuildingComp.java:2093-2125) computed through the already-modeled SourceBuildingSenseState pures (the N2437 precedent). Null is the super switch default branch (`default -> Float.NaN; //gets converted to null in logic`, BuildingComp.java:2123).",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_sense_color_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LightBlockConfigColorRowsProof",
+      "rule": "Source-backed LightBlock config / color rows from LightBlock.java / LAccess.java / BuildingComp.java / Pal.java / arc Color.java."
+    },
+    "source_light_block_sense_color_state_result": {
+      "status": "active",
+      "owner": "SourceLightBlockBuildState.source_light_block_sense_color_state",
+      "source_slice": "N2443",
+      "keys": {
+        "value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/graphics/Color.java",
+          "java_expr": "return Double.longBitsToDouble(Color.rgba8888(r, g, b, a) & 0x00000000_ffffffffL);",
+          "rule": "The sensed value (LightBlock.java:92; arc Color.java:166-168): for the color sensor, the double denormal float(unsigned rgba8888) * 2^-1074, whose raw bits are the color int zero-extended -- the float32 set(int)->rgba8888() round-trip is EXACT for every channel 0-255 (verified by float32 emulation), so the denormal bits ARE the color int. Any other sensor returns the caller-supplied super_value (null for the super default branch).",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_sense_color_state"
+          ]
+        },
+        "delegated": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+          "java_expr": "if(sensor == LAccess.color) return Tmp.c1.set(color).toDoubleBits();",
+          "rule": "The dispatch flag (LightBlock.java:92, the color branch): true exactly when the sensor is NOT color and the value is the caller-supplied super value.",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_sense_color_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LightBlockConfigColorRowsProof",
+      "rule": "Source-backed LightBlock config / color rows from LightBlock.java / LAccess.java / BuildingComp.java / Pal.java / arc Color.java."
+    },
+    "source_light_block_config_color_state_input": {
+      "status": "active",
+      "owner": "SourceLightBlockBuildState.source_light_block_config_color_state",
+      "source_slice": "N2443",
+      "keys": {
+        "color": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+          "java_expr": "public int color = Pal.accent.rgba();",
+          "rule": "The build color int before the action (LightBlock.java:68, `public int color = Pal.accent.rgba();`): the current color the configure / control action replaces, or the color the \"none\" action leaves untouched.",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_config_color_state"
+          ]
+        },
+        "action": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+          "java_expr": "config(Integer.class, (LightBuild tile, Integer value) -> tile.color = value);",
+          "rule": "The discriminated action (recorded in this rule): \"configure\" applies the config(Integer) handler (LightBlock.java:35, color = the Integer value), \"control\" applies the LAccess.color control (LightBlock.java:80-81, color = the caller-supplied raw low 32 bits of p1), \"none\" leaves the color untouched.",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_config_color_state"
+          ]
+        },
+        "action_value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+          "java_expr": "color = Tmp.c1.fromDouble(p1).rgba8888();",
+          "rule": "The new color int (null for the \"none\" action): the Integer value for \"configure\" (LightBlock.java:35), the caller-supplied raw low 32 bits of p1 for \"control\" -- fromDouble takes the low 32 bits of the double raw bits (Color.java:174-176, `return rgba8888((int)(Double.doubleToRawLongBits(value)));`) and the set->rgba8888 round-trip is EXACT, so the control color IS those bits; GDScript has no double bitcast, so the logic executor owns the bitcast and supplies the int (the N2435 caller-supplied precedent).",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_config_color_state"
+          ]
+        },
+        "is_self_tap": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+          "java_expr": "if(this == other){",
+          "rule": "Whether the configure tap hit this same building (LightBlock.java:119, the onConfigureBuildTapped self check): true deselects and returns false, false returns true.",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_config_color_state"
+          ]
+        },
+        "headless": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+          "java_expr": "if(!headless) renderer.minimap.update(tile);",
+          "rule": "The caller-supplied headless flag (LightBlock.java:75/84, Vars.headless): the minimap update runs only when !headless, for both configured() and control().",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_config_color_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LightBlockConfigColorRowsProof",
+      "rule": "Source-backed LightBlock config / color rows from LightBlock.java / LAccess.java / BuildingComp.java / Pal.java / arc Color.java."
+    },
+    "source_light_block_config_color_state_result": {
+      "status": "active",
+      "owner": "SourceLightBlockBuildState.source_light_block_config_color_state",
+      "source_slice": "N2443",
+      "keys": {
+        "color": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+          "java_expr": "config(Integer.class, (LightBuild tile, Integer value) -> tile.color = value);",
+          "rule": "The post-action color (LightBlock.java:35, the config handler assignment; LightBlock.java:81, the control assignment): action_value for \"configure\" / \"control\", unchanged for \"none\".",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_config_color_state"
+          ]
+        },
+        "minimap_updated": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+          "java_expr": "if(!headless) renderer.minimap.update(tile);",
+          "rule": "The minimap update flag (LightBlock.java:75, configured; LightBlock.java:84, control): true exactly when an action ran and !headless. There is NO color-changed condition -- the super configured() runs the config handler with no equality check anywhere in the chain (BuildingComp.java:1429; InputHandler.tileConfig, InputHandler.java:706-728, calls configured unconditionally), so a configure with the same color still updates the minimap (Java-verified; the brief formula carried a color-changed condition Java does not have).",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_config_color_state"
+          ]
+        },
+        "tapped_result": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+          "java_expr": "public boolean onConfigureBuildTapped(Building other){",
+          "rule": "The tap result (LightBlock.java:117-127): {deselect, return_value} -- a self tap deselects and returns false, any other tap returns true.",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_config_color_state"
+          ]
+        },
+        "picker_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+          "java_expr": "ui.picker.show(Tmp.c1.set(color).a(0.5f), false, res -> configure(res.rgba()));",
+          "rule": "The buildConfiguration CALL record (LightBlock.java:109-115): {icon: \"pencil\", size: 40f, color_a: 0.5} -- the pencil button (`table.button(Icon.pencil, Styles.cleari, () -> {`, `}).size(40f);`) opening the picker at alpha 0.5f (NOT the 0.6f draw alpha). The UI itself is NOT ported (the N2396 CALL precedent).",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_config_color_state"
+          ]
+        },
+        "config_value": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+          "java_expr": "return color;",
+          "rule": "The config() value (LightBlock.java:132-133, `return color;`): the post-action color.",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_config_color_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LightBlockConfigColorRowsProof",
+      "rule": "Source-backed LightBlock config / color rows from LightBlock.java / LAccess.java / BuildingComp.java / Pal.java / arc Color.java."
+    },
+    "source_launch_pad_launch_effect_state_input": {
+      "status": "active",
+      "owner": "SourceLaunchPadBuildState.source_launch_pad_launch_effect_state",
+      "source_slice": "N2444",
+      "keys": {
+        "launched": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "if((launchCounter += edelta()) >= launchTime && items.total() >= itemCapacity){",
+          "rule": "The N2238 advance launched gate (LaunchPad.java:146, the full-and-timed gate): true exactly when the launch fired this tick (launchCounter >= launchTime with items.total() >= itemCapacity); the sound/FX/shake exist only when launched is true. The pure does NOT recompute the condition (the N2397 precedent -- advance N2238/N2397 owns it).",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_launch_effect_state"
+          ]
+        },
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "launchSound.at(x, y, 1f + Mathf.range(launchSoundPitchRand));",
+          "rule": "The pad world x (LaunchPad.java:149, the launchSound.at x; also the Fx.launchPod.at(this) / Effect.shake(3f, 3f, this) position, :156/158): an explicit input, passed through to all three call records untouched.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_launch_effect_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "launchSound.at(x, y, 1f + Mathf.range(launchSoundPitchRand));",
+          "rule": "The pad world y (LaunchPad.java:149, the launchSound.at y; also the Fx.launchPod.at(this) / Effect.shake(3f, 3f, this) position, :156/158): an explicit input, passed through to all three call records untouched.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_launch_effect_state"
+          ]
+        },
+        "pitch_roll": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "launchSound.at(x, y, 1f + Mathf.range(launchSoundPitchRand));",
+          "rule": "The ALREADY-ROLLED Mathf.range(launchSoundPitchRand) value in [-0.1, 0.1] (LaunchPad.java:149; launchSoundPitchRand = 0.1f, LaunchPad.java:33; arc Mathf.range(r) = random(-r, r), Mathf.java:220-222): caller-supplied, NO RNG in the pure (the N2421 precedent). The pitch is 1f + pitch_roll.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_launch_effect_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaunchPadLaunchEffectProof",
+      "rule": "Source-backed LaunchPad launch sound / FX rows from LaunchPad.java / Fx.java / Effect.java."
+    },
+    "source_launch_pad_launch_effect_state_result": {
+      "status": "active",
+      "owner": "SourceLaunchPadBuildState.source_launch_pad_launch_effect_state",
+      "source_slice": "N2444",
+      "keys": {
+        "sound_call": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "launchSound.at(x, y, 1f + Mathf.range(launchSoundPitchRand));",
+          "rule": "The launch sound call (LaunchPad.java:149): {sound: \"padLaunch\", x, y, pitch: 1.0 + pitch_roll} when launched, null otherwise (the N2397 null-when-absent precedent). The sound is Sounds.padLaunch (`public Sound launchSound = Sounds.padLaunch;`, LaunchPad.java:34; asset core/assets/sounds/block/padLaunch.ogg; Sounds is build-generated mindustry.gen.Sounds). The pitch roll is caller-supplied (see pitch_roll) -- the pure never rolls.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_launch_effect_state"
+          ]
+        },
+        "fx_call": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "Fx.launchPod.at(this);",
+          "rule": "The launch effect call (LaunchPad.java:156): {effect: \"launchPod\", x, y} when launched, null otherwise (the N2397 null-when-absent precedent). Fx.launchPod is `launchPod = new Effect(50, e -> {` (Fx.java:2747); `.at(this)` fires it at the pad position. The 50-tick renderer body is the callee presentation -- the pure records the CALL (the N2396 precedent).",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_launch_effect_state"
+          ]
+        },
+        "shake_call": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/campaign/LaunchPad.java",
+          "java_expr": "Effect.shake(3f, 3f, this);",
+          "rule": "The launch shake call (LaunchPad.java:158): {intensity: 3.0, duration: 3.0, x, y} when launched, null otherwise (the N2397 null-when-absent precedent). The Position overload (`public static void shake(float intensity, float duration, Position loc){`, Effect.java:210-212) delegates to shake(intensity, duration, x, y) (Effect.java:201), so the first arg is the intensity and the second the duration, both 3f. The camera-distance falloff inside (Effect.java:204-207) is the callee behavior -- the pure records the CALL params at the pad position.",
+          "used_by": [
+            "SourceLaunchPadBuildState.source_launch_pad_launch_effect_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaunchPadLaunchEffectProof",
+      "rule": "Source-backed LaunchPad launch sound / FX rows from LaunchPad.java / Fx.java / Effect.java."
+    },
+    "source_unit_cargo_loader_draw_place_state_input": {
+      "status": "active",
+      "owner": "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_draw_place_state",
+      "source_slice": "N2445",
+      "keys": {
+        "tile_x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+          "java_expr": "drawPlaceText(Core.bundle.get(\"bar.cargounitcap\"), x, y, valid);",
+          "rule": "The placement tile x (UnitCargoLoader.java:74, the drawPlaceText arg): the warning text is drawn at this tile. Tile coords -- the Block 5-arg overload converts them inside (`float dx = x * tilesize + offset, dy = y * tilesize + offset + size * tilesize / 2f + 3;`, Block.java:546), so the record carries the tile coords as passed.",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_draw_place_state"
+          ]
+        },
+        "tile_y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+          "java_expr": "drawPlaceText(Core.bundle.get(\"bar.cargounitcap\"), x, y, valid);",
+          "rule": "The placement tile y (UnitCargoLoader.java:74, the drawPlaceText arg): the warning text is drawn at this tile. Tile coords, like tile_x (Block.java:546 converts inside).",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_draw_place_state"
+          ]
+        },
+        "valid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+          "java_expr": "drawPlaceText(Core.bundle.get(\"bar.cargounitcap\"), x, y, valid);",
+          "rule": "The placement validity flag (UnitCargoLoader.java:74, the drawPlaceText arg): recorded on the warning call. Java draws the warning regardless of validity; the 4-arg overload picks the color from it (`return drawPlaceText(text, x, y, valid ? Pal.accent : Pal.remove, true);`, Block.java:532 -- Pal.accent when valid, Pal.remove otherwise).",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_draw_place_state"
+          ]
+        },
+        "can_create": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+          "java_expr": "if(!Units.canCreate(Vars.player.team(), unitType)){",
+          "rule": "The Units.canCreate verdict for the player team and the manifold unitType (UnitCargoLoader.java:73): caller-supplied (the N2435 precedent) -- Units.canCreate is a team/indexer query (`public static boolean canCreate(Team team, UnitType type){` with `return !type.useUnitCap || (team.data().countType(type) < getCap(team) && !type.isBanned());`, Units.java:115-117), like the N2322 verdict the N2330 canPlaceOn pure composes. The warning fires only when can_create is false.",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_draw_place_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07UnitCargoLoaderDrawPlaceRowsProof",
+      "rule": "Source-backed UnitCargoLoader drawPlace rows from UnitCargoLoader.java / Block.java / Units.java / bundle.properties."
+    },
+    "source_unit_cargo_loader_draw_place_state_result": {
+      "status": "active",
+      "owner": "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_draw_place_state",
+      "source_slice": "N2445",
+      "keys": {
+        "warning_call": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+          "java_expr": "drawPlaceText(Core.bundle.get(\"bar.cargounitcap\"), x, y, valid);",
+          "rule": "The cap warning call (UnitCargoLoader.java:74): null when can_create holds, else the drawPlaceText CALL record {method: \"drawPlaceText\", text: \"bar.cargounitcap\", x: tile_x, y: tile_y, valid} (the N2396 CALL precedent -- the pure records the call, it does not draw the text). The bundle key is exact (`bar.cargounitcap = Cargo Unit Cap Reached`, bundle.properties:1278).",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_draw_place_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07UnitCargoLoaderDrawPlaceRowsProof",
+      "rule": "Source-backed UnitCargoLoader drawPlace rows from UnitCargoLoader.java / Block.java / Units.java / bundle.properties."
     }
   },
   "version": 1
