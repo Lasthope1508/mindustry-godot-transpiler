@@ -6862,6 +6862,48 @@
       "rule": "Source-backed BuildTurret power.status row from ConsumePower.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceBuildTurretBuildState.source_build_turret_sense_state": {
+      "canonical_contract": "source_api_contracts.SourceBuildTurretBuildState.source_build_turret_sense_state",
+      "status": "active",
+      "source_slice": "N2437",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "source_method": "BuildTurretBuild.sense()",
+      "params": [
+        {
+          "name": "sensor",
+          "type": "String",
+          "schema": "source_build_turret_sense_state_input.sensor"
+        },
+        {
+          "name": "unit_build_x",
+          "type": "float",
+          "schema": "source_build_turret_sense_state_input.unit_build_x"
+        },
+        {
+          "name": "unit_build_y",
+          "type": "float",
+          "schema": "source_build_turret_sense_state_input.unit_build_y"
+        },
+        {
+          "name": "super_value",
+          "type": "Variant",
+          "schema": "source_build_turret_sense_state_input.super_value"
+        }
+      ],
+      "return_keys": [
+        "value",
+        "delegated"
+      ],
+      "tests": [
+        "test_c07_build_turret_sense_rows_registration",
+        "test_all_c07_build_turret_sense_rows_input_evidence_is_exact",
+        "test_build_turret_sense_rows_state",
+        "test_reference_graph_and_actual_c07_build_turret_sense_rows"
+      ],
+      "runtime_proof": "/root/C07BuildTurretSenseRowsProof",
+      "rule": "Source-backed BuildTurret sense rows from BuildTurret.java / UnitComp.java / BuildingComp.java / LAccess.java / Senseable.java.",
+      "return_type": "Dictionary"
+    },
     "SourceBuildTurretBuildState.source_build_turret_should_consume_state": {
       "canonical_contract": "source_api_contracts.SourceBuildTurretBuildState.source_build_turret_should_consume_state",
       "status": "active",
@@ -7820,6 +7862,122 @@
       ],
       "runtime_proof": "/root/C07MendProjectorUpdateTileProof",
       "rule": "Source-backed MendProjector updateTile advance from MendProjector.java / BuildingComp.java / Arc Mathf.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceOverdriveProjectorBuildState.source_overdrive_projector_draw_rows_state": {
+      "canonical_contract": "source_api_contracts.SourceOverdriveProjectorBuildState.source_overdrive_projector_draw_rows_state",
+      "status": "active",
+      "source_slice": "N2435",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "source_method": "OverdriveBuild.draw()",
+      "params": [
+        {
+          "name": "x_value",
+          "type": "float",
+          "schema": "source_overdrive_projector_draw_rows_state_input.x_value"
+        },
+        {
+          "name": "y_value",
+          "type": "float",
+          "schema": "source_overdrive_projector_draw_rows_state_input.y_value"
+        },
+        {
+          "name": "tile_x",
+          "type": "int",
+          "schema": "source_overdrive_projector_draw_rows_state_input.tile_x"
+        },
+        {
+          "name": "tile_y",
+          "type": "int",
+          "schema": "source_overdrive_projector_draw_rows_state_input.tile_y"
+        },
+        {
+          "name": "range_value",
+          "type": "float",
+          "schema": "source_overdrive_projector_draw_rows_state_input.range_value"
+        },
+        {
+          "name": "phase_heat",
+          "type": "float",
+          "schema": "source_overdrive_projector_draw_rows_state_input.phase_heat"
+        },
+        {
+          "name": "phase_range_boost",
+          "type": "float",
+          "schema": "source_overdrive_projector_draw_rows_state_input.phase_range_boost"
+        },
+        {
+          "name": "light_radius",
+          "type": "float",
+          "schema": "source_overdrive_projector_draw_rows_state_input.light_radius"
+        },
+        {
+          "name": "smooth_efficiency",
+          "type": "float",
+          "schema": "source_overdrive_projector_draw_rows_state_input.smooth_efficiency"
+        },
+        {
+          "name": "heat",
+          "type": "float",
+          "schema": "source_overdrive_projector_draw_rows_state_input.heat"
+        },
+        {
+          "name": "time_value",
+          "type": "float",
+          "schema": "source_overdrive_projector_draw_rows_state_input.time_value"
+        },
+        {
+          "name": "lod_l2",
+          "type": "bool",
+          "schema": "source_overdrive_projector_draw_rows_state_input.lod_l2"
+        },
+        {
+          "name": "lod_alpha2",
+          "type": "float",
+          "schema": "source_overdrive_projector_draw_rows_state_input.lod_alpha2"
+        },
+        {
+          "name": "size_value",
+          "type": "float",
+          "schema": "source_overdrive_projector_draw_rows_state_input.size_value"
+        },
+        {
+          "name": "base_color",
+          "type": "String",
+          "schema": "source_overdrive_projector_draw_rows_state_input.base_color"
+        },
+        {
+          "name": "phase_color",
+          "type": "String",
+          "schema": "source_overdrive_projector_draw_rows_state_input.phase_color"
+        },
+        {
+          "name": "selected_blocks",
+          "type": "Array",
+          "schema": "source_overdrive_projector_draw_rows_state_input.selected_blocks"
+        },
+        {
+          "name": "place_valid",
+          "type": "bool",
+          "schema": "source_overdrive_projector_draw_rows_state_input.place_valid"
+        }
+      ],
+      "return_keys": [
+        "base_call",
+        "top_call",
+        "ring_call",
+        "light_call",
+        "select_call",
+        "place_call"
+      ],
+      "tests": [
+        "test_c07_overdrive_projector_draw_rows_registration",
+        "test_all_c07_overdrive_projector_draw_rows_input_evidence_is_exact",
+        "test_overdrive_projector_draw_rows_state",
+        "test_reference_graph_and_actual_c07_overdrive_projector_draw_rows"
+      ],
+      "runtime_proof": "/root/C07OverdriveProjectorDrawRowsProof",
+      "rule": "Source-backed OverdriveProjector draw rows from OverdriveProjector.java / Drawf.java / Block.java / Lod.java / Blocks.java / arc Mathf.java / arc Geometry.java.",
       "return_type": "Dictionary"
     },
     "SourceOverdriveProjectorBuildState.source_overdrive_projector_item_consumer_row_state": {

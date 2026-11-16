@@ -2163,6 +2163,126 @@
       ],
       "runtime_proof": "/root/AdjacentFactoryLiveLoopProof"
     },
+    "source_beam_drill_draw_state_result.base_call": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_draw_state_result.base_call",
+      "status": "source-backed",
+      "java_expr": "Draw.rect(block.region, x, y);",
+      "godot_symbol": "source_beam_drill_draw_state_result.base_call",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_state",
+      "rule": "The base rect call (BeamDrill.java:276): region region (block.region), centered on the building, drawn at the default z before any Draw.z call -- the call carries no z key, the N2431 shape.",
+      "tests": [
+        "test_c07_beam_drill_draw_rows_registration",
+        "test_all_c07_beam_drill_draw_rows_input_evidence_is_exact",
+        "test_beam_drill_draw_rows_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_rows"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawRowsProof"
+    },
+    "source_beam_drill_draw_state_result.draw_rotation": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_draw_state_result.draw_rotation",
+      "status": "source-backed",
+      "java_expr": "Draw.rect(topRegion, x, y, rotdeg());",
+      "godot_symbol": "source_beam_drill_draw_state_result.draw_rotation",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_state",
+      "rule": "The draw rotation rotdeg() = rotation * 90 (BuildingComp.java:582-584): the top rect rotation, the glow rect rotation and the spark rotate base.",
+      "tests": [
+        "test_c07_beam_drill_draw_rows_registration",
+        "test_all_c07_beam_drill_draw_rows_input_evidence_is_exact",
+        "test_beam_drill_draw_rows_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_rows"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawRowsProof"
+    },
+    "source_beam_drill_draw_state_result.glow_call": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_draw_state_result.glow_call",
+      "status": "source-backed",
+      "java_expr": "Draw.color(Tmp.c1.set(heatColor).lerp(boostHeatColor, boostWarmup), warmup * (heatColor.a * (1f - heatPulse + Mathf.absin(heatPulseScl, heatPulse))));",
+      "godot_symbol": "source_beam_drill_draw_state_result.glow_call",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_state",
+      "rule": "The glow additive call (BeamDrill.java:348-355): null when the glow region is not found OR the build is a payload, else region glowRegion, color heatColor -> boostHeatColor at boostWarmup (a from/to/t dict), alpha warmup * (0.9 * (1 - heatPulse + absin(Time.time, heatPulseScl, heatPulse))) at the doubled helper scale, rotation rotdeg(), z Layer.blockAdditive, blend Blending.additive.",
+      "tests": [
+        "test_c07_beam_drill_draw_rows_registration",
+        "test_all_c07_beam_drill_draw_rows_input_evidence_is_exact",
+        "test_beam_drill_draw_rows_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_rows"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawRowsProof"
+    },
+    "source_beam_drill_draw_state_result.icon_regions": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_draw_state_result.icon_regions",
+      "status": "source-backed",
+      "java_expr": "return new TextureRegion[]{region, topRegion};",
+      "godot_symbol": "source_beam_drill_draw_state_result.icon_regions",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_state",
+      "rule": "The icon regions in Java order (BeamDrill.java:108-115, icons() returns {region, topRegion}): [\"region\", \"topRegion\"]. Folded into the draw pure because icons() takes no args and the SSOT schema validator requires non-empty input keys (the N2396/N2430 precedent).",
+      "tests": [
+        "test_c07_beam_drill_draw_rows_registration",
+        "test_all_c07_beam_drill_draw_rows_input_evidence_is_exact",
+        "test_beam_drill_draw_rows_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_rows"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawRowsProof"
+    },
+    "source_beam_drill_draw_state_result.laser_calls": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_draw_state_result.laser_calls",
+      "status": "source-backed",
+      "java_expr": "float width = (laserWidth + Mathf.absin(Time.time + i*5 + (id % 9)*9, glowScl, pulseIntensity)) * warmup;",
+      "godot_symbol": "source_beam_drill_draw_state_result.laser_calls",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_state",
+      "rule": "The per-laser draw entries (BeamDrill.java:285-346): one entry per laser that draws (a null face or a null drop omits the laser, :287/:290), each {index, centered, width, mixcol, lx, ly, z, center_calls/laser_calls, spark_calls, spark_stroke} -- width is (laserWidth + absin(Time.time + i*5 + (id % 9)*9, glowScl, pulseIntensity)) * warmup at the doubled helper scale, mixcol is glowColor at absin(Time.time + i*5 + id*9, glowScl, glowIntensity) (NOTE the id*9 vs (id % 9)*9 offsets), z is Layer.power - 1, the centered branch (:297-310) carries center_calls (laserCenter at alpha 1 - boostWarmup when boostWarmup < 0.99, laserCenterBoost at alpha boostWarmup when boostWarmup > 0.01, scl width) and the laser branch (:311-323) carries laser_calls (the recorded Drawf.laser calls, normal at alpha 1 - boostWarmup when boostWarmup < 0.99, boost at alpha boostWarmup when boostWarmup > 0.001 -- the asymmetric gates), and spark_calls carries the drawn spark lines (fin <= 1 only, :341) with their fin / position / angle / length / nested-lerp color / alpha_scale, empty when Lod.l2 is false. Empty when the build is a payload.",
+      "tests": [
+        "test_c07_beam_drill_draw_rows_registration",
+        "test_all_c07_beam_drill_draw_rows_input_evidence_is_exact",
+        "test_beam_drill_draw_rows_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_rows"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawRowsProof"
+    },
+    "source_beam_drill_draw_state_result.payload_return": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_draw_state_result.payload_return",
+      "status": "source-backed",
+      "java_expr": "if(isPayload()) return;",
+      "godot_symbol": "source_beam_drill_draw_state_result.payload_return",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_state",
+      "rule": "Whether draw() took the payload early return (BeamDrill.java:279): when true the lasers AND the glow are skipped, but the base/top rects, the select call and icons() still apply.",
+      "tests": [
+        "test_c07_beam_drill_draw_rows_registration",
+        "test_all_c07_beam_drill_draw_rows_input_evidence_is_exact",
+        "test_beam_drill_draw_rows_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_rows"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawRowsProof"
+    },
+    "source_beam_drill_draw_state_result.select_call": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_draw_state_result.select_call",
+      "status": "source-backed",
+      "java_expr": "drawItemSelection(lastItem);",
+      "godot_symbol": "source_beam_drill_draw_state_result.select_call",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_state",
+      "rule": "The select call (BeamDrill.java:233): null when lastItem is null, else the recorded `drawItemSelection(lastItem);` call with the item -- the pure records the call, it does not port the callee geometry (BuildingComp.java:1249-1257, the N2396 precedent).",
+      "tests": [
+        "test_c07_beam_drill_draw_rows_registration",
+        "test_all_c07_beam_drill_draw_rows_input_evidence_is_exact",
+        "test_beam_drill_draw_rows_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_rows"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawRowsProof"
+    },
+    "source_beam_drill_draw_state_result.top_call": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_draw_state_result.top_call",
+      "status": "source-backed",
+      "java_expr": "Draw.rect(topRegion, x, y, rotdeg());",
+      "godot_symbol": "source_beam_drill_draw_state_result.top_call",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_state",
+      "rule": "The top rect call (BeamDrill.java:277): region topRegion (the `@-top` region, :36), centered on the building, rotation rotdeg() = rotation * 90, drawn at the default z -- the call carries no z key, the N2431 shape.",
+      "tests": [
+        "test_c07_beam_drill_draw_rows_registration",
+        "test_all_c07_beam_drill_draw_rows_input_evidence_is_exact",
+        "test_beam_drill_draw_rows_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_rows"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawRowsProof"
+    },
     "source_beam_drill_dump_neighbour_live_fill_state_result.dump_neighbour_accepts": {
       "canonical_symbol": "source_symbol_registry.source_beam_drill_dump_neighbour_live_fill_state_result.dump_neighbour_accepts",
       "status": "source-backed",

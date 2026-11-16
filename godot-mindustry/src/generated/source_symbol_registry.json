@@ -186376,6 +186376,662 @@
         "test_reference_graph_and_actual_c07_build_turret_draw_rows"
       ],
       "runtime_proof": "/root/C07BuildTurretDrawRowsProof"
+    },
+    "source_stack_router_draw_state_result.cached_base_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackRouterBuildState.source_stack_router_draw_state",
+      "godot_symbol": "source_stack_router_draw_state_result.cached_base_call",
+      "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+      "java_method": "StackRouterBuild.draw()",
+      "java_expr": "Draw.rect(region, x, y);",
+      "rule": "The cached base rect call (DuctRouter.java:84, via StackRouter.drawCached() -> super.draw(), StackRouter.java:73-75): region region centered on the building, always drawn -- the first call of the cached layer.",
+      "tests": [
+        "test_c07_stack_router_draw_rows_registration",
+        "test_all_c07_stack_router_draw_rows_input_evidence_is_exact",
+        "test_stack_router_draw_rows_state",
+        "test_reference_graph_and_actual_c07_stack_router_draw_rows"
+      ],
+      "runtime_proof": "/root/C07StackRouterDrawRowsProof"
+    },
+    "source_stack_router_draw_state_result.cached_sort_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackRouterBuildState.source_stack_router_draw_state",
+      "godot_symbol": "source_stack_router_draw_state_result.cached_sort_call",
+      "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+      "java_method": "StackRouterBuild.draw()",
+      "java_expr": "Draw.rect(\"center\", x, y);",
+      "rule": "The cached sort call (DuctRouter.java:86-87): null when sort_item is null, else the sort item color (Draw.color(sortItem.color)) + the \"center\" rect at (x, y) -- the sort-item branch of the cached draw.",
+      "tests": [
+        "test_c07_stack_router_draw_rows_registration",
+        "test_all_c07_stack_router_draw_rows_input_evidence_is_exact",
+        "test_stack_router_draw_rows_state",
+        "test_reference_graph_and_actual_c07_stack_router_draw_rows"
+      ],
+      "runtime_proof": "/root/C07StackRouterDrawRowsProof"
+    },
+    "source_stack_router_draw_state_result.cached_top_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackRouterBuildState.source_stack_router_draw_state",
+      "godot_symbol": "source_stack_router_draw_state_result.cached_top_call",
+      "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+      "java_method": "StackRouterBuild.draw()",
+      "java_expr": "Draw.rect(topRegion, x, y, rotdeg());",
+      "rule": "The cached top call (DuctRouter.java:90): null when sort_item is set, else the topRegion rect at (x, y) rotated by rotdeg() = rotation * 90 -- the else branch of the cached draw.",
+      "tests": [
+        "test_c07_stack_router_draw_rows_registration",
+        "test_all_c07_stack_router_draw_rows_input_evidence_is_exact",
+        "test_stack_router_draw_rows_state",
+        "test_reference_graph_and_actual_c07_stack_router_draw_rows"
+      ],
+      "runtime_proof": "/root/C07StackRouterDrawRowsProof"
+    },
+    "source_stack_router_draw_state_result.glow_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackRouterBuildState.source_stack_router_draw_state",
+      "godot_symbol": "source_stack_router_draw_state_result.glow_call",
+      "java_source": "core/src/mindustry/world/blocks/distribution/StackRouter.java",
+      "java_method": "StackRouterBuild.draw()",
+      "java_expr": "Draw.rect(glowRegion, x, y, rotation * 90);",
+      "rule": "The glow call (StackRouter.java:80-85): null when the gate fails (glow region not found, power null, or power.status <= 0), else region glowRegion, color glowColor (symbolic token), alpha glowAlpha * power.status, z Layer.blockAdditive, blend additive, rotation * 90.",
+      "tests": [
+        "test_c07_stack_router_draw_rows_registration",
+        "test_all_c07_stack_router_draw_rows_input_evidence_is_exact",
+        "test_stack_router_draw_rows_state",
+        "test_reference_graph_and_actual_c07_stack_router_draw_rows"
+      ],
+      "runtime_proof": "/root/C07StackRouterDrawRowsProof"
+    },
+    "source_stack_router_draw_state_result.select_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackRouterBuildState.source_stack_router_draw_state",
+      "godot_symbol": "source_stack_router_draw_state_result.select_call",
+      "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+      "java_method": "StackRouterBuild.draw()",
+      "java_expr": "drawItemSelection(sortItem);",
+      "rule": "The select call (DuctRouter.java:94-97): the recorded `super.drawSelect();` + `drawItemSelection(sortItem);` pair -- the pure records the calls, it does not model the overlay or the icon geometry (the N2396 CALL precedent). draws_icon is true iff sort_item is set: drawItemSelection draws the icon only when the selection is non-null (BuildingComp.java:1249-1250).",
+      "tests": [
+        "test_c07_stack_router_draw_rows_registration",
+        "test_all_c07_stack_router_draw_rows_input_evidence_is_exact",
+        "test_stack_router_draw_rows_state",
+        "test_reference_graph_and_actual_c07_stack_router_draw_rows"
+      ],
+      "runtime_proof": "/root/C07StackRouterDrawRowsProof"
+    },
+    "source_stack_router_draw_state_result.icon_regions": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackRouterBuildState.source_stack_router_draw_state",
+      "godot_symbol": "source_stack_router_draw_state_result.icon_regions",
+      "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+      "java_method": "StackRouterBuild.draw()",
+      "java_expr": "return new TextureRegion[]{region, topRegion};",
+      "rule": "The icon regions in Java order (DuctRouter.java:56, icons()): [region, topRegion] -- the parent override, inherited by the surge-router (StackRouter does not override icons()). Folded into the draw pure because icons() takes no args and the SSOT schema validator requires non-empty input keys; the two regions are the regions the cached draw draws, in draw order.",
+      "tests": [
+        "test_c07_stack_router_draw_rows_registration",
+        "test_all_c07_stack_router_draw_rows_input_evidence_is_exact",
+        "test_stack_router_draw_rows_state",
+        "test_reference_graph_and_actual_c07_stack_router_draw_rows"
+      ],
+      "runtime_proof": "/root/C07StackRouterDrawRowsProof"
+    },
+    "source_stack_conveyor_draw_state_result.cached_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackConveyorBuildState.source_stack_conveyor_draw_state",
+      "godot_symbol": "source_stack_conveyor_draw_state_result.cached_call",
+      "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+      "java_method": "StackConveyorBuild.draw()",
+      "java_expr": "Draw.rect(regions[state], x, y, rotdeg());",
+      "rule": "The drawCached calls (StackConveyor.java:124-149): base (regions[state] at rotdeg()) + edge_calls (edgeRegion where the blendprox bit is clear, rotation (rotation - i) * 90) + input_calls (the sliced bottom inputs while stateLoad, the sliced top front rect while stateUnload). Always present -- drawCached has no early return.",
+      "tests": [
+        "test_c07_stack_conveyor_draw_rows_registration",
+        "test_all_c07_stack_conveyor_draw_rows_input_evidence_is_exact",
+        "test_stack_conveyor_draw_rows_state",
+        "test_reference_graph_and_actual_c07_stack_conveyor_draw_rows"
+      ],
+      "runtime_proof": "/root/C07StackConveyorDrawRowsProof"
+    },
+    "source_stack_conveyor_draw_state_result.glow_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackConveyorBuildState.source_stack_conveyor_draw_state",
+      "godot_symbol": "source_stack_conveyor_draw_state_result.glow_call",
+      "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+      "java_method": "StackConveyorBuild.draw()",
+      "java_expr": "Draw.rect(state == stateLoad ? edgeGlowRegion : glowRegion, x, y, rotation * 90);",
+      "rule": "The glow call (StackConveyor.java:156-161): null when the gate fails (glow region not found, power null, or power.status <= 0), else region edgeGlowRegion while stateLoad else glowRegion, color glowColor, alpha glowAlpha * power.status, rotation * 90, z Layer.blockAdditive. Draws BEFORE the early return, so it can be non-null while stack_call / item_call are null.",
+      "tests": [
+        "test_c07_stack_conveyor_draw_rows_registration",
+        "test_all_c07_stack_conveyor_draw_rows_input_evidence_is_exact",
+        "test_stack_conveyor_draw_rows_state",
+        "test_reference_graph_and_actual_c07_stack_conveyor_draw_rows"
+      ],
+      "runtime_proof": "/root/C07StackConveyorDrawRowsProof"
+    },
+    "source_stack_conveyor_draw_state_result.stack_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackConveyorBuildState.source_stack_conveyor_draw_state",
+      "godot_symbol": "source_stack_conveyor_draw_state_result.stack_call",
+      "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+      "java_method": "StackConveyorBuild.draw()",
+      "java_expr": "Draw.rect(stackRegion, Tmp.v1.x, Tmp.v1.y, Mathf.lerp(a, b, Interp.smooth.apply(1f - Mathf.clamp(cooldown * 2, 0f, 1f))));",
+      "rule": "The stack call (StackConveyor.java:187): null on the early return (link -1, from null, or lastItem null), else region stackRegion at the interpolated position, rotation lerp(a, b, smooth(1 - clamp(cooldown * 2, 0, 1))) with the 3->0 / 0->3 wraparound, z Layer.blockAdditive + 0.01f when the glow region is found else Layer.block - 0.1f (:182-184).",
+      "tests": [
+        "test_c07_stack_conveyor_draw_rows_registration",
+        "test_all_c07_stack_conveyor_draw_rows_input_evidence_is_exact",
+        "test_stack_conveyor_draw_rows_state",
+        "test_reference_graph_and_actual_c07_stack_conveyor_draw_rows"
+      ],
+      "runtime_proof": "/root/C07StackConveyorDrawRowsProof"
+    },
+    "source_stack_conveyor_draw_state_result.item_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackConveyorBuildState.source_stack_conveyor_draw_state",
+      "godot_symbol": "source_stack_conveyor_draw_state_result.item_call",
+      "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+      "java_method": "StackConveyorBuild.draw()",
+      "java_expr": "Draw.rect(lastItem.fullIcon, Tmp.v1.x, Tmp.v1.y, size, size, 0);",
+      "rule": "The item call (StackConveyor.java:191): null on the early return, else icon lastItem.fullIcon (the caller-supplied icon token) at the interpolated position, size itemSize * lerp(min(items.total() / itemCapacity, 1), 1, 0.4), rotation 0, same z as the stack call.",
+      "tests": [
+        "test_c07_stack_conveyor_draw_rows_registration",
+        "test_all_c07_stack_conveyor_draw_rows_input_evidence_is_exact",
+        "test_stack_conveyor_draw_rows_state",
+        "test_reference_graph_and_actual_c07_stack_conveyor_draw_rows"
+      ],
+      "runtime_proof": "/root/C07StackConveyorDrawRowsProof"
+    },
+    "source_stack_conveyor_draw_state_result.stack_x": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackConveyorBuildState.source_stack_conveyor_draw_state",
+      "godot_symbol": "source_stack_conveyor_draw_state_result.stack_x",
+      "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+      "java_method": "StackConveyorBuild.draw()",
+      "java_expr": "Tmp.v1.interpolate(Tmp.v2, 1f - cooldown, Interp.linear);",
+      "rule": "The interpolated stack x (StackConveyor.java:170-171): lerp(from_world.x, x, 1 - cooldown) with Interp.linear (the identity, arc Interp.java:8), UNCLAMPED like Java. 0.0 on the early return (Java computes nothing there).",
+      "tests": [
+        "test_c07_stack_conveyor_draw_rows_registration",
+        "test_all_c07_stack_conveyor_draw_rows_input_evidence_is_exact",
+        "test_stack_conveyor_draw_rows_state",
+        "test_reference_graph_and_actual_c07_stack_conveyor_draw_rows"
+      ],
+      "runtime_proof": "/root/C07StackConveyorDrawRowsProof"
+    },
+    "source_stack_conveyor_draw_state_result.stack_y": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackConveyorBuildState.source_stack_conveyor_draw_state",
+      "godot_symbol": "source_stack_conveyor_draw_state_result.stack_y",
+      "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+      "java_method": "StackConveyorBuild.draw()",
+      "java_expr": "Tmp.v1.interpolate(Tmp.v2, 1f - cooldown, Interp.linear);",
+      "rule": "The interpolated stack y (StackConveyor.java:170-171): lerp(from_world.y, y, 1 - cooldown), same mapping as stack_x. 0.0 on the early return.",
+      "tests": [
+        "test_c07_stack_conveyor_draw_rows_registration",
+        "test_all_c07_stack_conveyor_draw_rows_input_evidence_is_exact",
+        "test_stack_conveyor_draw_rows_state",
+        "test_reference_graph_and_actual_c07_stack_conveyor_draw_rows"
+      ],
+      "runtime_proof": "/root/C07StackConveyorDrawRowsProof"
+    },
+    "source_stack_conveyor_draw_state_result.stack_angle": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackConveyorBuildState.source_stack_conveyor_draw_state",
+      "godot_symbol": "source_stack_conveyor_draw_state_result.stack_angle",
+      "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+      "java_method": "StackConveyorBuild.draw()",
+      "java_expr": "Draw.rect(stackRegion, Tmp.v1.x, Tmp.v1.y, Mathf.lerp(a, b, Interp.smooth.apply(1f - Mathf.clamp(cooldown * 2, 0f, 1f))));",
+      "rule": "The lerped stack rotation in degrees (StackConveyor.java:174-180 + :187): lerp(a, b, smooth(1 - clamp(cooldown * 2, 0, 1))) where a is the from rotation (with the 3->0 rewrite to -90 and the 0->3 rewrite to 360) and b is this rotation, both * 90; Interp.smooth is a * a * (3 - 2 * a) (arc Interp.java:11). 0.0 on the early return.",
+      "tests": [
+        "test_c07_stack_conveyor_draw_rows_registration",
+        "test_all_c07_stack_conveyor_draw_rows_input_evidence_is_exact",
+        "test_stack_conveyor_draw_rows_state",
+        "test_reference_graph_and_actual_c07_stack_conveyor_draw_rows"
+      ],
+      "runtime_proof": "/root/C07StackConveyorDrawRowsProof"
+    },
+    "source_stack_conveyor_draw_state_result.item_size": {
+      "status": "source-backed",
+      "godot_owner": "SourceStackConveyorBuildState.source_stack_conveyor_draw_state",
+      "godot_symbol": "source_stack_conveyor_draw_state_result.item_size",
+      "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+      "java_method": "StackConveyorBuild.draw()",
+      "java_expr": "float size = itemSize * Mathf.lerp(Math.min((float)items.total() / itemCapacity, 1), 1f, 0.4f);",
+      "rule": "The item rect size (StackConveyor.java:190): itemSize * lerp(min(items.total() / itemCapacity, 1), 1, 0.4) -- 0.4 * itemSize empty, itemSize full. 0.0 on the early return.",
+      "tests": [
+        "test_c07_stack_conveyor_draw_rows_registration",
+        "test_all_c07_stack_conveyor_draw_rows_input_evidence_is_exact",
+        "test_stack_conveyor_draw_rows_state",
+        "test_reference_graph_and_actual_c07_stack_conveyor_draw_rows"
+      ],
+      "runtime_proof": "/root/C07StackConveyorDrawRowsProof"
+    },
+    "source_overdrive_projector_draw_rows_state_result.base_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceOverdriveProjectorBuildState.source_overdrive_projector_draw_rows_state",
+      "godot_symbol": "source_overdrive_projector_draw_rows_state_result.base_call",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "java_method": "OverdriveBuild.draw()",
+      "java_expr": "super.draw();",
+      "rule": "The super call (OverdriveProjector.java:138): recorded even when the Lod gate hides the draw rows, because super.draw() runs BEFORE the guard (:138 before :140). The super body (Block.draw) is recorded as a call, not modeled.",
+      "tests": [
+        "test_c07_overdrive_projector_draw_rows_registration",
+        "test_all_c07_overdrive_projector_draw_rows_input_evidence_is_exact",
+        "test_overdrive_projector_draw_rows_state",
+        "test_reference_graph_and_actual_c07_overdrive_projector_draw_rows"
+      ],
+      "runtime_proof": "/root/C07OverdriveProjectorDrawRowsProof"
+    },
+    "source_overdrive_projector_draw_rows_state_result.top_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceOverdriveProjectorBuildState.source_overdrive_projector_draw_rows_state",
+      "godot_symbol": "source_overdrive_projector_draw_rows_state_result.top_call",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "java_method": "OverdriveBuild.draw()",
+      "java_expr": "Draw.rect(topRegion, x, y);",
+      "rule": "The top rect call (OverdriveProjector.java:146): region topRegion (the `@-top` region, OverdriveProjector.java:22), color lerp baseColor -> phaseColor by phaseHeat (:144) carried as an explicit from/to/t dict (the N2356 precedent), alpha = heat * absin(Time.time, 50f / PI2, 1f) * 0.5f * Lod.alpha2 (:145) -- Java-exact through the shared helper at the DOUBLED scale 100f / PI2 (Java absin folds a 2f the helper does not, Mathf.java:78-80). Empty when the Lod gate hides the draw rows.",
+      "tests": [
+        "test_c07_overdrive_projector_draw_rows_registration",
+        "test_all_c07_overdrive_projector_draw_rows_input_evidence_is_exact",
+        "test_overdrive_projector_draw_rows_state",
+        "test_reference_graph_and_actual_c07_overdrive_projector_draw_rows"
+      ],
+      "runtime_proof": "/root/C07OverdriveProjectorDrawRowsProof"
+    },
+    "source_overdrive_projector_draw_rows_state_result.ring_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceOverdriveProjectorBuildState.source_overdrive_projector_draw_rows_state",
+      "godot_symbol": "source_overdrive_projector_draw_rows_state_result.ring_call",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "java_method": "OverdriveBuild.draw()",
+      "java_expr": "Lines.linePoint(x + Geometry.d4(i).x * r + Geometry.d4(i).y * w, y + Geometry.d4(i).y * r - Geometry.d4(i).x * w);",
+      "rule": "The ring call (OverdriveProjector.java:151-156): the d4 loop between Lines.beginLine() and Lines.endLine(true) (closed), with the extra point when f < 0.5f (:154) -- 4 points at f >= 0.5, 8 at f < 0.5 -- at stroke (2f * f + 0.1f) * heat (:148, 0.1f not the Mend 0.2f) and alpha Lod.alpha2 (:147). r = max(0, clamp(2f - f * 2f) * size * tilesize / 2f - f - 0.2f) and w = clamp(0.5f - f) * size * tilesize (:150), where clamp is the 1-arg [0,1] clamp (Mathf.java:402, arc) and d4 is (1,0) / (0,1) / (-1,0) / (0,-1) (Geometry.java:9-14, arc). Empty when the Lod gate hides the draw rows.",
+      "tests": [
+        "test_c07_overdrive_projector_draw_rows_registration",
+        "test_all_c07_overdrive_projector_draw_rows_input_evidence_is_exact",
+        "test_overdrive_projector_draw_rows_state",
+        "test_reference_graph_and_actual_c07_overdrive_projector_draw_rows"
+      ],
+      "runtime_proof": "/root/C07OverdriveProjectorDrawRowsProof"
+    },
+    "source_overdrive_projector_draw_rows_state_result.light_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceOverdriveProjectorBuildState.source_overdrive_projector_draw_rows_state",
+      "godot_symbol": "source_overdrive_projector_draw_rows_state_result.light_call",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "java_method": "OverdriveBuild.draw()",
+      "java_expr": "Drawf.light(x, y, lightRadius * smoothEfficiency, baseColor, 0.7f * smoothEfficiency);",
+      "rule": "The light call (OverdriveProjector.java:93): radius lightRadius * smoothEfficiency, color baseColor, alpha 0.7f * smoothEfficiency -- the Drawf.light overload (Drawf.java:301-304). No Lod gate: the call is always recorded, collapsing to radius 0 / alpha 0 at smoothEfficiency 0.",
+      "tests": [
+        "test_c07_overdrive_projector_draw_rows_registration",
+        "test_all_c07_overdrive_projector_draw_rows_input_evidence_is_exact",
+        "test_overdrive_projector_draw_rows_state",
+        "test_reference_graph_and_actual_c07_overdrive_projector_draw_rows"
+      ],
+      "runtime_proof": "/root/C07OverdriveProjectorDrawRowsProof"
+    },
+    "source_overdrive_projector_draw_rows_state_result.select_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceOverdriveProjectorBuildState.source_overdrive_projector_draw_rows_state",
+      "godot_symbol": "source_overdrive_projector_draw_rows_state_result.select_call",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "java_method": "OverdriveBuild.draw()",
+      "java_expr": "Drawf.dashCircle(x, y, realRange, baseColor);",
+      "rule": "The select call (OverdriveProjector.java:128-133): the dash circle at (x, y) with radius realRange = range + phaseHeat * phaseRangeBoost (:129, the same formula the N2334 boost scan folds) plus one selected call per supplied candidate at the absin(4f, 1f) alpha -- Java-exact through the shared helper at the DOUBLED scale 8f (the 2-arg form reads Time.time, Mathf.java:74-75). The dash is Drawf.dashCircle (Drawf.java:398-404); the double stroke is the callee's body, recorded as one call (the N2396 precedent).",
+      "tests": [
+        "test_c07_overdrive_projector_draw_rows_registration",
+        "test_all_c07_overdrive_projector_draw_rows_input_evidence_is_exact",
+        "test_overdrive_projector_draw_rows_state",
+        "test_reference_graph_and_actual_c07_overdrive_projector_draw_rows"
+      ],
+      "runtime_proof": "/root/C07OverdriveProjectorDrawRowsProof"
+    },
+    "source_overdrive_projector_draw_rows_state_result.place_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceOverdriveProjectorBuildState.source_overdrive_projector_draw_rows_state",
+      "godot_symbol": "source_overdrive_projector_draw_rows_state_result.place_call",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "java_method": "OverdriveBuild.draw()",
+      "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, baseColor);",
+      "rule": "The place call (OverdriveProjector.java:54-61): the recorded super.drawPlace call with the valid flag, the dash circle at (tile_x * tilesize + offset, tile_y * tilesize + offset) with the plain range (no phaseHeat fold -- drawPlace uses range, not realRange) and one selected call per supplied candidate at the absin(4f, 1f) alpha (the DOUBLED scale 8f, as in select). The offset is the Block offset (((size + 1) % 2) * tilesize / 2f, Block.java:761) -- 4 for the size-2 projector, 0 for the size-3 dome.",
+      "tests": [
+        "test_c07_overdrive_projector_draw_rows_registration",
+        "test_all_c07_overdrive_projector_draw_rows_input_evidence_is_exact",
+        "test_overdrive_projector_draw_rows_state",
+        "test_reference_graph_and_actual_c07_overdrive_projector_draw_rows"
+      ],
+      "runtime_proof": "/root/C07OverdriveProjectorDrawRowsProof"
+    },
+    "source_beam_drill_draw_state_result.base_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_state",
+      "godot_symbol": "source_beam_drill_draw_state_result.base_call",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.draw()",
+      "java_expr": "Draw.rect(block.region, x, y);",
+      "rule": "The base rect call (BeamDrill.java:276): region region (block.region), centered on the building, drawn at the default z before any Draw.z call -- the call carries no z key, the N2431 shape.",
+      "tests": [
+        "test_c07_beam_drill_draw_rows_registration",
+        "test_all_c07_beam_drill_draw_rows_input_evidence_is_exact",
+        "test_beam_drill_draw_rows_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_rows"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawRowsProof"
+    },
+    "source_beam_drill_draw_state_result.top_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_state",
+      "godot_symbol": "source_beam_drill_draw_state_result.top_call",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.draw()",
+      "java_expr": "Draw.rect(topRegion, x, y, rotdeg());",
+      "rule": "The top rect call (BeamDrill.java:277): region topRegion (the `@-top` region, :36), centered on the building, rotation rotdeg() = rotation * 90, drawn at the default z -- the call carries no z key, the N2431 shape.",
+      "tests": [
+        "test_c07_beam_drill_draw_rows_registration",
+        "test_all_c07_beam_drill_draw_rows_input_evidence_is_exact",
+        "test_beam_drill_draw_rows_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_rows"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawRowsProof"
+    },
+    "source_beam_drill_draw_state_result.laser_calls": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_state",
+      "godot_symbol": "source_beam_drill_draw_state_result.laser_calls",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.draw()",
+      "java_expr": "float width = (laserWidth + Mathf.absin(Time.time + i*5 + (id % 9)*9, glowScl, pulseIntensity)) * warmup;",
+      "rule": "The per-laser draw entries (BeamDrill.java:285-346): one entry per laser that draws (a null face or a null drop omits the laser, :287/:290), each {index, centered, width, mixcol, lx, ly, z, center_calls/laser_calls, spark_calls, spark_stroke} -- width is (laserWidth + absin(Time.time + i*5 + (id % 9)*9, glowScl, pulseIntensity)) * warmup at the doubled helper scale, mixcol is glowColor at absin(Time.time + i*5 + id*9, glowScl, glowIntensity) (NOTE the id*9 vs (id % 9)*9 offsets), z is Layer.power - 1, the centered branch (:297-310) carries center_calls (laserCenter at alpha 1 - boostWarmup when boostWarmup < 0.99, laserCenterBoost at alpha boostWarmup when boostWarmup > 0.01, scl width) and the laser branch (:311-323) carries laser_calls (the recorded Drawf.laser calls, normal at alpha 1 - boostWarmup when boostWarmup < 0.99, boost at alpha boostWarmup when boostWarmup > 0.001 -- the asymmetric gates), and spark_calls carries the drawn spark lines (fin <= 1 only, :341) with their fin / position / angle / length / nested-lerp color / alpha_scale, empty when Lod.l2 is false. Empty when the build is a payload.",
+      "tests": [
+        "test_c07_beam_drill_draw_rows_registration",
+        "test_all_c07_beam_drill_draw_rows_input_evidence_is_exact",
+        "test_beam_drill_draw_rows_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_rows"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawRowsProof"
+    },
+    "source_beam_drill_draw_state_result.glow_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_state",
+      "godot_symbol": "source_beam_drill_draw_state_result.glow_call",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.draw()",
+      "java_expr": "Draw.color(Tmp.c1.set(heatColor).lerp(boostHeatColor, boostWarmup), warmup * (heatColor.a * (1f - heatPulse + Mathf.absin(heatPulseScl, heatPulse))));",
+      "rule": "The glow additive call (BeamDrill.java:348-355): null when the glow region is not found OR the build is a payload, else region glowRegion, color heatColor -> boostHeatColor at boostWarmup (a from/to/t dict), alpha warmup * (0.9 * (1 - heatPulse + absin(Time.time, heatPulseScl, heatPulse))) at the doubled helper scale, rotation rotdeg(), z Layer.blockAdditive, blend Blending.additive.",
+      "tests": [
+        "test_c07_beam_drill_draw_rows_registration",
+        "test_all_c07_beam_drill_draw_rows_input_evidence_is_exact",
+        "test_beam_drill_draw_rows_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_rows"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawRowsProof"
+    },
+    "source_beam_drill_draw_state_result.select_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_state",
+      "godot_symbol": "source_beam_drill_draw_state_result.select_call",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.draw()",
+      "java_expr": "drawItemSelection(lastItem);",
+      "rule": "The select call (BeamDrill.java:233): null when lastItem is null, else the recorded `drawItemSelection(lastItem);` call with the item -- the pure records the call, it does not port the callee geometry (BuildingComp.java:1249-1257, the N2396 precedent).",
+      "tests": [
+        "test_c07_beam_drill_draw_rows_registration",
+        "test_all_c07_beam_drill_draw_rows_input_evidence_is_exact",
+        "test_beam_drill_draw_rows_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_rows"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawRowsProof"
+    },
+    "source_beam_drill_draw_state_result.icon_regions": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_state",
+      "godot_symbol": "source_beam_drill_draw_state_result.icon_regions",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.draw()",
+      "java_expr": "return new TextureRegion[]{region, topRegion};",
+      "rule": "The icon regions in Java order (BeamDrill.java:108-115, icons() returns {region, topRegion}): [\"region\", \"topRegion\"]. Folded into the draw pure because icons() takes no args and the SSOT schema validator requires non-empty input keys (the N2396/N2430 precedent).",
+      "tests": [
+        "test_c07_beam_drill_draw_rows_registration",
+        "test_all_c07_beam_drill_draw_rows_input_evidence_is_exact",
+        "test_beam_drill_draw_rows_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_rows"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawRowsProof"
+    },
+    "source_beam_drill_draw_state_result.draw_rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_state",
+      "godot_symbol": "source_beam_drill_draw_state_result.draw_rotation",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.draw()",
+      "java_expr": "Draw.rect(topRegion, x, y, rotdeg());",
+      "rule": "The draw rotation rotdeg() = rotation * 90 (BuildingComp.java:582-584): the top rect rotation, the glow rect rotation and the spark rotate base.",
+      "tests": [
+        "test_c07_beam_drill_draw_rows_registration",
+        "test_all_c07_beam_drill_draw_rows_input_evidence_is_exact",
+        "test_beam_drill_draw_rows_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_rows"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawRowsProof"
+    },
+    "source_beam_drill_draw_state_result.payload_return": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_state",
+      "godot_symbol": "source_beam_drill_draw_state_result.payload_return",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.draw()",
+      "java_expr": "if(isPayload()) return;",
+      "rule": "Whether draw() took the payload early return (BeamDrill.java:279): when true the lasers AND the glow are skipped, but the base/top rects, the select call and icons() still apply.",
+      "tests": [
+        "test_c07_beam_drill_draw_rows_registration",
+        "test_all_c07_beam_drill_draw_rows_input_evidence_is_exact",
+        "test_beam_drill_draw_rows_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_rows"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawRowsProof"
+    },
+    "source_build_turret_sense_state_result.value": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_sense_state",
+      "godot_symbol": "source_build_turret_sense_state_result.value",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.sense()",
+      "java_expr": "case buildX, buildY -> unit.sense(sensor);",
+      "rule": "The sensed value (BuildTurret.java:283-284): buildX returns the caller-supplied unit_build_x, buildY the caller-supplied unit_build_y; any other sensor returns the caller-supplied super_value (null for the super default branch).",
+      "tests": [
+        "test_c07_build_turret_sense_rows_registration",
+        "test_all_c07_build_turret_sense_rows_input_evidence_is_exact",
+        "test_build_turret_sense_rows_state",
+        "test_reference_graph_and_actual_c07_build_turret_sense_rows"
+      ],
+      "runtime_proof": "/root/C07BuildTurretSenseRowsProof"
+    },
+    "source_build_turret_sense_state_result.delegated": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_sense_state",
+      "godot_symbol": "source_build_turret_sense_state_result.delegated",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.sense()",
+      "java_expr": "case buildX, buildY -> unit.sense(sensor);",
+      "rule": "The dispatch flag (BuildTurret.java:283, the `buildX, buildY` case): true exactly when the sensor delegates to the builder unit and the value is a unit value.",
+      "tests": [
+        "test_c07_build_turret_sense_rows_registration",
+        "test_all_c07_build_turret_sense_rows_input_evidence_is_exact",
+        "test_build_turret_sense_rows_state",
+        "test_reference_graph_and_actual_c07_build_turret_sense_rows"
+      ],
+      "runtime_proof": "/root/C07BuildTurretSenseRowsProof"
+    },
+    "source_build_turret_sense_object_state_result.value": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_sense_object_state",
+      "godot_symbol": "source_build_turret_sense_object_state_result.value",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.senseObject()",
+      "java_expr": "case building, breaking -> unit.senseObject(sensor);",
+      "rule": "The sensed object (BuildTurret.java:291-292): building returns the caller-supplied unit_building descriptor, breaking the caller-supplied unit_breaking descriptor; any other sensor returns the caller-supplied super_value (null for the noSensed default branch).",
+      "tests": [
+        "test_c07_build_turret_sense_rows_registration",
+        "test_all_c07_build_turret_sense_rows_input_evidence_is_exact",
+        "test_build_turret_sense_rows_state",
+        "test_reference_graph_and_actual_c07_build_turret_sense_rows"
+      ],
+      "runtime_proof": "/root/C07BuildTurretSenseRowsProof"
+    },
+    "source_build_turret_sense_object_state_result.delegated": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_sense_object_state",
+      "godot_symbol": "source_build_turret_sense_object_state_result.delegated",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.senseObject()",
+      "java_expr": "case building, breaking -> unit.senseObject(sensor);",
+      "rule": "The dispatch flag (BuildTurret.java:291, the `building, breaking` case): true exactly when the sensor delegates to the builder unit and the value is a unit value.",
+      "tests": [
+        "test_c07_build_turret_sense_rows_registration",
+        "test_all_c07_build_turret_sense_rows_input_evidence_is_exact",
+        "test_build_turret_sense_rows_state",
+        "test_reference_graph_and_actual_c07_build_turret_sense_rows"
+      ],
+      "runtime_proof": "/root/C07BuildTurretSenseRowsProof"
+    },
+    "source_impact_reactor_draw_plan_state_result.plan_generator_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_draw_plan_state",
+      "godot_symbol": "source_impact_reactor_draw_plan_state_result.plan_generator_call",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "PowerGenerator.drawPlanRegion()",
+      "java_expr": "drawer.drawPlan(this, plan, list);",
+      "rule": "The PowerGenerator.drawPlanRegion delegation call (PowerGenerator.java:84-85): the drawer + the DrawMulti member order. PowerGenerator.drawPlanRegion draws NO region of its own -- it only delegates to drawer.drawPlan, so this call records the delegation, not a rect.",
+      "tests": [
+        "test_c07_impact_reactor_draw_plan_rows_registration",
+        "test_all_c07_impact_reactor_draw_plan_rows_input_evidence_is_exact",
+        "test_impact_reactor_draw_plan_rows_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_draw_plan_rows"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorDrawPlanRowsProof"
+    },
+    "source_impact_reactor_draw_plan_state_result.plan_bottom_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_draw_plan_state",
+      "godot_symbol": "source_impact_reactor_draw_plan_state_result.plan_bottom_call",
+      "java_source": "core/src/mindustry/world/draw/DrawRegion.java",
+      "java_method": "PowerGenerator.drawPlanRegion()",
+      "java_expr": "Draw.rect(region, plan.drawx()+ x, plan.drawy() + y, (buildingRotate ? plan.rotation * 90f : 0 + rotation));",
+      "rule": "The \"-bottom\" plan rect call (DrawRegion.java:63): region impact-reactor-bottom, at the plan position, rotation 0 (buildingRotate false).",
+      "tests": [
+        "test_c07_impact_reactor_draw_plan_rows_registration",
+        "test_all_c07_impact_reactor_draw_plan_rows_input_evidence_is_exact",
+        "test_impact_reactor_draw_plan_rows_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_draw_plan_rows"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorDrawPlanRowsProof"
+    },
+    "source_impact_reactor_draw_plan_state_result.plan_plasma_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_draw_plan_state",
+      "godot_symbol": "source_impact_reactor_draw_plan_state_result.plan_plasma_call",
+      "java_source": "core/src/mindustry/world/draw/DrawPlasma.java",
+      "java_method": "PowerGenerator.drawPlanRegion()",
+      "java_expr": "public class DrawPlasma extends DrawFlame{",
+      "rule": "The plasma plan call -- EMPTY: DrawPlasma has no drawPlan() override (DrawPlasma.java:12, extends DrawFlame) and neither does its parent DrawFlame, so the call lands on the base no-op (DrawBlock.java:36-38). The empty dict records that this DrawMulti member contributes no plan call.",
+      "tests": [
+        "test_c07_impact_reactor_draw_plan_rows_registration",
+        "test_all_c07_impact_reactor_draw_plan_rows_input_evidence_is_exact",
+        "test_impact_reactor_draw_plan_rows_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_draw_plan_rows"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorDrawPlanRowsProof"
+    },
+    "source_impact_reactor_draw_plan_state_result.plan_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_draw_plan_state",
+      "godot_symbol": "source_impact_reactor_draw_plan_state_result.plan_call",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "PowerGenerator.drawPlanRegion()",
+      "java_expr": "Draw.rect(reg, plan.drawx(), plan.drawy(), !rotate || !rotateDraw ? 0 : plan.rotation * 90);",
+      "rule": "The main plan rect call (Block.java:859, via DrawDefault.drawPlan -> drawDefaultPlanRegion): region fullIcon (getPlanRegion, Block.java:881-883), at the plan position, rotation 0 (ImpactReactor sets no rotate).",
+      "tests": [
+        "test_c07_impact_reactor_draw_plan_rows_registration",
+        "test_all_c07_impact_reactor_draw_plan_rows_input_evidence_is_exact",
+        "test_impact_reactor_draw_plan_rows_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_draw_plan_rows"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorDrawPlanRowsProof"
+    },
+    "source_impact_reactor_draw_plan_state_result.plan_team_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_draw_plan_state",
+      "godot_symbol": "source_impact_reactor_draw_plan_state_result.plan_team_call",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "PowerGenerator.drawPlanRegion()",
+      "java_expr": "Draw.rect(teamRegions[player.team().id], plan.drawx(), plan.drawy());",
+      "rule": "The team overlay rect call (Block.java:863): region teamRegions[player.team().id], at the plan position, team color only when team_matches. Empty when the world-context gate fails (Block.java:861).",
+      "tests": [
+        "test_c07_impact_reactor_draw_plan_rows_registration",
+        "test_all_c07_impact_reactor_draw_plan_rows_input_evidence_is_exact",
+        "test_impact_reactor_draw_plan_rows_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_draw_plan_rows"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorDrawPlanRowsProof"
+    },
+    "source_light_block_draw_place_state_result.dash_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceLightBlockBuildState.source_light_block_draw_place_state",
+      "godot_symbol": "source_light_block_draw_place_state_result.dash_call",
+      "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+      "java_method": "LightBlock.drawPlace()",
+      "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, radius * 0.75f, Pal.placing);",
+      "rule": "The dash circle call (LightBlock.java:52): center x * tilesize + offset / y * tilesize + offset (tilesize 8, Vars.java:135; offset 0 for the size-1 block, Block.java:761), radius radius * 0.75f (105.0 for the illuminator def radius 140f, 150.0 for the class default 200f), color the Pal.placing token (Pal.java:95, placing = accent).",
+      "tests": [
+        "test_c07_light_block_draw_place_rows_registration",
+        "test_all_c07_light_block_draw_place_rows_input_evidence_is_exact",
+        "test_light_block_draw_place_rows_state",
+        "test_reference_graph_and_actual_c07_light_block_draw_place_rows"
+      ],
+      "runtime_proof": "/root/C07LightBlockDrawPlaceRowsProof"
+    },
+    "source_light_block_draw_place_state_result.place_radius2": {
+      "status": "source-backed",
+      "godot_owner": "SourceLightBlockBuildState.source_light_block_draw_place_state",
+      "godot_symbol": "source_light_block_draw_place_state_result.place_radius2",
+      "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+      "java_method": "LightBlock.drawPlace()",
+      "java_expr": "var placeRadius2 = Mathf.pow(radius * 0.7f / tilesize, 2f) * 3;",
+      "rule": "The placement-path radius squared (LightBlock.java:57): pow(radius * 0.7f / tilesize, 2f) * 3 -- 450.1875 for the illuminator def radius 140f (12.25^2 * 3), 918.75 for the class default 200f (17.5^2 * 3). The predicate threshold for the calculateNodes call.",
+      "tests": [
+        "test_c07_light_block_draw_place_rows_registration",
+        "test_all_c07_light_block_draw_place_rows_input_evidence_is_exact",
+        "test_light_block_draw_place_rows_state",
+        "test_reference_graph_and_actual_c07_light_block_draw_place_rows"
+      ],
+      "runtime_proof": "/root/C07LightBlockDrawPlaceRowsProof"
+    },
+    "source_light_block_draw_place_state_result.calculate_nodes_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceLightBlockBuildState.source_light_block_draw_place_state",
+      "godot_symbol": "source_light_block_draw_place_state_result.calculate_nodes_call",
+      "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+      "java_method": "LightBlock.drawPlace()",
+      "java_expr": "Placement.calculateNodes(points, this, rotation, (point, other) -> point.dst2(other) <= placeRadius2);",
+      "rule": "The calculateNodes CALL record (LightBlock.java:58; callee `public static void calculateNodes(Seq<Point2> points, Block block, int rotation, Boolf2<Point2, Point2> overlapper){`, Placement.java:92): the pure records the call + rotation + the predicate threshold placeRadius2 (the N2396 CALL precedent) -- the node algorithm itself is NOT ported, the port has no placement point list to run it over.",
+      "tests": [
+        "test_c07_light_block_draw_place_rows_registration",
+        "test_all_c07_light_block_draw_place_rows_input_evidence_is_exact",
+        "test_light_block_draw_place_rows_state",
+        "test_reference_graph_and_actual_c07_light_block_draw_place_rows"
+      ],
+      "runtime_proof": "/root/C07LightBlockDrawPlaceRowsProof"
+    },
+    "source_light_block_draw_place_state_result.minimap_color": {
+      "status": "source-backed",
+      "godot_owner": "SourceLightBlockBuildState.source_light_block_draw_place_state",
+      "godot_symbol": "source_light_block_draw_place_state_result.minimap_color",
+      "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+      "java_method": "LightBlock.drawPlace()",
+      "java_expr": "return build == null ? 0 : build.color | 0xff;",
+      "rule": "The minimap color (LightBlock.java:65): 0 when the tile has no build, else build.color | 0xff (the low byte forced to 0xff -- \"make sure A is 255\", LightBlock.java:64).",
+      "tests": [
+        "test_c07_light_block_draw_place_rows_registration",
+        "test_all_c07_light_block_draw_place_rows_input_evidence_is_exact",
+        "test_light_block_draw_place_rows_state",
+        "test_reference_graph_and_actual_c07_light_block_draw_place_rows"
+      ],
+      "runtime_proof": "/root/C07LightBlockDrawPlaceRowsProof"
     }
   },
   "version": 1

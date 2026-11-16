@@ -552,6 +552,139 @@
       "rule": "Source-backed adjacent factory family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so a cheating team's adjacent factory counts everything as valid in updateConsumption, the tick gates efficiency on the family's own shouldConsume() body, and the tick binds one RuntimeConsumer per consumeItem/consumeLiquid row and runs the bound actors through updateConsumption so the placed adjacent factory consumes its liquid rows each tick and gates efficiency on its item rows, and a sprite re-recorded with a different block reinitializes its consumers from the new block's consumeBuilder.",
       "return_type": "Dictionary"
     },
+    "SourceBeamDrillBuildState.source_beam_drill_draw_state": {
+      "canonical_contract": "source_api_contracts.SourceBeamDrillBuildState.source_beam_drill_draw_state",
+      "status": "active",
+      "source_slice": "N2436",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrillBuild.draw()",
+      "params": [
+        {
+          "name": "x_value",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.x_value"
+        },
+        {
+          "name": "y_value",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.y_value"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_beam_drill_draw_state_input.rotation"
+        },
+        {
+          "name": "size_value",
+          "type": "int",
+          "schema": "source_beam_drill_draw_state_input.size_value"
+        },
+        {
+          "name": "id_value",
+          "type": "int",
+          "schema": "source_beam_drill_draw_state_input.id_value"
+        },
+        {
+          "name": "warmup",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.warmup"
+        },
+        {
+          "name": "boost_warmup",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.boost_warmup"
+        },
+        {
+          "name": "time_value",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.time_value"
+        },
+        {
+          "name": "lod_l2",
+          "type": "bool",
+          "schema": "source_beam_drill_draw_state_input.lod_l2"
+        },
+        {
+          "name": "lod_alpha2",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.lod_alpha2"
+        },
+        {
+          "name": "is_payload",
+          "type": "bool",
+          "schema": "source_beam_drill_draw_state_input.is_payload"
+        },
+        {
+          "name": "facing",
+          "type": "Array",
+          "schema": "source_beam_drill_draw_state_input.facing"
+        },
+        {
+          "name": "lasers",
+          "type": "Array",
+          "schema": "source_beam_drill_draw_state_input.lasers"
+        },
+        {
+          "name": "last_item",
+          "type": "Variant",
+          "schema": "source_beam_drill_draw_state_input.last_item"
+        },
+        {
+          "name": "glow_found",
+          "type": "bool",
+          "schema": "source_beam_drill_draw_state_input.glow_found"
+        },
+        {
+          "name": "heat_color",
+          "type": "String",
+          "schema": "source_beam_drill_draw_state_input.heat_color"
+        },
+        {
+          "name": "boost_heat_color",
+          "type": "String",
+          "schema": "source_beam_drill_draw_state_input.boost_heat_color"
+        },
+        {
+          "name": "heat_pulse",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.heat_pulse"
+        },
+        {
+          "name": "heat_pulse_scl",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.heat_pulse_scl"
+        },
+        {
+          "name": "spark_rolls",
+          "type": "Array",
+          "schema": "source_beam_drill_draw_state_input.spark_rolls"
+        },
+        {
+          "name": "laser_width",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.laser_width"
+        }
+      ],
+      "return_keys": [
+        "base_call",
+        "top_call",
+        "laser_calls",
+        "glow_call",
+        "select_call",
+        "icon_regions",
+        "draw_rotation",
+        "payload_return"
+      ],
+      "tests": [
+        "test_c07_beam_drill_draw_rows_registration",
+        "test_all_c07_beam_drill_draw_rows_input_evidence_is_exact",
+        "test_beam_drill_draw_rows_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_rows"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawRowsProof",
+      "rule": "Source-backed BeamDrill draw rows from BeamDrill.java / Drawf.java / Blocks.java / BuildingComp.java / Tile.java / Vars.java / Lod.java / arc Mathf.java / Geometry.java / Angles.java / Rand.java.",
+      "return_type": "Dictionary"
+    },
     "SourceBeamDrillBuildState.source_beam_drill_dump_neighbour_live_fill_state": {
       "canonical_contract": "source_api_contracts.SourceBeamDrillBuildState.source_beam_drill_dump_neighbour_live_fill_state",
       "status": "active",

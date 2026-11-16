@@ -1365,6 +1365,47 @@
       ],
       "runtime_proof": "/root/C07ImpactReactorDrawRowsProof"
     },
+    "N2438": {
+      "canonical_ledger": "source_slice_ledger.N2438",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+      "java_method": "PowerGenerator.drawPlanRegion()",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_draw_plan_state",
+      "source_symbols": [
+        "source_impact_reactor_draw_plan_state_result.plan_generator_call",
+        "source_impact_reactor_draw_plan_state_result.plan_bottom_call",
+        "source_impact_reactor_draw_plan_state_result.plan_plasma_call",
+        "source_impact_reactor_draw_plan_state_result.plan_call",
+        "source_impact_reactor_draw_plan_state_result.plan_team_call"
+      ],
+      "tests": [
+        "test_c07_impact_reactor_draw_plan_rows_registration",
+        "test_all_c07_impact_reactor_draw_plan_rows_input_evidence_is_exact",
+        "test_impact_reactor_draw_plan_rows_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_draw_plan_rows"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorDrawPlanRowsProof"
+    },
+    "N2439": {
+      "canonical_ledger": "source_slice_ledger.N2439",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+      "java_method": "LightBlock.drawPlace()",
+      "godot_owner": "SourceLightBlockBuildState.source_light_block_draw_place_state",
+      "source_symbols": [
+        "source_light_block_draw_place_state_result.dash_call",
+        "source_light_block_draw_place_state_result.place_radius2",
+        "source_light_block_draw_place_state_result.calculate_nodes_call",
+        "source_light_block_draw_place_state_result.minimap_color"
+      ],
+      "tests": [
+        "test_c07_light_block_draw_place_rows_registration",
+        "test_all_c07_light_block_draw_place_rows_input_evidence_is_exact",
+        "test_light_block_draw_place_rows_state",
+        "test_reference_graph_and_actual_c07_light_block_draw_place_rows"
+      ],
+      "runtime_proof": "/root/C07LightBlockDrawPlaceRowsProof"
+    },
     "N888": {
       "canonical_ledger": "source_slice_ledger.N888",
       "status": "done",

@@ -254824,6 +254824,1440 @@
       },
       "runtime_proof": "/root/C07BuildTurretDrawRowsProof",
       "rule": "Source-backed BuildTurret draw rows from BuildTurret.java / Drawf.java / Blocks.java / BaseTurret.java."
+    },
+    "source_stack_router_draw_state_input": {
+      "status": "active",
+      "owner": "SourceStackRouterBuildState.source_stack_router_draw_state",
+      "source_slice": "N2433",
+      "keys": {
+        "x_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+          "java_expr": "Draw.rect(region, x, y);",
+          "rule": "The building world x (DuctRouter.java:84, the Draw.rect center): the cached base rect, the sort center rect / top rect and the glow rect are all centered here.",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_draw_state"
+          ]
+        },
+        "y_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+          "java_expr": "Draw.rect(region, x, y);",
+          "rule": "The building world y (DuctRouter.java:84, the Draw.rect center): the cached base rect, the sort center rect / top rect and the glow rect are all centered here.",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_draw_state"
+          ]
+        },
+        "rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+          "java_expr": "Draw.rect(topRegion, x, y, rotdeg());",
+          "rule": "The frame rotation (`transient int rotation;`, BuildingComp.java:69): the top rect draws at rotdeg() = rotation * 90 (BuildingComp.java:582-584) and the glow rect at rotation * 90 (StackRouter.java:83).",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_draw_state"
+          ]
+        },
+        "sort_item": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+          "java_expr": "public @Nullable Item sortItem;",
+          "rule": "The nullable sortItem build field (DuctRouter.java:77), the frame state the N2324 target pure reads -- the pure takes it caller-supplied as null or a Dict {name, color} and never reads the frame. When set, the cached draw tints the center rect with the sort item color (DuctRouter.java:86-87); when null, the top rect draws instead (:90). The color token is caller-supplied (the port has no live Item objects, the N2415 token precedent).",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_draw_state"
+          ]
+        },
+        "power_status": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackRouter.java",
+          "java_expr": "Draw.color(glowColor, glowAlpha * power.status);",
+          "rule": "The live power.status (StackRouter.java:81, the glow alpha); -1 when power is null (the `power != null` gate, :79) -- the glow gate is glow_found && power_status > 0, so the -1 sentinel fails the STRICT > 0 gate exactly like a null power, and power.status exactly 0 draws no glow.",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_draw_state"
+          ]
+        },
+        "glow_found": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackRouter.java",
+          "java_expr": "if(glowRegion.found() && power != null && power.status > 0){",
+          "rule": "Whether the glow region is found (StackRouter.java:79, the glow gate; `public @Load(value = \"@-glow\", fallback = \"arrow-glow\") TextureRegion glowRegion;`, :14): the glow draws only when the region is found, else glow_call is null.",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_draw_state"
+          ]
+        },
+        "glow_color": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackRouter.java",
+          "java_expr": "public Color glowColor = Pal.redLight;",
+          "rule": "The glow color token (StackRouter.java:16, the glow color; the single surge-router def sets no override, Blocks.java:2255-2268): carried as the symbolic token \"glowColor\", the N2415 / ShockwaveTower precedent -- the port never draws for real. The class default is Pal.redLight (`redLight = Color.valueOf(\"feb380\"),`, Pal.java:138).",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_draw_state"
+          ]
+        },
+        "glow_alpha": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackRouter.java",
+          "java_expr": "public float glowAlpha = 1f;",
+          "rule": "The glow alpha scale (StackRouter.java:15; the single surge-router def sets no override, Blocks.java:2255-2268): the glow call alpha is glowAlpha * power.status (StackRouter.java:81), so the class default 1f passes power.status through unchanged.",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_draw_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07StackRouterDrawRowsProof",
+      "rule": "Source-backed StackRouter draw rows from StackRouter.java / DuctRouter.java / BuildingComp.java / Blocks.java / Pal.java."
+    },
+    "source_stack_router_draw_state_result": {
+      "status": "active",
+      "owner": "SourceStackRouterBuildState.source_stack_router_draw_state",
+      "source_slice": "N2433",
+      "keys": {
+        "cached_base_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+          "java_expr": "Draw.rect(region, x, y);",
+          "rule": "The cached base rect call (DuctRouter.java:84, via StackRouter.drawCached() -> super.draw(), StackRouter.java:73-75): region region centered on the building, always drawn -- the first call of the cached layer.",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_draw_state"
+          ]
+        },
+        "cached_sort_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+          "java_expr": "Draw.rect(\"center\", x, y);",
+          "rule": "The cached sort call (DuctRouter.java:86-87): null when sort_item is null, else the sort item color (Draw.color(sortItem.color)) + the \"center\" rect at (x, y) -- the sort-item branch of the cached draw.",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_draw_state"
+          ]
+        },
+        "cached_top_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+          "java_expr": "Draw.rect(topRegion, x, y, rotdeg());",
+          "rule": "The cached top call (DuctRouter.java:90): null when sort_item is set, else the topRegion rect at (x, y) rotated by rotdeg() = rotation * 90 -- the else branch of the cached draw.",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_draw_state"
+          ]
+        },
+        "glow_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackRouter.java",
+          "java_expr": "Draw.rect(glowRegion, x, y, rotation * 90);",
+          "rule": "The glow call (StackRouter.java:80-85): null when the gate fails (glow region not found, power null, or power.status <= 0), else region glowRegion, color glowColor (symbolic token), alpha glowAlpha * power.status, z Layer.blockAdditive, blend additive, rotation * 90.",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_draw_state"
+          ]
+        },
+        "select_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+          "java_expr": "drawItemSelection(sortItem);",
+          "rule": "The select call (DuctRouter.java:94-97): the recorded `super.drawSelect();` + `drawItemSelection(sortItem);` pair -- the pure records the calls, it does not model the overlay or the icon geometry (the N2396 CALL precedent). draws_icon is true iff sort_item is set: drawItemSelection draws the icon only when the selection is non-null (BuildingComp.java:1249-1250).",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_draw_state"
+          ]
+        },
+        "icon_regions": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/DuctRouter.java",
+          "java_expr": "return new TextureRegion[]{region, topRegion};",
+          "rule": "The icon regions in Java order (DuctRouter.java:56, icons()): [region, topRegion] -- the parent override, inherited by the surge-router (StackRouter does not override icons()). Folded into the draw pure because icons() takes no args and the SSOT schema validator requires non-empty input keys; the two regions are the regions the cached draw draws, in draw order.",
+          "used_by": [
+            "SourceStackRouterBuildState.source_stack_router_draw_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07StackRouterDrawRowsProof",
+      "rule": "Source-backed StackRouter draw rows from StackRouter.java / DuctRouter.java / BuildingComp.java / Blocks.java / Pal.java."
+    },
+    "source_stack_conveyor_draw_state_input": {
+      "status": "active",
+      "owner": "SourceStackConveyorBuildState.source_stack_conveyor_draw_state",
+      "source_slice": "N2434",
+      "keys": {
+        "x_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "Draw.rect(regions[state], x, y, rotdeg());",
+          "rule": "The building world x (StackConveyor.java:125, the cached base rect center; the edge rects, :130; the input slices, :140/:147; the glow rect, :160; the stack/item interpolate target, :171).",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_draw_state"
+          ]
+        },
+        "y_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "Draw.rect(regions[state], x, y, rotdeg());",
+          "rule": "The building world y (StackConveyor.java:125 / :130 / :140 / :147 / :160 / :171, same mapping as x).",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_draw_state"
+          ]
+        },
+        "rotation_value": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "float b = (rotation%4) * 90;",
+          "rule": "The building rotation 0-3 (StackConveyor.java:175, the stack angle target; the cached base rotation via rotdeg(), :125; the edge rotations (rotation - i) * 90, :130; the input dirs mod(rotation - i, 4), :136).",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_draw_state"
+          ]
+        },
+        "state_value": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "protected static final int stateMove = 0, stateLoad = 1, stateUnload = 2;",
+          "rule": "The conveyor state (StackConveyor.java:25, set by onProximityUpdate, :217-261, deferred): 0 stateMove / 1 stateLoad / 2 stateUnload -- selects regions[state], the input branch, and the glow region.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_draw_state"
+          ]
+        },
+        "blendprox": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "public int state, blendprox;",
+          "rule": "The blend bitmask (StackConveyor.java:115, set by onProximityUpdate, :247-253, deferred): bit i set means side i blends -- the edge rect draws where the bit is CLEAR (:129) and the input slice draws where the bit is SET (:138). Caller-supplied: the N2239 advance never tracks it.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_draw_state"
+          ]
+        },
+        "near_square": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "if((blendprox & (1 << i)) != 0 && i != 0 && near != null && !near.block.squareSprite){",
+          "rule": "The 4 neighbour squareSprite flags indexed by absolute dir (0 right, 1 up, 2 left, 3 down, per Geometry.d4): null means no neighbour building at that dir, a bool is that neighbour block.squareSprite (StackConveyor.java:138, the input-slice gate; squareSprite defaults true, Block.java:160). The null-ness carries the `near != null` half of the Java gate.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_draw_state"
+          ]
+        },
+        "front_square": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "if((blendprox & (1)) != 0 && front() != null && !front().block.squareSprite){",
+          "rule": "The front building squareSprite flag (StackConveyor.java:145, the unload front check): null means no front building (front() null, BuildingComp.java:550), a bool is front().block.squareSprite.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_draw_state"
+          ]
+        },
+        "link": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "public int link = -1;",
+          "rule": "The link tile pos (StackConveyor.java:117): -1 means unlinked -- the draw early return (StackConveyor.java:163, `if(link == -1 || from == null || lastItem == null) return;`).",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_draw_state"
+          ]
+        },
+        "from_world": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "Tile from = world.tile(link);",
+          "rule": "The link tile (StackConveyor.java:153): null when world.tile(link) is null (the draw early return, :163), else {x, y, rotation} -- the from world position (the interpolate start, :170-171) + the from build rotation (the angle source, :174).",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_draw_state"
+          ]
+        },
+        "from_build_null": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "int fromRot = from.build == null ? rotation : from.build.rotation;",
+          "rule": "Whether the link tile has no build (StackConveyor.java:165): true means fromRot falls back to this rotation, false means fromRot is from_world.rotation.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_draw_state"
+          ]
+        },
+        "last_item": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "public Item lastItem;",
+          "rule": "The last item (StackConveyor.java:119): null means no item (the draw early return, :163), else {icon} -- the icon token for lastItem.fullIcon (StackConveyor.java:191).",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_draw_state"
+          ]
+        },
+        "power_status": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "if(glowRegion.found() && power != null && power.status > 0f){",
+          "rule": "The live power.status (StackConveyor.java:156, the glow gate + the glow alpha multiplier, :158): -1 when power is null -- the sentinel folds into the single `> 0f` check, since Java requires power != null AND status > 0f.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_draw_state"
+          ]
+        },
+        "glow_found": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "if(glowRegion.found()){",
+          "rule": "Whether the glow region is found (StackConveyor.java:156, the glow gate; :182, the stack/item z lift): the glow draws only when found, and the stack/item z lifts to Layer.blockAdditive + 0.01f only when found.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_draw_state"
+          ]
+        },
+        "glow_color": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "public Color glowColor = Pal.redLight;",
+          "rule": "The glow color token (StackConveyor.java:35, Pal.redLight; no def override -- neither plastanium-conveyor nor surge-conveyor, Blocks.java:2084/2237, sets it): carried symbolically, the port never draws for real.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_draw_state"
+          ]
+        },
+        "glow_alpha": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "public float glowAlpha = 1f;",
+          "rule": "The glow alpha base (StackConveyor.java:34, 1f; no def override): the effective glow alpha is glowAlpha * power.status (StackConveyor.java:158).",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_draw_state"
+          ]
+        },
+        "cooldown": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "public float cooldown;",
+          "rule": "The reel cooldown (StackConveyor.java:118, tracked by the N2239 advance): the interpolate t is 1 - cooldown (:171, UNCLAMPED -- cooldown runs to recharge 2f, so when cooldown > 1 the t goes negative and the lerp extrapolates past the from tile, away from the building) and the angle smooth input is 1 - clamp(cooldown * 2, 0, 1) (:187).",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_draw_state"
+          ]
+        },
+        "items_total": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "float size = itemSize * Mathf.lerp(Math.min((float)items.total() / itemCapacity, 1), 1f, 0.4f);",
+          "rule": "The items total (StackConveyor.java:190, `items.total()`, ItemModule.java:174): the item-size fill numerator.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_draw_state"
+          ]
+        },
+        "item_capacity": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "float size = itemSize * Mathf.lerp(Math.min((float)items.total() / itemCapacity, 1), 1f, 0.4f);",
+          "rule": "The item capacity (StackConveyor.java:190, `itemCapacity`, 10 for both defs, StackConveyor.java:52): the item-size fill denominator.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_draw_state"
+          ]
+        },
+        "item_size": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/Vars.java",
+          "java_expr": "public static final float itemSize = 5f;",
+          "rule": "The item draw size base (Vars.java:115, 5f): the item rect size is itemSize * lerp(fill, 1, 0.4) (StackConveyor.java:190).",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_draw_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07StackConveyorDrawRowsProof",
+      "rule": "Source-backed StackConveyor draw rows from StackConveyor.java / Vars.java / Blocks.java / BuildingComp.java / Autotiler.java / Interp.java / Geometry.java / Mathf.java."
+    },
+    "source_stack_conveyor_draw_state_result": {
+      "status": "active",
+      "owner": "SourceStackConveyorBuildState.source_stack_conveyor_draw_state",
+      "source_slice": "N2434",
+      "keys": {
+        "cached_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "Draw.rect(regions[state], x, y, rotdeg());",
+          "rule": "The drawCached calls (StackConveyor.java:124-149): base (regions[state] at rotdeg()) + edge_calls (edgeRegion where the blendprox bit is clear, rotation (rotation - i) * 90) + input_calls (the sliced bottom inputs while stateLoad, the sliced top front rect while stateUnload). Always present -- drawCached has no early return.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_draw_state"
+          ]
+        },
+        "glow_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "Draw.rect(state == stateLoad ? edgeGlowRegion : glowRegion, x, y, rotation * 90);",
+          "rule": "The glow call (StackConveyor.java:156-161): null when the gate fails (glow region not found, power null, or power.status <= 0), else region edgeGlowRegion while stateLoad else glowRegion, color glowColor, alpha glowAlpha * power.status, rotation * 90, z Layer.blockAdditive. Draws BEFORE the early return, so it can be non-null while stack_call / item_call are null.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_draw_state"
+          ]
+        },
+        "stack_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "Draw.rect(stackRegion, Tmp.v1.x, Tmp.v1.y, Mathf.lerp(a, b, Interp.smooth.apply(1f - Mathf.clamp(cooldown * 2, 0f, 1f))));",
+          "rule": "The stack call (StackConveyor.java:187): null on the early return (link -1, from null, or lastItem null), else region stackRegion at the interpolated position, rotation lerp(a, b, smooth(1 - clamp(cooldown * 2, 0, 1))) with the 3->0 / 0->3 wraparound, z Layer.blockAdditive + 0.01f when the glow region is found else Layer.block - 0.1f (:182-184).",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_draw_state"
+          ]
+        },
+        "item_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "Draw.rect(lastItem.fullIcon, Tmp.v1.x, Tmp.v1.y, size, size, 0);",
+          "rule": "The item call (StackConveyor.java:191): null on the early return, else icon lastItem.fullIcon (the caller-supplied icon token) at the interpolated position, size itemSize * lerp(min(items.total() / itemCapacity, 1), 1, 0.4), rotation 0, same z as the stack call.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_draw_state"
+          ]
+        },
+        "stack_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "Tmp.v1.interpolate(Tmp.v2, 1f - cooldown, Interp.linear);",
+          "rule": "The interpolated stack x (StackConveyor.java:170-171): lerp(from_world.x, x, 1 - cooldown) with Interp.linear (the identity, arc Interp.java:8), UNCLAMPED like Java. 0.0 on the early return (Java computes nothing there).",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_draw_state"
+          ]
+        },
+        "stack_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "Tmp.v1.interpolate(Tmp.v2, 1f - cooldown, Interp.linear);",
+          "rule": "The interpolated stack y (StackConveyor.java:170-171): lerp(from_world.y, y, 1 - cooldown), same mapping as stack_x. 0.0 on the early return.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_draw_state"
+          ]
+        },
+        "stack_angle": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "Draw.rect(stackRegion, Tmp.v1.x, Tmp.v1.y, Mathf.lerp(a, b, Interp.smooth.apply(1f - Mathf.clamp(cooldown * 2, 0f, 1f))));",
+          "rule": "The lerped stack rotation in degrees (StackConveyor.java:174-180 + :187): lerp(a, b, smooth(1 - clamp(cooldown * 2, 0, 1))) where a is the from rotation (with the 3->0 rewrite to -90 and the 0->3 rewrite to 360) and b is this rotation, both * 90; Interp.smooth is a * a * (3 - 2 * a) (arc Interp.java:11). 0.0 on the early return.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_draw_state"
+          ]
+        },
+        "item_size": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+          "java_expr": "float size = itemSize * Mathf.lerp(Math.min((float)items.total() / itemCapacity, 1), 1f, 0.4f);",
+          "rule": "The item rect size (StackConveyor.java:190): itemSize * lerp(min(items.total() / itemCapacity, 1), 1, 0.4) -- 0.4 * itemSize empty, itemSize full. 0.0 on the early return.",
+          "used_by": [
+            "SourceStackConveyorBuildState.source_stack_conveyor_draw_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07StackConveyorDrawRowsProof",
+      "rule": "Source-backed StackConveyor draw rows from StackConveyor.java / Vars.java / Blocks.java / BuildingComp.java / Autotiler.java / Interp.java / Geometry.java / Mathf.java."
+    },
+    "source_overdrive_projector_draw_rows_state_input": {
+      "status": "active",
+      "owner": "SourceOverdriveProjectorBuildState.source_overdrive_projector_draw_rows_state",
+      "source_slice": "N2435",
+      "keys": {
+        "x_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "java_expr": "Draw.rect(topRegion, x, y);",
+          "rule": "The building world x (OverdriveProjector.java:146, the Draw.rect center): the top rect, the ring and the light are all centered here, and the drawSelect dash circle is centered here too (:133).",
+          "used_by": [
+            "SourceOverdriveProjectorBuildState.source_overdrive_projector_draw_rows_state"
+          ]
+        },
+        "y_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "java_expr": "Draw.rect(topRegion, x, y);",
+          "rule": "The building world y (OverdriveProjector.java:146, the Draw.rect center): the top rect, the ring and the light are all centered here, and the drawSelect dash circle is centered here too (:133).",
+          "used_by": [
+            "SourceOverdriveProjectorBuildState.source_overdrive_projector_draw_rows_state"
+          ]
+        },
+        "tile_x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, baseColor);",
+          "rule": "The placement tile x (OverdriveProjector.java:57, drawPlace): the place dash circle is centered at tile_x * tilesize + offset, where offset is the Block offset (((size + 1) % 2) * tilesize / 2f, Block.java:761) -- 4 for the size-2 projector, 0 for the size-3 dome.",
+          "used_by": [
+            "SourceOverdriveProjectorBuildState.source_overdrive_projector_draw_rows_state"
+          ]
+        },
+        "tile_y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, baseColor);",
+          "rule": "The placement tile y (OverdriveProjector.java:57, drawPlace): the place dash circle is centered at tile_y * tilesize + offset, where offset is the Block offset (((size + 1) % 2) * tilesize / 2f, Block.java:761) -- 4 for the size-2 projector, 0 for the size-3 dome.",
+          "used_by": [
+            "SourceOverdriveProjectorBuildState.source_overdrive_projector_draw_rows_state"
+          ]
+        },
+        "range_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "java_expr": "public float range = 80f;",
+          "rule": "The def range (OverdriveProjector.java:24, class default 80f; the dome overrides to 200f, Blocks.java:1956): the drawPlace dash radius and the base of the drawSelect realRange.",
+          "used_by": [
+            "SourceOverdriveProjectorBuildState.source_overdrive_projector_draw_rows_state"
+          ]
+        },
+        "phase_heat": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "java_expr": "Draw.color(baseColor, phaseColor, phaseHeat);",
+          "rule": "The frame phaseHeat (OverdriveProjector.java:144, the color-lerp t; tracked by the N2194 advance): also folds the drawSelect realRange (range + phaseHeat * phaseRangeBoost, :129).",
+          "used_by": [
+            "SourceOverdriveProjectorBuildState.source_overdrive_projector_draw_rows_state"
+          ]
+        },
+        "phase_range_boost": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "java_expr": "public float phaseRangeBoost = 20f;",
+          "rule": "The def phaseRangeBoost (OverdriveProjector.java:28, class default 20f, no def override): the per-phaseHeat realRange fold for drawSelect (:129) -- the same formula the N2334 boost scan folds.",
+          "used_by": [
+            "SourceOverdriveProjectorBuildState.source_overdrive_projector_draw_rows_state"
+          ]
+        },
+        "light_radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "java_expr": "Drawf.light(x, y, lightRadius * smoothEfficiency, baseColor, 0.7f * smoothEfficiency);",
+          "rule": "The def lightRadius (OverdriveProjector.java:42, set to 50f in the constructor next to emitLight = true; no def override): the drawLight radius base, scaled by smoothEfficiency.",
+          "used_by": [
+            "SourceOverdriveProjectorBuildState.source_overdrive_projector_draw_rows_state"
+          ]
+        },
+        "smooth_efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "java_expr": "Drawf.light(x, y, lightRadius * smoothEfficiency, baseColor, 0.7f * smoothEfficiency);",
+          "rule": "The frame smoothEfficiency (OverdriveProjector.java:93, tracked by the N2194 lerp advance): scales the light radius (lightRadius * smoothEfficiency) and the light alpha (0.7f * smoothEfficiency) -- an unpowered projector draws a collapsed light of radius 0 and alpha 0, Java still calls Drawf.light.",
+          "used_by": [
+            "SourceOverdriveProjectorBuildState.source_overdrive_projector_draw_rows_state"
+          ]
+        },
+        "heat": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "java_expr": "Draw.alpha(heat * Mathf.absin(Time.time, 50f / Mathf.PI2, 1f) * 0.5f * Lod.alpha2);",
+          "rule": "The frame heat (OverdriveProjector.java:145, tracked by the N2194 lerp advance): scales the top alpha and the ring stroke ((2f * f + 0.1f) * heat, :148).",
+          "used_by": [
+            "SourceOverdriveProjectorBuildState.source_overdrive_projector_draw_rows_state"
+          ]
+        },
+        "time_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "java_expr": "float f = 1f - (Time.time / 100f) % 1f;",
+          "rule": "Time.time in ticks (OverdriveProjector.java:142, the f cycle; also the absin input :145 and the 2-arg absin(4f, 1f) time, Mathf.java:74-75, arc): caller-supplied -- draw never runs in the tick, so the tick never stamps it (the N2396/N2372 convention).",
+          "used_by": [
+            "SourceOverdriveProjectorBuildState.source_overdrive_projector_draw_rows_state"
+          ]
+        },
+        "lod_l2": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "java_expr": "if(!Lod.l2) return;",
+          "rule": "The Lod zoom-detail gate (OverdriveProjector.java:140; Lod.java:16-17, l2 defaults true): false hides the draw() rows only -- the pure reports f 0.0 (Java computes f AFTER the guard, :140 before :142, the reverse of MendProjector) with empty top/ring calls, while the base call is still recorded (super.draw() runs before the guard) and light/select/place still draw. Caller-supplied -- the port has no live camera zoom at the driver layer (the N2372 precedent).",
+          "used_by": [
+            "SourceOverdriveProjectorBuildState.source_overdrive_projector_draw_rows_state"
+          ]
+        },
+        "lod_alpha2": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "java_expr": "Draw.alpha(Lod.alpha2);",
+          "rule": "The Lod fade alpha (OverdriveProjector.java:147; Lod.java:17, alpha2 defaults 1f): scales the top alpha (:145) and the ring alpha (:147). Caller-supplied like lod_l2.",
+          "used_by": [
+            "SourceOverdriveProjectorBuildState.source_overdrive_projector_draw_rows_state"
+          ]
+        },
+        "size_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "java_expr": "float r = Math.max(0f, Mathf.clamp(2f - f * 2f) * size * tilesize / 2f - f - 0.2f), w = Mathf.clamp(0.5f - f) * size * tilesize;",
+          "rule": "The def size (OverdriveProjector.java:150, the ring geometry: r and w scale by size * tilesize; projector 2, dome 3, Blocks.java:1947/1955): also sets the drawPlace Block offset (((size + 1) % 2) * tilesize / 2f, Block.java:761) -- 4 for size 2, 0 for size 3.",
+          "used_by": [
+            "SourceOverdriveProjectorBuildState.source_overdrive_projector_draw_rows_state"
+          ]
+        },
+        "base_color": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "java_expr": "public Color baseColor = Color.valueOf(\"feb380\");",
+          "rule": "The base color token (OverdriveProjector.java:30, class default feb380, no def override): carried as the symbolic token \"baseColor\" (the N2415 / ShockwaveTower precedent -- the port never draws for real); the draw color lerp starts here, and the light / dash / selected calls all use it.",
+          "used_by": [
+            "SourceOverdriveProjectorBuildState.source_overdrive_projector_draw_rows_state"
+          ]
+        },
+        "phase_color": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "java_expr": "public Color phaseColor = Color.valueOf(\"ffd59e\");",
+          "rule": "The phase color token (OverdriveProjector.java:31, class default ffd59e, no def override): carried as the symbolic token \"phaseColor\"; the draw color lerp ends here at phaseHeat 1.",
+          "used_by": [
+            "SourceOverdriveProjectorBuildState.source_overdrive_projector_draw_rows_state"
+          ]
+        },
+        "selected_blocks": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "java_expr": "indexer.eachBlock(this, realRange, other -> other.block.canOverdrive, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));",
+          "rule": "The caller-supplied eachBlock result (OverdriveProjector.java:131 for drawSelect, :59 for drawPlace): one Array serves both (the N2372 MendProjector precedent -- the two queries differ only in center/range, which the caller evaluated); each entry is a Dictionary with x / y world coords, a missing x or y EXCLUDES the entry (the N2329 precedent) and a non-Dictionary entry is excluded the same way. The pure renders one selected call per entry and does NOT range-filter (the range half is the index's visit, not the draw); the live building index fill is already covered by the boost-scan live-index DEFERRED entry.",
+          "used_by": [
+            "SourceOverdriveProjectorBuildState.source_overdrive_projector_draw_rows_state"
+          ]
+        },
+        "place_valid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "java_expr": "super.drawPlace(x, y, rotation, valid);",
+          "rule": "The drawPlace valid flag (OverdriveProjector.java:55): recorded on the place call -- super.drawPlace (Block.drawPlace, drawPotentialLinks + drawOverlay) is recorded as a call, not modeled.",
+          "used_by": [
+            "SourceOverdriveProjectorBuildState.source_overdrive_projector_draw_rows_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07OverdriveProjectorDrawRowsProof",
+      "rule": "Source-backed OverdriveProjector draw rows from OverdriveProjector.java / Drawf.java / Block.java / Lod.java / Blocks.java / arc Mathf.java / arc Geometry.java."
+    },
+    "source_overdrive_projector_draw_rows_state_result": {
+      "status": "active",
+      "owner": "SourceOverdriveProjectorBuildState.source_overdrive_projector_draw_rows_state",
+      "source_slice": "N2435",
+      "keys": {
+        "base_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "java_expr": "super.draw();",
+          "rule": "The super call (OverdriveProjector.java:138): recorded even when the Lod gate hides the draw rows, because super.draw() runs BEFORE the guard (:138 before :140). The super body (Block.draw) is recorded as a call, not modeled.",
+          "used_by": [
+            "SourceOverdriveProjectorBuildState.source_overdrive_projector_draw_rows_state"
+          ]
+        },
+        "top_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "java_expr": "Draw.rect(topRegion, x, y);",
+          "rule": "The top rect call (OverdriveProjector.java:146): region topRegion (the `@-top` region, OverdriveProjector.java:22), color lerp baseColor -> phaseColor by phaseHeat (:144) carried as an explicit from/to/t dict (the N2356 precedent), alpha = heat * absin(Time.time, 50f / PI2, 1f) * 0.5f * Lod.alpha2 (:145) -- Java-exact through the shared helper at the DOUBLED scale 100f / PI2 (Java absin folds a 2f the helper does not, Mathf.java:78-80). Empty when the Lod gate hides the draw rows.",
+          "used_by": [
+            "SourceOverdriveProjectorBuildState.source_overdrive_projector_draw_rows_state"
+          ]
+        },
+        "ring_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "java_expr": "Lines.linePoint(x + Geometry.d4(i).x * r + Geometry.d4(i).y * w, y + Geometry.d4(i).y * r - Geometry.d4(i).x * w);",
+          "rule": "The ring call (OverdriveProjector.java:151-156): the d4 loop between Lines.beginLine() and Lines.endLine(true) (closed), with the extra point when f < 0.5f (:154) -- 4 points at f >= 0.5, 8 at f < 0.5 -- at stroke (2f * f + 0.1f) * heat (:148, 0.1f not the Mend 0.2f) and alpha Lod.alpha2 (:147). r = max(0, clamp(2f - f * 2f) * size * tilesize / 2f - f - 0.2f) and w = clamp(0.5f - f) * size * tilesize (:150), where clamp is the 1-arg [0,1] clamp (Mathf.java:402, arc) and d4 is (1,0) / (0,1) / (-1,0) / (0,-1) (Geometry.java:9-14, arc). Empty when the Lod gate hides the draw rows.",
+          "used_by": [
+            "SourceOverdriveProjectorBuildState.source_overdrive_projector_draw_rows_state"
+          ]
+        },
+        "light_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "java_expr": "Drawf.light(x, y, lightRadius * smoothEfficiency, baseColor, 0.7f * smoothEfficiency);",
+          "rule": "The light call (OverdriveProjector.java:93): radius lightRadius * smoothEfficiency, color baseColor, alpha 0.7f * smoothEfficiency -- the Drawf.light overload (Drawf.java:301-304). No Lod gate: the call is always recorded, collapsing to radius 0 / alpha 0 at smoothEfficiency 0.",
+          "used_by": [
+            "SourceOverdriveProjectorBuildState.source_overdrive_projector_draw_rows_state"
+          ]
+        },
+        "select_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "java_expr": "Drawf.dashCircle(x, y, realRange, baseColor);",
+          "rule": "The select call (OverdriveProjector.java:128-133): the dash circle at (x, y) with radius realRange = range + phaseHeat * phaseRangeBoost (:129, the same formula the N2334 boost scan folds) plus one selected call per supplied candidate at the absin(4f, 1f) alpha -- Java-exact through the shared helper at the DOUBLED scale 8f (the 2-arg form reads Time.time, Mathf.java:74-75). The dash is Drawf.dashCircle (Drawf.java:398-404); the double stroke is the callee's body, recorded as one call (the N2396 precedent).",
+          "used_by": [
+            "SourceOverdriveProjectorBuildState.source_overdrive_projector_draw_rows_state"
+          ]
+        },
+        "place_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+          "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, baseColor);",
+          "rule": "The place call (OverdriveProjector.java:54-61): the recorded super.drawPlace call with the valid flag, the dash circle at (tile_x * tilesize + offset, tile_y * tilesize + offset) with the plain range (no phaseHeat fold -- drawPlace uses range, not realRange) and one selected call per supplied candidate at the absin(4f, 1f) alpha (the DOUBLED scale 8f, as in select). The offset is the Block offset (((size + 1) % 2) * tilesize / 2f, Block.java:761) -- 4 for the size-2 projector, 0 for the size-3 dome.",
+          "used_by": [
+            "SourceOverdriveProjectorBuildState.source_overdrive_projector_draw_rows_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07OverdriveProjectorDrawRowsProof",
+      "rule": "Source-backed OverdriveProjector draw rows from OverdriveProjector.java / Drawf.java / Block.java / Lod.java / Blocks.java / arc Mathf.java / arc Geometry.java."
+    },
+    "source_beam_drill_draw_state_input": {
+      "status": "active",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_draw_state",
+      "source_slice": "N2436",
+      "keys": {
+        "x_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Draw.rect(block.region, x, y);",
+          "rule": "The building world x (BeamDrill.java:276, the base rect center): the base rect, the top rect and the glow rect are all centered here.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "y_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Draw.rect(block.region, x, y);",
+          "rule": "The building world y (BeamDrill.java:276, the base rect center): the base rect, the top rect and the glow rect are all centered here.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "var dir = Geometry.d4(rotation);",
+          "rule": "The placement rotation 0-3 (BeamDrill.java:281, the laser direction; rotdeg() = rotation * 90, BuildingComp.java:582-584, is the top / glow rotation and the spark rotate base): d4 / d4x / d4y read it mod 4 (arc Geometry.java:43-53).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "size_value": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "for(int i = 0; i < size; i++){",
+          "rule": "The block size in tiles (BeamDrill.java:285, the laser loop bound; `public int size = 1;`, Block.java:215; plasma-bore `size = 2;` / large-plasma-bore `size = 3;`, Blocks.java:3044/3058): the pure loops exactly size lasers and size facing slots.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "id_value": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "float width = (laserWidth + Mathf.absin(Time.time + i*5 + (id % 9)*9, glowScl, pulseIntensity)) * warmup;",
+          "rule": "The building id (BeamDrill.java:293/296, the absin phase offsets -- NOTE the width reads (id % 9) * 9 while the mixcol reads id * 9 -- and the spark seed, `rand.setState(i, id);`, :330).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "float width = (laserWidth + Mathf.absin(Time.time + i*5 + (id % 9)*9, glowScl, pulseIntensity)) * warmup;",
+          "rule": "The frame warmup (BeamDrill.java:293, the width scale; `public float warmup, boostWarmup;`, :226, tracked by the N2195 advance): the laser width, the spark stroke (Lines.stroke(warmup), :328) and the glow alpha (:351) all scale by it.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "boost_warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "if(boostWarmup < 0.99f){",
+          "rule": "The frame boostWarmup (BeamDrill.java:300/305/314/319, the boost gates; tracked by the N2195 advance): the center / laser boost branches gate on it asymmetrically (> 0.01 center vs > 0.001 laser), and the spark + glow colors lerp by it.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "time_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "float width = (laserWidth + Mathf.absin(Time.time + i*5 + (id % 9)*9, glowScl, pulseIntensity)) * warmup;",
+          "rule": "Time.time in ticks (BeamDrill.java:293/296, the width + mixcol absins; :334, the spark fin; :351, the glow absin via the 2-arg form): caller-supplied -- draw never runs in the tick, so the tick never stamps it (the N2430/N2372 convention).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "lod_l2": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "if(Lod.l2){",
+          "rule": "Whether Lod.l2 holds (BeamDrill.java:327, the spark gate; `public static boolean l2 = true;`, Lod.java:16, l2 = alpha2 >= 1/255f): the sparks draw only when it holds.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "lod_alpha2": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Draw.color(result.r, result.g, result.b, result.a * Lod.alpha2);",
+          "rule": "Lod.alpha2 (BeamDrill.java:339, the spark line alpha scale; `public static float alpha2 = 1f;`, Lod.java:17): the spark color alpha multiplies by it.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "is_payload": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "if(isPayload()) return;",
+          "rule": "Whether the build is a payload (BeamDrill.java:279, the early return): when true the lasers AND the glow are skipped, but the base/top rects, the select call and icons() still apply.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "facing": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Tile face = facing[i];",
+          "rule": "The facing tiles (BeamDrill.java:221, `public Tile[] facing = new Tile[size];`, :286): one entry per laser in laser order, null-or-{tile_x, tile_y, world_x, world_y, drop} -- the tile coords feed the centered check (|p.x - face.x| + |p.y - face.y| == 0, :297), the world coords feed lx/ly (:292), and drop is null-or-{name, color} (the wallDrop item, null -> the laser draws nothing, :290). Caller-supplied: the facing tiles live from N2339/N2352 as rays, but the pure does NOT read the frame -- the dest tiles with coords wait for the drop-loop slice (see the existing facing / laser binding entry).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "lasers": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Point2 p = lasers[i];",
+          "rule": "The laser origins (BeamDrill.java:222, `public Point2[] lasers = new Point2[size];`, :291): one {x, y} tile-coord entry per laser in laser order, the N2346 origins shape -- the centered check and the lsx/lsy start point read them. Caller-supplied; a missing or short entry reads (0, 0), the fresh Point2 default (the N2346 precedent).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "last_item": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "drawItemSelection(lastItem);",
+          "rule": "The last drilled item (BeamDrill.java:223, `public @Nullable Item lastItem;`, :233): null-or-dict -- null draws no select call (drawItemSelection does nothing for a null selection, BuildingComp.java:1249-1250), else the select call records the item.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "glow_found": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "if(glowRegion.found()){",
+          "rule": "Whether the glow region is found (BeamDrill.java:348, the glow gate; `public @Load(\"@-glow\") TextureRegion glowRegion;`, :37): the glow additive draws only when the region is found, else glow_call is null.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "heat_color": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public Color heatColor = new Color(1f, 0.35f, 0.35f, 0.9f);",
+          "rule": "The heat color token (BeamDrill.java:60, the glow color from-value; the class default (1, 0.35, 0.35, 0.9), neither def overrides it): carried as the symbolic token \"heatColor\", the N2431 precedent -- the port never draws for real.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "boost_heat_color": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public Color boostHeatColor = Color.sky.cpy().mul(0.87f);",
+          "rule": "The boost heat color token (BeamDrill.java:59, the glow + spark color to-value; the class default sky * 0.87, neither def overrides it): carried as the symbolic token \"boostHeatColor\", the N2431 precedent.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "heat_pulse": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Draw.color(Tmp.c1.set(heatColor).lerp(boostHeatColor, boostWarmup), warmup * (heatColor.a * (1f - heatPulse + Mathf.absin(heatPulseScl, heatPulse))));",
+          "rule": "The heat pulse magnitude (BeamDrill.java:351, the glow alpha; `public float heatPulse = 0.3f, heatPulseScl = 7f;`, :61, class defaults, neither def overrides them).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "heat_pulse_scl": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Draw.color(Tmp.c1.set(heatColor).lerp(boostHeatColor, boostWarmup), warmup * (heatColor.a * (1f - heatPulse + Mathf.absin(heatPulseScl, heatPulse))));",
+          "rule": "The heat pulse scale (BeamDrill.java:351, the glow absin scale; the 2-arg absin is absin(Time.time, heatPulseScl, heatPulse), arc Mathf.java:74-76): the pure passes it doubled to the shared helper (the N2372/N2382 precedent).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "spark_rolls": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "rand.setState(i, id);",
+          "rule": "The caller-supplied spark rolls (BeamDrill.java:330-336): one Array per laser, 3 rolls per spark in Java draw order -- per spark j: [random(sparkRecurrence+1), range(2), range(sparkSpread)] -- where random(max) is nextFloat() * max and range(amount) is nextFloat() * amount * 2 - amount (arc Rand.java:190-196), so each roll is the ALREADY-DRAWN value. `rand.setState(i, id);` (:330) is the deterministic per-laser seed the rolls replace; a missing or short roll reads 0.0. NO RNG in the pure (the N2421 precedent).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "laser_width": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public float laserWidth = 0.65f;",
+          "rule": "The def laserWidth (BeamDrill.java:42, the class default 0.65f; the laser width base, :293): large-plasma-bore overrides it to 0.7f (`laserWidth = 0.7f;`, Blocks.java:3061), so it is a caller-supplied INPUT, not a driver constant.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BeamDrillDrawRowsProof",
+      "rule": "Source-backed BeamDrill draw rows from BeamDrill.java / Drawf.java / Blocks.java / BuildingComp.java / Tile.java / Vars.java / Lod.java / arc Mathf.java / Geometry.java / Angles.java / Rand.java."
+    },
+    "source_beam_drill_draw_state_result": {
+      "status": "active",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_draw_state",
+      "source_slice": "N2436",
+      "keys": {
+        "base_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Draw.rect(block.region, x, y);",
+          "rule": "The base rect call (BeamDrill.java:276): region region (block.region), centered on the building, drawn at the default z before any Draw.z call -- the call carries no z key, the N2431 shape.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "top_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Draw.rect(topRegion, x, y, rotdeg());",
+          "rule": "The top rect call (BeamDrill.java:277): region topRegion (the `@-top` region, :36), centered on the building, rotation rotdeg() = rotation * 90, drawn at the default z -- the call carries no z key, the N2431 shape.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "laser_calls": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "float width = (laserWidth + Mathf.absin(Time.time + i*5 + (id % 9)*9, glowScl, pulseIntensity)) * warmup;",
+          "rule": "The per-laser draw entries (BeamDrill.java:285-346): one entry per laser that draws (a null face or a null drop omits the laser, :287/:290), each {index, centered, width, mixcol, lx, ly, z, center_calls/laser_calls, spark_calls, spark_stroke} -- width is (laserWidth + absin(Time.time + i*5 + (id % 9)*9, glowScl, pulseIntensity)) * warmup at the doubled helper scale, mixcol is glowColor at absin(Time.time + i*5 + id*9, glowScl, glowIntensity) (NOTE the id*9 vs (id % 9)*9 offsets), z is Layer.power - 1, the centered branch (:297-310) carries center_calls (laserCenter at alpha 1 - boostWarmup when boostWarmup < 0.99, laserCenterBoost at alpha boostWarmup when boostWarmup > 0.01, scl width) and the laser branch (:311-323) carries laser_calls (the recorded Drawf.laser calls, normal at alpha 1 - boostWarmup when boostWarmup < 0.99, boost at alpha boostWarmup when boostWarmup > 0.001 -- the asymmetric gates), and spark_calls carries the drawn spark lines (fin <= 1 only, :341) with their fin / position / angle / length / nested-lerp color / alpha_scale, empty when Lod.l2 is false. Empty when the build is a payload.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "glow_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Draw.color(Tmp.c1.set(heatColor).lerp(boostHeatColor, boostWarmup), warmup * (heatColor.a * (1f - heatPulse + Mathf.absin(heatPulseScl, heatPulse))));",
+          "rule": "The glow additive call (BeamDrill.java:348-355): null when the glow region is not found OR the build is a payload, else region glowRegion, color heatColor -> boostHeatColor at boostWarmup (a from/to/t dict), alpha warmup * (0.9 * (1 - heatPulse + absin(Time.time, heatPulseScl, heatPulse))) at the doubled helper scale, rotation rotdeg(), z Layer.blockAdditive, blend Blending.additive.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "select_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "drawItemSelection(lastItem);",
+          "rule": "The select call (BeamDrill.java:233): null when lastItem is null, else the recorded `drawItemSelection(lastItem);` call with the item -- the pure records the call, it does not port the callee geometry (BuildingComp.java:1249-1257, the N2396 precedent).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "icon_regions": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "return new TextureRegion[]{region, topRegion};",
+          "rule": "The icon regions in Java order (BeamDrill.java:108-115, icons() returns {region, topRegion}): [\"region\", \"topRegion\"]. Folded into the draw pure because icons() takes no args and the SSOT schema validator requires non-empty input keys (the N2396/N2430 precedent).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "draw_rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Draw.rect(topRegion, x, y, rotdeg());",
+          "rule": "The draw rotation rotdeg() = rotation * 90 (BuildingComp.java:582-584): the top rect rotation, the glow rect rotation and the spark rotate base.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "payload_return": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "if(isPayload()) return;",
+          "rule": "Whether draw() took the payload early return (BeamDrill.java:279): when true the lasers AND the glow are skipped, but the base/top rects, the select call and icons() still apply.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BeamDrillDrawRowsProof",
+      "rule": "Source-backed BeamDrill draw rows from BeamDrill.java / Drawf.java / Blocks.java / BuildingComp.java / Tile.java / Vars.java / Lod.java / arc Mathf.java / Geometry.java / Angles.java / Rand.java."
+    },
+    "source_build_turret_sense_state_input": {
+      "status": "active",
+      "owner": "SourceBuildTurretBuildState.source_build_turret_sense_state",
+      "source_slice": "N2437",
+      "keys": {
+        "sensor": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "public double sense(LAccess sensor){",
+          "rule": "The LAccess sensor name (BuildTurret.java:281, the sense parameter): \"buildX\" / \"buildY\" delegate to the builder unit, any other name falls through to super.sense (BuildingComp.java:2093-2125). Sensor names are the camelCase LAccess enum names (LAccess.java:54-55, 59-60; the SourceBuildingSenseState.sense_object_state precedent: \"type\", \"firstItem\", \"config\", \"payloadType\").",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_sense_state"
+          ]
+        },
+        "unit_build_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "java_expr": "case buildX -> isBuilding() ? buildPlan().x : -1;",
+          "rule": "The caller-supplied unit.sense(buildX) value (UnitComp.java:290): the plan tile x when the builder unit is building, -1 when it is not. The pure only delegates -- it never computes the -1 itself, because the unit is a live BlockUnitc the pure cannot query (BuildTurret.java:93).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_sense_state"
+          ]
+        },
+        "unit_build_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "java_expr": "case buildY -> isBuilding() ? buildPlan().y : -1;",
+          "rule": "The caller-supplied unit.sense(buildY) value (UnitComp.java:291): the plan tile y when the builder unit is building, -1 when it is not. The pure only delegates -- it never computes the -1 itself, because the unit is a live BlockUnitc the pure cannot query (BuildTurret.java:93).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_sense_state"
+          ]
+        },
+        "super_value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "default -> super.sense(sensor);",
+          "rule": "The caller-supplied super.sense(sensor) result (BuildTurret.java:284): the BuildingComp switch value (BuildingComp.java:2093-2125) computed through the already-modeled SourceBuildingSenseState pures (sense_position_state / sense_health_process_state / sense_totals_state / sense_capacity_power_net_state / sense_enabled_controlled_state / sense_payload_size_state / sense_camera_default_state). Null is the super switch default branch (`default -> Float.NaN; //gets converted to null in logic`, BuildingComp.java:2123).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_sense_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildTurretSenseRowsProof",
+      "rule": "Source-backed BuildTurret sense rows from BuildTurret.java / UnitComp.java / BuildingComp.java / LAccess.java / Senseable.java."
+    },
+    "source_build_turret_sense_state_result": {
+      "status": "active",
+      "owner": "SourceBuildTurretBuildState.source_build_turret_sense_state",
+      "source_slice": "N2437",
+      "keys": {
+        "value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "case buildX, buildY -> unit.sense(sensor);",
+          "rule": "The sensed value (BuildTurret.java:283-284): buildX returns the caller-supplied unit_build_x, buildY the caller-supplied unit_build_y; any other sensor returns the caller-supplied super_value (null for the super default branch).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_sense_state"
+          ]
+        },
+        "delegated": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "case buildX, buildY -> unit.sense(sensor);",
+          "rule": "The dispatch flag (BuildTurret.java:283, the `buildX, buildY` case): true exactly when the sensor delegates to the builder unit and the value is a unit value.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_sense_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildTurretSenseRowsProof",
+      "rule": "Source-backed BuildTurret sense rows from BuildTurret.java / UnitComp.java / BuildingComp.java / LAccess.java / Senseable.java."
+    },
+    "source_build_turret_sense_object_state_input": {
+      "status": "active",
+      "owner": "SourceBuildTurretBuildState.source_build_turret_sense_object_state",
+      "source_slice": "N2437",
+      "keys": {
+        "sensor": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "public Object senseObject(LAccess sensor){",
+          "rule": "The LAccess sensor name (BuildTurret.java:289, the senseObject parameter): \"building\" / \"breaking\" delegate to the builder unit, any other name falls through to super.senseObject (BuildingComp.java:2128-2136). Sensor names are the camelCase LAccess enum names (LAccess.java:54-55, 59-60).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_sense_object_state"
+          ]
+        },
+        "unit_building": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "java_expr": "case building -> isBuilding() && !buildPlan().breaking ? buildPlan().tile().build : null;",
+          "rule": "The caller-supplied unit.senseObject(building) value (UnitComp.java:323): the plan tile's build as a null-or-dict descriptor when the builder unit is building (not breaking), null otherwise. The pure only delegates -- it never evaluates isBuilding() / buildPlan().breaking itself, because the unit is a live BlockUnitc the pure cannot query (BuildTurret.java:93).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_sense_object_state"
+          ]
+        },
+        "unit_breaking": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "java_expr": "case breaking -> isBuilding() && buildPlan().breaking ? buildPlan().tile().build : null;",
+          "rule": "The caller-supplied unit.senseObject(breaking) value (UnitComp.java:324): the plan tile's build as a null-or-dict descriptor when the builder unit is breaking, null otherwise. The pure only delegates -- it never evaluates isBuilding() / buildPlan().breaking itself, because the unit is a live BlockUnitc the pure cannot query (BuildTurret.java:93).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_sense_object_state"
+          ]
+        },
+        "super_value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "default -> super.senseObject(sensor);",
+          "rule": "The caller-supplied super.senseObject(sensor) result (BuildTurret.java:292): the BuildingComp switch value (BuildingComp.java:2128-2136) computed through the already-modeled SourceBuildingSenseState.sense_object_state pure. Null is the super switch default branch (noSensed, `default -> noSensed;`, BuildingComp.java:2134; `Object noSensed = new Object();`, Senseable.java:6 -- the canonical sense_object_state represents it as value null + no_sensed true).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_sense_object_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildTurretSenseRowsProof",
+      "rule": "Source-backed BuildTurret sense rows from BuildTurret.java / UnitComp.java / BuildingComp.java / LAccess.java / Senseable.java."
+    },
+    "source_build_turret_sense_object_state_result": {
+      "status": "active",
+      "owner": "SourceBuildTurretBuildState.source_build_turret_sense_object_state",
+      "source_slice": "N2437",
+      "keys": {
+        "value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "case building, breaking -> unit.senseObject(sensor);",
+          "rule": "The sensed object (BuildTurret.java:291-292): building returns the caller-supplied unit_building descriptor, breaking the caller-supplied unit_breaking descriptor; any other sensor returns the caller-supplied super_value (null for the noSensed default branch).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_sense_object_state"
+          ]
+        },
+        "delegated": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "case building, breaking -> unit.senseObject(sensor);",
+          "rule": "The dispatch flag (BuildTurret.java:291, the `building, breaking` case): true exactly when the sensor delegates to the builder unit and the value is a unit value.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_sense_object_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildTurretSenseRowsProof",
+      "rule": "Source-backed BuildTurret sense rows from BuildTurret.java / UnitComp.java / BuildingComp.java / LAccess.java / Senseable.java."
+    },
+    "source_impact_reactor_draw_plan_state_input": {
+      "status": "active",
+      "owner": "SourceImpactReactorBuildState.source_impact_reactor_draw_plan_state",
+      "source_slice": "N2438",
+      "keys": {
+        "plan_drawx": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "Draw.rect(reg, plan.drawx(), plan.drawy(), !rotate || !rotateDraw ? 0 : plan.rotation * 90);",
+          "rule": "The plan draw x (Block.java:859, the main plan rect center; the bottom plan rect center, DrawRegion.java:63; the team overlay center, Block.java:863).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_draw_plan_state"
+          ]
+        },
+        "plan_drawy": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "Draw.rect(reg, plan.drawx(), plan.drawy(), !rotate || !rotateDraw ? 0 : plan.rotation * 90);",
+          "rule": "The plan draw y (Block.java:859 / DrawRegion.java:63 / Block.java:863, same mapping as x).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_draw_plan_state"
+          ]
+        },
+        "plan_rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "Draw.rect(reg, plan.drawx(), plan.drawy(), !rotate || !rotateDraw ? 0 : plan.rotation * 90);",
+          "rule": "The plan rotation (Block.java:859): taken so the plan rotation formula is explicit, but it folds to 0 -- ImpactReactor sets no rotate (Block.java:120, default false).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_draw_plan_state"
+          ]
+        },
+        "plan_world_context": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "if(plan.worldContext && player != null && teamRegion != null && teamRegion.found()){",
+          "rule": "Whether the plan is drawn in a world context (Block.java:861, the team overlay gate).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_draw_plan_state"
+          ]
+        },
+        "player_present": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "if(plan.worldContext && player != null && teamRegion != null && teamRegion.found()){",
+          "rule": "Whether a player exists (Block.java:861, the team overlay gate: player != null).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_draw_plan_state"
+          ]
+        },
+        "team_region_found": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "if(plan.worldContext && player != null && teamRegion != null && teamRegion.found()){",
+          "rule": "Whether the team region exists and is found (Block.java:861, the team overlay gate: teamRegion != null && teamRegion.found()).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_draw_plan_state"
+          ]
+        },
+        "team_matches": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "if(teamRegions[player.team().id] == teamRegion) Draw.color(player.team().color, a);",
+          "rule": "Whether the player team region IS the base team region (Block.java:862): only then does the overlay draw in the team color.",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_draw_plan_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ImpactReactorDrawPlanRowsProof",
+      "rule": "Source-backed ImpactReactor drawPlan rows from ImpactReactor.java / PowerGenerator.java / DrawMulti.java / DrawRegion.java / DrawPlasma.java / DrawDefault.java / DrawBlock.java / Block.java / Blocks.java."
+    },
+    "source_impact_reactor_draw_plan_state_result": {
+      "status": "active",
+      "owner": "SourceImpactReactorBuildState.source_impact_reactor_draw_plan_state",
+      "source_slice": "N2438",
+      "keys": {
+        "plan_generator_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+          "java_expr": "drawer.drawPlan(this, plan, list);",
+          "rule": "The PowerGenerator.drawPlanRegion delegation call (PowerGenerator.java:84-85): the drawer + the DrawMulti member order. PowerGenerator.drawPlanRegion draws NO region of its own -- it only delegates to drawer.drawPlan, so this call records the delegation, not a rect.",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_draw_plan_state"
+          ]
+        },
+        "plan_bottom_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/draw/DrawRegion.java",
+          "java_expr": "Draw.rect(region, plan.drawx()+ x, plan.drawy() + y, (buildingRotate ? plan.rotation * 90f : 0 + rotation));",
+          "rule": "The \"-bottom\" plan rect call (DrawRegion.java:63): region impact-reactor-bottom, at the plan position, rotation 0 (buildingRotate false).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_draw_plan_state"
+          ]
+        },
+        "plan_plasma_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/draw/DrawPlasma.java",
+          "java_expr": "public class DrawPlasma extends DrawFlame{",
+          "rule": "The plasma plan call -- EMPTY: DrawPlasma has no drawPlan() override (DrawPlasma.java:12, extends DrawFlame) and neither does its parent DrawFlame, so the call lands on the base no-op (DrawBlock.java:36-38). The empty dict records that this DrawMulti member contributes no plan call.",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_draw_plan_state"
+          ]
+        },
+        "plan_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "Draw.rect(reg, plan.drawx(), plan.drawy(), !rotate || !rotateDraw ? 0 : plan.rotation * 90);",
+          "rule": "The main plan rect call (Block.java:859, via DrawDefault.drawPlan -> drawDefaultPlanRegion): region fullIcon (getPlanRegion, Block.java:881-883), at the plan position, rotation 0 (ImpactReactor sets no rotate).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_draw_plan_state"
+          ]
+        },
+        "plan_team_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "Draw.rect(teamRegions[player.team().id], plan.drawx(), plan.drawy());",
+          "rule": "The team overlay rect call (Block.java:863): region teamRegions[player.team().id], at the plan position, team color only when team_matches. Empty when the world-context gate fails (Block.java:861).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_draw_plan_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ImpactReactorDrawPlanRowsProof",
+      "rule": "Source-backed ImpactReactor drawPlan rows from ImpactReactor.java / PowerGenerator.java / DrawMulti.java / DrawRegion.java / DrawPlasma.java / DrawDefault.java / DrawBlock.java / Block.java / Blocks.java."
+    },
+    "source_light_block_draw_place_state_input": {
+      "status": "active",
+      "owner": "SourceLightBlockBuildState.source_light_block_draw_place_state",
+      "source_slice": "N2439",
+      "keys": {
+        "tile_x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+          "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, radius * 0.75f, Pal.placing);",
+          "rule": "The placement tile x (LightBlock.java:52, the dashCircle center x * tilesize + offset): the dash circle is centered here.",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_draw_place_state"
+          ]
+        },
+        "tile_y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+          "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, radius * 0.75f, Pal.placing);",
+          "rule": "The placement tile y (LightBlock.java:52, the dashCircle center y * tilesize + offset): the dash circle is centered here.",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_draw_place_state"
+          ]
+        },
+        "rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+          "java_expr": "super.drawPlace(x, y, rotation, valid);",
+          "rule": "The placement rotation (LightBlock.java:50, the super.drawPlace arg; also the Placement.calculateNodes arg, LightBlock.java:58): recorded on the super call and the calculateNodes call; it does not change the dash circle math.",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_draw_place_state"
+          ]
+        },
+        "valid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+          "java_expr": "super.drawPlace(x, y, rotation, valid);",
+          "rule": "The placement validity flag (LightBlock.java:50, the super.drawPlace arg): recorded on the super call only; Java draws the dash circle regardless of validity.",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_draw_place_state"
+          ]
+        },
+        "radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+          "java_expr": "public float radius = 200f;",
+          "rule": "The block radius (LightBlock.java:23, `public float radius = 200f;`, overridden by the illuminator def to 140f, Blocks.java:6766): caller-supplied so the pure stays def-agnostic (the N2356 range precedent) -- the dash radius is radius * 0.75f (LightBlock.java:52) and placeRadius2 is pow(radius * 0.7f / tilesize, 2f) * 3 (LightBlock.java:57).",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_draw_place_state"
+          ]
+        },
+        "offset": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "offset = ((size + 1) % 2) * tilesize / 2f;",
+          "rule": "The Block offset (Block.java:761, `offset = ((size + 1) % 2) * tilesize / 2f;` -- 0 for the size-1 LightBlock, `public int size = 1;`, Block.java:215): caller-supplied, so the pure stays def-agnostic; the dash center is x * tilesize + offset (LightBlock.java:52).",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_draw_place_state"
+          ]
+        },
+        "build_color": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+          "java_expr": "public int color = Pal.accent.rgba();",
+          "rule": "The build color int or null (LightBlock.java:68, `public int color = Pal.accent.rgba();`): null when the tile has no build (var build = (LightBuild)tile.build, LightBlock.java:63, is null), else the config color -- minimapColor returns 0 for null, else color | 0xff (LightBlock.java:65). Explicit param -- the color config waits for its own slice.",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_draw_place_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LightBlockDrawPlaceRowsProof",
+      "rule": "Source-backed LightBlock draw-place rows from LightBlock.java / Block.java / Vars.java / Pal.java / Placement.java / Blocks.java."
+    },
+    "source_light_block_draw_place_state_result": {
+      "status": "active",
+      "owner": "SourceLightBlockBuildState.source_light_block_draw_place_state",
+      "source_slice": "N2439",
+      "keys": {
+        "dash_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+          "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, radius * 0.75f, Pal.placing);",
+          "rule": "The dash circle call (LightBlock.java:52): center x * tilesize + offset / y * tilesize + offset (tilesize 8, Vars.java:135; offset 0 for the size-1 block, Block.java:761), radius radius * 0.75f (105.0 for the illuminator def radius 140f, 150.0 for the class default 200f), color the Pal.placing token (Pal.java:95, placing = accent).",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_draw_place_state"
+          ]
+        },
+        "place_radius2": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+          "java_expr": "var placeRadius2 = Mathf.pow(radius * 0.7f / tilesize, 2f) * 3;",
+          "rule": "The placement-path radius squared (LightBlock.java:57): pow(radius * 0.7f / tilesize, 2f) * 3 -- 450.1875 for the illuminator def radius 140f (12.25^2 * 3), 918.75 for the class default 200f (17.5^2 * 3). The predicate threshold for the calculateNodes call.",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_draw_place_state"
+          ]
+        },
+        "calculate_nodes_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+          "java_expr": "Placement.calculateNodes(points, this, rotation, (point, other) -> point.dst2(other) <= placeRadius2);",
+          "rule": "The calculateNodes CALL record (LightBlock.java:58; callee `public static void calculateNodes(Seq<Point2> points, Block block, int rotation, Boolf2<Point2, Point2> overlapper){`, Placement.java:92): the pure records the call + rotation + the predicate threshold placeRadius2 (the N2396 CALL precedent) -- the node algorithm itself is NOT ported, the port has no placement point list to run it over.",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_draw_place_state"
+          ]
+        },
+        "minimap_color": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+          "java_expr": "return build == null ? 0 : build.color | 0xff;",
+          "rule": "The minimap color (LightBlock.java:65): 0 when the tile has no build, else build.color | 0xff (the low byte forced to 0xff -- \"make sure A is 255\", LightBlock.java:64).",
+          "used_by": [
+            "SourceLightBlockBuildState.source_light_block_draw_place_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LightBlockDrawPlaceRowsProof",
+      "rule": "Source-backed LightBlock draw-place rows from LightBlock.java / Block.java / Vars.java / Pal.java / Placement.java / Blocks.java."
     }
   },
   "version": 1

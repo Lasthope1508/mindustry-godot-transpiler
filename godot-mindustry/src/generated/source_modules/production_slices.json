@@ -1950,6 +1950,30 @@
       ],
       "runtime_proof": "/root/C07WallCrafterDrawRowsProof"
     },
+    "N2436": {
+      "canonical_ledger": "source_slice_ledger.N2436",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.draw()",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_state",
+      "source_symbols": [
+        "source_beam_drill_draw_state_result.base_call",
+        "source_beam_drill_draw_state_result.top_call",
+        "source_beam_drill_draw_state_result.laser_calls",
+        "source_beam_drill_draw_state_result.glow_call",
+        "source_beam_drill_draw_state_result.select_call",
+        "source_beam_drill_draw_state_result.icon_regions",
+        "source_beam_drill_draw_state_result.draw_rotation",
+        "source_beam_drill_draw_state_result.payload_return"
+      ],
+      "tests": [
+        "test_c07_beam_drill_draw_rows_registration",
+        "test_all_c07_beam_drill_draw_rows_input_evidence_is_exact",
+        "test_beam_drill_draw_rows_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_rows"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawRowsProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",

@@ -77240,6 +77240,639 @@
       ],
       "runtime_proof": "/root/C07BuildTurretDrawRowsProof",
       "rule": "Source-backed BuildTurret draw rows from BuildTurret.java / Drawf.java / Blocks.java / BaseTurret.java."
+    },
+    "SourceStackRouterBuildState.source_stack_router_draw_state": {
+      "status": "active",
+      "source_slice": "N2433",
+      "java_source": "core/src/mindustry/world/blocks/distribution/StackRouter.java",
+      "source_method": "StackRouterBuild.draw()",
+      "params": [
+        {
+          "name": "x_value",
+          "type": "float",
+          "schema": "source_stack_router_draw_state_input.x_value"
+        },
+        {
+          "name": "y_value",
+          "type": "float",
+          "schema": "source_stack_router_draw_state_input.y_value"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_stack_router_draw_state_input.rotation"
+        },
+        {
+          "name": "sort_item",
+          "type": "Variant",
+          "schema": "source_stack_router_draw_state_input.sort_item"
+        },
+        {
+          "name": "power_status",
+          "type": "float",
+          "schema": "source_stack_router_draw_state_input.power_status"
+        },
+        {
+          "name": "glow_found",
+          "type": "bool",
+          "schema": "source_stack_router_draw_state_input.glow_found"
+        },
+        {
+          "name": "glow_color",
+          "type": "String",
+          "schema": "source_stack_router_draw_state_input.glow_color"
+        },
+        {
+          "name": "glow_alpha",
+          "type": "float",
+          "schema": "source_stack_router_draw_state_input.glow_alpha"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "cached_base_call",
+        "cached_sort_call",
+        "cached_top_call",
+        "glow_call",
+        "select_call",
+        "icon_regions"
+      ],
+      "tests": [
+        "test_c07_stack_router_draw_rows_registration",
+        "test_all_c07_stack_router_draw_rows_input_evidence_is_exact",
+        "test_stack_router_draw_rows_state",
+        "test_reference_graph_and_actual_c07_stack_router_draw_rows"
+      ],
+      "runtime_proof": "/root/C07StackRouterDrawRowsProof",
+      "rule": "Source-backed StackRouter draw rows from StackRouter.java / DuctRouter.java / BuildingComp.java / Blocks.java / Pal.java."
+    },
+    "SourceStackConveyorBuildState.source_stack_conveyor_draw_state": {
+      "status": "active",
+      "source_slice": "N2434",
+      "java_source": "core/src/mindustry/world/blocks/distribution/StackConveyor.java",
+      "source_method": "StackConveyorBuild.draw()",
+      "params": [
+        {
+          "name": "x_value",
+          "type": "float",
+          "schema": "source_stack_conveyor_draw_state_input.x_value"
+        },
+        {
+          "name": "y_value",
+          "type": "float",
+          "schema": "source_stack_conveyor_draw_state_input.y_value"
+        },
+        {
+          "name": "rotation_value",
+          "type": "int",
+          "schema": "source_stack_conveyor_draw_state_input.rotation_value"
+        },
+        {
+          "name": "state_value",
+          "type": "int",
+          "schema": "source_stack_conveyor_draw_state_input.state_value"
+        },
+        {
+          "name": "blendprox",
+          "type": "int",
+          "schema": "source_stack_conveyor_draw_state_input.blendprox"
+        },
+        {
+          "name": "near_square",
+          "type": "Array",
+          "schema": "source_stack_conveyor_draw_state_input.near_square"
+        },
+        {
+          "name": "front_square",
+          "type": "Variant",
+          "schema": "source_stack_conveyor_draw_state_input.front_square"
+        },
+        {
+          "name": "link",
+          "type": "int",
+          "schema": "source_stack_conveyor_draw_state_input.link"
+        },
+        {
+          "name": "from_world",
+          "type": "Variant",
+          "schema": "source_stack_conveyor_draw_state_input.from_world"
+        },
+        {
+          "name": "from_build_null",
+          "type": "bool",
+          "schema": "source_stack_conveyor_draw_state_input.from_build_null"
+        },
+        {
+          "name": "last_item",
+          "type": "Variant",
+          "schema": "source_stack_conveyor_draw_state_input.last_item"
+        },
+        {
+          "name": "power_status",
+          "type": "float",
+          "schema": "source_stack_conveyor_draw_state_input.power_status"
+        },
+        {
+          "name": "glow_found",
+          "type": "bool",
+          "schema": "source_stack_conveyor_draw_state_input.glow_found"
+        },
+        {
+          "name": "glow_color",
+          "type": "String",
+          "schema": "source_stack_conveyor_draw_state_input.glow_color"
+        },
+        {
+          "name": "glow_alpha",
+          "type": "float",
+          "schema": "source_stack_conveyor_draw_state_input.glow_alpha"
+        },
+        {
+          "name": "cooldown",
+          "type": "float",
+          "schema": "source_stack_conveyor_draw_state_input.cooldown"
+        },
+        {
+          "name": "items_total",
+          "type": "int",
+          "schema": "source_stack_conveyor_draw_state_input.items_total"
+        },
+        {
+          "name": "item_capacity",
+          "type": "int",
+          "schema": "source_stack_conveyor_draw_state_input.item_capacity"
+        },
+        {
+          "name": "item_size",
+          "type": "float",
+          "schema": "source_stack_conveyor_draw_state_input.item_size"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "cached_call",
+        "glow_call",
+        "stack_call",
+        "item_call",
+        "stack_x",
+        "stack_y",
+        "stack_angle",
+        "item_size"
+      ],
+      "tests": [
+        "test_c07_stack_conveyor_draw_rows_registration",
+        "test_all_c07_stack_conveyor_draw_rows_input_evidence_is_exact",
+        "test_stack_conveyor_draw_rows_state",
+        "test_reference_graph_and_actual_c07_stack_conveyor_draw_rows"
+      ],
+      "runtime_proof": "/root/C07StackConveyorDrawRowsProof",
+      "rule": "Source-backed StackConveyor draw rows from StackConveyor.java / Vars.java / Blocks.java / BuildingComp.java / Autotiler.java / Interp.java / Geometry.java / Mathf.java."
+    },
+    "SourceOverdriveProjectorBuildState.source_overdrive_projector_draw_rows_state": {
+      "status": "active",
+      "source_slice": "N2435",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "source_method": "OverdriveBuild.draw()",
+      "params": [
+        {
+          "name": "x_value",
+          "type": "float",
+          "schema": "source_overdrive_projector_draw_rows_state_input.x_value"
+        },
+        {
+          "name": "y_value",
+          "type": "float",
+          "schema": "source_overdrive_projector_draw_rows_state_input.y_value"
+        },
+        {
+          "name": "tile_x",
+          "type": "int",
+          "schema": "source_overdrive_projector_draw_rows_state_input.tile_x"
+        },
+        {
+          "name": "tile_y",
+          "type": "int",
+          "schema": "source_overdrive_projector_draw_rows_state_input.tile_y"
+        },
+        {
+          "name": "range_value",
+          "type": "float",
+          "schema": "source_overdrive_projector_draw_rows_state_input.range_value"
+        },
+        {
+          "name": "phase_heat",
+          "type": "float",
+          "schema": "source_overdrive_projector_draw_rows_state_input.phase_heat"
+        },
+        {
+          "name": "phase_range_boost",
+          "type": "float",
+          "schema": "source_overdrive_projector_draw_rows_state_input.phase_range_boost"
+        },
+        {
+          "name": "light_radius",
+          "type": "float",
+          "schema": "source_overdrive_projector_draw_rows_state_input.light_radius"
+        },
+        {
+          "name": "smooth_efficiency",
+          "type": "float",
+          "schema": "source_overdrive_projector_draw_rows_state_input.smooth_efficiency"
+        },
+        {
+          "name": "heat",
+          "type": "float",
+          "schema": "source_overdrive_projector_draw_rows_state_input.heat"
+        },
+        {
+          "name": "time_value",
+          "type": "float",
+          "schema": "source_overdrive_projector_draw_rows_state_input.time_value"
+        },
+        {
+          "name": "lod_l2",
+          "type": "bool",
+          "schema": "source_overdrive_projector_draw_rows_state_input.lod_l2"
+        },
+        {
+          "name": "lod_alpha2",
+          "type": "float",
+          "schema": "source_overdrive_projector_draw_rows_state_input.lod_alpha2"
+        },
+        {
+          "name": "size_value",
+          "type": "float",
+          "schema": "source_overdrive_projector_draw_rows_state_input.size_value"
+        },
+        {
+          "name": "base_color",
+          "type": "String",
+          "schema": "source_overdrive_projector_draw_rows_state_input.base_color"
+        },
+        {
+          "name": "phase_color",
+          "type": "String",
+          "schema": "source_overdrive_projector_draw_rows_state_input.phase_color"
+        },
+        {
+          "name": "selected_blocks",
+          "type": "Array",
+          "schema": "source_overdrive_projector_draw_rows_state_input.selected_blocks"
+        },
+        {
+          "name": "place_valid",
+          "type": "bool",
+          "schema": "source_overdrive_projector_draw_rows_state_input.place_valid"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "base_call",
+        "top_call",
+        "ring_call",
+        "light_call",
+        "select_call",
+        "place_call"
+      ],
+      "tests": [
+        "test_c07_overdrive_projector_draw_rows_registration",
+        "test_all_c07_overdrive_projector_draw_rows_input_evidence_is_exact",
+        "test_overdrive_projector_draw_rows_state",
+        "test_reference_graph_and_actual_c07_overdrive_projector_draw_rows"
+      ],
+      "runtime_proof": "/root/C07OverdriveProjectorDrawRowsProof",
+      "rule": "Source-backed OverdriveProjector draw rows from OverdriveProjector.java / Drawf.java / Block.java / Lod.java / Blocks.java / arc Mathf.java / arc Geometry.java."
+    },
+    "SourceBeamDrillBuildState.source_beam_drill_draw_state": {
+      "status": "active",
+      "source_slice": "N2436",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrillBuild.draw()",
+      "params": [
+        {
+          "name": "x_value",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.x_value"
+        },
+        {
+          "name": "y_value",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.y_value"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_beam_drill_draw_state_input.rotation"
+        },
+        {
+          "name": "size_value",
+          "type": "int",
+          "schema": "source_beam_drill_draw_state_input.size_value"
+        },
+        {
+          "name": "id_value",
+          "type": "int",
+          "schema": "source_beam_drill_draw_state_input.id_value"
+        },
+        {
+          "name": "warmup",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.warmup"
+        },
+        {
+          "name": "boost_warmup",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.boost_warmup"
+        },
+        {
+          "name": "time_value",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.time_value"
+        },
+        {
+          "name": "lod_l2",
+          "type": "bool",
+          "schema": "source_beam_drill_draw_state_input.lod_l2"
+        },
+        {
+          "name": "lod_alpha2",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.lod_alpha2"
+        },
+        {
+          "name": "is_payload",
+          "type": "bool",
+          "schema": "source_beam_drill_draw_state_input.is_payload"
+        },
+        {
+          "name": "facing",
+          "type": "Array",
+          "schema": "source_beam_drill_draw_state_input.facing"
+        },
+        {
+          "name": "lasers",
+          "type": "Array",
+          "schema": "source_beam_drill_draw_state_input.lasers"
+        },
+        {
+          "name": "last_item",
+          "type": "Variant",
+          "schema": "source_beam_drill_draw_state_input.last_item"
+        },
+        {
+          "name": "glow_found",
+          "type": "bool",
+          "schema": "source_beam_drill_draw_state_input.glow_found"
+        },
+        {
+          "name": "heat_color",
+          "type": "String",
+          "schema": "source_beam_drill_draw_state_input.heat_color"
+        },
+        {
+          "name": "boost_heat_color",
+          "type": "String",
+          "schema": "source_beam_drill_draw_state_input.boost_heat_color"
+        },
+        {
+          "name": "heat_pulse",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.heat_pulse"
+        },
+        {
+          "name": "heat_pulse_scl",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.heat_pulse_scl"
+        },
+        {
+          "name": "spark_rolls",
+          "type": "Array",
+          "schema": "source_beam_drill_draw_state_input.spark_rolls"
+        },
+        {
+          "name": "laser_width",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.laser_width"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "base_call",
+        "top_call",
+        "laser_calls",
+        "glow_call",
+        "select_call",
+        "icon_regions",
+        "draw_rotation",
+        "payload_return"
+      ],
+      "tests": [
+        "test_c07_beam_drill_draw_rows_registration",
+        "test_all_c07_beam_drill_draw_rows_input_evidence_is_exact",
+        "test_beam_drill_draw_rows_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_rows"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawRowsProof",
+      "rule": "Source-backed BeamDrill draw rows from BeamDrill.java / Drawf.java / Blocks.java / BuildingComp.java / Tile.java / Vars.java / Lod.java / arc Mathf.java / Geometry.java / Angles.java / Rand.java."
+    },
+    "SourceBuildTurretBuildState.source_build_turret_sense_state": {
+      "status": "active",
+      "source_slice": "N2437",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "source_method": "BuildTurretBuild.sense()",
+      "params": [
+        {
+          "name": "sensor",
+          "type": "String",
+          "schema": "source_build_turret_sense_state_input.sensor"
+        },
+        {
+          "name": "unit_build_x",
+          "type": "float",
+          "schema": "source_build_turret_sense_state_input.unit_build_x"
+        },
+        {
+          "name": "unit_build_y",
+          "type": "float",
+          "schema": "source_build_turret_sense_state_input.unit_build_y"
+        },
+        {
+          "name": "super_value",
+          "type": "Variant",
+          "schema": "source_build_turret_sense_state_input.super_value"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "value",
+        "delegated"
+      ],
+      "tests": [
+        "test_c07_build_turret_sense_rows_registration",
+        "test_all_c07_build_turret_sense_rows_input_evidence_is_exact",
+        "test_build_turret_sense_rows_state",
+        "test_reference_graph_and_actual_c07_build_turret_sense_rows"
+      ],
+      "runtime_proof": "/root/C07BuildTurretSenseRowsProof",
+      "rule": "Source-backed BuildTurret sense rows from BuildTurret.java / UnitComp.java / BuildingComp.java / LAccess.java / Senseable.java."
+    },
+    "SourceBuildTurretBuildState.source_build_turret_sense_object_state": {
+      "status": "active",
+      "source_slice": "N2437",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "source_method": "BuildTurretBuild.senseObject()",
+      "params": [
+        {
+          "name": "sensor",
+          "type": "String",
+          "schema": "source_build_turret_sense_object_state_input.sensor"
+        },
+        {
+          "name": "unit_building",
+          "type": "Variant",
+          "schema": "source_build_turret_sense_object_state_input.unit_building"
+        },
+        {
+          "name": "unit_breaking",
+          "type": "Variant",
+          "schema": "source_build_turret_sense_object_state_input.unit_breaking"
+        },
+        {
+          "name": "super_value",
+          "type": "Variant",
+          "schema": "source_build_turret_sense_object_state_input.super_value"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "value",
+        "delegated"
+      ],
+      "tests": [
+        "test_c07_build_turret_sense_rows_registration",
+        "test_all_c07_build_turret_sense_rows_input_evidence_is_exact",
+        "test_build_turret_sense_rows_state",
+        "test_reference_graph_and_actual_c07_build_turret_sense_rows"
+      ],
+      "runtime_proof": "/root/C07BuildTurretSenseRowsProof",
+      "rule": "Source-backed BuildTurret sense rows from BuildTurret.java / UnitComp.java / BuildingComp.java / LAccess.java / Senseable.java."
+    },
+    "SourceImpactReactorBuildState.source_impact_reactor_draw_plan_state": {
+      "status": "active",
+      "source_slice": "N2438",
+      "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+      "source_method": "PowerGenerator.drawPlanRegion()",
+      "params": [
+        {
+          "name": "plan_drawx",
+          "type": "float",
+          "schema": "source_impact_reactor_draw_plan_state_input.plan_drawx"
+        },
+        {
+          "name": "plan_drawy",
+          "type": "float",
+          "schema": "source_impact_reactor_draw_plan_state_input.plan_drawy"
+        },
+        {
+          "name": "plan_rotation",
+          "type": "int",
+          "schema": "source_impact_reactor_draw_plan_state_input.plan_rotation"
+        },
+        {
+          "name": "plan_world_context",
+          "type": "bool",
+          "schema": "source_impact_reactor_draw_plan_state_input.plan_world_context"
+        },
+        {
+          "name": "player_present",
+          "type": "bool",
+          "schema": "source_impact_reactor_draw_plan_state_input.player_present"
+        },
+        {
+          "name": "team_region_found",
+          "type": "bool",
+          "schema": "source_impact_reactor_draw_plan_state_input.team_region_found"
+        },
+        {
+          "name": "team_matches",
+          "type": "bool",
+          "schema": "source_impact_reactor_draw_plan_state_input.team_matches"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "plan_generator_call",
+        "plan_bottom_call",
+        "plan_plasma_call",
+        "plan_call",
+        "plan_team_call"
+      ],
+      "tests": [
+        "test_c07_impact_reactor_draw_plan_rows_registration",
+        "test_all_c07_impact_reactor_draw_plan_rows_input_evidence_is_exact",
+        "test_impact_reactor_draw_plan_rows_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_draw_plan_rows"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorDrawPlanRowsProof",
+      "rule": "Source-backed ImpactReactor drawPlan rows from ImpactReactor.java / PowerGenerator.java / DrawMulti.java / DrawRegion.java / DrawPlasma.java / DrawDefault.java / DrawBlock.java / Block.java / Blocks.java."
+    },
+    "SourceLightBlockBuildState.source_light_block_draw_place_state": {
+      "status": "active",
+      "source_slice": "N2439",
+      "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+      "source_method": "LightBlock.drawPlace()",
+      "params": [
+        {
+          "name": "tile_x",
+          "type": "int",
+          "schema": "source_light_block_draw_place_state_input.tile_x"
+        },
+        {
+          "name": "tile_y",
+          "type": "int",
+          "schema": "source_light_block_draw_place_state_input.tile_y"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_light_block_draw_place_state_input.rotation"
+        },
+        {
+          "name": "valid",
+          "type": "bool",
+          "schema": "source_light_block_draw_place_state_input.valid"
+        },
+        {
+          "name": "radius",
+          "type": "float",
+          "schema": "source_light_block_draw_place_state_input.radius"
+        },
+        {
+          "name": "offset",
+          "type": "float",
+          "schema": "source_light_block_draw_place_state_input.offset"
+        },
+        {
+          "name": "build_color",
+          "type": "Variant",
+          "schema": "source_light_block_draw_place_state_input.build_color"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "dash_call",
+        "place_radius2",
+        "calculate_nodes_call",
+        "minimap_color"
+      ],
+      "tests": [
+        "test_c07_light_block_draw_place_rows_registration",
+        "test_all_c07_light_block_draw_place_rows_input_evidence_is_exact",
+        "test_light_block_draw_place_rows_state",
+        "test_reference_graph_and_actual_c07_light_block_draw_place_rows"
+      ],
+      "runtime_proof": "/root/C07LightBlockDrawPlaceRowsProof",
+      "rule": "Source-backed LightBlock draw-place rows from LightBlock.java / Block.java / Vars.java / Pal.java / Placement.java / Blocks.java."
     }
   },
   "policy": {

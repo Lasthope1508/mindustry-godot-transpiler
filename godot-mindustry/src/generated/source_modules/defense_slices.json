@@ -3806,6 +3806,48 @@
       ],
       "runtime_proof": "/root/C07BuildTurretDrawRowsProof"
     },
+    "N2435": {
+      "canonical_ledger": "source_slice_ledger.N2435",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "java_method": "OverdriveBuild.draw()",
+      "godot_owner": "SourceOverdriveProjectorBuildState.source_overdrive_projector_draw_rows_state",
+      "source_symbols": [
+        "source_overdrive_projector_draw_rows_state_result.base_call",
+        "source_overdrive_projector_draw_rows_state_result.top_call",
+        "source_overdrive_projector_draw_rows_state_result.ring_call",
+        "source_overdrive_projector_draw_rows_state_result.light_call",
+        "source_overdrive_projector_draw_rows_state_result.select_call",
+        "source_overdrive_projector_draw_rows_state_result.place_call"
+      ],
+      "tests": [
+        "test_c07_overdrive_projector_draw_rows_registration",
+        "test_all_c07_overdrive_projector_draw_rows_input_evidence_is_exact",
+        "test_overdrive_projector_draw_rows_state",
+        "test_reference_graph_and_actual_c07_overdrive_projector_draw_rows"
+      ],
+      "runtime_proof": "/root/C07OverdriveProjectorDrawRowsProof"
+    },
+    "N2437": {
+      "canonical_ledger": "source_slice_ledger.N2437",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.sense()",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_sense_state",
+      "source_symbols": [
+        "source_build_turret_sense_state_result.value",
+        "source_build_turret_sense_state_result.delegated",
+        "source_build_turret_sense_object_state_result.value",
+        "source_build_turret_sense_object_state_result.delegated"
+      ],
+      "tests": [
+        "test_c07_build_turret_sense_rows_registration",
+        "test_all_c07_build_turret_sense_rows_input_evidence_is_exact",
+        "test_build_turret_sense_rows_state",
+        "test_reference_graph_and_actual_c07_build_turret_sense_rows"
+      ],
+      "runtime_proof": "/root/C07BuildTurretSenseRowsProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

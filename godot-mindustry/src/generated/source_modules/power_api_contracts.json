@@ -3692,6 +3692,66 @@
       "rule": "Source-backed live-loop power graph update; each frame the placed graph runs PowerGraph.update(). Each grouped consumer dict is stamped with its building's live cheating value (TeamComp.cheating() from the live rules) and with its live should_consume / shouldConsumePower values (BuildingComp.shouldConsume() from the frame enabled flag) before the update runs, so the cheat gate fires when the first consumer's team cheats and a disabled building requests no power. For a factory-family frame the stamp is the family's per-class shouldConsume() body (the output-full gate) and the frame's live updateConsumption first-pass should_consume_power flag (false when a non-power consumer fails), so a starved or output-full factory stops drawing power.",
       "return_type": "Dictionary"
     },
+    "SourceImpactReactorBuildState.source_impact_reactor_draw_plan_state": {
+      "canonical_contract": "source_api_contracts.SourceImpactReactorBuildState.source_impact_reactor_draw_plan_state",
+      "status": "active",
+      "source_slice": "N2438",
+      "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+      "source_method": "PowerGenerator.drawPlanRegion()",
+      "params": [
+        {
+          "name": "plan_drawx",
+          "type": "float",
+          "schema": "source_impact_reactor_draw_plan_state_input.plan_drawx"
+        },
+        {
+          "name": "plan_drawy",
+          "type": "float",
+          "schema": "source_impact_reactor_draw_plan_state_input.plan_drawy"
+        },
+        {
+          "name": "plan_rotation",
+          "type": "int",
+          "schema": "source_impact_reactor_draw_plan_state_input.plan_rotation"
+        },
+        {
+          "name": "plan_world_context",
+          "type": "bool",
+          "schema": "source_impact_reactor_draw_plan_state_input.plan_world_context"
+        },
+        {
+          "name": "player_present",
+          "type": "bool",
+          "schema": "source_impact_reactor_draw_plan_state_input.player_present"
+        },
+        {
+          "name": "team_region_found",
+          "type": "bool",
+          "schema": "source_impact_reactor_draw_plan_state_input.team_region_found"
+        },
+        {
+          "name": "team_matches",
+          "type": "bool",
+          "schema": "source_impact_reactor_draw_plan_state_input.team_matches"
+        }
+      ],
+      "return_keys": [
+        "plan_generator_call",
+        "plan_bottom_call",
+        "plan_plasma_call",
+        "plan_call",
+        "plan_team_call"
+      ],
+      "tests": [
+        "test_c07_impact_reactor_draw_plan_rows_registration",
+        "test_all_c07_impact_reactor_draw_plan_rows_input_evidence_is_exact",
+        "test_impact_reactor_draw_plan_rows_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_draw_plan_rows"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorDrawPlanRowsProof",
+      "rule": "Source-backed ImpactReactor drawPlan rows from ImpactReactor.java / PowerGenerator.java / DrawMulti.java / DrawRegion.java / DrawPlasma.java / DrawDefault.java / DrawBlock.java / Block.java / Blocks.java.",
+      "return_type": "Dictionary"
+    },
     "SourceImpactReactorBuildState.source_impact_reactor_draw_state": {
       "canonical_contract": "source_api_contracts.SourceImpactReactorBuildState.source_impact_reactor_draw_state",
       "status": "active",
@@ -3882,6 +3942,65 @@
       ],
       "runtime_proof": "/root/C07ImpactReactorUpdateTileProof",
       "rule": "Source-backed ImpactReactor updateTile advance from ImpactReactor.java / BuildingComp.java / Mathf.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceLightBlockBuildState.source_light_block_draw_place_state": {
+      "canonical_contract": "source_api_contracts.SourceLightBlockBuildState.source_light_block_draw_place_state",
+      "status": "active",
+      "source_slice": "N2439",
+      "java_source": "core/src/mindustry/world/blocks/power/LightBlock.java",
+      "source_method": "LightBlock.drawPlace()",
+      "params": [
+        {
+          "name": "tile_x",
+          "type": "int",
+          "schema": "source_light_block_draw_place_state_input.tile_x"
+        },
+        {
+          "name": "tile_y",
+          "type": "int",
+          "schema": "source_light_block_draw_place_state_input.tile_y"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_light_block_draw_place_state_input.rotation"
+        },
+        {
+          "name": "valid",
+          "type": "bool",
+          "schema": "source_light_block_draw_place_state_input.valid"
+        },
+        {
+          "name": "radius",
+          "type": "float",
+          "schema": "source_light_block_draw_place_state_input.radius"
+        },
+        {
+          "name": "offset",
+          "type": "float",
+          "schema": "source_light_block_draw_place_state_input.offset"
+        },
+        {
+          "name": "build_color",
+          "type": "Variant",
+          "schema": "source_light_block_draw_place_state_input.build_color"
+        }
+      ],
+      "return_keys": [
+        "dash_call",
+        "place_radius2",
+        "calculate_nodes_call",
+        "minimap_color"
+      ],
+      "tests": [
+        "test_c07_light_block_draw_place_rows_registration",
+        "test_all_c07_light_block_draw_place_rows_input_evidence_is_exact",
+        "test_light_block_draw_place_rows_state",
+        "test_reference_graph_and_actual_c07_light_block_draw_place_rows"
+      ],
+      "runtime_proof": "/root/C07LightBlockDrawPlaceRowsProof",
+      "rule": "Source-backed LightBlock draw-place rows from LightBlock.java / Block.java / Vars.java / Pal.java / Placement.java / Blocks.java.",
       "return_type": "Dictionary"
     },
     "SourceLightBlockBuildState.source_light_block_draw_state": {
