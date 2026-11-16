@@ -1,6 +1,6 @@
 # Handoff — N2221 RepairTurret shouldAmbientSound/status (C07)
 
-## Status: DONE (gate GREEN, ~03:0x +07). Awaiting push — main thread only.
+## Status: DONE + PUSHED (slice ad384b23, main 3fa47d3f).
 
 ## RED
 
