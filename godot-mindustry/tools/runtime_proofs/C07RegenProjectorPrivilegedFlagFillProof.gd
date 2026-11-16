@@ -82,6 +82,12 @@ func _ready() -> void:
 	var blocks_by_id: Dictionary = {}
 	for registered_block in catalog.get_many("block"):
 		blocks_by_id[registered_block.id] = registered_block
+	# The extracted catalog leaves these health values at -1, so damage cannot
+	# establish this scenario. Seed source-initialized health in the fixture:
+	# copper wall: Blocks.java:1704/1708, 80 * 4; world processor: empty
+	# requirements (Blocks.java:6949), size 1, Block.init health (1378-1394).
+	blocks_by_id["copper-wall"].properties["health"] = 320
+	blocks_by_id["world-processor"].properties["health"] = 40
 
 	var regen_cell := Vector2i(28, 20)
 	var regen := Sprite2D.new()
