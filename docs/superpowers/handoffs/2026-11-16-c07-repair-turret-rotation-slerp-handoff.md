@@ -1,6 +1,6 @@
 # Handoff — N2214 RepairTurret rotation slerp (C07)
 
-## Status: GREEN + GATE VERIFIED (main thread ~18:19 +07). Targeted 4/4 OK, family 24/24 OK, wiring 32/32 OK — GREEN total 60/60. Full gate Ran 5949, failures=164, skipped=5, 0 errors (all Godot-absent). NOT committed/pushed yet.
+## Status: GREEN + GATE VERIFIED (main thread ~18:19 +07). Targeted 4/4 OK, family 24/24 OK, wiring 32/32 OK — GREEN total 60/60. Full gate Ran 5949, failures=164, skipped=5, 0 errors (all Godot-absent). Slice e1322bb7 / docs 1513486b / GOAL 703081f0. NOT committed/pushed yet.
 
 Next slice after N2213 (DONE + PUSHED, main f3267e50): the rotation slerp,
 `RepairPointBuild.updateTile()` RepairTurret.java:209.
