@@ -1,0 +1,9 @@
+test_all_c07_beam_drill_facing_tiles_fill_input_evidence_is_exact (tests.test_c07_beam_drill_facing_tiles_fill.C07BeamDrillFacingTilesFillTests.test_all_c07_beam_drill_facing_tiles_fill_input_evidence_is_exact) ... ok
+test_beam_drill_facing_tiles_fill_state (tests.test_c07_beam_drill_facing_tiles_fill.C07BeamDrillFacingTilesFillTests.test_beam_drill_facing_tiles_fill_state) ... ok
+test_c07_beam_drill_facing_tiles_fill_registration (tests.test_c07_beam_drill_facing_tiles_fill.C07BeamDrillFacingTilesFillTests.test_c07_beam_drill_facing_tiles_fill_registration) ... ok
+test_reference_graph_and_actual_c07_beam_drill_facing_tiles_fill (tests.test_c07_beam_drill_facing_tiles_fill.C07BeamDrillFacingTilesFillTests.test_reference_graph_and_actual_c07_beam_drill_facing_tiles_fill) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 21.553s
+
+OK
