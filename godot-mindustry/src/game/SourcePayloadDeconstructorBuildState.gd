@@ -9,9 +9,11 @@ const source_building_access_state := preload("res://src/game/SourceBuildingAcce
 const source_math_state := preload("res://src/game/SourceMathState.gd")
 const inventory := preload("res://src/game/SourceDrillInventoryRuntimeState.gd")
 const source_building_item_dump_state := preload("res://src/game/SourceBuildingItemDumpState.gd")
+const source_building_liquid_state := preload("res://src/game/SourceBuildingLiquidState.gd")
 const source_building_item_state := preload("res://src/game/SourceBuildingItemState.gd")
 const source_content_registry_runtime_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
 const source_world_defaults := preload("res://src/game/SourceWorldDefaults.gd")
+const source_placed_power_graph_state := preload("res://src/game/SourcePlacedPowerGraphState.gd")
 
 # The PayloadDeconstructor implementation (PayloadDeconstructor.java:17, `public class PayloadDeconstructor extends PayloadBlock{`): deconstructor (consumePower 3f, Blocks.java:6653; size 5, deconstructSpeed 6f, itemCapacity 250, Blocks.java:6649-6656) and small-deconstructor (consumePower 1f, Blocks.java:6644; size 3, deconstructSpeed 3f, itemCapacity 100, Blocks.java:6640-6647). PayloadDeconstructor sets outputsPayload=false, acceptsPayload=true, update=true, solid=true, size=5, hasItems=true, hasPower=true, itemCapacity=100 (PayloadDeconstructor.java:22-38), deconstructSpeed 2.5f class default (PayloadDeconstructor.java:19, `public float deconstructSpeed = 2.5f;`), maxPayloadSize 4 (PayloadDeconstructor.java:18, `public float maxPayloadSize = 4;`), dumpRate 4 (PayloadDeconstructor.java:20). PayloadDeconstructor extends PayloadBlock, NOT a drill or factory, so it cannot reuse an existing frame key; this driver uses its own family frame key ("source_payload_deconstructor_building", the mechanical-pump / beam-drill / mend-projector / overdrive-projector / force-projector / base-shield / regen-projector / constructor / payload-loader / payload-unloader / payload-mass-driver / unit-cargo-loader precedent), and this slice adds the payload-deconstructor key to N2142's SOURCE_CONSUMER_FRAME_META_KEYS so the graph stamp/write-back finds it. The port has NO SourcePayloadDeconstructor* files at all yet -- no display/runtime state to lean on -- so the missing piece is the live power.status -> efficiency driver, which is exactly this slice: the progress advance (PayloadDeconstructor.java:142, `float shift = edelta() * deconstructSpeed / deconstructing.buildTime();`) with `progress += shift;` follows the folded efficiency.
 const SOURCE_PAYLOAD_DECONSTRUCTOR_BUILD_IMPLEMENTATIONS := ["PayloadDeconstructor"]
@@ -211,7 +213,7 @@ static func source_payload_deconstructor_bind_frame_state(sprite: Sprite2D, bloc
 
 static func source_payload_deconstructor_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a payload-deconstructor does not take the early return. The progress advance follows the folded efficiency (PayloadDeconstructor.java:142, `float shift = edelta() * deconstructSpeed / deconstructing.buildTime();`) with `progress += shift;` and the shouldConsume override (PayloadDeconstructor.java:219-221, `return deconstructing != null && enabled;`, default BuildingComp.java:755, `public boolean shouldConsume(){`) -- PayloadDeconstructorBuild overrides shouldConsume() to return deconstructing != null && enabled, so the default does not apply here; the gate is live since N2210 (the pure gate source_payload_deconstructor_should_consume_state feeds deconstructing != null && enabled to the machinery; when the gate is false updateConsumption forces efficiency to 0, BuildingComp.java:1960 + 1992). The deconstructor (consumePower 3f, Blocks.java:6653, `consumePower(3f);`; small-deconstructor consumePower 1f, Blocks.java:6644, `consumePower(1f);`) has no liquid consumer, so the folded efficiency is the min over the *modeled* consumers (power only).
-	# Documented limits: (1) power-only first pass -- the deconstructor has no liquid consumer, so the folded efficiency is the min over the *modeled* consumers (power only). (2) shouldConsume gate live (N2210) -- PayloadDeconstructorBuild overrides shouldConsume() to return deconstructing != null && enabled (PayloadDeconstructor.java:219-221, `return deconstructing != null && enabled;`); the pure gate reads the null-ness of the frame deconstructing payload plus the frame enabled flag and feeds should_consume to the machinery; when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994). The updateTile advance (N2233) fills frame["deconstructing"] from the frame payload via the moveInPayload intake; the handlePayload live fill is live since N2291 (source_payload_deconstructor_handle_payload_state, through the frame incoming_payload push). (3) Partial updateTile advance (N2233) -- progress / payRotation / canProgress / accum / speedScl / item transfer / finish deconstruction / moveInPayload intake (PayloadDeconstructor.java:109-204) are live; the dumpAccumulate dump is live since N2276 (see (5)); the puddles liquid dump, the Fx.breakBlock finish effect, and the live payload positioning wait for their own slices. (4) No draw / icons / setBars / read-write rows -- draw (PayloadDeconstructor.java:58-89), icons (PayloadDeconstructor.java:40-42), setBars (PayloadDeconstructor.java:45-49), read/write (PayloadDeconstructor.java:224-252) are presentation / serialization, not tick state; acceptPayload (PayloadDeconstructor.java:104-106) and acceptUnitPayload (PayloadDeconstructor.java:92-95) are live since N2297 (see (7)); handlePayload (PayloadDeconstructor.java:98-101) is live since N2291 (see (6)). (5) Dump rows live (N2276) -- dumpRate 4 (PayloadDeconstructor.java:20) and dumpAccumulate (PayloadDeconstructor.java:111-115) dump through the shared dump_item_state routing; the neighbour acceptItem / canDump arrays are frame inputs (default [] -- no live proximity fill yet). Dump neighbour write-back live since N2368 -- the advance exposes dump_deliveries, one {neighbour_index, item} per successful dump attempt, and the tick lands each dumped item in the neighbour store through the N2353 helper. (6) Live deconstructing fill live (N2291) -- the handlePayload intake (PayloadBlock.java:121-127 + the Deconstructor override PayloadDeconstructor.java:98-101, clearing accum) applies the frame incoming_payload push before the fold when the full acceptPayload gate accepts it (N2308 -- the tick computes the N2297 verdict from the incoming dict itself; a refused push is dropped, still consumed), and the moveInPayload handoff (PayloadDeconstructor.java:197-202, moveInPayload(false), no rotate) is a registered pure (source_payload_deconstructor_move_in_payload_state) called from the N2233 advance's else-if branch; updatePayload() live positioning defers (no live payload entity) and the incoming push has no live source yet (the front moveOutPayload handoff and the unit drop wait for their own slices). (7) Acceptance gates live (N2297) -- acceptPayload (PayloadDeconstructor.java:104-106) and acceptUnitPayload (PayloadDeconstructor.java:92-95) are registered pures (source_payload_deconstructor_accept_payload_state / source_payload_deconstructor_accept_unit_payload_state) wired to frame["accepts_payload"] / frame["accepts_unit_payload"] from the frame offered_payload / offered_unit descriptors (default null -- no live source offers them yet, so both verdicts read false live). (8) Intake full-gate wiring live (N2308) -- the tick computes the N2297 acceptPayload verdict from the incoming dict itself (requirements_length from the N2233 requirements array, block_size from the new incoming-dict key; a push without block_size rejects) and applies the push only when it accepts; the offered-payload verdict still governs frame["accepts_payload"] (when both an offer and a push are present, the offer verdict governs the frame key and the intake verdict decides the push alone). (9) Sense rows live (N2387) -- sense(Content) (PayloadDeconstructor.java:206-210) and sense(LAccess.progress) (PayloadDeconstructor.java:213-216) are registered pures (source_payload_deconstructor_sense_state / source_payload_deconstructor_sense_content_state), pure-only (sense is called by logic, not the tick, and the logic call site waits for a logic-executor slice); progress returns as-is with NO clamp; the content dispatch reads the descriptor kind key (the N2233 contract: kind "build" / "unit") and takes the payload identity as the caller-supplied payload_content_id explicit input (the descriptor carries no identity key, so no live call site can supply it until a payload-contract slice adds one).
+	# Documented limits: (1) power-only first pass -- the deconstructor has no liquid consumer, so the folded efficiency is the min over the *modeled* consumers (power only). (2) shouldConsume gate live (N2210) -- PayloadDeconstructorBuild overrides shouldConsume() to return deconstructing != null && enabled (PayloadDeconstructor.java:219-221, `return deconstructing != null && enabled;`); the pure gate reads the null-ness of the frame deconstructing payload plus the frame enabled flag and feeds should_consume to the machinery; when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994). The updateTile advance (N2233) fills frame["deconstructing"] from the frame payload via the moveInPayload intake; the handlePayload live fill is live since N2291 (source_payload_deconstructor_handle_payload_state, through the frame incoming_payload push). (3) Partial updateTile advance (N2233) -- progress / payRotation / canProgress / accum / speedScl / item transfer / finish deconstruction / moveInPayload intake (PayloadDeconstructor.java:109-204) are live; the dumpAccumulate dump is live since N2276 (see (5)); the puddles liquid dump, the Fx.breakBlock finish effect, and the live payload positioning wait for their own slices. (4) No draw / icons / setBars / read-write rows -- draw (PayloadDeconstructor.java:58-89), icons (PayloadDeconstructor.java:40-42), setBars (PayloadDeconstructor.java:45-49), read/write (PayloadDeconstructor.java:224-252) are presentation / serialization, not tick state; acceptPayload (PayloadDeconstructor.java:104-106) and acceptUnitPayload (PayloadDeconstructor.java:92-95) are live since N2297 (see (7)); handlePayload (PayloadDeconstructor.java:98-101) is live since N2291 (see (6)). (5) Dump rows live (N2276) -- dumpRate 4 (PayloadDeconstructor.java:20) and dumpAccumulate (PayloadDeconstructor.java:111-115) dump through the shared dump_item_state routing; the neighbour acceptItem / canDump arrays are frame inputs (default [] -- no neighbours, the Java proximity.size == 0 outcome); the dump neighbour live fill is live since N2407 (the tick scans the live proximity before the dump pure, ring order, default gates only). Dump neighbour write-back live since N2368 -- the advance exposes dump_deliveries, one {neighbour_index, item} per successful dump attempt, and the tick lands each dumped item in the neighbour store through the N2353 helper. (6) Live deconstructing fill live (N2291) -- the handlePayload intake (PayloadBlock.java:121-127 + the Deconstructor override PayloadDeconstructor.java:98-101, clearing accum) applies the frame incoming_payload push before the fold when the full acceptPayload gate accepts it (N2308 -- the tick computes the N2297 verdict from the incoming dict itself; a refused push is dropped, still consumed), and the moveInPayload handoff (PayloadDeconstructor.java:197-202, moveInPayload(false), no rotate) is a registered pure (source_payload_deconstructor_move_in_payload_state) called from the N2233 advance's else-if branch; updatePayload() live positioning defers (no live payload entity) and the incoming push has no live source yet (the front moveOutPayload handoff and the unit drop wait for their own slices). (7) Acceptance gates live (N2297) -- acceptPayload (PayloadDeconstructor.java:104-106) and acceptUnitPayload (PayloadDeconstructor.java:92-95) are registered pures (source_payload_deconstructor_accept_payload_state / source_payload_deconstructor_accept_unit_payload_state) wired to frame["accepts_payload"] / frame["accepts_unit_payload"] from the frame offered_payload / offered_unit descriptors (default null -- no live source offers them yet, so both verdicts read false live). (8) Intake full-gate wiring live (N2308) -- the tick computes the N2297 acceptPayload verdict from the incoming dict itself (requirements_length from the N2233 requirements array, block_size from the new incoming-dict key; a push without block_size rejects) and applies the push only when it accepts; the offered-payload verdict still governs frame["accepts_payload"] (when both an offer and a push are present, the offer verdict governs the frame key and the intake verdict decides the push alone). (9) Sense rows live (N2387) -- sense(Content) (PayloadDeconstructor.java:206-210) and sense(LAccess.progress) (PayloadDeconstructor.java:213-216) are registered pures (source_payload_deconstructor_sense_state / source_payload_deconstructor_sense_content_state), pure-only (sense is called by logic, not the tick, and the logic call site waits for a logic-executor slice); progress returns as-is with NO clamp; the content dispatch reads the descriptor kind key (the N2233 contract: kind "build" / "unit") and takes the payload identity as the caller-supplied payload_content_id explicit input (the descriptor carries no identity key, so no live call site can supply it until a payload-contract slice adds one).
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -859,6 +861,119 @@ static func source_payload_deconstructor_dump_state(frame: Dictionary, source_de
 				dump_accum -= 1.0
 	return {"dump_accum_after": dump_accum, "dumped": dumped, "items_after": items, "cursor_after": cursor, "dump_deliveries": dump_deliveries}
 
+static func source_payload_deconstructor_dump_neighbour_live_fill_state(game: Object, cell: Vector2i, size: int, frame: Dictionary, item_order: Array) -> Dictionary:
+	# The dump neighbour live fill (N2407, DEFERRED #217):
+	# the N2276 dump rows read the two neighbour arrays as
+	# frame inputs (default [] -- no neighbours, the Java
+	# proximity.size == 0 outcome), so a live deconstructor
+	# with no fill never dumped. This fill scans the live
+	# proximity BEFORE the dump pure and fills the two
+	# arrays from the live neighbour frames, in ring order
+	# (index i is ring cell i, the N2353 convention -- the
+	# ring comes from source_block_proximity_cells_state,
+	# the sprite from block_sprite_at_cell, the frame from
+	# the first SOURCE_CONSUMER_FRAME_META_KEYS meta on the
+	# sprite, the N2353/N2371 resolution path):
+	# `Building other = proximity.get((i + dump) % proximity.size);`
+	# The accepts/canDump arrays come from the DEFAULT
+	# BuildingComp gates -- acceptItem REQUIRES consumesItem,
+	# not just capacity:
+	# `public boolean acceptItem(Building source, Item item){`
+	# `return block.consumesItem(item) && items.get(item) < getMaximumAccepted(item);`
+	# `public int getMaximumAccepted(Item item){`
+	# `return block.itemCapacity;`
+	# `public int itemCapacity = 10;`
+	# and the canDump default is true:
+	# `public boolean canDump(Building to, Item item){`
+	# and the item routing gates on both:
+	# `if(other.acceptItem(self(), item) && canDump(other, item)){`
+	# The consumes read is the itemFilter:
+	# `public boolean consumesItem(Item item){`
+	# `return itemFilter[item.id];`
+	# which the port represents as the catalog consumeItem
+	# rows. The item gate answers for the FIRST held item in
+	# content order -- the item the dump pure offers (its
+	# accepts array is per-neighbour, not per-item, so a
+	# per-item answer would misdeliver: Java tries later held
+	# items against the same neighbour, and that per-item
+	# routing waits for a dump-shape slice). Per-block
+	# overrides are OUT of scope: a neighbour with a modeled
+	# override is evaluated with the DEFAULT gate here (the
+	# override dispatch is a follow-through note). A
+	# neighbour with no frame (no sprite / unknown def /
+	# conduit / no meta-key frame) reports the no-frame
+	# outcome -- false / false -- the N2353/N2371 no-frame
+	# precedent (a routed item to a frameless neighbour
+	# drops, so the fill closes the gates and nothing routes
+	# there). A conduit is no-frame because its acceptLiquid
+	# is a per-block override (Conduit.java:242-244, out of
+	# scope) and the DEFAULT item gate would reject it anyway
+	# (a conduit consumes no item). Two ring-model notes:
+	# Java updateProximity dedupes multi-cell neighbours
+	# (`//using a set to prevent duplicates`,
+	# BuildingComp.java:1879-1900) and keeps same-team
+	# buildings only (`other.team != team` skips), while
+	# the ring reports a multi-cell neighbour at each of
+	# its ring cells with no team filter -- the N2353 /
+	# N2371 ring convention this fill mirrors (a delivery
+	# to either index lands in the same frame). Dedup +
+	# the team filter wait for a shared ring-geometry
+	# slice.
+	var ring: Array = source_block_geometry.source_block_proximity_cells_state(size, cell.x, cell.y).get("cells", [])
+	var blocks_by_id: Dictionary = {}
+	if game != null:
+		var catalog: Variant = game.get("content_catalog")
+		if catalog != null:
+			for registered_block in catalog.get_many("block"):
+				blocks_by_id[registered_block.id] = registered_block
+	var held_variant: Variant = frame.get("items", {})
+	var held_items: Dictionary = held_variant if held_variant is Dictionary else {}
+	var offered_item: String = ""
+	for item_id in item_order:
+		if int(held_items.get(str(item_id), 0)) > 0:
+			offered_item = str(item_id)
+			break
+	var neighbour_accepts: Array = []
+	var neighbour_can_dump: Array = []
+	for neighbour_cell in ring:
+		var accepts_item := false
+		var can_dump_item := false
+		var sprite: Variant = null
+		if game != null:
+			sprite = game.call("block_sprite_at_cell", neighbour_cell)
+		if sprite != null:
+			var block_id: String = str(sprite.get_meta(source_placed_block_state.SOURCE_BLOCK_ID_META_KEY, ""))
+			var is_conduit: bool = sprite.has_meta(source_building_liquid_state.SOURCE_NEIGHBOUR_CONDUIT_FRAME_META_KEY) or source_building_liquid_state.SOURCE_NEIGHBOUR_CONDUIT_BLOCK_IDS.has(block_id)
+			if not is_conduit and blocks_by_id.has(block_id):
+				var neighbour_block = blocks_by_id[block_id]
+				var neighbour_frame: Dictionary = {}
+				var has_neighbour_frame := false
+				for meta_key in source_placed_power_graph_state.SOURCE_CONSUMER_FRAME_META_KEYS:
+					if not sprite.has_meta(meta_key):
+						continue
+					var candidate: Variant = sprite.get_meta(meta_key)
+					if candidate is Dictionary:
+						neighbour_frame = candidate
+						has_neighbour_frame = true
+						break
+				if has_neighbour_frame:
+					var neighbour_properties = neighbour_block.properties
+					can_dump_item = true
+					if not offered_item.is_empty():
+						var neighbour_items: Variant = neighbour_frame.get("items", null)
+						if neighbour_items is Dictionary:
+							var consumes_item := false
+							for row in neighbour_properties.get("consumeItem", []):
+								if not (row is Dictionary):
+									continue
+								if str(row.get("item", "")) == offered_item:
+									consumes_item = true
+									break
+							accepts_item = consumes_item and int((neighbour_items as Dictionary).get(offered_item, 0)) < int(neighbour_properties.get("itemCapacity", 10))
+		neighbour_accepts.append(accepts_item)
+		neighbour_can_dump.append(can_dump_item)
+	return {"dump_neighbour_accepts": neighbour_accepts, "dump_neighbour_can_dump": neighbour_can_dump}
+
 @warning_ignore("unused_parameter")
 static func source_payload_deconstructor_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the payload-deconstructor tick wiring every
@@ -1017,9 +1132,35 @@ static func source_payload_deconstructor_tick_buildings_state(game: Object, seco
 			# source_item_catalog_state); the neighbour
 			# acceptItem / canDump arrays are frame inputs
 			# (default [] -- no neighbours, the Java
-			# proximity.size == 0 outcome) until a live
-			# proximity fill lands.
+			# proximity.size == 0 outcome); the dump neighbour
+			# live fill is live since N2407 (the fill below,
+			# before the reads -- supplied arrays win, the N2381
+			# precedent).
 			var content_item_ids: Array = source_content_registry_runtime_state.source_item_catalog_state(catalog).get("item_names_by_id", [])
+			# N2407: the dump neighbour live fill -- the tick
+			# fills the two neighbour arrays from the live
+			# proximity BEFORE the dump pure reads them (the
+			# fill needs the content_item_ids above to resolve
+			# the offered item: the first held item in content
+			# order). Supplied arrays WIN (the N2381
+			# precedent): the fill runs only when the frame
+			# carries NEITHER of the two keys -- the
+			# N2276/N2368 proofs seed the arrays by hand, so a
+			# fill there would overwrite the seed. A frame the
+			# fill already stamped (dump_neighbour_live -- port
+			# bookkeeping, not Java state) refreshes every
+			# tick, so a later-placed neighbour joins the
+			# arrays and a removed one leaves them. cell is
+			# bound before the enabled block, so the fill uses
+			# it directly (no inline origin_cell read -- unlike
+			# the N2394/N2363 note); the size is the catalog
+			# size.
+			var has_supplied_dump_neighbour_arrays: bool = frame.has("dump_neighbour_accepts") or frame.has("dump_neighbour_can_dump")
+			if not has_supplied_dump_neighbour_arrays or bool(frame.get("dump_neighbour_live", false)):
+				var filled: Dictionary = source_payload_deconstructor_dump_neighbour_live_fill_state(game, cell, int(block.properties.get("size", 1)), frame, content_item_ids)
+				frame["dump_neighbour_accepts"] = filled.get("dump_neighbour_accepts", [])
+				frame["dump_neighbour_can_dump"] = filled.get("dump_neighbour_can_dump", [])
+				frame["dump_neighbour_live"] = true
 			var neighbour_accepts: Array = frame.get("dump_neighbour_accepts", [])
 			var neighbour_can_dump: Array = frame.get("dump_neighbour_can_dump", [])
 			var dumped: Dictionary = source_payload_deconstructor_dump_state(frame, source_delta, time_scale, content_item_ids, neighbour_accepts, neighbour_can_dump)
