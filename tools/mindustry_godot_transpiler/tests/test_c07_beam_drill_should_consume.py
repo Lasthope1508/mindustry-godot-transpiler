@@ -40,7 +40,7 @@ class C07BeamDrillShouldConsumeTests(unittest.TestCase):
         # "source_beam_drill_building"), not the drill frame.
         # facingAmount is a plain int field (BeamDrill.java:228,
         # `public int facingAmount;`, Java default 0), recomputed
-        # by updateFacing() (BeamDrill.java:375-410, called from
+        # by updateFacing() (BeamDrill.java:375-411, called from
         # updateTile :244 and onProximityUpdate :365): for each
         # of the size facing lasers it walks range tiles along
         # the rotation, takes the first solid tile, and counts it
@@ -139,7 +139,7 @@ class C07BeamDrillShouldConsumeTests(unittest.TestCase):
         # on the beam-drill family's own driver. facingAmount is
         # a plain int field (BeamDrill.java:228, `public int
         # facingAmount;`, Java default 0), recomputed by
-        # updateFacing() (BeamDrill.java:375-410, called from
+        # updateFacing() (BeamDrill.java:375-411, called from
         # updateTile :244 and onProximityUpdate :365):
         # `facingAmount = 0;` then `facingAmount ++;` per
         # mineable facing tile, where mineable is `if(drop !=
@@ -206,7 +206,7 @@ class C07BeamDrillShouldConsumeTests(unittest.TestCase):
         # the live tick (efficiency 0 when the gate is false,
         # the N2155 power fold preserved when the gate is true).
         # There are no facing-scan / warmup / production keys:
-        # the facing scan (updateFacing, BeamDrill.java:375-410)
+        # the facing scan (updateFacing, BeamDrill.java:375-411)
         # and the production advance (BeamDrill.java:253-261)
         # wait for their own slices, so the proof sets
         # facing_amount and items on the frame directly. Static
