@@ -8219,6 +8219,96 @@
       ],
       "runtime_proof": "/root/C07SolidPumpUpdateTileProof"
     },
+    "source_wall_crafter_draw_state_result.base_call": {
+      "canonical_symbol": "source_symbol_registry.source_wall_crafter_draw_state_result.base_call",
+      "status": "source-backed",
+      "java_expr": "Draw.rect(block.region, x, y);",
+      "godot_symbol": "source_wall_crafter_draw_state_result.base_call",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_draw_state",
+      "rule": "The base rect call (WallCrafter.java:233): region region (the block region), centered on the building, drawn at the default z before the Draw.z call.",
+      "tests": [
+        "test_c07_wall_crafter_draw_rows_registration",
+        "test_all_c07_wall_crafter_draw_rows_input_evidence_is_exact",
+        "test_wall_crafter_draw_rows_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_draw_rows"
+      ],
+      "runtime_proof": "/root/C07WallCrafterDrawRowsProof"
+    },
+    "source_wall_crafter_draw_state_result.icon_regions": {
+      "canonical_symbol": "source_symbol_registry.source_wall_crafter_draw_state_result.icon_regions",
+      "status": "source-backed",
+      "java_expr": "return new TextureRegion[]{region, topRegion};",
+      "godot_symbol": "source_wall_crafter_draw_state_result.icon_regions",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_draw_state",
+      "rule": "The icon regions in Java order (WallCrafter.java:121, icons()): [region, topRegion] -- region is the block region, topRegion is the `@-top` region (WallCrafter.java:28). Folded into the draw pure because icons() takes no args and the SSOT schema validator requires non-empty input keys; the two regions are the regions draw() draws, in draw order.",
+      "tests": [
+        "test_c07_wall_crafter_draw_rows_registration",
+        "test_all_c07_wall_crafter_draw_rows_input_evidence_is_exact",
+        "test_wall_crafter_draw_rows_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_draw_rows"
+      ],
+      "runtime_proof": "/root/C07WallCrafterDrawRowsProof"
+    },
+    "source_wall_crafter_draw_state_result.place_call": {
+      "canonical_symbol": "source_symbol_registry.source_wall_crafter_draw_state_result.place_call",
+      "status": "source-backed",
+      "java_expr": "drawPlaceText(Core.bundle.formatFloat(\"bar.drillspeed\", 60f / drillTime * eff, 2), x, y, valid);",
+      "godot_symbol": "source_wall_crafter_draw_state_result.place_call",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_draw_state",
+      "rule": "The drawPlace text call (WallCrafter.java:134): the drillspeed 60f / drillTime * eff, the bundle key bar.drillspeed, the 2-decimal Strings.fixed value text (TRUNCATION, arc Strings.java:735, not rounding) and the rendered \"Drill Speed: {0}/s\" text (bundle.properties:1279), plus the placement tile and the validity flag. drawPlace does NOT call super.drawPlace, so no super call is recorded.",
+      "tests": [
+        "test_c07_wall_crafter_draw_rows_registration",
+        "test_all_c07_wall_crafter_draw_rows_input_evidence_is_exact",
+        "test_wall_crafter_draw_rows_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_draw_rows"
+      ],
+      "runtime_proof": "/root/C07WallCrafterDrawRowsProof"
+    },
+    "source_wall_crafter_draw_state_result.plan_call": {
+      "canonical_symbol": "source_symbol_registry.source_wall_crafter_draw_state_result.plan_call",
+      "status": "source-backed",
+      "java_expr": "Draw.rect(topRegion, plan.drawx(), plan.drawy(), plan.rotation * 90);",
+      "godot_symbol": "source_wall_crafter_draw_state_result.plan_call",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_draw_state",
+      "rule": "The drawPlanRegion calls (WallCrafter.java:126-127): the region rect plus the top rect at plan.rotation * 90, both centered on the plan draw pos.",
+      "tests": [
+        "test_c07_wall_crafter_draw_rows_registration",
+        "test_all_c07_wall_crafter_draw_rows_input_evidence_is_exact",
+        "test_wall_crafter_draw_rows_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_draw_rows"
+      ],
+      "runtime_proof": "/root/C07WallCrafterDrawRowsProof"
+    },
+    "source_wall_crafter_draw_state_result.rotator_calls": {
+      "canonical_symbol": "source_symbol_registry.source_wall_crafter_draw_state_result.rotator_calls",
+      "status": "source-backed",
+      "java_expr": "Draw.rect(rotatorBottomRegion, vx, vy, totalTime * rotateSpeed * sign * bs);",
+      "godot_symbol": "source_wall_crafter_draw_state_result.rotator_calls",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_draw_state",
+      "rule": "The rotator calls (WallCrafter.java:239-245): one entry per facing edge tile (cx / cy, vx / vy = (c - d) * tilesize with ds 0.6f and the d4 step, sign = idx++ >= size/2 && size % 2 == 0 ? -1 : 1 with INT size/2, rotation totalTime * rotateSpeed * sign * bs with bs = (rotation 0/3) ? 1 : -1, z Layer.blockOver), each with the rotatorBottom rect at that rotation plus the unrotated rotator rect at the same vx/vy (WallCrafter.java:244).",
+      "tests": [
+        "test_c07_wall_crafter_draw_rows_registration",
+        "test_all_c07_wall_crafter_draw_rows_input_evidence_is_exact",
+        "test_wall_crafter_draw_rows_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_draw_rows"
+      ],
+      "runtime_proof": "/root/C07WallCrafterDrawRowsProof"
+    },
+    "source_wall_crafter_draw_state_result.top_call": {
+      "canonical_symbol": "source_symbol_registry.source_wall_crafter_draw_state_result.top_call",
+      "status": "source-backed",
+      "java_expr": "Draw.rect(topRegion, x, y, rotdeg());",
+      "godot_symbol": "source_wall_crafter_draw_state_result.top_call",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_draw_state",
+      "rule": "The top rect call (WallCrafter.java:234): region topRegion (the `@-top` region, WallCrafter.java:28), centered on the building, rotation rotdeg() = rotation * 90 (BuildingComp.java:582-584).",
+      "tests": [
+        "test_c07_wall_crafter_draw_rows_registration",
+        "test_all_c07_wall_crafter_draw_rows_input_evidence_is_exact",
+        "test_wall_crafter_draw_rows_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_draw_rows"
+      ],
+      "runtime_proof": "/root/C07WallCrafterDrawRowsProof"
+    },
     "source_wall_crafter_get_efficiency_state_result.can_place_on": {
       "canonical_symbol": "source_symbol_registry.source_wall_crafter_get_efficiency_state_result.can_place_on",
       "status": "source-backed",

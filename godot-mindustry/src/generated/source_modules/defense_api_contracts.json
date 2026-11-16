@@ -6612,6 +6612,76 @@
       "rule": "Source-backed BaseShield updateTile advance from BaseShield.java / Blocks.java / BuildingComp.java / Units.java / EntityGroup.java / GroupDefs.java / BulletComp.java / BulletType.java / UnitComp.java / Team.java / Block.java / Tile.java / Mathf.java / Position.java / Vec2.java / Time.java.",
       "return_type": "Dictionary"
     },
+    "SourceBuildTurretBuildState.source_build_turret_draw_state": {
+      "canonical_contract": "source_api_contracts.SourceBuildTurretBuildState.source_build_turret_draw_state",
+      "status": "active",
+      "source_slice": "N2431",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "source_method": "BuildTurretBuild.draw()",
+      "params": [
+        {
+          "name": "x_value",
+          "type": "float",
+          "schema": "source_build_turret_draw_state_input.x_value"
+        },
+        {
+          "name": "y_value",
+          "type": "float",
+          "schema": "source_build_turret_draw_state_input.y_value"
+        },
+        {
+          "name": "rotation",
+          "type": "float",
+          "schema": "source_build_turret_draw_state_input.rotation"
+        },
+        {
+          "name": "elevation",
+          "type": "float",
+          "schema": "source_build_turret_draw_state_input.elevation"
+        },
+        {
+          "name": "warmup",
+          "type": "float",
+          "schema": "source_build_turret_draw_state_input.warmup"
+        },
+        {
+          "name": "efficiency",
+          "type": "float",
+          "schema": "source_build_turret_draw_state_input.efficiency"
+        },
+        {
+          "name": "glow_found",
+          "type": "bool",
+          "schema": "source_build_turret_draw_state_input.glow_found"
+        },
+        {
+          "name": "heat_color",
+          "type": "String",
+          "schema": "source_build_turret_draw_state_input.heat_color"
+        },
+        {
+          "name": "unit_present",
+          "type": "bool",
+          "schema": "source_build_turret_draw_state_input.unit_present"
+        }
+      ],
+      "return_keys": [
+        "base_call",
+        "shadow_call",
+        "region_call",
+        "glow_call",
+        "build_call"
+      ],
+      "tests": [
+        "test_c07_build_turret_draw_rows_registration",
+        "test_all_c07_build_turret_draw_rows_input_evidence_is_exact",
+        "test_build_turret_draw_rows_state",
+        "test_reference_graph_and_actual_c07_build_turret_draw_rows"
+      ],
+      "runtime_proof": "/root/C07BuildTurretDrawRowsProof",
+      "rule": "Source-backed BuildTurret draw rows from BuildTurret.java / Drawf.java / Blocks.java / BaseTurret.java.",
+      "return_type": "Dictionary"
+    },
     "SourceBuildTurretBuildState.source_build_turret_liquid_consumer_row_state": {
       "canonical_contract": "source_api_contracts.SourceBuildTurretBuildState.source_build_turret_liquid_consumer_row_state",
       "status": "active",
@@ -8112,6 +8182,107 @@
       ],
       "runtime_proof": "/root/C07PointDefenseUpdateTileProof",
       "rule": "Source-backed PointDefenseTurret updateTile advance from PointDefenseTurret.java / ReloadTurret.java / BaseTurret.java / Blocks.java / BuildingComp.java / EntityComp.java / EntityGroup.java / GroupDefs.java / BulletType.java / BulletComp.java / Rules.java / Team.java / Block.java / Tile.java / Position.java / Angles.java / Seq.java / QuadTree.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceRadarBuildState.source_radar_draw_state": {
+      "canonical_contract": "source_api_contracts.SourceRadarBuildState.source_radar_draw_state",
+      "status": "active",
+      "source_slice": "N2427",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "source_method": "RadarBuild.draw()",
+      "params": [
+        {
+          "name": "x_value",
+          "type": "float",
+          "schema": "source_radar_draw_state_input.x_value"
+        },
+        {
+          "name": "y_value",
+          "type": "float",
+          "schema": "source_radar_draw_state_input.y_value"
+        },
+        {
+          "name": "rotate_speed",
+          "type": "float",
+          "schema": "source_radar_draw_state_input.rotate_speed"
+        },
+        {
+          "name": "total_progress",
+          "type": "float",
+          "schema": "source_radar_draw_state_input.total_progress"
+        },
+        {
+          "name": "glow_color",
+          "type": "String",
+          "schema": "source_radar_draw_state_input.glow_color"
+        },
+        {
+          "name": "glow_alpha",
+          "type": "float",
+          "schema": "source_radar_draw_state_input.glow_alpha"
+        },
+        {
+          "name": "glow_mag",
+          "type": "float",
+          "schema": "source_radar_draw_state_input.glow_mag"
+        },
+        {
+          "name": "glow_scl",
+          "type": "float",
+          "schema": "source_radar_draw_state_input.glow_scl"
+        },
+        {
+          "name": "time_value",
+          "type": "float",
+          "schema": "source_radar_draw_state_input.time_value"
+        },
+        {
+          "name": "fog_radius",
+          "type": "float",
+          "schema": "source_radar_draw_state_input.fog_radius"
+        },
+        {
+          "name": "fog_radius_live",
+          "type": "float",
+          "schema": "source_radar_draw_state_input.fog_radius_live"
+        },
+        {
+          "name": "offset",
+          "type": "float",
+          "schema": "source_radar_draw_state_input.offset"
+        },
+        {
+          "name": "size_value",
+          "type": "int",
+          "schema": "source_radar_draw_state_input.size_value"
+        },
+        {
+          "name": "tile_x",
+          "type": "int",
+          "schema": "source_radar_draw_state_input.tile_x"
+        },
+        {
+          "name": "tile_y",
+          "type": "int",
+          "schema": "source_radar_draw_state_input.tile_y"
+        }
+      ],
+      "return_keys": [
+        "base_call",
+        "region_call",
+        "glow_call",
+        "select_call",
+        "place_call",
+        "icon_regions"
+      ],
+      "tests": [
+        "test_c07_radar_draw_rows_registration",
+        "test_all_c07_radar_draw_rows_input_evidence_is_exact",
+        "test_radar_draw_rows_state",
+        "test_reference_graph_and_actual_c07_radar_draw_rows"
+      ],
+      "runtime_proof": "/root/C07RadarDrawRowsProof",
+      "rule": "Source-backed Radar draw rows from Radar.java / Block.java / Drawf.java / Pal.java / Vars.java / Blocks.java / Mathf.java.",
       "return_type": "Dictionary"
     },
     "SourceRadarBuildState.source_radar_power_status_row_state": {

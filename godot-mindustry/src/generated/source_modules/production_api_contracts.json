@@ -3476,6 +3476,97 @@
       "rule": "Source-backed SolidPump updateTile advance from SolidPump.java / Pump.java / BuildingComp.java / Blocks.java / Block.java.",
       "return_type": "Dictionary"
     },
+    "SourceWallCrafterBuildState.source_wall_crafter_draw_state": {
+      "canonical_contract": "source_api_contracts.SourceWallCrafterBuildState.source_wall_crafter_draw_state",
+      "status": "active",
+      "source_slice": "N2426",
+      "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+      "source_method": "WallCrafterBuild.draw()",
+      "params": [
+        {
+          "name": "x_value",
+          "type": "float",
+          "schema": "source_wall_crafter_draw_state_input.x_value"
+        },
+        {
+          "name": "y_value",
+          "type": "float",
+          "schema": "source_wall_crafter_draw_state_input.y_value"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_wall_crafter_draw_state_input.rotation"
+        },
+        {
+          "name": "size_value",
+          "type": "int",
+          "schema": "source_wall_crafter_draw_state_input.size_value"
+        },
+        {
+          "name": "total_time",
+          "type": "float",
+          "schema": "source_wall_crafter_draw_state_input.total_time"
+        },
+        {
+          "name": "rotate_speed",
+          "type": "float",
+          "schema": "source_wall_crafter_draw_state_input.rotate_speed"
+        },
+        {
+          "name": "edge_tiles",
+          "type": "Array",
+          "schema": "source_wall_crafter_draw_state_input.edge_tiles"
+        },
+        {
+          "name": "efficiency",
+          "type": "float",
+          "schema": "source_wall_crafter_draw_state_input.efficiency"
+        },
+        {
+          "name": "drill_time",
+          "type": "float",
+          "schema": "source_wall_crafter_draw_state_input.drill_time"
+        },
+        {
+          "name": "plan",
+          "type": "Dictionary",
+          "schema": "source_wall_crafter_draw_state_input.plan"
+        },
+        {
+          "name": "tile_x",
+          "type": "int",
+          "schema": "source_wall_crafter_draw_state_input.tile_x"
+        },
+        {
+          "name": "tile_y",
+          "type": "int",
+          "schema": "source_wall_crafter_draw_state_input.tile_y"
+        },
+        {
+          "name": "place_valid",
+          "type": "bool",
+          "schema": "source_wall_crafter_draw_state_input.place_valid"
+        }
+      ],
+      "return_keys": [
+        "base_call",
+        "top_call",
+        "rotator_calls",
+        "plan_call",
+        "place_call",
+        "icon_regions"
+      ],
+      "tests": [
+        "test_c07_wall_crafter_draw_rows_registration",
+        "test_all_c07_wall_crafter_draw_rows_input_evidence_is_exact",
+        "test_wall_crafter_draw_rows_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_draw_rows"
+      ],
+      "runtime_proof": "/root/C07WallCrafterDrawRowsProof",
+      "rule": "Source-backed WallCrafter draw rows from WallCrafter.java / BuildingComp.java / Layer.java / Vars.java / Blocks.java / bundle.properties.",
+      "return_type": "Dictionary"
+    },
     "SourceWallCrafterBuildState.source_wall_crafter_get_efficiency_state": {
       "canonical_contract": "source_api_contracts.SourceWallCrafterBuildState.source_wall_crafter_get_efficiency_state",
       "status": "active",

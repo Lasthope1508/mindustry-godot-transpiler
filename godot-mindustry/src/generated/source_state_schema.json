@@ -253190,6 +253190,1640 @@
       },
       "runtime_proof": "/root/C07ForceProjectorAbsorbExplosionProof",
       "rule": "Source-backed ForceProjector absorbExplosion from ForceProjector.java / ExplosionShield.java / Damage.java / UnitComp.java / Intersector.java / Vec2.java."
+    },
+    "source_unit_assembler_module_draw_state_input": {
+      "status": "active",
+      "owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_draw_state",
+      "source_slice": "N2425",
+      "keys": {
+        "x_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+          "java_expr": "Draw.rect(region, x, y);",
+          "rule": "The building world x (UnitAssemblerModule.java:91, the base rect center; the input / side region center, :96/:100; the top rect center, :106).",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_draw_state"
+          ]
+        },
+        "y_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+          "java_expr": "Draw.rect(region, x, y);",
+          "rule": "The building world y (UnitAssemblerModule.java:91 / :96/:100 / :106, same mapping as x).",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_draw_state"
+          ]
+        },
+        "rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+          "java_expr": "if(blends(i) && i != rotation){",
+          "rule": "The module rotation 0-3 (UnitAssemblerModule.java:95, the input loop excludes the module facing; :100, the side region select is rotation >= 2; :103, payRotation = rotdeg() = rotation * 90, BuildingComp.java:582-584).",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_draw_state"
+          ]
+        },
+        "blends": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+          "java_expr": "if(blends(i) && i != rotation){",
+          "rule": "The 4 blends verdicts (UnitAssemblerModule.java:95, over `public boolean blends(int direction){`, PayloadBlock.java:170-172): one bool per input direction i = 0..3 -- the input side region draws only where the neighbour blends AND i != rotation. Caller-supplied: the live neighbour query waits for its own slice.",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_draw_state"
+          ]
+        },
+        "payload": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "if(payload != null){",
+          "rule": "The held payload (PayloadBlock.java:247, over `public @Nullable T payload;`, PayloadBlock.java:92): null (no payload draw) or the payload dict. The pure branches on null-ness only, like drawPayload().",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_draw_state"
+          ]
+        },
+        "link": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+          "java_expr": "if(link != null){",
+          "rule": "The linked assembler for drawPlace (UnitAssemblerModule.java:42, over `var link = getLink(player.team(), x, y, rotation);`, :41): null (no delegation) or the dict {block, tile: {x, y}, rotation}. Caller-supplied -- the pure NEVER calls getLink (drawPlace reads player.team(), a runtime value, and draw never runs in the tick).",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_draw_state"
+          ]
+        },
+        "plan": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+          "java_expr": "Draw.rect(region, plan.drawx(), plan.drawy());",
+          "rule": "The BuildPlan for drawPlanRegion (UnitAssemblerModule.java:55): null (no plan call) or the dict {drawx, drawy, rotation} -- drawx/drawy are x*tilesize + block.offset (BuildPlan.java:142-148), computed by the caller.",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_draw_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07UnitAssemblerModuleDrawRowsProof",
+      "rule": "Source-backed UnitAssemblerModule draw / drawPlace / drawPlanRegion / icons rows from UnitAssemblerModule.java / PayloadBlock.java / Block.java / BuildingComp.java / BuildPlan.java / Blocks.java."
+    },
+    "source_unit_assembler_module_draw_state_result": {
+      "status": "active",
+      "owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_draw_state",
+      "source_slice": "N2425",
+      "keys": {
+        "base_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+          "java_expr": "Draw.rect(region, x, y);",
+          "rule": "The base rect call (UnitAssemblerModule.java:91): region region, centered on the building, always drawn -- before the input regions.",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_draw_state"
+          ]
+        },
+        "input_calls": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+          "java_expr": "drawSideRegion(inRegion, x, y, i - 2);",
+          "rule": "The input side region calls (UnitAssemblerModule.java:94-98): one per direction i where blends(i) holds AND i != rotation (the module facing is excluded), region inRegion, centered on the building, rotation param i - 2, draw rotation (i - 2) * 90f -- -180 / -90 / 0 / 90 for i = 0..3. Empty when no direction blends or only the facing blends.",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_draw_state"
+          ]
+        },
+        "side_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+          "java_expr": "drawSideRegion(rotation >= 2 ? sideRegion2 : sideRegion1, x, y, rotation);",
+          "rule": "The always-drawn side region call (UnitAssemblerModule.java:100): region sideRegion2 when rotation >= 2 else sideRegion1 (`public @Load(\"@-side1\") TextureRegion sideRegion1;` / `public @Load(\"@-side2\") TextureRegion sideRegion2;`, :19-20), centered on the building, rotation param rotation, draw rotation rotation * 90f. Always drawn -- NOT blends-gated, unlike the input regions.",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_draw_state"
+          ]
+        },
+        "payload_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_expr": "payload.draw();",
+          "rule": "The held-payload draw call (PayloadBlock.java:251, inside drawPayload(), PayloadBlock.java:246-253, on Layer.blockOver after updatePayload()): present only when a payload is held. payRotation = rotdeg() (UnitAssemblerModule.java:103) runs unconditionally before it and is reported as pay_rotation. The inner payload.draw() dispatch (BuildPayload.draw / UnitPayload.draw) needs the live payload entity, so the pure reports the call + z + the updatePayload() call.",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_draw_state"
+          ]
+        },
+        "top_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+          "java_expr": "Draw.rect(topRegion, x, y);",
+          "rule": "The top rect call (UnitAssemblerModule.java:106): region topRegion, centered on the building, always drawn -- after the payload draw, on Layer.blockOver + 0.1f (UnitAssemblerModule.java:105), ABOVE the payload z.",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_draw_state"
+          ]
+        },
+        "place_call": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+          "java_expr": "link.block.drawPlace(link.tile.x, link.tile.y, link.rotation, true);",
+          "rule": "The delegated drawPlace call (UnitAssemblerModule.java:43): null when the link is null, else the delegated target {block, tile_x, tile_y, rotation, valid true} -- the linked assembler block drawPlace at the link tile + rotation, always valid. The super call (`super.drawPlace(x, y, rotation, valid);`, :39, Block.drawPlace, Block.java:491-494) is recorded, not modeled (the N2396 precedent -- the canonical SourceBlockDrawState.draw_place_state already ports it).",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_draw_state"
+          ]
+        },
+        "plan_call": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+          "java_expr": "Draw.rect(region, plan.drawx(), plan.drawy());",
+          "rule": "The drawPlanRegion call (UnitAssemblerModule.java:54-58): null when no plan is supplied, else the base + side + top sub-calls at the plan position (plan.drawx() / plan.drawy(), BuildPlan.java:142-148), with the plan rotation driving the side select (plan.rotation >= 2 ? sideRegion2 : sideRegion1, :56).",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_draw_state"
+          ]
+        },
+        "icon_regions": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+          "java_expr": "return new TextureRegion[]{region, topRegion};",
+          "rule": "The icon regions in Java order (UnitAssemblerModule.java:61, icons()): [region, topRegion] -- the two regions draw() draws, in draw order. Folded into the draw pure because icons() takes no args and the SSOT schema validator requires non-empty input keys (the N2396 precedent).",
+          "used_by": [
+            "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_draw_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07UnitAssemblerModuleDrawRowsProof",
+      "rule": "Source-backed UnitAssemblerModule draw / drawPlace / drawPlanRegion / icons rows from UnitAssemblerModule.java / PayloadBlock.java / Block.java / BuildingComp.java / BuildPlan.java / Blocks.java."
+    },
+    "source_wall_crafter_draw_state_input": {
+      "status": "active",
+      "owner": "SourceWallCrafterBuildState.source_wall_crafter_draw_state",
+      "source_slice": "N2426",
+      "keys": {
+        "x_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "Draw.rect(block.region, x, y);",
+          "rule": "The building world x (WallCrafter.java:233, the Draw.rect center -- Building x/y are tile.drawx()/drawy(), BuildingComp.java:124): the base rect and the top rect are both centered here.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_draw_state"
+          ]
+        },
+        "y_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "Draw.rect(block.region, x, y);",
+          "rule": "The building world y (WallCrafter.java:233, the Draw.rect center): the base rect and the top rect are both centered here.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_draw_state"
+          ]
+        },
+        "rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "int bs = (rotation == 0 || rotation == 3) ? 1 : -1;",
+          "rule": "The frame rotation 0-3 (WallCrafter.java:237): the top rect draws at rotdeg() = rotation * 90 (BuildingComp.java:582-584), the d4 step runs along it (WallCrafter.java:235), and bs is 1 for rotations 0/3, -1 for rotations 1/2.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_draw_state"
+          ]
+        },
+        "size_value": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "size = 2;",
+          "rule": "The block size in tiles (cliff-crusher 2, Blocks.java:3007; large-cliff-crusher 3, Blocks.java:3021): the rotator loop draws size rotators (WallCrafter.java:239-245, one cpos callback per edge tile) and the sign flips at the INT size/2 (WallCrafter.java:240).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_draw_state"
+          ]
+        },
+        "total_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "public float time, warmup, totalTime, lastEfficiency;",
+          "rule": "The frame totalTime (WallCrafter.java:184, tracked by the N2223 advance): the rotatorBottom spin angle is totalTime * rotateSpeed * sign * bs (WallCrafter.java:243).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_draw_state"
+          ]
+        },
+        "rotate_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "public float rotateSpeed = 2f;",
+          "rule": "The def rotate speed (WallCrafter.java:39, class default 2f, no def override): the rotatorBottom spin angle is totalTime * rotateSpeed * sign * bs (WallCrafter.java:243).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_draw_state"
+          ]
+        },
+        "edge_tiles": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "getEfficiency(tile.x, tile.y, rotation, null, (cx, cy) -> {",
+          "rule": "The facing edge tiles in edge order (i = 0..size-1), caller-supplied as {cx, cy} tile positions (WallCrafter.java:239, the cpos callback): the pure does NOT run the getEfficiency scan (the live scan is DEFERRED #242) -- it draws one rotator per supplied tile, truncated to size entries, skipping a non-Dictionary entry or one without cx/cy (the N2329 precedent) while keeping the idx-based sign of the later tiles Java-exact.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_draw_state"
+          ]
+        },
+        "efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "float eff = getEfficiency(x, y, rotation, null, null);",
+          "rule": "The drawPlace efficiency (WallCrafter.java:132, the getEfficiency sum over the facing edge): caller-supplied -- the pure does NOT run the scan (the live scan is DEFERRED #242). The drillspeed text is 60f / drillTime * eff at 2 decimals (WallCrafter.java:134).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_draw_state"
+          ]
+        },
+        "drill_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "public float drillTime = 150f;",
+          "rule": "The def drill time (WallCrafter.java:33, class default 150f; cliff-crusher 110f, Blocks.java:3006; large-cliff-crusher 48f, Blocks.java:3020): the drillspeed text is 60f / drillTime * eff (WallCrafter.java:134).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_draw_state"
+          ]
+        },
+        "plan": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "Draw.rect(region, plan.drawx(), plan.drawy());",
+          "rule": "The BuildPlan dict (WallCrafter.java:125-127, drawx / drawy / rotation): the region rect and the top rect (at plan.rotation * 90) are centered on the plan draw pos.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_draw_state"
+          ]
+        },
+        "tile_x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "drawPlaceText(Core.bundle.formatFloat(\"bar.drillspeed\", 60f / drillTime * eff, 2), x, y, valid);",
+          "rule": "The placement tile x (WallCrafter.java:134, the drawPlaceText pos).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_draw_state"
+          ]
+        },
+        "tile_y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "drawPlaceText(Core.bundle.formatFloat(\"bar.drillspeed\", 60f / drillTime * eff, 2), x, y, valid);",
+          "rule": "The placement tile y (WallCrafter.java:134, same mapping as x).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_draw_state"
+          ]
+        },
+        "place_valid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "drawPlaceText(Core.bundle.formatFloat(\"bar.drillspeed\", 60f / drillTime * eff, 2), x, y, valid);",
+          "rule": "The placement validity flag (WallCrafter.java:131, the drawPlace valid param, passed through to drawPlaceText).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_draw_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WallCrafterDrawRowsProof",
+      "rule": "Source-backed WallCrafter draw rows from WallCrafter.java / BuildingComp.java / Layer.java / Vars.java / Blocks.java / bundle.properties."
+    },
+    "source_wall_crafter_draw_state_result": {
+      "status": "active",
+      "owner": "SourceWallCrafterBuildState.source_wall_crafter_draw_state",
+      "source_slice": "N2426",
+      "keys": {
+        "base_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "Draw.rect(block.region, x, y);",
+          "rule": "The base rect call (WallCrafter.java:233): region region (the block region), centered on the building, drawn at the default z before the Draw.z call.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_draw_state"
+          ]
+        },
+        "top_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "Draw.rect(topRegion, x, y, rotdeg());",
+          "rule": "The top rect call (WallCrafter.java:234): region topRegion (the `@-top` region, WallCrafter.java:28), centered on the building, rotation rotdeg() = rotation * 90 (BuildingComp.java:582-584).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_draw_state"
+          ]
+        },
+        "rotator_calls": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "Draw.rect(rotatorBottomRegion, vx, vy, totalTime * rotateSpeed * sign * bs);",
+          "rule": "The rotator calls (WallCrafter.java:239-245): one entry per facing edge tile (cx / cy, vx / vy = (c - d) * tilesize with ds 0.6f and the d4 step, sign = idx++ >= size/2 && size % 2 == 0 ? -1 : 1 with INT size/2, rotation totalTime * rotateSpeed * sign * bs with bs = (rotation 0/3) ? 1 : -1, z Layer.blockOver), each with the rotatorBottom rect at that rotation plus the unrotated rotator rect at the same vx/vy (WallCrafter.java:244).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_draw_state"
+          ]
+        },
+        "plan_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "Draw.rect(topRegion, plan.drawx(), plan.drawy(), plan.rotation * 90);",
+          "rule": "The drawPlanRegion calls (WallCrafter.java:126-127): the region rect plus the top rect at plan.rotation * 90, both centered on the plan draw pos.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_draw_state"
+          ]
+        },
+        "place_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "drawPlaceText(Core.bundle.formatFloat(\"bar.drillspeed\", 60f / drillTime * eff, 2), x, y, valid);",
+          "rule": "The drawPlace text call (WallCrafter.java:134): the drillspeed 60f / drillTime * eff, the bundle key bar.drillspeed, the 2-decimal Strings.fixed value text (TRUNCATION, arc Strings.java:735, not rounding) and the rendered \"Drill Speed: {0}/s\" text (bundle.properties:1279), plus the placement tile and the validity flag. drawPlace does NOT call super.drawPlace, so no super call is recorded.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_draw_state"
+          ]
+        },
+        "icon_regions": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "return new TextureRegion[]{region, topRegion};",
+          "rule": "The icon regions in Java order (WallCrafter.java:121, icons()): [region, topRegion] -- region is the block region, topRegion is the `@-top` region (WallCrafter.java:28). Folded into the draw pure because icons() takes no args and the SSOT schema validator requires non-empty input keys; the two regions are the regions draw() draws, in draw order.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_draw_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WallCrafterDrawRowsProof",
+      "rule": "Source-backed WallCrafter draw rows from WallCrafter.java / BuildingComp.java / Layer.java / Vars.java / Blocks.java / bundle.properties."
+    },
+    "source_radar_draw_state_input": {
+      "status": "active",
+      "owner": "SourceRadarBuildState.source_radar_draw_state",
+      "source_slice": "N2427",
+      "keys": {
+        "x_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "Draw.rect(baseRegion, x, y);",
+          "rule": "The building world x (Radar.java:86-89, the base / region / glow rect center; the drawSelect dash circle center, Radar.java:81).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_state"
+          ]
+        },
+        "y_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "Draw.rect(baseRegion, x, y);",
+          "rule": "The building world y (Radar.java:86-89 / Radar.java:81, same mapping as x).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_state"
+          ]
+        },
+        "rotate_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "public float rotateSpeed = 2f;",
+          "rule": "The class rotateSpeed (Radar.java:19, 2f, no def override): the region + glow rotation is rotateSpeed * totalProgress (Radar.java:87/89).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_state"
+          ]
+        },
+        "total_progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "Draw.rect(region, x, y, rotateSpeed * totalProgress);",
+          "rule": "The frame totalProgress (Radar.java:52, tracked by the N2190 advance): the rotation driver (Radar.java:87/89) -- 0 at placement, so a fresh radar draws unrotated.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_state"
+          ]
+        },
+        "glow_color": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "public Color glowColor = Pal.turretHeat;",
+          "rule": "The glow color as a string token (Radar.java:24, Pal.turretHeat -- SSOT has no Color type, so colors ride as tokens, the MendProjector precedent).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_state"
+          ]
+        },
+        "glow_alpha": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "Drawf.additive(glowRegion, glowColor, glowColor.a * (1f - glowMag + Mathf.absin(glowScl, glowMag)), x, y, rotateSpeed * totalProgress, Layer.blockAdditive);",
+          "rule": "The glowColor.a Java reads (Radar.java:89): 1.0 for Pal.turretHeat (Pal.java:52, 6-digit hex). Rides separately because the color itself is a token.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_state"
+          ]
+        },
+        "glow_mag": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "public float glowScl = 5f, glowMag = 0.6f;",
+          "rule": "The class glowMag (Radar.java:25, 0.6f, no def override): the absin magnitude and the (1f - glowMag) floor in the glow alpha (Radar.java:89).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_state"
+          ]
+        },
+        "glow_scl": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "public float glowScl = 5f, glowMag = 0.6f;",
+          "rule": "The class glowScl (Radar.java:25, 5f, no def override): the absin scale (Radar.java:89) -- passed DOUBLED (10f) to the shared helper, the N2372/N2382 lesson.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_state"
+          ]
+        },
+        "time_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_expr": "return absin(Time.time, scl, mag);",
+          "rule": "Time.time in ticks (Mathf.java:74-75, arc -- the 2-arg absin reads Time.time): caller-supplied -- draw never runs in the tick, so the tick never stamps it (the N2396/N2372 convention).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_state"
+          ]
+        },
+        "fog_radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "fogRadius = 34;",
+          "rule": "The fogRadius FIELD (Block.java:348, def 34, Blocks.java:1991; class default 10, Radar.java:31): the drawPlace dash radius is fogRadius * tilesize (Radar.java:45).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_state"
+          ]
+        },
+        "fog_radius_live": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "return fogRadius * progress * smoothEfficiency;",
+          "rule": "The fogRadius() METHOD value (Radar.java:55-57): the drawSelect dash radius is fogRadius() * tilesize (Radar.java:81). The N2190 advance already computes it as fog_radius_now; the caller passes it in.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_state"
+          ]
+        },
+        "offset": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "offset = ((size + 1) % 2) * tilesize / 2f;",
+          "rule": "The Block offset (Block.java:761 -- 0 for the size-1 radar): the drawPlace center is x * tilesize + offset (Radar.java:45). Caller-supplied because Block.offset is set at load time.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_state"
+          ]
+        },
+        "size_value": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public int size = 1;",
+          "rule": "The block size in tiles (radar 1, Block.java:215 default, no def override): recorded in the place call alongside the offset it determines (Block.java:761).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_state"
+          ]
+        },
+        "tile_x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, fogRadius * tilesize, Pal.accent);",
+          "rule": "The placement tile x (Radar.java:42, drawPlace takes tile ints): the building does not exist yet at placement time, so the tile coords ride separately from the world coords.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_state"
+          ]
+        },
+        "tile_y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, fogRadius * tilesize, Pal.accent);",
+          "rule": "The placement tile y (Radar.java:42, same mapping as tile_x).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RadarDrawRowsProof",
+      "rule": "Source-backed Radar draw rows from Radar.java / Block.java / Drawf.java / Pal.java / Vars.java / Blocks.java / Mathf.java."
+    },
+    "source_radar_draw_state_result": {
+      "status": "active",
+      "owner": "SourceRadarBuildState.source_radar_draw_state",
+      "source_slice": "N2427",
+      "keys": {
+        "base_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "Draw.rect(baseRegion, x, y);",
+          "rule": "The base rect call (Radar.java:86): region baseRegion (`@-base`, Radar.java:21), centered on the building, always drawn first, unrotated.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_state"
+          ]
+        },
+        "region_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "Draw.rect(region, x, y, rotateSpeed * totalProgress);",
+          "rule": "The region rect call (Radar.java:87): region region, centered on the building, rotated rotateSpeed * totalProgress -- 0 at totalProgress 0.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_state"
+          ]
+        },
+        "glow_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "Drawf.additive(glowRegion, glowColor, glowColor.a * (1f - glowMag + Mathf.absin(glowScl, glowMag)), x, y, rotateSpeed * totalProgress, Layer.blockAdditive);",
+          "rule": "The additive glow call (Radar.java:89, the 7-arg Drawf.additive overload, Drawf.java:183): region glowRegion (`@-glow`, Radar.java:22), color glowColor, alpha glowColor.a * (1f - glowMag + absin) with the absin Java-exact at the DOUBLED scale (glow_scl * 2f, the N2372/N2382 lesson), rotated rotateSpeed * totalProgress, on Layer.blockAdditive.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_state"
+          ]
+        },
+        "select_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "Drawf.dashCircle(x, y, fogRadius() * tilesize, Pal.accent);",
+          "rule": "The drawSelect dash circle (Radar.java:81): centered on the building, radius fogRadius() * tilesize on the LIVE method radius, color Pal.accent.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_state"
+          ]
+        },
+        "place_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, fogRadius * tilesize, Pal.accent);",
+          "rule": "The drawPlace dash circle (Radar.java:45): centered on x * tilesize + offset / y * tilesize + offset, radius fogRadius * tilesize on the DEF field radius, color Pal.accent; records that super.drawPlace runs (Block.drawPlace content is NOT modeled, the BaseTurret precedent).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_state"
+          ]
+        },
+        "icon_regions": {
+          "type": "Array[String]",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "return new TextureRegion[]{baseRegion, region};",
+          "rule": "The icons() regions (Radar.java:37-39): [baseRegion, region], in draw order -- folded into the draw pure because icons() takes no args and the SSOT schema validator requires non-empty input keys (the N2396 precedent).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RadarDrawRowsProof",
+      "rule": "Source-backed Radar draw rows from Radar.java / Block.java / Drawf.java / Pal.java / Vars.java / Blocks.java / Mathf.java."
+    },
+    "source_repair_tower_draw_state_input": {
+      "status": "active",
+      "owner": "SourceRepairTowerBuildState.source_repair_tower_draw_state",
+      "source_slice": "N2428",
+      "keys": {
+        "x_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "Lines.circle(x, y, range * mod);",
+          "rule": "The building world x (RepairTower.java:103, the circle center; the square center, :105; the glow center, :108; the drawSelect dash center, :123).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_draw_state"
+          ]
+        },
+        "y_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "Lines.circle(x, y, range * mod);",
+          "rule": "The building world y (RepairTower.java:103 / :105 / :108 / :123, same mapping as x).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_draw_state"
+          ]
+        },
+        "warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "if(warmup <= 0.001f) return;",
+          "rule": "The frame warmup (RepairTower.java:97, the draw gate; the N2227 advance tracks it -- `public float warmup = 0f;`, :52 -- and the gate, the stroke, the square radius and the glow alpha all read it).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_draw_state"
+          ]
+        },
+        "total_progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "float mod = totalProgress % 1f;",
+          "rule": "The frame totalProgress (RepairTower.java:100; `public float totalProgress = 0f;`, :53; the N2227 advance tracks it, += Time.delta / circleSpeed): mod = totalProgress % 1f drives the circle radius and stroke.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_draw_state"
+          ]
+        },
+        "range_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "Lines.circle(x, y, range * mod);",
+          "rule": "The scan range (RepairTower.java:103, the circle radius is range * mod; the select/place dash radius, :123 / :47): class default 80f (:21), def 100f (Blocks.java:6579).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_draw_state"
+          ]
+        },
+        "time_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "Fill.square(x, y, squareRad * warmup, Time.time / squareSpinScl);",
+          "rule": "Time.time in ticks (RepairTower.java:105, the square rotation; :108, the glow absin): caller-supplied -- draw never runs in the tick, so the tick never stamps it.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_draw_state"
+          ]
+        },
+        "circle_color": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "Draw.color(circleColor);",
+          "rule": "The circle color token (RepairTower.java:101): the class default is Pal.heal (`public Color circleColor = Pal.heal, ...`, :22); the def does not override it.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_draw_state"
+          ]
+        },
+        "circle_stroke": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "Lines.stroke(circleStroke * (1f - mod) * warmup);",
+          "rule": "The circle stroke base (RepairTower.java:102): class default 3f (:23); the def does not override it.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_draw_state"
+          ]
+        },
+        "square_rad": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "Fill.square(x, y, squareRad * warmup, Time.time / squareSpinScl);",
+          "rule": "The square radius base (RepairTower.java:105): class default 3f (:23); the def does not override it.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_draw_state"
+          ]
+        },
+        "square_spin_scl": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "Fill.square(x, y, squareRad * warmup, Time.time / squareSpinScl);",
+          "rule": "The square spin scale (RepairTower.java:105, rotation = Time.time / squareSpinScl): class default 0.8f (:23); the def does not override it.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_draw_state"
+          ]
+        },
+        "glow_color": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "Drawf.additive(glow, glowColor, warmup * (1f - glowMag + Mathf.absin(Time.time, glowScl, glowMag)), x, y, 0f, Layer.blockAdditive);",
+          "rule": "The glow color token (RepairTower.java:108): the class default is Pal.heal at alpha 0.5 (`glowColor = Pal.heal.cpy().a(0.5f);`, :22); the def does not override it.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_draw_state"
+          ]
+        },
+        "glow_mag": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "Drawf.additive(glow, glowColor, warmup * (1f - glowMag + Mathf.absin(Time.time, glowScl, glowMag)), x, y, 0f, Layer.blockAdditive);",
+          "rule": "The glow magnitude (RepairTower.java:108, alpha = warmup * (1 - glowMag + absin)): class default 0.5f (:23); the def does not override it.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_draw_state"
+          ]
+        },
+        "glow_scl": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "Drawf.additive(glow, glowColor, warmup * (1f - glowMag + Mathf.absin(Time.time, glowScl, glowMag)), x, y, 0f, Layer.blockAdditive);",
+          "rule": "The glow absin scale (RepairTower.java:108): class default 8f (:23); the def does not override it. The pure passes the DOUBLED scale to the shared helper (the N2372/N2382 lesson).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_draw_state"
+          ]
+        },
+        "offset": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);",
+          "rule": "The Block offset (RepairTower.java:47, the drawPlace center is x * tilesize + offset): `offset = ((size + 1) % 2) * tilesize / 2f;` (Block.java:761), 4.0 for the size-2 def.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_draw_state"
+          ]
+        },
+        "tile_x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);",
+          "rule": "The drawPlace tile x (RepairTower.java:44-47, drawPlace takes tile coords, not world coords).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_draw_state"
+          ]
+        },
+        "tile_y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);",
+          "rule": "The drawPlace tile y (RepairTower.java:44-47, same mapping as tile_x).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_draw_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTowerDrawRowsProof",
+      "rule": "Source-backed RepairTower draw rows from RepairTower.java / Blocks.java / Drawf.java / Block.java / Vars.java / Pal.java / Layer.java."
+    },
+    "source_repair_tower_draw_state_result": {
+      "status": "active",
+      "owner": "SourceRepairTowerBuildState.source_repair_tower_draw_state",
+      "source_slice": "N2428",
+      "keys": {
+        "super_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "super.draw();",
+          "rule": "The super.draw() marker call (RepairTower.java:95, the BuildingComp base draw): always present -- it runs before the warmup gate, so a cold tower still draws its base.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_draw_state"
+          ]
+        },
+        "circle_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "Lines.circle(x, y, range * mod);",
+          "rule": "The effect-layer circle call (RepairTower.java:99-103): color circleColor, stroke circleStroke * (1 - mod) * warmup, radius range * mod, at z Layer.effect. Empty when warmup <= 0.001 (the :97 gate).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_draw_state"
+          ]
+        },
+        "square_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "Fill.square(x, y, squareRad * warmup, Time.time / squareSpinScl);",
+          "rule": "The Pal.heal square call (RepairTower.java:104-106): radius squareRad * warmup, rotation Time.time / squareSpinScl, at z Layer.effect. Empty when warmup <= 0.001 (the :97 gate).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_draw_state"
+          ]
+        },
+        "glow_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "Drawf.additive(glow, glowColor, warmup * (1f - glowMag + Mathf.absin(Time.time, glowScl, glowMag)), x, y, 0f, Layer.blockAdditive);",
+          "rule": "The additive glow call (RepairTower.java:108): region glow (@-glow), color glowColor, alpha warmup * (1 - glowMag + absin(Time.time, glowScl, glowMag)) -- Java-exact through the shared helper at the DOUBLED scale glowScl * 2f -- rotation 0, layer Layer.blockAdditive. Empty when warmup <= 0.001 (the :97 gate).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_draw_state"
+          ]
+        },
+        "select_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "Drawf.dashCircle(x, y, range, Pal.placing);",
+          "rule": "The drawSelect dash circle call (RepairTower.java:123): radius range, color Pal.placing, at the building x/y. Always present -- drawSelect has no warmup gate.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_draw_state"
+          ]
+        },
+        "place_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);",
+          "rule": "The drawPlace dash circle call (RepairTower.java:47): radius range, color Pal.placing, centered at (tile_x * tilesize + offset, tile_y * tilesize + offset). Always present -- drawPlace has no warmup gate. super.drawPlace (Block.drawPlace, the shared placement concern) is NOT modeled.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_draw_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTowerDrawRowsProof",
+      "rule": "Source-backed RepairTower draw rows from RepairTower.java / Blocks.java / Drawf.java / Block.java / Vars.java / Pal.java / Layer.java."
+    },
+    "source_repair_tower_stats_state_input": {
+      "status": "active",
+      "owner": "SourceRepairTowerBuildState.source_repair_tower_stats_state",
+      "source_slice": "N2428",
+      "keys": {
+        "range_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "stats.add(Stat.range, range / tilesize, StatUnit.blocks);",
+          "rule": "The scan range (RepairTower.java:39, the range stat is range / tilesize blocks; :113, range() returns range): class default 80f (:21), def 100f (Blocks.java:6579).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_stats_state"
+          ]
+        },
+        "heal_amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "stats.add(Stat.repairSpeed, healAmount * 60f, StatUnit.perSecond);",
+          "rule": "The heal amount (RepairTower.java:40, the repairSpeed stat is healAmount * 60 per second): class default 1f (:24), def 1.5f (Blocks.java:6580).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_stats_state"
+          ]
+        },
+        "warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "return warmup;",
+          "rule": "The frame warmup (RepairTower.java:118, warmup() returns warmup; the N2227 advance tracks it): caller-supplied -- the accessor reads the frame value.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTowerDrawRowsProof",
+      "rule": "Source-backed RepairTower draw rows from RepairTower.java / Blocks.java / Drawf.java / Block.java / Vars.java / Pal.java / Layer.java."
+    },
+    "source_repair_tower_stats_state_result": {
+      "status": "active",
+      "owner": "SourceRepairTowerBuildState.source_repair_tower_stats_state",
+      "source_slice": "N2428",
+      "keys": {
+        "range_blocks": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "stats.add(Stat.range, range / tilesize, StatUnit.blocks);",
+          "rule": "The range stat row (RepairTower.java:39): Stat.range, value range / tilesize (12.5 blocks at the def range 100f), unit StatUnit.blocks.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_stats_state"
+          ]
+        },
+        "repair_per_second": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "stats.add(Stat.repairSpeed, healAmount * 60f, StatUnit.perSecond);",
+          "rule": "The repairSpeed stat row (RepairTower.java:40): Stat.repairSpeed, value healAmount * 60 (90/s at the def healAmount 1.5f), unit StatUnit.perSecond.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_stats_state"
+          ]
+        },
+        "range_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "return range;",
+          "rule": "The range() accessor value (RepairTower.java:112-114): returns range.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_stats_state"
+          ]
+        },
+        "warmup_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "return warmup;",
+          "rule": "The warmup() accessor value (RepairTower.java:117-119): returns warmup.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTowerDrawRowsProof",
+      "rule": "Source-backed RepairTower draw rows from RepairTower.java / Blocks.java / Drawf.java / Block.java / Vars.java / Pal.java / Layer.java."
+    },
+    "source_item_bridge_draw_state_input": {
+      "status": "active",
+      "owner": "SourceItemBridgeBuildState.source_item_bridge_draw_state",
+      "source_slice": "N2429",
+      "keys": {
+        "x_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "Draw.rect(endRegion, x, y, i * 90 + 90);",
+          "rule": "The building world x (ItemBridge.java:391, the endRegion rect center -- Building x/y are tile.drawx()/drawy()): the near end rect, the bridge line start and the arrow origins all sit here; drawInput uses it as tx and drawConfigure centers the self select here.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_state"
+          ]
+        },
+        "y_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "Draw.rect(endRegion, x, y, i * 90 + 90);",
+          "rule": "The building world y (ItemBridge.java:391, the endRegion rect center): the near end rect, the bridge line start and the arrow origins all sit here; drawInput uses it as ty and drawConfigure centers the self select here.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_state"
+          ]
+        },
+        "tile_x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "int dist = Math.max(Math.abs(other.x - tile.x), Math.abs(other.y - tile.y)) - 1;",
+          "rule": "The building tile x (ItemBridge.java:404, the dist term; also the relativeTo self-x, :381): the link direction and the bridge distance are computed from the tile coords, not the world pos.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_state"
+          ]
+        },
+        "tile_y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "int dist = Math.max(Math.abs(other.x - tile.x), Math.abs(other.y - tile.y)) - 1;",
+          "rule": "The building tile y (ItemBridge.java:404, the dist term; also the relativeTo self-y, :381): same mapping as x.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_state"
+          ]
+        },
+        "has_power": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "float warmup = hasPower ? this.warmup : 1f;",
+          "rule": "The hasPower def flag (ItemBridge.java:387, the draw warmup branch; `hasPower = true;`, :48, for the phase-conveyor): false draws warmup 1f regardless of the frame warmup (the bridge-conveyor case).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_state"
+          ]
+        },
+        "warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "public float warmup;",
+          "rule": "The frame warmup (ItemBridge.java:200, tracked by the N2225 advance -- the updateTile approach, :345, is already live and NOT ported here): the draw warmup when hasPower is true, and the arrow alpha factor.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_state"
+          ]
+        },
+        "time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "public float time = -8f, timeSpeed;",
+          "rule": "The frame time (ItemBridge.java:201, tracked by the N2225 advance, starts -8f): the moving-arrow phase -- the arrow alpha is absin(a - time / arrowTimeScl, arrowPeriod, 1f) (:412), and this is the FRAME time, not Time.time.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_state"
+          ]
+        },
+        "time_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "Draw.color(Color.white, Color.black, Mathf.absin(Time.time, 6f, 0.07f));",
+          "rule": "Time.time in ticks (ItemBridge.java:384, the pulse t; also the drawInput alpha (Time.time * 2f) % 100f, :240, and the configure pulse absin(Time.time, 4f, 1f), :279): caller-supplied -- draw never runs in the tick, so the tick never stamps it (the N2396/N2372 convention).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_state"
+          ]
+        },
+        "link_valid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "if(!linkValid(tile, other)) return;",
+          "rule": "The link verdict (ItemBridge.java:377, the draw() early return; the drawSelect gate, :224, is the same check): caller-evaluated through the N2197 linkValid pure -- the pure cannot query the world for the linked tile.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_state"
+          ]
+        },
+        "other_tile_x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "int i = relativeTo(other.x, other.y);",
+          "rule": "The linked tile x (ItemBridge.java:381, the relativeTo target; also the dist term, :404).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_state"
+          ]
+        },
+        "other_tile_y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "int i = relativeTo(other.x, other.y);",
+          "rule": "The linked tile y (ItemBridge.java:381, the relativeTo target; also the dist term, :404).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_state"
+          ]
+        },
+        "other_drawx": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "Draw.rect(endRegion, other.drawx(), other.drawy(), i * 90 + 270);",
+          "rule": "The linked tile draw x (ItemBridge.java:392, the far end rect; also the line end, :401, where Java reads other.worldx() -- equal to drawx for the size-1 bridge because the Block offset is 0, Block.java:761).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_state"
+          ]
+        },
+        "other_drawy": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "Draw.rect(endRegion, other.drawx(), other.drawy(), i * 90 + 270);",
+          "rule": "The linked tile draw y (ItemBridge.java:392, the far end rect; also the line end, :402, same worldx == drawx note as x).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_state"
+          ]
+        },
+        "bridge_opacity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "if(Mathf.zero(Renderer.bridgeOpacity)) return;",
+          "rule": "Renderer.bridgeOpacity (ItemBridge.java:379, the zero early return -- Mathf.zero is |value| <= 1e-6, Mathf.java:522-524, arc; also the draw alpha factor, :389, and the arrow alpha factor, :412): caller-supplied, the renderer owns it.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_state"
+          ]
+        },
+        "fade_in": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "public boolean fadeIn = true;",
+          "rule": "The def fadeIn flag (ItemBridge.java:33, class default true, no def override): when true the draw alpha is max(warmup, 0.25f) * bridgeOpacity, else 1f * bridgeOpacity (:389).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_state"
+          ]
+        },
+        "pulse": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "public boolean pulse = false;",
+          "rule": "The def pulse flag (ItemBridge.java:35, class default false; TRUE for the phase-conveyor, `pulse = true;`, Blocks.java:2124): when true draw() sets the white/black pulse color before the warmup line (:383-385).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_state"
+          ]
+        },
+        "bridge_width": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "public float bridgeWidth = 6.5f;",
+          "rule": "The def bridge width (ItemBridge.java:38, class default 6.5f, no def override): the bridgeRegion line stroke (:394).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_state"
+          ]
+        },
+        "arrow_spacing": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "public float arrowSpacing = 4f, arrowOffset = 2f, arrowPeriod = 0.4f;",
+          "rule": "The def arrow spacing (ItemBridge.java:36, class default 4f, no phase-conveyor override): the arrow count is (int)(dist * tilesize / arrowSpacing) and the step along the link (:409/:414-415).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_state"
+          ]
+        },
+        "arrow_offset": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "public float arrowSpacing = 4f, arrowOffset = 2f, arrowPeriod = 0.4f;",
+          "rule": "The def arrow offset (ItemBridge.java:36, class default 2f, no def override): the first arrow sits tilesize / 2f + arrowOffset from the building (:414-415).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_state"
+          ]
+        },
+        "arrow_period": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "public float arrowSpacing = 4f, arrowOffset = 2f, arrowPeriod = 0.4f;",
+          "rule": "The def arrow period (ItemBridge.java:36, class default 0.4f; phase-conveyor 0.9f, `arrowPeriod = 0.9f;`, Blocks.java:2120): the absin scale of the per-arrow alpha (:412).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_state"
+          ]
+        },
+        "arrow_time_scl": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "public float arrowTimeScl = 6.2f;",
+          "rule": "The def arrow time scale (ItemBridge.java:37, class default 6.2f; phase-conveyor 2.75f, `arrowTimeScl = 2.75f;`, Blocks.java:2121): the frame time divisor in the arrow phase a - time / arrowTimeScl (:412).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_state"
+          ]
+        },
+        "lod_l1": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/graphics/Lod.java",
+          "java_expr": "public static boolean l1 = true;",
+          "rule": "Lod.l1 (Lod.java:17, the zoom-detail gate for the moving arrows, ItemBridge.java:408): caller-supplied -- the port has no live camera zoom at the driver layer (the MendProjector precedent).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_state"
+          ]
+        },
+        "lod_alpha1": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/graphics/Lod.java",
+          "java_expr": "public static float alpha1 = 1f;",
+          "rule": "Lod.alpha1 (Lod.java:18, the arrow alpha factor, ItemBridge.java:412): caller-supplied, same as lod_l1.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_state"
+          ]
+        },
+        "size_value": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "Drawf.select(x, y, tile.block().size * tilesize / 2f + 2f, Pal.accent);",
+          "rule": "The block size in tiles (ItemBridge.java:270, the drawConfigure self-select radius is size * tilesize / 2f + 2f; also the relativeTo odd/even branch, Tile.java:117: size 1 takes the odd branch): 1 for the phase-conveyor.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_state"
+          ]
+        },
+        "link_pos": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "boolean linked = other.pos() == link;",
+          "rule": "The frame link as a packed position (ItemBridge.java:235, the drawInput linked check; also :276 in drawConfigure): the pure compares each incoming / candidate pos against it -- the link tile itself is trivially linked.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_state"
+          ]
+        },
+        "incoming_tiles": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "incoming.each(pos -> drawInput(world.tile(pos)));",
+          "rule": "The incoming tiles for drawSelect (ItemBridge.java:228, one drawInput per incoming pos): each entry is a Dictionary with tile_x / tile_y / drawx / drawy / pos / valid -- valid is the caller-evaluated linkValid(tile, other, false) verdict (the pure cannot query the world), and the pure skips invalid entries, mirroring the drawInput early return (:234).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_state"
+          ]
+        },
+        "configure_candidates": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "Tile other = tile.nearby(Geometry.d4[j].x * i, Geometry.d4[j].y * i);",
+          "rule": "The drawConfigure candidates (ItemBridge.java:274, the 1..range x 4 scan): the caller supplies the linkValid candidates only (drawx / drawy / size / pos, in scan order -- the pure cannot scan the world), and the pure computes linked + the radius + the color per candidate (:278-279).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ItemBridgeDrawRowsProof",
+      "rule": "Source-backed ItemBridge draw rows from ItemBridge.java / Tile.java / BuildingComp.java / Lod.java / Block.java / Vars.java / Blocks.java."
+    },
+    "source_item_bridge_draw_state_result": {
+      "status": "active",
+      "owner": "SourceItemBridgeBuildState.source_item_bridge_draw_state",
+      "source_slice": "N2429",
+      "keys": {
+        "warmup_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "float warmup = hasPower ? this.warmup : 1f;",
+          "rule": "The draw warmup (ItemBridge.java:387): the frame warmup when hasPower is true, else 1f -- the bridge-conveyor (hasPower false) always draws fully warmed up.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_state"
+          ]
+        },
+        "draw_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "Draw.rect(endRegion, x, y, i * 90 + 90);",
+          "rule": "The draw() bridge call (ItemBridge.java:371-420): null when the link is invalid or the bridge opacity is zero (the early returns, :377/:379), else the recorded super.draw() + the Layer.power z + the link direction i + dist + the fadeIn alpha + the two endRegion rects (i * 90 + 90 / + 270) + the bridgeRegion line (stroke bridgeWidth, 4px short of each end).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_state"
+          ]
+        },
+        "arrow_calls": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "Draw.rect(arrowRegion,",
+          "rule": "The moving arrows (ItemBridge.java:408-418, the Lod.l1 loop): empty when the draw is skipped or Lod.l1 is false, else one entry per arrow -- count (int)(dist * tilesize / arrowSpacing) -- with x / y / rotation i * 90f and the per-arrow alpha absin(a - time / arrowTimeScl, arrowPeriod, 1f) * warmup * bridgeOpacity * Lod.alpha1.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_state"
+          ]
+        },
+        "pulse_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "Draw.color(Color.white, Color.black, Mathf.absin(Time.time, 6f, 0.07f));",
+          "rule": "The pulse color call (ItemBridge.java:383-385): null when pulse is false or the draw is skipped (the branch runs after the early returns), else the white/black lerp with t = absin(Time.time, 6f, 0.07f) -- live for the phase-conveyor (`pulse = true;`, Blocks.java:2124).",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_state"
+          ]
+        },
+        "select_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "public void drawSelect(){",
+          "rule": "The drawSelect call (ItemBridge.java:223-231): whether the link input drew, how many incoming inputs drew, and the recorded Draw.reset() -- the input geometry itself rides input_call.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_state"
+          ]
+        },
+        "input_call": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "Draw.rect(arrowRegion, x, y, rel * 90);",
+          "rule": "The drawInput calls (ItemBridge.java:233-266, one per drawn input -- the link input first when valid, then the valid incoming tiles): each carries the tile pos, the linked flag, the pulsing alpha, the lerp arrow (x / y / rel * 90 rotation), the place/accent color, the shared line endpoints, the 2f/45f square, and the gray-2.5f background + color-1f foreground strokes.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_state"
+          ]
+        },
+        "configure_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+          "java_expr": "Drawf.select(x, y, tile.block().size * tilesize / 2f + 2f, Pal.accent);",
+          "rule": "The drawConfigure call (ItemBridge.java:269-281): the self select (radius size * tilesize / 2f + 2f, Pal.accent) plus one select per candidate -- radius size * tilesize / 2f + 2f + (linked ? 0f : absin(Time.time, 4f, 1f)), color linked ? Pal.place : Pal.breakInvalid.",
+          "used_by": [
+            "SourceItemBridgeBuildState.source_item_bridge_draw_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ItemBridgeDrawRowsProof",
+      "rule": "Source-backed ItemBridge draw rows from ItemBridge.java / Tile.java / BuildingComp.java / Lod.java / Block.java / Vars.java / Blocks.java."
+    },
+    "source_impact_reactor_draw_state_input": {
+      "status": "active",
+      "owner": "SourceImpactReactorBuildState.source_impact_reactor_draw_state",
+      "source_slice": "N2430",
+      "keys": {
+        "x_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/draw/DrawDefault.java",
+          "java_expr": "Draw.rect(build.block.region, build.x, build.y, build.drawrot());",
+          "rule": "The building world x (DrawDefault.java:13, the base rect center; the bottom rect center, DrawRegion.java:51; the plasma rect centers, DrawPlasma.java:43; the light centers, DrawPlasma.java:32 / BuildingComp.java:1326).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_draw_state"
+          ]
+        },
+        "y_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/draw/DrawDefault.java",
+          "java_expr": "Draw.rect(build.block.region, build.x, build.y, build.drawrot());",
+          "rule": "The building world y (DrawDefault.java:13 / DrawRegion.java:51 / DrawPlasma.java:43/32 / BuildingComp.java:1326, same mapping as x).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_draw_state"
+          ]
+        },
+        "warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/draw/DrawPlasma.java",
+          "java_expr": "Draw.alpha((0.3f + Mathf.absin(Time.time, 2f + i * 2f, 0.3f + i * 0.05f)) * build.warmup());",
+          "rule": "The frame warmup (ImpactReactor.java:75, tracked by the N2192 advance; read through the N2391 warmup() accessor pure): the plasma alpha (DrawPlasma.java:42) and the plasma light radius + alpha (DrawPlasma.java:32) both scale by it.",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_draw_state"
+          ]
+        },
+        "total_progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/draw/DrawPlasma.java",
+          "java_expr": "Draw.rect(regions[i], build.x + x, build.y + y, r, r, build.totalProgress() * (12 + i * 6f));",
+          "rule": "The frame totalProgress (ImpactReactor.java:75, tracked by the N2192 advance): the plasma rect rotation is totalProgress * (12 + i * 6f) (DrawPlasma.java:43). The bottom rect rotation folds to 0 (rotateSpeed 0, DrawRegion.java:51), so totalProgress does not move it.",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_draw_state"
+          ]
+        },
+        "time_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/draw/DrawPlasma.java",
+          "java_expr": "float r = ((float)regions[i].width * regions[i].scl() - 3f + Mathf.absin(Time.time, 2f + i * 1f, 5f - i * 0.5f));",
+          "rule": "Time.time in ticks (DrawPlasma.java:39/42, the r + alpha absins; also the light absins via the 2-arg form, DrawPlasma.java:32): caller-supplied -- draw never runs in the tick, so the tick never stamps it (the N2396/N2372 convention).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_draw_state"
+          ]
+        },
+        "plasma_region_sizes": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/draw/DrawPlasma.java",
+          "java_expr": "float r = ((float)regions[i].width * regions[i].scl() - 3f + Mathf.absin(Time.time, 2f + i * 1f, 5f - i * 0.5f));",
+          "rule": "The four plasma atlas sizes, regions[i].width * regions[i].scl() (DrawPlasma.java:39; scl() is scale * Draw.scl, arc TextureRegion.java:311-313): caller-supplied -- the port has no atlas. A missing entry reads 0.0, an unloaded region.",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_draw_state"
+          ]
+        },
+        "liquid_amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "visualLiquid = Mathf.lerpDelta(visualLiquid, liquids.get(liq)>= 0.01f ? 1f : 0f, 0.06f);",
+          "rule": "The held cryofluid amount (BuildingComp.java:1313, liquids.get(liq)): the visualLiquid target is 1 when the tank holds >= 0.01, else 0. The current liquid is cryofluid, the only liquid the def consumes (Blocks.java:2644).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_draw_state"
+          ]
+        },
+        "liquid_light_alpha": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(block.hasLiquids && block.drawLiquidLight && liq.lightColor.a > 0.001f){",
+          "rule": "The current liquid lightColor alpha (BuildingComp.java:1311, the drawLight gate): cryofluid 0.2 (Liquids.java:44), so the gate passes; it is also the light opacity (BuildingComp.java:1324).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_draw_state"
+          ]
+        },
+        "liquid_light_color": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Liquids.java",
+          "java_expr": "lightColor = Color.valueOf(\"0097f5\").a(0.2f);",
+          "rule": "The current liquid lightColor token (Liquids.java:44, cryofluid \"0097f5\"): the liquid light draws in the liquid lightColor (BuildingComp.java:1322-1326).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_draw_state"
+          ]
+        },
+        "visual_liquid": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "visualLiquid = Mathf.lerpDelta(visualLiquid, liquids.get(liq)>= 0.01f ? 1f : 0f, 0.06f);",
+          "rule": "The previous visualLiquid (BuildingComp.java:1313): transient draw state the tick never tracks, so the caller supplies it and reads the new value back from the light call dict (the Separator N2419 precedent).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_draw_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "visualLiquid = Mathf.lerpDelta(visualLiquid, liquids.get(liq)>= 0.01f ? 1f : 0f, 0.06f);",
+          "rule": "Time.delta in ticks (BuildingComp.java:1313, inside lerpDelta: clamp(0.06 * Time.delta), arc Mathf.java:430-432).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_draw_state"
+          ]
+        },
+        "size_value": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Drawf.light(x, y, block.size * 30f * fract, color, opacity * amount);",
+          "rule": "The block size in tiles (BuildingComp.java:1326): impact-reactor 4 (Blocks.java:2634) -- the liquid light radius is size * 30 = 120.",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_draw_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ImpactReactorDrawRowsProof",
+      "rule": "Source-backed ImpactReactor draw rows from ImpactReactor.java / PowerGenerator.java / DrawMulti.java / DrawRegion.java / DrawPlasma.java / DrawDefault.java / DrawBlock.java / Block.java / BuildingComp.java / Blocks.java / Liquids.java."
+    },
+    "source_impact_reactor_draw_state_result": {
+      "status": "active",
+      "owner": "SourceImpactReactorBuildState.source_impact_reactor_draw_state",
+      "source_slice": "N2430",
+      "keys": {
+        "bottom_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/draw/DrawRegion.java",
+          "java_expr": "Draw.rect(region, build.x + x, build.y + y, build.totalProgress() * rotateSpeed + rotation + (buildingRotate ? build.rotdeg() : 0));",
+          "rule": "The \"-bottom\" rect call (DrawRegion.java:51): region impact-reactor-bottom, centered on the building, rotation 0 (rotateSpeed 0, buildingRotate false), z untouched (layer -1).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_draw_state"
+          ]
+        },
+        "plasma_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/draw/DrawPlasma.java",
+          "java_expr": "Draw.rect(regions[i], build.x + x, build.y + y, r, r, build.totalProgress() * (12 + i * 6f));",
+          "rule": "The plasma rect calls (DrawPlasma.java:36-47): blend Blending.additive, 4 rects impact-reactor-plasma-0..3, r = atlas size - 3 + absin(Time.time, 2 + i, 5 - i * 0.5) at the doubled helper scale, color plasma1 -> plasma2 at i / 4, alpha (0.3 + absin(Time.time, 2 + i * 2, 0.3 + i * 0.05)) * warmup, rotation totalProgress * (12 + i * 6f).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_draw_state"
+          ]
+        },
+        "base_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/draw/DrawDefault.java",
+          "java_expr": "Draw.rect(build.block.region, build.x, build.y, build.drawrot());",
+          "rule": "The base rect call (DrawDefault.java:13): region impact-reactor, centered on the building, rotation drawrot() = 0 (ImpactReactor sets no rotate, Block.java:120).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_draw_state"
+          ]
+        },
+        "light_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/draw/DrawPlasma.java",
+          "java_expr": "Drawf.light(build.x, build.y, (110f + Mathf.absin(5, 5f)) * build.warmup(), Tmp.c1.set(plasma2).lerp(plasma1, Mathf.absin(7f, 0.2f)), 0.8f * build.warmup());",
+          "rule": "The light call (GeneratorBuild.drawLight, PowerGenerator.java:145-148, super + drawer): the DrawPlasma light (DrawPlasma.java:32, radius (110 + absin(5, 5)) * warmup, color plasma2 -> plasma1 at absin(7, 0.2), alpha 0.8 * warmup) AND the super liquid light (BuildingComp.java:1319-1327, radius size * 30, color liquid.lightColor, opacity lightColor.a * visualLiquid after the lerpDelta step; empty when the light gate fails or the visual amount is <= 0.01). Carries the new visualLiquid.",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_draw_state"
+          ]
+        },
+        "icon_regions": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/draw/DrawMulti.java",
+          "java_expr": "result.addAll(draw.icons(block));",
+          "rule": "The icon regions in Java order (DrawMulti.java:63, via finalIcons, PowerGenerator.java:55): [\"impact-reactor-bottom\", \"impact-reactor\"] -- DrawPlasma contributes nothing (the base icons() returns empty, DrawBlock.java:47). Folded into the draw pure because icons() takes no args and the SSOT schema validator requires non-empty input keys (the N2396 precedent).",
+          "used_by": [
+            "SourceImpactReactorBuildState.source_impact_reactor_draw_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ImpactReactorDrawRowsProof",
+      "rule": "Source-backed ImpactReactor draw rows from ImpactReactor.java / PowerGenerator.java / DrawMulti.java / DrawRegion.java / DrawPlasma.java / DrawDefault.java / DrawBlock.java / Block.java / BuildingComp.java / Blocks.java / Liquids.java."
+    },
+    "source_build_turret_draw_state_input": {
+      "status": "active",
+      "owner": "SourceBuildTurretBuildState.source_build_turret_draw_state",
+      "source_slice": "N2431",
+      "keys": {
+        "x_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "Draw.rect(baseRegion, x, y);",
+          "rule": "The building world x (BuildTurret.java:236, the Draw.rect center): the base rect, the shadow and the region rect are all centered here (the shadow shifted by elevation), and the glow additive is centered here too (:245).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_draw_state"
+          ]
+        },
+        "y_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "Draw.rect(baseRegion, x, y);",
+          "rule": "The building world y (BuildTurret.java:236, the Draw.rect center): the base rect, the shadow and the region rect are all centered here (the shadow shifted by elevation), and the glow additive is centered here too (:245).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_draw_state"
+          ]
+        },
+        "rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "Draw.rect(region, x, y, rotation - 90);",
+          "rule": "The frame rotation (BuildTurret.java:242, tracked by the N2243 advance; the field default is `public float rotation = 90;`, BaseTurret.java:114): the shadow, the region rect and the glow additive all draw at rotation - 90.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_draw_state"
+          ]
+        },
+        "elevation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "Drawf.shadow(region, x - elevation, y - elevation, rotation - 90);",
+          "rule": "The EFFECTIVE elevation (BuildTurret.java:241, the shadow shift): the field defaults to -1f (`public float elevation = -1f;`, :38) and init() lifts it to size / 2f (`if(elevation < 0) elevation = size / 2f;`, :53), so the size-3 build-tower shifts by 1.5; the pure takes the post-lift value and stays def-agnostic.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_draw_state"
+          ]
+        },
+        "warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "Drawf.additive(glowRegion, heatColor, warmup, x, y, rotation - 90f, Layer.turretHeat);",
+          "rule": "The frame warmup (BuildTurret.java:245, the glow alpha; `public float warmup;`, :96, tracked by the N2243 lerp advance): the additive alpha is warmup, and the effective alpha is warmup * 0.9 because heatColor carries a 0.9f alpha (Drawf.java:186, `Draw.color(color, alpha * color.a);`).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_draw_state"
+          ]
+        },
+        "efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "if(efficiency > 0){",
+          "rule": "The frame efficiency (BuildTurret.java:248, the build-call gate): unit.drawBuilding() runs only when efficiency > 0 -- a STRICT gate, efficiency exactly 0 draws nothing.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_draw_state"
+          ]
+        },
+        "glow_found": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "if(glowRegion.found()){",
+          "rule": "Whether the glow region is found (BuildTurret.java:244, the glow gate; `public @Load(\"@-glow\") TextureRegion glowRegion;`, :32): the glow additive draws only when the region is found, else glow_call is null.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_draw_state"
+          ]
+        },
+        "heat_color": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "public Color heatColor = Pal.accent.cpy().a(0.9f);",
+          "rule": "The heat color token (BuildTurret.java:39, the glow color; the single build-tower def sets no override, Blocks.java:1997-2006): carried as the symbolic token \"heatColor\", the N2415 / ShockwaveTower precedent -- the port never draws for real.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_draw_state"
+          ]
+        },
+        "unit_present": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "public BlockUnitc unit = (BlockUnitc)unitType.create(team);",
+          "rule": "Whether the builder unit is present (BuildTurret.java:93, created at construction and never nulled in Java): a defensive port flag -- the port has no live Unit object behind the frame -- and the pure returns build_call null when no unit is present even at efficiency > 0.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_draw_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildTurretDrawRowsProof",
+      "rule": "Source-backed BuildTurret draw rows from BuildTurret.java / Drawf.java / Blocks.java / BaseTurret.java."
+    },
+    "source_build_turret_draw_state_result": {
+      "status": "active",
+      "owner": "SourceBuildTurretBuildState.source_build_turret_draw_state",
+      "source_slice": "N2431",
+      "keys": {
+        "base_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "Draw.rect(baseRegion, x, y);",
+          "rule": "The base rect call (BuildTurret.java:236): region baseRegion (the `@-base` region, BuildTurret.java:31), centered on the building, drawn at the default z before the Draw.z call -- the call carries no z key, the N2421 shape.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_draw_state"
+          ]
+        },
+        "shadow_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "Drawf.shadow(region, x - elevation, y - elevation, rotation - 90);",
+          "rule": "The shadow call (BuildTurret.java:241): region region at (x - elevation, y - elevation) -- 1.5 for the size-3 build-tower after the init lift -- rotation - 90, layer Layer.turret. The overload is Drawf.shadow(TextureRegion, x, y, rotation) (Drawf.java:366-370, Draw.color(Pal.shadow) + rect + reset).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_draw_state"
+          ]
+        },
+        "region_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "Draw.rect(region, x, y, rotation - 90);",
+          "rule": "The region rect call (BuildTurret.java:242): region region centered on the building, rotation - 90, layer Layer.turret.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_draw_state"
+          ]
+        },
+        "glow_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "Drawf.additive(glowRegion, heatColor, warmup, x, y, rotation - 90f, Layer.turretHeat);",
+          "rule": "The glow additive call (BuildTurret.java:245): null when the glow region is not found, else region glowRegion, color heatColor (symbolic token), alpha warmup, effective alpha warmup * 0.9 (heatColor alpha 0.9f, Drawf.java:186), rotation - 90, layer Layer.turretHeat. The overload is Drawf.additive(region, color, alpha, x, y, rotation, layer) (Drawf.java:183-192).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_draw_state"
+          ]
+        },
+        "build_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "unit.drawBuilding();",
+          "rule": "The build call (BuildTurret.java:249): null when efficiency <= 0 or no unit is present, else the recorded `unit.drawBuilding();` call -- the pure records the call into the builder unit, it does not model unit draw.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_draw_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildTurretDrawRowsProof",
+      "rule": "Source-backed BuildTurret draw rows from BuildTurret.java / Drawf.java / Blocks.java / BaseTurret.java."
     }
   },
   "version": 1

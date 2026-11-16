@@ -1344,6 +1344,27 @@
       ],
       "runtime_proof": "/root/C07ImpactReactorSenseRowsProof"
     },
+    "N2430": {
+      "canonical_ledger": "source_slice_ledger.N2430",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+      "java_method": "ImpactReactorBuild.draw()",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_draw_state",
+      "source_symbols": [
+        "source_impact_reactor_draw_state_result.bottom_call",
+        "source_impact_reactor_draw_state_result.plasma_call",
+        "source_impact_reactor_draw_state_result.base_call",
+        "source_impact_reactor_draw_state_result.light_call",
+        "source_impact_reactor_draw_state_result.icon_regions"
+      ],
+      "tests": [
+        "test_c07_impact_reactor_draw_rows_registration",
+        "test_all_c07_impact_reactor_draw_rows_input_evidence_is_exact",
+        "test_impact_reactor_draw_rows_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_draw_rows"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorDrawRowsProof"
+    },
     "N888": {
       "canonical_ledger": "source_slice_ledger.N888",
       "status": "done",

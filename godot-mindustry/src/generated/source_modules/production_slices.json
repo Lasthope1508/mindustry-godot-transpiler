@@ -1928,6 +1928,28 @@
       ],
       "runtime_proof": "/root/C07SeparatorDrawRowsProof"
     },
+    "N2426": {
+      "canonical_ledger": "source_slice_ledger.N2426",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+      "java_method": "WallCrafterBuild.draw()",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_draw_state",
+      "source_symbols": [
+        "source_wall_crafter_draw_state_result.base_call",
+        "source_wall_crafter_draw_state_result.top_call",
+        "source_wall_crafter_draw_state_result.rotator_calls",
+        "source_wall_crafter_draw_state_result.plan_call",
+        "source_wall_crafter_draw_state_result.place_call",
+        "source_wall_crafter_draw_state_result.icon_regions"
+      ],
+      "tests": [
+        "test_c07_wall_crafter_draw_rows_registration",
+        "test_all_c07_wall_crafter_draw_rows_input_evidence_is_exact",
+        "test_wall_crafter_draw_rows_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_draw_rows"
+      ],
+      "runtime_proof": "/root/C07WallCrafterDrawRowsProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",

@@ -76531,6 +76531,715 @@
       ],
       "runtime_proof": "/root/C07ForceProjectorAbsorbExplosionProof",
       "rule": "Source-backed ForceProjector absorbExplosion from ForceProjector.java / ExplosionShield.java / Damage.java / UnitComp.java / Intersector.java / Vec2.java."
+    },
+    "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_draw_state": {
+      "status": "active",
+      "source_slice": "N2425",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+      "source_method": "UnitAssemblerModuleBuild.draw()",
+      "params": [
+        {
+          "name": "x_value",
+          "type": "float",
+          "schema": "source_unit_assembler_module_draw_state_input.x_value"
+        },
+        {
+          "name": "y_value",
+          "type": "float",
+          "schema": "source_unit_assembler_module_draw_state_input.y_value"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_unit_assembler_module_draw_state_input.rotation"
+        },
+        {
+          "name": "blends",
+          "type": "Array",
+          "schema": "source_unit_assembler_module_draw_state_input.blends"
+        },
+        {
+          "name": "payload",
+          "type": "Variant",
+          "schema": "source_unit_assembler_module_draw_state_input.payload"
+        },
+        {
+          "name": "link",
+          "type": "Variant",
+          "schema": "source_unit_assembler_module_draw_state_input.link"
+        },
+        {
+          "name": "plan",
+          "type": "Variant",
+          "schema": "source_unit_assembler_module_draw_state_input.plan"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "base_call",
+        "input_calls",
+        "side_call",
+        "payload_call",
+        "top_call",
+        "place_call",
+        "plan_call",
+        "icon_regions"
+      ],
+      "tests": [
+        "test_c07_unit_assembler_module_draw_rows_registration",
+        "test_all_c07_unit_assembler_module_draw_rows_input_evidence_is_exact",
+        "test_unit_assembler_module_draw_rows_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_draw_rows"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleDrawRowsProof",
+      "rule": "Source-backed UnitAssemblerModule draw / drawPlace / drawPlanRegion / icons rows from UnitAssemblerModule.java / PayloadBlock.java / Block.java / BuildingComp.java / BuildPlan.java / Blocks.java."
+    },
+    "SourceWallCrafterBuildState.source_wall_crafter_draw_state": {
+      "status": "active",
+      "source_slice": "N2426",
+      "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+      "source_method": "WallCrafterBuild.draw()",
+      "params": [
+        {
+          "name": "x_value",
+          "type": "float",
+          "schema": "source_wall_crafter_draw_state_input.x_value"
+        },
+        {
+          "name": "y_value",
+          "type": "float",
+          "schema": "source_wall_crafter_draw_state_input.y_value"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_wall_crafter_draw_state_input.rotation"
+        },
+        {
+          "name": "size_value",
+          "type": "int",
+          "schema": "source_wall_crafter_draw_state_input.size_value"
+        },
+        {
+          "name": "total_time",
+          "type": "float",
+          "schema": "source_wall_crafter_draw_state_input.total_time"
+        },
+        {
+          "name": "rotate_speed",
+          "type": "float",
+          "schema": "source_wall_crafter_draw_state_input.rotate_speed"
+        },
+        {
+          "name": "edge_tiles",
+          "type": "Array",
+          "schema": "source_wall_crafter_draw_state_input.edge_tiles"
+        },
+        {
+          "name": "efficiency",
+          "type": "float",
+          "schema": "source_wall_crafter_draw_state_input.efficiency"
+        },
+        {
+          "name": "drill_time",
+          "type": "float",
+          "schema": "source_wall_crafter_draw_state_input.drill_time"
+        },
+        {
+          "name": "plan",
+          "type": "Dictionary",
+          "schema": "source_wall_crafter_draw_state_input.plan"
+        },
+        {
+          "name": "tile_x",
+          "type": "int",
+          "schema": "source_wall_crafter_draw_state_input.tile_x"
+        },
+        {
+          "name": "tile_y",
+          "type": "int",
+          "schema": "source_wall_crafter_draw_state_input.tile_y"
+        },
+        {
+          "name": "place_valid",
+          "type": "bool",
+          "schema": "source_wall_crafter_draw_state_input.place_valid"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "base_call",
+        "top_call",
+        "rotator_calls",
+        "plan_call",
+        "place_call",
+        "icon_regions"
+      ],
+      "tests": [
+        "test_c07_wall_crafter_draw_rows_registration",
+        "test_all_c07_wall_crafter_draw_rows_input_evidence_is_exact",
+        "test_wall_crafter_draw_rows_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_draw_rows"
+      ],
+      "runtime_proof": "/root/C07WallCrafterDrawRowsProof",
+      "rule": "Source-backed WallCrafter draw rows from WallCrafter.java / BuildingComp.java / Layer.java / Vars.java / Blocks.java / bundle.properties."
+    },
+    "SourceRadarBuildState.source_radar_draw_state": {
+      "status": "active",
+      "source_slice": "N2427",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "source_method": "RadarBuild.draw()",
+      "params": [
+        {
+          "name": "x_value",
+          "type": "float",
+          "schema": "source_radar_draw_state_input.x_value"
+        },
+        {
+          "name": "y_value",
+          "type": "float",
+          "schema": "source_radar_draw_state_input.y_value"
+        },
+        {
+          "name": "rotate_speed",
+          "type": "float",
+          "schema": "source_radar_draw_state_input.rotate_speed"
+        },
+        {
+          "name": "total_progress",
+          "type": "float",
+          "schema": "source_radar_draw_state_input.total_progress"
+        },
+        {
+          "name": "glow_color",
+          "type": "String",
+          "schema": "source_radar_draw_state_input.glow_color"
+        },
+        {
+          "name": "glow_alpha",
+          "type": "float",
+          "schema": "source_radar_draw_state_input.glow_alpha"
+        },
+        {
+          "name": "glow_mag",
+          "type": "float",
+          "schema": "source_radar_draw_state_input.glow_mag"
+        },
+        {
+          "name": "glow_scl",
+          "type": "float",
+          "schema": "source_radar_draw_state_input.glow_scl"
+        },
+        {
+          "name": "time_value",
+          "type": "float",
+          "schema": "source_radar_draw_state_input.time_value"
+        },
+        {
+          "name": "fog_radius",
+          "type": "float",
+          "schema": "source_radar_draw_state_input.fog_radius"
+        },
+        {
+          "name": "fog_radius_live",
+          "type": "float",
+          "schema": "source_radar_draw_state_input.fog_radius_live"
+        },
+        {
+          "name": "offset",
+          "type": "float",
+          "schema": "source_radar_draw_state_input.offset"
+        },
+        {
+          "name": "size_value",
+          "type": "int",
+          "schema": "source_radar_draw_state_input.size_value"
+        },
+        {
+          "name": "tile_x",
+          "type": "int",
+          "schema": "source_radar_draw_state_input.tile_x"
+        },
+        {
+          "name": "tile_y",
+          "type": "int",
+          "schema": "source_radar_draw_state_input.tile_y"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "base_call",
+        "region_call",
+        "glow_call",
+        "select_call",
+        "place_call",
+        "icon_regions"
+      ],
+      "tests": [
+        "test_c07_radar_draw_rows_registration",
+        "test_all_c07_radar_draw_rows_input_evidence_is_exact",
+        "test_radar_draw_rows_state",
+        "test_reference_graph_and_actual_c07_radar_draw_rows"
+      ],
+      "runtime_proof": "/root/C07RadarDrawRowsProof",
+      "rule": "Source-backed Radar draw rows from Radar.java / Block.java / Drawf.java / Pal.java / Vars.java / Blocks.java / Mathf.java."
+    },
+    "SourceRepairTowerBuildState.source_repair_tower_draw_state": {
+      "status": "active",
+      "source_slice": "N2428",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "source_method": "RepairTowerBuild.draw()",
+      "params": [
+        {
+          "name": "x_value",
+          "type": "float",
+          "schema": "source_repair_tower_draw_state_input.x_value"
+        },
+        {
+          "name": "y_value",
+          "type": "float",
+          "schema": "source_repair_tower_draw_state_input.y_value"
+        },
+        {
+          "name": "warmup",
+          "type": "float",
+          "schema": "source_repair_tower_draw_state_input.warmup"
+        },
+        {
+          "name": "total_progress",
+          "type": "float",
+          "schema": "source_repair_tower_draw_state_input.total_progress"
+        },
+        {
+          "name": "range_value",
+          "type": "float",
+          "schema": "source_repair_tower_draw_state_input.range_value"
+        },
+        {
+          "name": "time_value",
+          "type": "float",
+          "schema": "source_repair_tower_draw_state_input.time_value"
+        },
+        {
+          "name": "circle_color",
+          "type": "String",
+          "schema": "source_repair_tower_draw_state_input.circle_color"
+        },
+        {
+          "name": "circle_stroke",
+          "type": "float",
+          "schema": "source_repair_tower_draw_state_input.circle_stroke"
+        },
+        {
+          "name": "square_rad",
+          "type": "float",
+          "schema": "source_repair_tower_draw_state_input.square_rad"
+        },
+        {
+          "name": "square_spin_scl",
+          "type": "float",
+          "schema": "source_repair_tower_draw_state_input.square_spin_scl"
+        },
+        {
+          "name": "glow_color",
+          "type": "String",
+          "schema": "source_repair_tower_draw_state_input.glow_color"
+        },
+        {
+          "name": "glow_mag",
+          "type": "float",
+          "schema": "source_repair_tower_draw_state_input.glow_mag"
+        },
+        {
+          "name": "glow_scl",
+          "type": "float",
+          "schema": "source_repair_tower_draw_state_input.glow_scl"
+        },
+        {
+          "name": "offset",
+          "type": "float",
+          "schema": "source_repair_tower_draw_state_input.offset"
+        },
+        {
+          "name": "tile_x",
+          "type": "int",
+          "schema": "source_repair_tower_draw_state_input.tile_x"
+        },
+        {
+          "name": "tile_y",
+          "type": "int",
+          "schema": "source_repair_tower_draw_state_input.tile_y"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "super_call",
+        "circle_call",
+        "square_call",
+        "glow_call",
+        "select_call",
+        "place_call"
+      ],
+      "tests": [
+        "test_c07_repair_tower_draw_rows_registration",
+        "test_all_c07_repair_tower_draw_rows_input_evidence_is_exact",
+        "test_repair_tower_draw_rows_state",
+        "test_reference_graph_and_actual_c07_repair_tower_draw_rows"
+      ],
+      "runtime_proof": "/root/C07RepairTowerDrawRowsProof",
+      "rule": "Source-backed RepairTower draw rows from RepairTower.java / Blocks.java / Drawf.java / Block.java / Vars.java / Pal.java / Layer.java."
+    },
+    "SourceRepairTowerBuildState.source_repair_tower_stats_state": {
+      "status": "active",
+      "source_slice": "N2428",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "source_method": "RepairTower.setStats()",
+      "params": [
+        {
+          "name": "range_value",
+          "type": "float",
+          "schema": "source_repair_tower_stats_state_input.range_value"
+        },
+        {
+          "name": "heal_amount",
+          "type": "float",
+          "schema": "source_repair_tower_stats_state_input.heal_amount"
+        },
+        {
+          "name": "warmup",
+          "type": "float",
+          "schema": "source_repair_tower_stats_state_input.warmup"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "range_blocks",
+        "repair_per_second",
+        "range_value",
+        "warmup_value"
+      ],
+      "tests": [
+        "test_c07_repair_tower_draw_rows_registration",
+        "test_all_c07_repair_tower_draw_rows_input_evidence_is_exact",
+        "test_repair_tower_draw_rows_state",
+        "test_reference_graph_and_actual_c07_repair_tower_draw_rows"
+      ],
+      "runtime_proof": "/root/C07RepairTowerDrawRowsProof",
+      "rule": "Source-backed RepairTower draw rows from RepairTower.java / Blocks.java / Drawf.java / Block.java / Vars.java / Pal.java / Layer.java."
+    },
+    "SourceItemBridgeBuildState.source_item_bridge_draw_state": {
+      "status": "active",
+      "source_slice": "N2429",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "source_method": "ItemBridgeBuild.draw()",
+      "params": [
+        {
+          "name": "x_value",
+          "type": "float",
+          "schema": "source_item_bridge_draw_state_input.x_value"
+        },
+        {
+          "name": "y_value",
+          "type": "float",
+          "schema": "source_item_bridge_draw_state_input.y_value"
+        },
+        {
+          "name": "tile_x",
+          "type": "int",
+          "schema": "source_item_bridge_draw_state_input.tile_x"
+        },
+        {
+          "name": "tile_y",
+          "type": "int",
+          "schema": "source_item_bridge_draw_state_input.tile_y"
+        },
+        {
+          "name": "has_power",
+          "type": "bool",
+          "schema": "source_item_bridge_draw_state_input.has_power"
+        },
+        {
+          "name": "warmup",
+          "type": "float",
+          "schema": "source_item_bridge_draw_state_input.warmup"
+        },
+        {
+          "name": "time",
+          "type": "float",
+          "schema": "source_item_bridge_draw_state_input.time"
+        },
+        {
+          "name": "time_value",
+          "type": "float",
+          "schema": "source_item_bridge_draw_state_input.time_value"
+        },
+        {
+          "name": "link_valid",
+          "type": "bool",
+          "schema": "source_item_bridge_draw_state_input.link_valid"
+        },
+        {
+          "name": "other_tile_x",
+          "type": "int",
+          "schema": "source_item_bridge_draw_state_input.other_tile_x"
+        },
+        {
+          "name": "other_tile_y",
+          "type": "int",
+          "schema": "source_item_bridge_draw_state_input.other_tile_y"
+        },
+        {
+          "name": "other_drawx",
+          "type": "float",
+          "schema": "source_item_bridge_draw_state_input.other_drawx"
+        },
+        {
+          "name": "other_drawy",
+          "type": "float",
+          "schema": "source_item_bridge_draw_state_input.other_drawy"
+        },
+        {
+          "name": "bridge_opacity",
+          "type": "float",
+          "schema": "source_item_bridge_draw_state_input.bridge_opacity"
+        },
+        {
+          "name": "fade_in",
+          "type": "bool",
+          "schema": "source_item_bridge_draw_state_input.fade_in"
+        },
+        {
+          "name": "pulse",
+          "type": "bool",
+          "schema": "source_item_bridge_draw_state_input.pulse"
+        },
+        {
+          "name": "bridge_width",
+          "type": "float",
+          "schema": "source_item_bridge_draw_state_input.bridge_width"
+        },
+        {
+          "name": "arrow_spacing",
+          "type": "float",
+          "schema": "source_item_bridge_draw_state_input.arrow_spacing"
+        },
+        {
+          "name": "arrow_offset",
+          "type": "float",
+          "schema": "source_item_bridge_draw_state_input.arrow_offset"
+        },
+        {
+          "name": "arrow_period",
+          "type": "float",
+          "schema": "source_item_bridge_draw_state_input.arrow_period"
+        },
+        {
+          "name": "arrow_time_scl",
+          "type": "float",
+          "schema": "source_item_bridge_draw_state_input.arrow_time_scl"
+        },
+        {
+          "name": "lod_l1",
+          "type": "bool",
+          "schema": "source_item_bridge_draw_state_input.lod_l1"
+        },
+        {
+          "name": "lod_alpha1",
+          "type": "float",
+          "schema": "source_item_bridge_draw_state_input.lod_alpha1"
+        },
+        {
+          "name": "size_value",
+          "type": "int",
+          "schema": "source_item_bridge_draw_state_input.size_value"
+        },
+        {
+          "name": "link_pos",
+          "type": "int",
+          "schema": "source_item_bridge_draw_state_input.link_pos"
+        },
+        {
+          "name": "incoming_tiles",
+          "type": "Array",
+          "schema": "source_item_bridge_draw_state_input.incoming_tiles"
+        },
+        {
+          "name": "configure_candidates",
+          "type": "Array",
+          "schema": "source_item_bridge_draw_state_input.configure_candidates"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "warmup_value",
+        "draw_call",
+        "arrow_calls",
+        "pulse_call",
+        "select_call",
+        "input_call",
+        "configure_call"
+      ],
+      "tests": [
+        "test_c07_item_bridge_draw_rows_registration",
+        "test_all_c07_item_bridge_draw_rows_input_evidence_is_exact",
+        "test_item_bridge_draw_rows_state",
+        "test_reference_graph_and_actual_c07_item_bridge_draw_rows"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeDrawRowsProof",
+      "rule": "Source-backed ItemBridge draw rows from ItemBridge.java / Tile.java / BuildingComp.java / Lod.java / Block.java / Vars.java / Blocks.java."
+    },
+    "SourceImpactReactorBuildState.source_impact_reactor_draw_state": {
+      "status": "active",
+      "source_slice": "N2430",
+      "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+      "source_method": "ImpactReactorBuild.draw()",
+      "params": [
+        {
+          "name": "x_value",
+          "type": "float",
+          "schema": "source_impact_reactor_draw_state_input.x_value"
+        },
+        {
+          "name": "y_value",
+          "type": "float",
+          "schema": "source_impact_reactor_draw_state_input.y_value"
+        },
+        {
+          "name": "warmup",
+          "type": "float",
+          "schema": "source_impact_reactor_draw_state_input.warmup"
+        },
+        {
+          "name": "total_progress",
+          "type": "float",
+          "schema": "source_impact_reactor_draw_state_input.total_progress"
+        },
+        {
+          "name": "time_value",
+          "type": "float",
+          "schema": "source_impact_reactor_draw_state_input.time_value"
+        },
+        {
+          "name": "plasma_region_sizes",
+          "type": "Array",
+          "schema": "source_impact_reactor_draw_state_input.plasma_region_sizes"
+        },
+        {
+          "name": "liquid_amount",
+          "type": "float",
+          "schema": "source_impact_reactor_draw_state_input.liquid_amount"
+        },
+        {
+          "name": "liquid_light_alpha",
+          "type": "float",
+          "schema": "source_impact_reactor_draw_state_input.liquid_light_alpha"
+        },
+        {
+          "name": "liquid_light_color",
+          "type": "String",
+          "schema": "source_impact_reactor_draw_state_input.liquid_light_color"
+        },
+        {
+          "name": "visual_liquid",
+          "type": "float",
+          "schema": "source_impact_reactor_draw_state_input.visual_liquid"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_impact_reactor_draw_state_input.source_delta"
+        },
+        {
+          "name": "size_value",
+          "type": "int",
+          "schema": "source_impact_reactor_draw_state_input.size_value"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "bottom_call",
+        "plasma_call",
+        "base_call",
+        "light_call",
+        "icon_regions"
+      ],
+      "tests": [
+        "test_c07_impact_reactor_draw_rows_registration",
+        "test_all_c07_impact_reactor_draw_rows_input_evidence_is_exact",
+        "test_impact_reactor_draw_rows_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_draw_rows"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorDrawRowsProof",
+      "rule": "Source-backed ImpactReactor draw rows from ImpactReactor.java / PowerGenerator.java / DrawMulti.java / DrawRegion.java / DrawPlasma.java / DrawDefault.java / DrawBlock.java / Block.java / BuildingComp.java / Blocks.java / Liquids.java."
+    },
+    "SourceBuildTurretBuildState.source_build_turret_draw_state": {
+      "status": "active",
+      "source_slice": "N2431",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "source_method": "BuildTurretBuild.draw()",
+      "params": [
+        {
+          "name": "x_value",
+          "type": "float",
+          "schema": "source_build_turret_draw_state_input.x_value"
+        },
+        {
+          "name": "y_value",
+          "type": "float",
+          "schema": "source_build_turret_draw_state_input.y_value"
+        },
+        {
+          "name": "rotation",
+          "type": "float",
+          "schema": "source_build_turret_draw_state_input.rotation"
+        },
+        {
+          "name": "elevation",
+          "type": "float",
+          "schema": "source_build_turret_draw_state_input.elevation"
+        },
+        {
+          "name": "warmup",
+          "type": "float",
+          "schema": "source_build_turret_draw_state_input.warmup"
+        },
+        {
+          "name": "efficiency",
+          "type": "float",
+          "schema": "source_build_turret_draw_state_input.efficiency"
+        },
+        {
+          "name": "glow_found",
+          "type": "bool",
+          "schema": "source_build_turret_draw_state_input.glow_found"
+        },
+        {
+          "name": "heat_color",
+          "type": "String",
+          "schema": "source_build_turret_draw_state_input.heat_color"
+        },
+        {
+          "name": "unit_present",
+          "type": "bool",
+          "schema": "source_build_turret_draw_state_input.unit_present"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "base_call",
+        "shadow_call",
+        "region_call",
+        "glow_call",
+        "build_call"
+      ],
+      "tests": [
+        "test_c07_build_turret_draw_rows_registration",
+        "test_all_c07_build_turret_draw_rows_input_evidence_is_exact",
+        "test_build_turret_draw_rows_state",
+        "test_reference_graph_and_actual_c07_build_turret_draw_rows"
+      ],
+      "runtime_proof": "/root/C07BuildTurretDrawRowsProof",
+      "rule": "Source-backed BuildTurret draw rows from BuildTurret.java / Drawf.java / Blocks.java / BaseTurret.java."
     }
   },
   "policy": {

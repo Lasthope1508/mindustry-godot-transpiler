@@ -185624,6 +185624,758 @@
         "test_reference_graph_and_actual_c07_force_projector_absorb_explosion"
       ],
       "runtime_proof": "/root/C07ForceProjectorAbsorbExplosionProof"
+    },
+    "source_unit_assembler_module_draw_state_result.base_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_draw_state",
+      "godot_symbol": "source_unit_assembler_module_draw_state_result.base_call",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+      "java_method": "UnitAssemblerModuleBuild.draw()",
+      "java_expr": "Draw.rect(region, x, y);",
+      "rule": "The base rect call (UnitAssemblerModule.java:91): region region, centered on the building, always drawn -- before the input regions.",
+      "tests": [
+        "test_c07_unit_assembler_module_draw_rows_registration",
+        "test_all_c07_unit_assembler_module_draw_rows_input_evidence_is_exact",
+        "test_unit_assembler_module_draw_rows_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_draw_rows"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleDrawRowsProof"
+    },
+    "source_unit_assembler_module_draw_state_result.input_calls": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_draw_state",
+      "godot_symbol": "source_unit_assembler_module_draw_state_result.input_calls",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+      "java_method": "UnitAssemblerModuleBuild.draw()",
+      "java_expr": "drawSideRegion(inRegion, x, y, i - 2);",
+      "rule": "The input side region calls (UnitAssemblerModule.java:94-98): one per direction i where blends(i) holds AND i != rotation (the module facing is excluded), region inRegion, centered on the building, rotation param i - 2, draw rotation (i - 2) * 90f -- -180 / -90 / 0 / 90 for i = 0..3. Empty when no direction blends or only the facing blends.",
+      "tests": [
+        "test_c07_unit_assembler_module_draw_rows_registration",
+        "test_all_c07_unit_assembler_module_draw_rows_input_evidence_is_exact",
+        "test_unit_assembler_module_draw_rows_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_draw_rows"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleDrawRowsProof"
+    },
+    "source_unit_assembler_module_draw_state_result.side_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_draw_state",
+      "godot_symbol": "source_unit_assembler_module_draw_state_result.side_call",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+      "java_method": "UnitAssemblerModuleBuild.draw()",
+      "java_expr": "drawSideRegion(rotation >= 2 ? sideRegion2 : sideRegion1, x, y, rotation);",
+      "rule": "The always-drawn side region call (UnitAssemblerModule.java:100): region sideRegion2 when rotation >= 2 else sideRegion1 (`public @Load(\"@-side1\") TextureRegion sideRegion1;` / `public @Load(\"@-side2\") TextureRegion sideRegion2;`, :19-20), centered on the building, rotation param rotation, draw rotation rotation * 90f. Always drawn -- NOT blends-gated, unlike the input regions.",
+      "tests": [
+        "test_c07_unit_assembler_module_draw_rows_registration",
+        "test_all_c07_unit_assembler_module_draw_rows_input_evidence_is_exact",
+        "test_unit_assembler_module_draw_rows_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_draw_rows"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleDrawRowsProof"
+    },
+    "source_unit_assembler_module_draw_state_result.payload_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_draw_state",
+      "godot_symbol": "source_unit_assembler_module_draw_state_result.payload_call",
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_method": "UnitAssemblerModuleBuild.draw()",
+      "java_expr": "payload.draw();",
+      "rule": "The held-payload draw call (PayloadBlock.java:251, inside drawPayload(), PayloadBlock.java:246-253, on Layer.blockOver after updatePayload()): present only when a payload is held. payRotation = rotdeg() (UnitAssemblerModule.java:103) runs unconditionally before it and is reported as pay_rotation. The inner payload.draw() dispatch (BuildPayload.draw / UnitPayload.draw) needs the live payload entity, so the pure reports the call + z + the updatePayload() call.",
+      "tests": [
+        "test_c07_unit_assembler_module_draw_rows_registration",
+        "test_all_c07_unit_assembler_module_draw_rows_input_evidence_is_exact",
+        "test_unit_assembler_module_draw_rows_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_draw_rows"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleDrawRowsProof"
+    },
+    "source_unit_assembler_module_draw_state_result.top_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_draw_state",
+      "godot_symbol": "source_unit_assembler_module_draw_state_result.top_call",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+      "java_method": "UnitAssemblerModuleBuild.draw()",
+      "java_expr": "Draw.rect(topRegion, x, y);",
+      "rule": "The top rect call (UnitAssemblerModule.java:106): region topRegion, centered on the building, always drawn -- after the payload draw, on Layer.blockOver + 0.1f (UnitAssemblerModule.java:105), ABOVE the payload z.",
+      "tests": [
+        "test_c07_unit_assembler_module_draw_rows_registration",
+        "test_all_c07_unit_assembler_module_draw_rows_input_evidence_is_exact",
+        "test_unit_assembler_module_draw_rows_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_draw_rows"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleDrawRowsProof"
+    },
+    "source_unit_assembler_module_draw_state_result.place_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_draw_state",
+      "godot_symbol": "source_unit_assembler_module_draw_state_result.place_call",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+      "java_method": "UnitAssemblerModuleBuild.draw()",
+      "java_expr": "link.block.drawPlace(link.tile.x, link.tile.y, link.rotation, true);",
+      "rule": "The delegated drawPlace call (UnitAssemblerModule.java:43): null when the link is null, else the delegated target {block, tile_x, tile_y, rotation, valid true} -- the linked assembler block drawPlace at the link tile + rotation, always valid. The super call (`super.drawPlace(x, y, rotation, valid);`, :39, Block.drawPlace, Block.java:491-494) is recorded, not modeled (the N2396 precedent -- the canonical SourceBlockDrawState.draw_place_state already ports it).",
+      "tests": [
+        "test_c07_unit_assembler_module_draw_rows_registration",
+        "test_all_c07_unit_assembler_module_draw_rows_input_evidence_is_exact",
+        "test_unit_assembler_module_draw_rows_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_draw_rows"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleDrawRowsProof"
+    },
+    "source_unit_assembler_module_draw_state_result.plan_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_draw_state",
+      "godot_symbol": "source_unit_assembler_module_draw_state_result.plan_call",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+      "java_method": "UnitAssemblerModuleBuild.draw()",
+      "java_expr": "Draw.rect(region, plan.drawx(), plan.drawy());",
+      "rule": "The drawPlanRegion call (UnitAssemblerModule.java:54-58): null when no plan is supplied, else the base + side + top sub-calls at the plan position (plan.drawx() / plan.drawy(), BuildPlan.java:142-148), with the plan rotation driving the side select (plan.rotation >= 2 ? sideRegion2 : sideRegion1, :56).",
+      "tests": [
+        "test_c07_unit_assembler_module_draw_rows_registration",
+        "test_all_c07_unit_assembler_module_draw_rows_input_evidence_is_exact",
+        "test_unit_assembler_module_draw_rows_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_draw_rows"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleDrawRowsProof"
+    },
+    "source_unit_assembler_module_draw_state_result.icon_regions": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitAssemblerModuleBuildState.source_unit_assembler_module_draw_state",
+      "godot_symbol": "source_unit_assembler_module_draw_state_result.icon_regions",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitAssemblerModule.java",
+      "java_method": "UnitAssemblerModuleBuild.draw()",
+      "java_expr": "return new TextureRegion[]{region, topRegion};",
+      "rule": "The icon regions in Java order (UnitAssemblerModule.java:61, icons()): [region, topRegion] -- the two regions draw() draws, in draw order. Folded into the draw pure because icons() takes no args and the SSOT schema validator requires non-empty input keys (the N2396 precedent).",
+      "tests": [
+        "test_c07_unit_assembler_module_draw_rows_registration",
+        "test_all_c07_unit_assembler_module_draw_rows_input_evidence_is_exact",
+        "test_unit_assembler_module_draw_rows_state",
+        "test_reference_graph_and_actual_c07_unit_assembler_module_draw_rows"
+      ],
+      "runtime_proof": "/root/C07UnitAssemblerModuleDrawRowsProof"
+    },
+    "source_wall_crafter_draw_state_result.base_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_draw_state",
+      "godot_symbol": "source_wall_crafter_draw_state_result.base_call",
+      "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+      "java_method": "WallCrafterBuild.draw()",
+      "java_expr": "Draw.rect(block.region, x, y);",
+      "rule": "The base rect call (WallCrafter.java:233): region region (the block region), centered on the building, drawn at the default z before the Draw.z call.",
+      "tests": [
+        "test_c07_wall_crafter_draw_rows_registration",
+        "test_all_c07_wall_crafter_draw_rows_input_evidence_is_exact",
+        "test_wall_crafter_draw_rows_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_draw_rows"
+      ],
+      "runtime_proof": "/root/C07WallCrafterDrawRowsProof"
+    },
+    "source_wall_crafter_draw_state_result.top_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_draw_state",
+      "godot_symbol": "source_wall_crafter_draw_state_result.top_call",
+      "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+      "java_method": "WallCrafterBuild.draw()",
+      "java_expr": "Draw.rect(topRegion, x, y, rotdeg());",
+      "rule": "The top rect call (WallCrafter.java:234): region topRegion (the `@-top` region, WallCrafter.java:28), centered on the building, rotation rotdeg() = rotation * 90 (BuildingComp.java:582-584).",
+      "tests": [
+        "test_c07_wall_crafter_draw_rows_registration",
+        "test_all_c07_wall_crafter_draw_rows_input_evidence_is_exact",
+        "test_wall_crafter_draw_rows_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_draw_rows"
+      ],
+      "runtime_proof": "/root/C07WallCrafterDrawRowsProof"
+    },
+    "source_wall_crafter_draw_state_result.rotator_calls": {
+      "status": "source-backed",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_draw_state",
+      "godot_symbol": "source_wall_crafter_draw_state_result.rotator_calls",
+      "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+      "java_method": "WallCrafterBuild.draw()",
+      "java_expr": "Draw.rect(rotatorBottomRegion, vx, vy, totalTime * rotateSpeed * sign * bs);",
+      "rule": "The rotator calls (WallCrafter.java:239-245): one entry per facing edge tile (cx / cy, vx / vy = (c - d) * tilesize with ds 0.6f and the d4 step, sign = idx++ >= size/2 && size % 2 == 0 ? -1 : 1 with INT size/2, rotation totalTime * rotateSpeed * sign * bs with bs = (rotation 0/3) ? 1 : -1, z Layer.blockOver), each with the rotatorBottom rect at that rotation plus the unrotated rotator rect at the same vx/vy (WallCrafter.java:244).",
+      "tests": [
+        "test_c07_wall_crafter_draw_rows_registration",
+        "test_all_c07_wall_crafter_draw_rows_input_evidence_is_exact",
+        "test_wall_crafter_draw_rows_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_draw_rows"
+      ],
+      "runtime_proof": "/root/C07WallCrafterDrawRowsProof"
+    },
+    "source_wall_crafter_draw_state_result.plan_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_draw_state",
+      "godot_symbol": "source_wall_crafter_draw_state_result.plan_call",
+      "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+      "java_method": "WallCrafterBuild.draw()",
+      "java_expr": "Draw.rect(topRegion, plan.drawx(), plan.drawy(), plan.rotation * 90);",
+      "rule": "The drawPlanRegion calls (WallCrafter.java:126-127): the region rect plus the top rect at plan.rotation * 90, both centered on the plan draw pos.",
+      "tests": [
+        "test_c07_wall_crafter_draw_rows_registration",
+        "test_all_c07_wall_crafter_draw_rows_input_evidence_is_exact",
+        "test_wall_crafter_draw_rows_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_draw_rows"
+      ],
+      "runtime_proof": "/root/C07WallCrafterDrawRowsProof"
+    },
+    "source_wall_crafter_draw_state_result.place_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_draw_state",
+      "godot_symbol": "source_wall_crafter_draw_state_result.place_call",
+      "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+      "java_method": "WallCrafterBuild.draw()",
+      "java_expr": "drawPlaceText(Core.bundle.formatFloat(\"bar.drillspeed\", 60f / drillTime * eff, 2), x, y, valid);",
+      "rule": "The drawPlace text call (WallCrafter.java:134): the drillspeed 60f / drillTime * eff, the bundle key bar.drillspeed, the 2-decimal Strings.fixed value text (TRUNCATION, arc Strings.java:735, not rounding) and the rendered \"Drill Speed: {0}/s\" text (bundle.properties:1279), plus the placement tile and the validity flag. drawPlace does NOT call super.drawPlace, so no super call is recorded.",
+      "tests": [
+        "test_c07_wall_crafter_draw_rows_registration",
+        "test_all_c07_wall_crafter_draw_rows_input_evidence_is_exact",
+        "test_wall_crafter_draw_rows_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_draw_rows"
+      ],
+      "runtime_proof": "/root/C07WallCrafterDrawRowsProof"
+    },
+    "source_wall_crafter_draw_state_result.icon_regions": {
+      "status": "source-backed",
+      "godot_owner": "SourceWallCrafterBuildState.source_wall_crafter_draw_state",
+      "godot_symbol": "source_wall_crafter_draw_state_result.icon_regions",
+      "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+      "java_method": "WallCrafterBuild.draw()",
+      "java_expr": "return new TextureRegion[]{region, topRegion};",
+      "rule": "The icon regions in Java order (WallCrafter.java:121, icons()): [region, topRegion] -- region is the block region, topRegion is the `@-top` region (WallCrafter.java:28). Folded into the draw pure because icons() takes no args and the SSOT schema validator requires non-empty input keys; the two regions are the regions draw() draws, in draw order.",
+      "tests": [
+        "test_c07_wall_crafter_draw_rows_registration",
+        "test_all_c07_wall_crafter_draw_rows_input_evidence_is_exact",
+        "test_wall_crafter_draw_rows_state",
+        "test_reference_graph_and_actual_c07_wall_crafter_draw_rows"
+      ],
+      "runtime_proof": "/root/C07WallCrafterDrawRowsProof"
+    },
+    "source_radar_draw_state_result.base_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceRadarBuildState.source_radar_draw_state",
+      "godot_symbol": "source_radar_draw_state_result.base_call",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "RadarBuild.draw()",
+      "java_expr": "Draw.rect(baseRegion, x, y);",
+      "rule": "The base rect call (Radar.java:86): region baseRegion (`@-base`, Radar.java:21), centered on the building, always drawn first, unrotated.",
+      "tests": [
+        "test_c07_radar_draw_rows_registration",
+        "test_all_c07_radar_draw_rows_input_evidence_is_exact",
+        "test_radar_draw_rows_state",
+        "test_reference_graph_and_actual_c07_radar_draw_rows"
+      ],
+      "runtime_proof": "/root/C07RadarDrawRowsProof"
+    },
+    "source_radar_draw_state_result.region_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceRadarBuildState.source_radar_draw_state",
+      "godot_symbol": "source_radar_draw_state_result.region_call",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "RadarBuild.draw()",
+      "java_expr": "Draw.rect(region, x, y, rotateSpeed * totalProgress);",
+      "rule": "The region rect call (Radar.java:87): region region, centered on the building, rotated rotateSpeed * totalProgress -- 0 at totalProgress 0.",
+      "tests": [
+        "test_c07_radar_draw_rows_registration",
+        "test_all_c07_radar_draw_rows_input_evidence_is_exact",
+        "test_radar_draw_rows_state",
+        "test_reference_graph_and_actual_c07_radar_draw_rows"
+      ],
+      "runtime_proof": "/root/C07RadarDrawRowsProof"
+    },
+    "source_radar_draw_state_result.glow_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceRadarBuildState.source_radar_draw_state",
+      "godot_symbol": "source_radar_draw_state_result.glow_call",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "RadarBuild.draw()",
+      "java_expr": "Drawf.additive(glowRegion, glowColor, glowColor.a * (1f - glowMag + Mathf.absin(glowScl, glowMag)), x, y, rotateSpeed * totalProgress, Layer.blockAdditive);",
+      "rule": "The additive glow call (Radar.java:89, the 7-arg Drawf.additive overload, Drawf.java:183): region glowRegion (`@-glow`, Radar.java:22), color glowColor, alpha glowColor.a * (1f - glowMag + absin) with the absin Java-exact at the DOUBLED scale (glow_scl * 2f, the N2372/N2382 lesson), rotated rotateSpeed * totalProgress, on Layer.blockAdditive.",
+      "tests": [
+        "test_c07_radar_draw_rows_registration",
+        "test_all_c07_radar_draw_rows_input_evidence_is_exact",
+        "test_radar_draw_rows_state",
+        "test_reference_graph_and_actual_c07_radar_draw_rows"
+      ],
+      "runtime_proof": "/root/C07RadarDrawRowsProof"
+    },
+    "source_radar_draw_state_result.select_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceRadarBuildState.source_radar_draw_state",
+      "godot_symbol": "source_radar_draw_state_result.select_call",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "RadarBuild.draw()",
+      "java_expr": "Drawf.dashCircle(x, y, fogRadius() * tilesize, Pal.accent);",
+      "rule": "The drawSelect dash circle (Radar.java:81): centered on the building, radius fogRadius() * tilesize on the LIVE method radius, color Pal.accent.",
+      "tests": [
+        "test_c07_radar_draw_rows_registration",
+        "test_all_c07_radar_draw_rows_input_evidence_is_exact",
+        "test_radar_draw_rows_state",
+        "test_reference_graph_and_actual_c07_radar_draw_rows"
+      ],
+      "runtime_proof": "/root/C07RadarDrawRowsProof"
+    },
+    "source_radar_draw_state_result.place_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceRadarBuildState.source_radar_draw_state",
+      "godot_symbol": "source_radar_draw_state_result.place_call",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "RadarBuild.draw()",
+      "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, fogRadius * tilesize, Pal.accent);",
+      "rule": "The drawPlace dash circle (Radar.java:45): centered on x * tilesize + offset / y * tilesize + offset, radius fogRadius * tilesize on the DEF field radius, color Pal.accent; records that super.drawPlace runs (Block.drawPlace content is NOT modeled, the BaseTurret precedent).",
+      "tests": [
+        "test_c07_radar_draw_rows_registration",
+        "test_all_c07_radar_draw_rows_input_evidence_is_exact",
+        "test_radar_draw_rows_state",
+        "test_reference_graph_and_actual_c07_radar_draw_rows"
+      ],
+      "runtime_proof": "/root/C07RadarDrawRowsProof"
+    },
+    "source_radar_draw_state_result.icon_regions": {
+      "status": "source-backed",
+      "godot_owner": "SourceRadarBuildState.source_radar_draw_state",
+      "godot_symbol": "source_radar_draw_state_result.icon_regions",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "RadarBuild.draw()",
+      "java_expr": "return new TextureRegion[]{baseRegion, region};",
+      "rule": "The icons() regions (Radar.java:37-39): [baseRegion, region], in draw order -- folded into the draw pure because icons() takes no args and the SSOT schema validator requires non-empty input keys (the N2396 precedent).",
+      "tests": [
+        "test_c07_radar_draw_rows_registration",
+        "test_all_c07_radar_draw_rows_input_evidence_is_exact",
+        "test_radar_draw_rows_state",
+        "test_reference_graph_and_actual_c07_radar_draw_rows"
+      ],
+      "runtime_proof": "/root/C07RadarDrawRowsProof"
+    },
+    "source_repair_tower_draw_state_result.super_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_draw_state",
+      "godot_symbol": "source_repair_tower_draw_state_result.super_call",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.draw()",
+      "java_expr": "super.draw();",
+      "rule": "The super.draw() marker call (RepairTower.java:95, the BuildingComp base draw): always present -- it runs before the warmup gate, so a cold tower still draws its base.",
+      "tests": [
+        "test_c07_repair_tower_draw_rows_registration",
+        "test_all_c07_repair_tower_draw_rows_input_evidence_is_exact",
+        "test_repair_tower_draw_rows_state",
+        "test_reference_graph_and_actual_c07_repair_tower_draw_rows"
+      ],
+      "runtime_proof": "/root/C07RepairTowerDrawRowsProof"
+    },
+    "source_repair_tower_draw_state_result.circle_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_draw_state",
+      "godot_symbol": "source_repair_tower_draw_state_result.circle_call",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.draw()",
+      "java_expr": "Lines.circle(x, y, range * mod);",
+      "rule": "The effect-layer circle call (RepairTower.java:99-103): color circleColor, stroke circleStroke * (1 - mod) * warmup, radius range * mod, at z Layer.effect. Empty when warmup <= 0.001 (the :97 gate).",
+      "tests": [
+        "test_c07_repair_tower_draw_rows_registration",
+        "test_all_c07_repair_tower_draw_rows_input_evidence_is_exact",
+        "test_repair_tower_draw_rows_state",
+        "test_reference_graph_and_actual_c07_repair_tower_draw_rows"
+      ],
+      "runtime_proof": "/root/C07RepairTowerDrawRowsProof"
+    },
+    "source_repair_tower_draw_state_result.square_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_draw_state",
+      "godot_symbol": "source_repair_tower_draw_state_result.square_call",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.draw()",
+      "java_expr": "Fill.square(x, y, squareRad * warmup, Time.time / squareSpinScl);",
+      "rule": "The Pal.heal square call (RepairTower.java:104-106): radius squareRad * warmup, rotation Time.time / squareSpinScl, at z Layer.effect. Empty when warmup <= 0.001 (the :97 gate).",
+      "tests": [
+        "test_c07_repair_tower_draw_rows_registration",
+        "test_all_c07_repair_tower_draw_rows_input_evidence_is_exact",
+        "test_repair_tower_draw_rows_state",
+        "test_reference_graph_and_actual_c07_repair_tower_draw_rows"
+      ],
+      "runtime_proof": "/root/C07RepairTowerDrawRowsProof"
+    },
+    "source_repair_tower_draw_state_result.glow_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_draw_state",
+      "godot_symbol": "source_repair_tower_draw_state_result.glow_call",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.draw()",
+      "java_expr": "Drawf.additive(glow, glowColor, warmup * (1f - glowMag + Mathf.absin(Time.time, glowScl, glowMag)), x, y, 0f, Layer.blockAdditive);",
+      "rule": "The additive glow call (RepairTower.java:108): region glow (@-glow), color glowColor, alpha warmup * (1 - glowMag + absin(Time.time, glowScl, glowMag)) -- Java-exact through the shared helper at the DOUBLED scale glowScl * 2f -- rotation 0, layer Layer.blockAdditive. Empty when warmup <= 0.001 (the :97 gate).",
+      "tests": [
+        "test_c07_repair_tower_draw_rows_registration",
+        "test_all_c07_repair_tower_draw_rows_input_evidence_is_exact",
+        "test_repair_tower_draw_rows_state",
+        "test_reference_graph_and_actual_c07_repair_tower_draw_rows"
+      ],
+      "runtime_proof": "/root/C07RepairTowerDrawRowsProof"
+    },
+    "source_repair_tower_draw_state_result.select_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_draw_state",
+      "godot_symbol": "source_repair_tower_draw_state_result.select_call",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.draw()",
+      "java_expr": "Drawf.dashCircle(x, y, range, Pal.placing);",
+      "rule": "The drawSelect dash circle call (RepairTower.java:123): radius range, color Pal.placing, at the building x/y. Always present -- drawSelect has no warmup gate.",
+      "tests": [
+        "test_c07_repair_tower_draw_rows_registration",
+        "test_all_c07_repair_tower_draw_rows_input_evidence_is_exact",
+        "test_repair_tower_draw_rows_state",
+        "test_reference_graph_and_actual_c07_repair_tower_draw_rows"
+      ],
+      "runtime_proof": "/root/C07RepairTowerDrawRowsProof"
+    },
+    "source_repair_tower_draw_state_result.place_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_draw_state",
+      "godot_symbol": "source_repair_tower_draw_state_result.place_call",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.draw()",
+      "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);",
+      "rule": "The drawPlace dash circle call (RepairTower.java:47): radius range, color Pal.placing, centered at (tile_x * tilesize + offset, tile_y * tilesize + offset). Always present -- drawPlace has no warmup gate. super.drawPlace (Block.drawPlace, the shared placement concern) is NOT modeled.",
+      "tests": [
+        "test_c07_repair_tower_draw_rows_registration",
+        "test_all_c07_repair_tower_draw_rows_input_evidence_is_exact",
+        "test_repair_tower_draw_rows_state",
+        "test_reference_graph_and_actual_c07_repair_tower_draw_rows"
+      ],
+      "runtime_proof": "/root/C07RepairTowerDrawRowsProof"
+    },
+    "source_repair_tower_stats_state_result.range_blocks": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_stats_state",
+      "godot_symbol": "source_repair_tower_stats_state_result.range_blocks",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTower.setStats()",
+      "java_expr": "stats.add(Stat.range, range / tilesize, StatUnit.blocks);",
+      "rule": "The range stat row (RepairTower.java:39): Stat.range, value range / tilesize (12.5 blocks at the def range 100f), unit StatUnit.blocks.",
+      "tests": [
+        "test_c07_repair_tower_draw_rows_registration",
+        "test_all_c07_repair_tower_draw_rows_input_evidence_is_exact",
+        "test_repair_tower_draw_rows_state",
+        "test_reference_graph_and_actual_c07_repair_tower_draw_rows"
+      ],
+      "runtime_proof": "/root/C07RepairTowerDrawRowsProof"
+    },
+    "source_repair_tower_stats_state_result.repair_per_second": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_stats_state",
+      "godot_symbol": "source_repair_tower_stats_state_result.repair_per_second",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTower.setStats()",
+      "java_expr": "stats.add(Stat.repairSpeed, healAmount * 60f, StatUnit.perSecond);",
+      "rule": "The repairSpeed stat row (RepairTower.java:40): Stat.repairSpeed, value healAmount * 60 (90/s at the def healAmount 1.5f), unit StatUnit.perSecond.",
+      "tests": [
+        "test_c07_repair_tower_draw_rows_registration",
+        "test_all_c07_repair_tower_draw_rows_input_evidence_is_exact",
+        "test_repair_tower_draw_rows_state",
+        "test_reference_graph_and_actual_c07_repair_tower_draw_rows"
+      ],
+      "runtime_proof": "/root/C07RepairTowerDrawRowsProof"
+    },
+    "source_repair_tower_stats_state_result.range_value": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_stats_state",
+      "godot_symbol": "source_repair_tower_stats_state_result.range_value",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTower.setStats()",
+      "java_expr": "return range;",
+      "rule": "The range() accessor value (RepairTower.java:112-114): returns range.",
+      "tests": [
+        "test_c07_repair_tower_draw_rows_registration",
+        "test_all_c07_repair_tower_draw_rows_input_evidence_is_exact",
+        "test_repair_tower_draw_rows_state",
+        "test_reference_graph_and_actual_c07_repair_tower_draw_rows"
+      ],
+      "runtime_proof": "/root/C07RepairTowerDrawRowsProof"
+    },
+    "source_repair_tower_stats_state_result.warmup_value": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_stats_state",
+      "godot_symbol": "source_repair_tower_stats_state_result.warmup_value",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTower.setStats()",
+      "java_expr": "return warmup;",
+      "rule": "The warmup() accessor value (RepairTower.java:117-119): returns warmup.",
+      "tests": [
+        "test_c07_repair_tower_draw_rows_registration",
+        "test_all_c07_repair_tower_draw_rows_input_evidence_is_exact",
+        "test_repair_tower_draw_rows_state",
+        "test_reference_graph_and_actual_c07_repair_tower_draw_rows"
+      ],
+      "runtime_proof": "/root/C07RepairTowerDrawRowsProof"
+    },
+    "source_item_bridge_draw_state_result.warmup_value": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemBridgeBuildState.source_item_bridge_draw_state",
+      "godot_symbol": "source_item_bridge_draw_state_result.warmup_value",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "java_method": "ItemBridgeBuild.draw()",
+      "java_expr": "float warmup = hasPower ? this.warmup : 1f;",
+      "rule": "The draw warmup (ItemBridge.java:387): the frame warmup when hasPower is true, else 1f -- the bridge-conveyor (hasPower false) always draws fully warmed up.",
+      "tests": [
+        "test_c07_item_bridge_draw_rows_registration",
+        "test_all_c07_item_bridge_draw_rows_input_evidence_is_exact",
+        "test_item_bridge_draw_rows_state",
+        "test_reference_graph_and_actual_c07_item_bridge_draw_rows"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeDrawRowsProof"
+    },
+    "source_item_bridge_draw_state_result.draw_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemBridgeBuildState.source_item_bridge_draw_state",
+      "godot_symbol": "source_item_bridge_draw_state_result.draw_call",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "java_method": "ItemBridgeBuild.draw()",
+      "java_expr": "Draw.rect(endRegion, x, y, i * 90 + 90);",
+      "rule": "The draw() bridge call (ItemBridge.java:371-420): null when the link is invalid or the bridge opacity is zero (the early returns, :377/:379), else the recorded super.draw() + the Layer.power z + the link direction i + dist + the fadeIn alpha + the two endRegion rects (i * 90 + 90 / + 270) + the bridgeRegion line (stroke bridgeWidth, 4px short of each end).",
+      "tests": [
+        "test_c07_item_bridge_draw_rows_registration",
+        "test_all_c07_item_bridge_draw_rows_input_evidence_is_exact",
+        "test_item_bridge_draw_rows_state",
+        "test_reference_graph_and_actual_c07_item_bridge_draw_rows"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeDrawRowsProof"
+    },
+    "source_item_bridge_draw_state_result.arrow_calls": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemBridgeBuildState.source_item_bridge_draw_state",
+      "godot_symbol": "source_item_bridge_draw_state_result.arrow_calls",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "java_method": "ItemBridgeBuild.draw()",
+      "java_expr": "Draw.rect(arrowRegion,",
+      "rule": "The moving arrows (ItemBridge.java:408-418, the Lod.l1 loop): empty when the draw is skipped or Lod.l1 is false, else one entry per arrow -- count (int)(dist * tilesize / arrowSpacing) -- with x / y / rotation i * 90f and the per-arrow alpha absin(a - time / arrowTimeScl, arrowPeriod, 1f) * warmup * bridgeOpacity * Lod.alpha1.",
+      "tests": [
+        "test_c07_item_bridge_draw_rows_registration",
+        "test_all_c07_item_bridge_draw_rows_input_evidence_is_exact",
+        "test_item_bridge_draw_rows_state",
+        "test_reference_graph_and_actual_c07_item_bridge_draw_rows"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeDrawRowsProof"
+    },
+    "source_item_bridge_draw_state_result.pulse_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemBridgeBuildState.source_item_bridge_draw_state",
+      "godot_symbol": "source_item_bridge_draw_state_result.pulse_call",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "java_method": "ItemBridgeBuild.draw()",
+      "java_expr": "Draw.color(Color.white, Color.black, Mathf.absin(Time.time, 6f, 0.07f));",
+      "rule": "The pulse color call (ItemBridge.java:383-385): null when pulse is false or the draw is skipped (the branch runs after the early returns), else the white/black lerp with t = absin(Time.time, 6f, 0.07f) -- live for the phase-conveyor (`pulse = true;`, Blocks.java:2124).",
+      "tests": [
+        "test_c07_item_bridge_draw_rows_registration",
+        "test_all_c07_item_bridge_draw_rows_input_evidence_is_exact",
+        "test_item_bridge_draw_rows_state",
+        "test_reference_graph_and_actual_c07_item_bridge_draw_rows"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeDrawRowsProof"
+    },
+    "source_item_bridge_draw_state_result.select_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemBridgeBuildState.source_item_bridge_draw_state",
+      "godot_symbol": "source_item_bridge_draw_state_result.select_call",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "java_method": "ItemBridgeBuild.draw()",
+      "java_expr": "public void drawSelect(){",
+      "rule": "The drawSelect call (ItemBridge.java:223-231): whether the link input drew, how many incoming inputs drew, and the recorded Draw.reset() -- the input geometry itself rides input_call.",
+      "tests": [
+        "test_c07_item_bridge_draw_rows_registration",
+        "test_all_c07_item_bridge_draw_rows_input_evidence_is_exact",
+        "test_item_bridge_draw_rows_state",
+        "test_reference_graph_and_actual_c07_item_bridge_draw_rows"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeDrawRowsProof"
+    },
+    "source_item_bridge_draw_state_result.input_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemBridgeBuildState.source_item_bridge_draw_state",
+      "godot_symbol": "source_item_bridge_draw_state_result.input_call",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "java_method": "ItemBridgeBuild.draw()",
+      "java_expr": "Draw.rect(arrowRegion, x, y, rel * 90);",
+      "rule": "The drawInput calls (ItemBridge.java:233-266, one per drawn input -- the link input first when valid, then the valid incoming tiles): each carries the tile pos, the linked flag, the pulsing alpha, the lerp arrow (x / y / rel * 90 rotation), the place/accent color, the shared line endpoints, the 2f/45f square, and the gray-2.5f background + color-1f foreground strokes.",
+      "tests": [
+        "test_c07_item_bridge_draw_rows_registration",
+        "test_all_c07_item_bridge_draw_rows_input_evidence_is_exact",
+        "test_item_bridge_draw_rows_state",
+        "test_reference_graph_and_actual_c07_item_bridge_draw_rows"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeDrawRowsProof"
+    },
+    "source_item_bridge_draw_state_result.configure_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemBridgeBuildState.source_item_bridge_draw_state",
+      "godot_symbol": "source_item_bridge_draw_state_result.configure_call",
+      "java_source": "core/src/mindustry/world/blocks/distribution/ItemBridge.java",
+      "java_method": "ItemBridgeBuild.draw()",
+      "java_expr": "Drawf.select(x, y, tile.block().size * tilesize / 2f + 2f, Pal.accent);",
+      "rule": "The drawConfigure call (ItemBridge.java:269-281): the self select (radius size * tilesize / 2f + 2f, Pal.accent) plus one select per candidate -- radius size * tilesize / 2f + 2f + (linked ? 0f : absin(Time.time, 4f, 1f)), color linked ? Pal.place : Pal.breakInvalid.",
+      "tests": [
+        "test_c07_item_bridge_draw_rows_registration",
+        "test_all_c07_item_bridge_draw_rows_input_evidence_is_exact",
+        "test_item_bridge_draw_rows_state",
+        "test_reference_graph_and_actual_c07_item_bridge_draw_rows"
+      ],
+      "runtime_proof": "/root/C07ItemBridgeDrawRowsProof"
+    },
+    "source_impact_reactor_draw_state_result.bottom_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_draw_state",
+      "godot_symbol": "source_impact_reactor_draw_state_result.bottom_call",
+      "java_source": "core/src/mindustry/world/draw/DrawRegion.java",
+      "java_method": "ImpactReactorBuild.draw()",
+      "java_expr": "Draw.rect(region, build.x + x, build.y + y, build.totalProgress() * rotateSpeed + rotation + (buildingRotate ? build.rotdeg() : 0));",
+      "rule": "The \"-bottom\" rect call (DrawRegion.java:51): region impact-reactor-bottom, centered on the building, rotation 0 (rotateSpeed 0, buildingRotate false), z untouched (layer -1).",
+      "tests": [
+        "test_c07_impact_reactor_draw_rows_registration",
+        "test_all_c07_impact_reactor_draw_rows_input_evidence_is_exact",
+        "test_impact_reactor_draw_rows_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_draw_rows"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorDrawRowsProof"
+    },
+    "source_impact_reactor_draw_state_result.plasma_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_draw_state",
+      "godot_symbol": "source_impact_reactor_draw_state_result.plasma_call",
+      "java_source": "core/src/mindustry/world/draw/DrawPlasma.java",
+      "java_method": "ImpactReactorBuild.draw()",
+      "java_expr": "Draw.rect(regions[i], build.x + x, build.y + y, r, r, build.totalProgress() * (12 + i * 6f));",
+      "rule": "The plasma rect calls (DrawPlasma.java:36-47): blend Blending.additive, 4 rects impact-reactor-plasma-0..3, r = atlas size - 3 + absin(Time.time, 2 + i, 5 - i * 0.5) at the doubled helper scale, color plasma1 -> plasma2 at i / 4, alpha (0.3 + absin(Time.time, 2 + i * 2, 0.3 + i * 0.05)) * warmup, rotation totalProgress * (12 + i * 6f).",
+      "tests": [
+        "test_c07_impact_reactor_draw_rows_registration",
+        "test_all_c07_impact_reactor_draw_rows_input_evidence_is_exact",
+        "test_impact_reactor_draw_rows_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_draw_rows"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorDrawRowsProof"
+    },
+    "source_impact_reactor_draw_state_result.base_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_draw_state",
+      "godot_symbol": "source_impact_reactor_draw_state_result.base_call",
+      "java_source": "core/src/mindustry/world/draw/DrawDefault.java",
+      "java_method": "ImpactReactorBuild.draw()",
+      "java_expr": "Draw.rect(build.block.region, build.x, build.y, build.drawrot());",
+      "rule": "The base rect call (DrawDefault.java:13): region impact-reactor, centered on the building, rotation drawrot() = 0 (ImpactReactor sets no rotate, Block.java:120).",
+      "tests": [
+        "test_c07_impact_reactor_draw_rows_registration",
+        "test_all_c07_impact_reactor_draw_rows_input_evidence_is_exact",
+        "test_impact_reactor_draw_rows_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_draw_rows"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorDrawRowsProof"
+    },
+    "source_impact_reactor_draw_state_result.light_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_draw_state",
+      "godot_symbol": "source_impact_reactor_draw_state_result.light_call",
+      "java_source": "core/src/mindustry/world/draw/DrawPlasma.java",
+      "java_method": "ImpactReactorBuild.draw()",
+      "java_expr": "Drawf.light(build.x, build.y, (110f + Mathf.absin(5, 5f)) * build.warmup(), Tmp.c1.set(plasma2).lerp(plasma1, Mathf.absin(7f, 0.2f)), 0.8f * build.warmup());",
+      "rule": "The light call (GeneratorBuild.drawLight, PowerGenerator.java:145-148, super + drawer): the DrawPlasma light (DrawPlasma.java:32, radius (110 + absin(5, 5)) * warmup, color plasma2 -> plasma1 at absin(7, 0.2), alpha 0.8 * warmup) AND the super liquid light (BuildingComp.java:1319-1327, radius size * 30, color liquid.lightColor, opacity lightColor.a * visualLiquid after the lerpDelta step; empty when the light gate fails or the visual amount is <= 0.01). Carries the new visualLiquid.",
+      "tests": [
+        "test_c07_impact_reactor_draw_rows_registration",
+        "test_all_c07_impact_reactor_draw_rows_input_evidence_is_exact",
+        "test_impact_reactor_draw_rows_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_draw_rows"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorDrawRowsProof"
+    },
+    "source_impact_reactor_draw_state_result.icon_regions": {
+      "status": "source-backed",
+      "godot_owner": "SourceImpactReactorBuildState.source_impact_reactor_draw_state",
+      "godot_symbol": "source_impact_reactor_draw_state_result.icon_regions",
+      "java_source": "core/src/mindustry/world/draw/DrawMulti.java",
+      "java_method": "ImpactReactorBuild.draw()",
+      "java_expr": "result.addAll(draw.icons(block));",
+      "rule": "The icon regions in Java order (DrawMulti.java:63, via finalIcons, PowerGenerator.java:55): [\"impact-reactor-bottom\", \"impact-reactor\"] -- DrawPlasma contributes nothing (the base icons() returns empty, DrawBlock.java:47). Folded into the draw pure because icons() takes no args and the SSOT schema validator requires non-empty input keys (the N2396 precedent).",
+      "tests": [
+        "test_c07_impact_reactor_draw_rows_registration",
+        "test_all_c07_impact_reactor_draw_rows_input_evidence_is_exact",
+        "test_impact_reactor_draw_rows_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_draw_rows"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorDrawRowsProof"
+    },
+    "source_build_turret_draw_state_result.base_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_draw_state",
+      "godot_symbol": "source_build_turret_draw_state_result.base_call",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.draw()",
+      "java_expr": "Draw.rect(baseRegion, x, y);",
+      "rule": "The base rect call (BuildTurret.java:236): region baseRegion (the `@-base` region, BuildTurret.java:31), centered on the building, drawn at the default z before the Draw.z call -- the call carries no z key, the N2421 shape.",
+      "tests": [
+        "test_c07_build_turret_draw_rows_registration",
+        "test_all_c07_build_turret_draw_rows_input_evidence_is_exact",
+        "test_build_turret_draw_rows_state",
+        "test_reference_graph_and_actual_c07_build_turret_draw_rows"
+      ],
+      "runtime_proof": "/root/C07BuildTurretDrawRowsProof"
+    },
+    "source_build_turret_draw_state_result.shadow_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_draw_state",
+      "godot_symbol": "source_build_turret_draw_state_result.shadow_call",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.draw()",
+      "java_expr": "Drawf.shadow(region, x - elevation, y - elevation, rotation - 90);",
+      "rule": "The shadow call (BuildTurret.java:241): region region at (x - elevation, y - elevation) -- 1.5 for the size-3 build-tower after the init lift -- rotation - 90, layer Layer.turret. The overload is Drawf.shadow(TextureRegion, x, y, rotation) (Drawf.java:366-370, Draw.color(Pal.shadow) + rect + reset).",
+      "tests": [
+        "test_c07_build_turret_draw_rows_registration",
+        "test_all_c07_build_turret_draw_rows_input_evidence_is_exact",
+        "test_build_turret_draw_rows_state",
+        "test_reference_graph_and_actual_c07_build_turret_draw_rows"
+      ],
+      "runtime_proof": "/root/C07BuildTurretDrawRowsProof"
+    },
+    "source_build_turret_draw_state_result.region_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_draw_state",
+      "godot_symbol": "source_build_turret_draw_state_result.region_call",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.draw()",
+      "java_expr": "Draw.rect(region, x, y, rotation - 90);",
+      "rule": "The region rect call (BuildTurret.java:242): region region centered on the building, rotation - 90, layer Layer.turret.",
+      "tests": [
+        "test_c07_build_turret_draw_rows_registration",
+        "test_all_c07_build_turret_draw_rows_input_evidence_is_exact",
+        "test_build_turret_draw_rows_state",
+        "test_reference_graph_and_actual_c07_build_turret_draw_rows"
+      ],
+      "runtime_proof": "/root/C07BuildTurretDrawRowsProof"
+    },
+    "source_build_turret_draw_state_result.glow_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_draw_state",
+      "godot_symbol": "source_build_turret_draw_state_result.glow_call",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.draw()",
+      "java_expr": "Drawf.additive(glowRegion, heatColor, warmup, x, y, rotation - 90f, Layer.turretHeat);",
+      "rule": "The glow additive call (BuildTurret.java:245): null when the glow region is not found, else region glowRegion, color heatColor (symbolic token), alpha warmup, effective alpha warmup * 0.9 (heatColor alpha 0.9f, Drawf.java:186), rotation - 90, layer Layer.turretHeat. The overload is Drawf.additive(region, color, alpha, x, y, rotation, layer) (Drawf.java:183-192).",
+      "tests": [
+        "test_c07_build_turret_draw_rows_registration",
+        "test_all_c07_build_turret_draw_rows_input_evidence_is_exact",
+        "test_build_turret_draw_rows_state",
+        "test_reference_graph_and_actual_c07_build_turret_draw_rows"
+      ],
+      "runtime_proof": "/root/C07BuildTurretDrawRowsProof"
+    },
+    "source_build_turret_draw_state_result.build_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_draw_state",
+      "godot_symbol": "source_build_turret_draw_state_result.build_call",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.draw()",
+      "java_expr": "unit.drawBuilding();",
+      "rule": "The build call (BuildTurret.java:249): null when efficiency <= 0 or no unit is present, else the recorded `unit.drawBuilding();` call -- the pure records the call into the builder unit, it does not model unit draw.",
+      "tests": [
+        "test_c07_build_turret_draw_rows_registration",
+        "test_all_c07_build_turret_draw_rows_input_evidence_is_exact",
+        "test_build_turret_draw_rows_state",
+        "test_reference_graph_and_actual_c07_build_turret_draw_rows"
+      ],
+      "runtime_proof": "/root/C07BuildTurretDrawRowsProof"
     }
   },
   "version": 1

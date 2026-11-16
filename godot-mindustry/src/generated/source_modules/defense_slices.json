@@ -3763,6 +3763,49 @@
       ],
       "runtime_proof": "/root/C07ForceProjectorAbsorbExplosionProof"
     },
+    "N2427": {
+      "canonical_ledger": "source_slice_ledger.N2427",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "RadarBuild.draw()",
+      "godot_owner": "SourceRadarBuildState.source_radar_draw_state",
+      "source_symbols": [
+        "source_radar_draw_state_result.base_call",
+        "source_radar_draw_state_result.region_call",
+        "source_radar_draw_state_result.glow_call",
+        "source_radar_draw_state_result.select_call",
+        "source_radar_draw_state_result.place_call",
+        "source_radar_draw_state_result.icon_regions"
+      ],
+      "tests": [
+        "test_c07_radar_draw_rows_registration",
+        "test_all_c07_radar_draw_rows_input_evidence_is_exact",
+        "test_radar_draw_rows_state",
+        "test_reference_graph_and_actual_c07_radar_draw_rows"
+      ],
+      "runtime_proof": "/root/C07RadarDrawRowsProof"
+    },
+    "N2431": {
+      "canonical_ledger": "source_slice_ledger.N2431",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.draw()",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_draw_state",
+      "source_symbols": [
+        "source_build_turret_draw_state_result.base_call",
+        "source_build_turret_draw_state_result.shadow_call",
+        "source_build_turret_draw_state_result.region_call",
+        "source_build_turret_draw_state_result.glow_call",
+        "source_build_turret_draw_state_result.build_call"
+      ],
+      "tests": [
+        "test_c07_build_turret_draw_rows_registration",
+        "test_all_c07_build_turret_draw_rows_input_evidence_is_exact",
+        "test_build_turret_draw_rows_state",
+        "test_reference_graph_and_actual_c07_build_turret_draw_rows"
+      ],
+      "runtime_proof": "/root/C07BuildTurretDrawRowsProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

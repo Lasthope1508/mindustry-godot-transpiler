@@ -3802,6 +3802,141 @@
         }
       }
     },
+    "source_wall_crafter_draw_state_input": {
+      "canonical_schema": "source_state_schema.source_wall_crafter_draw_state_input",
+      "keys": {
+        "x_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "Draw.rect(block.region, x, y);",
+          "rule": "The building world x (WallCrafter.java:233, the Draw.rect center -- Building x/y are tile.drawx()/drawy(), BuildingComp.java:124): the base rect and the top rect are both centered here.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_draw_state"
+          ]
+        },
+        "y_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "Draw.rect(block.region, x, y);",
+          "rule": "The building world y (WallCrafter.java:233, the Draw.rect center): the base rect and the top rect are both centered here.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_draw_state"
+          ]
+        },
+        "rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "int bs = (rotation == 0 || rotation == 3) ? 1 : -1;",
+          "rule": "The frame rotation 0-3 (WallCrafter.java:237): the top rect draws at rotdeg() = rotation * 90 (BuildingComp.java:582-584), the d4 step runs along it (WallCrafter.java:235), and bs is 1 for rotations 0/3, -1 for rotations 1/2.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_draw_state"
+          ]
+        },
+        "size_value": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "size = 2;",
+          "rule": "The block size in tiles (cliff-crusher 2, Blocks.java:3007; large-cliff-crusher 3, Blocks.java:3021): the rotator loop draws size rotators (WallCrafter.java:239-245, one cpos callback per edge tile) and the sign flips at the INT size/2 (WallCrafter.java:240).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_draw_state"
+          ]
+        },
+        "total_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "public float time, warmup, totalTime, lastEfficiency;",
+          "rule": "The frame totalTime (WallCrafter.java:184, tracked by the N2223 advance): the rotatorBottom spin angle is totalTime * rotateSpeed * sign * bs (WallCrafter.java:243).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_draw_state"
+          ]
+        },
+        "rotate_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "public float rotateSpeed = 2f;",
+          "rule": "The def rotate speed (WallCrafter.java:39, class default 2f, no def override): the rotatorBottom spin angle is totalTime * rotateSpeed * sign * bs (WallCrafter.java:243).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_draw_state"
+          ]
+        },
+        "edge_tiles": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "getEfficiency(tile.x, tile.y, rotation, null, (cx, cy) -> {",
+          "rule": "The facing edge tiles in edge order (i = 0..size-1), caller-supplied as {cx, cy} tile positions (WallCrafter.java:239, the cpos callback): the pure does NOT run the getEfficiency scan (the live scan is DEFERRED #242) -- it draws one rotator per supplied tile, truncated to size entries, skipping a non-Dictionary entry or one without cx/cy (the N2329 precedent) while keeping the idx-based sign of the later tiles Java-exact.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_draw_state"
+          ]
+        },
+        "efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "float eff = getEfficiency(x, y, rotation, null, null);",
+          "rule": "The drawPlace efficiency (WallCrafter.java:132, the getEfficiency sum over the facing edge): caller-supplied -- the pure does NOT run the scan (the live scan is DEFERRED #242). The drillspeed text is 60f / drillTime * eff at 2 decimals (WallCrafter.java:134).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_draw_state"
+          ]
+        },
+        "drill_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "public float drillTime = 150f;",
+          "rule": "The def drill time (WallCrafter.java:33, class default 150f; cliff-crusher 110f, Blocks.java:3006; large-cliff-crusher 48f, Blocks.java:3020): the drillspeed text is 60f / drillTime * eff (WallCrafter.java:134).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_draw_state"
+          ]
+        },
+        "plan": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "Draw.rect(region, plan.drawx(), plan.drawy());",
+          "rule": "The BuildPlan dict (WallCrafter.java:125-127, drawx / drawy / rotation): the region rect and the top rect (at plan.rotation * 90) are centered on the plan draw pos.",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_draw_state"
+          ]
+        },
+        "tile_x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "drawPlaceText(Core.bundle.formatFloat(\"bar.drillspeed\", 60f / drillTime * eff, 2), x, y, valid);",
+          "rule": "The placement tile x (WallCrafter.java:134, the drawPlaceText pos).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_draw_state"
+          ]
+        },
+        "tile_y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "drawPlaceText(Core.bundle.formatFloat(\"bar.drillspeed\", 60f / drillTime * eff, 2), x, y, valid);",
+          "rule": "The placement tile y (WallCrafter.java:134, same mapping as x).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_draw_state"
+          ]
+        },
+        "place_valid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/WallCrafter.java",
+          "java_expr": "drawPlaceText(Core.bundle.formatFloat(\"bar.drillspeed\", 60f / drillTime * eff, 2), x, y, valid);",
+          "rule": "The placement validity flag (WallCrafter.java:131, the drawPlace valid param, passed through to drawPlaceText).",
+          "used_by": [
+            "SourceWallCrafterBuildState.source_wall_crafter_draw_state"
+          ]
+        }
+      }
+    },
     "source_wall_crafter_get_efficiency_state_input": {
       "canonical_schema": "source_state_schema.source_wall_crafter_get_efficiency_state_input",
       "keys": {

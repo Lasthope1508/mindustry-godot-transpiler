@@ -3692,6 +3692,91 @@
       "rule": "Source-backed live-loop power graph update; each frame the placed graph runs PowerGraph.update(). Each grouped consumer dict is stamped with its building's live cheating value (TeamComp.cheating() from the live rules) and with its live should_consume / shouldConsumePower values (BuildingComp.shouldConsume() from the frame enabled flag) before the update runs, so the cheat gate fires when the first consumer's team cheats and a disabled building requests no power. For a factory-family frame the stamp is the family's per-class shouldConsume() body (the output-full gate) and the frame's live updateConsumption first-pass should_consume_power flag (false when a non-power consumer fails), so a starved or output-full factory stops drawing power.",
       "return_type": "Dictionary"
     },
+    "SourceImpactReactorBuildState.source_impact_reactor_draw_state": {
+      "canonical_contract": "source_api_contracts.SourceImpactReactorBuildState.source_impact_reactor_draw_state",
+      "status": "active",
+      "source_slice": "N2430",
+      "java_source": "core/src/mindustry/world/blocks/power/ImpactReactor.java",
+      "source_method": "ImpactReactorBuild.draw()",
+      "params": [
+        {
+          "name": "x_value",
+          "type": "float",
+          "schema": "source_impact_reactor_draw_state_input.x_value"
+        },
+        {
+          "name": "y_value",
+          "type": "float",
+          "schema": "source_impact_reactor_draw_state_input.y_value"
+        },
+        {
+          "name": "warmup",
+          "type": "float",
+          "schema": "source_impact_reactor_draw_state_input.warmup"
+        },
+        {
+          "name": "total_progress",
+          "type": "float",
+          "schema": "source_impact_reactor_draw_state_input.total_progress"
+        },
+        {
+          "name": "time_value",
+          "type": "float",
+          "schema": "source_impact_reactor_draw_state_input.time_value"
+        },
+        {
+          "name": "plasma_region_sizes",
+          "type": "Array",
+          "schema": "source_impact_reactor_draw_state_input.plasma_region_sizes"
+        },
+        {
+          "name": "liquid_amount",
+          "type": "float",
+          "schema": "source_impact_reactor_draw_state_input.liquid_amount"
+        },
+        {
+          "name": "liquid_light_alpha",
+          "type": "float",
+          "schema": "source_impact_reactor_draw_state_input.liquid_light_alpha"
+        },
+        {
+          "name": "liquid_light_color",
+          "type": "String",
+          "schema": "source_impact_reactor_draw_state_input.liquid_light_color"
+        },
+        {
+          "name": "visual_liquid",
+          "type": "float",
+          "schema": "source_impact_reactor_draw_state_input.visual_liquid"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_impact_reactor_draw_state_input.source_delta"
+        },
+        {
+          "name": "size_value",
+          "type": "int",
+          "schema": "source_impact_reactor_draw_state_input.size_value"
+        }
+      ],
+      "return_keys": [
+        "bottom_call",
+        "plasma_call",
+        "base_call",
+        "light_call",
+        "icon_regions"
+      ],
+      "tests": [
+        "test_c07_impact_reactor_draw_rows_registration",
+        "test_all_c07_impact_reactor_draw_rows_input_evidence_is_exact",
+        "test_impact_reactor_draw_rows_state",
+        "test_reference_graph_and_actual_c07_impact_reactor_draw_rows"
+      ],
+      "runtime_proof": "/root/C07ImpactReactorDrawRowsProof",
+      "rule": "Source-backed ImpactReactor draw rows from ImpactReactor.java / PowerGenerator.java / DrawMulti.java / DrawRegion.java / DrawPlasma.java / DrawDefault.java / DrawBlock.java / Block.java / BuildingComp.java / Blocks.java / Liquids.java.",
+      "return_type": "Dictionary"
+    },
     "SourceImpactReactorBuildState.source_impact_reactor_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourceImpactReactorBuildState.source_impact_reactor_power_status_row_state",
       "status": "active",
