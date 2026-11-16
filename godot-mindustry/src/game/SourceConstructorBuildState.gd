@@ -88,7 +88,7 @@ static func source_constructor_should_consume_state(frame: Dictionary) -> Dictio
 
 static func source_constructor_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a constructor does not take the early return. The produce gate follows the folded efficiency (BlockProducer.java:110, `boolean produce = recipe != null && efficiency > 0 && payload == null;`), with the progress advance (BlockProducer.java:113, `progress += buildSpeed * edelta();`) and the shouldConsume default (BuildingComp.java:755, `public boolean shouldConsume(){`) and the shouldConsume override (BlockProducer.java:103, `return super.shouldConsume() && recipe() != null;`). The shouldConsume gate is live (N2216) -- the pure gate (source_constructor_should_consume_state) feeds should_consume to the machinery from the frame recipe key (null with no recipe, non-null once a block is configured as the recipe) and the enabled flag; no live fill sets frame["recipe"] yet (the config path is a config advance, Constructor.java:31-38).
-	# Documented limits: (1) dynamic item row live (N2265) -- the ConsumeItemDynamic over the recipe requirements (BlockProducer.java:39-55) folds beside power into the first pass: the stacks clone the recipe block's requirements with each amount ceiled against the build-cost multiplier (BlockProducer.java:49), the row is BINARY (ConsumeItemDynamic.efficiency, ConsumeItemDynamic.java:60-62), and a null recipe folds 1.0 (ItemStack.empty, BlockProducer.java:53). The build-cost multiplier reads rules_state.get("buildCostMultiplier", 1.0) -- the port rules_state carries no buildCostMultiplier key yet, so the 1.0 default (Rules.java:115) always applies for now. No live intake fills frame["items"] yet, so the row reads the frame as-is; the trigger is wired live since N2274 (consume() fires when the progress advance completes, BlockProducer.java:115-116); the config path (recipe set, Constructor.java:31-38) still waits for its own slice. (2) shouldConsume gate live (N2216) -- BlockProducerBuild overrides shouldConsume() to return super.shouldConsume() && recipe() != null (BlockProducer.java:102-104); when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994); the pure gate reads the frame recipe key (default null) plus enabled and feeds should_consume to the machinery; no live fill sets frame["recipe"] yet (the config path, Constructor.java:31-38, waits for its own slice). (3) updateTile advance live (N2274) -- progress / heat / time / moveOutPayload (BlockProducer.java:107-128) run every tick after the consumption fold through the pure source_constructor_update_tile_advance_state function: the produce gate (BlockProducer.java:110, `boolean produce = recipe != null && efficiency > 0 && payload == null;`), progress += buildSpeed * edelta (BlockProducer.java:113), completion consumes via the N2265 trigger (now wired live) + spawns the BuildPayload dict + payVector zero + progress %= 1f (BlockProducer.java:115-120, the remainder is kept, not reset to 0), heat lerps toward produce at 0.15f (BlockProducer.java:124), time += heat * delta (BlockProducer.java:125), moveOutPayload reuses the shared helper (PayloadBlock.java:199-228) with no-front defaults; the placeEffect (BlockProducer.java:118) is recorded by the draw pure (N2440, see (5)), the recipe buildTime follows the Block.init formula (Block.java:1432-1443) from the catalog requirements + item costs since the catalog carries no buildTime key, and the config path (recipe set, Constructor.java:31-38) still waits for its own slice. (4) No config/filter rows -- filter, minBlockSize/maxBlockSize, canProduce (Constructor.java:21-22, 54-56) are config, not tick state. (5) Draw rows live (N2440) -- draw (BlockProducer.java:134-160) + drawSelect (Constructor.java:77-87) + the placeEffect (BlockProducer.java:116-119) are modeled by the pure-only source_constructor_draw_state (base rect + out rect at rotdeg() + recipe shadow + blockbuild shader loop + scan line + drawPayload + top rect + drawSelect icon + place effect); config/filter rows (Constructor.java:21-22, 54-56) still defer (see (4)).
+	# Documented limits: (1) dynamic item row live (N2265) -- the ConsumeItemDynamic over the recipe requirements (BlockProducer.java:39-55) folds beside power into the first pass: the stacks clone the recipe block's requirements with each amount ceiled against the build-cost multiplier (BlockProducer.java:49), the row is BINARY (ConsumeItemDynamic.efficiency, ConsumeItemDynamic.java:60-62), and a null recipe folds 1.0 (ItemStack.empty, BlockProducer.java:53). The build-cost multiplier reads rules_state.get("buildCostMultiplier", 1.0) -- the port rules_state carries no buildCostMultiplier key yet, so the 1.0 default (Rules.java:115) always applies for now. No live intake fills frame["items"] yet, so the row reads the frame as-is; the trigger is wired live since N2274 (consume() fires when the progress advance completes, BlockProducer.java:115-116); the live recipe fill still waits (see (6)). (2) shouldConsume gate live (N2216) -- BlockProducerBuild overrides shouldConsume() to return super.shouldConsume() && recipe() != null (BlockProducer.java:102-104); when the gate is false Java forces efficiency to 0 (BuildingComp.java:1960 + 1992-1994); the pure gate reads the frame recipe key (default null) plus enabled and feeds should_consume to the machinery; no live fill sets frame["recipe"] yet (the live fill waits, see (6)). (3) updateTile advance live (N2274) -- progress / heat / time / moveOutPayload (BlockProducer.java:107-128) run every tick after the consumption fold through the pure source_constructor_update_tile_advance_state function: the produce gate (BlockProducer.java:110, `boolean produce = recipe != null && efficiency > 0 && payload == null;`), progress += buildSpeed * edelta (BlockProducer.java:113), completion consumes via the N2265 trigger (now wired live) + spawns the BuildPayload dict + payVector zero + progress %= 1f (BlockProducer.java:115-120, the remainder is kept, not reset to 0), heat lerps toward produce at 0.15f (BlockProducer.java:124), time += heat * delta (BlockProducer.java:125), moveOutPayload reuses the shared helper (PayloadBlock.java:199-228) with no-front defaults; the placeEffect (BlockProducer.java:118) is recorded by the draw pure (N2440, see (5)), the recipe buildTime follows the Block.init formula (Block.java:1432-1443) from the catalog requirements + item costs since the catalog carries no buildTime key, and the live recipe fill still waits (see (6)). (4) Config/filter rows live (N2455) -- see (6). (5) Draw rows live (N2440) -- draw (BlockProducer.java:134-160) + drawSelect (Constructor.java:77-87) + the placeEffect (BlockProducer.java:116-119) are modeled by the pure-only source_constructor_draw_state (base rect + out rect at rotdeg() + recipe shadow + blockbuild shader loop + scan line + drawPayload + top rect + drawSelect icon + place effect); config/filter rows live (see (6)). (6) Config/filter rows live (N2455) -- the can-produce pure (source_constructor_can_produce_state) models canProduce() (Constructor.java:54-56: all 7 conditions in Java order over the caller-supplied block dict + filter name list) + the config pure (source_constructor_config_state) models config(Block) (:32-37: progress reset BEFORE the canProduce gate, so a non-producible block still resets progress) + configClear (:31/:38, recipe = null, no progress reset) + buildConfiguration (:66-70, the ItemSelection.buildTable CALL record) + config() (:73-75, the pure's recipe IS the post-action config() value) as a pure-only fold over the discriminated action (set / clear / none, the N2449 precedent) + the stats pure (source_constructor_stats_state) models setStats() (:41-47: Stat.output "@x@ ~ @x@" with [min, min, max, max] + Stat.buildSpeed RAW, percent formatting at display, Stats.java:38, the N2451 precedent). Defs: constructor (filter 7 walls/containers + beam-node, Blocks.java:6666; buildSpeed 0.6f, :6662; min/max class defaults 1/2) and large-constructor (empty filter, min 3 / max 4, buildSpeed 0.75f, Blocks.java:6675-6677). Pure-only: the tick never calls canProduce / config / buildConfiguration / setStats -- the configure-UI / input-handler / stats-UI call sites wait for their own slices; the live recipe fill (frame["recipe"]) still waits (DEFERRED #99).
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
@@ -623,4 +623,94 @@ static func source_constructor_draw_state(x_value: float, y_value: float, rotati
 		"top_call": top_call,
 		"select_call": select_call,
 		"place_effect_call": place_effect_call,
+	}
+
+static func source_constructor_can_produce_state(block: Dictionary, min_block_size: int, max_block_size: int, filter: Array) -> Dictionary:
+	# The canProduce gate (Constructor.canProduce(), Constructor.java:54-56), the pure producibility verdict -- Java, in order (each exact expr on ONE comment line, the N2148 lesson):
+	# `public boolean canProduce(Block b){`
+	# `return b.isVisible() && b.size >= minBlockSize && b.size <= maxBlockSize && !(b instanceof CoreBlock) && !state.rules.isBanned(b) && b.environmentBuildable() && (filter.isEmpty() || filter.contains(b));`
+	# `public Seq<Block> filter = new Seq<>();`
+	# `public int minBlockSize = 1, maxBlockSize = 2;`
+	# `public void getPlanConfigs(Seq<UnlockableContent> options){`
+	# `options.add(content.blocks().select(this::canProduce));`
+	# `public class Constructor extends BlockProducer{`
+	# `public class ConstructorBuild extends BlockProducerBuild{`
+	# The block is a caller-supplied Dict {name, is_visible, size, is_core_block, is_banned, environment_buildable} (all predicates caller-supplied -- the N2435 precedent; the pure never reads content/rules) and the filter is an Array of block names (empty = no filter, `public Seq<Block> filter = new Seq<>();`, Constructor.java:21). All 7 Java conditions, in Java order: visible, size >= min, size <= max, not a core block, not banned, environment-buildable, and (filter empty OR filter contains the block). getPlanConfigs (:50-52) selects content.blocks() by this same predicate, so the pure IS the plan-options gate. Defs (verified first): constructor keeps the class min/max 1/2 and sets the 7-entry filter (Blocks.java:6666); large-constructor keeps the empty filter and overrides min 3 / max 4 (Blocks.java:6676-6677). Pure-only: the tick never calls canProduce -- the configure UI / plan code call it, and the call sites wait for their own slices.
+	var block_name: String = str(block.get("name", ""))
+	var can_produce: bool = bool(block.get("is_visible", false)) and int(block.get("size", 0)) >= min_block_size and int(block.get("size", 0)) <= max_block_size and not bool(block.get("is_core_block", false)) and not bool(block.get("is_banned", false)) and bool(block.get("environment_buildable", false)) and (filter.is_empty() or filter.has(block_name))
+	return {
+		"can_produce_expr": "return b.isVisible() && b.size >= minBlockSize && b.size <= maxBlockSize && !(b instanceof CoreBlock) && !state.rules.isBanned(b) && b.environmentBuildable() && (filter.isEmpty() || filter.contains(b));",
+		"block": block,
+		"min_block_size": min_block_size,
+		"max_block_size": max_block_size,
+		"filter": filter,
+		"can_produce": can_produce,
+	}
+
+static func source_constructor_config_state(action: String, block: Variant, current_recipe: Variant, can_produce: bool) -> Dictionary:
+	# The config rows (Constructor config(Block), Constructor.java:32-37; configClear, :31/:38; buildConfiguration, :66-70; config(), :73-75), the pure config fold -- Java, in order (each exact expr on ONE comment line, the N2148 lesson):
+	# `configClear((ConstructorBuild tile) -> tile.recipe = null);`
+	# `config(Block.class, (ConstructorBuild tile, Block block) -> {`
+	# `if(tile.recipe != block) tile.progress = 0f;`
+	# `if(canProduce(block)){`
+	# `tile.recipe = block;`
+	# `public @Nullable Block recipe;`
+	# `public void buildConfiguration(Table table){`
+	# `ItemSelection.buildTable(Constructor.this, table, filter.isEmpty() ? content.blocks().select(Constructor.this::canProduce) : filter, () -> recipe, this::configure, selectionRows, selectionColumns);`
+	# `public Object config(){`
+	# `return recipe;`
+	# `configurable = true;`
+	# `clearOnDoubleTap = true;`
+	# The action is a discriminated input (the N2449 precedent): "set" applies the config(Block) handler, "clear" applies configClear, "none" leaves the recipe untouched (the pure returns the current_recipe input). The reset runs BEFORE the canProduce gate (:33 before :34) -- verified first, so a non-producible block still resets progress while the recipe stays put; a set of the SAME block (recipe == block -- Java reference equality over content-singleton blocks, so Dict value-equality stands in here) resets nothing. configClear sets recipe = null with NO progress reset (:31/:38, registered twice in Java, same lambda). can_produce is caller-supplied (the output of source_constructor_can_produce_state). buildConfiguration is recorded as a CALL {method: "ItemSelection.buildTable", current_recipe} -- the supplier `() -> recipe` reads the pre-action recipe and `this::configure` is the callback the UI would invoke; the picker options (filter empty ? content.blocks().select(canProduce) : filter) are the can-produce pure's domain, not this fold's; the UI itself is NOT ported (the N2449 CALL precedent). config() returns recipe (Constructor.java:73-75), so the pure's recipe IS the post-action config() value. The block is `configurable = true;` + `clearOnDoubleTap = true;` (Constructor.java:27-28). Pure-only: the tick never calls config / buildConfiguration -- config runs from the configure UI and the input handler, buildConfiguration from the configure UI, and the call sites wait for their own slices; the live recipe fill (frame["recipe"]) still waits (DEFERRED #99).
+	var new_recipe: Variant = current_recipe
+	var progress_reset: bool = false
+	if action == "set":
+		if block != current_recipe:
+			progress_reset = true
+		if can_produce:
+			new_recipe = block
+	elif action == "clear":
+		new_recipe = null
+	var configure_call: Dictionary = {"method": "ItemSelection.buildTable", "current_recipe": current_recipe}
+	return {
+		"config_expr": "config(Block.class, (ConstructorBuild tile, Block block) -> {",
+		"config_clear_expr": "configClear((ConstructorBuild tile) -> tile.recipe = null);",
+		"build_configuration_expr": "ItemSelection.buildTable(Constructor.this, table, filter.isEmpty() ? content.blocks().select(Constructor.this::canProduce) : filter, () -> recipe, this::configure, selectionRows, selectionColumns);",
+		"config_getter_expr": "return recipe;",
+		"action": action,
+		"block": block,
+		"current_recipe": current_recipe,
+		"can_produce": can_produce,
+		"recipe": new_recipe,
+		"progress_reset": progress_reset,
+		"configure_call": configure_call,
+	}
+
+static func source_constructor_stats_state(min_block_size: int, max_block_size: int, build_speed: float) -> Dictionary:
+	# The stats rows (Constructor.setStats(), Constructor.java:41-47), the pure stats dict -- Java, in order (each exact expr on ONE comment line, the N2148 lesson):
+	# `public void setStats(){`
+	# `super.setStats();`
+	# `stats.add(Stat.output, "@x@ ~ @x@", minBlockSize, minBlockSize, maxBlockSize, maxBlockSize);`
+	# `stats.addPercent(Stat.buildSpeed, buildSpeed);`
+	# `output = new Stat("output", StatCat.crafting),`
+	# `buildSpeed = new Stat("buildSpeed"),`
+	# `public float buildSpeed = 0.4f;`
+	# `buildSpeed = 0.6f;`
+	# `buildSpeed = 0.75f;`
+	# `maxBlockSize = 4;`
+	# `minBlockSize = 3;`
+	# `filter = Seq.with(Blocks.tungstenWallLarge, Blocks.berylliumWallLarge, Blocks.carbideWallLarge, Blocks.reinforcedSurgeWallLarge, Blocks.reinforcedLiquidContainer, Blocks.reinforcedContainer, Blocks.beamNode);`
+	# `public void addPercent(Stat stat, float value){`
+	# `add(stat, StatValues.number((int)(value * 100), StatUnit.percent));`
+	# The tokens are exact: output (Stat.java:68) and buildSpeed (Stat.java:30). The output row carries the format "@x@ ~ @x@" with [min, min, max, max] -- the two min/max pairs are the size range the stat displays. The buildSpeed value is the RAW buildSpeed -- addPercent formats at display time only (`public void addPercent(Stat stat, float value){` / `add(stat, StatValues.number((int)(value * 100), StatUnit.percent));`, Stats.java:37-38), so the constructor def 0.6f (`buildSpeed = 0.6f;`, Blocks.java:6662) displays as 60% and the large-constructor def 0.75f (`buildSpeed = 0.75f;`, Blocks.java:6675) as 75% (the N2451 precedent: percent formatting is a UI concern); the class default is 0.4f (`public float buildSpeed = 0.4f;`, BlockProducer.java:22). The size bounds are caller-supplied (constructor 1/2 class defaults, large-constructor 3/4, Blocks.java:6676-6677); the constructor filter (Blocks.java:6666) is the can-produce pure's domain, quoted here only because setStats shares the def. Pure-only: the tick never calls setStats -- setStats is called by the stats UI, and the call site waits for a stats-UI slice.
+	var output_stat: Dictionary = {"key": "output", "format": "@x@ ~ @x@", "values": [min_block_size, min_block_size, max_block_size, max_block_size]}
+	var build_speed_stat: Dictionary = {"key": "buildSpeed", "value": build_speed}
+	return {
+		"set_stats_expr": "stats.add(Stat.output, \"@x@ ~ @x@\", minBlockSize, minBlockSize, maxBlockSize, maxBlockSize);",
+		"build_speed_expr": "stats.addPercent(Stat.buildSpeed, buildSpeed);",
+		"min_block_size": min_block_size,
+		"max_block_size": max_block_size,
+		"build_speed": build_speed,
+		"output_stat": output_stat,
+		"build_speed_stat": build_speed_stat,
 	}
