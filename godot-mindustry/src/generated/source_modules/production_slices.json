@@ -1845,6 +1845,63 @@
       ],
       "runtime_proof": "/root/C07FrackerDumpLiquidNeighbourLiveFillProof"
     },
+    "N2410": {
+      "canonical_ledger": "source_slice_ledger.N2410",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+      "java_method": "PumpBuild.updateTile()",
+      "godot_owner": "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_neighbour_live_fill_state",
+      "source_symbols": [
+        "source_mechanical_pump_dump_neighbour_live_fill_state_result.dump_neighbour_amounts",
+        "source_mechanical_pump_dump_neighbour_live_fill_state_result.dump_neighbour_capacities",
+        "source_mechanical_pump_dump_neighbour_live_fill_state_result.dump_neighbour_accepts",
+        "source_mechanical_pump_dump_neighbour_live_fill_state_result.dump_neighbour_can_dump"
+      ],
+      "tests": [
+        "test_c07_pump_dump_neighbour_live_fill_registration",
+        "test_all_c07_pump_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_pump_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_pump_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07PumpDumpNeighbourLiveFillProof"
+    },
+    "N2411": {
+      "canonical_ledger": "source_slice_ledger.N2411",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+      "java_method": "SolidPumpBuild.updateTile()",
+      "godot_owner": "SourceSolidPumpBuildState.source_solid_pump_dump_neighbour_live_fill_state",
+      "source_symbols": [
+        "source_solid_pump_dump_neighbour_live_fill_state_result.dump_neighbour_liquid_amounts",
+        "source_solid_pump_dump_neighbour_live_fill_state_result.dump_neighbour_liquid_capacities",
+        "source_solid_pump_dump_neighbour_live_fill_state_result.dump_neighbour_accepts_liquid",
+        "source_solid_pump_dump_neighbour_live_fill_state_result.dump_neighbour_can_dump_liquid"
+      ],
+      "tests": [
+        "test_c07_solid_pump_dump_neighbour_live_fill_registration",
+        "test_all_c07_solid_pump_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_solid_pump_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_solid_pump_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07SolidPumpDumpNeighbourLiveFillProof"
+    },
+    "N2414": {
+      "canonical_ledger": "source_slice_ledger.N2414",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Fracker.java",
+      "java_method": "FrackerBuild.updateTile()",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_linked_tiles_live_fill_state",
+      "source_symbols": [
+        "source_fracker_linked_tiles_live_fill_state_result.proximity_linked_tiles"
+      ],
+      "tests": [
+        "test_c07_fracker_linked_tiles_live_fill_registration",
+        "test_all_c07_fracker_linked_tiles_live_fill_input_evidence_is_exact",
+        "test_fracker_linked_tiles_live_fill_state",
+        "test_reference_graph_and_actual_c07_fracker_linked_tiles_live_fill"
+      ],
+      "runtime_proof": "/root/C07FrackerLinkedTilesLiveFillProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",

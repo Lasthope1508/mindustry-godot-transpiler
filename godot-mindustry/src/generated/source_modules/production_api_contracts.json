@@ -2019,6 +2019,42 @@
       "rule": "Source-backed Fracker sand item consumer row from ConsumeItems.java / Consume.java / BuildingComp.java / Block.java / Blocks.java / ItemModule.java / Fracker.java.",
       "return_type": "Dictionary"
     },
+    "SourceFrackerBuildState.source_fracker_linked_tiles_live_fill_state": {
+      "canonical_contract": "source_api_contracts.SourceFrackerBuildState.source_fracker_linked_tiles_live_fill_state",
+      "status": "active",
+      "source_slice": "N2414",
+      "java_source": "core/src/mindustry/world/blocks/production/Fracker.java",
+      "source_method": "FrackerBuild.updateTile()",
+      "params": [
+        {
+          "name": "world_tiles",
+          "type": "Dictionary",
+          "schema": "source_fracker_linked_tiles_live_fill_state_input.world_tiles"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_fracker_linked_tiles_live_fill_state_input.cell"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_fracker_linked_tiles_live_fill_state_input.size"
+        }
+      ],
+      "return_keys": [
+        "proximity_linked_tiles"
+      ],
+      "tests": [
+        "test_c07_fracker_linked_tiles_live_fill_registration",
+        "test_all_c07_fracker_linked_tiles_live_fill_input_evidence_is_exact",
+        "test_fracker_linked_tiles_live_fill_state",
+        "test_reference_graph_and_actual_c07_fracker_linked_tiles_live_fill"
+      ],
+      "runtime_proof": "/root/C07FrackerLinkedTilesLiveFillProof",
+      "rule": "Source-backed Fracker fraction linked-tiles live fill from Fracker.java / SolidPump.java / Tile.java / Block.java / Blocks.java.",
+      "return_type": "Dictionary"
+    },
     "SourceFrackerBuildState.source_fracker_liquid_consumer_row_state": {
       "canonical_contract": "source_api_contracts.SourceFrackerBuildState.source_fracker_liquid_consumer_row_state",
       "status": "active",
@@ -2313,6 +2349,55 @@
       ],
       "runtime_proof": "/root/C07PumpDumpLiquidProof",
       "rule": "Source-backed Pump dumpLiquid rows from Pump.java / BuildingComp.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_neighbour_live_fill_state": {
+      "canonical_contract": "source_api_contracts.SourceMechanicalPumpBuildState.source_mechanical_pump_dump_neighbour_live_fill_state",
+      "status": "active",
+      "source_slice": "N2410",
+      "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+      "source_method": "PumpBuild.updateTile()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_mechanical_pump_dump_neighbour_live_fill_state_input.game"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_mechanical_pump_dump_neighbour_live_fill_state_input.cell"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_mechanical_pump_dump_neighbour_live_fill_state_input.size"
+        },
+        {
+          "name": "liquid_drop",
+          "type": "Variant",
+          "schema": "source_mechanical_pump_dump_neighbour_live_fill_state_input.liquid_drop"
+        },
+        {
+          "name": "liquid_id_by_name",
+          "type": "Dictionary",
+          "schema": "source_mechanical_pump_dump_neighbour_live_fill_state_input.liquid_id_by_name"
+        }
+      ],
+      "return_keys": [
+        "dump_neighbour_amounts",
+        "dump_neighbour_capacities",
+        "dump_neighbour_accepts",
+        "dump_neighbour_can_dump"
+      ],
+      "tests": [
+        "test_c07_pump_dump_neighbour_live_fill_registration",
+        "test_all_c07_pump_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_pump_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_pump_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07PumpDumpNeighbourLiveFillProof",
+      "rule": "Source-backed Pump dump neighbour live fill from Pump.java / BuildingComp.java / Block.java / Blocks.java.",
       "return_type": "Dictionary"
     },
     "SourceMechanicalPumpBuildState.source_mechanical_pump_power_status_row_state": {
@@ -3072,6 +3157,50 @@
       ],
       "runtime_proof": "/root/C07SolidPumpDumpLiquidProof",
       "rule": "Source-backed SolidPump dumpLiquid rows from SolidPump.java / BuildingComp.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceSolidPumpBuildState.source_solid_pump_dump_neighbour_live_fill_state": {
+      "canonical_contract": "source_api_contracts.SourceSolidPumpBuildState.source_solid_pump_dump_neighbour_live_fill_state",
+      "status": "active",
+      "source_slice": "N2411",
+      "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+      "source_method": "SolidPumpBuild.updateTile()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_solid_pump_dump_neighbour_live_fill_state_input.game"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_solid_pump_dump_neighbour_live_fill_state_input.cell"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_solid_pump_dump_neighbour_live_fill_state_input.size"
+        },
+        {
+          "name": "result_liquid_id",
+          "type": "int",
+          "schema": "source_solid_pump_dump_neighbour_live_fill_state_input.result_liquid_id"
+        }
+      ],
+      "return_keys": [
+        "dump_neighbour_liquid_amounts",
+        "dump_neighbour_liquid_capacities",
+        "dump_neighbour_accepts_liquid",
+        "dump_neighbour_can_dump_liquid"
+      ],
+      "tests": [
+        "test_c07_solid_pump_dump_neighbour_live_fill_registration",
+        "test_all_c07_solid_pump_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_solid_pump_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_solid_pump_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07SolidPumpDumpNeighbourLiveFillProof",
+      "rule": "Source-backed SolidPump dump neighbour live fill from SolidPump.java / BuildingComp.java / Block.java / Blocks.java.",
       "return_type": "Dictionary"
     },
     "SourceSolidPumpBuildState.source_solid_pump_power_status_row_state": {

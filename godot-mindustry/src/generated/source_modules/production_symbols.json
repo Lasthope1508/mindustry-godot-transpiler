@@ -6438,6 +6438,21 @@
       ],
       "runtime_proof": "/root/C07FrackerItemRowProof"
     },
+    "source_fracker_linked_tiles_live_fill_state_result.proximity_linked_tiles": {
+      "canonical_symbol": "source_symbol_registry.source_fracker_linked_tiles_live_fill_state_result.proximity_linked_tiles",
+      "status": "source-backed",
+      "java_expr": "for(Tile other : tile.getLinkedTiles(tempTiles)){",
+      "godot_symbol": "source_fracker_linked_tiles_live_fill_state_result.proximity_linked_tiles",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_linked_tiles_live_fill_state",
+      "rule": "Per-linked-tile dict, in Java walk order: can_pump is the canPump answer (not floor_is_liquid for a present tile), attribute_value is the floor OIL attribute (it adds whether or not the tile is pumpable -- sumAttribute has no canPump gate), is_deep is the deep-floor flag (the N2305 pure applies the deep exclusion, Block.java:580). A missing / null / non-Dict map entry contributes no dict -- an empty map fills an empty list.",
+      "tests": [
+        "test_c07_fracker_linked_tiles_live_fill_registration",
+        "test_all_c07_fracker_linked_tiles_live_fill_input_evidence_is_exact",
+        "test_fracker_linked_tiles_live_fill_state",
+        "test_reference_graph_and_actual_c07_fracker_linked_tiles_live_fill"
+      ],
+      "runtime_proof": "/root/C07FrackerLinkedTilesLiveFillProof"
+    },
     "source_fracker_liquid_consumer_row_state_result.has_liquid_row": {
       "canonical_symbol": "source_symbol_registry.source_fracker_liquid_consumer_row_state_result.has_liquid_row",
       "status": "source-backed",
@@ -6812,6 +6827,66 @@
         "test_reference_graph_and_actual_c07_pump_dump_liquid"
       ],
       "runtime_proof": "/root/C07PumpDumpLiquidProof"
+    },
+    "source_mechanical_pump_dump_neighbour_live_fill_state_result.dump_neighbour_accepts": {
+      "canonical_symbol": "source_symbol_registry.source_mechanical_pump_dump_neighbour_live_fill_state_result.dump_neighbour_accepts",
+      "status": "source-backed",
+      "java_expr": "return block.hasLiquids && block.consumesLiquid(liquid);",
+      "godot_symbol": "source_mechanical_pump_dump_neighbour_live_fill_state_result.dump_neighbour_accepts",
+      "godot_owner": "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_neighbour_live_fill_state",
+      "rule": "Per-ring-neighbour DEFAULT acceptLiquid verdict (hasLiquids AND consumesLiquid for the dumped NAME), in ring order. False when the neighbour has no frame, when the catalog lacks the hasLiquids key (the Java field default false -- the 30-def catalog gap, e.g. electrolyzer), when no consumeLiquid row names the dumped liquid, or when the drop is null.",
+      "tests": [
+        "test_c07_pump_dump_neighbour_live_fill_registration",
+        "test_all_c07_pump_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_pump_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_pump_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07PumpDumpNeighbourLiveFillProof"
+    },
+    "source_mechanical_pump_dump_neighbour_live_fill_state_result.dump_neighbour_amounts": {
+      "canonical_symbol": "source_symbol_registry.source_mechanical_pump_dump_neighbour_live_fill_state_result.dump_neighbour_amounts",
+      "status": "source-backed",
+      "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+      "godot_symbol": "source_mechanical_pump_dump_neighbour_live_fill_state_result.dump_neighbour_amounts",
+      "godot_owner": "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_neighbour_live_fill_state",
+      "rule": "Per-ring-neighbour amount of the dumped liquid (by NAME, resolved through liquid_id_by_name) from the neighbour frame liquids module, in ring order. 0.0 when the neighbour frame carries no liquids store, when the drop is null, or when the neighbour has no frame.",
+      "tests": [
+        "test_c07_pump_dump_neighbour_live_fill_registration",
+        "test_all_c07_pump_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_pump_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_pump_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07PumpDumpNeighbourLiveFillProof"
+    },
+    "source_mechanical_pump_dump_neighbour_live_fill_state_result.dump_neighbour_can_dump": {
+      "canonical_symbol": "source_symbol_registry.source_mechanical_pump_dump_neighbour_live_fill_state_result.dump_neighbour_can_dump",
+      "status": "source-backed",
+      "java_expr": "public boolean canDumpLiquid(Building to, Liquid liquid){",
+      "godot_symbol": "source_mechanical_pump_dump_neighbour_live_fill_state_result.dump_neighbour_can_dump",
+      "godot_owner": "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_neighbour_live_fill_state",
+      "rule": "Per-ring-neighbour DEFAULT canDumpLiquid verdict, in ring order: true for every framed neighbour (the Java default -- canDumpLiquid returns true), false when the neighbour has no frame (no sprite / unknown def / conduit / no meta-key frame).",
+      "tests": [
+        "test_c07_pump_dump_neighbour_live_fill_registration",
+        "test_all_c07_pump_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_pump_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_pump_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07PumpDumpNeighbourLiveFillProof"
+    },
+    "source_mechanical_pump_dump_neighbour_live_fill_state_result.dump_neighbour_capacities": {
+      "canonical_symbol": "source_symbol_registry.source_mechanical_pump_dump_neighbour_live_fill_state_result.dump_neighbour_capacities",
+      "status": "source-backed",
+      "java_expr": "float ofract = other.liquids.get(liquid) / other.block.liquidCapacity;",
+      "godot_symbol": "source_mechanical_pump_dump_neighbour_live_fill_state_result.dump_neighbour_capacities",
+      "godot_owner": "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_neighbour_live_fill_state",
+      "rule": "Per-ring-neighbour liquid capacity from the neighbour def liquidCapacity (the ofract denominator), in ring order: the catalog key, 10.0 port default when the key is missing, 0.0 when the neighbour frame carries no liquids store or the neighbour has no frame.",
+      "tests": [
+        "test_c07_pump_dump_neighbour_live_fill_registration",
+        "test_all_c07_pump_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_pump_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_pump_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07PumpDumpNeighbourLiveFillProof"
     },
     "source_mechanical_pump_power_status_row_state_result.has_power_row": {
       "canonical_symbol": "source_symbol_registry.source_mechanical_pump_power_status_row_state_result.has_power_row",
@@ -7753,6 +7828,66 @@
         "test_reference_graph_and_actual_c07_solid_pump_dump_liquid"
       ],
       "runtime_proof": "/root/C07SolidPumpDumpLiquidProof"
+    },
+    "source_solid_pump_dump_neighbour_live_fill_state_result.dump_neighbour_accepts_liquid": {
+      "canonical_symbol": "source_symbol_registry.source_solid_pump_dump_neighbour_live_fill_state_result.dump_neighbour_accepts_liquid",
+      "status": "source-backed",
+      "java_expr": "return block.hasLiquids && block.consumesLiquid(liquid);",
+      "godot_symbol": "source_solid_pump_dump_neighbour_live_fill_state_result.dump_neighbour_accepts_liquid",
+      "godot_owner": "SourceSolidPumpBuildState.source_solid_pump_dump_neighbour_live_fill_state",
+      "rule": "Per-ring-neighbour DEFAULT acceptLiquid verdict for the dumped result liquid (water), in ring order: hasLiquids (catalog key, Java field default false) AND consumesLiquid (the catalog consumeLiquid rows carry the liquidFilter). False for a neighbour with no frame. Per-block overrides (e.g. Conduit acceptLiquid) are OUT of scope -- the default gate decides.",
+      "tests": [
+        "test_c07_solid_pump_dump_neighbour_live_fill_registration",
+        "test_all_c07_solid_pump_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_solid_pump_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_solid_pump_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07SolidPumpDumpNeighbourLiveFillProof"
+    },
+    "source_solid_pump_dump_neighbour_live_fill_state_result.dump_neighbour_can_dump_liquid": {
+      "canonical_symbol": "source_symbol_registry.source_solid_pump_dump_neighbour_live_fill_state_result.dump_neighbour_can_dump_liquid",
+      "status": "source-backed",
+      "java_expr": "public boolean canDumpLiquid(Building to, Liquid liquid){",
+      "godot_symbol": "source_solid_pump_dump_neighbour_live_fill_state_result.dump_neighbour_can_dump_liquid",
+      "godot_owner": "SourceSolidPumpBuildState.source_solid_pump_dump_neighbour_live_fill_state",
+      "rule": "Per-ring-neighbour DEFAULT canDumpLiquid verdict, in ring order: true for every framed neighbour (the Java default returns true), false for a neighbour with no frame (no building to dump to -- the N2353/N2371 no-frame precedent). Per-block overrides are OUT of scope.",
+      "tests": [
+        "test_c07_solid_pump_dump_neighbour_live_fill_registration",
+        "test_all_c07_solid_pump_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_solid_pump_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_solid_pump_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07SolidPumpDumpNeighbourLiveFillProof"
+    },
+    "source_solid_pump_dump_neighbour_live_fill_state_result.dump_neighbour_liquid_amounts": {
+      "canonical_symbol": "source_symbol_registry.source_solid_pump_dump_neighbour_live_fill_state_result.dump_neighbour_liquid_amounts",
+      "status": "source-backed",
+      "java_expr": "float ofract = other.liquids.get(liquid) / other.block.liquidCapacity;",
+      "godot_symbol": "source_solid_pump_dump_neighbour_live_fill_state_result.dump_neighbour_liquid_amounts",
+      "godot_owner": "SourceSolidPumpBuildState.source_solid_pump_dump_neighbour_live_fill_state",
+      "rule": "Per-ring-neighbour amount of the dumped result liquid (water) from the neighbour frame liquids module, in ring order. 0.0 for a neighbour with no frame, no liquids store, or a store that does not cover the result id (the N2371 no_liquids_store precedent). The pure dumps the def result only, so the fill reads that id.",
+      "tests": [
+        "test_c07_solid_pump_dump_neighbour_live_fill_registration",
+        "test_all_c07_solid_pump_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_solid_pump_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_solid_pump_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07SolidPumpDumpNeighbourLiveFillProof"
+    },
+    "source_solid_pump_dump_neighbour_live_fill_state_result.dump_neighbour_liquid_capacities": {
+      "canonical_symbol": "source_symbol_registry.source_solid_pump_dump_neighbour_live_fill_state_result.dump_neighbour_liquid_capacities",
+      "status": "source-backed",
+      "java_expr": "float ofract = other.liquids.get(liquid) / other.block.liquidCapacity;",
+      "godot_symbol": "source_solid_pump_dump_neighbour_live_fill_state_result.dump_neighbour_liquid_capacities",
+      "godot_owner": "SourceSolidPumpBuildState.source_solid_pump_dump_neighbour_live_fill_state",
+      "rule": "Per-ring-neighbour block.liquidCapacity from the catalog (10.0 port default when the key is missing -- Java computes round(10f * consumeAmount) in Block.init, min 10f), in ring order. 0.0 when the neighbour frame carries no liquids store, so the pure derives other_has_liquids false from the capacity (the N2371 no_liquids_store precedent).",
+      "tests": [
+        "test_c07_solid_pump_dump_neighbour_live_fill_registration",
+        "test_all_c07_solid_pump_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_solid_pump_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_solid_pump_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07SolidPumpDumpNeighbourLiveFillProof"
     },
     "source_solid_pump_power_status_row_state_result.has_power_row": {
       "canonical_symbol": "source_symbol_registry.source_solid_pump_power_status_row_state_result.has_power_row",

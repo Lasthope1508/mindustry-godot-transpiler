@@ -75686,6 +75686,254 @@
       ],
       "runtime_proof": "/root/C07FrackerDumpLiquidNeighbourLiveFillProof",
       "rule": "Source-backed Fracker dumpLiquid neighbour live fill from Fracker.java / SolidPump.java / BuildingComp.java / Block.java / Blocks.java."
+    },
+    "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_neighbour_live_fill_state": {
+      "status": "active",
+      "source_slice": "N2410",
+      "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+      "source_method": "PumpBuild.updateTile()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_mechanical_pump_dump_neighbour_live_fill_state_input.game"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_mechanical_pump_dump_neighbour_live_fill_state_input.cell"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_mechanical_pump_dump_neighbour_live_fill_state_input.size"
+        },
+        {
+          "name": "liquid_drop",
+          "type": "Variant",
+          "schema": "source_mechanical_pump_dump_neighbour_live_fill_state_input.liquid_drop"
+        },
+        {
+          "name": "liquid_id_by_name",
+          "type": "Dictionary",
+          "schema": "source_mechanical_pump_dump_neighbour_live_fill_state_input.liquid_id_by_name"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "dump_neighbour_amounts",
+        "dump_neighbour_capacities",
+        "dump_neighbour_accepts",
+        "dump_neighbour_can_dump"
+      ],
+      "tests": [
+        "test_c07_pump_dump_neighbour_live_fill_registration",
+        "test_all_c07_pump_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_pump_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_pump_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07PumpDumpNeighbourLiveFillProof",
+      "rule": "Source-backed Pump dump neighbour live fill from Pump.java / BuildingComp.java / Block.java / Blocks.java."
+    },
+    "SourceSolidPumpBuildState.source_solid_pump_dump_neighbour_live_fill_state": {
+      "status": "active",
+      "source_slice": "N2411",
+      "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+      "source_method": "SolidPumpBuild.updateTile()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_solid_pump_dump_neighbour_live_fill_state_input.game"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_solid_pump_dump_neighbour_live_fill_state_input.cell"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_solid_pump_dump_neighbour_live_fill_state_input.size"
+        },
+        {
+          "name": "result_liquid_id",
+          "type": "int",
+          "schema": "source_solid_pump_dump_neighbour_live_fill_state_input.result_liquid_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "dump_neighbour_liquid_amounts",
+        "dump_neighbour_liquid_capacities",
+        "dump_neighbour_accepts_liquid",
+        "dump_neighbour_can_dump_liquid"
+      ],
+      "tests": [
+        "test_c07_solid_pump_dump_neighbour_live_fill_registration",
+        "test_all_c07_solid_pump_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_solid_pump_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_solid_pump_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07SolidPumpDumpNeighbourLiveFillProof",
+      "rule": "Source-backed SolidPump dump neighbour live fill from SolidPump.java / BuildingComp.java / Block.java / Blocks.java."
+    },
+    "SourceLiquidBridgeBuildState.source_liquid_bridge_dodump_neighbour_live_fill_state": {
+      "status": "active",
+      "source_slice": "N2412",
+      "java_source": "core/src/mindustry/world/blocks/liquid/LiquidBridge.java",
+      "source_method": "LiquidBridgeBuild.doDump()",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_liquid_bridge_dodump_neighbour_live_fill_state_input.game"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_liquid_bridge_dodump_neighbour_live_fill_state_input.cell"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_liquid_bridge_dodump_neighbour_live_fill_state_input.size"
+        },
+        {
+          "name": "liquids",
+          "type": "Dictionary",
+          "schema": "source_liquid_bridge_dodump_neighbour_live_fill_state_input.liquids"
+        },
+        {
+          "name": "liquid_names_by_id",
+          "type": "Array",
+          "schema": "source_liquid_bridge_dodump_neighbour_live_fill_state_input.liquid_names_by_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "dump_neighbour_amounts",
+        "dump_neighbour_capacities",
+        "dump_neighbour_accepts",
+        "dump_neighbour_has_liquids",
+        "dump_neighbour_can_dump",
+        "dump_neighbour_liquids_present",
+        "dump_neighbour_destination_present",
+        "dump_neighbour_relative_to"
+      ],
+      "tests": [
+        "test_c07_liquid_bridge_dodump_neighbour_live_fill_registration",
+        "test_all_c07_liquid_bridge_dodump_neighbour_live_fill_input_evidence_is_exact",
+        "test_liquid_bridge_dodump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_liquid_bridge_dodump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07LiquidBridgeDodumpNeighbourLiveFillProof",
+      "rule": "Source-backed LiquidBridge doDump neighbour live fill from LiquidBridge.java / ItemBridge.java / BuildingComp.java / Block.java / Blocks.java / LiquidModule.java."
+    },
+    "SourceFrackerBuildState.source_fracker_linked_tiles_live_fill_state": {
+      "status": "active",
+      "source_slice": "N2414",
+      "java_source": "core/src/mindustry/world/blocks/production/Fracker.java",
+      "source_method": "FrackerBuild.updateTile()",
+      "params": [
+        {
+          "name": "world_tiles",
+          "type": "Dictionary",
+          "schema": "source_fracker_linked_tiles_live_fill_state_input.world_tiles"
+        },
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_fracker_linked_tiles_live_fill_state_input.cell"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_fracker_linked_tiles_live_fill_state_input.size"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "proximity_linked_tiles"
+      ],
+      "tests": [
+        "test_c07_fracker_linked_tiles_live_fill_registration",
+        "test_all_c07_fracker_linked_tiles_live_fill_input_evidence_is_exact",
+        "test_fracker_linked_tiles_live_fill_state",
+        "test_reference_graph_and_actual_c07_fracker_linked_tiles_live_fill"
+      ],
+      "runtime_proof": "/root/C07FrackerLinkedTilesLiveFillProof",
+      "rule": "Source-backed Fracker fraction linked-tiles live fill from Fracker.java / SolidPump.java / Tile.java / Block.java / Blocks.java."
+    },
+    "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_draw_state": {
+      "status": "active",
+      "source_slice": "N2415",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+      "source_method": "UnitTransportSourceBuild.draw()",
+      "params": [
+        {
+          "name": "x_value",
+          "type": "float",
+          "schema": "source_unit_cargo_loader_draw_state_input.x_value"
+        },
+        {
+          "name": "y_value",
+          "type": "float",
+          "schema": "source_unit_cargo_loader_draw_state_input.y_value"
+        },
+        {
+          "name": "unit",
+          "type": "Variant",
+          "schema": "source_unit_cargo_loader_draw_state_input.unit"
+        },
+        {
+          "name": "build_progress",
+          "type": "float",
+          "schema": "source_unit_cargo_loader_draw_state_input.build_progress"
+        },
+        {
+          "name": "warmup",
+          "type": "float",
+          "schema": "source_unit_cargo_loader_draw_state_input.warmup"
+        },
+        {
+          "name": "total_progress",
+          "type": "float",
+          "schema": "source_unit_cargo_loader_draw_state_input.total_progress"
+        },
+        {
+          "name": "readyness",
+          "type": "float",
+          "schema": "source_unit_cargo_loader_draw_state_input.readyness"
+        },
+        {
+          "name": "time_value",
+          "type": "float",
+          "schema": "source_unit_cargo_loader_draw_state_input.time_value"
+        },
+        {
+          "name": "size_value",
+          "type": "int",
+          "schema": "source_unit_cargo_loader_draw_state_input.size_value"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "base_call",
+        "construct_call",
+        "construct_icon",
+        "poly_call",
+        "poly_rotation",
+        "poly_stroke"
+      ],
+      "tests": [
+        "test_c07_unit_cargo_loader_draw_rows_registration",
+        "test_all_c07_unit_cargo_loader_draw_rows_input_evidence_is_exact",
+        "test_unit_cargo_loader_draw_rows_state",
+        "test_reference_graph_and_actual_c07_unit_cargo_loader_draw_rows"
+      ],
+      "runtime_proof": "/root/C07UnitCargoLoaderDrawRowsProof",
+      "rule": "Source-backed UnitCargoLoader draw rows from UnitCargoLoader.java / Drawf.java / Vars.java / Blocks.java."
     }
   },
   "policy": {

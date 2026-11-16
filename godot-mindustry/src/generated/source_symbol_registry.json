@@ -184616,6 +184616,374 @@
         "test_reference_graph_and_actual_c07_fracker_dump_liquid_neighbour_live_fill"
       ],
       "runtime_proof": "/root/C07FrackerDumpLiquidNeighbourLiveFillProof"
+    },
+    "source_mechanical_pump_dump_neighbour_live_fill_state_result.dump_neighbour_amounts": {
+      "status": "source-backed",
+      "godot_owner": "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_neighbour_live_fill_state",
+      "godot_symbol": "source_mechanical_pump_dump_neighbour_live_fill_state_result.dump_neighbour_amounts",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.dumpLiquid()",
+      "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+      "rule": "Per-ring-neighbour amount of the dumped liquid (by NAME, resolved through liquid_id_by_name) from the neighbour frame liquids module, in ring order. 0.0 when the neighbour frame carries no liquids store, when the drop is null, or when the neighbour has no frame.",
+      "tests": [
+        "test_c07_pump_dump_neighbour_live_fill_registration",
+        "test_all_c07_pump_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_pump_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_pump_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07PumpDumpNeighbourLiveFillProof"
+    },
+    "source_mechanical_pump_dump_neighbour_live_fill_state_result.dump_neighbour_capacities": {
+      "status": "source-backed",
+      "godot_owner": "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_neighbour_live_fill_state",
+      "godot_symbol": "source_mechanical_pump_dump_neighbour_live_fill_state_result.dump_neighbour_capacities",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.dumpLiquid()",
+      "java_expr": "float ofract = other.liquids.get(liquid) / other.block.liquidCapacity;",
+      "rule": "Per-ring-neighbour liquid capacity from the neighbour def liquidCapacity (the ofract denominator), in ring order: the catalog key, 10.0 port default when the key is missing, 0.0 when the neighbour frame carries no liquids store or the neighbour has no frame.",
+      "tests": [
+        "test_c07_pump_dump_neighbour_live_fill_registration",
+        "test_all_c07_pump_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_pump_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_pump_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07PumpDumpNeighbourLiveFillProof"
+    },
+    "source_mechanical_pump_dump_neighbour_live_fill_state_result.dump_neighbour_accepts": {
+      "status": "source-backed",
+      "godot_owner": "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_neighbour_live_fill_state",
+      "godot_symbol": "source_mechanical_pump_dump_neighbour_live_fill_state_result.dump_neighbour_accepts",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.acceptLiquid()",
+      "java_expr": "return block.hasLiquids && block.consumesLiquid(liquid);",
+      "rule": "Per-ring-neighbour DEFAULT acceptLiquid verdict (hasLiquids AND consumesLiquid for the dumped NAME), in ring order. False when the neighbour has no frame, when the catalog lacks the hasLiquids key (the Java field default false -- the 30-def catalog gap, e.g. electrolyzer), when no consumeLiquid row names the dumped liquid, or when the drop is null.",
+      "tests": [
+        "test_c07_pump_dump_neighbour_live_fill_registration",
+        "test_all_c07_pump_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_pump_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_pump_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07PumpDumpNeighbourLiveFillProof"
+    },
+    "source_mechanical_pump_dump_neighbour_live_fill_state_result.dump_neighbour_can_dump": {
+      "status": "source-backed",
+      "godot_owner": "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_neighbour_live_fill_state",
+      "godot_symbol": "source_mechanical_pump_dump_neighbour_live_fill_state_result.dump_neighbour_can_dump",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.canDumpLiquid()",
+      "java_expr": "public boolean canDumpLiquid(Building to, Liquid liquid){",
+      "rule": "Per-ring-neighbour DEFAULT canDumpLiquid verdict, in ring order: true for every framed neighbour (the Java default -- canDumpLiquid returns true), false when the neighbour has no frame (no sprite / unknown def / conduit / no meta-key frame).",
+      "tests": [
+        "test_c07_pump_dump_neighbour_live_fill_registration",
+        "test_all_c07_pump_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_pump_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_pump_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07PumpDumpNeighbourLiveFillProof"
+    },
+    "source_solid_pump_dump_neighbour_live_fill_state_result.dump_neighbour_liquid_amounts": {
+      "status": "source-backed",
+      "godot_owner": "SourceSolidPumpBuildState.source_solid_pump_dump_neighbour_live_fill_state",
+      "godot_symbol": "source_solid_pump_dump_neighbour_live_fill_state_result.dump_neighbour_liquid_amounts",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.dumpLiquid()",
+      "java_expr": "float ofract = other.liquids.get(liquid) / other.block.liquidCapacity;",
+      "rule": "Per-ring-neighbour amount of the dumped result liquid (water) from the neighbour frame liquids module, in ring order. 0.0 for a neighbour with no frame, no liquids store, or a store that does not cover the result id (the N2371 no_liquids_store precedent). The pure dumps the def result only, so the fill reads that id.",
+      "tests": [
+        "test_c07_solid_pump_dump_neighbour_live_fill_registration",
+        "test_all_c07_solid_pump_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_solid_pump_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_solid_pump_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07SolidPumpDumpNeighbourLiveFillProof"
+    },
+    "source_solid_pump_dump_neighbour_live_fill_state_result.dump_neighbour_liquid_capacities": {
+      "status": "source-backed",
+      "godot_owner": "SourceSolidPumpBuildState.source_solid_pump_dump_neighbour_live_fill_state",
+      "godot_symbol": "source_solid_pump_dump_neighbour_live_fill_state_result.dump_neighbour_liquid_capacities",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.dumpLiquid()",
+      "java_expr": "float ofract = other.liquids.get(liquid) / other.block.liquidCapacity;",
+      "rule": "Per-ring-neighbour block.liquidCapacity from the catalog (10.0 port default when the key is missing -- Java computes round(10f * consumeAmount) in Block.init, min 10f), in ring order. 0.0 when the neighbour frame carries no liquids store, so the pure derives other_has_liquids false from the capacity (the N2371 no_liquids_store precedent).",
+      "tests": [
+        "test_c07_solid_pump_dump_neighbour_live_fill_registration",
+        "test_all_c07_solid_pump_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_solid_pump_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_solid_pump_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07SolidPumpDumpNeighbourLiveFillProof"
+    },
+    "source_solid_pump_dump_neighbour_live_fill_state_result.dump_neighbour_accepts_liquid": {
+      "status": "source-backed",
+      "godot_owner": "SourceSolidPumpBuildState.source_solid_pump_dump_neighbour_live_fill_state",
+      "godot_symbol": "source_solid_pump_dump_neighbour_live_fill_state_result.dump_neighbour_accepts_liquid",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.acceptLiquid()",
+      "java_expr": "return block.hasLiquids && block.consumesLiquid(liquid);",
+      "rule": "Per-ring-neighbour DEFAULT acceptLiquid verdict for the dumped result liquid (water), in ring order: hasLiquids (catalog key, Java field default false) AND consumesLiquid (the catalog consumeLiquid rows carry the liquidFilter). False for a neighbour with no frame. Per-block overrides (e.g. Conduit acceptLiquid) are OUT of scope -- the default gate decides.",
+      "tests": [
+        "test_c07_solid_pump_dump_neighbour_live_fill_registration",
+        "test_all_c07_solid_pump_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_solid_pump_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_solid_pump_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07SolidPumpDumpNeighbourLiveFillProof"
+    },
+    "source_solid_pump_dump_neighbour_live_fill_state_result.dump_neighbour_can_dump_liquid": {
+      "status": "source-backed",
+      "godot_owner": "SourceSolidPumpBuildState.source_solid_pump_dump_neighbour_live_fill_state",
+      "godot_symbol": "source_solid_pump_dump_neighbour_live_fill_state_result.dump_neighbour_can_dump_liquid",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.canDumpLiquid()",
+      "java_expr": "public boolean canDumpLiquid(Building to, Liquid liquid){",
+      "rule": "Per-ring-neighbour DEFAULT canDumpLiquid verdict, in ring order: true for every framed neighbour (the Java default returns true), false for a neighbour with no frame (no building to dump to -- the N2353/N2371 no-frame precedent). Per-block overrides are OUT of scope.",
+      "tests": [
+        "test_c07_solid_pump_dump_neighbour_live_fill_registration",
+        "test_all_c07_solid_pump_dump_neighbour_live_fill_input_evidence_is_exact",
+        "test_solid_pump_dump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_solid_pump_dump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07SolidPumpDumpNeighbourLiveFillProof"
+    },
+    "source_liquid_bridge_dodump_neighbour_live_fill_state_result.dump_neighbour_amounts": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidBridgeBuildState.source_liquid_bridge_dodump_neighbour_live_fill_state",
+      "godot_symbol": "source_liquid_bridge_dodump_neighbour_live_fill_state_result.dump_neighbour_amounts",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.dumpLiquid()",
+      "java_expr": "float ofract = other.liquids.get(liquid) / other.block.liquidCapacity;",
+      "rule": "Per-ring-neighbour amount of the dumped current liquid (liquids.current()) from the neighbour frame liquids module (0.0 when the frame carries no liquids store or the neighbour has no frame).",
+      "tests": [
+        "test_c07_liquid_bridge_dodump_neighbour_live_fill_registration",
+        "test_all_c07_liquid_bridge_dodump_neighbour_live_fill_input_evidence_is_exact",
+        "test_liquid_bridge_dodump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_liquid_bridge_dodump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07LiquidBridgeDodumpNeighbourLiveFillProof"
+    },
+    "source_liquid_bridge_dodump_neighbour_live_fill_state_result.dump_neighbour_capacities": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidBridgeBuildState.source_liquid_bridge_dodump_neighbour_live_fill_state",
+      "godot_symbol": "source_liquid_bridge_dodump_neighbour_live_fill_state_result.dump_neighbour_capacities",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.init()",
+      "java_expr": "liquidCapacity = Mathf.round(10f * consumeAmount);",
+      "rule": "Per-ring-neighbour liquid capacity from the neighbour def liquidCapacity key (the ofract denominator; 10.0 port default when the key is missing -- Java computes round(10f * consumeAmount) in Block.init, min 10f -- 0.0 when the frame carries no liquids store or the neighbour has no frame).",
+      "tests": [
+        "test_c07_liquid_bridge_dodump_neighbour_live_fill_registration",
+        "test_all_c07_liquid_bridge_dodump_neighbour_live_fill_input_evidence_is_exact",
+        "test_liquid_bridge_dodump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_liquid_bridge_dodump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07LiquidBridgeDodumpNeighbourLiveFillProof"
+    },
+    "source_liquid_bridge_dodump_neighbour_live_fill_state_result.dump_neighbour_accepts": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidBridgeBuildState.source_liquid_bridge_dodump_neighbour_live_fill_state",
+      "godot_symbol": "source_liquid_bridge_dodump_neighbour_live_fill_state_result.dump_neighbour_accepts",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.acceptLiquid()",
+      "java_expr": "return block.hasLiquids && block.consumesLiquid(liquid);",
+      "rule": "Per-ring-neighbour acceptLiquid verdict from the DEFAULT gate (hasLiquids AND consumesLiquid for the dumped current liquid). False for a neighbour with no frame.",
+      "tests": [
+        "test_c07_liquid_bridge_dodump_neighbour_live_fill_registration",
+        "test_all_c07_liquid_bridge_dodump_neighbour_live_fill_input_evidence_is_exact",
+        "test_liquid_bridge_dodump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_liquid_bridge_dodump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07LiquidBridgeDodumpNeighbourLiveFillProof"
+    },
+    "source_liquid_bridge_dodump_neighbour_live_fill_state_result.dump_neighbour_has_liquids": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidBridgeBuildState.source_liquid_bridge_dodump_neighbour_live_fill_state",
+      "godot_symbol": "source_liquid_bridge_dodump_neighbour_live_fill_state_result.dump_neighbour_has_liquids",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.dumpLiquid()",
+      "java_expr": "if(other != null && other.block.hasLiquids && canDumpLiquid(other, liquid) && other.liquids != null){",
+      "rule": "Per-ring-neighbour hasLiquids flag from the catalog key (Java field default false -- 30 defs carry consumeLiquid rows but no hasLiquids key, e.g. electrolyzer). False for a neighbour with no frame.",
+      "tests": [
+        "test_c07_liquid_bridge_dodump_neighbour_live_fill_registration",
+        "test_all_c07_liquid_bridge_dodump_neighbour_live_fill_input_evidence_is_exact",
+        "test_liquid_bridge_dodump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_liquid_bridge_dodump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07LiquidBridgeDodumpNeighbourLiveFillProof"
+    },
+    "source_liquid_bridge_dodump_neighbour_live_fill_state_result.dump_neighbour_can_dump": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidBridgeBuildState.source_liquid_bridge_dodump_neighbour_live_fill_state",
+      "godot_symbol": "source_liquid_bridge_dodump_neighbour_live_fill_state_result.dump_neighbour_can_dump",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.canDumpLiquid()",
+      "java_expr": "public boolean canDumpLiquid(Building to, Liquid liquid){",
+      "rule": "Per-ring-neighbour canDumpLiquid verdict from the DEFAULT gate (true for every framed neighbour). False for a neighbour with no frame.",
+      "tests": [
+        "test_c07_liquid_bridge_dodump_neighbour_live_fill_registration",
+        "test_all_c07_liquid_bridge_dodump_neighbour_live_fill_input_evidence_is_exact",
+        "test_liquid_bridge_dodump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_liquid_bridge_dodump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07LiquidBridgeDodumpNeighbourLiveFillProof"
+    },
+    "source_liquid_bridge_dodump_neighbour_live_fill_state_result.dump_neighbour_liquids_present": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidBridgeBuildState.source_liquid_bridge_dodump_neighbour_live_fill_state",
+      "godot_symbol": "source_liquid_bridge_dodump_neighbour_live_fill_state_result.dump_neighbour_liquids_present",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.dumpLiquid()",
+      "java_expr": "if(other != null && other.block.hasLiquids && canDumpLiquid(other, liquid) && other.liquids != null){",
+      "rule": "Per-ring-neighbour liquids-store presence (true when the neighbour frame carries a liquids module). False for a neighbour with no frame or no store.",
+      "tests": [
+        "test_c07_liquid_bridge_dodump_neighbour_live_fill_registration",
+        "test_all_c07_liquid_bridge_dodump_neighbour_live_fill_input_evidence_is_exact",
+        "test_liquid_bridge_dodump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_liquid_bridge_dodump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07LiquidBridgeDodumpNeighbourLiveFillProof"
+    },
+    "source_liquid_bridge_dodump_neighbour_live_fill_state_result.dump_neighbour_destination_present": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidBridgeBuildState.source_liquid_bridge_dodump_neighbour_live_fill_state",
+      "godot_symbol": "source_liquid_bridge_dodump_neighbour_live_fill_state_result.dump_neighbour_destination_present",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.getLiquidDestination()",
+      "java_expr": "public Building getLiquidDestination(Building from, Liquid liquid){",
+      "rule": "Per-ring-neighbour destination presence (true for a framed neighbour -- the default getLiquidDestination returns self()). False for a neighbour with no frame.",
+      "tests": [
+        "test_c07_liquid_bridge_dodump_neighbour_live_fill_registration",
+        "test_all_c07_liquid_bridge_dodump_neighbour_live_fill_input_evidence_is_exact",
+        "test_liquid_bridge_dodump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_liquid_bridge_dodump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07LiquidBridgeDodumpNeighbourLiveFillProof"
+    },
+    "source_liquid_bridge_dodump_neighbour_live_fill_state_result.dump_neighbour_relative_to": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidBridgeBuildState.source_liquid_bridge_dodump_neighbour_live_fill_state",
+      "godot_symbol": "source_liquid_bridge_dodump_neighbour_live_fill_state_result.dump_neighbour_relative_to",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.dumpLiquid()",
+      "java_expr": "if(outputDir != -1 && (outputDir + rotation) % 4 != relativeTo(other)) continue;",
+      "rule": "Per-ring-neighbour relative direction (0 -- outputDir is -1, so the dump filter never reads it).",
+      "tests": [
+        "test_c07_liquid_bridge_dodump_neighbour_live_fill_registration",
+        "test_all_c07_liquid_bridge_dodump_neighbour_live_fill_input_evidence_is_exact",
+        "test_liquid_bridge_dodump_neighbour_live_fill_state",
+        "test_reference_graph_and_actual_c07_liquid_bridge_dodump_neighbour_live_fill"
+      ],
+      "runtime_proof": "/root/C07LiquidBridgeDodumpNeighbourLiveFillProof"
+    },
+    "source_fracker_linked_tiles_live_fill_state_result.proximity_linked_tiles": {
+      "status": "source-backed",
+      "godot_owner": "SourceFrackerBuildState.source_fracker_linked_tiles_live_fill_state",
+      "godot_symbol": "source_fracker_linked_tiles_live_fill_state_result.proximity_linked_tiles",
+      "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+      "java_method": "SolidPumpBuild.onProximityUpdate()",
+      "java_expr": "for(Tile other : tile.getLinkedTiles(tempTiles)){",
+      "rule": "Per-linked-tile dict, in Java walk order: can_pump is the canPump answer (not floor_is_liquid for a present tile), attribute_value is the floor OIL attribute (it adds whether or not the tile is pumpable -- sumAttribute has no canPump gate), is_deep is the deep-floor flag (the N2305 pure applies the deep exclusion, Block.java:580). A missing / null / non-Dict map entry contributes no dict -- an empty map fills an empty list.",
+      "tests": [
+        "test_c07_fracker_linked_tiles_live_fill_registration",
+        "test_all_c07_fracker_linked_tiles_live_fill_input_evidence_is_exact",
+        "test_fracker_linked_tiles_live_fill_state",
+        "test_reference_graph_and_actual_c07_fracker_linked_tiles_live_fill"
+      ],
+      "runtime_proof": "/root/C07FrackerLinkedTilesLiveFillProof"
+    },
+    "source_unit_cargo_loader_draw_state_result.base_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_draw_state",
+      "godot_symbol": "source_unit_cargo_loader_draw_state_result.base_call",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+      "java_method": "UnitTransportSourceBuild.draw()",
+      "java_expr": "Draw.rect(block.region, x, y);",
+      "rule": "The base rect call (UnitCargoLoader.java:147): region block.region, centered on the building, always drawn -- before the unit branch.",
+      "tests": [
+        "test_c07_unit_cargo_loader_draw_rows_registration",
+        "test_all_c07_unit_cargo_loader_draw_rows_input_evidence_is_exact",
+        "test_unit_cargo_loader_draw_rows_state",
+        "test_reference_graph_and_actual_c07_unit_cargo_loader_draw_rows"
+      ],
+      "runtime_proof": "/root/C07UnitCargoLoaderDrawRowsProof"
+    },
+    "source_unit_cargo_loader_draw_state_result.construct_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_draw_state",
+      "godot_symbol": "source_unit_cargo_loader_draw_state_result.construct_call",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+      "java_method": "UnitTransportSourceBuild.draw()",
+      "java_expr": "Drawf.construct(this, unitType.fullIcon, 0f, buildProgress, warmup, totalProgress);",
+      "rule": "The construct call (UnitCargoLoader.java:149-153, on Layer.blockOver): icon unitType.fullIcon, rotation 0f, progress buildProgress, alpha warmup, time totalProgress, color Pal.accent, size t.block.size * tilesize - 4f = 20f, shader time -totalProgress / 20f, plus the scan line (Drawf.java:596, center x + sin(totalProgress / 20f) * 10f, angle 90, length 20f). Empty when a unit waits (the poly branch draws instead).",
+      "tests": [
+        "test_c07_unit_cargo_loader_draw_rows_registration",
+        "test_all_c07_unit_cargo_loader_draw_rows_input_evidence_is_exact",
+        "test_unit_cargo_loader_draw_rows_state",
+        "test_reference_graph_and_actual_c07_unit_cargo_loader_draw_rows"
+      ],
+      "runtime_proof": "/root/C07UnitCargoLoaderDrawRowsProof"
+    },
+    "source_unit_cargo_loader_draw_state_result.construct_icon": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_draw_state",
+      "godot_symbol": "source_unit_cargo_loader_draw_state_result.construct_icon",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+      "java_method": "UnitTransportSourceBuild.draw()",
+      "java_expr": "Drawf.construct(this, unitType.fullIcon, 0f, buildProgress, warmup, totalProgress);",
+      "rule": "The construct icon (UnitCargoLoader.java:151, unitType.fullIcon with unitType manifold, UnitCargoLoader.java:24): carried as the symbolic token \"unitType.fullIcon\", the literal Java expr. Folded into the draw pure because UnitCargoLoader has NO icons() override and a zero-arg pure cannot register (the SSOT schema validator requires non-empty input keys, the N2396 precedent).",
+      "tests": [
+        "test_c07_unit_cargo_loader_draw_rows_registration",
+        "test_all_c07_unit_cargo_loader_draw_rows_input_evidence_is_exact",
+        "test_unit_cargo_loader_draw_rows_state",
+        "test_reference_graph_and_actual_c07_unit_cargo_loader_draw_rows"
+      ],
+      "runtime_proof": "/root/C07UnitCargoLoaderDrawRowsProof"
+    },
+    "source_unit_cargo_loader_draw_state_result.poly_call": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_draw_state",
+      "godot_symbol": "source_unit_cargo_loader_draw_state_result.poly_call",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+      "java_method": "UnitTransportSourceBuild.draw()",
+      "java_expr": "Lines.poly(x, y, polySides, polyRadius, Time.time * polyRotateSpeed);",
+      "rule": "The poly ring call (UnitCargoLoader.java:154-159): sides 6, radius 8f, rotation Time.time * polyRotateSpeed, stroke polyStroke * readyness, color Pal.accent (polyColor, UnitCargoLoader.java:30), z Layer.bullet - 0.01f. Empty while no unit is held (the construct branch draws instead).",
+      "tests": [
+        "test_c07_unit_cargo_loader_draw_rows_registration",
+        "test_all_c07_unit_cargo_loader_draw_rows_input_evidence_is_exact",
+        "test_unit_cargo_loader_draw_rows_state",
+        "test_reference_graph_and_actual_c07_unit_cargo_loader_draw_rows"
+      ],
+      "runtime_proof": "/root/C07UnitCargoLoaderDrawRowsProof"
+    },
+    "source_unit_cargo_loader_draw_state_result.poly_rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_draw_state",
+      "godot_symbol": "source_unit_cargo_loader_draw_state_result.poly_rotation",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+      "java_method": "UnitTransportSourceBuild.draw()",
+      "java_expr": "Lines.poly(x, y, polySides, polyRadius, Time.time * polyRotateSpeed);",
+      "rule": "The poly rotation in degrees (UnitCargoLoader.java:157): Time.time * polyRotateSpeed = time_value * 1f.",
+      "tests": [
+        "test_c07_unit_cargo_loader_draw_rows_registration",
+        "test_all_c07_unit_cargo_loader_draw_rows_input_evidence_is_exact",
+        "test_unit_cargo_loader_draw_rows_state",
+        "test_reference_graph_and_actual_c07_unit_cargo_loader_draw_rows"
+      ],
+      "runtime_proof": "/root/C07UnitCargoLoaderDrawRowsProof"
+    },
+    "source_unit_cargo_loader_draw_state_result.poly_stroke": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_draw_state",
+      "godot_symbol": "source_unit_cargo_loader_draw_state_result.poly_stroke",
+      "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+      "java_method": "UnitTransportSourceBuild.draw()",
+      "java_expr": "Lines.stroke(polyStroke * readyness);",
+      "rule": "The poly stroke width (UnitCargoLoader.java:156): polyStroke * readyness = 1.8f * readyness -- 0 while building, 1.8 at full readyness.",
+      "tests": [
+        "test_c07_unit_cargo_loader_draw_rows_registration",
+        "test_all_c07_unit_cargo_loader_draw_rows_input_evidence_is_exact",
+        "test_unit_cargo_loader_draw_rows_state",
+        "test_reference_graph_and_actual_c07_unit_cargo_loader_draw_rows"
+      ],
+      "runtime_proof": "/root/C07UnitCargoLoaderDrawRowsProof"
     }
   },
   "version": 1

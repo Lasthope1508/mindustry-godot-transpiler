@@ -2175,6 +2175,44 @@
         }
       }
     },
+    "source_fracker_linked_tiles_live_fill_state_input": {
+      "canonical_schema": "source_state_schema.source_fracker_linked_tiles_live_fill_state_input",
+      "keys": {
+        "world_tiles": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "Tile other = world.tile(x + dx + o, y + dy + o);",
+          "rule": "The tile map: a Dict keyed \"x,y\" to a per-tile Dict carrying the MINIMAL floor extension {floor_is_liquid, oil_attribute, is_deep} (the BeamDrill {solid, wall_drop} convention carries no floor fields -- the N2414 design decision). A missing key (or a null / non-Dict entry) is a null world tile, skipped like Java skips nulls (Tile.java:480). An empty map fills an empty list. No live producer stamps this frame input yet -- the producer gap is documented, not invented here.",
+          "java_method": "Tile.getLinkedTiles()",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_linked_tiles_live_fill_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "boost = sumAttribute(attribute, tile.x, tile.y) / size / size;",
+          "rule": "The fracker origin cell (the footprint centre -- tile.x / tile.y in Java, the sumAttribute call site). The tick reads the origin_cell sprite meta inline.",
+          "java_method": "SolidPumpBuild.onProximityUpdate()",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_linked_tiles_live_fill_state"
+          ]
+        },
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "int size = block.size, o = block.sizeOffset;",
+          "rule": "The fracker block size (3 -- the footprint walk runs dx / dy 0..size-1 from sizeOffset = -((size - 1) / 2)). The tick reads the catalog size.",
+          "java_method": "Tile.getLinkedTiles()",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_linked_tiles_live_fill_state"
+          ]
+        }
+      }
+    },
     "source_fracker_liquid_consumer_row_state_input": {
       "canonical_schema": "source_state_schema.source_fracker_liquid_consumer_row_state_input",
       "keys": {
@@ -2511,6 +2549,66 @@
           "rule": "The per-neighbour canDumpLiquid answers in proximity order (BuildingComp.java:901, 910-912 -- the default returns true); as frame inputs alongside the acceptLiquid answers.",
           "used_by": [
             "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_liquid_state"
+          ]
+        }
+      }
+    },
+    "source_mechanical_pump_dump_neighbour_live_fill_state_input": {
+      "canonical_schema": "source_state_schema.source_mechanical_pump_dump_neighbour_live_fill_state_input",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = world.build(tile.x + point.x, tile.y + point.y);",
+          "rule": "The live game object: the world lookup (block_sprite_at_cell resolves a ring cell to its placed sprite -- the port of world.build) and the content catalog (blocks_by_id resolves a neighbour sprite block id to its def). Null means no live neighbours resolve (all ring entries report the no-frame outcome).",
+          "java_method": "BuildingComp.updateProximity()",
+          "used_by": [
+            "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_neighbour_live_fill_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Point2[] nearby = Edges.getEdges(block.size);",
+          "rule": "The pump origin cell (the ring centre -- the port ring is centred on the origin cell, Edges.getEdges(block.size) in Java). The tick reads the bound cell (no N2363 workaround needed).",
+          "java_method": "BuildingComp.updateProximity()",
+          "used_by": [
+            "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_neighbour_live_fill_state"
+          ]
+        },
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Point2[] nearby = Edges.getEdges(block.size);",
+          "rule": "The pump block size (2 for rotary-pump, 3 for impulse-pump -- the ring radius comes from the ORIGIN size, Edges.getEdges(block.size) in Java). The tick reads the catalog size.",
+          "java_method": "BuildingComp.updateProximity()",
+          "used_by": [
+            "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_neighbour_live_fill_state"
+          ]
+        },
+        "liquid_drop": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+          "java_expr": "public @Nullable Liquid liquidDrop = null;",
+          "rule": "The dumped liquid as a String NAME (water / oil / cryofluid / slag / arkycite, or null -- Pump.java:114, set by onProximityUpdate, Pump.java:141-152, from each linked tile passing canPump). The driver gathers it per tick from the N2087 proximity helper (source_pump_proximity_state) return value, already called for the N2205 gate / N2221 advance; the family frame carries no liquid_drop key. Unlike the Fracker def constant \"oil\", the name VARIES BY TILE (the N2378 precedent). A null drop fills no accepts and no amounts.",
+          "java_method": "PumpBuild.updateTile()",
+          "used_by": [
+            "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_neighbour_live_fill_state"
+          ]
+        },
+        "liquid_id_by_name": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "float fract = liquids.get(liquid) / block.liquidCapacity;",
+          "rule": "The catalog liquid name -> id map (source_liquid_catalog_state), passed by the driver: the module store is id-indexed while liquidDrop is a name, so the fill resolves the drop name to the module index through this map (the same map the N2205 gate, the N2221 advance, and the N2285 dump pure take).",
+          "java_method": "BuildingComp.dumpLiquid()",
+          "used_by": [
+            "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_neighbour_live_fill_state"
           ]
         }
       }
@@ -3316,6 +3414,55 @@
           "rule": "The per-neighbour canDumpLiquid answers in proximity order (BuildingComp.java:901, 910-912 -- the default returns true); as frame inputs alongside the acceptLiquid answers.",
           "used_by": [
             "SourceSolidPumpBuildState.source_solid_pump_dump_liquid_state"
+          ]
+        }
+      }
+    },
+    "source_solid_pump_dump_neighbour_live_fill_state_input": {
+      "canonical_schema": "source_state_schema.source_solid_pump_dump_neighbour_live_fill_state_input",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = world.build(tile.x + point.x, tile.y + point.y);",
+          "rule": "The live game object: the world lookup (block_sprite_at_cell resolves a ring cell to its placed sprite -- the port of world.build) and the content catalog (blocks_by_id resolves a neighbour sprite block id to its def). Null means no live neighbours resolve (all ring entries report the no-frame outcome).",
+          "java_method": "BuildingComp.updateProximity()",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_dump_neighbour_live_fill_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Point2[] nearby = Edges.getEdges(block.size);",
+          "rule": "The solid-pump origin cell (the ring centre -- the port ring is centred on the origin cell, Edges.getEdges(block.size) in Java). The tick reads the origin_cell sprite meta inline.",
+          "java_method": "BuildingComp.updateProximity()",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_dump_neighbour_live_fill_state"
+          ]
+        },
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Point2[] nearby = Edges.getEdges(block.size);",
+          "rule": "The solid-pump block size (2 -- the ring radius comes from the ORIGIN size, Edges.getEdges(block.size) in Java). The tick reads the catalog size.",
+          "java_method": "BuildingComp.updateProximity()",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_dump_neighbour_live_fill_state"
+          ]
+        },
+        "result_liquid_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "result = Liquids.water;",
+          "rule": "The catalog id of the dumped result liquid, resolved by the driver from liquid_id_by_name with the def constant \"water\" (Blocks.java:2922; also the class default, SolidPump.java:22). The fill reads the neighbour amount for this id and matches the consumeLiquid rows against the def constant name.",
+          "java_method": "SolidPumpBuild.updateTile()",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_dump_neighbour_live_fill_state"
           ]
         }
       }

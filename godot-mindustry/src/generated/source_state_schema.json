@@ -251222,6 +251222,620 @@
       },
       "runtime_proof": "/root/C07FrackerDumpLiquidNeighbourLiveFillProof",
       "rule": "Source-backed Fracker dumpLiquid neighbour live fill from Fracker.java / SolidPump.java / BuildingComp.java / Block.java / Blocks.java."
+    },
+    "source_mechanical_pump_dump_neighbour_live_fill_state_input": {
+      "status": "active",
+      "owner": "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_neighbour_live_fill_state",
+      "source_slice": "N2410",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = world.build(tile.x + point.x, tile.y + point.y);",
+          "rule": "The live game object: the world lookup (block_sprite_at_cell resolves a ring cell to its placed sprite -- the port of world.build) and the content catalog (blocks_by_id resolves a neighbour sprite block id to its def). Null means no live neighbours resolve (all ring entries report the no-frame outcome).",
+          "java_method": "BuildingComp.updateProximity()",
+          "used_by": [
+            "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_neighbour_live_fill_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Point2[] nearby = Edges.getEdges(block.size);",
+          "rule": "The pump origin cell (the ring centre -- the port ring is centred on the origin cell, Edges.getEdges(block.size) in Java). The tick reads the bound cell (no N2363 workaround needed).",
+          "java_method": "BuildingComp.updateProximity()",
+          "used_by": [
+            "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_neighbour_live_fill_state"
+          ]
+        },
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Point2[] nearby = Edges.getEdges(block.size);",
+          "rule": "The pump block size (2 for rotary-pump, 3 for impulse-pump -- the ring radius comes from the ORIGIN size, Edges.getEdges(block.size) in Java). The tick reads the catalog size.",
+          "java_method": "BuildingComp.updateProximity()",
+          "used_by": [
+            "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_neighbour_live_fill_state"
+          ]
+        },
+        "liquid_drop": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Pump.java",
+          "java_expr": "public @Nullable Liquid liquidDrop = null;",
+          "rule": "The dumped liquid as a String NAME (water / oil / cryofluid / slag / arkycite, or null -- Pump.java:114, set by onProximityUpdate, Pump.java:141-152, from each linked tile passing canPump). The driver gathers it per tick from the N2087 proximity helper (source_pump_proximity_state) return value, already called for the N2205 gate / N2221 advance; the family frame carries no liquid_drop key. Unlike the Fracker def constant \"oil\", the name VARIES BY TILE (the N2378 precedent). A null drop fills no accepts and no amounts.",
+          "java_method": "PumpBuild.updateTile()",
+          "used_by": [
+            "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_neighbour_live_fill_state"
+          ]
+        },
+        "liquid_id_by_name": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "float fract = liquids.get(liquid) / block.liquidCapacity;",
+          "rule": "The catalog liquid name -> id map (source_liquid_catalog_state), passed by the driver: the module store is id-indexed while liquidDrop is a name, so the fill resolves the drop name to the module index through this map (the same map the N2205 gate, the N2221 advance, and the N2285 dump pure take).",
+          "java_method": "BuildingComp.dumpLiquid()",
+          "used_by": [
+            "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_neighbour_live_fill_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PumpDumpNeighbourLiveFillProof",
+      "rule": "Source-backed Pump dump neighbour live fill from Pump.java / BuildingComp.java / Block.java / Blocks.java."
+    },
+    "source_mechanical_pump_dump_neighbour_live_fill_state_result": {
+      "status": "active",
+      "owner": "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_neighbour_live_fill_state",
+      "source_slice": "N2410",
+      "keys": {
+        "dump_neighbour_amounts": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = proximity.get((i + dump) % proximity.size);",
+          "rule": "Per-ring-neighbour amount of the dumped liquid (by NAME, resolved through liquid_id_by_name) from the neighbour frame liquids module, in ring order. 0.0 when the neighbour frame carries no liquids store, when the drop is null, or when the neighbour has no frame.",
+          "java_method": "BuildingComp.dumpLiquid()",
+          "used_by": [
+            "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_neighbour_live_fill_state"
+          ]
+        },
+        "dump_neighbour_capacities": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "float ofract = other.liquids.get(liquid) / other.block.liquidCapacity;",
+          "rule": "Per-ring-neighbour liquid capacity from the neighbour def liquidCapacity (the ofract denominator), in ring order: the catalog key, 10.0 port default when the key is missing, 0.0 when the neighbour frame carries no liquids store or the neighbour has no frame.",
+          "java_method": "BuildingComp.dumpLiquid()",
+          "used_by": [
+            "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_neighbour_live_fill_state"
+          ]
+        },
+        "dump_neighbour_accepts": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return block.hasLiquids && block.consumesLiquid(liquid);",
+          "rule": "Per-ring-neighbour DEFAULT acceptLiquid verdict (hasLiquids AND consumesLiquid for the dumped NAME), in ring order. False when the neighbour has no frame, when the catalog lacks the hasLiquids key (the Java field default false -- the 30-def catalog gap, e.g. electrolyzer), when no consumeLiquid row names the dumped liquid, or when the drop is null.",
+          "java_method": "BuildingComp.acceptLiquid()",
+          "used_by": [
+            "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_neighbour_live_fill_state"
+          ]
+        },
+        "dump_neighbour_can_dump": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public boolean canDumpLiquid(Building to, Liquid liquid){",
+          "rule": "Per-ring-neighbour DEFAULT canDumpLiquid verdict, in ring order: true for every framed neighbour (the Java default -- canDumpLiquid returns true), false when the neighbour has no frame (no sprite / unknown def / conduit / no meta-key frame).",
+          "java_method": "BuildingComp.canDumpLiquid()",
+          "used_by": [
+            "SourceMechanicalPumpBuildState.source_mechanical_pump_dump_neighbour_live_fill_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PumpDumpNeighbourLiveFillProof",
+      "rule": "Source-backed Pump dump neighbour live fill from Pump.java / BuildingComp.java / Block.java / Blocks.java."
+    },
+    "source_solid_pump_dump_neighbour_live_fill_state_input": {
+      "status": "active",
+      "owner": "SourceSolidPumpBuildState.source_solid_pump_dump_neighbour_live_fill_state",
+      "source_slice": "N2411",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = world.build(tile.x + point.x, tile.y + point.y);",
+          "rule": "The live game object: the world lookup (block_sprite_at_cell resolves a ring cell to its placed sprite -- the port of world.build) and the content catalog (blocks_by_id resolves a neighbour sprite block id to its def). Null means no live neighbours resolve (all ring entries report the no-frame outcome).",
+          "java_method": "BuildingComp.updateProximity()",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_dump_neighbour_live_fill_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Point2[] nearby = Edges.getEdges(block.size);",
+          "rule": "The solid-pump origin cell (the ring centre -- the port ring is centred on the origin cell, Edges.getEdges(block.size) in Java). The tick reads the origin_cell sprite meta inline.",
+          "java_method": "BuildingComp.updateProximity()",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_dump_neighbour_live_fill_state"
+          ]
+        },
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Point2[] nearby = Edges.getEdges(block.size);",
+          "rule": "The solid-pump block size (2 -- the ring radius comes from the ORIGIN size, Edges.getEdges(block.size) in Java). The tick reads the catalog size.",
+          "java_method": "BuildingComp.updateProximity()",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_dump_neighbour_live_fill_state"
+          ]
+        },
+        "result_liquid_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "result = Liquids.water;",
+          "rule": "The catalog id of the dumped result liquid, resolved by the driver from liquid_id_by_name with the def constant \"water\" (Blocks.java:2922; also the class default, SolidPump.java:22). The fill reads the neighbour amount for this id and matches the consumeLiquid rows against the def constant name.",
+          "java_method": "SolidPumpBuild.updateTile()",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_dump_neighbour_live_fill_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SolidPumpDumpNeighbourLiveFillProof",
+      "rule": "Source-backed SolidPump dump neighbour live fill from SolidPump.java / BuildingComp.java / Block.java / Blocks.java."
+    },
+    "source_solid_pump_dump_neighbour_live_fill_state_result": {
+      "status": "active",
+      "owner": "SourceSolidPumpBuildState.source_solid_pump_dump_neighbour_live_fill_state",
+      "source_slice": "N2411",
+      "keys": {
+        "dump_neighbour_liquid_amounts": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "float ofract = other.liquids.get(liquid) / other.block.liquidCapacity;",
+          "rule": "Per-ring-neighbour amount of the dumped result liquid (water) from the neighbour frame liquids module, in ring order. 0.0 for a neighbour with no frame, no liquids store, or a store that does not cover the result id (the N2371 no_liquids_store precedent). The pure dumps the def result only, so the fill reads that id.",
+          "java_method": "BuildingComp.dumpLiquid()",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_dump_neighbour_live_fill_state"
+          ]
+        },
+        "dump_neighbour_liquid_capacities": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "float ofract = other.liquids.get(liquid) / other.block.liquidCapacity;",
+          "rule": "Per-ring-neighbour block.liquidCapacity from the catalog (10.0 port default when the key is missing -- Java computes round(10f * consumeAmount) in Block.init, min 10f), in ring order. 0.0 when the neighbour frame carries no liquids store, so the pure derives other_has_liquids false from the capacity (the N2371 no_liquids_store precedent).",
+          "java_method": "BuildingComp.dumpLiquid()",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_dump_neighbour_live_fill_state"
+          ]
+        },
+        "dump_neighbour_accepts_liquid": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return block.hasLiquids && block.consumesLiquid(liquid);",
+          "rule": "Per-ring-neighbour DEFAULT acceptLiquid verdict for the dumped result liquid (water), in ring order: hasLiquids (catalog key, Java field default false) AND consumesLiquid (the catalog consumeLiquid rows carry the liquidFilter). False for a neighbour with no frame. Per-block overrides (e.g. Conduit acceptLiquid) are OUT of scope -- the default gate decides.",
+          "java_method": "BuildingComp.acceptLiquid()",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_dump_neighbour_live_fill_state"
+          ]
+        },
+        "dump_neighbour_can_dump_liquid": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public boolean canDumpLiquid(Building to, Liquid liquid){",
+          "rule": "Per-ring-neighbour DEFAULT canDumpLiquid verdict, in ring order: true for every framed neighbour (the Java default returns true), false for a neighbour with no frame (no building to dump to -- the N2353/N2371 no-frame precedent). Per-block overrides are OUT of scope.",
+          "java_method": "BuildingComp.canDumpLiquid()",
+          "used_by": [
+            "SourceSolidPumpBuildState.source_solid_pump_dump_neighbour_live_fill_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SolidPumpDumpNeighbourLiveFillProof",
+      "rule": "Source-backed SolidPump dump neighbour live fill from SolidPump.java / BuildingComp.java / Block.java / Blocks.java."
+    },
+    "source_liquid_bridge_dodump_neighbour_live_fill_state_input": {
+      "status": "active",
+      "owner": "SourceLiquidBridgeBuildState.source_liquid_bridge_dodump_neighbour_live_fill_state",
+      "source_slice": "N2412",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Building other = world.build(tile.x + point.x, tile.y + point.y);",
+          "rule": "The live game object: the world lookup (block_sprite_at_cell resolves a ring cell to its placed sprite -- the port of world.build) and the content catalog (blocks_by_id resolves a neighbour sprite block id to its def). Null means no live neighbours resolve (all ring entries report the no-frame outcome).",
+          "java_method": "BuildingComp.updateProximity()",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_dodump_neighbour_live_fill_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Point2[] nearby = Edges.getEdges(block.size);",
+          "rule": "The bridge origin cell (the ring centre -- the port ring is centred on the origin cell, Edges.getEdges(block.size) in Java). The tick reads the origin_cell sprite meta inline.",
+          "java_method": "BuildingComp.updateProximity()",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_dodump_neighbour_live_fill_state"
+          ]
+        },
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Point2[] nearby = Edges.getEdges(block.size);",
+          "rule": "The bridge block size (1 -- the ring radius comes from the ORIGIN size, Edges.getEdges(block.size) in Java). The tick reads the catalog size.",
+          "java_method": "BuildingComp.updateProximity()",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_dodump_neighbour_live_fill_state"
+          ]
+        },
+        "liquids": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/liquid/LiquidBridge.java",
+          "java_expr": "dumpLiquid(liquids.current(), 1f);",
+          "rule": "The advanced liquids store after the N2275 transport advance (amounts array by liquid id + current id, LiquidModule.java:24/81-83). The dumped liquid is liquids.current(), so the fill reads the current id from this store and reports the neighbour amounts for that id only.",
+          "java_method": "LiquidBridgeBuild.doDump()",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_dodump_neighbour_live_fill_state"
+          ]
+        },
+        "liquid_names_by_id": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "return liquidFilter[liq.id];",
+          "rule": "The liquid names in catalog order (index = liquid id, the PayloadLoader precedent -- the tick builds it from catalog.get_many(\"liquid\")). The fill resolves the current id to its name through this array and matches the neighbour def consumeLiquid rows against that name (the port representation of the id-indexed liquidFilter).",
+          "java_method": "Block.consumesLiquid()",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_dodump_neighbour_live_fill_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LiquidBridgeDodumpNeighbourLiveFillProof",
+      "rule": "Source-backed LiquidBridge doDump neighbour live fill from LiquidBridge.java / ItemBridge.java / BuildingComp.java / Block.java / Blocks.java / LiquidModule.java."
+    },
+    "source_liquid_bridge_dodump_neighbour_live_fill_state_result": {
+      "status": "active",
+      "owner": "SourceLiquidBridgeBuildState.source_liquid_bridge_dodump_neighbour_live_fill_state",
+      "source_slice": "N2412",
+      "keys": {
+        "dump_neighbour_amounts": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "float ofract = other.liquids.get(liquid) / other.block.liquidCapacity;",
+          "rule": "Per-ring-neighbour amount of the dumped current liquid (liquids.current()) from the neighbour frame liquids module (0.0 when the frame carries no liquids store or the neighbour has no frame).",
+          "java_method": "BuildingComp.dumpLiquid()",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_dodump_neighbour_live_fill_state"
+          ]
+        },
+        "dump_neighbour_capacities": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "liquidCapacity = Mathf.round(10f * consumeAmount);",
+          "rule": "Per-ring-neighbour liquid capacity from the neighbour def liquidCapacity key (the ofract denominator; 10.0 port default when the key is missing -- Java computes round(10f * consumeAmount) in Block.init, min 10f -- 0.0 when the frame carries no liquids store or the neighbour has no frame).",
+          "java_method": "Block.init()",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_dodump_neighbour_live_fill_state"
+          ]
+        },
+        "dump_neighbour_accepts": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return block.hasLiquids && block.consumesLiquid(liquid);",
+          "rule": "Per-ring-neighbour acceptLiquid verdict from the DEFAULT gate (hasLiquids AND consumesLiquid for the dumped current liquid). False for a neighbour with no frame.",
+          "java_method": "BuildingComp.acceptLiquid()",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_dodump_neighbour_live_fill_state"
+          ]
+        },
+        "dump_neighbour_has_liquids": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(other != null && other.block.hasLiquids && canDumpLiquid(other, liquid) && other.liquids != null){",
+          "rule": "Per-ring-neighbour hasLiquids flag from the catalog key (Java field default false -- 30 defs carry consumeLiquid rows but no hasLiquids key, e.g. electrolyzer). False for a neighbour with no frame.",
+          "java_method": "BuildingComp.dumpLiquid()",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_dodump_neighbour_live_fill_state"
+          ]
+        },
+        "dump_neighbour_can_dump": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public boolean canDumpLiquid(Building to, Liquid liquid){",
+          "rule": "Per-ring-neighbour canDumpLiquid verdict from the DEFAULT gate (true for every framed neighbour). False for a neighbour with no frame.",
+          "java_method": "BuildingComp.canDumpLiquid()",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_dodump_neighbour_live_fill_state"
+          ]
+        },
+        "dump_neighbour_liquids_present": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(other != null && other.block.hasLiquids && canDumpLiquid(other, liquid) && other.liquids != null){",
+          "rule": "Per-ring-neighbour liquids-store presence (true when the neighbour frame carries a liquids module). False for a neighbour with no frame or no store.",
+          "java_method": "BuildingComp.dumpLiquid()",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_dodump_neighbour_live_fill_state"
+          ]
+        },
+        "dump_neighbour_destination_present": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public Building getLiquidDestination(Building from, Liquid liquid){",
+          "rule": "Per-ring-neighbour destination presence (true for a framed neighbour -- the default getLiquidDestination returns self()). False for a neighbour with no frame.",
+          "java_method": "BuildingComp.getLiquidDestination()",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_dodump_neighbour_live_fill_state"
+          ]
+        },
+        "dump_neighbour_relative_to": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(outputDir != -1 && (outputDir + rotation) % 4 != relativeTo(other)) continue;",
+          "rule": "Per-ring-neighbour relative direction (0 -- outputDir is -1, so the dump filter never reads it).",
+          "java_method": "BuildingComp.dumpLiquid()",
+          "used_by": [
+            "SourceLiquidBridgeBuildState.source_liquid_bridge_dodump_neighbour_live_fill_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LiquidBridgeDodumpNeighbourLiveFillProof",
+      "rule": "Source-backed LiquidBridge doDump neighbour live fill from LiquidBridge.java / ItemBridge.java / BuildingComp.java / Block.java / Blocks.java / LiquidModule.java."
+    },
+    "source_fracker_linked_tiles_live_fill_state_input": {
+      "status": "active",
+      "owner": "SourceFrackerBuildState.source_fracker_linked_tiles_live_fill_state",
+      "source_slice": "N2414",
+      "keys": {
+        "world_tiles": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "Tile other = world.tile(x + dx + o, y + dy + o);",
+          "rule": "The tile map: a Dict keyed \"x,y\" to a per-tile Dict carrying the MINIMAL floor extension {floor_is_liquid, oil_attribute, is_deep} (the BeamDrill {solid, wall_drop} convention carries no floor fields -- the N2414 design decision). A missing key (or a null / non-Dict entry) is a null world tile, skipped like Java skips nulls (Tile.java:480). An empty map fills an empty list. No live producer stamps this frame input yet -- the producer gap is documented, not invented here.",
+          "java_method": "Tile.getLinkedTiles()",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_linked_tiles_live_fill_state"
+          ]
+        },
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "boost = sumAttribute(attribute, tile.x, tile.y) / size / size;",
+          "rule": "The fracker origin cell (the footprint centre -- tile.x / tile.y in Java, the sumAttribute call site). The tick reads the origin_cell sprite meta inline.",
+          "java_method": "SolidPumpBuild.onProximityUpdate()",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_linked_tiles_live_fill_state"
+          ]
+        },
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "int size = block.size, o = block.sizeOffset;",
+          "rule": "The fracker block size (3 -- the footprint walk runs dx / dy 0..size-1 from sizeOffset = -((size - 1) / 2)). The tick reads the catalog size.",
+          "java_method": "Tile.getLinkedTiles()",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_linked_tiles_live_fill_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07FrackerLinkedTilesLiveFillProof",
+      "rule": "Source-backed Fracker fraction linked-tiles live fill from Fracker.java / SolidPump.java / Tile.java / Block.java / Blocks.java."
+    },
+    "source_fracker_linked_tiles_live_fill_state_result": {
+      "status": "active",
+      "owner": "SourceFrackerBuildState.source_fracker_linked_tiles_live_fill_state",
+      "source_slice": "N2414",
+      "keys": {
+        "proximity_linked_tiles": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/SolidPump.java",
+          "java_expr": "for(Tile other : tile.getLinkedTiles(tempTiles)){",
+          "rule": "Per-linked-tile dict, in Java walk order: can_pump is the canPump answer (not floor_is_liquid for a present tile), attribute_value is the floor OIL attribute (it adds whether or not the tile is pumpable -- sumAttribute has no canPump gate), is_deep is the deep-floor flag (the N2305 pure applies the deep exclusion, Block.java:580). A missing / null / non-Dict map entry contributes no dict -- an empty map fills an empty list.",
+          "java_method": "SolidPumpBuild.onProximityUpdate()",
+          "used_by": [
+            "SourceFrackerBuildState.source_fracker_linked_tiles_live_fill_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07FrackerLinkedTilesLiveFillProof",
+      "rule": "Source-backed Fracker fraction linked-tiles live fill from Fracker.java / SolidPump.java / Tile.java / Block.java / Blocks.java."
+    },
+    "source_unit_cargo_loader_draw_state_input": {
+      "status": "active",
+      "owner": "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_draw_state",
+      "source_slice": "N2415",
+      "keys": {
+        "x_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+          "java_expr": "Draw.rect(block.region, x, y);",
+          "rule": "The building world x (UnitCargoLoader.java:147, the base rect center; the construct shader rect + scan line center, Drawf.java:589/596; the poly ring center, UnitCargoLoader.java:157).",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_draw_state"
+          ]
+        },
+        "y_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+          "java_expr": "Draw.rect(block.region, x, y);",
+          "rule": "The building world y (UnitCargoLoader.java:147 / Drawf.java:589/596 / UnitCargoLoader.java:157, same mapping as x).",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_draw_state"
+          ]
+        },
+        "unit": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+          "java_expr": "public @Nullable Unit unit;",
+          "rule": "The held unit (UnitCargoLoader.java:89, the frame key the N2211 shouldConsume gate reads): null while building (the construct branch, UnitCargoLoader.java:148) or the unit dict/id once a unit waits to be loaded (the poly branch). The pure branches on null-ness only, like the gate.",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_draw_state"
+          ]
+        },
+        "build_progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+          "java_expr": "public float buildProgress, totalProgress;",
+          "rule": "The frame buildProgress (UnitCargoLoader.java:87, tracked by the N2234 advance): the construct shader progress (Drawf.java:584, `Shaders.build.progress = progress;`), via the Drawf.construct progress arg (UnitCargoLoader.java:151).",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_draw_state"
+          ]
+        },
+        "warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+          "java_expr": "public float warmup, readyness;",
+          "rule": "The frame warmup (UnitCargoLoader.java:88, tracked by the N2234 advance): the construct shader alpha (Drawf.java:586, `Shaders.build.color.a = alpha;`, and :594, `Draw.alpha(alpha);`), via the Drawf.construct alpha arg (UnitCargoLoader.java:151).",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_draw_state"
+          ]
+        },
+        "total_progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+          "java_expr": "public float buildProgress, totalProgress;",
+          "rule": "The frame totalProgress (UnitCargoLoader.java:87, tracked by the N2234 advance): the construct shader time (Drawf.java:587, `Shaders.build.time = -time / 20f;`) and the scan-line pulse input (Drawf.java:596, `Mathf.sin(time, 20f, size / 2f)`), via the Drawf.construct time arg (UnitCargoLoader.java:151).",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_draw_state"
+          ]
+        },
+        "readyness": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+          "java_expr": "public float warmup, readyness;",
+          "rule": "The frame readyness (UnitCargoLoader.java:88, tracked by the N2234 advance -- approaching 1f while a unit waits, 0f while building): the poly stroke multiplier (UnitCargoLoader.java:156, `Lines.stroke(polyStroke * readyness);`).",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_draw_state"
+          ]
+        },
+        "time_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+          "java_expr": "Lines.poly(x, y, polySides, polyRadius, Time.time * polyRotateSpeed);",
+          "rule": "Time.time in ticks (UnitCargoLoader.java:157, the poly rotation): caller-supplied -- draw never runs in the tick, so the tick never stamps it (the N2396/N2372 convention).",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_draw_state"
+          ]
+        },
+        "size_value": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "size = 3;",
+          "rule": "The block size in tiles (unit-cargo-loader 3, Blocks.java:2272): the construct size is t.block.size * tilesize - 4f = 3 * 8 - 4 = 20f (Drawf.java:579).",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_draw_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07UnitCargoLoaderDrawRowsProof",
+      "rule": "Source-backed UnitCargoLoader draw rows from UnitCargoLoader.java / Drawf.java / Vars.java / Blocks.java."
+    },
+    "source_unit_cargo_loader_draw_state_result": {
+      "status": "active",
+      "owner": "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_draw_state",
+      "source_slice": "N2415",
+      "keys": {
+        "base_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+          "java_expr": "Draw.rect(block.region, x, y);",
+          "rule": "The base rect call (UnitCargoLoader.java:147): region block.region, centered on the building, always drawn -- before the unit branch.",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_draw_state"
+          ]
+        },
+        "construct_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+          "java_expr": "Drawf.construct(this, unitType.fullIcon, 0f, buildProgress, warmup, totalProgress);",
+          "rule": "The construct call (UnitCargoLoader.java:149-153, on Layer.blockOver): icon unitType.fullIcon, rotation 0f, progress buildProgress, alpha warmup, time totalProgress, color Pal.accent, size t.block.size * tilesize - 4f = 20f, shader time -totalProgress / 20f, plus the scan line (Drawf.java:596, center x + sin(totalProgress / 20f) * 10f, angle 90, length 20f). Empty when a unit waits (the poly branch draws instead).",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_draw_state"
+          ]
+        },
+        "construct_icon": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+          "java_expr": "Drawf.construct(this, unitType.fullIcon, 0f, buildProgress, warmup, totalProgress);",
+          "rule": "The construct icon (UnitCargoLoader.java:151, unitType.fullIcon with unitType manifold, UnitCargoLoader.java:24): carried as the symbolic token \"unitType.fullIcon\", the literal Java expr. Folded into the draw pure because UnitCargoLoader has NO icons() override and a zero-arg pure cannot register (the SSOT schema validator requires non-empty input keys, the N2396 precedent).",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_draw_state"
+          ]
+        },
+        "poly_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+          "java_expr": "Lines.poly(x, y, polySides, polyRadius, Time.time * polyRotateSpeed);",
+          "rule": "The poly ring call (UnitCargoLoader.java:154-159): sides 6, radius 8f, rotation Time.time * polyRotateSpeed, stroke polyStroke * readyness, color Pal.accent (polyColor, UnitCargoLoader.java:30), z Layer.bullet - 0.01f. Empty while no unit is held (the construct branch draws instead).",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_draw_state"
+          ]
+        },
+        "poly_rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+          "java_expr": "Lines.poly(x, y, polySides, polyRadius, Time.time * polyRotateSpeed);",
+          "rule": "The poly rotation in degrees (UnitCargoLoader.java:157): Time.time * polyRotateSpeed = time_value * 1f.",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_draw_state"
+          ]
+        },
+        "poly_stroke": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/UnitCargoLoader.java",
+          "java_expr": "Lines.stroke(polyStroke * readyness);",
+          "rule": "The poly stroke width (UnitCargoLoader.java:156): polyStroke * readyness = 1.8f * readyness -- 0 while building, 1.8 at full readyness.",
+          "used_by": [
+            "SourceUnitCargoLoaderBuildState.source_unit_cargo_loader_draw_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07UnitCargoLoaderDrawRowsProof",
+      "rule": "Source-backed UnitCargoLoader draw rows from UnitCargoLoader.java / Drawf.java / Vars.java / Blocks.java."
     }
   },
   "version": 1
