@@ -1105,6 +1105,28 @@ static func source_factory_update_power_graph_state(game: Object, delta: float) 
 	for consumer in updated_consumers:
 		if consumer is Dictionary and consumer.get("origin_cell", null) is Vector2i:
 			source_placed_power_graph_state.source_consumer_set_power_status_for_cell_state(game, consumer.get("origin_cell"), float(consumer.get("power_status", 0.0)))
+	# Stamp the post-update battery stored total on accelerator
+	# frames (N2342; PowerGraph.java:118-127 getBatteryStored is
+	# the enabled-battery total the canLaunch gate reads,
+	# Accelerator.java:239-240): the graph summary computes
+	# battery_stored but never stamped it on the building frame,
+	# so a live accelerator read the frame input as-is (default
+	# 0.0) and the gate stayed closed. The total is recomputed
+	# from the UPDATED batteries (the same post-use/charge list
+	# the write-back above reads), so the stamp sees this tick's
+	# stored value; on the cheat branch the distribute state is
+	# empty and the top-level batteries -- unchanged, since the
+	# distribution never ran -- are the source instead (the
+	# updated-consumers fallback above). The stamp itself only
+	# touches accelerator frames, so non-accelerator consumers
+	# are no-ops.
+	var stored_batteries: Array = updated_batteries
+	if stored_batteries.is_empty():
+		stored_batteries = update.get("batteries", [])
+	var battery_stored: float = float(source_power_graph_state.battery_state(stored_batteries).get("stored", 0.0))
+	for consumer in updated_consumers:
+		if consumer is Dictionary and consumer.get("origin_cell", null) is Vector2i:
+			source_placed_power_graph_state.source_accelerator_set_battery_stored_for_cell_state(game, consumer.get("origin_cell"), battery_stored)
 	return {
 		"power_needed": float(update.get("power_needed", 0.0)),
 		"power_produced": float(update.get("power_produced", 0.0)),
