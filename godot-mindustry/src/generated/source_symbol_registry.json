@@ -182392,6 +182392,22 @@
         "test_reference_graph_and_actual_c07_mass_driver_accept_item"
       ],
       "runtime_proof": "/root/C07MassDriverAcceptItemProof"
+    },
+    "source_regen_projector_update_targets_narrow_state_result.targets": {
+      "status": "source-backed",
+      "godot_owner": "SourceRegenProjectorBuildState.source_regen_projector_update_targets_narrow_state",
+      "godot_symbol": "source_regen_projector_update_targets_narrow_state_result.targets",
+      "java_source": "core/src/mindustry/ai/BlockIndexer.java",
+      "java_method": "RegenProjectorBuild.updateTargets()",
+      "java_expr": "if(pred.get(b) && !b.block.privileged){",
+      "rule": "The refined targets list (BlockIndexer.java:372): the rect members minus privileged ones, plus same-team straddlers whose hitbox STRICTLY overlaps the rect (Rect.overlaps, Rect.java:274-276), rebuilt in the exact N2277 entry format -- the Java-exact updateTargets result, passed into the frame targets by the tick.",
+      "tests": [
+        "test_c07_regen_projector_targets_narrow_registration",
+        "test_all_c07_regen_projector_targets_narrow_input_evidence_is_exact",
+        "test_regen_projector_update_targets_narrow_state",
+        "test_reference_graph_and_actual_c07_regen_projector_targets_narrow"
+      ],
+      "runtime_proof": "/root/C07RegenProjectorTargetsNarrowProof"
     }
   },
   "version": 1

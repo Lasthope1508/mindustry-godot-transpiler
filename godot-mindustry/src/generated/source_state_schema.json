@@ -246493,6 +246493,84 @@
       },
       "runtime_proof": "/root/C07MassDriverAcceptItemProof",
       "rule": "Source-backed MassDriver acceptItem rows from MassDriver.java / Blocks.java / Arc Position.java."
+    },
+    "source_regen_projector_update_targets_narrow_state_input": {
+      "status": "active",
+      "owner": "SourceRegenProjectorBuildState.source_regen_projector_update_targets_narrow_state",
+      "source_slice": "N2338",
+      "keys": {
+        "targets": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/RegenProjector.java",
+          "java_expr": "indexer.eachBlock(team, Tmp.r1.setCentered(x, y, range * tilesize), b -> true, targets::add);",
+          "rule": "The N2277 rect-scan output (RegenProjector.java:115-119, the updateTargets rebuild): same-team buildings whose center falls inside the square range*tilesize rect (range 28, Blocks.java:2012), each entry pos / block_health / health / damaged / heal_suppressed in the exact format the N2228 advance reads. The narrow keeps these entries untouched except privileged ones (joined to the raw candidates by pos).",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_update_targets_narrow_state"
+          ]
+        },
+        "candidates": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/ai/BlockIndexer.java",
+          "java_expr": "buildings.intersect(rect, b -> {",
+          "rule": "The raw candidate buildings (BlockIndexer.java:371, the quadtree intersect the Java query runs): each entry is a Dict {pos, team_id, x, y, block_health, health, heal_suppressed, hit_size?, privileged?} carrying the world center plus the hitbox size and privileged flag the narrow check reads; a missing x or y key excludes the candidate from admission, a non-Dictionary entry is skipped the same way, a missing hit_size defaults to 0.0 (the N2335/N2226 precedent) and a missing privileged defaults to false (Block.java:148).",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_update_targets_narrow_state"
+          ]
+        },
+        "team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/ai/BlockIndexer.java",
+          "java_expr": "public boolean eachBlock(Team team, Rect rect, Boolf<Building> pred, Cons<Building> cons){",
+          "rule": "The projector team id (BlockIndexer.java:364, the eachBlock team -- the query runs over the team buildingTree only): newly admitted straddlers must match it; rect members already passed the N2277 team filter and are not re-checked.",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_update_targets_narrow_state"
+          ]
+        },
+        "building_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "return block().offset + worldx();",
+          "rule": "The projector world x: the drawx of its origin cell (Tile.java:176, block offset Block.java:761 -- 0 for the size-3 regen-projector), the rect center x (RegenProjector.java:118).",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_update_targets_narrow_state"
+          ]
+        },
+        "building_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "return block().offset + worldy();",
+          "rule": "The projector world y: the drawy of its origin cell (Tile.java:180), the rect center y (RegenProjector.java:118).",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_update_targets_narrow_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RegenProjectorTargetsNarrowProof",
+      "rule": "Source-backed RegenProjector updateTargets hitbox + privileged refinement from RegenProjector.java / BlockIndexer.java / Block.java / BuildingComp.java / HealthComp.java / Blocks.java / Tile.java / Vars.java / Arc Rect.java / QuadTree.java."
+    },
+    "source_regen_projector_update_targets_narrow_state_result": {
+      "status": "active",
+      "owner": "SourceRegenProjectorBuildState.source_regen_projector_update_targets_narrow_state",
+      "source_slice": "N2338",
+      "keys": {
+        "targets": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/ai/BlockIndexer.java",
+          "java_expr": "if(pred.get(b) && !b.block.privileged){",
+          "rule": "The refined targets list (BlockIndexer.java:372): the rect members minus privileged ones, plus same-team straddlers whose hitbox STRICTLY overlaps the rect (Rect.overlaps, Rect.java:274-276), rebuilt in the exact N2277 entry format -- the Java-exact updateTargets result, passed into the frame targets by the tick.",
+          "used_by": [
+            "SourceRegenProjectorBuildState.source_regen_projector_update_targets_narrow_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RegenProjectorTargetsNarrowProof",
+      "rule": "Source-backed RegenProjector updateTargets hitbox + privileged refinement from RegenProjector.java / BlockIndexer.java / Block.java / BuildingComp.java / HealthComp.java / Blocks.java / Tile.java / Vars.java / Arc Rect.java / QuadTree.java."
     }
   },
   "version": 1

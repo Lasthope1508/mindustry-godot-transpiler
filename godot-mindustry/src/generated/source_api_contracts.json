@@ -73348,6 +73348,51 @@
       ],
       "runtime_proof": "/root/C07MassDriverAcceptItemProof",
       "rule": "Source-backed MassDriver acceptItem rows from MassDriver.java / Blocks.java / Arc Position.java."
+    },
+    "SourceRegenProjectorBuildState.source_regen_projector_update_targets_narrow_state": {
+      "status": "active",
+      "source_slice": "N2338",
+      "java_source": "core/src/mindustry/ai/BlockIndexer.java",
+      "source_method": "RegenProjectorBuild.updateTargets()",
+      "params": [
+        {
+          "name": "targets",
+          "type": "Array",
+          "schema": "source_regen_projector_update_targets_narrow_state_input.targets"
+        },
+        {
+          "name": "candidates",
+          "type": "Array",
+          "schema": "source_regen_projector_update_targets_narrow_state_input.candidates"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_regen_projector_update_targets_narrow_state_input.team_id"
+        },
+        {
+          "name": "building_x",
+          "type": "float",
+          "schema": "source_regen_projector_update_targets_narrow_state_input.building_x"
+        },
+        {
+          "name": "building_y",
+          "type": "float",
+          "schema": "source_regen_projector_update_targets_narrow_state_input.building_y"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "targets"
+      ],
+      "tests": [
+        "test_c07_regen_projector_targets_narrow_registration",
+        "test_all_c07_regen_projector_targets_narrow_input_evidence_is_exact",
+        "test_regen_projector_update_targets_narrow_state",
+        "test_reference_graph_and_actual_c07_regen_projector_targets_narrow"
+      ],
+      "runtime_proof": "/root/C07RegenProjectorTargetsNarrowProof",
+      "rule": "Source-backed RegenProjector updateTargets hitbox + privileged refinement from RegenProjector.java / BlockIndexer.java / Block.java / BuildingComp.java / HealthComp.java / Blocks.java / Tile.java / Vars.java / Arc Rect.java / QuadTree.java."
     }
   },
   "policy": {

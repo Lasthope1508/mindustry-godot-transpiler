@@ -217,6 +217,9 @@ static func source_regen_projector_power_status_row_state(frame: Dictionary, has
 	# (N2260, 1 phaseFabric when the advance reports consumed) and
 	# updateTargets live (N2277) -- the scan rebuilds the targets
 	# list before the advance whenever tile_changes moves; the
+	# hitbox-overlap + privileged refinement is live since N2338
+	# (the narrow pure chains after the scan and the tick passes
+	# the narrowed list into the frame targets); the
 	# mendMap flush is live (N2325) as the pure heal_applications
 	# result (last_update_frame / update_id frame inputs, defaults
 	# -1/0; the tick write-backs the flushed amounts on the frame
@@ -322,8 +325,10 @@ static func source_regen_projector_update_targets_state(frame: Dictionary, build
 	# a privileged exclusion (:372); the port tests building
 	# centers against the rect and models no privileged flag (the
 	# only privileged defs are the world-processor-only logic
-	# blocks, Blocks.java:6955/6965/6974) -- the hitbox-overlap
-	# refinement waits for its own slice. (4) the projector itself
+	# blocks, Blocks.java:6955/6965/6974/6981) -- the hitbox-overlap
+	# refinement is live since N2338
+	# (source_regen_projector_update_targets_narrow_state,
+	# chained after this scan). (4) the projector itself
 	# counts when its center falls in its own rect (Java includes
 	# every same-team building, predicate `b -> true`). (5) the
 	# function does NOT mutate its input frame: a refresh builds a
@@ -350,6 +355,115 @@ static func source_regen_projector_update_targets_state(frame: Dictionary, build
 		var health: float = float(candidate.get("health", 0.0))
 		targets.append({"pos": int(candidate.get("pos", 0)), "block_health": block_health, "health": health, "damaged": health < block_health - 0.001, "heal_suppressed": bool(candidate.get("heal_suppressed", false))})
 	return {"targets": targets, "last_change": tile_changes, "refreshed": true}
+
+static func source_regen_projector_update_targets_narrow_state(targets: Array, candidates: Array, team_id: int, building_x: float, building_y: float) -> Dictionary:
+	# The updateTargets hitbox + privileged refinement
+	# (BlockIndexer.eachBlock, BlockIndexer.java:364-380),
+	# the pure refinement chained AFTER the N2277 rect scan
+	# (the N2335 pattern) -- the rect scan is only Java's
+	# center approximation, while the real query intersects
+	# the team buildingTree quadtree with the rect and
+	# excludes privileged blocks (each exact expr on ONE
+	# comment line, the N2148 lesson):
+	# `indexer.eachBlock(team, Tmp.r1.setCentered(x, y, range * tilesize), b -> true, targets::add);`
+	# `public boolean eachBlock(Team team, Rect rect, Boolf<Building> pred, Cons<Building> cons){`
+	# `buildings.intersect(rect, b -> {`
+	# `if(pred.get(b) && !b.block.privileged){`
+	# `public boolean privileged = false;`
+	# `return tile.block().size * tilesize;`
+	# `out.setCentered(x, y, block.size * tilesize, block.size * tilesize);`
+	# `public void intersect(Rect rect, Cons<T> out){`
+	# `if(tmp.overlaps(x, y, width, height)){`
+	# `return x < rx + rwidth && x + width > rx && y < ry + rheight && y + height > ry;`
+	# `return health < maxHealth - 0.001f;`
+	# `range = 28;`
+	# `public static final int tilesize = 8;`
+	# The QuadTree tests each building's HITBOX against the
+	# rect (QuadTree.java:190-191, `hitbox(item);` then the
+	# tmp.overlaps check), and Rect.overlaps is STRICT
+	# (Rect.java:274-276): a hitbox edge exactly ON the rect
+	# edge does NOT overlap, so the port excludes on dx >=
+	# half_side + hit_half (the same strict boundary). The
+	# hitbox is a square centered on the building center
+	# with side block.size * tilesize
+	# (BuildingComp.java:2292-2294; hitSize is
+	# `tile.block().size * tilesize;`,
+	# BuildingComp.java:2048). Privileged defaults false
+	# (Block.java:148); the four privileged defs are the
+	# world-processor-only logic blocks
+	# (Blocks.java:6955/6965/6974/6981 -- the brief and the
+	# N2277 docstring cite only three, missing world-switch
+	# at :6981, verified by grep at this pin).
+	# Scoping decisions, all source-backed: (1) the narrow
+	# takes BOTH the N2277 rect output and the raw
+	# candidates -- it cannot filter the rect output alone,
+	# because the N2277 entries carry no x/y/hit_size/
+	# privileged, so rect members are joined to the raw
+	# candidates by pos. (2) Pass 1 keeps the rect members
+	# UNTOUCHED except privileged ones: a member with no
+	# matching candidate is kept (privileged defaults
+	# false) and its hitbox overlap is never re-tested (its
+	# center is in the rect, so its hitbox -- centered on
+	# the center -- overlaps the rect for any positive
+	# hitSize); the team is NOT re-checked for rect members
+	# (the N2277 scan already filtered them). (3) Pass 2
+	# admits same-team straddlers whose hitbox STRICTLY
+	# overlaps the rect, rebuilt in the exact N2277 entry
+	# format (pos, block_health, health, damaged with the
+	# 0.001f epsilon, HealthComp.java:47-49,
+	# heal_suppressed), in candidate order after the rect
+	# members. (4) A missing hit_size defaults to 0.0 (the
+	# N2335/N2226 precedent) -- the overlap test then falls
+	# back to the center, STRICT; a missing privileged
+	# defaults to false (Block.java:148); a missing x or y
+	# excludes the candidate from admission (the N2335
+	# precedent); a non-Dictionary candidate or target is
+	# skipped the same way. (5) The pure does NOT mutate
+	# its inputs: kept members are the target dicts
+	# themselves, admitted straddlers are fresh dicts.
+	var half_side: float = float(SOURCE_REGEN_PROJECTOR_RANGE) * source_world_defaults.TILESIZE / 2.0
+	var candidate_by_pos: Dictionary = {}
+	for candidate in candidates:
+		if not (candidate is Dictionary):
+			continue
+		if candidate.has("pos"):
+			var pos_key: int = int(candidate.get("pos", 0))
+			if not candidate_by_pos.has(pos_key):
+				candidate_by_pos[pos_key] = candidate
+	var narrowed: Array = []
+	var admitted_pos := {}
+	for target in targets:
+		if not (target is Dictionary):
+			continue
+		if target.has("pos"):
+			var target_pos: int = int(target.get("pos", 0))
+			var target_candidate: Variant = candidate_by_pos.get(target_pos, null)
+			if target_candidate != null and bool(target_candidate.get("privileged", false)):
+				continue
+			admitted_pos[target_pos] = true
+		narrowed.append(target)
+	for candidate in candidates:
+		if not (candidate is Dictionary):
+			continue
+		if not candidate.has("x") or not candidate.has("y"):
+			continue
+		if bool(candidate.get("privileged", false)):
+			continue
+		if int(candidate.get("team_id", source_block_geometry.SOURCE_TEAM_DERELICT_ID)) != team_id:
+			continue
+		var pos: int = int(candidate.get("pos", 0))
+		if admitted_pos.has(pos):
+			continue
+		var hit_half: float = float(candidate.get("hit_size", 0.0)) / 2.0
+		var dx: float = absf(float(candidate.get("x", 0.0)) - building_x)
+		var dy: float = absf(float(candidate.get("y", 0.0)) - building_y)
+		if dx >= half_side + hit_half or dy >= half_side + hit_half:
+			continue
+		var block_health: float = float(candidate.get("block_health", 0.0))
+		var health: float = float(candidate.get("health", 0.0))
+		narrowed.append({"pos": pos, "block_health": block_health, "health": health, "damaged": health < block_health - 0.001, "heal_suppressed": bool(candidate.get("heal_suppressed", false))})
+		admitted_pos[pos] = true
+	return {"targets": narrowed}
 
 static func source_regen_projector_update_tile_advance_state(frame: Dictionary, source_delta: float, time_scale: float) -> Dictionary:
 	# The updateTile advance (RegenProjectorBuild.updateTile(),
@@ -728,8 +842,15 @@ static func source_regen_projector_tick_buildings_state(game: Object, seconds: f
 			# center it with). heal_suppressed is false for every
 			# candidate: the port tracks no live suppression
 			# state (the suppression live fill is still
-			# deferred). The projector itself counts when it
-			# falls in its own rect (Java predicate `b -> true`).
+			# deferred). hit_size is size * tilesize
+			# (BuildingComp.java:2048) and privileged is false
+			# for every candidate: the catalog carries no
+			# privileged flag, so the live privileged flag fill
+			# defers (the only privileged defs are the
+			# world-processor-only logic blocks,
+			# Blocks.java:6955/6965/6974/6981). The projector
+			# itself counts when it falls in its own rect (Java
+			# predicate `b -> true`).
 			if int(frame.get("tile_changes", 1)) != int(frame.get("last_change", -2)):
 				var scan_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 				var scan_block_size: int = int(block.properties.get("size", 1))
@@ -747,9 +868,17 @@ static func source_regen_projector_tick_buildings_state(game: Object, seconds: f
 					var other_cell: Vector2i = other_sprite.get_meta("origin_cell", Vector2i.ZERO)
 					var other_size: int = int(other_block.properties.get("size", 1))
 					var other_offset: float = float((other_size + 1) % 2) * source_world_defaults.TILESIZE / 2.0
-					scan_candidates.append({"pos": source_block_geometry.tile_pos_state(other_cell.x, other_cell.y), "team_id": int(other_sprite.get_meta(source_block_geometry.SOURCE_BUILD_TEAM_META_KEY, source_block_geometry.SOURCE_TEAM_DERELICT_ID)), "x": source_block_geometry.tile_drawx_state(other_cell.x, source_world_defaults.TILESIZE, other_offset), "y": source_block_geometry.tile_drawy_state(other_cell.y, source_world_defaults.TILESIZE, other_offset), "block_health": float(other_sprite.get_meta(source_placed_block_state.SOURCE_BLOCK_MAX_HEALTH_META_KEY, 0.0)), "health": source_placed_block_state.health(other_sprite), "heal_suppressed": false})
+					scan_candidates.append({"pos": source_block_geometry.tile_pos_state(other_cell.x, other_cell.y), "team_id": int(other_sprite.get_meta(source_block_geometry.SOURCE_BUILD_TEAM_META_KEY, source_block_geometry.SOURCE_TEAM_DERELICT_ID)), "x": source_block_geometry.tile_drawx_state(other_cell.x, source_world_defaults.TILESIZE, other_offset), "y": source_block_geometry.tile_drawy_state(other_cell.y, source_world_defaults.TILESIZE, other_offset), "block_health": float(other_sprite.get_meta(source_placed_block_state.SOURCE_BLOCK_MAX_HEALTH_META_KEY, 0.0)), "health": source_placed_block_state.health(other_sprite), "heal_suppressed": false, "hit_size": float(other_size) * source_world_defaults.TILESIZE, "privileged": false})
 				var scanned: Dictionary = source_regen_projector_update_targets_state(frame, scan_building_x, scan_building_y, scan_candidates)
-				frame["targets"] = scanned["targets"]
+				# N2338: the hitbox-overlap + privileged
+				# refinement chains AFTER the rect scan (the
+				# N2335 pattern): the narrow drops privileged
+				# rect members and admits same-team straddlers
+				# whose hitbox STRICTLY overlaps the rect, so
+				# the frame targets take the NARROWED list
+				# while last_change still stamps from the scan.
+				var narrowed: Dictionary = source_regen_projector_update_targets_narrow_state(scanned["targets"], scan_candidates, team_id, scan_building_x, scan_building_y)
+				frame["targets"] = narrowed["targets"]
 				frame["last_change"] = scanned["last_change"]
 			var source_delta: float = source_placed_block_state.game_source_delta(game, seconds)
 			var time_scale: float = source_placed_block_state.time_scale(sprite, source_placed_block_state.game_default_time_scale(game))
