@@ -1,0 +1,9 @@
+test_accelerator_draw_rows_state (tests.test_c07_accelerator_draw_rows.C07AcceleratorDrawRowsTests.test_accelerator_draw_rows_state) ... ok
+test_all_c07_accelerator_draw_rows_input_evidence_is_exact (tests.test_c07_accelerator_draw_rows.C07AcceleratorDrawRowsTests.test_all_c07_accelerator_draw_rows_input_evidence_is_exact) ... ok
+test_c07_accelerator_draw_rows_registration (tests.test_c07_accelerator_draw_rows.C07AcceleratorDrawRowsTests.test_c07_accelerator_draw_rows_registration) ... ok
+test_reference_graph_and_actual_c07_accelerator_draw_rows (tests.test_c07_accelerator_draw_rows.C07AcceleratorDrawRowsTests.test_reference_graph_and_actual_c07_accelerator_draw_rows) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 21.633s
+
+OK
