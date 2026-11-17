@@ -43,6 +43,6 @@ N2231 làm được, không còn blocker. `RepairTower.drawSelect()` + `RepairTo
 
 ## Hashes
 
-- 5-commit xong: slice 7a9fb143, docs TBD, GOAL TBD — đang push lên origin main.
+- 5-commit xong: slice 7a9fb143, docs 0ad1724d, GOAL bb717eba — đang push lên origin main.
 - Windows Godot proof là nợ trong GOAL.md §5 (proof Linux xanh, chưa chạy Windows).
 - Bước tiếp theo: RepairTower còn draw() body + range()/warmup() (ứng viên N2232) + suppression live + targets live list (vẫn BLOCKED — chưa có frame stamp suppression / units), hoặc family tiếp theo theo backlog. (KHÔNG bắt đầu C08 inventory trừ khi user yêu cầu.)
