@@ -24,4 +24,6 @@ N2411/N2412 cover their current live liquid neighbour fill assertions and dump t
 
 All three selected proofs pass. Previous unrelated REDs remain pending.
 
+Before merge, main advanced to `d6078bdc65ce8eab28b8e88d7b004ac897fcb627` with N2230 RepairTower setStats. The delta adds only that pure UI stat function, its registration/test/proof and documentation; it does not change the selected integration implementation. Its detailed Linux Godot 4.6.2 report records targeted 4/4, family 28/28, wiring 32/32, seven JSON keys including matches:true and zero errors. Accepted without Windows repetition: [N2230 report](2026-11-17-c07-repair-tower-set-stats.md).
+
 Seven report/evidence additions only. No gameplay, SSOT, ledger, PortGame, fixture or assertion changes. Dirty imports/UID/project settings preserved. Existing actual Linux/Windows passes accepted; unchanged REDs, including N2407, not rerun. This batch does not clear the integration backlog.
