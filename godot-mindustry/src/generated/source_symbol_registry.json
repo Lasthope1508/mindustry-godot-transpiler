@@ -175528,6 +175528,70 @@
         "test_reference_graph_and_actual_c07_repair_tower_per_def_stats"
       ],
       "runtime_proof": "/root/C07RepairTowerPerDefStatsProof"
+    },
+    "source_point_defense_turret_target_acquire_state_result.target": {
+      "status": "source-backed",
+      "godot_owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_target_acquire_state",
+      "godot_symbol": "source_point_defense_turret_target_acquire_state_result.target",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "java_method": "PointDefenseBuild.updateTile()",
+      "java_expr": "target = Groups.bullet.intersect(x - range, y - range, range*2, range*2).min(b -> b.team != team && b.type().hittable, b -> b.dst2(this));",
+      "rule": "The target after this tick: the validated previous target, the freshly re-acquired one on a timer fire, or null (PointDefenseTurret.java:69-71 nulls it when pooled, :66 re-acquires it on fire).",
+      "tests": [
+        "test_c07_point_defense_turret_target_acquire_registration",
+        "test_all_c07_point_defense_turret_target_acquire_input_evidence_is_exact",
+        "test_point_defense_turret_target_acquire_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_target_acquire"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretTargetAcquireProof"
+    },
+    "source_point_defense_turret_target_acquire_state_result.has_target": {
+      "status": "source-backed",
+      "godot_owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_target_acquire_state",
+      "godot_symbol": "source_point_defense_turret_target_acquire_state_result.has_target",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "java_method": "PointDefenseBuild.updateTile()",
+      "java_expr": "return super.shouldConsume() && target != null;",
+      "rule": "Whether the turret has a target after this tick -- the observation the future shouldConsume gate reads (PointDefenseTurret.java:105-107, `return super.shouldConsume() && target != null;`).",
+      "tests": [
+        "test_c07_point_defense_turret_target_acquire_registration",
+        "test_all_c07_point_defense_turret_target_acquire_input_evidence_is_exact",
+        "test_point_defense_turret_target_acquire_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_target_acquire"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretTargetAcquireProof"
+    },
+    "source_point_defense_turret_target_acquire_state_result.target_timer": {
+      "status": "source-backed",
+      "godot_owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_target_acquire_state",
+      "godot_symbol": "source_point_defense_turret_target_acquire_state_result.target_timer",
+      "java_source": "arc-core/src/arc/util/Interval.java",
+      "java_method": "PointDefenseBuild.updateTile()",
+      "java_expr": "return Time.time - times[id] >= time || Time.time < times[id];",
+      "rule": "The timer accumulator after this tick, 0.0 on a fire (Interval.java:29 -- the port mirror of the per-building Interval slot for timerTarget, PointDefenseTurret.java:20).",
+      "tests": [
+        "test_c07_point_defense_turret_target_acquire_registration",
+        "test_all_c07_point_defense_turret_target_acquire_input_evidence_is_exact",
+        "test_point_defense_turret_target_acquire_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_target_acquire"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretTargetAcquireProof"
+    },
+    "source_point_defense_turret_target_acquire_state_result.reacquired": {
+      "status": "source-backed",
+      "godot_owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_target_acquire_state",
+      "godot_symbol": "source_point_defense_turret_target_acquire_state_result.reacquired",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "java_method": "PointDefenseBuild.updateTile()",
+      "java_expr": "if(timer(timerTarget, retargetTime)){",
+      "rule": "Whether the 5s timer fired and re-ran the query this tick (PointDefenseTurret.java:65, `if(timer(timerTarget, retargetTime)){`).",
+      "tests": [
+        "test_c07_point_defense_turret_target_acquire_registration",
+        "test_all_c07_point_defense_turret_target_acquire_input_evidence_is_exact",
+        "test_point_defense_turret_target_acquire_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_target_acquire"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretTargetAcquireProof"
     }
   },
   "version": 1

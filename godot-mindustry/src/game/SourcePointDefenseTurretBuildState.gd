@@ -109,6 +109,101 @@ static func source_point_defense_turret_power_status_row_state(frame: Dictionary
 	var live: float = 1.0 if stamped == null else float(stamped)
 	return {"has_power_row": true, "row": {"result": live, "is_power": true}}
 
+static func source_point_defense_turret_target_acquire_state(frame: Dictionary, observed_bullets: Array, team_id: int, x: float, y: float, range: float, delta: float) -> Dictionary:
+	# PointDefenseBuild.updateTile retarget (PointDefenseTurret.java:65-71):
+	# every retargetTime the build re-acquires the nearest enemy
+	# hittable bullet in the range rect
+	# (`if(timer(timerTarget, retargetTime)){` /
+	# `target = Groups.bullet.intersect(x - range, y - range, range*2, range*2).min(b -> b.team != team && b.type().hittable, b -> b.dst2(this));`,
+	# PointDefenseTurret.java:65-67), and a pooled bullet is nulled
+	# (`if(target != null && !target.isAdded()){` / `target = null;`,
+	# PointDefenseTurret.java:69-71). The timer slot is `public final int timerTarget = timers++;`
+	# (PointDefenseTurret.java:20) with `public float retargetTime = 5f;`
+	# (PointDefenseTurret.java:21) on a per-building Interval
+	# (`transient Interval timer = new Interval(6);`, TimerComp.java:8);
+	# `timer()` (TimerComp.java:10-12) delegates to `Interval.get`,
+	# which fires on elapsed game time (`return Time.time - times[id] >= time || Time.time < times[id];`,
+	# Interval.java:29, times[] init 0, so the first fire is at
+	# Time.time >= 5) and stamps the fire time (`if(got) times[id] = Time.time;`,
+	# Interval.java:24). The port models this with a per-frame
+	# accumulator `target_timer += delta; if target_timer >= 5.0: fire,
+	# target_timer = 0` -- reset-to-0 drops overshoot exactly like
+	# `Interval.get`; do NOT subtract the interval (that would carry
+	# overshoot and drift the re-acquire cadence vs Java). The target
+	# field is `public @Nullable Bullet target;` (PointDefenseTurret.java:60).
+	# The port has no live bullet query (no Groups.bullet equivalent),
+	# so the pure function consumes an observed bullet list (the
+	# ShockwaveTower N2190 precedent: `observed_bullets`, an array of
+	# dicts with team/hittable/x/y, world coords, plus an `id` so the
+	# stored target can be re-identified across ticks -- the live
+	# `game["bullets"]` dicts carry no team/hittable/id yet, so the
+	# driver maps them in a later wiring step and stamps nothing
+	# until then). The invalidation reads the CURRENT bullet record:
+	# the stored target is looked up by `id` in the observed list
+	# (the stored dict is a snapshot, Java holds a live reference
+	# over `public @Nullable Bullet target;`; a target whose id is
+	# absent from the list is pooled, so it is dropped, and a stored
+	# target with no id cannot be re-identified, so it is dropped
+	# too -- the RepairTurret N2212 precedent). The re-acquire is a
+	# point-in-rect test against the Java intersect rect (x +/- range,
+	# y +/- range, range 180f per-def, Blocks.java:3838, `range = 180f;`,
+	# the only PointDefenseTurret def) with a min-dst2 pick; ties keep
+	# the first bullet (strict `<`, the N2212 precedent). The port
+	# models no bullet hitSize, so the rect overlap is approximated
+	# by the bullet point, a documented limit owned by a later
+	# bullet-hitSize slice (the ShockwaveTower precedent). The
+	# re-acquire replaces the target unconditionally on fire -- even
+	# a still-valid one is re-picked. The aim / rotation /
+	# reloadCounter / shoot half (PointDefenseTurret.java:76-101) is
+	# NOT this slice -- it waits for its own slice.
+	var target: Variant = frame.get("target", null)
+	var target_timer: float = float(frame.get("target_timer", 0.0)) + delta
+	var reacquired: bool = false
+	if target is Dictionary:
+		var target_id: int = int(target.get("id", -1))
+		if target_id == -1:
+			target = null
+		else:
+			var fresh: Dictionary = {}
+			for bullet in observed_bullets:
+				if not (bullet is Dictionary):
+					continue
+				if int(bullet.get("id", -1)) == target_id:
+					fresh = bullet
+					break
+			if fresh.is_empty():
+				target = null
+			else:
+				target = fresh
+	elif target != null:
+		target = null
+	if target_timer >= 5.0:
+		target_timer = 0.0
+		reacquired = true
+		var best: Variant = null
+		var best_dist2: float = 0.0
+		var has_target: bool = false
+		for bullet in observed_bullets:
+			if not (bullet is Dictionary):
+				continue
+			if int(bullet.get("team", -1)) == team_id:
+				continue
+			if not bool(bullet.get("hittable", false)):
+				continue
+			if absf(float(bullet.get("x", 0.0)) - x) > range:
+				continue
+			if absf(float(bullet.get("y", 0.0)) - y) > range:
+				continue
+			var dx: float = float(bullet.get("x", 0.0)) - x
+			var dy: float = float(bullet.get("y", 0.0)) - y
+			var dist2: float = dx * dx + dy * dy
+			if not has_target or dist2 < best_dist2:
+				best = bullet
+				best_dist2 = dist2
+				has_target = true
+		target = best
+	return {"target": target, "has_target": target != null, "target_timer": target_timer, "reacquired": reacquired}
+
 @warning_ignore("unused_parameter")
 static func source_point_defense_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the point-defense tick wiring every tick
@@ -175,6 +270,25 @@ static func source_point_defense_turret_tick_buildings_state(game: Object, secon
 				required_results.append(power_row.get("row", {}))
 			var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(true, bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, [], [], frame)
 			source_building_efficiency_state.apply_update_consumption_state(consumption, frame)
+		# The retarget half of PointDefenseBuild.updateTile()
+		# (PointDefenseTurret.java:65-71) runs every tick,
+		# UNCONDITIONAL on power/enabled/cheating: Java updateTile
+		# runs regardless -- only the aim/shoot half needs
+		# efficiency (PointDefenseTurret.java:76-101, waits for
+		# its own slice). The driver stamps the acquired target
+		# live (the N2212 precedent) only once a caller provides
+		# observed bullets: the live `game["bullets"]` dicts carry
+		# no team/hittable/id yet, so the driver maps them in a
+		# later wiring step and stamps nothing until then; a frame
+		# without `observed_bullets` keeps whatever target it had
+		# (the N2190 finding). The range is per-def 180f
+		# (Blocks.java:3838, `range = 180f;`, the only
+		# PointDefenseTurret def).
+		if frame.has("observed_bullets"):
+			var acquire: Dictionary = source_point_defense_turret_target_acquire_state(frame, frame.get("observed_bullets", []), team_id, sprite.position.x, sprite.position.y, 180.0, seconds)
+			frame["target"] = acquire.get("target", null)
+			frame["has_target"] = acquire.get("has_target", false)
+			frame["target_timer"] = acquire.get("target_timer", 0.0)
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1

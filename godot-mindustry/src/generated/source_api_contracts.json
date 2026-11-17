@@ -68069,6 +68069,64 @@
       ],
       "runtime_proof": "/root/C07RepairTowerPerDefStatsProof",
       "rule": "Source-backed RepairTower per-def stat rows from RepairTower.java + Blocks.java + Block.java."
+    },
+    "SourcePointDefenseTurretBuildState.source_point_defense_turret_target_acquire_state": {
+      "status": "active",
+      "source_slice": "N2239",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "source_method": "PointDefenseBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_point_defense_turret_target_acquire_state_input.frame"
+        },
+        {
+          "name": "observed_bullets",
+          "type": "Array",
+          "schema": "source_point_defense_turret_target_acquire_state_input.observed_bullets"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_point_defense_turret_target_acquire_state_input.team_id"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_point_defense_turret_target_acquire_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_point_defense_turret_target_acquire_state_input.y"
+        },
+        {
+          "name": "range",
+          "type": "float",
+          "schema": "source_point_defense_turret_target_acquire_state_input.range"
+        },
+        {
+          "name": "delta",
+          "type": "float",
+          "schema": "source_point_defense_turret_target_acquire_state_input.delta"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "target",
+        "has_target",
+        "target_timer",
+        "reacquired"
+      ],
+      "tests": [
+        "test_c07_point_defense_turret_target_acquire_registration",
+        "test_all_c07_point_defense_turret_target_acquire_input_evidence_is_exact",
+        "test_point_defense_turret_target_acquire_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_target_acquire"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretTargetAcquireProof",
+      "rule": "Source-backed PointDefenseTurret target acquisition from PointDefenseTurret.java / TimerComp.java / Interval.java / Blocks.java / GroupDefs.java."
     }
   },
   "policy": {

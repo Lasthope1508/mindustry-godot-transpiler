@@ -234242,6 +234242,134 @@
       },
       "runtime_proof": "/root/C07RepairTowerPerDefStatsProof",
       "rule": "Source-backed RepairTower per-def stat rows from RepairTower.java + Blocks.java + Block.java."
+    },
+    "source_point_defense_turret_target_acquire_state_input": {
+      "status": "active",
+      "owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_target_acquire_state",
+      "source_slice": "N2239",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "public @Nullable Bullet target;",
+          "rule": "The turret frame (PointDefenseTurret.java:60, `public @Nullable Bullet target;` -- the frame carries the current target dict and the target timer accumulator; absent keys read the Java field defaults: target null, timer 0.0).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_target_acquire_state"
+          ]
+        },
+        "observed_bullets": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "target = Groups.bullet.intersect(x - range, y - range, range*2, range*2).min(b -> b.team != team && b.type().hittable, b -> b.dst2(this));",
+          "rule": "The bullets the re-acquire scans (PointDefenseTurret.java:66 -- the ShockwaveTower N2190 precedent: an Array of Dictionary bullet records with team/hittable/x/y, world coords, plus an `id` so the stored target can be re-identified across ticks; the live `game[\"bullets\"]` dicts carry no team/hittable/id yet, so the driver maps them in a later wiring step).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_target_acquire_state"
+          ]
+        },
+        "team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "target = Groups.bullet.intersect(x - range, y - range, range*2, range*2).min(b -> b.team != team && b.type().hittable, b -> b.dst2(this));",
+          "rule": "The turret team id (PointDefenseTurret.java:66, `b.team != team` -- the team whose enemy bullets the query scans; the driver reads it from the frame).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_target_acquire_state"
+          ]
+        },
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "target = Groups.bullet.intersect(x - range, y - range, range*2, range*2).min(b -> b.team != team && b.type().hittable, b -> b.dst2(this));",
+          "rule": "The turret x (PointDefenseTurret.java:66 -- the Building x Java passes to the intersect rect; the driver reads sprite.position.x).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_target_acquire_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "target = Groups.bullet.intersect(x - range, y - range, range*2, range*2).min(b -> b.team != team && b.type().hittable, b -> b.dst2(this));",
+          "rule": "The turret y (PointDefenseTurret.java:66 -- the Building y Java passes to the intersect rect; the driver reads sprite.position.y).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_target_acquire_state"
+          ]
+        },
+        "range": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "range = 180f;",
+          "rule": "The per-def range (segment 180f, Blocks.java:3838, `range = 180f;`, the only PointDefenseTurret def): the half-side of the intersect rect Java queries (PointDefenseTurret.java:66, `x - range, y - range, range*2, range*2`).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_target_acquire_state"
+          ]
+        },
+        "delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/util/Interval.java",
+          "java_expr": "return Time.time - times[id] >= time || Time.time < times[id];",
+          "rule": "The tick delta in seconds (Interval.java:29, `return Time.time - times[id] >= time || Time.time < times[id];` -- the timer fires on elapsed game time; the port accumulates the per-tick delta into target_timer and fires at >= 5.0, resetting to 0.0, which drops overshoot exactly like Interval.get stamping Time.time).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_target_acquire_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PointDefenseTurretTargetAcquireProof",
+      "rule": "Source-backed PointDefenseTurret target acquisition from PointDefenseTurret.java / TimerComp.java / Interval.java / Blocks.java / GroupDefs.java."
+    },
+    "source_point_defense_turret_target_acquire_state_result": {
+      "status": "active",
+      "owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_target_acquire_state",
+      "source_slice": "N2239",
+      "keys": {
+        "target": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "target = Groups.bullet.intersect(x - range, y - range, range*2, range*2).min(b -> b.team != team && b.type().hittable, b -> b.dst2(this));",
+          "rule": "The target after this tick: the validated previous target, the freshly re-acquired one on a timer fire, or null (PointDefenseTurret.java:69-71 nulls it when pooled, :66 re-acquires it on fire).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_target_acquire_state"
+          ]
+        },
+        "has_target": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "return super.shouldConsume() && target != null;",
+          "rule": "Whether the turret has a target after this tick -- the observation the future shouldConsume gate reads (PointDefenseTurret.java:105-107, `return super.shouldConsume() && target != null;`).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_target_acquire_state"
+          ]
+        },
+        "target_timer": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/util/Interval.java",
+          "java_expr": "return Time.time - times[id] >= time || Time.time < times[id];",
+          "rule": "The timer accumulator after this tick, 0.0 on a fire (Interval.java:29 -- the port mirror of the per-building Interval slot for timerTarget, PointDefenseTurret.java:20).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_target_acquire_state"
+          ]
+        },
+        "reacquired": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "if(timer(timerTarget, retargetTime)){",
+          "rule": "Whether the 5s timer fired and re-ran the query this tick (PointDefenseTurret.java:65, `if(timer(timerTarget, retargetTime)){`).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_target_acquire_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PointDefenseTurretTargetAcquireProof",
+      "rule": "Source-backed PointDefenseTurret target acquisition from PointDefenseTurret.java / TimerComp.java / Interval.java / Blocks.java / GroupDefs.java."
     }
   },
   "version": 1
