@@ -233866,6 +233866,82 @@
       },
       "runtime_proof": "/root/C07RepairTowerDrawProof",
       "rule": "Source-backed RepairTower draw/range/warmup state from RepairTower.java + Blocks.java + Pal.java + Layer.java + Ranged.java + BuildingComp.java + Drawf.java."
+    },
+    "source_repair_turret_range_state_input": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_range_state",
+      "source_slice": "N2233",
+      "keys": {
+        "repair_radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "public float repairRadius = 50f;",
+          "rule": "The per-def repair radius (RepairTurret.java:32, `public float repairRadius = 50f;` -- repair-point 60f, Blocks.java:6389, `repairRadius = 60f;`; repair-turret 145f, Blocks.java:6401, `repairRadius = 145f;`): passed explicitly because it is per-def static state, not a live frame key (the N2212 / N2220 per-def-param precedent; resolved by the existing `_repair_radius_for_block_id` helper).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_range_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretRangeBuildRotationProof",
+      "rule": "Source-backed RepairTurret range()/buildRotation() state from RepairTurret.java + Blocks.java + Ranged.java + RotBlock.java."
+    },
+    "source_repair_turret_range_state_result": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_range_state",
+      "source_slice": "N2233",
+      "keys": {
+        "range": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "return repairRadius;",
+          "rule": "The range (RepairTurret.java:232, `return repairRadius;`, inside `public float range(){`, RepairTurret.java:231, from the Ranged interface, Ranged.java:5-6, `public interface Ranged extends Posc, Teamc{` / `float range();`).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_range_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretRangeBuildRotationProof",
+      "rule": "Source-backed RepairTurret range()/buildRotation() state from RepairTurret.java + Blocks.java + Ranged.java + RotBlock.java."
+    },
+    "source_repair_turret_build_rotation_state_input": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_build_rotation_state",
+      "source_slice": "N2233",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "public float strength, rotation = 90;",
+          "rule": "The turret frame (RepairTurret.java:156, `public float strength, rotation = 90;` -- the frame carries rotation, stamped live by the N2214 slerp + N2217 read/write; an absent key reads the Java field default, rotation 90).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_build_rotation_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretRangeBuildRotationProof",
+      "rule": "Source-backed RepairTurret range()/buildRotation() state from RepairTurret.java + Blocks.java + Ranged.java + RotBlock.java."
+    },
+    "source_repair_turret_build_rotation_state_result": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_build_rotation_state",
+      "source_slice": "N2233",
+      "keys": {
+        "build_rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "return rotation;",
+          "rule": "The build rotation (RepairTurret.java:160, `return rotation;`, inside `public float buildRotation(){`, RepairTurret.java:159, from the RotBlock interface, RotBlock.java:4-5, `public interface RotBlock{` / `float buildRotation();`).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_build_rotation_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretRangeBuildRotationProof",
+      "rule": "Source-backed RepairTurret range()/buildRotation() state from RepairTurret.java + Blocks.java + Ranged.java + RotBlock.java."
     }
   },
   "version": 1

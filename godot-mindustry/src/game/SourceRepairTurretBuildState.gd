@@ -472,6 +472,53 @@ static func source_repair_turret_sense_state(frame: Dictionary, sensor: String, 
 		return {"handled": true, "sense_value": rotation_value, "sense_value_is_nan": false}
 	return {"handled": false, "sense_value": null, "sense_value_is_nan": true}
 
+static func source_repair_turret_range_state(repair_radius: float) -> Dictionary:
+	# RepairPointBuild.range() (RepairTurret.java:230-233):
+	# public float range(){
+	# return repairRadius;
+	# from the Ranged interface (Ranged.java:5-6):
+	# public interface Ranged extends Posc, Teamc{
+	# float range();
+	# RepairPointBuild implements Ranged (RepairTurret.java:153):
+	# public class RepairPointBuild extends Building implements Ranged, RotBlock{
+	# of the block (RepairTurret.java:1):
+	# public class RepairTurret extends Block{
+	# The per-def repairRadius: class default 50f
+	# (RepairTurret.java:32):
+	# public float repairRadius = 50f;
+	# repair-point 60f (Blocks.java:6389):
+	# repairRadius = 60f;
+	# repair-turret 145f (Blocks.java:6401):
+	# repairRadius = 145f;
+	# repair_radius is an explicit float param (the N2212
+	# acquire / N2220 draw-place per-def-param precedent --
+	# repairRadius is per-def static state, not a live frame
+	# key; resolved by the existing
+	# `_repair_radius_for_block_id` helper). There is no
+	# driver tick line: range() is a pure read (the N2223
+	# sense / N2230 setStats / N2232 RepairTower range+warmup
+	# precedent).
+	return {"range": repair_radius}
+
+static func source_repair_turret_build_rotation_state(frame: Dictionary) -> Dictionary:
+	# RepairPointBuild.buildRotation() (RepairTurret.java:158-161):
+	# public float buildRotation(){
+	# return rotation;
+	# from the RotBlock interface (RotBlock.java:4-5):
+	# public interface RotBlock{
+	# float buildRotation();
+	# RepairPointBuild implements RotBlock (RepairTurret.java:153):
+	# public class RepairPointBuild extends Building implements Ranged, RotBlock{
+	# The rotation field defaults to 90 (RepairTurret.java:156):
+	# public float strength, rotation = 90;
+	# rotation is the live frame key (stamped by the N2214
+	# slerp + N2217 read/write), absent folding to 90.0, the
+	# Java field init (the N2223 sense(rotation) precedent).
+	# There is no driver tick line: buildRotation() is a pure
+	# read (the N2223 sense / N2230 setStats / N2232
+	# RepairTower range+warmup precedent).
+	return {"build_rotation": float(frame.get("rotation", 90.0))}
+
 static func source_repair_turret_set_stats_state(repair_radius: float, repair_speed: float, accept_coolant: bool, coolant_use: float, coolant_multiplier: float, tilesize: float) -> Dictionary:
 	# RepairTurret.setStats() (RepairTurret.java:75-84):
 	# public void setStats(){

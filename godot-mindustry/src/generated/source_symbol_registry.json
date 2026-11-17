@@ -175240,6 +175240,38 @@
         "test_reference_graph_and_actual_c07_repair_tower_draw"
       ],
       "runtime_proof": "/root/C07RepairTowerDrawProof"
+    },
+    "source_repair_turret_range_state_result.range": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_range_state",
+      "godot_symbol": "source_repair_turret_range_state_result.range",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairPointBuild.range()",
+      "java_expr": "return repairRadius;",
+      "rule": "The range (RepairTurret.java:232, `return repairRadius;`, inside `public float range(){`, RepairTurret.java:231, from the Ranged interface, Ranged.java:5-6, `public interface Ranged extends Posc, Teamc{` / `float range();`).",
+      "tests": [
+        "test_c07_repair_turret_range_build_rotation_registration",
+        "test_all_c07_repair_turret_range_build_rotation_input_evidence_is_exact",
+        "test_repair_turret_range_build_rotation_state",
+        "test_reference_graph_and_actual_c07_repair_turret_range_build_rotation"
+      ],
+      "runtime_proof": "/root/C07RepairTurretRangeBuildRotationProof"
+    },
+    "source_repair_turret_build_rotation_state_result.build_rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_build_rotation_state",
+      "godot_symbol": "source_repair_turret_build_rotation_state_result.build_rotation",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairPointBuild.buildRotation()",
+      "java_expr": "return rotation;",
+      "rule": "The build rotation (RepairTurret.java:160, `return rotation;`, inside `public float buildRotation(){`, RepairTurret.java:159, from the RotBlock interface, RotBlock.java:4-5, `public interface RotBlock{` / `float buildRotation();`).",
+      "tests": [
+        "test_c07_repair_turret_range_build_rotation_registration",
+        "test_all_c07_repair_turret_range_build_rotation_input_evidence_is_exact",
+        "test_repair_turret_range_build_rotation_state",
+        "test_reference_graph_and_actual_c07_repair_turret_range_build_rotation"
+      ],
+      "runtime_proof": "/root/C07RepairTurretRangeBuildRotationProof"
     }
   },
   "version": 1

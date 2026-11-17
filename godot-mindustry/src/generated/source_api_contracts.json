@@ -67875,6 +67875,56 @@
       ],
       "runtime_proof": "/root/C07RepairTowerDrawProof",
       "rule": "Source-backed RepairTower draw/range/warmup state from RepairTower.java + Blocks.java + Pal.java + Layer.java + Ranged.java + BuildingComp.java + Drawf.java."
+    },
+    "SourceRepairTurretBuildState.source_repair_turret_range_state": {
+      "status": "active",
+      "source_slice": "N2233",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "source_method": "RepairPointBuild.range()",
+      "params": [
+        {
+          "name": "repair_radius",
+          "type": "float",
+          "schema": "source_repair_turret_range_state_input.repair_radius"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "range"
+      ],
+      "tests": [
+        "test_c07_repair_turret_range_build_rotation_registration",
+        "test_all_c07_repair_turret_range_build_rotation_input_evidence_is_exact",
+        "test_repair_turret_range_build_rotation_state",
+        "test_reference_graph_and_actual_c07_repair_turret_range_build_rotation"
+      ],
+      "runtime_proof": "/root/C07RepairTurretRangeBuildRotationProof",
+      "rule": "Source-backed RepairTurret range()/buildRotation() state from RepairTurret.java + Blocks.java + Ranged.java + RotBlock.java."
+    },
+    "SourceRepairTurretBuildState.source_repair_turret_build_rotation_state": {
+      "status": "active",
+      "source_slice": "N2233",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "source_method": "RepairPointBuild.buildRotation()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_repair_turret_build_rotation_state_input.frame"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "build_rotation"
+      ],
+      "tests": [
+        "test_c07_repair_turret_range_build_rotation_registration",
+        "test_all_c07_repair_turret_range_build_rotation_input_evidence_is_exact",
+        "test_repair_turret_range_build_rotation_state",
+        "test_reference_graph_and_actual_c07_repair_turret_range_build_rotation"
+      ],
+      "runtime_proof": "/root/C07RepairTurretRangeBuildRotationProof",
+      "rule": "Source-backed RepairTurret range()/buildRotation() state from RepairTurret.java + Blocks.java + Ranged.java + RotBlock.java."
     }
   },
   "policy": {
