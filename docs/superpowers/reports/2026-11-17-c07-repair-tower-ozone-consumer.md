@@ -39,6 +39,6 @@ Absent ≠ zero (tiền lệ N2191 shouldConsume, N2174 coolant): row chỉ fold
 - Register: --verify 41/41. Lần chạy main đầu FAILED — KeyError 'generated_owner' trong `build_extension_shard` (consumer_slices shard mirror key; tiền lệ N2007: `generated_owner: ''`); sửa register-only, chạy lại exit 0. Không đổi test/proof.
 - SSOT sau register: 11497/1679/1606/3003 (symbols +4, Done +1, contracts +2, schema +4). Handoff dự kiến contracts +1 / schema +2 là sai: 2 function → 2 contracts + 4 schema (input+result mỗi function). SHARD CHANGE: consumer_slices 106 → 107, consumer_api_contracts +31 dòng — ozone consumer khớp consumer shard (khác N2228).
 - Gate toàn bộ (main thread, PID 2446, ~12:35, log `tools/mindustry_godot_transpiler/full-suite-n2229-gate.log`): Ran 6009 trong 1268.977s, failures=179, skipped=5, 0 errors — toàn bộ 179 là `AssertionError: unexpectedly None` (Godot-absent), 0 dòng ERROR. Xong ~12:57 +07. VM restart #32 (~12:27) giết gate đầu (PID 13491, không footer) và xóa javalang + system pytest — worker cài lại (javalang 0.13.0, pytest 9.2.0), main thread chạy lại gate.
-- Hashes: (bổ sung ở commit hash-naming).
+- Hashes: 5-commit xong: slice 53f61ce6, docs e18b6f61, GOAL 63e6dd67 — đang push lên origin main.
 - Windows Godot proof là nợ trong GOAL.md §5 (proof Linux xanh, chưa chạy Windows).
 - Bước tiếp theo: RepairTower còn draw()/drawSelect()/setStats()/drawPlace() + suppression live + targets live list, hoặc family tiếp theo theo backlog. (KHÔNG bắt đầu C08 inventory trừ khi user yêu cầu.)

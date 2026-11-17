@@ -8,7 +8,7 @@
 - GREEN ~12:0x +07: 2 pure function `source_repair_tower_ozone_row_state(frame, delta)` (:97) + `source_repair_tower_ozone_consume_state(frame, delta)` (:107) + driver tick lines (:205/:213). Targeted 4/4 OK trong 15.68s (pytest, 69 subtests; main-thread re-run 17.97s); family RepairTower 24/24 OK trong 92.22s (pytest, 310 subtests); wiring 32/32 OK (9 module; main-thread re-run 25 + 7). Tổng GREEN 60/60. Proof headless Linux: `C07RepairTowerOzoneConsumeProof`, 7 semantic key / 10 trong JSON, matches:true. Register --verify 41/41; lần chạy main đầu FAILED KeyError 'generated_owner' (sửa register-only theo tiền lệ N2007, chạy lại exit 0).
 - SSOT sau register: 11497/1679/1606/3003 (symbols +4, Done +1, contracts +2, schema +4 — handoff dự kiến +1/+2 là sai, đã sửa ở report). SHARD CHANGE: consumer_slices 106 → 107, consumer_api_contracts +31 dòng.
 - Gate toàn bộ (main thread, PID 2446, ~12:35, log `tools/mindustry_godot_transpiler/full-suite-n2229-gate.log`): Ran 6009 trong 1268.977s, failures=179, skipped=5, 0 errors — toàn bộ 179 là `AssertionError: unexpectedly None` (Godot-absent), 0 dòng ERROR. Xong ~12:57 +07. VM restart #32 (~12:27) giết gate đầu (PID 13491, không footer); worker cài lại javalang 0.13.0 + pytest 9.2.0, main thread chạy lại gate.
-- Hashes: (bổ sung ở commit hash-naming).
+- Hashes: slice 53f61ce6, docs e18b6f61, GOAL 63e6dd67.
 - Windows Godot proof là nợ trong GOAL.md §5.
 
 ## Scope (chốt ở RED)
