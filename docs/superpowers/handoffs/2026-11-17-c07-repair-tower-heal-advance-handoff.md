@@ -1,6 +1,6 @@
 # Handoff — N2228 RepairTower heal advance (C07)
 
-## Status: GREEN + gate xanh, chờ push (slice e08dc4ce). Gate xanh lúc ~11:03 +07 (Ran 6005, failures=178, skipped=5, 0 errors — toàn bộ Godot-absent). Proof chưa chạy trên Windows Godot (nợ GOAL.md §5).
+## Status: DONE + PUSHED (slice e08dc4ce, main 8121dd81). Gate xanh lúc ~11:03 +07 (Ran 6005, failures=178, skipped=5, 0 errors — toàn bộ Godot-absent). Proof chưa chạy trên Windows Godot (nợ GOAL.md §5).
 
 ## Scope (chốt ở RED)
 
