@@ -1,6 +1,6 @@
 # Handoff — N2242 PointDefenseTurret driver map live bullets → observed dicts wiring (C07)
 
-## Status: GREEN, gate done (Ran 6061, failures 192, all Godot-absent). Test + proof + gate xanh, chờ 5-commit + push. SSOT 11557/1692/1623/3037. Targeted 4/4, family PointDefenseTurret 20/20, wiring 32/32 = 56/56; proof 8 semantic keys / 11 in JSON matches:true.
+## Status: DONE + PUSHED (slice af2d4208, main 434f2d70). Test + proof + gate xanh. SSOT 11557/1692/1623/3037. Targeted 4/4, family PointDefenseTurret 20/20, wiring 32/32 = 56/56; proof 8 semantic keys / 11 in JSON matches:true. Gate Ran 6061, failures 192, all Godot-absent.
 
 ## Commits
 
