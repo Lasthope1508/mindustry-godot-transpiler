@@ -1,6 +1,6 @@
 # Handoff — N2237 RepairTurret per-def stat rows verification (C07)
 
-## Status: GREEN (gate running, relaunched PID 2078 after restart #35 killed PID 15308). Test + proof xanh, wiring xanh ngay lượt đầu. SSOT 11537/1687/1618/3027. Targeted 4/4, family RepairTurret 88/88, wiring 32/32 = 124/124; proof 5 semantic keys / 8 in JSON matches:true. Gate log `tools/mindustry_godot_transpiler/full-suite-n2237-gate.log`.
+## Status: DONE + PUSHED (slice 129eae95, main 5cd4df7a). Test + proof xanh, gate sạch (chỉ Godot-absent). SSOT 11537/1687/1618/3027. Targeted 4/4, family RepairTurret 88/88, wiring 32/32 = 124/124; proof 5 semantic keys / 8 in JSON matches:true. Gate DONE (main thread, PID 2078, ~22:32–22:50): Ran 6041 in 1090.003s, failures=187, skipped=5, 0 errors — all 187 verified Godot-absent asserts (0 dòng ERROR:).
 
 ## Slice
 
