@@ -1,6 +1,6 @@
 # Handoff — N2225 RepairTurret draw() body (C07)
 
-## Status: GREEN (chưa gate — gate chạy từ main thread sau; chưa commit, chưa push). origin/main == 59dd100a (N2224 DONE + PUSHED; PR #21 merge validation lên 9a95415c sau đó). Full gate + 5-commit pattern + push chạy từ main thread sau.
+## Status: DONE + PUSHED (slice 2c4a7f90, main b7766a9f). Gate xanh lúc ~07:35 +07 (Ran 5993, failures=175, skipped=5, 0 errors — toàn bộ Godot-absent). Proof chưa chạy trên Windows Godot (nợ GOAL.md §5).
 
 ## Scope (chốt ở RED)
 
