@@ -63,5 +63,5 @@ Bài học cũ vẫn đúng: gate chỉ sống khi launch từ main thread; tuy�
 ## Commits
 
 - Slice: e776b073
-- Docs: (next commit)
-- GOAL: (next commit)
+- Docs: 3a171f86
+- GOAL: 108b1439

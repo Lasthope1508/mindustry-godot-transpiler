@@ -39,6 +39,6 @@ N2233 làm được, không còn blocker. `RepairPointBuild.range()` + `RepairPo
 
 ## Hashes
 
-- 5-commit xong: slice (slice …), docs (docs …), GOAL (GOAL …) — đang push lên origin main.
+- 5-commit xong: slice e776b073, docs 3a171f86, GOAL 108b1439 — đang push lên origin main.
 - Windows Godot proof là nợ trong GOAL.md §5 (proof Linux xanh, chưa chạy Windows).
 - Bước tiếp theo: suppression live + targets live list (vẫn BLOCKED — không frame nào stamp live units list hay `heal_suppressed`), hoặc họ tiếp theo theo backlog. (KHÔNG bắt đầu C08 inventory trừ khi user yêu cầu.)
