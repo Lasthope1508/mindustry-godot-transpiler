@@ -38,3 +38,8 @@
 
 - Full gate từ main thread, rồi 5-commit pattern + push theo quy trình (spec Done 1674 → 1675 + row N2225; GOAL.md §5 dòng nợ Windows cho N2225 ghi đúng hash slice commit; proof chưa chạy trên Windows Godot — nợ như N2212-N2224).
 - Sau N2225: RepairTurret còn lại init() updateClipRadius (N2226) và icons() (N2227, TextureRegion[] — tiền lệ N1232), hoặc family tiếp theo theo backlog. (KHÔNG bắt đầu C08 inventory trừ khi user yêu cầu.)
+
+## Commits
+
+- 2c4a7f90 C07: N2225 RepairTurret draw() body (pure function + proof 9 keys) — 9 files, 1054 insertions.
+- Docs: 3191fa9b (report + handoff + design spec, Done 1674 → 1675), GOAL e912847b (§5 Windows debt line).

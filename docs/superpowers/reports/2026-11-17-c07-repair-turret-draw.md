@@ -3,7 +3,7 @@
 ## Trạng thái
 
 - N2224 (RepairTurret setStats()) ĐÃ XONG + ĐÃ PUSH (origin/main == 59dd100a; sau đó PR #21 merge validation lên 9a95415c).
-- N2225 (RepairTurret draw() body) GREEN xong lúc ~07:0x +07; gate toàn bộ xanh lúc ~07:35 +07 (Ran 5993, failures=175, skipped=5, 0 errors — toàn bộ 175 lỗi là Godot-absent). Slice commit 2c4a7f90, docs (this commit), GOAL (next commit) — đang push.
+- N2225 (RepairTurret draw() body) GREEN xong lúc ~07:0x +07; gate toàn bộ xanh lúc ~07:35 +07 (Ran 5993, failures=175, skipped=5, 0 errors — toàn bộ 175 lỗi là Godot-absent). Slice commit 2c4a7f90, docs 3191fa9b, GOAL e912847b — đang push.
 
 ## Làm được từ lần báo cáo trước
 
@@ -31,5 +31,5 @@
 
 ## Bước tiếp theo
 
-- 5-commit xong: slice 2c4a7f90, docs (this commit), GOAL (next commit) — đang push lên origin main.
+- 5-commit xong: slice 2c4a7f90, docs 3191fa9b, GOAL e912847b — đang push lên origin main.
 - Slice tiếp theo sau N2225: N2226 RepairTurret init() updateClipRadius, N2227 icons() (TextureRegion[] — tiền lệ N1232), hoặc family tiếp theo theo backlog. Không bắt đầu C08 trừ khi user yêu cầu.
