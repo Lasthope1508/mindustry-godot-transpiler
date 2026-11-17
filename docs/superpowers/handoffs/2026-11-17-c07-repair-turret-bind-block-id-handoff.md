@@ -1,6 +1,6 @@
 # Handoff — N2236 RepairTurret bind stamps `block_id` (C07)
 
-## Status: GREEN (2026-11-17 ~21:4x +07, main-thread verified). Test + proof xanh, gate sạch (chỉ Godot-absent), chưa push. SSOT 11532/1686/1617/3025. Targeted 4/4, family RepairTurret 84/84, wiring 32/32 = 120/120; proof 7 semantic keys / 10 in JSON matches:true. Gate DONE (main thread, PID 8320, ~21:2x–21:41): Ran 6037 in 1076.680s, failures=186, skipped=5, 0 errors — all 186 verified Godot-absent asserts (0 dòng ERROR:).
+## Status: DONE + PUSHED (slice 96357c4b, main fa03d0e5). Test + proof xanh, gate sạch (chỉ Godot-absent). SSOT 11532/1686/1617/3025. Targeted 4/4, family RepairTurret 84/84, wiring 32/32 = 120/120; proof 7 semantic keys / 10 in JSON matches:true. Gate DONE (main thread, PID 8320, ~21:2x–21:41): Ran 6037 in 1076.680s, failures=186, skipped=5, 0 errors — all 186 verified Godot-absent asserts (0 dòng ERROR:).
 
 ## Slice
 
