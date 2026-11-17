@@ -1,6 +1,6 @@
 # Handoff — N2235 RepairTurret per-def ambientSoundVolume correction (C07)
 
-## Status: GREEN (2026-11-17 ~20:0x +07, main-thread verified). Test + proof xanh, gate sạch (chỉ Godot-absent), chưa push. SSOT 11528/1685/1616/3023. Targeted 4/4, family RepairTurret 80/80, wiring 32/32 = 116/116; proof 7 semantic keys / 10 in JSON matches:true. Gate DONE (main thread, PID 14962, ~20:10–20:28): Ran 6033 in 1081.201s, failures=185, skipped=5, 0 errors — all 185 verified Godot-absent asserts (0 dòng ERROR:).
+## Status: DONE + PUSHED (slice 0a1b5247, main 51ce19b8). Test + proof xanh, gate sạch (chỉ Godot-absent). SSOT 11528/1685/1616/3023. Targeted 4/4, family RepairTurret 80/80, wiring 32/32 = 116/116; proof 7 semantic keys / 10 in JSON matches:true. Gate DONE (main thread, PID 14962, ~20:10–20:28): Ran 6033 in 1081.201s, failures=185, skipped=5, 0 errors — all 185 verified Godot-absent asserts (0 dòng ERROR:).
 
 ## Scope (chốt 2026-11-17 ~19:5x +07, file goals/hidden_files/n2235-scope.md)
 
