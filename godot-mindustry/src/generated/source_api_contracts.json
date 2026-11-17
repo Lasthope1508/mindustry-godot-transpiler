@@ -67616,6 +67616,41 @@
       ],
       "runtime_proof": "/root/C07RepairTowerOzoneConsumeProof",
       "rule": "Source-backed RepairTower ozone consumer from ConsumeLiquid.java / Consume.java / BuildingComp.java / LiquidModule.java / Blocks.java."
+    },
+    "SourceRepairTowerBuildState.source_repair_tower_set_stats_state": {
+      "status": "active",
+      "source_slice": "N2230",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "source_method": "RepairTower.setStats()",
+      "params": [
+        {
+          "name": "range",
+          "type": "float",
+          "schema": "source_repair_tower_set_stats_state_input.range"
+        },
+        {
+          "name": "heal_amount",
+          "type": "float",
+          "schema": "source_repair_tower_set_stats_state_input.heal_amount"
+        },
+        {
+          "name": "tilesize",
+          "type": "float",
+          "schema": "source_repair_tower_set_stats_state_input.tilesize"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "stats"
+      ],
+      "tests": [
+        "test_c07_repair_tower_set_stats_registration",
+        "test_all_c07_repair_tower_set_stats_input_evidence_is_exact",
+        "test_repair_tower_set_stats_state",
+        "test_reference_graph_and_actual_c07_repair_tower_set_stats"
+      ],
+      "runtime_proof": "/root/C07RepairTowerSetStatsProof",
+      "rule": "Source-backed RepairTower setStats() state from RepairTower.java + Vars.java + Blocks.java."
     }
   },
   "policy": {

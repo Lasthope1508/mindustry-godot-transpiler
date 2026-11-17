@@ -152,6 +152,12 @@ static func source_repair_tower_heal_advance_state(frame: Dictionary, targets: A
 	total_progress += delta / circle_speed
 	return {"suppressed": false, "any": any, "healed_count": healed_count, "warmup": warmup, "total_progress": total_progress, "targets": healed_targets, "heal_amount": amount}
 
+static func source_repair_tower_set_stats_state(range: float, heal_amount: float, tilesize: float) -> Dictionary:
+	# RepairTower.setStats() (RepairTower.java:35-41, `public void setStats(){`): `super.setStats();` (:37) is Block-level stat work (N1696), NOT this slice; this slice owns the two unconditional rows (`stats.add(Stat.range, range / tilesize, StatUnit.blocks);` -- :38 -- and `stats.add(Stat.repairSpeed, healAmount * 60f, StatUnit.perSecond);` -- :39). All three params are explicit per-def floats (the N2212 acquire / N2220 draw-place / N2224 setStats per-def-param precedent -- range and healAmount are per-def static state, not live frame keys): class defaults range 80f / healAmount 1f (`public float range = 80f;` / `public float healAmount = 1f;`, RepairTower.java:21, :24); unit-repair-tower 100f / 1.5f (`range = 100f;` / `healAmount = 1.5f;`, Blocks.java:6579-6580); tilesize is 8 (`public static final int tilesize = 8;`, Vars.java:135). The class is `public class RepairTower extends Block{` (RepairTower.java:18). NO driver tick line: setStats is a stat-display read, not a tick write (the N2224 RepairTurret setStats / N2220 draw-select/draw-place precedent).
+	var range_blocks: float = range / tilesize
+	var repair_speed_per_second: float = heal_amount * 60.0
+	return {"stats": [{"stat": "range", "value": range_blocks, "unit": "blocks"}, {"stat": "repairSpeed", "value": repair_speed_per_second, "unit": "perSecond"}]}
+
 @warning_ignore("unused_parameter")
 static func source_repair_tower_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the repair-tower tick wiring every

@@ -233268,6 +233268,64 @@
       },
       "runtime_proof": "/root/C07RepairTowerOzoneConsumeProof",
       "rule": "Source-backed RepairTower ozone consumer from ConsumeLiquid.java / Consume.java / BuildingComp.java / LiquidModule.java / Blocks.java."
+    },
+    "source_repair_tower_set_stats_state_input": {
+      "status": "active",
+      "owner": "SourceRepairTowerBuildState.source_repair_tower_set_stats_state",
+      "source_slice": "N2230",
+      "keys": {
+        "range": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "public float range = 80f;",
+          "rule": "The per-def repair range in world pixels (RepairTower.java:21, `public float range = 80f;`, the class default; unit-repair-tower 100f, Blocks.java:6579); passed explicitly because it is per-def static state, not a live frame key (the N2212 acquire / N2220 draw-place per-def-param precedent).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_set_stats_state"
+          ]
+        },
+        "heal_amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "public float healAmount = 1f;",
+          "rule": "The per-def heal amount in health per tick (RepairTower.java:24, `public float healAmount = 1f;`, the class default; unit-repair-tower 1.5f, Blocks.java:6580); passed explicitly because it is per-def static state, not a live frame key.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_set_stats_state"
+          ]
+        },
+        "tilesize": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/Vars.java",
+          "java_expr": "public static final int tilesize = 8;",
+          "rule": "The world tilesize in pixels (Vars.java:135, `public static final int tilesize = 8;`); passed explicitly (the N2220 draw-place precedent) so the range leg divides by the caller-supplied world constant.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_set_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTowerSetStatsProof",
+      "rule": "Source-backed RepairTower setStats() state from RepairTower.java + Vars.java + Blocks.java."
+    },
+    "source_repair_tower_set_stats_state_result": {
+      "status": "active",
+      "owner": "SourceRepairTowerBuildState.source_repair_tower_set_stats_state",
+      "source_slice": "N2230",
+      "keys": {
+        "stats": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "stats.add(Stat.range, range / tilesize, StatUnit.blocks);",
+          "rule": "The two stat rows setStats() adds, in Java order: the Stat.range row (range / tilesize, StatUnit.blocks, RepairTower.java:38) and the Stat.repairSpeed row (healAmount * 60f, StatUnit.perSecond, RepairTower.java:39).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_set_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTowerSetStatsProof",
+      "rule": "Source-backed RepairTower setStats() state from RepairTower.java + Vars.java + Blocks.java."
     }
   },
   "version": 1
