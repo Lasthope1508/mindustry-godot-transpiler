@@ -1,6 +1,6 @@
 # Handoff — N2241 PointDefenseTurret updateTile shouldConsume gate + coolant (C07)
 
-## Status: GREEN, gate xong (main thread, PID 5187, ~03:3x–03:54). Test + proof xanh, gate sạch trừ Godot-absent (Ran 6057, failures=191, skipped=5, errors=0 — toàn bộ Godot-absent, đã đếm trực tiếp trong log). Chờ 5-commit + push. SSOT 11556/1691/1622/3035. Targeted 4/4, family PointDefenseTurret 16/16, wiring 32/32 = 52/52; proof 8 semantic keys / 11 in JSON matches:true.
+## Status: DONE + PUSHED (slice 64091326, main 2ef037b3). Test + proof xanh, gate sạch trừ Godot-absent (Ran 6057, failures=191, skipped=5, errors=0). SSOT 11556/1691/1622/3035. Targeted 4/4, family PointDefenseTurret 16/16, wiring 32/32 = 52/52; proof 8 semantic keys / 11 in JSON matches:true.
 
 ## Commits
 
