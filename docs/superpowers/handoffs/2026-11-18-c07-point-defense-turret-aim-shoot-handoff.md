@@ -1,6 +1,6 @@
 # Handoff — N2240 PointDefenseTurret updateTile aim + reload + shoot (C07)
 
-## Status: GREEN, gate DONE (main thread, PID 11835, ~02:02–02:20). Test + proof xanh, gate sạch (chỉ Godot-absent), chờ 5-commit + push. SSOT 11552/1690/1621/3033. Targeted 4/4, family PointDefenseTurret 12/12, wiring 32/32 = 48/48; proof 8 semantic keys / 11 in JSON matches:true. Gate footer Ran 6053, failures=190, skipped=5, errors=0 — toàn bộ Godot-absent.
+## Status: DONE + PUSHED (slice ca72f6b9, main bbfad894). Test + proof xanh, gate sạch (chỉ Godot-absent). SSOT 11552/1690/1621/3033. Targeted 4/4, family PointDefenseTurret 12/12, wiring 32/32 = 48/48; proof 8 semantic keys / 11 in JSON matches:true. Gate DONE (main thread, PID 11835, ~02:02–02:20): Ran 6053 in 1066.579s, failures=190, skipped=5, errors=0 — toàn bộ Godot-absent.
 
 ## Commits
 
