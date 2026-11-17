@@ -1,6 +1,6 @@
 # Handoff — N2234 RepairTurret senseObject() legs (C07)
 
-## Status: GREEN + gate xanh, chờ push (2026-11-17 ~19:3x +07, main-thread verified). Test + proof + gate xanh, chưa push. SSOT 11527/1684/1615/3021. Targeted 4/4, family RepairTurret 76/76, wiring 32/32 = 112/112; proof 7 semantic keys / 10 in JSON matches:true. Gate Ran 6029, failures=184, skipped=5, 0 errors — toàn bộ Godot-absent. Proofs not yet run on Windows Godot — debt in GOAL.md §5.
+## Status: DONE + PUSHED (2026-11-17 ~19:3x +07; slice 20e107f3, main 0ca5c7fe). Test + proof + gate xanh. SSOT 11527/1684/1615/3021. Targeted 4/4, family RepairTurret 76/76, wiring 32/32 = 112/112; proof 7 semantic keys / 10 in JSON matches:true. Gate Ran 6029, failures=184, skipped=5, 0 errors — toàn bộ Godot-absent. Windows Godot proof là nợ trong GOAL.md §5.
 
 ## Scope (chốt 2026-11-17 ~18:5x +07, file goals/hidden_files/n2234-scope.md)
 
