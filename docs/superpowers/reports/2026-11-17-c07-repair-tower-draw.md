@@ -44,6 +44,6 @@ N2232 làm được, không còn blocker. `RepairTowerBuild.draw()` + `range()` 
 
 ## Hashes
 
-- 5-commit xong: slice b570908e, docs TBD, GOAL TBD — đang push lên origin main.
+- 5-commit xong: slice b570908e, docs b3d7a5e1, GOAL 0b5813c2 — đang push lên origin main.
 - Windows Godot proof là nợ trong GOAL.md §5 (proof Linux xanh, chưa chạy Windows).
 - Bước tiếp theo: RepairTower còn suppression live + targets live list (vẫn BLOCKED — cần quan sát liquid-stock/heal-suppression frame plumbing), hoặc họ tiếp theo theo backlog. (KHÔNG bắt đầu C08 inventory trừ khi user yêu cầu.)

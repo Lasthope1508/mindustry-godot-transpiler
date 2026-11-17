@@ -59,6 +59,6 @@ Lý do gộp: `warmup()` là gate input của chính `draw()` (:97); `range()` l
 
 ## Commits
 
-- Slice: (this commit)
-- Docs: (next commit)
-- GOAL: (next commit)
+- Slice: b570908e
+- Docs: b3d7a5e1
+- GOAL: 0b5813c2
