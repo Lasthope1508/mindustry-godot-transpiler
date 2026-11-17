@@ -175320,6 +175320,22 @@
         "test_reference_graph_and_actual_c07_repair_turret_sense_object"
       ],
       "runtime_proof": "/root/C07RepairTurretSenseObjectProof"
+    },
+    "source_repair_turret_ambient_sound_volume_state_result.ambient_sound_volume": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_ambient_sound_volume_state",
+      "godot_symbol": "source_repair_turret_ambient_sound_volume_state_result.ambient_sound_volume",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.update()",
+      "java_expr": "control.sound.loop(block.ambientSound, self(), block.ambientSoundVolume * ambientVolume());",
+      "rule": "The per-def ambient-sound volume scale (BuildingComp.java:2271, `control.sound.loop(block.ambientSound, self(), block.ambientSoundVolume * ambientVolume());`): repair-point 0.9f (Blocks.java:6393, `ambientSoundVolume = 0.9f;`), repair-turret 1.25f (Blocks.java:6408, `ambientSoundVolume = 1.25f;`), any other def the 1f class default (RepairTurret.java:67, `ambientSoundVolume = 1f;`).",
+      "tests": [
+        "test_c07_repair_turret_ambient_sound_volume_registration",
+        "test_all_c07_repair_turret_ambient_sound_volume_input_evidence_is_exact",
+        "test_repair_turret_ambient_sound_volume_state",
+        "test_reference_graph_and_actual_c07_repair_turret_ambient_sound_volume"
+      ],
+      "runtime_proof": "/root/C07RepairTurretAmbientSoundVolumeProof"
     }
   },
   "version": 1

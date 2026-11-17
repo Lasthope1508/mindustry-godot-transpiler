@@ -67957,6 +67957,31 @@
       ],
       "runtime_proof": "/root/C07RepairTurretSenseObjectProof",
       "rule": "Source-backed RepairTurret senseObject() state from BuildingComp.java + Block.java + Senseable.java + LAccess.java + Blocks.java + RepairTurret.java."
+    },
+    "SourceRepairTurretBuildState.source_repair_turret_ambient_sound_volume_state": {
+      "status": "active",
+      "source_slice": "N2235",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "source_method": "BuildingComp.update()",
+      "params": [
+        {
+          "name": "block_id",
+          "type": "String",
+          "schema": "source_repair_turret_ambient_sound_volume_state_input.block_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "ambient_sound_volume"
+      ],
+      "tests": [
+        "test_c07_repair_turret_ambient_sound_volume_registration",
+        "test_all_c07_repair_turret_ambient_sound_volume_input_evidence_is_exact",
+        "test_repair_turret_ambient_sound_volume_state",
+        "test_reference_graph_and_actual_c07_repair_turret_ambient_sound_volume"
+      ],
+      "runtime_proof": "/root/C07RepairTurretAmbientSoundVolumeProof",
+      "rule": "Source-backed RepairTurret per-def ambientSoundVolume state from RepairTurret.java + Blocks.java + BuildingComp.java + Block.java."
     }
   },
   "policy": {

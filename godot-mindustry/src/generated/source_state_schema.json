@@ -234010,6 +234010,44 @@
       },
       "runtime_proof": "/root/C07RepairTurretSenseObjectProof",
       "rule": "Source-backed RepairTurret senseObject() state from BuildingComp.java + Block.java + Senseable.java + LAccess.java + Blocks.java + RepairTurret.java."
+    },
+    "source_repair_turret_ambient_sound_volume_state_input": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_ambient_sound_volume_state",
+      "source_slice": "N2235",
+      "keys": {
+        "block_id": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "repairPoint = new RepairTurret(\"repair-point\"){{",
+          "rule": "The block id (Blocks.java:6386, `repairPoint = new RepairTurret(\"repair-point\"){{` -- repair-turret, Blocks.java:6397, `repairTurret = new RepairTurret(\"repair-turret\"){{`): the per-def identity whose catalog ambientSoundVolume override the resolver returns, passed explicitly because it is per-def static state, not a live frame key (the N2212 / N2220 per-def-param precedent).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_ambient_sound_volume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretAmbientSoundVolumeProof",
+      "rule": "Source-backed RepairTurret per-def ambientSoundVolume state from RepairTurret.java + Blocks.java + BuildingComp.java + Block.java."
+    },
+    "source_repair_turret_ambient_sound_volume_state_result": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_ambient_sound_volume_state",
+      "source_slice": "N2235",
+      "keys": {
+        "ambient_sound_volume": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "control.sound.loop(block.ambientSound, self(), block.ambientSoundVolume * ambientVolume());",
+          "rule": "The per-def ambient-sound volume scale (BuildingComp.java:2271, `control.sound.loop(block.ambientSound, self(), block.ambientSoundVolume * ambientVolume());`): repair-point 0.9f (Blocks.java:6393, `ambientSoundVolume = 0.9f;`), repair-turret 1.25f (Blocks.java:6408, `ambientSoundVolume = 1.25f;`), any other def the 1f class default (RepairTurret.java:67, `ambientSoundVolume = 1f;`).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_ambient_sound_volume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretAmbientSoundVolumeProof",
+      "rule": "Source-backed RepairTurret per-def ambientSoundVolume state from RepairTurret.java + Blocks.java + BuildingComp.java + Block.java."
     }
   },
   "version": 1

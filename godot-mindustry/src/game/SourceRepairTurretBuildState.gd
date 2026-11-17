@@ -420,13 +420,42 @@ static func source_repair_turret_status_state(frame: Dictionary, tick: float) ->
 const SOURCE_REPAIR_TURRET_AMBIENT_SOUND := "beamHeal"
 const SOURCE_REPAIR_TURRET_AMBIENT_SOUND_VOLUME := 1.0
 
+static func source_repair_turret_ambient_sound_volume_state(block_id: String) -> Dictionary:
+	# Blocks.java overrides the RepairTurret class default `ambientSoundVolume = 1f;`
+	# (RepairTurret.java:67) per def: repair-point 0.9f (Blocks.java:6393, `ambientSoundVolume = 0.9f;`)
+	# and repair-turret 1.25f (Blocks.java:6408, `ambientSoundVolume = 1.25f;`). The loop multiplies
+	# that volume by ambientVolume() (BuildingComp.java:2271,
+	# `control.sound.loop(block.ambientSound, self(), block.ambientSoundVolume * ambientVolume());`,
+	# gated by BuildingComp.java:2270, `if(!headless && block.ambientSound != Sounds.none && shouldAmbientSound()){`).
+	# The two defs are `repairPoint = new RepairTurret("repair-point"){{` (Blocks.java:6386)
+	# and `repairTurret = new RepairTurret("repair-turret"){{` (Blocks.java:6397), of the block
+	# `public class RepairTurret extends Block{` (RepairTurret.java:25). The Block default it
+	# overrides is `public float ambientSoundVolume = 0.05f;` (Block.java:353), and ambientVolume()
+	# is the folded efficiency (`public float ambientVolume(){` / `return efficiency;`,
+	# BuildingComp.java:2015-2017). An unknown def falls back to the 1f class default
+	# (SOURCE_REPAIR_TURRET_AMBIENT_SOUND_VOLUME). There is no driver tick line: the volume is a
+	# catalog read, not a tick write (the N2223 sense precedent).
+	if block_id == "repair-point":
+		return {"ambient_sound_volume": 0.9}
+	if block_id == "repair-turret":
+		return {"ambient_sound_volume": 1.25}
+	return {"ambient_sound_volume": SOURCE_REPAIR_TURRET_AMBIENT_SOUND_VOLUME}
+
 static func source_repair_turret_ambient_sound_loop_state(frame: Dictionary, headless: bool) -> Dictionary:
 	# BuildingComp.update() loops the ambient sound each tick (BuildingComp.java:2270-2271, inside `public void update(){`, BuildingComp.java:2262):
 	# if(!headless && block.ambientSound != Sounds.none && shouldAmbientSound()){
 	# control.sound.loop(block.ambientSound, self(), block.ambientSoundVolume * ambientVolume());
-	# The sound is `Sounds.beamHeal` and its volume scale is `1f` (RepairTurret.java:66-67, set in the RepairTurret constructor, so both defs share them):
+	# The sound is `Sounds.beamHeal` and its volume scale is `1f` (RepairTurret.java:66-67, set in the RepairTurret constructor):
 	# ambientSound = Sounds.beamHeal;
 	# ambientSoundVolume = 1f;
+	# -- but Blocks.java overrides the volume per def (N2235 correction of the N2222 pin): repair-point
+	# 0.9f (Blocks.java:6393, `ambientSoundVolume = 0.9f;`) and repair-turret 1.25f (Blocks.java:6408,
+	# `ambientSoundVolume = 1.25f;`), resolved through source_repair_turret_ambient_sound_volume_state from
+	# the frame's block_id (the AdjacentFactory / Factory / UnitFactory precedent for reading block_id off
+	# the frame); a frame with no block_id falls back to the 1.0 class default, so the pre-correction
+	# behavior is preserved. Live repair-turret frames do not stamp block_id yet (the bind creates an empty
+	# frame; the driver reads block_id from the sprite meta), so the per-def volume activates when the
+	# caller supplies the frame's block_id -- stamping it at bind is its own later slice.
 	# The Block defaults they override (Block.java:351, :353):
 	# public Sound ambientSound = Sounds.none;
 	# public float ambientSoundVolume = 0.05f;
@@ -438,7 +467,7 @@ static func source_repair_turret_ambient_sound_loop_state(frame: Dictionary, hea
 	# headless arrives as an explicit bool param (the SourceBlockGeometry precedent -- the port has no game-level headless flag yet). There is no driver tick line: the loop call is a sound side effect (control.sound.loop) with no sink in the port yet, and nothing consumes an ambient-loop stamp.
 	var should_ambient_sound: bool = bool(source_repair_turret_should_ambient_sound_state(frame).get("should_ambient_sound", false))
 	var efficiency: float = float(frame.get("efficiency", 1.0))
-	var volume: float = SOURCE_REPAIR_TURRET_AMBIENT_SOUND_VOLUME * efficiency
+	var volume: float = float(source_repair_turret_ambient_sound_volume_state(str(frame.get("block_id", ""))).get("ambient_sound_volume", SOURCE_REPAIR_TURRET_AMBIENT_SOUND_VOLUME)) * efficiency
 	var should_loop: bool = (not headless) and SOURCE_REPAIR_TURRET_AMBIENT_SOUND != "none" and should_ambient_sound
 	return {"should_loop": should_loop, "sound": SOURCE_REPAIR_TURRET_AMBIENT_SOUND, "volume": volume}
 
