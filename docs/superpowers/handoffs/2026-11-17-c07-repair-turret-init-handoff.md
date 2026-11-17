@@ -46,6 +46,5 @@
 
 ## Commits
 
-- (slice commit — xem report, hash ghi sau khi commit)
-- Docs: (report + handoff + design spec, Done 1675 → 1676)
-- GOAL: (§5 Windows debt line)
+- 66b086e5 C07: N2226 RepairTurret init() updateClipRadius (pure function + proof 6 keys) — 9 files, 855 insertions.
+- Docs: 33467ea1 (report + handoff + design spec, Done 1675 → 1676), GOAL 53215310 (§5 Windows debt line).

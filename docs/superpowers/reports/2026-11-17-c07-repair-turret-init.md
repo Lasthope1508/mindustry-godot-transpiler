@@ -31,5 +31,5 @@
 
 ## Bước tiếp theo
 
-- 5-commit xong: slice, docs, GOAL, hash-naming, handoff-status — rồi push lên origin main.
+- 5-commit xong: slice 66b086e5, docs 33467ea1, GOAL 53215310 — đang push lên origin main.
 - Slice tiếp theo sau N2226: N2227 icons() (TextureRegion[] — tiền lệ N1232), hoặc family tiếp theo theo backlog. Không bắt đầu C08 trừ khi user yêu cầu.
