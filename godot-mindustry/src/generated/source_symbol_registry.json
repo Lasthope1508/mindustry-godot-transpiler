@@ -174952,6 +174952,294 @@
         "test_reference_graph_and_actual_c07_repair_tower_draw_select_place"
       ],
       "runtime_proof": "/root/C07RepairTowerDrawSelectPlaceProof"
+    },
+    "source_repair_tower_draw_state_result.visible": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_draw_state",
+      "godot_symbol": "source_repair_tower_draw_state_result.visible",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.draw()",
+      "java_expr": "if(warmup <= 0.001f) return;",
+      "rule": "Whether anything draws this frame (RepairTower.java:97, `if(warmup <= 0.001f) return;`): warmup > 0.001. No early return in the pure function -- the full shape is always returned (the MendProjector draw_state precedent); the values at warmup ~= 0 fall to ~= 0 through the formulas.",
+      "tests": [
+        "test_c07_repair_tower_draw_registration",
+        "test_all_c07_repair_tower_draw_input_evidence_is_exact",
+        "test_repair_tower_draw_state",
+        "test_reference_graph_and_actual_c07_repair_tower_draw"
+      ],
+      "runtime_proof": "/root/C07RepairTowerDrawProof"
+    },
+    "source_repair_tower_draw_state_result.center": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_draw_state",
+      "godot_symbol": "source_repair_tower_draw_state_result.center",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.draw()",
+      "java_expr": "Lines.circle(x, y, range * mod);",
+      "rule": "The draw center (RepairTower.java:103, `Lines.circle(x, y, range * mod);`): the building position itself -- the square (:105) and glow (:108) share it.",
+      "tests": [
+        "test_c07_repair_tower_draw_registration",
+        "test_all_c07_repair_tower_draw_input_evidence_is_exact",
+        "test_repair_tower_draw_state",
+        "test_reference_graph_and_actual_c07_repair_tower_draw"
+      ],
+      "runtime_proof": "/root/C07RepairTowerDrawProof"
+    },
+    "source_repair_tower_draw_state_result.z_layer": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_draw_state",
+      "godot_symbol": "source_repair_tower_draw_state_result.z_layer",
+      "java_source": "core/src/mindustry/graphics/Layer.java",
+      "java_method": "RepairTowerBuild.draw()",
+      "java_expr": "effect = 110,",
+      "rule": "The circle/square z-layer (RepairTower.java:99, `Draw.z(Layer.effect);`): Layer.effect = 110 (Layer.java:75, `effect = 110,`).",
+      "tests": [
+        "test_c07_repair_tower_draw_registration",
+        "test_all_c07_repair_tower_draw_input_evidence_is_exact",
+        "test_repair_tower_draw_state",
+        "test_reference_graph_and_actual_c07_repair_tower_draw"
+      ],
+      "runtime_proof": "/root/C07RepairTowerDrawProof"
+    },
+    "source_repair_tower_draw_state_result.mod": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_draw_state",
+      "godot_symbol": "source_repair_tower_draw_state_result.mod",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.draw()",
+      "java_expr": "float mod = totalProgress % 1f;",
+      "rule": "The circle progress (RepairTower.java:100, `float mod = totalProgress % 1f;`): fmod(total_progress, 1.0) -- totalProgress only accumulates (RepairTower.java:85), so it is never negative and fmod matches the Java remainder.",
+      "tests": [
+        "test_c07_repair_tower_draw_registration",
+        "test_all_c07_repair_tower_draw_input_evidence_is_exact",
+        "test_repair_tower_draw_state",
+        "test_reference_graph_and_actual_c07_repair_tower_draw"
+      ],
+      "runtime_proof": "/root/C07RepairTowerDrawProof"
+    },
+    "source_repair_tower_draw_state_result.circle_stroke": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_draw_state",
+      "godot_symbol": "source_repair_tower_draw_state_result.circle_stroke",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.draw()",
+      "java_expr": "Lines.stroke(circleStroke * (1f - mod) * warmup);",
+      "rule": "The circle stroke (RepairTower.java:102, `Lines.stroke(circleStroke * (1f - mod) * warmup);`): fades as the circle expands (mod -> 1) and with warmup.",
+      "tests": [
+        "test_c07_repair_tower_draw_registration",
+        "test_all_c07_repair_tower_draw_input_evidence_is_exact",
+        "test_repair_tower_draw_state",
+        "test_reference_graph_and_actual_c07_repair_tower_draw"
+      ],
+      "runtime_proof": "/root/C07RepairTowerDrawProof"
+    },
+    "source_repair_tower_draw_state_result.circle_radius": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_draw_state",
+      "godot_symbol": "source_repair_tower_draw_state_result.circle_radius",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.draw()",
+      "java_expr": "Lines.circle(x, y, range * mod);",
+      "rule": "The circle radius (RepairTower.java:103, `Lines.circle(x, y, range * mod);`): range * mod -- 0 at mod 0, full range at mod 1.",
+      "tests": [
+        "test_c07_repair_tower_draw_registration",
+        "test_all_c07_repair_tower_draw_input_evidence_is_exact",
+        "test_repair_tower_draw_state",
+        "test_reference_graph_and_actual_c07_repair_tower_draw"
+      ],
+      "runtime_proof": "/root/C07RepairTowerDrawProof"
+    },
+    "source_repair_tower_draw_state_result.circle_color": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_draw_state",
+      "godot_symbol": "source_repair_tower_draw_state_result.circle_color",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.draw()",
+      "java_expr": "Draw.color(circleColor);",
+      "rule": "The circle color (RepairTower.java:101, `Draw.color(circleColor);`): circleColor is Pal.heal (RepairTower.java:22, `public Color circleColor = Pal.heal, glowColor = Pal.heal.cpy().a(0.5f);`; Pal.heal is Color.valueOf(\"98ffa9\"), Pal.java:77), represented as the string \"Pal.heal\".",
+      "tests": [
+        "test_c07_repair_tower_draw_registration",
+        "test_all_c07_repair_tower_draw_input_evidence_is_exact",
+        "test_repair_tower_draw_state",
+        "test_reference_graph_and_actual_c07_repair_tower_draw"
+      ],
+      "runtime_proof": "/root/C07RepairTowerDrawProof"
+    },
+    "source_repair_tower_draw_state_result.square_half_size": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_draw_state",
+      "godot_symbol": "source_repair_tower_draw_state_result.square_half_size",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.draw()",
+      "java_expr": "Fill.square(x, y, squareRad * warmup, Time.time / squareSpinScl);",
+      "rule": "The square half-size (RepairTower.java:105, `Fill.square(x, y, squareRad * warmup, Time.time / squareSpinScl);`): squareRad * warmup.",
+      "tests": [
+        "test_c07_repair_tower_draw_registration",
+        "test_all_c07_repair_tower_draw_input_evidence_is_exact",
+        "test_repair_tower_draw_state",
+        "test_reference_graph_and_actual_c07_repair_tower_draw"
+      ],
+      "runtime_proof": "/root/C07RepairTowerDrawProof"
+    },
+    "source_repair_tower_draw_state_result.square_rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_draw_state",
+      "godot_symbol": "source_repair_tower_draw_state_result.square_rotation",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.draw()",
+      "java_expr": "Fill.square(x, y, squareRad * warmup, Time.time / squareSpinScl);",
+      "rule": "The square rotation (RepairTower.java:105, `Fill.square(x, y, squareRad * warmup, Time.time / squareSpinScl);`): time / square_spin_scl, the raw value passed straight through (no unit conversion).",
+      "tests": [
+        "test_c07_repair_tower_draw_registration",
+        "test_all_c07_repair_tower_draw_input_evidence_is_exact",
+        "test_repair_tower_draw_state",
+        "test_reference_graph_and_actual_c07_repair_tower_draw"
+      ],
+      "runtime_proof": "/root/C07RepairTowerDrawProof"
+    },
+    "source_repair_tower_draw_state_result.square_color": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_draw_state",
+      "godot_symbol": "source_repair_tower_draw_state_result.square_color",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.draw()",
+      "java_expr": "Draw.color(Pal.heal);",
+      "rule": "The square color (RepairTower.java:104, `Draw.color(Pal.heal);`): Pal.heal, represented as the string \"Pal.heal\".",
+      "tests": [
+        "test_c07_repair_tower_draw_registration",
+        "test_all_c07_repair_tower_draw_input_evidence_is_exact",
+        "test_repair_tower_draw_state",
+        "test_reference_graph_and_actual_c07_repair_tower_draw"
+      ],
+      "runtime_proof": "/root/C07RepairTowerDrawProof"
+    },
+    "source_repair_tower_draw_state_result.glow_alpha": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_draw_state",
+      "godot_symbol": "source_repair_tower_draw_state_result.glow_alpha",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.draw()",
+      "java_expr": "Drawf.additive(glow, glowColor, warmup * (1f - glowMag + Mathf.absin(Time.time, glowScl, glowMag)), x, y, 0f, Layer.blockAdditive);",
+      "rule": "The glow alpha (RepairTower.java:108, `Drawf.additive(glow, glowColor, warmup * (1f - glowMag + Mathf.absin(Time.time, glowScl, glowMag)), x, y, 0f, Layer.blockAdditive);`): warmup * (1.0 - glow_mag + SourceMathState.source_absin(time, glow_scl, glow_mag)) -- the port helper `(sin(v/s)*0.5+0.5)*m`, which differs from the arc formula by a 2x period factor; the port precedent (MendProjector, ThermalGenerator) passes the Java scl straight into the helper, so this slice does the same and documents the deviation instead of working around it.",
+      "tests": [
+        "test_c07_repair_tower_draw_registration",
+        "test_all_c07_repair_tower_draw_input_evidence_is_exact",
+        "test_repair_tower_draw_state",
+        "test_reference_graph_and_actual_c07_repair_tower_draw"
+      ],
+      "runtime_proof": "/root/C07RepairTowerDrawProof"
+    },
+    "source_repair_tower_draw_state_result.glow_color": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_draw_state",
+      "godot_symbol": "source_repair_tower_draw_state_result.glow_color",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.draw()",
+      "java_expr": "public Color circleColor = Pal.heal, glowColor = Pal.heal.cpy().a(0.5f);",
+      "rule": "The glow color (RepairTower.java:108, `Drawf.additive(glow, glowColor, ...)`): glowColor is Pal.heal with alpha 0.5 (RepairTower.java:22, `public Color circleColor = Pal.heal, glowColor = Pal.heal.cpy().a(0.5f);`), represented as the string \"Pal.heal\" with the alpha in glow_color_alpha.",
+      "tests": [
+        "test_c07_repair_tower_draw_registration",
+        "test_all_c07_repair_tower_draw_input_evidence_is_exact",
+        "test_repair_tower_draw_state",
+        "test_reference_graph_and_actual_c07_repair_tower_draw"
+      ],
+      "runtime_proof": "/root/C07RepairTowerDrawProof"
+    },
+    "source_repair_tower_draw_state_result.glow_color_alpha": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_draw_state",
+      "godot_symbol": "source_repair_tower_draw_state_result.glow_color_alpha",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.draw()",
+      "java_expr": "public Color circleColor = Pal.heal, glowColor = Pal.heal.cpy().a(0.5f);",
+      "rule": "The glow color alpha (RepairTower.java:22, `glowColor = Pal.heal.cpy().a(0.5f);`): 0.5 -- the Drawf.additive overload (Drawf.java:183) applies `Draw.color(color, alpha * color.a);` (Drawf.java:186), so the effective alpha drawn is glow_alpha * 0.5.",
+      "tests": [
+        "test_c07_repair_tower_draw_registration",
+        "test_all_c07_repair_tower_draw_input_evidence_is_exact",
+        "test_repair_tower_draw_state",
+        "test_reference_graph_and_actual_c07_repair_tower_draw"
+      ],
+      "runtime_proof": "/root/C07RepairTowerDrawProof"
+    },
+    "source_repair_tower_draw_state_result.glow_region": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_draw_state",
+      "godot_symbol": "source_repair_tower_draw_state_result.glow_region",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.draw()",
+      "java_expr": "public @Load(\"@-glow\") TextureRegion glow;",
+      "rule": "The glow region name (RepairTower.java:108, `Drawf.additive(glow, ...)`; the region is `@Load(\"@-glow\")`, RepairTower.java:25): the glow_region param passed through.",
+      "tests": [
+        "test_c07_repair_tower_draw_registration",
+        "test_all_c07_repair_tower_draw_input_evidence_is_exact",
+        "test_repair_tower_draw_state",
+        "test_reference_graph_and_actual_c07_repair_tower_draw"
+      ],
+      "runtime_proof": "/root/C07RepairTowerDrawProof"
+    },
+    "source_repair_tower_draw_state_result.glow_rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_draw_state",
+      "godot_symbol": "source_repair_tower_draw_state_result.glow_rotation",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.draw()",
+      "java_expr": "Drawf.additive(glow, glowColor, warmup * (1f - glowMag + Mathf.absin(Time.time, glowScl, glowMag)), x, y, 0f, Layer.blockAdditive);",
+      "rule": "The glow rotation (RepairTower.java:108, `Drawf.additive(..., x, y, 0f, Layer.blockAdditive);`): the rotation arg is the 0f literal.",
+      "tests": [
+        "test_c07_repair_tower_draw_registration",
+        "test_all_c07_repair_tower_draw_input_evidence_is_exact",
+        "test_repair_tower_draw_state",
+        "test_reference_graph_and_actual_c07_repair_tower_draw"
+      ],
+      "runtime_proof": "/root/C07RepairTowerDrawProof"
+    },
+    "source_repair_tower_draw_state_result.glow_z_layer": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_draw_state",
+      "godot_symbol": "source_repair_tower_draw_state_result.glow_z_layer",
+      "java_source": "core/src/mindustry/graphics/Layer.java",
+      "java_method": "RepairTowerBuild.draw()",
+      "java_expr": "blockAdditive = 31,",
+      "rule": "The glow z-layer (RepairTower.java:108, `Drawf.additive(..., x, y, 0f, Layer.blockAdditive);`): Layer.blockAdditive = 31 (Layer.java:36, `blockAdditive = 31,`).",
+      "tests": [
+        "test_c07_repair_tower_draw_registration",
+        "test_all_c07_repair_tower_draw_input_evidence_is_exact",
+        "test_repair_tower_draw_state",
+        "test_reference_graph_and_actual_c07_repair_tower_draw"
+      ],
+      "runtime_proof": "/root/C07RepairTowerDrawProof"
+    },
+    "source_repair_tower_range_state_result.range": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_range_state",
+      "godot_symbol": "source_repair_tower_range_state_result.range",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.range()",
+      "java_expr": "return range;",
+      "rule": "The range (RepairTower.java:113, `return range;`, inside `public float range(){`, RepairTower.java:112, from the Ranged interface, Ranged.java:5-6, `public interface Ranged extends Posc, Teamc{` / `float range();`).",
+      "tests": [
+        "test_c07_repair_tower_draw_registration",
+        "test_all_c07_repair_tower_draw_input_evidence_is_exact",
+        "test_repair_tower_draw_state",
+        "test_reference_graph_and_actual_c07_repair_tower_draw"
+      ],
+      "runtime_proof": "/root/C07RepairTowerDrawProof"
+    },
+    "source_repair_tower_warmup_state_result.warmup": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_warmup_state",
+      "godot_symbol": "source_repair_tower_warmup_state_result.warmup",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.warmup()",
+      "java_expr": "return warmup;",
+      "rule": "The warmup (RepairTower.java:118, `return warmup;`, inside `public float warmup(){`, RepairTower.java:117, overriding the base that returns 0f, BuildingComp.java:608-609, `public float warmup(){` / `return 0f;`).",
+      "tests": [
+        "test_c07_repair_tower_draw_registration",
+        "test_all_c07_repair_tower_draw_input_evidence_is_exact",
+        "test_repair_tower_draw_state",
+        "test_reference_graph_and_actual_c07_repair_tower_draw"
+      ],
+      "runtime_proof": "/root/C07RepairTowerDrawProof"
     }
   },
   "version": 1

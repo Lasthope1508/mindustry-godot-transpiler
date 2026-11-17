@@ -67735,6 +67735,146 @@
       ],
       "runtime_proof": "/root/C07RepairTowerDrawSelectPlaceProof",
       "rule": "Source-backed RepairTower drawSelect/drawPlace range state from RepairTower.java + Vars.java + Blocks.java."
+    },
+    "SourceRepairTowerBuildState.source_repair_tower_draw_state": {
+      "status": "active",
+      "source_slice": "N2232",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "source_method": "RepairTowerBuild.draw()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_repair_tower_draw_state_input.frame"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_repair_tower_draw_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_repair_tower_draw_state_input.y"
+        },
+        {
+          "name": "range",
+          "type": "float",
+          "schema": "source_repair_tower_draw_state_input.range"
+        },
+        {
+          "name": "time",
+          "type": "float",
+          "schema": "source_repair_tower_draw_state_input.time"
+        },
+        {
+          "name": "circle_stroke",
+          "type": "float",
+          "schema": "source_repair_tower_draw_state_input.circle_stroke"
+        },
+        {
+          "name": "square_rad",
+          "type": "float",
+          "schema": "source_repair_tower_draw_state_input.square_rad"
+        },
+        {
+          "name": "square_spin_scl",
+          "type": "float",
+          "schema": "source_repair_tower_draw_state_input.square_spin_scl"
+        },
+        {
+          "name": "glow_mag",
+          "type": "float",
+          "schema": "source_repair_tower_draw_state_input.glow_mag"
+        },
+        {
+          "name": "glow_scl",
+          "type": "float",
+          "schema": "source_repair_tower_draw_state_input.glow_scl"
+        },
+        {
+          "name": "glow_region",
+          "type": "String",
+          "schema": "source_repair_tower_draw_state_input.glow_region"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "visible",
+        "center",
+        "z_layer",
+        "mod",
+        "circle_stroke",
+        "circle_radius",
+        "circle_color",
+        "square_half_size",
+        "square_rotation",
+        "square_color",
+        "glow_alpha",
+        "glow_color",
+        "glow_color_alpha",
+        "glow_region",
+        "glow_rotation",
+        "glow_z_layer"
+      ],
+      "tests": [
+        "test_c07_repair_tower_draw_registration",
+        "test_all_c07_repair_tower_draw_input_evidence_is_exact",
+        "test_repair_tower_draw_state",
+        "test_reference_graph_and_actual_c07_repair_tower_draw"
+      ],
+      "runtime_proof": "/root/C07RepairTowerDrawProof",
+      "rule": "Source-backed RepairTower draw/range/warmup state from RepairTower.java + Blocks.java + Pal.java + Layer.java + Ranged.java + BuildingComp.java + Drawf.java."
+    },
+    "SourceRepairTowerBuildState.source_repair_tower_range_state": {
+      "status": "active",
+      "source_slice": "N2232",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "source_method": "RepairTowerBuild.range()",
+      "params": [
+        {
+          "name": "range",
+          "type": "float",
+          "schema": "source_repair_tower_range_state_input.range"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "range"
+      ],
+      "tests": [
+        "test_c07_repair_tower_draw_registration",
+        "test_all_c07_repair_tower_draw_input_evidence_is_exact",
+        "test_repair_tower_draw_state",
+        "test_reference_graph_and_actual_c07_repair_tower_draw"
+      ],
+      "runtime_proof": "/root/C07RepairTowerDrawProof",
+      "rule": "Source-backed RepairTower draw/range/warmup state from RepairTower.java + Blocks.java + Pal.java + Layer.java + Ranged.java + BuildingComp.java + Drawf.java."
+    },
+    "SourceRepairTowerBuildState.source_repair_tower_warmup_state": {
+      "status": "active",
+      "source_slice": "N2232",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "source_method": "RepairTowerBuild.warmup()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_repair_tower_warmup_state_input.frame"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "warmup"
+      ],
+      "tests": [
+        "test_c07_repair_tower_draw_registration",
+        "test_all_c07_repair_tower_draw_input_evidence_is_exact",
+        "test_repair_tower_draw_state",
+        "test_reference_graph_and_actual_c07_repair_tower_draw"
+      ],
+      "runtime_proof": "/root/C07RepairTowerDrawProof",
+      "rule": "Source-backed RepairTower draw/range/warmup state from RepairTower.java + Blocks.java + Pal.java + Layer.java + Ranged.java + BuildingComp.java + Drawf.java."
     }
   },
   "policy": {
