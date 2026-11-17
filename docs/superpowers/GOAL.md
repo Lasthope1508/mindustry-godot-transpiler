@@ -341,6 +341,9 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
   - [ ] N2239 `C07PointDefenseTurretTargetAcquireProof` — Linux GREEN ~00:38 (8 key).
     Scene tới Windows theo slice commit `7016e8d3` (pushed ~01:0x, main
     `e7ed23ca`). Chưa chạy trên Windows Godot.
+  - [ ] N2240 `C07PointDefenseTurretAimShootProof` — Linux GREEN ~02:01 (8 key).
+    Scene tới Windows theo slice commit `ca72f6b9` (pushed ~02:3x, main
+    `480fd31c`). Chưa chạy trên Windows Godot.
   - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
     trên (ghi rõ commit đưa scene tới Windows).
   - [ ] Agent khác đang test các lỗi fail trên Windows Godot (PR #1 đã merge
