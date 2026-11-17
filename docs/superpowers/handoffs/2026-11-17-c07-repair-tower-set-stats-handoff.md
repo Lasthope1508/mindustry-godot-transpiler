@@ -1,6 +1,6 @@
 # Handoff — N2230 RepairTower setStats() (C07)
 
-## Status: GREEN (2026-11-17 ~14:0x +07). Test + proof xanh, chưa gate, chưa push.
+## Status: DONE + PUSHED (slice 64b06843, main 23430b42, 2026-11-17 ~14:3x +07). Gate Ran 6013, failures=180, skipped=5, 0 errors — all Godot-absent. SSOT 11498/1680/1607/3005.
 
 - Hashes: slice 64b06843, docs d0da254f, GOAL c6235f85.
 
