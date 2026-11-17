@@ -1,6 +1,6 @@
 # Handoff — N2227 RepairTurret icons() (C07)
 
-## Status: DONE — gate xanh ~09:49 +07 (Ran 6001, failures=177, skipped=5, 0 errors — toàn bộ Godot-absent). Chờ push. Proof chưa chạy trên Windows Godot (nợ GOAL.md §5).
+## Status: DONE + PUSHED (slice e1634f5a, main d6ceb4cb). Gate xanh lúc ~09:49 +07 (Ran 6001, failures=177, skipped=5, 0 errors — toàn bộ Godot-absent). Proof chưa chạy trên Windows Godot (nợ GOAL.md §5).
 
 ## Scope (chốt ở RED)
 
