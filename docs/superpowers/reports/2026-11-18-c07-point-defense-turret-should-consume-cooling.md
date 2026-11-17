@@ -57,6 +57,6 @@ Chưa có bullet wiring thì frame không có observed_bullets → target null �
 
 ## Hashes
 
-- 5-commit xong: slice (this commit), docs (next commit), GOAL (next commit) — đang push lên origin main.
+- 5-commit xong: slice 64091326, docs de65d796, GOAL 9396917d — đang push lên origin main.
 - Windows Godot proof là nợ trong GOAL.md §5 (proof Linux xanh, chưa chạy Windows).
 - Bước tiếp theo: slice tiếp theo theo backlog — driver map live bullets → observed dicts wiring (lúc đó should_consume sống thật); suppression live + targets live list vẫn BLOCKED. (KHÔNG bắt đầu C08 inventory trừ khi user yêu cầu.)
