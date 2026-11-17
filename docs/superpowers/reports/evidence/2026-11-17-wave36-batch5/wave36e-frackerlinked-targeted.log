@@ -1,0 +1,9 @@
+test_all_c07_fracker_linked_tiles_live_fill_input_evidence_is_exact (tests.test_c07_fracker_linked_tiles_live_fill.C07FrackerLinkedTilesLiveFillTests.test_all_c07_fracker_linked_tiles_live_fill_input_evidence_is_exact) ... ok
+test_c07_fracker_linked_tiles_live_fill_registration (tests.test_c07_fracker_linked_tiles_live_fill.C07FrackerLinkedTilesLiveFillTests.test_c07_fracker_linked_tiles_live_fill_registration) ... ok
+test_fracker_linked_tiles_live_fill_state (tests.test_c07_fracker_linked_tiles_live_fill.C07FrackerLinkedTilesLiveFillTests.test_fracker_linked_tiles_live_fill_state) ... ok
+test_reference_graph_and_actual_c07_fracker_linked_tiles_live_fill (tests.test_c07_fracker_linked_tiles_live_fill.C07FrackerLinkedTilesLiveFillTests.test_reference_graph_and_actual_c07_fracker_linked_tiles_live_fill) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 21.892s
+
+OK
