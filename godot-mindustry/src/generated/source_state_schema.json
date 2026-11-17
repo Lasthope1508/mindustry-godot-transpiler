@@ -234370,6 +234370,224 @@
       },
       "runtime_proof": "/root/C07PointDefenseTurretTargetAcquireProof",
       "rule": "Source-backed PointDefenseTurret target acquisition from PointDefenseTurret.java / TimerComp.java / Interval.java / Blocks.java / GroupDefs.java."
+    },
+    "source_point_defense_turret_aim_shoot_state_input": {
+      "status": "active",
+      "owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_aim_shoot_state",
+      "source_slice": "N2240",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "public @Nullable Bullet target;",
+          "rule": "The turret frame (PointDefenseTurret.java:60, `public @Nullable Bullet target;` -- the frame carries the current target dict plus rotation (default 90.0, BaseTurret.java:114) and reload_counter (default 0.0, ReloadTurret.java:26); the driver stamps both back every tick).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_aim_shoot_state"
+          ]
+        },
+        "target": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "if(target != null && target.within(this, range) && target.team != team && target.type() != null && target.type().hittable){",
+          "rule": "The acquired target dict (PointDefenseTurret.java:76 -- the N2239 acquire hands it over; it carries x/y/team/has_type/hittable/damage, the five gate conditions read from it).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_aim_shoot_state"
+          ]
+        },
+        "team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "if(target != null && target.within(this, range) && target.team != team && target.type() != null && target.type().hittable){",
+          "rule": "The turret team id (PointDefenseTurret.java:76, `target.team != team` -- the team whose enemy bullets the gate admits; the driver reads it from the frame).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_aim_shoot_state"
+          ]
+        },
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/geom/Position.java",
+          "java_expr": "return Mathf.dst2(getX(), getY(), x, y) < dst*dst;",
+          "rule": "The turret x (Position.java:46 -- the Building x Java passes to the within test; the driver reads sprite.position.x).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_aim_shoot_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/geom/Position.java",
+          "java_expr": "return Mathf.dst2(getX(), getY(), x, y) < dst*dst;",
+          "rule": "The turret y (Position.java:46 -- the Building y Java passes to the within test; the driver reads sprite.position.y).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_aim_shoot_state"
+          ]
+        },
+        "range": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "range = 180f;",
+          "rule": "The per-def range (segment 180f, Blocks.java:3838, `range = 180f;`, the only PointDefenseTurret def): the within radius Java tests with dst2 < range*range (PointDefenseTurret.java:76, Position.java:46).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_aim_shoot_state"
+          ]
+        },
+        "rotate_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "rotateSpeed = 20f;",
+          "rule": "The rotate speed in degrees per second (PointDefenseTurret.java:38, `rotateSpeed = 20f;` -- the ctor override; Angles.moveToward steps rotation by rotateSpeed * edelta).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_aim_shoot_state"
+          ]
+        },
+        "reload": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "reload = 8f;",
+          "rule": "The per-def reload in seconds (segment 8f, Blocks.java:3845, `reload = 8f;` -- the class ctor default is 30f, PointDefenseTurret.java:39; the driver passes the per-def 8f and the shoot gate fires at reloadCounter >= reload).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_aim_shoot_state"
+          ]
+        },
+        "shoot_cone": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "public float shootCone = 5f;",
+          "rule": "The shoot cone in degrees (PointDefenseTurret.java:31, `public float shootCone = 5f;` -- Angles.within(rotation, dest, shootCone) is angleDist <= shootCone, Angles.java:19-21).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_aim_shoot_state"
+          ]
+        },
+        "bullet_damage": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "bulletDamage = 30f;",
+          "rule": "The per-def bullet damage (segment 30f, Blocks.java:3844, `bulletDamage = 30f;` -- the class default is 10f, PointDefenseTurret.java:32; the driver passes the per-def 30f and realDamage = bulletDamage * blockDamageMultiplier).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_aim_shoot_state"
+          ]
+        },
+        "block_damage_multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_expr": "return blockDamageMultiplier * teams.get(team).blockDamageMultiplier;",
+          "rule": "The precomputed blockDamage(team) multiplier (Rules.java:299-300, `return blockDamageMultiplier * teams.get(team).blockDamageMultiplier;` -- the driver reads it from the rules state; the pure function never reads rules directly).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_aim_shoot_state"
+          ]
+        },
+        "edelta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return efficiency * delta();",
+          "rule": "The effective delta in seconds (BuildingComp.java:1927-1929, `return efficiency * delta();` -- the driver passes frame efficiency * seconds precomputed).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_aim_shoot_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PointDefenseTurretAimShootProof",
+      "rule": "Source-backed PointDefenseTurret aim + reload + shoot from PointDefenseTurret.java / ReloadTurret.java / BaseTurret.java / BuildingComp.java / Rules.java / Blocks.java / Angles.java / Position.java."
+    },
+    "source_point_defense_turret_aim_shoot_state_result": {
+      "status": "active",
+      "owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_aim_shoot_state",
+      "source_slice": "N2240",
+      "keys": {
+        "rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "rotation = Angles.moveToward(rotation, dest, rotateSpeed * edelta());",
+          "rule": "The rotation after moveToward toward dest (PointDefenseTurret.java:78 -- unchanged when the gate fails; the float turret rotation, default 90, BaseTurret.java:114).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_aim_shoot_state"
+          ]
+        },
+        "reload_counter": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "reloadCounter += edelta();",
+          "rule": "The reload counter after += edelta, 0.0 on a shot (PointDefenseTurret.java:79 charges it, :97 resets it to 0 -- reset-to-0, NOT %= reload; Java never clamps it here; unchanged when the gate fails).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_aim_shoot_state"
+          ]
+        },
+        "dest": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "float dest = angleTo(target);",
+          "rule": "The angle to the target (PointDefenseTurret.java:77 -- angleTo is Position.angleTo -> Angles.angle, atan2(dx, dy), 0 degrees is +Y; null when the gate fails, Java only computes it inside the if).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_aim_shoot_state"
+          ]
+        },
+        "shot": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "if(Angles.within(rotation, dest, shootCone) && reloadCounter >= reload){",
+          "rule": "Whether the shoot gate fired (PointDefenseTurret.java:82 -- Angles.within is angleDist <= shootCone and reloadCounter >= reload).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_aim_shoot_state"
+          ]
+        },
+        "damage_dealt": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "float realDamage = bulletDamage * state.rules.blockDamage(team);",
+          "rule": "The real damage dealt on a shot (PointDefenseTurret.java:83 -- bulletDamage * blockDamageMultiplier; 0.0 when no shot).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_aim_shoot_state"
+          ]
+        },
+        "target_damage_after": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "target.damage(target.damage() - realDamage);",
+          "rule": "The target damage remaining after the shot (PointDefenseTurret.java:85 -- target damage minus realDamage; 0.0 when the shot is lethal; unchanged when no shot).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_aim_shoot_state"
+          ]
+        },
+        "target_removed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "target.remove();",
+          "rule": "Whether the shot removed the target (PointDefenseTurret.java:87 -- the STRICT > comparison at :84 means a target whose damage equals realDamage is removed, not left at 0).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_aim_shoot_state"
+          ]
+        },
+        "shoot_event": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "beamEffect.at(x + Tmp.v1.x, y + Tmp.v1.y, rotation, color, new Vec2().set(target));",
+          "rule": "The shoot event dict on a shot (PointDefenseTurret.java:91 -- the beam origin Tmp.v1.trns(rotation, shootLength) with the per-def shootLength 5f, plus rotation and the target position; null when no shot; the pure function spawns no effects or sound).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_aim_shoot_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PointDefenseTurretAimShootProof",
+      "rule": "Source-backed PointDefenseTurret aim + reload + shoot from PointDefenseTurret.java / ReloadTurret.java / BaseTurret.java / BuildingComp.java / Rules.java / Blocks.java / Angles.java / Position.java."
     }
   },
   "version": 1

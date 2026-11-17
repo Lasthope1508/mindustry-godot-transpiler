@@ -68127,6 +68127,93 @@
       ],
       "runtime_proof": "/root/C07PointDefenseTurretTargetAcquireProof",
       "rule": "Source-backed PointDefenseTurret target acquisition from PointDefenseTurret.java / TimerComp.java / Interval.java / Blocks.java / GroupDefs.java."
+    },
+    "SourcePointDefenseTurretBuildState.source_point_defense_turret_aim_shoot_state": {
+      "status": "active",
+      "source_slice": "N2240",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "source_method": "PointDefenseBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_point_defense_turret_aim_shoot_state_input.frame"
+        },
+        {
+          "name": "target",
+          "type": "Dictionary",
+          "schema": "source_point_defense_turret_aim_shoot_state_input.target"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_point_defense_turret_aim_shoot_state_input.team_id"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_point_defense_turret_aim_shoot_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_point_defense_turret_aim_shoot_state_input.y"
+        },
+        {
+          "name": "range",
+          "type": "float",
+          "schema": "source_point_defense_turret_aim_shoot_state_input.range"
+        },
+        {
+          "name": "rotate_speed",
+          "type": "float",
+          "schema": "source_point_defense_turret_aim_shoot_state_input.rotate_speed"
+        },
+        {
+          "name": "reload",
+          "type": "float",
+          "schema": "source_point_defense_turret_aim_shoot_state_input.reload"
+        },
+        {
+          "name": "shoot_cone",
+          "type": "float",
+          "schema": "source_point_defense_turret_aim_shoot_state_input.shoot_cone"
+        },
+        {
+          "name": "bullet_damage",
+          "type": "float",
+          "schema": "source_point_defense_turret_aim_shoot_state_input.bullet_damage"
+        },
+        {
+          "name": "block_damage_multiplier",
+          "type": "float",
+          "schema": "source_point_defense_turret_aim_shoot_state_input.block_damage_multiplier"
+        },
+        {
+          "name": "edelta",
+          "type": "float",
+          "schema": "source_point_defense_turret_aim_shoot_state_input.edelta"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "rotation",
+        "reload_counter",
+        "dest",
+        "shot",
+        "damage_dealt",
+        "target_damage_after",
+        "target_removed",
+        "shoot_event"
+      ],
+      "tests": [
+        "test_c07_point_defense_turret_aim_shoot_registration",
+        "test_all_c07_point_defense_turret_aim_shoot_input_evidence_is_exact",
+        "test_point_defense_turret_aim_shoot_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_aim_shoot"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretAimShootProof",
+      "rule": "Source-backed PointDefenseTurret aim + reload + shoot from PointDefenseTurret.java / ReloadTurret.java / BaseTurret.java / BuildingComp.java / Rules.java / Blocks.java / Angles.java / Position.java."
     }
   },
   "policy": {

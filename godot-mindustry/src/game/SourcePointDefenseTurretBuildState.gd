@@ -204,6 +204,148 @@ static func source_point_defense_turret_target_acquire_state(frame: Dictionary, 
 		target = best
 	return {"target": target, "has_target": target != null, "target_timer": target_timer, "reacquired": reacquired}
 
+static func _angle_dist(angle_a: float, angle_b: float) -> float:
+	# Angles.angleDist (Angles.java:23-27, `return Math.min((a - b) < 0 ? a - b + 360 : a - b, (b - a) < 0 ? b - a + 360 : b - a);`):
+	# the min forward/backward distance after mod 360 (Angles.java:19-21, `return angleDist(a, b) <= margin;`,
+	# is Angles.within). Mirrors SourceMathState.source_angles_angle_dist.
+	var a: float = fposmod(angle_a, 360.0)
+	var b: float = fposmod(angle_b, 360.0)
+	var forward: float = a - b + 360.0 if a - b < 0.0 else a - b
+	var backward: float = b - a + 360.0 if b - a < 0.0 else b - a
+	return minf(forward, backward)
+
+static func _move_toward_angle(angle: float, to: float, speed: float) -> float:
+	# Angles.moveToward (Angles.java:38-49, `if(Math.abs(angleDist(angle, to)) < speed) return to;`):
+	# returns `to` outright when |angleDist| < speed, otherwise steps +-speed along the shorter arc
+	# (angleDist is the min forward/backward distance after mod 360, Angles.java:22-27).
+	# Mirrors SourceMathState.source_angles_move_toward.
+	if absf(_angle_dist(angle, to)) < speed:
+		return to
+	angle = fposmod(angle, 360.0)
+	to = fposmod(to, 360.0)
+	var forward_distance: float = absf(angle - to)
+	var backward_distance: float = 360.0 - absf(angle - to)
+	if (angle > to) == (backward_distance > forward_distance):
+		angle -= speed
+	else:
+		angle += speed
+	return angle
+
+static func source_point_defense_turret_aim_shoot_state(frame: Dictionary, target: Variant, team_id: int, x: float, y: float, range: float, rotate_speed: float, reload: float, shoot_cone: float, bullet_damage: float, block_damage_multiplier: float, edelta: float) -> Dictionary:
+	# The aim / shoot half of PointDefenseBuild.updateTile()
+	# (PointDefenseTurret.java:76-101, the "look at target" half;
+	# N2239 did the retarget half, :62-71). The gate
+	# (`if(target != null && target.within(this, range) && target.team != team && target.type() != null && target.type().hittable){`,
+	# PointDefenseTurret.java:76) requires all five conditions --
+	# a null target, an out-of-range target, a same-team target,
+	# a typeless target, or a non-hittable target leaves rotation
+	# and reloadCounter untouched and shoots nothing.
+	# `target.within(this, range)` is Position.within, dst2 < range^2
+	# (STRICT `<`, Position.java:40-46, `return Mathf.dst2(getX(), getY(), x, y) < dst*dst;`).
+	# Inside the gate the build turns toward the target
+	# (`float dest = angleTo(target);` / `rotation = Angles.moveToward(rotation, dest, rotateSpeed * edelta());`,
+	# PointDefenseTurret.java:77-78) and charges the reload
+	# (`reloadCounter += edelta();`, PointDefenseTurret.java:79).
+	# `angleTo` is Position.angleTo -> Angles.angle(x, y, tx, ty)
+	# (Position.java:12-14), i.e. `Mathf.atan2(x2 - x, y2 - y) *
+	# Mathf.radDeg` normalized to [0, 360) -- atan2(dx, dy), 0 degrees
+	# is +Y, the opposite of GDScript's `atan2(y, x)`, so this writes
+	# `rad_to_deg(atan2(tx - x, ty - y))`, never Vector2.angle_to.
+	# `edelta()` is `efficiency * delta()` (BuildingComp.java:1927-1929,
+	# `return efficiency * delta();`); the driver passes it precomputed.
+	# `rotation` is the float turret rotation, default 90
+	# (`public float rotation = 90;`, BaseTurret.java:114 -- NOT
+	# BuildingComp.rotation, the int block rotation), and
+	# `reloadCounter` is the float on ReloadTurretBuild
+	# (`public float reloadCounter;`, ReloadTurret.java:26). Java does
+	# NOT clamp reloadCounter here (the clamp lives on the plain
+	# TurretBuild, Turret.java:723, which PointDefenseBuild does not
+	# extend), so no clamp is invented. The shoot gate
+	# (`if(Angles.within(rotation, dest, shootCone) && reloadCounter >= reload){`,
+	# PointDefenseTurret.java:82) uses `Angles.within(a, b, margin)` =
+	# `angleDist(a, b) <= margin` (Angles.java:19-21, `return angleDist(a, b) <= margin;`),
+	# i.e. `<=` shootCone. The damage is
+	# `float realDamage = bulletDamage * state.rules.blockDamage(team);`
+	# (PointDefenseTurret.java:83) with `blockDamage(team)` =
+	# `return blockDamageMultiplier * teams.get(team).blockDamageMultiplier;`
+	# (Rules.java:299-300) passed in precomputed; the comparison is
+	# STRICT `>` (`if(target.damage() > realDamage){`,
+	# PointDefenseTurret.java:84) so a target whose damage equals
+	# realDamage is removed, not left at 0
+	# (`target.damage(target.damage() - realDamage);`,
+	# PointDefenseTurret.java:85, vs `target.remove();`,
+	# PointDefenseTurret.java:87). `target.damage()` reads the bullet's
+	# remaining-health field (`@Import float x, y, damage, lastX,
+	# lastY, time, lifetime;`, BulletComp.java:31) and `target.remove()`
+	# is BulletComp.java:83-91. The reset is `reloadCounter = 0;`
+	# (PointDefenseTurret.java:97) -- reset-to-0, NOT `%= reload`
+	# (that is the plain Turret, Turret.java:738). The effects and
+	# sound (`Tmp.v1.trns(rotation, shootLength);` /
+	# `beamEffect.at(x + Tmp.v1.x, y + Tmp.v1.y, rotation, color, new Vec2().set(target));` /
+	# `shootEffect.at(x + Tmp.v1.x, y + Tmp.v1.y, rotation, color);` /
+	# `hitEffect.at(target.x, target.y, color);` /
+	# `shootSound.at(x + Tmp.v1.x, y + Tmp.v1.y, Mathf.random(0.9f, 1.1f));`,
+	# PointDefenseTurret.java:90-95) are side effects: the pure
+	# function spawns nothing and instead returns a shoot_event dict
+	# (beam origin + rotation + target position) for the driver /
+	# proof to verify; the sound pitch is random (0.9-1.1) so it is
+	# NOT in the event. The beam origin uses Tmp.v1.trns(rotation,
+	# shootLength) = (cos, sin) of rotation times shootLength (the
+	# RepairTurret precedent, SourceRepairTurretBuildState.gd:320);
+	# shootLength is the per-def segment value 5f (`shootLength = 5f;`,
+	# Blocks.java:3843 -- the class default is `public float shootLength = 3f;`,
+	# PointDefenseTurret.java:34) and is NOT a parameter of this
+	# function (the RED signature pins the 12 params), so the event
+	# uses the per-def 5f with this comment as its source. Class
+	# defaults are shootCone 5f, bulletDamage 10f, shootLength 3f
+	# (`public float shootCone = 5f;` / `public float bulletDamage = 10f;` /
+	# `public float shootLength = 3f;`, PointDefenseTurret.java:31-33)
+	# with rotateSpeed 20f and reload 30f from the ctor
+	# (`rotateSpeed = 20f;` / `reload = 30f;`, PointDefenseTurret.java:38-39);
+	# the segment per-def overrides are range 180f, shootLength 5f,
+	# bulletDamage 30f, reload 8f (`range = 180f;` / `shootLength = 5f;` /
+	# `bulletDamage = 30f;` / `reload = 8f;`, Blocks.java:3838-3846) --
+	# the pure function takes them all as parameters (except the
+	# shootLength above) and the driver passes the per-def values.
+	var rotation: float = float(frame.get("rotation", 90.0))
+	var reload_counter: float = float(frame.get("reload_counter", 0.0))
+	var target_damage: float = float(target.get("damage", 0.0)) if target is Dictionary else 0.0
+	if target == null or not (target is Dictionary):
+		return {"rotation": rotation, "reload_counter": reload_counter, "dest": null, "shot": false, "damage_dealt": 0.0, "target_damage_after": target_damage, "target_removed": false, "shoot_event": null}
+	if int(target.get("team", -1)) == team_id:
+		return {"rotation": rotation, "reload_counter": reload_counter, "dest": null, "shot": false, "damage_dealt": 0.0, "target_damage_after": target_damage, "target_removed": false, "shoot_event": null}
+	if not bool(target.get("has_type", false)):
+		return {"rotation": rotation, "reload_counter": reload_counter, "dest": null, "shot": false, "damage_dealt": 0.0, "target_damage_after": target_damage, "target_removed": false, "shoot_event": null}
+	if not bool(target.get("hittable", false)):
+		return {"rotation": rotation, "reload_counter": reload_counter, "dest": null, "shot": false, "damage_dealt": 0.0, "target_damage_after": target_damage, "target_removed": false, "shoot_event": null}
+	var dx: float = float(target.get("x", 0.0)) - x
+	var dy: float = float(target.get("y", 0.0)) - y
+	var dist2: float = dx * dx + dy * dy
+	if dist2 >= range * range:
+		return {"rotation": rotation, "reload_counter": reload_counter, "dest": null, "shot": false, "damage_dealt": 0.0, "target_damage_after": target_damage, "target_removed": false, "shoot_event": null}
+	var dest: float = fmod(rad_to_deg(atan2(float(target.get("x", 0.0)) - x, float(target.get("y", 0.0)) - y)), 360.0)
+	rotation = _move_toward_angle(rotation, dest, rotate_speed * edelta)
+	reload_counter += edelta
+	var shot: bool = false
+	var damage_dealt: float = 0.0
+	var target_damage_after: float = target_damage
+	var target_removed: bool = false
+	var shoot_event: Variant = null
+	if _angle_dist(rotation, dest) <= shoot_cone and reload_counter >= reload:
+		var real_damage: float = bullet_damage * block_damage_multiplier
+		damage_dealt = real_damage
+		shot = true
+		if float(target.get("damage", 0.0)) > real_damage:
+			target_damage_after = float(target.get("damage", 0.0)) - real_damage
+		else:
+			target_damage_after = 0.0
+			target_removed = true
+		var beam_x: float = x + cos(deg_to_rad(rotation)) * 5.0
+		var beam_y: float = y + sin(deg_to_rad(rotation)) * 5.0
+		shoot_event = {"beam_x": beam_x, "beam_y": beam_y, "rotation": rotation, "target_x": float(target.get("x", 0.0)), "target_y": float(target.get("y", 0.0))}
+		reload_counter = 0.0
+	return {"rotation": rotation, "reload_counter": reload_counter, "dest": dest, "shot": shot, "damage_dealt": damage_dealt, "target_damage_after": target_damage_after, "target_removed": target_removed, "shoot_event": shoot_event}
+
 @warning_ignore("unused_parameter")
 static func source_point_defense_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the point-defense tick wiring every tick
@@ -289,6 +431,50 @@ static func source_point_defense_turret_tick_buildings_state(game: Object, secon
 			frame["target"] = acquire.get("target", null)
 			frame["has_target"] = acquire.get("has_target", false)
 			frame["target_timer"] = acquire.get("target_timer", 0.0)
+			# The aim/shoot half of PointDefenseBuild.updateTile()
+			# (PointDefenseTurret.java:76-101) runs in the same tick,
+			# right after the retarget, on the just-acquired target
+			# (the N2239 precedent): the pure function gates on the
+			# target itself, so a tick with no target stamps the
+			# unchanged rotation / reloadCounter and no shot. The
+			# per-def segment values are range 180f, rotateSpeed 20f,
+			# reload 8f, shootCone 5f, bulletDamage 30f
+			# (Blocks.java:3838-3846, `range = 180f;` / `shootLength = 5f;` /
+			# `bulletDamage = 30f;` / `reload = 8f;`, the only
+			# PointDefenseTurret def; rotateSpeed 20f and shootCone 5f
+			# are the class values, PointDefenseTurret.java:31-39).
+			# blockDamageMultiplier is state.rules.blockDamage(team)
+			# (Rules.java:299-300, `return blockDamageMultiplier * teams.get(team).blockDamageMultiplier;`),
+			# read from the rules dict under the "blockDamage" key
+			# (the SourceBulletTypeDamageState precedent) with the 1.0
+			# Java default (Rules.java:113, `public float blockDamageMultiplier = 1f;`,
+			# TeamRule default 1f, Rules.java:367); edelta is
+			# efficiency * delta (BuildingComp.java:1927-1929,
+			# `return efficiency * delta();`), the folded efficiency
+			# the consumption branch stamped above (1.0 before the
+			# first graph update, the assembler fold precedent).
+			# The shot writes back live: a damaged target keeps its
+			# remaining damage (the observed dict IS the live bullet
+			# record, the N2239 precedent -- Java holds a live Bullet
+			# reference over `public @Nullable Bullet target;`), a
+			# lethally shot target is nulled this tick (the next
+			# tick's acquire re-validates by id; the port models no
+			# live bullet removal, a documented limit owned by a
+			# later bullet-removal slice).
+			var block_damage_multiplier: float = float(rules_state.get("blockDamage", 1.0)) if rules_state is Dictionary else 1.0
+			var edelta: float = float(frame.get("efficiency", 1.0)) * seconds
+			var aim: Dictionary = source_point_defense_turret_aim_shoot_state(frame, frame.get("target", null), team_id, sprite.position.x, sprite.position.y, 180.0, 20.0, 8.0, 5.0, 30.0,
+				block_damage_multiplier, edelta)
+			frame["rotation"] = aim.get("rotation", 90.0)
+			frame["reload_counter"] = aim.get("reload_counter", 0.0)
+			frame["shot"] = aim.get("shot", false)
+			frame["shoot_event"] = aim.get("shoot_event", null)
+			var aim_target: Variant = frame.get("target", null)
+			if aim_target is Dictionary:
+				if bool(aim.get("target_removed", false)):
+					frame["target"] = null
+				elif bool(aim.get("shot", false)):
+					aim_target["damage"] = aim.get("target_damage_after", 0.0)
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1

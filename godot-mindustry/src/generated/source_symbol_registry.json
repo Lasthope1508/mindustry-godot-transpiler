@@ -175592,6 +175592,134 @@
         "test_reference_graph_and_actual_c07_point_defense_turret_target_acquire"
       ],
       "runtime_proof": "/root/C07PointDefenseTurretTargetAcquireProof"
+    },
+    "source_point_defense_turret_aim_shoot_state_result.rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_aim_shoot_state",
+      "godot_symbol": "source_point_defense_turret_aim_shoot_state_result.rotation",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "java_method": "PointDefenseBuild.updateTile()",
+      "java_expr": "rotation = Angles.moveToward(rotation, dest, rotateSpeed * edelta());",
+      "rule": "The rotation after moveToward toward dest (PointDefenseTurret.java:78 -- unchanged when the gate fails; the float turret rotation, default 90, BaseTurret.java:114).",
+      "tests": [
+        "test_c07_point_defense_turret_aim_shoot_registration",
+        "test_all_c07_point_defense_turret_aim_shoot_input_evidence_is_exact",
+        "test_point_defense_turret_aim_shoot_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_aim_shoot"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretAimShootProof"
+    },
+    "source_point_defense_turret_aim_shoot_state_result.reload_counter": {
+      "status": "source-backed",
+      "godot_owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_aim_shoot_state",
+      "godot_symbol": "source_point_defense_turret_aim_shoot_state_result.reload_counter",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "java_method": "PointDefenseBuild.updateTile()",
+      "java_expr": "reloadCounter += edelta();",
+      "rule": "The reload counter after += edelta, 0.0 on a shot (PointDefenseTurret.java:79 charges it, :97 resets it to 0 -- reset-to-0, NOT %= reload; Java never clamps it here; unchanged when the gate fails).",
+      "tests": [
+        "test_c07_point_defense_turret_aim_shoot_registration",
+        "test_all_c07_point_defense_turret_aim_shoot_input_evidence_is_exact",
+        "test_point_defense_turret_aim_shoot_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_aim_shoot"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretAimShootProof"
+    },
+    "source_point_defense_turret_aim_shoot_state_result.dest": {
+      "status": "source-backed",
+      "godot_owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_aim_shoot_state",
+      "godot_symbol": "source_point_defense_turret_aim_shoot_state_result.dest",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "java_method": "PointDefenseBuild.updateTile()",
+      "java_expr": "float dest = angleTo(target);",
+      "rule": "The angle to the target (PointDefenseTurret.java:77 -- angleTo is Position.angleTo -> Angles.angle, atan2(dx, dy), 0 degrees is +Y; null when the gate fails, Java only computes it inside the if).",
+      "tests": [
+        "test_c07_point_defense_turret_aim_shoot_registration",
+        "test_all_c07_point_defense_turret_aim_shoot_input_evidence_is_exact",
+        "test_point_defense_turret_aim_shoot_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_aim_shoot"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretAimShootProof"
+    },
+    "source_point_defense_turret_aim_shoot_state_result.shot": {
+      "status": "source-backed",
+      "godot_owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_aim_shoot_state",
+      "godot_symbol": "source_point_defense_turret_aim_shoot_state_result.shot",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "java_method": "PointDefenseBuild.updateTile()",
+      "java_expr": "if(Angles.within(rotation, dest, shootCone) && reloadCounter >= reload){",
+      "rule": "Whether the shoot gate fired (PointDefenseTurret.java:82 -- Angles.within is angleDist <= shootCone and reloadCounter >= reload).",
+      "tests": [
+        "test_c07_point_defense_turret_aim_shoot_registration",
+        "test_all_c07_point_defense_turret_aim_shoot_input_evidence_is_exact",
+        "test_point_defense_turret_aim_shoot_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_aim_shoot"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretAimShootProof"
+    },
+    "source_point_defense_turret_aim_shoot_state_result.damage_dealt": {
+      "status": "source-backed",
+      "godot_owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_aim_shoot_state",
+      "godot_symbol": "source_point_defense_turret_aim_shoot_state_result.damage_dealt",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "java_method": "PointDefenseBuild.updateTile()",
+      "java_expr": "float realDamage = bulletDamage * state.rules.blockDamage(team);",
+      "rule": "The real damage dealt on a shot (PointDefenseTurret.java:83 -- bulletDamage * blockDamageMultiplier; 0.0 when no shot).",
+      "tests": [
+        "test_c07_point_defense_turret_aim_shoot_registration",
+        "test_all_c07_point_defense_turret_aim_shoot_input_evidence_is_exact",
+        "test_point_defense_turret_aim_shoot_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_aim_shoot"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretAimShootProof"
+    },
+    "source_point_defense_turret_aim_shoot_state_result.target_damage_after": {
+      "status": "source-backed",
+      "godot_owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_aim_shoot_state",
+      "godot_symbol": "source_point_defense_turret_aim_shoot_state_result.target_damage_after",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "java_method": "PointDefenseBuild.updateTile()",
+      "java_expr": "target.damage(target.damage() - realDamage);",
+      "rule": "The target damage remaining after the shot (PointDefenseTurret.java:85 -- target damage minus realDamage; 0.0 when the shot is lethal; unchanged when no shot).",
+      "tests": [
+        "test_c07_point_defense_turret_aim_shoot_registration",
+        "test_all_c07_point_defense_turret_aim_shoot_input_evidence_is_exact",
+        "test_point_defense_turret_aim_shoot_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_aim_shoot"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretAimShootProof"
+    },
+    "source_point_defense_turret_aim_shoot_state_result.target_removed": {
+      "status": "source-backed",
+      "godot_owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_aim_shoot_state",
+      "godot_symbol": "source_point_defense_turret_aim_shoot_state_result.target_removed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "java_method": "PointDefenseBuild.updateTile()",
+      "java_expr": "target.remove();",
+      "rule": "Whether the shot removed the target (PointDefenseTurret.java:87 -- the STRICT > comparison at :84 means a target whose damage equals realDamage is removed, not left at 0).",
+      "tests": [
+        "test_c07_point_defense_turret_aim_shoot_registration",
+        "test_all_c07_point_defense_turret_aim_shoot_input_evidence_is_exact",
+        "test_point_defense_turret_aim_shoot_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_aim_shoot"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretAimShootProof"
+    },
+    "source_point_defense_turret_aim_shoot_state_result.shoot_event": {
+      "status": "source-backed",
+      "godot_owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_aim_shoot_state",
+      "godot_symbol": "source_point_defense_turret_aim_shoot_state_result.shoot_event",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "java_method": "PointDefenseBuild.updateTile()",
+      "java_expr": "beamEffect.at(x + Tmp.v1.x, y + Tmp.v1.y, rotation, color, new Vec2().set(target));",
+      "rule": "The shoot event dict on a shot (PointDefenseTurret.java:91 -- the beam origin Tmp.v1.trns(rotation, shootLength) with the per-def shootLength 5f, plus rotation and the target position; null when no shot; the pure function spawns no effects or sound).",
+      "tests": [
+        "test_c07_point_defense_turret_aim_shoot_registration",
+        "test_all_c07_point_defense_turret_aim_shoot_input_evidence_is_exact",
+        "test_point_defense_turret_aim_shoot_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_aim_shoot"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretAimShootProof"
     }
   },
   "version": 1

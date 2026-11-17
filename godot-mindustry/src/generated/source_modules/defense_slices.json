@@ -3169,6 +3169,30 @@
       ],
       "runtime_proof": "/root/C07PointDefenseTurretTargetAcquireProof"
     },
+    "N2240": {
+      "canonical_ledger": "source_slice_ledger.N2240",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "java_method": "PointDefenseBuild.updateTile()",
+      "godot_owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_aim_shoot_state",
+      "source_symbols": [
+        "source_point_defense_turret_aim_shoot_state_result.rotation",
+        "source_point_defense_turret_aim_shoot_state_result.reload_counter",
+        "source_point_defense_turret_aim_shoot_state_result.dest",
+        "source_point_defense_turret_aim_shoot_state_result.shot",
+        "source_point_defense_turret_aim_shoot_state_result.damage_dealt",
+        "source_point_defense_turret_aim_shoot_state_result.target_damage_after",
+        "source_point_defense_turret_aim_shoot_state_result.target_removed",
+        "source_point_defense_turret_aim_shoot_state_result.shoot_event"
+      ],
+      "tests": [
+        "test_c07_point_defense_turret_aim_shoot_registration",
+        "test_all_c07_point_defense_turret_aim_shoot_input_evidence_is_exact",
+        "test_point_defense_turret_aim_shoot_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_aim_shoot"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretAimShootProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",
