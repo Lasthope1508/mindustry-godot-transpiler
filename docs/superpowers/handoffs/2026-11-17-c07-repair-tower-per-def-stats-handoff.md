@@ -1,6 +1,6 @@
 # Handoff — N2238 RepairTower per-def stat rows verification (C07)
 
-## Status: GREEN, gate running (main thread, PID 9063, launch ~23:4x). Test + proof xanh, chờ gate rồi 5-commit + push. SSOT 11540/1688/1619/3029. Targeted 4/4, family RepairTower 40/40, wiring 32/32 = 76/76; proof 4 semantic keys / 7 in JSON matches:true. Dự kiến footer Ran ~6049, failures ~189, errors=2 (2 KeyError 'N2239' của test RED PointDefenseTurret — không phải regression), skipped 5.
+## Status: DONE + PUSHED (slice f5683526, main 743c00c1). Test + proof xanh, gate sạch (chỉ Godot-absent + RED N2239). SSOT 11540/1688/1619/3029. Targeted 4/4, family RepairTower 40/40, wiring 32/32 = 76/76; proof 4 semantic keys / 7 in JSON matches:true. Gate DONE (main thread, PID 9063, ~23:40–23:58): Ran 6049 in 1071.624s, failures=190, errors=2, skipped=5 — 189 verified Godot-absent asserts + 1 FAIL + 2 ERROR KeyError 'N2239' từ test RED N2239 (slice tiếp theo, chưa đăng ký — không phải regression).
 
 ## Commits
 
