@@ -41,6 +41,6 @@ N2235 làm được, không còn blocker. Correction cho phát hiện ngoài sco
 
 ## Hashes
 
-- 5-commit xong: slice (this commit), docs (next commit), GOAL (next commit) — đang push lên origin main.
+- 5-commit xong: slice 0a1b5247, docs 1093c7c7, GOAL fc6dc5b0 — đang push lên origin main.
 - Windows Godot proof là nợ trong GOAL.md §5 (proof Linux xanh, chưa chạy Windows).
 - Bước tiếp theo: suppression live + targets live list (vẫn BLOCKED), hoặc họ tiếp theo theo backlog; stamp `block_id` ở bind (để volume per-def kích hoạt trên frame live) là slice riêng sau. (KHÔNG bắt đầu C08 inventory trừ khi user yêu cầu.)
