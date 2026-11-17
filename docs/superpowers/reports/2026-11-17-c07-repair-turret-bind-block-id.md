@@ -51,6 +51,6 @@ N2236 làm được, không còn blocker. Đóng đúng giới hạn handoff N22
 
 ## Hashes
 
-- 5-commit xong: slice (this commit), docs (next commit), GOAL (next commit) — đang push lên origin main.
+- 5-commit xong: slice 96357c4b, docs aaeb017c, GOAL 91ee3bc1 — đang push lên origin main.
 - Windows Godot proof là nợ trong GOAL.md §5 (proof Linux xanh, chưa chạy Windows).
 - Bước tiếp theo: suppression live + targets live list (vẫn BLOCKED), hoặc họ tiếp theo theo backlog. (KHÔNG bắt đầu C08 inventory trừ khi user yêu cầu.)
