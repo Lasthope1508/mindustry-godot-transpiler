@@ -174664,6 +174664,118 @@
         "test_reference_graph_and_actual_c07_repair_turret_icons"
       ],
       "runtime_proof": "/root/C07RepairTurretIconsProof"
+    },
+    "source_repair_tower_heal_advance_state_result.suppressed": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_heal_advance_state",
+      "godot_symbol": "source_repair_tower_heal_advance_state_result.suppressed",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.updateTile()",
+      "java_expr": "if(checkSuppression()){",
+      "rule": "Whether the suppression gate fired this tick: checkSuppression() zeroes warmup and returns early (RepairTower.java:69-72, `if(checkSuppression()){` / `warmup = 0f;` / `return;`) -- no heal, no totalProgress advance.",
+      "tests": [
+        "test_c07_repair_tower_heal_advance_registration",
+        "test_all_c07_repair_tower_heal_advance_input_evidence_is_exact",
+        "test_repair_tower_heal_advance_state",
+        "test_reference_graph_and_actual_c07_repair_tower_heal_advance"
+      ],
+      "runtime_proof": "/root/C07RepairTowerHealAdvanceProof"
+    },
+    "source_repair_tower_heal_advance_state_result.any": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_heal_advance_state",
+      "godot_symbol": "source_repair_tower_heal_advance_state_result.any",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.updateTile()",
+      "java_expr": "boolean any = false;",
+      "rule": "Whether any target was healed this tick (RepairTower.java:74, `boolean any = false;`, set `any = true;` only when a damaged target is healed, RepairTower.java:79 -- drives the warmup lerp target, RepairTower.java:84).",
+      "tests": [
+        "test_c07_repair_tower_heal_advance_registration",
+        "test_all_c07_repair_tower_heal_advance_input_evidence_is_exact",
+        "test_repair_tower_heal_advance_state",
+        "test_reference_graph_and_actual_c07_repair_tower_heal_advance"
+      ],
+      "runtime_proof": "/root/C07RepairTowerHealAdvanceProof"
+    },
+    "source_repair_tower_heal_advance_state_result.healed_count": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_heal_advance_state",
+      "godot_symbol": "source_repair_tower_heal_advance_state_result.healed_count",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.updateTile()",
+      "java_expr": "any = true;",
+      "rule": "How many targets were healed this tick (RepairTower.java:79, `any = true;` -- one count per damaged target healed; 0 when efficiency <= 0 or no target is damaged).",
+      "tests": [
+        "test_c07_repair_tower_heal_advance_registration",
+        "test_all_c07_repair_tower_heal_advance_input_evidence_is_exact",
+        "test_repair_tower_heal_advance_state",
+        "test_reference_graph_and_actual_c07_repair_tower_heal_advance"
+      ],
+      "runtime_proof": "/root/C07RepairTowerHealAdvanceProof"
+    },
+    "source_repair_tower_heal_advance_state_result.warmup": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_heal_advance_state",
+      "godot_symbol": "source_repair_tower_heal_advance_state_result.warmup",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.updateTile()",
+      "java_expr": "warmup = Mathf.lerpDelta(warmup, any ? efficiency : 0f, 0.08f);",
+      "rule": "The warmup after this tick: lerpDelta toward efficiency when any target healed, else toward 0 (RepairTower.java:84 -- runs every non-suppressed tick, outside the `if(efficiency > 0){` block; 0.0 on the suppression early return).",
+      "tests": [
+        "test_c07_repair_tower_heal_advance_registration",
+        "test_all_c07_repair_tower_heal_advance_input_evidence_is_exact",
+        "test_repair_tower_heal_advance_state",
+        "test_reference_graph_and_actual_c07_repair_tower_heal_advance"
+      ],
+      "runtime_proof": "/root/C07RepairTowerHealAdvanceProof"
+    },
+    "source_repair_tower_heal_advance_state_result.total_progress": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_heal_advance_state",
+      "godot_symbol": "source_repair_tower_heal_advance_state_result.total_progress",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.updateTile()",
+      "java_expr": "totalProgress += Time.delta / circleSpeed;",
+      "rule": "The totalProgress after this tick: advanced by delta / circleSpeed (RepairTower.java:85 -- runs every non-suppressed tick; unchanged on the suppression early return).",
+      "tests": [
+        "test_c07_repair_tower_heal_advance_registration",
+        "test_all_c07_repair_tower_heal_advance_input_evidence_is_exact",
+        "test_repair_tower_heal_advance_state",
+        "test_reference_graph_and_actual_c07_repair_tower_heal_advance"
+      ],
+      "runtime_proof": "/root/C07RepairTowerHealAdvanceProof"
+    },
+    "source_repair_tower_heal_advance_state_result.targets": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_heal_advance_state",
+      "godot_symbol": "source_repair_tower_heal_advance_state_result.targets",
+      "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+      "java_method": "RepairTowerBuild.updateTile()",
+      "java_expr": "health = Math.min(health, maxHealth);",
+      "rule": "The targets after this tick: duplicates of the input list with the healed health, clamped at maxHealth (HealthComp.java:104, `health = Math.min(health, maxHealth);` -- the N2213 duplicate precedent; the input list is not mutated, so the driver stamps the returned list).",
+      "tests": [
+        "test_c07_repair_tower_heal_advance_registration",
+        "test_all_c07_repair_tower_heal_advance_input_evidence_is_exact",
+        "test_repair_tower_heal_advance_state",
+        "test_reference_graph_and_actual_c07_repair_tower_heal_advance"
+      ],
+      "runtime_proof": "/root/C07RepairTowerHealAdvanceProof"
+    },
+    "source_repair_tower_heal_advance_state_result.heal_amount": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_heal_advance_state",
+      "godot_symbol": "source_repair_tower_heal_advance_state_result.heal_amount",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.updateTile()",
+      "java_expr": "target.heal(healAmount * edelta());",
+      "rule": "The health added per healed target this tick: healAmount * edelta (RepairTower.java:78 -- 0.0 when efficiency is 0 or the suppression gate fired).",
+      "tests": [
+        "test_c07_repair_tower_heal_advance_registration",
+        "test_all_c07_repair_tower_heal_advance_input_evidence_is_exact",
+        "test_repair_tower_heal_advance_state",
+        "test_reference_graph_and_actual_c07_repair_tower_heal_advance"
+      ],
+      "runtime_proof": "/root/C07RepairTowerHealAdvanceProof"
     }
   },
   "version": 1

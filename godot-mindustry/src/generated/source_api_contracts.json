@@ -67498,6 +67498,62 @@
       ],
       "runtime_proof": "/root/C07RepairTurretIconsProof",
       "rule": "Source-backed RepairTurret icons() state from RepairTurret.java + Block.java."
+    },
+    "SourceRepairTowerBuildState.source_repair_tower_heal_advance_state": {
+      "status": "active",
+      "source_slice": "N2228",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "source_method": "RepairTowerBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_repair_tower_heal_advance_state_input.frame"
+        },
+        {
+          "name": "targets",
+          "type": "Array",
+          "schema": "source_repair_tower_heal_advance_state_input.targets"
+        },
+        {
+          "name": "heal_amount",
+          "type": "float",
+          "schema": "source_repair_tower_heal_advance_state_input.heal_amount"
+        },
+        {
+          "name": "delta",
+          "type": "float",
+          "schema": "source_repair_tower_heal_advance_state_input.delta"
+        },
+        {
+          "name": "circle_speed",
+          "type": "float",
+          "schema": "source_repair_tower_heal_advance_state_input.circle_speed"
+        },
+        {
+          "name": "suppressed",
+          "type": "bool",
+          "schema": "source_repair_tower_heal_advance_state_input.suppressed"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "suppressed",
+        "any",
+        "healed_count",
+        "warmup",
+        "total_progress",
+        "targets",
+        "heal_amount"
+      ],
+      "tests": [
+        "test_c07_repair_tower_heal_advance_registration",
+        "test_all_c07_repair_tower_heal_advance_input_evidence_is_exact",
+        "test_repair_tower_heal_advance_state",
+        "test_reference_graph_and_actual_c07_repair_tower_heal_advance"
+      ],
+      "runtime_proof": "/root/C07RepairTowerHealAdvanceProof",
+      "rule": "Source-backed RepairTower heal advance from RepairTower.java / HealthComp.java / BuildingComp.java / Blocks.java."
     }
   },
   "policy": {

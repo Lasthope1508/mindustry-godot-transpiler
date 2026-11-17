@@ -94,6 +94,40 @@ static func source_repair_tower_should_consume_state(frame: Dictionary) -> Dicti
 		return {"should_consume": enabled}
 	return {"should_consume": int(observed) > 0 and enabled}
 
+static func source_repair_tower_heal_advance_state(frame: Dictionary, targets: Array, heal_amount: float, delta: float, circle_speed: float, suppressed: bool) -> Dictionary:
+	# The remainder of RepairTowerBuild.updateTile() (RepairTower.java:69-85): the suppression gate (`if(checkSuppression()){` / `warmup = 0f;` / `return;`, RepairTower.java:69-72) zeroes warmup and returns early -- no heal, no totalProgress advance. `boolean any = false;` (RepairTower.java:74) starts the heal loop, which runs only when `if(efficiency > 0){` (RepairTower.java:75) and heals each damaged target in the `targets` Seq (`for(var target : targets){` / `if(target.damaged()){` / `target.heal(healAmount * edelta());` / `any = true;`, RepairTower.java:76-81). damaged() is `health < maxHealth - 0.001f` (HealthComp.java:47-49, `return health < maxHealth - 0.001f;`), NOT `health < maxHealth`; the heal adds `healAmount * edelta()` and clamps at maxHealth (`health += amount;` / `clampHealth();`, HealthComp.java:109-111, with `health = Math.min(health, maxHealth);`, HealthComp.java:104). edelta() is efficiency * delta() (BuildingComp.java:1927-1928, `public float edelta(){` / `return efficiency * delta();`), and delta() is Time.delta * timeScale (BuildingComp.java:1922-1923) -- the driver passes its per-tick seconds as delta, the same `seconds` the N2190 refresh and the N2211 driver use, so the pure function reads edelta = efficiency * delta directly. The warmup lerp (`warmup = Mathf.lerpDelta(warmup, any ? efficiency : 0f, 0.08f);`, RepairTower.java:84) and the totalProgress advance (`totalProgress += Time.delta / circleSpeed;`, RepairTower.java:85) sit OUTSIDE the `if(efficiency > 0){` block -- they run on every non-suppressed tick. The lerp goes through the shared helper SourceMathState.source_lerp_delta (SourceMathState.gd:52-53, the N2215 strength-lerp math precedent). warmup and totalProgress are Java fields (`public float warmup = 0f;` / `public float totalProgress = 0f;`, RepairTower.java:52-53), default 0. The returned targets are DUPLICATES with the healed health -- the input list is not mutated, so the driver stamps the returned list (the N2213 precedent). Per-def healAmount is 1.5f (`healAmount = 1.5f;`, Blocks.java:6580); the class default is 1f (`public float healAmount = 1f;`, RepairTower.java:24) -- the driver resolves it from the block properties, the N2211 range precedent. The ozone liquid consumer (`consumeLiquid(Liquids.ozone, 3f / 60f);`, Blocks.java:6583) is NOT this slice: its fold needs a liquid-stock observation no frame carries yet. `suppressed` is a bool param (the driver reads `frame.get("heal_suppressed", false)`; no frame stamps it yet and the default false is the Java default, `healSuppressionTime = -1f`, BuildingComp.java:93); the bridges are the static funcs SourceBuildingLifecycleState.is_heal_suppressed_state (:408) and check_suppression_state (:463) -- N2228 calls neither; live suppression plumbing waits for its own slice.
+	var warmup: float = float(frame.get("warmup", 0.0))
+	var total_progress: float = float(frame.get("total_progress", 0.0))
+	if suppressed:
+		return {"suppressed": true, "any": false, "healed_count": 0, "warmup": 0.0, "total_progress": total_progress, "targets": targets, "heal_amount": 0.0}
+	var efficiency: float = float(frame.get("efficiency", 1.0))
+	var edelta: float = efficiency * delta
+	var amount: float = heal_amount * edelta
+	var healed_targets: Array = []
+	var healed_count: int = 0
+	if efficiency > 0.0:
+		for target in targets:
+			if not (target is Dictionary):
+				healed_targets.append(target)
+				continue
+			var health: float = float(target.get("health", 0.0))
+			var max_health: float = float(target.get("max_health", 0.0))
+			var healed_target: Dictionary = target.duplicate()
+			if health < max_health - 0.001:
+				healed_target["health"] = min(health + amount, max_health)
+				healed_count += 1
+			healed_targets.append(healed_target)
+	else:
+		for target in targets:
+			if target is Dictionary:
+				healed_targets.append(target.duplicate())
+			else:
+				healed_targets.append(target)
+	var any: bool = healed_count > 0
+	warmup = SourceMathState.source_lerp_delta(warmup, efficiency if any else 0.0, 0.08, delta)
+	total_progress += delta / circle_speed
+	return {"suppressed": false, "any": any, "healed_count": healed_count, "warmup": warmup, "total_progress": total_progress, "targets": healed_targets, "heal_amount": amount}
+
 @warning_ignore("unused_parameter")
 static func source_repair_tower_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the repair-tower tick wiring every
@@ -154,6 +188,11 @@ static func source_repair_tower_tick_buildings_state(game: Object, seconds: floa
 			frame["refresh"] = refresh_result.get("refresh", 0.0)
 			if bool(refresh_result.get("has_targets_count", false)):
 				frame["targets_count"] = refresh_result.get("targets_count")
+			# N2228 driver: the heal advance is the updateTile remainder (RepairTower.java:69-85) and runs AFTER the refresh in the same updateTile() (Java runs refresh :59-66 before heal :74-82, and updateConsumption() runs before updateTile(), BuildingComp.java:2274/2277). The suppression gate (`if(checkSuppression()){` / `warmup = 0f;` / `return;`, :69-72), the heal loop (`target.heal(healAmount * edelta());`, :78), the warmup lerp (`warmup = Mathf.lerpDelta(warmup, any ? efficiency : 0f, 0.08f);`, :84) and the totalProgress advance (`totalProgress += Time.delta / circleSpeed;`, :85) all run here. healAmount is the per-def value (`healAmount = 1.5f;`, Blocks.java:6580, falling back to the class default `public float healAmount = 1f;`, RepairTower.java:24 -- the N2211 range precedent); circleSpeed is 120f (RepairTower.java:23, Blocks does not override); `suppressed` reads `frame.get("heal_suppressed", false)` (no frame stamps it yet; default false is the Java default, `healSuppressionTime = -1f`, BuildingComp.java:93); `targets` reads `frame.get("targets", [])` (no frame stamps a live targets list yet -- with zero targets the advance still runs warmup/totalProgress, exactly Java with an empty list). The driver stamps `frame["warmup"]`, `frame["total_progress"]` and `frame["targets"]` (the healed duplicates) live.
+			var heal_result: Dictionary = source_repair_tower_heal_advance_state(frame, frame.get("targets", []), float(block.properties.get("healAmount", 1.0)), seconds, 120.0, bool(frame.get("heal_suppressed", false)))
+			frame["warmup"] = heal_result.get("warmup", 0.0)
+			frame["total_progress"] = heal_result.get("total_progress", 0.0)
+			frame["targets"] = heal_result.get("targets", [])
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1

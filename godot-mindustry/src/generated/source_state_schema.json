@@ -233004,6 +233004,154 @@
       },
       "runtime_proof": "/root/C07RepairTurretIconsProof",
       "rule": "Source-backed RepairTurret icons() state from RepairTurret.java + Block.java."
+    },
+    "source_repair_tower_heal_advance_state_input": {
+      "status": "active",
+      "owner": "SourceRepairTowerBuildState.source_repair_tower_heal_advance_state",
+      "source_slice": "N2228",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "public float warmup = 0f;",
+          "rule": "The tower frame (RepairTower.java:52-53, `public float warmup = 0f;` / `public float totalProgress = 0f;` -- the frame carries warmup, total_progress and the folded efficiency; absent keys read the Java field defaults: warmup 0, total_progress 0, efficiency 1.0, the N2176 fold).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_heal_advance_state"
+          ]
+        },
+        "targets": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "public Seq<Unit> targets = new Seq<>();",
+          "rule": "The refresh target list (RepairTower.java:54, `public Seq<Unit> targets = new Seq<>();` -- Java heals this Seq, RepairTower.java:76; passed explicitly because no frame key stamps a live targets list yet, so the driver passes `frame.get(\"targets\", [])` and the advance still runs warmup/totalProgress with zero targets, exactly Java with an empty list).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_heal_advance_state"
+          ]
+        },
+        "heal_amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "healAmount = 1.5f;",
+          "rule": "The per-def healAmount (Blocks.java:6580, `healAmount = 1.5f;` -- class default `public float healAmount = 1f;`, RepairTower.java:24; the driver reads `block.properties.get(\"healAmount\", 1.0)`, the N2211 range precedent).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_heal_advance_state"
+          ]
+        },
+        "delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return efficiency * delta();",
+          "rule": "The tick delta in seconds (BuildingComp.java:1928, `return efficiency * delta();` -- edelta is efficiency * delta, and delta() is Time.delta * timeScale, BuildingComp.java:1922-1923, timeScale = 1 default; the driver passes its per-tick seconds).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_heal_advance_state"
+          ]
+        },
+        "circle_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "public float circleSpeed = 120f, circleStroke = 3f, squareRad = 3f, squareSpinScl = 0.8f, glowMag = 0.5f, glowScl = 8f;",
+          "rule": "The circle speed (RepairTower.java:23 -- Blocks does not override it; the driver passes the 120f literal).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_heal_advance_state"
+          ]
+        },
+        "suppressed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "if(checkSuppression()){",
+          "rule": "Whether checkSuppression() fired this tick (RepairTower.java:69, `if(checkSuppression()){` -- the driver reads `frame.get(\"heal_suppressed\", false)`; no frame stamps it yet and the default false is the Java default, `healSuppressionTime = -1f`, BuildingComp.java:93; the bridges are `SourceBuildingLifecycleState.is_heal_suppressed_state` :408 and `check_suppression_state` :463, and live suppression plumbing waits for its own slice).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_heal_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTowerHealAdvanceProof",
+      "rule": "Source-backed RepairTower heal advance from RepairTower.java / HealthComp.java / BuildingComp.java / Blocks.java."
+    },
+    "source_repair_tower_heal_advance_state_result": {
+      "status": "active",
+      "owner": "SourceRepairTowerBuildState.source_repair_tower_heal_advance_state",
+      "source_slice": "N2228",
+      "keys": {
+        "suppressed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "if(checkSuppression()){",
+          "rule": "Whether the suppression gate fired this tick: checkSuppression() zeroes warmup and returns early (RepairTower.java:69-72, `if(checkSuppression()){` / `warmup = 0f;` / `return;`) -- no heal, no totalProgress advance.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_heal_advance_state"
+          ]
+        },
+        "any": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "boolean any = false;",
+          "rule": "Whether any target was healed this tick (RepairTower.java:74, `boolean any = false;`, set `any = true;` only when a damaged target is healed, RepairTower.java:79 -- drives the warmup lerp target, RepairTower.java:84).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_heal_advance_state"
+          ]
+        },
+        "healed_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "any = true;",
+          "rule": "How many targets were healed this tick (RepairTower.java:79, `any = true;` -- one count per damaged target healed; 0 when efficiency <= 0 or no target is damaged).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_heal_advance_state"
+          ]
+        },
+        "warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "warmup = Mathf.lerpDelta(warmup, any ? efficiency : 0f, 0.08f);",
+          "rule": "The warmup after this tick: lerpDelta toward efficiency when any target healed, else toward 0 (RepairTower.java:84 -- runs every non-suppressed tick, outside the `if(efficiency > 0){` block; 0.0 on the suppression early return).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_heal_advance_state"
+          ]
+        },
+        "total_progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "totalProgress += Time.delta / circleSpeed;",
+          "rule": "The totalProgress after this tick: advanced by delta / circleSpeed (RepairTower.java:85 -- runs every non-suppressed tick; unchanged on the suppression early return).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_heal_advance_state"
+          ]
+        },
+        "targets": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+          "java_expr": "health = Math.min(health, maxHealth);",
+          "rule": "The targets after this tick: duplicates of the input list with the healed health, clamped at maxHealth (HealthComp.java:104, `health = Math.min(health, maxHealth);` -- the N2213 duplicate precedent; the input list is not mutated, so the driver stamps the returned list).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_heal_advance_state"
+          ]
+        },
+        "heal_amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "target.heal(healAmount * edelta());",
+          "rule": "The health added per healed target this tick: healAmount * edelta (RepairTower.java:78 -- 0.0 when efficiency is 0 or the suppression gate fired).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_heal_advance_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTowerHealAdvanceProof",
+      "rule": "Source-backed RepairTower heal advance from RepairTower.java / HealthComp.java / BuildingComp.java / Blocks.java."
     }
   },
   "version": 1
