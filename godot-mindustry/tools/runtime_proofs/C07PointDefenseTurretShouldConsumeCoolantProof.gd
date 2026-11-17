@@ -6,6 +6,32 @@ const registry := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 const proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 
 
+func _make_live_bullet(game: Node, position: Vector2, damage: float, team: Variant, hittable: Variant) -> Dictionary:
+	# A live `game["bullets"]` dict exactly as the only writer
+	# builds it (SourceBulletSpawnState.gd
+	# spawn_turret_bullet_from_state: sprite / target / velocity /
+	# speed / damage / hitSize / lifetime_remaining -- no team /
+	# hittable / id / type); team and hittable are added only when
+	# the caller passes them. Since N2242 the driver maps this
+	# live list to `frame["observed_bullets"]` every tick, so the
+	# proof seeds bullets here, never on the frame: a frame-seeded
+	# list is overwritten with the (empty) live observation on
+	# the next tick. The wiring reads position and the stable id
+	# from the sprite, team and hittable from the dict when
+	# present, and marks has_type true.
+	var sprite := Sprite2D.new()
+	sprite.position = position
+	game.add_child(sprite)
+	var bullet := {"sprite": sprite, "target": null, "velocity": Vector2.ZERO, "speed": 0.0, "damage": damage, "hitSize": 1.0, "lifetime_remaining": 10.0}
+	if team != null:
+		bullet["team"] = team
+	if hittable != null:
+		bullet["hittable"] = hittable
+	var live_bullets: Array = game.get("bullets")
+	live_bullets.append(bullet)
+	return bullet
+
+
 func _ready() -> void:
 	var proof: Dictionary = {}
 
@@ -41,11 +67,12 @@ func _ready() -> void:
 	# (BuildingComp.java:1947, `efficiency = ...
 	# shouldConsume() ? potentialEfficiency : 0f;`) -- the
 	# N2151 "machinery runs with should_consume=true when
-	# enabled" approximation ends with this slice. LIVE
-	# CONSEQUENCE: until the bullet wiring lands, the frame
-	# carries no `observed_bullets`, so `target` stays null
-	# and should_consume is false; the proof therefore
-	# supplies observed targets. updateCooling()
+	# enabled" approximation ends with this slice. Since
+	# N2242 the driver maps the live `game["bullets"]` to
+	# `frame["observed_bullets"]` every tick, so the proof
+	# seeds its targets as live bullets below (a
+	# frame-seeded list would be overwritten with the live
+	# observation on the next tick). updateCooling()
 	# (ReloadTurret.java:28-38, called from
 	# PointDefenseTurret.java:74-76 `if(coolant != null){
 	# updateCooling(); }` before the aim/shoot half) gates on
@@ -79,9 +106,13 @@ func _ready() -> void:
 	# instanceof ConsumeCoolant);`, BaseTurret.java:50-52)
 	# leaves coolant null and the driver call is a faithful
 	# no-op for segment. Three segments, one shared driver
-	# tick per phase: A is enabled with an observed enemy
-	# target, B is enabled with no bullets at all, C is
-	# disabled with an observed enemy target. The cooling
+	# tick per phase: A is enabled with a live enemy target,
+	# B is enabled with no bullets at all, C is disabled with
+	# a live enemy target. The segments sit 48 tiles (384px)
+	# apart -- wider than twice the 180 range -- so the
+	# shared live list never lets one segment acquire another
+	# segment's bullet, and B's rect holds no bullet at all.
+	# The cooling
 	# keys call the pure function directly with synthetic
 	# frames (the RepairTurret coolant proof precedent: the
 	# driver call is a no-op for segment, so the class-level
@@ -91,7 +122,7 @@ func _ready() -> void:
 	for registered_block in catalog.get_many("block"):
 		blocks_by_id[registered_block.id] = registered_block
 
-	var cells: Array[Vector2i] = [Vector2i(28, 21), Vector2i(30, 21), Vector2i(32, 21)]
+	var cells: Array[Vector2i] = [Vector2i(28, 21), Vector2i(76, 21), Vector2i(124, 21)]
 	var segments: Array[Sprite2D] = []
 	for cell in cells:
 		var segment := Sprite2D.new()
@@ -130,22 +161,19 @@ func _ready() -> void:
 	for segment in segments:
 		positions.append(segment.position)
 
+	# Live bullets, one per fixture (the driver maps the
+	# live list to `observed_bullets` every tick).
 	# A: one enemy hittable due north (+10 y) -- the timer
 	# fires on the next tick and acquires it.
-	frames[0]["observed_bullets"] = [
-		{"id": 1, "team": teams[0] + 1, "hittable": true, "has_type": true, "damage": 100.0, "x": positions[0].x, "y": positions[0].y + 10.0},
-	]
+	var _bullet_a := _make_live_bullet(game, positions[0] + Vector2(0, 10), 100.0, teams[0] + 1, true)
 	# B: no bullets at all -- no target ever, and the
 	# reload_counter seed below must survive the driver
 	# cooling no-op untouched.
-	frames[1]["observed_bullets"] = []
 	frames[1]["reload_counter"] = 3.0
 	# C: one enemy hittable due north (+10 y), same as A --
 	# the timer fires and acquires it, but the segment is
 	# disabled, so should_consume must still be false.
-	frames[2]["observed_bullets"] = [
-		{"id": 3, "team": teams[2] + 1, "hittable": true, "has_type": true, "damage": 100.0, "x": positions[2].x, "y": positions[2].y + 10.0},
-	]
+	var _bullet_c := _make_live_bullet(game, positions[2] + Vector2(0, 10), 100.0, teams[2] + 1, true)
 	# Seed the acquire timers just below the 5s fire line so
 	# the next tick acquires on A and C.
 	frames[0]["target_timer"] = 4.99

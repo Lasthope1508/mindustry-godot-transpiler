@@ -68239,6 +68239,31 @@
       ],
       "runtime_proof": "/root/C07PointDefenseTurretShouldConsumeCoolantProof",
       "rule": "Source-backed PointDefenseTurret shouldConsume gate + coolant from PointDefenseTurret.java / ReloadTurret.java / BaseTurret.java / BuildingComp.java / Blocks.java / ConsumeLiquidFilter.java / ConsumeCoolant.java / Consume.java."
+    },
+    "SourcePointDefenseTurretBuildState.source_point_defense_turret_live_bullets_state": {
+      "status": "active",
+      "source_slice": "N2242",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "source_method": "PointDefenseBuild.updateTile()",
+      "params": [
+        {
+          "name": "live_bullets",
+          "type": "Array",
+          "schema": "source_point_defense_turret_live_bullets_state_input.live_bullets"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "observed_bullets"
+      ],
+      "tests": [
+        "test_c07_point_defense_turret_live_bullets_wiring_registration",
+        "test_all_c07_point_defense_turret_live_bullets_wiring_input_evidence_is_exact",
+        "test_point_defense_turret_live_bullets_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_live_bullets_wiring"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretLiveBulletsWiringProof",
+      "rule": "Source-backed PointDefenseTurret live-bullets wiring from PointDefenseTurret.java / BulletComp.java / BulletType.java / Blocks.java / GroupDefs.java."
     }
   },
   "policy": {

@@ -175784,6 +175784,22 @@
         "test_reference_graph_and_actual_c07_point_defense_turret_should_consume_cooling"
       ],
       "runtime_proof": "/root/C07PointDefenseTurretShouldConsumeCoolantProof"
+    },
+    "source_point_defense_turret_live_bullets_state_result.observed_bullets": {
+      "status": "source-backed",
+      "godot_owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_live_bullets_state",
+      "godot_symbol": "source_point_defense_turret_live_bullets_state_result.observed_bullets",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "java_method": "PointDefenseBuild.updateTile()",
+      "java_expr": "target = Groups.bullet.intersect(x - range, y - range, range*2, range*2).min(b -> b.team != team && b.type().hittable, b -> b.dst2(this));",
+      "rule": "The observed bullets the N2239 acquire consumes (PointDefenseTurret.java:66 -- one observed dict per live bullet: id from sprite.get_instance_id(), x/y from sprite.position, damage from the live dict, team only when the live dict carries it (team-less bullets excluded, never defaulted to -1), hittable defaulting to the BulletType class default true, has_type true).",
+      "tests": [
+        "test_c07_point_defense_turret_live_bullets_wiring_registration",
+        "test_all_c07_point_defense_turret_live_bullets_wiring_input_evidence_is_exact",
+        "test_point_defense_turret_live_bullets_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_live_bullets_wiring"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretLiveBulletsWiringProof"
     }
   },
   "version": 1

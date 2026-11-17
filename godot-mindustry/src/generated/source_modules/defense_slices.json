@@ -3213,6 +3213,23 @@
       ],
       "runtime_proof": "/root/C07PointDefenseTurretShouldConsumeCoolantProof"
     },
+    "N2242": {
+      "canonical_ledger": "source_slice_ledger.N2242",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "java_method": "PointDefenseBuild.updateTile()",
+      "godot_owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_live_bullets_state",
+      "source_symbols": [
+        "source_point_defense_turret_live_bullets_state_result.observed_bullets"
+      ],
+      "tests": [
+        "test_c07_point_defense_turret_live_bullets_wiring_registration",
+        "test_all_c07_point_defense_turret_live_bullets_wiring_input_evidence_is_exact",
+        "test_point_defense_turret_live_bullets_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_live_bullets_wiring"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretLiveBulletsWiringProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

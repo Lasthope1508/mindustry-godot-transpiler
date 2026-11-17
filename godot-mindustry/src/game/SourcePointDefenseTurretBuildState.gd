@@ -140,10 +140,9 @@ static func source_point_defense_turret_target_acquire_state(frame: Dictionary, 
 	# so the pure function consumes an observed bullet list (the
 	# ShockwaveTower N2190 precedent: `observed_bullets`, an array of
 	# dicts with team/hittable/x/y, world coords, plus an `id` so the
-	# stored target can be re-identified across ticks -- the live
-	# `game["bullets"]` dicts carry no team/hittable/id yet, so the
-	# driver maps them in a later wiring step and stamps nothing
-	# until then). The invalidation reads the CURRENT bullet record:
+	# stored target can be re-identified across ticks -- the driver
+	# maps the live `game["bullets"]` dicts to that list every tick
+	# since N2242, source_point_defense_turret_live_bullets_state). The invalidation reads the CURRENT bullet record:
 	# the stored target is looked up by `id` in the observed list
 	# (the stored dict is a snapshot, Java holds a live reference
 	# over `public @Nullable Bullet target;`; a target whose id is
@@ -366,12 +365,19 @@ static func source_point_defense_turret_should_consume_state(frame: Dictionary) 
 	# must NOT use it. The gate is `enabled && target != null`,
 	# read from the frame keys the tick (enabled, default true)
 	# and N2239 (target, null when no target is stamped) already
-	# carry. LIVE CONSEQUENCE (Java-faithful): until the bullet
-	# wiring lands, the frame carries no `observed_bullets`, so
-	# `target` stays null and `should_consume` is false -- the
-	# segment consumes no power and efficiency folds to 0, exactly
-	# like Java with no target in range (BuildingComp.java:1947,
-	# `efficiency = ... shouldConsume() ? potentialEfficiency : 0f;`).
+	# carry. LIVE CONSEQUENCE (Java-faithful): before the N2242
+	# bullet wiring landed, the frame carried no
+	# `observed_bullets`, so `target` stayed null and
+	# `should_consume` was false -- the segment consumed no power
+	# and efficiency folded to 0, exactly like Java with no target
+	# in range (BuildingComp.java:1947, `efficiency = ...
+	# shouldConsume() ? potentialEfficiency : 0f;`). Since N2242
+	# the driver stamps `observed_bullets` from the live bullets
+	# every tick, so a live enemy bullet in range acquires a target
+	# and the gate can go live -- except live bullets still carry
+	# no team until the spawn-side team stamp slice lands, so in
+	# live play today the mapping excludes them and the gate stays
+	# false (the N2242 deferred gap).
 	# The N2151 "machinery runs with should_consume=true when
 	# enabled" approximation ends with this slice.
 	var should_consume: bool = bool(frame.get("enabled", true)) and frame.get("target", null) != null
@@ -431,6 +437,64 @@ static func source_point_defense_turret_cooling_state(frame: Dictionary, has_coo
 		reload_counter += amount * edelta * heat_capacity * coolant_multiplier
 		cooling_applied = true
 	return {"reload_counter": reload_counter, "cooling_applied": cooling_applied, "coolant_consumed": coolant_consumed}
+
+static func source_point_defense_turret_live_bullets_state(live_bullets: Array) -> Dictionary:
+	# The live bullet query of PointDefenseBuild.updateTile()
+	# (PointDefenseTurret.java:65-67):
+	# `target = Groups.bullet.intersect(x - range, y - range, range*2, range*2).min(b -> b.team != team && b.type().hittable, b -> b.dst2(this));`
+	# -- Java reads the live bullet group every retarget; the port
+	# maps the live `game["bullets"]` dicts to the observed dicts
+	# the N2239 acquire consumes (id / team / hittable / x / y /
+	# damage / has_type). The only writer of the live list is
+	# SourceBulletSpawnState.gd spawn_turret_bullet_from_state
+	# (sprite / target / velocity / speed / damage / hitSize /
+	# lifetime_remaining -- no team / hittable / id / type). A
+	# pooled bullet is nulled (`if(target != null && !target.isAdded()){` /
+	# `target = null;`, PointDefenseTurret.java:69-71): identity
+	# keys on the sprite instance id, so a freed sprite leaves
+	# the live list and the N2239 id-absent invalidation drops the
+	# target. Field by field: id is `sprite.get_instance_id()`
+	# (the SourcePlacedBlockState.gd:11 precedent -- stable while
+	# the sprite lives); x/y are `sprite.position` (the
+	# SourceBulletTargetRuntimeState.gd:20-25 precedent; an invalid
+	# sprite drops the bullet, the simulate_bullets
+	# pending_removals precedent); damage is the live dict's
+	# damage; team is read ONLY when the live dict carries it -- a
+	# team-less bullet is EXCLUDED, never defaulted to -1 (the
+	# acquire reads `int(bullet.get("team", -1))`, and -1 !=
+	# team_id for every real team -- derelict is 0,
+	# SourceBlockGeometry.gd:159 -- so defaulting -1 would
+	# misclassify own-team turret fire, the only live bullets
+	# today, as enemy); hittable defaults to the BulletType class
+	# default true (`public boolean hittable = true;`,
+	# BulletType.java:143; the damageLightning / fireball
+	# `hittable = false` types wait for a per-type lookup slice);
+	# has_type is true because every live bullet was created with
+	# `bullet.type = this` (SourceBulletTypeCreateCoreState.gd
+	# bullet_identity_state typeSource). The spawn-side team stamp
+	# (turret-sim -> bridge -> runtime carries no team today) is
+	# DEFERRED to its own slice; this maps only what the live
+	# dict carries.
+	var observed_bullets: Array = []
+	for bullet in live_bullets:
+		if not (bullet is Dictionary):
+			continue
+		var sprite: Variant = bullet.get("sprite", null)
+		if not is_instance_valid(sprite) or not sprite is Sprite2D:
+			continue
+		var team: Variant = bullet.get("team", null)
+		if team == null:
+			continue
+		observed_bullets.append({
+			"id": sprite.get_instance_id(),
+			"team": int(team),
+			"hittable": bool(bullet.get("hittable", true)),
+			"x": sprite.position.x,
+			"y": sprite.position.y,
+			"damage": float(bullet.get("damage", 0.0)),
+			"has_type": true,
+		})
+	return {"observed_bullets": observed_bullets}
 
 @warning_ignore("unused_parameter")
 static func source_point_defense_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
@@ -504,15 +568,18 @@ static func source_point_defense_turret_tick_buildings_state(game: Object, secon
 		# UNCONDITIONAL on power/enabled/cheating: Java updateTile
 		# runs regardless -- only the aim/shoot half needs
 		# efficiency (PointDefenseTurret.java:76-101, waits for
-		# its own slice). The driver stamps the acquired target
-		# live (the N2212 precedent) only once a caller provides
-		# observed bullets: the live `game["bullets"]` dicts carry
-		# no team/hittable/id yet, so the driver maps them in a
-		# later wiring step and stamps nothing until then; a frame
-		# without `observed_bullets` keeps whatever target it had
-		# (the N2190 finding). The range is per-def 180f
+		# its own slice). The driver maps the live
+		# `game["bullets"]` dicts to observed bullets every tick
+		# (the N2242 wiring,
+		# source_point_defense_turret_live_bullets_state) and stamps
+		# `frame["observed_bullets"]` before the acquire: an empty
+		# list is still an observation (the N2190/N2195
+		# present-but-empty precedent), so the acquire runs and a
+		# pooled target clears. The range is per-def 180f
 		# (Blocks.java:3838, `range = 180f;`, the only
 		# PointDefenseTurret def).
+		var live_bullets: Array = game.get("bullets") if game.get("bullets") is Array else []
+		frame["observed_bullets"] = source_point_defense_turret_live_bullets_state(live_bullets).get("observed_bullets", [])
 		if frame.has("observed_bullets"):
 			var acquire: Dictionary = source_point_defense_turret_target_acquire_state(frame, frame.get("observed_bullets", []), team_id, sprite.position.x, sprite.position.y, 180.0, seconds)
 			frame["target"] = acquire.get("target", null)

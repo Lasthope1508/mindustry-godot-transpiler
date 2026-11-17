@@ -6,6 +6,32 @@ const registry := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 const proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 
 
+func _make_live_bullet(game: Node, position: Vector2, damage: float, team: Variant, hittable: Variant) -> Dictionary:
+	# A live `game["bullets"]` dict exactly as the only writer
+	# builds it (SourceBulletSpawnState.gd
+	# spawn_turret_bullet_from_state: sprite / target / velocity /
+	# speed / damage / hitSize / lifetime_remaining -- no team /
+	# hittable / id / type); team and hittable are added only when
+	# the caller passes them. Since N2242 the driver maps this
+	# live list to `frame["observed_bullets"]` every tick, so the
+	# proof seeds bullets here, never on the frame: a frame-seeded
+	# list is overwritten with the (empty) live observation on
+	# the next tick. The wiring reads position and the stable id
+	# from the sprite, team and hittable from the dict when
+	# present, and marks has_type true.
+	var sprite := Sprite2D.new()
+	sprite.position = position
+	game.add_child(sprite)
+	var bullet := {"sprite": sprite, "target": null, "velocity": Vector2.ZERO, "speed": 0.0, "damage": damage, "hitSize": 1.0, "lifetime_remaining": 10.0}
+	if team != null:
+		bullet["team"] = team
+	if hittable != null:
+		bullet["hittable"] = hittable
+	var live_bullets: Array = game.get("bullets")
+	live_bullets.append(bullet)
+	return bullet
+
+
 func _ready() -> void:
 	var proof: Dictionary = {}
 
@@ -100,13 +126,19 @@ func _ready() -> void:
 	# range^2 (acquired, never aimed at), D has a same-team
 	# target only, E shoots a 100-damage bullet (30 damage
 	# dealt), F shoots a 30-damage bullet (lethal -- damage
-	# equals realDamage, so the target is removed).
+	# equals realDamage, so the target is removed). Since N2242
+	# the bullets are seeded live in `game["bullets"]` (the
+	# driver maps the live list to `observed_bullets` every
+	# tick) and the segments sit 48 tiles (384px) apart --
+	# wider than twice the 180 range -- so the shared live
+	# list never lets one segment acquire another segment's
+	# bullet.
 	var catalog = game.get("content_catalog")
 	var blocks_by_id: Dictionary = {}
 	for registered_block in catalog.get_many("block"):
 		blocks_by_id[registered_block.id] = registered_block
 
-	var cells: Array[Vector2i] = [Vector2i(28, 21), Vector2i(30, 21), Vector2i(32, 21), Vector2i(34, 21), Vector2i(36, 21), Vector2i(38, 21)]
+	var cells: Array[Vector2i] = [Vector2i(28, 21), Vector2i(76, 21), Vector2i(124, 21), Vector2i(172, 21), Vector2i(220, 21), Vector2i(268, 21)]
 	var segments: Array[Sprite2D] = []
 	for cell in cells:
 		var segment := Sprite2D.new()
@@ -142,40 +174,31 @@ func _ready() -> void:
 	for segment in segments:
 		positions.append(segment.position)
 
+	# Live bullets, one per fixture (the driver maps the
+	# live list to `observed_bullets` every tick).
 	# A: one enemy hittable due north (+10 y, dest 0 deg) --
 	# rotation starts at the 90 default and must turn toward 0.
-	frames[0]["observed_bullets"] = [
-		{"id": 1, "team": teams[0] + 1, "hittable": true, "has_type": true, "damage": 100.0, "x": positions[0].x, "y": positions[0].y + 10.0},
-	]
+	var _bullet_a := _make_live_bullet(game, positions[0] + Vector2(0, 10), 100.0, teams[0] + 1, true)
 	# B: no bullets at all -- no target, no rotation, no reload.
-	frames[1]["observed_bullets"] = []
 	# C: one enemy hittable at (+170, +100) -- inside the acquire
 	# rect (x +/- 180, y +/- 180) so it IS acquired, but
 	# dst2 = 170^2 + 100^2 = 38900 >= 180^2 = 32400, so the aim
 	# gate (Position.within, STRICT <) never passes.
-	frames[2]["observed_bullets"] = [
-		{"id": 3, "team": teams[2] + 1, "hittable": true, "has_type": true, "damage": 100.0, "x": positions[2].x + 170.0, "y": positions[2].y + 100.0},
-	]
-	# D: one same-team hittable in range only (id 4) --
+	var _bullet_c := _make_live_bullet(game, positions[2] + Vector2(170, 100), 100.0, teams[2] + 1, true)
+	# D: one same-team hittable in range only --
 	# expect no target even after the timer fires.
-	frames[3]["observed_bullets"] = [
-		{"id": 4, "team": teams[3], "hittable": true, "has_type": true, "damage": 100.0, "x": positions[3].x + 10.0, "y": positions[3].y},
-	]
+	var _bullet_d := _make_live_bullet(game, positions[3] + Vector2(10, 0), 100.0, teams[3], true)
 	# E: one enemy hittable due east (+10 x, dest 90 deg, the
 	# rotation default -- already inside the 5 deg shoot cone)
 	# with damage 100.0 and the reload pre-charged to 7.99 --
 	# one tick must shoot (reload 7.99 + 1/60 >= 8.0), deal
 	# 30.0 * 1.0 block damage, and reset the reload to 0.
-	frames[4]["observed_bullets"] = [
-		{"id": 5, "team": teams[4] + 1, "hittable": true, "has_type": true, "damage": 100.0, "x": positions[4].x + 10.0, "y": positions[4].y},
-	]
+	var _bullet_e := _make_live_bullet(game, positions[4] + Vector2(10, 0), 100.0, teams[4] + 1, true)
 	# F: one enemy hittable due east with damage exactly 30.0
 	# (= realDamage 30.0 * 1.0) and the reload pre-charged --
 	# the STRICT > comparison must remove the target instead
 	# of leaving it at 0.
-	frames[5]["observed_bullets"] = [
-		{"id": 6, "team": teams[5] + 1, "hittable": true, "has_type": true, "damage": 30.0, "x": positions[5].x + 10.0, "y": positions[5].y},
-	]
+	var _bullet_f := _make_live_bullet(game, positions[5] + Vector2(10, 0), 30.0, teams[5] + 1, true)
 	# Seed the acquire timers just below the 5s fire line so
 	# the next tick acquires, and pre-charge the reload on E
 	# and F so the tick after that shoots.

@@ -234626,6 +234626,44 @@
       },
       "runtime_proof": "/root/C07PointDefenseTurretShouldConsumeCoolantProof",
       "rule": "Source-backed PointDefenseTurret shouldConsume gate + coolant from PointDefenseTurret.java / ReloadTurret.java / BaseTurret.java / BuildingComp.java / Blocks.java / ConsumeLiquidFilter.java / ConsumeCoolant.java / Consume.java."
+    },
+    "source_point_defense_turret_live_bullets_state_input": {
+      "status": "active",
+      "owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_live_bullets_state",
+      "source_slice": "N2242",
+      "keys": {
+        "live_bullets": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "target = Groups.bullet.intersect(x - range, y - range, range*2, range*2).min(b -> b.team != team && b.type().hittable, b -> b.dst2(this));",
+          "rule": "The live bullets the wiring maps (PointDefenseTurret.java:66 -- Java reads the live bullet group every retarget; the port reads the live `game[\"bullets\"]` dicts, whose only writer is SourceBulletSpawnState.gd spawn_turret_bullet_from_state: sprite / target / velocity / speed / damage / hitSize / lifetime_remaining, no team / hittable / id / type).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_live_bullets_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PointDefenseTurretLiveBulletsWiringProof",
+      "rule": "Source-backed PointDefenseTurret live-bullets wiring from PointDefenseTurret.java / BulletComp.java / BulletType.java / Blocks.java / GroupDefs.java."
+    },
+    "source_point_defense_turret_live_bullets_state_result": {
+      "status": "active",
+      "owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_live_bullets_state",
+      "source_slice": "N2242",
+      "keys": {
+        "observed_bullets": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "target = Groups.bullet.intersect(x - range, y - range, range*2, range*2).min(b -> b.team != team && b.type().hittable, b -> b.dst2(this));",
+          "rule": "The observed bullets the N2239 acquire consumes (PointDefenseTurret.java:66 -- one observed dict per live bullet: id from sprite.get_instance_id(), x/y from sprite.position, damage from the live dict, team only when the live dict carries it (team-less bullets excluded, never defaulted to -1), hittable defaulting to the BulletType class default true, has_type true).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_live_bullets_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PointDefenseTurretLiveBulletsWiringProof",
+      "rule": "Source-backed PointDefenseTurret live-bullets wiring from PointDefenseTurret.java / BulletComp.java / BulletType.java / Blocks.java / GroupDefs.java."
     }
   },
   "version": 1
