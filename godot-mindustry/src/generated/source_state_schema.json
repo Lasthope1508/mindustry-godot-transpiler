@@ -233942,6 +233942,74 @@
       },
       "runtime_proof": "/root/C07RepairTurretRangeBuildRotationProof",
       "rule": "Source-backed RepairTurret range()/buildRotation() state from RepairTurret.java + Blocks.java + Ranged.java + RotBlock.java."
+    },
+    "source_repair_turret_sense_object_state_input": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_sense_object_state",
+      "source_slice": "N2234",
+      "keys": {
+        "sensor": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public Object senseObject(LAccess sensor){",
+          "rule": "The logic sensor spelling (BuildingComp.java:2128, `public Object senseObject(LAccess sensor){` -- the LAccess enum names, LAccess.java:8 `firstItem,`, :63 `type,`, :69 `payloadType,`, :83 `config(true, \"to\"),`).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_sense_object_state"
+          ]
+        },
+        "block_id": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "repairPoint = new RepairTurret(\"repair-point\"){{",
+          "rule": "The block id (Blocks.java:6386, `repairPoint = new RepairTurret(\"repair-point\"){{` -- repair-turret, Blocks.java:6397, `repairTurret = new RepairTurret(\"repair-turret\"){{`): the port identity of the `block` the `type` leg returns, passed explicitly because it is per-def static state, not a live frame key (the N2212 / N2220 per-def-param precedent).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_sense_object_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretSenseObjectProof",
+      "rule": "Source-backed RepairTurret senseObject() state from BuildingComp.java + Block.java + Senseable.java + LAccess.java + Blocks.java + RepairTurret.java."
+    },
+    "source_repair_turret_sense_object_state_result": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_sense_object_state",
+      "source_slice": "N2234",
+      "keys": {
+        "handled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public Object senseObject(LAccess sensor){",
+          "rule": "Whether the sensor is one of the four senseObject legs (BuildingComp.java:2128-2134, `public Object senseObject(LAccess sensor){` / `case type -> block;` / `case firstItem -> ...` / `case config -> ...` / `case payloadType -> ...`); any other sensor falls through to `default -> noSensed;` and is unhandled.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_sense_object_state"
+          ]
+        },
+        "sense_object": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "case type -> block;",
+          "rule": "The sensed object (BuildingComp.java:2130, `case type -> block;` -- the block id; firstItem / config / payloadType are all null for a repair turret, BuildingComp.java:2131-2133, `case firstItem -> items == null ? null : items.first();` / `case config -> block.configSenseable() ? config() : null;` / `case payloadType -> getPayload() instanceof UnitPayload p1 ? p1.unit.type : getPayload() instanceof BuildPayload p2 ? p2.block() : null;`).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_sense_object_state"
+          ]
+        },
+        "is_no_sensed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "default -> noSensed;",
+          "rule": "Whether the sensor fell through to the noSensed sentinel (BuildingComp.java:2134, `default -> noSensed;` -- `Object noSensed = new Object();`, Senseable.java:6; the logic converts it to a numeric sense() fallback, LExecutor.java:697-701).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_sense_object_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretSenseObjectProof",
+      "rule": "Source-backed RepairTurret senseObject() state from BuildingComp.java + Block.java + Senseable.java + LAccess.java + Blocks.java + RepairTurret.java."
     }
   },
   "version": 1

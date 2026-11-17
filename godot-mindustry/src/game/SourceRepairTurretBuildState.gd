@@ -472,6 +472,29 @@ static func source_repair_turret_sense_state(frame: Dictionary, sensor: String, 
 		return {"handled": true, "sense_value": rotation_value, "sense_value_is_nan": false}
 	return {"handled": false, "sense_value": null, "sense_value_is_nan": true}
 
+static func source_repair_turret_sense_object_state(sensor: String, block_id: String) -> Dictionary:
+	# BuildingComp.senseObject() (BuildingComp.java:2128-2136, inside `public Object senseObject(LAccess sensor){`, BuildingComp.java:2128):
+	# return switch(sensor){
+	# case type -> block;
+	# case firstItem -> items == null ? null : items.first();
+	# case config -> block.configSenseable() ? config() : null;
+	# case payloadType -> getPayload() instanceof UnitPayload p1 ? p1.unit.type : getPayload() instanceof BuildPayload p2 ? p2.block() : null;
+	# default -> noSensed;
+	# };
+	# The sensor spellings are the LAccess enum names (LAccess.java:8; LAccess.java:63; LAccess.java:69; LAccess.java:83):
+	#     firstItem,
+	#     type,
+	#     payloadType,
+	#     config(true, "to"),
+	# The `type` leg returns the block itself; the port identity of a block is its id string (the same key every `_..._for_block_id` helper resolves): repair-point (`repairPoint = new RepairTurret("repair-point"){{`, Blocks.java:6386) and repair-turret (`repairTurret = new RepairTurret("repair-turret"){{`, Blocks.java:6397).
+	# The three middle legs are all null for a repair turret, pinned not guessed. `firstItem` is null because the items module is never created: `hasItems` is false by default (`public @NoPatch boolean hasItems;`, Block.java:45) and RepairTurret never sets it, so `if(block.hasItems) items = new ItemModule();` (BuildingComp.java:145) never runs and `items == null`. `config` is null because RepairTurret registers no `config()` call, so `configurations` (`public ObjectMap<Class<?>, Cons2> configurations = new ObjectMap<>();`, Block.java:402) stays empty and `configSenseable()` (`public boolean configSenseable(){`, Block.java:809, `return configurations.containsKey(Item.class) || configurations.containsKey(Liquid.class) || configurations.containsKey(UnlockableContent.class) ||` / `configurations.containsKey(Block.class) || configurations.containsKey(UnitType.class);`, Block.java:810-811) is false -- the short-circuit returns null regardless of `config()`. `payloadType` is null because the base `getPayload()` returns null (`public @Nullable Payload getPayload(){`, BuildingComp.java:984, `return null;`, BuildingComp.java:985) and RepairTurret does not override it.
+	# An unhandled sensor falls through to the `noSensed` sentinel (`Object noSensed = new Object();`, Senseable.java:6), which the logic converts to a numeric `sense()` fallback (`if(objOut == Senseable.noSensed){` / `to.setnum(se.sense(la));`, LExecutor.java:697-698) -- the port reports it as `handled: false` + `is_no_sensed: true`, the sense() N2223 `sense_value_is_nan` precedent, so the caller knows to fall back to `source_repair_turret_sense_state`. RepairPointBuild is the building (`public class RepairPointBuild extends Building implements Ranged, RotBlock{`, RepairTurret.java:153) of the block (`public class RepairTurret extends Block{`, RepairTurret.java:25). There is no driver tick line: senseObject is a logic read, not a tick write (the N2223 sense / N2230 setStats precedent); the logic-processor dispatch hook is its own later slice.
+	if sensor == "type":
+		return {"handled": true, "sense_object": block_id, "is_no_sensed": false}
+	if sensor == "firstItem" or sensor == "config" or sensor == "payloadType":
+		return {"handled": true, "sense_object": null, "is_no_sensed": false}
+	return {"handled": false, "sense_object": null, "is_no_sensed": true}
+
 static func source_repair_turret_range_state(repair_radius: float) -> Dictionary:
 	# RepairPointBuild.range() (RepairTurret.java:230-233):
 	# public float range(){

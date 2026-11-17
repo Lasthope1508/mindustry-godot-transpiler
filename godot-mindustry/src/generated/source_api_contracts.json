@@ -67925,6 +67925,38 @@
       ],
       "runtime_proof": "/root/C07RepairTurretRangeBuildRotationProof",
       "rule": "Source-backed RepairTurret range()/buildRotation() state from RepairTurret.java + Blocks.java + Ranged.java + RotBlock.java."
+    },
+    "SourceRepairTurretBuildState.source_repair_turret_sense_object_state": {
+      "status": "active",
+      "source_slice": "N2234",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "source_method": "RepairPointBuild.senseObject(LAccess)",
+      "params": [
+        {
+          "name": "sensor",
+          "type": "String",
+          "schema": "source_repair_turret_sense_object_state_input.sensor"
+        },
+        {
+          "name": "block_id",
+          "type": "String",
+          "schema": "source_repair_turret_sense_object_state_input.block_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "handled",
+        "sense_object",
+        "is_no_sensed"
+      ],
+      "tests": [
+        "test_c07_repair_turret_sense_object_registration",
+        "test_all_c07_repair_turret_sense_object_input_evidence_is_exact",
+        "test_repair_turret_sense_object_state",
+        "test_reference_graph_and_actual_c07_repair_turret_sense_object"
+      ],
+      "runtime_proof": "/root/C07RepairTurretSenseObjectProof",
+      "rule": "Source-backed RepairTurret senseObject() state from BuildingComp.java + Block.java + Senseable.java + LAccess.java + Blocks.java + RepairTurret.java."
     }
   },
   "policy": {

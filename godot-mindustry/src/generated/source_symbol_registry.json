@@ -175272,6 +175272,54 @@
         "test_reference_graph_and_actual_c07_repair_turret_range_build_rotation"
       ],
       "runtime_proof": "/root/C07RepairTurretRangeBuildRotationProof"
+    },
+    "source_repair_turret_sense_object_state_result.handled": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_sense_object_state",
+      "godot_symbol": "source_repair_turret_sense_object_state_result.handled",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "RepairPointBuild.senseObject(LAccess)",
+      "java_expr": "public Object senseObject(LAccess sensor){",
+      "rule": "Whether the sensor is one of the four senseObject legs (BuildingComp.java:2128-2134, `public Object senseObject(LAccess sensor){` / `case type -> block;` / `case firstItem -> ...` / `case config -> ...` / `case payloadType -> ...`); any other sensor falls through to `default -> noSensed;` and is unhandled.",
+      "tests": [
+        "test_c07_repair_turret_sense_object_registration",
+        "test_all_c07_repair_turret_sense_object_input_evidence_is_exact",
+        "test_repair_turret_sense_object_state",
+        "test_reference_graph_and_actual_c07_repair_turret_sense_object"
+      ],
+      "runtime_proof": "/root/C07RepairTurretSenseObjectProof"
+    },
+    "source_repair_turret_sense_object_state_result.sense_object": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_sense_object_state",
+      "godot_symbol": "source_repair_turret_sense_object_state_result.sense_object",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "RepairPointBuild.senseObject(LAccess)",
+      "java_expr": "case type -> block;",
+      "rule": "The sensed object (BuildingComp.java:2130, `case type -> block;` -- the block id; firstItem / config / payloadType are all null for a repair turret, BuildingComp.java:2131-2133, `case firstItem -> items == null ? null : items.first();` / `case config -> block.configSenseable() ? config() : null;` / `case payloadType -> getPayload() instanceof UnitPayload p1 ? p1.unit.type : getPayload() instanceof BuildPayload p2 ? p2.block() : null;`).",
+      "tests": [
+        "test_c07_repair_turret_sense_object_registration",
+        "test_all_c07_repair_turret_sense_object_input_evidence_is_exact",
+        "test_repair_turret_sense_object_state",
+        "test_reference_graph_and_actual_c07_repair_turret_sense_object"
+      ],
+      "runtime_proof": "/root/C07RepairTurretSenseObjectProof"
+    },
+    "source_repair_turret_sense_object_state_result.is_no_sensed": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_sense_object_state",
+      "godot_symbol": "source_repair_turret_sense_object_state_result.is_no_sensed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "RepairPointBuild.senseObject(LAccess)",
+      "java_expr": "default -> noSensed;",
+      "rule": "Whether the sensor fell through to the noSensed sentinel (BuildingComp.java:2134, `default -> noSensed;` -- `Object noSensed = new Object();`, Senseable.java:6; the logic converts it to a numeric sense() fallback, LExecutor.java:697-701).",
+      "tests": [
+        "test_c07_repair_turret_sense_object_registration",
+        "test_all_c07_repair_turret_sense_object_input_evidence_is_exact",
+        "test_repair_turret_sense_object_state",
+        "test_reference_graph_and_actual_c07_repair_turret_sense_object"
+      ],
+      "runtime_proof": "/root/C07RepairTurretSenseObjectProof"
     }
   },
   "version": 1
