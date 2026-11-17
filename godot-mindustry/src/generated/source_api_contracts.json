@@ -67982,6 +67982,37 @@
       ],
       "runtime_proof": "/root/C07RepairTurretAmbientSoundVolumeProof",
       "rule": "Source-backed RepairTurret per-def ambientSoundVolume state from RepairTurret.java + Blocks.java + BuildingComp.java + Block.java."
+    },
+    "SourceRepairTurretBuildState.source_repair_turret_bind_frame_state": {
+      "status": "active",
+      "source_slice": "N2236",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "source_method": "Block.newBuilding()",
+      "params": [
+        {
+          "name": "sprite",
+          "type": "Sprite2D",
+          "schema": "source_repair_turret_bind_frame_state_input.sprite"
+        },
+        {
+          "name": "block",
+          "type": "Object",
+          "schema": "source_repair_turret_bind_frame_state_input.block"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "applied",
+        "frame"
+      ],
+      "tests": [
+        "test_c07_repair_turret_bind_block_id_registration",
+        "test_all_c07_repair_turret_bind_block_id_input_evidence_is_exact",
+        "test_repair_turret_bind_frame_block_id_state",
+        "test_reference_graph_and_actual_c07_repair_turret_bind_block_id"
+      ],
+      "runtime_proof": "/root/C07RepairTurretBindBlockIdProof",
+      "rule": "Source-backed RepairTurret bind frame state from RepairTurret.java + Blocks.java + Block.java + BuildingComp.java."
     }
   },
   "policy": {

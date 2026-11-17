@@ -46,18 +46,22 @@ static func _initial_frame() -> Dictionary:
 	return {}
 
 static func source_repair_turret_bind_frame_state(sprite: Sprite2D, block: Object) -> Dictionary:
-	# Placement creates the Building (Block.java:1002 newBuilding);
+	# Placement creates the Building (`public final Building newBuilding(){`, Block.java:1002);
 	# the port's frame is that Building state, bound on the sprite
 	# at placement under the repair-turret frame meta key
-	# ("source_repair_turret_building"). A RepairTurret sprite gets an
-	# empty frame bound; the live-loop tick fills its keys every
-	# tick. Any other block, or an already-bound sprite, binds
-	# nothing.
+	# ("source_repair_turret_building"). A RepairTurret sprite gets a
+	# frame bound carrying its block id (`frame["block_id"] =
+	# str(block.id)`, the catalog id string, e.g. "repair-point";
+	# the Factory precedent SourceFactoryBuildState.gd:117 stamps
+	# the same value); the live-loop tick fills its other keys
+	# every tick. Any other block, or an already-bound sprite,
+	# binds nothing.
 	if block == null or not _is_repair_turret_build_implementation(str(block.implementation)):
 		return {"applied": false, "frame": {}}
 	if sprite.has_meta(SOURCE_REPAIR_TURRET_BUILDING_META_KEY):
 		return {"applied": false, "frame": sprite.get_meta(SOURCE_REPAIR_TURRET_BUILDING_META_KEY)}
 	var frame: Dictionary = _initial_frame()
+	frame["block_id"] = str(block.id)
 	sprite.set_meta(SOURCE_REPAIR_TURRET_BUILDING_META_KEY, frame)
 	return {"applied": true, "frame": frame}
 
@@ -453,9 +457,9 @@ static func source_repair_turret_ambient_sound_loop_state(frame: Dictionary, hea
 	# `ambientSoundVolume = 1.25f;`), resolved through source_repair_turret_ambient_sound_volume_state from
 	# the frame's block_id (the AdjacentFactory / Factory / UnitFactory precedent for reading block_id off
 	# the frame); a frame with no block_id falls back to the 1.0 class default, so the pre-correction
-	# behavior is preserved. Live repair-turret frames do not stamp block_id yet (the bind creates an empty
-	# frame; the driver reads block_id from the sprite meta), so the per-def volume activates when the
-	# caller supplies the frame's block_id -- stamping it at bind is its own later slice.
+	# behavior is preserved. The bind stamps block_id on the frame (N2236), so the per-def volume
+	# activates on a live frame; the driver still reads block_id from the sprite meta to look the
+	# block up before it calls bind.
 	# The Block defaults they override (Block.java:351, :353):
 	# public Sound ambientSound = Sounds.none;
 	# public float ambientSoundVolume = 0.05f;

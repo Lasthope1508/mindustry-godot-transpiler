@@ -175336,6 +175336,70 @@
         "test_reference_graph_and_actual_c07_repair_turret_ambient_sound_volume"
       ],
       "runtime_proof": "/root/C07RepairTurretAmbientSoundVolumeProof"
+    },
+    "source_repair_turret_bind_frame_state_input.sprite": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_bind_frame_state",
+      "godot_symbol": "source_repair_turret_bind_frame_state_input.sprite",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.newBuilding()",
+      "java_expr": "public final Building newBuilding(){",
+      "rule": "The placed sprite the frame is bound on at placement (Block.java:1002, `public final Building newBuilding(){`): placement creates the Building and the port binds that Building state -- the frame -- on the sprite under the repair-turret frame meta key.",
+      "tests": [
+        "test_c07_repair_turret_bind_block_id_registration",
+        "test_all_c07_repair_turret_bind_block_id_input_evidence_is_exact",
+        "test_repair_turret_bind_frame_block_id_state",
+        "test_reference_graph_and_actual_c07_repair_turret_bind_block_id"
+      ],
+      "runtime_proof": "/root/C07RepairTurretBindBlockIdProof"
+    },
+    "source_repair_turret_bind_frame_state_input.block": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_bind_frame_state",
+      "godot_symbol": "source_repair_turret_bind_frame_state_input.block",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "Block.newBuilding()",
+      "java_expr": "repairPoint = new RepairTurret(\"repair-point\"){{",
+      "rule": "The catalog block being placed (Blocks.java:6386, `repairPoint = new RepairTurret(\"repair-point\"){{` -- repair-turret, Blocks.java:6397, `repairTurret = new RepairTurret(\"repair-turret\"){{`): its id string is the port block identity the bound frame records.",
+      "tests": [
+        "test_c07_repair_turret_bind_block_id_registration",
+        "test_all_c07_repair_turret_bind_block_id_input_evidence_is_exact",
+        "test_repair_turret_bind_frame_block_id_state",
+        "test_reference_graph_and_actual_c07_repair_turret_bind_block_id"
+      ],
+      "runtime_proof": "/root/C07RepairTurretBindBlockIdProof"
+    },
+    "source_repair_turret_bind_frame_state_result.applied": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_bind_frame_state",
+      "godot_symbol": "source_repair_turret_bind_frame_state_result.applied",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.newBuilding()",
+      "java_expr": "public final Building newBuilding(){",
+      "rule": "Whether the bind applied (Block.java:1002, `public final Building newBuilding(){`): true when a fresh frame is bound for a RepairTurret build, false when the sprite is already bound or the block is not a RepairTurret build.",
+      "tests": [
+        "test_c07_repair_turret_bind_block_id_registration",
+        "test_all_c07_repair_turret_bind_block_id_input_evidence_is_exact",
+        "test_repair_turret_bind_frame_block_id_state",
+        "test_reference_graph_and_actual_c07_repair_turret_bind_block_id"
+      ],
+      "runtime_proof": "/root/C07RepairTurretBindBlockIdProof"
+    },
+    "source_repair_turret_bind_frame_state_result.frame": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_bind_frame_state",
+      "godot_symbol": "source_repair_turret_bind_frame_state_result.frame",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "Block.newBuilding()",
+      "java_expr": "control.sound.loop(block.ambientSound, self(), block.ambientSoundVolume * ambientVolume());",
+      "rule": "The bound frame (BuildingComp.java:2271, `control.sound.loop(block.ambientSound, self(), block.ambientSoundVolume * ambientVolume());`): the Building state the ambient-sound loop reads block_id from; a fresh bind stamps `frame[\"block_id\"] = str(block.id)` so the per-def volume (repair-point 0.9f, repair-turret 1.25f) resolves on a live frame.",
+      "tests": [
+        "test_c07_repair_turret_bind_block_id_registration",
+        "test_all_c07_repair_turret_bind_block_id_input_evidence_is_exact",
+        "test_repair_turret_bind_frame_block_id_state",
+        "test_reference_graph_and_actual_c07_repair_turret_bind_block_id"
+      ],
+      "runtime_proof": "/root/C07RepairTurretBindBlockIdProof"
     }
   },
   "version": 1
