@@ -45,6 +45,5 @@
 
 ## Commits
 
-- (slice commit — xem report, hash ghi sau khi commit)
-- Docs: (report + handoff + design spec, Done 1676 → 1677)
-- GOAL: (§5 Windows debt line)
+- e1634f5a C07: N2227 RepairTurret icons() (pure function + proof 6 keys) — 9 files, 843 insertions.
+- Docs: 67ca79a6 (report + handoff + design spec, Done 1676 → 1677), GOAL a0d71047 (§5 Windows debt line).

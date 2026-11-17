@@ -31,5 +31,5 @@
 
 ## Bước tiếp theo
 
-- 5-commit xong: slice, docs, GOAL, hash-naming, handoff-status — rồi push lên origin main.
+- 5-commit xong: slice e1634f5a, docs 67ca79a6, GOAL a0d71047 — đang push lên origin main.
 - Slice tiếp theo sau N2227: RepairTurret đã slice xong, chỉ còn deferred config-display BuildingComp-level rows + drawBeam jitter/pulse (arc Rand modeling); hoặc family tiếp theo theo backlog. Không bắt đầu C08 trừ khi user yêu cầu.
