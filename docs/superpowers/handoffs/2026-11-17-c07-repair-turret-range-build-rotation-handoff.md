@@ -1,6 +1,6 @@
 # Handoff — N2233 RepairTurret range() + buildRotation() (C07)
 
-## Status: GREEN + gate xanh, chờ push (2026-11-17 ~18:3x +07, main-thread verified, 2 lượt). Test + proof + gate xanh, chưa push. SSOT 11524/1683/1614/3019. Targeted 4/4, family RepairTurret 72/72, wiring 32/32 = 108/108; proof 6 semantic keys / 9 trong JSON matches:true. Gate Ran 6025, failures=183, skipped=5, 0 errors — toàn bộ Godot-absent. Proofs not yet run on Windows Godot — debt in GOAL.md §5.
+## Status: DONE + PUSHED (2026-11-17 ~18:3x +07; slice e776b073, main 5e585d85). Test + proof + gate xanh. SSOT 11524/1683/1614/3019. Targeted 4/4, family RepairTurret 72/72, wiring 32/32 = 108/108; proof 6 semantic keys / 9 in JSON matches:true. Gate Ran 6025, failures=183, skipped=5, 0 errors — toàn bộ Godot-absent. Windows Godot proof là nợ trong GOAL.md §5.
 
 ## Scope (chốt 2026-11-17 ~17:3x +07, file goals/hidden_files/n2233-scope.md)
 
