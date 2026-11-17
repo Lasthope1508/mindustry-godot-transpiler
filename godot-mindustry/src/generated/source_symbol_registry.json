@@ -175720,6 +175720,70 @@
         "test_reference_graph_and_actual_c07_point_defense_turret_aim_shoot"
       ],
       "runtime_proof": "/root/C07PointDefenseTurretAimShootProof"
+    },
+    "source_point_defense_turret_should_consume_state_result.should_consume": {
+      "status": "source-backed",
+      "godot_owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_should_consume_state",
+      "godot_symbol": "source_point_defense_turret_should_consume_state_result.should_consume",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "java_method": "PointDefenseBuild.shouldConsume()",
+      "java_expr": "return super.shouldConsume() && target != null;",
+      "rule": "Whether the build should consume (PointDefenseTurret.java:106 -- super.shouldConsume() is Building.shouldConsume(), `return enabled;`, BuildingComp.java:755-757, so the gate is enabled && target != null).",
+      "tests": [
+        "test_c07_point_defense_turret_should_consume_cooling_registration",
+        "test_all_c07_point_defense_turret_should_consume_cooling_input_evidence_is_exact",
+        "test_point_defense_turret_should_consume_cooling_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_should_consume_cooling"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretShouldConsumeCoolantProof"
+    },
+    "source_point_defense_turret_cooling_state_result.reload_counter": {
+      "status": "source-backed",
+      "godot_owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_cooling_state",
+      "godot_symbol": "source_point_defense_turret_cooling_state_result.reload_counter",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+      "java_method": "PointDefenseBuild.updateTile()",
+      "java_expr": "reloadCounter += amount * edelta() * capacity * coolantMultiplier * ammoReloadMultiplier();",
+      "rule": "The reload counter after the cooling boost (ReloadTurret.java:33 -- reloadCounter += amount * edelta() * capacity * coolantMultiplier * ammoReloadMultiplier(), ammoReloadMultiplier() = 1f; unchanged when the gate fails).",
+      "tests": [
+        "test_c07_point_defense_turret_should_consume_cooling_registration",
+        "test_all_c07_point_defense_turret_should_consume_cooling_input_evidence_is_exact",
+        "test_point_defense_turret_should_consume_cooling_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_should_consume_cooling"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretShouldConsumeCoolantProof"
+    },
+    "source_point_defense_turret_cooling_state_result.cooling_applied": {
+      "status": "source-backed",
+      "godot_owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_cooling_state",
+      "godot_symbol": "source_point_defense_turret_cooling_state_result.cooling_applied",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+      "java_method": "PointDefenseBuild.updateTile()",
+      "java_expr": "if(canReload() && coolant != null && coolant.efficiency(this) > 0 && efficiency > 0){",
+      "rule": "Whether the cooling gate fired (ReloadTurret.java:29 -- canReload() && coolant != null && coolant.efficiency(this) > 0 && efficiency > 0; false whenever the gate fails).",
+      "tests": [
+        "test_c07_point_defense_turret_should_consume_cooling_registration",
+        "test_all_c07_point_defense_turret_should_consume_cooling_input_evidence_is_exact",
+        "test_point_defense_turret_should_consume_cooling_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_should_consume_cooling"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretShouldConsumeCoolantProof"
+    },
+    "source_point_defense_turret_cooling_state_result.coolant_consumed": {
+      "status": "source-backed",
+      "godot_owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_cooling_state",
+      "godot_symbol": "source_point_defense_turret_cooling_state_result.coolant_consumed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "PointDefenseBuild.updateTile()",
+      "java_expr": "build.liquids.remove(liq, amount * build.edelta() * multiplier.get(build));",
+      "rule": "The liquid the cooling consumed, amount * edelta (ConsumeLiquidFilter.java:44-49 -- coolant.update removes amount * edelta() * multiplier, multiplier default 1f; 0.0 when the gate fails; the future wiring slice applies it as a liquid removal).",
+      "tests": [
+        "test_c07_point_defense_turret_should_consume_cooling_registration",
+        "test_all_c07_point_defense_turret_should_consume_cooling_input_evidence_is_exact",
+        "test_point_defense_turret_should_consume_cooling_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_should_consume_cooling"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretShouldConsumeCoolantProof"
     }
   },
   "version": 1

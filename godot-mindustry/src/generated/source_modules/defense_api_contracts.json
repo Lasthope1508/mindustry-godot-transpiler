@@ -6906,6 +6906,32 @@
       "rule": "Source-backed PointDefenseTurret power.status row from ConsumePower.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourcePointDefenseTurretBuildState.source_point_defense_turret_should_consume_state": {
+      "canonical_contract": "source_api_contracts.SourcePointDefenseTurretBuildState.source_point_defense_turret_should_consume_state",
+      "status": "active",
+      "source_slice": "N2241",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "source_method": "PointDefenseBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_point_defense_turret_should_consume_state_input.frame"
+        }
+      ],
+      "return_keys": [
+        "should_consume"
+      ],
+      "tests": [
+        "test_c07_point_defense_turret_should_consume_cooling_registration",
+        "test_all_c07_point_defense_turret_should_consume_cooling_input_evidence_is_exact",
+        "test_point_defense_turret_should_consume_cooling_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_should_consume_cooling"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretShouldConsumeCoolantProof",
+      "rule": "Source-backed PointDefenseTurret shouldConsume gate + coolant from PointDefenseTurret.java / ReloadTurret.java / BaseTurret.java / BuildingComp.java / Blocks.java / ConsumeLiquidFilter.java / ConsumeCoolant.java / Consume.java.",
+      "return_type": "Dictionary"
+    },
     "SourcePointDefenseTurretBuildState.source_point_defense_turret_target_acquire_state": {
       "canonical_contract": "source_api_contracts.SourcePointDefenseTurretBuildState.source_point_defense_turret_target_acquire_state",
       "status": "active",

@@ -60,6 +60,24 @@ func _ready() -> void:
 	point_defense_turret_build_state.source_point_defense_turret_bind_frame_state(segment, blocks_by_id["segment"])
 	var segment_frame: Dictionary = segment.get_meta(point_defense_turret_build_state.SOURCE_POINT_DEFENSE_TURRET_BUILDING_META_KEY, {})
 
+	# One wiring tick first: the driver stamps team_id onto
+	# the frame, so the proof can seed a live enemy target
+	# (team_id + 1). Since N2241 the consumption branch gates
+	# on shouldConsume() (`enabled && target != null`,
+	# PointDefenseTurret.java:105-107): with no live target
+	# the segment consumes nothing and efficiency folds to 0,
+	# exactly like Java with no target in range
+	# (BuildingComp.java:1947). The stamped target survives
+	# the ticks below -- the driver only re-acquires when the
+	# frame carries observed_bullets (the N2190 finding), and
+	# this frame carries none -- so should_consume stays true
+	# and efficiency folds the power min again.
+	segment_frame["power_status"] = 1.0
+	point_defense_turret_build_state.source_point_defense_turret_tick_buildings_state(game, 1.0 / 60.0)
+	segment_frame = segment.get_meta(point_defense_turret_build_state.SOURCE_POINT_DEFENSE_TURRET_BUILDING_META_KEY, {})
+	var segment_team: int = int(segment_frame.get("team_id", 1))
+	segment_frame["target"] = {"id": 1, "team": segment_team + 1, "hittable": true, "has_type": true, "damage": 100.0, "x": segment.position.x + 10.0, "y": segment.position.y}
+
 	# Half power: efficiency folds the power min 0.5.
 	segment_frame["power_status"] = 0.5
 	point_defense_turret_build_state.source_point_defense_turret_tick_buildings_state(game, 1.0 / 60.0)

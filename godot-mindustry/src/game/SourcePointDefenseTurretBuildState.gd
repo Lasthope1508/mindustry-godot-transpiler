@@ -93,11 +93,16 @@ static func source_point_defense_turret_power_status_row_state(frame: Dictionary
 	# PointDefenseTurret.java:81, `rotation = Angles.moveToward(rotation, dest, rotateSpeed * edelta());`).
 	# Documented limits: (1) power-only first pass -- segment
 	# has no other consumers; the folded efficiency is the min
-	# over the *modeled* consumers (power only). (2) No
-	# shouldConsume gate -- PointDefenseBuild.shouldConsume()
+	# over the *modeled* consumers (power only). (2) The
+	# shouldConsume gate lives in the driver since N2241:
+	# PointDefenseBuild.shouldConsume()
 	# (PointDefenseTurret.java:105-107, `return super.shouldConsume() && target != null;`)
-	# needs live bullet-target state the tick does not track yet;
-	# the machinery runs with should_consume=true when enabled.
+	# is `enabled && target != null` via
+	# source_point_defense_turret_should_consume_state, so a
+	# segment with no live target consumes nothing and its
+	# efficiency folds to 0 (BuildingComp.java:1947) -- the
+	# N2151 "machinery runs with should_consume=true when
+	# enabled" approximation ended with N2241.
 	# (3) No updateTile advance -- retarget / rotation /
 	# reloadCounter / beam effects (PointDefenseTurret.java:62-103)
 	# waits for its own slice; the proof carries no progress keys,
@@ -346,6 +351,87 @@ static func source_point_defense_turret_aim_shoot_state(frame: Dictionary, targe
 		reload_counter = 0.0
 	return {"rotation": rotation, "reload_counter": reload_counter, "dest": dest, "shot": shot, "damage_dealt": damage_dealt, "target_damage_after": target_damage_after, "target_removed": target_removed, "shoot_event": shoot_event}
 
+static func source_point_defense_turret_should_consume_state(frame: Dictionary) -> Dictionary:
+	# PointDefenseBuild.shouldConsume() (PointDefenseTurret.java:105-107,
+	# `public boolean shouldConsume(){` / `return super.shouldConsume() && target != null;`):
+	# the super chain is PointDefenseBuild -> ReloadTurretBuild ->
+	# BaseTurretBuild -> Building, and neither ReloadTurretBuild nor
+	# BaseTurretBuild overrides shouldConsume, so super.shouldConsume()
+	# is Building.shouldConsume() (BuildingComp.java:755-757,
+	# `return enabled;`, with `transient boolean enabled = true;`,
+	# BuildingComp.java:77). TurretBuild.shouldConsume()
+	# (Turret.java:364, `return isShooting || reloadCounter < reload;`)
+	# is NOT in the chain -- TurretBuild is a sibling branch,
+	# PointDefenseBuild extends ReloadTurretBuild directly, so GREEN
+	# must NOT use it. The gate is `enabled && target != null`,
+	# read from the frame keys the tick (enabled, default true)
+	# and N2239 (target, null when no target is stamped) already
+	# carry. LIVE CONSEQUENCE (Java-faithful): until the bullet
+	# wiring lands, the frame carries no `observed_bullets`, so
+	# `target` stays null and `should_consume` is false -- the
+	# segment consumes no power and efficiency folds to 0, exactly
+	# like Java with no target in range (BuildingComp.java:1947,
+	# `efficiency = ... shouldConsume() ? potentialEfficiency : 0f;`).
+	# The N2151 "machinery runs with should_consume=true when
+	# enabled" approximation ends with this slice.
+	var should_consume: bool = bool(frame.get("enabled", true)) and frame.get("target", null) != null
+	return {"should_consume": should_consume}
+
+static func source_point_defense_turret_cooling_state(frame: Dictionary, has_coolant: bool, coolant_amount: float, coolant_efficiency: float, heat_capacity: float, coolant_multiplier: float, reload: float, edelta: float) -> Dictionary:
+	# updateCooling() (ReloadTurret.java:28-38, called from
+	# PointDefenseTurret.java:74-76 `if(coolant != null){` /
+	# `updateCooling();` before the aim/shoot half): the gate
+	# (`if(canReload() && coolant != null && coolant.efficiency(this) > 0 && efficiency > 0){`,
+	# ReloadTurret.java:29) uses canReload() = `reloadCounter < reload`
+	# (`return reloadCounter < reload;`, ReloadTurret.java:46-48);
+	# capacity is the consumed liquid's heatCapacity
+	# (`float capacity = coolant instanceof ConsumeLiquidFilter filter ? filter.getConsumed(this).heatCapacity : (coolant.consumes(liquids.current()) ? liquids.current().heatCapacity : 0.4f);`,
+	# ReloadTurret.java:30 -- ConsumeCoolant extends
+	# ConsumeLiquidFilter, so the filter branch applies);
+	# amount = `coolant.amount * coolant.efficiency(this)`
+	# (`float amount = coolant.amount * coolant.efficiency(this);`,
+	# ReloadTurret.java:31); `coolant.update(this);`
+	# (ReloadTurret.java:32) removes `amount * edelta() * multiplier`
+	# (`build.liquids.remove(liq, amount * build.edelta() * multiplier.get(build));`,
+	# ConsumeLiquidFilter.java:44-49, multiplier default 1f,
+	# `public Floatf<Building> multiplier = b -> 1f;`, Consume.java:18)
+	# -- the pure function returns that as coolant_consumed for a
+	# later wiring slice to apply, since the frame carries no liquid
+	# inventory; the reload boost is `reloadCounter += amount * edelta() * capacity * coolantMultiplier * ammoReloadMultiplier();`
+	# (ReloadTurret.java:33) with coolantMultiplier = 2f for
+	# PointDefenseTurret (`coolantMultiplier = 2f;`,
+	# PointDefenseTurret.java:42; the BaseTurret class default is 5f)
+	# and ammoReloadMultiplier() = 1f (ReloadTurret.java:41-43).
+	# The coolEffect chance (`if(Mathf.chance(0.06 * amount)){`,
+	# ReloadTurret.java:35) is a random visual, NOT in the pure
+	# function (the N2240 random-pitch precedent). Coolant
+	# efficiency (ConsumeLiquidFilter.java:50-56) is
+	# `return liq != null ? Math.min(build.liquids.get(liq) / (amount * ed * multiplier.get(build)), 1f) : 0f;`
+	# over the getConsumed liquid, 0 when none -- passed in as a
+	# parameter, like N2240's block_damage_multiplier. The
+	# coolant is found by BaseTurret.init
+	# (`coolant = findConsumer(c -> c instanceof ConsumeCoolant);`,
+	# BaseTurret.java:50-52); the only PointDefenseTurret def,
+	# segment (`segment = new PointDefenseTurret("segment"){{`,
+	# Blocks.java:3835-3845, `consumePower(8f);` / `reload = 8f;`),
+	# defines NO coolant consumer, so coolant stays null and the
+	# driver call is a faithful no-op for segment. `edelta()` is
+	# `efficiency * delta()` (BuildingComp.java:1927-1929,
+	# `return efficiency * delta();`), passed in precomputed.
+	# `cooling_applied` is false whenever the gate fails, and
+	# `coolant_consumed` is 0.0 then; `reload_counter` is
+	# unchanged when the gate fails.
+	var reload_counter: float = float(frame.get("reload_counter", 0.0))
+	var efficiency: float = float(frame.get("efficiency", 1.0))
+	var cooling_applied: bool = false
+	var coolant_consumed: float = 0.0
+	if has_coolant and reload_counter < reload and coolant_efficiency > 0.0 and efficiency > 0.0:
+		var amount: float = coolant_amount * coolant_efficiency
+		coolant_consumed = amount * edelta
+		reload_counter += amount * edelta * heat_capacity * coolant_multiplier
+		cooling_applied = true
+	return {"reload_counter": reload_counter, "cooling_applied": cooling_applied, "coolant_consumed": coolant_consumed}
+
 @warning_ignore("unused_parameter")
 static func source_point_defense_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the point-defense tick wiring every tick
@@ -393,15 +479,16 @@ static func source_point_defense_turret_tick_buildings_state(game: Object, secon
 		# (Block.java:1449, `hasConsumers = consumers.length > 0;`),
 		# so a segment does not take the early return. A segment
 		# with no power consumer is untouched: the tick models no
-		# other consumers yet, and there is no shouldConsume gate
-		# yet (PointDefenseTurret.java:105-107 needs live
-		# bullet-target state the tick does not track), so the
-		# machinery runs with should_consume=true when enabled.
+		# other consumers yet, and the shouldConsume gate
+		# (PointDefenseTurret.java:105-107, `enabled && target !=
+		# null` via source_point_defense_turret_should_consume_state)
+		# now gates the machinery below -- a segment with no live
+		# target consumes nothing and its efficiency folds to 0.
 		# productionValid is the canonical true default
 		# (SourceBuildingAccessState.production_valid_state()).
 		var has_power_consumer: bool = bool(block.properties.has("consumePower"))
 		if has_power_consumer and bool(frame.get("enabled", true)) and not bool(frame.get("cheating", false)):
-			var should_consume: bool = bool(frame.get("enabled", true))
+			var should_consume: bool = bool(source_point_defense_turret_should_consume_state(frame).get("should_consume", false))
 			var valid: bool = source_building_access_state.production_valid_state()
 			var setup: Dictionary = source_building_efficiency_state.update_consumption_setup_state(should_consume, valid)
 			frame["efficiency"] = setup.get("efficiency", 1.0)
@@ -463,6 +550,22 @@ static func source_point_defense_turret_tick_buildings_state(game: Object, secon
 			# later bullet-removal slice).
 			var block_damage_multiplier: float = float(rules_state.get("blockDamage", 1.0)) if rules_state is Dictionary else 1.0
 			var edelta: float = float(frame.get("efficiency", 1.0)) * seconds
+			# The coolant call of PointDefenseBuild.updateTile()
+			# (PointDefenseTurret.java:74-76, `if(coolant != null){ updateCooling(); }`)
+			# runs BEFORE the aim/shoot half (:77-101), so its
+			# reloadCounter boost feeds the shoot gate. The only
+			# PointDefenseTurret def, segment, defines NO coolant
+			# consumer (Blocks.java:3835-3845), so BaseTurret.init
+			# leaves coolant null and the call is a faithful no-op
+			# for segment: has_coolant=false, coolant_multiplier
+			# the per-def 2.0 (PointDefenseTurret.java:42),
+			# reload the per-def 8.0 (Blocks.java:3845), other
+			# params 0.0. The pure function models the
+			# class-level behavior with synthetic inputs in
+			# tests/proof; the live liquid wiring waits for a
+			# later slice.
+			var cooling: Dictionary = source_point_defense_turret_cooling_state(frame, false, 0.0, 0.0, 0.0, 2.0, 8.0, edelta)
+			frame["reload_counter"] = cooling.get("reload_counter", 0.0)
 			var aim: Dictionary = source_point_defense_turret_aim_shoot_state(frame, frame.get("target", null), team_id, sprite.position.x, sprite.position.y, 180.0, 20.0, 8.0, 5.0, 30.0,
 				block_damage_multiplier, edelta)
 			frame["rotation"] = aim.get("rotation", 90.0)

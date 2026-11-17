@@ -3193,6 +3193,26 @@
       ],
       "runtime_proof": "/root/C07PointDefenseTurretAimShootProof"
     },
+    "N2241": {
+      "canonical_ledger": "source_slice_ledger.N2241",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "java_method": "PointDefenseBuild.updateTile()",
+      "godot_owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_should_consume_state",
+      "source_symbols": [
+        "source_point_defense_turret_should_consume_state_result.should_consume",
+        "source_point_defense_turret_cooling_state_result.reload_counter",
+        "source_point_defense_turret_cooling_state_result.cooling_applied",
+        "source_point_defense_turret_cooling_state_result.coolant_consumed"
+      ],
+      "tests": [
+        "test_c07_point_defense_turret_should_consume_cooling_registration",
+        "test_all_c07_point_defense_turret_should_consume_cooling_input_evidence_is_exact",
+        "test_point_defense_turret_should_consume_cooling_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_should_consume_cooling"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretShouldConsumeCoolantProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

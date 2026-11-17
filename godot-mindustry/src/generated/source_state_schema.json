@@ -234588,6 +234588,44 @@
       },
       "runtime_proof": "/root/C07PointDefenseTurretAimShootProof",
       "rule": "Source-backed PointDefenseTurret aim + reload + shoot from PointDefenseTurret.java / ReloadTurret.java / BaseTurret.java / BuildingComp.java / Rules.java / Blocks.java / Angles.java / Position.java."
+    },
+    "source_point_defense_turret_should_consume_state_input": {
+      "status": "active",
+      "owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_should_consume_state",
+      "source_slice": "N2241",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "return super.shouldConsume() && target != null;",
+          "rule": "The turret frame (PointDefenseTurret.java:105-107, `return super.shouldConsume() && target != null;` -- the frame carries enabled (default true, BuildingComp.java:77) and target (null when no target is stamped, PointDefenseTurret.java:60); the driver stamps both live).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PointDefenseTurretShouldConsumeCoolantProof",
+      "rule": "Source-backed PointDefenseTurret shouldConsume gate + coolant from PointDefenseTurret.java / ReloadTurret.java / BaseTurret.java / BuildingComp.java / Blocks.java / ConsumeLiquidFilter.java / ConsumeCoolant.java / Consume.java."
+    },
+    "source_point_defense_turret_should_consume_state_result": {
+      "status": "active",
+      "owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_should_consume_state",
+      "source_slice": "N2241",
+      "keys": {
+        "should_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "return super.shouldConsume() && target != null;",
+          "rule": "Whether the build should consume (PointDefenseTurret.java:106 -- super.shouldConsume() is Building.shouldConsume(), `return enabled;`, BuildingComp.java:755-757, so the gate is enabled && target != null).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PointDefenseTurretShouldConsumeCoolantProof",
+      "rule": "Source-backed PointDefenseTurret shouldConsume gate + coolant from PointDefenseTurret.java / ReloadTurret.java / BaseTurret.java / BuildingComp.java / Blocks.java / ConsumeLiquidFilter.java / ConsumeCoolant.java / Consume.java."
     }
   },
   "version": 1

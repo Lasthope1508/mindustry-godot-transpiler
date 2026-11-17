@@ -178,15 +178,30 @@ func _ready() -> void:
 	]
 	# Seed the acquire timers just below the 5s fire line so
 	# the next tick acquires, and pre-charge the reload on E
-	# and F so the same tick shoots.
+	# and F so the tick after that shoots.
 	for index in [0, 2, 3, 4, 5]:
 		frames[index]["target_timer"] = 4.99
 	frames[4]["reload_counter"] = 7.99
 	frames[5]["reload_counter"] = 7.99
 
-	# One shared tick at 1/60s: every seeded timer fires and
-	# re-acquires, then the aim/shoot half runs on the
-	# just-acquired target.
+	# Tick A at 1/60s: every seeded timer fires and
+	# re-acquires, but the aim/shoot half still sees edelta 0:
+	# since N2241 the consumption branch gates on
+	# shouldConsume() (`enabled && target != null`,
+	# PointDefenseTurret.java:105-107) and runs BEFORE the
+	# retarget, so on the acquire tick the frame still has
+	# target == null from the previous tick and efficiency
+	# folds to 0 -- the Java order (Building.update() calls
+	# updateConsumption() before updateTile(),
+	# BuildingComp.java:2274-2277), not a driver bug. The
+	# reload stays 7.99 and nothing shoots on tick A.
+	point_defense_turret_build_state.source_point_defense_turret_tick_buildings_state(game, 1.0 / 60.0)
+	for index in range(6):
+		frames[index] = segments[index].get_meta(point_defense_turret_build_state.SOURCE_POINT_DEFENSE_TURRET_BUILDING_META_KEY, {})
+
+	# Tick B at 1/60s: the target is stamped now, so
+	# should_consume is true, efficiency is 1, edelta is
+	# 1/60, and E/F shoot (reload 7.99 + 1/60 >= 8.0).
 	point_defense_turret_build_state.source_point_defense_turret_tick_buildings_state(game, 1.0 / 60.0)
 	for index in range(6):
 		frames[index] = segments[index].get_meta(point_defense_turret_build_state.SOURCE_POINT_DEFENSE_TURRET_BUILDING_META_KEY, {})
@@ -215,12 +230,13 @@ func _ready() -> void:
 		beam_ok = absf(float(shoot_event_e.get("beam_x", -999.0)) - positions[4].x) < 0.001 and absf(float(shoot_event_e.get("beam_y", -999.0)) - (positions[4].y + 5.0)) < 0.001 and absf(float(shoot_event_e.get("rotation", -1.0)) - 90.0) < 0.001 and absf(float(shoot_event_e.get("target_x", -999.0)) - (positions[4].x + 10.0)) < 0.001 and absf(float(shoot_event_e.get("target_y", -999.0)) - positions[4].y) < 0.001
 	proof["shoot_event_carries_beam_origin"] = shot_e and beam_ok
 
-	# Phase 2: 29 more 1/60s ticks (30 total) -- A must have
-	# turned toward the north target: 30 ticks * rotateSpeed 20
-	# * edelta (1/60 at full efficiency) = 10 deg, so rotation
-	# lands at 80. The check is a band (70, 90), not the exact
-	# 80, so a small efficiency difference cannot flake it.
-	# B, C and D must still sit at the 90 default.
+	# Phase 2: 29 more 1/60s ticks -- with tick A (edelta 0)
+	# and tick B, A has 30 effective ticks toward the north
+	# target: 30 ticks * rotateSpeed 20 * edelta (1/60 at full
+	# efficiency) = 10 deg, so rotation lands at 80. The check
+	# is a band (70, 90), not the exact 80, so a small
+	# efficiency difference cannot flake it. B, C and D must
+	# still sit at the 90 default.
 	for tick in range(29):
 		point_defense_turret_build_state.source_point_defense_turret_tick_buildings_state(game, 1.0 / 60.0)
 	for index in range(6):
