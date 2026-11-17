@@ -50,6 +50,6 @@ NEIGHBOUR REGRESSION (hậu quả có chủ đích của wiring, KHÔNG phải b
 
 ## Hashes
 
-- 5-commit xong: slice (hash), docs (hash), GOAL (hash) — đang push lên origin main.
+- 5-commit xong: slice af2d4208, docs f5bbd03c, GOAL 4ec00cbc — đã push lên origin main (main 4ec00cbc).
 - Windows Godot proof là nợ trong GOAL.md §5 (proof Linux xanh, chưa chạy Windows).
 - Bước tiếp theo: spawn-side team stamp slice (deferred entry N2242) để should_consume sống thật trong live play; suppression live + targets live list vẫn BLOCKED. (KHÔNG bắt đầu C08 inventory trừ khi user yêu cầu.)
