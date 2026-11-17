@@ -174856,6 +174856,102 @@
         "test_reference_graph_and_actual_c07_repair_tower_set_stats"
       ],
       "runtime_proof": "/root/C07RepairTowerSetStatsProof"
+    },
+    "source_repair_tower_draw_select_state_result.center": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_draw_select_state",
+      "godot_symbol": "source_repair_tower_draw_select_state_result.center",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.drawSelect()",
+      "java_expr": "Drawf.dashCircle(x, y, range, Pal.placing);",
+      "rule": "The dash-circle center (RepairTower.java:123, `Drawf.dashCircle(x, y, range, Pal.placing);`): the building position itself.",
+      "tests": [
+        "test_c07_repair_tower_draw_select_place_registration",
+        "test_all_c07_repair_tower_draw_select_place_input_evidence_is_exact",
+        "test_repair_tower_draw_select_place_state",
+        "test_reference_graph_and_actual_c07_repair_tower_draw_select_place"
+      ],
+      "runtime_proof": "/root/C07RepairTowerDrawSelectPlaceProof"
+    },
+    "source_repair_tower_draw_select_state_result.radius": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_draw_select_state",
+      "godot_symbol": "source_repair_tower_draw_select_state_result.radius",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.drawSelect()",
+      "java_expr": "public float range = 80f;",
+      "rule": "The dash-circle radius (RepairTower.java:123, `Drawf.dashCircle(x, y, range, Pal.placing);`): the per-def range passed in.",
+      "tests": [
+        "test_c07_repair_tower_draw_select_place_registration",
+        "test_all_c07_repair_tower_draw_select_place_input_evidence_is_exact",
+        "test_repair_tower_draw_select_place_state",
+        "test_reference_graph_and_actual_c07_repair_tower_draw_select_place"
+      ],
+      "runtime_proof": "/root/C07RepairTowerDrawSelectPlaceProof"
+    },
+    "source_repair_tower_draw_select_state_result.color": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_draw_select_state",
+      "godot_symbol": "source_repair_tower_draw_select_state_result.color",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTowerBuild.drawSelect()",
+      "java_expr": "Drawf.dashCircle(x, y, range, Pal.placing);",
+      "rule": "The dash-circle color (RepairTower.java:123, `Drawf.dashCircle(x, y, range, Pal.placing);`): Pal.placing, represented as the string \"Pal.placing\" (the SourceBaseTurretDrawState.gd:25 / SourceTurretPlacementState.gd:35 precedent).",
+      "tests": [
+        "test_c07_repair_tower_draw_select_place_registration",
+        "test_all_c07_repair_tower_draw_select_place_input_evidence_is_exact",
+        "test_repair_tower_draw_select_place_state",
+        "test_reference_graph_and_actual_c07_repair_tower_draw_select_place"
+      ],
+      "runtime_proof": "/root/C07RepairTowerDrawSelectPlaceProof"
+    },
+    "source_repair_tower_draw_place_state_result.center": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_draw_place_state",
+      "godot_symbol": "source_repair_tower_draw_place_state_result.center",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTower.drawPlace()",
+      "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);",
+      "rule": "The ghost dash-circle center (RepairTower.java:47, `Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);`): tile_x * tilesize + block_offset, tile_y * tilesize + block_offset.",
+      "tests": [
+        "test_c07_repair_tower_draw_select_place_registration",
+        "test_all_c07_repair_tower_draw_select_place_input_evidence_is_exact",
+        "test_repair_tower_draw_select_place_state",
+        "test_reference_graph_and_actual_c07_repair_tower_draw_select_place"
+      ],
+      "runtime_proof": "/root/C07RepairTowerDrawSelectPlaceProof"
+    },
+    "source_repair_tower_draw_place_state_result.radius": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_draw_place_state",
+      "godot_symbol": "source_repair_tower_draw_place_state_result.radius",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTower.drawPlace()",
+      "java_expr": "public float range = 80f;",
+      "rule": "The ghost dash-circle radius (RepairTower.java:47, `Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);`): the per-def range passed in.",
+      "tests": [
+        "test_c07_repair_tower_draw_select_place_registration",
+        "test_all_c07_repair_tower_draw_select_place_input_evidence_is_exact",
+        "test_repair_tower_draw_select_place_state",
+        "test_reference_graph_and_actual_c07_repair_tower_draw_select_place"
+      ],
+      "runtime_proof": "/root/C07RepairTowerDrawSelectPlaceProof"
+    },
+    "source_repair_tower_draw_place_state_result.color": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_draw_place_state",
+      "godot_symbol": "source_repair_tower_draw_place_state_result.color",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "java_method": "RepairTower.drawPlace()",
+      "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);",
+      "rule": "The ghost dash-circle color (RepairTower.java:47, `Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);`): Pal.placing, represented as the string \"Pal.placing\" (the SourceBaseTurretDrawState.gd:25 / SourceTurretPlacementState.gd:35 precedent).",
+      "tests": [
+        "test_c07_repair_tower_draw_select_place_registration",
+        "test_all_c07_repair_tower_draw_select_place_input_evidence_is_exact",
+        "test_repair_tower_draw_select_place_state",
+        "test_reference_graph_and_actual_c07_repair_tower_draw_select_place"
+      ],
+      "runtime_proof": "/root/C07RepairTowerDrawSelectPlaceProof"
     }
   },
   "version": 1

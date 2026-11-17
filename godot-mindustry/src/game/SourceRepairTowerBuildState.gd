@@ -158,6 +158,19 @@ static func source_repair_tower_set_stats_state(range: float, heal_amount: float
 	var repair_speed_per_second: float = heal_amount * 60.0
 	return {"stats": [{"stat": "range", "value": range_blocks, "unit": "blocks"}, {"stat": "repairSpeed", "value": repair_speed_per_second, "unit": "perSecond"}]}
 
+static func source_repair_tower_draw_select_state(x: float, y: float, range: float) -> Dictionary:
+	# RepairTowerBuild.drawSelect() draws one dash circle around the building (RepairTower.java:122-124, inside `public void drawSelect(){`, RepairTower.java:122):
+	# Drawf.dashCircle(x, y, range, Pal.placing);
+	# The radius is the per-def range -- unit-repair-tower 100f (`range = 100f;`, Blocks.java:6579), class default 80f (`public float range = 80f;`, RepairTower.java:21). The class is `public class RepairTower extends Block{` (RepairTower.java:18). The color is Pal.placing in both call sites (the SourceBaseTurretDrawState.gd:25 / SourceTurretPlacementState.gd:35 precedent). There is no driver tick line: drawSelect is selection UI, not per-tick. Rendering itself stays out of the game -- only the state the circle depends on is captured, per the user boundary.
+	return {"center": Vector2(x, y), "radius": range, "color": "Pal.placing"}
+
+static func source_repair_tower_draw_place_state(tile_x: int, tile_y: int, range: float, tilesize: float, block_offset: float) -> Dictionary:
+	# RepairTower.drawPlace() draws the same dash circle at the ghost position (RepairTower.java:44-48, inside `public void drawPlace(int x, int y, int rotation, boolean valid){`, RepairTower.java:44, after `super.drawPlace(x, y, rotation, valid);`, RepairTower.java:45 -- the super call draws the block itself, not the circle, so it is out of scope):
+	# Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);
+	# The place center converts tile coords to world coords with the tilesize and the block offset (`x * tilesize + offset`, RepairTower.java:47; tilesize 8, `public static final int tilesize = 8;`, Vars.java:135; offset `((size + 1) % 2) * tilesize / 2f`, Block.java:761 -- unit-repair-tower size 2, Blocks.java:6578, so 4.0). The range row in setStats is `range / tilesize` blocks (RepairTower.java:38). The radius is the per-def range (catalog 100f, class default 80f). The color is Pal.placing in both call sites. There is no driver tick line: drawPlace is placement UI, not per-tick.
+	var center: Vector2 = Vector2(float(tile_x) * tilesize + block_offset, float(tile_y) * tilesize + block_offset)
+	return {"center": center, "radius": range, "color": "Pal.placing"}
+
 @warning_ignore("unused_parameter")
 static func source_repair_tower_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the repair-tower tick wiring every

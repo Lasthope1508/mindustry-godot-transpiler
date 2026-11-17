@@ -67651,6 +67651,90 @@
       ],
       "runtime_proof": "/root/C07RepairTowerSetStatsProof",
       "rule": "Source-backed RepairTower setStats() state from RepairTower.java + Vars.java + Blocks.java."
+    },
+    "SourceRepairTowerBuildState.source_repair_tower_draw_select_state": {
+      "status": "active",
+      "source_slice": "N2231",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "source_method": "RepairTowerBuild.drawSelect()",
+      "params": [
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_repair_tower_draw_select_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_repair_tower_draw_select_state_input.y"
+        },
+        {
+          "name": "range",
+          "type": "float",
+          "schema": "source_repair_tower_draw_select_state_input.range"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "center",
+        "radius",
+        "color"
+      ],
+      "tests": [
+        "test_c07_repair_tower_draw_select_place_registration",
+        "test_all_c07_repair_tower_draw_select_place_input_evidence_is_exact",
+        "test_repair_tower_draw_select_place_state",
+        "test_reference_graph_and_actual_c07_repair_tower_draw_select_place"
+      ],
+      "runtime_proof": "/root/C07RepairTowerDrawSelectPlaceProof",
+      "rule": "Source-backed RepairTower drawSelect/drawPlace range state from RepairTower.java + Vars.java + Blocks.java."
+    },
+    "SourceRepairTowerBuildState.source_repair_tower_draw_place_state": {
+      "status": "active",
+      "source_slice": "N2231",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "source_method": "RepairTower.drawPlace()",
+      "params": [
+        {
+          "name": "tile_x",
+          "type": "int",
+          "schema": "source_repair_tower_draw_place_state_input.tile_x"
+        },
+        {
+          "name": "tile_y",
+          "type": "int",
+          "schema": "source_repair_tower_draw_place_state_input.tile_y"
+        },
+        {
+          "name": "range",
+          "type": "float",
+          "schema": "source_repair_tower_draw_place_state_input.range"
+        },
+        {
+          "name": "tilesize",
+          "type": "float",
+          "schema": "source_repair_tower_draw_place_state_input.tilesize"
+        },
+        {
+          "name": "block_offset",
+          "type": "float",
+          "schema": "source_repair_tower_draw_place_state_input.block_offset"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "center",
+        "radius",
+        "color"
+      ],
+      "tests": [
+        "test_c07_repair_tower_draw_select_place_registration",
+        "test_all_c07_repair_tower_draw_select_place_input_evidence_is_exact",
+        "test_repair_tower_draw_select_place_state",
+        "test_reference_graph_and_actual_c07_repair_tower_draw_select_place"
+      ],
+      "runtime_proof": "/root/C07RepairTowerDrawSelectPlaceProof",
+      "rule": "Source-backed RepairTower drawSelect/drawPlace range state from RepairTower.java + Vars.java + Blocks.java."
     }
   },
   "policy": {

@@ -233326,6 +233326,182 @@
       },
       "runtime_proof": "/root/C07RepairTowerSetStatsProof",
       "rule": "Source-backed RepairTower setStats() state from RepairTower.java + Vars.java + Blocks.java."
+    },
+    "source_repair_tower_draw_select_state_input": {
+      "status": "active",
+      "owner": "SourceRepairTowerBuildState.source_repair_tower_draw_select_state",
+      "source_slice": "N2231",
+      "keys": {
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "Drawf.dashCircle(x, y, range, Pal.placing);",
+          "rule": "The building world x (RepairTower.java:123, `Drawf.dashCircle(x, y, range, Pal.placing);`): the dash circle is centered on the building position.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_draw_select_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "Drawf.dashCircle(x, y, range, Pal.placing);",
+          "rule": "The building world y (RepairTower.java:123, `Drawf.dashCircle(x, y, range, Pal.placing);`): the dash circle is centered on the building position.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_draw_select_state"
+          ]
+        },
+        "range": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "public float range = 80f;",
+          "rule": "The dash-circle radius (RepairTower.java:123, `Drawf.dashCircle(x, y, range, Pal.placing);`): the per-def range -- unit-repair-tower 100f (Blocks.java:6579), class default 80f (`public float range = 80f;`, RepairTower.java:21) -- passed explicitly because it is per-def static state, not a live frame key (the N2220 / N2230 per-def-param precedent).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_draw_select_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTowerDrawSelectPlaceProof",
+      "rule": "Source-backed RepairTower drawSelect/drawPlace range state from RepairTower.java + Vars.java + Blocks.java."
+    },
+    "source_repair_tower_draw_select_state_result": {
+      "status": "active",
+      "owner": "SourceRepairTowerBuildState.source_repair_tower_draw_select_state",
+      "source_slice": "N2231",
+      "keys": {
+        "center": {
+          "type": "Vector2",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "Drawf.dashCircle(x, y, range, Pal.placing);",
+          "rule": "The dash-circle center (RepairTower.java:123, `Drawf.dashCircle(x, y, range, Pal.placing);`): the building position itself.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_draw_select_state"
+          ]
+        },
+        "radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "public float range = 80f;",
+          "rule": "The dash-circle radius (RepairTower.java:123, `Drawf.dashCircle(x, y, range, Pal.placing);`): the per-def range passed in.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_draw_select_state"
+          ]
+        },
+        "color": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "Drawf.dashCircle(x, y, range, Pal.placing);",
+          "rule": "The dash-circle color (RepairTower.java:123, `Drawf.dashCircle(x, y, range, Pal.placing);`): Pal.placing, represented as the string \"Pal.placing\" (the SourceBaseTurretDrawState.gd:25 / SourceTurretPlacementState.gd:35 precedent).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_draw_select_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTowerDrawSelectPlaceProof",
+      "rule": "Source-backed RepairTower drawSelect/drawPlace range state from RepairTower.java + Vars.java + Blocks.java."
+    },
+    "source_repair_tower_draw_place_state_input": {
+      "status": "active",
+      "owner": "SourceRepairTowerBuildState.source_repair_tower_draw_place_state",
+      "source_slice": "N2231",
+      "keys": {
+        "tile_x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);",
+          "rule": "The placement tile x (RepairTower.java:47, `Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);`): the ghost circle center converts the tile coord to world coords with the tilesize and the block offset.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_draw_place_state"
+          ]
+        },
+        "tile_y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);",
+          "rule": "The placement tile y (RepairTower.java:47, `Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);`): the ghost circle center converts the tile coord to world coords with the tilesize and the block offset.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_draw_place_state"
+          ]
+        },
+        "range": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "public float range = 80f;",
+          "rule": "The dash-circle radius (RepairTower.java:47, `Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);`): the per-def range -- unit-repair-tower 100f (Blocks.java:6579), class default 80f (`public float range = 80f;`, RepairTower.java:21) -- passed explicitly because it is per-def static state, not a live frame key.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_draw_place_state"
+          ]
+        },
+        "tilesize": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);",
+          "rule": "The world-units-per-tile factor (RepairTower.java:47, `x * tilesize + offset`): Vars.tilesize is 8 (Vars.java:135); the port passes it explicitly (the SourceTurretPlacementState.draw_place_state precedent).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_draw_place_state"
+          ]
+        },
+        "block_offset": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);",
+          "rule": "The block placement offset (RepairTower.java:47, `x * tilesize + offset`): Block.offset is `((size + 1) % 2) * tilesize / 2f` (Block.java:761) -- unit-repair-tower size 2, Blocks.java:6578, so 4.0 -- passed explicitly (the N2220 draw-place precedent; single def, so no helper).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_draw_place_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTowerDrawSelectPlaceProof",
+      "rule": "Source-backed RepairTower drawSelect/drawPlace range state from RepairTower.java + Vars.java + Blocks.java."
+    },
+    "source_repair_tower_draw_place_state_result": {
+      "status": "active",
+      "owner": "SourceRepairTowerBuildState.source_repair_tower_draw_place_state",
+      "source_slice": "N2231",
+      "keys": {
+        "center": {
+          "type": "Vector2",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);",
+          "rule": "The ghost dash-circle center (RepairTower.java:47, `Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);`): tile_x * tilesize + block_offset, tile_y * tilesize + block_offset.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_draw_place_state"
+          ]
+        },
+        "radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "public float range = 80f;",
+          "rule": "The ghost dash-circle radius (RepairTower.java:47, `Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);`): the per-def range passed in.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_draw_place_state"
+          ]
+        },
+        "color": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+          "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);",
+          "rule": "The ghost dash-circle color (RepairTower.java:47, `Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);`): Pal.placing, represented as the string \"Pal.placing\" (the SourceBaseTurretDrawState.gd:25 / SourceTurretPlacementState.gd:35 precedent).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_draw_place_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTowerDrawSelectPlaceProof",
+      "rule": "Source-backed RepairTower drawSelect/drawPlace range state from RepairTower.java + Vars.java + Blocks.java."
     }
   },
   "version": 1
