@@ -311,6 +311,9 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
   - [ ] N2229 `C07RepairTowerOzoneConsumeProof` — Linux GREEN ~12:0x (7 key).
     Scene tới Windows theo slice commit `53f61ce6` (pushed ~13:0x, main
     `e18b6f61`). Chưa chạy trên Windows Godot.
+  - [ ] N2230 `C07RepairTowerSetStatsProof` — Linux GREEN ~14:0x (4 key).
+    Scene tới Windows theo slice commit `64b06843` (pushed ~14:3x, main
+    `d0da254f`). Chưa chạy trên Windows Godot.
   - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
     trên (ghi rõ commit đưa scene tới Windows).
   - [ ] Agent khác đang test các lỗi fail trên Windows Godot (PR #1 đã merge
