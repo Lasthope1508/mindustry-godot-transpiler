@@ -47,4 +47,4 @@
 ## Commits
 
 - e08dc4ce C07: N2228 RepairTower heal advance (pure function + driver tick line + proof 11 keys) — 9 files, 1306 insertions.
-- Docs: (this commit) (report + handoff + design spec, Done 1677 → 1678), GOAL (next commit) (§5 Windows debt line).
+- Docs: 3ddfa015 (report + handoff + design spec, Done 1677 → 1678), GOAL 88b486e5 (§5 Windows debt line).

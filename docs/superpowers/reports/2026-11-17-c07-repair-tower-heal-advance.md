@@ -32,5 +32,5 @@
 
 ## Bước tiếp theo
 
-- 5-commit xong: slice e08dc4ce, docs (this commit), GOAL (next commit) — đang push lên origin main.
+- 5-commit xong: slice e08dc4ce, docs 3ddfa015, GOAL 88b486e5 — đang push lên origin main.
 - Slice tiếp theo sau N2228: N2229 ozone consumer (cần liquid-stock observation) hoặc family tiếp theo theo backlog. Không bắt đầu C08 trừ khi user yêu cầu.
