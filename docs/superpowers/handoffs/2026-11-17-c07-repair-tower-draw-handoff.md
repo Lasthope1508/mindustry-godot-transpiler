@@ -1,6 +1,6 @@
 # Handoff — N2232 RepairTower draw() + range() + warmup() (C07)
 
-## Status: GREEN (2026-11-17 ~17:1x +07, main-thread verified). Test + proof xanh, gate xong ~17:11 (Ran 6021, failures=182, skipped=5, 0 errors — toàn bộ Godot-absent), chưa push. SSOT 11522/1682/1612/3015. Targeted 4/4, family RepairTower 36/36, wiring 32/32 = 72/72; proof 12 semantic keys / 15 in JSON matches:true. Gate log tools/mindustry_godot_transpiler/full-suite-n2232-gate.log (main thread, PID 4704, ~16:53–17:11).
+## Status: DONE + PUSHED (2026-11-17 ~17:2x +07; slice b570908e, main f8b1a81e). Test + proof + gate xanh. SSOT 11522/1682/1612/3015. Targeted 4/4, family RepairTower 36/36, wiring 32/32 = 72/72; proof 12 semantic keys / 15 in JSON matches:true. Gate Ran 6021, failures=182, skipped=5, 0 errors — toàn bộ Godot-absent. Windows Godot proof là nợ trong GOAL.md §5.
 
 ## Scope (chốt 2026-11-17 ~16:2x +07, file goals/hidden_files/n2232-scope.md)
 
