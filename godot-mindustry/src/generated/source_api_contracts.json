@@ -67438,6 +67438,36 @@
       ],
       "runtime_proof": "/root/C07RepairTurretDrawProof",
       "rule": "Source-backed RepairTurret draw() state from RepairTurret.java + Layer.java + Drawf.java + Blocks.java + Block.java."
+    },
+    "SourceRepairTurretBuildState.source_repair_turret_init_state": {
+      "status": "active",
+      "source_slice": "N2226",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "source_method": "RepairTurret.init()",
+      "params": [
+        {
+          "name": "repair_radius",
+          "type": "float",
+          "schema": "source_repair_turret_init_state_input.repair_radius"
+        },
+        {
+          "name": "tilesize",
+          "type": "float",
+          "schema": "source_repair_turret_init_state_input.tilesize"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "clip_radius"
+      ],
+      "tests": [
+        "test_c07_repair_turret_init_registration",
+        "test_all_c07_repair_turret_init_input_evidence_is_exact",
+        "test_repair_turret_init_state",
+        "test_reference_graph_and_actual_c07_repair_turret_init"
+      ],
+      "runtime_proof": "/root/C07RepairTurretInitProof",
+      "rule": "Source-backed RepairTurret init() state from RepairTurret.java + Blocks.java + Vars.java + Block.java."
     }
   },
   "policy": {

@@ -501,6 +501,23 @@ static func source_repair_turret_set_stats_state(repair_radius: float, repair_sp
 	var repair_speed_per_second: float = repair_speed * 60.0
 	return {"range_blocks": range_blocks, "repair_speed_per_second": repair_speed_per_second, "booster_present": accept_coolant, "booster_coolant_use": coolant_use, "booster_coolant_multiplier": coolant_multiplier}
 
+static func source_repair_turret_init_state(repair_radius: float, tilesize: float) -> Dictionary:
+	# RepairTurret.init() (RepairTurret.java:83-92):
+	# public void init(){
+	# if(acceptCoolant){
+	# hasLiquids = true;
+	# consume(new ConsumeCoolant(coolantUse)).optional(true, true);
+	# }
+	# consumePowerCond(powerUse, (RepairPointBuild entity) -> entity.target != null);
+	# updateClipRadius(repairRadius + tilesize);
+	# super.init();
+	# This slice pins ONLY the updateClipRadius call argument (:90): clip_radius = repair_radius + tilesize. The coolant leg (:84-86) registers a coolant consumer and waits for its own slice; the consumePowerCond leg (:89) registers a power-condition consumer and waits for its own slice; `super.init();` (:91) is Block.init internals, deferred (the N1234 TractorBeamTurret.init() precedent: "Inherited BaseTurret.init internals and Block.updateClipRadius side effects remain deferred; this slice records the exact TractorBeamTurret updateClipRadius argument"). The Block.updateClipRadius side effect itself (`clipSize = Math.max(clipSize, this.size * tilesize + radiusInWorldUnits * 2f);`, Block.java:1007, `public void updateClipRadius(float radiusInWorldUnits){`, Block.java:1006) is likewise deferred -- only the call argument is pinned.
+	# Class defaults (RepairTurret.java:32): `public float repairRadius = 50f;` -- repair-point 60f (`repairRadius = 60f;`, Blocks.java:6389), repair-turret 145f (`repairRadius = 145f;`, Blocks.java:6401). The world tilesize (Vars.java:135): `public static final int tilesize = 8;`. So clip_radius is 58.0 / 68.0 / 153.0 per def.
+	# The class (RepairTurret.java:25): `public class RepairTurret extends Block{`.
+	# There is no driver tick line: init() runs once at block init, not per tick (the N2217 read/write + N2224 setStats lifecycle precedent).
+	var clip_radius: float = repair_radius + tilesize
+	return {"clip_radius": clip_radius}
+
 const REPAIR_TURRET_SAVE_VERSION := 1
 
 static func source_repair_turret_write_state(frame: Dictionary) -> Dictionary:

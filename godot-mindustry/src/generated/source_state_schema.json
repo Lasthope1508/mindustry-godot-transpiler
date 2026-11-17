@@ -232908,6 +232908,54 @@
       },
       "runtime_proof": "/root/C07RepairTurretDrawProof",
       "rule": "Source-backed RepairTurret draw() state from RepairTurret.java + Layer.java + Drawf.java + Blocks.java + Block.java."
+    },
+    "source_repair_turret_init_state_input": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_init_state",
+      "source_slice": "N2226",
+      "keys": {
+        "repair_radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "public float repairRadius = 50f;",
+          "rule": "The per-def repairRadius in world units (RepairTurret.java:32, `public float repairRadius = 50f;`, the class default; repair-point 60f, Blocks.java:6389, `repairRadius = 60f;`, repair-turret 145f, Blocks.java:6401, `repairRadius = 145f;`); passed explicitly because it is per-def static state, not a live frame key (the N2212 acquire / N2220 draw-place per-def-param precedent).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_init_state"
+          ]
+        },
+        "tilesize": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/Vars.java",
+          "java_expr": "public static final int tilesize = 8;",
+          "rule": "The world tilesize in pixels (Vars.java:135, `public static final int tilesize = 8;`); passed explicitly because the pure function takes the init() call argument as args, not a frame.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_init_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretInitProof",
+      "rule": "Source-backed RepairTurret init() state from RepairTurret.java + Blocks.java + Vars.java + Block.java."
+    },
+    "source_repair_turret_init_state_result": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_init_state",
+      "source_slice": "N2226",
+      "keys": {
+        "clip_radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "updateClipRadius(repairRadius + tilesize);",
+          "rule": "The updateClipRadius call argument: repairRadius + tilesize (RepairTurret.java:90, `updateClipRadius(repairRadius + tilesize);`); class default 50f + 8 = 58.0, repair-point 60f + 8 = 68.0, repair-turret 145f + 8 = 153.0. The Block.updateClipRadius side effect (`clipSize = Math.max(clipSize, this.size * tilesize + radiusInWorldUnits * 2f);`, Block.java:1007) is deferred (the N1234 precedent) -- only the call argument is pinned.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_init_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretInitProof",
+      "rule": "Source-backed RepairTurret init() state from RepairTurret.java + Blocks.java + Vars.java + Block.java."
     }
   },
   "version": 1
