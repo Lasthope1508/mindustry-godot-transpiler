@@ -39,6 +39,6 @@ N2234 làm được, không còn blocker. `RepairPointBuild.senseObject()` — 4
 
 ## Hashes
 
-- 5-commit xong: slice (slice …), docs (docs …), GOAL (GOAL …) — đang push lên origin main.
+- 5-commit xong: slice 20e107f3, docs d2dd4aeb, GOAL 1a2ce609 — đang push lên origin main.
 - Windows Godot proof là nợ trong GOAL.md §5 (proof Linux xanh, chưa chạy Windows).
 - Bước tiếp theo: correction slice per-def ambientSoundVolume (0.9f/1.25f), hoặc suppression live + targets live list (vẫn BLOCKED), hoặc họ tiếp theo theo backlog. (KHÔNG bắt đầu C08 inventory trừ khi user yêu cầu.)

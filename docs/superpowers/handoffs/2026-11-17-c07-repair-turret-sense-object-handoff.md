@@ -60,5 +60,5 @@
 ## Commits
 
 - Slice: 20e107f3
-- Docs: (next commit)
-- GOAL: (next commit)
+- Docs: d2dd4aeb
+- GOAL: 1a2ce609
