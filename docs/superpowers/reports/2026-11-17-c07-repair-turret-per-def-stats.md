@@ -46,6 +46,6 @@ N2237 làm được, không còn blocker. Đóng đúng deferred entry "RepairTu
 
 ## Hashes
 
-- 5-commit xong: slice (hash), docs (hash), GOAL (hash) — đang push lên origin main.
+- 5-commit xong: slice 129eae95, docs a921bf46, GOAL 78b6fd49 — đang push lên origin main.
 - Windows Godot proof là nợ trong GOAL.md §5 (proof Linux xanh, chưa chạy Windows).
 - Bước tiếp theo: suppression live + targets live list (vẫn BLOCKED), hoặc họ tiếp theo theo backlog. (KHÔNG bắt đầu C08 inventory trừ khi user yêu cầu.)
