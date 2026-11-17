@@ -41,6 +41,6 @@ N2230 làm được, không còn blocker. `RepairTower.setStats()` (RepairTower.
 
 ## Hashes
 
-- 5-commit xong: slice 64b06843, docs TBD, GOAL TBD — đang push lên origin main.
+- 5-commit xong: slice 64b06843, docs d0da254f, GOAL c6235f85 — đang push lên origin main.
 - Windows Godot proof là nợ trong GOAL.md §5 (proof Linux xanh, chưa chạy Windows).
 - Bước tiếp theo: RepairTower còn draw()/drawSelect()/drawPlace() + suppression live + targets live list (N2231+), hoặc family tiếp theo theo backlog. (KHÔNG bắt đầu C08 inventory trừ khi user yêu cầu.)

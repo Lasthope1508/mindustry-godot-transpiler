@@ -2,6 +2,8 @@
 
 ## Status: GREEN (2026-11-17 ~14:0x +07). Test + proof xanh, chưa gate, chưa push.
 
+- Hashes: slice 64b06843, docs d0da254f, GOAL c6235f85.
+
 ## RED (2026-11-17 ~13:3x +07)
 
 - RED: Ran 4, failures=2, errors=2 (KeyError 'N2230' ×2 — registration + exact-evidence), register --verify 14/14 exit 0, SSOT chưa đổi 11497/1679/1606/3003 (verified từ disk).
