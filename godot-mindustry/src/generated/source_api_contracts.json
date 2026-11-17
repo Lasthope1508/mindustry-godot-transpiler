@@ -67554,6 +67554,68 @@
       ],
       "runtime_proof": "/root/C07RepairTowerHealAdvanceProof",
       "rule": "Source-backed RepairTower heal advance from RepairTower.java / HealthComp.java / BuildingComp.java / Blocks.java."
+    },
+    "SourceRepairTowerBuildState.source_repair_tower_ozone_row_state": {
+      "status": "active",
+      "source_slice": "N2229",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "source_method": "ConsumeLiquid.efficiency(Building)",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_repair_tower_ozone_row_state_input.frame"
+        },
+        {
+          "name": "delta",
+          "type": "float",
+          "schema": "source_repair_tower_ozone_row_state_input.delta"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "has_ozone_row",
+        "row"
+      ],
+      "tests": [
+        "test_c07_repair_tower_ozone_consume_registration",
+        "test_all_c07_repair_tower_ozone_consume_input_evidence_is_exact",
+        "test_repair_tower_ozone_consume_state",
+        "test_reference_graph_and_actual_c07_repair_tower_ozone_consume"
+      ],
+      "runtime_proof": "/root/C07RepairTowerOzoneConsumeProof",
+      "rule": "Source-backed RepairTower ozone consumer from ConsumeLiquid.java / Consume.java / BuildingComp.java / LiquidModule.java / Blocks.java."
+    },
+    "SourceRepairTowerBuildState.source_repair_tower_ozone_consume_state": {
+      "status": "active",
+      "source_slice": "N2229",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "source_method": "ConsumeLiquid.update(Building)",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_repair_tower_ozone_consume_state_input.frame"
+        },
+        {
+          "name": "delta",
+          "type": "float",
+          "schema": "source_repair_tower_ozone_consume_state_input.delta"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "ozone_drained",
+        "liquids"
+      ],
+      "tests": [
+        "test_c07_repair_tower_ozone_consume_registration",
+        "test_all_c07_repair_tower_ozone_consume_input_evidence_is_exact",
+        "test_repair_tower_ozone_consume_state",
+        "test_reference_graph_and_actual_c07_repair_tower_ozone_consume"
+      ],
+      "runtime_proof": "/root/C07RepairTowerOzoneConsumeProof",
+      "rule": "Source-backed RepairTower ozone consumer from ConsumeLiquid.java / Consume.java / BuildingComp.java / LiquidModule.java / Blocks.java."
     }
   },
   "policy": {

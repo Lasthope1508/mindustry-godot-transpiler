@@ -174776,6 +174776,70 @@
         "test_reference_graph_and_actual_c07_repair_tower_heal_advance"
       ],
       "runtime_proof": "/root/C07RepairTowerHealAdvanceProof"
+    },
+    "source_repair_tower_ozone_row_state_result.has_ozone_row": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_ozone_row_state",
+      "godot_symbol": "source_repair_tower_ozone_row_state_result.has_ozone_row",
+      "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+      "java_method": "ConsumeLiquid.efficiency(Building)",
+      "java_expr": "public float get(Liquid liquid){",
+      "rule": "Whether an ozone observation exists: true only when frame[\"liquids\"] is a Dictionary with key \"ozone\" (LiquidModule.java:102, `public float get(Liquid liquid){` -- the stock read; absent means no observation, so the row is skipped and the power-only fold is kept).",
+      "tests": [
+        "test_c07_repair_tower_ozone_consume_registration",
+        "test_all_c07_repair_tower_ozone_consume_input_evidence_is_exact",
+        "test_repair_tower_ozone_consume_state",
+        "test_reference_graph_and_actual_c07_repair_tower_ozone_consume"
+      ],
+      "runtime_proof": "/root/C07RepairTowerOzoneConsumeProof"
+    },
+    "source_repair_tower_ozone_row_state_result.row": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_ozone_row_state",
+      "godot_symbol": "source_repair_tower_ozone_row_state_result.row",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "ConsumeLiquid.efficiency(Building)",
+      "java_expr": "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);",
+      "rule": "The ozone consumer row for the first-pass fold: {\"result\": fold, \"is_power\": false} (ConsumeLiquid.java:47 -- the fold is min(stock / (0.05 * ed * 1.0), 1.0), 0.0 when ed <= 1e-8; empty when no observation).",
+      "tests": [
+        "test_c07_repair_tower_ozone_consume_registration",
+        "test_all_c07_repair_tower_ozone_consume_input_evidence_is_exact",
+        "test_repair_tower_ozone_consume_state",
+        "test_reference_graph_and_actual_c07_repair_tower_ozone_consume"
+      ],
+      "runtime_proof": "/root/C07RepairTowerOzoneConsumeProof"
+    },
+    "source_repair_tower_ozone_consume_state_result.ozone_drained": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_ozone_consume_state",
+      "godot_symbol": "source_repair_tower_ozone_consume_state_result.ozone_drained",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "ConsumeLiquid.update(Building)",
+      "java_expr": "build.liquids.remove(liquid, amount * build.edelta() * multiplier.get(build));",
+      "rule": "The ozone drained this tick: 0.05 * folded efficiency * delta, clamped at the stock (ConsumeLiquid.java:38 -- 0 when efficiency is 0, the tower is disabled, or no ozone observation exists).",
+      "tests": [
+        "test_c07_repair_tower_ozone_consume_registration",
+        "test_all_c07_repair_tower_ozone_consume_input_evidence_is_exact",
+        "test_repair_tower_ozone_consume_state",
+        "test_reference_graph_and_actual_c07_repair_tower_ozone_consume"
+      ],
+      "runtime_proof": "/root/C07RepairTowerOzoneConsumeProof"
+    },
+    "source_repair_tower_ozone_consume_state_result.liquids": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTowerBuildState.source_repair_tower_ozone_consume_state",
+      "godot_symbol": "source_repair_tower_ozone_consume_state_result.liquids",
+      "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+      "java_method": "ConsumeLiquid.update(Building)",
+      "java_expr": "//cap to prevent negative removal",
+      "rule": "The liquids dict after the drain: a duplicate with [\"ozone\"] reduced by the drained amount, never negative (LiquidModule.java:125-127, `//cap to prevent negative removal` -- unchanged when no ozone observation exists).",
+      "tests": [
+        "test_c07_repair_tower_ozone_consume_registration",
+        "test_all_c07_repair_tower_ozone_consume_input_evidence_is_exact",
+        "test_repair_tower_ozone_consume_state",
+        "test_reference_graph_and_actual_c07_repair_tower_ozone_consume"
+      ],
+      "runtime_proof": "/root/C07RepairTowerOzoneConsumeProof"
     }
   },
   "version": 1

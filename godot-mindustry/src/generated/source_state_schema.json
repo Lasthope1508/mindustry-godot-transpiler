@@ -233152,6 +233152,122 @@
       },
       "runtime_proof": "/root/C07RepairTowerHealAdvanceProof",
       "rule": "Source-backed RepairTower heal advance from RepairTower.java / HealthComp.java / BuildingComp.java / Blocks.java."
+    },
+    "source_repair_tower_ozone_row_state_input": {
+      "status": "active",
+      "owner": "SourceRepairTowerBuildState.source_repair_tower_ozone_row_state",
+      "source_slice": "N2229",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "public float efficiency(Building build){",
+          "rule": "The tower frame (ConsumeLiquid.java:42, `public float efficiency(Building build){` -- the frame carries the liquids dict keyed by liquid-name slug (\"ozone\") and the efficiency_scale stamped by the driver; absent key \"ozone\" means no observation, not an empty tank).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_ozone_row_state"
+          ]
+        },
+        "delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return efficiency * delta();",
+          "rule": "The tick delta in seconds (BuildingComp.java:1928, `return efficiency * delta();` -- the driver passes its per-tick seconds; the first pass assumes efficiency 1, BuildingComp.java:1966, so edelta is 1.0 * delta here).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_ozone_row_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTowerOzoneConsumeProof",
+      "rule": "Source-backed RepairTower ozone consumer from ConsumeLiquid.java / Consume.java / BuildingComp.java / LiquidModule.java / Blocks.java."
+    },
+    "source_repair_tower_ozone_row_state_result": {
+      "status": "active",
+      "owner": "SourceRepairTowerBuildState.source_repair_tower_ozone_row_state",
+      "source_slice": "N2229",
+      "keys": {
+        "has_ozone_row": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+          "java_expr": "public float get(Liquid liquid){",
+          "rule": "Whether an ozone observation exists: true only when frame[\"liquids\"] is a Dictionary with key \"ozone\" (LiquidModule.java:102, `public float get(Liquid liquid){` -- the stock read; absent means no observation, so the row is skipped and the power-only fold is kept).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_ozone_row_state"
+          ]
+        },
+        "row": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);",
+          "rule": "The ozone consumer row for the first-pass fold: {\"result\": fold, \"is_power\": false} (ConsumeLiquid.java:47 -- the fold is min(stock / (0.05 * ed * 1.0), 1.0), 0.0 when ed <= 1e-8; empty when no observation).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_ozone_row_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTowerOzoneConsumeProof",
+      "rule": "Source-backed RepairTower ozone consumer from ConsumeLiquid.java / Consume.java / BuildingComp.java / LiquidModule.java / Blocks.java."
+    },
+    "source_repair_tower_ozone_consume_state_input": {
+      "status": "active",
+      "owner": "SourceRepairTowerBuildState.source_repair_tower_ozone_consume_state",
+      "source_slice": "N2229",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "public void update(Building build){",
+          "rule": "The tower frame (ConsumeLiquid.java:37, `public void update(Building build){` -- the frame carries the folded efficiency (stamped by apply_update_consumption_state) and the liquids dict; the drain reads both).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_ozone_consume_state"
+          ]
+        },
+        "delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return efficiency * delta();",
+          "rule": "The tick delta in seconds (BuildingComp.java:1928, `return efficiency * delta();` -- the driver passes its per-tick seconds; the drain is 0.05 * folded efficiency * delta).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_ozone_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTowerOzoneConsumeProof",
+      "rule": "Source-backed RepairTower ozone consumer from ConsumeLiquid.java / Consume.java / BuildingComp.java / LiquidModule.java / Blocks.java."
+    },
+    "source_repair_tower_ozone_consume_state_result": {
+      "status": "active",
+      "owner": "SourceRepairTowerBuildState.source_repair_tower_ozone_consume_state",
+      "source_slice": "N2229",
+      "keys": {
+        "ozone_drained": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_expr": "build.liquids.remove(liquid, amount * build.edelta() * multiplier.get(build));",
+          "rule": "The ozone drained this tick: 0.05 * folded efficiency * delta, clamped at the stock (ConsumeLiquid.java:38 -- 0 when efficiency is 0, the tower is disabled, or no ozone observation exists).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_ozone_consume_state"
+          ]
+        },
+        "liquids": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+          "java_expr": "//cap to prevent negative removal",
+          "rule": "The liquids dict after the drain: a duplicate with [\"ozone\"] reduced by the drained amount, never negative (LiquidModule.java:125-127, `//cap to prevent negative removal` -- unchanged when no ozone observation exists).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_ozone_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTowerOzoneConsumeProof",
+      "rule": "Source-backed RepairTower ozone consumer from ConsumeLiquid.java / Consume.java / BuildingComp.java / LiquidModule.java / Blocks.java."
     }
   },
   "version": 1
