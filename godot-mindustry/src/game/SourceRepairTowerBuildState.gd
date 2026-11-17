@@ -183,6 +183,59 @@ static func source_repair_tower_range_state(range: float) -> Dictionary:
 	# RepairTowerBuild.range() (RepairTower.java:111-114, inside `public float range(){`, RepairTower.java:112): `return range;` (RepairTower.java:113) -- the per-def range, from the Ranged interface (`public interface Ranged extends Posc, Teamc{` / `float range();`, Ranged.java:5-6). The class is `public class RepairTower extends Block{` (RepairTower.java:18); the range is the per-def value, unit-repair-tower 100f (`range = 100f;`, Blocks.java:6579), class default (`public float range = 80f;`, RepairTower.java:21) -- passed explicitly because it is per-def static state, not a live frame key (the N2220 / N2230 per-def-param precedent). NO driver tick line: range() is a pure read of a per-def param (the N2223 sense() precedent).
 	return {"range": range}
 
+static func _range_for_block_id(block_id: String) -> float:
+	# Per-def range (the catalog carries it, but the
+	# resolver pins it here as the pure per-def read, the
+	# N2237 precedent): unit-repair-tower 100f
+	# (`range = 100f;`, Blocks.java:6579), class default 80f
+	# (`public float range = 80f;`, RepairTower.java:21).
+	if block_id == "unit-repair-tower":
+		return 100.0
+	return 80.0
+
+static func _heal_amount_for_block_id(block_id: String) -> float:
+	# Per-def healAmount (the catalog carries no
+	# healAmount, so the resolver reads it from the block
+	# id, the N2209 per-def-param precedent):
+	# unit-repair-tower 1.5f (`healAmount = 1.5f;`,
+	# Blocks.java:6580), class default 1f
+	# (`public float healAmount = 1f;`, RepairTower.java:24).
+	if block_id == "unit-repair-tower":
+		return 1.5
+	return 1.0
+
+static func _size_for_block_id(block_id: String) -> int:
+	# Per-def size (the catalog carries it, but the
+	# resolver pins it here as the pure per-def read, the
+	# N2237 precedent): unit-repair-tower 2
+	# (`size = 2;`, Blocks.java:6578), class default 1
+	# (`public int size = 1;`, Block.java:215).
+	if block_id == "unit-repair-tower":
+		return 2
+	return 1
+
+static func source_repair_tower_per_def_stats_state(block_id: String) -> Dictionary:
+	# The RepairTower per-def stat rows (Blocks.java:6575-6583 + class defaults
+	# RepairTower.java:21, :24 + Block.java:215): unit-repair-tower range 100f
+	# (`range = 100f;`, Blocks.java:6579), healAmount 1.5f (`healAmount = 1.5f;`,
+	# Blocks.java:6580), size 2 (`size = 2;`, Blocks.java:6578); class defaults
+	# range 80f (`public float range = 80f;`, RepairTower.java:21), healAmount 1f
+	# (`public float healAmount = 1f;`, RepairTower.java:24), size 1
+	# (`public int size = 1;`, Block.java:215). The single def is
+	# `unitRepairTower = new RepairTower("unit-repair-tower"){{` (Blocks.java:6575),
+	# of the block `public class RepairTower extends Block{` (RepairTower.java:18).
+	# The rows are consumed by RepairTower.setStats() (range / tilesize,
+	# RepairTower.java:38; healAmount * 60f per second, RepairTower.java:39),
+	# RepairTowerBuild.range() (range, RepairTower.java:112-113) and
+	# RepairTowerBuild.updateTile() (healAmount heals, RepairTower.java:78).
+	# Requirements (graphite 90 / silicon 90 / tungsten 80, Blocks.java:6576)
+	# are NOT a row here: the content registry already carries them for
+	# unit-repair-tower, as it does size 2, range 100.0 and consumePower 1.0;
+	# powerUse 1f lives in the catalog consumePower (the N2237 powerUse
+	# precedent). There is no driver tick line: a static read (the N2233
+	# range / N2235 ambient volume / N2237 precedent).
+	return {"range": _range_for_block_id(block_id), "heal_amount": _heal_amount_for_block_id(block_id), "size": _size_for_block_id(block_id)}
+
 static func source_repair_tower_warmup_state(frame: Dictionary) -> Dictionary:
 	# RepairTowerBuild.warmup() (RepairTower.java:116-119, inside `public float warmup(){`, RepairTower.java:117): `return warmup;` (RepairTower.java:118), overriding the base that returns 0f (BuildingComp.java:608-609, `return 0f;`). The warmup field is `public float warmup = 0f;` (RepairTower.java:52), stamped live by the N2228 driver -- the frame carries it, an absent key reads the Java field default, warmup 0. NO driver tick line: warmup() is a pure read of a frame key the heal advance already stamps (the N2223 sense() precedent).
 	return {"warmup": float(frame.get("warmup", 0.0))}

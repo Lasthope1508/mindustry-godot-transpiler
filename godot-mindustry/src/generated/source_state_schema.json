@@ -234184,6 +234184,64 @@
       },
       "runtime_proof": "/root/C07RepairTurretPerDefStatsProof",
       "rule": "Source-backed RepairTurret per-def stat rows from RepairTurret.java + Blocks.java."
+    },
+    "source_repair_tower_per_def_stats_state_input": {
+      "status": "active",
+      "owner": "SourceRepairTowerBuildState.source_repair_tower_per_def_stats_state",
+      "source_slice": "N2238",
+      "keys": {
+        "block_id": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "unitRepairTower = new RepairTower(\"unit-repair-tower\"){{",
+          "rule": "The block id (Blocks.java:6575, `unitRepairTower = new RepairTower(\"unit-repair-tower\"){{`): the per-def identity whose catalog stat overrides the resolver returns, passed explicitly because it is per-def static state, not a live frame key (the N2212 / N2220 / N2235 / N2237 per-def-param precedent).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_per_def_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTowerPerDefStatsProof",
+      "rule": "Source-backed RepairTower per-def stat rows from RepairTower.java + Blocks.java + Block.java."
+    },
+    "source_repair_tower_per_def_stats_state_result": {
+      "status": "active",
+      "owner": "SourceRepairTowerBuildState.source_repair_tower_per_def_stats_state",
+      "source_slice": "N2238",
+      "keys": {
+        "range": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "range = 100f;",
+          "rule": "The per-def range (unit-repair-tower 100f, Blocks.java:6579, `range = 100f;`; class default 80f, RepairTower.java:21, `public float range = 80f;`): the range RepairTowerBuild.range() returns (RepairTower.java:112-113, `return range;`) and setStats() reports as range / tilesize (RepairTower.java:38, `stats.add(Stat.range, range / tilesize, StatUnit.blocks);`).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_per_def_stats_state"
+          ]
+        },
+        "heal_amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "healAmount = 1.5f;",
+          "rule": "The per-def heal amount (unit-repair-tower 1.5f, Blocks.java:6580, `healAmount = 1.5f;`; class default 1f, RepairTower.java:24, `public float healAmount = 1f;`): the amount RepairTowerBuild.updateTile() heals with (RepairTower.java:78, `target.heal(healAmount * edelta());`) and setStats() reports as healAmount * 60f per second (RepairTower.java:39, `stats.add(Stat.repairSpeed, healAmount * 60f, StatUnit.perSecond);`).",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_per_def_stats_state"
+          ]
+        },
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "size = 2;",
+          "rule": "The per-def footprint size (unit-repair-tower 2, Blocks.java:6578, `size = 2;`; class default 1, Block.java:215, `public int size = 1;`): the tile footprint the block occupies.",
+          "used_by": [
+            "SourceRepairTowerBuildState.source_repair_tower_per_def_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTowerPerDefStatsProof",
+      "rule": "Source-backed RepairTower per-def stat rows from RepairTower.java + Blocks.java + Block.java."
     }
   },
   "version": 1

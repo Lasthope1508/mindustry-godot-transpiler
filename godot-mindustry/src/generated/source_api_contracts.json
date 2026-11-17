@@ -68042,6 +68042,33 @@
       ],
       "runtime_proof": "/root/C07RepairTurretPerDefStatsProof",
       "rule": "Source-backed RepairTurret per-def stat rows from RepairTurret.java + Blocks.java."
+    },
+    "SourceRepairTowerBuildState.source_repair_tower_per_def_stats_state": {
+      "status": "active",
+      "source_slice": "N2238",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTower.java",
+      "source_method": "RepairTower.setStats()/RepairTowerBuild.updateTile()/RepairTowerBuild.range()",
+      "params": [
+        {
+          "name": "block_id",
+          "type": "String",
+          "schema": "source_repair_tower_per_def_stats_state_input.block_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "range",
+        "heal_amount",
+        "size"
+      ],
+      "tests": [
+        "test_c07_repair_tower_per_def_stats_registration",
+        "test_all_c07_repair_tower_per_def_stats_input_evidence_is_exact",
+        "test_repair_tower_per_def_stats_state",
+        "test_reference_graph_and_actual_c07_repair_tower_per_def_stats"
+      ],
+      "runtime_proof": "/root/C07RepairTowerPerDefStatsProof",
+      "rule": "Source-backed RepairTower per-def stat rows from RepairTower.java + Blocks.java + Block.java."
     }
   },
   "policy": {
