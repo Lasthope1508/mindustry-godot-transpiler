@@ -232810,6 +232810,104 @@
       },
       "runtime_proof": "/root/C07RepairTurretSetStatsProof",
       "rule": "Source-backed RepairTurret setStats() state from RepairTurret.java + Vars.java + Blocks.java + StatValues.java."
+    },
+    "source_repair_turret_draw_state_input": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_draw_state",
+      "source_slice": "N2225",
+      "keys": {
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "Draw.rect(baseRegion, x, y);",
+          "rule": "The live world x of the building in pixels (RepairTurret.java:165, `Draw.rect(baseRegion, x, y);`, the base rect is drawn at (x, y) with no rotation); passed explicitly (the N2220 draw-place precedent) because the pure function takes the position as args, not a frame.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "Draw.rect(baseRegion, x, y);",
+          "rule": "The live world y of the building in pixels (RepairTurret.java:165, `Draw.rect(baseRegion, x, y);`, same line as x); passed explicitly, same precedent as x.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_state"
+          ]
+        },
+        "rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "public float strength, rotation = 90;",
+          "rule": "The live rotation in degrees (RepairTurret.java:156, `public float strength, rotation = 90;`, the field init; stamped live by the N2214 slerp and persisted by the N2217 read/write); passed explicitly because the draw angle is rotation - 90.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_state"
+          ]
+        },
+        "size": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public int size = 1;",
+          "rule": "The Block.size in tiles (Block.java:215, `public int size = 1;`, the class default; repair-point has no override, Blocks.java:6386-6394, repair-turret 2, Blocks.java:6398, `size = 2;`); passed explicitly because it is per-def static state, not a live frame key (the N2212 acquire / N2220 draw-place per-def-param precedent).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretDrawProof",
+      "rule": "Source-backed RepairTurret draw() state from RepairTurret.java + Layer.java + Drawf.java + Blocks.java + Block.java."
+    },
+    "source_repair_turret_draw_state_result": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_draw_state",
+      "source_slice": "N2225",
+      "keys": {
+        "draw_rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "Draw.rect(region, x, y, rotation - 90);",
+          "rule": "The region rect angle in degrees: rotation - 90 (RepairTurret.java:169, `Draw.rect(region, x, y, rotation - 90);`, the same angle the shadow uses at :168).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_state"
+          ]
+        },
+        "shadow_position": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "Drawf.shadow(region, x - (size / 2f), y - (size / 2f), rotation - 90);",
+          "rule": "The shadow position: (x - size / 2f, y - size / 2f) (RepairTurret.java:168, `Drawf.shadow(region, x - (size / 2f), y - (size / 2f), rotation - 90);`); size / 2f is subtracted directly on world coords, NOT tilesize-scaled -- the quirk stays as Java wrote it.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_state"
+          ]
+        },
+        "base_position": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "Draw.rect(baseRegion, x, y);",
+          "rule": "The base rect position: (x, y) with no rotation (RepairTurret.java:165, `Draw.rect(baseRegion, x, y);`).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_state"
+          ]
+        },
+        "z_layer": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/graphics/Layer.java",
+          "java_expr": "turret = 50,",
+          "rule": "The z-layer: Layer.turret = 50 (Layer.java:48, `turret = 50,`), set by `Draw.z(Layer.turret);` (RepairTurret.java:167).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretDrawProof",
+      "rule": "Source-backed RepairTurret draw() state from RepairTurret.java + Layer.java + Drawf.java + Blocks.java + Block.java."
     }
   },
   "version": 1

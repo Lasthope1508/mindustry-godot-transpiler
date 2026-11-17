@@ -352,6 +352,30 @@ static func source_repair_turret_draw_place_state(tile_x: int, tile_y: int, repa
 	var center: Vector2 = Vector2(float(tile_x) * tilesize + block_offset, float(tile_y) * tilesize + block_offset)
 	return {"center": center, "radius": repair_radius, "color": "Pal.accent"}
 
+static func _size_for_block_id(block_id: String) -> float:
+	# Per-def Block.size in tiles (the catalog carries no
+	# size, so the driver resolves it from the block id, the
+	# N2209 per-def-param precedent): repair-turret 2
+	# (`size = 2;`, Blocks.java:6398), repair-point the 1
+	# class default (`public int size = 1;`, Block.java:215;
+	# no override in Blocks.java:6386-6394).
+	if block_id == "repair-turret":
+		return 2.0
+	return 1.0
+
+static func source_repair_turret_draw_state(x: float, y: float, rotation: float, size: float) -> Dictionary:
+	# RepairPointBuild.draw() (RepairTurret.java:164-174, inside `public void draw(){`, RepairTurret.java:164, `public class RepairTurret extends Block{`):
+	# Draw.rect(baseRegion, x, y); -- :165, the base rect at (x, y) with no rotation;
+	# Draw.z(Layer.turret); -- :167, the z-layer (`turret = 50,`, Layer.java:48);
+	# Drawf.shadow(region, x - (size / 2f), y - (size / 2f), rotation - 90); -- :168, the shadow at (x - size/2f, y - size/2f) with angle rotation - 90;
+	# Draw.rect(region, x, y, rotation - 90); -- :169, the region rect at (x, y) with angle rotation - 90;
+	# then drawBeam (:171-173) -- N2219, NOT this slice.
+	# The shadow offset quirk stays as Java wrote it: `size / 2f` is subtracted directly on world coords, NOT tilesize-scaled -- size is Block.size in tiles (class default 1, Block.java:215, `public int size = 1;`; repair-point has no override, Blocks.java:6386-6394; repair-turret 2, Blocks.java:6398, `size = 2;`), so repair-point offsets 0.5, repair-turret offsets 1.0. rotation defaults to 90 (the field init `public float strength, rotation = 90;`, RepairTurret.java:156). There IS a driver tick line: draw() runs every frame after updateTile in the frame loop, and the driver already calls draw_beam_state each tick (:664), so N2225 adds one draw_state call there, stamping draw_rotation, shadow_position, base_position and z_layer live. Rendering itself stays out of the game -- only the state draw() depends on is captured, per the user boundary.
+	var draw_rotation: float = rotation - 90.0
+	var shadow_position: Vector2 = Vector2(x - size / 2.0, y - size / 2.0)
+	var base_position: Vector2 = Vector2(x, y)
+	return {"draw_rotation": draw_rotation, "shadow_position": shadow_position, "base_position": base_position, "z_layer": 50.0}
+
 static func _block_offset_for_block_id(block_id: String) -> float:
 	# Per-def block offset (`offset = ((size + 1) % 2) * tilesize / 2f;`, Block.java:761, tilesize 8, Vars.java:135): repair-turret size 2 (Blocks.java:6398) so 4.0, repair-point size 1 (no size override in Blocks.java:6386) so 0.0, class default 0.0.
 	if block_id == "repair-turret":
@@ -667,6 +691,21 @@ static func source_repair_turret_tick_buildings_state(game: Object, seconds: flo
 		frame["beam_visible"] = beam.get("beam_visible", false)
 		frame["beam_width"] = beam.get("beam_width", 0.0)
 		frame["pulse_stroke"] = beam.get("pulse_stroke", 0.0)
+		# N2225: draw() body state (RepairTurret.java:164-174, called
+		# from draw() itself -- draw() runs after updateTile in the
+		# frame loop, so this reads the tick's final rotation and
+		# position, right after the N2219 beam). The pure function
+		# returns the deterministic draw geometry (region angle
+		# rotation - 90, shadow position, base position, z-layer
+		# Layer.turret = 50); the driver stamps draw_rotation,
+		# shadow_position, base_position and z_layer live. size is
+		# the per-def value (`_size_for_block_id` -- 1 repair-point
+		# class default, 2 repair-turret).
+		var draw: Dictionary = source_repair_turret_draw_state(sprite.position.x, sprite.position.y, float(frame.get("rotation", 90.0)), _size_for_block_id(block_id))
+		frame["draw_rotation"] = draw.get("draw_rotation", 0.0)
+		frame["shadow_position"] = draw.get("shadow_position", Vector2.ZERO)
+		frame["base_position"] = draw.get("base_position", Vector2.ZERO)
+		frame["z_layer"] = draw.get("z_layer", 50.0)
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
