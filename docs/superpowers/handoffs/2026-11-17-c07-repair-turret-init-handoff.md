@@ -1,6 +1,6 @@
 # Handoff — N2226 RepairTurret init() updateClipRadius (C07)
 
-## Status: DONE — gate xanh ~08:49 +07 (Ran 5997, failures=176, skipped=5, 0 errors — toàn bộ Godot-absent). Chờ push. Proof chưa chạy trên Windows Godot (nợ GOAL.md §5).
+## Status: DONE + PUSHED (slice 66b086e5, main d8baf393). Gate xanh lúc ~08:49 +07 (Ran 5997, failures=176, skipped=5, 0 errors — toàn bộ Godot-absent). Proof chưa chạy trên Windows Godot (nợ GOAL.md §5).
 
 ## Scope (chốt ở RED)
 
