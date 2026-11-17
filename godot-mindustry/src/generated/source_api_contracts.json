@@ -68013,6 +68013,35 @@
       ],
       "runtime_proof": "/root/C07RepairTurretBindBlockIdProof",
       "rule": "Source-backed RepairTurret bind frame state from RepairTurret.java + Blocks.java + Block.java + BuildingComp.java."
+    },
+    "SourceRepairTurretBuildState.source_repair_turret_per_def_stats_state": {
+      "status": "active",
+      "source_slice": "N2237",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "source_method": "RepairPointBuild.updateTile()/RepairPointBuild.draw()/drawBeam()/RepairPointBuild.range()",
+      "params": [
+        {
+          "name": "block_id",
+          "type": "String",
+          "schema": "source_repair_turret_per_def_stats_state_input.block_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "repair_speed",
+        "repair_radius",
+        "length",
+        "beam_width",
+        "pulse_radius"
+      ],
+      "tests": [
+        "test_c07_repair_turret_per_def_stats_registration",
+        "test_all_c07_repair_turret_per_def_stats_input_evidence_is_exact",
+        "test_repair_turret_per_def_stats_state",
+        "test_reference_graph_and_actual_c07_repair_turret_per_def_stats"
+      ],
+      "runtime_proof": "/root/C07RepairTurretPerDefStatsProof",
+      "rule": "Source-backed RepairTurret per-def stat rows from RepairTurret.java + Blocks.java."
     }
   },
   "policy": {

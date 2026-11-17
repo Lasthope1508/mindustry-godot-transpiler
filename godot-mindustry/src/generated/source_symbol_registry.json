@@ -175400,6 +175400,86 @@
         "test_reference_graph_and_actual_c07_repair_turret_bind_block_id"
       ],
       "runtime_proof": "/root/C07RepairTurretBindBlockIdProof"
+    },
+    "source_repair_turret_per_def_stats_state_result.repair_speed": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_per_def_stats_state",
+      "godot_symbol": "source_repair_turret_per_def_stats_state_result.repair_speed",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "RepairPointBuild.updateTile()/RepairPointBuild.draw()/drawBeam()/RepairPointBuild.range()",
+      "java_expr": "repairSpeed = 0.45f;",
+      "rule": "The per-def repair speed (repair-point 0.45f, Blocks.java:6388, `repairSpeed = 0.45f;`; repair-turret 3f, Blocks.java:6400, `repairSpeed = 3f;`; class default 0.3f, RepairTurret.java:33, `public float repairSpeed = 0.3f;`): the heal rate RepairPointBuild.updateTile() heals with (RepairTurret.java:207, `target.heal(repairSpeed * strength * edelta() * multiplier);`).",
+      "tests": [
+        "test_c07_repair_turret_per_def_stats_registration",
+        "test_all_c07_repair_turret_per_def_stats_input_evidence_is_exact",
+        "test_repair_turret_per_def_stats_state",
+        "test_reference_graph_and_actual_c07_repair_turret_per_def_stats"
+      ],
+      "runtime_proof": "/root/C07RepairTurretPerDefStatsProof"
+    },
+    "source_repair_turret_per_def_stats_state_result.repair_radius": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_per_def_stats_state",
+      "godot_symbol": "source_repair_turret_per_def_stats_state_result.repair_radius",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "RepairPointBuild.updateTile()/RepairPointBuild.draw()/drawBeam()/RepairPointBuild.range()",
+      "java_expr": "repairRadius = 60f;",
+      "rule": "The per-def repair radius (repair-point 60f, Blocks.java:6389, `repairRadius = 60f;`; repair-turret 145f, Blocks.java:6401, `repairRadius = 145f;`; class default 50f, RepairTurret.java:32, `public float repairRadius = 50f;`): the range RepairPointBuild.range() returns (RepairTurret.java:232, `return repairRadius;`).",
+      "tests": [
+        "test_c07_repair_turret_per_def_stats_registration",
+        "test_all_c07_repair_turret_per_def_stats_input_evidence_is_exact",
+        "test_repair_turret_per_def_stats_state",
+        "test_reference_graph_and_actual_c07_repair_turret_per_def_stats"
+      ],
+      "runtime_proof": "/root/C07RepairTurretPerDefStatsProof"
+    },
+    "source_repair_turret_per_def_stats_state_result.length": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_per_def_stats_state",
+      "godot_symbol": "source_repair_turret_per_def_stats_state_result.length",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "RepairPointBuild.updateTile()/RepairPointBuild.draw()/drawBeam()/RepairPointBuild.range()",
+      "java_expr": "length = 6f;",
+      "rule": "The per-def beam length (repair-turret 6f, Blocks.java:6399, `length = 6f;`; repair-point the 5f class default, RepairTurret.java:35, `public float length = 5f;`): the beam origin offset drawBeam() uses (RepairTurret.java:115-116, `originX = x + Angles.trnsx(rotation, length);`).",
+      "tests": [
+        "test_c07_repair_turret_per_def_stats_registration",
+        "test_all_c07_repair_turret_per_def_stats_input_evidence_is_exact",
+        "test_repair_turret_per_def_stats_state",
+        "test_reference_graph_and_actual_c07_repair_turret_per_def_stats"
+      ],
+      "runtime_proof": "/root/C07RepairTurretPerDefStatsProof"
+    },
+    "source_repair_turret_per_def_stats_state_result.beam_width": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_per_def_stats_state",
+      "godot_symbol": "source_repair_turret_per_def_stats_state_result.beam_width",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "RepairPointBuild.updateTile()/RepairPointBuild.draw()/drawBeam()/RepairPointBuild.range()",
+      "java_expr": "beamWidth = 0.73f;",
+      "rule": "The per-def beam width (repair-point 0.73f, Blocks.java:6390, `beamWidth = 0.73f;`; repair-turret 1.1f, Blocks.java:6403, `beamWidth = 1.1f;`; class default 1f, RepairTurret.java:36, `public float beamWidth = 1f;`): the laser width drawBeam() draws (RepairTurret.java:145, `Drawf.laser(laser, laserEnd, originX, originY, lastEnd.x, lastEnd.y, strength * beamWidth);`).",
+      "tests": [
+        "test_c07_repair_turret_per_def_stats_registration",
+        "test_all_c07_repair_turret_per_def_stats_input_evidence_is_exact",
+        "test_repair_turret_per_def_stats_state",
+        "test_reference_graph_and_actual_c07_repair_turret_per_def_stats"
+      ],
+      "runtime_proof": "/root/C07RepairTurretPerDefStatsProof"
+    },
+    "source_repair_turret_per_def_stats_state_result.pulse_radius": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_per_def_stats_state",
+      "godot_symbol": "source_repair_turret_per_def_stats_state_result.pulse_radius",
+      "java_source": "core/src/mindustry/content/Blocks.java",
+      "java_method": "RepairPointBuild.updateTile()/RepairPointBuild.draw()/drawBeam()/RepairPointBuild.range()",
+      "java_expr": "pulseRadius = 5f;",
+      "rule": "The per-def pulse radius (repair-point 5f, Blocks.java:6392, `pulseRadius = 5f;`; repair-turret 6.1f, Blocks.java:6404, `pulseRadius = 6.1f;`; class default 6f, RepairTurret.java:37, `public float pulseRadius = 6f;`): the pulse-circle radius drawBeam() draws (RepairTurret.java:142, `Lines.circle(lastEnd.x, lastEnd.y, 1f + f * pulseRadius);`) -- it feeds only the deferred pulse circle, so this row pins the value, not the circle.",
+      "tests": [
+        "test_c07_repair_turret_per_def_stats_registration",
+        "test_all_c07_repair_turret_per_def_stats_input_evidence_is_exact",
+        "test_repair_turret_per_def_stats_state",
+        "test_reference_graph_and_actual_c07_repair_turret_per_def_stats"
+      ],
+      "runtime_proof": "/root/C07RepairTurretPerDefStatsProof"
     }
   },
   "version": 1

@@ -343,6 +343,20 @@ static func _beam_width_for_block_id(block_id: String) -> float:
 		return 1.1
 	return 1.0
 
+static func _pulse_radius_for_block_id(block_id: String) -> float:
+	# Per-def pulseRadius (the catalog carries no
+	# pulseRadius, so the resolver reads it from the block
+	# id, the N2209 per-def-param precedent): repair-point
+	# 5f (`pulseRadius = 5f;`, Blocks.java:6392),
+	# repair-turret 6.1f (`pulseRadius = 6.1f;`,
+	# Blocks.java:6404), class default 6f
+	# (`public float pulseRadius = 6f;`, RepairTurret.java:37).
+	if block_id == "repair-point":
+		return 5.0
+	if block_id == "repair-turret":
+		return 6.1
+	return 6.0
+
 static func source_repair_turret_draw_select_state(x: float, y: float, repair_radius: float) -> Dictionary:
 	# RepairPointBuild.drawSelect() draws one dash circle around the building (RepairTurret.java:177-179, inside `public void drawSelect(){`, RepairTurret.java:177):
 	# Drawf.dashCircle(x, y, repairRadius, Pal.accent);
@@ -444,6 +458,35 @@ static func source_repair_turret_ambient_sound_volume_state(block_id: String) ->
 	if block_id == "repair-turret":
 		return {"ambient_sound_volume": 1.25}
 	return {"ambient_sound_volume": SOURCE_REPAIR_TURRET_AMBIENT_SOUND_VOLUME}
+
+static func source_repair_turret_per_def_stats_state(block_id: String) -> Dictionary:
+	# The RepairTurret per-def stat rows (Blocks.java:6386-6406 + class defaults
+	# RepairTurret.java:32-37): repair-point repairSpeed 0.45f (`repairSpeed = 0.45f;`,
+	# Blocks.java:6388), repairRadius 60f (`repairRadius = 60f;`, Blocks.java:6389),
+	# beamWidth 0.73f (`beamWidth = 0.73f;`, Blocks.java:6390), pulseRadius 5f
+	# (`pulseRadius = 5f;`, Blocks.java:6392), length the 5f class default
+	# (`public float length = 5f;`, RepairTurret.java:35 -- no override);
+	# repair-turret length 6f (`length = 6f;`, Blocks.java:6399), repairSpeed 3f
+	# (`repairSpeed = 3f;`, Blocks.java:6400), repairRadius 145f (`repairRadius = 145f;`,
+	# Blocks.java:6401), beamWidth 1.1f (`beamWidth = 1.1f;`, Blocks.java:6403),
+	# pulseRadius 6.1f (`pulseRadius = 6.1f;`, Blocks.java:6404); class defaults
+	# repairSpeed 0.3f (`public float repairSpeed = 0.3f;`, RepairTurret.java:33),
+	# repairRadius 50f (`public float repairRadius = 50f;`, RepairTurret.java:32),
+	# length 5f (RepairTurret.java:35), beamWidth 1f (`public float beamWidth = 1f;`,
+	# RepairTurret.java:36), pulseRadius 6f (`public float pulseRadius = 6f;`,
+	# RepairTurret.java:37). The two defs are `repairPoint = new
+	# RepairTurret("repair-point"){{` (Blocks.java:6386) and `repairTurret = new
+	# RepairTurret("repair-turret"){{` (Blocks.java:6397), of the block `public class
+	# RepairTurret extends Block{` (RepairTurret.java:25). The rows are consumed by
+	# RepairPointBuild.updateTile() (repairSpeed heals, RepairTurret.java:207;
+	# repairRadius bounds the target, RepairTurret.java:194), drawBeam() (length /
+	# beamWidth / pulseRadius, RepairTurret.java:115-116/142/145) and range()
+	# (repairRadius, RepairTurret.java:232). The function reuses the four existing
+	# per-def helpers plus `_pulse_radius_for_block_id` -- no duplicated constants.
+	# powerUse (1f/5f) is NOT a row here: it lives in the catalog consumePower /
+	# consumePowerCond. There is no driver tick line: a static read (the N2233
+	# range / N2235 ambient volume precedent).
+	return {"repair_speed": _repair_speed_for_block_id(block_id), "repair_radius": _repair_radius_for_block_id(block_id), "length": _beam_length_for_block_id(block_id), "beam_width": _beam_width_for_block_id(block_id), "pulse_radius": _pulse_radius_for_block_id(block_id)}
 
 static func source_repair_turret_ambient_sound_loop_state(frame: Dictionary, headless: bool) -> Dictionary:
 	# BuildingComp.update() loops the ambient sound each tick (BuildingComp.java:2270-2271, inside `public void update(){`, BuildingComp.java:2262):

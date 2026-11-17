@@ -234106,6 +234106,84 @@
       },
       "runtime_proof": "/root/C07RepairTurretBindBlockIdProof",
       "rule": "Source-backed RepairTurret bind frame state from RepairTurret.java + Blocks.java + Block.java + BuildingComp.java."
+    },
+    "source_repair_turret_per_def_stats_state_input": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_per_def_stats_state",
+      "source_slice": "N2237",
+      "keys": {
+        "block_id": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "repairPoint = new RepairTurret(\"repair-point\"){{",
+          "rule": "The block id (Blocks.java:6386, `repairPoint = new RepairTurret(\"repair-point\"){{` -- repair-turret, Blocks.java:6397, `repairTurret = new RepairTurret(\"repair-turret\"){{`): the per-def identity whose catalog stat overrides the resolver returns, passed explicitly because it is per-def static state, not a live frame key (the N2212 / N2220 / N2235 per-def-param precedent).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_per_def_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretPerDefStatsProof",
+      "rule": "Source-backed RepairTurret per-def stat rows from RepairTurret.java + Blocks.java."
+    },
+    "source_repair_turret_per_def_stats_state_result": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_per_def_stats_state",
+      "source_slice": "N2237",
+      "keys": {
+        "repair_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "repairSpeed = 0.45f;",
+          "rule": "The per-def repair speed (repair-point 0.45f, Blocks.java:6388, `repairSpeed = 0.45f;`; repair-turret 3f, Blocks.java:6400, `repairSpeed = 3f;`; class default 0.3f, RepairTurret.java:33, `public float repairSpeed = 0.3f;`): the heal rate RepairPointBuild.updateTile() heals with (RepairTurret.java:207, `target.heal(repairSpeed * strength * edelta() * multiplier);`).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_per_def_stats_state"
+          ]
+        },
+        "repair_radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "repairRadius = 60f;",
+          "rule": "The per-def repair radius (repair-point 60f, Blocks.java:6389, `repairRadius = 60f;`; repair-turret 145f, Blocks.java:6401, `repairRadius = 145f;`; class default 50f, RepairTurret.java:32, `public float repairRadius = 50f;`): the range RepairPointBuild.range() returns (RepairTurret.java:232, `return repairRadius;`).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_per_def_stats_state"
+          ]
+        },
+        "length": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "length = 6f;",
+          "rule": "The per-def beam length (repair-turret 6f, Blocks.java:6399, `length = 6f;`; repair-point the 5f class default, RepairTurret.java:35, `public float length = 5f;`): the beam origin offset drawBeam() uses (RepairTurret.java:115-116, `originX = x + Angles.trnsx(rotation, length);`).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_per_def_stats_state"
+          ]
+        },
+        "beam_width": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "beamWidth = 0.73f;",
+          "rule": "The per-def beam width (repair-point 0.73f, Blocks.java:6390, `beamWidth = 0.73f;`; repair-turret 1.1f, Blocks.java:6403, `beamWidth = 1.1f;`; class default 1f, RepairTurret.java:36, `public float beamWidth = 1f;`): the laser width drawBeam() draws (RepairTurret.java:145, `Drawf.laser(laser, laserEnd, originX, originY, lastEnd.x, lastEnd.y, strength * beamWidth);`).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_per_def_stats_state"
+          ]
+        },
+        "pulse_radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "pulseRadius = 5f;",
+          "rule": "The per-def pulse radius (repair-point 5f, Blocks.java:6392, `pulseRadius = 5f;`; repair-turret 6.1f, Blocks.java:6404, `pulseRadius = 6.1f;`; class default 6f, RepairTurret.java:37, `public float pulseRadius = 6f;`): the pulse-circle radius drawBeam() draws (RepairTurret.java:142, `Lines.circle(lastEnd.x, lastEnd.y, 1f + f * pulseRadius);`) -- it feeds only the deferred pulse circle, so this row pins the value, not the circle.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_per_def_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretPerDefStatsProof",
+      "rule": "Source-backed RepairTurret per-def stat rows from RepairTurret.java + Blocks.java."
     }
   },
   "version": 1
