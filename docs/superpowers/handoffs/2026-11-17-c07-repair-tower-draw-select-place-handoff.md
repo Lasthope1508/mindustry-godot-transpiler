@@ -1,6 +1,6 @@
 # Handoff — N2231 RepairTower drawSelect() + drawPlace() (C07)
 
-## Status: GREEN (2026-11-17 ~15:3x +07, main-thread verified). Test + proof xanh, gate xong ~15:51 (Ran 6017, failures=181, skipped=5, 0 errors — toàn bộ Godot-absent), chưa push. SSOT 11504/1681/1609/3009. Targeted 4/4 OK (16.628s, main-thread re-run), family RepairTower 32/32, wiring 32/32 = 68/68; proof 9 semantic keys / 12 in JSON matches:true. Gate log tools/mindustry_godot_transpiler/full-suite-n2231-gate.log (main thread, PID 10237, ~15:33). Slice 7a9fb143, docs 0ad1724d, GOAL bb717eba.
+## Status: DONE + PUSHED (2026-11-17 ~16:0x +07; slice 7a9fb143, main 0635a07d). Test + proof + gate xanh. SSOT 11504/1681/1609/3009. Targeted 4/4, family RepairTower 32/32, wiring 32/32 = 68/68; proof 9 semantic keys / 12 in JSON matches:true. Gate Ran 6017, failures=181, skipped=5, 0 errors — toàn bộ Godot-absent. Windows Godot proof là nợ trong GOAL.md §5.
 
 - Scope: `~/workspace/goals/mindustry-c06-factory-to-defense-work/hidden_files/n2231-scope.md` (viết ~14:5x, verify lại ở RED từ Java + disk).
 - RED log: `~/workspace/goals/mindustry-c06-factory-to-defense-work/hidden_files/n2231-red.log` (4 failed).
