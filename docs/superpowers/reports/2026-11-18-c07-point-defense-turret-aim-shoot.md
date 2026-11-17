@@ -51,6 +51,6 @@ N2240 làm được, không còn blocker. 1 hàm pure mới + 1 driver tick line
 
 ## Hashes
 
-- 5-commit xong: slice ca72f6b9, docs (next commit), GOAL (next commit) — đang push lên origin main.
+- 5-commit xong: slice ca72f6b9, docs 480fd31c, GOAL 2262806a — đang push lên origin main.
 - Windows Godot proof là nợ trong GOAL.md §5 (proof Linux xanh, chưa chạy Windows).
 - Bước tiếp theo: slice tiếp theo theo backlog — suppression live + targets live list vẫn BLOCKED. (KHÔNG bắt đầu C08 inventory trừ khi user yêu cầu.)
