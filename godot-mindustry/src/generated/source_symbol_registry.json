@@ -174648,6 +174648,22 @@
         "test_reference_graph_and_actual_c07_repair_turret_init"
       ],
       "runtime_proof": "/root/C07RepairTurretInitProof"
+    },
+    "source_repair_turret_icons_state_result.icons": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_icons_state",
+      "godot_symbol": "source_repair_turret_icons_state_result.icons",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairTurret.icons()",
+      "java_expr": "return new TextureRegion[]{baseRegion, region};",
+      "rule": "The icons() return array: [baseRegion, region], base first, exactly 2 elements (RepairTurret.java:103, `return new TextureRegion[]{baseRegion, region};`); repair-point [\"repair-point-base\", \"repair-point\"], repair-turret [\"repair-turret-base\", \"repair-turret\"] (Blocks.java:6386, :6396). The Block.icons() base (Block.java:976-980, variants/teamRegion fold) and the getGeneratedIcons cache (Block.java:986-988) are deferred (the N1232 precedent) -- only the override return array is pinned.",
+      "tests": [
+        "test_c07_repair_turret_icons_registration",
+        "test_all_c07_repair_turret_icons_input_evidence_is_exact",
+        "test_repair_turret_icons_state",
+        "test_reference_graph_and_actual_c07_repair_turret_icons"
+      ],
+      "runtime_proof": "/root/C07RepairTurretIconsProof"
     }
   },
   "version": 1

@@ -518,6 +518,19 @@ static func source_repair_turret_init_state(repair_radius: float, tilesize: floa
 	var clip_radius: float = repair_radius + tilesize
 	return {"clip_radius": clip_radius}
 
+static func source_repair_turret_icons_state(base_region: Variant, region: Variant) -> Dictionary:
+	# RepairTurret.icons() (RepairTurret.java:101-104):
+	# @Override
+	# public TextureRegion[] icons(){
+	# return new TextureRegion[]{baseRegion, region};
+	# }
+	# This slice pins ONLY the override's two-element return array, base first. baseRegion is the block's own base field (RepairTurret.java:47): `public @Load(value = "@-base", fallback = "block-@size") TextureRegion baseRegion;` -- loaded as name + "-base" with the "block-@size" fallback. region is the inherited block region (Block.java:427): `public TextureRegion region;` -- the block's own region, the block name. The Block.icons() base (`protected TextureRegion[] icons(){`, Block.java:976-980, the variants/teamRegion fold) is NOT this slice: RepairTurret overrides it. The getGeneratedIcons cache (`public TextureRegion[] getGeneratedIcons(){`, Block.java:986, `return generatedIcons == null ? (generatedIcons = icons()) : generatedIcons;`, Block.java:987) is likewise deferred -- only the override's return array is pinned (the N1232 TractorBeamTurret.icons() precedent: "TextureRegion internals and inherited region loading remain deferred; explicit inputs carry baseRegion and region field values", pinned as the identity pure function source_tractor_beam_turret_icons_state).
+	# The class (RepairTurret.java:25): `public class RepairTurret extends Block{`.
+	# Per-def region ids: repair-point ("repair-point", Blocks.java:6386) -> ["repair-point-base", "repair-point"]; repair-turret ("repair-turret", Blocks.java:6396) -> ["repair-turret-base", "repair-turret"].
+	# There is no driver tick line: icons() is a load-time region accessor, not a per-tick write (the N2217 read/write + N2224 setStats lifecycle precedent).
+	var icons: Array = [base_region, region]
+	return {"icons": icons}
+
 const REPAIR_TURRET_SAVE_VERSION := 1
 
 static func source_repair_turret_write_state(frame: Dictionary) -> Dictionary:

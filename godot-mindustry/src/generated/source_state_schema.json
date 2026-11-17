@@ -232956,6 +232956,54 @@
       },
       "runtime_proof": "/root/C07RepairTurretInitProof",
       "rule": "Source-backed RepairTurret init() state from RepairTurret.java + Blocks.java + Vars.java + Block.java."
+    },
+    "source_repair_turret_icons_state_input": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_icons_state",
+      "source_slice": "N2227",
+      "keys": {
+        "base_region": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "public @Load(value = \"@-base\", fallback = \"block-@size\") TextureRegion baseRegion;",
+          "rule": "The block base region (RepairTurret.java:47, `public @Load(value = \"@-base\", fallback = \"block-@size\") TextureRegion baseRegion;`, loaded as name + \"-base\" with the \"block-@size\" fallback); passed explicitly because it is per-def static state, not a live frame key (the N2212 acquire / N2220 draw-place per-def-param precedent).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_icons_state"
+          ]
+        },
+        "region": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public TextureRegion region;",
+          "rule": "The inherited block region (Block.java:427, `public TextureRegion region;`); passed explicitly because it is per-def static state, not a live frame key (the N2212 acquire / N2220 draw-place per-def-param precedent).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_icons_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretIconsProof",
+      "rule": "Source-backed RepairTurret icons() state from RepairTurret.java + Block.java."
+    },
+    "source_repair_turret_icons_state_result": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_icons_state",
+      "source_slice": "N2227",
+      "keys": {
+        "icons": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "return new TextureRegion[]{baseRegion, region};",
+          "rule": "The icons() return array: [baseRegion, region], base first, exactly 2 elements (RepairTurret.java:103, `return new TextureRegion[]{baseRegion, region};`); repair-point [\"repair-point-base\", \"repair-point\"], repair-turret [\"repair-turret-base\", \"repair-turret\"] (Blocks.java:6386, :6396). The Block.icons() base (Block.java:976-980, variants/teamRegion fold) and the getGeneratedIcons cache (Block.java:986-988) are deferred (the N1232 precedent) -- only the override return array is pinned.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_icons_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretIconsProof",
+      "rule": "Source-backed RepairTurret icons() state from RepairTurret.java + Block.java."
     }
   },
   "version": 1

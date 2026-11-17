@@ -67468,6 +67468,36 @@
       ],
       "runtime_proof": "/root/C07RepairTurretInitProof",
       "rule": "Source-backed RepairTurret init() state from RepairTurret.java + Blocks.java + Vars.java + Block.java."
+    },
+    "SourceRepairTurretBuildState.source_repair_turret_icons_state": {
+      "status": "active",
+      "source_slice": "N2227",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "source_method": "RepairTurret.icons()",
+      "params": [
+        {
+          "name": "base_region",
+          "type": "Variant",
+          "schema": "source_repair_turret_icons_state_input.base_region"
+        },
+        {
+          "name": "region",
+          "type": "Variant",
+          "schema": "source_repair_turret_icons_state_input.region"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "icons"
+      ],
+      "tests": [
+        "test_c07_repair_turret_icons_registration",
+        "test_all_c07_repair_turret_icons_input_evidence_is_exact",
+        "test_repair_turret_icons_state",
+        "test_reference_graph_and_actual_c07_repair_turret_icons"
+      ],
+      "runtime_proof": "/root/C07RepairTurretIconsProof",
+      "rule": "Source-backed RepairTurret icons() state from RepairTurret.java + Block.java."
     }
   },
   "policy": {
