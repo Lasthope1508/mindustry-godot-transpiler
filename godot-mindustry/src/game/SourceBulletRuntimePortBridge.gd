@@ -86,8 +86,8 @@ func source_bullet_dimensions(data: Dictionary) -> Dictionary:
 func source_bullet_scale(data: Dictionary, texture_size: Vector2) -> Vector2:
 	return source_bullet_runtime_state.scale(data, texture_size)
 
-func spawn_turret_bullet(origin: Vector2, target, data: Dictionary, shoot_angle_degrees := 0.0) -> void:
-	source_bullet_runtime_state.spawn_turret_bullet(self, origin, target, data, shoot_angle_degrees)
+func spawn_turret_bullet(origin: Vector2, target, data: Dictionary, team_id: int, shoot_angle_degrees := 0.0) -> void:
+	source_bullet_runtime_state.spawn_turret_bullet(self, origin, target, data, team_id, shoot_angle_degrees)
 
 func simulate_bullets(delta: float) -> void:
 	source_bullet_runtime_state.simulate_bullets(self, delta)

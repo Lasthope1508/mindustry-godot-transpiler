@@ -15,7 +15,9 @@ static func spawn_state_from_values(ammo_item: String, bullet_damage: float, bul
 		"sprite_scale": bullet_sprite_scale,
 	}
 
-static func spawn_turret_bullet_from_state(game, origin: Vector2, target, bullet_spawn_state: Dictionary, bullet_texture: Texture2D) -> void:
+static func source_spawn_turret_bullet_from_state(game, origin: Vector2, target, bullet_spawn_state: Dictionary, bullet_texture: Texture2D, team_id: int) -> void:
+	# Java fires the bullet with the firing building's own team
+	# (`handleBullet(type.create(this, team, bulletX, bulletY, shootAngle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd), lifeScl, null, mover, targetPos.x, targetPos.y), xOffset, yOffset, shootAngle - rotation);`, Turret.java:790) and the create chain stamps it (`bullet.team = team;`, BulletType.java:954; every live Bullet carries the field, `@Import Team team;`, BulletComp.java:29). The appended live dict gains exactly one key, `"team": team_id`.
 	var last_turret_fired_ammo_item := str(game.get("last_turret_fired_ammo_item"))
 	var last_turret_fired_damage := float(game.get("last_turret_fired_damage"))
 	last_turret_fired_ammo_item = str(bullet_spawn_state.get("ammo_item", ""))
@@ -36,4 +38,4 @@ static func spawn_turret_bullet_from_state(game, origin: Vector2, target, bullet
 			sprite.scale = bullet_spawn_state.get("sprite_scale", Vector2.ONE) as Vector2
 	game.get_node("World/BulletLayer").add_child(sprite)
 	var bullets: Array = game.get("bullets")
-	bullets.append({"sprite": sprite, "target": target, "velocity": bullet_velocity, "speed": float(bullet_spawn_state.get("speed", 0.0)), "damage": float(bullet_spawn_state.get("damage", 0.0)), "hitSize": float(bullet_spawn_state.get("hit_size", 0.0)), "lifetime_remaining": float(bullet_spawn_state.get("lifetime_remaining", 0.0))})
+	bullets.append({"sprite": sprite, "target": target, "velocity": bullet_velocity, "speed": float(bullet_spawn_state.get("speed", 0.0)), "damage": float(bullet_spawn_state.get("damage", 0.0)), "hitSize": float(bullet_spawn_state.get("hit_size", 0.0)), "lifetime_remaining": float(bullet_spawn_state.get("lifetime_remaining", 0.0)), "team": team_id})

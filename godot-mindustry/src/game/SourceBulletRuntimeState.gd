@@ -131,14 +131,14 @@ static func spawn_state(data: Dictionary, shoot_angle_degrees: float, texture_si
 	var bullet_speed := world_speed(data)
 	return source_bullet_spawn_state.spawn_state_from_values(str(data.get("ammo_item", data.get("item", ""))), bullet_damage, reload_multiplier(data), velocity(data, shoot_angle_degrees), bullet_speed, bullet_hit_size, lifetime_seconds(data), str(data.get("sprite", SOURCE_BULLET_TEXTURE_DEFAULT)), scale(data, texture_size))
 
-static func spawn_turret_bullet(game, origin: Vector2, target, data: Dictionary, shoot_angle_degrees := 0.0) -> void:
+static func spawn_turret_bullet(game, origin: Vector2, target, data: Dictionary, team_id: int, shoot_angle_degrees := 0.0) -> void:
 	if data.is_empty():
 		return
 	var spawn_texture: Texture2D = game.call("source_bullet_texture", str(data.get("sprite", SOURCE_BULLET_TEXTURE_DEFAULT))) as Texture2D
 	var texture_size: Vector2 = spawn_texture.get_size() if spawn_texture else Vector2.ZERO
 	var bullet_spawn_state := spawn_state(data, shoot_angle_degrees, texture_size)
 	var bullet_texture := game.call("source_bullet_texture", str(bullet_spawn_state.get("sprite_id", SOURCE_BULLET_TEXTURE_DEFAULT))) as Texture2D
-	source_bullet_spawn_state.spawn_turret_bullet_from_state(game, origin, target, bullet_spawn_state, bullet_texture)
+	source_bullet_spawn_state.source_spawn_turret_bullet_from_state(game, origin, target, bullet_spawn_state, bullet_texture, team_id)
 
 static func target_step_context(game, bullet: Dictionary, seconds: float) -> Dictionary:
 	return source_bullet_target_runtime_state.target_step_context(game, bullet, seconds)

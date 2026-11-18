@@ -446,7 +446,7 @@ static func source_point_defense_turret_live_bullets_state(live_bullets: Array) 
 	# maps the live `game["bullets"]` dicts to the observed dicts
 	# the N2239 acquire consumes (id / team / hittable / x / y /
 	# damage / has_type). The only writer of the live list is
-	# SourceBulletSpawnState.gd spawn_turret_bullet_from_state
+	# SourceBulletSpawnState.gd source_spawn_turret_bullet_from_state
 	# (sprite / target / velocity / speed / damage / hitSize /
 	# lifetime_remaining -- no team / hittable / id / type). A
 	# pooled bullet is nulled (`if(target != null && !target.isAdded()){` /

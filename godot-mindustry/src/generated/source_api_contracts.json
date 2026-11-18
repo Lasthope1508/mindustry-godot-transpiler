@@ -68264,6 +68264,29 @@
       ],
       "runtime_proof": "/root/C07PointDefenseTurretLiveBulletsWiringProof",
       "rule": "Source-backed PointDefenseTurret live-bullets wiring from PointDefenseTurret.java / BulletComp.java / BulletType.java / Blocks.java / GroupDefs.java."
+    },
+    "SourceBulletSpawnState.source_spawn_turret_bullet_from_state": {
+      "status": "active",
+      "source_slice": "N2243",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.bullet(BulletType, float, float, float, Mover)",
+      "params": [
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "spawn_turret_bullet_from_state_input.team_id"
+        }
+      ],
+      "return_type": "void",
+      "return_keys": [],
+      "tests": [
+        "test_c07_point_defense_turret_spawn_team_stamp_registration",
+        "test_all_c07_point_defense_turret_spawn_team_stamp_input_evidence_is_exact",
+        "test_point_defense_turret_spawn_team_stamp_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_spawn_team_stamp"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretSpawnTeamStampProof",
+      "rule": "Source-backed PointDefenseTurret spawn-side team stamp from Turret.java / BulletType.java / BulletComp.java. The function is -> void (it mutates game[\"bullets\"]); the stamped team is a side-effect output documented by the result schema + result symbol."
     }
   },
   "policy": {

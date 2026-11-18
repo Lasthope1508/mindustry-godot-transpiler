@@ -234664,6 +234664,44 @@
       },
       "runtime_proof": "/root/C07PointDefenseTurretLiveBulletsWiringProof",
       "rule": "Source-backed PointDefenseTurret live-bullets wiring from PointDefenseTurret.java / BulletComp.java / BulletType.java / Blocks.java / GroupDefs.java."
+    },
+    "spawn_turret_bullet_from_state_input": {
+      "status": "active",
+      "owner": "SourceBulletSpawnState.source_spawn_turret_bullet_from_state",
+      "source_slice": "N2243",
+      "keys": {
+        "team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_expr": "bullet.team = team;",
+          "rule": "The firing turret's team the spawn chain stamps onto the live bullet dict (BulletType.java:954 -- the create chain stamps the firing building's team, passed in by Turret.java:790; every live Bullet carries the field, BulletComp.java:29).",
+          "used_by": [
+            "SourceBulletSpawnState.source_spawn_turret_bullet_from_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PointDefenseTurretSpawnTeamStampProof",
+      "rule": "Source-backed PointDefenseTurret spawn-side team stamp from Turret.java / BulletType.java / BulletComp.java."
+    },
+    "spawn_turret_bullet_from_state_result": {
+      "status": "active",
+      "owner": "SourceBulletSpawnState.source_spawn_turret_bullet_from_state",
+      "source_slice": "N2243",
+      "keys": {
+        "team": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "handleBullet(type.create(this, team, bulletX, bulletY, shootAngle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd), lifeScl, null, mover, targetPos.x, targetPos.y), xOffset, yOffset, shootAngle - rotation);",
+          "rule": "The team stamped onto the appended live bullet dict (Turret.java:790 -- the firing building passes its own team into the create chain, so the live bullet carries the firing turret's team and the N2242 wiring can include it with its real team).",
+          "used_by": [
+            "SourceBulletSpawnState.source_spawn_turret_bullet_from_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PointDefenseTurretSpawnTeamStampProof",
+      "rule": "Source-backed PointDefenseTurret spawn-side team stamp from Turret.java / BulletType.java / BulletComp.java."
     }
   },
   "version": 1

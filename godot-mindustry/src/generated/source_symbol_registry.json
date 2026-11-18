@@ -175800,6 +175800,22 @@
         "test_reference_graph_and_actual_c07_point_defense_turret_live_bullets_wiring"
       ],
       "runtime_proof": "/root/C07PointDefenseTurretLiveBulletsWiringProof"
+    },
+    "spawn_turret_bullet_from_state_result.team": {
+      "status": "source-backed",
+      "godot_owner": "SourceBulletSpawnState.source_spawn_turret_bullet_from_state",
+      "godot_symbol": "spawn_turret_bullet_from_state_result.team",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.bullet(BulletType, float, float, float, Mover)",
+      "java_expr": "handleBullet(type.create(this, team, bulletX, bulletY, shootAngle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd), lifeScl, null, mover, targetPos.x, targetPos.y), xOffset, yOffset, shootAngle - rotation);",
+      "rule": "The team stamped onto the appended live bullet dict (Turret.java:790 -- the firing building passes its own team into the create chain, so the live bullet carries the firing turret's team and the N2242 wiring can include it with its real team).",
+      "tests": [
+        "test_c07_point_defense_turret_spawn_team_stamp_registration",
+        "test_all_c07_point_defense_turret_spawn_team_stamp_input_evidence_is_exact",
+        "test_point_defense_turret_spawn_team_stamp_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_spawn_team_stamp"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretSpawnTeamStampProof"
     }
   },
   "version": 1

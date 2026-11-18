@@ -4,6 +4,8 @@ class_name SourceTurretSimulationState
 const source_time_defaults := preload("res://src/game/SourceTimeDefaults.gd")
 const source_turret_combat_state := preload("res://src/game/SourceTurretCombatState.gd")
 const source_turret_simulation_callback_state := preload("res://src/game/SourceTurretSimulationCallbackState.gd")
+const source_placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
+const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
 
 const SOURCE_TURRET_SIMULATION_FIND_ENEMY_TARGET_KEY := source_turret_simulation_callback_state.SOURCE_TURRET_SIMULATION_FIND_ENEMY_TARGET_KEY
 const SOURCE_TURRET_SIMULATION_FIND_ENEMY_TARGET_FALLBACK := source_turret_simulation_callback_state.SOURCE_TURRET_SIMULATION_FIND_ENEMY_TARGET_FALLBACK
@@ -264,4 +266,23 @@ static func simulate_turrets(game, delta: float) -> void:
 		var shoot_angle_degrees := float(shot_application.get("shoot_angle_degrees", current_rotation))
 		data = shot_application.get("data", {})
 		if not data.is_empty():
-			game.call("spawn_turret_bullet", bullet_origin, target, data, shoot_angle_degrees)
+			# The bullet carries the firing building's team
+			# (Turret.java:790 passes `team` into the create
+			# chain; BulletType.java:954 stamps `bullet.team =
+			# team;`). The sim loop's `cell` is a Vector2i grid
+			# cell from `game["turret_cells"]` and neither
+			# fire_context nor shot_context carries a team, so
+			# the firing cell's team is read from the placed
+			# sprite that owns the cell (placed sprites carry
+			# `origin_cell` meta, SourcePlacedBlockState.gd:90;
+			# the team meta key, SourceBlockGeometry.gd:161,
+			# derelict default 0, the
+			# SourceTurretBuildState.gd:199 precedent).
+			var team_id: int = source_block_geometry.SOURCE_TEAM_DERELICT_ID
+			for sprite in source_placed_block_state.source_unique_buildings_state(game).get("buildings", []):
+				if not is_instance_valid(sprite) or not sprite is Sprite2D:
+					continue
+				if sprite.get_meta("origin_cell", Vector2i.ZERO) == cell:
+					team_id = int(sprite.get_meta(source_block_geometry.SOURCE_BUILD_TEAM_META_KEY, source_block_geometry.SOURCE_TEAM_DERELICT_ID))
+					break
+			game.call("spawn_turret_bullet", bullet_origin, target, data, team_id, shoot_angle_degrees)
