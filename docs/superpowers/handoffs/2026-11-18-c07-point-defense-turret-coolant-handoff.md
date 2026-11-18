@@ -107,7 +107,7 @@
   không đổi, liquids meta nguyên vẹn). Proof chưa chạy trên
   Windows Godot — nợ trong GOAL.md §5.
 
-## Gate — Gate 1 (worker) CHẾT ở ~61%; Gate 2 ĐANG CHẠY (main thread, PID 11777)
+## Gate — Gate 1 (worker) CHẾT ở ~61%; Gate 2 XANH (main thread, PID 11777)
 
 - Gate 1 (worker-launched, PID 11425, ~16:44): CHẾT giữa chừng — main
   thread kiểm tra thấy PID KHÔNG còn chạy, log
@@ -132,9 +132,14 @@
 - Sau gate xanh: 5-commit (slice + docs + GOAL + hashes + handoff-status)
   + push origin main, theo mẫu N2247. Report file đã viết.
 
+## Commits
+
+- Slice: `997082d9` — C07: N2248 PointDefenseTurret live coolant state (11 files).
+- Docs: `7beadabe` — N2248 report + handoff + design spec (gate 2 clean except Godot).
+- GOAL: `79961916` — GOAL.md names the N2248 slice commit that carries its proof to Windows.
+- (hashes commit + handoff-status commit follow in this 5-commit push; main hash filled at push.)
+
 ## Next
 
-- 5-commit + push N2248 (slice + docs + GOAL + hashes + handoff-status),
-  theo mẫu N2247.
-- Sau N2248: live driver wiring cho coolant vẫn BLOCKED (catalog capture);
+- 5-commit + push N2248 (slice `997082d9` / docs `7beadabe` / GOAL `79961916`) → sau N2248: live driver wiring cho coolant vẫn BLOCKED (catalog capture);
   họ PointDefenseTurret còn persistence-integration.

@@ -46,6 +46,6 @@ N2248 làm được: live coolant state — 1 pure function mới + 1 helper, NO
 
 ## Hashes
 
-- Slice đủ điều kiện (gate 2 xanh). Worktree: BuildState .gd (sửa), test N2248 (mới), register script N2248 (mới), proof .gd + .tscn (mới), SSOT JSONs (7 file sửa), spec Done 1697 → 1698 + row N2248, GOAL §5 + dòng nợ N2248, report + handoff này. KHÔNG stage `*.gd.uid` (noise, untracked), proof .json (ignored), gate logs.
+- Slice `997082d9` / docs `7beadabe` / GOAL `79961916` (hashes + handoff-status commits follow; main hash filled at push).
 - Windows Godot proof là nợ trong GOAL.md §5 (proof Linux xanh, chưa chạy Windows).
-- Bước tiếp theo: 5-commit + push N2248 → sau N2248: live driver wiring cho coolant vẫn BLOCKED (catalog capture); họ PointDefenseTurret còn persistence-integration.
+- Bước tiếp theo: push N2248 → sau N2248: live driver wiring cho coolant vẫn BLOCKED (catalog capture); họ PointDefenseTurret còn persistence-integration.
