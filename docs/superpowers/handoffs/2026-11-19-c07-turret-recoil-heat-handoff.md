@@ -1,6 +1,6 @@
 # Handoff — N2254 Turret recoil + heat decay (C07, duo) [GREEN — gate xong, chờ push]
 
-## Status: GREEN (2026-11-19 ~03:5x +07) — slice `223fbcf0`, gate Ran 6109 / failures 204 toàn Godot-absent (xác minh độc lập lượt cron 04:30). Chưa push — chờ commit docs + GOAL + hashes rồi push.
+## Status: GREEN (2026-11-19 ~03:5x +07) — slice `223fbcf0`, docs `5e39c9a7`, GOAL `c0a15a96`; gate Ran 6109 / failures 204 toàn Godot-absent (xác minh độc lập lượt cron 04:30). Chưa push.
 
 - N2253 DONE + PUSHED (origin/main 061a3ba9, slice 41f09353) — đã xác minh độc lập lượt 03:30.
 - N2254 GREEN: pure function + driver tick + register + proof + targeted 4/4 (41 subtests)
