@@ -176024,6 +176024,70 @@
         "test_reference_graph_and_actual_c07_repair_turret_draw_beam_jitter"
       ],
       "runtime_proof": "/root/C07RepairTurretDrawBeamJitterProof"
+    },
+    "source_repair_turret_draw_beam_pulse_state_result.f": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_draw_beam_pulse_state",
+      "godot_symbol": "source_repair_turret_draw_beam_pulse_state_result.f",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairPointBuild.draw()/drawBeam()",
+      "java_expr": "float f = (Time.time / 85f + rand.random(1f)) % 1f;",
+      "rule": "The pulse phase (RepairTurret.java:138, `float f = (Time.time / 85f + rand.random(1f)) % 1f;`): the tick counter over 85 plus the fourth Rand draw, wrapped mod 1, so f stays in [0, 1).",
+      "tests": [
+        "test_c07_repair_turret_draw_beam_pulse_registration",
+        "test_all_c07_repair_turret_draw_beam_pulse_input_evidence_is_exact",
+        "test_repair_turret_draw_beam_pulse_state",
+        "test_reference_graph_and_actual_c07_repair_turret_draw_beam_pulse"
+      ],
+      "runtime_proof": "/root/C07RepairTurretDrawBeamPulseProof"
+    },
+    "source_repair_turret_draw_beam_pulse_state_result.alpha": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_draw_beam_pulse_state",
+      "godot_symbol": "source_repair_turret_draw_beam_pulse_state_result.alpha",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairPointBuild.draw()/drawBeam()",
+      "java_expr": "Draw.alpha(1f - Interp.pow5In.apply(f));",
+      "rule": "The pulse circle alpha (RepairTurret.java:140, `Draw.alpha(1f - Interp.pow5In.apply(f));`): Interp.pow5In is PowIn(5) (Interp.java:45, `PowIn pow5In = new PowIn(5);`), apply(a) = pow(a, 5) (Interp.java:119-121, `return (float)Math.pow(a, power);`), so alpha = 1 - f^5.",
+      "tests": [
+        "test_c07_repair_turret_draw_beam_pulse_registration",
+        "test_all_c07_repair_turret_draw_beam_pulse_input_evidence_is_exact",
+        "test_repair_turret_draw_beam_pulse_state",
+        "test_reference_graph_and_actual_c07_repair_turret_draw_beam_pulse"
+      ],
+      "runtime_proof": "/root/C07RepairTurretDrawBeamPulseProof"
+    },
+    "source_repair_turret_draw_beam_pulse_state_result.stroke": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_draw_beam_pulse_state",
+      "godot_symbol": "source_repair_turret_draw_beam_pulse_state_result.stroke",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairPointBuild.draw()/drawBeam()",
+      "java_expr": "Lines.stroke(strength * pulseStroke);",
+      "rule": "The pulse circle stroke width (RepairTurret.java:141, `Lines.stroke(strength * pulseStroke);`): the strength-scaled pulse stroke.",
+      "tests": [
+        "test_c07_repair_turret_draw_beam_pulse_registration",
+        "test_all_c07_repair_turret_draw_beam_pulse_input_evidence_is_exact",
+        "test_repair_turret_draw_beam_pulse_state",
+        "test_reference_graph_and_actual_c07_repair_turret_draw_beam_pulse"
+      ],
+      "runtime_proof": "/root/C07RepairTurretDrawBeamPulseProof"
+    },
+    "source_repair_turret_draw_beam_pulse_state_result.circle_radius": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_draw_beam_pulse_state",
+      "godot_symbol": "source_repair_turret_draw_beam_pulse_state_result.circle_radius",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairPointBuild.draw()/drawBeam()",
+      "java_expr": "Lines.circle(lastEnd.x, lastEnd.y, 1f + f * pulseRadius);",
+      "rule": "The pulse circle radius (RepairTurret.java:142, `Lines.circle(lastEnd.x, lastEnd.y, 1f + f * pulseRadius);`): 1 plus the phase times the pulse radius.",
+      "tests": [
+        "test_c07_repair_turret_draw_beam_pulse_registration",
+        "test_all_c07_repair_turret_draw_beam_pulse_input_evidence_is_exact",
+        "test_repair_turret_draw_beam_pulse_state",
+        "test_reference_graph_and_actual_c07_repair_turret_draw_beam_pulse"
+      ],
+      "runtime_proof": "/root/C07RepairTurretDrawBeamPulseProof"
     }
   },
   "version": 1
