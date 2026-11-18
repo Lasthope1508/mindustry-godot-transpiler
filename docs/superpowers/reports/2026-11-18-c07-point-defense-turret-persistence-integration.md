@@ -41,6 +41,6 @@ N2249 làm được: nối 2 pure function write/read của N2245 (`source_point
 
 ## Hashes
 
-- Slice `d6f7537d` / docs `DOCS_HASH` / GOAL `GOAL_HASH` (hashes + handoff-status commits follow; main hash filled at push).
+- Slice `d6f7537d` / docs `dd114d09` / GOAL `4e4cc934` (handoff-status commit follows; main hash filled at push).
 - Windows Godot proof là nợ trong GOAL.md §5 (proof Linux xanh, chưa chạy Windows).
 - Bước tiếp theo: push N2249 → sau N2249: họ PointDefenseTurret còn save/load stream thật (slice riêng); live driver wiring cho coolant vẫn BLOCKED (catalog capture).

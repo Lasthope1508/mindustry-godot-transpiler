@@ -201,3 +201,10 @@ read KHÔNG lấy tham số revision.
 - Suppression live + targets live list vẫn BLOCKED (cần frame plumbing).
 - Save/load stream thật (caller của các bridge write/read) — slice riêng sau này.
 - Proofs chưa chạy trên Windows Godot — nợ trong GOAL.md §5.
+
+## Commits
+
+- Slice: `d6f7537d` — C07: N2249 PointDefenseTurret persistence-integration (13 files).
+- Docs: `dd114d09` — N2249 report + handoff + design spec (gate 3 clean except Godot).
+- GOAL: `4e4cc934` — GOAL.md names the N2249 slice commit that carries its proof to Windows.
+- (hashes commit + handoff-status commit follow in this 5-commit push; main hash filled at push.)
