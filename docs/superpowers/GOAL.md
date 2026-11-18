@@ -397,7 +397,13 @@ N2239–N2247 của line Windows)
  - [ ] N2267 `C07RadarWriteReadProof` — Linux GREEN ~12:3x (7 key).
    Scene tới Windows theo slice commit `4368280`. Chưa chạy trên Windows Godot.
  - [ ] N2270 `C07TurretFindTargetProof` — Linux GREEN ~14:0x (14 key).
-   Scene tới Windows theo slice commit `8e9ee6a`. Chưa chạy trên Windows Godot. - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
+   Scene tới Windows theo slice commit `8e9ee6a`. Chưa chạy trên Windows Godot.
+ - [ ] N2271 `C07BurstDrillAmbientVolumeProof` — Linux GREEN ~16:4x (8 key).
+   Scene tới Windows theo slice commit `69751d1`. Chưa chạy trên Windows Godot.
+ - [ ] N2272 `C07RadarCanPickupProof` — Linux GREEN ~16:4x (6 key).
+   Scene tới Windows theo slice commit `52c7854`. Chưa chạy trên Windows Godot.
+ - [ ] N2273 `C07TurretTrackingRangeProof` — Linux GREEN ~16:2x (10 key).
+   Scene tới Windows theo slice commit `99a4c9f`. Chưa chạy trên Windows Godot. - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
     trên (ghi rõ commit đưa scene tới Windows).
   - [ ] Agent khác đang test các lỗi fail trên Windows Godot (PR #1 đã merge
     08:31: 101 Godot-dependent methods, baseline 96 pass / 5 fail, sau 5
