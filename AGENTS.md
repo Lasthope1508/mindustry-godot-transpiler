@@ -75,3 +75,20 @@ divergences #11/#13.)
 - Publish and merge only this agent's narrowly scoped passing validation reports/evidence and necessary isolated proof-fixture repairs, following the task contract. Unresolved failures must be reported, never merged as GREEN.
 - Preserve dirty workspaces, use an isolated validation branch, stage exact files, check main again before merging, and never force-push main or resolve another agent's changes by overwriting them.
 - Save the tested SHA, evidence, pending work and next action to the on-disk checkpoint after each run. Do not rely on chat history or memory alone.
+
+## Wiring-standard test set (pinned 2026-11-18, research agent 4deb807f)
+
+Every slice re-verifies this fixed set after targeted + family, before
+committing. 9 modules, 32 tests, run from
+`tools/mindustry_godot_transpiler/` with pytest (one command, ~135s):
+`test_power_graph_live_update_binding`, `test_battery_power_status_binding`,
+`test_battery_placement_binding`, `test_adjacent_factory_live_loop`,
+`test_unit_factory_live_loop`, `test_turret_live_loop`,
+`test_continuous_liquid_turret_live_loop`,
+`test_power_graph_consumer_cheating`, `test_factory_live_loop`
+(all `tests/<name>.py`). Subtest total drifts as slices land (235 at
+N2270/N2271 in worktrees, 250 in main at N2271, 250 also at N2231) —
+registry/Godot-dependent, not a module-list change. Reference-graph
+tests in this set fail transiently on port-7777 contention with a
+sibling worker's Godot proof; re-run the failed module alone before
+calling it a real failure.
