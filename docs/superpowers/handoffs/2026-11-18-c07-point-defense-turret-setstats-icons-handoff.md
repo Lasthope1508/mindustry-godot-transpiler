@@ -1,6 +1,6 @@
 # Handoff — N2246 PointDefenseTurret setStats/icons (C07)
 
-## Status: GREEN 72/72 — targeted 4/4 + family 36/36 + wiring 32/32, proof 8 semantic keys / 11 in JSON matches:true. Gate 1 XONG (main thread, PID 4721, ~13:28–13:46 +07; Ran 6077, failures=196, skipped=5, errors=0 — all Godot-absent). Slice commit 7b51999a, docs 6ac8c3ea, GOAL a380981b. Hashes + push in progress.
+## Status: DONE + PUSHED — N2246 PointDefenseTurret setStats/icons GREEN 72/72 (targeted 4/4 + family 36/36 + wiring 32/32, proof 11/11 matches:true), gate 1 Ran 6077 failures=196 (all Godot-absent). Slice 7b51999a, docs 6ac8c3ea, GOAL a380981b, hashes b4c480a8, main b4c480a8 (pushed 2026-11-18 ~14:1x +07). Windows Godot proof debt in GOAL.md §5.
 
 ## Scope
 
