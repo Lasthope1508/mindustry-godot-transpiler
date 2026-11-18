@@ -175928,6 +175928,102 @@
         "test_reference_graph_and_actual_c07_radar_icons"
       ],
       "runtime_proof": "/root/C07RadarIconsProof"
+    },
+    "source_repair_turret_draw_beam_jitter_state_result.rand_angle_draw": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_draw_beam_jitter_state",
+      "godot_symbol": "source_repair_turret_draw_beam_jitter_state_result.rand_angle_draw",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairPointBuild.draw()/drawBeam()",
+      "java_expr": "rand.random(360f) + Time.time/2f,",
+      "rule": "The first Rand draw (RepairTurret.java:122, `rand.random(360f) + Time.time/2f,`): nextFloat() * 360f from the seeded xorshift sequence (Rand.java, `public float random(float max){` / `return nextFloat() * max;`).",
+      "tests": [
+        "test_c07_repair_turret_draw_beam_jitter_registration",
+        "test_all_c07_repair_turret_draw_beam_jitter_input_evidence_is_exact",
+        "test_repair_turret_draw_beam_jitter_state",
+        "test_reference_graph_and_actual_c07_repair_turret_draw_beam_jitter"
+      ],
+      "runtime_proof": "/root/C07RepairTurretDrawBeamJitterProof"
+    },
+    "source_repair_turret_draw_beam_jitter_state_result.rand_time_draw": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_draw_beam_jitter_state",
+      "godot_symbol": "source_repair_turret_draw_beam_jitter_state_result.rand_time_draw",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairPointBuild.draw()/drawBeam()",
+      "java_expr": "Mathf.sin(Time.time + rand.random(200f), 55f, rand.random(target.hitSize() * 0.2f, target.hitSize() * 0.45f))",
+      "rule": "The second Rand draw (RepairTurret.java:123, `Time.time + rand.random(200f)`): nextFloat() * 200f from the seeded xorshift sequence, the time offset inside the table-sin amplitude.",
+      "tests": [
+        "test_c07_repair_turret_draw_beam_jitter_registration",
+        "test_all_c07_repair_turret_draw_beam_jitter_input_evidence_is_exact",
+        "test_repair_turret_draw_beam_jitter_state",
+        "test_reference_graph_and_actual_c07_repair_turret_draw_beam_jitter"
+      ],
+      "runtime_proof": "/root/C07RepairTurretDrawBeamJitterProof"
+    },
+    "source_repair_turret_draw_beam_jitter_state_result.rand_hit_draw": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_draw_beam_jitter_state",
+      "godot_symbol": "source_repair_turret_draw_beam_jitter_state_result.rand_hit_draw",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairPointBuild.draw()/drawBeam()",
+      "java_expr": "rand.random(target.hitSize() * 0.2f, target.hitSize() * 0.45f)",
+      "rule": "The third Rand draw (RepairTurret.java:123, `rand.random(target.hitSize() * 0.2f, target.hitSize() * 0.45f)`): the magnitude of the table-sin amplitude, ranging over hitSize * 0.2f to hitSize * 0.45f (Rand.java, `public float random(float min, float max){` / `return min + (max - min) * nextFloat();`).",
+      "tests": [
+        "test_c07_repair_turret_draw_beam_jitter_registration",
+        "test_all_c07_repair_turret_draw_beam_jitter_input_evidence_is_exact",
+        "test_repair_turret_draw_beam_jitter_state",
+        "test_reference_graph_and_actual_c07_repair_turret_draw_beam_jitter"
+      ],
+      "runtime_proof": "/root/C07RepairTurretDrawBeamJitterProof"
+    },
+    "source_repair_turret_draw_beam_jitter_state_result.jitter_angle_deg": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_draw_beam_jitter_state",
+      "godot_symbol": "source_repair_turret_draw_beam_jitter_state_result.jitter_angle_deg",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairPointBuild.draw()/drawBeam()",
+      "java_expr": "rand.random(360f) + Time.time/2f,",
+      "rule": "The jitter angle in degrees (RepairTurret.java:122, `rand.random(360f) + Time.time/2f,`): the first Rand draw plus half the tick counter.",
+      "tests": [
+        "test_c07_repair_turret_draw_beam_jitter_registration",
+        "test_all_c07_repair_turret_draw_beam_jitter_input_evidence_is_exact",
+        "test_repair_turret_draw_beam_jitter_state",
+        "test_reference_graph_and_actual_c07_repair_turret_draw_beam_jitter"
+      ],
+      "runtime_proof": "/root/C07RepairTurretDrawBeamJitterProof"
+    },
+    "source_repair_turret_draw_beam_jitter_state_result.jitter_amplitude": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_draw_beam_jitter_state",
+      "godot_symbol": "source_repair_turret_draw_beam_jitter_state_result.jitter_amplitude",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairPointBuild.draw()/drawBeam()",
+      "java_expr": "Mathf.sin(Time.time + rand.random(200f), 55f, rand.random(target.hitSize() * 0.2f, target.hitSize() * 0.45f))",
+      "rule": "The jitter amplitude (RepairTurret.java:123, `Mathf.sin(Time.time + rand.random(200f), 55f, rand.random(target.hitSize() * 0.2f, target.hitSize() * 0.45f))`): the arc table sin of (Time.time + second draw) / 55f scaled by the third draw (Mathf.java:90-91, `public static float sin(float radians, float scl, float mag){` / `return sin(radians / scl) * mag;`).",
+      "tests": [
+        "test_c07_repair_turret_draw_beam_jitter_registration",
+        "test_all_c07_repair_turret_draw_beam_jitter_input_evidence_is_exact",
+        "test_repair_turret_draw_beam_jitter_state",
+        "test_reference_graph_and_actual_c07_repair_turret_draw_beam_jitter"
+      ],
+      "runtime_proof": "/root/C07RepairTurretDrawBeamJitterProof"
+    },
+    "source_repair_turret_draw_beam_jitter_state_result.jitter_offset": {
+      "status": "source-backed",
+      "godot_owner": "SourceRepairTurretBuildState.source_repair_turret_draw_beam_jitter_state",
+      "godot_symbol": "source_repair_turret_draw_beam_jitter_state_result.jitter_offset",
+      "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+      "java_method": "RepairPointBuild.draw()/drawBeam()",
+      "java_expr": "lastEnd.add(offset.trns(",
+      "rule": "The jitter offset added to the pre-jitter endpoint (RepairTurret.java:121-124, `lastEnd.add(offset.trns(` ... `).rotate(target instanceof Rotc rot ? rot.rotation() : 0f));`): Vec2.trns(angle, amplitude) -- set(amplitude, 0) rotated by the jitter angle (Vec2.java, `public Vec2 trns(float angle, float amount){` / `return set(amount, 0).rotate(angle);`) -- then rotated by the target rotation.",
+      "tests": [
+        "test_c07_repair_turret_draw_beam_jitter_registration",
+        "test_all_c07_repair_turret_draw_beam_jitter_input_evidence_is_exact",
+        "test_repair_turret_draw_beam_jitter_state",
+        "test_reference_graph_and_actual_c07_repair_turret_draw_beam_jitter"
+      ],
+      "runtime_proof": "/root/C07RepairTurretDrawBeamJitterProof"
     }
   },
   "version": 1
