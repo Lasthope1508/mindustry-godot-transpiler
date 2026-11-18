@@ -3284,6 +3284,25 @@
       ],
       "runtime_proof": "/root/C07PointDefenseTurretWriteReadProof"
     },
+    "N2246": {
+      "canonical_ledger": "source_slice_ledger.N2246",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "java_method": "PointDefenseTurret.setStats()/icons()",
+      "godot_owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_set_stats_state",
+      "source_symbols": [
+        "source_point_defense_turret_set_stats_state_result.reload_per_second",
+        "source_point_defense_turret_set_stats_state_result.damage",
+        "source_point_defense_turret_icons_state_result.icons"
+      ],
+      "tests": [
+        "test_c07_point_defense_turret_setstats_icons_registration",
+        "test_all_c07_point_defense_turret_setstats_icons_input_evidence_is_exact",
+        "test_point_defense_turret_setstats_icons_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_setstats_icons"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretSetStatsIconsProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

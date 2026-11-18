@@ -68379,6 +68379,67 @@
       ],
       "runtime_proof": "/root/C07PointDefenseTurretWriteReadProof",
       "rule": "Source-backed PointDefenseTurret write/read persistence from PointDefenseTurret.java + BaseTurret.java + BuildingComp.java + ReloadTurret.java."
+    },
+    "SourcePointDefenseTurretBuildState.source_point_defense_turret_set_stats_state": {
+      "status": "active",
+      "source_slice": "N2246",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "source_method": "PointDefenseTurret.setStats()",
+      "params": [
+        {
+          "name": "reload",
+          "type": "float",
+          "schema": "source_point_defense_turret_set_stats_state_input.reload"
+        },
+        {
+          "name": "bullet_damage",
+          "type": "float",
+          "schema": "source_point_defense_turret_set_stats_state_input.bullet_damage"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "reload_per_second",
+        "damage"
+      ],
+      "tests": [
+        "test_c07_point_defense_turret_setstats_icons_registration",
+        "test_all_c07_point_defense_turret_setstats_icons_input_evidence_is_exact",
+        "test_point_defense_turret_setstats_icons_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_setstats_icons"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretSetStatsIconsProof",
+      "rule": "Source-backed PointDefenseTurret setStats()/icons() state from PointDefenseTurret.java + Blocks.java + Block.java + ReloadTurret.java + BaseTurret.java."
+    },
+    "SourcePointDefenseTurretBuildState.source_point_defense_turret_icons_state": {
+      "status": "active",
+      "source_slice": "N2246",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "source_method": "PointDefenseTurret.icons()",
+      "params": [
+        {
+          "name": "base_region",
+          "type": "Variant",
+          "schema": "source_point_defense_turret_icons_state_input.base_region"
+        },
+        {
+          "name": "region",
+          "type": "Variant",
+          "schema": "source_point_defense_turret_icons_state_input.region"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "icons"
+      ],
+      "tests": [
+        "test_c07_point_defense_turret_setstats_icons_registration",
+        "test_all_c07_point_defense_turret_setstats_icons_input_evidence_is_exact",
+        "test_point_defense_turret_setstats_icons_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_setstats_icons"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretSetStatsIconsProof",
+      "rule": "Source-backed PointDefenseTurret setStats()/icons() state from PointDefenseTurret.java + Blocks.java + Block.java + ReloadTurret.java + BaseTurret.java."
     }
   },
   "policy": {

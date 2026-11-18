@@ -549,6 +549,59 @@ static func source_point_defense_turret_read_state(saved_rotation: float) -> Dic
 	# function yet.
 	return {"rotation": saved_rotation}
 
+static func source_point_defense_turret_set_stats_state(reload: float, bullet_damage: float) -> Dictionary:
+	# PointDefenseTurret.setStats() (PointDefenseTurret.java:51-57):
+	# public void setStats(){
+	# super.setStats();
+	# stats.add(Stat.reload, 60f / reload, StatUnit.perSecond);
+	# stats.add(Stat.damage, bulletDamage, StatUnit.none);
+	# }
+	# The `super.setStats();` leg (:53) is the ReloadTurret / BaseTurret /
+	# Block base-stat chain, NOT this slice (the N2224 RepairTurret setStats
+	# precedent): the ReloadTurret booster replace (`if(coolant != null){` /
+	# `stats.replace(Stat.booster, StatValues.boosters(reload, coolant.amount, coolantMultiplier, true, coolant::consumes));`,
+	# ReloadTurret.java:20-21) is a no-op for segment, which defines NO coolant
+	# consumer (Blocks.java:3835-3845, the N2241 precedent), and the BaseTurret
+	# shootRange row (`stats.add(Stat.shootRange, range / tilesize, StatUnit.blocks);`,
+	# BaseTurret.java:96) plus the Block base rows (N1696) are likewise the super
+	# chain. This slice owns ONLY the two unconditional PointDefenseTurret rows:
+	# reload_per_second is 60f / reload (:55) and damage is bulletDamage (:56,
+	# StatUnit.none). Both params are explicit per-def floats (the N2224
+	# precedent): class defaults reload 30f (`reload = 30f;`, PointDefenseTurret.java:40)
+	# / bulletDamage 10f (`public float bulletDamage = 10f;`, PointDefenseTurret.java:33)
+	# give 2.0 shots/s and 10.0 damage; the one def, segment, reload 8f
+	# (`reload = 8f;`, Blocks.java:3845) / bulletDamage 30f (`bulletDamage = 30f;`,
+	# Blocks.java:3844) gives 7.5 shots/s and 30.0 damage. There is NO driver
+	# tick line: setStats is a stat-display read, not a per-tick write (the
+	# N2224 lifecycle precedent).
+	var reload_per_second: float = 60.0 / reload
+	var damage: float = bullet_damage
+	return {"reload_per_second": reload_per_second, "damage": damage}
+
+static func source_point_defense_turret_icons_state(base_region: Variant, region: Variant) -> Dictionary:
+	# PointDefenseTurret.icons() (PointDefenseTurret.java:46-49):
+	# @Override
+	# public TextureRegion[] icons(){
+	# return new TextureRegion[]{baseRegion, region};
+	# }
+	# This slice pins ONLY the override's two-element return array, base first.
+	# baseRegion is the block's own base field (`public @Load(value = "@-base", fallback = "block-@size") TextureRegion baseRegion;`,
+	# PointDefenseTurret.java:24) -- loaded as name + "-base" with the "block-@size"
+	# fallback. region is the inherited block region (`public TextureRegion region;`,
+	# Block.java:427) -- the block's own region, the block name. The Block.icons() base
+	# (`protected TextureRegion[] icons(){`, Block.java:976-980, the variants/teamRegion
+	# fold) is NOT this slice: PointDefenseTurret overrides it. The getGeneratedIcons
+	# cache (`public TextureRegion[] getGeneratedIcons(){`, Block.java:986, `return generatedIcons == null ? (generatedIcons = icons()) : generatedIcons;`,
+	# Block.java:987) is likewise deferred -- only the override's return array is pinned
+	# (the N1232 TractorBeamTurret.icons() precedent: "TextureRegion internals and
+	# inherited region loading remain deferred; explicit inputs carry baseRegion and
+	# region field values", pinned as the identity pure function
+	# source_tractor_beam_turret_icons_state; the N2227 RepairTurret.icons() precedent).
+	# There is no driver tick line: icons() is a load-time region accessor, not a
+	# per-tick write (the N2217 read/write + N2224 setStats lifecycle precedent).
+	var icons: Array = [base_region, region]
+	return {"icons": icons}
+
 @warning_ignore("unused_parameter")
 static func source_point_defense_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the point-defense tick wiring every tick

@@ -234866,6 +234866,112 @@
       },
       "runtime_proof": "/root/C07PointDefenseTurretWriteReadProof",
       "rule": "Source-backed PointDefenseTurret write/read persistence from PointDefenseTurret.java + BaseTurret.java + BuildingComp.java + ReloadTurret.java."
+    },
+    "source_point_defense_turret_set_stats_state_input": {
+      "status": "active",
+      "owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_set_stats_state",
+      "source_slice": "N2246",
+      "keys": {
+        "reload": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "reload = 30f;",
+          "rule": "The per-def reload in ticks between shots (PointDefenseTurret.java:40, `reload = 30f;`, the constructor default; segment 8f, Blocks.java:3845); passed explicitly because it is per-def static state, not a live frame key (the N2224 RepairTurret setStats per-def-param precedent).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_set_stats_state"
+          ]
+        },
+        "bullet_damage": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "public float bulletDamage = 10f;",
+          "rule": "The per-def bullet damage (PointDefenseTurret.java:33, `public float bulletDamage = 10f;`, the class default; segment 30f, Blocks.java:3844); passed explicitly because it is per-def static state, not a live frame key.",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_set_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PointDefenseTurretSetStatsIconsProof",
+      "rule": "Source-backed PointDefenseTurret setStats()/icons() state from PointDefenseTurret.java + Blocks.java + Block.java + ReloadTurret.java + BaseTurret.java."
+    },
+    "source_point_defense_turret_set_stats_state_result": {
+      "status": "active",
+      "owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_set_stats_state",
+      "source_slice": "N2246",
+      "keys": {
+        "reload_per_second": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "stats.add(Stat.reload, 60f / reload, StatUnit.perSecond);",
+          "rule": "The Stat.reload row value in shots per second: 60f / reload (PointDefenseTurret.java:55, `stats.add(Stat.reload, 60f / reload, StatUnit.perSecond);`): class default 2.0 (60/30), segment 7.5 (60/8).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_set_stats_state"
+          ]
+        },
+        "damage": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "stats.add(Stat.damage, bulletDamage, StatUnit.none);",
+          "rule": "The Stat.damage row value: bulletDamage, unit none (PointDefenseTurret.java:56, `stats.add(Stat.damage, bulletDamage, StatUnit.none);`): class default 10.0, segment 30.0.",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_set_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PointDefenseTurretSetStatsIconsProof",
+      "rule": "Source-backed PointDefenseTurret setStats()/icons() state from PointDefenseTurret.java + Blocks.java + Block.java + ReloadTurret.java + BaseTurret.java."
+    },
+    "source_point_defense_turret_icons_state_input": {
+      "status": "active",
+      "owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_icons_state",
+      "source_slice": "N2246",
+      "keys": {
+        "base_region": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "public @Load(value = \"@-base\", fallback = \"block-@size\") TextureRegion baseRegion;",
+          "rule": "The block base region (PointDefenseTurret.java:24, `public @Load(value = \"@-base\", fallback = \"block-@size\") TextureRegion baseRegion;`, loaded as name + \"-base\" with the \"block-@size\" fallback); passed explicitly because it is per-def static state, not a live frame key (the N2227 RepairTurret icons per-def-param precedent).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_icons_state"
+          ]
+        },
+        "region": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public TextureRegion region;",
+          "rule": "The inherited block region (Block.java:427, `public TextureRegion region;`); passed explicitly because it is per-def static state, not a live frame key.",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_icons_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PointDefenseTurretSetStatsIconsProof",
+      "rule": "Source-backed PointDefenseTurret setStats()/icons() state from PointDefenseTurret.java + Blocks.java + Block.java + ReloadTurret.java + BaseTurret.java."
+    },
+    "source_point_defense_turret_icons_state_result": {
+      "status": "active",
+      "owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_icons_state",
+      "source_slice": "N2246",
+      "keys": {
+        "icons": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "return new TextureRegion[]{baseRegion, region};",
+          "rule": "The icons() return array: [baseRegion, region], base first, exactly 2 elements (PointDefenseTurret.java:48, `return new TextureRegion[]{baseRegion, region};`); segment [\"segment-base\", \"segment\"] (Blocks.java:3835). The Block.icons() base (Block.java:976-980, variants/teamRegion fold) and the getGeneratedIcons cache (Block.java:986-987) are deferred (the N1232 precedent) -- only the override return array is pinned.",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_icons_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PointDefenseTurretSetStatsIconsProof",
+      "rule": "Source-backed PointDefenseTurret setStats()/icons() state from PointDefenseTurret.java + Blocks.java + Block.java + ReloadTurret.java + BaseTurret.java."
     }
   },
   "version": 1

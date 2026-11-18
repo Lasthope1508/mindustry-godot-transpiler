@@ -6999,6 +6999,38 @@
       "rule": "Source-backed PointDefenseTurret power.status row from ConsumePower.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourcePointDefenseTurretBuildState.source_point_defense_turret_set_stats_state": {
+      "canonical_contract": "source_api_contracts.SourcePointDefenseTurretBuildState.source_point_defense_turret_set_stats_state",
+      "status": "active",
+      "source_slice": "N2246",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "source_method": "PointDefenseTurret.setStats()",
+      "params": [
+        {
+          "name": "reload",
+          "type": "float",
+          "schema": "source_point_defense_turret_set_stats_state_input.reload"
+        },
+        {
+          "name": "bullet_damage",
+          "type": "float",
+          "schema": "source_point_defense_turret_set_stats_state_input.bullet_damage"
+        }
+      ],
+      "return_keys": [
+        "reload_per_second",
+        "damage"
+      ],
+      "tests": [
+        "test_c07_point_defense_turret_setstats_icons_registration",
+        "test_all_c07_point_defense_turret_setstats_icons_input_evidence_is_exact",
+        "test_point_defense_turret_setstats_icons_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_setstats_icons"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretSetStatsIconsProof",
+      "rule": "Source-backed PointDefenseTurret setStats()/icons() state from PointDefenseTurret.java + Blocks.java + Block.java + ReloadTurret.java + BaseTurret.java.",
+      "return_type": "Dictionary"
+    },
     "SourcePointDefenseTurretBuildState.source_point_defense_turret_should_consume_state": {
       "canonical_contract": "source_api_contracts.SourcePointDefenseTurretBuildState.source_point_defense_turret_should_consume_state",
       "status": "active",
