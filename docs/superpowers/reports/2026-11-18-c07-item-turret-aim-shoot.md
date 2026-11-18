@@ -39,6 +39,6 @@ N2250 làm được: slice đầu họ ItemTurret — aim/reload/shoot cho duo t
 
 ## Hashes
 
-- Slice/docs/GOAL chưa commit — commit + push theo mẫu N2249 sau khi gate xanh (gate đã xanh, xem trên).
+- Slice `a2270c04` / docs `9639adbc` / GOAL `6d94d1ac` (handoff-status commit follows; main hash filled at push).
 - Windows Godot proof là nợ trong GOAL.md §5 (proof Linux xanh, chưa chạy Windows).
 - Bước tiếp theo: commit + push N2250 → sau N2250: bullet() spawn chi tiết / findTarget / warmup lerp / queuedBullets / các def ItemTurret khác ngoài duo (slice riêng); live coolant driver wiring + suppression/targets live list vẫn BLOCKED.

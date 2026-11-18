@@ -87,3 +87,10 @@
    trong test).
 4. Gate full: CHỈ main thread launch. Không commit/push khi chưa
    đủ điều kiện (test + proof + gate xanh).
+
+## Commits
+
+- Slice: `a2270c04` — C07: N2250 ItemTurret aim/reload/shoot (12 files).
+- Docs: `9639adbc` — N2250 report + handoff + design spec (gate clean except Godot).
+- GOAL: `6d94d1ac` — GOAL.md names the N2250 slice commit that carries its proof to Windows.
+- (hashes commit + handoff-status commit follow in this 5-commit push; main hash filled at push.)
