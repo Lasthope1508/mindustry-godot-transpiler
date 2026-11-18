@@ -46,6 +46,6 @@ N2245 làm được: thân `PointDefenseBuild.write()` + `read()` (PointDefenseT
 
 ## Hashes
 
-- 5-commit xong: slice SLICE_HASH, docs DOCS_HASH, GOAL GOAL_HASH — đã push lên origin main (main HASHES_HASH).
+- 5-commit xong: slice 0f0683b7, docs 61a5ad16, GOAL 5ad7ff5d — đã push lên origin main (main 5ad7ff5d).
 - Windows Godot proof là nợ trong GOAL.md §5 (proof Linux xanh, chưa chạy Windows).
 - Bước tiếp theo: PointDefenseTurret setStats (:36-42) + icons (:31-34) rows, live coolant efficiency / trừ liquid / coolEffect, bullet hitSize, live bullet removal. Suppression live + targets live list vẫn BLOCKED (cần frame plumbing). (KHÔNG bắt đầu C08 inventory trừ khi user yêu cầu.)
