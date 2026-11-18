@@ -7744,6 +7744,62 @@
       "rule": "Source-backed TurretBuild.estimateDps() state from Turret.java + ReloadTurret.java + ShootPattern.java + BulletType.java + BuildingComp.java + RtsAI.java.",
       "return_type": "Dictionary"
     },
+    "SourceTurretBuildState.source_turret_find_target_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_find_target_state",
+      "status": "active",
+      "source_slice": "N2270",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.findTarget()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_find_target_state_input.frame"
+        },
+        {
+          "name": "range",
+          "type": "float",
+          "schema": "source_turret_find_target_state_input.range"
+        },
+        {
+          "name": "track_range",
+          "type": "float",
+          "schema": "source_turret_find_target_state_input.track_range"
+        },
+        {
+          "name": "found_standard",
+          "type": "Variant",
+          "schema": "source_turret_find_target_state_input.found_standard"
+        },
+        {
+          "name": "found_track",
+          "type": "Variant",
+          "schema": "source_turret_find_target_state_input.found_track"
+        },
+        {
+          "name": "can_heal",
+          "type": "bool",
+          "schema": "source_turret_find_target_state_input.can_heal"
+        },
+        {
+          "name": "ally_tile",
+          "type": "Variant",
+          "schema": "source_turret_find_target_state_input.ally_tile"
+        }
+      ],
+      "return_keys": [
+        "target"
+      ],
+      "tests": [
+        "test_c07_turret_find_target_registration",
+        "test_all_c07_turret_find_target_input_evidence_is_exact",
+        "test_turret_find_target_state",
+        "test_reference_graph_and_actual_c07_turret_find_target"
+      ],
+      "runtime_proof": "/root/C07TurretFindTargetProof",
+      "rule": "Source-backed TurretBuild findTarget/findEnemy/validateTarget/canHeal state from Turret.java + Units.java + UnitSorts.java + BlockIndexer.java + BulletType.java + Mathf.java.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_turret_fog_radius_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_fog_radius_state",
       "status": "active",

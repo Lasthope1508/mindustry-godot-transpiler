@@ -69186,6 +69186,266 @@
       ],
       "runtime_proof": "/root/C07BurstDrillIconsProof",
       "rule": "Source-backed BurstDrill icons() state from BurstDrill.java + Drill.java + Block.java."
+    },
+    "SourceTurretBuildState.source_turret_can_heal_state": {
+      "status": "active",
+      "source_slice": "N2270",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.canHeal()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_can_heal_state_input.frame"
+        },
+        {
+          "name": "target_healing",
+          "type": "bool",
+          "schema": "source_turret_can_heal_state_input.target_healing"
+        },
+        {
+          "name": "has_ammo",
+          "type": "bool",
+          "schema": "source_turret_can_heal_state_input.has_ammo"
+        },
+        {
+          "name": "peek_collides_team",
+          "type": "bool",
+          "schema": "source_turret_can_heal_state_input.peek_collides_team"
+        },
+        {
+          "name": "peek_heals",
+          "type": "bool",
+          "schema": "source_turret_can_heal_state_input.peek_heals"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "can_heal"
+      ],
+      "tests": [
+        "test_c07_turret_find_target_registration",
+        "test_all_c07_turret_find_target_input_evidence_is_exact",
+        "test_turret_find_target_state",
+        "test_reference_graph_and_actual_c07_turret_find_target"
+      ],
+      "runtime_proof": "/root/C07TurretFindTargetProof",
+      "rule": "Source-backed TurretBuild findTarget/findEnemy/validateTarget/canHeal state from Turret.java + Units.java + UnitSorts.java + BlockIndexer.java + BulletType.java + Mathf.java."
+    },
+    "SourceTurretBuildState.source_turret_invalidate_target_state": {
+      "status": "active",
+      "source_slice": "N2270",
+      "java_source": "core/src/mindustry/entities/Units.java",
+      "source_method": "Units.invalidateTarget(Posc, Team, float, float, float)",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_invalidate_target_state_input.frame"
+        },
+        {
+          "name": "target_is_null",
+          "type": "bool",
+          "schema": "source_turret_invalidate_target_state_input.target_is_null"
+        },
+        {
+          "name": "target_same_team",
+          "type": "bool",
+          "schema": "source_turret_invalidate_target_state_input.target_same_team"
+        },
+        {
+          "name": "target_health_invalid",
+          "type": "bool",
+          "schema": "source_turret_invalidate_target_state_input.target_health_invalid"
+        },
+        {
+          "name": "target_unit_not_targetable",
+          "type": "bool",
+          "schema": "source_turret_invalidate_target_state_input.target_unit_not_targetable"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "target_invalid"
+      ],
+      "tests": [
+        "test_c07_turret_find_target_registration",
+        "test_all_c07_turret_find_target_input_evidence_is_exact",
+        "test_turret_find_target_state",
+        "test_reference_graph_and_actual_c07_turret_find_target"
+      ],
+      "runtime_proof": "/root/C07TurretFindTargetProof",
+      "rule": "Source-backed TurretBuild findTarget/findEnemy/validateTarget/canHeal state from Turret.java + Units.java + UnitSorts.java + BlockIndexer.java + BulletType.java + Mathf.java."
+    },
+    "SourceTurretBuildState.source_turret_validate_target_state": {
+      "status": "active",
+      "source_slice": "N2270",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.validateTarget()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_validate_target_state_input.frame"
+        },
+        {
+          "name": "target_invalid",
+          "type": "bool",
+          "schema": "source_turret_validate_target_state_input.target_invalid"
+        },
+        {
+          "name": "is_controlled",
+          "type": "bool",
+          "schema": "source_turret_validate_target_state_input.is_controlled"
+        },
+        {
+          "name": "is_logic_controlled",
+          "type": "bool",
+          "schema": "source_turret_validate_target_state_input.is_logic_controlled"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "validate_target"
+      ],
+      "tests": [
+        "test_c07_turret_find_target_registration",
+        "test_all_c07_turret_find_target_input_evidence_is_exact",
+        "test_turret_find_target_state",
+        "test_reference_graph_and_actual_c07_turret_find_target"
+      ],
+      "runtime_proof": "/root/C07TurretFindTargetProof",
+      "rule": "Source-backed TurretBuild findTarget/findEnemy/validateTarget/canHeal state from Turret.java + Units.java + UnitSorts.java + BlockIndexer.java + BulletType.java + Mathf.java."
+    },
+    "SourceTurretBuildState.source_turret_find_enemy_state": {
+      "status": "active",
+      "source_slice": "N2270",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.findEnemy(float)",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_find_enemy_state_input.frame"
+        },
+        {
+          "name": "team_is_derelict",
+          "type": "bool",
+          "schema": "source_turret_find_enemy_state_input.team_is_derelict"
+        },
+        {
+          "name": "range",
+          "type": "float",
+          "schema": "source_turret_find_enemy_state_input.range"
+        },
+        {
+          "name": "target_air",
+          "type": "bool",
+          "schema": "source_turret_find_enemy_state_input.target_air"
+        },
+        {
+          "name": "target_ground",
+          "type": "bool",
+          "schema": "source_turret_find_enemy_state_input.target_ground"
+        },
+        {
+          "name": "target_blocks",
+          "type": "bool",
+          "schema": "source_turret_find_enemy_state_input.target_blocks"
+        },
+        {
+          "name": "ammo_is_null",
+          "type": "bool",
+          "schema": "source_turret_find_enemy_state_input.ammo_is_null"
+        },
+        {
+          "name": "ammo_target_blocks",
+          "type": "bool",
+          "schema": "source_turret_find_enemy_state_input.ammo_target_blocks"
+        },
+        {
+          "name": "ammo_target_missiles",
+          "type": "bool",
+          "schema": "source_turret_find_enemy_state_input.ammo_target_missiles"
+        },
+        {
+          "name": "unit_candidates",
+          "type": "Array",
+          "schema": "source_turret_find_enemy_state_input.unit_candidates"
+        },
+        {
+          "name": "building_candidates",
+          "type": "Array",
+          "schema": "source_turret_find_enemy_state_input.building_candidates"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "target"
+      ],
+      "tests": [
+        "test_c07_turret_find_target_registration",
+        "test_all_c07_turret_find_target_input_evidence_is_exact",
+        "test_turret_find_target_state",
+        "test_reference_graph_and_actual_c07_turret_find_target"
+      ],
+      "runtime_proof": "/root/C07TurretFindTargetProof",
+      "rule": "Source-backed TurretBuild findTarget/findEnemy/validateTarget/canHeal state from Turret.java + Units.java + UnitSorts.java + BlockIndexer.java + BulletType.java + Mathf.java."
+    },
+    "SourceTurretBuildState.source_turret_find_target_state": {
+      "status": "active",
+      "source_slice": "N2270",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.findTarget()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_find_target_state_input.frame"
+        },
+        {
+          "name": "range",
+          "type": "float",
+          "schema": "source_turret_find_target_state_input.range"
+        },
+        {
+          "name": "track_range",
+          "type": "float",
+          "schema": "source_turret_find_target_state_input.track_range"
+        },
+        {
+          "name": "found_standard",
+          "type": "Variant",
+          "schema": "source_turret_find_target_state_input.found_standard"
+        },
+        {
+          "name": "found_track",
+          "type": "Variant",
+          "schema": "source_turret_find_target_state_input.found_track"
+        },
+        {
+          "name": "can_heal",
+          "type": "bool",
+          "schema": "source_turret_find_target_state_input.can_heal"
+        },
+        {
+          "name": "ally_tile",
+          "type": "Variant",
+          "schema": "source_turret_find_target_state_input.ally_tile"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "target"
+      ],
+      "tests": [
+        "test_c07_turret_find_target_registration",
+        "test_all_c07_turret_find_target_input_evidence_is_exact",
+        "test_turret_find_target_state",
+        "test_reference_graph_and_actual_c07_turret_find_target"
+      ],
+      "runtime_proof": "/root/C07TurretFindTargetProof",
+      "rule": "Source-backed TurretBuild findTarget/findEnemy/validateTarget/canHeal state from Turret.java + Units.java + UnitSorts.java + BlockIndexer.java + BulletType.java + Mathf.java."
     }
   },
   "policy": {

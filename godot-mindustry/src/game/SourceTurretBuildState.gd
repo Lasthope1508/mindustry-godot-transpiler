@@ -436,6 +436,239 @@ static func source_turret_update_tile_warmup_state(frame: Dictionary, is_shootin
 static func source_turret_estimate_dps_state(frame: Dictionary, has_ammo: bool, shots: int, reload: float, peek_ammo_estimate_dps: float, potential_efficiency: float, time_scale: float) -> Dictionary:
 	return {"estimate_dps": 0.0 if not has_ammo else float(shots) / reload * 60.0 * peek_ammo_estimate_dps * potential_efficiency * time_scale}
 
+# TurretBuild.canHeal() (Turret.java:635-637):
+# `protected boolean canHeal(){`
+# `return targetHealing && hasAmmo() && peekAmmo().collidesTeam && peekAmmo().heals();`
+# on `public class TurretBuild extends ReloadTurretBuild implements ControlBlock{`
+# (Turret.java:277). targetHealing is the def flag (Turret.java:95,
+# `public boolean targetHealing = false;`); hasAmmo() is the gate
+# (Turret.java:698, `public boolean hasAmmo(){`) with its ammo-swap
+# side effect (Turret.java:698-712), so the pure function takes
+# has_ammo as an explicit bool, never calls hasAmmo(). peekAmmo()
+# (Turret.java:693, `public @Nullable BulletType peekAmmo(){`) is
+# likewise not ported here: the caller passes the peeked bullet's
+# flags explicitly -- collidesTeam (BulletType.java:127,
+# `public boolean collidesTeam = false;`) and heals()
+# (BulletType.java:447, `public boolean heals(){`). Java calls
+# peekAmmo() twice but hasAmmo() short-circuits first, so a null
+# peek never reaches the field reads; the explicit bools carry the
+# same short-circuit (they are meaningful only when has_ammo).
+# All live values arrive as explicit params (the N2188 precedent),
+# because the tick frame tracks no ammo state yet. NO driver line:
+# canHeal() is a predicate the targeting chain reads, not a tick
+# write; findTarget() (:651-663) and validateTarget() (:631-633)
+# call it with explicit params below.
+@warning_ignore("unused_parameter")
+static func source_turret_can_heal_state(frame: Dictionary, target_healing: bool, has_ammo: bool, peek_collides_team: bool, peek_heals: bool) -> Dictionary:
+	return {"can_heal": target_healing and has_ammo and peek_collides_team and peek_heals}
+
+# Units.invalidateTarget() (Units.java:151-158), the 4-arg overload
+# validateTarget() calls (Units.java:160-162,
+# `return invalidateTarget(target, team, x, y, Float.MAX_VALUE);`):
+# `public static boolean invalidateTarget(Posc target, Team team, float x, float y, float range){`
+# `return target == null ||`
+# `(range != Float.MAX_VALUE && !target.within(x, y, range + (target instanceof Sized hb ? hb.hitSize()/2f : 0f))) ||`
+# `(target instanceof Teamc t && t.team() == team) ||`
+# `(target instanceof Healthc h && !h.isValid()) ||`
+# `(target instanceof Unit u && !u.targetable(team));`
+# Called with range Float.MAX_VALUE, the within-range branch is
+# dead (`range != Float.MAX_VALUE` is false), so only four observed
+# flags remain: the target is null, the target is a Teamc on the
+# team argument, the target is a Healthc that is not valid, or the
+# target is a Unit that is not targetable by that team. The team
+# argument is Team.derelict when canHeal() holds, else the turret
+# team (Turret.java:632) -- the driver computes target_same_team
+# against that team; the pure function never hard-codes a team id.
+# The driver computes the flags per the instanceof semantics (a
+# null target makes the other three false); the live Units query
+# itself stays on the driver side. NO driver line: the invalidation
+# is a predicate the updateTile driver reads (:491/:573), not a
+# tick write of its own.
+@warning_ignore("unused_parameter")
+static func source_turret_invalidate_target_state(frame: Dictionary, target_is_null: bool, target_same_team: bool, target_health_invalid: bool, target_unit_not_targetable: bool) -> Dictionary:
+	return {"target_invalid": target_is_null or target_same_team or target_health_invalid or target_unit_not_targetable}
+
+# TurretBuild.validateTarget() (Turret.java:631-633):
+# `protected boolean validateTarget(){`
+# `return !Units.invalidateTarget(target, canHeal() ? Team.derelict : team, x, y) || controlled() || logicControlled();`
+# on `public class TurretBuild extends ReloadTurretBuild implements ControlBlock{`
+# (Turret.java:277). controlled() is Turret.java:441-443
+# (`public boolean controlled(){` / `return unit.isPlayer();`) and
+# logicControlled() is Turret.java:445-447
+# (`public boolean logicControlled(){` / `return logicControlTime > 0;`)
+# -- both unported, both arrive as explicit bools (the N2188
+# precedent), because the tick frame tracks no unit/player or logic
+# key yet. A target that is still valid keeps the turret on it; an
+# invalid target is kept only while a player or logic controls the
+# turret. NO driver line: updateTile calls validateTarget() at :491
+# and :573 -- the driver is its own later slice.
+@warning_ignore("unused_parameter")
+static func source_turret_validate_target_state(frame: Dictionary, target_invalid: bool, is_controlled: bool, is_logic_controlled: bool) -> Dictionary:
+	return {"validate_target": (not target_invalid) or is_controlled or is_logic_controlled}
+
+# TurretBuild.findEnemy() (Turret.java:639-649):
+# `protected Posc findEnemy(float range){`
+# `if(targetAir && !targetGround){`
+# `return Units.bestEnemy(team, x, y, range, e -> !e.dead() && !e.isGrounded() && unitFilter.get(e), unitSort);`
+# `}else{`
+# `var ammo = peekAmmo();`
+# `boolean buildings = targetGround && targetBlocks && (ammo == null || ammo.targetBlocks), missiles = ammo == null || ammo.targetMissiles;`
+# `return Units.bestTarget(team, x, y, range,`
+# `e -> !e.dead() && unitFilter.get(e) && (e.isGrounded() || targetAir) && (!e.isGrounded() || targetGround) && (missiles || !(e instanceof TimedKillc)),`
+# `b -> buildings && buildingFilter.get(b), unitSort);`
+# `}`
+# `}`
+# on `public class TurretBuild extends ReloadTurretBuild implements ControlBlock{`
+# (Turret.java:277). Units.bestTarget (Units.java:284-294,
+# `public static Teamc bestTarget(Team team, float x, float y, float range, Boolf<Unit> unitPred, Boolf<Building> tilePred, Sortf sort){`)
+# returns null for a derelict team (`if(team == Team.derelict) return null;`),
+# checks units first (`Unit unit = bestEnemy(team, x, y, range, unitPred, sort);`)
+# and only then buildings (`return findEnemyTile(team, x, y, range, tilePred);`).
+# Units.bestEnemy (Units.java:318-338,
+# `public static Unit bestEnemy(Team team, float x, float y, float range, Boolf<Unit> predicate, Sortf sort){`)
+# skips dead / pred-fail / derelict / out-of-range / untargetable /
+# in-fog candidates
+# (`if(e.dead() || !predicate.get(e) || e.team == Team.derelict || !e.within(x, y, range + e.hitSize/2f) || !e.targetable(team) || e.inFogTo(team)) return;`)
+# and picks by sort.cost
+# (`float cost = sort.cost(e, x, y);`)
+# with the targetPriority tie-break
+# (`if((result == null || cost < cdist || e.type.targetPriority > cpriority) && e.type.targetPriority >= cpriority){`).
+# The default sort is UnitSorts.closest = Unit::dst2
+# (UnitSorts.java:11, `closest = Unit::dst2,`, over the def
+# `public Sortf unitSort = UnitSorts.closest;`, Turret.java:107), so
+# the cost is the candidate dst2; unitFilter (Turret.java:109, default
+# `u -> true`) and buildingFilter (Turret.java:111) arrive as the
+# per-candidate unit_filter / building_filter flags, and the
+# branch-specific predicate legs (grounded, timed-kill) are computed
+# here from the is_grounded / is_timed_kill flags. The building
+# fallback is Units.findEnemyTile (Units.java:222-225,
+# `public static Building findEnemyTile(Team team, float x, float y, float range, Boolf<Building> pred){`)
+# into BlockIndexer.findEnemyTile (BlockIndexer.java:486-487) with the
+# UnitSorts.buildingDefault priority (UnitSorts.java:22,
+# `buildingDefault = b -> b.block.priority,`): per building,
+# `float dist = candidate.dst(x, y) - candidate.hitSize() / 2f;`
+# (BlockIndexer.java:472) must satisfy
+# `float bdst = next.dst(x, y) - next.hitSize() / 2f;`
+# (BlockIndexer.java:512) with
+# `if(bdst < range && (closest == null ||`
+# (BlockIndexer.java:513), and the winner is closer-and-at-least-
+# equal-priority or strictly higher priority -- the same acceptance
+# rule the cross-team loop applies. The live Units queries
+# (nearbyEnemies scan, indexer.findEnemyTile / findTile, inFogTo)
+# stay on the driver side, which stamps the candidate flags (the
+# N2242 live-bullets precedent); the candidates carry an `id` key
+# so the driver can resolve the chosen dict back to a live entity
+# (the N2242 observed-dict precedent). SourceTurretTargetingState.gd
+# is NOT reused: it only picks the nearest candidate by distance and
+# has no slice owner -- it lacks the predicate filters, the
+# targetPriority tie-break and the building fallback ported here.
+# NO driver line: findTarget() (:651-663) calls this with explicit
+# params; the updateTile driver is its own later slice.
+@warning_ignore("unused_parameter")
+static func source_turret_find_enemy_state(frame: Dictionary, team_is_derelict: bool, range: float, target_air: bool, target_ground: bool, target_blocks: bool, ammo_is_null: bool, ammo_target_blocks: bool, ammo_target_missiles: bool, unit_candidates: Array, building_candidates: Array) -> Dictionary:
+	if team_is_derelict:
+		return {"target": null}
+	var air_only: bool = target_air and not target_ground
+	var buildings: bool = target_ground and target_blocks and (ammo_is_null or ammo_target_blocks)
+	var missiles: bool = ammo_is_null or ammo_target_missiles
+	var best: Variant = null
+	var best_cost: float = 0.0
+	var best_priority: float = -99999.0
+	for candidate in unit_candidates:
+		if not (candidate is Dictionary):
+			continue
+		if bool(candidate.get("dead", false)):
+			continue
+		if bool(candidate.get("team_is_derelict", false)):
+			continue
+		if not bool(candidate.get("within_range", false)):
+			continue
+		if not bool(candidate.get("targetable", false)):
+			continue
+		if bool(candidate.get("in_fog", false)):
+			continue
+		if not bool(candidate.get("unit_filter", false)):
+			continue
+		var is_grounded: bool = bool(candidate.get("is_grounded", false))
+		if air_only:
+			if is_grounded:
+				continue
+		else:
+			if not (is_grounded or target_air):
+				continue
+			if not ((not is_grounded) or target_ground):
+				continue
+			if not (missiles or not bool(candidate.get("is_timed_kill", false))):
+				continue
+		var cost: float = float(candidate.get("dst2", 0.0))
+		var priority: float = float(candidate.get("target_priority", 0.0))
+		if (best == null or cost < best_cost or priority > best_priority) and priority >= best_priority:
+			best = candidate
+			best_cost = cost
+			best_priority = priority
+	if best != null:
+		return {"target": best}
+	if air_only:
+		return {"target": null}
+	if not buildings:
+		return {"target": null}
+	var best_building: Variant = null
+	var best_dist: float = 0.0
+	var best_bpriority: float = 0.0
+	for candidate in building_candidates:
+		if not (candidate is Dictionary):
+			continue
+		if not bool(candidate.get("building_filter", false)):
+			continue
+		var dist: float = sqrt(float(candidate.get("dst2", 0.0))) - float(candidate.get("hit_size", 0.0)) / 2.0
+		if not (dist < range):
+			continue
+		var bpriority: float = float(candidate.get("priority", 0.0))
+		if best_building == null or (dist < best_dist and bpriority >= best_bpriority) or bpriority > best_bpriority:
+			best_building = candidate
+			best_dist = dist
+			best_bpriority = bpriority
+	return {"target": best_building}
+
+# TurretBuild.findTarget() (Turret.java:651-663):
+# `protected void findTarget(){`
+# `float trackRange = trackingRange(), range = range();`
+# `target = findEnemy(range);`
+# `if(!Mathf.equal(trackRange, range) && target == null){`
+# `target = findEnemy(trackRange);`
+# `}`
+# `if(target == null && canHeal()){`
+# `target = Units.findAllyTile(team, x, y, range, b -> b.damaged() && b != this);`
+# `}`
+# `}`
+# on `public class TurretBuild extends ReloadTurretBuild implements ControlBlock{`
+# (Turret.java:277). The standard-range target is always preferred:
+# the tracking range is tried only when it differs from the standard
+# range and nothing was found yet. Mathf.equal is an epsilon compare
+# (Mathf.java:544-546, `return Math.abs(a - b) <= FLOAT_ROUNDING_ERROR;`,
+# with `public static final float FLOAT_ROUNDING_ERROR = 0.000001f; // 32 bits`,
+# Mathf.java:10) -- not `==` and not GDScript is_equal_approx (whose
+# epsilon is 0.00001). The ally-tile fallback is Units.findAllyTile
+# (Units.java:217-219,
+# `public static Building findAllyTile(Team team, float x, float y, float range, Boolf<Building> pred){`
+# / `return indexer.findTile(team, x, y, range, pred);`), which only
+# runs when the target is still null and canHeal() holds; the ally
+# tile arrives as a pre-filtered observed dict (damaged and not this
+# build -- the `b -> b.damaged() && b != this` predicate is the
+# driver's). range() and trackingRange() arrive as explicit params
+# (the N2188 precedent); the findEnemy calls themselves are the
+# driver's, which passes the found standard / track targets in.
+# NO driver line: updateTile calls findTarget() at :570 -- the driver
+# is its own later slice.
+@warning_ignore("unused_parameter")
+static func source_turret_find_target_state(frame: Dictionary, range: float, track_range: float, found_standard: Variant, found_track: Variant, can_heal: bool, ally_tile: Variant) -> Dictionary:
+	var target: Variant = found_standard
+	if absf(track_range - range) > 0.000001 and target == null:
+		target = found_track
+	if target == null and can_heal:
+		target = ally_tile
+	return {"target": target}
+
 @warning_ignore("unused_parameter")
 static func source_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the turret tick wiring every tick

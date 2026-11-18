@@ -176728,6 +176728,86 @@
         "test_reference_graph_and_actual_c07_radar_write_read"
       ],
       "runtime_proof": "/root/C07RadarWriteReadProof"
+    },
+    "source_turret_can_heal_state_result.can_heal": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_can_heal_state",
+      "godot_symbol": "source_turret_can_heal_state_result.can_heal",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.canHeal()",
+      "java_expr": "return targetHealing && hasAmmo() && peekAmmo().collidesTeam && peekAmmo().heals();",
+      "rule": "Whether this turret can heal: targetHealing && hasAmmo() && peekAmmo().collidesTeam && peekAmmo().heals() (Turret.java:635-637); hasAmmo() short-circuits first in Java, so a null peek never reaches the field reads.",
+      "tests": [
+        "test_c07_turret_find_target_registration",
+        "test_all_c07_turret_find_target_input_evidence_is_exact",
+        "test_turret_find_target_state",
+        "test_reference_graph_and_actual_c07_turret_find_target"
+      ],
+      "runtime_proof": "/root/C07TurretFindTargetProof"
+    },
+    "source_turret_invalidate_target_state_result.target_invalid": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_invalidate_target_state",
+      "godot_symbol": "source_turret_invalidate_target_state_result.target_invalid",
+      "java_source": "core/src/mindustry/entities/Units.java",
+      "java_method": "Units.invalidateTarget(Posc, Team, float, float, float)",
+      "java_expr": "public static boolean invalidateTarget(Posc target, Team team, float x, float y){",
+      "rule": "Whether the target is invalid: the 4-arg overload validateTarget() calls (Units.java:160-162), which forwards with range Float.MAX_VALUE so the within-range branch (Units.java:153) is dead and only the four observed flags remain.",
+      "tests": [
+        "test_c07_turret_find_target_registration",
+        "test_all_c07_turret_find_target_input_evidence_is_exact",
+        "test_turret_find_target_state",
+        "test_reference_graph_and_actual_c07_turret_find_target"
+      ],
+      "runtime_proof": "/root/C07TurretFindTargetProof"
+    },
+    "source_turret_validate_target_state_result.validate_target": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_validate_target_state",
+      "godot_symbol": "source_turret_validate_target_state_result.validate_target",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.validateTarget()",
+      "java_expr": "return !Units.invalidateTarget(target, canHeal() ? Team.derelict : team, x, y) || controlled() || logicControlled();",
+      "rule": "Whether the target stays valid: (not target_invalid) or is_controlled or is_logic_controlled (Turret.java:631-633); an invalid target is kept only while a player or logic controls the turret.",
+      "tests": [
+        "test_c07_turret_find_target_registration",
+        "test_all_c07_turret_find_target_input_evidence_is_exact",
+        "test_turret_find_target_state",
+        "test_reference_graph_and_actual_c07_turret_find_target"
+      ],
+      "runtime_proof": "/root/C07TurretFindTargetProof"
+    },
+    "source_turret_find_enemy_state_result.target": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_find_enemy_state",
+      "godot_symbol": "source_turret_find_enemy_state_result.target",
+      "java_source": "core/src/mindustry/entities/Units.java",
+      "java_method": "TurretBuild.findEnemy(float)",
+      "java_expr": "public static Teamc bestTarget(Team team, float x, float y, float range, Boolf<Unit> unitPred, Boolf<Building> tilePred, Sortf sort){",
+      "rule": "The chosen target, or null: the bestEnemy winner when any unit passes (Units.java:287-289), else the findEnemyTile winner when buildings are considered (Units.java:290-291), else null; the returned value is the chosen observed dict itself.",
+      "tests": [
+        "test_c07_turret_find_target_registration",
+        "test_all_c07_turret_find_target_input_evidence_is_exact",
+        "test_turret_find_target_state",
+        "test_reference_graph_and_actual_c07_turret_find_target"
+      ],
+      "runtime_proof": "/root/C07TurretFindTargetProof"
+    },
+    "source_turret_find_target_state_result.target": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_find_target_state",
+      "godot_symbol": "source_turret_find_target_state_result.target",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.findTarget()",
+      "java_expr": "if(!Mathf.equal(trackRange, range) && target == null){",
+      "rule": "The target after the fallback chain: the standard-range target when present, else the tracking-range target when the ranges differ (Mathf.equal epsilon 0.000001f, Mathf.java:544-546/10), else the ally tile when canHeal() holds, else null (Turret.java:651-663).",
+      "tests": [
+        "test_c07_turret_find_target_registration",
+        "test_all_c07_turret_find_target_input_evidence_is_exact",
+        "test_turret_find_target_state",
+        "test_reference_graph_and_actual_c07_turret_find_target"
+      ],
+      "runtime_proof": "/root/C07TurretFindTargetProof"
     }
   },
   "version": 1
