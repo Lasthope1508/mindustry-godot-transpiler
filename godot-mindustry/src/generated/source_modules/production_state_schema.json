@@ -103,6 +103,51 @@
         }
       }
     },
+    "source_burst_drill_liquid_rows_state_input": {
+      "canonical_schema": "source_state_schema.source_burst_drill_liquid_rows_state_input",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "public void updateTile(){",
+          "rule": "The burst-drill frame (BurstDrillBuild.updateTile, BurstDrill.java:76): carries efficiency (float, absent -> 0.0), efficiency_scale (float, absent -> 1.0), required_liquid_stored and booster_liquid_stored (floats, absent -> 0.0).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_liquid_rows_state"
+          ]
+        },
+        "delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "The tick seconds: delta() is Time.delta * timeScale (BuildingComp.java:1922-1923); timeScale is 1 by default and the port passes the raw tick seconds (the N2190 driver convention).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_liquid_rows_state"
+          ]
+        },
+        "required_amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "consumeLiquid(Liquids.water, 10f/60f);",
+          "rule": "The per-def required liquid amount per frame, 10f/60f water for the impact-drill def (Blocks.java:3089) and 4f/60f hydrogen for the eruption-drill def (Blocks.java:3119); passed explicitly because the catalog carries no per-row amount on the frame (the N2212 per-def-param precedent).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_liquid_rows_state"
+          ]
+        },
+        "booster_amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "consumeLiquid(Liquids.ozone, 3f / 60f).boost();",
+          "rule": "The per-def booster liquid amount per frame, 3f/60f ozone for the impact-drill def (Blocks.java:3090) and 0.75f/60f cyanogen for the eruption-drill def (Blocks.java:3120); passed explicitly because the catalog carries no per-row amount on the frame (the N2212 per-def-param precedent).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_liquid_rows_state"
+          ]
+        }
+      }
+    },
     "source_burst_drill_power_status_row_state_input": {
       "canonical_schema": "source_state_schema.source_burst_drill_power_status_row_state_input",
       "keys": {

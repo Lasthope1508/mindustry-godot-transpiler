@@ -68714,6 +68714,54 @@
       ],
       "runtime_proof": "/root/C07BurstDrillShouldConsumeProof",
       "rule": "Source-backed BurstDrill shouldConsume gate from BurstDrill.java + Drill.java + BuildingComp.java + Block.java + Blocks.java + ItemModule.java + ConsumePower.java + UnitAssembler.java."
+    },
+    "SourceBurstDrillBuildState.source_burst_drill_liquid_rows_state": {
+      "status": "active",
+      "source_slice": "N2258",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "source_method": "BurstDrillBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_burst_drill_liquid_rows_state_input.frame"
+        },
+        {
+          "name": "delta",
+          "type": "float",
+          "schema": "source_burst_drill_liquid_rows_state_input.delta"
+        },
+        {
+          "name": "required_amount",
+          "type": "float",
+          "schema": "source_burst_drill_liquid_rows_state_input.required_amount"
+        },
+        {
+          "name": "booster_amount",
+          "type": "float",
+          "schema": "source_burst_drill_liquid_rows_state_input.booster_amount"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "edelta",
+        "ed",
+        "required_efficiency",
+        "booster_efficiency",
+        "required_remove_amount",
+        "booster_remove_amount",
+        "required_row",
+        "optional_row",
+        "has_liquids"
+      ],
+      "tests": [
+        "test_c07_burst_drill_liquid_rows_registration",
+        "test_all_c07_burst_drill_liquid_rows_input_evidence_is_exact",
+        "test_burst_drill_liquid_rows_state",
+        "test_reference_graph_and_actual_c07_burst_drill_liquid_rows"
+      ],
+      "runtime_proof": "/root/C07BurstDrillLiquidRowsProof",
+      "rule": "Source-backed BurstDrill liquid rows from BurstDrill.java + Drill.java + BuildingComp.java + Block.java + Blocks.java + ConsumeLiquid.java + ConsumeLiquidBase.java + Consume.java."
     }
   },
   "policy": {

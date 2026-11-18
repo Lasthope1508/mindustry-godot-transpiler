@@ -176360,6 +176360,150 @@
         "test_reference_graph_and_actual_c07_burst_drill_should_consume"
       ],
       "runtime_proof": "/root/C07BurstDrillShouldConsumeProof"
+    },
+    "source_burst_drill_liquid_rows_state_result.edelta": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_liquid_rows_state",
+      "godot_symbol": "source_burst_drill_liquid_rows_state_result.edelta",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BurstDrillBuild.updateTile()",
+      "java_expr": "return efficiency * delta();",
+      "rule": "The scaled delta this tick: efficiency * delta() (edelta, BuildingComp.java:1928).",
+      "tests": [
+        "test_c07_burst_drill_liquid_rows_registration",
+        "test_all_c07_burst_drill_liquid_rows_input_evidence_is_exact",
+        "test_burst_drill_liquid_rows_state",
+        "test_reference_graph_and_actual_c07_burst_drill_liquid_rows"
+      ],
+      "runtime_proof": "/root/C07BurstDrillLiquidRowsProof"
+    },
+    "source_burst_drill_liquid_rows_state_result.ed": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_liquid_rows_state",
+      "godot_symbol": "source_burst_drill_liquid_rows_state_result.ed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "BurstDrillBuild.updateTile()",
+      "java_expr": "float ed = build.edelta() * build.efficiencyScale();",
+      "rule": "The guarded ed this tick: edelta * efficiencyScale (ConsumeLiquid.java:43); at or below 0.00000001f both row efficiencies are 0.",
+      "tests": [
+        "test_c07_burst_drill_liquid_rows_registration",
+        "test_all_c07_burst_drill_liquid_rows_input_evidence_is_exact",
+        "test_burst_drill_liquid_rows_state",
+        "test_reference_graph_and_actual_c07_burst_drill_liquid_rows"
+      ],
+      "runtime_proof": "/root/C07BurstDrillLiquidRowsProof"
+    },
+    "source_burst_drill_liquid_rows_state_result.required_efficiency": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_liquid_rows_state",
+      "godot_symbol": "source_burst_drill_liquid_rows_state_result.required_efficiency",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "BurstDrillBuild.updateTile()",
+      "java_expr": "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);",
+      "rule": "The required liquid row efficiency: the stored required liquid over the required amount, capped at 1 (ConsumeLiquid.efficiency, ConsumeLiquid.java:42-46); folds into the first pass (BuildingComp.java:1969-1977).",
+      "tests": [
+        "test_c07_burst_drill_liquid_rows_registration",
+        "test_all_c07_burst_drill_liquid_rows_input_evidence_is_exact",
+        "test_burst_drill_liquid_rows_state",
+        "test_reference_graph_and_actual_c07_burst_drill_liquid_rows"
+      ],
+      "runtime_proof": "/root/C07BurstDrillLiquidRowsProof"
+    },
+    "source_burst_drill_liquid_rows_state_result.booster_efficiency": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_liquid_rows_state",
+      "godot_symbol": "source_burst_drill_liquid_rows_state_result.booster_efficiency",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "BurstDrillBuild.updateTile()",
+      "java_expr": "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);",
+      "rule": "The booster liquid row efficiency: the stored booster liquid over the required amount, capped at 1 (ConsumeLiquid.efficiency, ConsumeLiquid.java:42-46); folds into the optional pass (BuildingComp.java:1980-1982) and feeds the speed fold (BurstDrill.java:94).",
+      "tests": [
+        "test_c07_burst_drill_liquid_rows_registration",
+        "test_all_c07_burst_drill_liquid_rows_input_evidence_is_exact",
+        "test_burst_drill_liquid_rows_state",
+        "test_reference_graph_and_actual_c07_burst_drill_liquid_rows"
+      ],
+      "runtime_proof": "/root/C07BurstDrillLiquidRowsProof"
+    },
+    "source_burst_drill_liquid_rows_state_result.required_remove_amount": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_liquid_rows_state",
+      "godot_symbol": "source_burst_drill_liquid_rows_state_result.required_remove_amount",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "BurstDrillBuild.updateTile()",
+      "java_expr": "build.liquids.remove(liquid, amount * build.edelta() * multiplier.get(build));",
+      "rule": "The required liquid removed this tick: amount * edelta * the unit cost multiplier (ConsumeLiquid.update, ConsumeLiquid.java:37-38); the observable -- the actual liquids.remove application waits for the driver slice that owns the liquids module.",
+      "tests": [
+        "test_c07_burst_drill_liquid_rows_registration",
+        "test_all_c07_burst_drill_liquid_rows_input_evidence_is_exact",
+        "test_burst_drill_liquid_rows_state",
+        "test_reference_graph_and_actual_c07_burst_drill_liquid_rows"
+      ],
+      "runtime_proof": "/root/C07BurstDrillLiquidRowsProof"
+    },
+    "source_burst_drill_liquid_rows_state_result.booster_remove_amount": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_liquid_rows_state",
+      "godot_symbol": "source_burst_drill_liquid_rows_state_result.booster_remove_amount",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "BurstDrillBuild.updateTile()",
+      "java_expr": "build.liquids.remove(liquid, amount * build.edelta() * multiplier.get(build));",
+      "rule": "The booster liquid removed this tick: amount * edelta * the unit cost multiplier (ConsumeLiquid.update, ConsumeLiquid.java:37-38); the observable -- the actual liquids.remove application waits for the driver slice that owns the liquids module.",
+      "tests": [
+        "test_c07_burst_drill_liquid_rows_registration",
+        "test_all_c07_burst_drill_liquid_rows_input_evidence_is_exact",
+        "test_burst_drill_liquid_rows_state",
+        "test_reference_graph_and_actual_c07_burst_drill_liquid_rows"
+      ],
+      "runtime_proof": "/root/C07BurstDrillLiquidRowsProof"
+    },
+    "source_burst_drill_liquid_rows_state_result.required_row": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_liquid_rows_state",
+      "godot_symbol": "source_burst_drill_liquid_rows_state_result.required_row",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BurstDrillBuild.updateTile()",
+      "java_expr": "for(var cons : block.nonOptionalConsumers){",
+      "rule": "The driver row for the required liquid: {result: required_efficiency, is_power: false}, folded into the non-optional results of updateConsumption (BuildingComp.java:1969-1977).",
+      "tests": [
+        "test_c07_burst_drill_liquid_rows_registration",
+        "test_all_c07_burst_drill_liquid_rows_input_evidence_is_exact",
+        "test_burst_drill_liquid_rows_state",
+        "test_reference_graph_and_actual_c07_burst_drill_liquid_rows"
+      ],
+      "runtime_proof": "/root/C07BurstDrillLiquidRowsProof"
+    },
+    "source_burst_drill_liquid_rows_state_result.optional_row": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_liquid_rows_state",
+      "godot_symbol": "source_burst_drill_liquid_rows_state_result.optional_row",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BurstDrillBuild.updateTile()",
+      "java_expr": "for(var cons : block.optionalConsumers){",
+      "rule": "The driver row for the booster liquid: {result: booster_efficiency}, folded into the optional results of updateConsumption (BuildingComp.java:1980-1982).",
+      "tests": [
+        "test_c07_burst_drill_liquid_rows_registration",
+        "test_all_c07_burst_drill_liquid_rows_input_evidence_is_exact",
+        "test_burst_drill_liquid_rows_state",
+        "test_reference_graph_and_actual_c07_burst_drill_liquid_rows"
+      ],
+      "runtime_proof": "/root/C07BurstDrillLiquidRowsProof"
+    },
+    "source_burst_drill_liquid_rows_state_result.has_liquids": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_liquid_rows_state",
+      "godot_symbol": "source_burst_drill_liquid_rows_state_result.has_liquids",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+      "java_method": "BurstDrillBuild.updateTile()",
+      "java_expr": "block.hasLiquids = true;",
+      "rule": "Whether the block carries liquids: true, ConsumeLiquidBase.apply sets block.hasLiquids (ConsumeLiquidBase.java:17-19).",
+      "tests": [
+        "test_c07_burst_drill_liquid_rows_registration",
+        "test_all_c07_burst_drill_liquid_rows_input_evidence_is_exact",
+        "test_burst_drill_liquid_rows_state",
+        "test_reference_graph_and_actual_c07_burst_drill_liquid_rows"
+      ],
+      "runtime_proof": "/root/C07BurstDrillLiquidRowsProof"
     }
   },
   "version": 1

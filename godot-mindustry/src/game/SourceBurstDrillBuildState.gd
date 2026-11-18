@@ -8,6 +8,7 @@ const source_building_efficiency_state := preload("res://src/game/SourceBuilding
 const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
 const source_math_state := preload("res://src/game/SourceMathState.gd")
 const source_drill_dump_runtime_state := preload("res://src/game/SourceDrillDumpRuntimeState.gd")
+const source_consume_liquid_state := preload("res://src/game/SourceConsumeLiquidState.gd")
 const source_block_defaults := preload("res://src/game/SourceBlockDefaults.gd")
 
 # The BurstDrill implementation (BurstDrill.java:17, `public class
@@ -92,10 +93,11 @@ static func source_burst_drill_power_status_row_state(frame: Dictionary, has_pow
 	# so a burst drill does not take the early return. The
 	# burst-drill speed follows the folded efficiency
 	# (BurstDrill.java:94, `float speed = Mathf.lerp(1f, liquidBoostIntensity, optionalEfficiency) * efficiency;`).
-	# Documented limits: (1) power-only first pass -- eruption's
-	# hydrogen/cyanogen and impact's water/ozone liquid rows wait
-	# for their own slices, so the folded efficiency is the min
-	# over the *modeled* consumers (power only). (2)
+	# Documented limits: (1) power row only -- the liquid rows
+	# fold in the driver when the frame carries liquid
+	# observations (N2258); without observations the folded
+	# efficiency is the min over the *modeled* consumers
+	# (power only). (2)
 	# shouldConsume gate -- BurstDrillBuild overrides
 	# shouldConsume (BurstDrill.java:129, `return items.total()
 	# <= itemCapacity - dominantItems && enabled;`); N2257 wires
@@ -113,6 +115,116 @@ static func source_burst_drill_power_status_row_state(frame: Dictionary, has_pow
 	var stamped: Variant = frame.get("power_status", null)
 	var live: float = 1.0 if stamped == null else float(stamped)
 	return {"has_power_row": true, "row": {"result": live, "is_power": true}}
+
+static func source_burst_drill_liquid_rows_state(frame: Dictionary, delta: float, required_amount: float, booster_amount: float) -> Dictionary:
+	# The BurstDrill liquid rows are the two ConsumeLiquid rows
+	# each def carries (Blocks.java:3089-3090 impact, :3119-3120
+	# eruption): one required liquid and one booster liquid
+	# (.boost() makes it optional, Consume.java:33-35, `public Consume boost(){`
+	# with `return optional(true, true);`).
+	# BuildingComp.updateConsumption (BuildingComp.java:1943-2004)
+	# folds the required row into the first pass
+	# (BuildingComp.java:1969-1977, `for(var cons : block.nonOptionalConsumers){`
+	# / `minEfficiency = Math.min(minEfficiency, result);`) and the booster row
+	# into the optional pass (BuildingComp.java:1980-1982,
+	# `for(var cons : block.optionalConsumers){` /
+	# `optionalEfficiency = Math.min(optionalEfficiency, cons.efficiency(self()));`),
+	# then assigns `efficiency = minEfficiency;` /
+	# `optionalEfficiency = Math.min(optionalEfficiency, minEfficiency);`
+	# (BuildingComp.java:1985-1986, `potentialEfficiency = efficiency;`
+	# BuildingComp.java:1989) and runs
+	# the second pass (`if(update && efficiency > 0){` /
+	# `for(var cons : block.updateConsumers){`,
+	# BuildingComp.java:1999-2000). Each row's efficiency is
+	# ConsumeLiquid.efficiency (ConsumeLiquid.java:42-46,
+	# `float ed = build.edelta() * build.efficiencyScale();` /
+	# `if(ed <= 0.00000001f) return 0f;` /
+	# `return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);`
+	# -- there can be more liquid than necessary, so the row caps at 1) with edelta()
+	# (BuildingComp.java:1927-1928, `public float edelta(){` with
+	# `return efficiency * delta();`) and the default cost multiplier
+	# (Consume.java:18, `public Floatf<Building> multiplier = b -> 1f;` --
+	# nothing overrides it for burst drills), and each row's
+	# removal is ConsumeLiquid.update (ConsumeLiquid.java:37-38,
+	# `build.liquids.remove(liquid, amount * build.edelta() * multiplier.get(build));`).
+	# The booster row is what feeds the speed fold (BurstDrill.java:94, `float speed =
+	# Mathf.lerp(1f, liquidBoostIntensity, optionalEfficiency) *
+	# efficiency;`): without the booster liquid the drill runs
+	# at base speed. The default boost intensity is
+	# `public float liquidBoostIntensity = 1.6f;` (Drill.java:38);
+	# the per-row amount is `public float amount;`
+	# (ConsumeLiquidBase.java:8, `/** amount used per frame */`),
+	# the flags are `public boolean optional;` and
+	# `public boolean booster;` (Consume.java:12, :14), and the
+	# block flag is `public @NoPatch boolean hasLiquids;`
+	# (Block.java:47). ConsumeLiquidBase.apply sets
+	# block.hasLiquids (ConsumeLiquidBase.java:17-19,
+	# `block.hasLiquids = true;`), and ConsumeLiquid.apply
+	# sets the liquid filter (ConsumeLiquid.java:26-28,
+	# `block.liquidFilter[liquid.id] = true;`) -- both are
+	# block-level and already true in the registry
+	# ("hasLiquids": true); the filter itself is set by the
+	# generic apply path, not here. The frame carries
+	# `efficiency` (float, absent defaults to 0.0 --
+	# `transient float efficiency;`, BuildingComp.java:85),
+	# `efficiency_scale` (float, absent defaults to 1.0 --
+	# `public float efficiencyScale(){` with `return 1f;`,
+	# BuildingComp.java:1939-1941), `required_liquid_stored`
+	# and `booster_liquid_stored` (floats, absent default to
+	# 0.0 -- a fresh LiquidModule holds 0 of every liquid).
+	# delta() is `public float delta(){` with `return
+	# Time.delta * timeScale;`, BuildingComp.java:1922-1923 --
+	# timeScale is 1 by default and the port passes the raw
+	# tick seconds, the N2190 driver convention. The per-def
+	# amounts are explicit params (the N2212 / N2248
+	# per-def-param precedent): impact-drill water 10f/60f
+	# (`consumeLiquid(Liquids.water, 10f/60f);`,
+	# Blocks.java:3089) + ozone 3f/60f booster
+	# (`consumeLiquid(Liquids.ozone, 3f / 60f).boost();`,
+	# Blocks.java:3090); eruption-drill hydrogen 4f/60f
+	# (`consumeLiquid(Liquids.hydrogen, 4f / 60f);`,
+	# Blocks.java:3119) + cyanogen 0.75f/60f booster
+	# (`consumeLiquid(Liquids.cyanogen, 0.75f / 60f).boost();`,
+	# Blocks.java:3120). The removal application
+	# (`build.liquids.remove(...)`) waits for the driver slice
+	# that owns the liquids module; the remove_amount results
+	# are the observable signal that slice will consume. The
+	# setStats booster display row (Drill.java:183-189,
+	# `if(liquidBoostIntensity != 1 && findConsumer(f -> f instanceof ConsumeLiquidBase && f.booster) instanceof ConsumeLiquidBase consBase){`)
+	# is stats display, not tick state, and waits for its own
+	# slice. The row's display is ConsumeLiquid.display
+	# (ConsumeLiquid.java:51,
+	# `stats.add(booster ? Stat.booster : Stat.input, liquid, amount * 60f, true);`)
+	# and its match is ConsumeLiquid.consumes
+	# (ConsumeLiquid.java:56, `return liquid == this.liquid;`).
+	var efficiency: float = float(frame.get("efficiency", 0.0))
+	var efficiency_scale: float = float(frame.get("efficiency_scale", 1.0))
+	var required_liquid_stored: float = float(frame.get("required_liquid_stored", 0.0))
+	var booster_liquid_stored: float = float(frame.get("booster_liquid_stored", 0.0))
+	var edelta: float = efficiency * delta
+	var ed: float = edelta * efficiency_scale
+	var cost_multiplier := 1.0
+	var required_efficiency: float = float(source_consume_liquid_state.efficiency_state(required_liquid_stored, required_amount, edelta, efficiency_scale, cost_multiplier).get("efficiency", 0.0))
+	var booster_efficiency: float = float(source_consume_liquid_state.efficiency_state(booster_liquid_stored, booster_amount, edelta, efficiency_scale, cost_multiplier).get("efficiency", 0.0))
+	var required_remove_amount: float = required_amount * edelta * cost_multiplier
+	var booster_remove_amount: float = booster_amount * edelta * cost_multiplier
+	# The removal only runs in the second pass, which
+	# BuildingComp runs only when the folded efficiency is
+	# positive (BuildingComp.java:1999-2000, `if(update &&
+	# efficiency > 0){` / `for(var cons : block.
+	# updateConsumers){`): with no required liquid the fold is
+	# zero and nothing is removed, even though edelta itself
+	# is positive. The fold here is the frame efficiency
+	# (power fold so far) against the required row -- the
+	# booster row is optional and never drags the fold down.
+	var folded_efficiency: float = minf(efficiency, required_efficiency)
+	if folded_efficiency <= 0.0:
+		required_remove_amount = 0.0
+		booster_remove_amount = 0.0
+	var required_row := {"result": required_efficiency, "is_power": false}
+	var optional_row := {"result": booster_efficiency}
+	var has_liquids := true
+	return {"edelta": edelta, "ed": ed, "required_efficiency": required_efficiency, "booster_efficiency": booster_efficiency, "required_remove_amount": required_remove_amount, "booster_remove_amount": booster_remove_amount, "required_row": required_row, "optional_row": optional_row, "has_liquids": has_liquids}
 
 static func source_burst_drill_should_consume_state(frame: Dictionary, item_capacity: float) -> Dictionary:
 	# BurstDrillBuild overrides shouldConsume
@@ -388,11 +500,13 @@ static func source_burst_drill_tick_buildings_state(game: Object, seconds: float
 		# consumer, and the speed fold (BurstDrill.java:94)
 		# follows it. The power consumer counts toward hasConsumers
 		# (Block.java:1449, `hasConsumers = consumers.length > 0;`),
-		# so a burst drill does not take the early return. A burst
-		# drill with no power consumer is untouched: the tick
-		# models no other consumers yet (eruption's hydrogen/
-		# cyanogen and impact's water/ozone liquid rows wait for
-		# their own slices), and BurstDrillBuild overrides
+		# so a burst drill does not take the early return. The
+		# liquid rows fold since N2258 when the frame carries
+		# liquid observations (the required row into the first
+		# pass, the booster row into the optional pass); without
+		# observations the fold stays power-only. A burst drill
+		# with no power consumer is untouched: the tick models no
+		# other consumers yet, and BurstDrillBuild overrides
 		# shouldConsume (BurstDrill.java:129, `return
 		# items.total() <= itemCapacity - dominantItems &&
 		# enabled;`) -- N2257 wires the gate through
@@ -419,7 +533,43 @@ static func source_burst_drill_tick_buildings_state(game: Object, seconds: float
 			var required_results: Array = []
 			if bool(power_row.get("has_power_row", false)):
 				required_results.append(power_row.get("row", {}))
-			var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(true, bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, [], [], frame)
+			var optional_results: Array = []
+			# The liquid rows fold here when the frame carries
+			# liquid observations (N2258): the block's bound
+			# liquid consumers come from the generic N2003
+			# binding (SourceConsumeLiquidState.
+			# source_bind_liquid_consumers_state, resolved from
+			# the block's consumeLiquid defs -- impact water +
+			# ozone booster, eruption hydrogen + cyanogen
+			# booster, Blocks.java:3089-3090/3119-3120), the
+			# booster flag splits the required row from the
+			# booster row, and the pure rows function supplies
+			# the row dicts the machinery folds (BuildingComp.
+			# java:1969-1986). A frame with no stored-amount
+			# keys keeps the power-only fold (the BuildTurret
+			# precedent): the liquids-module slice has not
+			# stamped required_liquid_stored /
+			# booster_liquid_stored yet, and defaulting absent
+			# to 0 would zero efficiency for every live burst
+			# drill. The removal application stays out: the
+			# machinery's update_consumers list takes actors
+			# with an update() method, and the liquids.remove
+			# application waits for the driver slice that owns
+			# the liquids module.
+			if frame.has("required_liquid_stored") and frame.has("booster_liquid_stored") and block.properties.has("consumeLiquid"):
+				var liquid_bound: Dictionary = source_consume_liquid_state.source_bind_liquid_consumers_state(block, catalog)
+				var required_amount := -1.0
+				var booster_amount := -1.0
+				for row in liquid_bound.get("consumers", []):
+					if bool(row.get("booster", false)):
+						booster_amount = float(row.get("amount", 0.0))
+					else:
+						required_amount = float(row.get("amount", 0.0))
+				if required_amount >= 0.0 and booster_amount >= 0.0:
+					var liquid_rows: Dictionary = source_burst_drill_liquid_rows_state(frame, seconds, required_amount, booster_amount)
+					required_results.append(liquid_rows.get("required_row", {}))
+					optional_results.append(liquid_rows.get("optional_row", {}))
+			var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(true, bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, optional_results, [], frame)
 			source_building_efficiency_state.apply_update_consumption_state(consumption, frame)
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
