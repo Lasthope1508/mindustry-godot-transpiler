@@ -176344,6 +176344,22 @@
         "test_reference_graph_and_actual_c07_burst_drill_update_tile"
       ],
       "runtime_proof": "/root/C07BurstDrillUpdateTileProof"
+    },
+    "source_burst_drill_should_consume_state_result.should_consume": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_should_consume_state",
+      "godot_symbol": "source_burst_drill_should_consume_state_result.should_consume",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_method": "BurstDrillBuild.shouldConsume()",
+      "java_expr": "return items.total() <= itemCapacity - dominantItems && enabled;",
+      "rule": "The shouldConsume gate (BurstDrill.java:128-129): items_total <= item_capacity - dominant_items && enabled; false gates efficiency to 0 via updateConsumption (BuildingComp.java:1960 + 1992-1993).",
+      "tests": [
+        "test_c07_burst_drill_should_consume_registration",
+        "test_all_c07_burst_drill_should_consume_input_evidence_is_exact",
+        "test_burst_drill_should_consume_state",
+        "test_reference_graph_and_actual_c07_burst_drill_should_consume"
+      ],
+      "runtime_proof": "/root/C07BurstDrillShouldConsumeProof"
     }
   },
   "version": 1

@@ -68684,6 +68684,36 @@
       ],
       "runtime_proof": "/root/C07BurstDrillUpdateTileProof",
       "rule": "Source-backed BurstDrill updateTile advance from BurstDrill.java + Drill.java + BuildingComp.java + Block.java + Blocks.java + Interp.java."
+    },
+    "SourceBurstDrillBuildState.source_burst_drill_should_consume_state": {
+      "status": "active",
+      "source_slice": "N2257",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "source_method": "BurstDrillBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_burst_drill_should_consume_state_input.frame"
+        },
+        {
+          "name": "item_capacity",
+          "type": "float",
+          "schema": "source_burst_drill_should_consume_state_input.item_capacity"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "should_consume"
+      ],
+      "tests": [
+        "test_c07_burst_drill_should_consume_registration",
+        "test_all_c07_burst_drill_should_consume_input_evidence_is_exact",
+        "test_burst_drill_should_consume_state",
+        "test_reference_graph_and_actual_c07_burst_drill_should_consume"
+      ],
+      "runtime_proof": "/root/C07BurstDrillShouldConsumeProof",
+      "rule": "Source-backed BurstDrill shouldConsume gate from BurstDrill.java + Drill.java + BuildingComp.java + Block.java + Blocks.java + ItemModule.java + ConsumePower.java + UnitAssembler.java."
     }
   },
   "policy": {

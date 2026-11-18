@@ -235596,6 +235596,54 @@
       },
       "runtime_proof": "/root/C07BurstDrillUpdateTileProof",
       "rule": "Source-backed BurstDrill updateTile advance from BurstDrill.java + Drill.java + BuildingComp.java + Block.java + Blocks.java + Interp.java."
+    },
+    "source_burst_drill_should_consume_state_input": {
+      "status": "active",
+      "owner": "SourceBurstDrillBuildState.source_burst_drill_should_consume_state",
+      "source_slice": "N2257",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "return items.total() <= itemCapacity - dominantItems && enabled;",
+          "rule": "The burst-drill frame (BurstDrillBuild.shouldConsume, BurstDrill.java:128-129): carries items_total (float, absent -> 0.0 -- a fresh ItemModule totals 0, the N2207 LaunchPad precedent), dominant_items (int, absent -> 0, `public int dominantItems;`, Drill.java:243) and enabled (bool, absent -> true, `transient boolean enabled = true;`, BuildingComp.java:77); absent keys mean no observation yet, not full, so the gate preserves the N2149 behavior (should_consume = enabled).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_should_consume_state"
+          ]
+        },
+        "item_capacity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "itemCapacity = 40;",
+          "rule": "The per-def item capacity, 40 for the impact-drill def (Blocks.java:3078) and 60 for the eruption-drill def (Blocks.java:3107); passed explicitly because the pure function cannot reach the catalog (the N2212 per-def-param precedent); the driver reads it from the catalog block properties (the AdjacentFactory precedent).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BurstDrillShouldConsumeProof",
+      "rule": "Source-backed BurstDrill shouldConsume gate from BurstDrill.java + Drill.java + BuildingComp.java + Block.java + Blocks.java + ItemModule.java + ConsumePower.java + UnitAssembler.java."
+    },
+    "source_burst_drill_should_consume_state_result": {
+      "status": "active",
+      "owner": "SourceBurstDrillBuildState.source_burst_drill_should_consume_state",
+      "source_slice": "N2257",
+      "keys": {
+        "should_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "return items.total() <= itemCapacity - dominantItems && enabled;",
+          "rule": "The shouldConsume gate (BurstDrill.java:128-129): items_total <= item_capacity - dominant_items && enabled; false gates efficiency to 0 via updateConsumption (BuildingComp.java:1960 + 1992-1993).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BurstDrillShouldConsumeProof",
+      "rule": "Source-backed BurstDrill shouldConsume gate from BurstDrill.java + Drill.java + BuildingComp.java + Block.java + Blocks.java + ItemModule.java + ConsumePower.java + UnitAssembler.java."
     }
   },
   "version": 1
