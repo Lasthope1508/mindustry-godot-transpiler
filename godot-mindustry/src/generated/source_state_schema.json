@@ -234830,6 +234830,54 @@
       },
       "runtime_proof": "/root/C07RadarFogRadiusProof",
       "rule": "Source-backed Radar fogRadius() accessor from Radar.java + Blocks.java."
+    },
+    "source_radar_icons_state_input": {
+      "status": "active",
+      "owner": "SourceRadarBuildState.source_radar_icons_state",
+      "source_slice": "N2250",
+      "keys": {
+        "base_region": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "public @Load(\"@-base\") TextureRegion baseRegion;",
+          "rule": "The block base region (Radar.java:21, `public @Load(\"@-base\") TextureRegion baseRegion;`, loaded as name + \"-base\"); passed explicitly because it is per-def static state, not a live frame key (the N2212 acquire / N2220 draw-place per-def-param precedent).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_icons_state"
+          ]
+        },
+        "region": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public TextureRegion region;",
+          "rule": "The inherited block region (Block.java:427, `public TextureRegion region;`); passed explicitly because it is per-def static state, not a live frame key (the N2212 acquire / N2220 draw-place per-def-param precedent).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_icons_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RadarIconsProof",
+      "rule": "Source-backed Radar icons() state from Radar.java + Block.java."
+    },
+    "source_radar_icons_state_result": {
+      "status": "active",
+      "owner": "SourceRadarBuildState.source_radar_icons_state",
+      "source_slice": "N2250",
+      "keys": {
+        "icons": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "return new TextureRegion[]{baseRegion, region};",
+          "rule": "The icons() return array: [baseRegion, region], base first, exactly 2 elements (Radar.java:38, `return new TextureRegion[]{baseRegion, region};`); radar [\"radar-base\", \"radar\"] (Blocks.java:1988). The Block.icons() base (Block.java:976-980, variants/teamRegion fold) and the getGeneratedIcons cache (Block.java:986-988) are deferred (the N2227 precedent) -- only the override return array is pinned.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_icons_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RadarIconsProof",
+      "rule": "Source-backed Radar icons() state from Radar.java + Block.java."
     }
   },
   "version": 1

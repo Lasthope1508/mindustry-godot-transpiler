@@ -175912,6 +175912,22 @@
         "test_reference_graph_and_actual_c07_radar_fog_radius"
       ],
       "runtime_proof": "/root/C07RadarFogRadiusProof"
+    },
+    "source_radar_icons_state_result.icons": {
+      "status": "source-backed",
+      "godot_owner": "SourceRadarBuildState.source_radar_icons_state",
+      "godot_symbol": "source_radar_icons_state_result.icons",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "Radar.icons()",
+      "java_expr": "return new TextureRegion[]{baseRegion, region};",
+      "rule": "The icons() return array: [baseRegion, region], base first, exactly 2 elements (Radar.java:38, `return new TextureRegion[]{baseRegion, region};`); radar [\"radar-base\", \"radar\"] (Blocks.java:1988). The Block.icons() base (Block.java:976-980, variants/teamRegion fold) and the getGeneratedIcons cache (Block.java:986-988) are deferred (the N2227 precedent) -- only the override return array is pinned.",
+      "tests": [
+        "test_c07_radar_icons_registration",
+        "test_all_c07_radar_icons_input_evidence_is_exact",
+        "test_radar_icons_state",
+        "test_reference_graph_and_actual_c07_radar_icons"
+      ],
+      "runtime_proof": "/root/C07RadarIconsProof"
     }
   },
   "version": 1
