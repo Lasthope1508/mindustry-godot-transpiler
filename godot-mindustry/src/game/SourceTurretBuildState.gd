@@ -314,6 +314,44 @@ static func source_turret_sense_state(frame: Dictionary, sensor: String, total_a
 static func source_turret_fog_radius_state(frame: Dictionary, range: float, has_ammo: bool, ammo_range_change: float, tilesize: float, fog_radius_multiplier: float) -> Dictionary:
 	return {"fog_radius": (range + (ammo_range_change if has_ammo else 0.0)) / tilesize * fog_radius_multiplier}
 
+# TurretBuild.estimateDps() (Turret.java:329-332):
+# `public float estimateDps(){`
+# `if(!hasAmmo()) return 0f;`
+# `return shoot.shots / reload * 60f * (peekAmmo() == null ? 0f : peekAmmo().estimateDPS()) * potentialEfficiency * timeScale;`
+# on `public class TurretBuild extends ReloadTurretBuild implements ControlBlock{`
+# (Turret.java:277). The shots are the ShootPattern def shots
+# (ShootPattern.java:9, `public int shots = 1;`, default 1; def
+# salvo has shots > 1) and the reload is the ReloadTurret def
+# reload (ReloadTurret.java:10, `public float reload = 10f;`).
+# The potential efficiency is the BuildingComp field
+# (BuildingComp.java:89, `transient float potentialEfficiency;`,
+# Java default 0.0f, machinery-set later) and the time scale is
+# Time.timeScale through delta() (BuildingComp.java:1922-1923,
+# `public float delta(){` / `return Time.delta * timeScale;`).
+# The peeked bullet's DPS is BulletType.estimateDPS()
+# (BulletType.java:414, `public float estimateDPS(){`, recursive
+# over spawnUnit / despawnUnit / fragBullet / spawnBullets with
+# the cachedDps cache). hasAmmo() (Turret.java:698, `public
+# boolean hasAmmo(){`) has a side effect -- it swaps the ammo
+# queue when the first entry is short (Turret.java:698-712) --
+# so the pure function takes has_ammo as an explicit bool, never
+# calls hasAmmo(). peekAmmo() (Turret.java:693, `public
+# @Nullable BulletType peekAmmo(){`) is likewise not ported here:
+# the caller passes the peeked bullet's DPS explicitly (0.0 when
+# peekAmmo() is null, the Java ternary leg). All live values
+# arrive as explicit params (the N2188 precedent), because the
+# tick frame tracks only cheating / enabled / power_status /
+# efficiency today. No ammo returns 0.0 (the Java early return);
+# reload = 0 keeps the Java float-division behavior (Infinity
+# for a nonzero numerator) -- no invented guard. NO driver line:
+# estimateDps() is a read accessor the RTS AI calls
+# (RtsAI.java:336, `dps[0] += t.estimateDps();`), not a
+# per-tick write (the N2244/N2249 precedent); the AI caller
+# waits for its own slice.
+@warning_ignore("unused_parameter")
+static func source_turret_estimate_dps_state(frame: Dictionary, has_ammo: bool, shots: int, reload: float, peek_ammo_estimate_dps: float, potential_efficiency: float, time_scale: float) -> Dictionary:
+	return {"estimate_dps": 0.0 if not has_ammo else float(shots) / reload * 60.0 * peek_ammo_estimate_dps * potential_efficiency * time_scale}
+
 @warning_ignore("unused_parameter")
 static func source_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the turret tick wiring every tick
