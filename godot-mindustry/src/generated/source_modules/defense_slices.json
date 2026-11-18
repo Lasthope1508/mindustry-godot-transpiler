@@ -3521,6 +3521,23 @@
       ],
       "runtime_proof": "/root/C07RadarDrawProof"
     },
+    "N2279": {
+      "canonical_ledger": "source_slice_ledger.N2279",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.isActive()",
+      "godot_owner": "SourceTurretBuildState.source_turret_is_active_state",
+      "source_symbols": [
+        "source_turret_is_active_state_result.is_active"
+      ],
+      "tests": [
+        "test_c07_turret_is_active_registration",
+        "test_all_c07_turret_is_active_input_evidence_is_exact",
+        "test_turret_is_active_state",
+        "test_reference_graph_and_actual_c07_turret_is_active"
+      ],
+      "runtime_proof": "/root/C07TurretIsActiveProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

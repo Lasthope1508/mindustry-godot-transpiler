@@ -7908,6 +7908,47 @@
       "rule": "Source-backed TurretBuild.fogRadius() state from Turret.java + BaseTurret.java + Vars.java + BulletType.java + FogControl.java + FogRenderer.java.",
       "return_type": "Dictionary"
     },
+    "SourceTurretBuildState.source_turret_is_active_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_is_active_state",
+      "status": "active",
+      "source_slice": "N2279",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.isActive()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_is_active_state_input.frame"
+        },
+        {
+          "name": "target_is_null",
+          "type": "bool",
+          "schema": "source_turret_is_active_state_input.target_is_null"
+        },
+        {
+          "name": "is_shooting",
+          "type": "bool",
+          "schema": "source_turret_is_active_state_input.is_shooting"
+        },
+        {
+          "name": "activation_timer",
+          "type": "float",
+          "schema": "source_turret_is_active_state_input.activation_timer"
+        }
+      ],
+      "return_keys": [
+        "is_active"
+      ],
+      "tests": [
+        "test_c07_turret_is_active_registration",
+        "test_all_c07_turret_is_active_input_evidence_is_exact",
+        "test_turret_is_active_state",
+        "test_reference_graph_and_actual_c07_turret_is_active"
+      ],
+      "runtime_proof": "/root/C07TurretIsActiveProof",
+      "rule": "Source-backed TurretBuild.isActive() state from Turret.java + BaseTurret.java + BuildingComp.java.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_turret_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_power_status_row_state",
       "status": "active",

@@ -176984,6 +176984,22 @@
         "test_reference_graph_and_actual_c07_radar_draw"
       ],
       "runtime_proof": "/root/C07RadarDrawProof"
+    },
+    "source_turret_is_active_state_result.is_active": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_is_active_state",
+      "godot_symbol": "source_turret_is_active_state_result.is_active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.isActive()",
+      "java_expr": "return (target != null || wasShooting) && enabled && activationTimer <= 0;",
+      "rule": "Whether the turret counts as active (Turret.java:450, `return (target != null || wasShooting) && enabled && activationTimer <= 0;`): a target or a previous-tick shot, and enabled, and the activation timer elapsed (exactly 0 counts as elapsed).",
+      "tests": [
+        "test_c07_turret_is_active_registration",
+        "test_all_c07_turret_is_active_input_evidence_is_exact",
+        "test_turret_is_active_state",
+        "test_reference_graph_and_actual_c07_turret_is_active"
+      ],
+      "runtime_proof": "/root/C07TurretIsActiveProof"
     }
   },
   "version": 1

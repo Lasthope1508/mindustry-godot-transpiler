@@ -506,6 +506,46 @@ static func source_turret_invalidate_target_state(frame: Dictionary, target_is_n
 static func source_turret_validate_target_state(frame: Dictionary, target_invalid: bool, is_controlled: bool, is_logic_controlled: bool) -> Dictionary:
 	return {"validate_target": (not target_invalid) or is_controlled or is_logic_controlled}
 
+# TurretBuild.isActive() (Turret.java:449-451):
+# `public boolean isActive(){`
+# `return (target != null || wasShooting) && enabled && activationTimer <= 0;`
+# on `public class TurretBuild extends ReloadTurretBuild implements ControlBlock{`
+# (Turret.java:277). The three inputs are TurretBuild /
+# BaseTurretBuild / BuildingComp fields: target
+# (`public @Nullable Posc target;`, Turret.java:289),
+# wasShooting (`public boolean wasShooting, isShooting;`,
+# Turret.java:292, set in updateTile :517/:600/:608 from the
+# previous tick's shooting state), enabled
+# (`transient boolean enabled = true;`, BuildingComp.java:77),
+# and activationTimer (`public float activationTimer = 0;`,
+# BaseTurret.java:115, set to activationTime on placed(),
+# BaseTurret.java:120 `activationTimer = activationTime;`,
+# against `public float activationTime = 0f;`,
+# BaseTurret.java:27 -- the placement delay before a turret
+# starts shooting). The BaseTurretBuild class line is
+# `public class BaseTurretBuild extends Building implements Ranged, RotBlock{`
+# (BaseTurret.java:113). The target arrives as the explicit bool
+# target_is_null (the invalidateTarget :488 precedent);
+# wasShooting arrives as the explicit bool is_shooting (the
+# should_consume :164 / sense :267 / update_tile_warmup :384
+# precedent -- the param is named is_shooting per the family
+# convention, but for isActive() it carries wasShooting);
+# activationTimer arrives as the explicit float
+# activation_timer (the frame tracks no activation timer key
+# -- _initial_frame() returns {} and the file has no
+# activation_timer key); enabled is read from the frame (the
+# tick frame stamps frame["enabled"], default true, matching
+# the Java field default). The comparison is `<= 0`: a timer
+# of exactly 0 is active, matching Java exactly. NO driver
+# line: isActive() is a predicate the tick driver reads, not
+# a tick write of its own -- wiring it into the driver waits
+# for its own slice. isActive() has no caller inside
+# Turret.java; its live callers (sound/status paths) are
+# their own slices.
+@warning_ignore("unused_parameter")
+static func source_turret_is_active_state(frame: Dictionary, target_is_null: bool, is_shooting: bool, activation_timer: float) -> Dictionary:
+	return {"is_active": (not target_is_null or is_shooting) and bool(frame.get("enabled", true)) and activation_timer <= 0}
+
 # TurretBuild.findEnemy() (Turret.java:639-649):
 # `protected Posc findEnemy(float range){`
 # `if(targetAir && !targetGround){`

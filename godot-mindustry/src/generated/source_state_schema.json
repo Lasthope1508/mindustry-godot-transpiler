@@ -237494,6 +237494,74 @@
       },
       "runtime_proof": "/root/C07RadarDrawProof",
       "rule": "Source-backed Radar draw() rows from Radar.java."
+    },
+    "source_turret_is_active_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_is_active_state",
+      "source_slice": "N2279",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public boolean isActive(){",
+          "rule": "The turret frame (TurretBuild.isActive, Turret.java:449): the family-convention first arg every Turret pure function takes; it is read for the tracked enabled key only -- the tick frame stamps frame[\"enabled\"], default true (BuildingComp.java:77, `transient boolean enabled = true;`).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_is_active_state"
+          ]
+        },
+        "target_is_null": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public @Nullable Posc target;",
+          "rule": "Whether the turret has no target (`target != null`, Turret.java:450): the TurretBuild field (`public @Nullable Posc target;`, Turret.java:289); the driver computes the null check (the invalidateTarget :488 precedent) -- a null target makes this true.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_is_active_state"
+          ]
+        },
+        "is_shooting": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public boolean wasShooting, isShooting;",
+          "rule": "Whether the turret shot on the previous tick (`wasShooting`, Turret.java:450): named is_shooting per the family convention (should_consume :164, sense :267, update_tile_warmup :384 take is_shooting), but for isActive() it carries wasShooting (`public boolean wasShooting, isShooting;`, Turret.java:292), set in updateTile :517/:600/:608.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_is_active_state"
+          ]
+        },
+        "activation_timer": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "java_expr": "public float activationTimer = 0;",
+          "rule": "The placement activation timer (`activationTimer <= 0`, Turret.java:450): the BaseTurretBuild field (`public float activationTimer = 0;`, BaseTurret.java:115), set to activationTime on placed() (BaseTurret.java:120, `activationTimer = activationTime;`, against `public float activationTime = 0f;`, BaseTurret.java:27); an explicit param because the frame tracks no activation timer key.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_is_active_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretIsActiveProof",
+      "rule": "Source-backed TurretBuild.isActive() state from Turret.java + BaseTurret.java + BuildingComp.java."
+    },
+    "source_turret_is_active_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_is_active_state",
+      "source_slice": "N2279",
+      "keys": {
+        "is_active": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return (target != null || wasShooting) && enabled && activationTimer <= 0;",
+          "rule": "Whether the turret counts as active (Turret.java:450, `return (target != null || wasShooting) && enabled && activationTimer <= 0;`): a target or a previous-tick shot, and enabled, and the activation timer elapsed (exactly 0 counts as elapsed).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_is_active_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretIsActiveProof",
+      "rule": "Source-backed TurretBuild.isActive() state from Turret.java + BaseTurret.java + BuildingComp.java."
     }
   },
   "version": 1
