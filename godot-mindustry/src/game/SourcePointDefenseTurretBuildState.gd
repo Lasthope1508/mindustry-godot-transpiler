@@ -508,6 +508,47 @@ static func source_point_defense_turret_draw_state(x: float, y: float, rotation:
 	var base_position: Vector2 = Vector2(x, y)
 	return {"draw_rotation": draw_rotation, "shadow_position": shadow_position, "base_position": base_position}
 
+const POINT_DEFENSE_TURRET_SAVE_VERSION := 0
+
+static func source_point_defense_turret_write_state(frame: Dictionary) -> Dictionary:
+	# PointDefenseBuild (`public class PointDefenseBuild extends ReloadTurretBuild{`,
+	# PointDefenseTurret.java:58) persists exactly ONE field, its rotation
+	# (PointDefenseTurret.java:117-121):
+	# public void write(Writes write){
+	# super.write(write);
+	# write.f(rotation);
+	# The rotation default is 90.0 (`public float rotation = 90;`, BaseTurret.java:114).
+	# Target is NOT persisted -- it is re-acquired by the retarget timer
+	# (`if(timer(timerTarget, retargetTime)){` / `target = Groups.bullet.intersect(x - range, y - range, range*2, range*2).min(b -> b.team != team && b.type().hittable, b -> b.dst2(this));`,
+	# PointDefenseTurret.java:65-67) -- and reloadCounter is NOT persisted either -- it is recharged every tick
+	# (`reloadCounter += edelta();`, PointDefenseTurret.java:79; `public float reloadCounter;`, ReloadTurret.java:26).
+	# The write returns ONLY rotation (the proof checks the result has exactly one key).
+	# There is NO driver tick line: persistence is not a per-tick call, and the port has no save/load stream to call this function yet.
+	var rotation: float = float(frame.get("rotation", 90.0))
+	return {"rotation": rotation}
+
+static func source_point_defense_turret_read_state(saved_rotation: float) -> Dictionary:
+	# PointDefenseBuild restores the rotation UNCONDITIONALLY
+	# (PointDefenseTurret.java:124-127):
+	# public void read(Reads read, byte revision){
+	# super.read(read, revision);
+	# rotation = read.f();
+	# There is NO `if(revision >= 1){` guard here, unlike RepairTurret.read()
+	# (RepairTurret.java:246-248, the N2217 precedent) -- so this function takes
+	# NO revision parameter and NO frame parameter: the result never falls back
+	# to the frame, there is no revision-0 branch to keep the current rotation.
+	# PointDefenseTurret does NOT override version(), so the save version is the
+	# BuildingComp default 0 (`public byte version(){` / `return 0;`, BuildingComp.java:669-671),
+	# pinned by POINT_DEFENSE_TURRET_SAVE_VERSION above -- the read ignores the
+	# revision it is handed either way. Target is NOT persisted (re-acquired by
+	# the retarget timer, PointDefenseTurret.java:65-67) and reloadCounter is NOT
+	# persisted (recharged every tick, PointDefenseTurret.java:79), so neither
+	# needs a restore. The read returns ONLY rotation (the proof checks the
+	# result has exactly one key). There is NO driver tick line: persistence is
+	# not a per-tick call, and the port has no save/load stream to call this
+	# function yet.
+	return {"rotation": saved_rotation}
+
 @warning_ignore("unused_parameter")
 static func source_point_defense_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the point-defense tick wiring every tick

@@ -175864,6 +175864,38 @@
         "test_reference_graph_and_actual_c07_point_defense_turret_draw"
       ],
       "runtime_proof": "/root/C07PointDefenseTurretDrawProof"
+    },
+    "source_point_defense_turret_write_state_result.rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_write_state",
+      "godot_symbol": "source_point_defense_turret_write_state_result.rotation",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "java_method": "PointDefenseBuild.write()",
+      "java_expr": "write.f(rotation);",
+      "rule": "The persisted rotation (PointDefenseTurret.java:121, `write.f(rotation);`): the frame rotation, or 90.0 when the frame carries none -- the ONLY value write persists; target is re-acquired by the retarget timer (PointDefenseTurret.java:65-67) and reloadCounter is recharged every tick (PointDefenseTurret.java:79), so neither survives save/load.",
+      "tests": [
+        "test_c07_point_defense_turret_write_read_registration",
+        "test_all_c07_point_defense_turret_write_read_input_evidence_is_exact",
+        "test_point_defense_turret_write_read_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_write_read"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretWriteReadProof"
+    },
+    "source_point_defense_turret_read_state_result.rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_read_state",
+      "godot_symbol": "source_point_defense_turret_read_state_result.rotation",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "java_method": "PointDefenseBuild.read()",
+      "java_expr": "rotation = read.f();",
+      "rule": "The rotation after load (PointDefenseTurret.java:127, `rotation = read.f();`): always the saved rotation -- there is no revision-0 fallback to the frame rotation, because the Java body never reads `revision`.",
+      "tests": [
+        "test_c07_point_defense_turret_write_read_registration",
+        "test_all_c07_point_defense_turret_write_read_input_evidence_is_exact",
+        "test_point_defense_turret_write_read_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_write_read"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretWriteReadProof"
     }
   },
   "version": 1

@@ -7084,6 +7084,32 @@
       "rule": "Source-backed PointDefenseTurret target acquisition from PointDefenseTurret.java / TimerComp.java / Interval.java / Blocks.java / GroupDefs.java.",
       "return_type": "Dictionary"
     },
+    "SourcePointDefenseTurretBuildState.source_point_defense_turret_write_state": {
+      "canonical_contract": "source_api_contracts.SourcePointDefenseTurretBuildState.source_point_defense_turret_write_state",
+      "status": "active",
+      "source_slice": "N2245",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "source_method": "PointDefenseBuild.write()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_point_defense_turret_write_state_input.frame"
+        }
+      ],
+      "return_keys": [
+        "rotation"
+      ],
+      "tests": [
+        "test_c07_point_defense_turret_write_read_registration",
+        "test_all_c07_point_defense_turret_write_read_input_evidence_is_exact",
+        "test_point_defense_turret_write_read_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_write_read"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretWriteReadProof",
+      "rule": "Source-backed PointDefenseTurret write/read persistence from PointDefenseTurret.java + BaseTurret.java + BuildingComp.java + ReloadTurret.java.",
+      "return_type": "Dictionary"
+    },
     "SourceRadarBuildState.source_radar_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourceRadarBuildState.source_radar_power_status_row_state",
       "status": "active",

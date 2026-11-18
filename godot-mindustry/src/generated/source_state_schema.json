@@ -234790,6 +234790,82 @@
       },
       "runtime_proof": "/root/C07PointDefenseTurretDrawProof",
       "rule": "Source-backed PointDefenseTurret draw() state from PointDefenseTurret.java + Drawf.java + Block.java + BaseTurret.java + Blocks.java."
+    },
+    "source_point_defense_turret_write_state_input": {
+      "status": "active",
+      "owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_write_state",
+      "source_slice": "N2245",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "public void write(Writes write){",
+          "rule": "The point-defense frame carrying the live rotation (stamped by the N2240 aim/shoot block; absent reads 90.0, the field default `public float rotation = 90;`, BaseTurret.java:114) -- write persists exactly this one field (`write.f(rotation);`, PointDefenseTurret.java:121).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_write_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PointDefenseTurretWriteReadProof",
+      "rule": "Source-backed PointDefenseTurret write/read persistence from PointDefenseTurret.java + BaseTurret.java + BuildingComp.java + ReloadTurret.java."
+    },
+    "source_point_defense_turret_write_state_result": {
+      "status": "active",
+      "owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_write_state",
+      "source_slice": "N2245",
+      "keys": {
+        "rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "write.f(rotation);",
+          "rule": "The persisted rotation (PointDefenseTurret.java:121, `write.f(rotation);`): the frame rotation, or 90.0 when the frame carries none -- the ONLY value write persists; target is re-acquired by the retarget timer (PointDefenseTurret.java:65-67) and reloadCounter is recharged every tick (PointDefenseTurret.java:79), so neither survives save/load.",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_write_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PointDefenseTurretWriteReadProof",
+      "rule": "Source-backed PointDefenseTurret write/read persistence from PointDefenseTurret.java + BaseTurret.java + BuildingComp.java + ReloadTurret.java."
+    },
+    "source_point_defense_turret_read_state_input": {
+      "status": "active",
+      "owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_read_state",
+      "source_slice": "N2245",
+      "keys": {
+        "saved_rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "rotation = read.f();",
+          "rule": "The rotation value read from the save stream (`rotation = read.f();`, PointDefenseTurret.java:127) -- applied unconditionally: PointDefenseTurret.read() has NO `if(revision >= 1){` guard (unlike RepairTurret.java:246-248, N2217), and PointDefenseTurret does not override version() (the BuildingComp default 0, BuildingComp.java:669-671), so the revision the read is handed is never consulted.",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_read_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PointDefenseTurretWriteReadProof",
+      "rule": "Source-backed PointDefenseTurret write/read persistence from PointDefenseTurret.java + BaseTurret.java + BuildingComp.java + ReloadTurret.java."
+    },
+    "source_point_defense_turret_read_state_result": {
+      "status": "active",
+      "owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_read_state",
+      "source_slice": "N2245",
+      "keys": {
+        "rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "rotation = read.f();",
+          "rule": "The rotation after load (PointDefenseTurret.java:127, `rotation = read.f();`): always the saved rotation -- there is no revision-0 fallback to the frame rotation, because the Java body never reads `revision`.",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_read_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PointDefenseTurretWriteReadProof",
+      "rule": "Source-backed PointDefenseTurret write/read persistence from PointDefenseTurret.java + BaseTurret.java + BuildingComp.java + ReloadTurret.java."
     }
   },
   "version": 1

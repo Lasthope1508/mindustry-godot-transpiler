@@ -68329,6 +68329,56 @@
       ],
       "runtime_proof": "/root/C07PointDefenseTurretDrawProof",
       "rule": "Source-backed PointDefenseTurret draw() state from PointDefenseTurret.java + Drawf.java + Block.java + BaseTurret.java + Blocks.java."
+    },
+    "SourcePointDefenseTurretBuildState.source_point_defense_turret_write_state": {
+      "status": "active",
+      "source_slice": "N2245",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "source_method": "PointDefenseBuild.write()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_point_defense_turret_write_state_input.frame"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "rotation"
+      ],
+      "tests": [
+        "test_c07_point_defense_turret_write_read_registration",
+        "test_all_c07_point_defense_turret_write_read_input_evidence_is_exact",
+        "test_point_defense_turret_write_read_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_write_read"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretWriteReadProof",
+      "rule": "Source-backed PointDefenseTurret write/read persistence from PointDefenseTurret.java + BaseTurret.java + BuildingComp.java + ReloadTurret.java."
+    },
+    "SourcePointDefenseTurretBuildState.source_point_defense_turret_read_state": {
+      "status": "active",
+      "source_slice": "N2245",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "source_method": "PointDefenseBuild.read()",
+      "params": [
+        {
+          "name": "saved_rotation",
+          "type": "float",
+          "schema": "source_point_defense_turret_read_state_input.saved_rotation"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "rotation"
+      ],
+      "tests": [
+        "test_c07_point_defense_turret_write_read_registration",
+        "test_all_c07_point_defense_turret_write_read_input_evidence_is_exact",
+        "test_point_defense_turret_write_read_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_write_read"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretWriteReadProof",
+      "rule": "Source-backed PointDefenseTurret write/read persistence from PointDefenseTurret.java + BaseTurret.java + BuildingComp.java + ReloadTurret.java."
     }
   },
   "policy": {
