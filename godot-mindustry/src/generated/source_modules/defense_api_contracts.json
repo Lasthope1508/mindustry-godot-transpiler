@@ -8190,6 +8190,44 @@
       "rule": "Source-backed Turret recoil + heat decay from Turret.java / Mathf.java.",
       "return_type": "Dictionary"
     },
+    "SourceTurretBuildState.source_turret_shoot_stamp_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_shoot_stamp_state",
+      "status": "active",
+      "source_slice": "N2255",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.bullet()",
+      "params": [
+        {
+          "name": "cur_recoil",
+          "type": "float",
+          "schema": "source_turret_shoot_stamp_state_input.cur_recoil"
+        },
+        {
+          "name": "heat",
+          "type": "float",
+          "schema": "source_turret_shoot_stamp_state_input.heat"
+        },
+        {
+          "name": "total_shots",
+          "type": "int",
+          "schema": "source_turret_shoot_stamp_state_input.total_shots"
+        }
+      ],
+      "return_keys": [
+        "cur_recoil",
+        "heat",
+        "total_shots"
+      ],
+      "tests": [
+        "test_c07_turret_shoot_stamp_registration",
+        "test_all_c07_turret_shoot_stamp_input_evidence_is_exact",
+        "test_turret_shoot_stamp_state",
+        "test_reference_graph_and_actual_c07_turret_shoot_stamp"
+      ],
+      "runtime_proof": "/root/C07TurretShootStampProof",
+      "rule": "Source-backed Turret shoot stamp from Turret.java.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_turret_tick_buildings_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_tick_buildings_state",
       "status": "active",

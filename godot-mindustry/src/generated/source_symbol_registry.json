@@ -176568,6 +176568,54 @@
         "test_reference_graph_and_actual_c07_turret_recoil_heat"
       ],
       "runtime_proof": "/root/C07TurretRecoilHeatProof"
+    },
+    "source_turret_shoot_stamp_state_result.cur_recoil": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_shoot_stamp_state",
+      "godot_symbol": "source_turret_shoot_stamp_state_result.cur_recoil",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.bullet()",
+      "java_expr": "curRecoil = 1f;",
+      "rule": "The recoil after the shot (Turret.java:806 -- stamped to 1.0; the next tick decays from 1.0, N2254).",
+      "tests": [
+        "test_c07_turret_shoot_stamp_registration",
+        "test_all_c07_turret_shoot_stamp_input_evidence_is_exact",
+        "test_turret_shoot_stamp_state",
+        "test_reference_graph_and_actual_c07_turret_shoot_stamp"
+      ],
+      "runtime_proof": "/root/C07TurretShootStampProof"
+    },
+    "source_turret_shoot_stamp_state_result.heat": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_shoot_stamp_state",
+      "godot_symbol": "source_turret_shoot_stamp_state_result.heat",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.bullet()",
+      "java_expr": "heat = 1f;",
+      "rule": "The heat after the shot (Turret.java:810 -- stamped to 1.0; the next tick decays from 1.0, N2254).",
+      "tests": [
+        "test_c07_turret_shoot_stamp_registration",
+        "test_all_c07_turret_shoot_stamp_input_evidence_is_exact",
+        "test_turret_shoot_stamp_state",
+        "test_reference_graph_and_actual_c07_turret_shoot_stamp"
+      ],
+      "runtime_proof": "/root/C07TurretShootStampProof"
+    },
+    "source_turret_shoot_stamp_state_result.total_shots": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_shoot_stamp_state",
+      "godot_symbol": "source_turret_shoot_stamp_state_result.total_shots",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.bullet()",
+      "java_expr": "totalShots++;",
+      "rule": "The shot count after the shot (Turret.java:811 -- the pre-shot count + 1).",
+      "tests": [
+        "test_c07_turret_shoot_stamp_registration",
+        "test_all_c07_turret_shoot_stamp_input_evidence_is_exact",
+        "test_turret_shoot_stamp_state",
+        "test_reference_graph_and_actual_c07_turret_shoot_stamp"
+      ],
+      "runtime_proof": "/root/C07TurretShootStampProof"
     }
   },
   "version": 1

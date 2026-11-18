@@ -3470,6 +3470,25 @@
       ],
       "runtime_proof": "/root/C07TurretRecoilHeatProof"
     },
+    "N2255": {
+      "canonical_ledger": "source_slice_ledger.N2255",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.bullet()",
+      "godot_owner": "SourceTurretBuildState.source_turret_shoot_stamp_state",
+      "source_symbols": [
+        "source_turret_shoot_stamp_state_result.cur_recoil",
+        "source_turret_shoot_stamp_state_result.heat",
+        "source_turret_shoot_stamp_state_result.total_shots"
+      ],
+      "tests": [
+        "test_c07_turret_shoot_stamp_registration",
+        "test_all_c07_turret_shoot_stamp_input_evidence_is_exact",
+        "test_turret_shoot_stamp_state",
+        "test_reference_graph_and_actual_c07_turret_shoot_stamp"
+      ],
+      "runtime_proof": "/root/C07TurretShootStampProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

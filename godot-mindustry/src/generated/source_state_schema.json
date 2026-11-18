@@ -236314,6 +236314,84 @@
       },
       "runtime_proof": "/root/C07TurretRecoilHeatProof",
       "rule": "Source-backed Turret recoil + heat decay from Turret.java / Mathf.java."
+    },
+    "source_turret_shoot_stamp_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_shoot_stamp_state",
+      "source_slice": "N2255",
+      "keys": {
+        "cur_recoil": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "curRecoil = 1f;",
+          "rule": "The pre-shot recoil 0..1 (Turret.java:284, the curRecoil field; the driver reads it from frame[\"cur_recoil\"], default 0.0, and the stamp maps any decayed value to 1.0).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_shoot_stamp_state"
+          ]
+        },
+        "heat": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "heat = 1f;",
+          "rule": "The pre-shot heat 0..1 (Turret.java:284, the heat field; the driver reads it from frame[\"heat\"], default 0.0, and the stamp maps any decayed value to 1.0).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_shoot_stamp_state"
+          ]
+        },
+        "total_shots": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public int totalShots, barrelCounter;",
+          "rule": "The pre-shot shot count (Turret.java:287, the totalShots field, default 0; the driver reads it from frame[\"total_shots\"], default 0 -- no total_shots key existed before this slice).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_shoot_stamp_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretShootStampProof",
+      "rule": "Source-backed Turret shoot stamp from Turret.java."
+    },
+    "source_turret_shoot_stamp_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_shoot_stamp_state",
+      "source_slice": "N2255",
+      "keys": {
+        "cur_recoil": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "curRecoil = 1f;",
+          "rule": "The recoil after the shot (Turret.java:806 -- stamped to 1.0; the next tick decays from 1.0, N2254).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_shoot_stamp_state"
+          ]
+        },
+        "heat": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "heat = 1f;",
+          "rule": "The heat after the shot (Turret.java:810 -- stamped to 1.0; the next tick decays from 1.0, N2254).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_shoot_stamp_state"
+          ]
+        },
+        "total_shots": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "totalShots++;",
+          "rule": "The shot count after the shot (Turret.java:811 -- the pre-shot count + 1).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_shoot_stamp_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretShootStampProof",
+      "rule": "Source-backed Turret shoot stamp from Turret.java."
     }
   },
   "version": 1

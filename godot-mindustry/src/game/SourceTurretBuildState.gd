@@ -254,6 +254,26 @@ static func source_turret_recoil_heat_state(cur_recoil: float, heat: float, reco
 	return {"cur_recoil": cur_recoil, "heat": heat}
 
 @warning_ignore("unused_parameter")
+static func source_turret_shoot_stamp_state(cur_recoil: float, heat: float, total_shots: int) -> Dictionary:
+	# TurretBuild.bullet() (Turret.java:779-812) stamps the recoil
+	# and the heat and counts the shot after the bullet is created
+	# and handled: `curRecoil = 1f;` (Turret.java:806),
+	# `heat = 1f;` (:810) and `totalShots++;` (:811). The fields are
+	# `public float curRecoil, heat, logicControlTime = -1;` (:284) and
+	# `public int totalShots, barrelCounter;` (:287), both default 0.
+	# The multi-recoil stamp (`if(recoils > 0){` /
+	# `curRecoils[barrelCounter % recoils] = 1f;` / `}`, :807-809) is
+	# NOT this slice: duo recoils is -1 (`public int recoils = -1;`,
+	# :142), so the branch is skipped, and a def with recoils > 0
+	# waits for its own slice. The effects / sound / shake lines
+	# (:799-805) are NOT this slice either. The result is a 3-key
+	# dict: `cur_recoil` 1.0, `heat` 1.0 and `total_shots` (the
+	# pre-shot count + 1). The inputs are the pre-shot frame values,
+	# so the pure function maps any decayed recoil / heat to 1.0 and
+	# any count to count + 1; the next tick decays from 1.0 (N2254).
+	return {"cur_recoil": 1.0, "heat": 1.0, "total_shots": total_shots + 1}
+
+@warning_ignore("unused_parameter")
 static func source_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the turret tick wiring every tick
 	# (TurretBuild.updateTile(), Turret.java:490, runs
@@ -482,6 +502,16 @@ static func source_turret_tick_buildings_state(game: Object, seconds: float) -> 
 					float(duo_ammo_data.get("lifetime", 40.0)), float(duo_ammo_data.get("hitSize", 4.0)), 160.0)
 				frame["bullet_spawn"] = spawn
 				source_bullet_runtime_state.spawn_turret_bullet(game, Vector2(float(spawn.get("bullet_x", 0.0)), float(spawn.get("bullet_y", 0.0))), frame.get("target", null), duo_ammo_data, team_id, float(spawn.get("shoot_angle", 90.0)))
+				# The shoot stamp (Turret.java:806-811, N2255)
+				# runs after bullet() creates the bullet (:797):
+				# `curRecoil = 1f;` / `heat = 1f;` /
+				# `totalShots++;` -- the recoil and the heat are
+				# 1.0 on the frame until the next tick decays
+				# them (N2254), and the shot is counted.
+				var shoot_stamp: Dictionary = source_turret_shoot_stamp_state(float(frame.get("cur_recoil", 0.0)), float(frame.get("heat", 0.0)), int(frame.get("total_shots", 0)))
+				frame["cur_recoil"] = shoot_stamp.get("cur_recoil", 1.0)
+				frame["heat"] = shoot_stamp.get("heat", 1.0)
+				frame["total_shots"] = shoot_stamp.get("total_shots", 0)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
 	return {"ticked_count": ticked_count, "results_by_cell": results_by_cell}
