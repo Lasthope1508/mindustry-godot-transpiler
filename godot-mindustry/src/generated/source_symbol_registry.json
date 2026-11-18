@@ -177112,6 +177112,22 @@
         "test_reference_graph_and_actual_c07_radar_draw_select"
       ],
       "runtime_proof": "/root/C07RadarDrawSelectProof"
+    },
+    "source_turret_min_range_state_result.min_range": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_min_range_state",
+      "godot_symbol": "source_turret_min_range_state_result.min_range",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.minRange()",
+      "java_expr": "return minRange + peekAmmo().minRangeChange;",
+      "rule": "The effective minimum range (Turret.java:336-338, `return minRange + peekAmmo().minRangeChange;` / `return minRange;`): the def minimum plus the peeked bullet's minRangeChange when ammo is peeked, the bare def minimum otherwise.",
+      "tests": [
+        "test_c07_turret_min_range_registration",
+        "test_all_c07_turret_min_range_input_evidence_is_exact",
+        "test_turret_min_range_state",
+        "test_reference_graph_and_actual_c07_turret_min_range"
+      ],
+      "runtime_proof": "/root/C07TurretMinRangeProof"
     }
   },
   "version": 1

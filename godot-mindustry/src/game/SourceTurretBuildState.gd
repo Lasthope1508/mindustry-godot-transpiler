@@ -546,6 +546,52 @@ static func source_turret_validate_target_state(frame: Dictionary, target_invali
 static func source_turret_is_active_state(frame: Dictionary, target_is_null: bool, is_shooting: bool, activation_timer: float) -> Dictionary:
 	return {"is_active": (not target_is_null or is_shooting) and bool(frame.get("enabled", true)) and activation_timer <= 0}
 
+# TurretBuild.minRange() (Turret.java:334-339):
+# `public float minRange(){`
+# `if(peekAmmo() != null){`
+# `return minRange + peekAmmo().minRangeChange;`
+# `}`
+# `return minRange;`
+# on `public class TurretBuild extends ReloadTurretBuild implements ControlBlock{`
+# (Turret.java:277). The def minimum is the Turret field
+# (Turret.java:74, `public float minRange = 0f;`,
+# "Minimum bullet range. Used for artillery only."). The ammo
+# change is the peeked bullet's minRangeChange
+# (BulletType.java:163, `public float minRangeChange = 0f;`,
+# default 0f, "When used in a turret with multiple ammo types,
+# this can be set to a non-zero value to influence minRange")
+# on `public class BulletType extends Content implements Cloneable{`
+# (BulletType.java:29). The gate is peekAmmo() != null
+# (Turret.java:693, `public @Nullable BulletType peekAmmo(){` /
+# `return ammo.size == 0 ? null : ammo.peek().type();`), NOT
+# hasAmmo() (Turret.java:698, `public boolean hasAmmo(){`),
+# which has the ammo-swap side effect (Turret.java:698-712)
+# and can be false while peekAmmo() is non-null -- so the pure
+# function takes has_ammo as an explicit bool carrying the
+# peekAmmo() null check (the isActive :509 precedent, where the
+# param is_shooting carries wasShooting), never calls
+# hasAmmo(). peekAmmo() is likewise not ported here: the caller
+# passes the peeked bullet's minRangeChange explicitly (0.0 when
+# peekAmmo() is null, the Java fall-through leg). All live values
+# arrive as explicit params (the N2188 precedent), because the
+# tick frame tracks no ammo state yet. No ammo returns the bare
+# def minimum (the Java fall-through leg); with ammo the change
+# is added even when it is 0f (the BulletType default). NO
+# driver line: minRange() is a read accessor its callers read,
+# not a per-tick write (the N2249 precedent) -- drawSelect()
+# reads it for the min-range dash circle (Turret.java:485,
+# `Drawf.dashCircle(x, y, minRange(), team.color);`) and the
+# shoot leg clamps the bullet life scale with it
+# (Turret.java:787, `Mathf.clamp(..., minRange() / type.range,
+# range() / type.range)`); both callers wait for their own
+# slices. (drawPlace() :253 reads the minRange FIELD directly,
+# `Drawf.dashCircle(..., minRange, Pal.placing);`, already
+# ported as N1162 turret_draw_place.min_range -- that is the
+# field, not this method.)
+@warning_ignore("unused_parameter")
+static func source_turret_min_range_state(frame: Dictionary, min_range: float, has_ammo: bool, ammo_min_range_change: float) -> Dictionary:
+	return {"min_range": min_range + ammo_min_range_change if has_ammo else min_range}
+
 # TurretBuild.findEnemy() (Turret.java:639-649):
 # `protected Posc findEnemy(float range){`
 # `if(targetAir && !targetGround){`

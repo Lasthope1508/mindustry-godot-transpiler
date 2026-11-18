@@ -7992,6 +7992,47 @@
       "rule": "Source-backed TurretBuild.isActive() state from Turret.java + BaseTurret.java + BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceTurretBuildState.source_turret_min_range_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_min_range_state",
+      "status": "active",
+      "source_slice": "N2282",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.minRange()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_min_range_state_input.frame"
+        },
+        {
+          "name": "min_range",
+          "type": "float",
+          "schema": "source_turret_min_range_state_input.min_range"
+        },
+        {
+          "name": "has_ammo",
+          "type": "bool",
+          "schema": "source_turret_min_range_state_input.has_ammo"
+        },
+        {
+          "name": "ammo_min_range_change",
+          "type": "float",
+          "schema": "source_turret_min_range_state_input.ammo_min_range_change"
+        }
+      ],
+      "return_keys": [
+        "min_range"
+      ],
+      "tests": [
+        "test_c07_turret_min_range_registration",
+        "test_all_c07_turret_min_range_input_evidence_is_exact",
+        "test_turret_min_range_state",
+        "test_reference_graph_and_actual_c07_turret_min_range"
+      ],
+      "runtime_proof": "/root/C07TurretMinRangeProof",
+      "rule": "Source-backed TurretBuild.minRange() state from Turret.java + BulletType.java.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_turret_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_power_status_row_state",
       "status": "active",
