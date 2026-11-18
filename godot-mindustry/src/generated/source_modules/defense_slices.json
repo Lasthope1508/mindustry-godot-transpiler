@@ -3362,6 +3362,32 @@
       ],
       "runtime_proof": "/root/C07PointDefenseTurretPersistenceIntegrationProof"
     },
+    "N2250": {
+      "canonical_ledger": "source_slice_ledger.N2250",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "godot_owner": "SourceItemTurretBuildState.source_item_turret_aim_shoot_state",
+      "source_symbols": [
+        "source_item_turret_aim_shoot_state_result.rotation",
+        "source_item_turret_aim_shoot_state_result.reload_counter",
+        "source_item_turret_aim_shoot_state_result.dest",
+        "source_item_turret_aim_shoot_state_result.shot",
+        "source_item_turret_aim_shoot_state_result.target_pos",
+        "source_item_turret_aim_shoot_state_result.total_ammo_after",
+        "source_item_turret_aim_shoot_state_result.ammo_entries_after",
+        "source_item_turret_aim_shoot_state_result.shoot_event",
+        "source_item_turret_aim_shoot_state_result.barrel_counter_after",
+        "source_item_turret_aim_shoot_state_result.was_shooting"
+      ],
+      "tests": [
+        "test_c07_item_turret_aim_shoot_registration",
+        "test_all_c07_item_turret_aim_shoot_input_evidence_is_exact",
+        "test_item_turret_aim_shoot_state",
+        "test_reference_graph_and_actual_c07_item_turret_aim_shoot"
+      ],
+      "runtime_proof": "/root/C07ItemTurretAimShootProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

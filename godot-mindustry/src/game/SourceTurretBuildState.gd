@@ -2,6 +2,7 @@ extends RefCounted
 class_name SourceTurretBuildState
 
 const source_turret_ammo_state := preload("res://src/game/SourceTurretAmmoState.gd")
+const source_item_turret_build_state := preload("res://src/game/SourceItemTurretBuildState.gd")
 const source_rules_state := preload("res://src/game/SourceRulesRuntimeState.gd")
 const source_placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
 const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
@@ -230,6 +231,77 @@ static func source_turret_tick_buildings_state(game: Object, seconds: float) -> 
 			var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(true, bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, [], [], frame)
 			source_building_efficiency_state.apply_update_consumption_state(consumption, frame)
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
+		if block_id == "duo":
+			# The duo half of TurretBuild.updateTile() (Turret.java:490-615,
+			# N2250): the aim / reload / shoot half runs on the shared
+			# TurretBuild driver, guarded on block `duo` -- the only
+			# ItemTurret def this slice ticks. The per-def duo values are
+			# range 160, rotateSpeed 10, reload 20, shootCone 15, shootY 3,
+			# inaccuracy 2 (Blocks.java:3257-3324, `range = 160;` /
+			# `rotateSpeed = 10f;` / `reload = 20f;` / `shootCone = 15f;` /
+			# `shootY = 3f;` / `inaccuracy = 2f;`), shootX 0 (the class
+			# default, Turret.java:66), ammoPerShot 1 and consumeAmmoOnce
+			# true (the class defaults, Turret.java:49/:51). The target
+			# verdict is the frame's has_target (the findTarget /
+			# validateTarget acquisition waits for its own slice, so until
+			# then the driver treats has_target as the verdict --
+			# target_valid false leaves rotation at its charged value and
+			# shoots nothing). The peeked ammo's reloadMultiplier /
+			# rangeChange / speed come from the catalog ammo data
+			# (copper 1.0/0/2.5, graphite 0.8/16/3.5, silicon 1.5/0/3,
+			# Blocks.java:3259-3295) with the BulletType defaults
+			# (BulletType.java:97/:157/:37) when the peeked type omits
+			# them. potential_efficiency is the frame's stamped value
+			# (duo has no power consumer, so the consumption branch above
+			# never stamps it; the absent default is 1.0, the enabled +
+			# production-valid first pass, BuildingComp.java:1946 -- the
+			# coolant fold waits for its own slice, the driver's existing
+			# "models no other consumers yet" approximation). shoot_warmup
+			# is the frame's stamped warmup (the warmup lerp advance waits
+			# for its own slice; the absent default is the 0.0 field
+			# default, and duo minWarmup is 0f so the gate still passes).
+			# charging is the frame's stamped flag (duo firstShotDelay is
+			# 0, so charging is false live, but the gate is still checked).
+			# baseReloadSpeed is efficiency (ReloadTurret.java:45-47,
+			# `return efficiency;`), 1.0 before any stamp (the N2240
+			# edelta precedent). The shot writes back live: rotation /
+			# reload_counter / shot / shoot_event / dest / target_pos /
+			# barrel_counter / was_shooting are stamped on the frame every
+			# tick, and a shot persists the consumed ammo stacks + total
+			# back to the game dicts (the N2247 write-back precedent).
+			var duo_key: String = str(game.call("cell_key", cell))
+			var duo_stacks_map: Dictionary = game.get("turret_ammo_stacks") if game.get("turret_ammo_stacks") is Dictionary else {}
+			var duo_totals_map: Dictionary = game.get("turret_total_ammo") if game.get("turret_total_ammo") is Dictionary else {}
+			var duo_entries: Array = duo_stacks_map.get(duo_key, [])
+			var duo_total: int = int(duo_totals_map.get(duo_key, 0))
+			var duo_peek: Dictionary = source_turret_ammo_state.peek_turret_ammo(game, cell, block)
+			# peek_turret_ammo already returns the ammo_data dict
+			# itself ({"item", "speed", "reloadMultiplier",
+			# "rangeChange", ...}), not a wrapper with an
+			# "ammo_data" key -- unwrapping it again yields {}
+			# and silently falls back to speed 1.0 /
+			# reloadMultiplier 1.0 / rangeChange 0.0.
+			var duo_ammo_data: Dictionary = duo_peek
+			var aim: Dictionary = source_item_turret_build_state.source_item_turret_aim_shoot_state(frame, frame.get("target", null),
+				bool(frame.get("has_target", false)), team_id, sprite.position.x, sprite.position.y, seconds,
+				float(frame.get("potential_efficiency", 1.0)), float(frame.get("shoot_warmup", 0.0)), bool(frame.get("charging", false)),
+				duo_entries, duo_total, int(frame.get("barrel_counter", 0)),
+				160.0, 10.0, 20.0, 15.0, 0.0, 3.0, 2.0, 1, true,
+				float(duo_ammo_data.get("reloadMultiplier", 1.0)), float(duo_ammo_data.get("rangeChange", 0.0)), float(duo_ammo_data.get("speed", 1.0)),
+				true, 0.0, false, bool(frame.get("cheating", false)), float(frame.get("efficiency", 1.0)))
+			frame["rotation"] = aim.get("rotation", 90.0)
+			frame["reload_counter"] = aim.get("reload_counter", 0.0)
+			frame["shot"] = aim.get("shot", false)
+			frame["shoot_event"] = aim.get("shoot_event", null)
+			frame["dest"] = aim.get("dest", null)
+			frame["target_pos"] = aim.get("target_pos", null)
+			frame["barrel_counter"] = aim.get("barrel_counter_after", 0)
+			frame["was_shooting"] = aim.get("was_shooting", false)
+			if bool(aim.get("shot", false)):
+				duo_stacks_map[duo_key] = aim.get("ammo_entries_after", duo_entries)
+				duo_totals_map[duo_key] = int(aim.get("total_ammo_after", duo_total))
+				game.set("turret_ammo_stacks", duo_stacks_map)
+				game.set("turret_total_ammo", duo_totals_map)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
 	return {"ticked_count": ticked_count, "results_by_cell": results_by_cell}

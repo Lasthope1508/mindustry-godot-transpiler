@@ -68572,6 +68572,185 @@
       ],
       "runtime_proof": "/root/C07PointDefenseTurretPersistenceIntegrationProof",
       "rule": "Source-backed PointDefenseTurret persistence-integration bridge from PointDefenseTurret.java + BaseTurret.java + BuildingComp.java + ReloadTurret.java."
+    },
+    "SourceItemTurretBuildState.source_item_turret_aim_shoot_state": {
+      "status": "active",
+      "source_slice": "N2250",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_item_turret_aim_shoot_state_input.frame"
+        },
+        {
+          "name": "target",
+          "type": "Dictionary",
+          "schema": "source_item_turret_aim_shoot_state_input.target"
+        },
+        {
+          "name": "target_valid",
+          "type": "bool",
+          "schema": "source_item_turret_aim_shoot_state_input.target_valid"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_item_turret_aim_shoot_state_input.team_id"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_item_turret_aim_shoot_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_item_turret_aim_shoot_state_input.y"
+        },
+        {
+          "name": "delta",
+          "type": "float",
+          "schema": "source_item_turret_aim_shoot_state_input.delta"
+        },
+        {
+          "name": "potential_efficiency",
+          "type": "float",
+          "schema": "source_item_turret_aim_shoot_state_input.potential_efficiency"
+        },
+        {
+          "name": "shoot_warmup",
+          "type": "float",
+          "schema": "source_item_turret_aim_shoot_state_input.shoot_warmup"
+        },
+        {
+          "name": "charging",
+          "type": "bool",
+          "schema": "source_item_turret_aim_shoot_state_input.charging"
+        },
+        {
+          "name": "ammo_entries",
+          "type": "Array",
+          "schema": "source_item_turret_aim_shoot_state_input.ammo_entries"
+        },
+        {
+          "name": "total_ammo",
+          "type": "int",
+          "schema": "source_item_turret_aim_shoot_state_input.total_ammo"
+        },
+        {
+          "name": "barrel_counter",
+          "type": "int",
+          "schema": "source_item_turret_aim_shoot_state_input.barrel_counter"
+        },
+        {
+          "name": "range",
+          "type": "float",
+          "schema": "source_item_turret_aim_shoot_state_input.range"
+        },
+        {
+          "name": "rotate_speed",
+          "type": "float",
+          "schema": "source_item_turret_aim_shoot_state_input.rotate_speed"
+        },
+        {
+          "name": "reload",
+          "type": "float",
+          "schema": "source_item_turret_aim_shoot_state_input.reload"
+        },
+        {
+          "name": "shoot_cone",
+          "type": "float",
+          "schema": "source_item_turret_aim_shoot_state_input.shoot_cone"
+        },
+        {
+          "name": "shoot_x",
+          "type": "float",
+          "schema": "source_item_turret_aim_shoot_state_input.shoot_x"
+        },
+        {
+          "name": "shoot_y",
+          "type": "float",
+          "schema": "source_item_turret_aim_shoot_state_input.shoot_y"
+        },
+        {
+          "name": "inaccuracy",
+          "type": "float",
+          "schema": "source_item_turret_aim_shoot_state_input.inaccuracy"
+        },
+        {
+          "name": "ammo_per_shot",
+          "type": "int",
+          "schema": "source_item_turret_aim_shoot_state_input.ammo_per_shot"
+        },
+        {
+          "name": "consume_ammo_once",
+          "type": "bool",
+          "schema": "source_item_turret_aim_shoot_state_input.consume_ammo_once"
+        },
+        {
+          "name": "reload_multiplier",
+          "type": "float",
+          "schema": "source_item_turret_aim_shoot_state_input.reload_multiplier"
+        },
+        {
+          "name": "range_change",
+          "type": "float",
+          "schema": "source_item_turret_aim_shoot_state_input.range_change"
+        },
+        {
+          "name": "bullet_speed",
+          "type": "float",
+          "schema": "source_item_turret_aim_shoot_state_input.bullet_speed"
+        },
+        {
+          "name": "predict_target",
+          "type": "bool",
+          "schema": "source_item_turret_aim_shoot_state_input.predict_target"
+        },
+        {
+          "name": "min_warmup",
+          "type": "float",
+          "schema": "source_item_turret_aim_shoot_state_input.min_warmup"
+        },
+        {
+          "name": "always_shooting",
+          "type": "bool",
+          "schema": "source_item_turret_aim_shoot_state_input.always_shooting"
+        },
+        {
+          "name": "cheating",
+          "type": "bool",
+          "schema": "source_item_turret_aim_shoot_state_input.cheating"
+        },
+        {
+          "name": "base_reload_speed",
+          "type": "float",
+          "schema": "source_item_turret_aim_shoot_state_input.base_reload_speed"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "rotation",
+        "reload_counter",
+        "dest",
+        "shot",
+        "target_pos",
+        "total_ammo_after",
+        "ammo_entries_after",
+        "shoot_event",
+        "barrel_counter_after",
+        "was_shooting"
+      ],
+      "tests": [
+        "test_c07_item_turret_aim_shoot_registration",
+        "test_all_c07_item_turret_aim_shoot_input_evidence_is_exact",
+        "test_item_turret_aim_shoot_state",
+        "test_reference_graph_and_actual_c07_item_turret_aim_shoot"
+      ],
+      "runtime_proof": "/root/C07ItemTurretAimShootProof",
+      "rule": "Source-backed ItemTurret aim + reload + shoot from Turret.java / ItemTurret.java / ReloadTurret.java / BaseTurret.java / BuildingComp.java / Blocks.java / BulletType.java / Predict.java / ShootAlternate.java / ShootPattern.java / Angles.java / Position.java."
     }
   },
   "policy": {

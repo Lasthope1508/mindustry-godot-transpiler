@@ -235244,6 +235244,424 @@
       },
       "runtime_proof": "/root/C07PointDefenseTurretPersistenceIntegrationProof",
       "rule": "Source-backed PointDefenseTurret persistence-integration bridge from PointDefenseTurret.java + BaseTurret.java + BuildingComp.java + ReloadTurret.java."
+    },
+    "source_item_turret_aim_shoot_state_input": {
+      "status": "active",
+      "owner": "SourceItemTurretBuildState.source_item_turret_aim_shoot_state",
+      "source_slice": "N2250",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "java_expr": "public float rotation = 90;",
+          "rule": "The turret frame (BaseTurret.java:114, `public float rotation = 90;` -- the frame carries the float turret rotation, default 90.0, and reload_counter, default 0.0, ReloadTurret.java:26; the driver stamps both back every tick).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_aim_shoot_state"
+          ]
+        },
+        "target": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "if(!validateTarget()) target = null;",
+          "rule": "The acquired target dict (Turret.java:491 -- the target arrives already acquired; it carries x/y/vx/vy/hit_size, the position / velocity / size the aim math reads).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_aim_shoot_state"
+          ]
+        },
+        "target_valid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return !Units.invalidateTarget(target, canHeal() ? Team.derelict : team, x, y) || controlled() || logicControlled();",
+          "rule": "Whether the target is still valid (Turret.java:631-632, validateTarget -- Units.invalidateTarget waits for its own slice, so the driver passes the verdict in; a false verdict leaves rotation at its charged value and shoots nothing).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_aim_shoot_state"
+          ]
+        },
+        "team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return !Units.invalidateTarget(target, canHeal() ? Team.derelict : team, x, y) || controlled() || logicControlled();",
+          "rule": "The turret team id (Turret.java:632, `canHeal() ? Team.derelict : team` -- the team the validation is judged against; the driver reads it from the frame).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_aim_shoot_state"
+          ]
+        },
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/geom/Position.java",
+          "java_expr": "return Mathf.dst2(getX(), getY(), x, y) < dst*dst;",
+          "rule": "The turret x (Position.java:46 -- the Building x Java passes to the within test; the driver reads sprite.position.x).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_aim_shoot_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/geom/Position.java",
+          "java_expr": "return Mathf.dst2(getX(), getY(), x, y) < dst*dst;",
+          "rule": "The turret y (Position.java:46 -- the Building y Java passes to the within test; the driver reads sprite.position.y).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_aim_shoot_state"
+          ]
+        },
+        "delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "The scaled delta in seconds (BuildingComp.java:1922-1924, `return Time.delta * timeScale;` -- the driver passes Time.delta precomputed).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_aim_shoot_state"
+          ]
+        },
+        "potential_efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "rotation = Angles.moveToward(rotation, targetRot, rotateSpeed * delta() * potentialEfficiency);",
+          "rule": "The potential efficiency (Turret.java:666 -- turnToTarget steps rotation by rotateSpeed * delta() * potentialEfficiency; the driver reads it from the frame).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_aim_shoot_state"
+          ]
+        },
+        "shoot_warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return shootWarmup;",
+          "rule": "The shoot warmup 0..1 (Turret.java:355-357, warmup() -- updateShooting requires shootWarmup >= minWarmup, Turret.java:733; the warmup lerp advance itself waits for its own slice).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_aim_shoot_state"
+          ]
+        },
+        "charging": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return queuedBullets > 0 && shoot.firstShotDelay > 0;",
+          "rule": "Whether the turret is charging (Turret.java:715-717 -- queuedBullets > 0 and firstShotDelay > 0; duo firstShotDelay is 0, so charging is false here, but the gate is still checked).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_aim_shoot_state"
+          ]
+        },
+        "ammo_entries": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "AmmoEntry entry = ammo.peek();",
+          "rule": "The ammo stacks (Turret.java:683 -- {\"item\", \"amount\"} dicts in the SourceTurretAmmoState.selected_turret_ammo_entries / use_ammo_stack_state format, peeked from the last stack).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_aim_shoot_state"
+          ]
+        },
+        "total_ammo": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "totalAmmo -= ammoPerShot;",
+          "rule": "The total ammo count (Turret.java:687 -- decremented by ammoPerShot on a shot, clamped at 0).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_aim_shoot_state"
+          ]
+        },
+        "barrel_counter": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "}, () -> barrelCounter++);",
+          "rule": "The ShootAlternate barrel counter (Turret.java:770 -- incremented once per shoot() call; duo has barrels 2, ShootAlternate.java:8).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_aim_shoot_state"
+          ]
+        },
+        "range": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "range = 160;",
+          "rule": "The per-def range (duo 160, Blocks.java:3316, `range = 160;` -- the within radius before the ammo rangeChange and the target hitSize/1.9).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_aim_shoot_state"
+          ]
+        },
+        "rotate_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "rotateSpeed = 10f;",
+          "rule": "The rotate speed in degrees per second (duo 10f, Blocks.java:3321, `rotateSpeed = 10f;` -- turnToTarget steps rotation by rotateSpeed * delta() * potentialEfficiency).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_aim_shoot_state"
+          ]
+        },
+        "reload": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "reload = 20f;",
+          "rule": "The per-def reload in seconds (duo 20f, Blocks.java:3314, `reload = 20f;` -- the shoot gate fires at reloadCounter >= reload and the reset is reloadCounter %= reload).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_aim_shoot_state"
+          ]
+        },
+        "shoot_cone": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "shootCone = 15f;",
+          "rule": "The shoot cone in degrees (duo 15f, Blocks.java:3317, `shootCone = 15f;` -- the shoot gate is STRICT angleDist < shootCone, Turret.java:599; the class default is 8f, Turret.java:64).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_aim_shoot_state"
+          ]
+        },
+        "shoot_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float shootX = 0f, shootY = Float.NEGATIVE_INFINITY;",
+          "rule": "The shoot X offset (Turret.java:66, class default 0f -- duo does not override it; the bullet origin is x + trnsx(rotation - 90, shootX, shootY)).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_aim_shoot_state"
+          ]
+        },
+        "shoot_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "shootY = 3f;",
+          "rule": "The shoot Y offset (duo 3f, Blocks.java:3313, `shootY = 3f;` -- the bullet origin is y + trnsy(rotation - 90, shootX, shootY)).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_aim_shoot_state"
+          ]
+        },
+        "inaccuracy": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "inaccuracy = 2f;",
+          "rule": "The shot inaccuracy in degrees (duo 2f, Blocks.java:3320, `inaccuracy = 2f;` -- the class default is 0f, Turret.java:58; the random spread itself is bullet() spawn detail and waits for its own slice).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_aim_shoot_state"
+          ]
+        },
+        "ammo_per_shot": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public int ammoPerShot = 1;",
+          "rule": "The ammo units per shot (Turret.java:49, `public int ammoPerShot = 1;` -- useAmmo subtracts exactly this once per shot when consumeAmmoOnce is true).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_aim_shoot_state"
+          ]
+        },
+        "consume_ammo_once": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public boolean consumeAmmoOnce = true;",
+          "rule": "Whether ammo is consumed once per shot (Turret.java:51 -- duo does not override it; false would consume per bullet in bullet(), which waits for its own slice).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_aim_shoot_state"
+          ]
+        },
+        "reload_multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "reloadMultiplier = 0.8f;",
+          "rule": "The peeked ammo reload multiplier (graphite 0.8f, Blocks.java:3277 -- copper uses the BulletType default 1f, BulletType.java:97, silicon 1.5f; the driver passes the peeked ammo type value).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_aim_shoot_state"
+          ]
+        },
+        "range_change": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "rangeChange = 16f;",
+          "rule": "The peeked ammo range change (graphite 16f, Blocks.java:3278 -- copper/silicon use the BulletType default 0f, BulletType.java:157; range() = range + rangeChange).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_aim_shoot_state"
+          ]
+        },
+        "bullet_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_expr": "public float speed = 1f;",
+          "rule": "The peeked ammo bullet speed (BulletType.java:37 -- duo copper 2.5, graphite 3.5, silicon 3, Blocks.java:3259-3295; Predict.intercept needs it, and the predict gate needs speed >= 0.01).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_aim_shoot_state"
+          ]
+        },
+        "predict_target": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public boolean predictTarget = true;",
+          "rule": "Whether to lead the target (Turret.java:105, class default true -- duo does not override it; targetPosition uses Predict.intercept only when this and bullet.speed >= 0.01f).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_aim_shoot_state"
+          ]
+        },
+        "min_warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float minWarmup = 0f;",
+          "rule": "The minimum warmup to fire (Turret.java:76, class default 0f -- duo does not override it; updateShooting requires shootWarmup >= minWarmup).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_aim_shoot_state"
+          ]
+        },
+        "always_shooting": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public boolean alwaysShooting = false;",
+          "rule": "Whether the turret shoots without a target (Turret.java:103, class default false -- duo does not override it; the shoot gate requires !alwaysShooting).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_aim_shoot_state"
+          ]
+        },
+        "cheating": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "if(cheating()) return peekAmmo();",
+          "rule": "Whether the team cheats (Turret.java:681 -- a cheating team returns peekAmmo() without consuming anything).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_aim_shoot_state"
+          ]
+        },
+        "base_reload_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "java_expr": "return efficiency;",
+          "rule": "The base reload speed (ReloadTurret.java:45-47, `return efficiency;` -- the driver passes the frame efficiency precomputed).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_aim_shoot_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ItemTurretAimShootProof",
+      "rule": "Source-backed ItemTurret aim + reload + shoot from Turret.java / ItemTurret.java / ReloadTurret.java / BaseTurret.java / BuildingComp.java / Blocks.java / BulletType.java / Predict.java / ShootAlternate.java / ShootPattern.java / Angles.java / Position.java."
+    },
+    "source_item_turret_aim_shoot_state_result": {
+      "status": "active",
+      "owner": "SourceItemTurretBuildState.source_item_turret_aim_shoot_state",
+      "source_slice": "N2250",
+      "keys": {
+        "rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "rotation = Angles.moveToward(rotation, targetRot, rotateSpeed * delta() * potentialEfficiency);",
+          "rule": "The rotation after moveToward toward dest (Turret.java:666 -- unchanged when there is no valid target; the float turret rotation, default 90, BaseTurret.java:114).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_aim_shoot_state"
+          ]
+        },
+        "reload_counter": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "reloadCounter += delta() * ammoReloadMultiplier() * baseReloadSpeed();",
+          "rule": "The reload counter after the tick charge, capped at reload, modulo on a shot (Turret.java:720 charges it, :723 caps it with min, :738 resets it with %= reload).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_aim_shoot_state"
+          ]
+        },
+        "dest": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "float targetRot = angleTo(targetPos);",
+          "rule": "The angle to the predicted target position (Turret.java:595 -- angleTo is Position.angleTo -> Angles.angle, atan2(dx, dy), 0 degrees is +Y; null without a valid target).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_aim_shoot_state"
+          ]
+        },
+        "shot": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "if(!alwaysShooting && Angles.angleDist(rotation, targetRot) < shootCone && canShoot){",
+          "rule": "Whether the shoot gate fired (Turret.java:599 -- STRICT angleDist < shootCone, plus canShoot, plus the updateShooting reload / !charging / warmup gate at :733).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_aim_shoot_state"
+          ]
+        },
+        "target_pos": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "targetPos.set(Predict.intercept(this, pos, offset.x, offset.y, bullet.speed));",
+          "rule": "The predicted target position dict (Turret.java:465 -- Predict.intercept when predictTarget and bullet.speed >= 0.01f, else the target position as-is; null without a valid target).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_aim_shoot_state"
+          ]
+        },
+        "total_ammo_after": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "totalAmmo -= ammoPerShot;",
+          "rule": "The total ammo after the shot (Turret.java:687 -- minus ammoPerShot once when consumeAmmoOnce, clamped at 0 by Turret.java:688; unchanged when no shot or cheating).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_aim_shoot_state"
+          ]
+        },
+        "ammo_entries_after": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "entry.amount -= ammoPerShot;",
+          "rule": "The ammo stacks after the shot (Turret.java:685-686 -- the peeked entry minus ammoPerShot, popped when it reaches 0; the {\"item\", \"amount\"} format of SourceTurretAmmoState.use_ammo_stack_state).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_aim_shoot_state"
+          ]
+        },
+        "shoot_event": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "bulletX = x + Angles.trnsx(rotation - 90, shootX, shootY),",
+          "rule": "The shoot event dict on a shot (Turret.java:744 -- the bullet origin x + trnsx(rotation - 90, shootX, shootY), plus rotation and the barrel; null when no shot; the pure function spawns no bullet).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_aim_shoot_state"
+          ]
+        },
+        "barrel_counter_after": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "}, () -> barrelCounter++);",
+          "rule": "The barrel counter after the tick (Turret.java:770 -- +1 on a shot, unchanged otherwise; duo ShootAlternate has barrels 2).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_aim_shoot_state"
+          ]
+        },
+        "was_shooting": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "wasShooting = true;",
+          "rule": "Whether the shoot gate fired this tick (Turret.java:600 -- set true inside the shoot gate, false otherwise; Turret.java:517 resets it false at the top of updateTile).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_aim_shoot_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ItemTurretAimShootProof",
+      "rule": "Source-backed ItemTurret aim + reload + shoot from Turret.java / ItemTurret.java / ReloadTurret.java / BaseTurret.java / BuildingComp.java / Blocks.java / BulletType.java / Predict.java / ShootAlternate.java / ShootPattern.java / Angles.java / Position.java."
     }
   },
   "version": 1

@@ -176120,6 +176120,166 @@
         "test_reference_graph_and_actual_c07_point_defense_turret_persistence_integration"
       ],
       "runtime_proof": "/root/C07PointDefenseTurretPersistenceIntegrationProof"
+    },
+    "source_item_turret_aim_shoot_state_result.rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemTurretBuildState.source_item_turret_aim_shoot_state",
+      "godot_symbol": "source_item_turret_aim_shoot_state_result.rotation",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "rotation = Angles.moveToward(rotation, targetRot, rotateSpeed * delta() * potentialEfficiency);",
+      "rule": "The rotation after moveToward toward dest (Turret.java:666 -- unchanged when there is no valid target; the float turret rotation, default 90, BaseTurret.java:114).",
+      "tests": [
+        "test_c07_item_turret_aim_shoot_registration",
+        "test_all_c07_item_turret_aim_shoot_input_evidence_is_exact",
+        "test_item_turret_aim_shoot_state",
+        "test_reference_graph_and_actual_c07_item_turret_aim_shoot"
+      ],
+      "runtime_proof": "/root/C07ItemTurretAimShootProof"
+    },
+    "source_item_turret_aim_shoot_state_result.reload_counter": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemTurretBuildState.source_item_turret_aim_shoot_state",
+      "godot_symbol": "source_item_turret_aim_shoot_state_result.reload_counter",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "reloadCounter += delta() * ammoReloadMultiplier() * baseReloadSpeed();",
+      "rule": "The reload counter after the tick charge, capped at reload, modulo on a shot (Turret.java:720 charges it, :723 caps it with min, :738 resets it with %= reload).",
+      "tests": [
+        "test_c07_item_turret_aim_shoot_registration",
+        "test_all_c07_item_turret_aim_shoot_input_evidence_is_exact",
+        "test_item_turret_aim_shoot_state",
+        "test_reference_graph_and_actual_c07_item_turret_aim_shoot"
+      ],
+      "runtime_proof": "/root/C07ItemTurretAimShootProof"
+    },
+    "source_item_turret_aim_shoot_state_result.dest": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemTurretBuildState.source_item_turret_aim_shoot_state",
+      "godot_symbol": "source_item_turret_aim_shoot_state_result.dest",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "float targetRot = angleTo(targetPos);",
+      "rule": "The angle to the predicted target position (Turret.java:595 -- angleTo is Position.angleTo -> Angles.angle, atan2(dx, dy), 0 degrees is +Y; null without a valid target).",
+      "tests": [
+        "test_c07_item_turret_aim_shoot_registration",
+        "test_all_c07_item_turret_aim_shoot_input_evidence_is_exact",
+        "test_item_turret_aim_shoot_state",
+        "test_reference_graph_and_actual_c07_item_turret_aim_shoot"
+      ],
+      "runtime_proof": "/root/C07ItemTurretAimShootProof"
+    },
+    "source_item_turret_aim_shoot_state_result.shot": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemTurretBuildState.source_item_turret_aim_shoot_state",
+      "godot_symbol": "source_item_turret_aim_shoot_state_result.shot",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "if(!alwaysShooting && Angles.angleDist(rotation, targetRot) < shootCone && canShoot){",
+      "rule": "Whether the shoot gate fired (Turret.java:599 -- STRICT angleDist < shootCone, plus canShoot, plus the updateShooting reload / !charging / warmup gate at :733).",
+      "tests": [
+        "test_c07_item_turret_aim_shoot_registration",
+        "test_all_c07_item_turret_aim_shoot_input_evidence_is_exact",
+        "test_item_turret_aim_shoot_state",
+        "test_reference_graph_and_actual_c07_item_turret_aim_shoot"
+      ],
+      "runtime_proof": "/root/C07ItemTurretAimShootProof"
+    },
+    "source_item_turret_aim_shoot_state_result.target_pos": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemTurretBuildState.source_item_turret_aim_shoot_state",
+      "godot_symbol": "source_item_turret_aim_shoot_state_result.target_pos",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "targetPos.set(Predict.intercept(this, pos, offset.x, offset.y, bullet.speed));",
+      "rule": "The predicted target position dict (Turret.java:465 -- Predict.intercept when predictTarget and bullet.speed >= 0.01f, else the target position as-is; null without a valid target).",
+      "tests": [
+        "test_c07_item_turret_aim_shoot_registration",
+        "test_all_c07_item_turret_aim_shoot_input_evidence_is_exact",
+        "test_item_turret_aim_shoot_state",
+        "test_reference_graph_and_actual_c07_item_turret_aim_shoot"
+      ],
+      "runtime_proof": "/root/C07ItemTurretAimShootProof"
+    },
+    "source_item_turret_aim_shoot_state_result.total_ammo_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemTurretBuildState.source_item_turret_aim_shoot_state",
+      "godot_symbol": "source_item_turret_aim_shoot_state_result.total_ammo_after",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "totalAmmo -= ammoPerShot;",
+      "rule": "The total ammo after the shot (Turret.java:687 -- minus ammoPerShot once when consumeAmmoOnce, clamped at 0 by Turret.java:688; unchanged when no shot or cheating).",
+      "tests": [
+        "test_c07_item_turret_aim_shoot_registration",
+        "test_all_c07_item_turret_aim_shoot_input_evidence_is_exact",
+        "test_item_turret_aim_shoot_state",
+        "test_reference_graph_and_actual_c07_item_turret_aim_shoot"
+      ],
+      "runtime_proof": "/root/C07ItemTurretAimShootProof"
+    },
+    "source_item_turret_aim_shoot_state_result.ammo_entries_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemTurretBuildState.source_item_turret_aim_shoot_state",
+      "godot_symbol": "source_item_turret_aim_shoot_state_result.ammo_entries_after",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "entry.amount -= ammoPerShot;",
+      "rule": "The ammo stacks after the shot (Turret.java:685-686 -- the peeked entry minus ammoPerShot, popped when it reaches 0; the {\"item\", \"amount\"} format of SourceTurretAmmoState.use_ammo_stack_state).",
+      "tests": [
+        "test_c07_item_turret_aim_shoot_registration",
+        "test_all_c07_item_turret_aim_shoot_input_evidence_is_exact",
+        "test_item_turret_aim_shoot_state",
+        "test_reference_graph_and_actual_c07_item_turret_aim_shoot"
+      ],
+      "runtime_proof": "/root/C07ItemTurretAimShootProof"
+    },
+    "source_item_turret_aim_shoot_state_result.shoot_event": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemTurretBuildState.source_item_turret_aim_shoot_state",
+      "godot_symbol": "source_item_turret_aim_shoot_state_result.shoot_event",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "bulletX = x + Angles.trnsx(rotation - 90, shootX, shootY),",
+      "rule": "The shoot event dict on a shot (Turret.java:744 -- the bullet origin x + trnsx(rotation - 90, shootX, shootY), plus rotation and the barrel; null when no shot; the pure function spawns no bullet).",
+      "tests": [
+        "test_c07_item_turret_aim_shoot_registration",
+        "test_all_c07_item_turret_aim_shoot_input_evidence_is_exact",
+        "test_item_turret_aim_shoot_state",
+        "test_reference_graph_and_actual_c07_item_turret_aim_shoot"
+      ],
+      "runtime_proof": "/root/C07ItemTurretAimShootProof"
+    },
+    "source_item_turret_aim_shoot_state_result.barrel_counter_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemTurretBuildState.source_item_turret_aim_shoot_state",
+      "godot_symbol": "source_item_turret_aim_shoot_state_result.barrel_counter_after",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "}, () -> barrelCounter++);",
+      "rule": "The barrel counter after the tick (Turret.java:770 -- +1 on a shot, unchanged otherwise; duo ShootAlternate has barrels 2).",
+      "tests": [
+        "test_c07_item_turret_aim_shoot_registration",
+        "test_all_c07_item_turret_aim_shoot_input_evidence_is_exact",
+        "test_item_turret_aim_shoot_state",
+        "test_reference_graph_and_actual_c07_item_turret_aim_shoot"
+      ],
+      "runtime_proof": "/root/C07ItemTurretAimShootProof"
+    },
+    "source_item_turret_aim_shoot_state_result.was_shooting": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemTurretBuildState.source_item_turret_aim_shoot_state",
+      "godot_symbol": "source_item_turret_aim_shoot_state_result.was_shooting",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "wasShooting = true;",
+      "rule": "Whether the shoot gate fired this tick (Turret.java:600 -- set true inside the shoot gate, false otherwise; Turret.java:517 resets it false at the top of updateTile).",
+      "tests": [
+        "test_c07_item_turret_aim_shoot_registration",
+        "test_all_c07_item_turret_aim_shoot_input_evidence_is_exact",
+        "test_item_turret_aim_shoot_state",
+        "test_reference_graph_and_actual_c07_item_turret_aim_shoot"
+      ],
+      "runtime_proof": "/root/C07ItemTurretAimShootProof"
     }
   },
   "version": 1
