@@ -46,7 +46,7 @@
 
 ## Commits
 
-- (chưa có — chờ gate xanh rồi commit theo mẫu 5-commit N2251: slice / docs / GOAL / handoff-status / report-hash, push lên origin main)
+- Slice `3a846b15` / docs `aba09129` / GOAL `24760c3f` (mẫu 5-commit N2251; còn handoff-status + push).
 
 ## Bối cảnh N2252 (vì sao là bullet spawn, không phải findTarget)
 

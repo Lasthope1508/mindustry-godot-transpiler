@@ -46,6 +46,6 @@ N2252 làm được: slice bullet() spawn cho ItemTurret (duo) — nối `shoot_
 
 ## Hashes
 
-- Slice (chưa commit — chờ gate xanh) / docs (chưa commit) / GOAL (chưa commit).
+- Slice `3a846b15` / docs `aba09129` / GOAL `24760c3f`.
 - Windows Godot proof là nợ trong GOAL.md §5 (proof Linux xanh, chưa chạy Windows).
 - Bước tiếp theo: chờ gate footer → xác minh toàn Godot-absent → commit + push N2252 theo mẫu 5-commit → sau N2252: findTarget (vẫn BLOCKED) hoặc family tiếp theo trong backlog; live coolant driver wiring + suppression/targets live list vẫn BLOCKED.
