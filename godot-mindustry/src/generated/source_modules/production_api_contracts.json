@@ -584,6 +584,37 @@
       "rule": "Source-backed BeamDrill power.status row from ConsumePower.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceBurstDrillBuildState.source_burst_drill_ambient_volume_state": {
+      "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_burst_drill_ambient_volume_state",
+      "status": "active",
+      "source_slice": "N2271",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "source_method": "BurstDrillBuild.ambientVolume()",
+      "params": [
+        {
+          "name": "super_ambient_volume",
+          "type": "float",
+          "schema": "source_burst_drill_ambient_volume_state_input.super_ambient_volume"
+        },
+        {
+          "name": "progress",
+          "type": "float",
+          "schema": "source_burst_drill_ambient_volume_state_input.progress"
+        }
+      ],
+      "return_keys": [
+        "ambient_volume"
+      ],
+      "tests": [
+        "test_c07_burst_drill_ambient_volume_registration",
+        "test_all_c07_burst_drill_ambient_volume_input_evidence_is_exact",
+        "test_burst_drill_ambient_volume_state",
+        "test_reference_graph_and_actual_c07_burst_drill_ambient_volume"
+      ],
+      "runtime_proof": "/root/C07BurstDrillAmbientVolumeProof",
+      "rule": "Source-backed BurstDrill ambientVolume() state from BurstDrill.java + Drill.java.",
+      "return_type": "Dictionary"
+    },
     "SourceBurstDrillBuildState.source_burst_drill_icons_state": {
       "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_burst_drill_icons_state",
       "status": "active",

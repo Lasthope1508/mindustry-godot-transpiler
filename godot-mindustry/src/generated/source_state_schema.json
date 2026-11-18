@@ -237012,6 +237012,54 @@
       },
       "runtime_proof": "/root/C07TurretFindTargetProof",
       "rule": "Source-backed TurretBuild findTarget/findEnemy/validateTarget/canHeal state from Turret.java + Units.java + UnitSorts.java + BlockIndexer.java + BulletType.java + Mathf.java."
+    },
+    "source_burst_drill_ambient_volume_state_input": {
+      "status": "active",
+      "owner": "SourceBurstDrillBuildState.source_burst_drill_ambient_volume_state",
+      "source_slice": "N2271",
+      "keys": {
+        "super_ambient_volume": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "return efficiency * (size * size) / 4f;",
+          "rule": "The DrillBuild.ambientVolume() super result (Drill.java:257-259, `return efficiency * (size * size) / 4f;`, efficiency times size squared over four); passed explicitly because the Drill super formula is NOT ported in this slice (the N2270 explicit-param precedent). Per-def values at efficiency 1: impact-drill (size 4, Blocks.java:3073) 4.0, eruption-drill (size 5, Blocks.java:3096) 6.25.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_ambient_volume_state"
+          ]
+        },
+        "progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "return dominantItem == null ? 0f : Mathf.clamp(progress / getDrillTime(dominantItem));",
+          "rule": "The DrillBuild.progress() result (Drill.java:327-329, `return dominantItem == null ? 0f : Mathf.clamp(progress / getDrillTime(dominantItem));`, 0 with no dominant item, else the `progress` field clamped by the per-item drill time); passed explicitly because progress() is NOT ported for DrillBuild in this slice (N700 / N1627 are PortGame game-level progress, not the DrillBuild override) -- the N2270 explicit-param precedent.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_ambient_volume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BurstDrillAmbientVolumeProof",
+      "rule": "Source-backed BurstDrill ambientVolume() state from BurstDrill.java + Drill.java."
+    },
+    "source_burst_drill_ambient_volume_state_result": {
+      "status": "active",
+      "owner": "SourceBurstDrillBuildState.source_burst_drill_ambient_volume_state",
+      "source_slice": "N2271",
+      "keys": {
+        "ambient_volume": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "return super.ambientVolume() * Mathf.pow(progress(), 4f);",
+          "rule": "The BurstDrill ambient volume: the super result times progress to the fourth power (BurstDrill.java:124, `return super.ambientVolume() * Mathf.pow(progress(), 4f);`, arc Mathf.pow at Mathf.java:212 `public static float pow(float a, float b){`); progress 0 silences the drill, progress 1 passes the super through.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_ambient_volume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BurstDrillAmbientVolumeProof",
+      "rule": "Source-backed BurstDrill ambientVolume() state from BurstDrill.java + Drill.java."
     }
   },
   "version": 1

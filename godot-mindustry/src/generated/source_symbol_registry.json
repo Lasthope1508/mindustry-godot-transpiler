@@ -176808,6 +176808,22 @@
         "test_reference_graph_and_actual_c07_turret_find_target"
       ],
       "runtime_proof": "/root/C07TurretFindTargetProof"
+    },
+    "source_burst_drill_ambient_volume_state_result.ambient_volume": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_ambient_volume_state",
+      "godot_symbol": "source_burst_drill_ambient_volume_state_result.ambient_volume",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_method": "BurstDrillBuild.ambientVolume()",
+      "java_expr": "return super.ambientVolume() * Mathf.pow(progress(), 4f);",
+      "rule": "The BurstDrill ambient volume: the super result times progress to the fourth power (BurstDrill.java:124, `return super.ambientVolume() * Mathf.pow(progress(), 4f);`, arc Mathf.pow at Mathf.java:212 `public static float pow(float a, float b){`); progress 0 silences the drill, progress 1 passes the super through.",
+      "tests": [
+        "test_c07_burst_drill_ambient_volume_registration",
+        "test_all_c07_burst_drill_ambient_volume_input_evidence_is_exact",
+        "test_burst_drill_ambient_volume_state",
+        "test_reference_graph_and_actual_c07_burst_drill_ambient_volume"
+      ],
+      "runtime_proof": "/root/C07BurstDrillAmbientVolumeProof"
     }
   },
   "version": 1

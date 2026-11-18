@@ -303,6 +303,16 @@ static func source_burst_drill_icons_state(region: Variant, top_region: Variant)
 	var icons: Array = [region, top_region]
 	return {"icons": icons}
 
+static func source_burst_drill_ambient_volume_state(super_ambient_volume: float, progress: float) -> Dictionary:
+	# BurstDrill.ambientVolume() (BurstDrill.java:123-125):
+	# @Override
+	# public float ambientVolume(){
+	# return super.ambientVolume() * Mathf.pow(progress(), 4f);
+	# }
+	# `super.ambientVolume()` is DrillBuild.ambientVolume (Drill.java:257-259, `return efficiency * (size * size) / 4f;`) -- NOT this slice: the Drill super formula waits for its own slice; the caller passes the already-computed super result (the N2270 explicit-param precedent). `progress()` is DrillBuild.progress (`public float progress(){`, Drill.java:327-329, `return dominantItem == null ? 0f : Mathf.clamp(progress / getDrillTime(dominantItem));`) -- NOT this slice for DrillBuild either (N700 / N1627 are PortGame game-level progress): the caller passes the already-computed progress (same precedent). `progress` is the DrillBuild field (`public float progress;`, Drill.java:238). The classes are `public class BurstDrill extends Drill{` (BurstDrill.java:17) and `public class Drill extends Block{` (Drill.java:27). Per-def supers at efficiency 1 (size 4 impact-drill, Blocks.java:3073; size 5 eruption-drill, Blocks.java:3096): 4.0 vs 6.25. There is NO driver tick line: ambientVolume is read per tick by the ambient-sound live loop (`control.sound.loop(block.ambientSound, self(), block.ambientSoundVolume * ambientVolume());`, BuildingComp.java:2271); the driver side waits for the ambient C mixer slice (N2264).
+	var ambient_volume: float = super_ambient_volume * pow(progress, 4.0)
+	return {"ambient_volume": ambient_volume}
+
 static func source_burst_drill_set_stats_state(frame: Dictionary, liquid_boost_intensity: float, booster_consumer_found: bool, booster_amount: float, booster_consumes: bool) -> Dictionary:
 	# BurstDrill.setStats() (BurstDrill.java:58-68):
 	# public void setStats(){
