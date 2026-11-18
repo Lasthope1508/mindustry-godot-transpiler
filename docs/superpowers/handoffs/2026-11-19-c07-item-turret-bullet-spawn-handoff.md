@@ -1,4 +1,4 @@
-# Handoff — N2252 ItemTurret bullet() spawn (C07) [GREEN — chờ gate + push]
+# Handoff — N2252 ItemTurret bullet() spawn (C07) [DONE + PUSHED]
 
 ## Status: DONE + PUSHED (2026-11-19 ~01:5x +07, lượt cron 01:45) — slice `3a846b15`, main `9a51804d`. Targeted 4/4 + family 116/116 + wiring 32/32 + proof matches:true 11/11 + gate 3 Ran 6101, failures=202 toàn Godot-absent (đã xác minh độc lập).
 
