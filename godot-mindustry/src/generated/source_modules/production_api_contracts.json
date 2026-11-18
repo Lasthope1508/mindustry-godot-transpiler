@@ -587,7 +587,7 @@
     "SourceBurstDrillBuildState.source_burst_drill_icons_state": {
       "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_burst_drill_icons_state",
       "status": "active",
-      "source_slice": "N2245",
+      "source_slice": "N2269",
       "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
       "source_method": "BurstDrill.icons()",
       "params": [
