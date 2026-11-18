@@ -1,6 +1,6 @@
 # Handoff — N2243 PointDefenseTurret spawn-side team stamp for live bullets (C07)
 
-## Status: GATE 5 ĐÃ XONG — footer Ran 6065, failures=193, skipped 5, errors 0, toàn bộ Godot-absent (xác minh trực tiếp từ log: `unexpectedly None` = 193, `FAIL:` = 193, `ERROR:` = 0; mirror test PASS). N2243 GREEN 60/60 sau rename (targeted 4/4, family 24/24, wiring 32/32; proof 6 semantic keys / 9 in JSON matches:true). SSOT 11558/1693/1624/3039. Report + spec đã viết. CHƯA commit/push — đang làm 5-commit + push.
+## Status: DONE + PUSHED — slice e1fed830, main 8d31e5b7 (pushed ~10:0x +07). Gate 5 footer Ran 6065, failures=193, skipped 5, errors 0, toàn bộ Godot-absent; mirror test PASS. N2243 GREEN 60/60 sau rename (targeted 4/4, family 24/24, wiring 32/32; proof 6 semantic keys / 9 in JSON matches:true). SSOT 11558/1693/1624/3039. Proof chưa chạy trên Windows Godot — nợ trong GOAL.md §5.
 
 ## Commits
 
