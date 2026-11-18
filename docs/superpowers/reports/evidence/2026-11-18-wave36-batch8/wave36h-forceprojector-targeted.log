@@ -1,0 +1,9 @@
+test_all_c07_force_projector_absorb_explosion_input_evidence_is_exact (tests.test_c07_force_projector_absorb_explosion.C07ForceProjectorAbsorbExplosionTests.test_all_c07_force_projector_absorb_explosion_input_evidence_is_exact) ... ok
+test_c07_force_projector_absorb_explosion_registration (tests.test_c07_force_projector_absorb_explosion.C07ForceProjectorAbsorbExplosionTests.test_c07_force_projector_absorb_explosion_registration) ... ok
+test_force_projector_absorb_explosion_state (tests.test_c07_force_projector_absorb_explosion.C07ForceProjectorAbsorbExplosionTests.test_force_projector_absorb_explosion_state) ... ok
+test_reference_graph_and_actual_c07_force_projector_absorb_explosion (tests.test_c07_force_projector_absorb_explosion.C07ForceProjectorAbsorbExplosionTests.test_reference_graph_and_actual_c07_force_projector_absorb_explosion) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 22.036s
+
+OK
