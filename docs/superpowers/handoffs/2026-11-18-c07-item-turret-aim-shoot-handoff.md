@@ -1,6 +1,6 @@
 # Handoff — N2250 ItemTurret aim/reload/shoot (C07) [DONE — gate xanh, chờ commit/push]
 
-## Status: DONE (gate xanh, lượt cron 22:00 2026-11-18 +07) — GREEN targeted + family + wiring + proof + gate full; report + spec + GOAL đã cập nhật; CHƯA commit/push, origin/main == 8a0f8c71 (N2249)
+## Status: DONE + PUSHED (2026-11-18 22:1x +07) — origin/main == f418eff0 (slice a2270c04, gate Ran 6093 / failures 200 Godot-absent / skipped 5 / errors 0)
 
 - Targeted 4/4, 111 subtests, 16.00s (main thread re-run, PATH += ~/workspace/godot-bin; lưu ý: `godot` KHÔNG có sẵn trên PATH mặc định — lần chạy đầu không có PATH đã fail nhanh `unexpectedly None`, không phải lỗi slice).
 - Family 16/16, 237 subtests, 60.29s (item turret test + 3 module PointDefenseTurret: aim_shoot, power_status, target_acquire).
@@ -93,4 +93,5 @@
 - Slice: `a2270c04` — C07: N2250 ItemTurret aim/reload/shoot (12 files).
 - Docs: `9639adbc` — N2250 report + handoff + design spec (gate clean except Godot).
 - GOAL: `6d94d1ac` — GOAL.md names the N2250 slice commit that carries its proof to Windows.
-- (hashes commit + handoff-status commit follow in this 5-commit push; main hash filled at push.)
+- Hashes: `f418eff0` — N2250 report + handoff name slice/docs/GOAL hashes.
+- Handoff-status commit follows; origin/main sau push 4 commit đầu: `f418eff0`.
