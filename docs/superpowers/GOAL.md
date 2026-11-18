@@ -356,10 +356,10 @@ N2239–N2247 của line Windows)
   - [ ] N2242 `C07PointDefenseTurretLiveBulletsWiringProof` — Linux GREEN ~05:33 (8 key).
     Scene tới Windows theo slice commit `af2d4208` (pushed ~06:0x, main
     `f5bbd03c`). Chưa chạy trên Windows Godot.
-  - [ ] N2248 `C07RadarUpdateTileProof` — Linux GREEN ~12:4x (10 key).
-    Scene tới Windows theo slice commit `b040e56`. Chưa chạy trên Windows Godot.
-  - [ ] N2249 `C07RadarFogRadiusProof` — Linux GREEN ~12:4x (9 key).
-    Scene tới Windows theo slice commit `32bb63e`. Chưa chạy trên Windows Godot.
+  - [ ] N2274 `C07RadarUpdateTileProof` — Linux GREEN ~12:4x (10 key).
+    Scene tới Windows theo slice commit `40e54d9`. Chưa chạy trên Windows Godot.
+  - [ ] N2275 `C07RadarFogRadiusProof` — Linux GREEN ~12:4x (9 key).
+    Scene tới Windows theo slice commit `205c102`. Chưa chạy trên Windows Godot.
   - [ ] N2250 `C07RadarIconsProof` — Linux GREEN ~12:5x (5 key).
     Scene tới Windows theo slice commit `710662c`. Chưa chạy trên Windows Godot.
   - [ ] N2251 `C07RepairTurretDrawBeamJitterProof` — Linux GREEN ~12:4x (11 key).
