@@ -1,4 +1,4 @@
-# Handoff — N2250 ItemTurret aim/reload/shoot (C07) [DONE — gate xanh, chờ commit/push]
+# Handoff — N2250 ItemTurret aim/reload/shoot (C07) [DONE + PUSHED]
 
 ## Status: DONE + PUSHED (2026-11-18 22:1x +07) — origin/main == d96b686e (slice a2270c04, gate Ran 6093 / failures 200 Godot-absent / skipped 5 / errors 0)
 
