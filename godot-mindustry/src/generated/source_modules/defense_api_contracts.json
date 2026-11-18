@@ -7977,6 +7977,99 @@
       "runtime_proof": "/root/TurretLiveLoopProof",
       "rule": "Source-backed Turret family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so TurretBuild.useAmmo() skips consumption for a cheating team.",
       "return_type": "Dictionary"
+    },
+    "SourceTurretBuildState.source_turret_update_tile_warmup_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_update_tile_warmup_state",
+      "status": "active",
+      "source_slice": "N2265",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_update_tile_warmup_state_input.frame"
+        },
+        {
+          "name": "is_shooting",
+          "type": "bool",
+          "schema": "source_turret_update_tile_warmup_state_input.is_shooting"
+        },
+        {
+          "name": "potential_efficiency",
+          "type": "float",
+          "schema": "source_turret_update_tile_warmup_state_input.potential_efficiency"
+        },
+        {
+          "name": "charging",
+          "type": "bool",
+          "schema": "source_turret_update_tile_warmup_state_input.charging"
+        },
+        {
+          "name": "controlled",
+          "type": "bool",
+          "schema": "source_turret_update_tile_warmup_state_input.controlled"
+        },
+        {
+          "name": "warmup_hold",
+          "type": "float",
+          "schema": "source_turret_update_tile_warmup_state_input.warmup_hold"
+        },
+        {
+          "name": "shoot_warmup",
+          "type": "float",
+          "schema": "source_turret_update_tile_warmup_state_input.shoot_warmup"
+        },
+        {
+          "name": "linear_warmup",
+          "type": "bool",
+          "schema": "source_turret_update_tile_warmup_state_input.linear_warmup"
+        },
+        {
+          "name": "shoot_warmup_speed",
+          "type": "float",
+          "schema": "source_turret_update_tile_warmup_state_input.shoot_warmup_speed"
+        },
+        {
+          "name": "efficiency",
+          "type": "float",
+          "schema": "source_turret_update_tile_warmup_state_input.efficiency"
+        },
+        {
+          "name": "warmup_maintain_time",
+          "type": "float",
+          "schema": "source_turret_update_tile_warmup_state_input.warmup_maintain_time"
+        },
+        {
+          "name": "delta",
+          "type": "float",
+          "schema": "source_turret_update_tile_warmup_state_input.delta"
+        },
+        {
+          "name": "heat_requirement",
+          "type": "float",
+          "schema": "source_turret_update_tile_warmup_state_input.heat_requirement"
+        },
+        {
+          "name": "heat_req",
+          "type": "float",
+          "schema": "source_turret_update_tile_warmup_state_input.heat_req"
+        }
+      ],
+      "return_keys": [
+        "warmup_target",
+        "warmup_hold",
+        "shoot_warmup"
+      ],
+      "tests": [
+        "test_c07_turret_update_tile_warmup_registration",
+        "test_all_c07_turret_update_tile_warmup_input_evidence_is_exact",
+        "test_turret_update_tile_warmup_state",
+        "test_reference_graph_and_actual_c07_turret_update_tile_warmup"
+      ],
+      "runtime_proof": "/root/C07TurretUpdateTileWarmupProof",
+      "rule": "Source-backed TurretBuild.updateTile() warmup advance from Turret.java + BuildingComp.java + Blocks.java.",
+      "return_type": "Dictionary"
     }
   }
 }

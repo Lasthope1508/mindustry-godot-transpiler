@@ -9,6 +9,7 @@ const source_turret_source_text_state := preload("res://src/game/SourceTurretSou
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
 const source_building_efficiency_state := preload("res://src/game/SourceBuildingEfficiencyState.gd")
 const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
+const source_math_state := preload("res://src/game/SourceMathState.gd")
 
 const SOURCE_TURRET_BUILD_INNER_CLASS := source_turret_source_text_state.SOURCE_TURRET_BUILD_INNER_CLASS
 const SOURCE_TURRET_USE_AMMO_METHOD := source_turret_source_text_state.SOURCE_TURRET_USE_AMMO_METHOD
@@ -313,6 +314,89 @@ static func source_turret_sense_state(frame: Dictionary, sensor: String, total_a
 @warning_ignore("unused_parameter")
 static func source_turret_fog_radius_state(frame: Dictionary, range: float, has_ammo: bool, ammo_range_change: float, tilesize: float, fog_radius_multiplier: float) -> Dictionary:
 	return {"fog_radius": (range + (ammo_range_change if has_ammo else 0.0)) / tilesize * fog_radius_multiplier}
+
+# TurretBuild.updateTile() warmup advance (Turret.java:502-515):
+# `float warmupTarget = (isShooting && canConsume()) || charging() ? 1f : 0f;`
+# `if(warmupTarget > 0 && !controlled()){`
+# `warmupHold = 1f;`
+# `}`
+# `if(warmupHold > 0f){`
+# `warmupHold -= Time.delta / warmupMaintainTime;`
+# `warmupTarget = 1f;`
+# `}`
+# `if(linearWarmup){`
+# `shootWarmup = Mathf.approachDelta(shootWarmup, warmupTarget, shootWarmupSpeed * (warmupTarget > 0 ? efficiency : 1f));`
+# `}else{`
+# `shootWarmup = Mathf.lerpDelta(shootWarmup, warmupTarget, shootWarmupSpeed * (warmupTarget > 0 ? efficiency : 1f));`
+# `}`
+# on `public class TurretBuild extends ReloadTurretBuild implements ControlBlock{`
+# (Turret.java:277), inside `public void updateTile(){` (Turret.java:490).
+# canConsume() is the TurretBuild override (Turret.java:624-629,
+# `public boolean canConsume(){` /
+# `if(heatRequirement > 0 && heatReq <= 0f){` /
+# `return false;` / `return super.canConsume();`) over the
+# BuildingComp gate (BuildingComp.java:1917-1919,
+# `public boolean canConsume(){` / `return potentialEfficiency > 0;`).
+# heatRequirement is per-def (Turret.java:53,
+# `public float heatRequirement = -1f;`; 20f on afflict and 144f on
+# malign, Blocks.java:5122/6240) and heatReq is the live field
+# (Turret.java:295, `public float heatReq;`), refreshed each tick
+# (Turret.java:538-539, `if(heatRequirement > 0){` /
+# `heatReq = calculateHeat(sideHeat);`); both arrive as explicit
+# params, so a cold heat turret (heatReq <= 0) cannot consume
+# even while shooting with power, while a turret with no heat
+# requirement (-1f default) ignores heatReq entirely. charging()
+# is Turret.java:715-717 (`public boolean charging(){` /
+# `return queuedBullets > 0 && shoot.firstShotDelay > 0;`); controlled()
+# is Turret.java:441-443 (`public boolean controlled(){` /
+# `return unit.isPlayer();`). The hold / warmup fields are Turret.java:286
+# (`public float shootWarmup, charge, warmupHold = 0f;`); the per-def knobs
+# are warmupMaintainTime (Turret.java:84,
+# `public float warmupMaintainTime = 0f;`, `warmupMaintainTime = 120f;` on
+# titan / smite / malign, Blocks.java:4803/5909/6242), shootWarmupSpeed
+# (Turret.java:136, `public float shootWarmupSpeed = 0.1f;`,
+# `shootWarmupSpeed = 0.04f;` on smite, Blocks.java:5904) and linearWarmup
+# (Turret.java:138, `public boolean linearWarmup = false;`, no def sets it
+# true). The folded efficiency is BuildingComp.java:85
+# (`transient float efficiency;`).
+# The approach / lerp legs reuse the ported SourceMathState helpers (N489/N490,
+# source_approach_delta / source_lerp_delta), which already encode arc
+# Mathf.approachDelta / lerpDelta (arc Mathf.java:420/430). The set and the decay
+# run in the SAME tick: a hold set to 1f is decayed by Time.delta /
+# warmupMaintainTime before the warmupTarget = 1f force, so a fresh hold reads
+# 1 - delta/maintain, not 1. With the default warmupMaintainTime 0f the Java float
+# division yields Infinity and the hold goes to -Infinity in the same tick -- the
+# pure function keeps that behavior, no invented guard. The lerp leg is the
+# default (linearWarmup false on every def); the approach leg is the linearWarmup
+# branch. The rate folds efficiency only while the target is positive
+# (`warmupTarget > 0 ? efficiency : 1f`), so a decaying warmup ignores efficiency.
+# All live values arrive as explicit params (the N2188 precedent), because the
+# tick frame tracks only cheating / enabled / power_status / efficiency today:
+# is_shooting is set by updateTile :492 (not ported yet), charging / controlled read
+# reload / unit state the frame does not track yet, and the frame tracks no
+# shoot_warmup / warmup_hold keys yet. NO driver line: the driver waits until those
+# frame keys are tracked (the N2256 updateTile precedent); the warmup fold the
+# power-status row mentions (Turret.java:512-514) is this advance, called with
+# explicit params. delta is Time.delta through delta() (BuildingComp.java:1922-1923,
+# `public float delta(){` / `return Time.delta * timeScale;`), raw tick seconds, the
+# N2248 convention.
+@warning_ignore("unused_parameter")
+static func source_turret_update_tile_warmup_state(frame: Dictionary, is_shooting: bool, potential_efficiency: float, charging: bool, controlled: bool, warmup_hold: float, shoot_warmup: float, linear_warmup: bool, shoot_warmup_speed: float, efficiency: float, warmup_maintain_time: float, delta: float, heat_requirement: float, heat_req: float) -> Dictionary:
+	var can_consume: bool = potential_efficiency > 0.0 and not (heat_requirement > 0.0 and heat_req <= 0.0)
+	var warmup_target: float = 1.0 if (is_shooting and can_consume) or charging else 0.0
+	var new_warmup_hold: float = warmup_hold
+	if warmup_target > 0.0 and not controlled:
+		new_warmup_hold = 1.0
+	if new_warmup_hold > 0.0:
+		new_warmup_hold -= delta / warmup_maintain_time
+		warmup_target = 1.0
+	var rate: float = shoot_warmup_speed * (efficiency if warmup_target > 0.0 else 1.0)
+	var new_shoot_warmup: float
+	if linear_warmup:
+		new_shoot_warmup = source_math_state.source_approach_delta(shoot_warmup, warmup_target, rate, delta)
+	else:
+		new_shoot_warmup = source_math_state.source_lerp_delta(shoot_warmup, warmup_target, rate, delta)
+	return {"warmup_target": warmup_target, "warmup_hold": new_warmup_hold, "shoot_warmup": new_shoot_warmup}
 
 # TurretBuild.estimateDps() (Turret.java:329-332):
 # `public float estimateDps(){`

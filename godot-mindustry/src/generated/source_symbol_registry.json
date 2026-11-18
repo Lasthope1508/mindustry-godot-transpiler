@@ -176616,6 +176616,54 @@
         "test_reference_graph_and_actual_c07_radar_progress"
       ],
       "runtime_proof": "/root/C07RadarProgressProof"
+    },
+    "source_turret_update_tile_warmup_state_result.warmup_target": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_update_tile_warmup_state",
+      "godot_symbol": "source_turret_update_tile_warmup_state_result.warmup_target",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "float warmupTarget = (isShooting && canConsume()) || charging() ? 1f : 0f;",
+      "rule": "The warmup target: 1f when (isShooting and canConsume()) or charging(), else 0f (Turret.java:502), forced to 1f while warmupHold is positive (Turret.java:508).",
+      "tests": [
+        "test_c07_turret_update_tile_warmup_registration",
+        "test_all_c07_turret_update_tile_warmup_input_evidence_is_exact",
+        "test_turret_update_tile_warmup_state",
+        "test_reference_graph_and_actual_c07_turret_update_tile_warmup"
+      ],
+      "runtime_proof": "/root/C07TurretUpdateTileWarmupProof"
+    },
+    "source_turret_update_tile_warmup_state_result.warmup_hold": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_update_tile_warmup_state",
+      "godot_symbol": "source_turret_update_tile_warmup_state_result.warmup_hold",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "warmupHold -= Time.delta / warmupMaintainTime;",
+      "rule": "The warmup hold after the tick: 1f when the target is positive and the turret is uncontrolled (Turret.java:503-505), then decayed by Time.delta / warmupMaintainTime in the same tick (Turret.java:506-508); 1 - delta/maintain for a fresh hold, -Infinity when warmupMaintainTime is the 0f default.",
+      "tests": [
+        "test_c07_turret_update_tile_warmup_registration",
+        "test_all_c07_turret_update_tile_warmup_input_evidence_is_exact",
+        "test_turret_update_tile_warmup_state",
+        "test_reference_graph_and_actual_c07_turret_update_tile_warmup"
+      ],
+      "runtime_proof": "/root/C07TurretUpdateTileWarmupProof"
+    },
+    "source_turret_update_tile_warmup_state_result.shoot_warmup": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_update_tile_warmup_state",
+      "godot_symbol": "source_turret_update_tile_warmup_state_result.shoot_warmup",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "shootWarmup = Mathf.lerpDelta(shootWarmup, warmupTarget, shootWarmupSpeed * (warmupTarget > 0 ? efficiency : 1f));",
+      "rule": "The warmup after the tick: advanced toward warmupTarget by approachDelta when linearWarmup (Turret.java:512) or lerpDelta otherwise (Turret.java:514), at rate shootWarmupSpeed * (efficiency while the target is positive, else 1f); read by warmup() (Turret.java:354-355) and the minWarmup fire gate (Turret.java:733).",
+      "tests": [
+        "test_c07_turret_update_tile_warmup_registration",
+        "test_all_c07_turret_update_tile_warmup_input_evidence_is_exact",
+        "test_turret_update_tile_warmup_state",
+        "test_reference_graph_and_actual_c07_turret_update_tile_warmup"
+      ],
+      "runtime_proof": "/root/C07TurretUpdateTileWarmupProof"
     }
   },
   "version": 1

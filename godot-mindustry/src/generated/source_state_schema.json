@@ -236170,6 +236170,194 @@
       },
       "runtime_proof": "/root/C07RadarProgressProof",
       "rule": "Source-backed Radar progress() accessor from Radar.java."
+    },
+    "source_turret_update_tile_warmup_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_update_tile_warmup_state",
+      "source_slice": "N2265",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public void updateTile(){",
+          "rule": "The turret frame (accepted for the family call shape; this leg reads no live frame key -- all live values arrive as explicit params, the N2188 per-def-param precedent, because the tick frame tracks only cheating/enabled/power_status/efficiency).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_update_tile_warmup_state"
+          ]
+        },
+        "is_shooting": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public boolean wasShooting, isShooting;",
+          "rule": "Whether the turret is shooting: TurretBuild.isShooting (Turret.java:292, `public boolean wasShooting, isShooting;`), set in updateTile :492 from alwaysShooting / unit / logic / target; passed explicitly because the :492 computation is not ported yet and the tick frame tracks no is_shooting key.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_update_tile_warmup_state"
+          ]
+        },
+        "potential_efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "transient float potentialEfficiency;",
+          "rule": "The building potential efficiency: BuildingComp.potentialEfficiency (BuildingComp.java:89), Java default 0.0f, machinery-set later; the canConsume() gate (BuildingComp.java:1917-1919, `public boolean canConsume(){` / `return potentialEfficiency > 0;`) reads it, so the pure function computes can_consume from it instead of taking a second bool; passed explicitly because the tick frame tracks no potential_efficiency key.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_update_tile_warmup_state"
+          ]
+        },
+        "charging": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public boolean charging(){",
+          "rule": "Whether the turret is charging a shot: TurretBuild.charging() (Turret.java:715-717, `public boolean charging(){` / `return queuedBullets > 0 && shoot.firstShotDelay > 0;`); passed explicitly because queuedBullets / firstShotDelay are not tracked in the tick frame yet. A charging turret targets warmup 1 even when not shooting.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_update_tile_warmup_state"
+          ]
+        },
+        "controlled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public boolean controlled(){",
+          "rule": "Whether a player controls the turret unit: TurretBuild.controlled() (Turret.java:441-443, `public boolean controlled(){` / `return unit.isPlayer();`); passed explicitly because the tick frame tracks no unit/player key. A controlled shooter never sets warmupHold.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_update_tile_warmup_state"
+          ]
+        },
+        "warmup_hold": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float shootWarmup, charge, warmupHold = 0f;",
+          "rule": "The warmup hold timer: TurretBuild.warmupHold (Turret.java:286), Java default 0f; set to 1f when the target is positive and the turret is uncontrolled, then decayed by Time.delta / warmupMaintainTime in the same tick; passed explicitly because the tick frame tracks no warmup_hold key yet.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_update_tile_warmup_state"
+          ]
+        },
+        "shoot_warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float shootWarmup, charge, warmupHold = 0f;",
+          "rule": "The current warmup: TurretBuild.shootWarmup (Turret.java:286), Java default 0f, read by warmup() (Turret.java:354-355, `return shootWarmup;`); advanced toward warmupTarget by the approach (linearWarmup) or lerp leg; passed explicitly because the tick frame tracks no shoot_warmup key yet.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_update_tile_warmup_state"
+          ]
+        },
+        "linear_warmup": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public boolean linearWarmup = false;",
+          "rule": "Whether warmup advances linearly: Turret.linearWarmup (Turret.java:138), default false; selects the approachDelta leg over the lerpDelta leg; passed explicitly because it is per-def static state, not a live frame key. No def sets it true.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_update_tile_warmup_state"
+          ]
+        },
+        "shoot_warmup_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float shootWarmupSpeed = 0.1f;",
+          "rule": "The warmup advance speed: Turret.shootWarmupSpeed (Turret.java:136), default 0.1f (0.04f on smite, Blocks.java:5904); the rate factor of both advance legs; passed explicitly because it is per-def static state, not a live frame key.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_update_tile_warmup_state"
+          ]
+        },
+        "efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "transient float efficiency;",
+          "rule": "The folded live efficiency: BuildingComp.efficiency (BuildingComp.java:85); the advance rate folds it only while the target is positive (`warmupTarget > 0 ? efficiency : 1f`), so a decaying warmup ignores it; passed explicitly (the tick frame stamps frame[\"efficiency\"] for power turrets, but this leg takes it as a param like the N2253/N2254 precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_update_tile_warmup_state"
+          ]
+        },
+        "warmup_maintain_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float warmupMaintainTime = 0f;",
+          "rule": "How long warmup is maintained while not shooting: Turret.warmupMaintainTime (Turret.java:84, `public float warmupMaintainTime = 0f;`, 120f on titan / smite / malign, Blocks.java:4803/5909/6242); the hold decay divisor; passed explicitly because it is per-def static state, not a live frame key. The 0f default keeps the Java float-division behavior (Infinity, hold to -Infinity) -- no invented guard.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_update_tile_warmup_state"
+          ]
+        },
+        "delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "The tick delta: Time.delta through delta() (BuildingComp.java:1922-1923, `public float delta(){` / `return Time.delta * timeScale;`); passed explicitly as raw tick seconds (the N2248 convention).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_update_tile_warmup_state"
+          ]
+        },
+        "heat_requirement": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float heatRequirement = -1f;",
+          "rule": "The minimum input heat required to fire: Turret.heatRequirement (Turret.java:52-53, `Minimum input heat required to fire.` / `public float heatRequirement = -1f;`, default -1f meaning no heat gate; 20f on afflict, 144f on malign, Blocks.java:5122/6240); the canConsume() override (Turret.java:624-629) returns false when heatRequirement > 0 and heatReq <= 0; passed explicitly because it is per-def static state, not a live frame key.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_update_tile_warmup_state"
+          ]
+        },
+        "heat_req": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float heatReq;",
+          "rule": "The live heat input: TurretBuild.heatReq (Turret.java:295, `public float heatReq;`, Java default 0f), refreshed each tick (Turret.java:538-539, `if(heatRequirement > 0){` / `heatReq = calculateHeat(sideHeat);`); the canConsume() override (Turret.java:624-629) reads it, so the pure function computes can_consume from it instead of taking a second bool; passed explicitly because the tick frame tracks no heat_req key.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_update_tile_warmup_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretUpdateTileWarmupProof",
+      "rule": "Source-backed TurretBuild.updateTile() warmup advance from Turret.java + BuildingComp.java + Blocks.java."
+    },
+    "source_turret_update_tile_warmup_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_update_tile_warmup_state",
+      "source_slice": "N2265",
+      "keys": {
+        "warmup_target": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "float warmupTarget = (isShooting && canConsume()) || charging() ? 1f : 0f;",
+          "rule": "The warmup target: 1f when (isShooting and canConsume()) or charging(), else 0f (Turret.java:502), forced to 1f while warmupHold is positive (Turret.java:508).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_update_tile_warmup_state"
+          ]
+        },
+        "warmup_hold": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "warmupHold -= Time.delta / warmupMaintainTime;",
+          "rule": "The warmup hold after the tick: 1f when the target is positive and the turret is uncontrolled (Turret.java:503-505), then decayed by Time.delta / warmupMaintainTime in the same tick (Turret.java:506-508); 1 - delta/maintain for a fresh hold, -Infinity when warmupMaintainTime is the 0f default.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_update_tile_warmup_state"
+          ]
+        },
+        "shoot_warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "shootWarmup = Mathf.lerpDelta(shootWarmup, warmupTarget, shootWarmupSpeed * (warmupTarget > 0 ? efficiency : 1f));",
+          "rule": "The warmup after the tick: advanced toward warmupTarget by approachDelta when linearWarmup (Turret.java:512) or lerpDelta otherwise (Turret.java:514), at rate shootWarmupSpeed * (efficiency while the target is positive, else 1f); read by warmup() (Turret.java:354-355) and the minWarmup fire gate (Turret.java:733).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_update_tile_warmup_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretUpdateTileWarmupProof",
+      "rule": "Source-backed TurretBuild.updateTile() warmup advance from Turret.java + BuildingComp.java + Blocks.java."
     }
   },
   "version": 1
