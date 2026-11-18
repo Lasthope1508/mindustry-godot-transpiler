@@ -40,7 +40,7 @@
 
 - Neighbours đang chạy trên main thread (02:52) — chờ xong, đọc `n2253-neighbours-main.log`.
 - **Lượt cron 03:15:** gate XONG XANH — Ran 6105 in 1162.347s, FAILED (failures=203, skipped=5, errors=0), log `tools/mindustry_godot_transpiler/full-suite-n2253-gate.log` (PID 12978, main thread, launch ~02:57, footer ~03:17). Xác minh độc lập: 203 FAIL headers, cả 203 đều `AssertionError: unexpectedly None`, 0 KeyError, 0 ERROR — toàn Godot-absent, đúng profile kỳ vọng (N2252: 202 → N2253: 203, +1 test Godot-dependent). Proof JSON đã đọc lại: `matches:true`, 11/11 true (8 keys). SSOT đã đọc lại từ đĩa: 11603/1703/1637/3065; defense slices 182, contracts 181.
-- Slice đủ điều kiện commit + push: targeted 4/4 + family 116/116 + wiring 9/9 module OK + neighbours 68/68 + proof matches:true + register 48/48 + gate xanh (trừ Godot-absent). Tiếp theo: docs (report + handoff + spec Done 1703 + row N2253) → commit + push theo mẫu N2252 (slice / docs / GOAL / hashes / status).
+- Slice đủ điều kiện commit + push: targeted 4/4 + family 116/116 + wiring 9/9 module OK + neighbours 68/68 + proof matches:true + register 48/48 + gate xanh (trừ Godot-absent). Hashes: slice `41f09353` / docs `50163cc1` / GOAL `66f44a0f`.
 - Chưa commit/push (N2253 mới gate xanh lượt này).
 
 ## Deferred sau N2253

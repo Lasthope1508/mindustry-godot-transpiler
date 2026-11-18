@@ -45,6 +45,6 @@ N2253 làm được: slice warmup lerp advance cho Turret (duo) — driver đọ
 
 ## Hashes
 
-- Slice `` / docs `` / GOAL ``.
+- Slice `41f09353` / docs `50163cc1` / GOAL `66f44a0f`.
 - Windows Godot proof là nợ trong GOAL.md §5 (proof Linux xanh, chưa chạy Windows).
 - Bước tiếp theo: sau N2253: N2254 candidate recoil/heat decay (Turret.java:519/:526); findTarget (vẫn BLOCKED) hoặc family tiếp theo trong backlog; live coolant driver wiring + suppression/targets live list vẫn BLOCKED.
