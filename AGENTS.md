@@ -57,7 +57,7 @@ the same file. After two divergences in one day (remote N2233 RepairTurret
 colliding with local N2233 on SourceRepairTurretBuildState.gd), families are
 split — each line works ONLY its own families:
 - This VM line: Turret, BurstDrill, Radar, Game.
-- Windows/other line: RepairTower, RepairTurret.
+- Windows/other line: RepairTower, RepairTurret, PointDefenseTurret (Isabella 2026-11-18 ~16:08 +07, after 9 straight PointDefenseTurret slices N2239–N2247 from the Windows line).
 Ambient B (N2260, RepairTurret driver tick line) belongs to the Windows line;
 ambient C (N2264, SoundControl mixer, game-level) belongs to this VM line but
 waits for B. Never start a slice in another line's family. If the other line
