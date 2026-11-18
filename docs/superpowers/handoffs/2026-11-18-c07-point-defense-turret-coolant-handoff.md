@@ -1,4 +1,4 @@
-# Handoff: N2248 PointDefenseTurret live coolant (GREEN, chờ gate)
+# Handoff: N2248 PointDefenseTurret live coolant (DONE + PUSHED)
 
 ## Status
 
@@ -13,7 +13,7 @@
   11575/1698/1631/3053 (+7 symbols, +1 Done, +1 contract, +2 schema);
   defense shard slices 176 → 177, contracts 175 → 176; audit stays 1335;
   deferred 289 → 290 (+1 nợ proof Windows N2248). `git diff --check` sạch.
-- N2248 DONE + PUSHED (origin/main == e5473393, 5-commit, slice 997082d9, gate 2 Ran 6085 / failures 198 toàn Godot-absent).
+- N2248 DONE + PUSHED (origin/main == 36f5c272, 5-commit, slice 997082d9, gate 2 Ran 6085 / failures 198 toàn Godot-absent).
 - Worktree: slice files (state .gd + register + test + proof .gd/.tscn + SSOT JSONs) + handoff này (đã cập nhật GREEN + gate xanh) + report N2248 + spec Done 1698 + row N2248. Không stage `.gd.uid`, proof .json (ignored), gate logs. Chưa commit/push — gate xanh, chờ 5-commit.
 - **LOG GỐC RED ĐÃ MẤT (16:15)**: xem ghi chú RED dưới đây — số liệu RED đã khóa còn nguyên trong handoff này + nhật ký ngày.
 
