@@ -235030,6 +235030,144 @@
       },
       "runtime_proof": "/root/C07PointDefenseTurretHitSizeRemovalProof",
       "rule": "Source-backed PointDefenseTurret bullet hitSize + live bullet removal state from PointDefenseTurret.java + BulletComp.java + BulletType.java + Blocks.java + GroupDefs.java."
+    },
+    "source_point_defense_turret_coolant_state_input": {
+      "status": "active",
+      "owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_coolant_state",
+      "source_slice": "N2248",
+      "keys": {
+        "liquids": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "build.liquids.current()",
+          "rule": "The live liquid inventory Java reads every coolant tick (ConsumeLiquidFilter.java:63-79, `filter.get(build.liquids.current())` / `build.liquids.get(liq)`): the port passes the SourceLiquidModuleState-shaped dict ({\"liquids\": Array[float] by liquid id, \"current\": int id, \"flow\": null}); the PointDefenseTurret driver does not read it yet, so the pure function takes it as a parameter (the N2241 synthetic-inputs precedent).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_coolant_state"
+          ]
+        },
+        "liquid_rows": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "var liqs = content.liquids();",
+          "rule": "The liquid rows in content order Java scans for the fallback pick (ConsumeLiquidFilter.java:67-79, `var liqs = content.liquids();` then `for(int i = 0; i < liqs.size; i++){`): the port passes synthetic rows ({id, name, coolant, gas, temperature, flammability, heat_capacity}) because the catalog cannot supply them -- its liquid entries carry heatCapacity only, and coolant / gas / temperature / flammability are Java class defaults (Liquid.java:50 / :28 / :40 / :38).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_coolant_state"
+          ]
+        },
+        "coolant_amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeCoolant.java",
+          "java_expr": "this.amount = amount;",
+          "rule": "The ConsumeCoolant consumer amount field (ConsumeCoolant.java:12, `this.amount = amount;`, the (float) constructor default 1f, ConsumeCoolant.java:18-20): the removal and the efficiency denominator use this field, NOT the efficiency-scaled local amount.",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_coolant_state"
+          ]
+        },
+        "edelta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "float ed = build.edelta();",
+          "rule": "The per-tick efficiency-scaled delta Java reads for the efficiency guard and the removal (ConsumeLiquidFilter.java:51, `float ed = build.edelta();`; `edelta()` is `efficiency * delta()`, BuildingComp.java:1927-1929, passed in precomputed).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_coolant_state"
+          ]
+        },
+        "multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+          "rule": "The consumer cost multiplier (Consume.java:18, `public Floatf<Building> multiplier = b -> 1f;`), the 1f default, passed in precomputed like the N2240 block_damage_multiplier precedent.",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_coolant_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PointDefenseTurretCoolantProof",
+      "rule": "Source-backed PointDefenseTurret live coolant state from ConsumeCoolant.java + ConsumeLiquidFilter.java + ReloadTurret.java + BaseTurret.java + Blocks.java + Liquid.java + Consume.java."
+    },
+    "source_point_defense_turret_coolant_state_result": {
+      "status": "active",
+      "owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_coolant_state",
+      "source_slice": "N2248",
+      "keys": {
+        "consumed_liquid": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "return build.liquids.current();",
+          "rule": "The consumed coolant liquid (ConsumeLiquidFilter.java:63-79, `return build.liquids.current();` for the current-first pick, `return liq;` for the content-order fallback): the row name, null when no liquid passes the filter with amount > 0.",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_coolant_state"
+          ]
+        },
+        "consumed_index": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "var liq = liqs.get(i);",
+          "rule": "The content id of the consumed liquid (ConsumeLiquidFilter.java:67-71, `var liq = liqs.get(i);` in the content-order scan): -1 when no liquid is consumed.",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_coolant_state"
+          ]
+        },
+        "checked_liquids": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "for(int i = 0; i < liqs.size; i++){",
+          "rule": "How many liquid rows the filter evaluated (ConsumeLiquidFilter.java:67, `for(int i = 0; i < liqs.size; i++){`): the current row once when present, then the content-order scan until a passing liquid with amount > 0 is found.",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_coolant_state"
+          ]
+        },
+        "coolant_efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "return liq != null ? Math.min(build.liquids.get(liq) / (amount * ed * multiplier.get(build)), 1f) : 0f;",
+          "rule": "The ConsumeLiquidFilter efficiency (ConsumeLiquidFilter.java:50-56, `return liq != null ? Math.min(build.liquids.get(liq) / (amount * ed * multiplier.get(build)), 1f) : 0f;`): 0 when ed <= 1e-8 (`if(ed <= 0.00000001f) return 0f;`) or no liquid -- the input the N2241 cooling state takes as a parameter.",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_coolant_state"
+          ]
+        },
+        "heat_capacity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "java_expr": "float capacity = coolant instanceof ConsumeLiquidFilter filter ? filter.getConsumed(this).heatCapacity : (coolant.consumes(liquids.current()) ? liquids.current().heatCapacity : 0.4f);",
+          "rule": "The consumed liquid heatCapacity (ReloadTurret.java:30, `float capacity = coolant instanceof ConsumeLiquidFilter filter ? filter.getConsumed(this).heatCapacity : (coolant.consumes(liquids.current()) ? liquids.current().heatCapacity : 0.4f);`, the filter branch applies because ConsumeCoolant extends ConsumeLiquidFilter), defaulting to the Liquid.java 0.5f class default when the row omits it.",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_coolant_state"
+          ]
+        },
+        "remove_amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "build.liquids.remove(liq, amount * build.edelta() * multiplier.get(build));",
+          "rule": "The Java-exact removal the update applies (ConsumeLiquidFilter.java:44-49, `build.liquids.remove(liq, amount * build.edelta() * multiplier.get(build));`): the consumer amount field times edelta times multiplier, NOT the efficiency-scaled local amount the N2241 cooling state returns as coolant_consumed; 0.0 when no liquid is consumed.",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_coolant_state"
+          ]
+        },
+        "cool_effect_chance": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "java_expr": "if(Mathf.chance(0.06 * amount)){",
+          "rule": "The coolEffect chance key (ReloadTurret.java:35, `if(Mathf.chance(0.06 * amount)){`, with `amount = coolant.amount * coolant.efficiency(this)`, ReloadTurret.java:31): `0.06 * coolant_amount * coolant_efficiency`, returned as a key, never rolled (the N2240 precedent).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_coolant_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PointDefenseTurretCoolantProof",
+      "rule": "Source-backed PointDefenseTurret live coolant state from ConsumeCoolant.java + ConsumeLiquidFilter.java + ReloadTurret.java + BaseTurret.java + Blocks.java + Liquid.java + Consume.java."
     }
   },
   "version": 1

@@ -451,6 +451,114 @@ static func source_point_defense_turret_cooling_state(frame: Dictionary, has_coo
 		cooling_applied = true
 	return {"reload_counter": reload_counter, "cooling_applied": cooling_applied, "coolant_consumed": coolant_consumed}
 
+static func _point_defense_liquid_amount(amounts: Array, liquid_id: int) -> float:
+	# The live liquids array is indexed by liquid id (the
+	# SourceLiquidModuleState shape); an id outside it holds 0.
+	if liquid_id < 0 or liquid_id >= amounts.size():
+		return 0.0
+	return float(amounts[liquid_id])
+
+
+static func source_point_defense_turret_coolant_state(liquids: Dictionary, liquid_rows: Array, coolant_amount: float, edelta: float, multiplier: float) -> Dictionary:
+	# The coolant mechanism of updateCooling()
+	# (ReloadTurret.java:28-38, called from
+	# PointDefenseTurret.java:74-76 `if(coolant != null){` /
+	# `updateCooling(); }`): the ConsumeCoolant filter
+	# (ConsumeCoolant.java:14, `liquid.coolant && (this.allowLiquid && !liquid.gas || this.allowGas && liquid.gas) && liquid.temperature <= maxTemp && liquid.flammability < maxFlammability`,
+	# defaults allowLiquid=true, allowGas=false,
+	# ConsumeCoolant.java:20-22, maxTemp 0.5, maxFlammability 0.1)
+	# picks the consumed liquid (ConsumeLiquidFilter.java:63-79,
+	# `if(filter.get(build.liquids.current()) && build.liquids.currentAmount() > 0){`
+	# current first, else the first liquid in content order
+	# passing the filter with amount > 0,
+	# `if(filter.get(liq) && build.liquids.get(liq) > 0){`); the
+	# efficiency is `min(liquids.get(liq) / (amount * ed * multiplier), 1f)`
+	# (ConsumeLiquidFilter.java:50-56, `return liq != null ? Math.min(build.liquids.get(liq) / (amount * ed * multiplier.get(build)), 1f) : 0f;`,
+	# 0 when ed <= 1e-8, `if(ed <= 0.00000001f) return 0f;`, or no
+	# liquid; multiplier defaults to 1f, `public Floatf<Building> multiplier = b -> 1f;`,
+	# Consume.java:18); the update removal is the consumer amount
+	# field times edelta times multiplier
+	# (`build.liquids.remove(liq, amount * build.edelta() * multiplier.get(build));`,
+	# ConsumeLiquidFilter.java:44-49 -- NOT the efficiency-scaled
+	# local amount the N2241 cooling state returns as
+	# coolant_consumed); heatCapacity is the consumed liquid's
+	# (`float capacity = coolant instanceof ConsumeLiquidFilter filter ? filter.getConsumed(this).heatCapacity : (coolant.consumes(liquids.current()) ? liquids.current().heatCapacity : 0.4f);`,
+	# ReloadTurret.java:30, the filter branch applies because
+	# ConsumeCoolant extends ConsumeLiquidFilter), defaulting to
+	# the Liquid.java 0.5f class default (`public float heatCapacity = 0.5f;`,
+	# Liquid.java:42) when the row omits it; the coolEffect chance
+	# is `0.06 * amount` with `amount = coolant.amount * coolant.efficiency(this)`
+	# (`float amount = coolant.amount * coolant.efficiency(this);`,
+	# ReloadTurret.java:31, `if(Mathf.chance(0.06 * amount)){`,
+	# ReloadTurret.java:35, a random visual -- the pure function
+	# returns the chance, it never rolls, the N2240 precedent).
+	# The rows are proof-supplied in content order (the N2241
+	# synthetic-inputs precedent): the catalog cannot supply
+	# them, its liquid entries carry heatCapacity only, and
+	# coolant / gas / temperature / flammability are Java class
+	# defaults (Liquid.java:50 `public boolean coolant = true;` /
+	# :28 `public boolean gas = false;` / :40 `public float
+	# temperature = 0.5f;` / :38 `public float flammability;`
+	# (0f)), so the filter defaults in the row reads are those
+	# same Java defaults. `checked_liquids` counts the filter
+	# evaluations: the current row once when present, then the
+	# content-order scan until a passing liquid with amount > 0
+	# is found. NO driver tick line (the N2245/N2246 precedent):
+	# the only PointDefenseTurret def, segment
+	# (`segment = new PointDefenseTurret("segment"){{`,
+	# Blocks.java:3835-3846, only `consumePower(8f);` /
+	# `reload = 8f;`), defines NO coolant consumer, so
+	# BaseTurret.init leaves coolant null (`coolant =
+	# findConsumer(c -> c instanceof ConsumeCoolant);`,
+	# BaseTurret.java:50-52) and the driver call stays the
+	# faithful no-op -- and the live driver wiring is BLOCKED on
+	# catalog capture anyway (the catalog records consumeCoolant
+	# for NO block, not even salvo which defines `coolant =
+	# consumeCoolant(0.2f);` at Blocks.java:3831, and its liquid
+	# rows carry heatCapacity only).
+	var amounts: Array = liquids.get("liquids", [])
+	var current: int = int(liquids.get("current", -1))
+	var consumed_liquid: Variant = null
+	var consumed_index: int = -1
+	var checked_liquids: int = 0
+	var coolant_efficiency: float = 0.0
+	var heat_capacity: float = 0.5
+	var remove_amount: float = 0.0
+	var cool_effect_chance: float = 0.0
+	var consumed_row: Dictionary = {}
+	for row in liquid_rows:
+		if not (row is Dictionary):
+			continue
+		if int(row.get("id", -1)) != current:
+			continue
+		checked_liquids += 1
+		var filter_pass: bool = bool(row.get("coolant", true)) and not bool(row.get("gas", false)) and float(row.get("temperature", 0.5)) <= 0.5 and float(row.get("flammability", 0.0)) < 0.1
+		if filter_pass and _point_defense_liquid_amount(amounts, current) > 0.0:
+			consumed_row = row
+			consumed_liquid = row.get("name", null)
+			consumed_index = current
+			heat_capacity = float(row.get("heat_capacity", 0.5))
+		break
+	if consumed_row.is_empty():
+		for row in liquid_rows:
+			if not (row is Dictionary):
+				continue
+			checked_liquids += 1
+			var filter_pass: bool = bool(row.get("coolant", true)) and not bool(row.get("gas", false)) and float(row.get("temperature", 0.5)) <= 0.5 and float(row.get("flammability", 0.0)) < 0.1
+			var row_id: int = int(row.get("id", -1))
+			if filter_pass and _point_defense_liquid_amount(amounts, row_id) > 0.0:
+				consumed_row = row
+				consumed_liquid = row.get("name", null)
+				consumed_index = row_id
+				heat_capacity = float(row.get("heat_capacity", 0.5))
+				break
+	if not consumed_row.is_empty():
+		if edelta > 0.00000001:
+			coolant_efficiency = min(_point_defense_liquid_amount(amounts, consumed_index) / (coolant_amount * edelta * multiplier), 1.0)
+		remove_amount = coolant_amount * edelta * multiplier
+		cool_effect_chance = 0.06 * coolant_amount * coolant_efficiency
+	return {"consumed_liquid": consumed_liquid, "consumed_index": consumed_index, "checked_liquids": checked_liquids, "coolant_efficiency": coolant_efficiency, "heat_capacity": heat_capacity, "remove_amount": remove_amount, "cool_effect_chance": cool_effect_chance}
+
 static func source_point_defense_turret_live_bullets_state(live_bullets: Array) -> Dictionary:
 	# The live bullet query of PointDefenseBuild.updateTile()
 	# (PointDefenseTurret.java:65-67):

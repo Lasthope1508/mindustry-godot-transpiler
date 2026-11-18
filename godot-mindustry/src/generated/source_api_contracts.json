@@ -68471,6 +68471,57 @@
       ],
       "runtime_proof": "/root/C07PointDefenseTurretHitSizeRemovalProof",
       "rule": "Source-backed PointDefenseTurret bullet hitSize + live bullet removal state from PointDefenseTurret.java + BulletComp.java + BulletType.java + Blocks.java + GroupDefs.java."
+    },
+    "SourcePointDefenseTurretBuildState.source_point_defense_turret_coolant_state": {
+      "status": "active",
+      "source_slice": "N2248",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "source_method": "PointDefenseBuild.updateTile()",
+      "params": [
+        {
+          "name": "liquids",
+          "type": "Dictionary",
+          "schema": "source_point_defense_turret_coolant_state_input.liquids"
+        },
+        {
+          "name": "liquid_rows",
+          "type": "Array",
+          "schema": "source_point_defense_turret_coolant_state_input.liquid_rows"
+        },
+        {
+          "name": "coolant_amount",
+          "type": "float",
+          "schema": "source_point_defense_turret_coolant_state_input.coolant_amount"
+        },
+        {
+          "name": "edelta",
+          "type": "float",
+          "schema": "source_point_defense_turret_coolant_state_input.edelta"
+        },
+        {
+          "name": "multiplier",
+          "type": "float",
+          "schema": "source_point_defense_turret_coolant_state_input.multiplier"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "consumed_liquid",
+        "consumed_index",
+        "checked_liquids",
+        "coolant_efficiency",
+        "heat_capacity",
+        "remove_amount",
+        "cool_effect_chance"
+      ],
+      "tests": [
+        "test_c07_point_defense_turret_coolant_registration",
+        "test_all_c07_point_defense_turret_coolant_input_evidence_is_exact",
+        "test_point_defense_turret_coolant",
+        "test_reference_graph_and_actual_c07_point_defense_turret_coolant"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretCoolantProof",
+      "rule": "Source-backed PointDefenseTurret live coolant state from ConsumeCoolant.java + ConsumeLiquidFilter.java + ReloadTurret.java + BaseTurret.java + Blocks.java + Liquid.java + Consume.java."
     }
   },
   "policy": {

@@ -175976,6 +175976,118 @@
         "test_reference_graph_and_actual_c07_point_defense_turret_hit_size_removal"
       ],
       "runtime_proof": "/root/C07PointDefenseTurretHitSizeRemovalProof"
+    },
+    "source_point_defense_turret_coolant_state_result.consumed_liquid": {
+      "status": "source-backed",
+      "godot_owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_coolant_state",
+      "godot_symbol": "source_point_defense_turret_coolant_state_result.consumed_liquid",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "PointDefenseBuild.updateTile()",
+      "java_expr": "return build.liquids.current();",
+      "rule": "The consumed coolant liquid (ConsumeLiquidFilter.java:63-79, `return build.liquids.current();` for the current-first pick, `return liq;` for the content-order fallback): the row name, null when no liquid passes the filter with amount > 0.",
+      "tests": [
+        "test_c07_point_defense_turret_coolant_registration",
+        "test_all_c07_point_defense_turret_coolant_input_evidence_is_exact",
+        "test_point_defense_turret_coolant",
+        "test_reference_graph_and_actual_c07_point_defense_turret_coolant"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretCoolantProof"
+    },
+    "source_point_defense_turret_coolant_state_result.consumed_index": {
+      "status": "source-backed",
+      "godot_owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_coolant_state",
+      "godot_symbol": "source_point_defense_turret_coolant_state_result.consumed_index",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "PointDefenseBuild.updateTile()",
+      "java_expr": "var liq = liqs.get(i);",
+      "rule": "The content id of the consumed liquid (ConsumeLiquidFilter.java:67-71, `var liq = liqs.get(i);` in the content-order scan): -1 when no liquid is consumed.",
+      "tests": [
+        "test_c07_point_defense_turret_coolant_registration",
+        "test_all_c07_point_defense_turret_coolant_input_evidence_is_exact",
+        "test_point_defense_turret_coolant",
+        "test_reference_graph_and_actual_c07_point_defense_turret_coolant"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretCoolantProof"
+    },
+    "source_point_defense_turret_coolant_state_result.checked_liquids": {
+      "status": "source-backed",
+      "godot_owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_coolant_state",
+      "godot_symbol": "source_point_defense_turret_coolant_state_result.checked_liquids",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "PointDefenseBuild.updateTile()",
+      "java_expr": "for(int i = 0; i < liqs.size; i++){",
+      "rule": "How many liquid rows the filter evaluated (ConsumeLiquidFilter.java:67, `for(int i = 0; i < liqs.size; i++){`): the current row once when present, then the content-order scan until a passing liquid with amount > 0 is found.",
+      "tests": [
+        "test_c07_point_defense_turret_coolant_registration",
+        "test_all_c07_point_defense_turret_coolant_input_evidence_is_exact",
+        "test_point_defense_turret_coolant",
+        "test_reference_graph_and_actual_c07_point_defense_turret_coolant"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretCoolantProof"
+    },
+    "source_point_defense_turret_coolant_state_result.coolant_efficiency": {
+      "status": "source-backed",
+      "godot_owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_coolant_state",
+      "godot_symbol": "source_point_defense_turret_coolant_state_result.coolant_efficiency",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "PointDefenseBuild.updateTile()",
+      "java_expr": "return liq != null ? Math.min(build.liquids.get(liq) / (amount * ed * multiplier.get(build)), 1f) : 0f;",
+      "rule": "The ConsumeLiquidFilter efficiency (ConsumeLiquidFilter.java:50-56, `return liq != null ? Math.min(build.liquids.get(liq) / (amount * ed * multiplier.get(build)), 1f) : 0f;`): 0 when ed <= 1e-8 (`if(ed <= 0.00000001f) return 0f;`) or no liquid -- the input the N2241 cooling state takes as a parameter.",
+      "tests": [
+        "test_c07_point_defense_turret_coolant_registration",
+        "test_all_c07_point_defense_turret_coolant_input_evidence_is_exact",
+        "test_point_defense_turret_coolant",
+        "test_reference_graph_and_actual_c07_point_defense_turret_coolant"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretCoolantProof"
+    },
+    "source_point_defense_turret_coolant_state_result.heat_capacity": {
+      "status": "source-backed",
+      "godot_owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_coolant_state",
+      "godot_symbol": "source_point_defense_turret_coolant_state_result.heat_capacity",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+      "java_method": "PointDefenseBuild.updateTile()",
+      "java_expr": "float capacity = coolant instanceof ConsumeLiquidFilter filter ? filter.getConsumed(this).heatCapacity : (coolant.consumes(liquids.current()) ? liquids.current().heatCapacity : 0.4f);",
+      "rule": "The consumed liquid heatCapacity (ReloadTurret.java:30, `float capacity = coolant instanceof ConsumeLiquidFilter filter ? filter.getConsumed(this).heatCapacity : (coolant.consumes(liquids.current()) ? liquids.current().heatCapacity : 0.4f);`, the filter branch applies because ConsumeCoolant extends ConsumeLiquidFilter), defaulting to the Liquid.java 0.5f class default when the row omits it.",
+      "tests": [
+        "test_c07_point_defense_turret_coolant_registration",
+        "test_all_c07_point_defense_turret_coolant_input_evidence_is_exact",
+        "test_point_defense_turret_coolant",
+        "test_reference_graph_and_actual_c07_point_defense_turret_coolant"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretCoolantProof"
+    },
+    "source_point_defense_turret_coolant_state_result.remove_amount": {
+      "status": "source-backed",
+      "godot_owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_coolant_state",
+      "godot_symbol": "source_point_defense_turret_coolant_state_result.remove_amount",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "PointDefenseBuild.updateTile()",
+      "java_expr": "build.liquids.remove(liq, amount * build.edelta() * multiplier.get(build));",
+      "rule": "The Java-exact removal the update applies (ConsumeLiquidFilter.java:44-49, `build.liquids.remove(liq, amount * build.edelta() * multiplier.get(build));`): the consumer amount field times edelta times multiplier, NOT the efficiency-scaled local amount the N2241 cooling state returns as coolant_consumed; 0.0 when no liquid is consumed.",
+      "tests": [
+        "test_c07_point_defense_turret_coolant_registration",
+        "test_all_c07_point_defense_turret_coolant_input_evidence_is_exact",
+        "test_point_defense_turret_coolant",
+        "test_reference_graph_and_actual_c07_point_defense_turret_coolant"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretCoolantProof"
+    },
+    "source_point_defense_turret_coolant_state_result.cool_effect_chance": {
+      "status": "source-backed",
+      "godot_owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_coolant_state",
+      "godot_symbol": "source_point_defense_turret_coolant_state_result.cool_effect_chance",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+      "java_method": "PointDefenseBuild.updateTile()",
+      "java_expr": "if(Mathf.chance(0.06 * amount)){",
+      "rule": "The coolEffect chance key (ReloadTurret.java:35, `if(Mathf.chance(0.06 * amount)){`, with `amount = coolant.amount * coolant.efficiency(this)`, ReloadTurret.java:31): `0.06 * coolant_amount * coolant_efficiency`, returned as a key, never rolled (the N2240 precedent).",
+      "tests": [
+        "test_c07_point_defense_turret_coolant_registration",
+        "test_all_c07_point_defense_turret_coolant_input_evidence_is_exact",
+        "test_point_defense_turret_coolant",
+        "test_reference_graph_and_actual_c07_point_defense_turret_coolant"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretCoolantProof"
     }
   },
   "version": 1
