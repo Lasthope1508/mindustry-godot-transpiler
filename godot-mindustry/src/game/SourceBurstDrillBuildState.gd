@@ -11,6 +11,7 @@ const source_drill_dump_runtime_state := preload("res://src/game/SourceDrillDump
 const source_drill_runtime_state := preload("res://src/game/SourceDrillRuntimeState.gd")
 const source_consume_liquid_state := preload("res://src/game/SourceConsumeLiquidState.gd")
 const source_block_defaults := preload("res://src/game/SourceBlockDefaults.gd")
+const source_building_draw_state := preload("res://src/game/SourceBuildingDrawState.gd")
 
 # The BurstDrill implementation (BurstDrill.java:17, `public class
 # BurstDrill extends Drill{`): eruption-drill (consumePower 6f,
@@ -372,6 +373,24 @@ static func source_drill_set_stats_state(frame: Dictionary, drill_time: float, h
 	if booster_present:
 		booster_row = {"format": "{0} x speed", "amount": booster_amount, "intensity": liquid_boost_intensity * liquid_boost_intensity, "strength": false, "consumes": booster_consumes}
 	return {"drill_tier_row": drill_tier_row, "drill_speed_row": drill_speed_row, "booster_row_removed": booster_row_removed, "booster_row": booster_row}
+
+static func source_drill_draw_select_state(x: float, y: float, block_size: int, tilesize: float, icon_small: float, has_dominant_item: bool, dominant_item_icon_ratio: float) -> Dictionary:
+	# DrillBuild.drawSelect() (Drill.java:262-264):
+	# public void drawSelect(){
+	# drawItemSelection(dominantItem);
+	# }
+	# draws the dominant item's icon above the building through BuildingComp.drawItemSelection (BuildingComp.java:1249-1257):
+	# public void drawItemSelection(@Nullable UnlockableContent selection){
+	# if(selection != null){
+	# float dx = x - block.size * tilesize/2f, dy = y + block.size * tilesize/2f, s = iconSmall / 4f * selection.fullIcon.ratio(), h = iconSmall / 4f;
+	# Draw.mixcol(Color.darkGray, 1f);
+	# Draw.rect(selection.fullIcon, dx, dy - 1, s, h);
+	# Draw.reset();
+	# Draw.rect(selection.fullIcon, dx, dy, s, h);
+	# }
+	# }
+	# The dominant item is `public Item dominantItem;` (Drill.java:244), set by the N2262 ore/dominant binding; the caller passes it as explicit params (has_dominant_item, dominant_item_icon_ratio) -- the N2268/N2275/N2281 explicit-param precedent. The helper is ALREADY LIVE at PortGame N570 (SourceBuildingDrawState.draw_item_selection_state, `source_building_draw_state.draw_item_selection_state`), so this function delegates to it and does NOT re-port the helper: the helper owns the guard, the geometry (dx = x - block.size * tilesize/2f, dy = y + block.size * tilesize/2f, s = iconSmall / 4f * ratio, h = iconSmall / 4f), the darkGray shadow rect at dy - 1 and the foreground rect at dy, returning the nine result keys visible, dx, dy, shadow_color, shadow_alpha, shadow_y, foreground_y, selection_width, selection_height (hidden -- only visible -- when there is no dominant item). tilesize is 8 (`public static final int tilesize = 8;`, Vars.java:135) and iconSmall is 24 (`iconSmall = 8*3f;`, Vars.java:139), both passed explicitly. Per-def sizes: impact-drill `size = 4;` (Blocks.java:3073), eruption-drill `size = 5;` (Blocks.java:3096). The classes are `public class Drill extends Block{` (Drill.java:27) and `public class DrillBuild extends Building{` (Drill.java:237); BurstDrillBuild inherits DrillBuild (`public class BurstDrill extends Drill{`, BurstDrill.java:17). This is a different method from RepairTurret drawSelect N2220 (different class) -- no overlap. There is NO driver tick line: drawSelect is selection UI, not per-tick state (the accessor precedent N2268/N2275/N2281).
+	return source_building_draw_state.draw_item_selection_state(has_dominant_item, x, y, block_size, tilesize, icon_small, dominant_item_icon_ratio)
 
 static func source_burst_drill_update_tile_state(frame: Dictionary, delta: float, drill_time_base: float, drill_multiplier: float, inverted_time: float, liquid_boost_intensity: float, item_capacity: float, dump_interval: float) -> Dictionary:
 	# BurstDrillBuild.updateTile advances the burst drill's

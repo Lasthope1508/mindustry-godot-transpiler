@@ -3039,6 +3039,141 @@
       ],
       "runtime_proof": "/root/DrillProximityLifecycleProof"
     },
+    "source_drill_draw_select_state_result.dx": {
+      "canonical_symbol": "source_symbol_registry.source_drill_draw_select_state_result.dx",
+      "status": "source-backed",
+      "java_expr": "float dx = x - block.size * tilesize/2f, dy = y + block.size * tilesize/2f, s = iconSmall / 4f * selection.fullIcon.ratio(), h = iconSmall / 4f;",
+      "godot_symbol": "source_drill_draw_select_state_result.dx",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_draw_select_state",
+      "rule": "The icon center x in world units (`dx = x - block.size * tilesize/2f`, BuildingComp.java:1251); impact-drill 84.0 at x 100 (size 4, tilesize 8), eruption-drill 80.0 (size 5).",
+      "tests": [
+        "test_c07_drill_draw_select_registration",
+        "test_all_c07_drill_draw_select_input_evidence_is_exact",
+        "test_drill_draw_select_state",
+        "test_reference_graph_and_actual_c07_drill_draw_select"
+      ],
+      "runtime_proof": "/root/C07DrillDrawSelectProof"
+    },
+    "source_drill_draw_select_state_result.dy": {
+      "canonical_symbol": "source_symbol_registry.source_drill_draw_select_state_result.dy",
+      "status": "source-backed",
+      "java_expr": "float dx = x - block.size * tilesize/2f, dy = y + block.size * tilesize/2f, s = iconSmall / 4f * selection.fullIcon.ratio(), h = iconSmall / 4f;",
+      "godot_symbol": "source_drill_draw_select_state_result.dy",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_draw_select_state",
+      "rule": "The icon center y in world units (`dy = y + block.size * tilesize/2f`, BuildingComp.java:1251); impact-drill 216.0 at y 200 (size 4, tilesize 8), eruption-drill 220.0 (size 5).",
+      "tests": [
+        "test_c07_drill_draw_select_registration",
+        "test_all_c07_drill_draw_select_input_evidence_is_exact",
+        "test_drill_draw_select_state",
+        "test_reference_graph_and_actual_c07_drill_draw_select"
+      ],
+      "runtime_proof": "/root/C07DrillDrawSelectProof"
+    },
+    "source_drill_draw_select_state_result.foreground_y": {
+      "canonical_symbol": "source_symbol_registry.source_drill_draw_select_state_result.foreground_y",
+      "status": "source-backed",
+      "java_expr": "Draw.rect(selection.fullIcon, dx, dy, s, h);",
+      "godot_symbol": "source_drill_draw_select_state_result.foreground_y",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_draw_select_state",
+      "rule": "The foreground rect y (`Draw.rect(selection.fullIcon, dx, dy, s, h);`, BuildingComp.java:1255): dy + 0 (SourceBuildingDefaults DRAW_ITEM_SELECTION_FOREGROUND_Y_OFFSET 0.0); impact-drill 216.0 at dy 216.0.",
+      "tests": [
+        "test_c07_drill_draw_select_registration",
+        "test_all_c07_drill_draw_select_input_evidence_is_exact",
+        "test_drill_draw_select_state",
+        "test_reference_graph_and_actual_c07_drill_draw_select"
+      ],
+      "runtime_proof": "/root/C07DrillDrawSelectProof"
+    },
+    "source_drill_draw_select_state_result.selection_height": {
+      "canonical_symbol": "source_symbol_registry.source_drill_draw_select_state_result.selection_height",
+      "status": "source-backed",
+      "java_expr": "float dx = x - block.size * tilesize/2f, dy = y + block.size * tilesize/2f, s = iconSmall / 4f * selection.fullIcon.ratio(), h = iconSmall / 4f;",
+      "godot_symbol": "source_drill_draw_select_state_result.selection_height",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_draw_select_state",
+      "rule": "The icon height in world units (`h = iconSmall / 4f`, BuildingComp.java:1251); 6.0 (iconSmall 24).",
+      "tests": [
+        "test_c07_drill_draw_select_registration",
+        "test_all_c07_drill_draw_select_input_evidence_is_exact",
+        "test_drill_draw_select_state",
+        "test_reference_graph_and_actual_c07_drill_draw_select"
+      ],
+      "runtime_proof": "/root/C07DrillDrawSelectProof"
+    },
+    "source_drill_draw_select_state_result.selection_width": {
+      "canonical_symbol": "source_symbol_registry.source_drill_draw_select_state_result.selection_width",
+      "status": "source-backed",
+      "java_expr": "float dx = x - block.size * tilesize/2f, dy = y + block.size * tilesize/2f, s = iconSmall / 4f * selection.fullIcon.ratio(), h = iconSmall / 4f;",
+      "godot_symbol": "source_drill_draw_select_state_result.selection_width",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_draw_select_state",
+      "rule": "The icon width in world units (`s = iconSmall / 4f * selection.fullIcon.ratio()`, BuildingComp.java:1251); 6.0 at ratio 1.0, 12.0 at ratio 2.0 (iconSmall 24).",
+      "tests": [
+        "test_c07_drill_draw_select_registration",
+        "test_all_c07_drill_draw_select_input_evidence_is_exact",
+        "test_drill_draw_select_state",
+        "test_reference_graph_and_actual_c07_drill_draw_select"
+      ],
+      "runtime_proof": "/root/C07DrillDrawSelectProof"
+    },
+    "source_drill_draw_select_state_result.shadow_alpha": {
+      "canonical_symbol": "source_symbol_registry.source_drill_draw_select_state_result.shadow_alpha",
+      "status": "source-backed",
+      "java_expr": "Draw.mixcol(Color.darkGray, 1f);",
+      "godot_symbol": "source_drill_draw_select_state_result.shadow_alpha",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_draw_select_state",
+      "rule": "The shadow rect alpha (`Draw.mixcol(Color.darkGray, 1f);`, BuildingComp.java:1252): the helper pins 1.0 (SourceBuildingDefaults DRAW_ITEM_SELECTION_SHADOW_ALPHA).",
+      "tests": [
+        "test_c07_drill_draw_select_registration",
+        "test_all_c07_drill_draw_select_input_evidence_is_exact",
+        "test_drill_draw_select_state",
+        "test_reference_graph_and_actual_c07_drill_draw_select"
+      ],
+      "runtime_proof": "/root/C07DrillDrawSelectProof"
+    },
+    "source_drill_draw_select_state_result.shadow_color": {
+      "canonical_symbol": "source_symbol_registry.source_drill_draw_select_state_result.shadow_color",
+      "status": "source-backed",
+      "java_expr": "Draw.mixcol(Color.darkGray, 1f);",
+      "godot_symbol": "source_drill_draw_select_state_result.shadow_color",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_draw_select_state",
+      "rule": "The shadow rect color (`Draw.mixcol(Color.darkGray, 1f);`, BuildingComp.java:1252): the helper pins \"darkGray\" (SourceBuildingDefaults DRAW_ITEM_SELECTION_SHADOW_COLOR).",
+      "tests": [
+        "test_c07_drill_draw_select_registration",
+        "test_all_c07_drill_draw_select_input_evidence_is_exact",
+        "test_drill_draw_select_state",
+        "test_reference_graph_and_actual_c07_drill_draw_select"
+      ],
+      "runtime_proof": "/root/C07DrillDrawSelectProof"
+    },
+    "source_drill_draw_select_state_result.shadow_y": {
+      "canonical_symbol": "source_symbol_registry.source_drill_draw_select_state_result.shadow_y",
+      "status": "source-backed",
+      "java_expr": "Draw.rect(selection.fullIcon, dx, dy - 1, s, h);",
+      "godot_symbol": "source_drill_draw_select_state_result.shadow_y",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_draw_select_state",
+      "rule": "The shadow rect y (`Draw.rect(selection.fullIcon, dx, dy - 1, s, h);`, BuildingComp.java:1253): dy - 1 (SourceBuildingDefaults DRAW_ITEM_SELECTION_SHADOW_Y_OFFSET 1.0); impact-drill 215.0 at dy 216.0.",
+      "tests": [
+        "test_c07_drill_draw_select_registration",
+        "test_all_c07_drill_draw_select_input_evidence_is_exact",
+        "test_drill_draw_select_state",
+        "test_reference_graph_and_actual_c07_drill_draw_select"
+      ],
+      "runtime_proof": "/root/C07DrillDrawSelectProof"
+    },
+    "source_drill_draw_select_state_result.visible": {
+      "canonical_symbol": "source_symbol_registry.source_drill_draw_select_state_result.visible",
+      "status": "source-backed",
+      "java_expr": "if(selection != null){",
+      "godot_symbol": "source_drill_draw_select_state_result.visible",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_draw_select_state",
+      "rule": "Whether the dominant-item icon is drawn: true exactly when a dominant item is present (BuildingComp.java:1250, `if(selection != null){`); the helper returns only {visible: false} when there is none.",
+      "tests": [
+        "test_c07_drill_draw_select_registration",
+        "test_all_c07_drill_draw_select_input_evidence_is_exact",
+        "test_drill_draw_select_state",
+        "test_reference_graph_and_actual_c07_drill_draw_select"
+      ],
+      "runtime_proof": "/root/C07DrillDrawSelectProof"
+    },
     "source_drill_get_drop_input.tile": {
       "canonical_symbol": "source_symbol_registry.source_drill_get_drop_input.tile",
       "status": "source-backed",

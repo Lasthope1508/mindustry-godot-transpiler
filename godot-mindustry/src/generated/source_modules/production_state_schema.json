@@ -589,6 +589,81 @@
         }
       }
     },
+    "source_drill_draw_select_state_input": {
+      "canonical_schema": "source_state_schema.source_drill_draw_select_state_input",
+      "keys": {
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "float dx = x - block.size * tilesize/2f, dy = y + block.size * tilesize/2f, s = iconSmall / 4f * selection.fullIcon.ratio(), h = iconSmall / 4f;",
+          "rule": "The building world x (BuildingComp.drawItemSelection, BuildingComp.java:1251: `dx = x - block.size * tilesize/2f`); passed explicitly because drawSelect reads the live building position.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_select_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "float dx = x - block.size * tilesize/2f, dy = y + block.size * tilesize/2f, s = iconSmall / 4f * selection.fullIcon.ratio(), h = iconSmall / 4f;",
+          "rule": "The building world y (BuildingComp.drawItemSelection, BuildingComp.java:1251: `dy = y + block.size * tilesize/2f`); passed explicitly because drawSelect reads the live building position.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_select_state"
+          ]
+        },
+        "block_size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "size = 4;",
+          "rule": "The block size in tiles (impact-drill `size = 4;`, Blocks.java:3073; eruption-drill `size = 5;`, Blocks.java:3096); the helper offsets dx/dy by block.size * tilesize/2f (BuildingComp.java:1251); passed explicitly because it is per-def static state (the N2212 per-def-param precedent).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_select_state"
+          ]
+        },
+        "tilesize": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/Vars.java",
+          "java_expr": "public static final int tilesize = 8;",
+          "rule": "The world units per tile (`public static final int tilesize = 8;`, Vars.java:135); the helper multiplies block.size * tilesize/2f (BuildingComp.java:1251); passed explicitly.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_select_state"
+          ]
+        },
+        "icon_small": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/Vars.java",
+          "java_expr": "iconSmall = 8*3f;",
+          "rule": "The small icon size in UI units (`iconSmall = 8*3f;`, Vars.java:139, 24); the helper sizes the icon s = iconSmall / 4f * ratio, h = iconSmall / 4f (BuildingComp.java:1251); passed explicitly.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_select_state"
+          ]
+        },
+        "has_dominant_item": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public Item dominantItem;",
+          "rule": "Whether the drill has a dominant item: dominantItem is `public Item dominantItem;` (Drill.java:244), set by the N2262 ore/dominant binding; drawSelect passes it to drawItemSelection (Drill.java:263), whose guard is `if(selection != null){` (BuildingComp.java:1250); passed explicitly because the binding is not this slice.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_select_state"
+          ]
+        },
+        "dominant_item_icon_ratio": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "float dx = x - block.size * tilesize/2f, dy = y + block.size * tilesize/2f, s = iconSmall / 4f * selection.fullIcon.ratio(), h = iconSmall / 4f;",
+          "rule": "The dominant item icon aspect ratio (`selection.fullIcon.ratio()`, BuildingComp.java:1251); the helper sizes the icon width s = iconSmall / 4f * ratio; passed explicitly with the dominant item.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_select_state"
+          ]
+        }
+      }
+    },
     "source_drill_dump_interval_input": {
       "canonical_schema": "source_state_schema.source_drill_dump_interval_input",
       "keys": {
