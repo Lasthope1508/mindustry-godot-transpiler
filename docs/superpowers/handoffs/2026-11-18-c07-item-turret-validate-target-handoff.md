@@ -1,6 +1,6 @@
-# Handoff — N2251 ItemTurret validateTarget (C07) [GATE XONG — CHỜ COMMIT/PUSH]
+# Handoff — N2251 ItemTurret validateTarget (C07) [DONE + PUSHED]
 
-## Status: GATE XONG (lượt cron 2026-11-19 ~00:0x +07 xác minh từ log) — slice commit 0ecc5608, HEAD 0d1a5c15 + slice. Targeted 4/4 (chạy lại 19.09s) + family + wiring + proof xanh + gate 2 xanh (Ran 6097, failures 201 toàn Godot-absent). CHỜ commit docs/GOAL + push.
+## Status: DONE + PUSHED (2026-11-19 ~00:1x +07) — origin/main == 67f24987. Slice 0ecc5608 + docs 059a737d + GOAL 0f04cc2e + hashes 67f24987. Targeted 4/4 + proof matches:true 11/11 + gate 2 Ran 6097, failures 201 toàn Godot-absent.
 
 - Targeted 4/4 (main-thread re-run, 18.61s, 37 subtests): lần chạy đầu 3 passed + 1 failed ở test proof — chỉ do port-7777 MCP bind ERROR (flake môi trường, proof JSON lúc đó đã `matches:true`, 8/8 keys true); chạy lại riêng test proof 1 passed, 8 subtests, 22.86s; chạy lại full targeted 4 passed.
 - Family `-k item_turret`: 111 passed + 1 failed (cùng flake port-7777 trong batch — proof test của N2251 fail khi chạy chung, pass khi chạy riêng); 213 subtests.
@@ -61,4 +61,5 @@
 - Slice `0ecc5608` — C07: N2251 ItemTurret validateTarget (1 pure function + driver tick for duo, proof 8 keys).
 - Docs `059a737d` — report + handoff + design spec.
 - GOAL `0f04cc2e` — GOAL.md §5 names the slice commit.
-- (hashes / handoff-status theo sau — xem report)
+- Hashes `67f24987` — report + handoff name slice/docs/GOAL hashes.
+- Handoff-status (commit này) — Status DONE + PUSHED, origin/main == 67f24987.
