@@ -59,4 +59,6 @@
 ## Commits
 
 - Slice `0ecc5608` — C07: N2251 ItemTurret validateTarget (1 pure function + driver tick for duo, proof 8 keys).
-- (docs / GOAL / hashes / handoff-status theo sau — xem report)
+- Docs `059a737d` — report + handoff + design spec.
+- GOAL `0f04cc2e` — GOAL.md §5 names the slice commit.
+- (hashes / handoff-status theo sau — xem report)

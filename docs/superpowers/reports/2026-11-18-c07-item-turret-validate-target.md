@@ -43,6 +43,6 @@ N2251 làm được: slice validateTarget cho ItemTurret (duo) — pure predicat
 
 ## Hashes
 
-- Slice `0ecc5608` / docs (theo sau) / GOAL (theo sau) (handoff-status commit follows; main hash filled at push).
+- Slice `0ecc5608` / docs `059a737d` / GOAL `0f04cc2e` (handoff-status commit follows; main hash filled at push).
 - Windows Godot proof là nợ trong GOAL.md §5 (proof Linux xanh, chưa chạy Windows).
 - Bước tiếp theo: commit + push N2251 → sau N2251: ItemTurret bullet spawn / findTarget, hoặc family tiếp theo trong backlog; live coolant driver wiring + suppression/targets live list vẫn BLOCKED.
