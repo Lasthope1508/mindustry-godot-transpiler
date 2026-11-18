@@ -1,6 +1,6 @@
 # Handoff — N2244 PointDefenseTurret draw() body (C07)
 
-## Status: GREEN 64/64 — targeted 4/4 + family 28/28 + wiring 32/32, proof 6 semantic keys / 10 in JSON matches:true. GATE 1 (main thread, PID 3190) ĐÃ XONG: Ran 6069, failures=194, skipped=5, errors=0 — all 194 Godot-absent (incl. N2244 reference test). Slice commit 910e7fdf. Docs/spec + GOAL + hashes + push in progress (cron 11:45).
+## Status: DONE + PUSHED — N2244 PointDefenseTurret draw() body GREEN 64/64 (targeted 4/4 + family 28/28 + wiring 32/32, proof 10/10 matches:true), gate 1 Ran 6069 failures=194 (all Godot-absent). Slice 910e7fdf, docs 8f4a9d53, GOAL 8879dc95, hashes 1d272fe1, main 1d272fe1 (pushed 2026-11-18 ~11:5x +07). Windows Godot proof debt in GOAL.md §5.
 
 ## Scope
 
