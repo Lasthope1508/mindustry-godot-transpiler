@@ -7663,6 +7663,47 @@
       "rule": "Source-backed turret power.status row from ConsumePower.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceTurretBuildState.source_turret_should_consume_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_should_consume_state",
+      "status": "active",
+      "source_slice": "N2253",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_should_consume_state_input.frame"
+        },
+        {
+          "name": "is_shooting",
+          "type": "bool",
+          "schema": "source_turret_should_consume_state_input.is_shooting"
+        },
+        {
+          "name": "reload_counter",
+          "type": "float",
+          "schema": "source_turret_should_consume_state_input.reload_counter"
+        },
+        {
+          "name": "reload",
+          "type": "float",
+          "schema": "source_turret_should_consume_state_input.reload"
+        }
+      ],
+      "return_keys": [
+        "should_consume"
+      ],
+      "tests": [
+        "test_c07_turret_should_consume_registration",
+        "test_all_c07_turret_should_consume_input_evidence_is_exact",
+        "test_turret_should_consume_state",
+        "test_reference_graph_and_actual_c07_turret_should_consume"
+      ],
+      "runtime_proof": "/root/C07TurretShouldConsumeProof",
+      "rule": "Source-backed TurretBuild.shouldConsume() state from Turret.java + ReloadTurret.java + BuildingComp.java.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_turret_tick_buildings_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_tick_buildings_state",
       "status": "active",

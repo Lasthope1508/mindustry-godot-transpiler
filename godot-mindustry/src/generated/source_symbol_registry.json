@@ -176088,6 +176088,22 @@
         "test_reference_graph_and_actual_c07_repair_turret_draw_beam_pulse"
       ],
       "runtime_proof": "/root/C07RepairTurretDrawBeamPulseProof"
+    },
+    "source_turret_should_consume_state_result.should_consume": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_should_consume_state",
+      "godot_symbol": "source_turret_should_consume_state_result.should_consume",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.shouldConsume()",
+      "java_expr": "return isShooting || reloadCounter < reload;",
+      "rule": "Whether the turret should consume: true while shooting or still reloading (Turret.java:365); updateConsumption forces efficiency to zero when false (BuildingComp.java:1960 + 1993).",
+      "tests": [
+        "test_c07_turret_should_consume_registration",
+        "test_all_c07_turret_should_consume_input_evidence_is_exact",
+        "test_turret_should_consume_state",
+        "test_reference_graph_and_actual_c07_turret_should_consume"
+      ],
+      "runtime_proof": "/root/C07TurretShouldConsumeProof"
     }
   },
   "version": 1
