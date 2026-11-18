@@ -15,7 +15,7 @@ Counts below are projected from the canonical `source_slice_ledger.json`, not fr
 | Bucket | Count |
 | --- | ---: |
 | Canonical slice ledger entries | 1654 |
-| Done | 1692 |
+| Done | 1693 |
 | Not done | 0 |
 | Blocked | 0 |
 
