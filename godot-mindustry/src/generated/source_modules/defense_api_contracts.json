@@ -7111,6 +7111,32 @@
       "rule": "Source-backed Radar power.status row from ConsumePower.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceRadarBuildState.source_radar_progress_state": {
+      "canonical_contract": "source_api_contracts.SourceRadarBuildState.source_radar_progress_state",
+      "status": "active",
+      "source_slice": "N2263",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "source_method": "RadarBuild.progress()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_radar_progress_state_input.frame"
+        }
+      ],
+      "return_keys": [
+        "progress"
+      ],
+      "tests": [
+        "test_c07_radar_progress_registration",
+        "test_all_c07_radar_progress_input_evidence_is_exact",
+        "test_radar_progress_state",
+        "test_reference_graph_and_actual_c07_radar_progress"
+      ],
+      "runtime_proof": "/root/C07RadarProgressProof",
+      "rule": "Source-backed Radar progress() accessor from Radar.java.",
+      "return_type": "Dictionary"
+    },
     "SourceRadarBuildState.source_radar_update_tile_state": {
       "canonical_contract": "source_api_contracts.SourceRadarBuildState.source_radar_update_tile_state",
       "status": "active",

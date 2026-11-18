@@ -68958,6 +68958,31 @@
       ],
       "runtime_proof": "/root/C07BurstDrillOnProximityUpdateProof",
       "rule": "Source-backed BurstDrill ore / dominant-item binding from Drill.java + BurstDrill.java + Blocks.java."
+    },
+    "SourceRadarBuildState.source_radar_progress_state": {
+      "status": "active",
+      "source_slice": "N2263",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "source_method": "RadarBuild.progress()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_radar_progress_state_input.frame"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "progress"
+      ],
+      "tests": [
+        "test_c07_radar_progress_registration",
+        "test_all_c07_radar_progress_input_evidence_is_exact",
+        "test_radar_progress_state",
+        "test_reference_graph_and_actual_c07_radar_progress"
+      ],
+      "runtime_proof": "/root/C07RadarProgressProof",
+      "rule": "Source-backed Radar progress() accessor from Radar.java."
     }
   },
   "policy": {

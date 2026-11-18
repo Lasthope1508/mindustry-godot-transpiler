@@ -80,6 +80,10 @@ static func source_radar_fog_radius_state(frame: Dictionary, fog_radius: float) 
 	var fog_radius_value: float = fog_radius * progress * smooth_efficiency
 	return {"fog_radius": fog_radius_value}
 
+static func source_radar_progress_state(frame: Dictionary) -> Dictionary:
+	# RadarBuild.progress() (Radar.java:93, `public float progress(){` with `return progress;`, Radar.java:94) overrides the base BuildingComp.progress() for Radar: the discovery-progress accessor returns the frame's progress (the Java field `public float progress;`, Radar.java:49, init 0.0), advanced by updateTile (Radar.java:68, `progress += edelta() / discoveryTime;`, clamped Radar.java:69, `progress = Mathf.clamp(progress);`, N2248) and read by fogRadius() (Radar.java:56, `return fogRadius * progress * smoothEfficiency;`, N2249). The logic-dispatch hook that reads it waits for its own slice (the N2255 sense precedent), and the write/read persistence (Radar.java:101, `write.f(progress);` / Radar.java:108, `progress = read.f();`) is its own slice -- so no driver tick line lands here: the accessor is the read its callers share. One def (radar, Radar.java:17, `public class Radar extends Block{`; RadarBuild, Radar.java:48, `public class RadarBuild extends Building{`).
+	return {"progress": float(frame.get("progress", 0.0))}
+
 static func source_radar_icons_state(base_region: Variant, region: Variant) -> Dictionary:
 	# Radar.icons() (Radar.java:36-39):
 	# @Override

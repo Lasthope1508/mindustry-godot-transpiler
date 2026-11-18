@@ -176600,6 +176600,22 @@
         "test_reference_graph_and_actual_c07_burst_drill_on_proximity_update"
       ],
       "runtime_proof": "/root/C07BurstDrillOnProximityUpdateProof"
+    },
+    "source_radar_progress_state_result.progress": {
+      "status": "source-backed",
+      "godot_owner": "SourceRadarBuildState.source_radar_progress_state",
+      "godot_symbol": "source_radar_progress_state_result.progress",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "RadarBuild.progress()",
+      "java_expr": "return progress;",
+      "rule": "The discovery progress: progress() (Radar.java:93-94), `return progress;`; 0.0 before discovery (progress 0.0), 1.0 at full discovery, clamped to [0, 1] by the updateTile advance (Radar.java:68-69, N2248).",
+      "tests": [
+        "test_c07_radar_progress_registration",
+        "test_all_c07_radar_progress_input_evidence_is_exact",
+        "test_radar_progress_state",
+        "test_reference_graph_and_actual_c07_radar_progress"
+      ],
+      "runtime_proof": "/root/C07RadarProgressProof"
     }
   },
   "version": 1

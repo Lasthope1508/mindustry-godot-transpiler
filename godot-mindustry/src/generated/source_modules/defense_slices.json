@@ -3373,6 +3373,23 @@
       ],
       "runtime_proof": "/root/C07TurretEstimateDpsProof"
     },
+    "N2263": {
+      "canonical_ledger": "source_slice_ledger.N2263",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "RadarBuild.progress()",
+      "godot_owner": "SourceRadarBuildState.source_radar_progress_state",
+      "source_symbols": [
+        "source_radar_progress_state_result.progress"
+      ],
+      "tests": [
+        "test_c07_radar_progress_registration",
+        "test_all_c07_radar_progress_input_evidence_is_exact",
+        "test_radar_progress_state",
+        "test_reference_graph_and_actual_c07_radar_progress"
+      ],
+      "runtime_proof": "/root/C07RadarProgressProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

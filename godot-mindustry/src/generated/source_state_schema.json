@@ -236132,6 +236132,44 @@
       },
       "runtime_proof": "/root/C07BurstDrillOnProximityUpdateProof",
       "rule": "Source-backed BurstDrill ore / dominant-item binding from Drill.java + BurstDrill.java + Blocks.java."
+    },
+    "source_radar_progress_state_input": {
+      "status": "active",
+      "owner": "SourceRadarBuildState.source_radar_progress_state",
+      "source_slice": "N2263",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "public float progress(){",
+          "rule": "The radar frame (RadarBuild.progress, Radar.java:93): carries progress (Java init 0.0, Radar.java:49).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_progress_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RadarProgressProof",
+      "rule": "Source-backed Radar progress() accessor from Radar.java."
+    },
+    "source_radar_progress_state_result": {
+      "status": "active",
+      "owner": "SourceRadarBuildState.source_radar_progress_state",
+      "source_slice": "N2263",
+      "keys": {
+        "progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "return progress;",
+          "rule": "The discovery progress: progress() (Radar.java:93-94), `return progress;`; 0.0 before discovery (progress 0.0), 1.0 at full discovery, clamped to [0, 1] by the updateTile advance (Radar.java:68-69, N2248).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_progress_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RadarProgressProof",
+      "rule": "Source-backed Radar progress() accessor from Radar.java."
     }
   },
   "version": 1
