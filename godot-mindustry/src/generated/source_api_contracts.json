@@ -69851,6 +69851,48 @@
       ],
       "runtime_proof": "/root/C07DrillSetStatsProof",
       "rule": "Source-backed Drill setStats() state from Drill.java + Blocks.java + StatValues.java + StatUnit.java + ConsumeLiquidBase.java + Block.java + Consume.java + Stat.java + bundle.properties."
+    },
+    "SourceRadarBuildState.source_radar_draw_select_state": {
+      "status": "active",
+      "source_slice": "N2281",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "source_method": "RadarBuild.drawSelect()",
+      "params": [
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_radar_draw_select_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_radar_draw_select_state_input.y"
+        },
+        {
+          "name": "fog_radius",
+          "type": "float",
+          "schema": "source_radar_draw_select_state_input.fog_radius"
+        },
+        {
+          "name": "tilesize",
+          "type": "float",
+          "schema": "source_radar_draw_select_state_input.tilesize"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "center",
+        "radius",
+        "color"
+      ],
+      "tests": [
+        "test_c07_radar_draw_select_registration",
+        "test_all_c07_radar_draw_select_input_evidence_is_exact",
+        "test_radar_draw_select_state",
+        "test_reference_graph_and_actual_c07_radar_draw_select"
+      ],
+      "runtime_proof": "/root/C07RadarDrawSelectProof",
+      "rule": "Source-backed Radar drawSelect() row from Radar.java."
     }
   },
   "policy": {

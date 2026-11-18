@@ -142,6 +142,11 @@ static func source_radar_draw_glow_state(frame: Dictionary, glow_color_alpha: fl
 	var glow_alpha: float = glow_color_alpha * (1.0 - glow_mag + absin_value)
 	return {"glow_alpha": glow_alpha}
 
+static func source_radar_draw_select_state(x: float, y: float, fog_radius: float, tilesize: float) -> Dictionary:
+	# RadarBuild.drawSelect() (Radar.java:80, `public void drawSelect(){` with `Drawf.dashCircle(x, y, fogRadius() * tilesize, Pal.accent);`, Radar.java:81) draws one dash circle around the building: the center is the building world position, the radius is the LIVE fog radius (fogRadius(), Radar.java:55, `public float fogRadius(){` with `return fogRadius * progress * smoothEfficiency;`, Radar.java:56) times tilesize, and the color is Pal.accent. The live fog radius is the def fogRadius -- 34 (Blocks.java:1991, `fogRadius = 34;`), overriding the class default 10 (Radar.java:33, `fogRadius = 10;`) -- scaled by progress and smooth efficiency, so the caller passes the N2275 source_radar_fog_radius_state result as fog_radius (the N2212 per-def-param precedent); tilesize is 8 (Vars.java:135) and is passed explicitly (the drawPlace precedent), so the radius is the live fog radius in world units -- 272.0 at full discovery (34 * 8) and 0.0 before discovery (progress 0.0). The color is Pal.accent, represented as the string "Pal.accent" (the SourceBlockDrawState.gd:182 precedent). This is a different method from N2278 draw() (rotation + glow) -- no overlap. There is NO driver tick line: drawSelect is selection UI, not per-tick state (the accessor precedent N2268/N2275). One def (radar, Radar.java:17, `public class Radar extends Block{`; RadarBuild, Radar.java:48, `public class RadarBuild extends Building{`).
+	var radius: float = fog_radius * tilesize
+	return {"center": Vector2(x, y), "radius": radius, "color": "Pal.accent"}
+
 @warning_ignore("unused_parameter")
 static func source_radar_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the radar tick wiring every

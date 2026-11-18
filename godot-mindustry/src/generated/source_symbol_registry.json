@@ -177064,6 +177064,54 @@
         "test_reference_graph_and_actual_c07_drill_set_stats"
       ],
       "runtime_proof": "/root/C07DrillSetStatsProof"
+    },
+    "source_radar_draw_select_state_result.center": {
+      "status": "source-backed",
+      "godot_owner": "SourceRadarBuildState.source_radar_draw_select_state",
+      "godot_symbol": "source_radar_draw_select_state_result.center",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "RadarBuild.drawSelect()",
+      "java_expr": "Drawf.dashCircle(x, y, fogRadius() * tilesize, Pal.accent);",
+      "rule": "The dash-circle center (Radar.java:81, `Drawf.dashCircle(x, y, fogRadius() * tilesize, Pal.accent);`): the building position itself.",
+      "tests": [
+        "test_c07_radar_draw_select_registration",
+        "test_all_c07_radar_draw_select_input_evidence_is_exact",
+        "test_radar_draw_select_state",
+        "test_reference_graph_and_actual_c07_radar_draw_select"
+      ],
+      "runtime_proof": "/root/C07RadarDrawSelectProof"
+    },
+    "source_radar_draw_select_state_result.radius": {
+      "status": "source-backed",
+      "godot_owner": "SourceRadarBuildState.source_radar_draw_select_state",
+      "godot_symbol": "source_radar_draw_select_state_result.radius",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "RadarBuild.drawSelect()",
+      "java_expr": "fogRadius() * tilesize",
+      "rule": "The dash-circle radius (Radar.java:81, `Drawf.dashCircle(x, y, fogRadius() * tilesize, Pal.accent);`): the live fog radius times tilesize -- 272.0 at full discovery (34 * 8) and 0.0 before discovery (progress 0.0).",
+      "tests": [
+        "test_c07_radar_draw_select_registration",
+        "test_all_c07_radar_draw_select_input_evidence_is_exact",
+        "test_radar_draw_select_state",
+        "test_reference_graph_and_actual_c07_radar_draw_select"
+      ],
+      "runtime_proof": "/root/C07RadarDrawSelectProof"
+    },
+    "source_radar_draw_select_state_result.color": {
+      "status": "source-backed",
+      "godot_owner": "SourceRadarBuildState.source_radar_draw_select_state",
+      "godot_symbol": "source_radar_draw_select_state_result.color",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "RadarBuild.drawSelect()",
+      "java_expr": "Drawf.dashCircle(x, y, fogRadius() * tilesize, Pal.accent);",
+      "rule": "The dash-circle color (Radar.java:81, `Drawf.dashCircle(x, y, fogRadius() * tilesize, Pal.accent);`): Pal.accent, represented as the string \"Pal.accent\" (the SourceBlockDrawState.gd:182 precedent).",
+      "tests": [
+        "test_c07_radar_draw_select_registration",
+        "test_all_c07_radar_draw_select_input_evidence_is_exact",
+        "test_radar_draw_select_state",
+        "test_reference_graph_and_actual_c07_radar_draw_select"
+      ],
+      "runtime_proof": "/root/C07RadarDrawSelectProof"
     }
   },
   "version": 1
