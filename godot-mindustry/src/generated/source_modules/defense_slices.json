@@ -3482,6 +3482,27 @@
       ],
       "runtime_proof": "/root/C07RadarFogRadiusProof"
     },
+    "N2276": {
+      "canonical_ledger": "source_slice_ledger.N2276",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.write(); TurretBuild.read(); TurretBuild.version()",
+      "godot_owner": "SourceTurretBuildState.source_turret_write_state",
+      "source_symbols": [
+        "source_turret_write_state_result.reload_counter",
+        "source_turret_write_state_result.rotation",
+        "source_turret_read_state_result.reload_counter",
+        "source_turret_read_state_result.rotation",
+        "source_turret_version_state_result.version"
+      ],
+      "tests": [
+        "test_c07_turret_write_read_registration",
+        "test_all_c07_turret_write_read_input_evidence_is_exact",
+        "test_turret_write_read_state",
+        "test_reference_graph_and_actual_c07_turret_write_read"
+      ],
+      "runtime_proof": "/root/C07TurretWriteReadProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

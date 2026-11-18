@@ -691,6 +691,68 @@ static func source_turret_find_target_state(frame: Dictionary, range: float, tra
 static func source_turret_tracking_range_state(frame: Dictionary, range_value: float, tracking_range: float, range: float) -> Dictionary:
 	return {"tracking_range": range_value + tracking_range - range}
 
+const TURRET_SAVE_VERSION := 1
+
+static func source_turret_write_state(frame: Dictionary) -> Dictionary:
+	# TurretBuild persists exactly TWO fields, its reload counter and its aim rotation
+	# (Turret.java:831-834):
+	# public void write(Writes write){
+	# super.write(write);
+	# write.f(reloadCounter);
+	# write.f(rotation);
+	# The reload counter is the ReloadTurretBuild field (`public float reloadCounter;`,
+	# ReloadTurret.java:26), default 0.0, advanced by updateReload (Turret.java:720-723)
+	# and read by shouldConsume (Turret.java:364-366, `return isShooting || reloadCounter < reload;`).
+	# The rotation is the RotComp float aim angle (`@SyncField(false) @SyncLocal float rotation;`,
+	# RotComp.java:8), default 0.0 -- NOT the Building int rotation 0-3 (`transient int rotation;`,
+	# BuildingComp.java:69) that sense() takes as an explicit int param; the two are shadowed
+	# (Turret.java:543-544, `//sync underlying rotation; 0-3 rotation is a shadowed field` and
+	# `((Building)this).rotation = Mathf.mod(Mathf.round(rotation / 90f), 4);`). super.write(write)
+	# is an empty BuildingComp body (`public void write(Writes write){` with `//overriden by subclasses!`,
+	# BuildingComp.java:297-300) -- only the marker is recorded (the N2217 RepairTurret precedent).
+	# The write returns ONLY the two persisted values, in Java write order (reloadCounter first,
+	# rotation second); nothing else survives save/load. There is NO driver tick line: persistence
+	# is not a per-tick call, and the port has no save/load stream to call this function yet.
+	# The classes (Turret.java:36, :277): `public class Turret extends ReloadTurret{` and
+	# `public class TurretBuild extends ReloadTurretBuild implements ControlBlock{`; the parents
+	# (ReloadTurret.java:9, :25): `public class ReloadTurret extends BaseTurret{` and
+	# `public class ReloadTurretBuild extends BaseTurretBuild{`.
+	return {"reload_counter": float(frame.get("reload_counter", 0.0)), "rotation": float(frame.get("rotation", 0.0))}
+
+static func source_turret_read_state(frame: Dictionary, stored_reload_counter: float, stored_rotation: float, revision: int) -> Dictionary:
+	# TurretBuild restores the two persisted fields only for saves written at revision >= 1
+	# (Turret.java:838-844):
+	# public void read(Reads read, byte revision){
+	# super.read(read, revision);
+	# if(revision >= 1){
+	# reloadCounter = read.f();
+	# rotation = read.f();
+	# because the save version is 1 (`public byte version(){` with `return 1;`, Turret.java:848-850;
+	# the BuildingComp base returns 0, BuildingComp.java:669-671, `public byte version(){` with `return 0;`).
+	# A revision-0 save leaves the fields where they already are -- the frame's current values
+	# (reload_counter default 0.0, rotation default 0.0, the Java field defaults). super.read(read, revision)
+	# is an empty BuildingComp body (BuildingComp.java:302-305) -- only the marker is recorded.
+	# readSync() (Turret.java:853-862, `public void readSync(Reads read, byte revision){` with
+	# `//maintain rotation and reload when syncing so clients don't see turrets snapping around`) is its
+	# own slice, not this one. There is NO driver tick line: persistence is not a per-tick call.
+	var reload_counter: float = float(frame.get("reload_counter", 0.0))
+	var rotation: float = float(frame.get("rotation", 0.0))
+	if revision >= 1:
+		reload_counter = stored_reload_counter
+		rotation = stored_rotation
+	return {"reload_counter": reload_counter, "rotation": rotation}
+
+@warning_ignore("unused_parameter")
+static func source_turret_version_state(frame: Dictionary) -> Dictionary:
+	# TurretBuild.version() (Turret.java:848-850):
+	# public byte version(){
+	# return 1;
+	# The save version is 1, so read() applies the persisted reloadCounter/rotation for revision >= 1;
+	# the BuildingComp base version() returns 0 (BuildingComp.java:669-671). The frame is accepted for
+	# the family call shape and read for nothing: the version is a class constant, not live state.
+	# There is NO driver tick line: the version is a load-time constant, not a per-tick write.
+	return {"version": 1}
+
 @warning_ignore("unused_parameter")
 static func source_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the turret tick wiring every tick
