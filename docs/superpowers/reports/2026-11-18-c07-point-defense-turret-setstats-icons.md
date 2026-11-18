@@ -42,6 +42,6 @@ N2246 làm được: rows setStats (damage, reload per second) + icons rows cho 
 
 ## Hashes
 
-- 5-commit xong: slice SLICE_HASH, docs DOCS_HASH, GOAL GOAL_HASH — đã push lên origin main (main HASHES_HASH).
+- 5-commit xong: slice 7b51999a, docs 6ac8c3ea, GOAL a380981b — đã push lên origin main (main a380981b).
 - Windows Godot proof là nợ trong GOAL.md §5 (proof Linux xanh, chưa chạy Windows).
 - Bước tiếp theo: PointDefenseTurret live coolant efficiency / trừ liquid / coolEffect + bullet hitSize + live bullet removal. Suppression live + targets live list vẫn BLOCKED (cần frame plumbing). (KHÔNG bắt đầu C08 inventory trừ khi user yêu cầu.)
