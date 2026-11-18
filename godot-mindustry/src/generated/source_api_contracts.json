@@ -68922,6 +68922,83 @@
       ],
       "runtime_proof": "/root/C07ItemTurretBulletSpawnProof",
       "rule": "Source-backed ItemTurret bullet() spawn from Turret.java / Blocks.java / BulletType.java / ShootAlternate.java / ShootPattern.java / BulletComp.java / Angles.java / Mathf.java / Vec2.java."
+    },
+    "SourceTurretBuildState.source_turret_warmup_state": {
+      "status": "active",
+      "source_slice": "N2253",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.updateTile()",
+      "params": [
+        {
+          "name": "shoot_warmup",
+          "type": "float",
+          "schema": "source_turret_warmup_state_input.shoot_warmup"
+        },
+        {
+          "name": "warmup_hold",
+          "type": "float",
+          "schema": "source_turret_warmup_state_input.warmup_hold"
+        },
+        {
+          "name": "is_shooting",
+          "type": "bool",
+          "schema": "source_turret_warmup_state_input.is_shooting"
+        },
+        {
+          "name": "can_consume",
+          "type": "bool",
+          "schema": "source_turret_warmup_state_input.can_consume"
+        },
+        {
+          "name": "charging",
+          "type": "bool",
+          "schema": "source_turret_warmup_state_input.charging"
+        },
+        {
+          "name": "controlled",
+          "type": "bool",
+          "schema": "source_turret_warmup_state_input.controlled"
+        },
+        {
+          "name": "efficiency",
+          "type": "float",
+          "schema": "source_turret_warmup_state_input.efficiency"
+        },
+        {
+          "name": "delta",
+          "type": "float",
+          "schema": "source_turret_warmup_state_input.delta"
+        },
+        {
+          "name": "shoot_warmup_speed",
+          "type": "float",
+          "schema": "source_turret_warmup_state_input.shoot_warmup_speed"
+        },
+        {
+          "name": "linear_warmup",
+          "type": "bool",
+          "schema": "source_turret_warmup_state_input.linear_warmup"
+        },
+        {
+          "name": "warmup_maintain_time",
+          "type": "float",
+          "schema": "source_turret_warmup_state_input.warmup_maintain_time"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "shoot_warmup",
+        "warmup_hold",
+        "warmup_target"
+      ],
+      "tests": [
+        "test_c07_turret_warmup_registration",
+        "test_all_c07_turret_warmup_input_evidence_is_exact",
+        "test_turret_warmup_state",
+        "test_reference_graph_and_actual_c07_turret_warmup"
+      ],
+      "runtime_proof": "/root/C07TurretWarmupProof",
+      "rule": "Source-backed Turret warmup lerp advance from Turret.java / Mathf.java."
     }
   },
   "policy": {

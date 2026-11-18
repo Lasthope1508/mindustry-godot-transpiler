@@ -236068,6 +236068,164 @@
       },
       "runtime_proof": "/root/C07ItemTurretBulletSpawnProof",
       "rule": "Source-backed ItemTurret bullet() spawn from Turret.java / Blocks.java / BulletType.java / ShootAlternate.java / ShootPattern.java / BulletComp.java / Angles.java / Mathf.java / Vec2.java."
+    },
+    "source_turret_warmup_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_warmup_state",
+      "source_slice": "N2253",
+      "keys": {
+        "shoot_warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return shootWarmup;",
+          "rule": "The current warmup 0..1 (Turret.java:355, warmup() -- the field the lerp/approach step advances; the driver reads it from frame[\"shoot_warmup\"], default 0.0).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_warmup_state"
+          ]
+        },
+        "warmup_hold": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "warmupHold = 1f;",
+          "rule": "The current warmup hold (Turret.java:504 -- set to 1f when the target is 1 and the build is not controlled, then decayed by delta / warmupMaintainTime; the driver reads it from frame[\"warmup_hold\"], default 0.0).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_warmup_state"
+          ]
+        },
+        "is_shooting": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "isShooting = alwaysShooting || (unit.controller() instanceof Player ? unit.isShooting() : logicControlled() ? logicShooting : target != null);",
+          "rule": "Whether the build is shooting this tick (Turret.java:492 -- duo has no player and no logic, so this is target != null after the validateTarget verdict at :491; the driver passes has_target AND the N2251 verdict).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_warmup_state"
+          ]
+        },
+        "can_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return ammo.size > 0 && (ammo.peek().amount >= ammoPerShot || cheating());",
+          "rule": "Whether the build can consume ammo (Turret.java:711, ItemTurret canConsume -- stacks non-empty and the peek (last) stack amount >= ammoPerShot 1, or cheating; the driver reads the last duo stack entry amount).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_warmup_state"
+          ]
+        },
+        "charging": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return queuedBullets > 0 && shoot.firstShotDelay > 0;",
+          "rule": "Whether the build is charging a delayed shot (Turret.java:715-717 -- duo firstShotDelay is 0, so false live; the driver passes frame[\"charging\"]).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_warmup_state"
+          ]
+        },
+        "controlled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return unit.isPlayer();",
+          "rule": "Whether the build is player-controlled (Turret.java:441-443, controlled() -- the hold is only set when not controlled; the driver passes frame[\"controlled\"] with a false default, the live player stamp waits for its own slice).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_warmup_state"
+          ]
+        },
+        "efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "shootWarmup = Mathf.lerpDelta(shootWarmup, warmupTarget, shootWarmupSpeed * (warmupTarget > 0 ? efficiency : 1f));",
+          "rule": "The build efficiency (Turret.java:514 -- scales the warmup rate when the target is 1, else the rate is unscaled; the driver passes frame[\"efficiency\"], 1.0 for duo).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_warmup_state"
+          ]
+        },
+        "delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "warmupHold -= Time.delta / warmupMaintainTime;",
+          "rule": "The scaled tick delta in seconds (Turret.java:507 -- Time.delta; the driver passes seconds).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_warmup_state"
+          ]
+        },
+        "shoot_warmup_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float shootWarmupSpeed = 0.1f;",
+          "rule": "The warmup lerp speed (Turret.java:136, class default 0.1f -- duo does not override it; the driver passes 0.1).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_warmup_state"
+          ]
+        },
+        "linear_warmup": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public boolean linearWarmup = false;",
+          "rule": "Whether the warmup advances linearly instead of as a curve (Turret.java:138, class default false -- duo does not override it; the driver passes false).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_warmup_state"
+          ]
+        },
+        "warmup_maintain_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float warmupMaintainTime = 0f;",
+          "rule": "How long the warmup is maintained after shooting stops (Turret.java:84, class default 0f -- duo does not override it; the driver passes 0.0, so the hold ends on the tick it is set).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_warmup_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretWarmupProof",
+      "rule": "Source-backed Turret warmup lerp advance from Turret.java / Mathf.java."
+    },
+    "source_turret_warmup_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_warmup_state",
+      "source_slice": "N2253",
+      "keys": {
+        "shoot_warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "shootWarmup = Mathf.lerpDelta(shootWarmup, warmupTarget, shootWarmupSpeed * (warmupTarget > 0 ? efficiency : 1f));",
+          "rule": "The warmup after this tick (Turret.java:514 -- the lerp branch for duo; the linear branch is approachDelta at :512).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_warmup_state"
+          ]
+        },
+        "warmup_hold": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "warmupHold -= Time.delta / warmupMaintainTime;",
+          "rule": "The hold after this tick (Turret.java:507 -- decayed by delta / warmupMaintainTime; with the duo default 0.0 the division is +inf, so the hold is <= 0.0 after the tick it was set).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_warmup_state"
+          ]
+        },
+        "warmup_target": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "float warmupTarget = (isShooting && canConsume()) || charging() ? 1f : 0f;",
+          "rule": "The warmup target 0.0/1.0 after the hold fold (Turret.java:502, forced to 1.0 while the hold is positive, :509).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_warmup_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretWarmupProof",
+      "rule": "Source-backed Turret warmup lerp advance from Turret.java / Mathf.java."
     }
   },
   "version": 1

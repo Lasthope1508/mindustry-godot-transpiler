@@ -158,6 +158,69 @@ static func source_turret_power_status_row_state(frame: Dictionary, has_power_co
 	var live: float = 1.0 if stamped == null else float(stamped)
 	return {"has_power_row": true, "row": {"result": live, "is_power": true}}
 
+static func source_turret_warmup_state(shoot_warmup: float, warmup_hold: float, is_shooting: bool, can_consume: bool, charging: bool, controlled: bool, efficiency: float, delta: float, shoot_warmup_speed: float, linear_warmup: bool, warmup_maintain_time: float) -> Dictionary:
+	# TurretBuild.updateTile() (Turret.java:490-515) advances the
+	# warmup before it aims or shoots. isShooting is
+	# `isShooting = alwaysShooting || (unit.controller() instanceof Player ? unit.isShooting() : logicControlled() ? logicShooting : target != null);`
+	# (Turret.java:492 -- duo has no player and no logic, so
+	# isShooting is target != null after the validateTarget verdict
+	# at :491, N2251). The target is
+	# `float warmupTarget = (isShooting && canConsume()) || charging() ? 1f : 0f;`
+	# (Turret.java:502); ItemTurret canConsume is
+	# `return ammo.size > 0 && (ammo.peek().amount >= ammoPerShot || cheating());`
+	# (Turret.java:711). charging is
+	# `return queuedBullets > 0 && shoot.firstShotDelay > 0;`
+	# (Turret.java:715-717 -- duo firstShotDelay is 0, so charging
+	# is false live, but the gate is still checked). controlled is
+	# `public boolean controlled(){` / `return unit.isPlayer();`
+	# (Turret.java:441-443). The hold is
+	# `if(warmupTarget > 0 && !controlled()){` / `warmupHold = 1f;` /
+	# `if(warmupHold > 0f){` / `warmupHold -= Time.delta / warmupMaintainTime;`
+	# / `warmupTarget = 1f;` (Turret.java:503-509 -- with the duo
+	# default warmupMaintainTime 0f the division is +inf, so the
+	# hold ends on the very tick it is set). The advance is
+	# `if(linearWarmup){` /
+	# `shootWarmup = Mathf.approachDelta(shootWarmup, warmupTarget, shootWarmupSpeed * (warmupTarget > 0 ? efficiency : 1f));`
+	# / `}else{` /
+	# `shootWarmup = Mathf.lerpDelta(shootWarmup, warmupTarget, shootWarmupSpeed * (warmupTarget > 0 ? efficiency : 1f));`
+	# (Turret.java:511-515 -- arc Mathf.java:402-404
+	# `public static float clamp(float value){` /
+	# `return Math.max(Math.min(value, 1f), 0f);` clamps to [0, 1];
+	# :415-417 `public static float approach(float from, float to, float speed){` /
+	# `return from + Mathf.clamp(to - from, -speed, speed);`;
+	# :420-422 `public static float approachDelta(float from, float to, float speed){` /
+	# `return approach(from, to, Time.delta * speed);`;
+	# :426-428 `public static float lerp(float fromValue, float toValue, float progress){` /
+	# `return fromValue + (toValue - fromValue) * progress;`;
+	# :430-432 `public static float lerpDelta(float fromValue, float toValue, float progress){` /
+	# `return lerp(fromValue, toValue, clamp(progress * Time.delta));`).
+	# Class defaults are minWarmup 0f (`public float minWarmup = 0f;`,
+	# Turret.java:76), warmupMaintainTime 0f
+	# (`public float warmupMaintainTime = 0f;`, :84),
+	# shootWarmupSpeed 0.1f (`public float shootWarmupSpeed = 0.1f;`,
+	# :136), linearWarmup false (`public boolean linearWarmup = false;`,
+	# :138) -- the duo def overrides NONE of them. The shoot gate
+	# still reads the warmup
+	# (`if(reloadCounter >= reload && !charging() && shootWarmup >= minWarmup){`,
+	# Turret.java:733 -- duo minWarmup is 0, so the gate always
+	# passes, but the warmup still has to advance for the frame to
+	# be right). The recoil/heat decay
+	# (`curRecoil = Mathf.approachDelta(curRecoil, 0, 1 / recoilTime);` /
+	# `heat = Mathf.approachDelta(heat, 0, 1 / cooldownTime);`,
+	# Turret.java:519/:526) waits for its own slice.
+	var warmup_target: float = 1.0 if ((is_shooting and can_consume) or charging) else 0.0
+	if warmup_target > 0.0 and not controlled:
+		warmup_hold = 1.0
+	if warmup_hold > 0.0:
+		warmup_hold -= delta / warmup_maintain_time
+		warmup_target = 1.0
+	var rate: float = shoot_warmup_speed * (efficiency if warmup_target > 0.0 else 1.0)
+	if linear_warmup:
+		shoot_warmup = shoot_warmup + clampf(warmup_target - shoot_warmup, -rate * delta, rate * delta)
+	else:
+		shoot_warmup = lerpf(shoot_warmup, warmup_target, clampf(rate * delta, 0.0, 1.0))
+	return {"shoot_warmup": shoot_warmup, "warmup_hold": warmup_hold, "warmup_target": warmup_target}
+
 @warning_ignore("unused_parameter")
 static func source_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the turret tick wiring every tick
@@ -265,9 +328,10 @@ static func source_turret_tick_buildings_state(game: Object, seconds: float) -> 
 			# production-valid first pass, BuildingComp.java:1946 -- the
 			# coolant fold waits for its own slice, the driver's existing
 			# "models no other consumers yet" approximation). shoot_warmup
-			# is the frame's stamped warmup (the warmup lerp advance waits
-			# for its own slice; the absent default is the 0.0 field
-			# default, and duo minWarmup is 0f so the gate still passes).
+			# is the frame's stamped warmup (N2253 advances it with the
+			# warmup lerp before the aim/shoot call below; the absent
+			# default is the 0.0 field default, and duo minWarmup is 0f
+			# so the gate still passes).
 			# charging is the frame's stamped flag (duo firstShotDelay is
 			# 0, so charging is false live, but the gate is still checked).
 			# baseReloadSpeed is efficiency (ReloadTurret.java:45-47,
@@ -312,6 +376,21 @@ static func source_turret_tick_buildings_state(game: Object, seconds: float) -> 
 			if not bool(validate.get("valid", true)):
 				frame["target"] = null
 				frame["has_target"] = false
+			# The warmup lerp advance (Turret.java:502-515, N2253)
+			# runs before the aim/shoot call: Java order :502-514
+			# is before the shoot gate :733, and aim/shoot read
+			# shoot_warmup as a gate input. canConsume reads the
+			# peek (last) stack amount (Turret.java:711,
+			# `return ammo.size > 0 && (ammo.peek().amount >= ammoPerShot || cheating());`)
+			# against ammoPerShot 1 for duo.
+			var duo_peek_amount: int = 0
+			if not duo_entries.is_empty():
+				var duo_peek_entry: Dictionary = duo_entries[duo_entries.size() - 1]
+				duo_peek_amount = int(duo_peek_entry.get("amount", 0))
+			var duo_can_consume: bool = not duo_entries.is_empty() and (duo_peek_amount >= 1 or bool(frame.get("cheating", false)))
+			var warmup: Dictionary = source_turret_warmup_state(float(frame.get("shoot_warmup", 0.0)), float(frame.get("warmup_hold", 0.0)), bool(frame.get("has_target", false)) and bool(validate.get("valid", false)), duo_can_consume, bool(frame.get("charging", false)), bool(frame.get("controlled", false)), float(frame.get("efficiency", 1.0)), seconds, 0.1, false, 0.0)
+			frame["shoot_warmup"] = warmup.get("shoot_warmup", 0.0)
+			frame["warmup_hold"] = warmup.get("warmup_hold", 0.0)
 			var aim: Dictionary = source_item_turret_build_state.source_item_turret_aim_shoot_state(frame, frame.get("target", null),
 				bool(validate.get("valid", false)), team_id, sprite.position.x, sprite.position.y, seconds,
 				float(frame.get("potential_efficiency", 1.0)), float(frame.get("shoot_warmup", 0.0)), bool(frame.get("charging", false)),

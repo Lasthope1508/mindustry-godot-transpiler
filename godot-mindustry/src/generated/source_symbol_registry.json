@@ -176488,6 +176488,54 @@
         "test_reference_graph_and_actual_c07_item_turret_bullet_spawn"
       ],
       "runtime_proof": "/root/C07ItemTurretBulletSpawnProof"
+    },
+    "source_turret_warmup_state_result.shoot_warmup": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_warmup_state",
+      "godot_symbol": "source_turret_warmup_state_result.shoot_warmup",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "shootWarmup = Mathf.lerpDelta(shootWarmup, warmupTarget, shootWarmupSpeed * (warmupTarget > 0 ? efficiency : 1f));",
+      "rule": "The warmup after this tick (Turret.java:514 -- the lerp branch for duo; the linear branch is approachDelta at :512).",
+      "tests": [
+        "test_c07_turret_warmup_registration",
+        "test_all_c07_turret_warmup_input_evidence_is_exact",
+        "test_turret_warmup_state",
+        "test_reference_graph_and_actual_c07_turret_warmup"
+      ],
+      "runtime_proof": "/root/C07TurretWarmupProof"
+    },
+    "source_turret_warmup_state_result.warmup_hold": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_warmup_state",
+      "godot_symbol": "source_turret_warmup_state_result.warmup_hold",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "warmupHold -= Time.delta / warmupMaintainTime;",
+      "rule": "The hold after this tick (Turret.java:507 -- decayed by delta / warmupMaintainTime; with the duo default 0.0 the division is +inf, so the hold is <= 0.0 after the tick it was set).",
+      "tests": [
+        "test_c07_turret_warmup_registration",
+        "test_all_c07_turret_warmup_input_evidence_is_exact",
+        "test_turret_warmup_state",
+        "test_reference_graph_and_actual_c07_turret_warmup"
+      ],
+      "runtime_proof": "/root/C07TurretWarmupProof"
+    },
+    "source_turret_warmup_state_result.warmup_target": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_warmup_state",
+      "godot_symbol": "source_turret_warmup_state_result.warmup_target",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "float warmupTarget = (isShooting && canConsume()) || charging() ? 1f : 0f;",
+      "rule": "The warmup target 0.0/1.0 after the hold fold (Turret.java:502, forced to 1.0 while the hold is positive, :509).",
+      "tests": [
+        "test_c07_turret_warmup_registration",
+        "test_all_c07_turret_warmup_input_evidence_is_exact",
+        "test_turret_warmup_state",
+        "test_reference_graph_and_actual_c07_turret_warmup"
+      ],
+      "runtime_proof": "/root/C07TurretWarmupProof"
     }
   },
   "version": 1

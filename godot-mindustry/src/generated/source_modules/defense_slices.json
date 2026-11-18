@@ -3433,6 +3433,25 @@
       ],
       "runtime_proof": "/root/C07ItemTurretBulletSpawnProof"
     },
+    "N2253": {
+      "canonical_ledger": "source_slice_ledger.N2253",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "godot_owner": "SourceTurretBuildState.source_turret_warmup_state",
+      "source_symbols": [
+        "source_turret_warmup_state_result.shoot_warmup",
+        "source_turret_warmup_state_result.warmup_hold",
+        "source_turret_warmup_state_result.warmup_target"
+      ],
+      "tests": [
+        "test_c07_turret_warmup_registration",
+        "test_all_c07_turret_warmup_input_evidence_is_exact",
+        "test_turret_warmup_state",
+        "test_reference_graph_and_actual_c07_turret_warmup"
+      ],
+      "runtime_proof": "/root/C07TurretWarmupProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",
