@@ -72,6 +72,6 @@ Fix (main thread 08:45, worker 09:00 thực hiện, main thread xác minh): pure
 
 ## Hashes
 
-- 5-commit xong: slice (hash), docs (hash), GOAL (hash) — đã push lên origin main (main hash).
+- 5-commit xong: slice e1fed830, docs 24bcef78, GOAL c5c478d8 — đã push lên origin main (main c5c478d8).
 - Windows Godot proof là nợ trong GOAL.md §5 (proof Linux xanh, chưa chạy Windows).
 - Bước tiếp theo: suppression live + targets live list vẫn BLOCKED (cần frame plumbing); PointDefenseTurret draw/write/read/setStats/icons rows + live coolant efficiency/trừ liquid/coolEffect + bullet hitSize + live bullet removal. (KHÔNG bắt đầu C08 inventory trừ khi user yêu cầu.)
