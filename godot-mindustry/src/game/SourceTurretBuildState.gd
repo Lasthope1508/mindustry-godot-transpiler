@@ -669,6 +669,28 @@ static func source_turret_find_target_state(frame: Dictionary, range: float, tra
 		target = ally_tile
 	return {"target": target}
 
+# TurretBuild.trackingRange() (Turret.java:349-351, `public float trackingRange(){` /
+# `return range() + trackingRange - range;`) over the TurretBuild.range() result
+# (Turret.java:342-345, `public float range(){` with `return range + peekAmmo().rangeChange;`
+# when peekAmmo() is non-null (Turret.java:693, `public @Nullable BulletType peekAmmo(){`),
+# else `return range;`), the Turret def trackingRange field (Turret.java:72,
+# `public float trackingRange = 0f;`, "Range at which it finds and locks on to the target,
+# but does not shoot.") and the BaseTurret def range (BaseTurret.java:21,
+# `public float range = 80f;`). The peeked bullet's rangeChange is
+# BulletType.java:157, `public float rangeChange = 0f;`, default 0f. init() clamps the
+# field (Turret.java:217, `trackingRange = Math.max(range, trackingRange);`), so after init
+# trackingRange() >= range(). All live values arrive as explicit params (the N2188
+# precedent): the range() result arrives as range_value because range() reads peekAmmo()
+# and the tick frame tracks no ammo state yet (the N2270 precedent; the old N739/N740
+# range() rows live in PortGame, not on this state). NO driver line: trackingRange() is a
+# load-time accessor findTarget reads at Turret.java:652
+# (`float trackRange = trackingRange(), range = range();`), not a per-tick write (the
+# N2268/N2249 accessor precedent). `public class TurretBuild extends ReloadTurretBuild implements ControlBlock{`
+# and `public class BaseTurret extends Block{`.
+@warning_ignore("unused_parameter")
+static func source_turret_tracking_range_state(frame: Dictionary, range_value: float, tracking_range: float, range: float) -> Dictionary:
+	return {"tracking_range": range_value + tracking_range - range}
+
 @warning_ignore("unused_parameter")
 static func source_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the turret tick wiring every tick

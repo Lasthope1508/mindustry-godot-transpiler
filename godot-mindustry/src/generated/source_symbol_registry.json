@@ -176840,6 +176840,22 @@
         "test_reference_graph_and_actual_c07_radar_can_pickup"
       ],
       "runtime_proof": "/root/C07RadarCanPickupProof"
+    },
+    "source_turret_tracking_range_state_result.tracking_range": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_tracking_range_state",
+      "godot_symbol": "source_turret_tracking_range_state_result.tracking_range",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.trackingRange()",
+      "java_expr": "return range() + trackingRange - range;",
+      "rule": "The live tracking range in world pixels: range() + trackingRange - range (Turret.java:349-351); read by findTarget at Turret.java:652 (`float trackRange = trackingRange(), range = range();`); after init() the field is clamped so the result is at least range().",
+      "tests": [
+        "test_c07_turret_tracking_range_registration",
+        "test_all_c07_turret_tracking_range_input_evidence_is_exact",
+        "test_turret_tracking_range_state",
+        "test_reference_graph_and_actual_c07_turret_tracking_range"
+      ],
+      "runtime_proof": "/root/C07TurretTrackingRangeProof"
     }
   },
   "version": 1
