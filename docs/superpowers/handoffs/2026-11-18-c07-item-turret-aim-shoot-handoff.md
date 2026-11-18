@@ -1,6 +1,6 @@
 # Handoff — N2250 ItemTurret aim/reload/shoot (C07) [DONE — gate xanh, chờ commit/push]
 
-## Status: DONE + PUSHED (2026-11-18 22:1x +07) — origin/main == f418eff0 (slice a2270c04, gate Ran 6093 / failures 200 Godot-absent / skipped 5 / errors 0)
+## Status: DONE + PUSHED (2026-11-18 22:1x +07) — origin/main == d96b686e (slice a2270c04, gate Ran 6093 / failures 200 Godot-absent / skipped 5 / errors 0)
 
 - Targeted 4/4, 111 subtests, 16.00s (main thread re-run, PATH += ~/workspace/godot-bin; lưu ý: `godot` KHÔNG có sẵn trên PATH mặc định — lần chạy đầu không có PATH đã fail nhanh `unexpectedly None`, không phải lỗi slice).
 - Family 16/16, 237 subtests, 60.29s (item turret test + 3 module PointDefenseTurret: aim_shoot, power_status, target_acquire).
