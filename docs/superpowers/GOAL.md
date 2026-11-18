@@ -350,6 +350,9 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
   - [ ] N2242 `C07PointDefenseTurretLiveBulletsWiringProof` — Linux GREEN ~05:33 (8 key).
     Scene tới Windows theo slice commit `af2d4208` (pushed ~06:0x, main
     `f5bbd03c`). Chưa chạy trên Windows Godot.
+  - [ ] N2243 `C07PointDefenseTurretSpawnTeamStampProof` — Linux GREEN ~09:19 (6 key).
+    Scene tới Windows theo slice commit `e1fed830` (pushed ~10:0x, main
+    `24bcef78`). Chưa chạy trên Windows Godot.
   - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
     trên (ghi rõ commit đưa scene tới Windows).
   - [ ] Agent khác đang test các lỗi fail trên Windows Godot (PR #1 đã merge
