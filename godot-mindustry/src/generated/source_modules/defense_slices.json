@@ -3303,6 +3303,23 @@
       ],
       "runtime_proof": "/root/C07TurretShouldConsumeProof"
     },
+    "N2254": {
+      "canonical_ledger": "source_slice_ledger.N2254",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.progress()",
+      "godot_owner": "SourceTurretBuildState.source_turret_progress_state",
+      "source_symbols": [
+        "source_turret_progress_state_result.progress"
+      ],
+      "tests": [
+        "test_c07_turret_progress_registration",
+        "test_all_c07_turret_progress_input_evidence_is_exact",
+        "test_turret_progress_state",
+        "test_reference_graph_and_actual_c07_turret_progress"
+      ],
+      "runtime_proof": "/root/C07TurretProgressProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

@@ -189,6 +189,39 @@ static func source_turret_should_consume_state(frame: Dictionary, is_shooting: b
 	# Java exactly.
 	return {"should_consume": is_shooting or reload_counter < reload}
 
+# TurretBuild.progress() (Turret.java:425-427):
+# `public float progress(){`
+# `return Mathf.clamp(reloadCounter / reload);`
+# on `public class TurretBuild extends ReloadTurretBuild implements ControlBlock{`
+# (Turret.java:277), over the base default BuildingComp.progress
+# (BuildingComp.java:617-619): `public float progress(){`
+# `return 0f;`
+# The two inputs are the same reload pair N2253 wires for
+# shouldConsume: reloadCounter (ReloadTurret.java:26):
+# `public float reloadCounter;`
+# advanced in updateReload (Turret.java:720-723) and capped at reload
+# (Turret.java:723): `reloadCounter = Math.min(reloadCounter, reload);`
+# against the per-def reload time (ReloadTurret.java:10):
+# `public float reload = 10f;`
+# arc Mathf.clamp with one argument clamps to [0, 1] (the
+# MendProjector precedent, SourceMendProjectorState.gd:41:
+# `clamp(charge / reload_value, 0.0, 1.0)`), so a counter past
+# reload reads 1 and a negative counter reads 0. The only live
+# consumer is sense() case progress (Turret.java:414):
+# `case progress -> progress();`
+# -- the assigned N2255 slice; setBars (Turret.java:192-202)
+# never reads progress(). frame is accepted for the family call
+# shape and reads no live frame key: reloadCounter / reload
+# arrive as explicit params (the N2188 precedent),
+# because the tick frame tracks only cheating / enabled /
+# power_status / efficiency today. NO driver line: wiring frame
+# defaults would stamp a constant 0.0 progress (0.0 / 10f),
+# not a live value -- pure function only, the N2251 / N2252
+# precedent; sense() (N2255) calls it with explicit params.
+@warning_ignore("unused_parameter")
+static func source_turret_progress_state(frame: Dictionary, reload_counter: float, reload: float) -> Dictionary:
+	return {"progress": clampf(reload_counter / reload, 0.0, 1.0)}
+
 @warning_ignore("unused_parameter")
 static func source_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the turret tick wiring every tick

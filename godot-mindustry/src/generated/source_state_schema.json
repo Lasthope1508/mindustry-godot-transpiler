@@ -235182,6 +235182,64 @@
       },
       "runtime_proof": "/root/C07TurretShouldConsumeProof",
       "rule": "Source-backed TurretBuild.shouldConsume() state from Turret.java + ReloadTurret.java + BuildingComp.java."
+    },
+    "source_turret_progress_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_progress_state",
+      "source_slice": "N2254",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return Mathf.clamp(reloadCounter / reload);",
+          "rule": "The turret frame (accepted for the family call shape; this leg reads no live frame key -- reloadCounter / reload arrive as explicit params, the N2188 per-def-param precedent, because the tick frame tracks only cheating/enabled/power_status/efficiency).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_progress_state"
+          ]
+        },
+        "reload_counter": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "java_expr": "public float reloadCounter;",
+          "rule": "The reload progress: the ReloadTurretBuild.reloadCounter field (ReloadTurret.java:26), advanced in updateReload (Turret.java:720-723) and capped at reload (:723); passed explicitly because no frame key stamps it yet.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_progress_state"
+          ]
+        },
+        "reload": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "java_expr": "public float reload = 10f;",
+          "rule": "The per-def reload time: ReloadTurret.reload (ReloadTurret.java:10); passed explicitly because the frame carries no reload def value yet.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_progress_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretProgressProof",
+      "rule": "Source-backed TurretBuild.progress() state from Turret.java + ReloadTurret.java + BuildingComp.java."
+    },
+    "source_turret_progress_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_progress_state",
+      "source_slice": "N2254",
+      "keys": {
+        "progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return Mathf.clamp(reloadCounter / reload);",
+          "rule": "The reload progress clamped to [0, 1]: 0 while unreloaded, 1 once the reload counter reaches reload (Turret.java:426); read by sense() case progress (Turret.java:414).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_progress_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretProgressProof",
+      "rule": "Source-backed TurretBuild.progress() state from Turret.java + ReloadTurret.java + BuildingComp.java."
     }
   },
   "version": 1

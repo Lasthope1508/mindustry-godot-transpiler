@@ -176104,6 +176104,22 @@
         "test_reference_graph_and_actual_c07_turret_should_consume"
       ],
       "runtime_proof": "/root/C07TurretShouldConsumeProof"
+    },
+    "source_turret_progress_state_result.progress": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_progress_state",
+      "godot_symbol": "source_turret_progress_state_result.progress",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.progress()",
+      "java_expr": "return Mathf.clamp(reloadCounter / reload);",
+      "rule": "The reload progress clamped to [0, 1]: 0 while unreloaded, 1 once the reload counter reaches reload (Turret.java:426); read by sense() case progress (Turret.java:414).",
+      "tests": [
+        "test_c07_turret_progress_registration",
+        "test_all_c07_turret_progress_input_evidence_is_exact",
+        "test_turret_progress_state",
+        "test_reference_graph_and_actual_c07_turret_progress"
+      ],
+      "runtime_proof": "/root/C07TurretProgressProof"
     }
   },
   "version": 1
