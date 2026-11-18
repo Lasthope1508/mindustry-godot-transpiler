@@ -1,4 +1,4 @@
-"""Register the Radar fogRadius() accessor (N2249).
+"""Register the Radar fogRadius() accessor (N2275).
 
 RadarBuild.fogRadius() (Radar.java:55, `public float
 fogRadius(){` with `return fogRadius * progress *
@@ -48,7 +48,7 @@ BLOCKS = 'core/src/mindustry/content/Blocks.java'
 PROOF = '/root/C07RadarFogRadiusProof'
 FOG_RADIUS_OWNER = 'SourceRadarBuildState.source_radar_fog_radius_state'
 TESTS = ['test_c07_radar_fog_radius_registration', 'test_all_c07_radar_fog_radius_input_evidence_is_exact', 'test_radar_fog_radius_state', 'test_reference_graph_and_actual_c07_radar_fog_radius']
-# The 2 slice sources the N2249 test checks exact_exprs
+# The 2 slice sources the N2275 test checks exact_exprs
 # against -- every expr in EXACT_EXPRS below must appear verbatim
 # in one of these files.
 SLICE_SOURCES = [
@@ -62,7 +62,7 @@ EXACT_EXPRS = ['public float fogRadius(){', 'return fogRadius * progress * smoot
 # register is DROPPED (remote N2234 covers that leg), so the chain
 # skips it and imports N2227 directly. One carried entry is
 # DROPPED here, not carried:
-# the Radar fogRadius rows entry -- N2249 IS the fogRadius()
+# the Radar fogRadius rows entry -- N2275 IS the fogRadius()
 # accessor slice, so carrying it would leave a stale "waits for
 # its own slice" row for done work. The forceUpdate half of that
 # entry stays deferred through the separate Radar updateTile
@@ -70,7 +70,7 @@ EXACT_EXPRS = ['public float fogRadius(){', 'return fogRadius * progress * smoot
 # the drawSelect / drawPlace / read-write / canPickup /
 # discoveryTime-glow rows stay deferred in their own entries.
 DEFERRED = [e for e in N2227_DEFERRED if 'Radar fogRadius rows' not in e] + [
-    'Radar fogRadius() Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2248: the N2249 proof runs headless on Linux here and waits for a Windows Godot run.',
+    'Radar fogRadius() Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2274: the N2275 proof runs headless on Linux here and waits for a Windows Godot run.',
 ]
 
 
@@ -122,7 +122,7 @@ def main():
     fog_radius_inputs, fog_radius_outputs = definitions()
 
     entries = [
-        ('N2249', FOG_RADIUS_OWNER, 'source_radar_fog_radius_state', RADAR, 'mindustry.world.blocks.defense.Radar.RadarBuild', 'RadarBuild.fogRadius()', fog_radius_inputs, fog_radius_outputs, True, 'Dictionary'),
+        ('N2275', FOG_RADIUS_OWNER, 'source_radar_fog_radius_state', RADAR, 'mindustry.world.blocks.defense.Radar.RadarBuild', 'RadarBuild.fogRadius()', fog_radius_inputs, fog_radius_outputs, True, 'Dictionary'),
     ]
     all_names = []
     for sid, owner, prefix, source, cls, method, inputs, outputs, has_contract, return_type in entries:
@@ -142,10 +142,10 @@ def main():
 
     by_slice = {}
     # The test pins this order: fog_radius.
-    by_slice['N2249'] = [
+    by_slice['N2275'] = [
         'source_radar_fog_radius_state_result.fog_radius',
     ]
-    source_symbols.upsert_source_slice(GODOT, 'N2249', dict(status='done', java_source=RADAR, java_class='mindustry.world.blocks.defense.Radar.RadarBuild', java_method='RadarBuild.fogRadius()', godot_owner=FOG_RADIUS_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2249'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
+    source_symbols.upsert_source_slice(GODOT, 'N2275', dict(status='done', java_source=RADAR, java_class='mindustry.world.blocks.defense.Radar.RadarBuild', java_method='RadarBuild.fogRadius()', godot_owner=FOG_RADIUS_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2275'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
 
     source_symbols.upsert_source_symbols(GODOT, symbols)
     source_symbols.write_source_symbol_audit_report(GODOT)

@@ -14,7 +14,7 @@ class C07RadarFogRadiusTests(unittest.TestCase):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        self.assertEqual(ledger['N2249']['godot_owner'], 'SourceRadarBuildState.source_radar_fog_radius_state')
+        self.assertEqual(ledger['N2275']['godot_owner'], 'SourceRadarBuildState.source_radar_fog_radius_state')
         # RadarBuild.fogRadius() (Radar.java:55, `public float
         # fogRadius(){` with `return fogRadius * progress *
         # smoothEfficiency;`, Radar.java:56) is the live fog
@@ -29,7 +29,7 @@ class C07RadarFogRadiusTests(unittest.TestCase):
         # (Radar.java:63, `if(Math.abs(fogRadius() -
         # lastRadius) >= 0.5f){`) and what drawSelect draws
         # (Radar.java:80-82, `Drawf.dashCircle(x, y,
-        # fogRadius() * tilesize, Pal.accent);`). N2249 closes
+        # fogRadius() * tilesize, Pal.accent);`). N2275 closes
         # the accessor half of that gap with one pure function
         # over the frame (`progress`, `smooth_efficiency`)
         # plus the per-def fog_radius parameter (the N2212
@@ -44,12 +44,12 @@ class C07RadarFogRadiusTests(unittest.TestCase):
         # the read its callers will share. One new result
         # symbol: fog_radius.
         self.assertEqual(
-            ledger['N2249']['source_symbols'],
+            ledger['N2275']['source_symbols'],
             [
                 'source_radar_fog_radius_state_result.fog_radius',
             ],
         )
-        for name in ledger['N2249']['source_symbols']:
+        for name in ledger['N2275']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_source'], {
@@ -57,9 +57,9 @@ class C07RadarFogRadiusTests(unittest.TestCase):
                     'core/src/mindustry/content/Blocks.java',
                 })
                 self.assertEqual(symbol['godot_owner'], 'SourceRadarBuildState.' + name.rsplit('_result.', 1)[0])
-        self.assertEqual(ledger['N2249']['runtime_proof'], '/root/C07RadarFogRadiusProof')
+        self.assertEqual(ledger['N2275']['runtime_proof'], '/root/C07RadarFogRadiusProof')
         self.assertEqual(
-            ledger['N2249']['tests'],
+            ledger['N2275']['tests'],
             [
                 'test_c07_radar_fog_radius_registration',
                 'test_all_c07_radar_fog_radius_input_evidence_is_exact',
@@ -67,13 +67,13 @@ class C07RadarFogRadiusTests(unittest.TestCase):
                 'test_reference_graph_and_actual_c07_radar_fog_radius',
             ],
         )
-        self.assertTrue(ledger['N2249']['deferred_exprs'])
+        self.assertTrue(ledger['N2275']['deferred_exprs'])
 
     def test_all_c07_radar_fog_radius_input_evidence_is_exact(self):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        for name in ledger['N2249']['source_symbols']:
+        for name in ledger['N2275']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_expr'], (ROOT / 'mindustry-upstream' / symbol['java_source']).read_text(encoding='utf-8'))
@@ -83,7 +83,7 @@ class C07RadarFogRadiusTests(unittest.TestCase):
             'core/src/mindustry/content/Blocks.java',
         }
         upstream = {source: (ROOT / 'mindustry-upstream' / source).read_text(encoding='utf-8') for source in slice_sources}
-        for expr in ledger['N2249']['exact_exprs']:
+        for expr in ledger['N2275']['exact_exprs']:
             with self.subTest(expr=expr):
                 self.assertTrue(any(expr in text for text in upstream.values()), expr)
 
