@@ -222,6 +222,65 @@ static func source_turret_should_consume_state(frame: Dictionary, is_shooting: b
 static func source_turret_progress_state(frame: Dictionary, reload_counter: float, reload: float) -> Dictionary:
 	return {"progress": clampf(reload_counter / reload, 0.0, 1.0)}
 
+# TurretBuild.sense() (Turret.java:406-419):
+# `public double sense(LAccess sensor){`
+# `return switch(sensor){`
+# `case ammo -> totalAmmo;`
+# `case ammoCapacity -> maxAmmo;`
+# `case rotation -> rotation;`
+# `case shootX -> World.conv(targetPos.x);`
+# `case shootY -> World.conv(targetPos.y);`
+# `case shooting -> isShooting ? 1 : 0;`
+# `case progress -> progress();`
+# `default -> super.sense(sensor);`
+# `};`
+# on `public class TurretBuild extends ReloadTurretBuild implements ControlBlock{`
+# (Turret.java:277), over the base default BuildingComp.sense
+# (BuildingComp.java:2093): `public double sense(LAccess sensor){`
+# whose default is `default -> Float.NaN; //gets converted to null in logic`
+# (BuildingComp.java:2123). The sensor spellings are the LAccess
+# enum names `ammo,` (LAccess.java:18), `ammoCapacity,` (:19),
+# `progress,` (:28), `rotation,` (:30), `shootX,` (:35),
+# `shootY,` (:36), `shooting,` (:49). The inputs are TurretBuild
+# fields: totalAmmo (Turret.java:283, `public int totalAmmo;`),
+# maxAmmo (Turret.java:47, `public int maxAmmo = 30;`), targetPos
+# (Turret.java:290, `public Vec2 targetPos = new Vec2();`),
+# isShooting (Turret.java:292, `public boolean wasShooting,
+# isShooting;`), and rotation, the Building int rotation
+# (BuildingComp.java:69, `transient int rotation;`). World.conv
+# (World.java:165-166, `public static float conv(float coord){`
+# / `return coord / tilesize;`) divides by tilesize (Vars.java:135,
+# `public static final int tilesize = 8;`). The progress case calls
+# the N2254 pure function (`return Mathf.clamp(reloadCounter /
+# reload);`, Turret.java:426) with explicit params (reloadCounter,
+# ReloadTurret.java:26, `public float reloadCounter;`; reload,
+# ReloadTurret.java:10, `public float reload = 10f;`). All live
+# values arrive as explicit params (the N2188 precedent),
+# because the tick frame tracks only cheating / enabled /
+# power_status / efficiency today. NO driver line: sense is a logic
+# read, not a tick write (the N2206 / N2208 / N2223 precedent); the
+# logic-processor dispatch hook is its own later slice. The default
+# leg falls through to super.sense, so it returns handled=false
+# with a null NaN value for the caller to fall through.
+@warning_ignore("unused_parameter")
+static func source_turret_sense_state(frame: Dictionary, sensor: String, total_ammo: int, max_ammo: int, rotation: int, target_pos: Vector2, is_shooting: bool, reload_counter: float, reload: float, tilesize: float) -> Dictionary:
+	match sensor:
+		"ammo":
+			return {"handled": true, "sense_value": float(total_ammo), "sense_value_is_nan": false}
+		"ammoCapacity":
+			return {"handled": true, "sense_value": float(max_ammo), "sense_value_is_nan": false}
+		"rotation":
+			return {"handled": true, "sense_value": float(rotation), "sense_value_is_nan": false}
+		"shootX":
+			return {"handled": true, "sense_value": target_pos.x / tilesize, "sense_value_is_nan": false}
+		"shootY":
+			return {"handled": true, "sense_value": target_pos.y / tilesize, "sense_value_is_nan": false}
+		"shooting":
+			return {"handled": true, "sense_value": 1.0 if is_shooting else 0.0, "sense_value_is_nan": false}
+		"progress":
+			return {"handled": true, "sense_value": float(source_turret_progress_state(frame, reload_counter, reload).get("progress", 0.0)), "sense_value_is_nan": false}
+	return {"handled": false, "sense_value": null, "sense_value_is_nan": true}
+
 @warning_ignore("unused_parameter")
 static func source_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the turret tick wiring every tick
