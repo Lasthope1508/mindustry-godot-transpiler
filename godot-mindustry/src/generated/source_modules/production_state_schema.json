@@ -173,6 +173,41 @@
         }
       }
     },
+    "source_burst_drill_on_proximity_update_state_input": {
+      "canonical_schema": "source_state_schema.source_burst_drill_on_proximity_update_state_input",
+      "keys": {
+        "linked_tiles": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "for(Tile other : tile.getLinkedTilesAs(this, tempTiles)){",
+          "rule": "The linked tiles countOre scans: Tile.getLinkedTilesAs over the drill footprint (Drill.java:206); each tile carries is_static and a drop (null when the tile drops nothing), the same tile shape the N2010 core reads.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_on_proximity_update_state"
+          ]
+        },
+        "tier": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "tier = 6;",
+          "rule": "The per-def drill tier, 6 for the impact-drill def (Blocks.java:3076) and 7 for the eruption-drill def (Blocks.java:3097); the canMine gate reads drops.hardness <= tier (Drill.java:233). The field is `public int tier;` (Drill.java:239); passed explicitly (the N2212 / N2248 per-def-param precedent).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_on_proximity_update_state"
+          ]
+        },
+        "blocked_items": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "if(blockedItems == null && blockedItem != null){",
+          "rule": "The blocked list: null when the def has no blocked item (eruption-drill), otherwise the blocked items (impact-drill thorium, Drill.init Drill.java:93-94 turns a lone blockedItem into Seq.with(blockedItem)); canMine treats null as \"nothing blocked\" (Drill.java:233). Passed explicitly because the bind resolution (SourceDrillRuntimeState.source_bind_ore_items_state) is what the live driver calls.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_on_proximity_update_state"
+          ]
+        }
+      }
+    },
     "source_burst_drill_power_status_row_state_input": {
       "canonical_schema": "source_state_schema.source_burst_drill_power_status_row_state_input",
       "keys": {

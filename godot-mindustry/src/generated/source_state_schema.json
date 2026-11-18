@@ -236064,6 +236064,74 @@
       },
       "runtime_proof": "/root/C07TurretEstimateDpsProof",
       "rule": "Source-backed TurretBuild.estimateDps() state from Turret.java + ReloadTurret.java + ShootPattern.java + BulletType.java + BuildingComp.java + RtsAI.java."
+    },
+    "source_burst_drill_on_proximity_update_state_input": {
+      "status": "active",
+      "owner": "SourceBurstDrillBuildState.source_burst_drill_on_proximity_update_state",
+      "source_slice": "N2262",
+      "keys": {
+        "linked_tiles": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "for(Tile other : tile.getLinkedTilesAs(this, tempTiles)){",
+          "rule": "The linked tiles countOre scans: Tile.getLinkedTilesAs over the drill footprint (Drill.java:206); each tile carries is_static and a drop (null when the tile drops nothing), the same tile shape the N2010 core reads.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_on_proximity_update_state"
+          ]
+        },
+        "tier": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "tier = 6;",
+          "rule": "The per-def drill tier, 6 for the impact-drill def (Blocks.java:3076) and 7 for the eruption-drill def (Blocks.java:3097); the canMine gate reads drops.hardness <= tier (Drill.java:233). The field is `public int tier;` (Drill.java:239); passed explicitly (the N2212 / N2248 per-def-param precedent).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_on_proximity_update_state"
+          ]
+        },
+        "blocked_items": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "if(blockedItems == null && blockedItem != null){",
+          "rule": "The blocked list: null when the def has no blocked item (eruption-drill), otherwise the blocked items (impact-drill thorium, Drill.init Drill.java:93-94 turns a lone blockedItem into Seq.with(blockedItem)); canMine treats null as \"nothing blocked\" (Drill.java:233). Passed explicitly because the bind resolution (SourceDrillRuntimeState.source_bind_ore_items_state) is what the live driver calls.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_on_proximity_update_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BurstDrillOnProximityUpdateProof",
+      "rule": "Source-backed BurstDrill ore / dominant-item binding from Drill.java + BurstDrill.java + Blocks.java."
+    },
+    "source_burst_drill_on_proximity_update_state_result": {
+      "status": "active",
+      "owner": "SourceBurstDrillBuildState.source_burst_drill_on_proximity_update_state",
+      "source_slice": "N2262",
+      "keys": {
+        "dominant_item": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "dominantItem = returnItem;",
+          "rule": "The dominant item after the count: returnItem, the peeked last item after the low-priority / count / id sort (Drill.java:227-228, `returnItem = itemArray.peek();`), null when no linked tile is mineable (Drill.java:224-225).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_on_proximity_update_state"
+          ]
+        },
+        "dominant_items": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "dominantItems = returnCount;",
+          "rule": "The dominant count after the count: returnCount, the ore count of the peeked item (Drill.java:229, `returnCount = oreCount.get(itemArray.peek(), 0);`), 0 when no linked tile is mineable.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_on_proximity_update_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BurstDrillOnProximityUpdateProof",
+      "rule": "Source-backed BurstDrill ore / dominant-item binding from Drill.java + BurstDrill.java + Blocks.java."
     }
   },
   "version": 1

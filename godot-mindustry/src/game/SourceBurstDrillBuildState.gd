@@ -8,6 +8,7 @@ const source_building_efficiency_state := preload("res://src/game/SourceBuilding
 const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
 const source_math_state := preload("res://src/game/SourceMathState.gd")
 const source_drill_dump_runtime_state := preload("res://src/game/SourceDrillDumpRuntimeState.gd")
+const source_drill_runtime_state := preload("res://src/game/SourceDrillRuntimeState.gd")
 const source_consume_liquid_state := preload("res://src/game/SourceConsumeLiquidState.gd")
 const source_block_defaults := preload("res://src/game/SourceBlockDefaults.gd")
 
@@ -467,6 +468,94 @@ static func source_burst_drill_update_tile_state(frame: Dictionary, delta: float
 		invert_fired = true
 		progress = fposmod(progress, drill_time)
 	return {"drill_time": drill_time, "invert_time": invert_time, "smooth_progress": smooth_progress, "warmup": warmup, "time_drilled": time_drilled, "last_drill_speed": last_drill_speed, "progress": progress, "dump_timer": dump_timer, "dump_due": dump_due, "offloaded_count": offloaded_count, "invert_fired": invert_fired}
+
+static func source_burst_drill_on_proximity_update_state(linked_tiles: Array, tier: int, blocked_items: Variant) -> Dictionary:
+	# DrillBuild.onProximityUpdate (Drill.java:266-277,
+	# `public void onProximityUpdate(){` with
+	# `super.onProximityUpdate();` / `countOre(tile);` /
+	# `dominantItem = returnItem;` /
+	# `dominantItems = returnCount;`) is inherited whole by
+	# BurstDrillBuild (BurstDrill.java:17, `public class
+	# BurstDrill extends Drill{`, with BurstDrillBuild,
+	# BurstDrill.java:70, `public class BurstDrillBuild
+	# extends DrillBuild{`, and DrillBuild,
+	# Drill.java:237, `public class DrillBuild extends
+	# Building{`) -- BurstDrill does not override it.
+	# countOre (Drill.java:198-229):
+	# `protected void countOre(Tile tile){`
+	# resets the return and the tallies:
+	# `returnItem = null;`
+	# `returnCount = 0;`
+	# `oreCount.clear();`
+	# `itemArray.clear();`
+	# counts the drop of every linked tile canMine accepts:
+	# `for(Tile other : tile.getLinkedTilesAs(this, tempTiles)){`
+	# `if(canMine(other)){`
+	# `oreCount.increment(getDrop(other), 0, 1);`
+	# collects the counted items:
+	# `for(Item item : oreCount.keys()){`
+	# `itemArray.add(item);`
+	# sorts them low-priority-last, then by count, then
+	# by id:
+	# `int type = Boolean.compare(!item1.lowPriority, !item2.lowPriority);`
+	# `if(type != 0) return type;`
+	# `int amounts = Integer.compare(oreCount.get(item1, 0), oreCount.get(item2, 0));`
+	# `if(amounts != 0) return amounts;`
+	# `return Integer.compare(item1.id, item2.id);`
+	# and peeks the last one:
+	# `if(itemArray.size == 0){`
+	# `returnItem = itemArray.peek();`
+	# `returnCount = oreCount.get(itemArray.peek(), 0);`
+	# canMine (Drill.java:230-235):
+	# `public boolean canMine(Tile tile){`
+	# rejects a null or static tile:
+	# `if(tile == null || tile.block().isStatic()) return false;`
+	# and requires a drop whose hardness is at most the
+	# tier and which is not blocked:
+	# `Item drops = tile.drop();`
+	# `return drops != null && drops.hardness <= tier && (blockedItems == null || !blockedItems.contains(drops));`
+	# The fields are:
+	# `public int tier;`
+	# `public @Nullable Item blockedItem;`
+	# `public @Nullable Seq<Item> blockedItems;`
+	# `protected @Nullable Item returnItem;`
+	# `protected int returnCount;`
+	# `public int dominantItems;`
+	# `public Item dominantItem;`
+	# (Drill.java:239-244). Drill.init (Drill.java:93-94)
+	# turns a lone blockedItem into the list:
+	# `if(blockedItems == null && blockedItem != null){`
+	# `blockedItems = Seq.with(blockedItem);`
+	# The core count lives in SourceDrillRuntimeState.
+	# source_on_proximity_update_state (N2010/N2020), so
+	# this gate delegates to it instead of porting countOre
+	# again -- one pure function, one owner. The per-def
+	# tier / blockedItem are explicit params (the N2212 /
+	# N2248 per-def-param precedent): impact-drill tier 6
+	# (`tier = 6;`, Blocks.java:3076) with blockedItem
+	# thorium (`blockedItem = Items.thorium;`,
+	# Blocks.java:3080); eruption-drill tier 7
+	# (`tier = 7;`, Blocks.java:3097) with no blocked item.
+	# The live driver already stamps the frame: the placement
+	# callback (SourceWorldTerrainRuntimeState.gd:116)
+	# calls SourceDrillConsumptionRuntimeState.
+	# source_on_proximity_update_state for every placed
+	# build, and that driver stamps frame["dominant_item"]
+	# / frame["dominant_items"] under the shared meta key
+	# "source_drill_building" -- the same key as
+	# SOURCE_BURST_DRILL_BUILDING_META_KEY -- so the
+	# burst-drill frame IS the drill frame. The driver
+	# gate is the catalog key, not the value: it returns
+	# {"applied": false} only when block.properties
+	# lacks "blockedItems", and the catalog carries that
+	# key (null-valued) for BOTH defs, so applied is true
+	# for both. Proximity update runs at placement, not
+	# per tick, so there is NO driver tick line here. The
+	# pickedUp reset (`public void pickedUp(){` /
+	# `dominantItem = null;`, Drill.java:264-266) is
+	# inherited too but waits for its own slice.
+	var selected: Dictionary = source_drill_runtime_state.source_on_proximity_update_state(linked_tiles, tier, blocked_items)
+	return {"dominant_item": selected["dominant_item"], "dominant_items": selected["dominant_items"]}
 
 @warning_ignore("unused_parameter")
 static func source_burst_drill_tick_buildings_state(game: Object, seconds: float) -> Dictionary:

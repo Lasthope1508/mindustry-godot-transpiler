@@ -176568,6 +176568,38 @@
         "test_reference_graph_and_actual_c07_turret_estimate_dps"
       ],
       "runtime_proof": "/root/C07TurretEstimateDpsProof"
+    },
+    "source_burst_drill_on_proximity_update_state_result.dominant_item": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_on_proximity_update_state",
+      "godot_symbol": "source_burst_drill_on_proximity_update_state_result.dominant_item",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.onProximityUpdate()",
+      "java_expr": "dominantItem = returnItem;",
+      "rule": "The dominant item after the count: returnItem, the peeked last item after the low-priority / count / id sort (Drill.java:227-228, `returnItem = itemArray.peek();`), null when no linked tile is mineable (Drill.java:224-225).",
+      "tests": [
+        "test_c07_burst_drill_on_proximity_update_registration",
+        "test_all_c07_burst_drill_on_proximity_update_input_evidence_is_exact",
+        "test_burst_drill_on_proximity_update_state",
+        "test_reference_graph_and_actual_c07_burst_drill_on_proximity_update"
+      ],
+      "runtime_proof": "/root/C07BurstDrillOnProximityUpdateProof"
+    },
+    "source_burst_drill_on_proximity_update_state_result.dominant_items": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_on_proximity_update_state",
+      "godot_symbol": "source_burst_drill_on_proximity_update_state_result.dominant_items",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.onProximityUpdate()",
+      "java_expr": "dominantItems = returnCount;",
+      "rule": "The dominant count after the count: returnCount, the ore count of the peeked item (Drill.java:229, `returnCount = oreCount.get(itemArray.peek(), 0);`), 0 when no linked tile is mineable.",
+      "tests": [
+        "test_c07_burst_drill_on_proximity_update_registration",
+        "test_all_c07_burst_drill_on_proximity_update_input_evidence_is_exact",
+        "test_burst_drill_on_proximity_update_state",
+        "test_reference_graph_and_actual_c07_burst_drill_on_proximity_update"
+      ],
+      "runtime_proof": "/root/C07BurstDrillOnProximityUpdateProof"
     }
   },
   "version": 1
