@@ -7043,6 +7043,67 @@
       "rule": "Source-backed Radar canPickup() accessor from Radar.java.",
       "return_type": "Dictionary"
     },
+    "SourceRadarBuildState.source_radar_draw_place_state": {
+      "canonical_contract": "source_api_contracts.SourceRadarBuildState.source_radar_draw_place_state",
+      "status": "active",
+      "source_slice": "N2284",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "source_method": "Radar.drawPlace()",
+      "params": [
+        {
+          "name": "tile_x",
+          "type": "int",
+          "schema": "source_radar_draw_place_state_input.tile_x"
+        },
+        {
+          "name": "tile_y",
+          "type": "int",
+          "schema": "source_radar_draw_place_state_input.tile_y"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_radar_draw_place_state_input.rotation"
+        },
+        {
+          "name": "valid",
+          "type": "bool",
+          "schema": "source_radar_draw_place_state_input.valid"
+        },
+        {
+          "name": "fog_radius",
+          "type": "float",
+          "schema": "source_radar_draw_place_state_input.fog_radius"
+        },
+        {
+          "name": "tilesize",
+          "type": "float",
+          "schema": "source_radar_draw_place_state_input.tilesize"
+        },
+        {
+          "name": "block_offset",
+          "type": "float",
+          "schema": "source_radar_draw_place_state_input.block_offset"
+        }
+      ],
+      "return_keys": [
+        "center",
+        "radius",
+        "color",
+        "rotation",
+        "valid",
+        "super_draw_place_called"
+      ],
+      "tests": [
+        "test_c07_radar_draw_place_registration",
+        "test_all_c07_radar_draw_place_input_evidence_is_exact",
+        "test_radar_draw_place_state",
+        "test_reference_graph_and_actual_c07_radar_draw_place"
+      ],
+      "runtime_proof": "/root/C07RadarDrawPlaceProof",
+      "rule": "Source-backed Radar drawPlace() row from Radar.java.",
+      "return_type": "Dictionary"
+    },
     "SourceRadarBuildState.source_radar_draw_rotation_state": {
       "canonical_contract": "source_api_contracts.SourceRadarBuildState.source_radar_draw_rotation_state",
       "status": "active",

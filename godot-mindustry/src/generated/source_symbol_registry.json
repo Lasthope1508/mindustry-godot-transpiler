@@ -177272,6 +177272,102 @@
         "test_reference_graph_and_actual_c07_drill_draw_select"
       ],
       "runtime_proof": "/root/C07DrillDrawSelectProof"
+    },
+    "source_radar_draw_place_state_result.center": {
+      "status": "source-backed",
+      "godot_owner": "SourceRadarBuildState.source_radar_draw_place_state",
+      "godot_symbol": "source_radar_draw_place_state_result.center",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "Radar.drawPlace()",
+      "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, fogRadius * tilesize, Pal.accent);",
+      "rule": "The dash-circle center (Radar.java:46, `Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, fogRadius * tilesize, Pal.accent);`): the tile position in world units -- tile coord times tilesize plus the block offset.",
+      "tests": [
+        "test_c07_radar_draw_place_registration",
+        "test_all_c07_radar_draw_place_input_evidence_is_exact",
+        "test_radar_draw_place_state",
+        "test_reference_graph_and_actual_c07_radar_draw_place"
+      ],
+      "runtime_proof": "/root/C07RadarDrawPlaceProof"
+    },
+    "source_radar_draw_place_state_result.radius": {
+      "status": "source-backed",
+      "godot_owner": "SourceRadarBuildState.source_radar_draw_place_state",
+      "godot_symbol": "source_radar_draw_place_state_result.radius",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "Radar.drawPlace()",
+      "java_expr": "fogRadius * tilesize",
+      "rule": "The dash-circle radius (Radar.java:46, `Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, fogRadius * tilesize, Pal.accent);`): the def fog radius times tilesize -- 272.0 for the radar def (34 * 8) and 80.0 for the class default (10 * 8).",
+      "tests": [
+        "test_c07_radar_draw_place_registration",
+        "test_all_c07_radar_draw_place_input_evidence_is_exact",
+        "test_radar_draw_place_state",
+        "test_reference_graph_and_actual_c07_radar_draw_place"
+      ],
+      "runtime_proof": "/root/C07RadarDrawPlaceProof"
+    },
+    "source_radar_draw_place_state_result.color": {
+      "status": "source-backed",
+      "godot_owner": "SourceRadarBuildState.source_radar_draw_place_state",
+      "godot_symbol": "source_radar_draw_place_state_result.color",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "Radar.drawPlace()",
+      "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, fogRadius * tilesize, Pal.accent);",
+      "rule": "The dash-circle color (Radar.java:46, `Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, fogRadius * tilesize, Pal.accent);`): Pal.accent, represented as the string \"Pal.accent\" (the SourceBlockDrawState.gd:182 precedent).",
+      "tests": [
+        "test_c07_radar_draw_place_registration",
+        "test_all_c07_radar_draw_place_input_evidence_is_exact",
+        "test_radar_draw_place_state",
+        "test_reference_graph_and_actual_c07_radar_draw_place"
+      ],
+      "runtime_proof": "/root/C07RadarDrawPlaceProof"
+    },
+    "source_radar_draw_place_state_result.rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourceRadarBuildState.source_radar_draw_place_state",
+      "godot_symbol": "source_radar_draw_place_state_result.rotation",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "Radar.drawPlace()",
+      "java_expr": "public void drawPlace(int x, int y, int rotation, boolean valid){",
+      "rule": "The placement rotation echoed (Radar.java:42, `public void drawPlace(int x, int y, int rotation, boolean valid){`): the super leg receives the rotation, so the pure function echoes it for the caller.",
+      "tests": [
+        "test_c07_radar_draw_place_registration",
+        "test_all_c07_radar_draw_place_input_evidence_is_exact",
+        "test_radar_draw_place_state",
+        "test_reference_graph_and_actual_c07_radar_draw_place"
+      ],
+      "runtime_proof": "/root/C07RadarDrawPlaceProof"
+    },
+    "source_radar_draw_place_state_result.valid": {
+      "status": "source-backed",
+      "godot_owner": "SourceRadarBuildState.source_radar_draw_place_state",
+      "godot_symbol": "source_radar_draw_place_state_result.valid",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "Radar.drawPlace()",
+      "java_expr": "public void drawPlace(int x, int y, int rotation, boolean valid){",
+      "rule": "The placement validity echoed (Radar.java:42, `public void drawPlace(int x, int y, int rotation, boolean valid){`): the super leg receives the validity flag, so the pure function echoes it for the caller.",
+      "tests": [
+        "test_c07_radar_draw_place_registration",
+        "test_all_c07_radar_draw_place_input_evidence_is_exact",
+        "test_radar_draw_place_state",
+        "test_reference_graph_and_actual_c07_radar_draw_place"
+      ],
+      "runtime_proof": "/root/C07RadarDrawPlaceProof"
+    },
+    "source_radar_draw_place_state_result.super_draw_place_called": {
+      "status": "source-backed",
+      "godot_owner": "SourceRadarBuildState.source_radar_draw_place_state",
+      "godot_symbol": "source_radar_draw_place_state_result.super_draw_place_called",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "Radar.drawPlace()",
+      "java_expr": "super.drawPlace(x, y, rotation, valid);",
+      "rule": "The super-leg call marker (Radar.java:43, `super.drawPlace(x, y, rotation, valid);`): the Block.drawPlace leg (Block.java:491-494: drawPotentialLinks + drawOverlay) is folded as an explicit param (the N2271/N2277 super-as-param precedent), so this records that the super leg was invoked; the link/overlay drawing itself waits for its own slice.",
+      "tests": [
+        "test_c07_radar_draw_place_registration",
+        "test_all_c07_radar_draw_place_input_evidence_is_exact",
+        "test_radar_draw_place_state",
+        "test_reference_graph_and_actual_c07_radar_draw_place"
+      ],
+      "runtime_proof": "/root/C07RadarDrawPlaceProof"
     }
   },
   "version": 1
