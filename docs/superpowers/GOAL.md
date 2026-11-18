@@ -388,7 +388,13 @@ Turret/BurstDrill/Radar/Game; line Windows chỉ làm RepairTower/RepairTurret
     Scene tới Windows theo slice commit `e994170`. Chưa chạy trên Windows Godot.
   - [ ] N2263 `C07RadarProgressProof` — Linux GREEN ~11:0x (4 key).
     Scene tới Windows theo slice commit `abf3dd0`. Chưa chạy trên Windows Godot.
-  - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
+  - [ ] N2265 `C07TurretUpdateTileWarmupProof` — Linux GREEN ~12:3x (15 key).
+   Scene tới Windows theo slice commit `e50f45e`. Chưa chạy trên Windows Godot.
+ - [ ] N2266 `C07BurstDrillSetStatsProof` — Linux GREEN ~12:3x (5 key).
+   Scene tới Windows theo slice commit `10d3db6`. Chưa chạy trên Windows Godot.
+ - [ ] N2267 `C07RadarWriteReadProof` — Linux GREEN ~12:3x (7 key).
+   Scene tới Windows theo slice commit `4368280`. Chưa chạy trên Windows Godot.
+ - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
     trên (ghi rõ commit đưa scene tới Windows).
   - [ ] Agent khác đang test các lỗi fail trên Windows Godot (PR #1 đã merge
     08:31: 101 Godot-dependent methods, baseline 96 pass / 5 fail, sau 5
