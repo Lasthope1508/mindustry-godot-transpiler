@@ -1,10 +1,10 @@
-# Handoff: N2247 PointDefenseTurret bullet hitSize + live bullet removal (DONE, chờ push)
+# Handoff: N2247 PointDefenseTurret bullet hitSize + live bullet removal (DONE + PUSHED)
 
 ## Status
 
 - N2246 DONE + PUSHED (origin/main == 900527f7, 5-commit, gate Ran 6077 / failures 196 toàn Godot-absent).
 - N2247 GREEN 2026-11-18 ~14:45 +07: RED (14:15) → GREEN code + register + targeted 4/4 + family 40/40 + wiring 32/32 (tổng 76/76) + Godot proof 11/11 matches:true + spec/GOAL/report/handoff.
-- N2247 DONE + PUSHED (origin/main == a1830050, 5-commit, slice 07100c53, gate 2 Ran 6081 / failures 197 toàn Godot-absent).
+- N2247 DONE + PUSHED (origin/main == 3ba78a72, 5-commit, slice 07100c53, docs 92f1468e, GOAL 9f6034ff, hashes a1830050, gate 2 Ran 6081 / failures 197 toàn Godot-absent).
 - Worktree: BuildState .gd (sửa) + test N2247 (mới) + test target_acquire (sửa) + register script N2247 (mới) + proof .gd/.tscn (mới) + 6 SSOT JSONs (sửa) + spec + GOAL + report + handoff này. Không stage `.gd.uid`.
 
 ## Scope — TÁCH SLICE (quyết định ở lần chạy 14:15, có căn cứ)
