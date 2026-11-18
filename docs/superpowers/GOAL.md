@@ -45,6 +45,10 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
 (`docs/superpowers/handoffs/`). Khi trống task, tự làm slice tiếp theo, không
 đợi user giao.
 
+**Chia family giữa hai line (Isabella 2026-11-17):** VM này chỉ làm
+Turret/BurstDrill/Radar/Game; line Windows chỉ làm RepairTower/RepairTurret
+(chi tiết + lý do xem AGENTS.md). Không làm slice thuộc family của line kia.
+
 ## 4. Tiến độ hiện tại (2026-11-13 ~11:52 +07)
 
 - Main trên fork ở `a3c01eb` (N2149 BurstDrill power.status DONE + PUSHED).
@@ -378,6 +382,12 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
     Scene tới Windows theo slice commit `a5f722e`. Chưa chạy trên Windows Godot.
   - [ ] N2245 `C07BurstDrillIconsProof` — Linux GREEN ~16:3x (6 key).
     Scene tới Windows theo slice commit `caaba18`. Chưa chạy trên Windows Godot.
+  - [ ] N2261 `C07TurretEstimateDpsProof` — Linux GREEN ~11:0x (7 key).
+    Scene tới Windows theo slice commit `b24ced5`. Chưa chạy trên Windows Godot.
+  - [ ] N2262 `C07BurstDrillOnProximityUpdateProof` — Linux GREEN ~11:0x (11 key).
+    Scene tới Windows theo slice commit `e994170`. Chưa chạy trên Windows Godot.
+  - [ ] N2263 `C07RadarProgressProof` — Linux GREEN ~11:0x (4 key).
+    Scene tới Windows theo slice commit `abf3dd0`. Chưa chạy trên Windows Godot.
   - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
     trên (ghi rõ commit đưa scene tới Windows).
   - [ ] Agent khác đang test các lỗi fail trên Windows Godot (PR #1 đã merge

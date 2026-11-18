@@ -49,6 +49,23 @@ Agent use:
 - Spawn agents only for independent non-conflicting work.
 - Do not spawn agents for slices touching shared SSOT JSON, checklist totals, or `godot-mindustry/src/game/PortGame.gd`.
 
+## Family ownership split between lines (Isabella, 2026-11-17 ~19:06 +07)
+
+Two lines work on this repo in parallel (this VM + the Windows/other line) and
+each family lives in ONE GD file, so two lines touching the same family edit
+the same file. After two divergences in one day (remote N2233 RepairTurret
+colliding with local N2233 on SourceRepairTurretBuildState.gd), families are
+split — each line works ONLY its own families:
+- This VM line: Turret, BurstDrill, Radar, Game.
+- Windows/other line: RepairTower, RepairTurret.
+Ambient B (N2260, RepairTurret driver tick line) belongs to the Windows line;
+ambient C (N2264, SoundControl mixer, game-level) belongs to this VM line but
+waits for B. Never start a slice in another line's family. If the other line
+has already pushed a number you need, renumber yours (precedent N2228) — never
+take their number. (Restored 2026-11-18: this section was lost in the round-3
+reset to 7dfdec3; B/C renumbered from N2242/N2243 — remote took both numbers,
+divergences #11/#13.)
+
 ## Standing hourly Godot validation duty (user-authorized 2026-11-15)
 
 - At every scheduled validation run or context recovery, read `docs/superpowers/tasks/hourly-godot-validation.md` before acting. This is the persistent scope and recovery contract for the validation agent, not an instruction for migration agents to change their slices.
