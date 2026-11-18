@@ -378,10 +378,10 @@ Turret/BurstDrill/Radar/Game; line Windows chỉ làm RepairTower/RepairTurret
     Scene tới Windows theo slice commit `ae71e71`. Chưa chạy trên Windows Godot.
   - [ ] N2259 `C07GameHeadlessProof` — Linux GREEN ~15:5x (6 key).
     Scene tới Windows theo slice commit `f84c402`. Chưa chạy trên Windows Godot.
-  - [ ] N2244 `C07TurretFogRadiusProof` — Linux GREEN ~16:3x (10 key).
-    Scene tới Windows theo slice commit `a5f722e`. Chưa chạy trên Windows Godot.
-  - [ ] N2245 `C07BurstDrillIconsProof` — Linux GREEN ~16:3x (6 key).
-    Scene tới Windows theo slice commit `caaba18`. Chưa chạy trên Windows Godot.
+  - [ ] N2268 `C07TurretFogRadiusProof` — Linux GREEN ~16:3x (10 key).
+    Scene tới Windows theo slice commit `83bf0bc`. Chưa chạy trên Windows Godot.
+  - [ ] N2269 `C07BurstDrillIconsProof` — Linux GREEN ~16:3x (6 key).
+    Scene tới Windows theo slice commit `2b49c54`. Chưa chạy trên Windows Godot.
   - [ ] N2261 `C07TurretEstimateDpsProof` — Linux GREEN ~11:0x (7 key).
     Scene tới Windows theo slice commit `b24ced5`. Chưa chạy trên Windows Godot.
   - [ ] N2262 `C07BurstDrillOnProximityUpdateProof` — Linux GREEN ~11:0x (11 key).
