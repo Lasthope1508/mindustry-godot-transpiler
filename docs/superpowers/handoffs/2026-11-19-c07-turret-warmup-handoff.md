@@ -1,6 +1,6 @@
-# Handoff — N2253 Turret warmup lerp advance (C07, duo) [GREEN — gate xanh, chờ push]
+# Handoff — N2253 Turret warmup lerp advance (C07, duo) [DONE + PUSHED]
 
-## Status: GREEN — gate xanh (2026-11-19 ~03:17 +07, lượt cron 03:15) — gate Ran 6105 in 1162.347s, failures=203 toàn Godot-absent (đã xác minh độc lập: 203 FAIL headers, 0 KeyError, 0 ERROR). N2252 DONE + PUSHED (main 7cf4d813).
+## Status: DONE + PUSHED (2026-11-19 ~03:2x +07, lượt cron 03:15) — slice `41f09353`, main `2fa51bdf`. Targeted 4/4 + family 116/116 + wiring 32/32 + neighbours 68/68 + proof matches:true 11/11 + gate Ran 6105, failures=203 toàn Godot-absent (đã xác minh độc lập).
 
 - GREEN đã xong từ lượt 02:30 (pure function `source_turret_warmup_state` + 1 dòng driver tick + register + proof `C07TurretWarmupProof` đã có trong worktree, chưa commit). Lượt 02:45 xác minh độc lập:
 - Targeted **4/4, 56 subtests, 21.32s** (`test_c07_turret_warmup.py`, Godot 4.6.2 Linux headless, port 7777 trống lúc chạy). Proof JSON `matches:true`, 8/8 keys true.
