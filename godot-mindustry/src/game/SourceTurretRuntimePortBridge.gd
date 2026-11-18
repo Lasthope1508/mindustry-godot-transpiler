@@ -10,6 +10,7 @@ const source_turret_placement_state := preload("res://src/game/SourceTurretPlace
 const source_turret_combat_state := preload("res://src/game/SourceTurretCombatState.gd")
 const source_turret_recoil_state := preload("res://src/game/SourceTurretRecoilState.gd")
 const source_tractor_beam_turret_lifecycle_state := preload("res://src/game/SourceTractorBeamTurretLifecycleState.gd")
+const source_point_defense_turret_build_state := preload("res://src/game/SourcePointDefenseTurretBuildState.gd")
 const source_item_turret_init_state := preload("res://src/game/SourceItemTurretInitState.gd")
 const source_turret_runtime_port_bridge_property_state := preload("res://src/game/SourceTurretPropertyState.gd")
 const source_turret_runtime_port_bridge_scenario_defaults := preload("res://src/game/SourcePlayableScenarioDefaults.gd")
@@ -229,6 +230,30 @@ func source_tractor_beam_turret_build_read_state(read_f_value: float, revision_v
 
 func generated_tractor_beam_turret_build_read_bridge_state(read_f_value: float, revision_value: int) -> Dictionary:
 	return source_tractor_beam_turret_lifecycle_state.generated_build_read_bridge_state(read_f_value, revision_value)
+
+# PointDefenseBuild (`public class PointDefenseBuild extends ReloadTurretBuild{`,
+# PointDefenseTurret.java:58) persists exactly ONE field, its rotation
+# (PointDefenseTurret.java:117-121, `public class PointDefenseTurret extends ReloadTurret{`):
+# public void write(Writes write){
+# super.write(write);
+# write.f(rotation);
+# The rotation default is 90.0 (`public float rotation = 90;`, BaseTurret.java:114).
+# Thin bridge: wraps the rotation float into the frame the N2245 pure function reads.
+func source_point_defense_turret_build_write_state(rotation_value: float) -> Dictionary:
+	return source_point_defense_turret_build_state.source_point_defense_turret_write_state({"rotation": rotation_value})
+
+# PointDefenseBuild restores the rotation UNCONDITIONALLY
+# (PointDefenseTurret.java:124-127):
+# public void read(Reads read, byte revision){
+# super.read(read, revision);
+# rotation = read.f();
+# There is NO `if(revision >= 1){` guard here, unlike RepairTurret.read()
+# -- so this bridge takes NO revision parameter: the Java body never reads `revision`.
+# PointDefenseTurret does NOT override version(), so the save version is the
+# BuildingComp default 0 (`public byte version(){` / `return 0;`, BuildingComp.java:669-671).
+# Thin bridge: passes the saved float straight through to the N2245 pure function.
+func source_point_defense_turret_build_read_state(saved_rotation: float) -> Dictionary:
+	return source_point_defense_turret_build_state.source_point_defense_turret_read_state(saved_rotation)
 
 func source_turret_limit_range_state(bullet: Dictionary, margin: float, turret_range: float) -> Dictionary:
 	return source_turret_range_state.game_limit_range_state(self, bullet, margin, turret_range)

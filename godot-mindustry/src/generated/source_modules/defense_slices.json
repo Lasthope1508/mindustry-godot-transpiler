@@ -3344,6 +3344,24 @@
       ],
       "runtime_proof": "/root/C07PointDefenseTurretCoolantProof"
     },
+    "N2249": {
+      "canonical_ledger": "source_slice_ledger.N2249",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "java_method": "PointDefenseBuild.write()/read()",
+      "godot_owner": "PortGame.source_point_defense_turret_build_write_state",
+      "source_symbols": [
+        "source_point_defense_turret_build_write_state_result.rotation",
+        "source_point_defense_turret_build_read_state_result.rotation"
+      ],
+      "tests": [
+        "test_c07_point_defense_turret_persistence_integration_registration",
+        "test_all_c07_point_defense_turret_persistence_integration_input_evidence_is_exact",
+        "test_point_defense_turret_persistence_integration_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_persistence_integration"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretPersistenceIntegrationProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

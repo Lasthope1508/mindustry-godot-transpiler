@@ -23,10 +23,10 @@
       "port_game.source_building_each_edge_state": "port_game.source_building_navigation_state"
     }
   },
-  "totalSourceFunctions": 1335,
-  "discoveredSourceOwnerCount": 1333,
-  "canonicalDiscoveredOwnerCount": 1318,
-  "registeredSourceOwnerCount": 1310,
+  "totalSourceFunctions": 1337,
+  "discoveredSourceOwnerCount": 1335,
+  "canonicalDiscoveredOwnerCount": 1320,
+  "registeredSourceOwnerCount": 1312,
   "exemptSourceOwnerCount": 8,
   "legacyUnregisteredOwnerCount": 0,
   "canonicalAliasFunctionCount": 17,
@@ -958,6 +958,8 @@
     "port_game.source_payload_forward_offset",
     "port_game.source_place_loadout_state",
     "port_game.source_place_schematic_state",
+    "port_game.source_point_defense_turret_build_read_state",
+    "port_game.source_point_defense_turret_build_write_state",
     "port_game.source_point_defense_turret_set_stats_state",
     "port_game.source_pos_set_state",
     "port_game.source_power_generator_ambient_volume_state",
@@ -7988,6 +7990,18 @@
       "function": "source_tractor_beam_turret_build_read_state",
       "gdscript_path": "src/game/SourceTurretRuntimePortBridge.gd",
       "canonical_owner": "port_game.source_tractor_beam_turret_build_read_state"
+    },
+    {
+      "owner": "port_game.source_point_defense_turret_build_write_state",
+      "function": "source_point_defense_turret_build_write_state",
+      "gdscript_path": "src/game/SourceTurretRuntimePortBridge.gd",
+      "canonical_owner": "port_game.source_point_defense_turret_build_write_state"
+    },
+    {
+      "owner": "port_game.source_point_defense_turret_build_read_state",
+      "function": "source_point_defense_turret_build_read_state",
+      "gdscript_path": "src/game/SourceTurretRuntimePortBridge.gd",
+      "canonical_owner": "port_game.source_point_defense_turret_build_read_state"
     },
     {
       "owner": "port_game.source_turret_limit_range_state",

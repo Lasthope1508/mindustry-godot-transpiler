@@ -68522,6 +68522,56 @@
       ],
       "runtime_proof": "/root/C07PointDefenseTurretCoolantProof",
       "rule": "Source-backed PointDefenseTurret live coolant state from ConsumeCoolant.java + ConsumeLiquidFilter.java + ReloadTurret.java + BaseTurret.java + Blocks.java + Liquid.java + Consume.java."
+    },
+    "PortGame.source_point_defense_turret_build_write_state": {
+      "status": "active",
+      "source_slice": "N2249",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "source_method": "PointDefenseBuild.write()",
+      "params": [
+        {
+          "name": "rotation_value",
+          "type": "float",
+          "schema": "source_point_defense_turret_build_write_state_input.rotation_value"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "rotation"
+      ],
+      "tests": [
+        "test_c07_point_defense_turret_persistence_integration_registration",
+        "test_all_c07_point_defense_turret_persistence_integration_input_evidence_is_exact",
+        "test_point_defense_turret_persistence_integration_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_persistence_integration"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretPersistenceIntegrationProof",
+      "rule": "Source-backed PointDefenseTurret persistence-integration bridge from PointDefenseTurret.java + BaseTurret.java + BuildingComp.java + ReloadTurret.java."
+    },
+    "PortGame.source_point_defense_turret_build_read_state": {
+      "status": "active",
+      "source_slice": "N2249",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "source_method": "PointDefenseBuild.read()",
+      "params": [
+        {
+          "name": "saved_rotation",
+          "type": "float",
+          "schema": "source_point_defense_turret_build_read_state_input.saved_rotation"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "rotation"
+      ],
+      "tests": [
+        "test_c07_point_defense_turret_persistence_integration_registration",
+        "test_all_c07_point_defense_turret_persistence_integration_input_evidence_is_exact",
+        "test_point_defense_turret_persistence_integration_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_persistence_integration"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretPersistenceIntegrationProof",
+      "rule": "Source-backed PointDefenseTurret persistence-integration bridge from PointDefenseTurret.java + BaseTurret.java + BuildingComp.java + ReloadTurret.java."
     }
   },
   "policy": {
