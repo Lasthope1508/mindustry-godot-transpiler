@@ -281,6 +281,39 @@ static func source_turret_sense_state(frame: Dictionary, sensor: String, total_a
 			return {"handled": true, "sense_value": float(source_turret_progress_state(frame, reload_counter, reload).get("progress", 0.0)), "sense_value_is_nan": false}
 	return {"handled": false, "sense_value": null, "sense_value_is_nan": true}
 
+# TurretBuild.fogRadius() (Turret.java:420-423):
+# `public float fogRadius(){`
+# `return (range + (hasAmmo() ? peekAmmo().rangeChange : 0f)) / tilesize * fogRadiusMultiplier;`
+# on `public class TurretBuild extends ReloadTurretBuild implements ControlBlock{`
+# (Turret.java:277). The range is the BaseTurret def range
+# (BaseTurret.java:21, `public float range = 80f;`) and the
+# multiplier is the BaseTurret def fogRadiusMultiplier
+# (BaseTurret.java:24, `public float fogRadiusMultiplier = 1f;`) on
+# `public class BaseTurret extends Block{` (BaseTurret.java:20).
+# tilesize is the world constant (Vars.java:135, `public static
+# final int tilesize = 8;`); the ammo range change is the peeked
+# bullet's rangeChange (BulletType.java:157, `public float rangeChange = 0f;`, default 0f).
+# Unlike range() (Turret.java:342-345, `public float range(){` with `return range + peekAmmo().rangeChange;`),
+# which adds rangeChange whenever peekAmmo() is non-null
+# (Turret.java:693, `public @Nullable BulletType peekAmmo(){`), fogRadius() adds it only when hasAmmo()
+# (Turret.java:698, `public boolean hasAmmo(){`) -- the stricter
+# gate (ammo present, enough for a shot, canConsume,
+# Turret.java:698-712) -- so the pure function takes has_ammo as
+# an explicit bool, not a peeked bullet. The accessor is what the
+# fog system reads (FogControl.java:161,
+# `Mathf.round(build.fogRadius())`; FogRenderer.java:68,
+# `build.fogRadius() * tilesize`); the fog system itself waits for
+# its own slice. All live values arrive as explicit params (the
+# N2188 precedent), because the tick frame tracks only
+# cheating / enabled / power_status / efficiency today. Ammo
+# absent preserves the base range: has_ammo false adds 0f (the
+# N2253/N2254 absent-preserves precedent). NO driver line:
+# fogRadius() is a load-time accessor the fog system reads, not a
+# per-tick write (the N2249 precedent).
+@warning_ignore("unused_parameter")
+static func source_turret_fog_radius_state(frame: Dictionary, range: float, has_ammo: bool, ammo_range_change: float, tilesize: float, fog_radius_multiplier: float) -> Dictionary:
+	return {"fog_radius": (range + (ammo_range_change if has_ammo else 0.0)) / tilesize * fog_radius_multiplier}
+
 @warning_ignore("unused_parameter")
 static func source_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the turret tick wiring every tick

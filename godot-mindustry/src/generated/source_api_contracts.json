@@ -68787,6 +68787,56 @@
       ],
       "runtime_proof": "/root/C07GameHeadlessProof",
       "rule": "Source-backed game headless source from Vars.java + ServerLauncher.java + BuildingComp.java."
+    },
+    "SourceTurretBuildState.source_turret_fog_radius_state": {
+      "status": "active",
+      "source_slice": "N2244",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.fogRadius()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_fog_radius_state_input.frame"
+        },
+        {
+          "name": "range",
+          "type": "float",
+          "schema": "source_turret_fog_radius_state_input.range"
+        },
+        {
+          "name": "has_ammo",
+          "type": "bool",
+          "schema": "source_turret_fog_radius_state_input.has_ammo"
+        },
+        {
+          "name": "ammo_range_change",
+          "type": "float",
+          "schema": "source_turret_fog_radius_state_input.ammo_range_change"
+        },
+        {
+          "name": "tilesize",
+          "type": "float",
+          "schema": "source_turret_fog_radius_state_input.tilesize"
+        },
+        {
+          "name": "fog_radius_multiplier",
+          "type": "float",
+          "schema": "source_turret_fog_radius_state_input.fog_radius_multiplier"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "fog_radius"
+      ],
+      "tests": [
+        "test_c07_turret_fog_radius_registration",
+        "test_all_c07_turret_fog_radius_input_evidence_is_exact",
+        "test_turret_fog_radius_state",
+        "test_reference_graph_and_actual_c07_turret_fog_radius"
+      ],
+      "runtime_proof": "/root/C07TurretFogRadiusProof",
+      "rule": "Source-backed TurretBuild.fogRadius() state from Turret.java + BaseTurret.java + Vars.java + BulletType.java + FogControl.java + FogRenderer.java."
     }
   },
   "policy": {

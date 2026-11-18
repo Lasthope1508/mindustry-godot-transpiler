@@ -176520,6 +176520,22 @@
         "test_reference_graph_and_actual_c07_game_headless"
       ],
       "runtime_proof": "/root/C07GameHeadlessProof"
+    },
+    "source_turret_fog_radius_state_result.fog_radius": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_fog_radius_state",
+      "godot_symbol": "source_turret_fog_radius_state_result.fog_radius",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.fogRadius()",
+      "java_expr": "return (range + (hasAmmo() ? peekAmmo().rangeChange : 0f)) / tilesize * fogRadiusMultiplier;",
+      "rule": "The live fog radius in tiles: (range + rangeChange when hasAmmo, else range) / tilesize * fogRadiusMultiplier (Turret.java:420-421); read by the fog system (FogControl.java:161, `Mathf.round(build.fogRadius())`; FogRenderer.java:68, `build.fogRadius() * tilesize`).",
+      "tests": [
+        "test_c07_turret_fog_radius_registration",
+        "test_all_c07_turret_fog_radius_input_evidence_is_exact",
+        "test_turret_fog_radius_state",
+        "test_reference_graph_and_actual_c07_turret_fog_radius"
+      ],
+      "runtime_proof": "/root/C07TurretFogRadiusProof"
     }
   },
   "version": 1
