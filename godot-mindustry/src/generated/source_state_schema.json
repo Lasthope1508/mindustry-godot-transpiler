@@ -236226,6 +236226,94 @@
       },
       "runtime_proof": "/root/C07TurretWarmupProof",
       "rule": "Source-backed Turret warmup lerp advance from Turret.java / Mathf.java."
+    },
+    "source_turret_recoil_heat_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_recoil_heat_state",
+      "source_slice": "N2254",
+      "keys": {
+        "cur_recoil": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "curRecoil = Mathf.approachDelta(curRecoil, 0, 1 / recoilTime);",
+          "rule": "The current recoil 0..1 (Turret.java:284, the curRecoil field the approachDelta step decays; the driver reads it from frame[\"cur_recoil\"], default 0.0).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_recoil_heat_state"
+          ]
+        },
+        "heat": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "heat = Mathf.approachDelta(heat, 0, 1 / cooldownTime);",
+          "rule": "The current heat 0..1 (Turret.java:284, the heat field the approachDelta step decays; the driver reads it from frame[\"heat\"], default 0.0).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_recoil_heat_state"
+          ]
+        },
+        "recoil_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "if(recoilTime < 0f) recoilTime = reload;",
+          "rule": "The recoil time in ticks (Turret.java:208, init -- recoilTime < 0 falls back to reload; duo reload is 20, N2250, so the driver passes 20.0).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_recoil_heat_state"
+          ]
+        },
+        "cooldown_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float cooldownTime = 20f;",
+          "rule": "The cooldown time in ticks (Turret.java:148, class default 20f -- duo does not override it; the driver passes 20.0).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_recoil_heat_state"
+          ]
+        },
+        "delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_expr": "return approach(from, to, Time.delta * speed);",
+          "rule": "The scaled tick delta in seconds (arc Mathf.java:422, approachDelta -- Time.delta; the driver passes seconds, the same convention as the N2253 warmup).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_recoil_heat_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretRecoilHeatProof",
+      "rule": "Source-backed Turret recoil + heat decay from Turret.java / Mathf.java."
+    },
+    "source_turret_recoil_heat_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_recoil_heat_state",
+      "source_slice": "N2254",
+      "keys": {
+        "cur_recoil": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "curRecoil = Mathf.approachDelta(curRecoil, 0, 1 / recoilTime);",
+          "rule": "The recoil after this tick (Turret.java:519 -- moved toward 0 by delta / recoilTime, never past 0; with the duo values the rate is 0.05 per tick, so 1.0 reaches 0.0 in 20 ticks).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_recoil_heat_state"
+          ]
+        },
+        "heat": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "heat = Mathf.approachDelta(heat, 0, 1 / cooldownTime);",
+          "rule": "The heat after this tick (Turret.java:526 -- moved toward 0 by delta / cooldownTime, never past 0; with the duo values the rate is 0.05 per tick, so 1.0 reaches 0.0 in 20 ticks).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_recoil_heat_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretRecoilHeatProof",
+      "rule": "Source-backed Turret recoil + heat decay from Turret.java / Mathf.java."
     }
   },
   "version": 1

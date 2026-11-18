@@ -221,6 +221,38 @@ static func source_turret_warmup_state(shoot_warmup: float, warmup_hold: float, 
 		shoot_warmup = lerpf(shoot_warmup, warmup_target, clampf(rate * delta, 0.0, 1.0))
 	return {"shoot_warmup": shoot_warmup, "warmup_hold": warmup_hold, "warmup_target": warmup_target}
 
+static func source_turret_recoil_heat_state(cur_recoil: float, heat: float, recoil_time: float, cooldown_time: float, delta: float) -> Dictionary:
+	# TurretBuild.updateTile() (Turret.java:490-532) decays the
+	# recoil and the heat after the warmup advance and before it
+	# aims or shoots: `curRecoil = Mathf.approachDelta(curRecoil, 0, 1 / recoilTime);`
+	# (Turret.java:519) and `heat = Mathf.approachDelta(heat, 0, 1 / cooldownTime);`
+	# (:526). approachDelta is `public static float approachDelta(float from, float to, float speed){` /
+	# `return approach(from, to, Time.delta * speed);` (arc Mathf.java:420-422) with
+	# approach `public static float approach(float from, float to, float speed){` /
+	# `return from + Mathf.clamp(to - from, -speed, speed);` (:415-417), so each tick
+	# moves the value toward 0 by delta / recoilTime (resp. delta / cooldownTime),
+	# never past 0. Class defaults are `public float recoil = 1f;` (:140),
+	# `public int recoils = -1;` (:142), `public float recoilTime = -1f;` (:144),
+	# `public float recoilPow = 1.8f;` (:146), `public float cooldownTime = 20f;` (:148);
+	# the init is `if(recoilTime < 0f) recoilTime = reload;` /
+	# `if(cooldownTime < 0f) cooldownTime = reload;` (:208-209 -- duo reload is 20,
+	# N2250, so recoilTime is 20 and cooldownTime stays 20, a 0.05-per-tick rate).
+	# The fields are `public float curRecoil, heat, logicControlTime = -1;` (:284).
+	# The multi-recoil loop (`if(recoils > 0){` / `if(curRecoils == null) curRecoils = new float[recoils];` /
+	# `for(int i = 0; i < recoils; i++){` / `curRecoils[i] = Mathf.approachDelta(curRecoils[i], 0, 1 / recoilTime);` / `}`,
+	# :520-525) is NOT this slice: duo recoils is -1, so the loop is skipped, and a
+	# def with recoils > 0 waits for its own slice. The shoot stamp (`curRecoil = 1f;` /
+	# `heat = 1f;`, :807-810) and the draw offset
+	# (`recoilOffset.trns(rotation, -Mathf.pow(curRecoil, recoilPow) * recoil);`, :532)
+	# are NOT this slice either: the shoot stamp waits with the shoot-stamp slice
+	# (N2252 only stamped frame["bullet_spawn"]) and the offset is draw-side.
+	# The result is a 2-key dict: `cur_recoil` (after the approachDelta step toward 0)
+	# and `heat` (after the approachDelta step toward 0). Delta is the live-loop
+	# seconds value, the same convention as the N2253 warmup.
+	cur_recoil = cur_recoil + clampf(0.0 - cur_recoil, -delta / recoil_time, delta / recoil_time)
+	heat = heat + clampf(0.0 - heat, -delta / cooldown_time, delta / cooldown_time)
+	return {"cur_recoil": cur_recoil, "heat": heat}
+
 @warning_ignore("unused_parameter")
 static func source_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the turret tick wiring every tick
@@ -391,6 +423,15 @@ static func source_turret_tick_buildings_state(game: Object, seconds: float) -> 
 			var warmup: Dictionary = source_turret_warmup_state(float(frame.get("shoot_warmup", 0.0)), float(frame.get("warmup_hold", 0.0)), bool(frame.get("has_target", false)) and bool(validate.get("valid", false)), duo_can_consume, bool(frame.get("charging", false)), bool(frame.get("controlled", false)), float(frame.get("efficiency", 1.0)), seconds, 0.1, false, 0.0)
 			frame["shoot_warmup"] = warmup.get("shoot_warmup", 0.0)
 			frame["warmup_hold"] = warmup.get("warmup_hold", 0.0)
+			# The recoil/heat decay (Turret.java:519/:526, N2254)
+			# runs after the warmup advance and before the aim/shoot
+			# call: Java order :519/:526 is after :502-515 and before
+			# the shoot gate :733. Duo recoilTime is reload 20
+			# (Turret.java:208) and cooldownTime is the class default
+			# 20 (:148), so the driver passes 20.0 / 20.0.
+			var recoil_heat: Dictionary = source_turret_recoil_heat_state(float(frame.get("cur_recoil", 0.0)), float(frame.get("heat", 0.0)), 20.0, 20.0, seconds)
+			frame["cur_recoil"] = recoil_heat.get("cur_recoil", 0.0)
+			frame["heat"] = recoil_heat.get("heat", 0.0)
 			var aim: Dictionary = source_item_turret_build_state.source_item_turret_aim_shoot_state(frame, frame.get("target", null),
 				bool(validate.get("valid", false)), team_id, sprite.position.x, sprite.position.y, seconds,
 				float(frame.get("potential_efficiency", 1.0)), float(frame.get("shoot_warmup", 0.0)), bool(frame.get("charging", false)),

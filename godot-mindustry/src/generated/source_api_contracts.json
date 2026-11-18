@@ -68999,6 +68999,52 @@
       ],
       "runtime_proof": "/root/C07TurretWarmupProof",
       "rule": "Source-backed Turret warmup lerp advance from Turret.java / Mathf.java."
+    },
+    "SourceTurretBuildState.source_turret_recoil_heat_state": {
+      "status": "active",
+      "source_slice": "N2254",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.updateTile()",
+      "params": [
+        {
+          "name": "cur_recoil",
+          "type": "float",
+          "schema": "source_turret_recoil_heat_state_input.cur_recoil"
+        },
+        {
+          "name": "heat",
+          "type": "float",
+          "schema": "source_turret_recoil_heat_state_input.heat"
+        },
+        {
+          "name": "recoil_time",
+          "type": "float",
+          "schema": "source_turret_recoil_heat_state_input.recoil_time"
+        },
+        {
+          "name": "cooldown_time",
+          "type": "float",
+          "schema": "source_turret_recoil_heat_state_input.cooldown_time"
+        },
+        {
+          "name": "delta",
+          "type": "float",
+          "schema": "source_turret_recoil_heat_state_input.delta"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "cur_recoil",
+        "heat"
+      ],
+      "tests": [
+        "test_c07_turret_recoil_heat_registration",
+        "test_all_c07_turret_recoil_heat_input_evidence_is_exact",
+        "test_turret_recoil_heat_state",
+        "test_reference_graph_and_actual_c07_turret_recoil_heat"
+      ],
+      "runtime_proof": "/root/C07TurretRecoilHeatProof",
+      "rule": "Source-backed Turret recoil + heat decay from Turret.java / Mathf.java."
     }
   },
   "policy": {

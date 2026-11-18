@@ -176536,6 +176536,38 @@
         "test_reference_graph_and_actual_c07_turret_warmup"
       ],
       "runtime_proof": "/root/C07TurretWarmupProof"
+    },
+    "source_turret_recoil_heat_state_result.cur_recoil": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_recoil_heat_state",
+      "godot_symbol": "source_turret_recoil_heat_state_result.cur_recoil",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "curRecoil = Mathf.approachDelta(curRecoil, 0, 1 / recoilTime);",
+      "rule": "The recoil after this tick (Turret.java:519 -- moved toward 0 by delta / recoilTime, never past 0; with the duo values the rate is 0.05 per tick, so 1.0 reaches 0.0 in 20 ticks).",
+      "tests": [
+        "test_c07_turret_recoil_heat_registration",
+        "test_all_c07_turret_recoil_heat_input_evidence_is_exact",
+        "test_turret_recoil_heat_state",
+        "test_reference_graph_and_actual_c07_turret_recoil_heat"
+      ],
+      "runtime_proof": "/root/C07TurretRecoilHeatProof"
+    },
+    "source_turret_recoil_heat_state_result.heat": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_recoil_heat_state",
+      "godot_symbol": "source_turret_recoil_heat_state_result.heat",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "heat = Mathf.approachDelta(heat, 0, 1 / cooldownTime);",
+      "rule": "The heat after this tick (Turret.java:526 -- moved toward 0 by delta / cooldownTime, never past 0; with the duo values the rate is 0.05 per tick, so 1.0 reaches 0.0 in 20 ticks).",
+      "tests": [
+        "test_c07_turret_recoil_heat_registration",
+        "test_all_c07_turret_recoil_heat_input_evidence_is_exact",
+        "test_turret_recoil_heat_state",
+        "test_reference_graph_and_actual_c07_turret_recoil_heat"
+      ],
+      "runtime_proof": "/root/C07TurretRecoilHeatProof"
     }
   },
   "version": 1
