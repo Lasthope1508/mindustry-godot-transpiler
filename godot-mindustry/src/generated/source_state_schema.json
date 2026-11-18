@@ -235760,6 +235760,314 @@
       },
       "runtime_proof": "/root/C07ItemTurretValidateTargetProof",
       "rule": "Source-backed ItemTurret validateTarget from Turret.java / Units.java / Team.java / Blocks.java."
+    },
+    "source_item_turret_bullet_spawn_state_input": {
+      "status": "active",
+      "owner": "SourceItemTurretBuildState.source_item_turret_bullet_spawn_state",
+      "source_slice": "N2252",
+      "keys": {
+        "shoot_event": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "bulletX = x + Angles.trnsx(rotation - 90, shootX, shootY),",
+          "rule": "The N2250 shoot_event dict (Turret.java:744 -- the bullet origin bullet_x/bullet_y plus rotation and the pre-increment barrel; the pure function derives the spawn origin from it instead of recomputing trnsx/trnsy from x/y).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_bullet_spawn_state"
+          ]
+        },
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "bulletX = x + Angles.trnsx(rotation - 90, shootX + xOffset + xSpread, shootY + yOffset),",
+          "rule": "The turret x (Turret.java:783 -- the bullet() origin base; carried for source-completeness, the shoot_event fallback).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_bullet_spawn_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "bulletY = y + Angles.trnsy(rotation - 90, shootX + xOffset + xSpread, shootY + yOffset),",
+          "rule": "The turret y (Turret.java:784 -- the bullet() origin base; carried for source-completeness, the shoot_event fallback).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_bullet_spawn_state"
+          ]
+        },
+        "target_pos": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "float lifeScl = type.scaleLife ? Mathf.clamp((1 + scaleLifetimeOffset) * Mathf.dst(bulletX, bulletY, targetPos.x, targetPos.y) / type.range, minRange() / type.range, range() / type.range) : 1f;",
+          "rule": "The predicted target position dict (Turret.java:787 -- only the lifeScl clamp reads targetPos, and that branch is dead for duo since scaleLife is false; carried so scaleLife=true defs work unchanged).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_bullet_spawn_state"
+          ]
+        },
+        "barrel_counter": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "}, () -> barrelCounter++);",
+          "rule": "The ShootAlternate barrel counter before the increment (Turret.java:770 -- pattern.shoot runs before the incrementer, so bullet() sees the pre-increment counter; the driver passes shoot_event[\"barrel\"]).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_bullet_spawn_state"
+          ]
+        },
+        "shoot_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float shootX = 0f, shootY = Float.NEGATIVE_INFINITY;",
+          "rule": "The shoot X offset (Turret.java:66, class default 0f -- duo does not override it; carried for source-completeness, the shoot_event already includes it).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_bullet_spawn_state"
+          ]
+        },
+        "shoot_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "shootY = 3f;",
+          "rule": "The shoot Y offset (duo 3f, Blocks.java:3313 -- the bullet origin sits shootY ahead of the turret; carried for source-completeness, the shoot_event already includes it).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_bullet_spawn_state"
+          ]
+        },
+        "spread": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "shoot = new ShootAlternate(3.5f);",
+          "rule": "The ShootAlternate barrel spread in world units (duo 3.5f, Blocks.java:3293 -- xOffset is index * spread * -Mathf.sign(mirror)).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_bullet_spawn_state"
+          ]
+        },
+        "barrels": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/pattern/ShootAlternate.java",
+          "java_expr": "public int barrels = 2;",
+          "rule": "The ShootAlternate barrel count (ShootAlternate.java:8 -- duo has 2 barrels, so the index is (barrelCounter % 2) - 0.5).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_bullet_spawn_state"
+          ]
+        },
+        "barrel_offset": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/pattern/ShootAlternate.java",
+          "java_expr": "public int barrelOffset = 0;",
+          "rule": "The ShootAlternate barrel start offset (ShootAlternate.java:10 -- duo 0, so the first shot uses barrel 0).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_bullet_spawn_state"
+          ]
+        },
+        "mirror": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/pattern/ShootAlternate.java",
+          "java_expr": "public boolean mirror = false;",
+          "rule": "Whether the ShootAlternate order is flipped (ShootAlternate.java:12 -- duo false; Mathf.sign(false) is -1, so -sign is +1 and xOffset is index * spread).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_bullet_spawn_state"
+          ]
+        },
+        "x_spread": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "xSpread = Mathf.range(xRand),",
+          "rule": "The random X spread draw (Turret.java:782 -- Mathf.range(xRand) with xRand defaulting 0f, Turret.java:68, so 0 for duo; the driver/test supplies the draw, the pure function never calls randf).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_bullet_spawn_state"
+          ]
+        },
+        "inaccuracy_draw": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "shootAngle = rotation + angleOffset + Mathf.range(inaccuracy + type.inaccuracy);",
+          "rule": "The random inaccuracy draw in degrees (Turret.java:786 -- Mathf.range(inaccuracy + type.inaccuracy) with duo inaccuracy 2f and type inaccuracy 0f, so +-2 degrees; the driver draws it live, the proof seeds it fixed).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_bullet_spawn_state"
+          ]
+        },
+        "bullet_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_expr": "public float speed = 1f;",
+          "rule": "The peeked ammo bullet speed per tick (BulletType.java:37 -- duo copper 2.5, graphite 3.5, silicon 3, Blocks.java:3259-3295; the driver passes the catalog ammo_data speed).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_bullet_spawn_state"
+          ]
+        },
+        "bullet_damage": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "Items.copper,  new BasicBulletType(2.5f, 9){{",
+          "rule": "The peeked ammo bullet damage (duo copper 9, Blocks.java:3260 -- graphite 18, silicon 12; the driver passes the catalog ammo_data damage).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_bullet_spawn_state"
+          ]
+        },
+        "bullet_lifetime": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "lifetime = 60f;",
+          "rule": "The peeked ammo bullet lifetime in ticks (duo 60f in Java, Blocks.java:3265 -- the driver passes the catalog ammo_data lifetime, 70.0 for copper, which is the converted value the port uses).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_bullet_spawn_state"
+          ]
+        },
+        "bullet_hit_size": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_expr": "public float hitSize = 4;",
+          "rule": "The bullet hitSize (BulletType.java:43, default 4 -- the duo ammo entries carry no hitSize, so the driver passes the 4.0 default).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_bullet_spawn_state"
+          ]
+        },
+        "range": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "range = 160;",
+          "rule": "The per-def range (duo 160, Blocks.java:3316 -- only the lifeScl clamp reads it, and that branch is dead for duo since scaleLife is false; carried so scaleLife=true defs work unchanged).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_bullet_spawn_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ItemTurretBulletSpawnProof",
+      "rule": "Source-backed ItemTurret bullet() spawn from Turret.java / Blocks.java / BulletType.java / ShootAlternate.java / ShootPattern.java / BulletComp.java / Angles.java / Mathf.java / Vec2.java."
+    },
+    "source_item_turret_bullet_spawn_state_result": {
+      "status": "active",
+      "owner": "SourceItemTurretBuildState.source_item_turret_bullet_spawn_state",
+      "source_slice": "N2252",
+      "keys": {
+        "bullet_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "bulletX = x + Angles.trnsx(rotation - 90, shootX + xOffset + xSpread, shootY + yOffset),",
+          "rule": "The spawn origin x (Turret.java:783 -- shoot_event.bullet_x plus (xOffset + xSpread) rotated by rotation - 90; the trns rotation is linear in the offset).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_bullet_spawn_state"
+          ]
+        },
+        "bullet_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "bulletY = y + Angles.trnsy(rotation - 90, shootX + xOffset + xSpread, shootY + yOffset),",
+          "rule": "The spawn origin y (Turret.java:784 -- shoot_event.bullet_y plus (xOffset + xSpread) rotated by rotation - 90).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_bullet_spawn_state"
+          ]
+        },
+        "shoot_angle": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "shootAngle = rotation + angleOffset + Mathf.range(inaccuracy + type.inaccuracy);",
+          "rule": "The shoot angle in degrees (Turret.java:786 -- rotation + angleOffset 0 with ShootAlternate + the inaccuracy_draw param).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_bullet_spawn_state"
+          ]
+        },
+        "x_offset": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/pattern/ShootAlternate.java",
+          "java_expr": "handler.shoot(index * spread * -Mathf.sign(mirror), 0, 0f, firstShotDelay + shotDelay * i);",
+          "rule": "The barrel x offset in world units (ShootAlternate.java:35 -- index * spread * -Mathf.sign(mirror); duo mirror false gives index * 3.5, barrel 0 -1.75, barrel 1 +1.75).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_bullet_spawn_state"
+          ]
+        },
+        "velocity": {
+          "type": "Vector2",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+          "java_expr": "vel.trns(angle, amount);",
+          "rule": "The bullet velocity in Java per-tick units (BulletComp.java:329-331 -- initVel is vel.trns(angle, amount), i.e. dir(shoot_angle) * speed * 1.0; the runtime bridge multiplies by TICKS_PER_SECOND 60 for the live dict).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_bullet_spawn_state"
+          ]
+        },
+        "speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_expr": "public float speed = 1f;",
+          "rule": "The bullet speed per tick (BulletType.java:37 -- the ammo speed, copper 2.5; the bridge converts it to per-second for the live dict).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_bullet_spawn_state"
+          ]
+        },
+        "damage": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_expr": "bullet.damage = (damage < 0 ? this.damage : damage) * bullet.damageMultiplier();",
+          "rule": "The bullet damage (BulletType.java:972 -- the ammo damage, copper 9).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_bullet_spawn_state"
+          ]
+        },
+        "hit_size": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_expr": "bullet.hitSize = hitSize;",
+          "rule": "The bullet hitSize (BulletType.java:971 -- 4.0 for duo, the BulletType default).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_bullet_spawn_state"
+          ]
+        },
+        "lifetime_remaining": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_expr": "bullet.lifetime = lifetime * lifetimeScl * (lifeScaleRandMin != 1f || lifeScaleRandMax != 1f ? Mathf.random(lifeScaleRandMin, lifeScaleRandMax) : 1f);",
+          "rule": "The bullet lifetime remaining in ticks (BulletType.java:968 -- lifetime * lifeScl; the bridge divides by 60 for the live dict).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_bullet_spawn_state"
+          ]
+        },
+        "life_scl": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "float lifeScl = type.scaleLife ? Mathf.clamp((1 + scaleLifetimeOffset) * Mathf.dst(bulletX, bulletY, targetPos.x, targetPos.y) / type.range, minRange() / type.range, range() / type.range) : 1f;",
+          "rule": "The lifetime scale (Turret.java:787 -- 1.0 for duo because scaleLife defaults false, BulletType.java:141).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_bullet_spawn_state"
+          ]
+        },
+        "barrel": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/pattern/ShootAlternate.java",
+          "java_expr": "float index = ((totalShots + i + barrelOffset) % barrels) - (barrels-1)/2f;",
+          "rule": "The barrel this shot used (ShootAlternate.java:32 -- the pre-increment barrelCounter, echoed so the driver/proof can check the alternation).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_bullet_spawn_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ItemTurretBulletSpawnProof",
+      "rule": "Source-backed ItemTurret bullet() spawn from Turret.java / Blocks.java / BulletType.java / ShootAlternate.java / ShootPattern.java / BulletComp.java / Angles.java / Mathf.java / Vec2.java."
     }
   },
   "version": 1

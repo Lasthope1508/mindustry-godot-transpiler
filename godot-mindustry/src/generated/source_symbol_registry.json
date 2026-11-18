@@ -176312,6 +176312,182 @@
         "test_reference_graph_and_actual_c07_item_turret_validate_target"
       ],
       "runtime_proof": "/root/C07ItemTurretValidateTargetProof"
+    },
+    "source_item_turret_bullet_spawn_state_result.bullet_x": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemTurretBuildState.source_item_turret_bullet_spawn_state",
+      "godot_symbol": "source_item_turret_bullet_spawn_state_result.bullet_x",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.bullet()",
+      "java_expr": "bulletX = x + Angles.trnsx(rotation - 90, shootX + xOffset + xSpread, shootY + yOffset),",
+      "rule": "The spawn origin x (Turret.java:783 -- shoot_event.bullet_x plus (xOffset + xSpread) rotated by rotation - 90; the trns rotation is linear in the offset).",
+      "tests": [
+        "test_c07_item_turret_bullet_spawn_registration",
+        "test_all_c07_item_turret_bullet_spawn_input_evidence_is_exact",
+        "test_item_turret_bullet_spawn_state",
+        "test_reference_graph_and_actual_c07_item_turret_bullet_spawn"
+      ],
+      "runtime_proof": "/root/C07ItemTurretBulletSpawnProof"
+    },
+    "source_item_turret_bullet_spawn_state_result.bullet_y": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemTurretBuildState.source_item_turret_bullet_spawn_state",
+      "godot_symbol": "source_item_turret_bullet_spawn_state_result.bullet_y",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.bullet()",
+      "java_expr": "bulletY = y + Angles.trnsy(rotation - 90, shootX + xOffset + xSpread, shootY + yOffset),",
+      "rule": "The spawn origin y (Turret.java:784 -- shoot_event.bullet_y plus (xOffset + xSpread) rotated by rotation - 90).",
+      "tests": [
+        "test_c07_item_turret_bullet_spawn_registration",
+        "test_all_c07_item_turret_bullet_spawn_input_evidence_is_exact",
+        "test_item_turret_bullet_spawn_state",
+        "test_reference_graph_and_actual_c07_item_turret_bullet_spawn"
+      ],
+      "runtime_proof": "/root/C07ItemTurretBulletSpawnProof"
+    },
+    "source_item_turret_bullet_spawn_state_result.shoot_angle": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemTurretBuildState.source_item_turret_bullet_spawn_state",
+      "godot_symbol": "source_item_turret_bullet_spawn_state_result.shoot_angle",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.bullet()",
+      "java_expr": "shootAngle = rotation + angleOffset + Mathf.range(inaccuracy + type.inaccuracy);",
+      "rule": "The shoot angle in degrees (Turret.java:786 -- rotation + angleOffset 0 with ShootAlternate + the inaccuracy_draw param).",
+      "tests": [
+        "test_c07_item_turret_bullet_spawn_registration",
+        "test_all_c07_item_turret_bullet_spawn_input_evidence_is_exact",
+        "test_item_turret_bullet_spawn_state",
+        "test_reference_graph_and_actual_c07_item_turret_bullet_spawn"
+      ],
+      "runtime_proof": "/root/C07ItemTurretBulletSpawnProof"
+    },
+    "source_item_turret_bullet_spawn_state_result.x_offset": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemTurretBuildState.source_item_turret_bullet_spawn_state",
+      "godot_symbol": "source_item_turret_bullet_spawn_state_result.x_offset",
+      "java_source": "core/src/mindustry/entities/pattern/ShootAlternate.java",
+      "java_method": "TurretBuild.bullet()",
+      "java_expr": "handler.shoot(index * spread * -Mathf.sign(mirror), 0, 0f, firstShotDelay + shotDelay * i);",
+      "rule": "The barrel x offset in world units (ShootAlternate.java:35 -- index * spread * -Mathf.sign(mirror); duo mirror false gives index * 3.5, barrel 0 -1.75, barrel 1 +1.75).",
+      "tests": [
+        "test_c07_item_turret_bullet_spawn_registration",
+        "test_all_c07_item_turret_bullet_spawn_input_evidence_is_exact",
+        "test_item_turret_bullet_spawn_state",
+        "test_reference_graph_and_actual_c07_item_turret_bullet_spawn"
+      ],
+      "runtime_proof": "/root/C07ItemTurretBulletSpawnProof"
+    },
+    "source_item_turret_bullet_spawn_state_result.velocity": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemTurretBuildState.source_item_turret_bullet_spawn_state",
+      "godot_symbol": "source_item_turret_bullet_spawn_state_result.velocity",
+      "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+      "java_method": "TurretBuild.bullet()",
+      "java_expr": "vel.trns(angle, amount);",
+      "rule": "The bullet velocity in Java per-tick units (BulletComp.java:329-331 -- initVel is vel.trns(angle, amount), i.e. dir(shoot_angle) * speed * 1.0; the runtime bridge multiplies by TICKS_PER_SECOND 60 for the live dict).",
+      "tests": [
+        "test_c07_item_turret_bullet_spawn_registration",
+        "test_all_c07_item_turret_bullet_spawn_input_evidence_is_exact",
+        "test_item_turret_bullet_spawn_state",
+        "test_reference_graph_and_actual_c07_item_turret_bullet_spawn"
+      ],
+      "runtime_proof": "/root/C07ItemTurretBulletSpawnProof"
+    },
+    "source_item_turret_bullet_spawn_state_result.speed": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemTurretBuildState.source_item_turret_bullet_spawn_state",
+      "godot_symbol": "source_item_turret_bullet_spawn_state_result.speed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "TurretBuild.bullet()",
+      "java_expr": "public float speed = 1f;",
+      "rule": "The bullet speed per tick (BulletType.java:37 -- the ammo speed, copper 2.5; the bridge converts it to per-second for the live dict).",
+      "tests": [
+        "test_c07_item_turret_bullet_spawn_registration",
+        "test_all_c07_item_turret_bullet_spawn_input_evidence_is_exact",
+        "test_item_turret_bullet_spawn_state",
+        "test_reference_graph_and_actual_c07_item_turret_bullet_spawn"
+      ],
+      "runtime_proof": "/root/C07ItemTurretBulletSpawnProof"
+    },
+    "source_item_turret_bullet_spawn_state_result.damage": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemTurretBuildState.source_item_turret_bullet_spawn_state",
+      "godot_symbol": "source_item_turret_bullet_spawn_state_result.damage",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "TurretBuild.bullet()",
+      "java_expr": "bullet.damage = (damage < 0 ? this.damage : damage) * bullet.damageMultiplier();",
+      "rule": "The bullet damage (BulletType.java:972 -- the ammo damage, copper 9).",
+      "tests": [
+        "test_c07_item_turret_bullet_spawn_registration",
+        "test_all_c07_item_turret_bullet_spawn_input_evidence_is_exact",
+        "test_item_turret_bullet_spawn_state",
+        "test_reference_graph_and_actual_c07_item_turret_bullet_spawn"
+      ],
+      "runtime_proof": "/root/C07ItemTurretBulletSpawnProof"
+    },
+    "source_item_turret_bullet_spawn_state_result.hit_size": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemTurretBuildState.source_item_turret_bullet_spawn_state",
+      "godot_symbol": "source_item_turret_bullet_spawn_state_result.hit_size",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "TurretBuild.bullet()",
+      "java_expr": "bullet.hitSize = hitSize;",
+      "rule": "The bullet hitSize (BulletType.java:971 -- 4.0 for duo, the BulletType default).",
+      "tests": [
+        "test_c07_item_turret_bullet_spawn_registration",
+        "test_all_c07_item_turret_bullet_spawn_input_evidence_is_exact",
+        "test_item_turret_bullet_spawn_state",
+        "test_reference_graph_and_actual_c07_item_turret_bullet_spawn"
+      ],
+      "runtime_proof": "/root/C07ItemTurretBulletSpawnProof"
+    },
+    "source_item_turret_bullet_spawn_state_result.lifetime_remaining": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemTurretBuildState.source_item_turret_bullet_spawn_state",
+      "godot_symbol": "source_item_turret_bullet_spawn_state_result.lifetime_remaining",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "TurretBuild.bullet()",
+      "java_expr": "bullet.lifetime = lifetime * lifetimeScl * (lifeScaleRandMin != 1f || lifeScaleRandMax != 1f ? Mathf.random(lifeScaleRandMin, lifeScaleRandMax) : 1f);",
+      "rule": "The bullet lifetime remaining in ticks (BulletType.java:968 -- lifetime * lifeScl; the bridge divides by 60 for the live dict).",
+      "tests": [
+        "test_c07_item_turret_bullet_spawn_registration",
+        "test_all_c07_item_turret_bullet_spawn_input_evidence_is_exact",
+        "test_item_turret_bullet_spawn_state",
+        "test_reference_graph_and_actual_c07_item_turret_bullet_spawn"
+      ],
+      "runtime_proof": "/root/C07ItemTurretBulletSpawnProof"
+    },
+    "source_item_turret_bullet_spawn_state_result.life_scl": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemTurretBuildState.source_item_turret_bullet_spawn_state",
+      "godot_symbol": "source_item_turret_bullet_spawn_state_result.life_scl",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.bullet()",
+      "java_expr": "float lifeScl = type.scaleLife ? Mathf.clamp((1 + scaleLifetimeOffset) * Mathf.dst(bulletX, bulletY, targetPos.x, targetPos.y) / type.range, minRange() / type.range, range() / type.range) : 1f;",
+      "rule": "The lifetime scale (Turret.java:787 -- 1.0 for duo because scaleLife defaults false, BulletType.java:141).",
+      "tests": [
+        "test_c07_item_turret_bullet_spawn_registration",
+        "test_all_c07_item_turret_bullet_spawn_input_evidence_is_exact",
+        "test_item_turret_bullet_spawn_state",
+        "test_reference_graph_and_actual_c07_item_turret_bullet_spawn"
+      ],
+      "runtime_proof": "/root/C07ItemTurretBulletSpawnProof"
+    },
+    "source_item_turret_bullet_spawn_state_result.barrel": {
+      "status": "source-backed",
+      "godot_owner": "SourceItemTurretBuildState.source_item_turret_bullet_spawn_state",
+      "godot_symbol": "source_item_turret_bullet_spawn_state_result.barrel",
+      "java_source": "core/src/mindustry/entities/pattern/ShootAlternate.java",
+      "java_method": "TurretBuild.bullet()",
+      "java_expr": "float index = ((totalShots + i + barrelOffset) % barrels) - (barrels-1)/2f;",
+      "rule": "The barrel this shot used (ShootAlternate.java:32 -- the pre-increment barrelCounter, echoed so the driver/proof can check the alternation).",
+      "tests": [
+        "test_c07_item_turret_bullet_spawn_registration",
+        "test_all_c07_item_turret_bullet_spawn_input_evidence_is_exact",
+        "test_item_turret_bullet_spawn_state",
+        "test_reference_graph_and_actual_c07_item_turret_bullet_spawn"
+      ],
+      "runtime_proof": "/root/C07ItemTurretBulletSpawnProof"
     }
   },
   "version": 1

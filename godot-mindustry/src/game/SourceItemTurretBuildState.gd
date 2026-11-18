@@ -272,6 +272,92 @@ static func source_item_turret_validate_target_state(target_is_null: bool, targe
 	return {"valid": valid, "target_cleared": not valid}
 
 @warning_ignore("unused_parameter")
+static func source_item_turret_bullet_spawn_state(shoot_event: Dictionary, x: float, y: float, target_pos: Variant, barrel_counter: int, shoot_x: float, shoot_y: float, spread: float, barrels: int, barrel_offset: int, mirror: bool, x_spread: float, inaccuracy_draw: float, bullet_speed: float, bullet_damage: float, bullet_lifetime: float, bullet_hit_size: float, range: float) -> Dictionary:
+	# TurretBuild.bullet() (Turret.java:779-801, `protected void bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover){`):
+	# one bullet per pattern handler call. shoot() hands the pattern the handler
+	# (`pattern.shoot(barrelCounter, (xOffset, yOffset, angle, delay, mover) -> {`, Turret.java:754 --
+	# `protected void shoot(BulletType type){`, Turret.java:742 -- with `queuedBullets++;` in shoot(),
+	# Turret.java:753, and `queuedBullets --;` at the head of bullet(), Turret.java:780).
+	# ShootAlternate picks one barrel per shot (`float index = ((totalShots + i + barrelOffset) % barrels) - (barrels-1)/2f;` /
+	# `handler.shoot(index * spread * -Mathf.sign(mirror), 0, 0f, firstShotDelay + shotDelay * i);`,
+	# ShootAlternate.java:31-37 -- duo barrels 2 (`public int barrels = 2;`, ShootAlternate.java:8), spread 3.5
+	# (`shoot = new ShootAlternate(3.5f);`, Blocks.java:3293), barrelOffset 0 (`public int barrelOffset = 0;`,
+	# ShootAlternate.java:10), mirror false (`public boolean mirror = false;`, ShootAlternate.java:12);
+	# `Mathf.sign(boolean b)` is `return b ? 1 : -1;` (Mathf.java:203-205), so sign(false) is -1 and
+	# -sign(false) is +1: xOffset is index * 3.5, barrel 0 (index -0.5) gives -1.75 and barrel 1 (index +0.5)
+	# gives +1.75. Shots 1 (`public int shots = 1;`, ShootPattern.java:9), firstShotDelay 0
+	# (`public float firstShotDelay = 0;`, ShootPattern.java:11), shotDelay 0 (`public float shotDelay = 0;`,
+	# ShootPattern.java:13), so delay is 0 and bullet() runs at once (`if(delay > 0f){` queues, `else{` calls
+	# `bullet(type, xOffset, yOffset, angle, mover);`, Turret.java:759-768). The incrementer runs after
+	# pattern.shoot (`}, () -> barrelCounter++);`, Turret.java:770), so bullet() sees the pre-increment
+	# barrelCounter, and `if(consumeAmmoOnce){` useAmmo already ran in shoot() (Turret.java:771-776).
+	# The early return (`if(dead || (!consumeAmmoOnce && !hasAmmo())) return;`, Turret.java:781) is dead
+	# for duo: consumeAmmoOnce is true, and the updateTile hasAmmo gate (Turret.java:548) already guards
+	# the shot. `xSpread = Mathf.range(xRand),` (Turret.java:782 -- `public float xRand = 0f;`,
+	# Turret.java:68, so xSpread is 0 for duo but stays a param for later defs;
+	# `Mathf.range(float range)` is `return random(-range, range);`, Mathf.java:220-222). The origin
+	# (`bulletX = x + Angles.trnsx(rotation - 90, shootX + xOffset + xSpread, shootY + yOffset),` /
+	# `bulletY = y + Angles.trnsy(rotation - 90, shootX + xOffset + xSpread, shootY + yOffset),`,
+	# Turret.java:783-784) is NOT recomputed from x/y here: the N2250 shoot_event already carries
+	# bullet_x/bullet_y (`bulletX = x + Angles.trnsx(rotation - 90, shootX, shootY),`, Turret.java:744),
+	# and Angles.trnsx/trnsy rotate the (x, y) vector (`return rv.set(x, y).rotate(angle).x;` /
+	# `return rv.set(x, y).rotate(angle).y;`, Angles.java:74-80), so the rotation is linear in the offset:
+	# bullet_x is shoot_event.bullet_x plus (xOffset + xSpread) rotated by rotation - 90. The angle is
+	# (`shootAngle = rotation + angleOffset + Mathf.range(inaccuracy + type.inaccuracy);`, Turret.java:786 --
+	# the class default is `public float inaccuracy = 0f;`, Turret.java:58, the duo override is
+	# `inaccuracy = 2f;`, Blocks.java:3320, and type inaccuracy is 0f (`public float inaccuracy = 0f;`,
+	# BulletType.java:93), so the draw is +-2 degrees; angleOffset is 0 with ShootAlternate). lifeScl is
+	# (`float lifeScl = type.scaleLife ? Mathf.clamp((1 + scaleLifetimeOffset) * Mathf.dst(bulletX, bulletY, targetPos.x, targetPos.y) / type.range, minRange() / type.range, range() / type.range) : 1f;`,
+	# Turret.java:787 -- `public boolean scaleLife;`, BulletType.java:141, defaults false, and the duo def
+	# never sets it, so lifeScl is 1.0 for duo; `public float scaleLifetimeOffset = 0f;`, Turret.java:62).
+	# The create is (`handleBullet(type.create(this, team, bulletX, bulletY, shootAngle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd), lifeScl, null, mover, targetPos.x, targetPos.y), xOffset, yOffset, shootAngle - rotation);`,
+	# Turret.java:790 -- `public float velocityRnd = 0f;`, Turret.java:60, so the velocity factor is 1.0;
+	# handleBullet is a no-op on TurretBuild (`protected void handleBullet(@Nullable Bullet bullet, float offsetX, float offsetY, float angleOffset){`,
+	# Turret.java:818-820)). type.create stamps the live bullet (`bullet.initVel(angle, speed * velocityScl * (velocityScaleRandMin != 1f || velocityScaleRandMax != 1f ? Mathf.random(velocityScaleRandMin, velocityScaleRandMax) : 1f));`,
+	# BulletType.java:964 -- initVel is `vel.trns(angle, amount);`, BulletComp.java:329-331, i.e. Vec2.trns is
+	# `return set(amount, 0).rotate(angle);`, Vec2.java:40-42, so the velocity is dir(angle) * speed;
+	# `bullet.lifetime = lifetime * lifetimeScl * (lifeScaleRandMin != 1f || lifeScaleRandMax != 1f ? Mathf.random(lifeScaleRandMin, lifeScaleRandMax) : 1f);`, BulletType.java:968;
+	# `bullet.damage = (damage < 0 ? this.damage : damage) * bullet.damageMultiplier();`, BulletType.java:972;
+	# `bullet.hitSize = hitSize;`, BulletType.java:971). Class defaults are shootX 0f / shootY -INF
+	# (`public float shootX = 0f, shootY = Float.NEGATIVE_INFINITY;`, Turret.java:66 -- duo shootY 3f,
+	# `shootY = 3f;`, Blocks.java:3313), range 160 (`range = 160;`, Blocks.java:3316). Duo ammo is copper
+	# `Items.copper,  new BasicBulletType(2.5f, 9){{` (Blocks.java:3260 -- note the double space), graphite
+	# `Items.graphite, new BasicBulletType(3.5f, 18){{` (:3270), silicon `Items.silicon, new BasicBulletType(3f, 12){{`
+	# (:3282), each with `lifetime = 60f;` in Java; the catalog ammo entries the driver reads carry damage /
+	# speed / lifetime (copper 9 / 2.5 / 70.0, graphite 18 / 3.5 / 54.57142857142857, silicon 12 / 3.0 /
+	# 58.333333333333336 -- the catalog lifetime is converted from range/speed, NOT the Java 60f, and the
+	# driver takes it from ammo_data). BulletType defaults are lifetime 40f (`public float lifetime = 40f;`,
+	# BulletType.java:33), hitSize 4 (`public float hitSize = 4;`, BulletType.java:43), speed 1f
+	# (`public float speed = 1f;`, BulletType.java:37). The effects/sound
+	# (`(shootEffect == null ? type.shootEffect : shootEffect).at(bulletX, bulletY, rotation + angleOffset, type.hitColor);` /
+	# `(smokeEffect == null ? type.smokeEffect : smokeEffect).at(bulletX, bulletY, rotation + angleOffset, type.hitColor);` /
+	# `(type.shootSound != Sounds.none ? type.shootSound : shootSound).at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax), shootSoundVolume);`, Turret.java:792-800),
+	# recoil/heat/totalShots (`curRecoil = 1f;` / `heat = 1f;` / `totalShots++;`, Turret.java:804-812),
+	# queuedBullets when shotDelay > 0, scaleLife=true defs, consumeAmmoOnce=false defs, and findTarget
+	# are NOT this slice -- they wait for their own slices. The result is an 11-key dict: `bullet_x` /
+	# `bullet_y` (the spawn origin), `shoot_angle` (rotation + inaccuracy_draw, angleOffset 0 with
+	# ShootAlternate), `x_offset` (the barrel offset), `velocity` (dir(shoot_angle) * speed * 1.0, Java
+	# per-tick units -- the runtime bridge multiplies by TICKS_PER_SECOND 60 for the live dict),
+	# `speed` / `damage` / `hit_size` (from ammo_data), `lifetime_remaining` (lifetime * lifeScl, ticks --
+	# the bridge divides by 60 for the live dict), `life_scl` (1.0 for duo), `barrel` (the pre-increment
+	# barrelCounter -- pattern.shoot runs before the `}, () -> barrelCounter++);` incrementer,
+	# Turret.java:770). `target_pos`, `shoot_x`, `shoot_y` and `range` are carried for source-completeness
+	# (the lifeScl clamp reads targetPos/range, the shoot_event already includes shootX/shootY) and are
+	# unused while the scaleLife branch is dead for duo; the pure function itself never calls randf --
+	# `x_spread` and `inaccuracy_draw` are params the driver/test supplies.
+	var index: float = float((barrel_counter + barrel_offset) % barrels) - float(barrels - 1) / 2.0
+	var mirror_factor: float = -1.0 if mirror else 1.0
+	var x_offset: float = index * spread * mirror_factor
+	var rotation: float = float(shoot_event.get("rotation", 90.0))
+	var angle_rad: float = deg_to_rad(rotation - 90.0)
+	var bullet_x: float = float(shoot_event.get("bullet_x", x)) + (x_offset + x_spread) * cos(angle_rad)
+	var bullet_y: float = float(shoot_event.get("bullet_y", y)) + (x_offset + x_spread) * sin(angle_rad)
+	var shoot_angle: float = rotation + inaccuracy_draw
+	var velocity: Vector2 = Vector2(cos(deg_to_rad(shoot_angle)), sin(deg_to_rad(shoot_angle))) * bullet_speed
+	var life_scl: float = 1.0
+	return {"bullet_x": bullet_x, "bullet_y": bullet_y, "shoot_angle": shoot_angle, "x_offset": x_offset, "velocity": velocity, "speed": bullet_speed, "damage": bullet_damage, "hit_size": bullet_hit_size, "lifetime_remaining": bullet_lifetime * life_scl, "life_scl": life_scl, "barrel": barrel_counter}
+
+@warning_ignore("unused_parameter")
 static func source_item_turret_aim_shoot_state(frame: Dictionary, target: Variant, target_valid: bool, team_id: int, x: float, y: float, delta: float, potential_efficiency: float, shoot_warmup: float, charging: bool, ammo_entries: Array, total_ammo: int, barrel_counter: int, range: float, rotate_speed: float, reload: float, shoot_cone: float, shoot_x: float, shoot_y: float, inaccuracy: float, ammo_per_shot: int, consume_ammo_once: bool, reload_multiplier: float, range_change: float, bullet_speed: float, predict_target: bool, min_warmup: float, always_shooting: bool, cheating: bool, base_reload_speed: float) -> Dictionary:
 	# The duo half of TurretBuild.updateTile() (Turret.java:490-615).
 	# ItemTurret does NOT override updateTile (`public class ItemTurret extends Turret{`,

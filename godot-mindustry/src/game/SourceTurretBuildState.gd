@@ -3,6 +3,7 @@ class_name SourceTurretBuildState
 
 const source_turret_ammo_state := preload("res://src/game/SourceTurretAmmoState.gd")
 const source_item_turret_build_state := preload("res://src/game/SourceItemTurretBuildState.gd")
+const source_bullet_runtime_state := preload("res://src/game/SourceBulletRuntimeState.gd")
 const source_rules_state := preload("res://src/game/SourceRulesRuntimeState.gd")
 const source_placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
 const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
@@ -331,6 +332,36 @@ static func source_turret_tick_buildings_state(game: Object, seconds: float) -> 
 				duo_totals_map[duo_key] = int(aim.get("total_ammo_after", duo_total))
 				game.set("turret_ammo_stacks", duo_stacks_map)
 				game.set("turret_total_ammo", duo_totals_map)
+				# bullet() spawn (Turret.java:779-801, N2252): the
+				# shoot_event N2250 computed is consumed here -- the
+				# pure function derives the spawn origin / angle /
+				# velocity from it (ShootAlternate barrel offset,
+				# inaccuracy draw, lifeScl 1.0 for duo), the spawn
+				# dict is stamped on the frame, and the origin +
+				# shoot_angle + the peeked ammo_data go to the
+				# existing runtime spawn bridge
+				# (SourceBulletRuntimeState.spawn_turret_bullet --
+				# the single writer of game["bullets"], N2242/N2243:
+				# it converts speed to per-second (x60) and lifetime
+				# to seconds (/60) and appends the live dict with
+				# the team stamp). The barrel is the pre-increment
+				# shoot_event barrel (pattern.shoot runs before the
+				# `}, () -> barrelCounter++);` incrementer,
+				# Turret.java:770). The random draws are params:
+				# x_spread defaults 0.0 (xRand is 0 for duo) and
+				# inaccuracy_draw defaults to a live randf_range(-2,
+				# 2) draw -- the +-2 degrees faithful to Java -- while
+				# the proof seeds a fixed draw through the frame key,
+				# so the pure function itself never calls randf.
+				var shoot_event: Dictionary = aim.get("shoot_event", {})
+				var spawn: Dictionary = source_item_turret_build_state.source_item_turret_bullet_spawn_state(
+					shoot_event, sprite.position.x, sprite.position.y, aim.get("target_pos", null),
+					int(shoot_event.get("barrel", 0)),
+					0.0, 3.0, 3.5, 2, 0, false,
+					float(frame.get("x_spread", 0.0)), float(frame.get("inaccuracy_draw", randf_range(-2.0, 2.0))), float(duo_ammo_data.get("speed", 1.0)), float(duo_ammo_data.get("damage", 0.0)),
+					float(duo_ammo_data.get("lifetime", 40.0)), float(duo_ammo_data.get("hitSize", 4.0)), 160.0)
+				frame["bullet_spawn"] = spawn
+				source_bullet_runtime_state.spawn_turret_bullet(game, Vector2(float(spawn.get("bullet_x", 0.0)), float(spawn.get("bullet_y", 0.0))), frame.get("target", null), duo_ammo_data, team_id, float(spawn.get("shoot_angle", 90.0)))
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
 	return {"ticked_count": ticked_count, "results_by_cell": results_by_cell}
