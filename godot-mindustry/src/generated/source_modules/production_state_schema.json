@@ -423,6 +423,31 @@
         }
       }
     },
+    "source_drill_ambient_volume_state_input": {
+      "canonical_schema": "source_state_schema.source_drill_ambient_volume_state_input",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public float ambientVolume(){",
+          "rule": "The DrillBuild frame (DrillBuild.ambientVolume, Drill.java:257-259): carries efficiency (float, absent -> 0.0 -- `transient float efficiency;`, BuildingComp.java:85); the family-convention first arg (every BurstDrill pure function that reads live state takes it).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_ambient_volume_state"
+          ]
+        },
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public int size = 1;",
+          "rule": "The block size in tiles (`public int size = 1;`, Block.java:215); passed explicitly because it is per-def static state, not live frame state (the N2212 per-def-param precedent). Per-def values: impact-drill size 4 (Blocks.java:3073), eruption-drill size 5 (Blocks.java:3096).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_ambient_volume_state"
+          ]
+        }
+      }
+    },
     "source_drill_bind_ore_items_input": {
       "canonical_schema": "source_state_schema.source_drill_bind_ore_items_input",
       "keys": {

@@ -313,6 +313,17 @@ static func source_burst_drill_ambient_volume_state(super_ambient_volume: float,
 	var ambient_volume: float = super_ambient_volume * pow(progress, 4.0)
 	return {"ambient_volume": ambient_volume}
 
+static func source_drill_ambient_volume_state(frame: Dictionary, size: int) -> Dictionary:
+	# DrillBuild.ambientVolume() (Drill.java:257-259):
+	# @Override
+	# public float ambientVolume(){
+	# return efficiency * (size * size) / 4f;
+	# }
+	# `efficiency` is the live Building efficiency (`transient float efficiency;`, BuildingComp.java:85), carried on the frame (absent defaults to 0.0 -- the N2258 liquid-rows frame-key precedent). `size` is the block size in tiles (`public int size = 1;`, Block.java:215) -- a per-def param passed explicitly (the N2212 per-def-param precedent): impact-drill size 4 (Blocks.java:3073), eruption-drill size 5 (Blocks.java:3096). At efficiency 1 the super is 4.0 vs 6.25 -- the exact values N2271 takes as its explicit super input (the N2271 pure function takes the super result as an explicit input; this slice closes that super-leg deferred entry). The classes are `public class Drill extends Block{` (Drill.java:27) and `public class DrillBuild extends Building{` (Drill.java:237). The defs are `impactDrill = new BurstDrill("impact-drill"){{` (Blocks.java:3070) and `eruptionDrill = new BurstDrill("eruption-drill"){{` (Blocks.java:3093). There is NO driver tick line: ambientVolume is read per tick by the ambient-sound live loop (`control.sound.loop(block.ambientSound, self(), block.ambientSoundVolume * ambientVolume());`, BuildingComp.java:2271); the driver side waits for the ambient C mixer slice (N2264).
+	var efficiency: float = float(frame.get("efficiency", 0.0))
+	var ambient_volume: float = efficiency * (size * size) / 4.0
+	return {"ambient_volume": ambient_volume}
+
 static func source_burst_drill_set_stats_state(frame: Dictionary, liquid_boost_intensity: float, booster_consumer_found: bool, booster_amount: float, booster_consumes: bool) -> Dictionary:
 	# BurstDrill.setStats() (BurstDrill.java:58-68):
 	# public void setStats(){

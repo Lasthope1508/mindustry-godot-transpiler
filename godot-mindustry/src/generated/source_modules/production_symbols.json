@@ -2673,6 +2673,21 @@
       ],
       "runtime_proof": "/root/C07BurstDrillUpdateTileProof"
     },
+    "source_drill_ambient_volume_state_result.ambient_volume": {
+      "canonical_symbol": "source_symbol_registry.source_drill_ambient_volume_state_result.ambient_volume",
+      "status": "source-backed",
+      "java_expr": "return efficiency * (size * size) / 4f;",
+      "godot_symbol": "source_drill_ambient_volume_state_result.ambient_volume",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_ambient_volume_state",
+      "rule": "The DrillBuild ambient volume: the frame efficiency times the block size squared over four (Drill.java:258, `return efficiency * (size * size) / 4f;`); efficiency 0 silences the drill, efficiency 1 with size 4 gives 4.0, with size 5 gives 6.25.",
+      "tests": [
+        "test_c07_drill_ambient_volume_registration",
+        "test_all_c07_drill_ambient_volume_input_evidence_is_exact",
+        "test_drill_ambient_volume_state",
+        "test_reference_graph_and_actual_c07_drill_ambient_volume"
+      ],
+      "runtime_proof": "/root/C07DrillAmbientVolumeProof"
+    },
     "source_drill_bind_ore_items_input.block": {
       "canonical_symbol": "source_symbol_registry.source_drill_bind_ore_items_input.block",
       "status": "source-backed",
