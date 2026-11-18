@@ -152,11 +152,14 @@ null), :85-88 (`if(target.damage() > realDamage){...}else{ target.remove(); }`).
 
 ## Commits
 
-- (chưa có — chờ gate xanh rồi 5-commit + push; xem mục Gate.)
+- Slice: `07100c53` — C07: N2247 PointDefenseTurret bullet hitSize + live bullet removal (12 files).
+- Docs: `92f1468e` — N2247 report + handoff + design spec (gate 2 clean except Godot).
+- GOAL: `9f6034ff` — GOAL.md names the N2247 slice commit that carries its proof to Windows.
+- (hashes commit + handoff-status commit follow in this 5-commit push; main hash filled at push.)
 
 ## Next
 
-Gate (main thread) → 5-commit + push N2247 → N2248 live coolant (xác minh
+5-commit + push N2247 (slice `07100c53` / docs `92f1468e` / GOAL `9f6034ff`) → N2248 live coolant (xác minh
 2 điểm mở ở trên trước khi RED). Suppression live + targets live list vẫn
 BLOCKED (cần frame plumbing). Proofs chưa chạy trên Windows Godot — nợ
 trong GOAL.md §5.

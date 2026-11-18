@@ -48,6 +48,6 @@ N2247 làm được: hitSize overlap cho acquire + live bullet removal khi bắn
 
 ## Hashes
 
-- Chưa commit/push: slice CHƯA đủ điều kiện (gate chưa xanh). Worktree: BuildState .gd (sửa), test N2247 (mới), test target_acquire (sửa 3 assertIn + comment), register script N2247 (mới), proof .gd + .tscn (mới), SSOT JSONs (6 file sửa), spec Done 1696 → 1697 + row N2247, GOAL §5 + dòng nợ N2247, report + handoff này. KHÔNG stage `*.gd.uid` (noise, untracked).
+- Slice `07100c53` / docs `92f1468e` / GOAL `9f6034ff` (hashes + handoff-status commits follow; main hash filled at push).
 - Windows Godot proof là nợ trong GOAL.md §5 (proof Linux xanh, chưa chạy Windows).
-- Bước tiếp theo: gate (main thread launch) → 5-commit + push N2247 → N2248 live coolant (xác minh 2 điểm mở trong handoff trước khi RED: frame liquids ở đâu, catalog consumeCoolant key). Suppression live + targets live list vẫn BLOCKED (cần frame plumbing).
+- Bước tiếp theo: push N2247 → N2248 live coolant (xác minh 2 điểm mở trong handoff trước khi RED: frame liquids ở đâu, catalog consumeCoolant key). Suppression live + targets live list vẫn BLOCKED (cần frame plumbing).
