@@ -69121,6 +69121,71 @@
       ],
       "runtime_proof": "/root/C07BurstDrillSetStatsProof",
       "rule": "Source-backed BurstDrill setStats() state from BurstDrill.java + Drill.java + Blocks.java + StatValues.java + StatUnit.java + ConsumeLiquidBase.java + Block.java + Consume.java."
+    },
+    "SourceRadarBuildState.source_radar_write_state": {
+      "status": "active",
+      "source_slice": "N2267",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "source_method": "RadarBuild.write()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_radar_write_state_input.frame"
+        },
+        {
+          "name": "progress",
+          "type": "float",
+          "schema": "source_radar_write_state_input.progress"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "progress"
+      ],
+      "tests": [
+        "test_c07_radar_write_read_registration",
+        "test_all_c07_radar_write_read_input_evidence_is_exact",
+        "test_radar_write_read_state",
+        "test_reference_graph_and_actual_c07_radar_write_read"
+      ],
+      "runtime_proof": "/root/C07RadarWriteReadProof",
+      "rule": "Source-backed Radar write/read persistence from Radar.java."
+    },
+    "SourceRadarBuildState.source_radar_read_state": {
+      "status": "active",
+      "source_slice": "N2267",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "source_method": "RadarBuild.read()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_radar_read_state_input.frame"
+        },
+        {
+          "name": "stored_progress",
+          "type": "float",
+          "schema": "source_radar_read_state_input.stored_progress"
+        },
+        {
+          "name": "revision",
+          "type": "int",
+          "schema": "source_radar_read_state_input.revision"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "progress"
+      ],
+      "tests": [
+        "test_c07_radar_write_read_registration",
+        "test_all_c07_radar_write_read_input_evidence_is_exact",
+        "test_radar_write_read_state",
+        "test_reference_graph_and_actual_c07_radar_write_read"
+      ],
+      "runtime_proof": "/root/C07RadarWriteReadProof",
+      "rule": "Source-backed Radar write/read persistence from Radar.java."
     }
   },
   "policy": {
