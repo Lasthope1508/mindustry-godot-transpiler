@@ -1,4 +1,4 @@
-"""Register the Radar updateTile advance (N2248).
+"""Register the Radar updateTile advance (N2274).
 
 RadarBuild.updateTile advances the radar's discovery
 state every tick (Radar.java:60, `public void
@@ -93,7 +93,7 @@ FOG_CONTROL = 'core/src/mindustry/game/FogControl.java'
 PROOF = '/root/C07RadarUpdateTileProof'
 UPDATE_TILE_OWNER = 'SourceRadarBuildState.source_radar_update_tile_state'
 TESTS = ['test_c07_radar_update_tile_registration', 'test_all_c07_radar_update_tile_input_evidence_is_exact', 'test_radar_update_tile_state', 'test_reference_graph_and_actual_c07_radar_update_tile']
-# The 4 slice sources the N2248 test checks exact_exprs
+# The 4 slice sources the N2274 test checks exact_exprs
 # against -- every expr in EXACT_EXPRS below must appear verbatim
 # in one of these files.
 SLICE_SOURCES = [
@@ -113,13 +113,13 @@ EXACT_EXPRS = ['public void updateTile(){', 'smoothEfficiency = Mathf.lerpDelta(
 # register is DROPPED -- remote N2234 covers that leg -- so the
 # chain skips it and imports N2227 directly. One carried entry
 # is DROPPED here, not carried: the
-# Radar updateTile advance entry -- N2248 IS the updateTile
+# Radar updateTile advance entry -- N2274 IS the updateTile
 # advance slice, so carrying it would leave a stale "waits for
 # its own slice" row for done work. The fogRadius() accessor
 # half stays deferred (N2249 owns fogRadius() itself); only the
 # forceUpdate check inside updateTile is done here.
 DEFERRED = [e for e in N2227_DEFERRED if 'Radar updateTile advance' not in e] + [
-    'Radar updateTile advance Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2227: the N2248 proof runs headless on Linux here and waits for a Windows Godot run.',
+    'Radar updateTile advance Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2227: the N2274 proof runs headless on Linux here and waits for a Windows Godot run.',
 ]
 
 
@@ -178,7 +178,7 @@ def main():
     update_tile_inputs, update_tile_outputs = definitions()
 
     entries = [
-        ('N2248', UPDATE_TILE_OWNER, 'source_radar_update_tile_state', RADAR, 'mindustry.world.blocks.defense.Radar.RadarBuild', 'RadarBuild.updateTile()', update_tile_inputs, update_tile_outputs, True, 'Dictionary'),
+        ('N2274', UPDATE_TILE_OWNER, 'source_radar_update_tile_state', RADAR, 'mindustry.world.blocks.defense.Radar.RadarBuild', 'RadarBuild.updateTile()', update_tile_inputs, update_tile_outputs, True, 'Dictionary'),
     ]
     all_names = []
     for sid, owner, prefix, source, cls, method, inputs, outputs, has_contract, return_type in entries:
@@ -199,7 +199,7 @@ def main():
     by_slice = {}
     # The test pins this order: smooth_efficiency, fog_radius,
     # force_update, last_radius, progress, total_progress.
-    by_slice['N2248'] = [
+    by_slice['N2274'] = [
         'source_radar_update_tile_state_result.smooth_efficiency',
         'source_radar_update_tile_state_result.fog_radius',
         'source_radar_update_tile_state_result.force_update',
@@ -207,7 +207,7 @@ def main():
         'source_radar_update_tile_state_result.progress',
         'source_radar_update_tile_state_result.total_progress',
     ]
-    source_symbols.upsert_source_slice(GODOT, 'N2248', dict(status='done', java_source=RADAR, java_class='mindustry.world.blocks.defense.Radar.RadarBuild', java_method='RadarBuild.updateTile()', godot_owner=UPDATE_TILE_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2248'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
+    source_symbols.upsert_source_slice(GODOT, 'N2274', dict(status='done', java_source=RADAR, java_class='mindustry.world.blocks.defense.Radar.RadarBuild', java_method='RadarBuild.updateTile()', godot_owner=UPDATE_TILE_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2274'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
 
     source_symbols.upsert_source_symbols(GODOT, symbols)
     source_symbols.write_source_symbol_audit_report(GODOT)
