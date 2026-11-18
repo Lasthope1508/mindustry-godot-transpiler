@@ -1,6 +1,6 @@
-# Report — N2255 Turret shoot stamp (C07, duo) [GREEN — gate xong, chờ commit + push]
+# Report — N2255 Turret shoot stamp (C07, duo) [DONE + PUSHED]
 
-## Status: GREEN (2026-11-19 ~05:45 +07, lượt cron 05:45) — slice `076e10e8`, docs `808c8c4a`, GOAL `368fea41`; gate Ran 6113 / failures 205 toàn Godot-absent (xác minh độc lập lượt cron 05:45). Chưa push.
+## Status: DONE + PUSHED (2026-11-19 ~05:5x +07, lượt cron 05:45) — slice `076e10e8`, docs `808c8c4a`, GOAL `368fea41`, hashes `fa8377e2` (pushed; origin/main advances with this status commit). Targeted 4/4 + neighbours 76/76 + wiring 9/9 + proof matches:true 11/11 + gate Ran 6113, failures=205 toàn Godot-absent (đã xác minh độc lập).
 Worker lượt 05:00 làm xong GREEN; main thread lượt 05:15 xác minh độc lập: targeted 4/4 OK,
 proof 11/11 true matches:true (JSON tái tạo 05:16), register --verify 20/20;
 lượt 05:30 chạy lại proof (JSON 05:27, 11/11 true, matches:true), neighbours 76/76 OK
@@ -45,6 +45,6 @@ SSOT 11608/1705/1639/3069, defense slices 184 / contracts 183.
   errors=0 — all 205 verified Godot-absent (205 FAIL = 205 × `AssertionError: unexpectedly None`,
   0 KeyError, 0 ERROR).
 
-## Tiếp theo
+## Tiếp theo: N2256 (sau push)
 
-- docs/spec/GOAL → commit + push. Không commit/push khi chưa đủ điều kiện.
+- N2256 candidate — xem Deferred sau N2255 (multi-recoil stamp, recoilOffset draw, charge advance + queuedBullets); scope ở lượt sau.

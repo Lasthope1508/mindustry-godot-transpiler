@@ -1,6 +1,6 @@
-# Handoff — N2255 Turret shoot stamp (C07, duo) [GREEN — gate xong, chờ commit + push]
+# Handoff — N2255 Turret shoot stamp (C07, duo) [DONE + PUSHED]
 
-## Status: GREEN (2026-11-19 ~05:45 +07, lượt cron 05:45) — slice `076e10e8`, docs `808c8c4a`, GOAL `368fea41`; gate Ran 6113 / failures 205 toàn Godot-absent (xác minh độc lập lượt cron 05:45). Chưa push.
+## Status: DONE + PUSHED (2026-11-19 ~05:5x +07, lượt cron 05:45) — slice `076e10e8`, docs `808c8c4a`, GOAL `368fea41`, hashes `fa8377e2` (pushed; origin/main advances with this status commit). Targeted 4/4 + neighbours 76/76 + wiring 9/9 + proof matches:true 11/11 + gate Ran 6113, failures=205 toàn Godot-absent (đã xác minh độc lập).
 Worker lượt 05:00 làm xong GREEN (code + test + proof); main thread lượt 05:15 xác minh độc lập
 targeted 4/4 OK, proof 11/11 true matches:true (JSON tái tạo 05:16), register --verify 20/20;
 lượt 05:30 chạy lại proof (JSON 05:27, 11/11 true, matches:true), neighbours 76/76 OK
@@ -64,11 +64,9 @@ SSOT 11608/1705/1639/3069, defense slices 184 / contracts 183, `git diff --check
 - Gate (log `tools/mindustry_godot_transpiler/full-suite-n2255-gate.log`, xong ~05:45 +07): Ran 6113 in 1199.966s, failures=205, skipped=5, errors=0 — all 205 verified Godot-absent (205 FAIL headers = 205 × `AssertionError: unexpectedly None`, 0 KeyError, 0 ERROR; riêng test N2255 trong gate cũng chỉ fail `unexpectedly None`).
 - Port 7777 trống (neighbours/wiring/gate đã xong).
 
-## Tiếp theo: docs/spec/GOAL → commit + push
+## Tiếp theo: N2256
 
-- Đợi neighbours + wiring xong (đọc 2 log trên) → gate đầy đủ (main thread launch)
-  → docs/spec/GOAL → commit + push. Không commit/push khi chưa đủ điều kiện
-  (Godot proof + gate phải xanh).
+- N2256 candidate — xem Deferred sau N2255 (multi-recoil stamp Turret.java:807-809 cho def recoils > 0, recoilOffset draw :532, charge advance :527 đi cùng queuedBullets); scope ở lượt sau.
 
 ## Deferred sau N2255
 
