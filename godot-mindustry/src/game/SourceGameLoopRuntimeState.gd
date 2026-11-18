@@ -23,6 +23,13 @@ static func source_game_loop_paused_state(game: Object) -> Dictionary:
 	return result
 
 static func ready(game: Object) -> void:
+	# Vars.headless (Vars.java:208-209) via DisplayServer
+	# (decision 2026-11-17 ~12:56, Option 1): a headless display
+	# server means the game runs on a headless server
+	# (ServerLauncher.java:45 sets headless = true). Stamped
+	# first so every load step below sees the same value the
+	# ambient gate (N657) reads through SourceGameHeadlessState.
+	game.set("headless", DisplayServer.get_name() == "headless")
 	source_input_defaults.ensure_input_map()
 	game.call("load_config")
 	game.call("load_content_registry")

@@ -33,6 +33,11 @@ var last_placed_block_requirements: Array = []
 var last_placed_cell := Vector2i.ZERO
 var last_placed_occupied_cell_count := 0
 var last_place_blocked := false
+# Vars.headless (Vars.java:208-209): whether the game runs on a
+# headless server. Stamped by SourceGameLoopRuntimeState.ready()
+# from DisplayServer (Option 1); read by SourceGameHeadlessState.
+# Default false, the Java default.
+var headless := false
 var last_mend_projector_healed_amount := 0.0
 var last_mend_projector_healed_block_id := ""
 var last_mend_projector_healed_cell := Vector2i.ZERO

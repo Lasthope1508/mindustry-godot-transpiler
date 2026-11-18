@@ -13,6 +13,7 @@ class FakeTimeRuntime:
 
 class FakeLoopGame:
 	extends Node
+	var headless := false
 	var calls: Array = []
 	func load_config() -> void:
 		calls.append(["load_config"])
