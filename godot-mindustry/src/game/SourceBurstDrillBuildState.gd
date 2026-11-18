@@ -289,6 +289,19 @@ static func source_burst_drill_should_consume_state(frame: Dictionary, item_capa
 	var enabled: bool = bool(frame.get("enabled", true))
 	return {"should_consume": items_total <= item_capacity - float(dominant_items) and enabled}
 
+static func source_burst_drill_icons_state(region: Variant, top_region: Variant) -> Dictionary:
+	# BurstDrill.icons() (BurstDrill.java:48-50):
+	# @Override
+	# public TextureRegion[] icons(){
+	# return new TextureRegion[]{region, topRegion};
+	# }
+	# This slice pins ONLY the override's two-element return array, region first. region is the inherited block region (Block.java:427): `public TextureRegion region;` -- the block's own region, the block name. topRegion is the Drill base field (Drill.java:73): `public @Load("@-top") TextureRegion topRegion;` -- loaded as name + "-top". The Block.icons() base (`protected TextureRegion[] icons(){`, Block.java:976-980, the variants/teamRegion fold) is NOT this slice: BurstDrill overrides it. The getGeneratedIcons cache (`public TextureRegion[] getGeneratedIcons(){`, Block.java:986, `return generatedIcons == null ? (generatedIcons = icons()) : generatedIcons;`, Block.java:987) is likewise deferred -- only the override's return array is pinned (the N2250 Radar.icons() precedent, itself following the N2227 RepairTurret.icons() precedent: "TextureRegion internals and inherited region loading remain deferred; explicit inputs carry region and topRegion field values", pinned as the identity pure function source_tractor_beam_turret_icons_state).
+	# The classes (BurstDrill.java:17): `public class BurstDrill extends Drill{`; (Drill.java:27): `public class Drill extends Block{`.
+	# Per-def region ids: impact-drill ("impact-drill", Blocks.java:3070) -> ["impact-drill", "impact-drill-top"]; eruption-drill ("eruption-drill", Blocks.java:3093) -> ["eruption-drill", "eruption-drill-top"].
+	# There is no driver tick line: icons() is a load-time region accessor, not a per-tick write (the N2217 read/write + N2224 setStats lifecycle precedent).
+	var icons: Array = [region, top_region]
+	return {"icons": icons}
+
 static func source_burst_drill_update_tile_state(frame: Dictionary, delta: float, drill_time_base: float, drill_multiplier: float, inverted_time: float, liquid_boost_intensity: float, item_capacity: float, dump_interval: float) -> Dictionary:
 	# BurstDrillBuild.updateTile advances the burst drill's
 	# drilling state every tick (BurstDrill.java:76,

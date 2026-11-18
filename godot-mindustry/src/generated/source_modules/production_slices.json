@@ -926,6 +926,23 @@
       ],
       "runtime_proof": "/root/C07WallCrafterPowerStatusProof"
     },
+    "N2245": {
+      "canonical_ledger": "source_slice_ledger.N2245",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_method": "BurstDrill.icons()",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_icons_state",
+      "source_symbols": [
+        "source_burst_drill_icons_state_result.icons"
+      ],
+      "tests": [
+        "test_c07_burst_drill_icons_registration",
+        "test_all_c07_burst_drill_icons_input_evidence_is_exact",
+        "test_burst_drill_icons_state",
+        "test_reference_graph_and_actual_c07_burst_drill_icons"
+      ],
+      "runtime_proof": "/root/C07BurstDrillIconsProof"
+    },
     "N2256": {
       "canonical_ledger": "source_slice_ledger.N2256",
       "status": "done",

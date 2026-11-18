@@ -2238,6 +2238,21 @@
       ],
       "runtime_proof": "/root/FactoryConsumerBindingProof"
     },
+    "source_burst_drill_icons_state_result.icons": {
+      "canonical_symbol": "source_symbol_registry.source_burst_drill_icons_state_result.icons",
+      "status": "source-backed",
+      "java_expr": "return new TextureRegion[]{region, topRegion};",
+      "godot_symbol": "source_burst_drill_icons_state_result.icons",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_icons_state",
+      "rule": "The icons() return array: [region, topRegion], region first, exactly 2 elements (BurstDrill.java:50, `return new TextureRegion[]{region, topRegion};`); impact-drill [\"impact-drill\", \"impact-drill-top\"] (Blocks.java:3070) and eruption-drill [\"eruption-drill\", \"eruption-drill-top\"] (Blocks.java:3093). The Block.icons() base (Block.java:976-980, variants/teamRegion fold) and the getGeneratedIcons cache (Block.java:986-988) are deferred (the N2250 precedent) -- only the override return array is pinned.",
+      "tests": [
+        "test_c07_burst_drill_icons_registration",
+        "test_all_c07_burst_drill_icons_input_evidence_is_exact",
+        "test_burst_drill_icons_state",
+        "test_reference_graph_and_actual_c07_burst_drill_icons"
+      ],
+      "runtime_proof": "/root/C07BurstDrillIconsProof"
+    },
     "source_burst_drill_liquid_rows_state_result.booster_efficiency": {
       "canonical_symbol": "source_symbol_registry.source_burst_drill_liquid_rows_state_result.booster_efficiency",
       "status": "source-backed",

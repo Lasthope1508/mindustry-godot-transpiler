@@ -103,6 +103,31 @@
         }
       }
     },
+    "source_burst_drill_icons_state_input": {
+      "canonical_schema": "source_state_schema.source_burst_drill_icons_state_input",
+      "keys": {
+        "region": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public TextureRegion region;",
+          "rule": "The inherited block region (Block.java:427, `public TextureRegion region;`); passed explicitly because it is per-def static state, not a live frame key (the N2212 acquire / N2220 draw-place per-def-param precedent).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_icons_state"
+          ]
+        },
+        "top_region": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public @Load(\"@-top\") TextureRegion topRegion;",
+          "rule": "The Drill top region (Drill.java:73, `public @Load(\"@-top\") TextureRegion topRegion;`, loaded as name + \"-top\"); passed explicitly because it is per-def static state, not a live frame key (the N2212 acquire / N2220 draw-place per-def-param precedent).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_icons_state"
+          ]
+        }
+      }
+    },
     "source_burst_drill_liquid_rows_state_input": {
       "canonical_schema": "source_state_schema.source_burst_drill_liquid_rows_state_input",
       "keys": {

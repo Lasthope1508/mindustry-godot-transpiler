@@ -235918,6 +235918,54 @@
       },
       "runtime_proof": "/root/C07TurretFogRadiusProof",
       "rule": "Source-backed TurretBuild.fogRadius() state from Turret.java + BaseTurret.java + Vars.java + BulletType.java + FogControl.java + FogRenderer.java."
+    },
+    "source_burst_drill_icons_state_input": {
+      "status": "active",
+      "owner": "SourceBurstDrillBuildState.source_burst_drill_icons_state",
+      "source_slice": "N2245",
+      "keys": {
+        "region": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public TextureRegion region;",
+          "rule": "The inherited block region (Block.java:427, `public TextureRegion region;`); passed explicitly because it is per-def static state, not a live frame key (the N2212 acquire / N2220 draw-place per-def-param precedent).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_icons_state"
+          ]
+        },
+        "top_region": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public @Load(\"@-top\") TextureRegion topRegion;",
+          "rule": "The Drill top region (Drill.java:73, `public @Load(\"@-top\") TextureRegion topRegion;`, loaded as name + \"-top\"); passed explicitly because it is per-def static state, not a live frame key (the N2212 acquire / N2220 draw-place per-def-param precedent).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_icons_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BurstDrillIconsProof",
+      "rule": "Source-backed BurstDrill icons() state from BurstDrill.java + Drill.java + Block.java."
+    },
+    "source_burst_drill_icons_state_result": {
+      "status": "active",
+      "owner": "SourceBurstDrillBuildState.source_burst_drill_icons_state",
+      "source_slice": "N2245",
+      "keys": {
+        "icons": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "return new TextureRegion[]{region, topRegion};",
+          "rule": "The icons() return array: [region, topRegion], region first, exactly 2 elements (BurstDrill.java:50, `return new TextureRegion[]{region, topRegion};`); impact-drill [\"impact-drill\", \"impact-drill-top\"] (Blocks.java:3070) and eruption-drill [\"eruption-drill\", \"eruption-drill-top\"] (Blocks.java:3093). The Block.icons() base (Block.java:976-980, variants/teamRegion fold) and the getGeneratedIcons cache (Block.java:986-988) are deferred (the N2250 precedent) -- only the override return array is pinned.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_icons_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BurstDrillIconsProof",
+      "rule": "Source-backed BurstDrill icons() state from BurstDrill.java + Drill.java + Block.java."
     }
   },
   "version": 1
