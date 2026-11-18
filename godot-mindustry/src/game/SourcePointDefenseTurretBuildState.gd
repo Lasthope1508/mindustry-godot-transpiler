@@ -149,17 +149,29 @@ static func source_point_defense_turret_target_acquire_state(frame: Dictionary, 
 	# absent from the list is pooled, so it is dropped, and a stored
 	# target with no id cannot be re-identified, so it is dropped
 	# too -- the RepairTurret N2212 precedent). The re-acquire is a
-	# point-in-rect test against the Java intersect rect (x +/- range,
+	# hitbox-overlap test against the Java intersect rect (x +/- range,
 	# y +/- range, range 180f per-def, Blocks.java:3838, `range = 180f;`,
 	# the only PointDefenseTurret def) with a min-dst2 pick; ties keep
-	# the first bullet (strict `<`, the N2212 precedent). The port
-	# models no bullet hitSize, so the rect overlap is approximated
-	# by the bullet point, a documented limit owned by a later
-	# bullet-hitSize slice (the ShockwaveTower precedent). The
-	# re-acquire replaces the target unconditionally on fire -- even
-	# a still-valid one is re-picked. The aim / rotation /
-	# reloadCounter / shoot half (PointDefenseTurret.java:76-101) is
-	# NOT this slice -- it waits for its own slice.
+	# the first bullet (strict `<`, the N2212 precedent). Java's
+	# intersect tests the bullet HITBOX, not its centre
+	# (BulletComp implements Hitboxc, `abstract class BulletComp
+	# implements Timedc, Damagec, Hitboxc, Teamc, Posc, Drawc,
+	# Shielderc, Ownerc, Bulletc, Timerc, Senseable, Settable{`,
+	# BulletComp.java:28; hitSize is the BulletType hitbox size,
+	# `public float hitSize = 4;`, BulletType.java:43, stamped onto
+	# the live bullet at spawn, `bullet.hitSize = hitSize;`,
+	# BulletType.java:970), so a bullet whose centre sits just
+	# outside the rect but whose hitbox overlaps it IS inside the
+	# intersect: the test is |bx - x| <= range + hitSize/2 and
+	# |by - y| <= range + hitSize/2, with the BulletType 4f default
+	# when the observed dict carries no hit_size (the N2242 wiring
+	# maps it from the live dict's hitSize). The min-dst2 pick still
+	# uses the bullet centre (Java `b.dst2(this)` is centre
+	# distance, PointDefenseTurret.java:67). The re-acquire replaces
+	# the target unconditionally on fire -- even a still-valid one
+	# is re-picked. The aim / rotation / reloadCounter / shoot half
+	# (PointDefenseTurret.java:76-101) is NOT this slice -- it waits
+	# for its own slice.
 	var target: Variant = frame.get("target", null)
 	var target_timer: float = float(frame.get("target_timer", 0.0)) + delta
 	var reacquired: bool = false
@@ -194,9 +206,10 @@ static func source_point_defense_turret_target_acquire_state(frame: Dictionary, 
 				continue
 			if not bool(bullet.get("hittable", false)):
 				continue
-			if absf(float(bullet.get("x", 0.0)) - x) > range:
+			var hit_size: float = float(bullet.get("hit_size", 4.0))
+			if absf(float(bullet.get("x", 0.0)) - x) > range + hit_size / 2.0:
 				continue
-			if absf(float(bullet.get("y", 0.0)) - y) > range:
+			if absf(float(bullet.get("y", 0.0)) - y) > range + hit_size / 2.0:
 				continue
 			var dx: float = float(bullet.get("x", 0.0)) - x
 			var dy: float = float(bullet.get("y", 0.0)) - y
@@ -445,7 +458,7 @@ static func source_point_defense_turret_live_bullets_state(live_bullets: Array) 
 	# -- Java reads the live bullet group every retarget; the port
 	# maps the live `game["bullets"]` dicts to the observed dicts
 	# the N2239 acquire consumes (id / team / hittable / x / y /
-	# damage / has_type). The only writer of the live list is
+	# damage / has_type / hit_size). The only writer of the live list is
 	# SourceBulletSpawnState.gd source_spawn_turret_bullet_from_state
 	# (sprite / target / velocity / speed / damage / hitSize /
 	# lifetime_remaining -- no team / hittable / id / type). A
@@ -469,6 +482,12 @@ static func source_point_defense_turret_live_bullets_state(live_bullets: Array) 
 	# default true (`public boolean hittable = true;`,
 	# BulletType.java:143; the damageLightning / fireball
 	# `hittable = false` types wait for a per-type lookup slice);
+	# hit_size is the live dict's hitSize, the BulletType hitbox
+	# size (`public float hitSize = 4;`, BulletType.java:43,
+	# stamped onto the live bullet at spawn, `bullet.hitSize =
+	# hitSize;`, BulletType.java:970), defaulting to that 4f class
+	# default when the live dict carries no hitSize (the N2247
+	# acquire overlap test reads it from the observed dict);
 	# has_type is true because every live bullet was created with
 	# `bullet.type = this` (SourceBulletTypeCreateCoreState.gd
 	# bullet_identity_state typeSource). The spawn-side team stamp
@@ -493,8 +512,53 @@ static func source_point_defense_turret_live_bullets_state(live_bullets: Array) 
 			"y": sprite.position.y,
 			"damage": float(bullet.get("damage", 0.0)),
 			"has_type": true,
+			"hit_size": float(bullet.get("hitSize", 4.0)),
 		})
 	return {"observed_bullets": observed_bullets}
+
+static func source_point_defense_turret_bullet_removal_state(live_bullets: Array, removed_id: int) -> Dictionary:
+	# Live bullet removal on a lethal shot
+	# (PointDefenseTurret.java:94-97): the shoot gate compares the
+	# target's remaining damage against the real damage
+	# (`if(target.damage() > realDamage){`, PointDefenseTurret.java:94)
+	# and a target at or below it is removed, not left at 0
+	# (`target.remove();`, PointDefenseTurret.java:96, in the else
+	# branch of the damage comparison) -- which is what makes the
+	# next tick's pooled check true (`if(target != null &&
+	# !target.isAdded()){` / `target = null;`,
+	# PointDefenseTurret.java:69-71). The driver calls this pure
+	# function on the lethally-shot tick (target_removed) and writes
+	# the filtered list back to the live list, so the sim stops
+	# moving a dead bullet and the next tick's acquire cannot
+	# re-acquire it by id. Identity keys on the sprite instance id
+	# (the N2242 precedent -- the observed dict's id IS the sprite
+	# instance id, so the removed id the driver passes is the live
+	# dict's sprite id); a bullet whose sprite is invalid carries
+	# no id and is never matched. A damaged (non-lethal) target is
+	# NOT removed -- the driver only calls this when target_removed
+	# is true -- and every other bullet is untouched. An absent id
+	# removes nothing (`removed` false, the list unchanged): a
+	# target with no id cannot be re-identified (the N2239
+	# precedent), so removed_id -1 matches nothing. The removal
+	# itself follows the simulate_bullets pending_removals
+	# precedent (SourceBulletTargetRuntimeState.gd:77-110): filter
+	# the live list by id, return the filtered list plus whether
+	# anything was dropped.
+	var remaining_bullets: Array = []
+	var removed: bool = false
+	for bullet in live_bullets:
+		if not (bullet is Dictionary):
+			remaining_bullets.append(bullet)
+			continue
+		var sprite: Variant = bullet.get("sprite", null)
+		var bullet_id: int = -1
+		if is_instance_valid(sprite) and sprite is Sprite2D:
+			bullet_id = sprite.get_instance_id()
+		if removed_id != -1 and bullet_id == removed_id:
+			removed = true
+			continue
+		remaining_bullets.append(bullet)
+	return {"remaining_bullets": remaining_bullets, "removed": removed}
 
 static func source_point_defense_turret_draw_state(x: float, y: float, rotation: float, size: float) -> Dictionary:
 	# PointDefenseBuild.draw() (PointDefenseTurret.java:110-114, inside `public void draw(){`, PointDefenseTurret.java:110, `public class PointDefenseTurret extends ReloadTurret{`):
@@ -717,10 +781,13 @@ static func source_point_defense_turret_tick_buildings_state(game: Object, secon
 			# remaining damage (the observed dict IS the live bullet
 			# record, the N2239 precedent -- Java holds a live Bullet
 			# reference over `public @Nullable Bullet target;`), a
-			# lethally shot target is nulled this tick (the next
-			# tick's acquire re-validates by id; the port models no
-			# live bullet removal, a documented limit owned by a
-			# later bullet-removal slice).
+			# lethally shot target is nulled this tick AND removed
+			# from the live list (N2247,
+			# source_point_defense_turret_bullet_removal_state,
+			# called below when target_removed -- Java removes the
+			# bullet itself, `target.remove();`,
+			# PointDefenseTurret.java:96, so the next tick's
+			# acquire cannot re-acquire it by id).
 			var block_damage_multiplier: float = float(rules_state.get("blockDamage", 1.0)) if rules_state is Dictionary else 1.0
 			var edelta: float = float(frame.get("efficiency", 1.0)) * seconds
 			# The coolant call of PointDefenseBuild.updateTile()
@@ -749,6 +816,21 @@ static func source_point_defense_turret_tick_buildings_state(game: Object, secon
 			if aim_target is Dictionary:
 				if bool(aim.get("target_removed", false)):
 					frame["target"] = null
+					# Live bullet removal (N2247): Java removes the
+					# lethally shot bullet itself (`target.remove();`,
+					# PointDefenseTurret.java:96), so the driver
+					# filters it out of the live list on the shot
+					# tick and writes the filtered list back
+					# (game.set("bullets", ...), the
+					# SourceBulletTargetRuntimeState.gd game.set
+					# precedent) -- the sim stops moving it and
+					# the next tick's acquire cannot re-acquire
+					# it by id. The removed id is the observed
+					# dict's id (the sprite instance id, the
+					# N2242 precedent).
+					if game.get("bullets") is Array:
+						var removal: Dictionary = source_point_defense_turret_bullet_removal_state(live_bullets, int(aim_target.get("id", -1)))
+						game.set("bullets", removal.get("remaining_bullets", live_bullets))
 				elif bool(aim.get("shot", false)):
 					aim_target["damage"] = aim.get("target_damage_after", 0.0)
 			# PointDefenseBuild.draw() (PointDefenseTurret.java:110-114) runs

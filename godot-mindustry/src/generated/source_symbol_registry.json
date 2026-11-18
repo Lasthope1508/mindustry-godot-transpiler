@@ -175944,6 +175944,38 @@
         "test_reference_graph_and_actual_c07_point_defense_turret_setstats_icons"
       ],
       "runtime_proof": "/root/C07PointDefenseTurretSetStatsIconsProof"
+    },
+    "source_point_defense_turret_bullet_removal_state_result.remaining_bullets": {
+      "status": "source-backed",
+      "godot_owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_bullet_removal_state",
+      "godot_symbol": "source_point_defense_turret_bullet_removal_state_result.remaining_bullets",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "java_method": "PointDefenseBuild.updateTile()",
+      "java_expr": "target.remove();",
+      "rule": "The live list minus the removed bullet (PointDefenseTurret.java:88, `target.remove();`, in the else branch of `if(target.damage() > realDamage){`, PointDefenseTurret.java:85): the driver writes this back to `game[\"bullets\"]`, so the sim stops moving the dead bullet and the next tick's acquire cannot re-acquire it by id. A damaged (non-lethal) target is never passed here -- the driver only calls this when target_removed is true.",
+      "tests": [
+        "test_c07_point_defense_turret_hit_size_removal_registration",
+        "test_all_c07_point_defense_turret_hit_size_removal_input_evidence_is_exact",
+        "test_point_defense_turret_hit_size_removal",
+        "test_reference_graph_and_actual_c07_point_defense_turret_hit_size_removal"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretHitSizeRemovalProof"
+    },
+    "source_point_defense_turret_bullet_removal_state_result.removed": {
+      "status": "source-backed",
+      "godot_owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_bullet_removal_state",
+      "godot_symbol": "source_point_defense_turret_bullet_removal_state_result.removed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "java_method": "PointDefenseBuild.updateTile()",
+      "java_expr": "if(target.damage() > realDamage){",
+      "rule": "Whether the removed id was found in the live list: true when the lethally shot bullet was dropped, false when the id is absent (PointDefenseTurret.java:85, `if(target.damage() > realDamage){`, the lethal branch that triggers the removal; the list is unchanged then).",
+      "tests": [
+        "test_c07_point_defense_turret_hit_size_removal_registration",
+        "test_all_c07_point_defense_turret_hit_size_removal_input_evidence_is_exact",
+        "test_point_defense_turret_hit_size_removal",
+        "test_reference_graph_and_actual_c07_point_defense_turret_hit_size_removal"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretHitSizeRemovalProof"
     }
   },
   "version": 1

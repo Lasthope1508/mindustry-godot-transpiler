@@ -68440,6 +68440,37 @@
       ],
       "runtime_proof": "/root/C07PointDefenseTurretSetStatsIconsProof",
       "rule": "Source-backed PointDefenseTurret setStats()/icons() state from PointDefenseTurret.java + Blocks.java + Block.java + ReloadTurret.java + BaseTurret.java."
+    },
+    "SourcePointDefenseTurretBuildState.source_point_defense_turret_bullet_removal_state": {
+      "status": "active",
+      "source_slice": "N2247",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "source_method": "PointDefenseBuild.updateTile()",
+      "params": [
+        {
+          "name": "live_bullets",
+          "type": "Array",
+          "schema": "source_point_defense_turret_bullet_removal_state_input.live_bullets"
+        },
+        {
+          "name": "removed_id",
+          "type": "int",
+          "schema": "source_point_defense_turret_bullet_removal_state_input.removed_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "remaining_bullets",
+        "removed"
+      ],
+      "tests": [
+        "test_c07_point_defense_turret_hit_size_removal_registration",
+        "test_all_c07_point_defense_turret_hit_size_removal_input_evidence_is_exact",
+        "test_point_defense_turret_hit_size_removal",
+        "test_reference_graph_and_actual_c07_point_defense_turret_hit_size_removal"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretHitSizeRemovalProof",
+      "rule": "Source-backed PointDefenseTurret bullet hitSize + live bullet removal state from PointDefenseTurret.java + BulletComp.java + BulletType.java + Blocks.java + GroupDefs.java."
     }
   },
   "policy": {

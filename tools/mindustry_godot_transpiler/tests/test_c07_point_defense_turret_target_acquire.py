@@ -162,15 +162,22 @@ class C07PointDefenseTurretTargetAcquireTests(unittest.TestCase):
         # so it is dropped, and a stored target with no id
         # cannot be re-identified, so it is dropped too -- the
         # RepairTurret N2212 precedent). The re-acquire is a
-        # point-in-rect test against the Java intersect rect
+        # hitbox-overlap test against the Java intersect rect
         # (x +/- range, y +/- range, range 180f per-def,
         # Blocks.java:3838, `range = 180f;`, the only
         # PointDefenseTurret def) with a min-dst2 pick; ties
         # keep the first bullet (strict `<`, the N2212
-        # precedent). The port models no bullet hitSize, so
-        # the rect overlap is approximated by the bullet
-        # point, a documented limit owned by a later
-        # bullet-hitSize slice (the ShockwaveTower precedent).
+        # precedent). Java's intersect tests the bullet
+        # HITBOX, not its centre (BulletComp implements
+        # Hitboxc, BulletComp.java:28; hitSize is the
+        # BulletType hitbox size, `public float hitSize = 4;`,
+        # BulletType.java:43) -- N2247 lands the overlap test
+        # (|bx - x| <= range + hitSize/2, |by - y| <= range +
+        # hitSize/2, the BulletType 4f default when the
+        # observed dict carries no hit_size), so a bullet
+        # whose centre sits just outside the rect but whose
+        # hitbox overlaps it IS acquired; the min-dst2 pick
+        # still uses the bullet centre (Java `b.dst2(this)`).
         # The re-acquire replaces the target unconditionally
         # on fire -- even a still-valid one is re-picked.
         # The result is a 4-key dict: `target` (the target
@@ -190,8 +197,9 @@ class C07PointDefenseTurretTargetAcquireTests(unittest.TestCase):
         self.assertIn('target_timer = 0.0', point_defense)
         self.assertIn('if int(bullet.get("team", -1)) == team_id:', point_defense)
         self.assertIn('if not bool(bullet.get("hittable", false)):', point_defense)
-        self.assertIn('if absf(float(bullet.get("x", 0.0)) - x) > range:', point_defense)
-        self.assertIn('if absf(float(bullet.get("y", 0.0)) - y) > range:', point_defense)
+        self.assertIn('var hit_size: float = float(bullet.get("hit_size", 4.0))', point_defense)
+        self.assertIn('if absf(float(bullet.get("x", 0.0)) - x) > range + hit_size / 2.0:', point_defense)
+        self.assertIn('if absf(float(bullet.get("y", 0.0)) - y) > range + hit_size / 2.0:', point_defense)
         self.assertIn('if not has_target or dist2 < best_dist2:', point_defense)
         self.assertIn('var target_id: int = int(target.get("id", -1))', point_defense)
         self.assertIn('if fresh.is_empty():', point_defense)

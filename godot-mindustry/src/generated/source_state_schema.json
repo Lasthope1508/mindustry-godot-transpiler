@@ -234972,6 +234972,64 @@
       },
       "runtime_proof": "/root/C07PointDefenseTurretSetStatsIconsProof",
       "rule": "Source-backed PointDefenseTurret setStats()/icons() state from PointDefenseTurret.java + Blocks.java + Block.java + ReloadTurret.java + BaseTurret.java."
+    },
+    "source_point_defense_turret_bullet_removal_state_input": {
+      "status": "active",
+      "owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_bullet_removal_state",
+      "source_slice": "N2247",
+      "keys": {
+        "live_bullets": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "target = Groups.bullet.intersect(x - range, y - range, range*2, range*2).min(b -> b.team != team && b.type().hittable, b -> b.dst2(this));",
+          "rule": "The live bullet list Java reads every retarget (PointDefenseTurret.java:66, `target = Groups.bullet.intersect(x - range, y - range, range*2, range*2).min(b -> b.team != team && b.type().hittable, b -> b.dst2(this));`): the port passes `game[\"bullets\"]`, the live dicts the N2242 wiring maps; the driver writes the filtered list back on the lethally-shot tick.",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_bullet_removal_state"
+          ]
+        },
+        "removed_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "if(target != null && !target.isAdded()){",
+          "rule": "The id of the lethally shot bullet to drop, the sprite instance id (the N2242 precedent -- the observed dict's id IS the sprite instance id); Java identifies the bullet by the live reference and the pooled check (`if(target != null && !target.isAdded()){`, PointDefenseTurret.java:69) is what the removal makes true on the next tick. A target with no id cannot be re-identified (the N2239 precedent), so removed_id -1 matches nothing.",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_bullet_removal_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PointDefenseTurretHitSizeRemovalProof",
+      "rule": "Source-backed PointDefenseTurret bullet hitSize + live bullet removal state from PointDefenseTurret.java + BulletComp.java + BulletType.java + Blocks.java + GroupDefs.java."
+    },
+    "source_point_defense_turret_bullet_removal_state_result": {
+      "status": "active",
+      "owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_bullet_removal_state",
+      "source_slice": "N2247",
+      "keys": {
+        "remaining_bullets": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "target.remove();",
+          "rule": "The live list minus the removed bullet (PointDefenseTurret.java:88, `target.remove();`, in the else branch of `if(target.damage() > realDamage){`, PointDefenseTurret.java:85): the driver writes this back to `game[\"bullets\"]`, so the sim stops moving the dead bullet and the next tick's acquire cannot re-acquire it by id. A damaged (non-lethal) target is never passed here -- the driver only calls this when target_removed is true.",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_bullet_removal_state"
+          ]
+        },
+        "removed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "if(target.damage() > realDamage){",
+          "rule": "Whether the removed id was found in the live list: true when the lethally shot bullet was dropped, false when the id is absent (PointDefenseTurret.java:85, `if(target.damage() > realDamage){`, the lethal branch that triggers the removal; the list is unchanged then).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_bullet_removal_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PointDefenseTurretHitSizeRemovalProof",
+      "rule": "Source-backed PointDefenseTurret bullet hitSize + live bullet removal state from PointDefenseTurret.java + BulletComp.java + BulletType.java + Blocks.java + GroupDefs.java."
     }
   },
   "version": 1
