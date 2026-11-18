@@ -176664,6 +176664,38 @@
         "test_reference_graph_and_actual_c07_turret_update_tile_warmup"
       ],
       "runtime_proof": "/root/C07TurretUpdateTileWarmupProof"
+    },
+    "source_burst_drill_set_stats_state_result.booster_row_removed": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_set_stats_state",
+      "godot_symbol": "source_burst_drill_set_stats_state_result.booster_row_removed",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_method": "BurstDrill.setStats()",
+      "java_expr": "stats.remove(Stat.booster);",
+      "rule": "Whether stats.remove(Stat.booster) ran: true exactly when the if-branch runs (BurstDrill.java:62, `stats.remove(Stat.booster);`, inside the `liquidBoostIntensity != 1` + booster-found guard at :61) -- the remove runs before the add, so the displayed booster row is the override row, not the super row.",
+      "tests": [
+        "test_c07_burst_drill_set_stats_registration",
+        "test_all_c07_burst_drill_set_stats_input_evidence_is_exact",
+        "test_burst_drill_set_stats_state",
+        "test_reference_graph_and_actual_c07_burst_drill_set_stats"
+      ],
+      "runtime_proof": "/root/C07BurstDrillSetStatsProof"
+    },
+    "source_burst_drill_set_stats_state_result.booster_row": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_set_stats_state",
+      "godot_symbol": "source_burst_drill_set_stats_state_result.booster_row",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_method": "BurstDrill.setStats()",
+      "java_expr": "StatValues.speedBoosters(\"{0}\" + StatUnit.timesSpeed.localized(),",
+      "rule": "The Stat.booster row added by the override, or null when the branch does not run: {format \"{0} x speed\", amount consBase.amount, intensity liquidBoostIntensity (PLAIN, not the super squared value, Drill.java:188), strength false, consumes consBase::consumes} (BurstDrill.java:63-65, `stats.add(Stat.booster,` + `StatValues.speedBoosters(\"{0}\" + StatUnit.timesSpeed.localized(),` + `consBase.amount, liquidBoostIntensity, false, consBase::consumes)`; the format is \"{0} x speed\" because StatUnit.timesSpeed.localized() reads bundle key \"unit.timesspeed\", English value \"x speed\").",
+      "tests": [
+        "test_c07_burst_drill_set_stats_registration",
+        "test_all_c07_burst_drill_set_stats_input_evidence_is_exact",
+        "test_burst_drill_set_stats_state",
+        "test_reference_graph_and_actual_c07_burst_drill_set_stats"
+      ],
+      "runtime_proof": "/root/C07BurstDrillSetStatsProof"
     }
   },
   "version": 1

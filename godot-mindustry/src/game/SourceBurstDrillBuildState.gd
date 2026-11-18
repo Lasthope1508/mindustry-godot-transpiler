@@ -303,6 +303,26 @@ static func source_burst_drill_icons_state(region: Variant, top_region: Variant)
 	var icons: Array = [region, top_region]
 	return {"icons": icons}
 
+static func source_burst_drill_set_stats_state(frame: Dictionary, liquid_boost_intensity: float, booster_consumer_found: bool, booster_amount: float, booster_consumes: bool) -> Dictionary:
+	# BurstDrill.setStats() (BurstDrill.java:58-68):
+	# public void setStats(){
+	# super.setStats();
+	# if(liquidBoostIntensity != 1 && findConsumer(f -> f instanceof ConsumeLiquidBase && f.booster) instanceof ConsumeLiquidBase consBase){
+	# stats.remove(Stat.booster);
+	# stats.add(Stat.booster,
+	# StatValues.speedBoosters("{0}" + StatUnit.timesSpeed.localized(),
+	# consBase.amount, liquidBoostIntensity, false, consBase::consumes)
+	# );
+	# }
+	# }
+	# `super.setStats();` (BurstDrill.java:59) is Drill.setStats, NOT this slice: Drill.setStats (Drill.java:177-191) adds the drillSpeed row and its own booster row with the SQUARED intensity (`liquidBoostIntensity * liquidBoostIntensity, false, consBase::consumes)`, Drill.java:188). The BurstDrill override removes that row first (`stats.remove(Stat.booster);`, BurstDrill.java:62) and re-adds it with the PLAIN intensity (`consBase.amount, liquidBoostIntensity, false, consBase::consumes)`, BurstDrill.java:65) -- the remove-then-add is what pins the displayed speed to the plain intensity, not the square. The guard is `liquidBoostIntensity != 1` AND a booster consumer found (`if(liquidBoostIntensity != 1 && findConsumer(f -> f instanceof ConsumeLiquidBase && f.booster) instanceof ConsumeLiquidBase consBase){`, BurstDrill.java:61). findConsumer (`public <T extends Consume> T findConsumer(Boolf<Consume> filter){`, Block.java:1104) is NOT ported here: the caller passes the already-found result (booster_consumer_found / booster_amount / booster_consumes) -- the N1688/N1753 findConsumer precedent. `consBase.amount` is the per-frame liquid amount (`public float amount;`, ConsumeLiquidBase.java:8); `consBase::consumes` is the liquid filter (`public abstract boolean consumes(Liquid liquid);`, ConsumeLiquidBase.java:21). The `false` strength arg (BurstDrill.java:65) means the displayed speed is the plain intensity, not heatCapacity-scaled (StatValues.java:522, `public static StatValue speedBoosters(String unit, float amount, float speed, boolean strength, Boolf<Liquid> filter){`, StatValues.java:506). The speedBoosters unit is `"{0}" + StatUnit.timesSpeed.localized()` (BurstDrill.java:64): `timesSpeed = new StatUnit("timesSpeed", false),` (StatUnit.java:34) and localized() reads bundle key "unit.timesspeed" (StatUnit.java:61-62), English value "x speed" (bundle.properties:1364), so the format is "{0} x speed". The classes are `public class BurstDrill extends Drill{` (BurstDrill.java:17). Per-def values: the class default is `public float liquidBoostIntensity = 1.6f;` (Drill.java:38); impact-drill `liquidBoostIntensity = 1.75f;` (Blocks.java:3084) with booster `consumeLiquid(Liquids.ozone, 3f / 60f).boost();` (Blocks.java:3090); eruption-drill `liquidBoostIntensity = 2f;` (Blocks.java:3115) with booster `consumeLiquid(Liquids.cyanogen, 0.75f / 60f).boost();` (Blocks.java:3120). The booster filter flag comes from `public boolean booster;` (Consume.java:14). frame carries no live keys for this block-level stat read -- liquidBoostIntensity and the booster consumer are per-def static state, not live frame keys (the N2212 / N2224 per-def-param precedent); frame is the canonical first param of this family file. There is NO driver tick line: setStats is a stat-display read, not a per-tick write (the N2224 / N2246 setStats lifecycle precedent).
+	var booster_present: bool = liquid_boost_intensity != 1.0 and booster_consumer_found
+	var booster_row_removed: bool = booster_present
+	var booster_row: Variant = null
+	if booster_present:
+		booster_row = {"format": "{0} x speed", "amount": booster_amount, "intensity": liquid_boost_intensity, "strength": false, "consumes": booster_consumes}
+	return {"booster_row_removed": booster_row_removed, "booster_row": booster_row}
+
 static func source_burst_drill_update_tile_state(frame: Dictionary, delta: float, drill_time_base: float, drill_multiplier: float, inverted_time: float, liquid_boost_intensity: float, item_capacity: float, dump_interval: float) -> Dictionary:
 	# BurstDrillBuild.updateTile advances the burst drill's
 	# drilling state every tick (BurstDrill.java:76,

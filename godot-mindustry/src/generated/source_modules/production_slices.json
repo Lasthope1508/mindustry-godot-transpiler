@@ -1030,6 +1030,24 @@
       ],
       "runtime_proof": "/root/C07BurstDrillOnProximityUpdateProof"
     },
+    "N2266": {
+      "canonical_ledger": "source_slice_ledger.N2266",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_method": "BurstDrill.setStats()",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_set_stats_state",
+      "source_symbols": [
+        "source_burst_drill_set_stats_state_result.booster_row_removed",
+        "source_burst_drill_set_stats_state_result.booster_row"
+      ],
+      "tests": [
+        "test_c07_burst_drill_set_stats_registration",
+        "test_all_c07_burst_drill_set_stats_input_evidence_is_exact",
+        "test_burst_drill_set_stats_state",
+        "test_reference_graph_and_actual_c07_burst_drill_set_stats"
+      ],
+      "runtime_proof": "/root/C07BurstDrillSetStatsProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",

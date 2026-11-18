@@ -233,6 +233,61 @@
         }
       }
     },
+    "source_burst_drill_set_stats_state_input": {
+      "canonical_schema": "source_state_schema.source_burst_drill_set_stats_state_input",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "public void setStats(){",
+          "rule": "The burst-drill frame (BurstDrill.setStats, BurstDrill.java:58): carries no live keys for this block-level stat read -- liquidBoostIntensity and the booster consumer are per-def static state, not live frame keys (the N2212 / N2224 per-def-param precedent); frame is the canonical first param of this family file.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_set_stats_state"
+          ]
+        },
+        "liquid_boost_intensity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public float liquidBoostIntensity = 1.6f;",
+          "rule": "The per-def liquid boost intensity (Drill.java:38, `public float liquidBoostIntensity = 1.6f;`, the class default; impact-drill 1.75f, Blocks.java:3084; eruption-drill 2f, Blocks.java:3115); the setStats guard reads `liquidBoostIntensity != 1` (BurstDrill.java:61); passed explicitly because it is per-def static state, not a live frame key (the N2212 / N2224 per-def-param precedent).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_set_stats_state"
+          ]
+        },
+        "booster_consumer_found": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "if(liquidBoostIntensity != 1 && findConsumer(f -> f instanceof ConsumeLiquidBase && f.booster) instanceof ConsumeLiquidBase consBase){",
+          "rule": "Whether findConsumer found a booster consumer: the first consumer matching `f instanceof ConsumeLiquidBase && f.booster` (BurstDrill.java:61, via Block.java:1104 `public <T extends Consume> T findConsumer(Boolf<Consume> filter){`); passed explicitly because findConsumer is not ported in this slice (the N1688/N1753 precedent).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_set_stats_state"
+          ]
+        },
+        "booster_amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+          "java_expr": "public float amount;",
+          "rule": "The found booster consumer amount per frame (ConsumeLiquidBase.java:8, `public float amount;`, the amount used per frame); the speedBoosters amount param (`consBase.amount, liquidBoostIntensity, false, consBase::consumes)`, BurstDrill.java:65): 3f/60f ozone for the impact-drill def (Blocks.java:3090) and 0.75f/60f cyanogen for the eruption-drill def (Blocks.java:3120); passed explicitly with the found consumer.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_set_stats_state"
+          ]
+        },
+        "booster_consumes": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+          "java_expr": "public abstract boolean consumes(Liquid liquid);",
+          "rule": "The found booster consumer liquid filter result (ConsumeLiquidBase.java:21, `public abstract boolean consumes(Liquid liquid);`, the `consBase::consumes` method reference, BurstDrill.java:65); the speedBoosters filter param; passed explicitly with the found consumer.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_set_stats_state"
+          ]
+        }
+      }
+    },
     "source_burst_drill_should_consume_state_input": {
       "canonical_schema": "source_state_schema.source_burst_drill_should_consume_state_input",
       "keys": {
