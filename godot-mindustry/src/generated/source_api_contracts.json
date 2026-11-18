@@ -69773,6 +69773,84 @@
       ],
       "runtime_proof": "/root/C07TurretIsActiveProof",
       "rule": "Source-backed TurretBuild.isActive() state from Turret.java + BaseTurret.java + BuildingComp.java."
+    },
+    "SourceBurstDrillBuildState.source_drill_set_stats_state": {
+      "status": "active",
+      "source_slice": "N2280",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "Drill.setStats()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_drill_set_stats_state_input.frame"
+        },
+        {
+          "name": "drill_time",
+          "type": "float",
+          "schema": "source_drill_set_stats_state_input.drill_time"
+        },
+        {
+          "name": "hardness_drill_multiplier",
+          "type": "float",
+          "schema": "source_drill_set_stats_state_input.hardness_drill_multiplier"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_drill_set_stats_state_input.size"
+        },
+        {
+          "name": "tier",
+          "type": "int",
+          "schema": "source_drill_set_stats_state_input.tier"
+        },
+        {
+          "name": "drill_multipliers",
+          "type": "Dictionary",
+          "schema": "source_drill_set_stats_state_input.drill_multipliers"
+        },
+        {
+          "name": "blocked_items",
+          "type": "Variant",
+          "schema": "source_drill_set_stats_state_input.blocked_items"
+        },
+        {
+          "name": "liquid_boost_intensity",
+          "type": "float",
+          "schema": "source_drill_set_stats_state_input.liquid_boost_intensity"
+        },
+        {
+          "name": "booster_consumer_found",
+          "type": "bool",
+          "schema": "source_drill_set_stats_state_input.booster_consumer_found"
+        },
+        {
+          "name": "booster_amount",
+          "type": "float",
+          "schema": "source_drill_set_stats_state_input.booster_amount"
+        },
+        {
+          "name": "booster_consumes",
+          "type": "bool",
+          "schema": "source_drill_set_stats_state_input.booster_consumes"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "drill_tier_row",
+        "drill_speed_row",
+        "booster_row_removed",
+        "booster_row"
+      ],
+      "tests": [
+        "test_c07_drill_set_stats_registration",
+        "test_all_c07_drill_set_stats_input_evidence_is_exact",
+        "test_drill_set_stats_state",
+        "test_reference_graph_and_actual_c07_drill_set_stats"
+      ],
+      "runtime_proof": "/root/C07DrillSetStatsProof",
+      "rule": "Source-backed Drill setStats() state from Drill.java + Blocks.java + StatValues.java + StatUnit.java + ConsumeLiquidBase.java + Block.java + Consume.java + Stat.java + bundle.properties."
     }
   },
   "policy": {

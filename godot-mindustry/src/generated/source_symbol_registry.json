@@ -177000,6 +177000,70 @@
         "test_reference_graph_and_actual_c07_turret_is_active"
       ],
       "runtime_proof": "/root/C07TurretIsActiveProof"
+    },
+    "source_drill_set_stats_state_result.drill_tier_row": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_set_stats_state",
+      "godot_symbol": "source_drill_set_stats_state_result.drill_tier_row",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "Drill.setStats()",
+      "java_expr": "stats.add(Stat.drillTier, StatValues.drillables(drillTime, hardnessDrillMultiplier, size * size, drillMultipliers, b -> b instanceof Floor f && !f.wallOre && f.itemDrop != null &&",
+      "rule": "The Stat.drillTier row added by Drill.setStats, pinning the StatValues.drillables call args (Drill.java:178-179): {drill_time, hardness_drill_multiplier, size_squared (the drillables size param is size * size), drill_multipliers, tier, blocked_items}; the per-floor filter evaluation and the displayed per-ore table render at display time (StatValues.java:413-437).",
+      "tests": [
+        "test_c07_drill_set_stats_registration",
+        "test_all_c07_drill_set_stats_input_evidence_is_exact",
+        "test_drill_set_stats_state",
+        "test_reference_graph_and_actual_c07_drill_set_stats"
+      ],
+      "runtime_proof": "/root/C07DrillSetStatsProof"
+    },
+    "source_drill_set_stats_state_result.drill_speed_row": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_set_stats_state",
+      "godot_symbol": "source_drill_set_stats_state_result.drill_speed_row",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "Drill.setStats()",
+      "java_expr": "stats.add(Stat.drillSpeed, 60f / drillTime * size * size, StatUnit.itemsSecond);",
+      "rule": "The Stat.drillSpeed row added by Drill.setStats: {value 60f / drillTime * size * size, unit \"items/second\"} (Drill.java:181, `stats.add(Stat.drillSpeed, 60f / drillTime * size * size, StatUnit.itemsSecond);`; StatUnit.itemsSecond localized \"items/second\", bundle.properties:1354); class default 0.2, impact-drill 1.333..., eruption-drill 5.333....",
+      "tests": [
+        "test_c07_drill_set_stats_registration",
+        "test_all_c07_drill_set_stats_input_evidence_is_exact",
+        "test_drill_set_stats_state",
+        "test_reference_graph_and_actual_c07_drill_set_stats"
+      ],
+      "runtime_proof": "/root/C07DrillSetStatsProof"
+    },
+    "source_drill_set_stats_state_result.booster_row_removed": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_set_stats_state",
+      "godot_symbol": "source_drill_set_stats_state_result.booster_row_removed",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "Drill.setStats()",
+      "java_expr": "stats.remove(Stat.booster);",
+      "rule": "Whether stats.remove(Stat.booster) ran: true exactly when the if-branch runs (Drill.java:184, `stats.remove(Stat.booster);`, inside the `liquidBoostIntensity != 1` + booster-found guard at :183) -- the remove runs before the add, so the displayed booster row is the Drill super row until the BurstDrill override replaces it.",
+      "tests": [
+        "test_c07_drill_set_stats_registration",
+        "test_all_c07_drill_set_stats_input_evidence_is_exact",
+        "test_drill_set_stats_state",
+        "test_reference_graph_and_actual_c07_drill_set_stats"
+      ],
+      "runtime_proof": "/root/C07DrillSetStatsProof"
+    },
+    "source_drill_set_stats_state_result.booster_row": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_set_stats_state",
+      "godot_symbol": "source_drill_set_stats_state_result.booster_row",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "Drill.setStats()",
+      "java_expr": "liquidBoostIntensity * liquidBoostIntensity, false, consBase::consumes)",
+      "rule": "The Stat.booster row added by Drill.setStats, or null when the branch does not run: {format \"{0} x speed\", amount consBase.amount, intensity liquidBoostIntensity SQUARED (Drill.java:188 -- the trap vs the N2266 BurstDrill override row, which uses the PLAIN intensity, BurstDrill.java:65), strength false, consumes consBase::consumes} (Drill.java:185-189, `stats.add(Stat.booster,` + `StatValues.speedBoosters(\"{0}\" + StatUnit.timesSpeed.localized(),` + `liquidBoostIntensity * liquidBoostIntensity, false, consBase::consumes)`; the format is \"{0} x speed\" because StatUnit.timesSpeed.localized() reads bundle key \"unit.timesspeed\", English value \"x speed\").",
+      "tests": [
+        "test_c07_drill_set_stats_registration",
+        "test_all_c07_drill_set_stats_input_evidence_is_exact",
+        "test_drill_set_stats_state",
+        "test_reference_graph_and_actual_c07_drill_set_stats"
+      ],
+      "runtime_proof": "/root/C07DrillSetStatsProof"
     }
   },
   "version": 1
