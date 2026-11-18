@@ -69663,6 +69663,76 @@
       ],
       "runtime_proof": "/root/C07DrillAmbientVolumeProof",
       "rule": "Source-backed DrillBuild ambientVolume() state from Drill.java + BuildingComp.java + Block.java + Blocks.java."
+    },
+    "SourceRadarBuildState.source_radar_draw_rotation_state": {
+      "status": "active",
+      "source_slice": "N2278",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "source_method": "RadarBuild.draw()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_radar_draw_rotation_state_input.frame"
+        },
+        {
+          "name": "rotate_speed",
+          "type": "float",
+          "schema": "source_radar_draw_rotation_state_input.rotate_speed"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "rotation"
+      ],
+      "tests": [
+        "test_c07_radar_draw_registration",
+        "test_all_c07_radar_draw_input_evidence_is_exact",
+        "test_radar_draw_state",
+        "test_reference_graph_and_actual_c07_radar_draw"
+      ],
+      "runtime_proof": "/root/C07RadarDrawProof",
+      "rule": "Source-backed Radar draw() rows from Radar.java."
+    },
+    "SourceRadarBuildState.source_radar_draw_glow_state": {
+      "status": "active",
+      "source_slice": "N2278",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "source_method": "RadarBuild.draw()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_radar_draw_glow_state_input.frame"
+        },
+        {
+          "name": "glow_color_alpha",
+          "type": "float",
+          "schema": "source_radar_draw_glow_state_input.glow_color_alpha"
+        },
+        {
+          "name": "glow_mag",
+          "type": "float",
+          "schema": "source_radar_draw_glow_state_input.glow_mag"
+        },
+        {
+          "name": "absin_value",
+          "type": "float",
+          "schema": "source_radar_draw_glow_state_input.absin_value"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "glow_alpha"
+      ],
+      "tests": [
+        "test_c07_radar_draw_registration",
+        "test_all_c07_radar_draw_input_evidence_is_exact",
+        "test_radar_draw_state",
+        "test_reference_graph_and_actual_c07_radar_draw"
+      ],
+      "runtime_proof": "/root/C07RadarDrawProof",
+      "rule": "Source-backed Radar draw() rows from Radar.java."
     }
   },
   "policy": {

@@ -176952,6 +176952,38 @@
         "test_reference_graph_and_actual_c07_drill_ambient_volume"
       ],
       "runtime_proof": "/root/C07DrillAmbientVolumeProof"
+    },
+    "source_radar_draw_rotation_state_result.rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourceRadarBuildState.source_radar_draw_rotation_state",
+      "godot_symbol": "source_radar_draw_rotation_state_result.rotation",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "RadarBuild.draw()",
+      "java_expr": "rotateSpeed * totalProgress",
+      "rule": "The dish rotation angle: draw() (Radar.java:85-90) rotates both the region rect (`Draw.rect(region, x, y, rotateSpeed * totalProgress);`, Radar.java:87) and the glow (`Drawf.additive(..., rotateSpeed * totalProgress, ...);`, Radar.java:89) by rotateSpeed * totalProgress.",
+      "tests": [
+        "test_c07_radar_draw_registration",
+        "test_all_c07_radar_draw_input_evidence_is_exact",
+        "test_radar_draw_state",
+        "test_reference_graph_and_actual_c07_radar_draw"
+      ],
+      "runtime_proof": "/root/C07RadarDrawProof"
+    },
+    "source_radar_draw_glow_state_result.glow_alpha": {
+      "status": "source-backed",
+      "godot_owner": "SourceRadarBuildState.source_radar_draw_glow_state",
+      "godot_symbol": "source_radar_draw_glow_state_result.glow_alpha",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "RadarBuild.draw()",
+      "java_expr": "glowColor.a * (1f - glowMag + Mathf.absin(glowScl, glowMag))",
+      "rule": "The glow alpha: draw() (Radar.java:89) passes glowColor.a * (1f - glowMag + Mathf.absin(glowScl, glowMag)) as the additive glow alpha -- full glowColor.a at peak absin, (1f - glowMag) of it at zero absin.",
+      "tests": [
+        "test_c07_radar_draw_registration",
+        "test_all_c07_radar_draw_input_evidence_is_exact",
+        "test_radar_draw_state",
+        "test_reference_graph_and_actual_c07_radar_draw"
+      ],
+      "runtime_proof": "/root/C07RadarDrawProof"
     }
   },
   "version": 1

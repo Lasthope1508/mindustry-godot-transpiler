@@ -130,6 +130,18 @@ static func source_radar_update_tile_state(frame: Dictionary, delta: float, disc
 	total_progress += efficiency * edelta
 	return {"smooth_efficiency": smooth_efficiency, "fog_radius": fog_radius_value, "force_update": force_update, "last_radius": last_radius, "progress": progress, "total_progress": total_progress}
 
+static func source_radar_draw_rotation_state(frame: Dictionary, rotate_speed: float) -> Dictionary:
+	# RadarBuild.draw() (Radar.java:85, `public void draw(){`) rotates the dish region and the glow by the same angle: `Draw.rect(region, x, y, rotateSpeed * totalProgress);` (Radar.java:87) and `Drawf.additive(glowRegion, glowColor, glowColor.a * (1f - glowMag + Mathf.absin(glowScl, glowMag)), x, y, rotateSpeed * totalProgress, Layer.blockAdditive);` (Radar.java:89) both pass rotateSpeed * totalProgress as the rotation. rotateSpeed is 2f (Radar.java:19, `public float rotateSpeed = 2f;`); rotate_speed is an explicit per-def param (the N2212 per-def-param precedent) because the catalog carries no rotateSpeed. The frame carries `total_progress` (absent defaults to 0.0 -- the Java field init, Radar.java:52, `public float totalProgress;`, advanced by updateTile Radar.java:71, `totalProgress += efficiency * edelta();`, N2274). The base region rect (`Draw.rect(baseRegion, x, y);`, Radar.java:86) has no computed value -- it is a static draw call, render-only, so no pure function pins it. There is NO driver tick line: draw() is a render call, not tick state (the accessor precedent N2268/N2275). One def (radar, Radar.java:17, `public class Radar extends Block{`; RadarBuild, Radar.java:48, `public class RadarBuild extends Building{`).
+	var total_progress: float = float(frame.get("total_progress", 0.0))
+	var rotation: float = rotate_speed * total_progress
+	return {"rotation": rotation}
+
+@warning_ignore("unused_parameter")
+static func source_radar_draw_glow_state(frame: Dictionary, glow_color_alpha: float, glow_mag: float, absin_value: float) -> Dictionary:
+	# RadarBuild.draw() (Radar.java:84-90): `Drawf.additive(glowRegion, glowColor, glowColor.a * (1f - glowMag + Mathf.absin(glowScl, glowMag)), x, y, rotateSpeed * totalProgress, Layer.blockAdditive);` (Radar.java:89) pulses the glow alpha: glowColor.a (Pal.turretHeat, Radar.java:24, `public Color glowColor = Pal.turretHeat;`, Pal.java:52, `turretHeat = Color.valueOf("ab3400");` -- 6-digit hex, alpha 1.0) times (1f - glowMag + Mathf.absin(glowScl, glowMag)) with glowMag (Radar.java:25, `public float glowScl = 5f, glowMag = 0.6f;`). Mathf.absin(glowScl, glowMag) is time-dependent, so the caller supplies its evaluated value as absin_value and the pure function does the algebra -- the glow is full glowColor.a at peak absin and (1f - glowMag) of it at zero absin. glow_color_alpha and glow_mag are explicit per-def params (the N2212 per-def-param precedent) because the catalog carries no glowColor/glowMag. The frame is the family-convention first arg (every Radar pure function takes it) and is unused: the glow formula reads no frame key. There is NO driver tick line: draw() is a render call, not tick state (the accessor precedent N2268/N2275). One def (radar, Radar.java:17, `public class Radar extends Block{`; RadarBuild, Radar.java:48, `public class RadarBuild extends Building{`).
+	var glow_alpha: float = glow_color_alpha * (1.0 - glow_mag + absin_value)
+	return {"glow_alpha": glow_alpha}
+
 @warning_ignore("unused_parameter")
 static func source_radar_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the radar tick wiring every

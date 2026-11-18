@@ -237378,6 +237378,122 @@
       },
       "runtime_proof": "/root/C07DrillAmbientVolumeProof",
       "rule": "Source-backed DrillBuild ambientVolume() state from Drill.java + BuildingComp.java + Block.java + Blocks.java."
+    },
+    "source_radar_draw_rotation_state_input": {
+      "status": "active",
+      "owner": "SourceRadarBuildState.source_radar_draw_rotation_state",
+      "source_slice": "N2278",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "public void draw(){",
+          "rule": "The radar frame (RadarBuild.draw, Radar.java:85): the family-convention first arg (every Radar pure function takes it); it carries total_progress (absent defaults to 0.0 -- `public float totalProgress;`, Radar.java:52, advanced by updateTile Radar.java:71).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_rotation_state"
+          ]
+        },
+        "rotate_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "rotateSpeed * totalProgress",
+          "rule": "The dish rotate speed (Radar.java:19, `public float rotateSpeed = 2f;`): an explicit per-def param (the N2212 per-def-param precedent) because the catalog carries no rotateSpeed.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_rotation_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RadarDrawProof",
+      "rule": "Source-backed Radar draw() rows from Radar.java."
+    },
+    "source_radar_draw_rotation_state_result": {
+      "status": "active",
+      "owner": "SourceRadarBuildState.source_radar_draw_rotation_state",
+      "source_slice": "N2278",
+      "keys": {
+        "rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "rotateSpeed * totalProgress",
+          "rule": "The dish rotation angle: draw() (Radar.java:85-90) rotates both the region rect (`Draw.rect(region, x, y, rotateSpeed * totalProgress);`, Radar.java:87) and the glow (`Drawf.additive(..., rotateSpeed * totalProgress, ...);`, Radar.java:89) by rotateSpeed * totalProgress.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_rotation_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RadarDrawProof",
+      "rule": "Source-backed Radar draw() rows from Radar.java."
+    },
+    "source_radar_draw_glow_state_input": {
+      "status": "active",
+      "owner": "SourceRadarBuildState.source_radar_draw_glow_state",
+      "source_slice": "N2278",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "public void draw(){",
+          "rule": "The radar frame (RadarBuild.draw, Radar.java:85): the family-convention first arg (every Radar pure function takes it); the glow formula reads no frame key, so the frame is unused.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_glow_state"
+          ]
+        },
+        "glow_color_alpha": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "glowColor.a * (1f - glowMag + Mathf.absin(glowScl, glowMag))",
+          "rule": "The glow color alpha (Radar.java:24, `public Color glowColor = Pal.turretHeat;`, Pal.java:52 `turretHeat = Color.valueOf(\"ab3400\")` -- 6-digit hex, alpha 1.0): an explicit per-def param because the catalog carries no glowColor.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_glow_state"
+          ]
+        },
+        "glow_mag": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "1f - glowMag + Mathf.absin(glowScl, glowMag)",
+          "rule": "The glow magnitude (Radar.java:25, `public float glowScl = 5f, glowMag = 0.6f;`): an explicit per-def param because the catalog carries no glowMag.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_glow_state"
+          ]
+        },
+        "absin_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "Mathf.absin(glowScl, glowMag)",
+          "rule": "The time-dependent Mathf.absin(glowScl, glowMag) value (Radar.java:89): an explicit input -- the pure function does the algebra, the caller supplies the arc absin evaluation.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_glow_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RadarDrawProof",
+      "rule": "Source-backed Radar draw() rows from Radar.java."
+    },
+    "source_radar_draw_glow_state_result": {
+      "status": "active",
+      "owner": "SourceRadarBuildState.source_radar_draw_glow_state",
+      "source_slice": "N2278",
+      "keys": {
+        "glow_alpha": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "glowColor.a * (1f - glowMag + Mathf.absin(glowScl, glowMag))",
+          "rule": "The glow alpha: draw() (Radar.java:89) passes glowColor.a * (1f - glowMag + Mathf.absin(glowScl, glowMag)) as the additive glow alpha -- full glowColor.a at peak absin, (1f - glowMag) of it at zero absin.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_glow_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RadarDrawProof",
+      "rule": "Source-backed Radar draw() rows from Radar.java."
     }
   },
   "version": 1

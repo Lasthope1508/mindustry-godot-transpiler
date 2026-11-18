@@ -7043,6 +7043,37 @@
       "rule": "Source-backed Radar canPickup() accessor from Radar.java.",
       "return_type": "Dictionary"
     },
+    "SourceRadarBuildState.source_radar_draw_rotation_state": {
+      "canonical_contract": "source_api_contracts.SourceRadarBuildState.source_radar_draw_rotation_state",
+      "status": "active",
+      "source_slice": "N2278",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "source_method": "RadarBuild.draw()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_radar_draw_rotation_state_input.frame"
+        },
+        {
+          "name": "rotate_speed",
+          "type": "float",
+          "schema": "source_radar_draw_rotation_state_input.rotate_speed"
+        }
+      ],
+      "return_keys": [
+        "rotation"
+      ],
+      "tests": [
+        "test_c07_radar_draw_registration",
+        "test_all_c07_radar_draw_input_evidence_is_exact",
+        "test_radar_draw_state",
+        "test_reference_graph_and_actual_c07_radar_draw"
+      ],
+      "runtime_proof": "/root/C07RadarDrawProof",
+      "rule": "Source-backed Radar draw() rows from Radar.java.",
+      "return_type": "Dictionary"
+    },
     "SourceRadarBuildState.source_radar_fog_radius_state": {
       "canonical_contract": "source_api_contracts.SourceRadarBuildState.source_radar_fog_radius_state",
       "status": "active",

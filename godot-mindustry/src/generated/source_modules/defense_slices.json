@@ -3503,6 +3503,24 @@
       ],
       "runtime_proof": "/root/C07TurretWriteReadProof"
     },
+    "N2278": {
+      "canonical_ledger": "source_slice_ledger.N2278",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "RadarBuild.draw()",
+      "godot_owner": "SourceRadarBuildState.source_radar_draw_rotation_state",
+      "source_symbols": [
+        "source_radar_draw_rotation_state_result.rotation",
+        "source_radar_draw_glow_state_result.glow_alpha"
+      ],
+      "tests": [
+        "test_c07_radar_draw_registration",
+        "test_all_c07_radar_draw_input_evidence_is_exact",
+        "test_radar_draw_state",
+        "test_reference_graph_and_actual_c07_radar_draw"
+      ],
+      "runtime_proof": "/root/C07RadarDrawProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",
