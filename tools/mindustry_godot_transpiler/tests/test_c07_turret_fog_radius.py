@@ -14,7 +14,7 @@ class C07TurretFogRadiusTests(unittest.TestCase):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        self.assertEqual(ledger['N2244']['godot_owner'], 'SourceTurretBuildState.source_turret_fog_radius_state')
+        self.assertEqual(ledger['N2268']['godot_owner'], 'SourceTurretBuildState.source_turret_fog_radius_state')
         # TurretBuild overrides fogRadius (Turret.java:420-423,
         # `public float fogRadius(){` / `return (range +
         # (hasAmmo() ? peekAmmo().rangeChange : 0f)) /
@@ -61,12 +61,12 @@ class C07TurretFogRadiusTests(unittest.TestCase):
         # item: fogRadius() was never a deferred entry of
         # the Turret chain.
         self.assertEqual(
-            ledger['N2244']['source_symbols'],
+            ledger['N2268']['source_symbols'],
             [
                 'source_turret_fog_radius_state_result.fog_radius',
             ],
         )
-        for name in ledger['N2244']['source_symbols']:
+        for name in ledger['N2268']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_source'], {
@@ -78,9 +78,9 @@ class C07TurretFogRadiusTests(unittest.TestCase):
                     'core/src/mindustry/graphics/FogRenderer.java',
                 })
                 self.assertEqual(symbol['godot_owner'], 'SourceTurretBuildState.' + name.rsplit('_result.', 1)[0])
-        self.assertEqual(ledger['N2244']['runtime_proof'], '/root/C07TurretFogRadiusProof')
+        self.assertEqual(ledger['N2268']['runtime_proof'], '/root/C07TurretFogRadiusProof')
         self.assertEqual(
-            ledger['N2244']['tests'],
+            ledger['N2268']['tests'],
             [
                 'test_c07_turret_fog_radius_registration',
                 'test_all_c07_turret_fog_radius_input_evidence_is_exact',
@@ -88,17 +88,17 @@ class C07TurretFogRadiusTests(unittest.TestCase):
                 'test_reference_graph_and_actual_c07_turret_fog_radius',
             ],
         )
-        self.assertTrue(ledger['N2244']['deferred_exprs'])
+        self.assertTrue(ledger['N2268']['deferred_exprs'])
         self.assertIn(
             'Turret fogRadius() Windows Godot proof',
-            ' '.join(ledger['N2244']['deferred_exprs']),
+            ' '.join(ledger['N2268']['deferred_exprs']),
         )
 
     def test_all_c07_turret_fog_radius_input_evidence_is_exact(self):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        for name in ledger['N2244']['source_symbols']:
+        for name in ledger['N2268']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_expr'], (ROOT / 'mindustry-upstream' / symbol['java_source']).read_text(encoding='utf-8'))
@@ -114,7 +114,7 @@ class C07TurretFogRadiusTests(unittest.TestCase):
         upstream = {}
         for source in slice_sources:
             upstream[source] = (ROOT / 'mindustry-upstream' / source).read_text(encoding='utf-8')
-        for expr in ledger['N2244']['exact_exprs']:
+        for expr in ledger['N2268']['exact_exprs']:
             with self.subTest(expr=expr):
                 self.assertTrue(any(expr in text for text in upstream.values()), expr)
 

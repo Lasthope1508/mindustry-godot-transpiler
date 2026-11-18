@@ -48,7 +48,7 @@ encode arc Mathf.approachDelta / lerpDelta (arc
 Mathf.java:420/430).
 
 RED decisions (resolved at RED): (1) One pure function
-on SourceTurretBuildState.gd next to the N2244 fogRadius
+on SourceTurretBuildState.gd next to the N2268 fogRadius
 row, following the N2256 updateTile precedent: (frame,
 is_shooting, potential_efficiency, charging, controlled,
 warmup_hold, shoot_warmup, linear_warmup,
