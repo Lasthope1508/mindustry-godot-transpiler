@@ -47,6 +47,6 @@ Worker cron 11:00 launch gate từ session của chính nó (session proc_4ae29c
 
 ## Hashes
 
-- 5-commit xong: slice 910e7fdf, docs TBD, GOAL TBD — đã push lên origin main (main TBD).
+- 5-commit xong: slice 910e7fdf, docs 8f4a9d53, GOAL 8879dc95 — đã push lên origin main (main 8879dc95).
 - Windows Godot proof là nợ trong GOAL.md §5 (proof Linux xanh, chưa chạy Windows).
 - Bước tiếp theo: suppression live + targets live list vẫn BLOCKED (cần frame plumbing); PointDefenseTurret write/read (PointDefenseTurret.java:117-128), setStats (:36-42), icons (:31-34), live coolant wiring, bullet hitSize, live bullet removal chờ slice riêng. (KHÔNG bắt đầu C08 inventory trừ khi user yêu cầu.)

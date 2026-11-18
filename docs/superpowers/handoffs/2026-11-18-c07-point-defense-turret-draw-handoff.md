@@ -48,7 +48,7 @@ Ran 6069 trong 1073.192s, failures=194, skipped=5, errors=0 —
 xác minh trực tiếp: `AssertionError: unexpectedly None` = 194,
 `FAIL:` = 194, `ERROR:` = 0; test reference N2244 nằm trong 194
 (Godot-absent như dự kiến). KHÔNG phải regression. Slice commit
-910e7fdf (cron 11:45); docs/spec + GOAL + hashes + push tiếp theo.
+910e7fdf (cron 11:45); docs 8f4a9d53 + GOAL 8879dc95; hashes commit tiếp theo; push sau hashes commit.
 
 ## RED (cron 10:45, this run)
 
