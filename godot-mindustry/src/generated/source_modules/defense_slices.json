@@ -3230,6 +3230,28 @@
       ],
       "runtime_proof": "/root/C07PointDefenseTurretLiveBulletsWiringProof"
     },
+    "N2248": {
+      "canonical_ledger": "source_slice_ledger.N2248",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "RadarBuild.updateTile()",
+      "godot_owner": "SourceRadarBuildState.source_radar_update_tile_state",
+      "source_symbols": [
+        "source_radar_update_tile_state_result.smooth_efficiency",
+        "source_radar_update_tile_state_result.fog_radius",
+        "source_radar_update_tile_state_result.force_update",
+        "source_radar_update_tile_state_result.last_radius",
+        "source_radar_update_tile_state_result.progress",
+        "source_radar_update_tile_state_result.total_progress"
+      ],
+      "tests": [
+        "test_c07_radar_update_tile_registration",
+        "test_all_c07_radar_update_tile_input_evidence_is_exact",
+        "test_radar_update_tile_state",
+        "test_reference_graph_and_actual_c07_radar_update_tile"
+      ],
+      "runtime_proof": "/root/C07RadarUpdateTileProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

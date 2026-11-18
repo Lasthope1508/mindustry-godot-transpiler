@@ -7049,6 +7049,52 @@
       "rule": "Source-backed Radar power.status row from ConsumePower.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceRadarBuildState.source_radar_update_tile_state": {
+      "canonical_contract": "source_api_contracts.SourceRadarBuildState.source_radar_update_tile_state",
+      "status": "active",
+      "source_slice": "N2248",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "source_method": "RadarBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_radar_update_tile_state_input.frame"
+        },
+        {
+          "name": "delta",
+          "type": "float",
+          "schema": "source_radar_update_tile_state_input.delta"
+        },
+        {
+          "name": "discovery_time",
+          "type": "float",
+          "schema": "source_radar_update_tile_state_input.discovery_time"
+        },
+        {
+          "name": "fog_radius",
+          "type": "float",
+          "schema": "source_radar_update_tile_state_input.fog_radius"
+        }
+      ],
+      "return_keys": [
+        "smooth_efficiency",
+        "fog_radius",
+        "force_update",
+        "last_radius",
+        "progress",
+        "total_progress"
+      ],
+      "tests": [
+        "test_c07_radar_update_tile_registration",
+        "test_all_c07_radar_update_tile_input_evidence_is_exact",
+        "test_radar_update_tile_state",
+        "test_reference_graph_and_actual_c07_radar_update_tile"
+      ],
+      "runtime_proof": "/root/C07RadarUpdateTileProof",
+      "rule": "Source-backed Radar updateTile advance from Radar.java + BuildingComp.java + Blocks.java + FogControl.java.",
+      "return_type": "Dictionary"
+    },
     "SourceRegenProjectorBuildState.source_regen_projector_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourceRegenProjectorBuildState.source_regen_projector_power_status_row_state",
       "status": "active",

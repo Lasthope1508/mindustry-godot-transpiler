@@ -6,10 +6,14 @@ const source_placed_block_state := preload("res://src/game/SourcePlacedBlockStat
 const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
 const source_building_efficiency_state := preload("res://src/game/SourceBuildingEfficiencyState.gd")
 const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
+const source_math_state := preload("res://src/game/SourceMathState.gd")
 
 # The Radar implementation (Radar.java:17, `public class Radar extends Block{`): radar (consumePower 0.6f, Blocks.java:1994, `consumePower(0.6f);`; size 1, fogRadius 34, Blocks.java:1991). Radar extends Block, NOT a factory or crafter, so no existing driver matches it and no frame key exists for it; this driver uses its own family frame key ("source_radar_building", the launch-pad precedent), and this slice adds the radar key to N2142's SOURCE_CONSUMER_FRAME_META_KEYS so the graph stamp/write-back finds it. The port has NO SourceRadar* files at all yet -- no display/runtime state to lean on -- so the missing piece is the live power.status -> efficiency driver, which is exactly this slice: the updateTile progress advance (Radar.java:68, `progress += edelta() / discoveryTime;`) advances progress by edelta() (BuildingComp.java:1927-1929, `return efficiency * delta();`), so a radar with no power would never discover -- its progress would sit frozen as if power.status were 1.0.
 const SOURCE_RADAR_BUILD_IMPLEMENTATIONS := ["Radar"]
 const SOURCE_RADAR_BUILDING_META_KEY := "source_radar_building"
+# The per-def discovery time is 600.0 (Radar.java:18, `public float discoveryTime = 60f * 10f;`) and the per-def fog radius is 34.0 (Blocks.java:1991, `fogRadius = 34;`, overriding the class default `fogRadius = 10;`, Radar.java:33); the catalog carries neither, so the driver passes these constants (the N2212 per-def-param precedent).
+const SOURCE_RADAR_DISCOVERY_TIME := 600.0
+const SOURCE_RADAR_FOG_RADIUS := 34.0
 
 static func _is_radar_build_implementation(implementation: String) -> bool:
 	return SOURCE_RADAR_BUILD_IMPLEMENTATIONS.has(implementation)
@@ -69,6 +73,24 @@ static func source_radar_power_status_row_state(frame: Dictionary, has_power_con
 	var live: float = 1.0 if stamped == null else float(stamped)
 	return {"has_power_row": true, "row": {"result": live, "is_power": true}}
 
+static func source_radar_update_tile_state(frame: Dictionary, delta: float, discovery_time: float, fog_radius: float) -> Dictionary:
+	# RadarBuild.updateTile advances the radar's discovery state every tick (Radar.java:60, `public void updateTile(){`): `smoothEfficiency = Mathf.lerpDelta(smoothEfficiency, efficiency, 0.05f);` (Radar.java:61) lerps the smoothed efficiency toward the folded efficiency; `if(Math.abs(fogRadius() - lastRadius) >= 0.5f){` (Radar.java:63) with `Vars.fogControl.forceUpdate(team, this);` (Radar.java:64) and `lastRadius = fogRadius();` (Radar.java:65) forces a fog update when the live fog radius moved by half a tile or more; `progress += edelta() / discoveryTime;` (Radar.java:68) with `progress = Mathf.clamp(progress);` (Radar.java:69) advances discovery by edelta() over the discovery time, clamped to [0, 1]; `totalProgress += efficiency * edelta();` (Radar.java:71) tracks the efficiency-weighted tick count. edelta() is efficiency * delta (BuildingComp.java:1927-1929, `public float edelta(){` with `return efficiency * delta();`, and `public float delta(){` with `return Time.delta * timeScale;`, BuildingComp.java:1922-1923 -- timeScale is 1 by default and the port passes the raw tick seconds, the N2190 driver convention). The fog radius read is fogRadius() (Radar.java:55, `public float fogRadius(){` with `return fogRadius * progress * smoothEfficiency;`, Radar.java:56): the def fogRadius is 34 (Blocks.java:1991, `fogRadius = 34;`), overriding the class default 10 (Radar.java:33, `fogRadius = 10;`). The discovery time is 600f (Radar.java:18, `public float discoveryTime = 60f * 10f;`). The frame carries `smooth_efficiency` (absent defaults to 1.0 -- the Java field init, Radar.java:51, `public float smoothEfficiency = 1f;`), `progress` (absent defaults to 0.0 -- `public float progress;`, Radar.java:49), `last_radius` (absent defaults to 0.0 -- `public float lastRadius = 0f;`, Radar.java:50), `total_progress` (absent defaults to 0.0 -- `public float totalProgress;`, Radar.java:52) and `efficiency` (absent defaults to 0.0 -- the transient field default, BuildingComp.java:85, `transient float efficiency;`, the N2192/N2204 precedent). The fog-radius check uses the NEW smoothed efficiency and the OLD progress (Java order: the lerp :61 runs before the check :63-66, the progress advance :68 runs after). `force_update` is the observable flag: the actual FogControl call (`public void forceUpdate(Team team, Building build){`, FogControl.java:177) waits for its own fog slice -- the port has no fog system to call into. A disabled radar never advances because updateConsumption zeroes the efficiencies first (`if(!enabled){` with `potentialEfficiency = efficiency = optionalEfficiency = 0f;`, BuildingComp.java:1954-1955), so the driver zeroes efficiency before the call (the N2204 precedent). One def (radar, Radar.java:17, `public class Radar extends Block{`; RadarBuild, Radar.java:48, `public class RadarBuild extends Building{`). The lerp is the port's frame-rate independent delta-scaled helper (SourceMathState.source_lerp_delta, the SourceBlockProducerBuildUpdateState precedent; arc Mathf.lerpDelta is `return lerp(fromValue, toValue, clamp(progress * Time.delta));` and Mathf.clamp one-arg clamps to [0, 1], the GDScript spelling is clampf(value, 0.0, 1.0)).
+	var smooth_efficiency: float = float(frame.get("smooth_efficiency", 1.0))
+	var efficiency: float = float(frame.get("efficiency", 0.0))
+	smooth_efficiency = source_math_state.source_lerp_delta(smooth_efficiency, efficiency, 0.05, delta)
+	var progress: float = float(frame.get("progress", 0.0))
+	var fog_radius_value: float = fog_radius * progress * smooth_efficiency
+	var last_radius: float = float(frame.get("last_radius", 0.0))
+	var force_update: bool = absf(fog_radius_value - last_radius) >= 0.5
+	if force_update:
+		last_radius = fog_radius_value
+	var edelta: float = efficiency * delta
+	progress += edelta / discovery_time
+	progress = clampf(progress, 0.0, 1.0)
+	var total_progress: float = float(frame.get("total_progress", 0.0))
+	total_progress += efficiency * edelta
+	return {"smooth_efficiency": smooth_efficiency, "fog_radius": fog_radius_value, "force_update": force_update, "last_radius": last_radius, "progress": progress, "total_progress": total_progress}
+
 @warning_ignore("unused_parameter")
 static func source_radar_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the radar tick wiring every
@@ -119,6 +141,16 @@ static func source_radar_tick_buildings_state(game: Object, seconds: float) -> D
 				required_results.append(power_row.get("row", {}))
 			var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(true, bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, [], [], frame)
 			source_building_efficiency_state.apply_update_consumption_state(consumption, frame)
+		# The updateTile advance runs for every ticked radar, after the consumption block (updateConsumption runs BEFORE updateTile in Java, Radar.java:60, `public void updateTile(){`, so the advance reads this tick's freshly stamped efficiency): a disabled radar never advances, so its efficiency is zeroed first (`if(!enabled){` with `potentialEfficiency = efficiency = optionalEfficiency = 0f;`, BuildingComp.java:1954-1955), and the force_update flag is stamped for the future fog-control slice (the N2204 LaunchPad precedent). The per-def discoveryTime is 600.0 (Radar.java:18, `public float discoveryTime = 60f * 10f;`) and fogRadius is 34.0 (Blocks.java:1991, `fogRadius = 34;`, overriding the class default `fogRadius = 10;`, Radar.java:33).
+		if not bool(frame.get("enabled", true)):
+			frame["efficiency"] = 0.0
+		var advanced: Dictionary = source_radar_update_tile_state(frame, seconds, SOURCE_RADAR_DISCOVERY_TIME, SOURCE_RADAR_FOG_RADIUS)
+		frame["smooth_efficiency"] = advanced.get("smooth_efficiency", 1.0)
+		frame["fog_radius"] = advanced.get("fog_radius", 0.0)
+		frame["force_update"] = advanced.get("force_update", false)
+		frame["last_radius"] = advanced.get("last_radius", 0.0)
+		frame["progress"] = advanced.get("progress", 0.0)
+		frame["total_progress"] = advanced.get("total_progress", 0.0)
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
