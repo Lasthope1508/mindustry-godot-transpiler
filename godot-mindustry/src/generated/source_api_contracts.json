@@ -68287,6 +68287,48 @@
       ],
       "runtime_proof": "/root/C07PointDefenseTurretSpawnTeamStampProof",
       "rule": "Source-backed PointDefenseTurret spawn-side team stamp from Turret.java / BulletType.java / BulletComp.java. The function is -> void (it mutates game[\"bullets\"]); the stamped team is a side-effect output documented by the result schema + result symbol."
+    },
+    "SourcePointDefenseTurretBuildState.source_point_defense_turret_draw_state": {
+      "status": "active",
+      "source_slice": "N2244",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+      "source_method": "PointDefenseBuild.draw()",
+      "params": [
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_point_defense_turret_draw_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_point_defense_turret_draw_state_input.y"
+        },
+        {
+          "name": "rotation",
+          "type": "float",
+          "schema": "source_point_defense_turret_draw_state_input.rotation"
+        },
+        {
+          "name": "size",
+          "type": "float",
+          "schema": "source_point_defense_turret_draw_state_input.size"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "draw_rotation",
+        "shadow_position",
+        "base_position"
+      ],
+      "tests": [
+        "test_c07_point_defense_turret_draw_registration",
+        "test_all_c07_point_defense_turret_draw_input_evidence_is_exact",
+        "test_point_defense_turret_draw_state",
+        "test_reference_graph_and_actual_c07_point_defense_turret_draw"
+      ],
+      "runtime_proof": "/root/C07PointDefenseTurretDrawProof",
+      "rule": "Source-backed PointDefenseTurret draw() state from PointDefenseTurret.java + Drawf.java + Block.java + BaseTurret.java + Blocks.java."
     }
   },
   "policy": {

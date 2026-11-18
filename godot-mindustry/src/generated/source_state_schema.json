@@ -234702,6 +234702,94 @@
       },
       "runtime_proof": "/root/C07PointDefenseTurretSpawnTeamStampProof",
       "rule": "Source-backed PointDefenseTurret spawn-side team stamp from Turret.java / BulletType.java / BulletComp.java."
+    },
+    "source_point_defense_turret_draw_state_input": {
+      "status": "active",
+      "owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_draw_state",
+      "source_slice": "N2244",
+      "keys": {
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "Draw.rect(baseRegion, x, y);",
+          "rule": "The live world x of the building in pixels (PointDefenseTurret.java:111, `Draw.rect(baseRegion, x, y);`, the base rect is drawn at (x, y) with no rotation); passed explicitly (the N2225 draw precedent) because the pure function takes the position as args, not a frame.",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_draw_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "Draw.rect(baseRegion, x, y);",
+          "rule": "The live world y of the building in pixels (PointDefenseTurret.java:111, `Draw.rect(baseRegion, x, y);`, same line as x); passed explicitly, same precedent as x.",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_draw_state"
+          ]
+        },
+        "rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "java_expr": "public float rotation = 90;",
+          "rule": "The live rotation in degrees (BaseTurret.java:114, `public float rotation = 90;`, the field init -- NOT BuildingComp.rotation, the int block rotation; the driver reads it live from the frame the aim/shoot block just stamped); passed explicitly because the draw angle is rotation - 90.",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_draw_state"
+          ]
+        },
+        "size": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public int size = 1;",
+          "rule": "The Block.size in tiles (Block.java:215, `public int size = 1;`, the class default; segment 2, Blocks.java:3842, `size = 2;`, the only PointDefenseTurret def); passed explicitly because it is per-def static state, not a live frame key (the N2225 draw precedent).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_draw_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PointDefenseTurretDrawProof",
+      "rule": "Source-backed PointDefenseTurret draw() state from PointDefenseTurret.java + Drawf.java + Block.java + BaseTurret.java + Blocks.java."
+    },
+    "source_point_defense_turret_draw_state_result": {
+      "status": "active",
+      "owner": "SourcePointDefenseTurretBuildState.source_point_defense_turret_draw_state",
+      "source_slice": "N2244",
+      "keys": {
+        "draw_rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "Draw.rect(region, x, y, rotation - 90);",
+          "rule": "The region rect angle in degrees: rotation - 90 (PointDefenseTurret.java:113, `Draw.rect(region, x, y, rotation - 90);`, the same angle the shadow uses at :112).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_draw_state"
+          ]
+        },
+        "shadow_position": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "Drawf.shadow(region, x - (size / 2f), y - (size / 2f), rotation - 90);",
+          "rule": "The shadow position: (x - size / 2f, y - size / 2f) (PointDefenseTurret.java:112, `Drawf.shadow(region, x - (size / 2f), y - (size / 2f), rotation - 90);`); size / 2f is subtracted directly on world coords, NOT tilesize-scaled -- the quirk stays as Java wrote it.",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_draw_state"
+          ]
+        },
+        "base_position": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PointDefenseTurret.java",
+          "java_expr": "Draw.rect(baseRegion, x, y);",
+          "rule": "The base rect position: (x, y) with no rotation (PointDefenseTurret.java:111, `Draw.rect(baseRegion, x, y);`).",
+          "used_by": [
+            "SourcePointDefenseTurretBuildState.source_point_defense_turret_draw_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PointDefenseTurretDrawProof",
+      "rule": "Source-backed PointDefenseTurret draw() state from PointDefenseTurret.java + Drawf.java + Block.java + BaseTurret.java + Blocks.java."
     }
   },
   "version": 1

@@ -496,6 +496,18 @@ static func source_point_defense_turret_live_bullets_state(live_bullets: Array) 
 		})
 	return {"observed_bullets": observed_bullets}
 
+static func source_point_defense_turret_draw_state(x: float, y: float, rotation: float, size: float) -> Dictionary:
+	# PointDefenseBuild.draw() (PointDefenseTurret.java:110-114, inside `public void draw(){`, PointDefenseTurret.java:110, `public class PointDefenseTurret extends ReloadTurret{`):
+	# Draw.rect(baseRegion, x, y); -- :111, the base rect at (x, y) with no rotation;
+	# Drawf.shadow(region, x - (size / 2f), y - (size / 2f), rotation - 90); -- :112, the shadow at (x - size/2f, y - size/2f) with angle rotation - 90 (the overload `public static void shadow(TextureRegion region, float x, float y, float rotation){`, Drawf.java:366);
+	# Draw.rect(region, x, y, rotation - 90); -- :113, the region rect at (x, y) with angle rotation - 90.
+	# There is NO Draw.z call here, unlike RepairTurret.draw() (RepairTurret.java:167) -- so this slice has NO z_layer symbol, only the three draw keys.
+	# The shadow offset quirk stays as Java wrote it: `size / 2f` is subtracted directly on world coords, NOT tilesize-scaled -- size is Block.size in tiles (class default 1, Block.java:215, `public int size = 1;`; segment 2, Blocks.java:3842, `size = 2;`, the only PointDefenseTurret def), so segment offsets 1.0, the class default offsets 0.5. rotation defaults to 90 (the field init `public float rotation = 90;`, BaseTurret.java:114). There IS a driver tick line: draw() runs every frame after updateTile in the frame loop, so the driver stamps draw_rotation, shadow_position and base_position live right after the aim/shoot block. Rendering itself stays out of the game -- only the state draw() depends on is captured, per the user boundary.
+	var draw_rotation: float = rotation - 90.0
+	var shadow_position: Vector2 = Vector2(x - size / 2.0, y - size / 2.0)
+	var base_position: Vector2 = Vector2(x, y)
+	return {"draw_rotation": draw_rotation, "shadow_position": shadow_position, "base_position": base_position}
+
 @warning_ignore("unused_parameter")
 static func source_point_defense_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the point-defense tick wiring every tick
@@ -645,6 +657,20 @@ static func source_point_defense_turret_tick_buildings_state(game: Object, secon
 					frame["target"] = null
 				elif bool(aim.get("shot", false)):
 					aim_target["damage"] = aim.get("target_damage_after", 0.0)
+			# PointDefenseBuild.draw() (PointDefenseTurret.java:110-114) runs
+			# every frame after updateTile in the frame loop (the N2225
+			# RepairTurret draw precedent), so the driver stamps the three
+			# draw keys live right after the aim/shoot block: draw_rotation
+			# (rotation - 90), shadow_position (x - size/2f, y - size/2f)
+			# and base_position (x, y). The rotation is the live frame
+			# rotation the aim/shoot block just stamped (class default 90,
+			# `public float rotation = 90;`, BaseTurret.java:114); the size
+			# is the per-def segment 2.0 (Blocks.java:3842, `size = 2;`,
+			# the only PointDefenseTurret def).
+			var draw: Dictionary = source_point_defense_turret_draw_state(sprite.position.x, sprite.position.y, float(frame.get("rotation", 90.0)), 2.0)
+			frame["draw_rotation"] = draw.get("draw_rotation", 0.0)
+			frame["shadow_position"] = draw.get("shadow_position", Vector2.ZERO)
+			frame["base_position"] = draw.get("base_position", Vector2.ZERO)
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
