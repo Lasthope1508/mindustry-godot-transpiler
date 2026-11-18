@@ -175896,6 +175896,22 @@
         "test_reference_graph_and_actual_c07_radar_update_tile"
       ],
       "runtime_proof": "/root/C07RadarUpdateTileProof"
+    },
+    "source_radar_fog_radius_state_result.fog_radius": {
+      "status": "source-backed",
+      "godot_owner": "SourceRadarBuildState.source_radar_fog_radius_state",
+      "godot_symbol": "source_radar_fog_radius_state_result.fog_radius",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "RadarBuild.fogRadius()",
+      "java_expr": "return fogRadius * progress * smoothEfficiency;",
+      "rule": "The live fog radius: fogRadius() (Radar.java:55-56), fogRadius * progress * smoothEfficiency; 0.0 before discovery (progress 0.0), the full def radius at progress 1.0 and smooth efficiency 1.0.",
+      "tests": [
+        "test_c07_radar_fog_radius_registration",
+        "test_all_c07_radar_fog_radius_input_evidence_is_exact",
+        "test_radar_fog_radius_state",
+        "test_reference_graph_and_actual_c07_radar_fog_radius"
+      ],
+      "runtime_proof": "/root/C07RadarFogRadiusProof"
     }
   },
   "version": 1

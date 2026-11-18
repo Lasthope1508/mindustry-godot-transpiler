@@ -7017,6 +7017,37 @@
       "rule": "Source-backed PointDefenseTurret target acquisition from PointDefenseTurret.java / TimerComp.java / Interval.java / Blocks.java / GroupDefs.java.",
       "return_type": "Dictionary"
     },
+    "SourceRadarBuildState.source_radar_fog_radius_state": {
+      "canonical_contract": "source_api_contracts.SourceRadarBuildState.source_radar_fog_radius_state",
+      "status": "active",
+      "source_slice": "N2249",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "source_method": "RadarBuild.fogRadius()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_radar_fog_radius_state_input.frame"
+        },
+        {
+          "name": "fog_radius",
+          "type": "float",
+          "schema": "source_radar_fog_radius_state_input.fog_radius"
+        }
+      ],
+      "return_keys": [
+        "fog_radius"
+      ],
+      "tests": [
+        "test_c07_radar_fog_radius_registration",
+        "test_all_c07_radar_fog_radius_input_evidence_is_exact",
+        "test_radar_fog_radius_state",
+        "test_reference_graph_and_actual_c07_radar_fog_radius"
+      ],
+      "runtime_proof": "/root/C07RadarFogRadiusProof",
+      "rule": "Source-backed Radar fogRadius() accessor from Radar.java + Blocks.java.",
+      "return_type": "Dictionary"
+    },
     "SourceRadarBuildState.source_radar_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourceRadarBuildState.source_radar_power_status_row_state",
       "status": "active",
