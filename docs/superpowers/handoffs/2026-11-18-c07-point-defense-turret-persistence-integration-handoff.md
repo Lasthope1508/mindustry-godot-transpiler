@@ -1,6 +1,6 @@
 # Handoff — N2249 PointDefenseTurret persistence-integration (C07)
 
-## Status: DONE — GATE 3 XANH, CHỜ PUSH (2026-11-18 20:0x +07, cron 15 phút) — gate 3 footer Ran 6089 / failures 199 Godot-absent / skipped 5 / errors 0, khớp kỳ vọng
+## Status: DONE + PUSHED (2026-11-18 20:0x +07) — origin/main == 767b645f (slice d6f7537d, gate 3 Ran 6089 / failures 199 Godot-absent / skipped 5 / errors 0)
 
 Gate 2 (`full-suite-n2249-gate2.log`, main thread PID 11299) ĐÃ CÓ FOOTER:
 Ran 6089 tests in 1094.627s, FAILED (failures=210, skipped=5), 0 ERROR.
@@ -207,4 +207,5 @@ read KHÔNG lấy tham số revision.
 - Slice: `d6f7537d` — C07: N2249 PointDefenseTurret persistence-integration (13 files).
 - Docs: `dd114d09` — N2249 report + handoff + design spec (gate 3 clean except Godot).
 - GOAL: `4e4cc934` — GOAL.md names the N2249 slice commit that carries its proof to Windows.
-- (hashes commit + handoff-status commit follow in this 5-commit push; main hash filled at push.)
+- Hashes: `767b645f` — N2249 report + handoff name slice/docs/GOAL hashes.
+- Handoff-status commit follows; origin/main sau push 4 commit đầu: `767b645f`.
