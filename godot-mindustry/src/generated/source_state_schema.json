@@ -235388,6 +235388,214 @@
       },
       "runtime_proof": "/root/C07TurretSenseProof",
       "rule": "Source-backed TurretBuild.sense() state from Turret.java + ReloadTurret.java + BuildingComp.java + Vars.java + LAccess.java + World.java."
+    },
+    "source_burst_drill_update_tile_state_input": {
+      "status": "active",
+      "owner": "SourceBurstDrillBuildState.source_burst_drill_update_tile_state",
+      "source_slice": "N2256",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "public void updateTile(){",
+          "rule": "The burst-drill frame (BurstDrillBuild.updateTile, BurstDrill.java:76): carries dominant_item (Variant, absent -> null), dominant_items (int, absent -> 0), invert_time / smooth_progress / progress / warmup / time_drilled / last_drill_speed (floats, absent -> 0.0), efficiency / optional_efficiency (floats, absent -> 0.0), items_total (float, absent -> 0.0) and dump_timer (float, absent -> 0.0).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_update_tile_state"
+          ]
+        },
+        "delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "The tick seconds: delta() is Time.delta * timeScale (BuildingComp.java:1922-1923); timeScale is 1 by default and the port passes the raw tick seconds (the N2190 driver convention).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_update_tile_state"
+          ]
+        },
+        "drill_time_base": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "drillTime = 60f * 12f;",
+          "rule": "The per-def base drill time, 720f for the impact-drill def (Blocks.java:3072) and 281.25f for the eruption-drill def (Blocks.java:3095); passed explicitly because the catalog carries no drillTime (the N2212 per-def-param precedent).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_update_tile_state"
+          ]
+        },
+        "drill_multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "drillMultipliers.put(Items.beryllium, 2f);",
+          "rule": "The per-item drill multiplier, 2f for beryllium on both defs (Blocks.java:3083/3114), 1f otherwise (getDrillTime divides by drillMultipliers.get(item, 1f), BurstDrill.java:54); passed explicitly because the catalog carries no drillMultipliers.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_update_tile_state"
+          ]
+        },
+        "inverted_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "public float invertedTime = 200f;",
+          "rule": "The invert decay divisor, 200f (BurstDrill.java:26); invertTime decays by delta / invertedTime (BurstDrill.java:81).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_update_tile_state"
+          ]
+        },
+        "liquid_boost_intensity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "liquidBoostIntensity = 1.75f;",
+          "rule": "The per-def liquid boost intensity, 1.75f for the impact-drill def (Blocks.java:3084) and 2f for the eruption-drill def (Blocks.java:3115); passed explicitly because the catalog carries no liquidBoostIntensity (the N2212 per-def-param precedent).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_update_tile_state"
+          ]
+        },
+        "item_capacity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "itemCapacity = 40;",
+          "rule": "The per-def item capacity, 40 for the impact-drill def (Blocks.java:3078) and 60 for the eruption-drill def (Blocks.java:3107); passed explicitly because the catalog carries no itemCapacity (the N2212 per-def-param precedent).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_update_tile_state"
+          ]
+        },
+        "dump_interval": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public int dumpTime = 5;",
+          "rule": "The dump timer interval: dumpTime 5 (Block.java:438) over timeScale 1, so the timer fires every 5s (BurstDrill.java:83, `if(timer(timerDump, dumpTime / timeScale)){`).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_update_tile_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BurstDrillUpdateTileProof",
+      "rule": "Source-backed BurstDrill updateTile advance from BurstDrill.java + Drill.java + BuildingComp.java + Block.java + Blocks.java + Interp.java."
+    },
+    "source_burst_drill_update_tile_state_result": {
+      "status": "active",
+      "owner": "SourceBurstDrillBuildState.source_burst_drill_update_tile_state",
+      "source_slice": "N2256",
+      "keys": {
+        "drill_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "return drillTime / drillMultipliers.get(item, 1f);",
+          "rule": "The effective drill time this tick: the base divided by the per-item multiplier (getDrillTime, BurstDrill.java:53-54); derived from the params before the early return, so every return carries it.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_update_tile_state"
+          ]
+        },
+        "invert_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "if(invertTime > 0f) invertTime -= delta() / invertedTime;",
+          "rule": "The invert time after the tick: decayed by delta / invertedTime while positive (BurstDrill.java:81), set to 1f when the progress crosses the drill time (BurstDrill.java:111).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_update_tile_state"
+          ]
+        },
+        "smooth_progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "smoothProgress = Mathf.lerpDelta(smoothProgress, progress / (drillTime - 20f), 0.1f);",
+          "rule": "The smoothed progress after the tick: lerpDelta toward progress / (drillTime - 20f) at 0.1f (BurstDrill.java:89), via the port SourceMathState.source_lerp_delta helper.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_update_tile_state"
+          ]
+        },
+        "warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "warmup = Mathf.approachDelta(warmup, progress / drillTime, 0.01f);",
+          "rule": "The warmup after the tick: approachDelta toward progress / drillTime at 0.01f when producing (BurstDrill.java:92), toward 0f at 0.01f when not producing (BurstDrill.java:101), via the port SourceMathState.source_approach_delta helper.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_update_tile_state"
+          ]
+        },
+        "time_drilled": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "timeDrilled += speedCurve.apply(progress / drillTime) * speed;",
+          "rule": "The drilled time after the tick: advanced through the pow2In speed curve applied to progress / drillTime, times the speed (BurstDrill.java:96); pow2In(a) is a squared (Interp.java:29/116).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_update_tile_state"
+          ]
+        },
+        "last_drill_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "lastDrillSpeed = 1f / drillTime * speed * dominantItems;",
+          "rule": "The drill speed after the tick: 1f / drillTime * speed * dominantItems when producing (BurstDrill.java:98), 0f when not producing (BurstDrill.java:102).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_update_tile_state"
+          ]
+        },
+        "progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "progress += delta() * speed;",
+          "rule": "The drill progress after the tick: advanced by delta() * speed when producing (BurstDrill.java:99), wrapped by drillTime when it crosses it (BurstDrill.java:112, `progress %= drillTime;`).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_update_tile_state"
+          ]
+        },
+        "dump_timer": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "if(timer(timerDump, dumpTime / timeScale)){",
+          "rule": "The dump timer after the tick: advanced by delta following the port dump_timer_state model, wrapping at the dump interval (BurstDrill.java:83).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_update_tile_state"
+          ]
+        },
+        "dump_due": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "dump(items.has(dominantItem) ? dominantItem : null);",
+          "rule": "Whether the dump fires this tick: true when the dump timer reaches the interval (BurstDrill.java:83-84); the observable flag -- the actual dump call (BuildingComp.java:1072) waits for the driver slice.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_update_tile_state"
+          ]
+        },
+        "offloaded_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "offload(dominantItem);",
+          "rule": "How many items offload this tick: dominantItems when the progress crosses the drill time (BurstDrill.java:106-108), 0 otherwise; the observable -- the offload application waits for the driver slice that owns the items module.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_update_tile_state"
+          ]
+        },
+        "invert_fired": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "invertTime = 1f;",
+          "rule": "Whether the invert fired this tick: true when the progress crosses the drill time (BurstDrill.java:106-112); the observable flag -- the completion effects (BurstDrill.java:114-117) wait for their own slice.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_update_tile_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BurstDrillUpdateTileProof",
+      "rule": "Source-backed BurstDrill updateTile advance from BurstDrill.java + Drill.java + BuildingComp.java + Block.java + Blocks.java + Interp.java."
     }
   },
   "version": 1

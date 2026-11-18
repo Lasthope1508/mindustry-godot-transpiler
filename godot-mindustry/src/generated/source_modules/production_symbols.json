@@ -2268,6 +2268,171 @@
       ],
       "runtime_proof": "/root/C07BurstDrillPowerStatusProof"
     },
+    "source_burst_drill_update_tile_state_result.drill_time": {
+      "canonical_symbol": "source_symbol_registry.source_burst_drill_update_tile_state_result.drill_time",
+      "status": "source-backed",
+      "java_expr": "return drillTime / drillMultipliers.get(item, 1f);",
+      "godot_symbol": "source_burst_drill_update_tile_state_result.drill_time",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_update_tile_state",
+      "rule": "The effective drill time this tick: the base divided by the per-item multiplier (getDrillTime, BurstDrill.java:53-54); derived from the params before the early return, so every return carries it.",
+      "tests": [
+        "test_c07_burst_drill_update_tile_registration",
+        "test_all_c07_burst_drill_update_tile_input_evidence_is_exact",
+        "test_burst_drill_update_tile_state",
+        "test_reference_graph_and_actual_c07_burst_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BurstDrillUpdateTileProof"
+    },
+    "source_burst_drill_update_tile_state_result.dump_due": {
+      "canonical_symbol": "source_symbol_registry.source_burst_drill_update_tile_state_result.dump_due",
+      "status": "source-backed",
+      "java_expr": "dump(items.has(dominantItem) ? dominantItem : null);",
+      "godot_symbol": "source_burst_drill_update_tile_state_result.dump_due",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_update_tile_state",
+      "rule": "Whether the dump fires this tick: true when the dump timer reaches the interval (BurstDrill.java:83-84); the observable flag -- the actual dump call (BuildingComp.java:1072) waits for the driver slice.",
+      "tests": [
+        "test_c07_burst_drill_update_tile_registration",
+        "test_all_c07_burst_drill_update_tile_input_evidence_is_exact",
+        "test_burst_drill_update_tile_state",
+        "test_reference_graph_and_actual_c07_burst_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BurstDrillUpdateTileProof"
+    },
+    "source_burst_drill_update_tile_state_result.dump_timer": {
+      "canonical_symbol": "source_symbol_registry.source_burst_drill_update_tile_state_result.dump_timer",
+      "status": "source-backed",
+      "java_expr": "if(timer(timerDump, dumpTime / timeScale)){",
+      "godot_symbol": "source_burst_drill_update_tile_state_result.dump_timer",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_update_tile_state",
+      "rule": "The dump timer after the tick: advanced by delta following the port dump_timer_state model, wrapping at the dump interval (BurstDrill.java:83).",
+      "tests": [
+        "test_c07_burst_drill_update_tile_registration",
+        "test_all_c07_burst_drill_update_tile_input_evidence_is_exact",
+        "test_burst_drill_update_tile_state",
+        "test_reference_graph_and_actual_c07_burst_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BurstDrillUpdateTileProof"
+    },
+    "source_burst_drill_update_tile_state_result.invert_fired": {
+      "canonical_symbol": "source_symbol_registry.source_burst_drill_update_tile_state_result.invert_fired",
+      "status": "source-backed",
+      "java_expr": "invertTime = 1f;",
+      "godot_symbol": "source_burst_drill_update_tile_state_result.invert_fired",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_update_tile_state",
+      "rule": "Whether the invert fired this tick: true when the progress crosses the drill time (BurstDrill.java:106-112); the observable flag -- the completion effects (BurstDrill.java:114-117) wait for their own slice.",
+      "tests": [
+        "test_c07_burst_drill_update_tile_registration",
+        "test_all_c07_burst_drill_update_tile_input_evidence_is_exact",
+        "test_burst_drill_update_tile_state",
+        "test_reference_graph_and_actual_c07_burst_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BurstDrillUpdateTileProof"
+    },
+    "source_burst_drill_update_tile_state_result.invert_time": {
+      "canonical_symbol": "source_symbol_registry.source_burst_drill_update_tile_state_result.invert_time",
+      "status": "source-backed",
+      "java_expr": "if(invertTime > 0f) invertTime -= delta() / invertedTime;",
+      "godot_symbol": "source_burst_drill_update_tile_state_result.invert_time",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_update_tile_state",
+      "rule": "The invert time after the tick: decayed by delta / invertedTime while positive (BurstDrill.java:81), set to 1f when the progress crosses the drill time (BurstDrill.java:111).",
+      "tests": [
+        "test_c07_burst_drill_update_tile_registration",
+        "test_all_c07_burst_drill_update_tile_input_evidence_is_exact",
+        "test_burst_drill_update_tile_state",
+        "test_reference_graph_and_actual_c07_burst_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BurstDrillUpdateTileProof"
+    },
+    "source_burst_drill_update_tile_state_result.last_drill_speed": {
+      "canonical_symbol": "source_symbol_registry.source_burst_drill_update_tile_state_result.last_drill_speed",
+      "status": "source-backed",
+      "java_expr": "lastDrillSpeed = 1f / drillTime * speed * dominantItems;",
+      "godot_symbol": "source_burst_drill_update_tile_state_result.last_drill_speed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_update_tile_state",
+      "rule": "The drill speed after the tick: 1f / drillTime * speed * dominantItems when producing (BurstDrill.java:98), 0f when not producing (BurstDrill.java:102).",
+      "tests": [
+        "test_c07_burst_drill_update_tile_registration",
+        "test_all_c07_burst_drill_update_tile_input_evidence_is_exact",
+        "test_burst_drill_update_tile_state",
+        "test_reference_graph_and_actual_c07_burst_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BurstDrillUpdateTileProof"
+    },
+    "source_burst_drill_update_tile_state_result.offloaded_count": {
+      "canonical_symbol": "source_symbol_registry.source_burst_drill_update_tile_state_result.offloaded_count",
+      "status": "source-backed",
+      "java_expr": "offload(dominantItem);",
+      "godot_symbol": "source_burst_drill_update_tile_state_result.offloaded_count",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_update_tile_state",
+      "rule": "How many items offload this tick: dominantItems when the progress crosses the drill time (BurstDrill.java:106-108), 0 otherwise; the observable -- the offload application waits for the driver slice that owns the items module.",
+      "tests": [
+        "test_c07_burst_drill_update_tile_registration",
+        "test_all_c07_burst_drill_update_tile_input_evidence_is_exact",
+        "test_burst_drill_update_tile_state",
+        "test_reference_graph_and_actual_c07_burst_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BurstDrillUpdateTileProof"
+    },
+    "source_burst_drill_update_tile_state_result.progress": {
+      "canonical_symbol": "source_symbol_registry.source_burst_drill_update_tile_state_result.progress",
+      "status": "source-backed",
+      "java_expr": "progress += delta() * speed;",
+      "godot_symbol": "source_burst_drill_update_tile_state_result.progress",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_update_tile_state",
+      "rule": "The drill progress after the tick: advanced by delta() * speed when producing (BurstDrill.java:99), wrapped by drillTime when it crosses it (BurstDrill.java:112, `progress %= drillTime;`).",
+      "tests": [
+        "test_c07_burst_drill_update_tile_registration",
+        "test_all_c07_burst_drill_update_tile_input_evidence_is_exact",
+        "test_burst_drill_update_tile_state",
+        "test_reference_graph_and_actual_c07_burst_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BurstDrillUpdateTileProof"
+    },
+    "source_burst_drill_update_tile_state_result.smooth_progress": {
+      "canonical_symbol": "source_symbol_registry.source_burst_drill_update_tile_state_result.smooth_progress",
+      "status": "source-backed",
+      "java_expr": "smoothProgress = Mathf.lerpDelta(smoothProgress, progress / (drillTime - 20f), 0.1f);",
+      "godot_symbol": "source_burst_drill_update_tile_state_result.smooth_progress",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_update_tile_state",
+      "rule": "The smoothed progress after the tick: lerpDelta toward progress / (drillTime - 20f) at 0.1f (BurstDrill.java:89), via the port SourceMathState.source_lerp_delta helper.",
+      "tests": [
+        "test_c07_burst_drill_update_tile_registration",
+        "test_all_c07_burst_drill_update_tile_input_evidence_is_exact",
+        "test_burst_drill_update_tile_state",
+        "test_reference_graph_and_actual_c07_burst_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BurstDrillUpdateTileProof"
+    },
+    "source_burst_drill_update_tile_state_result.time_drilled": {
+      "canonical_symbol": "source_symbol_registry.source_burst_drill_update_tile_state_result.time_drilled",
+      "status": "source-backed",
+      "java_expr": "timeDrilled += speedCurve.apply(progress / drillTime) * speed;",
+      "godot_symbol": "source_burst_drill_update_tile_state_result.time_drilled",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_update_tile_state",
+      "rule": "The drilled time after the tick: advanced through the pow2In speed curve applied to progress / drillTime, times the speed (BurstDrill.java:96); pow2In(a) is a squared (Interp.java:29/116).",
+      "tests": [
+        "test_c07_burst_drill_update_tile_registration",
+        "test_all_c07_burst_drill_update_tile_input_evidence_is_exact",
+        "test_burst_drill_update_tile_state",
+        "test_reference_graph_and_actual_c07_burst_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BurstDrillUpdateTileProof"
+    },
+    "source_burst_drill_update_tile_state_result.warmup": {
+      "canonical_symbol": "source_symbol_registry.source_burst_drill_update_tile_state_result.warmup",
+      "status": "source-backed",
+      "java_expr": "warmup = Mathf.approachDelta(warmup, progress / drillTime, 0.01f);",
+      "godot_symbol": "source_burst_drill_update_tile_state_result.warmup",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_update_tile_state",
+      "rule": "The warmup after the tick: approachDelta toward progress / drillTime at 0.01f when producing (BurstDrill.java:92), toward 0f at 0.01f when not producing (BurstDrill.java:101), via the port SourceMathState.source_approach_delta helper.",
+      "tests": [
+        "test_c07_burst_drill_update_tile_registration",
+        "test_all_c07_burst_drill_update_tile_input_evidence_is_exact",
+        "test_burst_drill_update_tile_state",
+        "test_reference_graph_and_actual_c07_burst_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BurstDrillUpdateTileProof"
+    },
     "source_drill_bind_ore_items_input.block": {
       "canonical_symbol": "source_symbol_registry.source_drill_bind_ore_items_input.block",
       "status": "source-backed",

@@ -6,6 +6,8 @@ const source_placed_block_state := preload("res://src/game/SourcePlacedBlockStat
 const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
 const source_building_efficiency_state := preload("res://src/game/SourceBuildingEfficiencyState.gd")
 const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
+const source_math_state := preload("res://src/game/SourceMathState.gd")
+const source_drill_dump_runtime_state := preload("res://src/game/SourceDrillDumpRuntimeState.gd")
 
 # The BurstDrill implementation (BurstDrill.java:17, `public class
 # BurstDrill extends Drill{`): eruption-drill (consumePower 6f,
@@ -107,6 +109,172 @@ static func source_burst_drill_power_status_row_state(frame: Dictionary, has_pow
 	var stamped: Variant = frame.get("power_status", null)
 	var live: float = 1.0 if stamped == null else float(stamped)
 	return {"has_power_row": true, "row": {"result": live, "is_power": true}}
+
+static func source_burst_drill_update_tile_state(frame: Dictionary, delta: float, drill_time_base: float, drill_multiplier: float, inverted_time: float, liquid_boost_intensity: float, item_capacity: float, dump_interval: float) -> Dictionary:
+	# BurstDrillBuild.updateTile advances the burst drill's
+	# drilling state every tick (BurstDrill.java:76,
+	# `public void updateTile(){`): it returns early with no
+	# dominant item (BurstDrill.java:77,
+	# `if(dominantItem == null){`); decays invertTime
+	# (BurstDrill.java:81,
+	# `if(invertTime > 0f) invertTime -= delta() / invertedTime;`
+	# with `public float invertedTime = 200f;`,
+	# BurstDrill.java:26); dumps on the dump timer
+	# (BurstDrill.java:83,
+	# `if(timer(timerDump, dumpTime / timeScale)){` with
+	# `dump(items.has(dominantItem) ? dominantItem : null);`,
+	# BurstDrill.java:84 -- the dump timer is
+	# `protected final int timerDump = timers++;`,
+	# Block.java:436, with `public int dumpTime = 5;`,
+	# Block.java:438, and the actual dump call
+	# (`public boolean dump(Item todump){`,
+	# BuildingComp.java:1072) waits for the driver slice; the
+	# `dump_due` flag is the observable signal); reads the
+	# effective drill time (BurstDrill.java:87,
+	# `float drillTime = getDrillTime(dominantItem);` with
+	# `public float getDrillTime(Item item){` /
+	# `return drillTime / drillMultipliers.get(item, 1f);`,
+	# BurstDrill.java:53-54); lerps the smooth progress
+	# (BurstDrill.java:89,
+	# `smoothProgress = Mathf.lerpDelta(smoothProgress, progress / (drillTime - 20f), 0.1f);`
+	# with `public float smoothProgress = 0f;`,
+	# BurstDrill.java:72); when producing (BurstDrill.java:91,
+	# `if(items.total() <= itemCapacity - dominantItems && dominantItems > 0 && efficiency > 0){`)
+	# approaches warmup toward progress / drillTime
+	# (BurstDrill.java:92,
+	# `warmup = Mathf.approachDelta(warmup, progress / drillTime, 0.01f);`),
+	# folds the speed from the liquid boost and the folded
+	# efficiency (BurstDrill.java:94,
+	# `float speed = Mathf.lerp(1f, liquidBoostIntensity, optionalEfficiency) * efficiency;`),
+	# advances timeDrilled through the pow2In speed curve
+	# (BurstDrill.java:96,
+	# `timeDrilled += speedCurve.apply(progress / drillTime) * speed;`
+	# with `public Interp speedCurve = Interp.pow2In;`,
+	# BurstDrill.java:19, `PowIn pow2In = new PowIn(2);`,
+	# Interp.java:29, with
+	# `return (float)Math.pow(a, power);`, Interp.java:116 --
+	# pow2In(a) is a squared), records the drill speed
+	# (BurstDrill.java:98,
+	# `lastDrillSpeed = 1f / drillTime * speed * dominantItems;`)
+	# and advances progress (BurstDrill.java:99,
+	# `progress += delta() * speed;`); when not producing it
+	# decays warmup (BurstDrill.java:101,
+	# `warmup = Mathf.approachDelta(warmup, 0f, 0.01f);`) and
+	# zeroes the drill speed (BurstDrill.java:102,
+	# `lastDrillSpeed = 0f;`) and returns; and when the progress
+	# crosses the drill time (BurstDrill.java:106,
+	# `if(dominantItems > 0 && progress >= drillTime && items.total() < itemCapacity){`)
+	# it offloads one item per dominant item
+	# (BurstDrill.java:107-108,
+	# `for(int i = 0; i < dominantItems; i++){` /
+	# `offload(dominantItem);`), inverts (BurstDrill.java:111,
+	# `invertTime = 1f;`) and wraps progress
+	# (BurstDrill.java:112, `progress %= drillTime;`). The
+	# completion effects (BurstDrill.java:114-117,
+	# `if(wasVisible){` with
+	# `Effect.shake(shake, shake, this);`,
+	# `drillSound.at(x, y, 1f + Mathf.range(drillSoundPitchRand), drillSoundVolume);`
+	# and
+	# `drillEffect.at(x + Mathf.range(drillEffectRnd), y + Mathf.range(drillEffectRnd), dominantItem.color);`)
+	# wait for their own slice; the `invert_fired` flag is the
+	# observable signal that slice will consume. The offload
+	# application (`offload(dominantItem);`) waits for the driver
+	# slice that owns the items module; the `offloaded_count`
+	# result is the observable. The frame carries `dominant_item`
+	# (Variant, absent defaults to null --
+	# `public Item dominantItem;`, Drill.java:244),
+	# `dominant_items` (int, absent defaults to 0 --
+	# `public int dominantItems;`, Drill.java:243),
+	# `invert_time` (float, absent defaults to 0.0 --
+	# `public float invertTime = 0f;`, BurstDrill.java:73),
+	# `smooth_progress` (float, absent defaults to 0.0 --
+	# `public float smoothProgress = 0f;`, BurstDrill.java:72),
+	# `progress` / `warmup` / `time_drilled` /
+	# `last_drill_speed` (floats, absent default to 0.0 --
+	# `public float progress;` / `public float warmup;` /
+	# `public float timeDrilled;` / `public float lastDrillSpeed;`,
+	# Drill.java:238-241), `efficiency` /
+	# `optional_efficiency` (floats, absent default to 0.0 --
+	# `transient float efficiency;` /
+	# `transient float optionalEfficiency;`,
+	# BuildingComp.java:85/87), `items_total` (float, absent
+	# defaults to 0.0 -- a fresh ItemModule totals 0, the N2207
+	# LaunchPad precedent) and `dump_timer` (float, absent
+	# defaults to 0.0 -- the Interval accumulator for
+	# `protected final int timerDump = timers++;`,
+	# Block.java:436). delta() is `public float delta(){` with
+	# `return Time.delta * timeScale;`,
+	# BuildingComp.java:1922-1923 -- timeScale is 1 by default
+	# and the port passes the raw tick seconds, the N2190 driver
+	# convention. Two defs share the implementation
+	# (`public class BurstDrill extends Drill{`,
+	# BurstDrill.java:17, with
+	# `public class BurstDrillBuild extends DrillBuild{`,
+	# BurstDrill.java:70, and
+	# `public class DrillBuild extends Building{`,
+	# Drill.java:237): impact-drill drillTime 720f
+	# (`drillTime = 60f * 12f;`, Blocks.java:3072),
+	# itemCapacity 40 (`itemCapacity = 40;`, Blocks.java:3078),
+	# liquidBoostIntensity 1.75f
+	# (`liquidBoostIntensity = 1.75f;`, Blocks.java:3084);
+	# eruption-drill drillTime 281.25f
+	# (`drillTime = 281.25f;`, Blocks.java:3095), itemCapacity 60
+	# (`itemCapacity = 60;`, Blocks.java:3107),
+	# liquidBoostIntensity 2f (`liquidBoostIntensity = 2f;`,
+	# Blocks.java:3115); both defs multiply beryllium by 2f
+	# (`drillMultipliers.put(Items.beryllium, 2f);`,
+	# Blocks.java:3083/3114). There is NO driver tick line yet:
+	# the burst-drill frame carries no dominant_item /
+	# dominant_items / items_total / dump_timer (the ore/dominant
+	# binding and items-module slices own those frame keys), so
+	# the advance is pure-function-only, the N2251 / N2252
+	# precedent -- no field is invented. The per-def values are
+	# explicit params (the N2212 / N2248 per-def-param precedent).
+	# The effective drill time is derived from the params before
+	# the early return, so every return carries the same eleven
+	# keys; the frame values themselves are untouched when there
+	# is no dominant item.
+	var dominant_item: Variant = frame.get("dominant_item", null)
+	var dominant_items: int = int(frame.get("dominant_items", 0))
+	var invert_time: float = float(frame.get("invert_time", 0.0))
+	var smooth_progress: float = float(frame.get("smooth_progress", 0.0))
+	var progress: float = float(frame.get("progress", 0.0))
+	var warmup: float = float(frame.get("warmup", 0.0))
+	var time_drilled: float = float(frame.get("time_drilled", 0.0))
+	var last_drill_speed: float = float(frame.get("last_drill_speed", 0.0))
+	var efficiency: float = float(frame.get("efficiency", 0.0))
+	var optional_efficiency: float = float(frame.get("optional_efficiency", 0.0))
+	var items_total: float = float(frame.get("items_total", 0.0))
+	var dump_timer: float = float(frame.get("dump_timer", 0.0))
+	var dump_due := false
+	var offloaded_count := 0
+	var invert_fired := false
+	var drill_time: float = drill_time_base / drill_multiplier
+	if dominant_item == null:
+		return {"drill_time": drill_time, "invert_time": invert_time, "smooth_progress": smooth_progress, "warmup": warmup, "time_drilled": time_drilled, "last_drill_speed": last_drill_speed, "progress": progress, "dump_timer": dump_timer, "dump_due": dump_due, "offloaded_count": offloaded_count, "invert_fired": invert_fired}
+	if invert_time > 0.0:
+		invert_time -= delta / inverted_time
+	var timed: Dictionary = source_drill_dump_runtime_state.dump_timer_state(dump_timer, delta, dump_interval)
+	dump_timer = float(timed.get(source_drill_dump_runtime_state.SOURCE_DRILL_DUMP_TIMER_KEY, dump_timer))
+	dump_due = bool(timed.get(source_drill_dump_runtime_state.SOURCE_DRILL_DUMP_SHOULD_DUMP_KEY, false))
+	smooth_progress = source_math_state.source_lerp_delta(smooth_progress, progress / (drill_time - 20.0), 0.1, delta)
+	if items_total <= item_capacity - float(dominant_items) and dominant_items > 0 and efficiency > 0.0:
+		warmup = source_math_state.source_approach_delta(warmup, progress / drill_time, 0.01, delta)
+		var speed: float = lerpf(1.0, liquid_boost_intensity, optional_efficiency) * efficiency
+		var ratio: float = progress / drill_time
+		time_drilled += ratio * ratio * speed
+		last_drill_speed = 1.0 / drill_time * speed * float(dominant_items)
+		progress += delta * speed
+	else:
+		warmup = source_math_state.source_approach_delta(warmup, 0.0, 0.01, delta)
+		last_drill_speed = 0.0
+		return {"drill_time": drill_time, "invert_time": invert_time, "smooth_progress": smooth_progress, "warmup": warmup, "time_drilled": time_drilled, "last_drill_speed": last_drill_speed, "progress": progress, "dump_timer": dump_timer, "dump_due": dump_due, "offloaded_count": offloaded_count, "invert_fired": invert_fired}
+	if dominant_items > 0 and progress >= drill_time and items_total < item_capacity:
+		offloaded_count = dominant_items
+		invert_time = 1.0
+		invert_fired = true
+		progress = fposmod(progress, drill_time)
+	return {"drill_time": drill_time, "invert_time": invert_time, "smooth_progress": smooth_progress, "warmup": warmup, "time_drilled": time_drilled, "last_drill_speed": last_drill_speed, "progress": progress, "dump_timer": dump_timer, "dump_due": dump_due, "offloaded_count": offloaded_count, "invert_fired": invert_fired}
 
 @warning_ignore("unused_parameter")
 static func source_burst_drill_tick_buildings_state(game: Object, seconds: float) -> Dictionary:

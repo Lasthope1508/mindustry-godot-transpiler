@@ -926,6 +926,33 @@
       ],
       "runtime_proof": "/root/C07WallCrafterPowerStatusProof"
     },
+    "N2256": {
+      "canonical_ledger": "source_slice_ledger.N2256",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_method": "BurstDrillBuild.updateTile()",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_update_tile_state",
+      "source_symbols": [
+        "source_burst_drill_update_tile_state_result.drill_time",
+        "source_burst_drill_update_tile_state_result.invert_time",
+        "source_burst_drill_update_tile_state_result.smooth_progress",
+        "source_burst_drill_update_tile_state_result.warmup",
+        "source_burst_drill_update_tile_state_result.time_drilled",
+        "source_burst_drill_update_tile_state_result.last_drill_speed",
+        "source_burst_drill_update_tile_state_result.progress",
+        "source_burst_drill_update_tile_state_result.dump_timer",
+        "source_burst_drill_update_tile_state_result.dump_due",
+        "source_burst_drill_update_tile_state_result.offloaded_count",
+        "source_burst_drill_update_tile_state_result.invert_fired"
+      ],
+      "tests": [
+        "test_c07_burst_drill_update_tile_registration",
+        "test_all_c07_burst_drill_update_tile_input_evidence_is_exact",
+        "test_burst_drill_update_tile_state",
+        "test_reference_graph_and_actual_c07_burst_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BurstDrillUpdateTileProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",

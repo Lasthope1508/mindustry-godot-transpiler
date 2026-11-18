@@ -616,6 +616,77 @@
       "rule": "Source-backed BurstDrill power.status row from ConsumePower.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceBurstDrillBuildState.source_burst_drill_update_tile_state": {
+      "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_burst_drill_update_tile_state",
+      "status": "active",
+      "source_slice": "N2256",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "source_method": "BurstDrillBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_burst_drill_update_tile_state_input.frame"
+        },
+        {
+          "name": "delta",
+          "type": "float",
+          "schema": "source_burst_drill_update_tile_state_input.delta"
+        },
+        {
+          "name": "drill_time_base",
+          "type": "float",
+          "schema": "source_burst_drill_update_tile_state_input.drill_time_base"
+        },
+        {
+          "name": "drill_multiplier",
+          "type": "float",
+          "schema": "source_burst_drill_update_tile_state_input.drill_multiplier"
+        },
+        {
+          "name": "inverted_time",
+          "type": "float",
+          "schema": "source_burst_drill_update_tile_state_input.inverted_time"
+        },
+        {
+          "name": "liquid_boost_intensity",
+          "type": "float",
+          "schema": "source_burst_drill_update_tile_state_input.liquid_boost_intensity"
+        },
+        {
+          "name": "item_capacity",
+          "type": "float",
+          "schema": "source_burst_drill_update_tile_state_input.item_capacity"
+        },
+        {
+          "name": "dump_interval",
+          "type": "float",
+          "schema": "source_burst_drill_update_tile_state_input.dump_interval"
+        }
+      ],
+      "return_keys": [
+        "drill_time",
+        "invert_time",
+        "smooth_progress",
+        "warmup",
+        "time_drilled",
+        "last_drill_speed",
+        "progress",
+        "dump_timer",
+        "dump_due",
+        "offloaded_count",
+        "invert_fired"
+      ],
+      "tests": [
+        "test_c07_burst_drill_update_tile_registration",
+        "test_all_c07_burst_drill_update_tile_input_evidence_is_exact",
+        "test_burst_drill_update_tile_state",
+        "test_reference_graph_and_actual_c07_burst_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BurstDrillUpdateTileProof",
+      "rule": "Source-backed BurstDrill updateTile advance from BurstDrill.java + Drill.java + BuildingComp.java + Block.java + Blocks.java + Interp.java.",
+      "return_type": "Dictionary"
+    },
     "SourceDrillConsumptionRuntimeState.source_dominant_item_name_state": {
       "canonical_contract": "source_api_contracts.SourceDrillConsumptionRuntimeState.source_dominant_item_name_state",
       "status": "active",
