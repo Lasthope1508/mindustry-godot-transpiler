@@ -1,6 +1,6 @@
-# Report — N2254 Turret recoil + heat decay (C07, duo) [GREEN — gate xong, chờ push]
+# Report — N2254 Turret recoil + heat decay (C07, duo) [DONE + PUSHED]
 
-## Status: GREEN (2026-11-19 ~03:5x +07) — slice `223fbcf0`, docs `5e39c9a7`, GOAL `c0a15a96`; gate Ran 6109 / failures 204 toàn Godot-absent (xác minh độc lập lượt cron 04:30). Chưa push.
+## Status: DONE + PUSHED (2026-11-19 ~04:4x +07, lượt cron 04:30) — slice `223fbcf0`, docs `5e39c9a7`, GOAL `c0a15a96`, hashes `287fb1ae` (pushed; origin/main advances with this status commit). Targeted 4/4 + neighbours 72/72 + wiring 9/9 + proof matches:true 11/11 + gate Ran 6109, failures=204 toàn Godot-absent.
 
 - N2253 DONE + PUSHED (origin/main 061a3ba9) — đã xác minh độc lập lượt 03:30.
 - N2254 GREEN trong lượt này: pure function + driver tick + register + proof
@@ -43,11 +43,9 @@
 - Spec Done 1703 → 1704 + row N2254 (spec line 331); GOAL §5 line 386 nợ Windows N2254.
 - Port 7777 trống lúc chạy proof; `git diff --check` sạch.
 
-## Tiếp theo: PUSH (lượt cron 04:30)
+## Tiếp theo: N2255 (sau push)
 
-- Commit docs (handoff + report + spec) → GOAL → hashes → push origin main →
-  handoff Status DONE + PUSHED.
-- Sau push: N2255 candidate — shoot stamp `curRecoil = 1f;` / `heat = 1f;` /
+- N2255 candidate — shoot stamp `curRecoil = 1f;` / `heat = 1f;` /
   `totalShots++;` (Turret.java:807-810), hoặc charge advance :527 đi cùng queuedBullets.
 
 ## Deferred sau N2254
