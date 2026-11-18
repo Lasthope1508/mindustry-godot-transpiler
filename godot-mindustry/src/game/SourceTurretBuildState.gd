@@ -242,11 +242,18 @@ static func source_turret_tick_buildings_state(game: Object, seconds: float) -> 
 			# `shootY = 3f;` / `inaccuracy = 2f;`), shootX 0 (the class
 			# default, Turret.java:66), ammoPerShot 1 and consumeAmmoOnce
 			# true (the class defaults, Turret.java:49/:51). The target
-			# verdict is the frame's has_target (the findTarget /
-			# validateTarget acquisition waits for its own slice, so until
-			# then the driver treats has_target as the verdict --
-			# target_valid false leaves rotation at its charged value and
-			# shoots nothing). The peeked ammo's reloadMultiplier /
+			# verdict is validateTarget (Turret.java:631-633, N2251):
+			# the driver judges the acquired target at the head of
+			# the duo branch, clears frame["target"] / frame["has_target"]
+			# when the verdict is invalid (Turret.java:491,
+			# `if(!validateTarget()) target = null;`), and feeds the
+			# verdict into the aim/shoot target_valid arg -- target_valid
+			# false leaves rotation at its charged value and shoots
+			# nothing. findTarget acquisition still waits for its own
+			# slice, so until then a frame with has_target false holds
+			# no acquired target: the stale target dict (if any) counts
+			# as null for the verdict, exactly as Java's target field
+			# is null when nothing is acquired. The peeked ammo's reloadMultiplier /
 			# rangeChange / speed come from the catalog ammo data
 			# (copper 1.0/0/2.5, graphite 0.8/16/3.5, silicon 1.5/0/3,
 			# Blocks.java:3259-3295) with the BulletType defaults
@@ -282,8 +289,30 @@ static func source_turret_tick_buildings_state(game: Object, seconds: float) -> 
 			# and silently falls back to speed 1.0 /
 			# reloadMultiplier 1.0 / rangeChange 0.0.
 			var duo_ammo_data: Dictionary = duo_peek
+			# validateTarget() at the head of the duo branch
+			# (Turret.java:491, `if(!validateTarget()) target = null;`,
+			# N2251): a frame with has_target false holds no acquired
+			# target, so its target dict (if any) counts as null for
+			# the verdict -- in Java the target field is null when
+			# nothing is acquired. An invalid verdict clears the frame
+			# target and feeds false into the aim/shoot target_valid
+			# arg; the team / health / targetable / controlled bools
+			# are stamped in from the frame with vacuous defaults
+			# (health_valid / unit_targetable true, same team /
+			# controlled / logic_controlled false) until their live
+			# wiring lands in its own slice.
+			var validate: Dictionary = source_item_turret_build_state.source_item_turret_validate_target_state(
+				frame.get("target", null) == null or not bool(frame.get("has_target", false)),
+				bool(frame.get("target_same_team_effective", false)),
+				bool(frame.get("target_health_valid", true)),
+				bool(frame.get("target_unit_targetable", true)),
+				bool(frame.get("controlled", false)),
+				bool(frame.get("logic_controlled", false)))
+			if not bool(validate.get("valid", true)):
+				frame["target"] = null
+				frame["has_target"] = false
 			var aim: Dictionary = source_item_turret_build_state.source_item_turret_aim_shoot_state(frame, frame.get("target", null),
-				bool(frame.get("has_target", false)), team_id, sprite.position.x, sprite.position.y, seconds,
+				bool(validate.get("valid", false)), team_id, sprite.position.x, sprite.position.y, seconds,
 				float(frame.get("potential_efficiency", 1.0)), float(frame.get("shoot_warmup", 0.0)), bool(frame.get("charging", false)),
 				duo_entries, duo_total, int(frame.get("barrel_counter", 0)),
 				160.0, 10.0, 20.0, 15.0, 0.0, 3.0, 2.0, 1, true,

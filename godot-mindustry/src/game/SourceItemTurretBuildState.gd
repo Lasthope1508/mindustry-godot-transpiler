@@ -248,6 +248,30 @@ static func _predict_quad(a: float, b: float, c: float) -> Variant:
 	return null
 
 @warning_ignore("unused_parameter")
+static func source_item_turret_validate_target_state(target_is_null: bool, target_same_team_effective: bool, target_health_valid: bool, target_unit_targetable: bool, controlled: bool, logic_controlled: bool) -> Dictionary:
+	# validateTarget() (Turret.java:631-633, `return !Units.invalidateTarget(target, canHeal() ? Team.derelict : team, x, y) || controlled() || logicControlled();`):
+	# the gate at the top of TurretBuild.updateTile() (`if(!validateTarget()) target = null;`, Turret.java:491)
+	# and the aim/shoot branch (`if(validateTarget()){`, Turret.java:573). It calls the no-range overload
+	# (`return invalidateTarget(target, team, x, y, Float.MAX_VALUE);`, Units.java:160-162), so the range clause
+	# (`(range != Float.MAX_VALUE && !target.within(x, y, range + (target instanceof Sized hb ? hb.hitSize()/2f : 0f))) ||`,
+	# Units.java:153) is dead here and the pure function takes NO range param. The four live invalidate clauses
+	# (Units.java:151-157) are: target null (`return target == null ||`), same effective team
+	# (`(target instanceof Teamc t && t.team() == team) ||`), dead Healthc (`(target instanceof Healthc h && !h.isValid()) ||`),
+	# untargetable Unit (`(target instanceof Unit u && !u.targetable(team));`). The effective team is Team.derelict
+	# (id 0, `derelict = new Team(0, "derelict", Color.valueOf("4d4e58")),`, Team.java:33) when canHeal()
+	# (`return targetHealing && hasAmmo() && peekAmmo().collidesTeam && peekAmmo().heals();`, Turret.java:635-637)
+	# and the turret team otherwise; the resolution happens at the driver/test, NOT in the pure function.
+	# targetHealing defaults false (`public boolean targetHealing = false;`, Turret.java:95) and duo never sets it
+	# (Blocks.java:3257-3324), so for duo the effective team is always the turret team. controlled()
+	# (`public boolean controlled(){` / `return unit.isPlayer();`, Turret.java:441-443) and logicControlled()
+	# (`public boolean logicControlled(){` / `return logicControlTime > 0;`, Turret.java:445-447) each rescue
+	# the verdict even for a null target, exactly as Java's `||` does. findTarget (Turret.java:651-662) is
+	# NOT this slice -- it needs the live entity scan and waits for its own slice.
+	var invalidate: bool = target_is_null or target_same_team_effective or not target_health_valid or not target_unit_targetable
+	var valid: bool = not invalidate or controlled or logic_controlled
+	return {"valid": valid, "target_cleared": not valid}
+
+@warning_ignore("unused_parameter")
 static func source_item_turret_aim_shoot_state(frame: Dictionary, target: Variant, target_valid: bool, team_id: int, x: float, y: float, delta: float, potential_efficiency: float, shoot_warmup: float, charging: bool, ammo_entries: Array, total_ammo: int, barrel_counter: int, range: float, rotate_speed: float, reload: float, shoot_cone: float, shoot_x: float, shoot_y: float, inaccuracy: float, ammo_per_shot: int, consume_ammo_once: bool, reload_multiplier: float, range_change: float, bullet_speed: float, predict_target: bool, min_warmup: float, always_shooting: bool, cheating: bool, base_reload_speed: float) -> Dictionary:
 	# The duo half of TurretBuild.updateTile() (Turret.java:490-615).
 	# ItemTurret does NOT override updateTile (`public class ItemTurret extends Turret{`,

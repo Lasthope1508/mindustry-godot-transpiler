@@ -3388,6 +3388,24 @@
       ],
       "runtime_proof": "/root/C07ItemTurretAimShootProof"
     },
+    "N2251": {
+      "canonical_ledger": "source_slice_ledger.N2251",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.validateTarget()",
+      "godot_owner": "SourceItemTurretBuildState.source_item_turret_validate_target_state",
+      "source_symbols": [
+        "source_item_turret_validate_target_state_result.valid",
+        "source_item_turret_validate_target_state_result.target_cleared"
+      ],
+      "tests": [
+        "test_c07_item_turret_validate_target_registration",
+        "test_all_c07_item_turret_validate_target_input_evidence_is_exact",
+        "test_item_turret_validate_target_state",
+        "test_reference_graph_and_actual_c07_item_turret_validate_target"
+      ],
+      "runtime_proof": "/root/C07ItemTurretValidateTargetProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

@@ -235662,6 +235662,104 @@
       },
       "runtime_proof": "/root/C07ItemTurretAimShootProof",
       "rule": "Source-backed ItemTurret aim + reload + shoot from Turret.java / ItemTurret.java / ReloadTurret.java / BaseTurret.java / BuildingComp.java / Blocks.java / BulletType.java / Predict.java / ShootAlternate.java / ShootPattern.java / Angles.java / Position.java."
+    },
+    "source_item_turret_validate_target_state_input": {
+      "status": "active",
+      "owner": "SourceItemTurretBuildState.source_item_turret_validate_target_state",
+      "source_slice": "N2251",
+      "keys": {
+        "target_is_null": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Units.java",
+          "java_expr": "return target == null ||",
+          "rule": "Whether the target is null (Units.java:152 -- the first invalidateTarget clause; a null target is invalid unless controlled or logic-controlled).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_validate_target_state"
+          ]
+        },
+        "target_same_team_effective": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Units.java",
+          "java_expr": "(target instanceof Teamc t && t.team() == team) ||",
+          "rule": "Whether the target is a Teamc on the effective team (Units.java:154 -- the effective team is Team.derelict, id 0, when canHeal(), else the turret team, Turret.java:632; the driver resolves it and passes the bool in).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_validate_target_state"
+          ]
+        },
+        "target_health_valid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Units.java",
+          "java_expr": "(target instanceof Healthc h && !h.isValid()) ||",
+          "rule": "Whether the target is a valid Healthc (Units.java:155 -- true when the target is not a Healthc at all, so the clause is vacuous; the driver passes it in from the frame).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_validate_target_state"
+          ]
+        },
+        "target_unit_targetable": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Units.java",
+          "java_expr": "(target instanceof Unit u && !u.targetable(team));",
+          "rule": "Whether the target Unit is targetable by the effective team (Units.java:156 -- true when the target is not a Unit at all, so the clause is vacuous; the driver passes it in from the frame).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_validate_target_state"
+          ]
+        },
+        "controlled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return unit.isPlayer();",
+          "rule": "Whether the build is player-controlled (Turret.java:441-443, `controlled(){ return unit.isPlayer(); }` -- rescues the verdict even for a null target; the driver passes it in from the frame with a false default, the live player stamp waits for its own slice).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_validate_target_state"
+          ]
+        },
+        "logic_controlled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return logicControlTime > 0;",
+          "rule": "Whether the build is logic-controlled (Turret.java:445-447, `logicControlled(){ return logicControlTime > 0; }` -- rescues the verdict even for a null target; the driver passes it in from the frame with a false default, the live logic stamp waits for its own slice).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_validate_target_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ItemTurretValidateTargetProof",
+      "rule": "Source-backed ItemTurret validateTarget from Turret.java / Units.java / Team.java / Blocks.java."
+    },
+    "source_item_turret_validate_target_state_result": {
+      "status": "active",
+      "owner": "SourceItemTurretBuildState.source_item_turret_validate_target_state",
+      "source_slice": "N2251",
+      "keys": {
+        "valid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return !Units.invalidateTarget(target, canHeal() ? Team.derelict : team, x, y) || controlled() || logicControlled();",
+          "rule": "The validateTarget verdict (Turret.java:631-633 -- !invalidate || controlled || logic_controlled; the driver clears the frame target when false and feeds it into the aim/shoot target_valid arg).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_validate_target_state"
+          ]
+        },
+        "target_cleared": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "if(!validateTarget()) target = null;",
+          "rule": "Whether updateTile clears the target this tick (Turret.java:491 -- exactly !valid; the driver sets frame[\"target\"] = null and frame[\"has_target\"] = false when true).",
+          "used_by": [
+            "SourceItemTurretBuildState.source_item_turret_validate_target_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ItemTurretValidateTargetProof",
+      "rule": "Source-backed ItemTurret validateTarget from Turret.java / Units.java / Team.java / Blocks.java."
     }
   },
   "version": 1
