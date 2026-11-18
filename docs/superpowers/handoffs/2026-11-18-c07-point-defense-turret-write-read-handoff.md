@@ -1,6 +1,6 @@
 # Handoff — N2245 PointDefenseTurret write/read (C07)
 
-## Status: GREEN 68/68 — targeted 4/4 + family 32/32 + wiring 32/32, proof 8 semantic keys / 11 in JSON matches:true. Gate 1 XONG (main thread, PID 11556, ~12:2x–12:40 +07; Ran 6073, failures=195, skipped=5, errors=0 — all Godot-absent). Slice commit 0f0683b7, docs 61a5ad16, GOAL 5ad7ff5d. Hashes + push in progress.
+## Status: DONE + PUSHED — N2245 PointDefenseTurret write/read GREEN 68/68 (targeted 4/4 + family 32/32 + wiring 32/32, proof 11/11 matches:true), gate 1 Ran 6073 failures=195 (all Godot-absent). Slice 0f0683b7, docs 61a5ad16, GOAL 5ad7ff5d, hashes 0973fd3d, main 0973fd3d (pushed 2026-11-18 ~12:5x +07). Windows Godot proof debt in GOAL.md §5.
 
 ## Scope
 
