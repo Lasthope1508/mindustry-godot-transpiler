@@ -176824,6 +176824,22 @@
         "test_reference_graph_and_actual_c07_burst_drill_ambient_volume"
       ],
       "runtime_proof": "/root/C07BurstDrillAmbientVolumeProof"
+    },
+    "source_radar_can_pickup_state_result.can_pickup": {
+      "status": "source-backed",
+      "godot_owner": "SourceRadarBuildState.source_radar_can_pickup_state",
+      "godot_symbol": "source_radar_can_pickup_state_result.can_pickup",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "RadarBuild.canPickup()",
+      "java_expr": "return false;",
+      "rule": "Whether the radar can be picked up: canPickup() (Radar.java:75-76), `return false;` -- always false, whatever the frame holds; the override flips the base BuildingComp.canPickup() (BuildingComp.java:1838-1839, `return block.canPickup;`).",
+      "tests": [
+        "test_c07_radar_can_pickup_registration",
+        "test_all_c07_radar_can_pickup_input_evidence_is_exact",
+        "test_radar_can_pickup_state",
+        "test_reference_graph_and_actual_c07_radar_can_pickup"
+      ],
+      "runtime_proof": "/root/C07RadarCanPickupProof"
     }
   },
   "version": 1

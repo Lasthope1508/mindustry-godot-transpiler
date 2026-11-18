@@ -237060,6 +237060,44 @@
       },
       "runtime_proof": "/root/C07BurstDrillAmbientVolumeProof",
       "rule": "Source-backed BurstDrill ambientVolume() state from BurstDrill.java + Drill.java."
+    },
+    "source_radar_can_pickup_state_input": {
+      "status": "active",
+      "owner": "SourceRadarBuildState.source_radar_can_pickup_state",
+      "source_slice": "N2272",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "public boolean canPickup(){",
+          "rule": "The radar frame (RadarBuild.canPickup, Radar.java:75): the family-convention first arg (every Radar pure function takes it); the override takes no state, so the frame is unused.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_can_pickup_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RadarCanPickupProof",
+      "rule": "Source-backed Radar canPickup() accessor from Radar.java."
+    },
+    "source_radar_can_pickup_state_result": {
+      "status": "active",
+      "owner": "SourceRadarBuildState.source_radar_can_pickup_state",
+      "source_slice": "N2272",
+      "keys": {
+        "can_pickup": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "return false;",
+          "rule": "Whether the radar can be picked up: canPickup() (Radar.java:75-76), `return false;` -- always false, whatever the frame holds; the override flips the base BuildingComp.canPickup() (BuildingComp.java:1838-1839, `return block.canPickup;`).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_can_pickup_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RadarCanPickupProof",
+      "rule": "Source-backed Radar canPickup() accessor from Radar.java."
     }
   },
   "version": 1

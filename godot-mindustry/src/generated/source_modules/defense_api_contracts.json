@@ -7017,6 +7017,32 @@
       "rule": "Source-backed PointDefenseTurret target acquisition from PointDefenseTurret.java / TimerComp.java / Interval.java / Blocks.java / GroupDefs.java.",
       "return_type": "Dictionary"
     },
+    "SourceRadarBuildState.source_radar_can_pickup_state": {
+      "canonical_contract": "source_api_contracts.SourceRadarBuildState.source_radar_can_pickup_state",
+      "status": "active",
+      "source_slice": "N2272",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "source_method": "RadarBuild.canPickup()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_radar_can_pickup_state_input.frame"
+        }
+      ],
+      "return_keys": [
+        "can_pickup"
+      ],
+      "tests": [
+        "test_c07_radar_can_pickup_registration",
+        "test_all_c07_radar_can_pickup_input_evidence_is_exact",
+        "test_radar_can_pickup_state",
+        "test_reference_graph_and_actual_c07_radar_can_pickup"
+      ],
+      "runtime_proof": "/root/C07RadarCanPickupProof",
+      "rule": "Source-backed Radar canPickup() accessor from Radar.java.",
+      "return_type": "Dictionary"
+    },
     "SourceRadarBuildState.source_radar_fog_radius_state": {
       "canonical_contract": "source_api_contracts.SourceRadarBuildState.source_radar_fog_radius_state",
       "status": "active",
