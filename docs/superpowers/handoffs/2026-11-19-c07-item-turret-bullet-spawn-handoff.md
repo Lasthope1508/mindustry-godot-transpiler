@@ -1,6 +1,6 @@
 # Handoff — N2252 ItemTurret bullet() spawn (C07) [GREEN — chờ gate + push]
 
-## Status: DONE + PUSHED (2026-11-19 ~01:5x +07, lượt cron 01:45) — slice `3a846b15`, main `75d273eb`. Targeted 4/4 + family 116/116 + wiring 32/32 + proof matches:true 11/11 + gate 3 Ran 6101, failures=202 toàn Godot-absent (đã xác minh độc lập).
+## Status: DONE + PUSHED (2026-11-19 ~01:5x +07, lượt cron 01:45) — slice `3a846b15`, main `9a51804d`. Targeted 4/4 + family 116/116 + wiring 32/32 + proof matches:true 11/11 + gate 3 Ran 6101, failures=202 toàn Godot-absent (đã xác minh độc lập).
 
 - Targeted **4/4, 96 subtests, 16.90s** (PATH += ~/workspace/godot-bin): registration / input-evidence (87/87 exprs) / behavior / reference-graph + proof.
 - Family `-k item_turret`: **116 passed, 317 subtests, 53.96s, exit 0** (log `n2252-family.log`) — 111 cũ + 4 mới N2252 + 1 flake N2251 nay pass trong batch, 0 flake.
