@@ -70056,6 +70056,46 @@
       ],
       "runtime_proof": "/root/C07BurstDrillShouldConsumeProof",
       "rule": "Source-backed BurstDrill shouldConsume gate from BurstDrill.java + Drill.java + BuildingComp.java + Block.java + Blocks.java + ItemModule.java + ConsumePower.java + UnitAssembler.java."
+    },
+    "SourceTurretBuildState.source_turret_status_state": {
+      "status": "active",
+      "source_slice": "N2285",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.status()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_status_state_input.frame"
+        },
+        {
+          "name": "has_ammo",
+          "type": "bool",
+          "schema": "source_turret_status_state_input.has_ammo"
+        },
+        {
+          "name": "activation_timer",
+          "type": "float",
+          "schema": "source_turret_status_state_input.activation_timer"
+        },
+        {
+          "name": "building_status",
+          "type": "String",
+          "schema": "source_turret_status_state_input.building_status"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "status"
+      ],
+      "tests": [
+        "test_c07_turret_status_registration",
+        "test_all_c07_turret_status_input_evidence_is_exact",
+        "test_turret_status_state",
+        "test_reference_graph_and_actual_c07_turret_status"
+      ],
+      "runtime_proof": "/root/C07TurretStatusProof",
+      "rule": "Source-backed TurretBuild.status() state from Turret.java + BaseTurret.java + BuildingComp.java + BlockStatus.java."
     }
   },
   "policy": {

@@ -592,6 +592,70 @@ static func source_turret_is_active_state(frame: Dictionary, target_is_null: boo
 static func source_turret_min_range_state(frame: Dictionary, min_range: float, has_ammo: bool, ammo_min_range_change: float) -> Dictionary:
 	return {"min_range": min_range + ammo_min_range_change if has_ammo else min_range}
 
+# The BlockStatus.inactive value (BlockStatus.java:12,
+# `inactive(Color.lightGray);`) has no N1888 constant: the
+# BuildingComp.status() helper only returns logicDisable /
+# noOutput / noInput / active, so the activation-timer leg of
+# TurretBuild.status() carries its own family-local const.
+const SOURCE_TURRET_STATUS_INACTIVE := "inactive"
+
+# TurretBuild.status() (Turret.java:369-374):
+# `public BlockStatus status(){`
+# `if(enabled && !hasAmmo()) return BlockStatus.noInput;`
+# ``
+# `return super.status();`
+# `}`
+# on `public class TurretBuild extends ReloadTurretBuild implements ControlBlock{`
+# (Turret.java:277) in `public class Turret extends ReloadTurret{`
+# (Turret.java:36). The super chain has two layers:
+# BaseTurretBuild.status() (BaseTurret.java:143-145):
+# `public BlockStatus status() {`
+# `return (activationTimer <= 0)? super.status() : BlockStatus.inactive;`
+# `}`
+# on `public class BaseTurretBuild extends Building implements Ranged, RotBlock{`
+# (BaseTurret.java:113) in `public class BaseTurret extends Block{`
+# (BaseTurret.java:20), over BuildingComp.status()
+# (BuildingComp.java:632-646):
+# `public BlockStatus status(){`
+# `if(!enabled){`
+# `return BlockStatus.logicDisable;`
+# `}`
+# `if(!shouldConsume()){`
+# `return BlockStatus.noOutput;`
+# `}`
+# `if(efficiency <= 0 || !productionValid()){`
+# `return BlockStatus.noInput;`
+# `}`
+# `return ((state.tick / 30f) % 1f) < efficiency ? BlockStatus.active : BlockStatus.noInput;`
+# `}`
+# -- already live as N1888 PortGame.source_building_status_state,
+# whose result arrives here as the explicit building_status param.
+# enabled is the Building field (`transient boolean enabled = true;`,
+# BuildingComp.java:77), read from the tick frame (stamped by
+# source_turret_tick_frame_state, absent reads true, the N2125
+# precedent). has_ammo is an explicit bool carrying hasAmmo()
+# (Turret.java:698-712, `public boolean hasAmmo(){`, with the
+# ammo-swap side effect, the canConsume() gate and the cheating()
+# leg) -- NOT ported here, the N2268/N2261 precedent, because no
+# slice owns hasAmmo() yet. activation_timer is an explicit float
+# carrying BaseTurretBuild.activationTimer (`public float
+# activationTimer = 0;`, BaseTurret.java:115, set to activationTime
+# on placed()). The noInput leg is `noInput(Pal.remove),`
+# (BlockStatus.java:9); the inactive leg is BlockStatus.inactive.
+# The first leg needs BOTH conditions: a disabled turret with no
+# ammo falls through to super.status(), which itself returns
+# logicDisable for !enabled -- so the function adds no enabled
+# check of its own in the super leg. NO driver tick line: status()
+# is a read accessor its callers read, not a per-tick write (the
+# N2249/N2221 precedent).
+static func source_turret_status_state(frame: Dictionary, has_ammo: bool, activation_timer: float, building_status: String) -> Dictionary:
+	var enabled: bool = bool(frame.get("enabled", true))
+	if enabled and not has_ammo:
+		return {"status": source_building_access_state.SOURCE_BUILDING_STATUS_NO_INPUT}
+	if activation_timer <= 0.0:
+		return {"status": building_status}
+	return {"status": SOURCE_TURRET_STATUS_INACTIVE}
+
 # TurretBuild.findEnemy() (Turret.java:639-649):
 # `protected Posc findEnemy(float range){`
 # `if(targetAir && !targetGround){`
