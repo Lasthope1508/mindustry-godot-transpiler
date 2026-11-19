@@ -166,3 +166,24 @@ static func source_sound_control_is_playing_state(has_current: bool, current_is_
 	# this slice: these are pure gates, playback belongs to
 	# updateLoops (N2264, held waiting for B).
 	return {"is_playing": has_current and current_is_playing}
+
+static func source_sound_control_always_play_music_state(rules_always_play_music: bool, setting_alwaysmusic: bool, planet_always_play_music: bool) -> Dictionary:
+	# SoundControl.alwaysPlayMusic() (SoundControl.java:266-268):
+	# `protected boolean alwaysPlayMusic(){`
+	# `return state.rules.alwaysPlayMusic || Core.settings.getBool("alwaysmusic") || (state.getPlanet() != null && state.getPlanet().alwaysPlayMusic);`
+	# -- a plain OR of the three flags: any single true flag
+	# reads true, all false reads false. The three flags
+	# arrive as explicit bool params: rules_always_play_music
+	# is state.rules.alwaysPlayMusic, setting_alwaysmusic is
+	# Core.settings "alwaysmusic", and
+	# planet_always_play_music is (state.getPlanet() != null
+	# && state.getPlanet().alwaysPlayMusic) -- the null check
+	# is folded into the param, no Planet object is ported
+	# in this slice. The caller reads the gate in update()
+	# (SoundControl.java:181-183, `if(alwaysPlayMusic()){`
+	# + `if(current == null){` + `playRandom();`) and plays
+	# a random track when it is true and no current track
+	# is set. NO audio playback in this slice: this is a
+	# pure gate; playback belongs to updateLoops (N2304,
+	# held waiting for B).
+	return {"always_play_music": rules_always_play_music or setting_alwaysmusic or planet_always_play_music}

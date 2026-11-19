@@ -178024,6 +178024,22 @@
         "test_reference_graph_and_actual_c07_sound_control_should_play"
       ],
       "runtime_proof": "/root/C07SoundControlShouldPlayProof"
+    },
+    "source_sound_control_always_play_music_state_result.always_play_music": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_always_play_music_state",
+      "godot_symbol": "source_sound_control_always_play_music_state_result.always_play_music",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.alwaysPlayMusic()",
+      "java_expr": "return state.rules.alwaysPlayMusic || Core.settings.getBool(\"alwaysmusic\") || (state.getPlanet() != null && state.getPlanet().alwaysPlayMusic);",
+      "rule": "Whether music should always play: a plain OR of the three flags (SoundControl.java:266-268); any single true flag reads true, all false reads false. The caller plays a random track when true and no current track is set (SoundControl.java:181-183, `if(alwaysPlayMusic()){` + `if(current == null){` + `playRandom();`).",
+      "tests": [
+        "test_c07_sound_control_always_play_music_registration",
+        "test_all_c07_sound_control_always_play_music_input_evidence_is_exact",
+        "test_sound_control_always_play_music_state",
+        "test_reference_graph_and_actual_c07_sound_control_always_play_music"
+      ],
+      "runtime_proof": "/root/C07SoundControlAlwaysPlayMusicProof"
     }
   },
   "version": 1

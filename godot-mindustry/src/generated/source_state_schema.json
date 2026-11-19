@@ -239502,6 +239502,64 @@
       },
       "runtime_proof": "/root/C07BurstDrillOnProximityUpdateProof",
       "rule": "Source-backed BurstDrill ore / dominant-item binding from Drill.java + BurstDrill.java + Blocks.java."
+    },
+    "source_sound_control_always_play_music_state_input": {
+      "status": "active",
+      "owner": "SourceSoundControlState.source_sound_control_always_play_music_state",
+      "source_slice": "N2306",
+      "keys": {
+        "rules_always_play_music": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "state.rules.alwaysPlayMusic",
+          "rule": "The rules flag (SoundControl.java:267, `state.rules.alwaysPlayMusic`): arrives as an explicit bool param -- the state.rules accessor is NOT ported in this slice.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_always_play_music_state"
+          ]
+        },
+        "setting_alwaysmusic": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "Core.settings.getBool(\"alwaysmusic\")",
+          "rule": "The \"alwaysmusic\" settings flag (SoundControl.java:267, `Core.settings.getBool(\"alwaysmusic\")`): arrives as an explicit bool param -- the Core.settings accessor is NOT ported in this slice.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_always_play_music_state"
+          ]
+        },
+        "planet_always_play_music": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "(state.getPlanet() != null && state.getPlanet().alwaysPlayMusic)",
+          "rule": "The planet flag (SoundControl.java:267, `(state.getPlanet() != null && state.getPlanet().alwaysPlayMusic)`): false when there is no planet or its flag is false -- the null check is folded into this explicit bool param, no Planet object is ported in this slice.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_always_play_music_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SoundControlAlwaysPlayMusicProof",
+      "rule": "Source-backed SoundControl.alwaysPlayMusic() state from SoundControl.java."
+    },
+    "source_sound_control_always_play_music_state_result": {
+      "status": "active",
+      "owner": "SourceSoundControlState.source_sound_control_always_play_music_state",
+      "source_slice": "N2306",
+      "keys": {
+        "always_play_music": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "return state.rules.alwaysPlayMusic || Core.settings.getBool(\"alwaysmusic\") || (state.getPlanet() != null && state.getPlanet().alwaysPlayMusic);",
+          "rule": "Whether music should always play: a plain OR of the three flags (SoundControl.java:266-268); any single true flag reads true, all false reads false. The caller plays a random track when true and no current track is set (SoundControl.java:181-183, `if(alwaysPlayMusic()){` + `if(current == null){` + `playRandom();`).",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_always_play_music_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SoundControlAlwaysPlayMusicProof",
+      "rule": "Source-backed SoundControl.alwaysPlayMusic() state from SoundControl.java."
     }
   },
   "version": 1
