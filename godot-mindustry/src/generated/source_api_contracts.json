@@ -69831,6 +69831,41 @@
       ],
       "runtime_proof": "/root/C07TurretChargeStateProof",
       "rule": "Source-backed Turret charge sound state from Turret.java / ShootPattern.java / Blocks.java."
+    },
+    "SourceTurretBuildState.source_turret_can_consume_heat_gate_state": {
+      "status": "active",
+      "source_slice": "N2272",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.canConsume()",
+      "params": [
+        {
+          "name": "heat_requirement",
+          "type": "float",
+          "schema": "source_turret_can_consume_heat_gate_state_input.heat_requirement"
+        },
+        {
+          "name": "heat_req",
+          "type": "float",
+          "schema": "source_turret_can_consume_heat_gate_state_input.heat_req"
+        },
+        {
+          "name": "super_can_consume",
+          "type": "bool",
+          "schema": "source_turret_can_consume_heat_gate_state_input.super_can_consume"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "can_consume"
+      ],
+      "tests": [
+        "test_c07_turret_can_consume_heat_gate_registration",
+        "test_all_c07_turret_can_consume_heat_gate_input_evidence_is_exact",
+        "test_turret_can_consume_heat_gate",
+        "test_reference_graph_and_actual_c07_turret_can_consume_heat_gate"
+      ],
+      "runtime_proof": "/root/C07TurretCanConsumeHeatGateProof",
+      "rule": "Source-backed TurretBuild.canConsume() heat gate from Turret.java / Blocks.java."
     }
   },
   "policy": {

@@ -947,6 +947,39 @@ static func source_turret_charge_sound_state(block: Object) -> Dictionary:
 	var charge_emitted: bool = first_shot_delay > 0.0
 	return {"first_shot_delay": first_shot_delay, "charge_sound": charge_sound, "charge_emitted": charge_emitted}
 
+static func source_turret_can_consume_heat_gate_state(heat_requirement: float, heat_req: float, super_can_consume: bool) -> Dictionary:
+	# TurretBuild.canConsume() heat gate (Turret.java:623-629,
+	# `public boolean canConsume(){`
+	# `if(heatRequirement > 0 && heatReq <= 0f){`
+	# `return false;`
+	# `}`
+	# `return super.canConsume();`
+	# `}`): false exactly when the turret needs heat and has
+	# none, super.canConsume() otherwise. `heatRequirement`
+	# defaults to -1 (Turret.java:52-53, `/** Minimum input
+	# heat required to fire. */ public float heatRequirement =
+	# -1f;`) and `heatReq` is the live per-build field
+	# (Turret.java:295, `public float heatReq;`), recomputed
+	# by calculateHeat -- which stays BLOCKED (live proximity
+	# scan, BuildingComp.java:410-461), so the gate takes
+	# heat_req as a live input parameter. Only afflict
+	# (`heatRequirement = 20f;`, Blocks.java:5122) and malign
+	# (`heatRequirement = 144f;`, Blocks.java:6240) set a
+	# positive requirement among turrets, so every other
+	# turret reads the -1 default and the gate passes through
+	# super_can_consume unchanged. The result is a 1-key dict:
+	# `can_consume` (whether the turret may consume). There is
+	# no driver tick: canConsume() is evaluated per
+	# consumption check, not per tick, and the driver has no
+	# shouldConsume gate yet (precedent N2268 / N2269 /
+	# N2271). The N2270 fold already scales efficiency to 0
+	# for an unheated afflict / malign; this gate is the
+	# consumption-side half of the same rule.
+	var can_consume: bool = super_can_consume
+	if heat_requirement > 0.0 and heat_req <= 0.0:
+		can_consume = false
+	return {"can_consume": can_consume}
+
 @warning_ignore("unused_parameter")
 static func source_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the turret tick wiring every tick

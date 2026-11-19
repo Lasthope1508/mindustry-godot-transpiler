@@ -237856,6 +237856,64 @@
       },
       "runtime_proof": "/root/C07TurretChargeStateProof",
       "rule": "Source-backed Turret charge sound state from Turret.java / ShootPattern.java / Blocks.java."
+    },
+    "source_turret_can_consume_heat_gate_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_can_consume_heat_gate_state",
+      "source_slice": "N2272",
+      "keys": {
+        "heat_requirement": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float heatRequirement = -1f;",
+          "rule": "The turret heat requirement in heat units (Turret.java:52-53, the class default -1; the catalog value when the block carries one -- 20.0 for afflict, Blocks.java:5122; 144.0 for malign, Blocks.java:6240).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_can_consume_heat_gate_state"
+          ]
+        },
+        "heat_req": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float heatReq;",
+          "rule": "The live per-build heat input (Turret.java:295), recomputed by calculateHeat from nearby heaters; taken as a live input because calculateHeat is still BLOCKED (live proximity scan).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_can_consume_heat_gate_state"
+          ]
+        },
+        "super_can_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return super.canConsume();",
+          "rule": "The superclass canConsume() result passed in (Turret.java:628): the gate returns it unchanged unless the heat guard closes.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_can_consume_heat_gate_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretCanConsumeHeatGateProof",
+      "rule": "Source-backed TurretBuild.canConsume() heat gate from Turret.java / Blocks.java."
+    },
+    "source_turret_can_consume_heat_gate_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_can_consume_heat_gate_state",
+      "source_slice": "N2272",
+      "keys": {
+        "can_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "if(heatRequirement > 0 && heatReq <= 0f){",
+          "rule": "Whether the turret may consume (Turret.java:623-629 -- false exactly when heat_requirement > 0 and heat_req <= 0; super_can_consume otherwise).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_can_consume_heat_gate_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretCanConsumeHeatGateProof",
+      "rule": "Source-backed TurretBuild.canConsume() heat gate from Turret.java / Blocks.java."
     }
   },
   "version": 1
