@@ -584,6 +584,45 @@ static func source_turret_control_state(control_type: String, p1: float, p2: flo
 			target_position_deferred = true
 	return {"logic_control_time": logic_control_time, "logic_shooting": logic_shooting, "target_pos": target_pos, "target_position_deferred": target_position_deferred}
 
+static func source_turret_efficiency_multiplier_state(efficiency: float, heat_requirement: float, heat_req: float, cheating: bool, max_heat_efficiency: float) -> Dictionary:
+	# TurretBuild.updateEfficiencyMultiplier()
+	# (Turret.java:674-679) folds the heat requirement into
+	# efficiency every tick, inside updateConsumption()
+	# (BuildingComp.java:1949 cheating path / :1996 normal
+	# path), which BuildingComp.update() calls BEFORE
+	# updateTile() (:2274-2278) -- so the fold reads the
+	# PREVIOUS tick's heatReq (recomputed only later in
+	# updateTile(), :538-540, N2263):
+	# `if(heatRequirement > 0){`
+	# `efficiency *= Math.min(Math.max(heatReq / heatRequirement, cheating() ? 1f : 0f), maxHeatEfficiency);`
+	# (Turret.java:675-677). The override replaces the base
+	# (BuildingComp.java:1932-1935,
+	# `float scale = efficiencyScale();` /
+	# `efficiency *= scale;` /
+	# `optionalEfficiency *= scale;`): it does not call super
+	# and never touches optionalEfficiency.
+	# `heatRequirement` defaults to -1
+	# (`public float heatRequirement = -1f;`, Turret.java:53)
+	# and duo never sets it (Blocks.java:3257-3331), so the
+	# guard is false for duo and efficiency stays at the
+	# first-pass value (BuildingComp.java:1946, 1.0 when enabled
+	# and production-valid). Only afflict (PowerTurret,
+	# `heatRequirement = 20f;`, Blocks.java:5122) and malign
+	# (PowerTurret, `heatRequirement = 144f;`,
+	# Blocks.java:6240) set a positive requirement among
+	# turrets, with `public float maxHeatEfficiency = 3f;`
+	# (Turret.java:55) capping the fold at 3x. `cheating()`
+	# is `public boolean cheating(){` /
+	# `return team.rules().cheat;` (TeamComp.java:17-19, N2099
+	# stamps it live on frame["cheating"] every tick): a
+	# cheating team floors the ratio at 1.0, a non-cheating
+	# team with no heat folds to 0. The result is a 1-key
+	# dict: `efficiency`.
+	if heat_requirement > 0.0:
+		var floor_value: float = 1.0 if cheating else 0.0
+		efficiency *= minf(maxf(heat_req / heat_requirement, floor_value), max_heat_efficiency)
+	return {"efficiency": efficiency}
+
 @warning_ignore("unused_parameter")
 static func source_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the turret tick wiring every tick
@@ -739,6 +778,18 @@ static func source_turret_tick_buildings_state(game: Object, seconds: float) -> 
 			if not bool(validate.get("valid", true)):
 				frame["target"] = null
 				frame["has_target"] = false
+			# The efficiency multiplier fold (Turret.java:674-679,
+			# N2265) runs before the warmup advance: Java order is
+			# updateConsumption() with the fold, then updateTile()
+			# warmup :512-514 -- the warmup lerp reads efficiency
+			# as its rate, so the fold must land first. The fold
+			# reads the PREVIOUS tick's frame["heat_req"] (the
+			# N2263 stamp), exactly as Java reads the previous
+			# tick's heatReq field. Duo heatRequirement is -1.0
+			# (never overridden), so the guard is off live and
+			# efficiency keeps its first-pass 1.0.
+			var efficiency_multiplier: Dictionary = source_turret_efficiency_multiplier_state(float(frame.get("efficiency", 1.0)), -1.0, float(frame.get("heat_req", 0.0)), bool(frame.get("cheating", false)), 3.0)
+			frame["efficiency"] = efficiency_multiplier.get("efficiency", 1.0)
 			# The warmup lerp advance (Turret.java:502-515, N2253)
 			# runs before the aim/shoot call: Java order :502-514
 			# is before the shoot gate :733, and aim/shoot read

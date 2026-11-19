@@ -176904,6 +176904,22 @@
         "test_reference_graph_and_actual_c07_turret_control"
       ],
       "runtime_proof": "/root/C07TurretControlProof"
+    },
+    "source_turret_efficiency_multiplier_state_result.efficiency": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_efficiency_multiplier_state",
+      "godot_symbol": "source_turret_efficiency_multiplier_state_result.efficiency",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateEfficiencyMultiplier()",
+      "java_expr": "efficiency *= Math.min(Math.max(heatReq / heatRequirement, cheating() ? 1f : 0f), maxHeatEfficiency);",
+      "rule": "The efficiency after the fold (Turret.java:676 -- the first-pass value times min(max(heatReq / heatRequirement, cheating ? 1.0 : 0.0), maxHeatEfficiency) when heatRequirement > 0, unchanged otherwise; the driver stamps it on frame[\"efficiency\"]).",
+      "tests": [
+        "test_c07_turret_efficiency_multiplier_registration",
+        "test_all_c07_turret_efficiency_multiplier_input_evidence_is_exact",
+        "test_turret_efficiency_multiplier_state",
+        "test_reference_graph_and_actual_c07_turret_efficiency_multiplier"
+      ],
+      "runtime_proof": "/root/C07TurretEfficiencyMultiplierProof"
     }
   },
   "version": 1

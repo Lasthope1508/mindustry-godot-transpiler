@@ -237160,6 +237160,84 @@
       },
       "runtime_proof": "/root/C07TurretControlProof",
       "rule": "Source-backed Turret control() setters from Turret.java."
+    },
+    "source_turret_efficiency_multiplier_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_efficiency_multiplier_state",
+      "source_slice": "N2265",
+      "keys": {
+        "efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "transient float efficiency;",
+          "rule": "The first-pass efficiency before the fold (BuildingComp.java:85, the field; the driver reads frame[\"efficiency\"], default 1.0 -- the enabled + production-valid first pass, BuildingComp.java:1946).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_efficiency_multiplier_state"
+          ]
+        },
+        "heat_requirement": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float heatRequirement = -1f;",
+          "rule": "The turret heat requirement in heat units (Turret.java:53, the class default; duo never overrides it, Blocks.java:3257-3331; the driver passes -1.0 for duo).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_efficiency_multiplier_state"
+          ]
+        },
+        "heat_req": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float heatReq;",
+          "rule": "The folded heat requirement value from the PREVIOUS tick (Turret.java:295, the field default is 0; updateConsumption runs before updateTile, so the fold reads the previous tick's value -- the driver reads frame[\"heat_req\"], the N2263 stamp, default 0.0).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_efficiency_multiplier_state"
+          ]
+        },
+        "cheating": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+          "java_expr": "return team.rules().cheat;",
+          "rule": "Whether the turret team is cheating (TeamComp.java:18; N2099 stamps it live on frame[\"cheating\"] every tick -- a cheating team floors the ratio at 1.0).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_efficiency_multiplier_state"
+          ]
+        },
+        "max_heat_efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float maxHeatEfficiency = 3f;",
+          "rule": "The cap on the heat fold (Turret.java:55, the class default 3f; the driver passes 3.0 for duo).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_efficiency_multiplier_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretEfficiencyMultiplierProof",
+      "rule": "Source-backed Turret efficiency fold from Turret.java."
+    },
+    "source_turret_efficiency_multiplier_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_efficiency_multiplier_state",
+      "source_slice": "N2265",
+      "keys": {
+        "efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "efficiency *= Math.min(Math.max(heatReq / heatRequirement, cheating() ? 1f : 0f), maxHeatEfficiency);",
+          "rule": "The efficiency after the fold (Turret.java:676 -- the first-pass value times min(max(heatReq / heatRequirement, cheating ? 1.0 : 0.0), maxHeatEfficiency) when heatRequirement > 0, unchanged otherwise; the driver stamps it on frame[\"efficiency\"]).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_efficiency_multiplier_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretEfficiencyMultiplierProof",
+      "rule": "Source-backed Turret efficiency fold from Turret.java."
     }
   },
   "version": 1

@@ -8232,6 +8232,52 @@
       "rule": "Source-backed Turret control() setters from Turret.java.",
       "return_type": "Dictionary"
     },
+    "SourceTurretBuildState.source_turret_efficiency_multiplier_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_efficiency_multiplier_state",
+      "status": "active",
+      "source_slice": "N2265",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.updateEfficiencyMultiplier()",
+      "params": [
+        {
+          "name": "efficiency",
+          "type": "float",
+          "schema": "source_turret_efficiency_multiplier_state_input.efficiency"
+        },
+        {
+          "name": "heat_requirement",
+          "type": "float",
+          "schema": "source_turret_efficiency_multiplier_state_input.heat_requirement"
+        },
+        {
+          "name": "heat_req",
+          "type": "float",
+          "schema": "source_turret_efficiency_multiplier_state_input.heat_req"
+        },
+        {
+          "name": "cheating",
+          "type": "bool",
+          "schema": "source_turret_efficiency_multiplier_state_input.cheating"
+        },
+        {
+          "name": "max_heat_efficiency",
+          "type": "float",
+          "schema": "source_turret_efficiency_multiplier_state_input.max_heat_efficiency"
+        }
+      ],
+      "return_keys": [
+        "efficiency"
+      ],
+      "tests": [
+        "test_c07_turret_efficiency_multiplier_registration",
+        "test_all_c07_turret_efficiency_multiplier_input_evidence_is_exact",
+        "test_turret_efficiency_multiplier_state",
+        "test_reference_graph_and_actual_c07_turret_efficiency_multiplier"
+      ],
+      "runtime_proof": "/root/C07TurretEfficiencyMultiplierProof",
+      "rule": "Source-backed Turret efficiency fold from Turret.java.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_turret_heat_req_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_heat_req_state",
       "status": "active",
