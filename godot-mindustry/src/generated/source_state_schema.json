@@ -239560,6 +239560,74 @@
       },
       "runtime_proof": "/root/C07SoundControlAlwaysPlayMusicProof",
       "rule": "Source-backed SoundControl.alwaysPlayMusic() state from SoundControl.java."
+    },
+    "source_drill_should_ambient_sound_state_input": {
+      "status": "active",
+      "owner": "SourceBurstDrillBuildState.source_drill_should_ambient_sound_state",
+      "source_slice": "N2305",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public boolean shouldAmbientSound(){",
+          "rule": "The DrillBuild frame (DrillBuild.shouldAmbientSound, Drill.java:252-254); the family-convention first arg (every BurstDrill pure function takes it). No live keys are read from the frame -- all three gate inputs are explicit params.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_should_ambient_sound_state"
+          ]
+        },
+        "efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "transient float efficiency;",
+          "rule": "The live Building efficiency (`transient float efficiency;`, BuildingComp.java:85); passed explicitly because the caller (the ambient live loop) already holds the folded efficiency (the N2271 / N2277 super-as-param precedent). The gate needs efficiency strictly above 0.01.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_should_ambient_sound_state"
+          ]
+        },
+        "items_total": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/modules/ItemModule.java",
+          "java_expr": "public int total(){",
+          "rule": "The cached ItemModule total (`public int total(){` with `return total;`, ItemModule.java:174-175); passed explicitly because the caller already holds the live items total (the N2271 / N2277 super-as-param precedent).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_should_ambient_sound_state"
+          ]
+        },
+        "item_capacity": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public int itemCapacity = 10;",
+          "rule": "The per-def item capacity, 40 for the impact-drill def (Blocks.java:3078) and 60 for the eruption-drill def (Blocks.java:3107); passed explicitly because the pure function cannot reach the catalog (the N2212 per-def-param precedent); the Block default is 10 (Block.java:75).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_should_ambient_sound_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07DrillShouldAmbientSoundProof",
+      "rule": "Source-backed DrillBuild shouldAmbientSound() gate from Drill.java + BuildingComp.java + Block.java + Blocks.java + ItemModule.java + BurstDrill.java."
+    },
+    "source_drill_should_ambient_sound_state_result": {
+      "status": "active",
+      "owner": "SourceBurstDrillBuildState.source_drill_should_ambient_sound_state",
+      "source_slice": "N2305",
+      "keys": {
+        "should_ambient_sound": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "return efficiency > 0.01f && items.total() < itemCapacity;",
+          "rule": "The DrillBuild ambient-sound gate (Drill.java:253): efficiency strictly above 0.01 AND items_total strictly below item_capacity; the gate is read per tick by the ambient-sound live loop (BuildingComp.java:2270-2271).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_should_ambient_sound_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07DrillShouldAmbientSoundProof",
+      "rule": "Source-backed DrillBuild shouldAmbientSound() gate from Drill.java + BuildingComp.java + Block.java + Blocks.java + ItemModule.java + BurstDrill.java."
     }
   },
   "version": 1

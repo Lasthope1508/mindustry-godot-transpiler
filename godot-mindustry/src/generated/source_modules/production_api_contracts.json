@@ -1134,6 +1134,47 @@
       "rule": "Source-backed Drill setStats() state from Drill.java + Blocks.java + StatValues.java + StatUnit.java + ConsumeLiquidBase.java + Block.java + Consume.java + Stat.java + bundle.properties.",
       "return_type": "Dictionary"
     },
+    "SourceBurstDrillBuildState.source_drill_should_ambient_sound_state": {
+      "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_drill_should_ambient_sound_state",
+      "status": "active",
+      "source_slice": "N2305",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "DrillBuild.shouldAmbientSound()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_drill_should_ambient_sound_state_input.frame"
+        },
+        {
+          "name": "efficiency",
+          "type": "float",
+          "schema": "source_drill_should_ambient_sound_state_input.efficiency"
+        },
+        {
+          "name": "items_total",
+          "type": "int",
+          "schema": "source_drill_should_ambient_sound_state_input.items_total"
+        },
+        {
+          "name": "item_capacity",
+          "type": "int",
+          "schema": "source_drill_should_ambient_sound_state_input.item_capacity"
+        }
+      ],
+      "return_keys": [
+        "should_ambient_sound"
+      ],
+      "tests": [
+        "test_c07_drill_should_ambient_sound_registration",
+        "test_all_c07_drill_should_ambient_sound_input_evidence_is_exact",
+        "test_drill_should_ambient_sound_state",
+        "test_reference_graph_and_actual_c07_drill_should_ambient_sound"
+      ],
+      "runtime_proof": "/root/C07DrillShouldAmbientSoundProof",
+      "rule": "Source-backed DrillBuild shouldAmbientSound() gate from Drill.java + BuildingComp.java + Block.java + Blocks.java + ItemModule.java + BurstDrill.java.",
+      "return_type": "Dictionary"
+    },
     "SourceBurstDrillBuildState.source_drill_write_state": {
       "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_drill_write_state",
       "status": "active",

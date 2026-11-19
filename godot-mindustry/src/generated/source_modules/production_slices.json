@@ -1169,6 +1169,23 @@
       ],
       "runtime_proof": "/root/C07BurstDrillOnProximityUpdateProof"
     },
+    "N2305": {
+      "canonical_ledger": "source_slice_ledger.N2305",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.shouldAmbientSound()",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_should_ambient_sound_state",
+      "source_symbols": [
+        "source_drill_should_ambient_sound_state_result.should_ambient_sound"
+      ],
+      "tests": [
+        "test_c07_drill_should_ambient_sound_registration",
+        "test_all_c07_drill_should_ambient_sound_input_evidence_is_exact",
+        "test_drill_should_ambient_sound_state",
+        "test_reference_graph_and_actual_c07_drill_should_ambient_sound"
+      ],
+      "runtime_proof": "/root/C07DrillShouldAmbientSoundProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",

@@ -325,6 +325,16 @@ static func source_drill_ambient_volume_state(frame: Dictionary, size: int) -> D
 	var ambient_volume: float = efficiency * (size * size) / 4.0
 	return {"ambient_volume": ambient_volume}
 
+@warning_ignore("unused_parameter")
+static func source_drill_should_ambient_sound_state(frame: Dictionary, efficiency: float, items_total: int, item_capacity: int) -> Dictionary:
+	# DrillBuild.shouldAmbientSound() (Drill.java:252-254):
+	# @Override
+	# public boolean shouldAmbientSound(){
+	# return efficiency > 0.01f && items.total() < itemCapacity;
+	# }
+	# `efficiency` is the live Building efficiency (`transient float efficiency;`, BuildingComp.java:85). `items.total()` is the cached ItemModule total (`public int total(){` with `return total;`, ItemModule.java:174-175). `itemCapacity` is the per-def capacity (`public int itemCapacity = 10;`, Block.java:75, with `itemCapacity = 40;`, Blocks.java:3078, for impact-drill and `itemCapacity = 60;`, Blocks.java:3107, for eruption-drill). The BuildingComp default delegates to shouldConsume (`public boolean shouldAmbientSound(){` with `return shouldConsume();`, BuildingComp.java:1212-1214) -- the Drill override replaces it with the efficiency gate. The gate is read per tick by the ambient-sound live loop (`if(!headless && block.ambientSound != Sounds.none && shouldAmbientSound()){` with `control.sound.loop(block.ambientSound, self(), block.ambientSoundVolume * ambientVolume());`, BuildingComp.java:2270-2271). The three inputs are explicit params (the N2271/N2277 super-as-param precedent): the caller passes the already-folded efficiency and the live items total; frame is the canonical first param of this family file. This is a Drill-local boolean predicate -- NOT part of the ambient B/C chain (B = RepairTurret driver tick, Windows line; C = SoundControl.updateLoops mixer, N2304 held): it gates the loop call, it is not the loop itself. It is distinct from the ambient volume (N2277, `efficiency * (size * size) / 4f`) and from shouldConsume (N2295, which also requires `enabled && dominantItem != null`). The classes are `public class Drill extends Block{` (Drill.java:27) and `public class DrillBuild extends Building{` (Drill.java:237); BurstDrillBuild inherits DrillBuild (`public class BurstDrill extends Drill{`, BurstDrill.java:17, with `public class BurstDrillBuild extends DrillBuild{`, BurstDrill.java:70). There is NO driver tick line: the gate is a pure predicate the loop reads; the driver side waits for ambient C (N2304).
+	return {"should_ambient_sound": efficiency > 0.01 and items_total < item_capacity}
+
 static func source_burst_drill_set_stats_state(frame: Dictionary, liquid_boost_intensity: float, booster_consumer_found: bool, booster_amount: float, booster_consumes: bool) -> Dictionary:
 	# BurstDrill.setStats() (BurstDrill.java:58-68):
 	# public void setStats(){

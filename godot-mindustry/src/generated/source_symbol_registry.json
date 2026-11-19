@@ -178040,6 +178040,22 @@
         "test_reference_graph_and_actual_c07_sound_control_always_play_music"
       ],
       "runtime_proof": "/root/C07SoundControlAlwaysPlayMusicProof"
+    },
+    "source_drill_should_ambient_sound_state_result.should_ambient_sound": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_should_ambient_sound_state",
+      "godot_symbol": "source_drill_should_ambient_sound_state_result.should_ambient_sound",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.shouldAmbientSound()",
+      "java_expr": "return efficiency > 0.01f && items.total() < itemCapacity;",
+      "rule": "The DrillBuild ambient-sound gate (Drill.java:253): efficiency strictly above 0.01 AND items_total strictly below item_capacity; the gate is read per tick by the ambient-sound live loop (BuildingComp.java:2270-2271).",
+      "tests": [
+        "test_c07_drill_should_ambient_sound_registration",
+        "test_all_c07_drill_should_ambient_sound_input_evidence_is_exact",
+        "test_drill_should_ambient_sound_state",
+        "test_reference_graph_and_actual_c07_drill_should_ambient_sound"
+      ],
+      "runtime_proof": "/root/C07DrillShouldAmbientSoundProof"
     }
   },
   "version": 1

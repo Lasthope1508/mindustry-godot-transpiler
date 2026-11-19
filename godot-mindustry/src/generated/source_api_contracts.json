@@ -70722,6 +70722,46 @@
       ],
       "runtime_proof": "/root/C07SoundControlAlwaysPlayMusicProof",
       "rule": "Source-backed SoundControl.alwaysPlayMusic() state from SoundControl.java."
+    },
+    "SourceBurstDrillBuildState.source_drill_should_ambient_sound_state": {
+      "status": "active",
+      "source_slice": "N2305",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "DrillBuild.shouldAmbientSound()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_drill_should_ambient_sound_state_input.frame"
+        },
+        {
+          "name": "efficiency",
+          "type": "float",
+          "schema": "source_drill_should_ambient_sound_state_input.efficiency"
+        },
+        {
+          "name": "items_total",
+          "type": "int",
+          "schema": "source_drill_should_ambient_sound_state_input.items_total"
+        },
+        {
+          "name": "item_capacity",
+          "type": "int",
+          "schema": "source_drill_should_ambient_sound_state_input.item_capacity"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "should_ambient_sound"
+      ],
+      "tests": [
+        "test_c07_drill_should_ambient_sound_registration",
+        "test_all_c07_drill_should_ambient_sound_input_evidence_is_exact",
+        "test_drill_should_ambient_sound_state",
+        "test_reference_graph_and_actual_c07_drill_should_ambient_sound"
+      ],
+      "runtime_proof": "/root/C07DrillShouldAmbientSoundProof",
+      "rule": "Source-backed DrillBuild shouldAmbientSound() gate from Drill.java + BuildingComp.java + Block.java + Blocks.java + ItemModule.java + BurstDrill.java."
     }
   },
   "policy": {
