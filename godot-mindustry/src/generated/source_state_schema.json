@@ -237798,6 +237798,64 @@
       },
       "runtime_proof": "/root/C07TurretPowerHeatFoldProof",
       "rule": "Source-backed Turret heat requirement + cap read from Turret.java / Blocks.java."
+    },
+    "source_turret_charge_sound_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_charge_sound_state",
+      "source_slice": "N2271",
+      "keys": {
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "lancer = new PowerTurret(\"lancer\"){{",
+          "rule": "The block definition the read resolves (Blocks.java:3560): the catalog block whose properties carry the per-block firstShotDelay / chargeSound overrides, or the class defaults when it carries none. Duo is the same shape with neither override (Blocks.java:3257).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_charge_sound_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretChargeStateProof",
+      "rule": "Source-backed Turret charge sound state from Turret.java / ShootPattern.java / Blocks.java."
+    },
+    "source_turret_charge_sound_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_charge_sound_state",
+      "source_slice": "N2271",
+      "keys": {
+        "first_shot_delay": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+          "java_expr": "public float firstShotDelay = 0;",
+          "rule": "The first-shot delay in ticks before the first bullet fires (ShootPattern.java:11, the class default 0; the read returns the catalog value when the block carries one -- 40.0 for lancer, Blocks.java:3564).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_charge_sound_state"
+          ]
+        },
+        "charge_sound": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public Sound chargeSound = Sounds.none;",
+          "rule": "The name of the sound emitted when shooting begins with a first-shot delay (Turret.java:125-126, the class default Sounds.none; the read returns the catalog value when the block carries one -- \"chargeLancer\" for lancer, Blocks.java:3579).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_charge_sound_state"
+          ]
+        },
+        "charge_emitted": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "if(shoot.firstShotDelay > 0){",
+          "rule": "Whether the charge branch runs at shoot() time (Turret.java:747 -- true exactly when first_shot_delay > 0; false for every turret that keeps the 0 default, including duo and malign).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_charge_sound_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretChargeStateProof",
+      "rule": "Source-backed Turret charge sound state from Turret.java / ShootPattern.java / Blocks.java."
     }
   },
   "version": 1

@@ -3723,6 +3723,25 @@
       ],
       "runtime_proof": "/root/C07TurretPowerHeatFoldProof"
     },
+    "N2271": {
+      "canonical_ledger": "source_slice_ledger.N2271",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.shoot()",
+      "godot_owner": "SourceTurretBuildState.source_turret_charge_sound_state",
+      "source_symbols": [
+        "source_turret_charge_sound_state_result.first_shot_delay",
+        "source_turret_charge_sound_state_result.charge_sound",
+        "source_turret_charge_sound_state_result.charge_emitted"
+      ],
+      "tests": [
+        "test_c07_turret_charge_state_registration",
+        "test_all_c07_turret_charge_state_input_evidence_is_exact",
+        "test_turret_charge_state",
+        "test_reference_graph_and_actual_c07_turret_charge_state"
+      ],
+      "runtime_proof": "/root/C07TurretChargeStateProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

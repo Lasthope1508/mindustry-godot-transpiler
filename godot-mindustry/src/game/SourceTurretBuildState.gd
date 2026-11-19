@@ -912,6 +912,41 @@ static func source_turret_heat_requirement_state(block: Object) -> Dictionary:
 		max_heat_efficiency = float(block.properties.get("maxHeatEfficiency", 3.0))
 	return {"heat_requirement": heat_requirement, "max_heat_efficiency": max_heat_efficiency}
 
+static func source_turret_charge_sound_state(block: Object) -> Dictionary:
+	# Turret charge sound state (Turret.java:125-126/:132/:747-749,
+	# `/** Sound emitted when shoot.firstShotDelay is >0 and
+	# shooting begins. */ public Sound chargeSound = Sounds.none;`
+	# / `public float soundPitchMin = 0.9f, soundPitchMax = 1.1f;`
+	# / `if(shoot.firstShotDelay > 0){ chargeSound.at(bulletX,
+	# bulletY, Mathf.random(soundPitchMin, soundPitchMax));
+	# type.chargeEffect.at(bulletX, bulletY, rotation); }`): the
+	# catalog captures the block initializer's own assignment,
+	# else the class defaults -- only lancer sets either
+	# (Blocks.java:3564/:3579, `shoot.firstShotDelay = 40f;` /
+	# `chargeSound = Sounds.chargeLancer;`); every other turret
+	# reads the defaults 0.0 / "none" (ShootPattern.java:11,
+	# `public float firstShotDelay = 0;`), so the guard
+	# (`if(shoot.firstShotDelay > 0){`, Turret.java:747) stays
+	# off and no charge sound plays. A null block, or a block
+	# whose catalog carries no override, reads the class
+	# defaults. The result is a 3-key dict: `first_shot_delay`
+	# (the first-shot delay in ticks), `charge_sound` (the
+	# Sounds.* name to emit) and `charge_emitted` (exactly the
+	# :747 guard, first_shot_delay > 0). There is no driver tick:
+	# the emission happens inside shoot(), an event the driver
+	# has no equivalent for yet (precedent N2268 / N2269). The
+	# bullet type's chargeEffect (Turret.java:749,
+	# BulletType.java:79, `public Effect chargeEffect =
+	# Fx.none;`) waits for its own slice -- the catalog has no
+	# shootType bullet-effect representation yet.
+	var first_shot_delay := 0.0
+	var charge_sound := "none"
+	if block != null:
+		first_shot_delay = float(block.properties.get("firstShotDelay", 0.0))
+		charge_sound = str(block.properties.get("chargeSound", "none"))
+	var charge_emitted: bool = first_shot_delay > 0.0
+	return {"first_shot_delay": first_shot_delay, "charge_sound": charge_sound, "charge_emitted": charge_emitted}
+
 @warning_ignore("unused_parameter")
 static func source_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the turret tick wiring every tick

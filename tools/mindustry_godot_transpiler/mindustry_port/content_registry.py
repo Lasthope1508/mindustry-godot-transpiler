@@ -432,10 +432,19 @@ def _block_properties(source: str, assignment_end: int, implementation: str = ""
         properties["hasItems"] = has_items
     if properties.get("hasItems") is True and "itemCapacity" not in properties and default_item_capacity is not None:
         properties["itemCapacity"] = default_item_capacity
-    for key in ["range", "reload", "drillTime", "speed", "displayedSpeed", "shootY", "inaccuracy", "rotateSpeed", "shootCone", "recoil", "scaledHealth", "healPercent", "phaseBoost", "phaseRangeBoost", "speedBoost", "speedBoostPhase", "useTime", "lightRadius", "laserRange", "powerProduction", "itemDuration", "heatRequirement", "maxHeatEfficiency"]:
+    for key in ["range", "reload", "drillTime", "speed", "displayedSpeed", "shootY", "inaccuracy", "rotateSpeed", "shootCone", "recoil", "scaledHealth", "healPercent", "phaseBoost", "phaseRangeBoost", "speedBoost", "speedBoostPhase", "useTime", "lightRadius", "laserRange", "powerProduction", "itemDuration", "heatRequirement", "maxHeatEfficiency", "firstShotDelay"]:
         value = _numeric_assignment(initializer, key)
         if value is not None:
             properties[key] = value
+    # N2271: the charge sound name (Turret.java:125-126, `public
+    # Sound chargeSound = Sounds.none;`) -- only lancer sets it
+    # (Blocks.java:3579, `chargeSound = Sounds.chargeLancer;`).
+    # `_numeric_assignment` cannot capture a Sounds.* name, so
+    # match the enum member directly from the block initializer's
+    # own assignment.
+    charge_sound = re.search(r"\bchargeSound\s*=\s*Sounds\.([A-Za-z_]\w*)", initializer)
+    if charge_sound:
+        properties["chargeSound"] = charge_sound.group(1)
     buffered_capacity = _consume_power_buffered_capacity(initializer)
     if buffered_capacity is not None:
         properties["consumePowerBuffered"] = buffered_capacity
