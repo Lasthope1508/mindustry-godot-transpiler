@@ -239028,6 +239028,198 @@
       },
       "runtime_proof": "/root/C07BurstDrillLiquidRowsProof",
       "rule": "Source-backed BurstDrill liquid rows from BurstDrill.java + Drill.java + BuildingComp.java + Block.java + Blocks.java + ConsumeLiquid.java + ConsumeLiquidBase.java + Consume.java."
+    },
+    "source_turret_warmup_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_warmup_state",
+      "source_slice": "N2297",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float warmup(){",
+          "rule": "The turret frame (TurretBuild.warmup, Turret.java:354): the family-convention first arg every Turret pure function takes; it carries no tracked key for this accessor -- shoot_warmup arrives as an explicit param (the N2268/N2261 precedent), because the tick frame tracks no shoot_warmup key yet.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_warmup_state"
+          ]
+        },
+        "shoot_warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float shootWarmup, charge, warmupHold = 0f;",
+          "rule": "The current warmup (`shootWarmup`, Turret.java:355): the TurretBuild field (`public float shootWarmup, charge, warmupHold = 0f;`, Turret.java:286, Java default 0f), advanced toward warmupTarget by the updateTile warmup leg (N2265, Turret.java:502-515) -- NOT re-ported here; read by warmup() and by the minWarmup fire gate (Turret.java:733).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_warmup_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretMicroAccessorsProof",
+      "rule": "Source-backed TurretBuild.warmup()/drawrot()/canControl()/logicControlled() state from Turret.java + RotComp.java + BuildingComp.java."
+    },
+    "source_turret_warmup_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_warmup_state",
+      "source_slice": "N2297",
+      "keys": {
+        "warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return shootWarmup;",
+          "rule": "The warmup (Turret.java:355, `return shootWarmup;`): the TurretBuild shootWarmup field as-is.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_warmup_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretMicroAccessorsProof",
+      "rule": "Source-backed TurretBuild.warmup()/drawrot()/canControl()/logicControlled() state from Turret.java + RotComp.java + BuildingComp.java."
+    },
+    "source_turret_drawrot_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_drawrot_state",
+      "source_slice": "N2297",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float drawrot(){",
+          "rule": "The turret frame (TurretBuild.drawrot, Turret.java:359): the family-convention first arg every Turret pure function takes; the rotation value itself arrives as an explicit param, bound by the caller from the frame bound by source_turret_bind_frame_state (frame[\"rotation\"], the carrier N2276's write/read already use, default 0.0).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_drawrot_state"
+          ]
+        },
+        "rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/RotComp.java",
+          "java_expr": "@SyncField(false) @SyncLocal float rotation;",
+          "rule": "The aim angle (`rotation`, Turret.java:360): the RotComp float aim angle (`@SyncField(false) @SyncLocal float rotation;`, RotComp.java:8, default 0.0) -- NOT the Building int rotation 0-3 (`transient int rotation;`, BuildingComp.java:69); drawrot() subtracts 90 to convert the aim angle to draw rotation.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_drawrot_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretMicroAccessorsProof",
+      "rule": "Source-backed TurretBuild.warmup()/drawrot()/canControl()/logicControlled() state from Turret.java + RotComp.java + BuildingComp.java."
+    },
+    "source_turret_drawrot_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_drawrot_state",
+      "source_slice": "N2297",
+      "keys": {
+        "drawrot": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return rotation - 90;",
+          "rule": "The draw rotation (Turret.java:360, `return rotation - 90;`): the aim angle minus 90 degrees.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_drawrot_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretMicroAccessorsProof",
+      "rule": "Source-backed TurretBuild.warmup()/drawrot()/canControl()/logicControlled() state from Turret.java + RotComp.java + BuildingComp.java."
+    },
+    "source_turret_can_control_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_can_control_state",
+      "source_slice": "N2297",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public boolean canControl(){",
+          "rule": "The turret frame (TurretBuild.canControl, Turret.java:376): the family-convention first arg every Turret pure function takes; it carries no tracked key for this accessor -- player_controllable arrives as an explicit param (the N2268/N2261 precedent), because it is a block-level def field, not build state.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_can_control_state"
+          ]
+        },
+        "player_controllable": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public boolean playerControllable = true;",
+          "rule": "Whether players may control this turret (`playerControllable`, Turret.java:377): the block-level Turret field (`public boolean playerControllable = true;`, Turret.java:97, \"If true, this turret can be controlled by players.\"), default true.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_can_control_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretMicroAccessorsProof",
+      "rule": "Source-backed TurretBuild.warmup()/drawrot()/canControl()/logicControlled() state from Turret.java + RotComp.java + BuildingComp.java."
+    },
+    "source_turret_can_control_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_can_control_state",
+      "source_slice": "N2297",
+      "keys": {
+        "can_control": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return playerControllable;",
+          "rule": "Whether the turret can be controlled (Turret.java:377, `return playerControllable;`): the Turret playerControllable def as-is.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_can_control_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretMicroAccessorsProof",
+      "rule": "Source-backed TurretBuild.warmup()/drawrot()/canControl()/logicControlled() state from Turret.java + RotComp.java + BuildingComp.java."
+    },
+    "source_turret_logic_controlled_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_logic_controlled_state",
+      "source_slice": "N2297",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public boolean logicControlled(){",
+          "rule": "The turret frame (TurretBuild.logicControlled, Turret.java:445): the family-convention first arg every Turret pure function takes; it carries no tracked key for this accessor -- logic_control_time arrives as an explicit param (the N2268/N2261 precedent), because the tick frame tracks no logic key yet.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_logic_controlled_state"
+          ]
+        },
+        "logic_control_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float curRecoil, heat, logicControlTime = -1;",
+          "rule": "The logic-control timer (`logicControlTime`, Turret.java:446): the TurretBuild field (`public float curRecoil, heat, logicControlTime = -1;`, Turret.java:284, Java default -1), set to logicControlCooldown (`public final static float logicControlCooldown = 60 * 2;`, Turret.java:38) by control() (Turret.java:384/394) while logic holds the turret; positive while logic controls it.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_logic_controlled_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretMicroAccessorsProof",
+      "rule": "Source-backed TurretBuild.warmup()/drawrot()/canControl()/logicControlled() state from Turret.java + RotComp.java + BuildingComp.java."
+    },
+    "source_turret_logic_controlled_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_logic_controlled_state",
+      "source_slice": "N2297",
+      "keys": {
+        "logic_controlled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return logicControlTime > 0;",
+          "rule": "Whether logic controls the turret (Turret.java:446, `return logicControlTime > 0;`): true while the logic-control timer is positive.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_logic_controlled_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretMicroAccessorsProof",
+      "rule": "Source-backed TurretBuild.warmup()/drawrot()/canControl()/logicControlled() state from Turret.java + RotComp.java + BuildingComp.java."
     }
   },
   "version": 1

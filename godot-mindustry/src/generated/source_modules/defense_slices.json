@@ -3613,6 +3613,26 @@
       ],
       "runtime_proof": "/root/C07TurretSenseProof"
     },
+    "N2297": {
+      "canonical_ledger": "source_slice_ledger.N2297",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.warmup(); TurretBuild.drawrot(); TurretBuild.canControl(); TurretBuild.logicControlled()",
+      "godot_owner": "SourceTurretBuildState.source_turret_warmup_state",
+      "source_symbols": [
+        "source_turret_warmup_state_result.warmup",
+        "source_turret_drawrot_state_result.drawrot",
+        "source_turret_can_control_state_result.can_control",
+        "source_turret_logic_controlled_state_result.logic_controlled"
+      ],
+      "tests": [
+        "test_c07_turret_micro_accessors_registration",
+        "test_all_c07_turret_micro_accessors_input_evidence_is_exact",
+        "test_turret_micro_accessors_state",
+        "test_reference_graph_and_actual_c07_turret_micro_accessors"
+      ],
+      "runtime_proof": "/root/C07TurretMicroAccessorsProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

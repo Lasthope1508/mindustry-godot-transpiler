@@ -8483,6 +8483,37 @@
       "rule": "Source-backed TurretBuild.updateTile() warmup advance from Turret.java + BuildingComp.java + Blocks.java.",
       "return_type": "Dictionary"
     },
+    "SourceTurretBuildState.source_turret_warmup_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_warmup_state",
+      "status": "active",
+      "source_slice": "N2297",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.warmup()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_warmup_state_input.frame"
+        },
+        {
+          "name": "shoot_warmup",
+          "type": "float",
+          "schema": "source_turret_warmup_state_input.shoot_warmup"
+        }
+      ],
+      "return_keys": [
+        "warmup"
+      ],
+      "tests": [
+        "test_c07_turret_micro_accessors_registration",
+        "test_all_c07_turret_micro_accessors_input_evidence_is_exact",
+        "test_turret_micro_accessors_state",
+        "test_reference_graph_and_actual_c07_turret_micro_accessors"
+      ],
+      "runtime_proof": "/root/C07TurretMicroAccessorsProof",
+      "rule": "Source-backed TurretBuild.warmup()/drawrot()/canControl()/logicControlled() state from Turret.java + RotComp.java + BuildingComp.java.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_turret_write_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_write_state",
       "status": "active",

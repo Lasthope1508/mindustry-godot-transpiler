@@ -656,6 +656,83 @@ static func source_turret_status_state(frame: Dictionary, has_ammo: bool, activa
 		return {"status": building_status}
 	return {"status": SOURCE_TURRET_STATUS_INACTIVE}
 
+# TurretBuild.warmup() (Turret.java:354-356):
+# `public float warmup(){`
+# `return shootWarmup;`
+# `}`
+# on `public class TurretBuild extends ReloadTurretBuild implements ControlBlock{`
+# (Turret.java:277) in `public class Turret extends ReloadTurret{`
+# (Turret.java:36). shoot_warmup is the TurretBuild field (`public float
+# shootWarmup, charge, warmupHold = 0f;`, Turret.java:286, default 0f),
+# advanced toward warmupTarget by the updateTile warmup leg (N2265,
+# Turret.java:502-515) -- NOT re-ported here (the N2268/N2261
+# precedent): it arrives as an explicit param. NO driver tick line:
+# warmup() is a read accessor its callers read, not a per-tick write
+# (the N2249/N2221 precedent) -- the minWarmup fire gate reads it
+# (Turret.java:733) and the sound loop reads it; both callers wait
+# for their own slices.
+@warning_ignore("unused_parameter")
+static func source_turret_warmup_state(frame: Dictionary, shoot_warmup: float) -> Dictionary:
+	return {"warmup": shoot_warmup}
+
+# TurretBuild.drawrot() (Turret.java:359-361):
+# `public float drawrot(){`
+# `return rotation - 90;`
+# `}`
+# on `public class TurretBuild extends ReloadTurretBuild implements ControlBlock{`
+# (Turret.java:277). rotation is the RotComp float aim angle
+# (`@SyncField(false) @SyncLocal float rotation;`, RotComp.java:8,
+# default 0.0) -- NOT the Building int rotation 0-3 (`transient int
+# rotation;`, BuildingComp.java:69). The caller binds it from the
+# frame bound by source_turret_bind_frame_state (frame["rotation"],
+# the carrier N2276's write/read already use, default 0.0); it
+# arrives here as an explicit param (the N2268/N2261 precedent).
+# NO driver tick line: drawrot() is a read accessor the draw path
+# reads, not a per-tick write (the N2249/N2221 precedent).
+@warning_ignore("unused_parameter")
+static func source_turret_drawrot_state(frame: Dictionary, rotation: float) -> Dictionary:
+	return {"drawrot": rotation - 90.0}
+
+# TurretBuild.canControl() (Turret.java:376-378):
+# `public boolean canControl(){`
+# `return playerControllable;`
+# `}`
+# on `public class TurretBuild extends ReloadTurretBuild implements ControlBlock{`
+# (Turret.java:277). player_controllable is the block-level Turret
+# field (`public boolean playerControllable = true;`, Turret.java:97,
+# "If true, this turret can be controlled by players."), default
+# true -- a def field, not build state, so it arrives as an explicit
+# param (the N2268/N2261 precedent). NO driver tick line:
+# canControl() is a read accessor the control dispatch reads, not a
+# per-tick write (the N2249/N2221 precedent).
+@warning_ignore("unused_parameter")
+static func source_turret_can_control_state(frame: Dictionary, player_controllable: bool) -> Dictionary:
+	return {"can_control": player_controllable}
+
+# TurretBuild.logicControlled() (Turret.java:445-447):
+# `public boolean logicControlled(){`
+# `return logicControlTime > 0;`
+# `}`
+# on `public class TurretBuild extends ReloadTurretBuild implements ControlBlock{`
+# (Turret.java:277). logic_control_time is the TurretBuild field
+# (`public float curRecoil, heat, logicControlTime = -1;`,
+# Turret.java:284, default -1), set to logicControlCooldown
+# (`public final static float logicControlCooldown = 60 * 2;`,
+# Turret.java:38) by control() (Turret.java:384/394) while logic
+# holds the turret; it arrives as an explicit param (the
+# N2268/N2261 precedent), because the tick frame tracks no logic
+# key yet. NO driver tick line: logicControlled() is a read
+# accessor its callers read, not a per-tick write (the N2249/N2221
+# precedent) -- updateTile's isShooting computation reads it
+# (Turret.java:492) and findTarget's validateTarget reads it
+# (Turret.java:632); both callers wait for their own slices.
+# controlled() (Turret.java:441-443, `return unit.isPlayer();`)
+# is EXPLICITLY OUT OF SCOPE for this slice: the main thread
+# decides separately whether it becomes its own slice.
+@warning_ignore("unused_parameter")
+static func source_turret_logic_controlled_state(frame: Dictionary, logic_control_time: float) -> Dictionary:
+	return {"logic_controlled": logic_control_time > 0.0}
+
 # TurretBuild.findEnemy() (Turret.java:639-649):
 # `protected Posc findEnemy(float range){`
 # `if(targetAir && !targetGround){`

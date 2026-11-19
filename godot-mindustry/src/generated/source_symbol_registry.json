@@ -177848,6 +177848,70 @@
         "test_reference_graph_and_actual_c07_burst_drill_write_read"
       ],
       "runtime_proof": "/root/C07BurstDrillWriteReadProof"
+    },
+    "source_turret_warmup_state_result.warmup": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_warmup_state",
+      "godot_symbol": "source_turret_warmup_state_result.warmup",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.warmup()",
+      "java_expr": "return shootWarmup;",
+      "rule": "The warmup (Turret.java:355, `return shootWarmup;`): the TurretBuild shootWarmup field as-is.",
+      "tests": [
+        "test_c07_turret_micro_accessors_registration",
+        "test_all_c07_turret_micro_accessors_input_evidence_is_exact",
+        "test_turret_micro_accessors_state",
+        "test_reference_graph_and_actual_c07_turret_micro_accessors"
+      ],
+      "runtime_proof": "/root/C07TurretMicroAccessorsProof"
+    },
+    "source_turret_drawrot_state_result.drawrot": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_drawrot_state",
+      "godot_symbol": "source_turret_drawrot_state_result.drawrot",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.drawrot()",
+      "java_expr": "return rotation - 90;",
+      "rule": "The draw rotation (Turret.java:360, `return rotation - 90;`): the aim angle minus 90 degrees.",
+      "tests": [
+        "test_c07_turret_micro_accessors_registration",
+        "test_all_c07_turret_micro_accessors_input_evidence_is_exact",
+        "test_turret_micro_accessors_state",
+        "test_reference_graph_and_actual_c07_turret_micro_accessors"
+      ],
+      "runtime_proof": "/root/C07TurretMicroAccessorsProof"
+    },
+    "source_turret_can_control_state_result.can_control": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_can_control_state",
+      "godot_symbol": "source_turret_can_control_state_result.can_control",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.canControl()",
+      "java_expr": "return playerControllable;",
+      "rule": "Whether the turret can be controlled (Turret.java:377, `return playerControllable;`): the Turret playerControllable def as-is.",
+      "tests": [
+        "test_c07_turret_micro_accessors_registration",
+        "test_all_c07_turret_micro_accessors_input_evidence_is_exact",
+        "test_turret_micro_accessors_state",
+        "test_reference_graph_and_actual_c07_turret_micro_accessors"
+      ],
+      "runtime_proof": "/root/C07TurretMicroAccessorsProof"
+    },
+    "source_turret_logic_controlled_state_result.logic_controlled": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_logic_controlled_state",
+      "godot_symbol": "source_turret_logic_controlled_state_result.logic_controlled",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.logicControlled()",
+      "java_expr": "return logicControlTime > 0;",
+      "rule": "Whether logic controls the turret (Turret.java:446, `return logicControlTime > 0;`): true while the logic-control timer is positive.",
+      "tests": [
+        "test_c07_turret_micro_accessors_registration",
+        "test_all_c07_turret_micro_accessors_input_evidence_is_exact",
+        "test_turret_micro_accessors_state",
+        "test_reference_graph_and_actual_c07_turret_micro_accessors"
+      ],
+      "runtime_proof": "/root/C07TurretMicroAccessorsProof"
     }
   },
   "version": 1

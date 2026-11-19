@@ -70414,6 +70414,126 @@
       ],
       "runtime_proof": "/root/C07BurstDrillLiquidRowsProof",
       "rule": "Source-backed BurstDrill liquid rows from BurstDrill.java + Drill.java + BuildingComp.java + Block.java + Blocks.java + ConsumeLiquid.java + ConsumeLiquidBase.java + Consume.java."
+    },
+    "SourceTurretBuildState.source_turret_warmup_state": {
+      "status": "active",
+      "source_slice": "N2297",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.warmup()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_warmup_state_input.frame"
+        },
+        {
+          "name": "shoot_warmup",
+          "type": "float",
+          "schema": "source_turret_warmup_state_input.shoot_warmup"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "warmup"
+      ],
+      "tests": [
+        "test_c07_turret_micro_accessors_registration",
+        "test_all_c07_turret_micro_accessors_input_evidence_is_exact",
+        "test_turret_micro_accessors_state",
+        "test_reference_graph_and_actual_c07_turret_micro_accessors"
+      ],
+      "runtime_proof": "/root/C07TurretMicroAccessorsProof",
+      "rule": "Source-backed TurretBuild.warmup()/drawrot()/canControl()/logicControlled() state from Turret.java + RotComp.java + BuildingComp.java."
+    },
+    "SourceTurretBuildState.source_turret_drawrot_state": {
+      "status": "active",
+      "source_slice": "N2297",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.drawrot()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_drawrot_state_input.frame"
+        },
+        {
+          "name": "rotation",
+          "type": "float",
+          "schema": "source_turret_drawrot_state_input.rotation"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "drawrot"
+      ],
+      "tests": [
+        "test_c07_turret_micro_accessors_registration",
+        "test_all_c07_turret_micro_accessors_input_evidence_is_exact",
+        "test_turret_micro_accessors_state",
+        "test_reference_graph_and_actual_c07_turret_micro_accessors"
+      ],
+      "runtime_proof": "/root/C07TurretMicroAccessorsProof",
+      "rule": "Source-backed TurretBuild.warmup()/drawrot()/canControl()/logicControlled() state from Turret.java + RotComp.java + BuildingComp.java."
+    },
+    "SourceTurretBuildState.source_turret_can_control_state": {
+      "status": "active",
+      "source_slice": "N2297",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.canControl()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_can_control_state_input.frame"
+        },
+        {
+          "name": "player_controllable",
+          "type": "bool",
+          "schema": "source_turret_can_control_state_input.player_controllable"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "can_control"
+      ],
+      "tests": [
+        "test_c07_turret_micro_accessors_registration",
+        "test_all_c07_turret_micro_accessors_input_evidence_is_exact",
+        "test_turret_micro_accessors_state",
+        "test_reference_graph_and_actual_c07_turret_micro_accessors"
+      ],
+      "runtime_proof": "/root/C07TurretMicroAccessorsProof",
+      "rule": "Source-backed TurretBuild.warmup()/drawrot()/canControl()/logicControlled() state from Turret.java + RotComp.java + BuildingComp.java."
+    },
+    "SourceTurretBuildState.source_turret_logic_controlled_state": {
+      "status": "active",
+      "source_slice": "N2297",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.logicControlled()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_logic_controlled_state_input.frame"
+        },
+        {
+          "name": "logic_control_time",
+          "type": "float",
+          "schema": "source_turret_logic_controlled_state_input.logic_control_time"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "logic_controlled"
+      ],
+      "tests": [
+        "test_c07_turret_micro_accessors_registration",
+        "test_all_c07_turret_micro_accessors_input_evidence_is_exact",
+        "test_turret_micro_accessors_state",
+        "test_reference_graph_and_actual_c07_turret_micro_accessors"
+      ],
+      "runtime_proof": "/root/C07TurretMicroAccessorsProof",
+      "rule": "Source-backed TurretBuild.warmup()/drawrot()/canControl()/logicControlled() state from Turret.java + RotComp.java + BuildingComp.java."
     }
   },
   "policy": {
