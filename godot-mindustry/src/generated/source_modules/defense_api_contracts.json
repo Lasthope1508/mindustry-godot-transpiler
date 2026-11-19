@@ -8988,6 +8988,44 @@
       "rule": "Source-backed Turret unit sync from Turret.java.",
       "return_type": "Dictionary"
     },
+    "SourceTurretBuildState.source_turret_unit_world_position_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_unit_world_position_state",
+      "status": "active",
+      "source_slice": "N2274",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.updateTile()",
+      "params": [
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_turret_unit_world_position_state_input.cell"
+        },
+        {
+          "name": "block_size",
+          "type": "float",
+          "schema": "source_turret_unit_world_position_state_input.block_size"
+        },
+        {
+          "name": "tilesize",
+          "type": "float",
+          "schema": "source_turret_unit_world_position_state_input.tilesize"
+        }
+      ],
+      "return_keys": [
+        "unit_world_x",
+        "unit_world_y",
+        "unit_tile"
+      ],
+      "tests": [
+        "test_c07_turret_unit_world_position_registration",
+        "test_all_c07_turret_unit_world_position_input_evidence_is_exact",
+        "test_turret_unit_world_position_state",
+        "test_reference_graph_and_actual_c07_turret_unit_world_position"
+      ],
+      "runtime_proof": "/root/C07TurretUnitWorldPositionProof",
+      "rule": "Source-backed Turret unit world position from BlockUnitComp.tile() / PosComp.set / Tile drawx/drawy.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_turret_warmup_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_warmup_state",
       "status": "active",

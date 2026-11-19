@@ -3778,6 +3778,25 @@
       ],
       "runtime_proof": "/root/C07TurretChargeEffectProof"
     },
+    "N2274": {
+      "canonical_ledger": "source_slice_ledger.N2274",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "godot_owner": "SourceTurretBuildState.source_turret_unit_world_position_state",
+      "source_symbols": [
+        "source_turret_unit_world_position_state_result.unit_world_x",
+        "source_turret_unit_world_position_state_result.unit_world_y",
+        "source_turret_unit_world_position_state_result.unit_tile"
+      ],
+      "tests": [
+        "test_c07_turret_unit_world_position_registration",
+        "test_all_c07_turret_unit_world_position_input_evidence_is_exact",
+        "test_turret_unit_world_position_state",
+        "test_reference_graph_and_actual_c07_turret_unit_world_position"
+      ],
+      "runtime_proof": "/root/C07TurretUnitWorldPositionProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

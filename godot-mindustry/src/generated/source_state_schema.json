@@ -237972,6 +237972,84 @@
       },
       "runtime_proof": "/root/C07TurretChargeEffectProof",
       "rule": "Source-backed Turret charge effect state from Turret.java / ShootPattern.java / BulletType.java / Blocks.java."
+    },
+    "source_turret_unit_world_position_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_unit_world_position_state",
+      "source_slice": "N2274",
+      "keys": {
+        "cell": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "unit.tile(this);",
+          "rule": "The building cell whose world position the unit takes (Turret.java:529; the driver passes cell, the origin cell of the placed building -- tile is `this` at this call site, so the world position is always the building tile itself).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_unit_world_position_state"
+          ]
+        },
+        "block_size": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "offset = ((size + 1) % 2) * tilesize / 2f;",
+          "rule": "The block size feeding the draw offset (Block.java:761; duo size is 1, the Block.java:215 default, never overridden, so the driver passes 1.0 and the offset is 0).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_unit_world_position_state"
+          ]
+        },
+        "tilesize": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "return x * tilesize;",
+          "rule": "The world tilesize feeding the world position (Tile.java:167; Vars.tilesize is 8, so the driver passes 8.0).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_unit_world_position_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretUnitWorldPositionProof",
+      "rule": "Source-backed Turret unit world position from BlockUnitComp.tile() / PosComp.set / Tile drawx/drawy."
+    },
+    "source_turret_unit_world_position_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_unit_world_position_state",
+      "source_slice": "N2274",
+      "keys": {
+        "unit_world_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "return drawx();",
+          "rule": "The unit world x after the tick (Tile.java:728 -- getX() is drawx(), block offset + cell x * tilesize; 224.0 live for duo at cell (28, 21)).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_unit_world_position_state"
+          ]
+        },
+        "unit_world_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Tile.java",
+          "java_expr": "return drawy();",
+          "rule": "The unit world y after the tick (Tile.java:733 -- getY() is drawy(), block offset + cell y * tilesize; 168.0 live for duo at cell (28, 21)).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_unit_world_position_state"
+          ]
+        },
+        "unit_tile": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "java_expr": "this.tile = tile;",
+          "rule": "The unit tile after the tick (BlockUnitComp.java:18 -- tile() re-asserts the link every tick; the driver stamps it on frame[\"unit_tile\"], same key as N2260).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_unit_world_position_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretUnitWorldPositionProof",
+      "rule": "Source-backed Turret unit world position from BlockUnitComp.tile() / PosComp.set / Tile drawx/drawy."
     }
   },
   "version": 1

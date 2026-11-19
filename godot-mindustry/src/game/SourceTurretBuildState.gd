@@ -439,6 +439,34 @@ static func source_turret_unit_sync_state(unit_tile: Vector2i, rotation: float, 
 	var tile_change_team_called: bool = unit_team != team_id and tile_team != team_id
 	return {"unit_tile": unit_tile, "unit_rotation": rotation, "unit_team": team_id, "unit_hit_size": hit_size, "tile_change_team_called": tile_change_team_called}
 
+static func source_turret_unit_world_position_state(cell: Vector2i, block_size: float, tilesize: float) -> Dictionary:
+	# TurretBuild.updateTile() (Turret.java:490-615) syncs its
+	# block unit every tick:
+	# `unit.tile(this);`
+	# (Turret.java:529) -- and tile() positions the unit in
+	# world coordinates, as its last line:
+	# `set(tile);`
+	# (BlockUnitComp.java:24) ->
+	# `set(pos.getX(), pos.getY());`
+	# (PosComp.java:24) -> Tile.getX()/getY() are drawx()/drawy():
+	# `return drawx();`
+	# (Tile.java:728) /
+	# `return drawy();`
+	# (Tile.java:733), drawx() is `block().offset + worldx()`
+	# (Tile.java:176) with worldx() `x * tilesize` (:167), and
+	# Block.offset is
+	# `offset = ((size + 1) % 2) * tilesize / 2f;`
+	# (Block.java:761) -- 0 for odd sizes, tilesize/2 for even
+	# sizes. The port already has drawx/drawy as
+	# SourceBlockGeometry.tile_drawx_state / tile_drawy_state.
+	# The result is a 3-key dict: `unit_world_x`,
+	# `unit_world_y` and `unit_tile` (the tile link re-asserted,
+	# same as the N2260 unit sync).
+	var block_offset: float = fmod(block_size + 1.0, 2.0) * tilesize / 2.0
+	var unit_world_x: float = source_block_geometry.tile_drawx_state(cell.x, tilesize, block_offset)
+	var unit_world_y: float = source_block_geometry.tile_drawy_state(cell.y, tilesize, block_offset)
+	return {"unit_world_x": unit_world_x, "unit_world_y": unit_world_y, "unit_tile": cell}
+
 static func source_turret_logic_control_time_state(logic_control_time: float, delta: float) -> Dictionary:
 	# TurretBuild.updateTile() (Turret.java:490-560) decays the
 	# logic-control timer every tick, after the recoilOffset draw
@@ -1275,6 +1303,22 @@ static func source_turret_tick_buildings_state(game: Object, seconds: float) -> 
 			frame["unit_team"] = unit_sync.get("unit_team", team_id)
 			frame["unit_hit_size"] = unit_sync.get("unit_hit_size", 5.6)
 			frame["tile_change_team_called"] = unit_sync.get("tile_change_team_called", false)
+			# The unit world position (BlockUnitComp.tile()
+			# :24 `set(tile);`, N2274) runs right after the
+			# unit sync tick: Java order :529-531 sync, :532
+			# offset -- tile() positions the unit at the tile's
+			# world coordinates (`set(pos.getX(), pos.getY());`,
+			# PosComp.java:24; Tile.getX()/getY() are drawx()/
+			# drawy(), Tile.java:727-734), so the tick stamps
+			# unit_world_x / unit_world_y on the frame with duo
+			# size 1.0 (Block.java:215 default, never
+			# overridden) and tilesize 8.0 (Vars.tilesize).
+			# The x/y defaults are the duo live values for the
+			# cell (offset 0, tilesize 8, so cell * 8).
+			var unit_world_position: Dictionary = source_turret_unit_world_position_state(cell, 1.0, 8.0)
+			frame["unit_world_x"] = unit_world_position.get("unit_world_x", float(cell.x) * 8.0)
+			frame["unit_world_y"] = unit_world_position.get("unit_world_y", float(cell.y) * 8.0)
+			frame["unit_tile"] = unit_world_position.get("unit_tile", cell)
 			# The recoilOffset draw (Turret.java:532, N2258) runs
 			# right after the recoil decays: Java order :519/:520-525
 			# decay, :532 offset, :595-596 turnToTarget, :601/:609

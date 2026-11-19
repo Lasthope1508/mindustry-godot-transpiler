@@ -69893,6 +69893,43 @@
       ],
       "runtime_proof": "/root/C07TurretChargeEffectProof",
       "rule": "Source-backed Turret charge effect state from Turret.java / ShootPattern.java / BulletType.java / Blocks.java."
+    },
+    "SourceTurretBuildState.source_turret_unit_world_position_state": {
+      "status": "active",
+      "source_slice": "N2274",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.updateTile()",
+      "params": [
+        {
+          "name": "cell",
+          "type": "Vector2i",
+          "schema": "source_turret_unit_world_position_state_input.cell"
+        },
+        {
+          "name": "block_size",
+          "type": "float",
+          "schema": "source_turret_unit_world_position_state_input.block_size"
+        },
+        {
+          "name": "tilesize",
+          "type": "float",
+          "schema": "source_turret_unit_world_position_state_input.tilesize"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "unit_world_x",
+        "unit_world_y",
+        "unit_tile"
+      ],
+      "tests": [
+        "test_c07_turret_unit_world_position_registration",
+        "test_all_c07_turret_unit_world_position_input_evidence_is_exact",
+        "test_turret_unit_world_position_state",
+        "test_reference_graph_and_actual_c07_turret_unit_world_position"
+      ],
+      "runtime_proof": "/root/C07TurretUnitWorldPositionProof",
+      "rule": "Source-backed Turret unit world position from BlockUnitComp.tile() / PosComp.set / Tile drawx/drawy."
     }
   },
   "policy": {
