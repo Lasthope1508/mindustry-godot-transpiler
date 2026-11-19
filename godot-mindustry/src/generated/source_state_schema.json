@@ -239628,6 +239628,64 @@
       },
       "runtime_proof": "/root/C07DrillShouldAmbientSoundProof",
       "rule": "Source-backed DrillBuild shouldAmbientSound() gate from Drill.java + BuildingComp.java + Block.java + Blocks.java + ItemModule.java + BurstDrill.java."
+    },
+    "source_turret_unit_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_unit_state",
+      "source_slice": "N2307",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public Unit unit(){",
+          "rule": "The turret frame (TurretBuild.unit, Turret.java:434): the family-convention first arg every Turret pure function takes; it IS the building (`this`) the unit is synced to -- the returned unit carries it as its tile.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_unit_state"
+          ]
+        },
+        "unit": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public BlockUnitc unit = (BlockUnitc)UnitTypes.block.create(team);",
+          "rule": "The block unit (`unit`, Turret.java:436-438): the TurretBuild field (`public BlockUnitc unit = (BlockUnitc)UnitTypes.block.create(team);`, Turret.java:291, created once from UnitTypes.block) -- NOT re-ported here (Unit/BlockUnitc are not ported); it arrives as an explicit param (the N2268/N2261 precedent) as a state dict, and the function returns a synced copy of it.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_unit_state"
+          ]
+        },
+        "team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "@Import Team team;",
+          "rule": "The building team id (`team`, Turret.java:437): the TurretBuild team (`@Import Team team;`, BuildingComp.java:62), carried as an int (the tick-frame convention: source_turret_tick_frame_state binds frame[\"team_id\"]); the returned unit carries it as its team_id.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_unit_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretUnitProof",
+      "rule": "Source-backed TurretBuild.unit() state from Turret.java + BlockUnitComp.java + TeamComp.java + BuildingComp.java."
+    },
+    "source_turret_unit_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_unit_state",
+      "source_slice": "N2307",
+      "keys": {
+        "unit": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return (Unit)unit;",
+          "rule": "The synced unit (Turret.java:438, `return (Unit)unit;`): a copy of the input unit dict with `tile` set to the building frame (`unit.tile(this);`, Turret.java:436, resolving to BlockUnitComp.tile(Building), BlockUnitComp.java:17 -- the tile field itself, `@ReadOnly transient Building tile;`, BlockUnitComp.java:14) and `team_id` set to the building team (`unit.team(team);`, Turret.java:437; the unit team field defaults to derelict, `Team team = Team.derelict;`, TeamComp.java:15). The BlockUnitComp.tile() stat derivation (maxHealth/health/hitSize/set) is NOT applied here -- it stays deferred for its own slice.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_unit_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretUnitProof",
+      "rule": "Source-backed TurretBuild.unit() state from Turret.java + BlockUnitComp.java + TeamComp.java + BuildingComp.java."
     }
   },
   "version": 1

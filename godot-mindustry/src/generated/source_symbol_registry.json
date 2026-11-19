@@ -178056,6 +178056,22 @@
         "test_reference_graph_and_actual_c07_drill_should_ambient_sound"
       ],
       "runtime_proof": "/root/C07DrillShouldAmbientSoundProof"
+    },
+    "source_turret_unit_state_result.unit": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_unit_state",
+      "godot_symbol": "source_turret_unit_state_result.unit",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.unit()",
+      "java_expr": "return (Unit)unit;",
+      "rule": "The synced unit (Turret.java:438, `return (Unit)unit;`): a copy of the input unit dict with `tile` set to the building frame (`unit.tile(this);`, Turret.java:436, resolving to BlockUnitComp.tile(Building), BlockUnitComp.java:17 -- the tile field itself, `@ReadOnly transient Building tile;`, BlockUnitComp.java:14) and `team_id` set to the building team (`unit.team(team);`, Turret.java:437; the unit team field defaults to derelict, `Team team = Team.derelict;`, TeamComp.java:15). The BlockUnitComp.tile() stat derivation (maxHealth/health/hitSize/set) is NOT applied here -- it stays deferred for its own slice.",
+      "tests": [
+        "test_c07_turret_unit_registration",
+        "test_all_c07_turret_unit_input_evidence_is_exact",
+        "test_turret_unit_state",
+        "test_reference_graph_and_actual_c07_turret_unit"
+      ],
+      "runtime_proof": "/root/C07TurretUnitProof"
     }
   },
   "version": 1

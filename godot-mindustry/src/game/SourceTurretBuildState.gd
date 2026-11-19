@@ -733,6 +733,42 @@ static func source_turret_can_control_state(frame: Dictionary, player_controllab
 static func source_turret_logic_controlled_state(frame: Dictionary, logic_control_time: float) -> Dictionary:
 	return {"logic_controlled": logic_control_time > 0.0}
 
+# TurretBuild.unit() (Turret.java:434-439):
+# `public Unit unit(){`
+# `unit.tile(this);`
+# `unit.team(team);`
+# `return (Unit)unit;`
+# `}`
+# on `public class TurretBuild extends ReloadTurretBuild implements ControlBlock{`
+# (Turret.java:277). unit is the TurretBuild field
+# `public BlockUnitc unit = (BlockUnitc)UnitTypes.block.create(team);`
+# (Turret.java:291), created once from UnitTypes.block -- NOT re-ported
+# here (Unit/BlockUnitc are not ported): it arrives as an explicit param
+# (the N2268/N2261 precedent).
+# team_id is the building team as an int (the tick-frame convention:
+# source_turret_tick_frame_state binds frame["team_id"]); the Building
+# team is `@Import Team team;` (BuildingComp.java:62) and the unit team
+# field defaults to derelict (`Team team = Team.derelict;`,
+# TeamComp.java:15). The function performs the sync itself: it copies
+# the input unit dict, sets tile to the building frame (`this`,
+# `unit.tile(this);` resolving to
+# `public void tile(Building tile){` (BlockUnitComp.java:17), on the
+# tile field `@ReadOnly transient Building tile;`
+# (BlockUnitComp.java:14)) and team_id to the building team, and
+# returns the synced unit. The stat derivation INSIDE
+# BlockUnitComp.tile(Building) (maxHealth/health/hitSize/set,
+# BlockUnitComp.java:17-27) is NOT applied here: tile() is a separate
+# method on a different component -- it stays deferred for its own
+# slice. NO driver tick line: unit() is a read accessor its callers
+# read, not a per-tick write (the N2249/N2221 precedent) --
+# controlled() reads the result (`unit.isPlayer();`,
+# Turret.java:442) and waits for its own slice.
+static func source_turret_unit_state(frame: Dictionary, unit: Dictionary, team_id: int) -> Dictionary:
+	var synced: Dictionary = unit.duplicate()
+	synced["tile"] = frame
+	synced["team_id"] = team_id
+	return {"unit": synced}
+
 # TurretBuild.findEnemy() (Turret.java:639-649):
 # `protected Posc findEnemy(float range){`
 # `if(targetAir && !targetGround){`

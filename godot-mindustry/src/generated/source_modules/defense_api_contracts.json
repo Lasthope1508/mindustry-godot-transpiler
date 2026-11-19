@@ -8390,6 +8390,42 @@
       "rule": "Source-backed TurretBuild.trackingRange() state from Turret.java + BaseTurret.java + BulletType.java.",
       "return_type": "Dictionary"
     },
+    "SourceTurretBuildState.source_turret_unit_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_unit_state",
+      "status": "active",
+      "source_slice": "N2307",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.unit()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_unit_state_input.frame"
+        },
+        {
+          "name": "unit",
+          "type": "Dictionary",
+          "schema": "source_turret_unit_state_input.unit"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_turret_unit_state_input.team_id"
+        }
+      ],
+      "return_keys": [
+        "unit"
+      ],
+      "tests": [
+        "test_c07_turret_unit_registration",
+        "test_all_c07_turret_unit_input_evidence_is_exact",
+        "test_turret_unit_state",
+        "test_reference_graph_and_actual_c07_turret_unit"
+      ],
+      "runtime_proof": "/root/C07TurretUnitProof",
+      "rule": "Source-backed TurretBuild.unit() state from Turret.java + BlockUnitComp.java + TeamComp.java + BuildingComp.java.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_turret_update_tile_warmup_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_update_tile_warmup_state",
       "status": "active",
