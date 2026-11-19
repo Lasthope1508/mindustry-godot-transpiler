@@ -70096,6 +70096,232 @@
       ],
       "runtime_proof": "/root/C07TurretStatusProof",
       "rule": "Source-backed TurretBuild.status() state from Turret.java + BaseTurret.java + BuildingComp.java + BlockStatus.java."
+    },
+    "SourceSoundControlState.source_sound_control_loop_state": {
+      "status": "active",
+      "source_slice": "N2287",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "source_method": "SoundControl.loop(Sound, Position, float, float)",
+      "params": [
+        {
+          "name": "sound",
+          "type": "String",
+          "schema": "source_sound_control_loop_state_input.sound"
+        },
+        {
+          "name": "pos_x",
+          "type": "float",
+          "schema": "source_sound_control_loop_state_input.pos_x"
+        },
+        {
+          "name": "pos_y",
+          "type": "float",
+          "schema": "source_sound_control_loop_state_input.pos_y"
+        },
+        {
+          "name": "volume",
+          "type": "float",
+          "schema": "source_sound_control_loop_state_input.volume"
+        },
+        {
+          "name": "pitch",
+          "type": "float",
+          "schema": "source_sound_control_loop_state_input.pitch"
+        },
+        {
+          "name": "headless",
+          "type": "bool",
+          "schema": "source_sound_control_loop_state_input.headless"
+        },
+        {
+          "name": "camera_x",
+          "type": "float",
+          "schema": "source_sound_control_loop_state_input.camera_x"
+        },
+        {
+          "name": "camera_y",
+          "type": "float",
+          "schema": "source_sound_control_loop_state_input.camera_y"
+        },
+        {
+          "name": "audio_falloff",
+          "type": "float",
+          "schema": "source_sound_control_loop_state_input.audio_falloff"
+        },
+        {
+          "name": "falloff_offset",
+          "type": "float",
+          "schema": "source_sound_control_loop_state_input.falloff_offset"
+        },
+        {
+          "name": "prev",
+          "type": "Dictionary",
+          "schema": "source_sound_control_loop_state_input.prev"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "volume",
+        "pitch",
+        "total",
+        "total_volume",
+        "sum_x",
+        "sum_y",
+        "sound_id",
+        "cur_volume"
+      ],
+      "tests": [
+        "test_c07_sound_control_loop_registration",
+        "test_all_c07_sound_control_loop_input_evidence_is_exact",
+        "test_sound_control_loop_state",
+        "test_reference_graph_and_actual_c07_sound_control_loop"
+      ],
+      "runtime_proof": "/root/C07SoundControlLoopProof",
+      "rule": "Source-backed SoundControl.loop() state from SoundControl.java + Sound.java + Audio.java + Vars.java + Mathf.java."
+    },
+    "SourceSoundControlState.source_sound_control_loop_position_state": {
+      "status": "active",
+      "source_slice": "N2287",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "source_method": "SoundControl.loop(Sound, Position, float)",
+      "params": [
+        {
+          "name": "sound",
+          "type": "String",
+          "schema": "source_sound_control_loop_position_state_input.sound"
+        },
+        {
+          "name": "pos_x",
+          "type": "float",
+          "schema": "source_sound_control_loop_position_state_input.pos_x"
+        },
+        {
+          "name": "pos_y",
+          "type": "float",
+          "schema": "source_sound_control_loop_position_state_input.pos_y"
+        },
+        {
+          "name": "volume",
+          "type": "float",
+          "schema": "source_sound_control_loop_position_state_input.volume"
+        },
+        {
+          "name": "headless",
+          "type": "bool",
+          "schema": "source_sound_control_loop_position_state_input.headless"
+        },
+        {
+          "name": "camera_x",
+          "type": "float",
+          "schema": "source_sound_control_loop_position_state_input.camera_x"
+        },
+        {
+          "name": "camera_y",
+          "type": "float",
+          "schema": "source_sound_control_loop_position_state_input.camera_y"
+        },
+        {
+          "name": "audio_falloff",
+          "type": "float",
+          "schema": "source_sound_control_loop_position_state_input.audio_falloff"
+        },
+        {
+          "name": "falloff_offset",
+          "type": "float",
+          "schema": "source_sound_control_loop_position_state_input.falloff_offset"
+        },
+        {
+          "name": "prev",
+          "type": "Dictionary",
+          "schema": "source_sound_control_loop_position_state_input.prev"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "volume",
+        "pitch",
+        "total",
+        "total_volume",
+        "sum_x",
+        "sum_y",
+        "sound_id",
+        "cur_volume"
+      ],
+      "tests": [
+        "test_c07_sound_control_loop_registration",
+        "test_all_c07_sound_control_loop_input_evidence_is_exact",
+        "test_sound_control_loop_state",
+        "test_reference_graph_and_actual_c07_sound_control_loop"
+      ],
+      "runtime_proof": "/root/C07SoundControlLoopProof",
+      "rule": "Source-backed SoundControl.loop() state from SoundControl.java + Sound.java + Audio.java + Vars.java + Mathf.java."
+    },
+    "SourceSoundControlState.source_sound_control_loop_volume_state": {
+      "status": "active",
+      "source_slice": "N2287",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "source_method": "SoundControl.loop(Sound, float)",
+      "params": [
+        {
+          "name": "sound",
+          "type": "String",
+          "schema": "source_sound_control_loop_volume_state_input.sound"
+        },
+        {
+          "name": "volume",
+          "type": "float",
+          "schema": "source_sound_control_loop_volume_state_input.volume"
+        },
+        {
+          "name": "headless",
+          "type": "bool",
+          "schema": "source_sound_control_loop_volume_state_input.headless"
+        },
+        {
+          "name": "camera_x",
+          "type": "float",
+          "schema": "source_sound_control_loop_volume_state_input.camera_x"
+        },
+        {
+          "name": "camera_y",
+          "type": "float",
+          "schema": "source_sound_control_loop_volume_state_input.camera_y"
+        },
+        {
+          "name": "audio_falloff",
+          "type": "float",
+          "schema": "source_sound_control_loop_volume_state_input.audio_falloff"
+        },
+        {
+          "name": "falloff_offset",
+          "type": "float",
+          "schema": "source_sound_control_loop_volume_state_input.falloff_offset"
+        },
+        {
+          "name": "prev",
+          "type": "Dictionary",
+          "schema": "source_sound_control_loop_volume_state_input.prev"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "volume",
+        "pitch",
+        "total",
+        "total_volume",
+        "sum_x",
+        "sum_y",
+        "sound_id",
+        "cur_volume"
+      ],
+      "tests": [
+        "test_c07_sound_control_loop_registration",
+        "test_all_c07_sound_control_loop_input_evidence_is_exact",
+        "test_sound_control_loop_state",
+        "test_reference_graph_and_actual_c07_sound_control_loop"
+      ],
+      "runtime_proof": "/root/C07SoundControlLoopProof",
+      "rule": "Source-backed SoundControl.loop() state from SoundControl.java + Sound.java + Audio.java + Vars.java + Mathf.java."
     }
   },
   "policy": {

@@ -238280,6 +238280,590 @@
       },
       "runtime_proof": "/root/C07TurretStatusProof",
       "rule": "Source-backed TurretBuild.status() state from Turret.java + BaseTurret.java + BuildingComp.java + BlockStatus.java."
+    },
+    "source_sound_control_loop_state_input": {
+      "status": "active",
+      "owner": "SourceSoundControlState.source_sound_control_loop_state",
+      "source_slice": "N2287",
+      "keys": {
+        "sound": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "public void loop(Sound sound, Position pos, float volume, float pitch){",
+          "rule": "The sound being looped (SoundControl.java:103): its name String; Sounds.none is the string \"none\" (the N2222 precedent) and the guard returns the previous SoundData unchanged for it.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_state"
+          ]
+        },
+        "pos_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "pos.getX()",
+          "rule": "The sound position x (SoundControl.java:106, `sound.calcFalloff(pos.getX(), pos.getY())`, and :115, the sum weighting): the Position the 4-arg overload loops at.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_state"
+          ]
+        },
+        "pos_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "pos.getY()",
+          "rule": "The sound position y (SoundControl.java:106, `sound.calcFalloff(pos.getX(), pos.getY())`, and :115, the sum weighting): the Position the 4-arg overload loops at.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_state"
+          ]
+        },
+        "volume": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "if(Vars.headless || sound == Sounds.none || volume <= 0.00001f) return;",
+          "rule": "The loop volume (SoundControl.java:104): at or below 0.00001f the guard returns the previous SoundData unchanged; otherwise vol = baseVol * volume (:107).",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_state"
+          ]
+        },
+        "pitch": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "data.pitch += pitch * vol;",
+          "rule": "The loop pitch (SoundControl.java:111, `data.pitch += pitch * vol;`): weighted by vol, not by baseVol.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_state"
+          ]
+        },
+        "headless": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/Vars.java",
+          "java_expr": "public static boolean headless;",
+          "rule": "Whether the game runs on a headless server (Vars.java:209, `public static boolean headless;`, default false): the N2259 accessor supplies it; a headless game returns the previous SoundData unchanged (SoundControl.java:104).",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_state"
+          ]
+        },
+        "camera_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/audio/Sound.java",
+          "java_expr": "Core.camera.position.x",
+          "rule": "The camera (listener) position x (Sound.java:154, `Mathf.dst2(x, y, Core.camera.position.x, Core.camera.position.y)`): calcFalloff measures the squared distance from the sound position to here.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_state"
+          ]
+        },
+        "camera_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/audio/Sound.java",
+          "java_expr": "Core.camera.position.y",
+          "rule": "The camera (listener) position y (Sound.java:154): calcFalloff measures the squared distance from the sound position to here.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_state"
+          ]
+        },
+        "audio_falloff": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/audio/Audio.java",
+          "java_expr": "public float falloff = 16000f;",
+          "rule": "Core.audio falloff (Audio.java:13, `public float falloff = 16000f;`): the divisor in calcFalloff (`1f / (dst2 / Core.audio.falloff)`, Sound.java:155).",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_state"
+          ]
+        },
+        "falloff_offset": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/audio/Sound.java",
+          "java_expr": "float falloffOffset = 0f;",
+          "rule": "The Sound falloff offset (Sound.java:32, `float falloffOffset = 0f;`): its square is subtracted from the squared distance before the 0 floor (Sound.java:154).",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_state"
+          ]
+        },
+        "prev": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "SoundData data = sounds.get(sound, SoundData::new);",
+          "rule": "The previous SoundData for this sound (SoundControl.java:109, `sounds.get(sound, SoundData::new)`): an empty Dictionary is a fresh SoundData, all fields zero; a guard return hands it back unchanged.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SoundControlLoopProof",
+      "rule": "Source-backed SoundControl.loop() state from SoundControl.java + Sound.java + Audio.java + Vars.java + Mathf.java."
+    },
+    "source_sound_control_loop_state_result": {
+      "status": "active",
+      "owner": "SourceSoundControlState.source_sound_control_loop_state",
+      "source_slice": "N2287",
+      "keys": {
+        "volume": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "data.volume = Mathf.clamp(data.volume, 0f, 1f);",
+          "rule": "The accumulated volume (SoundControl.java:110 + :112, `data.volume += vol;` then `data.volume = Mathf.clamp(data.volume, 0f, 1f);`): the three-arg clamp, folded into one line.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_state"
+          ]
+        },
+        "pitch": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "data.pitch += pitch * vol;",
+          "rule": "The accumulated pitch (SoundControl.java:111, `data.pitch += pitch * vol;`).",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_state"
+          ]
+        },
+        "total": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "data.total += baseVol;",
+          "rule": "The accumulated base volume (SoundControl.java:113, `data.total += baseVol;`): the unscaled falloff sum updateLoops averages over.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_state"
+          ]
+        },
+        "total_volume": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "data.totalVolume += vol;",
+          "rule": "The accumulated scaled volume (SoundControl.java:114, `data.totalVolume += vol;`).",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_state"
+          ]
+        },
+        "sum_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "data.sum.add(pos.getX() * baseVol, pos.getY() * baseVol);",
+          "rule": "The accumulated position-weighted x (SoundControl.java:115, `data.sum.add(pos.getX() * baseVol, pos.getY() * baseVol);`): the Vec2 sum field (SoundControl.java:381, `Vec2 sum = new Vec2();`), stored as sum_x / sum_y.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_state"
+          ]
+        },
+        "sum_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "data.sum.add(pos.getX() * baseVol, pos.getY() * baseVol);",
+          "rule": "The accumulated position-weighted y (SoundControl.java:115): the Vec2 sum field, stored as sum_x / sum_y.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_state"
+          ]
+        },
+        "sound_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "int soundID;",
+          "rule": "The playing sound id (SoundControl.java:383, `int soundID;`): NOT written by loop() -- updateLoops owns it -- carried through unchanged from prev (default 0).",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_state"
+          ]
+        },
+        "cur_volume": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "float curVolume, totalVolume;",
+          "rule": "The current playing volume (SoundControl.java:384, `float curVolume, totalVolume;`): NOT written by loop() -- updateLoops owns it -- carried through unchanged from prev (default 0.0).",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SoundControlLoopProof",
+      "rule": "Source-backed SoundControl.loop() state from SoundControl.java + Sound.java + Audio.java + Vars.java + Mathf.java."
+    },
+    "source_sound_control_loop_position_state_input": {
+      "status": "active",
+      "owner": "SourceSoundControlState.source_sound_control_loop_position_state",
+      "source_slice": "N2287",
+      "keys": {
+        "sound": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "public void loop(Sound sound, Position pos, float volume){",
+          "rule": "The sound being looped (SoundControl.java:99): its name String; Sounds.none is the string \"none\" and the guard returns the previous SoundData unchanged for it.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_position_state"
+          ]
+        },
+        "pos_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "pos.getX()",
+          "rule": "The sound position x (SoundControl.java:106, via the delegated 4-arg call): the Position the 3-arg overload loops at.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_position_state"
+          ]
+        },
+        "pos_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "pos.getY()",
+          "rule": "The sound position y (SoundControl.java:106, via the delegated 4-arg call): the Position the 3-arg overload loops at.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_position_state"
+          ]
+        },
+        "volume": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "loop(sound, pos, volume, 1f);",
+          "rule": "The loop volume (SoundControl.java:101, `loop(sound, pos, volume, 1f);`): forwarded to the 4-arg accumulator unchanged.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_position_state"
+          ]
+        },
+        "headless": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/Vars.java",
+          "java_expr": "public static boolean headless;",
+          "rule": "Whether the game runs on a headless server (Vars.java:209): the N2259 accessor supplies it; a headless game returns the previous SoundData unchanged.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_position_state"
+          ]
+        },
+        "camera_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/audio/Sound.java",
+          "java_expr": "Core.camera.position.x",
+          "rule": "The camera (listener) position x (Sound.java:154): calcFalloff measures the squared distance from the sound position to here.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_position_state"
+          ]
+        },
+        "camera_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/audio/Sound.java",
+          "java_expr": "Core.camera.position.y",
+          "rule": "The camera (listener) position y (Sound.java:154): calcFalloff measures the squared distance from the sound position to here.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_position_state"
+          ]
+        },
+        "audio_falloff": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/audio/Audio.java",
+          "java_expr": "public float falloff = 16000f;",
+          "rule": "Core.audio falloff (Audio.java:13): the divisor in calcFalloff (Sound.java:155).",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_position_state"
+          ]
+        },
+        "falloff_offset": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/audio/Sound.java",
+          "java_expr": "float falloffOffset = 0f;",
+          "rule": "The Sound falloff offset (Sound.java:32): its square is subtracted from the squared distance before the 0 floor (Sound.java:154).",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_position_state"
+          ]
+        },
+        "prev": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "SoundData data = sounds.get(sound, SoundData::new);",
+          "rule": "The previous SoundData for this sound (SoundControl.java:109): an empty Dictionary is a fresh SoundData, all fields zero.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_position_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SoundControlLoopProof",
+      "rule": "Source-backed SoundControl.loop() state from SoundControl.java + Sound.java + Audio.java + Vars.java + Mathf.java."
+    },
+    "source_sound_control_loop_position_state_result": {
+      "status": "active",
+      "owner": "SourceSoundControlState.source_sound_control_loop_position_state",
+      "source_slice": "N2287",
+      "keys": {
+        "volume": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "data.volume = Mathf.clamp(data.volume, 0f, 1f);",
+          "rule": "The accumulated volume (SoundControl.java:110 + :112): the delegated accumulator result.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_position_state"
+          ]
+        },
+        "pitch": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "data.pitch += pitch * vol;",
+          "rule": "The accumulated pitch (SoundControl.java:111): pitch defaults to 1f in this overload (SoundControl.java:101, `loop(sound, pos, volume, 1f);`), so pitch after one loop at the camera is vol.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_position_state"
+          ]
+        },
+        "total": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "data.total += baseVol;",
+          "rule": "The accumulated base volume (SoundControl.java:113): the delegated accumulator result.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_position_state"
+          ]
+        },
+        "total_volume": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "data.totalVolume += vol;",
+          "rule": "The accumulated scaled volume (SoundControl.java:114): the delegated accumulator result.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_position_state"
+          ]
+        },
+        "sum_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "data.sum.add(pos.getX() * baseVol, pos.getY() * baseVol);",
+          "rule": "The accumulated position-weighted x (SoundControl.java:115): the delegated accumulator result.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_position_state"
+          ]
+        },
+        "sum_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "data.sum.add(pos.getX() * baseVol, pos.getY() * baseVol);",
+          "rule": "The accumulated position-weighted y (SoundControl.java:115): the delegated accumulator result.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_position_state"
+          ]
+        },
+        "sound_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "int soundID;",
+          "rule": "The playing sound id (SoundControl.java:383): carried through unchanged from prev.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_position_state"
+          ]
+        },
+        "cur_volume": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "float curVolume, totalVolume;",
+          "rule": "The current playing volume (SoundControl.java:384): carried through unchanged from prev.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_position_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SoundControlLoopProof",
+      "rule": "Source-backed SoundControl.loop() state from SoundControl.java + Sound.java + Audio.java + Vars.java + Mathf.java."
+    },
+    "source_sound_control_loop_volume_state_input": {
+      "status": "active",
+      "owner": "SourceSoundControlState.source_sound_control_loop_volume_state",
+      "source_slice": "N2287",
+      "keys": {
+        "sound": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "public void loop(Sound sound, float volume){",
+          "rule": "The sound being looped (SoundControl.java:93): its name String; Sounds.none is the string \"none\" and the guard returns the previous SoundData unchanged for it.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_volume_state"
+          ]
+        },
+        "volume": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "loop(sound, Core.camera.position, volume);",
+          "rule": "The loop volume (SoundControl.java:96, `loop(sound, Core.camera.position, volume);`): forwarded to the 3-arg overload unchanged.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_volume_state"
+          ]
+        },
+        "headless": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "if(Vars.headless) return;",
+          "rule": "Whether the game runs on a headless server (SoundControl.java:94, `if(Vars.headless) return;`): the N2259 accessor supplies it; enforced by the accumulator the call delegates to.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_volume_state"
+          ]
+        },
+        "camera_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "loop(sound, Core.camera.position, volume);",
+          "rule": "The camera position x (SoundControl.java:96, `loop(sound, Core.camera.position, volume);`): in this overload the sound position IS the camera position, so camera_x serves as both the position and the listener.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_volume_state"
+          ]
+        },
+        "camera_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "loop(sound, Core.camera.position, volume);",
+          "rule": "The camera position y (SoundControl.java:96): in this overload the sound position IS the camera position, so camera_y serves as both the position and the listener.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_volume_state"
+          ]
+        },
+        "audio_falloff": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/audio/Audio.java",
+          "java_expr": "public float falloff = 16000f;",
+          "rule": "Core.audio falloff (Audio.java:13): the divisor in calcFalloff (Sound.java:155).",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_volume_state"
+          ]
+        },
+        "falloff_offset": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/audio/Sound.java",
+          "java_expr": "float falloffOffset = 0f;",
+          "rule": "The Sound falloff offset (Sound.java:32): its square is subtracted from the squared distance before the 0 floor (Sound.java:154).",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_volume_state"
+          ]
+        },
+        "prev": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "SoundData data = sounds.get(sound, SoundData::new);",
+          "rule": "The previous SoundData for this sound (SoundControl.java:109): an empty Dictionary is a fresh SoundData, all fields zero.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_volume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SoundControlLoopProof",
+      "rule": "Source-backed SoundControl.loop() state from SoundControl.java + Sound.java + Audio.java + Vars.java + Mathf.java."
+    },
+    "source_sound_control_loop_volume_state_result": {
+      "status": "active",
+      "owner": "SourceSoundControlState.source_sound_control_loop_volume_state",
+      "source_slice": "N2287",
+      "keys": {
+        "volume": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "data.volume = Mathf.clamp(data.volume, 0f, 1f);",
+          "rule": "The accumulated volume (SoundControl.java:110 + :112): the delegated accumulator result.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_volume_state"
+          ]
+        },
+        "pitch": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "data.pitch += pitch * vol;",
+          "rule": "The accumulated pitch (SoundControl.java:111): pitch defaults to 1f in this overload chain (SoundControl.java:101), so pitch after one loop at the camera is vol.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_volume_state"
+          ]
+        },
+        "total": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "data.total += baseVol;",
+          "rule": "The accumulated base volume (SoundControl.java:113): the delegated accumulator result.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_volume_state"
+          ]
+        },
+        "total_volume": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "data.totalVolume += vol;",
+          "rule": "The accumulated scaled volume (SoundControl.java:114): the delegated accumulator result.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_volume_state"
+          ]
+        },
+        "sum_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "data.sum.add(pos.getX() * baseVol, pos.getY() * baseVol);",
+          "rule": "The accumulated position-weighted x (SoundControl.java:115): the delegated accumulator result.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_volume_state"
+          ]
+        },
+        "sum_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "data.sum.add(pos.getX() * baseVol, pos.getY() * baseVol);",
+          "rule": "The accumulated position-weighted y (SoundControl.java:115): the delegated accumulator result.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_volume_state"
+          ]
+        },
+        "sound_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "int soundID;",
+          "rule": "The playing sound id (SoundControl.java:383): carried through unchanged from prev.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_volume_state"
+          ]
+        },
+        "cur_volume": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "float curVolume, totalVolume;",
+          "rule": "The current playing volume (SoundControl.java:384): carried through unchanged from prev.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_loop_volume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SoundControlLoopProof",
+      "rule": "Source-backed SoundControl.loop() state from SoundControl.java + Sound.java + Audio.java + Vars.java + Mathf.java."
     }
   },
   "version": 1
