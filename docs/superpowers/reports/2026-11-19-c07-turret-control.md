@@ -1,6 +1,6 @@
 # Report — N2264 Turret control() setters (C07, duo) [DONE + PUSHED]
 
-## Status: DONE + PUSHED (2026-11-19 ~17:0x +07, lượt cron 17:00) — slice `64c41a11`, docs + GOAL + status sẽ ghi sau. Targeted 4/4 + proof matches:true 13/13 + register --verify 27/27 + gate Ran 6149, failures=214 toàn Godot-absent (đã xác minh độc lập).
+## Status: DONE + PUSHED (2026-11-19 ~17:0x +07, lượt cron 17:00) — slice `64c41a11`, docs `aa47fa9e`, GOAL `a5d7a924`, status sẽ ghi sau. Targeted 4/4 + proof matches:true 13/13 + register --verify 27/27 + gate Ran 6149, failures=214 toàn Godot-absent (đã xác minh độc lập).
 
 - N2263 DONE + PUSHED (origin/main b1e981fc, slice 7a5bbc88) — đã xác minh đầu lượt cron 17:00: git log 5 commit khớp, HEAD == origin/main == b1e981fc, worktree chỉ còn diff N2264 + noise *.gd.uid (không stage).
 
