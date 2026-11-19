@@ -440,6 +440,12 @@ N2239–N2247 của line Windows)
    Scene tới Windows theo slice commit `2b2b51f`. Chưa chạy trên Windows Godot.
  - [ ] N2307 `C07TurretUnitProof` — Linux GREEN ~18:3x (7 check key).
    Scene tới Windows theo slice commit `c300a4b`. Chưa chạy trên Windows Godot. - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
+ - [ ] N2313 `C07TurretHasAmmoProof` — Linux GREEN ~00:1x (9 domain key).
+   Scene tới Windows theo slice commit `3dbe237`. Chưa chạy trên Windows Godot.
+ - [ ] N2314 `C07BurstDrillDrawProof` — Linux GREEN ~00:3x (12 domain key).
+   Scene tới Windows theo slice commit `d7ed8c2`. Chưa chạy trên Windows Godot.
+ - [ ] N2315 `C07SoundControlIsDarkProof` — Linux GREEN ~00:2x (8 domain key).
+   Scene tới Windows theo slice commit `c062ccc`. Chưa chạy trên Windows Godot.
     trên (ghi rõ commit đưa scene tới Windows).
   - [ ] Agent khác đang test các lỗi fail trên Windows Godot (PR #1 đã merge
     08:31: 101 Godot-dependent methods, baseline 96 pass / 5 fail, sau 5
