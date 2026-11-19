@@ -1,4 +1,4 @@
-"""Register the BurstDrill setStats() liquid booster rows (N2266).
+"""Register the BurstDrill setStats() liquid booster rows (N2309).
 
 BurstDrill.setStats() (BurstDrill.java:58-68, `public void
 setStats(){`) calls the Drill super (`super.setStats();` --
@@ -93,7 +93,7 @@ CONSUME = 'core/src/mindustry/world/consumers/Consume.java'
 PROOF = '/root/C07BurstDrillSetStatsProof'
 SET_STATS_OWNER = 'SourceBurstDrillBuildState.source_burst_drill_set_stats_state'
 TESTS = ['test_c07_burst_drill_set_stats_registration', 'test_all_c07_burst_drill_set_stats_input_evidence_is_exact', 'test_burst_drill_set_stats_state', 'test_reference_graph_and_actual_c07_burst_drill_set_stats']
-# The 8 slice sources the N2266 test checks exact_exprs
+# The 8 slice sources the N2309 test checks exact_exprs
 # against -- every expr in EXACT_EXPRS below must appear verbatim
 # in one of these files.
 SLICE_SOURCES = [
@@ -114,19 +114,19 @@ EXACT_EXPRS = ['public void setStats(){', 'super.setStats();', 'if(liquidBoostIn
 # NOT a plain list literal, so the N2218-style ast.literal_eval
 # carry cannot recover it (ValueError: malformed node); the
 # import recovers the runtime value verbatim. NOTE for the next
-# slice: N2266's DEFERRED is likewise a computed list(...) + [...]
+# slice: N2309's DEFERRED is likewise a computed list(...) + [...]
 # expression, so carry it forward by import too, not by
 # ast.literal_eval.
 # No carried entry is dropped here: the carried 'BurstDrill
 # setStats booster display row (Drill.java:183-189...)' entry is
-# about the Drill SUPER's booster row, which N2266 does NOT close
+# about the Drill SUPER's booster row, which N2309 does NOT close
 # (the super leg stays deferred) -- only the BurstDrill override
 # rows close here.
 DEFERRED = list(N2302_DEFERRED) + [
-    'BurstDrill setStats() Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2227: the N2266 proof runs headless on Linux here and waits for a Windows Godot run.',
-    'BurstDrill setStats() super leg (Drill.setStats, Drill.java:177-191: drillSpeed row `stats.add(Stat.drillSpeed, 60f / drillTime * size * size, StatUnit.itemsSecond);` plus the squared-intensity booster row) -- the N2266 pure function models only the BurstDrill override rows; the Drill super rows wait for their own slice.',
-    'BurstDrill findConsumer search order (first ConsumeLiquidBase with booster, Block.java:1104 `public <T extends Consume> T findConsumer(Boolf<Consume> filter){`) -- the N2266 pure function takes the found consumer as explicit inputs; the search itself is not verified here.',
-    'BurstDrill setStats() localized unit rendering (StatUnit.timesSpeed.localized() reads bundle "unit.timesspeed", English "x speed", bundle.properties:1364) -- the N2266 proof pins the English bundle value; other locales wait for their own slice.',
+    'BurstDrill setStats() Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2227: the N2309 proof runs headless on Linux here and waits for a Windows Godot run.',
+    'BurstDrill setStats() super leg (Drill.setStats, Drill.java:177-191: drillSpeed row `stats.add(Stat.drillSpeed, 60f / drillTime * size * size, StatUnit.itemsSecond);` plus the squared-intensity booster row) -- the N2309 pure function models only the BurstDrill override rows; the Drill super rows wait for their own slice.',
+    'BurstDrill findConsumer search order (first ConsumeLiquidBase with booster, Block.java:1104 `public <T extends Consume> T findConsumer(Boolf<Consume> filter){`) -- the N2309 pure function takes the found consumer as explicit inputs; the search itself is not verified here.',
+    'BurstDrill setStats() localized unit rendering (StatUnit.timesSpeed.localized() reads bundle "unit.timesspeed", English "x speed", bundle.properties:1364) -- the N2309 proof pins the English bundle value; other locales wait for their own slice.',
 ]
 
 
@@ -182,7 +182,7 @@ def main():
     set_stats_inputs, set_stats_outputs = definitions()
 
     entries = [
-        ('N2266', SET_STATS_OWNER, 'source_burst_drill_set_stats_state', BURST_DRILL, 'mindustry.world.blocks.production.BurstDrill', 'BurstDrill.setStats()', set_stats_inputs, set_stats_outputs, True, 'Dictionary'),
+        ('N2309', SET_STATS_OWNER, 'source_burst_drill_set_stats_state', BURST_DRILL, 'mindustry.world.blocks.production.BurstDrill', 'BurstDrill.setStats()', set_stats_inputs, set_stats_outputs, True, 'Dictionary'),
     ]
     all_names = []
     for sid, owner, prefix, source, cls, method, inputs, outputs, has_contract, return_type in entries:
@@ -202,11 +202,11 @@ def main():
 
     by_slice = {}
     # The test pins this order: booster_row_removed, booster_row.
-    by_slice['N2266'] = [
+    by_slice['N2309'] = [
         'source_burst_drill_set_stats_state_result.booster_row_removed',
         'source_burst_drill_set_stats_state_result.booster_row',
     ]
-    source_symbols.upsert_source_slice(GODOT, 'N2266', dict(status='done', java_source=BURST_DRILL, java_class='mindustry.world.blocks.production.BurstDrill', java_method='BurstDrill.setStats()', godot_owner=SET_STATS_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2266'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
+    source_symbols.upsert_source_slice(GODOT, 'N2309', dict(status='done', java_source=BURST_DRILL, java_class='mindustry.world.blocks.production.BurstDrill', java_method='BurstDrill.setStats()', godot_owner=SET_STATS_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2309'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
 
     source_symbols.upsert_source_symbols(GODOT, symbols)
     source_symbols.write_source_symbol_audit_report(GODOT)

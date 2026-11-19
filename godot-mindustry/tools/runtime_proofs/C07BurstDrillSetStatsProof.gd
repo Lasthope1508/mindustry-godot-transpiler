@@ -19,7 +19,7 @@ func _ready() -> void:
 	game.set_process(false)
 	game.set_physics_process(false)
 
-	# --- BurstDrill setStats() (N2266):
+	# --- BurstDrill setStats() (N2309):
 	# BurstDrill.setStats() (BurstDrill.java:58-68,
 	# `public void setStats(){`) calls the Drill super
 	# (`super.setStats();`, :59, NOT this slice) and, only

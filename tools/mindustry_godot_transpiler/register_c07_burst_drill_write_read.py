@@ -43,9 +43,9 @@ write.progress, write.warmup, read.progress, read.warmup,
 version.version. Two slice sources: Drill.java +
 BuildingComp.java.
 
-DEFERRED base: the BurstDrill chain forks at N2266 --
+DEFERRED base: the BurstDrill chain forks at N2309 --
 N2271 (ambient_volume) -> N2277 (drill_ambient_volume)
-and N2266 -> N2280 (drill_set_stats) are BOTH leaves,
+and N2309 -> N2280 (drill_set_stats) are BOTH leaves,
 and neither deferred list is a superset of the other
 (N2277 has 5 entries N2280 lacks; N2280 has 3 entries
 N2277 lacks). The N2286 base is the UNION

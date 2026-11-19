@@ -18,7 +18,7 @@ found (:183), removes the booster row (`stats.remove(
 Stat.booster);` -- :184) and re-adds it with the SQUARED
 intensity (`liquidBoostIntensity * liquidBoostIntensity,
 false, consBase::consumes)` -- :188). The squared
-intensity is the TRAP vs N2266, whose BurstDrill override
+intensity is the TRAP vs N2309, whose BurstDrill override
 row uses the PLAIN intensity (BurstDrill.java:65); the
 override removes this row first (BurstDrill.java:62) and
 re-adds it plain, so the displayed speed is the plain
@@ -47,7 +47,7 @@ size 5, tier 7, beryllium multiplier 2f,
 
 RED decisions (resolved at RED): (1) One pure function on
 the same family file N2149 / N2256 / N2258 / N2269 / N2262 /
-N2266 / N2271 / N2277 built, after
+N2309 / N2271 / N2277 built, after
 source_burst_drill_set_stats_state:
 source_drill_set_stats_state(frame, drill_time,
 hardness_drill_multiplier, size, tier, drill_multipliers,
@@ -76,7 +76,7 @@ setStats lifecycle precedent); the proof calls the pure
 function directly with per-def params. (4) The
 `super.setStats();` leg (Drill.java:176) is Block.setStats,
 owned by N1696 at PortGame -- NOT this slice. This slice
-CLOSES the super-leg deferred entry N2266 carried. Four
+CLOSES the super-leg deferred entry N2309 carried. Four
 new result symbols: drill_tier_row, drill_speed_row,
 booster_row_removed, booster_row. Two defs share the
 function (impact-drill, Blocks.java:3070, drillTime 720f,
@@ -93,7 +93,7 @@ import sys
 from pathlib import Path
 
 from mindustry_port import source_ssot, source_symbols
-from register_c07_burst_drill_set_stats import DEFERRED as N2266_DEFERRED
+from register_c07_burst_drill_set_stats import DEFERRED as N2309_DEFERRED
 from register_liquid_consumer_hydration import backed
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -126,8 +126,8 @@ SLICE_SOURCES = [
 ]
 EXACT_EXPRS = ['public void setStats(){', 'super.setStats();', 'stats.add(Stat.drillTier, StatValues.drillables(drillTime, hardnessDrillMultiplier, size * size, drillMultipliers, b -> b instanceof Floor f && !f.wallOre && f.itemDrop != null &&', 'f.itemDrop.hardness <= tier && (blockedItems == null || !blockedItems.contains(f.itemDrop)) && (indexer.isBlockPresent(f) || state.isMenu())));', 'stats.add(Stat.drillSpeed, 60f / drillTime * size * size, StatUnit.itemsSecond);', 'if(liquidBoostIntensity != 1 && findConsumer(f -> f instanceof ConsumeLiquidBase && f.booster) instanceof ConsumeLiquidBase consBase){', 'stats.remove(Stat.booster);', 'StatValues.speedBoosters("{0}" + StatUnit.timesSpeed.localized(),', 'liquidBoostIntensity * liquidBoostIntensity, false, consBase::consumes)', 'public class Drill extends Block{', 'public float hardnessDrillMultiplier = 50f;', 'public int tier;', 'public float drillTime = 300;', 'public float liquidBoostIntensity = 1.6f;', 'public ObjectFloatMap<Item> drillMultipliers = new ObjectFloatMap<>();', 'public @Nullable Seq<Item> blockedItems;', 'public static StatValue drillables(float drillTime, float drillMultiplier, float size, ObjectFloatMap<Item> multipliers, Boolf<Block> filter){', 'b.add(Strings.autoFixed(60f / (Math.max(drillTime + drillMultiplier * block.itemDrop.hardness, drillTime) / multipliers.get(block.itemDrop, 1f)) * size, 2) + StatUnit.perSecond.localized())', 'itemsSecond = new StatUnit("itemsSecond"),', 'unit.itemssecond = items/second', 'timesSpeed = new StatUnit("timesSpeed", false),', 'drillTier = new Stat("drillTier", StatCat.crafting),', 'drillSpeed = new Stat("drillSpeed", StatCat.crafting),', 'public int size = 1;', 'size = 4;', 'size = 5;', 'drillTime = 60f * 12f;', 'drillTime = 281.25f;', 'tier = 6;', 'tier = 7;', 'drillMultipliers.put(Items.beryllium, 2f);', 'liquidBoostIntensity = 1.75f;', 'liquidBoostIntensity = 2f;', 'consumeLiquid(Liquids.ozone, 3f / 60f).boost();', 'consumeLiquid(Liquids.cyanogen, 0.75f / 60f).boost();', 'public abstract boolean consumes(Liquid liquid);', 'public <T extends Consume> T findConsumer(Boolf<Consume> filter){', 'public boolean booster;', 'public float amount;']
 
-# DEFERRED is carried from the N2266 register script via import --
-# never retyped. The N2266 script's DEFERRED is a computed
+# DEFERRED is carried from the N2309 register script via import --
+# never retyped. The N2309 script's DEFERRED is a computed
 # expression (list(...) + [...]), NOT a plain list literal, so
 # the N2218-style ast.literal_eval carry cannot recover it
 # (ValueError: malformed node); the import recovers the runtime
@@ -135,9 +135,9 @@ EXACT_EXPRS = ['public void setStats(){', 'super.setStats();', 'stats.add(Stat.d
 # the BurstDrill setStats() super leg entry -- N2280 IS the
 # super-leg slice, so carrying it would leave a stale "waits for
 # its own slice" row for done work. The findConsumer search-order
-# entry, the localized-unit entry and the N2266 Windows-proof debt
+# entry, the localized-unit entry and the N2309 Windows-proof debt
 # stay deferred -- those slices own them.
-DEFERRED = [e for e in N2266_DEFERRED if 'BurstDrill setStats() super leg' not in e] + [
+DEFERRED = [e for e in N2309_DEFERRED if 'BurstDrill setStats() super leg' not in e] + [
     'Drill setStats() Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2227: the N2280 proof runs headless on Linux here and waits for a Windows Godot run.',
     'Drill setStats() drillables table rendering (StatValues.drillables, StatValues.java:413-437: content.blocks() iteration + per-floor filter evaluation incl. indexer.isBlockPresent(f) / state.isMenu(), Drill.java:179) -- the N2280 pure function pins the drillables call args; the displayed per-ore table is rendered at display time, not by setStats.',
     'Drill setStats() localized unit rendering (StatUnit.itemsSecond.localized() reads bundle "unit.itemssecond", English "items/second", bundle.properties:1354) -- the N2280 proof pins the English bundle value; other locales wait for their own slice.',
@@ -165,7 +165,7 @@ def definitions():
         'drill_tier_row': a('Dictionary', 'stats.add(Stat.drillTier, StatValues.drillables(drillTime, hardnessDrillMultiplier, size * size, drillMultipliers, b -> b instanceof Floor f && !f.wallOre && f.itemDrop != null &&', 'The Stat.drillTier row added by Drill.setStats, pinning the StatValues.drillables call args (Drill.java:178-179): {drill_time, hardness_drill_multiplier, size_squared (the drillables size param is size * size), drill_multipliers, tier, blocked_items}; the per-floor filter evaluation and the displayed per-ore table render at display time (StatValues.java:413-437).'),
         'drill_speed_row': a('Dictionary', 'stats.add(Stat.drillSpeed, 60f / drillTime * size * size, StatUnit.itemsSecond);', 'The Stat.drillSpeed row added by Drill.setStats: {value 60f / drillTime * size * size, unit "items/second"} (Drill.java:181, `stats.add(Stat.drillSpeed, 60f / drillTime * size * size, StatUnit.itemsSecond);`; StatUnit.itemsSecond localized "items/second", bundle.properties:1354); class default 0.2, impact-drill 1.333..., eruption-drill 5.333....'),
         'booster_row_removed': a('bool', 'stats.remove(Stat.booster);', 'Whether stats.remove(Stat.booster) ran: true exactly when the if-branch runs (Drill.java:184, `stats.remove(Stat.booster);`, inside the `liquidBoostIntensity != 1` + booster-found guard at :183) -- the remove runs before the add, so the displayed booster row is the Drill super row until the BurstDrill override replaces it.'),
-        'booster_row': a('Variant', 'liquidBoostIntensity * liquidBoostIntensity, false, consBase::consumes)', 'The Stat.booster row added by Drill.setStats, or null when the branch does not run: {format "{0} x speed", amount consBase.amount, intensity liquidBoostIntensity SQUARED (Drill.java:188 -- the trap vs the N2266 BurstDrill override row, which uses the PLAIN intensity, BurstDrill.java:65), strength false, consumes consBase::consumes} (Drill.java:185-189, `stats.add(Stat.booster,` + `StatValues.speedBoosters("{0}" + StatUnit.timesSpeed.localized(),` + `liquidBoostIntensity * liquidBoostIntensity, false, consBase::consumes)`; the format is "{0} x speed" because StatUnit.timesSpeed.localized() reads bundle key "unit.timesspeed", English value "x speed").'),
+        'booster_row': a('Variant', 'liquidBoostIntensity * liquidBoostIntensity, false, consBase::consumes)', 'The Stat.booster row added by Drill.setStats, or null when the branch does not run: {format "{0} x speed", amount consBase.amount, intensity liquidBoostIntensity SQUARED (Drill.java:188 -- the trap vs the N2309 BurstDrill override row, which uses the PLAIN intensity, BurstDrill.java:65), strength false, consumes consBase::consumes} (Drill.java:185-189, `stats.add(Stat.booster,` + `StatValues.speedBoosters("{0}" + StatUnit.timesSpeed.localized(),` + `liquidBoostIntensity * liquidBoostIntensity, false, consBase::consumes)`; the format is "{0} x speed" because StatUnit.timesSpeed.localized() reads bundle key "unit.timesspeed", English value "x speed").'),
     }
     return set_stats_inputs, set_stats_outputs
 

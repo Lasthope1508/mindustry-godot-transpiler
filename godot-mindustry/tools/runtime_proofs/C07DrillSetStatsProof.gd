@@ -35,10 +35,10 @@ func _ready() -> void:
 	# booster row (:184) and re-adds it with the SQUARED
 	# intensity (`liquidBoostIntensity *
 	# liquidBoostIntensity, false, consBase::consumes)`,
-	# :188) -- the TRAP vs N2266, whose BurstDrill
+	# :188) -- the TRAP vs N2309, whose BurstDrill
 	# override row uses the PLAIN intensity
 	# (BurstDrill.java:65). This slice CLOSES the
-	# super-leg deferred entry N2266 carried. There is NO
+	# super-leg deferred entry N2309 carried. There is NO
 	# driver tick line: setStats is a stat-display read,
 	# not a per-tick write (the N2224 / N2246 setStats
 	# lifecycle precedent).

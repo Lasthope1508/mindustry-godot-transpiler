@@ -33,7 +33,7 @@ at efficiency 1: impact-drill (size 4, Blocks.java:3073)
 
 RED decisions (resolved at RED): (1) One pure function on
 the same family file N2149 / N2256 / N2258 / N2269 / N2262 /
-N2266 built, after source_burst_drill_icons_state:
+N2309 built, after source_burst_drill_icons_state:
 source_burst_drill_ambient_volume_state(
 super_ambient_volume, progress) returning ambient_volume
 (the super result times progress to the fourth). Both
@@ -57,7 +57,7 @@ import sys
 from pathlib import Path
 
 from mindustry_port import source_ssot, source_symbols
-from register_c07_burst_drill_set_stats import DEFERRED as N2266_DEFERRED
+from register_c07_burst_drill_set_stats import DEFERRED as N2309_DEFERRED
 from register_liquid_consumer_hydration import backed
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -76,8 +76,8 @@ SLICE_SOURCES = [
 ]
 EXACT_EXPRS = ['public float ambientVolume(){', 'return super.ambientVolume() * Mathf.pow(progress(), 4f);', 'return efficiency * (size * size) / 4f;', 'public float progress(){', 'return dominantItem == null ? 0f : Mathf.clamp(progress / getDrillTime(dominantItem));', 'public class BurstDrill extends Drill{', 'public class Drill extends Block{', 'public float progress;']
 
-# DEFERRED is carried from the N2266 register script via import --
-# never retyped. The N2266 script's DEFERRED is a computed
+# DEFERRED is carried from the N2309 register script via import --
+# never retyped. The N2309 script's DEFERRED is a computed
 # expression (list(...) + [...]), NOT a plain list literal, so
 # the N2218-style ast.literal_eval carry cannot recover it
 # (ValueError: malformed node); the import recovers the runtime
@@ -87,7 +87,7 @@ EXACT_EXPRS = ['public float ambientVolume(){', 'return super.ambientVolume() * 
 # No carried entry is dropped here: no carried entry is closed
 # by this slice (the ambientVolume super leg and progress()
 # stay deferred; the Windows proof debt is new).
-DEFERRED = list(N2266_DEFERRED) + [
+DEFERRED = list(N2309_DEFERRED) + [
     'BurstDrill ambientVolume() Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2227: the N2271 proof runs headless on Linux here and waits for a Windows Godot run.',
     'BurstDrill ambientVolume() super leg (DrillBuild.ambientVolume, Drill.java:257-259: `return efficiency * (size * size) / 4f;`) -- the N2271 pure function takes the super result as an explicit input; the Drill super formula waits for its own slice.',
     'DrillBuild.progress() (Drill.java:327-329: `return dominantItem == null ? 0f : Mathf.clamp(progress / getDrillTime(dominantItem));`) -- the N2271 pure function takes progress as an explicit input; the progress formula (dominant-item null gate + clamp by getDrillTime) waits for its own slice.',

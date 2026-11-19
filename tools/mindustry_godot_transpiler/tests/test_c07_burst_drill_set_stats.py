@@ -14,7 +14,7 @@ class C07BurstDrillSetStatsTests(unittest.TestCase):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        self.assertEqual(ledger['N2266']['godot_owner'], 'SourceBurstDrillBuildState.source_burst_drill_set_stats_state')
+        self.assertEqual(ledger['N2309']['godot_owner'], 'SourceBurstDrillBuildState.source_burst_drill_set_stats_state')
         # BurstDrill.setStats() (BurstDrill.java:58-68,
         # `public void setStats(){`) calls the Drill super
         # (`super.setStats();` -- :59, NOT this slice) and,
@@ -48,13 +48,13 @@ class C07BurstDrillSetStatsTests(unittest.TestCase):
         # differ only in the per-def intensity and booster
         # amount the caller passes.
         self.assertEqual(
-            ledger['N2266']['source_symbols'],
+            ledger['N2309']['source_symbols'],
             [
                 'source_burst_drill_set_stats_state_result.booster_row_removed',
                 'source_burst_drill_set_stats_state_result.booster_row',
             ],
         )
-        for name in ledger['N2266']['source_symbols']:
+        for name in ledger['N2309']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_source'], {
@@ -68,9 +68,9 @@ class C07BurstDrillSetStatsTests(unittest.TestCase):
                     'core/src/mindustry/world/consumers/Consume.java',
                 })
                 self.assertEqual(symbol['godot_owner'], 'SourceBurstDrillBuildState.' + name.rsplit('_result.', 1)[0])
-        self.assertEqual(ledger['N2266']['runtime_proof'], '/root/C07BurstDrillSetStatsProof')
+        self.assertEqual(ledger['N2309']['runtime_proof'], '/root/C07BurstDrillSetStatsProof')
         self.assertEqual(
-            ledger['N2266']['tests'],
+            ledger['N2309']['tests'],
             [
                 'test_c07_burst_drill_set_stats_registration',
                 'test_all_c07_burst_drill_set_stats_input_evidence_is_exact',
@@ -78,13 +78,13 @@ class C07BurstDrillSetStatsTests(unittest.TestCase):
                 'test_reference_graph_and_actual_c07_burst_drill_set_stats',
             ],
         )
-        self.assertTrue(ledger['N2266']['deferred_exprs'])
+        self.assertTrue(ledger['N2309']['deferred_exprs'])
 
     def test_all_c07_burst_drill_set_stats_input_evidence_is_exact(self):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        for name in ledger['N2266']['source_symbols']:
+        for name in ledger['N2309']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_expr'], (ROOT / 'mindustry-upstream' / symbol['java_source']).read_text(encoding='utf-8'))
@@ -102,7 +102,7 @@ class C07BurstDrillSetStatsTests(unittest.TestCase):
         upstream = {}
         for source in slice_sources:
             upstream[source] = (ROOT / 'mindustry-upstream' / source).read_text(encoding='utf-8')
-        for expr in ledger['N2266']['exact_exprs']:
+        for expr in ledger['N2309']['exact_exprs']:
             with self.subTest(expr=expr):
                 self.assertTrue(any(expr in text for text in upstream.values()), expr)
 

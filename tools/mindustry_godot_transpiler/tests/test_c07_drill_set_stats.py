@@ -30,10 +30,10 @@ class C07DrillSetStatsTests(unittest.TestCase):
         # the booster row (:184) and re-adds it with the
         # SQUARED intensity (`liquidBoostIntensity *
         # liquidBoostIntensity, false, consBase::consumes)`,
-        # :188) -- the TRAP vs N2266, whose BurstDrill
+        # :188) -- the TRAP vs N2309, whose BurstDrill
         # override row uses the PLAIN intensity
         # (BurstDrill.java:65). This slice CLOSES the
-        # super-leg deferred entry N2266 carried. Four new
+        # super-leg deferred entry N2309 carried. Four new
         # result symbols: drill_tier_row, drill_speed_row,
         # booster_row_removed, booster_row. There is NO
         # driver tick line: setStats is a stat-display

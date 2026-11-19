@@ -177056,7 +177056,7 @@
       "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
       "java_method": "Drill.setStats()",
       "java_expr": "liquidBoostIntensity * liquidBoostIntensity, false, consBase::consumes)",
-      "rule": "The Stat.booster row added by Drill.setStats, or null when the branch does not run: {format \"{0} x speed\", amount consBase.amount, intensity liquidBoostIntensity SQUARED (Drill.java:188 -- the trap vs the N2266 BurstDrill override row, which uses the PLAIN intensity, BurstDrill.java:65), strength false, consumes consBase::consumes} (Drill.java:185-189, `stats.add(Stat.booster,` + `StatValues.speedBoosters(\"{0}\" + StatUnit.timesSpeed.localized(),` + `liquidBoostIntensity * liquidBoostIntensity, false, consBase::consumes)`; the format is \"{0} x speed\" because StatUnit.timesSpeed.localized() reads bundle key \"unit.timesspeed\", English value \"x speed\").",
+      "rule": "The Stat.booster row added by Drill.setStats, or null when the branch does not run: {format \"{0} x speed\", amount consBase.amount, intensity liquidBoostIntensity SQUARED (Drill.java:188 -- the trap vs the N2309 BurstDrill override row, which uses the PLAIN intensity, BurstDrill.java:65), strength false, consumes consBase::consumes} (Drill.java:185-189, `stats.add(Stat.booster,` + `StatValues.speedBoosters(\"{0}\" + StatUnit.timesSpeed.localized(),` + `liquidBoostIntensity * liquidBoostIntensity, false, consBase::consumes)`; the format is \"{0} x speed\" because StatUnit.timesSpeed.localized() reads bundle key \"unit.timesspeed\", English value \"x speed\").",
       "tests": [
         "test_c07_drill_set_stats_registration",
         "test_all_c07_drill_set_stats_input_evidence_is_exact",
