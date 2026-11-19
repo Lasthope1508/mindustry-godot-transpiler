@@ -3523,6 +3523,23 @@
       ],
       "runtime_proof": "/root/C07TurretMultiRecoilStampProof"
     },
+    "N2258": {
+      "canonical_ledger": "source_slice_ledger.N2258",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "godot_owner": "SourceTurretBuildState.source_turret_recoil_offset_state",
+      "source_symbols": [
+        "source_turret_recoil_offset_state_result.recoil_offset"
+      ],
+      "tests": [
+        "test_c07_turret_recoil_offset_registration",
+        "test_all_c07_turret_recoil_offset_input_evidence_is_exact",
+        "test_turret_recoil_offset_state",
+        "test_reference_graph_and_actual_c07_turret_recoil_offset"
+      ],
+      "runtime_proof": "/root/C07TurretRecoilOffsetProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

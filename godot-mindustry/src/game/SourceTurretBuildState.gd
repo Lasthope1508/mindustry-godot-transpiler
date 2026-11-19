@@ -339,6 +339,38 @@ static func source_turret_multi_recoil_stamp_state(cur_recoils: Array, barrel: i
 		return {"cur_recoils": stamped}
 	return {"cur_recoils": cur_recoils}
 
+static func source_turret_recoil_offset_state(rotation: float, cur_recoil: float, recoil_pow: float, recoil: float) -> Dictionary:
+	# TurretBuild.updateTile() (Turret.java:490-615) recomputes
+	# the draw offset every tick, after the recoil/heat decay
+	# (:519/:526) and before turnToTarget (:595-596) and
+	# updateShooting (:601/:609): `recoilOffset.trns(rotation, -Mathf.pow(curRecoil, recoilPow) * recoil);`
+	# (Turret.java:532). The field is `public Vec2 recoilOffset = new Vec2();`
+	# (:280, `/** Turret sprite offset, based on recoil. Updated
+	# every frame. */`), the power curve is `public float recoilPow = 1.8f;`
+	# (:146, `/** power curve applied to visual recoil */`) and the
+	# class default is `public float recoil = 1f;`
+	# (:140, `/** Visual amount by which the turret recoils back
+	# per shot. */`) -- duo overrides it with `recoil = 0.5f;`
+	# (Blocks.java:3315, inside the duo block 3257-3330). The
+	# field is `public float curRecoil, heat, logicControlTime = -1;`
+	# (:284). trns sets the vector from the angle and the length
+	# (x = cos(rotation) * mag, y = sin(rotation) * mag, mag =
+	# -pow(cur_recoil, recoil_pow) * recoil), so a fresh shot
+	# (curRecoil 1.0) kicks the sprite back along its rotation by
+	# exactly recoil, and no recoil leaves the offset at zero.
+	# The result is a 1-key dict: `recoil_offset`, a
+	# `{"x": .., "y": ..}` dict -- the frame's JSON-friendly
+	# convention, same as frame["target_pos"] from the N2250
+	# aim state. The formula itself was already proven once on
+	# the legacy PortGame path (N742,
+	# `PortGame.source_turret_recoil_offset`, MCP: recoil 0.5 /
+	# rotation 0 / curRecoil 1 -> Vector2(-0.5, 0.0)); this is
+	# the LIVE frame tick on the new duo driver.
+	var magnitude: float = -pow(cur_recoil, recoil_pow) * recoil
+	var offset_x: float = cos(deg_to_rad(rotation)) * magnitude
+	var offset_y: float = sin(deg_to_rad(rotation)) * magnitude
+	return {"recoil_offset": {"x": offset_x, "y": offset_y}}
+
 @warning_ignore("unused_parameter")
 static func source_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the turret tick wiring every tick
@@ -526,6 +558,19 @@ static func source_turret_tick_buildings_state(game: Object, seconds: float) -> 
 			# (Turret.java:208), so the driver passes 2 / 20.0.
 			var multi_recoil: Dictionary = source_turret_multi_recoil_state(frame.get("cur_recoils", []), 2, 20.0, seconds)
 			frame["cur_recoils"] = multi_recoil.get("cur_recoils", [])
+			# The recoilOffset draw (Turret.java:532, N2258) runs
+			# right after the recoil decays: Java order :519/:520-525
+			# decay, :532 offset, :595-596 turnToTarget, :601/:609
+			# updateShooting -- so the offset uses the PREVIOUS
+			# tick's rotation (frame["rotation"], default 90.0 like
+			# the aim stamp) and the cur_recoil DECAYED this tick,
+			# and it lags a shot by one tick (the tick that shoots
+			# still offsets from the pre-shot recoil; the next tick
+			# kicks). Duo recoilPow is 1.8 (Turret.java:146) and
+			# duo recoil is 0.5 (Blocks.java:3315, not the 1.0
+			# class default at Turret.java:140).
+			var recoil_offset: Dictionary = source_turret_recoil_offset_state(float(frame.get("rotation", 90.0)), float(frame.get("cur_recoil", 0.0)), 1.8, 0.5)
+			frame["recoil_offset"] = recoil_offset.get("recoil_offset", {"x": 0.0, "y": 0.0})
 			var aim: Dictionary = source_item_turret_build_state.source_item_turret_aim_shoot_state(frame, frame.get("target", null),
 				bool(validate.get("valid", false)), team_id, sprite.position.x, sprite.position.y, seconds,
 				float(frame.get("potential_efficiency", 1.0)), float(frame.get("shoot_warmup", 0.0)), bool(frame.get("charging", false)),

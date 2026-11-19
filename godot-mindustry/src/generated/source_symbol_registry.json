@@ -176648,6 +176648,22 @@
         "test_reference_graph_and_actual_c07_turret_multi_recoil_stamp"
       ],
       "runtime_proof": "/root/C07TurretMultiRecoilStampProof"
+    },
+    "source_turret_recoil_offset_state_result.recoil_offset": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_recoil_offset_state",
+      "godot_symbol": "source_turret_recoil_offset_state_result.recoil_offset",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "recoilOffset.trns(rotation, -Mathf.pow(curRecoil, recoilPow) * recoil);",
+      "rule": "The sprite offset after the tick (Turret.java:532 -- trns from the rotation and -pow(cur_recoil, recoil_pow) * recoil, returned as a {\"x\": .., \"y\": ..} dict, the frame JSON-friendly convention; zero with no recoil, -recoil along the rotation at a fresh shot).",
+      "tests": [
+        "test_c07_turret_recoil_offset_registration",
+        "test_all_c07_turret_recoil_offset_input_evidence_is_exact",
+        "test_turret_recoil_offset_state",
+        "test_reference_graph_and_actual_c07_turret_recoil_offset"
+      ],
+      "runtime_proof": "/root/C07TurretRecoilOffsetProof"
     }
   },
   "version": 1

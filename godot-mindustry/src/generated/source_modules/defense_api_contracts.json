@@ -8267,6 +8267,47 @@
       "rule": "Source-backed Turret recoil + heat decay from Turret.java / Mathf.java.",
       "return_type": "Dictionary"
     },
+    "SourceTurretBuildState.source_turret_recoil_offset_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_recoil_offset_state",
+      "status": "active",
+      "source_slice": "N2258",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.updateTile()",
+      "params": [
+        {
+          "name": "rotation",
+          "type": "float",
+          "schema": "source_turret_recoil_offset_state_input.rotation"
+        },
+        {
+          "name": "cur_recoil",
+          "type": "float",
+          "schema": "source_turret_recoil_offset_state_input.cur_recoil"
+        },
+        {
+          "name": "recoil_pow",
+          "type": "float",
+          "schema": "source_turret_recoil_offset_state_input.recoil_pow"
+        },
+        {
+          "name": "recoil",
+          "type": "float",
+          "schema": "source_turret_recoil_offset_state_input.recoil"
+        }
+      ],
+      "return_keys": [
+        "recoil_offset"
+      ],
+      "tests": [
+        "test_c07_turret_recoil_offset_registration",
+        "test_all_c07_turret_recoil_offset_input_evidence_is_exact",
+        "test_turret_recoil_offset_state",
+        "test_reference_graph_and_actual_c07_turret_recoil_offset"
+      ],
+      "runtime_proof": "/root/C07TurretRecoilOffsetProof",
+      "rule": "Source-backed Turret recoilOffset draw from Turret.java.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_turret_shoot_stamp_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_shoot_stamp_state",
       "status": "active",

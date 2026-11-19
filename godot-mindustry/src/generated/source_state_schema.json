@@ -154493,6 +154493,12 @@
           "rule": "Carries Turret input into recoil offset result schema.",
           "status": "generated",
           "type": "Variant"
+        },
+        "recoil_offset": {
+          "alias_of": "source_turret_recoil_offset_state_result.recoil_offset",
+          "rule": "The sprite offset after the tick, returned as a {\"x\": .., \"y\": ..} dict by SourceTurretBuildState.source_turret_recoil_offset_state (Turret.java:532); aliases the canonical N2258 result key because the contract validator resolves this legacy result schema before the _state_result schema.",
+          "status": "generated",
+          "type": "Dictionary"
         }
       },
       "status": "active"
@@ -236518,6 +236524,74 @@
       },
       "runtime_proof": "/root/C07TurretMultiRecoilStampProof",
       "rule": "Source-backed Turret multi-recoil stamp from Turret.java."
+    },
+    "source_turret_recoil_offset_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_recoil_offset_state",
+      "source_slice": "N2258",
+      "keys": {
+        "rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "rotation = Angles.moveToward(rotation, targetRot, rotateSpeed * delta() * potentialEfficiency);",
+          "rule": "The turret rotation the offset is drawn along (Turret.java:666, the turnToTarget update; the driver reads the PREVIOUS tick rotation from frame[\"rotation\"], default 90.0, because Java :532 runs before turnToTarget :595-596).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_recoil_offset_state"
+          ]
+        },
+        "cur_recoil": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float curRecoil, heat, logicControlTime = -1;",
+          "rule": "The decayed recoil 0..1 (Turret.java:284, the curRecoil field; the driver reads frame[\"cur_recoil\"], already decayed this tick by the N2254 tick, so a shot stamped last tick kicks this tick).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_recoil_offset_state"
+          ]
+        },
+        "recoil_pow": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float recoilPow = 1.8f;",
+          "rule": "The power curve applied to the visual recoil (Turret.java:146; duo uses the class value 1.8, so the driver passes 1.8).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_recoil_offset_state"
+          ]
+        },
+        "recoil": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float recoil = 1f;",
+          "rule": "The visual recoil amount per shot (Turret.java:140, the class default 1.0; duo overrides it with `recoil = 0.5f;`, Blocks.java:3315, so the driver passes 0.5).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_recoil_offset_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretRecoilOffsetProof",
+      "rule": "Source-backed Turret recoilOffset draw from Turret.java."
+    },
+    "source_turret_recoil_offset_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_recoil_offset_state",
+      "source_slice": "N2258",
+      "keys": {
+        "recoil_offset": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "recoilOffset.trns(rotation, -Mathf.pow(curRecoil, recoilPow) * recoil);",
+          "rule": "The sprite offset after the tick (Turret.java:532 -- trns from the rotation and -pow(cur_recoil, recoil_pow) * recoil, returned as a {\"x\": .., \"y\": ..} dict, the frame JSON-friendly convention; zero with no recoil, -recoil along the rotation at a fresh shot).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_recoil_offset_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretRecoilOffsetProof",
+      "rule": "Source-backed Turret recoilOffset draw from Turret.java."
     }
   },
   "version": 1
