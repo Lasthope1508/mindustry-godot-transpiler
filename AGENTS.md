@@ -59,8 +59,8 @@ split — each line works ONLY its own families:
 - This VM line: Turret, BurstDrill, Radar, Game.
 - Windows/other line: RepairTower, RepairTurret, PointDefenseTurret (Isabella 2026-11-18 ~16:08 +07, after 9 straight PointDefenseTurret slices N2239–N2247 from the Windows line).
 Ambient B (N2260, RepairTurret driver tick line) belongs to the Windows line;
-ambient C (N2264, SoundControl mixer, game-level) belongs to this VM line but
-waits for B. Never start a slice in another line's family. If the other line
+ambient C (N2304, SoundControl mixer, game-level — moved from N2264 after divergence #35,
+remote took N2264) belongs to this VM line but waits for B. Never start a slice in another line's family. If the other line
 has already pushed a number you need, renumber yours (precedent N2228) — never
 take their number. (Restored 2026-11-18: this section was lost in the round-3
 reset to 7dfdec3; B/C renumbered from N2242/N2243 — remote took both numbers,
