@@ -69362,6 +69362,47 @@
       ],
       "runtime_proof": "/root/C07TurretRotateSyncProof",
       "rule": "Source-backed Turret rotate sync from Turret.java."
+    },
+    "SourceTurretBuildState.source_turret_heat_req_state": {
+      "status": "active",
+      "source_slice": "N2263",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.updateTile()",
+      "params": [
+        {
+          "name": "heat_requirement",
+          "type": "float",
+          "schema": "source_turret_heat_req_state_input.heat_requirement"
+        },
+        {
+          "name": "heat_total",
+          "type": "float",
+          "schema": "source_turret_heat_req_state_input.heat_total"
+        },
+        {
+          "name": "side_heat",
+          "type": "Array",
+          "schema": "source_turret_heat_req_state_input.side_heat"
+        },
+        {
+          "name": "heat_req",
+          "type": "float",
+          "schema": "source_turret_heat_req_state_input.heat_req"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "heat_req",
+        "side_heat"
+      ],
+      "tests": [
+        "test_c07_turret_heat_req_registration",
+        "test_all_c07_turret_heat_req_input_evidence_is_exact",
+        "test_turret_heat_req_state",
+        "test_reference_graph_and_actual_c07_turret_heat_req"
+      ],
+      "runtime_proof": "/root/C07TurretHeatReqProof",
+      "rule": "Source-backed Turret heatReq fold from Turret.java."
     }
   },
   "policy": {

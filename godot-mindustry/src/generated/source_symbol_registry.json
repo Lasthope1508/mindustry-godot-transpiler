@@ -176808,6 +176808,38 @@
         "test_reference_graph_and_actual_c07_turret_rotate_sync"
       ],
       "runtime_proof": "/root/C07TurretRotateSyncProof"
+    },
+    "source_turret_heat_req_state_result.heat_req": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_heat_req_state",
+      "godot_symbol": "source_turret_heat_req_state_result.heat_req",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "heatReq = calculateHeat(sideHeat);",
+      "rule": "The folded heat requirement value after the tick (Turret.java:539 -- the calculateHeat total when heatRequirement > 0, unchanged otherwise; the driver stamps it on frame[\"heat_req\"]).",
+      "tests": [
+        "test_c07_turret_heat_req_registration",
+        "test_all_c07_turret_heat_req_input_evidence_is_exact",
+        "test_turret_heat_req_state",
+        "test_reference_graph_and_actual_c07_turret_heat_req"
+      ],
+      "runtime_proof": "/root/C07TurretHeatReqProof"
+    },
+    "source_turret_heat_req_state_result.side_heat": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_heat_req_state",
+      "godot_symbol": "source_turret_heat_req_state_result.side_heat",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "sideHeat[Mathf.mod(relativeTo(build), 4)] += add;",
+      "rule": "The per-side heat array after the tick (BuildingComp.java:436 -- the scan fills one side per heater; the driver stamps it on frame[\"side_heat\"]).",
+      "tests": [
+        "test_c07_turret_heat_req_registration",
+        "test_all_c07_turret_heat_req_input_evidence_is_exact",
+        "test_turret_heat_req_state",
+        "test_reference_graph_and_actual_c07_turret_heat_req"
+      ],
+      "runtime_proof": "/root/C07TurretHeatReqProof"
     }
   },
   "version": 1

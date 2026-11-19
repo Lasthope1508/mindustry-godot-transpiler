@@ -495,6 +495,41 @@ static func source_turret_rotate_sync_state(rotation: float, rotate: bool, build
 		building_rotation = ((rounded % 4) + 4) % 4
 	return {"building_rotation": building_rotation}
 
+static func source_turret_heat_req_state(heat_requirement: float, heat_total: float, side_heat: Array, heat_req: float) -> Dictionary:
+	# TurretBuild.updateTile() (Turret.java:490-560) folds the
+	# heat requirement every tick, after the logic-control timer
+	# decay (:534-536) and before the rotate sync (:542-545):
+	# `if(heatRequirement > 0){`
+	# `heatReq = calculateHeat(sideHeat);`
+	# (Turret.java:538-540). `heatRequirement` defaults to -1
+	# (`public float heatRequirement = -1f;`, Turret.java:53)
+	# and duo never sets it (Blocks.java:3257-3331), so the
+	# guard is false for duo and heatReq stays at its field
+	# default 0 (`public float heatReq;`, Turret.java:295).
+	# Only afflict (PowerTurret, `heatRequirement = 20f;`,
+	# Blocks.java:5122) and malign (PowerTurret,
+	# `heatRequirement = 144f;`, Blocks.java:6240) set a
+	# positive requirement among turrets.
+	# `calculateHeat(sideHeat)` is
+	# `public float calculateHeat(float[] sideHeat){`
+	# (BuildingComp.java:406) returning
+	# `return calculateHeat(sideHeat, null);` (:407), which
+	# fills the per-side array (`Arrays.fill(sideHeat, 0f);`,
+	# :411) from the live proximity scan of same-team HeatBlock
+	# heaters and returns the total heat. That scan is a live
+	# entity scan -- BLOCKED, same class as findTarget -- so
+	# the scan itself is deferred and this function takes the
+	# scan result (heat_total and the per-side array) as
+	# inputs, applying only the guard + assign. The per-side
+	# array field is `public float[] sideHeat = new float[4];`
+	# (Turret.java:296). When the requirement is not positive
+	# Java skips the assignment entirely, so both keys are
+	# returned unchanged. The result is a 2-key dict:
+	# `heat_req` and `side_heat`.
+	if heat_requirement > 0.0:
+		heat_req = heat_total
+	return {"heat_req": heat_req, "side_heat": side_heat}
+
 @warning_ignore("unused_parameter")
 static func source_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the turret tick wiring every tick
@@ -740,10 +775,30 @@ static func source_turret_tick_buildings_state(game: Object, seconds: float) -> 
 			# slices); the decay never arms the timer itself.
 			var logic_control_time_state: Dictionary = source_turret_logic_control_time_state(float(frame.get("logic_control_time", -1.0)), seconds)
 			frame["logic_control_time"] = logic_control_time_state.get("logic_control_time", -1.0)
-			# The rotate sync (Turret.java:542-545, N2262) runs
+			# The heatReq fold (Turret.java:538-540, N2263) runs
 			# right after the logic-control decay: Java order
-			# :534-536 decay, :538-540 heatReq (own slice),
-			# :542-545 rotate sync, :595-596 turnToTarget,
+			# :534-536 decay, :538-540 heatReq, :542-545 rotate
+			# sync -- so the tick runs BEFORE the rotate sync and
+			# the aim call. Duo never sets heatRequirement
+			# (Blocks.java:3257-3331), so the class default -1.0
+			# (Turret.java:53) keeps the guard off and the live
+			# duo heatReq stays 0.0 (the field default,
+			# Turret.java:295) with a four-zero side_heat (the
+			# field default, Turret.java:296) -- only afflict
+			# (20f) and malign (144f) set a positive requirement
+			# among turrets. The calculateHeat proximity scan
+			# (BuildingComp.java:410-461) is a live entity scan
+			# (BLOCKED, own slice), so the driver passes the
+			# deferred scan total 0.0, which is never assigned
+			# while the guard is off; the tick still stamps both
+			# keys so the frame mirrors the TurretBuild fields.
+			var heat_req_state: Dictionary = source_turret_heat_req_state(-1.0, 0.0, frame.get("side_heat", [0.0, 0.0, 0.0, 0.0]), float(frame.get("heat_req", 0.0)))
+			frame["heat_req"] = heat_req_state.get("heat_req", 0.0)
+			frame["side_heat"] = heat_req_state.get("side_heat", [0.0, 0.0, 0.0, 0.0])
+			# The rotate sync (Turret.java:542-545, N2262) runs
+			# right after the heatReq fold: Java order
+			# :534-536 decay, :538-540 heatReq (N2263 tick, runs
+			# just above), :542-545 rotate sync, :595-596 turnToTarget,
 			# :601/:609 updateShooting -- so the tick runs BEFORE
 			# the aim call, and the aim reads the synced building
 			# rotation. `rotate` is true for duo (Turret

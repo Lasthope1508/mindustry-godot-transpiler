@@ -236914,6 +236914,84 @@
       },
       "runtime_proof": "/root/C07TurretRotateSyncProof",
       "rule": "Source-backed Turret rotate sync from Turret.java."
+    },
+    "source_turret_heat_req_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_heat_req_state",
+      "source_slice": "N2263",
+      "keys": {
+        "heat_requirement": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float heatRequirement = -1f;",
+          "rule": "The turret heat requirement in heat units before this tick (Turret.java:53, the class default; duo never overrides it, Blocks.java:3257-3331; the driver passes -1.0 for duo).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_heat_req_state"
+          ]
+        },
+        "heat_total": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return heat;",
+          "rule": "The calculateHeat scan total before this tick (BuildingComp.java:460, the return of calculateHeat(sideHeat, cameFrom); the live scan is deferred, so the driver passes 0.0 for duo -- never assigned while the guard is off).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_heat_req_state"
+          ]
+        },
+        "side_heat": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float[] sideHeat = new float[4];",
+          "rule": "The per-side heat array before this tick (Turret.java:296, the field default is four zeros; the driver reads frame[\"side_heat\"], default four zeros).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_heat_req_state"
+          ]
+        },
+        "heat_req": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float heatReq;",
+          "rule": "The folded heat requirement value before this tick (Turret.java:295, the field default is 0; the driver reads frame[\"heat_req\"], default 0.0).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_heat_req_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretHeatReqProof",
+      "rule": "Source-backed Turret heatReq fold from Turret.java."
+    },
+    "source_turret_heat_req_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_heat_req_state",
+      "source_slice": "N2263",
+      "keys": {
+        "heat_req": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "heatReq = calculateHeat(sideHeat);",
+          "rule": "The folded heat requirement value after the tick (Turret.java:539 -- the calculateHeat total when heatRequirement > 0, unchanged otherwise; the driver stamps it on frame[\"heat_req\"]).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_heat_req_state"
+          ]
+        },
+        "side_heat": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "sideHeat[Mathf.mod(relativeTo(build), 4)] += add;",
+          "rule": "The per-side heat array after the tick (BuildingComp.java:436 -- the scan fills one side per heater; the driver stamps it on frame[\"side_heat\"]).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_heat_req_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretHeatReqProof",
+      "rule": "Source-backed Turret heatReq fold from Turret.java."
     }
   },
   "version": 1

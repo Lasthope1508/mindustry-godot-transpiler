@@ -3613,6 +3613,24 @@
       ],
       "runtime_proof": "/root/C07TurretRotateSyncProof"
     },
+    "N2263": {
+      "canonical_ledger": "source_slice_ledger.N2263",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "godot_owner": "SourceTurretBuildState.source_turret_heat_req_state",
+      "source_symbols": [
+        "source_turret_heat_req_state_result.heat_req",
+        "source_turret_heat_req_state_result.side_heat"
+      ],
+      "tests": [
+        "test_c07_turret_heat_req_registration",
+        "test_all_c07_turret_heat_req_input_evidence_is_exact",
+        "test_turret_heat_req_state",
+        "test_reference_graph_and_actual_c07_turret_heat_req"
+      ],
+      "runtime_proof": "/root/C07TurretHeatReqProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",
