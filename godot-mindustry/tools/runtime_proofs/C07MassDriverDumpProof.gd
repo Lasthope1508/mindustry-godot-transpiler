@@ -62,11 +62,11 @@ func _ready() -> void:
 	var idle_frame: Dictionary = {"items": {"copper": 5}, "dump_accum": 0.0, "cdump": 0}
 	var idle: Dictionary = mass_driver_build_state.source_mass_driver_dump_state(idle_frame, "idle", 1.0, 1.0, content_item_ids, accepting, can_dump)
 	var idle_items: Dictionary = idle.get("items_after", {})
-	var multi: Dictionary = mass_driver_build_state.source_mass_driver_dump_state({"items": {"copper": 5}, "dump_accum": 0.0, "cdump": 0}, 2.5, 1.0, content_item_ids, accepting, can_dump)
+	var multi: Dictionary = mass_driver_build_state.source_mass_driver_dump_state({"items": {"copper": 5}, "dump_accum": 0.0, "cdump": 0}, "idle", 2.5, 1.0, content_item_ids, accepting, can_dump)
 	var multi_items: Dictionary = multi.get("items_after", {})
-	var below: Dictionary = mass_driver_build_state.source_mass_driver_dump_state({"items": {"copper": 5}, "dump_accum": 0.0, "cdump": 0}, 0.5, 1.0, content_item_ids, accepting, can_dump)
+	var below: Dictionary = mass_driver_build_state.source_mass_driver_dump_state({"items": {"copper": 5}, "dump_accum": 0.0, "cdump": 0}, "idle", 0.5, 1.0, content_item_ids, accepting, can_dump)
 	var below_items: Dictionary = below.get("items_after", {})
-	var overdrive: Dictionary = mass_driver_build_state.source_mass_driver_dump_state({"items": {"copper": 5}, "dump_accum": 0.0, "cdump": 0}, 0.5, 2.0, content_item_ids, accepting, can_dump)
+	var overdrive: Dictionary = mass_driver_build_state.source_mass_driver_dump_state({"items": {"copper": 5}, "dump_accum": 0.0, "cdump": 0}, "idle", 0.5, 2.0, content_item_ids, accepting, can_dump)
 	var overdrive_items: Dictionary = overdrive.get("items_after", {})
 	proof["dump_fires_when_idle"] = bool(idle.get("dumped", false)) and int(idle_items.get("copper", -1)) == 4 and is_equal_approx(float(idle.get("dump_accum_after", -1.0)), 0.0) and int(idle.get("cursor_after", -1)) == 0 and bool(multi.get("dumped", false)) and int(multi_items.get("copper", -1)) == 3 and is_equal_approx(float(multi.get("dump_accum_after", -1.0)), 0.5) and bool(below.get("dumped", true)) == false and is_equal_approx(float(below.get("dump_accum_after", -1.0)), 0.5) and int(below_items.get("copper", -1)) == 5 and int(below.get("cursor_after", -1)) == 0 and bool(overdrive.get("dumped", false)) and int(overdrive_items.get("copper", -1)) == 4 and is_equal_approx(float(overdrive.get("dump_accum_after", -1.0)), 0.0)
 
@@ -77,7 +77,7 @@ func _ready() -> void:
 	var accepting_frame: Dictionary = {"items": {"copper": 5}, "dump_accum": 0.0, "cdump": 0}
 	var accepted: Dictionary = mass_driver_build_state.source_mass_driver_dump_state(accepting_frame, "accepting", 1.0, 1.0, content_item_ids, accepting, can_dump)
 	var accepted_items: Dictionary = accepted.get("items_after", {})
-	var carried: Dictionary = mass_driver_build_state.source_mass_driver_dump_state({"items": {"copper": 5}, "dump_accum": 0.9, "cdump": 0}, 0.5, 1.0, content_item_ids, accepting, can_dump)
+	var carried: Dictionary = mass_driver_build_state.source_mass_driver_dump_state({"items": {"copper": 5}, "dump_accum": 0.9, "cdump": 0}, "accepting", 0.5, 1.0, content_item_ids, accepting, can_dump)
 	var carried_items: Dictionary = carried.get("items_after", {})
 	proof["dump_fires_when_accepting"] = bool(accepted.get("dumped", false)) and int(accepted_items.get("copper", -1)) == 4 and is_equal_approx(float(accepted.get("dump_accum_after", -1.0)), 0.0) and int(accepted.get("cursor_after", -1)) == 0 and bool(carried.get("dumped", false)) and int(carried_items.get("copper", -1)) == 4 and is_equal_approx(float(carried.get("dump_accum_after", -1.0)), 0.4)
 
@@ -86,9 +86,9 @@ func _ready() -> void:
 	# NOT grow -- a full 1.0-tick delta leaves it at 0.0, and
 	# a pre-existing 0.9 stays 0.9. Nothing dumps, the store
 	# is untouched, and the cursor does not move.
-	var shooting: Dictionary = mass_driver_build_state.source_mass_driver_dump_state({"items": {"copper": 5}, "dump_accum": 0.0, "cdump": 0}, 1.0, 1.0, content_item_ids, accepting, can_dump)
+	var shooting: Dictionary = mass_driver_build_state.source_mass_driver_dump_state({"items": {"copper": 5}, "dump_accum": 0.0, "cdump": 0}, "shooting", 1.0, 1.0, content_item_ids, accepting, can_dump)
 	var shooting_items: Dictionary = shooting.get("items_after", {})
-	var shooting_held: Dictionary = mass_driver_build_state.source_mass_driver_dump_state({"items": {"copper": 5}, "dump_accum": 0.9, "cdump": 0}, 1.0, 1.0, content_item_ids, accepting, can_dump)
+	var shooting_held: Dictionary = mass_driver_build_state.source_mass_driver_dump_state({"items": {"copper": 5}, "dump_accum": 0.9, "cdump": 0}, "shooting", 1.0, 1.0, content_item_ids, accepting, can_dump)
 	var shooting_held_items: Dictionary = shooting_held.get("items_after", {})
 	proof["dump_blocked_when_shooting"] = bool(shooting.get("dumped", true)) == false and is_equal_approx(float(shooting.get("dump_accum_after", -1.0)), 0.0) and int(shooting_items.get("copper", -1)) == 5 and int(shooting.get("cursor_after", -1)) == 0 and bool(shooting_held.get("dumped", true)) == false and is_equal_approx(float(shooting_held.get("dump_accum_after", -1.0)), 0.9) and int(shooting_held_items.get("copper", -1)) == 5 and int(shooting_held.get("cursor_after", -1)) == 0
 
@@ -129,13 +129,13 @@ func _ready() -> void:
 	var cursor_frame: Dictionary = {"items": {"copper": 5}, "dump_accum": 0.0, "cdump": 0}
 	var cursor: Dictionary = mass_driver_build_state.source_mass_driver_dump_state(cursor_frame, "idle", 1.0, 1.0, content_item_ids, [false, true, false], [true, true, true])
 	var cursor_items: Dictionary = cursor.get("items_after", {})
-	var refused: Dictionary = mass_driver_build_state.source_mass_driver_dump_state({"items": {"copper": 5}, "dump_accum": 0.0, "cdump": 0}, 1.0, 1.0, content_item_ids, [false], [true])
+	var refused: Dictionary = mass_driver_build_state.source_mass_driver_dump_state({"items": {"copper": 5}, "dump_accum": 0.0, "cdump": 0}, "idle", 1.0, 1.0, content_item_ids, [false], [true])
 	var refused_items: Dictionary = refused.get("items_after", {})
-	var blocked: Dictionary = mass_driver_build_state.source_mass_driver_dump_state({"items": {"copper": 5}, "dump_accum": 0.0, "cdump": 0}, 1.0, 1.0, content_item_ids, [true], [false])
+	var blocked: Dictionary = mass_driver_build_state.source_mass_driver_dump_state({"items": {"copper": 5}, "dump_accum": 0.0, "cdump": 0}, "idle", 1.0, 1.0, content_item_ids, [true], [false])
 	var blocked_items: Dictionary = blocked.get("items_after", {})
 	var empty_frame: Dictionary = {"items": {}, "dump_accum": 0.0, "cdump": 2}
 	var emptied: Dictionary = mass_driver_build_state.source_mass_driver_dump_state(empty_frame, "idle", 1.0, 1.0, content_item_ids, accepting, can_dump)
-	var no_neighbour: Dictionary = mass_driver_build_state.source_mass_driver_dump_state({"items": {"copper": 5}, "dump_accum": 0.0, "cdump": 2}, 1.0, 1.0, content_item_ids, [], [])
+	var no_neighbour: Dictionary = mass_driver_build_state.source_mass_driver_dump_state({"items": {"copper": 5}, "dump_accum": 0.0, "cdump": 2}, "idle", 1.0, 1.0, content_item_ids, [], [])
 	var no_neighbour_items: Dictionary = no_neighbour.get("items_after", {})
 	proof["dump_removes_item_from_store"] = bool(stored.get("dumped", false)) and int(stored_items.get("copper", -1)) == 4 and int(stored_items.get("lead", -1)) == 2 and bool(cursor.get("dumped", false)) and int(cursor_items.get("copper", -1)) == 4 and int(cursor.get("cursor_after", -1)) == 2 and bool(refused.get("dumped", true)) == false and int(refused_items.get("copper", -1)) == 5 and is_equal_approx(float(refused.get("dump_accum_after", -1.0)), 0.0) and int(refused.get("cursor_after", -1)) == 0 and bool(blocked.get("dumped", true)) == false and int(blocked_items.get("copper", -1)) == 5 and is_equal_approx(float(blocked.get("dump_accum_after", -1.0)), 0.0) and bool(emptied.get("dumped", true)) == false and is_equal_approx(float(emptied.get("dump_accum_after", -1.0)), 0.0) and int(emptied.get("cursor_after", -1)) == 2 and bool(no_neighbour.get("dumped", true)) == false and int(no_neighbour_items.get("copper", -1)) == 5 and is_equal_approx(float(no_neighbour.get("dump_accum_after", -1.0)), 0.0) and int(no_neighbour.get("cursor_after", -1)) == 2
 

@@ -141,6 +141,8 @@ func _ready() -> void:
 	var live_neighbour_frame: Dictionary = live_neighbour.get_meta(item_bridge_build_state.SOURCE_ITEM_BRIDGE_BUILDING_META_KEY, {})
 	live_neighbour_frame["items"] = {}
 
+	# Seed an active deconstruction so the existing shouldConsume gate permits this dump.
+	payload_deconstructor_frame["deconstructing"] = {"block": "conveyor"}
 	payload_deconstructor_frame["items"] = {"copper": 5}
 	payload_deconstructor_frame["dump_accum"] = 0.9
 	payload_deconstructor_frame["dump_neighbour_accepts"] = [true]
@@ -159,6 +161,8 @@ func _ready() -> void:
 	game.add_child(bare_wall)
 	game.call("record_placed_block", bare_wall, blocks_by_id["copper-wall"], bare_cell)
 
+	# Seed an active deconstruction so the existing shouldConsume gate permits this dump.
+	bare_frame["deconstructing"] = {"block": "conveyor"}
 	bare_frame["items"] = {"copper": 5}
 	bare_frame["dump_accum"] = 0.9
 	bare_frame["dump_neighbour_accepts"] = [true]

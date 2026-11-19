@@ -2,6 +2,7 @@ extends Node
 
 const main_scene := preload("res://scenes/Main.tscn")
 const payload_mass_driver_build_state := preload("res://src/game/SourcePayloadMassDriverBuildState.gd")
+const block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
 const registry := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 const proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 
@@ -151,6 +152,9 @@ func _ready() -> void:
 	payload_mass_driver_build_state.source_payload_mass_driver_bind_frame_state(small_a, blocks_by_id["payload-mass-driver"])
 	payload_mass_driver_build_state.source_payload_mass_driver_bind_frame_state(small_b, blocks_by_id["payload-mass-driver"])
 	var large_a_frame: Dictionary = large_a.get_meta(payload_mass_driver_build_state.SOURCE_PAYLOAD_MASS_DRIVER_BUILDING_META_KEY, {})
+	# Link validation requires a shared team; map tiles can assign different teams.
+	for driver in [large_a, large_b, small_a, small_b]:
+		driver.set_meta(block_geometry.SOURCE_BUILD_TEAM_META_KEY, block_geometry.SOURCE_TEAM_DERELICT_ID)
 	var large_b_frame: Dictionary = large_b.get_meta(payload_mass_driver_build_state.SOURCE_PAYLOAD_MASS_DRIVER_BUILDING_META_KEY, {})
 	var small_a_frame: Dictionary = small_a.get_meta(payload_mass_driver_build_state.SOURCE_PAYLOAD_MASS_DRIVER_BUILDING_META_KEY, {})
 	var small_b_frame: Dictionary = small_b.get_meta(payload_mass_driver_build_state.SOURCE_PAYLOAD_MASS_DRIVER_BUILDING_META_KEY, {})
@@ -173,7 +177,7 @@ func _ready() -> void:
 	large_b_frame = large_b.get_meta(payload_mass_driver_build_state.SOURCE_PAYLOAD_MASS_DRIVER_BUILDING_META_KEY, {})
 	small_a_frame = small_a.get_meta(payload_mass_driver_build_state.SOURCE_PAYLOAD_MASS_DRIVER_BUILDING_META_KEY, {})
 	small_b_frame = small_b.get_meta(payload_mass_driver_build_state.SOURCE_PAYLOAD_MASS_DRIVER_BUILDING_META_KEY, {})
-	proof["large_def_range_2100_live_link"] = is_equal_approx(float(game.get("tile_size", -1.0)), 32.0) and is_equal_approx(float(large_a_frame.get("efficiency", -1.0)), 0.5) and str(large_a_frame.get("state", "")) == "shooting" and int(large_a_frame.get("link", -99)) == large_b_pos and str(large_b_frame.get("state", "")) == "shooting" and int(large_b_frame.get("link", -99)) == large_a_pos and str(small_a_frame.get("state", "")) == "idle" and int(small_a_frame.get("link", -99)) == small_b_pos and str(small_b_frame.get("state", "")) == "idle" and int(small_b_frame.get("link", -99)) == small_a_pos and is_equal_approx(float(large_a_frame.get("charge", -1.0)), 40.0) and is_equal_approx(float(large_a_frame.get("reload_counter", -1.0)), 0.9961538)
+	proof["large_def_range_2100_live_link"] = is_equal_approx(float(game.get("tile_size")), 32.0) and is_equal_approx(float(large_a_frame.get("efficiency", -1.0)), 0.5) and str(large_a_frame.get("state", "")) == "shooting" and int(large_a_frame.get("link", -99)) == large_b_pos and str(large_b_frame.get("state", "")) == "shooting" and int(large_b_frame.get("link", -99)) == large_a_pos and str(small_a_frame.get("state", "")) == "idle" and int(small_a_frame.get("link", -99)) == small_b_pos and str(small_b_frame.get("state", "")) == "idle" and int(small_b_frame.get("link", -99)) == small_a_pos and is_equal_approx(float(large_a_frame.get("charge", -1.0)), 40.0) and is_equal_approx(float(large_a_frame.get("reload_counter", -1.0)), 0.9961538)
 	proof["large_def_accepts_size_32_live"] = bool(large_a_frame.get("accepts_payload", false)) == true and bool(large_b_frame.get("accepts_payload", true)) == false and bool(small_a_frame.get("accepts_payload", true)) == false and bool(small_b_frame.get("accepts_payload", false)) == true
 
 	var state_registry := registry.canonical_headquarter_registry_state()

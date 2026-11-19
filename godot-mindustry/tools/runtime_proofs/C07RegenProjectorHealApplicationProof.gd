@@ -57,6 +57,9 @@ func _ready() -> void:
 	for registered_block in catalog.get_many("block"):
 		blocks_by_id[registered_block.id] = registered_block
 
+	# Blocks.java copper-wall: 80 * wallHealthMultiplier (4), instead of the extracted -1 sentinel.
+	blocks_by_id["copper-wall"].properties["health"] = 320
+
 	var regen_cell := Vector2i(28, 20)
 	var regen := Sprite2D.new()
 	game.add_child(regen)

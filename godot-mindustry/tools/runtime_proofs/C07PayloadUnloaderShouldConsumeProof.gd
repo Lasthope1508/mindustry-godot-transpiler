@@ -93,7 +93,9 @@ func _ready() -> void:
 	payload_unloader_build_state.source_payload_unloader_bind_frame_state(unloader_b, blocks_by_id["payload-unloader"])
 	var unloader_b_frame: Dictionary = unloader_b.get_meta(payload_unloader_build_state.SOURCE_PAYLOAD_UNLOADER_BUILDING_META_KEY, {})
 
-	unloader_a_frame["payload"] = {"block": "conveyor"}
+	# The live updateTile path consumes a block/build descriptor, as in
+	# C07PayloadUnloaderUpdateTileProof, rather than a block ID string.
+	unloader_a_frame["payload"] = {"block": {"has_items": true, "has_liquids": false}, "build": {"items": {"copper": 1}}}
 	unloader_a_frame["power_status"] = 0.5
 	unloader_b_frame["power_status"] = 1.0
 	payload_unloader_build_state.source_payload_unloader_tick_buildings_state(game, 1.0 / 60.0)

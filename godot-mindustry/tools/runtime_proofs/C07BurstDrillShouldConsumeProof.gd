@@ -1,5 +1,7 @@
 extends Node
 
+const placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
+const liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
 const main_scene := preload("res://scenes/Main.tscn")
 const burst_drill_build_state := preload("res://src/game/SourceBurstDrillBuildState.gd")
 const drill_build_state := preload("res://src/game/SourceDrillConsumptionRuntimeState.gd")
@@ -70,6 +72,7 @@ func _ready() -> void:
 	# closed-gate tick proves the `capacity - dominantItems`
 	# threshold with a real ore count, not a stubbed one.
 	var catalog = game.get("content_catalog")
+	var liquid_catalog: Dictionary = content_registry_state.source_liquid_catalog_state(catalog)
 	var blocks_by_id: Dictionary = {}
 	for registered_block in catalog.get_many("block"):
 		blocks_by_id[registered_block.id] = registered_block
@@ -90,6 +93,8 @@ func _ready() -> void:
 	# frame and sets dominant_items from the ore count).
 	drill_build_state.source_on_proximity_update_state(game, eruption, blocks_by_id["eruption-drill"])
 	var eruption_frame: Dictionary = eruption.get_meta(burst_drill_build_state.SOURCE_BURST_DRILL_BUILDING_META_KEY, {})
+	# Supply the later required hydrogen consumer so this fixture isolates the gate/power fold.
+	liquid_module_state.source_set_state(eruption.get_meta(placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY), int(liquid_catalog["liquid_id_by_name"]["hydrogen"]), 1.0)
 
 	# Full inventory: 60 copper is over the 60 - dominant_items
 	# threshold for any live dominant_items > 0, so the gate

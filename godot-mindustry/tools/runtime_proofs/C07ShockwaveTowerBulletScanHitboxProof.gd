@@ -163,7 +163,7 @@ func _ready() -> void:
 	# point strictly inside overlaps), a hitSize-0 enemy
 	# bullet exactly on the rect edge x 394 (admitted by
 	# the N2327 inclusive rect, DROPPED by the refinement
-	-- the strict boundary -- the discriminator vs N2327),
+	# -- the strict boundary -- the discriminator vs N2327),
 	# a hitSize-4 enemy bullet on the same edge (admitted
 	# by both -- its hitbox spans [392, 396]), an
 	# own-team bullet on the tower (excluded by team), and

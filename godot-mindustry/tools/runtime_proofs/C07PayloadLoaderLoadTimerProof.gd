@@ -122,7 +122,7 @@ func _ready() -> void:
 	for registered_block in catalog.get_many("block"):
 		blocks_by_id[registered_block.id] = registered_block
 
-	var storage_payload: Dictionary = {"block_has_items": true, "block_has_liquids": false, "block_separate_item_capacity": false, "block_item_capacity": 100, "block_liquid_capacity": 0.0, "block_is_liquid_void": false, "block_consumes_items": [], "block_consumes_liquids": [], "block_cons_power_buffered": false, "block_cons_power_capacity": 0.0, "accept_item_open": true, "accept_liquid_open": false, "build_items": {}, "build_liquids": {}, "build_current_liquid": "", "build_power_status": 0.0}
+	var storage_payload: Dictionary = {"block_has_items": true, "block_has_liquids": false, "block_separate_item_capacity": false, "block_item_capacity": 100, "block_liquid_capacity": 0.0, "block_is_liquid_void": false, "block_consumes_items": [], "block_consumes_liquids": [], "block_cons_power_buffered": false, "block_cons_power_capacity": 0.0, "accept_item_open": true, "accept_liquid_open": false, "build_items": {"copper": 0}, "build_liquids": {}, "build_current_liquid": "", "build_power_status": 0.0}
 
 	var loader_a_cell := Vector2i(28, 20)
 	var loader_a := Sprite2D.new()

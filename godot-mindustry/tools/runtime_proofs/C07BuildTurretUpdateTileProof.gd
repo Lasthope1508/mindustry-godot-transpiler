@@ -1,5 +1,8 @@
 extends Node
 
+const content_registry_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
+const placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
+const liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
 const main_scene := preload("res://scenes/Main.tscn")
 const build_turret_build_state := preload("res://src/game/SourceBuildTurretBuildState.gd")
 const registry := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
@@ -82,6 +85,7 @@ func _ready() -> void:
 	# folded into rotation_follows_unit (the scope's 6 keys
 	# carry no separate live-tick key).
 	var catalog = game.get("content_catalog")
+	var liquid_catalog: Dictionary = content_registry_state.source_liquid_catalog_state(catalog)
 	var blocks_by_id: Dictionary = {}
 	for registered_block in catalog.get_many("block"):
 		blocks_by_id[registered_block.id] = registered_block
@@ -96,6 +100,8 @@ func _ready() -> void:
 	# and the unit-state inputs on it).
 	build_turret_build_state.source_build_turret_bind_frame_state(build_turret, blocks_by_id["build-tower"])
 	var build_turret_frame: Dictionary = build_turret.get_meta(build_turret_build_state.SOURCE_BUILD_TURRET_BUILDING_META_KEY, {})
+	# The later required nitrogen row must be supplied to isolate unit rotation/power.
+	liquid_module_state.source_set_state(build_turret.get_meta(placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY), int(liquid_catalog["liquid_id_by_name"]["nitrogen"]), 1.0)
 
 	build_turret_frame["plans"] = [{"block": "conveyor", "x": 0, "y": 0}]
 	build_turret_frame["power_status"] = 0.5

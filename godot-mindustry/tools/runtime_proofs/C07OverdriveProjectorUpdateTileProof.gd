@@ -104,6 +104,8 @@ func _ready() -> void:
 	overdrive_projector_build_state.source_overdrive_projector_bind_frame_state(projector, blocks_by_id["overdrive-projector"])
 	var projector_frame: Dictionary = projector.get_meta(overdrive_projector_build_state.SOURCE_OVERDRIVE_PROJECTOR_BUILDING_META_KEY, {})
 
+	# Phase-fabric fuels the later optional row required by this boosted scenario.
+	projector_frame["items"] = {"phase-fabric": 1}
 	projector_frame["power_status"] = 0.5
 	overdrive_projector_build_state.source_overdrive_projector_tick_buildings_state(game, 1.0 / 60.0)
 	projector_frame = projector.get_meta(overdrive_projector_build_state.SOURCE_OVERDRIVE_PROJECTOR_BUILDING_META_KEY, {})

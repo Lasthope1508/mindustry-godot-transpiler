@@ -1,5 +1,8 @@
 extends Node
 
+const content_registry_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
+const placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
+const liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
 const main_scene := preload("res://scenes/Main.tscn")
 const separator_build_state := preload("res://src/game/SourceSeparatorBuildState.gd")
 const registry := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
@@ -64,6 +67,7 @@ func _ready() -> void:
 	# updateConsumption forces efficiency to zero
 	# (BuildingComp.java:1960 + 1992).
 	var catalog = game.get("content_catalog")
+	var liquid_catalog: Dictionary = content_registry_state.source_liquid_catalog_state(catalog)
 	var blocks_by_id: Dictionary = {}
 	for registered_block in catalog.get_many("block"):
 		blocks_by_id[registered_block.id] = registered_block
@@ -78,6 +82,8 @@ func _ready() -> void:
 	# the held items on it).
 	separator_build_state.source_separator_bind_frame_state(separator, blocks_by_id["separator"])
 	var separator_frame: Dictionary = separator.get_meta(separator_build_state.SOURCE_SEPARATOR_BUILDING_META_KEY, {})
+	# Supply the later required slag consumer so this fixture isolates the gate/power fold.
+	liquid_module_state.source_set_state(separator.get_meta(placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY), int(liquid_catalog["liquid_id_by_name"]["slag"]), 1.0)
 
 	# Full (10 copper at capacity 10): gate false -> efficiency
 	# 0 even at half power.

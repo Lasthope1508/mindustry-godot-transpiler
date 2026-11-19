@@ -86,7 +86,8 @@ func _ready() -> void:
 	melter_frame["items"] = {}
 	var surge := Sprite2D.new()
 	game.add_child(surge)
-	game.call("record_placed_block", surge, blocks_by_id["surge-smelter"], surge_cell)
+	# The ring variable denotes the contact; move the size-3 origin outside the source footprint.
+	game.call("record_placed_block", surge, blocks_by_id["surge-smelter"], surge_cell + Vector2i(1, 1))
 	factory_build_state.source_factory_bind_frame_state(surge, blocks_by_id["surge-smelter"])
 	var surge_frame: Dictionary = surge.get_meta(factory_build_state.SOURCE_FACTORY_BUILDING_META_KEY, {})
 	surge_frame["items"] = {}
