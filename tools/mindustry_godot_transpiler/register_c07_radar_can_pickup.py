@@ -29,7 +29,7 @@ import sys
 from pathlib import Path
 
 from mindustry_port import source_ssot, source_symbols
-from register_c07_radar_write_read import DEFERRED as N2267_DEFERRED
+from register_c07_radar_write_read import DEFERRED as N2310_DEFERRED
 from register_liquid_consumer_hydration import backed
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -46,13 +46,13 @@ SLICE_SOURCES = [
 ]
 EXACT_EXPRS = ['public boolean canPickup(){', 'return false;', 'public class Radar extends Block{', 'public class RadarBuild extends Building{']
 
-# DEFERRED is carried from the N2267 register script via import --
+# DEFERRED is carried from the N2310 register script via import --
 # never retyped. One carried entry is DROPPED here, not carried:
 # the Radar canPickup row entry -- N2272 IS the canPickup
 # slice, so carrying it would leave a stale "waits for its own
 # slice" row for done work.
-DEFERRED = [e for e in N2267_DEFERRED if 'Radar canPickup row' not in e] + [
-    'Radar canPickup Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2248/N2303/N2267: the N2272 proof runs headless on Linux here and waits for a Windows Godot run.',
+DEFERRED = [e for e in N2310_DEFERRED if 'Radar canPickup row' not in e] + [
+    'Radar canPickup Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2248/N2303/N2310: the N2272 proof runs headless on Linux here and waits for a Windows Godot run.',
 ]
 
 

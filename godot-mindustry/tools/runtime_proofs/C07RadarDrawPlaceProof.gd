@@ -38,7 +38,7 @@ func _ready() -> void:
 	# synthetic tile coords and def fog radii; the caller
 	# supplies the def fogRadius and the tilesize. There are no
 	# driver-tick keys: drawPlace() is placement UI. Float
-	# comparisons use is_equal_approx (the N2267 write/read
+	# comparisons use is_equal_approx (the N2310 write/read
 	# precedent for inexact float32 values).
 
 	# The class-default def fog radius reads 10.0 * 8.0 = 80.0.

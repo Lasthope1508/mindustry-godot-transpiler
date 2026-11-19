@@ -14,7 +14,7 @@ class C07RadarWriteReadTests(unittest.TestCase):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        self.assertEqual(ledger['N2267']['godot_owner'], 'SourceRadarBuildState.source_radar_write_state')
+        self.assertEqual(ledger['N2310']['godot_owner'], 'SourceRadarBuildState.source_radar_write_state')
         # RadarBuild persists exactly ONE field, its discovery
         # progress (`write.f(progress);`, Radar.java:101,
         # inside `public void write(Writes write){` /
@@ -51,22 +51,22 @@ class C07RadarWriteReadTests(unittest.TestCase):
         # the inexact value 0.1 with is_equal_approx. Two new
         # result symbols: write.progress, read.progress.
         self.assertEqual(
-            ledger['N2267']['source_symbols'],
+            ledger['N2310']['source_symbols'],
             [
                 'source_radar_write_state_result.progress',
                 'source_radar_read_state_result.progress',
             ],
         )
-        for name in ledger['N2267']['source_symbols']:
+        for name in ledger['N2310']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_source'], {
                     'core/src/mindustry/world/blocks/defense/Radar.java',
                 })
                 self.assertEqual(symbol['godot_owner'], 'SourceRadarBuildState.' + name.rsplit('_result.', 1)[0])
-        self.assertEqual(ledger['N2267']['runtime_proof'], '/root/C07RadarWriteReadProof')
+        self.assertEqual(ledger['N2310']['runtime_proof'], '/root/C07RadarWriteReadProof')
         self.assertEqual(
-            ledger['N2267']['tests'],
+            ledger['N2310']['tests'],
             [
                 'test_c07_radar_write_read_registration',
                 'test_all_c07_radar_write_read_input_evidence_is_exact',
@@ -74,13 +74,13 @@ class C07RadarWriteReadTests(unittest.TestCase):
                 'test_reference_graph_and_actual_c07_radar_write_read',
             ],
         )
-        self.assertTrue(ledger['N2267']['deferred_exprs'])
+        self.assertTrue(ledger['N2310']['deferred_exprs'])
 
     def test_all_c07_radar_write_read_input_evidence_is_exact(self):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        for name in ledger['N2267']['source_symbols']:
+        for name in ledger['N2310']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_expr'], (ROOT / 'mindustry-upstream' / symbol['java_source']).read_text(encoding='utf-8'))
@@ -89,7 +89,7 @@ class C07RadarWriteReadTests(unittest.TestCase):
             'core/src/mindustry/world/blocks/defense/Radar.java',
         }
         upstream = {source: (ROOT / 'mindustry-upstream' / source).read_text(encoding='utf-8') for source in slice_sources}
-        for expr in ledger['N2267']['exact_exprs']:
+        for expr in ledger['N2310']['exact_exprs']:
             with self.subTest(expr=expr):
                 self.assertTrue(any(expr in text for text in upstream.values()), expr)
 

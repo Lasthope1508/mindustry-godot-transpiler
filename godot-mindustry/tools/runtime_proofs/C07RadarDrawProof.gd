@@ -34,7 +34,7 @@ func _ready() -> void:
 	# def values; absin is time-dependent, so the caller
 	# supplies its evaluated value. There are no driver-tick
 	# keys: draw() is a render call, not tick state. Float
-	# comparisons use is_equal_approx (the N2267 write/read
+	# comparisons use is_equal_approx (the N2310 write/read
 	# precedent for inexact float32 values).
 
 	# Zero total progress reads zero rotation -- the dish has

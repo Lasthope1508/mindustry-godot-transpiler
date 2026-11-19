@@ -19,7 +19,7 @@ func _ready() -> void:
 	game.set_process(false)
 	game.set_physics_process(false)
 
-	# --- Write/read persistence (N2267): RadarBuild persists
+	# --- Write/read persistence (N2310): RadarBuild persists
 	# exactly ONE field, its discovery progress (`public void
 	# write(Writes write){` / `super.write(write);` /
 	# `write.f(progress);`, Radar.java:98-101), and restores

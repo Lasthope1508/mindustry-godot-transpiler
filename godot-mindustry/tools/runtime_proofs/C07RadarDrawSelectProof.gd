@@ -34,7 +34,7 @@ func _ready() -> void:
 	# radii; the caller supplies the N2275 fogRadius() result
 	# and the tilesize. There are no driver-tick keys:
 	# drawSelect() is selection UI, not tick state. Float
-	# comparisons use is_equal_approx (the N2267 write/read
+	# comparisons use is_equal_approx (the N2310 write/read
 	# precedent for inexact float32 values).
 
 	# Full discovery reads the full def radius in world units:

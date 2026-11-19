@@ -234703,112 +234703,6 @@
       "runtime_proof": "/root/C07RadarProgressProof",
       "rule": "Source-backed Radar progress() accessor from Radar.java."
     },
-    "source_radar_write_state_input": {
-      "status": "active",
-      "owner": "SourceRadarBuildState.source_radar_write_state",
-      "source_slice": "N2267",
-      "keys": {
-        "frame": {
-          "type": "Dictionary",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-          "java_expr": "public void write(Writes write){",
-          "rule": "The radar frame (RadarBuild.write, Radar.java:98): the family-convention first arg every Radar pure function takes; the persisted value itself arrives as the explicit progress param.",
-          "used_by": [
-            "SourceRadarBuildState.source_radar_write_state"
-          ]
-        },
-        "progress": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-          "java_expr": "write.f(progress);",
-          "rule": "The live discovery progress to persist (`write.f(progress);`, Radar.java:101): the Java field `public float progress;` (Radar.java:49, init 0.0), advanced by updateTile (Radar.java:68-69, N2248).",
-          "used_by": [
-            "SourceRadarBuildState.source_radar_write_state"
-          ]
-        }
-      },
-      "runtime_proof": "/root/C07RadarWriteReadProof",
-      "rule": "Source-backed Radar write/read persistence from Radar.java."
-    },
-    "source_radar_write_state_result": {
-      "status": "active",
-      "owner": "SourceRadarBuildState.source_radar_write_state",
-      "source_slice": "N2267",
-      "keys": {
-        "progress": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-          "java_expr": "write.f(progress);",
-          "rule": "The persisted progress (Radar.java:101, `write.f(progress);`): the frame progress -- the ONLY value write persists; lastRadius / smoothEfficiency / totalProgress are recomputed every tick (Radar.java:61, :65, :71, N2248), so none survives save/load.",
-          "used_by": [
-            "SourceRadarBuildState.source_radar_write_state"
-          ]
-        }
-      },
-      "runtime_proof": "/root/C07RadarWriteReadProof",
-      "rule": "Source-backed Radar write/read persistence from Radar.java."
-    },
-    "source_radar_read_state_input": {
-      "status": "active",
-      "owner": "SourceRadarBuildState.source_radar_read_state",
-      "source_slice": "N2267",
-      "keys": {
-        "frame": {
-          "type": "Dictionary",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-          "java_expr": "public void read(Reads read, byte revision){",
-          "rule": "The radar frame (RadarBuild.read, Radar.java:105): the family-convention first arg every Radar pure function takes; the restored value itself arrives as the explicit stored_progress param.",
-          "used_by": [
-            "SourceRadarBuildState.source_radar_read_state"
-          ]
-        },
-        "stored_progress": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-          "java_expr": "progress = read.f();",
-          "rule": "The progress value read from the save stream (`progress = read.f();`, Radar.java:108) -- applied unconditionally, whatever the revision.",
-          "used_by": [
-            "SourceRadarBuildState.source_radar_read_state"
-          ]
-        },
-        "revision": {
-          "type": "int",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-          "java_expr": "public void read(Reads read, byte revision){",
-          "rule": "The save revision (Radar.java:105, `public void read(Reads read, byte revision){`): passed to super only -- RadarBuild does NOT override version(), so there is no revision guard in the body; the param exists so the proof can pin that revisions 0, 1 and 2 give the same result.",
-          "used_by": [
-            "SourceRadarBuildState.source_radar_read_state"
-          ]
-        }
-      },
-      "runtime_proof": "/root/C07RadarWriteReadProof",
-      "rule": "Source-backed Radar write/read persistence from Radar.java."
-    },
-    "source_radar_read_state_result": {
-      "status": "active",
-      "owner": "SourceRadarBuildState.source_radar_read_state",
-      "source_slice": "N2267",
-      "keys": {
-        "progress": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-          "java_expr": "progress = read.f();",
-          "rule": "The progress after load (Radar.java:108, `progress = read.f();`): the stored progress, whatever the revision -- lastRadius / smoothEfficiency / totalProgress rebuild from their field defaults on the next tick (Radar.java:50-52, :61, :65, :71, N2248).",
-          "used_by": [
-            "SourceRadarBuildState.source_radar_read_state"
-          ]
-        }
-      },
-      "runtime_proof": "/root/C07RadarWriteReadProof",
-      "rule": "Source-backed Radar write/read persistence from Radar.java."
-    },
     "source_turret_fog_radius_state_input": {
       "status": "active",
       "owner": "SourceTurretBuildState.source_turret_fog_radius_state",
@@ -239686,6 +239580,112 @@
       },
       "runtime_proof": "/root/C07BurstDrillSetStatsProof",
       "rule": "Source-backed BurstDrill setStats() state from BurstDrill.java + Drill.java + Blocks.java + StatValues.java + StatUnit.java + ConsumeLiquidBase.java + Block.java + Consume.java."
+    },
+    "source_radar_write_state_input": {
+      "status": "active",
+      "owner": "SourceRadarBuildState.source_radar_write_state",
+      "source_slice": "N2310",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "public void write(Writes write){",
+          "rule": "The radar frame (RadarBuild.write, Radar.java:98): the family-convention first arg every Radar pure function takes; the persisted value itself arrives as the explicit progress param.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_write_state"
+          ]
+        },
+        "progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "write.f(progress);",
+          "rule": "The live discovery progress to persist (`write.f(progress);`, Radar.java:101): the Java field `public float progress;` (Radar.java:49, init 0.0), advanced by updateTile (Radar.java:68-69, N2248).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_write_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RadarWriteReadProof",
+      "rule": "Source-backed Radar write/read persistence from Radar.java."
+    },
+    "source_radar_write_state_result": {
+      "status": "active",
+      "owner": "SourceRadarBuildState.source_radar_write_state",
+      "source_slice": "N2310",
+      "keys": {
+        "progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "write.f(progress);",
+          "rule": "The persisted progress (Radar.java:101, `write.f(progress);`): the frame progress -- the ONLY value write persists; lastRadius / smoothEfficiency / totalProgress are recomputed every tick (Radar.java:61, :65, :71, N2248), so none survives save/load.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_write_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RadarWriteReadProof",
+      "rule": "Source-backed Radar write/read persistence from Radar.java."
+    },
+    "source_radar_read_state_input": {
+      "status": "active",
+      "owner": "SourceRadarBuildState.source_radar_read_state",
+      "source_slice": "N2310",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "public void read(Reads read, byte revision){",
+          "rule": "The radar frame (RadarBuild.read, Radar.java:105): the family-convention first arg every Radar pure function takes; the restored value itself arrives as the explicit stored_progress param.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_read_state"
+          ]
+        },
+        "stored_progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "progress = read.f();",
+          "rule": "The progress value read from the save stream (`progress = read.f();`, Radar.java:108) -- applied unconditionally, whatever the revision.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_read_state"
+          ]
+        },
+        "revision": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "public void read(Reads read, byte revision){",
+          "rule": "The save revision (Radar.java:105, `public void read(Reads read, byte revision){`): passed to super only -- RadarBuild does NOT override version(), so there is no revision guard in the body; the param exists so the proof can pin that revisions 0, 1 and 2 give the same result.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_read_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RadarWriteReadProof",
+      "rule": "Source-backed Radar write/read persistence from Radar.java."
+    },
+    "source_radar_read_state_result": {
+      "status": "active",
+      "owner": "SourceRadarBuildState.source_radar_read_state",
+      "source_slice": "N2310",
+      "keys": {
+        "progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "progress = read.f();",
+          "rule": "The progress after load (Radar.java:108, `progress = read.f();`): the stored progress, whatever the revision -- lastRadius / smoothEfficiency / totalProgress rebuild from their field defaults on the next tick (Radar.java:50-52, :61, :65, :71, N2248).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_read_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RadarWriteReadProof",
+      "rule": "Source-backed Radar write/read persistence from Radar.java."
     }
   },
   "version": 1
