@@ -176920,6 +176920,22 @@
         "test_reference_graph_and_actual_c07_turret_efficiency_multiplier"
       ],
       "runtime_proof": "/root/C07TurretEfficiencyMultiplierProof"
+    },
+    "source_turret_target_position_control_state_result.target_pos": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_target_position_control_state",
+      "godot_symbol": "source_turret_target_position_control_state_result.target_pos",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.targetPosition()",
+      "java_expr": "targetPos.set(Predict.intercept(this, pos, offset.x, offset.y, bullet.speed));",
+      "rule": "The target position after this call (Turret.java:466-472 -- the intercept point when predictTarget is set and the bullet is fast enough, else the pos itself; a zero result falls back to the pos).",
+      "tests": [
+        "test_c07_turret_target_position_registration",
+        "test_all_c07_turret_target_position_input_evidence_is_exact",
+        "test_turret_target_position_control_state",
+        "test_reference_graph_and_actual_c07_turret_target_position"
+      ],
+      "runtime_proof": "/root/C07TurretTargetPositionControlProof"
     }
   },
   "version": 1

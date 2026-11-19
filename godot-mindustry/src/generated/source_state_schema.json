@@ -237238,6 +237238,174 @@
       },
       "runtime_proof": "/root/C07TurretEfficiencyMultiplierProof",
       "rule": "Source-backed Turret efficiency fold from Turret.java."
+    },
+    "source_turret_target_position_control_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_target_position_control_state",
+      "source_slice": "N2266",
+      "keys": {
+        "has_ammo": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public boolean hasAmmo(){",
+          "rule": "Whether the turret has ammo to shoot with (Turret.java:698 -- ammo.size > 0 and the peeked entry holds at least ammoPerShot, or cheating(); the driver peek convention is the last duo_entries stack, N2253).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_target_position_control_state"
+          ]
+        },
+        "pos": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public void targetPosition(Posc pos){",
+          "rule": "The Posc to aim at as {\"x\", \"y\"} world coords (Turret.java:453, the method arg; an empty dict means a null pos, which returns early at :454).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_target_position_control_state"
+          ]
+        },
+        "pos_is_hitboxc": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "if(accurateDelay && !moveWhileCharging && pos instanceof Hitboxc h){",
+          "rule": "Whether the pos is a Hitboxc (Turret.java:460 -- only then does Java read deltaX/deltaY for the accurateDelay offset; a building pos has no per-frame displacement).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_target_position_control_state"
+          ]
+        },
+        "delta_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Predict.java",
+          "java_expr": "ddx += h.deltaX();",
+          "rule": "The pos per-frame X displacement (Predict.java -- the Hitboxc deltaX() that the Position intercept overload adds to ddx; the float overload divides it by Time.delta).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_target_position_control_state"
+          ]
+        },
+        "delta_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Predict.java",
+          "java_expr": "ddy += h.deltaY();",
+          "rule": "The pos per-frame Y displacement (Predict.java -- the Hitboxc deltaY() that the Position intercept overload adds to ddy).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_target_position_control_state"
+          ]
+        },
+        "accurate_delay": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public boolean accurateDelay = true;",
+          "rule": "Whether the turret targets accurately with respect to shoot.firstShotDelay (Turret.java:78, the class default true; duo never overrides it).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_target_position_control_state"
+          ]
+        },
+        "move_while_charging": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public boolean moveWhileCharging = true;",
+          "rule": "Whether the turret can move while charging (Turret.java:80, the class default true; duo never overrides it, so the offset branch is off for duo).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_target_position_control_state"
+          ]
+        },
+        "first_shot_delay": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+          "java_expr": "public float firstShotDelay = 0;",
+          "rule": "The shoot pattern first-shot delay in ticks (ShootPattern.java:11, the class default 0; duo ShootAlternate(3.5f) never sets it, Blocks.java:3299).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_target_position_control_state"
+          ]
+        },
+        "time_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/Predict.java",
+          "java_expr": "dstvx /= Time.delta;",
+          "rule": "The frame delta in ticks (Predict.java -- the float intercept overload divides the per-frame displacement by it; the proof passes 1.0 per live-loop tick).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_target_position_control_state"
+          ]
+        },
+        "predict_target": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public boolean predictTarget = true;",
+          "rule": "Whether the block predicts unit movement (Turret.java:105, the class default true; duo never overrides it).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_target_position_control_state"
+          ]
+        },
+        "bullet_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "if(predictTarget && bullet.speed >= 0.01f){",
+          "rule": "The peeked bullet speed (Turret.java:464 -- the intercept runs only when it is at least 0.01; duo copper is 2.5, new BasicBulletType(2.5f, 9), Blocks.java:3260).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_target_position_control_state"
+          ]
+        },
+        "turret_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "targetPos.set(Predict.intercept(this, pos, offset.x, offset.y, bullet.speed));",
+          "rule": "The turret world X (Turret.java:466 -- the `this` shooter origin passed to Predict.intercept; the proof reads it live from the placed duo segment).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_target_position_control_state"
+          ]
+        },
+        "turret_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "targetPos.set(Predict.intercept(this, pos, offset.x, offset.y, bullet.speed));",
+          "rule": "The turret world Y (Turret.java:466 -- the `this` shooter origin passed to Predict.intercept).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_target_position_control_state"
+          ]
+        },
+        "target_pos": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public Vec2 targetPos = new Vec2();",
+          "rule": "The target position before this call (Turret.java:289, the field default is (0, 0) in world coords; returned unchanged when the guard fires).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_target_position_control_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretTargetPositionControlProof",
+      "rule": "Source-backed Turret targetPosition(pos) call from Turret.java."
+    },
+    "source_turret_target_position_control_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_target_position_control_state",
+      "source_slice": "N2266",
+      "keys": {
+        "target_pos": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "targetPos.set(Predict.intercept(this, pos, offset.x, offset.y, bullet.speed));",
+          "rule": "The target position after this call (Turret.java:466-472 -- the intercept point when predictTarget is set and the bullet is fast enough, else the pos itself; a zero result falls back to the pos).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_target_position_control_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretTargetPositionControlProof",
+      "rule": "Source-backed Turret targetPosition(pos) call from Turret.java."
     }
   },
   "version": 1

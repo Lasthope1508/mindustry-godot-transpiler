@@ -69526,6 +69526,96 @@
       ],
       "runtime_proof": "/root/C07TurretEfficiencyMultiplierProof",
       "rule": "Source-backed Turret efficiency fold from Turret.java."
+    },
+    "SourceTurretBuildState.source_turret_target_position_control_state": {
+      "status": "active",
+      "source_slice": "N2266",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.targetPosition()",
+      "params": [
+        {
+          "name": "has_ammo",
+          "type": "bool",
+          "schema": "source_turret_target_position_control_state_input.has_ammo"
+        },
+        {
+          "name": "pos",
+          "type": "Dictionary",
+          "schema": "source_turret_target_position_control_state_input.pos"
+        },
+        {
+          "name": "pos_is_hitboxc",
+          "type": "bool",
+          "schema": "source_turret_target_position_control_state_input.pos_is_hitboxc"
+        },
+        {
+          "name": "delta_x",
+          "type": "float",
+          "schema": "source_turret_target_position_control_state_input.delta_x"
+        },
+        {
+          "name": "delta_y",
+          "type": "float",
+          "schema": "source_turret_target_position_control_state_input.delta_y"
+        },
+        {
+          "name": "accurate_delay",
+          "type": "bool",
+          "schema": "source_turret_target_position_control_state_input.accurate_delay"
+        },
+        {
+          "name": "move_while_charging",
+          "type": "bool",
+          "schema": "source_turret_target_position_control_state_input.move_while_charging"
+        },
+        {
+          "name": "first_shot_delay",
+          "type": "float",
+          "schema": "source_turret_target_position_control_state_input.first_shot_delay"
+        },
+        {
+          "name": "time_delta",
+          "type": "float",
+          "schema": "source_turret_target_position_control_state_input.time_delta"
+        },
+        {
+          "name": "predict_target",
+          "type": "bool",
+          "schema": "source_turret_target_position_control_state_input.predict_target"
+        },
+        {
+          "name": "bullet_speed",
+          "type": "float",
+          "schema": "source_turret_target_position_control_state_input.bullet_speed"
+        },
+        {
+          "name": "turret_x",
+          "type": "float",
+          "schema": "source_turret_target_position_control_state_input.turret_x"
+        },
+        {
+          "name": "turret_y",
+          "type": "float",
+          "schema": "source_turret_target_position_control_state_input.turret_y"
+        },
+        {
+          "name": "target_pos",
+          "type": "Dictionary",
+          "schema": "source_turret_target_position_control_state_input.target_pos"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "target_pos"
+      ],
+      "tests": [
+        "test_c07_turret_target_position_registration",
+        "test_all_c07_turret_target_position_input_evidence_is_exact",
+        "test_turret_target_position_control_state",
+        "test_reference_graph_and_actual_c07_turret_target_position"
+      ],
+      "runtime_proof": "/root/C07TurretTargetPositionControlProof",
+      "rule": "Source-backed Turret targetPosition(pos) call from Turret.java."
     }
   },
   "policy": {

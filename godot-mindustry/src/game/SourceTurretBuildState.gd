@@ -1,6 +1,7 @@
 extends RefCounted
 class_name SourceTurretBuildState
 
+const source_predict_state := preload("res://src/game/SourcePredictState.gd")
 const source_turret_ammo_state := preload("res://src/game/SourceTurretAmmoState.gd")
 const source_item_turret_build_state := preload("res://src/game/SourceItemTurretBuildState.gd")
 const source_bullet_runtime_state := preload("res://src/game/SourceBulletRuntimeState.gd")
@@ -622,6 +623,74 @@ static func source_turret_efficiency_multiplier_state(efficiency: float, heat_re
 		var floor_value: float = 1.0 if cheating else 0.0
 		efficiency *= minf(maxf(heat_req / heat_requirement, floor_value), max_heat_efficiency)
 	return {"efficiency": efficiency}
+
+static func source_turret_target_position_control_state(has_ammo: bool, pos: Dictionary, pos_is_hitboxc: bool, delta_x: float, delta_y: float, accurate_delay: bool, move_while_charging: bool, first_shot_delay: float, time_delta: float, predict_target: bool, bullet_speed: float, turret_x: float, turret_y: float, target_pos: Dictionary) -> Dictionary:
+	# TurretBuild.targetPosition(Posc pos) (Turret.java:453-471),
+	# the method the control() shootp overload calls
+	# (`targetPosition(pos);`, Turret.java:398, N2264 deferred
+	# it -- the shootp arm only reported
+	# target_position_deferred because the call needs hasAmmo /
+	# peekAmmo plus Predict.intercept):
+	# `public void targetPosition(Posc pos){`
+	# `if(!hasAmmo() || pos == null) return;`
+	# `BulletType bullet = peekAmmo();`
+	# `var offset = Tmp.v1.setZero();`
+	# `if(accurateDelay && !moveWhileCharging && pos instanceof Hitboxc h){`
+	# `offset.set(h.deltaX(), h.deltaY()).scl(shoot.firstShotDelay / Time.delta);`
+	# `}`
+	# `if(predictTarget && bullet.speed >= 0.01f){`
+	# `targetPos.set(Predict.intercept(this, pos, offset.x, offset.y, bullet.speed));`
+	# `}else{`
+	# `targetPos.set(pos);`
+	# `}`
+	# `if(targetPos.isZero()){`
+	# `targetPos.set(pos);`
+	# `}`
+	# (`:453-471`). The intercept is the Position overload
+	# (Predict.java: `public static Vec2 intercept(Position src, Position dst, float offsetx, float offsety, float v){`):
+	# the target's per-frame displacement (Hitboxc deltaX/deltaY)
+	# is the velocity, the turret building is not a Hitboxc so no
+	# shooter velocity is subtracted, and the float overload
+	# divides the displacement by Time.delta
+	# (`dstvx /= Time.delta;`) before solving the quadratic for
+	# the smallest positive root, else the current position
+	# (SourcePredictState.source_predict_intercept_state, N2122).
+	# Duo pins: `public boolean accurateDelay = true;`
+	# (Turret.java:78) but `public boolean moveWhileCharging = true;`
+	# (:80), so the offset branch is OFF for duo -- the offset
+	# stays zero even though firstShotDelay would scale it;
+	# `public boolean predictTarget = true;` (:105); duo copper is
+	# `new BasicBulletType(2.5f, 9)` (Blocks.java:3260, speed 2.5,
+	# damage 9) so the `bullet.speed >= 0.01f` gate is on and the
+	# intercept runs; `shoot = new ShootAlternate(3.5f);`
+	# (Blocks.java:3299) with `public float firstShotDelay = 0;`
+	# (ShootPattern.java:11), so even the accurateDelay offset
+	# would be zero for duo. The pos is a Dictionary {"x", "y"}
+	# (an empty dict is a null pos); the current targetPos is
+	# `public Vec2 targetPos = new Vec2();` (Turret.java:289).
+	# A zero time_delta never occurs in a live tick (Time.delta
+	# is positive while updateTile runs), so the offset scale
+	# guards it to zero instead of dividing by zero. This is an
+	# EVENT, not a per-tick step: control() is called by the
+	# logic executor, and no logic executor exists in the driver
+	# yet, so there is no driver tick (the N2248 precedent,
+	# N2264). The result is a 1-key dict: `target_pos`.
+	if not has_ammo or pos.is_empty():
+		return {"target_pos": target_pos}
+	var pos_x: float = float(pos.get("x", 0.0))
+	var pos_y: float = float(pos.get("y", 0.0))
+	var offset_x := 0.0
+	var offset_y := 0.0
+	if accurate_delay and not move_while_charging and pos_is_hitboxc and time_delta != 0.0:
+		offset_x = delta_x * (first_shot_delay / time_delta)
+		offset_y = delta_y * (first_shot_delay / time_delta)
+	var next_pos := {"x": pos_x, "y": pos_y}
+	if predict_target and bullet_speed >= 0.01:
+		var intercept: Dictionary = source_predict_state.source_predict_intercept_state(turret_x, turret_y, pos_x + offset_x, pos_y + offset_y, delta_x, delta_y, bullet_speed, time_delta)
+		next_pos = {"x": float(intercept.get("intercept_x", pos_x + offset_x)), "y": float(intercept.get("intercept_y", pos_y + offset_y))}
+	if float(next_pos.get("x", 0.0)) == 0.0 and float(next_pos.get("y", 0.0)) == 0.0:
+		next_pos = {"x": pos_x, "y": pos_y}
+	return {"target_pos": next_pos}
 
 @warning_ignore("unused_parameter")
 static func source_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
