@@ -1,6 +1,6 @@
 # Handoff — N2259 Turret charge advance (C07, duo) [DONE + PUSHED]
 
-## Status: DONE + PUSHED (2026-11-19 ~12:20 +07, lượt cron 12:15) — slice `e90d1466`, docs `c7bbdd7c`, GOAL `a7839a2c`, status TBD (pushed; origin/main advances with this status commit). Targeted 4/4 + proof matches:true 11/11 + register --verify 10/10 + gate Ran 6129, failures=209 toàn Godot-absent (đã xác minh độc lập).
+## Status: DONE + PUSHED (2026-11-19 ~12:20 +07, lượt cron 12:15) — slice `e90d1466`, docs `c7bbdd7c`, GOAL `a7839a2c`, status `cff28223` (pushed; origin/main advances with this status commit). Targeted 4/4 + proof matches:true 11/11 + register --verify 10/10 + gate Ran 6129, failures=209 toàn Godot-absent (đã xác minh độc lập).
 
 - N2258 DONE + PUSHED (origin/main e9dfee4e, slice 0ba552b7) — đã xác minh đầu lượt: git log 5 commit khớp, HEAD == origin/main == e9dfee4e, worktree sạch ngoại trừ noise *.gd.uid (không stage).
 
