@@ -19,7 +19,7 @@ func _ready() -> void:
 	game.set_process(false)
 	game.set_physics_process(false)
 
-	# --- Radar icons() (N2250):
+	# --- Radar icons() (N2288):
 	# Radar.icons() (`@Override public
 	# TextureRegion[] icons(){`,
 	# Radar.java:36-37) returns the two loaded

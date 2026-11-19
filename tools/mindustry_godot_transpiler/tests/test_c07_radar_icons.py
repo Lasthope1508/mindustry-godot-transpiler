@@ -14,7 +14,7 @@ class C07RadarIconsTests(unittest.TestCase):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        self.assertEqual(ledger['N2250']['godot_owner'], 'SourceRadarBuildState.source_radar_icons_state')
+        self.assertEqual(ledger['N2288']['godot_owner'], 'SourceRadarBuildState.source_radar_icons_state')
         # Radar.icons() (Radar.java:36-39,
         # `@Override public TextureRegion[] icons(){`)
         # returns the two loaded regions in order
@@ -57,12 +57,12 @@ class C07RadarIconsTests(unittest.TestCase):
         # N2224 setStats lifecycle precedent). One new
         # result symbol: icons.
         self.assertEqual(
-            ledger['N2250']['source_symbols'],
+            ledger['N2288']['source_symbols'],
             [
                 'source_radar_icons_state_result.icons',
             ],
         )
-        for name in ledger['N2250']['source_symbols']:
+        for name in ledger['N2288']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_source'], {
@@ -70,9 +70,9 @@ class C07RadarIconsTests(unittest.TestCase):
                     'core/src/mindustry/world/Block.java',
                 })
                 self.assertEqual(symbol['godot_owner'], 'SourceRadarBuildState.' + name.rsplit('_result.', 1)[0])
-        self.assertEqual(ledger['N2250']['runtime_proof'], '/root/C07RadarIconsProof')
+        self.assertEqual(ledger['N2288']['runtime_proof'], '/root/C07RadarIconsProof')
         self.assertEqual(
-            ledger['N2250']['tests'],
+            ledger['N2288']['tests'],
             [
                 'test_c07_radar_icons_registration',
                 'test_all_c07_radar_icons_input_evidence_is_exact',
@@ -80,13 +80,13 @@ class C07RadarIconsTests(unittest.TestCase):
                 'test_reference_graph_and_actual_c07_radar_icons',
             ],
         )
-        self.assertTrue(ledger['N2250']['deferred_exprs'])
+        self.assertTrue(ledger['N2288']['deferred_exprs'])
 
     def test_all_c07_radar_icons_input_evidence_is_exact(self):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        for name in ledger['N2250']['source_symbols']:
+        for name in ledger['N2288']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_expr'], (ROOT / 'mindustry-upstream' / symbol['java_source']).read_text(encoding='utf-8'))
@@ -98,7 +98,7 @@ class C07RadarIconsTests(unittest.TestCase):
         upstream = {}
         for source in slice_sources:
             upstream[source] = (ROOT / 'mindustry-upstream' / source).read_text(encoding='utf-8')
-        for expr in ledger['N2250']['exact_exprs']:
+        for expr in ledger['N2288']['exact_exprs']:
             with self.subTest(expr=expr):
                 self.assertTrue(any(expr in text for text in upstream.values()), expr)
 

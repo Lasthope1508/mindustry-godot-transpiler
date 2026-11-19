@@ -1,4 +1,4 @@
-"""Register the Radar icons() return array (N2250).
+"""Register the Radar icons() return array (N2288).
 
 Radar.icons() (Radar.java:36-39, `@Override
 public TextureRegion[] icons(){`) returns the two loaded
@@ -49,7 +49,7 @@ BLOCK = 'core/src/mindustry/world/Block.java'
 PROOF = '/root/C07RadarIconsProof'
 ICONS_OWNER = 'SourceRadarBuildState.source_radar_icons_state'
 TESTS = ['test_c07_radar_icons_registration', 'test_all_c07_radar_icons_input_evidence_is_exact', 'test_radar_icons_state', 'test_reference_graph_and_actual_c07_radar_icons']
-# The 2 slice sources the N2250 test checks exact_exprs
+# The 2 slice sources the N2288 test checks exact_exprs
 # against -- every expr in EXACT_EXPRS below must appear verbatim
 # in one of these files.
 SLICE_SOURCES = [
@@ -67,19 +67,19 @@ EXACT_EXPRS = ['@Override', 'public TextureRegion[] icons(){', 'return new Textu
 # (ex-N2229) senseObject(config) register is DROPPED -- remote
 # N2234 covers that leg -- so the chain skips it and imports
 # N2227 directly. NOTE for the next
-# slice: N2250's DEFERRED is likewise a computed list(...) + [...]
+# slice: N2288's DEFERRED is likewise a computed list(...) + [...]
 # expression, so carry it forward by import too, not by
 # ast.literal_eval.
 # One carried entry is DROPPED here, not carried: the N2227
 # entry deferring the Radar draw / drawSelect / icons rows to
-# "its own slice" -- N2250 IS the icons slice, so carrying it
+# "its own slice" -- N2288 IS the icons slice, so carrying it
 # would leave a stale "waits for its own slice" row for done
 # work. The draw / drawSelect half is re-recorded below as its
 # own entry, since draw / drawSelect still wait for their own
 # slice.
 DEFERRED = [e for e in N2227_DEFERRED if 'Radar draw / drawSelect / icons rows' not in e] + [
     'Radar draw / drawSelect rows (draw base/region/glow rotateSpeed * totalProgress, Radar.java:85-90; drawSelect dash circle, Radar.java:80-82) -- presentation, not tick state; waits for its own slice.',
-    'Radar icons() Windows Godot proof -- debt in GOAL.md section 5, same as N2212-N2227: the N2250 proof runs headless on Linux here and waits for a Windows Godot run.',
+    'Radar icons() Windows Godot proof -- debt in GOAL.md section 5, same as N2212-N2227: the N2288 proof runs headless on Linux here and waits for a Windows Godot run.',
 ]
 
 
@@ -131,7 +131,7 @@ def main():
     icons_inputs, icons_outputs = definitions()
 
     entries = [
-        ('N2250', ICONS_OWNER, 'source_radar_icons_state', RADAR, 'mindustry.world.blocks.defense.Radar', 'Radar.icons()', icons_inputs, icons_outputs, True, 'Dictionary'),
+        ('N2288', ICONS_OWNER, 'source_radar_icons_state', RADAR, 'mindustry.world.blocks.defense.Radar', 'Radar.icons()', icons_inputs, icons_outputs, True, 'Dictionary'),
     ]
     all_names = []
     for sid, owner, prefix, source, cls, method, inputs, outputs, has_contract, return_type in entries:
@@ -151,10 +151,10 @@ def main():
 
     by_slice = {}
     # The test pins this order: icons.
-    by_slice['N2250'] = [
+    by_slice['N2288'] = [
         'source_radar_icons_state_result.icons',
     ]
-    source_symbols.upsert_source_slice(GODOT, 'N2250', dict(status='done', java_source=RADAR, java_class='mindustry.world.blocks.defense.Radar', java_method='Radar.icons()', godot_owner=ICONS_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2250'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
+    source_symbols.upsert_source_slice(GODOT, 'N2288', dict(status='done', java_source=RADAR, java_class='mindustry.world.blocks.defense.Radar', java_method='Radar.icons()', godot_owner=ICONS_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2288'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
 
     source_symbols.upsert_source_symbols(GODOT, symbols)
     source_symbols.write_source_symbol_audit_report(GODOT)

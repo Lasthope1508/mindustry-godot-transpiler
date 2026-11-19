@@ -68265,36 +68265,6 @@
       "runtime_proof": "/root/C07PointDefenseTurretLiveBulletsWiringProof",
       "rule": "Source-backed PointDefenseTurret live-bullets wiring from PointDefenseTurret.java / BulletComp.java / BulletType.java / Blocks.java / GroupDefs.java."
     },
-    "SourceRadarBuildState.source_radar_icons_state": {
-      "status": "active",
-      "source_slice": "N2250",
-      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-      "source_method": "Radar.icons()",
-      "params": [
-        {
-          "name": "base_region",
-          "type": "Variant",
-          "schema": "source_radar_icons_state_input.base_region"
-        },
-        {
-          "name": "region",
-          "type": "Variant",
-          "schema": "source_radar_icons_state_input.region"
-        }
-      ],
-      "return_type": "Dictionary",
-      "return_keys": [
-        "icons"
-      ],
-      "tests": [
-        "test_c07_radar_icons_registration",
-        "test_all_c07_radar_icons_input_evidence_is_exact",
-        "test_radar_icons_state",
-        "test_reference_graph_and_actual_c07_radar_icons"
-      ],
-      "runtime_proof": "/root/C07RadarIconsProof",
-      "rule": "Source-backed Radar icons() state from Radar.java + Block.java."
-    },
     "SourceRepairTurretBuildState.source_repair_turret_draw_beam_jitter_state": {
       "status": "active",
       "source_slice": "N2251",
@@ -70056,6 +70026,36 @@
       ],
       "runtime_proof": "/root/C07RadarDrawPlaceProof",
       "rule": "Source-backed Radar drawPlace() row from Radar.java."
+    },
+    "SourceRadarBuildState.source_radar_icons_state": {
+      "status": "active",
+      "source_slice": "N2288",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "source_method": "Radar.icons()",
+      "params": [
+        {
+          "name": "base_region",
+          "type": "Variant",
+          "schema": "source_radar_icons_state_input.base_region"
+        },
+        {
+          "name": "region",
+          "type": "Variant",
+          "schema": "source_radar_icons_state_input.region"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "icons"
+      ],
+      "tests": [
+        "test_c07_radar_icons_registration",
+        "test_all_c07_radar_icons_input_evidence_is_exact",
+        "test_radar_icons_state",
+        "test_reference_graph_and_actual_c07_radar_icons"
+      ],
+      "runtime_proof": "/root/C07RadarIconsProof",
+      "rule": "Source-backed Radar icons() state from Radar.java + Block.java."
     }
   },
   "policy": {

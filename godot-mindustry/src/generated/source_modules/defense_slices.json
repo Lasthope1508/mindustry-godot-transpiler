@@ -3230,23 +3230,6 @@
       ],
       "runtime_proof": "/root/C07PointDefenseTurretLiveBulletsWiringProof"
     },
-    "N2250": {
-      "canonical_ledger": "source_slice_ledger.N2250",
-      "status": "done",
-      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-      "java_method": "Radar.icons()",
-      "godot_owner": "SourceRadarBuildState.source_radar_icons_state",
-      "source_symbols": [
-        "source_radar_icons_state_result.icons"
-      ],
-      "tests": [
-        "test_c07_radar_icons_registration",
-        "test_all_c07_radar_icons_input_evidence_is_exact",
-        "test_radar_icons_state",
-        "test_reference_graph_and_actual_c07_radar_icons"
-      ],
-      "runtime_proof": "/root/C07RadarIconsProof"
-    },
     "N2253": {
       "canonical_ledger": "source_slice_ledger.N2253",
       "status": "done",
@@ -3595,6 +3578,23 @@
         "test_reference_graph_and_actual_c07_radar_draw_place"
       ],
       "runtime_proof": "/root/C07RadarDrawPlaceProof"
+    },
+    "N2288": {
+      "canonical_ledger": "source_slice_ledger.N2288",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "Radar.icons()",
+      "godot_owner": "SourceRadarBuildState.source_radar_icons_state",
+      "source_symbols": [
+        "source_radar_icons_state_result.icons"
+      ],
+      "tests": [
+        "test_c07_radar_icons_registration",
+        "test_all_c07_radar_icons_input_evidence_is_exact",
+        "test_radar_icons_state",
+        "test_reference_graph_and_actual_c07_radar_icons"
+      ],
+      "runtime_proof": "/root/C07RadarIconsProof"
     },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",

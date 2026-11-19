@@ -360,7 +360,7 @@ N2239–N2247 của line Windows)
     Scene tới Windows theo slice commit `40e54d9`. Chưa chạy trên Windows Godot.
   - [ ] N2275 `C07RadarFogRadiusProof` — Linux GREEN ~12:4x (9 key).
     Scene tới Windows theo slice commit `205c102`. Chưa chạy trên Windows Godot.
-  - [ ] N2250 `C07RadarIconsProof` — Linux GREEN ~12:5x (5 key).
+  - [ ] N2288 `C07RadarIconsProof` — Linux GREEN ~12:5x (5 key).
     Scene tới Windows theo slice commit `710662c`. Chưa chạy trên Windows Godot.
   - [ ] N2251 `C07RepairTurretDrawBeamJitterProof` — Linux GREEN ~12:4x (11 key).
     Scene tới Windows theo slice commit `e648a53`. Chưa chạy trên Windows Godot.
