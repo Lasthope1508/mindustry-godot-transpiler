@@ -407,6 +407,8 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
     Scene tới Windows theo slice commit `64c41a11`. Chưa chạy trên Windows Godot.
   - [ ] N2265 `C07TurretEfficiencyMultiplierProof` — Linux GREEN ~17:35 (9 key).
     Scene tới Windows theo slice commit `92a9a639`. Chưa chạy trên Windows Godot.
+  - [ ] N2266 `C07TurretTargetPositionControlProof` — Linux GREEN ~18:2x (9 key).
+    Scene tới Windows theo slice commit `a421f48a`. Chưa chạy trên Windows Godot.
   - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
     trên (ghi rõ commit đưa scene tới Windows).
   - [ ] Agent khác đang test các lỗi fail trên Windows Godot (PR #1 đã merge
