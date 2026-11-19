@@ -1,0 +1,438 @@
+diff --git a/godot-mindustry/tools/runtime_proofs/C07BaseShieldScansProof.gd b/godot-mindustry/tools/runtime_proofs/C07BaseShieldScansProof.gd
+index 2ed756973..8c033142c 100644
+--- a/godot-mindustry/tools/runtime_proofs/C07BaseShieldScansProof.gd
++++ b/godot-mindustry/tools/runtime_proofs/C07BaseShieldScansProof.gd
+@@ -106 +106,2 @@ func _ready() -> void:
+-	game.call("record_placed_block", shield, blocks_by_id["shield-projector"], shield_cell)
++	# This scenario uses derelict (0) as own team; placement defaults to sharded (1).
++	game.call("record_placed_block", shield, blocks_by_id["shield-projector"], shield_cell, 0)
+diff --git a/godot-mindustry/tools/runtime_proofs/C07BeamDrillDumpNeighbourLiveFillProof.gd b/godot-mindustry/tools/runtime_proofs/C07BeamDrillDumpNeighbourLiveFillProof.gd
+index 3b9fb5589..8cedfe182 100644
+--- a/godot-mindustry/tools/runtime_proofs/C07BeamDrillDumpNeighbourLiveFillProof.gd
++++ b/godot-mindustry/tools/runtime_proofs/C07BeamDrillDumpNeighbourLiveFillProof.gd
+@@ -84 +84,2 @@ func _ready() -> void:
+-	game.call("record_placed_block", press, blocks_by_id["multi-press"], press_cell)
++	# The ring variable denotes the contact; move the size-3 origin outside the source footprint.
++	game.call("record_placed_block", press, blocks_by_id["multi-press"], press_cell + Vector2i(1, 0))
+diff --git a/godot-mindustry/tools/runtime_proofs/C07BeamDrillFacingTilesFillProof.gd b/godot-mindustry/tools/runtime_proofs/C07BeamDrillFacingTilesFillProof.gd
+index ed910297f..fd4781f9b 100644
+--- a/godot-mindustry/tools/runtime_proofs/C07BeamDrillFacingTilesFillProof.gd
++++ b/godot-mindustry/tools/runtime_proofs/C07BeamDrillFacingTilesFillProof.gd
+@@ -66,2 +66,2 @@ func _ready() -> void:
+-	# Rotation changes the ray direction: the same
+-	# origins walked north (rotation 1, dy +1) reach
++	# Rotation changes the ray direction: the first
++	# origin walked north (rotation 1, dy +1) reaches
+@@ -74 +74,3 @@ func _ready() -> void:
+-	var north: Dictionary = beam_drill_build_state.source_beam_drill_facing_tiles_fill_state([{"x": 30, "y": 20}, {"x": 30, "y": 21}], {"30,22": {"solid": true, "wall_drop": copper}}, 2, 5, 1)
++	# Vertical cases use distinct x coordinates so the second ray cannot hit
++	# the first ray's control tile; direction assertions remain unchanged.
++	var north: Dictionary = beam_drill_build_state.source_beam_drill_facing_tiles_fill_state([{"x": 30, "y": 20}, {"x": 31, "y": 21}], {"30,22": {"solid": true, "wall_drop": copper}}, 2, 5, 1)
+@@ -76 +78 @@ func _ready() -> void:
+-	var south: Dictionary = beam_drill_build_state.source_beam_drill_facing_tiles_fill_state([{"x": 30, "y": 20}, {"x": 30, "y": 21}], {"30,18": {"solid": true, "wall_drop": copper}}, 2, 5, 3)
++	var south: Dictionary = beam_drill_build_state.source_beam_drill_facing_tiles_fill_state([{"x": 30, "y": 20}, {"x": 31, "y": 21}], {"30,18": {"solid": true, "wall_drop": copper}}, 2, 5, 3)
+diff --git a/godot-mindustry/tools/runtime_proofs/C07BuildTurretShouldConsumeProof.gd b/godot-mindustry/tools/runtime_proofs/C07BuildTurretShouldConsumeProof.gd
+index 441697bf1..8185c6466 100644
+--- a/godot-mindustry/tools/runtime_proofs/C07BuildTurretShouldConsumeProof.gd
++++ b/godot-mindustry/tools/runtime_proofs/C07BuildTurretShouldConsumeProof.gd
+@@ -2,0 +3,3 @@ extends Node
++const content_registry_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
++const placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
++const liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
+@@ -75,0 +79 @@ func _ready() -> void:
++	var liquid_catalog: Dictionary = content_registry_state.source_liquid_catalog_state(catalog)
+@@ -89,0 +94,2 @@ func _ready() -> void:
++	# Supply the later required nitrogen consumer so this fixture isolates the gate/power fold.
++	liquid_module_state.source_set_state(build_turret.get_meta(placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY), int(liquid_catalog["liquid_id_by_name"]["nitrogen"]), 1.0)
+diff --git a/godot-mindustry/tools/runtime_proofs/C07BuildTurretUpdateTileProof.gd b/godot-mindustry/tools/runtime_proofs/C07BuildTurretUpdateTileProof.gd
+index 1dc9182a0..8c0afe986 100644
+--- a/godot-mindustry/tools/runtime_proofs/C07BuildTurretUpdateTileProof.gd
++++ b/godot-mindustry/tools/runtime_proofs/C07BuildTurretUpdateTileProof.gd
+@@ -2,0 +3,3 @@ extends Node
++const content_registry_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
++const placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
++const liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
+@@ -84,0 +88 @@ func _ready() -> void:
++	var liquid_catalog: Dictionary = content_registry_state.source_liquid_catalog_state(catalog)
+@@ -98,0 +103,2 @@ func _ready() -> void:
++	# The later required nitrogen row must be supplied to isolate unit rotation/power.
++	liquid_module_state.source_set_state(build_turret.get_meta(placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY), int(liquid_catalog["liquid_id_by_name"]["nitrogen"]), 1.0)
+diff --git a/godot-mindustry/tools/runtime_proofs/C07BurstDrillDumpNeighbourLiveFillProof.gd b/godot-mindustry/tools/runtime_proofs/C07BurstDrillDumpNeighbourLiveFillProof.gd
+index 0139e5603..b00d0def6 100644
+--- a/godot-mindustry/tools/runtime_proofs/C07BurstDrillDumpNeighbourLiveFillProof.gd
++++ b/godot-mindustry/tools/runtime_proofs/C07BurstDrillDumpNeighbourLiveFillProof.gd
+@@ -89 +89,2 @@ func _ready() -> void:
+-	game.call("record_placed_block", surge, blocks_by_id["surge-smelter"], surge_cell)
++	# The ring variable denotes the contact; move the size-3 origin outside the source footprint.
++	game.call("record_placed_block", surge, blocks_by_id["surge-smelter"], surge_cell + Vector2i(1, 1))
+diff --git a/godot-mindustry/tools/runtime_proofs/C07BurstDrillOffloadNeighborRoutingProof.gd b/godot-mindustry/tools/runtime_proofs/C07BurstDrillOffloadNeighborRoutingProof.gd
+index ba88957e0..3b2ffcef3 100644
+--- a/godot-mindustry/tools/runtime_proofs/C07BurstDrillOffloadNeighborRoutingProof.gd
++++ b/godot-mindustry/tools/runtime_proofs/C07BurstDrillOffloadNeighborRoutingProof.gd
+@@ -2,0 +3,3 @@ extends Node
++const content_registry_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
++const placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
++const liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
+@@ -147,0 +151 @@ func _ready() -> void:
++	var liquid_catalog: Dictionary = content_registry_state.source_liquid_catalog_state(catalog)
+@@ -162,0 +167,4 @@ func _ready() -> void:
++	# Supply the required hydrogen (Blocks.java:3119) for the live offload scenario.
++	liquid_module_state.source_set_state(eruption.get_meta(placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY), int(liquid_catalog["liquid_id_by_name"]["hydrogen"]), 1.0)
++	# This scenario expects boosted speed 0.75 at half power: cyanogen booster (Blocks.java:3120).
++	liquid_module_state.source_set_state(eruption.get_meta(placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY), int(liquid_catalog["liquid_id_by_name"]["cyanogen"]), 1.0)
+@@ -171 +179,2 @@ func _ready() -> void:
+-	game.call("record_placed_block", surge, blocks_by_id["surge-smelter"], surge_cell)
++	# Keep the contact cell on the ring while placing a non-overlapping neighbour footprint.
++	game.call("record_placed_block", surge, blocks_by_id["surge-smelter"], surge_cell + Vector2i(1, 1))
+diff --git a/godot-mindustry/tools/runtime_proofs/C07BurstDrillShouldConsumeProof.gd b/godot-mindustry/tools/runtime_proofs/C07BurstDrillShouldConsumeProof.gd
+index 35da2e6f6..4070e7e7b 100644
+--- a/godot-mindustry/tools/runtime_proofs/C07BurstDrillShouldConsumeProof.gd
++++ b/godot-mindustry/tools/runtime_proofs/C07BurstDrillShouldConsumeProof.gd
+@@ -2,0 +3,2 @@ extends Node
++const placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
++const liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
+@@ -72,0 +75 @@ func _ready() -> void:
++	var liquid_catalog: Dictionary = content_registry_state.source_liquid_catalog_state(catalog)
+@@ -92,0 +96,2 @@ func _ready() -> void:
++	# Supply the later required hydrogen consumer so this fixture isolates the gate/power fold.
++	liquid_module_state.source_set_state(eruption.get_meta(placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY), int(liquid_catalog["liquid_id_by_name"]["hydrogen"]), 1.0)
+diff --git a/godot-mindustry/tools/runtime_proofs/C07BurstDrillUpdateTileProof.gd b/godot-mindustry/tools/runtime_proofs/C07BurstDrillUpdateTileProof.gd
+index ec9d92c13..af322d1d0 100644
+--- a/godot-mindustry/tools/runtime_proofs/C07BurstDrillUpdateTileProof.gd
++++ b/godot-mindustry/tools/runtime_proofs/C07BurstDrillUpdateTileProof.gd
+@@ -2,0 +3,3 @@ extends Node
++const content_registry_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
++const placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
++const liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
+@@ -106,0 +110 @@ func _ready() -> void:
++	var liquid_catalog: Dictionary = content_registry_state.source_liquid_catalog_state(catalog)
+@@ -126,0 +131,4 @@ func _ready() -> void:
++	# Supply the later required hydrogen consumer; preserve the original power/progress expectations.
++	liquid_module_state.source_set_state(eruption.get_meta(placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY), int(liquid_catalog["liquid_id_by_name"]["hydrogen"]), 1.0)
++	# This scenario expects boosted speed 0.75 at half power: cyanogen booster (Blocks.java:3120).
++	liquid_module_state.source_set_state(eruption.get_meta(placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY), int(liquid_catalog["liquid_id_by_name"]["cyanogen"]), 1.0)
+diff --git a/godot-mindustry/tools/runtime_proofs/C07FactoryBatteryEnabledStampProof.gd b/godot-mindustry/tools/runtime_proofs/C07FactoryBatteryEnabledStampProof.gd
+index d61e5c540..01318ff69 100644
+--- a/godot-mindustry/tools/runtime_proofs/C07FactoryBatteryEnabledStampProof.gd
++++ b/godot-mindustry/tools/runtime_proofs/C07FactoryBatteryEnabledStampProof.gd
+@@ -58,3 +58,3 @@ func _make_game(battery_ids: Array, cheating: bool) -> Dictionary:
+-		"battery": {"id": "battery", "has_power": true, "outputs_power": true, "consumes_power": true, "power_buffered": true, "power_usage": 0.0, "power_capacity": 1000.0, "enabled": true},
+-		"battery-disabled": {"id": "battery-disabled", "has_power": true, "outputs_power": true, "consumes_power": true, "power_buffered": true, "power_usage": 0.0, "power_capacity": 1000.0, "enabled": false},
+-		"accelerator": {"id": "accelerator", "has_power": true, "outputs_power": false, "consumes_power": true, "power_buffered": false, "power_usage": 0.0, "power_capacity": 0.0, "enabled": true},
++		"battery": {"id": "battery", "hasPower": true, "outputsPower": true, "consumesPower": true, "powerBuffered": true, "powerUsage": 0.0, "powerCapacity": 1000.0, "enabled": true},
++		"battery-disabled": {"id": "battery-disabled", "hasPower": true, "outputsPower": true, "consumesPower": true, "powerBuffered": true, "powerUsage": 0.0, "powerCapacity": 1000.0, "enabled": false},
++		"accelerator": {"id": "accelerator", "hasPower": true, "outputsPower": false, "consumesPower": true, "powerBuffered": false, "powerUsage": 0.0, "powerCapacity": 0.0, "enabled": true},
+diff --git a/godot-mindustry/tools/runtime_proofs/C07FrackerShouldConsumeProof.gd b/godot-mindustry/tools/runtime_proofs/C07FrackerShouldConsumeProof.gd
+index a21c42838..c2e3eb73e 100644
+--- a/godot-mindustry/tools/runtime_proofs/C07FrackerShouldConsumeProof.gd
++++ b/godot-mindustry/tools/runtime_proofs/C07FrackerShouldConsumeProof.gd
+@@ -113,0 +114,2 @@ func _ready() -> void:
++	# Supply the later required water consumer so this fixture isolates the gate/power fold.
++	liquid_module_state.source_set_state(extractor_a.get_meta(placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY), int(liquid_catalog["liquid_id_by_name"]["water"]), 1.0)
+diff --git a/godot-mindustry/tools/runtime_proofs/C07ImpactReactorUpdateTileProof.gd b/godot-mindustry/tools/runtime_proofs/C07ImpactReactorUpdateTileProof.gd
+index df9842e59..7a70d6ec4 100644
+--- a/godot-mindustry/tools/runtime_proofs/C07ImpactReactorUpdateTileProof.gd
++++ b/godot-mindustry/tools/runtime_proofs/C07ImpactReactorUpdateTileProof.gd
+@@ -2,0 +3,3 @@ extends Node
++const content_registry_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
++const placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
++const liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
+@@ -91,0 +95 @@ func _ready() -> void:
++	var liquid_catalog: Dictionary = content_registry_state.source_liquid_catalog_state(catalog)
+@@ -104,0 +109,2 @@ func _ready() -> void:
++	# Supply the later required cryofluid consumer; preserve the original power/progress expectations.
++	liquid_module_state.source_set_state(impact_reactor.get_meta(placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY), int(liquid_catalog["liquid_id_by_name"]["cryofluid"]), 1.0)
+diff --git a/godot-mindustry/tools/runtime_proofs/C07ItemBridgeDumpNeighbourLiveFillProof.gd b/godot-mindustry/tools/runtime_proofs/C07ItemBridgeDumpNeighbourLiveFillProof.gd
+index c1364c4e3..a7d38f59c 100644
+--- a/godot-mindustry/tools/runtime_proofs/C07ItemBridgeDumpNeighbourLiveFillProof.gd
++++ b/godot-mindustry/tools/runtime_proofs/C07ItemBridgeDumpNeighbourLiveFillProof.gd
+@@ -76 +76,2 @@ func _ready() -> void:
+-	game.call("record_placed_block", press, blocks_by_id["multi-press"], press_cell)
++	# The ring variable denotes the contact; move the size-3 origin outside the source footprint.
++	game.call("record_placed_block", press, blocks_by_id["multi-press"], press_cell + Vector2i(0, 1))
+diff --git a/godot-mindustry/tools/runtime_proofs/C07MassDriverAcceptItemProof.gd b/godot-mindustry/tools/runtime_proofs/C07MassDriverAcceptItemProof.gd
+index d5495daa9..89ae92d51 100644
+--- a/godot-mindustry/tools/runtime_proofs/C07MassDriverAcceptItemProof.gd
++++ b/godot-mindustry/tools/runtime_proofs/C07MassDriverAcceptItemProof.gd
+@@ -106 +106 @@ func _ready() -> void:
+-	# at (30, 21): 2 cells apart is 16 world units, well inside
++	# at (32, 21): 4 cells apart is 32 world units, well inside
+@@ -112 +112 @@ func _ready() -> void:
+-	# stamped on A's frame directly (Point2.pack(30, 21) -- the
++	# stamped on A's frame directly (Point2.pack(32, 21) -- the
+@@ -121 +121,2 @@ func _ready() -> void:
+-	var driver_b_cell := Vector2i(30, 21)
++	# Size-3 footprints must not overlap: placement otherwise removes driver A.
++	var driver_b_cell := Vector2i(32, 21)
+@@ -136 +137 @@ func _ready() -> void:
+-	driver_a_frame["link"] = (30 << 16) | 21
++	driver_a_frame["link"] = (32 << 16) | 21
+diff --git a/godot-mindustry/tools/runtime_proofs/C07MassDriverDumpProof.gd b/godot-mindustry/tools/runtime_proofs/C07MassDriverDumpProof.gd
+index 4b95d3e20..8d2fe6866 100644
+--- a/godot-mindustry/tools/runtime_proofs/C07MassDriverDumpProof.gd
++++ b/godot-mindustry/tools/runtime_proofs/C07MassDriverDumpProof.gd
+@@ -65 +65 @@ func _ready() -> void:
+-	var multi: Dictionary = mass_driver_build_state.source_mass_driver_dump_state({"items": {"copper": 5}, "dump_accum": 0.0, "cdump": 0}, 2.5, 1.0, content_item_ids, accepting, can_dump)
++	var multi: Dictionary = mass_driver_build_state.source_mass_driver_dump_state({"items": {"copper": 5}, "dump_accum": 0.0, "cdump": 0}, "idle", 2.5, 1.0, content_item_ids, accepting, can_dump)
+@@ -67 +67 @@ func _ready() -> void:
+-	var below: Dictionary = mass_driver_build_state.source_mass_driver_dump_state({"items": {"copper": 5}, "dump_accum": 0.0, "cdump": 0}, 0.5, 1.0, content_item_ids, accepting, can_dump)
++	var below: Dictionary = mass_driver_build_state.source_mass_driver_dump_state({"items": {"copper": 5}, "dump_accum": 0.0, "cdump": 0}, "idle", 0.5, 1.0, content_item_ids, accepting, can_dump)
+@@ -69 +69 @@ func _ready() -> void:
+-	var overdrive: Dictionary = mass_driver_build_state.source_mass_driver_dump_state({"items": {"copper": 5}, "dump_accum": 0.0, "cdump": 0}, 0.5, 2.0, content_item_ids, accepting, can_dump)
++	var overdrive: Dictionary = mass_driver_build_state.source_mass_driver_dump_state({"items": {"copper": 5}, "dump_accum": 0.0, "cdump": 0}, "idle", 0.5, 2.0, content_item_ids, accepting, can_dump)
+@@ -80 +80 @@ func _ready() -> void:
+-	var carried: Dictionary = mass_driver_build_state.source_mass_driver_dump_state({"items": {"copper": 5}, "dump_accum": 0.9, "cdump": 0}, 0.5, 1.0, content_item_ids, accepting, can_dump)
++	var carried: Dictionary = mass_driver_build_state.source_mass_driver_dump_state({"items": {"copper": 5}, "dump_accum": 0.9, "cdump": 0}, "accepting", 0.5, 1.0, content_item_ids, accepting, can_dump)
+@@ -89 +89 @@ func _ready() -> void:
+-	var shooting: Dictionary = mass_driver_build_state.source_mass_driver_dump_state({"items": {"copper": 5}, "dump_accum": 0.0, "cdump": 0}, 1.0, 1.0, content_item_ids, accepting, can_dump)
++	var shooting: Dictionary = mass_driver_build_state.source_mass_driver_dump_state({"items": {"copper": 5}, "dump_accum": 0.0, "cdump": 0}, "shooting", 1.0, 1.0, content_item_ids, accepting, can_dump)
+@@ -91 +91 @@ func _ready() -> void:
+-	var shooting_held: Dictionary = mass_driver_build_state.source_mass_driver_dump_state({"items": {"copper": 5}, "dump_accum": 0.9, "cdump": 0}, 1.0, 1.0, content_item_ids, accepting, can_dump)
++	var shooting_held: Dictionary = mass_driver_build_state.source_mass_driver_dump_state({"items": {"copper": 5}, "dump_accum": 0.9, "cdump": 0}, "shooting", 1.0, 1.0, content_item_ids, accepting, can_dump)
+@@ -132 +132 @@ func _ready() -> void:
+-	var refused: Dictionary = mass_driver_build_state.source_mass_driver_dump_state({"items": {"copper": 5}, "dump_accum": 0.0, "cdump": 0}, 1.0, 1.0, content_item_ids, [false], [true])
++	var refused: Dictionary = mass_driver_build_state.source_mass_driver_dump_state({"items": {"copper": 5}, "dump_accum": 0.0, "cdump": 0}, "idle", 1.0, 1.0, content_item_ids, [false], [true])
+@@ -134 +134 @@ func _ready() -> void:
+-	var blocked: Dictionary = mass_driver_build_state.source_mass_driver_dump_state({"items": {"copper": 5}, "dump_accum": 0.0, "cdump": 0}, 1.0, 1.0, content_item_ids, [true], [false])
++	var blocked: Dictionary = mass_driver_build_state.source_mass_driver_dump_state({"items": {"copper": 5}, "dump_accum": 0.0, "cdump": 0}, "idle", 1.0, 1.0, content_item_ids, [true], [false])
+@@ -138 +138 @@ func _ready() -> void:
+-	var no_neighbour: Dictionary = mass_driver_build_state.source_mass_driver_dump_state({"items": {"copper": 5}, "dump_accum": 0.0, "cdump": 2}, 1.0, 1.0, content_item_ids, [], [])
++	var no_neighbour: Dictionary = mass_driver_build_state.source_mass_driver_dump_state({"items": {"copper": 5}, "dump_accum": 0.0, "cdump": 2}, "idle", 1.0, 1.0, content_item_ids, [], [])
+diff --git a/godot-mindustry/tools/runtime_proofs/C07OverdriveProjectorUpdateTileProof.gd b/godot-mindustry/tools/runtime_proofs/C07OverdriveProjectorUpdateTileProof.gd
+index 59a84662e..df1b7d556 100644
+--- a/godot-mindustry/tools/runtime_proofs/C07OverdriveProjectorUpdateTileProof.gd
++++ b/godot-mindustry/tools/runtime_proofs/C07OverdriveProjectorUpdateTileProof.gd
+@@ -106,0 +107,2 @@ func _ready() -> void:
++	# Phase-fabric fuels the later optional row required by this boosted scenario.
++	projector_frame["items"] = {"phase-fabric": 1}
+diff --git a/godot-mindustry/tools/runtime_proofs/C07PayloadDeconstructorDumpNeighbourLiveFillProof.gd b/godot-mindustry/tools/runtime_proofs/C07PayloadDeconstructorDumpNeighbourLiveFillProof.gd
+index ef870b3b3..ac9d0bf3b 100644
+--- a/godot-mindustry/tools/runtime_proofs/C07PayloadDeconstructorDumpNeighbourLiveFillProof.gd
++++ b/godot-mindustry/tools/runtime_proofs/C07PayloadDeconstructorDumpNeighbourLiveFillProof.gd
+@@ -84 +84,2 @@ func _ready() -> void:
+-	game.call("record_placed_block", press, blocks_by_id["multi-press"], press_cell)
++	# The ring variable denotes the contact; move the size-3 origin outside the source footprint.
++	game.call("record_placed_block", press, blocks_by_id["multi-press"], press_cell + Vector2i(0, -1))
+diff --git a/godot-mindustry/tools/runtime_proofs/C07PayloadDeconstructorDumpProof.gd b/godot-mindustry/tools/runtime_proofs/C07PayloadDeconstructorDumpProof.gd
+index a15e8b7b2..94ef654e5 100644
+--- a/godot-mindustry/tools/runtime_proofs/C07PayloadDeconstructorDumpProof.gd
++++ b/godot-mindustry/tools/runtime_proofs/C07PayloadDeconstructorDumpProof.gd
+@@ -161,0 +162,2 @@ func _ready() -> void:
++	# Keep the later shouldConsume gate open, as in the existing gate proof.
++	payload_deconstructor_frame["deconstructing"] = {"block": "conveyor"}
+diff --git a/godot-mindustry/tools/runtime_proofs/C07PayloadDeconstructorDumpWriteBackProof.gd b/godot-mindustry/tools/runtime_proofs/C07PayloadDeconstructorDumpWriteBackProof.gd
+index 5115d9dc6..a395d46ba 100644
+--- a/godot-mindustry/tools/runtime_proofs/C07PayloadDeconstructorDumpWriteBackProof.gd
++++ b/godot-mindustry/tools/runtime_proofs/C07PayloadDeconstructorDumpWriteBackProof.gd
+@@ -143,0 +144,2 @@ func _ready() -> void:
++	# Seed an active deconstruction so the existing shouldConsume gate permits this dump.
++	payload_deconstructor_frame["deconstructing"] = {"block": "conveyor"}
+@@ -161,0 +164,2 @@ func _ready() -> void:
++	# Seed an active deconstruction so the existing shouldConsume gate permits this dump.
++	bare_frame["deconstructing"] = {"block": "conveyor"}
+diff --git a/godot-mindustry/tools/runtime_proofs/C07PayloadLoaderLoadTimerProof.gd b/godot-mindustry/tools/runtime_proofs/C07PayloadLoaderLoadTimerProof.gd
+index 883435408..a0451e92e 100644
+--- a/godot-mindustry/tools/runtime_proofs/C07PayloadLoaderLoadTimerProof.gd
++++ b/godot-mindustry/tools/runtime_proofs/C07PayloadLoaderLoadTimerProof.gd
+@@ -125 +125 @@ func _ready() -> void:
+-	var storage_payload: Dictionary = {"block_has_items": true, "block_has_liquids": false, "block_separate_item_capacity": false, "block_item_capacity": 100, "block_liquid_capacity": 0.0, "block_is_liquid_void": false, "block_consumes_items": [], "block_consumes_liquids": [], "block_cons_power_buffered": false, "block_cons_power_capacity": 0.0, "accept_item_open": true, "accept_liquid_open": false, "build_items": {}, "build_liquids": {}, "build_current_liquid": "", "build_power_status": 0.0}
++	var storage_payload: Dictionary = {"block_has_items": true, "block_has_liquids": false, "block_separate_item_capacity": false, "block_item_capacity": 100, "block_liquid_capacity": 0.0, "block_is_liquid_void": false, "block_consumes_items": [], "block_consumes_liquids": [], "block_cons_power_buffered": false, "block_cons_power_capacity": 0.0, "accept_item_open": true, "accept_liquid_open": false, "build_items": {"copper": 0}, "build_liquids": {}, "build_current_liquid": "", "build_power_status": 0.0}
+diff --git a/godot-mindustry/tools/runtime_proofs/C07PayloadMassDriverLargeVariantProof.gd b/godot-mindustry/tools/runtime_proofs/C07PayloadMassDriverLargeVariantProof.gd
+index 42a97b8db..7011c6227 100644
+--- a/godot-mindustry/tools/runtime_proofs/C07PayloadMassDriverLargeVariantProof.gd
++++ b/godot-mindustry/tools/runtime_proofs/C07PayloadMassDriverLargeVariantProof.gd
+@@ -4,0 +5 @@ const payload_mass_driver_build_state := preload("res://src/game/SourcePayloadMa
++const block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
+@@ -153,0 +155,3 @@ func _ready() -> void:
++	# Link validation requires a shared team; map tiles can assign different teams.
++	for driver in [large_a, large_b, small_a, small_b]:
++		driver.set_meta(block_geometry.SOURCE_BUILD_TEAM_META_KEY, block_geometry.SOURCE_TEAM_DERELICT_ID)
+@@ -176 +180 @@ func _ready() -> void:
+-	proof["large_def_range_2100_live_link"] = is_equal_approx(float(game.get("tile_size", -1.0)), 32.0) and is_equal_approx(float(large_a_frame.get("efficiency", -1.0)), 0.5) and str(large_a_frame.get("state", "")) == "shooting" and int(large_a_frame.get("link", -99)) == large_b_pos and str(large_b_frame.get("state", "")) == "shooting" and int(large_b_frame.get("link", -99)) == large_a_pos and str(small_a_frame.get("state", "")) == "idle" and int(small_a_frame.get("link", -99)) == small_b_pos and str(small_b_frame.get("state", "")) == "idle" and int(small_b_frame.get("link", -99)) == small_a_pos and is_equal_approx(float(large_a_frame.get("charge", -1.0)), 40.0) and is_equal_approx(float(large_a_frame.get("reload_counter", -1.0)), 0.9961538)
++	proof["large_def_range_2100_live_link"] = is_equal_approx(float(game.get("tile_size")), 32.0) and is_equal_approx(float(large_a_frame.get("efficiency", -1.0)), 0.5) and str(large_a_frame.get("state", "")) == "shooting" and int(large_a_frame.get("link", -99)) == large_b_pos and str(large_b_frame.get("state", "")) == "shooting" and int(large_b_frame.get("link", -99)) == large_a_pos and str(small_a_frame.get("state", "")) == "idle" and int(small_a_frame.get("link", -99)) == small_b_pos and str(small_b_frame.get("state", "")) == "idle" and int(small_b_frame.get("link", -99)) == small_a_pos and is_equal_approx(float(large_a_frame.get("charge", -1.0)), 40.0) and is_equal_approx(float(large_a_frame.get("reload_counter", -1.0)), 0.9961538)
+diff --git a/godot-mindustry/tools/runtime_proofs/C07PayloadUnloaderShouldConsumeProof.gd b/godot-mindustry/tools/runtime_proofs/C07PayloadUnloaderShouldConsumeProof.gd
+index cf75c26fe..abaa32ad1 100644
+--- a/godot-mindustry/tools/runtime_proofs/C07PayloadUnloaderShouldConsumeProof.gd
++++ b/godot-mindustry/tools/runtime_proofs/C07PayloadUnloaderShouldConsumeProof.gd
+@@ -96 +96,3 @@ func _ready() -> void:
+-	unloader_a_frame["payload"] = {"block": "conveyor"}
++	# The live updateTile path consumes a block/build descriptor, as in
++	# C07PayloadUnloaderUpdateTileProof, rather than a block ID string.
++	unloader_a_frame["payload"] = {"block": {"has_items": true, "has_liquids": false}, "build": {"items": {"copper": 1}}}
+diff --git a/godot-mindustry/tools/runtime_proofs/C07RegenProjectorHealApplicationProof.gd b/godot-mindustry/tools/runtime_proofs/C07RegenProjectorHealApplicationProof.gd
+index fc002ca17..0301afd45 100644
+--- a/godot-mindustry/tools/runtime_proofs/C07RegenProjectorHealApplicationProof.gd
++++ b/godot-mindustry/tools/runtime_proofs/C07RegenProjectorHealApplicationProof.gd
+@@ -59,0 +60,3 @@ func _ready() -> void:
++	# Blocks.java copper-wall: 80 * wallHealthMultiplier (4), instead of the extracted -1 sentinel.
++	blocks_by_id["copper-wall"].properties["health"] = 320
++
+diff --git a/godot-mindustry/tools/runtime_proofs/C07RegenProjectorMendMapFlushProof.gd b/godot-mindustry/tools/runtime_proofs/C07RegenProjectorMendMapFlushProof.gd
+index 54056747e..0c3d9ed73 100644
+--- a/godot-mindustry/tools/runtime_proofs/C07RegenProjectorMendMapFlushProof.gd
++++ b/godot-mindustry/tools/runtime_proofs/C07RegenProjectorMendMapFlushProof.gd
+@@ -131,0 +132,4 @@ func _ready() -> void:
++	# Source-backed fixture health instead of the extracted -1 sentinel.
++	# Copper-wall: Blocks.java:1708, 80 * wallHealthMultiplier (4).
++	blocks_by_id["copper-wall"].properties["health"] = 320
++
+diff --git a/godot-mindustry/tools/runtime_proofs/C07RegenProjectorPrivilegedFlagFillProof.gd b/godot-mindustry/tools/runtime_proofs/C07RegenProjectorPrivilegedFlagFillProof.gd
+index f45e60ec8..56985a585 100644
+--- a/godot-mindustry/tools/runtime_proofs/C07RegenProjectorPrivilegedFlagFillProof.gd
++++ b/godot-mindustry/tools/runtime_proofs/C07RegenProjectorPrivilegedFlagFillProof.gd
+@@ -84,0 +85,6 @@ func _ready() -> void:
++	# The extracted catalog leaves these health values at -1, so damage cannot
++	# establish this scenario. Seed source-initialized health in the fixture:
++	# copper wall: Blocks.java:1704/1708, 80 * 4; world processor: empty
++	# requirements (Blocks.java:6949), size 1, Block.init health (1378-1394).
++	blocks_by_id["copper-wall"].properties["health"] = 320
++	blocks_by_id["world-processor"].properties["health"] = 40
+diff --git a/godot-mindustry/tools/runtime_proofs/C07RegenProjectorShouldConsumeProof.gd b/godot-mindustry/tools/runtime_proofs/C07RegenProjectorShouldConsumeProof.gd
+index 76184247a..a9c2b5119 100644
+--- a/godot-mindustry/tools/runtime_proofs/C07RegenProjectorShouldConsumeProof.gd
++++ b/godot-mindustry/tools/runtime_proofs/C07RegenProjectorShouldConsumeProof.gd
+@@ -2,0 +3,3 @@ extends Node
++const content_registry_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
++const placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
++const liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
+@@ -65,0 +69 @@ func _ready() -> void:
++	var liquid_catalog: Dictionary = content_registry_state.source_liquid_catalog_state(catalog)
+@@ -79,0 +84,2 @@ func _ready() -> void:
++	# Supply the later required hydrogen consumer so this fixture isolates the gate/power fold.
++	liquid_module_state.source_set_state(regen.get_meta(placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY), int(liquid_catalog["liquid_id_by_name"]["hydrogen"]), 1.0)
+diff --git a/godot-mindustry/tools/runtime_proofs/C07RegenProjectorTargetsFillProof.gd b/godot-mindustry/tools/runtime_proofs/C07RegenProjectorTargetsFillProof.gd
+index 7a8534e65..e4d101a6a 100644
+--- a/godot-mindustry/tools/runtime_proofs/C07RegenProjectorTargetsFillProof.gd
++++ b/godot-mindustry/tools/runtime_proofs/C07RegenProjectorTargetsFillProof.gd
+@@ -99,0 +100,4 @@ func _ready() -> void:
++	# Source-backed fixture health instead of the extracted -1 sentinel.
++	# Copper-wall: Blocks.java:1708, 80 * wallHealthMultiplier (4).
++	blocks_by_id["copper-wall"].properties["health"] = 320
++
+diff --git a/godot-mindustry/tools/runtime_proofs/C07RegenProjectorTargetsNarrowProof.gd b/godot-mindustry/tools/runtime_proofs/C07RegenProjectorTargetsNarrowProof.gd
+index 660ce3873..16a653a7e 100644
+--- a/godot-mindustry/tools/runtime_proofs/C07RegenProjectorTargetsNarrowProof.gd
++++ b/godot-mindustry/tools/runtime_proofs/C07RegenProjectorTargetsNarrowProof.gd
+@@ -163,0 +164,6 @@ func _ready() -> void:
++	# Source-backed fixture health instead of the extracted -1 sentinel.
++	# Copper-wall: Blocks.java:1708, 80 * wallHealthMultiplier (4).
++	blocks_by_id["copper-wall"].properties["health"] = 320
++	# Graphite-press: size 2, copper/lead healthScaling 0; Block.init: 2 * 2 * 40.
++	blocks_by_id["graphite-press"].properties["health"] = 160
++
+diff --git a/godot-mindustry/tools/runtime_proofs/C07RegenProjectorUpdateTileProof.gd b/godot-mindustry/tools/runtime_proofs/C07RegenProjectorUpdateTileProof.gd
+index fc56d064c..cf21b61e1 100644
+--- a/godot-mindustry/tools/runtime_proofs/C07RegenProjectorUpdateTileProof.gd
++++ b/godot-mindustry/tools/runtime_proofs/C07RegenProjectorUpdateTileProof.gd
+@@ -140,0 +141,4 @@ func _ready() -> void:
++	# Block.init health for copper-wall: Blocks.java 1704/1708 (80 * 4).
++	# The extracted -1 sentinel cannot establish the damaged target scenario.
++	blocks_by_id["copper-wall"].properties["health"] = 320
++
+diff --git a/godot-mindustry/tools/runtime_proofs/C07RepairTurretCoolantProof.gd b/godot-mindustry/tools/runtime_proofs/C07RepairTurretCoolantProof.gd
+index b07ddc3be..2bb81f4aa 100644
+--- a/godot-mindustry/tools/runtime_proofs/C07RepairTurretCoolantProof.gd
++++ b/godot-mindustry/tools/runtime_proofs/C07RepairTurretCoolantProof.gd
+@@ -161,0 +162,3 @@ func _ready() -> void:
++	# RepairTurret.init sets hasLiquids for acceptCoolant (Java:84-86);
++	# initialize that source-backed fixture module before supplying coolant.
++	placed_block_state.source_initialize_building_liquids_state(turret_a, true, catalog)
+@@ -170,0 +174,3 @@ func _ready() -> void:
++	# RepairTurret.init sets hasLiquids for acceptCoolant (Java:84-86);
++	# initialize that source-backed fixture module before supplying coolant.
++	placed_block_state.source_initialize_building_liquids_state(turret_b, true, catalog)
+diff --git a/godot-mindustry/tools/runtime_proofs/C07SeparatorDumpNeighbourLiveFillProof.gd b/godot-mindustry/tools/runtime_proofs/C07SeparatorDumpNeighbourLiveFillProof.gd
+index de8e6bab2..335d755f7 100644
+--- a/godot-mindustry/tools/runtime_proofs/C07SeparatorDumpNeighbourLiveFillProof.gd
++++ b/godot-mindustry/tools/runtime_proofs/C07SeparatorDumpNeighbourLiveFillProof.gd
+@@ -86 +86,2 @@ func _ready() -> void:
+-	game.call("record_placed_block", press, blocks_by_id["multi-press"], press_cell)
++	# The ring variable denotes the contact; move the size-3 origin outside the source footprint.
++	game.call("record_placed_block", press, blocks_by_id["multi-press"], press_cell + Vector2i(1, 0))
+diff --git a/godot-mindustry/tools/runtime_proofs/C07SeparatorShouldConsumeProof.gd b/godot-mindustry/tools/runtime_proofs/C07SeparatorShouldConsumeProof.gd
+index c51958189..f6fdcac34 100644
+--- a/godot-mindustry/tools/runtime_proofs/C07SeparatorShouldConsumeProof.gd
++++ b/godot-mindustry/tools/runtime_proofs/C07SeparatorShouldConsumeProof.gd
+@@ -2,0 +3,3 @@ extends Node
++const content_registry_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
++const placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
++const liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
+@@ -66,0 +70 @@ func _ready() -> void:
++	var liquid_catalog: Dictionary = content_registry_state.source_liquid_catalog_state(catalog)
+@@ -80,0 +85,2 @@ func _ready() -> void:
++	# Supply the later required slag consumer so this fixture isolates the gate/power fold.
++	liquid_module_state.source_set_state(separator.get_meta(placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY), int(liquid_catalog["liquid_id_by_name"]["slag"]), 1.0)
+diff --git a/godot-mindustry/tools/runtime_proofs/C07ShockwaveTowerBulletScanHitboxProof.gd b/godot-mindustry/tools/runtime_proofs/C07ShockwaveTowerBulletScanHitboxProof.gd
+index d435f576a..085775428 100644
+--- a/godot-mindustry/tools/runtime_proofs/C07ShockwaveTowerBulletScanHitboxProof.gd
++++ b/godot-mindustry/tools/runtime_proofs/C07ShockwaveTowerBulletScanHitboxProof.gd
+@@ -166 +166 @@ func _ready() -> void:
+-	-- the strict boundary -- the discriminator vs N2327),
++	# -- the strict boundary -- the discriminator vs N2327),
+diff --git a/godot-mindustry/tools/runtime_proofs/C07StackRouterLiveProximityQueryProof.gd b/godot-mindustry/tools/runtime_proofs/C07StackRouterLiveProximityQueryProof.gd
+index f49dfdd3f..0f097d37d 100644
+--- a/godot-mindustry/tools/runtime_proofs/C07StackRouterLiveProximityQueryProof.gd
++++ b/godot-mindustry/tools/runtime_proofs/C07StackRouterLiveProximityQueryProof.gd
+@@ -190,0 +191,2 @@ func _ready() -> void:
++	# This caller-supplied list is not a live-generated list.
++	seeded_frame["proximity_neighbours_live"] = false
+diff --git a/godot-mindustry/tools/runtime_proofs/C07StackRouterTargetProof.gd b/godot-mindustry/tools/runtime_proofs/C07StackRouterTargetProof.gd
+index 2b7af2572..c63a4870b 100644
+--- a/godot-mindustry/tools/runtime_proofs/C07StackRouterTargetProof.gd
++++ b/godot-mindustry/tools/runtime_proofs/C07StackRouterTargetProof.gd
+@@ -156,0 +157,2 @@ func _ready() -> void:
++	# This caller-supplied fixture list must not be refreshed by the live fill.
++	stack_router_frame["proximity_neighbours_live"] = false
+diff --git a/godot-mindustry/tools/runtime_proofs/C07UnitAssemblerCheckTierWiringProof.gd b/godot-mindustry/tools/runtime_proofs/C07UnitAssemblerCheckTierWiringProof.gd
+index db31a2607..8fa3576ab 100644
+--- a/godot-mindustry/tools/runtime_proofs/C07UnitAssemblerCheckTierWiringProof.gd
++++ b/godot-mindustry/tools/runtime_proofs/C07UnitAssemblerCheckTierWiringProof.gd
+@@ -73 +73,2 @@ func _ready() -> void:
+-	var helper_frame_after_add: Dictionary = fake_assembler_sprite.get_meta(unit_factory_build_state.SOURCE_UNIT_FACTORY_BUILDING_META_KEY, {})
++	# Preserve the add observation before remove mutates the same live frame.
++	var helper_frame_after_add: Dictionary = fake_assembler_sprite.get_meta(unit_factory_build_state.SOURCE_UNIT_FACTORY_BUILDING_META_KEY, {}).duplicate(true)
+diff --git a/godot-mindustry/tools/runtime_proofs/C07UnitAssemblerModuleFlaggedBuildingsFillProof.gd b/godot-mindustry/tools/runtime_proofs/C07UnitAssemblerModuleFlaggedBuildingsFillProof.gd
+index 8d415f40f..8348634ef 100644
+--- a/godot-mindustry/tools/runtime_proofs/C07UnitAssemblerModuleFlaggedBuildingsFillProof.gd
++++ b/godot-mindustry/tools/runtime_proofs/C07UnitAssemblerModuleFlaggedBuildingsFillProof.gd
+@@ -2,0 +3 @@ extends Node
++const block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
+@@ -120,0 +122,2 @@ func _ready() -> void:
++	# Out-of-world fixture placement uses legacy initialization: set its intended sharded team explicitly.
++	mech_assembler.set_meta(block_geometry.SOURCE_BUILD_TEAM_META_KEY, 1)
+@@ -198,0 +202,2 @@ func _ready() -> void:
++	# Out-of-world fixture placement uses legacy initialization: set its intended sharded team explicitly.
++	third_assembler.set_meta(block_geometry.SOURCE_BUILD_TEAM_META_KEY, 1)
+diff --git a/godot-mindustry/tools/runtime_proofs/C07UnitCargoLoaderShouldConsumeProof.gd b/godot-mindustry/tools/runtime_proofs/C07UnitCargoLoaderShouldConsumeProof.gd
+index 4359a52bf..d95413ffd 100644
+--- a/godot-mindustry/tools/runtime_proofs/C07UnitCargoLoaderShouldConsumeProof.gd
++++ b/godot-mindustry/tools/runtime_proofs/C07UnitCargoLoaderShouldConsumeProof.gd
+@@ -2,0 +3,3 @@ extends Node
++const content_registry_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
++const placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
++const liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
+@@ -64,0 +68 @@ func _ready() -> void:
++	var liquid_catalog: Dictionary = content_registry_state.source_liquid_catalog_state(catalog)
+@@ -78,0 +83,2 @@ func _ready() -> void:
++	# Supply the later required nitrogen consumer so this fixture isolates the gate/power fold.
++	liquid_module_state.source_set_state(unit_cargo_loader.get_meta(placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY), int(liquid_catalog["liquid_id_by_name"]["nitrogen"]), 1.0)
+diff --git a/godot-mindustry/tools/runtime_proofs/C07WallCrafterShouldConsumeProof.gd b/godot-mindustry/tools/runtime_proofs/C07WallCrafterShouldConsumeProof.gd
+index 2b845a711..4078c74be 100644
+--- a/godot-mindustry/tools/runtime_proofs/C07WallCrafterShouldConsumeProof.gd
++++ b/godot-mindustry/tools/runtime_proofs/C07WallCrafterShouldConsumeProof.gd
+@@ -2,0 +3,3 @@ extends Node
++const content_registry_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
++const placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
++const liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
+@@ -65,0 +69 @@ func _ready() -> void:
++	var liquid_catalog: Dictionary = content_registry_state.source_liquid_catalog_state(catalog)
+@@ -93,0 +98,2 @@ func _ready() -> void:
++	# Large-cliff-crusher requires hydrogen (Blocks.java:3028); isolate capacity.
++	liquid_module_state.source_set_state(crusher_c.get_meta(placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY), int(liquid_catalog["liquid_id_by_name"]["hydrogen"]), 1.0)
+diff --git a/tools/mindustry_godot_transpiler/tests/test_c07_stack_conveyor_blends_plan_rows.py b/tools/mindustry_godot_transpiler/tests/test_c07_stack_conveyor_blends_plan_rows.py
+index ab38e8201..955dc653a 100644
+--- a/tools/mindustry_godot_transpiler/tests/test_c07_stack_conveyor_blends_plan_rows.py
++++ b/tools/mindustry_godot_transpiler/tests/test_c07_stack_conveyor_blends_plan_rows.py
+@@ -230 +230 @@ class C07StackConveyorBlendsPlanRowsTests(unittest.TestCase):
+-        proofs = [json.loads(line.split(' ', 1)[1]) for line in output.splitlines() if line.startswith('C_07_STACK_CONVEYOR_BLANDS_PLAN_ROWS_PROOF ')]
++        proofs = [json.loads(line.split(' ', 1)[1]) for line in output.splitlines() if line.startswith('C_07_STACK_CONVEYOR_BLENDS_PLAN_ROWS_PROOF ')]

@@ -1,0 +1,13 @@
+{
+  "C07WallCrafterTimerDumpProof": "Pure timer assertion expects cursor 1 with a one-entry neighbour array; routing uses incrementDump modulo proximity length. Existing cursor assertion remains unchanged. Live timer also RED. Requires owner review of source versus intended proof, not a blind fixture padding or assertion change.",
+  "C07FrackerDumpLiquidProof": "Live assertions expect cdump 1 for a one-entry supplied neighbour array, while shared liquid routing wraps the cursor. Required sand and water were already seeded. Explicit supplied-array provenance did not resolve RED; assertions unchanged.",
+  "C07LiquidNeighbourWriteBackProof": "Live assertions similarly expect cdump 1 for a one-entry supplied liquid neighbour list. Non-overlap placement and explicit supplied provenance trials retained. Exact remaining field-level cause is not fully established.",
+  "C07LightBlockConfigColorRowsProof": "Pure control_bits and sense_color_double_bits fail on actual Windows Godot. Double-bit/denormal encode/decode path requires source/platform review.",
+  "C07SeparatorUpdateTileProof": "Pure weighted-result and craft assertions fail as well as live advance. Live-only fixture changes cannot establish a complete pass.",
+  "C07SeparatorOffloadRoutingProof": "Pure weighted offload/routing/capacity assertions fail. No assertions were changed.",
+  "C07SeparatorNeighbourWriteBackProof": "Pure advance routed-index assertion and live write-back fail. No implementation edits authorized.",
+  "C07BurstDrillTimerDumpWriteBackProof": "Expanded world now supports both ore fixtures; bare/no-frame write-back passes, live recipient write-back remains RED after supplied-array provenance correction.",
+  "C07SeparatorTimerDumpWriteBackProof": "Native diagnostic: recipient has source_adjacent_factory_building before source_separator_building; source has copper 1 and cdump 3, separator recipient items remains empty. Shared SourceBuildingItemState iterates consumer frame keys and writes first matching frame, explaining divergent recipient observation. Requires runtime frame-dispatch review; removing a valid frame in the fixture would mask the problem.",
+  "C07BeamDrillTimerDumpWriteBackProof": "Native diagnostic: source has copper 4 and cdump 2 with expected efficiency/warmup/time; separator recipient remains empty and carries earlier adjacent_factory frame. Same first-frame dispatch conflict as Separator timer write-back.",
+  "C07SolidPumpDumpLiquidWriteBackProof": "Native diagnostic: source water is 10 with efficiency 1 and cdump 0; recipient separator liquids remains zero and carries earlier adjacent_factory frame. Shared liquid helper uses first matching consumer frame; frame/module coherence needs implementation review."
+}
