@@ -1,6 +1,6 @@
 # Report — N2256 Turret multi-recoil decay (C07, duo) [GREEN — gate xong, chờ commit + push]
 
-## Status: GREEN (2026-11-19 ~07:00 +07, lượt cron 07:00) — slice `0a6a5494`; targeted 4/4, proof matches:true, register --verify 13/13, SSOT 11609/1706/1640/3071. Neighbours 79 passed + 931 subtests (1 fail là flake port-7777, chạy lại riêng xanh 4/4; không do N2256) + wiring 9/9 OK. Gate N2256 xong (log `tools/mindustry_godot_transpiler/full-suite-n2256-gate.log`): Ran 6117 in 1215.285s, failures=206, skipped=5, errors=0 — all 206 verified Godot-absent (205 × `AssertionError: unexpectedly None` + 1 hydration variant; riêng test N2256 trong gate cũng chỉ fail `unexpectedly None`, 3 test còn lại của slice pass trong gate). Chưa push.
+## Status: GREEN (2026-11-19 ~07:00 +07, lượt cron 07:00) — slice `0a6a5494`, docs `1d94eea3`, GOAL `036d48a7`; targeted 4/4, proof matches:true, register --verify 13/13, SSOT 11609/1706/1640/3071. Neighbours 79 passed + 931 subtests (1 fail là flake port-7777, chạy lại riêng xanh 4/4; không do N2256) + wiring 9/9 OK. Gate N2256 xong (log `tools/mindustry_godot_transpiler/full-suite-n2256-gate.log`): Ran 6117 in 1215.285s, failures=206, skipped=5, errors=0 — all 206 verified Godot-absent (205 × `AssertionError: unexpectedly None` + 1 hydration variant; riêng test N2256 trong gate cũng chỉ fail `unexpectedly None`, 3 test còn lại của slice pass trong gate). Chưa push.
 
 - N2255 DONE + PUSHED (origin/main 6b6719d8) — đã xác minh đầu lượt.
 
