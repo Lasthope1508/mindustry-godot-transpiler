@@ -1,6 +1,6 @@
 # Report — N2257 Turret multi-recoil stamp (C07, duo) [DONE + PUSHED]
 
-## Status: DONE + PUSHED (2026-11-19 ~08:45 +07, lượt cron 08:45) — slice commit TBD, docs TBD, GOAL TBD, status TBD. Targeted 4/4 + proof matches:true 11/11 + register --verify 12/12 + gate Ran 6121, failures=207 toàn Godot-absent (đã xác minh độc lập).
+## Status: DONE + PUSHED (2026-11-19 ~08:45 +07, lượt cron 08:45) — slice `2f244b54`, docs `98091831`, GOAL `aa51a8ac`, status TBD (pushed; origin/main advances with this status commit). Targeted 4/4 + proof matches:true 11/11 + register --verify 12/12 + gate Ran 6121, failures=207 toàn Godot-absent (đã xác minh độc lập).
 
 - N2256 DONE + PUSHED (origin/main 0315a179, slice 0a6a5494) — đã xác minh đầu lượt: git log 5 commit gần nhất khớp, working tree chỉ có diff N2257 + noise *.gd.uid (không stage).
 
