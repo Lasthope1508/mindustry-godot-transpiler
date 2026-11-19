@@ -5,7 +5,7 @@ Ngày: 2026-11-20 ~01:45–02:01 +07 (GREEN), gate xong 02:21 +07, push lượt 
 ## Trạng thái
 
 - N2271 DONE + PUSHED (origin/main b21b55f2). Không có gì thay đổi về N2271.
-- N2272 DONE + PUSHED (slice 5968f4f5, docs 456f54e6, GOAL bd203b10): TurretBuild.canConsume() heat gate — false đúng khi turret cần heat mà không có heat. Gate xác minh độc lập từ log: Ran 6181, failures=222, skipped=5 — toàn Godot-absent (222 × `unexpectedly None`, 0 KeyError, 0 `return_schema_linkage`, 0 ERROR).
+- N2272 DONE + PUSHED (slice 5968f4f5, docs 456f54e6, GOAL bd203b10, status 80daa361): TurretBuild.canConsume() heat gate — false đúng khi turret cần heat mà không có heat. Gate xác minh độc lập từ log: Ran 6181, failures=222, skipped=5 — toàn Godot-absent (222 × `unexpectedly None`, 0 KeyError, 0 `return_schema_linkage`, 0 ERROR).
 
 ## Làm được lượt này (GREEN)
 
