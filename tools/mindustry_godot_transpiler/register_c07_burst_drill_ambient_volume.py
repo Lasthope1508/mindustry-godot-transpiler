@@ -10,7 +10,7 @@ BuildingComp.java:85) times the block size squared over
 four. The super
 formula is NOT ported in this slice: the caller passes the
 already-computed super result as an explicit param (the
-N2270 explicit-param precedent). progress() is
+N2316 explicit-param precedent). progress() is
 DrillBuild.progress (Drill.java:327-329, `return
 dominantItem == null ? 0f : Mathf.clamp(progress /
 getDrillTime(dominantItem));`): 0 when there is no dominant
@@ -40,7 +40,7 @@ super_ambient_volume, progress) returning ambient_volume
 inputs are explicit: the super formula and progress() are
 unported for DrillBuild (see above); no frame param -- the
 formula reads no live frame keys (the N2212 / N2224
-per-def-param precedent, extended by the N2270
+per-def-param precedent, extended by the N2316
 explicit-param precedent). (2) There is NO driver tick
 line: ambientVolume is read per tick by the ambient-sound
 live loop (`control.sound.loop(block.ambientSound, self(),
@@ -100,8 +100,8 @@ def definitions():
         return backed(typ, source, expr, rule, **extra)
 
     ambient_volume_inputs = {
-        'super_ambient_volume': a('float', 'return efficiency * (size * size) / 4f;', 'The DrillBuild.ambientVolume() super result (Drill.java:257-259, `return efficiency * (size * size) / 4f;`, efficiency times size squared over four); passed explicitly because the Drill super formula is NOT ported in this slice (the N2270 explicit-param precedent). Per-def values at efficiency 1: impact-drill (size 4, Blocks.java:3073) 4.0, eruption-drill (size 5, Blocks.java:3096) 6.25.', source=DRILL),
-        'progress': a('float', 'return dominantItem == null ? 0f : Mathf.clamp(progress / getDrillTime(dominantItem));', 'The DrillBuild.progress() result (Drill.java:327-329, `return dominantItem == null ? 0f : Mathf.clamp(progress / getDrillTime(dominantItem));`, 0 with no dominant item, else the `progress` field clamped by the per-item drill time); passed explicitly because progress() is NOT ported for DrillBuild in this slice (N700 / N1627 are PortGame game-level progress, not the DrillBuild override) -- the N2270 explicit-param precedent.', source=DRILL),
+        'super_ambient_volume': a('float', 'return efficiency * (size * size) / 4f;', 'The DrillBuild.ambientVolume() super result (Drill.java:257-259, `return efficiency * (size * size) / 4f;`, efficiency times size squared over four); passed explicitly because the Drill super formula is NOT ported in this slice (the N2316 explicit-param precedent). Per-def values at efficiency 1: impact-drill (size 4, Blocks.java:3073) 4.0, eruption-drill (size 5, Blocks.java:3096) 6.25.', source=DRILL),
+        'progress': a('float', 'return dominantItem == null ? 0f : Mathf.clamp(progress / getDrillTime(dominantItem));', 'The DrillBuild.progress() result (Drill.java:327-329, `return dominantItem == null ? 0f : Mathf.clamp(progress / getDrillTime(dominantItem));`, 0 with no dominant item, else the `progress` field clamped by the per-item drill time); passed explicitly because progress() is NOT ported for DrillBuild in this slice (N700 / N1627 are PortGame game-level progress, not the DrillBuild override) -- the N2316 explicit-param precedent.', source=DRILL),
     }
     ambient_volume_outputs = {
         'ambient_volume': a('float', 'return super.ambientVolume() * Mathf.pow(progress(), 4f);', 'The BurstDrill ambient volume: the super result times progress to the fourth power (BurstDrill.java:124, `return super.ambientVolume() * Mathf.pow(progress(), 4f);`, arc Mathf.pow at Mathf.java:212 `public static float pow(float a, float b){`); progress 0 silences the drill, progress 1 passes the super through.'),

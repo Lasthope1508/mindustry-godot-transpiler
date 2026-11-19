@@ -36,7 +36,7 @@ func _ready() -> void:
 	# `trackingRange = Math.max(range, trackingRange);`),
 	# so after init trackingRange() >= range(). The
 	# range() result arrives as an explicit param (the
-	# N2270 precedent): range() itself is not a live
+	# N2316 precedent): range() itself is not a live
 	# SourceTurretBuildState row (the old N739/N740 rows
 	# live in PortGame). There is no driver tick line:
 	# trackingRange() is a load-time accessor findTarget

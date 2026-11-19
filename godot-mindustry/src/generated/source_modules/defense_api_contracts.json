@@ -7908,7 +7908,7 @@
     "SourceTurretBuildState.source_turret_find_target_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_find_target_state",
       "status": "active",
-      "source_slice": "N2270",
+      "source_slice": "N2316",
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
       "source_method": "TurretBuild.findTarget()",
       "params": [

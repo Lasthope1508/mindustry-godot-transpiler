@@ -993,7 +993,7 @@ static func source_turret_find_target_state(frame: Dictionary, range: float, tra
 # field (Turret.java:217, `trackingRange = Math.max(range, trackingRange);`), so after init
 # trackingRange() >= range(). All live values arrive as explicit params (the N2188
 # precedent): the range() result arrives as range_value because range() reads peekAmmo()
-# and the tick frame tracks no ammo state yet (the N2270 precedent; the old N739/N740
+# and the tick frame tracks no ammo state yet (the N2316 precedent; the old N739/N740
 # range() rows live in PortGame, not on this state). NO driver line: trackingRange() is a
 # load-time accessor findTarget reads at Turret.java:652
 # (`float trackRange = trackingRange(), range = range();`), not a per-tick write (the

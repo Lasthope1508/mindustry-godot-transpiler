@@ -21,7 +21,7 @@ class C07RadarDrawTests(unittest.TestCase):
         # alpha is glowColor.a * (1f - glowMag +
         # Mathf.absin(glowScl, glowMag)) (Radar.java:89).
         # Two pure functions on the same family file, one
-        # ledger entry (the N2270 multi-function precedent):
+        # ledger entry (the N2316 multi-function precedent):
         # rotation first, glow second. No driver tick line
         # lands here: draw() is a render call, not tick state
         # (the accessor precedent N2311/N2275). Two new result

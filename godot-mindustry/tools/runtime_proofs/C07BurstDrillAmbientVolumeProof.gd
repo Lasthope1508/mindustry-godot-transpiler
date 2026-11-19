@@ -27,7 +27,7 @@ func _ready() -> void:
 	# (Drill.java:257-259, `return efficiency * (size *
 	# size) / 4f;`), NOT this slice: the proof passes the
 	# already-computed super result as an explicit input
-	# (the N2270 explicit-param precedent). progress() is
+	# (the N2316 explicit-param precedent). progress() is
 	# DrillBuild.progress (Drill.java:327-329, `return
 	# dominantItem == null ? 0f : Mathf.clamp(progress /
 	# getDrillTime(dominantItem));`), also NOT this slice

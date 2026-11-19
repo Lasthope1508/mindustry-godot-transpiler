@@ -1,4 +1,4 @@
-"""Register the TurretBuild findTarget / findEnemy / validateTarget / canHeal targeting (N2270).
+"""Register the TurretBuild findTarget / findEnemy / validateTarget / canHeal targeting (N2316).
 
 TurretBuild.findTarget() / findEnemy() / validateTarget() /
 canHeal() (Turret.java:631-663, `protected boolean
@@ -93,7 +93,7 @@ VALIDATE_OWNER = 'SourceTurretBuildState.source_turret_validate_target_state'
 FIND_ENEMY_OWNER = 'SourceTurretBuildState.source_turret_find_enemy_state'
 FIND_TARGET_OWNER = 'SourceTurretBuildState.source_turret_find_target_state'
 TESTS = ['test_c07_turret_find_target_registration', 'test_all_c07_turret_find_target_input_evidence_is_exact', 'test_turret_find_target_state', 'test_reference_graph_and_actual_c07_turret_find_target']
-# The 6 slice sources the N2270 test checks exact_exprs
+# The 6 slice sources the N2316 test checks exact_exprs
 # against -- every expr in EXACT_EXPRS below must appear verbatim
 # in one of these files (arc-core sources live under arc-upstream).
 SLICE_SOURCES = [
@@ -160,17 +160,17 @@ EXACT_EXPRS = [
 # DEFERRED is carried from the N2308 register script via import --
 # never retyped. Nothing in it closes here: findTarget was never a
 # deferred entry of the Turret chain. Five entries are added: the
-# N2270 Windows Godot proof debt (GOAL.md section 5), the
+# N2316 Windows Godot proof debt (GOAL.md section 5), the
 # findTarget/validateTarget driver tick lines, the live Units
 # queries (driver-side observed-dict stamping), the
 # SourceTurretTargetingState.gd non-reuse note, and the
 # trackingRange / hasAmmo / peekAmmo follow-ups.
 DEFERRED = N2308_DEFERRED + [
-    'Turret findTarget() Windows Godot proof -- debt in GOAL.md section 5, same as N2148/N2227: the N2270 proof runs headless on Linux here and waits for a Windows Godot run.',
-    'Wire the Turret findTarget/validateTarget driver tick lines (source_turret_tick_buildings_state) once the tick frame tracks target / is_shooting / controlled / logicControlled; N2270 is pure-function-only (the N2294 updateTile precedent). updateTile calls findTarget() at Turret.java:570 and validateTarget() at :491/:573.',
-    'Port the live Units queries (Units.nearbyEnemies scan, BlockIndexer.findEnemyTile/findTile, Units.inFogTo) as driver-side observed-dict stamping; N2270 selects from observed dicts only and proves no live query.',
+    'Turret findTarget() Windows Godot proof -- debt in GOAL.md section 5, same as N2148/N2227: the N2316 proof runs headless on Linux here and waits for a Windows Godot run.',
+    'Wire the Turret findTarget/validateTarget driver tick lines (source_turret_tick_buildings_state) once the tick frame tracks target / is_shooting / controlled / logicControlled; N2316 is pure-function-only (the N2294 updateTile precedent). updateTile calls findTarget() at Turret.java:570 and validateTarget() at :491/:573.',
+    'Port the live Units queries (Units.nearbyEnemies scan, BlockIndexer.findEnemyTile/findTile, Units.inFogTo) as driver-side observed-dict stamping; N2316 selects from observed dicts only and proves no live query.',
     'SourceTurretTargetingState.gd target_selection_state is NOT the findTarget port: it only picks the nearest candidate by distance, with no predicate filters, no targetPriority tie-break and no building fallback; it has no slice owner and must not be wired as the TurretBuild targeting path.',
-    'Port TurretBuild.trackingRange() (Turret.java:349-351) and range() (N740) as explicit values; N2270 takes range/track_range as explicit floats. Port TurretBuild.hasAmmo() (Turret.java:698-712, ammo-swap side effect) and peekAmmo() (Turret.java:693-695) as their own slices; N2270 takes their flags explicitly.',
+    'Port TurretBuild.trackingRange() (Turret.java:349-351) and range() (N740) as explicit values; N2316 takes range/track_range as explicit floats. Port TurretBuild.hasAmmo() (Turret.java:698-712, ammo-swap side effect) and peekAmmo() (Turret.java:693-695) as their own slices; N2316 takes their flags explicitly.',
 ]
 
 
@@ -274,11 +274,11 @@ def main():
     can_heal_inputs, can_heal_outputs, invalidate_inputs, invalidate_outputs, validate_inputs, validate_outputs, find_enemy_inputs, find_enemy_outputs, find_target_inputs, find_target_outputs = definitions()
 
     entries = [
-        ('N2270', CAN_HEAL_OWNER, 'source_turret_can_heal_state', TURRET, 'mindustry.world.blocks.defense.turrets.Turret.TurretBuild', 'TurretBuild.canHeal()', can_heal_inputs, can_heal_outputs, True, 'Dictionary'),
-        ('N2270', INVALIDATE_OWNER, 'source_turret_invalidate_target_state', UNITS, 'mindustry.entities.Units', 'Units.invalidateTarget(Posc, Team, float, float, float)', invalidate_inputs, invalidate_outputs, True, 'Dictionary'),
-        ('N2270', VALIDATE_OWNER, 'source_turret_validate_target_state', TURRET, 'mindustry.world.blocks.defense.turrets.Turret.TurretBuild', 'TurretBuild.validateTarget()', validate_inputs, validate_outputs, True, 'Dictionary'),
-        ('N2270', FIND_ENEMY_OWNER, 'source_turret_find_enemy_state', TURRET, 'mindustry.world.blocks.defense.turrets.Turret.TurretBuild', 'TurretBuild.findEnemy(float)', find_enemy_inputs, find_enemy_outputs, True, 'Dictionary'),
-        ('N2270', FIND_TARGET_OWNER, 'source_turret_find_target_state', TURRET, 'mindustry.world.blocks.defense.turrets.Turret.TurretBuild', 'TurretBuild.findTarget()', find_target_inputs, find_target_outputs, True, 'Dictionary'),
+        ('N2316', CAN_HEAL_OWNER, 'source_turret_can_heal_state', TURRET, 'mindustry.world.blocks.defense.turrets.Turret.TurretBuild', 'TurretBuild.canHeal()', can_heal_inputs, can_heal_outputs, True, 'Dictionary'),
+        ('N2316', INVALIDATE_OWNER, 'source_turret_invalidate_target_state', UNITS, 'mindustry.entities.Units', 'Units.invalidateTarget(Posc, Team, float, float, float)', invalidate_inputs, invalidate_outputs, True, 'Dictionary'),
+        ('N2316', VALIDATE_OWNER, 'source_turret_validate_target_state', TURRET, 'mindustry.world.blocks.defense.turrets.Turret.TurretBuild', 'TurretBuild.validateTarget()', validate_inputs, validate_outputs, True, 'Dictionary'),
+        ('N2316', FIND_ENEMY_OWNER, 'source_turret_find_enemy_state', TURRET, 'mindustry.world.blocks.defense.turrets.Turret.TurretBuild', 'TurretBuild.findEnemy(float)', find_enemy_inputs, find_enemy_outputs, True, 'Dictionary'),
+        ('N2316', FIND_TARGET_OWNER, 'source_turret_find_target_state', TURRET, 'mindustry.world.blocks.defense.turrets.Turret.TurretBuild', 'TurretBuild.findTarget()', find_target_inputs, find_target_outputs, True, 'Dictionary'),
     ]
     all_names = []
     for sid, owner, prefix, source, cls, method, inputs, outputs, has_contract, return_type in entries:
@@ -299,14 +299,14 @@ def main():
     by_slice = {}
     # The test pins this order: can_heal, target_invalid,
     # validate_target, find_enemy.target, find_target.target.
-    by_slice['N2270'] = [
+    by_slice['N2316'] = [
         'source_turret_can_heal_state_result.can_heal',
         'source_turret_invalidate_target_state_result.target_invalid',
         'source_turret_validate_target_state_result.validate_target',
         'source_turret_find_enemy_state_result.target',
         'source_turret_find_target_state_result.target',
     ]
-    source_symbols.upsert_source_slice(GODOT, 'N2270', dict(status='done', java_source=TURRET, java_class='mindustry.world.blocks.defense.turrets.Turret.TurretBuild', java_method='TurretBuild.findTarget(); TurretBuild.findEnemy(float); TurretBuild.validateTarget(); TurretBuild.canHeal()', godot_owner=FIND_TARGET_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2270'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
+    source_symbols.upsert_source_slice(GODOT, 'N2316', dict(status='done', java_source=TURRET, java_class='mindustry.world.blocks.defense.turrets.Turret.TurretBuild', java_method='TurretBuild.findTarget(); TurretBuild.findEnemy(float); TurretBuild.validateTarget(); TurretBuild.canHeal()', godot_owner=FIND_TARGET_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2316'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
 
     source_symbols.upsert_source_symbols(GODOT, symbols)
     source_symbols.write_source_symbol_audit_report(GODOT)

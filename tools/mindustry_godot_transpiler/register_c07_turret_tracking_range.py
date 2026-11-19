@@ -16,7 +16,7 @@ BulletType.java:157, `public float rangeChange = 0f;`,
 default 0f. init() clamps the field (Turret.java:217,
 `trackingRange = Math.max(range, trackingRange);`), so
 after init trackingRange() >= range(). The range() result
-arrives as an explicit param (the N2270 precedent):
+arrives as an explicit param (the N2316 precedent):
 range() itself is not a live SourceTurretBuildState row
 (the old N739/N740 rows live in PortGame) and reads
 peekAmmo(), which the tick frame does not track. No
@@ -32,7 +32,7 @@ import sys
 from pathlib import Path
 
 from mindustry_port import source_ssot, source_symbols
-from register_c07_turret_find_target import DEFERRED as N2270_DEFERRED
+from register_c07_turret_find_target import DEFERRED as N2316_DEFERRED
 from register_liquid_consumer_hydration import backed
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -67,15 +67,15 @@ EXACT_EXPRS = [
     'public class BaseTurret extends Block{',
 ]
 
-# DEFERRED is carried from the N2270 register script via import --
+# DEFERRED is carried from the N2316 register script via import --
 # never retyped. This slice closes the trackingRange part of the
-# N2270 follow-up entry (trackingRange is now ported; range()
+# N2316 follow-up entry (trackingRange is now ported; range()
 # stays an explicit value and hasAmmo()/peekAmmo() stay their
 # own slices), so that entry is replaced by a corrected one.
 # One entry is added: the N2273 Windows Godot proof debt
 # (GOAL.md section 5).
-DEFERRED = [e for e in N2270_DEFERRED if 'trackingRange() (Turret.java:349-351)' not in e] + [
-    'Port TurretBuild.range() (Turret.java:342-345, N740) as an explicit value; N2273 ports trackingRange() and takes the range() result as an explicit float, same as N2270. Port TurretBuild.hasAmmo() (Turret.java:698-712, ammo-swap side effect) and peekAmmo() (Turret.java:693-695) as their own slices; N2270/N2273 take no ammo flags.',
+DEFERRED = [e for e in N2316_DEFERRED if 'trackingRange() (Turret.java:349-351)' not in e] + [
+    'Port TurretBuild.range() (Turret.java:342-345, N740) as an explicit value; N2273 ports trackingRange() and takes the range() result as an explicit float, same as N2316. Port TurretBuild.hasAmmo() (Turret.java:698-712, ammo-swap side effect) and peekAmmo() (Turret.java:693-695) as their own slices; N2316/N2273 take no ammo flags.',
     'Turret trackingRange() Windows Godot proof -- debt in GOAL.md section 5, same as N2148/N2227: the N2273 proof runs headless on Linux here and waits for a Windows Godot run.',
 ]
 

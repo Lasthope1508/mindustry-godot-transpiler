@@ -14,7 +14,7 @@ class C07TurretFindTargetTests(unittest.TestCase):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        self.assertEqual(ledger['N2270']['godot_owner'], 'SourceTurretBuildState.source_turret_find_target_state')
+        self.assertEqual(ledger['N2316']['godot_owner'], 'SourceTurretBuildState.source_turret_find_target_state')
         # TurretBuild.findTarget() / findEnemy() /
         # validateTarget() / canHeal() (Turret.java:631-663):
         # `protected boolean validateTarget(){` /
@@ -66,7 +66,7 @@ class C07TurretFindTargetTests(unittest.TestCase):
         # item: findTarget was never a deferred entry of
         # the Turret chain.
         self.assertEqual(
-            ledger['N2270']['source_symbols'],
+            ledger['N2316']['source_symbols'],
             [
                 'source_turret_can_heal_state_result.can_heal',
                 'source_turret_invalidate_target_state_result.target_invalid',
@@ -75,7 +75,7 @@ class C07TurretFindTargetTests(unittest.TestCase):
                 'source_turret_find_target_state_result.target',
             ],
         )
-        for name in ledger['N2270']['source_symbols']:
+        for name in ledger['N2316']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_source'], {
@@ -87,9 +87,9 @@ class C07TurretFindTargetTests(unittest.TestCase):
                     'arc-core/src/arc/math/Mathf.java',
                 })
                 self.assertEqual(symbol['godot_owner'], 'SourceTurretBuildState.' + name.rsplit('_result.', 1)[0])
-        self.assertEqual(ledger['N2270']['runtime_proof'], '/root/C07TurretFindTargetProof')
+        self.assertEqual(ledger['N2316']['runtime_proof'], '/root/C07TurretFindTargetProof')
         self.assertEqual(
-            ledger['N2270']['tests'],
+            ledger['N2316']['tests'],
             [
                 'test_c07_turret_find_target_registration',
                 'test_all_c07_turret_find_target_input_evidence_is_exact',
@@ -97,17 +97,17 @@ class C07TurretFindTargetTests(unittest.TestCase):
                 'test_reference_graph_and_actual_c07_turret_find_target',
             ],
         )
-        self.assertTrue(ledger['N2270']['deferred_exprs'])
+        self.assertTrue(ledger['N2316']['deferred_exprs'])
         self.assertIn(
             'Turret findTarget() Windows Godot proof',
-            ' '.join(ledger['N2270']['deferred_exprs']),
+            ' '.join(ledger['N2316']['deferred_exprs']),
         )
 
     def test_all_c07_turret_find_target_input_evidence_is_exact(self):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        for name in ledger['N2270']['source_symbols']:
+        for name in ledger['N2316']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 upstream_root = ROOT / 'arc-upstream' if symbol['java_source'].startswith('arc-core/') else ROOT / 'mindustry-upstream'
@@ -125,7 +125,7 @@ class C07TurretFindTargetTests(unittest.TestCase):
         for source in slice_sources:
             upstream_root = ROOT / 'arc-upstream' if source.startswith('arc-core/') else ROOT / 'mindustry-upstream'
             upstream[source] = (upstream_root / source).read_text(encoding='utf-8')
-        for expr in ledger['N2270']['exact_exprs']:
+        for expr in ledger['N2316']['exact_exprs']:
             with self.subTest(expr=expr):
                 self.assertTrue(any(expr in text for text in upstream.values()), expr)
 

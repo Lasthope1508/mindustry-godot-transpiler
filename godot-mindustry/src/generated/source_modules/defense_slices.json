@@ -3230,27 +3230,6 @@
       ],
       "runtime_proof": "/root/C07PointDefenseTurretLiveBulletsWiringProof"
     },
-    "N2270": {
-      "canonical_ledger": "source_slice_ledger.N2270",
-      "status": "done",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-      "java_method": "TurretBuild.findTarget(); TurretBuild.findEnemy(float); TurretBuild.validateTarget(); TurretBuild.canHeal()",
-      "godot_owner": "SourceTurretBuildState.source_turret_find_target_state",
-      "source_symbols": [
-        "source_turret_can_heal_state_result.can_heal",
-        "source_turret_invalidate_target_state_result.target_invalid",
-        "source_turret_validate_target_state_result.validate_target",
-        "source_turret_find_enemy_state_result.target",
-        "source_turret_find_target_state_result.target"
-      ],
-      "tests": [
-        "test_c07_turret_find_target_registration",
-        "test_all_c07_turret_find_target_input_evidence_is_exact",
-        "test_turret_find_target_state",
-        "test_reference_graph_and_actual_c07_turret_find_target"
-      ],
-      "runtime_proof": "/root/C07TurretFindTargetProof"
-    },
     "N2272": {
       "canonical_ledger": "source_slice_ledger.N2272",
       "status": "done",
@@ -3667,6 +3646,27 @@
         "test_reference_graph_and_actual_c07_turret_has_ammo"
       ],
       "runtime_proof": "/root/C07TurretHasAmmoProof"
+    },
+    "N2316": {
+      "canonical_ledger": "source_slice_ledger.N2316",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.findTarget(); TurretBuild.findEnemy(float); TurretBuild.validateTarget(); TurretBuild.canHeal()",
+      "godot_owner": "SourceTurretBuildState.source_turret_find_target_state",
+      "source_symbols": [
+        "source_turret_can_heal_state_result.can_heal",
+        "source_turret_invalidate_target_state_result.target_invalid",
+        "source_turret_validate_target_state_result.validate_target",
+        "source_turret_find_enemy_state_result.target",
+        "source_turret_find_target_state_result.target"
+      ],
+      "tests": [
+        "test_c07_turret_find_target_registration",
+        "test_all_c07_turret_find_target_input_evidence_is_exact",
+        "test_turret_find_target_state",
+        "test_reference_graph_and_actual_c07_turret_find_target"
+      ],
+      "runtime_proof": "/root/C07TurretFindTargetProof"
     },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",

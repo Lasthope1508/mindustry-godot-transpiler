@@ -31,7 +31,7 @@ class C07TurretTrackingRangeTests(unittest.TestCase):
         # `trackingRange = Math.max(range, trackingRange);`),
         # so after init trackingRange() >= range(). The
         # range() result arrives as an explicit param
-        # (the N2270 precedent): range() itself is not a
+        # (the N2316 precedent): range() itself is not a
         # live SourceTurretBuildState row (the old N739/N740
         # rows live in PortGame). No driver line:
         # trackingRange() is a load-time accessor findTarget
@@ -39,7 +39,7 @@ class C07TurretTrackingRangeTests(unittest.TestCase):
         # trackingRange(), range = range();`), not a per-tick
         # write (the N2311/N2249 accessor precedent). One
         # new result symbol: tracking_range. This slice
-        # closes the trackingRange part of the N2270
+        # closes the trackingRange part of the N2316
         # deferred follow-up (range() stays an explicit
         # value, hasAmmo()/peekAmmo() stay their own
         # slices).

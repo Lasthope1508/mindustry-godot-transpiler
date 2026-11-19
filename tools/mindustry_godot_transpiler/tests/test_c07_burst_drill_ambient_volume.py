@@ -22,7 +22,7 @@ class C07BurstDrillAmbientVolumeTests(unittest.TestCase):
         # (Drill.java:257-259, `return efficiency * (size *
         # size) / 4f;`), NOT ported: the caller passes the
         # already-computed super result as an explicit param
-        # (the N2270 explicit-param precedent). progress()
+        # (the N2316 explicit-param precedent). progress()
         # is DrillBuild.progress (Drill.java:327-329, `return
         # dominantItem == null ? 0f : Mathf.clamp(progress /
         # getDrillTime(dominantItem));`), also NOT ported for
@@ -94,7 +94,7 @@ class C07BurstDrillAmbientVolumeTests(unittest.TestCase):
         # (:124). The super is DrillBuild.ambientVolume
         # (Drill.java:257-259, `return efficiency * (size *
         # size) / 4f;`), NOT this slice: the caller passes
-        # the super result explicitly (the N2270 precedent).
+        # the super result explicitly (the N2316 precedent).
         # progress() is DrillBuild.progress
         # (Drill.java:327-329, `return dominantItem == null
         # ? 0f : Mathf.clamp(progress /

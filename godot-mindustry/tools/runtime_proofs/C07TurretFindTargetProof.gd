@@ -19,7 +19,7 @@ func _ready() -> void:
 	game.set_process(false)
 	game.set_physics_process(false)
 
-	# --- TurretBuild.findTarget() / findEnemy() / validateTarget() / canHeal() (N2270):
+	# --- TurretBuild.findTarget() / findEnemy() / validateTarget() / canHeal() (N2316):
 	# TurretBuild.findTarget() / findEnemy() / validateTarget() /
 	# canHeal() (Turret.java:631-663): validateTarget returns
 	# `!Units.invalidateTarget(target, canHeal() ? Team.derelict :

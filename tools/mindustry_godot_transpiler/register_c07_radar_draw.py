@@ -7,7 +7,7 @@ the region rotated by rotateSpeed * totalProgress
 glowColor.a * (1f - glowMag + Mathf.absin(glowScl,
 glowMag)) at the same rotation (Radar.java:89). Two pure
 functions on the same family file, one ledger entry (the
-N2270 multi-function precedent): the dish rotation and the
+N2316 multi-function precedent): the dish rotation and the
 glow alpha. The base rect has no computed value -- it is a
 static draw call, render-only, so no pure function pins it.
 Mathf.absin(glowScl, glowMag) is time-dependent, so the
@@ -17,7 +17,7 @@ draw() is a render call, not tick state (the accessor
 precedent N2311/N2275).
 
 RED decisions (resolved at RED): (1) Two pure functions on
-the same family file N2274/N2275 built, following the N2270
+the same family file N2274/N2275 built, following the N2316
 multi-function precedent: rotation reads total_progress
 from the frame + rotate_speed as an explicit per-def param;
 glow takes glow_color_alpha + glow_mag + absin_value as
