@@ -399,6 +399,8 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
     Scene tới Windows theo slice commit `6e5acc29`. Chưa chạy trên Windows Godot.
   - [ ] N2261 `C07TurretLogicControlTimeProof` — Linux GREEN ~13:5x (8 key).
     Scene tới Windows theo slice commit `4cebe133`. Chưa chạy trên Windows Godot.
+  - [ ] N2262 `C07TurretRotateSyncProof` — Linux GREEN ~14:3x (9 key).
+    Scene tới Windows theo slice commit `f97d8dc0`. Chưa chạy trên Windows Godot.
   - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
     trên (ghi rõ commit đưa scene tới Windows).
   - [ ] Agent khác đang test các lỗi fail trên Windows Godot (PR #1 đã merge
