@@ -5,7 +5,7 @@ Ngày: 2026-11-20 ~04:00 +07 (GREEN), gate xong 04:41 +07, push lượt cron 04:
 ## Trạng thái
 
 - N2273 DONE + PUSHED (origin/main 34c947c6). Không có gì thay đổi về N2273.
-- N2274 DONE + PUSHED (slice TBD, docs TBD, GOAL TBD, status TBD): Turret unit world position — nửa còn lại của `BlockUnitComp.tile()` mà N2260 đã defer ("Unit world position from set(tile)"). Gate xác minh độc lập từ log: Ran 6189, failures=224, skipped=5 — toàn Godot-absent (223 × `assertIsNotNone(godot)` + 1 hydration proof cùng nguyên nhân, 0 KeyError, 0 `return_schema_linkage`, 0 ERROR).
+- N2274 DONE + PUSHED (slice 40e856d7, docs 57a3e659, GOAL e5e9c750, status TBD): Turret unit world position — nửa còn lại của `BlockUnitComp.tile()` mà N2260 đã defer ("Unit world position from set(tile)"). Gate xác minh độc lập từ log: Ran 6189, failures=224, skipped=5 — toàn Godot-absent (223 × `assertIsNotNone(godot)` + 1 hydration proof cùng nguyên nhân, 0 KeyError, 0 `return_schema_linkage`, 0 ERROR).
 
 ## Làm được lượt này (GREEN)
 
