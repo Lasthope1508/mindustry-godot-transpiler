@@ -1,5 +1,6 @@
 extends Node
 
+const block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
 const main_scene := preload("res://scenes/Main.tscn")
 const unit_factory_build_state := preload("res://src/game/SourceUnitFactoryBuildState.gd")
 const unit_assembler_module_build_state := preload("res://src/game/SourceUnitAssemblerModuleBuildState.gd")
@@ -118,6 +119,8 @@ func _ready() -> void:
 	var mech_assembler := Sprite2D.new()
 	game.add_child(mech_assembler)
 	game.call("record_placed_block", mech_assembler, blocks_by_id["mech-assembler"], mech_cell)
+	# Out-of-world fixture placement uses legacy initialization: set its intended sharded team explicitly.
+	mech_assembler.set_meta(block_geometry.SOURCE_BUILD_TEAM_META_KEY, 1)
 	unit_factory_build_state.source_unit_factory_bind_frame_state(mech_assembler, blocks_by_id["mech-assembler"])
 
 	# The enemy assembler is placed on team 2 (the
@@ -196,6 +199,8 @@ func _ready() -> void:
 	var third_assembler := Sprite2D.new()
 	game.add_child(third_assembler)
 	game.call("record_placed_block", third_assembler, blocks_by_id["ship-assembler"], third_cell)
+	# Out-of-world fixture placement uses legacy initialization: set its intended sharded team explicitly.
+	third_assembler.set_meta(block_geometry.SOURCE_BUILD_TEAM_META_KEY, 1)
 	unit_factory_build_state.source_unit_factory_bind_frame_state(third_assembler, blocks_by_id["ship-assembler"])
 	unit_assembler_module_build_state.source_unit_assembler_module_tick_buildings_state(game, 1.0 / 60.0)
 	fit_frame = fit_module.get_meta(unit_assembler_module_build_state.SOURCE_UNIT_ASSEMBLER_MODULE_BUILDING_META_KEY, {})

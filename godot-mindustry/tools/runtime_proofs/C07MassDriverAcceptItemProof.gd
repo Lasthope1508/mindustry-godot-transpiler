@@ -103,13 +103,13 @@ func _ready() -> void:
 	# simulate_factory, so the graph update does not overwrite
 	# the stamped power_status; the write-back itself is already
 	# proven by N2142). Driver A at (28, 21) links to driver B
-	# at (30, 21): 2 cells apart is 16 world units, well inside
+	# at (32, 21): 4 cells apart is 32 world units, well inside
 	# the 440 range, same block, same team -- so A's frame
 	# stamps accepts_item true on the first tick (empty store),
 	# while unlinked B stamps false. Filling A's store to
 	# exactly 120 and ticking again stamps false: the capacity
 	# term fails even though the link still holds. The link is
-	# stamped on A's frame directly (Point2.pack(30, 21) -- the
+	# stamped on A's frame directly (Point2.pack(32, 21) -- the
 	# port has no config UI, so the link is a frame key). NO
 	# power on either driver: acceptItem has no efficiency term,
 	# so the verdicts do not depend on power.
@@ -118,7 +118,8 @@ func _ready() -> void:
 	for registered_block in catalog.get_many("block"):
 		blocks_by_id[registered_block.id] = registered_block
 	var driver_a_cell := Vector2i(28, 21)
-	var driver_b_cell := Vector2i(30, 21)
+	# Size-3 footprints must not overlap: placement otherwise removes driver A.
+	var driver_b_cell := Vector2i(32, 21)
 	var driver_a := Sprite2D.new()
 	var driver_b := Sprite2D.new()
 	game.add_child(driver_a)
@@ -133,7 +134,7 @@ func _ready() -> void:
 	mass_driver_build_state.source_mass_driver_bind_frame_state(driver_b, blocks_by_id["mass-driver"])
 	var driver_a_frame: Dictionary = driver_a.get_meta(mass_driver_build_state.SOURCE_MASS_DRIVER_BUILDING_META_KEY, {})
 	var driver_b_frame: Dictionary = driver_b.get_meta(mass_driver_build_state.SOURCE_MASS_DRIVER_BUILDING_META_KEY, {})
-	driver_a_frame["link"] = (30 << 16) | 21
+	driver_a_frame["link"] = (32 << 16) | 21
 	driver_a_frame["power_status"] = 0.0
 	driver_b_frame["power_status"] = 0.0
 	mass_driver_build_state.source_mass_driver_tick_buildings_state(game, 1.0 / 60.0)

@@ -1,5 +1,8 @@
 extends Node
 
+const content_registry_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
+const placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
+const liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
 const main_scene := preload("res://scenes/Main.tscn")
 const wall_crafter_build_state := preload("res://src/game/SourceWallCrafterBuildState.gd")
 const registry := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
@@ -63,6 +66,7 @@ func _ready() -> void:
 	# capacity, where the cliff-crusher's 10 would already be
 	# full -- the per-def capacity comes from the catalog.
 	var catalog = game.get("content_catalog")
+	var liquid_catalog: Dictionary = content_registry_state.source_liquid_catalog_state(catalog)
 	var blocks_by_id: Dictionary = {}
 	for registered_block in catalog.get_many("block"):
 		blocks_by_id[registered_block.id] = registered_block
@@ -91,6 +95,8 @@ func _ready() -> void:
 	game.call("record_placed_block", crusher_c, blocks_by_id["large-cliff-crusher"], crusher_c_cell)
 	wall_crafter_build_state.source_wall_crafter_bind_frame_state(crusher_c, blocks_by_id["large-cliff-crusher"])
 	var crusher_c_frame: Dictionary = crusher_c.get_meta(wall_crafter_build_state.SOURCE_WALL_CRAFTER_BUILDING_META_KEY, {})
+	# Large-cliff-crusher requires hydrogen (Blocks.java:3028); isolate capacity.
+	liquid_module_state.source_set_state(crusher_c.get_meta(placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY), int(liquid_catalog["liquid_id_by_name"]["hydrogen"]), 1.0)
 
 	crusher_a_frame["items"] = {}
 	crusher_a_frame["power_status"] = 0.5

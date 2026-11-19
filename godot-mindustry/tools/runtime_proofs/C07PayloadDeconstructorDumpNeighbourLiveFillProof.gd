@@ -81,7 +81,8 @@ func _ready() -> void:
 	melter_frame["items"] = {}
 	var press := Sprite2D.new()
 	game.add_child(press)
-	game.call("record_placed_block", press, blocks_by_id["multi-press"], press_cell)
+	# The ring variable denotes the contact; move the size-3 origin outside the source footprint.
+	game.call("record_placed_block", press, blocks_by_id["multi-press"], press_cell + Vector2i(0, -1))
 	factory_build_state.source_factory_bind_frame_state(press, blocks_by_id["multi-press"])
 	var press_frame: Dictionary = press.get_meta(factory_build_state.SOURCE_FACTORY_BUILDING_META_KEY, {})
 	press_frame["items"] = {}

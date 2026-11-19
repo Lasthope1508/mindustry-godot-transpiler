@@ -103,7 +103,8 @@ func _ready() -> void:
 	var shield_cell := Vector2i(28, 20)
 	var shield := Sprite2D.new()
 	game.add_child(shield)
-	game.call("record_placed_block", shield, blocks_by_id["shield-projector"], shield_cell)
+	# This scenario uses derelict (0) as own team; placement defaults to sharded (1).
+	game.call("record_placed_block", shield, blocks_by_id["shield-projector"], shield_cell, 0)
 	# Bind the frame explicitly (the N2149 pattern: the driver
 	# binds it on its first tick, but the proof needs the live
 	# frame dict before the tick to stamp power_status, seed

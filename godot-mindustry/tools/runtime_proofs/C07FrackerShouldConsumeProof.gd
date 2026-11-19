@@ -111,6 +111,8 @@ func _ready() -> void:
 	# frame dict before the tick to stamp power_status on it).
 	fracker_build_state.source_fracker_bind_frame_state(extractor_a, blocks_by_id["oil-extractor"])
 	var extractor_a_frame: Dictionary = extractor_a.get_meta(fracker_build_state.SOURCE_FRACKER_BUILDING_META_KEY, {})
+	# Supply the later required water consumer so this fixture isolates the gate/power fold.
+	liquid_module_state.source_set_state(extractor_a.get_meta(placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY), int(liquid_catalog["liquid_id_by_name"]["water"]), 1.0)
 
 	var extractor_b_cell := Vector2i(20, 10)
 	var extractor_b := Sprite2D.new()

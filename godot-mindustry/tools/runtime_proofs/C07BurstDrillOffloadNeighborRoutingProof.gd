@@ -1,5 +1,8 @@
 extends Node
 
+const content_registry_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
+const placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
+const liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
 const main_scene := preload("res://scenes/Main.tscn")
 const burst_drill_build_state := preload("res://src/game/SourceBurstDrillBuildState.gd")
 const factory_build_state := preload("res://src/game/SourceFactoryBuildState.gd")
@@ -145,6 +148,7 @@ func _ready() -> void:
 	# helper, the drill store stays at 5 copper,
 	# progress wraps to 0.5 and invertTime sets.
 	var catalog = game.get("content_catalog")
+	var liquid_catalog: Dictionary = content_registry_state.source_liquid_catalog_state(catalog)
 	var blocks_by_id: Dictionary = {}
 	for registered_block in catalog.get_many("block"):
 		blocks_by_id[registered_block.id] = registered_block
@@ -160,6 +164,10 @@ func _ready() -> void:
 	game.call("record_placed_block", eruption, blocks_by_id["eruption-drill"], drill_cell)
 	drill_build_state.source_on_proximity_update_state(game, eruption, blocks_by_id["eruption-drill"])
 	var eruption_frame: Dictionary = eruption.get_meta(burst_drill_build_state.SOURCE_BURST_DRILL_BUILDING_META_KEY, {})
+	# Supply the required hydrogen (Blocks.java:3119) for the live offload scenario.
+	liquid_module_state.source_set_state(eruption.get_meta(placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY), int(liquid_catalog["liquid_id_by_name"]["hydrogen"]), 1.0)
+	# This scenario expects boosted speed 0.75 at half power: cyanogen booster (Blocks.java:3120).
+	liquid_module_state.source_set_state(eruption.get_meta(placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY), int(liquid_catalog["liquid_id_by_name"]["cyanogen"]), 1.0)
 	var melter := Sprite2D.new()
 	game.add_child(melter)
 	game.call("record_placed_block", melter, blocks_by_id["melter"], melter_cell)
@@ -168,7 +176,8 @@ func _ready() -> void:
 	melter_frame["items"] = {}
 	var surge := Sprite2D.new()
 	game.add_child(surge)
-	game.call("record_placed_block", surge, blocks_by_id["surge-smelter"], surge_cell)
+	# Keep the contact cell on the ring while placing a non-overlapping neighbour footprint.
+	game.call("record_placed_block", surge, blocks_by_id["surge-smelter"], surge_cell + Vector2i(1, 1))
 	factory_build_state.source_factory_bind_frame_state(surge, blocks_by_id["surge-smelter"])
 	var surge_frame: Dictionary = surge.get_meta(factory_build_state.SOURCE_FACTORY_BUILDING_META_KEY, {})
 	surge_frame["items"] = {}

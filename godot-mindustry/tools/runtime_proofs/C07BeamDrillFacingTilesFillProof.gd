@@ -63,17 +63,19 @@ func _ready() -> void:
 	var large: Dictionary = beam_drill_build_state.source_beam_drill_facing_tiles_fill_state([{"x": 12, "y": 9}, {"x": 12, "y": 10}, {"x": 12, "y": 11}], {"14,10": {"solid": true, "wall_drop": copper}}, 3, 6, 0)
 	proof["walks_rays_from_laser_origins"] = _rays_equal(east.get("facing_tiles", []), [[null, null, {"solid": true, "wall_drop": copper}, null, null], [null, {"solid": true, "wall_drop": thorium}, null, null, null]]) and _rays_equal(large.get("facing_tiles", []), [[null, null, null, null, null, null], [null, null, {"solid": true, "wall_drop": copper}, null, null, null], [null, null, null, null, null, null]])
 
-	# Rotation changes the ray direction: the same
-	# origins walked north (rotation 1, dy +1) reach
+	# Rotation changes the ray direction: the first
+	# origin walked north (rotation 1, dy +1) reaches
 	# (30, 22) at ray 0 index 2; walked west (rotation
 	# 2, dx -1) reach (28, 20) at ray 0 index 2; walked
 	# south (rotation 3, dy -1) reach (30, 18) at ray 0
 	# index 2. Rotation 4 normalizes to rotation 0
 	# (Java's Mathf.mod(i, 4) -- the pure uses posmod),
 	# so it walks east again and reaches (32, 20).
-	var north: Dictionary = beam_drill_build_state.source_beam_drill_facing_tiles_fill_state([{"x": 30, "y": 20}, {"x": 30, "y": 21}], {"30,22": {"solid": true, "wall_drop": copper}}, 2, 5, 1)
+	# Vertical cases use distinct x coordinates so the second ray cannot hit
+	# the first ray's control tile; direction assertions remain unchanged.
+	var north: Dictionary = beam_drill_build_state.source_beam_drill_facing_tiles_fill_state([{"x": 30, "y": 20}, {"x": 31, "y": 21}], {"30,22": {"solid": true, "wall_drop": copper}}, 2, 5, 1)
 	var west: Dictionary = beam_drill_build_state.source_beam_drill_facing_tiles_fill_state([{"x": 30, "y": 20}, {"x": 30, "y": 21}], {"28,20": {"solid": true, "wall_drop": lead}}, 2, 5, 2)
-	var south: Dictionary = beam_drill_build_state.source_beam_drill_facing_tiles_fill_state([{"x": 30, "y": 20}, {"x": 30, "y": 21}], {"30,18": {"solid": true, "wall_drop": copper}}, 2, 5, 3)
+	var south: Dictionary = beam_drill_build_state.source_beam_drill_facing_tiles_fill_state([{"x": 30, "y": 20}, {"x": 31, "y": 21}], {"30,18": {"solid": true, "wall_drop": copper}}, 2, 5, 3)
 	var wrapped: Dictionary = beam_drill_build_state.source_beam_drill_facing_tiles_fill_state([{"x": 30, "y": 20}, {"x": 30, "y": 21}], {"32,20": {"solid": true, "wall_drop": copper}}, 2, 5, 4)
 	proof["rotation_changes_ray_direction"] = _rays_equal(north.get("facing_tiles", []), [[null, null, {"solid": true, "wall_drop": copper}, null, null], [null, null, null, null, null]]) and _rays_equal(west.get("facing_tiles", []), [[null, null, {"solid": true, "wall_drop": lead}, null, null], [null, null, null, null, null]]) and _rays_equal(south.get("facing_tiles", []), [[null, null, {"solid": true, "wall_drop": copper}, null, null], [null, null, null, null, null]]) and _rays_equal(wrapped.get("facing_tiles", []), [[null, null, {"solid": true, "wall_drop": copper}, null, null], [null, null, null, null, null]])
 

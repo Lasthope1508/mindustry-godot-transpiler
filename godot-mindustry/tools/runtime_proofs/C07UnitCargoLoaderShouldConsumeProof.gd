@@ -1,5 +1,8 @@
 extends Node
 
+const content_registry_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
+const placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
+const liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
 const main_scene := preload("res://scenes/Main.tscn")
 const unit_cargo_loader_build_state := preload("res://src/game/SourceUnitCargoLoaderBuildState.gd")
 const registry := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
@@ -62,6 +65,7 @@ func _ready() -> void:
 	# when the gate is false updateConsumption forces
 	# efficiency to zero (BuildingComp.java:1960 + 1992).
 	var catalog = game.get("content_catalog")
+	var liquid_catalog: Dictionary = content_registry_state.source_liquid_catalog_state(catalog)
 	var blocks_by_id: Dictionary = {}
 	for registered_block in catalog.get_many("block"):
 		blocks_by_id[registered_block.id] = registered_block
@@ -76,6 +80,8 @@ func _ready() -> void:
 	# the unit on it).
 	unit_cargo_loader_build_state.source_unit_cargo_loader_bind_frame_state(unit_cargo_loader, blocks_by_id["unit-cargo-loader"])
 	var unit_cargo_loader_frame: Dictionary = unit_cargo_loader.get_meta(unit_cargo_loader_build_state.SOURCE_UNIT_CARGO_LOADER_BUILDING_META_KEY, {})
+	# Supply the later required nitrogen consumer so this fixture isolates the gate/power fold.
+	liquid_module_state.source_set_state(unit_cargo_loader.get_meta(placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY), int(liquid_catalog["liquid_id_by_name"]["nitrogen"]), 1.0)
 
 	# A freshly bound frame carries the unit key defaulting to
 	# null (the Java field is nullable) -- no unit yet, so the

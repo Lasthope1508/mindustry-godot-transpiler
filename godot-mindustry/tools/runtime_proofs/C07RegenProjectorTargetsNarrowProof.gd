@@ -161,6 +161,12 @@ func _ready() -> void:
 	for registered_block in catalog.get_many("block"):
 		blocks_by_id[registered_block.id] = registered_block
 
+	# Source-backed fixture health instead of the extracted -1 sentinel.
+	# Copper-wall: Blocks.java:1708, 80 * wallHealthMultiplier (4).
+	blocks_by_id["copper-wall"].properties["health"] = 320
+	# Graphite-press: size 2, copper/lead healthScaling 0; Block.init: 2 * 2 * 40.
+	blocks_by_id["graphite-press"].properties["health"] = 160
+
 	var regen_cell := Vector2i(28, 20)
 	var regen := Sprite2D.new()
 	game.add_child(regen)

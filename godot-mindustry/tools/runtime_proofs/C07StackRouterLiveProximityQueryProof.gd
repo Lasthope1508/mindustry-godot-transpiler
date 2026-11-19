@@ -188,6 +188,8 @@ func _ready() -> void:
 	seeded_frame["items"] = {}
 	seeded_frame["power_status"] = 0.5
 	seeded_frame["proximity_neighbours"] = [{"id": "seed-a", "rel": 0, "team": 1, "accepts_item": true}, {"id": "seed-b", "rel": 1, "team": 1, "accepts_item": true}]
+	# This caller-supplied list is not a live-generated list.
+	seeded_frame["proximity_neighbours_live"] = false
 	seeded_frame["world_tiles"] = {
 		"29,24": {"solid": true, "wall_drop": ""},
 		"28,25": {"solid": true, "wall_drop": ""},

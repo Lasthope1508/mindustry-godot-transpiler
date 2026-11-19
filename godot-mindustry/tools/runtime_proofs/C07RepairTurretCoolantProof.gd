@@ -159,6 +159,9 @@ func _ready() -> void:
 	# frame dict before the tick to stamp power_status on it).
 	repair_turret_build_state.source_repair_turret_bind_frame_state(turret_a, blocks_by_id["repair-turret"])
 	var turret_a_frame: Dictionary = turret_a.get_meta(repair_turret_build_state.SOURCE_REPAIR_TURRET_BUILDING_META_KEY, {})
+	# RepairTurret.init sets hasLiquids for acceptCoolant (Java:84-86);
+	# initialize that source-backed fixture module before supplying coolant.
+	placed_block_state.source_initialize_building_liquids_state(turret_a, true, catalog)
 	var turret_a_liquids: Dictionary = turret_a.get_meta(placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, {})
 	liquid_module_state.source_set_state(turret_a_liquids, water_id, 0.08)
 
@@ -168,6 +171,9 @@ func _ready() -> void:
 	game.call("record_placed_block", turret_b, blocks_by_id["repair-turret"], turret_b_cell)
 	repair_turret_build_state.source_repair_turret_bind_frame_state(turret_b, blocks_by_id["repair-turret"])
 	var turret_b_frame: Dictionary = turret_b.get_meta(repair_turret_build_state.SOURCE_REPAIR_TURRET_BUILDING_META_KEY, {})
+	# RepairTurret.init sets hasLiquids for acceptCoolant (Java:84-86);
+	# initialize that source-backed fixture module before supplying coolant.
+	placed_block_state.source_initialize_building_liquids_state(turret_b, true, catalog)
 	var turret_b_liquids: Dictionary = turret_b.get_meta(placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, {})
 	liquid_module_state.source_set_state(turret_b_liquids, water_id, 0.32)
 

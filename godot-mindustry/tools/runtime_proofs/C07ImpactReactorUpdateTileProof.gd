@@ -1,5 +1,8 @@
 extends Node
 
+const content_registry_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
+const placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
+const liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd")
 const main_scene := preload("res://scenes/Main.tscn")
 const impact_reactor_build_state := preload("res://src/game/SourceImpactReactorBuildState.gd")
 const registry := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
@@ -89,6 +92,7 @@ func _ready() -> void:
 	# 0.001, totalProgress from 0 to 0.001, and
 	# productionEfficiency to pow(0.001, 5).
 	var catalog = game.get("content_catalog")
+	var liquid_catalog: Dictionary = content_registry_state.source_liquid_catalog_state(catalog)
 	var blocks_by_id: Dictionary = {}
 	for registered_block in catalog.get_many("block"):
 		blocks_by_id[registered_block.id] = registered_block
@@ -102,6 +106,8 @@ func _ready() -> void:
 	# frame dict before the tick to stamp power_status on it).
 	impact_reactor_build_state.source_impact_reactor_bind_frame_state(impact_reactor, blocks_by_id["impact-reactor"])
 	var impact_reactor_frame: Dictionary = impact_reactor.get_meta(impact_reactor_build_state.SOURCE_IMPACT_REACTOR_BUILDING_META_KEY, {})
+	# Supply the later required cryofluid consumer; preserve the original power/progress expectations.
+	liquid_module_state.source_set_state(impact_reactor.get_meta(placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY), int(liquid_catalog["liquid_id_by_name"]["cryofluid"]), 1.0)
 
 	# N2266: the required blast-compound row folds 0.0 on an
 	# empty frame, so seed 1 blast-compound before ticking.

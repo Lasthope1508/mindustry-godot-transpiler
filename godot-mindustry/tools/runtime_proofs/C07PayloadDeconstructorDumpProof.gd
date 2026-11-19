@@ -159,6 +159,8 @@ func _ready() -> void:
 	payload_deconstructor_build_state.source_payload_deconstructor_bind_frame_state(payload_deconstructor, blocks_by_id["deconstructor"])
 	var payload_deconstructor_frame: Dictionary = payload_deconstructor.get_meta(payload_deconstructor_build_state.SOURCE_PAYLOAD_DECONSTRUCTOR_BUILDING_META_KEY, {})
 
+	# Keep the later shouldConsume gate open, as in the existing gate proof.
+	payload_deconstructor_frame["deconstructing"] = {"block": "conveyor"}
 	payload_deconstructor_frame["items"] = {"copper": 5}
 	payload_deconstructor_frame["dump_accum"] = 0.9
 	payload_deconstructor_frame["dump_neighbour_accepts"] = [true]

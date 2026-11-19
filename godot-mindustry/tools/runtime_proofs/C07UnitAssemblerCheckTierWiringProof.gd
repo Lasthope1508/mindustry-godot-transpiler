@@ -70,7 +70,8 @@ func _ready() -> void:
 	fake_game.sprites[fake_turret_cell] = fake_turret_sprite
 
 	var helper_add: Dictionary = unit_factory_build_state.source_unit_factory_modules_event_for_cell_state(fake_game, fake_assembler_cell, 1, "add")
-	var helper_frame_after_add: Dictionary = fake_assembler_sprite.get_meta(unit_factory_build_state.SOURCE_UNIT_FACTORY_BUILDING_META_KEY, {})
+	# Preserve the add observation before remove mutates the same live frame.
+	var helper_frame_after_add: Dictionary = fake_assembler_sprite.get_meta(unit_factory_build_state.SOURCE_UNIT_FACTORY_BUILDING_META_KEY, {}).duplicate(true)
 	var helper_remove: Dictionary = unit_factory_build_state.source_unit_factory_modules_event_for_cell_state(fake_game, fake_assembler_cell, 1, "remove")
 	var helper_frame_after_remove: Dictionary = fake_assembler_sprite.get_meta(unit_factory_build_state.SOURCE_UNIT_FACTORY_BUILDING_META_KEY, {})
 	proof["helper_add_writes_frame"] = bool(helper_add.get("applied", false)) and str(helper_add.get("reason", "")) == "live_frame" and Array(helper_frame_after_add.get("modules", [])) == [1] and int(helper_frame_after_add.get("current_tier", -1)) == 1 and bool(helper_remove.get("applied", false)) and Array(helper_frame_after_remove.get("modules", [])) == [] and int(helper_frame_after_remove.get("current_tier", -1)) == 0

@@ -154,6 +154,8 @@ func _ready() -> void:
 	stack_router_frame["cdump"] = 0
 	stack_router_frame["sort_item"] = null
 	stack_router_frame["proximity_neighbours"] = [{"id": "a", "rel": 0, "team": live_team, "accepts_item": true}, {"id": "b", "rel": 1, "team": live_team, "accepts_item": true}]
+	# This caller-supplied fixture list must not be refreshed by the live fill.
+	stack_router_frame["proximity_neighbours_live"] = false
 	stack_router_build_state.source_stack_router_tick_buildings_state(game, 1.0 / 60.0)
 	stack_router_frame = stack_router.get_meta(stack_router_build_state.SOURCE_STACK_ROUTER_BUILDING_META_KEY, {})
 	var live_handoff_items: Dictionary = stack_router_frame.get("items", {})

@@ -227,7 +227,7 @@ class C07StackConveyorBlendsPlanRowsTests(unittest.TestCase):
         output = result.stdout + result.stderr
         self.assertEqual(result.returncode, 0, output)
         self.assertNotIn('ERROR:', output)
-        proofs = [json.loads(line.split(' ', 1)[1]) for line in output.splitlines() if line.startswith('C_07_STACK_CONVEYOR_BLANDS_PLAN_ROWS_PROOF ')]
+        proofs = [json.loads(line.split(' ', 1)[1]) for line in output.splitlines() if line.startswith('C_07_STACK_CONVEYOR_BLENDS_PLAN_ROWS_PROOF ')]
         self.assertEqual(len(proofs), 1, output)
         self.assertTrue(proofs[0]['matches'], proofs[0])
         for key in [
