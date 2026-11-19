@@ -405,6 +405,39 @@ static func source_turret_charge_state(charge: float, queued_bullets: int, first
 		charge = 0.0
 	return {"charge": charge, "charging": charging}
 
+static func source_turret_unit_sync_state(unit_tile: Vector2i, rotation: float, unit_team: int, team_id: int, tile_team: int, block_size: float, tilesize: float) -> Dictionary:
+	# TurretBuild.updateTile() (Turret.java:490-615) syncs its
+	# block unit every tick, after the charge advance (:527) and
+	# before the recoilOffset draw (:532):
+	# `unit.tile(this);`
+	# `unit.rotation(rotation);`
+	# `unit.team(team);`
+	# (Turret.java:529-531). The unit is the per-building
+	# BlockUnitc,
+	# `public BlockUnitc unit = (BlockUnitc)UnitTypes.block.create(team);`
+	# (:291), created on the building team. tile() re-asserts the
+	# tile link (`this.tile = tile;`, BlockUnitComp.java:18) and
+	# re-derives the hit size
+	# (`hitSize(tile.block.size * tilesize * 0.7f);`, :23 -- the
+	# port already has it as
+	# SourceBlockGeometry.block_unit_tile_hit_size, scale 0.7);
+	# rotation is the plain RotComp field assignment; team()
+	# re-syncs the unit team and only calls back into the
+	# building when the teams drifted
+	# (`if(tile != null && this.team != team){` /
+	# `tile.changeTeam(team);`, BlockUnitComp.java:79/:83 -- tile
+	# is `this` at this call site, so the null guard is always
+	# true). The post-sync unit team is always the building team
+	# (team() sets this.team = team when the guard passes, and
+	# keeps it when already synced); changeTeam is called only
+	# when BOTH guards pass -- the unit team drifted from the
+	# building team AND the tile team drifted too. The result is
+	# a 5-key dict: `unit_tile`, `unit_rotation`, `unit_team`,
+	# `unit_hit_size` and `tile_change_team_called`.
+	var hit_size: float = source_block_geometry.block_unit_tile_hit_size(block_size, tilesize)
+	var tile_change_team_called: bool = unit_team != team_id and tile_team != team_id
+	return {"unit_tile": unit_tile, "unit_rotation": rotation, "unit_team": team_id, "unit_hit_size": hit_size, "tile_change_team_called": tile_change_team_called}
+
 @warning_ignore("unused_parameter")
 static func source_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the turret tick wiring every tick
@@ -605,6 +638,26 @@ static func source_turret_tick_buildings_state(game: Object, seconds: float) -> 
 			var charge_state: Dictionary = source_turret_charge_state(float(frame.get("charge", 0.0)), int(frame.get("queued_bullets", 0)), 0.0, seconds)
 			frame["charge"] = charge_state.get("charge", 0.0)
 			frame["charging"] = charge_state.get("charging", false)
+			# The unit sync (Turret.java:529-531, N2260) runs
+			# right after the charge advance: Java order :527
+			# charge, :529-531 unit sync, :532 offset. The unit
+			# is the per-building BlockUnitc (`public BlockUnitc
+			# unit = (BlockUnitc)UnitTypes.block.create(team);`,
+			# :291), so the driver passes the building cell as
+			# the tile, the frame rotation (default 90.0, the aim
+			# stamp default) and the previous unit team (default
+			# team_id -- the unit is created on the building
+			# team), with duo size 1.0 (Block.java:215 default,
+			# never overridden) and tilesize 8.0 (Vars.tilesize),
+			# then stamps all five keys back on the frame -- the
+			# tick runs BEFORE the aim call, so controlled() /
+			# unit.controller() read a live unit mirror.
+			var unit_sync: Dictionary = source_turret_unit_sync_state(cell, float(frame.get("rotation", 90.0)), int(frame.get("unit_team", team_id)), team_id, team_id, 1.0, 8.0)
+			frame["unit_tile"] = unit_sync.get("unit_tile", cell)
+			frame["unit_rotation"] = unit_sync.get("unit_rotation", 90.0)
+			frame["unit_team"] = unit_sync.get("unit_team", team_id)
+			frame["unit_hit_size"] = unit_sync.get("unit_hit_size", 5.6)
+			frame["tile_change_team_called"] = unit_sync.get("tile_change_team_called", false)
 			# The recoilOffset draw (Turret.java:532, N2258) runs
 			# right after the recoil decays: Java order :519/:520-525
 			# decay, :532 offset, :595-596 turnToTarget, :601/:609

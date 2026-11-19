@@ -176696,6 +176696,86 @@
         "test_reference_graph_and_actual_c07_turret_charge"
       ],
       "runtime_proof": "/root/C07TurretChargeProof"
+    },
+    "source_turret_unit_sync_state_result.unit_tile": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_unit_sync_state",
+      "godot_symbol": "source_turret_unit_sync_state_result.unit_tile",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "this.tile = tile;",
+      "rule": "The unit tile after the tick (BlockUnitComp.java:18 -- tile() re-asserts the link every tick; the driver stamps it on frame[\"unit_tile\"]).",
+      "tests": [
+        "test_c07_turret_unit_sync_registration",
+        "test_all_c07_turret_unit_sync_input_evidence_is_exact",
+        "test_turret_unit_sync_state",
+        "test_reference_graph_and_actual_c07_turret_unit_sync"
+      ],
+      "runtime_proof": "/root/C07TurretUnitSyncProof"
+    },
+    "source_turret_unit_sync_state_result.unit_rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_unit_sync_state",
+      "godot_symbol": "source_turret_unit_sync_state_result.unit_rotation",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "unit.rotation(rotation);",
+      "rule": "The unit rotation after the tick (Turret.java:530 -- the plain RotComp field assignment; the driver stamps it on frame[\"unit_rotation\"]).",
+      "tests": [
+        "test_c07_turret_unit_sync_registration",
+        "test_all_c07_turret_unit_sync_input_evidence_is_exact",
+        "test_turret_unit_sync_state",
+        "test_reference_graph_and_actual_c07_turret_unit_sync"
+      ],
+      "runtime_proof": "/root/C07TurretUnitSyncProof"
+    },
+    "source_turret_unit_sync_state_result.unit_team": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_unit_sync_state",
+      "godot_symbol": "source_turret_unit_sync_state_result.unit_team",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "this.team = team;",
+      "rule": "The unit team after the tick (BlockUnitComp.java:80 -- team() sets this.team = team when the guard passes; the post-sync team is always the building team).",
+      "tests": [
+        "test_c07_turret_unit_sync_registration",
+        "test_all_c07_turret_unit_sync_input_evidence_is_exact",
+        "test_turret_unit_sync_state",
+        "test_reference_graph_and_actual_c07_turret_unit_sync"
+      ],
+      "runtime_proof": "/root/C07TurretUnitSyncProof"
+    },
+    "source_turret_unit_sync_state_result.unit_hit_size": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_unit_sync_state",
+      "godot_symbol": "source_turret_unit_sync_state_result.unit_hit_size",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "hitSize(tile.block.size * tilesize * 0.7f);",
+      "rule": "The unit hit size after the tick (BlockUnitComp.java:23 -- block_size * tilesize * 0.7; 5.6 live for duo).",
+      "tests": [
+        "test_c07_turret_unit_sync_registration",
+        "test_all_c07_turret_unit_sync_input_evidence_is_exact",
+        "test_turret_unit_sync_state",
+        "test_reference_graph_and_actual_c07_turret_unit_sync"
+      ],
+      "runtime_proof": "/root/C07TurretUnitSyncProof"
+    },
+    "source_turret_unit_sync_state_result.tile_change_team_called": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_unit_sync_state",
+      "godot_symbol": "source_turret_unit_sync_state_result.tile_change_team_called",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "tile.changeTeam(team);",
+      "rule": "Whether team() called back into the building (BlockUnitComp.java:83 -- only when the unit team drifted AND the tile team drifted; false live for duo).",
+      "tests": [
+        "test_c07_turret_unit_sync_registration",
+        "test_all_c07_turret_unit_sync_input_evidence_is_exact",
+        "test_turret_unit_sync_state",
+        "test_reference_graph_and_actual_c07_turret_unit_sync"
+      ],
+      "runtime_proof": "/root/C07TurretUnitSyncProof"
     }
   },
   "version": 1

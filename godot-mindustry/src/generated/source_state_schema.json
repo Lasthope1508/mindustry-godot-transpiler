@@ -236670,6 +236670,144 @@
       },
       "runtime_proof": "/root/C07TurretChargeProof",
       "rule": "Source-backed Turret charge advance from Turret.java."
+    },
+    "source_turret_unit_sync_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_unit_sync_state",
+      "source_slice": "N2260",
+      "keys": {
+        "unit_tile": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "unit.tile(this);",
+          "rule": "The building cell re-asserted as the unit tile every tick (Turret.java:529; the driver passes cell, the origin cell of the placed building -- tile is `this` at this call site, so the link is always the building itself).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_unit_sync_state"
+          ]
+        },
+        "rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "unit.rotation(rotation);",
+          "rule": "The building rotation the unit rotation follows (Turret.java:530, the plain RotComp field assignment; the driver reads frame[\"rotation\"], default 90.0, the aim stamp default).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_unit_sync_state"
+          ]
+        },
+        "unit_team": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "unit.team(team);",
+          "rule": "The unit team before this tick (Turret.java:531; the driver reads frame[\"unit_team\"], default team_id -- the unit is created on the building team, `public BlockUnitc unit = (BlockUnitc)UnitTypes.block.create(team);`, :291).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_unit_sync_state"
+          ]
+        },
+        "team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public BlockUnitc unit = (BlockUnitc)UnitTypes.block.create(team);",
+          "rule": "The building team (Turret.java:291, the unit is created on the building team; the driver passes the frame team_id).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_unit_sync_state"
+          ]
+        },
+        "tile_team": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "java_expr": "if(tile.team != team){",
+          "rule": "The tile team guarding the changeTeam callback (BlockUnitComp.java:82; the driver passes team_id -- tile is `this` at this call site, so the tile team is the building team).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_unit_sync_state"
+          ]
+        },
+        "block_size": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "java_expr": "hitSize(tile.block.size * tilesize * 0.7f);",
+          "rule": "The block size feeding the unit hit size (BlockUnitComp.java:23; duo size is 1, the Block.java:215 default, never overridden, so the driver passes 1.0).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_unit_sync_state"
+          ]
+        },
+        "tilesize": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "java_expr": "hitSize(tile.block.size * tilesize * 0.7f);",
+          "rule": "The world tilesize feeding the unit hit size (BlockUnitComp.java:23; Vars.tilesize is 8, so the driver passes 8.0).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_unit_sync_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretUnitSyncProof",
+      "rule": "Source-backed Turret unit sync from Turret.java."
+    },
+    "source_turret_unit_sync_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_unit_sync_state",
+      "source_slice": "N2260",
+      "keys": {
+        "unit_tile": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "java_expr": "this.tile = tile;",
+          "rule": "The unit tile after the tick (BlockUnitComp.java:18 -- tile() re-asserts the link every tick; the driver stamps it on frame[\"unit_tile\"]).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_unit_sync_state"
+          ]
+        },
+        "unit_rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "unit.rotation(rotation);",
+          "rule": "The unit rotation after the tick (Turret.java:530 -- the plain RotComp field assignment; the driver stamps it on frame[\"unit_rotation\"]).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_unit_sync_state"
+          ]
+        },
+        "unit_team": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "java_expr": "this.team = team;",
+          "rule": "The unit team after the tick (BlockUnitComp.java:80 -- team() sets this.team = team when the guard passes; the post-sync team is always the building team).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_unit_sync_state"
+          ]
+        },
+        "unit_hit_size": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "java_expr": "hitSize(tile.block.size * tilesize * 0.7f);",
+          "rule": "The unit hit size after the tick (BlockUnitComp.java:23 -- block_size * tilesize * 0.7; 5.6 live for duo).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_unit_sync_state"
+          ]
+        },
+        "tile_change_team_called": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "java_expr": "tile.changeTeam(team);",
+          "rule": "Whether team() called back into the building (BlockUnitComp.java:83 -- only when the unit team drifted AND the tile team drifted; false live for duo).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_unit_sync_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretUnitSyncProof",
+      "rule": "Source-backed Turret unit sync from Turret.java."
     }
   },
   "version": 1

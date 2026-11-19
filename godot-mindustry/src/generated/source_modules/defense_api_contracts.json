@@ -8420,6 +8420,66 @@
       "rule": "Source-backed Turret family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so TurretBuild.useAmmo() skips consumption for a cheating team.",
       "return_type": "Dictionary"
     },
+    "SourceTurretBuildState.source_turret_unit_sync_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_unit_sync_state",
+      "status": "active",
+      "source_slice": "N2260",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.updateTile()",
+      "params": [
+        {
+          "name": "unit_tile",
+          "type": "Vector2i",
+          "schema": "source_turret_unit_sync_state_input.unit_tile"
+        },
+        {
+          "name": "rotation",
+          "type": "float",
+          "schema": "source_turret_unit_sync_state_input.rotation"
+        },
+        {
+          "name": "unit_team",
+          "type": "int",
+          "schema": "source_turret_unit_sync_state_input.unit_team"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_turret_unit_sync_state_input.team_id"
+        },
+        {
+          "name": "tile_team",
+          "type": "int",
+          "schema": "source_turret_unit_sync_state_input.tile_team"
+        },
+        {
+          "name": "block_size",
+          "type": "float",
+          "schema": "source_turret_unit_sync_state_input.block_size"
+        },
+        {
+          "name": "tilesize",
+          "type": "float",
+          "schema": "source_turret_unit_sync_state_input.tilesize"
+        }
+      ],
+      "return_keys": [
+        "unit_tile",
+        "unit_rotation",
+        "unit_team",
+        "unit_hit_size",
+        "tile_change_team_called"
+      ],
+      "tests": [
+        "test_c07_turret_unit_sync_registration",
+        "test_all_c07_turret_unit_sync_input_evidence_is_exact",
+        "test_turret_unit_sync_state",
+        "test_reference_graph_and_actual_c07_turret_unit_sync"
+      ],
+      "runtime_proof": "/root/C07TurretUnitSyncProof",
+      "rule": "Source-backed Turret unit sync from Turret.java.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_turret_warmup_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_warmup_state",
       "status": "active",
