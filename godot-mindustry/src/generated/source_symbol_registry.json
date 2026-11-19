@@ -176792,6 +176792,22 @@
         "test_reference_graph_and_actual_c07_turret_logic_control_time"
       ],
       "runtime_proof": "/root/C07TurretLogicControlTimeProof"
+    },
+    "source_turret_rotate_sync_state_result.building_rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_rotate_sync_state",
+      "godot_symbol": "source_turret_rotate_sync_state_result.building_rotation",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "((Building)this).rotation = Mathf.mod(Mathf.round(rotation / 90f), 4);",
+      "rule": "The shadowed int 0-3 Building rotation after the tick (Turret.java:544 -- mod(round(rotation / 90), 4) when rotate is true, unchanged otherwise; the driver stamps it on frame[\"building_rotation\"]).",
+      "tests": [
+        "test_c07_turret_rotate_sync_registration",
+        "test_all_c07_turret_rotate_sync_input_evidence_is_exact",
+        "test_turret_rotate_sync_state",
+        "test_reference_graph_and_actual_c07_turret_rotate_sync"
+      ],
+      "runtime_proof": "/root/C07TurretRotateSyncProof"
     }
   },
   "version": 1

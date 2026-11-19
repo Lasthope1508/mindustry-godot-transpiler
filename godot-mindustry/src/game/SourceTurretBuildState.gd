@@ -462,6 +462,39 @@ static func source_turret_logic_control_time_state(logic_control_time: float, de
 		logic_control_time -= delta
 	return {"logic_control_time": logic_control_time}
 
+static func source_turret_rotate_sync_state(rotation: float, rotate: bool, building_rotation: int) -> Dictionary:
+	# TurretBuild.updateTile() (Turret.java:490-560) syncs the
+	# underlying building rotation every tick, after the
+	# logic-control timer decay (:534-536) and before the
+	# heat-requirement fold (:538-540):
+	# `if(rotate){`
+	# `((Building)this).rotation = Mathf.mod(Mathf.round(rotation / 90f), 4);`
+	# (Turret.java:542-545). `rotate` is true for every turret
+	# (Turret constructor, `rotate = true;`, :163) and duo never
+	# overrides it (Blocks.java:3257-3331 sets only
+	# `rotateSpeed = 10f;`). `rotation` is the turret's own float
+	# aim rotation in degrees (frame["rotation"], default 90.0);
+	# the synced field is the shadowed int 0-3 Building rotation
+	# (`transient int rotation;`, BuildingComp.java:69, default 0)
+	# -- the comment on the line says it plainly: "sync underlying
+	# rotation; 0-3 rotation is a shadowed field". arc
+	# `Mathf.round(float)` is
+	# `return (int)(value + BIG_ENOUGH_ROUND) - BIG_ENOUGH_INT;`
+	# (Mathf.java:500-502) -- round half UP toward +inf, like Java
+	# Math.round, NOT half away from zero: -0.5 rounds to 0, -1.5
+	# rounds to -1 -- so the port rounds with `floor(x + 0.5)`
+	# (the SourceBlockRequirementsState precedent), never with
+	# Godot's `round()`. arc `Mathf.mod(float, float)` is
+	# `return ((f % n) + n) % n;` (Mathf.java:574-576) -- a proper
+	# mod for negatives, so -1 maps to 3. When rotate is false
+	# Java skips the assignment entirely, so the building rotation
+	# is returned unchanged. The result is a 1-key dict:
+	# `building_rotation`.
+	if rotate:
+		var rounded: int = int(floor(rotation / 90.0 + 0.5))
+		building_rotation = ((rounded % 4) + 4) % 4
+	return {"building_rotation": building_rotation}
+
 @warning_ignore("unused_parameter")
 static func source_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the turret tick wiring every tick
@@ -707,6 +740,21 @@ static func source_turret_tick_buildings_state(game: Object, seconds: float) -> 
 			# slices); the decay never arms the timer itself.
 			var logic_control_time_state: Dictionary = source_turret_logic_control_time_state(float(frame.get("logic_control_time", -1.0)), seconds)
 			frame["logic_control_time"] = logic_control_time_state.get("logic_control_time", -1.0)
+			# The rotate sync (Turret.java:542-545, N2262) runs
+			# right after the logic-control decay: Java order
+			# :534-536 decay, :538-540 heatReq (own slice),
+			# :542-545 rotate sync, :595-596 turnToTarget,
+			# :601/:609 updateShooting -- so the tick runs BEFORE
+			# the aim call, and the aim reads the synced building
+			# rotation. `rotate` is true for duo (Turret
+			# constructor :163, never overridden in the duo def,
+			# Blocks.java:3257-3331); the building rotation is the
+			# shadowed int 0-3 field (BuildingComp.java:69,
+			# default 0), synced from the float aim rotation
+			# (frame["rotation"], default 90.0) as
+			# mod(round(rotation / 90), 4).
+			var rotate_sync: Dictionary = source_turret_rotate_sync_state(float(frame.get("rotation", 90.0)), true, int(frame.get("building_rotation", 0)))
+			frame["building_rotation"] = rotate_sync.get("building_rotation", 0)
 			var aim: Dictionary = source_item_turret_build_state.source_item_turret_aim_shoot_state(frame, frame.get("target", null),
 				bool(validate.get("valid", false)), team_id, sprite.position.x, sprite.position.y, seconds,
 				float(frame.get("potential_efficiency", 1.0)), float(frame.get("shoot_warmup", 0.0)), bool(frame.get("charging", false)),

@@ -69327,6 +69327,41 @@
       ],
       "runtime_proof": "/root/C07TurretLogicControlTimeProof",
       "rule": "Source-backed Turret logicControlTime decay from Turret.java."
+    },
+    "SourceTurretBuildState.source_turret_rotate_sync_state": {
+      "status": "active",
+      "source_slice": "N2262",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.updateTile()",
+      "params": [
+        {
+          "name": "rotation",
+          "type": "float",
+          "schema": "source_turret_rotate_sync_state_input.rotation"
+        },
+        {
+          "name": "rotate",
+          "type": "bool",
+          "schema": "source_turret_rotate_sync_state_input.rotate"
+        },
+        {
+          "name": "building_rotation",
+          "type": "int",
+          "schema": "source_turret_rotate_sync_state_input.building_rotation"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "building_rotation"
+      ],
+      "tests": [
+        "test_c07_turret_rotate_sync_registration",
+        "test_all_c07_turret_rotate_sync_input_evidence_is_exact",
+        "test_turret_rotate_sync_state",
+        "test_reference_graph_and_actual_c07_turret_rotate_sync"
+      ],
+      "runtime_proof": "/root/C07TurretRotateSyncProof",
+      "rule": "Source-backed Turret rotate sync from Turret.java."
     }
   },
   "policy": {

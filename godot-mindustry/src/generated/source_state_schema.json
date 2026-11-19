@@ -236856,6 +236856,64 @@
       },
       "runtime_proof": "/root/C07TurretLogicControlTimeProof",
       "rule": "Source-backed Turret logicControlTime decay from Turret.java."
+    },
+    "source_turret_rotate_sync_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_rotate_sync_state",
+      "source_slice": "N2262",
+      "keys": {
+        "rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "Mathf.round(rotation / 90f)",
+          "rule": "The turret float aim rotation in degrees before this tick (Turret.java:544; the driver reads frame[\"rotation\"], default 90.0, the aim stamp default).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_rotate_sync_state"
+          ]
+        },
+        "rotate": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "rotate = true;",
+          "rule": "Whether this turret rotates its building (Turret.java:163, the Turret constructor default; duo never overrides it, Blocks.java:3257-3331; the driver passes true for duo).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_rotate_sync_state"
+          ]
+        },
+        "building_rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "transient int rotation;",
+          "rule": "The shadowed int 0-3 Building rotation before this tick (BuildingComp.java:69, the field default is 0; the driver reads frame[\"building_rotation\"], default 0).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_rotate_sync_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretRotateSyncProof",
+      "rule": "Source-backed Turret rotate sync from Turret.java."
+    },
+    "source_turret_rotate_sync_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_rotate_sync_state",
+      "source_slice": "N2262",
+      "keys": {
+        "building_rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "((Building)this).rotation = Mathf.mod(Mathf.round(rotation / 90f), 4);",
+          "rule": "The shadowed int 0-3 Building rotation after the tick (Turret.java:544 -- mod(round(rotation / 90), 4) when rotate is true, unchanged otherwise; the driver stamps it on frame[\"building_rotation\"]).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_rotate_sync_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretRotateSyncProof",
+      "rule": "Source-backed Turret rotate sync from Turret.java."
     }
   },
   "version": 1
