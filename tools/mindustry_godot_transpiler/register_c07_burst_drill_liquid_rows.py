@@ -80,7 +80,7 @@ import sys
 from pathlib import Path
 
 from mindustry_port import source_ssot, source_symbols
-from register_c07_burst_drill_update_tile import DEFERRED as N2256_DEFERRED
+from register_c07_burst_drill_update_tile import DEFERRED as N2294_DEFERRED
 from register_liquid_consumer_hydration import backed
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -111,14 +111,14 @@ SLICE_SOURCES = [
 ]
 EXACT_EXPRS = ['float speed = Mathf.lerp(1f, liquidBoostIntensity, optionalEfficiency) * efficiency;', 'public float liquidBoostIntensity = 1.6f;', 'liquidBoostIntensity = 1.75f;', 'liquidBoostIntensity = 2f;', 'consumeLiquid(Liquids.water, 10f/60f);', 'consumeLiquid(Liquids.ozone, 3f / 60f).boost();', 'consumeLiquid(Liquids.hydrogen, 4f / 60f);', 'consumeLiquid(Liquids.cyanogen, 0.75f / 60f).boost();', 'public float amount;', 'block.hasLiquids = true;', 'public boolean optional;', 'public boolean booster;', 'public Floatf<Building> multiplier = b -> 1f;', 'public Consume boost(){', 'return optional(true, true);', 'block.liquidFilter[liquid.id] = true;', 'build.liquids.remove(liquid, amount * build.edelta() * multiplier.get(build));', 'float ed = build.edelta() * build.efficiencyScale();', 'if(ed <= 0.00000001f) return 0f;', 'return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);', 'stats.add(booster ? Stat.booster : Stat.input, liquid, amount * 60f, true);', 'return liquid == this.liquid;', 'public float delta(){', 'return Time.delta * timeScale;', 'public float edelta(){', 'return efficiency * delta();', 'public float efficiencyScale(){', 'transient float efficiency;', 'transient float optionalEfficiency;', 'for(var cons : block.nonOptionalConsumers){', 'minEfficiency = Math.min(minEfficiency, result);', 'for(var cons : block.optionalConsumers){', 'optionalEfficiency = Math.min(optionalEfficiency, cons.efficiency(self()));', 'efficiency = minEfficiency;', 'optionalEfficiency = Math.min(optionalEfficiency, minEfficiency);', 'potentialEfficiency = efficiency;', 'if(update && efficiency > 0){', 'for(var cons : block.updateConsumers){', 'public @NoPatch boolean hasLiquids;', 'hasConsumers = consumers.length > 0;', 'if(liquidBoostIntensity != 1 && findConsumer(f -> f instanceof ConsumeLiquidBase && f.booster) instanceof ConsumeLiquidBase consBase){', 'public void updateTile(){', 'public class BurstDrill extends Drill{', 'public class BurstDrillBuild extends DrillBuild{', 'public class DrillBuild extends Building{']
 
-# DEFERRED is carried from the N2256 register script via import --
+# DEFERRED is carried from the N2294 register script via import --
 # never retyped. One carried entry is DROPPED here, not carried:
 # the BurstDrill liquid rows entry -- N2258 IS the liquid rows
 # slice, so carrying it would leave a stale "waits for its own
 # slice" row for done work. The shouldConsume gate (N2257) and
 # the ore / dominant-item binding entries stay deferred -- those
 # slices own them.
-DEFERRED = [e for e in N2256_DEFERRED if 'BurstDrill liquid rows' not in e] + [
+DEFERRED = [e for e in N2294_DEFERRED if 'BurstDrill liquid rows' not in e] + [
     'BurstDrill liquid rows Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2227: the N2258 proof runs headless on Linux here and waits for a Windows Godot run.',
     'BurstDrill liquid removal application (liquids.remove, ConsumeLiquid.java:37-38) -- the N2258 proof carries remove_amount keys; the actual removal from the building liquid module waits for the driver slice that owns the liquids module.',
     'BurstDrill setStats booster display row (Drill.java:183-189, stats.add(Stat.booster, StatValues.speedBoosters(...))) -- stats display, not tick state; waits for its own slice.',

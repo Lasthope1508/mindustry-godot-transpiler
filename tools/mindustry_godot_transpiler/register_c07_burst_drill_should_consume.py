@@ -81,7 +81,7 @@ import sys
 from pathlib import Path
 
 from mindustry_port import source_ssot, source_symbols
-from register_c07_burst_drill_update_tile import DEFERRED as N2256_DEFERRED
+from register_c07_burst_drill_update_tile import DEFERRED as N2294_DEFERRED
 from register_liquid_consumer_hydration import backed
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -112,15 +112,15 @@ SLICE_SOURCES = [
 ]
 EXACT_EXPRS = ['public boolean shouldConsume(){', 'return items.total() <= itemCapacity - dominantItems && enabled;', 'public int dominantItems;', 'public Item dominantItem;', 'public int total(){', 'return total;', 'public int itemCapacity = 10;', 'itemCapacity = 40;', 'itemCapacity = 60;', 'transient boolean enabled = true;', 'boolean update = shouldConsume() && productionValid();', 'if(!update){', 'efficiency = optionalEfficiency = 0f;', 'return enabled;', 'hasConsumers = consumers.length > 0;', 'return build.power.status;', 'float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;', 'public class BurstDrill extends Drill{', 'public class BurstDrillBuild extends DrillBuild{', 'public class DrillBuild extends Building{', 'return efficiency * delta();']
 
-# DEFERRED is carried from the N2256 register script via import --
+# DEFERRED is carried from the N2294 register script via import --
 # never retyped. One carried entry is DROPPED here, not carried:
 # the BurstDrill shouldConsume gate entry -- N2257 IS the
 # shouldConsume gate slice, so carrying it would leave a stale
 # "waits for its own slice" row for done work. The liquid rows
 # (N2258) and the ore / dominant-item binding entries stay
 # deferred -- those slices own them.
-DEFERRED = [e for e in N2256_DEFERRED if 'BurstDrill shouldConsume gate' not in e] + [
-    'BurstDrill shouldConsume Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2256: the N2257 proof runs headless on Linux here and waits for a Windows Godot run.',
+DEFERRED = [e for e in N2294_DEFERRED if 'BurstDrill shouldConsume gate' not in e] + [
+    'BurstDrill shouldConsume Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2294: the N2257 proof runs headless on Linux here and waits for a Windows Godot run.',
 ]
 
 

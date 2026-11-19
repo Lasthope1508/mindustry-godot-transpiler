@@ -77,7 +77,7 @@ func _ready() -> void:
 	# decaying warmup ignores efficiency. There is no
 	# driver tick line: the tick frame tracks no
 	# is_shooting / charging / controlled /
-	# shoot_warmup / warmup_hold keys yet (the N2256
+	# shoot_warmup / warmup_hold keys yet (the N2294
 	# updateTile precedent). All calls use delta 1/60
 	# (one tick at 60fps) unless noted.
 

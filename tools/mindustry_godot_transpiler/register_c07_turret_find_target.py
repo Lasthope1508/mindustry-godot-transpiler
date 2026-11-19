@@ -167,7 +167,7 @@ EXACT_EXPRS = [
 # trackingRange / hasAmmo / peekAmmo follow-ups.
 DEFERRED = N2265_DEFERRED + [
     'Turret findTarget() Windows Godot proof -- debt in GOAL.md section 5, same as N2148/N2227: the N2270 proof runs headless on Linux here and waits for a Windows Godot run.',
-    'Wire the Turret findTarget/validateTarget driver tick lines (source_turret_tick_buildings_state) once the tick frame tracks target / is_shooting / controlled / logicControlled; N2270 is pure-function-only (the N2256 updateTile precedent). updateTile calls findTarget() at Turret.java:570 and validateTarget() at :491/:573.',
+    'Wire the Turret findTarget/validateTarget driver tick lines (source_turret_tick_buildings_state) once the tick frame tracks target / is_shooting / controlled / logicControlled; N2270 is pure-function-only (the N2294 updateTile precedent). updateTile calls findTarget() at Turret.java:570 and validateTarget() at :491/:573.',
     'Port the live Units queries (Units.nearbyEnemies scan, BlockIndexer.findEnemyTile/findTile, Units.inFogTo) as driver-side observed-dict stamping; N2270 selects from observed dicts only and proves no live query.',
     'SourceTurretTargetingState.gd target_selection_state is NOT the findTarget port: it only picks the nearest candidate by distance, with no predicate filters, no targetPriority tie-break and no building fallback; it has no slice owner and must not be wired as the TurretBuild targeting path.',
     'Port TurretBuild.trackingRange() (Turret.java:349-351) and range() (N740) as explicit values; N2270 takes range/track_range as explicit floats. Port TurretBuild.hasAmmo() (Turret.java:698-712, ammo-swap side effect) and peekAmmo() (Turret.java:693-695) as their own slices; N2270 takes their flags explicitly.',

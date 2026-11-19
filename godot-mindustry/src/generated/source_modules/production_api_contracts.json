@@ -845,7 +845,7 @@
     "SourceBurstDrillBuildState.source_burst_drill_update_tile_state": {
       "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_burst_drill_update_tile_state",
       "status": "active",
-      "source_slice": "N2256",
+      "source_slice": "N2294",
       "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
       "source_method": "BurstDrillBuild.updateTile()",
       "params": [

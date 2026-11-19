@@ -375,7 +375,7 @@ static func source_turret_fog_radius_state(frame: Dictionary, range: float, has_
 # is_shooting is set by updateTile :492 (not ported yet), charging / controlled read
 # reload / unit state the frame does not track yet, and the frame tracks no
 # shoot_warmup / warmup_hold keys yet. NO driver line: the driver waits until those
-# frame keys are tracked (the N2256 updateTile precedent); the warmup fold the
+# frame keys are tracked (the N2294 updateTile precedent); the warmup fold the
 # power-status row mentions (Turret.java:512-514) is this advance, called with
 # explicit params. delta is Time.delta through delta() (BuildingComp.java:1922-1923,
 # `public float delta(){` / `return Time.delta * timeScale;`), raw tick seconds, the

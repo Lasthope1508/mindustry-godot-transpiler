@@ -14,7 +14,7 @@ class C07BurstDrillUpdateTileTests(unittest.TestCase):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        self.assertEqual(ledger['N2256']['godot_owner'], 'SourceBurstDrillBuildState.source_burst_drill_update_tile_state')
+        self.assertEqual(ledger['N2294']['godot_owner'], 'SourceBurstDrillBuildState.source_burst_drill_update_tile_state')
         # BurstDrillBuild.updateTile advances the burst drill's
         # drilling state every tick (BurstDrill.java:76, `public
         # void updateTile(){`): it returns early with no
@@ -80,7 +80,7 @@ class C07BurstDrillUpdateTileTests(unittest.TestCase):
         # is the observable signal. The offload
         # application (`offload(dominantItem);`) waits for
         # the driver slice that owns the items module; the
-        # `offloaded_count` result is the observable. N2256
+        # `offloaded_count` result is the observable. N2294
         # closes the advance with one pure function over
         # the frame (`dominant_item`, `dominant_items`,
         # `invert_time`, `smooth_progress`, `progress`,
@@ -122,7 +122,7 @@ class C07BurstDrillUpdateTileTests(unittest.TestCase):
         # dump_timer, dump_due, offloaded_count,
         # invert_fired.
         self.assertEqual(
-            ledger['N2256']['source_symbols'],
+            ledger['N2294']['source_symbols'],
             [
                 'source_burst_drill_update_tile_state_result.drill_time',
                 'source_burst_drill_update_tile_state_result.invert_time',
@@ -137,7 +137,7 @@ class C07BurstDrillUpdateTileTests(unittest.TestCase):
                 'source_burst_drill_update_tile_state_result.invert_fired',
             ],
         )
-        for name in ledger['N2256']['source_symbols']:
+        for name in ledger['N2294']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_source'], {
@@ -149,9 +149,9 @@ class C07BurstDrillUpdateTileTests(unittest.TestCase):
                     'arc-core/src/arc/math/Interp.java',
                 })
                 self.assertEqual(symbol['godot_owner'], 'SourceBurstDrillBuildState.' + name.rsplit('_result.', 1)[0])
-        self.assertEqual(ledger['N2256']['runtime_proof'], '/root/C07BurstDrillUpdateTileProof')
+        self.assertEqual(ledger['N2294']['runtime_proof'], '/root/C07BurstDrillUpdateTileProof')
         self.assertEqual(
-            ledger['N2256']['tests'],
+            ledger['N2294']['tests'],
             [
                 'test_c07_burst_drill_update_tile_registration',
                 'test_all_c07_burst_drill_update_tile_input_evidence_is_exact',
@@ -159,13 +159,13 @@ class C07BurstDrillUpdateTileTests(unittest.TestCase):
                 'test_reference_graph_and_actual_c07_burst_drill_update_tile',
             ],
         )
-        self.assertTrue(ledger['N2256']['deferred_exprs'])
+        self.assertTrue(ledger['N2294']['deferred_exprs'])
 
     def test_all_c07_burst_drill_update_tile_input_evidence_is_exact(self):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        for name in ledger['N2256']['source_symbols']:
+        for name in ledger['N2294']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 source = symbol['java_source']
@@ -184,7 +184,7 @@ class C07BurstDrillUpdateTileTests(unittest.TestCase):
         for source in slice_sources:
             upstream_root = ROOT / 'arc-upstream' if source.startswith('arc-core/') else ROOT / 'mindustry-upstream'
             upstream[source] = (upstream_root / source).read_text(encoding='utf-8')
-        for expr in ledger['N2256']['exact_exprs']:
+        for expr in ledger['N2294']['exact_exprs']:
             with self.subTest(expr=expr):
                 self.assertTrue(any(expr in text for text in upstream.values()), expr)
 

@@ -145,10 +145,10 @@ func _ready() -> void:
 	var low_dominant: Variant = low_bound.get("dominant_item")
 	proof["delegate_empty_tiebreak_low_priority"] = empty_bound.get("dominant_item") == null and int(empty_bound.get("dominant_items", -1)) == 0 and tie_dominant != null and int(tie_dominant.get("id", -1)) == int(titanium.get("id", -2)) and int(tie_bound.get("dominant_items", -1)) == 1 and low_dominant != null and int(low_dominant.get("id", -1)) == int(copper.get("id", -2)) and int(low_bound.get("dominant_items", -1)) == 1
 
-	# Round-trip into the N2256 updateTile advance: a frame
+	# Round-trip into the N2294 updateTile advance: a frame
 	# stamped with the bound dominant (copper, count 2)
 	# advances instead of taking the early return -- the
-	# same numbers as the N2256 lerp case (drillTime 720f,
+	# same numbers as the N2294 lerp case (drillTime 720f,
 	# multiplier 2f, progress 100.0 -> 101.75).
 	var stamped: Dictionary = {"dominant_item": impact_bound.get("dominant_item"), "dominant_items": impact_bound.get("dominant_items", 0), "invert_time": 0.0, "smooth_progress": 0.0, "progress": 100.0, "warmup": 0.0, "time_drilled": 0.0, "last_drill_speed": 0.0, "efficiency": 1.0, "optional_efficiency": 1.0, "items_total": 0.0, "dump_timer": 0.0}
 	var advanced: Dictionary = burst_drill_build_state.source_burst_drill_update_tile_state(stamped, 1.0, 720.0, 2.0, 200.0, 1.75, 40.0, 5.0)

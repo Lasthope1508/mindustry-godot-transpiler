@@ -372,7 +372,7 @@ N2239–N2247 của line Windows)
     Scene tới Windows theo slice commit `0573346`. Chưa chạy trên Windows Godot.
   - [ ] N2293 `C07TurretSenseProof` — Linux GREEN ~14:4x (12 key).
     Scene tới Windows theo slice commit `23a5ed1`. Chưa chạy trên Windows Godot.
-  - [ ] N2256 `C07BurstDrillUpdateTileProof` — Linux GREEN ~14:0x (11 key).
+  - [ ] N2294 `C07BurstDrillUpdateTileProof` — Linux GREEN ~14:0x (11 key).
     Scene tới Windows theo slice commit `5f17ac9`. Chưa chạy trên Windows Godot.
   - [ ] N2257 `C07BurstDrillShouldConsumeProof` — Linux GREEN ~14:5x (9 key).
     Scene tới Windows theo slice commit `62502b8`. Chưa chạy trên Windows Godot.

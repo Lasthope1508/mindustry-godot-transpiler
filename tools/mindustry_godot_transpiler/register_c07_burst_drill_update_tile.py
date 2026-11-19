@@ -1,4 +1,4 @@
-"""Register the BurstDrill updateTile advance (N2256).
+"""Register the BurstDrill updateTile advance (N2294).
 
 BurstDrillBuild.updateTile advances the burst drill's
 drilling state every tick (BurstDrill.java:76, `public void
@@ -126,7 +126,7 @@ INTERP = 'arc-core/src/arc/math/Interp.java'
 PROOF = '/root/C07BurstDrillUpdateTileProof'
 UPDATE_TILE_OWNER = 'SourceBurstDrillBuildState.source_burst_drill_update_tile_state'
 TESTS = ['test_c07_burst_drill_update_tile_registration', 'test_all_c07_burst_drill_update_tile_input_evidence_is_exact', 'test_burst_drill_update_tile_state', 'test_reference_graph_and_actual_c07_burst_drill_update_tile']
-# The 6 slice sources the N2256 test checks exact_exprs
+# The 6 slice sources the N2294 test checks exact_exprs
 # against -- every expr in EXACT_EXPRS below must appear verbatim
 # in one of these files.
 SLICE_SOURCES = [
@@ -142,16 +142,16 @@ EXACT_EXPRS = ['public void updateTile(){', 'if(dominantItem == null){', 'if(inv
 # DEFERRED is carried from the N2227 register script via import --
 # (round 3: the N2247 (ex-N2229) senseObject(config) register is DROPPED -- remote N2252 covers that leg -- so the chain skips it and imports N2227 directly).
 # never retyped. One carried entry is DROPPED here, not carried:
-# the BurstDrill updateTile advance entry -- N2256 IS the
+# the BurstDrill updateTile advance entry -- N2294 IS the
 # updateTile advance slice, so carrying it would leave a stale
 # "waits for its own slice" row for done work. The shouldConsume
 # gate (N2257), the liquid rows (N2258) and the ore / dominant-item
 # binding entries stay deferred -- those slices own them.
 DEFERRED = [e for e in N2227_DEFERRED if 'BurstDrill updateTile advance' not in e] + [
-    'BurstDrill updateTile advance Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2227: the N2256 proof runs headless on Linux here and waits for a Windows Godot run.',
-    'BurstDrill completion effects (shake / drillSound / drillEffect, BurstDrill.java:114-117) -- the N2256 proof carries no shake/sound/effect keys; the invert_fired flag is the observable signal that slice will consume; the effects wait for their own slice.',
-    'BurstDrill dump call (BuildingComp.java:1072, `public boolean dump(Item todump){`) -- the N2256 proof carries no dump-call key; the dump_due flag is the observable signal; the actual dump call waits for the driver slice.',
-    'BurstDrill offload application (offload(dominantItem), BurstDrill.java:108) -- the N2256 proof carries no offload-application key; the offloaded_count result is the observable; the application waits for the driver slice that owns the items module.',
+    'BurstDrill updateTile advance Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2227: the N2294 proof runs headless on Linux here and waits for a Windows Godot run.',
+    'BurstDrill completion effects (shake / drillSound / drillEffect, BurstDrill.java:114-117) -- the N2294 proof carries no shake/sound/effect keys; the invert_fired flag is the observable signal that slice will consume; the effects wait for their own slice.',
+    'BurstDrill dump call (BuildingComp.java:1072, `public boolean dump(Item todump){`) -- the N2294 proof carries no dump-call key; the dump_due flag is the observable signal; the actual dump call waits for the driver slice.',
+    'BurstDrill offload application (offload(dominantItem), BurstDrill.java:108) -- the N2294 proof carries no offload-application key; the offloaded_count result is the observable; the application waits for the driver slice that owns the items module.',
 ]
 
 
@@ -221,7 +221,7 @@ def main():
     update_tile_inputs, update_tile_outputs = definitions()
 
     entries = [
-        ('N2256', UPDATE_TILE_OWNER, 'source_burst_drill_update_tile_state', BURST_DRILL, 'mindustry.world.blocks.production.BurstDrill.BurstDrillBuild', 'BurstDrillBuild.updateTile()', update_tile_inputs, update_tile_outputs, True, 'Dictionary'),
+        ('N2294', UPDATE_TILE_OWNER, 'source_burst_drill_update_tile_state', BURST_DRILL, 'mindustry.world.blocks.production.BurstDrill.BurstDrillBuild', 'BurstDrillBuild.updateTile()', update_tile_inputs, update_tile_outputs, True, 'Dictionary'),
     ]
     all_names = []
     for sid, owner, prefix, source, cls, method, inputs, outputs, has_contract, return_type in entries:
@@ -244,7 +244,7 @@ def main():
     # smooth_progress, warmup, time_drilled, last_drill_speed,
     # progress, dump_timer, dump_due, offloaded_count,
     # invert_fired.
-    by_slice['N2256'] = [
+    by_slice['N2294'] = [
         'source_burst_drill_update_tile_state_result.drill_time',
         'source_burst_drill_update_tile_state_result.invert_time',
         'source_burst_drill_update_tile_state_result.smooth_progress',
@@ -257,7 +257,7 @@ def main():
         'source_burst_drill_update_tile_state_result.offloaded_count',
         'source_burst_drill_update_tile_state_result.invert_fired',
     ]
-    source_symbols.upsert_source_slice(GODOT, 'N2256', dict(status='done', java_source=BURST_DRILL, java_class='mindustry.world.blocks.production.BurstDrill.BurstDrillBuild', java_method='BurstDrillBuild.updateTile()', godot_owner=UPDATE_TILE_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2256'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
+    source_symbols.upsert_source_slice(GODOT, 'N2294', dict(status='done', java_source=BURST_DRILL, java_class='mindustry.world.blocks.production.BurstDrill.BurstDrillBuild', java_method='BurstDrillBuild.updateTile()', godot_owner=UPDATE_TILE_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2294'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
 
     source_symbols.upsert_source_symbols(GODOT, symbols)
     source_symbols.write_source_symbol_audit_report(GODOT)

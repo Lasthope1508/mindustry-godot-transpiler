@@ -151,7 +151,7 @@ EXACT_EXPRS = [
 # recoil/heat/charge/unit).
 DEFERRED = N2261_DEFERRED + [
     'Turret updateTile warmup Windows Godot proof -- debt in GOAL.md section 5, same as N2148/N2227: the N2265 proof runs headless on Linux here and waits for a Windows Godot run.',
-    'Wire the Turret warmup driver tick line (source_turret_tick_buildings_state) once the tick frame tracks is_shooting / charging / controlled / shoot_warmup / warmup_hold; N2265 is pure-function-only (the N2256 updateTile precedent).',
+    'Wire the Turret warmup driver tick line (source_turret_tick_buildings_state) once the tick frame tracks is_shooting / charging / controlled / shoot_warmup / warmup_hold; N2265 is pure-function-only (the N2294 updateTile precedent).',
     'Port the TurretBuild.updateTile() isShooting computation (Turret.java:492, target / unit.controller() / logicControlled() / logicShooting) as its own slice; N2265 takes is_shooting as an explicit bool.',
     'Port the rest of TurretBuild.updateTile() (Turret.java:491-500 validateTarget / unit ammo / soundLoop, :517-530 curRecoil / heat / charge / unit.tile / unit.rotation) as their own slices; N2265 covers only the warmup advance :502-515.',
 ]

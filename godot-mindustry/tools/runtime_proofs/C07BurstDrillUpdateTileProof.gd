@@ -19,7 +19,7 @@ func _ready() -> void:
 	game.set_process(false)
 	game.set_physics_process(false)
 
-	# --- Pure updateTile advance (N2256): BurstDrillBuild.updateTile
+	# --- Pure updateTile advance (N2294): BurstDrillBuild.updateTile
 	# (BurstDrill.java:76, `public void updateTile(){`) returns
 	# early with no dominant item (BurstDrill.java:77,
 	# `if(dominantItem == null){`), decays invertTime
