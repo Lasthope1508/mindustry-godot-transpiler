@@ -1,4 +1,4 @@
-"""Register the BurstDrill ambientVolume() override (N2271).
+"""Register the BurstDrill ambientVolume() override (N2317).
 
 BurstDrill.ambientVolume() (BurstDrill.java:123-125, `public
 float ambientVolume(){`) returns `super.ambientVolume() *
@@ -67,7 +67,7 @@ DRILL = 'core/src/mindustry/world/blocks/production/Drill.java'
 PROOF = '/root/C07BurstDrillAmbientVolumeProof'
 AMBIENT_VOLUME_OWNER = 'SourceBurstDrillBuildState.source_burst_drill_ambient_volume_state'
 TESTS = ['test_c07_burst_drill_ambient_volume_registration', 'test_all_c07_burst_drill_ambient_volume_input_evidence_is_exact', 'test_burst_drill_ambient_volume_state', 'test_reference_graph_and_actual_c07_burst_drill_ambient_volume']
-# The 2 slice sources the N2271 test checks exact_exprs
+# The 2 slice sources the N2317 test checks exact_exprs
 # against -- every expr in EXACT_EXPRS below must appear verbatim
 # in one of these files.
 SLICE_SOURCES = [
@@ -81,17 +81,17 @@ EXACT_EXPRS = ['public float ambientVolume(){', 'return super.ambientVolume() * 
 # expression (list(...) + [...]), NOT a plain list literal, so
 # the N2218-style ast.literal_eval carry cannot recover it
 # (ValueError: malformed node); the import recovers the runtime
-# value verbatim. NOTE for the next slice: N2271's DEFERRED is
+# value verbatim. NOTE for the next slice: N2317's DEFERRED is
 # likewise a computed list(...) + [...] expression, so carry it
 # forward by import too, not by ast.literal_eval.
 # No carried entry is dropped here: no carried entry is closed
 # by this slice (the ambientVolume super leg and progress()
 # stay deferred; the Windows proof debt is new).
 DEFERRED = list(N2309_DEFERRED) + [
-    'BurstDrill ambientVolume() Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2227: the N2271 proof runs headless on Linux here and waits for a Windows Godot run.',
-    'BurstDrill ambientVolume() super leg (DrillBuild.ambientVolume, Drill.java:257-259: `return efficiency * (size * size) / 4f;`) -- the N2271 pure function takes the super result as an explicit input; the Drill super formula waits for its own slice.',
-    'DrillBuild.progress() (Drill.java:327-329: `return dominantItem == null ? 0f : Mathf.clamp(progress / getDrillTime(dominantItem));`) -- the N2271 pure function takes progress as an explicit input; the progress formula (dominant-item null gate + clamp by getDrillTime) waits for its own slice.',
-    'BurstDrill ambientVolume() driver tick (the ambient-sound live loop reading ambientVolume() per tick, BuildingComp.java:2271 `control.sound.loop(block.ambientSound, self(), block.ambientSoundVolume * ambientVolume());`) -- the N2271 pure function has no driver line; the driver side waits for the ambient C mixer slice (N2264).',
+    'BurstDrill ambientVolume() Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2227: the N2317 proof runs headless on Linux here and waits for a Windows Godot run.',
+    'BurstDrill ambientVolume() super leg (DrillBuild.ambientVolume, Drill.java:257-259: `return efficiency * (size * size) / 4f;`) -- the N2317 pure function takes the super result as an explicit input; the Drill super formula waits for its own slice.',
+    'DrillBuild.progress() (Drill.java:327-329: `return dominantItem == null ? 0f : Mathf.clamp(progress / getDrillTime(dominantItem));`) -- the N2317 pure function takes progress as an explicit input; the progress formula (dominant-item null gate + clamp by getDrillTime) waits for its own slice.',
+    'BurstDrill ambientVolume() driver tick (the ambient-sound live loop reading ambientVolume() per tick, BuildingComp.java:2271 `control.sound.loop(block.ambientSound, self(), block.ambientSoundVolume * ambientVolume());`) -- the N2317 pure function has no driver line; the driver side waits for the ambient C mixer slice (N2264).',
 ]
 
 
@@ -143,7 +143,7 @@ def main():
     ambient_volume_inputs, ambient_volume_outputs = definitions()
 
     entries = [
-        ('N2271', AMBIENT_VOLUME_OWNER, 'source_burst_drill_ambient_volume_state', BURST_DRILL, 'mindustry.world.blocks.production.BurstDrill', 'BurstDrillBuild.ambientVolume()', ambient_volume_inputs, ambient_volume_outputs, True, 'Dictionary'),
+        ('N2317', AMBIENT_VOLUME_OWNER, 'source_burst_drill_ambient_volume_state', BURST_DRILL, 'mindustry.world.blocks.production.BurstDrill', 'BurstDrillBuild.ambientVolume()', ambient_volume_inputs, ambient_volume_outputs, True, 'Dictionary'),
     ]
     all_names = []
     for sid, owner, prefix, source, cls, method, inputs, outputs, has_contract, return_type in entries:
@@ -163,10 +163,10 @@ def main():
 
     by_slice = {}
     # The test pins this order: ambient_volume.
-    by_slice['N2271'] = [
+    by_slice['N2317'] = [
         'source_burst_drill_ambient_volume_state_result.ambient_volume',
     ]
-    source_symbols.upsert_source_slice(GODOT, 'N2271', dict(status='done', java_source=BURST_DRILL, java_class='mindustry.world.blocks.production.BurstDrill', java_method='BurstDrillBuild.ambientVolume()', godot_owner=AMBIENT_VOLUME_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2271'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
+    source_symbols.upsert_source_slice(GODOT, 'N2317', dict(status='done', java_source=BURST_DRILL, java_class='mindustry.world.blocks.production.BurstDrill', java_method='BurstDrillBuild.ambientVolume()', godot_owner=AMBIENT_VOLUME_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2317'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
 
     source_symbols.upsert_source_symbols(GODOT, symbols)
     source_symbols.write_source_symbol_audit_report(GODOT)

@@ -33,12 +33,12 @@ BurstDrill("impact-drill"){{` (Blocks.java:3070) and
 
 RED decisions (resolved at RED): (1) One pure function on
 the same family file N2149 / N2256 / N2258 / N2312 / N2262 /
-N2309 / N2271 / N2277 built, after
+N2309 / N2317 / N2277 built, after
 source_drill_ambient_volume_state:
 source_drill_should_ambient_sound_state(frame, efficiency,
 items_total, item_capacity) returning
 should_ambient_sound. The three inputs are explicit params
-(the N2271 / N2277 super-as-param precedent): the caller
+(the N2317 / N2277 super-as-param precedent): the caller
 passes the already-folded efficiency and the live items
 total; frame is the canonical first param of this family
 file. (2) This is a Drill-local boolean predicate -- NOT
@@ -104,8 +104,8 @@ def definitions():
 
     should_ambient_sound_inputs = {
         'frame': a('Dictionary', 'public boolean shouldAmbientSound(){', 'The DrillBuild frame (DrillBuild.shouldAmbientSound, Drill.java:252-254); the family-convention first arg (every BurstDrill pure function takes it). No live keys are read from the frame -- all three gate inputs are explicit params.', source=DRILL),
-        'efficiency': a('float', 'transient float efficiency;', 'The live Building efficiency (`transient float efficiency;`, BuildingComp.java:85); passed explicitly because the caller (the ambient live loop) already holds the folded efficiency (the N2271 / N2277 super-as-param precedent). The gate needs efficiency strictly above 0.01.', source=BUILDING_COMP),
-        'items_total': a('int', 'public int total(){', 'The cached ItemModule total (`public int total(){` with `return total;`, ItemModule.java:174-175); passed explicitly because the caller already holds the live items total (the N2271 / N2277 super-as-param precedent).', source=ITEM_MODULE),
+        'efficiency': a('float', 'transient float efficiency;', 'The live Building efficiency (`transient float efficiency;`, BuildingComp.java:85); passed explicitly because the caller (the ambient live loop) already holds the folded efficiency (the N2317 / N2277 super-as-param precedent). The gate needs efficiency strictly above 0.01.', source=BUILDING_COMP),
+        'items_total': a('int', 'public int total(){', 'The cached ItemModule total (`public int total(){` with `return total;`, ItemModule.java:174-175); passed explicitly because the caller already holds the live items total (the N2317 / N2277 super-as-param precedent).', source=ITEM_MODULE),
         'item_capacity': a('int', 'public int itemCapacity = 10;', 'The per-def item capacity, 40 for the impact-drill def (Blocks.java:3078) and 60 for the eruption-drill def (Blocks.java:3107); passed explicitly because the pure function cannot reach the catalog (the N2212 per-def-param precedent); the Block default is 10 (Block.java:75).', source=BLOCK),
     }
     should_ambient_sound_outputs = {

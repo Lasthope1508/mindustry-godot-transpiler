@@ -19,7 +19,7 @@ func _ready() -> void:
 	game.set_process(false)
 	game.set_physics_process(false)
 
-	# --- BurstDrill ambientVolume() (N2271):
+	# --- BurstDrill ambientVolume() (N2317):
 	# BurstDrill.ambientVolume() (BurstDrill.java:123-125,
 	# `public float ambientVolume(){`) returns
 	# `super.ambientVolume() * Mathf.pow(progress(), 4f);`

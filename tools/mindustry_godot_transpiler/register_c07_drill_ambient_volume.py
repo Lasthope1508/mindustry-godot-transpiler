@@ -11,11 +11,11 @@ int size = 1;`, Block.java:215), a per-def param passed
 explicitly (the N2212 per-def-param precedent):
 impact-drill size 4 (Blocks.java:3073), eruption-drill
 size 5 (Blocks.java:3096). At efficiency 1 the super is
-4.0 vs 6.25 -- the exact values N2271 takes as its
+4.0 vs 6.25 -- the exact values N2317 takes as its
 explicit super input (BurstDrill.ambientVolume(),
 BurstDrill.java:123-125, `return super.ambientVolume()
 * Mathf.pow(progress(), 4f);`, BurstDrill.java:124).
-This slice CLOSES the super-leg deferred entry N2271
+This slice CLOSES the super-leg deferred entry N2317
 carried: the Drill super formula is now ported. The
 classes are `public class Drill extends Block{`
 (Drill.java:27) and `public class DrillBuild extends
@@ -26,7 +26,7 @@ BurstDrill("eruption-drill"){{` (Blocks.java:3093).
 
 RED decisions (resolved at RED): (1) One pure function on
 the same family file N2149 / N2256 / N2258 / N2312 / N2262 /
-N2309 / N2271 built, after
+N2309 / N2317 built, after
 source_burst_drill_ambient_volume_state:
 source_drill_ambient_volume_state(frame, size) returning
 ambient_volume (frame efficiency times size squared over
@@ -50,7 +50,7 @@ import sys
 from pathlib import Path
 
 from mindustry_port import source_ssot, source_symbols
-from register_c07_burst_drill_ambient_volume import DEFERRED as N2271_DEFERRED
+from register_c07_burst_drill_ambient_volume import DEFERRED as N2317_DEFERRED
 from register_liquid_consumer_hydration import backed
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -73,8 +73,8 @@ SLICE_SOURCES = [
 ]
 EXACT_EXPRS = ['public float ambientVolume(){', 'return efficiency * (size * size) / 4f;', 'transient float efficiency;', 'public int size = 1;', 'public class Drill extends Block{', 'public class DrillBuild extends Building{', 'impactDrill = new BurstDrill("impact-drill"){{', 'eruptionDrill = new BurstDrill("eruption-drill"){{']
 
-# DEFERRED is carried from the N2271 register script via import --
-# never retyped. The N2271 script's DEFERRED is a computed
+# DEFERRED is carried from the N2317 register script via import --
+# never retyped. The N2317 script's DEFERRED is a computed
 # expression (list(...) + [...]), NOT a plain list literal, so
 # the N2218-style ast.literal_eval carry cannot recover it
 # (ValueError: malformed node); the import recovers the runtime
@@ -84,7 +84,7 @@ EXACT_EXPRS = ['public float ambientVolume(){', 'return efficiency * (size * siz
 # its own slice" row for done work. The DrillBuild.progress()
 # entry and the ambientVolume driver-tick entry stay deferred --
 # those slices own them.
-DEFERRED = [e for e in N2271_DEFERRED if 'BurstDrill ambientVolume() super leg' not in e] + [
+DEFERRED = [e for e in N2317_DEFERRED if 'BurstDrill ambientVolume() super leg' not in e] + [
     'DrillBuild ambientVolume() Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2227: the N2277 proof runs headless on Linux here and waits for a Windows Godot run.',
 ]
 

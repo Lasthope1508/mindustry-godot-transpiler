@@ -44,7 +44,7 @@ version.version. Two slice sources: Drill.java +
 BuildingComp.java.
 
 DEFERRED base: the BurstDrill chain forks at N2309 --
-N2271 (ambient_volume) -> N2277 (drill_ambient_volume)
+N2317 (ambient_volume) -> N2277 (drill_ambient_volume)
 and N2309 -> N2280 (drill_set_stats) are BOTH leaves,
 and neither deferred list is a superset of the other
 (N2277 has 5 entries N2280 lacks; N2280 has 3 entries

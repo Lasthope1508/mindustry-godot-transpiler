@@ -587,7 +587,7 @@
     "SourceBurstDrillBuildState.source_burst_drill_ambient_volume_state": {
       "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_burst_drill_ambient_volume_state",
       "status": "active",
-      "source_slice": "N2271",
+      "source_slice": "N2317",
       "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
       "source_method": "BurstDrillBuild.ambientVolume()",
       "params": [

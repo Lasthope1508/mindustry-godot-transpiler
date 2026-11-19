@@ -926,23 +926,6 @@
       ],
       "runtime_proof": "/root/C07WallCrafterPowerStatusProof"
     },
-    "N2271": {
-      "canonical_ledger": "source_slice_ledger.N2271",
-      "status": "done",
-      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
-      "java_method": "BurstDrillBuild.ambientVolume()",
-      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_ambient_volume_state",
-      "source_symbols": [
-        "source_burst_drill_ambient_volume_state_result.ambient_volume"
-      ],
-      "tests": [
-        "test_c07_burst_drill_ambient_volume_registration",
-        "test_all_c07_burst_drill_ambient_volume_input_evidence_is_exact",
-        "test_burst_drill_ambient_volume_state",
-        "test_reference_graph_and_actual_c07_burst_drill_ambient_volume"
-      ],
-      "runtime_proof": "/root/C07BurstDrillAmbientVolumeProof"
-    },
     "N2277": {
       "canonical_ledger": "source_slice_ledger.N2277",
       "status": "done",
@@ -1215,6 +1198,23 @@
         "test_reference_graph_and_actual_c07_burst_drill_draw"
       ],
       "runtime_proof": "/root/C07BurstDrillDrawProof"
+    },
+    "N2317": {
+      "canonical_ledger": "source_slice_ledger.N2317",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_method": "BurstDrillBuild.ambientVolume()",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_ambient_volume_state",
+      "source_symbols": [
+        "source_burst_drill_ambient_volume_state_result.ambient_volume"
+      ],
+      "tests": [
+        "test_c07_burst_drill_ambient_volume_registration",
+        "test_all_c07_burst_drill_ambient_volume_input_evidence_is_exact",
+        "test_burst_drill_ambient_volume_state",
+        "test_reference_graph_and_actual_c07_burst_drill_ambient_volume"
+      ],
+      "runtime_proof": "/root/C07BurstDrillAmbientVolumeProof"
     },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",

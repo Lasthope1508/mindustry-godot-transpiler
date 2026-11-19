@@ -28,9 +28,9 @@ class C07DrillAmbientVolumeTests(unittest.TestCase):
         # per-def-param precedent): impact-drill size 4
         # (Blocks.java:3073), eruption-drill size 5
         # (Blocks.java:3096). At efficiency 1 the super is
-        # 4.0 vs 6.25 -- the exact values N2271 takes as its
+        # 4.0 vs 6.25 -- the exact values N2317 takes as its
         # explicit super input. This slice CLOSES the
-        # super-leg deferred entry N2271 carried. One new
+        # super-leg deferred entry N2317 carried. One new
         # result symbol: ambient_volume. There is NO driver
         # tick line: ambientVolume is read per tick by the
         # ambient-sound live loop (BuildingComp.java:2271,

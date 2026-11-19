@@ -35,7 +35,7 @@ class C07RadarDrawPlaceTests(unittest.TestCase):
         # fogRadius(). The color is Pal.accent. The super
         # leg (Block.drawPlace, Block.java:491-494:
         # drawPotentialLinks + drawOverlay) is folded as
-        # explicit params (the N2271/N2277 super-as-param
+        # explicit params (the N2317/N2277 super-as-param
         # precedent): rotation/valid are echoed and
         # super_draw_place_called records the call; the
         # link/overlay drawing itself waits for its own
