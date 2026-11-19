@@ -239416,6 +239416,92 @@
       },
       "runtime_proof": "/root/C07DrillSenseProof",
       "rule": "Source-backed DrillBuild senseObject() + sense() state from Drill.java + BuildingComp.java + LAccess.java."
+    },
+    "source_sound_control_should_play_state_input": {
+      "status": "active",
+      "owner": "SourceSoundControlState.source_sound_control_should_play_state",
+      "source_slice": "N2299",
+      "keys": {
+        "music_vol": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "return Core.settings.getInt(\"musicvol\") > 0;",
+          "rule": "The music volume setting (SoundControl.java:370, `Core.settings.getInt(\"musicvol\")`): arrives as an explicit int param -- the Core.settings accessor is NOT ported in this slice.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_should_play_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SoundControlShouldPlayProof",
+      "rule": "Source-backed SoundControl.shouldPlay() / isPlaying() state from SoundControl.java."
+    },
+    "source_sound_control_should_play_state_result": {
+      "status": "active",
+      "owner": "SourceSoundControlState.source_sound_control_should_play_state",
+      "source_slice": "N2299",
+      "keys": {
+        "should_play": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "return Core.settings.getInt(\"musicvol\") > 0;",
+          "rule": "Whether music should play: true when the music volume setting is above 0 (SoundControl.java:370, strict > 0, so zero or negative reads false); the caller silences the current track when false (SoundControl.java:304-306, `if(!shouldPlay()){` + `current.setVolume(0);`).",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_should_play_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SoundControlShouldPlayProof",
+      "rule": "Source-backed SoundControl.shouldPlay() / isPlaying() state from SoundControl.java."
+    },
+    "source_sound_control_is_playing_state_input": {
+      "status": "active",
+      "owner": "SourceSoundControlState.source_sound_control_is_playing_state",
+      "source_slice": "N2299",
+      "keys": {
+        "has_current": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "protected @Nullable Music current;",
+          "rule": "Whether a current track is set: the SoundControl.current field (SoundControl.java:34, `protected @Nullable Music current;`), null when no track is playing (cleared at :76, :122, :246); passed explicitly because no Music object is ported in this slice.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_is_playing_state"
+          ]
+        },
+        "current_is_playing": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "return current != null && current.isPlaying();",
+          "rule": "Whether the current track is playing (SoundControl.java:252, `current.isPlaying()`): only read when has_current is true -- the Java null check short-circuits first.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_is_playing_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SoundControlShouldPlayProof",
+      "rule": "Source-backed SoundControl.shouldPlay() / isPlaying() state from SoundControl.java."
+    },
+    "source_sound_control_is_playing_state_result": {
+      "status": "active",
+      "owner": "SourceSoundControlState.source_sound_control_is_playing_state",
+      "source_slice": "N2299",
+      "keys": {
+        "is_playing": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "return current != null && current.isPlaying();",
+          "rule": "Whether a track is currently playing: the null-safe current-track check (SoundControl.java:251-253); false when there is no current track, whatever current_is_playing says.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_is_playing_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SoundControlShouldPlayProof",
+      "rule": "Source-backed SoundControl.shouldPlay() / isPlaying() state from SoundControl.java."
     }
   },
   "version": 1

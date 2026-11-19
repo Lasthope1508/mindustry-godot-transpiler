@@ -138,3 +138,31 @@ static func source_sound_control_loop_volume_state(sound: String, volume: float,
 	var result: Dictionary = source_sound_control_loop_position_state(sound, camera_x, camera_y, volume, headless, camera_x, camera_y, audio_falloff, falloff_offset, prev)
 	result["source_owner"] = source_runtime_owner_registry.PORT_GAME_SOURCE_SOUND_CONTROL_LOOP_VOLUME_STATE
 	return result
+
+static func source_sound_control_should_play_state(music_vol: int) -> Dictionary:
+	# SoundControl.shouldPlay() (SoundControl.java:369-371):
+	# `protected boolean shouldPlay(){`
+	# `return Core.settings.getInt("musicvol") > 0;`
+	# -- the comparison is strict (> 0): a zero or negative
+	# music volume reads false. The caller reads the gate
+	# every frame (SoundControl.java:304):
+	# `if(!shouldPlay()){`
+	# and silences the current track when it is false
+	# (SoundControl.java:305-306, `current.setVolume(0);`).
+	# The Core.settings accessor is NOT ported in this slice:
+	# music_vol arrives as an explicit int param.
+	return {"should_play": music_vol > 0}
+
+static func source_sound_control_is_playing_state(has_current: bool, current_is_playing: bool) -> Dictionary:
+	# SoundControl.isPlaying() (SoundControl.java:251-253):
+	# `public boolean isPlaying(){`
+	# `return current != null && current.isPlaying();`
+	# over the current track (SoundControl.java:34):
+	# `protected @Nullable Music current;`
+	# -- the null check short-circuits: no current track reads
+	# false whatever current_is_playing says. has_current and
+	# current_is_playing arrive as explicit params; no Music
+	# play / stop calls in this slice. NO audio playback in
+	# this slice: these are pure gates, playback belongs to
+	# updateLoops (N2264, held waiting for B).
+	return {"is_playing": has_current and current_is_playing}

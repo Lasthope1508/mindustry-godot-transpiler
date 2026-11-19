@@ -70632,6 +70632,61 @@
       ],
       "runtime_proof": "/root/C07DrillSenseProof",
       "rule": "Source-backed DrillBuild senseObject() + sense() state from Drill.java + BuildingComp.java + LAccess.java."
+    },
+    "SourceSoundControlState.source_sound_control_should_play_state": {
+      "status": "active",
+      "source_slice": "N2299",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "source_method": "SoundControl.shouldPlay()",
+      "params": [
+        {
+          "name": "music_vol",
+          "type": "int",
+          "schema": "source_sound_control_should_play_state_input.music_vol"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "should_play"
+      ],
+      "tests": [
+        "test_c07_sound_control_should_play_registration",
+        "test_all_c07_sound_control_should_play_input_evidence_is_exact",
+        "test_sound_control_should_play_state",
+        "test_reference_graph_and_actual_c07_sound_control_should_play"
+      ],
+      "runtime_proof": "/root/C07SoundControlShouldPlayProof",
+      "rule": "Source-backed SoundControl.shouldPlay() / isPlaying() state from SoundControl.java."
+    },
+    "SourceSoundControlState.source_sound_control_is_playing_state": {
+      "status": "active",
+      "source_slice": "N2299",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "source_method": "SoundControl.isPlaying()",
+      "params": [
+        {
+          "name": "has_current",
+          "type": "bool",
+          "schema": "source_sound_control_is_playing_state_input.has_current"
+        },
+        {
+          "name": "current_is_playing",
+          "type": "bool",
+          "schema": "source_sound_control_is_playing_state_input.current_is_playing"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "is_playing"
+      ],
+      "tests": [
+        "test_c07_sound_control_should_play_registration",
+        "test_all_c07_sound_control_should_play_input_evidence_is_exact",
+        "test_sound_control_should_play_state",
+        "test_reference_graph_and_actual_c07_sound_control_should_play"
+      ],
+      "runtime_proof": "/root/C07SoundControlShouldPlayProof",
+      "rule": "Source-backed SoundControl.shouldPlay() / isPlaying() state from SoundControl.java."
     }
   },
   "policy": {

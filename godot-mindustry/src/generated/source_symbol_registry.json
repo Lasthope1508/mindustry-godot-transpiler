@@ -177992,6 +177992,38 @@
         "test_reference_graph_and_actual_c07_drill_sense"
       ],
       "runtime_proof": "/root/C07DrillSenseProof"
+    },
+    "source_sound_control_should_play_state_result.should_play": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_should_play_state",
+      "godot_symbol": "source_sound_control_should_play_state_result.should_play",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.shouldPlay()",
+      "java_expr": "return Core.settings.getInt(\"musicvol\") > 0;",
+      "rule": "Whether music should play: true when the music volume setting is above 0 (SoundControl.java:370, strict > 0, so zero or negative reads false); the caller silences the current track when false (SoundControl.java:304-306, `if(!shouldPlay()){` + `current.setVolume(0);`).",
+      "tests": [
+        "test_c07_sound_control_should_play_registration",
+        "test_all_c07_sound_control_should_play_input_evidence_is_exact",
+        "test_sound_control_should_play_state",
+        "test_reference_graph_and_actual_c07_sound_control_should_play"
+      ],
+      "runtime_proof": "/root/C07SoundControlShouldPlayProof"
+    },
+    "source_sound_control_is_playing_state_result.is_playing": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_is_playing_state",
+      "godot_symbol": "source_sound_control_is_playing_state_result.is_playing",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.isPlaying()",
+      "java_expr": "return current != null && current.isPlaying();",
+      "rule": "Whether a track is currently playing: the null-safe current-track check (SoundControl.java:251-253); false when there is no current track, whatever current_is_playing says.",
+      "tests": [
+        "test_c07_sound_control_should_play_registration",
+        "test_all_c07_sound_control_should_play_input_evidence_is_exact",
+        "test_sound_control_should_play_state",
+        "test_reference_graph_and_actual_c07_sound_control_should_play"
+      ],
+      "runtime_proof": "/root/C07SoundControlShouldPlayProof"
     }
   },
   "version": 1
