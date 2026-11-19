@@ -176632,6 +176632,22 @@
         "test_reference_graph_and_actual_c07_turret_multi_recoil"
       ],
       "runtime_proof": "/root/C07TurretMultiRecoilProof"
+    },
+    "source_turret_multi_recoil_stamp_state_result.cur_recoils": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_multi_recoil_stamp_state",
+      "godot_symbol": "source_turret_multi_recoil_stamp_state_result.cur_recoils",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.bullet()",
+      "java_expr": "curRecoils[barrelCounter % recoils] = 1f;",
+      "rule": "The per-barrel counters after the shot (Turret.java:808 -- entry barrelCounter % recoils stamped to 1.0, every other entry untouched; a NEW array of length recoils, the input never mutated; when recoils <= 0 the guard does nothing and the input is returned unchanged).",
+      "tests": [
+        "test_c07_turret_multi_recoil_stamp_registration",
+        "test_all_c07_turret_multi_recoil_stamp_input_evidence_is_exact",
+        "test_turret_multi_recoil_stamp_state",
+        "test_reference_graph_and_actual_c07_turret_multi_recoil_stamp"
+      ],
+      "runtime_proof": "/root/C07TurretMultiRecoilStampProof"
     }
   },
   "version": 1

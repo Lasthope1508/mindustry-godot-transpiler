@@ -8111,6 +8111,42 @@
       "rule": "Source-backed TractorBeamTurret power.status row from ConsumePower.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceTurretBuildState.source_turret_multi_recoil_stamp_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_multi_recoil_stamp_state",
+      "status": "active",
+      "source_slice": "N2257",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.bullet()",
+      "params": [
+        {
+          "name": "cur_recoils",
+          "type": "Array",
+          "schema": "source_turret_multi_recoil_stamp_state_input.cur_recoils"
+        },
+        {
+          "name": "barrel",
+          "type": "int",
+          "schema": "source_turret_multi_recoil_stamp_state_input.barrel"
+        },
+        {
+          "name": "recoils",
+          "type": "int",
+          "schema": "source_turret_multi_recoil_stamp_state_input.recoils"
+        }
+      ],
+      "return_keys": [
+        "cur_recoils"
+      ],
+      "tests": [
+        "test_c07_turret_multi_recoil_stamp_registration",
+        "test_all_c07_turret_multi_recoil_stamp_input_evidence_is_exact",
+        "test_turret_multi_recoil_stamp_state",
+        "test_reference_graph_and_actual_c07_turret_multi_recoil_stamp"
+      ],
+      "runtime_proof": "/root/C07TurretMultiRecoilStampProof",
+      "rule": "Source-backed Turret multi-recoil stamp from Turret.java.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_turret_multi_recoil_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_multi_recoil_state",
       "status": "active",

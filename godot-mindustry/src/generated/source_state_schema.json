@@ -236460,6 +236460,64 @@
       },
       "runtime_proof": "/root/C07TurretMultiRecoilProof",
       "rule": "Source-backed Turret multi-recoil decay from Turret.java."
+    },
+    "source_turret_multi_recoil_stamp_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_multi_recoil_stamp_state",
+      "source_slice": "N2257",
+      "keys": {
+        "cur_recoils": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public @Nullable float[] curRecoils;",
+          "rule": "The per-barrel recoil counters 0..1 (Turret.java:285, the curRecoils field, null until the first updateTile tick allocates it; the driver reads it from frame[\"cur_recoils\"], default [] -- no cur_recoils key existed before N2256 -- and missing entries read as 0.0).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_multi_recoil_stamp_state"
+          ]
+        },
+        "barrel": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public int totalShots, barrelCounter;",
+          "rule": "The barrel that just fired, pre-increment (Turret.java:287, the barrelCounter field; pattern.shoot runs before the `}, () -> barrelCounter++);` incrementer at :770, so the driver passes the shoot_event barrel, not frame[\"barrel_counter\"] which the aim tick already stamped with barrel_counter_after).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_multi_recoil_stamp_state"
+          ]
+        },
+        "recoils": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public int recoils = -1;",
+          "rule": "The number of per-barrel counters (Turret.java:142, the class default -1; duo overrides it with `recoils = 2;`, Blocks.java:3301, so the driver passes 2).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_multi_recoil_stamp_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretMultiRecoilStampProof",
+      "rule": "Source-backed Turret multi-recoil stamp from Turret.java."
+    },
+    "source_turret_multi_recoil_stamp_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_multi_recoil_stamp_state",
+      "source_slice": "N2257",
+      "keys": {
+        "cur_recoils": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "curRecoils[barrelCounter % recoils] = 1f;",
+          "rule": "The per-barrel counters after the shot (Turret.java:808 -- entry barrelCounter % recoils stamped to 1.0, every other entry untouched; a NEW array of length recoils, the input never mutated; when recoils <= 0 the guard does nothing and the input is returned unchanged).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_multi_recoil_stamp_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretMultiRecoilStampProof",
+      "rule": "Source-backed Turret multi-recoil stamp from Turret.java."
     }
   },
   "version": 1

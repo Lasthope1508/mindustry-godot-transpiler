@@ -303,6 +303,42 @@ static func source_turret_shoot_stamp_state(cur_recoil: float, heat: float, tota
 	# any count to count + 1; the next tick decays from 1.0 (N2254).
 	return {"cur_recoil": 1.0, "heat": 1.0, "total_shots": total_shots + 1}
 
+static func source_turret_multi_recoil_stamp_state(cur_recoils: Array, barrel: int, recoils: int) -> Dictionary:
+	# TurretBuild.bullet() (Turret.java:779-812) stamps the
+	# per-barrel recoil counter of the barrel that just fired
+	# after the bullet is created and handled: `curRecoil = 1f;`
+	# / `if(recoils > 0){` / `curRecoils[barrelCounter % recoils] = 1f;` / `}` /
+	# `heat = 1f;` / `totalShots++;` (Turret.java:806-811).
+	# The field is `public @Nullable float[] curRecoils;` (:285),
+	# null until the first updateTile tick allocates it (N2256
+	# decay), and the class default is `public int recoils = -1;`
+	# (:142) -- but duo overrides it: `recoils = 2;`
+	# (Blocks.java:3301, inside the duo block 3257-3330), so the
+	# branch DOES apply to duo: its two drawer barrel parts
+	# carry recoilIndex 0 / 1 (Blocks.java:3302-3311) and
+	# DrawTurret reads `tb.curRecoils[part.recoilIndex]`
+	# (DrawTurret.java:104/115). The counter is
+	# `public int totalShots, barrelCounter;` (:287); the barrel
+	# is the pre-increment barrelCounter -- pattern.shoot runs
+	# before the `}, () -> barrelCounter++);` incrementer
+	# (Turret.java:770). The result is a 1-key dict:
+	# `cur_recoils`, a NEW array of length recoils (missing
+	# entries read as 0.0, so a null / absent frame key inits
+	# to zeros) with entry barrel % recoils stamped to 1.0 and
+	# every other entry untouched -- the input array is never
+	# mutated. When recoils <= 0 the Java guard does nothing,
+	# so the function returns the input unchanged.
+	var stamped: Array = []
+	if recoils > 0:
+		for i in range(recoils):
+			var value: float = 0.0
+			if i < cur_recoils.size():
+				value = float(cur_recoils[i])
+			stamped.append(value)
+		stamped[barrel % recoils] = 1.0
+		return {"cur_recoils": stamped}
+	return {"cur_recoils": cur_recoils}
+
 @warning_ignore("unused_parameter")
 static func source_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the turret tick wiring every tick
@@ -550,6 +586,19 @@ static func source_turret_tick_buildings_state(game: Object, seconds: float) -> 
 				frame["cur_recoil"] = shoot_stamp.get("cur_recoil", 1.0)
 				frame["heat"] = shoot_stamp.get("heat", 1.0)
 				frame["total_shots"] = shoot_stamp.get("total_shots", 0)
+				# The multi-recoil stamp (Turret.java:807-809, N2257)
+				# runs right after the singular shoot stamp: Java
+				# order :806 then :807-809, both inside bullet(),
+				# after the bullet spawn (:797). The barrel is the
+				# pre-increment shoot_event barrel (pattern.shoot
+				# runs before the barrelCounter++ incrementer,
+				# Turret.java:770) -- NOT frame["barrel_counter"],
+				# which the aim tick already stamped with
+				# barrel_counter_after = barrelCounter + 1. Duo
+				# recoils is 2 (Blocks.java:3301, not the -1 class
+				# default at Turret.java:142).
+				var multi_recoil_stamp: Dictionary = source_turret_multi_recoil_stamp_state(frame.get("cur_recoils", []), int(shoot_event.get("barrel", 0)), 2)
+				frame["cur_recoils"] = multi_recoil_stamp.get("cur_recoils", [])
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
 	return {"ticked_count": ticked_count, "results_by_cell": results_by_cell}
