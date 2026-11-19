@@ -5,7 +5,7 @@ Ngày: 2026-11-20 ~00:15–00:35 +07 (GREEN), gate xong 01:23 +07, push lượt 
 ## Trạng thái
 
 - N2270 DONE + PUSHED (origin/main 683f89ab). Không có gì thay đổi về N2270.
-- N2271 DONE + PUSHED (slice a66bf630, docs 25506129, GOAL a2d59012): charge sound cho firstShotDelay > 0. Gate2 xác minh độc lập từ log: Ran 6177, failures=221, skipped=5 — toàn Godot-absent (221 × `unexpectedly None`, 0 KeyError, 0 `return_schema_linkage`, 0 ERROR).
+- N2271 DONE + PUSHED (slice a66bf630, docs 25506129, GOAL a2d59012, status 71fd85b7): charge sound cho firstShotDelay > 0. Gate2 xác minh độc lập từ log: Ran 6177, failures=221, skipped=5 — toàn Godot-absent (221 × `unexpectedly None`, 0 KeyError, 0 `return_schema_linkage`, 0 ERROR).
 
 ## Làm được lượt này (GREEN)
 
