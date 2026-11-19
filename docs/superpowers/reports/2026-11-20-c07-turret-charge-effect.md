@@ -5,7 +5,7 @@ Ngày: 2026-11-20 ~02:51–03:20 +07 (GREEN), gate xong 03:37 +07, push lượt 
 ## Trạng thái
 
 - N2272 DONE + PUSHED (origin/main c9ab3070). Không có gì thay đổi về N2272.
-- N2273 DONE + PUSHED (slice 62680702, docs d9513779, GOAL 749a821e): Turret charge effect — chỉ lancer có chargeEffect (MultiEffect lancerLaserCharge + lancerLaserChargeBegin), còn lại Fx.none. Gate xác minh độc lập từ log: Ran 6185, failures=223, skipped=5 — toàn Godot-absent (223 × `unexpectedly None`, 0 KeyError, 0 `return_schema_linkage`, 0 ERROR).
+- N2273 DONE + PUSHED (slice 62680702, docs d9513779, GOAL 749a821e, status 87e025f2): Turret charge effect — chỉ lancer có chargeEffect (MultiEffect lancerLaserCharge + lancerLaserChargeBegin), còn lại Fx.none. Gate xác minh độc lập từ log: Ran 6185, failures=223, skipped=5 — toàn Godot-absent (223 × `unexpectedly None`, 0 KeyError, 0 `return_schema_linkage`, 0 ERROR).
 
 ## Làm được lượt này (GREEN)
 
