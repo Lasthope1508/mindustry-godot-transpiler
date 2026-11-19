@@ -18481,6 +18481,60 @@
       "rule": "Source-backed live TeamRules cheating; a cheating team skips its consumers.",
       "return_type": "Dictionary"
     },
+    "SourceTurretBuildState.source_turret_configured_dispatch_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_configured_dispatch_state",
+      "status": "active",
+      "source_slice": "N2268",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "BuildingComp.configured()",
+      "params": [
+        {
+          "name": "value_kind",
+          "type": "String",
+          "schema": "source_turret_configured_dispatch_state_input.value_kind"
+        },
+        {
+          "name": "value_is_anonymous",
+          "type": "bool",
+          "schema": "source_turret_configured_dispatch_state_input.value_is_anonymous"
+        },
+        {
+          "name": "superclass_kind",
+          "type": "String",
+          "schema": "source_turret_configured_dispatch_state_input.superclass_kind"
+        },
+        {
+          "name": "has_handler",
+          "type": "bool",
+          "schema": "source_turret_configured_dispatch_state_input.has_handler"
+        },
+        {
+          "name": "building_config_kind",
+          "type": "String",
+          "schema": "source_turret_configured_dispatch_state_input.building_config_kind"
+        },
+        {
+          "name": "builder_is_player",
+          "type": "bool",
+          "schema": "source_turret_configured_dispatch_state_input.builder_is_player"
+        }
+      ],
+      "return_keys": [
+        "resolved_type",
+        "handler_applied",
+        "config_copied",
+        "last_access_updated"
+      ],
+      "tests": [
+        "test_c07_turret_configured_dispatch_registration",
+        "test_all_c07_turret_configured_dispatch_input_evidence_is_exact",
+        "test_turret_configured_dispatch_state",
+        "test_reference_graph_and_actual_c07_turret_configured_dispatch"
+      ],
+      "runtime_proof": "/root/C07TurretConfiguredDispatchProof",
+      "rule": "Source-backed BuildingComp configured() dispatch effect from BuildingComp.java.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_turret_super_control_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_super_control_state",
       "status": "active",

@@ -237494,6 +237494,124 @@
       },
       "runtime_proof": "/root/C07TurretSuperControlProof",
       "rule": "Source-backed BuildingComp super.control() enabled/config cases from BuildingComp.java."
+    },
+    "source_turret_configured_dispatch_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_configured_dispatch_state",
+      "source_slice": "N2268",
+      "keys": {
+        "value_kind": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Class<?> type = value == null ? void.class : value.getClass().isAnonymousClass() ? value.getClass().getSuperclass() : value.getClass();",
+          "rule": "The runtime class kind of the configured value (BuildingComp.java:1416 -- null resolves to void.class, an anonymous value to its superclass, else its own class; the instanceof overrides at :1418-1421 then pin Item/Block/Liquid/UnitType).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_configured_dispatch_state"
+          ]
+        },
+        "value_is_anonymous": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "value.getClass().isAnonymousClass()",
+          "rule": "Whether the value is an anonymous class (BuildingComp.java:1416 -- an anonymous value resolves to its superclass, unless an instanceof override at :1418-1421 pins it to a content kind).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_configured_dispatch_state"
+          ]
+        },
+        "superclass_kind": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "value.getClass().getSuperclass()",
+          "rule": "The superclass kind of an anonymous value (BuildingComp.java:1416 -- the resolved type when the value is anonymous and no instanceof override applies).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_configured_dispatch_state"
+          ]
+        },
+        "has_handler": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(block.configurations.containsKey(type)){",
+          "rule": "Whether block.configurations holds a handler for the resolved type (BuildingComp.java:1427 -- the dispatch branch; the map is Block.java:402, filled by config( :926-929) and configClear( :921-924).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_configured_dispatch_state"
+          ]
+        },
+        "building_config_kind": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "var conf = build.config();",
+          "rule": "The kind of the other building config when the value is a Building (BuildingComp.java:1431 -- conf from build.config(), which defaults to null at :2024-2027; \"null\" when there is none, \"Building\" when it is itself a Building).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_configured_dispatch_state"
+          ]
+        },
+        "builder_is_player": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(builder != null && builder.isPlayer()){",
+          "rule": "Whether the configuring builder is a player unit (BuildingComp.java:1423 -- isPlayer is UnitComp.java:949-950, controller instanceof Player; a player builder stamps last access via updateLastAccess :1437-1439).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_configured_dispatch_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretConfiguredDispatchProof",
+      "rule": "Source-backed BuildingComp configured() dispatch effect from BuildingComp.java."
+    },
+    "source_turret_configured_dispatch_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_configured_dispatch_state",
+      "source_slice": "N2268",
+      "keys": {
+        "resolved_type": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "Class<?> type = value == null ? void.class : value.getClass().isAnonymousClass() ? value.getClass().getSuperclass() : value.getClass();",
+          "rule": "The resolved handler key (BuildingComp.java:1416-1421 -- \"void\" for a null value, the instanceof class for Item/Block/Liquid/UnitType, the superclass for an anonymous value, else the value kind itself).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_configured_dispatch_state"
+          ]
+        },
+        "handler_applied": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "block.configurations.get(type).get(this, value);",
+          "rule": "Whether the registered handler ran for the resolved type (BuildingComp.java:1428 -- true only when block.configurations contains the resolved type).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_configured_dispatch_state"
+          ]
+        },
+        "config_copied": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "configured(builder, conf);",
+          "rule": "Whether the Building copy branch recursed (BuildingComp.java:1429-1434 -- true only when no handler applies, the value is a Building, and the other building config is non-null and not itself a Building; at most one level, the guard rejects a Building conf).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_configured_dispatch_state"
+          ]
+        },
+        "last_access_updated": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "lastAccessed = player.coloredName();",
+          "rule": "Whether last access was stamped (BuildingComp.java:1438 -- true only for a player builder, via updateLastAccess :1437-1439).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_configured_dispatch_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretConfiguredDispatchProof",
+      "rule": "Source-backed BuildingComp configured() dispatch effect from BuildingComp.java."
     }
   },
   "version": 1

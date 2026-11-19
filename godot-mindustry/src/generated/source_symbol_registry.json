@@ -176968,6 +176968,70 @@
         "test_reference_graph_and_actual_c07_turret_super_control"
       ],
       "runtime_proof": "/root/C07TurretSuperControlProof"
+    },
+    "source_turret_configured_dispatch_state_result.resolved_type": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_configured_dispatch_state",
+      "godot_symbol": "source_turret_configured_dispatch_state_result.resolved_type",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.configured()",
+      "java_expr": "Class<?> type = value == null ? void.class : value.getClass().isAnonymousClass() ? value.getClass().getSuperclass() : value.getClass();",
+      "rule": "The resolved handler key (BuildingComp.java:1416-1421 -- \"void\" for a null value, the instanceof class for Item/Block/Liquid/UnitType, the superclass for an anonymous value, else the value kind itself).",
+      "tests": [
+        "test_c07_turret_configured_dispatch_registration",
+        "test_all_c07_turret_configured_dispatch_input_evidence_is_exact",
+        "test_turret_configured_dispatch_state",
+        "test_reference_graph_and_actual_c07_turret_configured_dispatch"
+      ],
+      "runtime_proof": "/root/C07TurretConfiguredDispatchProof"
+    },
+    "source_turret_configured_dispatch_state_result.handler_applied": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_configured_dispatch_state",
+      "godot_symbol": "source_turret_configured_dispatch_state_result.handler_applied",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.configured()",
+      "java_expr": "block.configurations.get(type).get(this, value);",
+      "rule": "Whether the registered handler ran for the resolved type (BuildingComp.java:1428 -- true only when block.configurations contains the resolved type).",
+      "tests": [
+        "test_c07_turret_configured_dispatch_registration",
+        "test_all_c07_turret_configured_dispatch_input_evidence_is_exact",
+        "test_turret_configured_dispatch_state",
+        "test_reference_graph_and_actual_c07_turret_configured_dispatch"
+      ],
+      "runtime_proof": "/root/C07TurretConfiguredDispatchProof"
+    },
+    "source_turret_configured_dispatch_state_result.config_copied": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_configured_dispatch_state",
+      "godot_symbol": "source_turret_configured_dispatch_state_result.config_copied",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.configured()",
+      "java_expr": "configured(builder, conf);",
+      "rule": "Whether the Building copy branch recursed (BuildingComp.java:1429-1434 -- true only when no handler applies, the value is a Building, and the other building config is non-null and not itself a Building; at most one level, the guard rejects a Building conf).",
+      "tests": [
+        "test_c07_turret_configured_dispatch_registration",
+        "test_all_c07_turret_configured_dispatch_input_evidence_is_exact",
+        "test_turret_configured_dispatch_state",
+        "test_reference_graph_and_actual_c07_turret_configured_dispatch"
+      ],
+      "runtime_proof": "/root/C07TurretConfiguredDispatchProof"
+    },
+    "source_turret_configured_dispatch_state_result.last_access_updated": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_configured_dispatch_state",
+      "godot_symbol": "source_turret_configured_dispatch_state_result.last_access_updated",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.configured()",
+      "java_expr": "lastAccessed = player.coloredName();",
+      "rule": "Whether last access was stamped (BuildingComp.java:1438 -- true only for a player builder, via updateLastAccess :1437-1439).",
+      "tests": [
+        "test_c07_turret_configured_dispatch_registration",
+        "test_all_c07_turret_configured_dispatch_input_evidence_is_exact",
+        "test_turret_configured_dispatch_state",
+        "test_reference_graph_and_actual_c07_turret_configured_dispatch"
+      ],
+      "runtime_proof": "/root/C07TurretConfiguredDispatchProof"
     }
   },
   "version": 1

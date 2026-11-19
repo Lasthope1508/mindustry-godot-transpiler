@@ -745,6 +745,75 @@ static func source_turret_super_control_state(control_type: String, p1: float, e
 		config_applied = logic_configurable and not p1_is_logic_build
 	return {"enabled": enabled, "config_applied": config_applied}
 
+static func source_turret_configured_dispatch_state(value_kind: String, value_is_anonymous: bool, superclass_kind: String, has_handler: bool, building_config_kind: String, builder_is_player: bool) -> Dictionary:
+	# BuildingComp.configured() (BuildingComp.java:1414-1432),
+	# `public void configured(@Nullable Unit builder, @Nullable Object value){`
+	# what the super.control() config case calls
+	# (BuildingComp.java:2161, `configured(null, p1);`, via the
+	# :2159 guard pinned by N2267). The type is resolved first:
+	# `//null is of type void.class; anonymous classes use their superclass.`
+	# `Class<?> type = value == null ? void.class : value.getClass().isAnonymousClass() ? value.getClass().getSuperclass() : value.getClass();`
+	# then the instanceof overrides pin the four content kinds:
+	# `if(value instanceof Item) type = Item.class;`
+	# `if(value instanceof Block) type = Block.class;`
+	# `if(value instanceof Liquid) type = Liquid.class;`
+	# `if(value instanceof UnitType) type = UnitType.class;`
+	# A player builder stamps last access:
+	# `if(builder != null && builder.isPlayer()){`
+	# `updateLastAccess(builder.getPlayer());`
+	# `}` where updateLastAccess is
+	# `public void updateLastAccess(Player player){`
+	# `lastAccessed = player.coloredName();`
+	# and the field is `transient String lastAccessed;`.
+	# isPlayer is `public boolean isPlayer(){`
+	# `return controller instanceof Player;`
+	# (UnitComp.java:949-950). Then the dispatch:
+	# `if(block.configurations.containsKey(type)){`
+	# `block.configurations.get(type).get(this, value);`
+	# `}else if(value instanceof Building build){`
+	# `//copy config of another building`
+	# `var conf = build.config();`
+	# `if(conf != null && !(conf instanceof Building)){`
+	# `configured(builder, conf);`
+	# `}` -- a registered handler runs for the resolved type,
+	# otherwise a Building value copies the other building's
+	# config recursively (at most one level: the guard rejects
+	# a Building conf, so the recursive call can never take the
+	# copy branch again). The configurations map is
+	# `public ObjectMap<Class<?>, Cons2> configurations = new ObjectMap<>();`
+	# (Block.java:402), filled by
+	# `public <T, E extends Building> void config(Class<T> type, Cons2<E, T> config){`
+	# `configurations.put(type, config);`
+	# and by configClear, which registers the void.class handler
+	# `configurations.put(void.class, (tile, value) -> cons.get((E)tile));`
+	# for a null value. `config()` itself is
+	# `public Object config(){` returning null by default
+	# (BuildingComp.java:2024-2027). Duo registers no
+	# configuration at all (no `config(` in ItemTurret.java,
+	# Turret.java, ReloadTurret.java or BaseTurret.java), so its
+	# configurations map is empty: no handler ever applies and
+	# config() returns null, so the copy branch never recurses
+	# either -- configured() is a noop for duo. This is an
+	# EVENT, not a per-tick step: configured() is called from
+	# control(), and no logic executor exists in the driver yet,
+	# so there is no driver tick (the N2248 precedent,
+	# N2264/N2266/N2267). The result is a 4-key dict:
+	# `resolved_type`, `handler_applied`, `config_copied`,
+	# `last_access_updated`.
+	var resolved_type := value_kind
+	if value_kind == "null":
+		resolved_type = "void"
+	elif value_kind == "Item" or value_kind == "Block" or value_kind == "Liquid" or value_kind == "UnitType":
+		resolved_type = value_kind
+	elif value_is_anonymous:
+		resolved_type = superclass_kind
+	var handler_applied := has_handler
+	var config_copied := false
+	if not has_handler and value_kind == "Building" and building_config_kind != "null" and building_config_kind != "Building":
+		config_copied = true
+	var last_access_updated := builder_is_player
+	return {"resolved_type": resolved_type, "handler_applied": handler_applied, "config_copied": config_copied, "last_access_updated": last_access_updated}
+
 @warning_ignore("unused_parameter")
 static func source_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the turret tick wiring every tick
