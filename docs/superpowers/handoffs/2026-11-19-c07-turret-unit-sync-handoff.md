@@ -1,6 +1,6 @@
 # Handoff — N2260 Turret unit sync (C07, duo) [DONE + PUSHED]
 
-## Status: DONE + PUSHED (2026-11-19 ~13:2x +07, lượt cron 13:15) — slice `6e5acc29`, docs `0f279380`, GOAL `5ccbc0f9`, status TBD (pushed; origin/main advances with this status commit). Targeted 4/4 + proof matches:true 11/11 + register --verify 16/16 + gate Ran 6133, failures=210 toàn Godot-absent (đã xác minh độc lập).
+## Status: DONE + PUSHED (2026-11-19 ~13:2x +07, lượt cron 13:15) — slice `6e5acc29`, docs `0f279380`, GOAL `5ccbc0f9`, status `96f69239` (pushed; origin/main advances with this status commit). Targeted 4/4 + proof matches:true 11/11 + register --verify 16/16 + gate Ran 6133, failures=210 toàn Godot-absent (đã xác minh độc lập).
 
 - N2259 DONE + PUSHED (origin/main dbb7bbc7, slice e90d1466) — đã xác minh đầu lượt: git log 5 commit khớp, HEAD == origin/main == dbb7bbc7, worktree sạch ngoại trừ noise *.gd.uid (không stage).
 
