@@ -17,7 +17,7 @@ class C07GameHeadlessTests(unittest.TestCase):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        self.assertEqual(ledger['N2259']['godot_owner'], 'SourceGameHeadlessState.source_game_headless_state')
+        self.assertEqual(ledger['N2300']['godot_owner'], 'SourceGameHeadlessState.source_game_headless_state')
         # The game-level headless source (ambient A): Vars.headless
         # (Vars.java:208-209, `/** whether the game is running on
         # a headless server */` / `public static boolean headless;`
@@ -38,12 +38,12 @@ class C07GameHeadlessTests(unittest.TestCase):
         # slice only supplies the input, it builds no second gate.
         # One new result symbol: headless.
         self.assertEqual(
-            ledger['N2259']['source_symbols'],
+            ledger['N2300']['source_symbols'],
             [
                 'source_game_headless_state_result.headless',
             ],
         )
-        for name in ledger['N2259']['source_symbols']:
+        for name in ledger['N2300']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_source'], {
@@ -52,9 +52,9 @@ class C07GameHeadlessTests(unittest.TestCase):
                     'core/src/mindustry/entities/comp/BuildingComp.java',
                 })
                 self.assertEqual(symbol['godot_owner'], 'SourceGameHeadlessState.' + name.rsplit('_result.', 1)[0])
-        self.assertEqual(ledger['N2259']['runtime_proof'], '/root/C07GameHeadlessProof')
+        self.assertEqual(ledger['N2300']['runtime_proof'], '/root/C07GameHeadlessProof')
         self.assertEqual(
-            ledger['N2259']['tests'],
+            ledger['N2300']['tests'],
             [
                 'test_c07_game_headless_registration',
                 'test_all_c07_game_headless_input_evidence_is_exact',
@@ -62,13 +62,13 @@ class C07GameHeadlessTests(unittest.TestCase):
                 'test_reference_graph_and_actual_c07_game_headless',
             ],
         )
-        self.assertTrue(ledger['N2259']['deferred_exprs'])
+        self.assertTrue(ledger['N2300']['deferred_exprs'])
 
     def test_all_c07_game_headless_input_evidence_is_exact(self):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        for name in ledger['N2259']['source_symbols']:
+        for name in ledger['N2300']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 source = symbol['java_source']
@@ -84,7 +84,7 @@ class C07GameHeadlessTests(unittest.TestCase):
         for source in slice_sources:
             upstream_root = ROOT / 'arc-upstream' if source.startswith('arc-core/') else ROOT / 'mindustry-upstream'
             upstream[source] = (upstream_root / source).read_text(encoding='utf-8')
-        for expr in ledger['N2259']['exact_exprs']:
+        for expr in ledger['N2300']['exact_exprs']:
             with self.subTest(expr=expr):
                 self.assertTrue(any(expr in text for text in upstream.values()), expr)
 

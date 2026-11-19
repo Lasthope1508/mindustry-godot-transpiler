@@ -234665,44 +234665,6 @@
       "runtime_proof": "/root/C07PointDefenseTurretLiveBulletsWiringProof",
       "rule": "Source-backed PointDefenseTurret live-bullets wiring from PointDefenseTurret.java / BulletComp.java / BulletType.java / Blocks.java / GroupDefs.java."
     },
-    "source_game_headless_state_input": {
-      "status": "active",
-      "owner": "SourceGameHeadlessState.source_game_headless_state",
-      "source_slice": "N2259",
-      "keys": {
-        "game": {
-          "type": "Object",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/Vars.java",
-          "java_expr": "public static boolean headless;",
-          "rule": "The live game (PortGame node): its headless flag is read from it; a null game or a game without the flag reads false, the Java default (Vars.java:209, `public static boolean headless;` defaults false) -- the paused accessor precedent (N2123).",
-          "used_by": [
-            "SourceGameHeadlessState.source_game_headless_state"
-          ]
-        }
-      },
-      "runtime_proof": "/root/C07GameHeadlessProof",
-      "rule": "Source-backed game headless source from Vars.java + ServerLauncher.java + BuildingComp.java."
-    },
-    "source_game_headless_state_result": {
-      "status": "active",
-      "owner": "SourceGameHeadlessState.source_game_headless_state",
-      "source_slice": "N2259",
-      "keys": {
-        "headless": {
-          "type": "bool",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/Vars.java",
-          "java_expr": "public static boolean headless;",
-          "rule": "Whether the game runs on a headless server: the stamped DisplayServer derivation (decision 2026-11-17 ~12:56, Option 1), the value the N657 ambient gate reads as its headless_mode input (BuildingComp.java:2270-2271).",
-          "used_by": [
-            "SourceGameHeadlessState.source_game_headless_state"
-          ]
-        }
-      },
-      "runtime_proof": "/root/C07GameHeadlessProof",
-      "rule": "Source-backed game headless source from Vars.java + ServerLauncher.java + BuildingComp.java."
-    },
     "source_turret_estimate_dps_state_input": {
       "status": "active",
       "owner": "SourceTurretBuildState.source_turret_estimate_dps_state",
@@ -238193,7 +238155,7 @@
           "status": "source-backed",
           "java_source": "core/src/mindustry/Vars.java",
           "java_expr": "public static boolean headless;",
-          "rule": "Whether the game runs on a headless server (Vars.java:209, `public static boolean headless;`, default false): the N2259 accessor supplies it; a headless game returns the previous SoundData unchanged (SoundControl.java:104).",
+          "rule": "Whether the game runs on a headless server (Vars.java:209, `public static boolean headless;`, default false): the N2300 accessor supplies it; a headless game returns the previous SoundData unchanged (SoundControl.java:104).",
           "used_by": [
             "SourceSoundControlState.source_sound_control_loop_state"
           ]
@@ -238391,7 +238353,7 @@
           "status": "source-backed",
           "java_source": "core/src/mindustry/Vars.java",
           "java_expr": "public static boolean headless;",
-          "rule": "Whether the game runs on a headless server (Vars.java:209): the N2259 accessor supplies it; a headless game returns the previous SoundData unchanged.",
+          "rule": "Whether the game runs on a headless server (Vars.java:209): the N2300 accessor supplies it; a headless game returns the previous SoundData unchanged.",
           "used_by": [
             "SourceSoundControlState.source_sound_control_loop_position_state"
           ]
@@ -238569,7 +238531,7 @@
           "status": "source-backed",
           "java_source": "core/src/mindustry/audio/SoundControl.java",
           "java_expr": "if(Vars.headless) return;",
-          "rule": "Whether the game runs on a headless server (SoundControl.java:94, `if(Vars.headless) return;`): the N2259 accessor supplies it; enforced by the accumulator the call delegates to.",
+          "rule": "Whether the game runs on a headless server (SoundControl.java:94, `if(Vars.headless) return;`): the N2300 accessor supplies it; enforced by the accumulator the call delegates to.",
           "used_by": [
             "SourceSoundControlState.source_sound_control_loop_volume_state"
           ]
@@ -239502,6 +239464,44 @@
       },
       "runtime_proof": "/root/C07SoundControlShouldPlayProof",
       "rule": "Source-backed SoundControl.shouldPlay() / isPlaying() state from SoundControl.java."
+    },
+    "source_game_headless_state_input": {
+      "status": "active",
+      "owner": "SourceGameHeadlessState.source_game_headless_state",
+      "source_slice": "N2300",
+      "keys": {
+        "game": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/Vars.java",
+          "java_expr": "public static boolean headless;",
+          "rule": "The live game (PortGame node): its headless flag is read from it; a null game or a game without the flag reads false, the Java default (Vars.java:209, `public static boolean headless;` defaults false) -- the paused accessor precedent (N2123).",
+          "used_by": [
+            "SourceGameHeadlessState.source_game_headless_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07GameHeadlessProof",
+      "rule": "Source-backed game headless source from Vars.java + ServerLauncher.java + BuildingComp.java."
+    },
+    "source_game_headless_state_result": {
+      "status": "active",
+      "owner": "SourceGameHeadlessState.source_game_headless_state",
+      "source_slice": "N2300",
+      "keys": {
+        "headless": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/Vars.java",
+          "java_expr": "public static boolean headless;",
+          "rule": "Whether the game runs on a headless server: the stamped DisplayServer derivation (decision 2026-11-17 ~12:56, Option 1), the value the N657 ambient gate reads as its headless_mode input (BuildingComp.java:2270-2271).",
+          "used_by": [
+            "SourceGameHeadlessState.source_game_headless_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07GameHeadlessProof",
+      "rule": "Source-backed game headless source from Vars.java + ServerLauncher.java + BuildingComp.java."
     }
   },
   "version": 1

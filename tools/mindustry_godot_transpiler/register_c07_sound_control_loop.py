@@ -49,7 +49,7 @@ import sys
 from pathlib import Path
 
 from mindustry_port import source_ssot, source_symbols
-from register_c07_game_headless import DEFERRED as N2259_DEFERRED
+from register_c07_game_headless import DEFERRED as N2300_DEFERRED
 from register_liquid_consumer_hydration import backed
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -127,11 +127,11 @@ EXACT_EXPRS = [
 # Four entries are added: the restated B, the restated C, the
 # soundID/curVolume carry-through note, and N2287's Windows proof
 # debt.
-DEFERRED = [e for e in N2259_DEFERRED if not e.startswith('RepairTurret ambient-sound live-loop driver tick line') and not e.startswith('SoundControl.updateLoops aggregate mixer') and not e.startswith('Game headless-source Windows Godot proof') and not e.startswith('PortGame headless property')] + [
-    'RepairTurret ambient-sound live-loop driver tick line (B, N2260) -- A (N2259) has landed; the driver calls the N2222 pure function with the headless value from SourceGameHeadlessState and feeds its sound/volume into the N2287 loop accumulator (SourceSoundControlState.source_sound_control_loop_state). B is Windows-line work, still waiting.',
+DEFERRED = [e for e in N2300_DEFERRED if not e.startswith('RepairTurret ambient-sound live-loop driver tick line') and not e.startswith('SoundControl.updateLoops aggregate mixer') and not e.startswith('Game headless-source Windows Godot proof') and not e.startswith('PortGame headless property')] + [
+    'RepairTurret ambient-sound live-loop driver tick line (B, N2260) -- A (N2300) has landed; the driver calls the N2222 pure function with the headless value from SourceGameHeadlessState and feeds its sound/volume into the N2287 loop accumulator (SourceSoundControlState.source_sound_control_loop_state). B is Windows-line work, still waiting.',
     'SoundControl.updateLoops aggregate mixer (C, N2264) -- waits for B (N2260); it consumes the SoundData the N2287 accumulator fills (volume/pitch/total/totalVolume/sum) and owns playback; no audio playback in the port yet (0 AudioStreamPlayer hits), beamHeal.ogg exists.',
     'SoundData.soundID and SoundData.curVolume are written by updateLoops (C, N2264), not by loop() -- N2287 carries them through the accumulator unchanged.',
-    'SoundControl.loop() Windows Godot proof -- debt in GOAL.md section 5, same as N2259: the N2287 proof runs headless on Linux here and waits for a Windows Godot run.',
+    'SoundControl.loop() Windows Godot proof -- debt in GOAL.md section 5, same as N2300: the N2287 proof runs headless on Linux here and waits for a Windows Godot run.',
 ]
 
 
@@ -145,7 +145,7 @@ def definitions():
         'pos_y': a('float', 'pos.getY()', 'The sound position y (SoundControl.java:106, `sound.calcFalloff(pos.getX(), pos.getY())`, and :115, the sum weighting): the Position the 4-arg overload loops at.'),
         'volume': a('float', 'if(Vars.headless || sound == Sounds.none || volume <= 0.00001f) return;', 'The loop volume (SoundControl.java:104): at or below 0.00001f the guard returns the previous SoundData unchanged; otherwise vol = baseVol * volume (:107).'),
         'pitch': a('float', 'data.pitch += pitch * vol;', 'The loop pitch (SoundControl.java:111, `data.pitch += pitch * vol;`): weighted by vol, not by baseVol.'),
-        'headless': a('bool', 'public static boolean headless;', 'Whether the game runs on a headless server (Vars.java:209, `public static boolean headless;`, default false): the N2259 accessor supplies it; a headless game returns the previous SoundData unchanged (SoundControl.java:104).', source=VARS),
+        'headless': a('bool', 'public static boolean headless;', 'Whether the game runs on a headless server (Vars.java:209, `public static boolean headless;`, default false): the N2300 accessor supplies it; a headless game returns the previous SoundData unchanged (SoundControl.java:104).', source=VARS),
         'camera_x': a('float', 'Core.camera.position.x', 'The camera (listener) position x (Sound.java:154, `Mathf.dst2(x, y, Core.camera.position.x, Core.camera.position.y)`): calcFalloff measures the squared distance from the sound position to here.', source=SOUND),
         'camera_y': a('float', 'Core.camera.position.y', 'The camera (listener) position y (Sound.java:154): calcFalloff measures the squared distance from the sound position to here.', source=SOUND),
         'audio_falloff': a('float', 'public float falloff = 16000f;', 'Core.audio falloff (Audio.java:13, `public float falloff = 16000f;`): the divisor in calcFalloff (`1f / (dst2 / Core.audio.falloff)`, Sound.java:155).', source=AUDIO),
@@ -167,7 +167,7 @@ def definitions():
         'pos_x': a('float', 'pos.getX()', 'The sound position x (SoundControl.java:106, via the delegated 4-arg call): the Position the 3-arg overload loops at.'),
         'pos_y': a('float', 'pos.getY()', 'The sound position y (SoundControl.java:106, via the delegated 4-arg call): the Position the 3-arg overload loops at.'),
         'volume': a('float', 'loop(sound, pos, volume, 1f);', 'The loop volume (SoundControl.java:101, `loop(sound, pos, volume, 1f);`): forwarded to the 4-arg accumulator unchanged.'),
-        'headless': a('bool', 'public static boolean headless;', 'Whether the game runs on a headless server (Vars.java:209): the N2259 accessor supplies it; a headless game returns the previous SoundData unchanged.', source=VARS),
+        'headless': a('bool', 'public static boolean headless;', 'Whether the game runs on a headless server (Vars.java:209): the N2300 accessor supplies it; a headless game returns the previous SoundData unchanged.', source=VARS),
         'camera_x': a('float', 'Core.camera.position.x', 'The camera (listener) position x (Sound.java:154): calcFalloff measures the squared distance from the sound position to here.', source=SOUND),
         'camera_y': a('float', 'Core.camera.position.y', 'The camera (listener) position y (Sound.java:154): calcFalloff measures the squared distance from the sound position to here.', source=SOUND),
         'audio_falloff': a('float', 'public float falloff = 16000f;', 'Core.audio falloff (Audio.java:13): the divisor in calcFalloff (Sound.java:155).', source=AUDIO),
@@ -187,7 +187,7 @@ def definitions():
     volume_inputs = {
         'sound': a('String', 'public void loop(Sound sound, float volume){', 'The sound being looped (SoundControl.java:93): its name String; Sounds.none is the string "none" and the guard returns the previous SoundData unchanged for it.'),
         'volume': a('float', 'loop(sound, Core.camera.position, volume);', 'The loop volume (SoundControl.java:96, `loop(sound, Core.camera.position, volume);`): forwarded to the 3-arg overload unchanged.'),
-        'headless': a('bool', 'if(Vars.headless) return;', 'Whether the game runs on a headless server (SoundControl.java:94, `if(Vars.headless) return;`): the N2259 accessor supplies it; enforced by the accumulator the call delegates to.'),
+        'headless': a('bool', 'if(Vars.headless) return;', 'Whether the game runs on a headless server (SoundControl.java:94, `if(Vars.headless) return;`): the N2300 accessor supplies it; enforced by the accumulator the call delegates to.'),
         'camera_x': a('float', 'loop(sound, Core.camera.position, volume);', 'The camera position x (SoundControl.java:96, `loop(sound, Core.camera.position, volume);`): in this overload the sound position IS the camera position, so camera_x serves as both the position and the listener.'),
         'camera_y': a('float', 'loop(sound, Core.camera.position, volume);', 'The camera position y (SoundControl.java:96): in this overload the sound position IS the camera position, so camera_y serves as both the position and the listener.'),
         'audio_falloff': a('float', 'public float falloff = 16000f;', 'Core.audio falloff (Audio.java:13): the divisor in calcFalloff (Sound.java:155).', source=AUDIO),

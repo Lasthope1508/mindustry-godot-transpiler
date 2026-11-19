@@ -68265,31 +68265,6 @@
       "runtime_proof": "/root/C07PointDefenseTurretLiveBulletsWiringProof",
       "rule": "Source-backed PointDefenseTurret live-bullets wiring from PointDefenseTurret.java / BulletComp.java / BulletType.java / Blocks.java / GroupDefs.java."
     },
-    "SourceGameHeadlessState.source_game_headless_state": {
-      "status": "active",
-      "source_slice": "N2259",
-      "java_source": "core/src/mindustry/Vars.java",
-      "source_method": "Vars.headless",
-      "params": [
-        {
-          "name": "game",
-          "type": "Object",
-          "schema": "source_game_headless_state_input.game"
-        }
-      ],
-      "return_type": "Dictionary",
-      "return_keys": [
-        "headless"
-      ],
-      "tests": [
-        "test_c07_game_headless_registration",
-        "test_all_c07_game_headless_input_evidence_is_exact",
-        "test_game_headless_state",
-        "test_reference_graph_and_actual_c07_game_headless"
-      ],
-      "runtime_proof": "/root/C07GameHeadlessProof",
-      "rule": "Source-backed game headless source from Vars.java + ServerLauncher.java + BuildingComp.java."
-    },
     "SourceTurretBuildState.source_turret_estimate_dps_state": {
       "status": "active",
       "source_slice": "N2261",
@@ -70687,6 +70662,31 @@
       ],
       "runtime_proof": "/root/C07SoundControlShouldPlayProof",
       "rule": "Source-backed SoundControl.shouldPlay() / isPlaying() state from SoundControl.java."
+    },
+    "SourceGameHeadlessState.source_game_headless_state": {
+      "status": "active",
+      "source_slice": "N2300",
+      "java_source": "core/src/mindustry/Vars.java",
+      "source_method": "Vars.headless",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_game_headless_state_input.game"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "headless"
+      ],
+      "tests": [
+        "test_c07_game_headless_registration",
+        "test_all_c07_game_headless_input_evidence_is_exact",
+        "test_game_headless_state",
+        "test_reference_graph_and_actual_c07_game_headless"
+      ],
+      "runtime_proof": "/root/C07GameHeadlessProof",
+      "rule": "Source-backed game headless source from Vars.java + ServerLauncher.java + BuildingComp.java."
     }
   },
   "policy": {

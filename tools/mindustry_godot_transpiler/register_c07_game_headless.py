@@ -1,4 +1,4 @@
-"""Register the game-level headless source (N2259, ambient A).
+"""Register the game-level headless source (N2300, ambient A).
 
 Vars.headless (Vars.java:208-209, `/** whether the game is
 running on a headless server */` / `public static boolean
@@ -55,7 +55,7 @@ BUILDING_COMP = 'core/src/mindustry/entities/comp/BuildingComp.java'
 PROOF = '/root/C07GameHeadlessProof'
 HEADLESS_OWNER = 'SourceGameHeadlessState.source_game_headless_state'
 TESTS = ['test_c07_game_headless_registration', 'test_all_c07_game_headless_input_evidence_is_exact', 'test_game_headless_state', 'test_reference_graph_and_actual_c07_game_headless']
-# The 3 slice sources the N2259 test checks exact_exprs
+# The 3 slice sources the N2300 test checks exact_exprs
 # against -- every expr in EXACT_EXPRS below must appear verbatim
 # in one of these files.
 SLICE_SOURCES = [
@@ -68,14 +68,14 @@ EXACT_EXPRS = ['/** whether the game is running on a headless server */', 'publi
 # DEFERRED is carried from the N2222 register script via import --
 # never retyped. One carried entry is DROPPED here, not carried:
 # the entry saying the driver tick line + sound-loop sink "wait
-# for a game-level headless-source slice" -- N2259 IS that slice,
+# for a game-level headless-source slice" -- N2300 IS that slice,
 # so carrying it would leave a stale "waits for its own slice"
 # row for done work. The B driver and C mixer entries below pin
 # what is still deferred.
 DEFERRED = [e for e in N2222_DEFERRED if 'wait for a game-level headless-source slice' not in e] + [
-    'RepairTurret ambient-sound live-loop driver tick line (B, N2260) -- waits for A (N2259) to land and its accessor interface to be fixed; the driver calls the N2222 pure function with the headless value from SourceGameHeadlessState.',
+    'RepairTurret ambient-sound live-loop driver tick line (B, N2260) -- waits for A (N2300) to land and its accessor interface to be fixed; the driver calls the N2222 pure function with the headless value from SourceGameHeadlessState.',
     'SoundControl.updateLoops aggregate mixer (C, N2243) -- waits for B (N2260); no audio playback in the port yet (0 AudioStreamPlayer hits), beamHeal.ogg exists.',
-    'Game headless-source Windows Godot proof -- debt in GOAL.md section 5, same as N2234-N2260, N2248-N2258: the N2259 proof runs headless on Linux here and waits for a Windows Godot run.',
+    'Game headless-source Windows Godot proof -- debt in GOAL.md section 5, same as N2234-N2260, N2248-N2258: the N2300 proof runs headless on Linux here and waits for a Windows Godot run.',
     'PortGame headless property on non-headless servers -- the stamp reads DisplayServer; a dedicated launcher setter (Option 2) was rejected 2026-11-17 ~12:56 in favour of Option 1.',
 ]
 
@@ -129,7 +129,7 @@ def main():
     headless_inputs, headless_outputs = definitions()
 
     entries = [
-        ('N2259', HEADLESS_OWNER, 'source_game_headless_state', VARS, 'mindustry.Vars', 'Vars.headless', headless_inputs, headless_outputs, True, 'Dictionary'),
+        ('N2300', HEADLESS_OWNER, 'source_game_headless_state', VARS, 'mindustry.Vars', 'Vars.headless', headless_inputs, headless_outputs, True, 'Dictionary'),
     ]
     all_names = []
     for sid, owner, prefix, source, cls, method, inputs, outputs, has_contract, return_type in entries:
@@ -149,10 +149,10 @@ def main():
 
     by_slice = {}
     # The test pins this order: headless.
-    by_slice['N2259'] = [
+    by_slice['N2300'] = [
         'source_game_headless_state_result.headless',
     ]
-    source_symbols.upsert_source_slice(GODOT, 'N2259', dict(status='done', java_source=VARS, java_class='mindustry.Vars', java_method='Vars.headless', godot_owner=HEADLESS_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2259'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
+    source_symbols.upsert_source_slice(GODOT, 'N2300', dict(status='done', java_source=VARS, java_class='mindustry.Vars', java_method='Vars.headless', godot_owner=HEADLESS_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2300'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
 
     source_symbols.upsert_source_symbols(GODOT, symbols)
     source_symbols.write_source_symbol_audit_report(GODOT)
