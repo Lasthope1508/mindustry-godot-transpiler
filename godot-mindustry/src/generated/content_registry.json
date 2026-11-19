@@ -8966,6 +8966,7 @@
         "cacheLayer": "normal",
         "canOverdrive": true,
         "category": "turret",
+        "chargeEffect": "MultiEffect(Fx.lancerLaserCharge, Fx.lancerLaserChargeBegin)",
         "chargeSound": "chargeLancer",
         "connectedPower": true,
         "consumePower": 6.0,

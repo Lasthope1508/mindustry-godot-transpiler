@@ -177192,6 +177192,54 @@
         "test_reference_graph_and_actual_c07_turret_can_consume_heat_gate"
       ],
       "runtime_proof": "/root/C07TurretCanConsumeHeatGateProof"
+    },
+    "source_turret_charge_effect_state_result.first_shot_delay": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_charge_effect_state",
+      "godot_symbol": "source_turret_charge_effect_state_result.first_shot_delay",
+      "java_source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+      "java_method": "TurretBuild.shoot()",
+      "java_expr": "public float firstShotDelay = 0;",
+      "rule": "The first-shot delay in ticks before the first bullet fires (ShootPattern.java:11, the class default 0; the read returns the catalog value when the block carries one -- 40.0 for lancer, Blocks.java:3564).",
+      "tests": [
+        "test_c07_turret_charge_effect_registration",
+        "test_all_c07_turret_charge_effect_input_evidence_is_exact",
+        "test_turret_charge_effect",
+        "test_reference_graph_and_actual_c07_turret_charge_effect"
+      ],
+      "runtime_proof": "/root/C07TurretChargeEffectProof"
+    },
+    "source_turret_charge_effect_state_result.charge_effect": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_charge_effect_state",
+      "godot_symbol": "source_turret_charge_effect_state_result.charge_effect",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "TurretBuild.shoot()",
+      "java_expr": "public Effect chargeEffect = Fx.none;",
+      "rule": "The name of the effect emitted when shooting begins with a first-shot delay (BulletType.java:78-79, the class default Fx.none; the read returns the catalog value when the block carries one -- \"MultiEffect(Fx.lancerLaserCharge, Fx.lancerLaserChargeBegin)\" for lancer, Blocks.java:3586).",
+      "tests": [
+        "test_c07_turret_charge_effect_registration",
+        "test_all_c07_turret_charge_effect_input_evidence_is_exact",
+        "test_turret_charge_effect",
+        "test_reference_graph_and_actual_c07_turret_charge_effect"
+      ],
+      "runtime_proof": "/root/C07TurretChargeEffectProof"
+    },
+    "source_turret_charge_effect_state_result.charge_effect_emitted": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_charge_effect_state",
+      "godot_symbol": "source_turret_charge_effect_state_result.charge_effect_emitted",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.shoot()",
+      "java_expr": "if(shoot.firstShotDelay > 0){",
+      "rule": "Whether the charge branch runs at shoot() time (Turret.java:747 -- true exactly when first_shot_delay > 0; false for every turret that keeps the 0 default, including duo and malign).",
+      "tests": [
+        "test_c07_turret_charge_effect_registration",
+        "test_all_c07_turret_charge_effect_input_evidence_is_exact",
+        "test_turret_charge_effect",
+        "test_reference_graph_and_actual_c07_turret_charge_effect"
+      ],
+      "runtime_proof": "/root/C07TurretChargeEffectProof"
     }
   },
   "version": 1

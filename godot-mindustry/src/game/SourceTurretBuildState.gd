@@ -937,8 +937,9 @@ static func source_turret_charge_sound_state(block: Object) -> Dictionary:
 	# has no equivalent for yet (precedent N2268 / N2269). The
 	# bullet type's chargeEffect (Turret.java:749,
 	# BulletType.java:79, `public Effect chargeEffect =
-	# Fx.none;`) waits for its own slice -- the catalog has no
-	# shootType bullet-effect representation yet.
+	# Fx.none;`) is its own slice (N2273,
+	# source_turret_charge_effect_state) -- the catalog now
+	# captures the shootType MultiEffect construction.
 	var first_shot_delay := 0.0
 	var charge_sound := "none"
 	if block != null:
@@ -946,6 +947,47 @@ static func source_turret_charge_sound_state(block: Object) -> Dictionary:
 		charge_sound = str(block.properties.get("chargeSound", "none"))
 	var charge_emitted: bool = first_shot_delay > 0.0
 	return {"first_shot_delay": first_shot_delay, "charge_sound": charge_sound, "charge_emitted": charge_emitted}
+
+static func source_turret_charge_effect_state(block: Object) -> Dictionary:
+	# Turret charge effect state (Turret.java:747-750,
+	# `if(shoot.firstShotDelay > 0){ chargeSound.at(bulletX,
+	# bulletY, Mathf.random(soundPitchMin, soundPitchMax));
+	# type.chargeEffect.at(bulletX, bulletY, rotation); }` /
+	# BulletType.java:78-79, `/** Effect created when charging
+	# starts; only usable in single-shot weapons with a
+	# firstShotDelay / shotDelay. */` and
+	# `public Effect chargeEffect = Fx.none;`): the catalog
+	# captures the block initializer's own assignment, else the
+	# class defaults -- only lancer sets either, in `lancer =
+	# new PowerTurret("lancer"){{` (Blocks.java:3560):
+	# `shoot.firstShotDelay = 40f;` (Blocks.java:3564) and
+	# `chargeEffect = new MultiEffect(Fx.lancerLaserCharge, Fx.lancerLaserChargeBegin);`
+	# (Blocks.java:3586, on its LaserBulletType shootType,
+	# `shootType = new LaserBulletType(140){{`, Blocks.java:3583).
+	# Every other turret reads the defaults 0.0 / "none"
+	# (ShootPattern.java:11, `public float firstShotDelay = 0;`),
+	# so the guard (`if(shoot.firstShotDelay > 0){`,
+	# Turret.java:747) stays off and no charge effect plays. A
+	# null block, or a block whose catalog carries no override,
+	# reads the class defaults. The result is a 3-key dict:
+	# `first_shot_delay` (the first-shot delay in ticks, kept for
+	# consistency with N2271 -- the guard reads it, and the two
+	# charge slices share the same guard input), `charge_effect`
+	# (the MultiEffect construction verbatim, without `new`, or
+	# "none" for the Fx.none default) and `charge_effect_emitted`
+	# (exactly the :747 guard, first_shot_delay > 0). There is no
+	# driver tick: the emission happens inside shoot(), an event
+	# the driver has no equivalent for yet (precedent N2268 /
+	# N2269 / N2271). This is the second half of the :747 guard
+	# N2271 started (the charge sound); the sound side is
+	# untouched here.
+	var first_shot_delay := 0.0
+	var charge_effect := "none"
+	if block != null:
+		first_shot_delay = float(block.properties.get("firstShotDelay", 0.0))
+		charge_effect = str(block.properties.get("chargeEffect", "none"))
+	var charge_effect_emitted: bool = first_shot_delay > 0.0
+	return {"first_shot_delay": first_shot_delay, "charge_effect": charge_effect, "charge_effect_emitted": charge_effect_emitted}
 
 static func source_turret_can_consume_heat_gate_state(heat_requirement: float, heat_req: float, super_can_consume: bool) -> Dictionary:
 	# TurretBuild.canConsume() heat gate (Turret.java:623-629,

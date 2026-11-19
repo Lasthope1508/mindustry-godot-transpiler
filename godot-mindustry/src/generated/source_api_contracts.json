@@ -69866,6 +69866,33 @@
       ],
       "runtime_proof": "/root/C07TurretCanConsumeHeatGateProof",
       "rule": "Source-backed TurretBuild.canConsume() heat gate from Turret.java / Blocks.java."
+    },
+    "SourceTurretBuildState.source_turret_charge_effect_state": {
+      "status": "active",
+      "source_slice": "N2273",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.shoot()",
+      "params": [
+        {
+          "name": "block",
+          "type": "Object",
+          "schema": "source_turret_charge_effect_state_input.block"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "first_shot_delay",
+        "charge_effect",
+        "charge_effect_emitted"
+      ],
+      "tests": [
+        "test_c07_turret_charge_effect_registration",
+        "test_all_c07_turret_charge_effect_input_evidence_is_exact",
+        "test_turret_charge_effect",
+        "test_reference_graph_and_actual_c07_turret_charge_effect"
+      ],
+      "runtime_proof": "/root/C07TurretChargeEffectProof",
+      "rule": "Source-backed Turret charge effect state from Turret.java / ShootPattern.java / BulletType.java / Blocks.java."
     }
   },
   "policy": {

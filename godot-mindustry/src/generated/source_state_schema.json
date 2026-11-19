@@ -237914,6 +237914,64 @@
       },
       "runtime_proof": "/root/C07TurretCanConsumeHeatGateProof",
       "rule": "Source-backed TurretBuild.canConsume() heat gate from Turret.java / Blocks.java."
+    },
+    "source_turret_charge_effect_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_charge_effect_state",
+      "source_slice": "N2273",
+      "keys": {
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "lancer = new PowerTurret(\"lancer\"){{",
+          "rule": "The block definition the read resolves (Blocks.java:3560): the catalog block whose properties carry the per-block firstShotDelay / chargeEffect overrides, or the class defaults when it carries none. Duo is the same shape with neither override (Blocks.java:3257).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_charge_effect_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretChargeEffectProof",
+      "rule": "Source-backed Turret charge effect state from Turret.java / ShootPattern.java / BulletType.java / Blocks.java."
+    },
+    "source_turret_charge_effect_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_charge_effect_state",
+      "source_slice": "N2273",
+      "keys": {
+        "first_shot_delay": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+          "java_expr": "public float firstShotDelay = 0;",
+          "rule": "The first-shot delay in ticks before the first bullet fires (ShootPattern.java:11, the class default 0; the read returns the catalog value when the block carries one -- 40.0 for lancer, Blocks.java:3564).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_charge_effect_state"
+          ]
+        },
+        "charge_effect": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_expr": "public Effect chargeEffect = Fx.none;",
+          "rule": "The name of the effect emitted when shooting begins with a first-shot delay (BulletType.java:78-79, the class default Fx.none; the read returns the catalog value when the block carries one -- \"MultiEffect(Fx.lancerLaserCharge, Fx.lancerLaserChargeBegin)\" for lancer, Blocks.java:3586).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_charge_effect_state"
+          ]
+        },
+        "charge_effect_emitted": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "if(shoot.firstShotDelay > 0){",
+          "rule": "Whether the charge branch runs at shoot() time (Turret.java:747 -- true exactly when first_shot_delay > 0; false for every turret that keeps the 0 default, including duo and malign).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_charge_effect_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretChargeEffectProof",
+      "rule": "Source-backed Turret charge effect state from Turret.java / ShootPattern.java / BulletType.java / Blocks.java."
     }
   },
   "version": 1

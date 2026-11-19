@@ -445,6 +445,19 @@ def _block_properties(source: str, assignment_end: int, implementation: str = ""
     charge_sound = re.search(r"\bchargeSound\s*=\s*Sounds\.([A-Za-z_]\w*)", initializer)
     if charge_sound:
         properties["chargeSound"] = charge_sound.group(1)
+    # N2273: the charge effect construction (BulletType.java:79,
+    # `public Effect chargeEffect = Fx.none;`) -- only lancer
+    # sets it, on its LaserBulletType shootType (Blocks.java:3586,
+    # `chargeEffect = new MultiEffect(Fx.lancerLaserCharge,
+    # Fx.lancerLaserChargeBegin);`). There is no single Fx.*
+    # member name to store (unlike chargeSound), so the
+    # MultiEffect construction is kept verbatim, without `new`,
+    # preserving both members exactly. Grep-verified: no other
+    # Blocks.java def sets chargeEffect (UnitTypes.java does,
+    # but that is unit -- not block -- catalog, out of scope).
+    charge_effect = re.search(r"\bchargeEffect\s*=\s*new MultiEffect\(([^)]*)\)", initializer)
+    if charge_effect:
+        properties["chargeEffect"] = "MultiEffect(%s)" % charge_effect.group(1).strip()
     buffered_capacity = _consume_power_buffered_capacity(initializer)
     if buffered_capacity is not None:
         properties["consumePowerBuffered"] = buffered_capacity

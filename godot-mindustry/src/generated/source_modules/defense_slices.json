@@ -3759,6 +3759,25 @@
       ],
       "runtime_proof": "/root/C07TurretCanConsumeHeatGateProof"
     },
+    "N2273": {
+      "canonical_ledger": "source_slice_ledger.N2273",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.shoot()",
+      "godot_owner": "SourceTurretBuildState.source_turret_charge_effect_state",
+      "source_symbols": [
+        "source_turret_charge_effect_state_result.first_shot_delay",
+        "source_turret_charge_effect_state_result.charge_effect",
+        "source_turret_charge_effect_state_result.charge_effect_emitted"
+      ],
+      "tests": [
+        "test_c07_turret_charge_effect_registration",
+        "test_all_c07_turret_charge_effect_input_evidence_is_exact",
+        "test_turret_charge_effect",
+        "test_reference_graph_and_actual_c07_turret_charge_effect"
+      ],
+      "runtime_proof": "/root/C07TurretChargeEffectProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",
