@@ -371,6 +371,40 @@ static func source_turret_recoil_offset_state(rotation: float, cur_recoil: float
 	var offset_y: float = sin(deg_to_rad(rotation)) * magnitude
 	return {"recoil_offset": {"x": offset_x, "y": offset_y}}
 
+static func source_turret_charge_state(charge: float, queued_bullets: int, first_shot_delay: float, delta: float) -> Dictionary:
+	# TurretBuild.updateTile() (Turret.java:490-615) advances the
+	# charge every tick, after the recoil/heat decay (:519/:526)
+	# and before the recoilOffset draw (:532):
+	# `charge = charging() ? Mathf.approachDelta(charge, 1, 1 / shoot.firstShotDelay) : 0;`
+	# (Turret.java:527), where charging is
+	# `return queuedBullets > 0 && shoot.firstShotDelay > 0;`
+	# (Turret.java:715-717). The field is
+	# `public float shootWarmup, charge, warmupHold = 0f;`
+	# (:286), the queue counter is
+	# `public int queuedBullets = 0;` (:293), and the delay is
+	# `public float firstShotDelay = 0;`
+	# (ShootPattern.java:11, `/** delay in ticks before first shot */`)
+	# -- duo never overrides it (`shoot = new ShootAlternate(3.5f);`,
+	# Blocks.java:3299, inside the duo block 3257-3330; ShootAlternate
+	# only sets the spread). approachDelta is
+	# `public static float approachDelta(float from, float to, float speed){`
+	# / `return approach(from, to, Time.delta * speed);`
+	# (arc Mathf.java:420-422) with approach
+	# `public static float approach(float from, float to, float speed){`
+	# / `return from + Mathf.clamp(to - from, -speed, speed);`
+	# (:415-417), so a charging tick moves the charge toward 1 by
+	# delta / firstShotDelay, never past 1, and a non-charging tick
+	# resets it to 0 outright (not a decay). charging is derived
+	# inside the function (queuedBullets > 0 and firstShotDelay > 0),
+	# so firstShotDelay <= 0 never divides by zero. The result is
+	# a 2-key dict: `charge` and `charging`.
+	var charging: bool = queued_bullets > 0 and first_shot_delay > 0.0
+	if charging:
+		charge = charge + clampf(1.0 - charge, -delta / first_shot_delay, delta / first_shot_delay)
+	else:
+		charge = 0.0
+	return {"charge": charge, "charging": charging}
+
 @warning_ignore("unused_parameter")
 static func source_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the turret tick wiring every tick
@@ -558,6 +592,19 @@ static func source_turret_tick_buildings_state(game: Object, seconds: float) -> 
 			# (Turret.java:208), so the driver passes 2 / 20.0.
 			var multi_recoil: Dictionary = source_turret_multi_recoil_state(frame.get("cur_recoils", []), 2, 20.0, seconds)
 			frame["cur_recoils"] = multi_recoil.get("cur_recoils", [])
+			# The charge advance (Turret.java:527, N2259) runs
+			# right after the multi-recoil decay: Java order
+			# :520-525 decay, :526 heat, :527 charge, :532 offset.
+			# charging is `queuedBullets > 0 && shoot.firstShotDelay > 0`
+			# (:715-717); duo firstShotDelay is 0 (ShootPattern.java:11,
+			# never overridden -- `shoot = new ShootAlternate(3.5f);`,
+			# Blocks.java:3299), so the live duo charge is always 0
+			# and charging always false, but the frame still gets a
+			# live stamp: the warmup tick (N2253) and the shoot gate
+			# (:733) read frame["charging"] every tick.
+			var charge_state: Dictionary = source_turret_charge_state(float(frame.get("charge", 0.0)), int(frame.get("queued_bullets", 0)), 0.0, seconds)
+			frame["charge"] = charge_state.get("charge", 0.0)
+			frame["charging"] = charge_state.get("charging", false)
 			# The recoilOffset draw (Turret.java:532, N2258) runs
 			# right after the recoil decays: Java order :519/:520-525
 			# decay, :532 offset, :595-596 turnToTarget, :601/:609

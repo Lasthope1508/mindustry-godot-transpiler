@@ -82,10 +82,14 @@ func _ready() -> void:
 	# its reload pre-charged and shoots in the cone, E shoots
 	# and consumes exactly one copper ammo, F shoots and its
 	# event carries the bullet origin, G leads a moving target
-	# through Predict.intercept, H is charging so it never
-	# shoots (plus a direct pure-function call for the
-	# warmup-low half, which the driver cannot express --
-	# it passes minWarmup 0.0). The segments sit 48 tiles
+	# through Predict.intercept, H is a duo, which can never
+	# charge live (firstShotDelay is 0, so charging()
+	# (Turret.java:715-717) is always false and the N2259
+	# charge tick stamps frame["charging"] false every tick);
+	# H therefore shoots like D, and the charging half of the
+	# gate is shown by a direct pure-function call with
+	# charging true, mirroring the warmup-low half, which
+	# the driver cannot express -- it passes minWarmup 0.0).
 	# (384px) apart -- wider than twice the 160 range -- so
 	# no segment can see another segment's target.
 	var catalog = game.get("content_catalog")
@@ -159,13 +163,13 @@ func _ready() -> void:
 	# = 53.13 deg, not the unled 0 deg.
 	frames[6]["target"] = {"x": positions[6].x, "y": positions[6].y + 20.0, "vx": 2.0, "vy": 0.0, "hit_size": 0.0}
 	frames[6]["has_target"] = true
-	# H: one target due east with the reload pre-charged, but
-	# charging -- updateShooting must not fire, and the reload
-	# stays capped at 20.
+	# H: one target due east with the reload pre-charged -- a
+	# duo, which can never charge live (firstShotDelay is 0),
+	# so it shoots like D; the charging half of the gate is
+	# shown by a direct pure-function call below.
 	frames[7]["target"] = {"x": positions[7].x + 100.0, "y": positions[7].y, "vx": 0.0, "vy": 0.0, "hit_size": 0.0}
 	frames[7]["has_target"] = true
 	frames[7]["reload_counter"] = 19.99
-	frames[7]["charging"] = true
 
 	# Seed copper ammo for E and G (the stacks are the
 	# {"item", "amount"} dicts of
@@ -178,9 +182,9 @@ func _ready() -> void:
 		stacks_map[ammo_key] = [{"item": "copper", "amount": 5}]
 		totals_map[ammo_key] = 5
 
-	# The shooting tick: D, E and F shoot (reload 19.99 + 1/60
-	# caps at 20, in cone, in range, not charging, warmed up);
-	# H does not (charging); A and G only turn a step.
+	# The shooting tick: D, E, F and H shoot (reload 19.99 +
+	# 1/60 caps at 20, in cone, in range, not charging, warmed
+	# up); A and G only turn a step.
 	turret_build_state.source_turret_tick_buildings_state(game, 1.0 / 60.0)
 	for index in range(8):
 		frames[index] = segments[index].get_meta(turret_build_state.SOURCE_TURRET_BUILDING_META_KEY, {})
@@ -205,9 +209,15 @@ func _ready() -> void:
 		# shootY 3 -> (x + 0, y + 3).
 		origin_ok = absf(float(shoot_event_f.get("bullet_x", -999.0)) - positions[5].x) < 0.001 and absf(float(shoot_event_f.get("bullet_y", -999.0)) - (positions[5].y + 3.0)) < 0.001 and absf(float(shoot_event_f.get("rotation", -1.0)) - 90.0) < 0.001 and int(shoot_event_f.get("barrel", -1)) == 0
 	proof["shoot_event_carries_bullet_origin"] = bool(frames[5].get("shot", false)) and origin_ok and int(frames[5].get("barrel_counter", -1)) == 1
-	# H (charging half): no shot, reload stays capped at 20.
-	var reload_h: float = float(frames[7].get("reload_counter", -1.0))
-	var charging_no_shot: bool = not bool(frames[7].get("shot", false)) and absf(reload_h - 20.0) < 0.001
+	# H (charging half): the driver cannot express a charging
+	# duo (the N2259 charge tick stamps charging false every
+	# tick, Turret.java:715-717), so it is shown by calling
+	# the pure function directly -- reloaded, in cone, in
+	# range, warmed up, but charging true: no shot.
+	var charging_frame: Dictionary = {"rotation": 90.0, "reload_counter": 20.0}
+	var charging_target: Dictionary = {"x": positions[7].x + 100.0, "y": positions[7].y, "vx": 0.0, "vy": 0.0, "hit_size": 0.0}
+	var charging_result: Dictionary = item_turret_build_state.source_item_turret_aim_shoot_state(charging_frame, charging_target, true, 1, positions[7].x, positions[7].y, 1.0 / 60.0, 1.0, 1.0, true, [{"item": "copper", "amount": 5}], 5, 0, 160.0, 10.0, 20.0, 15.0, 0.0, 3.0, 2.0, 1, true, 1.0, 0.0, 2.5, true, 0.0, false, false, 1.0)
+	var charging_no_shot: bool = not bool(charging_result.get("shot", true))
 	# H (warmup half): the driver passes minWarmup 0.0, so a
 	# low warmup can only be shown by calling the pure
 	# function directly -- reloaded, in cone, in range, not

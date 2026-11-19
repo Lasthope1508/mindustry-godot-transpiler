@@ -236592,6 +236592,84 @@
       },
       "runtime_proof": "/root/C07TurretRecoilOffsetProof",
       "rule": "Source-backed Turret recoilOffset draw from Turret.java."
+    },
+    "source_turret_charge_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_charge_state",
+      "source_slice": "N2259",
+      "keys": {
+        "charge": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float shootWarmup, charge, warmupHold = 0f;",
+          "rule": "The charge before this tick (Turret.java:286, the charge field; the driver reads it from frame[\"charge\"], default 0.0).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_charge_state"
+          ]
+        },
+        "queued_bullets": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public int queuedBullets = 0;",
+          "rule": "The live queued-bullet count (Turret.java:293; the driver reads it from frame[\"queued_bullets\"], default 0 -- live-correct for duo, whose every bullet delay is firstShotDelay + shotDelay * i = 0 + 0 = 0, so the queue is empty at every tick boundary).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_charge_state"
+          ]
+        },
+        "first_shot_delay": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+          "java_expr": "public float firstShotDelay = 0;",
+          "rule": "The delay in ticks before the first shot (ShootPattern.java:11, `/** delay in ticks before first shot */`; duo never overrides it -- `shoot = new ShootAlternate(3.5f);`, Blocks.java:3299 -- so the driver passes 0.0).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_charge_state"
+          ]
+        },
+        "delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_expr": "return approach(from, to, Time.delta * speed);",
+          "rule": "The scaled tick delta in seconds (arc Mathf.java:422, approachDelta -- Time.delta; the driver passes seconds, the same convention as the N2253 warmup and the N2254 recoil/heat decay).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_charge_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretChargeProof",
+      "rule": "Source-backed Turret charge advance from Turret.java."
+    },
+    "source_turret_charge_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_charge_state",
+      "source_slice": "N2259",
+      "keys": {
+        "charge": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "charge = charging() ? Mathf.approachDelta(charge, 1, 1 / shoot.firstShotDelay) : 0;",
+          "rule": "The charge after this tick (Turret.java:527 -- moved toward 1 by delta / firstShotDelay when charging, never past 1; reset to 0 outright when not charging).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_charge_state"
+          ]
+        },
+        "charging": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return queuedBullets > 0 && shoot.firstShotDelay > 0;",
+          "rule": "Whether the turret is charging this tick (Turret.java:715-717 -- queuedBullets > 0 and firstShotDelay > 0; false for duo live, but the warmup tick N2253 and the shoot gate :733 still read it).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_charge_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretChargeProof",
+      "rule": "Source-backed Turret charge advance from Turret.java."
     }
   },
   "version": 1

@@ -176664,6 +176664,38 @@
         "test_reference_graph_and_actual_c07_turret_recoil_offset"
       ],
       "runtime_proof": "/root/C07TurretRecoilOffsetProof"
+    },
+    "source_turret_charge_state_result.charge": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_charge_state",
+      "godot_symbol": "source_turret_charge_state_result.charge",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "charge = charging() ? Mathf.approachDelta(charge, 1, 1 / shoot.firstShotDelay) : 0;",
+      "rule": "The charge after this tick (Turret.java:527 -- moved toward 1 by delta / firstShotDelay when charging, never past 1; reset to 0 outright when not charging).",
+      "tests": [
+        "test_c07_turret_charge_registration",
+        "test_all_c07_turret_charge_input_evidence_is_exact",
+        "test_turret_charge_state",
+        "test_reference_graph_and_actual_c07_turret_charge"
+      ],
+      "runtime_proof": "/root/C07TurretChargeProof"
+    },
+    "source_turret_charge_state_result.charging": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_charge_state",
+      "godot_symbol": "source_turret_charge_state_result.charging",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "return queuedBullets > 0 && shoot.firstShotDelay > 0;",
+      "rule": "Whether the turret is charging this tick (Turret.java:715-717 -- queuedBullets > 0 and firstShotDelay > 0; false for duo live, but the warmup tick N2253 and the shoot gate :733 still read it).",
+      "tests": [
+        "test_c07_turret_charge_registration",
+        "test_all_c07_turret_charge_input_evidence_is_exact",
+        "test_turret_charge_state",
+        "test_reference_graph_and_actual_c07_turret_charge"
+      ],
+      "runtime_proof": "/root/C07TurretChargeProof"
     }
   },
   "version": 1

@@ -69197,6 +69197,47 @@
       ],
       "runtime_proof": "/root/C07TurretRecoilOffsetProof",
       "rule": "Source-backed Turret recoilOffset draw from Turret.java."
+    },
+    "SourceTurretBuildState.source_turret_charge_state": {
+      "status": "active",
+      "source_slice": "N2259",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.updateTile()",
+      "params": [
+        {
+          "name": "charge",
+          "type": "float",
+          "schema": "source_turret_charge_state_input.charge"
+        },
+        {
+          "name": "queued_bullets",
+          "type": "int",
+          "schema": "source_turret_charge_state_input.queued_bullets"
+        },
+        {
+          "name": "first_shot_delay",
+          "type": "float",
+          "schema": "source_turret_charge_state_input.first_shot_delay"
+        },
+        {
+          "name": "delta",
+          "type": "float",
+          "schema": "source_turret_charge_state_input.delta"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "charge",
+        "charging"
+      ],
+      "tests": [
+        "test_c07_turret_charge_registration",
+        "test_all_c07_turret_charge_input_evidence_is_exact",
+        "test_turret_charge_state",
+        "test_reference_graph_and_actual_c07_turret_charge"
+      ],
+      "runtime_proof": "/root/C07TurretChargeProof",
+      "rule": "Source-backed Turret charge advance from Turret.java."
     }
   },
   "policy": {
