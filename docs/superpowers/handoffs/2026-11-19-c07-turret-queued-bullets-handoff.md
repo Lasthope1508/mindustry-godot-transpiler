@@ -1,6 +1,6 @@
 # Handoff — N2269 Turret queuedBullets counter + charging() gate (C07) [GREEN, chờ gate]
 
-## Status: GREEN, gate đã xác minh (2026-11-19 ~22:15 +07, lượt cron 22:15) — targeted 4/4 + proof matches:true 15/15 + register --verify 36/36 + gate Ran 6169, failures=219 toàn Godot-absent (đã xác minh độc lập). CHƯA commit/push.
+## Status: DONE + PUSHED (2026-11-19 ~22:15 +07, lượt cron 22:15) — slice `188a1ac3`, docs `8cf2143f`, GOAL `a3c88d44`. Targeted 4/4 + proof matches:true 15/15 + register --verify 36/36 + gate Ran 6169, failures=219 toàn Godot-absent (đã xác minh độc lập).
 
 ## Scope (đã khóa, xác minh từ đĩa)
 
