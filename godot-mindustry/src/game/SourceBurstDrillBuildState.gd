@@ -766,3 +766,57 @@ static func source_burst_drill_tick_buildings_state(game: Object, seconds: float
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
 	return {"ticked_count": ticked_count, "results_by_cell": results_by_cell}
+
+static func source_drill_write_state(frame: Dictionary) -> Dictionary:
+	# DrillBuild persists exactly TWO fields, its drill progress and its warmup
+	# (Drill.java:384-387):
+	# public void write(Writes write){
+	# super.write(write);
+	# write.f(progress);
+	# write.f(warmup);
+	# The fields are the DrillBuild float fields (`public float progress;` /
+	# `public float warmup;`, Drill.java:238-239), already tracked frame keys
+	# advanced by updateTile (N2294); the write function reads both values from
+	# the frame (the N2217 RepairTurret precedent). super.write(write) is an
+	# empty BuildingComp body (BuildingComp.java:297-299, `//overriden by
+	# subclasses!`) -- only the marker is recorded. There is NO driver tick
+	# line: persistence is not a per-tick call, and the port has no save/load
+	# stream to call this function yet.
+	return {"progress": float(frame.get("progress", 0.0)), "warmup": float(frame.get("warmup", 0.0))}
+
+static func source_drill_read_state(frame: Dictionary, stored_progress: float, stored_warmup: float, revision: int) -> Dictionary:
+	# DrillBuild restores the two persisted fields only for saves written at
+	# revision >= 1 (Drill.java:389-394):
+	# public void read(Reads read, byte revision){
+	# super.read(read, revision);
+	# if(revision >= 1){
+	# progress = read.f();
+	# warmup = read.f();
+	# because the save version is 1 (`public byte version(){` with `return 1;`,
+	# Drill.java:380-382; the BuildingComp base returns 0,
+	# BuildingComp.java:669-671). A revision-0 save leaves the fields where they
+	# already are -- the frame's current values (progress default 0.0, warmup
+	# default 0.0, the Java field defaults). super.read(read, revision) is an
+	# empty BuildingComp body (BuildingComp.java:302-305) -- only the marker is
+	# recorded. DrillBuild has NO readSync override, so there is no readSync
+	# follow-up slice (contrast N2276 Turret). There is NO driver tick line:
+	# persistence is not a per-tick call.
+	var progress: float = float(frame.get("progress", 0.0))
+	var warmup: float = float(frame.get("warmup", 0.0))
+	if revision >= 1:
+		progress = stored_progress
+		warmup = stored_warmup
+	return {"progress": progress, "warmup": warmup}
+
+@warning_ignore("unused_parameter")
+static func source_drill_version_state(frame: Dictionary) -> Dictionary:
+	# DrillBuild.version() (Drill.java:380-382):
+	# public byte version(){
+	# return 1;
+	# The save version is 1, so read() applies the persisted progress/warmup for
+	# revision >= 1; the BuildingComp base version() returns 0
+	# (BuildingComp.java:669-671). The frame is accepted for the family call
+	# shape and read for nothing: the version is a class constant, not live
+	# state. There is NO driver tick line: the version is a load-time constant,
+	# not a per-tick write.
+	return {"version": 1}

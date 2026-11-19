@@ -70322,6 +70322,98 @@
       ],
       "runtime_proof": "/root/C07SoundControlLoopProof",
       "rule": "Source-backed SoundControl.loop() state from SoundControl.java + Sound.java + Audio.java + Vars.java + Mathf.java."
+    },
+    "SourceBurstDrillBuildState.source_drill_write_state": {
+      "status": "active",
+      "source_slice": "N2286",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "DrillBuild.write()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_drill_write_state_input.frame"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "progress",
+        "warmup"
+      ],
+      "tests": [
+        "test_c07_burst_drill_write_read_registration",
+        "test_all_c07_burst_drill_write_read_input_evidence_is_exact",
+        "test_burst_drill_write_read_state",
+        "test_reference_graph_and_actual_c07_burst_drill_write_read"
+      ],
+      "runtime_proof": "/root/C07BurstDrillWriteReadProof",
+      "rule": "Source-backed DrillBuild.write()/read()/version() state from Drill.java + BuildingComp.java."
+    },
+    "SourceBurstDrillBuildState.source_drill_read_state": {
+      "status": "active",
+      "source_slice": "N2286",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "DrillBuild.read()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_drill_read_state_input.frame"
+        },
+        {
+          "name": "stored_progress",
+          "type": "float",
+          "schema": "source_drill_read_state_input.stored_progress"
+        },
+        {
+          "name": "stored_warmup",
+          "type": "float",
+          "schema": "source_drill_read_state_input.stored_warmup"
+        },
+        {
+          "name": "revision",
+          "type": "int",
+          "schema": "source_drill_read_state_input.revision"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "progress",
+        "warmup"
+      ],
+      "tests": [
+        "test_c07_burst_drill_write_read_registration",
+        "test_all_c07_burst_drill_write_read_input_evidence_is_exact",
+        "test_burst_drill_write_read_state",
+        "test_reference_graph_and_actual_c07_burst_drill_write_read"
+      ],
+      "runtime_proof": "/root/C07BurstDrillWriteReadProof",
+      "rule": "Source-backed DrillBuild.write()/read()/version() state from Drill.java + BuildingComp.java."
+    },
+    "SourceBurstDrillBuildState.source_drill_version_state": {
+      "status": "active",
+      "source_slice": "N2286",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "DrillBuild.version()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_drill_version_state_input.frame"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "version"
+      ],
+      "tests": [
+        "test_c07_burst_drill_write_read_registration",
+        "test_all_c07_burst_drill_write_read_input_evidence_is_exact",
+        "test_burst_drill_write_read_state",
+        "test_reference_graph_and_actual_c07_burst_drill_write_read"
+      ],
+      "runtime_proof": "/root/C07BurstDrillWriteReadProof",
+      "rule": "Source-backed DrillBuild.write()/read()/version() state from Drill.java + BuildingComp.java."
     }
   },
   "policy": {

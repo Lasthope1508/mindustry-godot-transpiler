@@ -3502,6 +3502,36 @@
       ],
       "runtime_proof": "/root/DrillProximityLifecycleProof"
     },
+    "source_drill_read_state_result.progress": {
+      "canonical_symbol": "source_symbol_registry.source_drill_read_state_result.progress",
+      "status": "source-backed",
+      "java_expr": "progress = read.f();",
+      "godot_symbol": "source_drill_read_state_result.progress",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_read_state",
+      "rule": "The drill progress after load (Drill.java:392, `progress = read.f();`): the stored value when revision >= 1, else the frame current value (default 0.0).",
+      "tests": [
+        "test_c07_burst_drill_write_read_registration",
+        "test_all_c07_burst_drill_write_read_input_evidence_is_exact",
+        "test_burst_drill_write_read_state",
+        "test_reference_graph_and_actual_c07_burst_drill_write_read"
+      ],
+      "runtime_proof": "/root/C07BurstDrillWriteReadProof"
+    },
+    "source_drill_read_state_result.warmup": {
+      "canonical_symbol": "source_symbol_registry.source_drill_read_state_result.warmup",
+      "status": "source-backed",
+      "java_expr": "warmup = read.f();",
+      "godot_symbol": "source_drill_read_state_result.warmup",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_read_state",
+      "rule": "The warmup after load (Drill.java:393, `warmup = read.f();`): the stored value when revision >= 1, else the frame current value (default 0.0).",
+      "tests": [
+        "test_c07_burst_drill_write_read_registration",
+        "test_all_c07_burst_drill_write_read_input_evidence_is_exact",
+        "test_burst_drill_write_read_state",
+        "test_reference_graph_and_actual_c07_burst_drill_write_read"
+      ],
+      "runtime_proof": "/root/C07BurstDrillWriteReadProof"
+    },
     "source_drill_runtime_state_input.seconds": {
       "canonical_symbol": "source_symbol_registry.source_drill_runtime_state_input.seconds",
       "status": "source-backed",
@@ -3785,6 +3815,51 @@
         "test_reference_graph_and_actual_c07_drill_set_stats"
       ],
       "runtime_proof": "/root/C07DrillSetStatsProof"
+    },
+    "source_drill_version_state_result.version": {
+      "canonical_symbol": "source_symbol_registry.source_drill_version_state_result.version",
+      "status": "source-backed",
+      "java_expr": "return 1;",
+      "godot_symbol": "source_drill_version_state_result.version",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_version_state",
+      "rule": "The save version: 1 (Drill.java:381, `return 1;`); the BuildingComp base returns 0 (BuildingComp.java:670).",
+      "tests": [
+        "test_c07_burst_drill_write_read_registration",
+        "test_all_c07_burst_drill_write_read_input_evidence_is_exact",
+        "test_burst_drill_write_read_state",
+        "test_reference_graph_and_actual_c07_burst_drill_write_read"
+      ],
+      "runtime_proof": "/root/C07BurstDrillWriteReadProof"
+    },
+    "source_drill_write_state_result.progress": {
+      "canonical_symbol": "source_symbol_registry.source_drill_write_state_result.progress",
+      "status": "source-backed",
+      "java_expr": "write.f(progress);",
+      "godot_symbol": "source_drill_write_state_result.progress",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_write_state",
+      "rule": "The persisted drill progress (`write.f(progress);`, Drill.java:386): the DrillBuild field (`public float progress;`, Drill.java:238), default 0.0, advanced by updateTile (N2294); written first, in Java write order.",
+      "tests": [
+        "test_c07_burst_drill_write_read_registration",
+        "test_all_c07_burst_drill_write_read_input_evidence_is_exact",
+        "test_burst_drill_write_read_state",
+        "test_reference_graph_and_actual_c07_burst_drill_write_read"
+      ],
+      "runtime_proof": "/root/C07BurstDrillWriteReadProof"
+    },
+    "source_drill_write_state_result.warmup": {
+      "canonical_symbol": "source_symbol_registry.source_drill_write_state_result.warmup",
+      "status": "source-backed",
+      "java_expr": "write.f(warmup);",
+      "godot_symbol": "source_drill_write_state_result.warmup",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_write_state",
+      "rule": "The persisted warmup (`write.f(warmup);`, Drill.java:387): the DrillBuild field (`public float warmup;`, Drill.java:239), default 0.0, advanced by updateTile (N2294); written second, in Java write order.",
+      "tests": [
+        "test_c07_burst_drill_write_read_registration",
+        "test_all_c07_burst_drill_write_read_input_evidence_is_exact",
+        "test_burst_drill_write_read_state",
+        "test_reference_graph_and_actual_c07_burst_drill_write_read"
+      ],
+      "runtime_proof": "/root/C07BurstDrillWriteReadProof"
     },
     "source_factory_bind_consumer_state_input.amounts": {
       "canonical_symbol": "source_symbol_registry.source_factory_bind_consumer_state_input.amounts",

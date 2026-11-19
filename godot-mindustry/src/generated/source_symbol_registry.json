@@ -177768,6 +177768,86 @@
         "test_reference_graph_and_actual_c07_sound_control_loop"
       ],
       "runtime_proof": "/root/C07SoundControlLoopProof"
+    },
+    "source_drill_write_state_result.progress": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_write_state",
+      "godot_symbol": "source_drill_write_state_result.progress",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.write()",
+      "java_expr": "write.f(progress);",
+      "rule": "The persisted drill progress (`write.f(progress);`, Drill.java:386): the DrillBuild field (`public float progress;`, Drill.java:238), default 0.0, advanced by updateTile (N2294); written first, in Java write order.",
+      "tests": [
+        "test_c07_burst_drill_write_read_registration",
+        "test_all_c07_burst_drill_write_read_input_evidence_is_exact",
+        "test_burst_drill_write_read_state",
+        "test_reference_graph_and_actual_c07_burst_drill_write_read"
+      ],
+      "runtime_proof": "/root/C07BurstDrillWriteReadProof"
+    },
+    "source_drill_write_state_result.warmup": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_write_state",
+      "godot_symbol": "source_drill_write_state_result.warmup",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.write()",
+      "java_expr": "write.f(warmup);",
+      "rule": "The persisted warmup (`write.f(warmup);`, Drill.java:387): the DrillBuild field (`public float warmup;`, Drill.java:239), default 0.0, advanced by updateTile (N2294); written second, in Java write order.",
+      "tests": [
+        "test_c07_burst_drill_write_read_registration",
+        "test_all_c07_burst_drill_write_read_input_evidence_is_exact",
+        "test_burst_drill_write_read_state",
+        "test_reference_graph_and_actual_c07_burst_drill_write_read"
+      ],
+      "runtime_proof": "/root/C07BurstDrillWriteReadProof"
+    },
+    "source_drill_read_state_result.progress": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_read_state",
+      "godot_symbol": "source_drill_read_state_result.progress",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.read()",
+      "java_expr": "progress = read.f();",
+      "rule": "The drill progress after load (Drill.java:392, `progress = read.f();`): the stored value when revision >= 1, else the frame current value (default 0.0).",
+      "tests": [
+        "test_c07_burst_drill_write_read_registration",
+        "test_all_c07_burst_drill_write_read_input_evidence_is_exact",
+        "test_burst_drill_write_read_state",
+        "test_reference_graph_and_actual_c07_burst_drill_write_read"
+      ],
+      "runtime_proof": "/root/C07BurstDrillWriteReadProof"
+    },
+    "source_drill_read_state_result.warmup": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_read_state",
+      "godot_symbol": "source_drill_read_state_result.warmup",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.read()",
+      "java_expr": "warmup = read.f();",
+      "rule": "The warmup after load (Drill.java:393, `warmup = read.f();`): the stored value when revision >= 1, else the frame current value (default 0.0).",
+      "tests": [
+        "test_c07_burst_drill_write_read_registration",
+        "test_all_c07_burst_drill_write_read_input_evidence_is_exact",
+        "test_burst_drill_write_read_state",
+        "test_reference_graph_and_actual_c07_burst_drill_write_read"
+      ],
+      "runtime_proof": "/root/C07BurstDrillWriteReadProof"
+    },
+    "source_drill_version_state_result.version": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_version_state",
+      "godot_symbol": "source_drill_version_state_result.version",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.version()",
+      "java_expr": "return 1;",
+      "rule": "The save version: 1 (Drill.java:381, `return 1;`); the BuildingComp base returns 0 (BuildingComp.java:670).",
+      "tests": [
+        "test_c07_burst_drill_write_read_registration",
+        "test_all_c07_burst_drill_write_read_input_evidence_is_exact",
+        "test_burst_drill_write_read_state",
+        "test_reference_graph_and_actual_c07_burst_drill_write_read"
+      ],
+      "runtime_proof": "/root/C07BurstDrillWriteReadProof"
     }
   },
   "version": 1

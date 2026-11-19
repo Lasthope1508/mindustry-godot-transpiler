@@ -1087,6 +1087,33 @@
       "rule": "Source-backed Drill setStats() state from Drill.java + Blocks.java + StatValues.java + StatUnit.java + ConsumeLiquidBase.java + Block.java + Consume.java + Stat.java + bundle.properties.",
       "return_type": "Dictionary"
     },
+    "SourceBurstDrillBuildState.source_drill_write_state": {
+      "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_drill_write_state",
+      "status": "active",
+      "source_slice": "N2286",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "DrillBuild.write()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_drill_write_state_input.frame"
+        }
+      ],
+      "return_keys": [
+        "progress",
+        "warmup"
+      ],
+      "tests": [
+        "test_c07_burst_drill_write_read_registration",
+        "test_all_c07_burst_drill_write_read_input_evidence_is_exact",
+        "test_burst_drill_write_read_state",
+        "test_reference_graph_and_actual_c07_burst_drill_write_read"
+      ],
+      "runtime_proof": "/root/C07BurstDrillWriteReadProof",
+      "rule": "Source-backed DrillBuild.write()/read()/version() state from Drill.java + BuildingComp.java.",
+      "return_type": "Dictionary"
+    },
     "SourceDrillConsumptionRuntimeState.source_dominant_item_name_state": {
       "canonical_contract": "source_api_contracts.SourceDrillConsumptionRuntimeState.source_dominant_item_name_state",
       "status": "active",

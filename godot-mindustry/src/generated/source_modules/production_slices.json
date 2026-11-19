@@ -1083,6 +1083,27 @@
       ],
       "runtime_proof": "/root/C07DrillDrawSelectProof"
     },
+    "N2286": {
+      "canonical_ledger": "source_slice_ledger.N2286",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.write(); DrillBuild.read(); DrillBuild.version()",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_write_state",
+      "source_symbols": [
+        "source_drill_write_state_result.progress",
+        "source_drill_write_state_result.warmup",
+        "source_drill_read_state_result.progress",
+        "source_drill_read_state_result.warmup",
+        "source_drill_version_state_result.version"
+      ],
+      "tests": [
+        "test_c07_burst_drill_write_read_registration",
+        "test_all_c07_burst_drill_write_read_input_evidence_is_exact",
+        "test_burst_drill_write_read_state",
+        "test_reference_graph_and_actual_c07_burst_drill_write_read"
+      ],
+      "runtime_proof": "/root/C07BurstDrillWriteReadProof"
+    },
     "N2294": {
       "canonical_ledger": "source_slice_ledger.N2294",
       "status": "done",

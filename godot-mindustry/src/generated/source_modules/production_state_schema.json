@@ -1511,6 +1511,21 @@
         }
       }
     },
+    "source_drill_write_state_input": {
+      "canonical_schema": "source_state_schema.source_drill_write_state_input",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public void write(Writes write){",
+          "rule": "The drill frame (DrillBuild.write, Drill.java:384): the family-convention first arg every BurstDrill pure function takes; both persisted values are read from frame keys (the N2217 RepairTurret precedent) -- progress and warmup are tracked frame keys, the tick driver reads them.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_write_state"
+          ]
+        }
+      }
+    },
     "source_factory_dump_all_drill_outputs_state_input": {
       "canonical_schema": "source_state_schema.source_factory_dump_all_drill_outputs_state_input",
       "keys": {
