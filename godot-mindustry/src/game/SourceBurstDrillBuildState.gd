@@ -392,6 +392,38 @@ static func source_drill_draw_select_state(x: float, y: float, block_size: int, 
 	# The dominant item is `public Item dominantItem;` (Drill.java:244), set by the N2262 ore/dominant binding; the caller passes it as explicit params (has_dominant_item, dominant_item_icon_ratio) -- the N2268/N2275/N2281 explicit-param precedent. The helper is ALREADY LIVE at PortGame N570 (SourceBuildingDrawState.draw_item_selection_state, `source_building_draw_state.draw_item_selection_state`), so this function delegates to it and does NOT re-port the helper: the helper owns the guard, the geometry (dx = x - block.size * tilesize/2f, dy = y + block.size * tilesize/2f, s = iconSmall / 4f * ratio, h = iconSmall / 4f), the darkGray shadow rect at dy - 1 and the foreground rect at dy, returning the nine result keys visible, dx, dy, shadow_color, shadow_alpha, shadow_y, foreground_y, selection_width, selection_height (hidden -- only visible -- when there is no dominant item). tilesize is 8 (`public static final int tilesize = 8;`, Vars.java:135) and iconSmall is 24 (`iconSmall = 8*3f;`, Vars.java:139), both passed explicitly. Per-def sizes: impact-drill `size = 4;` (Blocks.java:3073), eruption-drill `size = 5;` (Blocks.java:3096). The classes are `public class Drill extends Block{` (Drill.java:27) and `public class DrillBuild extends Building{` (Drill.java:237); BurstDrillBuild inherits DrillBuild (`public class BurstDrill extends Drill{`, BurstDrill.java:17). This is a different method from RepairTurret drawSelect N2220 (different class) -- no overlap. There is NO driver tick line: drawSelect is selection UI, not per-tick state (the accessor precedent N2268/N2275/N2281).
 	return source_building_draw_state.draw_item_selection_state(has_dominant_item, x, y, block_size, tilesize, icon_small, dominant_item_icon_ratio)
 
+@warning_ignore("unused_parameter")
+static func source_drill_sense_object_state(frame: Dictionary, sensor: String, has_dominant_item: bool, dominant_item: Variant, super_sense_object_value: Variant) -> Dictionary:
+	# DrillBuild.senseObject() (Drill.java:281-284):
+	# public Object senseObject(LAccess sensor){
+	# if(sensor == LAccess.firstItem) return dominantItem;
+	# return super.senseObject(sensor);
+	# }
+	# over the base default BuildingComp.senseObject() (BuildingComp.java:2128-2136, inside `public Object senseObject(LAccess sensor){`, BuildingComp.java:2128):
+	# return switch(sensor){
+	# case type -> block;
+	# case firstItem -> items == null ? null : items.first();
+	# case config -> block.configSenseable() ? config() : null;
+	# case payloadType -> getPayload() instanceof UnitPayload p1 ? p1.unit.type : getPayload() instanceof BuildPayload p2 ? p2.block() : null;
+	# default -> noSensed;
+	# };
+	# The sensor spelling is the LAccess enum name `firstItem,` (LAccess.java:8). The dominant item is `public Item dominantItem;` (Drill.java:244), set by the N2262 ore/dominant binding; the caller passes it as explicit params (has_dominant_item, dominant_item) -- the N2268/N2275/N2281 explicit-param precedent. senseObject returns dominantItem itself for firstItem -- null when no dominant item is bound -- and falls through to the caller-passed super result otherwise: the super leg is the live BuildingComp sense (N636, PortGame.source_building_sense_object_state), passed in as an explicit param (the N2271/N2277 super-as-param precedent). The classes are `public class Drill extends Block{` (Drill.java:27) and `public class DrillBuild extends Building{` (Drill.java:237); BurstDrillBuild inherits DrillBuild (`public class BurstDrill extends Drill{`, BurstDrill.java:17). This is a different method from RepairTurret senseObject N2229 (different class) -- no overlap. There is NO driver tick line: senseObject is a logic read, not per-tick state (the N2206 / N2208 / N2223 precedent); the logic-processor dispatch hook is its own later slice.
+	if sensor == "firstItem":
+		return {"handled": true, "sense_object_value": dominant_item}
+	return {"handled": false, "sense_object_value": super_sense_object_value}
+
+@warning_ignore("unused_parameter")
+static func source_drill_sense_state(frame: Dictionary, sensor: String, has_dominant_item: bool, progress: float, super_sense_value: Variant, super_sense_value_is_nan: bool) -> Dictionary:
+	# DrillBuild.sense() (Drill.java:333-336):
+	# public double sense(LAccess sensor){
+	# if(sensor == LAccess.progress && dominantItem != null) return progress;
+	# return super.sense(sensor);
+	# }
+	# over the base default BuildingComp.sense() (BuildingComp.java:2093, `public double sense(LAccess sensor){`), whose default is `default -> Float.NaN; //gets converted to null in logic` (BuildingComp.java:2123). The sensor spelling is the LAccess enum name `progress,` (LAccess.java:28). `progress` is the DrillBuild field (`public float progress;`, Drill.java:238), advanced in updateTile (N2294) -- NOT the clamped progress() (`public float progress(){`, Drill.java:327-329, `return dominantItem == null ? 0f : Mathf.clamp(progress / getDrillTime(dominantItem));`), which is its own slice: sense() returns the raw field. The dominant item is `public Item dominantItem;` (Drill.java:244), set by the N2262 ore/dominant binding; the caller passes whether one is bound as has_dominant_item -- the N2268/N2275/N2281 explicit-param precedent. The super leg is the live BuildingComp sense (N1078-N1085), passed in as explicit params (super_sense_value, super_sense_value_is_nan) following the N2271/N2277 super-as-param precedent; the fallthrough leg returns the caller-passed super result. The classes are `public class Drill extends Block{` (Drill.java:27) and `public class DrillBuild extends Building{` (Drill.java:237); BurstDrillBuild inherits DrillBuild (`public class BurstDrill extends Drill{`, BurstDrill.java:17). This is a different method from Turret sense N2293 (different class) -- no overlap. There is NO driver tick line: sense is a logic read, not per-tick state (the N2206 / N2208 / N2223 precedent); the logic-processor dispatch hook is its own later slice.
+	if sensor == "progress" and has_dominant_item:
+		return {"handled": true, "sense_value": progress, "sense_value_is_nan": false}
+	return {"handled": false, "sense_value": super_sense_value, "sense_value_is_nan": super_sense_value_is_nan}
+
 static func source_burst_drill_update_tile_state(frame: Dictionary, delta: float, drill_time_base: float, drill_multiplier: float, inverted_time: float, liquid_boost_intensity: float, item_capacity: float, dump_interval: float) -> Dictionary:
 	# BurstDrillBuild.updateTile advances the burst drill's
 	# drilling state every tick (BurstDrill.java:76,

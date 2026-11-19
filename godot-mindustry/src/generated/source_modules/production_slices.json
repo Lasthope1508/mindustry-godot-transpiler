@@ -1148,6 +1148,27 @@
       ],
       "runtime_proof": "/root/C07BurstDrillLiquidRowsProof"
     },
+    "N2298": {
+      "canonical_ledger": "source_slice_ledger.N2298",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.senseObject(LAccess); DrillBuild.sense(LAccess)",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_sense_object_state",
+      "source_symbols": [
+        "source_drill_sense_object_state_result.handled",
+        "source_drill_sense_object_state_result.sense_object_value",
+        "source_drill_sense_state_result.handled",
+        "source_drill_sense_state_result.sense_value",
+        "source_drill_sense_state_result.sense_value_is_nan"
+      ],
+      "tests": [
+        "test_c07_drill_sense_registration",
+        "test_all_c07_drill_sense_input_evidence_is_exact",
+        "test_drill_sense_state",
+        "test_reference_graph_and_actual_c07_drill_sense"
+      ],
+      "runtime_proof": "/root/C07DrillSenseProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",

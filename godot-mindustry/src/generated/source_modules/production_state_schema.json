@@ -1285,6 +1285,61 @@
         }
       }
     },
+    "source_drill_sense_object_state_input": {
+      "canonical_schema": "source_state_schema.source_drill_sense_object_state_input",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public Object senseObject(LAccess sensor){",
+          "rule": "The drill frame (accepted for the family call shape; this leg reads no live frame key -- all live values arrive as explicit params, the N2188 per-def-param precedent, because the tick frame tracks only cheating/enabled/power_status/efficiency).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_sense_object_state"
+          ]
+        },
+        "sensor": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public Object senseObject(LAccess sensor){",
+          "rule": "The logic sensor to read, spelled by its LAccess enum name (LAccess.java:8 `firstItem,`): only firstItem is handled here, anything else falls through to super.senseObject (Drill.java:283, `return super.senseObject(sensor);`).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_sense_object_state"
+          ]
+        },
+        "has_dominant_item": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public Item dominantItem;",
+          "rule": "Whether a dominant item is bound: the DrillBuild.dominantItem field (Drill.java:244) is non-null, set by the N2262 ore/dominant binding; passed explicitly because the caller owns the binding (the N2268/N2275/N2281 explicit-param precedent).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_sense_object_state"
+          ]
+        },
+        "dominant_item": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public Item dominantItem;",
+          "rule": "The bound dominant item: the DrillBuild.dominantItem field (Drill.java:244), returned for the firstItem sensor (Drill.java:282, `if(sensor == LAccess.firstItem) return dominantItem;`); null when no dominant item is bound -- Java returns dominantItem itself, so firstItem reads null then; passed explicitly because the caller owns the binding.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_sense_object_state"
+          ]
+        },
+        "super_sense_object_value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "return super.senseObject(sensor);",
+          "rule": "The already-computed super result: BuildingComp.senseObject (BuildingComp.java:2128-2137, firstItem leg `case firstItem -> items == null ? null : items.first();`, default `default -> noSensed;`), live at N636 (port_game.source_building_sense_object_state); the caller passes it (the N2271/N2277 super-as-param precedent) and the fallthrough leg returns it. The expr is the Drill fallthrough call site (Drill.java:283).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_sense_object_state"
+          ]
+        }
+      }
+    },
     "source_drill_set_stats_state_input": {
       "canonical_schema": "source_state_schema.source_drill_set_stats_state_input",
       "keys": {

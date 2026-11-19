@@ -70534,6 +70534,104 @@
       ],
       "runtime_proof": "/root/C07TurretMicroAccessorsProof",
       "rule": "Source-backed TurretBuild.warmup()/drawrot()/canControl()/logicControlled() state from Turret.java + RotComp.java + BuildingComp.java."
+    },
+    "SourceBurstDrillBuildState.source_drill_sense_object_state": {
+      "status": "active",
+      "source_slice": "N2298",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "DrillBuild.senseObject(LAccess)",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_drill_sense_object_state_input.frame"
+        },
+        {
+          "name": "sensor",
+          "type": "String",
+          "schema": "source_drill_sense_object_state_input.sensor"
+        },
+        {
+          "name": "has_dominant_item",
+          "type": "bool",
+          "schema": "source_drill_sense_object_state_input.has_dominant_item"
+        },
+        {
+          "name": "dominant_item",
+          "type": "Variant",
+          "schema": "source_drill_sense_object_state_input.dominant_item"
+        },
+        {
+          "name": "super_sense_object_value",
+          "type": "Variant",
+          "schema": "source_drill_sense_object_state_input.super_sense_object_value"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "handled",
+        "sense_object_value"
+      ],
+      "tests": [
+        "test_c07_drill_sense_registration",
+        "test_all_c07_drill_sense_input_evidence_is_exact",
+        "test_drill_sense_state",
+        "test_reference_graph_and_actual_c07_drill_sense"
+      ],
+      "runtime_proof": "/root/C07DrillSenseProof",
+      "rule": "Source-backed DrillBuild senseObject() + sense() state from Drill.java + BuildingComp.java + LAccess.java."
+    },
+    "SourceBurstDrillBuildState.source_drill_sense_state": {
+      "status": "active",
+      "source_slice": "N2298",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "DrillBuild.sense(LAccess)",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_drill_sense_state_input.frame"
+        },
+        {
+          "name": "sensor",
+          "type": "String",
+          "schema": "source_drill_sense_state_input.sensor"
+        },
+        {
+          "name": "has_dominant_item",
+          "type": "bool",
+          "schema": "source_drill_sense_state_input.has_dominant_item"
+        },
+        {
+          "name": "progress",
+          "type": "float",
+          "schema": "source_drill_sense_state_input.progress"
+        },
+        {
+          "name": "super_sense_value",
+          "type": "Variant",
+          "schema": "source_drill_sense_state_input.super_sense_value"
+        },
+        {
+          "name": "super_sense_value_is_nan",
+          "type": "bool",
+          "schema": "source_drill_sense_state_input.super_sense_value_is_nan"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "handled",
+        "sense_value",
+        "sense_value_is_nan"
+      ],
+      "tests": [
+        "test_c07_drill_sense_registration",
+        "test_all_c07_drill_sense_input_evidence_is_exact",
+        "test_drill_sense_state",
+        "test_reference_graph_and_actual_c07_drill_sense"
+      ],
+      "runtime_proof": "/root/C07DrillSenseProof",
+      "rule": "Source-backed DrillBuild senseObject() + sense() state from Drill.java + BuildingComp.java + LAccess.java."
     }
   },
   "policy": {

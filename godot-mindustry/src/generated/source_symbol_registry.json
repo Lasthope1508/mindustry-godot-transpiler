@@ -177912,6 +177912,86 @@
         "test_reference_graph_and_actual_c07_turret_micro_accessors"
       ],
       "runtime_proof": "/root/C07TurretMicroAccessorsProof"
+    },
+    "source_drill_sense_object_state_result.handled": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_sense_object_state",
+      "godot_symbol": "source_drill_sense_object_state_result.handled",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.senseObject(LAccess)",
+      "java_expr": "return super.senseObject(sensor);",
+      "rule": "Whether this slice handled the sensor (firstItem only); false means \"not handled -- the returned value is the super result\" (the N2223 sense precedent).",
+      "tests": [
+        "test_c07_drill_sense_registration",
+        "test_all_c07_drill_sense_input_evidence_is_exact",
+        "test_drill_sense_state",
+        "test_reference_graph_and_actual_c07_drill_sense"
+      ],
+      "runtime_proof": "/root/C07DrillSenseProof"
+    },
+    "source_drill_sense_object_state_result.sense_object_value": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_sense_object_state",
+      "godot_symbol": "source_drill_sense_object_state_result.sense_object_value",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.senseObject(LAccess)",
+      "java_expr": "if(sensor == LAccess.firstItem) return dominantItem;",
+      "rule": "The sensed object: dominantItem for \"firstItem\" (Drill.java:282), null when no dominant item is bound, or the caller-passed super result for any other sensor (Drill.java:283).",
+      "tests": [
+        "test_c07_drill_sense_registration",
+        "test_all_c07_drill_sense_input_evidence_is_exact",
+        "test_drill_sense_state",
+        "test_reference_graph_and_actual_c07_drill_sense"
+      ],
+      "runtime_proof": "/root/C07DrillSenseProof"
+    },
+    "source_drill_sense_state_result.handled": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_sense_state",
+      "godot_symbol": "source_drill_sense_state_result.handled",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.sense(LAccess)",
+      "java_expr": "return super.sense(sensor);",
+      "rule": "Whether this slice handled the sensor (progress with a dominant item only); false means \"not handled -- the returned value is the super result\" (the N2223 sense precedent).",
+      "tests": [
+        "test_c07_drill_sense_registration",
+        "test_all_c07_drill_sense_input_evidence_is_exact",
+        "test_drill_sense_state",
+        "test_reference_graph_and_actual_c07_drill_sense"
+      ],
+      "runtime_proof": "/root/C07DrillSenseProof"
+    },
+    "source_drill_sense_state_result.sense_value": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_sense_state",
+      "godot_symbol": "source_drill_sense_state_result.sense_value",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.sense(LAccess)",
+      "java_expr": "if(sensor == LAccess.progress && dominantItem != null) return progress;",
+      "rule": "The sensed value: the raw progress field for \"progress\" with a dominant item (Drill.java:334), or the caller-passed super result for any other sensor (Drill.java:335); null when the sensor is not handled and the super was NaN.",
+      "tests": [
+        "test_c07_drill_sense_registration",
+        "test_all_c07_drill_sense_input_evidence_is_exact",
+        "test_drill_sense_state",
+        "test_reference_graph_and_actual_c07_drill_sense"
+      ],
+      "runtime_proof": "/root/C07DrillSenseProof"
+    },
+    "source_drill_sense_state_result.sense_value_is_nan": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_sense_state",
+      "godot_symbol": "source_drill_sense_state_result.sense_value_is_nan",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "DrillBuild.sense(LAccess)",
+      "java_expr": "default -> Float.NaN; //gets converted to null in logic",
+      "rule": "Whether the sensed value is NaN: true only when the sensor falls through to a NaN super result (the super switch default, BuildingComp.java:2123, `default -> Float.NaN; //gets converted to null in logic`, converts to null in logic); false for the handled progress row.",
+      "tests": [
+        "test_c07_drill_sense_registration",
+        "test_all_c07_drill_sense_input_evidence_is_exact",
+        "test_drill_sense_state",
+        "test_reference_graph_and_actual_c07_drill_sense"
+      ],
+      "runtime_proof": "/root/C07DrillSenseProof"
     }
   },
   "version": 1
