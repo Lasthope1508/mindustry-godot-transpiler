@@ -1,6 +1,6 @@
-# Handoff — N2265 Turret efficiency fold :676 (C07, duo) [GREEN DONE — CHỜ PUSH]
+# Handoff — N2265 Turret efficiency fold :676 (C07, duo) [DONE + PUSHED]
 
-## Status: GREEN DONE (2026-11-19 ~18:0x +07, lượt cron 18:00) — chain đã xác minh độc lập xong: targeted 4/4 OK (chạy lại 17.011s), proof matches:true 12/12 (đọc trực tiếp JSON), register --verify 19/19, neighbours 116 passed, wiring 32 OK, gate Ran 6153 failures=215 toàn Godot-absent (+4/+1 so với N2264, đúng 4 test mới). Report `reports/2026-11-19-c07-turret-efficiency-fold.md` đã viết. CHƯA commit/push — tiếp theo: slice commit → docs commit (report + handoff + spec) → GOAL commit → push → status commit → hashes commit.
+## Status: DONE + PUSHED (2026-11-19 ~18:1x +07, lượt cron 18:00) — slice `92a9a639`, docs `ddc3a489`, GOAL `98c41a0a`, origin/main == 98c41a0a. Chain đã xác minh độc lập xong: targeted 4/4 OK (chạy lại 17.011s), proof matches:true 12/12 (đọc trực tiếp JSON), register --verify 19/19, neighbours 116 passed, wiring 32 OK, gate Ran 6153 failures=215 toàn Godot-absent (+4/+1 so với N2264, đúng 4 test mới). Lưu ý: push lần đầu bị từ chối vì origin/main đã tiến tới 5929e265 (agent khác merge Godot evidence N2429/N2430/N2431) — đã rebase sạch (không conflict, file evidence không trùng slice) rồi push, GOAL.md đã sửa hash slice mới trước khi push.
 
 - N2264 DONE + PUSHED (origin/main d2d8b6b4, slice 64c41a11) — đã xác minh đầu lượt: git log 5 commit khớp, HEAD == origin/main == d2d8b6b4, worktree sạch ngoại trừ noise *.gd.uid (không stage). javalang 0.13.0 + pytest 9.2.0 importable; port 7777 trống; không có unittest discover / chain đang chạy.
 
@@ -38,10 +38,9 @@
 - Neighbours: 116 passed in 398.45s (log `~/workspace/goals/mindustry-c06-factory-to-defense-work/hidden_files/n2265-neighbours.log`). Wiring: Ran 32 tests, OK (122.576s) (log `n2265-wiring.log`).
 - Gate (log `tools/mindustry_godot_transpiler/full-suite-n2265-gate.log`, chain PID 2959, GATE-START 10:42:53Z, GATE-EXIT 1 11:01:57Z): Ran 6153 trong 1142.544s, FAILED (failures=215, skipped=5, errors=0). Xác minh độc lập: 215 FAIL headers, 0 ERROR, 215 × `unexpectedly None`, 0 KeyError, 0 `return_schema_linkage`, 0 ERROR — toàn Godot-absent. +4 tests / +1 failure so với gate N2264 (Ran 6149, failures=214), đúng 4 test mới; +1 failure là test reference-graph của chính N2265.
 
-## Tiếp theo: N2265 COMMIT + PUSH (lượt này)
+## Tiếp theo: N2266 (lượt sau)
 
-- Slice commit (12 file: SourceTurretBuildState.gd, 6 SSOT JSON, proof .gd/.tscn, test + register) → docs commit (report + handoff + spec, Done 1714 → 1715) → GOAL commit (§5 N2265) → push origin main → status commit → hashes commit → push. Không stage *.gd.uid, gate log, hidden_files/.
-- Sau đó: N2266 candidate — targetPosition(pos) call (Turret.java:398, :453-471), deferred lâu nhất còn lại.
+- N2266 candidate — targetPosition(pos) call (Turret.java:398, :453-471), deferred lâu nhất còn lại: hasAmmo/peekAmmo + Predict.intercept, accurateDelay/moveWhileCharging offset, predictTarget gating — own slice, theo đúng quy trình RED → GREEN → neighbours/wiring/gate → proof → report/handoff/spec → push.
 
 ## Deferred (không đổi, trừ efficiency fold đang làm)
 
