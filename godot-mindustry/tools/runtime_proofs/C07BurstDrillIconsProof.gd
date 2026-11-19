@@ -19,7 +19,7 @@ func _ready() -> void:
 	game.set_process(false)
 	game.set_physics_process(false)
 
-	# --- BurstDrill icons() (N2269):
+	# --- BurstDrill icons() (N2312):
 	# BurstDrill.icons() (`@Override public
 	# TextureRegion[] icons(){`,
 	# BurstDrill.java:48-49) returns the two loaded

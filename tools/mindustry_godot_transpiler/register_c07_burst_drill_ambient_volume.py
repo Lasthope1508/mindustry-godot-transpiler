@@ -32,7 +32,7 @@ at efficiency 1: impact-drill (size 4, Blocks.java:3073)
 4.0, eruption-drill (size 5, Blocks.java:3096) 6.25.
 
 RED decisions (resolved at RED): (1) One pure function on
-the same family file N2149 / N2256 / N2258 / N2269 / N2262 /
+the same family file N2149 / N2256 / N2258 / N2312 / N2262 /
 N2309 built, after source_burst_drill_icons_state:
 source_burst_drill_ambient_volume_state(
 super_ambient_volume, progress) returning ambient_volume

@@ -68290,36 +68290,6 @@
       "runtime_proof": "/root/C07RadarProgressProof",
       "rule": "Source-backed Radar progress() accessor from Radar.java."
     },
-    "SourceBurstDrillBuildState.source_burst_drill_icons_state": {
-      "status": "active",
-      "source_slice": "N2269",
-      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
-      "source_method": "BurstDrill.icons()",
-      "params": [
-        {
-          "name": "region",
-          "type": "Variant",
-          "schema": "source_burst_drill_icons_state_input.region"
-        },
-        {
-          "name": "top_region",
-          "type": "Variant",
-          "schema": "source_burst_drill_icons_state_input.top_region"
-        }
-      ],
-      "return_type": "Dictionary",
-      "return_keys": [
-        "icons"
-      ],
-      "tests": [
-        "test_c07_burst_drill_icons_registration",
-        "test_all_c07_burst_drill_icons_input_evidence_is_exact",
-        "test_burst_drill_icons_state",
-        "test_reference_graph_and_actual_c07_burst_drill_icons"
-      ],
-      "runtime_proof": "/root/C07BurstDrillIconsProof",
-      "rule": "Source-backed BurstDrill icons() state from BurstDrill.java + Drill.java + Block.java."
-    },
     "SourceTurretBuildState.source_turret_can_heal_state": {
       "status": "active",
       "source_slice": "N2270",
@@ -70797,6 +70767,36 @@
       ],
       "runtime_proof": "/root/C07TurretFogRadiusProof",
       "rule": "Source-backed TurretBuild.fogRadius() state from Turret.java + BaseTurret.java + Vars.java + BulletType.java + FogControl.java + FogRenderer.java."
+    },
+    "SourceBurstDrillBuildState.source_burst_drill_icons_state": {
+      "status": "active",
+      "source_slice": "N2312",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "source_method": "BurstDrill.icons()",
+      "params": [
+        {
+          "name": "region",
+          "type": "Variant",
+          "schema": "source_burst_drill_icons_state_input.region"
+        },
+        {
+          "name": "top_region",
+          "type": "Variant",
+          "schema": "source_burst_drill_icons_state_input.top_region"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "icons"
+      ],
+      "tests": [
+        "test_c07_burst_drill_icons_registration",
+        "test_all_c07_burst_drill_icons_input_evidence_is_exact",
+        "test_burst_drill_icons_state",
+        "test_reference_graph_and_actual_c07_burst_drill_icons"
+      ],
+      "runtime_proof": "/root/C07BurstDrillIconsProof",
+      "rule": "Source-backed BurstDrill icons() state from BurstDrill.java + Drill.java + Block.java."
     }
   },
   "policy": {

@@ -46,7 +46,7 @@ size 5, tier 7, beryllium multiplier 2f,
 `liquidBoostIntensity = 2f;`, cyanogen booster 0.75f/60f.
 
 RED decisions (resolved at RED): (1) One pure function on
-the same family file N2149 / N2256 / N2258 / N2269 / N2262 /
+the same family file N2149 / N2256 / N2258 / N2312 / N2262 /
 N2309 / N2271 / N2277 built, after
 source_burst_drill_set_stats_state:
 source_drill_set_stats_state(frame, drill_time,

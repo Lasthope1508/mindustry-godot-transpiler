@@ -14,7 +14,7 @@ class C07BurstDrillIconsTests(unittest.TestCase):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        self.assertEqual(ledger['N2269']['godot_owner'], 'SourceBurstDrillBuildState.source_burst_drill_icons_state')
+        self.assertEqual(ledger['N2312']['godot_owner'], 'SourceBurstDrillBuildState.source_burst_drill_icons_state')
         # BurstDrill.icons() (BurstDrill.java:48-50,
         # `@Override public TextureRegion[] icons(){`)
         # returns the two loaded regions in order
@@ -60,12 +60,12 @@ class C07BurstDrillIconsTests(unittest.TestCase):
         # Blocks.java:3093); they differ only in the
         # region name the caller passes.
         self.assertEqual(
-            ledger['N2269']['source_symbols'],
+            ledger['N2312']['source_symbols'],
             [
                 'source_burst_drill_icons_state_result.icons',
             ],
         )
-        for name in ledger['N2269']['source_symbols']:
+        for name in ledger['N2312']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_source'], {
@@ -74,9 +74,9 @@ class C07BurstDrillIconsTests(unittest.TestCase):
                     'core/src/mindustry/world/Block.java',
                 })
                 self.assertEqual(symbol['godot_owner'], 'SourceBurstDrillBuildState.' + name.rsplit('_result.', 1)[0])
-        self.assertEqual(ledger['N2269']['runtime_proof'], '/root/C07BurstDrillIconsProof')
+        self.assertEqual(ledger['N2312']['runtime_proof'], '/root/C07BurstDrillIconsProof')
         self.assertEqual(
-            ledger['N2269']['tests'],
+            ledger['N2312']['tests'],
             [
                 'test_c07_burst_drill_icons_registration',
                 'test_all_c07_burst_drill_icons_input_evidence_is_exact',
@@ -84,13 +84,13 @@ class C07BurstDrillIconsTests(unittest.TestCase):
                 'test_reference_graph_and_actual_c07_burst_drill_icons',
             ],
         )
-        self.assertTrue(ledger['N2269']['deferred_exprs'])
+        self.assertTrue(ledger['N2312']['deferred_exprs'])
 
     def test_all_c07_burst_drill_icons_input_evidence_is_exact(self):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        for name in ledger['N2269']['source_symbols']:
+        for name in ledger['N2312']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_expr'], (ROOT / 'mindustry-upstream' / symbol['java_source']).read_text(encoding='utf-8'))
@@ -103,7 +103,7 @@ class C07BurstDrillIconsTests(unittest.TestCase):
         upstream = {}
         for source in slice_sources:
             upstream[source] = (ROOT / 'mindustry-upstream' / source).read_text(encoding='utf-8')
-        for expr in ledger['N2269']['exact_exprs']:
+        for expr in ledger['N2312']['exact_exprs']:
             with self.subTest(expr=expr):
                 self.assertTrue(any(expr in text for text in upstream.values()), expr)
 

@@ -25,7 +25,7 @@ Building{` (Drill.java:237). The defs are
 BurstDrill("eruption-drill"){{` (Blocks.java:3093).
 
 RED decisions (resolved at RED): (1) One pure function on
-the same family file N2149 / N2256 / N2258 / N2269 / N2262 /
+the same family file N2149 / N2256 / N2258 / N2312 / N2262 /
 N2309 / N2271 built, after
 source_burst_drill_ambient_volume_state:
 source_drill_ambient_volume_state(frame, size) returning

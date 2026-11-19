@@ -37,7 +37,7 @@ Boolf<Consume> filter){`, Block.java:1104) returns the first
 consumer matching the filter.
 
 RED decisions (resolved at RED): (1) One pure function on
-the same family file N2149 / N2256 / N2258 / N2269 / N2262
+the same family file N2149 / N2256 / N2258 / N2312 / N2262
 built, after source_burst_drill_icons_state:
 source_burst_drill_set_stats_state(frame,
 liquid_boost_intensity, booster_consumer_found,
@@ -110,7 +110,7 @@ EXACT_EXPRS = ['public void setStats(){', 'super.setStats();', 'if(liquidBoostIn
 
 # DEFERRED is carried from the N2302 register script via import --
 # never retyped. The N2302 script's DEFERRED is a computed
-# expression (list comprehension over the N2269 import + [...]),
+# expression (list comprehension over the N2312 import + [...]),
 # NOT a plain list literal, so the N2218-style ast.literal_eval
 # carry cannot recover it (ValueError: malformed node); the
 # import recovers the runtime value verbatim. NOTE for the next

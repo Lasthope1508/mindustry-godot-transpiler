@@ -32,7 +32,7 @@ BurstDrill("impact-drill"){{` (Blocks.java:3070) and
 (Blocks.java:3093).
 
 RED decisions (resolved at RED): (1) One pure function on
-the same family file N2149 / N2256 / N2258 / N2269 / N2262 /
+the same family file N2149 / N2256 / N2258 / N2312 / N2262 /
 N2309 / N2271 / N2277 built, after
 source_drill_ambient_volume_state:
 source_drill_should_ambient_sound_state(frame, efficiency,

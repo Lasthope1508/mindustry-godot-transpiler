@@ -83,7 +83,7 @@ import sys
 from pathlib import Path
 
 from mindustry_port import source_ssot, source_symbols
-from register_c07_burst_drill_icons import DEFERRED as N2269_DEFERRED
+from register_c07_burst_drill_icons import DEFERRED as N2312_DEFERRED
 from register_liquid_consumer_hydration import backed
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -104,12 +104,12 @@ SLICE_SOURCES = [
 ]
 EXACT_EXPRS = ['protected void countOre(Tile tile){', 'returnItem = null;', 'returnCount = 0;', 'oreCount.clear();', 'itemArray.clear();', 'for(Tile other : tile.getLinkedTilesAs(this, tempTiles)){', 'if(canMine(other)){', 'oreCount.increment(getDrop(other), 0, 1);', 'for(Item item : oreCount.keys()){', 'itemArray.add(item);', 'int type = Boolean.compare(!item1.lowPriority, !item2.lowPriority);', 'if(type != 0) return type;', 'int amounts = Integer.compare(oreCount.get(item1, 0), oreCount.get(item2, 0));', 'if(amounts != 0) return amounts;', 'return Integer.compare(item1.id, item2.id);', 'if(itemArray.size == 0){', 'returnItem = itemArray.peek();', 'returnCount = oreCount.get(itemArray.peek(), 0);', 'public boolean canMine(Tile tile){', 'if(tile == null || tile.block().isStatic()) return false;', 'Item drops = tile.drop();', 'return drops != null && drops.hardness <= tier && (blockedItems == null || !blockedItems.contains(drops));', 'public void onProximityUpdate(){', 'super.onProximityUpdate();', 'countOre(tile);', 'dominantItem = returnItem;', 'dominantItems = returnCount;', 'public int tier;', 'public @Nullable Item blockedItem;', 'public @Nullable Seq<Item> blockedItems;', 'protected @Nullable Item returnItem;', 'protected int returnCount;', 'public int dominantItems;', 'public Item dominantItem;', 'if(blockedItems == null && blockedItem != null){', 'blockedItems = Seq.with(blockedItem);', 'public void pickedUp(){', 'dominantItem = null;', 'public class DrillBuild extends Building{', 'public class BurstDrill extends Drill{', 'public class BurstDrillBuild extends DrillBuild{', 'tier = 6;', 'blockedItem = Items.thorium;', 'tier = 7;']
 
-# DEFERRED is carried from the N2269 register script via import --
+# DEFERRED is carried from the N2312 register script via import --
 # never retyped. One carried entry is DROPPED here, not carried:
 # the BurstDrill ore / dominant-item binding entry -- N2302 IS the
 # ore / dominant-item binding slice, so carrying it would leave a
 # stale "waits for its own slice" row for done work.
-DEFERRED = [e for e in N2269_DEFERRED if 'BurstDrill ore / dominant-item binding' not in e] + [
+DEFERRED = [e for e in N2312_DEFERRED if 'BurstDrill ore / dominant-item binding' not in e] + [
     'BurstDrill ore / dominant-item binding Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2227: the N2302 proof runs headless on Linux here and waits for a Windows Godot run.',
     'BurstDrill pickedUp reset (dominantItem = null, Drill.java:264-266, inherited by BurstDrillBuild) -- the N2302 proof carries no pickedUp key; the reset waits for its own slice.',
     'BurstDrill placed-sprite live proximity run (SourceWorldTerrainRuntimeState on_proximity_update callback stamping a placed burst-drill sprite) -- the N2302 proof verifies the catalog blockedItems key and the bind inputs the live driver reads, but runs no placed sprite; the placed-sprite run waits for its own slice.',

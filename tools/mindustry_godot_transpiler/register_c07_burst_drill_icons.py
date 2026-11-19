@@ -1,4 +1,4 @@
-"""Register the BurstDrill icons() return array (N2269).
+"""Register the BurstDrill icons() return array (N2312).
 
 BurstDrill.icons() (BurstDrill.java:48-50, `@Override
 public TextureRegion[] icons(){`) returns the two loaded
@@ -53,7 +53,7 @@ BLOCK = 'core/src/mindustry/world/Block.java'
 PROOF = '/root/C07BurstDrillIconsProof'
 ICONS_OWNER = 'SourceBurstDrillBuildState.source_burst_drill_icons_state'
 TESTS = ['test_c07_burst_drill_icons_registration', 'test_all_c07_burst_drill_icons_input_evidence_is_exact', 'test_burst_drill_icons_state', 'test_reference_graph_and_actual_c07_burst_drill_icons']
-# The 3 slice sources the N2269 test checks exact_exprs
+# The 3 slice sources the N2312 test checks exact_exprs
 # against -- every expr in EXACT_EXPRS below must appear verbatim
 # in one of these files.
 SLICE_SOURCES = [
@@ -69,7 +69,7 @@ EXACT_EXPRS = ['@Override', 'public TextureRegion[] icons(){', 'return new Textu
 # NOT a plain list literal, so the N2218-style ast.literal_eval
 # carry cannot recover it (ValueError: malformed node); the
 # import recovers the runtime value verbatim. NOTE for the next
-# slice: N2269's DEFERRED is likewise a computed list(...) + [...]
+# slice: N2312's DEFERRED is likewise a computed list(...) + [...]
 # expression, so carry it forward by import too, not by
 # ast.literal_eval.
 # No carried entry is dropped here: there is no BurstDrill icons
@@ -79,7 +79,7 @@ EXACT_EXPRS = ['@Override', 'public TextureRegion[] icons(){', 'return new Textu
 # carries (N2257 closed it, but N2296 branched from N2256) is
 # left as-is -- ledger hygiene belongs to the main thread.
 DEFERRED = list(N2296_DEFERRED) + [
-    'BurstDrill icons() Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2227: the N2269 proof runs headless on Linux here and waits for a Windows Godot run.',
+    'BurstDrill icons() Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2227: the N2312 proof runs headless on Linux here and waits for a Windows Godot run.',
 ]
 
 
@@ -131,7 +131,7 @@ def main():
     icons_inputs, icons_outputs = definitions()
 
     entries = [
-        ('N2269', ICONS_OWNER, 'source_burst_drill_icons_state', BURST_DRILL, 'mindustry.world.blocks.production.BurstDrill', 'BurstDrill.icons()', icons_inputs, icons_outputs, True, 'Dictionary'),
+        ('N2312', ICONS_OWNER, 'source_burst_drill_icons_state', BURST_DRILL, 'mindustry.world.blocks.production.BurstDrill', 'BurstDrill.icons()', icons_inputs, icons_outputs, True, 'Dictionary'),
     ]
     all_names = []
     for sid, owner, prefix, source, cls, method, inputs, outputs, has_contract, return_type in entries:
@@ -151,10 +151,10 @@ def main():
 
     by_slice = {}
     # The test pins this order: icons.
-    by_slice['N2269'] = [
+    by_slice['N2312'] = [
         'source_burst_drill_icons_state_result.icons',
     ]
-    source_symbols.upsert_source_slice(GODOT, 'N2269', dict(status='done', java_source=BURST_DRILL, java_class='mindustry.world.blocks.production.BurstDrill', java_method='BurstDrill.icons()', godot_owner=ICONS_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2269'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
+    source_symbols.upsert_source_slice(GODOT, 'N2312', dict(status='done', java_source=BURST_DRILL, java_class='mindustry.world.blocks.production.BurstDrill', java_method='BurstDrill.icons()', godot_owner=ICONS_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2312'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
 
     source_symbols.upsert_source_symbols(GODOT, symbols)
     source_symbols.write_source_symbol_audit_report(GODOT)

@@ -926,23 +926,6 @@
       ],
       "runtime_proof": "/root/C07WallCrafterPowerStatusProof"
     },
-    "N2269": {
-      "canonical_ledger": "source_slice_ledger.N2269",
-      "status": "done",
-      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
-      "java_method": "BurstDrill.icons()",
-      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_icons_state",
-      "source_symbols": [
-        "source_burst_drill_icons_state_result.icons"
-      ],
-      "tests": [
-        "test_c07_burst_drill_icons_registration",
-        "test_all_c07_burst_drill_icons_input_evidence_is_exact",
-        "test_burst_drill_icons_state",
-        "test_reference_graph_and_actual_c07_burst_drill_icons"
-      ],
-      "runtime_proof": "/root/C07BurstDrillIconsProof"
-    },
     "N2271": {
       "canonical_ledger": "source_slice_ledger.N2271",
       "status": "done",
@@ -1185,6 +1168,23 @@
         "test_reference_graph_and_actual_c07_burst_drill_set_stats"
       ],
       "runtime_proof": "/root/C07BurstDrillSetStatsProof"
+    },
+    "N2312": {
+      "canonical_ledger": "source_slice_ledger.N2312",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_method": "BurstDrill.icons()",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_icons_state",
+      "source_symbols": [
+        "source_burst_drill_icons_state_result.icons"
+      ],
+      "tests": [
+        "test_c07_burst_drill_icons_registration",
+        "test_all_c07_burst_drill_icons_input_evidence_is_exact",
+        "test_burst_drill_icons_state",
+        "test_reference_graph_and_actual_c07_burst_drill_icons"
+      ],
+      "runtime_proof": "/root/C07BurstDrillIconsProof"
     },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
