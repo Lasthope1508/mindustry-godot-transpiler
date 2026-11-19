@@ -239686,6 +239686,94 @@
       },
       "runtime_proof": "/root/C07BurstDrillIconsProof",
       "rule": "Source-backed BurstDrill icons() state from BurstDrill.java + Drill.java + Block.java."
+    },
+    "source_turret_has_ammo_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_has_ammo_state",
+      "source_slice": "N2313",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public boolean hasAmmo(){",
+          "rule": "The turret frame (TurretBuild.hasAmmo, Turret.java:698): the family-convention first arg every Turret pure function takes; it IS the building (`this`) the predicate reads -- hasAmmo() itself does not read frame fields (the ammo list, per-shot cost and the two bool gates arrive as explicit params), so the frame is carried only for the family convention.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_has_ammo_state"
+          ]
+        },
+        "ammo_stacks": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public Seq<AmmoEntry> ammo = new Seq<>();",
+          "rule": "The ammo list (`ammo`, Turret.java:282): the TurretBuild field (`public Seq<AmmoEntry> ammo = new Seq<>();`, Turret.java:282) -- NOT re-ported here (AmmoEntry/Seq are not ported); it arrives as an explicit param (the N2311/N2261 precedent) as an Array of {amount, item} dicts (the peek_ammo_stack_state convention -- Seq.peek() is the last entry), and the function returns a deep copy with the swap applied.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_has_ammo_state"
+          ]
+        },
+        "ammo_per_shot": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public int ammoPerShot = 1;",
+          "rule": "The per-shot ammo cost (`ammoPerShot`, Turret.java:49): the block field (`public int ammoPerShot = 1;`, Turret.java:49) -- NOT re-ported here (block fields are not ported); it arrives as an explicit param (the N2311/N2261 precedent) as an int.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_has_ammo_state"
+          ]
+        },
+        "can_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "if(!canConsume()) return false;",
+          "rule": "The canConsume() result (`canConsume()`, Turret.java:710): TurretBuild.canConsume() (Turret.java:624-628, itself a super call) is NOT ported here -- its result arrives as an explicit param (the brief), and the gate runs AFTER the scan/swap (Java order).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_has_ammo_state"
+          ]
+        },
+        "cheating": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "cheating()",
+          "rule": "The cheating() result (`cheating()`, Turret.java:712): the team-cheat flag is NOT ported here -- its result arrives as an explicit param (the brief); a cheating turret counts as having ammo even when the peeked stack is short.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_has_ammo_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretHasAmmoProof",
+      "rule": "Source-backed TurretBuild.hasAmmo() state from Turret.java."
+    },
+    "source_turret_has_ammo_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_has_ammo_state",
+      "source_slice": "N2313",
+      "keys": {
+        "has_ammo": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return ammo.size > 0 && (ammo.peek().amount >= ammoPerShot || cheating());",
+          "rule": "Whether the turret has ammo (Turret.java:712, `return ammo.size > 0 && (ammo.peek().amount >= ammoPerShot || cheating());`): true when the list is non-empty and the peeked entry (the last entry, Seq.peek()) holds at least ammoPerShot, or when cheating is true; false when the list is empty, when no entry holds enough, or when can_consume is false.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_has_ammo_state"
+          ]
+        },
+        "ammo_stacks_after": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "ammo.swap(ammo.size - 1, i);",
+          "rule": "The ammo list after the swap (Turret.java:703, `ammo.swap(ammo.size - 1, i);`): a deep copy of the input list in which the first entry holding at least ammoPerShot has been swapped into the peek (last) position, when the peek was short and at least two entries exist; otherwise a copy in the original order. The swap runs before the canConsume() gate, so it is carried even when has_ammo is false for can_consume.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_has_ammo_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretHasAmmoProof",
+      "rule": "Source-backed TurretBuild.hasAmmo() state from Turret.java."
     }
   },
   "version": 1

@@ -178072,6 +178072,38 @@
         "test_reference_graph_and_actual_c07_turret_unit"
       ],
       "runtime_proof": "/root/C07TurretUnitProof"
+    },
+    "source_turret_has_ammo_state_result.has_ammo": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_has_ammo_state",
+      "godot_symbol": "source_turret_has_ammo_state_result.has_ammo",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.hasAmmo()",
+      "java_expr": "return ammo.size > 0 && (ammo.peek().amount >= ammoPerShot || cheating());",
+      "rule": "Whether the turret has ammo (Turret.java:712, `return ammo.size > 0 && (ammo.peek().amount >= ammoPerShot || cheating());`): true when the list is non-empty and the peeked entry (the last entry, Seq.peek()) holds at least ammoPerShot, or when cheating is true; false when the list is empty, when no entry holds enough, or when can_consume is false.",
+      "tests": [
+        "test_c07_turret_has_ammo_registration",
+        "test_all_c07_turret_has_ammo_input_evidence_is_exact",
+        "test_turret_has_ammo_state",
+        "test_reference_graph_and_actual_c07_turret_has_ammo"
+      ],
+      "runtime_proof": "/root/C07TurretHasAmmoProof"
+    },
+    "source_turret_has_ammo_state_result.ammo_stacks_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_has_ammo_state",
+      "godot_symbol": "source_turret_has_ammo_state_result.ammo_stacks_after",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.hasAmmo()",
+      "java_expr": "ammo.swap(ammo.size - 1, i);",
+      "rule": "The ammo list after the swap (Turret.java:703, `ammo.swap(ammo.size - 1, i);`): a deep copy of the input list in which the first entry holding at least ammoPerShot has been swapped into the peek (last) position, when the peek was short and at least two entries exist; otherwise a copy in the original order. The swap runs before the canConsume() gate, so it is carried even when has_ammo is false for can_consume.",
+      "tests": [
+        "test_c07_turret_has_ammo_registration",
+        "test_all_c07_turret_has_ammo_input_evidence_is_exact",
+        "test_turret_has_ammo_state",
+        "test_reference_graph_and_actual_c07_turret_has_ammo"
+      ],
+      "runtime_proof": "/root/C07TurretHasAmmoProof"
     }
   },
   "version": 1

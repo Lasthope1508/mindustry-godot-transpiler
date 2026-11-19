@@ -769,6 +769,55 @@ static func source_turret_unit_state(frame: Dictionary, unit: Dictionary, team_i
 	synced["team_id"] = team_id
 	return {"unit": synced}
 
+# TurretBuild.hasAmmo() (Turret.java:698-713):
+# `public boolean hasAmmo(){`
+# `//skip first entry if it has less than the required amount of ammo`
+# `if(ammo.size >= 2 && ammo.peek().amount < ammoPerShot){`
+# `for(int i = 0; i < ammo.size; i ++){`
+# `if(ammo.get(i).amount >= ammoPerShot){`
+# `ammo.swap(ammo.size - 1, i);`
+# `break;`
+# `}`
+# `}`
+# `//used for "side-ammo" like gas in some turrets`
+# `if(!canConsume()) return false;`
+# `return ammo.size > 0 && (ammo.peek().amount >= ammoPerShot || cheating());`
+# `}`
+# on `public class TurretBuild extends ReloadTurretBuild implements ControlBlock{`
+# (Turret.java:277). ammo is the TurretBuild field
+# (`public Seq<AmmoEntry> ammo = new Seq<>();`, Turret.java:282) and
+# ammoPerShot the block field (`public int ammoPerShot = 1;`, Turret.java:49).
+# Both arrive as explicit params (the N2311/N2261 precedent): the ammo list as an Array of
+# {amount, item} dicts (the peek_ammo_stack_state convention -- Seq.peek()
+# is the last entry). canConsume() (Turret.java:624) and cheating() are
+# NOT re-ported here: their results arrive as explicit bool params.
+# The swap runs BEFORE the canConsume() gate (Java order), so the
+# returned ammo_stacks_after carries the swap even when has_ammo is
+# false for can_consume. NO driver tick line: hasAmmo() is a predicate
+# its callers read, not a per-tick write (the N2249/N2221 precedent) --
+# estimateDps() (N2301) and targetPosition() (Turret.java:454) read the
+# result; targetPosition() still waits for peekAmmo() (T6).
+@warning_ignore("unused_parameter")
+static func source_turret_has_ammo_state(frame: Dictionary, ammo_stacks: Array, ammo_per_shot: int, can_consume: bool, cheating: bool) -> Dictionary:
+	var stacks_after: Array = ammo_stacks.duplicate(true)
+	if stacks_after.size() >= 2:
+		var peeked: Dictionary = stacks_after[stacks_after.size() - 1] if stacks_after[stacks_after.size() - 1] is Dictionary else {}
+		if int(peeked.get("amount", 0)) < ammo_per_shot:
+			for index in stacks_after.size():
+				var candidate: Dictionary = stacks_after[index] if stacks_after[index] is Dictionary else {}
+				if int(candidate.get("amount", 0)) >= ammo_per_shot:
+					var last_entry: Dictionary = stacks_after[stacks_after.size() - 1] if stacks_after[stacks_after.size() - 1] is Dictionary else {}
+					stacks_after[stacks_after.size() - 1] = candidate
+					stacks_after[index] = last_entry
+					break
+	if not can_consume:
+		return {"has_ammo": false, "ammo_stacks_after": stacks_after}
+	var has_ammo := false
+	if stacks_after.size() > 0:
+		var peeked_after: Dictionary = stacks_after[stacks_after.size() - 1] if stacks_after[stacks_after.size() - 1] is Dictionary else {}
+		has_ammo = int(peeked_after.get("amount", 0)) >= ammo_per_shot or cheating
+	return {"has_ammo": has_ammo, "ammo_stacks_after": stacks_after}
+
 # TurretBuild.findEnemy() (Turret.java:639-649):
 # `protected Posc findEnemy(float range){`
 # `if(targetAir && !targetGround){`

@@ -70797,6 +70797,52 @@
       ],
       "runtime_proof": "/root/C07BurstDrillIconsProof",
       "rule": "Source-backed BurstDrill icons() state from BurstDrill.java + Drill.java + Block.java."
+    },
+    "SourceTurretBuildState.source_turret_has_ammo_state": {
+      "status": "active",
+      "source_slice": "N2313",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.hasAmmo()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_has_ammo_state_input.frame"
+        },
+        {
+          "name": "ammo_stacks",
+          "type": "Array",
+          "schema": "source_turret_has_ammo_state_input.ammo_stacks"
+        },
+        {
+          "name": "ammo_per_shot",
+          "type": "int",
+          "schema": "source_turret_has_ammo_state_input.ammo_per_shot"
+        },
+        {
+          "name": "can_consume",
+          "type": "bool",
+          "schema": "source_turret_has_ammo_state_input.can_consume"
+        },
+        {
+          "name": "cheating",
+          "type": "bool",
+          "schema": "source_turret_has_ammo_state_input.cheating"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "has_ammo",
+        "ammo_stacks_after"
+      ],
+      "tests": [
+        "test_c07_turret_has_ammo_registration",
+        "test_all_c07_turret_has_ammo_input_evidence_is_exact",
+        "test_turret_has_ammo_state",
+        "test_reference_graph_and_actual_c07_turret_has_ammo"
+      ],
+      "runtime_proof": "/root/C07TurretHasAmmoProof",
+      "rule": "Source-backed TurretBuild.hasAmmo() state from Turret.java."
     }
   },
   "policy": {

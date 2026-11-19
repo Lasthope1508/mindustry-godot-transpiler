@@ -3650,6 +3650,24 @@
       ],
       "runtime_proof": "/root/C07TurretFogRadiusProof"
     },
+    "N2313": {
+      "canonical_ledger": "source_slice_ledger.N2313",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.hasAmmo()",
+      "godot_owner": "SourceTurretBuildState.source_turret_has_ammo_state",
+      "source_symbols": [
+        "source_turret_has_ammo_state_result.has_ammo",
+        "source_turret_has_ammo_state_result.ammo_stacks_after"
+      ],
+      "tests": [
+        "test_c07_turret_has_ammo_registration",
+        "test_all_c07_turret_has_ammo_input_evidence_is_exact",
+        "test_turret_has_ammo_state",
+        "test_reference_graph_and_actual_c07_turret_has_ammo"
+      ],
+      "runtime_proof": "/root/C07TurretHasAmmoProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",
