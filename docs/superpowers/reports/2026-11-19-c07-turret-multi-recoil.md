@@ -1,6 +1,6 @@
-# Report — N2256 Turret multi-recoil decay (C07, duo) [GREEN — gate xong, chờ commit + push]
+# Report — N2256 Turret multi-recoil decay (C07, duo) [DONE + PUSHED]
 
-## Status: GREEN (2026-11-19 ~07:00 +07, lượt cron 07:00) — slice `0a6a5494`, docs `1d94eea3`, GOAL `036d48a7`; targeted 4/4, proof matches:true, register --verify 13/13, SSOT 11609/1706/1640/3071. Neighbours 79 passed + 931 subtests (1 fail là flake port-7777, chạy lại riêng xanh 4/4; không do N2256) + wiring 9/9 OK. Gate N2256 xong (log `tools/mindustry_godot_transpiler/full-suite-n2256-gate.log`): Ran 6117 in 1215.285s, failures=206, skipped=5, errors=0 — all 206 verified Godot-absent (205 × `AssertionError: unexpectedly None` + 1 hydration variant; riêng test N2256 trong gate cũng chỉ fail `unexpectedly None`, 3 test còn lại của slice pass trong gate). Chưa push.
+## Status: DONE + PUSHED (2026-11-19 ~07:0x +07, lượt cron 07:00) — slice `0a6a5494`, docs `1d94eea3`, GOAL `036d48a7`, hashes `4a9ac3e7` (pushed; origin/main advances with this status commit). Targeted 4/4 + neighbours 79 passed + 931 subtests (1 flake port-7777) + wiring 9/9 + proof matches:true 11/11 + gate Ran 6117, failures=206 toàn Godot-absent (đã xác minh độc lập).
 
 - N2255 DONE + PUSHED (origin/main 6b6719d8) — đã xác minh đầu lượt.
 
@@ -25,10 +25,9 @@
 - Targeted: lần 1 `Ran 4, FAILED (failures=1)` — chỉ proof test fail vì port-7777 flake (`ERROR: [MCP Runtime] Failed to start server on port 7777: 22`, process neighbours của agent khác đang giữ port), proof JSON vẫn `matches:true` 11/11 keys. Chạy lại isolated: OK → targeted **4/4**. Register `--verify`: **13/13 exprs present**.
 - Neighbours + wiring: ĐANG CHẠY bởi PID 8983 (agent khác / main thread, khởi ~23:31 UTC) — không chạy trùng. Gate chưa chạy (chỉ chạy từ main thread). Chưa commit/push.
 
-## Tiếp theo (lượt sau)
+## Tiếp theo: N2257 (sau push)
 
-- Gate N2256 xong, sạch ngoại trừ Godot → docs/spec/GOAL → commit + push.
-- Sau đó N2257: multi-recoil stamp (:807-809) cho duo.
+- N2257 candidate — multi-recoil stamp (Turret.java:807-809) cho duo; scope ở lượt sau.
 
 ## Lượt 07:00 (gate xong, xác minh độc lập, không chạy test trùng)
 

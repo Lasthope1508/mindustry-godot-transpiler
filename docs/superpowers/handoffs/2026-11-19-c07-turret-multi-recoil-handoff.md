@@ -1,6 +1,6 @@
-# Handoff — N2256 Turret multi-recoil decay (C07, duo) [GREEN — gate xong, chờ commit + push]
+# Handoff — N2256 Turret multi-recoil decay (C07, duo) [DONE + PUSHED]
 
-## Status: GREEN (2026-11-19 ~07:00 +07, lượt cron 07:00) — slice `0a6a5494`, docs `1d94eea3`, GOAL `036d48a7`; targeted 4/4 (chạy lại lượt này OK 16.47s), proof matches:true, register --verify 13/13, SSOT 11609/1706/1640/3071, defense 185/184, `git diff --check` OK. Neighbours DONE 06:45: 79 passed + 931 subtests, 1 fail là flake port-7777 (chạy lại riêng xanh 4/4; không do N2256). Wiring DONE 06:45: 9/9 module OK. Gate N2256 XONG 23:53 UTC: Ran 6117 in 1215.285s, failures=206, skipped=5, errors=0 — all 206 verified Godot-absent (205 × `AssertionError: unexpectedly None` + 1 hydration variant; riêng test N2256 trong gate cũng chỉ fail `unexpectedly None`). Chưa push.
+## Status: DONE + PUSHED (2026-11-19 ~07:0x +07, lượt cron 07:00) — slice `0a6a5494`, docs `1d94eea3`, GOAL `036d48a7`, hashes `4a9ac3e7` (pushed; origin/main advances with this status commit). Targeted 4/4 + neighbours 79 passed + 931 subtests (1 flake port-7777, không phải regression) + wiring 9/9 + proof matches:true 11/11 + gate Ran 6117, failures=206 toàn Godot-absent (đã xác minh độc lập).
 
 - N2255 DONE + PUSHED (origin/main 6b6719d8, slice 076e10e8) — đã xác minh đầu lượt: git log 5 commit gần nhất khớp, working tree sạch ngoại trừ noise *.gd.uid + gate logs cũ (không stage).
 
@@ -56,7 +56,7 @@
 - [x] Neighbours — DONE 06:45: 79 passed + 931 subtests, 1 fail là flake port-7777 (chạy lại riêng xanh 4/4; cũng fail ở gate N2255) — không phải regression.
 - [x] Wiring — DONE 06:45: 9/9 module OK.
 - [x] Gate (log `tools/mindustry_godot_transpiler/full-suite-n2256-gate.log`, xong 23:53 UTC, lượt 07:00 xác minh độc lập): Ran 6117 in 1215.285s, failures=206, skipped=5, errors=0 — all 206 verified Godot-absent (206 FAIL header = 205 × `AssertionError: unexpectedly None` + 1 hydration variant, 0 KeyError, 0 ERROR; +4 tests / +1 failure so với gate N2255 đúng bằng 4 test mới của N2256, failure thêm là test proof Godot-absent trong môi trường gate).
-- [ ] Report/handoff/spec/GOAL hoàn thiện → commit + push (docs commit lượt này, sau slice `0a6a5494`).
+- [x] Report/handoff/spec/GOAL hoàn thiện → commit + push (slice `0a6a5494`, docs `1d94eea3`, GOAL `036d48a7`, hashes `4a9ac3e7` — đã push).
 
 ## Tiếp theo: N2257
 
