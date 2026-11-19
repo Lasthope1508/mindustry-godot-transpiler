@@ -1,6 +1,6 @@
 # Report — N2261 Turret logicControlTime decay (C07, duo) [DONE + PUSHED]
 
-## Status: DONE + PUSHED (2026-11-19 ~14:2x +07, lượt cron 14:15) — slice `4cebe133`, docs `ea480790`, GOAL `ce60f3e7`, status TBD (pushed; origin/main advances with this status commit). Targeted 4/4 + proof matches:true 11/11 + register --verify 9/9 + gate Ran 6137, failures=211 toàn Godot-absent (đã xác minh độc lập).
+## Status: DONE + PUSHED (2026-11-19 ~14:2x +07, lượt cron 14:15) — slice `4cebe133`, docs `ea480790`, GOAL `ce60f3e7`, status `087de3b3` (pushed; origin/main advances with this status commit). Targeted 4/4 + proof matches:true 11/11 + register --verify 9/9 + gate Ran 6137, failures=211 toàn Godot-absent (đã xác minh độc lập).
 
 - N2260 DONE + PUSHED (origin/main 458bf37c, slice 6e5acc29) — đã xác minh đầu lượt: git log 5 commit gần nhất khớp, HEAD == origin/main == 458bf37c, worktree sạch ngoại trừ diff N2261 + noise *.gd.uid (không stage).
 

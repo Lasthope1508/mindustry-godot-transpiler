@@ -1,6 +1,6 @@
 # Handoff — N2261 Turret logicControlTime decay (C07, duo) [DONE + PUSHED]
 
-## Status: DONE + PUSHED (2026-11-19 ~14:2x +07, lượt cron 14:15) — slice commit 4cebe133, docs ea480790, GOAL ce60f3e7, status TBD. Targeted 4/4 + proof matches:true 11/11 + register --verify 9/9 + gate Ran 6137, failures=211 toàn Godot-absent (đã xác minh độc lập).
+## Status: DONE + PUSHED (2026-11-19 ~14:2x +07, lượt cron 14:15) — slice commit 4cebe133, docs ea480790, GOAL ce60f3e7, status 087de3b3. Targeted 4/4 + proof matches:true 11/11 + register --verify 9/9 + gate Ran 6137, failures=211 toàn Godot-absent (đã xác minh độc lập).
 
 - N2260 DONE + PUSHED (origin/main 458bf37c, slice 6e5acc29) — đã xác minh đầu lượt: git log 5 commit khớp, HEAD == origin/main == 458bf37c, worktree sạch ngoại trừ noise *.gd.uid (không stage). VM restart ~13:22 đã wipe javalang + pytest; worker lượt 13:15 cài lại 0.13.0/9.2.0, lượt này xác minh import OK.
 
