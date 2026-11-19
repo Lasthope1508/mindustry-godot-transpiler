@@ -814,7 +814,7 @@
     "SourceBurstDrillBuildState.source_burst_drill_should_consume_state": {
       "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_burst_drill_should_consume_state",
       "status": "active",
-      "source_slice": "N2257",
+      "source_slice": "N2295",
       "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
       "source_method": "BurstDrillBuild.shouldConsume()",
       "params": [

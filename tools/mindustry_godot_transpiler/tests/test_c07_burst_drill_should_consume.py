@@ -14,7 +14,7 @@ class C07BurstDrillShouldConsumeTests(unittest.TestCase):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        self.assertEqual(ledger['N2257']['godot_owner'], 'SourceBurstDrillBuildState.source_burst_drill_should_consume_state')
+        self.assertEqual(ledger['N2295']['godot_owner'], 'SourceBurstDrillBuildState.source_burst_drill_should_consume_state')
         # N2149 folded power-only for the burst drill: a pure
         # power row over the stamped frame value, folded by the
         # shared machinery into the min efficiency
@@ -37,7 +37,7 @@ class C07BurstDrillShouldConsumeTests(unittest.TestCase):
         # efficiency 1.0 vs 0.0 when full. N2256 stamped the
         # prerequisite frame keys as pure-function inputs
         # (`items_total`, `dominant_items`) but no driver stamps
-        # them yet; N2257 closes the gate with one pure function
+        # them yet; N2295 closes the gate with one pure function
         # over those frame keys plus the per-def item_capacity
         # param (the N2212 / N2248 per-def-param precedent):
         # the gate is the same expression over the observed
@@ -60,12 +60,12 @@ class C07BurstDrillShouldConsumeTests(unittest.TestCase):
         # `items_total` / `dominant_items`. One new result
         # symbol: the gate itself.
         self.assertEqual(
-            ledger['N2257']['source_symbols'],
+            ledger['N2295']['source_symbols'],
             [
                 'source_burst_drill_should_consume_state_result.should_consume',
             ],
         )
-        for name in ledger['N2257']['source_symbols']:
+        for name in ledger['N2295']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_source'], {
@@ -73,9 +73,9 @@ class C07BurstDrillShouldConsumeTests(unittest.TestCase):
                     'core/src/mindustry/entities/comp/BuildingComp.java',
                 })
                 self.assertEqual(symbol['godot_owner'], 'SourceBurstDrillBuildState.source_burst_drill_should_consume_state')
-        self.assertEqual(ledger['N2257']['runtime_proof'], '/root/C07BurstDrillShouldConsumeProof')
+        self.assertEqual(ledger['N2295']['runtime_proof'], '/root/C07BurstDrillShouldConsumeProof')
         self.assertEqual(
-            ledger['N2257']['tests'],
+            ledger['N2295']['tests'],
             [
                 'test_c07_burst_drill_should_consume_registration',
                 'test_all_c07_burst_drill_should_consume_input_evidence_is_exact',
@@ -83,13 +83,13 @@ class C07BurstDrillShouldConsumeTests(unittest.TestCase):
                 'test_reference_graph_and_actual_c07_burst_drill_should_consume',
             ],
         )
-        self.assertTrue(ledger['N2257']['deferred_exprs'])
+        self.assertTrue(ledger['N2295']['deferred_exprs'])
 
     def test_all_c07_burst_drill_should_consume_input_evidence_is_exact(self):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        for name in ledger['N2257']['source_symbols']:
+        for name in ledger['N2295']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_expr'], (ROOT / 'mindustry-upstream' / symbol['java_source']).read_text(encoding='utf-8'))
@@ -105,7 +105,7 @@ class C07BurstDrillShouldConsumeTests(unittest.TestCase):
             'core/src/mindustry/world/blocks/units/UnitAssembler.java',
         }
         upstream = {source: (ROOT / 'mindustry-upstream' / source).read_text(encoding='utf-8') for source in slice_sources}
-        for expr in ledger['N2257']['exact_exprs']:
+        for expr in ledger['N2295']['exact_exprs']:
             with self.subTest(expr=expr):
                 self.assertTrue(any(expr in text for text in upstream.values()), expr)
 

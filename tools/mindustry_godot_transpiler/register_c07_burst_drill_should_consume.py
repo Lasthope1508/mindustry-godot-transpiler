@@ -1,4 +1,4 @@
-"""Register the BurstDrill shouldConsume gate (N2257).
+"""Register the BurstDrill shouldConsume gate (N2295).
 
 BurstDrillBuild overrides shouldConsume
 (BurstDrill.java:128, `public boolean shouldConsume(){`
@@ -97,7 +97,7 @@ UNIT_ASSEMBLER = 'core/src/mindustry/world/blocks/units/UnitAssembler.java'
 PROOF = '/root/C07BurstDrillShouldConsumeProof'
 SHOULD_CONSUME_OWNER = 'SourceBurstDrillBuildState.source_burst_drill_should_consume_state'
 TESTS = ['test_c07_burst_drill_should_consume_registration', 'test_all_c07_burst_drill_should_consume_input_evidence_is_exact', 'test_burst_drill_should_consume_state', 'test_reference_graph_and_actual_c07_burst_drill_should_consume']
-# The 8 slice sources the N2257 test checks exact_exprs
+# The 8 slice sources the N2295 test checks exact_exprs
 # against -- every expr in EXACT_EXPRS below must appear verbatim
 # in one of these files.
 SLICE_SOURCES = [
@@ -114,13 +114,13 @@ EXACT_EXPRS = ['public boolean shouldConsume(){', 'return items.total() <= itemC
 
 # DEFERRED is carried from the N2294 register script via import --
 # never retyped. One carried entry is DROPPED here, not carried:
-# the BurstDrill shouldConsume gate entry -- N2257 IS the
+# the BurstDrill shouldConsume gate entry -- N2295 IS the
 # shouldConsume gate slice, so carrying it would leave a stale
 # "waits for its own slice" row for done work. The liquid rows
 # (N2258) and the ore / dominant-item binding entries stay
 # deferred -- those slices own them.
 DEFERRED = [e for e in N2294_DEFERRED if 'BurstDrill shouldConsume gate' not in e] + [
-    'BurstDrill shouldConsume Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2294: the N2257 proof runs headless on Linux here and waits for a Windows Godot run.',
+    'BurstDrill shouldConsume Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2294: the N2295 proof runs headless on Linux here and waits for a Windows Godot run.',
 ]
 
 
@@ -174,7 +174,7 @@ def main():
     should_consume_inputs, should_consume_outputs = definitions()
 
     entries = [
-        ('N2257', SHOULD_CONSUME_OWNER, 'source_burst_drill_should_consume_state', BURST_DRILL, 'mindustry.world.blocks.production.BurstDrill.BurstDrillBuild', 'BurstDrillBuild.shouldConsume()', should_consume_inputs, should_consume_outputs, True, 'Dictionary'),
+        ('N2295', SHOULD_CONSUME_OWNER, 'source_burst_drill_should_consume_state', BURST_DRILL, 'mindustry.world.blocks.production.BurstDrill.BurstDrillBuild', 'BurstDrillBuild.shouldConsume()', should_consume_inputs, should_consume_outputs, True, 'Dictionary'),
     ]
     all_names = []
     for sid, owner, prefix, source, cls, method, inputs, outputs, has_contract, return_type in entries:
@@ -194,10 +194,10 @@ def main():
 
     by_slice = {}
     # The test pins this order: the gate, its only result key.
-    by_slice['N2257'] = [
+    by_slice['N2295'] = [
         'source_burst_drill_should_consume_state_result.should_consume',
     ]
-    source_symbols.upsert_source_slice(GODOT, 'N2257', dict(status='done', java_source=BURST_DRILL, java_class='mindustry.world.blocks.production.BurstDrill.BurstDrillBuild', java_method='BurstDrillBuild.shouldConsume()', godot_owner=SHOULD_CONSUME_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2257'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
+    source_symbols.upsert_source_slice(GODOT, 'N2295', dict(status='done', java_source=BURST_DRILL, java_class='mindustry.world.blocks.production.BurstDrill.BurstDrillBuild', java_method='BurstDrillBuild.shouldConsume()', godot_owner=SHOULD_CONSUME_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2295'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
 
     source_symbols.upsert_source_symbols(GODOT, symbols)
     source_symbols.write_source_symbol_audit_report(GODOT)

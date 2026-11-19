@@ -29,7 +29,7 @@ func _ready() -> void:
 	# write-back itself is already proven by N2142. The burst
 	# drill tick models no other consumers, so with a power
 	# consumer the first pass holds only the power row. The
-	# shouldConsume gate (N2257, BurstDrill.java:128-129,
+	# shouldConsume gate (N2295, BurstDrill.java:128-129,
 	# `public boolean shouldConsume(){` with `return
 	# items.total() <= itemCapacity - dominantItems &&
 	# enabled;`) runs through the pure function

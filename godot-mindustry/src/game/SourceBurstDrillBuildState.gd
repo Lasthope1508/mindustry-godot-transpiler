@@ -102,7 +102,7 @@ static func source_burst_drill_power_status_row_state(frame: Dictionary, has_pow
 	# (power only). (2)
 	# shouldConsume gate -- BurstDrillBuild overrides
 	# shouldConsume (BurstDrill.java:129, `return items.total()
-	# <= itemCapacity - dominantItems && enabled;`); N2257 wires
+	# <= itemCapacity - dominantItems && enabled;`); N2295 wires
 	# the gate through
 	# source_burst_drill_should_consume_state(frame,
 	# item_capacity), so the machinery runs with
@@ -700,7 +700,7 @@ static func source_burst_drill_tick_buildings_state(game: Object, seconds: float
 		# other consumers yet, and BurstDrillBuild overrides
 		# shouldConsume (BurstDrill.java:129, `return
 		# items.total() <= itemCapacity - dominantItems &&
-		# enabled;`) -- N2257 wires the gate through
+		# enabled;`) -- N2295 wires the gate through
 		# source_burst_drill_should_consume_state(frame,
 		# item_capacity): items_total <= item_capacity -
 		# dominant_items and enabled when the frame carries the
