@@ -45,7 +45,7 @@ import sys
 from pathlib import Path
 
 from mindustry_port import source_ssot, source_symbols
-from register_c07_radar_progress import DEFERRED as N2263_DEFERRED
+from register_c07_radar_progress import DEFERRED as N2303_DEFERRED
 from register_liquid_consumer_hydration import backed
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -63,13 +63,13 @@ SLICE_SOURCES = [
 ]
 EXACT_EXPRS = ['public class Radar extends Block{', 'public class RadarBuild extends Building{', 'public float progress;', 'public float lastRadius = 0f;', 'public float smoothEfficiency = 1f;', 'public float totalProgress;', 'public void write(Writes write){', 'super.write(write);', 'write.f(progress);', 'public void read(Reads read, byte revision){', 'super.read(read, revision);', 'progress = read.f();', 'smoothEfficiency = Mathf.lerpDelta(smoothEfficiency, efficiency, 0.05f);', 'lastRadius = fogRadius();', 'totalProgress += efficiency * edelta();', 'public float progress(){', 'return progress;', 'progress += edelta() / discoveryTime;', 'progress = Mathf.clamp(progress);']
 
-# DEFERRED is carried from the N2263 register script via import --
+# DEFERRED is carried from the N2303 register script via import --
 # never retyped. One carried entry is DROPPED here, not carried:
 # the Radar read/write rows entry -- N2267 IS the write/read
 # slice, so carrying it would leave a stale "waits for its own
 # slice" row for done work.
-DEFERRED = [e for e in N2263_DEFERRED if 'Radar read/write rows' not in e] + [
-    'Radar write/read Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2248/N2263: the N2267 proof runs headless on Linux here and waits for a Windows Godot run.',
+DEFERRED = [e for e in N2303_DEFERRED if 'Radar read/write rows' not in e] + [
+    'Radar write/read Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2248/N2303: the N2267 proof runs headless on Linux here and waits for a Windows Godot run.',
 ]
 
 

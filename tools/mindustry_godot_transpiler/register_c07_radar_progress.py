@@ -1,4 +1,4 @@
-"""Register the Radar progress() accessor (N2263).
+"""Register the Radar progress() accessor (N2303).
 
 RadarBuild.progress() (Radar.java:93, `public float
 progress(){` with `return progress;`, Radar.java:94)
@@ -44,7 +44,7 @@ RADAR = 'core/src/mindustry/world/blocks/defense/Radar.java'
 PROOF = '/root/C07RadarProgressProof'
 PROGRESS_OWNER = 'SourceRadarBuildState.source_radar_progress_state'
 TESTS = ['test_c07_radar_progress_registration', 'test_all_c07_radar_progress_input_evidence_is_exact', 'test_radar_progress_state', 'test_reference_graph_and_actual_c07_radar_progress']
-# The 1 slice source the N2263 test checks exact_exprs
+# The 1 slice source the N2303 test checks exact_exprs
 # against -- every expr in EXACT_EXPRS below must appear verbatim
 # in this file.
 SLICE_SOURCES = [
@@ -57,14 +57,14 @@ EXACT_EXPRS = ['public float progress(){', 'return progress;', 'public float pro
 # register is DROPPED (remote N2234 covers that leg), so the chain
 # skips it and imports N2227 directly. One carried entry is
 # DROPPED here, not carried:
-# the Radar canPickup / progress() rows entry -- N2263 IS the
+# the Radar canPickup / progress() rows entry -- N2303 IS the
 # progress() accessor slice, so carrying it would leave a stale
 # "waits for its own slice" row for done work. The canPickup half
 # of that entry is re-recorded below as its own entry, since
 # canPickup still waits for its own slice.
 DEFERRED = [e for e in N2227_DEFERRED if 'Radar canPickup / progress() rows' not in e] + [
     'Radar canPickup row (canPickup false, Radar.java:75-77) -- pickup, not tick state; waits for its own slice.',
-    'Radar progress() Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2248: the N2263 proof runs headless on Linux here and waits for a Windows Godot run.',
+    'Radar progress() Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2248: the N2303 proof runs headless on Linux here and waits for a Windows Godot run.',
 ]
 
 
@@ -115,7 +115,7 @@ def main():
     progress_inputs, progress_outputs = definitions()
 
     entries = [
-        ('N2263', PROGRESS_OWNER, 'source_radar_progress_state', RADAR, 'mindustry.world.blocks.defense.Radar.RadarBuild', 'RadarBuild.progress()', progress_inputs, progress_outputs, True, 'Dictionary'),
+        ('N2303', PROGRESS_OWNER, 'source_radar_progress_state', RADAR, 'mindustry.world.blocks.defense.Radar.RadarBuild', 'RadarBuild.progress()', progress_inputs, progress_outputs, True, 'Dictionary'),
     ]
     all_names = []
     for sid, owner, prefix, source, cls, method, inputs, outputs, has_contract, return_type in entries:
@@ -135,10 +135,10 @@ def main():
 
     by_slice = {}
     # The test pins this order: progress.
-    by_slice['N2263'] = [
+    by_slice['N2303'] = [
         'source_radar_progress_state_result.progress',
     ]
-    source_symbols.upsert_source_slice(GODOT, 'N2263', dict(status='done', java_source=RADAR, java_class='mindustry.world.blocks.defense.Radar.RadarBuild', java_method='RadarBuild.progress()', godot_owner=PROGRESS_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2263'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
+    source_symbols.upsert_source_slice(GODOT, 'N2303', dict(status='done', java_source=RADAR, java_class='mindustry.world.blocks.defense.Radar.RadarBuild', java_method='RadarBuild.progress()', godot_owner=PROGRESS_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2303'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
 
     source_symbols.upsert_source_symbols(GODOT, symbols)
     source_symbols.write_source_symbol_audit_report(GODOT)

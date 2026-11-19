@@ -19,7 +19,7 @@ func _ready() -> void:
 	game.set_process(false)
 	game.set_physics_process(false)
 
-	# --- Pure progress() accessor (N2263): RadarBuild.progress()
+	# --- Pure progress() accessor (N2303): RadarBuild.progress()
 	# (Radar.java:93, `public float progress(){` with `return
 	# progress;`, Radar.java:94) overrides the base
 	# BuildingComp.progress() for Radar: it returns the frame's

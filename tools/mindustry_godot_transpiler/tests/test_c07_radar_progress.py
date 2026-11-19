@@ -14,7 +14,7 @@ class C07RadarProgressTests(unittest.TestCase):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        self.assertEqual(ledger['N2263']['godot_owner'], 'SourceRadarBuildState.source_radar_progress_state')
+        self.assertEqual(ledger['N2303']['godot_owner'], 'SourceRadarBuildState.source_radar_progress_state')
         # RadarBuild.progress() (Radar.java:93, `public float
         # progress(){` with `return progress;`, Radar.java:94)
         # is the discovery-progress accessor: it returns the
@@ -25,7 +25,7 @@ class C07RadarProgressTests(unittest.TestCase):
         # Mathf.clamp(progress);`, N2248) and read by
         # fogRadius() (Radar.java:56, `return fogRadius *
         # progress * smoothEfficiency;`, N2249). It overrides
-        # the base BuildingComp.progress() for Radar. N2263
+        # the base BuildingComp.progress() for Radar. N2303
         # closes the accessor half of the canPickup /
         # progress() deferred row with one pure function over
         # the frame (`progress`); canPickup stays deferred in
@@ -38,21 +38,21 @@ class C07RadarProgressTests(unittest.TestCase):
         # is the read its callers share. One new result
         # symbol: progress.
         self.assertEqual(
-            ledger['N2263']['source_symbols'],
+            ledger['N2303']['source_symbols'],
             [
                 'source_radar_progress_state_result.progress',
             ],
         )
-        for name in ledger['N2263']['source_symbols']:
+        for name in ledger['N2303']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_source'], {
                     'core/src/mindustry/world/blocks/defense/Radar.java',
                 })
                 self.assertEqual(symbol['godot_owner'], 'SourceRadarBuildState.' + name.rsplit('_result.', 1)[0])
-        self.assertEqual(ledger['N2263']['runtime_proof'], '/root/C07RadarProgressProof')
+        self.assertEqual(ledger['N2303']['runtime_proof'], '/root/C07RadarProgressProof')
         self.assertEqual(
-            ledger['N2263']['tests'],
+            ledger['N2303']['tests'],
             [
                 'test_c07_radar_progress_registration',
                 'test_all_c07_radar_progress_input_evidence_is_exact',
@@ -60,13 +60,13 @@ class C07RadarProgressTests(unittest.TestCase):
                 'test_reference_graph_and_actual_c07_radar_progress',
             ],
         )
-        self.assertTrue(ledger['N2263']['deferred_exprs'])
+        self.assertTrue(ledger['N2303']['deferred_exprs'])
 
     def test_all_c07_radar_progress_input_evidence_is_exact(self):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        for name in ledger['N2263']['source_symbols']:
+        for name in ledger['N2303']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_expr'], (ROOT / 'mindustry-upstream' / symbol['java_source']).read_text(encoding='utf-8'))
@@ -75,7 +75,7 @@ class C07RadarProgressTests(unittest.TestCase):
             'core/src/mindustry/world/blocks/defense/Radar.java',
         }
         upstream = {source: (ROOT / 'mindustry-upstream' / source).read_text(encoding='utf-8') for source in slice_sources}
-        for expr in ledger['N2263']['exact_exprs']:
+        for expr in ledger['N2303']['exact_exprs']:
             with self.subTest(expr=expr):
                 self.assertTrue(any(expr in text for text in upstream.values()), expr)
 

@@ -59,7 +59,7 @@ EXACT_EXPRS = ['public void draw(){', 'Draw.rect(baseRegion, x, y);', 'Draw.rect
 # own slice, as does drawPlace).
 DEFERRED = [e for e in N2272_DEFERRED if 'Radar draw / drawSelect / icons rows' not in e] + [
     'Radar drawSelect rows (drawSelect dash circle, Radar.java:80-82) -- presentation, not tick state; waits for its own slice.',
-    'Radar draw Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2274/N2275/N2263/N2267/N2272: the N2278 proof runs headless on Linux here and waits for a Windows Godot run.',
+    'Radar draw Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2274/N2275/N2303/N2267/N2272: the N2278 proof runs headless on Linux here and waits for a Windows Godot run.',
 ]
 
 

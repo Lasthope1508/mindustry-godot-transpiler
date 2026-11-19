@@ -7275,7 +7275,7 @@
     "SourceRadarBuildState.source_radar_progress_state": {
       "canonical_contract": "source_api_contracts.SourceRadarBuildState.source_radar_progress_state",
       "status": "active",
-      "source_slice": "N2263",
+      "source_slice": "N2303",
       "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
       "source_method": "RadarBuild.progress()",
       "params": [

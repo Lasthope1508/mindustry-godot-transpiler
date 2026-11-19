@@ -52,7 +52,7 @@ EXACT_EXPRS = ['public boolean canPickup(){', 'return false;', 'public class Rad
 # slice, so carrying it would leave a stale "waits for its own
 # slice" row for done work.
 DEFERRED = [e for e in N2267_DEFERRED if 'Radar canPickup row' not in e] + [
-    'Radar canPickup Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2248/N2263/N2267: the N2272 proof runs headless on Linux here and waits for a Windows Godot run.',
+    'Radar canPickup Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2248/N2303/N2267: the N2272 proof runs headless on Linux here and waits for a Windows Godot run.',
 ]
 
 
