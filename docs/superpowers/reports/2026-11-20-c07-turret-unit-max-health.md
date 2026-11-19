@@ -5,7 +5,7 @@ Ngày: 2026-11-20 ~05:10 +07 (GREEN), gate xong 05:53 +07, push lượt cron 06:
 ## Trạng thái
 
 - N2274 DONE + PUSHED (origin/main 46d4b30e). Không có gì thay đổi về N2274.
-- N2275 DONE + PUSHED (slice 67f55503, docs b9d63b3e, GOAL 2ad588c9, status TBD): Turret unit maxHealth — dòng đầu tiên của `BlockUnitComp.tile()` (`maxHealth(tile.block.health);`, :21) mà N2274 đã defer ("Unit maxHealth/health re-sync từ tile()"). Gate xác minh độc lập từ log: Ran 6193, failures=225, skipped=5 — toàn Godot-absent (225 × `assertIsNotNone(godot)`, 0 KeyError, 0 `return_schema_linkage`, 0 ERROR).
+- N2275 DONE + PUSHED (slice 67f55503, docs b9d63b3e, GOAL 2ad588c9, status 1ffb4104): Turret unit maxHealth — dòng đầu tiên của `BlockUnitComp.tile()` (`maxHealth(tile.block.health);`, :21) mà N2274 đã defer ("Unit maxHealth/health re-sync từ tile()"). Gate xác minh độc lập từ log: Ran 6193, failures=225, skipped=5 — toàn Godot-absent (225 × `assertIsNotNone(godot)`, 0 KeyError, 0 `return_schema_linkage`, 0 ERROR).
 
 ## Làm được lượt này (GREEN)
 
