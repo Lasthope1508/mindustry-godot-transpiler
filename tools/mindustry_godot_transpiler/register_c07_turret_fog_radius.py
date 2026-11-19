@@ -1,4 +1,4 @@
-"""Register the TurretBuild.fogRadius() accessor (N2268).
+"""Register the TurretBuild.fogRadius() accessor (N2311).
 
 TurretBuild overrides fogRadius (Turret.java:420-423, `public
 float fogRadius(){` / `return (range + (hasAmmo() ?
@@ -66,7 +66,7 @@ FOG_RENDERER = 'core/src/mindustry/graphics/FogRenderer.java'
 PROOF = '/root/C07TurretFogRadiusProof'
 FOG_RADIUS_OWNER = 'SourceTurretBuildState.source_turret_fog_radius_state'
 TESTS = ['test_c07_turret_fog_radius_registration', 'test_all_c07_turret_fog_radius_input_evidence_is_exact', 'test_turret_fog_radius_state', 'test_reference_graph_and_actual_c07_turret_fog_radius']
-# The 6 slice sources the N2268 test checks exact_exprs
+# The 6 slice sources the N2311 test checks exact_exprs
 # against -- every expr in EXACT_EXPRS below must appear verbatim
 # in one of these files.
 SLICE_SOURCES = [
@@ -97,9 +97,9 @@ EXACT_EXPRS = [
 # DEFERRED is carried from the N2255 register script via import --
 # never retyped. Nothing in it closes here: fogRadius() was never
 # a deferred entry of the Turret chain. One entry is added: the
-# N2268 Windows Godot proof debt (GOAL.md section 5).
+# N2311 Windows Godot proof debt (GOAL.md section 5).
 DEFERRED = N2237_DEFERRED + [
-    'Turret fogRadius() Windows Godot proof -- debt in GOAL.md section 5, same as N2148/N2227: the N2268 proof runs headless on Linux here and waits for a Windows Godot run.',
+    'Turret fogRadius() Windows Godot proof -- debt in GOAL.md section 5, same as N2148/N2227: the N2311 proof runs headless on Linux here and waits for a Windows Godot run.',
 ]
 
 
@@ -155,7 +155,7 @@ def main():
     fog_radius_inputs, fog_radius_outputs = definitions()
 
     entries = [
-        ('N2268', FOG_RADIUS_OWNER, 'source_turret_fog_radius_state', TURRET, 'mindustry.world.blocks.defense.turrets.Turret.TurretBuild', 'TurretBuild.fogRadius()', fog_radius_inputs, fog_radius_outputs, True, 'Dictionary'),
+        ('N2311', FOG_RADIUS_OWNER, 'source_turret_fog_radius_state', TURRET, 'mindustry.world.blocks.defense.turrets.Turret.TurretBuild', 'TurretBuild.fogRadius()', fog_radius_inputs, fog_radius_outputs, True, 'Dictionary'),
     ]
     all_names = []
     for sid, owner, prefix, source, cls, method, inputs, outputs, has_contract, return_type in entries:
@@ -175,10 +175,10 @@ def main():
 
     by_slice = {}
     # The test pins this order: fog_radius.
-    by_slice['N2268'] = [
+    by_slice['N2311'] = [
         'source_turret_fog_radius_state_result.fog_radius',
     ]
-    source_symbols.upsert_source_slice(GODOT, 'N2268', dict(status='done', java_source=TURRET, java_class='mindustry.world.blocks.defense.turrets.Turret.TurretBuild', java_method='TurretBuild.fogRadius()', godot_owner=FOG_RADIUS_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2268'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
+    source_symbols.upsert_source_slice(GODOT, 'N2311', dict(status='done', java_source=TURRET, java_class='mindustry.world.blocks.defense.turrets.Turret.TurretBuild', java_method='TurretBuild.fogRadius()', godot_owner=FOG_RADIUS_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2311'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
 
     source_symbols.upsert_source_symbols(GODOT, symbols)
     source_symbols.write_source_symbol_audit_report(GODOT)

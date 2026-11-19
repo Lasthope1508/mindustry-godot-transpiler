@@ -11,7 +11,7 @@ function takes the family-convention frame first arg
 (every Radar pure function takes it, the write/read
 precedent) and ignores it. Pickup is a placement-time
 gate, not tick state, so no driver tick line lands here
-(the accessor precedent N2268/N2249).
+(the accessor precedent N2311/N2249).
 
 RED decisions (resolved at RED): (1) One pure function on
 the same family file N2263 built, following the N2263

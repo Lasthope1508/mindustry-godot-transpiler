@@ -23,7 +23,7 @@ peekAmmo(), which the tick frame does not track. No
 driver line: trackingRange() is a load-time accessor
 findTarget reads at Turret.java:652 (`float trackRange =
 trackingRange(), range = range();`), not a per-tick write
-(the N2268/N2249 accessor precedent). One new result
+(the N2311/N2249 accessor precedent). One new result
 symbol: tracking_range. Slice sources: Turret.java +
 BaseTurret.java + BulletType.java.
 """

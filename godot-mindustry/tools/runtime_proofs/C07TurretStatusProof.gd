@@ -34,7 +34,7 @@ func _ready() -> void:
 	# (Turret.java:277). enabled arrives from the tick frame
 	# (absent reads true); has_ammo, activation_timer and
 	# building_status arrive as explicit params -- hasAmmo()
-	# (Turret.java:698-712) is NOT ported here (the N2268/N2261
+	# (Turret.java:698-712) is NOT ported here (the N2311/N2261
 	# precedent), and building_status carries the live N1888
 	# PortGame.source_building_status_state result. NO driver tick
 	# line: status() is a read accessor. The proof calls the pure

@@ -26,7 +26,7 @@ class C07RadarCanPickupTests(unittest.TestCase):
         # and ignores it (the write/read precedent). No driver
         # tick line lands here: pickup is a placement-time
         # gate, not tick state (the accessor precedent
-        # N2268/N2249). N2272 closes the canPickup half of
+        # N2311/N2249). N2272 closes the canPickup half of
         # the canPickup / progress() deferred row the N2263
         # register carried; the Windows Godot proof debt is
         # re-recorded as its own entry. One new result symbol:

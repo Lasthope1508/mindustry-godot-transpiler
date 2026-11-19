@@ -12,7 +12,7 @@ in `public class Turret extends ReloadTurret{` (Turret.java:36):
 RED decisions (resolved at RED): (1) Four pure functions, one
 per accessor -- each takes the family-convention frame first
 arg plus ONE explicit param carrying the live value (the
-N2268/N2261/N2282 precedent: super-leg / already-live fields
+N2311/N2261/N2282 precedent: super-leg / already-live fields
 arrive as explicit params, do NOT re-port them). warmup()'s
 shoot_warmup is advanced by the updateTile warmup leg (N2308,
 Turret.java:502-515), NOT here; drawrot()'s rotation is the
@@ -113,7 +113,7 @@ def definitions():
         return backed(typ, source, expr, rule, **extra)
 
     warmup_inputs = {
-        'frame': a('Dictionary', 'public float warmup(){', 'The turret frame (TurretBuild.warmup, Turret.java:354): the family-convention first arg every Turret pure function takes; it carries no tracked key for this accessor -- shoot_warmup arrives as an explicit param (the N2268/N2261 precedent), because the tick frame tracks no shoot_warmup key yet.'),
+        'frame': a('Dictionary', 'public float warmup(){', 'The turret frame (TurretBuild.warmup, Turret.java:354): the family-convention first arg every Turret pure function takes; it carries no tracked key for this accessor -- shoot_warmup arrives as an explicit param (the N2311/N2261 precedent), because the tick frame tracks no shoot_warmup key yet.'),
         'shoot_warmup': a('float', 'public float shootWarmup, charge, warmupHold = 0f;', 'The current warmup (`shootWarmup`, Turret.java:355): the TurretBuild field (`public float shootWarmup, charge, warmupHold = 0f;`, Turret.java:286, Java default 0f), advanced toward warmupTarget by the updateTile warmup leg (N2308, Turret.java:502-515) -- NOT re-ported here; read by warmup() and by the minWarmup fire gate (Turret.java:733).'),
     }
     warmup_outputs = {
@@ -127,14 +127,14 @@ def definitions():
         'drawrot': a('float', 'return rotation - 90;', 'The draw rotation (Turret.java:360, `return rotation - 90;`): the aim angle minus 90 degrees.'),
     }
     can_control_inputs = {
-        'frame': a('Dictionary', 'public boolean canControl(){', 'The turret frame (TurretBuild.canControl, Turret.java:376): the family-convention first arg every Turret pure function takes; it carries no tracked key for this accessor -- player_controllable arrives as an explicit param (the N2268/N2261 precedent), because it is a block-level def field, not build state.'),
+        'frame': a('Dictionary', 'public boolean canControl(){', 'The turret frame (TurretBuild.canControl, Turret.java:376): the family-convention first arg every Turret pure function takes; it carries no tracked key for this accessor -- player_controllable arrives as an explicit param (the N2311/N2261 precedent), because it is a block-level def field, not build state.'),
         'player_controllable': a('bool', 'public boolean playerControllable = true;', 'Whether players may control this turret (`playerControllable`, Turret.java:377): the block-level Turret field (`public boolean playerControllable = true;`, Turret.java:97, "If true, this turret can be controlled by players."), default true.'),
     }
     can_control_outputs = {
         'can_control': a('bool', 'return playerControllable;', 'Whether the turret can be controlled (Turret.java:377, `return playerControllable;`): the Turret playerControllable def as-is.'),
     }
     logic_controlled_inputs = {
-        'frame': a('Dictionary', 'public boolean logicControlled(){', 'The turret frame (TurretBuild.logicControlled, Turret.java:445): the family-convention first arg every Turret pure function takes; it carries no tracked key for this accessor -- logic_control_time arrives as an explicit param (the N2268/N2261 precedent), because the tick frame tracks no logic key yet.'),
+        'frame': a('Dictionary', 'public boolean logicControlled(){', 'The turret frame (TurretBuild.logicControlled, Turret.java:445): the family-convention first arg every Turret pure function takes; it carries no tracked key for this accessor -- logic_control_time arrives as an explicit param (the N2311/N2261 precedent), because the tick frame tracks no logic key yet.'),
         'logic_control_time': a('float', 'public float curRecoil, heat, logicControlTime = -1;', 'The logic-control timer (`logicControlTime`, Turret.java:446): the TurretBuild field (`public float curRecoil, heat, logicControlTime = -1;`, Turret.java:284, Java default -1), set to logicControlCooldown (`public final static float logicControlCooldown = 60 * 2;`, Turret.java:38) by control() (Turret.java:384/394) while logic holds the turret; positive while logic controls it.'),
     }
     logic_controlled_outputs = {

@@ -15,7 +15,7 @@ explicit params, and the pure function does the multiply.
 The color is Pal.accent, represented as the string
 "Pal.accent" (the SourceBlockDrawState.gd:182 precedent).
 No driver tick line lands here: drawSelect is selection UI,
-not per-tick state (the accessor precedent N2268/N2275).
+not per-tick state (the accessor precedent N2311/N2275).
 This is a different method from N2278 draw() (rotation +
 glow) -- no overlap.
 

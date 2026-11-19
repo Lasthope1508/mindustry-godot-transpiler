@@ -14,7 +14,7 @@ Mathf.absin(glowScl, glowMag) is time-dependent, so the
 caller supplies its evaluated value and the glow pure
 function does the algebra. No driver tick line lands here:
 draw() is a render call, not tick state (the accessor
-precedent N2268/N2275).
+precedent N2311/N2275).
 
 RED decisions (resolved at RED): (1) Two pure functions on
 the same family file N2274/N2275 built, following the N2270

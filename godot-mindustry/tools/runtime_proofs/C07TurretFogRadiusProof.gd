@@ -19,7 +19,7 @@ func _ready() -> void:
 	game.set_process(false)
 	game.set_physics_process(false)
 
-	# --- TurretBuild.fogRadius() (N2268):
+	# --- TurretBuild.fogRadius() (N2311):
 	# TurretBuild overrides fogRadius (Turret.java:420-423,
 	# `public float fogRadius(){` / `return (range +
 	# (hasAmmo() ? peekAmmo().rangeChange : 0f)) /

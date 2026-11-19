@@ -41,7 +41,7 @@ class C07RadarDrawPlaceTests(unittest.TestCase):
         # link/overlay drawing itself waits for its own
         # slice. No driver tick line lands here: drawPlace
         # is placement UI, not per-tick state (the
-        # accessor precedent N2268/N2275). Six new result
+        # accessor precedent N2311/N2275). Six new result
         # symbols: center, radius, color, rotation, valid,
         # super_draw_place_called.
         self.assertEqual(

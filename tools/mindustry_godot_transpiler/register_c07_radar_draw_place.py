@@ -25,7 +25,7 @@ super-as-param precedent): rotation/valid are echoed and
 super_draw_place_called records the call; the link/overlay
 drawing itself waits for its own slice. No driver tick line
 lands here: drawPlace is placement UI, not per-tick state (the
-accessor precedent N2268/N2275). This is the LAST unported Radar
+accessor precedent N2311/N2275). This is the LAST unported Radar
 method.
 
 RED decisions (resolved at RED): (1) One pure function,

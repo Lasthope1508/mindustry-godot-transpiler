@@ -30,7 +30,7 @@ func _ready() -> void:
 	# (Turret.java:277). unit is the TurretBuild field (`public BlockUnitc
 	# unit = (BlockUnitc)UnitTypes.block.create(team);`, Turret.java:291),
 	# created once from UnitTypes.block -- NOT re-ported here; it arrives
-	# as an explicit param (the N2268/N2261 precedent). team_id is the
+	# as an explicit param (the N2311/N2261 precedent). team_id is the
 	# building team as an int (the tick-frame convention). The function
 	# performs the sync itself: it copies the input unit dict, sets tile
 	# to the building frame (`this`) and team_id to the building team,

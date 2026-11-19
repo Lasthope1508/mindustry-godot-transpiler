@@ -20,7 +20,7 @@ source_turret_tick_frame_state, absent reads true, the N2125
 precedent); has_ammo arrives as an explicit bool carrying
 hasAmmo() (Turret.java:698-712, `public boolean hasAmmo(){`,
 with the ammo-swap side effect, the canConsume() gate and the
-cheating() leg) -- NOT ported here (the N2268/N2261 precedent),
+cheating() leg) -- NOT ported here (the N2311/N2261 precedent),
 because no slice owns hasAmmo() yet; activation_timer arrives
 as an explicit float carrying BaseTurretBuild.activationTimer
 (BaseTurret.java:115, `public float activationTimer = 0;`, set
@@ -103,7 +103,7 @@ def definitions():
 
     inputs = {
         'frame': a('Dictionary', 'public BlockStatus status(){', 'The turret frame (TurretBuild.status, Turret.java:369): the family-convention first arg every Turret pure function takes; it carries `enabled` (stamped every tick by source_turret_tick_frame_state, absent reads true, the N2125 precedent -- BuildingComp.java:77, `transient boolean enabled = true;`).'),
-        'has_ammo': a('bool', 'public boolean hasAmmo(){', 'Whether the turret has usable ammo (`hasAmmo()`, Turret.java:370): carries the hasAmmo() result (`public boolean hasAmmo(){`, Turret.java:698-712, with the ammo-swap side effect, the canConsume() gate and the cheating() leg) -- NOT ported here (the N2268/N2261 precedent), because no slice owns hasAmmo() yet.'),
+        'has_ammo': a('bool', 'public boolean hasAmmo(){', 'Whether the turret has usable ammo (`hasAmmo()`, Turret.java:370): carries the hasAmmo() result (`public boolean hasAmmo(){`, Turret.java:698-712, with the ammo-swap side effect, the canConsume() gate and the cheating() leg) -- NOT ported here (the N2311/N2261 precedent), because no slice owns hasAmmo() yet.'),
         'activation_timer': a('float', 'public float activationTimer = 0;', 'The activation timer (`activationTimer`, BaseTurret.java:144): the BaseTurretBuild field (`public float activationTimer = 0;`, BaseTurret.java:115, set to activationTime on placed()); the BaseTurret leg returns super.status() while it is at most zero, BlockStatus.inactive while it is positive.', source=BASE_TURRET),
         'building_status': a('String', 'public BlockStatus status(){', 'The BuildingComp.status() result (BuildingComp.java:632-646): the live N1888 PortGame.source_building_status_state helper -- "logicDisable" / "noOutput" / "noInput" / "active"; returned as-is when the activation timer is at most zero. The N1888 helper already returns logicDisable for !enabled, so no enabled check of its own is needed in this leg.', source=BUILDING_COMP),
     }

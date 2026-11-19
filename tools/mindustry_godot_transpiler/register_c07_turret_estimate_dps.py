@@ -31,8 +31,8 @@ reads (RtsAI.java:336, `dps[0] += t.estimateDps();`); the AI
 itself waits for its own slice.
 
 RED decisions (resolved at RED): (1) One pure function
-on SourceTurretBuildState.gd next to the N2268 fogRadius
-row, following the N2268 accessor precedent exactly:
+on SourceTurretBuildState.gd next to the N2311 fogRadius
+row, following the N2311 accessor precedent exactly:
 (frame, has_ammo, shots, reload, peek_ammo_estimate_dps,
 potential_efficiency, time_scale) and one result key
 `estimate_dps`. (2) All live values arrive as explicit
@@ -44,7 +44,7 @@ return); a null peek also yields 0.0 through the explicit
 behavior (Infinity for a nonzero numerator) -- no invented
 guard; the proof pins it. (5) NO driver line:
 estimateDps() is a read accessor the RTS AI calls, not a
-per-tick write (the N2268/N2249 precedent); the AI caller
+per-tick write (the N2311/N2249 precedent); the AI caller
 waits for its own slice. One new result symbol:
 estimate_dps. Slice sources: Turret.java +
 ReloadTurret.java + ShootPattern.java + BulletType.java +
@@ -55,7 +55,7 @@ import sys
 from pathlib import Path
 
 from mindustry_port import source_ssot, source_symbols
-from register_c07_turret_fog_radius import DEFERRED as N2268_DEFERRED
+from register_c07_turret_fog_radius import DEFERRED as N2311_DEFERRED
 from register_liquid_consumer_hydration import backed
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -95,13 +95,13 @@ EXACT_EXPRS = [
     'dps[0] += t.estimateDps();',
 ]
 
-# DEFERRED is carried from the N2268 register script via import --
+# DEFERRED is carried from the N2311 register script via import --
 # never retyped. Nothing in it closes here: estimateDps() was never
 # a deferred entry of the Turret chain. Three entries are added:
 # the N2301 Windows Godot proof debt (GOAL.md section 5) and the
 # three pure ports this slice defers (hasAmmo, peekAmmo,
 # BulletType.estimateDPS).
-DEFERRED = N2268_DEFERRED + [
+DEFERRED = N2311_DEFERRED + [
     'Turret estimateDps() Windows Godot proof -- debt in GOAL.md section 5, same as N2148/N2227: the N2301 proof runs headless on Linux here and waits for a Windows Godot run.',
     'Port pure TurretBuild.hasAmmo() (Turret.java:698-712, ammo-swap side effect) as its own slice; N2301 takes has_ammo as an explicit bool.',
     'Port pure TurretBuild.peekAmmo() (Turret.java:693-695) as its own slice; N2301 takes peek_ammo_estimate_dps as an explicit float.',

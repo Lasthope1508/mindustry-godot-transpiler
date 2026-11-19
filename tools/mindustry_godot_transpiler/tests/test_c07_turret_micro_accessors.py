@@ -24,7 +24,7 @@ class C07TurretMicroAccessorsTests(unittest.TestCase):
         # (Turret.java:445-447, `return logicControlTime > 0;`).
         # Four pure functions, one per accessor, each with the
         # family-convention frame first arg plus ONE explicit
-        # param (the N2268/N2261/N2282 precedent): shoot_warmup
+        # param (the N2311/N2261/N2282 precedent): shoot_warmup
         # is advanced by the updateTile warmup leg (N2308), NOT
         # here; rotation is the RotComp float aim angle
         # (RotComp.java:8), NOT the Building int rotation 0-3

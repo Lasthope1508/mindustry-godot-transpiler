@@ -28,7 +28,7 @@ class C07TurretUnitTests(unittest.TestCase):
         # (BlockUnitc)UnitTypes.block.create(team);`), created
         # once from UnitTypes.block -- NOT re-ported here
         # (Unit/BlockUnitc are not ported); it arrives as an
-        # explicit param (the N2268/N2261 precedent). team_id
+        # explicit param (the N2311/N2261 precedent). team_id
         # is the building team as an int (the tick-frame
         # convention: source_turret_tick_frame_state binds
         # frame["team_id"]). The function performs the sync

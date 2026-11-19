@@ -636,7 +636,7 @@ const SOURCE_TURRET_STATUS_INACTIVE := "inactive"
 # precedent). has_ammo is an explicit bool carrying hasAmmo()
 # (Turret.java:698-712, `public boolean hasAmmo(){`, with the
 # ammo-swap side effect, the canConsume() gate and the cheating()
-# leg) -- NOT ported here, the N2268/N2261 precedent, because no
+# leg) -- NOT ported here, the N2311/N2261 precedent, because no
 # slice owns hasAmmo() yet. activation_timer is an explicit float
 # carrying BaseTurretBuild.activationTimer (`public float
 # activationTimer = 0;`, BaseTurret.java:115, set to activationTime
@@ -665,7 +665,7 @@ static func source_turret_status_state(frame: Dictionary, has_ammo: bool, activa
 # (Turret.java:36). shoot_warmup is the TurretBuild field (`public float
 # shootWarmup, charge, warmupHold = 0f;`, Turret.java:286, default 0f),
 # advanced toward warmupTarget by the updateTile warmup leg (N2308,
-# Turret.java:502-515) -- NOT re-ported here (the N2268/N2261
+# Turret.java:502-515) -- NOT re-ported here (the N2311/N2261
 # precedent): it arrives as an explicit param. NO driver tick line:
 # warmup() is a read accessor its callers read, not a per-tick write
 # (the N2249/N2221 precedent) -- the minWarmup fire gate reads it
@@ -686,7 +686,7 @@ static func source_turret_warmup_state(frame: Dictionary, shoot_warmup: float) -
 # rotation;`, BuildingComp.java:69). The caller binds it from the
 # frame bound by source_turret_bind_frame_state (frame["rotation"],
 # the carrier N2276's write/read already use, default 0.0); it
-# arrives here as an explicit param (the N2268/N2261 precedent).
+# arrives here as an explicit param (the N2311/N2261 precedent).
 # NO driver tick line: drawrot() is a read accessor the draw path
 # reads, not a per-tick write (the N2249/N2221 precedent).
 @warning_ignore("unused_parameter")
@@ -702,7 +702,7 @@ static func source_turret_drawrot_state(frame: Dictionary, rotation: float) -> D
 # field (`public boolean playerControllable = true;`, Turret.java:97,
 # "If true, this turret can be controlled by players."), default
 # true -- a def field, not build state, so it arrives as an explicit
-# param (the N2268/N2261 precedent). NO driver tick line:
+# param (the N2311/N2261 precedent). NO driver tick line:
 # canControl() is a read accessor the control dispatch reads, not a
 # per-tick write (the N2249/N2221 precedent).
 @warning_ignore("unused_parameter")
@@ -720,7 +720,7 @@ static func source_turret_can_control_state(frame: Dictionary, player_controllab
 # (`public final static float logicControlCooldown = 60 * 2;`,
 # Turret.java:38) by control() (Turret.java:384/394) while logic
 # holds the turret; it arrives as an explicit param (the
-# N2268/N2261 precedent), because the tick frame tracks no logic
+# N2311/N2261 precedent), because the tick frame tracks no logic
 # key yet. NO driver tick line: logicControlled() is a read
 # accessor its callers read, not a per-tick write (the N2249/N2221
 # precedent) -- updateTile's isShooting computation reads it
@@ -744,7 +744,7 @@ static func source_turret_logic_controlled_state(frame: Dictionary, logic_contro
 # `public BlockUnitc unit = (BlockUnitc)UnitTypes.block.create(team);`
 # (Turret.java:291), created once from UnitTypes.block -- NOT re-ported
 # here (Unit/BlockUnitc are not ported): it arrives as an explicit param
-# (the N2268/N2261 precedent).
+# (the N2311/N2261 precedent).
 # team_id is the building team as an int (the tick-frame convention:
 # source_turret_tick_frame_state binds frame["team_id"]); the Building
 # team is `@Import Team team;` (BuildingComp.java:62) and the unit team
@@ -948,7 +948,7 @@ static func source_turret_find_target_state(frame: Dictionary, range: float, tra
 # range() rows live in PortGame, not on this state). NO driver line: trackingRange() is a
 # load-time accessor findTarget reads at Turret.java:652
 # (`float trackRange = trackingRange(), range = range();`), not a per-tick write (the
-# N2268/N2249 accessor precedent). `public class TurretBuild extends ReloadTurretBuild implements ControlBlock{`
+# N2311/N2249 accessor precedent). `public class TurretBuild extends ReloadTurretBuild implements ControlBlock{`
 # and `public class BaseTurret extends Block{`.
 @warning_ignore("unused_parameter")
 static func source_turret_tracking_range_state(frame: Dictionary, range_value: float, tracking_range: float, range: float) -> Dictionary:

@@ -40,7 +40,7 @@ class C07DrillDrawSelectTests(unittest.TestCase):
         # selection_width, selection_height. There is NO
         # driver tick line: drawSelect is selection UI, not
         # per-tick state (the accessor precedent
-        # N2268/N2275/N2281).
+        # N2311/N2275/N2281).
         self.assertEqual(
             ledger['N2283']['source_symbols'],
             [

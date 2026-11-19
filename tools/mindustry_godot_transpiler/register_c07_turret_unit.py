@@ -23,7 +23,7 @@ field (`public BlockUnitc unit =
 (BlockUnitc)UnitTypes.block.create(team);`, Turret.java:291),
 created once from UnitTypes.block -- NOT re-ported here
 (Unit/BlockUnitc are not ported); it arrives as an explicit
-param (the N2268/N2261 precedent). `team_id` is the
+param (the N2311/N2261 precedent). `team_id` is the
 building's team as an int (the tick-frame convention:
 source_turret_tick_frame_state binds frame["team_id"]). (2)
 NO driver tick line: unit() is a read accessor its callers
@@ -112,7 +112,7 @@ def definitions():
 
     unit_inputs = {
         'frame': a('Dictionary', 'public Unit unit(){', 'The turret frame (TurretBuild.unit, Turret.java:434): the family-convention first arg every Turret pure function takes; it IS the building (`this`) the unit is synced to -- the returned unit carries it as its tile.'),
-        'unit': a('Dictionary', 'public BlockUnitc unit = (BlockUnitc)UnitTypes.block.create(team);', 'The block unit (`unit`, Turret.java:436-438): the TurretBuild field (`public BlockUnitc unit = (BlockUnitc)UnitTypes.block.create(team);`, Turret.java:291, created once from UnitTypes.block) -- NOT re-ported here (Unit/BlockUnitc are not ported); it arrives as an explicit param (the N2268/N2261 precedent) as a state dict, and the function returns a synced copy of it.'),
+        'unit': a('Dictionary', 'public BlockUnitc unit = (BlockUnitc)UnitTypes.block.create(team);', 'The block unit (`unit`, Turret.java:436-438): the TurretBuild field (`public BlockUnitc unit = (BlockUnitc)UnitTypes.block.create(team);`, Turret.java:291, created once from UnitTypes.block) -- NOT re-ported here (Unit/BlockUnitc are not ported); it arrives as an explicit param (the N2311/N2261 precedent) as a state dict, and the function returns a synced copy of it.'),
         'team_id': a('int', '@Import Team team;', 'The building team id (`team`, Turret.java:437): the TurretBuild team (`@Import Team team;`, BuildingComp.java:62), carried as an int (the tick-frame convention: source_turret_tick_frame_state binds frame["team_id"]); the returned unit carries it as its team_id.', source=BUILDING_COMP),
     }
     unit_outputs = {

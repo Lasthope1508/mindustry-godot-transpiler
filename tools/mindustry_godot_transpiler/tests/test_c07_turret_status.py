@@ -31,7 +31,7 @@ class C07TurretStatusTests(unittest.TestCase):
         # source_turret_tick_frame_state, absent reads true); has_ammo
         # arrives as an explicit bool carrying hasAmmo()
         # (Turret.java:698-712, ammo-swap side effect + canConsume +
-        # cheating -- NOT ported here, the N2268/N2261 precedent);
+        # cheating -- NOT ported here, the N2311/N2261 precedent);
         # activation_timer arrives as an explicit float carrying
         # BaseTurretBuild.activationTimer (BaseTurret.java:115,
         # default 0); building_status arrives as an explicit String

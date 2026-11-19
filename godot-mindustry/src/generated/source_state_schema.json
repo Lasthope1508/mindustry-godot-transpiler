@@ -234703,94 +234703,6 @@
       "runtime_proof": "/root/C07RadarProgressProof",
       "rule": "Source-backed Radar progress() accessor from Radar.java."
     },
-    "source_turret_fog_radius_state_input": {
-      "status": "active",
-      "owner": "SourceTurretBuildState.source_turret_fog_radius_state",
-      "source_slice": "N2268",
-      "keys": {
-        "frame": {
-          "type": "Dictionary",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-          "java_expr": "public float fogRadius(){",
-          "rule": "The turret frame (accepted for the family call shape; this leg reads no live frame key -- all live values arrive as explicit params, the N2188 per-def-param precedent, because the tick frame tracks only cheating/enabled/power_status/efficiency).",
-          "used_by": [
-            "SourceTurretBuildState.source_turret_fog_radius_state"
-          ]
-        },
-        "range": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
-          "java_expr": "public float range = 80f;",
-          "rule": "The def range in world pixels: BaseTurret.range (BaseTurret.java:21), the base of the fogRadius() formula (Turret.java:421, `return (range + (hasAmmo() ? peekAmmo().rangeChange : 0f)) / tilesize * fogRadiusMultiplier;`); passed explicitly because it is per-def static state, not a live frame key.",
-          "used_by": [
-            "SourceTurretBuildState.source_turret_fog_radius_state"
-          ]
-        },
-        "has_ammo": {
-          "type": "bool",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-          "java_expr": "public boolean hasAmmo(){",
-          "rule": "Whether the turret has usable ammo: the TurretBuild.hasAmmo() gate (Turret.java:698-712, `return ammo.size > 0 && (ammo.peek().amount >= ammoPerShot || cheating());` after the ammo-swap and canConsume gates); passed explicitly because the tick frame tracks no ammo state yet. False adds 0f (the N2253/N2254 absent-preserves precedent).",
-          "used_by": [
-            "SourceTurretBuildState.source_turret_fog_radius_state"
-          ]
-        },
-        "ammo_range_change": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
-          "java_expr": "public float rangeChange = 0f;",
-          "rule": "The peeked ammo bullet range change: BulletType.rangeChange (BulletType.java:157), default 0f; read by the fogRadius() formula through peekAmmo() (Turret.java:693, `public @Nullable BulletType peekAmmo(){`) only when hasAmmo() holds; passed explicitly because the tick frame tracks no ammo state yet.",
-          "used_by": [
-            "SourceTurretBuildState.source_turret_fog_radius_state"
-          ]
-        },
-        "tilesize": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/Vars.java",
-          "java_expr": "public static final int tilesize = 8;",
-          "rule": "The world tilesize in pixels (Vars.java:135, `public static final int tilesize = 8;`); passed explicitly (the N2223 sense precedent) so the formula divides by the caller-supplied world constant.",
-          "used_by": [
-            "SourceTurretBuildState.source_turret_fog_radius_state"
-          ]
-        },
-        "fog_radius_multiplier": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
-          "java_expr": "public float fogRadiusMultiplier = 1f;",
-          "rule": "The def fog-radius multiplier: BaseTurret.fogRadiusMultiplier (BaseTurret.java:24), the scale of the fogRadius() formula (Turret.java:421); passed explicitly because it is per-def static state, not a live frame key.",
-          "used_by": [
-            "SourceTurretBuildState.source_turret_fog_radius_state"
-          ]
-        }
-      },
-      "runtime_proof": "/root/C07TurretFogRadiusProof",
-      "rule": "Source-backed TurretBuild.fogRadius() state from Turret.java + BaseTurret.java + Vars.java + BulletType.java + FogControl.java + FogRenderer.java."
-    },
-    "source_turret_fog_radius_state_result": {
-      "status": "active",
-      "owner": "SourceTurretBuildState.source_turret_fog_radius_state",
-      "source_slice": "N2268",
-      "keys": {
-        "fog_radius": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-          "java_expr": "return (range + (hasAmmo() ? peekAmmo().rangeChange : 0f)) / tilesize * fogRadiusMultiplier;",
-          "rule": "The live fog radius in tiles: (range + rangeChange when hasAmmo, else range) / tilesize * fogRadiusMultiplier (Turret.java:420-421); read by the fog system (FogControl.java:161, `Mathf.round(build.fogRadius())`; FogRenderer.java:68, `build.fogRadius() * tilesize`).",
-          "used_by": [
-            "SourceTurretBuildState.source_turret_fog_radius_state"
-          ]
-        }
-      },
-      "runtime_proof": "/root/C07TurretFogRadiusProof",
-      "rule": "Source-backed TurretBuild.fogRadius() state from Turret.java + BaseTurret.java + Vars.java + BulletType.java + FogControl.java + FogRenderer.java."
-    },
     "source_burst_drill_icons_state_input": {
       "status": "active",
       "owner": "SourceBurstDrillBuildState.source_burst_drill_icons_state",
@@ -237499,7 +237411,7 @@
           "status": "source-backed",
           "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
           "java_expr": "public boolean hasAmmo(){",
-          "rule": "Whether the turret has usable ammo (`hasAmmo()`, Turret.java:370): carries the hasAmmo() result (`public boolean hasAmmo(){`, Turret.java:698-712, with the ammo-swap side effect, the canConsume() gate and the cheating() leg) -- NOT ported here (the N2268/N2261 precedent), because no slice owns hasAmmo() yet.",
+          "rule": "Whether the turret has usable ammo (`hasAmmo()`, Turret.java:370): carries the hasAmmo() result (`public boolean hasAmmo(){`, Turret.java:698-712, with the ammo-swap side effect, the canConsume() gate and the cheating() leg) -- NOT ported here (the N2311/N2261 precedent), because no slice owns hasAmmo() yet.",
           "used_by": [
             "SourceTurretBuildState.source_turret_status_state"
           ]
@@ -238453,7 +238365,7 @@
           "status": "source-backed",
           "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
           "java_expr": "public float warmup(){",
-          "rule": "The turret frame (TurretBuild.warmup, Turret.java:354): the family-convention first arg every Turret pure function takes; it carries no tracked key for this accessor -- shoot_warmup arrives as an explicit param (the N2268/N2261 precedent), because the tick frame tracks no shoot_warmup key yet.",
+          "rule": "The turret frame (TurretBuild.warmup, Turret.java:354): the family-convention first arg every Turret pure function takes; it carries no tracked key for this accessor -- shoot_warmup arrives as an explicit param (the N2311/N2261 precedent), because the tick frame tracks no shoot_warmup key yet.",
           "used_by": [
             "SourceTurretBuildState.source_turret_warmup_state"
           ]
@@ -238549,7 +238461,7 @@
           "status": "source-backed",
           "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
           "java_expr": "public boolean canControl(){",
-          "rule": "The turret frame (TurretBuild.canControl, Turret.java:376): the family-convention first arg every Turret pure function takes; it carries no tracked key for this accessor -- player_controllable arrives as an explicit param (the N2268/N2261 precedent), because it is a block-level def field, not build state.",
+          "rule": "The turret frame (TurretBuild.canControl, Turret.java:376): the family-convention first arg every Turret pure function takes; it carries no tracked key for this accessor -- player_controllable arrives as an explicit param (the N2311/N2261 precedent), because it is a block-level def field, not build state.",
           "used_by": [
             "SourceTurretBuildState.source_turret_can_control_state"
           ]
@@ -238597,7 +238509,7 @@
           "status": "source-backed",
           "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
           "java_expr": "public boolean logicControlled(){",
-          "rule": "The turret frame (TurretBuild.logicControlled, Turret.java:445): the family-convention first arg every Turret pure function takes; it carries no tracked key for this accessor -- logic_control_time arrives as an explicit param (the N2268/N2261 precedent), because the tick frame tracks no logic key yet.",
+          "rule": "The turret frame (TurretBuild.logicControlled, Turret.java:445): the family-convention first arg every Turret pure function takes; it carries no tracked key for this accessor -- logic_control_time arrives as an explicit param (the N2311/N2261 precedent), because the tick frame tracks no logic key yet.",
           "used_by": [
             "SourceTurretBuildState.source_turret_logic_controlled_state"
           ]
@@ -238665,7 +238577,7 @@
           "status": "source-backed",
           "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
           "java_expr": "public Item dominantItem;",
-          "rule": "Whether a dominant item is bound: the DrillBuild.dominantItem field (Drill.java:244) is non-null, set by the N2262 ore/dominant binding; passed explicitly because the caller owns the binding (the N2268/N2275/N2281 explicit-param precedent).",
+          "rule": "Whether a dominant item is bound: the DrillBuild.dominantItem field (Drill.java:244) is non-null, set by the N2262 ore/dominant binding; passed explicitly because the caller owns the binding (the N2311/N2275/N2281 explicit-param precedent).",
           "used_by": [
             "SourceBurstDrillBuildState.source_drill_sense_object_state"
           ]
@@ -238753,7 +238665,7 @@
           "status": "source-backed",
           "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
           "java_expr": "public Item dominantItem;",
-          "rule": "Whether a dominant item is bound: the DrillBuild.dominantItem field (Drill.java:244) is non-null, set by the N2262 ore/dominant binding; the progress leg requires it (Drill.java:334, `if(sensor == LAccess.progress && dominantItem != null) return progress;`); passed explicitly because the caller owns the binding (the N2268/N2275/N2281 explicit-param precedent).",
+          "rule": "Whether a dominant item is bound: the DrillBuild.dominantItem field (Drill.java:244) is non-null, set by the N2262 ore/dominant binding; the progress leg requires it (Drill.java:334, `if(sensor == LAccess.progress && dominantItem != null) return progress;`); passed explicitly because the caller owns the binding (the N2311/N2275/N2281 explicit-param precedent).",
           "used_by": [
             "SourceBurstDrillBuildState.source_drill_sense_state"
           ]
@@ -239267,7 +239179,7 @@
           "status": "source-backed",
           "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
           "java_expr": "public BlockUnitc unit = (BlockUnitc)UnitTypes.block.create(team);",
-          "rule": "The block unit (`unit`, Turret.java:436-438): the TurretBuild field (`public BlockUnitc unit = (BlockUnitc)UnitTypes.block.create(team);`, Turret.java:291, created once from UnitTypes.block) -- NOT re-ported here (Unit/BlockUnitc are not ported); it arrives as an explicit param (the N2268/N2261 precedent) as a state dict, and the function returns a synced copy of it.",
+          "rule": "The block unit (`unit`, Turret.java:436-438): the TurretBuild field (`public BlockUnitc unit = (BlockUnitc)UnitTypes.block.create(team);`, Turret.java:291, created once from UnitTypes.block) -- NOT re-ported here (Unit/BlockUnitc are not ported); it arrives as an explicit param (the N2311/N2261 precedent) as a state dict, and the function returns a synced copy of it.",
           "used_by": [
             "SourceTurretBuildState.source_turret_unit_state"
           ]
@@ -239686,6 +239598,94 @@
       },
       "runtime_proof": "/root/C07RadarWriteReadProof",
       "rule": "Source-backed Radar write/read persistence from Radar.java."
+    },
+    "source_turret_fog_radius_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_fog_radius_state",
+      "source_slice": "N2311",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float fogRadius(){",
+          "rule": "The turret frame (accepted for the family call shape; this leg reads no live frame key -- all live values arrive as explicit params, the N2188 per-def-param precedent, because the tick frame tracks only cheating/enabled/power_status/efficiency).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_fog_radius_state"
+          ]
+        },
+        "range": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "java_expr": "public float range = 80f;",
+          "rule": "The def range in world pixels: BaseTurret.range (BaseTurret.java:21), the base of the fogRadius() formula (Turret.java:421, `return (range + (hasAmmo() ? peekAmmo().rangeChange : 0f)) / tilesize * fogRadiusMultiplier;`); passed explicitly because it is per-def static state, not a live frame key.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_fog_radius_state"
+          ]
+        },
+        "has_ammo": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public boolean hasAmmo(){",
+          "rule": "Whether the turret has usable ammo: the TurretBuild.hasAmmo() gate (Turret.java:698-712, `return ammo.size > 0 && (ammo.peek().amount >= ammoPerShot || cheating());` after the ammo-swap and canConsume gates); passed explicitly because the tick frame tracks no ammo state yet. False adds 0f (the N2253/N2254 absent-preserves precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_fog_radius_state"
+          ]
+        },
+        "ammo_range_change": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_expr": "public float rangeChange = 0f;",
+          "rule": "The peeked ammo bullet range change: BulletType.rangeChange (BulletType.java:157), default 0f; read by the fogRadius() formula through peekAmmo() (Turret.java:693, `public @Nullable BulletType peekAmmo(){`) only when hasAmmo() holds; passed explicitly because the tick frame tracks no ammo state yet.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_fog_radius_state"
+          ]
+        },
+        "tilesize": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/Vars.java",
+          "java_expr": "public static final int tilesize = 8;",
+          "rule": "The world tilesize in pixels (Vars.java:135, `public static final int tilesize = 8;`); passed explicitly (the N2223 sense precedent) so the formula divides by the caller-supplied world constant.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_fog_radius_state"
+          ]
+        },
+        "fog_radius_multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "java_expr": "public float fogRadiusMultiplier = 1f;",
+          "rule": "The def fog-radius multiplier: BaseTurret.fogRadiusMultiplier (BaseTurret.java:24), the scale of the fogRadius() formula (Turret.java:421); passed explicitly because it is per-def static state, not a live frame key.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_fog_radius_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretFogRadiusProof",
+      "rule": "Source-backed TurretBuild.fogRadius() state from Turret.java + BaseTurret.java + Vars.java + BulletType.java + FogControl.java + FogRenderer.java."
+    },
+    "source_turret_fog_radius_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_fog_radius_state",
+      "source_slice": "N2311",
+      "keys": {
+        "fog_radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return (range + (hasAmmo() ? peekAmmo().rangeChange : 0f)) / tilesize * fogRadiusMultiplier;",
+          "rule": "The live fog radius in tiles: (range + rangeChange when hasAmmo, else range) / tilesize * fogRadiusMultiplier (Turret.java:420-421); read by the fog system (FogControl.java:161, `Mathf.round(build.fogRadius())`; FogRenderer.java:68, `build.fogRadius() * tilesize`).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_fog_radius_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretFogRadiusProof",
+      "rule": "Source-backed TurretBuild.fogRadius() state from Turret.java + BaseTurret.java + Vars.java + BulletType.java + FogControl.java + FogRenderer.java."
     }
   },
   "version": 1

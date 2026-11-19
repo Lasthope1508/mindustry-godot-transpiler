@@ -42,7 +42,7 @@ func _ready() -> void:
 	# trackingRange() is a load-time accessor findTarget
 	# reads at Turret.java:652 (`float trackRange =
 	# trackingRange(), range = range();`), not a per-tick
-	# write (the N2268/N2249 accessor precedent).
+	# write (the N2311/N2249 accessor precedent).
 
 	# Default field (0f) with no ammo, pre-init: 80.0 +
 	# 0.0 - 80.0 = 0.0.
