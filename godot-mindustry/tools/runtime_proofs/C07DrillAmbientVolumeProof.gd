@@ -26,7 +26,7 @@ func _ready() -> void:
 	# `efficiency` is the live Building efficiency
 	# (`transient float efficiency;`,
 	# BuildingComp.java:85), carried on the frame
-	# (absent defaults to 0.0 -- the N2258 liquid-rows
+	# (absent defaults to 0.0 -- the N2296 liquid-rows
 	# frame-key precedent). `size` is the block size in
 	# tiles (`public int size = 1;`, Block.java:215), a
 	# per-def param passed explicitly (the N2212

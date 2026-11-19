@@ -649,7 +649,7 @@
     "SourceBurstDrillBuildState.source_burst_drill_liquid_rows_state": {
       "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_burst_drill_liquid_rows_state",
       "status": "active",
-      "source_slice": "N2258",
+      "source_slice": "N2296",
       "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
       "source_method": "BurstDrillBuild.updateTile()",
       "params": [

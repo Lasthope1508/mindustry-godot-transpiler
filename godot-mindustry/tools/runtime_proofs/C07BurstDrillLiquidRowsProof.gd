@@ -19,7 +19,7 @@ func _ready() -> void:
 	game.set_process(false)
 	game.set_physics_process(false)
 
-	# --- Pure BurstDrill liquid rows (N2258): each def carries
+	# --- Pure BurstDrill liquid rows (N2296): each def carries
 	# one required liquid and one booster liquid (Blocks.java:
 	# 3089-3090 impact, :3119-3120 eruption). BuildingComp.
 	# updateConsumption (BuildingComp.java:1943-2004) folds the

@@ -97,7 +97,7 @@ static func source_burst_drill_power_status_row_state(frame: Dictionary, has_pow
 	# (BurstDrill.java:94, `float speed = Mathf.lerp(1f, liquidBoostIntensity, optionalEfficiency) * efficiency;`).
 	# Documented limits: (1) power row only -- the liquid rows
 	# fold in the driver when the frame carries liquid
-	# observations (N2258); without observations the folded
+	# observations (N2296); without observations the folded
 	# efficiency is the min over the *modeled* consumers
 	# (power only). (2)
 	# shouldConsume gate -- BurstDrillBuild overrides
@@ -320,7 +320,7 @@ static func source_drill_ambient_volume_state(frame: Dictionary, size: int) -> D
 	# public float ambientVolume(){
 	# return efficiency * (size * size) / 4f;
 	# }
-	# `efficiency` is the live Building efficiency (`transient float efficiency;`, BuildingComp.java:85), carried on the frame (absent defaults to 0.0 -- the N2258 liquid-rows frame-key precedent). `size` is the block size in tiles (`public int size = 1;`, Block.java:215) -- a per-def param passed explicitly (the N2212 per-def-param precedent): impact-drill size 4 (Blocks.java:3073), eruption-drill size 5 (Blocks.java:3096). At efficiency 1 the super is 4.0 vs 6.25 -- the exact values N2271 takes as its explicit super input (the N2271 pure function takes the super result as an explicit input; this slice closes that super-leg deferred entry). The classes are `public class Drill extends Block{` (Drill.java:27) and `public class DrillBuild extends Building{` (Drill.java:237). The defs are `impactDrill = new BurstDrill("impact-drill"){{` (Blocks.java:3070) and `eruptionDrill = new BurstDrill("eruption-drill"){{` (Blocks.java:3093). There is NO driver tick line: ambientVolume is read per tick by the ambient-sound live loop (`control.sound.loop(block.ambientSound, self(), block.ambientSoundVolume * ambientVolume());`, BuildingComp.java:2271); the driver side waits for the ambient C mixer slice (N2264).
+	# `efficiency` is the live Building efficiency (`transient float efficiency;`, BuildingComp.java:85), carried on the frame (absent defaults to 0.0 -- the N2296 liquid-rows frame-key precedent). `size` is the block size in tiles (`public int size = 1;`, Block.java:215) -- a per-def param passed explicitly (the N2212 per-def-param precedent): impact-drill size 4 (Blocks.java:3073), eruption-drill size 5 (Blocks.java:3096). At efficiency 1 the super is 4.0 vs 6.25 -- the exact values N2271 takes as its explicit super input (the N2271 pure function takes the super result as an explicit input; this slice closes that super-leg deferred entry). The classes are `public class Drill extends Block{` (Drill.java:27) and `public class DrillBuild extends Building{` (Drill.java:237). The defs are `impactDrill = new BurstDrill("impact-drill"){{` (Blocks.java:3070) and `eruptionDrill = new BurstDrill("eruption-drill"){{` (Blocks.java:3093). There is NO driver tick line: ambientVolume is read per tick by the ambient-sound live loop (`control.sound.loop(block.ambientSound, self(), block.ambientSoundVolume * ambientVolume());`, BuildingComp.java:2271); the driver side waits for the ambient C mixer slice (N2264).
 	var efficiency: float = float(frame.get("efficiency", 0.0))
 	var ambient_volume: float = efficiency * (size * size) / 4.0
 	return {"ambient_volume": ambient_volume}
@@ -692,7 +692,7 @@ static func source_burst_drill_tick_buildings_state(game: Object, seconds: float
 		# follows it. The power consumer counts toward hasConsumers
 		# (Block.java:1449, `hasConsumers = consumers.length > 0;`),
 		# so a burst drill does not take the early return. The
-		# liquid rows fold since N2258 when the frame carries
+		# liquid rows fold since N2296 when the frame carries
 		# liquid observations (the required row into the first
 		# pass, the booster row into the optional pass); without
 		# observations the fold stays power-only. A burst drill
@@ -726,7 +726,7 @@ static func source_burst_drill_tick_buildings_state(game: Object, seconds: float
 				required_results.append(power_row.get("row", {}))
 			var optional_results: Array = []
 			# The liquid rows fold here when the frame carries
-			# liquid observations (N2258): the block's bound
+			# liquid observations (N2296): the block's bound
 			# liquid consumers come from the generic N2003
 			# binding (SourceConsumeLiquidState.
 			# source_bind_liquid_consumers_state, resolved from

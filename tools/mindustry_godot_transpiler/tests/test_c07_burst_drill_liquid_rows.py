@@ -14,7 +14,7 @@ class C07BurstDrillLiquidRowsTests(unittest.TestCase):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        self.assertEqual(ledger['N2258']['godot_owner'], 'SourceBurstDrillBuildState.source_burst_drill_liquid_rows_state')
+        self.assertEqual(ledger['N2296']['godot_owner'], 'SourceBurstDrillBuildState.source_burst_drill_liquid_rows_state')
         # The BurstDrill liquid rows are the two ConsumeLiquid
         # rows each def carries (Blocks.java:3089-3090 impact,
         # :3119-3120 eruption): one required liquid and one
@@ -61,7 +61,7 @@ class C07BurstDrillLiquidRowsTests(unittest.TestCase):
         # (Blocks.java:3119, `consumeLiquid(Liquids.hydrogen,
         # 4f / 60f);`) + cyanogen 0.75f/60f booster
         # (Blocks.java:3120, `consumeLiquid(Liquids.cyanogen,
-        # 0.75f / 60f).boost();`). N2258 closes the rows with
+        # 0.75f / 60f).boost();`). N2296 closes the rows with
         # one pure function over the frame (`efficiency`,
         # `efficiency_scale`, `required_liquid_stored`,
         # `booster_liquid_stored`) plus the per-def
@@ -74,7 +74,7 @@ class C07BurstDrillLiquidRowsTests(unittest.TestCase):
         # required_remove_amount, booster_remove_amount,
         # required_row, optional_row, has_liquids.
         self.assertEqual(
-            ledger['N2258']['source_symbols'],
+            ledger['N2296']['source_symbols'],
             [
                 'source_burst_drill_liquid_rows_state_result.edelta',
                 'source_burst_drill_liquid_rows_state_result.ed',
@@ -87,7 +87,7 @@ class C07BurstDrillLiquidRowsTests(unittest.TestCase):
                 'source_burst_drill_liquid_rows_state_result.has_liquids',
             ],
         )
-        for name in ledger['N2258']['source_symbols']:
+        for name in ledger['N2296']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_source'], {
@@ -101,9 +101,9 @@ class C07BurstDrillLiquidRowsTests(unittest.TestCase):
                     'core/src/mindustry/world/consumers/Consume.java',
                 })
                 self.assertEqual(symbol['godot_owner'], 'SourceBurstDrillBuildState.' + name.rsplit('_result.', 1)[0])
-        self.assertEqual(ledger['N2258']['runtime_proof'], '/root/C07BurstDrillLiquidRowsProof')
+        self.assertEqual(ledger['N2296']['runtime_proof'], '/root/C07BurstDrillLiquidRowsProof')
         self.assertEqual(
-            ledger['N2258']['tests'],
+            ledger['N2296']['tests'],
             [
                 'test_c07_burst_drill_liquid_rows_registration',
                 'test_all_c07_burst_drill_liquid_rows_input_evidence_is_exact',
@@ -111,13 +111,13 @@ class C07BurstDrillLiquidRowsTests(unittest.TestCase):
                 'test_reference_graph_and_actual_c07_burst_drill_liquid_rows',
             ],
         )
-        self.assertTrue(ledger['N2258']['deferred_exprs'])
+        self.assertTrue(ledger['N2296']['deferred_exprs'])
 
     def test_all_c07_burst_drill_liquid_rows_input_evidence_is_exact(self):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        for name in ledger['N2258']['source_symbols']:
+        for name in ledger['N2296']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 source = symbol['java_source']
@@ -138,7 +138,7 @@ class C07BurstDrillLiquidRowsTests(unittest.TestCase):
         for source in slice_sources:
             upstream_root = ROOT / 'arc-upstream' if source.startswith('arc-core/') else ROOT / 'mindustry-upstream'
             upstream[source] = (upstream_root / source).read_text(encoding='utf-8')
-        for expr in ledger['N2258']['exact_exprs']:
+        for expr in ledger['N2296']['exact_exprs']:
             with self.subTest(expr=expr):
                 self.assertTrue(any(expr in text for text in upstream.values()), expr)
 

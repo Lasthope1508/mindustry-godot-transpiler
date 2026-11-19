@@ -42,7 +42,7 @@ import sys
 from pathlib import Path
 
 from mindustry_port import source_ssot, source_symbols
-from register_c07_burst_drill_liquid_rows import DEFERRED as N2258_DEFERRED
+from register_c07_burst_drill_liquid_rows import DEFERRED as N2296_DEFERRED
 from register_liquid_consumer_hydration import backed
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -63,8 +63,8 @@ SLICE_SOURCES = [
 ]
 EXACT_EXPRS = ['@Override', 'public TextureRegion[] icons(){', 'return new TextureRegion[]{region, topRegion};', 'public @Load("@-top") TextureRegion topRegion;', 'public TextureRegion region;', 'protected TextureRegion[] icons(){', 'public TextureRegion[] getGeneratedIcons(){', 'return generatedIcons == null ? (generatedIcons = icons()) : generatedIcons;', 'public class BurstDrill extends Drill{', 'public class Drill extends Block{']
 
-# DEFERRED is carried from the N2258 register script via import --
-# never retyped. The N2258 script's DEFERRED is a computed
+# DEFERRED is carried from the N2296 register script via import --
+# never retyped. The N2296 script's DEFERRED is a computed
 # expression (list comprehension over the N2256 import + [...]),
 # NOT a plain list literal, so the N2218-style ast.literal_eval
 # carry cannot recover it (ValueError: malformed node); the
@@ -75,10 +75,10 @@ EXACT_EXPRS = ['@Override', 'public TextureRegion[] icons(){', 'return new Textu
 # No carried entry is dropped here: there is no BurstDrill icons
 # entry in the carried list (unlike N2250, which dropped the
 # Radar draw/drawSelect/icons row it closed). The stale
-# 'BurstDrill shouldConsume gate' entry the N2258 list still
-# carries (N2257 closed it, but N2258 branched from N2256) is
+# 'BurstDrill shouldConsume gate' entry the N2296 list still
+# carries (N2257 closed it, but N2296 branched from N2256) is
 # left as-is -- ledger hygiene belongs to the main thread.
-DEFERRED = list(N2258_DEFERRED) + [
+DEFERRED = list(N2296_DEFERRED) + [
     'BurstDrill icons() Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2227: the N2269 proof runs headless on Linux here and waits for a Windows Godot run.',
 ]
 

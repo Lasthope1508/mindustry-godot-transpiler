@@ -1,4 +1,4 @@
-"""Register the BurstDrill liquid rows (N2258).
+"""Register the BurstDrill liquid rows (N2296).
 
 Each BurstDrill def carries two ConsumeLiquid rows
 (Blocks.java:3089-3090 impact, :3119-3120 eruption): one
@@ -96,7 +96,7 @@ CONSUME = 'core/src/mindustry/world/consumers/Consume.java'
 PROOF = '/root/C07BurstDrillLiquidRowsProof'
 LIQUID_ROWS_OWNER = 'SourceBurstDrillBuildState.source_burst_drill_liquid_rows_state'
 TESTS = ['test_c07_burst_drill_liquid_rows_registration', 'test_all_c07_burst_drill_liquid_rows_input_evidence_is_exact', 'test_burst_drill_liquid_rows_state', 'test_reference_graph_and_actual_c07_burst_drill_liquid_rows']
-# The 8 slice sources the N2258 test checks exact_exprs
+# The 8 slice sources the N2296 test checks exact_exprs
 # against -- every expr in EXACT_EXPRS below must appear verbatim
 # in one of these files.
 SLICE_SOURCES = [
@@ -113,14 +113,14 @@ EXACT_EXPRS = ['float speed = Mathf.lerp(1f, liquidBoostIntensity, optionalEffic
 
 # DEFERRED is carried from the N2294 register script via import --
 # never retyped. One carried entry is DROPPED here, not carried:
-# the BurstDrill liquid rows entry -- N2258 IS the liquid rows
+# the BurstDrill liquid rows entry -- N2296 IS the liquid rows
 # slice, so carrying it would leave a stale "waits for its own
 # slice" row for done work. The shouldConsume gate (N2257) and
 # the ore / dominant-item binding entries stay deferred -- those
 # slices own them.
 DEFERRED = [e for e in N2294_DEFERRED if 'BurstDrill liquid rows' not in e] + [
-    'BurstDrill liquid rows Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2227: the N2258 proof runs headless on Linux here and waits for a Windows Godot run.',
-    'BurstDrill liquid removal application (liquids.remove, ConsumeLiquid.java:37-38) -- the N2258 proof carries remove_amount keys; the actual removal from the building liquid module waits for the driver slice that owns the liquids module.',
+    'BurstDrill liquid rows Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2227: the N2296 proof runs headless on Linux here and waits for a Windows Godot run.',
+    'BurstDrill liquid removal application (liquids.remove, ConsumeLiquid.java:37-38) -- the N2296 proof carries remove_amount keys; the actual removal from the building liquid module waits for the driver slice that owns the liquids module.',
     'BurstDrill setStats booster display row (Drill.java:183-189, stats.add(Stat.booster, StatValues.speedBoosters(...))) -- stats display, not tick state; waits for its own slice.',
     'BurstDrill liquid rows without a power consumer -- the fold runs through the existing consumption call site, which today runs only when the def has a power consumer; both burst defs have power.',
 ]
@@ -186,7 +186,7 @@ def main():
     liquid_rows_inputs, liquid_rows_outputs = definitions()
 
     entries = [
-        ('N2258', LIQUID_ROWS_OWNER, 'source_burst_drill_liquid_rows_state', BURST_DRILL, 'mindustry.world.blocks.production.BurstDrill.BurstDrillBuild', 'BurstDrillBuild.updateTile()', liquid_rows_inputs, liquid_rows_outputs, True, 'Dictionary'),
+        ('N2296', LIQUID_ROWS_OWNER, 'source_burst_drill_liquid_rows_state', BURST_DRILL, 'mindustry.world.blocks.production.BurstDrill.BurstDrillBuild', 'BurstDrillBuild.updateTile()', liquid_rows_inputs, liquid_rows_outputs, True, 'Dictionary'),
     ]
     all_names = []
     for sid, owner, prefix, source, cls, method, inputs, outputs, has_contract, return_type in entries:
@@ -209,7 +209,7 @@ def main():
     # required_efficiency, booster_efficiency,
     # required_remove_amount, booster_remove_amount,
     # required_row, optional_row, has_liquids.
-    by_slice['N2258'] = [
+    by_slice['N2296'] = [
         'source_burst_drill_liquid_rows_state_result.edelta',
         'source_burst_drill_liquid_rows_state_result.ed',
         'source_burst_drill_liquid_rows_state_result.required_efficiency',
@@ -220,7 +220,7 @@ def main():
         'source_burst_drill_liquid_rows_state_result.optional_row',
         'source_burst_drill_liquid_rows_state_result.has_liquids',
     ]
-    source_symbols.upsert_source_slice(GODOT, 'N2258', dict(status='done', java_source=BURST_DRILL, java_class='mindustry.world.blocks.production.BurstDrill.BurstDrillBuild', java_method='BurstDrillBuild.updateTile()', godot_owner=LIQUID_ROWS_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2258'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
+    source_symbols.upsert_source_slice(GODOT, 'N2296', dict(status='done', java_source=BURST_DRILL, java_class='mindustry.world.blocks.production.BurstDrill.BurstDrillBuild', java_method='BurstDrillBuild.updateTile()', godot_owner=LIQUID_ROWS_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2296'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
 
     source_symbols.upsert_source_symbols(GODOT, symbols)
     source_symbols.write_source_symbol_audit_report(GODOT)

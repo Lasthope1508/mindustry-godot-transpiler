@@ -376,7 +376,7 @@ N2239–N2247 của line Windows)
     Scene tới Windows theo slice commit `b68749c`. Chưa chạy trên Windows Godot.
   - [ ] N2295 `C07BurstDrillShouldConsumeProof` — Linux GREEN ~14:5x (9 key).
     Scene tới Windows theo slice commit `fb21582`. Chưa chạy trên Windows Godot.
-  - [ ] N2258 `C07BurstDrillLiquidRowsProof` — Linux GREEN ~14:5x (12 key).
+  - [ ] N2296 `C07BurstDrillLiquidRowsProof` — Linux GREEN ~14:5x (12 key).
     Scene tới Windows theo slice commit `ae71e71`. Chưa chạy trên Windows Godot.
   - [ ] N2259 `C07GameHeadlessProof` — Linux GREEN ~15:5x (6 key).
     Scene tới Windows theo slice commit `f84c402`. Chưa chạy trên Windows Godot.
