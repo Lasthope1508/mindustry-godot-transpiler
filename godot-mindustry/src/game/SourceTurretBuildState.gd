@@ -530,6 +530,60 @@ static func source_turret_heat_req_state(heat_requirement: float, heat_total: fl
 		heat_req = heat_total
 	return {"heat_req": heat_req, "side_heat": side_heat}
 
+static func source_turret_control_state(control_type: String, p1: float, p2: float, p3: float, unit_is_player: bool, unit_is_null: bool, logic_control_time: float, logic_shooting: bool, target_pos: Dictionary, target_is_posc: bool, tilesize: float) -> Dictionary:
+	# TurretBuild.control() (Turret.java:381-402) arms the logic-control
+	# timer from a logic shoot / shootp instruction, outside updateTile():
+	# `if(type == LAccess.shoot && !unit.isPlayer()){`
+	# `targetPos.set(World.unconv((float)p1), World.unconv((float)p2));`
+	# `logicControlTime = logicControlCooldown;`
+	# `logicShooting = !Mathf.zero(p3);`
+	# (Turret.java:382-386) and
+	# `if(type == LAccess.shootp && (unit == null || !unit.isPlayer())){`
+	# `logicControlTime = logicControlCooldown;`
+	# `logicShooting = !Mathf.zero(p2);`
+	# `if(p1 instanceof Posc pos){`
+	# `targetPosition(pos);`
+	# (Turret.java:393-400). The cooldown is
+	# `public final static float logicControlCooldown = 60 * 2;`
+	# (Turret.java:38 -- 120 ticks of logic control), the timer field is
+	# `public float curRecoil, heat, logicControlTime = -1;`
+	# (Turret.java:284), the flag field is
+	# `public boolean logicShooting = false;` (Turret.java:287) and the
+	# target field is `public Vec2 targetPos = new Vec2();`
+	# (Turret.java:289). World.unconv is
+	# `public static float unconv(float coord){`
+	# `return coord * tilesize;` (World.java:170-172) with
+	# `public static final int tilesize = 8;` (Vars.java:135), so a shoot
+	# at tile (10, 20) aims at world (80, 160). Mathf.zero is
+	# `public static boolean zero(float value){`
+	# `return Math.abs(value) <= FLOAT_ROUNDING_ERROR;`
+	# (arc Mathf.java:522-524) with
+	# `public static final float FLOAT_ROUNDING_ERROR = 0.000001f; // 32 bits`
+	# (Mathf.java:10). The shoot overload reads p1/p2 as the tile coords
+	# and p3 as the shoot flag; the shootp overload reads p2 as the shoot
+	# flag and p1 as the Posc object (so the caller passes 0.0 for p1
+	# and the Posc-ness via target_is_posc). targetPosition(pos)
+	# (`public void targetPosition(Posc pos){`, Turret.java:453, with
+	# `if(!hasAmmo() || pos == null) return;`, :454) needs hasAmmo /
+	# peekAmmo plus Predict.intercept, so the shootp arm only reports
+	# target_position_deferred and leaves targetPos untouched. This is
+	# an EVENT, not a per-tick step: control() is called by the logic
+	# executor, and no logic executor exists in the driver yet, so
+	# there is no driver tick (the N2248 precedent). The result is a
+	# 4-key dict: `logic_control_time`, `logic_shooting`, `target_pos`
+	# and `target_position_deferred`.
+	var target_position_deferred := false
+	if control_type == "shoot" and not unit_is_player:
+		target_pos = {"x": p1 * tilesize, "y": p2 * tilesize}
+		logic_control_time = 120.0
+		logic_shooting = absf(p3) > 0.000001
+	elif control_type == "shootp" and (unit_is_null or not unit_is_player):
+		logic_control_time = 120.0
+		logic_shooting = absf(p2) > 0.000001
+		if target_is_posc:
+			target_position_deferred = true
+	return {"logic_control_time": logic_control_time, "logic_shooting": logic_shooting, "target_pos": target_pos, "target_position_deferred": target_position_deferred}
+
 @warning_ignore("unused_parameter")
 static func source_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the turret tick wiring every tick

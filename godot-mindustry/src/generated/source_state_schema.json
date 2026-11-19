@@ -236992,6 +236992,174 @@
       },
       "runtime_proof": "/root/C07TurretHeatReqProof",
       "rule": "Source-backed Turret heatReq fold from Turret.java."
+    },
+    "source_turret_control_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_control_state",
+      "source_slice": "N2264",
+      "keys": {
+        "control_type": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/logic/LAccess.java",
+          "java_expr": "shoot(\"x\", \"y\", \"shoot\"),",
+          "rule": "The logic access type of the control call (LAccess.java:81-82: shoot takes (\"x\", \"y\", \"shoot\"), shootp takes (\"unit\", \"shoot\") as an object access); \"shoot\" selects the double overload, \"shootp\" the Object overload, any other type changes nothing.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_control_state"
+          ]
+        },
+        "p1": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "targetPos.set(World.unconv((float)p1), World.unconv((float)p2));",
+          "rule": "The first numeric param (Turret.java:383: the shoot x tile coord, unconv'd to world coords; for shootp this param is the Posc object, so the caller passes 0.0 and the Posc-ness arrives via target_is_posc).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_control_state"
+          ]
+        },
+        "p2": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "logicShooting = !Mathf.zero(p2);",
+          "rule": "The second numeric param (Turret.java:396: the shootp shoot flag; for shoot this param is the y tile coord, read at :383).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_control_state"
+          ]
+        },
+        "p3": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "logicShooting = !Mathf.zero(p3);",
+          "rule": "The third numeric param (Turret.java:385: the shoot shoot flag; unused by the shootp overload).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_control_state"
+          ]
+        },
+        "unit_is_player": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "if(type == LAccess.shoot && !unit.isPlayer()){",
+          "rule": "Whether the turret unit is player-controlled (Turret.java:382: the shoot guard requires !unit.isPlayer(); :393: shootp requires unit == null || !unit.isPlayer()).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_control_state"
+          ]
+        },
+        "unit_is_null": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "if(type == LAccess.shootp && (unit == null || !unit.isPlayer())){",
+          "rule": "Whether the turret unit is null (Turret.java:393: shootp arms when unit == null || !unit.isPlayer(); the shoot overload never sees a null unit -- the field is initialized at declaration, :290).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_control_state"
+          ]
+        },
+        "logic_control_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "logicControlTime = logicControlCooldown;",
+          "rule": "The logic-control timer before this control call (Turret.java:284, the field default is -1 -- never logic-controlled; the N2261 decay tick reads the armed value).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_control_state"
+          ]
+        },
+        "logic_shooting": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public boolean logicShooting = false;",
+          "rule": "The logic-shooting flag before this control call (Turret.java:287, the field default is false).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_control_state"
+          ]
+        },
+        "target_pos": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public Vec2 targetPos = new Vec2();",
+          "rule": "The target position before this control call (Turret.java:289, the field default is (0, 0) in world coords).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_control_state"
+          ]
+        },
+        "target_is_posc": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "if(p1 instanceof Posc pos){",
+          "rule": "Whether the shootp Object arg is a Posc (Turret.java:397: only then does Java call targetPosition(pos); the call itself is deferred, so this only drives the target_position_deferred flag).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_control_state"
+          ]
+        },
+        "tilesize": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/Vars.java",
+          "java_expr": "public static final int tilesize = 8;",
+          "rule": "The world-units-per-tile factor (Vars.java:135; World.unconv multiplies by it, World.java:170-172; the driver passes 8.0).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_control_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretControlProof",
+      "rule": "Source-backed Turret control() setters from Turret.java."
+    },
+    "source_turret_control_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_control_state",
+      "source_slice": "N2264",
+      "keys": {
+        "logic_control_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "logicControlTime = logicControlCooldown;",
+          "rule": "The logic-control timer after this control call (Turret.java:384/:394 -- 120.0 when a shoot/shootp arm fires, unchanged otherwise; the N2261 decay tick then reads it).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_control_state"
+          ]
+        },
+        "logic_shooting": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "logicShooting = !Mathf.zero(p3);",
+          "rule": "The logic-shooting flag after this control call (Turret.java:385 -- !zero(p3) for shoot, :396 -- !zero(p2) for shootp; unchanged when no arm fires).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_control_state"
+          ]
+        },
+        "target_pos": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "targetPos.set(World.unconv((float)p1), World.unconv((float)p2));",
+          "rule": "The target position after this control call (Turret.java:383 -- shoot sets (p1 * tilesize, p2 * tilesize); shootp leaves it unchanged because targetPosition(pos) is deferred).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_control_state"
+          ]
+        },
+        "target_position_deferred": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "targetPosition(pos);",
+          "rule": "Whether Java would call targetPosition(pos) here (Turret.java:398 -- true only for shootp with a Posc arg; the call needs hasAmmo / peekAmmo plus Predict.intercept, :453-471, so it waits for its own slice).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_control_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretControlProof",
+      "rule": "Source-backed Turret control() setters from Turret.java."
     }
   },
   "version": 1

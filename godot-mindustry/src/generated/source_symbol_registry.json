@@ -176840,6 +176840,70 @@
         "test_reference_graph_and_actual_c07_turret_heat_req"
       ],
       "runtime_proof": "/root/C07TurretHeatReqProof"
+    },
+    "source_turret_control_state_result.logic_control_time": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_control_state",
+      "godot_symbol": "source_turret_control_state_result.logic_control_time",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.control()",
+      "java_expr": "logicControlTime = logicControlCooldown;",
+      "rule": "The logic-control timer after this control call (Turret.java:384/:394 -- 120.0 when a shoot/shootp arm fires, unchanged otherwise; the N2261 decay tick then reads it).",
+      "tests": [
+        "test_c07_turret_control_registration",
+        "test_all_c07_turret_control_input_evidence_is_exact",
+        "test_turret_control_state",
+        "test_reference_graph_and_actual_c07_turret_control"
+      ],
+      "runtime_proof": "/root/C07TurretControlProof"
+    },
+    "source_turret_control_state_result.logic_shooting": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_control_state",
+      "godot_symbol": "source_turret_control_state_result.logic_shooting",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.control()",
+      "java_expr": "logicShooting = !Mathf.zero(p3);",
+      "rule": "The logic-shooting flag after this control call (Turret.java:385 -- !zero(p3) for shoot, :396 -- !zero(p2) for shootp; unchanged when no arm fires).",
+      "tests": [
+        "test_c07_turret_control_registration",
+        "test_all_c07_turret_control_input_evidence_is_exact",
+        "test_turret_control_state",
+        "test_reference_graph_and_actual_c07_turret_control"
+      ],
+      "runtime_proof": "/root/C07TurretControlProof"
+    },
+    "source_turret_control_state_result.target_pos": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_control_state",
+      "godot_symbol": "source_turret_control_state_result.target_pos",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.control()",
+      "java_expr": "targetPos.set(World.unconv((float)p1), World.unconv((float)p2));",
+      "rule": "The target position after this control call (Turret.java:383 -- shoot sets (p1 * tilesize, p2 * tilesize); shootp leaves it unchanged because targetPosition(pos) is deferred).",
+      "tests": [
+        "test_c07_turret_control_registration",
+        "test_all_c07_turret_control_input_evidence_is_exact",
+        "test_turret_control_state",
+        "test_reference_graph_and_actual_c07_turret_control"
+      ],
+      "runtime_proof": "/root/C07TurretControlProof"
+    },
+    "source_turret_control_state_result.target_position_deferred": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_control_state",
+      "godot_symbol": "source_turret_control_state_result.target_position_deferred",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.control()",
+      "java_expr": "targetPosition(pos);",
+      "rule": "Whether Java would call targetPosition(pos) here (Turret.java:398 -- true only for shootp with a Posc arg; the call needs hasAmmo / peekAmmo plus Predict.intercept, :453-471, so it waits for its own slice).",
+      "tests": [
+        "test_c07_turret_control_registration",
+        "test_all_c07_turret_control_input_evidence_is_exact",
+        "test_turret_control_state",
+        "test_reference_graph_and_actual_c07_turret_control"
+      ],
+      "runtime_proof": "/root/C07TurretControlProof"
     }
   },
   "version": 1
