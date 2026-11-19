@@ -176616,6 +176616,22 @@
         "test_reference_graph_and_actual_c07_turret_shoot_stamp"
       ],
       "runtime_proof": "/root/C07TurretShootStampProof"
+    },
+    "source_turret_multi_recoil_state_result.cur_recoils": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_multi_recoil_state",
+      "godot_symbol": "source_turret_multi_recoil_state_result.cur_recoils",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "curRecoils[i] = Mathf.approachDelta(curRecoils[i], 0, 1 / recoilTime);",
+      "rule": "The per-barrel counters after this tick (Turret.java:524 -- each entry moved toward 0 by delta / recoilTime, never past 0; a NEW array of length recoils, the input never mutated).",
+      "tests": [
+        "test_c07_turret_multi_recoil_registration",
+        "test_all_c07_turret_multi_recoil_input_evidence_is_exact",
+        "test_turret_multi_recoil_state",
+        "test_reference_graph_and_actual_c07_turret_multi_recoil"
+      ],
+      "runtime_proof": "/root/C07TurretMultiRecoilProof"
     }
   },
   "version": 1

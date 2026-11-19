@@ -236392,6 +236392,74 @@
       },
       "runtime_proof": "/root/C07TurretShootStampProof",
       "rule": "Source-backed Turret shoot stamp from Turret.java."
+    },
+    "source_turret_multi_recoil_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_multi_recoil_state",
+      "source_slice": "N2256",
+      "keys": {
+        "cur_recoils": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public @Nullable float[] curRecoils;",
+          "rule": "The per-barrel recoil counters 0..1 (Turret.java:285, the curRecoils field, null until the first updateTile tick allocates it; the driver reads it from frame[\"cur_recoils\"], default [] -- no cur_recoils key existed before this slice -- and missing entries read as 0.0).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_multi_recoil_state"
+          ]
+        },
+        "recoils": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public int recoils = -1;",
+          "rule": "The number of per-barrel counters (Turret.java:142, the class default -1; duo overrides it with `recoils = 2;`, Blocks.java:3301, so the driver passes 2).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_multi_recoil_state"
+          ]
+        },
+        "recoil_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "if(recoilTime < 0f) recoilTime = reload;",
+          "rule": "The recoil time in ticks (Turret.java:208, init -- recoilTime < 0 falls back to reload; duo reload is 20, N2250, so the driver passes 20.0).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_multi_recoil_state"
+          ]
+        },
+        "delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "curRecoil = Mathf.approachDelta(curRecoil, 0, 1 / recoilTime);",
+          "rule": "The scaled tick delta in seconds (Turret.java:519, approachDelta -- Time.delta; the driver passes seconds, the same convention as the N2254 recoil/heat decay).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_multi_recoil_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretMultiRecoilProof",
+      "rule": "Source-backed Turret multi-recoil decay from Turret.java."
+    },
+    "source_turret_multi_recoil_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_multi_recoil_state",
+      "source_slice": "N2256",
+      "keys": {
+        "cur_recoils": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "curRecoils[i] = Mathf.approachDelta(curRecoils[i], 0, 1 / recoilTime);",
+          "rule": "The per-barrel counters after this tick (Turret.java:524 -- each entry moved toward 0 by delta / recoilTime, never past 0; a NEW array of length recoils, the input never mutated).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_multi_recoil_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretMultiRecoilProof",
+      "rule": "Source-backed Turret multi-recoil decay from Turret.java."
     }
   },
   "version": 1

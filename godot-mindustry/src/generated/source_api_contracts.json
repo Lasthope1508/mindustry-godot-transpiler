@@ -69082,6 +69082,46 @@
       ],
       "runtime_proof": "/root/C07TurretShootStampProof",
       "rule": "Source-backed Turret shoot stamp from Turret.java."
+    },
+    "SourceTurretBuildState.source_turret_multi_recoil_state": {
+      "status": "active",
+      "source_slice": "N2256",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.updateTile()",
+      "params": [
+        {
+          "name": "cur_recoils",
+          "type": "Array",
+          "schema": "source_turret_multi_recoil_state_input.cur_recoils"
+        },
+        {
+          "name": "recoils",
+          "type": "int",
+          "schema": "source_turret_multi_recoil_state_input.recoils"
+        },
+        {
+          "name": "recoil_time",
+          "type": "float",
+          "schema": "source_turret_multi_recoil_state_input.recoil_time"
+        },
+        {
+          "name": "delta",
+          "type": "float",
+          "schema": "source_turret_multi_recoil_state_input.delta"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "cur_recoils"
+      ],
+      "tests": [
+        "test_c07_turret_multi_recoil_registration",
+        "test_all_c07_turret_multi_recoil_input_evidence_is_exact",
+        "test_turret_multi_recoil_state",
+        "test_reference_graph_and_actual_c07_turret_multi_recoil"
+      ],
+      "runtime_proof": "/root/C07TurretMultiRecoilProof",
+      "rule": "Source-backed Turret multi-recoil decay from Turret.java."
     }
   },
   "policy": {

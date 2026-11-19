@@ -240,8 +240,9 @@ static func source_turret_recoil_heat_state(cur_recoil: float, heat: float, reco
 	# The fields are `public float curRecoil, heat, logicControlTime = -1;` (:284).
 	# The multi-recoil loop (`if(recoils > 0){` / `if(curRecoils == null) curRecoils = new float[recoils];` /
 	# `for(int i = 0; i < recoils; i++){` / `curRecoils[i] = Mathf.approachDelta(curRecoils[i], 0, 1 / recoilTime);` / `}`,
-	# :520-525) is NOT this slice: duo recoils is -1, so the loop is skipped, and a
-	# def with recoils > 0 waits for its own slice. The shoot stamp (`curRecoil = 1f;` /
+	# :520-525) is NOT this slice: it waits for its own slice (N2256) -- duo recoils is 2
+	# (`recoils = 2;`, Blocks.java:3301), not the -1 class default, so the loop applies
+	# to duo. The shoot stamp (`curRecoil = 1f;` /
 	# `heat = 1f;`, :807-810) and the draw offset
 	# (`recoilOffset.trns(rotation, -Mathf.pow(curRecoil, recoilPow) * recoil);`, :532)
 	# are NOT this slice either: the shoot stamp waits with the shoot-stamp slice
@@ -253,6 +254,34 @@ static func source_turret_recoil_heat_state(cur_recoil: float, heat: float, reco
 	heat = heat + clampf(0.0 - heat, -delta / cooldown_time, delta / cooldown_time)
 	return {"cur_recoil": cur_recoil, "heat": heat}
 
+static func source_turret_multi_recoil_state(cur_recoils: Array, recoils: int, recoil_time: float, delta: float) -> Dictionary:
+	# TurretBuild.updateTile() (Turret.java:490-532) decays the
+	# per-barrel recoil counters right after the singular recoil
+	# decay: `if(recoils > 0){` / `if(curRecoils == null) curRecoils = new float[recoils];` /
+	# `for(int i = 0; i < recoils; i++){` / `curRecoils[i] = Mathf.approachDelta(curRecoils[i], 0, 1 / recoilTime);` / `}`
+	# (Turret.java:520-525). The field is `public @Nullable float[] curRecoils;` (:285),
+	# null until the first updateTile tick allocates it, and the class default is
+	# `public int recoils = -1;` (:142) -- but duo overrides it: `recoils = 2;`
+	# (Blocks.java:3301, inside the duo block 3257-3330), so the loop DOES apply
+	# to duo: its two drawer barrel parts carry recoilIndex 0 / 1 (Blocks.java:3302-3311)
+	# and DrawTurret reads `tb.curRecoils[part.recoilIndex]` (DrawTurret.java:104/115),
+	# so without the decay the barrel recoil never falls back toward 0. The init is
+	# `if(recoilTime < 0f) recoilTime = reload;` (:208 -- duo reload is 20, N2250, so
+	# recoilTime is 20 and each entry steps toward 0 by delta / 20, never past 0,
+	# the same approachDelta as the singular decay (`curRecoil = Mathf.approachDelta(curRecoil, 0, 1 / recoilTime);`,
+	# :519; arc Mathf.java:415-422). The result is a 1-key dict: `cur_recoils`, a NEW
+	# array of length recoils (missing entries read as 0.0, so a null / absent frame
+	# key inits to zeros) -- the input array is never mutated. Delta is the
+	# live-loop seconds value, the same convention as the N2254 recoil/heat decay.
+	var decayed: Array = []
+	if recoils > 0:
+		for i in range(recoils):
+			var value: float = 0.0
+			if i < cur_recoils.size():
+				value = float(cur_recoils[i])
+			decayed.append(value + clampf(0.0 - value, -delta / recoil_time, delta / recoil_time))
+	return {"cur_recoils": decayed}
+
 @warning_ignore("unused_parameter")
 static func source_turret_shoot_stamp_state(cur_recoil: float, heat: float, total_shots: int) -> Dictionary:
 	# TurretBuild.bullet() (Turret.java:779-812) stamps the recoil
@@ -263,9 +292,10 @@ static func source_turret_shoot_stamp_state(cur_recoil: float, heat: float, tota
 	# `public int totalShots, barrelCounter;` (:287), both default 0.
 	# The multi-recoil stamp (`if(recoils > 0){` /
 	# `curRecoils[barrelCounter % recoils] = 1f;` / `}`, :807-809) is
-	# NOT this slice: duo recoils is -1 (`public int recoils = -1;`,
-	# :142), so the branch is skipped, and a def with recoils > 0
-	# waits for its own slice. The effects / sound / shake lines
+	# NOT this slice: it waits for its own slice (N2257) -- duo
+	# recoils is 2 (`recoils = 2;`, Blocks.java:3301), not the -1
+	# class default (`public int recoils = -1;`, :142), so the
+	# branch applies to duo. The effects / sound / shake lines
 	# (:799-805) are NOT this slice either. The result is a 3-key
 	# dict: `cur_recoil` 1.0, `heat` 1.0 and `total_shots` (the
 	# pre-shot count + 1). The inputs are the pre-shot frame values,
@@ -452,6 +482,14 @@ static func source_turret_tick_buildings_state(game: Object, seconds: float) -> 
 			var recoil_heat: Dictionary = source_turret_recoil_heat_state(float(frame.get("cur_recoil", 0.0)), float(frame.get("heat", 0.0)), 20.0, 20.0, seconds)
 			frame["cur_recoil"] = recoil_heat.get("cur_recoil", 0.0)
 			frame["heat"] = recoil_heat.get("heat", 0.0)
+			# The multi-recoil decay (Turret.java:520-525, N2256)
+			# runs right after the singular recoil/heat decay:
+			# Java order :519 then :520-525. Duo recoils is 2
+			# (Blocks.java:3301, not the -1 class default at
+			# Turret.java:142), recoilTime is reload 20
+			# (Turret.java:208), so the driver passes 2 / 20.0.
+			var multi_recoil: Dictionary = source_turret_multi_recoil_state(frame.get("cur_recoils", []), 2, 20.0, seconds)
+			frame["cur_recoils"] = multi_recoil.get("cur_recoils", [])
 			var aim: Dictionary = source_item_turret_build_state.source_item_turret_aim_shoot_state(frame, frame.get("target", null),
 				bool(validate.get("valid", false)), team_id, sprite.position.x, sprite.position.y, seconds,
 				float(frame.get("potential_efficiency", 1.0)), float(frame.get("shoot_warmup", 0.0)), bool(frame.get("charging", false)),
