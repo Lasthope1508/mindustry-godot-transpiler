@@ -1,0 +1,237 @@
+[
+  {
+    "branch": "origin/integration/wave-advances-1-n2219-n2223",
+    "sha": "542b383e938c03e5865eacb74e3cd4814964ebed",
+    "contained": true
+  },
+  {
+    "branch": "origin/integration/wave-advances-10-n2302-n2308",
+    "sha": "18dcabf22b0a4e46c64c66dde07d453f89b0b2ee",
+    "contained": true
+  },
+  {
+    "branch": "origin/integration/wave-advances-11-n2309-n2315",
+    "sha": "0b18eff8c28034d83558d1d5238b7e831860114a",
+    "contained": true
+  },
+  {
+    "branch": "origin/integration/wave-advances-12-n2316-n2322",
+    "sha": "4349a660b7c2df9393607bd07bc4931991eabc59",
+    "contained": true
+  },
+  {
+    "branch": "origin/integration/wave-advances-13-n2323-n2329",
+    "sha": "f3f7af8ea991c1d2531f78f9da3015803b97c04c",
+    "contained": true
+  },
+  {
+    "branch": "origin/integration/wave-advances-14-n2330-n2336",
+    "sha": "2f298b3c4b1e6f52d631427eabdd9bc92e460fe9",
+    "contained": false
+  },
+  {
+    "branch": "origin/integration/wave-advances-15-n2337-n2343",
+    "sha": "4f31a09993f74a33976ee98ae51634fe1facfe5a",
+    "contained": true
+  },
+  {
+    "branch": "origin/integration/wave-advances-16-n2344-n2350",
+    "sha": "9282b27a74f44d4cf3059808c328aa0dca46d302",
+    "contained": true
+  },
+  {
+    "branch": "origin/integration/wave-advances-17-n2351-n2357",
+    "sha": "1843003e2eb9b625501af03363c94784f036dcf5",
+    "contained": true
+  },
+  {
+    "branch": "origin/integration/wave-advances-18-n2358-n2364",
+    "sha": "46b1b951bb5c8052248cc62d6da8ddc36321709c",
+    "contained": true
+  },
+  {
+    "branch": "origin/integration/wave-advances-19-n2368-n2374",
+    "sha": "7b99d3d63dbb9486156af5566eb2aedc93e300ae",
+    "contained": true
+  },
+  {
+    "branch": "origin/integration/wave-advances-2-n2224-n2228",
+    "sha": "ff82ab1d6ad0b252651304cf7c72a54407cee38e",
+    "contained": true
+  },
+  {
+    "branch": "origin/integration/wave-advances-20-n2377-n2383",
+    "sha": "d35c67781e015aa4eac62fdffcb5456fd29761a5",
+    "contained": true
+  },
+  {
+    "branch": "origin/integration/wave-advances-21-n2386-n2392",
+    "sha": "78a74e1529d7915dbd491540137a0573156bf59d",
+    "contained": true
+  },
+  {
+    "branch": "origin/integration/wave-advances-22-n2394-n2400",
+    "sha": "49af8435b64dcffa9b3a74bbbdbd326c840f36bc",
+    "contained": true
+  },
+  {
+    "branch": "origin/integration/wave-advances-23-n2402-n2408",
+    "sha": "bbcd71e88ba68b46cbc798134cf14c767cb5b13c",
+    "contained": false
+  },
+  {
+    "branch": "origin/integration/wave-advances-24-n2409-n2415",
+    "sha": "e4e57bca37bfbbfc052cd750491b797a6e06e86c",
+    "contained": true
+  },
+  {
+    "branch": "origin/integration/wave-advances-25-n2416-n2423",
+    "sha": "cc1fe2ed0e09341ad1e430cfcf2d288ddc0c4086",
+    "contained": true
+  },
+  {
+    "branch": "origin/integration/wave-advances-26-n2425-n2431",
+    "sha": "91ee0f1dc97fc7e10ae9157289ea00ea09c1f02d",
+    "contained": true
+  },
+  {
+    "branch": "origin/integration/wave-advances-27-n2433-n2439",
+    "sha": "682c75eb90380d623dd40a4c1bda9ea635e0b79a",
+    "contained": true
+  },
+  {
+    "branch": "origin/integration/wave-advances-28-n2440-n2446",
+    "sha": "27b5ced7f42dfbaa389ccaf035471ff2b50ad4e4",
+    "contained": true
+  },
+  {
+    "branch": "origin/integration/wave-advances-29-n2447-n2453",
+    "sha": "4e4dc1a7cf332c018c060e026f779f6234e796cf",
+    "contained": true
+  },
+  {
+    "branch": "origin/integration/wave-advances-3-n2229-n2234",
+    "sha": "706e1cd9546788e62e17620c57358604ccbd92dc",
+    "contained": true
+  },
+  {
+    "branch": "origin/integration/wave-advances-30-n2455-n2461",
+    "sha": "43a5c79ad473eefead37bbde49c805d35daddab7",
+    "contained": true
+  },
+  {
+    "branch": "origin/integration/wave-advances-31-n2462-n2468",
+    "sha": "99a167e15d03f065f01eec63d264eed49ca71d6c",
+    "contained": true
+  },
+  {
+    "branch": "origin/integration/wave-advances-32-n2469-n2475",
+    "sha": "08b82290966842a2d506e197de8c452975e38ce5",
+    "contained": true
+  },
+  {
+    "branch": "origin/integration/wave-advances-33-n2476-n2482",
+    "sha": "ad308cf7e8a6200a077a6fa53ae2b5779d674cec",
+    "contained": true
+  },
+  {
+    "branch": "origin/integration/wave-advances-34-n2484-n2490",
+    "sha": "67e525a681f60a62ae008f81c0aa9dbf9ac324ab",
+    "contained": true
+  },
+  {
+    "branch": "origin/integration/wave-advances-35-n2492-n2498",
+    "sha": "3f84571c1f4d9e36e3d46eaccf2c36a9115e9a22",
+    "contained": true
+  },
+  {
+    "branch": "origin/integration/wave-advances-36-n2499-n2505",
+    "sha": "e64d277ce2c59cda828c49a820e7878fda6cb406",
+    "contained": true
+  },
+  {
+    "branch": "origin/integration/wave-advances-4-n2235-n2241",
+    "sha": "8a2c302e1c1ccb5048b649e9c4aa197a1abe9513",
+    "contained": true
+  },
+  {
+    "branch": "origin/integration/wave-advances-5-n2242-n2248",
+    "sha": "c2d27fb06ae15d41167cdd376b4b54c07afb0d7f",
+    "contained": true
+  },
+  {
+    "branch": "origin/integration/wave-advances-6-n2274-n2280",
+    "sha": "d6e4f9fdf68c97fa18217dcbec025dd6120b78a8",
+    "contained": true
+  },
+  {
+    "branch": "origin/integration/wave-advances-7-n2281-n2287",
+    "sha": "2fcdc55413cd072643ebc0c66d4177fdf31bb369",
+    "contained": true
+  },
+  {
+    "branch": "origin/integration/wave-advances-8-n2288-n2294",
+    "sha": "9ca87a725b024f20325a8230014591da7f6929aa",
+    "contained": true
+  },
+  {
+    "branch": "origin/integration/wave-advances-9-n2295-n2301",
+    "sha": "fa627acece6ca35cb37d7c92eca19dea90876638",
+    "contained": true
+  },
+  {
+    "branch": "origin/integration/wave-booster-items-n2260-n2264",
+    "sha": "e07aac8905b1ad174062e57be85de14ebfff9361",
+    "contained": true
+  },
+  {
+    "branch": "origin/integration/wave-dynamic-special-n2265-n2269",
+    "sha": "3bca666546cd7d6e0920167abf654f65c597d360",
+    "contained": true
+  },
+  {
+    "branch": "origin/integration/wave-items-n2200-n2204",
+    "sha": "22b410fba8f8fd20949a13f772709d61d047fde0",
+    "contained": true
+  },
+  {
+    "branch": "origin/integration/wave-liquids-n2205-n2207",
+    "sha": "0fb61ffcda4f0449d628ec1624319295237a7a9a",
+    "contained": true
+  },
+  {
+    "branch": "origin/integration/wave-payload-n2208-n2211",
+    "sha": "c3718d042964c479b6c06c708fe2d244ced1d479",
+    "contained": true
+  },
+  {
+    "branch": "origin/integration/wave-plans-n2215-n2216",
+    "sha": "7c791fac8726d905018b0219b4ce4ab1a4c0dbaf",
+    "contained": true
+  },
+  {
+    "branch": "origin/integration/wave-power-launch-build-n2270-n2273",
+    "sha": "253151ade8b5ecc3a758065018d416b76a558a80",
+    "contained": true
+  },
+  {
+    "branch": "origin/integration/wave-second-consumers-1-n2249-n2255",
+    "sha": "731858106a928d4677164ba742901320d0b18e94",
+    "contained": true
+  },
+  {
+    "branch": "origin/integration/wave-second-consumers-2-n2256-n2259",
+    "sha": "22164673ea6b6cd20ed7b0567e17ca2c2151d496",
+    "contained": true
+  },
+  {
+    "branch": "origin/integration/wave-targets-n2212-n2214",
+    "sha": "599b75731edafeb5b11374f423335518266baa4b",
+    "contained": true
+  },
+  {
+    "branch": "origin/integration/wave-turrets-n2217-n2218",
+    "sha": "2b6e6a3373b35718898a3d46f3c25faaae14172a",
+    "contained": true
+  }
+]

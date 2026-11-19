@@ -1,0 +1,506 @@
+[
+  {
+    "slice": "N2443",
+    "scene": "C07LightBlockConfigColorRowsProof",
+    "modules": [
+      "test_c07_light_block_config_color_rows"
+    ],
+    "validated_sha": "e64d277ce2c59cda828c49a820e7878fda6cb406",
+    "implementation_sha": "e64d277ce2c59cda828c49a820e7878fda6cb406",
+    "windows_native_pass": false,
+    "targeted_tests_total": 4,
+    "targeted_exit": 1,
+    "targeted_seconds": 21.234,
+    "native_keys_total": 9,
+    "false_keys": [
+      "control_bits",
+      "matches",
+      "sense_color_double_bits"
+    ],
+    "warning_count": 120,
+    "runtime_errors": [],
+    "source_blobs": {
+      "godot-mindustry/tools/runtime_proofs/C07LightBlockConfigColorRowsProof.gd": "b125e054f8e508d2be02455bc3ff9c1b1ea87b11",
+      "godot-mindustry/src/game/SourceLightBlockBuildState.gd": "df884e4d7dc5f066dbb62a6d5d0346b8182331de",
+      "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd": "6c7c991e37e0beedc13c5d7822395d2a45504db2"
+    },
+    "timestamp": "2026-11-19T16:06:05.857896+00:00",
+    "status": "RED retained; implementation/fixture root cause requires review",
+    "diagnosis": "Pure control_bits and sense_color_double_bits fail on actual Windows Godot. Double-bit/denormal encode/decode path requires source/platform review.",
+    "report": "docs/superpowers/reports/2026-11-20-all-godot-debt-validation.md"
+  },
+  {
+    "slice": "N2222",
+    "scene": "C07SeparatorUpdateTileProof",
+    "modules": [
+      "test_c07_separator_update_tile"
+    ],
+    "validated_sha": "e64d277ce2c59cda828c49a820e7878fda6cb406",
+    "implementation_sha": "e64d277ce2c59cda828c49a820e7878fda6cb406",
+    "windows_native_pass": false,
+    "targeted_tests_total": 4,
+    "targeted_exit": 1,
+    "targeted_seconds": 21.328,
+    "native_keys_total": 9,
+    "false_keys": [
+      "craft_completes_at_progress_one",
+      "live_tick_advances_progress_and_warmup",
+      "matches",
+      "offload_picks_weighted_result"
+    ],
+    "warning_count": 120,
+    "runtime_errors": [],
+    "source_blobs": {
+      "godot-mindustry/tools/runtime_proofs/C07SeparatorUpdateTileProof.gd": "afb2cf71642f8bd8c734649bb0517e4caada2d92",
+      "godot-mindustry/src/game/SourceSeparatorBuildState.gd": "2794bdffb8f0f748bafb115ce5e0c2c7f5f50e4c",
+      "godot-mindustry/src/game/SourceLiquidModuleState.gd": "1bd9081822e7c9f0c83a96438c72ddc1dfb5e4d8",
+      "godot-mindustry/src/game/SourceContentRegistryRuntimeState.gd": "3a9d39e86d627edbdc22d68e2aa0d8c2d1811c67",
+      "godot-mindustry/src/game/SourcePlacedBlockState.gd": "086fd60abe43dcca0ed5348af54cd474d699e178",
+      "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd": "6c7c991e37e0beedc13c5d7822395d2a45504db2"
+    },
+    "timestamp": "2026-11-19T17:24:25.024707+00:00",
+    "status": "RED retained; implementation/fixture root cause requires review",
+    "diagnosis": "Pure weighted-result and craft assertions fail as well as live advance. Live-only fixture changes cannot establish a complete pass.",
+    "report": "docs/superpowers/reports/2026-11-20-all-godot-debt-validation.md"
+  },
+  {
+    "slice": "N2343",
+    "scene": "C07SeparatorOffloadRoutingProof",
+    "modules": [
+      "test_c07_separator_offload_routing"
+    ],
+    "validated_sha": "e64d277ce2c59cda828c49a820e7878fda6cb406",
+    "implementation_sha": "e64d277ce2c59cda828c49a820e7878fda6cb406",
+    "windows_native_pass": false,
+    "targeted_tests_total": 4,
+    "targeted_exit": 1,
+    "targeted_seconds": 22.156,
+    "native_keys_total": 9,
+    "false_keys": [
+      "matches",
+      "offload_falls_back_without_accepting_neighbor",
+      "offload_respects_item_capacity",
+      "offload_routes_to_accepting_neighbor"
+    ],
+    "warning_count": 120,
+    "runtime_errors": [],
+    "source_blobs": {
+      "godot-mindustry/tools/runtime_proofs/C07SeparatorOffloadRoutingProof.gd": "11d05947eb8f1c6d8e6aeec65661cb4e0c3358af",
+      "godot-mindustry/src/game/SourceSeparatorBuildState.gd": "2794bdffb8f0f748bafb115ce5e0c2c7f5f50e4c",
+      "godot-mindustry/src/game/SourceLiquidModuleState.gd": "1bd9081822e7c9f0c83a96438c72ddc1dfb5e4d8",
+      "godot-mindustry/src/game/SourceContentRegistryRuntimeState.gd": "3a9d39e86d627edbdc22d68e2aa0d8c2d1811c67",
+      "godot-mindustry/src/game/SourcePlacedBlockState.gd": "086fd60abe43dcca0ed5348af54cd474d699e178",
+      "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd": "6c7c991e37e0beedc13c5d7822395d2a45504db2"
+    },
+    "timestamp": "2026-11-19T18:54:10.819861+00:00",
+    "status": "RED retained; implementation/fixture root cause requires review",
+    "diagnosis": "Pure weighted offload/routing/capacity assertions fail. No assertions were changed.",
+    "report": "docs/superpowers/reports/2026-11-20-all-godot-debt-validation.md"
+  },
+  {
+    "slice": "N2353",
+    "scene": "C07SeparatorNeighbourWriteBackProof",
+    "modules": [
+      "test_c07_separator_neighbour_write_back"
+    ],
+    "validated_sha": "e64d277ce2c59cda828c49a820e7878fda6cb406",
+    "implementation_sha": "e64d277ce2c59cda828c49a820e7878fda6cb406",
+    "windows_native_pass": false,
+    "targeted_tests_total": 4,
+    "targeted_exit": 1,
+    "targeted_seconds": 21.141,
+    "native_keys_total": 10,
+    "false_keys": [
+      "advance_exposes_routed_neighbour_index",
+      "live_tick_writes_offloaded_item_to_neighbour_frame",
+      "matches"
+    ],
+    "warning_count": 120,
+    "runtime_errors": [],
+    "source_blobs": {
+      "godot-mindustry/tools/runtime_proofs/C07SeparatorNeighbourWriteBackProof.gd": "dfd132583ee65d4a6284eeef814d688d09768dc9",
+      "godot-mindustry/src/game/SourceSeparatorBuildState.gd": "2794bdffb8f0f748bafb115ce5e0c2c7f5f50e4c",
+      "godot-mindustry/src/game/SourceBuildingItemState.gd": "afa3978a1a869458ea2ac34f059fb019b1b97be2",
+      "godot-mindustry/src/game/SourceBlockGeometry.gd": "a280b7dfc952aecbcfe455d95cb878dc494c0385",
+      "godot-mindustry/src/game/SourceLiquidModuleState.gd": "1bd9081822e7c9f0c83a96438c72ddc1dfb5e4d8",
+      "godot-mindustry/src/game/SourceContentRegistryRuntimeState.gd": "3a9d39e86d627edbdc22d68e2aa0d8c2d1811c67",
+      "godot-mindustry/src/game/SourcePlacedBlockState.gd": "086fd60abe43dcca0ed5348af54cd474d699e178",
+      "godot-mindustry/src/game/SourceConveyorRuntimeState.gd": "383c9f8a2f7852ff318fee447535bff38997b40c",
+      "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd": "6c7c991e37e0beedc13c5d7822395d2a45504db2"
+    },
+    "timestamp": "2026-11-19T18:54:58.552676+00:00",
+    "status": "RED retained; implementation/fixture root cause requires review",
+    "diagnosis": "Pure advance routed-index assertion and live write-back fail. No implementation edits authorized.",
+    "report": "docs/superpowers/reports/2026-11-20-all-godot-debt-validation.md"
+  },
+  {
+    "slice": "N2283",
+    "scene": "C07WallCrafterTimerDumpProof",
+    "modules": [
+      "test_c07_wall_crafter_timer_dump"
+    ],
+    "validated_sha": "e64d277ce2c59cda828c49a820e7878fda6cb406",
+    "implementation_sha": "e64d277ce2c59cda828c49a820e7878fda6cb406",
+    "windows_native_pass": false,
+    "targeted_tests_total": 4,
+    "targeted_exit": 1,
+    "targeted_seconds": 21.844,
+    "native_keys_total": 9,
+    "false_keys": [
+      "live_tick_dumps_output",
+      "matches",
+      "timer_fires_at_five_ticks"
+    ],
+    "warning_count": 120,
+    "runtime_errors": [],
+    "source_blobs": {
+      "godot-mindustry/tools/runtime_proofs/C07WallCrafterTimerDumpProof.gd": "f345d248026b11e4b5f745dd98ca8d39814bc86c",
+      "godot-mindustry/src/game/SourceWallCrafterBuildState.gd": "70f83e0e4c1beab390411a29dfef1e401386484a",
+      "godot-mindustry/src/game/SourceContentRegistryRuntimeState.gd": "3a9d39e86d627edbdc22d68e2aa0d8c2d1811c67",
+      "godot-mindustry/src/game/SourcePlacedBlockState.gd": "086fd60abe43dcca0ed5348af54cd474d699e178",
+      "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd": "6c7c991e37e0beedc13c5d7822395d2a45504db2"
+    },
+    "timestamp": "2026-11-19T20:18:50.050831+00:00",
+    "status": "RED retained; implementation/fixture root cause requires review",
+    "diagnosis": "Pure timer assertion expects cursor 1 with a one-entry neighbour array; routing uses incrementDump modulo proximity length. Existing cursor assertion remains unchanged. Live timer also RED. Requires owner review of source versus intended proof, not a blind fixture padding or assertion change.",
+    "report": "docs/superpowers/reports/2026-11-20-all-godot-debt-validation.md"
+  },
+  {
+    "slice": "N2284",
+    "scene": "C07FrackerDumpLiquidProof",
+    "modules": [
+      "test_c07_fracker_dump_liquid"
+    ],
+    "validated_sha": "e64d277ce2c59cda828c49a820e7878fda6cb406",
+    "implementation_sha": "e64d277ce2c59cda828c49a820e7878fda6cb406",
+    "windows_native_pass": false,
+    "targeted_tests_total": 4,
+    "targeted_exit": 1,
+    "targeted_seconds": 23.516,
+    "native_keys_total": 9,
+    "false_keys": [
+      "dump_runs_in_both_branches",
+      "live_tick_dumps_liquid",
+      "matches"
+    ],
+    "warning_count": 120,
+    "runtime_errors": [],
+    "source_blobs": {
+      "godot-mindustry/tools/runtime_proofs/C07FrackerDumpLiquidProof.gd": "4c5c0b2d2d16c38b4d07164137244dc434f1324a",
+      "godot-mindustry/src/game/SourceFrackerBuildState.gd": "25a5e35a08d840b8c94a37b6e0119e349fb12af7",
+      "godot-mindustry/src/game/SourceLiquidModuleState.gd": "1bd9081822e7c9f0c83a96438c72ddc1dfb5e4d8",
+      "godot-mindustry/src/game/SourcePlacedBlockState.gd": "086fd60abe43dcca0ed5348af54cd474d699e178",
+      "godot-mindustry/src/game/SourceContentRegistryRuntimeState.gd": "3a9d39e86d627edbdc22d68e2aa0d8c2d1811c67",
+      "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd": "6c7c991e37e0beedc13c5d7822395d2a45504db2"
+    },
+    "timestamp": "2026-11-19T20:19:39.948192+00:00",
+    "status": "RED retained; implementation/fixture root cause requires review",
+    "diagnosis": "Live assertions expect cdump 1 for a one-entry supplied neighbour array, while shared liquid routing wraps the cursor. Required sand and water were already seeded. Explicit supplied-array provenance did not resolve RED; assertions unchanged.",
+    "report": "docs/superpowers/reports/2026-11-20-all-godot-debt-validation.md"
+  },
+  {
+    "slice": "N2360",
+    "scene": "C07BurstDrillTimerDumpWriteBackProof",
+    "modules": [
+      "test_c07_burst_drill_timer_dump_write_back"
+    ],
+    "validated_sha": "e64d277ce2c59cda828c49a820e7878fda6cb406",
+    "implementation_sha": "e64d277ce2c59cda828c49a820e7878fda6cb406",
+    "windows_native_pass": false,
+    "targeted_tests_total": 4,
+    "targeted_exit": 1,
+    "targeted_seconds": 21.954,
+    "native_keys_total": 6,
+    "false_keys": [
+      "live_tick_writes_dumped_item_to_neighbour_frame",
+      "matches"
+    ],
+    "warning_count": 120,
+    "runtime_errors": [],
+    "source_blobs": {
+      "godot-mindustry/tools/runtime_proofs/C07BurstDrillTimerDumpWriteBackProof.gd": "9083d28f6a4575eaf369c035caa49d81e8ff5109",
+      "godot-mindustry/src/game/SourceBurstDrillBuildState.gd": "02b6d0394dd01cf81044d770fb453c49042625c3",
+      "godot-mindustry/src/game/SourceBuildingItemState.gd": "afa3978a1a869458ea2ac34f059fb019b1b97be2",
+      "godot-mindustry/src/game/SourceSeparatorBuildState.gd": "2794bdffb8f0f748bafb115ce5e0c2c7f5f50e4c",
+      "godot-mindustry/src/game/SourceBlockGeometry.gd": "a280b7dfc952aecbcfe455d95cb878dc494c0385",
+      "godot-mindustry/src/game/SourceDrillConsumptionRuntimeState.gd": "196a82c8cc256f69b1d2e8522630f7c828f020d9",
+      "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd": "6c7c991e37e0beedc13c5d7822395d2a45504db2",
+      "godot-mindustry/src/game/SourceWorldTerrainRuntimeState.gd": "aca58b527806efa4aff3e0503099a2324479cebf"
+    },
+    "timestamp": "2026-11-19T20:27:20.264580+00:00",
+    "status": "RED retained; implementation/fixture root cause requires review",
+    "diagnosis": "Expanded world now supports both ore fixtures; bare/no-frame write-back passes, live recipient write-back remains RED after supplied-array provenance correction.",
+    "report": "docs/superpowers/reports/2026-11-20-all-godot-debt-validation.md"
+  },
+  {
+    "slice": "N2361",
+    "scene": "C07SeparatorTimerDumpWriteBackProof",
+    "modules": [
+      "test_c07_separator_timer_dump_write_back"
+    ],
+    "validated_sha": "e64d277ce2c59cda828c49a820e7878fda6cb406",
+    "implementation_sha": "e64d277ce2c59cda828c49a820e7878fda6cb406",
+    "windows_native_pass": false,
+    "targeted_tests_total": 4,
+    "targeted_exit": 1,
+    "targeted_seconds": 22.109,
+    "native_keys_total": 6,
+    "false_keys": [
+      "live_tick_writes_dumped_item_to_neighbour_frame",
+      "matches"
+    ],
+    "warning_count": 120,
+    "runtime_errors": [],
+    "source_blobs": {
+      "godot-mindustry/tools/runtime_proofs/C07SeparatorTimerDumpWriteBackProof.gd": "b0a82768f533ce433a3b888cb27ef6c329166f36",
+      "godot-mindustry/src/game/SourceSeparatorBuildState.gd": "2794bdffb8f0f748bafb115ce5e0c2c7f5f50e4c",
+      "godot-mindustry/src/game/SourceBlockGeometry.gd": "a280b7dfc952aecbcfe455d95cb878dc494c0385",
+      "godot-mindustry/src/game/SourceLiquidModuleState.gd": "1bd9081822e7c9f0c83a96438c72ddc1dfb5e4d8",
+      "godot-mindustry/src/game/SourceContentRegistryRuntimeState.gd": "3a9d39e86d627edbdc22d68e2aa0d8c2d1811c67",
+      "godot-mindustry/src/game/SourcePlacedBlockState.gd": "086fd60abe43dcca0ed5348af54cd474d699e178",
+      "godot-mindustry/src/game/SourceConveyorRuntimeState.gd": "383c9f8a2f7852ff318fee447535bff38997b40c",
+      "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd": "6c7c991e37e0beedc13c5d7822395d2a45504db2"
+    },
+    "timestamp": "2026-11-19T20:28:08.830633+00:00",
+    "status": "RED retained; implementation/fixture root cause requires review",
+    "diagnosis": "Native diagnostic: recipient has source_adjacent_factory_building before source_separator_building; source has copper 1 and cdump 3, separator recipient items remains empty. Shared SourceBuildingItemState iterates consumer frame keys and writes first matching frame, explaining divergent recipient observation. Requires runtime frame-dispatch review; removing a valid frame in the fixture would mask the problem.",
+    "report": "docs/superpowers/reports/2026-11-20-all-godot-debt-validation.md"
+  },
+  {
+    "slice": "N2363",
+    "scene": "C07BeamDrillTimerDumpWriteBackProof",
+    "modules": [
+      "test_c07_beam_drill_timer_dump_write_back"
+    ],
+    "validated_sha": "e64d277ce2c59cda828c49a820e7878fda6cb406",
+    "implementation_sha": "e64d277ce2c59cda828c49a820e7878fda6cb406",
+    "windows_native_pass": false,
+    "targeted_tests_total": 4,
+    "targeted_exit": 1,
+    "targeted_seconds": 21.953,
+    "native_keys_total": 6,
+    "false_keys": [
+      "live_tick_writes_dumped_item_to_neighbour_frame",
+      "matches"
+    ],
+    "warning_count": 120,
+    "runtime_errors": [],
+    "source_blobs": {
+      "godot-mindustry/tools/runtime_proofs/C07BeamDrillTimerDumpWriteBackProof.gd": "1df5e3218ae2478f901662670347ec96486959be",
+      "godot-mindustry/src/game/SourceBeamDrillBuildState.gd": "1e2bb3ca2badb298b1f2db4f0974bd0af6867ca3",
+      "godot-mindustry/src/game/SourceSeparatorBuildState.gd": "2794bdffb8f0f748bafb115ce5e0c2c7f5f50e4c",
+      "godot-mindustry/src/game/SourceBlockGeometry.gd": "a280b7dfc952aecbcfe455d95cb878dc494c0385",
+      "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd": "6c7c991e37e0beedc13c5d7822395d2a45504db2"
+    },
+    "timestamp": "2026-11-19T20:28:57.094385+00:00",
+    "status": "RED retained; implementation/fixture root cause requires review",
+    "diagnosis": "Native diagnostic: source has copper 4 and cdump 2 with expected efficiency/warmup/time; separator recipient remains empty and carries earlier adjacent_factory frame. Same first-frame dispatch conflict as Separator timer write-back.",
+    "report": "docs/superpowers/reports/2026-11-20-all-godot-debt-validation.md"
+  },
+  {
+    "slice": "N2371",
+    "scene": "C07LiquidNeighbourWriteBackProof",
+    "modules": [
+      "test_c07_liquid_neighbour_write_back"
+    ],
+    "validated_sha": "e64d277ce2c59cda828c49a820e7878fda6cb406",
+    "implementation_sha": "e64d277ce2c59cda828c49a820e7878fda6cb406",
+    "windows_native_pass": false,
+    "targeted_tests_total": 4,
+    "targeted_exit": 1,
+    "targeted_seconds": 22.016,
+    "native_keys_total": 10,
+    "false_keys": [
+      "live_tick_dumped_liquid_leaves_fracker_without_frame",
+      "live_tick_writes_dumped_liquid_to_neighbour_frame",
+      "matches"
+    ],
+    "warning_count": 120,
+    "runtime_errors": [],
+    "source_blobs": {
+      "godot-mindustry/tools/runtime_proofs/C07LiquidNeighbourWriteBackProof.gd": "128b6cec712e26e4d4b335b76538e2ce7c7bb494",
+      "godot-mindustry/src/game/SourceFrackerBuildState.gd": "25a5e35a08d840b8c94a37b6e0119e349fb12af7",
+      "godot-mindustry/src/game/SourceBuildingLiquidState.gd": "bfd1877f6a201c26dad570f78389c8153583fdcc",
+      "godot-mindustry/src/game/SourceSeparatorBuildState.gd": "2794bdffb8f0f748bafb115ce5e0c2c7f5f50e4c",
+      "godot-mindustry/src/game/SourceBlockGeometry.gd": "a280b7dfc952aecbcfe455d95cb878dc494c0385",
+      "godot-mindustry/src/game/SourceLiquidModuleState.gd": "1bd9081822e7c9f0c83a96438c72ddc1dfb5e4d8",
+      "godot-mindustry/src/game/SourcePlacedBlockState.gd": "086fd60abe43dcca0ed5348af54cd474d699e178",
+      "godot-mindustry/src/game/SourceContentRegistryRuntimeState.gd": "3a9d39e86d627edbdc22d68e2aa0d8c2d1811c67",
+      "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd": "6c7c991e37e0beedc13c5d7822395d2a45504db2"
+    },
+    "timestamp": "2026-11-19T20:29:45.559879+00:00",
+    "status": "RED retained; implementation/fixture root cause requires review",
+    "diagnosis": "Live assertions similarly expect cdump 1 for a one-entry supplied liquid neighbour list. Non-overlap placement and explicit supplied provenance trials retained. Exact remaining field-level cause is not fully established.",
+    "report": "docs/superpowers/reports/2026-11-20-all-godot-debt-validation.md"
+  },
+  {
+    "slice": "N2377",
+    "scene": "C07SolidPumpDumpLiquidWriteBackProof",
+    "modules": [
+      "test_c07_solid_pump_dump_liquid_write_back"
+    ],
+    "validated_sha": "e64d277ce2c59cda828c49a820e7878fda6cb406",
+    "implementation_sha": "e64d277ce2c59cda828c49a820e7878fda6cb406",
+    "windows_native_pass": false,
+    "targeted_tests_total": 4,
+    "targeted_exit": 1,
+    "targeted_seconds": 22.0,
+    "native_keys_total": 6,
+    "false_keys": [
+      "live_tick_writes_dumped_liquid_to_neighbour_frame",
+      "matches"
+    ],
+    "warning_count": 120,
+    "runtime_errors": [],
+    "source_blobs": {
+      "godot-mindustry/tools/runtime_proofs/C07SolidPumpDumpLiquidWriteBackProof.gd": "c638fa4e95a7d36ca36240280f98b6a4fb897123",
+      "godot-mindustry/src/game/SourceSolidPumpBuildState.gd": "d6be0a60308f656f8bac306d3c3bccc3c9fe3c5f",
+      "godot-mindustry/src/game/SourceBuildingLiquidState.gd": "bfd1877f6a201c26dad570f78389c8153583fdcc",
+      "godot-mindustry/src/game/SourceSeparatorBuildState.gd": "2794bdffb8f0f748bafb115ce5e0c2c7f5f50e4c",
+      "godot-mindustry/src/game/SourceBlockGeometry.gd": "a280b7dfc952aecbcfe455d95cb878dc494c0385",
+      "godot-mindustry/src/game/SourceLiquidModuleState.gd": "1bd9081822e7c9f0c83a96438c72ddc1dfb5e4d8",
+      "godot-mindustry/src/game/SourcePlacedBlockState.gd": "086fd60abe43dcca0ed5348af54cd474d699e178",
+      "godot-mindustry/src/game/SourceContentRegistryRuntimeState.gd": "3a9d39e86d627edbdc22d68e2aa0d8c2d1811c67",
+      "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd": "6c7c991e37e0beedc13c5d7822395d2a45504db2"
+    },
+    "timestamp": "2026-11-19T20:30:34.064915+00:00",
+    "status": "RED retained; implementation/fixture root cause requires review",
+    "diagnosis": "Native diagnostic: source water is 10 with efficiency 1 and cdump 0; recipient separator liquids remains zero and carries earlier adjacent_factory frame. Shared liquid helper uses first matching consumer frame; frame/module coherence needs implementation review.",
+    "report": "docs/superpowers/reports/2026-11-20-all-godot-debt-validation.md"
+  },
+  {
+    "slice": "N2378",
+    "scene": "C07PumpLiquidNeighbourWriteBackProof",
+    "modules": [
+      "test_c07_pump_liquid_neighbour_write_back"
+    ],
+    "validated_sha": "e64d277ce2c59cda828c49a820e7878fda6cb406",
+    "implementation_sha": "e64d277ce2c59cda828c49a820e7878fda6cb406",
+    "windows_native_pass": false,
+    "targeted_tests_total": 4,
+    "targeted_exit": 1,
+    "targeted_seconds": 22.219,
+    "native_keys_total": 6,
+    "false_keys": [
+      "live_tick_writes_dumped_water_to_neighbour_frame",
+      "matches"
+    ],
+    "warning_count": 120,
+    "runtime_errors": [],
+    "source_blobs": {
+      "godot-mindustry/tools/runtime_proofs/C07PumpLiquidNeighbourWriteBackProof.gd": "1dd0a335a65a5a0881def4fc1f36c4d22bda3cfb",
+      "godot-mindustry/src/game/SourceMechanicalPumpBuildState.gd": "a708feaee8e6ea13796a6fb3e33f9b7f3fcac5ac",
+      "godot-mindustry/src/game/SourceBuildingLiquidState.gd": "bfd1877f6a201c26dad570f78389c8153583fdcc",
+      "godot-mindustry/src/game/SourceSeparatorBuildState.gd": "2794bdffb8f0f748bafb115ce5e0c2c7f5f50e4c",
+      "godot-mindustry/src/game/SourceBlockGeometry.gd": "a280b7dfc952aecbcfe455d95cb878dc494c0385",
+      "godot-mindustry/src/game/SourceLiquidModuleState.gd": "1bd9081822e7c9f0c83a96438c72ddc1dfb5e4d8",
+      "godot-mindustry/src/game/SourcePlacedBlockState.gd": "086fd60abe43dcca0ed5348af54cd474d699e178",
+      "godot-mindustry/src/game/SourceWorldTerrainRuntimeState.gd": "aca58b527806efa4aff3e0503099a2324479cebf",
+      "godot-mindustry/src/game/SourceContentRegistryRuntimeState.gd": "3a9d39e86d627edbdc22d68e2aa0d8c2d1811c67",
+      "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd": "6c7c991e37e0beedc13c5d7822395d2a45504db2"
+    },
+    "timestamp": "2026-11-19T20:31:22.796714+00:00",
+    "status": "RED retained; implementation/fixture root cause requires review",
+    "diagnosis": "See retained latest native false keys and fixture trial patches; cause not fully established.",
+    "report": "docs/superpowers/reports/2026-11-20-all-godot-debt-validation.md"
+  },
+  {
+    "slice": "N2379",
+    "scene": "C07LiquidBridgeDumpWriteBackProof",
+    "modules": [
+      "test_c07_liquid_bridge_dump_write_back"
+    ],
+    "validated_sha": "e64d277ce2c59cda828c49a820e7878fda6cb406",
+    "implementation_sha": "e64d277ce2c59cda828c49a820e7878fda6cb406",
+    "windows_native_pass": false,
+    "targeted_tests_total": 4,
+    "targeted_exit": 1,
+    "targeted_seconds": 21.813,
+    "native_keys_total": 6,
+    "false_keys": [
+      "live_tick_writes_dumped_liquid_to_neighbour_frame",
+      "matches"
+    ],
+    "warning_count": 120,
+    "runtime_errors": [],
+    "source_blobs": {
+      "godot-mindustry/tools/runtime_proofs/C07LiquidBridgeDumpWriteBackProof.gd": "a59440a595a503cd31130526fe9369fac25aae01",
+      "godot-mindustry/src/game/SourceLiquidBridgeBuildState.gd": "1b170c7416338913453a4970f060fbca94b7f108",
+      "godot-mindustry/src/game/SourceBuildingLiquidState.gd": "bfd1877f6a201c26dad570f78389c8153583fdcc",
+      "godot-mindustry/src/game/SourceSeparatorBuildState.gd": "2794bdffb8f0f748bafb115ce5e0c2c7f5f50e4c",
+      "godot-mindustry/src/game/SourceBlockGeometry.gd": "a280b7dfc952aecbcfe455d95cb878dc494c0385",
+      "godot-mindustry/src/game/SourceLiquidModuleState.gd": "1bd9081822e7c9f0c83a96438c72ddc1dfb5e4d8",
+      "godot-mindustry/src/game/SourcePlacedBlockState.gd": "086fd60abe43dcca0ed5348af54cd474d699e178",
+      "godot-mindustry/src/game/SourceContentRegistryRuntimeState.gd": "3a9d39e86d627edbdc22d68e2aa0d8c2d1811c67",
+      "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd": "6c7c991e37e0beedc13c5d7822395d2a45504db2"
+    },
+    "timestamp": "2026-11-19T20:32:11.352462+00:00",
+    "status": "RED retained; implementation/fixture root cause requires review",
+    "diagnosis": "See retained latest native false keys and fixture trial patches; cause not fully established.",
+    "report": "docs/superpowers/reports/2026-11-20-all-godot-debt-validation.md"
+  },
+  {
+    "slice": "N2380",
+    "scene": "C07PayloadUnloaderDumpLiquidWriteBackProof",
+    "modules": [
+      "test_c07_payload_unloader_dump_liquid_write_back"
+    ],
+    "validated_sha": "e64d277ce2c59cda828c49a820e7878fda6cb406",
+    "implementation_sha": "e64d277ce2c59cda828c49a820e7878fda6cb406",
+    "windows_native_pass": false,
+    "targeted_tests_total": 4,
+    "targeted_exit": 1,
+    "targeted_seconds": 21.781,
+    "native_keys_total": 6,
+    "false_keys": [
+      "live_tick_writes_dumped_liquid_to_neighbour_frame",
+      "matches"
+    ],
+    "warning_count": 120,
+    "runtime_errors": [],
+    "source_blobs": {
+      "godot-mindustry/tools/runtime_proofs/C07PayloadUnloaderDumpLiquidWriteBackProof.gd": "e38ff5d97b1b77a932b12ca2208580c980737bd9",
+      "godot-mindustry/src/game/SourcePayloadUnloaderBuildState.gd": "15f44028fe50762c8fce80d0a29d85b8e158fe57",
+      "godot-mindustry/src/game/SourceSeparatorBuildState.gd": "2794bdffb8f0f748bafb115ce5e0c2c7f5f50e4c",
+      "godot-mindustry/src/game/SourceBuildingLiquidState.gd": "bfd1877f6a201c26dad570f78389c8153583fdcc",
+      "godot-mindustry/src/game/SourceBlockGeometry.gd": "a280b7dfc952aecbcfe455d95cb878dc494c0385",
+      "godot-mindustry/src/game/SourceLiquidModuleState.gd": "1bd9081822e7c9f0c83a96438c72ddc1dfb5e4d8",
+      "godot-mindustry/src/game/SourcePlacedBlockState.gd": "086fd60abe43dcca0ed5348af54cd474d699e178",
+      "godot-mindustry/src/game/SourceContentRegistryRuntimeState.gd": "3a9d39e86d627edbdc22d68e2aa0d8c2d1811c67",
+      "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd": "6c7c991e37e0beedc13c5d7822395d2a45504db2"
+    },
+    "timestamp": "2026-11-19T20:32:59.621110+00:00",
+    "status": "RED retained; implementation/fixture root cause requires review",
+    "diagnosis": "See retained latest native false keys and fixture trial patches; cause not fully established.",
+    "report": "docs/superpowers/reports/2026-11-20-all-godot-debt-validation.md"
+  },
+  {
+    "slice": "N2398",
+    "scene": "C07WallCrafterOffloadRoutingProof",
+    "implementation_sha": "e64d277ce2c59cda828c49a820e7878fda6cb406",
+    "validated_sha": "e64d277ce2c59cda828c49a820e7878fda6cb406",
+    "fixture_commit_required": null,
+    "windows_native_pass": false,
+    "targeted_tests_passed": 3,
+    "targeted_test_failures": 1,
+    "targeted_seconds": 21.0,
+    "native_keys_total": 7,
+    "native_keys_true": 4,
+    "native_keys_all_true": null,
+    "false_keys": [
+      "advance_exposes_offload_neighbour_index",
+      "live_tick_routes_offloaded_item_to_neighbour_frame",
+      "matches"
+    ],
+    "runtime_parser_errors": 0,
+    "warning_count": 120,
+    "report": "docs/superpowers/reports/2026-11-17-wave36-n2395-n2398-n2399-windows-validation.md",
+    "source_blobs": {
+      "godot-mindustry/tools/runtime_proofs/C07WallCrafterOffloadRoutingProof.gd": "8d4601222b6358ce48a62c850f4d5d603b231135",
+      "godot-mindustry/src/game/SourceWallCrafterBuildState.gd": "70f83e0e4c1beab390411a29dfef1e401386484a",
+      "tools/mindustry_godot_transpiler/tests/test_c07_wall_crafter_offload_routing.py": "7df67e96b24f3b71cebf5b17ccf40af0dfd281ff"
+    },
+    "status": "RED pending;root cause unconfirmed;no assertion/fixture/runtime edits;rerun only after relevant change",
+    "diagnosis": "See retained latest native false keys and fixture trial patches; cause not fully established."
+  }
+]
