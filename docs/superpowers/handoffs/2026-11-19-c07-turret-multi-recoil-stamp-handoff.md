@@ -1,6 +1,6 @@
 # Handoff — N2257 Turret multi-recoil stamp (C07, duo) [DONE + PUSHED]
 
-## Status: DONE + PUSHED (2026-11-19 ~08:45 +07, lượt cron 08:45) — slice `2f244b54`, docs `98091831`, GOAL `aa51a8ac`, status TBD (pushed; origin/main advances with this status commit). Targeted 4/4 + proof matches:true 11/11 + register --verify 12/12 + gate Ran 6121, failures=207 toàn Godot-absent (đã xác minh độc lập).
+## Status: DONE + PUSHED (2026-11-19 ~08:45 +07, lượt cron 08:45) — slice `2f244b54`, docs `98091831`, GOAL `aa51a8ac`, status `f19cdca8` (pushed; origin/main advances with this status commit). Targeted 4/4 + proof matches:true 11/11 + register --verify 12/12 + gate Ran 6121, failures=207 toàn Godot-absent (đã xác minh độc lập).
 
 - Cập nhật 08:45 +07 (lượt cron 08:45): gate xong 08:36 UTC — **Ran 6121 in 1119.811s, failures=207, skipped=5, errors=0**; xác minh độc lập: 207 FAIL header = 207 × `AssertionError: unexpectedly None`, 0 KeyError, 0 ERROR — toàn Godot-absent (+4 tests / +1 failure so với gate N2256 đúng bằng 4 test mới). Targeted chạy lại lượt này: **Ran 4, OK (16.32s)**. Proof JSON matches:true 11/11. Register --verify 12/12. SSOT 11610/1707/1641/3073, defense 186/185. Đủ điều kiện commit + push.
 
