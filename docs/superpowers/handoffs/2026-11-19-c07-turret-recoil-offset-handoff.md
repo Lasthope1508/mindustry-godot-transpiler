@@ -1,6 +1,6 @@
 # Handoff — N2258 Turret recoilOffset draw (C07, duo) [DONE + PUSHED]
 
-## Status: DONE + PUSHED (2026-11-19 ~10:45 +07, lượt cron 10:45) — slice `0ba552b7`, docs `b84e45ac`, GOAL `d8db48d3`, status TBD (pushed; origin/main advances with this status commit). Targeted 4/4 + proof matches:true 11/11 + register --verify 10/10 + gate-2 Ran 6125, failures=208 toàn Godot-absent (đã xác minh độc lập).
+## Status: DONE + PUSHED (2026-11-19 ~10:45 +07, lượt cron 10:45) — slice `0ba552b7`, docs `b84e45ac`, GOAL `d8db48d3`, status `e1a2f2d0` (pushed; origin/main advances with this status commit). Targeted 4/4 + proof matches:true 11/11 + register --verify 10/10 + gate-2 Ran 6125, failures=208 toàn Godot-absent (đã xác minh độc lập).
 
 - N2257 DONE + PUSHED (origin/main b02d14db, slice 2f244b54) — đã xác minh đầu lượt: git log 5 commit khớp, working tree sạch ngoại trừ noise *.gd.uid (không stage).
 
