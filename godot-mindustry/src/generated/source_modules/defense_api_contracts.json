@@ -8460,6 +8460,70 @@
       "rule": "Source-backed turret power.status row from ConsumePower.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceTurretBuildState.source_turret_queued_bullets_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_queued_bullets_state",
+      "status": "active",
+      "source_slice": "N2269",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.charging()/updateShooting()/shoot()/bullet()",
+      "params": [
+        {
+          "name": "queued_bullets",
+          "type": "int",
+          "schema": "source_turret_queued_bullets_state_input.queued_bullets"
+        },
+        {
+          "name": "first_shot_delay",
+          "type": "float",
+          "schema": "source_turret_queued_bullets_state_input.first_shot_delay"
+        },
+        {
+          "name": "queued_now",
+          "type": "int",
+          "schema": "source_turret_queued_bullets_state_input.queued_now"
+        },
+        {
+          "name": "fired_now",
+          "type": "int",
+          "schema": "source_turret_queued_bullets_state_input.fired_now"
+        },
+        {
+          "name": "reload_counter",
+          "type": "float",
+          "schema": "source_turret_queued_bullets_state_input.reload_counter"
+        },
+        {
+          "name": "reload",
+          "type": "float",
+          "schema": "source_turret_queued_bullets_state_input.reload"
+        },
+        {
+          "name": "shoot_warmup",
+          "type": "float",
+          "schema": "source_turret_queued_bullets_state_input.shoot_warmup"
+        },
+        {
+          "name": "min_warmup",
+          "type": "float",
+          "schema": "source_turret_queued_bullets_state_input.min_warmup"
+        }
+      ],
+      "return_keys": [
+        "queued_bullets",
+        "charging",
+        "can_shoot",
+        "reload_counter_after"
+      ],
+      "tests": [
+        "test_c07_turret_queued_bullets_registration",
+        "test_all_c07_turret_queued_bullets_input_evidence_is_exact",
+        "test_turret_queued_bullets_state",
+        "test_reference_graph_and_actual_c07_turret_queued_bullets"
+      ],
+      "runtime_proof": "/root/C07TurretQueuedBulletsProof",
+      "rule": "Source-backed Turret queuedBullets counter + charging() gate from Turret.java.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_turret_recoil_heat_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_recoil_heat_state",
       "status": "active",

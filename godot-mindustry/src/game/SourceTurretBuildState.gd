@@ -814,6 +814,77 @@ static func source_turret_configured_dispatch_state(value_kind: String, value_is
 	var last_access_updated := builder_is_player
 	return {"resolved_type": resolved_type, "handler_applied": handler_applied, "config_copied": config_copied, "last_access_updated": last_access_updated}
 
+static func source_turret_queued_bullets_state(queued_bullets: int, first_shot_delay: float, queued_now: int, fired_now: int, reload_counter: float, reload: float, shoot_warmup: float, min_warmup: float) -> Dictionary:
+	# TurretBuild keeps a cross-tick counter of bullets that have
+	# been queued to fire but have not fired yet:
+	# `public int queuedBullets = 0;`
+	# (Turret.java:293). shoot() (Turret.java:741-777) increments
+	# it once per bullet the shoot pattern queues:
+	# `protected void shoot(BulletType type){`
+	# `queuedBullets++;`
+	# (:754); when the pattern delay is positive the bullet is
+	# deferred:
+	# `if(delay > 0f){`
+	# `Time.run(delay, () -> {`
+	# `bullet(type, xOffset, yOffset, angle, mover);`
+	# `});`
+	# (:756-764), otherwise it fires at once:
+	# `bullet(type, xOffset, yOffset, angle, mover);`
+	# (:765). bullet() (Turret.java:772-777) decrements it first
+	# thing:
+	# `protected void bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover){`
+	# `queuedBullets --;`
+	# (:773). While any bullet is still queued and the def has a
+	# first-shot delay, the turret is charging:
+	# `public boolean charging(){`
+	# `return queuedBullets > 0 && shoot.firstShotDelay > 0;`
+	# (:715-717) -- and updateShooting() (Turret.java:731-740)
+	# refuses to shoot while charging:
+	# `protected void updateShooting(){`
+	# `if(reloadCounter >= reload && !charging() && shootWarmup >= minWarmup){`
+	# `shoot(type);`
+	# `reloadCounter %= reload;`
+	# `}`
+	# (:733-738). updateShooting() runs from updateTile():
+	# `updateShooting();`
+	# (:601/:609). The delay branch also plays the charge sound
+	# when a shot begins:
+	# `if(shoot.firstShotDelay > 0){`
+	# `chargeSound.at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax));`
+	# (:747-748) --
+	# `/** Sound emitted when shoot.firstShotDelay is >0 and shooting begins. */`
+	# (:125). The field default is
+	# `public float firstShotDelay = 0;`
+	# (ShootPattern.java:11), and the only def that sets it is
+	# lancer:
+	# `lancer = new PowerTurret("lancer"){{`
+	# `range = 165f;`
+	# `shoot.firstShotDelay = 40f;`
+	# `reload = 80f;`
+	# (Blocks.java:3560-3567). Duo never sets it
+	# (Blocks.java:3257-3331) so its delay is 0, charging() is
+	# always false for duo, and its delay-0 bullets fire at once,
+	# leaving the counter at 0.
+	# `public float minWarmup = 0f;`
+	# (Turret.java:76) is the warmup floor in the gate. There is
+	# NO driver tick: the delayed bullets are Time.run callbacks
+	# with no driver equivalent, and the gate is evaluated per
+	# shoot event, not per tick (the N2248 precedent,
+	# N2264/N2266/N2267/N2268) -- the logic executor does not
+	# exist in the driver yet, so the pure function is called
+	# directly. The result is a 4-key dict: `queued_bullets`
+	# (the counter after this tick's queue/fire transitions),
+	# `charging` (the :716 gate on the pre-update counter, the
+	# :733 ordering -- the gate reads the counter before shoot()
+	# queues), `can_shoot` (the :733 gate) and
+	# `reload_counter_after` (fmod when the gate passes, else
+	# unchanged).
+	var charging: bool = queued_bullets > 0 and first_shot_delay > 0.0
+	var can_shoot: bool = reload_counter >= reload and not charging and shoot_warmup >= min_warmup
+	var queued_bullets_after: int = queued_bullets + queued_now - fired_now
+	var reload_counter_after: float = fmod(reload_counter, reload) if can_shoot else reload_counter
+	return {"queued_bullets": queued_bullets_after, "charging": charging, "can_shoot": can_shoot, "reload_counter_after": reload_counter_after}
+
 @warning_ignore("unused_parameter")
 static func source_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the turret tick wiring every tick

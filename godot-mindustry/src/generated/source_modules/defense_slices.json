@@ -3685,6 +3685,26 @@
       ],
       "runtime_proof": "/root/C07TurretTargetPositionControlProof"
     },
+    "N2269": {
+      "canonical_ledger": "source_slice_ledger.N2269",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.charging()/updateShooting()/shoot()/bullet()",
+      "godot_owner": "SourceTurretBuildState.source_turret_queued_bullets_state",
+      "source_symbols": [
+        "source_turret_queued_bullets_state_result.queued_bullets",
+        "source_turret_queued_bullets_state_result.charging",
+        "source_turret_queued_bullets_state_result.can_shoot",
+        "source_turret_queued_bullets_state_result.reload_counter_after"
+      ],
+      "tests": [
+        "test_c07_turret_queued_bullets_registration",
+        "test_all_c07_turret_queued_bullets_input_evidence_is_exact",
+        "test_turret_queued_bullets_state",
+        "test_reference_graph_and_actual_c07_turret_queued_bullets"
+      ],
+      "runtime_proof": "/root/C07TurretQueuedBulletsProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

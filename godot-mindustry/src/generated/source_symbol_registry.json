@@ -177032,6 +177032,70 @@
         "test_reference_graph_and_actual_c07_turret_configured_dispatch"
       ],
       "runtime_proof": "/root/C07TurretConfiguredDispatchProof"
+    },
+    "source_turret_queued_bullets_state_result.queued_bullets": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_queued_bullets_state",
+      "godot_symbol": "source_turret_queued_bullets_state_result.queued_bullets",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.charging()/updateShooting()/shoot()/bullet()",
+      "java_expr": "queuedBullets++;",
+      "rule": "The counter after this tick transitions (Turret.java:754/:773 -- queued_now added, fired_now subtracted; a lancer bullet queued on tick 1 stays queued until its Time.run callback fires).",
+      "tests": [
+        "test_c07_turret_queued_bullets_registration",
+        "test_all_c07_turret_queued_bullets_input_evidence_is_exact",
+        "test_turret_queued_bullets_state",
+        "test_reference_graph_and_actual_c07_turret_queued_bullets"
+      ],
+      "runtime_proof": "/root/C07TurretQueuedBulletsProof"
+    },
+    "source_turret_queued_bullets_state_result.charging": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_queued_bullets_state",
+      "godot_symbol": "source_turret_queued_bullets_state_result.charging",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.charging()/updateShooting()/shoot()/bullet()",
+      "java_expr": "return queuedBullets > 0 && shoot.firstShotDelay > 0;",
+      "rule": "Whether the turret is charging (Turret.java:716 -- queued bullets remain and firstShotDelay is positive; evaluated on the pre-update counter, the :733 ordering).",
+      "tests": [
+        "test_c07_turret_queued_bullets_registration",
+        "test_all_c07_turret_queued_bullets_input_evidence_is_exact",
+        "test_turret_queued_bullets_state",
+        "test_reference_graph_and_actual_c07_turret_queued_bullets"
+      ],
+      "runtime_proof": "/root/C07TurretQueuedBulletsProof"
+    },
+    "source_turret_queued_bullets_state_result.can_shoot": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_queued_bullets_state",
+      "godot_symbol": "source_turret_queued_bullets_state_result.can_shoot",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.charging()/updateShooting()/shoot()/bullet()",
+      "java_expr": "if(reloadCounter >= reload && !charging() && shootWarmup >= minWarmup){",
+      "rule": "Whether updateShooting() fires (Turret.java:733 -- reload ready, not charging, warmup at/above the floor).",
+      "tests": [
+        "test_c07_turret_queued_bullets_registration",
+        "test_all_c07_turret_queued_bullets_input_evidence_is_exact",
+        "test_turret_queued_bullets_state",
+        "test_reference_graph_and_actual_c07_turret_queued_bullets"
+      ],
+      "runtime_proof": "/root/C07TurretQueuedBulletsProof"
+    },
+    "source_turret_queued_bullets_state_result.reload_counter_after": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_queued_bullets_state",
+      "godot_symbol": "source_turret_queued_bullets_state_result.reload_counter_after",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.charging()/updateShooting()/shoot()/bullet()",
+      "java_expr": "reloadCounter %= reload;",
+      "rule": "The reloadCounter after the gate (Turret.java:738 -- fmod(reload_counter, reload) when the gate passes, else unchanged).",
+      "tests": [
+        "test_c07_turret_queued_bullets_registration",
+        "test_all_c07_turret_queued_bullets_input_evidence_is_exact",
+        "test_turret_queued_bullets_state",
+        "test_reference_graph_and_actual_c07_turret_queued_bullets"
+      ],
+      "runtime_proof": "/root/C07TurretQueuedBulletsProof"
     }
   },
   "version": 1

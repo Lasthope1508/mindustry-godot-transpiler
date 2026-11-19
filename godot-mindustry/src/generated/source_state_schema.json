@@ -237612,6 +237612,144 @@
       },
       "runtime_proof": "/root/C07TurretConfiguredDispatchProof",
       "rule": "Source-backed BuildingComp configured() dispatch effect from BuildingComp.java."
+    },
+    "source_turret_queued_bullets_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_queued_bullets_state",
+      "source_slice": "N2269",
+      "keys": {
+        "queued_bullets": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public int queuedBullets = 0;",
+          "rule": "The current queuedBullets counter (Turret.java:293 -- incremented once per bullet the shoot pattern queues at :754, decremented in bullet() at :773).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_queued_bullets_state"
+          ]
+        },
+        "first_shot_delay": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "if(shoot.firstShotDelay > 0){",
+          "rule": "The def shoot.firstShotDelay (Turret.java:747 -- the charging() gate at :716 needs it positive; the field default is 0, ShootPattern.java:11; lancer sets 40f, Blocks.java:3564).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_queued_bullets_state"
+          ]
+        },
+        "queued_now": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "queuedBullets++;",
+          "rule": "Bullets queued by this shoot() call (Turret.java:754 -- one increment per bullet the pattern.shoot callback queues).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_queued_bullets_state"
+          ]
+        },
+        "fired_now": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "queuedBullets --;",
+          "rule": "Bullets whose bullet() ran this tick (Turret.java:773 -- delay-0 bullets fire at once at :765, delayed bullets fire from the Time.run callback at :757-764).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_queued_bullets_state"
+          ]
+        },
+        "reload_counter": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "if(reloadCounter >= reload && !charging() && shootWarmup >= minWarmup){",
+          "rule": "The current reloadCounter (Turret.java:733 -- the updateShooting() gate needs it at/above reload).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_queued_bullets_state"
+          ]
+        },
+        "reload": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "reload = 80f;",
+          "rule": "The def reload (Blocks.java:3567, lancer -- the updateShooting() gate threshold and the modulo divisor at Turret.java:738).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_queued_bullets_state"
+          ]
+        },
+        "shoot_warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "if(reloadCounter >= reload && !charging() && shootWarmup >= minWarmup){",
+          "rule": "The current shootWarmup (Turret.java:733 -- the updateShooting() gate needs it at/above minWarmup).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_queued_bullets_state"
+          ]
+        },
+        "min_warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float minWarmup = 0f;",
+          "rule": "The def minWarmup floor (Turret.java:76 -- the updateShooting() gate threshold at :733; duo never sets it, so 0).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_queued_bullets_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretQueuedBulletsProof",
+      "rule": "Source-backed Turret queuedBullets counter + charging() gate from Turret.java."
+    },
+    "source_turret_queued_bullets_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_queued_bullets_state",
+      "source_slice": "N2269",
+      "keys": {
+        "queued_bullets": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "queuedBullets++;",
+          "rule": "The counter after this tick transitions (Turret.java:754/:773 -- queued_now added, fired_now subtracted; a lancer bullet queued on tick 1 stays queued until its Time.run callback fires).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_queued_bullets_state"
+          ]
+        },
+        "charging": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return queuedBullets > 0 && shoot.firstShotDelay > 0;",
+          "rule": "Whether the turret is charging (Turret.java:716 -- queued bullets remain and firstShotDelay is positive; evaluated on the pre-update counter, the :733 ordering).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_queued_bullets_state"
+          ]
+        },
+        "can_shoot": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "if(reloadCounter >= reload && !charging() && shootWarmup >= minWarmup){",
+          "rule": "Whether updateShooting() fires (Turret.java:733 -- reload ready, not charging, warmup at/above the floor).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_queued_bullets_state"
+          ]
+        },
+        "reload_counter_after": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "reloadCounter %= reload;",
+          "rule": "The reloadCounter after the gate (Turret.java:738 -- fmod(reload_counter, reload) when the gate passes, else unchanged).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_queued_bullets_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretQueuedBulletsProof",
+      "rule": "Source-backed Turret queuedBullets counter + charging() gate from Turret.java."
     }
   },
   "version": 1
