@@ -68290,31 +68290,6 @@
       "runtime_proof": "/root/C07RadarProgressProof",
       "rule": "Source-backed Radar progress() accessor from Radar.java."
     },
-    "SourceRadarBuildState.source_radar_can_pickup_state": {
-      "status": "active",
-      "source_slice": "N2272",
-      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-      "source_method": "RadarBuild.canPickup()",
-      "params": [
-        {
-          "name": "frame",
-          "type": "Dictionary",
-          "schema": "source_radar_can_pickup_state_input.frame"
-        }
-      ],
-      "return_type": "Dictionary",
-      "return_keys": [
-        "can_pickup"
-      ],
-      "tests": [
-        "test_c07_radar_can_pickup_registration",
-        "test_all_c07_radar_can_pickup_input_evidence_is_exact",
-        "test_radar_can_pickup_state",
-        "test_reference_graph_and_actual_c07_radar_can_pickup"
-      ],
-      "runtime_proof": "/root/C07RadarCanPickupProof",
-      "rule": "Source-backed Radar canPickup() accessor from Radar.java."
-    },
     "SourceTurretBuildState.source_turret_tracking_range_state": {
       "status": "active",
       "source_slice": "N2273",
@@ -71036,6 +71011,31 @@
       ],
       "runtime_proof": "/root/C07BurstDrillAmbientVolumeProof",
       "rule": "Source-backed BurstDrill ambientVolume() state from BurstDrill.java + Drill.java."
+    },
+    "SourceRadarBuildState.source_radar_can_pickup_state": {
+      "status": "active",
+      "source_slice": "N2318",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "source_method": "RadarBuild.canPickup()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_radar_can_pickup_state_input.frame"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "can_pickup"
+      ],
+      "tests": [
+        "test_c07_radar_can_pickup_registration",
+        "test_all_c07_radar_can_pickup_input_evidence_is_exact",
+        "test_radar_can_pickup_state",
+        "test_reference_graph_and_actual_c07_radar_can_pickup"
+      ],
+      "runtime_proof": "/root/C07RadarCanPickupProof",
+      "rule": "Source-backed Radar canPickup() accessor from Radar.java."
     }
   },
   "policy": {

@@ -32,7 +32,7 @@ import sys
 from pathlib import Path
 
 from mindustry_port import source_ssot, source_symbols
-from register_c07_radar_can_pickup import DEFERRED as N2272_DEFERRED
+from register_c07_radar_can_pickup import DEFERRED as N2318_DEFERRED
 from register_liquid_consumer_hydration import backed
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -50,16 +50,16 @@ SLICE_SOURCES = [
 ]
 EXACT_EXPRS = ['public void draw(){', 'Draw.rect(baseRegion, x, y);', 'Draw.rect(region, x, y, rotateSpeed * totalProgress);', 'Drawf.additive(glowRegion, glowColor, glowColor.a * (1f - glowMag + Mathf.absin(glowScl, glowMag)), x, y, rotateSpeed * totalProgress, Layer.blockAdditive);', 'rotateSpeed * totalProgress', 'Mathf.absin(glowScl, glowMag)', '1f - glowMag + Mathf.absin(glowScl, glowMag)', 'glowColor.a * (1f - glowMag + Mathf.absin(glowScl, glowMag))', 'public class Radar extends Block{', 'public class RadarBuild extends Building{']
 
-# DEFERRED is carried from the N2272 register script via import --
+# DEFERRED is carried from the N2318 register script via import --
 # never retyped. One entry is DROPPED here, not carried: the
 # combined 'Radar draw / drawSelect / icons rows' entry -- N2278
 # IS the draw() slice, so carrying it would leave a stale "waits
 # for its own slice" row for done work. It is REPLACED by a
 # drawSelect-only entry below (drawSelect still waits for its
 # own slice, as does drawPlace).
-DEFERRED = [e for e in N2272_DEFERRED if 'Radar draw / drawSelect / icons rows' not in e] + [
+DEFERRED = [e for e in N2318_DEFERRED if 'Radar draw / drawSelect / icons rows' not in e] + [
     'Radar drawSelect rows (drawSelect dash circle, Radar.java:80-82) -- presentation, not tick state; waits for its own slice.',
-    'Radar draw Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2274/N2275/N2303/N2310/N2272: the N2278 proof runs headless on Linux here and waits for a Windows Godot run.',
+    'Radar draw Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2274/N2275/N2303/N2310/N2318: the N2278 proof runs headless on Linux here and waits for a Windows Godot run.',
 ]
 
 

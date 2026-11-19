@@ -3230,23 +3230,6 @@
       ],
       "runtime_proof": "/root/C07PointDefenseTurretLiveBulletsWiringProof"
     },
-    "N2272": {
-      "canonical_ledger": "source_slice_ledger.N2272",
-      "status": "done",
-      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-      "java_method": "RadarBuild.canPickup()",
-      "godot_owner": "SourceRadarBuildState.source_radar_can_pickup_state",
-      "source_symbols": [
-        "source_radar_can_pickup_state_result.can_pickup"
-      ],
-      "tests": [
-        "test_c07_radar_can_pickup_registration",
-        "test_all_c07_radar_can_pickup_input_evidence_is_exact",
-        "test_radar_can_pickup_state",
-        "test_reference_graph_and_actual_c07_radar_can_pickup"
-      ],
-      "runtime_proof": "/root/C07RadarCanPickupProof"
-    },
     "N2273": {
       "canonical_ledger": "source_slice_ledger.N2273",
       "status": "done",
@@ -3667,6 +3650,23 @@
         "test_reference_graph_and_actual_c07_turret_find_target"
       ],
       "runtime_proof": "/root/C07TurretFindTargetProof"
+    },
+    "N2318": {
+      "canonical_ledger": "source_slice_ledger.N2318",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "RadarBuild.canPickup()",
+      "godot_owner": "SourceRadarBuildState.source_radar_can_pickup_state",
+      "source_symbols": [
+        "source_radar_can_pickup_state_result.can_pickup"
+      ],
+      "tests": [
+        "test_c07_radar_can_pickup_registration",
+        "test_all_c07_radar_can_pickup_input_evidence_is_exact",
+        "test_radar_can_pickup_state",
+        "test_reference_graph_and_actual_c07_radar_can_pickup"
+      ],
+      "runtime_proof": "/root/C07RadarCanPickupProof"
     },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",

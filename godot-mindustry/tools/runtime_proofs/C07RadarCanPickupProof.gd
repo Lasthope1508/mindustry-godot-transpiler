@@ -19,7 +19,7 @@ func _ready() -> void:
 	game.set_process(false)
 	game.set_physics_process(false)
 
-	# --- Pure canPickup() accessor (N2272): RadarBuild.canPickup()
+	# --- Pure canPickup() accessor (N2318): RadarBuild.canPickup()
 	# (Radar.java:75, `public boolean canPickup(){` with `return
 	# false;`, Radar.java:76) overrides the base
 	# BuildingComp.canPickup() (BuildingComp.java:1838, `public

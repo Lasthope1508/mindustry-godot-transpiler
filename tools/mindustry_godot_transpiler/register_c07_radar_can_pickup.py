@@ -1,4 +1,4 @@
-"""Register the Radar canPickup() accessor (N2272).
+"""Register the Radar canPickup() accessor (N2318).
 
 RadarBuild.canPickup() (Radar.java:75, `public boolean
 canPickup(){` with `return false;`, Radar.java:76)
@@ -38,7 +38,7 @@ RADAR = 'core/src/mindustry/world/blocks/defense/Radar.java'
 PROOF = '/root/C07RadarCanPickupProof'
 CAN_PICKUP_OWNER = 'SourceRadarBuildState.source_radar_can_pickup_state'
 TESTS = ['test_c07_radar_can_pickup_registration', 'test_all_c07_radar_can_pickup_input_evidence_is_exact', 'test_radar_can_pickup_state', 'test_reference_graph_and_actual_c07_radar_can_pickup']
-# The 1 slice source the N2272 test checks exact_exprs
+# The 1 slice source the N2318 test checks exact_exprs
 # against -- every expr in EXACT_EXPRS below must appear verbatim
 # in this file.
 SLICE_SOURCES = [
@@ -48,11 +48,11 @@ EXACT_EXPRS = ['public boolean canPickup(){', 'return false;', 'public class Rad
 
 # DEFERRED is carried from the N2310 register script via import --
 # never retyped. One carried entry is DROPPED here, not carried:
-# the Radar canPickup row entry -- N2272 IS the canPickup
+# the Radar canPickup row entry -- N2318 IS the canPickup
 # slice, so carrying it would leave a stale "waits for its own
 # slice" row for done work.
 DEFERRED = [e for e in N2310_DEFERRED if 'Radar canPickup row' not in e] + [
-    'Radar canPickup Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2248/N2303/N2310: the N2272 proof runs headless on Linux here and waits for a Windows Godot run.',
+    'Radar canPickup Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2248/N2303/N2310: the N2318 proof runs headless on Linux here and waits for a Windows Godot run.',
 ]
 
 
@@ -103,7 +103,7 @@ def main():
     can_pickup_inputs, can_pickup_outputs = definitions()
 
     entries = [
-        ('N2272', CAN_PICKUP_OWNER, 'source_radar_can_pickup_state', RADAR, 'mindustry.world.blocks.defense.Radar.RadarBuild', 'RadarBuild.canPickup()', can_pickup_inputs, can_pickup_outputs, True, 'Dictionary'),
+        ('N2318', CAN_PICKUP_OWNER, 'source_radar_can_pickup_state', RADAR, 'mindustry.world.blocks.defense.Radar.RadarBuild', 'RadarBuild.canPickup()', can_pickup_inputs, can_pickup_outputs, True, 'Dictionary'),
     ]
     all_names = []
     for sid, owner, prefix, source, cls, method, inputs, outputs, has_contract, return_type in entries:
@@ -123,10 +123,10 @@ def main():
 
     by_slice = {}
     # The test pins this order: can_pickup.
-    by_slice['N2272'] = [
+    by_slice['N2318'] = [
         'source_radar_can_pickup_state_result.can_pickup',
     ]
-    source_symbols.upsert_source_slice(GODOT, 'N2272', dict(status='done', java_source=RADAR, java_class='mindustry.world.blocks.defense.Radar.RadarBuild', java_method='RadarBuild.canPickup()', godot_owner=CAN_PICKUP_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2272'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
+    source_symbols.upsert_source_slice(GODOT, 'N2318', dict(status='done', java_source=RADAR, java_class='mindustry.world.blocks.defense.Radar.RadarBuild', java_method='RadarBuild.canPickup()', godot_owner=CAN_PICKUP_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2318'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
 
     source_symbols.upsert_source_symbols(GODOT, symbols)
     source_symbols.write_source_symbol_audit_report(GODOT)
