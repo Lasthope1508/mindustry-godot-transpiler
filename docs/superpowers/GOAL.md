@@ -361,17 +361,17 @@ N2239–N2247 của line Windows)
   - [ ] N2275 `C07RadarFogRadiusProof` — Linux GREEN ~12:4x (9 key).
     Scene tới Windows theo slice commit `205c102`. Chưa chạy trên Windows Godot.
   - [ ] N2288 `C07RadarIconsProof` — Linux GREEN ~12:5x (5 key).
-    Scene tới Windows theo slice commit `710662c`. Chưa chạy trên Windows Godot.
+    Scene tới Windows theo slice commit `3760228`. Chưa chạy trên Windows Godot.
   - [ ] N2289 `C07RepairTurretDrawBeamJitterProof` — Linux GREEN ~12:4x (11 key).
-    Scene tới Windows theo slice commit `e648a53`. Chưa chạy trên Windows Godot.
+    Scene tới Windows theo slice commit `128c9f9`. Chưa chạy trên Windows Godot.
   - [ ] N2290 `C07RepairTurretDrawBeamPulseProof` — Linux GREEN ~13:3x (11 key).
-    Scene tới Windows theo slice commit `153e9f0`. Chưa chạy trên Windows Godot.
+    Scene tới Windows theo slice commit `ca0a252`. Chưa chạy trên Windows Godot.
   - [ ] N2291 `C07TurretShouldConsumeProof` — Linux GREEN ~12:4x (8 key).
-    Scene tới Windows theo slice commit `fcef043`. Chưa chạy trên Windows Godot.
+    Scene tới Windows theo slice commit `4edf8ca`. Chưa chạy trên Windows Godot.
   - [ ] N2292 `C07TurretProgressProof` — Linux GREEN ~13:3x (8 key).
-    Scene tới Windows theo slice commit `f33217f`. Chưa chạy trên Windows Godot.
+    Scene tới Windows theo slice commit `0573346`. Chưa chạy trên Windows Godot.
   - [ ] N2293 `C07TurretSenseProof` — Linux GREEN ~14:4x (12 key).
-    Scene tới Windows theo slice commit `c698723`. Chưa chạy trên Windows Godot.
+    Scene tới Windows theo slice commit `23a5ed1`. Chưa chạy trên Windows Godot.
   - [ ] N2256 `C07BurstDrillUpdateTileProof` — Linux GREEN ~14:0x (11 key).
     Scene tới Windows theo slice commit `5f17ac9`. Chưa chạy trên Windows Godot.
   - [ ] N2257 `C07BurstDrillShouldConsumeProof` — Linux GREEN ~14:5x (9 key).
