@@ -1,6 +1,6 @@
 # Godot debt validation: 233 GREEN, 15 RED retained
 
-Validated integration wave36 `e64d277ce2c59cda828c49a820e7878fda6cb406` on `codex/godot-all-debt-20261119`. Current main audited separately at `b21b55f22fdb0309fcb226e20f936406ce8aaf4d`. This report branch is based on main and contains reports/evidence only; no migration ancestry is merged.
+Validated integration wave36 `e64d277ce2c59cda828c49a820e7878fda6cb406` on `codex/godot-all-debt-20261119`. Current main audited separately at `c9ab3070d7171c8f8cc701159638ce2e8d062dfd`. This report branch is based on main and contains reports/evidence only; no migration ancestry is merged.
 
 ## Results and selection
 
@@ -10,6 +10,8 @@ Validated integration wave36 `e64d277ce2c59cda828c49a820e7878fda6cb406` on `code
 - 61 existing evidence/pending entries retained separately. `inventory.json` identifies scene, evidence basis and prior fixture requirements. Reconciliation conservatively reran 31 scenes whose source/fixture blobs differed from prior passing evidence, including six missing fixture adoptions.
 - Main added 28 proof scenes since the previous audit. Specific source-controlled Linux runtime passes were accepted, with GOAL/report excerpts in `main-audit.json`; absent-engine full-gate failures did not trigger duplicate Windows runs. N numbers overlap between main and integration: scene identity and implementation matter.
 - Audited 47 pushed wave branches. Divergent wave14 has no unmatched runtime/proof patches; wave23's unique change is the duplicate-variable parser backport already fixed in wave36. N2323 UCL proof-fix content matches wave36 (original commit ancestry differs).
+
+Main pre-merge refresh advanced to `c9ab3070d7171c8f8cc701159638ce2e8d062dfd` with N2272 `C07TurretCanConsumeHeatGateProof`. GOAL explicitly records Linux GREEN, and source-controlled report/handoff record actual matches:true 14/14 and independent targeted 4/4 with Godot on PATH. Accepted as the 29th new main proof without a duplicate Windows run. The delta adds one pure helper, not existing driver behavior; see `main-audit-delta.json`. The remote fetch configuration only maps c06-proof, so future audits must fetch main with an explicit destination ref; FETCH_HEAD alone is insufficient.
 
 ## Runtime and evidence
 
