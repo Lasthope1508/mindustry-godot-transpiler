@@ -128,6 +128,251 @@
         }
       }
     },
+    "source_burst_drill_draw_state_input": {
+      "canonical_schema": "source_state_schema.source_burst_drill_draw_state_input",
+      "keys": {
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "Draw.rect(region, x, y);",
+          "rule": "The building world x (BurstDrill.java:134, `Draw.rect(region, x, y);`); passed explicitly because draw() reads the live building position.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_draw_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "Draw.rect(region, x, y);",
+          "rule": "The building world y (BurstDrill.java:134, `Draw.rect(region, x, y);`); passed explicitly because draw() reads the live building position.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_draw_state"
+          ]
+        },
+        "region": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public TextureRegion region;",
+          "rule": "The inherited block region (Block.java:427, `public TextureRegion region;`); passed explicitly because it is per-def static state, not a live frame key (the N2212 acquire / N2220 draw-place per-def-param precedent).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_draw_state"
+          ]
+        },
+        "top_region": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public @Load(\"@-top\") TextureRegion topRegion;",
+          "rule": "The Drill top region (Drill.java:73, `public @Load(\"@-top\") TextureRegion topRegion;`, loaded as name + \"-top\"); passed explicitly because it is per-def static state, not a live frame key (the N2212 acquire / N2220 draw-place per-def-param precedent).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_draw_state"
+          ]
+        },
+        "item_region": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public @Load(value = \"@-item\", fallback = \"drill-item-@size\") TextureRegion itemRegion;",
+          "rule": "The Drill item region (Drill.java:74, `public @Load(value = \"@-item\", fallback = \"drill-item-@size\") TextureRegion itemRegion;`); passed explicitly because it is per-def static state, not a live frame key.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_draw_state"
+          ]
+        },
+        "arrow_region": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "public @Load(\"@-arrow\") TextureRegion arrowRegion;",
+          "rule": "The BurstDrill arrow region (BurstDrill.java:40, `public @Load(\"@-arrow\") TextureRegion arrowRegion;`); passed explicitly because it is per-def static state, not a live frame key.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_draw_state"
+          ]
+        },
+        "arrow_blur_region": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "public @Load(\"@-arrow-blur\") TextureRegion arrowBlurRegion;",
+          "rule": "The BurstDrill arrow blur region (BurstDrill.java:41, `public @Load(\"@-arrow-blur\") TextureRegion arrowBlurRegion;`); passed explicitly because it is per-def static state, not a live frame key.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_draw_state"
+          ]
+        },
+        "glow_region": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "public @Load(\"@-glow\") TextureRegion glowRegion;",
+          "rule": "The BurstDrill glow region (BurstDrill.java:39, `public @Load(\"@-glow\") TextureRegion glowRegion;`); passed explicitly because it is per-def static state, not a live frame key.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_draw_state"
+          ]
+        },
+        "top_invert_region": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "public @Load(\"@-top-invert\") TextureRegion topInvertRegion;",
+          "rule": "The BurstDrill top invert region (BurstDrill.java:38, `public @Load(\"@-top-invert\") TextureRegion topInvertRegion;`); passed explicitly because it is per-def static state, not a live frame key.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_draw_state"
+          ]
+        },
+        "invert_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "public float invertTime = 0f;",
+          "rule": "The invert overlay timer (BurstDrill.java:76, `public float invertTime = 0f;`), counted down in updateTile (N2294); passed explicitly because it is live build state, not a frame key.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_draw_state"
+          ]
+        },
+        "smooth_progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "public float smoothProgress = 0f;",
+          "rule": "The smoothed drill progress (BurstDrill.java:74, `public float smoothProgress = 0f;`), smoothed in updateTile (N2294); the arrow ring reads it as `float fract = smoothProgress;` (BurstDrill.java:151); passed explicitly because it is live build state, not a frame key.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_draw_state"
+          ]
+        },
+        "has_dominant_item": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public Item dominantItem;",
+          "rule": "Whether the drill has a dominant item: dominantItem is `public Item dominantItem;` (Drill.java:244), set by the N2302 ore/dominant binding; the draw guard is `if(dominantItem != null && drawMineItem){` (BurstDrill.java:145); passed explicitly because the binding is not this slice.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_draw_state"
+          ]
+        },
+        "dominant_item_color": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "Draw.color(dominantItem.color);",
+          "rule": "The dominant item color (BurstDrill.java:146, `Draw.color(dominantItem.color);`); passed explicitly with the dominant item.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_draw_state"
+          ]
+        },
+        "draw_mine_item": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public boolean drawMineItem = true;",
+          "rule": "The block flag for drawing the mined item (Drill.java:51, `public boolean drawMineItem = true;`, default true); the draw guard is `if(dominantItem != null && drawMineItem){` (BurstDrill.java:145); passed explicitly because it is per-def static state.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_draw_state"
+          ]
+        },
+        "arrows": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "public int arrows = 3;",
+          "rule": "The arrows per direction (BurstDrill.java:28, `public int arrows = 3;`, default 3); eruption-drill overrides `arrows = 2;` (Blocks.java:3110); passed explicitly because it is per-def static state.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_draw_state"
+          ]
+        },
+        "arrow_spacing": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "public float arrowSpacing = 4f, arrowOffset = 0f;",
+          "rule": "The arrow spacing (BurstDrill.java:26, `public float arrowSpacing = 4f, arrowOffset = 0f;`, default 4f); eruption-drill overrides `arrowSpacing = 5f;` (Blocks.java:3109); passed explicitly because it is per-def static state.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_draw_state"
+          ]
+        },
+        "arrow_offset": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "public float arrowSpacing = 4f, arrowOffset = 0f;",
+          "rule": "The arrow offset (BurstDrill.java:26, `public float arrowSpacing = 4f, arrowOffset = 0f;`, default 0f); eruption-drill overrides `arrowOffset = 2f;` (Blocks.java:3108); passed explicitly because it is per-def static state.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_draw_state"
+          ]
+        },
+        "arrow_color": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "public Color arrowColor = Color.valueOf(\"feb380\"), baseArrowColor = Color.valueOf(\"6e7080\");",
+          "rule": "The arrow color (BurstDrill.java:29, `public Color arrowColor = Color.valueOf(\"feb380\"), baseArrowColor = Color.valueOf(\"6e7080\");`, \"feb380\"); passed explicitly because it is per-def static state.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_draw_state"
+          ]
+        },
+        "base_arrow_color": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "public Color arrowColor = Color.valueOf(\"feb380\"), baseArrowColor = Color.valueOf(\"6e7080\");",
+          "rule": "The base arrow color (BurstDrill.java:29, `public Color arrowColor = Color.valueOf(\"feb380\"), baseArrowColor = Color.valueOf(\"6e7080\");`, \"6e7080\"); the per-arrow color lerps from it toward arrowColor; passed explicitly because it is per-def static state.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_draw_state"
+          ]
+        },
+        "glow_color": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "public Color glowColor = arrowColor.cpy();",
+          "rule": "The glow color (BurstDrill.java:30, `public Color glowColor = arrowColor.cpy();`, a copy of arrowColor); eruption-drill overrides `glowColor.a = 0.6f;` (Blocks.java:3111); passed explicitly because it is per-def static state.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_draw_state"
+          ]
+        },
+        "top_invert_region_found": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "if(invertTime > 0 && topInvertRegion.found()){",
+          "rule": "Whether the @-top-invert region exists (BurstDrill.java:139, `if(invertTime > 0 && topInvertRegion.found()){`); passed explicitly because region presence is load-time state.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_draw_state"
+          ]
+        },
+        "arrow_blur_region_found": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "if(arrowBlurRegion.found()){",
+          "rule": "Whether the @-arrow-blur region exists (BurstDrill.java:165, `if(arrowBlurRegion.found()){`); passed explicitly because region presence is load-time state.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_draw_state"
+          ]
+        },
+        "glow_region_found": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "if(glowRegion.found()){",
+          "rule": "Whether the @-glow region exists (BurstDrill.java:177, `if(glowRegion.found()){`); passed explicitly because region presence is load-time state.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_draw_state"
+          ]
+        },
+        "draw_default_cracks": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "drawDefaultCracks();",
+          "rule": "The already-computed result of drawDefaultCracks() (BurstDrill.java:135, `drawDefaultCracks();`; defined Drill.java:341-343, callee D5, N2317); passed explicitly because the callee is not this slice -- the helper passes it through as `cracks`.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_draw_state"
+          ]
+        }
+      }
+    },
     "source_burst_drill_icons_state_input": {
       "canonical_schema": "source_state_schema.source_burst_drill_icons_state_input",
       "keys": {

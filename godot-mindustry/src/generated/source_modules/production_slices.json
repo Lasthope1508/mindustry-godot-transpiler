@@ -1186,6 +1186,36 @@
       ],
       "runtime_proof": "/root/C07BurstDrillIconsProof"
     },
+    "N2314": {
+      "canonical_ledger": "source_slice_ledger.N2314",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_method": "BurstDrillBuild.draw()",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_draw_state",
+      "source_symbols": [
+        "source_burst_drill_draw_state_result.base_rect",
+        "source_burst_drill_draw_state_result.cracks",
+        "source_burst_drill_draw_state_result.top_rect",
+        "source_burst_drill_draw_state_result.invert_visible",
+        "source_burst_drill_draw_state_result.invert_alpha",
+        "source_burst_drill_draw_state_result.invert_rect",
+        "source_burst_drill_draw_state_result.mine_item_visible",
+        "source_burst_drill_draw_state_result.mine_item_rect",
+        "source_burst_drill_draw_state_result.fract",
+        "source_burst_drill_draw_state_result.arrow_count",
+        "source_burst_drill_draw_state_result.arrows",
+        "source_burst_drill_draw_state_result.glow_visible",
+        "source_burst_drill_draw_state_result.glow_alpha",
+        "source_burst_drill_draw_state_result.glow_color"
+      ],
+      "tests": [
+        "test_c07_burst_drill_draw_registration",
+        "test_all_c07_burst_drill_draw_input_evidence_is_exact",
+        "test_burst_drill_draw_state",
+        "test_reference_graph_and_actual_c07_burst_drill_draw"
+      ],
+      "runtime_proof": "/root/C07BurstDrillDrawProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",

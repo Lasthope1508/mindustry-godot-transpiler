@@ -403,6 +403,142 @@ static func source_drill_draw_select_state(x: float, y: float, block_size: int, 
 	return source_building_draw_state.draw_item_selection_state(has_dominant_item, x, y, block_size, tilesize, icon_small, dominant_item_icon_ratio)
 
 @warning_ignore("unused_parameter")
+static func source_burst_drill_draw_state(x: float, y: float, region: Variant, top_region: Variant, item_region: Variant, arrow_region: Variant, arrow_blur_region: Variant, glow_region: Variant, top_invert_region: Variant, invert_time: float, smooth_progress: float, has_dominant_item: bool, dominant_item_color: Variant, draw_mine_item: bool, arrows: int, arrow_spacing: float, arrow_offset: float, arrow_color: Variant, base_arrow_color: Variant, glow_color: Variant, top_invert_region_found: bool, arrow_blur_region_found: bool, glow_region_found: bool, draw_default_cracks: Dictionary) -> Dictionary:
+	# N2314 -- BurstDrillBuild.draw() (BurstDrill.java:133-180)
+	# public void draw(){
+	#     Draw.rect(region, x, y);
+	#     drawDefaultCracks();
+	#
+	#     Draw.rect(topRegion, x, y);
+	#
+	#     if(invertTime > 0 && topInvertRegion.found()){
+	#         Draw.alpha(Interp.pow3Out.apply(invertTime));
+	#         Draw.rect(topInvertRegion, x, y);
+	#         Draw.color();
+	#     }
+	#
+	#     if(dominantItem != null && drawMineItem){
+	#         Draw.color(dominantItem.color);
+	#         Draw.rect(itemRegion, x, y);
+	#         Draw.color();
+	#     }
+	#
+	#     float fract = smoothProgress;
+	#
+	#     Draw.color(arrowColor);
+	#     for(int i = 0; i < 4; i++){
+	#         for(int j = 0; j < arrows; j++){
+	#             float arrowFract = (arrows - 1 - j);
+	#             float a = Mathf.clamp(fract * arrows - arrowFract);
+	#             Tmp.v1.trns(i * 90 + 45, j * arrowSpacing + arrowOffset);
+	#
+	#             //TODO maybe just use arrow alpha and draw gray on the base?
+	#             Draw.z(Layer.block);
+	#             Draw.color(baseArrowColor, arrowColor, a);
+	#             Draw.rect(arrowRegion, x + Tmp.v1.x, y + Tmp.v1.y, i * 90);
+	#
+	#             Draw.color(arrowColor);
+	#
+	#             if(arrowBlurRegion.found()){
+	#                 Draw.z(Layer.blockAdditive);
+	#                 Draw.blend(Blending.additive);
+	#                 Draw.alpha(Mathf.pow(a, 10f));
+	#                 Draw.rect(arrowBlurRegion, x + Tmp.v1.x, y + Tmp.v1.y, i * 90);
+	#                 Draw.blend();
+	#             }
+	#         }
+	#     }
+	#
+	#     Draw.color();
+	#
+	#     if(glowRegion.found()){
+	#         Drawf.additive(glowRegion, Tmp.c2.set(glowColor).a(Mathf.pow(fract, 3f) * glowColor.a), x, y);
+	#     }
+	# }
+	# This is the BurstDrillBuild OVERRIDE: public class BurstDrill extends Drill{
+	# (BurstDrill.java:17), public class BurstDrillBuild extends DrillBuild{ (BurstDrill.java:70).
+	# The DrillBuild.draw() BASE (Drill.java:346-379, public class Drill extends Block{
+	# (Drill.java:27), public class DrillBuild extends Building{ (Drill.java:237)) is a LATER
+	# slice (N2317), NOT this one. drawDefaultCracks() -- public void drawDefaultCracks(){
+	# (Drill.java:341-343) -- is a callee (D5): its already-computed result rides in as
+	# draw_default_cracks, NOT re-ported. Fields: public float smoothProgress = 0f;
+	# public float invertTime = 0f; public float arrowSpacing = 4f, arrowOffset = 0f;
+	# public int arrows = 3;
+	# public Color arrowColor = Color.valueOf("feb380"), baseArrowColor = Color.valueOf("6e7080");
+	# public Color glowColor = arrowColor.cpy();
+	# public @Load("@-top-invert") TextureRegion topInvertRegion;
+	# public @Load("@-glow") TextureRegion glowRegion;
+	# public @Load("@-arrow") TextureRegion arrowRegion;
+	# public @Load("@-arrow-blur") TextureRegion arrowBlurRegion;
+	# public boolean drawMineItem = true; public Item dominantItem;
+	# public @Load("@-top") TextureRegion topRegion;
+	# public @Load(value = "@-item", fallback = "drill-item-@size") TextureRegion itemRegion;
+	# public TextureRegion region; (Block.java:427)
+	# Per-def: impact-drill (Blocks.java:3070-3092) uses class defaults, size = 4;;
+	# eruption-drill (Blocks.java:3093-3120) overrides size = 5;, arrowOffset = 2f;,
+	# arrowSpacing = 5f;, arrows = 2;, glowColor.a = 0.6f;.
+	# Pure function: returns the computed draw state (rects, colors, alpha, z, blend, glow)
+	# and does NOT touch real Draw/Drawf playback. Formulas: Interp.pow3Out.apply(t) =
+	# 1 - (1 - t)^3 (arc Interp.java PowOut, power 3); Mathf.clamp(x) clamps to [0, 1]
+	# (arc Mathf.java:402-404); Tmp.v1.trns(angle, len) rotates (len, 0) by the angle in
+	# degrees (arc Vec2.java:40-42); Draw.color(a, b, s) lerps a toward b by s (arc
+	# Draw.java:234-236); Layer.block = 30, Layer.blockAdditive = 31 (Layer.java:27,36).
+	var arrow_col: Color = arrow_color
+	var base_arrow_col: Color = base_arrow_color
+	var glow_col: Color = glow_color
+	var invert_visible: bool = invert_time > 0.0 and top_invert_region_found
+	var invert_alpha: float = 1.0 - pow(1.0 - invert_time, 3.0) if invert_visible else 0.0
+	var invert_rect: Variant = {"region": top_invert_region, "x": x, "y": y, "alpha": invert_alpha} if invert_visible else null
+	var mine_item_visible: bool = has_dominant_item and draw_mine_item
+	var mine_item_rect: Variant = {"region": item_region, "x": x, "y": y, "color": dominant_item_color} if mine_item_visible else null
+	var fract: float = smooth_progress
+	var arrow_list: Array = []
+	for i in range(4):
+		for j in range(arrows):
+			var arrow_fract: float = float(arrows - 1 - j)
+			var a: float = clampf(fract * float(arrows) - arrow_fract, 0.0, 1.0)
+			var angle_deg: float = float(i * 90 + 45)
+			var distance: float = float(j) * arrow_spacing + arrow_offset
+			var offset: Vector2 = Vector2(cos(deg_to_rad(angle_deg)), sin(deg_to_rad(angle_deg))) * distance
+			var arrow_color_lerp: Color = base_arrow_col.lerp(arrow_col, a)
+			var blur_visible: bool = arrow_blur_region_found
+			var blur_alpha: float = pow(a, 10.0) if blur_visible else 0.0
+			arrow_list.append({
+				"region": arrow_region,
+				"x": x + offset.x,
+				"y": y + offset.y,
+				"alpha": a,
+				"color": arrow_color_lerp,
+				"rotation_deg": float(i * 90),
+				"blur_visible": blur_visible,
+				"blur_alpha": blur_alpha,
+				"blur_region": arrow_blur_region,
+				"z": 30,
+				"blur_z": 31,
+				"blur_blend": "additive",
+			})
+	var glow_visible: bool = glow_region_found
+	var glow_alpha: float = pow(fract, 3.0) * glow_col.a if glow_visible else 0.0
+	var glow_result: Color = glow_col
+	glow_result.a = glow_alpha
+	return {
+		"base_rect": {"region": region, "x": x, "y": y},
+		"cracks": draw_default_cracks,
+		"top_rect": {"region": top_region, "x": x, "y": y},
+		"invert_visible": invert_visible,
+		"invert_alpha": invert_alpha,
+		"invert_rect": invert_rect,
+		"mine_item_visible": mine_item_visible,
+		"mine_item_rect": mine_item_rect,
+		"fract": fract,
+		"arrow_count": 4 * arrows,
+		"arrows": arrow_list,
+		"glow_visible": glow_visible,
+		"glow_alpha": glow_alpha,
+		"glow_color": glow_result,
+	}
+
+@warning_ignore("unused_parameter")
 static func source_drill_sense_object_state(frame: Dictionary, sensor: String, has_dominant_item: bool, dominant_item: Variant, super_sense_object_value: Variant) -> Dictionary:
 	# DrillBuild.senseObject() (Drill.java:281-284):
 	# public Object senseObject(LAccess sensor){

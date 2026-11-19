@@ -70883,6 +70883,159 @@
       ],
       "runtime_proof": "/root/C07SoundControlIsDarkProof",
       "rule": "Source-backed SoundControl.isDark() state from SoundControl.java."
+    },
+    "SourceBurstDrillBuildState.source_burst_drill_draw_state": {
+      "status": "active",
+      "source_slice": "N2314",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "source_method": "BurstDrillBuild.draw()",
+      "params": [
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_burst_drill_draw_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_burst_drill_draw_state_input.y"
+        },
+        {
+          "name": "region",
+          "type": "Variant",
+          "schema": "source_burst_drill_draw_state_input.region"
+        },
+        {
+          "name": "top_region",
+          "type": "Variant",
+          "schema": "source_burst_drill_draw_state_input.top_region"
+        },
+        {
+          "name": "item_region",
+          "type": "Variant",
+          "schema": "source_burst_drill_draw_state_input.item_region"
+        },
+        {
+          "name": "arrow_region",
+          "type": "Variant",
+          "schema": "source_burst_drill_draw_state_input.arrow_region"
+        },
+        {
+          "name": "arrow_blur_region",
+          "type": "Variant",
+          "schema": "source_burst_drill_draw_state_input.arrow_blur_region"
+        },
+        {
+          "name": "glow_region",
+          "type": "Variant",
+          "schema": "source_burst_drill_draw_state_input.glow_region"
+        },
+        {
+          "name": "top_invert_region",
+          "type": "Variant",
+          "schema": "source_burst_drill_draw_state_input.top_invert_region"
+        },
+        {
+          "name": "invert_time",
+          "type": "float",
+          "schema": "source_burst_drill_draw_state_input.invert_time"
+        },
+        {
+          "name": "smooth_progress",
+          "type": "float",
+          "schema": "source_burst_drill_draw_state_input.smooth_progress"
+        },
+        {
+          "name": "has_dominant_item",
+          "type": "bool",
+          "schema": "source_burst_drill_draw_state_input.has_dominant_item"
+        },
+        {
+          "name": "dominant_item_color",
+          "type": "Variant",
+          "schema": "source_burst_drill_draw_state_input.dominant_item_color"
+        },
+        {
+          "name": "draw_mine_item",
+          "type": "bool",
+          "schema": "source_burst_drill_draw_state_input.draw_mine_item"
+        },
+        {
+          "name": "arrows",
+          "type": "int",
+          "schema": "source_burst_drill_draw_state_input.arrows"
+        },
+        {
+          "name": "arrow_spacing",
+          "type": "float",
+          "schema": "source_burst_drill_draw_state_input.arrow_spacing"
+        },
+        {
+          "name": "arrow_offset",
+          "type": "float",
+          "schema": "source_burst_drill_draw_state_input.arrow_offset"
+        },
+        {
+          "name": "arrow_color",
+          "type": "Variant",
+          "schema": "source_burst_drill_draw_state_input.arrow_color"
+        },
+        {
+          "name": "base_arrow_color",
+          "type": "Variant",
+          "schema": "source_burst_drill_draw_state_input.base_arrow_color"
+        },
+        {
+          "name": "glow_color",
+          "type": "Variant",
+          "schema": "source_burst_drill_draw_state_input.glow_color"
+        },
+        {
+          "name": "top_invert_region_found",
+          "type": "bool",
+          "schema": "source_burst_drill_draw_state_input.top_invert_region_found"
+        },
+        {
+          "name": "arrow_blur_region_found",
+          "type": "bool",
+          "schema": "source_burst_drill_draw_state_input.arrow_blur_region_found"
+        },
+        {
+          "name": "glow_region_found",
+          "type": "bool",
+          "schema": "source_burst_drill_draw_state_input.glow_region_found"
+        },
+        {
+          "name": "draw_default_cracks",
+          "type": "Dictionary",
+          "schema": "source_burst_drill_draw_state_input.draw_default_cracks"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "base_rect",
+        "cracks",
+        "top_rect",
+        "invert_visible",
+        "invert_alpha",
+        "invert_rect",
+        "mine_item_visible",
+        "mine_item_rect",
+        "fract",
+        "arrow_count",
+        "arrows",
+        "glow_visible",
+        "glow_alpha",
+        "glow_color"
+      ],
+      "tests": [
+        "test_c07_burst_drill_draw_registration",
+        "test_all_c07_burst_drill_draw_input_evidence_is_exact",
+        "test_burst_drill_draw_state",
+        "test_reference_graph_and_actual_c07_burst_drill_draw"
+      ],
+      "runtime_proof": "/root/C07BurstDrillDrawProof",
+      "rule": "Source-backed BurstDrillBuild draw() state from BurstDrill.java + Drill.java + Block.java + Blocks.java."
     }
   },
   "policy": {

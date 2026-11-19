@@ -178120,6 +178120,230 @@
         "test_reference_graph_and_actual_c07_sound_control_is_dark"
       ],
       "runtime_proof": "/root/C07SoundControlIsDarkProof"
+    },
+    "source_burst_drill_draw_state_result.base_rect": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_draw_state",
+      "godot_symbol": "source_burst_drill_draw_state_result.base_rect",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_method": "BurstDrillBuild.draw()",
+      "java_expr": "Draw.rect(region, x, y);",
+      "rule": "The base rect {region, x, y}, always drawn (BurstDrill.java:134, `Draw.rect(region, x, y);`).",
+      "tests": [
+        "test_c07_burst_drill_draw_registration",
+        "test_all_c07_burst_drill_draw_input_evidence_is_exact",
+        "test_burst_drill_draw_state",
+        "test_reference_graph_and_actual_c07_burst_drill_draw"
+      ],
+      "runtime_proof": "/root/C07BurstDrillDrawProof"
+    },
+    "source_burst_drill_draw_state_result.cracks": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_draw_state",
+      "godot_symbol": "source_burst_drill_draw_state_result.cracks",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_method": "BurstDrillBuild.draw()",
+      "java_expr": "drawDefaultCracks();",
+      "rule": "The callee result passed through unchanged (BurstDrill.java:135, `drawDefaultCracks();`).",
+      "tests": [
+        "test_c07_burst_drill_draw_registration",
+        "test_all_c07_burst_drill_draw_input_evidence_is_exact",
+        "test_burst_drill_draw_state",
+        "test_reference_graph_and_actual_c07_burst_drill_draw"
+      ],
+      "runtime_proof": "/root/C07BurstDrillDrawProof"
+    },
+    "source_burst_drill_draw_state_result.top_rect": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_draw_state",
+      "godot_symbol": "source_burst_drill_draw_state_result.top_rect",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_method": "BurstDrillBuild.draw()",
+      "java_expr": "Draw.rect(topRegion, x, y);",
+      "rule": "The top rect {region, x, y}, always drawn (BurstDrill.java:137, `Draw.rect(topRegion, x, y);`).",
+      "tests": [
+        "test_c07_burst_drill_draw_registration",
+        "test_all_c07_burst_drill_draw_input_evidence_is_exact",
+        "test_burst_drill_draw_state",
+        "test_reference_graph_and_actual_c07_burst_drill_draw"
+      ],
+      "runtime_proof": "/root/C07BurstDrillDrawProof"
+    },
+    "source_burst_drill_draw_state_result.invert_visible": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_draw_state",
+      "godot_symbol": "source_burst_drill_draw_state_result.invert_visible",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_method": "BurstDrillBuild.draw()",
+      "java_expr": "if(invertTime > 0 && topInvertRegion.found()){",
+      "rule": "Whether the invert overlay is drawn: true exactly when invertTime > 0 and the top-invert region exists (BurstDrill.java:139, `if(invertTime > 0 && topInvertRegion.found()){`).",
+      "tests": [
+        "test_c07_burst_drill_draw_registration",
+        "test_all_c07_burst_drill_draw_input_evidence_is_exact",
+        "test_burst_drill_draw_state",
+        "test_reference_graph_and_actual_c07_burst_drill_draw"
+      ],
+      "runtime_proof": "/root/C07BurstDrillDrawProof"
+    },
+    "source_burst_drill_draw_state_result.invert_alpha": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_draw_state",
+      "godot_symbol": "source_burst_drill_draw_state_result.invert_alpha",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_method": "BurstDrillBuild.draw()",
+      "java_expr": "Draw.alpha(Interp.pow3Out.apply(invertTime));",
+      "rule": "The invert overlay alpha: pow3Out(invertTime) = 1 - (1 - invertTime)^3 when visible, else 0.0 (BurstDrill.java:140, `Draw.alpha(Interp.pow3Out.apply(invertTime));`; arc PowOut power 3).",
+      "tests": [
+        "test_c07_burst_drill_draw_registration",
+        "test_all_c07_burst_drill_draw_input_evidence_is_exact",
+        "test_burst_drill_draw_state",
+        "test_reference_graph_and_actual_c07_burst_drill_draw"
+      ],
+      "runtime_proof": "/root/C07BurstDrillDrawProof"
+    },
+    "source_burst_drill_draw_state_result.invert_rect": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_draw_state",
+      "godot_symbol": "source_burst_drill_draw_state_result.invert_rect",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_method": "BurstDrillBuild.draw()",
+      "java_expr": "Draw.rect(topInvertRegion, x, y);",
+      "rule": "The invert rect {region, x, y, alpha} when visible, else null (BurstDrill.java:141, `Draw.rect(topInvertRegion, x, y);`).",
+      "tests": [
+        "test_c07_burst_drill_draw_registration",
+        "test_all_c07_burst_drill_draw_input_evidence_is_exact",
+        "test_burst_drill_draw_state",
+        "test_reference_graph_and_actual_c07_burst_drill_draw"
+      ],
+      "runtime_proof": "/root/C07BurstDrillDrawProof"
+    },
+    "source_burst_drill_draw_state_result.mine_item_visible": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_draw_state",
+      "godot_symbol": "source_burst_drill_draw_state_result.mine_item_visible",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_method": "BurstDrillBuild.draw()",
+      "java_expr": "if(dominantItem != null && drawMineItem){",
+      "rule": "Whether the mine-item overlay is drawn: true exactly when a dominant item is bound and drawMineItem (BurstDrill.java:145, `if(dominantItem != null && drawMineItem){`).",
+      "tests": [
+        "test_c07_burst_drill_draw_registration",
+        "test_all_c07_burst_drill_draw_input_evidence_is_exact",
+        "test_burst_drill_draw_state",
+        "test_reference_graph_and_actual_c07_burst_drill_draw"
+      ],
+      "runtime_proof": "/root/C07BurstDrillDrawProof"
+    },
+    "source_burst_drill_draw_state_result.mine_item_rect": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_draw_state",
+      "godot_symbol": "source_burst_drill_draw_state_result.mine_item_rect",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_method": "BurstDrillBuild.draw()",
+      "java_expr": "Draw.rect(itemRegion, x, y);",
+      "rule": "The mine-item rect {region, x, y, color} when visible, else null (BurstDrill.java:147, `Draw.rect(itemRegion, x, y);`).",
+      "tests": [
+        "test_c07_burst_drill_draw_registration",
+        "test_all_c07_burst_drill_draw_input_evidence_is_exact",
+        "test_burst_drill_draw_state",
+        "test_reference_graph_and_actual_c07_burst_drill_draw"
+      ],
+      "runtime_proof": "/root/C07BurstDrillDrawProof"
+    },
+    "source_burst_drill_draw_state_result.fract": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_draw_state",
+      "godot_symbol": "source_burst_drill_draw_state_result.fract",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_method": "BurstDrillBuild.draw()",
+      "java_expr": "float fract = smoothProgress;",
+      "rule": "The arrow ring progress: fract = smoothProgress (BurstDrill.java:151, `float fract = smoothProgress;`).",
+      "tests": [
+        "test_c07_burst_drill_draw_registration",
+        "test_all_c07_burst_drill_draw_input_evidence_is_exact",
+        "test_burst_drill_draw_state",
+        "test_reference_graph_and_actual_c07_burst_drill_draw"
+      ],
+      "runtime_proof": "/root/C07BurstDrillDrawProof"
+    },
+    "source_burst_drill_draw_state_result.arrow_count": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_draw_state",
+      "godot_symbol": "source_burst_drill_draw_state_result.arrow_count",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_method": "BurstDrillBuild.draw()",
+      "java_expr": "for(int i = 0; i < 4; i++){",
+      "rule": "The total arrows drawn: 4 directions x arrows (BurstDrill.java:153, `for(int i = 0; i < 4; i++){`); 12 impact-drill (arrows 3), 8 eruption-drill (arrows 2).",
+      "tests": [
+        "test_c07_burst_drill_draw_registration",
+        "test_all_c07_burst_drill_draw_input_evidence_is_exact",
+        "test_burst_drill_draw_state",
+        "test_reference_graph_and_actual_c07_burst_drill_draw"
+      ],
+      "runtime_proof": "/root/C07BurstDrillDrawProof"
+    },
+    "source_burst_drill_draw_state_result.arrows": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_draw_state",
+      "godot_symbol": "source_burst_drill_draw_state_result.arrows",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_method": "BurstDrillBuild.draw()",
+      "java_expr": "Draw.rect(arrowRegion, x + Tmp.v1.x, y + Tmp.v1.y, i * 90);",
+      "rule": "The per-arrow computed state, ordered i = 0..3 then j = 0..arrows-1: position (x, y) + trns(i * 90 + 45, j * arrowSpacing + arrowOffset), alpha = clamp(fract * arrows - (arrows - 1 - j)) to [0, 1], color = baseArrowColor.lerp(arrowColor, alpha), rotation = i * 90, blur_alpha = pow(alpha, 10) when the blur region exists, z 30 (Layer.block) / blur z 31 (Layer.blockAdditive), blur blend additive (BurstDrill.java:153-173).",
+      "tests": [
+        "test_c07_burst_drill_draw_registration",
+        "test_all_c07_burst_drill_draw_input_evidence_is_exact",
+        "test_burst_drill_draw_state",
+        "test_reference_graph_and_actual_c07_burst_drill_draw"
+      ],
+      "runtime_proof": "/root/C07BurstDrillDrawProof"
+    },
+    "source_burst_drill_draw_state_result.glow_visible": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_draw_state",
+      "godot_symbol": "source_burst_drill_draw_state_result.glow_visible",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_method": "BurstDrillBuild.draw()",
+      "java_expr": "if(glowRegion.found()){",
+      "rule": "Whether the glow is drawn: true exactly when the glow region exists (BurstDrill.java:177, `if(glowRegion.found()){`).",
+      "tests": [
+        "test_c07_burst_drill_draw_registration",
+        "test_all_c07_burst_drill_draw_input_evidence_is_exact",
+        "test_burst_drill_draw_state",
+        "test_reference_graph_and_actual_c07_burst_drill_draw"
+      ],
+      "runtime_proof": "/root/C07BurstDrillDrawProof"
+    },
+    "source_burst_drill_draw_state_result.glow_alpha": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_draw_state",
+      "godot_symbol": "source_burst_drill_draw_state_result.glow_alpha",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_method": "BurstDrillBuild.draw()",
+      "java_expr": "Drawf.additive(glowRegion, Tmp.c2.set(glowColor).a(Mathf.pow(fract, 3f) * glowColor.a), x, y);",
+      "rule": "The glow alpha: pow(fract, 3) * glowColor.a when visible, else 0.0 (BurstDrill.java:178).",
+      "tests": [
+        "test_c07_burst_drill_draw_registration",
+        "test_all_c07_burst_drill_draw_input_evidence_is_exact",
+        "test_burst_drill_draw_state",
+        "test_reference_graph_and_actual_c07_burst_drill_draw"
+      ],
+      "runtime_proof": "/root/C07BurstDrillDrawProof"
+    },
+    "source_burst_drill_draw_state_result.glow_color": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_draw_state",
+      "godot_symbol": "source_burst_drill_draw_state_result.glow_color",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_method": "BurstDrillBuild.draw()",
+      "java_expr": "Drawf.additive(glowRegion, Tmp.c2.set(glowColor).a(Mathf.pow(fract, 3f) * glowColor.a), x, y);",
+      "rule": "The glow color: glowColor with alpha = glow_alpha (BurstDrill.java:178, `Tmp.c2.set(glowColor).a(Mathf.pow(fract, 3f) * glowColor.a)`).",
+      "tests": [
+        "test_c07_burst_drill_draw_registration",
+        "test_all_c07_burst_drill_draw_input_evidence_is_exact",
+        "test_burst_drill_draw_state",
+        "test_reference_graph_and_actual_c07_burst_drill_draw"
+      ],
+      "runtime_proof": "/root/C07BurstDrillDrawProof"
     }
   },
   "version": 1
