@@ -252,7 +252,7 @@ static func source_turret_progress_state(frame: Dictionary, reload_counter: floa
 # (World.java:165-166, `public static float conv(float coord){`
 # / `return coord / tilesize;`) divides by tilesize (Vars.java:135,
 # `public static final int tilesize = 8;`). The progress case calls
-# the N2254 pure function (`return Mathf.clamp(reloadCounter /
+# the N2292 pure function (`return Mathf.clamp(reloadCounter /
 # reload);`, Turret.java:426) with explicit params (reloadCounter,
 # ReloadTurret.java:26, `public float reloadCounter;`; reload,
 # ReloadTurret.java:10, `public float reload = 10f;`). All live
@@ -308,7 +308,7 @@ static func source_turret_sense_state(frame: Dictionary, sensor: String, total_a
 # N2188 precedent), because the tick frame tracks only
 # cheating / enabled / power_status / efficiency today. Ammo
 # absent preserves the base range: has_ammo false adds 0f (the
-# N2291/N2254 absent-preserves precedent). NO driver line:
+# N2291/N2292 absent-preserves precedent). NO driver line:
 # fogRadius() is a load-time accessor the fog system reads, not a
 # per-tick write (the N2249 precedent).
 @warning_ignore("unused_parameter")

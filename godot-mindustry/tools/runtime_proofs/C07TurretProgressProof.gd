@@ -19,7 +19,7 @@ func _ready() -> void:
 	game.set_process(false)
 	game.set_physics_process(false)
 
-	# --- TurretBuild.progress() (N2254):
+	# --- TurretBuild.progress() (N2292):
 	# TurretBuild overrides progress (Turret.java:425-427,
 	# `public float progress(){` / `return Mathf.clamp(
 	# reloadCounter / reload);`) over the base default

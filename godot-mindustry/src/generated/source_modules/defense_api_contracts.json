@@ -8129,7 +8129,7 @@
     "SourceTurretBuildState.source_turret_progress_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_progress_state",
       "status": "active",
-      "source_slice": "N2254",
+      "source_slice": "N2292",
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
       "source_method": "TurretBuild.progress()",
       "params": [

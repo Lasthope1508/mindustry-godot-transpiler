@@ -14,7 +14,7 @@ class C07TurretProgressTests(unittest.TestCase):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        self.assertEqual(ledger['N2254']['godot_owner'], 'SourceTurretBuildState.source_turret_progress_state')
+        self.assertEqual(ledger['N2292']['godot_owner'], 'SourceTurretBuildState.source_turret_progress_state')
         # TurretBuild overrides progress (Turret.java:425-427,
         # `public float progress(){` / `return
         # Mathf.clamp(reloadCounter / reload);`) over the base
@@ -46,12 +46,12 @@ class C07TurretProgressTests(unittest.TestCase):
         # params. (3) sense() stays DEFERRED (assigned N2255).
         # One new result symbol: progress.
         self.assertEqual(
-            ledger['N2254']['source_symbols'],
+            ledger['N2292']['source_symbols'],
             [
                 'source_turret_progress_state_result.progress',
             ],
         )
-        for name in ledger['N2254']['source_symbols']:
+        for name in ledger['N2292']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_source'], {
@@ -60,9 +60,9 @@ class C07TurretProgressTests(unittest.TestCase):
                     'core/src/mindustry/entities/comp/BuildingComp.java',
                 })
                 self.assertEqual(symbol['godot_owner'], 'SourceTurretBuildState.' + name.rsplit('_result.', 1)[0])
-        self.assertEqual(ledger['N2254']['runtime_proof'], '/root/C07TurretProgressProof')
+        self.assertEqual(ledger['N2292']['runtime_proof'], '/root/C07TurretProgressProof')
         self.assertEqual(
-            ledger['N2254']['tests'],
+            ledger['N2292']['tests'],
             [
                 'test_c07_turret_progress_registration',
                 'test_all_c07_turret_progress_input_evidence_is_exact',
@@ -70,17 +70,17 @@ class C07TurretProgressTests(unittest.TestCase):
                 'test_reference_graph_and_actual_c07_turret_progress',
             ],
         )
-        self.assertTrue(ledger['N2254']['deferred_exprs'])
+        self.assertTrue(ledger['N2292']['deferred_exprs'])
         self.assertNotIn(
             'TurretBuild.progress() (Turret.java:425-427)',
-            ' '.join(ledger['N2254']['deferred_exprs']),
+            ' '.join(ledger['N2292']['deferred_exprs']),
         )
 
     def test_all_c07_turret_progress_input_evidence_is_exact(self):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        for name in ledger['N2254']['source_symbols']:
+        for name in ledger['N2292']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_expr'], (ROOT / 'mindustry-upstream' / symbol['java_source']).read_text(encoding='utf-8'))
@@ -93,7 +93,7 @@ class C07TurretProgressTests(unittest.TestCase):
         upstream = {}
         for source in slice_sources:
             upstream[source] = (ROOT / 'mindustry-upstream' / source).read_text(encoding='utf-8')
-        for expr in ledger['N2254']['exact_exprs']:
+        for expr in ledger['N2292']['exact_exprs']:
             with self.subTest(expr=expr):
                 self.assertTrue(any(expr in text for text in upstream.values()), expr)
 
