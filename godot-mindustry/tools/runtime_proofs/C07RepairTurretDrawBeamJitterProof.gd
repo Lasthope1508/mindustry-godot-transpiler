@@ -19,7 +19,7 @@ func _ready() -> void:
 	game.set_process(false)
 	game.set_physics_process(false)
 
-	# --- RepairTurret drawBeam jitter (N2251):
+	# --- RepairTurret drawBeam jitter (N2289):
 	# The jitter is the three Rand draws seeded by id + target
 	# id (`rand.setSeed(id + (target instanceof Entityc e ?
 	# e.id() : 0));`, RepairTurret.java:111), guarded by the

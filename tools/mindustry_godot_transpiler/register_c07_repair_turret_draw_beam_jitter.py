@@ -1,4 +1,4 @@
-"""Register the RepairTurret drawBeam jitter rows (N2251).
+"""Register the RepairTurret drawBeam jitter rows (N2289).
 
 N2219 captured the deterministic beam state but left the endpoint
 PRE-JITTER: the random jitter (`lastEnd.add(offset.trns(` with
@@ -12,7 +12,7 @@ long words seed0/seed1, murmurHash3 seeding), deterministic per
 call via setSeed; Time.time is the tick counter (Time.java:15,
 `public static float time, globalTime;`, 60fps units). The
 GDScript int64 xorshift was verified live in Godot BEFORE this
-slice was built (throwaway probe N2251RandProbe, deleted after
+slice was built (throwaway probe N2289RandProbe, deleted after
 the run): seed-10 draws r1=257.980828 / r2=38.301969 /
 r3=3.008420 / r4=0.350668 and randomSeed-float-max(123, 360) =
 348.595226, matching the Python oracle vectors (5/5 pass,
@@ -70,7 +70,7 @@ TIME = 'arc-core/src/arc/util/Time.java'
 PROOF = '/root/C07RepairTurretDrawBeamJitterProof'
 JITTER_OWNER = 'SourceRepairTurretBuildState.source_repair_turret_draw_beam_jitter_state'
 TESTS = ['test_c07_repair_turret_draw_beam_jitter_registration', 'test_all_c07_repair_turret_draw_beam_jitter_input_evidence_is_exact', 'test_repair_turret_draw_beam_jitter_state', 'test_reference_graph_and_actual_c07_repair_turret_draw_beam_jitter']
-# The 5 slice sources the N2251 test checks exact_exprs
+# The 5 slice sources the N2289 test checks exact_exprs
 # against -- every expr in EXACT_EXPRS below must appear verbatim
 # in one of these files.
 SLICE_SOURCES = [
@@ -90,19 +90,19 @@ EXACT_EXPRS = ['public static void drawBeam(float x, float y, float rotation, fl
 # import recovers the runtime value verbatim. Round 3: the N2247
 # (ex-N2229) senseObject(config) register is DROPPED -- remote
 # N2234 covers that leg -- so the chain skips it and imports
-# N2227 directly. NOTE for the next slice: N2251's DEFERRED is
+# N2227 directly. NOTE for the next slice: N2289's DEFERRED is
 # likewise a computed list comprehension + [...] expression, so
 # carry it forward by import too, not by ast.literal_eval.
 # One carried entry is DROPPED here, not carried: the N2227
 # entry deferring the RepairTurret drawBeam() jitter/pulse to a
-# Rand-modeling slice -- N2251 IS the jitter slice, so carrying
+# Rand-modeling slice -- N2289 IS the jitter slice, so carrying
 # it would leave a stale "still deferred" row for done work. The
 # pulse half is re-recorded below as its own entry, since the
 # pulse phase still waits for N2252.
 DEFERRED = [e for e in N2227_DEFERRED if 'RepairTurret drawBeam() jitter/pulse' not in e] + [
-    'RepairTurret drawBeam pulse phase (RepairTurret.java:138, `float f = (Time.time / 85f + rand.random(1f)) % 1f;`, :140 `Draw.alpha(1f - Interp.pow5In.apply(f));`, :142 `Lines.circle(lastEnd.x, lastEnd.y, 1f + f * pulseRadius);`) -- the FOURTH Rand draw from the SAME seeded sequence as the N2251 jitter draws, so N2252 must reuse this slice\'s Rand state, not re-seed; pulseRadius per-def repair-point 5f / repair-turret 6.1f (Blocks.java:6391/6405), class default 6f (RepairTurret.java:37) -- no pulse-circle radius key exists yet.',
+    'RepairTurret drawBeam pulse phase (RepairTurret.java:138, `float f = (Time.time / 85f + rand.random(1f)) % 1f;`, :140 `Draw.alpha(1f - Interp.pow5In.apply(f));`, :142 `Lines.circle(lastEnd.x, lastEnd.y, 1f + f * pulseRadius);`) -- the FOURTH Rand draw from the SAME seeded sequence as the N2289 jitter draws, so N2252 must reuse this slice\'s Rand state, not re-seed; pulseRadius per-def repair-point 5f / repair-turret 6.1f (Blocks.java:6391/6405), class default 6f (RepairTurret.java:37) -- no pulse-circle radius key exists yet.',
     'RepairTurret drawBeam jitter driver wiring -- the jitter is NOT stamped live yet: the frame carries no building id, target id, target rotation or absolute tick, so the N2219 draw_beam_state still returns the pre-jitter beam_end; wiring waits for a slice that adds those frame fields.',
-    'RepairTurret drawBeam jitter Windows Godot proof -- debt in GOAL.md section 5, same as N2212-N2227: the N2251 proof runs headless on Linux here and waits for a Windows Godot run.',
+    'RepairTurret drawBeam jitter Windows Godot proof -- debt in GOAL.md section 5, same as N2212-N2227: the N2289 proof runs headless on Linux here and waits for a Windows Godot run.',
 ]
 
 
@@ -164,7 +164,7 @@ def main():
     jitter_inputs, jitter_outputs = definitions()
 
     entries = [
-        ('N2251', JITTER_OWNER, 'source_repair_turret_draw_beam_jitter_state', REPAIR_TURRET, 'mindustry.world.blocks.units.RepairTurret.RepairPointBuild', 'RepairPointBuild.draw()/drawBeam()', jitter_inputs, jitter_outputs, True, 'Dictionary'),
+        ('N2289', JITTER_OWNER, 'source_repair_turret_draw_beam_jitter_state', REPAIR_TURRET, 'mindustry.world.blocks.units.RepairTurret.RepairPointBuild', 'RepairPointBuild.draw()/drawBeam()', jitter_inputs, jitter_outputs, True, 'Dictionary'),
     ]
     all_names = []
     for sid, owner, prefix, source, cls, method, inputs, outputs, has_contract, return_type in entries:
@@ -186,7 +186,7 @@ def main():
     # The test pins this order: rand_angle_draw, rand_time_draw,
     # rand_hit_draw, jitter_angle_deg, jitter_amplitude,
     # jitter_offset.
-    by_slice['N2251'] = [
+    by_slice['N2289'] = [
         'source_repair_turret_draw_beam_jitter_state_result.rand_angle_draw',
         'source_repair_turret_draw_beam_jitter_state_result.rand_time_draw',
         'source_repair_turret_draw_beam_jitter_state_result.rand_hit_draw',
@@ -194,7 +194,7 @@ def main():
         'source_repair_turret_draw_beam_jitter_state_result.jitter_amplitude',
         'source_repair_turret_draw_beam_jitter_state_result.jitter_offset',
     ]
-    source_symbols.upsert_source_slice(GODOT, 'N2251', dict(status='done', java_source=REPAIR_TURRET, java_class='mindustry.world.blocks.units.RepairTurret.RepairPointBuild', java_method='RepairPointBuild.draw()/drawBeam()', godot_owner=JITTER_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2251'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
+    source_symbols.upsert_source_slice(GODOT, 'N2289', dict(status='done', java_source=REPAIR_TURRET, java_class='mindustry.world.blocks.units.RepairTurret.RepairPointBuild', java_method='RepairPointBuild.draw()/drawBeam()', godot_owner=JITTER_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2289'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
 
     source_symbols.upsert_source_symbols(GODOT, symbols)
     source_symbols.write_source_symbol_audit_report(GODOT)

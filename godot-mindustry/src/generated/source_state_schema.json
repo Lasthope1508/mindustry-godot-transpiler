@@ -234665,134 +234665,6 @@
       "runtime_proof": "/root/C07PointDefenseTurretLiveBulletsWiringProof",
       "rule": "Source-backed PointDefenseTurret live-bullets wiring from PointDefenseTurret.java / BulletComp.java / BulletType.java / Blocks.java / GroupDefs.java."
     },
-    "source_repair_turret_draw_beam_jitter_state_input": {
-      "status": "active",
-      "owner": "SourceRepairTurretBuildState.source_repair_turret_draw_beam_jitter_state",
-      "source_slice": "N2251",
-      "keys": {
-        "building_id": {
-          "type": "int",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
-          "java_expr": "rand.setSeed(id + (target instanceof Entityc e ? e.id() : 0));",
-          "rule": "The building entity id (RepairTurret.java:111, `rand.setSeed(id + (target instanceof Entityc e ? e.id() : 0));`): the first half of the Rand seed; passed explicitly because the frame carries no building id yet -- no id is invented.",
-          "used_by": [
-            "SourceRepairTurretBuildState.source_repair_turret_draw_beam_jitter_state"
-          ]
-        },
-        "target_id": {
-          "type": "int",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
-          "java_expr": "rand.setSeed(id + (target instanceof Entityc e ? e.id() : 0));",
-          "rule": "The target entity id (RepairTurret.java:111, `rand.setSeed(id + (target instanceof Entityc e ? e.id() : 0));`): the second half of the Rand seed (0 when the target is not an Entityc); passed explicitly because the frame carries no target id yet.",
-          "used_by": [
-            "SourceRepairTurretBuildState.source_repair_turret_draw_beam_jitter_state"
-          ]
-        },
-        "time_ticks": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
-          "java_expr": "rand.random(360f) + Time.time/2f,",
-          "rule": "Time.time at draw time (Time.java:15, `public static float time, globalTime;`, the tick counter in 60fps units): the jitter angle is rand.random(360f) + Time.time/2f (RepairTurret.java:122); passed explicitly because the frame carries no absolute tick yet.",
-          "used_by": [
-            "SourceRepairTurretBuildState.source_repair_turret_draw_beam_jitter_state"
-          ]
-        },
-        "target_hit_size": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
-          "java_expr": "rand.random(target.hitSize() * 0.2f, target.hitSize() * 0.45f)",
-          "rule": "The target hitSize (Sized.hitSize(), Sized.java:6): the third Rand draw ranges over hitSize * 0.2f to hitSize * 0.45f (RepairTurret.java:123); passed explicitly because the frame carries no target hitSize yet.",
-          "used_by": [
-            "SourceRepairTurretBuildState.source_repair_turret_draw_beam_jitter_state"
-          ]
-        },
-        "target_rotation_deg": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
-          "java_expr": ").rotate(target instanceof Rotc rot ? rot.rotation() : 0f));",
-          "rule": "The target rotation in degrees (RepairTurret.java:124, `).rotate(target instanceof Rotc rot ? rot.rotation() : 0f));`): the jitter offset rotates by the target rotation when the target is a Rotc, else 0f; passed explicitly because the frame carries no target rotation yet.",
-          "used_by": [
-            "SourceRepairTurretBuildState.source_repair_turret_draw_beam_jitter_state"
-          ]
-        }
-      },
-      "runtime_proof": "/root/C07RepairTurretDrawBeamJitterProof",
-      "rule": "Source-backed RepairTurret drawBeam jitter state from RepairTurret.java + Rand.java + Mathf.java + Vec2.java + Time.java."
-    },
-    "source_repair_turret_draw_beam_jitter_state_result": {
-      "status": "active",
-      "owner": "SourceRepairTurretBuildState.source_repair_turret_draw_beam_jitter_state",
-      "source_slice": "N2251",
-      "keys": {
-        "rand_angle_draw": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
-          "java_expr": "rand.random(360f) + Time.time/2f,",
-          "rule": "The first Rand draw (RepairTurret.java:122, `rand.random(360f) + Time.time/2f,`): nextFloat() * 360f from the seeded xorshift sequence (Rand.java, `public float random(float max){` / `return nextFloat() * max;`).",
-          "used_by": [
-            "SourceRepairTurretBuildState.source_repair_turret_draw_beam_jitter_state"
-          ]
-        },
-        "rand_time_draw": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
-          "java_expr": "Mathf.sin(Time.time + rand.random(200f), 55f, rand.random(target.hitSize() * 0.2f, target.hitSize() * 0.45f))",
-          "rule": "The second Rand draw (RepairTurret.java:123, `Time.time + rand.random(200f)`): nextFloat() * 200f from the seeded xorshift sequence, the time offset inside the table-sin amplitude.",
-          "used_by": [
-            "SourceRepairTurretBuildState.source_repair_turret_draw_beam_jitter_state"
-          ]
-        },
-        "rand_hit_draw": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
-          "java_expr": "rand.random(target.hitSize() * 0.2f, target.hitSize() * 0.45f)",
-          "rule": "The third Rand draw (RepairTurret.java:123, `rand.random(target.hitSize() * 0.2f, target.hitSize() * 0.45f)`): the magnitude of the table-sin amplitude, ranging over hitSize * 0.2f to hitSize * 0.45f (Rand.java, `public float random(float min, float max){` / `return min + (max - min) * nextFloat();`).",
-          "used_by": [
-            "SourceRepairTurretBuildState.source_repair_turret_draw_beam_jitter_state"
-          ]
-        },
-        "jitter_angle_deg": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
-          "java_expr": "rand.random(360f) + Time.time/2f,",
-          "rule": "The jitter angle in degrees (RepairTurret.java:122, `rand.random(360f) + Time.time/2f,`): the first Rand draw plus half the tick counter.",
-          "used_by": [
-            "SourceRepairTurretBuildState.source_repair_turret_draw_beam_jitter_state"
-          ]
-        },
-        "jitter_amplitude": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
-          "java_expr": "Mathf.sin(Time.time + rand.random(200f), 55f, rand.random(target.hitSize() * 0.2f, target.hitSize() * 0.45f))",
-          "rule": "The jitter amplitude (RepairTurret.java:123, `Mathf.sin(Time.time + rand.random(200f), 55f, rand.random(target.hitSize() * 0.2f, target.hitSize() * 0.45f))`): the arc table sin of (Time.time + second draw) / 55f scaled by the third draw (Mathf.java:90-91, `public static float sin(float radians, float scl, float mag){` / `return sin(radians / scl) * mag;`).",
-          "used_by": [
-            "SourceRepairTurretBuildState.source_repair_turret_draw_beam_jitter_state"
-          ]
-        },
-        "jitter_offset": {
-          "type": "Vector2",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
-          "java_expr": "lastEnd.add(offset.trns(",
-          "rule": "The jitter offset added to the pre-jitter endpoint (RepairTurret.java:121-124, `lastEnd.add(offset.trns(` ... `).rotate(target instanceof Rotc rot ? rot.rotation() : 0f));`): Vec2.trns(angle, amplitude) -- set(amplitude, 0) rotated by the jitter angle (Vec2.java, `public Vec2 trns(float angle, float amount){` / `return set(amount, 0).rotate(angle);`) -- then rotated by the target rotation.",
-          "used_by": [
-            "SourceRepairTurretBuildState.source_repair_turret_draw_beam_jitter_state"
-          ]
-        }
-      },
-      "runtime_proof": "/root/C07RepairTurretDrawBeamJitterProof",
-      "rule": "Source-backed RepairTurret drawBeam jitter state from RepairTurret.java + Rand.java + Mathf.java + Vec2.java + Time.java."
-    },
     "source_repair_turret_draw_beam_pulse_state_input": {
       "status": "active",
       "owner": "SourceRepairTurretBuildState.source_repair_turret_draw_beam_pulse_state",
@@ -238212,6 +238084,134 @@
       },
       "runtime_proof": "/root/C07RadarIconsProof",
       "rule": "Source-backed Radar icons() state from Radar.java + Block.java."
+    },
+    "source_repair_turret_draw_beam_jitter_state_input": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_draw_beam_jitter_state",
+      "source_slice": "N2289",
+      "keys": {
+        "building_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "rand.setSeed(id + (target instanceof Entityc e ? e.id() : 0));",
+          "rule": "The building entity id (RepairTurret.java:111, `rand.setSeed(id + (target instanceof Entityc e ? e.id() : 0));`): the first half of the Rand seed; passed explicitly because the frame carries no building id yet -- no id is invented.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_beam_jitter_state"
+          ]
+        },
+        "target_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "rand.setSeed(id + (target instanceof Entityc e ? e.id() : 0));",
+          "rule": "The target entity id (RepairTurret.java:111, `rand.setSeed(id + (target instanceof Entityc e ? e.id() : 0));`): the second half of the Rand seed (0 when the target is not an Entityc); passed explicitly because the frame carries no target id yet.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_beam_jitter_state"
+          ]
+        },
+        "time_ticks": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "rand.random(360f) + Time.time/2f,",
+          "rule": "Time.time at draw time (Time.java:15, `public static float time, globalTime;`, the tick counter in 60fps units): the jitter angle is rand.random(360f) + Time.time/2f (RepairTurret.java:122); passed explicitly because the frame carries no absolute tick yet.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_beam_jitter_state"
+          ]
+        },
+        "target_hit_size": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "rand.random(target.hitSize() * 0.2f, target.hitSize() * 0.45f)",
+          "rule": "The target hitSize (Sized.hitSize(), Sized.java:6): the third Rand draw ranges over hitSize * 0.2f to hitSize * 0.45f (RepairTurret.java:123); passed explicitly because the frame carries no target hitSize yet.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_beam_jitter_state"
+          ]
+        },
+        "target_rotation_deg": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": ").rotate(target instanceof Rotc rot ? rot.rotation() : 0f));",
+          "rule": "The target rotation in degrees (RepairTurret.java:124, `).rotate(target instanceof Rotc rot ? rot.rotation() : 0f));`): the jitter offset rotates by the target rotation when the target is a Rotc, else 0f; passed explicitly because the frame carries no target rotation yet.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_beam_jitter_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretDrawBeamJitterProof",
+      "rule": "Source-backed RepairTurret drawBeam jitter state from RepairTurret.java + Rand.java + Mathf.java + Vec2.java + Time.java."
+    },
+    "source_repair_turret_draw_beam_jitter_state_result": {
+      "status": "active",
+      "owner": "SourceRepairTurretBuildState.source_repair_turret_draw_beam_jitter_state",
+      "source_slice": "N2289",
+      "keys": {
+        "rand_angle_draw": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "rand.random(360f) + Time.time/2f,",
+          "rule": "The first Rand draw (RepairTurret.java:122, `rand.random(360f) + Time.time/2f,`): nextFloat() * 360f from the seeded xorshift sequence (Rand.java, `public float random(float max){` / `return nextFloat() * max;`).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_beam_jitter_state"
+          ]
+        },
+        "rand_time_draw": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "Mathf.sin(Time.time + rand.random(200f), 55f, rand.random(target.hitSize() * 0.2f, target.hitSize() * 0.45f))",
+          "rule": "The second Rand draw (RepairTurret.java:123, `Time.time + rand.random(200f)`): nextFloat() * 200f from the seeded xorshift sequence, the time offset inside the table-sin amplitude.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_beam_jitter_state"
+          ]
+        },
+        "rand_hit_draw": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "rand.random(target.hitSize() * 0.2f, target.hitSize() * 0.45f)",
+          "rule": "The third Rand draw (RepairTurret.java:123, `rand.random(target.hitSize() * 0.2f, target.hitSize() * 0.45f)`): the magnitude of the table-sin amplitude, ranging over hitSize * 0.2f to hitSize * 0.45f (Rand.java, `public float random(float min, float max){` / `return min + (max - min) * nextFloat();`).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_beam_jitter_state"
+          ]
+        },
+        "jitter_angle_deg": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "rand.random(360f) + Time.time/2f,",
+          "rule": "The jitter angle in degrees (RepairTurret.java:122, `rand.random(360f) + Time.time/2f,`): the first Rand draw plus half the tick counter.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_beam_jitter_state"
+          ]
+        },
+        "jitter_amplitude": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "Mathf.sin(Time.time + rand.random(200f), 55f, rand.random(target.hitSize() * 0.2f, target.hitSize() * 0.45f))",
+          "rule": "The jitter amplitude (RepairTurret.java:123, `Mathf.sin(Time.time + rand.random(200f), 55f, rand.random(target.hitSize() * 0.2f, target.hitSize() * 0.45f))`): the arc table sin of (Time.time + second draw) / 55f scaled by the third draw (Mathf.java:90-91, `public static float sin(float radians, float scl, float mag){` / `return sin(radians / scl) * mag;`).",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_beam_jitter_state"
+          ]
+        },
+        "jitter_offset": {
+          "type": "Vector2",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/units/RepairTurret.java",
+          "java_expr": "lastEnd.add(offset.trns(",
+          "rule": "The jitter offset added to the pre-jitter endpoint (RepairTurret.java:121-124, `lastEnd.add(offset.trns(` ... `).rotate(target instanceof Rotc rot ? rot.rotation() : 0f));`): Vec2.trns(angle, amplitude) -- set(amplitude, 0) rotated by the jitter angle (Vec2.java, `public Vec2 trns(float angle, float amount){` / `return set(amount, 0).rotate(angle);`) -- then rotated by the target rotation.",
+          "used_by": [
+            "SourceRepairTurretBuildState.source_repair_turret_draw_beam_jitter_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RepairTurretDrawBeamJitterProof",
+      "rule": "Source-backed RepairTurret drawBeam jitter state from RepairTurret.java + Rand.java + Mathf.java + Vec2.java + Time.java."
     }
   },
   "version": 1

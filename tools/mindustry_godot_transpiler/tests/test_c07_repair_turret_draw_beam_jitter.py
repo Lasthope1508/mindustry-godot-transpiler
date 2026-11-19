@@ -14,7 +14,7 @@ class C07RepairTurretDrawBeamJitterTests(unittest.TestCase):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        self.assertEqual(ledger['N2251']['godot_owner'], 'SourceRepairTurretBuildState.source_repair_turret_draw_beam_jitter_state')
+        self.assertEqual(ledger['N2289']['godot_owner'], 'SourceRepairTurretBuildState.source_repair_turret_draw_beam_jitter_state')
         # N2219 captured the deterministic beam state but left the
         # endpoint PRE-JITTER: the random jitter
         # (`lastEnd.add(offset.trns(` with
@@ -40,7 +40,7 @@ class C07RepairTurretDrawBeamJitterTests(unittest.TestCase):
         # rand_time_draw, rand_hit_draw, jitter_angle_deg,
         # jitter_amplitude, jitter_offset.
         self.assertEqual(
-            ledger['N2251']['source_symbols'],
+            ledger['N2289']['source_symbols'],
             [
                 'source_repair_turret_draw_beam_jitter_state_result.rand_angle_draw',
                 'source_repair_turret_draw_beam_jitter_state_result.rand_time_draw',
@@ -50,7 +50,7 @@ class C07RepairTurretDrawBeamJitterTests(unittest.TestCase):
                 'source_repair_turret_draw_beam_jitter_state_result.jitter_offset',
             ],
         )
-        for name in ledger['N2251']['source_symbols']:
+        for name in ledger['N2289']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_source'], {
@@ -59,9 +59,9 @@ class C07RepairTurretDrawBeamJitterTests(unittest.TestCase):
                     'arc-core/src/arc/math/Mathf.java',
                 })
                 self.assertEqual(symbol['godot_owner'], 'SourceRepairTurretBuildState.' + name.rsplit('_result.', 1)[0])
-        self.assertEqual(ledger['N2251']['runtime_proof'], '/root/C07RepairTurretDrawBeamJitterProof')
+        self.assertEqual(ledger['N2289']['runtime_proof'], '/root/C07RepairTurretDrawBeamJitterProof')
         self.assertEqual(
-            ledger['N2251']['tests'],
+            ledger['N2289']['tests'],
             [
                 'test_c07_repair_turret_draw_beam_jitter_registration',
                 'test_all_c07_repair_turret_draw_beam_jitter_input_evidence_is_exact',
@@ -69,13 +69,13 @@ class C07RepairTurretDrawBeamJitterTests(unittest.TestCase):
                 'test_reference_graph_and_actual_c07_repair_turret_draw_beam_jitter',
             ],
         )
-        self.assertTrue(ledger['N2251']['deferred_exprs'])
+        self.assertTrue(ledger['N2289']['deferred_exprs'])
 
     def test_all_c07_repair_turret_draw_beam_jitter_input_evidence_is_exact(self):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        for name in ledger['N2251']['source_symbols']:
+        for name in ledger['N2289']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 source = symbol['java_source']
@@ -93,7 +93,7 @@ class C07RepairTurretDrawBeamJitterTests(unittest.TestCase):
         for source in slice_sources:
             upstream_root = ROOT / 'arc-upstream' if source.startswith('arc-core/') else ROOT / 'mindustry-upstream'
             upstream[source] = (upstream_root / source).read_text(encoding='utf-8')
-        for expr in ledger['N2251']['exact_exprs']:
+        for expr in ledger['N2289']['exact_exprs']:
             with self.subTest(expr=expr):
                 self.assertTrue(any(expr in text for text in upstream.values()), expr)
 
