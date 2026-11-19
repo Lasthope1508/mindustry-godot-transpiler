@@ -19,7 +19,7 @@ func _ready() -> void:
 	game.set_process(false)
 	game.set_physics_process(false)
 
-	# --- TurretBuild.shouldConsume() (N2253):
+	# --- TurretBuild.shouldConsume() (N2291):
 	# TurretBuild overrides shouldConsume (Turret.java:364-366,
 	# `public boolean shouldConsume(){` / `return isShooting ||
 	# reloadCounter < reload;`) over isShooting

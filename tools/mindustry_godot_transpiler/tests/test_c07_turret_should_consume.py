@@ -14,7 +14,7 @@ class C07TurretShouldConsumeTests(unittest.TestCase):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        self.assertEqual(ledger['N2253']['godot_owner'], 'SourceTurretBuildState.source_turret_should_consume_state')
+        self.assertEqual(ledger['N2291']['godot_owner'], 'SourceTurretBuildState.source_turret_should_consume_state')
         # TurretBuild overrides shouldConsume (Turret.java:364-366,
         # `public boolean shouldConsume(){` / `return isShooting
         # || reloadCounter < reload;`). The base default it
@@ -51,12 +51,12 @@ class C07TurretShouldConsumeTests(unittest.TestCase):
         # and sense() stay deferred (assigned N2254 / N2255).
         # One new result symbol: should_consume.
         self.assertEqual(
-            ledger['N2253']['source_symbols'],
+            ledger['N2291']['source_symbols'],
             [
                 'source_turret_should_consume_state_result.should_consume',
             ],
         )
-        for name in ledger['N2253']['source_symbols']:
+        for name in ledger['N2291']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_source'], {
@@ -65,9 +65,9 @@ class C07TurretShouldConsumeTests(unittest.TestCase):
                     'core/src/mindustry/entities/comp/BuildingComp.java',
                 })
                 self.assertEqual(symbol['godot_owner'], 'SourceTurretBuildState.' + name.rsplit('_result.', 1)[0])
-        self.assertEqual(ledger['N2253']['runtime_proof'], '/root/C07TurretShouldConsumeProof')
+        self.assertEqual(ledger['N2291']['runtime_proof'], '/root/C07TurretShouldConsumeProof')
         self.assertEqual(
-            ledger['N2253']['tests'],
+            ledger['N2291']['tests'],
             [
                 'test_c07_turret_should_consume_registration',
                 'test_all_c07_turret_should_consume_input_evidence_is_exact',
@@ -75,17 +75,17 @@ class C07TurretShouldConsumeTests(unittest.TestCase):
                 'test_reference_graph_and_actual_c07_turret_should_consume',
             ],
         )
-        self.assertTrue(ledger['N2253']['deferred_exprs'])
+        self.assertTrue(ledger['N2291']['deferred_exprs'])
         self.assertNotIn(
             'Turret shouldConsume gate (isShooting / reloadCounter, Turret.java:364-366)',
-            ' '.join(ledger['N2253']['deferred_exprs']),
+            ' '.join(ledger['N2291']['deferred_exprs']),
         )
 
     def test_all_c07_turret_should_consume_input_evidence_is_exact(self):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        for name in ledger['N2253']['source_symbols']:
+        for name in ledger['N2291']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_expr'], (ROOT / 'mindustry-upstream' / symbol['java_source']).read_text(encoding='utf-8'))
@@ -98,7 +98,7 @@ class C07TurretShouldConsumeTests(unittest.TestCase):
         upstream = {}
         for source in slice_sources:
             upstream[source] = (ROOT / 'mindustry-upstream' / source).read_text(encoding='utf-8')
-        for expr in ledger['N2253']['exact_exprs']:
+        for expr in ledger['N2291']['exact_exprs']:
             with self.subTest(expr=expr):
                 self.assertTrue(any(expr in text for text in upstream.values()), expr)
 

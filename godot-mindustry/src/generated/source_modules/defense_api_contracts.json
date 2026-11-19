@@ -8238,7 +8238,7 @@
     "SourceTurretBuildState.source_turret_should_consume_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_should_consume_state",
       "status": "active",
-      "source_slice": "N2253",
+      "source_slice": "N2291",
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
       "source_method": "TurretBuild.shouldConsume()",
       "params": [

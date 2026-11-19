@@ -234665,74 +234665,6 @@
       "runtime_proof": "/root/C07PointDefenseTurretLiveBulletsWiringProof",
       "rule": "Source-backed PointDefenseTurret live-bullets wiring from PointDefenseTurret.java / BulletComp.java / BulletType.java / Blocks.java / GroupDefs.java."
     },
-    "source_turret_should_consume_state_input": {
-      "status": "active",
-      "owner": "SourceTurretBuildState.source_turret_should_consume_state",
-      "source_slice": "N2253",
-      "keys": {
-        "frame": {
-          "type": "Dictionary",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-          "java_expr": "return isShooting || reloadCounter < reload;",
-          "rule": "The turret frame (accepted for the family call shape; this leg reads no live frame key -- isShooting / reloadCounter / reload arrive as explicit params, the N2188 per-def-param precedent, because the tick frame tracks only cheating/enabled/power_status/efficiency).",
-          "used_by": [
-            "SourceTurretBuildState.source_turret_should_consume_state"
-          ]
-        },
-        "is_shooting": {
-          "type": "bool",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-          "java_expr": "public boolean wasShooting, isShooting;",
-          "rule": "Whether the turret is shooting: the TurretBuild.isShooting field (Turret.java:292), set in updateTile (Turret.java:492); passed explicitly because no frame key stamps it yet.",
-          "used_by": [
-            "SourceTurretBuildState.source_turret_should_consume_state"
-          ]
-        },
-        "reload_counter": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
-          "java_expr": "public float reloadCounter;",
-          "rule": "The reload progress: the ReloadTurretBuild.reloadCounter field (ReloadTurret.java:26), advanced in updateReload (Turret.java:720-723) and capped at reload (:723); passed explicitly because no frame key stamps it yet.",
-          "used_by": [
-            "SourceTurretBuildState.source_turret_should_consume_state"
-          ]
-        },
-        "reload": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
-          "java_expr": "public float reload = 10f;",
-          "rule": "The per-def reload time: ReloadTurret.reload (ReloadTurret.java:10); passed explicitly because the frame carries no reload def value yet.",
-          "used_by": [
-            "SourceTurretBuildState.source_turret_should_consume_state"
-          ]
-        }
-      },
-      "runtime_proof": "/root/C07TurretShouldConsumeProof",
-      "rule": "Source-backed TurretBuild.shouldConsume() state from Turret.java + ReloadTurret.java + BuildingComp.java."
-    },
-    "source_turret_should_consume_state_result": {
-      "status": "active",
-      "owner": "SourceTurretBuildState.source_turret_should_consume_state",
-      "source_slice": "N2253",
-      "keys": {
-        "should_consume": {
-          "type": "bool",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-          "java_expr": "return isShooting || reloadCounter < reload;",
-          "rule": "Whether the turret should consume: true while shooting or still reloading (Turret.java:365); updateConsumption forces efficiency to zero when false (BuildingComp.java:1960 + 1993).",
-          "used_by": [
-            "SourceTurretBuildState.source_turret_should_consume_state"
-          ]
-        }
-      },
-      "runtime_proof": "/root/C07TurretShouldConsumeProof",
-      "rule": "Source-backed TurretBuild.shouldConsume() state from Turret.java + ReloadTurret.java + BuildingComp.java."
-    },
     "source_turret_progress_state_input": {
       "status": "active",
       "owner": "SourceTurretBuildState.source_turret_progress_state",
@@ -238212,6 +238144,74 @@
       },
       "runtime_proof": "/root/C07RepairTurretDrawBeamPulseProof",
       "rule": "Source-backed RepairTurret drawBeam pulse state from RepairTurret.java + Interp.java + Rand.java + Time.java."
+    },
+    "source_turret_should_consume_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_should_consume_state",
+      "source_slice": "N2291",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return isShooting || reloadCounter < reload;",
+          "rule": "The turret frame (accepted for the family call shape; this leg reads no live frame key -- isShooting / reloadCounter / reload arrive as explicit params, the N2188 per-def-param precedent, because the tick frame tracks only cheating/enabled/power_status/efficiency).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_should_consume_state"
+          ]
+        },
+        "is_shooting": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public boolean wasShooting, isShooting;",
+          "rule": "Whether the turret is shooting: the TurretBuild.isShooting field (Turret.java:292), set in updateTile (Turret.java:492); passed explicitly because no frame key stamps it yet.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_should_consume_state"
+          ]
+        },
+        "reload_counter": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "java_expr": "public float reloadCounter;",
+          "rule": "The reload progress: the ReloadTurretBuild.reloadCounter field (ReloadTurret.java:26), advanced in updateReload (Turret.java:720-723) and capped at reload (:723); passed explicitly because no frame key stamps it yet.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_should_consume_state"
+          ]
+        },
+        "reload": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "java_expr": "public float reload = 10f;",
+          "rule": "The per-def reload time: ReloadTurret.reload (ReloadTurret.java:10); passed explicitly because the frame carries no reload def value yet.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretShouldConsumeProof",
+      "rule": "Source-backed TurretBuild.shouldConsume() state from Turret.java + ReloadTurret.java + BuildingComp.java."
+    },
+    "source_turret_should_consume_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_should_consume_state",
+      "source_slice": "N2291",
+      "keys": {
+        "should_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return isShooting || reloadCounter < reload;",
+          "rule": "Whether the turret should consume: true while shooting or still reloading (Turret.java:365); updateConsumption forces efficiency to zero when false (BuildingComp.java:1960 + 1993).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretShouldConsumeProof",
+      "rule": "Source-backed TurretBuild.shouldConsume() state from Turret.java + ReloadTurret.java + BuildingComp.java."
     }
   },
   "version": 1

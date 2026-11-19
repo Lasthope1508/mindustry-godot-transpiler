@@ -146,7 +146,7 @@ static func source_turret_power_status_row_state(frame: Dictionary, has_power_co
 	# first-pass rows in this driver yet, so the folded efficiency
 	# is the min over the *modeled* consumers (power only); those
 	# rows wait for their own slices. (2) The shouldConsume gate
-	# is wired by N2253 (source_turret_should_consume_state,
+	# is wired by N2291 (source_turret_should_consume_state,
 	# TurretBuild.shouldConsume(), Turret.java:364-366, `return
 	# isShooting || reloadCounter < reload;`): the tick does not
 	# track targeting/reload state yet, so the driver reads frame
@@ -197,7 +197,7 @@ static func source_turret_should_consume_state(frame: Dictionary, is_shooting: b
 # (Turret.java:277), over the base default BuildingComp.progress
 # (BuildingComp.java:617-619): `public float progress(){`
 # `return 0f;`
-# The two inputs are the same reload pair N2253 wires for
+# The two inputs are the same reload pair N2291 wires for
 # shouldConsume: reloadCounter (ReloadTurret.java:26):
 # `public float reloadCounter;`
 # advanced in updateReload (Turret.java:720-723) and capped at reload
@@ -308,7 +308,7 @@ static func source_turret_sense_state(frame: Dictionary, sensor: String, total_a
 # N2188 precedent), because the tick frame tracks only
 # cheating / enabled / power_status / efficiency today. Ammo
 # absent preserves the base range: has_ammo false adds 0f (the
-# N2253/N2254 absent-preserves precedent). NO driver line:
+# N2291/N2254 absent-preserves precedent). NO driver line:
 # fogRadius() is a load-time accessor the fog system reads, not a
 # per-tick write (the N2249 precedent).
 @warning_ignore("unused_parameter")
@@ -894,7 +894,7 @@ static func source_turret_tick_buildings_state(game: Object, seconds: float) -> 
 		# turret with no power consumer is untouched: the tick
 		# models no other consumers yet (foreshadow's item ammo
 		# and lustre's liquid nitrogen wait for their own slices),
-		# and the shouldConsume gate is wired by N2253
+		# and the shouldConsume gate is wired by N2291
 		# (source_turret_should_consume_state, Turret.java:364-366
 		# `return isShooting || reloadCounter < reload;`): the
 		# tick does not track targeting/reload state yet, so the

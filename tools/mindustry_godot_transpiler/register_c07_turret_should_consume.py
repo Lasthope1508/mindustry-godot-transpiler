@@ -1,4 +1,4 @@
-"""Register the TurretBuild.shouldConsume() pure function (N2253).
+"""Register the TurretBuild.shouldConsume() pure function (N2291).
 
 TurretBuild overrides shouldConsume (Turret.java:364-366,
 `public boolean shouldConsume(){` / `return isShooting ||
@@ -62,7 +62,7 @@ BUILDING_COMP = 'core/src/mindustry/entities/comp/BuildingComp.java'
 PROOF = '/root/C07TurretShouldConsumeProof'
 SHOULD_CONSUME_OWNER = 'SourceTurretBuildState.source_turret_should_consume_state'
 TESTS = ['test_c07_turret_should_consume_registration', 'test_all_c07_turret_should_consume_input_evidence_is_exact', 'test_turret_should_consume_state', 'test_reference_graph_and_actual_c07_turret_should_consume']
-# The 3 slice sources the N2253 test checks exact_exprs
+# The 3 slice sources the N2291 test checks exact_exprs
 # against -- every expr in EXACT_EXPRS below must appear verbatim
 # in one of these files.
 SLICE_SOURCES = [
@@ -86,14 +86,14 @@ EXACT_EXPRS = [
 
 # DEFERRED is carried from the N2148 register script via import --
 # never retyped. The N2148 entry deferring the Turret
-# shouldConsume gate to "its own slice" is DROPPED here: N2253
+# shouldConsume gate to "its own slice" is DROPPED here: N2291
 # IS that slice. Everything else is carried verbatim.
 DEFERRED = [e for e in N2148_DEFERRED if 'Turret shouldConsume gate' not in e] + [
-    'Turret shouldConsume Windows Godot proof -- debt in GOAL.md section 5, same as N2148/N2227: the N2253 proof runs headless on Linux here and waits for a Windows Godot run.',
+    'Turret shouldConsume Windows Godot proof -- debt in GOAL.md section 5, same as N2148/N2227: the N2291 proof runs headless on Linux here and waits for a Windows Godot run.',
     'Turret frame tracking for isShooting / reloadCounter / reload -- TurretBuild.updateTile sets isShooting (Turret.java:492) and updateReload advances reloadCounter (Turret.java:720-723, capped at reload :723); the tick frame tracks only cheating/enabled/power_status/efficiency today, so the driver reads frame defaults (is_shooting=false, reload_counter=0.0, reload=10f) until a frame-tracking slice stamps them.',
     'TurretBuild.progress() (Turret.java:425-427) -- N2254, assigned centrally; depends on the reloadCounter/reload pair this slice wires.',
     'TurretBuild.sense() (Turret.java:406-419) -- N2255, assigned centrally; its progress case depends on N2254.',
-    'Turret shouldConsume gate for non-power turrets -- the N2253 driver line lives in the power-consumer branch of the tick driver (N2148); a turret with no power consumer runs no updateConsumption in this driver yet, so the gate does not reach it; waits for its own consumption-wiring slice.',
+    'Turret shouldConsume gate for non-power turrets -- the N2291 driver line lives in the power-consumer branch of the tick driver (N2148); a turret with no power consumer runs no updateConsumption in this driver yet, so the gate does not reach it; waits for its own consumption-wiring slice.',
 ]
 
 
@@ -147,7 +147,7 @@ def main():
     should_consume_inputs, should_consume_outputs = definitions()
 
     entries = [
-        ('N2253', SHOULD_CONSUME_OWNER, 'source_turret_should_consume_state', TURRET, 'mindustry.world.blocks.defense.turrets.Turret.TurretBuild', 'TurretBuild.shouldConsume()', should_consume_inputs, should_consume_outputs, True, 'Dictionary'),
+        ('N2291', SHOULD_CONSUME_OWNER, 'source_turret_should_consume_state', TURRET, 'mindustry.world.blocks.defense.turrets.Turret.TurretBuild', 'TurretBuild.shouldConsume()', should_consume_inputs, should_consume_outputs, True, 'Dictionary'),
     ]
     all_names = []
     for sid, owner, prefix, source, cls, method, inputs, outputs, has_contract, return_type in entries:
@@ -167,10 +167,10 @@ def main():
 
     by_slice = {}
     # The test pins this order: the single result symbol.
-    by_slice['N2253'] = [
+    by_slice['N2291'] = [
         'source_turret_should_consume_state_result.should_consume',
     ]
-    source_symbols.upsert_source_slice(GODOT, 'N2253', dict(status='done', java_source=TURRET, java_class='mindustry.world.blocks.defense.turrets.Turret.TurretBuild', java_method='TurretBuild.shouldConsume()', godot_owner=SHOULD_CONSUME_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2253'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
+    source_symbols.upsert_source_slice(GODOT, 'N2291', dict(status='done', java_source=TURRET, java_class='mindustry.world.blocks.defense.turrets.Turret.TurretBuild', java_method='TurretBuild.shouldConsume()', godot_owner=SHOULD_CONSUME_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2291'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
 
     source_symbols.upsert_source_symbols(GODOT, symbols)
     source_symbols.write_source_symbol_audit_report(GODOT)
