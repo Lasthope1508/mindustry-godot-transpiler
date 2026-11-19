@@ -239774,6 +239774,74 @@
       },
       "runtime_proof": "/root/C07TurretHasAmmoProof",
       "rule": "Source-backed TurretBuild.hasAmmo() state from Turret.java."
+    },
+    "source_sound_control_is_dark_state_input": {
+      "status": "active",
+      "owner": "SourceSoundControlState.source_sound_control_is_dark_state",
+      "source_slice": "N2315",
+      "keys": {
+        "has_core": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "player.team().data().hasCore()",
+          "rule": "Whether the player team has a core (SoundControl.java:287, `player.team().data().hasCore()`): arrives as an explicit bool param -- the player.team().data() accessor chain is NOT ported in this slice.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_is_dark_state"
+          ]
+        },
+        "core_healthf": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "player.team().data().core().healthf()",
+          "rule": "The core health fraction (SoundControl.java:287, `player.team().data().core().healthf()`): arrives as an explicit float param -- the player.team().data().core() accessor chain is NOT ported in this slice. Only read when has_core is true.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_is_dark_state"
+          ]
+        },
+        "wave_chance_roll": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "Mathf.chance((float)(Math.log10((state.wave - 17f)/19f) + 1) / 4f)",
+          "rule": "The outcome of the wave chance roll (SoundControl.java:293, `Mathf.chance((float)(Math.log10((state.wave - 17f)/19f) + 1) / 4f)`): arrives as an explicit bool param -- the first RNG roll of the Game family, drawn by the caller; the wave count and the log10 probability formula are folded into this outcome, never re-evaluated here, and the ported function never rolls RNG itself.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_is_dark_state"
+          ]
+        },
+        "enemy_chance_roll": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "Mathf.chance(state.enemies / 70f + 0.1f)",
+          "rule": "The outcome of the enemy chance roll (SoundControl.java:298, `Mathf.chance(state.enemies / 70f + 0.1f)`): arrives as an explicit bool param -- the second RNG roll of the Game family, drawn by the caller; the enemy count and the / 70f + 0.1f probability formula are folded into this outcome, never re-evaluated here.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_is_dark_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SoundControlIsDarkProof",
+      "rule": "Source-backed SoundControl.isDark() state from SoundControl.java."
+    },
+    "source_sound_control_is_dark_state_result": {
+      "status": "active",
+      "owner": "SourceSoundControlState.source_sound_control_is_dark_state",
+      "source_slice": "N2315",
+      "keys": {
+        "is_dark": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "protected boolean isDark(){",
+          "rule": "Whether to play dark music (SoundControl.java:285-299): true at once when the core is damaged (hasCore() and healthf() strictly below 0.85f), else true when the wave chance roll passes, else the enemy chance roll outcome. The caller plays a dark track when true (SoundControl.java:259, `}else if(isDark()){` + `playOnce(getDarkMusic().random(lastRandomPlayed));`).",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_is_dark_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SoundControlIsDarkProof",
+      "rule": "Source-backed SoundControl.isDark() state from SoundControl.java."
     }
   },
   "version": 1

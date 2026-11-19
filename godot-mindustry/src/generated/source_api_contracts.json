@@ -70843,6 +70843,46 @@
       ],
       "runtime_proof": "/root/C07TurretHasAmmoProof",
       "rule": "Source-backed TurretBuild.hasAmmo() state from Turret.java."
+    },
+    "SourceSoundControlState.source_sound_control_is_dark_state": {
+      "status": "active",
+      "source_slice": "N2315",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "source_method": "SoundControl.isDark()",
+      "params": [
+        {
+          "name": "has_core",
+          "type": "bool",
+          "schema": "source_sound_control_is_dark_state_input.has_core"
+        },
+        {
+          "name": "core_healthf",
+          "type": "float",
+          "schema": "source_sound_control_is_dark_state_input.core_healthf"
+        },
+        {
+          "name": "wave_chance_roll",
+          "type": "bool",
+          "schema": "source_sound_control_is_dark_state_input.wave_chance_roll"
+        },
+        {
+          "name": "enemy_chance_roll",
+          "type": "bool",
+          "schema": "source_sound_control_is_dark_state_input.enemy_chance_roll"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "is_dark"
+      ],
+      "tests": [
+        "test_c07_sound_control_is_dark_registration",
+        "test_all_c07_sound_control_is_dark_input_evidence_is_exact",
+        "test_sound_control_is_dark_state",
+        "test_reference_graph_and_actual_c07_sound_control_is_dark"
+      ],
+      "runtime_proof": "/root/C07SoundControlIsDarkProof",
+      "rule": "Source-backed SoundControl.isDark() state from SoundControl.java."
     }
   },
   "policy": {

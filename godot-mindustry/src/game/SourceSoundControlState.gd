@@ -187,3 +187,45 @@ static func source_sound_control_always_play_music_state(rules_always_play_music
 	# pure gate; playback belongs to updateLoops (N2304,
 	# held waiting for B).
 	return {"always_play_music": rules_always_play_music or setting_alwaysmusic or planet_always_play_music}
+
+static func source_sound_control_is_dark_state(has_core: bool, core_healthf: float, wave_chance_roll: bool, enemy_chance_roll: bool) -> Dictionary:
+	# SoundControl.isDark() (SoundControl.java:285-299):
+	# `/** Whether to play dark music.*/`
+	# `protected boolean isDark(){`
+	# `if(player.team().data().hasCore() && player.team().data().core().healthf() < 0.85f){`
+	# `//core damaged -> dark`
+	# `return true;`
+	# `}`
+	# `//it may be dark based on wave`
+	# `if(Mathf.chance((float)(Math.log10((state.wave - 17f)/19f) + 1) / 4f)){`
+	# `return true;`
+	# `}`
+	# `//dark based on enemies`
+	# `return Mathf.chance(state.enemies / 70f + 0.1f);`
+	# `}`
+	# -- the decision tree, kept exactly: a damaged core
+	# (hasCore() and healthf() strictly below 0.85f) reads
+	# dark at once; otherwise the wave roll decides, then
+	# the enemy roll. The two Mathf.chance calls are the
+	# RNG of this slice -- the first RNG slice of the Game
+	# family -- and their OUTCOMES arrive as explicit bool
+	# params: wave_chance_roll is
+	# `Mathf.chance((float)(Math.log10((state.wave -
+	# 17f)/19f) + 1) / 4f)` and enemy_chance_roll is
+	# `Mathf.chance(state.enemies / 70f + 0.1f)`, so this
+	# function is pure and never rolls RNG itself
+	# (Mathf.chance is `d >= 1f || rand.nextFloat() < d`,
+	# Mathf.java:240-242; the caller draws the rolls).
+	# The wave / enemy counts and the probability formulas
+	# are NOT re-evaluated here: each roll outcome already
+	# folds its formula in. The caller reads the gate in
+	# playRandom() (SoundControl.java:259,
+	# `}else if(isDark()){`) and plays a dark track when
+	# it is true. NO audio playback in this slice: this is
+	# a pure gate; playback belongs to updateLoops (N2304,
+	# held waiting for B).
+	if has_core and core_healthf < 0.85:
+		return {"is_dark": true}
+	if wave_chance_roll:
+		return {"is_dark": true}
+	return {"is_dark": enemy_chance_roll}

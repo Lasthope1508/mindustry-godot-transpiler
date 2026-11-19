@@ -178104,6 +178104,22 @@
         "test_reference_graph_and_actual_c07_turret_has_ammo"
       ],
       "runtime_proof": "/root/C07TurretHasAmmoProof"
+    },
+    "source_sound_control_is_dark_state_result.is_dark": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_is_dark_state",
+      "godot_symbol": "source_sound_control_is_dark_state_result.is_dark",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.isDark()",
+      "java_expr": "protected boolean isDark(){",
+      "rule": "Whether to play dark music (SoundControl.java:285-299): true at once when the core is damaged (hasCore() and healthf() strictly below 0.85f), else true when the wave chance roll passes, else the enemy chance roll outcome. The caller plays a dark track when true (SoundControl.java:259, `}else if(isDark()){` + `playOnce(getDarkMusic().random(lastRandomPlayed));`).",
+      "tests": [
+        "test_c07_sound_control_is_dark_registration",
+        "test_all_c07_sound_control_is_dark_input_evidence_is_exact",
+        "test_sound_control_is_dark_state",
+        "test_reference_graph_and_actual_c07_sound_control_is_dark"
+      ],
+      "runtime_proof": "/root/C07SoundControlIsDarkProof"
     }
   },
   "version": 1
