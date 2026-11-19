@@ -69930,6 +69930,31 @@
       ],
       "runtime_proof": "/root/C07TurretUnitWorldPositionProof",
       "rule": "Source-backed Turret unit world position from BlockUnitComp.tile() / PosComp.set / Tile drawx/drawy."
+    },
+    "SourceTurretBuildState.source_turret_unit_max_health_state": {
+      "status": "active",
+      "source_slice": "N2275",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.updateTile()",
+      "params": [
+        {
+          "name": "block_health",
+          "type": "float",
+          "schema": "source_turret_unit_max_health_state_input.block_health"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "unit_max_health"
+      ],
+      "tests": [
+        "test_c07_turret_unit_max_health_registration",
+        "test_all_c07_turret_unit_max_health_input_evidence_is_exact",
+        "test_turret_unit_max_health_state",
+        "test_reference_graph_and_actual_c07_turret_unit_max_health"
+      ],
+      "runtime_proof": "/root/C07TurretUnitMaxHealthProof",
+      "rule": "Source-backed Turret unit maxHealth from BlockUnitComp.tile() / HealthComp."
     }
   },
   "policy": {

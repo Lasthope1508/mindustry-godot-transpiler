@@ -238050,6 +238050,44 @@
       },
       "runtime_proof": "/root/C07TurretUnitWorldPositionProof",
       "rule": "Source-backed Turret unit world position from BlockUnitComp.tile() / PosComp.set / Tile drawx/drawy."
+    },
+    "source_turret_unit_max_health_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_unit_max_health_state",
+      "source_slice": "N2275",
+      "keys": {
+        "block_health": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "java_expr": "tile.block.health",
+          "rule": "The block health feeding the unit maxHealth (BlockUnitComp.java:21; duo health is 250, Blocks.java:3319 `health = 250;`, also content_registry_blocks.json blocks/duo/properties/health = 250).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_unit_max_health_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretUnitMaxHealthProof",
+      "rule": "Source-backed Turret unit maxHealth from BlockUnitComp.tile() / HealthComp."
+    },
+    "source_turret_unit_max_health_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_unit_max_health_state",
+      "source_slice": "N2275",
+      "keys": {
+        "unit_max_health": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "java_expr": "maxHealth(tile.block.health);",
+          "rule": "The unit maxHealth after the tick (BlockUnitComp.java:21 -- maxHealth(tile.block.health) sets the HealthComp maxHealth field, HealthComp.java:13; 250.0 live for duo).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_unit_max_health_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretUnitMaxHealthProof",
+      "rule": "Source-backed Turret unit maxHealth from BlockUnitComp.tile() / HealthComp."
     }
   },
   "version": 1

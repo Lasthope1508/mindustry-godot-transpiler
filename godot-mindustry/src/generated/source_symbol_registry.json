@@ -177288,6 +177288,22 @@
         "test_reference_graph_and_actual_c07_turret_unit_world_position"
       ],
       "runtime_proof": "/root/C07TurretUnitWorldPositionProof"
+    },
+    "source_turret_unit_max_health_state_result.unit_max_health": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_unit_max_health_state",
+      "godot_symbol": "source_turret_unit_max_health_state_result.unit_max_health",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "maxHealth(tile.block.health);",
+      "rule": "The unit maxHealth after the tick (BlockUnitComp.java:21 -- maxHealth(tile.block.health) sets the HealthComp maxHealth field, HealthComp.java:13; 250.0 live for duo).",
+      "tests": [
+        "test_c07_turret_unit_max_health_registration",
+        "test_all_c07_turret_unit_max_health_input_evidence_is_exact",
+        "test_turret_unit_max_health_state",
+        "test_reference_graph_and_actual_c07_turret_unit_max_health"
+      ],
+      "runtime_proof": "/root/C07TurretUnitMaxHealthProof"
     }
   },
   "version": 1

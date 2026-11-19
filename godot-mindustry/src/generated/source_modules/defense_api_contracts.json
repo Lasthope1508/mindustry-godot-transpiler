@@ -8928,6 +8928,32 @@
       "rule": "Source-backed Turret family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so TurretBuild.useAmmo() skips consumption for a cheating team.",
       "return_type": "Dictionary"
     },
+    "SourceTurretBuildState.source_turret_unit_max_health_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_unit_max_health_state",
+      "status": "active",
+      "source_slice": "N2275",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.updateTile()",
+      "params": [
+        {
+          "name": "block_health",
+          "type": "float",
+          "schema": "source_turret_unit_max_health_state_input.block_health"
+        }
+      ],
+      "return_keys": [
+        "unit_max_health"
+      ],
+      "tests": [
+        "test_c07_turret_unit_max_health_registration",
+        "test_all_c07_turret_unit_max_health_input_evidence_is_exact",
+        "test_turret_unit_max_health_state",
+        "test_reference_graph_and_actual_c07_turret_unit_max_health"
+      ],
+      "runtime_proof": "/root/C07TurretUnitMaxHealthProof",
+      "rule": "Source-backed Turret unit maxHealth from BlockUnitComp.tile() / HealthComp.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_turret_unit_sync_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_unit_sync_state",
       "status": "active",

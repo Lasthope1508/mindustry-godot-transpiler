@@ -1,0 +1,156 @@
+import json
+import shutil
+import subprocess
+import unittest
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[3]
+TURRET_BUILD_STATE = ROOT / 'godot-mindustry/src/game/SourceTurretBuildState.gd'
+TURRET_UNIT_MAX_HEALTH_PROOF = ROOT / 'godot-mindustry/tools/runtime_proofs/C07TurretUnitMaxHealthProof.gd'
+
+
+class C07TurretUnitMaxHealthTests(unittest.TestCase):
+    def test_c07_turret_unit_max_health_registration(self):
+        generated = ROOT / 'godot-mindustry/src/generated'
+        ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
+        symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
+        self.assertEqual(ledger['N2275']['godot_owner'], 'SourceTurretBuildState.source_turret_unit_max_health_state')
+        # TurretBuild.updateTile() syncs its block unit every
+        # tick (Turret.java:529-531): `unit.tile(this);` -- and
+        # tile() sets up the block stats, first line:
+        # `maxHealth(tile.block.health);`
+        # (BlockUnitComp.java:21) -- the unit maxHealth field
+        # (HealthComp.java:13 `transient float maxHealth = 1f;`)
+        # takes the block health. Duo health is 250
+        # (Blocks.java:3319 `health = 250;`, also
+        # content_registry_blocks.json blocks/duo/properties/
+        # health = 250). N2260 stamped the cell/hitSize and
+        # N2274 the world position; this slice stamps the one
+        # result key: unit_max_health. The live tile health
+        # (`health(tile.health);`, :22) still waits: the frame
+        # carries no live tile_health input.
+        self.assertEqual(
+            ledger['N2275']['source_symbols'],
+            [
+                'source_turret_unit_max_health_state_result.unit_max_health',
+            ],
+        )
+        for name in ledger['N2275']['source_symbols']:
+            with self.subTest(symbol=name):
+                symbol = symbols[name]
+                self.assertIn(symbol['java_source'], {
+                    'core/src/mindustry/entities/comp/BlockUnitComp.java',
+                    'core/src/mindustry/entities/comp/HealthComp.java',
+                })
+                self.assertEqual(symbol['godot_owner'], 'SourceTurretBuildState.source_turret_unit_max_health_state')
+        self.assertEqual(ledger['N2275']['runtime_proof'], '/root/C07TurretUnitMaxHealthProof')
+        self.assertEqual(
+            ledger['N2275']['tests'],
+            [
+                'test_c07_turret_unit_max_health_registration',
+                'test_all_c07_turret_unit_max_health_input_evidence_is_exact',
+                'test_turret_unit_max_health_state',
+                'test_reference_graph_and_actual_c07_turret_unit_max_health',
+            ],
+        )
+        self.assertTrue(ledger['N2275']['deferred_exprs'])
+
+    def test_all_c07_turret_unit_max_health_input_evidence_is_exact(self):
+        generated = ROOT / 'godot-mindustry/src/generated'
+        ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
+        symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
+        for name in ledger['N2275']['source_symbols']:
+            with self.subTest(symbol=name):
+                symbol = symbols[name]
+                self.assertIn(symbol['java_expr'], (ROOT / 'mindustry-upstream' / symbol['java_source']).read_text(encoding='utf-8') if not symbol['java_source'].startswith('arc-core/') else (ROOT / 'arc-upstream' / symbol['java_source']).read_text(encoding='utf-8'))
+                self.assertEqual(symbol['godot_owner'], 'SourceTurretBuildState.source_turret_unit_max_health_state')
+        slice_sources = {
+            'core/src/mindustry/world/blocks/defense/turrets/Turret.java',
+            'core/src/mindustry/entities/comp/BlockUnitComp.java',
+            'core/src/mindustry/entities/comp/HealthComp.java',
+            'core/src/mindustry/content/Blocks.java',
+        }
+        upstream = {}
+        for source in slice_sources:
+            root = ROOT / 'arc-upstream' if source.startswith('arc-core/') else ROOT / 'mindustry-upstream'
+            upstream[source] = (root / source).read_text(encoding='utf-8')
+        for expr in ledger['N2275']['exact_exprs']:
+            with self.subTest(expr=expr):
+                self.assertTrue(any(expr in text for text in upstream.values()), expr)
+
+    def test_turret_unit_max_health_state(self):
+        turret = TURRET_BUILD_STATE.read_text(encoding='utf-8')
+        # TurretBuild.updateTile() (Turret.java:490-615) syncs
+        # its block unit every tick: `unit.tile(this);`
+        # (:529) -- and tile() sets up the block stats:
+        # `maxHealth(tile.block.health);`
+        # (BlockUnitComp.java:21) sets the unit maxHealth field
+        # (`transient float maxHealth = 1f;`,
+        # HealthComp.java:13; the float setter is generated by
+        # the component annotation processor). Duo health is
+        # 250 (Blocks.java:3319 `health = 250;`). The pure
+        # function takes the block health and returns the one
+        # key: `{"unit_max_health": ..}`. The driver tick reads
+        # nothing from the frame -- the duo health is a catalog
+        # constant -- calls the pure function with 250.0, then
+        # stamps the key back on the frame. Java order inside
+        # tile() is :21 maxHealth, :22 health, :23 hitSize,
+        # :24 set -- so the maxHealth tick runs BEFORE the
+        # N2260 unit sync tick (hitSize :23) and the N2274
+        # world position tick (set :24), and BEFORE the aim
+        # call, so aim reads a live unit mirror.
+        self.assertIn('static func source_turret_unit_max_health_state(block_health: float) -> Dictionary:', turret)
+        self.assertIn('return {"unit_max_health": block_health}', turret)
+        self.assertIn('unit.tile(this);', turret)
+        self.assertIn('maxHealth(tile.block.health);', turret)
+        self.assertIn('transient float maxHealth = 1f;', turret)
+        self.assertIn('health = 250;', turret)
+        # The driver tick lives in the shared TurretBuild driver
+        # (SourceTurretBuildState.gd), in the duo branch BEFORE
+        # the N2260 unit sync tick (Java tile() order :21
+        # maxHealth before :23 hitSize / :24 set): it calls the
+        # new pure function with the duo health 250.0 and stamps
+        # the key back on the frame (the default is the duo live
+        # value 250.0).
+        self.assertIn('var unit_max_health: Dictionary = source_turret_unit_max_health_state(250.0)', turret)
+        self.assertIn('frame["unit_max_health"] = unit_max_health.get("unit_max_health", 250.0)', turret)
+        self.assertLess(turret.index('var unit_max_health: Dictionary = source_turret_unit_max_health_state(250.0)'), turret.index('var unit_sync: Dictionary'))
+        # The proof's keys drive the max health through the pure
+        # function and the real driver (the duo max health is
+        # 250.0 / another block health passes through unchanged
+        # / the key is stamped on the frame after the tick / the
+        # duo live tick stamps 250.0).
+        # There is no live tile health key: `health(tile.health);`
+        # (:22) waits for a live tile_health frame input.
+        proof = TURRET_UNIT_MAX_HEALTH_PROOF.read_text(encoding='utf-8')
+        for key in [
+            'unit_max_health_duo',
+            'unit_max_health_other_value',
+            'unit_max_health_stamped_to_frame',
+            'unit_max_health_duo_live',
+        ]:
+            with self.subTest(key=key):
+                self.assertIn(key, proof)
+
+    def test_reference_graph_and_actual_c07_turret_unit_max_health(self):
+        godot = shutil.which('Godot_v4.6.2-stable_win64_console.exe') or shutil.which('godot')
+        self.assertIsNotNone(godot)
+        result = subprocess.run([godot, '--headless', '--path', str(ROOT / 'godot-mindustry'), '--scene', 'tools/runtime_proofs/C07TurretUnitMaxHealthProof.tscn', '--quit-after', '300'], capture_output=True, text=True, encoding='utf-8', errors='replace', timeout=180)
+        output = result.stdout + result.stderr
+        self.assertEqual(result.returncode, 0, output)
+        self.assertNotIn('ERROR:', output)
+        proofs = [json.loads(line.split(' ', 1)[1]) for line in output.splitlines() if line.startswith('C_07_TURRET_UNIT_MAX_HEALTH_PROOF ')]
+        self.assertEqual(len(proofs), 1, output)
+        self.assertTrue(proofs[0]['matches'], proofs[0])
+        for key in [
+            'unit_max_health_duo',
+            'unit_max_health_other_value',
+            'unit_max_health_stamped_to_frame',
+            'unit_max_health_duo_live',
+        ]:
+            with self.subTest(key=key):
+                self.assertTrue(proofs[0][key], proofs[0])
+
+
+if __name__ == '__main__':
+    unittest.main()
