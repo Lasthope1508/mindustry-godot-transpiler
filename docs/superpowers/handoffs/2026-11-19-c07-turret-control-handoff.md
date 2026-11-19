@@ -1,6 +1,6 @@
 # Handoff — N2264 Turret control() setters (C07, duo) [DONE + PUSHED]
 
-## Status: DONE + PUSHED (2026-11-19 ~17:0x +07, lượt cron 17:00) — slice `64c41a11`, docs `aa47fa9e`, GOAL `a5d7a924`, status sẽ ghi sau. Targeted 4/4 OK + proof matches:true 13/13 + register --verify 27/27 + SSOT 11626/1714/1648/3087 + neighbours 112 passed + wiring 32 OK + gate Ran 6149, failures=214 toàn Godot-absent (đã xác minh độc lập).
+## Status: DONE + PUSHED (2026-11-19 ~17:0x +07, lượt cron 17:00) — slice `64c41a11`, docs `aa47fa9e`, GOAL `a5d7a924`, status `836e2f05`. Targeted 4/4 OK + proof matches:true 13/13 + register --verify 27/27 + SSOT 11626/1714/1648/3087 + neighbours 112 passed + wiring 32 OK + gate Ran 6149, failures=214 toàn Godot-absent (đã xác minh độc lập).
 
 - N2263 DONE + PUSHED (origin/main b1e981fc, slice 7a5bbc88) — đã xác minh đầu lượt: git log 5 commit khớp, HEAD == origin/main == b1e981fc, worktree sạch ngoại trừ noise *.gd.uid (không stage). javalang 0.13.0 + pytest 9.2.0 importable; port 7777 trống; không có unittest discover đang chạy; không có chain đang chạy.
 
