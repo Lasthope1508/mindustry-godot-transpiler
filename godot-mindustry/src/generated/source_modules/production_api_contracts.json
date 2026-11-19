@@ -698,7 +698,7 @@
     "SourceBurstDrillBuildState.source_burst_drill_on_proximity_update_state": {
       "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_burst_drill_on_proximity_update_state",
       "status": "active",
-      "source_slice": "N2262",
+      "source_slice": "N2302",
       "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
       "source_method": "DrillBuild.onProximityUpdate()",
       "params": [

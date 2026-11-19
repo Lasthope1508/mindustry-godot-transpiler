@@ -926,24 +926,6 @@
       ],
       "runtime_proof": "/root/C07WallCrafterPowerStatusProof"
     },
-    "N2262": {
-      "canonical_ledger": "source_slice_ledger.N2262",
-      "status": "done",
-      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
-      "java_method": "DrillBuild.onProximityUpdate()",
-      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_on_proximity_update_state",
-      "source_symbols": [
-        "source_burst_drill_on_proximity_update_state_result.dominant_item",
-        "source_burst_drill_on_proximity_update_state_result.dominant_items"
-      ],
-      "tests": [
-        "test_c07_burst_drill_on_proximity_update_registration",
-        "test_all_c07_burst_drill_on_proximity_update_input_evidence_is_exact",
-        "test_burst_drill_on_proximity_update_state",
-        "test_reference_graph_and_actual_c07_burst_drill_on_proximity_update"
-      ],
-      "runtime_proof": "/root/C07BurstDrillOnProximityUpdateProof"
-    },
     "N2266": {
       "canonical_ledger": "source_slice_ledger.N2266",
       "status": "done",
@@ -1168,6 +1150,24 @@
         "test_reference_graph_and_actual_c07_drill_sense"
       ],
       "runtime_proof": "/root/C07DrillSenseProof"
+    },
+    "N2302": {
+      "canonical_ledger": "source_slice_ledger.N2302",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_method": "DrillBuild.onProximityUpdate()",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_on_proximity_update_state",
+      "source_symbols": [
+        "source_burst_drill_on_proximity_update_state_result.dominant_item",
+        "source_burst_drill_on_proximity_update_state_result.dominant_items"
+      ],
+      "tests": [
+        "test_c07_burst_drill_on_proximity_update_registration",
+        "test_all_c07_burst_drill_on_proximity_update_input_evidence_is_exact",
+        "test_burst_drill_on_proximity_update_state",
+        "test_reference_graph_and_actual_c07_burst_drill_on_proximity_update"
+      ],
+      "runtime_proof": "/root/C07BurstDrillOnProximityUpdateProof"
     },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",

@@ -90,7 +90,7 @@ EXACT_EXPRS = ['public void drawSelect(){', 'drawItemSelection(dominantItem);', 
 DEFERRED = [
     'DrillBuild drawSelect() Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2227: the N2283 proof runs headless on Linux here and waits for a Windows Godot run.',
     'DrillBuild drawSelect() concrete icon rendering (Draw.rect(selection.fullIcon, ...) with the live TextureRegion, BuildingComp.java:1253/1255) stays owned by Godot rendering integration; this helper preserves visibility, geometry, shadow, reset, and foreground state.',
-    'DrillBuild drawSelect() dominantItem binding (the N2262 ore/dominant binding sets dominantItem from the mined ore) -- the caller passes the already-bound dominantItem; the binding itself is not this slice.',
+    'DrillBuild drawSelect() dominantItem binding (the N2302 ore/dominant binding sets dominantItem from the mined ore) -- the caller passes the already-bound dominantItem; the binding itself is not this slice.',
 ]
 
 

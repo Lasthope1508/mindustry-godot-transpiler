@@ -14,7 +14,7 @@ class C07BurstDrillOnProximityUpdateTests(unittest.TestCase):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        self.assertEqual(ledger['N2262']['godot_owner'], 'SourceBurstDrillBuildState.source_burst_drill_on_proximity_update_state')
+        self.assertEqual(ledger['N2302']['godot_owner'], 'SourceBurstDrillBuildState.source_burst_drill_on_proximity_update_state')
         # DrillBuild.onProximityUpdate (Drill.java:266-277,
         # `public void onProximityUpdate(){` with
         # `super.onProximityUpdate();` / `countOre(tile);` /
@@ -63,7 +63,7 @@ class C07BurstDrillOnProximityUpdateTests(unittest.TestCase):
         # thorium (Blocks.java:3080, `blockedItem =
         # Items.thorium;`); eruption-drill tier 7
         # (Blocks.java:3097, `tier = 7;`) with NO blocked
-        # item. N2262 closes the BurstDrill-owned binding
+        # item. N2302 closes the BurstDrill-owned binding
         # gate with one pure function delegating to the
         # N2010/N2020 core -- it does NOT port countOre
         # again (one pure function, one owner): the
@@ -98,13 +98,13 @@ class C07BurstDrillOnProximityUpdateTests(unittest.TestCase):
         # source_burst_drill_tick_buildings_state. Two new
         # result symbols: dominant_item, dominant_items.
         self.assertEqual(
-            ledger['N2262']['source_symbols'],
+            ledger['N2302']['source_symbols'],
             [
                 'source_burst_drill_on_proximity_update_state_result.dominant_item',
                 'source_burst_drill_on_proximity_update_state_result.dominant_items',
             ],
         )
-        for name in ledger['N2262']['source_symbols']:
+        for name in ledger['N2302']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_source'], {
@@ -113,9 +113,9 @@ class C07BurstDrillOnProximityUpdateTests(unittest.TestCase):
                     'core/src/mindustry/content/Blocks.java',
                 })
                 self.assertEqual(symbol['godot_owner'], 'SourceBurstDrillBuildState.' + name.rsplit('_result.', 1)[0])
-        self.assertEqual(ledger['N2262']['runtime_proof'], '/root/C07BurstDrillOnProximityUpdateProof')
+        self.assertEqual(ledger['N2302']['runtime_proof'], '/root/C07BurstDrillOnProximityUpdateProof')
         self.assertEqual(
-            ledger['N2262']['tests'],
+            ledger['N2302']['tests'],
             [
                 'test_c07_burst_drill_on_proximity_update_registration',
                 'test_all_c07_burst_drill_on_proximity_update_input_evidence_is_exact',
@@ -123,13 +123,13 @@ class C07BurstDrillOnProximityUpdateTests(unittest.TestCase):
                 'test_reference_graph_and_actual_c07_burst_drill_on_proximity_update',
             ],
         )
-        self.assertTrue(ledger['N2262']['deferred_exprs'])
+        self.assertTrue(ledger['N2302']['deferred_exprs'])
 
     def test_all_c07_burst_drill_on_proximity_update_input_evidence_is_exact(self):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        for name in ledger['N2262']['source_symbols']:
+        for name in ledger['N2302']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 source = symbol['java_source']
@@ -145,7 +145,7 @@ class C07BurstDrillOnProximityUpdateTests(unittest.TestCase):
         for source in slice_sources:
             upstream_root = ROOT / 'arc-upstream' if source.startswith('arc-core/') else ROOT / 'mindustry-upstream'
             upstream[source] = (upstream_root / source).read_text(encoding='utf-8')
-        for expr in ledger['N2262']['exact_exprs']:
+        for expr in ledger['N2302']['exact_exprs']:
             with self.subTest(expr=expr):
                 self.assertTrue(any(expr in text for text in upstream.values()), expr)
 

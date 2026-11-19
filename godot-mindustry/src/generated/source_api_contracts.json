@@ -68265,42 +68265,6 @@
       "runtime_proof": "/root/C07PointDefenseTurretLiveBulletsWiringProof",
       "rule": "Source-backed PointDefenseTurret live-bullets wiring from PointDefenseTurret.java / BulletComp.java / BulletType.java / Blocks.java / GroupDefs.java."
     },
-    "SourceBurstDrillBuildState.source_burst_drill_on_proximity_update_state": {
-      "status": "active",
-      "source_slice": "N2262",
-      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
-      "source_method": "DrillBuild.onProximityUpdate()",
-      "params": [
-        {
-          "name": "linked_tiles",
-          "type": "Array",
-          "schema": "source_burst_drill_on_proximity_update_state_input.linked_tiles"
-        },
-        {
-          "name": "tier",
-          "type": "int",
-          "schema": "source_burst_drill_on_proximity_update_state_input.tier"
-        },
-        {
-          "name": "blocked_items",
-          "type": "Variant",
-          "schema": "source_burst_drill_on_proximity_update_state_input.blocked_items"
-        }
-      ],
-      "return_type": "Dictionary",
-      "return_keys": [
-        "dominant_item",
-        "dominant_items"
-      ],
-      "tests": [
-        "test_c07_burst_drill_on_proximity_update_registration",
-        "test_all_c07_burst_drill_on_proximity_update_input_evidence_is_exact",
-        "test_burst_drill_on_proximity_update_state",
-        "test_reference_graph_and_actual_c07_burst_drill_on_proximity_update"
-      ],
-      "runtime_proof": "/root/C07BurstDrillOnProximityUpdateProof",
-      "rule": "Source-backed BurstDrill ore / dominant-item binding from Drill.java + BurstDrill.java + Blocks.java."
-    },
     "SourceRadarBuildState.source_radar_progress_state": {
       "status": "active",
       "source_slice": "N2263",
@@ -70687,6 +70651,42 @@
       ],
       "runtime_proof": "/root/C07TurretEstimateDpsProof",
       "rule": "Source-backed TurretBuild.estimateDps() state from Turret.java + ReloadTurret.java + ShootPattern.java + BulletType.java + BuildingComp.java + RtsAI.java."
+    },
+    "SourceBurstDrillBuildState.source_burst_drill_on_proximity_update_state": {
+      "status": "active",
+      "source_slice": "N2302",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "source_method": "DrillBuild.onProximityUpdate()",
+      "params": [
+        {
+          "name": "linked_tiles",
+          "type": "Array",
+          "schema": "source_burst_drill_on_proximity_update_state_input.linked_tiles"
+        },
+        {
+          "name": "tier",
+          "type": "int",
+          "schema": "source_burst_drill_on_proximity_update_state_input.tier"
+        },
+        {
+          "name": "blocked_items",
+          "type": "Variant",
+          "schema": "source_burst_drill_on_proximity_update_state_input.blocked_items"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "dominant_item",
+        "dominant_items"
+      ],
+      "tests": [
+        "test_c07_burst_drill_on_proximity_update_registration",
+        "test_all_c07_burst_drill_on_proximity_update_input_evidence_is_exact",
+        "test_burst_drill_on_proximity_update_state",
+        "test_reference_graph_and_actual_c07_burst_drill_on_proximity_update"
+      ],
+      "runtime_proof": "/root/C07BurstDrillOnProximityUpdateProof",
+      "rule": "Source-backed BurstDrill ore / dominant-item binding from Drill.java + BurstDrill.java + Blocks.java."
     }
   },
   "policy": {

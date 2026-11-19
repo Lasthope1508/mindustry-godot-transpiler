@@ -1,4 +1,4 @@
-"""Register the BurstDrill ore / dominant-item binding (N2262).
+"""Register the BurstDrill ore / dominant-item binding (N2302).
 
 DrillBuild.onProximityUpdate assigns the dominant ore from the
 linked tiles (Drill.java:266-277, `public void
@@ -94,7 +94,7 @@ BLOCKS = 'core/src/mindustry/content/Blocks.java'
 PROOF = '/root/C07BurstDrillOnProximityUpdateProof'
 ON_PROXIMITY_UPDATE_OWNER = 'SourceBurstDrillBuildState.source_burst_drill_on_proximity_update_state'
 TESTS = ['test_c07_burst_drill_on_proximity_update_registration', 'test_all_c07_burst_drill_on_proximity_update_input_evidence_is_exact', 'test_burst_drill_on_proximity_update_state', 'test_reference_graph_and_actual_c07_burst_drill_on_proximity_update']
-# The 3 slice sources the N2262 test checks exact_exprs
+# The 3 slice sources the N2302 test checks exact_exprs
 # against -- every expr in EXACT_EXPRS below must appear verbatim
 # in one of these files.
 SLICE_SOURCES = [
@@ -106,13 +106,13 @@ EXACT_EXPRS = ['protected void countOre(Tile tile){', 'returnItem = null;', 'ret
 
 # DEFERRED is carried from the N2269 register script via import --
 # never retyped. One carried entry is DROPPED here, not carried:
-# the BurstDrill ore / dominant-item binding entry -- N2262 IS the
+# the BurstDrill ore / dominant-item binding entry -- N2302 IS the
 # ore / dominant-item binding slice, so carrying it would leave a
 # stale "waits for its own slice" row for done work.
 DEFERRED = [e for e in N2269_DEFERRED if 'BurstDrill ore / dominant-item binding' not in e] + [
-    'BurstDrill ore / dominant-item binding Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2227: the N2262 proof runs headless on Linux here and waits for a Windows Godot run.',
-    'BurstDrill pickedUp reset (dominantItem = null, Drill.java:264-266, inherited by BurstDrillBuild) -- the N2262 proof carries no pickedUp key; the reset waits for its own slice.',
-    'BurstDrill placed-sprite live proximity run (SourceWorldTerrainRuntimeState on_proximity_update callback stamping a placed burst-drill sprite) -- the N2262 proof verifies the catalog blockedItems key and the bind inputs the live driver reads, but runs no placed sprite; the placed-sprite run waits for its own slice.',
+    'BurstDrill ore / dominant-item binding Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2227: the N2302 proof runs headless on Linux here and waits for a Windows Godot run.',
+    'BurstDrill pickedUp reset (dominantItem = null, Drill.java:264-266, inherited by BurstDrillBuild) -- the N2302 proof carries no pickedUp key; the reset waits for its own slice.',
+    'BurstDrill placed-sprite live proximity run (SourceWorldTerrainRuntimeState on_proximity_update callback stamping a placed burst-drill sprite) -- the N2302 proof verifies the catalog blockedItems key and the bind inputs the live driver reads, but runs no placed sprite; the placed-sprite run waits for its own slice.',
 ]
 
 
@@ -168,7 +168,7 @@ def main():
     on_proximity_update_inputs, on_proximity_update_outputs = definitions()
 
     entries = [
-        ('N2262', ON_PROXIMITY_UPDATE_OWNER, 'source_burst_drill_on_proximity_update_state', BURST_DRILL, 'mindustry.world.blocks.production.BurstDrill.BurstDrillBuild', 'DrillBuild.onProximityUpdate()', on_proximity_update_inputs, on_proximity_update_outputs, True, 'Dictionary'),
+        ('N2302', ON_PROXIMITY_UPDATE_OWNER, 'source_burst_drill_on_proximity_update_state', BURST_DRILL, 'mindustry.world.blocks.production.BurstDrill.BurstDrillBuild', 'DrillBuild.onProximityUpdate()', on_proximity_update_inputs, on_proximity_update_outputs, True, 'Dictionary'),
     ]
     all_names = []
     for sid, owner, prefix, source, cls, method, inputs, outputs, has_contract, return_type in entries:
@@ -188,11 +188,11 @@ def main():
 
     by_slice = {}
     # The test pins this order: dominant_item, dominant_items.
-    by_slice['N2262'] = [
+    by_slice['N2302'] = [
         'source_burst_drill_on_proximity_update_state_result.dominant_item',
         'source_burst_drill_on_proximity_update_state_result.dominant_items',
     ]
-    source_symbols.upsert_source_slice(GODOT, 'N2262', dict(status='done', java_source=BURST_DRILL, java_class='mindustry.world.blocks.production.BurstDrill.BurstDrillBuild', java_method='DrillBuild.onProximityUpdate()', godot_owner=ON_PROXIMITY_UPDATE_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2262'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
+    source_symbols.upsert_source_slice(GODOT, 'N2302', dict(status='done', java_source=BURST_DRILL, java_class='mindustry.world.blocks.production.BurstDrill.BurstDrillBuild', java_method='DrillBuild.onProximityUpdate()', godot_owner=ON_PROXIMITY_UPDATE_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2302'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
 
     source_symbols.upsert_source_symbols(GODOT, symbols)
     source_symbols.write_source_symbol_audit_report(GODOT)

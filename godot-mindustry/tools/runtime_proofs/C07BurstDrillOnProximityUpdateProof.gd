@@ -25,7 +25,7 @@ func _ready() -> void:
 	game.set_process(false)
 	game.set_physics_process(false)
 
-	# --- Pure BurstDrill-owned ore / dominant-item binding (N2262):
+	# --- Pure BurstDrill-owned ore / dominant-item binding (N2302):
 	# DrillBuild.onProximityUpdate (Drill.java:266-277,
 	# `public void onProximityUpdate(){` with
 	# `super.onProximityUpdate();` / `countOre(tile);` /

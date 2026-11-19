@@ -77,7 +77,7 @@ import sys
 from pathlib import Path
 
 from mindustry_port import source_ssot, source_symbols
-from register_c07_burst_drill_on_proximity_update import DEFERRED as N2262_DEFERRED
+from register_c07_burst_drill_on_proximity_update import DEFERRED as N2302_DEFERRED
 from register_liquid_consumer_hydration import backed
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -108,8 +108,8 @@ SLICE_SOURCES = [
 ]
 EXACT_EXPRS = ['public void setStats(){', 'super.setStats();', 'if(liquidBoostIntensity != 1 && findConsumer(f -> f instanceof ConsumeLiquidBase && f.booster) instanceof ConsumeLiquidBase consBase){', 'stats.remove(Stat.booster);', 'stats.add(Stat.booster,', 'StatValues.speedBoosters("{0}" + StatUnit.timesSpeed.localized(),', 'consBase.amount, liquidBoostIntensity, false, consBase::consumes)', 'public class BurstDrill extends Drill{', 'public static StatValue speedBoosters(String unit, float amount, float speed, boolean strength, Boolf<Liquid> filter){', 'timesSpeed = new StatUnit("timesSpeed", false),', 'public float liquidBoostIntensity = 1.6f;', 'liquidBoostIntensity = 1.75f;', 'liquidBoostIntensity = 2f;', 'consumeLiquid(Liquids.ozone, 3f / 60f).boost();', 'consumeLiquid(Liquids.cyanogen, 0.75f / 60f).boost();', 'liquidBoostIntensity * liquidBoostIntensity, false, consBase::consumes)', 'public abstract boolean consumes(Liquid liquid);', 'public <T extends Consume> T findConsumer(Boolf<Consume> filter){', 'public boolean booster;']
 
-# DEFERRED is carried from the N2262 register script via import --
-# never retyped. The N2262 script's DEFERRED is a computed
+# DEFERRED is carried from the N2302 register script via import --
+# never retyped. The N2302 script's DEFERRED is a computed
 # expression (list comprehension over the N2269 import + [...]),
 # NOT a plain list literal, so the N2218-style ast.literal_eval
 # carry cannot recover it (ValueError: malformed node); the
@@ -122,7 +122,7 @@ EXACT_EXPRS = ['public void setStats(){', 'super.setStats();', 'if(liquidBoostIn
 # about the Drill SUPER's booster row, which N2266 does NOT close
 # (the super leg stays deferred) -- only the BurstDrill override
 # rows close here.
-DEFERRED = list(N2262_DEFERRED) + [
+DEFERRED = list(N2302_DEFERRED) + [
     'BurstDrill setStats() Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2227: the N2266 proof runs headless on Linux here and waits for a Windows Godot run.',
     'BurstDrill setStats() super leg (Drill.setStats, Drill.java:177-191: drillSpeed row `stats.add(Stat.drillSpeed, 60f / drillTime * size * size, StatUnit.itemsSecond);` plus the squared-intensity booster row) -- the N2266 pure function models only the BurstDrill override rows; the Drill super rows wait for their own slice.',
     'BurstDrill findConsumer search order (first ConsumeLiquidBase with booster, Block.java:1104 `public <T extends Consume> T findConsumer(Boolf<Consume> filter){`) -- the N2266 pure function takes the found consumer as explicit inputs; the search itself is not verified here.',
