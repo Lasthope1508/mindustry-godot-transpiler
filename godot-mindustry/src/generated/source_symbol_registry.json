@@ -176936,6 +176936,38 @@
         "test_reference_graph_and_actual_c07_turret_target_position"
       ],
       "runtime_proof": "/root/C07TurretTargetPositionControlProof"
+    },
+    "source_turret_super_control_state_result.enabled": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_super_control_state",
+      "godot_symbol": "source_turret_super_control_state_result.enabled",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.control()",
+      "java_expr": "enabled = !Mathf.zero((float)p1);",
+      "rule": "The enabled flag after this control call (BuildingComp.java:2152 -- !zero(p1) for the enabled type; unchanged otherwise).",
+      "tests": [
+        "test_c07_turret_super_control_registration",
+        "test_all_c07_turret_super_control_input_evidence_is_exact",
+        "test_turret_super_control_state",
+        "test_reference_graph_and_actual_c07_turret_super_control"
+      ],
+      "runtime_proof": "/root/C07TurretSuperControlProof"
+    },
+    "source_turret_super_control_state_result.config_applied": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_super_control_state",
+      "godot_symbol": "source_turret_super_control_state_result.config_applied",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.control()",
+      "java_expr": "configured(null, p1);",
+      "rule": "Whether Java would call configured(null, p1) here (BuildingComp.java:2161 -- true only for the config type with logic_configurable and a non-LogicBuild arg; the dispatch effect itself waits for its own slice).",
+      "tests": [
+        "test_c07_turret_super_control_registration",
+        "test_all_c07_turret_super_control_input_evidence_is_exact",
+        "test_turret_super_control_state",
+        "test_reference_graph_and_actual_c07_turret_super_control"
+      ],
+      "runtime_proof": "/root/C07TurretSuperControlProof"
     }
   },
   "version": 1

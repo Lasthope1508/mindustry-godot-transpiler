@@ -692,6 +692,59 @@ static func source_turret_target_position_control_state(has_ammo: bool, pos: Dic
 		next_pos = {"x": pos_x, "y": pos_y}
 	return {"target_pos": next_pos}
 
+static func source_turret_super_control_state(control_type: String, p1: float, enabled: bool, logic_configurable: bool, p1_is_logic_build: bool) -> Dictionary:
+	# BuildingComp super.control() (BuildingComp.java:2150-2162),
+	# what TurretBuild.control() falls through to at the end of
+	# both overloads (Turret.java:388/:402,
+	# `super.control(type, p1, p2, p3, p4);`), so these cases run
+	# for every logic control instruction the turret does not
+	# handle itself. The double overload (:2150-2155) only
+	# handles enabled:
+	# `public void control(LAccess type, double p1, double p2, double p3, double p4){`
+	# `if(type == LAccess.enabled){`
+	# `enabled = !Mathf.zero((float)p1);`
+	# `}`
+	# `}`
+	# and the Object overload (:2157-2162) only handles config:
+	# `public void control(LAccess type, Object p1, double p2, double p3, double p4){`
+	# `//don't execute configure instructions that copy logic building configures; this can cause extreme lag`
+	# `if(type == LAccess.config && block.logicConfigurable && !(p1 instanceof LogicBuild)){`
+	# `//change config only if it's new`
+	# `configured(null, p1);`
+	# `}`
+	# `}`
+	# The enabled field is `transient boolean enabled = true;`
+	# (BuildingComp.java:77), the flag the shouldConsume /
+	# efficiency folds read (frame["enabled"], default true).
+	# LAccess pins `enabled("to"), //"to" is standard for single parameter access` (LAccess.java:80)
+	# and `config(true, "to"),` (:83) -- enabled takes the double overload, config the Object overload. Mathf.zero is `return
+	# Math.abs(value) <= FLOAT_ROUNDING_ERROR;` (arc
+	# Mathf.java:522-524) with `public static final float
+	# FLOAT_ROUNDING_ERROR = 0.000001f; // 32 bits` (:10), so a
+	# p1 of 0.0000005 reads zero (disabled) and a p1 of
+	# 0.00001 reads non-zero (enabled). logicConfigurable is
+	# `public boolean logicConfigurable = false;`
+	# (Block.java:270), set true in init() (:1463-1466) only
+	# when some configuration key is an UnlockableContent --
+	# duo registers no configuration at all (no `config(` in
+	# ItemTurret.java, Turret.java, ReloadTurret.java or
+	# BaseTurret.java), so for duo the config guard never fires
+	# and configured() is never called. The config case only
+	# reports config_applied -- that Java would call
+	# configured(null, p1); the handler dispatch itself waits
+	# for its own slice (it needs the block's configurations
+	# map, which is empty for duo). This is an EVENT, not a
+	# per-tick step: control() is called by the logic executor,
+	# and no logic executor exists in the driver yet, so there
+	# is no driver tick (the N2248 precedent, N2264/N2266).
+	# The result is a 2-key dict: `enabled`, `config_applied`.
+	var config_applied := false
+	if control_type == "enabled":
+		enabled = not (absf(p1) <= 0.000001)
+	elif control_type == "config":
+		config_applied = logic_configurable and not p1_is_logic_build
+	return {"enabled": enabled, "config_applied": config_applied}
+
 @warning_ignore("unused_parameter")
 static func source_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the turret tick wiring every tick

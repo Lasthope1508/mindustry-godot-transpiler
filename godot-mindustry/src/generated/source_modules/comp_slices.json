@@ -5554,6 +5554,24 @@
       ],
       "runtime_proof": "/root/C06BuildingUpdateProof"
     },
+    "N2267": {
+      "canonical_ledger": "source_slice_ledger.N2267",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.control()",
+      "godot_owner": "SourceTurretBuildState.source_turret_super_control_state",
+      "source_symbols": [
+        "source_turret_super_control_state_result.enabled",
+        "source_turret_super_control_state_result.config_applied"
+      ],
+      "tests": [
+        "test_c07_turret_super_control_registration",
+        "test_all_c07_turret_super_control_input_evidence_is_exact",
+        "test_turret_super_control_state",
+        "test_reference_graph_and_actual_c07_turret_super_control"
+      ],
+      "runtime_proof": "/root/C07TurretSuperControlProof"
+    },
     "N514": {
       "canonical_ledger": "source_slice_ledger.N514",
       "status": "done",

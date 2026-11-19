@@ -69616,6 +69616,52 @@
       ],
       "runtime_proof": "/root/C07TurretTargetPositionControlProof",
       "rule": "Source-backed Turret targetPosition(pos) call from Turret.java."
+    },
+    "SourceTurretBuildState.source_turret_super_control_state": {
+      "status": "active",
+      "source_slice": "N2267",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "BuildingComp.control()",
+      "params": [
+        {
+          "name": "control_type",
+          "type": "String",
+          "schema": "source_turret_super_control_state_input.control_type"
+        },
+        {
+          "name": "p1",
+          "type": "float",
+          "schema": "source_turret_super_control_state_input.p1"
+        },
+        {
+          "name": "enabled",
+          "type": "bool",
+          "schema": "source_turret_super_control_state_input.enabled"
+        },
+        {
+          "name": "logic_configurable",
+          "type": "bool",
+          "schema": "source_turret_super_control_state_input.logic_configurable"
+        },
+        {
+          "name": "p1_is_logic_build",
+          "type": "bool",
+          "schema": "source_turret_super_control_state_input.p1_is_logic_build"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "enabled",
+        "config_applied"
+      ],
+      "tests": [
+        "test_c07_turret_super_control_registration",
+        "test_all_c07_turret_super_control_input_evidence_is_exact",
+        "test_turret_super_control_state",
+        "test_reference_graph_and_actual_c07_turret_super_control"
+      ],
+      "runtime_proof": "/root/C07TurretSuperControlProof",
+      "rule": "Source-backed BuildingComp super.control() enabled/config cases from BuildingComp.java."
     }
   },
   "policy": {

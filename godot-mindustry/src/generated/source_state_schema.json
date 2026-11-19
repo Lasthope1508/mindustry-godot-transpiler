@@ -237406,6 +237406,94 @@
       },
       "runtime_proof": "/root/C07TurretTargetPositionControlProof",
       "rule": "Source-backed Turret targetPosition(pos) call from Turret.java."
+    },
+    "source_turret_super_control_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_super_control_state",
+      "source_slice": "N2267",
+      "keys": {
+        "control_type": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/logic/LAccess.java",
+          "java_expr": "enabled(\"to\"), //\"to\" is standard for single parameter access",
+          "rule": "The logic access type of the control call (LAccess.java:80: enabled takes (\"to\") on the double overload; :83: config(true, \"to\") takes the Object overload; any other type changes nothing.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_super_control_state"
+          ]
+        },
+        "p1": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "enabled = !Mathf.zero((float)p1);",
+          "rule": "The first param (BuildingComp.java:2152: the enabled flag for the double overload, cast to float; unused by the config overload, where the Object arg arrives via p1_is_logic_build).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_super_control_state"
+          ]
+        },
+        "enabled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "transient boolean enabled = true;",
+          "rule": "The enabled flag before this control call (BuildingComp.java:77, the field default is true -- the flag the shouldConsume / efficiency folds read).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_super_control_state"
+          ]
+        },
+        "logic_configurable": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public boolean logicConfigurable = false;",
+          "rule": "Whether the block is logic-configurable (Block.java:270, the field default is false; init() :1463-1466 only sets it true when some configuration key is an UnlockableContent -- duo registers none, so false for duo).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_super_control_state"
+          ]
+        },
+        "p1_is_logic_build": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(type == LAccess.config && block.logicConfigurable && !(p1 instanceof LogicBuild)){",
+          "rule": "Whether the config Object arg is a LogicBuild (BuildingComp.java:2159: a LogicBuild arg is never configured -- executing copies of logic configures can cause extreme lag, :2158).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_super_control_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretSuperControlProof",
+      "rule": "Source-backed BuildingComp super.control() enabled/config cases from BuildingComp.java."
+    },
+    "source_turret_super_control_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_super_control_state",
+      "source_slice": "N2267",
+      "keys": {
+        "enabled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "enabled = !Mathf.zero((float)p1);",
+          "rule": "The enabled flag after this control call (BuildingComp.java:2152 -- !zero(p1) for the enabled type; unchanged otherwise).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_super_control_state"
+          ]
+        },
+        "config_applied": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "configured(null, p1);",
+          "rule": "Whether Java would call configured(null, p1) here (BuildingComp.java:2161 -- true only for the config type with logic_configurable and a non-LogicBuild arg; the dispatch effect itself waits for its own slice).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_super_control_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretSuperControlProof",
+      "rule": "Source-backed BuildingComp super.control() enabled/config cases from BuildingComp.java."
     }
   },
   "version": 1
