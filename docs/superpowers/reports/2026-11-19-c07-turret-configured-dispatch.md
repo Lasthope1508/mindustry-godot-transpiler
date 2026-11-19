@@ -1,6 +1,6 @@
 # Report — N2268 BuildingComp configured() dispatch effect (C07, duo) [GREEN, gate đã xác minh, chờ commit/push]
 
-## Status: GREEN, gate đã xác minh, chờ commit/push (2026-11-19 ~21:00 +07, lượt cron 21:00) — targeted 4/4 + proof matches:true 15/15 + register --verify 36/36 + gate Ran 6165, failures=218 toàn Godot-absent (đã xác minh độc lập).
+## Status: DONE + PUSHED (2026-11-19 ~21:0x +07, lượt cron 21:00) — slice `1d030ba5`, docs `a4066f68`, GOAL `aee0d36d`. Targeted 4/4 + proof matches:true 15/15 + register --verify 36/36 + gate Ran 6165, failures=218 toàn Godot-absent (đã xác minh độc lập).
 
 - N2267 DONE + PUSHED (origin/main 410ac5dc, slice 5295a7ec) — đã xác minh đầu lượt cron 20:15: git log 5 commit khớp, HEAD == origin/main == 410ac5dc, worktree chỉ có thay đổi của N2268 + noise *.gd.uid (không stage) + các full-suite-*.log cũ chưa track (không stage).
 

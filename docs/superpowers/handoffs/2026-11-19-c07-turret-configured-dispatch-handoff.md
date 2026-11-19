@@ -1,6 +1,6 @@
 # Handoff — N2268 BuildingComp configured() dispatch effect (C07, duo) [GREEN, chờ gate]
 
-## Status: GREEN, gate đã xác minh (2026-11-19 ~21:00 +07, lượt cron 21:00) — targeted 4/4 + proof matches:true 15/15 + register --verify 36/36 + gate Ran 6165, failures=218 toàn Godot-absent (đã xác minh độc lập). CHƯA commit/push.
+## Status: DONE + PUSHED (2026-11-19 ~21:0x +07, lượt cron 21:00) — slice `1d030ba5`, docs `a4066f68`, GOAL `aee0d36d`. Targeted 4/4 + proof matches:true 15/15 + register --verify 36/36 + gate Ran 6165, failures=218 toàn Godot-absent (đã xác minh độc lập).
 
 ## Scope (đã khóa, xác minh từ đĩa)
 
