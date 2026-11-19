@@ -364,7 +364,7 @@ N2239–N2247 của line Windows)
     Scene tới Windows theo slice commit `710662c`. Chưa chạy trên Windows Godot.
   - [ ] N2289 `C07RepairTurretDrawBeamJitterProof` — Linux GREEN ~12:4x (11 key).
     Scene tới Windows theo slice commit `e648a53`. Chưa chạy trên Windows Godot.
-  - [ ] N2252 `C07RepairTurretDrawBeamPulseProof` — Linux GREEN ~13:3x (11 key).
+  - [ ] N2290 `C07RepairTurretDrawBeamPulseProof` — Linux GREEN ~13:3x (11 key).
     Scene tới Windows theo slice commit `153e9f0`. Chưa chạy trên Windows Godot.
   - [ ] N2253 `C07TurretShouldConsumeProof` — Linux GREEN ~12:4x (8 key).
     Scene tới Windows theo slice commit `fcef043`. Chưa chạy trên Windows Godot.

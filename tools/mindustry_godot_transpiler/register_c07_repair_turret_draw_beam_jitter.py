@@ -44,7 +44,7 @@ live yet -- the N2219 draw_beam_state still returns the
 pre-jitter beam_end until a wiring slice adds those frame
 fields. (5) The pulse phase (RepairTurret.java:138,
 `float f = (Time.time / 85f + rand.random(1f)) % 1f;`) is a
-separate later slice (N2252): it is the FOURTH draw from the
+separate later slice (N2290): it is the FOURTH draw from the
 SAME seeded Rand sequence, after the three jitter draws, so it
 must reuse this slice's sequence, not re-seed. Six new result
 symbols: rand_angle_draw, rand_time_draw, rand_hit_draw,
@@ -98,9 +98,9 @@ EXACT_EXPRS = ['public static void drawBeam(float x, float y, float rotation, fl
 # Rand-modeling slice -- N2289 IS the jitter slice, so carrying
 # it would leave a stale "still deferred" row for done work. The
 # pulse half is re-recorded below as its own entry, since the
-# pulse phase still waits for N2252.
+# pulse phase still waits for N2290.
 DEFERRED = [e for e in N2227_DEFERRED if 'RepairTurret drawBeam() jitter/pulse' not in e] + [
-    'RepairTurret drawBeam pulse phase (RepairTurret.java:138, `float f = (Time.time / 85f + rand.random(1f)) % 1f;`, :140 `Draw.alpha(1f - Interp.pow5In.apply(f));`, :142 `Lines.circle(lastEnd.x, lastEnd.y, 1f + f * pulseRadius);`) -- the FOURTH Rand draw from the SAME seeded sequence as the N2289 jitter draws, so N2252 must reuse this slice\'s Rand state, not re-seed; pulseRadius per-def repair-point 5f / repair-turret 6.1f (Blocks.java:6391/6405), class default 6f (RepairTurret.java:37) -- no pulse-circle radius key exists yet.',
+    'RepairTurret drawBeam pulse phase (RepairTurret.java:138, `float f = (Time.time / 85f + rand.random(1f)) % 1f;`, :140 `Draw.alpha(1f - Interp.pow5In.apply(f));`, :142 `Lines.circle(lastEnd.x, lastEnd.y, 1f + f * pulseRadius);`) -- the FOURTH Rand draw from the SAME seeded sequence as the N2289 jitter draws, so N2290 must reuse this slice\'s Rand state, not re-seed; pulseRadius per-def repair-point 5f / repair-turret 6.1f (Blocks.java:6391/6405), class default 6f (RepairTurret.java:37) -- no pulse-circle radius key exists yet.',
     'RepairTurret drawBeam jitter driver wiring -- the jitter is NOT stamped live yet: the frame carries no building id, target id, target rotation or absolute tick, so the N2219 draw_beam_state still returns the pre-jitter beam_end; wiring waits for a slice that adds those frame fields.',
     'RepairTurret drawBeam jitter Windows Godot proof -- debt in GOAL.md section 5, same as N2212-N2227: the N2289 proof runs headless on Linux here and waits for a Windows Godot run.',
 ]

@@ -124,7 +124,7 @@ class C07RepairTurretDrawBeamJitterTests(unittest.TestCase):
         # so the logical shifts are emulated by masking. The
         # pulse phase (`float f = (Time.time / 85f +
         # rand.random(1f)) % 1f;`, RepairTurret.java:138) is a
-        # separate later slice (N2252): it is the FOURTH draw
+        # separate later slice (N2290): it is the FOURTH draw
         # from the SAME seeded sequence. There is NO driver tick
         # line: the frame carries no building id, target id,
         # target rotation or absolute tick, so the jitter cannot
@@ -174,7 +174,7 @@ class C07RepairTurretDrawBeamJitterTests(unittest.TestCase):
         # there is no driver line yet, the frame carries no
         # building id, target id, target rotation or absolute
         # tick. There is no pulse key: the pulse phase waits for
-        # N2252.
+        # N2290.
         proof = REPAIR_TURRET_DRAW_BEAM_JITTER_PROOF.read_text(encoding='utf-8')
         for key in [
             'rand_draws_match_seed_10_oracle',

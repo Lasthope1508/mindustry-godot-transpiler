@@ -19,9 +19,9 @@ func _ready() -> void:
 	game.set_process(false)
 	game.set_physics_process(false)
 
-	# --- RepairTurret drawBeam pulse phase (N2252):
+	# --- RepairTurret drawBeam pulse phase (N2290):
 	# The pulse is the FOURTH Rand draw from the same seeded
-	# sequence as the N2251 jitter draws (`rand.setSeed(id +
+	# sequence as the N2289 jitter draws (`rand.setSeed(id +
 	# (target instanceof Entityc e ? e.id() : 0));`,
 	# RepairTurret.java:111): `float f = (Time.time / 85f +
 	# rand.random(1f)) % 1f;` (RepairTurret.java:138),
@@ -39,7 +39,7 @@ func _ready() -> void:
 	# tick: the frame carries no absolute tick or fourth Rand
 	# draw yet, so there is no driver line). The oracle draws
 	# below are the Python-model vectors, verified live in
-	# Godot by the N2251 probe before that slice was built.
+	# Godot by the N2289 probe before that slice was built.
 
 	# Time 0, fourth draw 0.350668 (seed-10 oracle r4),
 	# strength 1, pulseStroke 2, pulseRadius 6: f = 0.350668,
@@ -75,7 +75,7 @@ func _ready() -> void:
 
 	# The fourth draw is the seed-10 oracle r4: replay the
 	# seeded sequence (building id 7 + target id 3) through
-	# the N2251 xorshift helpers -- r1 257.980828, r2
+	# the N2289 xorshift helpers -- r1 257.980828, r2
 	# 38.301969, r3 3.00842, r4 0.350668 -- and the pulse at
 	# time 0 with that draw has f = 0.350668.
 	var rand_state: Dictionary = repair_turret_build_state.source_arc_rand_xorshift_set_seed(7 + 3)

@@ -14,14 +14,14 @@ class C07RepairTurretDrawBeamPulseTests(unittest.TestCase):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        self.assertEqual(ledger['N2252']['godot_owner'], 'SourceRepairTurretBuildState.source_repair_turret_draw_beam_pulse_state')
+        self.assertEqual(ledger['N2290']['godot_owner'], 'SourceRepairTurretBuildState.source_repair_turret_draw_beam_pulse_state')
         # N2219 captured the deterministic beam state but left the
-        # pulse circle unmodeled, and N2251 modeled the jitter
+        # pulse circle unmodeled, and N2289 modeled the jitter
         # (the first three Rand draws) but left the pulse phase
         # for this slice: the pulse phase (`float f =
         # (Time.time / 85f + rand.random(1f)) % 1f;`,
         # RepairTurret.java:138) is the FOURTH draw from the
-        # SAME seeded Rand sequence as the N2251 jitter draws,
+        # SAME seeded Rand sequence as the N2289 jitter draws,
         # so it reuses that slice's xorshift helpers, not a
         # re-seed. `Draw.alpha(1f - Interp.pow5In.apply(f));`
         # (RepairTurret.java:140) fades the pulse circle with
@@ -37,7 +37,7 @@ class C07RepairTurretDrawBeamPulseTests(unittest.TestCase):
         # Four new result symbols: f, alpha, stroke,
         # circle_radius.
         self.assertEqual(
-            ledger['N2252']['source_symbols'],
+            ledger['N2290']['source_symbols'],
             [
                 'source_repair_turret_draw_beam_pulse_state_result.f',
                 'source_repair_turret_draw_beam_pulse_state_result.alpha',
@@ -45,7 +45,7 @@ class C07RepairTurretDrawBeamPulseTests(unittest.TestCase):
                 'source_repair_turret_draw_beam_pulse_state_result.circle_radius',
             ],
         )
-        for name in ledger['N2252']['source_symbols']:
+        for name in ledger['N2290']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_source'], {
@@ -55,9 +55,9 @@ class C07RepairTurretDrawBeamPulseTests(unittest.TestCase):
                     'arc-core/src/arc/util/Time.java',
                 })
                 self.assertEqual(symbol['godot_owner'], 'SourceRepairTurretBuildState.' + name.rsplit('_result.', 1)[0])
-        self.assertEqual(ledger['N2252']['runtime_proof'], '/root/C07RepairTurretDrawBeamPulseProof')
+        self.assertEqual(ledger['N2290']['runtime_proof'], '/root/C07RepairTurretDrawBeamPulseProof')
         self.assertEqual(
-            ledger['N2252']['tests'],
+            ledger['N2290']['tests'],
             [
                 'test_c07_repair_turret_draw_beam_pulse_registration',
                 'test_all_c07_repair_turret_draw_beam_pulse_input_evidence_is_exact',
@@ -65,13 +65,13 @@ class C07RepairTurretDrawBeamPulseTests(unittest.TestCase):
                 'test_reference_graph_and_actual_c07_repair_turret_draw_beam_pulse',
             ],
         )
-        self.assertTrue(ledger['N2252']['deferred_exprs'])
+        self.assertTrue(ledger['N2290']['deferred_exprs'])
 
     def test_all_c07_repair_turret_draw_beam_pulse_input_evidence_is_exact(self):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        for name in ledger['N2252']['source_symbols']:
+        for name in ledger['N2290']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 source = symbol['java_source']
@@ -88,14 +88,14 @@ class C07RepairTurretDrawBeamPulseTests(unittest.TestCase):
         for source in slice_sources:
             upstream_root = ROOT / 'arc-upstream' if source.startswith('arc-core/') else ROOT / 'mindustry-upstream'
             upstream[source] = (upstream_root / source).read_text(encoding='utf-8')
-        for expr in ledger['N2252']['exact_exprs']:
+        for expr in ledger['N2290']['exact_exprs']:
             with self.subTest(expr=expr):
                 self.assertTrue(any(expr in text for text in upstream.values()), expr)
 
     def test_repair_turret_draw_beam_pulse_state(self):
         repair_turret = REPAIR_TURRET_STATE.read_text(encoding='utf-8')
         # The pulse phase is the fourth Rand draw from the same
-        # seeded sequence as the N2251 jitter draws
+        # seeded sequence as the N2289 jitter draws
         # (`rand.setSeed(id + (target instanceof Entityc e ?
         # e.id() : 0));`, RepairTurret.java:111): `float f =
         # (Time.time / 85f + rand.random(1f)) % 1f;`
@@ -113,7 +113,7 @@ class C07RepairTurretDrawBeamPulseTests(unittest.TestCase):
         # Time.time is the tick counter (Time.java:15, 60fps
         # units). The rand draw is taken as an explicit float
         # param (0..1): the caller supplies the fourth draw --
-        # the proof replays the N2251 seeded sequence (seed 10:
+        # the proof replays the N2289 seeded sequence (seed 10:
         # r1 257.980828 / r2 38.301969 / r3 3.008420 / r4
         # 0.350668) to show the linkage, but the pure function
         # itself does not re-seed and invents no building id.

@@ -1,11 +1,11 @@
-"""Register the RepairTurret drawBeam pulse rows (N2252).
+"""Register the RepairTurret drawBeam pulse rows (N2290).
 
 N2219 captured the deterministic beam state but left the pulse
-circle unmodeled, and N2251 modeled the jitter (the first three
+circle unmodeled, and N2289 modeled the jitter (the first three
 Rand draws) but left the pulse phase for this slice: the pulse
 phase (`float f = (Time.time / 85f + rand.random(1f)) % 1f;`,
 RepairTurret.java:138) is the FOURTH draw from the SAME seeded
-Rand sequence as the N2251 jitter draws, so it reuses that
+Rand sequence as the N2289 jitter draws, so it reuses that
 slice's xorshift helpers, not a re-seed. `Draw.alpha(1f -
 Interp.pow5In.apply(f));` (RepairTurret.java:140) fades the
 pulse circle with pow5In -- Interp.pow5In is PowIn(5)
@@ -22,13 +22,13 @@ beam_visible. Time.time is the tick counter (Time.java:15,
 
 RED decisions (resolved at RED): (1) One pure function on the
 same family file N2174 / N2188 / N2209 / N2212-N2215 / N2217 /
-N2219-N2227 / N2251 built, reusing the N2251 xorshift helpers
+N2219-N2227 / N2289 built, reusing the N2289 xorshift helpers
 (setSeed / nextLong / nextFloat / random(max) /
 random(min, max)) -- the helpers are NOT duplicated here.
 (2) The fourth Rand draw is taken as an explicit float param
 rand_draw (0..1): the caller supplies the fourth draw, so the
 function does not re-seed and invents no building id; the
-proof replays the N2251 seeded sequence (seed 10: r1
+proof replays the N2289 seeded sequence (seed 10: r1
 257.980828 / r2 38.301969 / r3 3.008420 / r4 0.350668) to
 show the linkage. (3) pulseStroke / pulseRadius are explicit
 params because the per-def values differ (class defaults
@@ -49,7 +49,7 @@ import sys
 from pathlib import Path
 
 from mindustry_port import source_ssot, source_symbols
-from register_c07_repair_turret_draw_beam_jitter import DEFERRED as N2251_DEFERRED
+from register_c07_repair_turret_draw_beam_jitter import DEFERRED as N2289_DEFERRED
 from register_liquid_consumer_hydration import backed
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -61,7 +61,7 @@ TIME = 'arc-core/src/arc/util/Time.java'
 PROOF = '/root/C07RepairTurretDrawBeamPulseProof'
 PULSE_OWNER = 'SourceRepairTurretBuildState.source_repair_turret_draw_beam_pulse_state'
 TESTS = ['test_c07_repair_turret_draw_beam_pulse_registration', 'test_all_c07_repair_turret_draw_beam_pulse_input_evidence_is_exact', 'test_repair_turret_draw_beam_pulse_state', 'test_reference_graph_and_actual_c07_repair_turret_draw_beam_pulse']
-# The 4 slice sources the N2252 test checks exact_exprs
+# The 4 slice sources the N2290 test checks exact_exprs
 # against -- every expr in EXACT_EXPRS below must appear verbatim
 # in one of these files.
 SLICE_SOURCES = [
@@ -72,25 +72,25 @@ SLICE_SOURCES = [
 ]
 EXACT_EXPRS = ['public static void drawBeam(float x, float y, float rotation, float length, int id, @Nullable Sized target, Team team,', 'float strength, float pulseStroke, float pulseRadius, float beamWidth,', 'if(strength > 0.01f){', 'float f = (Time.time / 85f + rand.random(1f)) % 1f;', 'Draw.alpha(1f - Interp.pow5In.apply(f));', 'Lines.stroke(strength * pulseStroke);', 'Lines.circle(lastEnd.x, lastEnd.y, 1f + f * pulseRadius);', 'PowIn pow5In = new PowIn(5);', 'return (float)Math.pow(a, power);', 'public float random(float max){', 'return nextFloat() * max;', 'public static float time, globalTime;']
 
-# DEFERRED is carried from the N2251 register script via import --
-# never retyped. The N2251 script's DEFERRED is a computed
+# DEFERRED is carried from the N2289 register script via import --
+# never retyped. The N2289 script's DEFERRED is a computed
 # expression (list comprehension over the N2227 import + [...]),
-# (round 3: N2251's chain skips dropped N2247, imports N2227).
+# (round 3: N2289's chain skips dropped N2247, imports N2227).
 # NOT a plain list literal, so the N2218-style ast.literal_eval
 # carry cannot recover it (ValueError: malformed node); the
 # import recovers the runtime value verbatim. NOTE for the next
-# slice: N2252's DEFERRED is likewise a computed list
+# slice: N2290's DEFERRED is likewise a computed list
 # comprehension + [...] expression, so carry it forward by
 # import too, not by ast.literal_eval.
-# One carried entry is DROPPED here, not carried: the N2251
+# One carried entry is DROPPED here, not carried: the N2289
 # entry deferring the RepairTurret drawBeam() pulse phase to
-# N2252 -- N2252 IS the pulse slice, so carrying it would leave
+# N2290 -- N2290 IS the pulse slice, so carrying it would leave
 # a stale "still deferred" row for done work. Two new entries
 # are recorded below: the pulse driver wiring (the pulse is not
 # stamped live yet) and the pulse Windows Godot proof debt.
-DEFERRED = [e for e in N2251_DEFERRED if 'RepairTurret drawBeam pulse phase' not in e] + [
+DEFERRED = [e for e in N2289_DEFERRED if 'RepairTurret drawBeam pulse phase' not in e] + [
     'RepairTurret drawBeam pulse driver wiring -- the pulse is NOT stamped live yet: the frame carries no absolute tick or fourth Rand draw, so the N2219 draw_beam_state still returns the pre-pulse beam (pulse_stroke only); wiring waits for a slice that adds those frame fields.',
-    'RepairTurret drawBeam pulse Windows Godot proof -- debt in GOAL.md section 5, same as N2212-N2227, N2251: the N2252 proof runs headless on Linux here and waits for a Windows Godot run.',
+    'RepairTurret drawBeam pulse Windows Godot proof -- debt in GOAL.md section 5, same as N2212-N2227, N2289: the N2290 proof runs headless on Linux here and waits for a Windows Godot run.',
 ]
 
 
@@ -103,7 +103,7 @@ def definitions():
         'pulse_stroke': a('float', 'Lines.stroke(strength * pulseStroke);', 'The pulse stroke width (drawBeam param, RepairTurret.java:107): the class default is 2f (RepairTurret.java:38, `public float pulseStroke = 2f;`), overridden by neither def; passed explicitly because the pure function takes the draw-time value.'),
         'pulse_radius': a('float', 'Lines.circle(lastEnd.x, lastEnd.y, 1f + f * pulseRadius);', 'The pulse circle radius (drawBeam param, RepairTurret.java:107): the class default is 6f (RepairTurret.java:37, `public float pulseRadius = 6f;`), repair-point 5f (Blocks.java:6392) / repair-turret 6.1f (Blocks.java:6404); passed explicitly because the per-def values differ.'),
         'time_ticks': a('float', 'public static float time, globalTime;', 'Time.time at draw time (Time.java:15, `public static float time, globalTime;`, the tick counter in 60fps units): the pulse phase is Time.time / 85f (RepairTurret.java:138); passed explicitly because the frame carries no absolute tick yet.', source=TIME),
-        'rand_draw': a('float', 'public float random(float max){', 'The fourth Rand draw (RepairTurret.java:138, `rand.random(1f)`): nextFloat() * 1f from the seeded xorshift sequence (Rand.java, `public float random(float max){` / `return nextFloat() * max;`), after the three N2251 jitter draws; passed explicitly because the pure function does not re-seed and invents no building id.', source=RAND),
+        'rand_draw': a('float', 'public float random(float max){', 'The fourth Rand draw (RepairTurret.java:138, `rand.random(1f)`): nextFloat() * 1f from the seeded xorshift sequence (Rand.java, `public float random(float max){` / `return nextFloat() * max;`), after the three N2289 jitter draws; passed explicitly because the pure function does not re-seed and invents no building id.', source=RAND),
     }
     pulse_outputs = {
         'f': a('float', 'float f = (Time.time / 85f + rand.random(1f)) % 1f;', 'The pulse phase (RepairTurret.java:138, `float f = (Time.time / 85f + rand.random(1f)) % 1f;`): the tick counter over 85 plus the fourth Rand draw, wrapped mod 1, so f stays in [0, 1).'),
@@ -150,7 +150,7 @@ def main():
     pulse_inputs, pulse_outputs = definitions()
 
     entries = [
-        ('N2252', PULSE_OWNER, 'source_repair_turret_draw_beam_pulse_state', REPAIR_TURRET, 'mindustry.world.blocks.units.RepairTurret.RepairPointBuild', 'RepairPointBuild.draw()/drawBeam()', pulse_inputs, pulse_outputs, True, 'Dictionary'),
+        ('N2290', PULSE_OWNER, 'source_repair_turret_draw_beam_pulse_state', REPAIR_TURRET, 'mindustry.world.blocks.units.RepairTurret.RepairPointBuild', 'RepairPointBuild.draw()/drawBeam()', pulse_inputs, pulse_outputs, True, 'Dictionary'),
     ]
     all_names = []
     for sid, owner, prefix, source, cls, method, inputs, outputs, has_contract, return_type in entries:
@@ -171,13 +171,13 @@ def main():
     by_slice = {}
     # The test pins this order: f, alpha, stroke,
     # circle_radius.
-    by_slice['N2252'] = [
+    by_slice['N2290'] = [
         'source_repair_turret_draw_beam_pulse_state_result.f',
         'source_repair_turret_draw_beam_pulse_state_result.alpha',
         'source_repair_turret_draw_beam_pulse_state_result.stroke',
         'source_repair_turret_draw_beam_pulse_state_result.circle_radius',
     ]
-    source_symbols.upsert_source_slice(GODOT, 'N2252', dict(status='done', java_source=REPAIR_TURRET, java_class='mindustry.world.blocks.units.RepairTurret.RepairPointBuild', java_method='RepairPointBuild.draw()/drawBeam()', godot_owner=PULSE_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2252'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
+    source_symbols.upsert_source_slice(GODOT, 'N2290', dict(status='done', java_source=REPAIR_TURRET, java_class='mindustry.world.blocks.units.RepairTurret.RepairPointBuild', java_method='RepairPointBuild.draw()/drawBeam()', godot_owner=PULSE_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2290'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
 
     source_symbols.upsert_source_symbols(GODOT, symbols)
     source_symbols.write_source_symbol_audit_report(GODOT)
