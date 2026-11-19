@@ -176776,6 +176776,22 @@
         "test_reference_graph_and_actual_c07_turret_unit_sync"
       ],
       "runtime_proof": "/root/C07TurretUnitSyncProof"
+    },
+    "source_turret_logic_control_time_state_result.logic_control_time": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_logic_control_time_state",
+      "godot_symbol": "source_turret_logic_control_time_state_result.logic_control_time",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "logicControlTime -= Time.delta;",
+      "rule": "The logic-control timer after the tick (Turret.java:535 -- decayed by delta while positive, untouched otherwise, with no clamp; the driver stamps it on frame[\"logic_control_time\"]).",
+      "tests": [
+        "test_c07_turret_logic_control_time_registration",
+        "test_all_c07_turret_logic_control_time_input_evidence_is_exact",
+        "test_turret_logic_control_time_state",
+        "test_reference_graph_and_actual_c07_turret_logic_control_time"
+      ],
+      "runtime_proof": "/root/C07TurretLogicControlTimeProof"
     }
   },
   "version": 1

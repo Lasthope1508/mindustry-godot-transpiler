@@ -236808,6 +236808,54 @@
       },
       "runtime_proof": "/root/C07TurretUnitSyncProof",
       "rule": "Source-backed Turret unit sync from Turret.java."
+    },
+    "source_turret_logic_control_time_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_logic_control_time_state",
+      "source_slice": "N2261",
+      "keys": {
+        "logic_control_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float curRecoil, heat, logicControlTime = -1;",
+          "rule": "The logic-control timer before this tick (Turret.java:284, the field default is -1 -- never logic-controlled; the driver reads frame[\"logic_control_time\"], default -1.0).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_logic_control_time_state"
+          ]
+        },
+        "delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "logicControlTime -= Time.delta;",
+          "rule": "The per-tick delta subtracted from the timer (Turret.java:535; the driver passes the live-loop seconds).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_logic_control_time_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretLogicControlTimeProof",
+      "rule": "Source-backed Turret logicControlTime decay from Turret.java."
+    },
+    "source_turret_logic_control_time_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_logic_control_time_state",
+      "source_slice": "N2261",
+      "keys": {
+        "logic_control_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "logicControlTime -= Time.delta;",
+          "rule": "The logic-control timer after the tick (Turret.java:535 -- decayed by delta while positive, untouched otherwise, with no clamp; the driver stamps it on frame[\"logic_control_time\"]).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_logic_control_time_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretLogicControlTimeProof",
+      "rule": "Source-backed Turret logicControlTime decay from Turret.java."
     }
   },
   "version": 1

@@ -69297,6 +69297,36 @@
       ],
       "runtime_proof": "/root/C07TurretUnitSyncProof",
       "rule": "Source-backed Turret unit sync from Turret.java."
+    },
+    "SourceTurretBuildState.source_turret_logic_control_time_state": {
+      "status": "active",
+      "source_slice": "N2261",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.updateTile()",
+      "params": [
+        {
+          "name": "logic_control_time",
+          "type": "float",
+          "schema": "source_turret_logic_control_time_state_input.logic_control_time"
+        },
+        {
+          "name": "delta",
+          "type": "float",
+          "schema": "source_turret_logic_control_time_state_input.delta"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "logic_control_time"
+      ],
+      "tests": [
+        "test_c07_turret_logic_control_time_registration",
+        "test_all_c07_turret_logic_control_time_input_evidence_is_exact",
+        "test_turret_logic_control_time_state",
+        "test_reference_graph_and_actual_c07_turret_logic_control_time"
+      ],
+      "runtime_proof": "/root/C07TurretLogicControlTimeProof",
+      "rule": "Source-backed Turret logicControlTime decay from Turret.java."
     }
   },
   "policy": {

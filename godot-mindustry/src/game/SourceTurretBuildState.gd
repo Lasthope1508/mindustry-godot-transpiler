@@ -438,6 +438,30 @@ static func source_turret_unit_sync_state(unit_tile: Vector2i, rotation: float, 
 	var tile_change_team_called: bool = unit_team != team_id and tile_team != team_id
 	return {"unit_tile": unit_tile, "unit_rotation": rotation, "unit_team": team_id, "unit_hit_size": hit_size, "tile_change_team_called": tile_change_team_called}
 
+static func source_turret_logic_control_time_state(logic_control_time: float, delta: float) -> Dictionary:
+	# TurretBuild.updateTile() (Turret.java:490-560) decays the
+	# logic-control timer every tick, after the recoilOffset draw
+	# (:532) and before the heat-requirement fold (:538-540):
+	# `if(logicControlTime > 0){`
+	# `logicControlTime -= Time.delta;`
+	# (Turret.java:534-536). The field is
+	# `public float curRecoil, heat, logicControlTime = -1;`
+	# (:284), so the timer starts at -1 (never logic-controlled)
+	# and only a logic shoot control arms it
+	# (`logicControlTime = logicControlCooldown;`, :384/:394, with
+	# `public final static float logicControlCooldown = 60 * 2;`,
+	# :38 -- 120 ticks of logic control). The reader is
+	# `logicControlled()` (`return logicControlTime > 0;`,
+	# :445-447), so the decay is observable through the isShooting
+	# gate (:492) on the very next tick. The decay has NO clamp: a
+	# timer of 0.001 with delta 1/60 lands negative (0.001 -
+	# 0.0166... = -0.0156...), exactly what Java does -- the next
+	# tick's guard then leaves it alone. The result is a 1-key
+	# dict: `logic_control_time`.
+	if logic_control_time > 0.0:
+		logic_control_time -= delta
+	return {"logic_control_time": logic_control_time}
+
 @warning_ignore("unused_parameter")
 static func source_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the turret tick wiring every tick
@@ -671,6 +695,18 @@ static func source_turret_tick_buildings_state(game: Object, seconds: float) -> 
 			# class default at Turret.java:140).
 			var recoil_offset: Dictionary = source_turret_recoil_offset_state(float(frame.get("rotation", 90.0)), float(frame.get("cur_recoil", 0.0)), 1.8, 0.5)
 			frame["recoil_offset"] = recoil_offset.get("recoil_offset", {"x": 0.0, "y": 0.0})
+			# The logic-control timer decay (Turret.java:534-536,
+			# N2261) runs right after the recoilOffset draw: Java
+			# order :532 offset, :534-536 decay, :595-596
+			# turnToTarget, :601/:609 updateShooting -- so the
+			# tick runs BEFORE the aim call, and the isShooting
+			# gate (:492, reading logicControlled()) sees a fresh
+			# timer. The field default is -1.0 (:284), so a turret
+			# never logic-controlled stays at -1.0 until a logic
+			# shoot control arms it (setters :384/:394, own
+			# slices); the decay never arms the timer itself.
+			var logic_control_time_state: Dictionary = source_turret_logic_control_time_state(float(frame.get("logic_control_time", -1.0)), seconds)
+			frame["logic_control_time"] = logic_control_time_state.get("logic_control_time", -1.0)
 			var aim: Dictionary = source_item_turret_build_state.source_item_turret_aim_shoot_state(frame, frame.get("target", null),
 				bool(validate.get("valid", false)), team_id, sprite.position.x, sprite.position.y, seconds,
 				float(frame.get("potential_efficiency", 1.0)), float(frame.get("shoot_warmup", 0.0)), bool(frame.get("charging", false)),
