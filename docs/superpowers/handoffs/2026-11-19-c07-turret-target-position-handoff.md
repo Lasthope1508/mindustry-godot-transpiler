@@ -1,6 +1,6 @@
-# Handoff — N2266 Turret targetPosition(pos) call (C07, duo) [GREEN DONE — CHỜ PUSH]
+# Handoff — N2266 Turret targetPosition(pos) call (C07, duo) [DONE + PUSHED]
 
-## Status: GREEN DONE (2026-11-19 ~18:5x +07, lượt cron 18:45) — slice `a421f48a`, chain đã xác minh độc lập xong, chưa push. Targeted 4/4 + proof matches:true 12/12 + register --verify 36/36 + gate Ran 6157, failures=216 toàn Godot-absent (đã xác minh độc lập).
+## Status: DONE + PUSHED (2026-11-19 ~18:5x +07, lượt cron 18:45) — slice `a421f48a`, docs `357eca9b`, GOAL `94288cc6`. Targeted 4/4 + proof matches:true 12/12 + register --verify 36/36 + gate Ran 6157, failures=216 toàn Godot-absent (đã xác minh độc lập).
 
 - N2265 DONE + PUSHED (origin/main c8a5ba83, slice 92a9a639) — đã xác minh đầu lượt: git log 5 commit khớp, HEAD == origin/main == c8a5ba83, worktree sạch ngoại trừ noise *.gd.uid (không stage) + các full-suite-*.log cũ chưa track (không stage). javalang 0.13.0 + pytest 9.2.0 importable; port 7777 trống; không có unittest discover / chain đang chạy.
 
