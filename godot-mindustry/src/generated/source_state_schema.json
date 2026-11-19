@@ -237750,6 +237750,54 @@
       },
       "runtime_proof": "/root/C07TurretQueuedBulletsProof",
       "rule": "Source-backed Turret queuedBullets counter + charging() gate from Turret.java."
+    },
+    "source_turret_heat_requirement_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_heat_requirement_state",
+      "source_slice": "N2270",
+      "keys": {
+        "block": {
+          "type": "Object",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "afflict = new PowerTurret(\"afflict\"){{",
+          "rule": "The block definition the read resolves (Blocks.java:5023): the catalog block whose properties carry the per-block heatRequirement / maxHeatEfficiency overrides, or the class defaults when it carries none. Malign is the same shape (Blocks.java:5925, `malign = new PowerTurret(\"malign\"){{`).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_heat_requirement_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretPowerHeatFoldProof",
+      "rule": "Source-backed Turret heat requirement + cap read from Turret.java / Blocks.java."
+    },
+    "source_turret_heat_requirement_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_heat_requirement_state",
+      "source_slice": "N2270",
+      "keys": {
+        "heat_requirement": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float heatRequirement = -1f;",
+          "rule": "The turret heat requirement in heat units (Turret.java:53, the class default; the read returns the catalog value when the block carries one -- 20.0 for afflict, Blocks.java:5122; 144.0 for malign, Blocks.java:6240).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_heat_requirement_state"
+          ]
+        },
+        "max_heat_efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float maxHeatEfficiency = 3f;",
+          "rule": "The cap on the heat fold (Turret.java:55, the class default 3f; the read returns the catalog value when the block carries one -- 1.0 for afflict, Blocks.java:5123, and for malign, Blocks.java:6241).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_heat_requirement_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretPowerHeatFoldProof",
+      "rule": "Source-backed Turret heat requirement + cap read from Turret.java / Blocks.java."
     }
   },
   "version": 1

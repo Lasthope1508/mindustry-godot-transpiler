@@ -3705,6 +3705,24 @@
       ],
       "runtime_proof": "/root/C07TurretQueuedBulletsProof"
     },
+    "N2270": {
+      "canonical_ledger": "source_slice_ledger.N2270",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateEfficiencyMultiplier()",
+      "godot_owner": "SourceTurretBuildState.source_turret_heat_requirement_state",
+      "source_symbols": [
+        "source_turret_heat_requirement_state_result.heat_requirement",
+        "source_turret_heat_requirement_state_result.max_heat_efficiency"
+      ],
+      "tests": [
+        "test_c07_turret_power_heat_fold_registration",
+        "test_all_c07_turret_power_heat_fold_input_evidence_is_exact",
+        "test_turret_power_heat_fold_state",
+        "test_reference_graph_and_actual_c07_turret_power_heat_fold"
+      ],
+      "runtime_proof": "/root/C07TurretPowerHeatFoldProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

@@ -177096,6 +177096,38 @@
         "test_reference_graph_and_actual_c07_turret_queued_bullets"
       ],
       "runtime_proof": "/root/C07TurretQueuedBulletsProof"
+    },
+    "source_turret_heat_requirement_state_result.heat_requirement": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_heat_requirement_state",
+      "godot_symbol": "source_turret_heat_requirement_state_result.heat_requirement",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateEfficiencyMultiplier()",
+      "java_expr": "public float heatRequirement = -1f;",
+      "rule": "The turret heat requirement in heat units (Turret.java:53, the class default; the read returns the catalog value when the block carries one -- 20.0 for afflict, Blocks.java:5122; 144.0 for malign, Blocks.java:6240).",
+      "tests": [
+        "test_c07_turret_power_heat_fold_registration",
+        "test_all_c07_turret_power_heat_fold_input_evidence_is_exact",
+        "test_turret_power_heat_fold_state",
+        "test_reference_graph_and_actual_c07_turret_power_heat_fold"
+      ],
+      "runtime_proof": "/root/C07TurretPowerHeatFoldProof"
+    },
+    "source_turret_heat_requirement_state_result.max_heat_efficiency": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_heat_requirement_state",
+      "godot_symbol": "source_turret_heat_requirement_state_result.max_heat_efficiency",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateEfficiencyMultiplier()",
+      "java_expr": "public float maxHeatEfficiency = 3f;",
+      "rule": "The cap on the heat fold (Turret.java:55, the class default 3f; the read returns the catalog value when the block carries one -- 1.0 for afflict, Blocks.java:5123, and for malign, Blocks.java:6241).",
+      "tests": [
+        "test_c07_turret_power_heat_fold_registration",
+        "test_all_c07_turret_power_heat_fold_input_evidence_is_exact",
+        "test_turret_power_heat_fold_state",
+        "test_reference_graph_and_actual_c07_turret_power_heat_fold"
+      ],
+      "runtime_proof": "/root/C07TurretPowerHeatFoldProof"
     }
   },
   "version": 1

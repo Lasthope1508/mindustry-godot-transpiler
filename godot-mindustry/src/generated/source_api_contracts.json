@@ -69778,6 +69778,32 @@
       ],
       "runtime_proof": "/root/C07TurretQueuedBulletsProof",
       "rule": "Source-backed Turret queuedBullets counter + charging() gate from Turret.java."
+    },
+    "SourceTurretBuildState.source_turret_heat_requirement_state": {
+      "status": "active",
+      "source_slice": "N2270",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.updateEfficiencyMultiplier()",
+      "params": [
+        {
+          "name": "block",
+          "type": "Object",
+          "schema": "source_turret_heat_requirement_state_input.block"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "heat_requirement",
+        "max_heat_efficiency"
+      ],
+      "tests": [
+        "test_c07_turret_power_heat_fold_registration",
+        "test_all_c07_turret_power_heat_fold_input_evidence_is_exact",
+        "test_turret_power_heat_fold_state",
+        "test_reference_graph_and_actual_c07_turret_power_heat_fold"
+      ],
+      "runtime_proof": "/root/C07TurretPowerHeatFoldProof",
+      "rule": "Source-backed Turret heat requirement + cap read from Turret.java / Blocks.java."
     }
   },
   "policy": {

@@ -885,6 +885,33 @@ static func source_turret_queued_bullets_state(queued_bullets: int, first_shot_d
 	var reload_counter_after: float = fmod(reload_counter, reload) if can_shoot else reload_counter
 	return {"queued_bullets": queued_bullets_after, "charging": charging, "can_shoot": can_shoot, "reload_counter_after": reload_counter_after}
 
+static func source_turret_heat_requirement_state(block: Object) -> Dictionary:
+	# Turret heat requirement + cap read (Turret.java:53/:55,
+	# `public float heatRequirement = -1f;` /
+	# `public float maxHeatEfficiency = 3f;`): the catalog
+	# captures the block initializer's own assignment, else the
+	# class default -- afflict overrides to 20 / 1
+	# (Blocks.java:5122-5123, `heatRequirement = 20f;` /
+	# `maxHeatEfficiency = 1f;`) and malign to 144 / 1
+	# (Blocks.java:6240-6241, `heatRequirement = 144f;` /
+	# `maxHeatEfficiency = 1f;`). Only afflict and malign set a
+	# positive requirement among turrets; every other turret
+	# reads the class defaults, so the fold guard
+	# (`if(heatRequirement > 0){`, Turret.java:675) stays off.
+	# A null block, or a block whose catalog carries no
+	# override, reads the class defaults -1.0 / 3.0. The driver
+	# feeds the read values into the N2265 fold
+	# (`efficiency *= Math.min(Math.max(heatReq / heatRequirement, cheating() ? 1f : 0f), maxHeatEfficiency);`,
+	# Turret.java:676). The result is a 2-key dict:
+	# `heat_requirement` (the turret heat requirement in heat
+	# units) and `max_heat_efficiency` (the cap on the fold).
+	var heat_requirement := -1.0
+	var max_heat_efficiency := 3.0
+	if block != null:
+		heat_requirement = float(block.properties.get("heatRequirement", -1.0))
+		max_heat_efficiency = float(block.properties.get("maxHeatEfficiency", 3.0))
+	return {"heat_requirement": heat_requirement, "max_heat_efficiency": max_heat_efficiency}
+
 @warning_ignore("unused_parameter")
 static func source_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the turret tick wiring every tick
@@ -958,6 +985,27 @@ static func source_turret_tick_buildings_state(game: Object, seconds: float) -> 
 				required_results.append(power_row.get("row", {}))
 			var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(true, bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, [], [], frame)
 			source_building_efficiency_state.apply_update_consumption_state(consumption, frame)
+			# The PowerTurret heat fold (Turret.java:674-679, N2270)
+			# runs in this generic power-consumer consumption
+			# branch, right after the first-pass efficiency stamp:
+			# Java order is updateConsumption() with the fold, then
+			# updateTile() -- the fold reads the PREVIOUS tick's
+			# frame["heat_req"] (the N2263 stamp). The catalog read
+			# supplies the per-block requirement / cap: afflict 20f
+			# / 1f (Blocks.java:5122-5123), malign 144f / 1f
+			# (Blocks.java:6240-6241); a block with no override reads
+			# the class defaults -1.0 / 3.0 (Turret.java:53/:55).
+			# frame["heat_req"] stays at its field default 0.0 (the
+			# live calculateHeat scan waits for its own slice,
+			# N2263), so a non-cheating afflict / malign with no
+			# heat folds to 0 -- the faithful no-heater behavior.
+			# This branch already excludes cheating teams (the
+			# N2148 consumption branch), so the fold's cheating
+			# floor (1.0) is unreachable live here -- and identical
+			# anyway, since the cap is 1.0 for both defs.
+			var heat_requirement_state: Dictionary = source_turret_heat_requirement_state(block)
+			var power_heat_fold: Dictionary = source_turret_efficiency_multiplier_state(float(frame.get("efficiency", 1.0)), float(heat_requirement_state.get("heat_requirement", -1.0)), float(frame.get("heat_req", 0.0)), bool(frame.get("cheating", false)), float(heat_requirement_state.get("max_heat_efficiency", 3.0)))
+			frame["efficiency"] = power_heat_fold.get("efficiency", 1.0)
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		if block_id == "duo":
 			# The duo half of TurretBuild.updateTile() (Turret.java:490-615,

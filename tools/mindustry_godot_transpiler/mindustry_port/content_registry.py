@@ -432,7 +432,7 @@ def _block_properties(source: str, assignment_end: int, implementation: str = ""
         properties["hasItems"] = has_items
     if properties.get("hasItems") is True and "itemCapacity" not in properties and default_item_capacity is not None:
         properties["itemCapacity"] = default_item_capacity
-    for key in ["range", "reload", "drillTime", "speed", "displayedSpeed", "shootY", "inaccuracy", "rotateSpeed", "shootCone", "recoil", "scaledHealth", "healPercent", "phaseBoost", "phaseRangeBoost", "speedBoost", "speedBoostPhase", "useTime", "lightRadius", "laserRange", "powerProduction", "itemDuration"]:
+    for key in ["range", "reload", "drillTime", "speed", "displayedSpeed", "shootY", "inaccuracy", "rotateSpeed", "shootCone", "recoil", "scaledHealth", "healPercent", "phaseBoost", "phaseRangeBoost", "speedBoost", "speedBoostPhase", "useTime", "lightRadius", "laserRange", "powerProduction", "itemDuration", "heatRequirement", "maxHeatEfficiency"]:
         value = _numeric_assignment(initializer, key)
         if value is not None:
             properties[key] = value
