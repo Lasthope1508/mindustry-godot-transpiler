@@ -3230,25 +3230,6 @@
       ],
       "runtime_proof": "/root/C07PointDefenseTurretLiveBulletsWiringProof"
     },
-    "N2265": {
-      "canonical_ledger": "source_slice_ledger.N2265",
-      "status": "done",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-      "java_method": "TurretBuild.updateTile()",
-      "godot_owner": "SourceTurretBuildState.source_turret_update_tile_warmup_state",
-      "source_symbols": [
-        "source_turret_update_tile_warmup_state_result.warmup_target",
-        "source_turret_update_tile_warmup_state_result.warmup_hold",
-        "source_turret_update_tile_warmup_state_result.shoot_warmup"
-      ],
-      "tests": [
-        "test_c07_turret_update_tile_warmup_registration",
-        "test_all_c07_turret_update_tile_warmup_input_evidence_is_exact",
-        "test_turret_update_tile_warmup_state",
-        "test_reference_graph_and_actual_c07_turret_update_tile_warmup"
-      ],
-      "runtime_proof": "/root/C07TurretUpdateTileWarmupProof"
-    },
     "N2267": {
       "canonical_ledger": "source_slice_ledger.N2267",
       "status": "done",
@@ -3649,6 +3630,25 @@
         "test_reference_graph_and_actual_c07_turret_unit"
       ],
       "runtime_proof": "/root/C07TurretUnitProof"
+    },
+    "N2308": {
+      "canonical_ledger": "source_slice_ledger.N2308",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "godot_owner": "SourceTurretBuildState.source_turret_update_tile_warmup_state",
+      "source_symbols": [
+        "source_turret_update_tile_warmup_state_result.warmup_target",
+        "source_turret_update_tile_warmup_state_result.warmup_hold",
+        "source_turret_update_tile_warmup_state_result.shoot_warmup"
+      ],
+      "tests": [
+        "test_c07_turret_update_tile_warmup_registration",
+        "test_all_c07_turret_update_tile_warmup_input_evidence_is_exact",
+        "test_turret_update_tile_warmup_state",
+        "test_reference_graph_and_actual_c07_turret_update_tile_warmup"
+      ],
+      "runtime_proof": "/root/C07TurretUpdateTileWarmupProof"
     },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",

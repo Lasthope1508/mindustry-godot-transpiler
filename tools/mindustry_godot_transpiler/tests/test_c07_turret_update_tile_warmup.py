@@ -14,7 +14,7 @@ class C07TurretUpdateTileWarmupTests(unittest.TestCase):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        self.assertEqual(ledger['N2265']['godot_owner'], 'SourceTurretBuildState.source_turret_update_tile_warmup_state')
+        self.assertEqual(ledger['N2308']['godot_owner'], 'SourceTurretBuildState.source_turret_update_tile_warmup_state')
         # TurretBuild.updateTile() warmup advance
         # (Turret.java:502-515): `float warmupTarget =
         # (isShooting && canConsume()) || charging() ? 1f :
@@ -74,14 +74,14 @@ class C07TurretUpdateTileWarmupTests(unittest.TestCase):
         # result symbols: warmup_target, warmup_hold,
         # shoot_warmup.
         self.assertEqual(
-            ledger['N2265']['source_symbols'],
+            ledger['N2308']['source_symbols'],
             [
                 'source_turret_update_tile_warmup_state_result.warmup_target',
                 'source_turret_update_tile_warmup_state_result.warmup_hold',
                 'source_turret_update_tile_warmup_state_result.shoot_warmup',
             ],
         )
-        for name in ledger['N2265']['source_symbols']:
+        for name in ledger['N2308']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_source'], {
@@ -90,9 +90,9 @@ class C07TurretUpdateTileWarmupTests(unittest.TestCase):
                     'core/src/mindustry/content/Blocks.java',
                 })
                 self.assertEqual(symbol['godot_owner'], 'SourceTurretBuildState.' + name.rsplit('_result.', 1)[0])
-        self.assertEqual(ledger['N2265']['runtime_proof'], '/root/C07TurretUpdateTileWarmupProof')
+        self.assertEqual(ledger['N2308']['runtime_proof'], '/root/C07TurretUpdateTileWarmupProof')
         self.assertEqual(
-            ledger['N2265']['tests'],
+            ledger['N2308']['tests'],
             [
                 'test_c07_turret_update_tile_warmup_registration',
                 'test_all_c07_turret_update_tile_warmup_input_evidence_is_exact',
@@ -100,17 +100,17 @@ class C07TurretUpdateTileWarmupTests(unittest.TestCase):
                 'test_reference_graph_and_actual_c07_turret_update_tile_warmup',
             ],
         )
-        self.assertTrue(ledger['N2265']['deferred_exprs'])
+        self.assertTrue(ledger['N2308']['deferred_exprs'])
         self.assertIn(
             'Turret updateTile warmup Windows Godot proof',
-            ' '.join(ledger['N2265']['deferred_exprs']),
+            ' '.join(ledger['N2308']['deferred_exprs']),
         )
 
     def test_all_c07_turret_update_tile_warmup_input_evidence_is_exact(self):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        for name in ledger['N2265']['source_symbols']:
+        for name in ledger['N2308']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_expr'], (ROOT / 'mindustry-upstream' / symbol['java_source']).read_text(encoding='utf-8'))
@@ -123,7 +123,7 @@ class C07TurretUpdateTileWarmupTests(unittest.TestCase):
         upstream = {}
         for source in slice_sources:
             upstream[source] = (ROOT / 'mindustry-upstream' / source).read_text(encoding='utf-8')
-        for expr in ledger['N2265']['exact_exprs']:
+        for expr in ledger['N2308']['exact_exprs']:
             with self.subTest(expr=expr):
                 self.assertTrue(any(expr in text for text in upstream.values()), expr)
 

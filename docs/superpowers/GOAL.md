@@ -390,7 +390,7 @@ N2239–N2247 của line Windows)
     Scene tới Windows theo slice commit `e994170`. Chưa chạy trên Windows Godot.
   - [ ] N2303 `C07RadarProgressProof` — Linux GREEN ~11:0x (4 key).
     Scene tới Windows theo slice commit `abf3dd0`. Chưa chạy trên Windows Godot.
-  - [ ] N2265 `C07TurretUpdateTileWarmupProof` — Linux GREEN ~12:3x (15 key).
+  - [ ] N2308 `C07TurretUpdateTileWarmupProof` — Linux GREEN ~12:3x (15 key).
    Scene tới Windows theo slice commit `e50f45e`. Chưa chạy trên Windows Godot.
  - [ ] N2266 `C07BurstDrillSetStatsProof` — Linux GREEN ~12:3x (5 key).
    Scene tới Windows theo slice commit `10d3db6`. Chưa chạy trên Windows Godot.

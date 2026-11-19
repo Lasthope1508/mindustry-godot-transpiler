@@ -14,7 +14,7 @@ per accessor -- each takes the family-convention frame first
 arg plus ONE explicit param carrying the live value (the
 N2268/N2261/N2282 precedent: super-leg / already-live fields
 arrive as explicit params, do NOT re-port them). warmup()'s
-shoot_warmup is advanced by the updateTile warmup leg (N2265,
+shoot_warmup is advanced by the updateTile warmup leg (N2308,
 Turret.java:502-515), NOT here; drawrot()'s rotation is the
 RotComp float aim angle (`@SyncField(false) @SyncLocal float
 rotation;`, RotComp.java:8, default 0.0) -- NOT the Building
@@ -114,7 +114,7 @@ def definitions():
 
     warmup_inputs = {
         'frame': a('Dictionary', 'public float warmup(){', 'The turret frame (TurretBuild.warmup, Turret.java:354): the family-convention first arg every Turret pure function takes; it carries no tracked key for this accessor -- shoot_warmup arrives as an explicit param (the N2268/N2261 precedent), because the tick frame tracks no shoot_warmup key yet.'),
-        'shoot_warmup': a('float', 'public float shootWarmup, charge, warmupHold = 0f;', 'The current warmup (`shootWarmup`, Turret.java:355): the TurretBuild field (`public float shootWarmup, charge, warmupHold = 0f;`, Turret.java:286, Java default 0f), advanced toward warmupTarget by the updateTile warmup leg (N2265, Turret.java:502-515) -- NOT re-ported here; read by warmup() and by the minWarmup fire gate (Turret.java:733).'),
+        'shoot_warmup': a('float', 'public float shootWarmup, charge, warmupHold = 0f;', 'The current warmup (`shootWarmup`, Turret.java:355): the TurretBuild field (`public float shootWarmup, charge, warmupHold = 0f;`, Turret.java:286, Java default 0f), advanced toward warmupTarget by the updateTile warmup leg (N2308, Turret.java:502-515) -- NOT re-ported here; read by warmup() and by the minWarmup fire gate (Turret.java:733).'),
     }
     warmup_outputs = {
         'warmup': a('float', 'return shootWarmup;', 'The warmup (Turret.java:355, `return shootWarmup;`): the TurretBuild shootWarmup field as-is.'),

@@ -25,7 +25,7 @@ class C07TurretMicroAccessorsTests(unittest.TestCase):
         # Four pure functions, one per accessor, each with the
         # family-convention frame first arg plus ONE explicit
         # param (the N2268/N2261/N2282 precedent): shoot_warmup
-        # is advanced by the updateTile warmup leg (N2265), NOT
+        # is advanced by the updateTile warmup leg (N2308), NOT
         # here; rotation is the RotComp float aim angle
         # (RotComp.java:8), NOT the Building int rotation 0-3
         # (BuildingComp.java:69), bound by the caller from the

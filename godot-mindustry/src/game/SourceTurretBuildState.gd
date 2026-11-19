@@ -664,7 +664,7 @@ static func source_turret_status_state(frame: Dictionary, has_ammo: bool, activa
 # (Turret.java:277) in `public class Turret extends ReloadTurret{`
 # (Turret.java:36). shoot_warmup is the TurretBuild field (`public float
 # shootWarmup, charge, warmupHold = 0f;`, Turret.java:286, default 0f),
-# advanced toward warmupTarget by the updateTile warmup leg (N2265,
+# advanced toward warmupTarget by the updateTile warmup leg (N2308,
 # Turret.java:502-515) -- NOT re-ported here (the N2268/N2261
 # precedent): it arrives as an explicit param. NO driver tick line:
 # warmup() is a read accessor its callers read, not a per-tick write

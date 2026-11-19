@@ -8429,7 +8429,7 @@
     "SourceTurretBuildState.source_turret_update_tile_warmup_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_update_tile_warmup_state",
       "status": "active",
-      "source_slice": "N2265",
+      "source_slice": "N2308",
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
       "source_method": "TurretBuild.updateTile()",
       "params": [

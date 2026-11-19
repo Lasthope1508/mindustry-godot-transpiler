@@ -29,7 +29,7 @@ func _ready() -> void:
 	# (Turret.java:445-447, `return logicControlTime > 0;`).
 	# Each is a pure function over explicit params (the
 	# N2268/N2261 precedent): shoot_warmup is advanced by the
-	# updateTile warmup leg (N2265), NOT here; rotation is the
+	# updateTile warmup leg (N2308), NOT here; rotation is the
 	# RotComp float aim angle (RotComp.java:8), NOT the Building
 	# int rotation 0-3 (BuildingComp.java:69); player_controllable
 	# is the block-level Turret field (Turret.java:97, default

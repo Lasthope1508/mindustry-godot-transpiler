@@ -39,7 +39,7 @@ class C07TurretFindTargetTests(unittest.TestCase):
         # chain). RED decisions (recorded in the register
         # docstring): (1) five pure functions on
         # SourceTurretBuildState.gd next to the N2261
-        # estimateDps / N2265 warmup rows -- can_heal,
+        # estimateDps / N2308 warmup rows -- can_heal,
         # invalidate_target, validate_target, find_enemy,
         # find_target. (2) All live values arrive as
         # explicit params (the N2188 precedent) -- range /

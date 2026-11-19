@@ -1,4 +1,4 @@
-"""Register the TurretBuild.updateTile() warmup advance (N2265).
+"""Register the TurretBuild.updateTile() warmup advance (N2308).
 
 TurretBuild.updateTile() warmup advance (Turret.java:502-515,
 `float warmupTarget = (isShooting && canConsume()) ||
@@ -103,7 +103,7 @@ BLOCKS = 'core/src/mindustry/content/Blocks.java'
 PROOF = '/root/C07TurretUpdateTileWarmupProof'
 WARMUP_OWNER = 'SourceTurretBuildState.source_turret_update_tile_warmup_state'
 TESTS = ['test_c07_turret_update_tile_warmup_registration', 'test_all_c07_turret_update_tile_warmup_input_evidence_is_exact', 'test_turret_update_tile_warmup_state', 'test_reference_graph_and_actual_c07_turret_update_tile_warmup']
-# The 3 slice sources the N2265 test checks exact_exprs
+# The 3 slice sources the N2308 test checks exact_exprs
 # against -- every expr in EXACT_EXPRS below must appear verbatim
 # in one of these files.
 SLICE_SOURCES = [
@@ -144,16 +144,16 @@ EXACT_EXPRS = [
 # DEFERRED is carried from the N2301 register script via import --
 # never retyped. Nothing in it closes here: the warmup advance
 # was never a deferred entry of the Turret chain. Four entries
-# are added: the N2265 Windows Godot proof debt (GOAL.md
+# are added: the N2308 Windows Godot proof debt (GOAL.md
 # section 5), the warmup driver tick line (waits for the frame
 # keys), the isShooting computation (updateTile :492), and the
 # rest of updateTile (:491-500 target/sound, :517-530
 # recoil/heat/charge/unit).
 DEFERRED = N2301_DEFERRED + [
-    'Turret updateTile warmup Windows Godot proof -- debt in GOAL.md section 5, same as N2148/N2227: the N2265 proof runs headless on Linux here and waits for a Windows Godot run.',
-    'Wire the Turret warmup driver tick line (source_turret_tick_buildings_state) once the tick frame tracks is_shooting / charging / controlled / shoot_warmup / warmup_hold; N2265 is pure-function-only (the N2294 updateTile precedent).',
-    'Port the TurretBuild.updateTile() isShooting computation (Turret.java:492, target / unit.controller() / logicControlled() / logicShooting) as its own slice; N2265 takes is_shooting as an explicit bool.',
-    'Port the rest of TurretBuild.updateTile() (Turret.java:491-500 validateTarget / unit ammo / soundLoop, :517-530 curRecoil / heat / charge / unit.tile / unit.rotation) as their own slices; N2265 covers only the warmup advance :502-515.',
+    'Turret updateTile warmup Windows Godot proof -- debt in GOAL.md section 5, same as N2148/N2227: the N2308 proof runs headless on Linux here and waits for a Windows Godot run.',
+    'Wire the Turret warmup driver tick line (source_turret_tick_buildings_state) once the tick frame tracks is_shooting / charging / controlled / shoot_warmup / warmup_hold; N2308 is pure-function-only (the N2294 updateTile precedent).',
+    'Port the TurretBuild.updateTile() isShooting computation (Turret.java:492, target / unit.controller() / logicControlled() / logicShooting) as its own slice; N2308 takes is_shooting as an explicit bool.',
+    'Port the rest of TurretBuild.updateTile() (Turret.java:491-500 validateTarget / unit ammo / soundLoop, :517-530 curRecoil / heat / charge / unit.tile / unit.rotation) as their own slices; N2308 covers only the warmup advance :502-515.',
 ]
 
 
@@ -219,7 +219,7 @@ def main():
     warmup_inputs, warmup_outputs = definitions()
 
     entries = [
-        ('N2265', WARMUP_OWNER, 'source_turret_update_tile_warmup_state', TURRET, 'mindustry.world.blocks.defense.turrets.Turret.TurretBuild', 'TurretBuild.updateTile()', warmup_inputs, warmup_outputs, True, 'Dictionary'),
+        ('N2308', WARMUP_OWNER, 'source_turret_update_tile_warmup_state', TURRET, 'mindustry.world.blocks.defense.turrets.Turret.TurretBuild', 'TurretBuild.updateTile()', warmup_inputs, warmup_outputs, True, 'Dictionary'),
     ]
     all_names = []
     for sid, owner, prefix, source, cls, method, inputs, outputs, has_contract, return_type in entries:
@@ -239,12 +239,12 @@ def main():
 
     by_slice = {}
     # The test pins this order: warmup_target, warmup_hold, shoot_warmup.
-    by_slice['N2265'] = [
+    by_slice['N2308'] = [
         'source_turret_update_tile_warmup_state_result.warmup_target',
         'source_turret_update_tile_warmup_state_result.warmup_hold',
         'source_turret_update_tile_warmup_state_result.shoot_warmup',
     ]
-    source_symbols.upsert_source_slice(GODOT, 'N2265', dict(status='done', java_source=TURRET, java_class='mindustry.world.blocks.defense.turrets.Turret.TurretBuild', java_method='TurretBuild.updateTile()', godot_owner=WARMUP_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2265'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
+    source_symbols.upsert_source_slice(GODOT, 'N2308', dict(status='done', java_source=TURRET, java_class='mindustry.world.blocks.defense.turrets.Turret.TurretBuild', java_method='TurretBuild.updateTile()', godot_owner=WARMUP_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2308'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
 
     source_symbols.upsert_source_symbols(GODOT, symbols)
     source_symbols.write_source_symbol_audit_report(GODOT)

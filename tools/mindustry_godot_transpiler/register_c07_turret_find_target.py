@@ -33,7 +33,7 @@ FLOAT_ROUNDING_ERROR = 0.000001f).
 
 RED decisions (resolved at RED): (1) Five pure functions on
 SourceTurretBuildState.gd next to the N2261 estimateDps /
-N2265 warmup rows -- can_heal, invalidate_target,
+N2308 warmup rows -- can_heal, invalidate_target,
 validate_target, find_enemy, find_target. (2) All live
 values arrive as explicit params (the N2188 precedent) --
 range / track_range, hasAmmo / peekAmmo flags, controlled /
@@ -75,7 +75,7 @@ import sys
 from pathlib import Path
 
 from mindustry_port import source_ssot, source_symbols
-from register_c07_turret_update_tile_warmup import DEFERRED as N2265_DEFERRED
+from register_c07_turret_update_tile_warmup import DEFERRED as N2308_DEFERRED
 from register_liquid_consumer_hydration import backed
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -157,7 +157,7 @@ EXACT_EXPRS = [
     'public static final float FLOAT_ROUNDING_ERROR = 0.000001f; // 32 bits',
 ]
 
-# DEFERRED is carried from the N2265 register script via import --
+# DEFERRED is carried from the N2308 register script via import --
 # never retyped. Nothing in it closes here: findTarget was never a
 # deferred entry of the Turret chain. Five entries are added: the
 # N2270 Windows Godot proof debt (GOAL.md section 5), the
@@ -165,7 +165,7 @@ EXACT_EXPRS = [
 # queries (driver-side observed-dict stamping), the
 # SourceTurretTargetingState.gd non-reuse note, and the
 # trackingRange / hasAmmo / peekAmmo follow-ups.
-DEFERRED = N2265_DEFERRED + [
+DEFERRED = N2308_DEFERRED + [
     'Turret findTarget() Windows Godot proof -- debt in GOAL.md section 5, same as N2148/N2227: the N2270 proof runs headless on Linux here and waits for a Windows Godot run.',
     'Wire the Turret findTarget/validateTarget driver tick lines (source_turret_tick_buildings_state) once the tick frame tracks target / is_shooting / controlled / logicControlled; N2270 is pure-function-only (the N2294 updateTile precedent). updateTile calls findTarget() at Turret.java:570 and validateTarget() at :491/:573.',
     'Port the live Units queries (Units.nearbyEnemies scan, BlockIndexer.findEnemyTile/findTile, Units.inFogTo) as driver-side observed-dict stamping; N2270 selects from observed dicts only and proves no live query.',

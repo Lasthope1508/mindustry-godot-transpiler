@@ -19,7 +19,7 @@ func _ready() -> void:
 	game.set_process(false)
 	game.set_physics_process(false)
 
-	# --- TurretBuild.updateTile() warmup advance (N2265):
+	# --- TurretBuild.updateTile() warmup advance (N2308):
 	# TurretBuild.updateTile() warmup advance
 	# (Turret.java:502-515): `float warmupTarget =
 	# (isShooting && canConsume()) || charging() ? 1f :
