@@ -68265,61 +68265,6 @@
       "runtime_proof": "/root/C07PointDefenseTurretLiveBulletsWiringProof",
       "rule": "Source-backed PointDefenseTurret live-bullets wiring from PointDefenseTurret.java / BulletComp.java / BulletType.java / Blocks.java / GroupDefs.java."
     },
-    "SourceTurretBuildState.source_turret_estimate_dps_state": {
-      "status": "active",
-      "source_slice": "N2261",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-      "source_method": "TurretBuild.estimateDps()",
-      "params": [
-        {
-          "name": "frame",
-          "type": "Dictionary",
-          "schema": "source_turret_estimate_dps_state_input.frame"
-        },
-        {
-          "name": "has_ammo",
-          "type": "bool",
-          "schema": "source_turret_estimate_dps_state_input.has_ammo"
-        },
-        {
-          "name": "shots",
-          "type": "int",
-          "schema": "source_turret_estimate_dps_state_input.shots"
-        },
-        {
-          "name": "reload",
-          "type": "float",
-          "schema": "source_turret_estimate_dps_state_input.reload"
-        },
-        {
-          "name": "peek_ammo_estimate_dps",
-          "type": "float",
-          "schema": "source_turret_estimate_dps_state_input.peek_ammo_estimate_dps"
-        },
-        {
-          "name": "potential_efficiency",
-          "type": "float",
-          "schema": "source_turret_estimate_dps_state_input.potential_efficiency"
-        },
-        {
-          "name": "time_scale",
-          "type": "float",
-          "schema": "source_turret_estimate_dps_state_input.time_scale"
-        }
-      ],
-      "return_type": "Dictionary",
-      "return_keys": [
-        "estimate_dps"
-      ],
-      "tests": [
-        "test_c07_turret_estimate_dps_registration",
-        "test_all_c07_turret_estimate_dps_input_evidence_is_exact",
-        "test_turret_estimate_dps_state",
-        "test_reference_graph_and_actual_c07_turret_estimate_dps"
-      ],
-      "runtime_proof": "/root/C07TurretEstimateDpsProof",
-      "rule": "Source-backed TurretBuild.estimateDps() state from Turret.java + ReloadTurret.java + ShootPattern.java + BulletType.java + BuildingComp.java + RtsAI.java."
-    },
     "SourceBurstDrillBuildState.source_burst_drill_on_proximity_update_state": {
       "status": "active",
       "source_slice": "N2262",
@@ -70687,6 +70632,61 @@
       ],
       "runtime_proof": "/root/C07GameHeadlessProof",
       "rule": "Source-backed game headless source from Vars.java + ServerLauncher.java + BuildingComp.java."
+    },
+    "SourceTurretBuildState.source_turret_estimate_dps_state": {
+      "status": "active",
+      "source_slice": "N2301",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.estimateDps()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_estimate_dps_state_input.frame"
+        },
+        {
+          "name": "has_ammo",
+          "type": "bool",
+          "schema": "source_turret_estimate_dps_state_input.has_ammo"
+        },
+        {
+          "name": "shots",
+          "type": "int",
+          "schema": "source_turret_estimate_dps_state_input.shots"
+        },
+        {
+          "name": "reload",
+          "type": "float",
+          "schema": "source_turret_estimate_dps_state_input.reload"
+        },
+        {
+          "name": "peek_ammo_estimate_dps",
+          "type": "float",
+          "schema": "source_turret_estimate_dps_state_input.peek_ammo_estimate_dps"
+        },
+        {
+          "name": "potential_efficiency",
+          "type": "float",
+          "schema": "source_turret_estimate_dps_state_input.potential_efficiency"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_turret_estimate_dps_state_input.time_scale"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "estimate_dps"
+      ],
+      "tests": [
+        "test_c07_turret_estimate_dps_registration",
+        "test_all_c07_turret_estimate_dps_input_evidence_is_exact",
+        "test_turret_estimate_dps_state",
+        "test_reference_graph_and_actual_c07_turret_estimate_dps"
+      ],
+      "runtime_proof": "/root/C07TurretEstimateDpsProof",
+      "rule": "Source-backed TurretBuild.estimateDps() state from Turret.java + ReloadTurret.java + ShootPattern.java + BulletType.java + BuildingComp.java + RtsAI.java."
     }
   },
   "policy": {

@@ -19,7 +19,7 @@ func _ready() -> void:
 	game.set_process(false)
 	game.set_physics_process(false)
 
-	# --- TurretBuild.estimateDps() (N2261):
+	# --- TurretBuild.estimateDps() (N2301):
 	# TurretBuild overrides estimateDps (Turret.java:329-332,
 	# `public float estimateDps(){` / `if(!hasAmmo())
 	# return 0f;` / `return shoot.shots / reload * 60f *

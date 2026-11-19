@@ -1,4 +1,4 @@
-"""Register the TurretBuild.estimateDps() accessor (N2261).
+"""Register the TurretBuild.estimateDps() accessor (N2301).
 
 TurretBuild overrides estimateDps (Turret.java:329-332, `public
 float estimateDps(){` / `if(!hasAmmo()) return 0f;` /
@@ -69,7 +69,7 @@ RTS_AI = 'core/src/mindustry/ai/RtsAI.java'
 PROOF = '/root/C07TurretEstimateDpsProof'
 ESTIMATE_DPS_OWNER = 'SourceTurretBuildState.source_turret_estimate_dps_state'
 TESTS = ['test_c07_turret_estimate_dps_registration', 'test_all_c07_turret_estimate_dps_input_evidence_is_exact', 'test_turret_estimate_dps_state', 'test_reference_graph_and_actual_c07_turret_estimate_dps']
-# The 6 slice sources the N2261 test checks exact_exprs
+# The 6 slice sources the N2301 test checks exact_exprs
 # against -- every expr in EXACT_EXPRS below must appear verbatim
 # in one of these files.
 SLICE_SOURCES = [
@@ -98,14 +98,14 @@ EXACT_EXPRS = [
 # DEFERRED is carried from the N2268 register script via import --
 # never retyped. Nothing in it closes here: estimateDps() was never
 # a deferred entry of the Turret chain. Three entries are added:
-# the N2261 Windows Godot proof debt (GOAL.md section 5) and the
+# the N2301 Windows Godot proof debt (GOAL.md section 5) and the
 # three pure ports this slice defers (hasAmmo, peekAmmo,
 # BulletType.estimateDPS).
 DEFERRED = N2268_DEFERRED + [
-    'Turret estimateDps() Windows Godot proof -- debt in GOAL.md section 5, same as N2148/N2227: the N2261 proof runs headless on Linux here and waits for a Windows Godot run.',
-    'Port pure TurretBuild.hasAmmo() (Turret.java:698-712, ammo-swap side effect) as its own slice; N2261 takes has_ammo as an explicit bool.',
-    'Port pure TurretBuild.peekAmmo() (Turret.java:693-695) as its own slice; N2261 takes peek_ammo_estimate_dps as an explicit float.',
-    'Port pure BulletType.estimateDPS() (BulletType.java:414-431, recursive + cachedDps cache) as its own slice; N2261 takes peek_ammo_estimate_dps as an explicit float.',
+    'Turret estimateDps() Windows Godot proof -- debt in GOAL.md section 5, same as N2148/N2227: the N2301 proof runs headless on Linux here and waits for a Windows Godot run.',
+    'Port pure TurretBuild.hasAmmo() (Turret.java:698-712, ammo-swap side effect) as its own slice; N2301 takes has_ammo as an explicit bool.',
+    'Port pure TurretBuild.peekAmmo() (Turret.java:693-695) as its own slice; N2301 takes peek_ammo_estimate_dps as an explicit float.',
+    'Port pure BulletType.estimateDPS() (BulletType.java:414-431, recursive + cachedDps cache) as its own slice; N2301 takes peek_ammo_estimate_dps as an explicit float.',
 ]
 
 
@@ -162,7 +162,7 @@ def main():
     estimate_dps_inputs, estimate_dps_outputs = definitions()
 
     entries = [
-        ('N2261', ESTIMATE_DPS_OWNER, 'source_turret_estimate_dps_state', TURRET, 'mindustry.world.blocks.defense.turrets.Turret.TurretBuild', 'TurretBuild.estimateDps()', estimate_dps_inputs, estimate_dps_outputs, True, 'Dictionary'),
+        ('N2301', ESTIMATE_DPS_OWNER, 'source_turret_estimate_dps_state', TURRET, 'mindustry.world.blocks.defense.turrets.Turret.TurretBuild', 'TurretBuild.estimateDps()', estimate_dps_inputs, estimate_dps_outputs, True, 'Dictionary'),
     ]
     all_names = []
     for sid, owner, prefix, source, cls, method, inputs, outputs, has_contract, return_type in entries:
@@ -182,10 +182,10 @@ def main():
 
     by_slice = {}
     # The test pins this order: estimate_dps.
-    by_slice['N2261'] = [
+    by_slice['N2301'] = [
         'source_turret_estimate_dps_state_result.estimate_dps',
     ]
-    source_symbols.upsert_source_slice(GODOT, 'N2261', dict(status='done', java_source=TURRET, java_class='mindustry.world.blocks.defense.turrets.Turret.TurretBuild', java_method='TurretBuild.estimateDps()', godot_owner=ESTIMATE_DPS_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2261'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
+    source_symbols.upsert_source_slice(GODOT, 'N2301', dict(status='done', java_source=TURRET, java_class='mindustry.world.blocks.defense.turrets.Turret.TurretBuild', java_method='TurretBuild.estimateDps()', godot_owner=ESTIMATE_DPS_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2301'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
 
     source_symbols.upsert_source_symbols(GODOT, symbols)
     source_symbols.write_source_symbol_audit_report(GODOT)

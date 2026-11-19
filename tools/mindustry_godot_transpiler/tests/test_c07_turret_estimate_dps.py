@@ -14,7 +14,7 @@ class C07TurretEstimateDpsTests(unittest.TestCase):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        self.assertEqual(ledger['N2261']['godot_owner'], 'SourceTurretBuildState.source_turret_estimate_dps_state')
+        self.assertEqual(ledger['N2301']['godot_owner'], 'SourceTurretBuildState.source_turret_estimate_dps_state')
         # TurretBuild overrides estimateDps (Turret.java:329-332,
         # `public float estimateDps(){` / `if(!hasAmmo())
         # return 0f;` / `return shoot.shots / reload * 60f *
@@ -67,12 +67,12 @@ class C07TurretEstimateDpsTests(unittest.TestCase):
         # item: estimateDps() was never a deferred entry
         # of the Turret chain.
         self.assertEqual(
-            ledger['N2261']['source_symbols'],
+            ledger['N2301']['source_symbols'],
             [
                 'source_turret_estimate_dps_state_result.estimate_dps',
             ],
         )
-        for name in ledger['N2261']['source_symbols']:
+        for name in ledger['N2301']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_source'], {
@@ -84,9 +84,9 @@ class C07TurretEstimateDpsTests(unittest.TestCase):
                     'core/src/mindustry/ai/RtsAI.java',
                 })
                 self.assertEqual(symbol['godot_owner'], 'SourceTurretBuildState.' + name.rsplit('_result.', 1)[0])
-        self.assertEqual(ledger['N2261']['runtime_proof'], '/root/C07TurretEstimateDpsProof')
+        self.assertEqual(ledger['N2301']['runtime_proof'], '/root/C07TurretEstimateDpsProof')
         self.assertEqual(
-            ledger['N2261']['tests'],
+            ledger['N2301']['tests'],
             [
                 'test_c07_turret_estimate_dps_registration',
                 'test_all_c07_turret_estimate_dps_input_evidence_is_exact',
@@ -94,17 +94,17 @@ class C07TurretEstimateDpsTests(unittest.TestCase):
                 'test_reference_graph_and_actual_c07_turret_estimate_dps',
             ],
         )
-        self.assertTrue(ledger['N2261']['deferred_exprs'])
+        self.assertTrue(ledger['N2301']['deferred_exprs'])
         self.assertIn(
             'Turret estimateDps() Windows Godot proof',
-            ' '.join(ledger['N2261']['deferred_exprs']),
+            ' '.join(ledger['N2301']['deferred_exprs']),
         )
 
     def test_all_c07_turret_estimate_dps_input_evidence_is_exact(self):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        for name in ledger['N2261']['source_symbols']:
+        for name in ledger['N2301']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_expr'], (ROOT / 'mindustry-upstream' / symbol['java_source']).read_text(encoding='utf-8'))
@@ -120,7 +120,7 @@ class C07TurretEstimateDpsTests(unittest.TestCase):
         upstream = {}
         for source in slice_sources:
             upstream[source] = (ROOT / 'mindustry-upstream' / source).read_text(encoding='utf-8')
-        for expr in ledger['N2261']['exact_exprs']:
+        for expr in ledger['N2301']['exact_exprs']:
             with self.subTest(expr=expr):
                 self.assertTrue(any(expr in text for text in upstream.values()), expr)
 

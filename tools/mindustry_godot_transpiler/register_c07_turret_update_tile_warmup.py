@@ -92,7 +92,7 @@ import sys
 from pathlib import Path
 
 from mindustry_port import source_ssot, source_symbols
-from register_c07_turret_estimate_dps import DEFERRED as N2261_DEFERRED
+from register_c07_turret_estimate_dps import DEFERRED as N2301_DEFERRED
 from register_liquid_consumer_hydration import backed
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -141,7 +141,7 @@ EXACT_EXPRS = [
     'public void updateTile(){',
 ]
 
-# DEFERRED is carried from the N2261 register script via import --
+# DEFERRED is carried from the N2301 register script via import --
 # never retyped. Nothing in it closes here: the warmup advance
 # was never a deferred entry of the Turret chain. Four entries
 # are added: the N2265 Windows Godot proof debt (GOAL.md
@@ -149,7 +149,7 @@ EXACT_EXPRS = [
 # keys), the isShooting computation (updateTile :492), and the
 # rest of updateTile (:491-500 target/sound, :517-530
 # recoil/heat/charge/unit).
-DEFERRED = N2261_DEFERRED + [
+DEFERRED = N2301_DEFERRED + [
     'Turret updateTile warmup Windows Godot proof -- debt in GOAL.md section 5, same as N2148/N2227: the N2265 proof runs headless on Linux here and waits for a Windows Godot run.',
     'Wire the Turret warmup driver tick line (source_turret_tick_buildings_state) once the tick frame tracks is_shooting / charging / controlled / shoot_warmup / warmup_hold; N2265 is pure-function-only (the N2294 updateTile precedent).',
     'Port the TurretBuild.updateTile() isShooting computation (Turret.java:492, target / unit.controller() / logicControlled() / logicShooting) as its own slice; N2265 takes is_shooting as an explicit bool.',
