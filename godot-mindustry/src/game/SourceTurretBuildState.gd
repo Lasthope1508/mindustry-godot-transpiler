@@ -210,7 +210,7 @@ static func source_turret_should_consume_state(frame: Dictionary, is_shooting: b
 # reload reads 1 and a negative counter reads 0. The only live
 # consumer is sense() case progress (Turret.java:414):
 # `case progress -> progress();`
-# -- the assigned N2255 slice; setBars (Turret.java:192-202)
+# -- the assigned N2293 slice; setBars (Turret.java:192-202)
 # never reads progress(). frame is accepted for the family call
 # shape and reads no live frame key: reloadCounter / reload
 # arrive as explicit params (the N2188 precedent),
@@ -218,7 +218,7 @@ static func source_turret_should_consume_state(frame: Dictionary, is_shooting: b
 # power_status / efficiency today. NO driver line: wiring frame
 # defaults would stamp a constant 0.0 progress (0.0 / 10f),
 # not a live value -- pure function only, the N2251 / N2252
-# precedent; sense() (N2255) calls it with explicit params.
+# precedent; sense() (N2293) calls it with explicit params.
 @warning_ignore("unused_parameter")
 static func source_turret_progress_state(frame: Dictionary, reload_counter: float, reload: float) -> Dictionary:
 	return {"progress": clampf(reload_counter / reload, 0.0, 1.0)}

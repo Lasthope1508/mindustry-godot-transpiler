@@ -14,7 +14,7 @@ class C07TurretSenseTests(unittest.TestCase):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        self.assertEqual(ledger['N2255']['godot_owner'], 'SourceTurretBuildState.source_turret_sense_state')
+        self.assertEqual(ledger['N2293']['godot_owner'], 'SourceTurretBuildState.source_turret_sense_state')
         # TurretBuild overrides sense (Turret.java:406-419,
         # `public double sense(LAccess sensor){` / `return
         # switch(sensor){` / `case ammo -> totalAmmo;` /
@@ -68,14 +68,14 @@ class C07TurretSenseTests(unittest.TestCase):
         # handled, sense_value, sense_value_is_nan. This
         # closes the deferred item recorded in N2253/N2254.
         self.assertEqual(
-            ledger['N2255']['source_symbols'],
+            ledger['N2293']['source_symbols'],
             [
                 'source_turret_sense_state_result.handled',
                 'source_turret_sense_state_result.sense_value',
                 'source_turret_sense_state_result.sense_value_is_nan',
             ],
         )
-        for name in ledger['N2255']['source_symbols']:
+        for name in ledger['N2293']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_source'], {
@@ -87,9 +87,9 @@ class C07TurretSenseTests(unittest.TestCase):
                     'core/src/mindustry/core/World.java',
                 })
                 self.assertEqual(symbol['godot_owner'], 'SourceTurretBuildState.' + name.rsplit('_result.', 1)[0])
-        self.assertEqual(ledger['N2255']['runtime_proof'], '/root/C07TurretSenseProof')
+        self.assertEqual(ledger['N2293']['runtime_proof'], '/root/C07TurretSenseProof')
         self.assertEqual(
-            ledger['N2255']['tests'],
+            ledger['N2293']['tests'],
             [
                 'test_c07_turret_sense_registration',
                 'test_all_c07_turret_sense_input_evidence_is_exact',
@@ -97,17 +97,17 @@ class C07TurretSenseTests(unittest.TestCase):
                 'test_reference_graph_and_actual_c07_turret_sense',
             ],
         )
-        self.assertTrue(ledger['N2255']['deferred_exprs'])
+        self.assertTrue(ledger['N2293']['deferred_exprs'])
         self.assertNotIn(
             'TurretBuild.sense() (Turret.java:406-419)',
-            ' '.join(ledger['N2255']['deferred_exprs']),
+            ' '.join(ledger['N2293']['deferred_exprs']),
         )
 
     def test_all_c07_turret_sense_input_evidence_is_exact(self):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        for name in ledger['N2255']['source_symbols']:
+        for name in ledger['N2293']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_expr'], (ROOT / 'mindustry-upstream' / symbol['java_source']).read_text(encoding='utf-8'))
@@ -123,7 +123,7 @@ class C07TurretSenseTests(unittest.TestCase):
         upstream = {}
         for source in slice_sources:
             upstream[source] = (ROOT / 'mindustry-upstream' / source).read_text(encoding='utf-8')
-        for expr in ledger['N2255']['exact_exprs']:
+        for expr in ledger['N2293']['exact_exprs']:
             with self.subTest(expr=expr):
                 self.assertTrue(any(expr in text for text in upstream.values()), expr)
 

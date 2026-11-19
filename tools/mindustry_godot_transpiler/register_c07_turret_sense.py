@@ -1,4 +1,4 @@
-"""Register the TurretBuild.sense() pure function (N2255).
+"""Register the TurretBuild.sense() pure function (N2293).
 
 TurretBuild overrides sense (Turret.java:406-419, `public
 double sense(LAccess sensor){` / `return switch(sensor){`
@@ -21,7 +21,7 @@ the Building int rotation (BuildingComp.java:69,
 `transient int rotation;`), plus the reload pair
 reloadCounter (ReloadTurret.java:26, `public float
 reloadCounter;`) / reload (ReloadTurret.java:10, `public
-float reload = 10f;`) for the progress case (N2254,
+float reload = 10f;`) for the progress case (N2292,
 `return Mathf.clamp(reloadCounter / reload);`,
 Turret.java:426), and tilesize (Vars.java:135, `public
 static final int tilesize = 8;`) for World.conv
@@ -31,13 +31,13 @@ spellings are the LAccess enum names `ammo,`
 (LAccess.java:18), `ammoCapacity,` (:19), `progress,`
 (:28), `rotation,` (:30), `shootX,` (:35), `shootY,`
 (:36), `shooting,` (:49). This closes the deferred item
-recorded in N2253/N2254 ('TurretBuild.sense()
-(Turret.java:406-419) -- N2255, assigned centrally; its
-progress case depends on N2254.').
+recorded in N2291/N2292 ('TurretBuild.sense()
+(Turret.java:406-419) -- N2293, assigned centrally; its
+progress case depends on N2292.').
 
 RED decisions (resolved at RED): (1) One pure function on
-SourceTurretBuildState.gd next to the N2253 shouldConsume
-/ N2254 progress rows, following the N2223 sense precedent
+SourceTurretBuildState.gd next to the N2291 shouldConsume
+/ N2292 progress rows, following the N2223 sense precedent
 exactly: (frame, sensor, ...) and the generic laccess wire
 shape (`handled` + `sense_value` + `sense_value_is_nan`,
 SourceBlockSenseState.laccess_state), so a caller can tell
@@ -45,7 +45,7 @@ SourceBlockSenseState.laccess_state), so a caller can tell
 super.sense". (2) All live values arrive as explicit
 params (the N2188 precedent) -- the tick frame
 tracks only cheating / enabled / power_status / efficiency
-today. (3) The progress case calls the N2254 pure function
+today. (3) The progress case calls the N2292 pure function
 with explicit params. (4) NO driver line: sense is a logic
 read, not a tick write (the N2206 / N2208 / N2223
 precedent); the logic-processor dispatch hook is its own
@@ -59,7 +59,7 @@ import sys
 from pathlib import Path
 
 from mindustry_port import source_ssot, source_symbols
-from register_c07_turret_progress import DEFERRED as N2254_DEFERRED
+from register_c07_turret_progress import DEFERRED as N2292_DEFERRED
 from register_liquid_consumer_hydration import backed
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -73,7 +73,7 @@ WORLD = 'core/src/mindustry/core/World.java'
 PROOF = '/root/C07TurretSenseProof'
 SENSE_OWNER = 'SourceTurretBuildState.source_turret_sense_state'
 TESTS = ['test_c07_turret_sense_registration', 'test_all_c07_turret_sense_input_evidence_is_exact', 'test_turret_sense_state', 'test_reference_graph_and_actual_c07_turret_sense']
-# The 6 slice sources the N2255 test checks exact_exprs
+# The 6 slice sources the N2293 test checks exact_exprs
 # against -- every expr in EXACT_EXPRS below must appear verbatim
 # in one of these files.
 SLICE_SOURCES = [
@@ -116,12 +116,12 @@ EXACT_EXPRS = [
     'shooting,',
 ]
 
-# DEFERRED is carried from the N2254 register script via import --
-# never retyped. The N2254 entry deferring TurretBuild.sense()
-# to N2255 is DROPPED here: N2255 IS that slice. Everything
+# DEFERRED is carried from the N2292 register script via import --
+# never retyped. The N2292 entry deferring TurretBuild.sense()
+# to N2293 is DROPPED here: N2293 IS that slice. Everything
 # else is carried verbatim.
-DEFERRED = [e for e in N2254_DEFERRED if 'TurretBuild.sense() (Turret.java:406-419)' not in e] + [
-    'Turret sense Windows Godot proof -- debt in GOAL.md section 5, same as N2148/N2227: the N2255 proof runs headless on Linux here and waits for a Windows Godot run.',
+DEFERRED = [e for e in N2292_DEFERRED if 'TurretBuild.sense() (Turret.java:406-419)' not in e] + [
+    'Turret sense Windows Godot proof -- debt in GOAL.md section 5, same as N2148/N2227: the N2293 proof runs headless on Linux here and waits for a Windows Godot run.',
     'TurretBuild.sense() super.sense dispatch -- the default leg falls through to BuildingComp.sense (BuildingComp.java:2093); the logic-processor dispatch hook that calls Turret sense then falls back to the BuildingComp sense bridge (SourceBuildingSenseState.gd) is its own later slice.',
 ]
 
@@ -138,13 +138,13 @@ def definitions():
         'rotation': a('int', 'transient int rotation;', 'The Building rotation (0-3): BuildingComp.rotation (BuildingComp.java:69), read by the rotation case (Turret.java:410, `case rotation -> rotation;`); passed explicitly because no frame key stamps it yet.', source=BUILDING_COMP),
         'target_pos': a('Vector2', 'public Vec2 targetPos = new Vec2();', 'The target position in world pixels: the TurretBuild.targetPos field (Turret.java:290), read by the shootX/shootY cases (Turret.java:411-412, `case shootX -> World.conv(targetPos.x);` / `case shootY -> World.conv(targetPos.y);`) through World.conv; passed explicitly because no frame key stamps it yet.'),
         'is_shooting': a('bool', 'public boolean wasShooting, isShooting;', 'Whether the turret is shooting: the TurretBuild.isShooting field (Turret.java:292), set in updateTile (Turret.java:492), read by the shooting case (Turret.java:413, `case shooting -> isShooting ? 1 : 0;`); passed explicitly because no frame key stamps it yet.'),
-        'reload_counter': a('float', 'public float reloadCounter;', 'The reload progress: the ReloadTurretBuild.reloadCounter field (ReloadTurret.java:26), advanced in updateReload (Turret.java:720-723) and capped at reload (:723); read by the progress case through the N2254 pure function (Turret.java:414, `case progress -> progress();`); passed explicitly because no frame key stamps it yet.', source=RELOAD_TURRET),
-        'reload': a('float', 'public float reload = 10f;', 'The per-def reload time: ReloadTurret.reload (ReloadTurret.java:10); read by the progress case through the N2254 pure function; passed explicitly because the frame carries no reload def value yet.', source=RELOAD_TURRET),
+        'reload_counter': a('float', 'public float reloadCounter;', 'The reload progress: the ReloadTurretBuild.reloadCounter field (ReloadTurret.java:26), advanced in updateReload (Turret.java:720-723) and capped at reload (:723); read by the progress case through the N2292 pure function (Turret.java:414, `case progress -> progress();`); passed explicitly because no frame key stamps it yet.', source=RELOAD_TURRET),
+        'reload': a('float', 'public float reload = 10f;', 'The per-def reload time: ReloadTurret.reload (ReloadTurret.java:10); read by the progress case through the N2292 pure function; passed explicitly because the frame carries no reload def value yet.', source=RELOAD_TURRET),
         'tilesize': a('float', 'public static final int tilesize = 8;', 'The world tilesize in pixels (Vars.java:135, `public static final int tilesize = 8;`); passed explicitly (the N2223 sense precedent) so the shootX/shootY legs divide by the caller-supplied world constant (World.java:166, `return coord / tilesize;`).', source=VARS),
     }
     sense_outputs = {
         'handled': a('bool', 'default -> super.sense(sensor);', 'Whether this slice handled the sensor (one of the seven Turret cases); false means "not handled -- fall through to super.sense" (the N2223 sense precedent).'),
-        'sense_value': a('float', 'case ammo -> totalAmmo;', 'The sensed value: totalAmmo for "ammo" (Turret.java:408), maxAmmo for "ammoCapacity" (:409), the Building rotation for "rotation" (:410), targetPos.x / tilesize for "shootX" (:411), targetPos.y / tilesize for "shootY" (:412), 1 or 0 for "shooting" (:413), or the N2254 progress clamp for "progress" (:414); null when the sensor is not handled.'),
+        'sense_value': a('float', 'case ammo -> totalAmmo;', 'The sensed value: totalAmmo for "ammo" (Turret.java:408), maxAmmo for "ammoCapacity" (:409), the Building rotation for "rotation" (:410), targetPos.x / tilesize for "shootX" (:411), targetPos.y / tilesize for "shootY" (:412), 1 or 0 for "shooting" (:413), or the N2292 progress clamp for "progress" (:414); null when the sensor is not handled.'),
         'sense_value_is_nan': a('bool', 'default -> Float.NaN; //gets converted to null in logic', 'Whether the sensed value is NaN: true only when the sensor is not handled (the super switch default, BuildingComp.java:2123, `default -> Float.NaN; //gets converted to null in logic`, converts to null in logic); false for all seven handled rows.', source=BUILDING_COMP),
     }
     return sense_inputs, sense_outputs
@@ -184,7 +184,7 @@ def main():
     sense_inputs, sense_outputs = definitions()
 
     entries = [
-        ('N2255', SENSE_OWNER, 'source_turret_sense_state', TURRET, 'mindustry.world.blocks.defense.turrets.Turret.TurretBuild', 'TurretBuild.sense(LAccess)', sense_inputs, sense_outputs, True, 'Dictionary'),
+        ('N2293', SENSE_OWNER, 'source_turret_sense_state', TURRET, 'mindustry.world.blocks.defense.turrets.Turret.TurretBuild', 'TurretBuild.sense(LAccess)', sense_inputs, sense_outputs, True, 'Dictionary'),
     ]
     all_names = []
     for sid, owner, prefix, source, cls, method, inputs, outputs, has_contract, return_type in entries:
@@ -205,12 +205,12 @@ def main():
     by_slice = {}
     # The test pins this order: handled, sense_value,
     # sense_value_is_nan.
-    by_slice['N2255'] = [
+    by_slice['N2293'] = [
         'source_turret_sense_state_result.handled',
         'source_turret_sense_state_result.sense_value',
         'source_turret_sense_state_result.sense_value_is_nan',
     ]
-    source_symbols.upsert_source_slice(GODOT, 'N2255', dict(status='done', java_source=TURRET, java_class='mindustry.world.blocks.defense.turrets.Turret.TurretBuild', java_method='TurretBuild.sense(LAccess)', godot_owner=SENSE_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2255'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
+    source_symbols.upsert_source_slice(GODOT, 'N2293', dict(status='done', java_source=TURRET, java_class='mindustry.world.blocks.defense.turrets.Turret.TurretBuild', java_method='TurretBuild.sense(LAccess)', godot_owner=SENSE_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2293'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
 
     source_symbols.upsert_source_symbols(GODOT, symbols)
     source_symbols.write_source_symbol_audit_report(GODOT)

@@ -176144,7 +176144,7 @@
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
       "java_method": "TurretBuild.sense(LAccess)",
       "java_expr": "case ammo -> totalAmmo;",
-      "rule": "The sensed value: totalAmmo for \"ammo\" (Turret.java:408), maxAmmo for \"ammoCapacity\" (:409), the Building rotation for \"rotation\" (:410), targetPos.x / tilesize for \"shootX\" (:411), targetPos.y / tilesize for \"shootY\" (:412), 1 or 0 for \"shooting\" (:413), or the N2254 progress clamp for \"progress\" (:414); null when the sensor is not handled.",
+      "rule": "The sensed value: totalAmmo for \"ammo\" (Turret.java:408), maxAmmo for \"ammoCapacity\" (:409), the Building rotation for \"rotation\" (:410), targetPos.x / tilesize for \"shootX\" (:411), targetPos.y / tilesize for \"shootY\" (:412), 1 or 0 for \"shooting\" (:413), or the N2292 progress clamp for \"progress\" (:414); null when the sensor is not handled.",
       "tests": [
         "test_c07_turret_sense_registration",
         "test_all_c07_turret_sense_input_evidence_is_exact",

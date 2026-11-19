@@ -41,7 +41,7 @@ slice stamps them; with those defaults 0.0 < 10f, so the
 gate preserves the N2148 behaviour (should_consume=true
 when enabled). (3) progress() (Turret.java:425-427) and
 sense() (Turret.java:406-419) stay DEFERRED -- they are
-the assigned N2292 / N2255 slices. The warmup advance
+the assigned N2292 / N2293 slices. The warmup advance
 (Turret.java:501-515) stays deferred per N2148. One new
 result symbol: should_consume. Slice sources:
 Turret.java + ReloadTurret.java + BuildingComp.java.
@@ -92,7 +92,7 @@ DEFERRED = [e for e in N2148_DEFERRED if 'Turret shouldConsume gate' not in e] +
     'Turret shouldConsume Windows Godot proof -- debt in GOAL.md section 5, same as N2148/N2227: the N2291 proof runs headless on Linux here and waits for a Windows Godot run.',
     'Turret frame tracking for isShooting / reloadCounter / reload -- TurretBuild.updateTile sets isShooting (Turret.java:492) and updateReload advances reloadCounter (Turret.java:720-723, capped at reload :723); the tick frame tracks only cheating/enabled/power_status/efficiency today, so the driver reads frame defaults (is_shooting=false, reload_counter=0.0, reload=10f) until a frame-tracking slice stamps them.',
     'TurretBuild.progress() (Turret.java:425-427) -- N2292, assigned centrally; depends on the reloadCounter/reload pair this slice wires.',
-    'TurretBuild.sense() (Turret.java:406-419) -- N2255, assigned centrally; its progress case depends on N2292.',
+    'TurretBuild.sense() (Turret.java:406-419) -- N2293, assigned centrally; its progress case depends on N2292.',
     'Turret shouldConsume gate for non-power turrets -- the N2291 driver line lives in the power-consumer branch of the tick driver (N2148); a turret with no power consumer runs no updateConsumption in this driver yet, so the gate does not reach it; waits for its own consumption-wiring slice.',
 ]
 

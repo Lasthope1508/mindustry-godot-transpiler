@@ -68265,78 +68265,6 @@
       "runtime_proof": "/root/C07PointDefenseTurretLiveBulletsWiringProof",
       "rule": "Source-backed PointDefenseTurret live-bullets wiring from PointDefenseTurret.java / BulletComp.java / BulletType.java / Blocks.java / GroupDefs.java."
     },
-    "SourceTurretBuildState.source_turret_sense_state": {
-      "status": "active",
-      "source_slice": "N2255",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-      "source_method": "TurretBuild.sense(LAccess)",
-      "params": [
-        {
-          "name": "frame",
-          "type": "Dictionary",
-          "schema": "source_turret_sense_state_input.frame"
-        },
-        {
-          "name": "sensor",
-          "type": "String",
-          "schema": "source_turret_sense_state_input.sensor"
-        },
-        {
-          "name": "total_ammo",
-          "type": "int",
-          "schema": "source_turret_sense_state_input.total_ammo"
-        },
-        {
-          "name": "max_ammo",
-          "type": "int",
-          "schema": "source_turret_sense_state_input.max_ammo"
-        },
-        {
-          "name": "rotation",
-          "type": "int",
-          "schema": "source_turret_sense_state_input.rotation"
-        },
-        {
-          "name": "target_pos",
-          "type": "Vector2",
-          "schema": "source_turret_sense_state_input.target_pos"
-        },
-        {
-          "name": "is_shooting",
-          "type": "bool",
-          "schema": "source_turret_sense_state_input.is_shooting"
-        },
-        {
-          "name": "reload_counter",
-          "type": "float",
-          "schema": "source_turret_sense_state_input.reload_counter"
-        },
-        {
-          "name": "reload",
-          "type": "float",
-          "schema": "source_turret_sense_state_input.reload"
-        },
-        {
-          "name": "tilesize",
-          "type": "float",
-          "schema": "source_turret_sense_state_input.tilesize"
-        }
-      ],
-      "return_type": "Dictionary",
-      "return_keys": [
-        "handled",
-        "sense_value",
-        "sense_value_is_nan"
-      ],
-      "tests": [
-        "test_c07_turret_sense_registration",
-        "test_all_c07_turret_sense_input_evidence_is_exact",
-        "test_turret_sense_state",
-        "test_reference_graph_and_actual_c07_turret_sense"
-      ],
-      "runtime_proof": "/root/C07TurretSenseProof",
-      "rule": "Source-backed TurretBuild.sense() state from Turret.java + ReloadTurret.java + BuildingComp.java + Vars.java + LAccess.java + World.java."
-    },
     "SourceBurstDrillBuildState.source_burst_drill_update_tile_state": {
       "status": "active",
       "source_slice": "N2256",
@@ -70056,6 +69984,78 @@
       ],
       "runtime_proof": "/root/C07TurretProgressProof",
       "rule": "Source-backed TurretBuild.progress() state from Turret.java + ReloadTurret.java + BuildingComp.java."
+    },
+    "SourceTurretBuildState.source_turret_sense_state": {
+      "status": "active",
+      "source_slice": "N2293",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.sense(LAccess)",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_sense_state_input.frame"
+        },
+        {
+          "name": "sensor",
+          "type": "String",
+          "schema": "source_turret_sense_state_input.sensor"
+        },
+        {
+          "name": "total_ammo",
+          "type": "int",
+          "schema": "source_turret_sense_state_input.total_ammo"
+        },
+        {
+          "name": "max_ammo",
+          "type": "int",
+          "schema": "source_turret_sense_state_input.max_ammo"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_turret_sense_state_input.rotation"
+        },
+        {
+          "name": "target_pos",
+          "type": "Vector2",
+          "schema": "source_turret_sense_state_input.target_pos"
+        },
+        {
+          "name": "is_shooting",
+          "type": "bool",
+          "schema": "source_turret_sense_state_input.is_shooting"
+        },
+        {
+          "name": "reload_counter",
+          "type": "float",
+          "schema": "source_turret_sense_state_input.reload_counter"
+        },
+        {
+          "name": "reload",
+          "type": "float",
+          "schema": "source_turret_sense_state_input.reload"
+        },
+        {
+          "name": "tilesize",
+          "type": "float",
+          "schema": "source_turret_sense_state_input.tilesize"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "handled",
+        "sense_value",
+        "sense_value_is_nan"
+      ],
+      "tests": [
+        "test_c07_turret_sense_registration",
+        "test_all_c07_turret_sense_input_evidence_is_exact",
+        "test_turret_sense_state",
+        "test_reference_graph_and_actual_c07_turret_sense"
+      ],
+      "runtime_proof": "/root/C07TurretSenseProof",
+      "rule": "Source-backed TurretBuild.sense() state from Turret.java + ReloadTurret.java + BuildingComp.java + Vars.java + LAccess.java + World.java."
     }
   },
   "policy": {

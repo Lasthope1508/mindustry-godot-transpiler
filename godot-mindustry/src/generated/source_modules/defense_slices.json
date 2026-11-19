@@ -3230,25 +3230,6 @@
       ],
       "runtime_proof": "/root/C07PointDefenseTurretLiveBulletsWiringProof"
     },
-    "N2255": {
-      "canonical_ledger": "source_slice_ledger.N2255",
-      "status": "done",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-      "java_method": "TurretBuild.sense(LAccess)",
-      "godot_owner": "SourceTurretBuildState.source_turret_sense_state",
-      "source_symbols": [
-        "source_turret_sense_state_result.handled",
-        "source_turret_sense_state_result.sense_value",
-        "source_turret_sense_state_result.sense_value_is_nan"
-      ],
-      "tests": [
-        "test_c07_turret_sense_registration",
-        "test_all_c07_turret_sense_input_evidence_is_exact",
-        "test_turret_sense_state",
-        "test_reference_graph_and_actual_c07_turret_sense"
-      ],
-      "runtime_proof": "/root/C07TurretSenseProof"
-    },
     "N2261": {
       "canonical_ledger": "source_slice_ledger.N2261",
       "status": "done",
@@ -3595,6 +3576,25 @@
         "test_reference_graph_and_actual_c07_turret_progress"
       ],
       "runtime_proof": "/root/C07TurretProgressProof"
+    },
+    "N2293": {
+      "canonical_ledger": "source_slice_ledger.N2293",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.sense(LAccess)",
+      "godot_owner": "SourceTurretBuildState.source_turret_sense_state",
+      "source_symbols": [
+        "source_turret_sense_state_result.handled",
+        "source_turret_sense_state_result.sense_value",
+        "source_turret_sense_state_result.sense_value_is_nan"
+      ],
+      "tests": [
+        "test_c07_turret_sense_registration",
+        "test_all_c07_turret_sense_input_evidence_is_exact",
+        "test_turret_sense_state",
+        "test_reference_graph_and_actual_c07_turret_sense"
+      ],
+      "runtime_proof": "/root/C07TurretSenseProof"
     },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",

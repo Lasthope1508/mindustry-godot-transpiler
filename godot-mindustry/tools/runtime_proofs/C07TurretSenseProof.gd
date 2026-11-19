@@ -19,7 +19,7 @@ func _ready() -> void:
 	game.set_process(false)
 	game.set_physics_process(false)
 
-	# --- TurretBuild.sense() (N2255):
+	# --- TurretBuild.sense() (N2293):
 	# TurretBuild overrides sense (Turret.java:406-419,
 	# `public double sense(LAccess sensor){` / `return
 	# switch(sensor){` / `case ammo -> totalAmmo;` /

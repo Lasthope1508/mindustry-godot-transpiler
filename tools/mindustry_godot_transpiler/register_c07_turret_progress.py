@@ -15,7 +15,7 @@ reload time (ReloadTurret.java:10, `public float reload =
 (the MendProjector precedent, SourceMendProjectorState.gd:41,
 `clamp(charge / reload_value, 0.0, 1.0)`). The only live
 consumer is sense() case progress (Turret.java:414, `case
-progress -> progress();`) -- the assigned N2255 slice;
+progress -> progress();`) -- the assigned N2293 slice;
 setBars (Turret.java:192-202) never reads progress(). This
 closes the deferred item recorded in N2291
 ('TurretBuild.progress() (Turret.java:425-427) -- N2292,
@@ -33,9 +33,9 @@ power_status / efficiency today. (2) NO driver line: the
 tick frame tracks neither reloadCounter nor reload yet,
 and wiring frame defaults would stamp a constant 0.0
 progress -- pure function only, the N2251 / N2252
-precedent; sense() (N2255) calls it with explicit params.
+precedent; sense() (N2293) calls it with explicit params.
 (3) sense() (Turret.java:406-419) stays DEFERRED -- it is
-the assigned N2255 slice. The warmup advance
+the assigned N2293 slice. The warmup advance
 (Turret.java:501-515) stays deferred per N2148. One new
 result symbol: progress. Slice sources: Turret.java +
 ReloadTurret.java + BuildingComp.java.
@@ -81,7 +81,7 @@ EXACT_EXPRS = [
 # else is carried verbatim.
 DEFERRED = [e for e in N2235_DEFERRED if 'TurretBuild.progress() (Turret.java:425-427)' not in e] + [
     'Turret progress Windows Godot proof -- debt in GOAL.md section 5, same as N2148/N2227: the N2292 proof runs headless on Linux here and waits for a Windows Godot run.',
-    'Turret frame tracking for reloadCounter / reload -- TurretBuild.updateTile advances reloadCounter in updateReload (Turret.java:720-723, capped at reload :723); the tick frame tracks only cheating/enabled/power_status/efficiency today, so progress() takes explicit params until a frame-tracking slice stamps them; sense() (N2255) calls this pure function with explicit params.',
+    'Turret frame tracking for reloadCounter / reload -- TurretBuild.updateTile advances reloadCounter in updateReload (Turret.java:720-723, capped at reload :723); the tick frame tracks only cheating/enabled/power_status/efficiency today, so progress() takes explicit params until a frame-tracking slice stamps them; sense() (N2293) calls this pure function with explicit params.',
 ]
 
 
