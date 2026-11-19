@@ -1,6 +1,6 @@
 # Report — N2267 BuildingComp super.control() enabled/config (C07, duo) [GREEN, gate đã xác minh, chờ commit/push]
 
-## Status: DONE + PUSHED (2026-11-19 ~20:0x +07, lượt cron 20:00) — slice `5295a7ec`, docs `53986237`, GOAL `936a663e`. Targeted 4/4 + proof matches:true 12/12 + register --verify 22/22 + gate Ran 6161, failures=217 toàn Godot-absent (đã xác minh độc lập).
+## Status: DONE + PUSHED (2026-11-19 ~20:0x +07, lượt cron 20:00) — slice `5295a7ec`, docs `53986237`, GOAL `936a663e`, status `3779d056`. Targeted 4/4 + proof matches:true 12/12 + register --verify 22/22 + gate Ran 6161, failures=217 toàn Godot-absent (đã xác minh độc lập).
 
 - N2266 DONE + PUSHED (origin/main 2adf8849, slice a421f48a) — đã xác minh đầu lượt cron 19:15: git log 5 commit khớp, HEAD == origin/main == 2adf8849, worktree sạch ngoại trừ noise *.gd.uid (không stage) + các full-suite-*.log cũ chưa track (không stage).
 
