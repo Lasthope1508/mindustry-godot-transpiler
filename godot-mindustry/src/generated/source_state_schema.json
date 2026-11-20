@@ -238088,6 +238088,44 @@
       },
       "runtime_proof": "/root/C07TurretUnitMaxHealthProof",
       "rule": "Source-backed Turret unit maxHealth from BlockUnitComp.tile() / HealthComp."
+    },
+    "source_turret_unit_health_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_unit_health_state",
+      "source_slice": "N2276",
+      "keys": {
+        "tile_health": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "java_expr": "tile.health",
+          "rule": "The live tile health feeding the unit health (BlockUnitComp.java:22; duo health is 250 at full health, Blocks.java:3319 `health = 250;`, also content_registry_blocks.json blocks/duo/properties/health = 250; read live from the placed-block health meta, SourcePlacedBlockState.health(sprite)).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_unit_health_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretUnitHealthProof",
+      "rule": "Source-backed Turret unit live health from BlockUnitComp.tile() / HealthComp."
+    },
+    "source_turret_unit_health_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_unit_health_state",
+      "source_slice": "N2276",
+      "keys": {
+        "unit_health": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "java_expr": "health(tile.health);",
+          "rule": "The unit health after the tick (BlockUnitComp.java:22 -- health(tile.health) sets the HealthComp health field, HealthComp.java:11; 250.0 live for a full-health duo, lower when damaged).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_unit_health_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretUnitHealthProof",
+      "rule": "Source-backed Turret unit live health from BlockUnitComp.tile() / HealthComp."
     }
   },
   "version": 1
