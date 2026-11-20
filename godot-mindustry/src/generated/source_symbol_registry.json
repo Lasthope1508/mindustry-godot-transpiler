@@ -179416,6 +179416,38 @@
         "test_reference_graph_and_actual_c07_sound_control_setup_filters"
       ],
       "runtime_proof": "/root/C07SoundControlSetupFiltersProof"
+    },
+    "source_turret_remove_state_result.sound_loop_stopped": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_remove_state",
+      "godot_symbol": "source_turret_remove_state_result.sound_loop_stopped",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.remove()",
+      "java_expr": "soundLoop.stop();",
+      "rule": "Whether the sound loop was stopped (Turret.java:306, `soundLoop.stop();`): true when the loop is non-null (the stop is issued), false when it is null (a no-op). Returned as a flag only -- no real audio is stopped here.",
+      "tests": [
+        "test_c07_turret_remove_on_destroyed_registration",
+        "test_all_c07_turret_remove_on_destroyed_input_evidence_is_exact",
+        "test_turret_remove_on_destroyed_state",
+        "test_reference_graph_and_actual_c07_turret_remove_on_destroyed"
+      ],
+      "runtime_proof": "/root/C07TurretRemoveOnDestroyedProof"
+    },
+    "source_turret_on_destroyed_state_result.sound_loop_stopped": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_on_destroyed_state",
+      "godot_symbol": "source_turret_on_destroyed_state_result.sound_loop_stopped",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.onDestroyed()",
+      "java_expr": "soundLoop.stop();",
+      "rule": "Whether the sound loop was stopped (Turret.java:314, `soundLoop.stop();`): true when the loop is non-null (the stop is issued), false when it is null (a no-op). Returned as a flag only -- no real audio is stopped here.",
+      "tests": [
+        "test_c07_turret_remove_on_destroyed_registration",
+        "test_all_c07_turret_remove_on_destroyed_input_evidence_is_exact",
+        "test_turret_remove_on_destroyed_state",
+        "test_reference_graph_and_actual_c07_turret_remove_on_destroyed"
+      ],
+      "runtime_proof": "/root/C07TurretRemoveOnDestroyedProof"
     }
   },
   "version": 1

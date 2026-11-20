@@ -3792,6 +3792,24 @@
       ],
       "runtime_proof": "/root/C07TurretGetAmmoContentFractionProof"
     },
+    "N2350": {
+      "canonical_ledger": "source_slice_ledger.N2350",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.remove(); TurretBuild.onDestroyed()",
+      "godot_owner": "SourceTurretBuildState.source_turret_remove_state",
+      "source_symbols": [
+        "source_turret_remove_state_result.sound_loop_stopped",
+        "source_turret_on_destroyed_state_result.sound_loop_stopped"
+      ],
+      "tests": [
+        "test_c07_turret_remove_on_destroyed_registration",
+        "test_all_c07_turret_remove_on_destroyed_input_evidence_is_exact",
+        "test_turret_remove_on_destroyed_state",
+        "test_reference_graph_and_actual_c07_turret_remove_on_destroyed"
+      ],
+      "runtime_proof": "/root/C07TurretRemoveOnDestroyedProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

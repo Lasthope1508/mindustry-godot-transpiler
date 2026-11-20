@@ -72370,6 +72370,66 @@
       ],
       "runtime_proof": "/root/C07SoundControlSetupFiltersProof",
       "rule": "Source-backed SoundControl setupFilters state from SoundControl.java."
+    },
+    "SourceTurretBuildState.source_turret_remove_state": {
+      "status": "active",
+      "source_slice": "N2350",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.remove()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_remove_state_input.frame"
+        },
+        {
+          "name": "has_sound_loop",
+          "type": "bool",
+          "schema": "source_turret_remove_state_input.has_sound_loop"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "sound_loop_stopped"
+      ],
+      "tests": [
+        "test_c07_turret_remove_on_destroyed_registration",
+        "test_all_c07_turret_remove_on_destroyed_input_evidence_is_exact",
+        "test_turret_remove_on_destroyed_state",
+        "test_reference_graph_and_actual_c07_turret_remove_on_destroyed"
+      ],
+      "runtime_proof": "/root/C07TurretRemoveOnDestroyedProof",
+      "rule": "Source-backed TurretBuild.remove()/onDestroyed() state from Turret.java."
+    },
+    "SourceTurretBuildState.source_turret_on_destroyed_state": {
+      "status": "active",
+      "source_slice": "N2350",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.onDestroyed()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_on_destroyed_state_input.frame"
+        },
+        {
+          "name": "has_sound_loop",
+          "type": "bool",
+          "schema": "source_turret_on_destroyed_state_input.has_sound_loop"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "sound_loop_stopped"
+      ],
+      "tests": [
+        "test_c07_turret_remove_on_destroyed_registration",
+        "test_all_c07_turret_remove_on_destroyed_input_evidence_is_exact",
+        "test_turret_remove_on_destroyed_state",
+        "test_reference_graph_and_actual_c07_turret_remove_on_destroyed"
+      ],
+      "runtime_proof": "/root/C07TurretRemoveOnDestroyedProof",
+      "rule": "Source-backed TurretBuild.remove()/onDestroyed() state from Turret.java."
     }
   },
   "policy": {

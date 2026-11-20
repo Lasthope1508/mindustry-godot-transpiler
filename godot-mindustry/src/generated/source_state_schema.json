@@ -242884,6 +242884,102 @@
       },
       "runtime_proof": "/root/C07SoundControlSetupFiltersProof",
       "rule": "Source-backed SoundControl setupFilters state from SoundControl.java."
+    },
+    "source_turret_remove_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_remove_state",
+      "source_slice": "N2350",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public void remove(){",
+          "rule": "The turret frame (TurretBuild.remove, Turret.java:303): the family-convention first arg every Turret pure function takes; it carries no tracked key for this lifecycle method -- the live value arrives as an explicit param (the isShooting :429 precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_remove_state"
+          ]
+        },
+        "has_sound_loop": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "if(soundLoop != null){",
+          "rule": "Whether the turret has a live sound loop (`soundLoop != null`, Turret.java:305): the TurretBuild field (`public @Nullable SoundLoop soundLoop = (loopSound == Sounds.none ? null : new SoundLoop(loopSound, loopSoundVolume));`, Turret.java:298); arrives as an explicit bool param -- the null check is folded into this param (the minRange has_ammo precedent; GDScript has no SoundLoop object here).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_remove_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretRemoveOnDestroyedProof",
+      "rule": "Source-backed TurretBuild.remove()/onDestroyed() state from Turret.java."
+    },
+    "source_turret_remove_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_remove_state",
+      "source_slice": "N2350",
+      "keys": {
+        "sound_loop_stopped": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "soundLoop.stop();",
+          "rule": "Whether the sound loop was stopped (Turret.java:306, `soundLoop.stop();`): true when the loop is non-null (the stop is issued), false when it is null (a no-op). Returned as a flag only -- no real audio is stopped here.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_remove_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretRemoveOnDestroyedProof",
+      "rule": "Source-backed TurretBuild.remove()/onDestroyed() state from Turret.java."
+    },
+    "source_turret_on_destroyed_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_on_destroyed_state",
+      "source_slice": "N2350",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public void onDestroyed(){",
+          "rule": "The turret frame (TurretBuild.onDestroyed, Turret.java:311): the family-convention first arg every Turret pure function takes; it carries no tracked key for this lifecycle method -- the live value arrives as an explicit param (the isShooting :429 precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_on_destroyed_state"
+          ]
+        },
+        "has_sound_loop": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "if(soundLoop != null){",
+          "rule": "Whether the turret has a live sound loop (`soundLoop != null`, Turret.java:313): the TurretBuild field (`public @Nullable SoundLoop soundLoop = (loopSound == Sounds.none ? null : new SoundLoop(loopSound, loopSoundVolume));`, Turret.java:298); arrives as an explicit bool param -- the null check is folded into this param (the minRange has_ammo precedent; GDScript has no SoundLoop object here).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_on_destroyed_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretRemoveOnDestroyedProof",
+      "rule": "Source-backed TurretBuild.remove()/onDestroyed() state from Turret.java."
+    },
+    "source_turret_on_destroyed_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_on_destroyed_state",
+      "source_slice": "N2350",
+      "keys": {
+        "sound_loop_stopped": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "soundLoop.stop();",
+          "rule": "Whether the sound loop was stopped (Turret.java:314, `soundLoop.stop();`): true when the loop is non-null (the stop is issued), false when it is null (a no-op). Returned as a flag only -- no real audio is stopped here.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_on_destroyed_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretRemoveOnDestroyedProof",
+      "rule": "Source-backed TurretBuild.remove()/onDestroyed() state from Turret.java."
     }
   },
   "version": 1

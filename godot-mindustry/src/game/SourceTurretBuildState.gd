@@ -1042,6 +1042,47 @@ static func source_turret_get_ammo_content_state(frame: Dictionary) -> Dictionar
 static func source_turret_get_ammo_fraction_state(frame: Dictionary) -> Dictionary:
 	return {"ammo_fraction": 1.0}
 
+# TurretBuild.remove() (Turret.java:303-308):
+# `@Override`
+# `public void remove(){`
+# `super.remove();`
+# `if(soundLoop != null){`
+# `soundLoop.stop();`
+# `}`
+# `}`
+# and TurretBuild.onDestroyed() (Turret.java:311-317):
+# `@Override`
+# `public void onDestroyed(){`
+# `super.onDestroyed();`
+# `if(soundLoop != null){`
+# `soundLoop.stop();`
+# `}`
+# `}`
+# on `public class TurretBuild extends ReloadTurretBuild implements ControlBlock{`
+# (Turret.java:277) in `public class Turret extends ReloadTurret{`.
+# Both stop the sound loop when it is non-null and do
+# nothing when it is null; the two bodies differ only in
+# the super call. soundLoop is the TurretBuild field
+# (Turret.java:298) `public @Nullable SoundLoop soundLoop = (loopSound == Sounds.none ? null : new SoundLoop(loopSound, loopSoundVolume));`
+# and arrives as the explicit bool
+# has_sound_loop (the minRange has_ammo precedent -- a
+# null check carried as an explicit bool; GDScript has no
+# SoundLoop object here). super.remove() /
+# super.onDestroyed() are the Building base -- deferred,
+# not ported. NO driver line: the engine lifecycle calls
+# remove() / onDestroyed(); no call site is ported here
+# (the shouldTurn/isShooting precedent -- updateTile :499
+# only UPDATES the loop, it never removes or destroys it).
+# NO SoundLoop playback: both functions only return the
+# stopped flag, never real audio (the N2346 precedent).
+@warning_ignore("unused_parameter")
+static func source_turret_remove_state(frame: Dictionary, has_sound_loop: bool) -> Dictionary:
+	return {"sound_loop_stopped": has_sound_loop}
+
+@warning_ignore("unused_parameter")
+static func source_turret_on_destroyed_state(frame: Dictionary, has_sound_loop: bool) -> Dictionary:
+	return {"sound_loop_stopped": has_sound_loop}
+
 # TurretBuild.findEnemy() (Turret.java:639-649):
 # `protected Posc findEnemy(float range){`
 # `if(targetAir && !targetGround){`
