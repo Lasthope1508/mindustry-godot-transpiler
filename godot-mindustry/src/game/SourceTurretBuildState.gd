@@ -1008,6 +1008,40 @@ static func source_turret_peek_ammo_state(frame: Dictionary, ammo_stacks: Array)
 	var peeked_type: Variant = peeked.get("type", null)
 	return {"peek_ammo": peeked_type}
 
+# TurretBuild.getAmmoContent() (Turret.java:319-321):
+# `@Nullable`
+# `public UnlockableContent getAmmoContent(){`
+# `return null;`
+# `}`
+# and TurretBuild.getAmmoFraction() (Turret.java:324-326):
+# `/** @return ammo as a fraction of capacity; used for direct turret control HUD */`
+# `public float getAmmoFraction(){`
+# `return 1f;`
+# `}`
+# on `public class TurretBuild extends ReloadTurretBuild implements ControlBlock{`
+# (Turret.java:277) in `public class Turret extends ReloadTurret{`.
+# Both are base-class defaults, not overrides: the base
+# TurretBuild has no ammo content (null) and counts as full
+# (1f); the subclass overrides (ItemTurretBuild N1180/N1181,
+# LiquidTurretBuild N1197/N1198, ContinuousLiquidTurretBuild
+# N1220/N1221, PowerTurretBuild N1168) own their own bodies
+# and are NOT touched here. Both are constants: no live
+# input besides the frame itself, which carries no tracked
+# key for either accessor (the isShooting :429 precedent --
+# the frame is the family-convention first arg, kept even
+# when the function reads nothing from it). NO driver line:
+# both are pure defaults its callers read, not per-tick
+# writes (the N2249 precedent) -- updateTile :495 reads
+# getAmmoFraction() and DrawTurret :108-112 reads
+# getAmmoContent(); neither caller is ported here.
+@warning_ignore("unused_parameter")
+static func source_turret_get_ammo_content_state(frame: Dictionary) -> Dictionary:
+	return {"ammo_content": null}
+
+@warning_ignore("unused_parameter")
+static func source_turret_get_ammo_fraction_state(frame: Dictionary) -> Dictionary:
+	return {"ammo_fraction": 1.0}
+
 # TurretBuild.findEnemy() (Turret.java:639-649):
 # `protected Posc findEnemy(float range){`
 # `if(targetAir && !targetGround){`

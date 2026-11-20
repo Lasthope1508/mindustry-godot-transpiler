@@ -242770,6 +242770,82 @@
       },
       "runtime_proof": "/root/C07SoundControlPlayRandomProof",
       "rule": "Source-backed SoundControl playRandom state from SoundControl.java."
+    },
+    "source_turret_get_ammo_content_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_get_ammo_content_state",
+      "source_slice": "N2348",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public UnlockableContent getAmmoContent(){",
+          "rule": "The turret frame (TurretBuild.getAmmoContent, Turret.java:319): the family-convention first arg every Turret pure function takes; it carries no tracked key for this accessor -- the base default is a constant null, so the live value is not read from the frame (the isShooting :429 precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_get_ammo_content_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretGetAmmoContentFractionProof",
+      "rule": "Source-backed TurretBuild.getAmmoContent()/getAmmoFraction() state from Turret.java."
+    },
+    "source_turret_get_ammo_content_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_get_ammo_content_state",
+      "source_slice": "N2348",
+      "keys": {
+        "ammo_content": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return null;",
+          "rule": "The ammo content (Turret.java:320, `return null;`): the base TurretBuild has no ammo content -- null. GD has no UnlockableContent mapping; the subclass overrides (N1180/N1197/N1220) map real content.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_get_ammo_content_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretGetAmmoContentFractionProof",
+      "rule": "Source-backed TurretBuild.getAmmoContent()/getAmmoFraction() state from Turret.java."
+    },
+    "source_turret_get_ammo_fraction_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_get_ammo_fraction_state",
+      "source_slice": "N2348",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float getAmmoFraction(){",
+          "rule": "The turret frame (TurretBuild.getAmmoFraction, Turret.java:324): the family-convention first arg every Turret pure function takes; it carries no tracked key for this accessor -- the base default is a constant 1f, so the live value is not read from the frame (the isShooting :429 precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_get_ammo_fraction_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretGetAmmoContentFractionProof",
+      "rule": "Source-backed TurretBuild.getAmmoContent()/getAmmoFraction() state from Turret.java."
+    },
+    "source_turret_get_ammo_fraction_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_get_ammo_fraction_state",
+      "source_slice": "N2348",
+      "keys": {
+        "ammo_fraction": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return 1f;",
+          "rule": "The ammo fraction (Turret.java:325, `return 1f;`): the base TurretBuild counts as full -- ammo as a fraction of capacity, used for direct turret control HUD (the javadoc, Turret.java:323).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_get_ammo_fraction_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretGetAmmoContentFractionProof",
+      "rule": "Source-backed TurretBuild.getAmmoContent()/getAmmoFraction() state from Turret.java."
     }
   },
   "version": 1

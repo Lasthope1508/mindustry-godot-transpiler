@@ -3774,6 +3774,24 @@
       ],
       "runtime_proof": "/root/C07TurretActiveSoundVolumeProof"
     },
+    "N2348": {
+      "canonical_ledger": "source_slice_ledger.N2348",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.getAmmoContent(); TurretBuild.getAmmoFraction()",
+      "godot_owner": "SourceTurretBuildState.source_turret_get_ammo_content_state",
+      "source_symbols": [
+        "source_turret_get_ammo_content_state_result.ammo_content",
+        "source_turret_get_ammo_fraction_state_result.ammo_fraction"
+      ],
+      "tests": [
+        "test_c07_turret_get_ammo_content_fraction_registration",
+        "test_all_c07_turret_get_ammo_content_fraction_input_evidence_is_exact",
+        "test_turret_get_ammo_content_fraction_state",
+        "test_reference_graph_and_actual_c07_turret_get_ammo_content_fraction"
+      ],
+      "runtime_proof": "/root/C07TurretGetAmmoContentFractionProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

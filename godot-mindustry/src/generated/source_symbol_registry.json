@@ -179368,6 +179368,38 @@
         "test_reference_graph_and_actual_c07_sound_control_play_random"
       ],
       "runtime_proof": "/root/C07SoundControlPlayRandomProof"
+    },
+    "source_turret_get_ammo_content_state_result.ammo_content": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_get_ammo_content_state",
+      "godot_symbol": "source_turret_get_ammo_content_state_result.ammo_content",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.getAmmoContent()",
+      "java_expr": "return null;",
+      "rule": "The ammo content (Turret.java:320, `return null;`): the base TurretBuild has no ammo content -- null. GD has no UnlockableContent mapping; the subclass overrides (N1180/N1197/N1220) map real content.",
+      "tests": [
+        "test_c07_turret_get_ammo_content_fraction_registration",
+        "test_all_c07_turret_get_ammo_content_fraction_input_evidence_is_exact",
+        "test_turret_get_ammo_content_fraction_state",
+        "test_reference_graph_and_actual_c07_turret_get_ammo_content_fraction"
+      ],
+      "runtime_proof": "/root/C07TurretGetAmmoContentFractionProof"
+    },
+    "source_turret_get_ammo_fraction_state_result.ammo_fraction": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_get_ammo_fraction_state",
+      "godot_symbol": "source_turret_get_ammo_fraction_state_result.ammo_fraction",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.getAmmoFraction()",
+      "java_expr": "return 1f;",
+      "rule": "The ammo fraction (Turret.java:325, `return 1f;`): the base TurretBuild counts as full -- ammo as a fraction of capacity, used for direct turret control HUD (the javadoc, Turret.java:323).",
+      "tests": [
+        "test_c07_turret_get_ammo_content_fraction_registration",
+        "test_all_c07_turret_get_ammo_content_fraction_input_evidence_is_exact",
+        "test_turret_get_ammo_content_fraction_state",
+        "test_reference_graph_and_actual_c07_turret_get_ammo_content_fraction"
+      ],
+      "runtime_proof": "/root/C07TurretGetAmmoContentFractionProof"
     }
   },
   "version": 1
