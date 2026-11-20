@@ -243522,6 +243522,74 @@
       },
       "runtime_proof": "/root/C07TeamsClosestEnemyCoreProof",
       "rule": "Source-backed Teams.closestEnemyCore() state from Teams.java."
+    },
+    "source_continuous_turret_build_get_ammo_fraction_state_input": {
+      "status": "active",
+      "owner": "SourceContinuousTurretBuildPortBridge.source_continuous_turret_build_get_ammo_fraction_state",
+      "source_slice": "N2355",
+      "keys": {
+        "efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "float ammoFract = efficiency;",
+          "rule": "The block efficiency (ContinuousTurret.java:78, `float ammoFract = efficiency;`): the starting fraction before the liquid cap -- a BuildingComp transient field, taken as an explicit param.",
+          "used_by": [
+            "SourceContinuousTurretBuildPortBridge.source_continuous_turret_build_get_ammo_fraction_state"
+          ]
+        },
+        "has_liquid_consumer": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "if(findConsumer(f -> f instanceof ConsumeLiquidBase) instanceof ConsumeLiquid cons){",
+          "rule": "Whether the findConsumer lookup found a ConsumeLiquid consumer (ContinuousTurret.java:79): the lookup itself is NOT ported -- its boolean result arrives as an explicit param (the N2330 param precedent).",
+          "used_by": [
+            "SourceContinuousTurretBuildPortBridge.source_continuous_turret_build_get_ammo_fraction_state"
+          ]
+        },
+        "liquid_amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "ammoFract = Math.min(ammoFract, liquids.get(cons.liquid) / liquidCapacity);",
+          "rule": "The amount of the consumer liquid currently held, liquids.get(cons.liquid) (ContinuousTurret.java:80): the numerator of the liquid fraction, taken as an explicit param.",
+          "used_by": [
+            "SourceContinuousTurretBuildPortBridge.source_continuous_turret_build_get_ammo_fraction_state"
+          ]
+        },
+        "liquid_capacity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "ammoFract = Math.min(ammoFract, liquids.get(cons.liquid) / liquidCapacity);",
+          "rule": "The block liquidCapacity field (ContinuousTurret.java:80): the divisor of the liquid fraction, taken as an explicit param -- never zero for a block with a liquid consumer, so no guard is invented.",
+          "used_by": [
+            "SourceContinuousTurretBuildPortBridge.source_continuous_turret_build_get_ammo_fraction_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ContinuousTurretGetAmmoFractionProof",
+      "rule": "Source-backed ContinuousTurretBuild.getAmmoFraction() state from ContinuousTurret.java."
+    },
+    "source_continuous_turret_build_get_ammo_fraction_state_result": {
+      "status": "active",
+      "owner": "SourceContinuousTurretBuildPortBridge.source_continuous_turret_build_get_ammo_fraction_state",
+      "source_slice": "N2355",
+      "keys": {
+        "ammo_fraction": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "return ammoFract;",
+          "rule": "The ammo fraction (ContinuousTurret.java:83, `return ammoFract;`): efficiency, capped by the liquid fraction when a ConsumeLiquid consumer exists -- ammo as a fraction of capacity, used for direct turret control HUD.",
+          "used_by": [
+            "SourceContinuousTurretBuildPortBridge.source_continuous_turret_build_get_ammo_fraction_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ContinuousTurretGetAmmoFractionProof",
+      "rule": "Source-backed ContinuousTurretBuild.getAmmoFraction() state from ContinuousTurret.java."
     }
   },
   "version": 1

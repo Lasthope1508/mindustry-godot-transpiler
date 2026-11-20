@@ -72661,6 +72661,46 @@
       ],
       "runtime_proof": "/root/C07TeamsClosestEnemyCoreProof",
       "rule": "Source-backed Teams.closestEnemyCore() state from Teams.java."
+    },
+    "SourceContinuousTurretBuildPortBridge.source_continuous_turret_build_get_ammo_fraction_state": {
+      "status": "active",
+      "source_slice": "N2355",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "source_method": "ContinuousTurretBuild.getAmmoFraction()",
+      "params": [
+        {
+          "name": "efficiency",
+          "type": "float",
+          "schema": "source_continuous_turret_build_get_ammo_fraction_state_input.efficiency"
+        },
+        {
+          "name": "has_liquid_consumer",
+          "type": "bool",
+          "schema": "source_continuous_turret_build_get_ammo_fraction_state_input.has_liquid_consumer"
+        },
+        {
+          "name": "liquid_amount",
+          "type": "float",
+          "schema": "source_continuous_turret_build_get_ammo_fraction_state_input.liquid_amount"
+        },
+        {
+          "name": "liquid_capacity",
+          "type": "float",
+          "schema": "source_continuous_turret_build_get_ammo_fraction_state_input.liquid_capacity"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "ammo_fraction"
+      ],
+      "tests": [
+        "test_c07_continuous_turret_get_ammo_fraction_registration",
+        "test_all_c07_continuous_turret_get_ammo_fraction_input_evidence_is_exact",
+        "test_continuous_turret_get_ammo_fraction_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_get_ammo_fraction"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretGetAmmoFractionProof",
+      "rule": "Source-backed ContinuousTurretBuild.getAmmoFraction() state from ContinuousTurret.java."
     }
   },
   "policy": {

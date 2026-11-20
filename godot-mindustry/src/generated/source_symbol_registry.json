@@ -179768,6 +179768,22 @@
         "test_reference_graph_and_actual_c07_teams_closest_enemy_core"
       ],
       "runtime_proof": "/root/C07TeamsClosestEnemyCoreProof"
+    },
+    "source_continuous_turret_build_get_ammo_fraction_state_result.ammo_fraction": {
+      "status": "source-backed",
+      "godot_owner": "SourceContinuousTurretBuildPortBridge.source_continuous_turret_build_get_ammo_fraction_state",
+      "godot_symbol": "source_continuous_turret_build_get_ammo_fraction_state_result.ammo_fraction",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousTurretBuild.getAmmoFraction()",
+      "java_expr": "return ammoFract;",
+      "rule": "The ammo fraction (ContinuousTurret.java:83, `return ammoFract;`): efficiency, capped by the liquid fraction when a ConsumeLiquid consumer exists -- ammo as a fraction of capacity, used for direct turret control HUD.",
+      "tests": [
+        "test_c07_continuous_turret_get_ammo_fraction_registration",
+        "test_all_c07_continuous_turret_get_ammo_fraction_input_evidence_is_exact",
+        "test_continuous_turret_get_ammo_fraction_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_get_ammo_fraction"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretGetAmmoFractionProof"
     }
   },
   "version": 1

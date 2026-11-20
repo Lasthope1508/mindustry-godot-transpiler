@@ -3829,6 +3829,23 @@
       ],
       "runtime_proof": "/root/C07TurretReadSyncProof"
     },
+    "N2355": {
+      "canonical_ledger": "source_slice_ledger.N2355",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousTurretBuild.getAmmoFraction()",
+      "godot_owner": "SourceContinuousTurretBuildPortBridge.source_continuous_turret_build_get_ammo_fraction_state",
+      "source_symbols": [
+        "source_continuous_turret_build_get_ammo_fraction_state_result.ammo_fraction"
+      ],
+      "tests": [
+        "test_c07_continuous_turret_get_ammo_fraction_registration",
+        "test_all_c07_continuous_turret_get_ammo_fraction_input_evidence_is_exact",
+        "test_continuous_turret_get_ammo_fraction_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_get_ammo_fraction"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretGetAmmoFractionProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",
