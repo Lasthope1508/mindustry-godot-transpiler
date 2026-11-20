@@ -238958,6 +238958,114 @@
       },
       "runtime_proof": "/root/C07TurretSenseObjectProof",
       "rule": "Source-backed Turret BuildingComp senseObject() LAccess delegation from BuildingComp.java:2128-2136 + Turret.java + ItemTurret.java + Blocks.java + Block.java + Senseable.java + LAccess.java + LExecutor.java + ItemModule.java."
+    },
+    "source_logic_sense_dispatch_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_logic_sense_dispatch_state",
+      "source_slice": "N2507",
+      "keys": {
+        "sensor": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/logic/LExecutor.java",
+          "java_expr": "}else if(sense instanceof LAccess la){",
+          "rule": "The logic sensor to read, spelled by its LAccess enum name (`}else if(sense instanceof LAccess la){`, LExecutor.java:694; `    dead,` LAccess.java:47, `firstItem,` :8, `type,` :63, `payloadType,` :69, `config(true, \"to\"),` :83): the dispatch only models LAccess sensors -- the Content leg is its own later slice.",
+          "used_by": [
+            "SourceTurretBuildState.source_logic_sense_dispatch_state"
+          ]
+        },
+        "target_is_null": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/logic/LExecutor.java",
+          "java_expr": "if(target == null && sense == LAccess.dead){",
+          "rule": "Whether the sensed target is null (`Object target = from.obj();`, LExecutor.java:682; `if(target == null && sense == LAccess.dead){`, :685): only a null target takes the dead leg, and it is checked before senseObject.",
+          "used_by": [
+            "SourceTurretBuildState.source_logic_sense_dispatch_state"
+          ]
+        },
+        "sense_object_handled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/logic/LExecutor.java",
+          "java_expr": "if(objOut == Senseable.noSensed){",
+          "rule": "Whether senseObject() returned a real object instead of the sentinel (`Object objOut = se.senseObject(la);` / `if(objOut == Senseable.noSensed){`, LExecutor.java:695-697; `Object noSensed = new Object();`, Senseable.java:6): the N2506 pure function reports this as handled, and a null object still counts as handled.",
+          "used_by": [
+            "SourceTurretBuildState.source_logic_sense_dispatch_state"
+          ]
+        },
+        "sense_object": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/logic/LExecutor.java",
+          "java_expr": "Object objOut = se.senseObject(la);",
+          "rule": "The senseObject() output (`Object objOut = se.senseObject(la);`, LExecutor.java:695) from the N2506 pure function -- the block id for \"type\", the observed first item id or null for \"firstItem\", null for \"config\" / \"payloadType\"; passed explicitly because the hook does not recompute sensor legs (the N2212/N2220 per-def-param precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_logic_sense_dispatch_state"
+          ]
+        },
+        "sense_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/logic/LExecutor.java",
+          "java_expr": "to.setnum(se.sense(la));",
+          "rule": "The numeric sense(la) fallback value (`to.setnum(se.sense(la));`, LExecutor.java:699) from the N2283/N2284 chain (`public double sense(LAccess sensor){`, Turret.java:405 / BuildingComp.java:2093); passed explicitly because the hook does not recompute sensor legs (the N2212/N2220 per-def-param precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_logic_sense_dispatch_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretLogicSenseDispatchProof",
+      "rule": "Source-backed Turret logic-processor sense dispatch hook from LExecutor.java:681-718 + Senseable.java + BuildingComp.java + Turret.java + LAccess.java."
+    },
+    "source_logic_sense_dispatch_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_logic_sense_dispatch_state",
+      "source_slice": "N2507",
+      "keys": {
+        "handled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/logic/LExecutor.java",
+          "java_expr": "public static class SenseI implements LInstruction{",
+          "rule": "Whether the dispatch resolved to a logic-variable write (`public static class SenseI implements LInstruction{`, LExecutor.java:668; every modeled leg writes with to.setnum or to.setobj, so handled is true throughout this slice).",
+          "used_by": [
+            "SourceTurretBuildState.source_logic_sense_dispatch_state"
+          ]
+        },
+        "output_kind": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/logic/LExecutor.java",
+          "java_expr": "to.setobj(objOut);",
+          "rule": "Which write the dispatch performs: \"num\" when it calls to.setnum (`to.setnum(1);` / `to.setnum(se.sense(la));`, LExecutor.java:686/699) and \"obj\" when it calls to.setobj (`to.setobj(objOut);`, :702); the logic variable holds either a number or an object, never both.",
+          "used_by": [
+            "SourceTurretBuildState.source_logic_sense_dispatch_state"
+          ]
+        },
+        "output_value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/logic/LExecutor.java",
+          "java_expr": "Object objOut = se.senseObject(la);",
+          "rule": "The value written to the logic variable: 1.0 for the null-target dead leg (`to.setnum(1);`, LExecutor.java:686), the senseObject output for the object leg (`to.setobj(objOut);`, :702 -- possibly null for config / payloadType), the numeric sense value for the fallback leg (`to.setnum(se.sense(la));`, :699).",
+          "used_by": [
+            "SourceTurretBuildState.source_logic_sense_dispatch_state"
+          ]
+        },
+        "is_no_sensed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/logic/LExecutor.java",
+          "java_expr": "if(objOut == Senseable.noSensed){",
+          "rule": "Whether senseObject() fell through to the noSensed sentinel (`if(objOut == Senseable.noSensed){`, LExecutor.java:697 -- `Object noSensed = new Object();`, Senseable.java:6); true only on the numeric fallback leg, the N2506 `is_no_sensed` precedent.",
+          "used_by": [
+            "SourceTurretBuildState.source_logic_sense_dispatch_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretLogicSenseDispatchProof",
+      "rule": "Source-backed Turret logic-processor sense dispatch hook from LExecutor.java:681-718 + Senseable.java + BuildingComp.java + Turret.java + LAccess.java."
     }
   },
   "version": 1

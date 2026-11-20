@@ -563,6 +563,86 @@ static func source_turret_sense_object_state(sensor: String, block_id: String, f
 		return {"handled": true, "sense_object": null, "is_no_sensed": false}
 	return {"handled": false, "sense_object": null, "is_no_sensed": true}
 
+static func source_logic_sense_dispatch_state(sensor: String, target_is_null: bool, sense_object_handled: bool, sense_object: Variant, sense_value: float) -> Dictionary:
+	# SenseI.run() (LExecutor.java:681-718):
+	# `public static class SenseI implements LInstruction{` /
+	# `public void run(LExecutor exec){` /
+	# `Object target = from.obj();` /
+	# `Object sense = type.obj();` /
+	# `if(target == null && sense == LAccess.dead){` /
+	# `to.setnum(1);` /
+	# `return;` /
+	# `}` /
+	# `//note that remote units/buildings can be sensed as well` /
+	# `if(target instanceof Senseable se){` /
+	# `if(sense instanceof Content co){` /
+	# `to.setnum(se.sense(co));` /
+	# `}else if(sense instanceof LAccess la){` /
+	# `Object objOut = se.senseObject(la);` /
+	# `if(objOut == Senseable.noSensed){` /
+	# `//numeric output` /
+	# `to.setnum(se.sense(la));` /
+	# `}else{` /
+	# `//object output` /
+	# `to.setobj(objOut);` /
+	# `}` /
+	# `}` /
+	# `}else{` /
+	# `if(sense == LAccess.size || sense == LAccess.bufferSize){` /
+	# `if(target instanceof CharSequence seq){` /
+	# `to.setnum(seq.length());` /
+	# `return;` /
+	# `}else if(target instanceof Seq<?> seq){` /
+	# `to.setnum(seq.size);` /
+	# `return;` /
+	# `}` /
+	# `}` /
+	# `to.setobj(null);` /
+	# `}` /
+	# `}` -- the logic-processor `sense` op dispatch. It composes
+	# the three functions the previous slices built:
+	# `source_turret_sense_state` (N2283, Turret.sense,
+	# `public double sense(LAccess sensor){`, Turret.java:405-419,
+	# `case ammo -> totalAmmo;`, :414), `source_building_comp_sense_state`
+	# (N2284, super.sense, BuildingComp.java:2093-2126) and
+	# `source_turret_sense_object_state` (N2506, senseObject,
+	# `public Object senseObject(LAccess sensor){`,
+	# BuildingComp.java:2128-2136). The hook itself decides only
+	# which output the logic variable receives -- object or number
+	# -- and does NOT re-implement any sensor leg: the numeric
+	# fallback value is passed in as `sense_value` (the
+	# N2212/N2220 per-def-param precedent), and the senseObject
+	# outcome is passed in as `sense_object` + `sense_object_handled`.
+	# The null-target dead leg is checked FIRST, before senseObject
+	# (LExecutor.java:685-687): a null target + `dead` writes num 1
+	# even when senseObject would have handled the sensor. `dead` is
+	# `    dead,` (LAccess.java:47). A handled senseObject writes its
+	# object with `to.setobj(objOut);` (LExecutor.java:701-703) --
+	# including a null object: the `config` / `payloadType` legs
+	# return null from senseObject (N2506) and that null is NOT the
+	# sentinel, so the dispatch writes obj null and never falls back
+	# to numeric sense. On the sentinel (`Object noSensed = new Object();`,
+	# Senseable.java:6; `default Object senseObject(LAccess sensor){` /
+	# `return noSensed;`, Senseable.java:14-16) the dispatch writes
+	# the numeric sense value (`to.setnum(se.sense(la));`,
+	# LExecutor.java:697-699) and reports `is_no_sensed: true`.
+	# The Content leg (`if(sense instanceof Content co){` /
+	# `to.setnum(se.sense(co));`, LExecutor.java:692-693) is deferred:
+	# it needs BuildingComp.sense(Content) live inventory counts.
+	# The non-Senseable size/bufferSize legs (`if(sense == LAccess.size
+	# || sense == LAccess.bufferSize){`, LExecutor.java:704-717) are
+	# deferred: the target is no building at all. There is no driver
+	# tick line: the dispatch is a logic read, not a tick write (the
+	# N2206/N2208/N2223/N2283/N2284/N2506 precedent); the proof calls
+	# the pure function directly with synthetic inputs. The result is
+	# a 4-key dict: `handled` + `output_kind` ("num" / "obj") +
+	# `output_value` + `is_no_sensed`.
+	if target_is_null and sensor == "dead":
+		return {"handled": true, "output_kind": "num", "output_value": 1.0, "is_no_sensed": false}
+	if sense_object_handled:
+		return {"handled": true, "output_kind": "obj", "output_value": sense_object, "is_no_sensed": false}
+	return {"handled": true, "output_kind": "num", "output_value": sense_value, "is_no_sensed": true}
+
 static func source_turret_progress_state(reload_counter: float, reload: float) -> Dictionary:
 	# TurretBuild.progress() (Turret.java:425-427):
 	# `public float progress(){` /

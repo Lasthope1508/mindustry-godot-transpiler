@@ -177576,6 +177576,70 @@
         "test_reference_graph_and_actual_c07_turret_sense_object"
       ],
       "runtime_proof": "/root/C07TurretSenseObjectProof"
+    },
+    "source_logic_sense_dispatch_state_result.handled": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_logic_sense_dispatch_state",
+      "godot_symbol": "source_logic_sense_dispatch_state_result.handled",
+      "java_source": "core/src/mindustry/logic/LExecutor.java",
+      "java_method": "SenseI.run(LExecutor)",
+      "java_expr": "public static class SenseI implements LInstruction{",
+      "rule": "Whether the dispatch resolved to a logic-variable write (`public static class SenseI implements LInstruction{`, LExecutor.java:668; every modeled leg writes with to.setnum or to.setobj, so handled is true throughout this slice).",
+      "tests": [
+        "test_c07_turret_logic_sense_dispatch_registration",
+        "test_all_c07_turret_logic_sense_dispatch_input_evidence_is_exact",
+        "test_turret_logic_sense_dispatch_state",
+        "test_reference_graph_and_actual_c07_turret_logic_sense_dispatch"
+      ],
+      "runtime_proof": "/root/C07TurretLogicSenseDispatchProof"
+    },
+    "source_logic_sense_dispatch_state_result.output_kind": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_logic_sense_dispatch_state",
+      "godot_symbol": "source_logic_sense_dispatch_state_result.output_kind",
+      "java_source": "core/src/mindustry/logic/LExecutor.java",
+      "java_method": "SenseI.run(LExecutor)",
+      "java_expr": "to.setobj(objOut);",
+      "rule": "Which write the dispatch performs: \"num\" when it calls to.setnum (`to.setnum(1);` / `to.setnum(se.sense(la));`, LExecutor.java:686/699) and \"obj\" when it calls to.setobj (`to.setobj(objOut);`, :702); the logic variable holds either a number or an object, never both.",
+      "tests": [
+        "test_c07_turret_logic_sense_dispatch_registration",
+        "test_all_c07_turret_logic_sense_dispatch_input_evidence_is_exact",
+        "test_turret_logic_sense_dispatch_state",
+        "test_reference_graph_and_actual_c07_turret_logic_sense_dispatch"
+      ],
+      "runtime_proof": "/root/C07TurretLogicSenseDispatchProof"
+    },
+    "source_logic_sense_dispatch_state_result.output_value": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_logic_sense_dispatch_state",
+      "godot_symbol": "source_logic_sense_dispatch_state_result.output_value",
+      "java_source": "core/src/mindustry/logic/LExecutor.java",
+      "java_method": "SenseI.run(LExecutor)",
+      "java_expr": "Object objOut = se.senseObject(la);",
+      "rule": "The value written to the logic variable: 1.0 for the null-target dead leg (`to.setnum(1);`, LExecutor.java:686), the senseObject output for the object leg (`to.setobj(objOut);`, :702 -- possibly null for config / payloadType), the numeric sense value for the fallback leg (`to.setnum(se.sense(la));`, :699).",
+      "tests": [
+        "test_c07_turret_logic_sense_dispatch_registration",
+        "test_all_c07_turret_logic_sense_dispatch_input_evidence_is_exact",
+        "test_turret_logic_sense_dispatch_state",
+        "test_reference_graph_and_actual_c07_turret_logic_sense_dispatch"
+      ],
+      "runtime_proof": "/root/C07TurretLogicSenseDispatchProof"
+    },
+    "source_logic_sense_dispatch_state_result.is_no_sensed": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_logic_sense_dispatch_state",
+      "godot_symbol": "source_logic_sense_dispatch_state_result.is_no_sensed",
+      "java_source": "core/src/mindustry/logic/LExecutor.java",
+      "java_method": "SenseI.run(LExecutor)",
+      "java_expr": "if(objOut == Senseable.noSensed){",
+      "rule": "Whether senseObject() fell through to the noSensed sentinel (`if(objOut == Senseable.noSensed){`, LExecutor.java:697 -- `Object noSensed = new Object();`, Senseable.java:6); true only on the numeric fallback leg, the N2506 `is_no_sensed` precedent.",
+      "tests": [
+        "test_c07_turret_logic_sense_dispatch_registration",
+        "test_all_c07_turret_logic_sense_dispatch_input_evidence_is_exact",
+        "test_turret_logic_sense_dispatch_state",
+        "test_reference_graph_and_actual_c07_turret_logic_sense_dispatch"
+      ],
+      "runtime_proof": "/root/C07TurretLogicSenseDispatchProof"
     }
   },
   "version": 1

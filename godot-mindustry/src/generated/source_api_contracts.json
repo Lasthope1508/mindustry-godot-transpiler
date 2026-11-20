@@ -70422,6 +70422,54 @@
       ],
       "runtime_proof": "/root/C07TurretSenseObjectProof",
       "rule": "Source-backed Turret BuildingComp senseObject() LAccess delegation from BuildingComp.java:2128-2136 + Turret.java + ItemTurret.java + Blocks.java + Block.java + Senseable.java + LAccess.java + LExecutor.java + ItemModule.java."
+    },
+    "SourceTurretBuildState.source_logic_sense_dispatch_state": {
+      "status": "active",
+      "source_slice": "N2507",
+      "java_source": "core/src/mindustry/logic/LExecutor.java",
+      "source_method": "SenseI.run(LExecutor)",
+      "params": [
+        {
+          "name": "sensor",
+          "type": "String",
+          "schema": "source_logic_sense_dispatch_state_input.sensor"
+        },
+        {
+          "name": "target_is_null",
+          "type": "bool",
+          "schema": "source_logic_sense_dispatch_state_input.target_is_null"
+        },
+        {
+          "name": "sense_object_handled",
+          "type": "bool",
+          "schema": "source_logic_sense_dispatch_state_input.sense_object_handled"
+        },
+        {
+          "name": "sense_object",
+          "type": "Variant",
+          "schema": "source_logic_sense_dispatch_state_input.sense_object"
+        },
+        {
+          "name": "sense_value",
+          "type": "float",
+          "schema": "source_logic_sense_dispatch_state_input.sense_value"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "handled",
+        "output_kind",
+        "output_value",
+        "is_no_sensed"
+      ],
+      "tests": [
+        "test_c07_turret_logic_sense_dispatch_registration",
+        "test_all_c07_turret_logic_sense_dispatch_input_evidence_is_exact",
+        "test_turret_logic_sense_dispatch_state",
+        "test_reference_graph_and_actual_c07_turret_logic_sense_dispatch"
+      ],
+      "runtime_proof": "/root/C07TurretLogicSenseDispatchProof",
+      "rule": "Source-backed Turret logic-processor sense dispatch hook from LExecutor.java:681-718 + Senseable.java + BuildingComp.java + Turret.java + LAccess.java."
     }
   },
   "policy": {
