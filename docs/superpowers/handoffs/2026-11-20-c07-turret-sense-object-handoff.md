@@ -1,4 +1,4 @@
-# Handoff — N2506 Turret senseObject() (C07, duo) [GREEN, gate xong — chờ commit/push]
+# Handoff — N2506 Turret senseObject() (C07, duo) [DONE + PUSHED]
 
 ## Cập nhật lượt cron 21:15 +07 (main thread kiểm tra — gate XONG, xác minh độc lập, re-run targeted + register, commit slice)
 
@@ -7,7 +7,7 @@
 - **Slice commit `51258c1e`** (11 files, 1240 insertions, staged đúng file slice — không stage proof .json, .gd.uid, log, hidden_files). `git diff --check` sạch. SSOT đo từ đĩa: 11668/1735/1669/3129; comp 559/463; defense 210/209 không đổi.
 - Tiếp theo: docs commit (handoff + report + spec, bump Done 1734→1735) → GOAL commit → status commit → hashes commit → push origin main.
 
-## Status: GREEN, gate xong — xác minh độc lập lượt cron 21:15 +07: Ran 6233, failures=235 toàn Godot-absent (235 × unexpectedly None, 0 KeyError, 0 return_schema_linkage, 0 ERROR); `git diff --check` sạch; targeted 4/4 re-run độc lập (Godot trên PATH, 72 subtests). N2284 đã DONE + PUSHED (6c18436d). Commit + push N2506 theo mẫu 5 commit của N2280–N2284. Slice commit 51258c1e, docs TBD, GOAL TBD, status TBD.
+## Status: DONE + PUSHED (slice 51258c1e, docs db59b8cd, GOAL ac693c14; cập nhật lượt cron 21:15 +07 — gate main-thread xong GATE-EXIT 1 14:05:31Z, Ran 6233 trong 1179.933s, failures=235, skipped=5; xác minh độc lập: 235 FAIL = 235 × unexpectedly None, 0 KeyError, 0 return_schema_linkage, 0 ERROR, toàn Godot-absent). Neighbours XONG 207 passed, exit 0, 13:06:52–13:18:18Z; wiring XONG 32 tests OK, exit 0, 13:18:18–13:20:22Z. N2284 đã DONE + PUSHED (6c18436d). Slice commit 51258c1e, docs db59b8cd, GOAL ac693c14, status TBD. Targeted 4/4 (72 subtests, re-run độc lập lượt cron 21:15 +07, 19.11s, Godot trên PATH); register --verify 32/32 (re-run độc lập lượt cron 21:15 +07, exit 0); proof JSON matches:true 9/9 (đọc trực tiếp từ đĩa, xác minh độc lập); SSOT đo từ đĩa 11668/1735/1669/3129; `git diff --check` OK.
 
 - N2284 DONE + PUSHED 19:30 +07, origin/main == 6c18436d. SSOT lúc push
   11665/1734/1668/3127; defense slices 210, contracts 209; comp 558/462.

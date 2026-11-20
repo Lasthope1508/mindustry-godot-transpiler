@@ -1,11 +1,11 @@
-# Báo cáo — N2506 Turret senseObject() (C07) [DONE]
+# Báo cáo — N2506 Turret senseObject() (C07) [DONE + PUSHED]
 
-Ngày: 2026-11-20 ~20:05 +07 (GREEN), gate xong 21:05:31 +07, push ~21:3x +07.
+Ngày: 2026-11-20 ~20:05 +07 (GREEN), gate xong 21:05:31 +07, push ~21:2x +07.
 
 ## Trạng thái
 
 - N2284 DONE + PUSHED (origin/main 6c18436d).
-- N2506 DONE (slice 51258c1e, docs TBD, GOAL TBD, status TBD, hashes TBD): Turret senseObject() — `public Object senseObject(LAccess sensor){ return switch(sensor){ case type -> block; case firstItem -> items == null ? null : items.first(); case config -> block.configSenseable() ? config() : null; case payloadType -> getPayload() instanceof UnitPayload p1 ? p1.unit.type : getPayload() instanceof BuildPayload p2 ? p2.block() : null; default -> noSensed; }; }` (BuildingComp.java:2128-2136) — 4 legs + default cho duo: type → block_id "duo" (Blocks.java:3257); firstItem → param `first_item` ("" = null), duo hasItems=true (ItemTurret.java:28) nên items non-null; config → constant null (duo không đăng ký `config(...)` nào → `configSenseable()` false, Block.java:809-812; base `config()` null, BuildingComp.java:2024); payloadType → constant null (base `getPayload()` null, BuildingComp.java:984-985, không override ở turret); default → `noSensed` sentinel (Senseable.java:6), logic fallback sang numeric `sense()` (LExecutor.java:697-699). KHÔNG có driver tick (senseObject là logic read, tiền lệ N2206/N2208/N2223/N2283/N2284).
+- N2506 DONE + PUSHED (slice 51258c1e, docs db59b8cd, GOAL ac693c14, status TBD, hashes TBD): Turret senseObject() — `public Object senseObject(LAccess sensor){ return switch(sensor){ case type -> block; case firstItem -> items == null ? null : items.first(); case config -> block.configSenseable() ? config() : null; case payloadType -> getPayload() instanceof UnitPayload p1 ? p1.unit.type : getPayload() instanceof BuildPayload p2 ? p2.block() : null; default -> noSensed; }; }` (BuildingComp.java:2128-2136) — 4 legs + default cho duo: type → block_id "duo" (Blocks.java:3257); firstItem → param `first_item` ("" = null), duo hasItems=true (ItemTurret.java:28) nên items non-null; config → constant null (duo không đăng ký `config(...)` nào → `configSenseable()` false, Block.java:809-812; base `config()` null, BuildingComp.java:2024); payloadType → constant null (base `getPayload()` null, BuildingComp.java:984-985, không override ở turret); default → `noSensed` sentinel (Senseable.java:6), logic fallback sang numeric `sense()` (LExecutor.java:697-699). KHÔNG có driver tick (senseObject là logic read, tiền lệ N2206/N2208/N2223/N2283/N2284).
 
 ## Làm được lượt này (GREEN + gate xong)
 
