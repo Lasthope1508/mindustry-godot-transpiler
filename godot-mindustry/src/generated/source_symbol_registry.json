@@ -177480,6 +177480,54 @@
         "test_reference_graph_and_actual_c07_turret_sense"
       ],
       "runtime_proof": "/root/C07TurretSenseProof"
+    },
+    "source_building_comp_sense_state_result.handled": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_building_comp_sense_state",
+      "godot_symbol": "source_building_comp_sense_state_result.handled",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.sense(LAccess)",
+      "java_expr": "default -> Float.NaN; //gets converted to null in logic",
+      "rule": "Whether this slice handled the sensor (one of the 23 implemented sensors); false means \"not handled -- deferred leg or unknown sensor\" (the N2208 mass-driver / N2223 repair-turret / N2283 turret sense precedent).",
+      "tests": [
+        "test_c07_building_comp_sense_registration",
+        "test_all_c07_building_comp_sense_input_evidence_is_exact",
+        "test_building_comp_sense_state",
+        "test_reference_graph_and_actual_c07_building_comp_sense"
+      ],
+      "runtime_proof": "/root/C07BuildingCompSenseProof"
+    },
+    "source_building_comp_sense_state_result.sense_value": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_building_comp_sense_state",
+      "godot_symbol": "source_building_comp_sense_state_result.sense_value",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.sense(LAccess)",
+      "java_expr": "case x -> World.conv(x);",
+      "rule": "The sensed value: World.conv(world_x/y) in tiles for \"x\"/\"y\" (:2094-2095), arc toDoubleBits(team color) for \"color\" (:2096), 1 or 0 for \"solid\" (:2098), the live team id for \"team\" (:2099), maxHealth for \"maxHealth\" (:2101), the live efficiency for \"efficiency\" (:2102), timeScale for \"timescale\" (:2103), range()/tilesize for \"range\" (:2104), the live rotation for \"rotation\" (:2105), the live total liquids (or 0) for \"totalLiquids\" (:2108), power.status x capacity-or-1 (or 0) for \"totalPower\" (:2109), item/liquid/power capacity for \"itemCapacity\"/\"liquidCapacity\"/\"powerCapacity\" (:2110-2112), 0 for the powerNet* legs when power is absent (:2113-2116), 1 or 0 for \"enabled\" (:2118), 2 or 0 for \"controlled\" (:2119), the payload count for \"payloadCount\" (:2120), block.size for \"size\" (:2121); null when the sensor is not handled.",
+      "tests": [
+        "test_c07_building_comp_sense_registration",
+        "test_all_c07_building_comp_sense_input_evidence_is_exact",
+        "test_building_comp_sense_state",
+        "test_reference_graph_and_actual_c07_building_comp_sense"
+      ],
+      "runtime_proof": "/root/C07BuildingCompSenseProof"
+    },
+    "source_building_comp_sense_state_result.sense_value_is_nan": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_building_comp_sense_state",
+      "godot_symbol": "source_building_comp_sense_state_result.sense_value_is_nan",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.sense(LAccess)",
+      "java_expr": "default -> Float.NaN; //gets converted to null in logic",
+      "rule": "Whether the sensed value is NaN: true only when the sensor is not handled (the super switch default, BuildingComp.java:2123, `default -> Float.NaN; //gets converted to null in logic`, converts to null in logic); false for all 23 handled sensors.",
+      "tests": [
+        "test_c07_building_comp_sense_registration",
+        "test_all_c07_building_comp_sense_input_evidence_is_exact",
+        "test_building_comp_sense_state",
+        "test_reference_graph_and_actual_c07_building_comp_sense"
+      ],
+      "runtime_proof": "/root/C07BuildingCompSenseProof"
     }
   },
   "version": 1

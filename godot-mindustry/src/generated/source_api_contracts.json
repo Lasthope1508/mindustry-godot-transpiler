@@ -70243,6 +70243,148 @@
       ],
       "runtime_proof": "/root/C07TurretSenseProof",
       "rule": "Source-backed Turret sense() LAccess dispatch from Turret.java:405-419 + BaseTurret.java + World.java + Vars.java + LAccess.java + BuildingComp.java."
+    },
+    "SourceTurretBuildState.source_building_comp_sense_state": {
+      "status": "active",
+      "source_slice": "N2284",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "BuildingComp.sense(LAccess)",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_building_comp_sense_state_input.frame"
+        },
+        {
+          "name": "sensor",
+          "type": "String",
+          "schema": "source_building_comp_sense_state_input.sensor"
+        },
+        {
+          "name": "tilesize",
+          "type": "float",
+          "schema": "source_building_comp_sense_state_input.tilesize"
+        },
+        {
+          "name": "world_x",
+          "type": "float",
+          "schema": "source_building_comp_sense_state_input.world_x"
+        },
+        {
+          "name": "world_y",
+          "type": "float",
+          "schema": "source_building_comp_sense_state_input.world_y"
+        },
+        {
+          "name": "team_color_r",
+          "type": "float",
+          "schema": "source_building_comp_sense_state_input.team_color_r"
+        },
+        {
+          "name": "team_color_g",
+          "type": "float",
+          "schema": "source_building_comp_sense_state_input.team_color_g"
+        },
+        {
+          "name": "team_color_b",
+          "type": "float",
+          "schema": "source_building_comp_sense_state_input.team_color_b"
+        },
+        {
+          "name": "block_solid",
+          "type": "bool",
+          "schema": "source_building_comp_sense_state_input.block_solid"
+        },
+        {
+          "name": "block_size",
+          "type": "int",
+          "schema": "source_building_comp_sense_state_input.block_size"
+        },
+        {
+          "name": "max_health",
+          "type": "float",
+          "schema": "source_building_comp_sense_state_input.max_health"
+        },
+        {
+          "name": "range_value",
+          "type": "float",
+          "schema": "source_building_comp_sense_state_input.range_value"
+        },
+        {
+          "name": "has_items",
+          "type": "bool",
+          "schema": "source_building_comp_sense_state_input.has_items"
+        },
+        {
+          "name": "item_capacity",
+          "type": "int",
+          "schema": "source_building_comp_sense_state_input.item_capacity"
+        },
+        {
+          "name": "has_liquids",
+          "type": "bool",
+          "schema": "source_building_comp_sense_state_input.has_liquids"
+        },
+        {
+          "name": "liquid_capacity",
+          "type": "float",
+          "schema": "source_building_comp_sense_state_input.liquid_capacity"
+        },
+        {
+          "name": "total_liquids",
+          "type": "float",
+          "schema": "source_building_comp_sense_state_input.total_liquids"
+        },
+        {
+          "name": "has_cons_power",
+          "type": "bool",
+          "schema": "source_building_comp_sense_state_input.has_cons_power"
+        },
+        {
+          "name": "power_capacity",
+          "type": "float",
+          "schema": "source_building_comp_sense_state_input.power_capacity"
+        },
+        {
+          "name": "power_buffered",
+          "type": "bool",
+          "schema": "source_building_comp_sense_state_input.power_buffered"
+        },
+        {
+          "name": "has_power",
+          "type": "bool",
+          "schema": "source_building_comp_sense_state_input.has_power"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_building_comp_sense_state_input.time_scale"
+        },
+        {
+          "name": "is_player",
+          "type": "bool",
+          "schema": "source_building_comp_sense_state_input.is_player"
+        },
+        {
+          "name": "payload_count",
+          "type": "int",
+          "schema": "source_building_comp_sense_state_input.payload_count"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "handled",
+        "sense_value",
+        "sense_value_is_nan"
+      ],
+      "tests": [
+        "test_c07_building_comp_sense_registration",
+        "test_all_c07_building_comp_sense_input_evidence_is_exact",
+        "test_building_comp_sense_state",
+        "test_reference_graph_and_actual_c07_building_comp_sense"
+      ],
+      "runtime_proof": "/root/C07BuildingCompSenseProof",
+      "rule": "Source-backed BuildingComp super.sense() LAccess delegation from BuildingComp.java:2093-2126 + Turret.java + BaseTurret.java + ItemTurret.java + Blocks.java + Block.java + World.java + Vars.java + LAccess.java + Team.java + GlobalVars.java + Pal.java + arc Color.java."
     }
   },
   "policy": {

@@ -310,6 +310,230 @@ static func source_turret_sense_state(frame: Dictionary, sensor: String, total_a
 		return {"handled": true, "sense_value": progress_value, "sense_value_is_nan": false}
 	return {"handled": false, "sense_value": null, "sense_value_is_nan": true}
 
+static func source_building_comp_sense_state(frame: Dictionary, sensor: String, tilesize: float, world_x: float, world_y: float, team_color_r: float, team_color_g: float, team_color_b: float, block_solid: bool, block_size: int, max_health: float, range_value: float, has_items: bool, item_capacity: int, has_liquids: bool, liquid_capacity: float, total_liquids: float, has_cons_power: bool, power_capacity: float, power_buffered: bool, has_power: bool, time_scale: float, is_player: bool, payload_count: int) -> Dictionary:
+	# BuildingComp.sense() (BuildingComp.java:2093-2126):
+	# `public double sense(LAccess sensor){` /
+	# return switch(sensor){
+	# case x -> World.conv(x);
+	# case y -> World.conv(y);
+	# case color -> Color.toDoubleBits(team.color.r, team.color.g, team.color.b, 1f);
+	# case dead -> !isValid() ? 1 : 0;
+	# case solid -> block.solid || checkSolid() ? 1 : 0;
+	# case team -> team.id;
+	# case health -> health;
+	# case maxHealth -> maxHealth;
+	# case efficiency -> efficiency;
+	# case timescale -> timeScale;
+	# case range -> this instanceof Ranged r ? r.range() / tilesize : 0;
+	# case rotation -> rotation;
+	# case totalItems -> items == null ? 0 : items.total();
+	# case totalLiquids -> liquids == null ? 0 : liquids.currentAmount();
+	# case totalPower -> power == null || block.consPower == null ? 0 : power.status * (block.consPower.buffered ? block.consPower.capacity : 1f);
+	# case itemCapacity -> block.hasItems ? block.itemCapacity : 0;
+	# case liquidCapacity -> block.hasLiquids ? block.liquidCapacity : 0;
+	# case powerCapacity -> block.consPower != null ? block.consPower.capacity : 0f;
+	# case powerNetIn -> power == null ? 0 : power.graph.getLastScaledPowerIn() * 60;
+	# case powerNetOut -> power == null ? 0 : power.graph.getLastScaledPowerOut() * 60;
+	# case powerNetStored -> power == null ? 0 : power.graph.getLastPowerStored();
+	# case powerNetCapacity -> power == null ? 0 : power.graph.getLastCapacity();
+	# case enabled -> enabled ? 1 : 0;
+	# case controlled -> this instanceof ControlBlock c && c.isControlled() ? GlobalVars.ctrlPlayer : 0;
+	# case payloadCount -> (getPayloads() != null ? getPayloads().total() : 0) + (getPayload() != null ? 1 : 0);
+	# case size -> block.size;
+	# case cameraX, cameraY, cameraWidth, cameraHeight -> this instanceof ControlBlock c ? c.unit().sense(sensor) : 0;
+	# default -> Float.NaN; //gets converted to null in logic
+	# };
+	# The sensor spellings are the LAccess enum names
+	# (LAccess.java): `x,`
+	# `y,`
+	# `color("to");`
+	# `dead,`
+	# `solid,`
+	# `team,`
+	# `health,`
+	# `maxHealth,`
+	# `efficiency,`
+	# `timescale,`
+	# `range,`
+	# `rotation,`
+	# `totalItems,`
+	# `totalLiquids,`
+	# `totalPower,`
+	# `itemCapacity,`
+	# `liquidCapacity,`
+	# `powerCapacity,`
+	# `powerNetStored,`
+	# `powerNetCapacity,`
+	# `powerNetIn,`
+	# `powerNetOut,`
+	# `enabled("to"),`
+	# `controlled,`
+	# `payloadCount,`
+	# `size,`
+	# `cameraX,`
+	# `cameraY,`
+	# `cameraWidth,`
+	# `cameraHeight,`
+	# `x`/`y` read World.conv (`public static float conv(float coord){`
+	# `return coord / tilesize;`
+	# World.java:165-166; `public static final int tilesize = 8;`,
+	# Vars.java:135) over the explicit world_x/world_y params
+	# (the frame carries no building position key, the
+	# N2212/N2220 per-def-param precedent). `color` reads arc
+	# toDoubleBits (`public static double toDoubleBits(float r, float g, float b, float a){`
+	# `return Double.longBitsToDouble(Color.rgba8888(r, g, b, a) & 0x00000000_ffffffffL);`
+	# arc Color.java:166-167; `public static int rgba8888(float r, float g, float b, float a){`
+	# `return ((int)(r * 255) << 24) | ((int)(g * 255) << 16) | ((int)(b * 255) << 8) | (int)(a * 255);`
+	# :211-212, RGBA layout) over the explicit team_color_*
+	# params with alpha 1f; the 32 bits are reinterpreted as a
+	# double through a PackedByteArray (encode_u32 low +
+	# decode_double, high 4 bytes zero). Sharded is
+	# Pal.accent, `accent = Color.valueOf("ffd37f"),`
+	# (Pal.java:79); derelict is
+	# `derelict = new Team(0, "derelict", Color.valueOf("4d4e58")),`
+	# (Team.java:33); sharded is
+	# `sharded = new Team(1, "sharded", Pal.accent.cpy(), Color.valueOf("ffd37f"), Color.valueOf("eab678"), Color.valueOf("d4816b")),`
+	# (Team.java:34). `dead` is deferred: `isValid()` is
+	# `return tile.build == self() && !dead();`
+	# (BuildingComp.java:2031) and needs tile state not in
+	# the frame. `solid` reads block_solid (duo true,
+	# `solid = true;`, BaseTurret.java:40) because
+	# `checkSolid()` returns false in BuildingComp
+	# (`public boolean checkSolid(){`, :1734-1736).
+	# `team` reads the live frame team_id, absent folding to
+	# 0 (derelict id 0). `health` is deferred: building
+	# health is not live in the frame. `maxHealth` reads
+	# max_health (`maxHealth(block.health);`,
+	# BuildingComp.java:142; duo `health = 250;`,
+	# Blocks.java:3321). `efficiency` reads the live frame
+	# efficiency, absent folding to 0.0 (`transient float efficiency;`,
+	# BuildingComp.java:85). `timescale` reads the explicit
+	# time_scale param (`private transient float timeScale = 1f, timeScaleDuration;`,
+	# BuildingComp.java:98). `range` reads range_value /
+	# tilesize (duo is Ranged, `public class BaseTurretBuild extends Building implements Ranged, RotBlock{`,
+	# BaseTurret.java:113; `public float range(){`
+	# `return range + peekAmmo().rangeChange;`
+	# Turret.java:342-347; duo `range = 160;`,
+	# Blocks.java:3316, graphite `rangeChange = 16f;`,
+	# :3276). `rotation` reads the live frame rotation,
+	# absent folding to 90.0 (`public float rotation = 90;`,
+	# BaseTurret.java:114). `totalItems` is deferred: duo
+	# hasItems (`hasItems = true;`, ItemTurret.java:28) so
+	# the total is live inventory, not in the frame.
+	# `totalLiquids` reads total_liquids when has_liquids,
+	# else 0 (duo hasLiquids false -> liquids null -> 0).
+	# `totalPower` folds to 0 when power or consPower is
+	# absent (duo has no consumePower, only
+	# `coolant = consumeCoolant(0.1f);`, Blocks.java:3324)
+	# and otherwise reads the live frame power_status
+	# (absent folds to 1.0, N2142) times the capacity when
+	# buffered, else times 1. `itemCapacity` reads
+	# item_capacity when has_items (`public int itemCapacity = 10;`,
+	# Block.java:75, ItemTurret never overrides it).
+	# `liquidCapacity` reads liquid_capacity when
+	# has_liquids (`public float liquidCapacity = -1f;`,
+	# Block.java:77). `powerCapacity` reads power_capacity
+	# when has_cons_power. `powerNetIn`/`powerNetOut`/
+	# `powerNetStored`/`powerNetCapacity` fold to 0 when
+	# power is absent (duo) and report handled=false when
+	# it is present (the graph is not live in the frame).
+	# `enabled` reads the live frame enabled, absent
+	# folding to true (`transient boolean enabled = true;`,
+	# BuildingComp.java:77). `controlled` reads is_player:
+	# `isControlled()` is `return unit().isPlayer();`
+	# (ControlBlock.java:10-12) over the non-null proxy
+	# unit (`public BlockUnitc unit = (BlockUnitc)UnitTypes.block.create(team);`,
+	# Turret.java:291; `public Unit unit(){`, :434-439) and
+	# `public static final int ctrlProcessor = 1, ctrlPlayer = 2, ctrlCommand = 3;`
+	# (GlobalVars.java:24) gives 2 for a player-controlled
+	# block. `payloadCount` reads payload_count (base
+	# `public @Nullable Payload getPayload(){`
+	# :984 and `public @Nullable PayloadSeq getPayloads(){`
+	# :993 both return null, so duo is 0). `size` reads
+	# block_size (`public int size = 1;`, Block.java:215).
+	# `cameraX`/`cameraY`/`cameraWidth`/`cameraHeight` are
+	# deferred: they need UnitComp.sense delegation for the
+	# proxy unit, its own later slice. The default (unknown
+	# sensor) reports handled false + NaN, the same as
+	# N2283. There is no driver tick line: sense is a logic
+	# read, not a tick write (the N2206/N2208/N2223/N2283
+	# precedent); the proof calls the pure function directly
+	# with synthetic frames, and the logic-processor
+	# dispatch hook is its own later slice. The result is
+	# the N2206/N2208/N2223/N2283 sense wire shape:
+	# `handled`, `sense_value`, `sense_value_is_nan`.
+	if sensor == "x":
+		var x_value: float = world_x / tilesize
+		return {"handled": true, "sense_value": x_value, "sense_value_is_nan": false}
+	if sensor == "y":
+		var y_value: float = world_y / tilesize
+		return {"handled": true, "sense_value": y_value, "sense_value_is_nan": false}
+	if sensor == "color":
+		var color_bits: int = (int(team_color_r * 255.0) << 24) | (int(team_color_g * 255.0) << 16) | (int(team_color_b * 255.0) << 8) | int(1.0 * 255.0)
+		var color_bytes := PackedByteArray()
+		color_bytes.resize(8)
+		color_bytes.encode_u32(0, color_bits)
+		var color_value: float = color_bytes.decode_double(0)
+		return {"handled": true, "sense_value": color_value, "sense_value_is_nan": false}
+	if sensor == "solid":
+		var solid_value: float = 1.0 if block_solid else 0.0
+		return {"handled": true, "sense_value": solid_value, "sense_value_is_nan": false}
+	if sensor == "team":
+		var team_value: float = float(frame.get("team_id", 0))
+		return {"handled": true, "sense_value": team_value, "sense_value_is_nan": false}
+	if sensor == "maxHealth":
+		var max_health_value: float = max_health
+		return {"handled": true, "sense_value": max_health_value, "sense_value_is_nan": false}
+	if sensor == "efficiency":
+		var efficiency_value: float = float(frame.get("efficiency", 0.0))
+		return {"handled": true, "sense_value": efficiency_value, "sense_value_is_nan": false}
+	if sensor == "timescale":
+		var timescale_value: float = time_scale
+		return {"handled": true, "sense_value": timescale_value, "sense_value_is_nan": false}
+	if sensor == "range":
+		var range_tiles: float = range_value / tilesize
+		return {"handled": true, "sense_value": range_tiles, "sense_value_is_nan": false}
+	if sensor == "rotation":
+		var observed: Variant = frame.get("rotation", null)
+		var rotation_value: float = 90.0 if observed == null else float(observed)
+		return {"handled": true, "sense_value": rotation_value, "sense_value_is_nan": false}
+	if sensor == "totalLiquids":
+		var total_liquids_value: float = total_liquids if has_liquids else 0.0
+		return {"handled": true, "sense_value": total_liquids_value, "sense_value_is_nan": false}
+	if sensor == "totalPower":
+		var total_power_value: float = 0.0
+		if has_power and has_cons_power:
+			var power_status: float = float(frame.get("power_status", 1.0))
+			total_power_value = power_status * (power_capacity if power_buffered else 1.0)
+		return {"handled": true, "sense_value": total_power_value, "sense_value_is_nan": false}
+	if sensor == "itemCapacity":
+		var item_capacity_value: float = float(item_capacity) if has_items else 0.0
+		return {"handled": true, "sense_value": item_capacity_value, "sense_value_is_nan": false}
+	if sensor == "liquidCapacity":
+		var liquid_capacity_value: float = liquid_capacity if has_liquids else 0.0
+		return {"handled": true, "sense_value": liquid_capacity_value, "sense_value_is_nan": false}
+	if sensor == "powerCapacity":
+		var power_capacity_value: float = power_capacity if has_cons_power else 0.0
+		return {"handled": true, "sense_value": power_capacity_value, "sense_value_is_nan": false}
+	if sensor == "powerNetIn" or sensor == "powerNetOut" or sensor == "powerNetStored" or sensor == "powerNetCapacity":
+		if not has_power:
+			var power_net_value: float = 0.0
+			return {"handled": true, "sense_value": power_net_value, "sense_value_is_nan": false}
+		return {"handled": false, "sense_value": null, "sense_value_is_nan": true}
+	if sensor == "enabled":
+		var enabled_value: float = 1.0 if bool(frame.get("enabled", true)) else 0.0
+		return {"handled": true, "sense_value": enabled_value, "sense_value_is_nan": false}
+	if sensor == "controlled":
+		var controlled_value: float = 2.0 if is_player else 0.0
+		return {"handled": true, "sense_value": controlled_value, "sense_value_is_nan": false}
+	if sensor == "payloadCount":
+		var payload_count_value: float = float(payload_count)
+		return {"handled": true, "sense_value": payload_count_value, "sense_value_is_nan": false}
+	if sensor == "size":
+		var size_value: float = float(block_size)
+		return {"handled": true, "sense_value": size_value, "sense_value_is_nan": false}
+	return {"handled": false, "sense_value": null, "sense_value_is_nan": true}
+
 static func source_turret_progress_state(reload_counter: float, reload: float) -> Dictionary:
 	# TurretBuild.progress() (Turret.java:425-427):
 	# `public float progress(){` /

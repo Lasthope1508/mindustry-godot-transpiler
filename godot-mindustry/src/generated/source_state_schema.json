@@ -238592,6 +238592,294 @@
       },
       "runtime_proof": "/root/C07TurretSenseProof",
       "rule": "Source-backed Turret sense() LAccess dispatch from Turret.java:405-419 + BaseTurret.java + World.java + Vars.java + LAccess.java + BuildingComp.java."
+    },
+    "source_building_comp_sense_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_building_comp_sense_state",
+      "source_slice": "N2284",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "case rotation -> rotation;",
+          "rule": "The turret frame carrying the live `team_id` (stamped every tick, absent folds to 0, derelict), `efficiency` (stamped every tick, absent folds to 0.0, `transient float efficiency;`, BuildingComp.java:85), `rotation` (stamped every tick by the aim call, absent folds to 90.0, `public float rotation = 90;`, BaseTurret.java:114), `enabled` (stamped every tick, absent folds to true, `transient boolean enabled = true;`, BuildingComp.java:77) and `power_status` (stamped by the graph update, N2142, absent folds to 1.0).",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_state"
+          ]
+        },
+        "sensor": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public double sense(LAccess sensor){",
+          "rule": "The logic sensor to read, spelled by its LAccess enum name (`x,` LAccess.java:31, `y,` :32, `color(\"to\");` :84, `dead,` :47, `solid,` :46, `team,` :62, `health,` :22, `maxHealth,` :23, `efficiency,` :27, `timescale,` :29, `range,` :48, `rotation,` :30, `totalItems,` :7, `totalLiquids,` :9, `totalPower,` :10, `itemCapacity,` :11, `liquidCapacity,` :12, `powerCapacity,` :13, `powerNetStored,` :14, `powerNetCapacity,` :15, `powerNetIn,` :16, `powerNetOut,` :17, `enabled(\"to\"),` :80, `controlled,` :65, `payloadCount,` :68, `size,` :45, `cameraX,` :37, `cameraY,` :38, `cameraWidth,` :39, `cameraHeight,` :40): the 23 implemented sensors are handled here, the 7 deferred legs report handled=false.",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_state"
+          ]
+        },
+        "tilesize": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/Vars.java",
+          "java_expr": "public static final int tilesize = 8;",
+          "rule": "The world tilesize in pixels (Vars.java:135, `public static final int tilesize = 8;`); passed explicitly (the N2220 draw-place precedent) so the x/y/range legs divide by the caller-supplied world constant (`public static float conv(float coord){` / `return coord / tilesize;`, World.java:165-166).",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_state"
+          ]
+        },
+        "world_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "case x -> World.conv(x);",
+          "rule": "The building world x in pixels (`case x -> World.conv(x);`, BuildingComp.java:2094); passed explicitly because the frame carries no building position key (the N2212/N2220 per-def-param precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_state"
+          ]
+        },
+        "world_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "case y -> World.conv(y);",
+          "rule": "The building world y in pixels (`case y -> World.conv(y);`, BuildingComp.java:2095); passed explicitly because the frame carries no building position key (the N2212/N2220 per-def-param precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_state"
+          ]
+        },
+        "team_color_r": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "case color -> Color.toDoubleBits(team.color.r, team.color.g, team.color.b, 1f);",
+          "rule": "The team color red component 0-1 (`team.color.r`, BuildingComp.java:2096; sharded is Pal.accent, `accent = Color.valueOf(\"ffd37f\"),`, Pal.java:79); passed explicitly because the frame carries no team color, and read through arc toDoubleBits (verified float32-safe by Python struct for the proof bytes).",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_state"
+          ]
+        },
+        "team_color_g": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "case color -> Color.toDoubleBits(team.color.r, team.color.g, team.color.b, 1f);",
+          "rule": "The team color green component 0-1 (`team.color.g`, BuildingComp.java:2096; sharded g is 211/255).",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_state"
+          ]
+        },
+        "team_color_b": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "case color -> Color.toDoubleBits(team.color.r, team.color.g, team.color.b, 1f);",
+          "rule": "The team color blue component 0-1 (`team.color.b`, BuildingComp.java:2096; sharded b is 127/255).",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_state"
+          ]
+        },
+        "block_solid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "case solid -> block.solid || checkSolid() ? 1 : 0;",
+          "rule": "Whether the block is solid (`block.solid`, BuildingComp.java:2098; duo true, `solid = true;`, BaseTurret.java:40; `checkSolid()` returns false, BuildingComp.java:1734-1736, so the leg is exactly block.solid).",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_state"
+          ]
+        },
+        "block_size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "case size -> block.size;",
+          "rule": "The block size in tiles (`block.size`, BuildingComp.java:2120; `public int size = 1;`, Block.java:215, duo never overrides it).",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_state"
+          ]
+        },
+        "max_health": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "case maxHealth -> maxHealth;",
+          "rule": "The building max health (`maxHealth`, BuildingComp.java:2101; `maxHealth(block.health);` at creation, BuildingComp.java:142; duo `health = 250;`, Blocks.java:3321).",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_state"
+          ]
+        },
+        "range_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "case range -> this instanceof Ranged r ? r.range() / tilesize : 0;",
+          "rule": "The live range() in pixels (`r.range()`, BuildingComp.java:2104; duo is Ranged, `public class BaseTurretBuild extends Building implements Ranged, RotBlock{`, BaseTurret.java:113; `range()` is `range + peekAmmo().rangeChange`, Turret.java:342-347; duo `range = 160;`, graphite `rangeChange = 16f;`); passed explicitly because it depends on the live ammo type.",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_state"
+          ]
+        },
+        "has_items": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "case itemCapacity -> block.hasItems ? block.itemCapacity : 0;",
+          "rule": "Whether the block has an item inventory (`block.hasItems`, BuildingComp.java:2110; duo true, `hasItems = true;`, ItemTurret.java:28).",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_state"
+          ]
+        },
+        "item_capacity": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "case itemCapacity -> block.hasItems ? block.itemCapacity : 0;",
+          "rule": "The item capacity (`block.itemCapacity`, BuildingComp.java:2110; `public int itemCapacity = 10;`, Block.java:75, ItemTurret never overrides it).",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_state"
+          ]
+        },
+        "has_liquids": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "case liquidCapacity -> block.hasLiquids ? block.liquidCapacity : 0;",
+          "rule": "Whether the block has a liquid inventory (`block.hasLiquids`, BuildingComp.java:2111; duo false, it only consumes coolant through a ConsumeLiquidBase, `coolant = consumeCoolant(0.1f);`, Blocks.java:3324).",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_state"
+          ]
+        },
+        "liquid_capacity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "case liquidCapacity -> block.hasLiquids ? block.liquidCapacity : 0;",
+          "rule": "The liquid capacity (`block.liquidCapacity`, BuildingComp.java:2111; `public float liquidCapacity = -1f;`, Block.java:77, the unset default).",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_state"
+          ]
+        },
+        "total_liquids": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "case totalLiquids -> liquids == null ? 0 : liquids.currentAmount();",
+          "rule": "The live total liquids (`liquids.currentAmount()`, BuildingComp.java:2108); only read when has_liquids is true, duo folds to 0.",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_state"
+          ]
+        },
+        "has_cons_power": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "case powerCapacity -> block.consPower != null ? block.consPower.capacity : 0f;",
+          "rule": "Whether the block has a ConsumePower (`block.consPower != null`, BuildingComp.java:2112; duo false, it has no consumePower property, only coolant).",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_state"
+          ]
+        },
+        "power_capacity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "case powerCapacity -> block.consPower != null ? block.consPower.capacity : 0f;",
+          "rule": "The power capacity (`block.consPower.capacity`, BuildingComp.java:2112; only read when has_cons_power is true).",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_state"
+          ]
+        },
+        "power_buffered": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "case totalPower -> power == null || block.consPower == null ? 0 : power.status * (block.consPower.buffered ? block.consPower.capacity : 1f);",
+          "rule": "Whether the power consumer is buffered (`block.consPower.buffered`, BuildingComp.java:2109; buffered multiplies power.status by the capacity, unbuffered by 1).",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_state"
+          ]
+        },
+        "has_power": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "case totalPower -> power == null || block.consPower == null ? 0 : power.status * (block.consPower.buffered ? block.consPower.capacity : 1f);",
+          "rule": "Whether the building has a power module (`power != null`, BuildingComp.java:2109; duo false, no consumePower and no power output; the powerNet* legs also fold to 0 on this flag).",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "case timescale -> timeScale;",
+          "rule": "The live timeScale (`timeScale`, BuildingComp.java:2103; `private transient float timeScale = 1f, timeScaleDuration;`, BuildingComp.java:98); passed explicitly because it is not in the frame.",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_state"
+          ]
+        },
+        "is_player": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "case controlled -> this instanceof ControlBlock c && c.isControlled() ? GlobalVars.ctrlPlayer : 0;",
+          "rule": "Whether a player unit controls the block (`c.isControlled()` is `unit().isPlayer()`, ControlBlock.java:10-12, over the non-null proxy unit `public BlockUnitc unit = (BlockUnitc)UnitTypes.block.create(team);`, Turret.java:291; `public static final int ctrlProcessor = 1, ctrlPlayer = 2, ctrlCommand = 3;`, GlobalVars.java:24); passed explicitly because player-control state is not tracked by the driver yet.",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_state"
+          ]
+        },
+        "payload_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "case payloadCount -> (getPayloads() != null ? getPayloads().total() : 0) + (getPayload() != null ? 1 : 0);",
+          "rule": "The live payload count (`(getPayloads() != null ? getPayloads().total() : 0) + (getPayload() != null ? 1 : 0)`, BuildingComp.java:2120; base `getPayload()` / `getPayloads()` return null, BuildingComp.java:984/993, so duo is 0).",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildingCompSenseProof",
+      "rule": "Source-backed BuildingComp super.sense() LAccess delegation from BuildingComp.java:2093-2126 + Turret.java + BaseTurret.java + ItemTurret.java + Blocks.java + Block.java + World.java + Vars.java + LAccess.java + Team.java + GlobalVars.java + Pal.java + arc Color.java."
+    },
+    "source_building_comp_sense_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_building_comp_sense_state",
+      "source_slice": "N2284",
+      "keys": {
+        "handled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "default -> Float.NaN; //gets converted to null in logic",
+          "rule": "Whether this slice handled the sensor (one of the 23 implemented sensors); false means \"not handled -- deferred leg or unknown sensor\" (the N2208 mass-driver / N2223 repair-turret / N2283 turret sense precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_state"
+          ]
+        },
+        "sense_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "case x -> World.conv(x);",
+          "rule": "The sensed value: World.conv(world_x/y) in tiles for \"x\"/\"y\" (:2094-2095), arc toDoubleBits(team color) for \"color\" (:2096), 1 or 0 for \"solid\" (:2098), the live team id for \"team\" (:2099), maxHealth for \"maxHealth\" (:2101), the live efficiency for \"efficiency\" (:2102), timeScale for \"timescale\" (:2103), range()/tilesize for \"range\" (:2104), the live rotation for \"rotation\" (:2105), the live total liquids (or 0) for \"totalLiquids\" (:2108), power.status x capacity-or-1 (or 0) for \"totalPower\" (:2109), item/liquid/power capacity for \"itemCapacity\"/\"liquidCapacity\"/\"powerCapacity\" (:2110-2112), 0 for the powerNet* legs when power is absent (:2113-2116), 1 or 0 for \"enabled\" (:2118), 2 or 0 for \"controlled\" (:2119), the payload count for \"payloadCount\" (:2120), block.size for \"size\" (:2121); null when the sensor is not handled.",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_state"
+          ]
+        },
+        "sense_value_is_nan": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "default -> Float.NaN; //gets converted to null in logic",
+          "rule": "Whether the sensed value is NaN: true only when the sensor is not handled (the super switch default, BuildingComp.java:2123, `default -> Float.NaN; //gets converted to null in logic`, converts to null in logic); false for all 23 handled sensors.",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildingCompSenseProof",
+      "rule": "Source-backed BuildingComp super.sense() LAccess delegation from BuildingComp.java:2093-2126 + Turret.java + BaseTurret.java + ItemTurret.java + Blocks.java + Block.java + World.java + Vars.java + LAccess.java + Team.java + GlobalVars.java + Pal.java + arc Color.java."
     }
   },
   "version": 1
