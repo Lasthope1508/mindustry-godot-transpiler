@@ -909,6 +909,251 @@
         }
       }
     },
+    "source_drill_draw_state_input": {
+      "canonical_schema": "source_state_schema.source_drill_draw_state_input",
+      "keys": {
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "Draw.rect(region, x, y);",
+          "rule": "The building world x (Drill.java:350, `Draw.rect(region, x, y);`); passed explicitly because draw() reads the live building position.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "Draw.rect(region, x, y);",
+          "rule": "The building world y (Drill.java:350, `Draw.rect(region, x, y);`); passed explicitly because draw() reads the live building position.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_state"
+          ]
+        },
+        "region": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public TextureRegion region;",
+          "rule": "The inherited block region (Block.java:427, `public TextureRegion region;`); passed explicitly because it is per-def static state, not a live frame key (the N2212 acquire / N2220 draw-place per-def-param precedent).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_state"
+          ]
+        },
+        "rim_region": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public @Load(\"@-rim\") TextureRegion rimRegion;",
+          "rule": "The Drill rim region (Drill.java:71, `public @Load(\"@-rim\") TextureRegion rimRegion;`); passed explicitly because it is per-def static state, not a live frame key.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_state"
+          ]
+        },
+        "rotator_region": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public @Load(\"@-rotator\") TextureRegion rotatorRegion;",
+          "rule": "The Drill rotator region (Drill.java:72, `public @Load(\"@-rotator\") TextureRegion rotatorRegion;`); passed explicitly because it is per-def static state, not a live frame key.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_state"
+          ]
+        },
+        "top_region": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public @Load(\"@-top\") TextureRegion topRegion;",
+          "rule": "The Drill top region (Drill.java:73, `public @Load(\"@-top\") TextureRegion topRegion;`); passed explicitly because it is per-def static state, not a live frame key.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_state"
+          ]
+        },
+        "item_region": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public @Load(value = \"@-item\", fallback = \"drill-item-@size\") TextureRegion itemRegion;",
+          "rule": "The Drill item region (Drill.java:74, `public @Load(value = \"@-item\", fallback = \"drill-item-@size\") TextureRegion itemRegion;`); passed explicitly because it is per-def static state, not a live frame key.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_state"
+          ]
+        },
+        "block_draw_cracks": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public boolean drawCracks = true;",
+          "rule": "The block flag for drawing cracks (Block.java:208, `public boolean drawCracks = true;`, default true); the drawCracks guard is `if(!block.drawCracks || !damaged() || block.size > BlockRenderer.maxCrackSize) return;` (BuildingComp.java:1232); passed explicitly because it is per-def static state.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_state"
+          ]
+        },
+        "damaged": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+          "java_expr": "return health < maxHealth - 0.001f;",
+          "rule": "Whether the building is damaged: HealthComp.damaged() (HealthComp.java:47-49, `return health < maxHealth - 0.001f;`); the drawCracks guard is `if(!block.drawCracks || !damaged() || block.size > BlockRenderer.maxCrackSize) return;` (BuildingComp.java:1232); passed explicitly because health is live build state, not a frame key.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_state"
+          ]
+        },
+        "block_size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(!block.drawCracks || !damaged() || block.size > BlockRenderer.maxCrackSize) return;",
+          "rule": "The block size: the drawCracks guard rejects `block.size > BlockRenderer.maxCrackSize` (7) and indexes `renderer.blocks.cracks[block.size - 1][...]` (BuildingComp.java:1232-1234); per-def sizes: mechanical/pneumatic-drill `size = 2;`, laser-drill `size = 3;`, blast-drill `size = 4;` (Blocks.java); passed explicitly because it is per-def static state.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_state"
+          ]
+        },
+        "healthf": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+          "java_expr": "return health / maxHealth;",
+          "rule": "The health fraction: HealthComp.healthf() (HealthComp.java:20-22, `return health / maxHealth;`); the crack index is `Mathf.clamp((int)((1f - healthf()) * BlockRenderer.crackRegions), 0, BlockRenderer.crackRegions-1)` and the crack alpha is `0.1f + (1f - healthf())* 0.6f` (BuildingComp.java:1234-1235); passed explicitly because health is live build state, not a frame key.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_state"
+          ]
+        },
+        "pos_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "int id = pos();",
+          "rule": "The tile position id: `int id = pos();` (BuildingComp.java:1233, `public int pos(){ return tile.pos(); }`, BuildingComp.java:578-580); the crack rect rotates `(id%4)*90` (BuildingComp.java:1237); passed explicitly because it is live tile state, not a frame key.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_state"
+          ]
+        },
+        "crack_regions": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "TextureRegion region = renderer.blocks.cracks[block.size - 1][Mathf.clamp((int)((1f - healthf()) * BlockRenderer.crackRegions), 0, BlockRenderer.crackRegions-1)];",
+          "rule": "The crack region row for this block size: `renderer.blocks.cracks[block.size - 1]` (BuildingComp.java:1234), 8 entries (BlockRenderer.crackRegions = 8, BlockRenderer.java:31); the function indexes it by the clamped health index; passed explicitly because the region table is load-time renderer state, not a frame key.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_state"
+          ]
+        },
+        "draw_rim": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public boolean drawRim = false;",
+          "rule": "The block flag for the heat rim (Drill.java:68, `public boolean drawRim = false;`, default false); blast-drill overrides `drawRim = true;` (Blocks.java:2903); the draw guard is `if(drawRim){` (Drill.java:355); passed explicitly because it is per-def static state.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_state"
+          ]
+        },
+        "heat_color": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public Color heatColor = Color.valueOf(\"ff5512\");",
+          "rule": "The rim heat color (Drill.java:70, `public Color heatColor = Color.valueOf(\"ff5512\");`, \"ff5512\"); the rim draws `Draw.color(heatColor);` (Drill.java:356); passed explicitly because it is per-def static state.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_state"
+          ]
+        },
+        "warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public float warmup;",
+          "rule": "The drill warmup (Drill.java:239, `public float warmup;`), approached in updateTile (N2294); the rim alpha is `warmup * ts * (1f - s + Mathf.absin(Time.time, 3f, s))` (Drill.java:357); passed explicitly because it is live build state, not a frame key.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_state"
+          ]
+        },
+        "time_now": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "Draw.alpha(warmup * ts * (1f - s + Mathf.absin(Time.time, 3f, s)));",
+          "rule": "The current game time (Time.time in `Mathf.absin(Time.time, 3f, s)`, Drill.java:357); passed explicitly because draw() reads live time, not a frame key.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_state"
+          ]
+        },
+        "draw_spin_sprite": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public boolean drawSpinSprite = true;",
+          "rule": "The block flag for the spin-sprite rotator (Drill.java:69, `public boolean drawSpinSprite = true;`, default true); the draw branch is `if(drawSpinSprite){` (Drill.java:364); passed explicitly because it is per-def static state.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_state"
+          ]
+        },
+        "time_drilled": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public float timeDrilled;",
+          "rule": "The accumulated drill time (Drill.java:240, `public float timeDrilled;`), accumulated in updateTile (N2294); the rotator angle is `timeDrilled * rotateSpeed` (Drill.java:365, :367); passed explicitly because it is live build state, not a frame key.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_state"
+          ]
+        },
+        "rotate_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public float rotateSpeed = 2f;",
+          "rule": "The rotator speed (Drill.java:59, `public float rotateSpeed = 2f;`, default 2f); blast-drill overrides `rotateSpeed = 6f;` (Blocks.java:2911); the rotator angle is `timeDrilled * rotateSpeed` (Drill.java:365, :367); passed explicitly because it is per-def static state.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_state"
+          ]
+        },
+        "draw_alpha": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/graphics/Drawf.java",
+          "java_expr": "float a = Draw.getColorAlpha();",
+          "rule": "The current Draw color alpha entering the rotator: Drawf.spinSprite reads `float a = Draw.getColorAlpha();` (Drawf.java:603) and restores it with `Draw.alpha(a);` (:608); passed explicitly because it is live draw-batch state, not a frame key.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_state"
+          ]
+        },
+        "has_dominant_item": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public Item dominantItem;",
+          "rule": "Whether the drill has a dominant item: dominantItem is `public Item dominantItem;` (Drill.java:244), set by the N2302 ore/dominant binding; the draw guard is `if(dominantItem != null && drawMineItem){` (Drill.java:372); passed explicitly because the binding is not this slice.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_state"
+          ]
+        },
+        "dominant_item_color": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "Draw.color(dominantItem.color);",
+          "rule": "The dominant item color (Drill.java:373, `Draw.color(dominantItem.color);`); passed explicitly with the dominant item.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_state"
+          ]
+        },
+        "draw_mine_item": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public boolean drawMineItem = true;",
+          "rule": "The block flag for drawing the mined item (Drill.java:51, `public boolean drawMineItem = true;`, default true); the draw guard is `if(dominantItem != null && drawMineItem){` (Drill.java:372); passed explicitly because it is per-def static state.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_state"
+          ]
+        }
+      }
+    },
     "source_drill_dump_interval_input": {
       "canonical_schema": "source_state_schema.source_drill_dump_interval_input",
       "keys": {

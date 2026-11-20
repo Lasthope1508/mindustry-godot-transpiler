@@ -178360,6 +178360,182 @@
         "test_reference_graph_and_actual_c07_turret_controlled"
       ],
       "runtime_proof": "/root/C07TurretControlledProof"
+    },
+    "source_drill_draw_state_result.base_rect": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_draw_state",
+      "godot_symbol": "source_drill_draw_state_result.base_rect",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.draw()",
+      "java_expr": "Draw.rect(region, x, y);",
+      "rule": "The base rect {region, x, y}, always drawn (Drill.java:350, `Draw.rect(region, x, y);`).",
+      "tests": [
+        "test_c07_drill_draw_registration",
+        "test_all_c07_drill_draw_input_evidence_is_exact",
+        "test_drill_draw_state",
+        "test_reference_graph_and_actual_c07_drill_draw"
+      ],
+      "runtime_proof": "/root/C07DrillDrawProof"
+    },
+    "source_drill_draw_state_result.cracks_z": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_draw_state",
+      "godot_symbol": "source_drill_draw_state_result.cracks_z",
+      "java_source": "core/src/mindustry/graphics/Layer.java",
+      "java_method": "DrillBuild.draw()",
+      "java_expr": "blockCracks = 30f + 0.1f,",
+      "rule": "The cracks layer: Layer.blockCracks = 30 + 0.1 = 30.1 (Layer.java:30, `blockCracks = 30f + 0.1f,`), set by `Draw.z(Layer.blockCracks);` (Drill.java:351).",
+      "tests": [
+        "test_c07_drill_draw_registration",
+        "test_all_c07_drill_draw_input_evidence_is_exact",
+        "test_drill_draw_state",
+        "test_reference_graph_and_actual_c07_drill_draw"
+      ],
+      "runtime_proof": "/root/C07DrillDrawProof"
+    },
+    "source_drill_draw_state_result.cracks": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_draw_state",
+      "godot_symbol": "source_drill_draw_state_result.cracks",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "DrillBuild.draw()",
+      "java_expr": "Draw.rect(region, x, y, (id%4)*90);",
+      "rule": "The default-cracks rect {region, x, y, rotation_deg, color_lightness, color_alpha, crack_index, z} when the BuildingComp.drawCracks() guard passes (block.drawCracks and damaged and block.size <= 7), else null (BuildingComp.java:1231-1239). The region is crack_regions[clamp(int((1 - healthf) * 8), 0, 7)], the color is Draw.colorl(0.2, 0.1 + (1 - healthf) * 0.6), the rotation is (pos_id % 4) * 90.",
+      "tests": [
+        "test_c07_drill_draw_registration",
+        "test_all_c07_drill_draw_input_evidence_is_exact",
+        "test_drill_draw_state",
+        "test_reference_graph_and_actual_c07_drill_draw"
+      ],
+      "runtime_proof": "/root/C07DrillDrawProof"
+    },
+    "source_drill_draw_state_result.after_cracks_z": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_draw_state",
+      "godot_symbol": "source_drill_draw_state_result.after_cracks_z",
+      "java_source": "core/src/mindustry/graphics/Layer.java",
+      "java_method": "DrillBuild.draw()",
+      "java_expr": "blockAfterCracks = 30f + 0.2f,",
+      "rule": "The after-cracks layer: Layer.blockAfterCracks = 30 + 0.2 = 30.2 (Layer.java:33, `blockAfterCracks = 30f + 0.2f,`), set by `Draw.z(Layer.blockAfterCracks);` (Drill.java:354) for the rim, rotator, top and mine-item rects.",
+      "tests": [
+        "test_c07_drill_draw_registration",
+        "test_all_c07_drill_draw_input_evidence_is_exact",
+        "test_drill_draw_state",
+        "test_reference_graph_and_actual_c07_drill_draw"
+      ],
+      "runtime_proof": "/root/C07DrillDrawProof"
+    },
+    "source_drill_draw_state_result.rim_visible": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_draw_state",
+      "godot_symbol": "source_drill_draw_state_result.rim_visible",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.draw()",
+      "java_expr": "if(drawRim){",
+      "rule": "Whether the heat rim is drawn: true exactly when drawRim (Drill.java:355, `if(drawRim){`).",
+      "tests": [
+        "test_c07_drill_draw_registration",
+        "test_all_c07_drill_draw_input_evidence_is_exact",
+        "test_drill_draw_state",
+        "test_reference_graph_and_actual_c07_drill_draw"
+      ],
+      "runtime_proof": "/root/C07DrillDrawProof"
+    },
+    "source_drill_draw_state_result.rim_alpha": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_draw_state",
+      "godot_symbol": "source_drill_draw_state_result.rim_alpha",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.draw()",
+      "java_expr": "Draw.alpha(warmup * ts * (1f - s + Mathf.absin(Time.time, 3f, s)));",
+      "rule": "The rim alpha: warmup * 0.6 * (1 - 0.3 + absin(time_now, 3, 0.3)) when visible, else 0.0, where absin(t, 3, 0.3) = (sin(t / 6) * 0.3 + 0.3) / 2 (Drill.java:357; arc Mathf.java:78-80).",
+      "tests": [
+        "test_c07_drill_draw_registration",
+        "test_all_c07_drill_draw_input_evidence_is_exact",
+        "test_drill_draw_state",
+        "test_reference_graph_and_actual_c07_drill_draw"
+      ],
+      "runtime_proof": "/root/C07DrillDrawProof"
+    },
+    "source_drill_draw_state_result.rim_rect": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_draw_state",
+      "godot_symbol": "source_drill_draw_state_result.rim_rect",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.draw()",
+      "java_expr": "Draw.rect(rimRegion, x, y);",
+      "rule": "The rim rect {region, x, y, color, alpha, blend, z} when visible, else null (Drill.java:359, `Draw.rect(rimRegion, x, y);`, additive blend, z 30.2).",
+      "tests": [
+        "test_c07_drill_draw_registration",
+        "test_all_c07_drill_draw_input_evidence_is_exact",
+        "test_drill_draw_state",
+        "test_reference_graph_and_actual_c07_drill_draw"
+      ],
+      "runtime_proof": "/root/C07DrillDrawProof"
+    },
+    "source_drill_draw_state_result.rotator": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_draw_state",
+      "godot_symbol": "source_drill_draw_state_result.rotator",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.draw()",
+      "java_expr": "Drawf.spinSprite(rotatorRegion, x, y, timeDrilled * rotateSpeed);",
+      "rule": "The rotator {spin, rotation_deg, rects}: when drawSpinSprite, Drawf.spinSprite (Drawf.java:602-609) with r = mod(rotation, 90) draws rect(r) at draw_alpha then rect(r - 90) at alpha r / 90 * draw_alpha; otherwise a single plain rect at the full rotation (Drill.java:367, `Draw.rect(rotatorRegion, x, y, timeDrilled * rotateSpeed);`).",
+      "tests": [
+        "test_c07_drill_draw_registration",
+        "test_all_c07_drill_draw_input_evidence_is_exact",
+        "test_drill_draw_state",
+        "test_reference_graph_and_actual_c07_drill_draw"
+      ],
+      "runtime_proof": "/root/C07DrillDrawProof"
+    },
+    "source_drill_draw_state_result.top_rect": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_draw_state",
+      "godot_symbol": "source_drill_draw_state_result.top_rect",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.draw()",
+      "java_expr": "Draw.rect(topRegion, x, y);",
+      "rule": "The top rect {region, x, y}, always drawn (Drill.java:370, `Draw.rect(topRegion, x, y);`).",
+      "tests": [
+        "test_c07_drill_draw_registration",
+        "test_all_c07_drill_draw_input_evidence_is_exact",
+        "test_drill_draw_state",
+        "test_reference_graph_and_actual_c07_drill_draw"
+      ],
+      "runtime_proof": "/root/C07DrillDrawProof"
+    },
+    "source_drill_draw_state_result.mine_item_visible": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_draw_state",
+      "godot_symbol": "source_drill_draw_state_result.mine_item_visible",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.draw()",
+      "java_expr": "if(dominantItem != null && drawMineItem){",
+      "rule": "Whether the mine-item overlay is drawn: true exactly when a dominant item is bound and drawMineItem (Drill.java:372, `if(dominantItem != null && drawMineItem){`).",
+      "tests": [
+        "test_c07_drill_draw_registration",
+        "test_all_c07_drill_draw_input_evidence_is_exact",
+        "test_drill_draw_state",
+        "test_reference_graph_and_actual_c07_drill_draw"
+      ],
+      "runtime_proof": "/root/C07DrillDrawProof"
+    },
+    "source_drill_draw_state_result.mine_item_rect": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_draw_state",
+      "godot_symbol": "source_drill_draw_state_result.mine_item_rect",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.draw()",
+      "java_expr": "Draw.rect(itemRegion, x, y);",
+      "rule": "The mine-item rect {region, x, y, color} when visible, else null (Drill.java:374, `Draw.rect(itemRegion, x, y);`).",
+      "tests": [
+        "test_c07_drill_draw_registration",
+        "test_all_c07_drill_draw_input_evidence_is_exact",
+        "test_drill_draw_state",
+        "test_reference_graph_and_actual_c07_drill_draw"
+      ],
+      "runtime_proof": "/root/C07DrillDrawProof"
     }
   },
   "version": 1

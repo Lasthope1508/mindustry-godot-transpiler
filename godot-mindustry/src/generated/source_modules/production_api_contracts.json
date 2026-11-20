@@ -1162,6 +1162,157 @@
       "rule": "Source-backed DrillBuild drawSelect() state from Drill.java + BuildingComp.java + Vars.java + Blocks.java.",
       "return_type": "Dictionary"
     },
+    "SourceBurstDrillBuildState.source_drill_draw_state": {
+      "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_drill_draw_state",
+      "status": "active",
+      "source_slice": "N2325",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "DrillBuild.draw()",
+      "params": [
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_drill_draw_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_drill_draw_state_input.y"
+        },
+        {
+          "name": "region",
+          "type": "Variant",
+          "schema": "source_drill_draw_state_input.region"
+        },
+        {
+          "name": "rim_region",
+          "type": "Variant",
+          "schema": "source_drill_draw_state_input.rim_region"
+        },
+        {
+          "name": "rotator_region",
+          "type": "Variant",
+          "schema": "source_drill_draw_state_input.rotator_region"
+        },
+        {
+          "name": "top_region",
+          "type": "Variant",
+          "schema": "source_drill_draw_state_input.top_region"
+        },
+        {
+          "name": "item_region",
+          "type": "Variant",
+          "schema": "source_drill_draw_state_input.item_region"
+        },
+        {
+          "name": "block_draw_cracks",
+          "type": "bool",
+          "schema": "source_drill_draw_state_input.block_draw_cracks"
+        },
+        {
+          "name": "damaged",
+          "type": "bool",
+          "schema": "source_drill_draw_state_input.damaged"
+        },
+        {
+          "name": "block_size",
+          "type": "int",
+          "schema": "source_drill_draw_state_input.block_size"
+        },
+        {
+          "name": "healthf",
+          "type": "float",
+          "schema": "source_drill_draw_state_input.healthf"
+        },
+        {
+          "name": "pos_id",
+          "type": "int",
+          "schema": "source_drill_draw_state_input.pos_id"
+        },
+        {
+          "name": "crack_regions",
+          "type": "Array",
+          "schema": "source_drill_draw_state_input.crack_regions"
+        },
+        {
+          "name": "draw_rim",
+          "type": "bool",
+          "schema": "source_drill_draw_state_input.draw_rim"
+        },
+        {
+          "name": "heat_color",
+          "type": "Variant",
+          "schema": "source_drill_draw_state_input.heat_color"
+        },
+        {
+          "name": "warmup",
+          "type": "float",
+          "schema": "source_drill_draw_state_input.warmup"
+        },
+        {
+          "name": "time_now",
+          "type": "float",
+          "schema": "source_drill_draw_state_input.time_now"
+        },
+        {
+          "name": "draw_spin_sprite",
+          "type": "bool",
+          "schema": "source_drill_draw_state_input.draw_spin_sprite"
+        },
+        {
+          "name": "time_drilled",
+          "type": "float",
+          "schema": "source_drill_draw_state_input.time_drilled"
+        },
+        {
+          "name": "rotate_speed",
+          "type": "float",
+          "schema": "source_drill_draw_state_input.rotate_speed"
+        },
+        {
+          "name": "draw_alpha",
+          "type": "float",
+          "schema": "source_drill_draw_state_input.draw_alpha"
+        },
+        {
+          "name": "has_dominant_item",
+          "type": "bool",
+          "schema": "source_drill_draw_state_input.has_dominant_item"
+        },
+        {
+          "name": "dominant_item_color",
+          "type": "Variant",
+          "schema": "source_drill_draw_state_input.dominant_item_color"
+        },
+        {
+          "name": "draw_mine_item",
+          "type": "bool",
+          "schema": "source_drill_draw_state_input.draw_mine_item"
+        }
+      ],
+      "return_keys": [
+        "base_rect",
+        "cracks_z",
+        "cracks",
+        "after_cracks_z",
+        "rim_visible",
+        "rim_alpha",
+        "rim_rect",
+        "rotator",
+        "top_rect",
+        "mine_item_visible",
+        "mine_item_rect"
+      ],
+      "tests": [
+        "test_c07_drill_draw_registration",
+        "test_all_c07_drill_draw_input_evidence_is_exact",
+        "test_drill_draw_state",
+        "test_reference_graph_and_actual_c07_drill_draw"
+      ],
+      "runtime_proof": "/root/C07DrillDrawProof",
+      "rule": "Source-backed DrillBuild draw() base state from Drill.java + BuildingComp.java + HealthComp.java + Block.java + Blocks.java + Layer.java + Drawf.java + BlockRenderer.java.",
+      "return_type": "Dictionary"
+    },
     "SourceBurstDrillBuildState.source_drill_sense_object_state": {
       "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_drill_sense_object_state",
       "status": "active",

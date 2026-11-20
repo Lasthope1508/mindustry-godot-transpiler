@@ -539,6 +539,129 @@ static func source_burst_drill_draw_state(x: float, y: float, region: Variant, t
 	}
 
 @warning_ignore("unused_parameter")
+static func source_drill_draw_state(x: float, y: float, region: Variant, rim_region: Variant, rotator_region: Variant, top_region: Variant, item_region: Variant, block_draw_cracks: bool, damaged: bool, block_size: int, healthf: float, pos_id: int, crack_regions: Array, draw_rim: bool, heat_color: Variant, warmup: float, time_now: float, draw_spin_sprite: bool, time_drilled: float, rotate_speed: float, draw_alpha: float, has_dominant_item: bool, dominant_item_color: Variant, draw_mine_item: bool) -> Dictionary:
+	# N2325 -- DrillBuild.draw() BASE (Drill.java:346-379)
+	# public void draw(){
+	#     float s = 0.3f;
+	#     float ts = 0.6f;
+	#
+	#     Draw.rect(region, x, y);
+	#     Draw.z(Layer.blockCracks);
+	#     drawDefaultCracks();
+	#
+	#     Draw.z(Layer.blockAfterCracks);
+	#     if(drawRim){
+	#         Draw.color(heatColor);
+	#         Draw.alpha(warmup * ts * (1f - s + Mathf.absin(Time.time, 3f, s)));
+	#         Draw.blend(Blending.additive);
+	#         Draw.rect(rimRegion, x, y);
+	#         Draw.blend();
+	#         Draw.color();
+	#     }
+	#
+	#     if(drawSpinSprite){
+	#         Drawf.spinSprite(rotatorRegion, x, y, timeDrilled * rotateSpeed);
+	#     }else{
+	#         Draw.rect(rotatorRegion, x, y, timeDrilled * rotateSpeed);
+	#     }
+	#
+	#     Draw.rect(topRegion, x, y);
+	#
+	#     if(dominantItem != null && drawMineItem){
+	#         Draw.color(dominantItem.color);
+	#         Draw.rect(itemRegion, x, y);
+	#         Draw.color();
+	#     }
+	# }
+	# drawCracks() (Drill.java:339) is an EMPTY override -- public void drawCracks(){}
+	# -- the DrillBuild never draws BuildingComp cracks directly. The cracks come
+	# only from drawDefaultCracks() (Drill.java:341-343):
+	# public void drawDefaultCracks(){
+	#     super.drawCracks();
+	# }
+	# over BuildingComp.drawCracks() (BuildingComp.java:1231-1239):
+	# public void drawCracks(){
+	#     if(!block.drawCracks || !damaged() || block.size > BlockRenderer.maxCrackSize) return;
+	#     int id = pos();
+	#     TextureRegion region = renderer.blocks.cracks[block.size - 1][Mathf.clamp((int)((1f - healthf()) * BlockRenderer.crackRegions), 0, BlockRenderer.crackRegions-1)];
+	#     Draw.colorl(0.2f, 0.1f + (1f - healthf())* 0.6f);
+	#     //TODO could be random, flipped, pseudorandom, etc
+	#     Draw.rect(region, x, y, (id%4)*90);
+	#     Draw.color();
+	# }
+	# This is the DrillBuild.draw() BASE: public class Drill extends Block{
+	# (Drill.java:27), public class DrillBuild extends Building{ (Drill.java:237).
+	# The BurstDrillBuild.draw() OVERRIDE (BurstDrill.java:133-180) is N2314, NOT
+	# this one -- N2314 takes the already-computed cracks dict as an explicit param
+	# and this slice supplies that computation. Fields: public float rotateSpeed = 2f;
+	# public boolean drawRim = false; public boolean drawSpinSprite = true;
+	# public Color heatColor = Color.valueOf("ff5512");
+	# public @Load("@-rim") TextureRegion rimRegion;
+	# public @Load("@-rotator") TextureRegion rotatorRegion;
+	# public @Load("@-top") TextureRegion topRegion;
+	# public @Load(value = "@-item", fallback = "drill-item-@size") TextureRegion itemRegion;
+	# public boolean drawMineItem = true; public Item dominantItem;
+	# public float warmup; public float timeDrilled;
+	# public boolean drawCracks = true; public TextureRegion region; (Block.java:208,427)
+	# Per-def: mechanical/pneumatic-drill size = 2;; laser-drill size = 3;;
+	# blast-drill size = 4; with drawRim = true; and rotateSpeed = 6f; (Blocks.java).
+	# Pure function: returns the computed draw state (rects, colors, alpha, z, blend,
+	# spin) and does NOT touch real Draw/Drawf playback. Formulas: Mathf.absin(t, 3, s)
+	# = (sin(t / 6) * s + s) / 2 (arc Mathf.java:78-80); Drawf.spinSprite
+	# (Drawf.java:602-609) takes r = Mathf.mod(r, 90f) = ((r % 90) + 90) % 90 (arc
+	# Mathf.java:574-576), draws rect(r) at the current alpha, then rect(r - 90) at
+	# alpha r / 90 * a; Draw.colorl(l, a) draws gray (l, l, l) at alpha a (arc
+	# Draw.java:256-258); healthf() = health / maxHealth and damaged() = health <
+	# maxHealth - 0.001f (HealthComp.java:20-22, 47-49); Layer.blockCracks = 30.1,
+	# Layer.blockAfterCracks = 30.2 (Layer.java:30,33); BlockRenderer.crackRegions = 8,
+	# maxCrackSize = 7 (BlockRenderer.java:31).
+	var s: float = 0.3
+	var ts: float = 0.6
+	var base_rect: Dictionary = {"region": region, "x": x, "y": y}
+	var cracks_z: float = 30.1
+	var cracks_visible: bool = block_draw_cracks and damaged and block_size <= 7
+	var crack_index: int = 0
+	var crack_region: Variant = null
+	var crack_alpha: float = 0.0
+	var crack_rotation_deg: float = 0.0
+	if cracks_visible:
+		crack_index = clampi(int((1.0 - healthf) * 8.0), 0, 7)
+		crack_region = crack_regions[crack_index]
+		crack_alpha = 0.1 + (1.0 - healthf) * 0.6
+		crack_rotation_deg = float((pos_id % 4) * 90)
+	var cracks: Variant = {"region": crack_region, "x": x, "y": y, "rotation_deg": crack_rotation_deg, "color_lightness": 0.2, "color_alpha": crack_alpha, "crack_index": crack_index, "z": cracks_z} if cracks_visible else null
+	var after_cracks_z: float = 30.2
+	var rim_visible: bool = draw_rim
+	var absin_value: float = (sin(time_now / 6.0) * s + s) / 2.0
+	var rim_alpha: float = warmup * ts * (1.0 - s + absin_value) if rim_visible else 0.0
+	var rim_rect: Variant = {"region": rim_region, "x": x, "y": y, "color": heat_color, "alpha": rim_alpha, "blend": "additive", "z": after_cracks_z} if rim_visible else null
+	var rotation_deg: float = time_drilled * rotate_speed
+	var spin_r: float = fposmod(rotation_deg, 90.0)
+	var rotator_rects: Array = []
+	if draw_spin_sprite:
+		rotator_rects.append({"region": rotator_region, "x": x, "y": y, "rotation_deg": spin_r, "alpha": draw_alpha, "z": after_cracks_z})
+		rotator_rects.append({"region": rotator_region, "x": x, "y": y, "rotation_deg": spin_r - 90.0, "alpha": spin_r / 90.0 * draw_alpha, "z": after_cracks_z})
+	else:
+		rotator_rects.append({"region": rotator_region, "x": x, "y": y, "rotation_deg": rotation_deg, "alpha": draw_alpha, "z": after_cracks_z})
+	var rotator: Dictionary = {"spin": draw_spin_sprite, "rotation_deg": rotation_deg, "rects": rotator_rects}
+	var top_rect: Dictionary = {"region": top_region, "x": x, "y": y}
+	var mine_item_visible: bool = has_dominant_item and draw_mine_item
+	var mine_item_rect: Variant = {"region": item_region, "x": x, "y": y, "color": dominant_item_color} if mine_item_visible else null
+	return {
+		"base_rect": base_rect,
+		"cracks_z": cracks_z,
+		"cracks": cracks,
+		"after_cracks_z": after_cracks_z,
+		"rim_visible": rim_visible,
+		"rim_alpha": rim_alpha,
+		"rim_rect": rim_rect,
+		"rotator": rotator,
+		"top_rect": top_rect,
+		"mine_item_visible": mine_item_visible,
+		"mine_item_rect": mine_item_rect,
+	}
+
+@warning_ignore("unused_parameter")
 static func source_drill_sense_object_state(frame: Dictionary, sensor: String, has_dominant_item: bool, dominant_item: Variant, super_sense_object_value: Variant) -> Dictionary:
 	# DrillBuild.senseObject() (Drill.java:281-284):
 	# public Object senseObject(LAccess sensor){
