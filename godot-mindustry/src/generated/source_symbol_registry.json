@@ -178728,6 +178728,22 @@
         "test_reference_graph_and_actual_c07_drill_can_place_on_set_bars_draw_plan_config"
       ],
       "runtime_proof": "/root/C07DrillCanPlaceOnSetBarsDrawPlanConfigProof"
+    },
+    "source_sound_control_find_music_state_result.found_music": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_find_music_state",
+      "godot_symbol": "source_sound_control_find_music_state_result.found_music",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.findMusic(String)",
+      "java_expr": "return cached;",
+      "rule": "The resolved music name (SoundControl.java:394, `return cached;`): the registry value of the first of the five branches that hits -- name, name + \".ogg\", name + \".mp3\", \"music/\" + name + \".ogg\", \"music/\" + name + \".mp3\" -- in exactly that order, or null when no branch hits (or the name itself is null). MusicContainer.get() reads it lazily (MusicContainer.java:18-24).",
+      "tests": [
+        "test_c07_sound_control_find_music_registration",
+        "test_all_c07_sound_control_find_music_input_evidence_is_exact",
+        "test_sound_control_find_music_state",
+        "test_reference_graph_and_actual_c07_sound_control_find_music"
+      ],
+      "runtime_proof": "/root/C07SoundControlFindMusicProof"
     }
   },
   "version": 1

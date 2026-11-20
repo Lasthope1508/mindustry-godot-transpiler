@@ -241252,6 +241252,64 @@
       },
       "runtime_proof": "/root/C07DrillCanPlaceOnSetBarsDrawPlanConfigProof",
       "rule": "Source-backed Drill canPlaceOn() / setBars() / drawPlanConfig() state from Drill.java + Block.java + BuildingComp.java + BuildPlan.java + Item.java + Pal.java + Bar.java + arc Strings.java + Blocks.java."
+    },
+    "source_sound_control_find_music_state_input": {
+      "status": "active",
+      "owner": "SourceSoundControlState.source_sound_control_find_music_state",
+      "source_slice": "N2331",
+      "keys": {
+        "has_name": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "name == null",
+          "rule": "Whether the music name is set (SoundControl.java:388, `if(name == null) return null;`): arrives as an explicit bool param -- the null check is folded into this param (the N2306 precedent; GDScript typed String params cannot take null). A null name reads null at once, whatever name says.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_find_music_state"
+          ]
+        },
+        "name": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "public static @Nullable Music findMusic(String name){",
+          "rule": "The music name to resolve (SoundControl.java:387, `findMusic(String name)`): arrives as an explicit String param; an unset name is passed as \"\" with has_name false and is never read.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_find_music_state"
+          ]
+        },
+        "assets": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "Core.assets.getOrNull(name, Music.class)",
+          "rule": "The Core.assets registry (SoundControl.java:389-393, `Core.assets.getOrNull(...)` five times): arrives as an explicit Dictionary param, lookup key (String) -> resolved asset name (String); a missing key reads null, exactly getOrNull. NO audio is loaded in this slice -- the registry only maps names, it never plays or loads a file.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_find_music_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SoundControlFindMusicProof",
+      "rule": "Source-backed SoundControl findMusic state from SoundControl.java."
+    },
+    "source_sound_control_find_music_state_result": {
+      "status": "active",
+      "owner": "SourceSoundControlState.source_sound_control_find_music_state",
+      "source_slice": "N2331",
+      "keys": {
+        "found_music": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "return cached;",
+          "rule": "The resolved music name (SoundControl.java:394, `return cached;`): the registry value of the first of the five branches that hits -- name, name + \".ogg\", name + \".mp3\", \"music/\" + name + \".ogg\", \"music/\" + name + \".mp3\" -- in exactly that order, or null when no branch hits (or the name itself is null). MusicContainer.get() reads it lazily (MusicContainer.java:18-24).",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_find_music_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SoundControlFindMusicProof",
+      "rule": "Source-backed SoundControl findMusic state from SoundControl.java."
     }
   },
   "version": 1

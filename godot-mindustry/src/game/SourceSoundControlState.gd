@@ -364,3 +364,55 @@ static func source_sound_control_get_dark_music_state(has_rules_dark_music: bool
 	if has_planet_dark_music:
 		return {"dark_music": planet_dark_music}
 	return {"dark_music": dark_music}
+
+static func source_sound_control_find_music_state(has_name: bool, name: String, assets: Dictionary) -> Dictionary:
+	# SoundControl.findMusic(String) (SoundControl.java:387-395):
+	# `public static @Nullable Music findMusic(String name){`
+	# `if(name == null) return null;`
+	# `Music cached = Core.assets.getOrNull(name, Music.class);`
+	# `if(cached == null) cached = Core.assets.getOrNull(name + ".ogg", Music.class);`
+	# `if(cached == null) cached = Core.assets.getOrNull(name + ".mp3", Music.class);`
+	# `if(cached == null) cached = Core.assets.getOrNull("music/" + name + ".ogg", Music.class);`
+	# `if(cached == null) cached = Core.assets.getOrNull("music/" + name + ".mp3", Music.class);`
+	# `return cached;`
+	# `}`
+	# -- the static music lookup MusicContainer.get() reads
+	# (MusicContainer.java:18-24, lazy
+	# `SoundControl.findMusic(name)`, null when the asset
+	# is not found): a null name reads null at once, else
+	# the first of the five Core.assets.getOrNull branches
+	# that hits, in exactly this order, else null. The
+	# order is kept exactly, NOT "fixed": the `.ogg`
+	# branch runs before `.mp3`, and the `music/` branches
+	# run after the plain ones. The function is static
+	# and reads no instance state. The Core.assets lookup
+	# arrives as an explicit Dictionary param -- the asset
+	# registry, lookup key (String) -> resolved asset
+	# name (String); a missing key reads null, exactly
+	# `Core.assets.getOrNull(key, Music.class)`. Music
+	# arrives as its resolved name String (the N2287
+	# precedent: the sound itself is its name String);
+	# the returned value is the registry value -- the
+	# resolved name -- not the lookup key. The null name
+	# arrives as an explicit bool param (the N2306
+	# precedent -- GDScript typed String params cannot
+	# take null): has_name is `name != null`, and an
+	# unset name is passed as "" with has_name false.
+	# This slice does NOT depend on the three N2326
+	# music getters: findMusic stands alone, it resolves
+	# one name at a time and never reads a music list.
+	# NO audio playback in this slice: this only resolves
+	# a name, NO audio is loaded; playback belongs to
+	# updateLoops (N2304, held waiting for B).
+	if not has_name:
+		return {"found_music": null}
+	var found = assets.get(name, null)
+	if found == null:
+		found = assets.get(name + ".ogg", null)
+	if found == null:
+		found = assets.get(name + ".mp3", null)
+	if found == null:
+		found = assets.get("music/" + name + ".ogg", null)
+	if found == null:
+		found = assets.get("music/" + name + ".mp3", null)
+	return {"found_music": found}

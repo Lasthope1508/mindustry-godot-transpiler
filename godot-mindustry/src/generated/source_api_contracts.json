@@ -71536,6 +71536,41 @@
       ],
       "runtime_proof": "/root/C07DrillCanPlaceOnSetBarsDrawPlanConfigProof",
       "rule": "Source-backed Drill canPlaceOn() / setBars() / drawPlanConfig() state from Drill.java + Block.java + BuildingComp.java + BuildPlan.java + Item.java + Pal.java + Bar.java + arc Strings.java + Blocks.java."
+    },
+    "SourceSoundControlState.source_sound_control_find_music_state": {
+      "status": "active",
+      "source_slice": "N2331",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "source_method": "SoundControl.findMusic(String)",
+      "params": [
+        {
+          "name": "has_name",
+          "type": "bool",
+          "schema": "source_sound_control_find_music_state_input.has_name"
+        },
+        {
+          "name": "name",
+          "type": "String",
+          "schema": "source_sound_control_find_music_state_input.name"
+        },
+        {
+          "name": "assets",
+          "type": "Dictionary",
+          "schema": "source_sound_control_find_music_state_input.assets"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "found_music"
+      ],
+      "tests": [
+        "test_c07_sound_control_find_music_registration",
+        "test_all_c07_sound_control_find_music_input_evidence_is_exact",
+        "test_sound_control_find_music_state",
+        "test_reference_graph_and_actual_c07_sound_control_find_music"
+      ],
+      "runtime_proof": "/root/C07SoundControlFindMusicProof",
+      "rule": "Source-backed SoundControl findMusic state from SoundControl.java."
     }
   },
   "policy": {
