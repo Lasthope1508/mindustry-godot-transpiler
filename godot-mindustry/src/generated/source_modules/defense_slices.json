@@ -3846,6 +3846,24 @@
       ],
       "runtime_proof": "/root/C07ContinuousTurretGetAmmoFractionProof"
     },
+    "N2356": {
+      "canonical_ledger": "source_slice_ledger.N2356",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.handleLiquid()",
+      "godot_owner": "SourceTurretBuildState.source_turret_handle_liquid_state",
+      "source_symbols": [
+        "source_turret_handle_liquid_state_result.turret_cool_fired",
+        "source_turret_handle_liquid_state_result.super_called"
+      ],
+      "tests": [
+        "test_c07_turret_handle_liquid_registration",
+        "test_all_c07_turret_handle_liquid_input_evidence_is_exact",
+        "test_turret_handle_liquid_state",
+        "test_reference_graph_and_actual_c07_turret_handle_liquid"
+      ],
+      "runtime_proof": "/root/C07TurretHandleLiquidProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

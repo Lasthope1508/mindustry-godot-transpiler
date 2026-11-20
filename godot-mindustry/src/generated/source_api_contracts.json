@@ -72701,6 +72701,42 @@
       ],
       "runtime_proof": "/root/C07ContinuousTurretGetAmmoFractionProof",
       "rule": "Source-backed ContinuousTurretBuild.getAmmoFraction() state from ContinuousTurret.java."
+    },
+    "SourceTurretBuildState.source_turret_handle_liquid_state": {
+      "status": "active",
+      "source_slice": "N2356",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.handleLiquid()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_handle_liquid_state_input.frame"
+        },
+        {
+          "name": "has_coolant",
+          "type": "bool",
+          "schema": "source_turret_handle_liquid_state_input.has_coolant"
+        },
+        {
+          "name": "liquid_amount",
+          "type": "float",
+          "schema": "source_turret_handle_liquid_state_input.liquid_amount"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "turret_cool_fired",
+        "super_called"
+      ],
+      "tests": [
+        "test_c07_turret_handle_liquid_registration",
+        "test_all_c07_turret_handle_liquid_input_evidence_is_exact",
+        "test_turret_handle_liquid_state",
+        "test_reference_graph_and_actual_c07_turret_handle_liquid"
+      ],
+      "runtime_proof": "/root/C07TurretHandleLiquidProof",
+      "rule": "Source-backed TurretBuild.handleLiquid() state from Turret.java + BaseTurret.java + BuildingComp.java + LiquidModule.java."
     }
   },
   "policy": {

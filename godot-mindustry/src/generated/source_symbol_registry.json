@@ -179784,6 +179784,38 @@
         "test_reference_graph_and_actual_c07_continuous_turret_get_ammo_fraction"
       ],
       "runtime_proof": "/root/C07ContinuousTurretGetAmmoFractionProof"
+    },
+    "source_turret_handle_liquid_state_result.turret_cool_fired": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_handle_liquid_state",
+      "godot_symbol": "source_turret_handle_liquid_state_result.turret_cool_fired",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.handleLiquid()",
+      "java_expr": "Events.fire(Trigger.turretCool);",
+      "rule": "Whether the turret-cool event fired (Turret.java:617, `Events.fire(Trigger.turretCool);`): true exactly when the block has a coolant consumer and the liquid store is (near-)empty (`<= 0.001f`); the port records the event as a bool flag, it does NOT port Events/Trigger.",
+      "tests": [
+        "test_c07_turret_handle_liquid_registration",
+        "test_all_c07_turret_handle_liquid_input_evidence_is_exact",
+        "test_turret_handle_liquid_state",
+        "test_reference_graph_and_actual_c07_turret_handle_liquid"
+      ],
+      "runtime_proof": "/root/C07TurretHandleLiquidProof"
+    },
+    "source_turret_handle_liquid_state_result.super_called": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_handle_liquid_state",
+      "godot_symbol": "source_turret_handle_liquid_state_result.super_called",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.handleLiquid()",
+      "java_expr": "super.handleLiquid(source, liquid, amount);",
+      "rule": "Whether the Building base handleLiquid was called (Turret.java:620, `super.handleLiquid(source, liquid, amount);`): always true -- the Turret override delegates to the base (BuildingComp.java:872-874, `public void handleLiquid(Building source, Liquid liquid, float amount){` / `liquids.add(liquid, amount);`) unconditionally; Building.handleLiquid itself is NOT ported here (the N585 base slice owns the `liquids.add(liquid, amount);` line).",
+      "tests": [
+        "test_c07_turret_handle_liquid_registration",
+        "test_all_c07_turret_handle_liquid_input_evidence_is_exact",
+        "test_turret_handle_liquid_state",
+        "test_reference_graph_and_actual_c07_turret_handle_liquid"
+      ],
+      "runtime_proof": "/root/C07TurretHandleLiquidProof"
     }
   },
   "version": 1

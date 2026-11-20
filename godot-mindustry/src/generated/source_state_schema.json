@@ -243590,6 +243590,74 @@
       },
       "runtime_proof": "/root/C07ContinuousTurretGetAmmoFractionProof",
       "rule": "Source-backed ContinuousTurretBuild.getAmmoFraction() state from ContinuousTurret.java."
+    },
+    "source_turret_handle_liquid_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_handle_liquid_state",
+      "source_slice": "N2356",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public void handleLiquid(Building source, Liquid liquid, float amount){",
+          "rule": "The turret frame (TurretBuild.handleLiquid, Turret.java:615): the family-convention first arg every Turret pure function takes; it is read for nothing here -- handleLiquid writes no frame state.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_handle_liquid_state"
+          ]
+        },
+        "has_coolant": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "java_expr": "public @Nullable ConsumeLiquidBase coolant;",
+          "rule": "Whether the turret block has a coolant consumer (Turret.java:616, `if(coolant != null && liquids.currentAmount() <= 0.001f){`): the block field (`public @Nullable ConsumeLiquidBase coolant;`, BaseTurret.java:34) arrives as an explicit bool param (the N2330 param precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_handle_liquid_state"
+          ]
+        },
+        "liquid_amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "if(coolant != null && liquids.currentAmount() <= 0.001f){",
+          "rule": "The current liquid amount (Turret.java:616, `if(coolant != null && liquids.currentAmount() <= 0.001f){`): `public float currentAmount(){` (LiquidModule.java:98) arrives as an explicit float param -- the port has no liquid flow to measure here (the N2330 param precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_handle_liquid_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretHandleLiquidProof",
+      "rule": "Source-backed TurretBuild.handleLiquid() state from Turret.java + BaseTurret.java + BuildingComp.java + LiquidModule.java."
+    },
+    "source_turret_handle_liquid_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_handle_liquid_state",
+      "source_slice": "N2356",
+      "keys": {
+        "turret_cool_fired": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "Events.fire(Trigger.turretCool);",
+          "rule": "Whether the turret-cool event fired (Turret.java:617, `Events.fire(Trigger.turretCool);`): true exactly when the block has a coolant consumer and the liquid store is (near-)empty (`<= 0.001f`); the port records the event as a bool flag, it does NOT port Events/Trigger.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_handle_liquid_state"
+          ]
+        },
+        "super_called": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "super.handleLiquid(source, liquid, amount);",
+          "rule": "Whether the Building base handleLiquid was called (Turret.java:620, `super.handleLiquid(source, liquid, amount);`): always true -- the Turret override delegates to the base (BuildingComp.java:872-874, `public void handleLiquid(Building source, Liquid liquid, float amount){` / `liquids.add(liquid, amount);`) unconditionally; Building.handleLiquid itself is NOT ported here (the N585 base slice owns the `liquids.add(liquid, amount);` line).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_handle_liquid_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretHandleLiquidProof",
+      "rule": "Source-backed TurretBuild.handleLiquid() state from Turret.java + BaseTurret.java + BuildingComp.java + LiquidModule.java."
     }
   },
   "version": 1

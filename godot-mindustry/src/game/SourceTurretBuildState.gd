@@ -1359,6 +1359,43 @@ static func source_turret_read_sync_state(frame: Dictionary, read_data: Dictiona
 	return {"rotation": old_rotation, "reload_counter": old_reload_counter, "read_applied": read_applied}
 
 @warning_ignore("unused_parameter")
+static func source_turret_handle_liquid_state(frame: Dictionary, has_coolant: bool, liquid_amount: float) -> Dictionary:
+	# TurretBuild.handleLiquid() (Turret.java:615-621):
+	# public void handleLiquid(Building source, Liquid liquid, float amount){
+	# if(coolant != null && liquids.currentAmount() <= 0.001f){
+	# Events.fire(Trigger.turretCool);
+	# }
+	# super.handleLiquid(source, liquid, amount);
+	# }
+	# When the turret block has a coolant consumer and the liquid store is
+	# (near-)empty, the turret-cool event fires
+	# (`Events.fire(Trigger.turretCool);`) -- the port records it as the bool
+	# flag turret_cool_fired, it does NOT port Events/Trigger. The base
+	# BuildingComp.handleLiquid (BuildingComp.java:872-874,
+	# `public void handleLiquid(Building source, Liquid liquid, float amount){`
+	# with `liquids.add(liquid, amount);`) is ALWAYS called via super -- the
+	# port records it as the flag super_called, it does NOT port
+	# Building.handleLiquid (the N585 base slice owns the
+	# `liquids.add(liquid, amount);` line). The signature line is shared text
+	# with N585 (BuildingComp.handleLiquid base, a different class and
+	# method) and N2118 (GenericCrafterBuild evidence) -- callee/context
+	# evidence, not ownership of TurretBuild.handleLiquid(); this slice
+	# registers the correct java_method = TurretBuild.handleLiquid(). The
+	# coolant field lives on the block
+	# (`public @Nullable ConsumeLiquidBase coolant;`, BaseTurret.java:34)
+	# and arrives here as the explicit bool param has_coolant; the liquid
+	# amount is `public float currentAmount(){` (LiquidModule.java:98) and
+	# arrives as the explicit float param liquid_amount (the N2330 param
+	# precedent). The frame is accepted for the family call shape and read
+	# for nothing: handleLiquid writes no frame state. There is NO driver
+	# tick line: the engine calls handleLiquid() when liquid enters the
+	# building, and the port has no liquid flow to call this function yet.
+	# The classes (Turret.java:36, :277): `public class Turret extends ReloadTurret{`
+	# and `public class TurretBuild extends ReloadTurretBuild implements ControlBlock{`.
+	var turret_cool_fired: bool = has_coolant and liquid_amount <= 0.001
+	return {"turret_cool_fired": turret_cool_fired, "super_called": true}
+
+@warning_ignore("unused_parameter")
 static func source_turret_version_state(frame: Dictionary) -> Dictionary:
 	# TurretBuild.version() (Turret.java:848-850):
 	# public byte version(){
