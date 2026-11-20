@@ -1,4 +1,4 @@
-# Handoff — N2284 Turret super.sense() delegation (C07) [GREEN, gate xong — chờ commit/push]
+# Handoff — N2284 Turret super.sense() delegation (C07) [DONE + PUSHED]
 
 ## Cập nhật lượt cron 19:30 +07 (main thread kiểm tra — gate XONG, xác minh độc lập, re-run targeted + register, commit slice)
 
@@ -7,7 +7,7 @@
 - **Slice commit `bc60b186`** (11 files, 2426 insertions, staged đúng file slice — không stage proof .json, .gd.uid, log, hidden_files). `git diff --check` sạch. SSOT đo từ đĩa: 11665/1734/1668/3127; comp 558/462; defense 210/209 không đổi.
 - Tiếp theo: docs commit (handoff + report + spec, bump Done 1733→1734) → GOAL commit → status commit → hashes commit → push origin main.
 
-## Status: GREEN, gate xong — xác minh độc lập lượt cron 19:30 +07: Ran 6229, failures=234 toàn Godot-absent (234 × unexpectedly None, 0 KeyError, 0 return_schema_linkage, 0 ERROR); `git diff --check` sạch; targeted 4/4 re-run độc lập (Godot trên PATH, 295 subtests). N2283 đã DONE + PUSHED (74d11074). Commit + push N2284 theo mẫu 5 commit của N2280/N2281/N2282/N2283. Slice commit bc60b186, docs TBD, GOAL TBD, status TBD.
+## Status: DONE + PUSHED (slice bc60b186, docs e2d7cab5, GOAL c7962229; cập nhật lượt cron 19:30 +07 — gate main-thread relaunch xong GATE-EXIT 1 12:21:27Z, Ran 6229 trong 1161.275s, failures=234, skipped=5; xác minh độc lập: 234 FAIL = 234 × unexpectedly None, 0 KeyError, 0 return_schema_linkage, 0 ERROR, toàn Godot-absent). Neighbours XONG 203 passed, exit 0, 11:46:50–11:57:50Z; wiring XONG 32 tests OK, exit 0, 11:57:50–11:59:53Z. N2283 đã DONE + PUSHED (74d11074). Slice commit bc60b186, docs e2d7cab5, GOAL c7962229, status TBD. Targeted 4/4 (295 subtests, re-run độc lập lượt cron 19:30 +07, 17.21s, Godot trên PATH); register --verify 121/121 (re-run độc lập lượt cron 19:30 +07, exit 0); proof JSON matches:true 43/43 (đọc trực tiếp từ đĩa, xác minh độc lập); SSOT đo từ đĩa 11665/1734/1668/3127; `git diff --check` OK.
 
 ## Cập nhật lượt cron 19:15 +07 (main thread kiểm tra — gate vẫn chạy, KHÔNG launch thêm)
 
