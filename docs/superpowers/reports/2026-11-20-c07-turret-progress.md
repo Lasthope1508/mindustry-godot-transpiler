@@ -5,7 +5,7 @@ Ngày: 2026-11-20 ~15:4x +07 (GREEN), gate xong 16:23:59 +07, push ~16:3x +07.
 ## Trạng thái
 
 - N2281 DONE + PUSHED (origin/main 397d7cd2).
-- N2282 DONE + PUSHED (slice TBD, docs TBD, GOAL TBD, status TBD, hashes TBD): Turret progress() live derivation — `public float progress(){ return Mathf.clamp(reloadCounter / reload); }` (Turret.java:425-427) — reloadCounter live từ aim tick (N2250/N2269), capped at reload bởi updateReload :720-723; reload duo = 20f (Blocks.java:3317); Mathf.clamp → clampf(value, 0.0, 1.0) (arc Mathf.java:402-404). Consumer duy nhất là sense() LAccess.progress (Turret.java:414) — sense dispatch là slice riêng sau nên KHÔNG rewire — stamp-only như N2280/N2281.
+- N2282 DONE + PUSHED (slice ef382162, docs df9e35f3, GOAL ebf98a9f, status TBD, hashes TBD): Turret progress() live derivation — `public float progress(){ return Mathf.clamp(reloadCounter / reload); }` (Turret.java:425-427) — reloadCounter live từ aim tick (N2250/N2269), capped at reload bởi updateReload :720-723; reload duo = 20f (Blocks.java:3317); Mathf.clamp → clampf(value, 0.0, 1.0) (arc Mathf.java:402-404). Consumer duy nhất là sense() LAccess.progress (Turret.java:414) — sense dispatch là slice riêng sau nên KHÔNG rewire — stamp-only như N2280/N2281.
 
 ## Làm được lượt này (GREEN + gate xong)
 

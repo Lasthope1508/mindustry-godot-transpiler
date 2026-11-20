@@ -1,6 +1,6 @@
 # Handoff — N2282 Turret progress() live derivation (C07) [GREEN, gate xong — chờ commit/push]
 
-## Status: GREEN, gate xong — xác minh độc lập lượt cron 16:30 +07: Ran 6221, failures=232 toàn Godot-absent (232 × unexpectedly None, 0 KeyError, 0 return_schema_linkage, 0 ERROR); `git diff --check` sạch; targeted 4/4 re-run độc lập (Godot trên PATH, 17 subtests). N2281 đã DONE + PUSHED (397d7cd2). Commit + push N2282 theo mẫu 5 commit của N2280/N2281. LƯU Ý: đầu gate log có thể lẫn output của launch trùng đã kill, xác minh gate từ dòng summary cuối log.
+## Status: DONE + PUSHED (slice ef382162, docs df9e35f3, GOAL ebf98a9f; cập nhật lượt cron 16:30 +07 — gate main-thread xong GATE-EXIT 1 09:23:59Z, Ran 6221 trong 1202.575s, failures=232, skipped=5; xác minh độc lập: 232 FAIL = 232 × unexpectedly None, 0 KeyError, 0 return_schema_linkage, 0 ERROR, toàn Godot-absent; launch trùng detached setsid của worker 08:49:39Z bị kill theo quy tắc (GATE-DUP-KILL 08:51:45Z)). Neighbours XONG 195 passed, exit 0, 08:35:13–08:45:53Z; wiring XONG 32 tests OK, exit 0, 08:45:53–08:47:57Z. N2281 đã DONE + PUSHED (397d7cd2). Slice commit ef382162, docs df9e35f3, GOAL ebf98a9f, status TBD. Targeted 4/4 (17 subtests, re-run độc lập main thread ~16:3x, 16.61s, Godot trên PATH); register --verify 8/8 (main thread re-run độc lập ~16:3x, exit 0); proof JSON matches:true 8/8 (đọc trực tiếp từ đĩa, main thread xác minh); SSOT đo từ đĩa 11659/1732/1666/3123; `git diff --check` OK.
 
 ## Scope (đã khóa — xem docs/superpowers/handoffs/hidden_files/n2282-scope.md)
 
