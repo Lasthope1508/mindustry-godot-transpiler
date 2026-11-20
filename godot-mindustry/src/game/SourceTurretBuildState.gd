@@ -1320,6 +1320,45 @@ static func source_turret_read_state(frame: Dictionary, stored_reload_counter: f
 	return {"reload_counter": reload_counter, "rotation": rotation}
 
 @warning_ignore("unused_parameter")
+static func source_turret_read_sync_state(frame: Dictionary, read_data: Dictionary, revision: int) -> Dictionary:
+	# TurretBuild.readSync() (Turret.java:853-861):
+	# public void readSync(Reads read, byte revision){
+	# //maintain rotation and reload when syncing so clients don't see turrets snapping around
+	# float oldRot = rotation, oldReload = reloadCounter;
+	# readAll(read, revision);
+	# rotation = oldRot;
+	# reloadCounter = oldReload;
+	# The sync snapshots the aim rotation and the reload counter, applies the sync
+	# payload via readAll, then restores both values, so clients do not see turrets
+	# snapping around. readAll(read, revision) is the Building base call
+	# (BuildingComp.java:283-286, `public void readAll(Reads read, byte revision){`
+	# with `readBase(read);` / `read(read, revision);`): the payload it applies
+	# arrives here as the already-parsed dict read_data -- Building.readAll itself
+	# is NOT ported (the N2330 param precedent), and the call line is shared text
+	# with N1776 (BuildingComp.readSync, a different class and method) -- callee
+	# evidence, not ownership of TurretBuild.readSync(). The rotation preserved
+	# here is the RotComp float aim angle (`@SyncField(false) @SyncLocal float
+	# rotation;`, RotComp.java:8), NOT the Building int rotation 0-3
+	# (`transient int rotation;`, BuildingComp.java:69) that sense() takes as an
+	# explicit int param; the two are shadowed (Turret.java:543-544,
+	# `//sync underlying rotation; 0-3 rotation is a shadowed field`, the N2322
+	# precedent). The reload counter is the ReloadTurretBuild field
+	# (`public float reloadCounter;`, ReloadTurret.java:26), default 0.0,
+	# advanced by updateReload (Turret.java:720-723). revision is passed through
+	# to readAll and the Turret override never branches on it (the N2322 read()
+	# guard `if(revision >= 1){` belongs to read(), not to readSync()).
+	# read_applied is true exactly when the parsed sync payload is non-empty:
+	# the Turret override applies whatever readAll read and then restores the
+	# two preserved values. There is NO driver tick line: the engine net sync
+	# calls readSync(), and the port has no net stream to call this function yet.
+	# The classes (Turret.java:36, :277): `public class Turret extends ReloadTurret{`
+	# and `public class TurretBuild extends ReloadTurretBuild implements ControlBlock{`.
+	var old_rotation: float = float(frame.get("rotation", 0.0))
+	var old_reload_counter: float = float(frame.get("reload_counter", 0.0))
+	var read_applied: bool = not read_data.is_empty()
+	return {"rotation": old_rotation, "reload_counter": old_reload_counter, "read_applied": read_applied}
+
+@warning_ignore("unused_parameter")
 static func source_turret_version_state(frame: Dictionary) -> Dictionary:
 	# TurretBuild.version() (Turret.java:848-850):
 	# public byte version(){

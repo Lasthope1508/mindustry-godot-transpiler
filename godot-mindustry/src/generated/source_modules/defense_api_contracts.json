@@ -8408,6 +8408,44 @@
       "rule": "Source-backed TurretBuild.progress() state from Turret.java + ReloadTurret.java + BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceTurretBuildState.source_turret_read_sync_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_read_sync_state",
+      "status": "active",
+      "source_slice": "N2353",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.readSync()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_read_sync_state_input.frame"
+        },
+        {
+          "name": "read_data",
+          "type": "Dictionary",
+          "schema": "source_turret_read_sync_state_input.read_data"
+        },
+        {
+          "name": "revision",
+          "type": "int",
+          "schema": "source_turret_read_sync_state_input.revision"
+        }
+      ],
+      "return_keys": [
+        "rotation",
+        "reload_counter",
+        "read_applied"
+      ],
+      "tests": [
+        "test_c07_turret_read_sync_registration",
+        "test_all_c07_turret_read_sync_input_evidence_is_exact",
+        "test_turret_read_sync_state",
+        "test_reference_graph_and_actual_c07_turret_read_sync"
+      ],
+      "runtime_proof": "/root/C07TurretReadSyncProof",
+      "rule": "Source-backed TurretBuild.readSync() state from Turret.java + ReloadTurret.java + RotComp.java + BuildingComp.java.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_turret_remove_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_remove_state",
       "status": "active",

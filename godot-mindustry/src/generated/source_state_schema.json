@@ -243356,6 +243356,84 @@
       },
       "runtime_proof": "/root/C07DrillDrawPlaceProof",
       "rule": "Source-backed DrillBuild drawPlace() remainder state from Drill.java + Vars.java + Block.java + Blocks.java."
+    },
+    "source_turret_read_sync_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_read_sync_state",
+      "source_slice": "N2353",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public void readSync(Reads read, byte revision){",
+          "rule": "The turret frame (TurretBuild.readSync, Turret.java:853): the family-convention first arg every Turret pure function takes; it carries the current rotation and reload_counter that the sync must preserve (the N2322 read() fallback precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_read_sync_state"
+          ]
+        },
+        "read_data": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "readAll(read, revision);",
+          "rule": "The already-parsed sync payload that readAll applies (`readAll(read, revision);`, Turret.java:857): the Building base call (BuildingComp.java:283-286, `public void readAll(Reads read, byte revision){` / `readBase(read);` / `read(read, revision);`) -- Building.readAll itself is NOT ported here; the payload arrives parsed (the N2330 param precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_read_sync_state"
+          ]
+        },
+        "revision": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public void readSync(Reads read, byte revision){",
+          "rule": "The sync revision (Turret.java:853, `public void readSync(Reads read, byte revision){`): passed through to readAll; the Turret override never branches on it (the N2322 read() guard `if(revision >= 1){` belongs to read(), not to readSync()).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_read_sync_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretReadSyncProof",
+      "rule": "Source-backed TurretBuild.readSync() state from Turret.java + ReloadTurret.java + RotComp.java + BuildingComp.java."
+    },
+    "source_turret_read_sync_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_read_sync_state",
+      "source_slice": "N2353",
+      "keys": {
+        "rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "rotation = oldRot;",
+          "rule": "The aim rotation after sync (Turret.java:859, `rotation = oldRot;`): the RotComp float aim angle (`@SyncField(false) @SyncLocal float rotation;`, RotComp.java:8), default 0.0 -- NOT the Building int rotation 0-3 (BuildingComp.java:69); restored to the pre-sync value, never the payload value.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_read_sync_state"
+          ]
+        },
+        "reload_counter": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "reloadCounter = oldReload;",
+          "rule": "The reload counter after sync (Turret.java:860, `reloadCounter = oldReload;`): the ReloadTurretBuild field (`public float reloadCounter;`, ReloadTurret.java:26), default 0.0; restored to the pre-sync value, never the payload value.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_read_sync_state"
+          ]
+        },
+        "read_applied": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "readAll(read, revision);",
+          "rule": "Whether the sync payload was applied (`readAll(read, revision);`, Turret.java:857): true exactly when the parsed sync payload is non-empty -- the Turret override applies whatever readAll read and then restores the two preserved values.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_read_sync_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretReadSyncProof",
+      "rule": "Source-backed TurretBuild.readSync() state from Turret.java + ReloadTurret.java + RotComp.java + BuildingComp.java."
     }
   },
   "version": 1

@@ -179688,6 +179688,54 @@
         "test_reference_graph_and_actual_c07_drill_draw_place"
       ],
       "runtime_proof": "/root/C07DrillDrawPlaceProof"
+    },
+    "source_turret_read_sync_state_result.rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_read_sync_state",
+      "godot_symbol": "source_turret_read_sync_state_result.rotation",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.readSync()",
+      "java_expr": "rotation = oldRot;",
+      "rule": "The aim rotation after sync (Turret.java:859, `rotation = oldRot;`): the RotComp float aim angle (`@SyncField(false) @SyncLocal float rotation;`, RotComp.java:8), default 0.0 -- NOT the Building int rotation 0-3 (BuildingComp.java:69); restored to the pre-sync value, never the payload value.",
+      "tests": [
+        "test_c07_turret_read_sync_registration",
+        "test_all_c07_turret_read_sync_input_evidence_is_exact",
+        "test_turret_read_sync_state",
+        "test_reference_graph_and_actual_c07_turret_read_sync"
+      ],
+      "runtime_proof": "/root/C07TurretReadSyncProof"
+    },
+    "source_turret_read_sync_state_result.reload_counter": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_read_sync_state",
+      "godot_symbol": "source_turret_read_sync_state_result.reload_counter",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.readSync()",
+      "java_expr": "reloadCounter = oldReload;",
+      "rule": "The reload counter after sync (Turret.java:860, `reloadCounter = oldReload;`): the ReloadTurretBuild field (`public float reloadCounter;`, ReloadTurret.java:26), default 0.0; restored to the pre-sync value, never the payload value.",
+      "tests": [
+        "test_c07_turret_read_sync_registration",
+        "test_all_c07_turret_read_sync_input_evidence_is_exact",
+        "test_turret_read_sync_state",
+        "test_reference_graph_and_actual_c07_turret_read_sync"
+      ],
+      "runtime_proof": "/root/C07TurretReadSyncProof"
+    },
+    "source_turret_read_sync_state_result.read_applied": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_read_sync_state",
+      "godot_symbol": "source_turret_read_sync_state_result.read_applied",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.readSync()",
+      "java_expr": "readAll(read, revision);",
+      "rule": "Whether the sync payload was applied (`readAll(read, revision);`, Turret.java:857): true exactly when the parsed sync payload is non-empty -- the Turret override applies whatever readAll read and then restores the two preserved values.",
+      "tests": [
+        "test_c07_turret_read_sync_registration",
+        "test_all_c07_turret_read_sync_input_evidence_is_exact",
+        "test_turret_read_sync_state",
+        "test_reference_graph_and_actual_c07_turret_read_sync"
+      ],
+      "runtime_proof": "/root/C07TurretReadSyncProof"
     }
   },
   "version": 1
