@@ -16,13 +16,13 @@ The color is Pal.accent, represented as the string
 "Pal.accent" (the SourceBlockDrawState.gd:182 precedent).
 No driver tick line lands here: drawSelect is selection UI,
 not per-tick state (the accessor precedent N2311/N2321).
-This is a different method from N2278 draw() (rotation +
+This is a different method from N2327 draw() (rotation +
 glow) -- no overlap.
 
 RED decisions (resolved at RED): (1) One pure function,
 source_radar_draw_select_state(x, y, fog_radius,
 tilesize), returning center / radius / color -- the N2220
-drawSelect shape, not the N2278 frame-first shape, because
+drawSelect shape, not the N2327 frame-first shape, because
 drawSelect reads no frame key: x/y are the building world
 position and fog_radius is the live fogRadius() value the
 caller already computed (N2321). (2) tilesize is an
@@ -38,7 +38,7 @@ import sys
 from pathlib import Path
 
 from mindustry_port import source_ssot, source_symbols
-from register_c07_radar_draw import DEFERRED as N2278_DEFERRED
+from register_c07_radar_draw import DEFERRED as N2327_DEFERRED
 from register_liquid_consumer_hydration import backed
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -55,16 +55,16 @@ SLICE_SOURCES = [
 ]
 EXACT_EXPRS = ['public void drawSelect(){', 'Drawf.dashCircle(x, y, fogRadius() * tilesize, Pal.accent);', 'fogRadius() * tilesize', 'public float fogRadius(){', 'return fogRadius * progress * smoothEfficiency;', 'public class Radar extends Block{', 'public class RadarBuild extends Building{']
 
-# DEFERRED is carried from the N2278 register script via import --
+# DEFERRED is carried from the N2327 register script via import --
 # never retyped. One entry is DROPPED here, not carried: the
 # 'Radar drawSelect rows (drawSelect dash circle,
 # Radar.java:80-82)' entry -- N2281 IS the drawSelect slice, so
 # carrying it would leave a stale "waits for its own slice" row
 # for done work. It is REPLACED by a drawPlace-only entry below
 # (drawPlace still waits for its own slice).
-DEFERRED = [e for e in N2278_DEFERRED if 'Radar drawSelect rows (drawSelect dash circle, Radar.java:80-82)' not in e] + [
+DEFERRED = [e for e in N2327_DEFERRED if 'Radar drawSelect rows (drawSelect dash circle, Radar.java:80-82)' not in e] + [
     'Radar drawPlace rows (drawPlace dash circle, Radar.java:42-47) -- presentation, not tick state; waits for its own slice.',
-    'Radar drawSelect Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2320/N2321/N2303/N2310/N2318/N2278: the N2281 proof runs headless on Linux here and waits for a Windows Godot run.',
+    'Radar drawSelect Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2320/N2321/N2303/N2310/N2318/N2327: the N2281 proof runs headless on Linux here and waits for a Windows Godot run.',
 ]
 
 

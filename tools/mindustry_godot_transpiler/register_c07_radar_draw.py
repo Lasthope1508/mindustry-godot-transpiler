@@ -1,4 +1,4 @@
-"""Register the Radar draw() rows (N2278).
+"""Register the Radar draw() rows (N2327).
 
 RadarBuild.draw() (Radar.java:84-90) draws the base region
 unrotated (`Draw.rect(baseRegion, x, y);`, Radar.java:86),
@@ -42,7 +42,7 @@ PROOF = '/root/C07RadarDrawProof'
 DRAW_ROTATION_OWNER = 'SourceRadarBuildState.source_radar_draw_rotation_state'
 DRAW_GLOW_OWNER = 'SourceRadarBuildState.source_radar_draw_glow_state'
 TESTS = ['test_c07_radar_draw_registration', 'test_all_c07_radar_draw_input_evidence_is_exact', 'test_radar_draw_state', 'test_reference_graph_and_actual_c07_radar_draw']
-# The 10 slice sources the N2278 test checks exact_exprs
+# The 10 slice sources the N2327 test checks exact_exprs
 # against -- every expr in EXACT_EXPRS below must appear verbatim
 # in this file.
 SLICE_SOURCES = [
@@ -52,14 +52,14 @@ EXACT_EXPRS = ['public void draw(){', 'Draw.rect(baseRegion, x, y);', 'Draw.rect
 
 # DEFERRED is carried from the N2318 register script via import --
 # never retyped. One entry is DROPPED here, not carried: the
-# combined 'Radar draw / drawSelect / icons rows' entry -- N2278
+# combined 'Radar draw / drawSelect / icons rows' entry -- N2327
 # IS the draw() slice, so carrying it would leave a stale "waits
 # for its own slice" row for done work. It is REPLACED by a
 # drawSelect-only entry below (drawSelect still waits for its
 # own slice, as does drawPlace).
 DEFERRED = [e for e in N2318_DEFERRED if 'Radar draw / drawSelect / icons rows' not in e] + [
     'Radar drawSelect rows (drawSelect dash circle, Radar.java:80-82) -- presentation, not tick state; waits for its own slice.',
-    'Radar draw Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2320/N2321/N2303/N2310/N2318: the N2278 proof runs headless on Linux here and waits for a Windows Godot run.',
+    'Radar draw Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2320/N2321/N2303/N2310/N2318: the N2327 proof runs headless on Linux here and waits for a Windows Godot run.',
 ]
 
 
@@ -120,8 +120,8 @@ def main():
     rotation_inputs, rotation_outputs, glow_inputs, glow_outputs = definitions()
 
     entries = [
-        ('N2278', DRAW_ROTATION_OWNER, 'source_radar_draw_rotation_state', RADAR, 'mindustry.world.blocks.defense.Radar.RadarBuild', 'RadarBuild.draw()', rotation_inputs, rotation_outputs, True, 'Dictionary'),
-        ('N2278', DRAW_GLOW_OWNER, 'source_radar_draw_glow_state', RADAR, 'mindustry.world.blocks.defense.Radar.RadarBuild', 'RadarBuild.draw()', glow_inputs, glow_outputs, True, 'Dictionary'),
+        ('N2327', DRAW_ROTATION_OWNER, 'source_radar_draw_rotation_state', RADAR, 'mindustry.world.blocks.defense.Radar.RadarBuild', 'RadarBuild.draw()', rotation_inputs, rotation_outputs, True, 'Dictionary'),
+        ('N2327', DRAW_GLOW_OWNER, 'source_radar_draw_glow_state', RADAR, 'mindustry.world.blocks.defense.Radar.RadarBuild', 'RadarBuild.draw()', glow_inputs, glow_outputs, True, 'Dictionary'),
     ]
     all_names = []
     for sid, owner, prefix, source, cls, method, inputs, outputs, has_contract, return_type in entries:
@@ -141,11 +141,11 @@ def main():
 
     by_slice = {}
     # The test pins this order: rotation, glow_alpha.
-    by_slice['N2278'] = [
+    by_slice['N2327'] = [
         'source_radar_draw_rotation_state_result.rotation',
         'source_radar_draw_glow_state_result.glow_alpha',
     ]
-    source_symbols.upsert_source_slice(GODOT, 'N2278', dict(status='done', java_source=RADAR, java_class='mindustry.world.blocks.defense.Radar.RadarBuild', java_method='RadarBuild.draw()', godot_owner=DRAW_ROTATION_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2278'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
+    source_symbols.upsert_source_slice(GODOT, 'N2327', dict(status='done', java_source=RADAR, java_class='mindustry.world.blocks.defense.Radar.RadarBuild', java_method='RadarBuild.draw()', godot_owner=DRAW_ROTATION_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2327'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
 
     source_symbols.upsert_source_symbols(GODOT, symbols)
     source_symbols.write_source_symbol_audit_report(GODOT)

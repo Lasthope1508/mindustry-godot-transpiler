@@ -77,7 +77,7 @@ EXACT_EXPRS = ['public void drawPlace(int x, int y, int rotation, boolean valid)
 # below (drawPlace is the last unported Radar method, so no
 # further Radar row waits for its own slice).
 DEFERRED = [e for e in N2281_DEFERRED if 'Radar drawPlace rows (drawPlace dash circle, Radar.java:42-47)' not in e] + [
-    'Radar drawPlace Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2320/N2321/N2303/N2310/N2318/N2278/N2281: the N2284 proof runs headless on Linux here and waits for a Windows Godot run.',
+    'Radar drawPlace Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2320/N2321/N2303/N2310/N2318/N2327/N2281: the N2284 proof runs headless on Linux here and waits for a Windows Godot run.',
 ]
 
 

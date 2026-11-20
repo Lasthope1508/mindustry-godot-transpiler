@@ -19,7 +19,7 @@ func _ready() -> void:
 	game.set_process(false)
 	game.set_physics_process(false)
 
-	# --- Pure draw() rows (N2278): RadarBuild.draw()
+	# --- Pure draw() rows (N2327): RadarBuild.draw()
 	# (Radar.java:84-90) rotates the dish region and the glow
 	# by rotateSpeed * totalProgress (Radar.java:87, :89) and
 	# pulses the glow alpha as glowColor.a * (1f - glowMag +

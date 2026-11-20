@@ -76,7 +76,7 @@ class C07RadarDrawSelectTests(unittest.TestCase):
     def test_radar_draw_select_state(self):
         radar = RADAR_STATE.read_text(encoding='utf-8')
         # The pure drawSelect() row lives on the radar build
-        # state next to the N2278 draw rows:
+        # state next to the N2327 draw rows:
         # RadarBuild.drawSelect() (Radar.java:80-82) draws one
         # dash circle (`Drawf.dashCircle(x, y, fogRadius() *
         # tilesize, Pal.accent);`, Radar.java:81). The radius
@@ -86,7 +86,7 @@ class C07RadarDrawSelectTests(unittest.TestCase):
         # class default 10, Radar.java:33) times tilesize 8
         # (Vars.java:135). The color is Pal.accent (the
         # SourceBlockDrawState.gd:182 precedent). This is a
-        # different method from N2278 draw() (rotation + glow)
+        # different method from N2327 draw() (rotation + glow)
         # -- no overlap. One def (radar, Radar.java:17,
         # `public class Radar extends Block{`; RadarBuild,
         # Radar.java:48, `public class RadarBuild extends

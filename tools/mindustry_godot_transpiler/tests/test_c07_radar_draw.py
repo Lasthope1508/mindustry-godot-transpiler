@@ -14,7 +14,7 @@ class C07RadarDrawTests(unittest.TestCase):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        self.assertEqual(ledger['N2278']['godot_owner'], 'SourceRadarBuildState.source_radar_draw_rotation_state')
+        self.assertEqual(ledger['N2327']['godot_owner'], 'SourceRadarBuildState.source_radar_draw_rotation_state')
         # RadarBuild.draw() (Radar.java:84-90): the dish region
         # and the glow share one rotation, rotateSpeed *
         # totalProgress (Radar.java:87, :89), and the glow
@@ -27,22 +27,22 @@ class C07RadarDrawTests(unittest.TestCase):
         # (the accessor precedent N2311/N2321). Two new result
         # symbols: rotation, glow_alpha.
         self.assertEqual(
-            ledger['N2278']['source_symbols'],
+            ledger['N2327']['source_symbols'],
             [
                 'source_radar_draw_rotation_state_result.rotation',
                 'source_radar_draw_glow_state_result.glow_alpha',
             ],
         )
-        for name in ledger['N2278']['source_symbols']:
+        for name in ledger['N2327']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_source'], {
                     'core/src/mindustry/world/blocks/defense/Radar.java',
                 })
                 self.assertEqual(symbol['godot_owner'], 'SourceRadarBuildState.' + name.rsplit('_result.', 1)[0])
-        self.assertEqual(ledger['N2278']['runtime_proof'], '/root/C07RadarDrawProof')
+        self.assertEqual(ledger['N2327']['runtime_proof'], '/root/C07RadarDrawProof')
         self.assertEqual(
-            ledger['N2278']['tests'],
+            ledger['N2327']['tests'],
             [
                 'test_c07_radar_draw_registration',
                 'test_all_c07_radar_draw_input_evidence_is_exact',
@@ -50,13 +50,13 @@ class C07RadarDrawTests(unittest.TestCase):
                 'test_reference_graph_and_actual_c07_radar_draw',
             ],
         )
-        self.assertTrue(ledger['N2278']['deferred_exprs'])
+        self.assertTrue(ledger['N2327']['deferred_exprs'])
 
     def test_all_c07_radar_draw_input_evidence_is_exact(self):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        for name in ledger['N2278']['source_symbols']:
+        for name in ledger['N2327']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_expr'], (ROOT / 'mindustry-upstream' / symbol['java_source']).read_text(encoding='utf-8'))
@@ -65,7 +65,7 @@ class C07RadarDrawTests(unittest.TestCase):
             'core/src/mindustry/world/blocks/defense/Radar.java',
         }
         upstream = {source: (ROOT / 'mindustry-upstream' / source).read_text(encoding='utf-8') for source in slice_sources}
-        for expr in ledger['N2278']['exact_exprs']:
+        for expr in ledger['N2327']['exact_exprs']:
             with self.subTest(expr=expr):
                 self.assertTrue(any(expr in text for text in upstream.values()), expr)
 
