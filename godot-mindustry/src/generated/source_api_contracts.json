@@ -72430,6 +72430,45 @@
       ],
       "runtime_proof": "/root/C07TurretRemoveOnDestroyedProof",
       "rule": "Source-backed TurretBuild.remove()/onDestroyed() state from Turret.java."
+    },
+    "SourceSoundControlState.source_sound_control_stop_state": {
+      "status": "active",
+      "source_slice": "N2352",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "source_method": "SoundControl.stop()",
+      "params": [
+        {
+          "name": "has_current",
+          "type": "bool",
+          "schema": "source_sound_control_stop_state_input.has_current"
+        },
+        {
+          "name": "current",
+          "type": "String",
+          "schema": "source_sound_control_stop_state_input.current"
+        },
+        {
+          "name": "fade",
+          "type": "float",
+          "schema": "source_sound_control_stop_state_input.fade"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "silenced",
+        "current",
+        "fade",
+        "stopped",
+        "commands"
+      ],
+      "tests": [
+        "test_c07_sound_control_stop_registration",
+        "test_all_c07_sound_control_stop_input_evidence_is_exact",
+        "test_sound_control_stop_state",
+        "test_reference_graph_and_actual_c07_sound_control_stop"
+      ],
+      "runtime_proof": "/root/C07SoundControlStopProof",
+      "rule": "Source-backed SoundControl stop state from SoundControl.java."
     }
   },
   "policy": {

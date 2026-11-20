@@ -881,3 +881,42 @@ static func source_sound_control_setup_filters_state(filter: Variant) -> Diction
 	commands.append({"action": "set_filter", "slot": 0, "filter": filter})
 	commands.append({"action": "set_filter_param", "slot": 0, "param": 0, "value": 0.0})
 	return {"commands": commands}
+
+static func source_sound_control_stop_state(has_current: bool, current: String, fade: float) -> Dictionary:
+	# SoundControl.stop() (SoundControl.java:118-127):
+	# `public void stop(){`
+	# `silenced = true;`
+	# `if(current != null){`
+	# `current.stop();`
+	# `current = null;`
+	# `fade = 0f;`
+	# `}`
+	# -- silences playback, then stops the current track
+	# (only when one is playing), clears it and zeroes
+	# the fade. This is a SEPARATE public method from
+	# silence() / keepSilent() (N2336 own those) -- stop()
+	# is the one update() :165-167 calls when keepSilent
+	# is set; update() itself is NOT ported here. YELLOW
+	# FLAG (scope batch 8 section 3.3): `silenced = true;`
+	# already appears in N2336, `current.stop();` in
+	# N2336/N2345, `current = null;` and `fade = 0f;` in
+	# N2336/N2339/N2345 -- same text, DIFFERENT method
+	# (stop() vs silence() / play()); the registry
+	# precedent (N632-N639 vs N1078-N1085) allows
+	# identical exact_exprs under different java_methods.
+	# Music arrives as its name String (the N2287
+	# precedent); has_current folds the null check (the
+	# N2306 precedent). NO audio playback in this slice:
+	# the stop is returned as one command (`track`,
+	# `action` -- the N2345 shape), never executed;
+	# playback belongs to updateLoops (N2304, held
+	# waiting for B). The fields (SoundControl.java:34-36,
+	# `protected @Nullable Music current;` /
+	# `protected float fade;` /
+	# `protected boolean silenced, keepSilent;`) arrive as
+	# explicit params, never built here.
+	var commands: Array = []
+	if has_current:
+		commands.append({"track": current, "action": "stop"})
+		return {"silenced": true, "current": null, "fade": 0.0, "stopped": true, "commands": commands}
+	return {"silenced": true, "current": null, "fade": fade, "stopped": false, "commands": commands}

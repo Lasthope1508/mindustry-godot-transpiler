@@ -179448,6 +179448,86 @@
         "test_reference_graph_and_actual_c07_turret_remove_on_destroyed"
       ],
       "runtime_proof": "/root/C07TurretRemoveOnDestroyedProof"
+    },
+    "source_sound_control_stop_state_result.silenced": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_stop_state",
+      "godot_symbol": "source_sound_control_stop_state_result.silenced",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.stop()",
+      "java_expr": "silenced = true;",
+      "rule": "Whether playback is silenced after this call (SoundControl.java:119, `silenced = true;`): always true -- set unconditionally, before the current-track guard.",
+      "tests": [
+        "test_c07_sound_control_stop_registration",
+        "test_all_c07_sound_control_stop_input_evidence_is_exact",
+        "test_sound_control_stop_state",
+        "test_reference_graph_and_actual_c07_sound_control_stop"
+      ],
+      "runtime_proof": "/root/C07SoundControlStopProof"
+    },
+    "source_sound_control_stop_state_result.current": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_stop_state",
+      "godot_symbol": "source_sound_control_stop_state_result.current",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.stop()",
+      "java_expr": "current = null;",
+      "rule": "The track playing after this call (SoundControl.java:122, `current = null;`): always null -- cleared when a track was playing, and already null when none was.",
+      "tests": [
+        "test_c07_sound_control_stop_registration",
+        "test_all_c07_sound_control_stop_input_evidence_is_exact",
+        "test_sound_control_stop_state",
+        "test_reference_graph_and_actual_c07_sound_control_stop"
+      ],
+      "runtime_proof": "/root/C07SoundControlStopProof"
+    },
+    "source_sound_control_stop_state_result.fade": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_stop_state",
+      "godot_symbol": "source_sound_control_stop_state_result.fade",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.stop()",
+      "java_expr": "fade = 0f;",
+      "rule": "The fade level after this call (SoundControl.java:123, `fade = 0f;`): 0 when a track was stopped, the incoming fade unchanged when no track was playing.",
+      "tests": [
+        "test_c07_sound_control_stop_registration",
+        "test_all_c07_sound_control_stop_input_evidence_is_exact",
+        "test_sound_control_stop_state",
+        "test_reference_graph_and_actual_c07_sound_control_stop"
+      ],
+      "runtime_proof": "/root/C07SoundControlStopProof"
+    },
+    "source_sound_control_stop_state_result.stopped": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_stop_state",
+      "godot_symbol": "source_sound_control_stop_state_result.stopped",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.stop()",
+      "java_expr": "current.stop();",
+      "rule": "Whether a stop command was issued (SoundControl.java:121, `current.stop();`): true exactly when a track was playing -- folds the guard, so the driver knows whether the command list is non-empty without reading it.",
+      "tests": [
+        "test_c07_sound_control_stop_registration",
+        "test_all_c07_sound_control_stop_input_evidence_is_exact",
+        "test_sound_control_stop_state",
+        "test_reference_graph_and_actual_c07_sound_control_stop"
+      ],
+      "runtime_proof": "/root/C07SoundControlStopProof"
+    },
+    "source_sound_control_stop_state_result.commands": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_stop_state",
+      "godot_symbol": "source_sound_control_stop_state_result.commands",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.stop()",
+      "java_expr": "current.stop();",
+      "rule": "The playback commands this call issues, in Java order (SoundControl.java:121 `current.stop();` when a track is playing, nothing otherwise): one Dictionary per call (`track`, `action` -- the N2345 shape). The driver applies them -- this slice NEVER plays audio itself; playback belongs to updateLoops (N2304, held waiting for B).",
+      "tests": [
+        "test_c07_sound_control_stop_registration",
+        "test_all_c07_sound_control_stop_input_evidence_is_exact",
+        "test_sound_control_stop_state",
+        "test_reference_graph_and_actual_c07_sound_control_stop"
+      ],
+      "runtime_proof": "/root/C07SoundControlStopProof"
     }
   },
   "version": 1
