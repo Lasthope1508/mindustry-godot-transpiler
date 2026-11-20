@@ -534,6 +534,35 @@ static func source_building_comp_sense_state(frame: Dictionary, sensor: String, 
 		return {"handled": true, "sense_value": size_value, "sense_value_is_nan": false}
 	return {"handled": false, "sense_value": null, "sense_value_is_nan": true}
 
+static func source_building_comp_sense_dead_state(tile_build_is_self: bool, is_dead: bool) -> Dictionary:
+	# BuildingComp.sense() `dead` leg (`public double sense(LAccess sensor){`,
+	# BuildingComp.java:2093-2126): `case dead -> !isValid() ? 1 : 0;`
+	# (:2098) -- `isValid()` is `public boolean isValid(){` /
+	# `return tile.build == self() && !dead();`
+	# (:2030-2032). The two conjuncts are passed in as params
+	# (the N2212/N2220 per-def-param precedent): the tile
+	# state is not stamped in the frame yet, so
+	# `tile_build_is_self` is `tile.build == self()` (:2031,
+	# first conjunct) and `is_dead` is `dead()` (:2031,
+	# second conjunct, negated in `isValid()`). The sensor
+	# spelling is the LAccess enum name: `dead,`
+	# (LAccess.java:47). The result is the N2283/N2284 sense
+	# wire shape: handled + sense_value +
+	# sense_value_is_nan; the leg never yields NaN (the
+	# default `default -> Float.NaN; //gets converted to null in logic`,
+	# :2123, never fires here). There is no driver tick
+	# line: the leg is a logic read, not a tick write (the
+	# N2206/N2208/N2223/N2283/N2284/N2506/N2507/N2508/N2509/N2510
+	# precedent); the proof calls the pure function directly
+	# with synthetic inputs. This does NOT wire into
+	# source_building_comp_sense_state: dead stays
+	# handled:false in the big dispatch until a later wiring
+	# slice connects this leg (same as N2508's Content leg
+	# living beside N2284).
+	var is_valid: bool = tile_build_is_self and not is_dead
+	var dead_value: float = 0.0 if is_valid else 1.0
+	return {"handled": true, "sense_value": dead_value, "sense_value_is_nan": false}
+
 static func source_turret_sense_object_state(sensor: String, block_id: String, first_item: String) -> Dictionary:
 	# BuildingComp.senseObject() (BuildingComp.java:2128-2136):
 	# `public Object senseObject(LAccess sensor){` /

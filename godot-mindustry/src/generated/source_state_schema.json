@@ -239400,6 +239400,74 @@
       },
       "runtime_proof": "/root/C07TurretLogicSenseLAccessProof",
       "rule": "Source-backed SenseI LAccess numeric dispatch se.sense(la) from LExecutor.java:694-703."
+    },
+    "source_building_comp_sense_dead_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_building_comp_sense_dead_state",
+      "source_slice": "N2511",
+      "keys": {
+        "tile_build_is_self": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return tile.build == self() && !dead();",
+          "rule": "Whether `tile.build == self()` (`return tile.build == self() && !dead();`, BuildingComp.java:2031, first conjunct of `isValid()`): the tile still holds this building; passed explicitly because the tile state is not stamped in the frame yet (the N2212/N2220 per-def-param precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_dead_state"
+          ]
+        },
+        "is_dead": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return tile.build == self() && !dead();",
+          "rule": "Whether `dead()` (`return tile.build == self() && !dead();`, BuildingComp.java:2031, second conjunct, negated in `isValid()`): the building is destroyed; passed explicitly because the tile state is not stamped in the frame yet (the N2212/N2220 per-def-param precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_dead_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildingCompSenseDeadProof",
+      "rule": "Source-backed BuildingComp.sense() dead leg from BuildingComp.java:2098 + isValid() :2030-2032."
+    },
+    "source_building_comp_sense_dead_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_building_comp_sense_dead_state",
+      "source_slice": "N2511",
+      "keys": {
+        "handled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "case dead -> !isValid() ? 1 : 0;",
+          "rule": "Whether the leg resolved to a logic-variable write (`case dead -> !isValid() ? 1 : 0;`, BuildingComp.java:2098): true always, because this function IS the dead leg and the sensor is fixed `dead`.",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_dead_state"
+          ]
+        },
+        "sense_value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "case dead -> !isValid() ? 1 : 0;",
+          "rule": "The numeric value written to the logic variable (`case dead -> !isValid() ? 1 : 0;`, BuildingComp.java:2098): 0.0 when `isValid()` holds, 1.0 when it does not.",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_dead_state"
+          ]
+        },
+        "sense_value_is_nan": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "default -> Float.NaN; //gets converted to null in logic",
+          "rule": "Whether Java returns Float.NaN for this sensor (`default -> Float.NaN; //gets converted to null in logic`, BuildingComp.java:2123); false always for the dead leg, which never yields NaN -- the key stays in the wire shape for consistency with N2283/N2284.",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_dead_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildingCompSenseDeadProof",
+      "rule": "Source-backed BuildingComp.sense() dead leg from BuildingComp.java:2098 + isValid() :2030-2032."
     }
   },
   "version": 1

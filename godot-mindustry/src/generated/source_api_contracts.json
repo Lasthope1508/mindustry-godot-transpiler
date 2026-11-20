@@ -70623,6 +70623,38 @@
       ],
       "runtime_proof": "/root/C07TurretLogicSenseLAccessProof",
       "rule": "Source-backed SenseI LAccess numeric dispatch se.sense(la) from LExecutor.java:694-703."
+    },
+    "SourceTurretBuildState.source_building_comp_sense_dead_state": {
+      "status": "active",
+      "source_slice": "N2511",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "BuildingComp.sense(LAccess)",
+      "params": [
+        {
+          "name": "tile_build_is_self",
+          "type": "bool",
+          "schema": "source_building_comp_sense_dead_state_input.tile_build_is_self"
+        },
+        {
+          "name": "is_dead",
+          "type": "bool",
+          "schema": "source_building_comp_sense_dead_state_input.is_dead"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "handled",
+        "sense_value",
+        "sense_value_is_nan"
+      ],
+      "tests": [
+        "test_c07_building_comp_sense_dead_registration",
+        "test_all_c07_building_comp_sense_dead_input_evidence_is_exact",
+        "test_building_comp_sense_dead_state",
+        "test_reference_graph_and_actual_c07_building_comp_sense_dead"
+      ],
+      "runtime_proof": "/root/C07BuildingCompSenseDeadProof",
+      "rule": "Source-backed BuildingComp.sense() dead leg from BuildingComp.java:2098 + isValid() :2030-2032."
     }
   },
   "policy": {
