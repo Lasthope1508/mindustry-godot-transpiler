@@ -88837,6 +88837,48 @@
         "TurretBuild.drawSelect() (Turret.java:481-488, `super.drawSelect();` then `if(drawMinRange){ Drawf.dashCircle(x, y, minRange(), team.color); }`) -- the base BuildingComp.drawSelect() leg is ALREADY LIVE as N573 (PortGame.source_building_draw_select_state) and runs first at the call site; only the Turret min-range dash-circle leg is this slice (N2334).",
         "Turret shouldTurn() Windows Godot proof -- debt in GOAL.md section 5, same as N2148/N2227: the N2337 proof runs headless on Linux here and waits for a Windows Godot run."
       ]
+    },
+    "N2338": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_class": "mindustry.world.blocks.production.Drill$DrillBuild",
+      "java_method": "DrillBuild.shouldConsume()",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_should_consume_state",
+      "exact_exprs": [
+        "public boolean shouldConsume(){",
+        "return items.total() < itemCapacity && enabled && dominantItem != null;",
+        "public Item dominantItem;",
+        "public int dominantItems;",
+        "public int total(){",
+        "return total;",
+        "public int itemCapacity = 10;",
+        "itemCapacity = 40;",
+        "itemCapacity = 60;",
+        "transient boolean enabled = true;",
+        "boolean update = shouldConsume() && productionValid();",
+        "if(!update){",
+        "efficiency = optionalEfficiency = 0f;",
+        "return enabled;",
+        "public class DrillBuild extends Building{",
+        "public class Drill extends Block{",
+        "public class BurstDrillBuild extends DrillBuild{",
+        "public class BurstDrill extends Drill{"
+      ],
+      "source_symbols": [
+        "source_drill_should_consume_state_result.should_consume"
+      ],
+      "tests": [
+        "test_c07_drill_should_consume_registration",
+        "test_all_c07_drill_should_consume_input_evidence_is_exact",
+        "test_drill_should_consume_state",
+        "test_reference_graph_and_actual_c07_drill_should_consume"
+      ],
+      "runtime_proof": "/root/C07DrillShouldConsumeProof",
+      "deferred_exprs": [
+        "DrillBuild shouldConsume() Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2294: the N2338 proof runs headless on Linux here and waits for a Windows Godot run.",
+        "DrillBuild shouldConsume() live driver wiring -- the BurstDrill tick driver calls the N2295 override (polymorphism); this slice ports only the base predicate, no caller. A plain-Drill tick driver wiring the base gate waits for its own slice.",
+        "DrillBuild shouldConsume() dominantItem live binding -- the caller passes has_dominant_item explicitly; the N2262 ore/dominant binding stamps dominantItem live later."
+      ]
     }
   },
   "version": 1

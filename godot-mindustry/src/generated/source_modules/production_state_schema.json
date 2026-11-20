@@ -2070,6 +2070,41 @@
         }
       }
     },
+    "source_drill_should_consume_state_input": {
+      "canonical_schema": "source_state_schema.source_drill_should_consume_state_input",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "return items.total() < itemCapacity && enabled && dominantItem != null;",
+          "rule": "The drill frame (DrillBuild.shouldConsume, Drill.java:247-249): carries items_total (float, absent -> 0.0 -- a fresh ItemModule totals 0, the N2207 LaunchPad precedent) and enabled (bool, absent -> true, `transient boolean enabled = true;`, BuildingComp.java:77); absent keys mean no observation yet, not full, so the gate preserves the N2149 behavior (should_consume = enabled and has_dominant_item).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_should_consume_state"
+          ]
+        },
+        "item_capacity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "itemCapacity = 40;",
+          "rule": "The per-def item capacity, 40 for the impact-drill def (Blocks.java:3078) and 60 for the eruption-drill def (Blocks.java:3107); passed explicitly because the pure function cannot reach the catalog (the N2212 per-def-param precedent); the Block default is 10 (Block.java:75).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_should_consume_state"
+          ]
+        },
+        "has_dominant_item": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public Item dominantItem;",
+          "rule": "Whether the drill has a dominant item bound: dominantItem is `public Item dominantItem;` (Drill.java:244), set by the N2262 ore/dominant binding; shouldConsume requires `dominantItem != null` (Drill.java:248); passed explicitly because the frame carries no dominant-item id yet (the N2341 drawSelect precedent).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_should_consume_state"
+          ]
+        }
+      }
+    },
     "source_drill_time_drilled_delta_input": {
       "canonical_schema": "source_state_schema.source_drill_time_drilled_delta_input",
       "keys": {

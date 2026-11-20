@@ -1557,6 +1557,42 @@
       "rule": "Source-backed DrillBuild shouldAmbientSound() gate from Drill.java + BuildingComp.java + Block.java + Blocks.java + ItemModule.java + BurstDrill.java.",
       "return_type": "Dictionary"
     },
+    "SourceBurstDrillBuildState.source_drill_should_consume_state": {
+      "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_drill_should_consume_state",
+      "status": "active",
+      "source_slice": "N2338",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "DrillBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_drill_should_consume_state_input.frame"
+        },
+        {
+          "name": "item_capacity",
+          "type": "float",
+          "schema": "source_drill_should_consume_state_input.item_capacity"
+        },
+        {
+          "name": "has_dominant_item",
+          "type": "bool",
+          "schema": "source_drill_should_consume_state_input.has_dominant_item"
+        }
+      ],
+      "return_keys": [
+        "should_consume"
+      ],
+      "tests": [
+        "test_c07_drill_should_consume_registration",
+        "test_all_c07_drill_should_consume_input_evidence_is_exact",
+        "test_drill_should_consume_state",
+        "test_reference_graph_and_actual_c07_drill_should_consume"
+      ],
+      "runtime_proof": "/root/C07DrillShouldConsumeProof",
+      "rule": "Source-backed DrillBuild shouldConsume() gate from Drill.java + BurstDrill.java + BuildingComp.java + Block.java + Blocks.java + ItemModule.java.",
+      "return_type": "Dictionary"
+    },
     "SourceBurstDrillBuildState.source_drill_write_state": {
       "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_drill_write_state",
       "status": "active",

@@ -4416,6 +4416,21 @@
       ],
       "runtime_proof": "/root/C07DrillShouldAmbientSoundProof"
     },
+    "source_drill_should_consume_state_result.should_consume": {
+      "canonical_symbol": "source_symbol_registry.source_drill_should_consume_state_result.should_consume",
+      "status": "source-backed",
+      "java_expr": "return items.total() < itemCapacity && enabled && dominantItem != null;",
+      "godot_symbol": "source_drill_should_consume_state_result.should_consume",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_should_consume_state",
+      "rule": "The shouldConsume gate (Drill.java:247-249): items_total < item_capacity && enabled && has_dominant_item; false gates efficiency to 0 via updateConsumption (BuildingComp.java:1960 + 1992-1993).",
+      "tests": [
+        "test_c07_drill_should_consume_registration",
+        "test_all_c07_drill_should_consume_input_evidence_is_exact",
+        "test_drill_should_consume_state",
+        "test_reference_graph_and_actual_c07_drill_should_consume"
+      ],
+      "runtime_proof": "/root/C07DrillShouldConsumeProof"
+    },
     "source_drill_version_state_result.version": {
       "canonical_symbol": "source_symbol_registry.source_drill_version_state_result.version",
       "status": "source-backed",

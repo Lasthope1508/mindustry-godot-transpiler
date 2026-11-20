@@ -291,6 +291,57 @@ static func source_burst_drill_should_consume_state(frame: Dictionary, item_capa
 	var enabled: bool = bool(frame.get("enabled", true))
 	return {"should_consume": items_total <= item_capacity - float(dominant_items) and enabled}
 
+static func source_drill_should_consume_state(frame: Dictionary, item_capacity: float, has_dominant_item: bool) -> Dictionary:
+	# DrillBuild overrides shouldConsume (Drill.java:247-249,
+	# `public boolean shouldConsume(){` with `return items.total() < itemCapacity && enabled && dominantItem != null;`)
+	# over the items total (ItemModule.java:174, `public int total(){`
+	# with `return total;`, ItemModule.java:175 -- the cached total a
+	# fresh ItemModule starts at 0), the per-def item capacity
+	# (`public int itemCapacity = 10;`, Block.java:75, with
+	# `itemCapacity = 40;`, Blocks.java:3078, for impact-drill and
+	# `itemCapacity = 60;`, Blocks.java:3107, for eruption-drill),
+	# the dominant item (`public Item dominantItem;`, Drill.java:244,
+	# with `public int dominantItems;`, Drill.java:243) and the
+	# enabled flag (`transient boolean enabled = true;`,
+	# BuildingComp.java:77), and updateConsumption forces
+	# efficiency to zero when the gate is false
+	# (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();`
+	# + 1992, `if(!update){` + 1993, `efficiency = optionalEfficiency = 0f;`).
+	# The BuildingComp default (`public boolean shouldConsume(){`
+	# with `return enabled;`, BuildingComp.java:755-756) is what
+	# the override replaces. This is the BASE gate, not the
+	# BurstDrill override (N2295, BurstDrill.java:128-129,
+	# `return items.total() <= itemCapacity - dominantItems && enabled;`):
+	# the strict `<` blocks at items_total == itemCapacity while
+	# the override's `<=` would pass (with dominant_items 0), and
+	# the `dominantItem != null` check blocks a drill with room
+	# and enabled but no dominant item bound yet. The classes are
+	# `public class Drill extends Block{` (Drill.java:27) and
+	# `public class DrillBuild extends Building{` (Drill.java:237);
+	# BurstDrillBuild inherits DrillBuild (`public class BurstDrill extends Drill{`,
+	# BurstDrill.java:17, with `public class BurstDrillBuild extends DrillBuild{`,
+	# BurstDrill.java:70) and overrides shouldConsume (N2295) --
+	# the override runs for burst drills, the base gate here is
+	# the DrillBuild predicate. The frame carries the live items
+	# observation as `items_total` (float, absent defaults to 0.0 --
+	# a fresh ItemModule totals 0, the N2207 LaunchPad precedent)
+	# and `enabled` (bool, absent defaults to true --
+	# BuildingComp.java:77); the per-def item_capacity is an
+	# explicit param (the N2212 / N2248 per-def-param precedent)
+	# and has_dominant_item is an explicit bool param (the N2341
+	# drawSelect precedent -- the frame carries no dominant-item
+	# id until the N2262 ore/dominant binding stamps it). Absent
+	# keys mean "no observation yet", not "full": the defaults
+	# make the bound read `0 < itemCapacity`, so should_consume
+	# = enabled and has_dominant_item, the N2149 behavior
+	# preserved (the N2188 / N2191 absent-preserves precedent).
+	# There is NO driver tick line: the BurstDrill tick driver
+	# calls the N2295 override (polymorphism), and this slice
+	# ports only the base predicate, not a caller.
+	var items_total: float = float(frame.get("items_total", 0.0))
+	var enabled: bool = bool(frame.get("enabled", true))
+	return {"should_consume": items_total < item_capacity and enabled and has_dominant_item}
+
 static func source_burst_drill_icons_state(region: Variant, top_region: Variant) -> Dictionary:
 	# BurstDrill.icons() (BurstDrill.java:48-50):
 	# @Override
