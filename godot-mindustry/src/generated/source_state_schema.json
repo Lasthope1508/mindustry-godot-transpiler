@@ -240656,6 +240656,240 @@
       },
       "runtime_proof": "/root/C07DrillDrawProof",
       "rule": "Source-backed DrillBuild draw() base state from Drill.java + BuildingComp.java + HealthComp.java + Block.java + Blocks.java + Layer.java + Drawf.java + BlockRenderer.java."
+    },
+    "source_sound_control_get_boss_music_state_input": {
+      "status": "active",
+      "owner": "SourceSoundControlState.source_sound_control_get_boss_music_state",
+      "source_slice": "N2326",
+      "keys": {
+        "has_rules_dark_music": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "state.rules.darkMusic != null",
+          "rule": "Whether the rules dark-music list is set (SoundControl.java:271, `state.rules.darkMusic != null`): arrives as an explicit bool param -- the null check is folded into this param (the N2306 precedent; GDScript typed Array params cannot take null).",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_get_boss_music_state"
+          ]
+        },
+        "rules_dark_music": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "state.rules.darkMusic",
+          "rule": "The rules dark-music list (SoundControl.java:271/281, `state.rules.darkMusic`; Rules.java:171, `@Nullable Seq<MusicContainer> darkMusic`): arrives as an explicit Array param of already-resolved music names (String or null -- the MusicContainer::get resolution, MusicContainer.java:18-24, is folded into the caller param, NOT ported here). Only read when has_rules_dark_music is true.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_get_boss_music_state"
+          ]
+        },
+        "has_planet_dark_music": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "state.getPlanet() != null && state.getPlanet().darkMusic != null",
+          "rule": "Whether the planet dark-music list is set (SoundControl.java:272, `state.getPlanet() != null && state.getPlanet().darkMusic != null`): arrives as an explicit bool param -- the planet-null and list-null checks are folded into this param (the N2306 precedent).",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_get_boss_music_state"
+          ]
+        },
+        "planet_dark_music": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "state.getPlanet().darkMusic",
+          "rule": "The planet dark-music list (SoundControl.java:272/282, `state.getPlanet().darkMusic`; Planet.java:147, `@Nullable Seq<Music> darkMusic`): arrives as an explicit Array param. Only read when has_planet_dark_music is true.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_get_boss_music_state"
+          ]
+        },
+        "boss_music": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "bossMusic",
+          "rule": "The field fallback (SoundControl.java:272, `bossMusic`; SoundControl.java:27, `public Seq<Music> bossMusic = Seq.with();`): arrives as an explicit Array param, never null. QUIRK: boss reads the SHARED rules/planet darkMusic in the branches above -- it has no field of its own there -- and only the fallback is its own.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_get_boss_music_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SoundControlGetMusicProof",
+      "rule": "Source-backed SoundControl music getter state from SoundControl.java."
+    },
+    "source_sound_control_get_boss_music_state_result": {
+      "status": "active",
+      "owner": "SourceSoundControlState.source_sound_control_get_boss_music_state",
+      "source_slice": "N2326",
+      "keys": {
+        "boss_music": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "protected Seq<Music> getBossMusic(){",
+          "rule": "The boss music list (SoundControl.java:270-273): the rules list with nulls removed when rules.darkMusic is set, else the planet darkMusic when set, else the bossMusic field. The caller picks a random track from it in playRandom() (SoundControl.java:258, `playOnce(getBossMusic().random(lastRandomPlayed));`).",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_get_boss_music_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SoundControlGetMusicProof",
+      "rule": "Source-backed SoundControl music getter state from SoundControl.java."
+    },
+    "source_sound_control_get_ambient_music_state_input": {
+      "status": "active",
+      "owner": "SourceSoundControlState.source_sound_control_get_ambient_music_state",
+      "source_slice": "N2326",
+      "keys": {
+        "has_rules_ambient_music": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "state.rules.ambientMusic != null",
+          "rule": "Whether the rules ambient-music list is set (SoundControl.java:276, `state.rules.ambientMusic != null`): arrives as an explicit bool param -- the null check is folded into this param (the N2306 precedent; GDScript typed Array params cannot take null).",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_get_ambient_music_state"
+          ]
+        },
+        "rules_ambient_music": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "state.rules.ambientMusic",
+          "rule": "The rules ambient-music list (SoundControl.java:276, `state.rules.ambientMusic`; Rules.java:169, `@Nullable Seq<MusicContainer> ambientMusic`): arrives as an explicit Array param of already-resolved music names (String or null -- the MusicContainer::get resolution is folded into the caller param, NOT ported here). Only read when has_rules_ambient_music is true.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_get_ambient_music_state"
+          ]
+        },
+        "has_planet_ambient_music": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "state.getPlanet() != null && state.getPlanet().ambientMusic != null",
+          "rule": "Whether the planet ambient-music list is set (SoundControl.java:277, `state.getPlanet() != null && state.getPlanet().ambientMusic != null`): arrives as an explicit bool param -- the planet-null and list-null checks are folded into this param (the N2306 precedent).",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_get_ambient_music_state"
+          ]
+        },
+        "planet_ambient_music": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "state.getPlanet().ambientMusic",
+          "rule": "The planet ambient-music list (SoundControl.java:277, `state.getPlanet().ambientMusic`; Planet.java:145, `@Nullable Seq<Music> ambientMusic`): arrives as an explicit Array param. Only read when has_planet_ambient_music is true.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_get_ambient_music_state"
+          ]
+        },
+        "ambient_music": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "ambientMusic",
+          "rule": "The field fallback (SoundControl.java:277, `ambientMusic`; SoundControl.java:23, `public Seq<Music> ambientMusic = Seq.with();`): arrives as an explicit Array param, never null.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_get_ambient_music_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SoundControlGetMusicProof",
+      "rule": "Source-backed SoundControl music getter state from SoundControl.java."
+    },
+    "source_sound_control_get_ambient_music_state_result": {
+      "status": "active",
+      "owner": "SourceSoundControlState.source_sound_control_get_ambient_music_state",
+      "source_slice": "N2326",
+      "keys": {
+        "ambient_music": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "protected Seq<Music> getAmbientMusic(){",
+          "rule": "The ambient music list (SoundControl.java:275-278): the rules list with nulls removed when rules.ambientMusic is set, else the planet ambientMusic when set, else the ambientMusic field. The caller picks a random track from it in playRandom() (SoundControl.java:262, `playOnce(getAmbientMusic().random(lastRandomPlayed));`).",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_get_ambient_music_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SoundControlGetMusicProof",
+      "rule": "Source-backed SoundControl music getter state from SoundControl.java."
+    },
+    "source_sound_control_get_dark_music_state_input": {
+      "status": "active",
+      "owner": "SourceSoundControlState.source_sound_control_get_dark_music_state",
+      "source_slice": "N2326",
+      "keys": {
+        "has_rules_dark_music": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "state.rules.darkMusic != null",
+          "rule": "Whether the rules dark-music list is set (SoundControl.java:281, `state.rules.darkMusic != null`): arrives as an explicit bool param -- the null check is folded into this param (the N2306 precedent; GDScript typed Array params cannot take null). QUIRK: this is the SAME list boss reads in its rules branch -- ported verbatim, NOT \"fixed\".",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_get_dark_music_state"
+          ]
+        },
+        "rules_dark_music": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "state.rules.darkMusic",
+          "rule": "The rules dark-music list (SoundControl.java:281, `state.rules.darkMusic`; Rules.java:171, `@Nullable Seq<MusicContainer> darkMusic`): arrives as an explicit Array param of already-resolved music names (String or null -- the MusicContainer::get resolution, MusicContainer.java:18-24, is folded into the caller param, NOT ported here). Only read when has_rules_dark_music is true.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_get_dark_music_state"
+          ]
+        },
+        "has_planet_dark_music": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "state.getPlanet() != null && state.getPlanet().darkMusic != null",
+          "rule": "Whether the planet dark-music list is set (SoundControl.java:282, `state.getPlanet() != null && state.getPlanet().darkMusic != null`): arrives as an explicit bool param -- the planet-null and list-null checks are folded into this param (the N2306 precedent).",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_get_dark_music_state"
+          ]
+        },
+        "planet_dark_music": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "state.getPlanet().darkMusic",
+          "rule": "The planet dark-music list (SoundControl.java:282, `state.getPlanet().darkMusic`; Planet.java:147, `@Nullable Seq<Music> darkMusic`): arrives as an explicit Array param. Only read when has_planet_dark_music is true.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_get_dark_music_state"
+          ]
+        },
+        "dark_music": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "darkMusic",
+          "rule": "The field fallback (SoundControl.java:282, `darkMusic`; SoundControl.java:25, `public Seq<Music> darkMusic = Seq.with();`): arrives as an explicit Array param, never null. QUIRK: only this fallback differs from boss -- the rules/planet branches are shared.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_get_dark_music_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SoundControlGetMusicProof",
+      "rule": "Source-backed SoundControl music getter state from SoundControl.java."
+    },
+    "source_sound_control_get_dark_music_state_result": {
+      "status": "active",
+      "owner": "SourceSoundControlState.source_sound_control_get_dark_music_state",
+      "source_slice": "N2326",
+      "keys": {
+        "dark_music": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "protected Seq<Music> getDarkMusic(){",
+          "rule": "The dark music list (SoundControl.java:280-283): the rules list with nulls removed when rules.darkMusic is set, else the planet darkMusic when set, else the darkMusic field. The caller picks a random track from it in playRandom() (SoundControl.java:260, `playOnce(getDarkMusic().random(lastRandomPlayed));`).",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_get_dark_music_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SoundControlGetMusicProof",
+      "rule": "Source-backed SoundControl music getter state from SoundControl.java."
     }
   },
   "version": 1

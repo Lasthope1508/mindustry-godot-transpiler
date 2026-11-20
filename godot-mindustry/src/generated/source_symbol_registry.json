@@ -178536,6 +178536,54 @@
         "test_reference_graph_and_actual_c07_drill_draw"
       ],
       "runtime_proof": "/root/C07DrillDrawProof"
+    },
+    "source_sound_control_get_boss_music_state_result.boss_music": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_get_boss_music_state",
+      "godot_symbol": "source_sound_control_get_boss_music_state_result.boss_music",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.getBossMusic()",
+      "java_expr": "protected Seq<Music> getBossMusic(){",
+      "rule": "The boss music list (SoundControl.java:270-273): the rules list with nulls removed when rules.darkMusic is set, else the planet darkMusic when set, else the bossMusic field. The caller picks a random track from it in playRandom() (SoundControl.java:258, `playOnce(getBossMusic().random(lastRandomPlayed));`).",
+      "tests": [
+        "test_c07_sound_control_get_music_registration",
+        "test_all_c07_sound_control_get_music_input_evidence_is_exact",
+        "test_sound_control_get_music_state",
+        "test_reference_graph_and_actual_c07_sound_control_get_music"
+      ],
+      "runtime_proof": "/root/C07SoundControlGetMusicProof"
+    },
+    "source_sound_control_get_ambient_music_state_result.ambient_music": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_get_ambient_music_state",
+      "godot_symbol": "source_sound_control_get_ambient_music_state_result.ambient_music",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.getAmbientMusic()",
+      "java_expr": "protected Seq<Music> getAmbientMusic(){",
+      "rule": "The ambient music list (SoundControl.java:275-278): the rules list with nulls removed when rules.ambientMusic is set, else the planet ambientMusic when set, else the ambientMusic field. The caller picks a random track from it in playRandom() (SoundControl.java:262, `playOnce(getAmbientMusic().random(lastRandomPlayed));`).",
+      "tests": [
+        "test_c07_sound_control_get_music_registration",
+        "test_all_c07_sound_control_get_music_input_evidence_is_exact",
+        "test_sound_control_get_music_state",
+        "test_reference_graph_and_actual_c07_sound_control_get_music"
+      ],
+      "runtime_proof": "/root/C07SoundControlGetMusicProof"
+    },
+    "source_sound_control_get_dark_music_state_result.dark_music": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_get_dark_music_state",
+      "godot_symbol": "source_sound_control_get_dark_music_state_result.dark_music",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.getDarkMusic()",
+      "java_expr": "protected Seq<Music> getDarkMusic(){",
+      "rule": "The dark music list (SoundControl.java:280-283): the rules list with nulls removed when rules.darkMusic is set, else the planet darkMusic when set, else the darkMusic field. The caller picks a random track from it in playRandom() (SoundControl.java:260, `playOnce(getDarkMusic().random(lastRandomPlayed));`).",
+      "tests": [
+        "test_c07_sound_control_get_music_registration",
+        "test_all_c07_sound_control_get_music_input_evidence_is_exact",
+        "test_sound_control_get_music_state",
+        "test_reference_graph_and_actual_c07_sound_control_get_music"
+      ],
+      "runtime_proof": "/root/C07SoundControlGetMusicProof"
     }
   },
   "version": 1

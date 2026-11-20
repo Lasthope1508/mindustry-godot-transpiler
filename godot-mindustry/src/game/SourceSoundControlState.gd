@@ -229,3 +229,138 @@ static func source_sound_control_is_dark_state(has_core: bool, core_healthf: flo
 	if wave_chance_roll:
 		return {"is_dark": true}
 	return {"is_dark": enemy_chance_roll}
+
+static func source_sound_control_get_boss_music_state(has_rules_dark_music: bool, rules_dark_music: Array, has_planet_dark_music: bool, planet_dark_music: Array, boss_music: Array) -> Dictionary:
+	# SoundControl.getBossMusic() (SoundControl.java:270-273):
+	# `protected Seq<Music> getBossMusic(){`
+	# `if(state.rules.darkMusic != null) return state.rules.darkMusic.map(MusicContainer::get).removeAll(m -> m == null);`
+	# `return state.getPlanet() != null && state.getPlanet().darkMusic != null ? state.getPlanet().darkMusic : bossMusic;`
+	# `}`
+	# -- the boss music list: the rules list with nulls
+	# removed when rules.darkMusic is set, else the planet
+	# darkMusic when set, else the bossMusic field
+	# (SoundControl.java:27, `public Seq<Music> bossMusic
+	# = Seq.with();`). QUIRK, kept exactly: boss reads the
+	# SHARED rules / planet darkMusic here -- it has no
+	# field of its own in these branches -- only the
+	# fallback is its own (dark reads the same lists,
+	# SoundControl.java:281-282, and falls back to
+	# darkMusic). Music arrives as its name String (the
+	# N2287 precedent); the MusicContainer::get resolution
+	# (MusicContainer.java:18-24, lazy
+	# `SoundControl.findMusic(name)`, null when the asset
+	# is not found) is folded into the caller param --
+	# the container accessor chain is NOT ported in this
+	# slice (the N2315 precedent) -- while the
+	# `.removeAll(m -> m == null)` filter IS ported: a
+	# fresh Array of the non-null names, in order, and
+	# the inputs are never mutated. The null checks arrive
+	# as explicit bool params (the N2306 precedent --
+	# GDScript typed Array params cannot take null):
+	# has_rules_dark_music is `state.rules.darkMusic !=
+	# null` and has_planet_dark_music is `state.getPlanet()
+	# != null && state.getPlanet().darkMusic != null`; a
+	# seq param is only read when its flag is true. The
+	# planet / fallback branches return the seq as-is,
+	# matching Java aliasing. The caller picks a random
+	# track from the list in playRandom()
+	# (SoundControl.java:258,
+	# `playOnce(getBossMusic().random(lastRandomPlayed));`).
+	# NO audio playback in this slice: this is a pure
+	# getter; playback belongs to updateLoops (N2304,
+	# held waiting for B).
+	if has_rules_dark_music:
+		var filtered: Array = []
+		for music in rules_dark_music:
+			if music != null:
+				filtered.append(music)
+		return {"boss_music": filtered}
+	if has_planet_dark_music:
+		return {"boss_music": planet_dark_music}
+	return {"boss_music": boss_music}
+
+static func source_sound_control_get_ambient_music_state(has_rules_ambient_music: bool, rules_ambient_music: Array, has_planet_ambient_music: bool, planet_ambient_music: Array, ambient_music: Array) -> Dictionary:
+	# SoundControl.getAmbientMusic() (SoundControl.java:275-278):
+	# `protected Seq<Music> getAmbientMusic(){`
+	# `if(state.rules.ambientMusic != null) return state.rules.ambientMusic.map(MusicContainer::get).removeAll(m -> m == null);`
+	# `return state.getPlanet() != null && state.getPlanet().ambientMusic != null ? state.getPlanet().ambientMusic : ambientMusic;`
+	# `}`
+	# -- the ambient music list: the rules list with nulls
+	# removed when rules.ambientMusic is set, else the
+	# planet ambientMusic when set, else the ambientMusic
+	# field (SoundControl.java:23, `public Seq<Music>
+	# ambientMusic = Seq.with();`). Same shape as
+	# getBossMusic above, with its own rules / planet /
+	# field lists. Music arrives as its name String; the
+	# MusicContainer::get resolution is folded into the
+	# caller param (NOT ported, the N2315 precedent) and
+	# the `.removeAll(m -> m == null)` filter IS ported
+	# into a fresh Array, inputs never mutated. The null
+	# checks arrive as explicit bool params (the N2306
+	# precedent -- GDScript typed Array params cannot take
+	# null): has_rules_ambient_music is
+	# `state.rules.ambientMusic != null` and
+	# has_planet_ambient_music is `state.getPlanet() !=
+	# null && state.getPlanet().ambientMusic != null`; a
+	# seq param is only read when its flag is true. The
+	# planet / fallback branches return the seq as-is,
+	# matching Java aliasing. The caller picks a random
+	# track from the list in playRandom()
+	# (SoundControl.java:262,
+	# `playOnce(getAmbientMusic().random(lastRandomPlayed));`).
+	# NO audio playback in this slice: this is a pure
+	# getter; playback belongs to updateLoops (N2304,
+	# held waiting for B).
+	if has_rules_ambient_music:
+		var filtered: Array = []
+		for music in rules_ambient_music:
+			if music != null:
+				filtered.append(music)
+		return {"ambient_music": filtered}
+	if has_planet_ambient_music:
+		return {"ambient_music": planet_ambient_music}
+	return {"ambient_music": ambient_music}
+
+static func source_sound_control_get_dark_music_state(has_rules_dark_music: bool, rules_dark_music: Array, has_planet_dark_music: bool, planet_dark_music: Array, dark_music: Array) -> Dictionary:
+	# SoundControl.getDarkMusic() (SoundControl.java:280-283):
+	# `protected Seq<Music> getDarkMusic(){`
+	# `if(state.rules.darkMusic != null) return state.rules.darkMusic.map(MusicContainer::get).removeAll(m -> m == null);`
+	# `return state.getPlanet() != null && state.getPlanet().darkMusic != null ? state.getPlanet().darkMusic : darkMusic;`
+	# `}`
+	# -- the dark music list: the rules list with nulls
+	# removed when rules.darkMusic is set, else the planet
+	# darkMusic when set, else the darkMusic field
+	# (SoundControl.java:25, `public Seq<Music> darkMusic
+	# = Seq.with();`). QUIRK, kept exactly: the rules line
+	# above is byte-identical to the boss getter's
+	# (SoundControl.java:271) -- boss and dark read the
+	# SAME rules / planet darkMusic, ported verbatim, NOT
+	# "fixed"; only the fallback differs (darkMusic here,
+	# bossMusic for boss). Music arrives as its name
+	# String; the MusicContainer::get resolution is folded
+	# into the caller param (NOT ported, the N2315
+	# precedent) and the `.removeAll(m -> m == null)`
+	# filter IS ported into a fresh Array, inputs never
+	# mutated. The null checks arrive as explicit bool
+	# params (the N2306 precedent -- GDScript typed Array
+	# params cannot take null): has_rules_dark_music is
+	# `state.rules.darkMusic != null` and
+	# has_planet_dark_music is `state.getPlanet() != null
+	# && state.getPlanet().darkMusic != null`; a seq param
+	# is only read when its flag is true. The planet /
+	# fallback branches return the seq as-is, matching
+	# Java aliasing. The caller picks a random track from
+	# the list in playRandom() (SoundControl.java:260,
+	# `playOnce(getDarkMusic().random(lastRandomPlayed));`).
+	# NO audio playback in this slice: this is a pure
+	# getter; playback belongs to updateLoops (N2304,
+	# held waiting for B).
+	if has_rules_dark_music:
+		var filtered: Array = []
+		for music in rules_dark_music:
+			if music != null:
+				filtered.append(music)
+		return {"dark_music": filtered}
+	if has_planet_dark_music:
+		return {"dark_music": planet_dark_music}
+	return {"dark_music": dark_music}
