@@ -241,8 +241,10 @@ class C07TurretWarmupTests(unittest.TestCase):
         # ammo.peek() is the last stack, Turret.java:711),
         # computes can_consume as stacks non-empty AND (peek
         # amount >= ammoPerShot 1 OR cheating), calls the new
-        # pure function with is_shooting = has_target AND the
-        # N2251 validate verdict, charging / controlled /
+        # pure function with is_shooting read from the stamped
+        # frame["is_shooting"] (N2277, Turret.java:492 -- for
+        # duo frames that is has_target AND the N2251 validate
+        # verdict), charging / controlled /
         # efficiency from the frame, delta = seconds, and the
         # per-def duo values (shootWarmupSpeed 0.1,
         # linearWarmup false, warmupMaintainTime 0.0), then
@@ -254,7 +256,7 @@ class C07TurretWarmupTests(unittest.TestCase):
         self.assertIn('var duo_peek_entry: Dictionary = duo_entries[duo_entries.size() - 1]', turret)
         self.assertIn('duo_peek_amount = int(duo_peek_entry.get("amount", 0))', turret)
         self.assertIn('var duo_can_consume: bool = not duo_entries.is_empty() and (duo_peek_amount >= 1 or bool(frame.get("cheating", false)))', turret)
-        self.assertIn('var warmup: Dictionary = source_turret_warmup_state(float(frame.get("shoot_warmup", 0.0)), float(frame.get("warmup_hold", 0.0)), bool(frame.get("has_target", false)) and bool(validate.get("valid", false)), duo_can_consume, bool(frame.get("charging", false)), bool(frame.get("controlled", false)), float(frame.get("efficiency", 1.0)), seconds, 0.1, false, 0.0)', turret)
+        self.assertIn('var warmup: Dictionary = source_turret_warmup_state(float(frame.get("shoot_warmup", 0.0)), float(frame.get("warmup_hold", 0.0)), bool(frame.get("is_shooting", false)), duo_can_consume, bool(frame.get("charging", false)), bool(frame.get("controlled", false)), float(frame.get("efficiency", 1.0)), seconds, 0.1, false, 0.0)', turret)
         self.assertIn('frame["shoot_warmup"] = warmup.get("shoot_warmup", 0.0)', turret)
         self.assertIn('frame["warmup_hold"] = warmup.get("warmup_hold", 0.0)', turret)
         # The proof's keys drive the warmup through the real

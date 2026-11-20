@@ -238126,6 +238126,94 @@
       },
       "runtime_proof": "/root/C07TurretUnitHealthProof",
       "rule": "Source-backed Turret unit live health from BlockUnitComp.tile() / HealthComp."
+    },
+    "source_turret_is_shooting_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_is_shooting_state",
+      "source_slice": "N2277",
+      "keys": {
+        "always_shooting": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "alwaysShooting",
+          "rule": "Whether the turret always shoots when it has ammo (Turret.java:103 `public boolean alwaysShooting = false;`; duo never overrides it, Blocks.java:3257-3331; driver passes false).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_is_shooting_state"
+          ]
+        },
+        "is_player": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "unit.isPlayer()",
+          "rule": "Whether a player controls the block unit (Turret.java:441-443 `controlled()` returns `unit.isPlayer();`; driver reads frame[\"controlled\"], default false -- no player unit in the port).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_is_shooting_state"
+          ]
+        },
+        "player_is_shooting": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "unit.isShooting()",
+          "rule": "The player-controlled unit's own isShooting (Turret.java:492 player branch; no player input exists in the port; driver passes false -- the branch is unreachable while is_player is false).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_is_shooting_state"
+          ]
+        },
+        "logic_controlled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "logicControlTime > 0",
+          "rule": "Whether logic controls the turret (Turret.java:445-447 `logicControlled()` returns `logicControlTime > 0;`; the driver derives it LIVE from the PREVIOUS tick's logic_control_time, since the N2261 decay tick runs later in the driver -- Java order :492 before :534-536).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_is_shooting_state"
+          ]
+        },
+        "logic_shooting": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "logicShooting",
+          "rule": "The logic shooting flag (Turret.java:288 `public boolean logicShooting = false;`, set by the control() setters :384/:394, N2264; driver reads frame[\"logic_shooting\"], default false).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_is_shooting_state"
+          ]
+        },
+        "has_target": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "target != null",
+          "rule": "Whether a target survives the :491 validateTarget verdict (Turret.java:491-492; driver passes `bool(frame.get(\"has_target\", false)) and bool(validate.get(\"valid\", false))` -- the same proxy the warmup call used before this slice).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_is_shooting_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretIsShootingProof",
+      "rule": "Source-backed Turret isShooting flag from TurretBuild.updateTile() / Turret.java:492."
+    },
+    "source_turret_is_shooting_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_is_shooting_state",
+      "source_slice": "N2277",
+      "keys": {
+        "is_shooting": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "isShooting = alwaysShooting || (unit.controller() instanceof Player ? unit.isShooting() : logicControlled() ? logicShooting : target != null);",
+          "rule": "The shooting flag after the tick (Turret.java:492 -- feeds the warmup target :502 and shouldConsume :364-366; true for a duo with a target, false without one; a logic-controlled duo follows logicShooting, not the target).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_is_shooting_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretIsShootingProof",
+      "rule": "Source-backed Turret isShooting flag from TurretBuild.updateTile() / Turret.java:492."
     }
   },
   "version": 1

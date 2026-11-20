@@ -177320,6 +177320,22 @@
         "test_reference_graph_and_actual_c07_turret_unit_health"
       ],
       "runtime_proof": "/root/C07TurretUnitHealthProof"
+    },
+    "source_turret_is_shooting_state_result.is_shooting": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_is_shooting_state",
+      "godot_symbol": "source_turret_is_shooting_state_result.is_shooting",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "isShooting = alwaysShooting || (unit.controller() instanceof Player ? unit.isShooting() : logicControlled() ? logicShooting : target != null);",
+      "rule": "The shooting flag after the tick (Turret.java:492 -- feeds the warmup target :502 and shouldConsume :364-366; true for a duo with a target, false without one; a logic-controlled duo follows logicShooting, not the target).",
+      "tests": [
+        "test_c07_turret_is_shooting_registration",
+        "test_all_c07_turret_is_shooting_input_evidence_is_exact",
+        "test_turret_is_shooting_state",
+        "test_reference_graph_and_actual_c07_turret_is_shooting"
+      ],
+      "runtime_proof": "/root/C07TurretIsShootingProof"
     }
   },
   "version": 1

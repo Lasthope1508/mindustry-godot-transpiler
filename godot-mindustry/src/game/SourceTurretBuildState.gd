@@ -159,6 +159,33 @@ static func source_turret_power_status_row_state(frame: Dictionary, has_power_co
 	var live: float = 1.0 if stamped == null else float(stamped)
 	return {"has_power_row": true, "row": {"result": live, "is_power": true}}
 
+static func source_turret_is_shooting_state(always_shooting: bool, is_player: bool, player_is_shooting: bool, logic_controlled: bool, logic_shooting: bool, has_target: bool) -> Dictionary:
+	# TurretBuild.updateTile() (Turret.java:490-615) sets the
+	# shooting flag at the head of the tick, first line after
+	# the validateTarget verdict: `isShooting =
+	# alwaysShooting || (unit.controller() instanceof Player ?
+	# unit.isShooting() : logicControlled() ? logicShooting :
+	# target != null);` (Turret.java:492). alwaysShooting is
+	# `public boolean alwaysShooting = false;` (:103); the
+	# player branch is `public boolean controlled(){` /
+	# `return unit.isPlayer();` (:441-443) with the unit's own
+	# isShooting; the logic branch is `public boolean
+	# logicControlled(){` / `return logicControlTime > 0;`
+	# (:445-447) with `public boolean logicShooting = false;`
+	# (:288, set by the control() setters :384/:394, N2264);
+	# the default branch is target != null after the :491
+	# verdict (N2251). The flag feeds the warmup target
+	# (`float warmupTarget = (isShooting && canConsume()) ||
+	# charging() ? 1f : 0f;`, :502, N2253) and shouldConsume
+	# (Turret.java:364-366, N2241). Duo has no player and no
+	# logic by default, so isShooting is target != null after
+	# the verdict -- but the driver had no frame["is_shooting"]
+	# stamp and no standalone pure function: N2253 folded the
+	# formula inline as the warmup call's is_shooting arg.
+	# The result is a 1-key dict: `is_shooting`.
+	var is_shooting: bool = always_shooting or (player_is_shooting if is_player else (logic_shooting if logic_controlled else has_target))
+	return {"is_shooting": is_shooting}
+
 static func source_turret_warmup_state(shoot_warmup: float, warmup_hold: float, is_shooting: bool, can_consume: bool, charging: bool, controlled: bool, efficiency: float, delta: float, shoot_warmup_speed: float, linear_warmup: bool, warmup_maintain_time: float) -> Dictionary:
 	# TurretBuild.updateTile() (Turret.java:490-515) advances the
 	# warmup before it aims or shoots. isShooting is
@@ -1266,6 +1293,22 @@ static func source_turret_tick_buildings_state(game: Object, seconds: float) -> 
 			if not bool(validate.get("valid", true)):
 				frame["target"] = null
 				frame["has_target"] = false
+			# The isShooting flag (Turret.java:492, N2277) is set
+			# right after the validateTarget verdict (:491) and
+			# before the warmup target (:502): `isShooting =
+			# alwaysShooting || (unit.controller() instanceof
+			# Player ? unit.isShooting() : logicControlled() ?
+			# logicShooting : target != null);`. Duo has no
+			# player and no logic by default (alwaysShooting
+			# false, Blocks.java:3257-3331 never overrides it),
+			# so isShooting is target != null after the verdict.
+			# logicControlled() is derived LIVE from the
+			# PREVIOUS tick's logic_control_time (the N2261
+			# decay tick runs later in the driver; Java order
+			# :492 is before :534-536), the same precedent as
+			# N2265 reading the previous tick's heat_req.
+			var is_shooting_state: Dictionary = source_turret_is_shooting_state(false, bool(frame.get("controlled", false)), false, float(frame.get("logic_control_time", -1.0)) > 0.0, bool(frame.get("logic_shooting", false)), bool(frame.get("has_target", false)) and bool(validate.get("valid", false)))
+			frame["is_shooting"] = is_shooting_state.get("is_shooting", false)
 			# The efficiency multiplier fold (Turret.java:674-679,
 			# N2265) runs before the warmup advance: Java order is
 			# updateConsumption() with the fold, then updateTile()
@@ -1290,7 +1333,7 @@ static func source_turret_tick_buildings_state(game: Object, seconds: float) -> 
 				var duo_peek_entry: Dictionary = duo_entries[duo_entries.size() - 1]
 				duo_peek_amount = int(duo_peek_entry.get("amount", 0))
 			var duo_can_consume: bool = not duo_entries.is_empty() and (duo_peek_amount >= 1 or bool(frame.get("cheating", false)))
-			var warmup: Dictionary = source_turret_warmup_state(float(frame.get("shoot_warmup", 0.0)), float(frame.get("warmup_hold", 0.0)), bool(frame.get("has_target", false)) and bool(validate.get("valid", false)), duo_can_consume, bool(frame.get("charging", false)), bool(frame.get("controlled", false)), float(frame.get("efficiency", 1.0)), seconds, 0.1, false, 0.0)
+			var warmup: Dictionary = source_turret_warmup_state(float(frame.get("shoot_warmup", 0.0)), float(frame.get("warmup_hold", 0.0)), bool(frame.get("is_shooting", false)), duo_can_consume, bool(frame.get("charging", false)), bool(frame.get("controlled", false)), float(frame.get("efficiency", 1.0)), seconds, 0.1, false, 0.0)
 			frame["shoot_warmup"] = warmup.get("shoot_warmup", 0.0)
 			frame["warmup_hold"] = warmup.get("warmup_hold", 0.0)
 			# The recoil/heat decay (Turret.java:519/:526, N2254)

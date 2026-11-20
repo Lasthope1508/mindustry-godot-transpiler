@@ -8439,6 +8439,57 @@
       "rule": "Source-backed Turret heat requirement + cap read from Turret.java / Blocks.java.",
       "return_type": "Dictionary"
     },
+    "SourceTurretBuildState.source_turret_is_shooting_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_is_shooting_state",
+      "status": "active",
+      "source_slice": "N2277",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.updateTile()",
+      "params": [
+        {
+          "name": "always_shooting",
+          "type": "bool",
+          "schema": "source_turret_is_shooting_state_input.always_shooting"
+        },
+        {
+          "name": "is_player",
+          "type": "bool",
+          "schema": "source_turret_is_shooting_state_input.is_player"
+        },
+        {
+          "name": "player_is_shooting",
+          "type": "bool",
+          "schema": "source_turret_is_shooting_state_input.player_is_shooting"
+        },
+        {
+          "name": "logic_controlled",
+          "type": "bool",
+          "schema": "source_turret_is_shooting_state_input.logic_controlled"
+        },
+        {
+          "name": "logic_shooting",
+          "type": "bool",
+          "schema": "source_turret_is_shooting_state_input.logic_shooting"
+        },
+        {
+          "name": "has_target",
+          "type": "bool",
+          "schema": "source_turret_is_shooting_state_input.has_target"
+        }
+      ],
+      "return_keys": [
+        "is_shooting"
+      ],
+      "tests": [
+        "test_c07_turret_is_shooting_registration",
+        "test_all_c07_turret_is_shooting_input_evidence_is_exact",
+        "test_turret_is_shooting_state",
+        "test_reference_graph_and_actual_c07_turret_is_shooting"
+      ],
+      "runtime_proof": "/root/C07TurretIsShootingProof",
+      "rule": "Source-backed Turret isShooting flag from TurretBuild.updateTile() / Turret.java:492.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_turret_logic_control_time_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_logic_control_time_state",
       "status": "active",
