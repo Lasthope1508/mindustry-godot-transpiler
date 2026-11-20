@@ -1,4 +1,4 @@
-"""Register the Turret isActive() predicate (N2279).
+"""Register the Turret isActive() predicate (N2328).
 
 TurretBuild.isActive() (Turret.java:449-451) is the one-line
 activity gate:
@@ -58,7 +58,7 @@ BUILDING_COMP = 'core/src/mindustry/entities/comp/BuildingComp.java'
 PROOF = '/root/C07TurretIsActiveProof'
 OWNER = 'SourceTurretBuildState.source_turret_is_active_state'
 TESTS = ['test_c07_turret_is_active_registration', 'test_all_c07_turret_is_active_input_evidence_is_exact', 'test_turret_is_active_state', 'test_reference_graph_and_actual_c07_turret_is_active']
-# The 3 slice sources the N2279 test checks exact_exprs
+# The 3 slice sources the N2328 test checks exact_exprs
 # against -- every expr in EXACT_EXPRS below must appear verbatim
 # in one of these files.
 SLICE_SOURCES = [
@@ -84,9 +84,9 @@ EXACT_EXPRS = [
 # DEFERRED is carried from the N2322 register script via import --
 # never retyped. Nothing in it closes here: isActive() was never
 # a deferred entry of the Turret chain. One entry is added: the
-# N2279 Windows Godot proof debt (GOAL.md section 5).
+# N2328 Windows Godot proof debt (GOAL.md section 5).
 DEFERRED = N2322_DEFERRED + [
-    'Turret isActive() Windows Godot proof -- debt in GOAL.md section 5, same as N2148/N2227: the N2279 proof runs headless on Linux here and waits for a Windows Godot run.',
+    'Turret isActive() Windows Godot proof -- debt in GOAL.md section 5, same as N2148/N2227: the N2328 proof runs headless on Linux here and waits for a Windows Godot run.',
 ]
 
 
@@ -140,7 +140,7 @@ def main():
     inputs, outputs = definitions()
 
     entries = [
-        ('N2279', OWNER, 'source_turret_is_active_state', TURRET, 'mindustry.world.blocks.defense.turrets.Turret.TurretBuild', 'TurretBuild.isActive()', inputs, outputs, True, 'Dictionary'),
+        ('N2328', OWNER, 'source_turret_is_active_state', TURRET, 'mindustry.world.blocks.defense.turrets.Turret.TurretBuild', 'TurretBuild.isActive()', inputs, outputs, True, 'Dictionary'),
     ]
     all_names = []
     for sid, owner, prefix, source, cls, method, inputs, outputs, has_contract, return_type in entries:
@@ -160,10 +160,10 @@ def main():
 
     by_slice = {}
     # The test pins this order: is_active.
-    by_slice['N2279'] = [
+    by_slice['N2328'] = [
         'source_turret_is_active_state_result.is_active',
     ]
-    source_symbols.upsert_source_slice(GODOT, 'N2279', dict(status='done', java_source=TURRET, java_class='mindustry.world.blocks.defense.turrets.Turret.TurretBuild', java_method='TurretBuild.isActive()', godot_owner=OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2279'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
+    source_symbols.upsert_source_slice(GODOT, 'N2328', dict(status='done', java_source=TURRET, java_class='mindustry.world.blocks.defense.turrets.Turret.TurretBuild', java_method='TurretBuild.isActive()', godot_owner=OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2328'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
 
     source_symbols.upsert_source_symbols(GODOT, symbols)
     source_symbols.write_source_symbol_audit_report(GODOT)

@@ -19,7 +19,7 @@ func _ready() -> void:
 	game.set_process(false)
 	game.set_physics_process(false)
 
-	# --- Turret isActive() activity gate (N2279): TurretBuild.isActive()
+	# --- Turret isActive() activity gate (N2328): TurretBuild.isActive()
 	# (Turret.java:449-451) returns true only while the turret has a
 	# target or shot on the previous tick, is enabled, and its placement
 	# activation timer has elapsed:

@@ -14,7 +14,7 @@ class C07TurretIsActiveTests(unittest.TestCase):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        self.assertEqual(ledger['N2279']['godot_owner'], 'SourceTurretBuildState.source_turret_is_active_state')
+        self.assertEqual(ledger['N2328']['godot_owner'], 'SourceTurretBuildState.source_turret_is_active_state')
         # TurretBuild.isActive() (Turret.java:449-451):
         # `public boolean isActive(){`
         # `return (target != null || wasShooting) && enabled && activationTimer <= 0;`
@@ -55,21 +55,21 @@ class C07TurretIsActiveTests(unittest.TestCase):
         # slices. One new result symbol:
         # is_active.
         self.assertEqual(
-            ledger['N2279']['source_symbols'],
+            ledger['N2328']['source_symbols'],
             [
                 'source_turret_is_active_state_result.is_active',
             ],
         )
-        for name in ledger['N2279']['source_symbols']:
+        for name in ledger['N2328']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_source'], {
                     'core/src/mindustry/world/blocks/defense/turrets/Turret.java',
                 })
                 self.assertEqual(symbol['godot_owner'], 'SourceTurretBuildState.' + name.rsplit('_result.', 1)[0])
-        self.assertEqual(ledger['N2279']['runtime_proof'], '/root/C07TurretIsActiveProof')
+        self.assertEqual(ledger['N2328']['runtime_proof'], '/root/C07TurretIsActiveProof')
         self.assertEqual(
-            ledger['N2279']['tests'],
+            ledger['N2328']['tests'],
             [
                 'test_c07_turret_is_active_registration',
                 'test_all_c07_turret_is_active_input_evidence_is_exact',
@@ -77,13 +77,13 @@ class C07TurretIsActiveTests(unittest.TestCase):
                 'test_reference_graph_and_actual_c07_turret_is_active',
             ],
         )
-        self.assertTrue(ledger['N2279']['deferred_exprs'])
+        self.assertTrue(ledger['N2328']['deferred_exprs'])
 
     def test_all_c07_turret_is_active_input_evidence_is_exact(self):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        for name in ledger['N2279']['source_symbols']:
+        for name in ledger['N2328']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_expr'], (ROOT / 'mindustry-upstream' / symbol['java_source']).read_text(encoding='utf-8'))
@@ -94,7 +94,7 @@ class C07TurretIsActiveTests(unittest.TestCase):
             'core/src/mindustry/entities/comp/BuildingComp.java',
         }
         upstream = {source: (ROOT / 'mindustry-upstream' / source).read_text(encoding='utf-8') for source in slice_sources}
-        for expr in ledger['N2279']['exact_exprs']:
+        for expr in ledger['N2328']['exact_exprs']:
             with self.subTest(expr=expr):
                 self.assertTrue(any(expr in text for text in upstream.values()), expr)
 

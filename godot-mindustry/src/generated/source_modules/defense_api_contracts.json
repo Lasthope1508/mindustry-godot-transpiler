@@ -8062,7 +8062,7 @@
     "SourceTurretBuildState.source_turret_is_active_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_is_active_state",
       "status": "active",
-      "source_slice": "N2279",
+      "source_slice": "N2328",
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
       "source_method": "TurretBuild.isActive()",
       "params": [

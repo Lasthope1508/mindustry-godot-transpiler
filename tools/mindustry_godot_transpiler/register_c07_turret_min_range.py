@@ -50,7 +50,7 @@ import sys
 from pathlib import Path
 
 from mindustry_port import source_ssot, source_symbols
-from register_c07_turret_is_active import DEFERRED as N2279_DEFERRED
+from register_c07_turret_is_active import DEFERRED as N2328_DEFERRED
 from register_liquid_consumer_hydration import backed
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -81,11 +81,11 @@ EXACT_EXPRS = [
     'return ammo.size == 0 ? null : ammo.peek().type();',
 ]
 
-# DEFERRED is carried from the N2279 register script via import --
+# DEFERRED is carried from the N2328 register script via import --
 # never retyped. Nothing in it closes here: minRange() was never
 # a deferred entry of the Turret chain. One entry is added: the
 # N2282 Windows Godot proof debt (GOAL.md section 5).
-DEFERRED = N2279_DEFERRED + [
+DEFERRED = N2328_DEFERRED + [
     'Turret minRange() Windows Godot proof -- debt in GOAL.md section 5, same as N2148/N2227: the N2282 proof runs headless on Linux here and waits for a Windows Godot run.',
 ]
 
