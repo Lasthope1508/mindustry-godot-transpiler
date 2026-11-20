@@ -5,7 +5,7 @@ Ngày: 2026-11-20 ~14:0x +07 (GREEN), gate xong 15:06:49 +07, push ~15:2x +07.
 ## Trạng thái
 
 - N2280 DONE + PUSHED (origin/main df426c4e).
-- N2281 DONE + PUSHED (slice 6865ec40, docs 59ac3a51, GOAL 464738b0, status TBD, hashes TBD): Turret canHeal() live derivation — `protected boolean canHeal(){ return targetHealing && hasAmmo() && peekAmmo().collidesTeam && peekAmmo().heals(); }` (Turret.java:635-637) — targetHealing false cho duo (Turret.java:95, duo không set), collidesTeam default false (BulletType.java:127, catalog không có key), heals() false cho duo (BulletType.java:447-449, duo ammo không set healPercent/healAmount). Cả hai consumer Java (validateTarget :632, findTarget :660) đều cần live entity scan nên KHÔNG rewire — stamp-only như N2280.
+- N2281 DONE + PUSHED (slice 6865ec40, docs 59ac3a51, GOAL 464738b0, status ee669f22, hashes TBD): Turret canHeal() live derivation — `protected boolean canHeal(){ return targetHealing && hasAmmo() && peekAmmo().collidesTeam && peekAmmo().heals(); }` (Turret.java:635-637) — targetHealing false cho duo (Turret.java:95, duo không set), collidesTeam default false (BulletType.java:127, catalog không có key), heals() false cho duo (BulletType.java:447-449, duo ammo không set healPercent/healAmount). Cả hai consumer Java (validateTarget :632, findTarget :660) đều cần live entity scan nên KHÔNG rewire — stamp-only như N2280.
 
 ## Làm được lượt này (GREEN + gate xong)
 
