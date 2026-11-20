@@ -241946,6 +241946,124 @@
       },
       "runtime_proof": "/root/C07DrillShouldConsumeProof",
       "rule": "Source-backed DrillBuild shouldConsume() gate from Drill.java + BurstDrill.java + BuildingComp.java + Block.java + Blocks.java + ItemModule.java."
+    },
+    "source_sound_control_reload_state_input": {
+      "status": "active",
+      "owner": "SourceSoundControlState.source_sound_control_reload_state",
+      "source_slice": "N2339",
+      "keys": {
+        "has_current": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "protected @Nullable Music current;",
+          "rule": "Whether a track is currently playing (SoundControl.java:34, `protected @Nullable Music current;`): arrives as an explicit bool param -- the null check is folded into this param (the N2306 precedent). The old value is ignored: reload() overwrites current unconditionally.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_reload_state"
+          ]
+        },
+        "current": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "protected @Nullable Music current;",
+          "rule": "The currently playing track (SoundControl.java:34, `protected @Nullable Music current;`): arrives as an explicit String param, its name (the N2287 precedent); an unset current is passed as \"\" with has_current false and is never read -- reload() resets it to null whatever it was.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_reload_state"
+          ]
+        },
+        "fade": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "protected float fade;",
+          "rule": "The fade level (SoundControl.java:35, `protected float fade;`): arrives as an explicit float param and is carried out reset to 0 -- the old value is ignored, exactly as Java overwrites it.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_reload_state"
+          ]
+        },
+        "sound_parents": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "for(var sound : Core.assets.getAll(Sound.class, new Seq<>())){",
+          "rule": "Every loaded Sound asset with its file parent folder (SoundControl.java:84-86, `for(var sound : Core.assets.getAll(Sound.class, new Seq<>())){` / `var file = Fi.get(Core.assets.getAssetFileName(sound));` / `if(file.parent().name().equals(\"ui\")){`): arrives as an explicit Dictionary param, sound name -> parent folder name -- the asset enumeration and file-name resolution are folded into the caller param (the findMusic precedent), while the `equals(\"ui\")` check IS ported inside the function.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_reload_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SoundControlReloadProof",
+      "rule": "Source-backed SoundControl reload state from SoundControl.java."
+    },
+    "source_sound_control_reload_state_result": {
+      "status": "active",
+      "owner": "SourceSoundControlState.source_sound_control_reload_state",
+      "source_slice": "N2339",
+      "keys": {
+        "current": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "current = null;",
+          "rule": "The track playing after reload (SoundControl.java:76, `current = null;`): always null -- reload() clears the current track, whatever was playing.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_reload_state"
+          ]
+        },
+        "fade": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "fade = 0f;",
+          "rule": "The fade level after reload (SoundControl.java:77, `fade = 0f;`): always 0 -- reload() zeroes the fade, whatever it was.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_reload_state"
+          ]
+        },
+        "ambient_music": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "ambientMusic = Seq.with(Musics.game1, Musics.game3, Musics.game6, Musics.game8, Musics.game9, Musics.fine);",
+          "rule": "The rebuilt ambient music list (SoundControl.java:78, `ambientMusic = Seq.with(Musics.game1, Musics.game3, Musics.game6, Musics.game8, Musics.game9, Musics.fine);`): the six track names in exactly this order -- the producer side of the list the N2326 getAmbientMusic getter reads.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_reload_state"
+          ]
+        },
+        "dark_music": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "darkMusic = Seq.with(Musics.game2, Musics.game5, Musics.game7, Musics.game4);",
+          "rule": "The rebuilt dark music list (SoundControl.java:79, `darkMusic = Seq.with(Musics.game2, Musics.game5, Musics.game7, Musics.game4);`): the four track names in exactly this order -- the producer side of the list the N2326 getDarkMusic getter reads.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_reload_state"
+          ]
+        },
+        "boss_music": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "bossMusic = Seq.with(Musics.boss1, Musics.boss2, Musics.game2, Musics.game5);",
+          "rule": "The rebuilt boss music list (SoundControl.java:80, `bossMusic = Seq.with(Musics.boss1, Musics.boss2, Musics.game2, Musics.game5);`): the four track names in exactly this order -- the producer side of the list the N2326 getBossMusic getter reads.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_reload_state"
+          ]
+        },
+        "ui_bus_sounds": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "sound.setBus(uiBus);",
+          "rule": "The sounds assigned to the uiBus (SoundControl.java:87, `sound.setBus(uiBus);`): every sound whose parent folder is \"ui\", in registry order -- the bus-assignment state the driver applies; this slice NEVER touches audio itself, playback belongs to updateLoops (N2304, held waiting for B).",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_reload_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SoundControlReloadProof",
+      "rule": "Source-backed SoundControl reload state from SoundControl.java."
     }
   },
   "version": 1

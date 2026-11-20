@@ -586,3 +586,75 @@ static func source_sound_control_keep_silent_state(keep_silent: bool) -> Diction
 	# playRandom (G4b) + updateLoops (N2304, held). NO
 	# audio playback in this slice.
 	return {"keep_silent": true}
+
+const RELOAD_AMBIENT_MUSIC := ["game1", "game3", "game6", "game8", "game9", "fine"]
+const RELOAD_DARK_MUSIC := ["game2", "game5", "game7", "game4"]
+const RELOAD_BOSS_MUSIC := ["boss1", "boss2", "game2", "game5"]
+const RELOAD_UI_FOLDER := "ui"
+
+static func source_sound_control_reload_state(has_current: bool, current: String, fade: float, sound_parents: Dictionary) -> Dictionary:
+	# SoundControl.reload() (SoundControl.java:75-91):
+	# `protected void reload(){`
+	# `current = null;`
+	# `fade = 0f;`
+	# `ambientMusic = Seq.with(Musics.game1, Musics.game3, Musics.game6, Musics.game8, Musics.game9, Musics.fine);`
+	# `darkMusic = Seq.with(Musics.game2, Musics.game5, Musics.game7, Musics.game4);`
+	# `bossMusic = Seq.with(Musics.boss1, Musics.boss2, Musics.game2, Musics.game5);`
+	# `for(var sound : Core.assets.getAll(Sound.class, new Seq<>())){`
+	# `var file = Fi.get(Core.assets.getAssetFileName(sound));`
+	# `if(file.parent().name().equals("ui")){`
+	# `sound.setBus(uiBus);`
+	# `}`
+	# `}`
+	# `Events.fire(new MusicRegisterEvent());`
+	# `}`
+	# -- reload rebuilds the three music lists from the
+	# Musics fields, in exactly this order, and assigns
+	# the uiBus to every Sound asset whose file sits in
+	# the "ui" folder, then fires a MusicRegisterEvent.
+	# The lists are rebuilt from scratch every call:
+	# `public Seq<Music> ambientMusic = Seq.with();`
+	# `public Seq<Music> darkMusic = Seq.with();`
+	# `public Seq<Music> bossMusic = Seq.with();`
+	# (SoundControl.java:23, :25, :27) are the fields
+	# being overwritten. Music arrives as its name
+	# String (the N2287 precedent): the Musics field
+	# names are the asset names -- game1..game9, fine,
+	# boss1, boss2 all exist as core/assets/music/*.ogg
+	# in the upstream checkout. The old current / fade
+	# arrive as explicit params -- `protected @Nullable
+	# Music current;` (SoundControl.java:34) and
+	# `protected float fade;` (:35), with has_current
+	# folding the null check (the N2306 precedent) --
+	# and are overwritten unconditionally, exactly as
+	# Java ignores them (the keepSilent precedent,
+	# N2336): reload resets them to null / 0 whatever
+	# they were. The asset enumeration
+	# (`Core.assets.getAll(Sound.class, new Seq<>())`)
+	# and the file-name resolution
+	# (`Fi.get(Core.assets.getAssetFileName(sound))`
+	# + `file.parent().name()`) arrive folded into one
+	# explicit Dictionary param -- sound name ->
+	# parent folder name -- and the
+	# `file.parent().name().equals("ui")` check IS
+	# ported, case-sensitive, in order. The
+	# bus assignment is returned as state: ui_bus_sounds
+	# lists the sounds assigned to the uiBus field
+	# (`public AudioBus uiBus = new AudioBus();`,
+	# SoundControl.java:29). `Events.fire(new
+	# MusicRegisterEvent());` is evidence only -- the
+	# event system is NOT ported in this slice. reload()
+	# is called from `Events.on(ClientLoadEvent.class, e
+	# -> reload());` (SoundControl.java:46); the caller
+	# is NOT ported here. NO audio playback in this
+	# slice: this only computes state + the
+	# bus-assignment list; playback belongs to
+	# updateLoops (N2304, held waiting for B).
+	var ambient_music: Array = RELOAD_AMBIENT_MUSIC.duplicate()
+	var dark_music: Array = RELOAD_DARK_MUSIC.duplicate()
+	var boss_music: Array = RELOAD_BOSS_MUSIC.duplicate()
+	var ui_bus_sounds: Array = []
+	for sound in sound_parents:
+		if String(sound_parents[sound]) == RELOAD_UI_FOLDER:
+			ui_bus_sounds.append(sound)
+	return {"current": null, "fade": 0.0, "ambient_music": ambient_music, "dark_music": dark_music, "boss_music": boss_music, "ui_bus_sounds": ui_bus_sounds}

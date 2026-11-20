@@ -179000,6 +179000,102 @@
         "test_reference_graph_and_actual_c07_drill_should_consume"
       ],
       "runtime_proof": "/root/C07DrillShouldConsumeProof"
+    },
+    "source_sound_control_reload_state_result.current": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_reload_state",
+      "godot_symbol": "source_sound_control_reload_state_result.current",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.reload()",
+      "java_expr": "current = null;",
+      "rule": "The track playing after reload (SoundControl.java:76, `current = null;`): always null -- reload() clears the current track, whatever was playing.",
+      "tests": [
+        "test_c07_sound_control_reload_registration",
+        "test_all_c07_sound_control_reload_input_evidence_is_exact",
+        "test_sound_control_reload_state",
+        "test_reference_graph_and_actual_c07_sound_control_reload"
+      ],
+      "runtime_proof": "/root/C07SoundControlReloadProof"
+    },
+    "source_sound_control_reload_state_result.fade": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_reload_state",
+      "godot_symbol": "source_sound_control_reload_state_result.fade",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.reload()",
+      "java_expr": "fade = 0f;",
+      "rule": "The fade level after reload (SoundControl.java:77, `fade = 0f;`): always 0 -- reload() zeroes the fade, whatever it was.",
+      "tests": [
+        "test_c07_sound_control_reload_registration",
+        "test_all_c07_sound_control_reload_input_evidence_is_exact",
+        "test_sound_control_reload_state",
+        "test_reference_graph_and_actual_c07_sound_control_reload"
+      ],
+      "runtime_proof": "/root/C07SoundControlReloadProof"
+    },
+    "source_sound_control_reload_state_result.ambient_music": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_reload_state",
+      "godot_symbol": "source_sound_control_reload_state_result.ambient_music",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.reload()",
+      "java_expr": "ambientMusic = Seq.with(Musics.game1, Musics.game3, Musics.game6, Musics.game8, Musics.game9, Musics.fine);",
+      "rule": "The rebuilt ambient music list (SoundControl.java:78, `ambientMusic = Seq.with(Musics.game1, Musics.game3, Musics.game6, Musics.game8, Musics.game9, Musics.fine);`): the six track names in exactly this order -- the producer side of the list the N2326 getAmbientMusic getter reads.",
+      "tests": [
+        "test_c07_sound_control_reload_registration",
+        "test_all_c07_sound_control_reload_input_evidence_is_exact",
+        "test_sound_control_reload_state",
+        "test_reference_graph_and_actual_c07_sound_control_reload"
+      ],
+      "runtime_proof": "/root/C07SoundControlReloadProof"
+    },
+    "source_sound_control_reload_state_result.dark_music": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_reload_state",
+      "godot_symbol": "source_sound_control_reload_state_result.dark_music",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.reload()",
+      "java_expr": "darkMusic = Seq.with(Musics.game2, Musics.game5, Musics.game7, Musics.game4);",
+      "rule": "The rebuilt dark music list (SoundControl.java:79, `darkMusic = Seq.with(Musics.game2, Musics.game5, Musics.game7, Musics.game4);`): the four track names in exactly this order -- the producer side of the list the N2326 getDarkMusic getter reads.",
+      "tests": [
+        "test_c07_sound_control_reload_registration",
+        "test_all_c07_sound_control_reload_input_evidence_is_exact",
+        "test_sound_control_reload_state",
+        "test_reference_graph_and_actual_c07_sound_control_reload"
+      ],
+      "runtime_proof": "/root/C07SoundControlReloadProof"
+    },
+    "source_sound_control_reload_state_result.boss_music": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_reload_state",
+      "godot_symbol": "source_sound_control_reload_state_result.boss_music",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.reload()",
+      "java_expr": "bossMusic = Seq.with(Musics.boss1, Musics.boss2, Musics.game2, Musics.game5);",
+      "rule": "The rebuilt boss music list (SoundControl.java:80, `bossMusic = Seq.with(Musics.boss1, Musics.boss2, Musics.game2, Musics.game5);`): the four track names in exactly this order -- the producer side of the list the N2326 getBossMusic getter reads.",
+      "tests": [
+        "test_c07_sound_control_reload_registration",
+        "test_all_c07_sound_control_reload_input_evidence_is_exact",
+        "test_sound_control_reload_state",
+        "test_reference_graph_and_actual_c07_sound_control_reload"
+      ],
+      "runtime_proof": "/root/C07SoundControlReloadProof"
+    },
+    "source_sound_control_reload_state_result.ui_bus_sounds": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_reload_state",
+      "godot_symbol": "source_sound_control_reload_state_result.ui_bus_sounds",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.reload()",
+      "java_expr": "sound.setBus(uiBus);",
+      "rule": "The sounds assigned to the uiBus (SoundControl.java:87, `sound.setBus(uiBus);`): every sound whose parent folder is \"ui\", in registry order -- the bus-assignment state the driver applies; this slice NEVER touches audio itself, playback belongs to updateLoops (N2304, held waiting for B).",
+      "tests": [
+        "test_c07_sound_control_reload_registration",
+        "test_all_c07_sound_control_reload_input_evidence_is_exact",
+        "test_sound_control_reload_state",
+        "test_reference_graph_and_actual_c07_sound_control_reload"
+      ],
+      "runtime_proof": "/root/C07SoundControlReloadProof"
     }
   },
   "version": 1

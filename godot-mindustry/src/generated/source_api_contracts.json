@@ -71895,6 +71895,51 @@
       ],
       "runtime_proof": "/root/C07DrillShouldConsumeProof",
       "rule": "Source-backed DrillBuild shouldConsume() gate from Drill.java + BurstDrill.java + BuildingComp.java + Block.java + Blocks.java + ItemModule.java."
+    },
+    "SourceSoundControlState.source_sound_control_reload_state": {
+      "status": "active",
+      "source_slice": "N2339",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "source_method": "SoundControl.reload()",
+      "params": [
+        {
+          "name": "has_current",
+          "type": "bool",
+          "schema": "source_sound_control_reload_state_input.has_current"
+        },
+        {
+          "name": "current",
+          "type": "String",
+          "schema": "source_sound_control_reload_state_input.current"
+        },
+        {
+          "name": "fade",
+          "type": "float",
+          "schema": "source_sound_control_reload_state_input.fade"
+        },
+        {
+          "name": "sound_parents",
+          "type": "Dictionary",
+          "schema": "source_sound_control_reload_state_input.sound_parents"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "current",
+        "fade",
+        "ambient_music",
+        "dark_music",
+        "boss_music",
+        "ui_bus_sounds"
+      ],
+      "tests": [
+        "test_c07_sound_control_reload_registration",
+        "test_all_c07_sound_control_reload_input_evidence_is_exact",
+        "test_sound_control_reload_state",
+        "test_reference_graph_and_actual_c07_sound_control_reload"
+      ],
+      "runtime_proof": "/root/C07SoundControlReloadProof",
+      "rule": "Source-backed SoundControl reload state from SoundControl.java."
     }
   },
   "policy": {
