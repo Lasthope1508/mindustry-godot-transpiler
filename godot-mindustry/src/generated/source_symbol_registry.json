@@ -179112,6 +179112,22 @@
         "test_reference_graph_and_actual_c07_turret_is_shooting"
       ],
       "runtime_proof": "/root/C07TurretIsShootingProof"
+    },
+    "source_burst_drill_get_drill_time_state_result.drill_time": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_get_drill_time_state",
+      "godot_symbol": "source_burst_drill_get_drill_time_state_result.drill_time",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_method": "BurstDrill.getDrillTime()",
+      "java_expr": "return drillTime / drillMultipliers.get(item, 1f);",
+      "rule": "The drill time for the item: drillTime divided by the per-item multiplier (`return drillTime / drillMultipliers.get(item, 1f);`, BurstDrill.java:54), with NO hardness term -- the base Drill formula (`return (drillTime + hardnessDrillMultiplier * item.hardness) / drillMultipliers.get(item, 1f);`, Drill.java:171) is NOT this slice; the BurstDrill constructor zeroes the field (`hardnessDrillMultiplier = 0f;`, BurstDrill.java:39), so item.hardness is not an input. Impact-drill + beryllium gives 720/2 = 360 (NOT the base formula (720 + 50*3)/2 = 435).",
+      "tests": [
+        "test_c07_burst_drill_get_drill_time_registration",
+        "test_all_c07_burst_drill_get_drill_time_input_evidence_is_exact",
+        "test_burst_drill_get_drill_time_state",
+        "test_reference_graph_and_actual_c07_burst_drill_get_drill_time"
+      ],
+      "runtime_proof": "/root/C07BurstDrillGetDrillTimeProof"
     }
   },
   "version": 1

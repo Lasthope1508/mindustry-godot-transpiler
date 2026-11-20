@@ -1301,6 +1301,23 @@
       ],
       "runtime_proof": "/root/C07DrillDrawSelectProof"
     },
+    "N2344": {
+      "canonical_ledger": "source_slice_ledger.N2344",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "java_method": "BurstDrill.getDrillTime()",
+      "godot_owner": "SourceBurstDrillBuildState.source_burst_drill_get_drill_time_state",
+      "source_symbols": [
+        "source_burst_drill_get_drill_time_state_result.drill_time"
+      ],
+      "tests": [
+        "test_c07_burst_drill_get_drill_time_registration",
+        "test_all_c07_burst_drill_get_drill_time_input_evidence_is_exact",
+        "test_burst_drill_get_drill_time_state",
+        "test_reference_graph_and_actual_c07_burst_drill_get_drill_time"
+      ],
+      "runtime_proof": "/root/C07BurstDrillGetDrillTimeProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",

@@ -373,6 +373,51 @@
         }
       }
     },
+    "source_burst_drill_get_drill_time_state_input": {
+      "canonical_schema": "source_state_schema.source_burst_drill_get_drill_time_state_input",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "public float getDrillTime(Item item){",
+          "rule": "The BurstDrillBuild frame (BurstDrill.getDrillTime, BurstDrill.java:52-55); the family-convention first arg (every BurstDrill pure function takes it). No live keys are read from the frame -- drill_time and drill_multipliers are explicit per-def params (the N2212 / N2224 per-def-param precedent, same as setStats).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_get_drill_time_state"
+          ]
+        },
+        "drill_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public float drillTime = 300;",
+          "rule": "The base time to drill one ore, in frames (`public float drillTime = 300;`, Drill.java:36); passed explicitly because it is per-def static state, not a live frame key (the N2212 per-def-param precedent). Impact-drill overrides it to `drillTime = 60f * 12f;` (720f, Blocks.java:3072); eruption-drill to `drillTime = 281.25f;` (Blocks.java:3095).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_get_drill_time_state"
+          ]
+        },
+        "drill_multipliers": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public ObjectFloatMap<Item> drillMultipliers = new ObjectFloatMap<>();",
+          "rule": "The per-item drill-speed multipliers (`public ObjectFloatMap<Item> drillMultipliers = new ObjectFloatMap<>();`, Drill.java:66); a missing item defaults to 1f via `drillMultipliers.get(item, 1f)` (BurstDrill.java:54). Passed explicitly because it is per-def static state (the N2212 per-def-param precedent): both defs put beryllium at 2f (`drillMultipliers.put(Items.beryllium, 2f);`, Blocks.java:3083/3114).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_get_drill_time_state"
+          ]
+        },
+        "item_id": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+          "java_expr": "public float getDrillTime(Item item){",
+          "rule": "The item to drill (`public float getDrillTime(Item item){`, BurstDrill.java:53); rides as a string id (the source_drill_delay bridge precedent: item_id: String). The caller passes the dominant item (the tick reads `float drillTime = getDrillTime(dominantItem);`, BurstDrill.java:87).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_burst_drill_get_drill_time_state"
+          ]
+        }
+      }
+    },
     "source_burst_drill_icons_state_input": {
       "canonical_schema": "source_state_schema.source_burst_drill_icons_state_input",
       "keys": {

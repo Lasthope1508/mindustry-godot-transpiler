@@ -769,6 +769,47 @@
       "rule": "Source-backed BurstDrillBuild draw() state from BurstDrill.java + Drill.java + Block.java + Blocks.java.",
       "return_type": "Dictionary"
     },
+    "SourceBurstDrillBuildState.source_burst_drill_get_drill_time_state": {
+      "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_burst_drill_get_drill_time_state",
+      "status": "active",
+      "source_slice": "N2344",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "source_method": "BurstDrill.getDrillTime()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_burst_drill_get_drill_time_state_input.frame"
+        },
+        {
+          "name": "drill_time",
+          "type": "float",
+          "schema": "source_burst_drill_get_drill_time_state_input.drill_time"
+        },
+        {
+          "name": "drill_multipliers",
+          "type": "Dictionary",
+          "schema": "source_burst_drill_get_drill_time_state_input.drill_multipliers"
+        },
+        {
+          "name": "item_id",
+          "type": "Variant",
+          "schema": "source_burst_drill_get_drill_time_state_input.item_id"
+        }
+      ],
+      "return_keys": [
+        "drill_time"
+      ],
+      "tests": [
+        "test_c07_burst_drill_get_drill_time_registration",
+        "test_all_c07_burst_drill_get_drill_time_input_evidence_is_exact",
+        "test_burst_drill_get_drill_time_state",
+        "test_reference_graph_and_actual_c07_burst_drill_get_drill_time"
+      ],
+      "runtime_proof": "/root/C07BurstDrillGetDrillTimeProof",
+      "rule": "Source-backed BurstDrill getDrillTime() state from BurstDrill.java + Drill.java + Blocks.java.",
+      "return_type": "Dictionary"
+    },
     "SourceBurstDrillBuildState.source_burst_drill_icons_state": {
       "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_burst_drill_icons_state",
       "status": "active",

@@ -355,6 +355,17 @@ static func source_burst_drill_icons_state(region: Variant, top_region: Variant)
 	var icons: Array = [region, top_region]
 	return {"icons": icons}
 
+@warning_ignore("unused_parameter")
+static func source_burst_drill_get_drill_time_state(frame: Dictionary, drill_time: float, drill_multipliers: Dictionary, item_id: Variant) -> Dictionary:
+	# BurstDrill.getDrillTime() (BurstDrill.java:52-55):
+	# @Override
+	# public float getDrillTime(Item item){
+	# return drillTime / drillMultipliers.get(item, 1f);
+	# }
+	# The override drops the base formula's hardness leg entirely: the base Drill.getDrillTime (`return (drillTime + hardnessDrillMultiplier * item.hardness) / drillMultipliers.get(item, 1f);`, Drill.java:171) adds `hardnessDrillMultiplier * item.hardness`, but the BurstDrill constructor zeroes that field (`hardnessDrillMultiplier = 0f;`, BurstDrill.java:39, "does not drill in the traditional sense, so this is not even used"), so item.hardness is NOT an input here. `drillTime` is the block field (`public float drillTime = 300;`, Drill.java:36); `drillMultipliers` is (`public ObjectFloatMap<Item> drillMultipliers = new ObjectFloatMap<>();`, Drill.java:66) and defaults a missing item to 1f (`drillMultipliers.get(item, 1f)`). The classes are `public class BurstDrill extends Drill{` (BurstDrill.java:17) and `public class Drill extends Block{` (Drill.java:27). Per-def values: impact-drill (Blocks.java:3070) sets `drillTime = 60f * 12f;` (720f) and `drillMultipliers.put(Items.beryllium, 2f);`; eruption-drill (Blocks.java:3093) sets `drillTime = 281.25f;` and `drillMultipliers.put(Items.beryllium, 2f);`. This slice is distinct from Drill.getDrillTime (N1367/N690, owner PortGame.source_drill_delay): different class, different formula, different GD name -- the shared signature string is evidence-only, not ownership. There is NO driver tick line: the BurstDrill tick (N2149/N2294/N2296) already reads `float drillTime = getDrillTime(dominantItem);` (BurstDrill.java:87) through its precomputed drill_time_base / drill_multiplier params; this slice ports only the pure function, not the caller. frame carries no live keys for this block-level read -- drill_time and drill_multipliers are per-def static state, not live frame keys (the N2212 / N2224 per-def-param precedent); frame is the canonical first param of this family file. The base class default for the dropped leg is `public float hardnessDrillMultiplier = 50f;` (Drill.java:28).
+	drill_time = drill_time / float(drill_multipliers.get(item_id, 1.0))
+	return {"drill_time": drill_time}
+
 static func source_drill_icons_state(region: Variant, rotator_region: Variant, top_region: Variant) -> Dictionary:
 	# Drill.icons() (Drill.java:194-196):
 	# @Override
