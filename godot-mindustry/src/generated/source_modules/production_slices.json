@@ -1223,6 +1223,30 @@
       ],
       "runtime_proof": "/root/C07DrillDrawProof"
     },
+    "N2330": {
+      "canonical_ledger": "source_slice_ledger.N2330",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "Drill.canPlaceOn(Tile tile, Team team, int rotation)/Drill.setBars()/Drill.drawPlanConfig(BuildPlan plan, Eachable<BuildPlan> list)",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_can_place_on_state",
+      "source_symbols": [
+        "source_drill_can_place_on_state_result.can_place_on",
+        "source_drill_set_bars_state_result.bar_key",
+        "source_drill_set_bars_state_result.bar_text",
+        "source_drill_set_bars_state_result.bar_color",
+        "source_drill_set_bars_state_result.bar_fraction",
+        "source_drill_draw_plan_config_state_result.visible",
+        "source_drill_draw_plan_config_state_result.tint_color",
+        "source_drill_draw_plan_config_state_result.item_rect"
+      ],
+      "tests": [
+        "test_c07_drill_can_place_on_set_bars_draw_plan_config_registration",
+        "test_all_c07_drill_can_place_on_set_bars_draw_plan_config_input_evidence_is_exact",
+        "test_drill_can_place_on_set_bars_draw_plan_config_state",
+        "test_reference_graph_and_actual_c07_drill_can_place_on_set_bars_draw_plan_config"
+      ],
+      "runtime_proof": "/root/C07DrillCanPlaceOnSetBarsDrawPlanConfigProof"
+    },
     "N2332": {
       "canonical_ledger": "source_slice_ledger.N2332",
       "status": "done",

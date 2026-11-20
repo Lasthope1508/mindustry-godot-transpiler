@@ -745,6 +745,51 @@
         }
       }
     },
+    "source_drill_can_place_on_state_input": {
+      "canonical_schema": "source_state_schema.source_drill_can_place_on_state_input",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public boolean canPlaceOn(Tile tile, Team team, int rotation){",
+          "rule": "The drill frame (Drill.canPlaceOn, Drill.java:126): carries no live keys for this block-level placement predicate -- size, tier, blockedItems are per-def static state, not live frame keys (the N2212 / N2224 per-def-param precedent); frame is the canonical first param of this family file.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_can_place_on_state"
+          ]
+        },
+        "is_multiblock": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "return size > 1;",
+          "rule": "Whether the drill is multiblock: Block.isMultiblock() (Block.java:1014-1016, `public boolean isMultiblock(){` with `return size > 1;`); per-def sizes: mechanical/pneumatic-drill `size = 2;`, laser-drill `size = 3;`, blast-drill `size = 4;` (Blocks.java:2865-2915), so every Drill def is multiblock; passed explicitly because it is per-def static state.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_can_place_on_state"
+          ]
+        },
+        "linked_tiles_can_mine": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "for(Tile other : tile.getLinkedTilesAs(this, tempTiles)){",
+          "rule": "The canMine() result per linked tile, in `tile.getLinkedTilesAs(this, tempTiles)` order (Drill.java:128, `for(Tile other : tile.getLinkedTilesAs(this, tempTiles)){`): canMine() itself is N2010 (SourceDrillRuntimeState.source_can_mine_state) -- NOT this slice: the caller passes the already-computed results (the N2317/N2323 super-as-param precedent).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_can_place_on_state"
+          ]
+        },
+        "tile_can_mine": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "return canMine(tile);",
+          "rule": "The canMine() result for the single tile (Drill.java:135, `return canMine(tile);`): canMine() itself is N2010 (SourceDrillRuntimeState.source_can_mine_state) -- NOT this slice: the caller passes the already-computed result.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_can_place_on_state"
+          ]
+        }
+      }
+    },
     "source_drill_count_ore_input": {
       "canonical_schema": "source_state_schema.source_drill_count_ore_input",
       "keys": {

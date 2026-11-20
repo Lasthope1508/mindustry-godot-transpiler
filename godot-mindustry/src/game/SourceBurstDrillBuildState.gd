@@ -662,6 +662,148 @@ static func source_drill_draw_state(x: float, y: float, region: Variant, rim_reg
 	}
 
 @warning_ignore("unused_parameter")
+static func source_drill_can_place_on_state(frame: Dictionary, is_multiblock: bool, linked_tiles_can_mine: Array, tile_can_mine: bool) -> Dictionary:
+	# N2330 -- Drill.canPlaceOn() (Drill.java:126-137)
+	# public boolean canPlaceOn(Tile tile, Team team, int rotation){
+	#     if(isMultiblock()){
+	#         for(Tile other : tile.getLinkedTilesAs(this, tempTiles)){
+	#             if(canMine(other)){
+	#                 return true;
+	#             }
+	#         }
+	#         return false;
+	#     }else{
+	#         return canMine(tile);
+	#     }
+	# }
+	# isMultiblock() is Block.isMultiblock() (Block.java:1014-1016):
+	# public boolean isMultiblock(){
+	#     return size > 1;
+	# }
+	# with `public int size = 1;` (Block.java:215). canMine() is N2010
+	# (SourceDrillRuntimeState.source_can_mine_state,
+	# `public boolean canMine(Tile tile){`, Drill.java:231) -- NOT this slice:
+	# the caller passes the already-computed canMine result per linked tile
+	# (in `tile.getLinkedTilesAs(this, tempTiles)` order) and for the single
+	# tile (the N2317/N2323 super-as-param precedent). The classes are
+	# `public class Drill extends Block{` (Drill.java:27) and
+	# `public class DrillBuild extends Building{` (Drill.java:237).
+	# Per-def: mechanical-drill and pneumatic-drill `size = 2;`, laser-drill
+	# `size = 3;`, blast-drill `size = 4;` (Blocks.java:2865-2915) -- every
+	# Drill def is multiblock, so the multiblock leg is the live one and the
+	# single-tile leg is kept for the Java shape. frame carries no live keys
+	# for this block-level placement predicate -- size, tier, blockedItems are
+	# per-def static state, not live frame keys (the N2212 / N2224
+	# per-def-param precedent); frame is the canonical first param of this
+	# family file. There is NO driver tick line: canPlaceOn is a placement
+	# predicate, not per-tick state.
+	var can_place_on: bool = false
+	if is_multiblock:
+		for tile_mineable in linked_tiles_can_mine:
+			if bool(tile_mineable):
+				can_place_on = true
+				break
+	else:
+		can_place_on = tile_can_mine
+	return {"can_place_on": can_place_on}
+
+@warning_ignore("unused_parameter")
+static func source_drill_set_bars_state(frame: Dictionary, super_set_bars: Variant, last_drill_speed: float, time_scale: float, warmup: float) -> Dictionary:
+	# N2330 -- Drill.setBars() (Drill.java:114-121)
+	# public void setBars(){
+	#     super.setBars();
+	#
+	#     addBar("drillspeed", (DrillBuild e) ->
+	#          new Bar(() -> Core.bundle.format("bar.drillspeed", Strings.fixed(e.lastDrillSpeed * 60 * e.timeScale(), 2)), () -> Pal.ammo, () -> e.warmup));
+	# }
+	# `super.setBars();` is Block.setBars() (Block.java:696-746) -- NOT this
+	# slice: the health bar (`addBar("health", entity -> new Bar("stat.health", Pal.health, entity::healthf).blink(Color.white));`,
+	# Block.java:697) plus power / items / liquid bars are the caller-passed
+	# super_set_bars (the N2317/N2323 super-as-param precedent); this slice
+	# only adds the drillspeed bar spec. The bar is registered by
+	# `public <T extends Building> void addBar(String name, Func<T, Bar> sup){`
+	# (Block.java:667). The bundle value is `bar.drillspeed = Drill Speed: {0}/s`
+	# (bundle.properties:1279). The fixed text is Strings.fixed truncation at 2
+	# decimals: `public static String fixed(float d, int decimalPlaces){`
+	# with `return fixedBuilder(d, decimalPlaces).toString();` and
+	# `public static StringBuilder fixedBuilder(float d, int decimalPlaces){`
+	# over `boolean negative = d < 0;`, `d = Math.abs(d);`,
+	# `dec.append((int)(float)(d * Math.pow(10, decimalPlaces) + 0.0001f));`
+	# and `int decimalPosition = len - decimalPlaces;` (arc Strings.java:725-740)
+	# -- lastDrillSpeed and timeScale are non-negative, so the negative branch
+	# never fires and the fixed text is the truncated rate with 2 decimals.
+	# Pal.ammo is `ammo = Color.valueOf("ff8947"),` (Pal.java:64). The Bar
+	# constructor is `public Bar(Prov<CharSequence> name, Prov<Color> color, Floatp fraction){`
+	# with `lastValue = value = Mathf.clamp(fraction.get());` (Bar.java:31-33)
+	# -- the fraction is clamped Bar-side; this slice returns the warmup value.
+	# `lastDrillSpeed` is the DrillBuild field (`public float lastDrillSpeed;`,
+	# Drill.java:241); `timeScale()` is BuildingComp.timeScale()
+	# (BuildingComp.java:599-601, `public float timeScale(){` with
+	# `return timeScale;`, field `private transient float timeScale = 1f, timeScaleDuration;`,
+	# BuildingComp.java:98); `warmup` is the DrillBuild field
+	# (`public float warmup;`, Drill.java:239). The classes are
+	# `public class Drill extends Block{` (Drill.java:27) and
+	# `public class DrillBuild extends Building{` (Drill.java:237).
+	# Pure function: returns the drillspeed bar spec (key, text, color,
+	# fraction) and does NOT touch real Bar/UI playback. frame carries no live
+	# keys for this block-level bar spec -- lastDrillSpeed, timeScale and warmup
+	# are live build state passed explicitly (the N2212 / N2224 per-def-param
+	# precedent); frame is the canonical first param of this family file.
+	# There is NO driver tick line: setBars is a load-time bar spec, not
+	# per-tick state.
+	var rate: float = last_drill_speed * 60.0 * time_scale
+	var scaled: int = int(rate * 100.0 + 0.0001)
+	var fixed_text: String = "%d.%02d" % [scaled / 100, scaled % 100]
+	var bar_text: String = "Drill Speed: " + fixed_text + "/s"
+	var bar_color: Color = Color("ff8947")
+	return {"bar_key": "drillspeed", "bar_text": bar_text, "bar_color": bar_color, "bar_fraction": warmup}
+
+@warning_ignore("unused_parameter")
+static func source_drill_draw_plan_config_state(frame: Dictionary, world_context: bool, has_tile: bool, return_item: Variant, return_item_color: Variant, draw_mine_item: bool, item_region: Variant, draw_x: float, draw_y: float) -> Dictionary:
+	# N2330 -- Drill.drawPlanConfig() (Drill.java:100-111)
+	# public void drawPlanConfig(BuildPlan plan, Eachable<BuildPlan> list){
+	#     if(!plan.worldContext) return;
+	#     Tile tile = plan.tile();
+	#     if(tile == null) return;
+	#
+	#     countOre(tile);
+	#     if(returnItem == null || !drawMineItem) return;
+	#
+	#     Draw.tint(returnItem.color);
+	#     Draw.rect(itemRegion, plan.drawx(), plan.drawy());
+	#     Draw.color();
+	# }
+	# `worldContext` is the BuildPlan flag (`public boolean worldContext = true;`,
+	# BuildPlan.java:30). `plan.tile()` is `public @Nullable Tile tile(){` with
+	# `return world.tile(x, y);` (BuildPlan.java:161-163). `plan.drawx()` is
+	# `public float drawx(){` with `return x*tilesize + (block == null ? 0 : block.offset);`
+	# (BuildPlan.java:142-144) and `plan.drawy()` is `public float drawy(){`
+	# (BuildPlan.java:146-148), the y twin. countOre() is N2010
+	# (SourceDrillRuntimeState.source_count_ore_state,
+	# `protected void countOre(Tile tile){`, Drill.java:198, setting
+	# `returnItem = itemArray.peek();`, Drill.java:227) -- NOT this slice: the
+	# caller passes the already-computed returnItem (null when no ore).
+	# `returnItem` is `protected @Nullable Item returnItem;` (Drill.java:47);
+	# `drawMineItem` is `public boolean drawMineItem = true;` (Drill.java:51);
+	# `itemRegion` is `public @Load(value = "@-item", fallback = "drill-item-@size") TextureRegion itemRegion;`
+	# (Drill.java:74); the tint color is `public Color color;` (Item.java:19).
+	# The classes are `public class Drill extends Block{` (Drill.java:27) and
+	# `public class DrillBuild extends Building{` (Drill.java:237). Per-def:
+	# mechanical-drill and pneumatic-drill `size = 2;`, laser-drill `size = 3;`,
+	# blast-drill `size = 4;` (Blocks.java:2865-2915). Pure function: returns
+	# the computed plan-config render state (tint + rect) and does NOT touch
+	# real Draw playback. frame carries no live keys for this block-level plan
+	# render state -- worldContext, the plan tile, returnItem and drawMineItem
+	# are passed explicitly (the N2212 / N2224 per-def-param precedent); frame
+	# is the canonical first param of this family file. There is NO driver tick
+	# line: drawPlanConfig is per-frame plan render state (the N2283 drawSelect
+	# lifecycle precedent).
+	var visible: bool = world_context and has_tile and return_item != null and draw_mine_item
+	var tint_color: Variant = return_item_color if visible else null
+	var item_rect: Variant = {"region": item_region, "x": draw_x, "y": draw_y} if visible else null
+	return {"visible": visible, "tint_color": tint_color, "item_rect": item_rect}
+
+@warning_ignore("unused_parameter")
 static func source_drill_sense_object_state(frame: Dictionary, sensor: String, has_dominant_item: bool, dominant_item: Variant, super_sense_object_value: Variant) -> Dictionary:
 	# DrillBuild.senseObject() (Drill.java:281-284):
 	# public Object senseObject(LAccess sensor){

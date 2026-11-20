@@ -71381,6 +71381,161 @@
       ],
       "runtime_proof": "/root/C07TurretPeekAmmoProof",
       "rule": "Source-backed TurretBuild.peekAmmo() state from Turret.java."
+    },
+    "SourceBurstDrillBuildState.source_drill_can_place_on_state": {
+      "status": "active",
+      "source_slice": "N2330",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "Drill.canPlaceOn(Tile tile, Team team, int rotation)",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_drill_can_place_on_state_input.frame"
+        },
+        {
+          "name": "is_multiblock",
+          "type": "bool",
+          "schema": "source_drill_can_place_on_state_input.is_multiblock"
+        },
+        {
+          "name": "linked_tiles_can_mine",
+          "type": "Array",
+          "schema": "source_drill_can_place_on_state_input.linked_tiles_can_mine"
+        },
+        {
+          "name": "tile_can_mine",
+          "type": "bool",
+          "schema": "source_drill_can_place_on_state_input.tile_can_mine"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "can_place_on"
+      ],
+      "tests": [
+        "test_c07_drill_can_place_on_set_bars_draw_plan_config_registration",
+        "test_all_c07_drill_can_place_on_set_bars_draw_plan_config_input_evidence_is_exact",
+        "test_drill_can_place_on_set_bars_draw_plan_config_state",
+        "test_reference_graph_and_actual_c07_drill_can_place_on_set_bars_draw_plan_config"
+      ],
+      "runtime_proof": "/root/C07DrillCanPlaceOnSetBarsDrawPlanConfigProof",
+      "rule": "Source-backed Drill canPlaceOn() / setBars() / drawPlanConfig() state from Drill.java + Block.java + BuildingComp.java + BuildPlan.java + Item.java + Pal.java + Bar.java + arc Strings.java + Blocks.java."
+    },
+    "SourceBurstDrillBuildState.source_drill_set_bars_state": {
+      "status": "active",
+      "source_slice": "N2330",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "Drill.setBars()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_drill_set_bars_state_input.frame"
+        },
+        {
+          "name": "super_set_bars",
+          "type": "Variant",
+          "schema": "source_drill_set_bars_state_input.super_set_bars"
+        },
+        {
+          "name": "last_drill_speed",
+          "type": "float",
+          "schema": "source_drill_set_bars_state_input.last_drill_speed"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_drill_set_bars_state_input.time_scale"
+        },
+        {
+          "name": "warmup",
+          "type": "float",
+          "schema": "source_drill_set_bars_state_input.warmup"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "bar_key",
+        "bar_text",
+        "bar_color",
+        "bar_fraction"
+      ],
+      "tests": [
+        "test_c07_drill_can_place_on_set_bars_draw_plan_config_registration",
+        "test_all_c07_drill_can_place_on_set_bars_draw_plan_config_input_evidence_is_exact",
+        "test_drill_can_place_on_set_bars_draw_plan_config_state",
+        "test_reference_graph_and_actual_c07_drill_can_place_on_set_bars_draw_plan_config"
+      ],
+      "runtime_proof": "/root/C07DrillCanPlaceOnSetBarsDrawPlanConfigProof",
+      "rule": "Source-backed Drill canPlaceOn() / setBars() / drawPlanConfig() state from Drill.java + Block.java + BuildingComp.java + BuildPlan.java + Item.java + Pal.java + Bar.java + arc Strings.java + Blocks.java."
+    },
+    "SourceBurstDrillBuildState.source_drill_draw_plan_config_state": {
+      "status": "active",
+      "source_slice": "N2330",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "Drill.drawPlanConfig(BuildPlan plan, Eachable<BuildPlan> list)",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_drill_draw_plan_config_state_input.frame"
+        },
+        {
+          "name": "world_context",
+          "type": "bool",
+          "schema": "source_drill_draw_plan_config_state_input.world_context"
+        },
+        {
+          "name": "has_tile",
+          "type": "bool",
+          "schema": "source_drill_draw_plan_config_state_input.has_tile"
+        },
+        {
+          "name": "return_item",
+          "type": "Variant",
+          "schema": "source_drill_draw_plan_config_state_input.return_item"
+        },
+        {
+          "name": "return_item_color",
+          "type": "Variant",
+          "schema": "source_drill_draw_plan_config_state_input.return_item_color"
+        },
+        {
+          "name": "draw_mine_item",
+          "type": "bool",
+          "schema": "source_drill_draw_plan_config_state_input.draw_mine_item"
+        },
+        {
+          "name": "item_region",
+          "type": "Variant",
+          "schema": "source_drill_draw_plan_config_state_input.item_region"
+        },
+        {
+          "name": "draw_x",
+          "type": "float",
+          "schema": "source_drill_draw_plan_config_state_input.draw_x"
+        },
+        {
+          "name": "draw_y",
+          "type": "float",
+          "schema": "source_drill_draw_plan_config_state_input.draw_y"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "visible",
+        "tint_color",
+        "item_rect"
+      ],
+      "tests": [
+        "test_c07_drill_can_place_on_set_bars_draw_plan_config_registration",
+        "test_all_c07_drill_can_place_on_set_bars_draw_plan_config_input_evidence_is_exact",
+        "test_drill_can_place_on_set_bars_draw_plan_config_state",
+        "test_reference_graph_and_actual_c07_drill_can_place_on_set_bars_draw_plan_config"
+      ],
+      "runtime_proof": "/root/C07DrillCanPlaceOnSetBarsDrawPlanConfigProof",
+      "rule": "Source-backed Drill canPlaceOn() / setBars() / drawPlanConfig() state from Drill.java + Block.java + BuildingComp.java + BuildPlan.java + Item.java + Pal.java + Bar.java + arc Strings.java + Blocks.java."
     }
   },
   "policy": {

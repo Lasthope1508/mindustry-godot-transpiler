@@ -178600,6 +178600,134 @@
         "test_reference_graph_and_actual_c07_turret_peek_ammo"
       ],
       "runtime_proof": "/root/C07TurretPeekAmmoProof"
+    },
+    "source_drill_can_place_on_state_result.can_place_on": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_can_place_on_state",
+      "godot_symbol": "source_drill_can_place_on_state_result.can_place_on",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "Drill.canPlaceOn(Tile tile, Team team, int rotation)",
+      "java_expr": "public boolean canPlaceOn(Tile tile, Team team, int rotation){",
+      "rule": "Whether the drill can be placed: true on the first minable linked tile for a multiblock drill (`if(canMine(other)){` with `return true;`, Drill.java:129-130), false when none mines (`return false;`, Drill.java:133); a single-tile drill returns canMine(tile) directly (Drill.java:135).",
+      "tests": [
+        "test_c07_drill_can_place_on_set_bars_draw_plan_config_registration",
+        "test_all_c07_drill_can_place_on_set_bars_draw_plan_config_input_evidence_is_exact",
+        "test_drill_can_place_on_set_bars_draw_plan_config_state",
+        "test_reference_graph_and_actual_c07_drill_can_place_on_set_bars_draw_plan_config"
+      ],
+      "runtime_proof": "/root/C07DrillCanPlaceOnSetBarsDrawPlanConfigProof"
+    },
+    "source_drill_set_bars_state_result.bar_key": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_set_bars_state",
+      "godot_symbol": "source_drill_set_bars_state_result.bar_key",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "Drill.setBars()",
+      "java_expr": "addBar(\"drillspeed\", (DrillBuild e) ->",
+      "rule": "The bar key: \"drillspeed\" (Drill.java:117, `addBar(\"drillspeed\", (DrillBuild e) ->`); registered by `public <T extends Building> void addBar(String name, Func<T, Bar> sup){` (Block.java:667).",
+      "tests": [
+        "test_c07_drill_can_place_on_set_bars_draw_plan_config_registration",
+        "test_all_c07_drill_can_place_on_set_bars_draw_plan_config_input_evidence_is_exact",
+        "test_drill_can_place_on_set_bars_draw_plan_config_state",
+        "test_reference_graph_and_actual_c07_drill_can_place_on_set_bars_draw_plan_config"
+      ],
+      "runtime_proof": "/root/C07DrillCanPlaceOnSetBarsDrawPlanConfigProof"
+    },
+    "source_drill_set_bars_state_result.bar_text": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_set_bars_state",
+      "godot_symbol": "source_drill_set_bars_state_result.bar_text",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "Drill.setBars()",
+      "java_expr": "new Bar(() -> Core.bundle.format(\"bar.drillspeed\", Strings.fixed(e.lastDrillSpeed * 60 * e.timeScale(), 2)), () -> Pal.ammo, () -> e.warmup));",
+      "rule": "The bar text: Core.bundle.format(\"bar.drillspeed\", fixed) over the bundle value `bar.drillspeed = Drill Speed: {0}/s` (bundle.properties:1279), with fixed = Strings.fixed(lastDrillSpeed * 60 * timeScale, 2) -- fixedBuilder truncation at 2 decimals (arc Strings.java:729-760, `dec.append((int)(float)(d * Math.pow(10, decimalPlaces) + 0.0001f));`); lastDrillSpeed and timeScale are non-negative so the negative branch never fires.",
+      "tests": [
+        "test_c07_drill_can_place_on_set_bars_draw_plan_config_registration",
+        "test_all_c07_drill_can_place_on_set_bars_draw_plan_config_input_evidence_is_exact",
+        "test_drill_can_place_on_set_bars_draw_plan_config_state",
+        "test_reference_graph_and_actual_c07_drill_can_place_on_set_bars_draw_plan_config"
+      ],
+      "runtime_proof": "/root/C07DrillCanPlaceOnSetBarsDrawPlanConfigProof"
+    },
+    "source_drill_set_bars_state_result.bar_color": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_set_bars_state",
+      "godot_symbol": "source_drill_set_bars_state_result.bar_color",
+      "java_source": "core/src/mindustry/graphics/Pal.java",
+      "java_method": "Drill.setBars()",
+      "java_expr": "ammo = Color.valueOf(\"ff8947\"),",
+      "rule": "The bar color: Pal.ammo (Drill.java:118, `() -> Pal.ammo`), `ammo = Color.valueOf(\"ff8947\"),` (Pal.java:64, \"ff8947\"); passed as the Bar color provider (`public Bar(Prov<CharSequence> name, Prov<Color> color, Floatp fraction){`, Bar.java:31).",
+      "tests": [
+        "test_c07_drill_can_place_on_set_bars_draw_plan_config_registration",
+        "test_all_c07_drill_can_place_on_set_bars_draw_plan_config_input_evidence_is_exact",
+        "test_drill_can_place_on_set_bars_draw_plan_config_state",
+        "test_reference_graph_and_actual_c07_drill_can_place_on_set_bars_draw_plan_config"
+      ],
+      "runtime_proof": "/root/C07DrillCanPlaceOnSetBarsDrawPlanConfigProof"
+    },
+    "source_drill_set_bars_state_result.bar_fraction": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_set_bars_state",
+      "godot_symbol": "source_drill_set_bars_state_result.bar_fraction",
+      "java_source": "core/src/mindustry/ui/Bar.java",
+      "java_method": "Drill.setBars()",
+      "java_expr": "lastValue = value = Mathf.clamp(fraction.get());",
+      "rule": "The bar fraction: warmup (Drill.java:118, `() -> e.warmup`), clamped to 0..1 by the Bar constructor (`lastValue = value = Mathf.clamp(fraction.get());`, Bar.java:33); this slice returns the warmup value, the clamp is Bar-side.",
+      "tests": [
+        "test_c07_drill_can_place_on_set_bars_draw_plan_config_registration",
+        "test_all_c07_drill_can_place_on_set_bars_draw_plan_config_input_evidence_is_exact",
+        "test_drill_can_place_on_set_bars_draw_plan_config_state",
+        "test_reference_graph_and_actual_c07_drill_can_place_on_set_bars_draw_plan_config"
+      ],
+      "runtime_proof": "/root/C07DrillCanPlaceOnSetBarsDrawPlanConfigProof"
+    },
+    "source_drill_draw_plan_config_state_result.visible": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_draw_plan_config_state",
+      "godot_symbol": "source_drill_draw_plan_config_state_result.visible",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "Drill.drawPlanConfig(BuildPlan plan, Eachable<BuildPlan> list)",
+      "java_expr": "if(returnItem == null || !drawMineItem) return;",
+      "rule": "Whether the plan-config item is drawn: true exactly when worldContext and the plan has a tile and countOre found an item and drawMineItem (Drill.java:101-106, `if(!plan.worldContext) return;`, `if(tile == null) return;`, `if(returnItem == null || !drawMineItem) return;`).",
+      "tests": [
+        "test_c07_drill_can_place_on_set_bars_draw_plan_config_registration",
+        "test_all_c07_drill_can_place_on_set_bars_draw_plan_config_input_evidence_is_exact",
+        "test_drill_can_place_on_set_bars_draw_plan_config_state",
+        "test_reference_graph_and_actual_c07_drill_can_place_on_set_bars_draw_plan_config"
+      ],
+      "runtime_proof": "/root/C07DrillCanPlaceOnSetBarsDrawPlanConfigProof"
+    },
+    "source_drill_draw_plan_config_state_result.tint_color": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_draw_plan_config_state",
+      "godot_symbol": "source_drill_draw_plan_config_state_result.tint_color",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "Drill.drawPlanConfig(BuildPlan plan, Eachable<BuildPlan> list)",
+      "java_expr": "Draw.tint(returnItem.color);",
+      "rule": "The tint color: returnItem.color when visible, else null (Drill.java:108, `Draw.tint(returnItem.color);`).",
+      "tests": [
+        "test_c07_drill_can_place_on_set_bars_draw_plan_config_registration",
+        "test_all_c07_drill_can_place_on_set_bars_draw_plan_config_input_evidence_is_exact",
+        "test_drill_can_place_on_set_bars_draw_plan_config_state",
+        "test_reference_graph_and_actual_c07_drill_can_place_on_set_bars_draw_plan_config"
+      ],
+      "runtime_proof": "/root/C07DrillCanPlaceOnSetBarsDrawPlanConfigProof"
+    },
+    "source_drill_draw_plan_config_state_result.item_rect": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_draw_plan_config_state",
+      "godot_symbol": "source_drill_draw_plan_config_state_result.item_rect",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "Drill.drawPlanConfig(BuildPlan plan, Eachable<BuildPlan> list)",
+      "java_expr": "Draw.rect(itemRegion, plan.drawx(), plan.drawy());",
+      "rule": "The item rect {region, x, y} when visible, else null (Drill.java:109, `Draw.rect(itemRegion, plan.drawx(), plan.drawy());`, reset by `Draw.color();`, Drill.java:110).",
+      "tests": [
+        "test_c07_drill_can_place_on_set_bars_draw_plan_config_registration",
+        "test_all_c07_drill_can_place_on_set_bars_draw_plan_config_input_evidence_is_exact",
+        "test_drill_can_place_on_set_bars_draw_plan_config_state",
+        "test_reference_graph_and_actual_c07_drill_can_place_on_set_bars_draw_plan_config"
+      ],
+      "runtime_proof": "/root/C07DrillCanPlaceOnSetBarsDrawPlanConfigProof"
     }
   },
   "version": 1

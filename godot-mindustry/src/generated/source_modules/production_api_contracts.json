@@ -1098,6 +1098,47 @@
       "rule": "Source-backed DrillBuild ambientVolume() state from Drill.java + BuildingComp.java + Block.java + Blocks.java.",
       "return_type": "Dictionary"
     },
+    "SourceBurstDrillBuildState.source_drill_can_place_on_state": {
+      "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_drill_can_place_on_state",
+      "status": "active",
+      "source_slice": "N2330",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "Drill.canPlaceOn(Tile tile, Team team, int rotation)",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_drill_can_place_on_state_input.frame"
+        },
+        {
+          "name": "is_multiblock",
+          "type": "bool",
+          "schema": "source_drill_can_place_on_state_input.is_multiblock"
+        },
+        {
+          "name": "linked_tiles_can_mine",
+          "type": "Array",
+          "schema": "source_drill_can_place_on_state_input.linked_tiles_can_mine"
+        },
+        {
+          "name": "tile_can_mine",
+          "type": "bool",
+          "schema": "source_drill_can_place_on_state_input.tile_can_mine"
+        }
+      ],
+      "return_keys": [
+        "can_place_on"
+      ],
+      "tests": [
+        "test_c07_drill_can_place_on_set_bars_draw_plan_config_registration",
+        "test_all_c07_drill_can_place_on_set_bars_draw_plan_config_input_evidence_is_exact",
+        "test_drill_can_place_on_set_bars_draw_plan_config_state",
+        "test_reference_graph_and_actual_c07_drill_can_place_on_set_bars_draw_plan_config"
+      ],
+      "runtime_proof": "/root/C07DrillCanPlaceOnSetBarsDrawPlanConfigProof",
+      "rule": "Source-backed Drill canPlaceOn() / setBars() / drawPlanConfig() state from Drill.java + Block.java + BuildingComp.java + BuildPlan.java + Item.java + Pal.java + Bar.java + arc Strings.java + Blocks.java.",
+      "return_type": "Dictionary"
+    },
     "SourceBurstDrillBuildState.source_drill_draw_select_state": {
       "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_drill_draw_select_state",
       "status": "active",
