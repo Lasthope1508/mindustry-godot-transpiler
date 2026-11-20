@@ -56,7 +56,7 @@ import sys
 from pathlib import Path
 
 from mindustry_port import source_ssot, source_symbols
-from register_c07_turret_tracking_range import DEFERRED as N2273_DEFERRED
+from register_c07_turret_tracking_range import DEFERRED as N2319_DEFERRED
 from register_liquid_consumer_hydration import backed
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -107,12 +107,12 @@ EXACT_EXPRS = [
     "//maintain rotation and reload when syncing so clients don't see turrets snapping around",
 ]
 
-# DEFERRED is carried from the N2273 register script via import --
+# DEFERRED is carried from the N2319 register script via import --
 # never retyped. Nothing in it closes here: write/read/version
 # was never a deferred entry of the Turret chain. Two entries
 # are added: the readSync follow-up (its own slice) and the
 # N2276 Windows Godot proof debt (GOAL.md section 5).
-DEFERRED = N2273_DEFERRED + [
+DEFERRED = N2319_DEFERRED + [
     'Port TurretBuild.readSync() (Turret.java:853-862, rotation/reload restore after readAll so clients do not see turrets snapping around) as its own slice; N2276 ports write/read/version only and takes no sync state.',
     'Turret write/read/version Windows Godot proof -- debt in GOAL.md section 5, same as N2148/N2227: the N2276 proof runs headless on Linux here and waits for a Windows Godot run.',
 ]

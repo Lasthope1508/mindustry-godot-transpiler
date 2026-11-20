@@ -234703,74 +234703,6 @@
       "runtime_proof": "/root/C07RadarProgressProof",
       "rule": "Source-backed Radar progress() accessor from Radar.java."
     },
-    "source_turret_tracking_range_state_input": {
-      "status": "active",
-      "owner": "SourceTurretBuildState.source_turret_tracking_range_state",
-      "source_slice": "N2273",
-      "keys": {
-        "frame": {
-          "type": "Dictionary",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-          "java_expr": "public float trackingRange(){",
-          "rule": "The turret frame (accepted for the family call shape; this leg reads no live frame key -- all live values arrive as explicit params, the N2188 per-def-param precedent, because the tick frame tracks only cheating/enabled/power_status/efficiency).",
-          "used_by": [
-            "SourceTurretBuildState.source_turret_tracking_range_state"
-          ]
-        },
-        "range_value": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-          "java_expr": "public float range(){",
-          "rule": "The TurretBuild.range() result in world pixels: range + peekAmmo().rangeChange when peekAmmo() is non-null, else range (Turret.java:342-345); passed explicitly because range() reads peekAmmo() (Turret.java:693, `public @Nullable BulletType peekAmmo(){`) and the tick frame tracks no ammo state yet -- range() itself is not a live SourceTurretBuildState row (the old N739/N740 rows live in PortGame).",
-          "used_by": [
-            "SourceTurretBuildState.source_turret_tracking_range_state"
-          ]
-        },
-        "tracking_range": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-          "java_expr": "public float trackingRange = 0f;",
-          "rule": "The Turret def trackingRange field in world pixels: \"Range at which it finds and locks on to the target, but does not shoot.\" (Turret.java:72), default 0f; init() clamps it (`trackingRange = Math.max(range, trackingRange);`, Turret.java:217), so after init it is at least the def range; passed explicitly because it is per-def static state, not a live frame key.",
-          "used_by": [
-            "SourceTurretBuildState.source_turret_tracking_range_state"
-          ]
-        },
-        "range": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
-          "java_expr": "public float range = 80f;",
-          "rule": "The def range in world pixels: BaseTurret.range (BaseTurret.java:21), default 80f, the subtrahend of the trackingRange() formula (Turret.java:350, `return range() + trackingRange - range;`); passed explicitly because it is per-def static state, not a live frame key.",
-          "used_by": [
-            "SourceTurretBuildState.source_turret_tracking_range_state"
-          ]
-        }
-      },
-      "runtime_proof": "/root/C07TurretTrackingRangeProof",
-      "rule": "Source-backed TurretBuild.trackingRange() state from Turret.java + BaseTurret.java + BulletType.java."
-    },
-    "source_turret_tracking_range_state_result": {
-      "status": "active",
-      "owner": "SourceTurretBuildState.source_turret_tracking_range_state",
-      "source_slice": "N2273",
-      "keys": {
-        "tracking_range": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-          "java_expr": "return range() + trackingRange - range;",
-          "rule": "The live tracking range in world pixels: range() + trackingRange - range (Turret.java:349-351); read by findTarget at Turret.java:652 (`float trackRange = trackingRange(), range = range();`); after init() the field is clamped so the result is at least range().",
-          "used_by": [
-            "SourceTurretBuildState.source_turret_tracking_range_state"
-          ]
-        }
-      },
-      "runtime_proof": "/root/C07TurretTrackingRangeProof",
-      "rule": "Source-backed TurretBuild.trackingRange() state from Turret.java + BaseTurret.java + BulletType.java."
-    },
     "source_radar_update_tile_state_input": {
       "status": "active",
       "owner": "SourceRadarBuildState.source_radar_update_tile_state",
@@ -240240,6 +240172,74 @@
       },
       "runtime_proof": "/root/C07RadarCanPickupProof",
       "rule": "Source-backed Radar canPickup() accessor from Radar.java."
+    },
+    "source_turret_tracking_range_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_tracking_range_state",
+      "source_slice": "N2319",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float trackingRange(){",
+          "rule": "The turret frame (accepted for the family call shape; this leg reads no live frame key -- all live values arrive as explicit params, the N2188 per-def-param precedent, because the tick frame tracks only cheating/enabled/power_status/efficiency).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_tracking_range_state"
+          ]
+        },
+        "range_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float range(){",
+          "rule": "The TurretBuild.range() result in world pixels: range + peekAmmo().rangeChange when peekAmmo() is non-null, else range (Turret.java:342-345); passed explicitly because range() reads peekAmmo() (Turret.java:693, `public @Nullable BulletType peekAmmo(){`) and the tick frame tracks no ammo state yet -- range() itself is not a live SourceTurretBuildState row (the old N739/N740 rows live in PortGame).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_tracking_range_state"
+          ]
+        },
+        "tracking_range": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float trackingRange = 0f;",
+          "rule": "The Turret def trackingRange field in world pixels: \"Range at which it finds and locks on to the target, but does not shoot.\" (Turret.java:72), default 0f; init() clamps it (`trackingRange = Math.max(range, trackingRange);`, Turret.java:217), so after init it is at least the def range; passed explicitly because it is per-def static state, not a live frame key.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_tracking_range_state"
+          ]
+        },
+        "range": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "java_expr": "public float range = 80f;",
+          "rule": "The def range in world pixels: BaseTurret.range (BaseTurret.java:21), default 80f, the subtrahend of the trackingRange() formula (Turret.java:350, `return range() + trackingRange - range;`); passed explicitly because it is per-def static state, not a live frame key.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_tracking_range_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretTrackingRangeProof",
+      "rule": "Source-backed TurretBuild.trackingRange() state from Turret.java + BaseTurret.java + BulletType.java."
+    },
+    "source_turret_tracking_range_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_tracking_range_state",
+      "source_slice": "N2319",
+      "keys": {
+        "tracking_range": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return range() + trackingRange - range;",
+          "rule": "The live tracking range in world pixels: range() + trackingRange - range (Turret.java:349-351); read by findTarget at Turret.java:652 (`float trackRange = trackingRange(), range = range();`); after init() the field is clamped so the result is at least range().",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_tracking_range_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretTrackingRangeProof",
+      "rule": "Source-backed TurretBuild.trackingRange() state from Turret.java + BaseTurret.java + BulletType.java."
     }
   },
   "version": 1

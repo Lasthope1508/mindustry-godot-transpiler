@@ -402,7 +402,7 @@ N2239–N2247 của line Windows)
    Scene tới Windows theo slice commit `69751d1`. Chưa chạy trên Windows Godot.
  - [ ] N2318 `C07RadarCanPickupProof` — Linux GREEN ~16:4x (6 key).
    Scene tới Windows theo slice commit `52c7854`. Chưa chạy trên Windows Godot.
- - [ ] N2273 `C07TurretTrackingRangeProof` — Linux GREEN ~16:2x (10 key).
+ - [ ] N2319 `C07TurretTrackingRangeProof` — Linux GREEN ~16:2x (10 key).
    Scene tới Windows theo slice commit `99a4c9f`. Chưa chạy trên Windows Godot.
  - [ ] N2276 `C07TurretWriteReadProof` — Linux GREEN ~19:1x (11 key).
    Scene tới Windows theo slice commit `aedbfdd`. Chưa chạy trên Windows Godot.

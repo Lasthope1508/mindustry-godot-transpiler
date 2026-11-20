@@ -3230,23 +3230,6 @@
       ],
       "runtime_proof": "/root/C07PointDefenseTurretLiveBulletsWiringProof"
     },
-    "N2273": {
-      "canonical_ledger": "source_slice_ledger.N2273",
-      "status": "done",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-      "java_method": "TurretBuild.trackingRange()",
-      "godot_owner": "SourceTurretBuildState.source_turret_tracking_range_state",
-      "source_symbols": [
-        "source_turret_tracking_range_state_result.tracking_range"
-      ],
-      "tests": [
-        "test_c07_turret_tracking_range_registration",
-        "test_all_c07_turret_tracking_range_input_evidence_is_exact",
-        "test_turret_tracking_range_state",
-        "test_reference_graph_and_actual_c07_turret_tracking_range"
-      ],
-      "runtime_proof": "/root/C07TurretTrackingRangeProof"
-    },
     "N2274": {
       "canonical_ledger": "source_slice_ledger.N2274",
       "status": "done",
@@ -3667,6 +3650,23 @@
         "test_reference_graph_and_actual_c07_radar_can_pickup"
       ],
       "runtime_proof": "/root/C07RadarCanPickupProof"
+    },
+    "N2319": {
+      "canonical_ledger": "source_slice_ledger.N2319",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.trackingRange()",
+      "godot_owner": "SourceTurretBuildState.source_turret_tracking_range_state",
+      "source_symbols": [
+        "source_turret_tracking_range_state_result.tracking_range"
+      ],
+      "tests": [
+        "test_c07_turret_tracking_range_registration",
+        "test_all_c07_turret_tracking_range_input_evidence_is_exact",
+        "test_turret_tracking_range_state",
+        "test_reference_graph_and_actual_c07_turret_tracking_range"
+      ],
+      "runtime_proof": "/root/C07TurretTrackingRangeProof"
     },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",

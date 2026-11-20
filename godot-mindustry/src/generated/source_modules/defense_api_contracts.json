@@ -8399,7 +8399,7 @@
     "SourceTurretBuildState.source_turret_tracking_range_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_tracking_range_state",
       "status": "active",
-      "source_slice": "N2273",
+      "source_slice": "N2319",
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
       "source_method": "TurretBuild.trackingRange()",
       "params": [

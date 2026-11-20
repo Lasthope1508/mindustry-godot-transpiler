@@ -14,7 +14,7 @@ class C07TurretTrackingRangeTests(unittest.TestCase):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        self.assertEqual(ledger['N2273']['godot_owner'], 'SourceTurretBuildState.source_turret_tracking_range_state')
+        self.assertEqual(ledger['N2319']['godot_owner'], 'SourceTurretBuildState.source_turret_tracking_range_state')
         # TurretBuild.trackingRange() (Turret.java:349-351,
         # `public float trackingRange(){` / `return range()
         # + trackingRange - range;`) over the
@@ -44,12 +44,12 @@ class C07TurretTrackingRangeTests(unittest.TestCase):
         # value, hasAmmo()/peekAmmo() stay their own
         # slices).
         self.assertEqual(
-            ledger['N2273']['source_symbols'],
+            ledger['N2319']['source_symbols'],
             [
                 'source_turret_tracking_range_state_result.tracking_range',
             ],
         )
-        for name in ledger['N2273']['source_symbols']:
+        for name in ledger['N2319']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_source'], {
@@ -58,9 +58,9 @@ class C07TurretTrackingRangeTests(unittest.TestCase):
                     'core/src/mindustry/entities/bullet/BulletType.java',
                 })
                 self.assertEqual(symbol['godot_owner'], 'SourceTurretBuildState.' + name.rsplit('_result.', 1)[0])
-        self.assertEqual(ledger['N2273']['runtime_proof'], '/root/C07TurretTrackingRangeProof')
+        self.assertEqual(ledger['N2319']['runtime_proof'], '/root/C07TurretTrackingRangeProof')
         self.assertEqual(
-            ledger['N2273']['tests'],
+            ledger['N2319']['tests'],
             [
                 'test_c07_turret_tracking_range_registration',
                 'test_all_c07_turret_tracking_range_input_evidence_is_exact',
@@ -68,17 +68,17 @@ class C07TurretTrackingRangeTests(unittest.TestCase):
                 'test_reference_graph_and_actual_c07_turret_tracking_range',
             ],
         )
-        self.assertTrue(ledger['N2273']['deferred_exprs'])
+        self.assertTrue(ledger['N2319']['deferred_exprs'])
         self.assertIn(
             'Turret trackingRange() Windows Godot proof',
-            ' '.join(ledger['N2273']['deferred_exprs']),
+            ' '.join(ledger['N2319']['deferred_exprs']),
         )
 
     def test_all_c07_turret_tracking_range_input_evidence_is_exact(self):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        for name in ledger['N2273']['source_symbols']:
+        for name in ledger['N2319']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_expr'], (ROOT / 'mindustry-upstream' / symbol['java_source']).read_text(encoding='utf-8'))
@@ -91,7 +91,7 @@ class C07TurretTrackingRangeTests(unittest.TestCase):
         upstream = {}
         for source in slice_sources:
             upstream[source] = (ROOT / 'mindustry-upstream' / source).read_text(encoding='utf-8')
-        for expr in ledger['N2273']['exact_exprs']:
+        for expr in ledger['N2319']['exact_exprs']:
             with self.subTest(expr=expr):
                 self.assertTrue(any(expr in text for text in upstream.values()), expr)
 

@@ -19,7 +19,7 @@ func _ready() -> void:
 	game.set_process(false)
 	game.set_physics_process(false)
 
-	# --- TurretBuild.trackingRange() (N2273):
+	# --- TurretBuild.trackingRange() (N2319):
 	# TurretBuild.trackingRange() (Turret.java:349-351,
 	# `public float trackingRange(){` / `return range()
 	# + trackingRange - range;`) over the

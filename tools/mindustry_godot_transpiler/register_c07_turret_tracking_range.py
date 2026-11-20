@@ -1,4 +1,4 @@
-"""Register the TurretBuild.trackingRange() accessor (N2273).
+"""Register the TurretBuild.trackingRange() accessor (N2319).
 
 TurretBuild.trackingRange() (Turret.java:349-351, `public
 float trackingRange(){` / `return range() +
@@ -43,7 +43,7 @@ BULLET_TYPE = 'core/src/mindustry/entities/bullet/BulletType.java'
 PROOF = '/root/C07TurretTrackingRangeProof'
 TRACKING_RANGE_OWNER = 'SourceTurretBuildState.source_turret_tracking_range_state'
 TESTS = ['test_c07_turret_tracking_range_registration', 'test_all_c07_turret_tracking_range_input_evidence_is_exact', 'test_turret_tracking_range_state', 'test_reference_graph_and_actual_c07_turret_tracking_range']
-# The 3 slice sources the N2273 test checks exact_exprs
+# The 3 slice sources the N2319 test checks exact_exprs
 # against -- every expr in EXACT_EXPRS below must appear verbatim
 # in one of these files.
 SLICE_SOURCES = [
@@ -72,11 +72,11 @@ EXACT_EXPRS = [
 # N2316 follow-up entry (trackingRange is now ported; range()
 # stays an explicit value and hasAmmo()/peekAmmo() stay their
 # own slices), so that entry is replaced by a corrected one.
-# One entry is added: the N2273 Windows Godot proof debt
+# One entry is added: the N2319 Windows Godot proof debt
 # (GOAL.md section 5).
 DEFERRED = [e for e in N2316_DEFERRED if 'trackingRange() (Turret.java:349-351)' not in e] + [
-    'Port TurretBuild.range() (Turret.java:342-345, N740) as an explicit value; N2273 ports trackingRange() and takes the range() result as an explicit float, same as N2316. Port TurretBuild.hasAmmo() (Turret.java:698-712, ammo-swap side effect) and peekAmmo() (Turret.java:693-695) as their own slices; N2316/N2273 take no ammo flags.',
-    'Turret trackingRange() Windows Godot proof -- debt in GOAL.md section 5, same as N2148/N2227: the N2273 proof runs headless on Linux here and waits for a Windows Godot run.',
+    'Port TurretBuild.range() (Turret.java:342-345, N740) as an explicit value; N2319 ports trackingRange() and takes the range() result as an explicit float, same as N2316. Port TurretBuild.hasAmmo() (Turret.java:698-712, ammo-swap side effect) and peekAmmo() (Turret.java:693-695) as their own slices; N2316/N2319 take no ammo flags.',
+    'Turret trackingRange() Windows Godot proof -- debt in GOAL.md section 5, same as N2148/N2227: the N2319 proof runs headless on Linux here and waits for a Windows Godot run.',
 ]
 
 
@@ -130,7 +130,7 @@ def main():
     tracking_range_inputs, tracking_range_outputs = definitions()
 
     entries = [
-        ('N2273', TRACKING_RANGE_OWNER, 'source_turret_tracking_range_state', TURRET, 'mindustry.world.blocks.defense.turrets.Turret.TurretBuild', 'TurretBuild.trackingRange()', tracking_range_inputs, tracking_range_outputs, True, 'Dictionary'),
+        ('N2319', TRACKING_RANGE_OWNER, 'source_turret_tracking_range_state', TURRET, 'mindustry.world.blocks.defense.turrets.Turret.TurretBuild', 'TurretBuild.trackingRange()', tracking_range_inputs, tracking_range_outputs, True, 'Dictionary'),
     ]
     all_names = []
     for sid, owner, prefix, source, cls, method, inputs, outputs, has_contract, return_type in entries:
@@ -150,10 +150,10 @@ def main():
 
     by_slice = {}
     # The test pins this order: tracking_range.
-    by_slice['N2273'] = [
+    by_slice['N2319'] = [
         'source_turret_tracking_range_state_result.tracking_range',
     ]
-    source_symbols.upsert_source_slice(GODOT, 'N2273', dict(status='done', java_source=TURRET, java_class='mindustry.world.blocks.defense.turrets.Turret.TurretBuild', java_method='TurretBuild.trackingRange()', godot_owner=TRACKING_RANGE_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2273'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
+    source_symbols.upsert_source_slice(GODOT, 'N2319', dict(status='done', java_source=TURRET, java_class='mindustry.world.blocks.defense.turrets.Turret.TurretBuild', java_method='TurretBuild.trackingRange()', godot_owner=TRACKING_RANGE_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2319'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
 
     source_symbols.upsert_source_symbols(GODOT, symbols)
     source_symbols.write_source_symbol_audit_report(GODOT)
