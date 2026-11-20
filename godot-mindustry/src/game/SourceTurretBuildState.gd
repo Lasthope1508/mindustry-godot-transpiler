@@ -685,6 +685,46 @@ static func source_logic_sense_content_state(content_kind: String, has_items: bo
 		return {"handled": true, "output_kind": "num", "output_value": payload_block_count, "is_invalid": false}
 	return {"handled": true, "output_kind": "num", "output_value": NAN, "is_invalid": true}
 
+static func source_logic_sense_laccess_state(sensor: String, turret_handled: bool, turret_sense_value: Variant, comp_handled: bool, comp_sense_value: Variant) -> Dictionary:
+	# SenseI.run() LAccess leg (LExecutor.java:694-703):
+	# `}else if(sense instanceof LAccess la){` /
+	# `Object objOut = se.senseObject(la);` /
+	# `if(objOut == Senseable.noSensed){` /
+	# `to.setnum(se.sense(la));` /
+	# `}else{` / `to.setobj(objOut);` / `}` -- on the
+	# noSensed sentinel the dispatch writes the numeric
+	# `se.sense(la)` value (`public static class SenseI implements LInstruction{`,
+	# LExecutor.java:668; `if(target instanceof Senseable se){`,
+	# :691). For a duo turret that value is Turret.sense
+	# (`public double sense(LAccess sensor){`,
+	# Turret.java:405-419: `case ammo -> totalAmmo;` /
+	# `case rotation -> rotation;` /
+	# `case progress -> progress();`), whose `default`
+	# falls through to super.sense (`default ->
+	# super.sense(sensor);`, Turret.java:415;
+	# BuildingComp.sense, BuildingComp.java:2093-2126),
+	# whose default is NaN (`default -> Float.NaN; //gets
+	# converted to null in logic`, :2123). Java dispatch
+	# order is Turret.sense FIRST, so a sensor handled by
+	# Turret.sense never reaches BuildingComp.sense -- the
+	# only overlap is `rotation`, handled by both switches
+	# over the same live frame value. The two sense outcomes
+	# are passed in as params (the N2212/N2220 per-def-param
+	# precedent, same as N2507 passing in `sense_value`); the
+	# pure function does not re-implement the 30 sensor legs.
+	# The result is the N2283/N2284 sense wire shape:
+	# handled + sense_value + sense_value_is_nan. There is
+	# no driver tick line: the leg is a logic read, not a
+	# tick write (the
+	# N2206/N2208/N2223/N2283/N2284/N2506/N2507/N2508/N2509
+	# precedent); the proof calls the pure function directly
+	# with synthetic inputs.
+	if turret_handled:
+		return {"handled": true, "sense_value": turret_sense_value, "sense_value_is_nan": false}
+	if comp_handled:
+		return {"handled": true, "sense_value": comp_sense_value, "sense_value_is_nan": false}
+	return {"handled": false, "sense_value": null, "sense_value_is_nan": true}
+
 static func source_logic_sense_size_state(sensor: String, target_kind: String, string_length: float, seq_size: float) -> Dictionary:
 	# SenseI.run() non-Senseable else-branch (LExecutor.java:705-717):
 	# `}else{` /

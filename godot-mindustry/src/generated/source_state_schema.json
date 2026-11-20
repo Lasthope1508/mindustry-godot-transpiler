@@ -239302,6 +239302,104 @@
       },
       "runtime_proof": "/root/C07TurretLogicSenseSizeProof",
       "rule": "Source-backed SenseI non-Senseable size/bufferSize legs from LExecutor.java:705-717."
+    },
+    "source_logic_sense_laccess_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_logic_sense_laccess_state",
+      "source_slice": "N2510",
+      "keys": {
+        "sensor": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/logic/LExecutor.java",
+          "java_expr": "}else if(sense instanceof LAccess la){",
+          "rule": "The logic sensor to read, spelled by its LAccess enum name (`}else if(sense instanceof LAccess la){`, LExecutor.java:694): it identifies the query whose `se.sense(la)` value is being resolved; the dispatch itself runs on the two handled flags, because the two switches already ran in their own slices (N2283/N2284).",
+          "used_by": [
+            "SourceTurretBuildState.source_logic_sense_laccess_state"
+          ]
+        },
+        "turret_handled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public double sense(LAccess sensor){",
+          "rule": "Whether Turret.sense handled the sensor (`public double sense(LAccess sensor){`, Turret.java:406; its switch covers ammo / ammoCapacity / rotation / shootX / shootY / shooting / progress, :408-416): Turret.sense is called first, so a handled sensor never reaches super.sense.",
+          "used_by": [
+            "SourceTurretBuildState.source_logic_sense_laccess_state"
+          ]
+        },
+        "turret_sense_value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "case ammo -> totalAmmo;",
+          "rule": "The Turret.sense return value (`case ammo -> totalAmmo;`, Turret.java:408, representative of the seven handled legs), passed explicitly because the pure function does not recompute sensor legs (the N2212/N2220 per-def-param precedent); ignored when turret_handled is false.",
+          "used_by": [
+            "SourceTurretBuildState.source_logic_sense_laccess_state"
+          ]
+        },
+        "comp_handled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public double sense(LAccess sensor){",
+          "rule": "Whether BuildingComp.sense handled the sensor (`public double sense(LAccess sensor){`, BuildingComp.java:2093; 23 handled legs, :2094-2122): it is consulted only when Turret.sense missed, via `default -> super.sense(sensor);` (Turret.java:415).",
+          "used_by": [
+            "SourceTurretBuildState.source_logic_sense_laccess_state"
+          ]
+        },
+        "comp_sense_value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "case size -> block.size;",
+          "rule": "The BuildingComp.sense return value (`case size -> block.size;`, BuildingComp.java:2121, representative of the 23 handled legs), passed explicitly because the pure function does not recompute sensor legs (the N2212/N2220 per-def-param precedent); ignored when comp_handled is false.",
+          "used_by": [
+            "SourceTurretBuildState.source_logic_sense_laccess_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretLogicSenseLAccessProof",
+      "rule": "Source-backed SenseI LAccess numeric dispatch se.sense(la) from LExecutor.java:694-703."
+    },
+    "source_logic_sense_laccess_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_logic_sense_laccess_state",
+      "source_slice": "N2510",
+      "keys": {
+        "handled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/logic/LExecutor.java",
+          "java_expr": "to.setnum(se.sense(la));",
+          "rule": "Whether the numeric dispatch resolved to a logic-variable write (`to.setnum(se.sense(la));`, LExecutor.java:699): true when either sense switch handled the sensor, false when neither did (the deferred sensor legs and unknown sensors).",
+          "used_by": [
+            "SourceTurretBuildState.source_logic_sense_laccess_state"
+          ]
+        },
+        "sense_value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/logic/LExecutor.java",
+          "java_expr": "to.setnum(se.sense(la));",
+          "rule": "The numeric value written to the logic variable (`to.setnum(se.sense(la));`, LExecutor.java:699): the Turret.sense value when it handled the sensor, else the BuildingComp.sense value, else null.",
+          "used_by": [
+            "SourceTurretBuildState.source_logic_sense_laccess_state"
+          ]
+        },
+        "sense_value_is_nan": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "default -> Float.NaN; //gets converted to null in logic",
+          "rule": "Whether Java returns Float.NaN for this sensor (`default -> Float.NaN; //gets converted to null in logic`, BuildingComp.java:2123); true only when neither sense switch handled the sensor, the N2283/N2284 `sense_value_is_nan` precedent.",
+          "used_by": [
+            "SourceTurretBuildState.source_logic_sense_laccess_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretLogicSenseLAccessProof",
+      "rule": "Source-backed SenseI LAccess numeric dispatch se.sense(la) from LExecutor.java:694-703."
     }
   },
   "version": 1

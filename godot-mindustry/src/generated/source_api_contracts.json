@@ -70576,6 +70576,53 @@
       ],
       "runtime_proof": "/root/C07TurretLogicSenseSizeProof",
       "rule": "Source-backed SenseI non-Senseable size/bufferSize legs from LExecutor.java:705-717."
+    },
+    "SourceTurretBuildState.source_logic_sense_laccess_state": {
+      "status": "active",
+      "source_slice": "N2510",
+      "java_source": "core/src/mindustry/logic/LExecutor.java",
+      "source_method": "SenseI.run(LExecutor)",
+      "params": [
+        {
+          "name": "sensor",
+          "type": "String",
+          "schema": "source_logic_sense_laccess_state_input.sensor"
+        },
+        {
+          "name": "turret_handled",
+          "type": "bool",
+          "schema": "source_logic_sense_laccess_state_input.turret_handled"
+        },
+        {
+          "name": "turret_sense_value",
+          "type": "Variant",
+          "schema": "source_logic_sense_laccess_state_input.turret_sense_value"
+        },
+        {
+          "name": "comp_handled",
+          "type": "bool",
+          "schema": "source_logic_sense_laccess_state_input.comp_handled"
+        },
+        {
+          "name": "comp_sense_value",
+          "type": "Variant",
+          "schema": "source_logic_sense_laccess_state_input.comp_sense_value"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "handled",
+        "sense_value",
+        "sense_value_is_nan"
+      ],
+      "tests": [
+        "test_c07_turret_logic_sense_laccess_registration",
+        "test_all_c07_turret_logic_sense_laccess_input_evidence_is_exact",
+        "test_turret_logic_sense_laccess_state",
+        "test_reference_graph_and_actual_c07_turret_logic_sense_laccess"
+      ],
+      "runtime_proof": "/root/C07TurretLogicSenseLAccessProof",
+      "rule": "Source-backed SenseI LAccess numeric dispatch se.sense(la) from LExecutor.java:694-703."
     }
   },
   "policy": {

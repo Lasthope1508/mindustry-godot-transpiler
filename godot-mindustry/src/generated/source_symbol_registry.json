@@ -177768,6 +177768,54 @@
         "test_reference_graph_and_actual_c07_turret_logic_sense_size"
       ],
       "runtime_proof": "/root/C07TurretLogicSenseSizeProof"
+    },
+    "source_logic_sense_laccess_state_result.handled": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_logic_sense_laccess_state",
+      "godot_symbol": "source_logic_sense_laccess_state_result.handled",
+      "java_source": "core/src/mindustry/logic/LExecutor.java",
+      "java_method": "SenseI.run(LExecutor)",
+      "java_expr": "to.setnum(se.sense(la));",
+      "rule": "Whether the numeric dispatch resolved to a logic-variable write (`to.setnum(se.sense(la));`, LExecutor.java:699): true when either sense switch handled the sensor, false when neither did (the deferred sensor legs and unknown sensors).",
+      "tests": [
+        "test_c07_turret_logic_sense_laccess_registration",
+        "test_all_c07_turret_logic_sense_laccess_input_evidence_is_exact",
+        "test_turret_logic_sense_laccess_state",
+        "test_reference_graph_and_actual_c07_turret_logic_sense_laccess"
+      ],
+      "runtime_proof": "/root/C07TurretLogicSenseLAccessProof"
+    },
+    "source_logic_sense_laccess_state_result.sense_value": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_logic_sense_laccess_state",
+      "godot_symbol": "source_logic_sense_laccess_state_result.sense_value",
+      "java_source": "core/src/mindustry/logic/LExecutor.java",
+      "java_method": "SenseI.run(LExecutor)",
+      "java_expr": "to.setnum(se.sense(la));",
+      "rule": "The numeric value written to the logic variable (`to.setnum(se.sense(la));`, LExecutor.java:699): the Turret.sense value when it handled the sensor, else the BuildingComp.sense value, else null.",
+      "tests": [
+        "test_c07_turret_logic_sense_laccess_registration",
+        "test_all_c07_turret_logic_sense_laccess_input_evidence_is_exact",
+        "test_turret_logic_sense_laccess_state",
+        "test_reference_graph_and_actual_c07_turret_logic_sense_laccess"
+      ],
+      "runtime_proof": "/root/C07TurretLogicSenseLAccessProof"
+    },
+    "source_logic_sense_laccess_state_result.sense_value_is_nan": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_logic_sense_laccess_state",
+      "godot_symbol": "source_logic_sense_laccess_state_result.sense_value_is_nan",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "SenseI.run(LExecutor)",
+      "java_expr": "default -> Float.NaN; //gets converted to null in logic",
+      "rule": "Whether Java returns Float.NaN for this sensor (`default -> Float.NaN; //gets converted to null in logic`, BuildingComp.java:2123); true only when neither sense switch handled the sensor, the N2283/N2284 `sense_value_is_nan` precedent.",
+      "tests": [
+        "test_c07_turret_logic_sense_laccess_registration",
+        "test_all_c07_turret_logic_sense_laccess_input_evidence_is_exact",
+        "test_turret_logic_sense_laccess_state",
+        "test_reference_graph_and_actual_c07_turret_logic_sense_laccess"
+      ],
+      "runtime_proof": "/root/C07TurretLogicSenseLAccessProof"
     }
   },
   "version": 1
