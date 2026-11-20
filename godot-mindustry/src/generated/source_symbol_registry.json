@@ -177640,6 +177640,70 @@
         "test_reference_graph_and_actual_c07_turret_logic_sense_dispatch"
       ],
       "runtime_proof": "/root/C07TurretLogicSenseDispatchProof"
+    },
+    "source_logic_sense_content_state_result.handled": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_logic_sense_content_state",
+      "godot_symbol": "source_logic_sense_content_state_result.handled",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.sense(Content)",
+      "java_expr": "public double sense(Content content){",
+      "rule": "Whether the leg resolved to a logic-variable write (`public double sense(Content content){`, BuildingComp.java:2139; every modeled leg writes with to.setnum (`to.setnum(se.sense(co));`, LExecutor.java:693), so handled is true throughout this slice).",
+      "tests": [
+        "test_c07_turret_logic_sense_content_registration",
+        "test_all_c07_turret_logic_sense_content_input_evidence_is_exact",
+        "test_turret_logic_sense_content_state",
+        "test_reference_graph_and_actual_c07_turret_logic_sense_content"
+      ],
+      "runtime_proof": "/root/C07TurretLogicSenseContentProof"
+    },
+    "source_logic_sense_content_state_result.output_kind": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_logic_sense_content_state",
+      "godot_symbol": "source_logic_sense_content_state_result.output_kind",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.sense(Content)",
+      "java_expr": "public double sense(Content content){",
+      "rule": "Which write the leg performs: always \"num\", because the Content branch writes with to.setnum (`to.setnum(se.sense(co));`, LExecutor.java:693) and never to.setobj; the sensed value is a double (`public double sense(Content content){`, BuildingComp.java:2139).",
+      "tests": [
+        "test_c07_turret_logic_sense_content_registration",
+        "test_all_c07_turret_logic_sense_content_input_evidence_is_exact",
+        "test_turret_logic_sense_content_state",
+        "test_reference_graph_and_actual_c07_turret_logic_sense_content"
+      ],
+      "runtime_proof": "/root/C07TurretLogicSenseContentProof"
+    },
+    "source_logic_sense_content_state_result.output_value": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_logic_sense_content_state",
+      "godot_symbol": "source_logic_sense_content_state_result.output_value",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.sense(Content)",
+      "java_expr": "public double sense(Content content){",
+      "rule": "The value written to the logic variable: the Item / Liquid / UnitType / Block count (`public double sense(Content content){`, BuildingComp.java:2139), or Float.NaN when the sense is invalid (`return Float.NaN; //invalid sense`, :2146).",
+      "tests": [
+        "test_c07_turret_logic_sense_content_registration",
+        "test_all_c07_turret_logic_sense_content_input_evidence_is_exact",
+        "test_turret_logic_sense_content_state",
+        "test_reference_graph_and_actual_c07_turret_logic_sense_content"
+      ],
+      "runtime_proof": "/root/C07TurretLogicSenseContentProof"
+    },
+    "source_logic_sense_content_state_result.is_invalid": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_logic_sense_content_state",
+      "godot_symbol": "source_logic_sense_content_state_result.is_invalid",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.sense(Content)",
+      "java_expr": "return Float.NaN; //invalid sense",
+      "rule": "Whether Java returns Float.NaN for this sense (`return Float.NaN; //invalid sense`, BuildingComp.java:2146); true only on the invalid leg, the N2284 `sense_value_is_nan` precedent.",
+      "tests": [
+        "test_c07_turret_logic_sense_content_registration",
+        "test_all_c07_turret_logic_sense_content_input_evidence_is_exact",
+        "test_turret_logic_sense_content_state",
+        "test_reference_graph_and_actual_c07_turret_logic_sense_content"
+      ],
+      "runtime_proof": "/root/C07TurretLogicSenseContentProof"
     }
   },
   "version": 1

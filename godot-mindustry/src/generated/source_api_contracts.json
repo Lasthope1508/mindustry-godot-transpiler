@@ -70470,6 +70470,69 @@
       ],
       "runtime_proof": "/root/C07TurretLogicSenseDispatchProof",
       "rule": "Source-backed Turret logic-processor sense dispatch hook from LExecutor.java:681-718 + Senseable.java + BuildingComp.java + Turret.java + LAccess.java."
+    },
+    "SourceTurretBuildState.source_logic_sense_content_state": {
+      "status": "active",
+      "source_slice": "N2508",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "BuildingComp.sense(Content)",
+      "params": [
+        {
+          "name": "content_kind",
+          "type": "String",
+          "schema": "source_logic_sense_content_state_input.content_kind"
+        },
+        {
+          "name": "has_items",
+          "type": "bool",
+          "schema": "source_logic_sense_content_state_input.has_items"
+        },
+        {
+          "name": "item_count",
+          "type": "float",
+          "schema": "source_logic_sense_content_state_input.item_count"
+        },
+        {
+          "name": "has_liquids",
+          "type": "bool",
+          "schema": "source_logic_sense_content_state_input.has_liquids"
+        },
+        {
+          "name": "liquid_amount",
+          "type": "float",
+          "schema": "source_logic_sense_content_state_input.liquid_amount"
+        },
+        {
+          "name": "has_payloads",
+          "type": "bool",
+          "schema": "source_logic_sense_content_state_input.has_payloads"
+        },
+        {
+          "name": "payload_unit_count",
+          "type": "float",
+          "schema": "source_logic_sense_content_state_input.payload_unit_count"
+        },
+        {
+          "name": "payload_block_count",
+          "type": "float",
+          "schema": "source_logic_sense_content_state_input.payload_block_count"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "handled",
+        "output_kind",
+        "output_value",
+        "is_invalid"
+      ],
+      "tests": [
+        "test_c07_turret_logic_sense_content_registration",
+        "test_all_c07_turret_logic_sense_content_input_evidence_is_exact",
+        "test_turret_logic_sense_content_state",
+        "test_reference_graph_and_actual_c07_turret_logic_sense_content"
+      ],
+      "runtime_proof": "/root/C07TurretLogicSenseContentProof",
+      "rule": "Source-backed SenseI Content leg from BuildingComp.java:2139-2147 + LExecutor.java:692-693."
     }
   },
   "policy": {

@@ -239066,6 +239066,144 @@
       },
       "runtime_proof": "/root/C07TurretLogicSenseDispatchProof",
       "rule": "Source-backed Turret logic-processor sense dispatch hook from LExecutor.java:681-718 + Senseable.java + BuildingComp.java + Turret.java + LAccess.java."
+    },
+    "source_logic_sense_content_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_logic_sense_content_state",
+      "source_slice": "N2508",
+      "keys": {
+        "content_kind": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/logic/LExecutor.java",
+          "java_expr": "if(sense instanceof Content co){",
+          "rule": "The sensed Content type, spelled \"item\" / \"liquid\" / \"unit\" / \"block\" (Item / Liquid / UnitType / Block, `if(sense instanceof Content co){`, LExecutor.java:692; `public double sense(Content content){`, BuildingComp.java:2139): any other spelling is an invalid sense.",
+          "used_by": [
+            "SourceTurretBuildState.source_logic_sense_content_state"
+          ]
+        },
+        "has_items": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(content instanceof Item i && items != null) return items.get(i);",
+          "rule": "Whether the building has an items inventory (`if(content instanceof Item i && items != null) return items.get(i);`, BuildingComp.java:2140): an Item sensor with no items falls through to Float.NaN, it does NOT fall into the payload legs.",
+          "used_by": [
+            "SourceTurretBuildState.source_logic_sense_content_state"
+          ]
+        },
+        "item_count": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(content instanceof Item i && items != null) return items.get(i);",
+          "rule": "The sensed Item count (`items.get(i)`, BuildingComp.java:2140), passed explicitly because the pure function does not read the frame (the N2212/N2220 per-def-param precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_logic_sense_content_state"
+          ]
+        },
+        "has_liquids": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(content instanceof Liquid l && liquids != null) return liquids.get(l);",
+          "rule": "Whether the building has a liquids inventory (`if(content instanceof Liquid l && liquids != null) return liquids.get(l);`, BuildingComp.java:2141).",
+          "used_by": [
+            "SourceTurretBuildState.source_logic_sense_content_state"
+          ]
+        },
+        "liquid_amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(content instanceof Liquid l && liquids != null) return liquids.get(l);",
+          "rule": "The sensed Liquid amount (`liquids.get(l)`, BuildingComp.java:2141), passed explicitly because the pure function does not read the frame (the N2212/N2220 per-def-param precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_logic_sense_content_state"
+          ]
+        },
+        "has_payloads": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(getPayloads() != null){",
+          "rule": "Whether the building has a payloads inventory (`if(getPayloads() != null){`, BuildingComp.java:2142): only UnitType / Block sensors read payloads, and only when payloads exist.",
+          "used_by": [
+            "SourceTurretBuildState.source_logic_sense_content_state"
+          ]
+        },
+        "payload_unit_count": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(content instanceof UnitType u) return getPayloads().get(u);",
+          "rule": "The sensed UnitType payload count (`getPayloads().get(u)`, BuildingComp.java:2143), passed explicitly because the pure function does not read the frame (the N2212/N2220 per-def-param precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_logic_sense_content_state"
+          ]
+        },
+        "payload_block_count": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "if(content instanceof Block b) return getPayloads().get(b);",
+          "rule": "The sensed Block payload count (`getPayloads().get(b)`, BuildingComp.java:2144), passed explicitly because the pure function does not read the frame (the N2212/N2220 per-def-param precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_logic_sense_content_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretLogicSenseContentProof",
+      "rule": "Source-backed SenseI Content leg from BuildingComp.java:2139-2147 + LExecutor.java:692-693."
+    },
+    "source_logic_sense_content_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_logic_sense_content_state",
+      "source_slice": "N2508",
+      "keys": {
+        "handled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public double sense(Content content){",
+          "rule": "Whether the leg resolved to a logic-variable write (`public double sense(Content content){`, BuildingComp.java:2139; every modeled leg writes with to.setnum (`to.setnum(se.sense(co));`, LExecutor.java:693), so handled is true throughout this slice).",
+          "used_by": [
+            "SourceTurretBuildState.source_logic_sense_content_state"
+          ]
+        },
+        "output_kind": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public double sense(Content content){",
+          "rule": "Which write the leg performs: always \"num\", because the Content branch writes with to.setnum (`to.setnum(se.sense(co));`, LExecutor.java:693) and never to.setobj; the sensed value is a double (`public double sense(Content content){`, BuildingComp.java:2139).",
+          "used_by": [
+            "SourceTurretBuildState.source_logic_sense_content_state"
+          ]
+        },
+        "output_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public double sense(Content content){",
+          "rule": "The value written to the logic variable: the Item / Liquid / UnitType / Block count (`public double sense(Content content){`, BuildingComp.java:2139), or Float.NaN when the sense is invalid (`return Float.NaN; //invalid sense`, :2146).",
+          "used_by": [
+            "SourceTurretBuildState.source_logic_sense_content_state"
+          ]
+        },
+        "is_invalid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Float.NaN; //invalid sense",
+          "rule": "Whether Java returns Float.NaN for this sense (`return Float.NaN; //invalid sense`, BuildingComp.java:2146); true only on the invalid leg, the N2284 `sense_value_is_nan` precedent.",
+          "used_by": [
+            "SourceTurretBuildState.source_logic_sense_content_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretLogicSenseContentProof",
+      "rule": "Source-backed SenseI Content leg from BuildingComp.java:2139-2147 + LExecutor.java:692-693."
     }
   },
   "version": 1

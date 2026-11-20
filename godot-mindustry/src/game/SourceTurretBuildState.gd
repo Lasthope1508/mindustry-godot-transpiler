@@ -643,6 +643,48 @@ static func source_logic_sense_dispatch_state(sensor: String, target_is_null: bo
 		return {"handled": true, "output_kind": "obj", "output_value": sense_object, "is_no_sensed": false}
 	return {"handled": true, "output_kind": "num", "output_value": sense_value, "is_no_sensed": true}
 
+static func source_logic_sense_content_state(content_kind: String, has_items: bool, item_count: float, has_liquids: bool, liquid_amount: float, has_payloads: bool, payload_unit_count: float, payload_block_count: float) -> Dictionary:
+	# SenseI.run() Content leg (LExecutor.java:692-693):
+	# `if(sense instanceof Content co){` /
+	# `to.setnum(se.sense(co));` -- the logic-processor `sense` op
+	# with a `Content` sensor calls BuildingComp.sense(Content)
+	# (BuildingComp.java:2139-2147):
+	# `public double sense(Content content){` /
+	# `if(content instanceof Item i && items != null) return items.get(i);` /
+	# `if(content instanceof Liquid l && liquids != null) return liquids.get(l);` /
+	# `if(getPayloads() != null){` /
+	# `if(content instanceof UnitType u) return getPayloads().get(u);` /
+	# `if(content instanceof Block b) return getPayloads().get(b);` /
+	# `}` /
+	# `return Float.NaN; //invalid sense` /
+	# `}` -- it is the other branch of the same SenseI.run()
+	# dispatch as `source_logic_sense_dispatch_state` (N2507,
+	# `public static class SenseI implements LInstruction{`,
+	# LExecutor.java:668; `if(target instanceof Senseable se){`,
+	# :691), so it sits immediately after that hook. The counts
+	# are passed in as params (the N2212/N2220 per-def-param
+	# precedent): the pure function does not read the frame. The
+	# instanceof checks are ordered Item -> Liquid -> payloads,
+	# so an Item sensor with `items == null` does NOT fall into
+	# the payload legs -- a non-payload Content kind reaches NaN
+	# even when payloads exist. The leg always writes with
+	# `to.setnum`, never `to.setobj`, so `output_kind` is always
+	# "num" and `handled` is true for every modeled leg.
+	# `is_invalid` is true only on the NaN leg (the N2284
+	# `sense_value_is_nan` precedent). There is no driver tick
+	# line: the leg is a logic read, not a tick write (the
+	# N2206/N2208/N2223/N2283/N2284/N2506/N2507 precedent); the
+	# proof calls the pure function directly with synthetic inputs.
+	if content_kind == "item" and has_items:
+		return {"handled": true, "output_kind": "num", "output_value": item_count, "is_invalid": false}
+	if content_kind == "liquid" and has_liquids:
+		return {"handled": true, "output_kind": "num", "output_value": liquid_amount, "is_invalid": false}
+	if content_kind == "unit" and has_payloads:
+		return {"handled": true, "output_kind": "num", "output_value": payload_unit_count, "is_invalid": false}
+	if content_kind == "block" and has_payloads:
+		return {"handled": true, "output_kind": "num", "output_value": payload_block_count, "is_invalid": false}
+	return {"handled": true, "output_kind": "num", "output_value": NAN, "is_invalid": true}
+
 static func source_turret_progress_state(reload_counter: float, reload: float) -> Dictionary:
 	# TurretBuild.progress() (Turret.java:425-427):
 	# `public float progress(){` /
