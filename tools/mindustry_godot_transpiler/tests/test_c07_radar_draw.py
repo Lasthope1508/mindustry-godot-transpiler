@@ -72,7 +72,7 @@ class C07RadarDrawTests(unittest.TestCase):
     def test_radar_draw_state(self):
         radar = RADAR_STATE.read_text(encoding='utf-8')
         # The pure draw() rows live on the radar build state
-        # next to the N2274 updateTile advance: RadarBuild.draw()
+        # next to the N2320 updateTile advance: RadarBuild.draw()
         # (Radar.java:84-90) draws the base region unrotated
         # (`Draw.rect(baseRegion, x, y);`, Radar.java:86), the
         # region rotated by rotateSpeed * totalProgress

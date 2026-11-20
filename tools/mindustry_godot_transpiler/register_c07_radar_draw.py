@@ -17,7 +17,7 @@ draw() is a render call, not tick state (the accessor
 precedent N2311/N2275).
 
 RED decisions (resolved at RED): (1) Two pure functions on
-the same family file N2274/N2275 built, following the N2316
+the same family file N2320/N2275 built, following the N2316
 multi-function precedent: rotation reads total_progress
 from the frame + rotate_speed as an explicit per-def param;
 glow takes glow_color_alpha + glow_mag + absin_value as
@@ -59,7 +59,7 @@ EXACT_EXPRS = ['public void draw(){', 'Draw.rect(baseRegion, x, y);', 'Draw.rect
 # own slice, as does drawPlace).
 DEFERRED = [e for e in N2318_DEFERRED if 'Radar draw / drawSelect / icons rows' not in e] + [
     'Radar drawSelect rows (drawSelect dash circle, Radar.java:80-82) -- presentation, not tick state; waits for its own slice.',
-    'Radar draw Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2274/N2275/N2303/N2310/N2318: the N2278 proof runs headless on Linux here and waits for a Windows Godot run.',
+    'Radar draw Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2320/N2275/N2303/N2310/N2318: the N2278 proof runs headless on Linux here and waits for a Windows Godot run.',
 ]
 
 

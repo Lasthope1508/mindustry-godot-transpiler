@@ -234703,124 +234703,6 @@
       "runtime_proof": "/root/C07RadarProgressProof",
       "rule": "Source-backed Radar progress() accessor from Radar.java."
     },
-    "source_radar_update_tile_state_input": {
-      "status": "active",
-      "owner": "SourceRadarBuildState.source_radar_update_tile_state",
-      "source_slice": "N2274",
-      "keys": {
-        "frame": {
-          "type": "Dictionary",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-          "java_expr": "public void updateTile(){",
-          "rule": "The radar frame (RadarBuild.updateTile, Radar.java:60): carries smooth_efficiency (Java init 1.0), progress (init 0.0), last_radius (init 0.0), total_progress (init 0.0) and the folded efficiency (transient default 0.0, BuildingComp.java:85).",
-          "used_by": [
-            "SourceRadarBuildState.source_radar_update_tile_state"
-          ]
-        },
-        "delta": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-          "java_expr": "return Time.delta * timeScale;",
-          "rule": "The tick seconds: delta() is Time.delta * timeScale (BuildingComp.java:1922-1923); timeScale is 1 by default and the port passes the raw tick seconds (the N2190 driver convention). edelta() is efficiency * delta (BuildingComp.java:1927-1929).",
-          "used_by": [
-            "SourceRadarBuildState.source_radar_update_tile_state"
-          ]
-        },
-        "discovery_time": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-          "java_expr": "public float discoveryTime = 60f * 10f;",
-          "rule": "The per-def discovery time, 600f for the radar def (Radar.java:18); passed explicitly because the catalog carries no discoveryTime (the N2212 per-def-param precedent).",
-          "used_by": [
-            "SourceRadarBuildState.source_radar_update_tile_state"
-          ]
-        },
-        "fog_radius": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/content/Blocks.java",
-          "java_expr": "fogRadius = 34;",
-          "rule": "The per-def fog radius, 34 for the radar def (Blocks.java:1991), overriding the class default 10 (Radar.java:33); passed explicitly because the catalog carries no fogRadius (the N2212 per-def-param precedent).",
-          "used_by": [
-            "SourceRadarBuildState.source_radar_update_tile_state"
-          ]
-        }
-      },
-      "runtime_proof": "/root/C07RadarUpdateTileProof",
-      "rule": "Source-backed Radar updateTile advance from Radar.java + BuildingComp.java + Blocks.java + FogControl.java."
-    },
-    "source_radar_update_tile_state_result": {
-      "status": "active",
-      "owner": "SourceRadarBuildState.source_radar_update_tile_state",
-      "source_slice": "N2274",
-      "keys": {
-        "smooth_efficiency": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-          "java_expr": "smoothEfficiency = Mathf.lerpDelta(smoothEfficiency, efficiency, 0.05f);",
-          "rule": "The smoothed efficiency after the tick: lerpDelta toward the folded efficiency at 0.05f (Radar.java:61), via the port SourceMathState.source_lerp_delta helper (arc Mathf.lerpDelta, clamp(progress * Time.delta)).",
-          "used_by": [
-            "SourceRadarBuildState.source_radar_update_tile_state"
-          ]
-        },
-        "fog_radius": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-          "java_expr": "return fogRadius * progress * smoothEfficiency;",
-          "rule": "The live fog radius this tick: fogRadius() (Radar.java:55-56), fogRadius * progress * smoothEfficiency, computed with the NEW smooth efficiency and the OLD progress (Java order :61 before :63-66, advance :68 after).",
-          "used_by": [
-            "SourceRadarBuildState.source_radar_update_tile_state"
-          ]
-        },
-        "force_update": {
-          "type": "bool",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-          "java_expr": "Vars.fogControl.forceUpdate(team, this);",
-          "rule": "Whether the fog must be force-updated this tick: true when |fogRadius() - lastRadius| >= 0.5f (Radar.java:63-64); the observable flag -- the actual FogControl.forceUpdate call (FogControl.java:177) waits for its own fog slice.",
-          "used_by": [
-            "SourceRadarBuildState.source_radar_update_tile_state"
-          ]
-        },
-        "last_radius": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-          "java_expr": "lastRadius = fogRadius();",
-          "rule": "The stored radius after the tick: fogRadius() when force_update fired, the previous lastRadius otherwise (Radar.java:63-65).",
-          "used_by": [
-            "SourceRadarBuildState.source_radar_update_tile_state"
-          ]
-        },
-        "progress": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-          "java_expr": "progress += edelta() / discoveryTime;",
-          "rule": "The discovery progress after the tick: advanced by edelta() / discoveryTime and clamped to [0, 1] (Radar.java:68-69, Mathf.clamp one-arg).",
-          "used_by": [
-            "SourceRadarBuildState.source_radar_update_tile_state"
-          ]
-        },
-        "total_progress": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-          "java_expr": "totalProgress += efficiency * edelta();",
-          "rule": "The efficiency-weighted tick count after the tick: advanced by efficiency * edelta() (Radar.java:71).",
-          "used_by": [
-            "SourceRadarBuildState.source_radar_update_tile_state"
-          ]
-        }
-      },
-      "runtime_proof": "/root/C07RadarUpdateTileProof",
-      "rule": "Source-backed Radar updateTile advance from Radar.java + BuildingComp.java + Blocks.java + FogControl.java."
-    },
     "source_radar_fog_radius_state_input": {
       "status": "active",
       "owner": "SourceRadarBuildState.source_radar_fog_radius_state",
@@ -240240,6 +240122,124 @@
       },
       "runtime_proof": "/root/C07TurretTrackingRangeProof",
       "rule": "Source-backed TurretBuild.trackingRange() state from Turret.java + BaseTurret.java + BulletType.java."
+    },
+    "source_radar_update_tile_state_input": {
+      "status": "active",
+      "owner": "SourceRadarBuildState.source_radar_update_tile_state",
+      "source_slice": "N2320",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "public void updateTile(){",
+          "rule": "The radar frame (RadarBuild.updateTile, Radar.java:60): carries smooth_efficiency (Java init 1.0), progress (init 0.0), last_radius (init 0.0), total_progress (init 0.0) and the folded efficiency (transient default 0.0, BuildingComp.java:85).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_update_tile_state"
+          ]
+        },
+        "delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return Time.delta * timeScale;",
+          "rule": "The tick seconds: delta() is Time.delta * timeScale (BuildingComp.java:1922-1923); timeScale is 1 by default and the port passes the raw tick seconds (the N2190 driver convention). edelta() is efficiency * delta (BuildingComp.java:1927-1929).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_update_tile_state"
+          ]
+        },
+        "discovery_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "public float discoveryTime = 60f * 10f;",
+          "rule": "The per-def discovery time, 600f for the radar def (Radar.java:18); passed explicitly because the catalog carries no discoveryTime (the N2212 per-def-param precedent).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_update_tile_state"
+          ]
+        },
+        "fog_radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "fogRadius = 34;",
+          "rule": "The per-def fog radius, 34 for the radar def (Blocks.java:1991), overriding the class default 10 (Radar.java:33); passed explicitly because the catalog carries no fogRadius (the N2212 per-def-param precedent).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_update_tile_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RadarUpdateTileProof",
+      "rule": "Source-backed Radar updateTile advance from Radar.java + BuildingComp.java + Blocks.java + FogControl.java."
+    },
+    "source_radar_update_tile_state_result": {
+      "status": "active",
+      "owner": "SourceRadarBuildState.source_radar_update_tile_state",
+      "source_slice": "N2320",
+      "keys": {
+        "smooth_efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "smoothEfficiency = Mathf.lerpDelta(smoothEfficiency, efficiency, 0.05f);",
+          "rule": "The smoothed efficiency after the tick: lerpDelta toward the folded efficiency at 0.05f (Radar.java:61), via the port SourceMathState.source_lerp_delta helper (arc Mathf.lerpDelta, clamp(progress * Time.delta)).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_update_tile_state"
+          ]
+        },
+        "fog_radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "return fogRadius * progress * smoothEfficiency;",
+          "rule": "The live fog radius this tick: fogRadius() (Radar.java:55-56), fogRadius * progress * smoothEfficiency, computed with the NEW smooth efficiency and the OLD progress (Java order :61 before :63-66, advance :68 after).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_update_tile_state"
+          ]
+        },
+        "force_update": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "Vars.fogControl.forceUpdate(team, this);",
+          "rule": "Whether the fog must be force-updated this tick: true when |fogRadius() - lastRadius| >= 0.5f (Radar.java:63-64); the observable flag -- the actual FogControl.forceUpdate call (FogControl.java:177) waits for its own fog slice.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_update_tile_state"
+          ]
+        },
+        "last_radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "lastRadius = fogRadius();",
+          "rule": "The stored radius after the tick: fogRadius() when force_update fired, the previous lastRadius otherwise (Radar.java:63-65).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_update_tile_state"
+          ]
+        },
+        "progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "progress += edelta() / discoveryTime;",
+          "rule": "The discovery progress after the tick: advanced by edelta() / discoveryTime and clamped to [0, 1] (Radar.java:68-69, Mathf.clamp one-arg).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_update_tile_state"
+          ]
+        },
+        "total_progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "totalProgress += efficiency * edelta();",
+          "rule": "The efficiency-weighted tick count after the tick: advanced by efficiency * edelta() (Radar.java:71).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_update_tile_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RadarUpdateTileProof",
+      "rule": "Source-backed Radar updateTile advance from Radar.java + BuildingComp.java + Blocks.java + FogControl.java."
     }
   },
   "version": 1

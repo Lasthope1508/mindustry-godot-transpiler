@@ -19,7 +19,7 @@ func _ready() -> void:
 	game.set_process(false)
 	game.set_physics_process(false)
 
-	# --- Pure updateTile advance (N2274): RadarBuild.updateTile
+	# --- Pure updateTile advance (N2320): RadarBuild.updateTile
 	# (Radar.java:60, `public void updateTile(){`) lerps the
 	# smoothed efficiency (Radar.java:61, `smoothEfficiency =
 	# Mathf.lerpDelta(smoothEfficiency, efficiency, 0.05f);`),

@@ -14,7 +14,7 @@ class C07RadarUpdateTileTests(unittest.TestCase):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        self.assertEqual(ledger['N2274']['godot_owner'], 'SourceRadarBuildState.source_radar_update_tile_state')
+        self.assertEqual(ledger['N2320']['godot_owner'], 'SourceRadarBuildState.source_radar_update_tile_state')
         # RadarBuild.updateTile advances the radar's discovery
         # state every tick (Radar.java:60, `public void
         # updateTile(){`): `smoothEfficiency =
@@ -44,7 +44,7 @@ class C07RadarUpdateTileTests(unittest.TestCase):
         # 34;`), overriding the class default 10
         # (Radar.java:33, `fogRadius = 10;`). The discovery
         # time is 600f (Radar.java:18, `public float
-        # discoveryTime = 60f * 10f;`). N2274 closes the
+        # discoveryTime = 60f * 10f;`). N2320 closes the
         # advance half of that gap with one pure function
         # over the frame (`smooth_efficiency`, `progress`,
         # `last_radius`, `total_progress`, `efficiency`)
@@ -84,7 +84,7 @@ class C07RadarUpdateTileTests(unittest.TestCase):
         # fog_radius, force_update, last_radius, progress,
         # total_progress.
         self.assertEqual(
-            ledger['N2274']['source_symbols'],
+            ledger['N2320']['source_symbols'],
             [
                 'source_radar_update_tile_state_result.smooth_efficiency',
                 'source_radar_update_tile_state_result.fog_radius',
@@ -94,7 +94,7 @@ class C07RadarUpdateTileTests(unittest.TestCase):
                 'source_radar_update_tile_state_result.total_progress',
             ],
         )
-        for name in ledger['N2274']['source_symbols']:
+        for name in ledger['N2320']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_source'], {
@@ -104,9 +104,9 @@ class C07RadarUpdateTileTests(unittest.TestCase):
                     'core/src/mindustry/game/FogControl.java',
                 })
                 self.assertEqual(symbol['godot_owner'], 'SourceRadarBuildState.' + name.rsplit('_result.', 1)[0])
-        self.assertEqual(ledger['N2274']['runtime_proof'], '/root/C07RadarUpdateTileProof')
+        self.assertEqual(ledger['N2320']['runtime_proof'], '/root/C07RadarUpdateTileProof')
         self.assertEqual(
-            ledger['N2274']['tests'],
+            ledger['N2320']['tests'],
             [
                 'test_c07_radar_update_tile_registration',
                 'test_all_c07_radar_update_tile_input_evidence_is_exact',
@@ -114,13 +114,13 @@ class C07RadarUpdateTileTests(unittest.TestCase):
                 'test_reference_graph_and_actual_c07_radar_update_tile',
             ],
         )
-        self.assertTrue(ledger['N2274']['deferred_exprs'])
+        self.assertTrue(ledger['N2320']['deferred_exprs'])
 
     def test_all_c07_radar_update_tile_input_evidence_is_exact(self):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        for name in ledger['N2274']['source_symbols']:
+        for name in ledger['N2320']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_expr'], (ROOT / 'mindustry-upstream' / symbol['java_source']).read_text(encoding='utf-8'))
@@ -132,7 +132,7 @@ class C07RadarUpdateTileTests(unittest.TestCase):
             'core/src/mindustry/game/FogControl.java',
         }
         upstream = {source: (ROOT / 'mindustry-upstream' / source).read_text(encoding='utf-8') for source in slice_sources}
-        for expr in ledger['N2274']['exact_exprs']:
+        for expr in ledger['N2320']['exact_exprs']:
             with self.subTest(expr=expr):
                 self.assertTrue(any(expr in text for text in upstream.values()), expr)
 

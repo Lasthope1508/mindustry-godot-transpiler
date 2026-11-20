@@ -70,7 +70,7 @@ EXACT_EXPRS = ['public float fogRadius(){', 'return fogRadius * progress * smoot
 # the drawSelect / drawPlace / read-write / canPickup /
 # discoveryTime-glow rows stay deferred in their own entries.
 DEFERRED = [e for e in N2227_DEFERRED if 'Radar fogRadius rows' not in e] + [
-    'Radar fogRadius() Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2274: the N2275 proof runs headless on Linux here and waits for a Windows Godot run.',
+    'Radar fogRadius() Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2320: the N2275 proof runs headless on Linux here and waits for a Windows Godot run.',
 ]
 
 
