@@ -547,6 +547,30 @@ static func source_turret_validate_target_state(frame: Dictionary, target_invali
 static func source_turret_is_active_state(frame: Dictionary, target_is_null: bool, is_shooting: bool, activation_timer: float) -> Dictionary:
 	return {"is_active": (not target_is_null or is_shooting) and bool(frame.get("enabled", true)) and activation_timer <= 0}
 
+# TurretBuild.shouldTurn() (Turret.java:669-671):
+# `public boolean shouldTurn(){`
+# `return moveWhileCharging || !charging();`
+# on `public class TurretBuild extends ReloadTurretBuild implements ControlBlock{`
+# (Turret.java:277). moveWhileCharging is the Turret def field
+# (Turret.java:80, `public boolean moveWhileCharging = true;`)
+# and arrives as the explicit bool move_while_charging (the
+# N2311/N2261 precedent -- a def field, not build state).
+# charging() (Turret.java:715-717, `public boolean charging(){`
+# / `return queuedBullets > 0 && shoot.firstShotDelay > 0;`)
+# is NOT re-ported here: the caller passes its result as the
+# explicit bool charging (the N2311/N2340 precedent -- the
+# caller passes the live value); remote N2269 owns charging()
+# (dedup at merge). The frame carries no tracked key for this
+# predicate (the minRange :593 precedent -- the tick frame
+# tracks no charging state yet), so all live values arrive as
+# explicit params. NO driver line: shouldTurn() is a predicate
+# the updateTile() tick driver reads (:595 `if(shouldTurn()){`
+# before turnToTarget(targetRot)) -- wiring it into the driver
+# waits for the updateTile() caller slice.
+@warning_ignore("unused_parameter")
+static func source_turret_should_turn_state(frame: Dictionary, move_while_charging: bool, charging: bool) -> Dictionary:
+	return {"should_turn": move_while_charging or not charging}
+
 # TurretBuild.minRange() (Turret.java:334-339):
 # `public float minRange(){`
 # `if(peekAmmo() != null){`

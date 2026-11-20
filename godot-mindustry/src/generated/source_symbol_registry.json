@@ -178968,6 +178968,22 @@
         "test_reference_graph_and_actual_c07_sound_control_play_silence"
       ],
       "runtime_proof": "/root/C07SoundControlPlaySilenceProof"
+    },
+    "source_turret_should_turn_state_result.should_turn": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_should_turn_state",
+      "godot_symbol": "source_turret_should_turn_state_result.should_turn",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.shouldTurn()",
+      "java_expr": "return moveWhileCharging || !charging();",
+      "rule": "Whether the turret turns toward its target (Turret.java:670, `return moveWhileCharging || !charging();`): true when the def allows turning while charging, or when not charging; false only while charging with moveWhileCharging false. Read by updateTile() :595 (`if(shouldTurn()){`) before turnToTarget(targetRot).",
+      "tests": [
+        "test_c07_turret_should_turn_registration",
+        "test_all_c07_turret_should_turn_input_evidence_is_exact",
+        "test_turret_should_turn_state",
+        "test_reference_graph_and_actual_c07_turret_should_turn"
+      ],
+      "runtime_proof": "/root/C07TurretShouldTurnProof"
     }
   },
   "version": 1

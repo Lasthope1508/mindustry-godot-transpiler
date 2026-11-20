@@ -8434,6 +8434,42 @@
       "rule": "Source-backed TurretBuild.shouldConsume() state from Turret.java + ReloadTurret.java + BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceTurretBuildState.source_turret_should_turn_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_should_turn_state",
+      "status": "active",
+      "source_slice": "N2337",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.shouldTurn()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_should_turn_state_input.frame"
+        },
+        {
+          "name": "move_while_charging",
+          "type": "bool",
+          "schema": "source_turret_should_turn_state_input.move_while_charging"
+        },
+        {
+          "name": "charging",
+          "type": "bool",
+          "schema": "source_turret_should_turn_state_input.charging"
+        }
+      ],
+      "return_keys": [
+        "should_turn"
+      ],
+      "tests": [
+        "test_c07_turret_should_turn_registration",
+        "test_all_c07_turret_should_turn_input_evidence_is_exact",
+        "test_turret_should_turn_state",
+        "test_reference_graph_and_actual_c07_turret_should_turn"
+      ],
+      "runtime_proof": "/root/C07TurretShouldTurnProof",
+      "rule": "Source-backed TurretBuild.shouldTurn() state from Turret.java.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_turret_status_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_status_state",
       "status": "active",

@@ -241830,6 +241830,64 @@
       },
       "runtime_proof": "/root/C07DrillDrawSelectProof",
       "rule": "Source-backed DrillBuild drawSelect() state from Drill.java + BuildingComp.java + Vars.java + Blocks.java."
+    },
+    "source_turret_should_turn_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_should_turn_state",
+      "source_slice": "N2337",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public boolean shouldTurn(){",
+          "rule": "The turret frame (TurretBuild.shouldTurn, Turret.java:669): the family-convention first arg every Turret pure function takes; it carries no tracked key for this predicate -- the tick frame tracks no charging state yet, so all live values arrive as explicit params (the minRange :593 precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_should_turn_state"
+          ]
+        },
+        "move_while_charging": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public boolean moveWhileCharging = true;",
+          "rule": "Whether the turret turns while charging (`moveWhileCharging`, Turret.java:670): the Turret def field (`public boolean moveWhileCharging = true;`, Turret.java:80); a def field, not build state, so it arrives as an explicit param (the N2311/N2261 precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_should_turn_state"
+          ]
+        },
+        "charging": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public boolean charging(){",
+          "rule": "Whether the turret is charging a shot (`charging()`, Turret.java:670): the TurretBuild method (`public boolean charging(){`, Turret.java:715, `return queuedBullets > 0 && shoot.firstShotDelay > 0;`, Turret.java:716) -- computed by the caller and passed in as an explicit bool, NOT re-ported here (the N2311/N2340 precedent); remote N2269 owns charging() (dedup at merge).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_should_turn_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretShouldTurnProof",
+      "rule": "Source-backed TurretBuild.shouldTurn() state from Turret.java."
+    },
+    "source_turret_should_turn_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_should_turn_state",
+      "source_slice": "N2337",
+      "keys": {
+        "should_turn": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return moveWhileCharging || !charging();",
+          "rule": "Whether the turret turns toward its target (Turret.java:670, `return moveWhileCharging || !charging();`): true when the def allows turning while charging, or when not charging; false only while charging with moveWhileCharging false. Read by updateTile() :595 (`if(shouldTurn()){`) before turnToTarget(targetRot).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_should_turn_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretShouldTurnProof",
+      "rule": "Source-backed TurretBuild.shouldTurn() state from Turret.java."
     }
   },
   "version": 1
