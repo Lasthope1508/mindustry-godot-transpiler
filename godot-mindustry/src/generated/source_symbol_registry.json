@@ -179400,6 +179400,22 @@
         "test_reference_graph_and_actual_c07_turret_get_ammo_content_fraction"
       ],
       "runtime_proof": "/root/C07TurretGetAmmoContentFractionProof"
+    },
+    "source_sound_control_setup_filters_state_result.commands": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_setup_filters_state",
+      "godot_symbol": "source_sound_control_setup_filters_state_result.commands",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.setupFilters()",
+      "java_expr": "Core.audio.soundBus.setFilterParam(0, Filters.paramWet, 0f);",
+      "rule": "The sound-bus commands this call issues, in Java order (SoundControl.java:71 `Core.audio.soundBus.setFilter(0, filter);` / :72 `Core.audio.soundBus.setFilterParam(0, Filters.paramWet, 0f);`): one Dictionary per call (`action`, `slot`, plus `filter` for set_filter or `param` + `value` for set_filter_param). `Filters.paramWet` is the int constant 0 (arc Filters.java:6), so the param is 0 and the value is 0.0. The driver applies them -- this slice NEVER plays audio itself; playback belongs to updateLoops (N2304, held waiting for B).",
+      "tests": [
+        "test_c07_sound_control_setup_filters_registration",
+        "test_all_c07_sound_control_setup_filters_input_evidence_is_exact",
+        "test_sound_control_setup_filters_state",
+        "test_reference_graph_and_actual_c07_sound_control_setup_filters"
+      ],
+      "runtime_proof": "/root/C07SoundControlSetupFiltersProof"
     }
   },
   "version": 1

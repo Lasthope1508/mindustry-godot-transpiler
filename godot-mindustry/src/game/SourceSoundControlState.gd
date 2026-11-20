@@ -856,3 +856,28 @@ static func source_sound_control_play_random_state(has_boss: bool, is_dark: bool
 	var once: Dictionary = source_sound_control_play_once_state(has_picked_track, picked_track, has_current, current, fade, has_last_random_played, last_random_played, should_play)
 	once["selected_music"] = selected_music
 	return once
+
+static func source_sound_control_setup_filters_state(filter: Variant) -> Dictionary:
+	# SoundControl.setupFilters() (SoundControl.java:70-73):
+	# `protected void setupFilters(){`
+	# `Core.audio.soundBus.setFilter(0, filter);`
+	# `Core.audio.soundBus.setFilterParam(0, Filters.paramWet, 0f);`
+	# `}`
+	# -- installs the SoundControl filter on sound-bus slot 0
+	# and sets its wet param to 0. `filter` is the field
+	# (SoundControl.java:39, `protected AudioFilter filter = new BiquadFilter(){{`
+	# `set(0, 500, 1);` `}};`) and arrives as an explicit
+	# opaque param (the N2287 precedent -- the driver owns
+	# the live filter object; this slice never builds one).
+	# `Filters.paramWet` is the int constant 0 (arc
+	# Filters.java:6, `public static final int paramWet = 0;`),
+	# so the param in the second command is 0. NO audio
+	# playback in this slice: both sound-bus calls are
+	# returned as command state, never executed; playback
+	# belongs to updateLoops (N2304, held waiting for B).
+	# Callers (constructor :59, update() :149) are NOT
+	# ported here.
+	var commands: Array = []
+	commands.append({"action": "set_filter", "slot": 0, "filter": filter})
+	commands.append({"action": "set_filter_param", "slot": 0, "param": 0, "value": 0.0})
+	return {"commands": commands}

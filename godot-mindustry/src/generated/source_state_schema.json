@@ -242846,6 +242846,44 @@
       },
       "runtime_proof": "/root/C07TurretGetAmmoContentFractionProof",
       "rule": "Source-backed TurretBuild.getAmmoContent()/getAmmoFraction() state from Turret.java."
+    },
+    "source_sound_control_setup_filters_state_input": {
+      "status": "active",
+      "owner": "SourceSoundControlState.source_sound_control_setup_filters_state",
+      "source_slice": "N2349",
+      "keys": {
+        "filter": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "protected AudioFilter filter = new BiquadFilter(){{",
+          "rule": "The SoundControl filter (SoundControl.java:39, `protected AudioFilter filter = new BiquadFilter(){{ set(0, 500, 1); }};`): arrives as an explicit opaque Variant param -- the driver owns the live filter object (the N2287 precedent); this slice never builds a filter. Echoed unchanged into the first command.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_setup_filters_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SoundControlSetupFiltersProof",
+      "rule": "Source-backed SoundControl setupFilters state from SoundControl.java."
+    },
+    "source_sound_control_setup_filters_state_result": {
+      "status": "active",
+      "owner": "SourceSoundControlState.source_sound_control_setup_filters_state",
+      "source_slice": "N2349",
+      "keys": {
+        "commands": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "Core.audio.soundBus.setFilterParam(0, Filters.paramWet, 0f);",
+          "rule": "The sound-bus commands this call issues, in Java order (SoundControl.java:71 `Core.audio.soundBus.setFilter(0, filter);` / :72 `Core.audio.soundBus.setFilterParam(0, Filters.paramWet, 0f);`): one Dictionary per call (`action`, `slot`, plus `filter` for set_filter or `param` + `value` for set_filter_param). `Filters.paramWet` is the int constant 0 (arc Filters.java:6), so the param is 0 and the value is 0.0. The driver applies them -- this slice NEVER plays audio itself; playback belongs to updateLoops (N2304, held waiting for B).",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_setup_filters_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SoundControlSetupFiltersProof",
+      "rule": "Source-backed SoundControl setupFilters state from SoundControl.java."
     }
   },
   "version": 1
