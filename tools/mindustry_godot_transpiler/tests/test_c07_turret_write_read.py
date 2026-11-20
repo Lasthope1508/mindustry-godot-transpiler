@@ -14,7 +14,7 @@ class C07TurretWriteReadTests(unittest.TestCase):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        self.assertEqual(ledger['N2276']['godot_owner'], 'SourceTurretBuildState.source_turret_write_state')
+        self.assertEqual(ledger['N2322']['godot_owner'], 'SourceTurretBuildState.source_turret_write_state')
         # TurretBuild persists exactly TWO fields, its reload
         # counter and its aim rotation (`write.f(reloadCounter);` /
         # `write.f(rotation);`, Turret.java:833-834, inside
@@ -58,7 +58,7 @@ class C07TurretWriteReadTests(unittest.TestCase):
         # symbols: write.reload_counter, write.rotation,
         # read.reload_counter, read.rotation, version.version.
         self.assertEqual(
-            ledger['N2276']['source_symbols'],
+            ledger['N2322']['source_symbols'],
             [
                 'source_turret_write_state_result.reload_counter',
                 'source_turret_write_state_result.rotation',
@@ -67,16 +67,16 @@ class C07TurretWriteReadTests(unittest.TestCase):
                 'source_turret_version_state_result.version',
             ],
         )
-        for name in ledger['N2276']['source_symbols']:
+        for name in ledger['N2322']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_source'], {
                     'core/src/mindustry/world/blocks/defense/turrets/Turret.java',
                 })
                 self.assertEqual(symbol['godot_owner'], 'SourceTurretBuildState.' + name.rsplit('_result.', 1)[0])
-        self.assertEqual(ledger['N2276']['runtime_proof'], '/root/C07TurretWriteReadProof')
+        self.assertEqual(ledger['N2322']['runtime_proof'], '/root/C07TurretWriteReadProof')
         self.assertEqual(
-            ledger['N2276']['tests'],
+            ledger['N2322']['tests'],
             [
                 'test_c07_turret_write_read_registration',
                 'test_all_c07_turret_write_read_input_evidence_is_exact',
@@ -84,13 +84,13 @@ class C07TurretWriteReadTests(unittest.TestCase):
                 'test_reference_graph_and_actual_c07_turret_write_read',
             ],
         )
-        self.assertTrue(ledger['N2276']['deferred_exprs'])
+        self.assertTrue(ledger['N2322']['deferred_exprs'])
 
     def test_all_c07_turret_write_read_input_evidence_is_exact(self):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        for name in ledger['N2276']['source_symbols']:
+        for name in ledger['N2322']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_expr'], (ROOT / 'mindustry-upstream' / symbol['java_source']).read_text(encoding='utf-8'))
@@ -102,7 +102,7 @@ class C07TurretWriteReadTests(unittest.TestCase):
             'core/src/mindustry/entities/comp/BuildingComp.java',
         }
         upstream = {source: (ROOT / 'mindustry-upstream' / source).read_text(encoding='utf-8') for source in slice_sources}
-        for expr in ledger['N2276']['exact_exprs']:
+        for expr in ledger['N2322']['exact_exprs']:
             with self.subTest(expr=expr):
                 self.assertTrue(any(expr in text for text in upstream.values()), expr)
 

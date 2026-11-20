@@ -685,7 +685,7 @@ static func source_turret_warmup_state(frame: Dictionary, shoot_warmup: float) -
 # default 0.0) -- NOT the Building int rotation 0-3 (`transient int
 # rotation;`, BuildingComp.java:69). The caller binds it from the
 # frame bound by source_turret_bind_frame_state (frame["rotation"],
-# the carrier N2276's write/read already use, default 0.0); it
+# the carrier N2322's write/read already use, default 0.0); it
 # arrives here as an explicit param (the N2311/N2261 precedent).
 # NO driver tick line: drawrot() is a read accessor the draw path
 # reads, not a per-tick write (the N2249/N2221 precedent).

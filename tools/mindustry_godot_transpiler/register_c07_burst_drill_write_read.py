@@ -29,7 +29,7 @@ returns the constant 1. (2) super.write/read are empty
 BuildingComp bodies ("overriden by subclasses!") -- only
 the marker is recorded. (3) DrillBuild has NO readSync
 override, so there is no readSync follow-up slice
-(contrast N2276 Turret, whose TurretBuild.readSync()
+(contrast N2322 Turret, whose TurretBuild.readSync()
 Turret.java:853-862 is its own slice). (4) NO driver tick
 line: persistence is not a per-tick call, and the port has
 no save/load stream to call these functions yet -- wiring

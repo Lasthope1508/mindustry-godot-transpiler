@@ -1,4 +1,4 @@
-"""Register the Turret write/read/version persistence (N2276).
+"""Register the Turret write/read/version persistence (N2322).
 
 TurretBuild.write()/read()/version() (Turret.java:831-850)
 persist exactly TWO fields, the reload counter and the aim
@@ -70,7 +70,7 @@ WRITE_OWNER = 'SourceTurretBuildState.source_turret_write_state'
 READ_OWNER = 'SourceTurretBuildState.source_turret_read_state'
 VERSION_OWNER = 'SourceTurretBuildState.source_turret_version_state'
 TESTS = ['test_c07_turret_write_read_registration', 'test_all_c07_turret_write_read_input_evidence_is_exact', 'test_turret_write_read_state', 'test_reference_graph_and_actual_c07_turret_write_read']
-# The 4 slice sources the N2276 test checks exact_exprs
+# The 4 slice sources the N2322 test checks exact_exprs
 # against -- every expr in EXACT_EXPRS below must appear verbatim
 # in one of these files.
 SLICE_SOURCES = [
@@ -111,10 +111,10 @@ EXACT_EXPRS = [
 # never retyped. Nothing in it closes here: write/read/version
 # was never a deferred entry of the Turret chain. Two entries
 # are added: the readSync follow-up (its own slice) and the
-# N2276 Windows Godot proof debt (GOAL.md section 5).
+# N2322 Windows Godot proof debt (GOAL.md section 5).
 DEFERRED = N2319_DEFERRED + [
-    'Port TurretBuild.readSync() (Turret.java:853-862, rotation/reload restore after readAll so clients do not see turrets snapping around) as its own slice; N2276 ports write/read/version only and takes no sync state.',
-    'Turret write/read/version Windows Godot proof -- debt in GOAL.md section 5, same as N2148/N2227: the N2276 proof runs headless on Linux here and waits for a Windows Godot run.',
+    'Port TurretBuild.readSync() (Turret.java:853-862, rotation/reload restore after readAll so clients do not see turrets snapping around) as its own slice; N2322 ports write/read/version only and takes no sync state.',
+    'Turret write/read/version Windows Godot proof -- debt in GOAL.md section 5, same as N2148/N2227: the N2322 proof runs headless on Linux here and waits for a Windows Godot run.',
 ]
 
 
@@ -182,9 +182,9 @@ def main():
     write_inputs, write_outputs, read_inputs, read_outputs, version_inputs, version_outputs = definitions()
 
     entries = [
-        ('N2276', WRITE_OWNER, 'source_turret_write_state', TURRET, 'mindustry.world.blocks.defense.turrets.Turret.TurretBuild', 'TurretBuild.write()', write_inputs, write_outputs, True, 'Dictionary'),
-        ('N2276', READ_OWNER, 'source_turret_read_state', TURRET, 'mindustry.world.blocks.defense.turrets.Turret.TurretBuild', 'TurretBuild.read()', read_inputs, read_outputs, True, 'Dictionary'),
-        ('N2276', VERSION_OWNER, 'source_turret_version_state', TURRET, 'mindustry.world.blocks.defense.turrets.Turret.TurretBuild', 'TurretBuild.version()', version_inputs, version_outputs, True, 'Dictionary'),
+        ('N2322', WRITE_OWNER, 'source_turret_write_state', TURRET, 'mindustry.world.blocks.defense.turrets.Turret.TurretBuild', 'TurretBuild.write()', write_inputs, write_outputs, True, 'Dictionary'),
+        ('N2322', READ_OWNER, 'source_turret_read_state', TURRET, 'mindustry.world.blocks.defense.turrets.Turret.TurretBuild', 'TurretBuild.read()', read_inputs, read_outputs, True, 'Dictionary'),
+        ('N2322', VERSION_OWNER, 'source_turret_version_state', TURRET, 'mindustry.world.blocks.defense.turrets.Turret.TurretBuild', 'TurretBuild.version()', version_inputs, version_outputs, True, 'Dictionary'),
     ]
     all_names = []
     for sid, owner, prefix, source, cls, method, inputs, outputs, has_contract, return_type in entries:
@@ -206,14 +206,14 @@ def main():
     # The test pins this order: write.reload_counter,
     # write.rotation, read.reload_counter, read.rotation,
     # version.version.
-    by_slice['N2276'] = [
+    by_slice['N2322'] = [
         'source_turret_write_state_result.reload_counter',
         'source_turret_write_state_result.rotation',
         'source_turret_read_state_result.reload_counter',
         'source_turret_read_state_result.rotation',
         'source_turret_version_state_result.version',
     ]
-    source_symbols.upsert_source_slice(GODOT, 'N2276', dict(status='done', java_source=TURRET, java_class='mindustry.world.blocks.defense.turrets.Turret.TurretBuild', java_method='TurretBuild.write(); TurretBuild.read(); TurretBuild.version()', godot_owner=WRITE_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2276'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
+    source_symbols.upsert_source_slice(GODOT, 'N2322', dict(status='done', java_source=TURRET, java_class='mindustry.world.blocks.defense.turrets.Turret.TurretBuild', java_method='TurretBuild.write(); TurretBuild.read(); TurretBuild.version()', godot_owner=WRITE_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2322'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
 
     source_symbols.upsert_source_symbols(GODOT, symbols)
     source_symbols.write_source_symbol_audit_report(GODOT)

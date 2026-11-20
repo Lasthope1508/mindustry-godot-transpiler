@@ -47,7 +47,7 @@ import sys
 from pathlib import Path
 
 from mindustry_port import source_ssot, source_symbols
-from register_c07_turret_write_read import DEFERRED as N2276_DEFERRED
+from register_c07_turret_write_read import DEFERRED as N2322_DEFERRED
 from register_liquid_consumer_hydration import backed
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -81,11 +81,11 @@ EXACT_EXPRS = [
     'activationTimer = activationTime;',
 ]
 
-# DEFERRED is carried from the N2276 register script via import --
+# DEFERRED is carried from the N2322 register script via import --
 # never retyped. Nothing in it closes here: isActive() was never
 # a deferred entry of the Turret chain. One entry is added: the
 # N2279 Windows Godot proof debt (GOAL.md section 5).
-DEFERRED = N2276_DEFERRED + [
+DEFERRED = N2322_DEFERRED + [
     'Turret isActive() Windows Godot proof -- debt in GOAL.md section 5, same as N2148/N2227: the N2279 proof runs headless on Linux here and waits for a Windows Godot run.',
 ]
 

@@ -234703,170 +234703,6 @@
       "runtime_proof": "/root/C07RadarProgressProof",
       "rule": "Source-backed Radar progress() accessor from Radar.java."
     },
-    "source_turret_write_state_input": {
-      "status": "active",
-      "owner": "SourceTurretBuildState.source_turret_write_state",
-      "source_slice": "N2276",
-      "keys": {
-        "frame": {
-          "type": "Dictionary",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-          "java_expr": "public void write(Writes write){",
-          "rule": "The turret frame (TurretBuild.write, Turret.java:831): the family-convention first arg every Turret pure function takes; both persisted values are read from frame keys (the N2217 RepairTurret precedent) -- reload_counter is a tracked frame key, the tick driver reads it.",
-          "used_by": [
-            "SourceTurretBuildState.source_turret_write_state"
-          ]
-        }
-      },
-      "runtime_proof": "/root/C07TurretWriteReadProof",
-      "rule": "Source-backed TurretBuild.write()/read()/version() state from Turret.java + ReloadTurret.java + RotComp.java + BuildingComp.java."
-    },
-    "source_turret_write_state_result": {
-      "status": "active",
-      "owner": "SourceTurretBuildState.source_turret_write_state",
-      "source_slice": "N2276",
-      "keys": {
-        "reload_counter": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-          "java_expr": "write.f(reloadCounter);",
-          "rule": "The persisted reload counter (`write.f(reloadCounter);`, Turret.java:833): the ReloadTurretBuild field (`public float reloadCounter;`, ReloadTurret.java:26), default 0.0, advanced by updateReload (Turret.java:720-723); written first, in Java write order.",
-          "used_by": [
-            "SourceTurretBuildState.source_turret_write_state"
-          ]
-        },
-        "rotation": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-          "java_expr": "write.f(rotation);",
-          "rule": "The persisted aim rotation (`write.f(rotation);`, Turret.java:834): the RotComp float aim angle (`@SyncField(false) @SyncLocal float rotation;`, RotComp.java:8), default 0.0 -- NOT the Building int rotation 0-3 (BuildingComp.java:69); written second, in Java write order.",
-          "used_by": [
-            "SourceTurretBuildState.source_turret_write_state"
-          ]
-        }
-      },
-      "runtime_proof": "/root/C07TurretWriteReadProof",
-      "rule": "Source-backed TurretBuild.write()/read()/version() state from Turret.java + ReloadTurret.java + RotComp.java + BuildingComp.java."
-    },
-    "source_turret_read_state_input": {
-      "status": "active",
-      "owner": "SourceTurretBuildState.source_turret_read_state",
-      "source_slice": "N2276",
-      "keys": {
-        "frame": {
-          "type": "Dictionary",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-          "java_expr": "public void read(Reads read, byte revision){",
-          "rule": "The turret frame (TurretBuild.read, Turret.java:838): the family-convention first arg every Turret pure function takes; a revision-0 save leaves the fields where they already are, so the frame carries the current values as the fallback.",
-          "used_by": [
-            "SourceTurretBuildState.source_turret_read_state"
-          ]
-        },
-        "stored_reload_counter": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-          "java_expr": "reloadCounter = read.f();",
-          "rule": "The reload counter read from the save stream (`reloadCounter = read.f();`, Turret.java:842) -- applied only when revision >= 1.",
-          "used_by": [
-            "SourceTurretBuildState.source_turret_read_state"
-          ]
-        },
-        "stored_rotation": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-          "java_expr": "rotation = read.f();",
-          "rule": "The aim rotation read from the save stream (`rotation = read.f();`, Turret.java:843) -- applied only when revision >= 1.",
-          "used_by": [
-            "SourceTurretBuildState.source_turret_read_state"
-          ]
-        },
-        "revision": {
-          "type": "int",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-          "java_expr": "public void read(Reads read, byte revision){",
-          "rule": "The save revision (Turret.java:838, `public void read(Reads read, byte revision){`): the guard (`if(revision >= 1){`, Turret.java:841) -- the save version is 1 (`public byte version(){ return 1; }`, Turret.java:848-850).",
-          "used_by": [
-            "SourceTurretBuildState.source_turret_read_state"
-          ]
-        }
-      },
-      "runtime_proof": "/root/C07TurretWriteReadProof",
-      "rule": "Source-backed TurretBuild.write()/read()/version() state from Turret.java + ReloadTurret.java + RotComp.java + BuildingComp.java."
-    },
-    "source_turret_read_state_result": {
-      "status": "active",
-      "owner": "SourceTurretBuildState.source_turret_read_state",
-      "source_slice": "N2276",
-      "keys": {
-        "reload_counter": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-          "java_expr": "reloadCounter = read.f();",
-          "rule": "The reload counter after load (Turret.java:842, `reloadCounter = read.f();`): the stored value when revision >= 1, else the frame current value (default 0.0).",
-          "used_by": [
-            "SourceTurretBuildState.source_turret_read_state"
-          ]
-        },
-        "rotation": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-          "java_expr": "rotation = read.f();",
-          "rule": "The aim rotation after load (Turret.java:843, `rotation = read.f();`): the stored value when revision >= 1, else the frame current value (default 0.0).",
-          "used_by": [
-            "SourceTurretBuildState.source_turret_read_state"
-          ]
-        }
-      },
-      "runtime_proof": "/root/C07TurretWriteReadProof",
-      "rule": "Source-backed TurretBuild.write()/read()/version() state from Turret.java + ReloadTurret.java + RotComp.java + BuildingComp.java."
-    },
-    "source_turret_version_state_input": {
-      "status": "active",
-      "owner": "SourceTurretBuildState.source_turret_version_state",
-      "source_slice": "N2276",
-      "keys": {
-        "frame": {
-          "type": "Dictionary",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-          "java_expr": "public byte version(){",
-          "rule": "The turret frame (TurretBuild.version, Turret.java:848): accepted for the family call shape and read for nothing -- the version is a class constant, not live state.",
-          "used_by": [
-            "SourceTurretBuildState.source_turret_version_state"
-          ]
-        }
-      },
-      "runtime_proof": "/root/C07TurretWriteReadProof",
-      "rule": "Source-backed TurretBuild.write()/read()/version() state from Turret.java + ReloadTurret.java + RotComp.java + BuildingComp.java."
-    },
-    "source_turret_version_state_result": {
-      "status": "active",
-      "owner": "SourceTurretBuildState.source_turret_version_state",
-      "source_slice": "N2276",
-      "keys": {
-        "version": {
-          "type": "int",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-          "java_expr": "return 1;",
-          "rule": "The save version: 1 (Turret.java:849, `return 1;`); the BuildingComp base returns 0 (BuildingComp.java:670).",
-          "used_by": [
-            "SourceTurretBuildState.source_turret_version_state"
-          ]
-        }
-      },
-      "runtime_proof": "/root/C07TurretWriteReadProof",
-      "rule": "Source-backed TurretBuild.write()/read()/version() state from Turret.java + ReloadTurret.java + RotComp.java + BuildingComp.java."
-    },
     "source_drill_ambient_volume_state_input": {
       "status": "active",
       "owner": "SourceBurstDrillBuildState.source_drill_ambient_volume_state",
@@ -237585,7 +237421,7 @@
           "status": "source-backed",
           "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
           "java_expr": "public float drawrot(){",
-          "rule": "The turret frame (TurretBuild.drawrot, Turret.java:359): the family-convention first arg every Turret pure function takes; the rotation value itself arrives as an explicit param, bound by the caller from the frame bound by source_turret_bind_frame_state (frame[\"rotation\"], the carrier N2276's write/read already use, default 0.0).",
+          "rule": "The turret frame (TurretBuild.drawrot, Turret.java:359): the family-convention first arg every Turret pure function takes; the rotation value itself arrives as an explicit param, bound by the caller from the frame bound by source_turret_bind_frame_state (frame[\"rotation\"], the carrier N2322's write/read already use, default 0.0).",
           "used_by": [
             "SourceTurretBuildState.source_turret_drawrot_state"
           ]
@@ -240240,6 +240076,170 @@
       },
       "runtime_proof": "/root/C07RadarFogRadiusProof",
       "rule": "Source-backed Radar fogRadius() accessor from Radar.java + Blocks.java."
+    },
+    "source_turret_write_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_write_state",
+      "source_slice": "N2322",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public void write(Writes write){",
+          "rule": "The turret frame (TurretBuild.write, Turret.java:831): the family-convention first arg every Turret pure function takes; both persisted values are read from frame keys (the N2217 RepairTurret precedent) -- reload_counter is a tracked frame key, the tick driver reads it.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_write_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretWriteReadProof",
+      "rule": "Source-backed TurretBuild.write()/read()/version() state from Turret.java + ReloadTurret.java + RotComp.java + BuildingComp.java."
+    },
+    "source_turret_write_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_write_state",
+      "source_slice": "N2322",
+      "keys": {
+        "reload_counter": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "write.f(reloadCounter);",
+          "rule": "The persisted reload counter (`write.f(reloadCounter);`, Turret.java:833): the ReloadTurretBuild field (`public float reloadCounter;`, ReloadTurret.java:26), default 0.0, advanced by updateReload (Turret.java:720-723); written first, in Java write order.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_write_state"
+          ]
+        },
+        "rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "write.f(rotation);",
+          "rule": "The persisted aim rotation (`write.f(rotation);`, Turret.java:834): the RotComp float aim angle (`@SyncField(false) @SyncLocal float rotation;`, RotComp.java:8), default 0.0 -- NOT the Building int rotation 0-3 (BuildingComp.java:69); written second, in Java write order.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_write_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretWriteReadProof",
+      "rule": "Source-backed TurretBuild.write()/read()/version() state from Turret.java + ReloadTurret.java + RotComp.java + BuildingComp.java."
+    },
+    "source_turret_read_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_read_state",
+      "source_slice": "N2322",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public void read(Reads read, byte revision){",
+          "rule": "The turret frame (TurretBuild.read, Turret.java:838): the family-convention first arg every Turret pure function takes; a revision-0 save leaves the fields where they already are, so the frame carries the current values as the fallback.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_read_state"
+          ]
+        },
+        "stored_reload_counter": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "reloadCounter = read.f();",
+          "rule": "The reload counter read from the save stream (`reloadCounter = read.f();`, Turret.java:842) -- applied only when revision >= 1.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_read_state"
+          ]
+        },
+        "stored_rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "rotation = read.f();",
+          "rule": "The aim rotation read from the save stream (`rotation = read.f();`, Turret.java:843) -- applied only when revision >= 1.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_read_state"
+          ]
+        },
+        "revision": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public void read(Reads read, byte revision){",
+          "rule": "The save revision (Turret.java:838, `public void read(Reads read, byte revision){`): the guard (`if(revision >= 1){`, Turret.java:841) -- the save version is 1 (`public byte version(){ return 1; }`, Turret.java:848-850).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_read_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretWriteReadProof",
+      "rule": "Source-backed TurretBuild.write()/read()/version() state from Turret.java + ReloadTurret.java + RotComp.java + BuildingComp.java."
+    },
+    "source_turret_read_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_read_state",
+      "source_slice": "N2322",
+      "keys": {
+        "reload_counter": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "reloadCounter = read.f();",
+          "rule": "The reload counter after load (Turret.java:842, `reloadCounter = read.f();`): the stored value when revision >= 1, else the frame current value (default 0.0).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_read_state"
+          ]
+        },
+        "rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "rotation = read.f();",
+          "rule": "The aim rotation after load (Turret.java:843, `rotation = read.f();`): the stored value when revision >= 1, else the frame current value (default 0.0).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_read_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretWriteReadProof",
+      "rule": "Source-backed TurretBuild.write()/read()/version() state from Turret.java + ReloadTurret.java + RotComp.java + BuildingComp.java."
+    },
+    "source_turret_version_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_version_state",
+      "source_slice": "N2322",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public byte version(){",
+          "rule": "The turret frame (TurretBuild.version, Turret.java:848): accepted for the family call shape and read for nothing -- the version is a class constant, not live state.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_version_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretWriteReadProof",
+      "rule": "Source-backed TurretBuild.write()/read()/version() state from Turret.java + ReloadTurret.java + RotComp.java + BuildingComp.java."
+    },
+    "source_turret_version_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_version_state",
+      "source_slice": "N2322",
+      "keys": {
+        "version": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return 1;",
+          "rule": "The save version: 1 (Turret.java:849, `return 1;`); the BuildingComp base returns 0 (BuildingComp.java:670).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_version_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretWriteReadProof",
+      "rule": "Source-backed TurretBuild.write()/read()/version() state from Turret.java + ReloadTurret.java + RotComp.java + BuildingComp.java."
     }
   },
   "version": 1

@@ -68290,98 +68290,6 @@
       "runtime_proof": "/root/C07RadarProgressProof",
       "rule": "Source-backed Radar progress() accessor from Radar.java."
     },
-    "SourceTurretBuildState.source_turret_write_state": {
-      "status": "active",
-      "source_slice": "N2276",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-      "source_method": "TurretBuild.write()",
-      "params": [
-        {
-          "name": "frame",
-          "type": "Dictionary",
-          "schema": "source_turret_write_state_input.frame"
-        }
-      ],
-      "return_type": "Dictionary",
-      "return_keys": [
-        "reload_counter",
-        "rotation"
-      ],
-      "tests": [
-        "test_c07_turret_write_read_registration",
-        "test_all_c07_turret_write_read_input_evidence_is_exact",
-        "test_turret_write_read_state",
-        "test_reference_graph_and_actual_c07_turret_write_read"
-      ],
-      "runtime_proof": "/root/C07TurretWriteReadProof",
-      "rule": "Source-backed TurretBuild.write()/read()/version() state from Turret.java + ReloadTurret.java + RotComp.java + BuildingComp.java."
-    },
-    "SourceTurretBuildState.source_turret_read_state": {
-      "status": "active",
-      "source_slice": "N2276",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-      "source_method": "TurretBuild.read()",
-      "params": [
-        {
-          "name": "frame",
-          "type": "Dictionary",
-          "schema": "source_turret_read_state_input.frame"
-        },
-        {
-          "name": "stored_reload_counter",
-          "type": "float",
-          "schema": "source_turret_read_state_input.stored_reload_counter"
-        },
-        {
-          "name": "stored_rotation",
-          "type": "float",
-          "schema": "source_turret_read_state_input.stored_rotation"
-        },
-        {
-          "name": "revision",
-          "type": "int",
-          "schema": "source_turret_read_state_input.revision"
-        }
-      ],
-      "return_type": "Dictionary",
-      "return_keys": [
-        "reload_counter",
-        "rotation"
-      ],
-      "tests": [
-        "test_c07_turret_write_read_registration",
-        "test_all_c07_turret_write_read_input_evidence_is_exact",
-        "test_turret_write_read_state",
-        "test_reference_graph_and_actual_c07_turret_write_read"
-      ],
-      "runtime_proof": "/root/C07TurretWriteReadProof",
-      "rule": "Source-backed TurretBuild.write()/read()/version() state from Turret.java + ReloadTurret.java + RotComp.java + BuildingComp.java."
-    },
-    "SourceTurretBuildState.source_turret_version_state": {
-      "status": "active",
-      "source_slice": "N2276",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-      "source_method": "TurretBuild.version()",
-      "params": [
-        {
-          "name": "frame",
-          "type": "Dictionary",
-          "schema": "source_turret_version_state_input.frame"
-        }
-      ],
-      "return_type": "Dictionary",
-      "return_keys": [
-        "version"
-      ],
-      "tests": [
-        "test_c07_turret_write_read_registration",
-        "test_all_c07_turret_write_read_input_evidence_is_exact",
-        "test_turret_write_read_state",
-        "test_reference_graph_and_actual_c07_turret_write_read"
-      ],
-      "runtime_proof": "/root/C07TurretWriteReadProof",
-      "rule": "Source-backed TurretBuild.write()/read()/version() state from Turret.java + ReloadTurret.java + RotComp.java + BuildingComp.java."
-    },
     "SourceBurstDrillBuildState.source_drill_ambient_volume_state": {
       "status": "active",
       "source_slice": "N2277",
@@ -71036,6 +70944,98 @@
       ],
       "runtime_proof": "/root/C07RadarFogRadiusProof",
       "rule": "Source-backed Radar fogRadius() accessor from Radar.java + Blocks.java."
+    },
+    "SourceTurretBuildState.source_turret_write_state": {
+      "status": "active",
+      "source_slice": "N2322",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.write()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_write_state_input.frame"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "reload_counter",
+        "rotation"
+      ],
+      "tests": [
+        "test_c07_turret_write_read_registration",
+        "test_all_c07_turret_write_read_input_evidence_is_exact",
+        "test_turret_write_read_state",
+        "test_reference_graph_and_actual_c07_turret_write_read"
+      ],
+      "runtime_proof": "/root/C07TurretWriteReadProof",
+      "rule": "Source-backed TurretBuild.write()/read()/version() state from Turret.java + ReloadTurret.java + RotComp.java + BuildingComp.java."
+    },
+    "SourceTurretBuildState.source_turret_read_state": {
+      "status": "active",
+      "source_slice": "N2322",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.read()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_read_state_input.frame"
+        },
+        {
+          "name": "stored_reload_counter",
+          "type": "float",
+          "schema": "source_turret_read_state_input.stored_reload_counter"
+        },
+        {
+          "name": "stored_rotation",
+          "type": "float",
+          "schema": "source_turret_read_state_input.stored_rotation"
+        },
+        {
+          "name": "revision",
+          "type": "int",
+          "schema": "source_turret_read_state_input.revision"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "reload_counter",
+        "rotation"
+      ],
+      "tests": [
+        "test_c07_turret_write_read_registration",
+        "test_all_c07_turret_write_read_input_evidence_is_exact",
+        "test_turret_write_read_state",
+        "test_reference_graph_and_actual_c07_turret_write_read"
+      ],
+      "runtime_proof": "/root/C07TurretWriteReadProof",
+      "rule": "Source-backed TurretBuild.write()/read()/version() state from Turret.java + ReloadTurret.java + RotComp.java + BuildingComp.java."
+    },
+    "SourceTurretBuildState.source_turret_version_state": {
+      "status": "active",
+      "source_slice": "N2322",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.version()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_version_state_input.frame"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "version"
+      ],
+      "tests": [
+        "test_c07_turret_write_read_registration",
+        "test_all_c07_turret_write_read_input_evidence_is_exact",
+        "test_turret_write_read_state",
+        "test_reference_graph_and_actual_c07_turret_write_read"
+      ],
+      "runtime_proof": "/root/C07TurretWriteReadProof",
+      "rule": "Source-backed TurretBuild.write()/read()/version() state from Turret.java + ReloadTurret.java + RotComp.java + BuildingComp.java."
     }
   },
   "policy": {

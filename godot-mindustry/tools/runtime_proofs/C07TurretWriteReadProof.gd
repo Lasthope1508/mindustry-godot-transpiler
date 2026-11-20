@@ -19,7 +19,7 @@ func _ready() -> void:
 	game.set_process(false)
 	game.set_physics_process(false)
 
-	# --- Write/read/version persistence (N2276): TurretBuild persists
+	# --- Write/read/version persistence (N2322): TurretBuild persists
 	# exactly TWO fields, its reload counter and its aim rotation
 	# (`public void write(Writes write){` / `super.write(write);` /
 	# `write.f(reloadCounter);` / `write.f(rotation);`, Turret.java:831-834),

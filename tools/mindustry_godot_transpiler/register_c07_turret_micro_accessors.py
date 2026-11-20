@@ -21,7 +21,7 @@ rotation;`, RotComp.java:8, default 0.0) -- NOT the Building
 int rotation 0-3 (`transient int rotation;`,
 BuildingComp.java:69) -- and the caller binds it from the
 frame bound by source_turret_bind_frame_state (frame["rotation"],
-the carrier N2276's write/read already use, default 0.0);
+the carrier N2322's write/read already use, default 0.0);
 canControl()'s player_controllable is the block-level Turret
 field (Turret.java:97, `public boolean playerControllable =
 true;`, "If true, this turret can be controlled by players.");
@@ -120,7 +120,7 @@ def definitions():
         'warmup': a('float', 'return shootWarmup;', 'The warmup (Turret.java:355, `return shootWarmup;`): the TurretBuild shootWarmup field as-is.'),
     }
     drawrot_inputs = {
-        'frame': a('Dictionary', 'public float drawrot(){', 'The turret frame (TurretBuild.drawrot, Turret.java:359): the family-convention first arg every Turret pure function takes; the rotation value itself arrives as an explicit param, bound by the caller from the frame bound by source_turret_bind_frame_state (frame["rotation"], the carrier N2276\'s write/read already use, default 0.0).'),
+        'frame': a('Dictionary', 'public float drawrot(){', 'The turret frame (TurretBuild.drawrot, Turret.java:359): the family-convention first arg every Turret pure function takes; the rotation value itself arrives as an explicit param, bound by the caller from the frame bound by source_turret_bind_frame_state (frame["rotation"], the carrier N2322\'s write/read already use, default 0.0).'),
         'rotation': a('float', '@SyncField(false) @SyncLocal float rotation;', 'The aim angle (`rotation`, Turret.java:360): the RotComp float aim angle (`@SyncField(false) @SyncLocal float rotation;`, RotComp.java:8, default 0.0) -- NOT the Building int rotation 0-3 (`transient int rotation;`, BuildingComp.java:69); drawrot() subtracts 90 to convert the aim angle to draw rotation.', source=ROT_COMP),
     }
     drawrot_outputs = {

@@ -977,7 +977,7 @@ static func source_drill_read_state(frame: Dictionary, stored_progress: float, s
 	# default 0.0, the Java field defaults). super.read(read, revision) is an
 	# empty BuildingComp body (BuildingComp.java:302-305) -- only the marker is
 	# recorded. DrillBuild has NO readSync override, so there is no readSync
-	# follow-up slice (contrast N2276 Turret). There is NO driver tick line:
+	# follow-up slice (contrast N2322 Turret). There is NO driver tick line:
 	# persistence is not a per-tick call.
 	var progress: float = float(frame.get("progress", 0.0))
 	var warmup: float = float(frame.get("warmup", 0.0))
