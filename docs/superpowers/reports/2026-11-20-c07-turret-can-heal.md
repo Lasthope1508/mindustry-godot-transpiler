@@ -1,11 +1,11 @@
-# Báo cáo — N2281 Turret canHeal() live derivation (C07) [DONE, chờ push]
+# Báo cáo — N2281 Turret canHeal() live derivation (C07) [DONE + PUSHED]
 
 Ngày: 2026-11-20 ~14:0x +07 (GREEN), gate xong 15:06:49 +07, push ~15:2x +07.
 
 ## Trạng thái
 
 - N2280 DONE + PUSHED (origin/main df426c4e).
-- N2281 DONE, chờ push (slice commit TBD, docs TBD, GOAL TBD, status TBD, hashes TBD): Turret canHeal() live derivation — `protected boolean canHeal(){ return targetHealing && hasAmmo() && peekAmmo().collidesTeam && peekAmmo().heals(); }` (Turret.java:635-637) — targetHealing false cho duo (Turret.java:95, duo không set), collidesTeam default false (BulletType.java:127, catalog không có key), heals() false cho duo (BulletType.java:447-449, duo ammo không set healPercent/healAmount). Cả hai consumer Java (validateTarget :632, findTarget :660) đều cần live entity scan nên KHÔNG rewire — stamp-only như N2280.
+- N2281 DONE + PUSHED (slice 6865ec40, docs 59ac3a51, GOAL 464738b0, status TBD, hashes TBD): Turret canHeal() live derivation — `protected boolean canHeal(){ return targetHealing && hasAmmo() && peekAmmo().collidesTeam && peekAmmo().heals(); }` (Turret.java:635-637) — targetHealing false cho duo (Turret.java:95, duo không set), collidesTeam default false (BulletType.java:127, catalog không có key), heals() false cho duo (BulletType.java:447-449, duo ammo không set healPercent/healAmount). Cả hai consumer Java (validateTarget :632, findTarget :660) đều cần live entity scan nên KHÔNG rewire — stamp-only như N2280.
 
 ## Làm được lượt này (GREEN + gate xong)
 
@@ -27,6 +27,6 @@ Ngày: 2026-11-20 ~14:0x +07 (GREEN), gate xong 15:06:49 +07, push ~15:2x +07.
 
 ## Bước tiếp theo
 
-- Push N2281 (slice + docs + GOAL + status + hashes, theo mẫu N2280).
+- Push N2281 đang chạy (slice + docs + GOAL + status + hashes, theo mẫu N2280).
 - Slice tiếp theo: N2282 — chọn từ deferred list (calculateHeat vẫn BLOCKED; shootp live wiring cần logic executor; findTarget BLOCKED; `controlled()` cần player unit; LaserTurret shouldConsume cần bullets live list; validateTarget effective-team live wiring chờ findTarget slice).
 - Chi tiết: xem handoff docs/superpowers/handoffs/2026-11-20-c07-turret-can-heal-handoff.md.
