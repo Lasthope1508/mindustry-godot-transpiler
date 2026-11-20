@@ -1228,6 +1228,41 @@
         }
       }
     },
+    "source_drill_icons_state_input": {
+      "canonical_schema": "source_state_schema.source_drill_icons_state_input",
+      "keys": {
+        "region": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public TextureRegion region;",
+          "rule": "The inherited block region (Block.java:427, `public TextureRegion region;`); passed explicitly because it is per-def static state, not a live frame key (the N2212 acquire / N2220 draw-place per-def-param precedent).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_icons_state"
+          ]
+        },
+        "rotator_region": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public @Load(\"@-rotator\") TextureRegion rotatorRegion;",
+          "rule": "The Drill rotator region (Drill.java:72, `public @Load(\"@-rotator\") TextureRegion rotatorRegion;`, loaded as name + \"-rotator\"); passed explicitly because it is per-def static state, not a live frame key (the N2212 acquire / N2220 draw-place per-def-param precedent).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_icons_state"
+          ]
+        },
+        "top_region": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public @Load(\"@-top\") TextureRegion topRegion;",
+          "rule": "The Drill top region (Drill.java:73, `public @Load(\"@-top\") TextureRegion topRegion;`, loaded as name + \"-top\"); passed explicitly because it is per-def static state, not a live frame key (the N2212 acquire / N2220 draw-place per-def-param precedent).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_icons_state"
+          ]
+        }
+      }
+    },
     "source_drill_inactive_warmup_input": {
       "canonical_schema": "source_state_schema.source_drill_inactive_warmup_input",
       "keys": {

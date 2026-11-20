@@ -304,6 +304,19 @@ static func source_burst_drill_icons_state(region: Variant, top_region: Variant)
 	var icons: Array = [region, top_region]
 	return {"icons": icons}
 
+static func source_drill_icons_state(region: Variant, rotator_region: Variant, top_region: Variant) -> Dictionary:
+	# Drill.icons() (Drill.java:194-196):
+	# @Override
+	# public TextureRegion[] icons(){
+	# return new TextureRegion[]{region, rotatorRegion, topRegion};
+	# }
+	# This slice pins ONLY the override's three-element return array, region first. region is the inherited block region (Block.java:427): `public TextureRegion region;` -- the block's own region, the block name. rotatorRegion is the Drill field (Drill.java:72): `public @Load("@-rotator") TextureRegion rotatorRegion;` -- loaded as name + "-rotator". topRegion is the Drill field (Drill.java:73): `public @Load("@-top") TextureRegion topRegion;` -- loaded as name + "-top". The Block.icons() base (`protected TextureRegion[] icons(){`, Block.java:976-980, the variants/teamRegion fold) is NOT this slice: Drill overrides it. The getGeneratedIcons cache (`public TextureRegion[] getGeneratedIcons(){`, Block.java:986, `return generatedIcons == null ? (generatedIcons = icons()) : generatedIcons;`, Block.java:987) is likewise deferred -- only the override's return array is pinned (the N2312 BurstDrill.icons() precedent, itself following the N2250 Radar.icons() precedent: "TextureRegion internals and inherited region loading remain deferred; explicit inputs carry region and topRegion field values", pinned as the identity pure function source_tractor_beam_turret_icons_state). This slice does NOT touch Turret.icons() (N1159), Radar.icons() (N2288) or BurstDrill.icons() (N2312) -- each class owns its own icons().
+	# The class is (Drill.java:27): `public class Drill extends Block{`.
+	# Per-def region ids: impact-drill ("impact-drill", Blocks.java:3070) -> ["impact-drill", "impact-drill-rotator", "impact-drill-top"]; eruption-drill ("eruption-drill", Blocks.java:3093) -> ["eruption-drill", "eruption-drill-rotator", "eruption-drill-top"].
+	# There is no driver tick line: icons() is a load-time region accessor, not a per-tick write (the N2217 read/write + N2224 setStats lifecycle precedent).
+	var icons: Array = [region, rotator_region, top_region]
+	return {"icons": icons}
+
 static func source_burst_drill_ambient_volume_state(super_ambient_volume: float, progress: float) -> Dictionary:
 	# BurstDrill.ambientVolume() (BurstDrill.java:123-125):
 	# @Override

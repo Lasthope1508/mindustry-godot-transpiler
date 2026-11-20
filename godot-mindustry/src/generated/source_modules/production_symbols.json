@@ -3635,6 +3635,21 @@
       ],
       "runtime_proof": "/root/DrillProximityLifecycleProof"
     },
+    "source_drill_icons_state_result.icons": {
+      "canonical_symbol": "source_symbol_registry.source_drill_icons_state_result.icons",
+      "status": "source-backed",
+      "java_expr": "return new TextureRegion[]{region, rotatorRegion, topRegion};",
+      "godot_symbol": "source_drill_icons_state_result.icons",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_icons_state",
+      "rule": "The icons() return array: [region, rotatorRegion, topRegion], region first, exactly 3 elements (Drill.java:195, `return new TextureRegion[]{region, rotatorRegion, topRegion};`); impact-drill [\"impact-drill\", \"impact-drill-rotator\", \"impact-drill-top\"] (Blocks.java:3070) and eruption-drill [\"eruption-drill\", \"eruption-drill-rotator\", \"eruption-drill-top\"] (Blocks.java:3093). The Block.icons() base (Block.java:976-980, variants/teamRegion fold) and the getGeneratedIcons cache (Block.java:986-988) are deferred (the N2312 precedent) -- only the override return array is pinned.",
+      "tests": [
+        "test_c07_drill_icons_registration",
+        "test_all_c07_drill_icons_input_evidence_is_exact",
+        "test_drill_icons_state",
+        "test_reference_graph_and_actual_c07_drill_icons"
+      ],
+      "runtime_proof": "/root/C07DrillIconsProof"
+    },
     "source_drill_init_blocked_items_input.blocked_item": {
       "canonical_symbol": "source_symbol_registry.source_drill_init_blocked_items_input.blocked_item",
       "status": "source-backed",
