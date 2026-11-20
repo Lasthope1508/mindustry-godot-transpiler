@@ -71940,6 +71940,36 @@
       ],
       "runtime_proof": "/root/C07RadarDrawPlaceProof",
       "rule": "Source-backed Radar drawPlace() row from Radar.java."
+    },
+    "SourceTurretBuildState.source_turret_is_shooting_state": {
+      "status": "active",
+      "source_slice": "N2343",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.isShooting()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_is_shooting_state_input.frame"
+        },
+        {
+          "name": "is_shooting",
+          "type": "bool",
+          "schema": "source_turret_is_shooting_state_input.is_shooting"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "is_shooting"
+      ],
+      "tests": [
+        "test_c07_turret_is_shooting_registration",
+        "test_all_c07_turret_is_shooting_input_evidence_is_exact",
+        "test_turret_is_shooting_state",
+        "test_reference_graph_and_actual_c07_turret_is_shooting"
+      ],
+      "runtime_proof": "/root/C07TurretIsShootingProof",
+      "rule": "Source-backed TurretBuild.isShooting() state from Turret.java."
     }
   },
   "policy": {

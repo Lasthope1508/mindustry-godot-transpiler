@@ -617,6 +617,35 @@ static func source_turret_should_turn_state(frame: Dictionary, move_while_chargi
 static func source_turret_min_range_state(frame: Dictionary, min_range: float, has_ammo: bool, ammo_min_range_change: float) -> Dictionary:
 	return {"min_range": min_range + ammo_min_range_change if has_ammo else min_range}
 
+# TurretBuild.isShooting() (Turret.java:429-432):
+# `public boolean isShooting(){`
+# `return isShooting;`
+# `}`
+# on `public class TurretBuild extends ReloadTurretBuild implements ControlBlock{`
+# (Turret.java:277). The field is the TurretBuild field
+# (`public boolean wasShooting, isShooting;`, Turret.java:292)
+# and arrives as the explicit bool is_shooting (the
+# shouldConsume :364 / sense :413 / warmup :502 precedent --
+# the field name collides with the method name, so the GD
+# param is is_shooting, never isShooting). The field is
+# written by updateTile :492 (`isShooting = alwaysShooting ||
+# (unit.controller() instanceof Player ? unit.isShooting() :
+# logicControlled() ? logicShooting : target != null);`) --
+# NOT ported here: this slice only reads the field. The frame
+# carries no tracked key for this accessor (the minRange :593
+# precedent -- the tick frame tracks no shooting state yet),
+# so the live value arrives as the explicit param. NO driver
+# line: isShooting() is a read accessor its callers read, not
+# a per-tick write (the N2249 precedent) -- no `.isShooting()`
+# call site exists in core/src; the FIELD is read directly at
+# shouldConsume :365 (`return isShooting || reloadCounter <
+# reload;`), sense :413 (`case shooting -> isShooting ? 1 :
+# 0;`) and the warmup leg :502 (`float warmupTarget =
+# (isShooting && canConsume()) || charging() ? 1f : 0f;`).
+@warning_ignore("unused_parameter")
+static func source_turret_is_shooting_state(frame: Dictionary, is_shooting: bool) -> Dictionary:
+	return {"is_shooting": is_shooting}
+
 # The BlockStatus.inactive value (BlockStatus.java:12,
 # `inactive(Color.lightGray);`) has no N1888 constant: the
 # BuildingComp.status() helper only returns logicDisable /

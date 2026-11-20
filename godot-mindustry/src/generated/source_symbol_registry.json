@@ -179096,6 +179096,22 @@
         "test_reference_graph_and_actual_c07_sound_control_reload"
       ],
       "runtime_proof": "/root/C07SoundControlReloadProof"
+    },
+    "source_turret_is_shooting_state_result.is_shooting": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_is_shooting_state",
+      "godot_symbol": "source_turret_is_shooting_state_result.is_shooting",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.isShooting()",
+      "java_expr": "return isShooting;",
+      "rule": "Whether the turret is shooting (Turret.java:430, `return isShooting;`): the field echoed unchanged.",
+      "tests": [
+        "test_c07_turret_is_shooting_registration",
+        "test_all_c07_turret_is_shooting_input_evidence_is_exact",
+        "test_turret_is_shooting_state",
+        "test_reference_graph_and_actual_c07_turret_is_shooting"
+      ],
+      "runtime_proof": "/root/C07TurretIsShootingProof"
     }
   },
   "version": 1

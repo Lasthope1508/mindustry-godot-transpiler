@@ -242064,6 +242064,54 @@
       },
       "runtime_proof": "/root/C07RadarDrawPlaceProof",
       "rule": "Source-backed Radar drawPlace() row from Radar.java."
+    },
+    "source_turret_is_shooting_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_is_shooting_state",
+      "source_slice": "N2343",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public boolean isShooting(){",
+          "rule": "The turret frame (TurretBuild.isShooting, Turret.java:429): the family-convention first arg every Turret pure function takes; it carries no tracked key for this accessor -- the tick frame tracks no shooting state yet, so the live value arrives as an explicit param (the N2188 precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_is_shooting_state"
+          ]
+        },
+        "is_shooting": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public boolean wasShooting, isShooting;",
+          "rule": "Whether the turret is shooting (`isShooting`, Turret.java:429-432): the TurretBuild field (`public boolean wasShooting, isShooting;`, Turret.java:292); the GD param is is_shooting because the field name collides with the method name (the shouldConsume / sense / warmup precedent). Written by updateTile :492, not ported here.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_is_shooting_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretIsShootingProof",
+      "rule": "Source-backed TurretBuild.isShooting() state from Turret.java."
+    },
+    "source_turret_is_shooting_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_is_shooting_state",
+      "source_slice": "N2343",
+      "keys": {
+        "is_shooting": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return isShooting;",
+          "rule": "Whether the turret is shooting (Turret.java:430, `return isShooting;`): the field echoed unchanged.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_is_shooting_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretIsShootingProof",
+      "rule": "Source-backed TurretBuild.isShooting() state from Turret.java."
     }
   },
   "version": 1
