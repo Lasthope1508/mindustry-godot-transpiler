@@ -44,12 +44,12 @@ version.version. Two slice sources: Drill.java +
 BuildingComp.java.
 
 DEFERRED base: the BurstDrill chain forks at N2309 --
-N2317 (ambient_volume) -> N2277 (drill_ambient_volume)
+N2317 (ambient_volume) -> N2323 (drill_ambient_volume)
 and N2309 -> N2280 (drill_set_stats) are BOTH leaves,
 and neither deferred list is a superset of the other
-(N2277 has 5 entries N2280 lacks; N2280 has 3 entries
-N2277 lacks). The N2286 base is the UNION
-(N2277_DEFERRED + the 3 N2280-unique entries, 297 lines)
+(N2323 has 5 entries N2280 lacks; N2280 has 3 entries
+N2323 lacks). The N2286 base is the UNION
+(N2323_DEFERRED + the 3 N2280-unique entries, 297 lines)
 so no deferred line is silently dropped -- the N2287
 carry-bug lesson. One entry is added: the N2286 Windows
 Godot proof debt (GOAL.md section 5).
@@ -59,7 +59,7 @@ import sys
 from pathlib import Path
 
 from mindustry_port import source_ssot, source_symbols
-from register_c07_drill_ambient_volume import DEFERRED as N2277_DEFERRED
+from register_c07_drill_ambient_volume import DEFERRED as N2323_DEFERRED
 from register_c07_drill_set_stats import DEFERRED as N2280_DEFERRED
 from register_liquid_consumer_hydration import backed
 
@@ -101,12 +101,12 @@ EXACT_EXPRS = [
 
 # DEFERRED is carried from the two BurstDrill chain leaves
 # via import -- never retyped. The union keeps every line:
-# N2277 (294) + the 3 entries only N2280 carries. One
+# N2323 (294) + the 3 entries only N2280 carries. One
 # entry is added: the N2286 Windows Godot proof debt
 # (GOAL.md section 5). Nothing in it closes here:
 # write/read/version was never a deferred entry of the
 # BurstDrill chain.
-DEFERRED = N2277_DEFERRED + [entry for entry in N2280_DEFERRED if entry not in N2277_DEFERRED] + [
+DEFERRED = N2323_DEFERRED + [entry for entry in N2280_DEFERRED if entry not in N2323_DEFERRED] + [
     'Drill write/read/version Windows Godot proof -- debt in GOAL.md section 5, same as N2148/N2227: the N2286 proof runs headless on Linux here and waits for a Windows Godot run.',
 ]
 

@@ -177360,7 +177360,7 @@
       "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
       "java_method": "Radar.drawPlace()",
       "java_expr": "super.drawPlace(x, y, rotation, valid);",
-      "rule": "The super-leg call marker (Radar.java:43, `super.drawPlace(x, y, rotation, valid);`): the Block.drawPlace leg (Block.java:491-494: drawPotentialLinks + drawOverlay) is folded as an explicit param (the N2317/N2277 super-as-param precedent), so this records that the super leg was invoked; the link/overlay drawing itself waits for its own slice.",
+      "rule": "The super-leg call marker (Radar.java:43, `super.drawPlace(x, y, rotation, valid);`): the Block.drawPlace leg (Block.java:491-494: drawPotentialLinks + drawOverlay) is folded as an explicit param (the N2317/N2323 super-as-param precedent), so this records that the super leg was invoked; the link/overlay drawing itself waits for its own slice.",
       "tests": [
         "test_c07_radar_draw_place_registration",
         "test_all_c07_radar_draw_place_input_evidence_is_exact",

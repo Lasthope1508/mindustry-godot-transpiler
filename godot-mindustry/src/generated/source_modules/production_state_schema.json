@@ -1578,7 +1578,7 @@
           "status": "source-backed",
           "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
           "java_expr": "return super.senseObject(sensor);",
-          "rule": "The already-computed super result: BuildingComp.senseObject (BuildingComp.java:2128-2137, firstItem leg `case firstItem -> items == null ? null : items.first();`, default `default -> noSensed;`), live at N636 (port_game.source_building_sense_object_state); the caller passes it (the N2317/N2277 super-as-param precedent) and the fallthrough leg returns it. The expr is the Drill fallthrough call site (Drill.java:283).",
+          "rule": "The already-computed super result: BuildingComp.senseObject (BuildingComp.java:2128-2137, firstItem leg `case firstItem -> items == null ? null : items.first();`, default `default -> noSensed;`), live at N636 (port_game.source_building_sense_object_state); the caller passes it (the N2317/N2323 super-as-param precedent) and the fallthrough leg returns it. The expr is the Drill fallthrough call site (Drill.java:283).",
           "used_by": [
             "SourceBurstDrillBuildState.source_drill_sense_object_state"
           ]
@@ -1718,7 +1718,7 @@
           "status": "source-backed",
           "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
           "java_expr": "transient float efficiency;",
-          "rule": "The live Building efficiency (`transient float efficiency;`, BuildingComp.java:85); passed explicitly because the caller (the ambient live loop) already holds the folded efficiency (the N2317 / N2277 super-as-param precedent). The gate needs efficiency strictly above 0.01.",
+          "rule": "The live Building efficiency (`transient float efficiency;`, BuildingComp.java:85); passed explicitly because the caller (the ambient live loop) already holds the folded efficiency (the N2317 / N2323 super-as-param precedent). The gate needs efficiency strictly above 0.01.",
           "used_by": [
             "SourceBurstDrillBuildState.source_drill_should_ambient_sound_state"
           ]
@@ -1728,7 +1728,7 @@
           "status": "source-backed",
           "java_source": "core/src/mindustry/world/modules/ItemModule.java",
           "java_expr": "public int total(){",
-          "rule": "The cached ItemModule total (`public int total(){` with `return total;`, ItemModule.java:174-175); passed explicitly because the caller already holds the live items total (the N2317 / N2277 super-as-param precedent).",
+          "rule": "The cached ItemModule total (`public int total(){` with `return total;`, ItemModule.java:174-175); passed explicitly because the caller already holds the live items total (the N2317 / N2323 super-as-param precedent).",
           "used_by": [
             "SourceBurstDrillBuildState.source_drill_should_ambient_sound_state"
           ]

@@ -19,7 +19,7 @@ func _ready() -> void:
 	game.set_process(false)
 	game.set_physics_process(false)
 
-	# --- DrillBuild ambientVolume() super leg (N2277):
+	# --- DrillBuild ambientVolume() super leg (N2323):
 	# DrillBuild.ambientVolume() (Drill.java:257-259,
 	# `public float ambientVolume(){`) returns
 	# `efficiency * (size * size) / 4f;` (:258).

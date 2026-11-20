@@ -1,4 +1,4 @@
-"""Register the DrillBuild ambientVolume() super leg (N2277).
+"""Register the DrillBuild ambientVolume() super leg (N2323).
 
 DrillBuild.ambientVolume() (Drill.java:257-259, `public
 float ambientVolume(){`) returns `efficiency * (size *
@@ -62,7 +62,7 @@ BLOCKS = 'core/src/mindustry/content/Blocks.java'
 PROOF = '/root/C07DrillAmbientVolumeProof'
 AMBIENT_VOLUME_OWNER = 'SourceBurstDrillBuildState.source_drill_ambient_volume_state'
 TESTS = ['test_c07_drill_ambient_volume_registration', 'test_all_c07_drill_ambient_volume_input_evidence_is_exact', 'test_drill_ambient_volume_state', 'test_reference_graph_and_actual_c07_drill_ambient_volume']
-# The 4 slice sources the N2277 test checks exact_exprs
+# The 4 slice sources the N2323 test checks exact_exprs
 # against -- every expr in EXACT_EXPRS below must appear verbatim
 # in one of these files.
 SLICE_SOURCES = [
@@ -79,13 +79,13 @@ EXACT_EXPRS = ['public float ambientVolume(){', 'return efficiency * (size * siz
 # the N2218-style ast.literal_eval carry cannot recover it
 # (ValueError: malformed node); the import recovers the runtime
 # value verbatim. One carried entry is DROPPED here, not carried:
-# the BurstDrill ambientVolume() super leg entry -- N2277 IS the
+# the BurstDrill ambientVolume() super leg entry -- N2323 IS the
 # super-leg slice, so carrying it would leave a stale "waits for
 # its own slice" row for done work. The DrillBuild.progress()
 # entry and the ambientVolume driver-tick entry stay deferred --
 # those slices own them.
 DEFERRED = [e for e in N2317_DEFERRED if 'BurstDrill ambientVolume() super leg' not in e] + [
-    'DrillBuild ambientVolume() Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2227: the N2277 proof runs headless on Linux here and waits for a Windows Godot run.',
+    'DrillBuild ambientVolume() Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2227: the N2323 proof runs headless on Linux here and waits for a Windows Godot run.',
 ]
 
 
@@ -137,7 +137,7 @@ def main():
     ambient_volume_inputs, ambient_volume_outputs = definitions()
 
     entries = [
-        ('N2277', AMBIENT_VOLUME_OWNER, 'source_drill_ambient_volume_state', DRILL, 'mindustry.world.blocks.production.Drill', 'DrillBuild.ambientVolume()', ambient_volume_inputs, ambient_volume_outputs, True, 'Dictionary'),
+        ('N2323', AMBIENT_VOLUME_OWNER, 'source_drill_ambient_volume_state', DRILL, 'mindustry.world.blocks.production.Drill', 'DrillBuild.ambientVolume()', ambient_volume_inputs, ambient_volume_outputs, True, 'Dictionary'),
     ]
     all_names = []
     for sid, owner, prefix, source, cls, method, inputs, outputs, has_contract, return_type in entries:
@@ -157,10 +157,10 @@ def main():
 
     by_slice = {}
     # The test pins this order: ambient_volume.
-    by_slice['N2277'] = [
+    by_slice['N2323'] = [
         'source_drill_ambient_volume_state_result.ambient_volume',
     ]
-    source_symbols.upsert_source_slice(GODOT, 'N2277', dict(status='done', java_source=DRILL, java_class='mindustry.world.blocks.production.Drill', java_method='DrillBuild.ambientVolume()', godot_owner=AMBIENT_VOLUME_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2277'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
+    source_symbols.upsert_source_slice(GODOT, 'N2323', dict(status='done', java_source=DRILL, java_class='mindustry.world.blocks.production.Drill', java_method='DrillBuild.ambientVolume()', godot_owner=AMBIENT_VOLUME_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2323'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
 
     source_symbols.upsert_source_symbols(GODOT, symbols)
     source_symbols.write_source_symbol_audit_report(GODOT)

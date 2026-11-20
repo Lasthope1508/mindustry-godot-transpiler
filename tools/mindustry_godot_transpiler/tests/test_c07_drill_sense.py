@@ -45,7 +45,7 @@ class C07DrillSenseTests(unittest.TestCase):
         # and the caller-passed super result otherwise; sense
         # returns progress for the progress sensor with a
         # dominant item and the caller-passed super result
-        # otherwise (the N2317/N2277 super-as-param precedent:
+        # otherwise (the N2317/N2323 super-as-param precedent:
         # the super legs are the live BuildingComp sense
         # N636 / N1078-N1085). All live values arrive as
         # explicit params (the N2188 precedent), because the
@@ -138,7 +138,7 @@ class C07DrillSenseTests(unittest.TestCase):
         # `default -> Float.NaN; //gets converted to null in
         # logic`, BuildingComp.java:2123) -- both already live
         # (N636 / N1078-N1085) and passed in as explicit
-        # params (the N2317/N2277 super-as-param precedent).
+        # params (the N2317/N2323 super-as-param precedent).
         # The sensor spellings are the LAccess enum names
         # `firstItem,` (LAccess.java:8) and `progress,`
         # (:28). The dominant item is `public Item

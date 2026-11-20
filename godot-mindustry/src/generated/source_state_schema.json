@@ -234703,54 +234703,6 @@
       "runtime_proof": "/root/C07RadarProgressProof",
       "rule": "Source-backed Radar progress() accessor from Radar.java."
     },
-    "source_drill_ambient_volume_state_input": {
-      "status": "active",
-      "owner": "SourceBurstDrillBuildState.source_drill_ambient_volume_state",
-      "source_slice": "N2277",
-      "keys": {
-        "frame": {
-          "type": "Dictionary",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-          "java_expr": "public float ambientVolume(){",
-          "rule": "The DrillBuild frame (DrillBuild.ambientVolume, Drill.java:257-259): carries efficiency (float, absent -> 0.0 -- `transient float efficiency;`, BuildingComp.java:85); the family-convention first arg (every BurstDrill pure function that reads live state takes it).",
-          "used_by": [
-            "SourceBurstDrillBuildState.source_drill_ambient_volume_state"
-          ]
-        },
-        "size": {
-          "type": "int",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/Block.java",
-          "java_expr": "public int size = 1;",
-          "rule": "The block size in tiles (`public int size = 1;`, Block.java:215); passed explicitly because it is per-def static state, not live frame state (the N2212 per-def-param precedent). Per-def values: impact-drill size 4 (Blocks.java:3073), eruption-drill size 5 (Blocks.java:3096).",
-          "used_by": [
-            "SourceBurstDrillBuildState.source_drill_ambient_volume_state"
-          ]
-        }
-      },
-      "runtime_proof": "/root/C07DrillAmbientVolumeProof",
-      "rule": "Source-backed DrillBuild ambientVolume() state from Drill.java + BuildingComp.java + Block.java + Blocks.java."
-    },
-    "source_drill_ambient_volume_state_result": {
-      "status": "active",
-      "owner": "SourceBurstDrillBuildState.source_drill_ambient_volume_state",
-      "source_slice": "N2277",
-      "keys": {
-        "ambient_volume": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-          "java_expr": "return efficiency * (size * size) / 4f;",
-          "rule": "The DrillBuild ambient volume: the frame efficiency times the block size squared over four (Drill.java:258, `return efficiency * (size * size) / 4f;`); efficiency 0 silences the drill, efficiency 1 with size 4 gives 4.0, with size 5 gives 6.25.",
-          "used_by": [
-            "SourceBurstDrillBuildState.source_drill_ambient_volume_state"
-          ]
-        }
-      },
-      "runtime_proof": "/root/C07DrillAmbientVolumeProof",
-      "rule": "Source-backed DrillBuild ambientVolume() state from Drill.java + BuildingComp.java + Block.java + Blocks.java."
-    },
     "source_radar_draw_rotation_state_input": {
       "status": "active",
       "owner": "SourceRadarBuildState.source_radar_draw_rotation_state",
@@ -235576,7 +235528,7 @@
           "status": "source-backed",
           "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
           "java_expr": "super.drawPlace(x, y, rotation, valid);",
-          "rule": "The super-leg call marker (Radar.java:43, `super.drawPlace(x, y, rotation, valid);`): the Block.drawPlace leg (Block.java:491-494: drawPotentialLinks + drawOverlay) is folded as an explicit param (the N2317/N2277 super-as-param precedent), so this records that the super leg was invoked; the link/overlay drawing itself waits for its own slice.",
+          "rule": "The super-leg call marker (Radar.java:43, `super.drawPlace(x, y, rotation, valid);`): the Block.drawPlace leg (Block.java:491-494: drawPotentialLinks + drawOverlay) is folded as an explicit param (the N2317/N2323 super-as-param precedent), so this records that the super leg was invoked; the link/overlay drawing itself waits for its own slice.",
           "used_by": [
             "SourceRadarBuildState.source_radar_draw_place_state"
           ]
@@ -237605,7 +237557,7 @@
           "status": "source-backed",
           "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
           "java_expr": "return super.senseObject(sensor);",
-          "rule": "The already-computed super result: BuildingComp.senseObject (BuildingComp.java:2128-2137, firstItem leg `case firstItem -> items == null ? null : items.first();`, default `default -> noSensed;`), live at N636 (PortGame.source_building_sense_object_state); the caller passes it (the N2317/N2277 super-as-param precedent) and the fallthrough leg returns it. The expr is the Drill fallthrough call site (Drill.java:283).",
+          "rule": "The already-computed super result: BuildingComp.senseObject (BuildingComp.java:2128-2137, firstItem leg `case firstItem -> items == null ? null : items.first();`, default `default -> noSensed;`), live at N636 (PortGame.source_building_sense_object_state); the caller passes it (the N2317/N2323 super-as-param precedent) and the fallthrough leg returns it. The expr is the Drill fallthrough call site (Drill.java:283).",
           "used_by": [
             "SourceBurstDrillBuildState.source_drill_sense_object_state"
           ]
@@ -237693,7 +237645,7 @@
           "status": "source-backed",
           "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
           "java_expr": "return super.sense(sensor);",
-          "rule": "The already-computed super result: BuildingComp.sense (BuildingComp.java:2093), live at N1078-N1085 (PortGame.source_building_sense_*_state); the caller passes it (the N2317/N2277 super-as-param precedent) and the fallthrough leg returns it; null when the super was NaN (the super switch default, BuildingComp.java:2123, `default -> Float.NaN; //gets converted to null in logic`). The expr is the Drill fallthrough call site (Drill.java:335).",
+          "rule": "The already-computed super result: BuildingComp.sense (BuildingComp.java:2093), live at N1078-N1085 (PortGame.source_building_sense_*_state); the caller passes it (the N2317/N2323 super-as-param precedent) and the fallthrough leg returns it; null when the super was NaN (the super switch default, BuildingComp.java:2123, `default -> Float.NaN; //gets converted to null in logic`). The expr is the Drill fallthrough call site (Drill.java:335).",
           "used_by": [
             "SourceBurstDrillBuildState.source_drill_sense_state"
           ]
@@ -238119,7 +238071,7 @@
           "status": "source-backed",
           "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
           "java_expr": "transient float efficiency;",
-          "rule": "The live Building efficiency (`transient float efficiency;`, BuildingComp.java:85); passed explicitly because the caller (the ambient live loop) already holds the folded efficiency (the N2317 / N2277 super-as-param precedent). The gate needs efficiency strictly above 0.01.",
+          "rule": "The live Building efficiency (`transient float efficiency;`, BuildingComp.java:85); passed explicitly because the caller (the ambient live loop) already holds the folded efficiency (the N2317 / N2323 super-as-param precedent). The gate needs efficiency strictly above 0.01.",
           "used_by": [
             "SourceBurstDrillBuildState.source_drill_should_ambient_sound_state"
           ]
@@ -238129,7 +238081,7 @@
           "status": "source-backed",
           "java_source": "core/src/mindustry/world/modules/ItemModule.java",
           "java_expr": "public int total(){",
-          "rule": "The cached ItemModule total (`public int total(){` with `return total;`, ItemModule.java:174-175); passed explicitly because the caller already holds the live items total (the N2317 / N2277 super-as-param precedent).",
+          "rule": "The cached ItemModule total (`public int total(){` with `return total;`, ItemModule.java:174-175); passed explicitly because the caller already holds the live items total (the N2317 / N2323 super-as-param precedent).",
           "used_by": [
             "SourceBurstDrillBuildState.source_drill_should_ambient_sound_state"
           ]
@@ -240240,6 +240192,54 @@
       },
       "runtime_proof": "/root/C07TurretWriteReadProof",
       "rule": "Source-backed TurretBuild.write()/read()/version() state from Turret.java + ReloadTurret.java + RotComp.java + BuildingComp.java."
+    },
+    "source_drill_ambient_volume_state_input": {
+      "status": "active",
+      "owner": "SourceBurstDrillBuildState.source_drill_ambient_volume_state",
+      "source_slice": "N2323",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public float ambientVolume(){",
+          "rule": "The DrillBuild frame (DrillBuild.ambientVolume, Drill.java:257-259): carries efficiency (float, absent -> 0.0 -- `transient float efficiency;`, BuildingComp.java:85); the family-convention first arg (every BurstDrill pure function that reads live state takes it).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_ambient_volume_state"
+          ]
+        },
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public int size = 1;",
+          "rule": "The block size in tiles (`public int size = 1;`, Block.java:215); passed explicitly because it is per-def static state, not live frame state (the N2212 per-def-param precedent). Per-def values: impact-drill size 4 (Blocks.java:3073), eruption-drill size 5 (Blocks.java:3096).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_ambient_volume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07DrillAmbientVolumeProof",
+      "rule": "Source-backed DrillBuild ambientVolume() state from Drill.java + BuildingComp.java + Block.java + Blocks.java."
+    },
+    "source_drill_ambient_volume_state_result": {
+      "status": "active",
+      "owner": "SourceBurstDrillBuildState.source_drill_ambient_volume_state",
+      "source_slice": "N2323",
+      "keys": {
+        "ambient_volume": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "return efficiency * (size * size) / 4f;",
+          "rule": "The DrillBuild ambient volume: the frame efficiency times the block size squared over four (Drill.java:258, `return efficiency * (size * size) / 4f;`); efficiency 0 silences the drill, efficiency 1 with size 4 gives 4.0, with size 5 gives 6.25.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_ambient_volume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07DrillAmbientVolumeProof",
+      "rule": "Source-backed DrillBuild ambientVolume() state from Drill.java + BuildingComp.java + Block.java + Blocks.java."
     }
   },
   "version": 1

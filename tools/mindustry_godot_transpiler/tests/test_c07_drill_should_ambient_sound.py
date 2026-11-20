@@ -44,7 +44,7 @@ class C07DrillShouldAmbientSoundTests(unittest.TestCase):
         # it gates the loop call, it is not the loop itself,
         # and it touches no audio playback and no driver tick
         # line. It is distinct from the ambient volume
-        # (N2277, `efficiency * (size * size) / 4f`) and from
+        # (N2323, `efficiency * (size * size) / 4f`) and from
         # shouldConsume (N2295, which also requires `enabled
         # && dominantItem != null`). One new result symbol:
         # should_ambient_sound.

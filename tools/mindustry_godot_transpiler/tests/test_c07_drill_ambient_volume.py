@@ -14,7 +14,7 @@ class C07DrillAmbientVolumeTests(unittest.TestCase):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        self.assertEqual(ledger['N2277']['godot_owner'], 'SourceBurstDrillBuildState.source_drill_ambient_volume_state')
+        self.assertEqual(ledger['N2323']['godot_owner'], 'SourceBurstDrillBuildState.source_drill_ambient_volume_state')
         # DrillBuild.ambientVolume() (Drill.java:257-259,
         # `public float ambientVolume(){`) returns
         # `efficiency * (size * size) / 4f;` (:258).
@@ -38,12 +38,12 @@ class C07DrillAmbientVolumeTests(unittest.TestCase):
         # block.ambientSoundVolume * ambientVolume());`),
         # whose driver side waits for ambient C (N2264).
         self.assertEqual(
-            ledger['N2277']['source_symbols'],
+            ledger['N2323']['source_symbols'],
             [
                 'source_drill_ambient_volume_state_result.ambient_volume',
             ],
         )
-        for name in ledger['N2277']['source_symbols']:
+        for name in ledger['N2323']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_source'], {
@@ -53,9 +53,9 @@ class C07DrillAmbientVolumeTests(unittest.TestCase):
                     'core/src/mindustry/content/Blocks.java',
                 })
                 self.assertEqual(symbol['godot_owner'], 'SourceBurstDrillBuildState.' + name.rsplit('_result.', 1)[0])
-        self.assertEqual(ledger['N2277']['runtime_proof'], '/root/C07DrillAmbientVolumeProof')
+        self.assertEqual(ledger['N2323']['runtime_proof'], '/root/C07DrillAmbientVolumeProof')
         self.assertEqual(
-            ledger['N2277']['tests'],
+            ledger['N2323']['tests'],
             [
                 'test_c07_drill_ambient_volume_registration',
                 'test_all_c07_drill_ambient_volume_input_evidence_is_exact',
@@ -63,13 +63,13 @@ class C07DrillAmbientVolumeTests(unittest.TestCase):
                 'test_reference_graph_and_actual_c07_drill_ambient_volume',
             ],
         )
-        self.assertTrue(ledger['N2277']['deferred_exprs'])
+        self.assertTrue(ledger['N2323']['deferred_exprs'])
 
     def test_all_c07_drill_ambient_volume_input_evidence_is_exact(self):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        for name in ledger['N2277']['source_symbols']:
+        for name in ledger['N2323']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_expr'], (ROOT / 'mindustry-upstream' / symbol['java_source']).read_text(encoding='utf-8'))
@@ -83,7 +83,7 @@ class C07DrillAmbientVolumeTests(unittest.TestCase):
         upstream = {}
         for source in slice_sources:
             upstream[source] = (ROOT / 'mindustry-upstream' / source).read_text(encoding='utf-8')
-        for expr in ledger['N2277']['exact_exprs']:
+        for expr in ledger['N2323']['exact_exprs']:
             with self.subTest(expr=expr):
                 self.assertTrue(any(expr in text for text in upstream.values()), expr)
 

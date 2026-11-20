@@ -68290,36 +68290,6 @@
       "runtime_proof": "/root/C07RadarProgressProof",
       "rule": "Source-backed Radar progress() accessor from Radar.java."
     },
-    "SourceBurstDrillBuildState.source_drill_ambient_volume_state": {
-      "status": "active",
-      "source_slice": "N2277",
-      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-      "source_method": "DrillBuild.ambientVolume()",
-      "params": [
-        {
-          "name": "frame",
-          "type": "Dictionary",
-          "schema": "source_drill_ambient_volume_state_input.frame"
-        },
-        {
-          "name": "size",
-          "type": "int",
-          "schema": "source_drill_ambient_volume_state_input.size"
-        }
-      ],
-      "return_type": "Dictionary",
-      "return_keys": [
-        "ambient_volume"
-      ],
-      "tests": [
-        "test_c07_drill_ambient_volume_registration",
-        "test_all_c07_drill_ambient_volume_input_evidence_is_exact",
-        "test_drill_ambient_volume_state",
-        "test_reference_graph_and_actual_c07_drill_ambient_volume"
-      ],
-      "runtime_proof": "/root/C07DrillAmbientVolumeProof",
-      "rule": "Source-backed DrillBuild ambientVolume() state from Drill.java + BuildingComp.java + Block.java + Blocks.java."
-    },
     "SourceRadarBuildState.source_radar_draw_rotation_state": {
       "status": "active",
       "source_slice": "N2278",
@@ -71036,6 +71006,36 @@
       ],
       "runtime_proof": "/root/C07TurretWriteReadProof",
       "rule": "Source-backed TurretBuild.write()/read()/version() state from Turret.java + ReloadTurret.java + RotComp.java + BuildingComp.java."
+    },
+    "SourceBurstDrillBuildState.source_drill_ambient_volume_state": {
+      "status": "active",
+      "source_slice": "N2323",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "DrillBuild.ambientVolume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_drill_ambient_volume_state_input.frame"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_drill_ambient_volume_state_input.size"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "ambient_volume"
+      ],
+      "tests": [
+        "test_c07_drill_ambient_volume_registration",
+        "test_all_c07_drill_ambient_volume_input_evidence_is_exact",
+        "test_drill_ambient_volume_state",
+        "test_reference_graph_and_actual_c07_drill_ambient_volume"
+      ],
+      "runtime_proof": "/root/C07DrillAmbientVolumeProof",
+      "rule": "Source-backed DrillBuild ambientVolume() state from Drill.java + BuildingComp.java + Block.java + Blocks.java."
     }
   },
   "policy": {

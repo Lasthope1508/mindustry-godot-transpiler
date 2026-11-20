@@ -47,7 +47,7 @@ size 5, tier 7, beryllium multiplier 2f,
 
 RED decisions (resolved at RED): (1) One pure function on
 the same family file N2149 / N2256 / N2258 / N2312 / N2262 /
-N2309 / N2317 / N2277 built, after
+N2309 / N2317 / N2323 built, after
 source_burst_drill_set_stats_state:
 source_drill_set_stats_state(frame, drill_time,
 hardness_drill_multiplier, size, tier, drill_multipliers,

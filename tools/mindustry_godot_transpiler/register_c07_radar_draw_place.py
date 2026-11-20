@@ -20,7 +20,7 @@ explicit params, and the pure function does the multiply. The
 color is Pal.accent, represented as the string "Pal.accent" (the
 SourceBlockDrawState.gd:182 precedent). The super leg
 (Block.drawPlace, Block.java:491-494: drawPotentialLinks +
-drawOverlay) is folded as explicit params (the N2317/N2277
+drawOverlay) is folded as explicit params (the N2317/N2323
 super-as-param precedent): rotation/valid are echoed and
 super_draw_place_called records the call; the link/overlay
 drawing itself waits for its own slice. No driver tick line
@@ -100,7 +100,7 @@ def definitions():
         'color': a('String', 'Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, fogRadius * tilesize, Pal.accent);', 'The dash-circle color (Radar.java:46, `Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, fogRadius * tilesize, Pal.accent);`): Pal.accent, represented as the string "Pal.accent" (the SourceBlockDrawState.gd:182 precedent).'),
         'rotation': a('int', 'public void drawPlace(int x, int y, int rotation, boolean valid){', 'The placement rotation echoed (Radar.java:42, `public void drawPlace(int x, int y, int rotation, boolean valid){`): the super leg receives the rotation, so the pure function echoes it for the caller.'),
         'valid': a('bool', 'public void drawPlace(int x, int y, int rotation, boolean valid){', 'The placement validity echoed (Radar.java:42, `public void drawPlace(int x, int y, int rotation, boolean valid){`): the super leg receives the validity flag, so the pure function echoes it for the caller.'),
-        'super_draw_place_called': a('bool', 'super.drawPlace(x, y, rotation, valid);', 'The super-leg call marker (Radar.java:43, `super.drawPlace(x, y, rotation, valid);`): the Block.drawPlace leg (Block.java:491-494: drawPotentialLinks + drawOverlay) is folded as an explicit param (the N2317/N2277 super-as-param precedent), so this records that the super leg was invoked; the link/overlay drawing itself waits for its own slice.'),
+        'super_draw_place_called': a('bool', 'super.drawPlace(x, y, rotation, valid);', 'The super-leg call marker (Radar.java:43, `super.drawPlace(x, y, rotation, valid);`): the Block.drawPlace leg (Block.java:491-494: drawPotentialLinks + drawOverlay) is folded as an explicit param (the N2317/N2323 super-as-param precedent), so this records that the super leg was invoked; the link/overlay drawing itself waits for its own slice.'),
     }
     return place_inputs, place_outputs
 

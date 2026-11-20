@@ -37,7 +37,7 @@ func _ready() -> void:
 	# default `default -> Float.NaN; //gets converted to null in
 	# logic`, BuildingComp.java:2123) -- both already live (N636 /
 	# N1078-N1085) and passed in as explicit params (the
-	# N2317/N2277 super-as-param precedent). The sensor spellings
+	# N2317/N2323 super-as-param precedent). The sensor spellings
 	# are the LAccess enum names `firstItem,` (LAccess.java:8) and
 	# `progress,` (:28). `progress` is the DrillBuild field (`public
 	# float progress;`, Drill.java:238), advanced in updateTile

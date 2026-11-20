@@ -33,12 +33,12 @@ BurstDrill("impact-drill"){{` (Blocks.java:3070) and
 
 RED decisions (resolved at RED): (1) One pure function on
 the same family file N2149 / N2256 / N2258 / N2312 / N2262 /
-N2309 / N2317 / N2277 built, after
+N2309 / N2317 / N2323 built, after
 source_drill_ambient_volume_state:
 source_drill_should_ambient_sound_state(frame, efficiency,
 items_total, item_capacity) returning
 should_ambient_sound. The three inputs are explicit params
-(the N2317 / N2277 super-as-param precedent): the caller
+(the N2317 / N2323 super-as-param precedent): the caller
 passes the already-folded efficiency and the live items
 total; frame is the canonical first param of this family
 file. (2) This is a Drill-local boolean predicate -- NOT
@@ -46,7 +46,7 @@ part of the ambient B/C chain (B = RepairTurret driver
 tick, Windows line; C = SoundControl.updateLoops mixer,
 N2304 held): it gates the loop call, it is not the loop
 itself, and it touches no audio playback and no driver
-tick line. It is distinct from the ambient volume (N2277)
+tick line. It is distinct from the ambient volume (N2323)
 and from shouldConsume (N2295, which also requires
 `enabled && dominantItem != null`). (3) One new result
 symbol: should_ambient_sound. Two defs share the function
@@ -61,7 +61,7 @@ import sys
 from pathlib import Path
 
 from mindustry_port import source_ssot, source_symbols
-from register_c07_drill_ambient_volume import DEFERRED as N2277_DEFERRED
+from register_c07_drill_ambient_volume import DEFERRED as N2323_DEFERRED
 from register_liquid_consumer_hydration import backed
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -88,13 +88,13 @@ SLICE_SOURCES = [
 ]
 EXACT_EXPRS = ['public boolean shouldAmbientSound(){', 'return efficiency > 0.01f && items.total() < itemCapacity;', 'transient float efficiency;', 'public int total(){', 'return total;', 'public int itemCapacity = 10;', 'itemCapacity = 40;', 'itemCapacity = 60;', 'public class Drill extends Block{', 'public class DrillBuild extends Building{', 'public class BurstDrill extends Drill{', 'public class BurstDrillBuild extends DrillBuild{', 'return shouldConsume();', 'if(!headless && block.ambientSound != Sounds.none && shouldAmbientSound()){', 'control.sound.loop(block.ambientSound, self(), block.ambientSoundVolume * ambientVolume());']
 
-# DEFERRED is carried from the N2277 register script via import --
+# DEFERRED is carried from the N2323 register script via import --
 # never retyped. No carried entry is dropped: this slice closes
 # no deferred entry (the ambient-sound driver-tick entry waits
 # for ambient C, N2304, and the ambientVolume entries stay
 # deferred for their own slices).
-DEFERRED = N2277_DEFERRED + [
-    'Drill shouldAmbientSound Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2277: the N2305 proof runs headless on Linux here and waits for a Windows Godot run.',
+DEFERRED = N2323_DEFERRED + [
+    'Drill shouldAmbientSound Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2323: the N2305 proof runs headless on Linux here and waits for a Windows Godot run.',
 ]
 
 
@@ -104,8 +104,8 @@ def definitions():
 
     should_ambient_sound_inputs = {
         'frame': a('Dictionary', 'public boolean shouldAmbientSound(){', 'The DrillBuild frame (DrillBuild.shouldAmbientSound, Drill.java:252-254); the family-convention first arg (every BurstDrill pure function takes it). No live keys are read from the frame -- all three gate inputs are explicit params.', source=DRILL),
-        'efficiency': a('float', 'transient float efficiency;', 'The live Building efficiency (`transient float efficiency;`, BuildingComp.java:85); passed explicitly because the caller (the ambient live loop) already holds the folded efficiency (the N2317 / N2277 super-as-param precedent). The gate needs efficiency strictly above 0.01.', source=BUILDING_COMP),
-        'items_total': a('int', 'public int total(){', 'The cached ItemModule total (`public int total(){` with `return total;`, ItemModule.java:174-175); passed explicitly because the caller already holds the live items total (the N2317 / N2277 super-as-param precedent).', source=ITEM_MODULE),
+        'efficiency': a('float', 'transient float efficiency;', 'The live Building efficiency (`transient float efficiency;`, BuildingComp.java:85); passed explicitly because the caller (the ambient live loop) already holds the folded efficiency (the N2317 / N2323 super-as-param precedent). The gate needs efficiency strictly above 0.01.', source=BUILDING_COMP),
+        'items_total': a('int', 'public int total(){', 'The cached ItemModule total (`public int total(){` with `return total;`, ItemModule.java:174-175); passed explicitly because the caller already holds the live items total (the N2317 / N2323 super-as-param precedent).', source=ITEM_MODULE),
         'item_capacity': a('int', 'public int itemCapacity = 10;', 'The per-def item capacity, 40 for the impact-drill def (Blocks.java:3078) and 60 for the eruption-drill def (Blocks.java:3107); passed explicitly because the pure function cannot reach the catalog (the N2212 per-def-param precedent); the Block default is 10 (Block.java:75).', source=BLOCK),
     }
     should_ambient_sound_outputs = {
