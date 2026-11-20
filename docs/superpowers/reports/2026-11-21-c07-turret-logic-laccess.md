@@ -5,7 +5,7 @@ Ngày: 2026-11-21 ~03:16 +07 (GREEN), gate xong 04:24:22 +07, push ~04:4x +07.
 ## Trạng thái
 
 - N2509 DONE + PUSHED (origin/main 4793edfb).
-- N2510 DONE + PUSHED (slice a86bd7a6, docs c4026c27, GOAL 9f1a413e, status TBD, hashes TBD): `SenseI.run()` LAccess leg — logic-processor `sense` op khi target IS a Senseable và sensor IS an LAccess (LExecutor.java:694-703): `Object objOut = se.senseObject(la);` (:695); `if(objOut == Senseable.noSensed)` (:697) → `to.setnum(se.sense(la));` (:699); else `to.setobj(objOut);` (:701). Resolution của `se.sense(la)` cho duo turret: Turret.sense FIRST (Turret.java:405-419), default rơi xuống BuildingComp.sense (BuildingComp.java:2093-2126), default NaN (:2123). KHÔNG có driver tick (logic read, tiền lệ N2206/N2208/N2223/N2283/N2284/N2506/N2507/N2508/N2509).
+- N2510 DONE + PUSHED (slice a86bd7a6, docs c4026c27, GOAL 9f1a413e, status 58fe64a5, hashes TBD): `SenseI.run()` LAccess leg — logic-processor `sense` op khi target IS a Senseable và sensor IS an LAccess (LExecutor.java:694-703): `Object objOut = se.senseObject(la);` (:695); `if(objOut == Senseable.noSensed)` (:697) → `to.setnum(se.sense(la));` (:699); else `to.setobj(objOut);` (:701). Resolution của `se.sense(la)` cho duo turret: Turret.sense FIRST (Turret.java:405-419), default rơi xuống BuildingComp.sense (BuildingComp.java:2093-2126), default NaN (:2123). KHÔNG có driver tick (logic read, tiền lệ N2206/N2208/N2223/N2283/N2284/N2506/N2507/N2508/N2509).
 
 ## Làm được lượt này (GREEN + gate xong)
 
