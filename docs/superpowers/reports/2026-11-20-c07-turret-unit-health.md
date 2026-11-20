@@ -5,7 +5,7 @@ Ngày: 2026-11-20 ~06:3x +07 (GREEN), gate xong 07:23 +07, push lượt cron 07:
 ## Trạng thái
 
 - N2275 DONE + PUSHED (origin/main 192a5bc6). Không có gì thay đổi về N2275.
-- N2276 DONE + PUSHED (slice a5ccb08e, docs fb9c5858, GOAL b38cb83c, status TBD): Turret unit live health — dòng thứ hai của `BlockUnitComp.tile()` (`health(tile.health);`, :22) mà N2275 đã defer ("Unit live health re-sync từ tile() — vẫn waits for a live tile_health frame input"). Gate xác minh độc lập từ log: Ran 6197, failures=226, skipped=5 — toàn Godot-absent (226 × `AssertionError: unexpectedly None`, 0 KeyError, 0 `return_schema_linkage`, 0 ERROR).
+- N2276 DONE + PUSHED (slice a5ccb08e, docs fb9c5858, GOAL b38cb83c, status 03d33e1f): Turret unit live health — dòng thứ hai của `BlockUnitComp.tile()` (`health(tile.health);`, :22) mà N2275 đã defer ("Unit live health re-sync từ tile() — vẫn waits for a live tile_health frame input"). Gate xác minh độc lập từ log: Ran 6197, failures=226, skipped=5 — toàn Godot-absent (226 × `AssertionError: unexpectedly None`, 0 KeyError, 0 `return_schema_linkage`, 0 ERROR).
 
 ## Làm được lượt này (GREEN)
 
