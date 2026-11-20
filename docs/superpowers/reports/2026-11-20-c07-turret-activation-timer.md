@@ -5,7 +5,7 @@ Ngày: 2026-11-20 ~11:2x +07 (GREEN), gate xong 11:45 +07, push lượt cron 11:
 ## Trạng thái
 
 - N2278 DONE + PUSHED (origin/main 7df37242). Không có gì thay đổi về N2278.
-- N2279 DONE + PUSHED (slice 9bfee770, docs 23a02e7b, GOAL cf2f4b52, status TBD): Turret activationTimer decay — `if(activationTimer > 0){ activationTimer -= Time.delta; return; }` (Turret.java:561-564) — dòng cuối chưa wire trong updateTile :490-615 có live input; duo activationTime = 0 nên gate không bao giờ fire (vacuous guard, tiền lệ N2263/N2270), tick vẫn stamp key để frame mirror TurretBuild fields. Gate xác minh độc lập từ log: Ran 6209, failures=229, skipped=5 — toàn Godot-absent (229 × `AssertionError: unexpectedly None`, 0 KeyError, 0 `return_schema_linkage`, 0 ERROR).
+- N2279 DONE + PUSHED (slice 9bfee770, docs 23a02e7b, GOAL cf2f4b52, status 2ea1ee63): Turret activationTimer decay — `if(activationTimer > 0){ activationTimer -= Time.delta; return; }` (Turret.java:561-564) — dòng cuối chưa wire trong updateTile :490-615 có live input; duo activationTime = 0 nên gate không bao giờ fire (vacuous guard, tiền lệ N2263/N2270), tick vẫn stamp key để frame mirror TurretBuild fields. Gate xác minh độc lập từ log: Ran 6209, failures=229, skipped=5 — toàn Godot-absent (229 × `AssertionError: unexpectedly None`, 0 KeyError, 0 `return_schema_linkage`, 0 ERROR).
 
 ## Làm được lượt này (GREEN)
 
