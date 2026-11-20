@@ -9,13 +9,13 @@ fogRadius * progress * smoothEfficiency;`) times tilesize
 (8, Vars.java:135). One pure function on the family file
 (the N2220 RepairPointBuild.drawSelect() precedent, which
 returns center / radius / color the same way): the caller
-passes the live fogRadius() result (the N2275
+passes the live fogRadius() result (the N2321
 source_radar_fog_radius_state output) and the tilesize as
 explicit params, and the pure function does the multiply.
 The color is Pal.accent, represented as the string
 "Pal.accent" (the SourceBlockDrawState.gd:182 precedent).
 No driver tick line lands here: drawSelect is selection UI,
-not per-tick state (the accessor precedent N2311/N2275).
+not per-tick state (the accessor precedent N2311/N2321).
 This is a different method from N2278 draw() (rotation +
 glow) -- no overlap.
 
@@ -25,7 +25,7 @@ tilesize), returning center / radius / color -- the N2220
 drawSelect shape, not the N2278 frame-first shape, because
 drawSelect reads no frame key: x/y are the building world
 position and fog_radius is the live fogRadius() value the
-caller already computed (N2275). (2) tilesize is an
+caller already computed (N2321). (2) tilesize is an
 explicit param (Vars.tilesize 8, Vars.java:135), not
 hardcoded -- the drawPlace precedent passes tilesize
 explicitly, and the proof pins tilesize 1.0 reading the
@@ -64,7 +64,7 @@ EXACT_EXPRS = ['public void drawSelect(){', 'Drawf.dashCircle(x, y, fogRadius() 
 # (drawPlace still waits for its own slice).
 DEFERRED = [e for e in N2278_DEFERRED if 'Radar drawSelect rows (drawSelect dash circle, Radar.java:80-82)' not in e] + [
     'Radar drawPlace rows (drawPlace dash circle, Radar.java:42-47) -- presentation, not tick state; waits for its own slice.',
-    'Radar drawSelect Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2320/N2275/N2303/N2310/N2318/N2278: the N2281 proof runs headless on Linux here and waits for a Windows Godot run.',
+    'Radar drawSelect Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2320/N2321/N2303/N2310/N2318/N2278: the N2281 proof runs headless on Linux here and waits for a Windows Godot run.',
 ]
 
 
@@ -75,7 +75,7 @@ def definitions():
     select_inputs = {
         'x': a('float', 'Drawf.dashCircle(x, y, fogRadius() * tilesize, Pal.accent);', 'The building world x (Radar.java:81, `Drawf.dashCircle(x, y, fogRadius() * tilesize, Pal.accent);`): the dash circle is centered on the building position.'),
         'y': a('float', 'Drawf.dashCircle(x, y, fogRadius() * tilesize, Pal.accent);', 'The building world y (Radar.java:81, `Drawf.dashCircle(x, y, fogRadius() * tilesize, Pal.accent);`): the dash circle is centered on the building position.'),
-        'fog_radius': a('float', 'fogRadius() * tilesize', 'The live fog radius (Radar.java:81, `fogRadius() * tilesize`): the fogRadius() result (Radar.java:55, `public float fogRadius(){` with `return fogRadius * progress * smoothEfficiency;`, Radar.java:56) -- the def fogRadius is 34 (Blocks.java:1991, `fogRadius = 34;`), overriding the class default 10 (Radar.java:33, `fogRadius = 10;`) -- computed by the caller through N2275 source_radar_fog_radius_state and passed in as an explicit param (the N2212 per-def-param precedent).'),
+        'fog_radius': a('float', 'fogRadius() * tilesize', 'The live fog radius (Radar.java:81, `fogRadius() * tilesize`): the fogRadius() result (Radar.java:55, `public float fogRadius(){` with `return fogRadius * progress * smoothEfficiency;`, Radar.java:56) -- the def fogRadius is 34 (Blocks.java:1991, `fogRadius = 34;`), overriding the class default 10 (Radar.java:33, `fogRadius = 10;`) -- computed by the caller through N2321 source_radar_fog_radius_state and passed in as an explicit param (the N2212 per-def-param precedent).'),
         'tilesize': a('float', 'fogRadius() * tilesize', 'The world-units-per-tile factor (Radar.java:81, `fogRadius() * tilesize`): Vars.tilesize is 8 (Vars.java:135); the port passes it explicitly (the drawPlace precedent), so the radius is the live fog radius in world units.'),
     }
     select_outputs = {

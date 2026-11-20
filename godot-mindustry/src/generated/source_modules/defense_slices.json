@@ -3230,23 +3230,6 @@
       ],
       "runtime_proof": "/root/C07PointDefenseTurretLiveBulletsWiringProof"
     },
-    "N2275": {
-      "canonical_ledger": "source_slice_ledger.N2275",
-      "status": "done",
-      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-      "java_method": "RadarBuild.fogRadius()",
-      "godot_owner": "SourceRadarBuildState.source_radar_fog_radius_state",
-      "source_symbols": [
-        "source_radar_fog_radius_state_result.fog_radius"
-      ],
-      "tests": [
-        "test_c07_radar_fog_radius_registration",
-        "test_all_c07_radar_fog_radius_input_evidence_is_exact",
-        "test_radar_fog_radius_state",
-        "test_reference_graph_and_actual_c07_radar_fog_radius"
-      ],
-      "runtime_proof": "/root/C07RadarFogRadiusProof"
-    },
     "N2276": {
       "canonical_ledger": "source_slice_ledger.N2276",
       "status": "done",
@@ -3667,6 +3650,23 @@
         "test_reference_graph_and_actual_c07_radar_update_tile"
       ],
       "runtime_proof": "/root/C07RadarUpdateTileProof"
+    },
+    "N2321": {
+      "canonical_ledger": "source_slice_ledger.N2321",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "RadarBuild.fogRadius()",
+      "godot_owner": "SourceRadarBuildState.source_radar_fog_radius_state",
+      "source_symbols": [
+        "source_radar_fog_radius_state_result.fog_radius"
+      ],
+      "tests": [
+        "test_c07_radar_fog_radius_registration",
+        "test_all_c07_radar_fog_radius_input_evidence_is_exact",
+        "test_radar_fog_radius_state",
+        "test_reference_graph_and_actual_c07_radar_fog_radius"
+      ],
+      "runtime_proof": "/root/C07RadarFogRadiusProof"
     },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",

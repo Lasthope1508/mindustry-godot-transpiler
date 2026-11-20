@@ -68290,36 +68290,6 @@
       "runtime_proof": "/root/C07RadarProgressProof",
       "rule": "Source-backed Radar progress() accessor from Radar.java."
     },
-    "SourceRadarBuildState.source_radar_fog_radius_state": {
-      "status": "active",
-      "source_slice": "N2275",
-      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-      "source_method": "RadarBuild.fogRadius()",
-      "params": [
-        {
-          "name": "frame",
-          "type": "Dictionary",
-          "schema": "source_radar_fog_radius_state_input.frame"
-        },
-        {
-          "name": "fog_radius",
-          "type": "float",
-          "schema": "source_radar_fog_radius_state_input.fog_radius"
-        }
-      ],
-      "return_type": "Dictionary",
-      "return_keys": [
-        "fog_radius"
-      ],
-      "tests": [
-        "test_c07_radar_fog_radius_registration",
-        "test_all_c07_radar_fog_radius_input_evidence_is_exact",
-        "test_radar_fog_radius_state",
-        "test_reference_graph_and_actual_c07_radar_fog_radius"
-      ],
-      "runtime_proof": "/root/C07RadarFogRadiusProof",
-      "rule": "Source-backed Radar fogRadius() accessor from Radar.java + Blocks.java."
-    },
     "SourceTurretBuildState.source_turret_write_state": {
       "status": "active",
       "source_slice": "N2276",
@@ -71036,6 +71006,36 @@
       ],
       "runtime_proof": "/root/C07RadarUpdateTileProof",
       "rule": "Source-backed Radar updateTile advance from Radar.java + BuildingComp.java + Blocks.java + FogControl.java."
+    },
+    "SourceRadarBuildState.source_radar_fog_radius_state": {
+      "status": "active",
+      "source_slice": "N2321",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "source_method": "RadarBuild.fogRadius()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_radar_fog_radius_state_input.frame"
+        },
+        {
+          "name": "fog_radius",
+          "type": "float",
+          "schema": "source_radar_fog_radius_state_input.fog_radius"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "fog_radius"
+      ],
+      "tests": [
+        "test_c07_radar_fog_radius_registration",
+        "test_all_c07_radar_fog_radius_input_evidence_is_exact",
+        "test_radar_fog_radius_state",
+        "test_reference_graph_and_actual_c07_radar_fog_radius"
+      ],
+      "runtime_proof": "/root/C07RadarFogRadiusProof",
+      "rule": "Source-backed Radar fogRadius() accessor from Radar.java + Blocks.java."
     }
   },
   "policy": {

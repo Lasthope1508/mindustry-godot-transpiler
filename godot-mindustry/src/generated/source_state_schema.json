@@ -234703,54 +234703,6 @@
       "runtime_proof": "/root/C07RadarProgressProof",
       "rule": "Source-backed Radar progress() accessor from Radar.java."
     },
-    "source_radar_fog_radius_state_input": {
-      "status": "active",
-      "owner": "SourceRadarBuildState.source_radar_fog_radius_state",
-      "source_slice": "N2275",
-      "keys": {
-        "frame": {
-          "type": "Dictionary",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-          "java_expr": "public float fogRadius(){",
-          "rule": "The radar frame (RadarBuild.fogRadius, Radar.java:55): carries progress (Java init 0.0, Radar.java:49) and smooth_efficiency (Java init 1.0, Radar.java:51).",
-          "used_by": [
-            "SourceRadarBuildState.source_radar_fog_radius_state"
-          ]
-        },
-        "fog_radius": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/content/Blocks.java",
-          "java_expr": "fogRadius = 34;",
-          "rule": "The per-def fog radius, 34 for the radar def (Blocks.java:1991), overriding the class default 10 (Radar.java:33); passed explicitly because the catalog carries no fogRadius (the N2212 per-def-param precedent).",
-          "used_by": [
-            "SourceRadarBuildState.source_radar_fog_radius_state"
-          ]
-        }
-      },
-      "runtime_proof": "/root/C07RadarFogRadiusProof",
-      "rule": "Source-backed Radar fogRadius() accessor from Radar.java + Blocks.java."
-    },
-    "source_radar_fog_radius_state_result": {
-      "status": "active",
-      "owner": "SourceRadarBuildState.source_radar_fog_radius_state",
-      "source_slice": "N2275",
-      "keys": {
-        "fog_radius": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-          "java_expr": "return fogRadius * progress * smoothEfficiency;",
-          "rule": "The live fog radius: fogRadius() (Radar.java:55-56), fogRadius * progress * smoothEfficiency; 0.0 before discovery (progress 0.0), the full def radius at progress 1.0 and smooth efficiency 1.0.",
-          "used_by": [
-            "SourceRadarBuildState.source_radar_fog_radius_state"
-          ]
-        }
-      },
-      "runtime_proof": "/root/C07RadarFogRadiusProof",
-      "rule": "Source-backed Radar fogRadius() accessor from Radar.java + Blocks.java."
-    },
     "source_turret_write_state_input": {
       "status": "active",
       "owner": "SourceTurretBuildState.source_turret_write_state",
@@ -235345,7 +235297,7 @@
           "status": "source-backed",
           "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
           "java_expr": "fogRadius() * tilesize",
-          "rule": "The live fog radius (Radar.java:81, `fogRadius() * tilesize`): the fogRadius() result (Radar.java:55, `public float fogRadius(){` with `return fogRadius * progress * smoothEfficiency;`, Radar.java:56) -- the def fogRadius is 34 (Blocks.java:1991, `fogRadius = 34;`), overriding the class default 10 (Radar.java:33, `fogRadius = 10;`) -- computed by the caller through N2275 source_radar_fog_radius_state and passed in as an explicit param (the N2212 per-def-param precedent).",
+          "rule": "The live fog radius (Radar.java:81, `fogRadius() * tilesize`): the fogRadius() result (Radar.java:55, `public float fogRadius(){` with `return fogRadius * progress * smoothEfficiency;`, Radar.java:56) -- the def fogRadius is 34 (Blocks.java:1991, `fogRadius = 34;`), overriding the class default 10 (Radar.java:33, `fogRadius = 10;`) -- computed by the caller through N2321 source_radar_fog_radius_state and passed in as an explicit param (the N2212 per-def-param precedent).",
           "used_by": [
             "SourceRadarBuildState.source_radar_draw_select_state"
           ]
@@ -235699,7 +235651,7 @@
           "status": "source-backed",
           "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
           "java_expr": "fogRadius * tilesize",
-          "rule": "The def fog radius (Radar.java:46, `fogRadius * tilesize`): the DEF fogRadius -- 34 (Blocks.java:1991, `fogRadius = 34;`), class default 10 (Radar.java:33, `fogRadius = 10;`) -- NOT the live fogRadius() (N2275), because drawPlace is Block-level and reads the def field; the caller passes it as an explicit param (the N2212 per-def-param precedent).",
+          "rule": "The def fog radius (Radar.java:46, `fogRadius * tilesize`): the DEF fogRadius -- 34 (Blocks.java:1991, `fogRadius = 34;`), class default 10 (Radar.java:33, `fogRadius = 10;`) -- NOT the live fogRadius() (N2321), because drawPlace is Block-level and reads the def field; the caller passes it as an explicit param (the N2212 per-def-param precedent).",
           "used_by": [
             "SourceRadarBuildState.source_radar_draw_place_state"
           ]
@@ -237797,7 +237749,7 @@
           "status": "source-backed",
           "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
           "java_expr": "public Item dominantItem;",
-          "rule": "Whether a dominant item is bound: the DrillBuild.dominantItem field (Drill.java:244) is non-null, set by the N2262 ore/dominant binding; passed explicitly because the caller owns the binding (the N2311/N2275/N2281 explicit-param precedent).",
+          "rule": "Whether a dominant item is bound: the DrillBuild.dominantItem field (Drill.java:244) is non-null, set by the N2262 ore/dominant binding; passed explicitly because the caller owns the binding (the N2311/N2321/N2281 explicit-param precedent).",
           "used_by": [
             "SourceBurstDrillBuildState.source_drill_sense_object_state"
           ]
@@ -237885,7 +237837,7 @@
           "status": "source-backed",
           "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
           "java_expr": "public Item dominantItem;",
-          "rule": "Whether a dominant item is bound: the DrillBuild.dominantItem field (Drill.java:244) is non-null, set by the N2262 ore/dominant binding; the progress leg requires it (Drill.java:334, `if(sensor == LAccess.progress && dominantItem != null) return progress;`); passed explicitly because the caller owns the binding (the N2311/N2275/N2281 explicit-param precedent).",
+          "rule": "Whether a dominant item is bound: the DrillBuild.dominantItem field (Drill.java:244) is non-null, set by the N2262 ore/dominant binding; the progress leg requires it (Drill.java:334, `if(sensor == LAccess.progress && dominantItem != null) return progress;`); passed explicitly because the caller owns the binding (the N2311/N2321/N2281 explicit-param precedent).",
           "used_by": [
             "SourceBurstDrillBuildState.source_drill_sense_state"
           ]
@@ -240240,6 +240192,54 @@
       },
       "runtime_proof": "/root/C07RadarUpdateTileProof",
       "rule": "Source-backed Radar updateTile advance from Radar.java + BuildingComp.java + Blocks.java + FogControl.java."
+    },
+    "source_radar_fog_radius_state_input": {
+      "status": "active",
+      "owner": "SourceRadarBuildState.source_radar_fog_radius_state",
+      "source_slice": "N2321",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "public float fogRadius(){",
+          "rule": "The radar frame (RadarBuild.fogRadius, Radar.java:55): carries progress (Java init 0.0, Radar.java:49) and smooth_efficiency (Java init 1.0, Radar.java:51).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_fog_radius_state"
+          ]
+        },
+        "fog_radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "fogRadius = 34;",
+          "rule": "The per-def fog radius, 34 for the radar def (Blocks.java:1991), overriding the class default 10 (Radar.java:33); passed explicitly because the catalog carries no fogRadius (the N2212 per-def-param precedent).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_fog_radius_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RadarFogRadiusProof",
+      "rule": "Source-backed Radar fogRadius() accessor from Radar.java + Blocks.java."
+    },
+    "source_radar_fog_radius_state_result": {
+      "status": "active",
+      "owner": "SourceRadarBuildState.source_radar_fog_radius_state",
+      "source_slice": "N2321",
+      "keys": {
+        "fog_radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "return fogRadius * progress * smoothEfficiency;",
+          "rule": "The live fog radius: fogRadius() (Radar.java:55-56), fogRadius * progress * smoothEfficiency; 0.0 before discovery (progress 0.0), the full def radius at progress 1.0 and smooth efficiency 1.0.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_fog_radius_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RadarFogRadiusProof",
+      "rule": "Source-backed Radar fogRadius() accessor from Radar.java + Blocks.java."
     }
   },
   "version": 1

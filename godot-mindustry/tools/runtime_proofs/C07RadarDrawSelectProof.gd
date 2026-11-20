@@ -31,7 +31,7 @@ func _ready() -> void:
 	# (Radar.java:33). The proof calls the pure function
 	# source_radar_draw_select_state(x, y, fog_radius,
 	# tilesize) directly with synthetic positions and live fog
-	# radii; the caller supplies the N2275 fogRadius() result
+	# radii; the caller supplies the N2321 fogRadius() result
 	# and the tilesize. There are no driver-tick keys:
 	# drawSelect() is selection UI, not tick state. Float
 	# comparisons use is_equal_approx (the N2310 write/read

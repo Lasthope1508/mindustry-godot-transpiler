@@ -25,7 +25,7 @@ super-as-param precedent): rotation/valid are echoed and
 super_draw_place_called records the call; the link/overlay
 drawing itself waits for its own slice. No driver tick line
 lands here: drawPlace is placement UI, not per-tick state (the
-accessor precedent N2311/N2275). This is the LAST unported Radar
+accessor precedent N2311/N2321). This is the LAST unported Radar
 method.
 
 RED decisions (resolved at RED): (1) One pure function,
@@ -77,7 +77,7 @@ EXACT_EXPRS = ['public void drawPlace(int x, int y, int rotation, boolean valid)
 # below (drawPlace is the last unported Radar method, so no
 # further Radar row waits for its own slice).
 DEFERRED = [e for e in N2281_DEFERRED if 'Radar drawPlace rows (drawPlace dash circle, Radar.java:42-47)' not in e] + [
-    'Radar drawPlace Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2320/N2275/N2303/N2310/N2318/N2278/N2281: the N2284 proof runs headless on Linux here and waits for a Windows Godot run.',
+    'Radar drawPlace Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2320/N2321/N2303/N2310/N2318/N2278/N2281: the N2284 proof runs headless on Linux here and waits for a Windows Godot run.',
 ]
 
 
@@ -90,7 +90,7 @@ def definitions():
         'tile_y': a('int', 'Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, fogRadius * tilesize, Pal.accent);', 'The ghost tile y (Radar.java:46, `Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, fogRadius * tilesize, Pal.accent);`): the dash circle is centered on the tile position in world units.'),
         'rotation': a('int', 'public void drawPlace(int x, int y, int rotation, boolean valid){', 'The placement rotation (Radar.java:42, `public void drawPlace(int x, int y, int rotation, boolean valid){`): passed to the super leg and echoed, so the caller can place the ghost at the right rotation.'),
         'valid': a('bool', 'public void drawPlace(int x, int y, int rotation, boolean valid){', 'Whether the placement is valid (Radar.java:42, `public void drawPlace(int x, int y, int rotation, boolean valid){`): passed to the super leg and echoed.'),
-        'fog_radius': a('float', 'fogRadius * tilesize', 'The def fog radius (Radar.java:46, `fogRadius * tilesize`): the DEF fogRadius -- 34 (Blocks.java:1991, `fogRadius = 34;`), class default 10 (Radar.java:33, `fogRadius = 10;`) -- NOT the live fogRadius() (N2275), because drawPlace is Block-level and reads the def field; the caller passes it as an explicit param (the N2212 per-def-param precedent).'),
+        'fog_radius': a('float', 'fogRadius * tilesize', 'The def fog radius (Radar.java:46, `fogRadius * tilesize`): the DEF fogRadius -- 34 (Blocks.java:1991, `fogRadius = 34;`), class default 10 (Radar.java:33, `fogRadius = 10;`) -- NOT the live fogRadius() (N2321), because drawPlace is Block-level and reads the def field; the caller passes it as an explicit param (the N2212 per-def-param precedent).'),
         'tilesize': a('float', 'fogRadius * tilesize', 'The world-units-per-tile factor (Radar.java:46, `fogRadius * tilesize`): Vars.tilesize is 8 (Vars.java:135); the port passes it explicitly (the drawPlace precedent), so the radius is the def fog radius in world units.'),
         'block_offset': a('float', 'Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, fogRadius * tilesize, Pal.accent);', 'The block offset (Radar.java:46, `Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, fogRadius * tilesize, Pal.accent);`): ((size + 1) % 2) * tilesize / 2f (Block.java:761) -- radar size 1, so 0.0 -- passed explicitly so the center shifts correctly for even-sized blocks.'),
     }

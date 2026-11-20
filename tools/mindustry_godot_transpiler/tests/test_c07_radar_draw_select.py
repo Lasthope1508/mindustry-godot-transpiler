@@ -24,10 +24,10 @@ class C07RadarDrawSelectTests(unittest.TestCase):
         # (8, Vars.java:135), the color is Pal.accent. One pure
         # function on the family file (the N2220
         # RepairPointBuild.drawSelect() precedent): the caller
-        # passes the live fogRadius() result (N2275) and the
+        # passes the live fogRadius() result (N2321) and the
         # tilesize as explicit params. No driver tick line
         # lands here: drawSelect is selection UI, not per-tick
-        # state (the accessor precedent N2311/N2275). Three new
+        # state (the accessor precedent N2311/N2321). Three new
         # result symbols: center, radius, color.
         self.assertEqual(
             ledger['N2281']['source_symbols'],

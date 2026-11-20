@@ -29,7 +29,7 @@ class C07RadarDrawPlaceTests(unittest.TestCase):
         # field, Block.java:348, int, default -1) -- class
         # default 10 (Radar.java:33), radar def 34
         # (Blocks.java:1991) -- times tilesize, NOT the
-        # live fogRadius() (N2275): drawPlace is
+        # live fogRadius() (N2321): drawPlace is
         # Block-level and reads the def field, unlike
         # drawSelect (N2281) which reads the live
         # fogRadius(). The color is Pal.accent. The super
@@ -41,7 +41,7 @@ class C07RadarDrawPlaceTests(unittest.TestCase):
         # link/overlay drawing itself waits for its own
         # slice. No driver tick line lands here: drawPlace
         # is placement UI, not per-tick state (the
-        # accessor precedent N2311/N2275). Six new result
+        # accessor precedent N2311/N2321). Six new result
         # symbols: center, radius, color, rotation, valid,
         # super_draw_place_called.
         self.assertEqual(

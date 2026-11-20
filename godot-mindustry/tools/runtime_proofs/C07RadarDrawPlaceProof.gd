@@ -29,7 +29,7 @@ func _ready() -> void:
 	# block offset (radar size 1, so 0.0); the radius is the DEF
 	# fogRadius -- 34 (Blocks.java:1991), class default 10
 	# (Radar.java:33) -- times tilesize, NOT the live
-	# fogRadius() (N2275): drawPlace is Block-level and reads
+	# fogRadius() (N2321): drawPlace is Block-level and reads
 	# the def field, unlike drawSelect (N2281) which reads the
 	# live fogRadius(). The color is Pal.accent. The proof calls
 	# the pure function

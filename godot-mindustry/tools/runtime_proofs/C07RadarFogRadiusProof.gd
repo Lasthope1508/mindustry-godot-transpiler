@@ -19,7 +19,7 @@ func _ready() -> void:
 	game.set_process(false)
 	game.set_physics_process(false)
 
-	# --- Pure fogRadius() accessor (N2275): RadarBuild.fogRadius()
+	# --- Pure fogRadius() accessor (N2321): RadarBuild.fogRadius()
 	# (Radar.java:55, `public float fogRadius(){` with `return
 	# fogRadius * progress * smoothEfficiency;`, Radar.java:56)
 	# is the live fog radius: the def fogRadius (34 for the
