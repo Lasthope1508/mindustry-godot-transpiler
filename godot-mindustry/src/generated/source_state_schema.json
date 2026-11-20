@@ -241476,6 +241476,360 @@
       },
       "runtime_proof": "/root/C07DrillIconsProof",
       "rule": "Source-backed Drill icons() state from Drill.java + Block.java."
+    },
+    "source_sound_control_play_state_input": {
+      "status": "active",
+      "owner": "SourceSoundControlState.source_sound_control_play_state",
+      "source_slice": "N2336",
+      "keys": {
+        "has_music": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "if(current == null && music != null){",
+          "rule": "Whether a track is scheduled (SoundControl.java:322, `if(current == null && music != null){`): arrives as an explicit bool param -- the null check is folded into this param (the N2306 precedent; GDScript typed String params cannot take null). A null music reads as no scheduled track.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_play_state"
+          ]
+        },
+        "music": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "protected void play(@Nullable Music music){",
+          "rule": "The scheduled track (SoundControl.java:303, `play(@Nullable Music music)`): arrives as an explicit String param, its name (the N2287 precedent); an unset track is passed as \"\" with has_music false and is never read.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_play_state"
+          ]
+        },
+        "has_current": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "if(current != null){",
+          "rule": "Whether a track is currently playing (SoundControl.java:310, `if(current != null){`): arrives as an explicit bool param -- the null check is folded into this param (the N2306 precedent).",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_play_state"
+          ]
+        },
+        "current": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "protected @Nullable Music current;",
+          "rule": "The currently playing track (SoundControl.java:34, `protected @Nullable Music current;`): arrives as an explicit String param, its name; an unset current is passed as \"\" with has_current false and is never read.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_play_state"
+          ]
+        },
+        "fade": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "protected float fade;",
+          "rule": "The fade level (SoundControl.java:35, `protected float fade;`): arrives as an explicit float param and is carried out again -- the fade-in / fade-out step writes it.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_play_state"
+          ]
+        },
+        "silenced": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "protected boolean silenced, keepSilent;",
+          "rule": "Whether the machine has faded out completely (SoundControl.java:36, `protected boolean silenced, keepSilent;`): arrives as an explicit bool param and is carried out again.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_play_state"
+          ]
+        },
+        "should_play": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "if(!shouldPlay()){",
+          "rule": "The shouldPlay() gate (SoundControl.java:304, `if(!shouldPlay()){`): arrives as an explicit bool param -- the gate itself is N2299 (`return Core.settings.getInt(\"musicvol\") > 0;`) and is NOT re-ported here. False mutes the current track and zeroes fade.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_play_state"
+          ]
+        },
+        "music_vol": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "current.setVolume(fade * Core.settings.getInt(\"musicvol\") / 100f);",
+          "rule": "Core.settings \"musicvol\" (SoundControl.java:314, `Core.settings.getInt(\"musicvol\")`): arrives as an explicit int param; the current track volume each frame is fade * music_vol / 100.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_play_state"
+          ]
+        },
+        "time_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "fade = Mathf.clamp(fade + Time.delta /finTime);",
+          "rule": "Time.delta (SoundControl.java:331, `Time.delta /finTime`): arrives as an explicit float param; the fade step per frame.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_play_state"
+          ]
+        },
+        "fin_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "public float finTime = 120f, foutTime = 120f, musicInterval = 3f * Time.toMinutes, musicChance = 0.8f, musicWaveChance = 0.46f;",
+          "rule": "The fade-in time (SoundControl.java:20, `public float finTime = 120f, ...`): arrives as an explicit float param; fade rises by time_delta / fin_time.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_play_state"
+          ]
+        },
+        "fout_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "public float finTime = 120f, foutTime = 120f, musicInterval = 3f * Time.toMinutes, musicChance = 0.8f, musicWaveChance = 0.46f;",
+          "rule": "The fade-out time (SoundControl.java:20, `... foutTime = 120f, ...`): arrives as an explicit float param; fade falls by time_delta / fout_time.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_play_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SoundControlPlaySilenceProof",
+      "rule": "Source-backed SoundControl play/silence/keepSilent state from SoundControl.java."
+    },
+    "source_sound_control_play_state_result": {
+      "status": "active",
+      "owner": "SourceSoundControlState.source_sound_control_play_state",
+      "source_slice": "N2336",
+      "keys": {
+        "current": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "current = music;",
+          "rule": "The track playing after this frame (SoundControl.java:323, `current = music;`): the scheduled track when one starts (or restarts after a fade-out), the old track while it fades, or null when it stopped with no track scheduled.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_play_state"
+          ]
+        },
+        "fade": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "fade = Mathf.clamp(fade + Time.delta /finTime);",
+          "rule": "The fade level after this frame (SoundControl.java:331, `fade = Mathf.clamp(fade + Time.delta /finTime);` / :335 fade-out): clamped to [0, 1] by the one-arg Mathf.clamp (Mathf.java:402-404); zeroed by the muted gate and by a fresh start.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_play_state"
+          ]
+        },
+        "silenced": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "silenced = false;",
+          "rule": "Whether the machine is silenced after this frame (SoundControl.java:328, `silenced = false;` / :339 `silenced = true;`): false when a track starts, true when the fade-out stops the track with no restart.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_play_state"
+          ]
+        },
+        "commands": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "current.play();",
+          "rule": "The playback commands this frame issues, in Java order (SoundControl.java:305 `current.setVolume(0);` / :314 volume update / :324-327 setLooping, setVolume, play / :337 stop / :342-345 setVolume, setLooping, play): one Dictionary per call (`track`, `action`, `value` when the call takes one). The driver applies them -- this slice NEVER plays audio itself; playback belongs to updateLoops (N2304, held waiting for B).",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_play_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SoundControlPlaySilenceProof",
+      "rule": "Source-backed SoundControl play/silence/keepSilent state from SoundControl.java."
+    },
+    "source_sound_control_silence_state_input": {
+      "status": "active",
+      "owner": "SourceSoundControlState.source_sound_control_silence_state",
+      "source_slice": "N2336",
+      "keys": {
+        "has_current": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "if(current != null){",
+          "rule": "Whether a track is currently playing (SoundControl.java:310, `if(current != null){`): same param as play -- silence() is play(null), so the current track is the one being faded out.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_silence_state"
+          ]
+        },
+        "current": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "protected @Nullable Music current;",
+          "rule": "The currently playing track (SoundControl.java:34, `protected @Nullable Music current;`): same param as play.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_silence_state"
+          ]
+        },
+        "fade": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "protected float fade;",
+          "rule": "The fade level (SoundControl.java:35, `protected float fade;`): same param as play.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_silence_state"
+          ]
+        },
+        "silenced": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "protected boolean silenced, keepSilent;",
+          "rule": "Whether the machine has faded out completely (SoundControl.java:36, `protected boolean silenced, keepSilent;`): same param as play.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_silence_state"
+          ]
+        },
+        "should_play": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "if(!shouldPlay()){",
+          "rule": "The shouldPlay() gate (SoundControl.java:304, `if(!shouldPlay()){`): same param as play -- silence() delegates to play, so the muted gate still applies.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_silence_state"
+          ]
+        },
+        "music_vol": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "current.setVolume(fade * Core.settings.getInt(\"musicvol\") / 100f);",
+          "rule": "Core.settings \"musicvol\" (SoundControl.java:314): same param as play.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_silence_state"
+          ]
+        },
+        "time_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "fade = Mathf.clamp(fade - Time.delta /foutTime);",
+          "rule": "Time.delta (SoundControl.java:335, `Time.delta /foutTime`): same param as play; silence() only ever fades out, so the fade-out step is the one that runs.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_silence_state"
+          ]
+        },
+        "fin_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "public float finTime = 120f, foutTime = 120f, musicInterval = 3f * Time.toMinutes, musicChance = 0.8f, musicWaveChance = 0.46f;",
+          "rule": "The fade-in time (SoundControl.java:20): same param as play -- carried for the delegation, silence() never fades in.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_silence_state"
+          ]
+        },
+        "fout_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "public float finTime = 120f, foutTime = 120f, musicInterval = 3f * Time.toMinutes, musicChance = 0.8f, musicWaveChance = 0.46f;",
+          "rule": "The fade-out time (SoundControl.java:20): same param as play; silence() fades the current track out by time_delta / fout_time.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_silence_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SoundControlPlaySilenceProof",
+      "rule": "Source-backed SoundControl play/silence/keepSilent state from SoundControl.java."
+    },
+    "source_sound_control_silence_state_result": {
+      "status": "active",
+      "owner": "SourceSoundControlState.source_sound_control_silence_state",
+      "source_slice": "N2336",
+      "keys": {
+        "current": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "current = null;",
+          "rule": "The track playing after this frame (SoundControl.java:338, `current = null;`): null once the fade-out stops the track, else the fading track.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_silence_state"
+          ]
+        },
+        "fade": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "fade = Mathf.clamp(fade - Time.delta /foutTime);",
+          "rule": "The fade level after this frame (SoundControl.java:335, `fade = Mathf.clamp(fade - Time.delta /foutTime);`): falling toward zero; zeroed by the muted gate.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_silence_state"
+          ]
+        },
+        "silenced": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "silenced = true;",
+          "rule": "Whether the machine is silenced after this frame (SoundControl.java:339, `silenced = true;`): true once the fade-out stops the track.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_silence_state"
+          ]
+        },
+        "commands": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "current.stop();",
+          "rule": "The playback commands this frame issues, in Java order (SoundControl.java:305 `current.setVolume(0);` / :314 volume update / :337 `current.stop();`): same shape as play -- the driver applies them, this slice NEVER plays audio itself.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_silence_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SoundControlPlaySilenceProof",
+      "rule": "Source-backed SoundControl play/silence/keepSilent state from SoundControl.java."
+    },
+    "source_sound_control_keep_silent_state_input": {
+      "status": "active",
+      "owner": "SourceSoundControlState.source_sound_control_keep_silent_state",
+      "source_slice": "N2336",
+      "keys": {
+        "keep_silent": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "protected boolean silenced, keepSilent;",
+          "rule": "The keepSilent flag before this call (SoundControl.java:36, `protected boolean silenced, keepSilent;`): arrives as an explicit bool param -- the field being written, carried like the other state fields -- and is overwritten unconditionally, exactly as Java ignores the old value.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_keep_silent_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SoundControlPlaySilenceProof",
+      "rule": "Source-backed SoundControl play/silence/keepSilent state from SoundControl.java."
+    },
+    "source_sound_control_keep_silent_state_result": {
+      "status": "active",
+      "owner": "SourceSoundControlState.source_sound_control_keep_silent_state",
+      "source_slice": "N2336",
+      "keys": {
+        "keep_silent": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "keepSilent = true;",
+          "rule": "The keepSilent flag after this call (SoundControl.java:198, `keepSilent = true;`): always true -- the flag update() consumes (SoundControl.java:160-162, `if(keepSilent){ keepSilent = false; stop(); }`).",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_keep_silent_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SoundControlPlaySilenceProof",
+      "rule": "Source-backed SoundControl play/silence/keepSilent state from SoundControl.java."
     }
   },
   "version": 1

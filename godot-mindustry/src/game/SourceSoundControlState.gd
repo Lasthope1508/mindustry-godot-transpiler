@@ -416,3 +416,173 @@ static func source_sound_control_find_music_state(has_name: bool, name: String, 
 	if found == null:
 		found = assets.get("music/" + name + ".mp3", null)
 	return {"found_music": found}
+
+static func source_sound_control_play_state(has_music: bool, music: String, has_current: bool, current: String, fade: float, silenced: bool, should_play: bool, music_vol: int, time_delta: float, fin_time: float, fout_time: float) -> Dictionary:
+	# SoundControl.play(@Nullable Music) (SoundControl.java:303-353):
+	# `protected void play(@Nullable Music music){`
+	# `if(!shouldPlay()){`
+	# `current.setVolume(0);`
+	# `fade = 0f;`
+	# `return;`
+	# `}`
+	# `current.setVolume(fade * Core.settings.getInt("musicvol") / 100f);`
+	# `if(silenced){`
+	# `return;`
+	# `}`
+	# `if(current == null && music != null){`
+	# `current = music;`
+	# `current.setLooping(true);`
+	# `current.setVolume(fade = 0f);`
+	# `current.play();`
+	# `silenced = false;`
+	# `}else if(current == music && music != null){`
+	# `fade = Mathf.clamp(fade + Time.delta /finTime);`
+	# `}else if(current != null){`
+	# `fade = Mathf.clamp(fade - Time.delta /foutTime);`
+	# `if(fade <= 0.01f){`
+	# `current.stop();`
+	# `current = null;`
+	# `silenced = true;`
+	# `if(music != null){`
+	# `current = music;`
+	# `current.setVolume(fade = 0f);`
+	# `current.setLooping(true);`
+	# `current.play();`
+	# `silenced = false;`
+	# `}`
+	# `}`
+	# `}`
+	# `}`
+	# -- the fade state machine, kept exactly: the caller
+	# drives it every frame (SoundControl.java:301-302,
+	# "This must be called every frame"). The shouldPlay()
+	# gate (N2299, `return Core.settings.getInt("musicvol")
+	# > 0;`) arrives as the explicit should_play param and
+	# music_vol is Core.settings "musicvol". The one-arg
+	# Mathf.clamp(value) is `Math.max(Math.min(value, 1f),
+	# 0f)` (Mathf.java:402-404) -- clampf(value, 0.0, 1.0),
+	# never "fixed" into a two-bound clamp: it already is
+	# one. Time.delta arrives as time_delta; finTime /
+	# foutTime arrive as fin_time / fout_time:
+	# `public float finTime = 120f, foutTime = 120f, musicInterval = 3f * Time.toMinutes, musicChance = 0.8f, musicWaveChance = 0.46f;`
+	# (SoundControl.java:20). The state
+	# fields arrive as explicit params (the N2306
+	# precedent -- GDScript typed String params cannot
+	# take null): has_music is `music != null`, has_current
+	# is `current != null` (SoundControl.java:34,
+	# `protected @Nullable Music current;`), fade is
+	# `protected float fade;`, silenced is `protected
+	# boolean silenced, keepSilent;`. Music arrives as its
+	# name String (the N2287 precedent); `current == music`
+	# compares those names, the port's identity for a
+	# track. The playback calls -- current.play() /
+	# stop() / setVolume() / setLooping() -- are NOT
+	# executed here: they are returned as playback-command
+	# state, one Dictionary per call in order (`track`,
+	# `action`, `value` when the call takes one), so the
+	# driver applies them. QUIRK, kept exactly: the two
+	# new-track branches order the calls differently --
+	# the fresh start does setLooping then setVolume then
+	# play, the fade-out restart does setVolume then
+	# setLooping then play -- ported verbatim, NOT
+	# unified. Another quirk, kept exactly: the silenced
+	# early return runs AFTER the volume update, so a
+	# silenced machine still issues a setVolume command
+	# each frame. NO audio playback in this slice: this
+	# only computes state + commands; playback belongs
+	# to updateLoops (N2304, held waiting for B).
+	var out_current = current if has_current else null
+	var out_fade: float = fade
+	var out_silenced: bool = silenced
+	var commands: Array = []
+	# `if(!shouldPlay()){` + `if(current != null){` +
+	# `current.setVolume(0);` + `fade = 0f;` + `return;`
+	# (SoundControl.java:304-310) -- the muted gate mutes
+	# the current track and zeroes fade, whatever else.
+	if not should_play:
+		if has_current:
+			commands.append({"track": current, "action": "set_volume", "value": 0.0})
+		out_fade = 0.0
+		return {"current": out_current, "fade": out_fade, "silenced": out_silenced, "commands": commands}
+	# `if(current != null){` +
+	# `current.setVolume(fade * Core.settings.getInt("musicvol") / 100f);`
+	# (SoundControl.java:313-315) -- update volume of
+	# current track, from the fade BEFORE this frame's
+	# fade step, so a fade-in / fade-out frame plays the
+	# old fade's volume.
+	if has_current:
+		commands.append({"track": current, "action": "set_volume", "value": out_fade * float(music_vol) / 100.0})
+	# `if(silenced){` + `return;` (SoundControl.java:318-320)
+	# -- do not update once the track has faded out
+	# completely, just stop: the volume update above has
+	# already run, so a silenced machine still issues it.
+	if out_silenced:
+		return {"current": out_current, "fade": out_fade, "silenced": out_silenced, "commands": commands}
+	# `if(current == null && music != null){` -- begin
+	# playing in a new track (SoundControl.java:322-328).
+	if not has_current and has_music:
+		out_current = music
+		commands.append({"track": music, "action": "set_looping", "value": true})
+		out_fade = 0.0
+		commands.append({"track": music, "action": "set_volume", "value": 0.0})
+		commands.append({"track": music, "action": "play"})
+		out_silenced = false
+	# `}else if(current == music && music != null){` --
+	# fade in the playing track (SoundControl.java:329-331).
+	elif has_current and has_music and current == music:
+		out_fade = clampf(out_fade + time_delta / fin_time, 0.0, 1.0)
+	# `}else if(current != null){` -- fade out the current
+	# track (SoundControl.java:332-348).
+	elif has_current:
+		out_fade = clampf(out_fade - time_delta / fout_time, 0.0, 1.0)
+		# `if(fade <= 0.01f){` -- stop current track when
+		# it hits 0 volume (SoundControl.java:334-346).
+		if out_fade <= 0.01:
+			commands.append({"track": current, "action": "stop"})
+			out_current = null
+			out_silenced = true
+			# `if(music != null){` -- play newly scheduled
+			# track (SoundControl.java:340-346).
+			if has_music:
+				out_current = music
+				out_fade = 0.0
+				commands.append({"track": music, "action": "set_volume", "value": 0.0})
+				commands.append({"track": music, "action": "set_looping", "value": true})
+				commands.append({"track": music, "action": "play"})
+				out_silenced = false
+	return {"current": out_current, "fade": out_fade, "silenced": out_silenced, "commands": commands}
+
+static func source_sound_control_silence_state(has_current: bool, current: String, fade: float, silenced: bool, should_play: bool, music_vol: int, time_delta: float, fin_time: float, fout_time: float) -> Dictionary:
+	# SoundControl.silence() (SoundControl.java:374-376):
+	# `protected void silence(){`
+	# `play(null);`
+	# `}`
+	# -- fades out the current track, unless it has already
+	# been silenced: silence IS play(null), so this
+	# delegates to the play state machine with no music
+	# and returns its result unchanged -- no separate
+	# fade logic, no separate slice. The caller is
+	# update() (SoundControl.java:176, `silence();`) when
+	# leaving the menu for ingame music. NO audio
+	# playback in this slice: this only computes state +
+	# commands; playback belongs to updateLoops (N2304,
+	# held waiting for B).
+	return source_sound_control_play_state(false, "", has_current, current, fade, silenced, should_play, music_vol, time_delta, fin_time, fout_time)
+
+static func source_sound_control_keep_silent_state(keep_silent: bool) -> Dictionary:
+	# SoundControl.keepSilent() (SoundControl.java:197-199):
+	# `public void keepSilent(){`
+	# `keepSilent = true;`
+	# `}`
+	# -- only sets the flag (SoundControl.java:36,
+	# `protected boolean silenced, keepSilent;`) that
+	# update() consumes (SoundControl.java:160-162,
+	# `if(keepSilent){` + `keepSilent = false;` +
+	# `stop();`): the old value arrives as the keep_silent
+	# param -- the field being written, carried like the
+	# other state fields -- and is overwritten
+	# unconditionally, exactly as Java ignores it. This
+	# slice does NOT port update(): update() also needs
+	# playRandom (G4b) + updateLoops (N2304, held). NO
+	# audio playback in this slice.
+	return {"keep_silent": true}

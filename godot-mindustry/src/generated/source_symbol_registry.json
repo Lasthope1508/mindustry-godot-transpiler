@@ -178824,6 +178824,150 @@
         "test_reference_graph_and_actual_c07_drill_icons"
       ],
       "runtime_proof": "/root/C07DrillIconsProof"
+    },
+    "source_sound_control_play_state_result.current": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_play_state",
+      "godot_symbol": "source_sound_control_play_state_result.current",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.play(Music)",
+      "java_expr": "current = music;",
+      "rule": "The track playing after this frame (SoundControl.java:323, `current = music;`): the scheduled track when one starts (or restarts after a fade-out), the old track while it fades, or null when it stopped with no track scheduled.",
+      "tests": [
+        "test_c07_sound_control_play_silence_registration",
+        "test_all_c07_sound_control_play_silence_input_evidence_is_exact",
+        "test_sound_control_play_silence_state",
+        "test_reference_graph_and_actual_c07_sound_control_play_silence"
+      ],
+      "runtime_proof": "/root/C07SoundControlPlaySilenceProof"
+    },
+    "source_sound_control_play_state_result.fade": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_play_state",
+      "godot_symbol": "source_sound_control_play_state_result.fade",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.play(Music)",
+      "java_expr": "fade = Mathf.clamp(fade + Time.delta /finTime);",
+      "rule": "The fade level after this frame (SoundControl.java:331, `fade = Mathf.clamp(fade + Time.delta /finTime);` / :335 fade-out): clamped to [0, 1] by the one-arg Mathf.clamp (Mathf.java:402-404); zeroed by the muted gate and by a fresh start.",
+      "tests": [
+        "test_c07_sound_control_play_silence_registration",
+        "test_all_c07_sound_control_play_silence_input_evidence_is_exact",
+        "test_sound_control_play_silence_state",
+        "test_reference_graph_and_actual_c07_sound_control_play_silence"
+      ],
+      "runtime_proof": "/root/C07SoundControlPlaySilenceProof"
+    },
+    "source_sound_control_play_state_result.silenced": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_play_state",
+      "godot_symbol": "source_sound_control_play_state_result.silenced",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.play(Music)",
+      "java_expr": "silenced = false;",
+      "rule": "Whether the machine is silenced after this frame (SoundControl.java:328, `silenced = false;` / :339 `silenced = true;`): false when a track starts, true when the fade-out stops the track with no restart.",
+      "tests": [
+        "test_c07_sound_control_play_silence_registration",
+        "test_all_c07_sound_control_play_silence_input_evidence_is_exact",
+        "test_sound_control_play_silence_state",
+        "test_reference_graph_and_actual_c07_sound_control_play_silence"
+      ],
+      "runtime_proof": "/root/C07SoundControlPlaySilenceProof"
+    },
+    "source_sound_control_play_state_result.commands": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_play_state",
+      "godot_symbol": "source_sound_control_play_state_result.commands",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.play(Music)",
+      "java_expr": "current.play();",
+      "rule": "The playback commands this frame issues, in Java order (SoundControl.java:305 `current.setVolume(0);` / :314 volume update / :324-327 setLooping, setVolume, play / :337 stop / :342-345 setVolume, setLooping, play): one Dictionary per call (`track`, `action`, `value` when the call takes one). The driver applies them -- this slice NEVER plays audio itself; playback belongs to updateLoops (N2304, held waiting for B).",
+      "tests": [
+        "test_c07_sound_control_play_silence_registration",
+        "test_all_c07_sound_control_play_silence_input_evidence_is_exact",
+        "test_sound_control_play_silence_state",
+        "test_reference_graph_and_actual_c07_sound_control_play_silence"
+      ],
+      "runtime_proof": "/root/C07SoundControlPlaySilenceProof"
+    },
+    "source_sound_control_silence_state_result.current": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_silence_state",
+      "godot_symbol": "source_sound_control_silence_state_result.current",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.silence()",
+      "java_expr": "current = null;",
+      "rule": "The track playing after this frame (SoundControl.java:338, `current = null;`): null once the fade-out stops the track, else the fading track.",
+      "tests": [
+        "test_c07_sound_control_play_silence_registration",
+        "test_all_c07_sound_control_play_silence_input_evidence_is_exact",
+        "test_sound_control_play_silence_state",
+        "test_reference_graph_and_actual_c07_sound_control_play_silence"
+      ],
+      "runtime_proof": "/root/C07SoundControlPlaySilenceProof"
+    },
+    "source_sound_control_silence_state_result.fade": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_silence_state",
+      "godot_symbol": "source_sound_control_silence_state_result.fade",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.silence()",
+      "java_expr": "fade = Mathf.clamp(fade - Time.delta /foutTime);",
+      "rule": "The fade level after this frame (SoundControl.java:335, `fade = Mathf.clamp(fade - Time.delta /foutTime);`): falling toward zero; zeroed by the muted gate.",
+      "tests": [
+        "test_c07_sound_control_play_silence_registration",
+        "test_all_c07_sound_control_play_silence_input_evidence_is_exact",
+        "test_sound_control_play_silence_state",
+        "test_reference_graph_and_actual_c07_sound_control_play_silence"
+      ],
+      "runtime_proof": "/root/C07SoundControlPlaySilenceProof"
+    },
+    "source_sound_control_silence_state_result.silenced": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_silence_state",
+      "godot_symbol": "source_sound_control_silence_state_result.silenced",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.silence()",
+      "java_expr": "silenced = true;",
+      "rule": "Whether the machine is silenced after this frame (SoundControl.java:339, `silenced = true;`): true once the fade-out stops the track.",
+      "tests": [
+        "test_c07_sound_control_play_silence_registration",
+        "test_all_c07_sound_control_play_silence_input_evidence_is_exact",
+        "test_sound_control_play_silence_state",
+        "test_reference_graph_and_actual_c07_sound_control_play_silence"
+      ],
+      "runtime_proof": "/root/C07SoundControlPlaySilenceProof"
+    },
+    "source_sound_control_silence_state_result.commands": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_silence_state",
+      "godot_symbol": "source_sound_control_silence_state_result.commands",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.silence()",
+      "java_expr": "current.stop();",
+      "rule": "The playback commands this frame issues, in Java order (SoundControl.java:305 `current.setVolume(0);` / :314 volume update / :337 `current.stop();`): same shape as play -- the driver applies them, this slice NEVER plays audio itself.",
+      "tests": [
+        "test_c07_sound_control_play_silence_registration",
+        "test_all_c07_sound_control_play_silence_input_evidence_is_exact",
+        "test_sound_control_play_silence_state",
+        "test_reference_graph_and_actual_c07_sound_control_play_silence"
+      ],
+      "runtime_proof": "/root/C07SoundControlPlaySilenceProof"
+    },
+    "source_sound_control_keep_silent_state_result.keep_silent": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_keep_silent_state",
+      "godot_symbol": "source_sound_control_keep_silent_state_result.keep_silent",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.keepSilent()",
+      "java_expr": "keepSilent = true;",
+      "rule": "The keepSilent flag after this call (SoundControl.java:198, `keepSilent = true;`): always true -- the flag update() consumes (SoundControl.java:160-162, `if(keepSilent){ keepSilent = false; stop(); }`).",
+      "tests": [
+        "test_c07_sound_control_play_silence_registration",
+        "test_all_c07_sound_control_play_silence_input_evidence_is_exact",
+        "test_sound_control_play_silence_state",
+        "test_reference_graph_and_actual_c07_sound_control_play_silence"
+      ],
+      "runtime_proof": "/root/C07SoundControlPlaySilenceProof"
     }
   },
   "version": 1

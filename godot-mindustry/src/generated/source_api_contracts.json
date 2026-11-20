@@ -71654,6 +71654,177 @@
       ],
       "runtime_proof": "/root/C07DrillIconsProof",
       "rule": "Source-backed Drill icons() state from Drill.java + Block.java."
+    },
+    "SourceSoundControlState.source_sound_control_play_state": {
+      "status": "active",
+      "source_slice": "N2336",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "source_method": "SoundControl.play(Music)",
+      "params": [
+        {
+          "name": "has_music",
+          "type": "bool",
+          "schema": "source_sound_control_play_state_input.has_music"
+        },
+        {
+          "name": "music",
+          "type": "String",
+          "schema": "source_sound_control_play_state_input.music"
+        },
+        {
+          "name": "has_current",
+          "type": "bool",
+          "schema": "source_sound_control_play_state_input.has_current"
+        },
+        {
+          "name": "current",
+          "type": "String",
+          "schema": "source_sound_control_play_state_input.current"
+        },
+        {
+          "name": "fade",
+          "type": "float",
+          "schema": "source_sound_control_play_state_input.fade"
+        },
+        {
+          "name": "silenced",
+          "type": "bool",
+          "schema": "source_sound_control_play_state_input.silenced"
+        },
+        {
+          "name": "should_play",
+          "type": "bool",
+          "schema": "source_sound_control_play_state_input.should_play"
+        },
+        {
+          "name": "music_vol",
+          "type": "int",
+          "schema": "source_sound_control_play_state_input.music_vol"
+        },
+        {
+          "name": "time_delta",
+          "type": "float",
+          "schema": "source_sound_control_play_state_input.time_delta"
+        },
+        {
+          "name": "fin_time",
+          "type": "float",
+          "schema": "source_sound_control_play_state_input.fin_time"
+        },
+        {
+          "name": "fout_time",
+          "type": "float",
+          "schema": "source_sound_control_play_state_input.fout_time"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "current",
+        "fade",
+        "silenced",
+        "commands"
+      ],
+      "tests": [
+        "test_c07_sound_control_play_silence_registration",
+        "test_all_c07_sound_control_play_silence_input_evidence_is_exact",
+        "test_sound_control_play_silence_state",
+        "test_reference_graph_and_actual_c07_sound_control_play_silence"
+      ],
+      "runtime_proof": "/root/C07SoundControlPlaySilenceProof",
+      "rule": "Source-backed SoundControl play/silence/keepSilent state from SoundControl.java."
+    },
+    "SourceSoundControlState.source_sound_control_silence_state": {
+      "status": "active",
+      "source_slice": "N2336",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "source_method": "SoundControl.silence()",
+      "params": [
+        {
+          "name": "has_current",
+          "type": "bool",
+          "schema": "source_sound_control_silence_state_input.has_current"
+        },
+        {
+          "name": "current",
+          "type": "String",
+          "schema": "source_sound_control_silence_state_input.current"
+        },
+        {
+          "name": "fade",
+          "type": "float",
+          "schema": "source_sound_control_silence_state_input.fade"
+        },
+        {
+          "name": "silenced",
+          "type": "bool",
+          "schema": "source_sound_control_silence_state_input.silenced"
+        },
+        {
+          "name": "should_play",
+          "type": "bool",
+          "schema": "source_sound_control_silence_state_input.should_play"
+        },
+        {
+          "name": "music_vol",
+          "type": "int",
+          "schema": "source_sound_control_silence_state_input.music_vol"
+        },
+        {
+          "name": "time_delta",
+          "type": "float",
+          "schema": "source_sound_control_silence_state_input.time_delta"
+        },
+        {
+          "name": "fin_time",
+          "type": "float",
+          "schema": "source_sound_control_silence_state_input.fin_time"
+        },
+        {
+          "name": "fout_time",
+          "type": "float",
+          "schema": "source_sound_control_silence_state_input.fout_time"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "current",
+        "fade",
+        "silenced",
+        "commands"
+      ],
+      "tests": [
+        "test_c07_sound_control_play_silence_registration",
+        "test_all_c07_sound_control_play_silence_input_evidence_is_exact",
+        "test_sound_control_play_silence_state",
+        "test_reference_graph_and_actual_c07_sound_control_play_silence"
+      ],
+      "runtime_proof": "/root/C07SoundControlPlaySilenceProof",
+      "rule": "Source-backed SoundControl play/silence/keepSilent state from SoundControl.java."
+    },
+    "SourceSoundControlState.source_sound_control_keep_silent_state": {
+      "status": "active",
+      "source_slice": "N2336",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "source_method": "SoundControl.keepSilent()",
+      "params": [
+        {
+          "name": "keep_silent",
+          "type": "bool",
+          "schema": "source_sound_control_keep_silent_state_input.keep_silent"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "keep_silent"
+      ],
+      "tests": [
+        "test_c07_sound_control_play_silence_registration",
+        "test_all_c07_sound_control_play_silence_input_evidence_is_exact",
+        "test_sound_control_play_silence_state",
+        "test_reference_graph_and_actual_c07_sound_control_play_silence"
+      ],
+      "runtime_proof": "/root/C07SoundControlPlaySilenceProof",
+      "rule": "Source-backed SoundControl play/silence/keepSilent state from SoundControl.java."
     }
   },
   "policy": {
