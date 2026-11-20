@@ -243658,6 +243658,74 @@
       },
       "runtime_proof": "/root/C07TurretHandleLiquidProof",
       "rule": "Source-backed TurretBuild.handleLiquid() state from Turret.java + BaseTurret.java + BuildingComp.java + LiquidModule.java."
+    },
+    "source_teams_update_enemies_state_input": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_teams_update_enemies_state",
+      "source_slice": "N2357",
+      "keys": {
+        "teams_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "private void updateEnemies(){",
+          "rule": "The teams state (Teams.updateEnemies, Teams.java:252): the family-convention first arg; it carries the active list and the teams dict with each team's core_enemies (the N2074 precedent) -- this slice REWRITES core_enemies in the returned copy.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_update_enemies_state"
+          ]
+        },
+        "waves_enabled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "if(state.rules.waves && !active.contains(get(state.rules.waveTeam))){",
+          "rule": "Whether waves are enabled (Teams.java:253, `if(state.rules.waves && !active.contains(get(state.rules.waveTeam))){`): state.rules.waves is Rules state (not ported), so it arrives as an explicit param (the N2330 param precedent).",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_update_enemies_state"
+          ]
+        },
+        "wave_team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "active.add(get(state.rules.waveTeam));",
+          "rule": "The wave team id (Teams.java:254, `active.add(get(state.rules.waveTeam));`): state.rules.waveTeam is Rules state (not ported), so it arrives as an explicit param; -1 means no wave team.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_update_enemies_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsUpdateEnemiesProof",
+      "rule": "Source-backed Teams.updateEnemies() state from Teams.java."
+    },
+    "source_teams_update_enemies_state_result": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_teams_update_enemies_state",
+      "source_slice": "N2357",
+      "keys": {
+        "teams_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "data.coreEnemies = enemies.toArray(Team.class);",
+          "rule": "The updated teams_state (Teams.java:261, `data.coreEnemies = enemies.toArray(Team.class);`): a deep copy of the input with the wave team added to active when applicable and every active team's core_enemies rewritten to the other active teams; the caller's dict is never mutated.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_update_enemies_state"
+          ]
+        },
+        "wave_team_added": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "active.add(get(state.rules.waveTeam));",
+          "rule": "Whether the wave team was newly added to active (Teams.java:254, `active.add(get(state.rules.waveTeam));`): true only when waves are enabled, the wave team id is valid, and it was not active yet.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_update_enemies_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsUpdateEnemiesProof",
+      "rule": "Source-backed Teams.updateEnemies() state from Teams.java."
     }
   },
   "version": 1

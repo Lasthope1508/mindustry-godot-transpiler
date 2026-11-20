@@ -72737,6 +72737,42 @@
       ],
       "runtime_proof": "/root/C07TurretHandleLiquidProof",
       "rule": "Source-backed TurretBuild.handleLiquid() state from Turret.java + BaseTurret.java + BuildingComp.java + LiquidModule.java."
+    },
+    "SourceTeamsRuntimeState.source_teams_update_enemies_state": {
+      "status": "active",
+      "source_slice": "N2357",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "source_method": "updateEnemies",
+      "params": [
+        {
+          "name": "teams_state",
+          "type": "Dictionary",
+          "schema": "source_teams_update_enemies_state_input.teams_state"
+        },
+        {
+          "name": "waves_enabled",
+          "type": "bool",
+          "schema": "source_teams_update_enemies_state_input.waves_enabled"
+        },
+        {
+          "name": "wave_team_id",
+          "type": "int",
+          "schema": "source_teams_update_enemies_state_input.wave_team_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "teams_state",
+        "wave_team_added"
+      ],
+      "tests": [
+        "test_c07_teams_update_enemies_registration",
+        "test_all_c07_teams_update_enemies_input_evidence_is_exact",
+        "test_teams_update_enemies_state",
+        "test_reference_graph_and_actual_c07_teams_update_enemies"
+      ],
+      "runtime_proof": "/root/C07TeamsUpdateEnemiesProof",
+      "rule": "Source-backed Teams.updateEnemies() state from Teams.java."
     }
   },
   "policy": {

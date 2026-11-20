@@ -179816,6 +179816,38 @@
         "test_reference_graph_and_actual_c07_turret_handle_liquid"
       ],
       "runtime_proof": "/root/C07TurretHandleLiquidProof"
+    },
+    "source_teams_update_enemies_state_result.teams_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_update_enemies_state",
+      "godot_symbol": "source_teams_update_enemies_state_result.teams_state",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "updateEnemies",
+      "java_expr": "data.coreEnemies = enemies.toArray(Team.class);",
+      "rule": "The updated teams_state (Teams.java:261, `data.coreEnemies = enemies.toArray(Team.class);`): a deep copy of the input with the wave team added to active when applicable and every active team's core_enemies rewritten to the other active teams; the caller's dict is never mutated.",
+      "tests": [
+        "test_c07_teams_update_enemies_registration",
+        "test_all_c07_teams_update_enemies_input_evidence_is_exact",
+        "test_teams_update_enemies_state",
+        "test_reference_graph_and_actual_c07_teams_update_enemies"
+      ],
+      "runtime_proof": "/root/C07TeamsUpdateEnemiesProof"
+    },
+    "source_teams_update_enemies_state_result.wave_team_added": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_update_enemies_state",
+      "godot_symbol": "source_teams_update_enemies_state_result.wave_team_added",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "updateEnemies",
+      "java_expr": "active.add(get(state.rules.waveTeam));",
+      "rule": "Whether the wave team was newly added to active (Teams.java:254, `active.add(get(state.rules.waveTeam));`): true only when waves are enabled, the wave team id is valid, and it was not active yet.",
+      "tests": [
+        "test_c07_teams_update_enemies_registration",
+        "test_all_c07_teams_update_enemies_input_evidence_is_exact",
+        "test_teams_update_enemies_state",
+        "test_reference_graph_and_actual_c07_teams_update_enemies"
+      ],
+      "runtime_proof": "/root/C07TeamsUpdateEnemiesProof"
     }
   },
   "version": 1

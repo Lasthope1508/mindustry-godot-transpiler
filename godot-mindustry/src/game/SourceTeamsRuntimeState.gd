@@ -104,6 +104,42 @@ static func source_teams_unregister_core_state(teams_state: Dictionary, team_id:
 	return {"unregistered": unregistered, "active_changed": active_changed, "active": teams_state.get("active", []), "enemies_by_team": enemies_by_team, "teams_state": teams_state}
 
 
+static func source_teams_update_enemies_state(teams_state: Dictionary, waves_enabled: bool, wave_team_id: int) -> Dictionary:
+	# Teams.updateEnemies (Teams.java:252-268):
+	# `private void updateEnemies(){`
+	# `if(state.rules.waves && !active.contains(get(state.rules.waveTeam))){`
+	# `active.add(get(state.rules.waveTeam));`
+	# `}`
+	# `for(TeamData data : active){`
+	# `Seq<Team> enemies = new Seq<>();`
+	# `for(TeamData other : active){`
+	# `if(data.team != other.team){`
+	# `enemies.add(other.team);`
+	# `}`
+	# `}`
+	# `data.coreEnemies = enemies.toArray(Team.class);`
+	# `}`
+	# `}`
+	# state.rules.waves / state.rules.waveTeam are Rules state (not
+	# ported), so they arrive as explicit params (the N2330 param
+	# precedent); teams are compared by team_id, not the Team enum.
+	# core_enemies already lives in the teams_state dict (kept by
+	# registerCore/unregisterCore, N2074/N2075); this slice REWRITES
+	# that field. The call-site `updateEnemies();` already owned by
+	# N2074/N2075 (registerCore/unregisterCore call it) is callee
+	# evidence only, not this method's body. The function is pure:
+	# it deep-copies the teams_state, sets the copy's rules from the
+	# params, applies the shared _teams_update_enemies helper to the
+	# copy, and returns the updated copy -- the caller's dict is
+	# never mutated.
+	var was_active: Array = teams_state.get("active", [])
+	var wave_team_added: bool = waves_enabled and wave_team_id >= 0 and not was_active.has(wave_team_id)
+	var updated: Dictionary = teams_state.duplicate(true)
+	updated["rules"] = {"waves": waves_enabled, "wave_team": wave_team_id}
+	_teams_update_enemies(updated)
+	return {"teams_state": updated, "wave_team_added": wave_team_added}
+
+
 static func source_team_data_update_count_state(type_counts: Array, type_id: int, amount: int, unit_count: int, content_unit_size: int) -> Dictionary:
 	# TeamData.updateCount (Teams.java:429-436):
 	# `public void updateCount(UnitType type, int amount){`
