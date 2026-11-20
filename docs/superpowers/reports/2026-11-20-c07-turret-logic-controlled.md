@@ -5,7 +5,7 @@ Ngày: 2026-11-20 ~09:53 +07 (GREEN), gate xong 10:37 +07, push lượt cron 10:
 ## Trạng thái
 
 - N2277 DONE + PUSHED (origin/main 9391d5a1). Không có gì thay đổi về N2277.
-- N2278 DONE + PUSHED (slice 7d2d024f, docs ee3b1ea1, GOAL 2d770e56, status TBD): Turret logicControlled() — `logicControlled(){ return logicControlTime > 0; }` (Turret.java:445-447) mà driver validate call N2251 đọc với default false vì key `frame["logic_controlled"]` chưa từng được stamp, nay có pure function standalone + driver tick stamp live ngay trước call validate, cứu target logic-controlled khỏi bị clear sai. Gate xác minh độc lập từ log: Ran 6205, failures=228, skipped=5 — toàn Godot-absent (228 × `AssertionError: unexpectedly None`, 0 KeyError, 0 `return_schema_linkage`, 0 ERROR).
+- N2278 DONE + PUSHED (slice 7d2d024f, docs ee3b1ea1, GOAL 2d770e56, status 36b394a0): Turret logicControlled() — `logicControlled(){ return logicControlTime > 0; }` (Turret.java:445-447) mà driver validate call N2251 đọc với default false vì key `frame["logic_controlled"]` chưa từng được stamp, nay có pure function standalone + driver tick stamp live ngay trước call validate, cứu target logic-controlled khỏi bị clear sai. Gate xác minh độc lập từ log: Ran 6205, failures=228, skipped=5 — toàn Godot-absent (228 × `AssertionError: unexpectedly None`, 0 KeyError, 0 `return_schema_linkage`, 0 ERROR).
 
 ## Làm được lượt này (GREEN)
 
