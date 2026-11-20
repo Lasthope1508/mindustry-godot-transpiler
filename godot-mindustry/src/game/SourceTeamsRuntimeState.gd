@@ -289,3 +289,66 @@ static func source_teams_closest_enemy_core_state(teams_state: Dictionary, x: fl
 			closest = entry.get("ref", null)
 			closest_dst2 = dst2
 	return {"closest_core": closest, "closest_dst2": closest_dst2}
+
+
+static func source_teams_any_enemy_cores_within_build_radius_state(teams_state: Dictionary, team_id: int, x: float, y: float, protect_cores_by_team: Dictionary, build_radius_by_team: Dictionary, tilesize: float, enemy_cores: Array) -> Dictionary:
+	# Teams.anyEnemyCoresWithinBuildRadius (Teams.java:60-72):
+	# `public boolean anyEnemyCoresWithinBuildRadius(Team team, float x, float y){`
+	# `for(TeamData data : active){`
+	# `if(team != data.team && data.team.rules().protectCores){`
+	# `for(CoreBuild tile : data.cores){`
+	# `if(tile.within(x, y, state.rules.buildRadius(tile.team) + tilesize)){`
+	# `return true;`
+	# `}`
+	# `}`
+	# `}`
+	# `}`
+	# `return false;`
+	# `}`
+	# on `public class Teams{` (Teams.java:27). The scan
+	# walks the active teams (read from teams_state, kept
+	# there by registerCore/unregisterCore, N2074/N2075),
+	# skipping the calling team and teams whose rules do
+	# not protect cores -- `data.team.rules().protectCores`
+	# is Rules state (not ported), so it arrives as the
+	# explicit protect_cores_by_team lookup keyed by
+	# team_id -- and each enemy team's cores. A core
+	# within `state.rules.buildRadius(tile.team) +
+	# tilesize` of the query point returns true;
+	# buildRadius is Rules state (not ported), so it
+	# arrives as the explicit build_radius_by_team
+	# lookup keyed by team_id, plus the tilesize param.
+	# `tile.within(x, y, radius)` is arc Position.within
+	# (Position.java:44-46): `Mathf.dst2(getX(), getY(),
+	# x, y) < dst*dst` -- a STRICT < on the squared
+	# distance, so a core exactly on the radius boundary
+	# is OUTSIDE. The cores stored in teams_state are
+	# opaque refs with no position, so the enemy cores
+	# arrive as explicit records {"team_id": int, "x":
+	# float, "y": float} (the N2330/N2354 param
+	# precedent); only records whose team_id is the
+	# active team being scanned are considered. The
+	# call-site `state.teams.anyEnemyCoresWithinBuildRadius(...)`
+	# already owned by N2042 (Build.validPlaceIgnoreUnits)
+	# is callee evidence in another class's slice, not
+	# this method's body. The read does not mutate
+	# teams_state or the enemy-core records.
+	var active: Array = teams_state.get("active", [])
+	for data_team_id in active:
+		var enemy_team_id := int(data_team_id)
+		if enemy_team_id == team_id:
+			continue
+		if not bool(protect_cores_by_team.get(enemy_team_id, false)):
+			continue
+		var radius: float = float(build_radius_by_team.get(enemy_team_id, 0.0)) + tilesize
+		var radius2: float = radius * radius
+		for entry in enemy_cores:
+			if not entry is Dictionary:
+				continue
+			if int(entry.get("team_id", -1)) != enemy_team_id:
+				continue
+			var dx: float = x - float(entry.get("x", 0.0))
+			var dy: float = y - float(entry.get("y", 0.0))
+			if dx * dx + dy * dy < radius2:
+				return {"within": true}
+	return {"within": false}

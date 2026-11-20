@@ -179848,6 +179848,22 @@
         "test_reference_graph_and_actual_c07_teams_update_enemies"
       ],
       "runtime_proof": "/root/C07TeamsUpdateEnemiesProof"
+    },
+    "source_teams_any_enemy_cores_within_build_radius_state_result.within": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_any_enemy_cores_within_build_radius_state",
+      "godot_symbol": "source_teams_any_enemy_cores_within_build_radius_state_result.within",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "anyEnemyCoresWithinBuildRadius",
+      "java_expr": "return true;",
+      "rule": "Whether any enemy core is within build radius (Teams.java:65, `return true;`): true as soon as one protected enemy team's core is within its buildRadius + tilesize of the query point (tile.within is a STRICT < on the squared distance, arc Position.java:44-46); false when no core qualifies (`return false;`, Teams.java:70).",
+      "tests": [
+        "test_c07_teams_any_enemy_cores_within_build_radius_registration",
+        "test_all_c07_teams_any_enemy_cores_within_build_radius_input_evidence_is_exact",
+        "test_teams_any_enemy_cores_within_build_radius_state",
+        "test_reference_graph_and_actual_c07_teams_any_enemy_cores_within_build_radius"
+      ],
+      "runtime_proof": "/root/C07TeamsAnyEnemyCoresWithinBuildRadiusProof"
     }
   },
   "version": 1

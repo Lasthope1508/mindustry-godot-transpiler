@@ -72773,6 +72773,66 @@
       ],
       "runtime_proof": "/root/C07TeamsUpdateEnemiesProof",
       "rule": "Source-backed Teams.updateEnemies() state from Teams.java."
+    },
+    "SourceTeamsRuntimeState.source_teams_any_enemy_cores_within_build_radius_state": {
+      "status": "active",
+      "source_slice": "N2359",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "source_method": "anyEnemyCoresWithinBuildRadius",
+      "params": [
+        {
+          "name": "teams_state",
+          "type": "Dictionary",
+          "schema": "source_teams_any_enemy_cores_within_build_radius_state_input.teams_state"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_teams_any_enemy_cores_within_build_radius_state_input.team_id"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_teams_any_enemy_cores_within_build_radius_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_teams_any_enemy_cores_within_build_radius_state_input.y"
+        },
+        {
+          "name": "protect_cores_by_team",
+          "type": "Dictionary",
+          "schema": "source_teams_any_enemy_cores_within_build_radius_state_input.protect_cores_by_team"
+        },
+        {
+          "name": "build_radius_by_team",
+          "type": "Dictionary",
+          "schema": "source_teams_any_enemy_cores_within_build_radius_state_input.build_radius_by_team"
+        },
+        {
+          "name": "tilesize",
+          "type": "float",
+          "schema": "source_teams_any_enemy_cores_within_build_radius_state_input.tilesize"
+        },
+        {
+          "name": "enemy_cores",
+          "type": "Array",
+          "schema": "source_teams_any_enemy_cores_within_build_radius_state_input.enemy_cores"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "within"
+      ],
+      "tests": [
+        "test_c07_teams_any_enemy_cores_within_build_radius_registration",
+        "test_all_c07_teams_any_enemy_cores_within_build_radius_input_evidence_is_exact",
+        "test_teams_any_enemy_cores_within_build_radius_state",
+        "test_reference_graph_and_actual_c07_teams_any_enemy_cores_within_build_radius"
+      ],
+      "runtime_proof": "/root/C07TeamsAnyEnemyCoresWithinBuildRadiusProof",
+      "rule": "Source-backed Teams.anyEnemyCoresWithinBuildRadius() state from Teams.java."
     }
   },
   "policy": {
