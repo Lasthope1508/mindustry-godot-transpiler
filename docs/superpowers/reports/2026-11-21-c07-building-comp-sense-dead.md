@@ -5,7 +5,7 @@ Ngày: 2026-11-21 ~05:18 +07 (GREEN), gate xong 05:39:45 +07, push ~05:5x +07.
 ## Trạng thái
 
 - N2510 DONE + PUSHED (origin/main fee79e05).
-- N2511 DONE + PUSHED (slice dcca355e, docs 8350bfe8, GOAL 11814f45, status TBD, hashes TBD): `BuildingComp.sense()` `dead` leg — leg deferred đầu tiên BÊN TRONG `sense()` (BuildingComp.java:2098): `case dead -> !isValid() ? 1 : 0;`, với `isValid()` (BuildingComp.java:2030-2032): `return tile.build == self() && !dead();`. N2284 đã port 23 handled legs của `sense()` (BuildingComp.java:2093-2126) và để dead/health/totalItems/camera*/powerNet* deferred — dead deferred vì `isValid()` cần tile state chưa có trong frame. N2511 port đúng leg `dead`, đầu tiên trong Java switch order giữa các deferred legs. KHÔNG có driver tick (logic read, tiền lệ N2206/N2208/N2223/N2283/N2284/N2506/N2507/N2508/N2509/N2510).
+- N2511 DONE + PUSHED (slice dcca355e, docs 8350bfe8, GOAL 11814f45, status 5f45c84f, hashes TBD): `BuildingComp.sense()` `dead` leg — leg deferred đầu tiên BÊN TRONG `sense()` (BuildingComp.java:2098): `case dead -> !isValid() ? 1 : 0;`, với `isValid()` (BuildingComp.java:2030-2032): `return tile.build == self() && !dead();`. N2284 đã port 23 handled legs của `sense()` (BuildingComp.java:2093-2126) và để dead/health/totalItems/camera*/powerNet* deferred — dead deferred vì `isValid()` cần tile state chưa có trong frame. N2511 port đúng leg `dead`, đầu tiên trong Java switch order giữa các deferred legs. KHÔNG có driver tick (logic read, tiền lệ N2206/N2208/N2223/N2283/N2284/N2506/N2507/N2508/N2509/N2510).
 
 ## Làm được lượt này (GREEN + gate xong)
 
