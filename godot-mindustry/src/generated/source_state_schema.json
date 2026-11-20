@@ -238446,6 +238446,54 @@
       },
       "runtime_proof": "/root/C07TurretCanHealProof",
       "rule": "Source-backed Turret canHeal() derivation from TurretBuild.canHeal() / Turret.java:635-637."
+    },
+    "source_turret_progress_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_progress_state",
+      "source_slice": "N2282",
+      "keys": {
+        "reload_counter": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "java_expr": "public float reloadCounter;",
+          "rule": "The live reload counter (ReloadTurret.java:26, inherited by TurretBuild via ReloadTurretBuild; the driver stamps it live as frame[\"reload_counter\"] from the aim tick, capped at reload by updateReload :720-723).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_progress_state"
+          ]
+        },
+        "reload": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "java_expr": "public float reload = 10f;",
+          "rule": "The reload interval in ticks (ReloadTurret.java:10, the class default; duo overrides `reload = 20f;`, Blocks.java:3317, the same 20.0 the driver aim call already passes).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_progress_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretProgressProof",
+      "rule": "Source-backed Turret progress() derivation from TurretBuild.progress() / Turret.java:425-427."
+    },
+    "source_turret_progress_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_progress_state",
+      "source_slice": "N2282",
+      "keys": {
+        "progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return Mathf.clamp(reloadCounter / reload);",
+          "rule": "The reload progress as a 0..1 fraction (Turret.java:425-427, the progress() return verbatim; Mathf.clamp(float) is `return Math.max(Math.min(value, 1f), 0f);`, arc Mathf.java:402-404, so GDScript clampf(value, 0.0, 1.0) is the same min-then-max; the driver stamps it on frame[\"progress\"] right after the reload_counter stamp).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_progress_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretProgressProof",
+      "rule": "Source-backed Turret progress() derivation from TurretBuild.progress() / Turret.java:425-427."
     }
   },
   "version": 1

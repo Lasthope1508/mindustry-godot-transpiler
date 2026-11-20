@@ -70166,6 +70166,36 @@
       ],
       "runtime_proof": "/root/C07TurretCanHealProof",
       "rule": "Source-backed Turret canHeal() derivation from TurretBuild.canHeal() / Turret.java:635-637."
+    },
+    "SourceTurretBuildState.source_turret_progress_state": {
+      "status": "active",
+      "source_slice": "N2282",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.progress()",
+      "params": [
+        {
+          "name": "reload_counter",
+          "type": "float",
+          "schema": "source_turret_progress_state_input.reload_counter"
+        },
+        {
+          "name": "reload",
+          "type": "float",
+          "schema": "source_turret_progress_state_input.reload"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "progress"
+      ],
+      "tests": [
+        "test_c07_turret_progress_registration",
+        "test_all_c07_turret_progress_input_evidence_is_exact",
+        "test_turret_progress_state",
+        "test_reference_graph_and_actual_c07_turret_progress"
+      ],
+      "runtime_proof": "/root/C07TurretProgressProof",
+      "rule": "Source-backed Turret progress() derivation from TurretBuild.progress() / Turret.java:425-427."
     }
   },
   "policy": {

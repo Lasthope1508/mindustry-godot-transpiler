@@ -221,6 +221,33 @@ static func source_turret_logic_controlled_state(logic_control_time: float) -> D
 	var logic_controlled: bool = logic_control_time > 0.0
 	return {"logic_controlled": logic_controlled}
 
+static func source_turret_progress_state(reload_counter: float, reload: float) -> Dictionary:
+	# TurretBuild.progress() (Turret.java:425-427):
+	# `public float progress(){` /
+	# `return Mathf.clamp(reloadCounter / reload);`
+	# -- the reload progress as a 0..1 fraction.
+	# `reloadCounter` is `public float reloadCounter;`
+	# (ReloadTurret.java:26, inherited by TurretBuild via
+	# ReloadTurretBuild); the driver already stamps it live
+	# as frame["reload_counter"] from the aim tick, capped at
+	# reload by updateReload (`reloadCounter = Math.min(
+	# reloadCounter, reload);`, Turret.java:723) and reset by
+	# fmod on shoot (:738). `reload` is `public float reload
+	# = 10f;` (ReloadTurret.java:10, the class default); duo
+	# overrides `reload = 20f;` (Blocks.java:3317), the same
+	# 20.0 the driver aim call already passes.
+	# `Mathf.clamp(float)` is `return Math.max(Math.min(
+	# value, 1f), 0f);` (arc Mathf.java:402-404) -- GDScript
+	# clampf(value, 0.0, 1.0) is the same min-then-max. The
+	# only Java consumer is sense() LAccess.progress
+	# (`case progress -> progress();`, Turret.java:414); the
+	# sense dispatch is its own later slice, so this slice
+	# is stamp-only like N2280/N2281: the driver stamps the
+	# verdict on the frame and no consumer is rewired. The
+	# result is a 1-key dict: `progress`.
+	var progress: float = clampf(reload_counter / reload, 0.0, 1.0)
+	return {"progress": progress}
+
 static func source_turret_is_shooting_state(always_shooting: bool, is_player: bool, player_is_shooting: bool, logic_controlled: bool, logic_shooting: bool, has_target: bool) -> Dictionary:
 	# TurretBuild.updateTile() (Turret.java:490-615) sets the
 	# shooting flag at the head of the tick, first line after
@@ -1681,6 +1708,19 @@ static func source_turret_tick_buildings_state(game: Object, seconds: float) -> 
 				true, 0.0, false, bool(frame.get("cheating", false)), float(frame.get("efficiency", 1.0)))
 			frame["rotation"] = aim.get("rotation", 90.0)
 			frame["reload_counter"] = aim.get("reload_counter", 0.0)
+			# The progress() verdict (Turret.java:425-427,
+			# N2282) is stamped right after the reload_counter
+			# stamp, once the counter is final for this tick:
+			# `return Mathf.clamp(reloadCounter / reload);`
+			# with the duo reload 20.0 (Blocks.java:3317, the
+			# same 20.0 the aim call above already passes).
+			# The only Java consumer is sense()
+			# LAccess.progress (`case progress -> progress();`,
+			# :414); the sense dispatch is its own later
+			# slice, so this slice is stamp-only like
+			# N2280/N2281 and no consumer is rewired here.
+			var progress_state: Dictionary = source_turret_progress_state(float(frame.get("reload_counter", 0.0)), 20.0)
+			frame["progress"] = progress_state.get("progress", 0.0)
 			frame["shot"] = aim.get("shot", false)
 			frame["shoot_event"] = aim.get("shoot_event", null)
 			frame["dest"] = aim.get("dest", null)
