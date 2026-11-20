@@ -70533,6 +70533,49 @@
       ],
       "runtime_proof": "/root/C07TurretLogicSenseContentProof",
       "rule": "Source-backed SenseI Content leg from BuildingComp.java:2139-2147 + LExecutor.java:692-693."
+    },
+    "SourceTurretBuildState.source_logic_sense_size_state": {
+      "status": "active",
+      "source_slice": "N2509",
+      "java_source": "core/src/mindustry/logic/LExecutor.java",
+      "source_method": "SenseI.run(LExecutor)",
+      "params": [
+        {
+          "name": "sensor",
+          "type": "String",
+          "schema": "source_logic_sense_size_state_input.sensor"
+        },
+        {
+          "name": "target_kind",
+          "type": "String",
+          "schema": "source_logic_sense_size_state_input.target_kind"
+        },
+        {
+          "name": "string_length",
+          "type": "float",
+          "schema": "source_logic_sense_size_state_input.string_length"
+        },
+        {
+          "name": "seq_size",
+          "type": "float",
+          "schema": "source_logic_sense_size_state_input.seq_size"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "handled",
+        "output_kind",
+        "output_value",
+        "is_null"
+      ],
+      "tests": [
+        "test_c07_turret_logic_sense_size_registration",
+        "test_all_c07_turret_logic_sense_size_input_evidence_is_exact",
+        "test_turret_logic_sense_size_state",
+        "test_reference_graph_and_actual_c07_turret_logic_sense_size"
+      ],
+      "runtime_proof": "/root/C07TurretLogicSenseSizeProof",
+      "rule": "Source-backed SenseI non-Senseable size/bufferSize legs from LExecutor.java:705-717."
     }
   },
   "policy": {

@@ -239204,6 +239204,104 @@
       },
       "runtime_proof": "/root/C07TurretLogicSenseContentProof",
       "rule": "Source-backed SenseI Content leg from BuildingComp.java:2139-2147 + LExecutor.java:692-693."
+    },
+    "source_logic_sense_size_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_logic_sense_size_state",
+      "source_slice": "N2509",
+      "keys": {
+        "sensor": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/logic/LExecutor.java",
+          "java_expr": "if(sense == LAccess.size || sense == LAccess.bufferSize){",
+          "rule": "The logic sensor to read, spelled by its LAccess enum name (`if(sense == LAccess.size || sense == LAccess.bufferSize){`, LExecutor.java:706; `    bufferSize,` LAccess.java:43, `    size,` :45): only \"size\" / \"bufferSize\" enter the size block -- any other sensor skips it and falls through to `to.setobj(null)`.",
+          "used_by": [
+            "SourceTurretBuildState.source_logic_sense_size_state"
+          ]
+        },
+        "target_kind": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/logic/LExecutor.java",
+          "java_expr": "if(target instanceof CharSequence seq){",
+          "rule": "The non-Senseable target type, spelled \"string\" (CharSequence, `if(target instanceof CharSequence seq){`, LExecutor.java:707) / \"seq\" (Seq<?>, `}else if(target instanceof Seq<?> seq){`, :710) / anything else: a null target is also \"other\" here, because the dead leg is checked first in N2507's hook and `instanceof` is false for null on both arms.",
+          "used_by": [
+            "SourceTurretBuildState.source_logic_sense_size_state"
+          ]
+        },
+        "string_length": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/logic/LExecutor.java",
+          "java_expr": "to.setnum(seq.length());",
+          "rule": "The CharSequence length (`seq.length()`, LExecutor.java:708), passed explicitly because the pure function does not read the frame (the N2212/N2220 per-def-param precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_logic_sense_size_state"
+          ]
+        },
+        "seq_size": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/logic/LExecutor.java",
+          "java_expr": "to.setnum(seq.size);",
+          "rule": "The Seq size (`seq.size`, LExecutor.java:711 -- arc Seq public field), passed explicitly because the pure function does not read the frame (the N2212/N2220 per-def-param precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_logic_sense_size_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretLogicSenseSizeProof",
+      "rule": "Source-backed SenseI non-Senseable size/bufferSize legs from LExecutor.java:705-717."
+    },
+    "source_logic_sense_size_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_logic_sense_size_state",
+      "source_slice": "N2509",
+      "keys": {
+        "handled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/logic/LExecutor.java",
+          "java_expr": "public static class SenseI implements LInstruction{",
+          "rule": "Whether the branch resolved to a logic-variable write (`public static class SenseI implements LInstruction{`, LExecutor.java:668; every modeled leg writes with to.setnum or to.setobj, so handled is true throughout this slice).",
+          "used_by": [
+            "SourceTurretBuildState.source_logic_sense_size_state"
+          ]
+        },
+        "output_kind": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/logic/LExecutor.java",
+          "java_expr": "to.setobj(null);",
+          "rule": "Which write the branch performs: \"num\" when it calls to.setnum (`to.setnum(seq.length());` / `to.setnum(seq.size);`, LExecutor.java:708/711) and \"obj\" when it calls to.setobj (`to.setobj(null);`, :716); the logic variable holds either a number or an object, never both.",
+          "used_by": [
+            "SourceTurretBuildState.source_logic_sense_size_state"
+          ]
+        },
+        "output_value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/logic/LExecutor.java",
+          "java_expr": "to.setnum(seq.size);",
+          "rule": "The value written to the logic variable: the string length or sequence size on the num legs (`to.setnum(seq.length());` / `to.setnum(seq.size);`, LExecutor.java:708/711), or null on the fall-through leg (`to.setobj(null);`, :716).",
+          "used_by": [
+            "SourceTurretBuildState.source_logic_sense_size_state"
+          ]
+        },
+        "is_null": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/logic/LExecutor.java",
+          "java_expr": "to.setobj(null);",
+          "rule": "Whether the branch fell through to the null object write (`to.setobj(null);`, LExecutor.java:716); true only on the fall-through leg, the N2507 `is_no_sensed` / N2508 `is_invalid` precedent for a 4th flag key.",
+          "used_by": [
+            "SourceTurretBuildState.source_logic_sense_size_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretLogicSenseSizeProof",
+      "rule": "Source-backed SenseI non-Senseable size/bufferSize legs from LExecutor.java:705-717."
     }
   },
   "version": 1

@@ -685,6 +685,50 @@ static func source_logic_sense_content_state(content_kind: String, has_items: bo
 		return {"handled": true, "output_kind": "num", "output_value": payload_block_count, "is_invalid": false}
 	return {"handled": true, "output_kind": "num", "output_value": NAN, "is_invalid": true}
 
+static func source_logic_sense_size_state(sensor: String, target_kind: String, string_length: float, seq_size: float) -> Dictionary:
+	# SenseI.run() non-Senseable else-branch (LExecutor.java:705-717):
+	# `}else{` /
+	# `if(sense == LAccess.size || sense == LAccess.bufferSize){` /
+	# `if(target instanceof CharSequence seq){` /
+	# `to.setnum(seq.length());` /
+	# `return;` /
+	# `}else if(target instanceof Seq<?> seq){` /
+	# `to.setnum(seq.size);` /
+	# `return;` /
+	# `}` /
+	# `to.setobj(null);` /
+	# `}` -- the logic-processor `sense` op when the target is NOT
+	# a Senseable (`if(target instanceof Senseable se){`,
+	# LExecutor.java:691; `public static class SenseI implements
+	# LInstruction{`, :668): a size / bufferSize sensor on a
+	# CharSequence logic var writes its length with to.setnum, on
+	# a Seq<?> logic var writes its size with to.setnum, and any
+	# other sensor or target falls through to to.setobj(null).
+	# The sensor spellings are the LAccess enum names: `size,`
+	# (LAccess.java:45) and `bufferSize,` (:43). The CharSequence
+	# arm is checked before the Seq arm (`if` / `else if`), so a
+	# target matching both would take the length leg. Both
+	# to.setnum legs return early, so they never reach the
+	# fall-through. The null-target dead leg (`if(target == null
+	# && sense == LAccess.dead){` / `to.setnum(1);`, :685-686) is
+	# checked FIRST, before this branch, and was already ported
+	# by N2507 -- a null target only reaches this branch when
+	# sense != dead, and instanceof is false for null on both
+	# arms. The length / size are passed in as params (the
+	# N2212/N2220 per-def-param precedent): the pure function
+	# does not read the frame. `is_null` is true only on the
+	# fall-through leg (the N2507 `is_no_sensed` / N2508
+	# `is_invalid` precedent). There is no driver tick line:
+	# the legs are logic reads, not tick writes (the
+	# N2206/N2208/N2223/N2283/N2284/N2506/N2507/N2508 precedent);
+	# the proof calls the pure function directly with synthetic
+	# inputs.
+	if (sensor == "size" or sensor == "bufferSize") and target_kind == "string":
+		return {"handled": true, "output_kind": "num", "output_value": string_length, "is_null": false}
+	if (sensor == "size" or sensor == "bufferSize") and target_kind == "seq":
+		return {"handled": true, "output_kind": "num", "output_value": seq_size, "is_null": false}
+	return {"handled": true, "output_kind": "obj", "output_value": null, "is_null": true}
+
 static func source_turret_progress_state(reload_counter: float, reload: float) -> Dictionary:
 	# TurretBuild.progress() (Turret.java:425-427):
 	# `public float progress(){` /

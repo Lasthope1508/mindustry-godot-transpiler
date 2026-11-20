@@ -177704,6 +177704,70 @@
         "test_reference_graph_and_actual_c07_turret_logic_sense_content"
       ],
       "runtime_proof": "/root/C07TurretLogicSenseContentProof"
+    },
+    "source_logic_sense_size_state_result.handled": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_logic_sense_size_state",
+      "godot_symbol": "source_logic_sense_size_state_result.handled",
+      "java_source": "core/src/mindustry/logic/LExecutor.java",
+      "java_method": "SenseI.run(LExecutor)",
+      "java_expr": "public static class SenseI implements LInstruction{",
+      "rule": "Whether the branch resolved to a logic-variable write (`public static class SenseI implements LInstruction{`, LExecutor.java:668; every modeled leg writes with to.setnum or to.setobj, so handled is true throughout this slice).",
+      "tests": [
+        "test_c07_turret_logic_sense_size_registration",
+        "test_all_c07_turret_logic_sense_size_input_evidence_is_exact",
+        "test_turret_logic_sense_size_state",
+        "test_reference_graph_and_actual_c07_turret_logic_sense_size"
+      ],
+      "runtime_proof": "/root/C07TurretLogicSenseSizeProof"
+    },
+    "source_logic_sense_size_state_result.output_kind": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_logic_sense_size_state",
+      "godot_symbol": "source_logic_sense_size_state_result.output_kind",
+      "java_source": "core/src/mindustry/logic/LExecutor.java",
+      "java_method": "SenseI.run(LExecutor)",
+      "java_expr": "to.setobj(null);",
+      "rule": "Which write the branch performs: \"num\" when it calls to.setnum (`to.setnum(seq.length());` / `to.setnum(seq.size);`, LExecutor.java:708/711) and \"obj\" when it calls to.setobj (`to.setobj(null);`, :716); the logic variable holds either a number or an object, never both.",
+      "tests": [
+        "test_c07_turret_logic_sense_size_registration",
+        "test_all_c07_turret_logic_sense_size_input_evidence_is_exact",
+        "test_turret_logic_sense_size_state",
+        "test_reference_graph_and_actual_c07_turret_logic_sense_size"
+      ],
+      "runtime_proof": "/root/C07TurretLogicSenseSizeProof"
+    },
+    "source_logic_sense_size_state_result.output_value": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_logic_sense_size_state",
+      "godot_symbol": "source_logic_sense_size_state_result.output_value",
+      "java_source": "core/src/mindustry/logic/LExecutor.java",
+      "java_method": "SenseI.run(LExecutor)",
+      "java_expr": "to.setnum(seq.size);",
+      "rule": "The value written to the logic variable: the string length or sequence size on the num legs (`to.setnum(seq.length());` / `to.setnum(seq.size);`, LExecutor.java:708/711), or null on the fall-through leg (`to.setobj(null);`, :716).",
+      "tests": [
+        "test_c07_turret_logic_sense_size_registration",
+        "test_all_c07_turret_logic_sense_size_input_evidence_is_exact",
+        "test_turret_logic_sense_size_state",
+        "test_reference_graph_and_actual_c07_turret_logic_sense_size"
+      ],
+      "runtime_proof": "/root/C07TurretLogicSenseSizeProof"
+    },
+    "source_logic_sense_size_state_result.is_null": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_logic_sense_size_state",
+      "godot_symbol": "source_logic_sense_size_state_result.is_null",
+      "java_source": "core/src/mindustry/logic/LExecutor.java",
+      "java_method": "SenseI.run(LExecutor)",
+      "java_expr": "to.setobj(null);",
+      "rule": "Whether the branch fell through to the null object write (`to.setobj(null);`, LExecutor.java:716); true only on the fall-through leg, the N2507 `is_no_sensed` / N2508 `is_invalid` precedent for a 4th flag key.",
+      "tests": [
+        "test_c07_turret_logic_sense_size_registration",
+        "test_all_c07_turret_logic_sense_size_input_evidence_is_exact",
+        "test_turret_logic_sense_size_state",
+        "test_reference_graph_and_actual_c07_turret_logic_sense_size"
+      ],
+      "runtime_proof": "/root/C07TurretLogicSenseSizeProof"
     }
   },
   "version": 1
