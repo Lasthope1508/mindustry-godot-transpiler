@@ -72206,6 +72206,95 @@
       ],
       "runtime_proof": "/root/C07TurretActiveSoundVolumeProof",
       "rule": "Source-backed TurretBuild.activeSoundVolume()/shouldActiveSound() state from Turret.java."
+    },
+    "SourceSoundControlState.source_sound_control_play_random_state": {
+      "status": "active",
+      "source_slice": "N2347",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "source_method": "SoundControl.playRandom()",
+      "params": [
+        {
+          "name": "has_boss",
+          "type": "bool",
+          "schema": "source_sound_control_play_random_state_input.has_boss"
+        },
+        {
+          "name": "is_dark",
+          "type": "bool",
+          "schema": "source_sound_control_play_random_state_input.is_dark"
+        },
+        {
+          "name": "boss_music",
+          "type": "Array",
+          "schema": "source_sound_control_play_random_state_input.boss_music"
+        },
+        {
+          "name": "dark_music",
+          "type": "Array",
+          "schema": "source_sound_control_play_random_state_input.dark_music"
+        },
+        {
+          "name": "ambient_music",
+          "type": "Array",
+          "schema": "source_sound_control_play_random_state_input.ambient_music"
+        },
+        {
+          "name": "has_picked_track",
+          "type": "bool",
+          "schema": "source_sound_control_play_random_state_input.has_picked_track"
+        },
+        {
+          "name": "picked_track",
+          "type": "String",
+          "schema": "source_sound_control_play_random_state_input.picked_track"
+        },
+        {
+          "name": "has_current",
+          "type": "bool",
+          "schema": "source_sound_control_play_random_state_input.has_current"
+        },
+        {
+          "name": "current",
+          "type": "String",
+          "schema": "source_sound_control_play_random_state_input.current"
+        },
+        {
+          "name": "fade",
+          "type": "float",
+          "schema": "source_sound_control_play_random_state_input.fade"
+        },
+        {
+          "name": "has_last_random_played",
+          "type": "bool",
+          "schema": "source_sound_control_play_random_state_input.has_last_random_played"
+        },
+        {
+          "name": "last_random_played",
+          "type": "String",
+          "schema": "source_sound_control_play_random_state_input.last_random_played"
+        },
+        {
+          "name": "should_play",
+          "type": "bool",
+          "schema": "source_sound_control_play_random_state_input.should_play"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "current",
+        "fade",
+        "last_random_played",
+        "commands",
+        "selected_music"
+      ],
+      "tests": [
+        "test_c07_sound_control_play_random_registration",
+        "test_all_c07_sound_control_play_random_input_evidence_is_exact",
+        "test_sound_control_play_random_state",
+        "test_reference_graph_and_actual_c07_sound_control_play_random"
+      ],
+      "runtime_proof": "/root/C07SoundControlPlayRandomProof",
+      "rule": "Source-backed SoundControl playRandom state from SoundControl.java."
     }
   },
   "policy": {

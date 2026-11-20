@@ -779,3 +779,80 @@ static func source_sound_control_play_music_state(has_music: bool, music: String
 	var all_commands: Array = commands + (once.get("commands", []) as Array)
 	once["commands"] = all_commands
 	return once
+
+static func source_sound_control_play_random_state(has_boss: bool, is_dark: bool, boss_music: Array, dark_music: Array, ambient_music: Array, has_picked_track: bool, picked_track: String, has_current: bool, current: String, fade: float, has_last_random_played: bool, last_random_played: String, should_play: bool) -> Dictionary:
+	# SoundControl.playRandom() (SoundControl.java:256-264):
+	# `/** Plays a random track.*/`
+	# `public void playRandom(){`
+	# `if(state.boss() != null){`
+	# `playOnce(getBossMusic().random(lastRandomPlayed));`
+	# `}else if(isDark()){`
+	# `playOnce(getDarkMusic().random(lastRandomPlayed));`
+	# `}else{`
+	# `playOnce(getAmbientMusic().random(lastRandomPlayed));`
+	# `}`
+	# `}`
+	# -- the branch order is kept exactly: a boss present
+	# reads the boss list first, else isDark() reads the
+	# dark list, else the ambient list. The branch selects
+	# the list; the random pick from that list is the
+	# caller's draw, folded into the has_picked_track /
+	# picked_track params; playOnce (N2345) then starts
+	# the picked track, or blocks with state unchanged
+	# when a track is already playing, the pick is null,
+	# or shouldPlay() is false. The selected list is
+	# returned as selected_music, so the branch choice is
+	# observable in the result -- without it the branch
+	# params would be dead, because all three branches
+	# call playOnce the same way. The three lists arrive
+	# as explicit Array params -- the results of the
+	# N2326 getters (getBossMusic / getDarkMusic /
+	# getAmbientMusic), NOT re-ported here -- and are
+	# returned as-is for the selected branch, matching
+	# the getters' aliasing. isDark() (N2315) is NOT
+	# re-ported here: its result arrives as is_dark.
+	# state.boss() (GameState.java:56-58, `public Unit
+	# boss(){` + `return teams.bosses.firstOpt();`) is
+	# NOT ported here: only its null test arrives as
+	# has_boss (the N2306 precedent -- the lookup stays
+	# with the caller). The RNG of this slice is
+	# Seq.random(lastRandomPlayed) (arc Seq.java:1007):
+	# `/** Returns a random item from the array,
+	# excluding the specified element. If the array is
+	# empty, returns null. If this array only has one
+	# element, returns that element. */` -- the random
+	# draw's OUTCOME arrives as the explicit picked_track
+	# param (the N2315 chance-roll precedent), so this
+	# function is pure and never rolls RNG itself: an
+	# empty selected list reads as no pick
+	# (has_picked_track false), a single-element list
+	# reads as that element, and a pick equal to
+	# lastRandomPlayed never arrives (the caller draws
+	# again). Music arrives as its name String (the
+	# N2287 precedent); null music / current arrive as
+	# explicit bool params (the N2306 precedent --
+	# GDScript typed String params cannot take null).
+	# should_play is the shouldPlay() gate (N2299, NOT
+	# re-ported here). NO audio playback in this slice:
+	# this only selects a list + returns playback-command
+	# state; playback belongs to updateLoops (N2304,
+	# held waiting for B).
+	var selected_music: Array = ambient_music
+	# `if(state.boss() != null){` -- the boss branch
+	# (SoundControl.java:257-258).
+	if has_boss:
+		selected_music = boss_music
+	# `}else if(isDark()){` -- the dark branch
+	# (SoundControl.java:259-260).
+	elif is_dark:
+		selected_music = dark_music
+	# `}else{` -- the ambient branch
+	# (SoundControl.java:261-262).
+	# The picked track is the caller's random draw from
+	# the selected list: `playOnce(getXMusic().random(
+	# lastRandomPlayed));` (:258/:260/:262) -- this
+	# delegation is the same call in all three branches,
+	# only the list differs.
+	var once: Dictionary = source_sound_control_play_once_state(has_picked_track, picked_track, has_current, current, fade, has_last_random_played, last_random_played, should_play)
+	once["selected_music"] = selected_music
+	return once
