@@ -534,6 +534,35 @@ static func source_building_comp_sense_state(frame: Dictionary, sensor: String, 
 		return {"handled": true, "sense_value": size_value, "sense_value_is_nan": false}
 	return {"handled": false, "sense_value": null, "sense_value_is_nan": true}
 
+static func source_turret_sense_object_state(sensor: String, block_id: String, first_item: String) -> Dictionary:
+	# BuildingComp.senseObject() (BuildingComp.java:2128-2136):
+	# `public Object senseObject(LAccess sensor){` /
+	# return switch(sensor){
+	# case type -> block;
+	# case firstItem -> items == null ? null : items.first();
+	# case config -> block.configSenseable() ? config() : null;
+	# case payloadType -> getPayload() instanceof UnitPayload p1 ? p1.unit.type : getPayload() instanceof BuildPayload p2 ? p2.block() : null;
+	# default -> noSensed;
+	# };
+	# The sensor spellings are the LAccess enum names:
+	#     firstItem,
+	#     type,
+	#     payloadType,
+	#     config(true, "to"),
+	# The `type` leg returns the block itself; the port identity of a block is its id string: duo (`duo = new ItemTurret("duo"){{`, Blocks.java:3257) of the building (`public class TurretBuild extends ReloadTurretBuild implements ControlBlock{`, Turret.java:277).
+	# The `firstItem` leg is LIVE inventory, not a constant: duo hasItems (`hasItems = true;`, ItemTurret.java:28), so `if(block.hasItems) items = new ItemModule();` (BuildingComp.java:145) runs and items is non-null; `first()` (`public @Nullable Item first(){`, ItemModule.java:182-189) scans items[] in content order and returns the first item with count > 0 (`return content.item(i);`), else null. The frame carries no items key, so the observed first item is an explicit String param `first_item` (the N2212/N2220 per-def-param precedent): "" encodes null (items null or empty), otherwise the item id ("copper" -- duo ammo is copper / graphite / silicon, Blocks.java:3257-3331; copper is content order first).
+	# `config` is constant null for duo, pinned not guessed: `configSenseable()` (`public boolean configSenseable(){`, Block.java:809-812, `return configurations.containsKey(Item.class) || configurations.containsKey(Liquid.class) || configurations.containsKey(UnlockableContent.class) ||` / `configurations.containsKey(Block.class) || configurations.containsKey(UnitType.class);`) is true only when `configurations` (`public ObjectMap<Class<?>, Cons2> configurations = new ObjectMap<>();`, Block.java:402) holds one of the five handlers, and no `config(` registration exists in any turret file, so duo's map has none of them and configSenseable() is false -- the short-circuit returns null regardless of `config()` (base returns null anyway, `public Object config(){`, BuildingComp.java:2024, no turret override).
+	# `payloadType` is constant null for duo, pinned not guessed: the base `getPayload()` returns null (`public @Nullable Payload getPayload(){`, BuildingComp.java:984-985) and no turret file overrides it, so neither instanceof arm can fire.
+	# An unhandled sensor falls through to the `noSensed` sentinel (`Object noSensed = new Object();`, Senseable.java:6), which the logic converts to a numeric `sense()` fallback (`if(objOut == Senseable.noSensed){` / `to.setnum(se.sense(la));`, LExecutor.java:697-699) -- the port reports it as `handled: false` + `is_no_sensed: true`, the sense() N2223 `sense_value_is_nan` precedent, so the caller knows to fall back to `source_turret_sense_state` / `source_building_comp_sense_state`. There is no driver tick line: senseObject is a logic read, not a tick write (the N2206/N2208/N2223/N2283/N2284/N2234 precedent); the logic-processor dispatch hook is its own later slice.
+	if sensor == "type":
+		return {"handled": true, "sense_object": block_id, "is_no_sensed": false}
+	if sensor == "firstItem":
+		var first_item_value: Variant = first_item if first_item != "" else null
+		return {"handled": true, "sense_object": first_item_value, "is_no_sensed": false}
+	if sensor == "config" or sensor == "payloadType":
+		return {"handled": true, "sense_object": null, "is_no_sensed": false}
+	return {"handled": false, "sense_object": null, "is_no_sensed": true}
+
 static func source_turret_progress_state(reload_counter: float, reload: float) -> Dictionary:
 	# TurretBuild.progress() (Turret.java:425-427):
 	# `public float progress(){` /

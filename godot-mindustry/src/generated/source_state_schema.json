@@ -238880,6 +238880,84 @@
       },
       "runtime_proof": "/root/C07BuildingCompSenseProof",
       "rule": "Source-backed BuildingComp super.sense() LAccess delegation from BuildingComp.java:2093-2126 + Turret.java + BaseTurret.java + ItemTurret.java + Blocks.java + Block.java + World.java + Vars.java + LAccess.java + Team.java + GlobalVars.java + Pal.java + arc Color.java."
+    },
+    "source_turret_sense_object_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_sense_object_state",
+      "source_slice": "N2506",
+      "keys": {
+        "sensor": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public Object senseObject(LAccess sensor){",
+          "rule": "The logic sensor to read, spelled by its LAccess enum name (`public Object senseObject(LAccess sensor){`, BuildingComp.java:2128; `firstItem,` LAccess.java:8, `type,` :63, `payloadType,` :69, `config(true, \"to\"),` :83): the 4 senseObject legs are handled here, any other sensor falls through to noSensed.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_sense_object_state"
+          ]
+        },
+        "block_id": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "duo = new ItemTurret(\"duo\"){{",
+          "rule": "The block id (`duo = new ItemTurret(\"duo\"){{`, Blocks.java:3257; `public class TurretBuild extends ReloadTurretBuild implements ControlBlock{`, Turret.java:277): the port identity of the `block` the `type` leg returns, passed explicitly because it is per-def static state, not a live frame key (the N2212/N2220 per-def-param precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_sense_object_state"
+          ]
+        },
+        "first_item": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "case firstItem -> items == null ? null : items.first();",
+          "rule": "The observed first item id (`items.first()`, BuildingComp.java:2131; `public @Nullable Item first(){`, ItemModule.java:182-189, scans items[] in content order and returns the first item with count > 0, `return content.item(i);`, else null; duo hasItems=true, `hasItems = true;`, ItemTurret.java:28, so `if(block.hasItems) items = new ItemModule();`, BuildingComp.java:145, runs); \"\" encodes null (items null or empty); passed explicitly because the frame carries no items key (the N2212/N2220 per-def-param precedent, same reason N2284 deferred totalItems).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_sense_object_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretSenseObjectProof",
+      "rule": "Source-backed Turret BuildingComp senseObject() LAccess delegation from BuildingComp.java:2128-2136 + Turret.java + ItemTurret.java + Blocks.java + Block.java + Senseable.java + LAccess.java + LExecutor.java + ItemModule.java."
+    },
+    "source_turret_sense_object_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_sense_object_state",
+      "source_slice": "N2506",
+      "keys": {
+        "handled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public Object senseObject(LAccess sensor){",
+          "rule": "Whether the sensor is one of the four senseObject legs (BuildingComp.java:2128-2133, `public Object senseObject(LAccess sensor){` / `case type -> block;` / `case firstItem -> ...` / `case config -> ...` / `case payloadType -> ...`); any other sensor falls through to `default -> noSensed;` and is unhandled.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_sense_object_state"
+          ]
+        },
+        "sense_object": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "case type -> block;",
+          "rule": "The sensed object: the block id for \"type\" (BuildingComp.java:2130, `case type -> block;`), the observed first item id or null for \"firstItem\" (BuildingComp.java:2131, `case firstItem -> items == null ? null : items.first();`), null for \"config\" (BuildingComp.java:2132, `case config -> block.configSenseable() ? config() : null;` -- duo configSenseable() is false, Block.java:809-812) and for \"payloadType\" (BuildingComp.java:2133, `case payloadType -> getPayload() instanceof UnitPayload p1 ? p1.unit.type : getPayload() instanceof BuildPayload p2 ? p2.block() : null;` -- base getPayload() returns null, BuildingComp.java:984); null when the sensor is not handled.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_sense_object_state"
+          ]
+        },
+        "is_no_sensed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "default -> noSensed;",
+          "rule": "Whether the sensor fell through to the noSensed sentinel (BuildingComp.java:2134, `default -> noSensed;` -- `Object noSensed = new Object();`, Senseable.java:6; the logic converts it to a numeric sense() fallback, `if(objOut == Senseable.noSensed){` / `to.setnum(se.sense(la));`, LExecutor.java:697-699); true only when the sensor is not handled.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_sense_object_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretSenseObjectProof",
+      "rule": "Source-backed Turret BuildingComp senseObject() LAccess delegation from BuildingComp.java:2128-2136 + Turret.java + ItemTurret.java + Blocks.java + Block.java + Senseable.java + LAccess.java + LExecutor.java + ItemModule.java."
     }
   },
   "version": 1

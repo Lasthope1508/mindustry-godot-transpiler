@@ -70385,6 +70385,43 @@
       ],
       "runtime_proof": "/root/C07BuildingCompSenseProof",
       "rule": "Source-backed BuildingComp super.sense() LAccess delegation from BuildingComp.java:2093-2126 + Turret.java + BaseTurret.java + ItemTurret.java + Blocks.java + Block.java + World.java + Vars.java + LAccess.java + Team.java + GlobalVars.java + Pal.java + arc Color.java."
+    },
+    "SourceTurretBuildState.source_turret_sense_object_state": {
+      "status": "active",
+      "source_slice": "N2506",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "BuildingComp.senseObject(LAccess)",
+      "params": [
+        {
+          "name": "sensor",
+          "type": "String",
+          "schema": "source_turret_sense_object_state_input.sensor"
+        },
+        {
+          "name": "block_id",
+          "type": "String",
+          "schema": "source_turret_sense_object_state_input.block_id"
+        },
+        {
+          "name": "first_item",
+          "type": "String",
+          "schema": "source_turret_sense_object_state_input.first_item"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "handled",
+        "sense_object",
+        "is_no_sensed"
+      ],
+      "tests": [
+        "test_c07_turret_sense_object_registration",
+        "test_all_c07_turret_sense_object_input_evidence_is_exact",
+        "test_turret_sense_object_state",
+        "test_reference_graph_and_actual_c07_turret_sense_object"
+      ],
+      "runtime_proof": "/root/C07TurretSenseObjectProof",
+      "rule": "Source-backed Turret BuildingComp senseObject() LAccess delegation from BuildingComp.java:2128-2136 + Turret.java + ItemTurret.java + Blocks.java + Block.java + Senseable.java + LAccess.java + LExecutor.java + ItemModule.java."
     }
   },
   "policy": {

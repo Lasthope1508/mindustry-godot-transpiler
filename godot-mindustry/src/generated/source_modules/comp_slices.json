@@ -5611,6 +5611,25 @@
       ],
       "runtime_proof": "/root/C07BuildingCompSenseProof"
     },
+    "N2506": {
+      "canonical_ledger": "source_slice_ledger.N2506",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.senseObject(LAccess)",
+      "godot_owner": "SourceTurretBuildState.source_turret_sense_object_state",
+      "source_symbols": [
+        "source_turret_sense_object_state_result.handled",
+        "source_turret_sense_object_state_result.sense_object",
+        "source_turret_sense_object_state_result.is_no_sensed"
+      ],
+      "tests": [
+        "test_c07_turret_sense_object_registration",
+        "test_all_c07_turret_sense_object_input_evidence_is_exact",
+        "test_turret_sense_object_state",
+        "test_reference_graph_and_actual_c07_turret_sense_object"
+      ],
+      "runtime_proof": "/root/C07TurretSenseObjectProof"
+    },
     "N514": {
       "canonical_ledger": "source_slice_ledger.N514",
       "status": "done",

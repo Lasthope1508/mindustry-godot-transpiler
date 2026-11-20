@@ -177528,6 +177528,54 @@
         "test_reference_graph_and_actual_c07_building_comp_sense"
       ],
       "runtime_proof": "/root/C07BuildingCompSenseProof"
+    },
+    "source_turret_sense_object_state_result.handled": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_sense_object_state",
+      "godot_symbol": "source_turret_sense_object_state_result.handled",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.senseObject(LAccess)",
+      "java_expr": "public Object senseObject(LAccess sensor){",
+      "rule": "Whether the sensor is one of the four senseObject legs (BuildingComp.java:2128-2133, `public Object senseObject(LAccess sensor){` / `case type -> block;` / `case firstItem -> ...` / `case config -> ...` / `case payloadType -> ...`); any other sensor falls through to `default -> noSensed;` and is unhandled.",
+      "tests": [
+        "test_c07_turret_sense_object_registration",
+        "test_all_c07_turret_sense_object_input_evidence_is_exact",
+        "test_turret_sense_object_state",
+        "test_reference_graph_and_actual_c07_turret_sense_object"
+      ],
+      "runtime_proof": "/root/C07TurretSenseObjectProof"
+    },
+    "source_turret_sense_object_state_result.sense_object": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_sense_object_state",
+      "godot_symbol": "source_turret_sense_object_state_result.sense_object",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.senseObject(LAccess)",
+      "java_expr": "case type -> block;",
+      "rule": "The sensed object: the block id for \"type\" (BuildingComp.java:2130, `case type -> block;`), the observed first item id or null for \"firstItem\" (BuildingComp.java:2131, `case firstItem -> items == null ? null : items.first();`), null for \"config\" (BuildingComp.java:2132, `case config -> block.configSenseable() ? config() : null;` -- duo configSenseable() is false, Block.java:809-812) and for \"payloadType\" (BuildingComp.java:2133, `case payloadType -> getPayload() instanceof UnitPayload p1 ? p1.unit.type : getPayload() instanceof BuildPayload p2 ? p2.block() : null;` -- base getPayload() returns null, BuildingComp.java:984); null when the sensor is not handled.",
+      "tests": [
+        "test_c07_turret_sense_object_registration",
+        "test_all_c07_turret_sense_object_input_evidence_is_exact",
+        "test_turret_sense_object_state",
+        "test_reference_graph_and_actual_c07_turret_sense_object"
+      ],
+      "runtime_proof": "/root/C07TurretSenseObjectProof"
+    },
+    "source_turret_sense_object_state_result.is_no_sensed": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_sense_object_state",
+      "godot_symbol": "source_turret_sense_object_state_result.is_no_sensed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.senseObject(LAccess)",
+      "java_expr": "default -> noSensed;",
+      "rule": "Whether the sensor fell through to the noSensed sentinel (BuildingComp.java:2134, `default -> noSensed;` -- `Object noSensed = new Object();`, Senseable.java:6; the logic converts it to a numeric sense() fallback, `if(objOut == Senseable.noSensed){` / `to.setnum(se.sense(la));`, LExecutor.java:697-699); true only when the sensor is not handled.",
+      "tests": [
+        "test_c07_turret_sense_object_registration",
+        "test_all_c07_turret_sense_object_input_evidence_is_exact",
+        "test_turret_sense_object_state",
+        "test_reference_graph_and_actual_c07_turret_sense_object"
+      ],
+      "runtime_proof": "/root/C07TurretSenseObjectProof"
     }
   },
   "version": 1
