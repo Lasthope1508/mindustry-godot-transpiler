@@ -3756,6 +3756,24 @@
       ],
       "runtime_proof": "/root/C07TurretIsShootingProof"
     },
+    "N2346": {
+      "canonical_ledger": "source_slice_ledger.N2346",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.activeSoundVolume(); TurretBuild.shouldActiveSound()",
+      "godot_owner": "SourceTurretBuildState.source_turret_active_sound_volume_state",
+      "source_symbols": [
+        "source_turret_active_sound_volume_state_result.active_sound_volume",
+        "source_turret_should_active_sound_state_result.should_active_sound"
+      ],
+      "tests": [
+        "test_c07_turret_active_sound_volume_registration",
+        "test_all_c07_turret_active_sound_volume_input_evidence_is_exact",
+        "test_turret_active_sound_volume_state",
+        "test_reference_graph_and_actual_c07_turret_active_sound_volume"
+      ],
+      "runtime_proof": "/root/C07TurretActiveSoundVolumeProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

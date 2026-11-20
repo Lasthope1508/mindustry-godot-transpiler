@@ -646,6 +646,47 @@ static func source_turret_min_range_state(frame: Dictionary, min_range: float, h
 static func source_turret_is_shooting_state(frame: Dictionary, is_shooting: bool) -> Dictionary:
 	return {"is_shooting": is_shooting}
 
+# TurretBuild.activeSoundVolume() (Turret.java:822-824):
+# `public float activeSoundVolume(){`
+# `return shootWarmup;`
+# `}`
+# and TurretBuild.shouldActiveSound() (Turret.java:826-829):
+# `public boolean shouldActiveSound(){`
+# `return shootWarmup > 0.01f && loopSound != Sounds.none;`
+# `}`
+# on `public class TurretBuild extends ReloadTurretBuild implements ControlBlock{`
+# (Turret.java:277) in `public class Turret extends ReloadTurret{`
+# (Turret.java:36). shootWarmup is the TurretBuild field
+# (Turret.java:286, `public float shootWarmup, charge, warmupHold
+# = 0f;`) and arrives as the explicit float shoot_warmup (the
+# updateTile warmup :502 precedent -- the field is written by
+# updateTile :512/:514, NOT ported here: this slice only reads
+# it). loopSound is the Turret def field (Turret.java:128,
+# `public Sound loopSound = Sounds.none;`); the `loopSound !=
+# Sounds.none` check arrives as the explicit bool has_loop_sound
+# (the minRange has_ammo precedent -- a null/non-none check
+# carried as an explicit bool, GDScript has no Sound object
+# here). The frame carries no tracked key for either accessor
+# (the minRange :593 precedent -- the tick frame tracks no
+# warmup/loop-sound state yet), so all live values arrive as
+# explicit params. Evidence, not ownership: the body `return
+# shootWarmup;` already appears in N2297[3] (warmup(),
+# Turret.java:355, a different method with the same one-line
+# body) -- it does not own activeSoundVolume(). NO driver
+# line: both are read accessors/predicates the updateTile()
+# tick reads at :499 (`soundLoop.update(x, y,
+# shouldActiveSound(), activeSoundVolume());`) -- wiring them
+# into the driver waits for the updateTile caller slice.
+# soundLoop itself (Turret.java:298) is NOT ported: this slice
+# never touches real audio.
+@warning_ignore("unused_parameter")
+static func source_turret_active_sound_volume_state(frame: Dictionary, shoot_warmup: float) -> Dictionary:
+	return {"active_sound_volume": shoot_warmup}
+
+@warning_ignore("unused_parameter")
+static func source_turret_should_active_sound_state(frame: Dictionary, shoot_warmup: float, has_loop_sound: bool) -> Dictionary:
+	return {"should_active_sound": shoot_warmup > 0.01 and has_loop_sound}
+
 # The BlockStatus.inactive value (BlockStatus.java:12,
 # `inactive(Color.lightGray);`) has no N1888 constant: the
 # BuildingComp.status() helper only returns logicDisable /

@@ -72141,6 +72141,71 @@
       ],
       "runtime_proof": "/root/C07SoundControlPlayMusicProof",
       "rule": "Source-backed SoundControl playMusic/playOnce state from SoundControl.java."
+    },
+    "SourceTurretBuildState.source_turret_active_sound_volume_state": {
+      "status": "active",
+      "source_slice": "N2346",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.activeSoundVolume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_active_sound_volume_state_input.frame"
+        },
+        {
+          "name": "shoot_warmup",
+          "type": "float",
+          "schema": "source_turret_active_sound_volume_state_input.shoot_warmup"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "active_sound_volume"
+      ],
+      "tests": [
+        "test_c07_turret_active_sound_volume_registration",
+        "test_all_c07_turret_active_sound_volume_input_evidence_is_exact",
+        "test_turret_active_sound_volume_state",
+        "test_reference_graph_and_actual_c07_turret_active_sound_volume"
+      ],
+      "runtime_proof": "/root/C07TurretActiveSoundVolumeProof",
+      "rule": "Source-backed TurretBuild.activeSoundVolume()/shouldActiveSound() state from Turret.java."
+    },
+    "SourceTurretBuildState.source_turret_should_active_sound_state": {
+      "status": "active",
+      "source_slice": "N2346",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.shouldActiveSound()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_should_active_sound_state_input.frame"
+        },
+        {
+          "name": "shoot_warmup",
+          "type": "float",
+          "schema": "source_turret_should_active_sound_state_input.shoot_warmup"
+        },
+        {
+          "name": "has_loop_sound",
+          "type": "bool",
+          "schema": "source_turret_should_active_sound_state_input.has_loop_sound"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "should_active_sound"
+      ],
+      "tests": [
+        "test_c07_turret_active_sound_volume_registration",
+        "test_all_c07_turret_active_sound_volume_input_evidence_is_exact",
+        "test_turret_active_sound_volume_state",
+        "test_reference_graph_and_actual_c07_turret_active_sound_volume"
+      ],
+      "runtime_proof": "/root/C07TurretActiveSoundVolumeProof",
+      "rule": "Source-backed TurretBuild.activeSoundVolume()/shouldActiveSound() state from Turret.java."
     }
   },
   "policy": {

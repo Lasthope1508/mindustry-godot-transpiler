@@ -242466,6 +242466,112 @@
       },
       "runtime_proof": "/root/C07SoundControlPlayMusicProof",
       "rule": "Source-backed SoundControl playMusic/playOnce state from SoundControl.java."
+    },
+    "source_turret_active_sound_volume_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_active_sound_volume_state",
+      "source_slice": "N2346",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float activeSoundVolume(){",
+          "rule": "The turret frame (TurretBuild.activeSoundVolume, Turret.java:822): the family-convention first arg every Turret pure function takes; it carries no tracked key for this accessor -- the tick frame tracks no warmup state yet, so the live value arrives as an explicit param (the N2188 precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_active_sound_volume_state"
+          ]
+        },
+        "shoot_warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float shootWarmup, charge, warmupHold = 0f;",
+          "rule": "The turret warmup level (`shootWarmup`, Turret.java:822-824): the TurretBuild field (`public float shootWarmup, charge, warmupHold = 0f;`, Turret.java:286); arrives as an explicit float param (the updateTile warmup :502 precedent). Written by updateTile :512/:514, not ported here.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_active_sound_volume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretActiveSoundVolumeProof",
+      "rule": "Source-backed TurretBuild.activeSoundVolume()/shouldActiveSound() state from Turret.java."
+    },
+    "source_turret_active_sound_volume_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_active_sound_volume_state",
+      "source_slice": "N2346",
+      "keys": {
+        "active_sound_volume": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return shootWarmup;",
+          "rule": "The active-sound volume (Turret.java:823, `return shootWarmup;`): the warmup level echoed unchanged -- the loop-sound volume the updateTile tick passes at :499.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_active_sound_volume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretActiveSoundVolumeProof",
+      "rule": "Source-backed TurretBuild.activeSoundVolume()/shouldActiveSound() state from Turret.java."
+    },
+    "source_turret_should_active_sound_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_should_active_sound_state",
+      "source_slice": "N2346",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public boolean shouldActiveSound(){",
+          "rule": "The turret frame (TurretBuild.shouldActiveSound, Turret.java:826): the family-convention first arg every Turret pure function takes; it carries no tracked key for this predicate -- the tick frame tracks no warmup/loop-sound state yet, so the live values arrive as explicit params (the N2188 precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_should_active_sound_state"
+          ]
+        },
+        "shoot_warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float shootWarmup, charge, warmupHold = 0f;",
+          "rule": "The turret warmup level (`shootWarmup`, Turret.java:827): the TurretBuild field (`public float shootWarmup, charge, warmupHold = 0f;`, Turret.java:286); arrives as an explicit float param (the updateTile warmup :502 precedent). The Java `>` against 0.01f is strict: exactly 0.01 does not sound.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_should_active_sound_state"
+          ]
+        },
+        "has_loop_sound": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public Sound loopSound = Sounds.none;",
+          "rule": "Whether the turret def has a loop sound (`loopSound != Sounds.none`, Turret.java:827): the Turret def field (`public Sound loopSound = Sounds.none;`, Turret.java:128); arrives as an explicit bool param -- the non-none check is folded into this param (the minRange has_ammo precedent; GDScript has no Sound object here).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_should_active_sound_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretActiveSoundVolumeProof",
+      "rule": "Source-backed TurretBuild.activeSoundVolume()/shouldActiveSound() state from Turret.java."
+    },
+    "source_turret_should_active_sound_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_should_active_sound_state",
+      "source_slice": "N2346",
+      "keys": {
+        "should_active_sound": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return shootWarmup > 0.01f && loopSound != Sounds.none;",
+          "rule": "Whether the active loop sound should play (Turret.java:827, `return shootWarmup > 0.01f && loopSound != Sounds.none;`): true only when the turret is warm enough AND a loop sound is configured.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_should_active_sound_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretActiveSoundVolumeProof",
+      "rule": "Source-backed TurretBuild.activeSoundVolume()/shouldActiveSound() state from Turret.java."
     }
   },
   "version": 1

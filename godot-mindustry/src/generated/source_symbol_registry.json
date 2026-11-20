@@ -179256,6 +179256,38 @@
         "test_reference_graph_and_actual_c07_sound_control_play_music"
       ],
       "runtime_proof": "/root/C07SoundControlPlayMusicProof"
+    },
+    "source_turret_active_sound_volume_state_result.active_sound_volume": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_active_sound_volume_state",
+      "godot_symbol": "source_turret_active_sound_volume_state_result.active_sound_volume",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.activeSoundVolume()",
+      "java_expr": "return shootWarmup;",
+      "rule": "The active-sound volume (Turret.java:823, `return shootWarmup;`): the warmup level echoed unchanged -- the loop-sound volume the updateTile tick passes at :499.",
+      "tests": [
+        "test_c07_turret_active_sound_volume_registration",
+        "test_all_c07_turret_active_sound_volume_input_evidence_is_exact",
+        "test_turret_active_sound_volume_state",
+        "test_reference_graph_and_actual_c07_turret_active_sound_volume"
+      ],
+      "runtime_proof": "/root/C07TurretActiveSoundVolumeProof"
+    },
+    "source_turret_should_active_sound_state_result.should_active_sound": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_should_active_sound_state",
+      "godot_symbol": "source_turret_should_active_sound_state_result.should_active_sound",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.shouldActiveSound()",
+      "java_expr": "return shootWarmup > 0.01f && loopSound != Sounds.none;",
+      "rule": "Whether the active loop sound should play (Turret.java:827, `return shootWarmup > 0.01f && loopSound != Sounds.none;`): true only when the turret is warm enough AND a loop sound is configured.",
+      "tests": [
+        "test_c07_turret_active_sound_volume_registration",
+        "test_all_c07_turret_active_sound_volume_input_evidence_is_exact",
+        "test_turret_active_sound_volume_state",
+        "test_reference_graph_and_actual_c07_turret_active_sound_volume"
+      ],
+      "runtime_proof": "/root/C07TurretActiveSoundVolumeProof"
     }
   },
   "version": 1
