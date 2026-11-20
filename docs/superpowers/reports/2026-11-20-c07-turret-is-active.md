@@ -5,7 +5,7 @@ Ngày: 2026-11-20 ~12:0x +07 (GREEN), gate xong 13:21 +07, push lượt cron 13:
 ## Trạng thái
 
 - N2279 DONE + PUSHED (origin/main 2e1267ac). Không có gì thay đổi về N2279.
-- N2280 DONE + PUSHED (slice d523d6f6, docs a9b603ae, GOAL c83ddd9a, status TBD): Turret isActive() derivation — `public boolean isActive(){ return (target != null || wasShooting) && enabled && activationTimer <= 0; }` (Turret.java:449-450 — hiệu chỉnh: handoff N2279 ghi :448-450, grep trên đĩa cho method ở :449, return ở :450) — nay activation_timer đã có live input (N2279 stamp); các clause còn lại (has_target/was_shooting/enabled) đều đã live trên frame; chỉ LaserTurret tiêu thụ isActive() trong Java, duo không có consumer — stamp-only như N2274–N2276. Gate xác minh độc lập từ log: Ran 6213, failures=230, skipped=5 — toàn Godot-absent (230 × `AssertionError: unexpectedly None`, 0 KeyError, 0 `return_schema_linkage`, 0 ERROR).
+- N2280 DONE + PUSHED (slice d523d6f6, docs a9b603ae, GOAL c83ddd9a, status 7c65f144): Turret isActive() derivation — `public boolean isActive(){ return (target != null || wasShooting) && enabled && activationTimer <= 0; }` (Turret.java:449-450 — hiệu chỉnh: handoff N2279 ghi :448-450, grep trên đĩa cho method ở :449, return ở :450) — nay activation_timer đã có live input (N2279 stamp); các clause còn lại (has_target/was_shooting/enabled) đều đã live trên frame; chỉ LaserTurret tiêu thụ isActive() trong Java, duo không có consumer — stamp-only như N2274–N2276. Gate xác minh độc lập từ log: Ran 6213, failures=230, skipped=5 — toàn Godot-absent (230 × `AssertionError: unexpectedly None`, 0 KeyError, 0 `return_schema_linkage`, 0 ERROR).
 
 ## Làm được lượt này (GREEN)
 
