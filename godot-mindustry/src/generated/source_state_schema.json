@@ -241310,6 +241310,114 @@
       },
       "runtime_proof": "/root/C07TurretMinRangeProof",
       "rule": "Source-backed TurretBuild.minRange() state from Turret.java + BulletType.java."
+    },
+    "source_turret_draw_select_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_draw_select_state",
+      "source_slice": "N2334",
+      "keys": {
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "Drawf.dashCircle(x, y, minRange(), team.color);",
+          "rule": "The building world x (Turret.java:485, `Drawf.dashCircle(x, y, minRange(), team.color);`): the dash circle is centered on the building position.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_draw_select_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "Drawf.dashCircle(x, y, minRange(), team.color);",
+          "rule": "The building world y (Turret.java:485, `Drawf.dashCircle(x, y, minRange(), team.color);`): the dash circle is centered on the building position.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_draw_select_state"
+          ]
+        },
+        "draw_min_range": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "if(drawMinRange){",
+          "rule": "The def field drawMinRange (Turret.java:70, `public boolean drawMinRange;`, \"If true, a range ring is also drawn for minRange.\"): when true the min-range dash circle is drawn, when false no circle is drawn (after the super leg). A def field, not build state, so it arrives as an explicit param (the N2311/N2261 precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_draw_select_state"
+          ]
+        },
+        "min_range": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "Drawf.dashCircle(x, y, minRange(), team.color);",
+          "rule": "The live minRange() value (Turret.java:485, `Drawf.dashCircle(x, y, minRange(), team.color);`): minRange() (Turret.java:334, `public float minRange(){` with `return minRange + peekAmmo().minRangeChange;`, Turret.java:335) -- computed by the caller through N2340 source_turret_min_range_state and passed in as an explicit param, NOT re-ported here (the N2311/N2261 precedent). The field `minRange` (Turret.java:74, `public float minRange = 0f;`, \"Minimum bullet range. Used for artillery only.\") is evidence only.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_draw_select_state"
+          ]
+        },
+        "team_color": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "Drawf.dashCircle(x, y, minRange(), team.color);",
+          "rule": "The building team color (Turret.java:485, `Drawf.dashCircle(x, y, minRange(), team.color);`): `team.color` -- the Team color of the building, passed as an explicit String param (the SourceBuildingDrawState draw_team precedent, `team_color: String`); no Color object is constructed and no playback happens.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_draw_select_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretDrawSelectProof",
+      "rule": "Source-backed Turret drawSelect() row from Turret.java."
+    },
+    "source_turret_draw_select_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_draw_select_state",
+      "source_slice": "N2334",
+      "keys": {
+        "draw_min_range_circle": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "if(drawMinRange){",
+          "rule": "Whether the min-range dash circle is drawn (Turret.java:484, `if(drawMinRange){`): true when the def field drawMinRange is true, false otherwise (no circle is drawn after the super leg).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_draw_select_state"
+          ]
+        },
+        "center": {
+          "type": "Vector2",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "Drawf.dashCircle(x, y, minRange(), team.color);",
+          "rule": "The dash-circle center (Turret.java:485, `Drawf.dashCircle(x, y, minRange(), team.color);`): the building position itself.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_draw_select_state"
+          ]
+        },
+        "radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "Drawf.dashCircle(x, y, minRange(), team.color);",
+          "rule": "The dash-circle radius (Turret.java:485, `Drawf.dashCircle(x, y, minRange(), team.color);`): the live minRange() value when drawMinRange is true, 0.0 when false (no circle drawn).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_draw_select_state"
+          ]
+        },
+        "color": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "Drawf.dashCircle(x, y, minRange(), team.color);",
+          "rule": "The dash-circle color (Turret.java:485, `Drawf.dashCircle(x, y, minRange(), team.color);`): the building team color, carried as the team_color String.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_draw_select_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretDrawSelectProof",
+      "rule": "Source-backed Turret drawSelect() row from Turret.java."
     }
   },
   "version": 1

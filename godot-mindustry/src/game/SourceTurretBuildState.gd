@@ -694,6 +694,45 @@ static func source_turret_warmup_state(frame: Dictionary, shoot_warmup: float) -
 static func source_turret_drawrot_state(frame: Dictionary, rotation: float) -> Dictionary:
 	return {"drawrot": rotation - 90.0}
 
+# TurretBuild.drawSelect() (Turret.java:481-488):
+# `public void drawSelect(){`
+# `super.drawSelect();`
+# ``
+# `if(drawMinRange){`
+# `Drawf.dashCircle(x, y, minRange(), team.color);`
+# `}`
+# `}`
+# on `public class TurretBuild extends ReloadTurretBuild implements ControlBlock{`
+# (Turret.java:277) in `public class Turret extends ReloadTurret{`
+# (Turret.java:36). super.drawSelect() is the base
+# BuildingComp.drawSelect() (BuildingComp.java:1242-1248) -- ALREADY
+# LIVE as N573 PortGame.source_building_draw_select_state, NOT
+# re-ported here: it runs first at the call site and its output does
+# not feed the Turret leg. draw_min_range is the block-level Turret
+# def field (`public boolean drawMinRange;`, Turret.java:70, "If true,
+# a range ring is also drawn for minRange."), default false -- a def
+# field, not build state, so it arrives as an explicit param (the
+# N2311/N2261 precedent). min_range is the LIVE minRange() value
+# (`public float minRange(){`, Turret.java:334, `return minRange +
+# peekAmmo().minRangeChange;`, Turret.java:335) -- computed by the
+# caller through N2282 source_turret_min_range_state and passed in as
+# an explicit param, NOT re-ported here. team_color is `team.color`
+# (Turret.java:485), passed as an explicit String (the
+# SourceBuildingDrawState draw_team precedent). Drawf.dashCircle is
+# NOT played back: the function returns the draw-command state the
+# circle depends on (whether it is drawn, center, radius, color).
+# When drawMinRange is false no circle is drawn, so the radius reads
+# 0.0 (all four keys are always present, schema-stable). NO driver
+# tick line: drawSelect() is selection UI, not per-tick state (the
+# N2249/N2221 precedent). This is a different method from N2329
+# peekAmmo() (which minRange() reads) and from drawPlace()
+# (Turret.java:252-253, which reads the minRange FIELD directly --
+# already ported as N1162 turret_draw_place.min_range).
+static func source_turret_draw_select_state(x: float, y: float, draw_min_range: bool, min_range: float, team_color: String) -> Dictionary:
+	if draw_min_range:
+		return {"draw_min_range_circle": true, "center": Vector2(x, y), "radius": min_range, "color": team_color}
+	return {"draw_min_range_circle": false, "center": Vector2(x, y), "radius": 0.0, "color": team_color}
+
 # TurretBuild.canControl() (Turret.java:376-378):
 # `public boolean canControl(){`
 # `return playerControllable;`

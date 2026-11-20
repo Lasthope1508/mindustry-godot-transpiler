@@ -178744,6 +178744,70 @@
         "test_reference_graph_and_actual_c07_sound_control_find_music"
       ],
       "runtime_proof": "/root/C07SoundControlFindMusicProof"
+    },
+    "source_turret_draw_select_state_result.draw_min_range_circle": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_draw_select_state",
+      "godot_symbol": "source_turret_draw_select_state_result.draw_min_range_circle",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.drawSelect()",
+      "java_expr": "if(drawMinRange){",
+      "rule": "Whether the min-range dash circle is drawn (Turret.java:484, `if(drawMinRange){`): true when the def field drawMinRange is true, false otherwise (no circle is drawn after the super leg).",
+      "tests": [
+        "test_c07_turret_draw_select_registration",
+        "test_all_c07_turret_draw_select_input_evidence_is_exact",
+        "test_turret_draw_select_state",
+        "test_reference_graph_and_actual_c07_turret_draw_select"
+      ],
+      "runtime_proof": "/root/C07TurretDrawSelectProof"
+    },
+    "source_turret_draw_select_state_result.center": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_draw_select_state",
+      "godot_symbol": "source_turret_draw_select_state_result.center",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.drawSelect()",
+      "java_expr": "Drawf.dashCircle(x, y, minRange(), team.color);",
+      "rule": "The dash-circle center (Turret.java:485, `Drawf.dashCircle(x, y, minRange(), team.color);`): the building position itself.",
+      "tests": [
+        "test_c07_turret_draw_select_registration",
+        "test_all_c07_turret_draw_select_input_evidence_is_exact",
+        "test_turret_draw_select_state",
+        "test_reference_graph_and_actual_c07_turret_draw_select"
+      ],
+      "runtime_proof": "/root/C07TurretDrawSelectProof"
+    },
+    "source_turret_draw_select_state_result.radius": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_draw_select_state",
+      "godot_symbol": "source_turret_draw_select_state_result.radius",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.drawSelect()",
+      "java_expr": "Drawf.dashCircle(x, y, minRange(), team.color);",
+      "rule": "The dash-circle radius (Turret.java:485, `Drawf.dashCircle(x, y, minRange(), team.color);`): the live minRange() value when drawMinRange is true, 0.0 when false (no circle drawn).",
+      "tests": [
+        "test_c07_turret_draw_select_registration",
+        "test_all_c07_turret_draw_select_input_evidence_is_exact",
+        "test_turret_draw_select_state",
+        "test_reference_graph_and_actual_c07_turret_draw_select"
+      ],
+      "runtime_proof": "/root/C07TurretDrawSelectProof"
+    },
+    "source_turret_draw_select_state_result.color": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_draw_select_state",
+      "godot_symbol": "source_turret_draw_select_state_result.color",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.drawSelect()",
+      "java_expr": "Drawf.dashCircle(x, y, minRange(), team.color);",
+      "rule": "The dash-circle color (Turret.java:485, `Drawf.dashCircle(x, y, minRange(), team.color);`): the building team color, carried as the team_color String.",
+      "tests": [
+        "test_c07_turret_draw_select_registration",
+        "test_all_c07_turret_draw_select_input_evidence_is_exact",
+        "test_turret_draw_select_state",
+        "test_reference_graph_and_actual_c07_turret_draw_select"
+      ],
+      "runtime_proof": "/root/C07TurretDrawSelectProof"
     }
   },
   "version": 1

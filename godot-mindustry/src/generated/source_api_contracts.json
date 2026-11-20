@@ -71571,6 +71571,54 @@
       ],
       "runtime_proof": "/root/C07TurretMinRangeProof",
       "rule": "Source-backed TurretBuild.minRange() state from Turret.java + BulletType.java."
+    },
+    "SourceTurretBuildState.source_turret_draw_select_state": {
+      "status": "active",
+      "source_slice": "N2334",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.drawSelect()",
+      "params": [
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_turret_draw_select_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_turret_draw_select_state_input.y"
+        },
+        {
+          "name": "draw_min_range",
+          "type": "bool",
+          "schema": "source_turret_draw_select_state_input.draw_min_range"
+        },
+        {
+          "name": "min_range",
+          "type": "float",
+          "schema": "source_turret_draw_select_state_input.min_range"
+        },
+        {
+          "name": "team_color",
+          "type": "String",
+          "schema": "source_turret_draw_select_state_input.team_color"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "draw_min_range_circle",
+        "center",
+        "radius",
+        "color"
+      ],
+      "tests": [
+        "test_c07_turret_draw_select_registration",
+        "test_all_c07_turret_draw_select_input_evidence_is_exact",
+        "test_turret_draw_select_state",
+        "test_reference_graph_and_actual_c07_turret_draw_select"
+      ],
+      "runtime_proof": "/root/C07TurretDrawSelectProof",
+      "rule": "Source-backed Turret drawSelect() row from Turret.java."
     }
   },
   "policy": {

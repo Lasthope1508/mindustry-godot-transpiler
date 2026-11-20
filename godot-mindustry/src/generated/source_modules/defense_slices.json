@@ -3685,6 +3685,26 @@
       ],
       "runtime_proof": "/root/C07RadarDrawSelectProof"
     },
+    "N2334": {
+      "canonical_ledger": "source_slice_ledger.N2334",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.drawSelect()",
+      "godot_owner": "SourceTurretBuildState.source_turret_draw_select_state",
+      "source_symbols": [
+        "source_turret_draw_select_state_result.draw_min_range_circle",
+        "source_turret_draw_select_state_result.center",
+        "source_turret_draw_select_state_result.radius",
+        "source_turret_draw_select_state_result.color"
+      ],
+      "tests": [
+        "test_c07_turret_draw_select_registration",
+        "test_all_c07_turret_draw_select_input_evidence_is_exact",
+        "test_turret_draw_select_state",
+        "test_reference_graph_and_actual_c07_turret_draw_select"
+      ],
+      "runtime_proof": "/root/C07TurretDrawSelectProof"
+    },
     "N2340": {
       "canonical_ledger": "source_slice_ledger.N2340",
       "status": "done",
