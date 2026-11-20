@@ -1318,6 +1318,32 @@
       ],
       "runtime_proof": "/root/C07BurstDrillGetDrillTimeProof"
     },
+    "N2351": {
+      "canonical_ledger": "source_slice_ledger.N2351",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.drawPlace()",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_draw_place_state",
+      "source_symbols": [
+        "source_drill_draw_place_state_result.branch",
+        "source_drill_draw_place_state_result.dx",
+        "source_drill_draw_place_state_result.dy",
+        "source_drill_draw_place_state_result.icon_size",
+        "source_drill_draw_place_state_result.commands",
+        "source_drill_draw_place_state_result.mine_item_drawn",
+        "source_drill_draw_place_state_result.tier_req_shown",
+        "source_drill_draw_place_state_result.super_draw_place_called",
+        "source_drill_draw_place_state_result.rotation",
+        "source_drill_draw_place_state_result.valid"
+      ],
+      "tests": [
+        "test_c07_drill_draw_place_registration",
+        "test_all_c07_drill_draw_place_input_evidence_is_exact",
+        "test_drill_draw_place_state",
+        "test_reference_graph_and_actual_c07_drill_draw_place"
+      ],
+      "runtime_proof": "/root/C07DrillDrawPlaceProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",

@@ -1180,6 +1180,116 @@
       "rule": "Source-backed Drill canPlaceOn() / setBars() / drawPlanConfig() state from Drill.java + Block.java + BuildingComp.java + BuildPlan.java + Item.java + Pal.java + Bar.java + arc Strings.java + Blocks.java.",
       "return_type": "Dictionary"
     },
+    "SourceBurstDrillBuildState.source_drill_draw_place_state": {
+      "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_drill_draw_place_state",
+      "status": "active",
+      "source_slice": "N2351",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "DrillBuild.drawPlace()",
+      "params": [
+        {
+          "name": "x",
+          "type": "int",
+          "schema": "source_drill_draw_place_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "int",
+          "schema": "source_drill_draw_place_state_input.y"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_drill_draw_place_state_input.rotation"
+        },
+        {
+          "name": "valid",
+          "type": "bool",
+          "schema": "source_drill_draw_place_state_input.valid"
+        },
+        {
+          "name": "has_tile",
+          "type": "bool",
+          "schema": "source_drill_draw_place_state_input.has_tile"
+        },
+        {
+          "name": "has_return_item",
+          "type": "bool",
+          "schema": "source_drill_draw_place_state_input.has_return_item"
+        },
+        {
+          "name": "return_item_icon",
+          "type": "Variant",
+          "schema": "source_drill_draw_place_state_input.return_item_icon"
+        },
+        {
+          "name": "return_item_color",
+          "type": "Variant",
+          "schema": "source_drill_draw_place_state_input.return_item_color"
+        },
+        {
+          "name": "width",
+          "type": "float",
+          "schema": "source_drill_draw_place_state_input.width"
+        },
+        {
+          "name": "draw_mine_item",
+          "type": "bool",
+          "schema": "source_drill_draw_place_state_input.draw_mine_item"
+        },
+        {
+          "name": "item_region",
+          "type": "Variant",
+          "schema": "source_drill_draw_place_state_input.item_region"
+        },
+        {
+          "name": "offset",
+          "type": "float",
+          "schema": "source_drill_draw_place_state_input.offset"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_drill_draw_place_state_input.size"
+        },
+        {
+          "name": "tilesize",
+          "type": "float",
+          "schema": "source_drill_draw_place_state_input.tilesize"
+        },
+        {
+          "name": "icon_small",
+          "type": "float",
+          "schema": "source_drill_draw_place_state_input.icon_small"
+        },
+        {
+          "name": "linked_item",
+          "type": "Variant",
+          "schema": "source_drill_draw_place_state_input.linked_item"
+        }
+      ],
+      "return_keys": [
+        "branch",
+        "dx",
+        "dy",
+        "icon_size",
+        "commands",
+        "mine_item_drawn",
+        "tier_req_shown",
+        "super_draw_place_called",
+        "rotation",
+        "valid"
+      ],
+      "tests": [
+        "test_c07_drill_draw_place_registration",
+        "test_all_c07_drill_draw_place_input_evidence_is_exact",
+        "test_drill_draw_place_state",
+        "test_reference_graph_and_actual_c07_drill_draw_place"
+      ],
+      "runtime_proof": "/root/C07DrillDrawPlaceProof",
+      "rule": "Source-backed DrillBuild drawPlace() remainder state from Drill.java + Vars.java + Block.java + Blocks.java.",
+      "return_type": "Dictionary"
+    },
     "SourceBurstDrillBuildState.source_drill_draw_select_state": {
       "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_drill_draw_select_state",
       "status": "active",

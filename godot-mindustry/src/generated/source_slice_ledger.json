@@ -91146,6 +91146,69 @@
         "SoundControl.setupFilters Windows Godot proof -- debt in GOAL.md section 5, same as N2287/N2299/N2306/N2315/N2326/N2331/N2336/N2339/N2345/N2347: the N2349 proof runs headless on Linux here and waits for a Windows Godot run.",
         "SoundControl.stop Windows Godot proof -- debt in GOAL.md section 5, same as N2287/N2299/N2306/N2315/N2326/N2331/N2336/N2339/N2345/N2347/N2349: the N2352 proof runs headless on Linux here and waits for a Windows Godot run."
       ]
+    },
+    "N2351": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_class": "mindustry.world.blocks.production.Drill$DrillBuild",
+      "java_method": "DrillBuild.drawPlace()",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_draw_place_state",
+      "exact_exprs": [
+        "public void drawPlace(int x, int y, int rotation, boolean valid){",
+        "super.drawPlace(x, y, rotation, valid);",
+        "Tile tile = world.tile(x, y);",
+        "if(returnItem != null){",
+        "float dx = x * tilesize + offset - width/2f - 4f, dy = y * tilesize + offset + size * tilesize / 2f + 5, s = iconSmall / 4f;",
+        "Draw.rect(returnItem.fullIcon, dx, dy - 1, s, s);",
+        "Draw.rect(returnItem.fullIcon, dx, dy, s, s);",
+        "if(drawMineItem){",
+        "Draw.color(returnItem.color);",
+        "Draw.rect(itemRegion, tile.worldx() + offset, tile.worldy() + offset);",
+        "}else{",
+        "Tile to = tile.getLinkedTilesAs(this, tempTiles).find(t -> t.drop() != null && (t.drop().hardness > tier || (blockedItems != null && blockedItems.contains(t.drop()))));",
+        "Item item = to == null ? null : to.drop();",
+        "if(item != null){",
+        "drawPlaceText(Core.bundle.get(\"bar.drilltierreq\"), x, y, valid);",
+        "public class Drill extends Block{",
+        "public class DrillBuild extends Building{",
+        "protected @Nullable Item returnItem;",
+        "protected int returnCount;",
+        "public boolean drawMineItem = true;",
+        "public static final int tilesize = 8;",
+        "iconSmall = 8*3f;",
+        "public @Load(value = \"@-item\", fallback = \"drill-item-@size\") TextureRegion itemRegion;",
+        "public float offset = 0f;",
+        "size = 4;",
+        "size = 5;"
+      ],
+      "source_symbols": [
+        "source_drill_draw_place_state_result.branch",
+        "source_drill_draw_place_state_result.dx",
+        "source_drill_draw_place_state_result.dy",
+        "source_drill_draw_place_state_result.icon_size",
+        "source_drill_draw_place_state_result.commands",
+        "source_drill_draw_place_state_result.mine_item_drawn",
+        "source_drill_draw_place_state_result.tier_req_shown",
+        "source_drill_draw_place_state_result.super_draw_place_called",
+        "source_drill_draw_place_state_result.rotation",
+        "source_drill_draw_place_state_result.valid"
+      ],
+      "tests": [
+        "test_c07_drill_draw_place_registration",
+        "test_all_c07_drill_draw_place_input_evidence_is_exact",
+        "test_drill_draw_place_state",
+        "test_reference_graph_and_actual_c07_drill_draw_place"
+      ],
+      "runtime_proof": "/root/C07DrillDrawPlaceProof",
+      "deferred_exprs": [
+        "DrillBuild drawPlace() Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2227: the N2351 proof runs headless on Linux here and waits for a Windows Godot run.",
+        "DrillBuild drawPlace() super leg (Block.drawPlace, Block.java:491-494: drawPotentialLinks + drawOverlay) is folded as the explicit super_draw_place_called param; the link/overlay drawing itself waits for its own slice (the N2342 Radar drawPlace precedent).",
+        "DrillBuild drawPlace() drillspeed text width (Drill.java:149, `float width = drawPlaceText(...)`) stays owned by N699 (PortGame source_drill_output_rate); the caller computes width via N699 + N1780 drawPlaceText and passes it explicitly -- this slice never re-owns :149.",
+        "DrillBuild drawPlace() countOre call (Drill.java:146, `countOre(tile);`) stays owned by N2020/N2302; the caller passes the already-bound returnItem as explicit params (has_return_item, return_item_icon, return_item_color) -- this slice never re-owns :146.",
+        "DrillBuild drawPlace() null-tile guard (Drill.java:144, `if(tile == null) return;`) and the generic Draw lines (`Draw.mixcol(Color.darkGray, 1f);` :151, `Draw.reset();` :153, `Draw.color();` :159) are owned by other-method slices (N1769/N919/N1821/N2038/N2330, N570/N2341); this slice implements the guard via the explicit has_tile param and carries the Draw calls as command dicts -- it never re-owns those lines.",
+        "DrillBuild drawPlace() linked-tile search (Drill.java:162, `tile.getLinkedTilesAs(this, tempTiles).find(...)`) is deferred to the caller as the explicit linked_item param (the batch-8 scope \u00a72.6); this slice never ports the search itself.",
+        "DrillBuild drawPlace() tier-req text rendering stays owned by the live N1780 helper (PortGame source_block_draw_place_text_state); this slice only returns the draw_place_text command (text key \"bar.drilltierreq\", color \"Pal.accent\" / \"Pal.remove\" by valid) for the driver to render."
+      ]
     }
   },
   "version": 1

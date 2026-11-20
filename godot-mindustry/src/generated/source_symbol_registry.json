@@ -179528,6 +179528,166 @@
         "test_reference_graph_and_actual_c07_sound_control_stop"
       ],
       "runtime_proof": "/root/C07SoundControlStopProof"
+    },
+    "source_drill_draw_place_state_result.branch": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_draw_place_state",
+      "godot_symbol": "source_drill_draw_place_state_result.branch",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.drawPlace()",
+      "java_expr": "if(returnItem != null){",
+      "rule": "Which display branch ran: \"return_item\" when a return item is present (Drill.java:148, `if(returnItem != null){`), \"tier_req\" when there is none but a linked tile drops an item (:161-164), \"none\" when there is no tile or no linked item drops anything.",
+      "tests": [
+        "test_c07_drill_draw_place_registration",
+        "test_all_c07_drill_draw_place_input_evidence_is_exact",
+        "test_drill_draw_place_state",
+        "test_reference_graph_and_actual_c07_drill_draw_place"
+      ],
+      "runtime_proof": "/root/C07DrillDrawPlaceProof"
+    },
+    "source_drill_draw_place_state_result.dx": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_draw_place_state",
+      "godot_symbol": "source_drill_draw_place_state_result.dx",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.drawPlace()",
+      "java_expr": "float dx = x * tilesize + offset - width/2f - 4f, dy = y * tilesize + offset + size * tilesize / 2f + 5, s = iconSmall / 4f;",
+      "rule": "The icon center x in world units (`dx = x * tilesize + offset - width/2f - 4f`, Drill.java:150); 56.0 at (10, 20), width 40, tilesize 8, offset 0; 0.0 outside the return-item branch.",
+      "tests": [
+        "test_c07_drill_draw_place_registration",
+        "test_all_c07_drill_draw_place_input_evidence_is_exact",
+        "test_drill_draw_place_state",
+        "test_reference_graph_and_actual_c07_drill_draw_place"
+      ],
+      "runtime_proof": "/root/C07DrillDrawPlaceProof"
+    },
+    "source_drill_draw_place_state_result.dy": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_draw_place_state",
+      "godot_symbol": "source_drill_draw_place_state_result.dy",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.drawPlace()",
+      "java_expr": "float dx = x * tilesize + offset - width/2f - 4f, dy = y * tilesize + offset + size * tilesize / 2f + 5, s = iconSmall / 4f;",
+      "rule": "The icon center y in world units (`dy = y * tilesize + offset + size * tilesize / 2f + 5`, Drill.java:150); 181.0 at (10, 20), size 4, tilesize 8, offset 0; 185.0 for eruption-drill size 5; 0.0 outside the return-item branch.",
+      "tests": [
+        "test_c07_drill_draw_place_registration",
+        "test_all_c07_drill_draw_place_input_evidence_is_exact",
+        "test_drill_draw_place_state",
+        "test_reference_graph_and_actual_c07_drill_draw_place"
+      ],
+      "runtime_proof": "/root/C07DrillDrawPlaceProof"
+    },
+    "source_drill_draw_place_state_result.icon_size": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_draw_place_state",
+      "godot_symbol": "source_drill_draw_place_state_result.icon_size",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.drawPlace()",
+      "java_expr": "float dx = x * tilesize + offset - width/2f - 4f, dy = y * tilesize + offset + size * tilesize / 2f + 5, s = iconSmall / 4f;",
+      "rule": "The icon size in world units (`s = iconSmall / 4f`, Drill.java:150); 6.0 (iconSmall 24); 0.0 outside the return-item branch.",
+      "tests": [
+        "test_c07_drill_draw_place_registration",
+        "test_all_c07_drill_draw_place_input_evidence_is_exact",
+        "test_drill_draw_place_state",
+        "test_reference_graph_and_actual_c07_drill_draw_place"
+      ],
+      "runtime_proof": "/root/C07DrillDrawPlaceProof"
+    },
+    "source_drill_draw_place_state_result.commands": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_draw_place_state",
+      "godot_symbol": "source_drill_draw_place_state_result.commands",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.drawPlace()",
+      "java_expr": "Draw.rect(returnItem.fullIcon, dx, dy - 1, s, s);",
+      "rule": "The draw calls this placement issues, in Java order, one Dictionary per call (`action`, plus `color`/`alpha` for mixcol/color, `region`/`x`/`y`/`w`/`h` for rect, `text_key`/`x`/`y`/`valid`/`color` for draw_place_text): mixcol darkGray 1.0, shadow rect at dy - 1, reset, foreground rect at dy (Drill.java:152-154), plus color + mine-item rect + reset when drawMineItem (:157-159), or the tier-req draw_place_text command (:165) in the else branch. Empty when there is no tile or no linked item drops anything.",
+      "tests": [
+        "test_c07_drill_draw_place_registration",
+        "test_all_c07_drill_draw_place_input_evidence_is_exact",
+        "test_drill_draw_place_state",
+        "test_reference_graph_and_actual_c07_drill_draw_place"
+      ],
+      "runtime_proof": "/root/C07DrillDrawPlaceProof"
+    },
+    "source_drill_draw_place_state_result.mine_item_drawn": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_draw_place_state",
+      "godot_symbol": "source_drill_draw_place_state_result.mine_item_drawn",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.drawPlace()",
+      "java_expr": "if(drawMineItem){",
+      "rule": "Whether the mine-item icon was drawn (`if(drawMineItem){`, Drill.java:156): true exactly when the return-item branch ran with drawMineItem true; the rect sits at (x * tilesize + offset, y * tilesize + offset) (Drill.java:158, tile.worldx()/worldy() are x/y * tilesize, Tile.java:166-168).",
+      "tests": [
+        "test_c07_drill_draw_place_registration",
+        "test_all_c07_drill_draw_place_input_evidence_is_exact",
+        "test_drill_draw_place_state",
+        "test_reference_graph_and_actual_c07_drill_draw_place"
+      ],
+      "runtime_proof": "/root/C07DrillDrawPlaceProof"
+    },
+    "source_drill_draw_place_state_result.tier_req_shown": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_draw_place_state",
+      "godot_symbol": "source_drill_draw_place_state_result.tier_req_shown",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.drawPlace()",
+      "java_expr": "drawPlaceText(Core.bundle.get(\"bar.drilltierreq\"), x, y, valid);",
+      "rule": "Whether the tier-requirement text was shown (`drawPlaceText(Core.bundle.get(\"bar.drilltierreq\"), x, y, valid);`, Drill.java:165): true exactly when the else branch ran with a linked item (`if(item != null){`, :164); the i18n key \"bar.drilltierreq\" is kept verbatim, never translated.",
+      "tests": [
+        "test_c07_drill_draw_place_registration",
+        "test_all_c07_drill_draw_place_input_evidence_is_exact",
+        "test_drill_draw_place_state",
+        "test_reference_graph_and_actual_c07_drill_draw_place"
+      ],
+      "runtime_proof": "/root/C07DrillDrawPlaceProof"
+    },
+    "source_drill_draw_place_state_result.super_draw_place_called": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_draw_place_state",
+      "godot_symbol": "source_drill_draw_place_state_result.super_draw_place_called",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.drawPlace()",
+      "java_expr": "super.drawPlace(x, y, rotation, valid);",
+      "rule": "Whether the super call ran (`super.drawPlace(x, y, rotation, valid);`, Drill.java:141): always true -- the Block.drawPlace implementation (Block.java:491-494) is deferred and recorded here (the N2342 Radar drawPlace precedent).",
+      "tests": [
+        "test_c07_drill_draw_place_registration",
+        "test_all_c07_drill_draw_place_input_evidence_is_exact",
+        "test_drill_draw_place_state",
+        "test_reference_graph_and_actual_c07_drill_draw_place"
+      ],
+      "runtime_proof": "/root/C07DrillDrawPlaceProof"
+    },
+    "source_drill_draw_place_state_result.rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_draw_place_state",
+      "godot_symbol": "source_drill_draw_place_state_result.rotation",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.drawPlace()",
+      "java_expr": "public void drawPlace(int x, int y, int rotation, boolean valid){",
+      "rule": "The placement rotation echoed back (Drill.java:140, `public void drawPlace(int x, int y, int rotation, boolean valid){`); passed to super.drawPlace (:141) and echoed in the result (the N2342 Radar drawPlace precedent).",
+      "tests": [
+        "test_c07_drill_draw_place_registration",
+        "test_all_c07_drill_draw_place_input_evidence_is_exact",
+        "test_drill_draw_place_state",
+        "test_reference_graph_and_actual_c07_drill_draw_place"
+      ],
+      "runtime_proof": "/root/C07DrillDrawPlaceProof"
+    },
+    "source_drill_draw_place_state_result.valid": {
+      "status": "source-backed",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_draw_place_state",
+      "godot_symbol": "source_drill_draw_place_state_result.valid",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.drawPlace()",
+      "java_expr": "public void drawPlace(int x, int y, int rotation, boolean valid){",
+      "rule": "Whether the placement is valid, echoed back (Drill.java:140, `public void drawPlace(int x, int y, int rotation, boolean valid){`); the tier-req text color picks `valid ? Pal.accent : Pal.remove` (Block.java:532), carried as the string \"Pal.accent\" / \"Pal.remove\" (the N2342 precedent).",
+      "tests": [
+        "test_c07_drill_draw_place_registration",
+        "test_all_c07_drill_draw_place_input_evidence_is_exact",
+        "test_drill_draw_place_state",
+        "test_reference_graph_and_actual_c07_drill_draw_place"
+      ],
+      "runtime_proof": "/root/C07DrillDrawPlaceProof"
     }
   },
   "version": 1

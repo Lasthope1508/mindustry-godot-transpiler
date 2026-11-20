@@ -924,6 +924,171 @@
         }
       }
     },
+    "source_drill_draw_place_state_input": {
+      "canonical_schema": "source_state_schema.source_drill_draw_place_state_input",
+      "keys": {
+        "x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public void drawPlace(int x, int y, int rotation, boolean valid){",
+          "rule": "The tile x (Drill.java:140, `public void drawPlace(int x, int y, int rotation, boolean valid){`); the icon geometry converts it to world units with tilesize + offset (Drill.java:150); passed explicitly because drawPlace reads the ghost position.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_place_state"
+          ]
+        },
+        "y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public void drawPlace(int x, int y, int rotation, boolean valid){",
+          "rule": "The tile y (Drill.java:140, `public void drawPlace(int x, int y, int rotation, boolean valid){`); the icon geometry converts it to world units with tilesize + offset (Drill.java:150); passed explicitly because drawPlace reads the ghost position.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_place_state"
+          ]
+        },
+        "rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public void drawPlace(int x, int y, int rotation, boolean valid){",
+          "rule": "The placement rotation (Drill.java:140, `public void drawPlace(int x, int y, int rotation, boolean valid){`); passed to super.drawPlace (:141) and echoed in the result (the N2342 Radar drawPlace precedent); the owned body does not otherwise read it.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_place_state"
+          ]
+        },
+        "valid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public void drawPlace(int x, int y, int rotation, boolean valid){",
+          "rule": "Whether the placement is valid (Drill.java:140, `public void drawPlace(int x, int y, int rotation, boolean valid){`); the tier-req text color picks `valid ? Pal.accent : Pal.remove` (Block.java:532, the 4-arg drawPlaceText overload); passed explicitly and echoed in the result.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_place_state"
+          ]
+        },
+        "has_tile": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "Tile tile = world.tile(x, y);",
+          "rule": "Whether world.tile(x, y) found a tile (`Tile tile = world.tile(x, y);`, Drill.java:143); the null-tile guard `if(tile == null) return;` (:144) is NOT re-owned (owned by N1769/N919/N1821/N2038/N2330, other methods) -- it arrives as this param and the function returns no commands when there is no tile.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_place_state"
+          ]
+        },
+        "has_return_item": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "if(returnItem != null){",
+          "rule": "Whether the drill has a return item (`if(returnItem != null){`, Drill.java:148); returnItem is `protected @Nullable Item returnItem;` (Drill.java:47), set by the N2020 countOre binding; passed explicitly because the countOre call (:146) is not this slice.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_place_state"
+          ]
+        },
+        "return_item_icon": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "Draw.rect(returnItem.fullIcon, dx, dy - 1, s, s);",
+          "rule": "The return item icon (`returnItem.fullIcon`, Drill.java:152); passed explicitly as an opaque region because the icon texture is per-item static state, not a live frame key (the N2314 per-def-param precedent).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_place_state"
+          ]
+        },
+        "return_item_color": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "Draw.color(returnItem.color);",
+          "rule": "The return item color (`returnItem.color`, Drill.java:157); passed explicitly as an opaque color because the item color is per-item static state, not a live frame key.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_place_state"
+          ]
+        },
+        "width": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "float dx = x * tilesize + offset - width/2f - 4f, dy = y * tilesize + offset + size * tilesize / 2f + 5, s = iconSmall / 4f;",
+          "rule": "The drillspeed text width in world units (`width`, Drill.java:150, `dx = x * tilesize + offset - width/2f - 4f`); the width itself is computed by the caller via N699 (:149, `float width = drawPlaceText(...)`, NOT re-owned) + N1780 drawPlaceText and passed explicitly -- this slice never recomputes it.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_place_state"
+          ]
+        },
+        "draw_mine_item": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "if(drawMineItem){",
+          "rule": "Whether the mined item icon is drawn (`if(drawMineItem){`, Drill.java:156); drawMineItem is `public boolean drawMineItem = true;` (Drill.java:51); passed explicitly because it is per-def static state (the N2212 per-def-param precedent).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_place_state"
+          ]
+        },
+        "item_region": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "Draw.rect(itemRegion, tile.worldx() + offset, tile.worldy() + offset);",
+          "rule": "The drill item region (`itemRegion`, Drill.java:158, `public @Load(value = \"@-item\", fallback = \"drill-item-@size\") TextureRegion itemRegion;`, Drill.java:74); passed explicitly as an opaque region because it is per-def static state, not a live frame key.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_place_state"
+          ]
+        },
+        "offset": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public float offset = 0f;",
+          "rule": "The block offset in world units (`public float offset = 0f;`, Block.java:217); the icon geometry adds it to x * tilesize / y * tilesize (Drill.java:150) and the mine-item rect adds it to tile.worldx()/worldy() (:158); passed explicitly because it is per-def static state.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_place_state"
+          ]
+        },
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/content/Blocks.java",
+          "java_expr": "size = 4;",
+          "rule": "The block size in tiles (impact-drill `size = 4;`, Blocks.java:3073; eruption-drill `size = 5;`, Blocks.java:3096); the icon geometry uses size * tilesize / 2f for dy (Drill.java:150); passed explicitly because it is per-def static state (the N2212 per-def-param precedent).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_place_state"
+          ]
+        },
+        "tilesize": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/Vars.java",
+          "java_expr": "public static final int tilesize = 8;",
+          "rule": "The world units per tile (`public static final int tilesize = 8;`, Vars.java:135); the icon geometry multiplies x/y by it (Drill.java:150) and tile.worldx()/worldy() are x/y * tilesize (Tile.java:166-168); passed explicitly.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_place_state"
+          ]
+        },
+        "icon_small": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/Vars.java",
+          "java_expr": "iconSmall = 8*3f;",
+          "rule": "The small icon size in UI units (`iconSmall = 8*3f;`, Vars.java:139, 24); the icon size is s = iconSmall / 4f (Drill.java:150, 6.0); passed explicitly.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_place_state"
+          ]
+        },
+        "linked_item": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "Item item = to == null ? null : to.drop();",
+          "rule": "The drop of the linked tile found by the tier-req search (`Item item = to == null ? null : to.drop();`, Drill.java:163), or null when no linked tile drops an item; the search itself (`Tile to = tile.getLinkedTilesAs(this, tempTiles).find(...)`, :162) is deferred to the caller (the batch-8 scope \u00a72.6) -- this slice never ports it.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_draw_place_state"
+          ]
+        }
+      }
+    },
     "source_drill_draw_select_state_input": {
       "canonical_schema": "source_state_schema.source_drill_draw_select_state_input",
       "keys": {

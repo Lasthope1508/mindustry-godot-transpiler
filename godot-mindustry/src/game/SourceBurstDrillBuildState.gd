@@ -477,6 +477,50 @@ static func source_drill_draw_select_state(x: float, y: float, block_size: int, 
 	# The dominant item is `public Item dominantItem;` (Drill.java:244), set by the N2262 ore/dominant binding; the caller passes it as explicit params (has_dominant_item, dominant_item_icon_ratio) -- the N2311/N2321/N2333 explicit-param precedent. The helper is ALREADY LIVE at PortGame N570 (SourceBuildingDrawState.draw_item_selection_state, `source_building_draw_state.draw_item_selection_state`), so this function delegates to it and does NOT re-port the helper: the helper owns the guard, the geometry (dx = x - block.size * tilesize/2f, dy = y + block.size * tilesize/2f, s = iconSmall / 4f * ratio, h = iconSmall / 4f), the darkGray shadow rect at dy - 1 and the foreground rect at dy, returning the nine result keys visible, dx, dy, shadow_color, shadow_alpha, shadow_y, foreground_y, selection_width, selection_height (hidden -- only visible -- when there is no dominant item). tilesize is 8 (`public static final int tilesize = 8;`, Vars.java:135) and iconSmall is 24 (`iconSmall = 8*3f;`, Vars.java:139), both passed explicitly. Per-def sizes: impact-drill `size = 4;` (Blocks.java:3073), eruption-drill `size = 5;` (Blocks.java:3096). The classes are `public class Drill extends Block{` (Drill.java:27) and `public class DrillBuild extends Building{` (Drill.java:237); BurstDrillBuild inherits DrillBuild (`public class BurstDrill extends Drill{`, BurstDrill.java:17). This is a different method from RepairTurret drawSelect N2220 (different class) -- no overlap. There is NO driver tick line: drawSelect is selection UI, not per-tick state (the accessor precedent N2311/N2321/N2333).
 	return source_building_draw_state.draw_item_selection_state(has_dominant_item, x, y, block_size, tilesize, icon_small, dominant_item_icon_ratio)
 
+static func source_drill_draw_place_state(x: int, y: int, rotation: int, valid: bool, has_tile: bool, has_return_item: bool, return_item_icon: Variant, return_item_color: Variant, width: float, draw_mine_item: bool, item_region: Variant, offset: float, size: int, tilesize: float, icon_small: float, linked_item: Variant) -> Dictionary:
+	# DrillBuild.drawPlace() (Drill.java:140-169):
+	# public void drawPlace(int x, int y, int rotation, boolean valid){
+	# super.drawPlace(x, y, rotation, valid);
+	# Tile tile = world.tile(x, y);
+	# if(returnItem != null){
+	# float dx = x * tilesize + offset - width/2f - 4f, dy = y * tilesize + offset + size * tilesize / 2f + 5, s = iconSmall / 4f;
+	# Draw.rect(returnItem.fullIcon, dx, dy - 1, s, s);
+	# Draw.rect(returnItem.fullIcon, dx, dy, s, s);
+	# if(drawMineItem){
+	# Draw.color(returnItem.color);
+	# Draw.rect(itemRegion, tile.worldx() + offset, tile.worldy() + offset);
+	# }else{
+	# Tile to = tile.getLinkedTilesAs(this, tempTiles).find(t -> t.drop() != null && (t.drop().hardness > tier || (blockedItems != null && blockedItems.contains(t.drop()))));
+	# Item item = to == null ? null : to.drop();
+	# if(item != null){
+	# drawPlaceText(Core.bundle.get("bar.drilltierreq"), x, y, valid);
+	# }
+	# }
+	# This is a LEG slice (the batch-8 scope §2.2): only the lines above are owned here. The null-tile guard `if(tile == null) return;` (Drill.java:144) is NOT re-owned (owned by N1769/N919/N1821/N2038/N2330, other methods) -- it arrives as the explicit has_tile param and this function returns no commands when there is no tile. `countOre(tile);` (:146) is NOT re-owned (N2020/N2021/N2071/N2302/N2330) -- its result (returnItem) arrives as explicit params (has_return_item, return_item_icon, return_item_color). The drillspeed text width `float width = drawPlaceText(Core.bundle.formatFloat("bar.drillspeed", 60f / getDrillTime(returnItem) * returnCount, 2), x, y, valid);` (:149) is NOT re-owned (N699 source_drill_output_rate) -- it arrives as the explicit width param, computed by the caller via N699 + N1780 drawPlaceText; the text draw itself stays with N699. `Draw.mixcol(Color.darkGray, 1f);` (:151), `Draw.reset();` (:153) and `Draw.color();` (:159) are NOT re-owned (N570/N2341 and others) -- the commands carry them as dict entries, one Dictionary per Draw call in Java order (the N2349 commands precedent). The super call `super.drawPlace(x, y, rotation, valid);` is owned as call-site evidence (the N1162 Turret drawPlace precedent); the Block.drawPlace implementation (Block.java:491-494, drawPotentialLinks + drawOverlay) is deferred and recorded as super_draw_place_called. The linked-tile search (:162) is deferred to the caller as the explicit linked_item param (the batch-8 scope §2.6): linked_item is the drop of the found tile, or null. The tier-req text (:165) is returned as a draw_place_text command with the i18n key "bar.drilltierreq" kept verbatim (never translated); its 4-arg overload picks `valid ? Pal.accent : Pal.remove` (Block.java:532), carried as the string "Pal.accent" / "Pal.remove" (the N2342 Radar drawPlace precedent); the actual text rendering stays with the live N1780 helper (PortGame source_block_draw_place_text_state). tile.worldx() is x * tilesize (Tile.java:166-168), so the mine-item rect sits at (x * tilesize + offset, y * tilesize + offset). The fields are `protected @Nullable Item returnItem;` (Drill.java:47), `protected int returnCount;` (:48), `public boolean drawMineItem = true;` (:51), `public @Load(value = "@-item", fallback = "drill-item-@size") TextureRegion itemRegion;` (:74) and `public float offset = 0f;` (Block.java:217). tilesize is 8 (`public static final int tilesize = 8;`, Vars.java:135) and iconSmall is 24 (`iconSmall = 8*3f;`, Vars.java:139). Per-def sizes: impact-drill `size = 4;` (Blocks.java:3073), eruption-drill `size = 5;` (Blocks.java:3096). The classes are `public class Drill extends Block{` (Drill.java:27) and `public class DrillBuild extends Building{` (Drill.java:237); BurstDrillBuild inherits DrillBuild (`public class BurstDrill extends Drill{`, BurstDrill.java:17). There is NO driver tick line: drawPlace is placement UI, not per-tick state (the accessor precedent N2311/N2321/N2342).
+	var commands: Array = []
+	if not has_tile:
+		return {"branch": "none", "dx": 0.0, "dy": 0.0, "icon_size": 0.0, "commands": commands, "mine_item_drawn": false, "tier_req_shown": false, "super_draw_place_called": true, "rotation": rotation, "valid": valid}
+	if has_return_item:
+		var dx: float = float(x) * tilesize + offset - width / 2.0 - 4.0
+		var dy: float = float(y) * tilesize + offset + float(size) * tilesize / 2.0 + 5.0
+		var icon_size: float = icon_small / 4.0
+		commands.append({"action": "mixcol", "color": "darkGray", "alpha": 1.0})
+		commands.append({"action": "rect", "region": return_item_icon, "x": dx, "y": dy - 1.0, "w": icon_size, "h": icon_size})
+		commands.append({"action": "reset"})
+		commands.append({"action": "rect", "region": return_item_icon, "x": dx, "y": dy, "w": icon_size, "h": icon_size})
+		var mine_item_drawn: bool = false
+		if draw_mine_item:
+			commands.append({"action": "color", "color": return_item_color})
+			commands.append({"action": "rect", "region": item_region, "x": float(x) * tilesize + offset, "y": float(y) * tilesize + offset})
+			commands.append({"action": "reset"})
+			mine_item_drawn = true
+		return {"branch": "return_item", "dx": dx, "dy": dy, "icon_size": icon_size, "commands": commands, "mine_item_drawn": mine_item_drawn, "tier_req_shown": false, "super_draw_place_called": true, "rotation": rotation, "valid": valid}
+	if linked_item != null:
+		var text_color: String = "Pal.accent" if valid else "Pal.remove"
+		commands.append({"action": "draw_place_text", "text_key": "bar.drilltierreq", "x": x, "y": y, "valid": valid, "color": text_color})
+		return {"branch": "tier_req", "dx": 0.0, "dy": 0.0, "icon_size": 0.0, "commands": commands, "mine_item_drawn": false, "tier_req_shown": true, "super_draw_place_called": true, "rotation": rotation, "valid": valid}
+	return {"branch": "none", "dx": 0.0, "dy": 0.0, "icon_size": 0.0, "commands": commands, "mine_item_drawn": false, "tier_req_shown": false, "super_draw_place_called": true, "rotation": rotation, "valid": valid}
+
 @warning_ignore("unused_parameter")
 static func source_burst_drill_draw_state(x: float, y: float, region: Variant, top_region: Variant, item_region: Variant, arrow_region: Variant, arrow_blur_region: Variant, glow_region: Variant, top_invert_region: Variant, invert_time: float, smooth_progress: float, has_dominant_item: bool, dominant_item_color: Variant, draw_mine_item: bool, arrows: int, arrow_spacing: float, arrow_offset: float, arrow_color: Variant, base_arrow_color: Variant, glow_color: Variant, top_invert_region_found: bool, arrow_blur_region_found: bool, glow_region_found: bool, draw_default_cracks: Dictionary) -> Dictionary:
 	# N2314 -- BurstDrillBuild.draw() (BurstDrill.java:133-180)
