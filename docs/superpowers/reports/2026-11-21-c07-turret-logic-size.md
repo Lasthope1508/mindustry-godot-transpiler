@@ -5,7 +5,7 @@ Ngày: 2026-11-21 ~01:35 +07 (GREEN), gate xong 02:17:57 +07, push ~02:3x +07.
 ## Trạng thái
 
 - N2508 DONE + PUSHED (origin/main cc31f4bf).
-- N2509 DONE + PUSHED (slice 7bf2630f, docs 3d5a2fb4, GOAL 9b2f7fb0, status TBD, hashes TBD): `SenseI.run()` non-Senseable else-branch — logic-processor `sense` op khi target KHÔNG phải Senseable (LExecutor.java:705-717): guard `sense == LAccess.size || sense == LAccess.bufferSize` (:706); CharSequence target → `to.setnum(seq.length())` (:707-709); Seq target → `to.setnum(seq.size)` (:710-712); còn lại → `to.setobj(null)` (:716). KHÔNG có driver tick (logic read, tiền lệ N2206/N2208/N2223/N2283/N2284/N2506/N2507/N2508).
+- N2509 DONE + PUSHED (slice 7bf2630f, docs 3d5a2fb4, GOAL 9b2f7fb0, status da4f21c0, hashes TBD): `SenseI.run()` non-Senseable else-branch — logic-processor `sense` op khi target KHÔNG phải Senseable (LExecutor.java:705-717): guard `sense == LAccess.size || sense == LAccess.bufferSize` (:706); CharSequence target → `to.setnum(seq.length())` (:707-709); Seq target → `to.setnum(seq.size)` (:710-712); còn lại → `to.setobj(null)` (:716). KHÔNG có driver tick (logic read, tiền lệ N2206/N2208/N2223/N2283/N2284/N2506/N2507/N2508).
 
 ## Làm được lượt này (GREEN + gate xong)
 
