@@ -70055,6 +70055,37 @@
       ],
       "runtime_proof": "/root/C07TurretLogicControlledProof",
       "rule": "Source-backed Turret logicControlled() predicate from TurretBuild.updateTile() / Turret.java:445-447."
+    },
+    "SourceTurretBuildState.source_turret_activation_timer_state": {
+      "status": "active",
+      "source_slice": "N2279",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.updateTile()",
+      "params": [
+        {
+          "name": "activation_timer",
+          "type": "float",
+          "schema": "source_turret_activation_timer_state_input.activation_timer"
+        },
+        {
+          "name": "delta",
+          "type": "float",
+          "schema": "source_turret_activation_timer_state_input.delta"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "activation_timer",
+        "activation_timer_elapsed"
+      ],
+      "tests": [
+        "test_c07_turret_activation_timer_registration",
+        "test_all_c07_turret_activation_timer_input_evidence_is_exact",
+        "test_turret_activation_timer_state",
+        "test_reference_graph_and_actual_c07_turret_activation_timer"
+      ],
+      "runtime_proof": "/root/C07TurretActivationTimerProof",
+      "rule": "Source-backed Turret activationTimer decay from TurretBuild.updateTile() / Turret.java:561-564."
     }
   },
   "policy": {

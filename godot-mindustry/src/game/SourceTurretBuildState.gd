@@ -615,6 +615,42 @@ static func source_turret_rotate_sync_state(rotation: float, rotate: bool, build
 		building_rotation = ((rounded % 4) + 4) % 4
 	return {"building_rotation": building_rotation}
 
+static func source_turret_activation_timer_state(activation_timer: float, delta: float) -> Dictionary:
+	# TurretBuild.updateTile() (Turret.java:490-615) gates the
+	# aim/shoot half on the activation timer, right after the
+	# rotate sync (:542-545) and before the hasAmmo block
+	# (:566+): `if(activationTimer > 0){` /
+	# `activationTimer -= Time.delta;` / `return;`
+	# (Turret.java:561-564). The field is
+	# `public float activationTimer = 0;`
+	# (BaseTurret.java:115, set to activationTime in
+	# placed() :119-120 --
+	# `activationTimer = activationTime;`), where
+	# `public float activationTime = 0f;`
+	# (BaseTurret.java:27) is the class default. Duo never overrides activationTime
+	# (Blocks.java:3257-3331), and no turret def in Blocks.java
+	# sets it above 0, so the duo timer is always 0.0 and the
+	# gate never fires -- the same vacuous-guard precedent as
+	# the N2270 heat fold and the N2263 heatReq fold: the tick
+	# still stamps both keys so the frame mirrors the
+	# TurretBuild fields. The timer decays by delta while
+	# positive, with NO clamp (a timer of 0.001 with delta 1/60
+	# lands below zero, the N2261 precedent); the elapsed
+	# verdict is the gate itself evaluated on the INPUT timer
+	# -- Java returns before the rest of the tick when the
+	# input is positive, even if this tick's decay would cross
+	# zero. It is the same `activationTimer <= 0` clause
+	# BaseTurret.status() uses (:144). The early-return skip
+	# of the aim/shoot half is NOT wired in this slice: the
+	# gate never fires for duo (activationTime 0 for every
+	# def), so restructuring the aim block for a never-firing
+	# guard is churn, and it waits for a def with
+	# activationTime > 0. The result is a 2-key dict:
+	# `activation_timer` and `activation_timer_elapsed`.
+	var activation_timer_after: float = activation_timer - delta if activation_timer > 0.0 else activation_timer
+	var activation_timer_elapsed: bool = activation_timer <= 0.0
+	return {"activation_timer": activation_timer_after, "activation_timer_elapsed": activation_timer_elapsed}
+
 static func source_turret_heat_req_state(heat_requirement: float, heat_total: float, side_heat: Array, heat_req: float) -> Dictionary:
 	# TurretBuild.updateTile() (Turret.java:490-560) folds the
 	# heat requirement every tick, after the logic-control timer
@@ -1530,6 +1566,25 @@ static func source_turret_tick_buildings_state(game: Object, seconds: float) -> 
 			# mod(round(rotation / 90), 4).
 			var rotate_sync: Dictionary = source_turret_rotate_sync_state(float(frame.get("rotation", 90.0)), true, int(frame.get("building_rotation", 0)))
 			frame["building_rotation"] = rotate_sync.get("building_rotation", 0)
+			# The activation timer decay (Turret.java:561-564,
+			# N2279) runs right after the rotate sync: Java order
+			# :542-545 rotate sync, :561-564 activation gate,
+			# :566+ hasAmmo/aim -- so the tick runs BEFORE the aim
+			# call. The field default is 0.0 (BaseTurret.java:115),
+			# set to activationTime in placed() (:119-120), and
+			# duo never overrides activationTime (the class
+			# default 0f, BaseTurret.java:27), so a live duo
+			# stamps 0.0 and elapsed true every tick; a frame
+			# with a positive timer (a def with activationTime
+			# > 0, none yet) would decay it by delta and stamp
+			# elapsed false. The early-return skip of the
+			# aim/shoot half is NOT wired here: the gate never
+			# fires for duo, so restructuring the aim block for
+			# a never-firing guard is churn, and it waits for a
+			# def with activationTime > 0.
+			var activation_timer_state: Dictionary = source_turret_activation_timer_state(float(frame.get("activation_timer", 0.0)), seconds)
+			frame["activation_timer"] = activation_timer_state.get("activation_timer", 0.0)
+			frame["activation_timer_elapsed"] = activation_timer_state.get("activation_timer_elapsed", true)
 			var aim: Dictionary = source_item_turret_build_state.source_item_turret_aim_shoot_state(frame, frame.get("target", null),
 				bool(validate.get("valid", false)), team_id, sprite.position.x, sprite.position.y, seconds,
 				float(frame.get("potential_efficiency", 1.0)), float(frame.get("shoot_warmup", 0.0)), bool(frame.get("charging", false)),

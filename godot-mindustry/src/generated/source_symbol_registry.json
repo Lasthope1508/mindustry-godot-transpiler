@@ -177352,6 +177352,38 @@
         "test_reference_graph_and_actual_c07_turret_logic_controlled"
       ],
       "runtime_proof": "/root/C07TurretLogicControlledProof"
+    },
+    "source_turret_activation_timer_state_result.activation_timer": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_activation_timer_state",
+      "godot_symbol": "source_turret_activation_timer_state_result.activation_timer",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "activationTimer -= Time.delta;",
+      "rule": "The activation timer after the tick (Turret.java:561-562 -- decayed by delta while positive, untouched otherwise, with no clamp; the driver stamps it on frame[\"activation_timer\"]).",
+      "tests": [
+        "test_c07_turret_activation_timer_registration",
+        "test_all_c07_turret_activation_timer_input_evidence_is_exact",
+        "test_turret_activation_timer_state",
+        "test_reference_graph_and_actual_c07_turret_activation_timer"
+      ],
+      "runtime_proof": "/root/C07TurretActivationTimerProof"
+    },
+    "source_turret_activation_timer_state_result.activation_timer_elapsed": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_activation_timer_state",
+      "godot_symbol": "source_turret_activation_timer_state_result.activation_timer_elapsed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "activationTimer <= 0",
+      "rule": "Whether the activation period has elapsed, i.e. the :561-564 gate lets the tick proceed (evaluated on the INPUT timer -- Java returns before the rest of the tick when the input is positive, even if this tick's decay would cross zero; the same `activationTimer <= 0` clause BaseTurret.status() uses, BaseTurret.java:144).",
+      "tests": [
+        "test_c07_turret_activation_timer_registration",
+        "test_all_c07_turret_activation_timer_input_evidence_is_exact",
+        "test_turret_activation_timer_state",
+        "test_reference_graph_and_actual_c07_turret_activation_timer"
+      ],
+      "runtime_proof": "/root/C07TurretActivationTimerProof"
     }
   },
   "version": 1
