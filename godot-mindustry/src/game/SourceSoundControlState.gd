@@ -658,3 +658,124 @@ static func source_sound_control_reload_state(has_current: bool, current: String
 		if String(sound_parents[sound]) == RELOAD_UI_FOLDER:
 			ui_bus_sounds.append(sound)
 	return {"current": null, "fade": 0.0, "ambient_music": ambient_music, "dark_music": dark_music, "boss_music": boss_music, "ui_bus_sounds": ui_bus_sounds}
+
+static func source_sound_control_play_once_state(has_music: bool, music: String, has_current: bool, current: String, fade: float, has_last_random_played: bool, last_random_played: String, should_play: bool) -> Dictionary:
+	# SoundControl.playOnce(Music) (SoundControl.java:355-367):
+	# `/** Plays a music track once and only once. If something is already playing, does nothing.*/`
+	# `protected void playOnce(Music music){`
+	# `if(current != null || music == null || !shouldPlay()) return; //do not interrupt already-playing tracks`
+	# `//save last random track played to prevent duplicates`
+	# `lastRandomPlayed = music;`
+	# `//set fade to 1 and play it, stopping the current when it's done`
+	# `fade = 1f;`
+	# `current = music;`
+	# `current.setVolume(1f);`
+	# `current.setLooping(false);`
+	# `current.play();`
+	# `}`
+	# -- the start-once gate, kept exactly: the three guard
+	# legs short-circuit in Java order (a track is already
+	# playing, the music is null, shouldPlay() is false) and
+	# return with state untouched; otherwise the track is
+	# saved as lastRandomPlayed (SoundControl.java:31,
+	# `protected Music lastRandomPlayed;`) so the next
+	# random pick can skip it, fade is set to 1, current
+	# becomes the track, and the track is started with
+	# setVolume(1f), setLooping(false), play() -- in
+	# exactly that order, NOT reordered. shouldPlay()
+	# (N2299, `return Core.settings.getInt("musicvol") >
+	# 0;`) arrives as the explicit should_play param and
+	# is NOT re-ported here. The state fields arrive as
+	# explicit params (the N2306 precedent -- GDScript
+	# typed String params cannot take null): has_current
+	# is `current != null` (SoundControl.java:34,
+	# `protected @Nullable Music current;`), fade is
+	# `protected float fade;` (:35), has_last_random_played
+	# is `lastRandomPlayed != null`, and has_music is
+	# `music != null`; an unset name is passed as "" with
+	# its flag false and is never read. Music arrives as
+	# its name String (the N2287 precedent). The playback
+	# calls -- current.setVolume() / setLooping() / play()
+	# -- are NOT executed here: they are returned as
+	# playback-command state, one Dictionary per call in
+	# order (`track`, `action`, `value` when the call
+	# takes one), so the driver applies them. The caller
+	# is playMusic() (SoundControl.java:248,
+	# `playOnce(music);`) and playRandom()
+	# (SoundControl.java:258/:260/:262, after this slice
+	# unlocks G4b) -- this slice does NOT port
+	# playRandom(), only the callee it calls. NO audio
+	# playback in this slice: this only computes state +
+	# commands; playback belongs to updateLoops (N2304,
+	# held waiting for B).
+	var out_current = current if has_current else null
+	var out_fade: float = fade
+	var out_last = last_random_played if has_last_random_played else null
+	var commands: Array = []
+	# `if(current != null || music == null || !shouldPlay()) return;`
+	# (SoundControl.java:356) -- do not interrupt
+	# already-playing tracks: state passes through
+	# unchanged, no commands.
+	if has_current or not has_music or not should_play:
+		return {"current": out_current, "fade": out_fade, "last_random_played": out_last, "commands": commands}
+	# `lastRandomPlayed = music;` (SoundControl.java:359).
+	out_last = music
+	# `fade = 1f;` (SoundControl.java:362).
+	out_fade = 1.0
+	# `current = music;` (SoundControl.java:363).
+	out_current = music
+	# `current.setVolume(1f);` (SoundControl.java:364).
+	commands.append({"track": music, "action": "set_volume", "value": 1.0})
+	# `current.setLooping(false);` (SoundControl.java:365).
+	commands.append({"track": music, "action": "set_looping", "value": false})
+	# `current.play();` (SoundControl.java:366).
+	commands.append({"track": music, "action": "play"})
+	return {"current": out_current, "fade": out_fade, "last_random_played": out_last, "commands": commands}
+
+static func source_sound_control_play_music_state(has_music: bool, music: String, interrupt: bool, has_current: bool, current: String, fade: float, has_last_random_played: bool, last_random_played: String, should_play: bool) -> Dictionary:
+	# SoundControl.playMusic(@Nullable Music, boolean) (SoundControl.java:243-249):
+	# `public void playMusic(@Nullable Music music, boolean interrupt){`
+	# `if(interrupt && current != null){`
+	# `current.stop();`
+	# `current = null;`
+	# `}`
+	# `playOnce(music);`
+	# `}`
+	# -- interrupt stops the current track first (only when
+	# one is playing -- the `current != null` leg), clears
+	# current, and then playOnce(music) runs with the
+	# cleared current: the interrupt stop command comes
+	# FIRST in the command list, before playOnce's own
+	# commands, in Java order. When interrupt is false,
+	# playOnce sees the live current and its guard blocks
+	# the start, exactly as Java never clears current.
+	# When interrupt is true but no track is playing, no
+	# stop is issued and playOnce starts the track. fade
+	# is NOT touched by the interrupt branch -- only
+	# playOnce writes it (to 1f on start) -- so the
+	# incoming fade passes through to playOnce unchanged.
+	# The params are playOnce's params plus interrupt
+	# (SoundControl.java:243, `boolean interrupt`):
+	# has_music / has_current / has_last_random_played
+	# fold the null checks (the N2306 precedent), Music
+	# arrives as its name String (the N2287 precedent),
+	# should_play is the shouldPlay() gate (N2299, NOT
+	# re-ported here). The callers of playMusic() are NOT
+	# ported here beyond this delegation. NO audio playback
+	# in this slice:
+	# this only computes state + commands; playback
+	# belongs to updateLoops (N2304, held waiting for B).
+	var out_current = current if has_current else null
+	var commands: Array = []
+	# `if(interrupt && current != null){` +
+	# `current.stop();` + `current = null;`
+	# (SoundControl.java:244-247).
+	if interrupt and has_current:
+		commands.append({"track": current, "action": "stop"})
+		out_current = null
+	# `playOnce(music);` (SoundControl.java:248) -- the
+	# delegation, with the interrupt-adjusted current.
+	var once: Dictionary = source_sound_control_play_once_state(has_music, music, out_current != null, out_current if out_current != null else "", fade, has_last_random_played, last_random_played, should_play)
+	var all_commands: Array = commands + (once.get("commands", []) as Array)
+	once["commands"] = all_commands
+	return once

@@ -242180,6 +242180,292 @@
       },
       "runtime_proof": "/root/C07BurstDrillGetDrillTimeProof",
       "rule": "Source-backed BurstDrill getDrillTime() state from BurstDrill.java + Drill.java + Blocks.java."
+    },
+    "source_sound_control_play_music_state_input": {
+      "status": "active",
+      "owner": "SourceSoundControlState.source_sound_control_play_music_state",
+      "source_slice": "N2345",
+      "keys": {
+        "has_music": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "public void playMusic(@Nullable Music music, boolean interrupt){",
+          "rule": "Whether a track is scheduled (SoundControl.java:243, `playMusic(@Nullable Music music, boolean interrupt)`): arrives as an explicit bool param -- the null check is folded into this param (the N2306 precedent; GDScript typed String params cannot take null). A null music reads as no scheduled track and playOnce blocks.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_play_music_state"
+          ]
+        },
+        "music": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "public void playMusic(@Nullable Music music, boolean interrupt){",
+          "rule": "The scheduled track (SoundControl.java:243, `playMusic(@Nullable Music music, boolean interrupt)`): arrives as an explicit String param, its name (the N2287 precedent); an unset track is passed as \"\" with has_music false and is never read.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_play_music_state"
+          ]
+        },
+        "interrupt": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "if(interrupt && current != null){",
+          "rule": "Whether to stop the current track first (SoundControl.java:244, `if(interrupt && current != null){`): arrives as an explicit bool param; true with a current track issues the stop command and clears current before playOnce runs.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_play_music_state"
+          ]
+        },
+        "has_current": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "if(interrupt && current != null){",
+          "rule": "Whether a track is currently playing (SoundControl.java:244, `if(interrupt && current != null){`): arrives as an explicit bool param -- the null check is folded into this param (the N2306 precedent).",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_play_music_state"
+          ]
+        },
+        "current": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "protected @Nullable Music current;",
+          "rule": "The currently playing track (SoundControl.java:34, `protected @Nullable Music current;`): arrives as an explicit String param, its name; an unset current is passed as \"\" with has_current false and is never read.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_play_music_state"
+          ]
+        },
+        "fade": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "protected float fade;",
+          "rule": "The fade level (SoundControl.java:35, `protected float fade;`): arrives as an explicit float param and is carried out again -- the interrupt branch does NOT touch it; only playOnce writes it (to 1f on start).",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_play_music_state"
+          ]
+        },
+        "has_last_random_played": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "protected Music lastRandomPlayed;",
+          "rule": "Whether a last random track is saved (SoundControl.java:31, `protected Music lastRandomPlayed;`): arrives as an explicit bool param -- the null check is folded into this param (the N2306 precedent).",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_play_music_state"
+          ]
+        },
+        "last_random_played": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "protected Music lastRandomPlayed;",
+          "rule": "The last random track played (SoundControl.java:31, `protected Music lastRandomPlayed;`): arrives as an explicit String param, its name; an unset track is passed as \"\" with has_last_random_played false and is never read.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_play_music_state"
+          ]
+        },
+        "should_play": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "if(current != null || music == null || !shouldPlay()) return; //do not interrupt already-playing tracks",
+          "rule": "The shouldPlay() gate (SoundControl.java:356, `!shouldPlay()`): arrives as an explicit bool param -- the gate itself is N2299 (`return Core.settings.getInt(\"musicvol\") > 0;`) and is NOT re-ported here. False blocks playOnce from starting anything.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_play_music_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SoundControlPlayMusicProof",
+      "rule": "Source-backed SoundControl playMusic/playOnce state from SoundControl.java."
+    },
+    "source_sound_control_play_music_state_result": {
+      "status": "active",
+      "owner": "SourceSoundControlState.source_sound_control_play_music_state",
+      "source_slice": "N2345",
+      "keys": {
+        "current": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "current = null;",
+          "rule": "The track playing after this call (SoundControl.java:246, `current = null;` / playOnce :363 `current = music;`): null when the interrupt stopped the track with no start, the scheduled track when playOnce starts it, or the old track when playOnce is blocked.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_play_music_state"
+          ]
+        },
+        "fade": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "fade = 1f;",
+          "rule": "The fade level after this call (SoundControl.java:362, `fade = 1f;`): 1 when playOnce starts a track, unchanged otherwise -- the interrupt branch never writes it.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_play_music_state"
+          ]
+        },
+        "last_random_played": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "lastRandomPlayed = music;",
+          "rule": "The last random track after this call (SoundControl.java:359, `lastRandomPlayed = music;`): the scheduled track when playOnce starts it, unchanged when playOnce is blocked.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_play_music_state"
+          ]
+        },
+        "commands": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "current.play();",
+          "rule": "The playback commands this call issues, in Java order (SoundControl.java:245 `current.stop();` when interrupt stops a track, then playOnce :364-366 setVolume, setLooping, play): one Dictionary per call (`track`, `action`, `value` when the call takes one). The driver applies them -- this slice NEVER plays audio itself; playback belongs to updateLoops (N2304, held waiting for B).",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_play_music_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SoundControlPlayMusicProof",
+      "rule": "Source-backed SoundControl playMusic/playOnce state from SoundControl.java."
+    },
+    "source_sound_control_play_once_state_input": {
+      "status": "active",
+      "owner": "SourceSoundControlState.source_sound_control_play_once_state",
+      "source_slice": "N2345",
+      "keys": {
+        "has_music": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "protected void playOnce(Music music){",
+          "rule": "Whether a track is scheduled (SoundControl.java:355, `playOnce(Music music)`): arrives as an explicit bool param -- the null check is folded into this param (the N2306 precedent). A null music reads as no scheduled track and the guard blocks.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_play_once_state"
+          ]
+        },
+        "music": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "protected void playOnce(Music music){",
+          "rule": "The scheduled track (SoundControl.java:355, `playOnce(Music music)`): arrives as an explicit String param, its name (the N2287 precedent); an unset track is passed as \"\" with has_music false and is never read.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_play_once_state"
+          ]
+        },
+        "has_current": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "if(current != null || music == null || !shouldPlay()) return; //do not interrupt already-playing tracks",
+          "rule": "Whether a track is currently playing (SoundControl.java:356, `if(current != null || music == null || !shouldPlay()) return;`): arrives as an explicit bool param -- the null check is folded into this param (the N2306 precedent). A playing track blocks the start.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_play_once_state"
+          ]
+        },
+        "current": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "protected @Nullable Music current;",
+          "rule": "The currently playing track (SoundControl.java:34, `protected @Nullable Music current;`): arrives as an explicit String param, its name; an unset current is passed as \"\" with has_current false and is never read.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_play_once_state"
+          ]
+        },
+        "fade": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "protected float fade;",
+          "rule": "The fade level (SoundControl.java:35, `protected float fade;`): arrives as an explicit float param and is carried out again -- the guard returns it unchanged, the start writes it to 1f.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_play_once_state"
+          ]
+        },
+        "has_last_random_played": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "protected Music lastRandomPlayed;",
+          "rule": "Whether a last random track is saved (SoundControl.java:31, `protected Music lastRandomPlayed;`): arrives as an explicit bool param -- the null check is folded into this param (the N2306 precedent).",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_play_once_state"
+          ]
+        },
+        "last_random_played": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "protected Music lastRandomPlayed;",
+          "rule": "The last random track played (SoundControl.java:31, `protected Music lastRandomPlayed;`): arrives as an explicit String param, its name; an unset track is passed as \"\" with has_last_random_played false and is never read.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_play_once_state"
+          ]
+        },
+        "should_play": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "if(current != null || music == null || !shouldPlay()) return; //do not interrupt already-playing tracks",
+          "rule": "The shouldPlay() gate (SoundControl.java:356, `!shouldPlay()`): arrives as an explicit bool param -- the gate itself is N2299 (`return Core.settings.getInt(\"musicvol\") > 0;`) and is NOT re-ported here. False blocks the start.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_play_once_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SoundControlPlayMusicProof",
+      "rule": "Source-backed SoundControl playMusic/playOnce state from SoundControl.java."
+    },
+    "source_sound_control_play_once_state_result": {
+      "status": "active",
+      "owner": "SourceSoundControlState.source_sound_control_play_once_state",
+      "source_slice": "N2345",
+      "keys": {
+        "current": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "current = music;",
+          "rule": "The track playing after this call (SoundControl.java:363, `current = music;`): the scheduled track when it starts, the old track (or null) when the guard blocks.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_play_once_state"
+          ]
+        },
+        "fade": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "fade = 1f;",
+          "rule": "The fade level after this call (SoundControl.java:362, `fade = 1f;`): 1 when the track starts, unchanged when the guard blocks.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_play_once_state"
+          ]
+        },
+        "last_random_played": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "lastRandomPlayed = music;",
+          "rule": "The last random track after this call (SoundControl.java:359, `lastRandomPlayed = music;`): the scheduled track when it starts, unchanged when the guard blocks -- the save exists so the next random pick can skip it.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_play_once_state"
+          ]
+        },
+        "commands": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "current.play();",
+          "rule": "The playback commands this call issues, in Java order (SoundControl.java:364 `current.setVolume(1f);` / :365 `current.setLooping(false);` / :366 `current.play();`): one Dictionary per call (`track`, `action`, `value` when the call takes one). The driver applies them -- this slice NEVER plays audio itself; playback belongs to updateLoops (N2304, held waiting for B).",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_play_once_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SoundControlPlayMusicProof",
+      "rule": "Source-backed SoundControl playMusic/playOnce state from SoundControl.java."
     }
   },
   "version": 1

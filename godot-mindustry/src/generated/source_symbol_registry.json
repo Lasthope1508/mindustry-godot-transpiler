@@ -179128,6 +179128,134 @@
         "test_reference_graph_and_actual_c07_burst_drill_get_drill_time"
       ],
       "runtime_proof": "/root/C07BurstDrillGetDrillTimeProof"
+    },
+    "source_sound_control_play_music_state_result.current": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_play_music_state",
+      "godot_symbol": "source_sound_control_play_music_state_result.current",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.playMusic(Music, boolean)",
+      "java_expr": "current = null;",
+      "rule": "The track playing after this call (SoundControl.java:246, `current = null;` / playOnce :363 `current = music;`): null when the interrupt stopped the track with no start, the scheduled track when playOnce starts it, or the old track when playOnce is blocked.",
+      "tests": [
+        "test_c07_sound_control_play_music_registration",
+        "test_all_c07_sound_control_play_music_input_evidence_is_exact",
+        "test_sound_control_play_music_state",
+        "test_reference_graph_and_actual_c07_sound_control_play_music"
+      ],
+      "runtime_proof": "/root/C07SoundControlPlayMusicProof"
+    },
+    "source_sound_control_play_music_state_result.fade": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_play_music_state",
+      "godot_symbol": "source_sound_control_play_music_state_result.fade",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.playMusic(Music, boolean)",
+      "java_expr": "fade = 1f;",
+      "rule": "The fade level after this call (SoundControl.java:362, `fade = 1f;`): 1 when playOnce starts a track, unchanged otherwise -- the interrupt branch never writes it.",
+      "tests": [
+        "test_c07_sound_control_play_music_registration",
+        "test_all_c07_sound_control_play_music_input_evidence_is_exact",
+        "test_sound_control_play_music_state",
+        "test_reference_graph_and_actual_c07_sound_control_play_music"
+      ],
+      "runtime_proof": "/root/C07SoundControlPlayMusicProof"
+    },
+    "source_sound_control_play_music_state_result.last_random_played": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_play_music_state",
+      "godot_symbol": "source_sound_control_play_music_state_result.last_random_played",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.playMusic(Music, boolean)",
+      "java_expr": "lastRandomPlayed = music;",
+      "rule": "The last random track after this call (SoundControl.java:359, `lastRandomPlayed = music;`): the scheduled track when playOnce starts it, unchanged when playOnce is blocked.",
+      "tests": [
+        "test_c07_sound_control_play_music_registration",
+        "test_all_c07_sound_control_play_music_input_evidence_is_exact",
+        "test_sound_control_play_music_state",
+        "test_reference_graph_and_actual_c07_sound_control_play_music"
+      ],
+      "runtime_proof": "/root/C07SoundControlPlayMusicProof"
+    },
+    "source_sound_control_play_music_state_result.commands": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_play_music_state",
+      "godot_symbol": "source_sound_control_play_music_state_result.commands",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.playMusic(Music, boolean)",
+      "java_expr": "current.play();",
+      "rule": "The playback commands this call issues, in Java order (SoundControl.java:245 `current.stop();` when interrupt stops a track, then playOnce :364-366 setVolume, setLooping, play): one Dictionary per call (`track`, `action`, `value` when the call takes one). The driver applies them -- this slice NEVER plays audio itself; playback belongs to updateLoops (N2304, held waiting for B).",
+      "tests": [
+        "test_c07_sound_control_play_music_registration",
+        "test_all_c07_sound_control_play_music_input_evidence_is_exact",
+        "test_sound_control_play_music_state",
+        "test_reference_graph_and_actual_c07_sound_control_play_music"
+      ],
+      "runtime_proof": "/root/C07SoundControlPlayMusicProof"
+    },
+    "source_sound_control_play_once_state_result.current": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_play_once_state",
+      "godot_symbol": "source_sound_control_play_once_state_result.current",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.playOnce(Music)",
+      "java_expr": "current = music;",
+      "rule": "The track playing after this call (SoundControl.java:363, `current = music;`): the scheduled track when it starts, the old track (or null) when the guard blocks.",
+      "tests": [
+        "test_c07_sound_control_play_music_registration",
+        "test_all_c07_sound_control_play_music_input_evidence_is_exact",
+        "test_sound_control_play_music_state",
+        "test_reference_graph_and_actual_c07_sound_control_play_music"
+      ],
+      "runtime_proof": "/root/C07SoundControlPlayMusicProof"
+    },
+    "source_sound_control_play_once_state_result.fade": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_play_once_state",
+      "godot_symbol": "source_sound_control_play_once_state_result.fade",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.playOnce(Music)",
+      "java_expr": "fade = 1f;",
+      "rule": "The fade level after this call (SoundControl.java:362, `fade = 1f;`): 1 when the track starts, unchanged when the guard blocks.",
+      "tests": [
+        "test_c07_sound_control_play_music_registration",
+        "test_all_c07_sound_control_play_music_input_evidence_is_exact",
+        "test_sound_control_play_music_state",
+        "test_reference_graph_and_actual_c07_sound_control_play_music"
+      ],
+      "runtime_proof": "/root/C07SoundControlPlayMusicProof"
+    },
+    "source_sound_control_play_once_state_result.last_random_played": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_play_once_state",
+      "godot_symbol": "source_sound_control_play_once_state_result.last_random_played",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.playOnce(Music)",
+      "java_expr": "lastRandomPlayed = music;",
+      "rule": "The last random track after this call (SoundControl.java:359, `lastRandomPlayed = music;`): the scheduled track when it starts, unchanged when the guard blocks -- the save exists so the next random pick can skip it.",
+      "tests": [
+        "test_c07_sound_control_play_music_registration",
+        "test_all_c07_sound_control_play_music_input_evidence_is_exact",
+        "test_sound_control_play_music_state",
+        "test_reference_graph_and_actual_c07_sound_control_play_music"
+      ],
+      "runtime_proof": "/root/C07SoundControlPlayMusicProof"
+    },
+    "source_sound_control_play_once_state_result.commands": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_play_once_state",
+      "godot_symbol": "source_sound_control_play_once_state_result.commands",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.playOnce(Music)",
+      "java_expr": "current.play();",
+      "rule": "The playback commands this call issues, in Java order (SoundControl.java:364 `current.setVolume(1f);` / :365 `current.setLooping(false);` / :366 `current.play();`): one Dictionary per call (`track`, `action`, `value` when the call takes one). The driver applies them -- this slice NEVER plays audio itself; playback belongs to updateLoops (N2304, held waiting for B).",
+      "tests": [
+        "test_c07_sound_control_play_music_registration",
+        "test_all_c07_sound_control_play_music_input_evidence_is_exact",
+        "test_sound_control_play_music_state",
+        "test_reference_graph_and_actual_c07_sound_control_play_music"
+      ],
+      "runtime_proof": "/root/C07SoundControlPlayMusicProof"
     }
   },
   "version": 1

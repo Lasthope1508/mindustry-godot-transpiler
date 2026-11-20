@@ -72010,6 +72010,137 @@
       ],
       "runtime_proof": "/root/C07BurstDrillGetDrillTimeProof",
       "rule": "Source-backed BurstDrill getDrillTime() state from BurstDrill.java + Drill.java + Blocks.java."
+    },
+    "SourceSoundControlState.source_sound_control_play_music_state": {
+      "status": "active",
+      "source_slice": "N2345",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "source_method": "SoundControl.playMusic(Music, boolean)",
+      "params": [
+        {
+          "name": "has_music",
+          "type": "bool",
+          "schema": "source_sound_control_play_music_state_input.has_music"
+        },
+        {
+          "name": "music",
+          "type": "String",
+          "schema": "source_sound_control_play_music_state_input.music"
+        },
+        {
+          "name": "interrupt",
+          "type": "bool",
+          "schema": "source_sound_control_play_music_state_input.interrupt"
+        },
+        {
+          "name": "has_current",
+          "type": "bool",
+          "schema": "source_sound_control_play_music_state_input.has_current"
+        },
+        {
+          "name": "current",
+          "type": "String",
+          "schema": "source_sound_control_play_music_state_input.current"
+        },
+        {
+          "name": "fade",
+          "type": "float",
+          "schema": "source_sound_control_play_music_state_input.fade"
+        },
+        {
+          "name": "has_last_random_played",
+          "type": "bool",
+          "schema": "source_sound_control_play_music_state_input.has_last_random_played"
+        },
+        {
+          "name": "last_random_played",
+          "type": "String",
+          "schema": "source_sound_control_play_music_state_input.last_random_played"
+        },
+        {
+          "name": "should_play",
+          "type": "bool",
+          "schema": "source_sound_control_play_music_state_input.should_play"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "current",
+        "fade",
+        "last_random_played",
+        "commands"
+      ],
+      "tests": [
+        "test_c07_sound_control_play_music_registration",
+        "test_all_c07_sound_control_play_music_input_evidence_is_exact",
+        "test_sound_control_play_music_state",
+        "test_reference_graph_and_actual_c07_sound_control_play_music"
+      ],
+      "runtime_proof": "/root/C07SoundControlPlayMusicProof",
+      "rule": "Source-backed SoundControl playMusic/playOnce state from SoundControl.java."
+    },
+    "SourceSoundControlState.source_sound_control_play_once_state": {
+      "status": "active",
+      "source_slice": "N2345",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "source_method": "SoundControl.playOnce(Music)",
+      "params": [
+        {
+          "name": "has_music",
+          "type": "bool",
+          "schema": "source_sound_control_play_once_state_input.has_music"
+        },
+        {
+          "name": "music",
+          "type": "String",
+          "schema": "source_sound_control_play_once_state_input.music"
+        },
+        {
+          "name": "has_current",
+          "type": "bool",
+          "schema": "source_sound_control_play_once_state_input.has_current"
+        },
+        {
+          "name": "current",
+          "type": "String",
+          "schema": "source_sound_control_play_once_state_input.current"
+        },
+        {
+          "name": "fade",
+          "type": "float",
+          "schema": "source_sound_control_play_once_state_input.fade"
+        },
+        {
+          "name": "has_last_random_played",
+          "type": "bool",
+          "schema": "source_sound_control_play_once_state_input.has_last_random_played"
+        },
+        {
+          "name": "last_random_played",
+          "type": "String",
+          "schema": "source_sound_control_play_once_state_input.last_random_played"
+        },
+        {
+          "name": "should_play",
+          "type": "bool",
+          "schema": "source_sound_control_play_once_state_input.should_play"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "current",
+        "fade",
+        "last_random_played",
+        "commands"
+      ],
+      "tests": [
+        "test_c07_sound_control_play_music_registration",
+        "test_all_c07_sound_control_play_music_input_evidence_is_exact",
+        "test_sound_control_play_music_state",
+        "test_reference_graph_and_actual_c07_sound_control_play_music"
+      ],
+      "runtime_proof": "/root/C07SoundControlPlayMusicProof",
+      "rule": "Source-backed SoundControl playMusic/playOnce state from SoundControl.java."
     }
   },
   "policy": {
