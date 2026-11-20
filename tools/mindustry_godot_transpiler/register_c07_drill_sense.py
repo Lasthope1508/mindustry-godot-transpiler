@@ -27,7 +27,7 @@ progress for the progress sensor with a dominant item and the
 caller-passed super result otherwise.
 
 RED decisions (resolved at RED): (1) Two pure functions on
-the same family file N2149 built, next to the N2283 drawSelect
+the same family file N2149 built, next to the N2341 drawSelect
 row (both are DrillBuild overrides), following the N2293
 Turret sense precedent exactly: (frame, sensor, ...) and the
 generic laccess wire shape (`handled` + `sense_value` +

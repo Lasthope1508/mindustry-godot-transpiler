@@ -32,7 +32,7 @@ class C07DrillDrawTests(unittest.TestCase):
         # 133-180) is N2314, NOT this one: N2314 takes the
         # already-computed cracks dict as an explicit param
         # and this slice now supplies that computation.
-        # One pure function on the family file (the N2283
+        # One pure function on the family file (the N2341
         # drawSelect / N2314 draw precedents): it returns
         # the computed draw state (rects, colors, alpha, z,
         # blend, spin) and does NOT touch real Draw/Drawf
@@ -41,7 +41,7 @@ class C07DrillDrawTests(unittest.TestCase):
         # rim_alpha, rim_rect, rotator, top_rect,
         # mine_item_visible, mine_item_rect. There is NO
         # driver tick line: draw() is per-frame render
-        # state, not per-tick state (the N2283 drawSelect
+        # state, not per-tick state (the N2341 drawSelect
         # lifecycle precedent).
         self.assertEqual(
             ledger['N2325']['source_symbols'],

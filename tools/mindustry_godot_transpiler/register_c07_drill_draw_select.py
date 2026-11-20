@@ -1,4 +1,4 @@
-"""Register the DrillBuild drawSelect() slice (N2283).
+"""Register the DrillBuild drawSelect() slice (N2341).
 
 DrillBuild.drawSelect() (Drill.java:262-264, `public void
 drawSelect(){`) calls `drawItemSelection(dominantItem);`
@@ -76,7 +76,7 @@ BLOCKS = 'core/src/mindustry/content/Blocks.java'
 PROOF = '/root/C07DrillDrawSelectProof'
 DRAW_SELECT_OWNER = 'SourceBurstDrillBuildState.source_drill_draw_select_state'
 TESTS = ['test_c07_drill_draw_select_registration', 'test_all_c07_drill_draw_select_input_evidence_is_exact', 'test_drill_draw_select_state', 'test_reference_graph_and_actual_c07_drill_draw_select']
-# The 4 slice sources the N2283 test checks exact_exprs
+# The 4 slice sources the N2341 test checks exact_exprs
 # against -- every expr in EXACT_EXPRS below must appear verbatim
 # in one of these files.
 SLICE_SOURCES = [
@@ -88,7 +88,7 @@ SLICE_SOURCES = [
 EXACT_EXPRS = ['public void drawSelect(){', 'drawItemSelection(dominantItem);', 'public void drawItemSelection(@Nullable UnlockableContent selection){', 'if(selection != null){', 'float dx = x - block.size * tilesize/2f, dy = y + block.size * tilesize/2f, s = iconSmall / 4f * selection.fullIcon.ratio(), h = iconSmall / 4f;', 'Draw.mixcol(Color.darkGray, 1f);', 'Draw.rect(selection.fullIcon, dx, dy - 1, s, h);', 'Draw.reset();', 'Draw.rect(selection.fullIcon, dx, dy, s, h);', 'public Item dominantItem;', 'public class Drill extends Block{', 'public class DrillBuild extends Building{', 'public static final int tilesize = 8;', 'iconSmall = 8*3f;', 'size = 4;', 'size = 5;']
 
 DEFERRED = [
-    'DrillBuild drawSelect() Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2227: the N2283 proof runs headless on Linux here and waits for a Windows Godot run.',
+    'DrillBuild drawSelect() Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2227: the N2341 proof runs headless on Linux here and waits for a Windows Godot run.',
     'DrillBuild drawSelect() concrete icon rendering (Draw.rect(selection.fullIcon, ...) with the live TextureRegion, BuildingComp.java:1253/1255) stays owned by Godot rendering integration; this helper preserves visibility, geometry, shadow, reset, and foreground state.',
     'DrillBuild drawSelect() dominantItem binding (the N2302 ore/dominant binding sets dominantItem from the mined ore) -- the caller passes the already-bound dominantItem; the binding itself is not this slice.',
 ]
@@ -155,7 +155,7 @@ def main():
     draw_select_inputs, draw_select_outputs = definitions()
 
     entries = [
-        ('N2283', DRAW_SELECT_OWNER, 'source_drill_draw_select_state', DRILL, 'mindustry.world.blocks.production.Drill$DrillBuild', 'DrillBuild.drawSelect()', draw_select_inputs, draw_select_outputs, True, 'Dictionary'),
+        ('N2341', DRAW_SELECT_OWNER, 'source_drill_draw_select_state', DRILL, 'mindustry.world.blocks.production.Drill$DrillBuild', 'DrillBuild.drawSelect()', draw_select_inputs, draw_select_outputs, True, 'Dictionary'),
     ]
     all_names = []
     for sid, owner, prefix, source, cls, method, inputs, outputs, has_contract, return_type in entries:
@@ -177,7 +177,7 @@ def main():
     # The test pins this order: visible, dx, dy, shadow_color,
     # shadow_alpha, shadow_y, foreground_y, selection_width,
     # selection_height.
-    by_slice['N2283'] = [
+    by_slice['N2341'] = [
         'source_drill_draw_select_state_result.visible',
         'source_drill_draw_select_state_result.dx',
         'source_drill_draw_select_state_result.dy',
@@ -188,7 +188,7 @@ def main():
         'source_drill_draw_select_state_result.selection_width',
         'source_drill_draw_select_state_result.selection_height',
     ]
-    source_symbols.upsert_source_slice(GODOT, 'N2283', dict(status='done', java_source=DRILL, java_class='mindustry.world.blocks.production.Drill$DrillBuild', java_method='DrillBuild.drawSelect()', godot_owner=DRAW_SELECT_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2283'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
+    source_symbols.upsert_source_slice(GODOT, 'N2341', dict(status='done', java_source=DRILL, java_class='mindustry.world.blocks.production.Drill$DrillBuild', java_method='DrillBuild.drawSelect()', godot_owner=DRAW_SELECT_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2341'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
 
     source_symbols.upsert_source_symbols(GODOT, symbols)
     source_symbols.write_source_symbol_audit_report(GODOT)

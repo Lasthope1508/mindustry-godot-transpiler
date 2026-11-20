@@ -19,7 +19,7 @@ func _ready() -> void:
 	game.set_process(false)
 	game.set_physics_process(false)
 
-	# --- DrillBuild.drawSelect() (N2283):
+	# --- DrillBuild.drawSelect() (N2341):
 	# DrillBuild.drawSelect() (Drill.java:262-264,
 	# `public void drawSelect(){`) calls
 	# `drawItemSelection(dominantItem);` (:263) -- the

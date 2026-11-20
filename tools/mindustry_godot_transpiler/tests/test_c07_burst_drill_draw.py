@@ -25,7 +25,7 @@ class C07BurstDrillDrawTests(unittest.TestCase):
         # 346-379) is a LATER slice (N2317), NOT this one:
         # drawDefaultCracks() (Drill.java:341-343) is a callee
         # whose result the caller passes as an explicit param.
-        # One pure function on the family file (the N2283
+        # One pure function on the family file (the N2341
         # drawSelect precedent): it returns the computed draw
         # state (rects, colors, alpha, z, blend, glow) and
         # does NOT touch real Draw/Drawf playback. Fourteen
@@ -35,7 +35,7 @@ class C07BurstDrillDrawTests(unittest.TestCase):
         # arrow_count, arrows, glow_visible, glow_alpha,
         # glow_color. There is NO driver tick line: draw()
         # is per-frame render state, not per-tick state (the
-        # N2283 drawSelect lifecycle precedent).
+        # N2341 drawSelect lifecycle precedent).
         self.assertEqual(
             ledger['N2314']['source_symbols'],
             [

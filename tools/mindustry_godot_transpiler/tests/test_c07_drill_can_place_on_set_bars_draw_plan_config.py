@@ -62,7 +62,7 @@ class C07DrillCanPlaceOnSetBarsDrawPlanConfigTests(unittest.TestCase):
         # canPlaceOn is a placement predicate,
         # setBars is a load-time bar spec, and
         # drawPlanConfig is per-frame plan render
-        # state (the N2283 drawSelect lifecycle
+        # state (the N2341 drawSelect lifecycle
         # precedent).
         self.assertEqual(
             ledger['N2330']['source_symbols'],

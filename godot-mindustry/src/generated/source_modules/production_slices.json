@@ -926,31 +926,6 @@
       ],
       "runtime_proof": "/root/C07WallCrafterPowerStatusProof"
     },
-    "N2283": {
-      "canonical_ledger": "source_slice_ledger.N2283",
-      "status": "done",
-      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-      "java_method": "DrillBuild.drawSelect()",
-      "godot_owner": "SourceBurstDrillBuildState.source_drill_draw_select_state",
-      "source_symbols": [
-        "source_drill_draw_select_state_result.visible",
-        "source_drill_draw_select_state_result.dx",
-        "source_drill_draw_select_state_result.dy",
-        "source_drill_draw_select_state_result.shadow_color",
-        "source_drill_draw_select_state_result.shadow_alpha",
-        "source_drill_draw_select_state_result.shadow_y",
-        "source_drill_draw_select_state_result.foreground_y",
-        "source_drill_draw_select_state_result.selection_width",
-        "source_drill_draw_select_state_result.selection_height"
-      ],
-      "tests": [
-        "test_c07_drill_draw_select_registration",
-        "test_all_c07_drill_draw_select_input_evidence_is_exact",
-        "test_drill_draw_select_state",
-        "test_reference_graph_and_actual_c07_drill_draw_select"
-      ],
-      "runtime_proof": "/root/C07DrillDrawSelectProof"
-    },
     "N2286": {
       "canonical_ledger": "source_slice_ledger.N2286",
       "status": "done",
@@ -1283,6 +1258,31 @@
         "test_reference_graph_and_actual_c07_drill_icons"
       ],
       "runtime_proof": "/root/C07DrillIconsProof"
+    },
+    "N2341": {
+      "canonical_ledger": "source_slice_ledger.N2341",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.drawSelect()",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_draw_select_state",
+      "source_symbols": [
+        "source_drill_draw_select_state_result.visible",
+        "source_drill_draw_select_state_result.dx",
+        "source_drill_draw_select_state_result.dy",
+        "source_drill_draw_select_state_result.shadow_color",
+        "source_drill_draw_select_state_result.shadow_alpha",
+        "source_drill_draw_select_state_result.shadow_y",
+        "source_drill_draw_select_state_result.foreground_y",
+        "source_drill_draw_select_state_result.selection_width",
+        "source_drill_draw_select_state_result.selection_height"
+      ],
+      "tests": [
+        "test_c07_drill_draw_select_registration",
+        "test_all_c07_drill_draw_select_input_evidence_is_exact",
+        "test_drill_draw_select_state",
+        "test_reference_graph_and_actual_c07_drill_draw_select"
+      ],
+      "runtime_proof": "/root/C07DrillDrawSelectProof"
     },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",

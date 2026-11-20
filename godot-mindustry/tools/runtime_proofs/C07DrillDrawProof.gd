@@ -54,7 +54,7 @@ func _ready() -> void:
 	# region, x, y, (id%4)*90);`. The BurstDrillBuild.
 	# draw() OVERRIDE is N2314, NOT this slice. There
 	# is NO driver tick line: draw() is per-frame
-	# render state (the N2283 lifecycle precedent).
+	# render state (the N2341 lifecycle precedent).
 
 	# Per-def inputs (Blocks.java): mechanical-drill
 	# and pneumatic-drill `size = 2;`, laser-drill

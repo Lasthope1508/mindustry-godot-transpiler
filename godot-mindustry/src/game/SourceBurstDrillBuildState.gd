@@ -809,7 +809,7 @@ static func source_drill_draw_plan_config_state(frame: Dictionary, world_context
 	# render state -- worldContext, the plan tile, returnItem and drawMineItem
 	# are passed explicitly (the N2212 / N2224 per-def-param precedent); frame
 	# is the canonical first param of this family file. There is NO driver tick
-	# line: drawPlanConfig is per-frame plan render state (the N2283 drawSelect
+	# line: drawPlanConfig is per-frame plan render state (the N2341 drawSelect
 	# lifecycle precedent).
 	var visible: bool = world_context and has_tile and return_item != null and draw_mine_item
 	var tint_color: Variant = return_item_color if visible else null

@@ -115,7 +115,7 @@ class C07DrillSenseTests(unittest.TestCase):
     def test_drill_sense_state(self):
         burst_drill = BURST_DRILL_STATE.read_text(encoding='utf-8')
         # The pure senseObject / sense legs live on the
-        # burst-drill build state next to the N2283 drawSelect
+        # burst-drill build state next to the N2341 drawSelect
         # row (both are DrillBuild overrides): senseObject
         # (Drill.java:281-284, `public Object senseObject(
         # LAccess sensor){` / `if(sensor ==

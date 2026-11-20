@@ -14,7 +14,7 @@ class C07DrillDrawSelectTests(unittest.TestCase):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        self.assertEqual(ledger['N2283']['godot_owner'], 'SourceBurstDrillBuildState.source_drill_draw_select_state')
+        self.assertEqual(ledger['N2341']['godot_owner'], 'SourceBurstDrillBuildState.source_drill_draw_select_state')
         # DrillBuild.drawSelect() (Drill.java:262-264,
         # `public void drawSelect(){` with
         # `drawItemSelection(dominantItem);`, :263) draws the
@@ -42,7 +42,7 @@ class C07DrillDrawSelectTests(unittest.TestCase):
         # per-tick state (the accessor precedent
         # N2311/N2321/N2333).
         self.assertEqual(
-            ledger['N2283']['source_symbols'],
+            ledger['N2341']['source_symbols'],
             [
                 'source_drill_draw_select_state_result.visible',
                 'source_drill_draw_select_state_result.dx',
@@ -55,7 +55,7 @@ class C07DrillDrawSelectTests(unittest.TestCase):
                 'source_drill_draw_select_state_result.selection_height',
             ],
         )
-        for name in ledger['N2283']['source_symbols']:
+        for name in ledger['N2341']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_source'], {
@@ -65,9 +65,9 @@ class C07DrillDrawSelectTests(unittest.TestCase):
                     'core/src/mindustry/content/Blocks.java',
                 })
                 self.assertEqual(symbol['godot_owner'], 'SourceBurstDrillBuildState.' + name.rsplit('_result.', 1)[0])
-        self.assertEqual(ledger['N2283']['runtime_proof'], '/root/C07DrillDrawSelectProof')
+        self.assertEqual(ledger['N2341']['runtime_proof'], '/root/C07DrillDrawSelectProof')
         self.assertEqual(
-            ledger['N2283']['tests'],
+            ledger['N2341']['tests'],
             [
                 'test_c07_drill_draw_select_registration',
                 'test_all_c07_drill_draw_select_input_evidence_is_exact',
@@ -75,13 +75,13 @@ class C07DrillDrawSelectTests(unittest.TestCase):
                 'test_reference_graph_and_actual_c07_drill_draw_select',
             ],
         )
-        self.assertTrue(ledger['N2283']['deferred_exprs'])
+        self.assertTrue(ledger['N2341']['deferred_exprs'])
 
     def test_all_c07_drill_draw_select_input_evidence_is_exact(self):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        for name in ledger['N2283']['source_symbols']:
+        for name in ledger['N2341']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_expr'], (ROOT / 'mindustry-upstream' / symbol['java_source']).read_text(encoding='utf-8'))
@@ -93,7 +93,7 @@ class C07DrillDrawSelectTests(unittest.TestCase):
             'core/src/mindustry/content/Blocks.java',
         }
         upstream = {source: (ROOT / 'mindustry-upstream' / source).read_text(encoding='utf-8') for source in slice_sources}
-        for expr in ledger['N2283']['exact_exprs']:
+        for expr in ledger['N2341']['exact_exprs']:
             with self.subTest(expr=expr):
                 self.assertTrue(any(expr in text for text in upstream.values()), expr)
 

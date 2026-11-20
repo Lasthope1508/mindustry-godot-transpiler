@@ -36,11 +36,11 @@ slice (N2317), NOT this one. drawDefaultCracks()
 (Drill.java:341-343, `public void drawDefaultCracks(){`)
 is a callee (D5): its already-computed result rides in as
 an explicit param, NOT re-ported. One pure function on the
-family file (the N2283 drawSelect precedent): it returns
+family file (the N2341 drawSelect precedent): it returns
 the computed draw state (rects, colors, alpha, z, blend,
 glow) and does NOT touch real Draw/Drawf playback. There
 is NO driver tick line: draw() is per-frame render state,
-not per-tick state (the N2283 drawSelect lifecycle
+not per-tick state (the N2341 drawSelect lifecycle
 precedent). Fourteen new result symbols: base_rect, cracks,
 top_rect, invert_visible, invert_alpha, invert_rect,
 mine_item_visible, mine_item_rect, fract, arrow_count,

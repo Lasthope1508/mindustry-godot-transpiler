@@ -55,7 +55,7 @@ func _ready() -> void:
 	# drawDefaultCracks() (Drill.java:341-343) is a
 	# callee (D5): its result rides in as an explicit
 	# param. There is NO driver tick line: draw() is
-	# per-frame render state (the N2283 lifecycle
+	# per-frame render state (the N2341 lifecycle
 	# precedent).
 
 	# Per-def inputs (Blocks.java): impact-drill

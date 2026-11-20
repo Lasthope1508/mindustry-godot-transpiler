@@ -7,7 +7,7 @@ building (`Drawf.dashCircle(x, y, minRange(), team.color);`,
 :485): the center is the building world position, the
 radius is the LIVE minRange() value (N2340), the color is
 the building team's color. One pure function on the family
-file (the N2220 RepairPointBuild.drawSelect() / N2283
+file (the N2220 RepairPointBuild.drawSelect() / N2341
 DrillBuild.drawSelect() / N2333 Radar drawSelect
 precedent): the caller passes the live minRange() result
 (the N2340 source_turret_min_range_state output) and the

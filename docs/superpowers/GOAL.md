@@ -418,7 +418,7 @@ N2239–N2247 của line Windows)
    Scene tới Windows theo slice commit `ef121c8`. Chưa chạy trên Windows Godot.
  - [ ] N2340 `C07TurretMinRangeProof` — Linux GREEN ~21:4x (10 key).
    Scene tới Windows theo slice commit `a3ed3fe`. Chưa chạy trên Windows Godot.
- - [ ] N2283 `C07DrillDrawSelectProof` — Linux GREEN ~22:0x (12 key).
+ - [ ] N2341 `C07DrillDrawSelectProof` — Linux GREEN ~22:0x (12 key).
    Scene tới Windows theo slice commit `8dcc205`. Chưa chạy trên Windows Godot.
  - [ ] N2284 `C07RadarDrawPlaceProof` — Linux GREEN ~22:1x (13 key).
    Scene tới Windows theo slice commit `c9735cb`. Chưa chạy trên Windows Godot.

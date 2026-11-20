@@ -68290,69 +68290,6 @@
       "runtime_proof": "/root/C07RadarProgressProof",
       "rule": "Source-backed Radar progress() accessor from Radar.java."
     },
-    "SourceBurstDrillBuildState.source_drill_draw_select_state": {
-      "status": "active",
-      "source_slice": "N2283",
-      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-      "source_method": "DrillBuild.drawSelect()",
-      "params": [
-        {
-          "name": "x",
-          "type": "float",
-          "schema": "source_drill_draw_select_state_input.x"
-        },
-        {
-          "name": "y",
-          "type": "float",
-          "schema": "source_drill_draw_select_state_input.y"
-        },
-        {
-          "name": "block_size",
-          "type": "int",
-          "schema": "source_drill_draw_select_state_input.block_size"
-        },
-        {
-          "name": "tilesize",
-          "type": "float",
-          "schema": "source_drill_draw_select_state_input.tilesize"
-        },
-        {
-          "name": "icon_small",
-          "type": "float",
-          "schema": "source_drill_draw_select_state_input.icon_small"
-        },
-        {
-          "name": "has_dominant_item",
-          "type": "bool",
-          "schema": "source_drill_draw_select_state_input.has_dominant_item"
-        },
-        {
-          "name": "dominant_item_icon_ratio",
-          "type": "float",
-          "schema": "source_drill_draw_select_state_input.dominant_item_icon_ratio"
-        }
-      ],
-      "return_type": "Dictionary",
-      "return_keys": [
-        "visible",
-        "dx",
-        "dy",
-        "shadow_color",
-        "shadow_alpha",
-        "shadow_y",
-        "foreground_y",
-        "selection_width",
-        "selection_height"
-      ],
-      "tests": [
-        "test_c07_drill_draw_select_registration",
-        "test_all_c07_drill_draw_select_input_evidence_is_exact",
-        "test_drill_draw_select_state",
-        "test_reference_graph_and_actual_c07_drill_draw_select"
-      ],
-      "runtime_proof": "/root/C07DrillDrawSelectProof",
-      "rule": "Source-backed DrillBuild drawSelect() state from Drill.java + BuildingComp.java + Vars.java + Blocks.java."
-    },
     "SourceRadarBuildState.source_radar_draw_place_state": {
       "status": "active",
       "source_slice": "N2284",
@@ -71825,6 +71762,69 @@
       ],
       "runtime_proof": "/root/C07SoundControlPlaySilenceProof",
       "rule": "Source-backed SoundControl play/silence/keepSilent state from SoundControl.java."
+    },
+    "SourceBurstDrillBuildState.source_drill_draw_select_state": {
+      "status": "active",
+      "source_slice": "N2341",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "DrillBuild.drawSelect()",
+      "params": [
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_drill_draw_select_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_drill_draw_select_state_input.y"
+        },
+        {
+          "name": "block_size",
+          "type": "int",
+          "schema": "source_drill_draw_select_state_input.block_size"
+        },
+        {
+          "name": "tilesize",
+          "type": "float",
+          "schema": "source_drill_draw_select_state_input.tilesize"
+        },
+        {
+          "name": "icon_small",
+          "type": "float",
+          "schema": "source_drill_draw_select_state_input.icon_small"
+        },
+        {
+          "name": "has_dominant_item",
+          "type": "bool",
+          "schema": "source_drill_draw_select_state_input.has_dominant_item"
+        },
+        {
+          "name": "dominant_item_icon_ratio",
+          "type": "float",
+          "schema": "source_drill_draw_select_state_input.dominant_item_icon_ratio"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "visible",
+        "dx",
+        "dy",
+        "shadow_color",
+        "shadow_alpha",
+        "shadow_y",
+        "foreground_y",
+        "selection_width",
+        "selection_height"
+      ],
+      "tests": [
+        "test_c07_drill_draw_select_registration",
+        "test_all_c07_drill_draw_select_input_evidence_is_exact",
+        "test_drill_draw_select_state",
+        "test_reference_graph_and_actual_c07_drill_draw_select"
+      ],
+      "runtime_proof": "/root/C07DrillDrawSelectProof",
+      "rule": "Source-backed DrillBuild drawSelect() state from Drill.java + BuildingComp.java + Vars.java + Blocks.java."
     }
   },
   "policy": {

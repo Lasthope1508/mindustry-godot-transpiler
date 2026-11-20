@@ -1142,7 +1142,7 @@
     "SourceBurstDrillBuildState.source_drill_draw_select_state": {
       "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_drill_draw_select_state",
       "status": "active",
-      "source_slice": "N2283",
+      "source_slice": "N2341",
       "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
       "source_method": "DrillBuild.drawSelect()",
       "params": [

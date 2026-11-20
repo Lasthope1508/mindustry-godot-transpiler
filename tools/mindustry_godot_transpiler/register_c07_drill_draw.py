@@ -34,7 +34,7 @@ crackRegions), 0, BlockRenderer.crackRegions-1)]`,
 that computation, so it supplies the already-computed
 cracks dict the N2314 BurstDrillBuild.draw() OVERRIDE
 takes as an explicit param. One pure function on the
-family file (the N2283 drawSelect / N2314 draw
+family file (the N2341 drawSelect / N2314 draw
 precedents): it returns the computed draw state (rects,
 colors, alpha, z, blend, spin) and does NOT touch real
 Draw/Drawf playback. Eleven new result symbols:
