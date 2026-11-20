@@ -1363,7 +1363,7 @@
     "SourceBurstDrillBuildState.source_drill_set_stats_state": {
       "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_drill_set_stats_state",
       "status": "active",
-      "source_slice": "N2280",
+      "source_slice": "N2332",
       "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
       "source_method": "Drill.setStats()",
       "params": [

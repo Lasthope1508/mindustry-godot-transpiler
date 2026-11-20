@@ -234703,174 +234703,6 @@
       "runtime_proof": "/root/C07RadarProgressProof",
       "rule": "Source-backed Radar progress() accessor from Radar.java."
     },
-    "source_drill_set_stats_state_input": {
-      "status": "active",
-      "owner": "SourceBurstDrillBuildState.source_drill_set_stats_state",
-      "source_slice": "N2280",
-      "keys": {
-        "frame": {
-          "type": "Dictionary",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-          "java_expr": "public void setStats(){",
-          "rule": "The drill frame (Drill.setStats, Drill.java:175): carries no live keys for this block-level stat read -- drillTime, tier, size, drillMultipliers, blockedItems, liquidBoostIntensity and the booster consumer are per-def static state, not live frame keys (the N2212 / N2224 per-def-param precedent); frame is the canonical first param of this family file.",
-          "used_by": [
-            "SourceBurstDrillBuildState.source_drill_set_stats_state"
-          ]
-        },
-        "drill_time": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-          "java_expr": "public float drillTime = 300;",
-          "rule": "The base time to drill one ore, in frames (`public float drillTime = 300;`, Drill.java:36, the class default); impact-drill 60f*12f = 720f (Blocks.java:3072), eruption-drill 281.25f (Blocks.java:3095); passed explicitly because it is per-def static state (the N2212 / N2224 per-def-param precedent).",
-          "used_by": [
-            "SourceBurstDrillBuildState.source_drill_set_stats_state"
-          ]
-        },
-        "hardness_drill_multiplier": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-          "java_expr": "public float hardnessDrillMultiplier = 50f;",
-          "rule": "The hardness multiplier added per ore hardness in getDrillTime/drillables (`public float hardnessDrillMultiplier = 50f;`, Drill.java:28); the same class value for both defs; passed explicitly because it is per-def static state.",
-          "used_by": [
-            "SourceBurstDrillBuildState.source_drill_set_stats_state"
-          ]
-        },
-        "size": {
-          "type": "int",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/Block.java",
-          "java_expr": "public int size = 1;",
-          "rule": "The block size in tiles (`public int size = 1;`, Block.java:215); the drillables call passes size * size and the drillSpeed row passes size * size (Drill.java:178, :181); impact-drill size 4 (Blocks.java:3073), eruption-drill size 5 (Blocks.java:3096); passed explicitly (the N2212 per-def-param precedent).",
-          "used_by": [
-            "SourceBurstDrillBuildState.source_drill_set_stats_state"
-          ]
-        },
-        "tier": {
-          "type": "int",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-          "java_expr": "public int tier;",
-          "rule": "The maximum tier of blocks this drill can mine (`public int tier;`, Drill.java:34, no default -- Java int default 0); the drillables filter gates on `f.itemDrop.hardness <= tier` (Drill.java:179); impact-drill tier 6 (Blocks.java:3075), eruption-drill tier 7 (Blocks.java:3098); passed explicitly.",
-          "used_by": [
-            "SourceBurstDrillBuildState.source_drill_set_stats_state"
-          ]
-        },
-        "drill_multipliers": {
-          "type": "Dictionary",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-          "java_expr": "public ObjectFloatMap<Item> drillMultipliers = new ObjectFloatMap<>();",
-          "rule": "The per-item drill-time multipliers (`public ObjectFloatMap<Item> drillMultipliers = new ObjectFloatMap<>();`, Drill.java:66); both defs put beryllium 2f (`drillMultipliers.put(Items.beryllium, 2f);`, Blocks.java:3083/3113); passed explicitly as a Dictionary because it is per-def static state.",
-          "used_by": [
-            "SourceBurstDrillBuildState.source_drill_set_stats_state"
-          ]
-        },
-        "blocked_items": {
-          "type": "Variant",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-          "java_expr": "public @Nullable Seq<Item> blockedItems;",
-          "rule": "The items this drill cannot mine (`public @Nullable Seq<Item> blockedItems;`, Drill.java:44, set from blockedItem at :93-94); the drillables filter gates on `blockedItems == null || !blockedItems.contains(f.itemDrop)` (Drill.java:179); impact-drill blocks thorium (`blockedItem = Items.thorium;`, Blocks.java:3080), eruption-drill blocks nothing (null); passed explicitly as null or an Array.",
-          "used_by": [
-            "SourceBurstDrillBuildState.source_drill_set_stats_state"
-          ]
-        },
-        "liquid_boost_intensity": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-          "java_expr": "public float liquidBoostIntensity = 1.6f;",
-          "rule": "The per-def liquid boost intensity (Drill.java:38, `public float liquidBoostIntensity = 1.6f;`, the class default; impact-drill 1.75f, Blocks.java:3084; eruption-drill 2f, Blocks.java:3115); the setStats guard reads `liquidBoostIntensity != 1` (Drill.java:183); passed explicitly because it is per-def static state, not a live frame key (the N2212 / N2224 per-def-param precedent).",
-          "used_by": [
-            "SourceBurstDrillBuildState.source_drill_set_stats_state"
-          ]
-        },
-        "booster_consumer_found": {
-          "type": "bool",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-          "java_expr": "if(liquidBoostIntensity != 1 && findConsumer(f -> f instanceof ConsumeLiquidBase && f.booster) instanceof ConsumeLiquidBase consBase){",
-          "rule": "Whether findConsumer found a booster consumer: the first consumer matching `f instanceof ConsumeLiquidBase && f.booster` (Drill.java:183, via Block.java:1104 `public <T extends Consume> T findConsumer(Boolf<Consume> filter){`); passed explicitly because findConsumer is not ported in this slice (the N1688/N1753 precedent).",
-          "used_by": [
-            "SourceBurstDrillBuildState.source_drill_set_stats_state"
-          ]
-        },
-        "booster_amount": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
-          "java_expr": "public float amount;",
-          "rule": "The found booster consumer amount per frame (ConsumeLiquidBase.java:8, `public float amount;`, the amount used per frame); the speedBoosters amount param (`consBase.amount, liquidBoostIntensity * liquidBoostIntensity, false, consBase::consumes)`, Drill.java:188): 3f/60f ozone for the impact-drill def (Blocks.java:3090) and 0.75f/60f cyanogen for the eruption-drill def (Blocks.java:3120); passed explicitly with the found consumer.",
-          "used_by": [
-            "SourceBurstDrillBuildState.source_drill_set_stats_state"
-          ]
-        },
-        "booster_consumes": {
-          "type": "bool",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
-          "java_expr": "public abstract boolean consumes(Liquid liquid);",
-          "rule": "The found booster consumer liquid filter result (ConsumeLiquidBase.java:21, `public abstract boolean consumes(Liquid liquid);`, the `consBase::consumes` method reference, Drill.java:188); the speedBoosters filter param; passed explicitly with the found consumer.",
-          "used_by": [
-            "SourceBurstDrillBuildState.source_drill_set_stats_state"
-          ]
-        }
-      },
-      "runtime_proof": "/root/C07DrillSetStatsProof",
-      "rule": "Source-backed Drill setStats() state from Drill.java + Blocks.java + StatValues.java + StatUnit.java + ConsumeLiquidBase.java + Block.java + Consume.java + Stat.java + bundle.properties."
-    },
-    "source_drill_set_stats_state_result": {
-      "status": "active",
-      "owner": "SourceBurstDrillBuildState.source_drill_set_stats_state",
-      "source_slice": "N2280",
-      "keys": {
-        "drill_tier_row": {
-          "type": "Dictionary",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-          "java_expr": "stats.add(Stat.drillTier, StatValues.drillables(drillTime, hardnessDrillMultiplier, size * size, drillMultipliers, b -> b instanceof Floor f && !f.wallOre && f.itemDrop != null &&",
-          "rule": "The Stat.drillTier row added by Drill.setStats, pinning the StatValues.drillables call args (Drill.java:178-179): {drill_time, hardness_drill_multiplier, size_squared (the drillables size param is size * size), drill_multipliers, tier, blocked_items}; the per-floor filter evaluation and the displayed per-ore table render at display time (StatValues.java:413-437).",
-          "used_by": [
-            "SourceBurstDrillBuildState.source_drill_set_stats_state"
-          ]
-        },
-        "drill_speed_row": {
-          "type": "Dictionary",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-          "java_expr": "stats.add(Stat.drillSpeed, 60f / drillTime * size * size, StatUnit.itemsSecond);",
-          "rule": "The Stat.drillSpeed row added by Drill.setStats: {value 60f / drillTime * size * size, unit \"items/second\"} (Drill.java:181, `stats.add(Stat.drillSpeed, 60f / drillTime * size * size, StatUnit.itemsSecond);`; StatUnit.itemsSecond localized \"items/second\", bundle.properties:1354); class default 0.2, impact-drill 1.333..., eruption-drill 5.333....",
-          "used_by": [
-            "SourceBurstDrillBuildState.source_drill_set_stats_state"
-          ]
-        },
-        "booster_row_removed": {
-          "type": "bool",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-          "java_expr": "stats.remove(Stat.booster);",
-          "rule": "Whether stats.remove(Stat.booster) ran: true exactly when the if-branch runs (Drill.java:184, `stats.remove(Stat.booster);`, inside the `liquidBoostIntensity != 1` + booster-found guard at :183) -- the remove runs before the add, so the displayed booster row is the Drill super row until the BurstDrill override replaces it.",
-          "used_by": [
-            "SourceBurstDrillBuildState.source_drill_set_stats_state"
-          ]
-        },
-        "booster_row": {
-          "type": "Variant",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-          "java_expr": "liquidBoostIntensity * liquidBoostIntensity, false, consBase::consumes)",
-          "rule": "The Stat.booster row added by Drill.setStats, or null when the branch does not run: {format \"{0} x speed\", amount consBase.amount, intensity liquidBoostIntensity SQUARED (Drill.java:188 -- the trap vs the N2309 BurstDrill override row, which uses the PLAIN intensity, BurstDrill.java:65), strength false, consumes consBase::consumes} (Drill.java:185-189, `stats.add(Stat.booster,` + `StatValues.speedBoosters(\"{0}\" + StatUnit.timesSpeed.localized(),` + `liquidBoostIntensity * liquidBoostIntensity, false, consBase::consumes)`; the format is \"{0} x speed\" because StatUnit.timesSpeed.localized() reads bundle key \"unit.timesspeed\", English value \"x speed\").",
-          "used_by": [
-            "SourceBurstDrillBuildState.source_drill_set_stats_state"
-          ]
-        }
-      },
-      "runtime_proof": "/root/C07DrillSetStatsProof",
-      "rule": "Source-backed Drill setStats() state from Drill.java + Blocks.java + StatValues.java + StatUnit.java + ConsumeLiquidBase.java + Block.java + Consume.java + Stat.java + bundle.properties."
-    },
     "source_radar_draw_select_state_input": {
       "status": "active",
       "owner": "SourceRadarBuildState.source_radar_draw_select_state",
@@ -240890,6 +240722,174 @@
       },
       "runtime_proof": "/root/C07SoundControlGetMusicProof",
       "rule": "Source-backed SoundControl music getter state from SoundControl.java."
+    },
+    "source_drill_set_stats_state_input": {
+      "status": "active",
+      "owner": "SourceBurstDrillBuildState.source_drill_set_stats_state",
+      "source_slice": "N2332",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public void setStats(){",
+          "rule": "The drill frame (Drill.setStats, Drill.java:175): carries no live keys for this block-level stat read -- drillTime, tier, size, drillMultipliers, blockedItems, liquidBoostIntensity and the booster consumer are per-def static state, not live frame keys (the N2212 / N2224 per-def-param precedent); frame is the canonical first param of this family file.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_set_stats_state"
+          ]
+        },
+        "drill_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public float drillTime = 300;",
+          "rule": "The base time to drill one ore, in frames (`public float drillTime = 300;`, Drill.java:36, the class default); impact-drill 60f*12f = 720f (Blocks.java:3072), eruption-drill 281.25f (Blocks.java:3095); passed explicitly because it is per-def static state (the N2212 / N2224 per-def-param precedent).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_set_stats_state"
+          ]
+        },
+        "hardness_drill_multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public float hardnessDrillMultiplier = 50f;",
+          "rule": "The hardness multiplier added per ore hardness in getDrillTime/drillables (`public float hardnessDrillMultiplier = 50f;`, Drill.java:28); the same class value for both defs; passed explicitly because it is per-def static state.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_set_stats_state"
+          ]
+        },
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public int size = 1;",
+          "rule": "The block size in tiles (`public int size = 1;`, Block.java:215); the drillables call passes size * size and the drillSpeed row passes size * size (Drill.java:178, :181); impact-drill size 4 (Blocks.java:3073), eruption-drill size 5 (Blocks.java:3096); passed explicitly (the N2212 per-def-param precedent).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_set_stats_state"
+          ]
+        },
+        "tier": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public int tier;",
+          "rule": "The maximum tier of blocks this drill can mine (`public int tier;`, Drill.java:34, no default -- Java int default 0); the drillables filter gates on `f.itemDrop.hardness <= tier` (Drill.java:179); impact-drill tier 6 (Blocks.java:3075), eruption-drill tier 7 (Blocks.java:3098); passed explicitly.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_set_stats_state"
+          ]
+        },
+        "drill_multipliers": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public ObjectFloatMap<Item> drillMultipliers = new ObjectFloatMap<>();",
+          "rule": "The per-item drill-time multipliers (`public ObjectFloatMap<Item> drillMultipliers = new ObjectFloatMap<>();`, Drill.java:66); both defs put beryllium 2f (`drillMultipliers.put(Items.beryllium, 2f);`, Blocks.java:3083/3113); passed explicitly as a Dictionary because it is per-def static state.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_set_stats_state"
+          ]
+        },
+        "blocked_items": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public @Nullable Seq<Item> blockedItems;",
+          "rule": "The items this drill cannot mine (`public @Nullable Seq<Item> blockedItems;`, Drill.java:44, set from blockedItem at :93-94); the drillables filter gates on `blockedItems == null || !blockedItems.contains(f.itemDrop)` (Drill.java:179); impact-drill blocks thorium (`blockedItem = Items.thorium;`, Blocks.java:3080), eruption-drill blocks nothing (null); passed explicitly as null or an Array.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_set_stats_state"
+          ]
+        },
+        "liquid_boost_intensity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public float liquidBoostIntensity = 1.6f;",
+          "rule": "The per-def liquid boost intensity (Drill.java:38, `public float liquidBoostIntensity = 1.6f;`, the class default; impact-drill 1.75f, Blocks.java:3084; eruption-drill 2f, Blocks.java:3115); the setStats guard reads `liquidBoostIntensity != 1` (Drill.java:183); passed explicitly because it is per-def static state, not a live frame key (the N2212 / N2224 per-def-param precedent).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_set_stats_state"
+          ]
+        },
+        "booster_consumer_found": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "if(liquidBoostIntensity != 1 && findConsumer(f -> f instanceof ConsumeLiquidBase && f.booster) instanceof ConsumeLiquidBase consBase){",
+          "rule": "Whether findConsumer found a booster consumer: the first consumer matching `f instanceof ConsumeLiquidBase && f.booster` (Drill.java:183, via Block.java:1104 `public <T extends Consume> T findConsumer(Boolf<Consume> filter){`); passed explicitly because findConsumer is not ported in this slice (the N1688/N1753 precedent).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_set_stats_state"
+          ]
+        },
+        "booster_amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+          "java_expr": "public float amount;",
+          "rule": "The found booster consumer amount per frame (ConsumeLiquidBase.java:8, `public float amount;`, the amount used per frame); the speedBoosters amount param (`consBase.amount, liquidBoostIntensity * liquidBoostIntensity, false, consBase::consumes)`, Drill.java:188): 3f/60f ozone for the impact-drill def (Blocks.java:3090) and 0.75f/60f cyanogen for the eruption-drill def (Blocks.java:3120); passed explicitly with the found consumer.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_set_stats_state"
+          ]
+        },
+        "booster_consumes": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+          "java_expr": "public abstract boolean consumes(Liquid liquid);",
+          "rule": "The found booster consumer liquid filter result (ConsumeLiquidBase.java:21, `public abstract boolean consumes(Liquid liquid);`, the `consBase::consumes` method reference, Drill.java:188); the speedBoosters filter param; passed explicitly with the found consumer.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_set_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07DrillSetStatsProof",
+      "rule": "Source-backed Drill setStats() state from Drill.java + Blocks.java + StatValues.java + StatUnit.java + ConsumeLiquidBase.java + Block.java + Consume.java + Stat.java + bundle.properties."
+    },
+    "source_drill_set_stats_state_result": {
+      "status": "active",
+      "owner": "SourceBurstDrillBuildState.source_drill_set_stats_state",
+      "source_slice": "N2332",
+      "keys": {
+        "drill_tier_row": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "stats.add(Stat.drillTier, StatValues.drillables(drillTime, hardnessDrillMultiplier, size * size, drillMultipliers, b -> b instanceof Floor f && !f.wallOre && f.itemDrop != null &&",
+          "rule": "The Stat.drillTier row added by Drill.setStats, pinning the StatValues.drillables call args (Drill.java:178-179): {drill_time, hardness_drill_multiplier, size_squared (the drillables size param is size * size), drill_multipliers, tier, blocked_items}; the per-floor filter evaluation and the displayed per-ore table render at display time (StatValues.java:413-437).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_set_stats_state"
+          ]
+        },
+        "drill_speed_row": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "stats.add(Stat.drillSpeed, 60f / drillTime * size * size, StatUnit.itemsSecond);",
+          "rule": "The Stat.drillSpeed row added by Drill.setStats: {value 60f / drillTime * size * size, unit \"items/second\"} (Drill.java:181, `stats.add(Stat.drillSpeed, 60f / drillTime * size * size, StatUnit.itemsSecond);`; StatUnit.itemsSecond localized \"items/second\", bundle.properties:1354); class default 0.2, impact-drill 1.333..., eruption-drill 5.333....",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_set_stats_state"
+          ]
+        },
+        "booster_row_removed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "stats.remove(Stat.booster);",
+          "rule": "Whether stats.remove(Stat.booster) ran: true exactly when the if-branch runs (Drill.java:184, `stats.remove(Stat.booster);`, inside the `liquidBoostIntensity != 1` + booster-found guard at :183) -- the remove runs before the add, so the displayed booster row is the Drill super row until the BurstDrill override replaces it.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_set_stats_state"
+          ]
+        },
+        "booster_row": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "liquidBoostIntensity * liquidBoostIntensity, false, consBase::consumes)",
+          "rule": "The Stat.booster row added by Drill.setStats, or null when the branch does not run: {format \"{0} x speed\", amount consBase.amount, intensity liquidBoostIntensity SQUARED (Drill.java:188 -- the trap vs the N2309 BurstDrill override row, which uses the PLAIN intensity, BurstDrill.java:65), strength false, consumes consBase::consumes} (Drill.java:185-189, `stats.add(Stat.booster,` + `StatValues.speedBoosters(\"{0}\" + StatUnit.timesSpeed.localized(),` + `liquidBoostIntensity * liquidBoostIntensity, false, consBase::consumes)`; the format is \"{0} x speed\" because StatUnit.timesSpeed.localized() reads bundle key \"unit.timesspeed\", English value \"x speed\").",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_set_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07DrillSetStatsProof",
+      "rule": "Source-backed Drill setStats() state from Drill.java + Blocks.java + StatValues.java + StatUnit.java + ConsumeLiquidBase.java + Block.java + Consume.java + Stat.java + bundle.properties."
     }
   },
   "version": 1

@@ -1,4 +1,4 @@
-"""Register the Drill setStats() super leg (N2280).
+"""Register the Drill setStats() super leg (N2332).
 
 Drill.setStats() (Drill.java:175-191, `public void
 setStats(){`) calls the Block super (`super.setStats();`
@@ -110,7 +110,7 @@ BUNDLE = 'core/assets/bundles/bundle.properties'
 PROOF = '/root/C07DrillSetStatsProof'
 SET_STATS_OWNER = 'SourceBurstDrillBuildState.source_drill_set_stats_state'
 TESTS = ['test_c07_drill_set_stats_registration', 'test_all_c07_drill_set_stats_input_evidence_is_exact', 'test_drill_set_stats_state', 'test_reference_graph_and_actual_c07_drill_set_stats']
-# The 9 slice sources the N2280 test checks exact_exprs
+# The 9 slice sources the N2332 test checks exact_exprs
 # against -- every expr in EXACT_EXPRS below must appear verbatim
 # in one of these files.
 SLICE_SOURCES = [
@@ -132,15 +132,15 @@ EXACT_EXPRS = ['public void setStats(){', 'super.setStats();', 'stats.add(Stat.d
 # the N2218-style ast.literal_eval carry cannot recover it
 # (ValueError: malformed node); the import recovers the runtime
 # value verbatim. One carried entry is DROPPED here, not carried:
-# the BurstDrill setStats() super leg entry -- N2280 IS the
+# the BurstDrill setStats() super leg entry -- N2332 IS the
 # super-leg slice, so carrying it would leave a stale "waits for
 # its own slice" row for done work. The findConsumer search-order
 # entry, the localized-unit entry and the N2309 Windows-proof debt
 # stay deferred -- those slices own them.
 DEFERRED = [e for e in N2309_DEFERRED if 'BurstDrill setStats() super leg' not in e] + [
-    'Drill setStats() Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2227: the N2280 proof runs headless on Linux here and waits for a Windows Godot run.',
-    'Drill setStats() drillables table rendering (StatValues.drillables, StatValues.java:413-437: content.blocks() iteration + per-floor filter evaluation incl. indexer.isBlockPresent(f) / state.isMenu(), Drill.java:179) -- the N2280 pure function pins the drillables call args; the displayed per-ore table is rendered at display time, not by setStats.',
-    'Drill setStats() localized unit rendering (StatUnit.itemsSecond.localized() reads bundle "unit.itemssecond", English "items/second", bundle.properties:1354) -- the N2280 proof pins the English bundle value; other locales wait for their own slice.',
+    'Drill setStats() Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2227: the N2332 proof runs headless on Linux here and waits for a Windows Godot run.',
+    'Drill setStats() drillables table rendering (StatValues.drillables, StatValues.java:413-437: content.blocks() iteration + per-floor filter evaluation incl. indexer.isBlockPresent(f) / state.isMenu(), Drill.java:179) -- the N2332 pure function pins the drillables call args; the displayed per-ore table is rendered at display time, not by setStats.',
+    'Drill setStats() localized unit rendering (StatUnit.itemsSecond.localized() reads bundle "unit.itemssecond", English "items/second", bundle.properties:1354) -- the N2332 proof pins the English bundle value; other locales wait for their own slice.',
 ]
 
 
@@ -204,7 +204,7 @@ def main():
     set_stats_inputs, set_stats_outputs = definitions()
 
     entries = [
-        ('N2280', SET_STATS_OWNER, 'source_drill_set_stats_state', DRILL, 'mindustry.world.blocks.production.Drill', 'Drill.setStats()', set_stats_inputs, set_stats_outputs, True, 'Dictionary'),
+        ('N2332', SET_STATS_OWNER, 'source_drill_set_stats_state', DRILL, 'mindustry.world.blocks.production.Drill', 'Drill.setStats()', set_stats_inputs, set_stats_outputs, True, 'Dictionary'),
     ]
     all_names = []
     for sid, owner, prefix, source, cls, method, inputs, outputs, has_contract, return_type in entries:
@@ -224,13 +224,13 @@ def main():
 
     by_slice = {}
     # The test pins this order: drill_tier_row, drill_speed_row, booster_row_removed, booster_row.
-    by_slice['N2280'] = [
+    by_slice['N2332'] = [
         'source_drill_set_stats_state_result.drill_tier_row',
         'source_drill_set_stats_state_result.drill_speed_row',
         'source_drill_set_stats_state_result.booster_row_removed',
         'source_drill_set_stats_state_result.booster_row',
     ]
-    source_symbols.upsert_source_slice(GODOT, 'N2280', dict(status='done', java_source=DRILL, java_class='mindustry.world.blocks.production.Drill', java_method='Drill.setStats()', godot_owner=SET_STATS_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2280'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
+    source_symbols.upsert_source_slice(GODOT, 'N2332', dict(status='done', java_source=DRILL, java_class='mindustry.world.blocks.production.Drill', java_method='Drill.setStats()', godot_owner=SET_STATS_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2332'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
 
     source_symbols.upsert_source_symbols(GODOT, symbols)
     source_symbols.write_source_symbol_audit_report(GODOT)

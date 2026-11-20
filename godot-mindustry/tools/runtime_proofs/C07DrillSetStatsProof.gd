@@ -19,7 +19,7 @@ func _ready() -> void:
 	game.set_process(false)
 	game.set_physics_process(false)
 
-	# --- Drill.setStats() super leg (N2280):
+	# --- Drill.setStats() super leg (N2332):
 	# Drill.setStats() (Drill.java:175-191, `public void
 	# setStats(){`) calls the Block super
 	# (`super.setStats();`, :176 -- Block.setStats is owned

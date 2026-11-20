@@ -926,26 +926,6 @@
       ],
       "runtime_proof": "/root/C07WallCrafterPowerStatusProof"
     },
-    "N2280": {
-      "canonical_ledger": "source_slice_ledger.N2280",
-      "status": "done",
-      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
-      "java_method": "Drill.setStats()",
-      "godot_owner": "SourceBurstDrillBuildState.source_drill_set_stats_state",
-      "source_symbols": [
-        "source_drill_set_stats_state_result.drill_tier_row",
-        "source_drill_set_stats_state_result.drill_speed_row",
-        "source_drill_set_stats_state_result.booster_row_removed",
-        "source_drill_set_stats_state_result.booster_row"
-      ],
-      "tests": [
-        "test_c07_drill_set_stats_registration",
-        "test_all_c07_drill_set_stats_input_evidence_is_exact",
-        "test_drill_set_stats_state",
-        "test_reference_graph_and_actual_c07_drill_set_stats"
-      ],
-      "runtime_proof": "/root/C07DrillSetStatsProof"
-    },
     "N2283": {
       "canonical_ledger": "source_slice_ledger.N2283",
       "status": "done",
@@ -1242,6 +1222,26 @@
         "test_reference_graph_and_actual_c07_drill_draw"
       ],
       "runtime_proof": "/root/C07DrillDrawProof"
+    },
+    "N2332": {
+      "canonical_ledger": "source_slice_ledger.N2332",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "Drill.setStats()",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_set_stats_state",
+      "source_symbols": [
+        "source_drill_set_stats_state_result.drill_tier_row",
+        "source_drill_set_stats_state_result.drill_speed_row",
+        "source_drill_set_stats_state_result.booster_row_removed",
+        "source_drill_set_stats_state_result.booster_row"
+      ],
+      "tests": [
+        "test_c07_drill_set_stats_registration",
+        "test_all_c07_drill_set_stats_input_evidence_is_exact",
+        "test_drill_set_stats_state",
+        "test_reference_graph_and_actual_c07_drill_set_stats"
+      ],
+      "runtime_proof": "/root/C07DrillSetStatsProof"
     },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",

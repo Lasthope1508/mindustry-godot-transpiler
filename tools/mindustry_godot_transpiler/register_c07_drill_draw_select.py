@@ -41,7 +41,7 @@ Vars.java:139). Per-def sizes: impact-drill `size = 4;`
 
 RED decisions (resolved at RED): (1) One pure function on
 the same family file N2149 / N2256 / N2258 / N2312 / N2262 /
-N2309 / N2317 / N2323 / N2280 built, after
+N2309 / N2317 / N2323 / N2332 built, after
 source_drill_set_stats_state:
 source_drill_draw_select_state(x, y, block_size, tilesize,
 icon_small, has_dominant_item, dominant_item_icon_ratio)
