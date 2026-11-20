@@ -3900,6 +3900,23 @@
       ],
       "runtime_proof": "/root/C07TurretIsActiveProof"
     },
+    "N2281": {
+      "canonical_ledger": "source_slice_ledger.N2281",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.canHeal()",
+      "godot_owner": "SourceTurretBuildState.source_turret_can_heal_state",
+      "source_symbols": [
+        "source_turret_can_heal_state_result.can_heal"
+      ],
+      "tests": [
+        "test_c07_turret_can_heal_registration",
+        "test_all_c07_turret_can_heal_input_evidence_is_exact",
+        "test_turret_can_heal_state",
+        "test_reference_graph_and_actual_c07_turret_can_heal"
+      ],
+      "runtime_proof": "/root/C07TurretCanHealProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

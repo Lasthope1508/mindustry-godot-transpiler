@@ -70126,6 +70126,46 @@
       ],
       "runtime_proof": "/root/C07TurretIsActiveProof",
       "rule": "Source-backed Turret isActive() derivation from TurretBuild.isActive() / Turret.java:449-450."
+    },
+    "SourceTurretBuildState.source_turret_can_heal_state": {
+      "status": "active",
+      "source_slice": "N2281",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.canHeal()",
+      "params": [
+        {
+          "name": "target_healing",
+          "type": "bool",
+          "schema": "source_turret_can_heal_state_input.target_healing"
+        },
+        {
+          "name": "has_ammo",
+          "type": "bool",
+          "schema": "source_turret_can_heal_state_input.has_ammo"
+        },
+        {
+          "name": "ammo_collides_team",
+          "type": "bool",
+          "schema": "source_turret_can_heal_state_input.ammo_collides_team"
+        },
+        {
+          "name": "ammo_heals",
+          "type": "bool",
+          "schema": "source_turret_can_heal_state_input.ammo_heals"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "can_heal"
+      ],
+      "tests": [
+        "test_c07_turret_can_heal_registration",
+        "test_all_c07_turret_can_heal_input_evidence_is_exact",
+        "test_turret_can_heal_state",
+        "test_reference_graph_and_actual_c07_turret_can_heal"
+      ],
+      "runtime_proof": "/root/C07TurretCanHealProof",
+      "rule": "Source-backed Turret canHeal() derivation from TurretBuild.canHeal() / Turret.java:635-637."
     }
   },
   "policy": {

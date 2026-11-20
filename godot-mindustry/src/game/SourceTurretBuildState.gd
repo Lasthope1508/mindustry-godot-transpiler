@@ -159,6 +159,44 @@ static func source_turret_power_status_row_state(frame: Dictionary, has_power_co
 	var live: float = 1.0 if stamped == null else float(stamped)
 	return {"has_power_row": true, "row": {"result": live, "is_power": true}}
 
+static func source_turret_can_heal_state(target_healing: bool, has_ammo: bool, ammo_collides_team: bool, ammo_heals: bool) -> Dictionary:
+	# TurretBuild.canHeal() (Turret.java:635-637):
+	# `protected boolean canHeal(){` /
+	# `return targetHealing && hasAmmo() && peekAmmo().collidesTeam && peekAmmo().heals();`
+	# -- the healing-target verdict for a turret build.
+	# `targetHealing` is `public boolean targetHealing = false;`
+	# (Turret.java:95); duo never sets it (grep Blocks.java
+	# duo 3257-3331: no hit), so it is false live for duo.
+	# `hasAmmo()` is the live ammo check: the duo ammo stacks
+	# are non-empty (the N2240/N2247 precedent). `collidesTeam`
+	# is `public boolean collidesTeam = false;`
+	# (BulletType.java:127); the duo ammo catalog has no
+	# collidesTeam key, so the peeked ammo data falls back to
+	# the field default. `heals()` is `public boolean heals(){`
+	# / `return healPercent > 0 || healAmount > 0;`
+	# (BulletType.java:447-449) on `public float healPercent =
+	# 0f;` (:165) and the healAmount default 0f; duo ammo
+	# (copper/graphite/silicon BasicBulletType, Blocks.java:
+	# 3259-3295) never sets either, and the catalog has no
+	# such key, so heals() is false live for duo. The two Java
+	# consumers are validateTarget (`return !Units.
+	# invalidateTarget(target, canHeal() ? Team.derelict :
+	# team, x, y) || controlled() || logicControlled();`,
+	# Turret.java:631-633, N2251) and findTarget (`if(target ==
+	# null && canHeal()){ target = Units.findAllyTile(team, x,
+	# y, range, b -> b.damaged() && b != this); }`, :660) --
+	# both need a live entity scan (target team / target list)
+	# the port does not have yet, so this slice is stamp-only
+	# like N2280: the driver stamps the verdict on the frame
+	# and no consumer is rewired. The effective-team
+	# resolution in validateTarget still reads frame
+	# ["target_same_team_effective"] (stamped by test/fixture)
+	# until the findTarget slice lands; can_heal live will
+	# feed it when that slice comes. The result is a 1-key
+	# dict: `can_heal`.
+	var can_heal: bool = target_healing and has_ammo and ammo_collides_team and ammo_heals
+	return {"can_heal": can_heal}
+
 static func source_turret_logic_controlled_state(logic_control_time: float) -> Dictionary:
 	# logicControlled() (`public boolean logicControlled(){` /
 	# `return logicControlTime > 0;`, Turret.java:445-447) is the
@@ -1379,6 +1417,27 @@ static func source_turret_tick_buildings_state(game: Object, seconds: float) -> 
 			# isShooting -- so a logic-controlled duo keeps an
 			# otherwise-invalid target through the verdict, exactly
 			# as Turret.java:632's `|| logicControlled()` does.
+			# canHeal() at the head of the duo branch
+			# (Turret.java:635-637, `return targetHealing &&
+			# hasAmmo() && peekAmmo().collidesTeam && peekAmmo().
+			# heals();`, N2281): the verdict is stamped live
+			# right BEFORE the logic_controlled tick and the
+			# validateTarget call (Java order :491 validate
+			# calls canHeal, before :492 isShooting). Duo never
+			# sets targetHealing (Turret.java:95 default false,
+			# Blocks.java duo 3257-3331 never overrides it), so
+			# the first clause is a false literal; has_ammo is
+			# the live duo stacks; ammo_collides_team defaults
+			# to the BulletType.java:127 field default false
+			# when the peeked ammo data omits it; ammo_heals
+			# is healPercent > 0 || healAmount > 0
+			# (BulletType.java:447-449) read live from the
+			# peeked ammo data. No consumer is rewired: the
+			# validateTarget effective-team resolution
+			# (Turret.java:632) and the findTarget ally-tile
+			# acquisition (:660) both need a live entity scan.
+			var can_heal_state: Dictionary = source_turret_can_heal_state(false, not duo_entries.is_empty(), bool(duo_ammo_data.get("collidesTeam", false)), bool(float(duo_ammo_data.get("healPercent", 0.0)) > 0.0 or float(duo_ammo_data.get("healAmount", 0.0)) > 0.0))
+			frame["can_heal"] = can_heal_state.get("can_heal", false)
 			var logic_controlled_state: Dictionary = source_turret_logic_controlled_state(float(frame.get("logic_control_time", -1.0)))
 			frame["logic_controlled"] = logic_controlled_state.get("logic_controlled", false)
 			var validate: Dictionary = source_item_turret_build_state.source_item_turret_validate_target_state(

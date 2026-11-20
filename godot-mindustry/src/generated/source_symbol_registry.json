@@ -177400,6 +177400,22 @@
         "test_reference_graph_and_actual_c07_turret_is_active"
       ],
       "runtime_proof": "/root/C07TurretIsActiveProof"
+    },
+    "source_turret_can_heal_state_result.can_heal": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_can_heal_state",
+      "godot_symbol": "source_turret_can_heal_state_result.can_heal",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.canHeal()",
+      "java_expr": "return targetHealing && hasAmmo() && peekAmmo().collidesTeam && peekAmmo().heals();",
+      "rule": "Whether the turret build can heal (Turret.java:635-637, the canHeal() return verbatim; the driver stamps it on frame[\"can_heal\"] right before the logic_controlled tick).",
+      "tests": [
+        "test_c07_turret_can_heal_registration",
+        "test_all_c07_turret_can_heal_input_evidence_is_exact",
+        "test_turret_can_heal_state",
+        "test_reference_graph_and_actual_c07_turret_can_heal"
+      ],
+      "runtime_proof": "/root/C07TurretCanHealProof"
     }
   },
   "version": 1

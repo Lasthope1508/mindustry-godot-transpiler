@@ -238378,6 +238378,74 @@
       },
       "runtime_proof": "/root/C07TurretIsActiveProof",
       "rule": "Source-backed Turret isActive() derivation from TurretBuild.isActive() / Turret.java:449-450."
+    },
+    "source_turret_can_heal_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_can_heal_state",
+      "source_slice": "N2281",
+      "keys": {
+        "target_healing": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public boolean targetHealing = false;",
+          "rule": "Whether the turret targets friendly blocks to heal them (Turret.java:95, default false; duo never sets it, grep Blocks.java duo 3257-3331: no hit, so the driver passes a false literal).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_can_heal_state"
+          ]
+        },
+        "has_ammo": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public boolean hasAmmo(){",
+          "rule": "Whether the turret has ammo (Turret.java:698, the hasAmmo() check on the ammo stacks; the driver reads it live as the duo ammo stacks being non-empty).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_can_heal_state"
+          ]
+        },
+        "ammo_collides_team": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_expr": "public boolean collidesTeam = false;",
+          "rule": "Whether the peeked ammo collides with tiles of the same team (BulletType.java:127, default false; the duo ammo catalog has no collidesTeam key, so the driver falls back to the field default).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_can_heal_state"
+          ]
+        },
+        "ammo_heals": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_expr": "return healPercent > 0 || healAmount > 0;",
+          "rule": "Whether the peeked ammo heals (BulletType.java:447-449, the heals() return on healPercent = 0f (:165) and the healAmount default 0f; duo ammo never sets either, so the driver reads it live from the peeked ammo data).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_can_heal_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretCanHealProof",
+      "rule": "Source-backed Turret canHeal() derivation from TurretBuild.canHeal() / Turret.java:635-637."
+    },
+    "source_turret_can_heal_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_can_heal_state",
+      "source_slice": "N2281",
+      "keys": {
+        "can_heal": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return targetHealing && hasAmmo() && peekAmmo().collidesTeam && peekAmmo().heals();",
+          "rule": "Whether the turret build can heal (Turret.java:635-637, the canHeal() return verbatim; the driver stamps it on frame[\"can_heal\"] right before the logic_controlled tick).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_can_heal_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretCanHealProof",
+      "rule": "Source-backed Turret canHeal() derivation from TurretBuild.canHeal() / Turret.java:635-637."
     }
   },
   "version": 1
