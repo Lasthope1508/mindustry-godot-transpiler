@@ -52,8 +52,11 @@ func _ready() -> void:
 	# (N2250). The frame target dict carries only x/y/vx/vy/hit_size,
 	# so the team / health / targetable / controlled bools are
 	# stamped in from the frame with vacuous defaults (health_valid
-	# / unit_targetable true, same team / controlled /
-	# logic_controlled false); a frame with has_target false holds
+	# / unit_targetable true, same team / controlled false);
+	# logic_controlled is derived LIVE from logic_control_time by
+	# the N2278 stamp tick right before the validate call, so the
+	# logic-controlled segment below sets the time, not the flag.
+	# A frame with has_target false holds
 	# no acquired target, so its target dict (if any) counts as null
 	# for the verdict. Eight segments, one shared driver tick: a
 	# null target is invalid, a same-team target is invalid, a dead
@@ -123,13 +126,16 @@ func _ready() -> void:
 	frames[4]["has_target"] = true
 	frames[4]["target_same_team_effective"] = true
 	frames[4]["controlled"] = true
-	# 5: one dead-Healthc target due east, but the build is
-	# logic-controlled -- logicControlled() rescues the verdict,
-	# the driver must NOT clear it and the aim must run (dest 90).
+	# logicControlled() rescues the verdict, the driver must NOT
+	# clear it and the aim must run (dest 90). The rescue is
+	# driven from logic_control_time = 120.0 (N2278): the stamp
+	# tick derives logicControlled() live from the previous
+	# tick's logic_control_time, so stamping the flag directly
+	# would be overwritten by the live derivation.
 	frames[5]["target"] = {"x": positions[5].x + 100.0, "y": positions[5].y, "vx": 0.0, "vy": 0.0, "hit_size": 0.0}
 	frames[5]["has_target"] = true
 	frames[5]["target_health_valid"] = false
-	frames[5]["logic_controlled"] = true
+	frames[5]["logic_control_time"] = 120.0
 	# 6: one healthy enemy target due east -- valid, the aim must
 	# run (dest 90) and the target must stay.
 	frames[6]["target"] = {"x": positions[6].x + 100.0, "y": positions[6].y, "vx": 0.0, "vy": 0.0, "hit_size": 0.0}

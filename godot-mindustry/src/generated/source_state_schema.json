@@ -238214,6 +238214,44 @@
       },
       "runtime_proof": "/root/C07TurretIsShootingProof",
       "rule": "Source-backed Turret isShooting flag from TurretBuild.updateTile() / Turret.java:492."
+    },
+    "source_turret_logic_controlled_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_logic_controlled_state",
+      "source_slice": "N2278",
+      "keys": {
+        "logic_control_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "logicControlTime > 0",
+          "rule": "The logic control timer (Turret.java:284 `public float curRecoil, heat, logicControlTime = -1;`, set to logicControlCooldown by the control() setters :384/:394, N2264; decayed :534-536 by the N2261 tick; the driver passes the PREVIOUS tick's frame value, since the decay tick runs later in the driver -- Java order :491 validate before :534-536 decay).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_logic_controlled_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretLogicControlledProof",
+      "rule": "Source-backed Turret logicControlled() predicate from TurretBuild.updateTile() / Turret.java:445-447."
+    },
+    "source_turret_logic_controlled_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_logic_controlled_state",
+      "source_slice": "N2278",
+      "keys": {
+        "logic_controlled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return logicControlTime > 0;",
+          "rule": "Whether logic controls the turret (Turret.java:445-447 -- rescues validateTarget :631-633 and picks the logic branch of isShooting :492; true while the timer is positive, false at zero and at the -1 default).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_logic_controlled_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretLogicControlledProof",
+      "rule": "Source-backed Turret logicControlled() predicate from TurretBuild.updateTile() / Turret.java:445-447."
     }
   },
   "version": 1

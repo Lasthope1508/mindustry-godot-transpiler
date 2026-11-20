@@ -70030,6 +70030,31 @@
       ],
       "runtime_proof": "/root/C07TurretIsShootingProof",
       "rule": "Source-backed Turret isShooting flag from TurretBuild.updateTile() / Turret.java:492."
+    },
+    "SourceTurretBuildState.source_turret_logic_controlled_state": {
+      "status": "active",
+      "source_slice": "N2278",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.updateTile()",
+      "params": [
+        {
+          "name": "logic_control_time",
+          "type": "float",
+          "schema": "source_turret_logic_controlled_state_input.logic_control_time"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "logic_controlled"
+      ],
+      "tests": [
+        "test_c07_turret_logic_controlled_registration",
+        "test_all_c07_turret_logic_controlled_input_evidence_is_exact",
+        "test_turret_logic_controlled_state",
+        "test_reference_graph_and_actual_c07_turret_logic_controlled"
+      ],
+      "runtime_proof": "/root/C07TurretLogicControlledProof",
+      "rule": "Source-backed Turret logicControlled() predicate from TurretBuild.updateTile() / Turret.java:445-447."
     }
   },
   "policy": {

@@ -177336,6 +177336,22 @@
         "test_reference_graph_and_actual_c07_turret_is_shooting"
       ],
       "runtime_proof": "/root/C07TurretIsShootingProof"
+    },
+    "source_turret_logic_controlled_state_result.logic_controlled": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_logic_controlled_state",
+      "godot_symbol": "source_turret_logic_controlled_state_result.logic_controlled",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "return logicControlTime > 0;",
+      "rule": "Whether logic controls the turret (Turret.java:445-447 -- rescues validateTarget :631-633 and picks the logic branch of isShooting :492; true while the timer is positive, false at zero and at the -1 default).",
+      "tests": [
+        "test_c07_turret_logic_controlled_registration",
+        "test_all_c07_turret_logic_controlled_input_evidence_is_exact",
+        "test_turret_logic_controlled_state",
+        "test_reference_graph_and_actual_c07_turret_logic_controlled"
+      ],
+      "runtime_proof": "/root/C07TurretLogicControlledProof"
     }
   },
   "version": 1

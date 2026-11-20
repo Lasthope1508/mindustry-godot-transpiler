@@ -159,6 +159,30 @@ static func source_turret_power_status_row_state(frame: Dictionary, has_power_co
 	var live: float = 1.0 if stamped == null else float(stamped)
 	return {"has_power_row": true, "row": {"result": live, "is_power": true}}
 
+static func source_turret_logic_controlled_state(logic_control_time: float) -> Dictionary:
+	# logicControlled() (`public boolean logicControlled(){` /
+	# `return logicControlTime > 0;`, Turret.java:445-447) is the
+	# one-line predicate on the logicControlTime field
+	# (`public float curRecoil, heat, logicControlTime = -1;`,
+	# Turret.java:284 -- set to logicControlCooldown by the
+	# control() setters :384/:394, N2264, and decayed :534-536
+	# by the N2261 tick). It rescues validateTarget (`return
+	# !Units.invalidateTarget(target, canHeal() ? Team.derelict
+	# : team, x, y) || controlled() || logicControlled();`,
+	# Turret.java:631-633, N2251) and picks the logic branch of
+	# isShooting (`isShooting = alwaysShooting ||
+	# (unit.controller() instanceof Player ? unit.isShooting() :
+	# logicControlled() ? logicShooting : target != null);`,
+	# :492, N2277). The driver validate call used to read
+	# `frame["logic_controlled"]` with a false default, but the
+	# key was NEVER stamped anywhere -- so a logic-controlled
+	# duo with an otherwise-invalid target wrongly failed
+	# validation; this slice stamps it live from the previous
+	# tick's logic_control_time right before the validate call.
+	# The result is a 1-key dict: `logic_controlled`.
+	var logic_controlled: bool = logic_control_time > 0.0
+	return {"logic_controlled": logic_controlled}
+
 static func source_turret_is_shooting_state(always_shooting: bool, is_player: bool, player_is_shooting: bool, logic_controlled: bool, logic_shooting: bool, has_target: bool) -> Dictionary:
 	# TurretBuild.updateTile() (Turret.java:490-615) sets the
 	# shooting flag at the head of the tick, first line after
@@ -1281,8 +1305,18 @@ static func source_turret_tick_buildings_state(game: Object, seconds: float) -> 
 			# arg; the team / health / targetable / controlled bools
 			# are stamped in from the frame with vacuous defaults
 			# (health_valid / unit_targetable true, same team /
-			# controlled / logic_controlled false) until their live
-			# wiring lands in its own slice.
+			# controlled false) until their live wiring lands in
+			# its own slice. logic_controlled is NOT a vacuous
+			# default anymore: the N2278 tick just below derives
+			# it LIVE from the PREVIOUS tick's logic_control_time
+			# (the N2261 decay tick runs later in the driver;
+			# Java order :491 validate before :534-536 decay),
+			# the same precedent as N2277 deriving it inline for
+			# isShooting -- so a logic-controlled duo keeps an
+			# otherwise-invalid target through the verdict, exactly
+			# as Turret.java:632's `|| logicControlled()` does.
+			var logic_controlled_state: Dictionary = source_turret_logic_controlled_state(float(frame.get("logic_control_time", -1.0)))
+			frame["logic_controlled"] = logic_controlled_state.get("logic_controlled", false)
 			var validate: Dictionary = source_item_turret_build_state.source_item_turret_validate_target_state(
 				frame.get("target", null) == null or not bool(frame.get("has_target", false)),
 				bool(frame.get("target_same_team_effective", false)),
