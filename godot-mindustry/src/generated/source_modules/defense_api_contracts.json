@@ -8172,6 +8172,37 @@
       "rule": "Source-backed TurretBuild.minRange() state from Turret.java + BulletType.java.",
       "return_type": "Dictionary"
     },
+    "SourceTurretBuildState.source_turret_peek_ammo_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_peek_ammo_state",
+      "status": "active",
+      "source_slice": "N2329",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.peekAmmo()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_peek_ammo_state_input.frame"
+        },
+        {
+          "name": "ammo_stacks",
+          "type": "Array",
+          "schema": "source_turret_peek_ammo_state_input.ammo_stacks"
+        }
+      ],
+      "return_keys": [
+        "peek_ammo"
+      ],
+      "tests": [
+        "test_c07_turret_peek_ammo_registration",
+        "test_all_c07_turret_peek_ammo_input_evidence_is_exact",
+        "test_turret_peek_ammo_state",
+        "test_reference_graph_and_actual_c07_turret_peek_ammo"
+      ],
+      "runtime_proof": "/root/C07TurretPeekAmmoProof",
+      "rule": "Source-backed TurretBuild.peekAmmo() state from Turret.java.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_turret_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_power_status_row_state",
       "status": "active",

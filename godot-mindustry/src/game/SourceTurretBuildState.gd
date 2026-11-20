@@ -842,6 +842,39 @@ static func source_turret_has_ammo_state(frame: Dictionary, ammo_stacks: Array, 
 		has_ammo = int(peeked_after.get("amount", 0)) >= ammo_per_shot or cheating
 	return {"has_ammo": has_ammo, "ammo_stacks_after": stacks_after}
 
+# TurretBuild.peekAmmo() (Turret.java:693-695):
+# `/** @return the ammo type that will be returned if useAmmo is called. */`
+# `public @Nullable BulletType peekAmmo(){`
+# `return ammo.size == 0 ? null : ammo.peek().type();`
+# `}`
+# on `public class TurretBuild extends ReloadTurretBuild implements ControlBlock{`
+# (Turret.java:277). ammo is the TurretBuild field
+# (`public Seq<AmmoEntry> ammo = new Seq<>();`, Turret.java:282) and
+# arrives as an explicit param (the N2313 hasAmmo precedent): the ammo
+# list as an Array of {amount, item, type} dicts (the
+# peek_ammo_stack_state convention -- Seq.peek() is the last entry).
+# AmmoEntry is the abstract entry type (`public static abstract class
+# AmmoEntry{`, Turret.java:257) with `public int amount;` and
+# `public abstract BulletType type();` (Turret.java:258-260). type() is
+# NOT re-ported here: for ItemEntry it resolves through the block
+# ammoTypes map (`return ammoTypes.get(item);`, ItemTurret.java:236-238)
+# and the map itself is NOT ported -- the BulletType NAME arrives as
+# the explicit "type" value on each entry dict, and the function
+# returns that name (or null). peekAmmo() reads only the peek: no
+# amount check and no swap, unlike hasAmmo() (N2313) -- an entry with
+# amount 0 still returns its type, and the input list is never
+# mutated. NO driver tick line: peekAmmo() is a pure accessor its
+# callers read, not a per-tick write (the N2249/N2221 precedent) --
+# targetPosition() (Turret.java:454, remote N2266) and useAmmo()
+# (N2108) read the result; neither caller is ported here.
+@warning_ignore("unused_parameter")
+static func source_turret_peek_ammo_state(frame: Dictionary, ammo_stacks: Array) -> Dictionary:
+	if ammo_stacks.is_empty():
+		return {"peek_ammo": null}
+	var peeked: Dictionary = ammo_stacks[ammo_stacks.size() - 1] if ammo_stacks[ammo_stacks.size() - 1] is Dictionary else {}
+	var peeked_type: Variant = peeked.get("type", null)
+	return {"peek_ammo": peeked_type}
+
 # TurretBuild.findEnemy() (Turret.java:639-649):
 # `protected Posc findEnemy(float range){`
 # `if(targetAir && !targetGround){`

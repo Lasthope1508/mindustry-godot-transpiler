@@ -240890,6 +240890,54 @@
       },
       "runtime_proof": "/root/C07DrillSetStatsProof",
       "rule": "Source-backed Drill setStats() state from Drill.java + Blocks.java + StatValues.java + StatUnit.java + ConsumeLiquidBase.java + Block.java + Consume.java + Stat.java + bundle.properties."
+    },
+    "source_turret_peek_ammo_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_peek_ammo_state",
+      "source_slice": "N2329",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public @Nullable BulletType peekAmmo(){",
+          "rule": "The turret frame (TurretBuild.peekAmmo, Turret.java:693): the family-convention first arg every Turret pure function takes; it IS the building (`this`) the accessor reads -- peekAmmo() itself does not read frame fields (the ammo list arrives as an explicit param), so the frame is carried only for the family convention.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_peek_ammo_state"
+          ]
+        },
+        "ammo_stacks": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public Seq<AmmoEntry> ammo = new Seq<>();",
+          "rule": "The ammo list (`ammo`, Turret.java:282): the TurretBuild field (`public Seq<AmmoEntry> ammo = new Seq<>();`, Turret.java:282) -- NOT re-ported here (AmmoEntry/Seq are not ported); it arrives as an explicit param (the N2313 hasAmmo precedent) as an Array of {amount, item, type} dicts (the peek_ammo_stack_state convention -- Seq.peek() is the last entry). The \"type\" value on each dict carries the `AmmoEntry.type()` result (`public abstract BulletType type();`, Turret.java:260): for ItemEntry it resolves through the block ammoTypes map (`return ammoTypes.get(item);`, ItemTurret.java:236-238) and the map itself is NOT ported, so the BulletType name arrives as explicit data.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_peek_ammo_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretPeekAmmoProof",
+      "rule": "Source-backed TurretBuild.peekAmmo() state from Turret.java."
+    },
+    "source_turret_peek_ammo_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_peek_ammo_state",
+      "source_slice": "N2329",
+      "keys": {
+        "peek_ammo": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return ammo.size == 0 ? null : ammo.peek().type();",
+          "rule": "The peeked ammo type name (Turret.java:694, `return ammo.size == 0 ? null : ammo.peek().type();`): the BulletType name carried on the peeked (last) entry's \"type\" value, or null when the ammo list is empty or the peeked entry carries no type. peekAmmo() never checks amounts and never swaps (unlike hasAmmo() N2313), and never mutates the input list.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_peek_ammo_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretPeekAmmoProof",
+      "rule": "Source-backed TurretBuild.peekAmmo() state from Turret.java."
     }
   },
   "version": 1

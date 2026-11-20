@@ -3685,6 +3685,23 @@
       ],
       "runtime_proof": "/root/C07TurretIsActiveProof"
     },
+    "N2329": {
+      "canonical_ledger": "source_slice_ledger.N2329",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.peekAmmo()",
+      "godot_owner": "SourceTurretBuildState.source_turret_peek_ammo_state",
+      "source_symbols": [
+        "source_turret_peek_ammo_state_result.peek_ammo"
+      ],
+      "tests": [
+        "test_c07_turret_peek_ammo_registration",
+        "test_all_c07_turret_peek_ammo_input_evidence_is_exact",
+        "test_turret_peek_ammo_state",
+        "test_reference_graph_and_actual_c07_turret_peek_ammo"
+      ],
+      "runtime_proof": "/root/C07TurretPeekAmmoProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

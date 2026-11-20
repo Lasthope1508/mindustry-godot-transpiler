@@ -178584,6 +178584,22 @@
         "test_reference_graph_and_actual_c07_sound_control_get_music"
       ],
       "runtime_proof": "/root/C07SoundControlGetMusicProof"
+    },
+    "source_turret_peek_ammo_state_result.peek_ammo": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_peek_ammo_state",
+      "godot_symbol": "source_turret_peek_ammo_state_result.peek_ammo",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.peekAmmo()",
+      "java_expr": "return ammo.size == 0 ? null : ammo.peek().type();",
+      "rule": "The peeked ammo type name (Turret.java:694, `return ammo.size == 0 ? null : ammo.peek().type();`): the BulletType name carried on the peeked (last) entry's \"type\" value, or null when the ammo list is empty or the peeked entry carries no type. peekAmmo() never checks amounts and never swaps (unlike hasAmmo() N2313), and never mutates the input list.",
+      "tests": [
+        "test_c07_turret_peek_ammo_registration",
+        "test_all_c07_turret_peek_ammo_input_evidence_is_exact",
+        "test_turret_peek_ammo_state",
+        "test_reference_graph_and_actual_c07_turret_peek_ammo"
+      ],
+      "runtime_proof": "/root/C07TurretPeekAmmoProof"
     }
   },
   "version": 1
