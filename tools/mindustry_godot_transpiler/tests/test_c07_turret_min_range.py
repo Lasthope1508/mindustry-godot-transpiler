@@ -14,7 +14,7 @@ class C07TurretMinRangeTests(unittest.TestCase):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        self.assertEqual(ledger['N2282']['godot_owner'], 'SourceTurretBuildState.source_turret_min_range_state')
+        self.assertEqual(ledger['N2340']['godot_owner'], 'SourceTurretBuildState.source_turret_min_range_state')
         # TurretBuild.minRange() (Turret.java:334-339):
         # `public float minRange(){`
         # `if(peekAmmo() != null){`
@@ -47,21 +47,21 @@ class C07TurretMinRangeTests(unittest.TestCase):
         # their own slices. One new result symbol:
         # min_range.
         self.assertEqual(
-            ledger['N2282']['source_symbols'],
+            ledger['N2340']['source_symbols'],
             [
                 'source_turret_min_range_state_result.min_range',
             ],
         )
-        for name in ledger['N2282']['source_symbols']:
+        for name in ledger['N2340']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_source'], {
                     'core/src/mindustry/world/blocks/defense/turrets/Turret.java',
                 })
                 self.assertEqual(symbol['godot_owner'], 'SourceTurretBuildState.' + name.rsplit('_result.', 1)[0])
-        self.assertEqual(ledger['N2282']['runtime_proof'], '/root/C07TurretMinRangeProof')
+        self.assertEqual(ledger['N2340']['runtime_proof'], '/root/C07TurretMinRangeProof')
         self.assertEqual(
-            ledger['N2282']['tests'],
+            ledger['N2340']['tests'],
             [
                 'test_c07_turret_min_range_registration',
                 'test_all_c07_turret_min_range_input_evidence_is_exact',
@@ -69,13 +69,13 @@ class C07TurretMinRangeTests(unittest.TestCase):
                 'test_reference_graph_and_actual_c07_turret_min_range',
             ],
         )
-        self.assertTrue(ledger['N2282']['deferred_exprs'])
+        self.assertTrue(ledger['N2340']['deferred_exprs'])
 
     def test_all_c07_turret_min_range_input_evidence_is_exact(self):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        for name in ledger['N2282']['source_symbols']:
+        for name in ledger['N2340']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_expr'], (ROOT / 'mindustry-upstream' / symbol['java_source']).read_text(encoding='utf-8'))
@@ -85,7 +85,7 @@ class C07TurretMinRangeTests(unittest.TestCase):
             'core/src/mindustry/entities/bullet/BulletType.java',
         }
         upstream = {source: (ROOT / 'mindustry-upstream' / source).read_text(encoding='utf-8') for source in slice_sources}
-        for expr in ledger['N2282']['exact_exprs']:
+        for expr in ledger['N2340']['exact_exprs']:
             with self.subTest(expr=expr):
                 self.assertTrue(any(expr in text for text in upstream.values()), expr)
 

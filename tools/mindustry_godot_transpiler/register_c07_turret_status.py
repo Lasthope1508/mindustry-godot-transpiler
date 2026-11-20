@@ -44,7 +44,7 @@ import sys
 from pathlib import Path
 
 from mindustry_port import source_ssot, source_symbols
-from register_c07_turret_min_range import DEFERRED as N2282_DEFERRED
+from register_c07_turret_min_range import DEFERRED as N2340_DEFERRED
 from register_liquid_consumer_hydration import backed
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -88,11 +88,11 @@ EXACT_EXPRS = [
     'noInput(Pal.remove),',
 ]
 
-# DEFERRED is carried from the N2282 register script via import --
+# DEFERRED is carried from the N2340 register script via import --
 # never retyped. Nothing in it closes here: status() was never
 # a deferred entry of the Turret chain. One entry is added: the
 # N2285 Windows Godot proof debt (GOAL.md section 5).
-DEFERRED = N2282_DEFERRED + [
+DEFERRED = N2340_DEFERRED + [
     'Turret status() Windows Godot proof -- debt in GOAL.md section 5, same as N2148/N2227: the N2285 proof runs headless on Linux here and waits for a Windows Godot run.',
 ]
 

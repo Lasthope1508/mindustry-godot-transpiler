@@ -1,4 +1,4 @@
-"""Register the Turret minRange() accessor (N2282).
+"""Register the Turret minRange() accessor (N2340).
 
 TurretBuild.minRange() (Turret.java:334-339) is the artillery
 minimum-range accessor:
@@ -60,7 +60,7 @@ BULLET_TYPE = 'core/src/mindustry/entities/bullet/BulletType.java'
 PROOF = '/root/C07TurretMinRangeProof'
 OWNER = 'SourceTurretBuildState.source_turret_min_range_state'
 TESTS = ['test_c07_turret_min_range_registration', 'test_all_c07_turret_min_range_input_evidence_is_exact', 'test_turret_min_range_state', 'test_reference_graph_and_actual_c07_turret_min_range']
-# The 2 slice sources the N2282 test checks exact_exprs
+# The 2 slice sources the N2340 test checks exact_exprs
 # against -- every expr in EXACT_EXPRS below must appear verbatim
 # in one of these files.
 SLICE_SOURCES = [
@@ -84,9 +84,9 @@ EXACT_EXPRS = [
 # DEFERRED is carried from the N2328 register script via import --
 # never retyped. Nothing in it closes here: minRange() was never
 # a deferred entry of the Turret chain. One entry is added: the
-# N2282 Windows Godot proof debt (GOAL.md section 5).
+# N2340 Windows Godot proof debt (GOAL.md section 5).
 DEFERRED = N2328_DEFERRED + [
-    'Turret minRange() Windows Godot proof -- debt in GOAL.md section 5, same as N2148/N2227: the N2282 proof runs headless on Linux here and waits for a Windows Godot run.',
+    'Turret minRange() Windows Godot proof -- debt in GOAL.md section 5, same as N2148/N2227: the N2340 proof runs headless on Linux here and waits for a Windows Godot run.',
 ]
 
 
@@ -140,7 +140,7 @@ def main():
     inputs, outputs = definitions()
 
     entries = [
-        ('N2282', OWNER, 'source_turret_min_range_state', TURRET, 'mindustry.world.blocks.defense.turrets.Turret.TurretBuild', 'TurretBuild.minRange()', inputs, outputs, True, 'Dictionary'),
+        ('N2340', OWNER, 'source_turret_min_range_state', TURRET, 'mindustry.world.blocks.defense.turrets.Turret.TurretBuild', 'TurretBuild.minRange()', inputs, outputs, True, 'Dictionary'),
     ]
     all_names = []
     for sid, owner, prefix, source, cls, method, inputs, outputs, has_contract, return_type in entries:
@@ -160,10 +160,10 @@ def main():
 
     by_slice = {}
     # The test pins this order: min_range.
-    by_slice['N2282'] = [
+    by_slice['N2340'] = [
         'source_turret_min_range_state_result.min_range',
     ]
-    source_symbols.upsert_source_slice(GODOT, 'N2282', dict(status='done', java_source=TURRET, java_class='mindustry.world.blocks.defense.turrets.Turret.TurretBuild', java_method='TurretBuild.minRange()', godot_owner=OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2282'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
+    source_symbols.upsert_source_slice(GODOT, 'N2340', dict(status='done', java_source=TURRET, java_class='mindustry.world.blocks.defense.turrets.Turret.TurretBuild', java_method='TurretBuild.minRange()', godot_owner=OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2340'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
 
     source_symbols.upsert_source_symbols(GODOT, symbols)
     source_symbols.write_source_symbol_audit_report(GODOT)

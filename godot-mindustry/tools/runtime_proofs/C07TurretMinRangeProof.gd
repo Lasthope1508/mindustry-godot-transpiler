@@ -19,7 +19,7 @@ func _ready() -> void:
 	game.set_process(false)
 	game.set_physics_process(false)
 
-	# --- Turret minRange() artillery minimum (N2282): TurretBuild.minRange()
+	# --- Turret minRange() artillery minimum (N2340): TurretBuild.minRange()
 	# (Turret.java:334-339) returns the def minimum plus the peeked
 	# bullet's minRangeChange when ammo is peeked, the bare def minimum
 	# otherwise:

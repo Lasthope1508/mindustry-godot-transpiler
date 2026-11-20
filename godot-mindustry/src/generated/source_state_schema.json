@@ -234703,74 +234703,6 @@
       "runtime_proof": "/root/C07RadarProgressProof",
       "rule": "Source-backed Radar progress() accessor from Radar.java."
     },
-    "source_turret_min_range_state_input": {
-      "status": "active",
-      "owner": "SourceTurretBuildState.source_turret_min_range_state",
-      "source_slice": "N2282",
-      "keys": {
-        "frame": {
-          "type": "Dictionary",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-          "java_expr": "public float minRange(){",
-          "rule": "The turret frame (TurretBuild.minRange, Turret.java:334): the family-convention first arg every Turret pure function takes; it carries no tracked key for this accessor -- the tick frame tracks no ammo state yet, so all live values arrive as explicit params (the N2188 precedent).",
-          "used_by": [
-            "SourceTurretBuildState.source_turret_min_range_state"
-          ]
-        },
-        "min_range": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-          "java_expr": "public float minRange = 0f;",
-          "rule": "The def minimum range (`minRange`, Turret.java:334-338): the Turret field (`public float minRange = 0f;`, Turret.java:74, \"Minimum bullet range. Used for artillery only.\"); returned bare when there is no peeked ammo (the Java fall-through leg).",
-          "used_by": [
-            "SourceTurretBuildState.source_turret_min_range_state"
-          ]
-        },
-        "has_ammo": {
-          "type": "bool",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-          "java_expr": "public @Nullable BulletType peekAmmo(){",
-          "rule": "Whether a peeked ammo type exists (`peekAmmo() != null`, Turret.java:335): carries the peekAmmo() null check (`public @Nullable BulletType peekAmmo(){`, Turret.java:693, `return ammo.size == 0 ? null : ammo.peek().type();`), NOT hasAmmo() (Turret.java:698, which has the ammo-swap side effect and can be false while peekAmmo() is non-null) -- the isActive :509 precedent, where the param is_shooting carries wasShooting.",
-          "used_by": [
-            "SourceTurretBuildState.source_turret_min_range_state"
-          ]
-        },
-        "ammo_min_range_change": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
-          "java_expr": "public float minRangeChange = 0f;",
-          "rule": "The peeked bullet's minimum-range change (`peekAmmo().minRangeChange`, Turret.java:336): the BulletType field (`public float minRangeChange = 0f;`, BulletType.java:163, default 0f); 0.0 when peekAmmo() is null (the Java fall-through leg), so the change is meaningful only when has_ammo.",
-          "used_by": [
-            "SourceTurretBuildState.source_turret_min_range_state"
-          ]
-        }
-      },
-      "runtime_proof": "/root/C07TurretMinRangeProof",
-      "rule": "Source-backed TurretBuild.minRange() state from Turret.java + BulletType.java."
-    },
-    "source_turret_min_range_state_result": {
-      "status": "active",
-      "owner": "SourceTurretBuildState.source_turret_min_range_state",
-      "source_slice": "N2282",
-      "keys": {
-        "min_range": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-          "java_expr": "return minRange + peekAmmo().minRangeChange;",
-          "rule": "The effective minimum range (Turret.java:336-338, `return minRange + peekAmmo().minRangeChange;` / `return minRange;`): the def minimum plus the peeked bullet's minRangeChange when ammo is peeked, the bare def minimum otherwise.",
-          "used_by": [
-            "SourceTurretBuildState.source_turret_min_range_state"
-          ]
-        }
-      },
-      "runtime_proof": "/root/C07TurretMinRangeProof",
-      "rule": "Source-backed TurretBuild.minRange() state from Turret.java + BulletType.java."
-    },
     "source_drill_draw_select_state_input": {
       "status": "active",
       "owner": "SourceBurstDrillBuildState.source_drill_draw_select_state",
@@ -241310,6 +241242,74 @@
       },
       "runtime_proof": "/root/C07RadarDrawSelectProof",
       "rule": "Source-backed Radar drawSelect() row from Radar.java."
+    },
+    "source_turret_min_range_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_min_range_state",
+      "source_slice": "N2340",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float minRange(){",
+          "rule": "The turret frame (TurretBuild.minRange, Turret.java:334): the family-convention first arg every Turret pure function takes; it carries no tracked key for this accessor -- the tick frame tracks no ammo state yet, so all live values arrive as explicit params (the N2188 precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_min_range_state"
+          ]
+        },
+        "min_range": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float minRange = 0f;",
+          "rule": "The def minimum range (`minRange`, Turret.java:334-338): the Turret field (`public float minRange = 0f;`, Turret.java:74, \"Minimum bullet range. Used for artillery only.\"); returned bare when there is no peeked ammo (the Java fall-through leg).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_min_range_state"
+          ]
+        },
+        "has_ammo": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public @Nullable BulletType peekAmmo(){",
+          "rule": "Whether a peeked ammo type exists (`peekAmmo() != null`, Turret.java:335): carries the peekAmmo() null check (`public @Nullable BulletType peekAmmo(){`, Turret.java:693, `return ammo.size == 0 ? null : ammo.peek().type();`), NOT hasAmmo() (Turret.java:698, which has the ammo-swap side effect and can be false while peekAmmo() is non-null) -- the isActive :509 precedent, where the param is_shooting carries wasShooting.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_min_range_state"
+          ]
+        },
+        "ammo_min_range_change": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_expr": "public float minRangeChange = 0f;",
+          "rule": "The peeked bullet's minimum-range change (`peekAmmo().minRangeChange`, Turret.java:336): the BulletType field (`public float minRangeChange = 0f;`, BulletType.java:163, default 0f); 0.0 when peekAmmo() is null (the Java fall-through leg), so the change is meaningful only when has_ammo.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_min_range_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretMinRangeProof",
+      "rule": "Source-backed TurretBuild.minRange() state from Turret.java + BulletType.java."
+    },
+    "source_turret_min_range_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_min_range_state",
+      "source_slice": "N2340",
+      "keys": {
+        "min_range": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return minRange + peekAmmo().minRangeChange;",
+          "rule": "The effective minimum range (Turret.java:336-338, `return minRange + peekAmmo().minRangeChange;` / `return minRange;`): the def minimum plus the peeked bullet's minRangeChange when ammo is peeked, the bare def minimum otherwise.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_min_range_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretMinRangeProof",
+      "rule": "Source-backed TurretBuild.minRange() state from Turret.java + BulletType.java."
     }
   },
   "version": 1

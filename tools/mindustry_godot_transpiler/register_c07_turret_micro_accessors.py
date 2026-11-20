@@ -12,7 +12,7 @@ in `public class Turret extends ReloadTurret{` (Turret.java:36):
 RED decisions (resolved at RED): (1) Four pure functions, one
 per accessor -- each takes the family-convention frame first
 arg plus ONE explicit param carrying the live value (the
-N2311/N2261/N2282 precedent: super-leg / already-live fields
+N2311/N2261/N2340 precedent: super-leg / already-live fields
 arrive as explicit params, do NOT re-port them). warmup()'s
 shoot_warmup is advanced by the updateTile warmup leg (N2308,
 Turret.java:502-515), NOT here; drawrot()'s rotation is the
