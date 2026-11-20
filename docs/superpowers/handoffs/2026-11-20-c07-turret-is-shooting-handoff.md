@@ -1,0 +1,50 @@
+# Handoff — N2277 Turret isShooting state (C07) [DONE]
+
+## Status: DONE (2026-11-20 ~08:3x +07 GREEN, gate xong 09:21 +07, chờ push lượt cron 09:30) — N2276 đã DONE + PUSHED (5f0f72c0). Slice commit 23b993d8. Gate xác minh độc lập từ log full-suite-n2277-gate.log: Ran 6201 in 1127.323s, failures=227, skipped=5, errors=0 — 227 FAIL = 227 × `AssertionError: unexpectedly None`, 0 KeyError, 0 return_schema_linkage, 0 ERROR, toàn Godot-absent (+4 tests / +1 failure so với gate N2276, đúng 4 test mới; +1 failure là test reference-graph của chính N2277, Godot-absent trong môi trường gate vì chain script reset PATH không gồm godot-bin). Gate launch từ main thread (script n2277-gate-only-main.sh; GATE-START 01:47:54Z rồi 02:03:02Z — lần chạy trọn vẹn là lần 2, GATE-EXIT 1 02:21:51Z; lần đầu chết do VM restart, để lại full-suite-n2277-gate-partial-vm-restart.log). Targeted 4/4 (18 subtests, 17.64s); register --verify 13/13; proof JSON matches:true 8/8 (5 semantic + matches + registry_valid + one_headquarter_per_ssot); SSOT đo từ đĩa 11653/1727/1661/3113; defense 204/203; neighbours 174 passed + 1 stale assert đã fix, warmup + targeted chạy lại độc lập lượt 09:30 8/8 (74 subtests, 32.94s, Godot trên PATH); wiring 32/32 OK (124.789s).
+
+## Scope (đã khóa, xác minh từ đĩa — xem hidden_files/n2277-scope.md)
+
+- Slice: Turret isShooting state — `isShooting = alwaysShooting || (unit.controller() instanceof Player ? unit.isShooting() : logicControlled() ? logicShooting : target != null);` (Turret.java:492, dòng đầu của TurretBuild.updateTile() body sau `if(!validateTarget()) target = null;` :491). Field `isShooting` được warmup target đọc tại :502 (`float warmupTarget = (isShooting && canConsume()) || charging() ? 1f : 0f;`) và shouldConsume (Turret.java:364-366, N2241) — nhưng driver không có `frame["is_shooting"]` stamp và không có pure function standalone: N2253 fold công thức inline làm arg `is_shooting` của warmup call (`has_target and validate.valid`), kèm comment "duo has no player and no logic, so isShooting is target != null after the validateTarget verdict".
+- Inputs (đều frame-available, không bịa giá trị):
+  - `alwaysShooting` — Turret.java:103 `public boolean alwaysShooting = false;`, duo không override (Blocks.java:3257-3331); driver truyền false.
+  - `is_player` — `controlled()` (Turret.java:441-443 `return unit.isPlayer();`); driver đọc `frame["controlled"]` (default false — không có player unit trong port).
+  - `player_is_shooting` — `unit.isShooting()` cho unit do player điều khiển; không có player input trong port; driver truyền false (branch không tới được khi is_player false).
+  - `logic_controlled` — `logicControlled()` (Turret.java:445-447 `return logicControlTime > 0;`); driver derive LIVE từ `float(frame.get("logic_control_time", -1.0)) > 0.0` — giá trị của tick TRƯỚC, vì tick decay N2261 chạy sau trong driver (thứ tự Java :492 trước :534-536); cùng precedent với N2265 đọc heat_req của tick trước. LƯU Ý: `frame["logic_controlled"]` không được stamp ở đâu cả (chỉ đọc với default false tại call validate N2251, :1265) — slice này KHÔNG rewire call đó; derivation chỉ sống trong tick mới.
+  - `logic_shooting` — `public boolean logicShooting = false;` (Turret.java:288), set bởi control() setters :384/:394 (N2264); driver đọc `frame["logic_shooting"]` (default false).
+  - `has_target` — `target != null` sau verdict :491; driver truyền `bool(frame.get("has_target", false)) and bool(validate.get("valid", false))` — cùng proxy warmup call dùng tới nay.
+- Pure function: `source_turret_is_shooting_state(always_shooting: bool, is_player: bool, player_is_shooting: bool, logic_controlled: bool, logic_shooting: bool, has_target: bool) -> Dictionary`, trả 1 key `{"is_shooting": ...}` — ternary Java nguyên văn, không bịa công thức.
+- Pure-function placement trong file: ngay TRƯỚC `source_turret_warmup_state` (:162), mirror thứ tự Java (:492 isShooting trước :502 warmupTarget).
+- Driver tick placement + lý do: ngay SAU block validateTarget (kết thúc bằng `frame["has_target"] = false`, ~:1270) và TRƯỚC fold efficiency N2265 — thứ tự Java :491 validate, :492 isShooting, rồi updateConsumption fold (:674-679) và warmup :502. Tick stamp `frame["is_shooting"]`. Warmup call (:1336) được rewire trong cùng slice để đọc `bool(frame.get("is_shooting", false))` thay vì recompute `has_target and validate.valid` inline: :502 tiêu thụ :492, nên driver tính công thức một lần. Giá trị giống hệt với mọi frame duo hiện có (logic_control_time default -1.0 → không logic-controlled → has_target && valid); với frame logic-controlled giá trị mới là giá trị Java ĐÚNG (logicShooting, không phải target != null). Nếu wiring/neighbours regress vì rewire thì chỉ revert dòng rewire, giữ stamp.
+- New result-key symbol (không clash): `source_turret_is_shooting_state_result.is_shooting` — grep sạch cho owner/name đó trong generated JSONs + SourceTurretBuildState.gd. Lưu ý: `weapons_control.is_shooting_assignment` / `weapons_control.is_shooting_field` và `unit_is_sync_hidden.is_shooting` đã tồn tại — owner/name khác, không xung đột.
+- Proof keys (5 semantic + registry_valid + one_headquarter_per_ssot + matches = 8): is_shooting_duo_target (trực tiếp: no player, no logic, has_target true → true), is_shooting_no_target (trực tiếp: has_target false → false), is_shooting_logic_controlled (trực tiếp: logic_controlled true, logic_shooting false, has_target true → false — logic branch override target), is_shooting_stamped_to_frame (driver: frame mang key sau một tick, no target → false), is_shooting_logic_live (driver: frame logic_control_time 120.0 + logic_shooting true, no target → frame is_shooting true — chứng minh derivation logicControlled live từ logic_control_time, không phải key đã stamp).
+- SSOT baseline (đo từ đĩa 2026-11-20 ~07:50 +07): symbols 11652, Done 1726, contracts 1660, schemas 3111; defense slices 203, contracts 202. Sau GREEN kỳ vọng 11653/1727/1661/3113; defense 204/203.
+- NOT this slice: updateCooling (ReloadTurret.java:28-40 — cần live coolant efficiency + liquids.current() heatCapacity, vẫn BLOCKED, catalog capture); findTarget (BLOCKED — live entity scan); calculateHeat (BLOCKED — live entity scan); call validate N2251 đọc `frame["logic_controlled"]` stale (slice riêng); các def ItemTurret khác ngoài duo.
+- Deferred sau slice này: calculateHeat live proximity scan vẫn BLOCKED; shootp live wiring; findTarget BLOCKED; các def ItemTurret khác ngoài duo; warmup rewire ĐÃ XONG bởi slice này (không deferred).
+
+## GREEN (đã xong, lượt ~08:20–08:35 +07)
+
+- Pure function `source_turret_is_shooting_state` trong SourceTurretBuildState.gd:162 (6 params, 1 key is_shooting) — ĐÃ CÓ sẵn uncommitted từ đầu lượt (scope đã khóa), worker kiểm tra lại khớp scope rồi giữ nguyên, không viết lại.
+- Driver tick trong `source_turret_tick_buildings_state` (:1310-1311): gọi pure function với (false, controlled, false, logic_control_time > 0.0 live, logic_shooting, has_target and validate.valid); stamp frame["is_shooting"]. Warmup call rewire (:1336): đọc `bool(frame.get("is_shooting", false))` thay vì `bool(frame.get("has_target", false)) and bool(validate.get("valid", false))`.
+- Proof C07TurretIsShootingProof.gd + .tscn (5 keys trên). Proof JSON đọc trực tiếp: matches:true, 8/8 true (5 semantic + matches + registry_valid + one_headquarter_per_ssot), GREEN ~08:3x +07 (trong lần chạy targeted với Godot trên PATH).
+- `python3 register_c07_turret_is_shooting.py --verify`: **13/13 exprs present** (6 exact + 6 input + 1 output), exit 0. Register chạy xong (SSOT như trên).
+- Targeted: `python3 -m pytest tests/test_c07_turret_is_shooting.py -q` (từ tools/mindustry_godot_transpiler, Godot trên PATH): **4 passed, 18 subtests passed in 17.64s**.
+- Neighbours: 174 passed + 1 FAILED (test_c07_turret_warmup stale assert — đã fix, xem dưới), 556.35s; warmup + targeted chạy lại độc lập lượt 09:30: 8/8 (74 subtests, 32.94s, Godot trên PATH).
+- Wiring: 32/32 OK (124.789s, log `hidden_files/n2277-wiring.log` trong goals hidden_files).
+- Gate: Ran 6201 in 1127.323s, failures=227, skipped=5 — toàn Godot-absent (xác minh độc lập, xem Status); log `tools/mindustry_godot_transpiler/full-suite-n2277-gate.log` (lần 1 chết do VM restart, log partial `full-suite-n2277-gate-partial-vm-restart.log`).
+- `git diff --check` OK.
+- File thay đổi (CHƯA commit): SourceTurretBuildState.gd (M), 6 SSOT JSON (M: registry, ledger, contracts, schema + defense_slices + defense_api_contracts), proof .gd/.tscn + register + test (mới). Test file `tests/test_c07_turret_is_shooting.py` ĐÃ CÓ sẵn từ đầu lượt (do worker scope viết trước) — worker chỉ sửa driver tick cho khớp tên biến `is_shooting_state` mà test assert. Proof .json không stage (theo quy tắc). Không stage *.gd.uid, gate/neighbours/wiring log, chain script.
+- SSOT đo từ đĩa sau GREEN: symbols 11653 (+1), Done 1727 (+1), contracts 1661 (+1), schemas 3113 (+2) → 11653/1727/1661/3113; defense slices 204, contracts 203. Đúng kỳ vọng scope.
+
+## Tiếp theo (sau khi neighbours + wiring xong)
+
+1. Commit + push N2277 lượt cron 09:30 (slice + docs + GOAL + status + hashes, theo mẫu N2276) — gate đã xanh-theo-mẫu, wiring/targeted đã xác minh lại độc lập.
+2. Chọn slice tiếp theo từ deferred list (calculateHeat vẫn BLOCKED; shootp live wiring; findTarget vẫn BLOCKED; các def ItemTurret khác ngoài duo).
+
+## Deferred (không đổi, trừ isShooting + warmup rewire đã xong ở N2277)
+
+- calculateHeat live proximity scan (BuildingComp.java:410-461) — BLOCKED, live entity scan.
+- Turret control() shootp live wiring — logic executor chưa có trong driver.
+- Turret isShooting cho các def khác ngoài duo — pure function nhận đủ 6 branch làm param; chỉ duo được wire trong driver (alwaysShooting false, no player).
+- findTarget (BLOCKED); các def ItemTurret khác ngoài duo.
+- Live coolant driver wiring + suppression/targets live list vẫn BLOCKED (catalog capture).
+- Call validate N2251 đọc `frame["logic_controlled"]` stale — slice riêng (derivation live chỉ sống trong tick N2277).
