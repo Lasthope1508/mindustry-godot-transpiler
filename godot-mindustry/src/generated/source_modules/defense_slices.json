@@ -3230,28 +3230,6 @@
       ],
       "runtime_proof": "/root/C07PointDefenseTurretLiveBulletsWiringProof"
     },
-    "N2284": {
-      "canonical_ledger": "source_slice_ledger.N2284",
-      "status": "done",
-      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-      "java_method": "Radar.drawPlace()",
-      "godot_owner": "SourceRadarBuildState.source_radar_draw_place_state",
-      "source_symbols": [
-        "source_radar_draw_place_state_result.center",
-        "source_radar_draw_place_state_result.radius",
-        "source_radar_draw_place_state_result.color",
-        "source_radar_draw_place_state_result.rotation",
-        "source_radar_draw_place_state_result.valid",
-        "source_radar_draw_place_state_result.super_draw_place_called"
-      ],
-      "tests": [
-        "test_c07_radar_draw_place_registration",
-        "test_all_c07_radar_draw_place_input_evidence_is_exact",
-        "test_radar_draw_place_state",
-        "test_reference_graph_and_actual_c07_radar_draw_place"
-      ],
-      "runtime_proof": "/root/C07RadarDrawPlaceProof"
-    },
     "N2285": {
       "canonical_ledger": "source_slice_ledger.N2285",
       "status": "done",
@@ -3738,6 +3716,28 @@
         "test_reference_graph_and_actual_c07_turret_min_range"
       ],
       "runtime_proof": "/root/C07TurretMinRangeProof"
+    },
+    "N2342": {
+      "canonical_ledger": "source_slice_ledger.N2342",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "Radar.drawPlace()",
+      "godot_owner": "SourceRadarBuildState.source_radar_draw_place_state",
+      "source_symbols": [
+        "source_radar_draw_place_state_result.center",
+        "source_radar_draw_place_state_result.radius",
+        "source_radar_draw_place_state_result.color",
+        "source_radar_draw_place_state_result.rotation",
+        "source_radar_draw_place_state_result.valid",
+        "source_radar_draw_place_state_result.super_draw_place_called"
+      ],
+      "tests": [
+        "test_c07_radar_draw_place_registration",
+        "test_all_c07_radar_draw_place_input_evidence_is_exact",
+        "test_radar_draw_place_state",
+        "test_reference_graph_and_actual_c07_radar_draw_place"
+      ],
+      "runtime_proof": "/root/C07RadarDrawPlaceProof"
     },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",

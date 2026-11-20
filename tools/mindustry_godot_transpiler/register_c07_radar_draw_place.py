@@ -1,4 +1,4 @@
-"""Register the Radar drawPlace() row (N2284).
+"""Register the Radar drawPlace() row (N2342).
 
 Radar.drawPlace() (Radar.java:42-47) draws one dash circle at the
 ghost position (`Drawf.dashCircle(x * tilesize + offset, y *
@@ -59,7 +59,7 @@ BLOCKS = 'core/src/mindustry/content/Blocks.java'
 PROOF = '/root/C07RadarDrawPlaceProof'
 DRAW_PLACE_OWNER = 'SourceRadarBuildState.source_radar_draw_place_state'
 TESTS = ['test_c07_radar_draw_place_registration', 'test_all_c07_radar_draw_place_input_evidence_is_exact', 'test_radar_draw_place_state', 'test_reference_graph_and_actual_c07_radar_draw_place']
-# The 2 slice sources the N2284 test checks exact_exprs
+# The 2 slice sources the N2342 test checks exact_exprs
 # against -- every expr in EXACT_EXPRS below must appear verbatim
 # in one of these files.
 SLICE_SOURCES = [
@@ -71,13 +71,13 @@ EXACT_EXPRS = ['public void drawPlace(int x, int y, int rotation, boolean valid)
 # DEFERRED is carried from the N2333 register script via import --
 # never retyped. One entry is DROPPED here, not carried: the
 # 'Radar drawPlace rows (drawPlace dash circle,
-# Radar.java:42-47)' entry -- N2284 IS the drawPlace slice, so
+# Radar.java:42-47)' entry -- N2342 IS the drawPlace slice, so
 # carrying it would leave a stale "waits for its own slice" row
 # for done work. It is REPLACED by a Windows-proof-debt entry
 # below (drawPlace is the last unported Radar method, so no
 # further Radar row waits for its own slice).
 DEFERRED = [e for e in N2333_DEFERRED if 'Radar drawPlace rows (drawPlace dash circle, Radar.java:42-47)' not in e] + [
-    'Radar drawPlace Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2320/N2321/N2303/N2310/N2318/N2327/N2333: the N2284 proof runs headless on Linux here and waits for a Windows Godot run.',
+    'Radar drawPlace Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2320/N2321/N2303/N2310/N2318/N2327/N2333: the N2342 proof runs headless on Linux here and waits for a Windows Godot run.',
 ]
 
 
@@ -139,7 +139,7 @@ def main():
     place_inputs, place_outputs = definitions()
 
     entries = [
-        ('N2284', DRAW_PLACE_OWNER, 'source_radar_draw_place_state', RADAR, 'mindustry.world.blocks.defense.Radar', 'Radar.drawPlace()', place_inputs, place_outputs, True, 'Dictionary'),
+        ('N2342', DRAW_PLACE_OWNER, 'source_radar_draw_place_state', RADAR, 'mindustry.world.blocks.defense.Radar', 'Radar.drawPlace()', place_inputs, place_outputs, True, 'Dictionary'),
     ]
     all_names = []
     for sid, owner, prefix, source, cls, method, inputs, outputs, has_contract, return_type in entries:
@@ -160,7 +160,7 @@ def main():
     by_slice = {}
     # The test pins this order: center, radius, color,
     # rotation, valid, super_draw_place_called.
-    by_slice['N2284'] = [
+    by_slice['N2342'] = [
         'source_radar_draw_place_state_result.center',
         'source_radar_draw_place_state_result.radius',
         'source_radar_draw_place_state_result.color',
@@ -168,7 +168,7 @@ def main():
         'source_radar_draw_place_state_result.valid',
         'source_radar_draw_place_state_result.super_draw_place_called',
     ]
-    source_symbols.upsert_source_slice(GODOT, 'N2284', dict(status='done', java_source=RADAR, java_class='mindustry.world.blocks.defense.Radar', java_method='Radar.drawPlace()', godot_owner=DRAW_PLACE_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2284'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
+    source_symbols.upsert_source_slice(GODOT, 'N2342', dict(status='done', java_source=RADAR, java_class='mindustry.world.blocks.defense.Radar', java_method='Radar.drawPlace()', godot_owner=DRAW_PLACE_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2342'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
 
     source_symbols.upsert_source_symbols(GODOT, symbols)
     source_symbols.write_source_symbol_audit_report(GODOT)

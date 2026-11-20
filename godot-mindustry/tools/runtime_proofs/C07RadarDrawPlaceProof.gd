@@ -19,7 +19,7 @@ func _ready() -> void:
 	game.set_process(false)
 	game.set_physics_process(false)
 
-	# --- Pure drawPlace() row (N2284): Radar.drawPlace()
+	# --- Pure drawPlace() row (N2342): Radar.drawPlace()
 	# (Radar.java:42-47) draws one dash circle at the ghost
 	# position: `Drawf.dashCircle(x * tilesize + offset, y *
 	# tilesize + offset, fogRadius * tilesize, Pal.accent);`

@@ -234703,154 +234703,6 @@
       "runtime_proof": "/root/C07RadarProgressProof",
       "rule": "Source-backed Radar progress() accessor from Radar.java."
     },
-    "source_radar_draw_place_state_input": {
-      "status": "active",
-      "owner": "SourceRadarBuildState.source_radar_draw_place_state",
-      "source_slice": "N2284",
-      "keys": {
-        "tile_x": {
-          "type": "int",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-          "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, fogRadius * tilesize, Pal.accent);",
-          "rule": "The ghost tile x (Radar.java:46, `Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, fogRadius * tilesize, Pal.accent);`): the dash circle is centered on the tile position in world units.",
-          "used_by": [
-            "SourceRadarBuildState.source_radar_draw_place_state"
-          ]
-        },
-        "tile_y": {
-          "type": "int",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-          "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, fogRadius * tilesize, Pal.accent);",
-          "rule": "The ghost tile y (Radar.java:46, `Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, fogRadius * tilesize, Pal.accent);`): the dash circle is centered on the tile position in world units.",
-          "used_by": [
-            "SourceRadarBuildState.source_radar_draw_place_state"
-          ]
-        },
-        "rotation": {
-          "type": "int",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-          "java_expr": "public void drawPlace(int x, int y, int rotation, boolean valid){",
-          "rule": "The placement rotation (Radar.java:42, `public void drawPlace(int x, int y, int rotation, boolean valid){`): passed to the super leg and echoed, so the caller can place the ghost at the right rotation.",
-          "used_by": [
-            "SourceRadarBuildState.source_radar_draw_place_state"
-          ]
-        },
-        "valid": {
-          "type": "bool",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-          "java_expr": "public void drawPlace(int x, int y, int rotation, boolean valid){",
-          "rule": "Whether the placement is valid (Radar.java:42, `public void drawPlace(int x, int y, int rotation, boolean valid){`): passed to the super leg and echoed.",
-          "used_by": [
-            "SourceRadarBuildState.source_radar_draw_place_state"
-          ]
-        },
-        "fog_radius": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-          "java_expr": "fogRadius * tilesize",
-          "rule": "The def fog radius (Radar.java:46, `fogRadius * tilesize`): the DEF fogRadius -- 34 (Blocks.java:1991, `fogRadius = 34;`), class default 10 (Radar.java:33, `fogRadius = 10;`) -- NOT the live fogRadius() (N2321), because drawPlace is Block-level and reads the def field; the caller passes it as an explicit param (the N2212 per-def-param precedent).",
-          "used_by": [
-            "SourceRadarBuildState.source_radar_draw_place_state"
-          ]
-        },
-        "tilesize": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-          "java_expr": "fogRadius * tilesize",
-          "rule": "The world-units-per-tile factor (Radar.java:46, `fogRadius * tilesize`): Vars.tilesize is 8 (Vars.java:135); the port passes it explicitly (the drawPlace precedent), so the radius is the def fog radius in world units.",
-          "used_by": [
-            "SourceRadarBuildState.source_radar_draw_place_state"
-          ]
-        },
-        "block_offset": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-          "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, fogRadius * tilesize, Pal.accent);",
-          "rule": "The block offset (Radar.java:46, `Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, fogRadius * tilesize, Pal.accent);`): ((size + 1) % 2) * tilesize / 2f (Block.java:761) -- radar size 1, so 0.0 -- passed explicitly so the center shifts correctly for even-sized blocks.",
-          "used_by": [
-            "SourceRadarBuildState.source_radar_draw_place_state"
-          ]
-        }
-      },
-      "runtime_proof": "/root/C07RadarDrawPlaceProof",
-      "rule": "Source-backed Radar drawPlace() row from Radar.java."
-    },
-    "source_radar_draw_place_state_result": {
-      "status": "active",
-      "owner": "SourceRadarBuildState.source_radar_draw_place_state",
-      "source_slice": "N2284",
-      "keys": {
-        "center": {
-          "type": "Vector2",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-          "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, fogRadius * tilesize, Pal.accent);",
-          "rule": "The dash-circle center (Radar.java:46, `Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, fogRadius * tilesize, Pal.accent);`): the tile position in world units -- tile coord times tilesize plus the block offset.",
-          "used_by": [
-            "SourceRadarBuildState.source_radar_draw_place_state"
-          ]
-        },
-        "radius": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-          "java_expr": "fogRadius * tilesize",
-          "rule": "The dash-circle radius (Radar.java:46, `Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, fogRadius * tilesize, Pal.accent);`): the def fog radius times tilesize -- 272.0 for the radar def (34 * 8) and 80.0 for the class default (10 * 8).",
-          "used_by": [
-            "SourceRadarBuildState.source_radar_draw_place_state"
-          ]
-        },
-        "color": {
-          "type": "String",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-          "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, fogRadius * tilesize, Pal.accent);",
-          "rule": "The dash-circle color (Radar.java:46, `Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, fogRadius * tilesize, Pal.accent);`): Pal.accent, represented as the string \"Pal.accent\" (the SourceBlockDrawState.gd:182 precedent).",
-          "used_by": [
-            "SourceRadarBuildState.source_radar_draw_place_state"
-          ]
-        },
-        "rotation": {
-          "type": "int",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-          "java_expr": "public void drawPlace(int x, int y, int rotation, boolean valid){",
-          "rule": "The placement rotation echoed (Radar.java:42, `public void drawPlace(int x, int y, int rotation, boolean valid){`): the super leg receives the rotation, so the pure function echoes it for the caller.",
-          "used_by": [
-            "SourceRadarBuildState.source_radar_draw_place_state"
-          ]
-        },
-        "valid": {
-          "type": "bool",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-          "java_expr": "public void drawPlace(int x, int y, int rotation, boolean valid){",
-          "rule": "The placement validity echoed (Radar.java:42, `public void drawPlace(int x, int y, int rotation, boolean valid){`): the super leg receives the validity flag, so the pure function echoes it for the caller.",
-          "used_by": [
-            "SourceRadarBuildState.source_radar_draw_place_state"
-          ]
-        },
-        "super_draw_place_called": {
-          "type": "bool",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-          "java_expr": "super.drawPlace(x, y, rotation, valid);",
-          "rule": "The super-leg call marker (Radar.java:43, `super.drawPlace(x, y, rotation, valid);`): the Block.drawPlace leg (Block.java:491-494: drawPotentialLinks + drawOverlay) is folded as an explicit param (the N2317/N2323 super-as-param precedent), so this records that the super leg was invoked; the link/overlay drawing itself waits for its own slice.",
-          "used_by": [
-            "SourceRadarBuildState.source_radar_draw_place_state"
-          ]
-        }
-      },
-      "runtime_proof": "/root/C07RadarDrawPlaceProof",
-      "rule": "Source-backed Radar drawPlace() row from Radar.java."
-    },
     "source_radar_icons_state_input": {
       "status": "active",
       "owner": "SourceRadarBuildState.source_radar_icons_state",
@@ -242064,6 +241916,154 @@
       },
       "runtime_proof": "/root/C07SoundControlReloadProof",
       "rule": "Source-backed SoundControl reload state from SoundControl.java."
+    },
+    "source_radar_draw_place_state_input": {
+      "status": "active",
+      "owner": "SourceRadarBuildState.source_radar_draw_place_state",
+      "source_slice": "N2342",
+      "keys": {
+        "tile_x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, fogRadius * tilesize, Pal.accent);",
+          "rule": "The ghost tile x (Radar.java:46, `Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, fogRadius * tilesize, Pal.accent);`): the dash circle is centered on the tile position in world units.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_place_state"
+          ]
+        },
+        "tile_y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, fogRadius * tilesize, Pal.accent);",
+          "rule": "The ghost tile y (Radar.java:46, `Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, fogRadius * tilesize, Pal.accent);`): the dash circle is centered on the tile position in world units.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_place_state"
+          ]
+        },
+        "rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "public void drawPlace(int x, int y, int rotation, boolean valid){",
+          "rule": "The placement rotation (Radar.java:42, `public void drawPlace(int x, int y, int rotation, boolean valid){`): passed to the super leg and echoed, so the caller can place the ghost at the right rotation.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_place_state"
+          ]
+        },
+        "valid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "public void drawPlace(int x, int y, int rotation, boolean valid){",
+          "rule": "Whether the placement is valid (Radar.java:42, `public void drawPlace(int x, int y, int rotation, boolean valid){`): passed to the super leg and echoed.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_place_state"
+          ]
+        },
+        "fog_radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "fogRadius * tilesize",
+          "rule": "The def fog radius (Radar.java:46, `fogRadius * tilesize`): the DEF fogRadius -- 34 (Blocks.java:1991, `fogRadius = 34;`), class default 10 (Radar.java:33, `fogRadius = 10;`) -- NOT the live fogRadius() (N2321), because drawPlace is Block-level and reads the def field; the caller passes it as an explicit param (the N2212 per-def-param precedent).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_place_state"
+          ]
+        },
+        "tilesize": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "fogRadius * tilesize",
+          "rule": "The world-units-per-tile factor (Radar.java:46, `fogRadius * tilesize`): Vars.tilesize is 8 (Vars.java:135); the port passes it explicitly (the drawPlace precedent), so the radius is the def fog radius in world units.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_place_state"
+          ]
+        },
+        "block_offset": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, fogRadius * tilesize, Pal.accent);",
+          "rule": "The block offset (Radar.java:46, `Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, fogRadius * tilesize, Pal.accent);`): ((size + 1) % 2) * tilesize / 2f (Block.java:761) -- radar size 1, so 0.0 -- passed explicitly so the center shifts correctly for even-sized blocks.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_place_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RadarDrawPlaceProof",
+      "rule": "Source-backed Radar drawPlace() row from Radar.java."
+    },
+    "source_radar_draw_place_state_result": {
+      "status": "active",
+      "owner": "SourceRadarBuildState.source_radar_draw_place_state",
+      "source_slice": "N2342",
+      "keys": {
+        "center": {
+          "type": "Vector2",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, fogRadius * tilesize, Pal.accent);",
+          "rule": "The dash-circle center (Radar.java:46, `Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, fogRadius * tilesize, Pal.accent);`): the tile position in world units -- tile coord times tilesize plus the block offset.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_place_state"
+          ]
+        },
+        "radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "fogRadius * tilesize",
+          "rule": "The dash-circle radius (Radar.java:46, `Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, fogRadius * tilesize, Pal.accent);`): the def fog radius times tilesize -- 272.0 for the radar def (34 * 8) and 80.0 for the class default (10 * 8).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_place_state"
+          ]
+        },
+        "color": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, fogRadius * tilesize, Pal.accent);",
+          "rule": "The dash-circle color (Radar.java:46, `Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, fogRadius * tilesize, Pal.accent);`): Pal.accent, represented as the string \"Pal.accent\" (the SourceBlockDrawState.gd:182 precedent).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_place_state"
+          ]
+        },
+        "rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "public void drawPlace(int x, int y, int rotation, boolean valid){",
+          "rule": "The placement rotation echoed (Radar.java:42, `public void drawPlace(int x, int y, int rotation, boolean valid){`): the super leg receives the rotation, so the pure function echoes it for the caller.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_place_state"
+          ]
+        },
+        "valid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "public void drawPlace(int x, int y, int rotation, boolean valid){",
+          "rule": "The placement validity echoed (Radar.java:42, `public void drawPlace(int x, int y, int rotation, boolean valid){`): the super leg receives the validity flag, so the pure function echoes it for the caller.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_place_state"
+          ]
+        },
+        "super_draw_place_called": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "super.drawPlace(x, y, rotation, valid);",
+          "rule": "The super-leg call marker (Radar.java:43, `super.drawPlace(x, y, rotation, valid);`): the Block.drawPlace leg (Block.java:491-494: drawPotentialLinks + drawOverlay) is folded as an explicit param (the N2317/N2323 super-as-param precedent), so this records that the super leg was invoked; the link/overlay drawing itself waits for its own slice.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_place_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RadarDrawPlaceProof",
+      "rule": "Source-backed Radar drawPlace() row from Radar.java."
     }
   },
   "version": 1

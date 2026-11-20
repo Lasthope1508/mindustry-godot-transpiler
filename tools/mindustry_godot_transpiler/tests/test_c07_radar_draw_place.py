@@ -14,7 +14,7 @@ class C07RadarDrawPlaceTests(unittest.TestCase):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        self.assertEqual(ledger['N2284']['godot_owner'], 'SourceRadarBuildState.source_radar_draw_place_state')
+        self.assertEqual(ledger['N2342']['godot_owner'], 'SourceRadarBuildState.source_radar_draw_place_state')
         # Radar.drawPlace() (Radar.java:42-47) draws one
         # dash circle at the ghost position:
         # `Drawf.dashCircle(x * tilesize + offset, y *
@@ -45,7 +45,7 @@ class C07RadarDrawPlaceTests(unittest.TestCase):
         # symbols: center, radius, color, rotation, valid,
         # super_draw_place_called.
         self.assertEqual(
-            ledger['N2284']['source_symbols'],
+            ledger['N2342']['source_symbols'],
             [
                 'source_radar_draw_place_state_result.center',
                 'source_radar_draw_place_state_result.radius',
@@ -55,16 +55,16 @@ class C07RadarDrawPlaceTests(unittest.TestCase):
                 'source_radar_draw_place_state_result.super_draw_place_called',
             ],
         )
-        for name in ledger['N2284']['source_symbols']:
+        for name in ledger['N2342']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_source'], {
                     'core/src/mindustry/world/blocks/defense/Radar.java',
                 })
                 self.assertEqual(symbol['godot_owner'], 'SourceRadarBuildState.' + name.rsplit('_result.', 1)[0])
-        self.assertEqual(ledger['N2284']['runtime_proof'], '/root/C07RadarDrawPlaceProof')
+        self.assertEqual(ledger['N2342']['runtime_proof'], '/root/C07RadarDrawPlaceProof')
         self.assertEqual(
-            ledger['N2284']['tests'],
+            ledger['N2342']['tests'],
             [
                 'test_c07_radar_draw_place_registration',
                 'test_all_c07_radar_draw_place_input_evidence_is_exact',
@@ -72,13 +72,13 @@ class C07RadarDrawPlaceTests(unittest.TestCase):
                 'test_reference_graph_and_actual_c07_radar_draw_place',
             ],
         )
-        self.assertTrue(ledger['N2284']['deferred_exprs'])
+        self.assertTrue(ledger['N2342']['deferred_exprs'])
 
     def test_all_c07_radar_draw_place_input_evidence_is_exact(self):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        for name in ledger['N2284']['source_symbols']:
+        for name in ledger['N2342']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_expr'], (ROOT / 'mindustry-upstream' / symbol['java_source']).read_text(encoding='utf-8'))
@@ -88,7 +88,7 @@ class C07RadarDrawPlaceTests(unittest.TestCase):
             'core/src/mindustry/content/Blocks.java',
         }
         upstream = {source: (ROOT / 'mindustry-upstream' / source).read_text(encoding='utf-8') for source in slice_sources}
-        for expr in ledger['N2284']['exact_exprs']:
+        for expr in ledger['N2342']['exact_exprs']:
             with self.subTest(expr=expr):
                 self.assertTrue(any(expr in text for text in upstream.values()), expr)
 

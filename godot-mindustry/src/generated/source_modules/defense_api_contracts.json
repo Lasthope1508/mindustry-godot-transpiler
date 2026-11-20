@@ -7046,7 +7046,7 @@
     "SourceRadarBuildState.source_radar_draw_place_state": {
       "canonical_contract": "source_api_contracts.SourceRadarBuildState.source_radar_draw_place_state",
       "status": "active",
-      "source_slice": "N2284",
+      "source_slice": "N2342",
       "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
       "source_method": "Radar.drawPlace()",
       "params": [
