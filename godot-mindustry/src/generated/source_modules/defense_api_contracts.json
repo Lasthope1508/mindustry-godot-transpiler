@@ -1095,6 +1095,47 @@
       "runtime_proof": "/root/Main.source_continuous_liquid_turret_set_stats_state",
       "rule": "Public runtime contract for ContinuousLiquidTurret.setStats state; ObjectMap/StatValues internals stay deferred."
     },
+    "PortGame.source_continuous_turret_build_get_ammo_fraction_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_continuous_turret_build_get_ammo_fraction_state",
+      "status": "active",
+      "source_slice": "N2355",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "source_method": "ContinuousTurretBuild.getAmmoFraction()",
+      "params": [
+        {
+          "name": "efficiency",
+          "type": "float",
+          "schema": "source_continuous_turret_build_get_ammo_fraction_state_input.efficiency"
+        },
+        {
+          "name": "has_liquid_consumer",
+          "type": "bool",
+          "schema": "source_continuous_turret_build_get_ammo_fraction_state_input.has_liquid_consumer"
+        },
+        {
+          "name": "liquid_amount",
+          "type": "float",
+          "schema": "source_continuous_turret_build_get_ammo_fraction_state_input.liquid_amount"
+        },
+        {
+          "name": "liquid_capacity",
+          "type": "float",
+          "schema": "source_continuous_turret_build_get_ammo_fraction_state_input.liquid_capacity"
+        }
+      ],
+      "return_keys": [
+        "ammo_fraction"
+      ],
+      "tests": [
+        "test_c07_continuous_turret_get_ammo_fraction_registration",
+        "test_all_c07_continuous_turret_get_ammo_fraction_input_evidence_is_exact",
+        "test_continuous_turret_get_ammo_fraction_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_get_ammo_fraction"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretGetAmmoFractionProof",
+      "rule": "Source-backed ContinuousTurretBuild.getAmmoFraction() state from ContinuousTurret.java.",
+      "return_type": "Dictionary"
+    },
     "PortGame.source_continuous_turret_set_stats_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_continuous_turret_set_stats_state",
       "status": "source-backed",
@@ -6688,47 +6729,6 @@
       ],
       "runtime_proof": "/root/ContinuousLiquidTurretTickFrameProof",
       "rule": "Source-backed ContinuousLiquidTurret tick frame wiring; the tick sets the frame keys the N2101 cost multiplier reads (current_liquid from the liquid module, ammo_types from the block), so the multiplier is paid live.",
-      "return_type": "Dictionary"
-    },
-    "SourceContinuousTurretBuildPortBridge.source_continuous_turret_build_get_ammo_fraction_state": {
-      "canonical_contract": "source_api_contracts.SourceContinuousTurretBuildPortBridge.source_continuous_turret_build_get_ammo_fraction_state",
-      "status": "active",
-      "source_slice": "N2355",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
-      "source_method": "ContinuousTurretBuild.getAmmoFraction()",
-      "params": [
-        {
-          "name": "efficiency",
-          "type": "float",
-          "schema": "source_continuous_turret_build_get_ammo_fraction_state_input.efficiency"
-        },
-        {
-          "name": "has_liquid_consumer",
-          "type": "bool",
-          "schema": "source_continuous_turret_build_get_ammo_fraction_state_input.has_liquid_consumer"
-        },
-        {
-          "name": "liquid_amount",
-          "type": "float",
-          "schema": "source_continuous_turret_build_get_ammo_fraction_state_input.liquid_amount"
-        },
-        {
-          "name": "liquid_capacity",
-          "type": "float",
-          "schema": "source_continuous_turret_build_get_ammo_fraction_state_input.liquid_capacity"
-        }
-      ],
-      "return_keys": [
-        "ammo_fraction"
-      ],
-      "tests": [
-        "test_c07_continuous_turret_get_ammo_fraction_registration",
-        "test_all_c07_continuous_turret_get_ammo_fraction_input_evidence_is_exact",
-        "test_continuous_turret_get_ammo_fraction_state",
-        "test_reference_graph_and_actual_c07_continuous_turret_get_ammo_fraction"
-      ],
-      "runtime_proof": "/root/C07ContinuousTurretGetAmmoFractionProof",
-      "rule": "Source-backed ContinuousTurretBuild.getAmmoFraction() state from ContinuousTurret.java.",
       "return_type": "Dictionary"
     },
     "SourceForceProjectorBuildState.source_force_projector_power_status_row_state": {

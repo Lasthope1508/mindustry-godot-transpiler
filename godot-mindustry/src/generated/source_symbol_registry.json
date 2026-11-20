@@ -179771,7 +179771,7 @@
     },
     "source_continuous_turret_build_get_ammo_fraction_state_result.ammo_fraction": {
       "status": "source-backed",
-      "godot_owner": "SourceContinuousTurretBuildPortBridge.source_continuous_turret_build_get_ammo_fraction_state",
+      "godot_owner": "PortGame.source_continuous_turret_build_get_ammo_fraction_state",
       "godot_symbol": "source_continuous_turret_build_get_ammo_fraction_state_result.ammo_fraction",
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
       "java_method": "ContinuousTurretBuild.getAmmoFraction()",

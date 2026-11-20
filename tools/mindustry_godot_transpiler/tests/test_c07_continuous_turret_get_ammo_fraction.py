@@ -14,7 +14,7 @@ class C07ContinuousTurretGetAmmoFractionTests(unittest.TestCase):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        self.assertEqual(ledger['N2355']['godot_owner'], 'SourceContinuousTurretBuildPortBridge.source_continuous_turret_build_get_ammo_fraction_state')
+        self.assertEqual(ledger['N2355']['godot_owner'], 'PortGame.source_continuous_turret_build_get_ammo_fraction_state')
         # ContinuousTurretBuild.getAmmoFraction() (ContinuousTurret.java:75-84):
         # `@Override`
         # `public float getAmmoFraction(){`
@@ -52,7 +52,7 @@ class C07ContinuousTurretGetAmmoFractionTests(unittest.TestCase):
                 self.assertIn(symbol['java_source'], {
                     'core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java',
                 })
-                self.assertEqual(symbol['godot_owner'], 'SourceContinuousTurretBuildPortBridge.' + name.rsplit('_result.', 1)[0])
+                self.assertEqual(symbol['godot_owner'], 'PortGame.' + name.rsplit('_result.', 1)[0])
         self.assertEqual(ledger['N2355']['runtime_proof'], '/root/C07ContinuousTurretGetAmmoFractionProof')
         self.assertEqual(
             ledger['N2355']['tests'],
@@ -73,7 +73,7 @@ class C07ContinuousTurretGetAmmoFractionTests(unittest.TestCase):
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_expr'], (ROOT / 'mindustry-upstream' / symbol['java_source']).read_text(encoding='utf-8'))
-                self.assertEqual(symbol['godot_owner'], 'SourceContinuousTurretBuildPortBridge.' + name.rsplit('_result.', 1)[0])
+                self.assertEqual(symbol['godot_owner'], 'PortGame.' + name.rsplit('_result.', 1)[0])
         slice_sources = {
             'core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java',
         }

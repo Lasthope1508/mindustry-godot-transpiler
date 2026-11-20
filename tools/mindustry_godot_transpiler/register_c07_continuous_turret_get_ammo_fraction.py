@@ -17,9 +17,16 @@ liquid fraction when a ConsumeLiquid consumer exists.
 
 RED decisions (resolved at RED): (1) The function lives
 directly in the new PortBridge file: there is no
-SourceContinuousTurretBuildState.gd to delegate to, and
-the brief names the bridge file as the owner -- the
-bridge here IS the owner, not a delegating wrapper.
+SourceContinuousTurretBuildState.gd to delegate to.
+The SSOT owner is PortGame (not the bridge filename):
+PortBridge files are discovered by the catalog validator
+as port_game.* (source_symbols._discover_godot_owner_functions
+forces class_name "port_game" for *PortBridge.gd), the same
+as every other PortBridge contract (e.g. N1181
+PortGame.source_item_turret_build_get_ammo_fraction_state).
+Registering the bridge filename as owner breaks
+implementation_linkage validation (gate batch 9: 9 failures)
+-- fixed here, owner PortGame.
 (2) The findConsumer lookup is NOT ported: its result
 arrives as the explicit has_liquid_consumer +
 liquid_amount params (the N2330 param precedent).
@@ -51,7 +58,7 @@ ROOT = Path(__file__).resolve().parents[2]
 GODOT = ROOT / 'godot-mindustry'
 CONTINUOUS_TURRET = 'core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java'
 PROOF = '/root/C07ContinuousTurretGetAmmoFractionProof'
-FRACTION_OWNER = 'SourceContinuousTurretBuildPortBridge.source_continuous_turret_build_get_ammo_fraction_state'
+FRACTION_OWNER = 'PortGame.source_continuous_turret_build_get_ammo_fraction_state'
 TESTS = ['test_c07_continuous_turret_get_ammo_fraction_registration', 'test_all_c07_continuous_turret_get_ammo_fraction_input_evidence_is_exact', 'test_continuous_turret_get_ammo_fraction_state', 'test_reference_graph_and_actual_c07_continuous_turret_get_ammo_fraction']
 # The 1 slice source the N2355 test checks exact_exprs
 # against -- every expr in EXACT_EXPRS below must appear verbatim

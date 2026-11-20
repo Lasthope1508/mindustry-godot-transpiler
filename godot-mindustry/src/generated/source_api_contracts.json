@@ -72662,7 +72662,7 @@
       "runtime_proof": "/root/C07TeamsClosestEnemyCoreProof",
       "rule": "Source-backed Teams.closestEnemyCore() state from Teams.java."
     },
-    "SourceContinuousTurretBuildPortBridge.source_continuous_turret_build_get_ammo_fraction_state": {
+    "PortGame.source_continuous_turret_build_get_ammo_fraction_state": {
       "status": "active",
       "source_slice": "N2355",
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
