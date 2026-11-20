@@ -240240,6 +240240,54 @@
       },
       "runtime_proof": "/root/C07TurretIsActiveProof",
       "rule": "Source-backed TurretBuild.isActive() state from Turret.java + BaseTurret.java + BuildingComp.java."
+    },
+    "source_turret_controlled_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_controlled_state",
+      "source_slice": "N2324",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public boolean controlled(){",
+          "rule": "The turret frame (TurretBuild.controlled, Turret.java:441): the family-convention first arg every Turret pure function takes; it IS the building (`this`) the accessor reads -- controlled() itself does not read frame fields (the unit/player result arrives as an explicit param), so the frame is carried only for the family convention.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_controlled_state"
+          ]
+        },
+        "is_player": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return unit.isPlayer();",
+          "rule": "Whether the turret unit is player-controlled (`unit.isPlayer()`, Turret.java:442): the unit is the TurretBuild field (`public BlockUnitc unit = (BlockUnitc)UnitTypes.block.create(team);`, Turret.java:291), synced by unit() (N2307); isPlayer() itself (`public boolean isPlayer(){` / `return controller instanceof Player;`, UnitComp.java:949-951) is NOT re-ported here -- its result arrives as an explicit param (the N2311/N2261 precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_controlled_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretControlledProof",
+      "rule": "Source-backed TurretBuild.controlled() state from Turret.java."
+    },
+    "source_turret_controlled_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_controlled_state",
+      "source_slice": "N2324",
+      "keys": {
+        "controlled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return unit.isPlayer();",
+          "rule": "Whether a player controls the turret (Turret.java:442, `return unit.isPlayer();`): true while the turret unit controller is a Player, false otherwise.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_controlled_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretControlledProof",
+      "rule": "Source-backed TurretBuild.controlled() state from Turret.java."
     }
   },
   "version": 1

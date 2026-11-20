@@ -178344,6 +178344,22 @@
         "test_reference_graph_and_actual_c07_burst_drill_draw"
       ],
       "runtime_proof": "/root/C07BurstDrillDrawProof"
+    },
+    "source_turret_controlled_state_result.controlled": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_controlled_state",
+      "godot_symbol": "source_turret_controlled_state_result.controlled",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.controlled()",
+      "java_expr": "return unit.isPlayer();",
+      "rule": "Whether a player controls the turret (Turret.java:442, `return unit.isPlayer();`): true while the turret unit controller is a Player, false otherwise.",
+      "tests": [
+        "test_c07_turret_controlled_registration",
+        "test_all_c07_turret_controlled_input_evidence_is_exact",
+        "test_turret_controlled_state",
+        "test_reference_graph_and_actual_c07_turret_controlled"
+      ],
+      "runtime_proof": "/root/C07TurretControlledProof"
     }
   },
   "version": 1

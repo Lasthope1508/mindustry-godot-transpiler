@@ -7849,6 +7849,37 @@
       "rule": "Source-backed TractorBeamTurret power.status row from ConsumePower.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceTurretBuildState.source_turret_controlled_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_controlled_state",
+      "status": "active",
+      "source_slice": "N2324",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.controlled()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_controlled_state_input.frame"
+        },
+        {
+          "name": "is_player",
+          "type": "bool",
+          "schema": "source_turret_controlled_state_input.is_player"
+        }
+      ],
+      "return_keys": [
+        "controlled"
+      ],
+      "tests": [
+        "test_c07_turret_controlled_registration",
+        "test_all_c07_turret_controlled_input_evidence_is_exact",
+        "test_turret_controlled_state",
+        "test_reference_graph_and_actual_c07_turret_controlled"
+      ],
+      "runtime_proof": "/root/C07TurretControlledProof",
+      "rule": "Source-backed TurretBuild.controlled() state from Turret.java.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_turret_estimate_dps_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_estimate_dps_state",
       "status": "active",

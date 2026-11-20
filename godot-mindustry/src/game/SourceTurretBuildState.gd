@@ -496,7 +496,8 @@ static func source_turret_invalidate_target_state(frame: Dictionary, target_is_n
 # (`public boolean controlled(){` / `return unit.isPlayer();`) and
 # logicControlled() is Turret.java:445-447
 # (`public boolean logicControlled(){` / `return logicControlTime > 0;`)
-# -- both unported, both arrive as explicit bools (the N2188
+# -- controlled() is its own slice (N2324) and logicControlled() is
+# N2297; both arrive here as explicit bools (the N2188
 # precedent), because the tick frame tracks no unit/player or logic
 # key yet. A target that is still valid keeps the turret on it; an
 # invalid target is kept only while a player or logic controls the
@@ -727,11 +728,34 @@ static func source_turret_can_control_state(frame: Dictionary, player_controllab
 # (Turret.java:492) and findTarget's validateTarget reads it
 # (Turret.java:632); both callers wait for their own slices.
 # controlled() (Turret.java:441-443, `return unit.isPlayer();`)
-# is EXPLICITLY OUT OF SCOPE for this slice: the main thread
-# decides separately whether it becomes its own slice.
+# is its own slice (N2324), below.
 @warning_ignore("unused_parameter")
 static func source_turret_logic_controlled_state(frame: Dictionary, logic_control_time: float) -> Dictionary:
 	return {"logic_controlled": logic_control_time > 0.0}
+
+# TurretBuild.controlled() (Turret.java:441-443):
+# `public boolean controlled(){`
+# `return unit.isPlayer();`
+# `}`
+# on `public class TurretBuild extends ReloadTurretBuild implements ControlBlock{`
+# (Turret.java:277). unit is the TurretBuild field
+# (`public BlockUnitc unit = (BlockUnitc)UnitTypes.block.create(team);`,
+# Turret.java:291), synced by unit() (N2307): controlled() reads the
+# result of unit() (`unit.isPlayer();`, Turret.java:442).
+# isPlayer() itself (`public boolean isPlayer(){` /
+# `return controller instanceof Player;`, UnitComp.java:949-951) is
+# NOT re-ported here (Unit/BlockUnitc are not ported): its result
+# arrives as the explicit is_player param (the N2311/N2261
+# precedent). NO driver tick line: controlled() is a read accessor
+# its callers read, not a per-tick write (the N2249/N2221 precedent)
+# -- validateTarget() reads it (Turret.java:632) and updateTile's
+# player-control branch reads it (Turret.java:494); both callers
+# wait for their own slices. NOT control() (Turret.java:384-394,
+# remote N2264): a different method -- it sets logicControlTime and
+# the player controller, it does not read unit.isPlayer().
+@warning_ignore("unused_parameter")
+static func source_turret_controlled_state(frame: Dictionary, is_player: bool) -> Dictionary:
+	return {"controlled": is_player}
 
 # TurretBuild.unit() (Turret.java:434-439):
 # `public Unit unit(){`
@@ -762,7 +786,7 @@ static func source_turret_logic_controlled_state(frame: Dictionary, logic_contro
 # slice. NO driver tick line: unit() is a read accessor its callers
 # read, not a per-tick write (the N2249/N2221 precedent) --
 # controlled() reads the result (`unit.isPlayer();`,
-# Turret.java:442) and waits for its own slice.
+# Turret.java:442) and is its own slice (N2324).
 static func source_turret_unit_state(frame: Dictionary, unit: Dictionary, team_id: int) -> Dictionary:
 	var synced: Dictionary = unit.duplicate()
 	synced["tile"] = frame
